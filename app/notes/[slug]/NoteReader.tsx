@@ -5,6 +5,24 @@ import Link from 'next/link';
 import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
 import { getNoteContent } from '@/lib/noteContent';
 import AnnotationToggle from '@/components/AnnotationToggle';
+import TableOfContents from '@/components/TableOfContents';
+
+// Inject anchor IDs into h2/h3 tags so TOC links work
+function injectHeadingIds(html: string): string {
+  let h2count = 0;
+  let h3count = 0;
+  return html
+    .replace(/<h2([^>]*)>(.*?)<\/h2>/gi, (_, attrs, inner) => {
+      const text = inner.replace(/<[^>]+>/g, '').trim();
+      const id = `toc-${h2count++}-${text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`;
+      return `<h2${attrs} id="${id}">${inner}</h2>`;
+    })
+    .replace(/<h3([^>]*)>(.*?)<\/h3>/gi, (_, attrs, inner) => {
+      const text = inner.replace(/<[^>]+>/g, '').trim();
+      const id = `toc-${h3count++}-${text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`;
+      return `<h3${attrs} id="${id}">${inner}</h3>`;
+    });
+}
 
 type Highlight = {
   id: string;
@@ -76,12 +94,15 @@ export default function NoteReader({ slug }: { slug: string }) {
 
   const getContent = () => {
     let c = getNoteContent(slug);
+    c = injectHeadingIds(c);
     highlights.forEach(h => {
       const esc = h.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       c = c.replace(new RegExp(`(${esc})`, 'g'), `<mark class="hl-${h.color}">$1</mark>`);
     });
     return c;
   };
+
+  const processedContent = getContent();
 
   const list = note?.paper === 1 ? paper1Notes : paper2Notes;
   const idx = list.findIndex(n => n.slug === slug);
@@ -196,7 +217,53 @@ export default function NoteReader({ slug }: { slug: string }) {
         >
           {annotationMode==='sticky' && <div style={{ position: 'sticky', top: 120, zIndex: 40, marginBottom: '1rem', background: 'rgba(201,168,76,0.08)', border: '1px dashed var(--accent2)', borderRadius: 6, padding: '0.6rem 1rem', fontSize: '0.8rem', color: 'var(--accent)', textAlign: 'center' }}>📌 Click anywhere to place a sticky note</div>}
 
-          <div className="note-content" style={{ maxWidth: 760, margin: '0 auto' }} dangerouslySetInnerHTML={{ __html: getContent() }} />
+          <div style={{ maxWidth: 760, margin: '0 auto' }}>
+            {/* Auto-generated Table of Contents */}
+            <TableOfContents contentHtml={processedContent} />
+
+            {/* Note body */}
+            <div className="note-content" dangerouslySetInnerHTML={{ __html: processedContent }} />
+
+            {/* Related Topics footer */}
+            {related.length > 0 && (
+              <div style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+                <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text3)', marginBottom: '0.75rem', fontFamily: 'var(--font-ui)', fontWeight: 600 }}>
+                  Related Topics
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {related.map(r => (
+                    <Link key={r.slug} href={`/notes/${r.slug}`} style={{
+                      display: 'inline-block',
+                      padding: '0.35rem 0.85rem',
+                      fontSize: '0.78rem',
+                      color: 'var(--text2)',
+                      textDecoration: 'none',
+                      background: 'var(--bg2)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 20,
+                      fontFamily: 'var(--font-ui)',
+                      transition: 'all 0.15s',
+                    }}
+                      onMouseEnter={e => {
+                        const el = e.currentTarget as HTMLElement;
+                        el.style.color = 'var(--accent)';
+                        el.style.borderColor = 'var(--accent2)';
+                        el.style.background = 'var(--accent-dim)';
+                      }}
+                      onMouseLeave={e => {
+                        const el = e.currentTarget as HTMLElement;
+                        el.style.color = 'var(--text2)';
+                        el.style.borderColor = 'var(--border)';
+                        el.style.background = 'var(--bg2)';
+                      }}
+                    >
+                      → {r.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Prev/Next navigation */}
           <div style={{ maxWidth: 760, margin: '3rem auto 0', borderTop: '1px solid var(--border)', paddingTop: '1.5rem', display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
