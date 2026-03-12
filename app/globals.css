@@ -1,0 +1,269 @@
+
+@import "tailwindcss";
+
+:root {
+  --bg:           #000000;
+  --bg2:          #0a0a0a;
+  --bg3:          #111111;
+  --bg4:          #181818;
+  --border:       #2a2a2a;
+  --border2:      #383838;
+  --border3:      #444444;
+  --text:         #f0f0f0;
+  --text2:        #aaaaaa;
+  --text3:        #777777;
+  --accent:       #3b82f6;
+  --accent2:      #1d4ed8;
+  --accent-dim:   rgba(59,130,246,0.1);
+  --accent-glow:  rgba(59,130,246,0.2);
+  --yellow:       #eab308;
+  --yellow2:      #a16207;
+  --yellow-dim:   rgba(234,179,8,0.1);
+  --red:          #ef4444;
+  --red2:         #991b1b;
+  --red-dim:      rgba(239,68,68,0.1);
+  --green:        #22c55e;
+  --green-dim:    rgba(34,197,94,0.1);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-body: 'Libre Baskerville', 'Palatino Linotype', Palatino, serif;
+  --font-mono:    'Fira Code', 'Consolas', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+::selection { background: rgba(59,130,246,0.25); color: var(--text); }
+
+.hl-yellow { background: rgba(234,179,8,0.3);  border-radius: 2px; cursor: pointer; padding: 0 2px; }
+.hl-green  { background: rgba(34,197,94,0.25); border-radius: 2px; cursor: pointer; padding: 0 2px; }
+.hl-red    { background: rgba(239,68,68,0.3);  border-radius: 2px; cursor: pointer; padding: 0 2px; }
+.hl-blue   { background: rgba(59,130,246,0.3); border-radius: 2px; cursor: pointer; padding: 0 2px; }
+
+.note-content h1 { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: #ffffff; margin: 2rem 0 1rem; line-height: 1.3; letter-spacing: -0.02em; border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem; }
+.note-content h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; color: var(--yellow); margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border2); }
+.note-content h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--accent); margin: 1.5rem 0 0.5rem; }
+.note-content h4 { font-size: 0.8rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin: 1.25rem 0 0.4rem; }
+.note-content p  { margin-bottom: 0.9rem; color: var(--text); line-height: 1.85; font-size: 1rem; }
+.note-content ul, .note-content ol { margin: 0.5rem 0 1rem 1.5rem; }
+.note-content li { margin-bottom: 0.5rem; color: var(--text); line-height: 1.75; font-size: 1rem; }
+.note-content li::marker { color: var(--accent); }
+.note-content ul ul { margin-top: 0.3rem; margin-bottom: 0.3rem; }
+.note-content ul ul li::marker { color: var(--yellow); }
+.note-content strong { color: #ffffff; font-weight: 600; }
+.note-content em { color: var(--text2); font-style: italic; }
+.note-content blockquote { border-left: 3px solid var(--yellow); padding: 0.75rem 1.25rem; margin: 1.25rem 0; background: var(--yellow-dim); border-radius: 0 6px 6px 0; font-style: italic; color: var(--text2); }
+.note-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.875rem; }
+.note-content th { background: var(--bg3); color: var(--accent); padding: 0.65rem 1rem; text-align: left; border: 1px solid var(--border2); font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.03em; text-transform: uppercase; }
+.note-content td { padding: 0.55rem 1rem; border: 1px solid var(--border); color: var(--text); vertical-align: top; }
+.note-content tr:nth-child(even) td { background: var(--bg2); }
+.note-content tr:hover td { background: var(--bg3); }
+.note-content hr { border: none; border-top: 1px solid var(--border2); margin: 2rem 0; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse  { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1); } }
+.fade-up { animation: fadeUp 0.5s ease forwards; }
+.fade-in { animation: fadeIn 0.4s ease forwards; }
+/* ── PASTE THIS INTO globals.css ─────────────────────────────────────────────
+   Add the [data-theme="light"] block anywhere after your existing :root block.
+   The :root block stays as-is (AMOLED dark default).
+   ─────────────────────────────────────────────────────────────────────────── */
+
+[data-theme="light"] {
+  /* Backgrounds — warm off-white, not harsh pure white */
+  --bg:      #f5f0e8;
+  --bg2:     #ede8df;
+  --bg3:     #e4ddd2;
+
+  /* Text — deep warm charcoal, not pure black */
+  --text:    #1c1a16;
+  --text2:   #4a4540;
+  --text3:   #7a7268;
+
+  /* Borders */
+  --border:  #cfc8bc;
+  --border2: #bfb8aa;
+
+  /* Accent — keep your existing gold/amber accent, it works great on light */
+  /* If your accent var is already defined, these override it for light mode */
+  --accent:  #9a6f2e;
+  --accent2: #b8892e;
+
+  /* Yellow highlight */
+  --yellow:  #7a5a1a;
+
+  /* Navbar / sidebar */
+  --nav-bg:  #edeae2;
+  --sidebar-bg: #ede8df;
+}
+
+/* Ensure smooth transition when toggling */
+html {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Note content headings adjust for light mode */
+[data-theme="light"] .note-content h1 {
+  color: #1c1a16;
+  border-bottom-color: var(--accent);
+}
+
+[data-theme="light"] .note-content h2 {
+  color: var(--accent);
+  border-bottom-color: var(--border2);
+}
+
+[data-theme="light"] .note-content h3 {
+  color: var(--accent2);
+}
+
+[data-theme="light"] .note-content th {
+  background: var(--bg3);
+  color: var(--accent);
+}
+
+[data-theme="light"] .note-content table {
+  border-color: var(--border2);
+}
+
+[data-theme="light"] .note-content td {
+  border-color: var(--border);
+}
+
+/* Code / mono blocks */
+[data-theme="light"] .note-content code,
+[data-theme="light"] .note-content pre {
+  background: var(--bg3);
+  color: var(--text);
+}
+
+/* Blockquotes */
+[data-theme="light"] .note-content blockquote {
+  border-left-color: var(--accent);
+  background: var(--bg2);
+  color: var(--text2);
+}
+
+/* Sub-bullet color override */
+[data-theme="light"] .note-content ul.sub-points > li {
+  color: var(--text2);
+}
+/* ── PASTE THIS AT THE BOTTOM OF app/globals.css ────────────────────────────
+   Fixes hardcoded white/black colors that break in light mode.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* ── NAVBAR ─────────────────────────────────────────────────────────────── */
+[data-theme="light"] nav {
+  background: rgba(237, 232, 223, 0.97) !important;
+  border-bottom-color: var(--border) !important;
+}
+
+/* Logo "History Optional" text */
+[data-theme="light"] nav a span[style*="color: #ffffff"],
+[data-theme="light"] nav a span[style*="color:#ffffff"],
+[data-theme="light"] nav span {
+  color: var(--text) !important;
+}
+
+/* Nav links hover */
+[data-theme="light"] nav a {
+  color: var(--text2) !important;
+}
+
+[data-theme="light"] nav a[style*="color: var(--accent)"] {
+  color: var(--accent) !important;
+}
+
+/* Mobile menu button */
+[data-theme="light"] nav button {
+  color: var(--text) !important;
+}
+
+/* ── HERO / HOMEPAGE ─────────────────────────────────────────────────────── */
+/* Any element with hardcoded white text */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4 {
+  color: var(--text) !important;
+}
+
+[data-theme="light"] p {
+  color: var(--text2);
+}
+
+/* Stats cards, section cards etc */
+[data-theme="light"] [style*="background: var(--bg2)"],
+[data-theme="light"] [style*="background: var(--bg3)"] {
+  border-color: var(--border);
+}
+
+/* Buttons with hardcoded dark backgrounds */
+[data-theme="light"] button,
+[data-theme="light"] a[style*="background"] {
+  color: inherit;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────────────────────── */
+[data-theme="light"] aside,
+[data-theme="light"] [class*="sidebar"] {
+  background: var(--bg2) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+/* ── UPSC BADGE ──────────────────────────────────────────────────────────── */
+[data-theme="light"] nav span[style*="font-mono"] {
+  background: rgba(154, 111, 46, 0.12) !important;
+  border-color: rgba(154, 111, 46, 0.35) !important;
+  color: var(--accent) !important;
+}
+
+/* ── PAPER I / II BUTTONS ON HOMEPAGE ───────────────────────────────────── */
+[data-theme="light"] a[href="/paper1"],
+[data-theme="light"] a[href="/paper2"],
+[data-theme="light"] a[href="/chat"] {
+  color: var(--text) !important;
+  border-color: var(--border2) !important;
+}
+
+/* ── STAT CARDS ──────────────────────────────────────────────────────────── */
+[data-theme="light"] [style*="color: #ffffff"] {
+  color: var(--text) !important;
+}
+
+[data-theme="light"] [style*="color: var(--text2)"] {
+  color: var(--text2) !important;
+}
+
+/* ── CONTENT AREA BACKGROUND ─────────────────────────────────────────────── */
+[data-theme="light"] main,
+[data-theme="light"] .note-content {
+  color: var(--text);
+}
+
+/* ── BREADCRUMBS ─────────────────────────────────────────────────────────── */
+[data-theme="light"] [style*="color: var(--text3)"] {
+  color: var(--text3) !important;
+}
+
+/* ── ThemeSwitcher itself in light mode ──────────────────────────────────── */
+[data-theme="light"] nav .theme-switcher-btn {
+  background: var(--bg3) !important;
+  border-color: var(--border2) !important;
+  color: var(--text2) !important;
+}
