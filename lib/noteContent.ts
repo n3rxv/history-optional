@@ -51,3 +51,7 @@ export const noteContent: Record<string, string> = {
   'unification-europe': ``,
   'disintegration-soviet-union': ``,
 };
+
+export function getNoteContent(slug: string): string {
+  return noteContent[slug] || `<h1>Notes Coming Soon</h1><p>This topic is being prepared.</p>`;
+}
