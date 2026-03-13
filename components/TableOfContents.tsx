@@ -14,13 +14,14 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
   useEffect(() => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(contentHtml, 'text/html');
-    const headings = doc.querySelectorAll('h2, h3');
+    const headings = doc.querySelectorAll('h2[id], h3[id]');
     const toc: TocEntry[] = [];
-    headings.forEach((h, i) => {
+    headings.forEach((h) => {
+      const id = h.getAttribute('id') || '';
       const text = h.textContent?.trim() || '';
-      const id = `toc-${i}-${text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`;
-      h.id = id;
-      toc.push({ id, text, level: h.tagName === 'H2' ? 2 : 3 });
+      if (id && text) {
+        toc.push({ id, text, level: h.tagName === 'H2' ? 2 : 3 });
+      }
     });
     setEntries(toc);
   }, [contentHtml]);
@@ -43,6 +44,8 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
 
   if (entries.length === 0) return null;
 
+  let h2index = 0;
+
   return (
     <div style={{
       background: 'var(--bg2)',
@@ -64,43 +67,46 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
         Table of Contents
       </div>
       <nav>
-        {entries.map((entry, i) => (
-          <a
-            key={entry.id}
-            href={`#${entry.id}`}
-            onClick={(e) => {
-              e.preventDefault();
-              const el = document.getElementById(entry.id);
-              if (el) {
-                const y = el.getBoundingClientRect().top + window.scrollY - 120;
-                window.scrollTo({ top: y, behavior: 'smooth' });
-              }
-            }}
-            style={{
-              display: 'block',
-              padding: entry.level === 2 ? '0.28rem 0' : '0.22rem 0 0.22rem 1rem',
-              fontSize: entry.level === 2 ? '0.82rem' : '0.76rem',
-              color: activeId === entry.id ? 'var(--accent)' : entry.level === 2 ? 'var(--text2)' : 'var(--text3)',
-              textDecoration: 'none',
-              borderLeft: entry.level === 3 ? '2px solid var(--border2)' : 'none',
-              marginLeft: entry.level === 3 ? '0.5rem' : 0,
-              paddingLeft: entry.level === 3 ? '0.75rem' : 0,
-              transition: 'color 0.15s',
-              fontFamily: 'var(--font-ui)',
-              fontWeight: entry.level === 2 ? 500 : 400,
-              lineHeight: 1.5,
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.color =
-                activeId === entry.id ? 'var(--accent)' :
-                entry.level === 2 ? 'var(--text2)' : 'var(--text3)';
-            }}
-          >
-            {entry.level === 2 ? `${i + 1 - entries.slice(0, i).filter(e => e.level === 3).length}. ` : '– '}
-            {entry.text}
-          </a>
-        ))}
+        {entries.map((entry) => {
+          if (entry.level === 2) h2index++;
+          return (
+            <a
+              key={entry.id}
+              href={`#${entry.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById(entry.id);
+                if (el) {
+                  const y = el.getBoundingClientRect().top + window.scrollY - 120;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+              }}
+              style={{
+                display: 'block',
+                padding: entry.level === 2 ? '0.28rem 0' : '0.22rem 0 0.22rem 1rem',
+                fontSize: entry.level === 2 ? '0.82rem' : '0.76rem',
+                color: activeId === entry.id ? 'var(--accent)' : entry.level === 2 ? 'var(--text2)' : 'var(--text3)',
+                textDecoration: 'none',
+                borderLeft: entry.level === 3 ? '2px solid var(--border2)' : 'none',
+                marginLeft: entry.level === 3 ? '0.5rem' : 0,
+                paddingLeft: entry.level === 3 ? '0.75rem' : 0,
+                transition: 'color 0.15s',
+                fontFamily: 'var(--font-ui)',
+                fontWeight: entry.level === 2 ? 500 : 400,
+                lineHeight: 1.5,
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.color =
+                  activeId === entry.id ? 'var(--accent)' :
+                  entry.level === 2 ? 'var(--text2)' : 'var(--text3)';
+              }}
+            >
+              {entry.level === 2 ? `${h2index}. ` : '– '}
+              {entry.text}
+            </a>
+          );
+        })}
       </nav>
     </div>
   );
