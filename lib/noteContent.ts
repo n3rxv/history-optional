@@ -12632,7 +12632,345 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 </ul>`,
   'economy-society-16-17c': ``,
-  'mughal-culture': ``,
+  'mughal-culture': `<h2>Persian Histories and Other Literature</h2>
+<ul>
+<li>&#8226; The important role of <strong>Persian and Sanskrit</strong> as vehicles of thought and government at the all-India level continued during the 16th and 17th centuries.</li>
+<li>&#8226; By the time of Akbar, knowledge of Persian had become so widespread in north India that he <strong>dispensed with the tradition of keeping revenue records in the local language (Hindawi)</strong> in addition to Persian.
+<ul>
+<li style="padding-left:2em">&#9702; However, the tradition of keeping revenue records in the local language continued in the Deccani states till their extinction in the last quarter of the 17th century.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Persian prose and poetry reached a climax during Akbar&#8217;s reign.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Abul Fazl</strong> &#8212; a great scholar and stylist, as well as the leading historian of the age; set a style of prose-writing which was emulated for many generations.</li>
+<li style="padding-left:2em">&#9702; <strong>Faizi</strong> (brother of Abul Fazl) &#8212; the leading poet of the age who also helped in Akbar&#8217;s translation department. The translation of the Mahabharata was carried out under his supervision.</li>
+<li style="padding-left:2em">&#9702; <strong>Utbi</strong> and <strong>Naziri</strong> &#8212; two other leading Persian poets. Though born in Persia, they were among the many poets and scholars who migrated from Iran to India during the period and made the Mughal court one of the cultural centres of the Islamic world.</li>
+<li style="padding-left:2em">&#9702; Hindus also contributed to the growth of Persian literature.</li>
+<li style="padding-left:2em">&#9702; Apart from literary and historical works, a number of famous <strong>dictionaries of the Persian language</strong> were also compiled during the period.</li>
+</ul>
+</li>
+<li>&#8226; Although not much significant and original work was done in <strong>Sanskrit</strong> during the period, the number of Sanskrit works produced is quite impressive.
+<ul>
+<li style="padding-left:2em">&#9702; Most of the works were produced in south and east India under the patronage of local rulers, though a few were produced by brahmanas employed in the translation department of the emperors.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Hindi and Religious Literature</h2>
+<ul>
+<li>&#8226; Regional languages acquired stability and maturity; some of the <strong>finest lyrical poetry</strong> was produced during this period.
+<ul>
+<li style="padding-left:2em">&#9702; The dalliance of Krishna with Radha and the milkmaids, pranks of the child Krishna and stories from the Bhagwat Puran figure largely in lyrical poetry in Bengali, Oriya, Hindi, Rajasthani and Gujarati.</li>
+<li style="padding-left:2em">&#9702; Many devotional hymns to Rama were also composed and the Ramayana and the Mahabharata translated into the regional languages.</li>
+<li style="padding-left:2em">&#9702; A few translations and adaptations from Persian were also made. Both Hindus and Muslims contributed in this. Thus, <strong>Alaol</strong> composed in Bengali and also translated from Persian.</li>
+</ul>
+</li>
+<li>&#8226; In Hindi, <strong>Padmavat</strong> &#8212; the story written by the Sufi saint <strong>Malik Muhammad Jaisi</strong>, used the attack of Alauddin Khalji on Chittor as an allegory to expound Sufi ideas on the relations of soul with God, along with Hindu ideas about maya.</li>
+<li>&#8226; <strong>Medieval Hindi in the Brij form</strong> (the dialect spoken in the neighbourhood of Agra) was also patronised by the Mughal emperors and Hindu rulers.
+<ul>
+<li style="padding-left:2em">&#9702; From the time of Akbar, Hindi poets began to be attached to the Mughal court.</li>
+<li style="padding-left:2em">&#9702; A leading Mughal noble, <strong>Abdur Rahim Khan-i-Khanan</strong>, produced a fine blend of Bhakti poetry with Persian ideas of life and human relations. Thus, the Persian and the Hindi literary traditions began to influence each other.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Tulsidas</strong> &#8212; the most influential Hindi poet whose hero was Rama and who used a dialect of Hindi spoken in the eastern parts of Uttar Pradesh.
+<ul>
+<li style="padding-left:2em">&#9702; He was essentially a humanistic poet who upheld family ideals and complete devotion to Rama as a way of salvation open to all, irrespective of caste.</li>
+<li style="padding-left:2em">&#9702; While reviled by orthodox brahmans of his times, Tulsidas had enormous influence on the succeeding generations in North India.</li>
+<li style="padding-left:2em">&#9702; He defended the caste system but postulated a <strong>caste system based on individual merit rather than birth</strong>.</li>
+</ul>
+</li>
+<li>&#8226; In south India, <strong>Malayalam</strong> started its literary career as a separate language in its own right. <strong>Marathi</strong> reached its apogee at the hands of <strong>Eknath</strong> and <strong>Tukaram</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Eknath exclaims: &#8220;If Sanskrit was made by God, was Prakrit born of thieves and knaves?&#8230; My language Marathi is worthy of expressing the highest sentiments and is rich, laden with the fruits of divine knowledge.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; Due to the writings of the Sikh Gurus, <strong>Punjabi</strong> received a new life.</li>
+<li>&#8226; <strong>Urdu</strong> (often called Rekhta) had developed in the Deccan, but can be found at the Mughal court during the second half of the 17th century.
+<ul>
+<li style="padding-left:2em">&#9702; The satirical poet <strong>Jafar Zatalli</strong> wrote during the reign of Aurangzeb, lampooning him for the prevailing lawlessness.</li>
+<li style="padding-left:2em">&#9702; Urdu acquired a definite form, content and style with the arrival of <strong>Wali Dakhani at Delhi in 1721</strong>.</li>
+<li style="padding-left:2em">&#9702; The poets who raised Urdu to a status equal with Persian were <strong>Mir, Dard</strong> and <strong>Sauda</strong> (1713&#8211;1781).</li>
+<li style="padding-left:2em">&#9702; Urdu became a literary language for the city elites; both Muslims and Hindus contributed to its growth. The strains of mysticism, humanism and liberalism characterized Urdu poetry of the times.</li>
+</ul>
+</li>
+<li>&#8226; The growth of <strong>Dakhni Urdu</strong> in the Deccan was a significant development.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Sultan Muhammad Quli Qutb Shah</strong> of Golconda (1580&#8211;1611) wrote in Dakhni Urdu, Persian and Telugu and has left an extensive diwan. He was the first to introduce a <strong>secular note in poetry</strong> &#8212; apart from the praise of God and the Prophet, he wrote about nature, love, and the social life of his times.</li>
+<li style="padding-left:2em">&#9702; The poet laureate of Bijapur, <strong>Nusrati</strong>, who flourished during the middle of the 17th century wrote a romantic tale about Prince Manohar, ruler of Kanak Nagar, and Madhu Malati.</li>
+<li style="padding-left:2em">&#9702; From the Deccan, Urdu came to north India in the 18th century.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Mughal Architecture</h2>
+<ul>
+<li>&#8226; The Mughals built magnificent <strong>forts, palaces, gates, public buildings including sarais, hamams, mosques, baolis</strong> etc. They also laid out many formal gardens with running water.
+<ul>
+<li style="padding-left:2em">&#9702; Use of <strong>running water even in their palaces and pleasure resorts</strong> was a special feature of the Mughals.</li>
+<li style="padding-left:2em">&#9702; Surviving Mughal gardens: <strong>Nishat Bagh</strong> in Kashmir, <strong>Shalimar garden</strong> at Lahore, <strong>Pinjore garden</strong> near Kalka, <strong>Arambagh</strong> (now Ram Bagh) near Agra.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Babur</strong> was fond of gardens and had a fine aesthetic taste. For Babur, the most important aspect of architecture was <strong>regularity and symmetry</strong> which he did not find in the buildings in India. Most of what he built has not survived.</li>
+<li>&#8226; The most notable buildings of the pre-Akbar period were built by <strong>Sher Shah at Sasaram and Delhi</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Mausoleum of Sher Shah at Sasaram</strong>: built in the centre of a large pond, &#8220;its reflection creating an illusion of movement at the same time duplicating its bulk&#8221; (Percy Brown). Octogonal in shape, based on a high square platform linked to the main building by graceful kiosks at the corners. A terraced effect given by an arched verandah; the massive dome rises in stages covered by a <strong>lotus finiale</strong>. Gives the impression of <strong>strength and solidity</strong>. Many features carried forward to the Taj Mahal.</li>
+<li style="padding-left:2em">&#9702; <strong>Purana Qila (Old Fort)</strong>: massive structure with walls of grey stone; impressive gateway of red sandstone with white marble inlay and coloured glaze.</li>
+<li style="padding-left:2em">&#9702; <strong>Qila-i-Kuhna mosque</strong> (the only surviving building inside the fort): five arched entrances of graceful proportions, each set within a rectangular frame; three central archways have graceful oriel windows reminiscent of the Rajasthan style; decorations of white marble inlay and inset patterns of coloured glaze.</li>
+<li style="padding-left:2em">&#9702; These buildings may be considered the <strong>climax of the Lodi style</strong> and the beginning of a new phase.</li>
+</ul>
+</li>
+<li>&#8226; The real phase of <strong>Mughal architecture began with Akbar</strong>. He was concerned, above all, to bring together the fine architectural traditions existing within the country. During his reign, <strong>two traditions worked simultaneously</strong>: the Persian tradition and the Indian tradition.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Humayun&#8217;s Tomb</strong> (started c. 1564 by his widow Haji Begum, completed in eight years): Square building of red sandstone on a high platform, topped by a white marble dome. S.K. Saraswati thinks it was derived from Timurid architecture; Percy Brown thinks &#8220;it represents an Indian interpretation of a Persian conception.&#8221;
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Persian features:</strong> true double dome (familiar in West Asia; had appeared in India in tomb of Sikandar Lodi); separate rooms in corridors linked by passages.</li>
+<li style="padding-left:4em">&#9632; <strong>Indian features:</strong> entire building in a formal garden with a large gate; slender minarets (Gujarat style); graceful kiosks (Rajasthan style); fine white inlay work.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Agra Fort</strong> (started 1565, completed in eight years): massive battlements and crenelated walls; gates of two octagonal towers of dressed red sandstone. Akbar built &#8220;upward of five hundred edifices of red stone in the fine style of Bengal and Gujarat&#8221; (Abul Fazl). The surviving <strong>Akbari Mahal and Jahangiri Mahal</strong> have flat roofs supported by exquisitely carved pillars; based on Man Mandir of Gwaliyar fort with many Rajasthani features &#8212; heavy red sandstone brackets and balconies carved with peacock and serpent motifs; walls carry geese, flamingoes and lotus carvings, also figures of mythical animals.</li>
+<li style="padding-left:2em">&#9702; <strong>Fatehpur Sikri</strong> (commenced 1568&#8211;69): Whole complex on top of a hill by the side of an artificial lake. Key buildings:
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Jodha Bai Palace</strong>: large palace with suites of rooms around a courtyard; bases, columns and capitals borrowed from traditional temple pillars; has a puja room.</li>
+<li style="padding-left:4em">&#9632; <strong>Palace wrongly ascribed to Birbal</strong>: double storeyed; entrance porches with angular roofs with glazed blue tiles; &#8220;a superb example of residential structure, remarkable for its balance and design&#8221; (N.K. Saraswati).</li>
+<li style="padding-left:4em">&#9632; <strong>Palace ascribed to Mariyam</strong>: interior embellished with large mural paintings; bracket shows carving of Rama being worshipped by Hanuman.</li>
+<li style="padding-left:4em">&#9632; <strong>Panch Mahal</strong>: five-storeyed building with receding terraces; each floor has flat roof supported by intricately carved pillars, each of different design; meant for women of the haram to take air.</li>
+<li style="padding-left:4em">&#9632; <strong>Diwan-i-Khas</strong>: single hall with a large pillar supporting a circular stone platform; stone bridges radiate from central platform to connect with hanging galleries; central pillar based on a wooden Gujarati derivative.</li>
+<li style="padding-left:4em">&#9632; <strong>Jama Masjid</strong>: interior courtyard of unusually large proportions; main sanctuary with arched entrances, domes with pillared kiosks all along the parapet; in courtyard is the <strong>tomb of Shaikh Salim Chishti</strong> with exquisitely carved stone screen; marble verandah outside added by Shah Jahan. Percy Brown: &#8220;It is the masterly manner in which this sanctuary has been formulated and executed that gives this mosque its fine character.&#8221;</li>
+<li style="padding-left:4em">&#9632; <strong>Buland Darwaza</strong> (started 1573 to commemorate victory at Gujarat): in the style of a <strong>half-dome portal</strong> &#8212; a device borrowed from Iran that became a feature in Mughal buildings later. Parapet has a series of kiosks with cupolas. Meant to create a sense of awe.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Towards the end of Jahangir&#8217;s reign, practice of putting up buildings entirely of <strong>marble and decorating walls with floral designs of semi-precious stones</strong> began. This method called <strong>pietra dura</strong> was used in the small tomb of <strong>Itimad-ud-Daula</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; Rectangular building with octogonal towers at the corners with graceful cupolas. No dome, only a small cloister on the flat roof decorated with perforated screens.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Taj Mahal</strong> &#8212; justly regarded as a jewel of the builder&#8217;s art:
+<ul>
+<li style="padding-left:2em">&#9702; Brought together all the architectural forms adopted by the Mughals: mausoleum in a formal garden with running water and fountains; main building on a lofty platform; half-dome portal at entrance; <strong>massive dome and four slender minarets</strong>; decorations kept to a minimum &#8212; delicate marble screens, pietra dura inlay work, kiosks (chhatris).</li>
+<li style="padding-left:2em">&#9702; The fable of an Italian designer (Geronimo Veroneo) is dismissed. Shah Jahan appointed a council of experts; designers submitted plans on paper; models in wood prepared; stone building put up from final wooden model. Thus, <strong>no single designer &#8212; it was a collective effort</strong>.</li>
+<li style="padding-left:2em">&#9702; <strong>Amanaf Khan Shirazi</strong> &#8212; calligrapher; <strong>Ismail Khan</strong> &#8212; dome builder; <strong>Ustad Isa Effendi</strong> and <strong>Ustad Ahmad from Lahore</strong> also mentioned.</li>
+<li style="padding-left:2em">&#9702; E.B. Havell: &#8220;The Taj is not an isolated phenomenon, the creation of a single mastermind but the glorious consummation of a great epoch of art.&#8221; It was &#8220;of a living organic growth born of the Indian artistic consciousness.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; <strong>Mosque building climax under Shah Jahan</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Moti Masjid</strong> in Agra fort &#8212; built entirely in marble like the Taj.</li>
+<li style="padding-left:2em">&#9702; <strong>Jama Masjid at Delhi</strong> &#8212; red sandstone; lofty gate, tall slender minarets, series of domes.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Red Fort at Delhi</strong> (Shah Jahan): the most impressive is the flat-roofed <strong>Diwan-i-Am</strong> where all the skills of the Hindu pillar maker have been used to provide clear vistas from the throne. The multi-foliated arches give an effect of rippling water. A unique combination of arcuate and trabeate forms.</li>
+<li>&#8226; Although not many buildings were put up by <strong>Aurangzeb</strong> (economy-minded), the Mughal architectural traditions continued without a break into the 18th and early 19th centuries.
+<ul>
+<li style="padding-left:2em">&#9702; Mughal traditions influenced palaces and forts of many provincial and local kingdoms.</li>
+<li style="padding-left:2em">&#9702; Even the <strong>Harmandir of the Sikhs</strong> (Golden Temple, Amritsar), rebuilt several times, was built on the arch and dome principle incorporating many Mughal features.</li>
+<li style="padding-left:2em">&#9702; There was <strong>no attempt to establish communal representation</strong> in the buildings between Hindu elements and Islamic. The rulers used whatever elements and devices they considered useful and artistic.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Mughal Painting</h2>
+<ul>
+<li>&#8226; The Mughal school of painting has steadily gained recognition as a <strong>distinctive style</strong> which had a rich tradition to fall back upon, and reached full maturity during the 17th century. It created a living tradition of painting which continued long after the glory of the Mughals had disappeared.</li>
+<li>&#8226; <strong>Background:</strong> Paintings referred to in Sanskrit literary works; murals of Ajanta testify to the richness of the ancient pictorial tradition. Tradition decayed from the 8th century but had not died &#8212; shown in illustrated Jain palm-leaf works. A new phase was reached with the <strong>introduction of paper in the 13th century</strong>. Gujarat and Malwa were the two regions where improvements first took place.</li>
+<li>&#8226; A rich tradition of painting was developing at <strong>Shiraz in Persia</strong>, influenced by the Chinese style. During the 15th century, painters moved from Shiraz to the provincial kingdoms. The best example of the earliest contact between Persian and West Indian styles is the <strong>Niamat Nama or Cookery Book</strong> illustrated at Mandu &#8212; Indian rounded body contours displayed against a background of Persian formalized leaves and vegetation.</li>
+<li>&#8226; Foundation of the Mughal school laid by <strong>Humayun</strong> during his exile in Persia and Afghanistan.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Bihzad</strong>, the master painter, was at the height of his fame at the time.</li>
+<li style="padding-left:2em">&#9702; Humayun patronized many of his disciples. Two of them, <strong>Mir Saiyid Ali</strong> and <strong>Abdus Samad</strong>, joined him in Afghanistan, then moved with him to Delhi.</li>
+</ul>
+</li>
+<li>&#8226; In about 1567, <strong>Akbar</strong> ordered preparation of a lavishly illustrated manuscript of the Persian translation of the <strong>Hamza Nama</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; Under Saiyid Ali and Abdus Samad, roughly <strong>one hundred painters</strong> from Gwaliyar, Gujarat, Lahore, Kashmir, Malwa etc. were collected.</li>
+<li style="padding-left:2em">&#9702; Took <strong>fifteen years</strong> to complete; <strong>1400 pages of illustrations</strong> made. This was a training period for many Indian painters.</li>
+<li style="padding-left:2em">&#9702; Other manuscripts illustrated: Anwar Suhaili, Mahabharata, Ramayana, Chingiz Nama, Akbar Nama etc. Many have been destroyed or scattered over European and American libraries/museums.</li>
+</ul>
+</li>
+<li>&#8226; Akbar organized painting as an <strong>Imperial establishment or karkhana</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Abul Fazl: &#8220;His Majesty from his earliest youth, has shown a great predilection for this art, and gives it every encouragement.&#8221;</li>
+<li style="padding-left:2em">&#9702; Of the <strong>seventeen painters mentioned by name by Abul Fazl, thirteen were Hindus</strong>. Some were of the lower castes &#8212; <strong>Daswant</strong> was a palki-bearer till Akbar trained him up.</li>
+<li style="padding-left:2em">&#9702; Painters given monthly salaries; Emperor gave further rewards; commodities provided; attempts made to improve the mixture of colours.</li>
+<li style="padding-left:2em">&#9702; Orthodox thinkers objected to painting as un-Islamic. Abul Fazl answered that painting made the painter recognize God because while sketching anything which had life they realized that God alone could provide individuality to them.</li>
+</ul>
+</li>
+<li>&#8226; Themes: war, hunting scenes, mythical beings, building activities, portrait painting.
+<ul>
+<li style="padding-left:2em">&#9702; Akbar ordered likenesses taken of all the grandees of the realm. <strong>Basawan</strong> was excellent in drawing of features, portrait painting and several other branches.</li>
+<li style="padding-left:2em">&#9702; Two or even three painters could complete a picture &#8212; one drew the outline, another filled in the colours, a third completed the face. Later, Jahangir claimed he could distinguish each painter&#8217;s hand.</li>
+</ul>
+</li>
+<li>&#8226; The Akbari period <strong>freed painting from Persian rigidity of form</strong> by introducing the plastic roundness of Indian painting to give a <strong>three-dimensional effect</strong> in place of the flat, two-dimensional effect. Indian trees, flowers, buildings, colours (peacock blue, Indian red) were introduced.</li>
+<li>&#8226; Under <strong>Akbar</strong>, European painting was introduced at the court by Portuguese priests.
+<ul>
+<li style="padding-left:2em">&#9702; Under its influence, principles of <strong>fore-shortening</strong> (near and distant people and things placed in perspective) were adopted. However, Indian painters never fully mastered the art of perspective &#8212; distant objects often shown vertically rather than foreshortened.</li>
+<li style="padding-left:2em">&#9702; The earlier <strong>bird&#8217;s eye-view perspective</strong> (action at different levels shown in the same picture) was replaced by circular effect.</li>
+</ul>
+</li>
+<li>&#8226; Mughal painting reached a <strong>climax under Jahangir</strong> who had a very discriminating eye.
+<ul>
+<li style="padding-left:2em">&#9702; Apart from hunting, battle and court scenes, special progress was made in <strong>portrait painting and paintings of animals, flowers</strong> etc.</li>
+<li style="padding-left:2em">&#9702; <strong>Mansur</strong> was the great name in this field.</li>
+<li style="padding-left:2em">&#9702; A special feature: the tonal and rounded effect of the tree trunks.</li>
+</ul>
+</li>
+<li>&#8226; Painting continued under <strong>Shah Jahan</strong>, but he lacked Jahangir&#8217;s aesthetic sense. Hence, there is a profusion of court scenes and a lavish use of gold.</li>
+<li>&#8226; <strong>Aurangzeb&#8217;s lack of interest in painting</strong> led to a dispersal of artists to different parts of the country. This helped in the development of painting in Rajasthan and the Punjab hills.</li>
+</ul>
+
+<h2>Provincial Architecture and Painting</h2>
+<h3>Deccani States</h3>
+<ul>
+<li>&#8226; Like the Mughals, the Deccani rulers were also great patrons of culture, and followed a <strong>broad policy of toleration which helped to promote a composite culture</strong>.</li>
+<li>&#8226; <strong>Ali Adil Shah</strong> of Bijapur (d. 1580) loved to hold discussions with Hindu and Muslim saints and was called a Sufi. He had an excellent library to which he appointed the well-known Sanskrit scholar, Waman Pandit. He invited Catholic missionaries to his court even before Akbar had done so.</li>
+<li>&#8226; <strong>Ibrahim Adil Shah II of Bijapur</strong> (1580&#8211;1627): was very solicitous of the poor; had the title of &#8220;abla baba&#8221; (Friend of the Poor). Was deeply interested in music; composed a book called <strong>Kitab-i-Nauras</strong> in which songs were set to various musical modes or ragas. Built a new capital, <strong>Nauraspur</strong>, where a large number of musicians were invited to settle. Freely invoked the goddess Saraswati in his songs; accorded patronage to all including Hindu saints and temples including grants to Pandharpur. Due to his broad approach he came to be called <strong>&#8220;Jagat Guru&#8221;</strong>.</li>
+<li>&#8226; <strong>Sultan Muhammad Quli Qutb Shah of Golconda</strong> (1580&#8211;1611): was fond of literature and architecture; not only a great patron but a poet of no mean order. He wrote in Dakhini Urdu, Persian and Telugu. He was the <strong>first to introduce a secular note in poetry</strong>. According to some modern writers, &#8220;The Telugu people considered the kingdom of Golconda their own.&#8221; Later, Qutb Shahi kings issued bi-lingual grants in Persian and Telugu.</li>
+</ul>
+<h3>Deccani Architecture</h3>
+<ul>
+<li>&#8226; <strong>Char Minar</strong> (Golconda/Hyderabad): Completed in <strong>1591&#8211;92</strong> by Muhammad Quli Qutb Shah; stood at the centre of the new city of Hyderabad. Has four lofty arches facing the four directions. Chief beauty: the <strong>four minarets which are four-storeyed and 48 metres high</strong>. The double screen of arches has fine carvings.</li>
+<li>&#8226; The rulers of <strong>Bijapur</strong> consistently maintained a high standard and impeccable taste in architecture.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Ibrahim Rauza</strong> (mausoleum of Ibrahim Adil Shah II): shows the style at its best.</li>
+<li style="padding-left:2em">&#9702; <strong>Gol Gumbaz</strong> (built 1660): has the <strong>largest single dome ever constructed</strong>. All proportions are harmonious; the large dome is balanced by tall, tapering minarets at the corners. It is said that a whisper at one side of the huge main room can be heard clearly at the other end.</li>
+</ul>
+</li>
+</ul>
+<h3>Deccani Painting</h3>
+<ul>
+<li>&#8226; Recent research shows that <strong>Deccan painting started about 1560</strong>, at the same time as Mughal painting. Like the Mughals, the Deccan painters absorbed both Persian painting and the earlier forms of painting during the Sultanat/Bahmani period, as well as the indigenous traditions of painting.</li>
+<li>&#8226; Of all the schools of Deccan painting, <strong>Bijapuri painting is considered the best</strong>. The great name earned by Bijapuri painting is mainly due to the patronage and personality of Ibrahim Adil Shah II (1580&#8211;1627).
+<ul>
+<li style="padding-left:2em">&#9702; This was the period when the best Dakhani works were produced at all the three Deccan states &#8212; Ahmadnagar, Bijapur and Golconda.</li>
+<li style="padding-left:2em">&#9702; &#8220;Literary evidence clearly shows that Ibrahim Adil Shah was a person of extremely cultured and artistic tastes, a musician and a poet and probably a painter, and that he always took interest to secure the best possible talent to his court.&#8221; (Jagdish Mittal).</li>
+</ul>
+</li>
+</ul>
+<h3>Rajasthan and Pahari Painting</h3>
+<ul>
+<li>&#8226; Aurangzeb&#8217;s dispersal of Mughal court painters led to the development of the <strong>Rajasthan and Pahari schools</strong>.</li>
+<li>&#8226; The <strong>Rajasthan style</strong> combined the themes and earlier traditions of western India or Jain school of painting with Mughal forms and styles.
+<ul>
+<li style="padding-left:2em">&#9702; In addition to hunting and court scenes, it had paintings on mythological themes, such as the dalliance of Krishna with Radha, or the Barah-masa (the seasons), and Ragas (melodies).</li>
+</ul>
+</li>
+<li>&#8226; The <strong>Pahari school</strong> continued these traditions in the Punjab hills.</li>
+</ul>
+
+<h2>Classical Music</h2>
+<ul>
+<li>&#8226; Another branch of cultural life in which <strong>Hindus and Muslims cooperated</strong> was music. Indian music had established itself in the court circles of the Sultanat during the 14th century, and even an orthodox ruler like Firuz Tughlaq had patronized music.</li>
+<li>&#8226; The rulers of the provincial kingdoms during the 15th and 16th centuries were great patrons of music.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Raja Man Singh of Gwaliyar</strong> was himself a skilled musician and patron of musicians. He is credited with creating many new melodies which were collected in a work, <strong>Man Kautuhal</strong>.</li>
+<li style="padding-left:2em">&#9702; It was not only at the courts but in <strong>temples and sufi gatherings</strong> that patronage was given to music.</li>
+<li style="padding-left:2em">&#9702; <strong>Swami Hari Das of Vrindavan</strong> was considered to be a great connoisseur of music. Akbar himself is supposed to have gone incognito to hear his music.</li>
+<li style="padding-left:2em">&#9702; Many of the writings of the bhakti saints were set to different ragas and surs.</li>
+</ul>
+</li>
+<li>&#8226; Among the rulers of Delhi, <strong>Adali, son of Islam Shah Sur</strong>, was a great patron of music and was an accomplished player of pakhawaj.</li>
+<li>&#8226; <strong>Akbar</strong> was very fond of music from his early years. Abul Fazl: &#8220;His Majesty has such a knowledge of the science of music as trained musicians do not possess; and he is likewise an excellent hand in performing especially on the naqara.&#8221;
+<ul>
+<li style="padding-left:2em">&#9702; Akbar took over the services of <strong>Tansen</strong> from Man Singh. Tansen became the leading singer at the court. Abul Fazl mentions by name <strong>thirty-six singers</strong>.</li>
+<li style="padding-left:2em">&#9702; Tansen composed many songs in Hindi and created new ragas many of which are sung even today. The style of singing which he took from Gwaliyar was the stately <strong>drupad style</strong>.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Shah Jahan</strong> patronised music at his court and is said to have acquired considerable proficiency in the art himself.</li>
+<li>&#8226; <strong>Aurangzeb</strong> himself was an accomplished player of the veena, and patronised music during the first ten years of his reign. But growing puritanism and a false sense of economy made him <strong>banish the singers from his court</strong>. Instrumental music however continued.
+<ul>
+<li style="padding-left:2em">&#9702; Despite Aurangzeb&#8217;s jibe to the protesting musicians to bury music deep, his reign saw the production of a large number of books on music.</li>
+<li style="padding-left:2em">&#9702; The most famous of these was <strong>Tuhfat-ul-Hind</strong> written for Aurangzeb&#8217;s grandson, Jahandar Shah.</li>
+<li style="padding-left:2em">&#9702; Members of the royal family including ladies in the haram and many nobles continued to patronise music.</li>
+</ul>
+</li>
+<li>&#8226; The reign of <strong>Muhammad Shah (1719&#8211;48)</strong> is a period of considerable growth of music.
+<ul>
+<li style="padding-left:2em">&#9702; His most famous singers were <strong>Niamat Khan Sadarang</strong> and <strong>Firuz Khan Adarang</strong>.</li>
+<li style="padding-left:2em">&#9702; They were masters of dhrupad but also trained many pupils in the <strong>khyal style</strong> of music which was considered more lyrical in theme and erotic in approach. This greatly enhanced its popularity.</li>
+<li style="padding-left:2em">&#9702; Muhammad Shah himself composed khyals under the pen-name <strong>Rangila Piya</strong>.</li>
+<li style="padding-left:2em">&#9702; Many courtesans also became famous for their music and dance.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Ibrahim Adil Shah II of Bijapur</strong> was deeply interested in music and composed the <strong>Kitab-i-Nauras</strong> in which songs were set to various ragas. Built Nauraspur where musicians were invited to settle.</li>
+<li>&#8226; <strong>Tabla and sitar</strong> became popular during this period but we do not know when these were invented.</li>
+</ul>
+
+<h2>Science and Technology</h2>
+<ul>
+<li>&#8226; Though India had a rich tradition of science and technology, advance had slowed down after the 8th century but not come to a standstill &#8212; as the works of Shripati and <strong>Bhaskaracharya II</strong> (AD 1150) in mathematics show.</li>
+<li>&#8226; <strong>Al-Biruni</strong> ascribed the decline of Indian science to the <strong>arrogance and growing insularity of the brahmans</strong>.</li>
+<li>&#8226; After the coming of the Turks, there was greater interaction of Islamic (Arab) science with India. New technologies introduced: <strong>paper, the spinning wheel, the carder&#8217;s bow, an improved version of the water wheel or rahat</strong>, and widespread use of the iron-stirrup.
+<ul>
+<li style="padding-left:2em">&#9702; In the fields of science, interaction was mainly in astronomy, mathematics and medicine.</li>
+</ul>
+</li>
+<li>&#8226; From the 11th century onward, there had been a heavy onslaught on reason and science in the Islamic world. <strong>Al-Ghazali</strong> (d. 1111) played an important part in this assault on reason.
+<ul>
+<li style="padding-left:2em">&#9702; As a result, science was virtually submerged under religion, mysticism, aesthetics etc.</li>
+<li style="padding-left:2em">&#9702; In Europe, science grew from the 15th century by setting out a sphere of rationalism away from religion. The <strong>inability of science to delink itself from religion or mysticism became an inhibiting factor in India</strong>.</li>
+</ul>
+</li>
+<li>&#8226; Although a number of scientific inventions under Akbar (e.g. a device for cleaning many gun-barrels at the same time, a moving carriage for grinding-corn) showed a spirit of inventiveness, this did not spread out because the <strong>ruling class had little interest in devices affecting the labouring classes</strong>.</li>
+</ul>
+<h3>European Impact and Ship-building</h3>
+<ul>
+<li>&#8226; The European impact was first felt with the coming of the Portuguese. Portuguese ships and guns were seen as the basis of their superiority at sea, and attempts were made to copy them.
+<ul>
+<li style="padding-left:2em">&#9702; The Zamorin of Calicut weaned away two Milanese from the Portuguese to manufacture guns for him.</li>
+<li style="padding-left:2em">&#9702; Castanheda writes that four Venetians came to Malabar in 1505 to cast guns.</li>
+</ul>
+</li>
+<li>&#8226; In the field of <strong>ship-building</strong>: by 1612, ships at Dabul were reported to have been made &#8220;Christian like with topps and all their tackings accordingly.&#8221;
+<ul>
+<li style="padding-left:2em">&#9702; K.N. Chaudhuri: by the end of the 17th century, &#8220;European country-traders made little technical distinction between ships built in the west and those built in the countries of the Indian Ocean. If anything, they seem to have preferred the local ships.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; Indian merchantmen began to carry guns and armed men for defence.
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>Ganj-i-Sawai</strong>, the biggest ship of Aurangzeb, was armed with <strong>80 cannons and 400 muskets</strong>. However, the cannons were useless against European ships because of faulty location, unskilled marksmanship of Indian gunners, and poor navigational skills.</li>
+<li style="padding-left:2em">&#9702; Fryer remarked in 1670: &#8220;some of their ships carry 30 or 40 pieces of cannon, more for show than service.&#8221;</li>
+<li style="padding-left:2em">&#9702; It seems it were not so much technological factors, as <strong>political and societal factors</strong> including individual dedication that were responsible for the Indian weakness at sea.</li>
+</ul>
+</li>
+</ul>
+<h3>Specific Technological Weaknesses</h3>
+<ul>
+<li>&#8226; <strong>Manufacturing of cannons and muskets</strong>: India remained technologically backward. Guns were not cast as a single piece &#8212; holes made through the mould, then brought together by a hot-ring. Single piece could not be cast because furnaces were too small, because of poor bellows. By 1550, bellows in Europe were worked by &#8220;trip-lugs on water-driven shafts, or by system of cranks, levers and weights.&#8221; In India, no improvement on skin-bellows. According to Babur, iron from seven or eight furnaces was used for making one cannon &#8212; pieces were liable to burst. Later rectified by <strong>Mir Qasim in Bengal</strong> and by <strong>Ranjit Singh in the Punjab</strong>.</li>
+<li>&#8226; <strong>Efficient water pump</strong>: An Englishman offered to pump water out of the Jamuna for ordinary people. Idea was pooh-poohed by Sir Thomas Roe. Absence of water-pumps meant <strong>mining could not go below water-level</strong>. However, the rich Indian tradition of mining zinc, brass and silver in Rajasthan and Andhra Pradesh cannot be forgotten.</li>
+<li>&#8226; <strong>Absence of the screw and spring</strong>: made manufacture of machinery difficult. In place of a screw, a piece of wire was soldered on. May explain the refusal to accept European house-clocks (which depended on cranks, levers and weights). One reason for not accepting the house-clock was also the different system of time reckoning in India. However, this did not prevent China from adopting the house-clock.</li>
+<li>&#8226; <strong>Weaving and dyeing</strong>: Indian technology was hardly backward compared to what was available. But India was backward in <strong>silk reeling</strong> where European technology was slowly adopted despite much opposition.</li>
+<li>&#8226; <strong>Glass technology</strong>: India remained backward. English drinking glasses, mirrors and spectacles were always in demand but none were manufactured in India.
+<ul>
+<li style="padding-left:2em">&#9702; A great lacuna was the absence of use of <strong>telescopes (dur-bin)</strong> till the 18th century. This meant hostile ships could not be sighted at sea.</li>
+<li style="padding-left:2em">&#9702; It also made <strong>Jai Singh&#8217;s observatories</strong> outdated &#8212; he did not use the telescope for observation. He sent embassies to Portugal, but Portugal itself was out of touch with new developments in astronomy in England and Holland. Also, Jai Singh&#8217;s observatories were based on the <strong>Ptolemaic view</strong> (repeated by Ulugh Beg) of the world as the centre of the universe, rather than Brahmagupta&#8217;s and Copernican view of the sun as the centre.</li>
+</ul>
+</li>
+</ul>
+<h3>Historiographical Debate on Technological Backwardness</h3>
+<ul>
+<li>&#8226; Earlier western scholars attributed backwardness to the <strong>other-worldly or fatalist view of life in India</strong>, or the caste system binding people in one station in life. These views are <strong>no longer accepted</strong>.</li>
+<li>&#8226; <strong>A. Jan Qaisar</strong>: Indian response to western science was &#8220;scrupulously selective in its nature, depending on convenience, utility, exigencies, or other material or pragmatic considerations.&#8221;</li>
+<li>&#8226; <strong>Irfan Habib</strong>: <strong>abundance of skilled labour combined with low subsistence costs inhibited improvement in tools</strong>: &#8220;A finer product could be attained more cheaply by a larger application of labour and manual skill than by adopting a mechanical contrivance.&#8221;
+<ul>
+<li style="padding-left:2em">&#9702; Refusal to accept printing presses and draw loom for weaving patterns given as examples.</li>
+<li style="padding-left:2em">&#9702; Although block printing on textiles had been developed in India, and was used in China for printing on paper, the same did not take place in India.</li>
+</ul>
+</li>
+<li>&#8226; <strong>&#8220;Extreme specialisation&#8221; due to caste system</strong> argument: holds limited validity. In all pre-modern societies including Europe, artisanal skills were passed on from father to son. Also, whenever a new profession arose, caste was no barrier for enlisting new entrants.</li>
+<li>&#8226; <strong>Resistance to labour-saving devices</strong> was not peculiar to India &#8212; as the <strong>Luddite movement in Britain</strong> during the 18th century shows.</li>
+<li>&#8226; Regarding the <strong>merchant class</strong>: though they brought the artisan under their control through the dadni system, they showed no sign of investing in new technology. Tools remained under ownership of the artisans. The merchants&#8217; lack of interest in new tools is shown by the fact that although artisans were able to build European type ships, they continued to use old, primitive tools.</li>
+<li>&#8226; Regarding the <strong>ruling classes</strong>: they had the utmost contempt for those who worked with their hands. Akbar&#8217;s experiment of working in the karkhanas with his own hands was not continued by any of his successors.</li>
+<li>&#8226; <strong>Abul Fazl</strong> lamented: &#8220;the blowing of the heavy wind of taqlid (tradition) and the dimming of the land of wisdom. Of old the door of &#8216;how&#8217; and &#8216;why&#8217; has been closed and questioning and enquiry have been deemed fruitless and tantamount to paganism.&#8221;</li>
+<li>&#8226; <strong>Jai Singh</strong> wrote: &#8220;Religion disperses like mist, kingdoms are destroyed, but the work of the scientist remains forever.&#8221; But Jai Singh was an exception in his time.</li>
+<li>&#8226; Thus insularity, arrogance towards outside knowledge, and reluctance to undertake rational enquiry &#8212; about which al-Biruni had lamented &#8212; had become the hall-mark of the Mughal ruling classes.
+<ul>
+<li style="padding-left:2em">&#9702; The Mughal ruling class which enjoyed the highest standard of living at the time, did not feel threatened by European superiority at sea, and found <strong>no incentive to go out and learn their science and technology</strong>.</li>
+</ul>
+</li>
+<li>&#8226; <strong>A. Rahman</strong>: &#8220;Major innovations in technology can only take place when the technical knowledge is well-developed, in a theoretical framework, and is applied to improve or change the technology. It is detrimental to both society and science when the available scientific knowledge is divorced from technology, or when there is no inter-action between scientists and technologists or artisans and craftsmen due to social or other factors.&#8221;</li>
+</ul>`,
   'eighteenth-century': `<h2>The Maratha Confederacy (18th Century)</h2>
 <p>The nature of Maratha political power evolved through three distinct phases, culminating in the Maratha Confederacy after 1761.</p>
 <h3>From Centralised State to Confederacy</h3>
