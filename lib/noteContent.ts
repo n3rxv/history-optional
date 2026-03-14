@@ -9627,10 +9627,1349 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; This especially holds good in India where its vast area, diversity of climate and frequent invasions, resulted in the growth of numerous styles or art and architecture.</li>
 </ul>`,
   'society-culture-economy-13-14c': ``,
-  'fifteenth-sixteenth-century-political': ``,
+  'fifteenth-sixteenth-century-political': `<h2>Mughal Historiography</h2>
+<p>Different schools of historiography emerged for interpreting Mughal history.</p>
+
+<h3>1. Imperialist Historiography</h3>
+<p>British scholars like <strong>Smith and Elphinstone</strong> were the first to interpret the Mughal period, but they were specifically guided by British colonialism.</p>
+<p>Since they had <strong>to justify British rule</strong> in India, they tried to <strong>undermine</strong> the Mughal legacy established by <strong>Akbar</strong> by undermining his achievements <strong>vis-a-vis Sher Shah</strong>.</p>
+<p>Apart from that, in the economic field, British scholars like <strong>Moreland</strong> tried to prove that the economy under Mughals wasn&#8217;t in any better condition from that under the British in the 19th century.</p>
+
+<h3>2. Nationalist School</h3>
+<p>We can divide the nationalist school of historiography into two parts or subgroups-</p>
+<ul>
+<li>&#8226; (a) Communal historiography</li>
+<li>&#8226; (b) Secular historiography</li>
+</ul>
+
+<h4>(a) Communal historiography:-</h4>
+<p>Communal historiography is further divided into two subgroups -</p>
+
+<h4>Hindu Communalist approach:-</h4>
+<p>It was promoted by scholars like <strong>Sir Jadunath Sarkar, Aashirvadi Lal Shrivastava</strong>, etc.</p>
+<p>The basic premise of their historiography was that due to the <strong>progressive policy of Akbar</strong> there was the <strong>formation of a vast Mughal Empire</strong> but once this policy was <strong>reversed</strong> by Aurangzeb, the Mughal Empire <strong>disintegrated</strong>.</p>
+<p>In this way, this historiography <strong>hovers around certain personalities</strong> in the interpretation of the Mughal Empire.</p>
+
+<h4>Muslim Communalist approach:-</h4>
+<p>This school was represented by scholars like <strong>I.H. Quraishi</strong> (First historian of Pakistan).</p>
+<p>He tried to <strong>demonise Akbar while praising Aurangzeb</strong>.</p>
+<p>For example, he emphasised that due to <strong>anti-Muslim policy of Akbar, Hindus became indisciplined.</strong> So, Aurangzeb&#8217;s tough attitude towards Hindus was necessary.</p>
+
+<h4>(b) Secular historiography:-</h4>
+<p>Scholars such as <strong>A.K. Majumdar</strong> were products of the national movement. So, naturally, they were anti-British.</p>
+<p>They bitterly <strong>criticised the British Empire</strong> but considered it to be the <strong>descendent of the Mughal Empire.</strong> So, in the course of attacking the British Empire, they also attacked Mughals.</p>
+<p>That&#8217;s why, they <strong>idolised regional rulers</strong> like Maharana Pratap of Mewar, Maratha King Shivaji and Lachit Borphukan of Assam who fought against Mughals.</p>
+
+<h3>3. Marxist Nationalist School:-</h3>
+<p><strong>Aligarh School</strong> of historiography, led by <strong>Mohd. Habib, Noorul Hasan, Athar Ali, Irfan Habib, Shirin Moosvi</strong>, etc. is inspired by the Marxist school.</p>
+<p>Certain features of this school are -</p>
+<ul>
+<li>&#8226; a. This school emphasised the <strong>role of socio-economic factors</strong> rather than the role of personalities.
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, they emphasised that <strong>socio-economic and administrative crises</strong> like the Jagirdari and Agrarian crisis were more important for the decline of the Mughal Empire, than the activities of certain individuals.</li>
+  </ul>
+</li>
+<li>&#8226; b. It also emphasised upon the <strong>re-evaluation of sources</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, the policies of Akbar can&#8217;t be evaluated simply on the basis of the description by Abul Fazl.</li>
+  </ul>
+</li>
+<li>&#8226; c. Mughal administration was projected as a <strong>centralised structure</strong>.</li>
+</ul>
+
+<h3>4. Revisionist School</h3>
+<p>Scholars like <strong>Muzaffar Alam, Chetan Singh, Sanjay Subramaniam, P.J. Marshall, Karen Leonard</strong>, etc. have analysed Mughal history in a new light-</p>
+<ul>
+<li>&#8226; a. According to these historians the <strong>Aligarh School had unconsciously selected one hero and one villain</strong> from Mughal monarchs i.e. Akbar and Aurangzeb while <strong>neglecting others</strong>.</li>
+<li>&#8226; b. These scholars have <strong>rejected</strong> the perception of <strong>centralised Mughal administration</strong> and tried to highlight its limitations.</li>
+<li>&#8226; c. While interpreting the <strong>decline</strong> of the Mughal Empire, they have also rejected the empire-centric approach of Aligarh school instead they have adopted a <strong>region-centric approach</strong>.</li>
+<li>&#8226; d. While <strong>Aligarh</strong> scholars had declared the <strong>first half of the 18th century as the age of crisis</strong>, but the <strong>revisionist</strong> scholars took the first half of the 18th century as the <strong>era of economic prosperity.</strong></li>
+</ul>
+
+<h2>BABUR</h2>
+
+<h3>Tuzuk-i-Babari/ Baburnama</h3>
+<p>It is the autobiography of Babur, written as a journal in Chagatai Turk.</p>
+<ul>
+<li>&#8226; It was translated into Persian by two scholars.
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Painda Khan</strong></li>
+  <li style="padding-left:2em">&#9702; <strong>Abdul Rahim Khan-i-Khana</strong></li>
+  </ul>
+</li>
+<li>&#8226; Only 18 years of his life survived in the work.</li>
+<li>&#8226; The language used is simple yet incisive.
+  <ul>
+  <li style="padding-left:2em">&#9702; Babur has written about himself with great candour.
+    <ul>
+    <li style="padding-left:4em">&#9632; He has not tried to hide his shortcomings.</li>
+    <li style="padding-left:4em">&#9632; Neither did he try to hide his father&#8217;s weakness.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; Other than being an important source of history, Baburnamah is considered to be a literary marvel in its own right.</li>
+<li>&#8226; The work may broadly be divided into 3 parts.</li>
+</ul>
+
+<h4>First part-</h4>
+<ul>
+<li>&#8226; It deals with his <strong>formative years and youth</strong>.</li>
+<li>&#8226; Babur informs us that he was born in 1483 in Ferghana.</li>
+<li>&#8226; He inherited his kingdom at the age of 12.</li>
+<li>&#8226; This part also covers his <strong>struggle and defeat to his rivals in Central Asia</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; The battles of <strong>Samarkand</strong> and <strong>Bukhara</strong> have been mentioned.</li>
+  <li style="padding-left:2em">&#9702; Babur, informs us of his mistakes that led to the losses and his ultimate expulsion.</li>
+  </ul>
+</li>
+<li>&#8226; He also tells us of his <strong>conquest of Kabul (1504) and Kandhar in (1522)</strong>.</li>
+<li>&#8226; He informs us that he was <strong>invited to India by the disgruntled nobles of Ibrahim Lodhi and other Indian rulers</strong> such as,
+  <ul>
+  <li style="padding-left:2em">&#9702; Daulat Khan Lodhi</li>
+  <li style="padding-left:2em">&#9702; Adil Khan Lodhi</li>
+  <li style="padding-left:2em">&#9702; Dilawar Khan Lodhi</li>
+  <li style="padding-left:2em">&#9702; Rana Sangha</li>
+  </ul>
+</li>
+</ul>
+
+<h4>Second Part-</h4>
+<ul>
+<li>&#8226; It talks about Indian rulers and Babur&#8217;s clashes with them.</li>
+<li>&#8226; Babur has mentioned 5 Indian rulers:
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Ibrahim Lodhi- Delhi</strong> - Babur has praised him, but also called him novice.</li>
+  <li style="padding-left:2em">&#9702; <strong>Bahadur Shah- Gujrat</strong></li>
+  <li style="padding-left:2em">&#9702; <strong>Nusrat Shah- Bengal</strong></li>
+  <li style="padding-left:2em">&#9702; <strong>Rana Sanga- Mewar</strong></li>
+  <li style="padding-left:2em">&#9702; <strong>Krishna Deva Raya- Vijayanagra</strong> - Babur has praised him the most, and called him the ablest administrator and best general among all Indian kings.</li>
+  </ul>
+</li>
+</ul>
+
+<h4>Third Part-</h4>
+<ul>
+<li>&#8226; Here, Babur discusses <strong>India, its flora, fauna, climate, people and diverse culture</strong>. He appears to be a better writer in this part.
+  <ul>
+  <li style="padding-left:2em">&#9702; He is pleased with India&#8217;s animals, especially the elephant which he encountered for the first time.</li>
+  <li style="padding-left:2em">&#9702; He was very fond of mangoes.</li>
+  <li style="padding-left:2em">&#9702; He was surprised to see India&#8217;s wealth, and used the terms &#8220;lakh&#8221;, &#8220;crore&#8221;, and &#8220;arab&#8221; to describe it.</li>
+  <li style="padding-left:2em">&#9702; However, he did not like India&#8217;s hot and humid climate.</li>
+  <li style="padding-left:2em">&#9702; According to him, Indians lack a sense of fashion, and they &#8216;roamed around naked&#8217;.</li>
+  <li style="padding-left:2em">&#9702; He says that Indian cities did not have gardens like those in Central Asia and Persia.</li>
+  <li style="padding-left:2em">&#9702; He also misses his favourite flowers, the Jasmine and the Rose.</li>
+  <li style="padding-left:2em">&#9702; He was extremely displeased with the lack of quality wines in India</li>
+  </ul>
+</li>
+</ul>
+
+<h4>Important battles in India-</h4>
+<ul>
+<li>&#8226; <strong>1526</strong> - Battle of <strong>Panipat</strong> against <strong>Ibrahim Lodhi.</strong></li>
+<li>&#8226; <strong>1527</strong> - Battle of <strong>Khanwa</strong> against <strong>Rana Sanga,</strong> near Fatehpur Sikri (declared as jihad).</li>
+<li>&#8226; <strong>1528</strong> - Battle of <strong>Chanderi</strong> against <strong>Medni Rai</strong>, another Rajput chief.</li>
+<li>&#8226; <strong>1529</strong> - Battle of <strong>Ghaggar</strong> (Bihar) against the <strong>Afghans</strong>, led by Mohammed Lodhi.</li>
+</ul>
+
+<h3>Emergence of Babur</h3>
+<p>Babur became the ruler of <strong>Fergana</strong> (1494) at a young age when his father Omar Shaikh Mirza died accidentally.</p>
+<p>Babur was ambitious since childhood. He was <strong>eyeing Samarkand</strong> which was under his uncle, the ruler of Herat. So he attacked Samarkand but his uncle defeated him with the help of the Uzbek ruler, Saibani Khan Uzbek.</p>
+<p>Babur, later, succeeded in conquering Samarkand with the <strong>help of the Shia Safavid ruler,</strong> Shah Ismail, although very soon he vacated it.</p>
+
+<h4>Impact of Central Asian politics on the Mughals</h4>
+<p>The Mughal rulers themselves were Sunni, but since they were allies of the Shia Safavid Empire, they <strong>distanced themselves from both the Sunni alliance (Uzbek and Ottoman Empire) and Sunni fanaticism.</strong></p>
+
+<h3>Babur&#8217;s Invasion</h3>
+<p>Babur writes in the Tuzuk-i-Baburi right from his conquest of Kabul (1504) he dreamed of ruling India.</p>
+
+<h4>Reason</h4>
+<ol>
+<li>Kabul was economically backward, so Babur was attracted towards <strong>India&#8217;s wealth</strong>.</li>
+<li>North India was <strong>politically fragmented</strong> and the Afghan nobles were in a power struggle against the Sultan.</li>
+<li>As the legitimate <strong>successor of Timur</strong>, Babur had a claim over Punjab.</li>
+</ol>
+
+<h4>Babur&#8217;s conquest of Hindustan-</h4>
+<p>His campaign started with the battle of <strong>Bhira</strong> in 1518 and after the fifth invasion he finally captured <strong>Punjab</strong>.</p>
+<p>Then he defeated Ibrahim Lodi in the Battle of <strong>Panipat</strong> in 1526 and captured Delhi and Agra.</p>
+<p>But his victory couldn&#8217;t be considered complete before he defeated Rana Sanga at <strong>Khanwa</strong> in 1527, Medini Rai at <strong>Chanderi</strong> (1528) and the Afghans at <strong>Ghagghar</strong> (1529).</p>
+
+<h4>Reasons behind the success of Babur</h4>
+<ol>
+<li><strong>Political fragmentation</strong> in North India and differences between various states.</li>
+<li>The main cause behind the failure of the Afghans was the <strong>lack of the centralisation</strong> in the Afghan political system, the differences between the Sultan and the nobles as well as the undisciplined nobles.</li>
+<li>Demonstration of <strong>superior combat technology</strong> by Babur, e.g. linking the Tulgama warfare system with artillery.</li>
+</ol>
+
+<h4>Impact of Babur&#8217;s conquest of Hindustan-</h4>
+<ol>
+<li><strong>Re-established the prestige of the crown</strong>, that is, the position of the king became much stronger than the nobles.</li>
+<li>Due to the use of <strong>artillery</strong> by Babur, better control over the provincial authorities by the central government became possible. This also encouraged <strong>administrative centralization</strong>.</li>
+<li>Control over <strong>Kabul and Qandhar</strong> by an Indian ruler after a long period.</li>
+<li><strong>Powerful foreign policy</strong> and connection of Indian politics with that of <strong>Central Asia and West Asia</strong>.</li>
+<li>Hindustan&#8217;s engagement with Central Asia and promotion of <strong>trade</strong>.</li>
+</ol>
+
+<h4>Do you agree with the statement that Babur was a dedicated warrior, not an empire-builder?</h4>
+<p>It is beyond doubt that Babur possessed <strong>unparalleled military acumen</strong>. Throughout his life, he remained involved in many military conflicts and also had several military successes. First, he captured Kabul and then after the battles of Panipat and Khanwa, he laid the foundation of the Mughal state.</p>
+<p>It is true that he had <strong>insufficient time</strong> to properly focus on either strengthening the base of the newly founded Mughal state or to think in terms of territorial expansion.</p>
+<p>But it is also equally true that Babur introduced certain <strong>measures which resulted in empire-building in the future.</strong></p>
+<ul>
+<li>&#8226; Before the advent of Babur in India, in North India there was an <strong>uneasy balance of power between Afghans and Rajputs.</strong> <strong>Babur destroyed this balance</strong> in the battles of Panipat and Khanwa to establish <strong>Mughal primacy</strong>. So, empire-building in the north became possible in the future.</li>
+<li>&#8226; In order for the empire to survive, it was <strong>essential to deny the Mongol succession rule</strong> in India. Under the Mongol succession rule, the empire had to be divided among all the successors. Babur rejected it and advised Humayun not to enforce it after his death.</li>
+<li>&#8226; Babur infused a <strong>new spirit into the government</strong> as well. Actually, the structure of the Afghan government was based on a confederate system in which the position of a monarch was weak. Babur emphasised upon a <strong>centralised structure</strong> and took the title of Badshah. In fact, in this system of government, no other noble could make the claim of equality with the monarch.</li>
+<li>&#8226; Apart from that, he selected a <strong>liberal social policy</strong> for the government in India. Once he advised Humayun that he should never interfere in the religious life of Hindus. Such advice could become a precursor of the liberal religious policy of Mughals in India.</li>
+<li>&#8226; Likewise, <strong>he got his two sons Humayun and Kamran married with the Rajput princess</strong> from the family of Medini Rai. So it was Babur who revealed the potential of Mughal-Rajput relations in future.</li>
+</ul>
+<p>In the light of these arguments, we can say that Babur&#8217;s steps prepared the way for empire-building in future.</p>
+
+<h3>Tuzuk-i-Baburi as a source of history</h3>
+<p>Tuzuk-i-Baburi is an autobiography of the Mughal ruler Babur, written in Chagatai Turk.</p>
+
+<h4>Positive aspect</h4>
+<ol>
+<li>It has wide significance as a source of study. It provides details of some <strong>major states</strong> of India, such as Delhi, Gujarat, Bengal, Mewar, Vijayanagar and Bahmani.</li>
+<li>It also mentions the <strong>prosperity of India and various professional groups and production systems</strong> prevailing here.</li>
+<li>Babur was interested in the <strong>geography</strong> of India. He has described the geographical landscape, animals, birds, vegetation of India in detail.</li>
+<li>He was also a connoisseur of <strong>human behaviour</strong> and nature and has given details about it.</li>
+<li>In many places, he is <strong>completely honest</strong> in his writing. He has exposed the weakness of his father and other relatives. At some places, he has revealed his own weaknesses also. On this basis, Tuzuk-i-Baburi appears to be close to the Confession of St. Augustine and that of Rousseau.</li>
+<li>His sensibility as an author <strong>transformed a regional language into a rich literary language</strong>.</li>
+<li>He was also a <strong>great connoisseur of art and architecture</strong>, but he did not like the architecture of India because it lacked balance and proportion.</li>
+</ol>
+
+<h4>Limitations</h4>
+<ol>
+<li>Tuzuk-i-Baburi <strong>does not cover Babur&#8217;s entire life</strong>. There are time gaps at many places.</li>
+<li>Babur has <strong>manipulated the facts in his favour</strong> at many places. For example, in the Battle of Panipat, he states that Ibrahim Lodhi&#8217;s army was much larger than his army.</li>
+<li>He seems to be <strong>biased against Indians</strong> in many places. For example, according to him, there is no lustre on the face of Indians, they are not intelligent. This description does not match the description of Amir Khusro.</li>
+</ol>
+
+<p><strong>Question-</strong> Does Babur appear to be a cultured person on the basis of Tuzuk-i-Baburi?</p>
+
+<h2>Humayun (1530&#8211;1555)</h2>
+
+<h3>Sources</h3>
+<p>His biography <strong>&#8216;Humayun Nama&#8217;</strong> was written by sister Gulbadan Begum in Persian, during Akbar&#8217;s reign.</p>
+
+<h3>Important events</h3>
+<ul>
+<li>&#8226; <strong>1532</strong> - he <strong>defeated the Afghans near Allahabad</strong>.</li>
+<li>&#8226; <strong>1534</strong> - he <strong>defeated Bahadur Shah of Gujarat</strong>, and built <strong>Dinpanah</strong> - A new city at Delhi.</li>
+<li>&#8226; <strong>1539</strong> - he was <strong>defeated by Sher Shah Suri</strong> at the Battle of <strong>Chausa</strong> (Bihar)</li>
+<li>&#8226; <strong>1540</strong> - he was <strong>defeated again by Sher Shah Suri</strong> at the battle of <strong>Bilgram</strong> (Kannauj)</li>
+<li>&#8226; <strong>1541</strong> - he <strong>fled towards Rajasthan</strong> and married Hamida Banu Begum, a Persian lady, who gave birth to Akbar at Amakot (Sind).
+  <ul>
+  <li style="padding-left:2em">&#9702; After this, Humayun <strong>fled to Persia</strong> where he was given refuge to Shah Tamas I.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>1555</strong> -he returned to India with Persian help and recovered Delhi. However, he could only rule for 10 months before dying accidently.</li>
+</ul>
+
+<h3>Challenges before Humayun after becoming the ruler</h3>
+<ol>
+<li>His brother Kamran captured Kabul and Kandahar, then Lahore, Hisar Firoza and other areas were also captured by him.</li>
+<li>The foundation of the Mughal state, established by Babur, was very weak.</li>
+<li>Humayun faced continuous revolt from Afghans.</li>
+</ol>
+
+<h4>Question: Was Humayun an incompetent king or an unfortunate one?</h4>
+<p>On the basis of <strong>traditional historiography</strong>, Humayun was declared to be lazy, lavish and addicted to opium. He spent his precious time building a new capital &#8216;Dinpanah&#8217; in Delhi, neglecting the Afghan challenge.</p>
+<p>But on the basis of the <strong>latest research</strong> on Humayun, such a view has seriously been challenged and certain hidden abilities in his personality have come to light.</p>
+<p>Humayun presents a rare example not only in Indian history but also in the history of the world, of <strong>a king who lost his crown and then regained it</strong>. It was not possible without military ability and political acumen.</p>
+<p>So far as the charge of <strong>opium taking</strong> is concerned, we shouldn&#8217;t forget that he was not an exception. Almost all the Mughal emperors took opium. Even Babur, who before the battle of Khanwa took the oath not to take wine, depended on opium for the rest of his life.</p>
+<p>Likewise, the decision to build a new capital <strong>&#8216;Dinpanah&#8217;</strong> was also a far-sighted one. Actually, due to the political ambition of Gujarat ruler, Bahadur Shah, Agra was under constant threat. So, it was a wise step to build an alternative capital in Delhi.</p>
+<p>That&#8217;s why Humayun shouldn&#8217;t be taken as an incompetent ruler but rather as an <strong>unfortunate ruler</strong>.</p>
+
+<h2>Shershah Suri</h2>
+
+<h3>Rise of Sher Shah:</h3>
+<p>By dint of his personal valour, entrepreneurship, diplomatic acumen and military talent, Shershah rose from being Jagirdar of Sasaram to the Badshah of Hindustan.</p>
+<p>Sher Shah assimilated the elements of fox and the lion within his personality.</p>
+<p>When we observe minutely, we come to know that even the <strong>material conditions of the time favoured him.</strong></p>
+<ul>
+<li>&#8226; For example, firstly, he took advantage of the <strong>political confusion</strong> created by the continuous conflict between Mughals and Afghans.</li>
+<li>&#8226; Secondly, he <strong>made use of the Afghan rule of succession</strong> in his favour.
+  <ul>
+  <li style="padding-left:2em">&#9702; In the Afghan structure, succession was transferred from husband to wife. So, Shershah used this rule in his favour by marrying some prosperous Afghan widows.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Empire-building under Sher Shah:</h3>
+<ul>
+<li>&#8226; The process of <strong>political unification had already started</strong> when Sikander Lodhi annexed Jaunpur.
+  <ul>
+  <li style="padding-left:2em">&#9702; Then the process of political unification continued under Babur and Humayun. Later, Sher Shah brought it to its climax.</li>
+  </ul>
+</li>
+<li>&#8226; Shershah created a big empire that extended to the border of Kashmir in the North to Vindhya in the South and the Indus region in the West to Bengal in the East.</li>
+</ul>
+
+<h3>Administrative structure:</h3>
+<ul>
+<li>&#8226; The main challenge before Sher Shah was <strong>suppressing the Afghan legacy</strong> which worked as a major impediment in the way of <strong>administrative centralisation</strong>.</li>
+<li>&#8226; Sher Shah promoted administrative centralisation by <strong>combining the Afghan structure of government with the Turkish one</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; The Turkish model of administration was relatively more centralised than the Afghan model where centrifugal forces were more active.</li>
+  </ul>
+</li>
+<li>&#8226; He made it clear that the <strong>rule of Afghan succession wouldn&#8217;t apply in government posts</strong>. Shershah gave emphasis on effective, transparent and active government.</li>
+<li>&#8226; Although he <strong>maintained the old departments</strong> under his government, he infused new strength into them. As we know, these departments existed even under the Sultans but Sher Shah <strong>heavily curtailed the power of the head of the departments</strong>.</li>
+<li>&#8226; For provincial administration, we can say that under Sher Shah, <strong>standard provincial administration didn&#8217;t start</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; In the actual sense, this was introduced by Akbar later.</li>
+  <li style="padding-left:2em">&#9702; Under the Sultans, a number of Siqs were clubbed together into an irregular administrative unit, known as Khitta or Vilayat.</li>
+  <li style="padding-left:2em">&#9702; The same tradition continued under Shershah.</li>
+  </ul>
+</li>
+<li>&#8226; We can give credit to Shershah for the introduction of <strong>standardised local administration</strong> in the form of <strong>Sarkar and Pargana</strong>, i.e. Siq was replaced by Sarkar.
+  <ul>
+  <li style="padding-left:2em">&#9702; At the level of <strong>Sarkar</strong>, he appointed two officers, <strong>Siqdar-i-Siqdaran and Munsif-i-Munsifan</strong>. First was accountable for general administration while the second for land revenue administration.</li>
+  <li style="padding-left:2em">&#9702; Likewise, at the level of <strong>Pargana</strong>, there were officers, <strong>Siqdar and Munsif</strong>. Siqdar was responsible for general administration and Munsif for land revenue administration.</li>
+  </ul>
+</li>
+<li>&#8226; The <strong>village</strong> was the lowest unit of administration and was guided by two local officers i.e. Muqaddam and Patwari.
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Muqaddam</strong> was the head of the village while <strong>Patwari</strong> was a semi-government officer who maintained the documents of the land revenue.</li>
+  <li style="padding-left:2em">&#9702; Maqaddam wasn&#8217;t a paid officer.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Land revenue reforms under Sher Shah</h3>
+
+<h4>Objectives behind the reforms</h4>
+<ul>
+<li>&#8226; To boost production</li>
+<li>&#8226; To augment state revenue</li>
+<li>&#8226; To give protection to the peasants.
+  <ul>
+  <li style="padding-left:2em">&#9702; Shershah believed that the peasants were the axis of production and if they remained dissatisfied, it would affect the whole process of production.</li>
+  </ul>
+</li>
+</ul>
+
+<h4>Land measurement: -</h4>
+<ul>
+<li>&#8226; Shershah re-introduced land measurement and for that, he made the <strong>Bigha and Gaz-i-Sikandari</strong> as a measuring unit.</li>
+<li>&#8226; His system is known as the <strong>Zabti system</strong>.</li>
+<li>&#8226; The system also <strong>accounted for soil fertility</strong>, according to which, land was categorised as <strong>good, average or bad</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; The estimated production was adjusted as per the quality of land.</li>
+  </ul>
+</li>
+</ul>
+
+<h4>Recognition of the Rights of tenants:-</h4>
+<ul>
+<li>&#8226; Shershah introduced the system of <strong>Patta and Qabuliyat</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; In Patta, the rights of the peasants were clearly mentioned but in Qabuliyat the liability of peasants was mentioned.</li>
+  </ul>
+</li>
+</ul>
+
+<h4>Fixation of the rate of land revenue:-</h4>
+<ul>
+<li>&#8226; Generally, <strong>1/3rd</strong> of the total production was fixed as land revenue.</li>
+<li>&#8226; In order to make the collection more convenient, he introduced a rate chart known as <strong>Ray</strong>.</li>
+<li>&#8226; Furthermore, apart from the regular rate of land revenue, there were some additional taxes like <strong>Zaribana &amp; Muhasilana</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; The rate of the first was 2.5% of the total production while the second one was 5% of the total production.</li>
+  </ul>
+</li>
+<li>&#8226; Along with these taxes, the state used to impose an <strong>additional tax of 2.5 Ser per Bigha</strong> which was safely stored in local state storehouses, so that the grains could be used at the time of exigencies.</li>
+</ul>
+
+<h4>Approach to Zamindars and Intermediaries:-</h4>
+<ul>
+<li>&#8226; Unlike Alauddin Khilji, Shershah adopted a very <strong>pragmatic approach</strong> to Zamindars and Intermediaries.
+  <ul>
+  <li style="padding-left:2em">&#9702; Instead of suppressing them he preferred to have an effective check over them.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Roads and Sarais</h3>
+<ul>
+<li>&#8226; Sher Shah Suri built long <strong>arterial roads</strong> in India including-:
+  <ul>
+  <li style="padding-left:2em">&#9702; Sonargaon to Attock</li>
+  <li style="padding-left:2em">&#9702; Agra to Chittorgarh via Jodhpur</li>
+  <li style="padding-left:2em">&#9702; Multan to Attock</li>
+  <li style="padding-left:2em">&#9702; Agra to Burhanpur</li>
+  </ul>
+</li>
+<li>&#8226; On each road, <strong>trees</strong> were planted for shade.</li>
+<li>&#8226; At a distance of every 2 Kos (18 Kilometres) a <strong>Sarai</strong> was built.
+  <ul>
+  <li style="padding-left:2em">&#9702; Approximately 1700 such Sarais were built.</li>
+  </ul>
+</li>
+<li>&#8226; These Sarais served multiple purposes.
+  <ul>
+  <li style="padding-left:2em">&#9702; Each sarai had a <strong>Barid</strong> (intelligence officer)</li>
+  <li style="padding-left:2em">&#9702; Each sarai also had a well provisioned <strong>stable and Dak Chowki</strong>.
+    <ul>
+    <li style="padding-left:4em">&#9632; According to Sarwani a message could be relayed from Bengal to Agra in a single day.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; Each Sarais had <strong>2 chefs</strong>, one Brahmin and the other Muslim.
+    <ul>
+    <li style="padding-left:4em">&#9632; Food was provided free of cost to boarders.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; The sarais had facilities for <strong>feeding and watering horses</strong>.</li>
+  <li style="padding-left:2em">&#9702; Each Sarai had a <strong>water well</strong>, which attracted locals.
+    <ul>
+    <li style="padding-left:4em">&#9632; This resulted in the roads and sarais becoming safer.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; Gradually sarais started to serve as a <strong>marketplace</strong>, which eventually evolved into <strong>towns</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; Thus, they helped in the growth of the market economy and contributed to urbanisation.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Other reforms under Shershah:-</h3>
+<ul>
+<li>&#8226; Shershah introduced the system of <strong>local responsibility for local crime</strong>. i.e. Muqaddam (the head of the village) had to be convicted if he failed to divulge the name of the criminal.</li>
+<li>&#8226; In order to <strong>boost trade and commerce</strong>, he adopted some other measures as well.
+  <ul>
+  <li style="padding-left:2em">&#9702; He introduced <strong>standard coins</strong> like silver currency, Rupiya, and copper currency Dam.</li>
+  <li style="padding-left:2em">&#9702; He <strong>standardised import duties and taxes</strong>. So now on goods, the tax could have been collected only at two points.</li>
+  </ul>
+</li>
+<li>&#8226; Shershah introduced some <strong>military reforms</strong> as well.
+  <ul>
+  <li style="padding-left:2em">&#9702; He introduced <strong>Chehra or Hulia</strong> as well as the system of <strong>Dagh</strong> (branding of horses).</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Was Sher Shah an innovator or a reformer?</h3>
+<p>The period of Sher Shah drew the attention of a number of scholars because he made <strong>remarkable achievements within a short span of 5 years</strong>.</p>
+<ul>
+<li>&#8226; Although, he infused a new spirit into all institutions, whether he was an institution builder or reformer needs to be investigated.</li>
+</ul>
+<p>In <strong>central administration</strong>, Shershah maintained all departments i.e. Diwan-i-Wizarat, Diwan-i-Insha, Diwan-i-Arz and Diwan-i- Risalat.</p>
+<ul>
+<li>&#8226; But he promoted administrative centralisation through the curtailment of the power of officers.</li>
+</ul>
+<p>As for <strong>provincial administration</strong>, we can say that Shershah couldn&#8217;t introduce any standard model, rather standard provincial administration (Suba) started later under Akbar.</p>
+<p>On the other hand, the credit for introducing <strong>standard local administration</strong> can be given to Shershah, like the units of Sarkar and Pargana.</p>
+<ul>
+<li>&#8226; But here also, we come to know that the old system Siq and Pargana already existed, Shershah simply restructured them.</li>
+</ul>
+<p>Likewise, as for <strong>military reforms</strong>, Shershah introduced the Hulia and Dagh but these had earlier been introduced by Alauddin Khilji. So, Shershah simply reintroduced it.</p>
+<p>The practice of <strong>land measurement</strong> had first been introduced by Alauddin Khilji but there remained certain loopholes which Shershah tried to remove.</p>
+<ul>
+<li>&#8226; Even in Sher Shah&#8217;s system, some flaws remained, which Akbar tried to remove.</li>
+<li>&#8226; So land revenue reforms should be viewed as a process of gradual evolution and the entire credit shouldn&#8217;t be given to Shershah.</li>
+</ul>
+<p>In the light of above factors, Shershah appears to be a <strong>great reformer but not an innovator</strong>.</p>`,
   'fifteenth-sixteenth-century-society': ``,
-  'akbar': ``,
-  'mughal-empire-17th-century': ``,
+  'akbar': `<h2>AKBAR &#8212; ACHIEVEMENTS</h2>
+
+<h3>A great Empire-builder:-</h3>
+<ul>
+<li>&#8226; He created a big empire that consisted of the region of Kashmir in North to Berar and Balaghat in the south and Kandhar in the west to Bengal in the east. So he combined a vast region of the North, North-West, East and the Deccan under a single empire.</li>
+</ul>
+
+<h3>A new theory of kingship:-</h3>
+<ul>
+<li>&#8226; In Akbar&#8217;s theory of kingship, one can see the <strong>pluralistic</strong> character of Hindustan. In other words, he tried to establish that the <strong>king shouldn&#8217;t favour any social group or a particular class rather he should work for the betterment of all.</strong></li>
+<li>&#8226; While describing Akbar&#8217;s theory of kingship, Abul Fazl characterises it as <strong>&#8216;Farr-i-Izadi&#8217;</strong> (Divine light) which directly emanates from God and falls on the king. Therefore, the role of intermediaries was automatically undermined.</li>
+<li>&#8226; In the whole of his writing on kingship, Abul Fazal never used the terms &#8216;Dar-ul-Harb&#8217; (country of Idolater) or &#8216;Dar-ul- Islam&#8217; (the country where Muslim rule prevails), as Akbar&#8217;s theory of kingship was based on <strong>&#8216;Dar-ul-Sulah&#8217;</strong> (peace for all).</li>
+</ul>
+
+<h3>A great Institution-builder:-</h3>
+<ul>
+<li>&#8226; From central administration to local administration, Akbar established an efficient model of government.</li>
+<li>&#8226; In central administration, he created a new department called <strong>Diwan-i-Aala</strong>.</li>
+<li>&#8226; Apart from that, he introduced a <strong>standardised provincial administration</strong>.</li>
+<li>&#8226; His whole administrative structure functioned on <strong>two important formulas, i.e.-</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; 1. Administrative uniformity</li>
+  <li style="padding-left:2em">&#9702; 2. Check and balance</li>
+  </ul>
+</li>
+<li>&#8226; Above all, Akbar made a great innovation by introducing the <strong>Mansabdari-Jagirdari system</strong>.</li>
+<li>&#8226; Not simply that, he also developed an efficient land revenue system in the form of <strong>&#8216;Ain-i-Dahsala&#8217;</strong>.</li>
+</ul>
+
+<h2>Central Administration</h2>
+
+<h3>Kingship</h3>
+<ul>
+<li>&#8226; The Mughal Polity was based on the element of <strong>absolute monarchy</strong>, wherein the emperor was the fountainhead of all authority.</li>
+<li>&#8226; Akbar introduced the element of <strong>semi divine origin of kingship</strong>, by introducing concepts such as-
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Farr-i-Izidi (Divine light)</strong> - According to him, the emperor&#8217;s heart was the repository of divine light. Thus, he assumed the title of <strong>&#8216;Zill-i-Illahi&#8217;</strong> (Shadow of God)</li>
+  <li style="padding-left:2em">&#9702; <strong>Insan-i-Kamil</strong> (Most rational man) - this notion emphasises that the Emperor has extraordinary capabilities, and is superior to the other man.</li>
+  <li style="padding-left:2em">&#9702; <strong>Imam-i-Adil</strong> (Leader of Justice) - The Emperor is inherently a fair and just ruler.</li>
+  <li style="padding-left:2em">&#9702; Akbar Also introduced some <strong>new practices</strong> to emphasise the Emperor&#8217;s semi-divine status, such as:
+    <ul>
+    <li style="padding-left:4em">&#9632; <strong>Sijda</strong> - prostration</li>
+    <li style="padding-left:4em">&#9632; <strong>Paibos</strong> - kissing the emperor&#8217;s feet</li>
+    <li style="padding-left:4em">&#9632; <strong>Navroz</strong> - Festival to celebrate the Persian new year</li>
+    <li style="padding-left:4em">&#9632; <strong>Tuladan</strong> - Borrowed from the Krishnite legends - on special occasions, the emperor was weighed against different things to be distributed among the poor.</li>
+    <li style="padding-left:4em">&#9632; <strong>Jharoka Darshan</strong> - Borrowed from Hinduism, the king would appear in his window every morning and bless his subjects.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>Sulh-i-Kul</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It was the guiding principle of Akbar&#8217;s Religious philosophy. It refers to the doctrine of <strong>universal peace</strong>, and also served as an essential pillar of his theory of kingship.
+    <ul>
+    <li style="padding-left:4em">&#9632; According to it-
+      <ul>
+      <li style="padding-left:6em">&#9679; <strong>All religions had equal rights</strong> to prosper and flourish within the empire.</li>
+      <li style="padding-left:6em">&#9679; There was to be <strong>no discrimination</strong> on the basis of religion.</li>
+      <li style="padding-left:6em">&#9679; <strong>It was the emperor who was holding the empire together</strong>, and in his absence, various religious communities would descend into communal violence.</li>
+      </ul>
+    </li>
+    <li style="padding-left:4em">&#9632; Thus, it was designed to achieve <strong>stability</strong> and religious <strong>peace</strong> as well as to <strong>reinforce the despotic authority of the emperor.</strong></li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>Succession</strong> - there was <strong>no fixed rule</strong> of succession.
+  <ul>
+  <li style="padding-left:2em">&#9702; The rule of primogeniture was not followed and succession was decided by competition among contenders for the throne, leading to frequent and destructive war of succession.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Nature of the State</h3>
+<ul>
+<li>&#8226; <strong>War State</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Such a state is built by conquest and preserved by armed might.</li>
+  <li style="padding-left:2em">&#9702; It has a large military establishment and there is no distinction between civil and military officials. The same official performs both duties.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Paper State</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; The large empire required a large efficient bureaucracy to manage its affairs.</li>
+  <li style="padding-left:2em">&#9702; Official business was conducted through written documents, records of which were meticulously maintained.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Portfolio system of administration</strong> - Different subjects of administration were placed under different departments.</li>
+</ul>
+
+<table style="border-collapse:collapse;width:100%;margin:1em 0">
+<tr style="background:#f0f0f0"><th style="border:1px solid #ccc;padding:6px">DEPARTMENT</th><th style="border:1px solid #ccc;padding:6px">HEADS</th><th style="border:1px solid #ccc;padding:6px">IN CHARGE OF</th></tr>
+<tr><td style="border:1px solid #ccc;padding:6px">Diwan-i-Wazirat</td><td style="border:1px solid #ccc;padding:6px">Diwan-i Ala</td><td style="border:1px solid #ccc;padding:6px">Revenue</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px">Diwan-i-Arz</td><td style="border:1px solid #ccc;padding:6px">Mir Bakshi</td><td style="border:1px solid #ccc;padding:6px">Military</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px">Diwan-i-Rasalat Muhatsib</td><td style="border:1px solid #ccc;padding:6px">Muhtasib</td><td style="border:1px solid #ccc;padding:6px">Foreign affairs and censor of public morals</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px">Diwan-i-Quza</td><td style="border:1px solid #ccc;padding:6px">Qazi-ul-Quzat</td><td style="border:1px solid #ccc;padding:6px">Judiciary</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px">Diwan-i-Insha</td><td style="border:1px solid #ccc;padding:6px">Mir Manshi</td><td style="border:1px solid #ccc;padding:6px">Government papers and royal correspondence</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px">Diwan-i-Saman</td><td style="border:1px solid #ccc;padding:6px">Mir-us-Saman</td><td style="border:1px solid #ccc;padding:6px">Imperial household and Mughal karkhanas</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px">Sadr-us-Sudur</td><td style="border:1px solid #ccc;padding:6px">Sadar-i-Jahan</td><td style="border:1px solid #ccc;padding:6px">Charitable and religious endowments (ecclesiastical department)</td></tr>
+</table>
+
+<h3>Provincial Administration</h3>
+<ul>
+<li>&#8226; <strong>Subas (Provinces)</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; They were headed by the <strong>Subedar/ Sipahsalar</strong> (provincial governor), whose main duty was to maintain law and order.</li>
+  <li style="padding-left:2em">&#9702; <strong>Diwan</strong> was the chief finance officer.</li>
+  <li style="padding-left:2em">&#9702; <strong>Bakshi</strong> was the chief military official.</li>
+  <li style="padding-left:2em">&#9702; Judicial administration was overseen by the <strong>Qazi</strong>.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Sarakars (Districts)</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Headed by <strong>Faujdars</strong> responsible for the maintenance of law and order.</li>
+  <li style="padding-left:2em">&#9702; <strong>Amalguzars</strong> were in charge of revenue administration.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Praganas (Revenue Circles)</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Revenue units headed by <strong>Shiqdar</strong> responsible for the maintenance of law and order</li>
+  <li style="padding-left:2em">&#9702; <strong>Amil/ Karori</strong> was in charge of revenue collection.</li>
+  <li style="padding-left:2em">&#9702; <strong>Fotedar</strong> was the treasury official. His responsibility was to oversee the smooth remission of the revenue collected to the imperial treasury.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Gaon (Village)</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Zamindars</strong> were local landowners who acted as <strong>intermediaries</strong> between the state and the villages.</li>
+  <li style="padding-left:2em">&#9702; They <strong>collected revenue</strong> in the exchange for a commission and enjoyed tax exemptions.</li>
+  <li style="padding-left:2em">&#9702; As Chaudhris they also had <strong>policing powers</strong>.</li>
+  <li style="padding-left:2em">&#9702; However, they were <strong>not part of the Mughal bureaucracy</strong>.</li>
+  </ul>
+</li>
+</ul>
+<p>During Akbar&#8217;s period, there were 15 subas. By the time of Shahjahan, the empire had expanded and there were 22 subas. During Aurangzeb&#8217;s reign, there were 21 subas.</p>
+
+<h2>Revenue administration</h2>
+<p>Different systems of land revenue assessment and collection were used in different parts of the Mughal empire. This was done to account for the vastness of the empire and its geographical and cultural diversity.</p>
+<ul>
+<li>&#8226; <strong>Nasq/ Nasaq</strong> - The revenue demand was raised on the basis of previous year&#8217;s production.</li>
+<li>&#8226; <strong>Batai/ Galla Bakshi</strong> - Revenue was collected, based on the current year&#8217;s production.
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Khet Batai</strong> - Standing crops were divided.</li>
+  <li style="padding-left:2em">&#9702; <strong>Lank Batai</strong> - The crops were harvested and stocked before being divided</li>
+  <li style="padding-left:2em">&#9702; <strong>Ras Batai</strong> - Grain was beaten and collected before being divided.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Zabti</strong> - Introduced by Sher Shah Suri.
+  <ul>
+  <li style="padding-left:2em">&#9702; Revenue was estimated on the basis of <strong>measurement of sown area and assessment of the quality</strong> of land.</li>
+  <li style="padding-left:2em">&#9702; <strong>Jama</strong> was the estimated revenue while <strong>Hasil</strong> was the realised revenue.</li>
+  <li style="padding-left:2em">&#9702; The fluctuations between Jama and Hasil was a major concern for the crown.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Todarmal Bandobast/ Ain-i-Dahsala</h3>
+<p>Akbar introduced the Todarmal Bandobast/ Ain-i-Dahsala designed by Raja Todarmal to minimise the gap between Jama and Hasil.</p>
+<p>The Features of this arrangement were-</p>
+<ul>
+<li>&#8226; The system was based on the <strong>survey and measurement</strong> of the sown area.</li>
+<li>&#8226; The rate of land revenue was fixed at <strong>half of the estimated production.</strong></li>
+<li>&#8226; The <strong>average production of the previous 10 years</strong> was taken to estimate the current year&#8217;s production.</li>
+<li>&#8226; Land was divided into <strong>3 categories on the basis of frequency of cultivation</strong> &#8211;
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Polaj</strong>- Cultivated every year</li>
+  <li style="padding-left:2em">&#9702; <strong>Parauti</strong>- left fallow of 1-2 year after every crop</li>
+  <li style="padding-left:2em">&#9702; <strong>Chachar</strong>- left fallow for 3-4 years after every crop</li>
+  </ul>
+</li>
+<li>&#8226; Each of these categories was subdivided into <strong>three subclasses of Good, Average and Bad, based on soil fertility</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; The <strong>average production</strong> from these subclasses was applied to make an estimate of production.</li>
+  </ul>
+</li>
+<li>&#8226; Revenue was collected in <strong>cash.</strong></li>
+<li>&#8226; <strong>Dasturs</strong> (regional price circles) were created to convert the revenue demand into cash form.
+  <ul>
+  <li style="padding-left:2em">&#9702; Price lists called the <strong>Dastur-i-Amal</strong> were created for each Dastur by taking an average of the prevailing price over the previous 10 years.</li>
+  </ul>
+</li>
+<li>&#8226; Akbar continued the policy of issuing <strong>Patta and Qabuliyat</strong> to farmers.</li>
+<li>&#8226; Ain-i-Dahsala- System <strong>incentivised the expansion of agriculture</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; 4-5 year tax holiday was given for Banjar land (culturable wasteland).</li>
+  <li style="padding-left:2em">&#9702; Further, at least 50% of donated land was to be Banjar land.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Sondhar loans</strong> were given to farmers in times of famine.</li>
+</ul>
+
+<h4>Significance</h4>
+<ul>
+<li>&#8226; The Ain-i-Dahsala System allowed Akbar to maintain a <strong>large standing army</strong> which could be used to expand the empire and maintain border security.</li>
+<li>&#8226; It also allowed the state to undertake <strong>massive construction projects</strong>, further, it helped in the <strong>integration of zamindars into the state</strong>, thus, reducing the possibility of rebellion.</li>
+<li>&#8226; However, the <strong>breakdown of the compact</strong> between the state and the peasantry due to the sudden rise in revenue burden later led to frequent <strong>agrarian revolts</strong> by groups such as the Jats, Sikhs, Satnamis.</li>
+</ul>
+
+<h2>Mansabdari System</h2>
+
+<h3>Objectives</h3>
+<ul>
+<li>&#8226; This system was originally created by Chengis Khan and was modified for Indian conditions by Akbar.</li>
+<li>&#8226; Its objective was to provide effective administration by <strong>arranging Mughal military aristocracy and bureaucracy into a merit based hierarchy.</strong></li>
+<li>&#8226; It was also designed to <strong>strengthen the emperor&#8217;s centrality and streamline military administration</strong>.</li>
+</ul>
+
+<h3>Elements</h3>
+<ul>
+<li>&#8226; It was a dual rank system, that is, each Mughal official was assigned 2 ranks
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Zat</strong>- it denoted the <strong>personal rank</strong> of the Mansabdar, varying from 10 to 5000. It determined the Mansabdar&#8217;s seniority and salary.</li>
+  <li style="padding-left:2em">&#9702; <strong>Sawar</strong>- It represented the <strong>military duties</strong> of the Mansabdars in terms of the number of horsemen they maintained, ranging from 10 to 5000.</li>
+  <li style="padding-left:2em">&#9702; During Akbar&#8217;s reign, 33 grades of Mansabdars were arranged in a hierarchy of 10 Zat - 10 Sawar to 5000 Zat to 5000 Sawar.</li>
+  <li style="padding-left:2em">&#9702; Each rank had 3 grades-
+    <ul>
+    <li style="padding-left:4em">&#9632; Sawar rank = Zat rank
+      <ul>
+      <li style="padding-left:6em">&#9679; eg. 5000 Zat - 5000 Sawar</li>
+      </ul>
+    </li>
+    <li style="padding-left:4em">&#9632; &#189; Zat rank &lt; Sawar rank &lt; Zat rank
+      <ul>
+      <li style="padding-left:6em">&#9679; eg. 5000 Zat - 3000 Sawar</li>
+      </ul>
+    </li>
+    <li style="padding-left:4em">&#9632; Sawar rank &lt; &#189; Zat rank
+      <ul>
+      <li style="padding-left:6em">&#9679; eg. 5000 Zat -2000 Sawar.</li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>Dah-Bishti System</strong> - It was used to determine the ranks of common cavalrymen/ footsoldiers.
+  <ul>
+  <li style="padding-left:2em">&#9702; On average, each horseman had to have two horses, to ensure a contingency mount.</li>
+  <li style="padding-left:2em">&#9702; There were three ranks for every unit of 10 cavalrymen-
+    <ul>
+    <li style="padding-left:4em">&#9632; Seniormost three soldiers had to maintain three horses each.</li>
+    <li style="padding-left:4em">&#9632; Intermediate 4 soldiers had to maintain two horses each.</li>
+    <li style="padding-left:4em">&#9632; Junior-most 3 soldiers had to maintain one horse each.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; Thus, there were to be 20 horses for 10 men.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Salaries</strong> - Mansabdars could either be paid in cash or jagirs - land revenue assignments.
+  <ul>
+  <li style="padding-left:2em">&#9702; Those paid in cash were called <strong>Naqadi</strong> Mansabdars.</li>
+  <li style="padding-left:2em">&#9702; While those who paid through jagirs were called <strong>Jagirdar</strong>.</li>
+  <li style="padding-left:2em">&#9702; Jagirs were of two kinds-
+    <ul>
+    <li style="padding-left:4em">&#9632; <strong>Tankha Jagirs</strong> &#8211; It was non-hereditary and non transferable, and always situated outside of Mansabdar&#8217;s jurisdiction.</li>
+    <li style="padding-left:4em">&#9632; <strong>Watan Jagirs</strong>- It was hereditary and transferable, and situated within the Mansabdar&#8217;s jurisdiction.
+      <ul>
+      <li style="padding-left:6em">&#9679; These were exclusively given to Rajputs.</li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; The Mughal Mansabdari was quite <strong>heterogeneous</strong>, consisting of several ethnic, religious and linguistic groups, such as-
+  <ul>
+  <li style="padding-left:2em">&#9702; Turanis &#8211; Turkish noblemen belonging to Central Asia</li>
+  <li style="padding-left:2em">&#9702; Iranis &#8211; Persian nobleman</li>
+  <li style="padding-left:2em">&#9702; Afghans</li>
+  <li style="padding-left:2em">&#9702; Hindustanis/ Shaikhzadas &#8211; Indian Muslim converts</li>
+  <li style="padding-left:2em">&#9702; Deccanis</li>
+  <li style="padding-left:2em">&#9702; Rajputs</li>
+  </ul>
+</li>
+<li>&#8226; The system <strong>strengthened the Emperor&#8217;s position by ensuring the loyalty</strong> of the nobility.
+  <ul>
+  <li style="padding-left:2em">&#9702; All important assignments, transfers, promotions, demotions and dismissals were done by the emperor.</li>
+  </ul>
+</li>
+<li>&#8226; The <strong>success</strong> of the system depended upon-
+  <ul>
+  <li style="padding-left:2em">&#9702; The <strong>Emperor&#8217;s personal qualities</strong></li>
+  <li style="padding-left:2em">&#9702; The <strong>constant expansion</strong> of empire so that more land could be distributed as jagirs</li>
+  </ul>
+</li>
+<li>&#8226; During Akbar&#8217;s reign the Mansabdari had only 5000 members, with very few having ranks more than 1000.
+  <ul>
+  <li style="padding-left:2em">&#9702; By the time of Shahjahan, the total number of Jagirdar had increased to 14,000 and were being given ranks as high as 40,000 Zat - 40,000 Sawar.</li>
+  <li style="padding-left:2em">&#9702; This led to <strong>increasing shortage of Jagirs</strong> which gradually precipitated the <strong>Jagirdari crisis</strong>.</li>
+  </ul>
+</li>
+<li>&#8226; To addresses this issue, some innovations were introduced-
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Du-Aspa &#8212; Si-Aspa</strong> (2 horse- 3 horse)
+    <ul>
+    <li style="padding-left:4em">&#9632; Under <strong>Jahangir</strong>, some Mansabdars were given an additional rank of Du-Aspa &#8212; Si-Aspa and would have to maintain twice or thrice horses customarily required.</li>
+    <li style="padding-left:4em">&#9632; This was done so that a large number of horses could be maintained without giving a higher Zat rank to Mansabdars.</li>
+    <li style="padding-left:4em">&#9632; Additional cash payment was made to provide for the added expense.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Monthly Scale</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; Introduced by <strong>Shahjahan</strong>, under which Mansabdars were categorised as 6 months, 9 months or 12 months Jagirdar.</li>
+    <li style="padding-left:4em">&#9632; Jagirs were assigned proportionally with reduction in Sawar duties.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; However, the problem assumed crisis proportions during Aurangzeb&#8217;s reign and ultimately led to the empire&#8217;s disintegration.</li>
+</ul>
+
+<h2>Religious policy of Akbar</h2>
+<p>The religious policy of Akbar went through a <strong>long evolution</strong> and emerged as a standard for those who aspired to rule in India. It was based on Akbar&#8217;s realisation of the <strong>pluralistic</strong> character of Hindustan.</p>
+
+<h4>The factors which shaped the religious policy of Akbar are: -</h4>
+<ol>
+<li>Liberal Mongol tradition</li>
+<li>The impact of Sufi-Bhakti tradition</li>
+<li>Influence of his mother Hamida Banu Begum and mentor Abdul Latif</li>
+<li>Apart from that, Akbar&#8217;s religious policy was guided by his political ambition as well.
+  <ul>
+  <li style="padding-left:2em">&#9702; He was inclined to form a composite and unified aristocratic class comprising various racial and communal groups.</li>
+  </ul>
+</li>
+</ol>
+
+<h4>Different stages in the religious policy of Akbar :-</h4>
+
+<h4>The first stage (1556-1570):-</h4>
+<p>During this stage Akbar remained an orthodox Sunni Muslim in his personal conviction but still he maintained a liberal religious policy in his statecraft.</p>
+<ul>
+<li>&#8226; He banned the war captives being forcefully converted to Islam from 1562,</li>
+<li>&#8226; the abolition of the pilgrimage tax in 1563,</li>
+<li>&#8226; the abolition of Jizya in 1564.</li>
+</ul>
+
+<h4>The second stage (1570-1579):-</h4>
+<p>During this period, Akbar was <strong>inspired by mystical ideas</strong>, that&#8217;s why he experimented with the <strong>&#8216;Ibadatkhana&#8217;</strong> (a place for open religious discourses).</p>
+<ul>
+<li>&#8226; He laid the foundation of Ibadatkhana in 1575 and there he introduced the system of religious conversation and debates.</li>
+<li>&#8226; Initially, these debates were confined to Islamic texts and culture, but later it was opened for different religious sects i.e. Hinduism, Jainism, Christianity, Zoroastrianism etc.</li>
+<li>&#8226; So, in one sense, nearly 300 years before the religious parliament of Chicago, Akbar successfully experimented with a religious assembly.</li>
+</ul>
+<p>Although, on the one hand, Akbar propagated the mystical ideas and religious universalism through the debates of Ibadatkhana but simultaneously, he <strong>tried to strengthen</strong> the political power and position of the <strong>throne with the help of some Islamic institutions.</strong></p>
+<ul>
+<li>&#8226; In June 1579, Akbar <strong>read the &#8216;Khutba&#8217; in his name</strong> in the Jama Mosque at Fatehpur Sikri.
+  <ul>
+  <li style="padding-left:2em">&#9702; In this way, Akbar tried to usurp the position of chief Ulema.</li>
+  </ul>
+</li>
+<li>&#8226; In September 1579, Akbar proclaimed a <strong>&#8216;Mahzarnama&#8217;</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; According to this declaration, if there was a difference among different Ulemas on any religious issue, Akbar, being <strong>&#8216;Insan-i-Kamil&#8217;</strong>, could choose any of the views. Insan-i-Kamil means the most rational person.</li>
+  </ul>
+</li>
+<li>&#8226; Not simply that, Akbar <strong>authorised himself to issue new orders</strong> in the interests of the state <strong>while neglecting all advice</strong>.</li>
+<li>&#8226; On the basis of Mahzarnama, Akbar took titles like <strong>&#8216;Imam-i-Adil&#8217;</strong> &amp; <strong>&#8216;Insan-i-Kamil&#8217;</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; So even in the matter of foreign policy, he asserted parity with the Persian Emperor and Ottoman Caliph.</li>
+  </ul>
+</li>
+</ul>
+<p>The British scholar <strong>Smith</strong> coined the term <strong>&#8216;Decree of Infallibility&#8217;</strong> for Mahzarnama.</p>
+<ul>
+<li>&#8226; He emphasised that by introducing Mahzarnama, Akbar tried to attain the status of The Prophet, but upon observation, we find that Smith was mistaken in his analysis of the Mahzarnama.</li>
+<li>&#8226; In fact, through Mahzarnama, Akbar was <strong>trying to undermine the role of the Ulemas</strong> and <strong>bring relations between Hindus and Muslims directly under his control</strong>.</li>
+<li>&#8226; But orthodox ulemas were not ready to accept the changed situation. They, in association with disgruntled nobles, revolted against the state.</li>
+</ul>
+
+<h4>Third stage (after 1579): -</h4>
+<p>Akbar was able to suppress the revolt but realised his <strong>error in using religion to fulfil his non-religious objectives.</strong> So now, Akbar tried to undermine religion in statecraft.</p>
+<ul>
+<li>&#8226; During this stage, the basis of Akbar&#8217;s religious policy was prepared by his experience of the last 20 years as well as the failure of his prior policy.</li>
+</ul>
+<p>In 1582, Akbar introduced his famous <strong>&#8216;Din-i-Ilahi&#8217;</strong>. Earlier it was known as the &#8216;Tauhid-i-Ilahi&#8217;.</p>
+<p>On observing minutely, we find that it was <strong>neither a separate sect nor a religious creed</strong>. It <strong>wasn&#8217;t ritualistic</strong> in nature. Its method was very simple and easily applicable. Akbar opened its gate for all.</p>
+<ul>
+<li>&#8226; Normally, under this, there were <strong>two stages</strong> of the spiritual development of the &#8216;Ilahia&#8217;. During the first stage, followers simply received Shasta (Allah Hu Akbar) from Akbar personally. In the second stage, the devotee submitted before him, their property, their honour, their religion and their life.</li>
+</ul>
+<p>So far as the number of followers is concerned, the <strong>number</strong> of common followers who were at the first stage of initiation wasn&#8217;t more than a thousand, while the number of those who reached up to the second stage was nearly 18 among Muslims and Birbal was the single among Hindus.</p>
+
+<h4>Do you agree with the idea of Smith that Akbar&#8217;s Din-i-Ilahi was a monument of folly?</h4>
+<p>Din-i-Ilahi of Akbar is a <strong>unique</strong> example of a religious and spiritual <strong>initiative</strong> taken by a monarch <strong>to promote religious harmony</strong> in his multi-racial, multi-lingual and multi-regional empire. The true nature of such an initiative couldn&#8217;t be perceived by Smith so he called it a folly.</p>
+<p>In fact, the <strong>mistake</strong> in his perception was guided by a number of <strong>factors</strong>.</p>
+<ul>
+<li>&#8226; First, Smith <strong>did not have the neutral source material</strong>. For example, the writings of Badauni and that of Portuguese Christian priests both were anti-Akbar in their approach for different reasons. Badauni was irritated with the rational policy of Akbar and Christian priests were irritated because Akbar didn&#8217;t accept Christianity.</li>
+<li>&#8226; Secondly, the followers of Din-i-Ilahi were very limited in number and <strong>Smith took numerical strength as the criterion</strong> for evaluation of success or failure of Din-i-Ilahi.</li>
+<li>&#8226; Thirdly, the writing of Smith reflected the <strong>common prejudice of British authors</strong> against the Mughals, who left a rich legacy against which the British had to carry out a long struggle.</li>
+</ul>
+<p><strong>In fact, Din-i-Ilahi should be evaluated from a different perspective.</strong></p>
+<ul>
+<li>&#8226; Through Din-i-Ilahi, Akbar tried to promote his <strong>political ambition</strong>. It wasn&#8217;t a different religious sect rather it was an attempt to undermine the role of religion in statecraft.</li>
+<li>&#8226; In other words, through Din-i-Ilahi, Akbar presented a <strong>code of conduct</strong> on the basis of which <strong>nobles from different classes and communities could be linked to the state</strong>. Apart from that, Akbar also tried to ensure the personal loyalty of the nobles to the institution of monarchy.</li>
+<li>&#8226; So, the success of <strong>Din-i-Ilahi can&#8217;t be evaluated on the basis of numerical strength of its followers rather on the basis of Akbar&#8217;s intention</strong> behind it.</li>
+<li>&#8226; Furthermore, the <strong>Safavid rulers of Persia also made such attempts</strong>.</li>
+</ul>
+<p>So, we can&#8217;t agree with the view of Smith that Din-i-Ilahi is a monument of folly.</p>
+
+<h2>Policy towards non-Muslims/ Rajput policy:-</h2>
+<p>Hindu nobles could have been inducted into royal service under Muslim rulers for a long time. Even marriage between Muslims and Hindus wasn&#8217;t a new thing but Akbar certainly gave a <strong>new orientation</strong> to state policy towards Rajput or Hindu nobles. In fact, he <strong>successfully assimilated</strong> this warrior class within the Mughal&#8217;s system of government.</p>
+
+<h4>Factors encouraging his Rajput policy -</h4>
+<ol>
+<li>He was inclined to break the power of Afghans in India.</li>
+<li>To break the monopoly of Mughal nobles.</li>
+<li>Akbar wanted to enter into the largest military market in India.</li>
+<li>The region of Rajasthan had economic and strategic importance and it was rich in certain minerals.</li>
+</ol>
+
+<h4>Methods of Akbar</h4>
+<ol>
+<li>Akbar employed the policy of <strong>carrot and stick</strong> to Rajput nobles.
+  <ul>
+  <li style="padding-left:2em">&#9702; Rajput states which submitted before him were restored to their rulers as <strong>&#8216;Watan Jagir&#8217;</strong>.</li>
+  <li style="padding-left:2em">&#9702; Akbar also inducted them into royal service and they were given the higher Mansabs.</li>
+  <li style="padding-left:2em">&#9702; Akbar preferred matrimonial relations as a cementing force but it wasn&#8217;t compulsory.</li>
+  </ul>
+</li>
+<li>As a policy of stick, Akbar <strong>didn&#8217;t hesitate to suppress those states which were not ready to submit</strong> before him e.g. Mewar.</li>
+</ol>
+
+<h4>Benefit for Mughals:-</h4>
+<ol>
+<li>The <strong>social base of the Mughal Empire widened</strong> as even Rajput nobles came to support the empire.</li>
+<li>As a result of the pragmatic policy of Akbar towards Rajputs, the <strong>arch-enemy of the empire was converted into powerful friends</strong> and the Rajput nobles became a pillar for Mughals and their empire.</li>
+</ol>
+
+<h4>Underline the difference in Akbar&#8217;s Rajput policy with respect to his predecessors.</h4>
+<ul>
+<li>&#8226; It is true that the <strong>policy towards non-Muslim nobles</strong> in India was not the product of a single ruler and a single time period, rather it was the product of <strong>gradual evolution</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; However, we can&#8217;t deny the fact that Akbar, by bringing a great deal of innovation in his policy, developed it as a model.</li>
+  </ul>
+</li>
+<li>&#8226; Akbar&#8217;s predecessors like Babur and Humayun and even earlier sultans used to induct Hindu nobles into royal service and some of them even maintained matrimonial relations with them.
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, Babur got his two sons married to Rajput princesses of the same family. Likewise, Shershah got his son, Islam Shah, married to the daughter of a Rajput king Maldeo.</li>
+  </ul>
+</li>
+<li>&#8226; But <strong>Akbar adopted a more effective policy</strong> towards Rajputs.</li>
+<li>&#8226; Akbar <strong>inducted those Rajput nobles into Mughal service who submitted</strong> before him and provided them a <strong>greater incentive</strong> to ensure their loyalty.
+  <ul>
+  <li style="padding-left:2em">&#9702; Their own regions were given to them as a <strong>Watan Jagir</strong>.</li>
+  </ul>
+</li>
+<li>&#8226; Likewise, <strong>while Akbar preferred matrimonial relations</strong> with the Rajputs but <strong>never made it a compulsion</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; Furthermore, once the matrimonial relation was established, Akbar maintained this relation very warmly.</li>
+  <li style="padding-left:2em">&#9702; He <strong>gave religious freedom</strong> to his Rajput wives and also permitted them to maintain deep relations with their father&#8217;s house.</li>
+  </ul>
+</li>
+<li>&#8226; In this way, Akbar brought innovation in relation with Rajput.</li>
+</ul>
+
+<h2>Contribution to social reforms: -</h2>
+<p>Akbar took interest even in social reforms. He increased the <strong>age of marriage</strong> for both boys and girls.</p>
+<p>He even <strong>tried to discourage the Sati system</strong> or at least to stop the self-immolation of those women who didn&#8217;t have any children.</p>
+
+<h2>Cultural contribution: -</h2>
+<p>He was a <strong>great patron of literature and art</strong>. His court was adorned by several scholars.</p>
+<ul>
+<li>&#8226; He encouraged not simply Persian literature but also Indian literature.</li>
+<li>&#8226; He established a translation department which translated a number of Sanskrit texts into Persian.</li>
+<li>&#8226; He also encouraged Indian elements in architecture, painting and music.</li>
+</ul>
+
+<h2>Q. Evaluate the achievements of Akbar as a national ruler.</h2>
+<p>Akbar can be given the credit for being a national ruler on the ground that he created an <strong>all India model</strong>.</p>
+<ul>
+<li>&#8226; Creation of an <strong>all India empire</strong></li>
+<li>&#8226; Tried to develop a <strong>uniform model of government</strong> from central to local administration</li>
+<li>&#8226; He developed a <strong>theory of kingship</strong> as well as a <strong>liberal religious policy</strong> which suited the environment and character of Hindustan which was multilingual, multicultural and multi-communal.</li>
+<li>&#8226; He promoted a <strong>composite culture</strong>.</li>
+</ul>
+<p>But while using the term national we must be conscious of some details.</p>
+<ul>
+<li>&#8226; <strong>A nation requires good integration between the state and the society</strong>. Therefore, during the period of Akbar, the term &#8216;nation&#8217; appears to be far ahead of his time.</li>
+<li>&#8226; Furthermore, whatever <strong>unity</strong> Akbar obtained within his empire, was <strong>on the level of nobles</strong> not on the level of common people. So, the word &#8216;national&#8217; should be used with some reservations.</li>
+</ul>`,
+  'mughal-empire-17th-century': `<h2>Jahangir (1605 - 1627)</h2>
+
+<h3>Rajput policy: -</h3>
+<ul>
+<li>&#8226; His Rajput policy reflected more <strong>continuity</strong> than change.</li>
+<li>&#8226; He maintained good relations with Rajputs. He continued to induct them into royal service and even continued matrimonial relations.</li>
+<li>&#8226; However, he <strong>favoured the Bundela Rajputs over the Kachhwahas</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; In one way, it was justified because the over-importance of the Kachhawa family was creating friction in the relationship with other Rajput families.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Religious policy: -</h3>
+<ul>
+<li>&#8226; Jahangir, as a whole, <strong>maintained the liberal religious policy</strong> of Akbar.</li>
+<li>&#8226; Even after Akbar, he <strong>continued to promote Din-i-Ilahi</strong> by giving Shasta.</li>
+<li>&#8226; Likewise, he also gave a large <strong>donation to Bir Singh Bundela</strong> for building Hindu temples at Mathura, Vrindavan and Banaras.</li>
+<li>&#8226; He even <strong>permitted his grandson to adopt Christianity</strong>.</li>
+<li>&#8226; But certain steps taken by him put a <strong>question mark</strong> on his liberal policy.
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, he tortured Guru Arjandeva to death.</li>
+  <li style="padding-left:2em">&#9702; On one occasion he demolished the Boar statue at Pushkar.</li>
+  <li style="padding-left:2em">&#9702; Likewise, he banished Digambar saints from Gujarat.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Deccani policy:-</h3>
+<p>It was <strong>Akbar</strong> who first set foot in the Deccan, snatched <strong>Berar and Balaghat</strong>, and then annexed <strong>Khandesh</strong>.</p>
+<ul>
+<li>&#8226; <strong>Jahangir did not have any specific ambition in the Deccan</strong>, rather he simply wanted to maintain control over the regions conquered by Akbar.</li>
+<li>&#8226; In the meantime, <strong>Malik Amber</strong>, emerged as the prime minister of Ahmadnagar.
+  <ul>
+  <li style="padding-left:2em">&#9702; With the combined power of Ahmednagar, Bijapur and Golconda, he <strong>expelled the Mughal Subedar, Abdul Rahim Khan-i-Khanan</strong>, from the Deccan.</li>
+  </ul>
+</li>
+<li>&#8226; Then Jahangir <strong>sent Khurram to suppress the revolt</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; He <strong>restored the Mughal power</strong> by defeating the combined forces of Ahmednagar, Bijapur and Golconda.</li>
+  <li style="padding-left:2em">&#9702; Jahangir awarded him the title of <strong>&#8216;Shah Jahan&#8217;</strong> to commemorate this victory.</li>
+  <li style="padding-left:2em">&#9702; But even now, <strong>Jahangir did not claim more territory</strong> from the defeated powers.</li>
+  </ul>
+</li>
+<li>&#8226; It amply shows that Jahangir wasn&#8217;t having any further territorial ambition in the Deccan.</li>
+</ul>
+
+<h2>Shahjahan (1628 - 1658)</h2>
+
+<h3>Rajput policy:-</h3>
+<p>We can underline a slight change in the Rajput policy of Shahjahan.</p>
+<ul>
+<li>&#8226; Although he <strong>continued to employ Rajput nobles</strong> into Mughal service, he <strong>discouraged matrimonial relations</strong> with them.</li>
+</ul>
+
+<h3>Religious policy:-</h3>
+<p>Even in his religious policy, Shahjahan seemed to have <strong>made a departure</strong> from the liberal outlook of Akbar and Jahangir.</p>
+<ul>
+<li>&#8226; He showed a sense of <strong>religious orthodoxy and promoted Islam.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; He <strong>nullified the marriages of Muslim girls to Hindu men</strong> in Kashmir and decreed that they would remain void, till they were performed again with Islamic customs.</li>
+  <li style="padding-left:2em">&#9702; Some instances of <strong>temple demolition</strong> also took place at Orchha.</li>
+  <li style="padding-left:2em">&#9702; He also <strong>tried to revive the pilgrimage tax</strong> but after the advice of Kavindracharya (saint of Mathura), he withdrew the change.</li>
+  </ul>
+</li>
+<li>&#8226; However, he <strong>displayed religious liberalism during the later phase</strong> of life, probably under the influence of Dara Shikoh and Jahanara Begum.</li>
+</ul>
+
+<h3>Deccan policy: -</h3>
+<p>Shortly after the enthronement of Shahjahan, <strong>Khan-i-Jahan Lodhi</strong>, the governor of the Deccan revolted with the help of <strong>Murtaza Nizam Shah, the ruler of Ahmadnagar</strong>.</p>
+<p>Thus, <strong>Shahjahan decided to annihilate Ahmednagar completely</strong>. He believed that this was the only solution for the Deccani problem.</p>
+<ul>
+<li>&#8226; The rebellion was crushed, and in <strong>1633, Ahmednagar was annexed.</strong></li>
+<li>&#8226; But soon after this, he made a very <strong>strong diplomatic gesture towards Bijapur and Golconda</strong> because he knew that their support was necessary to give legitimacy to the Mughal conquest of Ahmednagar.</li>
+<li>&#8226; In <strong>1636, a historical agreement was signed.</strong> It&#8217;s important provisions were-
+  <ul>
+  <li style="padding-left:2em">&#9702; Bijapur was given one-third of the territory of Ahmednagar in return for a payment of 80 Lakh Rupees.</li>
+  <li style="padding-left:2em">&#9702; Bijapur and Golconda were given the right to expand in the south at the cost of Nayakas and whatever region they conquered, would be divided 2:1 i.e. two parts to Bijapur and one part to Golkonda.</li>
+  </ul>
+</li>
+<li>&#8226; But in 1656, Shahjahan reversed his prior commitments.</li>
+</ul>
+<p>Subsequent events proved that the reversal of the treaty by the Mughal Emperor would result in the Deccan crisis.</p>
+
+<h2>Aurangzeb (1658-1707)</h2>
+<p>In the evaluation of Aurangzeb, one can find different approaches to historiography &#8211;</p>
+<ol>
+<li>Traditional approach</li>
+<li>Marxist/ New approach</li>
+</ol>
+
+<h4>Traditional approach:-</h4>
+<ul>
+<li>&#8226; Scholars like <strong>Sir Jadunath Sarkar, S.R. Sharma</strong> and others belong to this school.</li>
+<li>&#8226; According to this approach, Aurangzeb was presented as an <strong>antithesis to Akbar</strong>. It was his <strong>orthodox religious policy and prejudiced Rajput policy</strong> which became instrumental in the <strong>decline</strong> of the Mughal Empire.
+  <ul>
+  <li style="padding-left:2em">&#9702; About his religious policy, it has been emphasised that Aurangzeb <strong>tried to rule in strict adherence with Sharia law from the very beginning</strong> and that there was <strong>no change in his policy throughout his career.</strong></li>
+  <li style="padding-left:2em">&#9702; Likewise, his <strong>Rajput policy was projected as part of his anti-Hindu agenda</strong> and it was emphasised that this <strong>proved very costly</strong> for the empire.</li>
+  </ul>
+</li>
+</ul>
+
+<h4>Marxist/ New approach:-</h4>
+<ul>
+<li>&#8226; After the 1950s, a new trend in historiography emerged. According to this new historiography, <strong>the role of an individual shouldn&#8217;t be over-emphasised</strong> as a factor of change rather it should be evaluated in the context of the objective material factors.</li>
+<li>&#8226; So now they emphasised on the <strong>objectives behind and the impacts of the religious, Rajput and Deccan policies of Aurangzeb.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; In this way, the new historiography created the background for the re-evaluation of the religious policy, Rajput policy as well as Deccan policy of Aurangzeb.</li>
+  </ul>
+</li>
+</ul>
+
+<h2>Religious Policy of Aurangzeb</h2>
+
+<h4>Stage One (before 1679): -</h4>
+<ol>
+<li>It is true, in his personal conviction, Aurangzeb was an <strong>orthodox Sunni Muslim</strong>, but it is equally true that his policy and programmes were guided not only by his orthodox mind but also by the <strong>circumstances</strong> of which he was a product.
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, in one sense, the basis of his orthodox religious policy was prepared in the course of his <strong>war of succession</strong> itself.
+    <ul>
+    <li style="padding-left:4em">&#9632; During the war of succession with Dara Shukoh, he gave the <strong>slogan &#8216;Islam vs Heretics&#8217;</strong> i.e. Aurangzeb vs Dara Shukoh. Thus, he raised the expectations of ulemas and orthodox Muslims, winning their support. It was natural for him to appease these sections.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; But <strong>initially, he tried to appease orthodox Muslims and ulemas without antagonising Hindus.</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; So, he started a <strong>purification programme</strong> within Islam and <strong>banned all intoxicants, striking off Kalima from coins, banning the Tika ceremony and Tuladan etc.</strong></li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>Then he <strong>took some measures which could be perceived as harsh</strong> but for every such measure, <strong>individual factors</strong> could be identified.
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, he <strong>banned history-writing as well as music</strong>. According to Marxist historians, this was an <strong>economic measure</strong>, with the objective of shedding off some burden on the treasury.</li>
+  <li style="padding-left:2em">&#9702; He <strong>dismissed the Hindu officers</strong> from the post of Karori for sometime. This step was guided by the objective <strong>to promote employment among the Muslim youth</strong>.</li>
+  <li style="padding-left:2em">&#9702; He <strong>ordered the governor of Banares and Thatta to demolish some temples</strong>. But this also, was a reaction against <strong>rebellions</strong> in these regions.</li>
+  </ul>
+</li>
+</ol>
+
+<h4>Stage Two (1679-1687): -</h4>
+<p>The second stage in his policy started in 1679 when he <strong>revived the Jizya</strong>.</p>
+<ul>
+<li>&#8226; On the basis of observations made by <strong>Manucci</strong>, some modern scholars had tried to establish that the imposition of Jizya was the result of the <strong>economic compulsions</strong> of Aurangzeb.
+  <ul>
+  <li style="padding-left:2em">&#9702; But this view is not convincing because the amount collected as Jizya was <strong>spent for the promotion of Islam at the discretion of the ulemas</strong>. So, there was no question of its replenishing the royal treasury.</li>
+  </ul>
+</li>
+<li>&#8226; During the second half of his rule, Aurangzeb <strong>became entangled in Deccani issues</strong>. According to Shariyat, the <strong>bloodshed of Muslim brethren was prohibited</strong>. On this pretext, <strong>some important ulemas refused to issue Fatwa against Deccani states</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; He needed a way to win their support. It was in this context that Jizya was revived.</li>
+  </ul>
+</li>
+<li>&#8226; The decision to re-impose the Jizya was also motivated by another factor.
+  <ul>
+  <li style="padding-left:2em">&#9702; By this period, a <strong>number of revolts</strong> against the Mughals had been organised at the local level, such as the Jat revolt, Rajput revolt, Satnami revolt, etc. <strong>by the Hindu community.</strong></li>
+  </ul>
+</li>
+</ul>
+
+<h4>Stage three (1687-1707):-</h4>
+<p>Once again we can underline a shift in his policy towards non-Muslims after <strong>1687 after he conquered the state of Bijapur and Golconda.</strong></p>
+<ul>
+<li>&#8226; Bhim Sen, a scholar who accompanied Aurangzeb to the Deccan, informs us that after conquering Bijapur and Golconda, Aurangzeb <strong>didn&#8217;t demolish any temples.</strong></li>
+<li>&#8226; He also <strong>abolished Jizya in the Deccan in 1704.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Although the <strong>pretext</strong> behind this was <strong>recurring famine</strong>, the actual reason was that Aurangzeb needed the support of Hindu Nayakas against the Marathas.</li>
+  </ul>
+</li>
+</ul>
+<p>So, there is no reason to accept that neither age nor experience brought any change in the religious policy of Aurangzeb.</p>
+
+<h2>Rajput Policy</h2>
+<ul>
+<li>&#8226; In 1679, after the <strong>demise of Jaswant Singh, the ruler of Jodhpur</strong>, the question of <strong>succession</strong> appeared.</li>
+<li>&#8226; The <strong>intervention of Aurangzeb</strong> in this matter resulted in an open conflict between the Mughal Empire and the Rathods of Jodhpur under Durga Das. Later even Sisodias of Mewar joined the Rathods in this fight.</li>
+</ul>
+<p><strong>Traditionally,</strong> about the Rajput policy of Aurangzeb, there are <strong>two general perceptions-</strong></p>
+<ul>
+<li>&#8226; I. Aurangzeb <strong>reversed</strong> the Rajput policy of his predecessors.</li>
+<li>&#8226; II. The reversal of Rajput policy by him <strong>resulted in the disintegration</strong> of the empire.</li>
+</ul>
+<p>But the view mentioned above isn&#8217;t convincing on following grounds-</p>
+<p><strong>Firstly, Aurangzeb didn&#8217;t reverse</strong> the Rajput policy of Akbar. We have sufficient reasons to prove it.</p>
+<ul>
+<li>&#8226; Aurangzeb <strong>continued to induct Rajputs in royal service</strong>. Not simply that, under Aurangzeb, <strong>high Zat and Sawar ranks</strong> were enjoyed by two Rajput nobles i.e. Raja Jai Singh and Jaswant Singh.</li>
+<li>&#8226; Further, since the time of Jahangir, after recalling Man Singh from Bengal, no Rajput Mansabdar had been given the <strong>post of Subedar</strong>. It was Aurangzeb who appointed Jai Singh and Jaswant Singh to that post. So, the idea of reversal of Rajput policy doesn&#8217;t appear to be convincing.</li>
+</ul>
+<p>Secondly, even the <strong>impact</strong> of the conflict between Aurangzeb and Rajput states shouldn&#8217;t be <strong>overestimated</strong>.</p>
+<ul>
+<li>&#8226; Even after Aurangzeb lost the support of the Rathods and Sisodiyas, he <strong>continued to enjoy the support of Ranthambhore, Amber, Bundi, and Kota</strong> states.</li>
+<li>&#8226; Apart from that, when Jagat Singh, the successor of Rana Raj Singh of Mewar, withdrew himself from this conflict then the scope of this conflict remained much limited.</li>
+</ul>
+
+<h2>Deccani policy of Aurangzeb</h2>
+<p><strong>Traditionally</strong>, the Deccan policy of Aurangzeb was evaluated by <strong>Sir Jadunath Sarkar</strong>. Aurangzeb&#8217;s Deccan policy was treated as if <strong>unrestricted expansion was simply a matter of choice for him.</strong></p>
+<ul>
+<li>&#8226; He tried to prove that <strong>Aurangzeb&#8217;s empire collapsed under its own weight</strong>.</li>
+<li>&#8226; Aurangzeb was compared to a <strong>python that swallowed more than it could digest</strong>.</li>
+<li>&#8226; He declared further that as <strong>Spanish Ulcer</strong> ruined Napoleon so Deccani Ulcer ruined Aurangzeb.</li>
+</ul>
+<p>But after deep observation, we find that <strong>territorial expansion was not only a matter of choice, rather it was a matter of material compulsion</strong> for almost all Mughal rulers, not only for Aurangzeb.</p>
+<ul>
+<li>&#8226; For example, if <strong>Akbar</strong> brought the region of <strong>Berar, Balaghat and Khandesh</strong> under his control, it was not simply to fulfil his imperialistic desire but also to control the <strong>trade of Gujarat and Malwa</strong>.</li>
+<li>&#8226; Likewise, in <strong>1656, when Shah Jahan reversed the treaty of 1636</strong>, setting the stage for Southward expansion by Aurangzeb, one of the reasons behind it was to have <strong>effective control over the trade of the Coromandel coast</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; In fact, <strong>in the second half of the 17th century, the mercantile traffic on the Coromandel coast was almost 4 times larger than that on Gujarat coast.</strong> Aurangzeb&#8217;s Deccan policy should be viewed in this context as well.</li>
+  </ul>
+</li>
+<li>&#8226; In this way, Aurangzeb&#8217;s Deccan policy was a <strong>proper mix between imperialistic design and material compulsion.</strong></li>
+<li>&#8226; But it is also true that, through <strong>several personal mistakes</strong>, he brought the situation from bad to worse in Deccan.
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, he <strong>failed to perceive the popular character of the Maratha movement</strong> and the <strong>brutal execution of Sambhaji proved to be unwise</strong>.</li>
+  </ul>
+</li>
+</ul>
+
+<h4>Critically examine the impact of Deccani policy: -</h4>
+<p><strong>Negatives: -</strong></p>
+<ol>
+<li>Aurangzeb remained wholly involved in the Deccan imbroglio for 25 long years, so <strong>overall administration slackened.</strong></li>
+<li>Due to his involvement in Deccan, he continued to appoint Mansabdars on a massive scale from among the Deccani nobles. So it <strong>intensified the demand for more and more Jagirs.</strong></li>
+<li>When the <strong>Mansabdari system was extended towards the infertile regions of Deccan, the crisis intensified further.</strong></li>
+</ol>
+<p><strong>Positives: -</strong></p>
+<p>The Deccan expedition of the Mughals, don&#8217;t present simply a story of all-round failure, rather they produced some positive results as well.</p>
+<ol>
+<li>As a result of Mughal influence, the <strong>Zabti system</strong> was extended to the Deccan region as well.</li>
+<li>As the Mughal empire declined, there appeared some <strong>regional states</strong> like the Marathas, Hyderabad and Mysore, which provided efficient government in the Deccan.</li>
+<li>Before the Mughal conquest of the Deccan, gold was the main currency in South India, while in North India silver currency was dominant. But after the advent of Mughals, <strong>monetary unification</strong> became possible, as silver currency was introduced as the main currency in South India as well.</li>
+</ol>
+
+<h2>Revolts against Aurangzeb:&#8211;</h2>
+<p>A series of revolts in the 1670s onward occurred, some important revolts were -</p>
+<ol>
+<li><strong>Jat Revolt:-</strong> In 1669, under Gokul Jat and in 1685 under Raja Ram Jat. Both were the Zamindars of Mathura.</li>
+<li><strong>Satnami Revolt:-</strong> Satnamis were the followers of St. Kabir and the majority of them were cultivators belonging to the lower castes. In 1672, they revolted against the state.</li>
+<li><strong>Afghan revolt:-</strong> Afghans consisted of different tribes, and from time to time one or other tribe revolted. Earlier this revolt took place under Bhagu. Then in 1672, once again there was a rise of Afghans under Akmal Khan.</li>
+<li><strong>Rajput Revolt:-</strong> Rathods of Jodhpur revolted under the leadership of Durga Das in 1679, later joined by Rana Raj Singh of Mewar.</li>
+<li><strong>Maratha Revolt:-</strong> Throughout his life, Aurangzeb faced the challenge of Marathas.</li>
+</ol>
+
+<h4>Nature of these revolts:-</h4>
+<p>About the nature and character of such revolts, there emerged much <strong>controversy</strong>.</p>
+<p>Some of the scholars tried to project them as a <strong>reaction against the religious orthodoxy of Aurangzeb</strong>. They point out that except the Afghan revolt, all other revolts are associated with the Hindus.</p>
+<p><strong>But such a view doesn&#8217;t appear to be convincing</strong>. The basic causes behind these revolts were <strong>political and economic</strong>. It is a different matter that they were organised within the framework of religion.</p>
+<ul>
+<li>&#8226; The fact that the <strong>whole of the Mughal administration, even under Aurangzeb, was running mostly on the pillar of Hindu officers</strong>, cannot be ignored.</li>
+<li>&#8226; <strong>Rajput Mansabdars</strong> enjoyed the highest position under the empire.</li>
+</ul>
+<p>After closer examination, we come to realise that <strong>for every such revolt, an individual reason was accountable.</strong></p>
+<ul>
+<li>&#8226; For example, in the case of <strong>Jat, Satnami, Sikh and Maratha revolts, agrarian discontent</strong> was a major factor.</li>
+<li>&#8226; On the other hand, <strong>Afghans</strong> appear to have been guided by a <strong>strong sense of tribal independence.</strong></li>
+<li>&#8226; While in <strong>Rajputs&#8217;</strong> case, the revolt was the reaction against the <strong>intervention of the Mughal Empire into the matter of succession.</strong></li>
+</ul>
+
+<h2>Q. Do you take the Mughal Empire as a centralised state?</h2>
+<ul>
+<li>&#8226; Some historians such as <strong>Irfan Habib, Athar Ali</strong> etc. hold that Mughal administrative structure was <strong>highly centralised</strong>. This centralization is manifested in the efficient working of land revenue system, mansab and jagir, uniform coinage, etc.</li>
+<li>&#8226; But <strong>Stephen P. Blake and J.F. Richards</strong>, while they accept the centralising tendencies, point out that the Mughal Empire was <strong>&#8216;patrimonial bureaucratic&#8217;</strong>. For them, everything seemed centred around the imperial household and the vast bureaucracy.</li>
+<li>&#8226; For <strong>Streusand</strong>, despite being centralised near the core areas, the Mughal structure was <strong>less centralised at its periphery.</strong></li>
+<li>&#8226; <strong>Chetan Singh supports this view</strong>. He is of the opinion that even in the 17th century the Mughal Empire was not very centralised.
+  <ul>
+  <li style="padding-left:2em">&#9702; For him, the <strong>centralised structure controlled through the efficient working of the jagirdari system seems to hold little ground.</strong></li>
+  <li style="padding-left:2em">&#9702; According to him, <strong>jagir transfers were not as frequent as they appear</strong>, and the local elements at the periphery were quite successful in influencing the policies at the centre.</li>
+  </ul>
+</li>
+</ul>
+
+<h4>Conclusion-</h4>
+<ul>
+<li>&#8226; The extent to which the Mughal Empire was centralised in practice can be a matter of debate.</li>
+<li>&#8226; However, <strong>theoretically the Mughal administrative structure seems to be highly centralised and bureaucratic in nature.</strong></li>
+<li>&#8226; The <strong>Emperor was the fountainhead of all powers</strong>, and bureaucracy was mere &#8216;bandai dargah&#8217; (slaves of the court).</li>
+<li>&#8226; In spite of the vast range of powers enjoyed by the central ministers, they were <strong>not allowed to usurp and interfere in each others&#8217; jurisdiction</strong> nor to assume autocratic powers.</li>
+<li>&#8226; The Mughals through a system of <strong>checks and balances</strong> prevented any minister or officer from gaining unlimited powers.</li>
+<li>&#8226; Administration under Mughal was constituted on the basis of <strong>two principles:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>administrative uniformity, and</strong></li>
+  <li style="padding-left:2em">&#9702; <strong>check and balance.</strong></li>
+  </ul>
+</li>
+<li>&#8226; In central administration, there were four important officers i.e. <strong>Diwan-i-Ala, Mir Bakshi, Mir-i-Saman, and Sadr-us-Sudr.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Diwan-i-Ala</strong> was responsible for the assessment and collection of revenue and maintained the accounts of income and expenditure.
+    <ul>
+    <li style="padding-left:4em">&#9632; In order to maintain a check on the department, Akbar appointed an officer of <strong>humble origin</strong>.</li>
+    <li style="padding-left:4em">&#9632; Sometimes he even appointed <strong>half a dozen Diwans</strong> in order to maintain check and balance within the department.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Mir Bakshi</strong> used to enjoy all the powers pertaining to the military department.
+    <ul>
+    <li style="padding-left:4em">&#9632; However, the <strong>supreme command</strong> of the army remained in the hands of the <strong>Emperor</strong>.</li>
+    <li style="padding-left:4em">&#9632; Further, while Mir Bakshi used to recommend the candidates for the post of Mansabdars, a <strong>Mansabdar could be appointed only by the Emperor himself</strong>, after an interview.</li>
+    <li style="padding-left:4em">&#9632; <strong>Mir Bakshi also used to recommend the salary</strong>, but the <strong>salary was released by the Diwan-i-Ala.</strong></li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Mir-i-Saman</strong>, was responsible for the supply of all the essential commodities to the royal palace. Royal Karkhanas were also under his supervision.
+    <ul>
+    <li style="padding-left:4em">&#9632; In order to maintain the proper checks over the department, its <strong>annual accounts were scrutinised by the department of Diwan.</strong></li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; Lastly, the <strong>Sadr-us-Sudr</strong> was responsible for religious endowments. This department used to distribute land grants (Waqf) and Wazifa (cash).
+    <ul>
+    <li style="padding-left:4em">&#9632; Effective checks were maintained by <strong>having the accounts scrutinised by the Diwan.</strong></li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>Provincial administration was supposed to be a replica of the central administration.</strong> The standard provincial administration was introduced for the first time by Akbar.
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Subedar/Nazim</strong> was appointed as the head of administration. Apart from him, provincial <strong>Diwan</strong>, provincial <strong>Bakshi</strong> and provincial <strong>Qazi</strong> were associated with the provincial administration.</li>
+  </ul>
+</li>
+<li>&#8226; In order to maintain a proper <strong>check and balance</strong> even in provincial administration, some steps were taken.
+  <ul>
+  <li style="padding-left:2em">&#9702; The Subedar was officially the head of administration, but sometimes an <strong>officer with higher Mansabdar rank was appointed as Diwan.</strong></li>
+  <li style="padding-left:2em">&#9702; Likewise, the provincial <strong>Bakshi was given the responsibility of espionage</strong>. He was authorised to pass sensitive information directly to the centre, bypassing the Subedar.</li>
+  </ul>
+</li>
+<li>&#8226; At the level of <strong>Sarkar</strong>, an officer <strong>Faujdar</strong>, was appointed for the supervision of the whole administration.
+  <ul>
+  <li style="padding-left:2em">&#9702; Sometimes <strong>more than one Faujdar</strong> was appointed in the same Sarkar.</li>
+  </ul>
+</li>
+</ul>
+
+<h2>Agrarian structure under Mughals</h2>
+<p>When we observe rural structure under Mughals, we find a clear cut division and hierarchy among the peasantry.</p>
+<ul>
+<li>&#8226; The higher peasants who owned and cultivated their <strong>own land</strong> were termed <strong>&#8216;Khud Kasht&#8217;</strong> in North India, <strong>&#8216;Mirasdar&#8217;</strong> in Maharashtra, <strong>&#8216;Gharhul&#8217;</strong> in Rajasthan.</li>
+<li>&#8226; There were also <strong>lower peasants</strong> who did not have land and they worked as <strong>sharecroppers</strong> on other&#8217;s fields. They were termed as <strong>&#8216;Pahikast&#8217;</strong> in north India.</li>
+<li>&#8226; Beneath the Pahikast, there was another level of the peasants who were known as <strong>&#8216;Mujarian&#8217;</strong>. They were just <strong>marginal farmers</strong> as they were having a small tract of land. So, they worked on others&#8217; fields as <strong>agricultural labour</strong> also.</li>
+<li>&#8226; Other than Mujarian there was a large band of agricultural labour who worked as the <strong>wage labour</strong> in the agricultural field.</li>
+<li>&#8226; Above peasantry, there was a hierarchy of <strong>landlords</strong> (middle men) who were associated with the collection of revenue.
+  <ul>
+  <li style="padding-left:2em">&#9702; Under the Delhi Sultanate different names were given to the Zamindars in different regions. For example, <strong>Khut</strong> and <strong>Muqaddam</strong> in north India, <strong>Satrahavi and Viswi</strong> in Awadh and <strong>Banth</strong> in Rajasthan.</li>
+  </ul>
+</li>
+<li>&#8226; But during the Mughal period they were known by a single name, <strong>Zamindar</strong>.</li>
+<li>&#8226; According to Sir Jadunath Sarkar, the category of Zamindars were
+  <ol>
+  <li>Primary Zamindars</li>
+  <li>Secondary Zamindars</li>
+  <li>Autonomous Zamindars/ Rajas / {Highest Status}</li>
+  </ol>
+</li>
+<li>&#8226; Primary Zamindars, apart from being the collector of revenue, were themselves cultivators as well while the secondary Zamindars and Rajas were associated only with collection of revenue.</li>
+</ul>
+
+<h4>How did the Mughal state influence rural structure?</h4>
+<ul>
+<li>&#8226; The Mughal Empire was in search of more and more resources so, in comparison to other regimes, it tried <strong>to penetrate the countryside more actively and efficiently.</strong></li>
+<li>&#8226; Increasing the movement of officers in rural areas, measurement of land, and then determining land revenue accordingly <strong>ended the seclusion of villages</strong>.</li>
+<li>&#8226; Towards Zamindars, Akbar had a very specific policy.
+  <ul>
+  <li style="padding-left:2em">&#9702; The <strong>autonomous Hindu kings were encouraged to join the Mughal Mansabdari.</strong></li>
+  <li style="padding-left:2em">&#9702; On the other hand, his policy towards smaller Zamindars was different. In fact, his emphasis was to <strong>convert more and more Khidmati Zamindars into Kharaj giving Zamindars.</strong></li>
+  </ul>
+</li>
+<li>&#8226; Mughal <strong>state encouraged the collection of revenue in cash</strong>. It encouraged the production of cash crops in the rural areas. Thus it created <strong>further differentiation</strong> among the peasantry.</li>
+<li>&#8226; <strong>Crafts production was encouraged</strong> during this period as there was the expansion of internal and external trade.
+  <ul>
+  <li style="padding-left:2em">&#9702; Due to the heavy demand of craft production, merchants even involved village handicrafts into the production of merchandise goods.</li>
+  <li style="padding-left:2em">&#9702; It gave a <strong>jolt</strong> to the self-sufficient nature of village economy, popularly known as <strong>Jajmani System</strong>.</li>
+  </ul>
+</li>
+</ul>
+
+<h2>Agrarian Economy</h2>
+<ul>
+<li>&#8226; Under the Mughal empire, agrarian production was in good condition. India was among selected countries in the world where the <strong>larger part of cultivable land was available.</strong></li>
+<li>&#8226; Furthermore, due to a wide range of climatic conditions as well as the availability of the different quality of soil, there was a <strong>scope for different crops</strong>. Abul Fazl in his Ain-e-Akbari presented a long list of crops.</li>
+<li>&#8226; During the Mughal period, the cash crops of <strong>Opium, Indigo, Cotton and Sugarcane</strong> were important items. Then in the beginning of the 17th century, the Portuguese introduced <strong>Tobacco</strong> in India. By the end of the 17th century, its production expanded.</li>
+<li>&#8226; It was in the 17th century itself that even <strong>maize</strong> was introduced in India.</li>
+<li>&#8226; Even the production of <strong>coffee</strong> started in India. Likewise, <strong>silk</strong> production was an important item in Bengal, Assam, Kashmir, and western India. Bengal was definitely the main centre of production where the production started from the 15th century onwards.</li>
+<li>&#8226; By the 18th century, even some new cash crops like <strong>red chilli and potatoes</strong> were introduced. Apart from that, <strong>several fruits</strong> were also introduced e.g. pineapple, cashew nut, papaya.</li>
+<li>&#8226; At that time, <strong>for irrigation different methods</strong> were in use e.g. Sakia (Persian wheel) was already in use, drawing water from wells i.e. lever system. Furthermore, for irrigation, even canals were built. The state used to give <strong>economic assistance to the peasantry for digging wells.</strong></li>
+<li>&#8226; Furthermore, the <strong>state was interested in developing barren land</strong> through the <strong>resettlement</strong> of the peasantry in that region.</li>
+</ul>
+
+<h2>Decline of Mughal Empire</h2>
+<p>The Mughal Empire remained unparalleled in its geographical reach, political stature and grandeur during the medieval period. So naturally, its decline <strong>attracted a large number of scholars</strong> who tried to interpret its decline in their own respective manner.</p>
+<ul>
+<li>&#8226; Some earlier scholars like <strong>Irwin and Jadunath Sarkar</strong> tried to explain the decline in the context of the <strong>role of personality</strong> i.e. <strong>Aurangzeb&#8217;s orthodox policy</strong> and reactions against it.</li>
+<li>&#8226; While some scholars focused on the <strong>incompetency of later Mughal rulers</strong>, <strong>irresponsible and characterless Mughal aristocracy</strong> as the factor behind the decline of the Mughal Empire. But in course of time, such views lost their lustre.</li>
+</ul>
+<p>From 1950 onwards, the debate about the decline of the Mughal Empire came to hover around <strong>institutional factors</strong>. Normally the <strong>Aligarh School</strong> of Historiography had talked in terms of <strong>crisis</strong> for the decline of the Mughal Empire.</p>
+<ul>
+<li>&#8226; It was in this context, <strong>Satish Chandra and Irfan Habib</strong> presented the theory of <strong>Jagirdari crisis and Agrarian crisis respectively.</strong></li>
+<li>&#8226; Then Professor <strong>Noorul Hasan</strong> focussed upon <strong>zamindars</strong> under Mughals.</li>
+<li>&#8226; Even <strong>Athar Ali</strong> made a study of <strong>Jagirdari system</strong> under Mughals.</li>
+</ul>
+<p><strong>Later</strong> in the 1970s, some scholars like <strong>M.N. Pearson, P. Hardy and J.F. Frederick</strong>, etc. gave a partial challenge to the view of Aligarh scholars and they started to talk in terms of <strong>Mughal involvement in Deccan</strong> as the important factor behind the decline.</p>
+<ul>
+<li>&#8226; But even these scholars <strong>couldn&#8217;t modify the view of the crisis</strong> and the whole process of decline continued to be discussed in the terms of the crisis itself.</li>
+</ul>
+<p>Recently, in the study of the decline of the Mughal Empire, there has been a rise of <strong>revisionist historiography</strong>. It tried to give a serious challenge to the view of crisis. Rather it started to talk about <strong>economic prosperity at the regional level</strong>.</p>
+<ul>
+<li>&#8226; For that, a <strong>region-centric view</strong> was adopted in the study of the decline of the Mughal Empire.</li>
+<li>&#8226; <strong>Muzaffar Alam, Chetan Singh, Karen Leonard, Sanjay Subrahmanyan</strong>, etc. adopted a new paradigm for the study of decline of the Mughal Empire. Now it has been emphasised that during the early 18th century there was the <strong>rise of certain prosperous economic regions like Bareilly, Awadh, Bengal, etc.</strong></li>
+<li>&#8226; <strong>Two factors</strong> contributed to economic prosperity at regional level.
+  <ul>
+  <li style="padding-left:2em">&#9702; One was the <strong>influx of silver</strong> due to European trade and</li>
+  <li style="padding-left:2em">&#9702; The second was the <strong>production of cash crops</strong>.</li>
+  </ul>
+</li>
+<li>&#8226; According to this school, different regions always felt the <strong>pressure from the Mughal Empire</strong> and were <strong>compelled to submit a major part of the surplus</strong> to the centre.
+  <ul>
+  <li style="padding-left:2em">&#9702; Consequently, the empire started to collapse and provincial states like Bengal, Awadh, Hyderabad, etc. came into existence.</li>
+  </ul>
+</li>
+</ul>
+<p>When we take all the views mentioned above into consideration, we find that it will be <strong>too simplistic to rely on any single view.</strong></p>
+<ul>
+<li>&#8226; The Mughal Empire was one of the largest empires to have existed in Indian history. Likewise, it had to face a <strong>number of internal as well as external challenges</strong>. Therefore, its decline might have been caused by a <strong>complex process</strong>, not by a single factor.</li>
+<li>&#8226; <strong>In some regions, the disruption in Jagirdari and agrarian system</strong> might be the cause and <strong>in some other regions, the economic prosperity</strong> might have encouraged separation and <strong>once the process of the dismemberment started, incompetent rulers could have intensified the process</strong> by adopting faulty policies.</li>
+<li>&#8226; Simultaneously, <strong>foreign invasions</strong> also added fuel to the fire.</li>
+</ul>`,
   'economy-society-16-17c': ``,
   'mughal-culture': ``,
   'eighteenth-century': ``,
