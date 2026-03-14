@@ -1,9 +1,9 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
-export default function GoogleCallback() {
+function CallbackHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -13,21 +13,20 @@ export default function GoogleCallback() {
       if (session) {
         router.replace(next);
       } else {
-        // Exchange code for session (PKCE handles this automatically)
         supabase.auth.exchangeCodeForSession(window.location.href).then(({ error }) => {
-          if (error) {
-            router.replace('/auth/error');
-          } else {
-            router.replace(next);
-          }
+          router.replace(error ? '/auth/error' : next);
         });
       }
     });
   }, [router, searchParams]);
 
+  return <p style={{ padding: 40, textAlign: 'center', color: 'var(--text1)' }}>Signing you in…</p>;
+}
+
+export default function GoogleCallback() {
   return (
-    <div style={{ padding: 40, textAlign: 'center', color: 'var(--text1)' }}>
-      <p>Signing you in…</p>
-    </div>
+    <Suspense fallback={<p style={{ padding: 40, textAlign: 'center' }}>Loading…</p>}>
+      <CallbackHandler />
+    </Suspense>
   );
 }
