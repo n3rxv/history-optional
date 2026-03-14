@@ -42,3 +42,5 @@ next-env.d.ts
 history-optional.tar.gz
 *.tar.gz
 *.html
+*.py
+*.html
