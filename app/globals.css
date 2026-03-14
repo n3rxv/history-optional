@@ -267,3 +267,135 @@ html {
   border-color: var(--border2) !important;
   color: var(--text2) !important;
 }
+
+/* ── STRUCTURED NOTE TEMPLATE STYLES ──────────────────────────────────────── */
+
+/* TOC container */
+.toc-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Numbered section headings — h2 gets a left accent bar */
+.note-content h2 {
+  position: relative;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--yellow);
+  border-bottom: none !important;
+  margin-top: 2.5rem !important;
+}
+
+/* h3 sub-section — lighter accent */
+.note-content h3 {
+  padding-left: 0.6rem;
+  border-left: 2px solid var(--accent2);
+}
+
+/* Scholar quote — distinguished blockquote */
+.note-content blockquote {
+  border-left: 3px solid var(--yellow) !important;
+  padding: 0.85rem 1.25rem !important;
+  margin: 1.5rem 0 !important;
+  background: var(--yellow-dim) !important;
+  border-radius: 0 8px 8px 0 !important;
+  font-style: italic;
+  color: var(--text2) !important;
+  position: relative;
+}
+
+.note-content blockquote::before {
+  content: '\201C';
+  position: absolute;
+  top: -0.25rem;
+  left: 0.85rem;
+  font-size: 2.5rem;
+  color: var(--yellow);
+  opacity: 0.4;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.note-content blockquote em {
+  color: var(--text) !important;
+  font-weight: 500;
+}
+
+/* Comparison table — enhanced */
+.note-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0 !important;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border2) !important;
+}
+
+.note-content th {
+  background: var(--bg4) !important;
+  color: var(--yellow) !important;
+  padding: 0.7rem 1rem !important;
+  font-family: var(--font-ui) !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--border2) !important;
+}
+
+.note-content td {
+  padding: 0.6rem 1rem !important;
+  border: 1px solid var(--border) !important;
+  vertical-align: top;
+  line-height: 1.65;
+}
+
+.note-content tr:nth-child(even) td {
+  background: var(--bg2) !important;
+}
+
+.note-content tr:hover td {
+  background: var(--bg3) !important;
+}
+
+/* Horizontal rule as section separator */
+.note-content hr {
+  border: none !important;
+  border-top: 1px solid var(--border2) !important;
+  margin: 2.5rem 0 !important;
+  position: relative;
+}
+
+/* Key term / definition styling — bold phrase at start of paragraph */
+.note-content p > strong:first-child {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Light mode overrides for new elements */
+[data-theme="light"] .note-content h2 {
+  border-left-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+[data-theme="light"] .note-content h3 {
+  border-left-color: var(--accent2) !important;
+  color: var(--text) !important;
+}
+
+[data-theme="light"] .note-content blockquote {
+  border-left-color: var(--accent) !important;
+  background: rgba(154, 111, 46, 0.06) !important;
+}
+
+[data-theme="light"] .note-content blockquote::before {
+  color: var(--accent) !important;
+}
+
+[data-theme="light"] .note-content th {
+  background: var(--bg3) !important;
+  color: var(--accent) !important;
+}
