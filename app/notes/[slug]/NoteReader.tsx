@@ -199,6 +199,10 @@ export default function NoteReader({ slug }: { slug: string }) {
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/auth/google-callback?next=${encodeURIComponent(window.location.pathname)}`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
       },
     });
   };
