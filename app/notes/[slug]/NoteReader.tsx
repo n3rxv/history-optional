@@ -462,7 +462,7 @@ export default function NoteReader({ slug }: { slug: string }) {
               {highlights.length > 0 && (
                 <button onClick={() => { if(confirm('Clear all highlights?')) setHighlights([]); }} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text3)', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 4, fontSize: '0.72rem' }}>Clear</button>
               )}
-              <AnnotationToggle noteSlug={slug} />
+              <AnnotationToggle noteSlug={slug} userId={user?.id} />
               <Link href={`/chat?topic=${encodeURIComponent(note.title)}`} style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent2)', color: 'var(--accent)', padding: '0.3rem 0.85rem', borderRadius: 4, textDecoration: 'none', fontSize: '0.75rem' }}>Ask AI →</Link>
             </>}
           </div>

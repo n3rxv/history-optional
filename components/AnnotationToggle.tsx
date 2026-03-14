@@ -5,9 +5,10 @@ import NoteAnnotationCanvas from './NoteAnnotationCanvas';
 
 interface Props {
   noteSlug: string;
+  userId?: string | null; // passed from NoteReader
 }
 
-export default function AnnotationToggle({ noteSlug }: Props) {
+export default function AnnotationToggle({ noteSlug, userId }: Props) {
   const [active, setActive] = useState(false);
 
   return (
@@ -16,9 +17,8 @@ export default function AnnotationToggle({ noteSlug }: Props) {
         noteSlug={noteSlug}
         active={active}
         onToggle={() => setActive(false)}
+        userId={userId}
       />
-
-      {/* Floating toggle button — sits in the top toolbar area */}
       <button
         onClick={() => setActive(a => !a)}
         title={active ? 'Exit drawing mode' : 'Draw / annotate'}
