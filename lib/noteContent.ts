@@ -12631,7 +12631,390 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 </li>
 </ul>`,
-  'economy-society-16-17c': ``,
+  'economy-society-16-17c': `<h2>Population, Agricultural and Craft Production</h2>
+
+<h3>Population</h3>
+<ul>
+<li>&#8226; While it is difficult to form a precise idea of the total population in the absence of statistics, by utilising statistics of cultivated area, yields, revenue rates and jama, modern scholars have put the population of the country at the end of the 16th century between <strong>140 and 150 million</strong> which slowly increased to <strong>200 million by the end of the 18th century</strong>, thus giving a population growth rate of <strong>0.14 per cent per annum</strong>.</li>
+<li>&#8226; During the 16th and 17th centuries, about <strong>85 per cent of India&#8217;s population lived in rural areas</strong>.</li>
+</ul>
+
+<h3>Rural Society — Structure</h3>
+<ul>
+<li>&#8226; A main feature of rural society in the country, excluding tribal areas, was its <strong>highly stratified nature</strong>. People were divided and grouped on the basis of their resident status, caste, and position as office holders.</li>
+<li>&#8226; <strong>Resident Cultivators (Riyayatis and Khud Kasht):</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The largest section in the village consisted of cultivators claiming to be descendants of original settlers.</li>
+<li style="padding-left:2em">&#9702; The resident cultivators were divided into two: the <strong>riyayati</strong> (privileged) and the <strong>raiyati</strong> (ordinary).</li>
+<li style="padding-left:2em">&#9702; The riyayati section consisted of resident owner-cultivators — called <strong>mirasi</strong> in Maharashtra, <strong>gharu-hala</strong> in Rajasthan, and <strong>khud kasht</strong> in Persian.</li>
+<li style="padding-left:2em">&#9702; W.W. Hunter: &#8220;The khud-kasht right was a valuable right, not only because it implied an economic advantage, but because it conferred a certain social status. The resident cultivators formed the governing body of the village community &#8212; its bhadralok or respectable class.&#8221;</li>
+<li style="padding-left:2em">&#9702; The khud-kasht paid land revenue at a concessional rate, and were exempt partially or wholly from various imposts, such as tax on marriages and house tax.</li>
+<li style="padding-left:2em">&#9702; The riyayatis in Rajasthan paid one-fourth of the produce, whereas the normal demand was from one-fourth to half.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Pahis or Outsiders</strong>: The <strong>pahi</strong> or <strong>pai-kasht</strong> came from neighbouring villages or parganas to cultivate surplus land, resettle a ruined village, or settle a new one.
+<ul>
+<li style="padding-left:2em">&#9702; In many cases, pahis were given pattas at concessional rates, the full rate being paid in the third or fifth year or later.</li>
+<li style="padding-left:2em">&#9702; When pahis had no implements of their own, they were provided with ploughs, bullocks, seeds, manure and money either by the state or by the village money-lender (bohra).</li>
+<li style="padding-left:2em">&#9702; Rural society was not as fixed and unchanging as we often picture it &#8212; though the structure itself hardly underwent any change.</li>
+<li style="padding-left:2em">&#9702; Sometimes pahis were drawn from the dalit section who came to new or ruined villages in the hope of acquiring ownership rights. In areas such as Kota, peasants from the dalit sections were allowed to become owners of land.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Raiyatis (Paltis)</strong>: The general category of cultivators called raiyatis or paltis in Rajasthan; muzarian in Persian.
+<ul>
+<li style="padding-left:2em">&#9702; The paltis generally belonged to middle castes &#8212; Jat, Gujar, Mali, Ahir, Meena etc.</li>
+<li style="padding-left:2em">&#9702; As a norm, the land revenue levied on polaj land on the ordinary peasant was normally <strong>one-half of the produce</strong>. Wheat and bajra was charged at two-fifth.</li>
+<li style="padding-left:2em">&#9702; Raiyati tenants were divided into: state tenants who cultivated cultivatable wasteland (banjar); and dhani tenants who tilled the personal lands of zamindars, bhomias, patels, holders of inam lands etc.</li>
+</ul>
+</li>
+<li>&#8226; Apart from the cultivators, there were <strong>landless labourers (majurs)</strong> and <strong>service people</strong> &#8212; ironsmith, carpenter, rope-maker, potter, leather worker, barber, washermen, village watchman etc.
+<ul>
+<li style="padding-left:2em">&#9702; In Maharashtra, these service sectors were <strong>twelve in number</strong> called <strong>balutedars</strong>, receiving a prescribed share (baluta) from the village produce.</li>
+<li style="padding-left:2em">&#9702; There was another section called <strong>alutedars</strong> &#8212; village priests, tailor, water carrier, gardener, drum-beater, vocalist, musician, oil presser, betel nut seller, goldsmith etc. These received a lower share of the produce or were given a strip of land.</li>
+<li style="padding-left:2em">&#9702; The landless and the bulk of the service classes were designated <strong>kamin</strong> or low, and included a sizable section of dalits.</li>
+</ul>
+</li>
+<li>&#8226; In some estimates pertaining to eastern Rajasthan: the riyayati or privileged classes amounted to <strong>13 per cent</strong>; the service classes <strong>11 per cent</strong> and the remainder <strong>76 per cent</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; According to a takhmina document about mauza Chandawar in Eastern Rajasthan in 1666, out of 86 cultivators, 9 cultivated on an average about 126 bighas each, 23 cultivators had 70 bighas each, and the remaining 50 cultivated 30 bighas each.</li>
+</ul>
+</li>
+<li>&#8226; Rural society in Mughal India was <strong>not an undifferentiated mass of pauperized peasants</strong>. The processes of stratification and growth of income disparity, and of expansion and improvement of cultivation went on side by side.</li>
+</ul>
+
+<h3>Agricultural Production</h3>
+<ul>
+<li>&#8226; The positive role of the privileged sections including the village zamindar and rich cultivators was providing money, implements and organization for expanding and improving cultivation, including introduction of higher quality crops such as wheat and cash-crops (cotton, indigo, oil-seeds etc.) and new crops (tobacco, maize etc.).</li>
+<li>&#8226; Both the agricultural and non-agricultural sectors during the Sultanat period were <strong>further strengthened and expanded during the 16th, 17th and 18th centuries</strong>.</li>
+<li>&#8226; The Mughal policy was to incentivize cultivators: land newly brought under cultivation was lightly taxed.
+<ul>
+<li style="padding-left:2em">&#9702; For bringing waste and rocky land under cultivation, Madhav Rao II announced that half of such land would be given in inam and the remaining half would receive rent-free concessions for 20 years, and further concession in reduced tax for another 5 years.</li>
+</ul>
+</li>
+<li>&#8226; In times of famine, drought, plunder of crops or failure of crops, <strong>remissions of land revenue</strong> were granted. To save the cultivator from money-lenders, the state granted <strong>&#8216;Tagai Loans&#8217;</strong> at low rates of interest.</li>
+<li>&#8226; <strong>Regional specialisation</strong> in certain types of products led to a good deal of intra-regional trade:
+<ul>
+<li style="padding-left:2em">&#9702; Bengal exported sugar and rice as well as delicate muslin and silk.</li>
+<li style="padding-left:2em">&#9702; Gujarat was the entry point of foreign goods; exported fine textiles and silks (patolas) to north India; received foodgrains and silk from Bengal, and imported pepper from Malabar.</li>
+<li style="padding-left:2em">&#9702; North India exported indigo and foodgrains; imported luxury items.</li>
+<li style="padding-left:2em">&#9702; Lahore was a centre of handicraft production and distribution centre for luxury products of Kashmir &#8212; shawls, carpets etc.</li>
+</ul>
+</li>
+</ul>
+
+<h3>Craft Production</h3>
+<ul>
+<li>&#8226; The number of workers in constructing royal buildings was enormous:
+<ul>
+<li style="padding-left:2em">&#9702; Alauddin Khalji engaged <strong>70,000 workers</strong> for his buildings.</li>
+<li style="padding-left:2em">&#9702; Babur claimed <strong>680 workmen</strong> worked daily on his buildings at Agra, while 1491 men worked as stone-cutters.</li>
+<li style="padding-left:2em">&#9702; Under Akbar, <strong>3&#8211;4,000 artisans, labourers and other functionaries</strong> worked daily to construct the Agra fort. In addition, 8,000 labourers were employed to supply stone and lime.</li>
+<li style="padding-left:2em">&#9702; According to Tavernier, <strong>&#8220;twenty thousand men worked incessantly&#8221;</strong> to construct the Taj Mahal.</li>
+</ul>
+</li>
+<li>&#8226; The major industry was undoubtedly the <strong>textile industry</strong> based on cotton, supplemented by silk or tussar mainly produced in Bengal. Carpentry (including ship-building), leather goods, metallurgy, paper making, glass making were other major industries.</li>
+<li>&#8226; The Indian craftsman was able to produce goods of very high quality with very simple tools. One cause was <strong>general indifference to labour saving devices</strong> on account of a limited domestic market, and fear of unemployment.
+<ul>
+<li style="padding-left:2em">&#9702; In 1672, the Dutch in Coromandal had successfully introduced a technique which quadrupled production of iron nails and cannon balls. <strong>Local authorities banned the new technique</strong> lest it deprive many locksmiths of their livelihood.</li>
+<li style="padding-left:2em">&#9702; Tapan Raychaudhuri: &#8220;Both early modern Europe and medieval China were far ahead of mid-eighteenth century India in such crucial fields of technology as the use of wind and water power, metallurgy, printing, nautical instruments, and basic tools and precision instruments.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; Unlike Europe, the <strong>concentration of manufacturing industries in towns to the exclusion of villages did not take place in India</strong>. Villages continued with traditional crafts as well as developed localized centres of production.
+<ul>
+<li style="padding-left:2em">&#9702; In Bengal near main roads and large towns, by the middle of the 18th century, there was hardly a village where every inhabitant was not engaged in the manufacture of textiles (Orme).</li>
+</ul>
+</li>
+<li>&#8226; In the main, the artisans still worked on a <strong>domestic basis</strong>. Artisans owned their tools of trade. It was only in the royal karkhanas that craftsmen worked at one place under supervision, provided with tools and raw materials.</li>
+<li>&#8226; Artisans were broadly of two categories:
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Rural artisans</strong>: only part-time artisans, often indistinguishable from cultivators &#8212; oil-pressers, indigo and saltpetre workers, sugar manufacturers etc. Their work was seasonal.</li>
+<li style="padding-left:2em">&#9702; <strong>Professional artisans in towns</strong>: as trade and manufacture grew, merchants gradually extended their control through the <strong>dadni or putting out system</strong> &#8212; giving loans, providing raw materials, and laying down the size, patterns etc. of the piece.</li>
+</ul>
+</li>
+<li>&#8226; An alternate path was the emergence of <strong>master craftsmen (ustads)</strong> as organisers of production and merchants and financers.
+<ul>
+<li style="padding-left:2em">&#9702; Abul Fazl placed &#8220;artificiers&#8221; in the second rank in society, side by side with merchants, below nobles and warriors, but above the learned and the religious classes.</li>
+<li style="padding-left:2em">&#9702; In Bengal, there were affluent master-weavers employing their own capital. In mid-18th century Lucknow, master printers of textiles had as many as 500 apprentices. In Kashmir, master craftsmen in the shawl industry owned upto 300 looms.</li>
+<li style="padding-left:2em">&#9702; Tapan Raychaudhury: &#8220;The emergence of artisans as &#8216;capitalist-entrepreneurs&#8217; &#8212; Marx&#8217;s &#8216;truly revolutionary way&#8217; in the transition from merchantile to industrial capitalism &#8212; was thus not absent from the Indian scene.&#8221;</li>
+</ul>
+</li>
+</ul>
+
+<h2>Towns and Town Life</h2>
+<ul>
+<li>&#8226; Abul Fazl: &#8220;People that are attached to the world will collect in towns, without which there would be no progress.&#8221;</li>
+<li>&#8226; Fernand Braudel: &#8220;Towns are like electric transformers. They increase tension, accelerate the rhythm of exchange and constantly recharge human life.&#8221;</li>
+<li>&#8226; The process of the growth of towns became faster during the 16th and 17th centuries, and continued till the middle of the 18th century.</li>
+<li>&#8226; The smallest towns in India &#8212; the <strong>qasba</strong> &#8212; has been defined as a village with a market. A qasba was also generally a pargana headquarter. There was a hierarchy from the humble qasba to the district (sarkar) headquarter to the provincial and imperial towns.</li>
+<li>&#8226; In Akbar&#8217;s empire there were <strong>120 big cities and 3200 townships or rural towns (qasbas)</strong>. These did not include towns in South India.
+<ul>
+<li style="padding-left:2em">&#9702; In the 17th century, the largest city was <strong>Agra</strong> with an estimated population of <strong>500,000</strong> (rising to 600,000 when the Emperor was in town).</li>
+<li style="padding-left:2em">&#9702; <strong>Delhi</strong> was held to be as populous as Paris, then the biggest town in Europe.</li>
+<li style="padding-left:2em">&#9702; According to traveller Coryat, <strong>Lahore</strong> was bigger than Agra and &#8220;one of the largest cities of the whole universe.&#8221;</li>
+<li style="padding-left:2em">&#9702; <strong>Ahmadabad</strong> was estimated to be larger than London and its suburbs. <strong>Patna</strong> had a population of 200,000.</li>
+</ul>
+</li>
+<li>&#8226; According to a recent estimate, during the 17th century there was a very high ratio of urban to total population of the country &#8212; as much as <strong>15 per cent</strong>, a proportion not exceeded till the middle of the 20th century.</li>
+<li>&#8226; In Mughal India, the largest towns were &#8220;thriving centres of manufacturing and marketing, banking and entrepreneurial activities, intersections in a network of communications by land and water which crossed and re-crossed the sub-continent and extended far beyond, to South East Asia, to the Middle East, to Western Europe, and elsewhere.&#8221; (Gavin Hambly, Cambridge Economic History of India).</li>
+<li>&#8226; <strong>Four distinct types of urban centres</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Administrative cities</strong>: Agra, Delhi, Lahore, and later Poona, Faizabad, Hyderabad.</li>
+<li style="padding-left:2em">&#9702; <strong>Commercial and manufacturing cities</strong>: Patna, Ahmadabad.</li>
+<li style="padding-left:2em">&#9702; <strong>Pilgrimage centres</strong>: Banaras, Mathura, Kanci, Tirumalai in South India; Ajmer (religious and administrative).</li>
+<li style="padding-left:2em">&#9702; <strong>Centres of distinctive manufacturing</strong>: Bayana for indigo, Patan in Gujarat for dyeing, Khairabad in Awadh for textiles.</li>
+</ul>
+</li>
+<li>&#8226; On account of the peace and law and order established by the Mughals and consequent growth of commerce and manufacture, the period has been conceived as a <strong>&#8220;veritable golden age of urbanization&#8221;</strong>.</li>
+<li>&#8226; Town layout: Bernier describes Shahjahanbad with a mix of multi-storeyed mansions, shops above which merchants lived, and a vast number of small houses of mud and thatched straw for soldiers and servants.
+<ul>
+<li style="padding-left:2em">&#9702; In each town there were one or two principal roads forming chowks; generally paved.</li>
+<li style="padding-left:2em">&#9702; The city was divided into wards or <strong>mohallas</strong>, often inhabited by people of one caste or profession; locked up at night for security.</li>
+</ul>
+</li>
+<li>&#8226; Town administration: the general administration of the city was in the hands of the <strong>kotwal</strong> who regulated weights and measures, kept track of prices, prohibited illegal cesses, organized water courses, appointed a guild-master for every guild of artificers, kept track of births, deaths, and census operations.</li>
+<li>&#8226; Each community of merchants had its leader &#8212; <strong>malik-ut-tujjar</strong> or <strong>Nagar seths</strong> &#8212; who interceded with local officials. There is evidence of strikes (<strong>hartal</strong>) by merchants in Ahmadabad and elsewhere to protest against official harassment.</li>
+</ul>
+
+<h2>Commerce with Europe — Dutch, English and French Companies: A Trade Revolution</h2>
+<ul>
+<li>&#8226; Between the middle of the 16th and the middle of the 18th century, India&#8217;s overseas trade steadily expanded, both in terms of tonnage of goods carried as also expansion into new areas. This was due partly to the activities of various European companies, notably the Dutch and the English and later the French.</li>
+<li>&#8226; The arrival of the Dutch and English trading companies to India towards the beginning of the 17th century and of the French towards the end of the century was a recognition of the importance of India in the Asian trade network, as also a reflection of the growing appetite of European countries for Asian goods, especially spices, and their expectations of large profit.</li>
+<li>&#8226; The structure of the Dutch and the English East India Companies was different from the Portuguese. Neither were royal monopolies. They were <strong>joint-stock companies</strong> &#8212; precursors of the modern multinational, multiproduct business corporations with world-wide trade, distribution and marketing systems.</li>
+<li>&#8226; The French company, like the Portuguese, was a <strong>royal monopoly</strong>.</li>
+<li>&#8226; All European companies believed in <strong>monopolizing trade and using naval force</strong> to enforce it. They were also prepared to use naval force for extracting special privileges from native powers.</li>
+<li>&#8226; <strong>Dutch expansion:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Dutch were determined to replace the Portuguese in Asian trade. They captured Malacca (1641), Colombo (1655&#8211;56) and Cochin (1659&#8211;63) to control the pepper trade.</li>
+<li style="padding-left:2em">&#9702; The Dutch opened their factory at Surat in 1617. They first set themselves up on the Coromandal, obtaining a farman from the ruler of Golconda to set up a factory at Masulipatam in 1606.</li>
+<li style="padding-left:2em">&#9702; Hendrik Brouver, later Governor-General of Dutch settlements in East Indies, declared in 1612 that the eastern coast of India, the Coromandal, was &#8220;the left arm of the Moluccas&#8221; because textiles produced there were the most acceptable in the Indies.</li>
+</ul>
+</li>
+<li>&#8226; <strong>English expansion:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The English had set up a factory at Surat in 1613. Sir Thomas Roe, appointed Ambassador at the court of Jahangir in 1615, obtained a farman from Jahangir in 1618 confirming the English position at Surat.</li>
+<li style="padding-left:2em">&#9702; Deprived by the Dutch of a share in the spice trade (the so called massacre at Amboina in 1623 when ten Englishmen were tortured and executed forced the English to concentrate on India), the English tried to develop the <strong>export of indigo and Indian textiles into Europe</strong>.</li>
+<li style="padding-left:2em">&#9702; Indigo was a superior and cheaper means of dyeing than woad used in Europe earlier. The best indigo was found in Bayana, Gujarat and the Coromandal.</li>
+<li style="padding-left:2em">&#9702; The principal item of India&#8217;s trade to Europe which the English promoted was <strong>textiles</strong>. The number of pieces exported by the East India Company went up from 750,000 in 1664 to <strong>1.5 million pieces in two decades</strong>, forming 83 per cent of the company&#8217;s foreign trade.</li>
+<li style="padding-left:2em">&#9702; According to Kirti Chaudhury: &#8220;The success of Indian cotton fabrics in Europe during these early years was undoubtedly due to their relative cheapness as compared to non-woollen cloth produced at home.&#8221; By the third quarter of the century their use extended to the luxury end of the market.</li>
+<li style="padding-left:2em">&#9702; The growth of Indian textiles into Europe threatened French, German and Scottish linen production. <strong>Early efforts to revolutionize spinning and weaving by new machines which was the beginning of the Industrial Revolution in Britain was motivated by the desire to undercut the imported Indian textiles.</strong></li>
+<li style="padding-left:2em">&#9702; Another item of export the English developed was <strong>raw silk</strong> from the Kasimbazar area &#8212; in competition with Persia, Italy and France. Export of raw silk rose rapidly after 1650.</li>
+<li style="padding-left:2em">&#9702; Another export was <strong>saltpetre</strong> extensively used by the munitions industry in Europe. The best quality was found in Bihar.</li>
+</ul>
+</li>
+<li>&#8226; The major problem for European traders was that exports to Europe from India had to be paid for largely in <strong>gold and silver</strong> because there was hardly any demand in India for goods produced in Europe.
+<ul>
+<li style="padding-left:2em">&#9702; The Europeans succeeded because of the availability of gold and silver brought from America mainly by the Spaniards. Fernand Braudel: this gave Europe &#8220;a stranglehold&#8221; over the economies of the Far East, and &#8220;placed them in position of strength.&#8221;</li>
+<li style="padding-left:2em">&#9702; Sir Joshua Child wrote to the Madras Council in 1686: &#8220;without (revenue) it is impossible to make the English nation&#8217;s station sure and firm in India, upon a sound Political Basis.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; <strong>Conflicts with Mughal power:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Mughals clashed with the English East India Company in 1687 over customs. The Mughals&#8217; customs were exceedingly low &#8212; between <strong>2.5 to 5 per cent</strong>. English attacks on Hugli, Chittagong, sacking of Balasore, blockading of Surat and seizing Indian ships at sea led to seizure of all their factories and arrest of their agents. Aurangzeb pardoned the English on payment of a fine of Rs.1,50,000.</li>
+<li style="padding-left:2em">&#9702; The Dutch blockade of Surat (1648&#8211;52): Shah Jahan retaliated by seizing all Dutch factories and arresting their agents. By 1652, the Dutch had given in and passes began to be given freely. <strong>Indian trade with Southeast Asia resumed.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Position of Indian Merchants in Indian Ocean Trade:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The earlier belief that Indian traders had been displaced from the seas by European companies is <strong>now largely discarded</strong>. Recent research shows the share of the foreign companies in various regions remained a fraction of the total.</li>
+<li style="padding-left:2em">&#9702; Ashin Das Gupta calculates that at the end of the 17th century, Surat&#8217;s annual turnover was <strong>Rs.16 million annually</strong>, of which the <strong>European share was only Rs. 2 million or one-eighth</strong> of the total.</li>
+<li style="padding-left:2em">&#9702; During the 17th century described as the &#8220;golden period of Indian maritime trade,&#8221; Indian merchants were found settled all over South East Asia, West Asia and the east coast of Africa.</li>
+<li style="padding-left:2em">&#9702; Steensgaard: &#8220;Gujarat retained its central position&#8230; still stretched out its arms towards the Red Sea and South East Asia.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; <strong>India&#8217;s overland trade:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Kirti Chaudhury says the southern route going to India could well have been called the <strong>&#8220;cotton road&#8221;</strong> because it was along this road that Indian textiles reached West and Central Asia, and later even Russia. This road terminated at Aleppo in Ottoman Turkey which was called <strong>&#8220;Little India&#8221;</strong>.</li>
+<li style="padding-left:2em">&#9702; According to a Russian observer, Sutur, <strong>10,000 Indian merchants</strong> lived in the Safavid dominions during the 17th century.</li>
+<li style="padding-left:2em">&#9702; V.I. Pavlov says that from Astrakhan, Indian merchants played an active role in trade along the Volga and were frequent visitors to Nizhni Novgrod, Jaroslavl and also Moscow.</li>
+<li style="padding-left:2em">&#9702; The Indian merchants carried forward their own network based largely on the family. They traded with each other, kept liaison with the main family back in India, and entered into <strong>commenda agreement</strong> with local merchants &#8212; sharing profits in the proportion of two to the Indians and one to the local merchants.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Trend of Indian Economy during the first half of the 18th century:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The first half of the 18th century cannot be considered a period of growing de-urbanisation or decline of trade and manufacture. There was a decline of some &#8220;sun cities&#8221; like Delhi and Agra but this was compensated by expansion of new cities such as Faizabad, Banaras, Poona, Hugli.</li>
+<li style="padding-left:2em">&#9702; It was a period during which the <strong>money nexus penetrated further into the countryside</strong>, due to the growth of cash crops &#8212; cotton, indigo, tobacco etc.</li>
+<li style="padding-left:2em">&#9702; Fernand Braudel argues that India was a &#8220;world economy&#8221; in itself &#8212; &#8220;turned the Indian Ocean into a sort of private sea, from the east coast of Africa to the islands of the East Indies.&#8221; Steensgaard argues that Surat emerged as such a centre in the 17th century, like Amsterdam in Europe, with abundance of capital and a large number of industrious bankers and entrepreneurs.</li>
+<li style="padding-left:2em">&#9702; With plenty of merchant capital, a group of skilled financers and entrepreneurs and skilled craftsmen, <strong>India could also have moved towards industrial capitalism if colonial intervention had not completely distorted its economy</strong>, and in place of its being the leading manufacturer of the Asian world, reduced it to the position of a raw material producing periphery of the capitalist world.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Indian Mercantile Classes</h2>
+<ul>
+<li>&#8226; The commercial classes in India were <strong>large in numbers, widely spread out and highly professional</strong>.</li>
+<li>&#8226; Some specialised in long distance inter-regional trade (<strong>seth, bohra or modi</strong>), and some in local, retail trade (<strong>beoparis or banik</strong>).
+<ul>
+<li style="padding-left:2em">&#9702; The baniks had their own agents in villages and townships, with whose help they purchased foodgrains and cash-crops.</li>
+<li style="padding-left:2em">&#9702; The bania also acted as a money-lender in rural areas. They discharged a positive role by enabling food-grains to be transported from villages to towns, and providing rural capital.</li>
+</ul>
+</li>
+<li>&#8226; The trading community in India did not belong to one caste or religion:
+<ul>
+<li style="padding-left:2em">&#9702; Gujarati merchants included Hindus, Jains and Muslims (mostly Bohras).</li>
+<li style="padding-left:2em">&#9702; In Rajasthan, Oswals/Maheshwaris and Agrawals began to be called <strong>Marwaris</strong>. The Marwaris spread out to Maharashtra and Bengal during the 18th century.</li>
+<li style="padding-left:2em">&#9702; Overland trade to Central Asia was in the hands of <strong>Multanis, Afghans and Khatris</strong>.</li>
+<li style="padding-left:2em">&#9702; The <strong>Chettiyars</strong> on the Coromandal coast and the Muslim merchants of Malabar formed the most important trading communities of South India.</li>
+</ul>
+</li>
+<li>&#8226; Some of the richest merchants were comparable to <strong>merchant princes of Europe</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; The Portuguese merchant Godinho stated in 1663 that Surat merchants were &#8220;very rich&#8221;, some worth more than 50 or 60 lakhs of rupees, with fifty ships trading with various overseas countries.</li>
+<li style="padding-left:2em">&#9702; <strong>Virji Vohra</strong> dominated the Surat trade for several decades; his capital was reputed to be 80 lakhs of rupees. He bought opium and cotton from local merchants, exchanged these for pepper in Malabar and South East Asia.</li>
+<li style="padding-left:2em">&#9702; <strong>Abdul Ghafur Bohra</strong> left 85 lakhs rupees in cash and goods, and a fleet of <strong>17 sea-going ships</strong> at the time of his death in 1718. He owned 20 ships with a total dead-weight carrying capacity of well over 5000 tons, trading from Manila to Mocha.</li>
+<li style="padding-left:2em">&#9702; <strong>Malay Chetti</strong> of the Coromandal coast, <strong>Kashi Viranna</strong> and <strong>Sunca Rama Chetti</strong> were reputed to be extremely wealthy with extensive commercial dealings in India and abroad.</li>
+</ul>
+</li>
+<li>&#8226; Regarding the living style of the merchants: Bernier says merchants tried to look poor because they were afraid of being used like &#8220;fill&#8217; sponges&#8221;, i.e. squeezed of their wealth. However, the properties of the merchants were generally not in danger &#8212; the <strong>law of escheat applied to nobles did not affect them</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Jahangir&#8217;s ordinances included a provision that &#8220;if anyone, whether unbeliever or Musalman should die, his property and effects should be left for his heirs, and no one should interfere with them.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; Despite complaints by some European travellers, <strong>safety on the road was generally satisfactory</strong>. Goods were also insured, and the low rates of insurance &#8212; from 1/2 to 1 per cent from Surat or Ahmedabad to Thatta, Masulipatnam or Daman &#8212; shows that the risk was not considered high.</li>
+<li>&#8226; The influence of the merchants on political processes was not negligible:
+<ul>
+<li style="padding-left:2em">&#9702; We do have instances of <strong>strikes (hartal)</strong> by merchants in Ahmadabad and elsewhere.</li>
+<li style="padding-left:2em">&#9702; At Bhaganagar (Hyderabad), Hindu bankers shut up their offices in protest against an Amir&#8217;s exactions until the ruler ordered restitution.</li>
+<li style="padding-left:2em">&#9702; In 1668&#8211;69, the Surat baniyas went on strike against the forced conversion of a person to Islam.</li>
+</ul>
+</li>
+<li>&#8226; The Mughal nobility, members of the royal family and even judicial officials became more commerce minded as trade expanded. Jahangir, Nur Jahan, Prince Khurram, Jahanara and even Aurangzeb had their own ships plying between Surat and Red Sea ports. Abul Fazl advised the nobles &#8220;to indulge a little in commercial speculation and engage in remunerative undertakings.&#8221;</li>
+</ul>
+
+<h2>Banking, Insurance and Credit Systems</h2>
+<ul>
+<li>&#8226; <strong>Hundis</strong>: The hundi was a letter of credit payable after a period of time at a discount. The hundis often included insurance (<strong>bima</strong>) charged at different rates based on the value of the goods, destination, means of transport (land, river or sea) etc.
+<ul>
+<li style="padding-left:2em">&#9702; In the Ahmadabad market, merchants made their payments or adjusted their obligations <strong>almost entirely through hundis</strong>. Even nobles used hundis for payment of salaries to soldiers.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Sarrafs (shroffs)</strong>: specialised in changing money and dealing with hundis. They also acted as private banks: kept money in deposit from nobles, and lent it to traders. By means of hundis, they created credit which supplemented the money in circulation and financed long-distance and international trade.</li>
+<li>&#8226; Since the merchant could cash his hundi at the point of destination after he had sold his goods, <strong>movement of specie or money which was always a risky enterprise could be reduced</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Rich traders such as Virji Vohra set up <strong>agency houses</strong> in different parts of India including Burhanpur, Golconda, Agra, Malabar and also in West Asia &#8212; the port-towns of the Persian Gulf, Red Sea and South East Asia.</li>
+</ul>
+</li>
+<li>&#8226; Insurance rates on goods: from <strong>1/2 to 1 per cent</strong> from Surat or Ahmedabad to Thatta, Masulipatnam or Daman (going upto 2 1/2%), showing that the risk was not considered high.</li>
+<li>&#8226; <strong>Jagat Seth</strong>: the surplus of the land-revenue from Bengal amounting to over a crore of rupees was sent by Jagat Seth by a hundi &#8212; illustrating the scale of the banking operations.</li>
+<li>&#8226; The dadni or <strong>putting out system</strong>: advances of cash and raw materials were made to the artisan. By this system, attempts were made to tie the artisan down to certain merchants. The European companies also followed this system, generally operating through Indian agents or gumashtas.
+<ul>
+<li style="padding-left:2em">&#9702; In the 1670s, Kasi Viranna and his partners had such control on the entire coast of Madras to Armagon that the settlements of the weavers were called &#8220;Viranna villages.&#8221;</li>
+<li style="padding-left:2em">&#9702; The Russian scholar Chicherov calls this &#8220;deconcentrated capitalist manufacture&#8221;: &#8220;It does not, however, lead to the overthrow of the old mode of production, but rather tends to preserve and retain it.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; Irfan Habib: &#8220;merchant capital was considerable in size and an efficient system of credit not only enlarged it, but also gave it mobility.&#8221;</li>
+<li>&#8226; Interest rates: in North India, the rate fell from about 1 to 1.5 per cent per month to 3/4 per cent or even 1/2 during the mid-17th century. In the Deccan it fell from 2 per cent to 1.5 per cent and below. These rates were still higher than in England. However, there was <strong>no shortage of capital</strong> in the country.</li>
+<li>&#8226; The bima-hundi method was used for the movement of money over distant places &#8212; an important institutional innovation facilitating trade without physical movement of specie.</li>
+</ul>
+
+<h2>Conditions of Peasants</h2>
+<ul>
+<li>&#8226; Indigenous sources and accounts of foreign travellers present a picture of a <strong>small group in the ruling class living a life of great ostentation and luxury, contrasting it with the miserable condition of the masses</strong> &#8212; the peasants, the artisans and other labouring classes.</li>
+<li>&#8226; The share of the produce paid by the different categories of peasants was not easy to compute. The general Mughal formula was from <strong>one-third to half</strong>. However, the precise share depended on nature of the soil, strength of the owner-cultivator, nature of the zamindar, custom and caste.
+<ul>
+<li style="padding-left:2em">&#9702; In some parts of Rajasthan and Orissa, upper castes paid land-revenue at a concessional rate &#8212; sometimes 25% whereas the others paid 40%.</li>
+</ul>
+</li>
+<li>&#8226; Babur had observed that in India &#8220;peasants and people of low standing go about naked.&#8221; Abul Fazl says that the common people &#8220;for the most part went naked wearing only a cloth (lungi) about the loins.&#8221; Ralph Fitch, writing under Akbar, confirms this. The <strong>overwhelming impression is thus of scantiness of clothing</strong> which was an index of poverty.</li>
+<li>&#8226; <strong>Wages:</strong> According to the Ain, an ordinary labourer got about 2 dams a day or Rs.1&#189; per month; a superior labourer could hope to get 3 to 4 dams a day or Rs.2&#188; to 3 per month. Carpenters got 3 to 7 dams and builders from 5 to 7 dams per day.
+<ul>
+<li style="padding-left:2em">&#9702; It has been computed that the basic necessities of a person could be met by Rs.1 a month while Rs.2 a month was sufficient to feed a family of five.</li>
+<li style="padding-left:2em">&#9702; Ashok Desai: &#8220;The standards of food consumption were substantially higher than now&#8221; due to larger average size of holding, higher productivity of land and a more favourable land-man ratio.</li>
+<li style="padding-left:2em">&#9702; Ashok Desai: &#8220;The purchasing power of the wages was nearly the same in 1595 and 1961. But the low paid worker of Akbar&#8217;s time was able to keep the standard of nutrition much higher than now because of cheap meat, ghee and milk.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; <strong>Diet:</strong> Articles in the diet of the common people consisted chiefly of rice, millets and pulses. Wheat was not apparently part of the diet of the common people even in the wheat producing region of Agra-Delhi. Palseart says of workmen: &#8220;For their monotonous daily food they have nothing but a little kitchery (khichri) made of the green pulse, mixed with rice... eaten with butter in the evening, in the day time they munch a little parched pulse or other grain (sattu).&#8221;</li>
+<li>&#8226; <strong>Housing:</strong> The bulk of the peasants lived in single room houses made of mud with thatched roofs. In Gujarat, houses were roofed with tiles (khaprail) and often built of brick and lime. Houses in Bengal and Orissa were made of bamboo or reed with thatched roofs.</li>
+<li>&#8226; <strong>Famines and epidemics</strong> were two of the scourges in the lives of the villagers. The severe ones were often accompanied by epidemics which depopulated villages.</li>
+<li>&#8226; <strong>Zamindars and their relationship with peasants:</strong> The zamindars formed the apex of rural life. According to the Ain, in Akbar&#8217;s reign zamindars had <strong>3,84,558 sawars, 42,77,057 foot-soldiers, 1,863 elephants, and 4,260 cannons</strong>. The zamindari right was both hereditary and saleable.
+<ul>
+<li style="padding-left:2em">&#9702; The zamindar could levy various cesses &#8212; tax on forest and water produce, tax on marriages and births, house-tax etc. The charges of the zamindars varied &#8212; called biswi (1/20), do-biswi (1/10), satarhi (1/17), or chauthai (1/4).</li>
+<li style="padding-left:2em">&#9702; The Mughal government tried to fix the dues of the zamindars at <strong>10 per cent</strong> and consolidate them in the land revenue, called <strong>malikana</strong>.</li>
+<li style="padding-left:2em">&#9702; The peasants were not serfs, and were free to stay or to leave according to their wish, but local officials were asked to use every effort, including where necessary force, to prevent them from leaving.</li>
+</ul>
+</li>
+<li>&#8226; The French traveller Bernier tells us how the peasantry, on account of the demands of the rapacious lords, were driven to despair at &#8220;so execrable a tyranny&#8221; and had to flee to the neighbouring Rajas.
+<ul>
+<li style="padding-left:2em">&#9702; Bernier traced this to absence of private property in land on the part of the nobles, or the jagir system of transferability. However, <strong>Bernier&#8217;s argument that the jagir system was inimical to expansion and improvement of cultivation is not borne out by the evidence at our disposal</strong>.</li>
+</ul>
+</li>
+<li>&#8226; Irfan Habib has argued that prices in the country <strong>doubled by 1670</strong> as compared to prices at the end of the 16th century. After a lull, prices rose again after 1710 and doubled by the middle of the 18th century. Om Prakash has questioned the price rise during the 17th century arguing there was no price rise in Bengal due to rapid expansion of manufactories.</li>
+</ul>
+
+<h2>Condition of Women</h2>
+<ul>
+<li>&#8226; Women have certain common problems, such as their <strong>dependence on father, husband or son</strong>, and the effects of the male dominated patriarchal family system which operated all over India, except in some areas such as Kerala and many tribal areas.</li>
+<li>&#8226; <strong>Upper class women</strong>: generally educated, and lived a life of luxury, though confined to the inmates of the haram, sharing the husband with numerous wives and mistresses.
+<ul>
+<li style="padding-left:2em">&#9702; Some played an active part in politics as rulers themselves: <strong>Rani Durgawati of Gondwana</strong> and <strong>Chand Bibi of Ahmadnagar</strong>.</li>
+<li style="padding-left:2em">&#9702; Others exercised political power through their husbands: <strong>Nur Jahan</strong>.</li>
+<li style="padding-left:2em">&#9702; <strong>Jahanara</strong>, daughter of Shah Jahan, was closely associated in political processes under both Shah Jahan and Aurangzeb. She wrote under the pen-name &#8220;Makhfi&#8221; (concealed).</li>
+<li style="padding-left:2em">&#9702; <strong>Roshanara</strong> set up a literary atelier (bait-ul-ulum) at Delhi.</li>
+<li style="padding-left:2em">&#9702; More important than political roles was the role of women in giving <strong>moral and cultural tone to society from behind the curtains</strong>. They influenced royal taste and patronage, and themselves extended patronage to artists, singers etc.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Harmful social practices</strong>: Child marriage, forced marriages, denial of a share in parental property continued in medieval times.
+<ul>
+<li style="padding-left:2em">&#9702; Akbar tried to fix the age of marriage for boys and girls, give freedom to girls to marry on their own and not under parental pressure. But these were largely disregarded.</li>
+<li style="padding-left:2em">&#9702; Mughal attempt to regulate <strong>sati</strong> had little impact. When Maharaja Man Singh Kachhwaha died at Elichpur in the Deccan in 1614, four ranis committed sati along with him, and another five at Amber.</li>
+<li style="padding-left:2em">&#9702; When Maharaja Anup Singh of Bikaner died in 1698, apart from 2 ranis, 9 common law wives and 7 maids committed sati. There was an unfortunate practice of increasing the number of women committing sati to increase the sacred honour accruing to a ruler.</li>
+<li style="padding-left:2em">&#9702; Divorce was generally not favoured by the Muslim nobles. There are no references to daughters of nobles receiving a share of the property.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Working women:</strong> Life was hard. Women worked in building activities along with infants. Working women received wages lower than those given to men.
+<ul>
+<li style="padding-left:2em">&#9702; Women specialised in some vocations: <strong>spinning</strong> was widely practised by women of almost all classes.</li>
+<li style="padding-left:2em">&#9702; In Bengal, the fine thread from which the famous muslin of Dacca was woven was prepared by women, often belonging to upper castes, who had nimble fingers and keen eyesight. Such women received wages of a skilled worker, upto Rs.3 per month.</li>
+<li style="padding-left:2em">&#9702; The <strong>chikan work</strong> for which Awadh was famous was also a speciality of women.</li>
+<li style="padding-left:2em">&#9702; However, all such women worked under the tight control of a merchant or a master craftsman.</li>
+</ul>
+</li>
+<li>&#8226; Then as now, women both rich and poor wore <strong>jewellery profusely</strong>. Ralph Fitch, writing of Patna, said &#8220;Here the women be so bedecked with silver and copper that it is strange to see.&#8221; In addition to gold, silver and copper ornaments, those made in glass or ivory were used.</li>
+</ul>
+
+<h2>Evolution of Sikh Community and the Khalsa Panth</h2>
+<ul>
+<li>&#8226; We have already discussed the growth of a democratic, monotheistic movement in the Punjab under Guru Nanak. Akbar had good relations with the Gurus who succeeded Nanak.</li>
+<li>&#8226; <strong>Guru Arjun</strong> came into conflict with Jahangir on a charge of blessing the rebel prince, Khusrau. However, this did not lead to a persecution of the Sikhs as such.</li>
+<li>&#8226; <strong>Guru Hargovind</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; Wore two swords, signifying the <strong>combination of spiritual and temporal power</strong> in the Guru.</li>
+<li style="padding-left:2em">&#9702; Started recruiting a military following. Many elements dissatisfied with the Mughals, including a Pathan such as Painda Khan, joined the Guru.</li>
+<li style="padding-left:2em">&#9702; With the growing power and prestige of the Guru, many Jat cultivators from the Jullandhar and Miyana doab also came under the influence of the Guru. Thus, the Guru began to emerge as a <strong>rallying point for discontented elements and those who stood for justice</strong>.</li>
+<li style="padding-left:2em">&#9702; A conflict took place when the Guru&#8217;s attempt to found a new city on the river Beas in the Jullandhar doab was objected to. The Guru had the upper hand.</li>
+</ul>
+</li>
+<li>&#8226; The establishment of a small but expanding community of Sikhs with a <strong>definite ethico-religious outlook, deeply devoted to the Guru and determined to fight against injustice</strong> had, under special circumstances, the potential of coming into conflict with established authority.
+<ul>
+<li style="padding-left:2em">&#9702; The appointment of <strong>masands</strong> in different regions to collect contributions from the faithful.</li>
+<li style="padding-left:2em">&#9702; The transformation in the character of the Sikh gurudom following its acquiring a hereditary character after the nomination of Arjun, the youngest son of Guru Ramdas, as Guru in 1581.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Guru Tegh Bahadur</strong>: returned to the Punjab in 1671. His arrest and <strong>execution at Delhi in November 1675</strong> remains a matter of controversy regarding the precise events.
+<ul>
+<li style="padding-left:2em">&#9702; According to Sikh traditions, the Mughal governor of Kashmir had been trying to force the Hindus of Kashmir to convert, and the final sacrifice of Guru Tegh Bahadur was a protest against this persecution.</li>
+<li style="padding-left:2em">&#9702; This was a classic case of differing perceptions: the Mughal officialdom saw the Guru only as a disturber of peace; the Sikhs saw the Guru as a religious leader fighting against oppression.</li>
+<li style="padding-left:2em">&#9702; His martyrdom <strong>paved the way for the final transformation of Sikhism into an armed opposition movement</strong>.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Guru Govind Singh and the foundation of the Khalsa:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Retreating into the Punjab hills, the Guru soon collected a small army around him.</li>
+<li style="padding-left:2em">&#9702; In <strong>1699, the Guru founded the military brotherhood or Khalsa</strong>. The adoption of the Khalsa panth and the Adi Granth, the rejection of some old customs and the adoption of some new ones &#8220;sharpened the social identity of the Khalsa, who already belonged to a distinct socio-religious fraternity.&#8221; (J.S. Grewal).</li>
+<li style="padding-left:2em">&#9702; The new customs included the <strong>five Ks</strong> &#8212; kesha, kirpan, kara, kangha and kachha; adoption of the surname <strong>Singh</strong>; giving up tobacco etc.</li>
+<li style="padding-left:2em">&#9702; The Hill Rajas who had invited the Guru to help in their internecine wars found that the Guru had become too powerful. The combined forces of a number of hill rajas attacked the Guru at <strong>Anandpur</strong>, but were forced to retreat.</li>
+<li style="padding-left:2em">&#9702; Aurangzeb wrote to the governor of Lahore and the faujdar of Sirhind, <strong>Wazir Khan</strong>, to aid the hill rajas in their conflict with the Guru. The Mughals and their allies invested the fort closely.</li>
+<li style="padding-left:2em">&#9702; When starvation began inside the fort, the Guru was forced to open the gate on a promise of safe conduct by Wazir Khan. But when the forces of the Guru were crossing a swollen stream, <strong>Wazir Khan&#8217;s forces suddenly attacked</strong>. Two of the Guru&#8217;s sons were captured and on their refusal to embrace Islam, were <strong>beheaded at Sirhind</strong>. The Guru lost two more sons in another battle.</li>
+<li style="padding-left:2em">&#9702; After this, the Guru retired to Talwandi. When the Guru wrote to Aurangzeb in the Deccan apprising him of the events, <strong>Aurangzeb invited him to meet him</strong>. Towards the end of 1706, the Guru set out for the Deccan and was on the way when Aurangzeb died.</li>
+<li style="padding-left:2em">&#9702; Although Guru Govind Singh was not able to withstand Mughal might, he <strong>created a tradition and forged a weapon for the establishment of a Sikh state later on</strong>. It showed how an egalitarian religious movement could, under certain circumstances, turn into a political and militaristic movement, and subtly move towards regional independence.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Banda Bahadur</strong>: In the context of Banda&#8217;s uprising in 1708&#8211;9, Khafi Khan says that Aurangzeb had ordered the masands who were collecting tithes for the Guru expelled from the cities, and their temples pulled down. However, this order, if issued, must have remained inoperative &#8212; neither the Harmandir nor any of the other major gurudwaras of the period were affected.
+<ul>
+<li style="padding-left:2em">&#9702; The Jat and the Sikh movements led to the setting up of separate regional states, the Jats succeeding in this <strong>earlier than the Sikhs</strong>.</li>
+</ul>
+</li>
+<li>&#8226; The Mughal emperors were conscious of the growing importance of the Sikh Gurus, and tried to engage them in order to influence and, if possible, to control them. The Sikh movement is an illustration of how the Mughal attempt at centralization of authority, often at the expense of clan/tribal institutions, generated a spirit of defiance and resistance under charismatic leadership.</li>
+</ul>`,
   'mughal-culture': `<h2>Persian Histories and Other Literature</h2>
 <ul>
 <li>&#8226; The important role of <strong>Persian and Sanskrit</strong> as vehicles of thought and government at the all-India level continued during the 16th and 17th centuries.</li>
