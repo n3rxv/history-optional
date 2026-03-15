@@ -292,7 +292,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle, userI
           <div style={{ display: 'flex', gap: 4 }}>
             {toolBtn('pen',         '✏️', 'Pen')}
             {toolBtn('highlighter', '🖊️', 'Highlighter')}
-            {toolBtn('eraser',      '⬜', 'Eraser')}
+            {toolBtn('eraser', 'E', 'Eraser')}
           </div>
           {sep}
           {tool === 'pen' && (
