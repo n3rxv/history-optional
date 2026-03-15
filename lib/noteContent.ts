@@ -13552,6 +13552,236 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 </ul>
 </li>
+</ul>
+<h2>Causes behind Era of Discovery and Sea Voyages</h2>
+<ul>
+<li>&#8226; <strong>Decline of Constantinople:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Conquest of Constantinople by Ottomans in 1453 blocked all trading routes between India and Europe.</li>
+<li style="padding-left:2em">&#9702; With this, the merchants from Genoa and Venice monopolised the spice distribution in Europe.</li>
+<li style="padding-left:2em">&#9702; Thus, there started a competition in Europe for sea voyages to discover alternative routes to India.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Adventurous spirit inspired by the Renaissance:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It reduced the influence of religion on people's mind and emphasised the dignity of man. This humanistic consciousness also encouraged people to engage in maritime activities by taking an adventurous spirit among them.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Maritime Innovation and technological advancement:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In the field of ship design and navigation, technological advancement became commonplace. (e.g. use of a compass or astrolabe)</li>
+</ul>
+</li>
+<li>&#8226; <strong>Religious Reform, rivlary and Zeal:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After this the Roman Catholic Church system was disintegrated and two religious sub-sects Roman Catholic and Protestant came into existence. Both were inclined to spread their influence. So, they also encouraged sea voyages.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Commercial Revolution, Rising prosperity:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; This period was marked by expansion in European Economy.</li>
+<li style="padding-left:2em">&#9702; As a result of this expansion, there was the rise of a prosperous class which intensified the demand for Indian products.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Rising monarchies:</strong> It was the era of the rise of some ambitious monarchs in Europe who started to finance sea voyages.</li>
+<li>&#8226; <strong>Mercantilism:</strong> (economic system from 1500-1800)
+<ul>
+<li style="padding-left:2em">&#9702; Mercantilism is an economic practice by which governments used their economies to augment state power at the expense of other countries.</li>
+<li style="padding-left:2em">&#9702; In mercantilism, wealth is viewed as finite and trade as a zero-sum game. Thus, governments sought to ensure that exports exceeded imports and to accumulate wealth in the form of bullion (mostly gold and silver).</li>
+</ul>
+</li>
+</ul>
+
+<h2>Estado da India</h2>
+<p>After Vasco da Gama's successful voyage to India in 1498, the Portuguese Crown sought to establish a monopoly over the spice trade in Indian Ocean. This was against the Indian tradition of <em>'open sea policy'</em>.</p>
+<p><strong>To enforce the monopoly</strong>, a combination of techniques were used:</p>
+<ul>
+<li>&#8226; <strong>Strategic control</strong> of key ports along the Indian Ocean.
+<ul>
+<li style="padding-left:2em">&#9702; Fransisco Almeida introduced <strong>Blue Water Policy.</strong> Instead of a territorial empire, he preferred supremacy at sea.</li>
+<li style="padding-left:2em">&#9702; The conquest of <strong>Goa</strong> (1510) and <strong>Malacca</strong> (1511) by Albuquerque provided the Portuguese with a secure base for further operations and control over critical sea routes. They also established bases in <strong>Hormuz</strong> (1515) and attempted to dominate the spice trade passing through these crucial waterways Persian Gulf and Red Sea.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Network of forts</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Portuguese constructed a <strong>network of forts and trading posts along their maritime empire</strong> (e.g. Fort Jesus in Mombasa, Diu Fort in India).</li>
+<li style="padding-left:2em">&#9702; These fortified outposts served as military bases, administrative centers, and trading hubs, allowing the Portuguese to maintain control over vast territories despite their numerical inferiority.</li>
+</ul>
+</li>
+<li>&#8226; Portuguese-Ottoman rivalry for the domination of Indian Ocean.
+<ul>
+<li style="padding-left:2em">&#9702; The Ottoman Empire, a major power in the region, posed a challenge to Portuguese dominance. The Battle of Diu in 1509 and subsequent conflicts marked a struggle for control over key trade routes.</li>
+</ul>
+</li>
+<li>&#8226; <strong>'Cartaz-Armada-Kafila' system</strong>
+<ul>
+<li style="padding-left:2em">&#9702; (Arabic 'qirat' meaning paper/document)</li>
+<li style="padding-left:2em">&#9702; Portuguese <strong>essentially served as middlemen</strong> between growers, traders, and consumers.</li>
+<li style="padding-left:2em">&#9702; <u>Cartaz</u> was a license for safe conduct issued by the Portuguese to native ships in exchange for money. It was essentially a <strong>pass or permit</strong> that every ship had to purchase to navigate in the waters under Portuguese influence.
+<ul>
+<li style="padding-left:4em">&#9632; It allowed ships to navigate in Portuguese-controlled waters and trade at designated ports. Ships were compelled to ply along specified <strong>routes</strong> and call on to Portuguese ports where they had to pay <strong>custom duties</strong>. Ships without a Cartaz were subject to seizure and confiscation.</li>
+<li style="padding-left:4em">&#9632; Merchants had to pay a <strong>fee</strong> for the privilege of obtaining a Cartaz.</li>
+<li style="padding-left:4em">&#9632; They were prohibited from carrying <strong>commodities</strong> such as spices which were sought by Portuguese.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; This system was a powerful deterrent against potential competitors, as it restricted access to vital trading routes and ensured that only Portuguese-approved vessels could engage in profitable spice trade.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Naval strength (Armada):</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Armed ships of Portugues cruised trade routes, intercepting vessels without cartazes or violating regulations. Portugal's ships, like the <em>carrack</em>, were advanced ensured control over crucial sea lanes.</li>
+</ul>
+</li>
+<li>&#8226; Apart from trade, Portuguese merchants were involved into see <strong>piracy</strong> as well.</li>
+</ul>
+
+<h2>Was the Monopoly really established?</h2>
+<p>Despite the efforts and unrestricted use of violence, the Portuguese were <strong>unable to meaningfully dominate pepper-producing areas</strong>.</p>
+<ul>
+<li>&#8226; The maintenance of forts and armada to enforce monopoly was a <strong>costly affair.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Sea-Borne "empire" of the Portuguese was huge in terms of the area they were trying to control. The financial and the human resources available for this vast undertaking were relatively small.</li>
+</ul>
+</li>
+<li>&#8226; Portugal's <strong>lack of control over the territories</strong> where pepper was grown made their task difficult.</li>
+<li>&#8226; The Portuguese also found it difficult to impose complete monopoly due to the <strong>opposition of Asian traders and rulers.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; There were frequent 'leakages' in the system. The Gujarati merchants collected vast amount of pepper in 1540's and 1550's in the Bay of Bengal and traded it all over Asia.</li>
+</ul>
+</li>
+<li>&#8226; The Portuguese <strong>failed to take over Aden</strong>, which was acquired by a hostile Ottoman empire in 1538. This left open a vital gap in their monopolistic designs.</li>
+<li>&#8226; Although <strong>Cape of Good Hope</strong> was monopolized by Portuguese, the traditional sea-cum-land route from <strong>West Asia</strong> continued to operate like before, despite Portuguese efforts to close it down.</li>
+<li>&#8226; Through the 16th century, they tried to concentrate all East African trade to their forts at Malindi in Mozambique, decimating local textile manufacturers. However, the <strong>African demand for Gujarati textiles stayed high.</strong></li>
+<li>&#8226; Soon, the <strong>British and Dutch emerged</strong> as competitors and challenged the Portuguese hold over the trade.</li>
+</ul>
+<p>Thus, Portuguese empire remained to be a sort of a re-distributive empire, where they skimmed off a layer of profits derived from the maritime trading activities of others for themselves. Nevertheless, the activities of <strong>Arab and Gujarati merchants received some setback.</strong> Few Indian ships now could sail to East Africa and Arabia, as well as far East and Spice Islands. By the latter half of the 16th c, over <strong>75% of the pepper</strong> available in European markets was being supplied by Portuguese, which was primarily sourced from India.</p>
+
+<h2>The reasons behind the decline of Portuguese power:</h2>
+<p>Portuguese definitely created a huge maritime empire and started to monopolize Indian Ocean trade. However, there were some major flaws in their operation.</p>
+<ul>
+<li>&#8226; <strong>Economic reason:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; They <strong>didn't introduce anything new economically.</strong> Only sheer violence to create monopoly over what already existed.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Religious Policy:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Portuguese followed the policy of religious bigotry to promote Christianity and encouraged forcible conversions.</li>
+<li style="padding-left:2em">&#9702; Such policy of the Portuguese antagonized local population collaborators. Instead of gaining collaborators, they <strong>created powerful adversaries in the vicinity.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Administrative reasons:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Estado da India was a crown initiative. The king appointed courtiers and country nobles in the administration who had access to the king directly. This led to <strong>ill-development of civilian bureacracy</strong> with single point of command.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Domestic limitations:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Portugal was a <strong>smaller country</strong>, and it was lacking in sufficient resources to maintain a proper rivalry with other European countries.</li>
+<li style="padding-left:2em">&#9702; Portuguese society was <strong>feudal in character.</strong> There, the dominance of the aristocratic class on the middle class was a common phenomenon.</li>
+<li style="padding-left:2em">&#9702; In <u>1580</u>, Portugal was <strong>conquered by Spain</strong> and so it became the part of the Spanish Empire. As long as Spain maintained its naval supremacy, even Portugal was in a strong position. But once the Spanish Armada (naval force) was defeated by the British in 1588, it lost its naval supremacy. Consequently, even Portugal became looser.</li>
+</ul>
+</li>
+</ul>
+<p>For all these reasons, after brilliant initial success, Portuguese colonies remained stagnant for long time and then declined. When other European powers emerged on the scene, the Portuguese lost most of their gains.</p>
+
+<h2>Impact and Significance of the Portuguese on India:</h2>
+<p>Although the Portuguese invasion of India was geographically quite restricted, the Portuguese exploration of the East has had a profound impact on the world's socio-political order and economics. In the development of the contemporary world, it marked a turning point.</p>
+<ul>
+<li>&#8226; <strong>Armed Trade:</strong> The Portuguese introduced the concept of armed trade in the Indian Ocean. This was a <strong>precursor to conquest</strong>.</li>
+<li>&#8226; <strong>Empire Building:</strong> Not only were the Portuguese the earliest to arrive in India, but they were also the <strong>first to have the vision of creating an overseas empire</strong>.</li>
+<li>&#8226; <strong>Agriculture:</strong> The Portuguese introduced <strong>new varieties of crops</strong> such as mango, papaya, pineapple, guava, chilli peppers, kidney beans, potato, tomato, groundnuts, cashew nuts, tobacco, maize etc.</li>
+<li>&#8226; <strong>Christianity:</strong> The spread of Christianity started with the arrival of the Portuguese. <strong>St. Francis Xavier</strong> led an evangelical mission to India.</li>
+<li>&#8226; <strong>Printing Press:</strong> The Portuguese introduced the printing press to India and printed copies of the <strong>Bible</strong> in Malayalam and Kannada.</li>
+<li>&#8226; <strong>Architecture:</strong> The Portuguese built many churches and forts on the western coast of India, including <strong>The Churches and Convents of Goa</strong>, a UNESCO World Heritage site.</li>
+<li>&#8226; <strong>Goan Culture:</strong> Cultural exchanges between the Portuguese settlers and the Goan natives gave birth to a distinct Goan culture with <strong>unique attire, cuisine, customs, festivals and folklore.</strong></li>
+</ul>
+<p>Despite their limited success, the Portuguese were able to establish the colony by force and keep it for 450 years, which is no small feat in any case. It was a feat of formidable daredevilry, religious zeal, fortitude, and navigational skills that speaks volumes about the Portuguese indomitable spirit.</p>
+
+<h2>British, Dutch and French Companies</h2>
+<p>The British East India Company was founded in London in 1600 CE and the Dutch East India Company in 1602 CE. These companies were joint-stock companies, which issued the shares in order to pool larger capital required for long distance trade and spread risk associated with treacherous oceanic travel.</p>
+<p>Despite being a private company, the state extended its direct/indirect support whenever necessary. Queen Elizabeth gave a Charter ensuring monopoly of trade in East to the British East India Company for 15 years. Later his successor, James I, extended it for indefinite period.</p>
+<p>There was intense <strong>competition between the British and Dutch</strong> companies in the 17th century.</p>
+<ul>
+<li>&#8226; Both Dutch and British companies were primarily interested in the spice trade in Southeast Asia, but due to the rivalry from the Dutch company, the British company could not be established in that region and had to withdraw from Southeast Asia.</li>
+<li>&#8226; On the other hand, the Dutch company was also interested in India and set up its factory at many places like Chinsura in Bengal, Masulipattam in Andhra, but had to withdraw from India due to British resistance.
+<ul>
+<li style="padding-left:2em">&#9702; In 1759, the Dutch of Chinsura were defeated by the British in the 'Battle of Bedara' and by 1795 they had to leave India.</li>
+</ul>
+</li>
+</ul>
+<p><strong>The French</strong> company was late comer in India.</p>
+<ul>
+<li>&#8226; The French East India Company was established in 1664 by French Prime Minister, Colbert. It arrived in India in 1666 and established its factory at Surat, Masulipattam, Pondicherry, Chandragiri etc.</li>
+<li>&#8226; As France was the main rival of Britain in Europe, in India also, the French company emerged as the main rival of the British company. So, they began to compete to dominate the Indian territories, which came to be known as the <strong>Carnatic War.</strong></li>
+</ul>
+
+<h2>Why were the political ambitions of European companies encouraged?</h2>
+<ul>
+<li>&#8226; Balance of Trade
+<ul>
+<li style="padding-left:2em">&#9702; European trade with India was a one-way trade, i.e. there was a high demand for Indian goods in Europe, but European goods were not in demand in India. Therefore, these companies would have to bring precious metals for exchange.</li>
+<li style="padding-left:2em">&#9702; This precious metal used to come from America. Therefore, the British company started to think on the option how to mobilise resources in India for financing trade.</li>
+</ul>
+</li>
+<li>&#8226; It also started to think that if it would establish its political dominance, then it was able to get its other business rivals out of business, that would have increased its profits.</li>
+</ul>
+
+<h2>Nature of 17th century globalization</h2>
+<p>The early modern globalization took place in the context of the transition from feudalism to capitalism in Europe. The influx of wealth from global trade contributed to the rise of a merchant class and the development of capitalist economies, setting the stage for the industrial revolution in subsequent centuries.</p>
+<ul>
+<li>&#8226; The characteristic economic policy of this era was <strong>Mercantilism</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; It drove nations to accumulate wealth through colonization, trade monopolies, and the exploitation of colonies, shaping global economic structures.</li>
+</ul>
+</li>
+<li>&#8226; The rise of <strong>chartered and joint-stock companies</strong> facilitated the flow of goods across continents, such as the spice trade linking Europe and Asia.
+<ul>
+<li style="padding-left:2em">&#9702; These companies, driven by profit motives, operated on a global scale and became key players in shaping early modern globalization.</li>
+</ul>
+</li>
+<li>&#8226; There emerged a <strong>global trade network</strong> from America in West to China and South-East Asia in East.</li>
+<li>&#8226; The system of <strong>trans-Atlantic triangular trade</strong> linked Europe, Africa, and the Americas in a brutal trade of slaves, manufactured goods, and raw materials.</li>
+<li>&#8226; However, history testifies that whenever globalization came into existence, even if we include globalization in the early Christian centuries and present globalization, then we come to realise that the <strong>balance of trade</strong> has always been in favor of India and China. This remained a major challenge for European companies.
+<ul>
+<li style="padding-left:2em">&#9702; Because of the accidental discovery of America, which supplied the precious metals to Europe, European merchants could finance the one-sided Indian trade.</li>
+<li style="padding-left:2em">&#9702; They further tried to solve this through the Battle of Plassey and that of Buxar in India and the Opium War in China.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Colonization and Geopolitical shift:</strong> This era witnessed the established empires in Asia; Ottoman, Ming, Safavids and Mughals, facing challenges. Soon, the balance of power shifted which led to the redrawal of the global trade routes.</li>
+<li>&#8226; There was the beginning of the massive <strong>diffusion of European culture and values</strong>. Missionary activities, migration, and trade led to the dissemination of ideas, languages, and religious beliefs across the globe.</li>
+<li>&#8226; <strong>Columbian Exchange:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The transatlantic exchange of goods, plants, and animals had a profound impact on societies on both sides of the Atlantic.</li>
+<li style="padding-left:2em">&#9702; The interconnectedness of the early modern world had unintended consequences, such as the spread of diseases. For example, smallpox epidemics brought by Europeans to the Americas had devastating effects on indigenous populations, reshaping demographic landscapes on a global scale.</li>
+</ul>
+</li>
+</ul>
+
+<h2>'Trade Revolution' of 17th c.</h2>
+<p><strong>Niels Steensgaard</strong> has pointed about that the Dutch and the English companies were instrumental in bringing about a revolution in the organization and conduct of Euro-Asian trade from 17th century onwards.</p>
+<ul>
+<li>&#8226; Portuguese company preferred the control the spice trade from India, while the British and Dutch companies were more attracted to <strong>export of new products like textiles.</strong></li>
+<li>&#8226; Portuguese were primarily confined to the western coast of India, but the British and Dutch companies expanded even to the <strong>Coromandel coast, Bengal coast &amp; Gujarat coast.</strong></li>
+<li>&#8226; Not simply that, British &amp; Dutch Companies were not confined only to the coastal regions, rather they <strong>expanded in the interior</strong> as well e.g. Ahmedabad in Gujarat &amp; Agra in Northern India.</li>
+<li>&#8226; So far, the Portuguese company was involved simply in the collection, storage and the distribution of the products. However, the British &amp; the Dutch companies were not satisfied simply with the distribution as they needed the larger quantity and so, they became <strong>involved in the production</strong> as well.</li>
+</ul>
+<p>It is claimed that unlike the Portuguese, the success of the Dutch and the English was not based upon the government monopolies or the use of violence but on their ability to compete in the markets. However, in the Dutch and the English companies, the support of the governments was not entirely lacking. In any case, there was a significant change in the composition of trade in the 17th century.</p>
+
+<h2>Change in the composition of trade:</h2>
+<ul>
+<li>&#8226; <strong>Commodity Basket:</strong> Portuguese company was mainly involved in the export of spices, but the British &amp; the Dutch companies were involved in <strong>diverse items</strong> e.g. <u>cotton and silk goods, raw cotton, saltpeter, indigo, opium</u>, etc.
+<ul>
+<li style="padding-left:2em">&#9702; During the first half of the 17th century, in export, the contribution of spices was 74%, while that of cotton goods was 16%. But during the second half of the 17th century, the contribution of spices declined up to 23% while that of cotton goods increased up to 55%.</li>
+</ul>
+</li>
+<li>&#8226; During this period, there was a <strong>wide expansion in European and Asian trade both.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; For example, the Dutch company used to exchange Indian clothes with spices in Southeast Asia, they used to export cotton clothes from the Coromandel coast and Gujarat coast to southeast Asia. So, Coromandel coast was called the left hand of Malacca. Through this Asian trade, whatever profit was reaped by the Dutch company, it utilized the amount for purchasing the products (spices) from southeast Asia.</li>
+<li style="padding-left:2em">&#9702; Apart from that, the Dutch company used to export opium from Bengal to southeast Asia &amp; raw silk from Bengal to Japan.</li>
+</ul>
+</li>
+<li>&#8226; Similarly, in 17th century, the <strong>main item imported into India</strong> was horses, now that item became a precious commodity (silver and gold).</li>
 </ul>`,
   'british-expansion-india': ``,
   'early-british-raj': ``,
