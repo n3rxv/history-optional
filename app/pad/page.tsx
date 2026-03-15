@@ -49,7 +49,7 @@ interface PadRecord {
 
 // ── Constants ─────────────────────────────────────────────────────
 const PEN_COLORS: { label: string; value: string }[] = [
-  { label: 'Black', value: '#1a1a1a' },
+  { label: 'White', value: '#ffffff' },
   { label: 'Blue', value: '#1e40af' },
   { label: 'Red', value: '#dc2626' },
   { label: 'Green', value: '#16a34a' },
@@ -82,7 +82,7 @@ export default function PadPage() {
   const textareaRef   = useRef<HTMLTextAreaElement>(null);
 
   const [tool, setTool]           = useState<Tool>('pen');
-  const [penColor, setPenColor]   = useState('#1a1a1a');
+  const [penColor, setPenColor]   = useState('#ffffff');
   const [penSize, setPenSize]     = useState(2);
   const [zoom, setZoom]           = useState(1);
   const [pads, setPads]           = useState<PadRecord[]>([]);
@@ -118,9 +118,9 @@ export default function PadPage() {
     ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
 
     // Dot grid background
-    ctx.fillStyle = '#f8f6f1';
+    ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
-    ctx.fillStyle = '#d4cfc7';
+    ctx.fillStyle = '#222222';
     for (let x = GRID_SIZE; x < CANVAS_W; x += GRID_SIZE) {
       for (let y = GRID_SIZE; y < CANVAS_H; y += GRID_SIZE) {
         ctx.beginPath();
