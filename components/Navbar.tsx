@@ -11,7 +11,7 @@ const links = [
   { href: '/pyqs',   label: 'PYQs' },
   { href: '/timeline', label: 'Timeline' },
   { href: '/chat',   label: 'AI Chat' },
-  { href: '/pad',      label: '✏️ Pad' },
+  { href: '/pad',      label: 'Pad' },
 ];
 
 export default function Navbar() {
