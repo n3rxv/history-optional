@@ -14637,7 +14637,409 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 </li>
 </ul>
-<p>Finally, sooner or later, the fall of Mysore was inevitable. Tipu didn't have power to reverse the forces of history. It is an irony of history that Tipu's life coincided with the British colonial expansion in India. With the surrender of all Indian powers, the English were all set on the road to paramountcy. Under these circumstances, it was not possible for Tipu's Mysore alone to retain its independence.</p>`,
+<p>Finally, sooner or later, the fall of Mysore was inevitable. Tipu didn't have power to reverse the forces of history. It is an irony of history that Tipu's life coincided with the British colonial expansion in India. With the surrender of all Indian powers, the English were all set on the road to paramountcy. Under these circumstances, it was not possible for Tipu's Mysore alone to retain its independence.</p>
+<h2>Anglo-Maratha Wars</h2>
+
+<h2>UPSC CSE PYQs</h2>
+<p><strong>First War</strong></p>
+<ul>
+<li>&#8226; "Anglo-Maratha War covering nearly nine years from the murder of Narayan Rao to the Treaty of Salbai emphatically discloses the vitality of the Maratha nation which had not been exhausted either by the disaster of Panipat or the death of their great Peshwa Madhavrao." Comment. [1991, 20m]</li>
+<li>&#8226; The British "fought the First Maratha War in a period when their fortunes were at the lowest ebb". Comment. [1998, 20m]</li>
+<li>&#8226; "The Treaty of Salbai (1782) was neither honorable to the English nor advantageous to their interests." Comment. [2004, 20m]</li>
+</ul>
+<p><strong>Second War</strong></p>
+<ul>
+<li>&#8226; "The Treaty of Bassein, 1802 was&#44; a step which changed the footing on which we, the English stood in western India. It trebled the English responsibilities in an instant." Comment. [1983, 20m]</li>
+<li>&#8226; "Upon the whole, then, I conclude that the treaty of Bassein was wise, just and a politic measure." Comment. [1986, 20m] (Ramsay Muir)</li>
+<li>&#8226; "The treaty of Bassein, by its direct and indirect operations, gave the Company the Empire of India." Comment. [1993, 20m]</li>
+<li>&#8226; "Upon the whole, then, I conclude that the treaty of Bassein was wise, just and a politic measure." Comment. [2005, 20m]</li>
+</ul>
+<p><strong>Third War</strong></p>
+<ul>
+<li>&#8226; "……. the hunt of the Pindaris became merged in the Third Maratha War." Comment. [1989, 20m]</li>
+</ul>
+<p><strong>Maratha Decline</strong></p>
+<ul>
+<li>&#8226; Trace the course of the Anglo-Maratha relations in the first two decades of the nineteenth century. Account for the ultimate defeat of the Maratha power by the British. [1984, 60m]</li>
+<li>&#8226; How did the British establish their control over Maharashtra in the first two decades of the 19th century? Why did the Maratha challenge ultimately collapse? [1994, 60m]</li>
+<li>&#8226; "The Maratha polity disintegrated through internal stress." Critically examine. [2017, 10m]</li>
+<li>&#8226; While individually the Marathas were clever and brave, they lacked the corporate spirit so essential for national independence. Discuss with reasons. [2021, 10 Marks]</li>
+</ul>
+
+<h2>Maratha Confederacy — Peshwas</h2>
+<table style="border-collapse:collapse;width:100%">
+<tr><th style="border:1px solid #ccc;padding:6px">Peshwa</th><th style="border:1px solid #ccc;padding:6px">Period</th><th style="border:1px solid #ccc;padding:6px">Key Events</th></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Balaji Vishwanath</strong></td><td style="border:1px solid #ccc;padding:6px">1713-20</td><td style="border:1px solid #ccc;padding:6px">Resolved the Maratha civil war. Assisted the Syed Brothers in deposing the emperor Farrukhsiyar in 1719.</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Bajirao I</strong></td><td style="border:1px solid #ccc;padding:6px">1720-40</td><td style="border:1px solid #ccc;padding:6px">Establishment of Hindu Pad Padshahi. Defeated Nizam multiple times (eg Palkhed, Bhopal). Conquest of Malwa, Rajputana, Gujarat. Attacked Delhi in 1737. Created Maratha Confederacy.</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Nanasaheb (Balaji Bajirao)</strong></td><td style="border:1px solid #ccc;padding:6px">1740-61</td><td style="border:1px solid #ccc;padding:6px">Extension in North, South, East – From Cuttock to Attock and Peshawar in 1758. Third Battle of Panipat 1761. Expansion of Pune city.</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Madhavrao I</strong></td><td style="border:1px solid #ccc;padding:6px">1761-72</td><td style="border:1px solid #ccc;padding:6px">Maratha Resurrection. Defeated Nizam in the battle of Rakshasabhuvan.</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Narayanrao</strong></td><td style="border:1px solid #ccc;padding:6px">1772-73</td><td style="border:1px solid #ccc;padding:6px">Assassinated by Gardi guards at the behest of Raghunathrao.</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Raghunathrao</strong></td><td style="border:1px solid #ccc;padding:6px">1773-74</td><td style="border:1px solid #ccc;padding:6px">Deposed by barbhai, fled for British protection. First Anglo-Maratha War.</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Madhavrao II</strong></td><td style="border:1px solid #ccc;padding:6px">1774-96</td><td style="border:1px solid #ccc;padding:6px">Appointed as infant by generals and ministers as regents. Era dominated by Nana Phadanvis.</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Baji Rao II</strong></td><td style="border:1px solid #ccc;padding:6px">1796-1802</td><td style="border:1px solid #ccc;padding:6px">Defeated by Holkar in the battle of Poona. Fled for British protection, provoked Second Anglo-Maratha War.</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Amrit Rao</strong></td><td style="border:1px solid #ccc;padding:6px">1802-03</td><td style="border:1px solid #ccc;padding:6px">Appointed by Holkar after defeating Peshwas and Scindia.</td></tr>
+<tr><td style="border:1px solid #ccc;padding:6px"><strong>Baji Rao II</strong></td><td style="border:1px solid #ccc;padding:6px">1803-18</td><td style="border:1px solid #ccc;padding:6px">Third Anglo-Maratha War – End of Maratha Confederacy.</td></tr>
+</table>
+
+<h2>First Anglo-Maratha War (1775-82)</h2>
+<p>During the period of <strong>Warren Hastings (1772-85)</strong>, two important wars took place – First Anglo-Maratha War and the Second Anglo-Mysore War.</p>
+
+<p><strong>Background:</strong></p>
+<ul>
+<li>&#8226; The Marathas had suffered a great setback when they were decisively beaten by Ahmad Shah Abdali at the Battle of Panipat in 1761. The British, on the other hand, after consolidating their position in Bengal and Awadh, were looking for an opportunity to settle a score with them. The opportunity came when Raghunath Rao sought British help for becoming the Peshwa, as he was facing opposition from the Council of Regency headed by Nana Phadnavis.
+<ul>
+<li style="padding-left:2em">&#9702; Just after the untimely death of <strong>Madhavrao</strong> Peshwa, a series of court intrigues, conspiracies and counter-conspiracies started in the Maratha court, in order to control the gaddi of Peshwa.</li>
+<li style="padding-left:2em">&#9702; Madhavrao was succeeded by his younger brother <strong>Narayanrao</strong> whose life was made difficult but uncle <strong>Raghunathrao</strong> (Raghoba, brother of Nanasaheb), who wanted to be Peshwa. However, he couldn't succeed in his designs due to the intervention of <strong>Nana Phadanvis</strong>.</li>
+<li style="padding-left:2em">&#9702; So, out of sheer frustration, Raghoba sought British help. This conflict gave British a handle to interfere in Maratha politics.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Why exactly did British intervene?</strong></p>
+<ul>
+<li>&#8226; Expansion to cotton producing region of western India.</li>
+<li>&#8226; Bombay was an important opium supply route.</li>
+<li>&#8226; Bombay officers adventured – Intervention into internal matters of Poona court, into the succession rights.</li>
+</ul>
+
+<p><strong>Treaty of Surat, 1775</strong></p>
+<p>British promised to help Raghunath Rao to become Peshwa in return of:</p>
+<ul>
+<li>&#8226; Control over Salsette and Bassein</li>
+<li>&#8226; Revenue of Surat and Broach</li>
+<li>&#8226; Acceptance to be consulted before making alliance with any other power.</li>
+</ul>
+
+<p><strong>The War:</strong></p>
+<ul>
+<li>&#8226; In May 1775, an army contingent led by Col. Keating was dispatched to help Raghoba, thereby <strong>commencing the first Anglo-Maratha war.</strong></li>
+<li>&#8226; However, Warren Hastings (GG of Bengal), however, was not consulted and thus didn't like the idea. He sent Col. Upton to mediate between the Marathas and the Bombay government.
+<ul>
+<li style="padding-left:2em">&#9702; This led to the <strong>Treaty of Purandar (1776)</strong> with Pune.
+<ul>
+<li style="padding-left:4em">&#9632; British promised not to help Raghoba.</li>
+<li style="padding-left:4em">&#9632; British would get Salsette, while other regions would be vacated by both the parties.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Thus, the war halted. However, the Bombay officials were not satisfied with it. This prompted the Bombay presidency to resume the war once again.</li>
+<li>&#8226; However, the Marathas gained upper hand:
+<ul>
+<li style="padding-left:2em">&#9702; In the <strong>battle of Talegaon (1779)</strong>, British were roundly defeated by the Marathas, and this led to the signing of the <strong>Treaty of Wadgaon (1779).</strong>
+<ul>
+<li style="padding-left:4em">&#9632; This treaty led to the status quo ante bellum and Salsette went to Marathas again. All the benefits earned by British were lost.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The years of 1780-82 turned out to be a very difficult year for the British
+<ul>
+<li style="padding-left:4em">&#9632; Nizam, Hyder, and Marathas joined hands against them due to diplomacy of Nana Phadanvis. (United Front).</li>
+<li style="padding-left:4em">&#9632; The Company was going through the administrative crisis in India, in the wake of Regulating Act (1773).</li>
+<li style="padding-left:4em">&#9632; The company was also facing a financial crunch as the revenue sources were not established properly.</li>
+<li style="padding-left:4em">&#9632; Moreover, the Company was not able to receive proper help from the home government which was pre-occupied in the American War of Independence.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; However, the Treaty of Wadgaon was not accepted by Hastings. Now, British went on offensive, and Hastings sent resources from the Bengal Presidency.
+<ul>
+<li style="padding-left:2em">&#9702; Hastings created severe military pressure on Marathas and forced them to come to the table. Thus, was signed the <strong>Treaty of Salbai (1782).</strong> According to this treaty:
+<ul>
+<li style="padding-left:4em">&#9632; Madhav Rao Narayan was recognized as the real Peshwa. The Company promised not to interfere in the internal matters of the Marathas.</li>
+<li style="padding-left:4em">&#9632; British got the control of Salsette, along with Elephanta Islands.</li>
+<li style="padding-left:4em">&#9632; British also established a foothold in the internal conflicts of Indian states.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>With this treaty, the First Anglo-Maratha War ended. Thereafter, a 20 years-long peace prevailed between Marathas and the British. The British Company took advantage of this, isolated the state of Mysore and eliminated it. Thus, the treaty helped in neutralizing Marathas and breaking the alliance of Indian powers and defeat them one by one. Meanwhile the Marathas were gripped by internal dissension and local Maratha chiefs tried to expand their areas as much as possible, which obviously weakened the central Maratha authority.</p>
+
+<h2>Wellesley's Subsidiary Alliance</h2>
+<p>To achieve his expansionist goals, Lord Wellesley devised a system of <strong>subsidiary alliance.</strong> Although aggressive in nature, it was an extension of the policy of Ring-Fence. It was not an entirely novel idea, some of the elements were visible earlier.</p>
+<ul>
+<li>&#8226; <strong>Dupleix</strong> had a similar treaty with <strong>Hyderabad</strong> in 1740s</li>
+<li>&#8226; <strong>Clive</strong> concluded first such treaty with Shuja-ud-Daulah back in 1765</li>
+<li>&#8226; In 1787, <strong>Cornwallis</strong> signed Treaty with <strong>Carnatic</strong> which had brought its foreign policy of under British control.</li>
+</ul>
+<p>Using the pretext of hyped French Menace to justify the aggression, the earlier practices were given a definite formal shape and systemic framework by Wellesley in the form of Subsidiary Alliance.</p>
+<p>Before starting the final war with Mysore, Wellesley signed the <strong>first treaty with Hyderabad in 1798</strong>. It inaugurated the era of Subsidiary Alliance System.</p>
+<p>After the capture of Mysore, all political entities in India were to be offered the option of submitting peacefully by becoming the part of the subsidiary alliance system, or of a military context if they resisted colonial domination. Wellesley used it to subordinate the Indian states to the paramount authority of the Company.</p>
+<p><strong>Sequence in which the Indian States entered Subsidiary Alliances with Lord Wellesley:</strong> Hyderabad (1798, 1800); Mysore, Tanjore (1799); Awadh, Arcot (1801); Peshwa (Marathas) (1802); Shinde, Bhosle, Gaekwads (Marathas) (1803-05)</p>
+
+<p><strong>Constituents of the Treaty</strong></p>
+<ul>
+<li>&#8226; <strong>Permanent Army</strong> led by a British officer.
+<ul>
+<li style="padding-left:2em">&#9702; Stationed within the territory of the state, in order to protect from internal disorder and external aggression.</li>
+<li style="padding-left:2em">&#9702; The state had no control over this army.</li>
+<li style="padding-left:2em">&#9702; It was mandatory for the ally to disperse his own militia.</li>
+</ul>
+</li>
+<li>&#8226; Payment of a <strong>subsidy:</strong> In cash (for smaller states) or ceded territory (for bigger states) to defray its expenses.</li>
+<li>&#8226; Posting a British <strong>Resident</strong> at his court.
+<ul>
+<li style="padding-left:2em">&#9702; Theoretically, the company was not allowed to interfere in the internal matters of the state but practically, this rule was almost always flaunted.</li>
+</ul>
+</li>
+<li>&#8226; Control over <strong>external relations</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Not to employ any European in service without consent.</li>
+<li style="padding-left:2em">&#9702; Not to directly negotiate with any other Indian ruler.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Effects of the Treaty — For the British (Extremely useful):</strong></p>
+<ul>
+<li>&#8226; It allowed company to gradually and silently <strong>disarm Indian states.</strong></li>
+<li>&#8226; Maintain a <strong>large army at the cost of the Indian states.</strong></li>
+<li>&#8226; This subsidiary force was stationed in the capitals of native states which were <strong>places of great strategic significance.</strong> The company could fight wars far away from their own territories.</li>
+<li>&#8226; Company now <strong>controlled the defense and foreign relations of the protected allies.</strong> The possibility of any native alliance against the company was eliminated.</li>
+<li>&#8226; It <strong>eliminated French threat</strong> in India because no French men could be recruited by a native ruler without the permission of the company.</li>
+<li>&#8226; This system allowed the company to ensure that <strong>only its favourites were sitting on throne</strong> of native state because at any time native ruler tried to threaten the interest of company he was immediately replaced. It transformed company into an <strong>arbitrator of Indian disputes</strong> because any kind of conflict involving native state was to be settled by English company. Thus, <em>the Company could easily maintain its paramountcy over native states.</em></li>
+</ul>
+
+<p><strong>Effects of the Treaty — On Indian States (Devastating):</strong></p>
+<p>It proved to be <strong>extremely degenerative</strong> for Indian native states because native rulers purchased security at the cost of Independence and sovereignty.</p>
+<ul>
+<li>&#8226; The army was allegedly for the protection but, it turned the ruler into a <strong>tributary client</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Indian state virtually signed away its independence.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Disbandment</strong> of the local armies led to loss of livelihood for soldiers and officers.</li>
+<li>&#8226; On the one hand, the state was divested of its army and on the other hand, it had <em>to pay for its own occupation.</em></li>
+<li>&#8226; British Resident <strong>interfered in the day-to-day administration.</strong></li>
+<li>&#8226; The rulers of the protected states <strong>tended to neglect the interests of their people</strong> and to oppress them.
+<ul>
+<li style="padding-left:2em">&#9702; As a result, a situation of <strong>extreme maladministration</strong> developed in many native states.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Extremely high cost of subsidy</strong> – leading to diversion of disproportionate share of revenue and ultimate bankruptcy in many cases.</li>
+<li>&#8226; <strong>In external matters, the states lost all vestiges of sovereignty:</strong> it became subservient in diplomatic relations, could not employ foreign experts, or settle disputes with its neighbors.</li>
+</ul>
+<p>This alliance proved to be very advantageous from the point of view of the English, both economically and militarily. The native states were gradually brought under the sovereign control of English company. It is commented that it was a trojan horse tactics of empire building. <strong>Arthur Wellesley</strong> was right in observing that 'our policy our arms have reduced all the powers of India to the state of mere cyphers.'</p>
+
+<h2>Second Anglo-Maratha War (1803-05)</h2>
+<p><strong>Background:</strong></p>
+<ul>
+<li>&#8226; By the end of the 18th century, <strong>British had contained all other major powers</strong> in India.</li>
+<li>&#8226; By 1800, almost all the important Maratha leaders had passed away by this time. <strong>Next generation leadership was not so competent</strong>, lacked pragmatic program and involved in internecine conflict.
+<ul>
+<li style="padding-left:2em">&#9702; Haripant Phadke (1794), Ahilyabai Holkar (1795) passed away.</li>
+<li style="padding-left:2em">&#9702; Mahadaji Shinde (1794) → Daulatrao Shinde</li>
+<li style="padding-left:2em">&#9702; Tukojirao Holkar (1797) → Yashwantrao Holkar</li>
+<li style="padding-left:2em">&#9702; Sawai Madhaorao (1795) → Baji Rao II</li>
+<li style="padding-left:2em">&#9702; In March 1800 Nana Fadnavis, the Chief Minister at Poona, died. "With him", remarked <strong>Colonel Palmer</strong>, the British Residents at Poona, "departed all the wisdom and moderation of the Maratha Government".</li>
+</ul>
+</li>
+<li>&#8226; Freed from Nana's vigilance, Baji Rao's worst qualities found a free play.
+<ul>
+<li style="padding-left:2em">&#9702; With his fondness for intrigue, the Peshwa sought to keep up his position by putting the Maratha chiefs one against another. However, Baji Rao was caught in the net of his own intrigues.</li>
+</ul>
+</li>
+<li>&#8226; Both Daulat Rao Shinde and Jaswant Rao Holkar sought pre-eminence at Poona.
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>internecine conflict</strong> between Shinde and Holkar made the Maratha fall almost inevitable.</li>
+<li style="padding-left:2em">&#9702; Shinde-Holkar were competing to get influence over Peshwa. The Shinde prevailed at first and the Peshwa passed under his virtual control.</li>
+</ul>
+</li>
+<li>&#8226; Holkar's victory over the Peshwa's forces in the year 1800 prompted the <strong>Peshwa Baji Rao II to accept the British offer of subsidiary alliance in 1802</strong> by signing the <strong>Treaty of Bassein. (31 Dec 1802):</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Peshwa had to pay a huge sum as a <strong>subsidy</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; It included ceding a territory worth 26 lakh and control over Surat.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; In return, the British were to guarantee the <strong>safety and security of Peshwas</strong> from internal and external dangers.
+<ul>
+<li style="padding-left:4em">&#9632; British <strong>regiment</strong> stationed at <strong>Poona</strong> for payment of 26 lakh/annum.</li>
+<li style="padding-left:4em">&#9632; British <strong>resident</strong> stationed at <strong>Poona</strong>.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Peshwa agreed not to enter into any <strong>alliance</strong> with any other power without British consent.
+<ul>
+<li style="padding-left:4em">&#9632; The <strong>foreign policy of Peshwas</strong> had to be conducted at the advice of British resident. British now obtained right to intervene in the internal matters of the Maratha confederacy, as the final arbiter.</li>
+<li style="padding-left:4em">&#9632; Specific clause: Differences between Peshwas-<strong>Nizam</strong> or Peshwas-<strong>Gaikwad</strong> to be resolved under <strong>British mediation.</strong>
+<ul>
+<li style="padding-left:6em">&#9632; This marked the achievement of another object of Wellesley's policy, namely, that <strong>the state Hyderabad definitely passed under the Company's protection.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Military advantage:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The Company's subsidiary troops were encamped at the capitals of the four Indian powers—at Mysore, Hyderabad, Lucknow and Poona.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>In return, <strong>Arthur Wellesley</strong> restored the peshwa to Pune in May 1803. The leading Maratha state had thus become a client of the British. This treaty led to the Second Maratha War (1803–05).</p>
+<p>The Treaty of Bassein did not establish the Company's political supremacy in India but certainly was an important milestone in that direction. Thus, <strong>Sidney Owen's</strong> remark that "the treaty by its direct and indirect operations gave the Company the Empire of India" merely contains the exaggeration of a true political phenomenon.</p>
+<p>This British intervention into the internal matters irritated different members of the Confederacy. The national humiliation was too much for the Marathas. The Maratha chiefs rejected the treaty, which led to the second Anglo-Maratha War (1803-05). Now even Peshwas realised his loss in the treaty and hence he started seeking support of Bhonsle &amp; Scindia against the British.</p>
+
+<p><strong>Thus started the Second Anglo-Maratha War in 1803.</strong></p>
+<ul>
+<li>&#8226; In order to counter Maratha power, the British created two military commands: Northern command under <strong>Lord Lake</strong> &amp; Southern command under <strong>Arthur Wellesley</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; It was a major military confrontation, encompassing the <strong>large parts of the subcontinent.</strong> Deccan, MP, Gujarat, Karnataka, Odisha, Rajasthan, UP.</li>
+</ul>
+</li>
+<li>&#8226; <strong>The first Phase of War:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Arthur Wellesley defeated Bhosle and Shindes in a series of battles.</li>
+<li style="padding-left:2em">&#9702; Lake defeated Shinde in the battle of Aligarh, battle of Laswari in north India. Then, he captured Delhi (battle of Patparganj) and Agra.
+<ul>
+<li style="padding-left:4em">&#9632; Symbolically, Mughal Emperor Shah Alam became free from the control of Maratha &amp; fell under the control of the British.</li>
+<li style="padding-left:4em">&#9632; Under British protection the Mughal Emperors languished till the great revolt of 1857.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Subsidiary Alliance Treaties:</strong> Now, the treaties of subordination were imposed on a number of tributaries of the Marathas. British signed separate treaties with each of them.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Treaty of Devgaon</strong> with <strong>Raghuji Bhonsle</strong> of Nagpur.</li>
+<li style="padding-left:2em">&#9702; <strong>Treaty of Surji-Anjangaon</strong> with Daulatrao <strong>Shinde</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; Later on, the revised <strong>treaty of Mustafapur</strong> (1805) was foisted upon Shindes.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Gaekwads</strong> had already concluded the <strong>Treaty of Cambey</strong> (1802)</li>
+<li style="padding-left:2em">&#9702; Moreover, the British acquired the right to be the final arbiter in any disputes among the Maratha houses.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Second Phase:</strong> The war with <strong>Yashwant Rao Holkar continued till 1805.</strong> They fought the battle separately, along with Jats of Bharatpur. Thus, in the <strong>Second Phase of War, Holkars were defeated.</strong></li>
+<li>&#8226; In the meantime, the Court of Directors in London realized the extravagance of the war and <strong>recalled Wellesley.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; They sent Cornwallis again to India (1805) to curb expansionist policies of Wellesley, but he died after reaching in India.</li>
+<li style="padding-left:2em">&#9702; Thus, <strong>George Barlow</strong> was sent as the new Governor-General who concluded <strong>peace with Holkar in 1805 (Treaty of Rajpurghat)</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; With this, Holkars were forced to party away with a large part of Malwa to British.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Thus, the second Anglo-Maratha ended in stalemate, but only outwardly.
+<ul>
+<li style="padding-left:2em">&#9702; The English conquest of Delhi, apart from other gains, considerably enhanced their prestige and put them in the forefront of the Indian political scene. They also gained ascendency at Pune.</li>
+<li style="padding-left:2em">&#9702; For all practical purposes, a large chunk of Maratha territory was now under British control, through Peshwa or through other leaders who had signed the subsidiaries treaties.</li>
+<li style="padding-left:2em">&#9702; However, the Maratha power had been shattered though not completely annihilated.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Third Anglo-Maratha War (1817-18)</h2>
+<p><strong>Causes:</strong></p>
+<ul>
+<li>&#8226; The settlement of 1803 treaties provided some amount of stability under British domination for about a decade.
+<ul>
+<li style="padding-left:2em">&#9702; The breathing time that the Marathas had got after Wellesley's recall in 1805 was not utilized by them for strengthening their power but wasted in mutual conflicts.</li>
+</ul>
+</li>
+<li>&#8226; The arrival of <strong>Lord Hastings</strong> in 1813 turned out to be a major landmark in the evolution of British imperialism, which now became even more aggressive.
+<ul>
+<li style="padding-left:2em">&#9702; He resumed the threads of aggressive policy abandoned in 1805 and was determined to proclaim <strong>British Paramountcy</strong> in India.</li>
+</ul>
+</li>
+<li>&#8226; The Company wanted to capture <strong>Poona for strategic importance.</strong></li>
+<li>&#8226; A certain arrangement was evolved by the British whereby Bajirao II remained to be Peshwa, but without power.</li>
+<li>&#8226; Now, the Peshwa made the last-ditch effort to salvage the situation. The War erupted when there was a reaction from Maratha side. Peshwa Baji Rao tried to unite all Maratha chiefs against the British which led to the war of 1817-18.</li>
+</ul>
+
+<p><strong>Pindari War (1817-18)</strong></p>
+<ul>
+<li>&#8226; The final Anglo-Maratha overlapped with a large-scale campaign against the Pindaris. In fact, the so called Pindari menace provided the pretext and justification for military mobilization against the Marathas.</li>
+<li>&#8226; <strong>Pindaris</strong> created a law-and-order situation for the British.</li>
+</ul>
+<p>Lord Hastings decided to eliminate them. For him, annihilation of Pindaris was a prerequisite to the destruction of the Marathas. He formed a task force for the same purpose in <strong>1816</strong>. They were surrounded by an army of about 120,000 men, which converged upon them from Bengal, the Deccan, and Gujarat under the supreme command of the Governor-General Lord Hastings (northern command) and LG T. Hislop (southern command).</p>
+<p>The sheer military might of the Company resulted in victory. The Pindaris themselves offered little resistance. Their bands simply dissolved and there was no direct encounter. Most of the leaders surrendered or died.</p>
+<p>Hastings used Pindari campaign as a pretext to attack Marathas. After finishing the Pindari campaign, Lord Hastings asked Maratha commanders to sign new treaty and when they hesitated a war was declared on them immediately. Thus, along with the Pindaris, even Marathas became the target of the same army.</p>
+<p>The Peshwa was defeated at Khirki, Bhonsle's army routed at Sitabaldi and Holkar's army crushed at Mahidpur.</p>
+
+<p><strong>Consequence</strong></p>
+<ul>
+<li>&#8226; The Marathas were badly beaten in the third Anglo-Maratha war, which finally ended the independence of the Maratha states – Nagpur, Indore, Gwalior, Baroda – and made the EIC a major territorial power in western and central India.</li>
+<li>&#8226; The Peshwa's authority was terminated and his seat of authority, Pune, formally became part of the Company's territory.
+<ul>
+<li style="padding-left:2em">&#9702; Bajirao II formally abdicated his office and was sent to <strong>Bithur</strong> with an annual <strong>pension</strong> of 8 lakh.</li>
+<li style="padding-left:2em">&#9702; The gaddi of Peshwa was abolished and region of Maharashtra (including Pune) was <strong>completely annexed</strong>.</li>
+<li style="padding-left:2em">&#9702; However, to assuage the feelings of Maratha spirit, <strong>a separate state of Satara</strong> was carved out and granted to Pratap Singh, a descendant of Shivaji.</li>
+<li style="padding-left:2em">&#9702; The annexation of Poona to the Bombay presidency led to its restructuring in 1818.</li>
+</ul>
+</li>
+<li>&#8226; Although Maratha Confederacy was dissolved, the Shindes, Halkars, Gaikwads and Bhosles still retained large tracts of territory at the end of the war, being incorporated into the British India empire as princely states.</li>
+<li>&#8226; The defeat of the Marathas opened the road for establishing the Company's paramountcy over the Rajputana region.</li>
+<li>&#8226; Thus, the Maratha dream of inheriting the Mughal imperial mantle was finally dashed to the ground.</li>
+</ul>
+
+<h2>Reasons for the eventual Downfall of the Maratha</h2>
+<p>The Marathas could not offer an alternative to Mughal rule. The political vacuum left behind by the Mughals was eventually filled up by the British power and thus, the dream of founding a Maratha empire was shattered.</p>
+<p>The initial military success of the Maratha Kingdom could be attributed to the extraordinary political acumen of Shivaji and the first three Peshwas. Thereafter, the Maratha power declined and went down in the face of repeated British onslaughts.</p>
+
+<p><strong>Reasons for the failure of the Maratha:</strong></p>
+<ul>
+<li>&#8226; <strong>No great/capable leader by the 1800s.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; By the end of the 18th century, all the talented and experienced leaders like Mahadaji Sindia, Tukoji Holkar, Nana Phadnis were dead. Baji Rao II was selfish and inefficient. The absence of a good leader led to mutual quarrels and factionalism among the Marathas and quickened their decline.</li>
+<li style="padding-left:2em">&#9702; On the other hand, the East India Company was lucky in having the services of able persons like Elphinstone, John Malcolm Colonel Colins, Jonathan Ducan, Arthur Wellesley (later on the conqueror of Napoleon), Lord Lake and above all Richard Wellesley.</li>
+</ul>
+</li>
+<li>&#8226; Nana Phadanvis and Tipu's plans to combine Indian powers together in a <strong>grand coalition ultimately foundered</strong>, because of mutual disputes.</li>
+<li>&#8226; <strong>Superior English Diplomacy:</strong> The English were superior to the Marathas in the game of diplomacy. Before actual operations would start the Company would take care to win allies and isolate the enemy diplomatically.</li>
+<li>&#8226; <strong>Superior English Espionage:</strong> The Marathas were careless about military intelligence.
+<ul>
+<li style="padding-left:2em">&#9702; On the contrary, the Company's spy system was perfect. Palmer wrote in December 1798, "I consider it as the duty of every British subject in this country, however situated, to contribute to the utmost of his power, to the stock of general information".</li>
+</ul>
+</li>
+<li>&#8226; There were <strong>long-term</strong> changes in the character of the Maratha state.
+<ul>
+<li style="padding-left:2em">&#9702; The extension of Maratha empire beyond its natural boundaries led to the change in the character of the Maratha state and led to the creation of <strong>Maratha confederacy</strong>.</li>
+<li style="padding-left:2em">&#9702; Maratha Confederacy's members were in conflict with each other. Even during the hour of crisis, they couldn't unite.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Factionalism within Pune court</strong> led to its inability to control the confederacy under check.</li>
+<li>&#8226; <strong>Marathas' source of income was unreliable.</strong> They mostly relied on the 'Chauth' and the 'Sardeshmukhi', rather than creating productive assets.
+<ul>
+<li style="padding-left:2em">&#9702; The Maratha chiefs had to resort to periodic raids and plunder to run their economy. This economic insolvency also exerted an evil influence on the political stability of the empire.</li>
+<li style="padding-left:2em">&#9702; In the absence of any industry or foreign trade openings, fighting was the only lucrative opening for the youth. War became the 'national industry' of the Marathas and recoiled on the economy of the state.</li>
+</ul>
+</li>
+<li>&#8226; Although, the Marathas discarded their traditional <strong>warfare techniques</strong> and adopted the European techniques, they lagged in the British in these warfare methods.
+<ul>
+<li style="padding-left:2em">&#9702; The Maratha military supremacy owed its success to guerilla tactics and the use of cavalrymen. But the later Maratha leaders opted for the western method of warfare. <strong>Sir Alfred Lyall</strong> in his book "Rise and Expansion of British Power in India" states that the abandonment of the guerilla system of warfare was a cardinal mistake of the Marathas.
+<ul>
+<li style="padding-left:4em">&#9632; It is further contended that the neglect of cavalry on the part of the Shinde and concentration on artillery and infantry affected adversely the mobility of the army, depriving it of the chief advantage it had possessed against the armies of the Mughals.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; However, the Maratha fault lay not in abandoning the guerilla system of warfare, but in inadequate adoption of the modem techniques of warfare. They could not, integrate the two. As a result, the Maratha method of warfare became partly foreign, partly vernacular.</li>
+<li style="padding-left:2em">&#9702; The Marathas <strong>neglected the paramount importance of artillery.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Mahadaji Sindhia deserves the credit of trying to fight the enemy with the enemy's weapons. His battalions were trained on the European model and factories were set up for the manufacture of fire-arms, but these departments were entirely in the hand of foreigners whose loyalty in times of need was always in doubt.</li>
+<li style="padding-left:4em">&#9632; The Poona Government also set up an artillery department, but it hardly functioned effectively.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Lack of modernity</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Maratha state was essentially medieval in nature.</strong> Marathas failed to evolve modern institutions and lacked the ability to adapt to new circumstances.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Jadunath Sarkar</strong> contends that there were inherent defects in the character of the Maratha state. The religio-national movement which had worked in the destruction of the Mughal Empire in the seventeenth century had spent itself in the process of expansion of the Maratha Empire.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Social backwardness:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; J.N. Sarkar points out that growth of orthodoxy and Brahmin-Maratha differences sapped the vitality of the state.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The Maratha sardars did not have the farsightedness to develop a new <strong>economy</strong>.</li>
+<li style="padding-left:2em">&#9702; The Maratha rulers could not realise the importance of <strong>science</strong> or <strong>technology</strong> or did not take interest in trade and industry.</li>
+</ul>
+</li>
+</ul>
+<p>When the English attacked the Marathas, the latter were already past the prime of their power. The Maratha power had lost its early vigour and momentum. Thus, the English attacked a 'divided house' which started crumbling at the first push.</p>`,
   'early-british-raj': ``,
   'economic-impact-british-rule': ``,
   'social-cultural-developments': ``,
