@@ -95,6 +95,8 @@ export default function PadPage() {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [eraserPos, setEraserPos] = useState<{ x: number; y: number } | null>(null);
   const [canvasSize, setCanvasSize] = useState({ w: 0, h: 0 });
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
 
   const padDataRef = useRef<PadData>({ strokes: [], textBoxes: [], offsetX: 0, offsetY: 0 });
   const activeStrokeRef = useRef<Stroke | null>(null);
@@ -397,6 +399,17 @@ export default function PadPage() {
 
   useEffect(() => { redraw(); loadPadList(); }, [redraw]);
 
+  // ── Welcome popup ──────────────────────────────────────────────
+  useEffect(() => {
+    const dismissed = localStorage.getItem('pad_welcome_dismissed');
+    if (!dismissed) setShowWelcome(true);
+  }, []);
+
+  function dismissWelcome() {
+    if (dontShowAgain) localStorage.setItem('pad_welcome_dismissed', '1');
+    setShowWelcome(false);
+  }
+
   // ── Keyboard shortcuts ─────────────────────────────────────────
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -665,6 +678,101 @@ export default function PadPage() {
           </span>
         </div>
       </div>
+      {/* ── WELCOME POPUP ── */}
+      {showWelcome && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 1000,
+          background: 'rgba(0,0,0,0.85)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          backdropFilter: 'blur(8px)',
+        }}>
+          <div style={{
+            background: '#080808',
+            border: '1px solid #1f1f1f',
+            borderRadius: 16,
+            padding: '36px 40px',
+            width: 480,
+            maxWidth: '90vw',
+            boxShadow: '0 24px 80px rgba(0,0,0,0.9)',
+            fontFamily: "'Libre Baskerville', serif",
+          }}>
+            {/* Title */}
+            <div style={{ marginBottom: 6 }}>
+              <span style={{ fontSize: 22, fontWeight: 700, color: '#f0ede8', letterSpacing: '-0.01em' }}>Writing Pad</span>
+              <span style={{ fontSize: 12, color: '#444', fontStyle: 'italic', marginLeft: 10 }}>infinite canvas</span>
+            </div>
+            <div style={{ fontSize: 12, color: '#444', fontStyle: 'italic', marginBottom: 28, borderBottom: '1px solid #111', paddingBottom: 20 }}>
+              A distraction-free space to write, annotate, and think.
+            </div>
+
+            {/* Features */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 28 }}>
+              {[
+                { key: 'P', label: 'Pen', desc: 'Freehand drawing with 6 colors and 4 sizes' },
+                { key: 'H', label: 'Highlighter', desc: 'Semi-transparent highlights in 4 colors' },
+                { key: 'E', label: 'Eraser', desc: 'Circle eraser — size matches your pen size' },
+                { key: 'T', label: 'Text', desc: 'Click anywhere to place typed text' },
+                { key: 'Space', label: 'Pan', desc: 'Hold Space + drag to pan the infinite canvas' },
+                { key: '⌘ Scroll', label: 'Zoom', desc: 'Pinch or Ctrl+scroll to zoom in/out' },
+                { key: '⌘Z', label: 'Undo', desc: 'Undo last stroke or text' },
+                { key: '⌘S', label: 'Save', desc: 'Auto-saves to cloud — manual save also available' },
+              ].map(({ key, label, desc }) => (
+                <div key={key} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                  <span style={{
+                    minWidth: 52, fontSize: 10, color: '#888',
+                    background: '#111', border: '1px solid #1e1e1e',
+                    borderRadius: 5, padding: '2px 6px', textAlign: 'center',
+                    letterSpacing: '0.06em', marginTop: 1, flexShrink: 0,
+                  }}>{key}</span>
+                  <div>
+                    <span style={{ fontSize: 12, color: '#c0bdb8', fontWeight: 700 }}>{label}</span>
+                    <span style={{ fontSize: 11, color: '#555', fontStyle: 'italic', marginLeft: 8 }}>{desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Do not show again */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+              <div
+                onClick={() => setDontShowAgain(p => !p)}
+                style={{
+                  width: 16, height: 16, borderRadius: 3,
+                  border: dontShowAgain ? '1px solid #f0ede8' : '1px solid #333',
+                  background: dontShowAgain ? '#f0ede8' : 'transparent',
+                  cursor: 'pointer', flexShrink: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {dontShowAgain && <span style={{ fontSize: 10, color: '#000', fontWeight: 700, lineHeight: 1 }}>✓</span>}
+              </div>
+              <span
+                onClick={() => setDontShowAgain(p => !p)}
+                style={{ fontSize: 11, color: '#555', cursor: 'pointer', fontStyle: 'italic', userSelect: 'none' }}
+              >
+                Don't show this again
+              </span>
+            </div>
+
+            {/* Button */}
+            <button
+              onClick={dismissWelcome}
+              style={{
+                width: '100%', padding: '10px 0',
+                background: '#f0ede8', color: '#000',
+                border: 'none', borderRadius: 8,
+                fontSize: 13, fontWeight: 700,
+                fontFamily: "'Libre Baskerville', serif",
+                cursor: 'pointer', letterSpacing: '0.04em',
+                transition: 'opacity 0.15s',
+              }}
+            >
+              Start Writing
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
