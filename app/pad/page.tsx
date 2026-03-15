@@ -451,7 +451,7 @@ export default function PadPage() {
           {([
             { t: 'pen',         icon: '✒️', label: 'Pen (P)' },
             { t: 'highlighter', icon: '🖊️', label: 'Highlight (H)' },
-            { t: 'eraser',      icon: '��', label: 'Eraser (E)' },
+            { t: 'eraser',      icon: 'E',  label: 'Eraser (E)' },
             { t: 'text',        icon: 'T',  label: 'Text (T)' },
           ] as const).map(({ t, icon, label }) => (
             <button
