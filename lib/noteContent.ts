@@ -14086,7 +14086,257 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; British company was <strong>autonomous</strong> in taking decision as it was a <strong>joint-stock</strong> company, but the French company had to function under the strict control of the government.</li>
 <li>&#8226; <strong>Resources of Bengal</strong> had fell into the hands of British after the battle of Plassey.</li>
 </ul>`,
-  'british-expansion-india': ``,
+  'british-expansion-india': `<h2>UPSC CSE PYQs</h2>
+
+<p><strong>Plassey</strong></p>
+<ul>
+<li>&#8226; The battle of Plassey was "not a great battle but a great betrayal." Comment. [2000, 20m]</li>
+<li>&#8226; "The Battle of Plassey that decided the fate of Bengal was won by Clive through intrigues." Explain. [2014, 15m, medieval]</li>
+<li>&#8226; After 1757 there grew up a State of Bengal which was a "sponsored state" as well as a "plundered state". Comment. [1999, 20m]</li>
+<li>&#8226; Discuss the causes that led to the 'economic drain' in Bengal following the Battle of Plassey. [2004, 60m]</li>
+<li>&#8226; "The Battle of Plassey (1757) thus marked the beginning of political supremacy of the English East India Company in India." Critically examine. [2018, 10 Marks]</li>
+</ul>
+
+<p><strong>Between Plassey and Buxar</strong></p>
+<ul>
+<li>&#8226; "The revolution of 1760 (Bengal) was really no revolution." Comment. [1987, 20m]</li>
+<li>&#8226; The East India Company had thought that they had found an ideal puppet in Mir Kasim. Mir Kasim, however, belied the expectation of the company. Examine critically. [2021, 10 Marks]</li>
+</ul>
+
+<p><strong>Battle of Buxar</strong></p>
+<ul>
+<li>&#8226; "Buxar takes rank amongst the most decisive battles ever fought." Comment. [1982, 20m]</li>
+<li>&#8226; "Thus ended the famous battle of Buxar, on which depended the fate of India and which was as gallantly disputed as was important in its results." Comment. [1985, 20m]</li>
+</ul>
+
+<p><strong>Plassey-Buxar Comparison</strong></p>
+<ul>
+<li>&#8226; "Plassey did not complete the British conquest of India. Had the English been convincingly defeated in any subsequent battle in India, then (the battle of) Plassey would have remained as a minor episode in the history of India." Critically examine. [2014, 10m]</li>
+<li>&#8226; "The verdict of Plessey was confirmed by the English victory at Buxar." Comment. [1996, 20m], [2002, 20m]</li>
+<li>&#8226; 'The Battle of Plassey (1757) was a skirmish while the Battle of Buxar (1764) was a real war.' Critically examine. [2022, 10m]</li>
+</ul>
+
+<h2>Conquest of Bengal</h2>
+<p>Bengal was the first state where the Company's newly acquired strength was tested vis-à-vis the Indian states. The period from 1757 to 1764 virtually brought about a radical change in the fate of Bengal as well as that of the Company.</p>
+
+<h2>Guiding motive of the East India Company in Bengal:</h2>
+<ul>
+<li>&#8226; The mercantilist policy: Company's motive was to maximize the profit from distant trade.</li>
+<li>&#8226; The officers/merchants of the company were committed to carry on the private trade but the biggest obstacle in his path was the Nawab of Bengal.</li>
+<li>&#8226; They wanted to oust other European rivals and establish the monopoly.</li>
+<li>&#8226; They wanted to end the interference of the officers and employees of the Nawab.</li>
+</ul>
+
+<h2>Relation between the company and Nawab &amp; Battle of Plassey:</h2>
+<ul>
+<li>&#8226; Right from the time of Murshid Quli Khan, there was a bone of contention between British company and Nawab regarding the misuse of dastak.
+<ul>
+<li style="padding-left:2em">&#9702; This dastak was given to the company but even private British merchants were using this dastak for their personal trade.</li>
+<li style="padding-left:2em">&#9702; Company used to sell the dastak even Indian merchants.</li>
+</ul>
+</li>
+<li>&#8226; In spite of the differences with the British company, almost all the Nawabs from Murshid Quli Khan to Aliwardi Khan adopted a moderate approach to the British company.</li>
+<li>&#8226; However, Nawab Sirajuddaula adopted an aggressive approach to the British company from the beginning. Siraj had developed serious grievances against the Company which was acting a little too independently.
+<ul>
+<li style="padding-left:2em">&#9702; The Nawab's rivals such as Raj Ballabh (Diwan of Dhaka) and Shaukat Jung were being secretly assisted by the British Company.</li>
+</ul>
+</li>
+<li>&#8226; The issue of the fortification of Fort William became an important one between Bengal Nawab and British company.
+<ul>
+<li style="padding-left:2em">&#9702; Both British and French companies started the fortification during the Seven Years' War. Nawab ordered them to demolish the fortification, as he saw it as a challenge to his sovereignty. While the French at Chandranagar company promptly agreed, the British company refused to comply with the order.</li>
+<li style="padding-left:2em">&#9702; So, Nawab invaded Fort William and plundered it in June 1756 and captured it.</li>
+<li style="padding-left:2em">&#9702; As soon as Clive arrived with naval support from Madras, he re-captured Calcutta. However, surprisingly, the Nawab became lenient and compromised with the company on soft terms in the Treaty of Alinagar. (February 1757)</li>
+</ul>
+</li>
+<li>&#8226; In March 1757, the British Company invaded and occupied Chandranagar, a French territory in Bengal. This was a direct challenge to the sovereignty of the Nawab.</li>
+<li>&#8226; Meanwhile, Robert Clive strengthened his position by making secret agreement with Nawab's officer Mir Bakshi Mir Jafar, another military officer, Rai Durlabh, a merchant of Bengal Amichand, a banker of Bengal Fatehchand, and officer-in-charge of Calcutta Manikchand.</li>
+<li>&#8226; Finally, the Battle of Plassey took place on 23 June 1757. This was not a major war but a great betrayal.</li>
+</ul>
+
+<h2>Significance of Plassey</h2>
+<ol>
+<li>&#8226; <strong>The military significance</strong> of Plassey was negligible. English victory in the battlefield of Plassey was decided before the battle was fought. It was not the superiority of the military power but the conspiracy of the Nawab's officials that helped the English in winning the battle.</li>
+<li>&#8226; <strong>The political significance</strong> of the Battle of Plassey was not much in immediate sense because the Nawab of Bengal was still a sovereign authority. But, in long term, Plassey marked the beginning of the British conquest of India. The history of Bengal from 1757 to 1765 is the history of gradual transfer of power from the Nawabs to the British. Now the company started to play the role of a kingmaker.
+<ul>
+<li style="padding-left:2em">&#9702; It undermined position of Nawab and elevated the political prestige of the British. During this short period of <strong>eight years three puppet Nawabs,</strong> Siraj-ud-daula, Mir Jafar and Mir Kasim ruled over Bengal.</li>
+<li style="padding-left:2em">&#9702; Thus, it established a system of a <strong>"sponsored" Indian state</strong>, controlled but not administered. <strong>(Parcival Spear)</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>The economic significance</strong> of this battle was immense because the Company used its newfound political influence to establish commercial monopoly in Bengal. Bengal emerged as a <strong>"plundered" state</strong> after the battle of Plassey because the company exploited the resource in Bengal in every possible way.
+<ul>
+<li style="padding-left:2em">&#9702; From Mir Jafar
+<ul>
+<li style="padding-left:4em">&#9632; The company extracted the heavy sum of 1.77 crore silver rupyas and received the Zamindari of 24 Paragana too.</li>
+<li style="padding-left:4em">&#9632; Robert Clive received 20 lakh rupees from the new Nawab in personal status.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; From Jagat Seth, 2 million pounds to Clive and Company each.</li>
+<li style="padding-left:2em">&#9702; Also, the Murshidabad Treasury was looted post-Plassey.</li>
+<li style="padding-left:2em">&#9702; <strong>William Dalrymple</strong> in the book Anarchy describes the loot made of Plassey as "one of the largest corporate windfalls in history".</li>
+<li style="padding-left:2em">&#9702; <strong>Eric Stokes</strong>, "Plassey revolution was the first English essay in private profiteering on a grand scale."</li>
+</ul>
+</li>
+<li>&#8226; <strong>Monopoly establishment:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Besides the financial gain, the English East India Company was also successful in <strong>establishing its monopoly over Bengal trade</strong> by marginalising the French and the Dutch companies during the course of Plassey. Using the influence, the Company started to eliminate its European rivals from Bengal one-by-one.</li>
+<li style="padding-left:2em">&#9702; Furthermore, the Company started to tightly <strong>control the artisans</strong> of Bengal <strong>through its Gumastas</strong> (Indian agents of the company). It used its corrupt influence to make artisans sell cheaper.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Sekhar Bandopadhyay:</strong> "for the Company officials Plassey opened the gates to make personal fortunes, not only through direct extortion but also through rampant abuse of dastaks for their private trade."</li>
+<li style="padding-left:4em">&#9632; <strong>PJ Marshall:</strong> The massive invasion of the private trade of Bengal by private British enterprise, threw the division between the Company's public and private interests into confusion and unleashed what has been termed the 'post-Plassey plunder.'</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Fate of Bengal</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Bengal's administration suffered due to lack of resources because most of the revenue was being cornered by the company and its officials.</li>
+<li style="padding-left:2em">&#9702; Bengal was forced to pay for the British conquest of India. Virtual mastery over Bengal in long term paved way for the ultimate supremacy over entire India. Vast resources of Bengal helped in victory in Carnatic and over Marathas and Mysore.</li>
+</ul>
+</li>
+</ol>
+
+<h2>Between 1757-1760</h2>
+<p>During this period, Mir Jafar remained a Nawab of Bengal. However, the honeymoon period between the two got over very soon. British started to make further demands from Nawab while his treasury was getting exhausted. He couldn't even tax the trade, and Company agents exploited countryside of Bengal while he couldn't do anything.</p>
+<p>The British company got disenchanted with the new Nawab and his ways. So, the British governor Vansittart concluded a secret deal with the new Nawab Mir Qasim. According to this deal, Mir Qasim had to offer to the British company 29 lakhs rupees &amp; three districts (Midnapore, Bardhaman and Chittagong), while in return the post of the Nawab had to be graced by Mir Qasim.</p>
+<p>Vansittart characterised this event as <strong>'Bengal Revolution'</strong>. However, it is not fair to call it a revolution. Because the following conditions must be fulfilled for the revolution:</p>
+<ul>
+<li>&#8226; It must be relatively sudden.</li>
+<li>&#8226; The change must be fundamental.</li>
+<li>&#8226; It should have support of people.</li>
+</ul>
+<p>The change of nawab in Bengal did not fulfil the two conditions. In a way, it was a replacement of one puppet Nawab with another puppet Nawab, while the strings continued to be in the hands of the British. The company continued to play the role of the kingmaker.</p>
+
+<h2>Between 1760-1764</h2>
+<p>Soon, the differences surfaced between the nawab and the Company. Mir Qasim mistakenly expected some autonomy.</p>
+<p><strong>Differences between New Nawab Mir Qasim and the Company:</strong></p>
+<ul>
+<li>&#8226; <strong>Economic factors:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; As after the battle of Plassey, the company's merchants became much aggressive in their behaviour and in countryside they were almost carrying loot and plunder while company's governor did not pay heed towards persistent complaints made by the Nawab.</li>
+<li style="padding-left:2em">&#9702; The new Nawab Mir Qasim was taking the issue of misuse of Dastak very seriously.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Political Factors:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In order to be free from the British interference, Mir Qasim transferred his capital from Murshidabad to Munger (Bihar).</li>
+<li style="padding-left:2em">&#9702; To strengthen his military position, he started to organize his army on western pattern apart from that he laid the foundation of a gun factory at Munger.</li>
+<li style="padding-left:2em">&#9702; Mir Qasim even sought recognition from Mughal emperor Shah Alam II. (investiture)</li>
+</ul>
+</li>
+</ul>
+
+<h2>Battle of Buxar (1764)</h2>
+<ul>
+<li>&#8226; The differences between the company and Nawab of Bengal led to an open conflict between the two in 1763. In this conflict, Nawab was defeated, and he fled away to Awadh.</li>
+<li>&#8226; Then in association with the Nawab of Awadh Suja-ud-Daulah and Mughal emperor Shah Alam II, he appeared in the battle of Buxar that took place on 22nd October 1764.</li>
+<li>&#8226; It was not like a treachery, as we find in the case of Plassey. Rather, it was an open contest and British could defeat the combined powers of all the three.</li>
+</ul>
+
+<h2>Treaties of Allahabad</h2>
+<p><strong>With Shuja-ud-daula (20 August 1765)</strong></p>
+<ul>
+<li>&#8226; Transfer of the region of Allahabad and the adjoining territories of Kara.</li>
+<li>&#8226; Nawab to pay 50 lakhs to the Company as war indemnity and defray the cost of maintenance of the troops for the defence of his frontier.</li>
+</ul>
+<p><strong>With Shah Alam II (12 August 1765)</strong></p>
+<ul>
+<li>&#8226; The emperor's firman granted the Diwani of Bengal, Bihar and Orissa to the East India Company. The right of Diwani authorized the Company to collect revenue of the subah of Bengal.</li>
+<li>&#8226; Shah Alam was taken under the Company's protection. He was assigned Kara and Allahabad region ceded by Shuja-ud-daula. From now on, Shah Alam was to reside at Allahabad.</li>
+<li>&#8226; Company to pay Rs 53 lakh for administrative expenses and Rs 26 Lakhs for personal expenses annually as tribute to the emperor.</li>
+</ul>
+
+<h2>Significance of the battle of Buxar</h2>
+<p>The battle of Buxar gave the English Company the <strong>complete political control over Bengal</strong> and thus it was <strong>more decisive than Plassey</strong>. Actually, the process of transition started with the battle of Plassey and culminated in the battle of Buxar. It virtually sealed the fate of India and was a real turning point on the road to the British occupation of India.</p>
+<ol>
+<li>&#8226; The victory of company at Buxar <strong>confirmed the verdict of Plassey 8 years earlier.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It ended the rivalry between Nawab and British company, as <strong>Nawab was then completely subordinated</strong> to the British company.</li>
+<li style="padding-left:2em">&#9702; Plassey made the Nawab the British puppet, but Buxar made the British the unchallenged master of Bengal. It ended the rivalry between the Nawab and the Company.</li>
+</ul>
+</li>
+<li>&#8226; It is one of the most decisive battles ever fought because in this battle <strong>three of the most important Indian powers were defeated</strong> by English company simultaneously in a particular day.
+<ul>
+<li style="padding-left:2em">&#9702; It also allowed EIC to introduce a dual government in <strong>Bengal</strong>.</li>
+<li style="padding-left:2em">&#9702; Mughal Emperor <strong>Shah Alam II came under the influence</strong> of the Company. Theoretically, the whole of Mughal Empire lost to the English company.</li>
+<li style="padding-left:2em">&#9702; <strong>Awadh came under indirect control</strong> of the Company. Awadh emerged as a buffer state between Bengal and the Marathas, thus cushioning Bengal from Maratha raids.</li>
+</ul>
+</li>
+<li>&#8226; The outcome of the battle was decided by the <strong>quality of leadership</strong> and <strong>strength of arms.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Compared to Plassey, which was won by treachery, it was a <strong>fiercely contested</strong> battle.</li>
+</ul>
+</li>
+<li>&#8226; By winning the Buxar, company got <strong>Diwani rights of Bengal, Bihar and Orissa.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; With the Treaty of Allahabad, the Company became the de Jure ruler of Bengal. The Company came to have the real control of the financial administration of Suba-e-Bengal.</li>
+<li style="padding-left:2em">&#9702; The company emerged as the real Master of Resources of Bengal.</li>
+<li style="padding-left:2em">&#9702; It <strong>solved the problem of financing Indian trade.</strong></li>
+<li style="padding-left:2em">&#9702; By using the resource of Bengal English company would defeat Mysore, Maratha and other opponents in future.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Transformation in the character of the Company.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Henceforth, the Company began to shake its maritime nature and assume the role of the state.</li>
+</ul>
+</li>
+</ol>
+
+<h2>Robert Clive (Clive of India)</h2>
+<p>Robert Clive was one of the most prominent personalities among all Englishmen who reached India. His actions left a <strong>lasting impact on history of India</strong> both directly and indirectly. He started his career as a clerk and rose to the position of factor, then the Governor of Bengal. In fact, he was appointed governor of Bengal twice.</p>
+<p>Clive's place in Indian and British imperial history has been a matter of controversy in both the countries since the 18th century. While in India he was seen as an evil exploitative governor who plundered the country, in England he was widely hated as a corrupt and violent Company official.</p>
+
+<p><strong>Achievements of Clive:</strong></p>
+<ol>
+<li>&#8226; For the first time, Clive gained prominence due to his daring <strong>siege of Arcot</strong>. His success in holding on fort of Arcot against heavy odds <strong>changed the direction of the 2nd Carnatic war.</strong></li>
+<li>&#8226; The <strong>Battle of Plassey</strong> was a personal adventure of Clive. Unlike his fellow officers, he saw in the moment of the Company's defeat in Calcutta an opportunity to not only reclaim the losses, but also to unreservedly establish the rule of East India Company in Bengal.
+<ul>
+<li style="padding-left:2em">&#9702; It made the Bengal Nawab a company protégé.</li>
+<li style="padding-left:2em">&#9702; Though this battle is not of much significance in immediate sense, in the long run it paved the way for the emergence of British Indian Empire.</li>
+<li style="padding-left:2em">&#9702; With this, the French and Dutch lay prostrate before British in Bengal.</li>
+</ul>
+</li>
+<li>&#8226; After the victory of company in battle of Buxar, Clive was appointed as Governor of Bengal once again. He was sent from London to sign treaties with the defeated parties. Clive signed two <strong>Treaties in Allahabad</strong> in 1765.
+<ul>
+<li style="padding-left:2em">&#9702; Through first treaty, the company got <strong>Diwani rights of Bengal, Bihar and Orissa from the Mughal emperor.</strong> Company had already received Nizamat rights from Nawab Nazam-ud-Daula in Feb 1965. These rights received by company transformed it from de facto de jure power.</li>
+<li style="padding-left:2em">&#9702; Through the second treaty, he converted Awadh into a protected buffer state, in order to ensure breathing space for the Company to dominate the affairs of Bengal.</li>
+</ul>
+</li>
+<li>&#8226; Clive tried to <strong>curb the evil of private trade</strong> by establishing the Society of Trade.</li>
+<li>&#8226; Clive suppressed <strong>white mutiny</strong> of white soldiers that broke out in 1766.</li>
+</ol>
+
+<p><strong>Limitations and Failures of Clive:</strong></p>
+<ol>
+<li>&#8226; Though the Clive achieved remarkable success in his life but many of its works brought <strong>disrepute to Britain rather than glory.</strong> He himself shattered the greatness and usefulness of his achievements.</li>
+<li>&#8226; The system of <strong>dual government</strong> established by Clive in Bengal was a <strong>miserable failure</strong>. In this system, <strong>all the powers were enjoyed by company and responsibility of administration was in the hands of Nawab, who had neither resources nor authority to perform admin</strong> functions because of which a situation of anarchy developed in Bengal.
+<ul>
+<li style="padding-left:2em">&#9702; The extreme exploitation resulted in <strong>massive famine in Bengal in 1770</strong> which wiped out 1/3rd of its population.</li>
+</ul>
+</li>
+<li>&#8226; Clive was extremely <strong>greedy</strong>, he indulged in <strong>private trade</strong> on a large scale though he tried the curb the private trade of other officials of company.</li>
+<li>&#8226; Clive received <strong>huge bribes</strong> from the Nawabs of Bengal during both the tenures as governor. Because of his <strong>misdeeds</strong>, Clive was <strong>tried</strong> after returning London and he committed <strong>suicide</strong>.</li>
+</ol>
+<p>That is why it is commented that Clive was neither a statesman nor a great person. He shattered the works of his glory through his own actions.</p>
+
+<h2>Was Clive the Founder of the British Indian Empire?</h2>
+<ol>
+<li>&#8226; For a later generation of Britons, the victory at Plassey by 'Clive of India' marked the birth of their Indian Empire. Clive was deliberately hailed as founder of British Indian empire during the Victorian era.</li>
+<li>&#8226; Colonial historians <strong>glorified</strong> Clive as <strong>founder</strong> of British Indian Empire but in reality, he was an <strong>adventurer</strong>. He took risks which eventually paid off. He was not a planner of empire.
+<ul>
+<li style="padding-left:2em">&#9702; Seize of Arcot, which turned the table against French during 2nd Carnatic war, was just a <strong>gamble</strong>. The failure in this gamble would have been extremely costly for the company.</li>
+<li style="padding-left:2em">&#9702; Similarly, the <strong>re-capture of Calcutta and then the battle of Plassey</strong> was another <strong>gamble</strong>. The defeat of English forces in Plassey would have sealed their fate in Bengal.</li>
+</ul>
+</li>
+<li>&#8226; Even after winning the battle of Plassey, <strong>the company could have lost its possessions</strong> in India just by facing a decisive defeat anytime in near future because company's political possessions were on a very shaky ground. <strong>Had company lost battle of Buxar, Clive would have found no place in records of history.</strong></li>
+</ol>
+
+<h2>Quotes on Clive</h2>
+<ul>
+<li>&#8226; <strong>William Dalrymple:</strong> Clive was an unstable sociopath and a racist, hated both in India and England.</li>
+<li>&#8226; <strong>Shashi Tharoor:</strong> Clive was a ruthless, dishonest, unprincipled leader of an unregulated corrupt corporation that oversaw India's loot and plunder.</li>
+<li>&#8226; Clive is "a symbol of the most morally bankrupt excesses of Empire" – Afua Hirsch</li>
+</ul>
+<p>A new plaque near his statue in Shrewsbury was installed in 2023, during BLM Movement (Black Lives Matter) "The fact that one of Britain's greatest corporate rogues continues to have pride of place at the heart of government suggests that the British elite has not yet confronted its corporate and imperial past." – Nick Robins (The Corporation that Changed the World)</p>`,
   'early-british-raj': ``,
   'economic-impact-british-rule': ``,
   'social-cultural-developments': ``,
