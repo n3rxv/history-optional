@@ -14336,7 +14336,308 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; <strong>Shashi Tharoor:</strong> Clive was a ruthless, dishonest, unprincipled leader of an unregulated corrupt corporation that oversaw India's loot and plunder.</li>
 <li>&#8226; Clive is "a symbol of the most morally bankrupt excesses of Empire" – Afua Hirsch</li>
 </ul>
-<p>A new plaque near his statue in Shrewsbury was installed in 2023, during BLM Movement (Black Lives Matter) "The fact that one of Britain's greatest corporate rogues continues to have pride of place at the heart of government suggests that the British elite has not yet confronted its corporate and imperial past." – Nick Robins (The Corporation that Changed the World)</p>`,
+<p>A new plaque near his statue in Shrewsbury was installed in 2023, during BLM Movement (Black Lives Matter) "The fact that one of Britain's greatest corporate rogues continues to have pride of place at the heart of government suggests that the British elite has not yet confronted its corporate and imperial past." – Nick Robins (The Corporation that Changed the World)</p>
+<h2>Conquest of Mysore</h2>
+
+<h2>UPSC CSE PYQs</h2>
+<ul>
+<li>&#8226; Why was Mysore considered a threat by the British to their possessions and mercantile interests in the south? Do you think that Tipu Sultan's posturing became his undoing? [2009, 30m]</li>
+<li>&#8226; Examine the circumstance which led to the Third Mysore War. Could Cornwallis have avoided it? [2006, 60m]</li>
+<li>&#8226; "Tipu Sultan was trying to build in Mysore a strong centralised and militarised state, with ambitious territorial design." Critically examine. [2019, 10 Marks]</li>
+<li>&#8226; Tipu Sultan had little success in setting forth a course of change significantly different from the general experience of 18th century crisis of Indian politics and society where public life tended over and over to become a system of plundering. Critically examine. [2021, 10 Marks]</li>
+</ul>
+
+<h2>Hyder Ali and Tipu Sultan</h2>
+<p>The <strong>political chaos</strong> which followed the decline of Mughal empire fostered the rise of a group of <strong>energetic and ambitious military adventures</strong> in the 18th century. One such successful military adventurer was <strong>Hyder Ali</strong> who rose by sheer military skill and courage. Soon, he overthrew the Hindu king of Mysore in 1761, captured power and laid the foundation of Riyasat of Mysore.</p>
+<ul>
+<li>&#8226; Hyder <strong>centralized power in his own hands.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Controlled independent poligars' activities</li>
+<li style="padding-left:2em">&#9702; Introduced the system of imposing land taxes directly on the peasants</li>
+</ul>
+</li>
+<li>&#8226; He <strong>expanded</strong> the <strong>territories</strong>. The territories of the state now encompassed much of present-day Karnataka, large portions of Andhra, Tamil Nadu and Kerala.
+<ul>
+<li style="padding-left:2em">&#9702; Esp. he invaded and annexed <strong>Malabar</strong> and <strong>Calicut</strong> expanding the frontiers of Mysore significantly.</li>
+</ul>
+</li>
+<li>&#8226; Within the next two decades, Mysore became the leading state of the region with an army that could <strong>effectively challenge the EIC</strong> and defeat the British in multiple battles.</li>
+</ul>
+<p>Under Hyder and his son Tipu, Mysore not only emerged as an advanced military power but also became home to modern economic developments.</p>
+
+<p><strong>Tipu Sultan</strong></p>
+<ul>
+<li>&#8226; Tipu took the reign from father in 1782. In 1787, he declared himself Badshah after repudiating the overlordship of the Mughal emperor Shah Alam.</li>
+<li>&#8226; He played a very significant role in the <strong>modernization of Mysore</strong>. Under Tipu, the state became a critical player in various kinds of economic activities.</li>
+</ul>
+
+<h2>Reforms by Tipu Sultan</h2>
+<p>Haider Ali and Tipu Sultan are given special consideration among the 18th c Indian rulers as they attempted to modernize Mysore on western line. It is said that India in the 18th century was in dark age.</p>
+
+<p><strong>Economic Reforms:</strong></p>
+<ul>
+<li>&#8226; Tipu Sultan took interest in <strong>land revenue reforms.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Tipu abolished the system of farming out lands. The state assumed the responsibility of collecting rent directly from peasants. He took steps to remove intermediaries (landlords) and tried to develop direct relations between the state and people.</li>
+<li style="padding-left:2em">&#9702; It augmented the state revenue which oiled his larger military infrastructure.</li>
+<li style="padding-left:2em">&#9702; Tipu also protected peasants against money lenders and revenue officers.</li>
+</ul>
+</li>
+<li>&#8226; Apart from that, Tipu promoted agriculture:
+<ul>
+<li style="padding-left:2em">&#9702; Extension of agriculture to new areas by <strong>developing barren land</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; Tipu attended to the regular repair of tanks and encouraged cultivation in the wastelands by charging very low rents. (tax incentive)</li>
+<li style="padding-left:4em">&#9632; He discouraged the production of more than one crop on the same soil so that its fertility was not affected.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Encouraging the <strong>cash crops</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; Cash crops such as areca nut, pepper, cardamom, tobacco and sandalwood were grown as well, and they got good revenue for the state.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; He encouraged the production of <strong>sugarcane</strong>.</li>
+<li style="padding-left:2em">&#9702; Supported <strong>sericulture</strong> (silk production).</li>
+<li style="padding-left:2em">&#9702; He also took steps for improving <strong>animal breeds</strong>.</li>
+<li style="padding-left:2em">&#9702; There was a flow of credit into rural economy.</li>
+<li style="padding-left:2em">&#9702; Tipu established a <strong>biodiversity garden</strong> named Lal Bagh.</li>
+</ul>
+</li>
+<li>&#8226; Tipu tried to develop modern industries with French/Persian support.</li>
+<li>&#8226; To promote trade, he took following measures:
+<ul>
+<li style="padding-left:2em">&#9702; He sent <strong>commercial ambassadors</strong> to certain states like Muscat, France etc. for ambitious oceanic trade.</li>
+<li style="padding-left:2em">&#9702; He <strong>restricted the sale of certain products</strong> i.e. spices etc so that the British (commercial rival) would be eliminated from this. (state monopoly). Tipu participated in lucrative trade of sandalwood, coconut, rice, silk etc by establishing 30 trading centres in and outside Mysore (including Muscat)</li>
+<li style="padding-left:2em">&#9702; He funded the construction of seagoing vessels from the central treasury.</li>
+<li style="padding-left:2em">&#9702; Above all, he experimented with the creation of a <strong>trading mercantile company on the pattern of European countries.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Established state commercial corporations with plans to setup factories outside state.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Military Reforms:</strong></p>
+<p>Hyder and Tipu reorganized the entire military.</p>
+<ul>
+<li>&#8226; He could create a <strong>strong and modern army</strong> with the support of <strong>French experts</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; European style military <strong>discipline</strong> was imposed.</li>
+<li style="padding-left:2em">&#9702; French experts were recruited for training in <strong>infantry</strong>.</li>
+<li style="padding-left:2em">&#9702; Revamped the <strong>cavalry</strong> force.</li>
+<li style="padding-left:2em">&#9702; <strong>System of Risala</strong> with clear chain of command.</li>
+</ul>
+</li>
+<li>&#8226; Technological modernization
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Artillery</strong> was modernized along European lines. Hyder established modern <strong>arsenal</strong> at <strong>Dindigal</strong> in 1755 with French help.</li>
+<li style="padding-left:2em">&#9702; Tipu established gun foundries and saltpeter factories with state ownership.</li>
+<li style="padding-left:2em">&#9702; He promoted development of <strong>rocket technology</strong>, the effectiveness of which was surprising even to the British.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Foreign Policy:</strong></p>
+<ul>
+<li>&#8226; He was well aware of the fact that to defeat the British company is not enough. One needs to defeat the <strong>British empire</strong>, which was protecting the Company. Therefore, he tried to create a joint front against the British empire at global level by sending his <strong>ambassadors</strong> to many countries, such as France, Turkey, Afghanistan, Persia.</li>
+<li>&#8226; His relationship with France became more cordial after the revolution in which his sympathies lay with the Jacobins.</li>
+</ul>
+
+<p><strong>Socio-Religious Reforms:</strong></p>
+<ul>
+<li>&#8226; As part of his social reform measures, Tipu tried to abolish various social abuses like alcoholism. He was the first modern Indian monarch to ban consumption of alcohol in the entire State, not on religious grounds, but on moral and health grounds.</li>
+<li>&#8226; First to confiscate the property of upper castes, including Mutts, and distribute it among the Shudras.</li>
+</ul>
+
+<h2>Causes behind Anglo-Mysorean Conflict</h2>
+<p>The Anglo-Mysorean relations between 1760-99 has to be understood in the following context.</p>
+<ul>
+<li>&#8226; <strong>Competition to control entire Peninsula and Deccan</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>The British</strong> considered Tipu as their <strong>chief rival</strong> in the south and the main hurdle on their road to supremacy over South India.</li>
+<li style="padding-left:2em">&#9702; "The authorities of the East India Company were acutely hostile to Tipu. They looked upon him as their most formidable rival in the south and as the chief obstacle standing between them and complete domination over South India. Tipu, on his part, thoroughly disliked the English, saw them as the chief danger to his own independence and nursed the ambition to expel them from India." – NCERT</li>
+</ul>
+</li>
+<li>&#8226; British were interested in controlling the <strong>rich spice trade on the Malabar coast</strong> (cardamom and pepper) which was under Mysore's control.</li>
+<li>&#8226; <strong>Buffer state issue:</strong> Powerful Mysore near Madras was a threat.
+<ul>
+<li style="padding-left:2em">&#9702; Strong Mysore state, with powerful Army and strong economy as seen as a threat by the British.</li>
+</ul>
+</li>
+<li>&#8226; A strong <strong>Pro-French policy</strong> was pursued by both Hyder and Tipu. Intimate relations between Mysore and French were considered strategically threatening by the British, as the British and French were global rivals and their hostilities spanned across the continents. There was an attempt by the French to revive their fortune in India in the late 18th century.</li>
+<li>&#8226; Mutual rivalries among Indigenous powers (eg Arcot, Hyderabad, Marathas, Mysore)
+<ul>
+<li style="padding-left:2em">&#9702; In this context, English pursued the policy of supporting one indigenous ruler against another to maximize their benefit.</li>
+</ul>
+</li>
+</ul>
+
+<h2>First Anglo-Mysore War (1767-69)</h2>
+<ul>
+<li>&#8226; In the late 18th c, Mysore assumed central importance. The Nizam of <strong>Hyderabad</strong>, Nawab of <strong>Arcot</strong> and <strong>Marathas</strong> also felt threatened.</li>
+<li>&#8226; Since <strong>English</strong> considered Hyder as a threat, they provoked Marathas and Nizam to create a broad-front against Mysore. <strong>(Triple Alliance, 1766)</strong></li>
+<li>&#8226; Haider rose to the occasion as came to know about the British design. He <strong>isolated British diplomatically</strong> by turning the <strong>Marathas neutral</strong> and <strong>Nizam</strong> into his <strong>ally</strong> against Nawab of Arcot.</li>
+<li>&#8226; When the danger of Marathas and Nizam was averted, Haidar suddenly <strong>attacked Madras.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; His forces reached the outskirts of Madras, causing complete chaos and panic. This compelled the English to sue for peace.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Treaty of Madras (1769):</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It restored the status quo and mutual restitution of territories.</li>
+<li style="padding-left:2em">&#9702; There was no provision for war compensation.</li>
+<li style="padding-left:2em">&#9702; Important clause: This was a defensive alliance and both powers agreed to help each other in case of an attack by a third party.</li>
+</ul>
+</li>
+</ul>
+<p>This treaty was an <strong>honourable treaty for Hyder</strong> Ali. It severely <strong>damaged the prestige of English</strong> in India. The importance of the First Anglo-Mysore war lies in the fact that the <strong>English, for the first time in India, seemed to be on backfoot</strong>. The seeds of a continuous friction between Mysore and the British power were thus sowed.</p>
+
+<h2>Second Anglo-Mysore War (1780-84)</h2>
+<p><strong>Immediate Causes:</strong></p>
+<ul>
+<li>&#8226; In the <strong>Treaty of Madras of 1769</strong>, there was a provision that if the Marathas attacked Mysore in the future, the British would support Hyder Ali. <strong>In 1771, Mysore was invaded by the Maratha</strong> but British didn't come to help. Hyder Ali considered it a contravention to the spirit of the Treaty of Madras and accused them of <strong>breach of faith.</strong></li>
+<li>&#8226; Haider Ali found the <strong>French more resourceful</strong> in terms of fulfilling the army requirements of <strong>guns, saltpeter and lead</strong>. Consequently, he started importing French war materials to Mysore <strong>through Mahe</strong>, a French possession on the Malabar Coast.</li>
+<li>&#8226; The increasing friendship between Mysore and French raised concern for the British. In 1779, the <strong>British company invaded the French region, Mahe</strong>. It provided the <strong>immediate pretext</strong> for the war.</li>
+</ul>
+
+<p><strong>Course of the War:</strong></p>
+<ul>
+<li>&#8226; Hyder had upper hand initially:
+<ul>
+<li style="padding-left:2em">&#9702; Using his <strong>diplomatic skill</strong>, Hyder was able to win over <strong>Marathas</strong> and <strong>Nizam</strong> on his side for some time.</li>
+<li style="padding-left:2em">&#9702; It was a <strong>fiercely fought</strong> military context ranging over a vast area stretching from Mangalore on the west coast to Arcot in the east.</li>
+<li style="padding-left:2em">&#9702; He was able to capture almost the whole of Carnatic.</li>
+</ul>
+</li>
+<li>&#8226; However, after 1781, tables started turning.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Battle of Porto Novo (1781):</strong> General Eyre Coote defeated Hyder Ali</li>
+<li style="padding-left:2em">&#9702; <strong>British made peace with Marathas</strong> which enabled them to concentrate their entire military strength against Mysore.</li>
+</ul>
+</li>
+<li>&#8226; In 1782, Hyder Ali died when the war was in full-swing. It was Tipu Sultan who took command of the war for its remaining duration (1782-84).
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Tipu got big military successes</strong> at many places and hence British came under the pressure. Neither side was capable of overpowering the other completely.</li>
+<li style="padding-left:2em">&#9702; At the same time, <strong>Madras was hit by a financial crunch.</strong> Thus, Lord Macartney, the Governor of Madras initiated peace talks. <strong>Tipu also needed time to consolidate his hold</strong> and strengthen administration. Thus, it remained an inconclusive War.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Treaty of Mangalore (1784)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Both sides restored all conquests. This treaty kept Tipu's kingdom and military intact. It was a respectable treaty for Tipu as there was no place for war compensation even in this treaty.</li>
+<li style="padding-left:2em">&#9702; Although the British had been shown to be too weak to defeat Mysore, they had certainly proved their ability to hold their own in India.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Third Anglo-Mysore War (1790-92)</h2>
+<ul>
+<li>&#8226; The Treaty of Mangalore was not enough to resolve the conflict. It was just a temporary respite before a final showdown.</li>
+<li>&#8226; The relationship between <strong>Tipu and Iran/France</strong> were improving, which threatened the British interests.</li>
+<li>&#8226; In 1789, <strong>Tipu invaded the state of Travancore,</strong> which was protected by British as per the Treaty of Mangalore (1784).</li>
+<li>&#8226; War:
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Cornwallis came out to protect Travancore</strong> and sent an expedition led by General Meadows against Tipu. However, this expedition of <strong>unsuccessful</strong>.</li>
+<li style="padding-left:2em">&#9702; Then, Cornwallis formed a Triple Alliance and succeeded in isolating Tipu diplomatically – <strong>Marathas</strong> and <strong>Nizams</strong> against Tipu along with British.
+<ul>
+<li style="padding-left:4em">&#9632; The rulers of the states of <strong>Travancore</strong>, <strong>Cochin</strong> and <strong>Arcot</strong> were already hostile to Tipu.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Tipu was compelled to fight simultaneously on several fronts which overstretched his military resources. Still, he <strong>sustained the war for one long year.</strong> Finally, Tipu was comprehensively defeated in 1792 and had to make a treaty of Seringapatam.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Treaty of Seringapatam (1792)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Humiliating treaty for Tipu</strong>: he lost half of his region to the British, along with 3.3 crore rupees as war compensation.</li>
+<li style="padding-left:2em">&#9702; <strong>Partition:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; British shared some regions submitted by Tipu with their allies. (Kadappa and some regions near Tungabadhra to Marathas, regions near Pennar river to Nizam)</li>
+<li style="padding-left:4em">&#9632; However, the most important regions at Cochin, Coorg and Malabar coast and places like Dindigul, Barmahal (Salem district) were brought under their own control.</li>
+<li style="padding-left:4em">&#9632; After that <strong>Lord Cornwallis</strong> very proudly made the statement that 'we have successfully crippled our enemy without making our friends too formidable'.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; This war <strong>depleted Tipu's strength and destroyed his dominant position</strong> in the south and firmly <strong>established British supremacy there.</strong></li>
+</ul>
+
+<h2>Fourth Anglo-Mysore War (1799)</h2>
+<p><strong>Lord Wellesley (1798-1805)</strong></p>
+<ul>
+<li>&#8226; <strong>French Menace</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Wellesley was sent to India during when <strong>Napoleon was preparing for the invasion of Egypt</strong> and there was a possibility of French invasion of India and the danger of French revival in India. Wellesley was expressly sent to India <strong>to check the French menace.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>British expansionism</strong> (policy of annexation)
+<ul>
+<li style="padding-left:2em">&#9702; Wellesley <strong>abandoned the policy of non-intervention</strong> pursued by his predecessor <strong>John Shore.</strong></li>
+<li style="padding-left:2em">&#9702; He tried bringing as many Indian states as possible under British control. By his arrival, the two strongest Indian powers (Mysore, Marathas), had declined in power; aggression was easy as well as profitable. And in that, the French menace provided good pretext.</li>
+<li style="padding-left:2em">&#9702; Wellesley had no doubt about the legality or morality of his actions. His only objective was supremacy of the British in India.</li>
+</ul>
+</li>
+<li>&#8226; Wellesley adopted <strong>three different methods</strong> to achieve his goal:
+<ul>
+<li style="padding-left:2em">&#9702; The method of war: 4th Anglo-Mysore, 2nd Anglo-Maratha</li>
+<li style="padding-left:2em">&#9702; The method of Subsidiary Alliance</li>
+<li style="padding-left:2em">&#9702; The method of Annexation: Surat, Tanjore, Carnatic</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>&#8226; Tipu's spirit of resistance did not subside even when reduced to half. He was in the search of alternative method to counter the British.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>French Connection</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Tipu developed three armouries – Mangalore, Wazirabad and Malidabad – with the French help.</li>
+<li style="padding-left:4em">&#9632; He entered in negotiations for an alliance with <strong>Revolutionary France</strong>. He hoisted <strong>French flag</strong> and hoisted <strong>Tree of Liberty</strong> in Seringpatanam. He subscribed to the <strong>Jacobin Club</strong> and preferred to call himself <strong>Citizen Tipu.</strong></li>
+<li style="padding-left:4em">&#9632; Later, he even maintained correspondence with <strong>Napoleon</strong>.</li>
+<li style="padding-left:4em">&#9632; British were not prepared to accept Tipu's <strong>Francophile policy.</strong></li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Tipu sent <strong>ambassadors</strong> to many regions including Mauritius, Constantinople, Afghanistan and Iran <strong>to forge an anti-British alliance</strong>.</li>
+</ul>
+</li>
+<li>&#8226; Under the circumstances, the <strong>destruction of Tipu's power became even more urgent</strong> from the British viewpoint. Tipu was accused of plotting against the British with treasonable intent. <strong>Lord Wellesley decided to eliminate Tipu asap.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; British attempted <strong>to persuade Tipu to sign Subsidiary Alliance</strong> but he refused.</li>
+<li style="padding-left:2em">&#9702; Wellesley sent <strong>Arthur Wellesley</strong> and <strong>Major Stewart</strong> to crush the power of Tipu.</li>
+<li style="padding-left:2em">&#9702; British forces attacked Seringapatnam in 1799. Although by now, Tipu was no match for the British, yet he fought valiantly. The <strong>battle of Seringpatnam</strong> was brief but fierce. Tipu died valiantly fighting in 1799. He was 48 years old.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Outcome</strong></p>
+<ul>
+<li>&#8226; Nearly half of Tipu's kingdom was divided between Nizam and British. A small portion was restored to Wodeyars. They were made to sign the subsidiary alliance system.</li>
+<li>&#8226; Thus ended the independent Mysore state. It had taken the English 32 years to subjugate Mysore.</li>
+<li>&#8226; The fall of Mysore permanently brushed aside the threat of French revival in the Deccan.</li>
+</ul>
+
+<h2>Causes of the Downfall of Tipu</h2>
+<p>The downfall of Mysore has been attributed to Tipu's inability to handle the political situation as tactfully as Hyder Ali, if alive, would have done. "Haidar was born to create an Empire, Tipu to lose one." However, closer scrutiny of south India in the closing decades of the 18th century gives a much more complex picture.</p>
+<ul>
+<li>&#8226; <strong>Hyder had taken the advantage of the ongoing Anglo-French and Anglo-Maratha military contests in South India.</strong> However, the political situation in India and abroad had undergone qualitative transformation since the days of Hyder Ali.</li>
+<li>&#8226; By the time of Tipu;
+<ul>
+<li style="padding-left:2em">&#9702; By the time Tipu ascended to the throne, the English had ousted the French from India. Thus, Tipu's <strong>attempt to build up a broad anti-British front didn't succeed</strong>.</li>
+<li style="padding-left:2em">&#9702; The <strong>British diplomatic gestures</strong> successfully re-aligned the Indian powers to suit the British interest.
+<ul>
+<li style="padding-left:4em">&#9632; British made peace with the <strong>Marathas</strong> and thus concentrated exclusively against Tipu.</li>
+<li style="padding-left:4em">&#9632; By bringing <strong>Nizam</strong>, Travancore and Arcot on their side, British were <strong>able to isolate Tipu.</strong></li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Thus, while the English received assistance from the indigenous powers, Tipu's attempt to secure foreign help was not successful. Tipu had to fight the British single handedly.</li>
+</ul>
+</li>
+<li>&#8226; <strong>The British power in India was at its height by 1790s</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; While <strong>Hyder</strong> relied heavily on the <strong>guerrilla tactics and cavalry</strong> forces to dislodge British infantry, <strong>Tipu</strong> depended on his <strong>artillery forces</strong> and tried to confront the British directly.</li>
+<li style="padding-left:2em">&#9702; However, for the British, there was now a <strong>perennial supply of funds</strong> to sponsor continuous warfare and access to the <strong>most sophisticated firearms.</strong> The English succeeded here because they were better equipped.</li>
+</ul>
+</li>
+</ul>
+<p>Finally, sooner or later, the fall of Mysore was inevitable. Tipu didn't have power to reverse the forces of history. It is an irony of history that Tipu's life coincided with the British colonial expansion in India. With the surrender of all Indian powers, the English were all set on the road to paramountcy. Under these circumstances, it was not possible for Tipu's Mysore alone to retain its independence.</p>`,
   'early-british-raj': ``,
   'economic-impact-british-rule': ``,
   'social-cultural-developments': ``,
