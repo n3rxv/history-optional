@@ -15372,7 +15372,227 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 <p>The significance of the Pitt&#8217;s India Act lies in the fact, that, hereafter, the <strong>East India Company became an organ of the broader British national interest</strong>. India was to play a subservient role in the interest of the British ruling class.</p>
 <p>An effective and authoritarian instrument of control was thus put in place, which <strong>continued till 1858</strong> with only little modifications.</p>
-<p>According to Prof. <strong>PE Roberts</strong>, this Act &#8216;converted the Company into a quasi-state department&#8217; and rendered its final abolition in 1858 merely &#8216;a formal and explicit recognition of facts already existing&#8217;.</p>`,
+<p>According to Prof. <strong>PE Roberts</strong>, this Act &#8216;converted the Company into a quasi-state department&#8217; and rendered its final abolition in 1858 merely &#8216;a formal and explicit recognition of facts already existing&#8217;.</p>
+<h2>Socio-cultural Policies: Orientalism</h2>
+<h3>UPSC PYQs</h3>
+<ul>
+<li>&#8226; &#8220;Orientalism produced a knowledge of the past to service the needs of the Colonial States.&#8221; Elucidate. [2011, 20m]</li>
+</ul>
+<p>&#8220;Every accumulation of knowledge and especially such as is obtained by social communication with people over whom we exercise a dominion founded on the right of conquest is useful to the state&#8230; it attracts and conciliates distant affections; it lessens the weight of the chain by which the native are held in subjection and it imprints on the hearts of our countrymen the sense and obligations of benevolence.&#8221; &#8211; Warren Hastings</p>
+<p>&#8220;Many of the advances in the sciences that we consider to have been made in Europe were in fact made in India, centuries ago.&#8221; &#8211; 19th century British historian Grant Duff</p>
+<p>&#8220;If I were asked under what sky the human mind has most fully developed some of its choicest gifts, has most deeply pondered over the greatest problems of life, and has found solutions of some of them which well deserve the attention even of those who have studied Plato and Kant, I should point to India.&#8221; &#8211; Max Muller</p>
+<p>The victories at Plassey and Buxar and acquisition of the Diwani rights opened a new chapter in the life of the East India Company.</p>
+<p>Imperialism did not merely create structures of political and economic domination. In order to legitimize this domination, they had to create a series of stereotyped images and ideas on which basis the legitimacy of Imperial control could be established.</p>
+<p>In the early stage of imperial rule, in the second half of the 18th century, the imperial attitude towards India is known as Orientalism. The years from 1770s to 1820s under British colonial rule in India can be described as the <strong>golden era of Orientalism</strong>.</p>
+<h3>Meaning</h3>
+<ul>
+<li>&#8226; Orientalism believes in the study of the east.</li>
+<li>&#8226; Ideology:
+<ul>
+<li style="padding-left:2em">&#9702; Sensitive and sympathetic approach towards Indian past and culture.</li>
+<li style="padding-left:2em">&#9702; Though Indian culture is different from European, it is not inferior to it.</li>
+<li style="padding-left:2em">&#9702; Orientalists appreciated the rich heritage of Indian past.</li>
+</ul>
+</li>
+<li>&#8226; Policy: Encouraging the British officials to learn Indian languages to become <em>acclimatized</em> in Indian conditions to become <em>assimilated</em> in the Indian environment.</li>
+</ul>
+<h3>Reasons</h3>
+<ul>
+<li>&#8226; <strong>Administrative Need:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; British had decided not to interfere in the history and culture of people they had conquered. However, under the leadership of Warren Hastings and his friends, they embarked on an intellectual project to learn more about the country they were ruling. This project was in consonance with the needs of governance.</li>
+<li style="padding-left:2em">&#9702; The Company was clever enough to understand that an <strong>adequate knowledge</strong> of India&#8217;s culture, religion, history, language, social structure was necessary to keep India under its thumb. It was all the more necessary as the ruled (Indian) people were entirely different from their rulers (the British) in terms of culture, religion and history.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Political logic:</strong> Orientalism in British policy was the consequence of a relatively weak empire.
+<ul>
+<li style="padding-left:2em">&#9702; At that time, the British were not so confident about the future of the empire, they had to come to terms with powerful Indian classes, Indian beliefs and practices.</li>
+<li style="padding-left:2em">&#9702; Not to antagonise the popular consciousness in Bengal: The idea was to minimize opposition from Indians as well as win Indian collaborators. For that, British wanted to rule in India, as Indian rulers would, using Indian notions and customs.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Economic rationale:</strong> Limited objective of Mercantilism
+<ul>
+<li style="padding-left:2em">&#9702; Focus on trade &#8211; maximize revenue to finance Indian trade. Thus, need to avoid any unnecessary expenses and responsibilities like social reform.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Intellectual Pursuit</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The establishment of British rule in India was roughly coincidental with the development in Europe of a strictly scientific spirit in historical reconstruction (enlightenment spirit). A highly critical attitude in the treatment of the sources had come in the wake of the Scientific Revolution of the seventeenth Century, a revolution which had brought about Enlightenment attitude itself.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Socio-cultural Mileu:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The first generation of British civil servants were from ordinary backgrounds, they were not meant from aristocratic classes. They came to make fortune. They came usually at a young age and became more assimilated naturally in the Indian environment.</li>
+</ul>
+</li>
+</ul>
+<h3>Orientalist Initiatives</h3>
+<p><strong>Indology</strong> may be defined as the scientific study of data relating to Indian history and culture, a study in which little emphasis is laid on the political aspect. The missionaries&#8212;particularly the Jesuits had begun the Indological quest long before the British efforts in that direction. But the missionary scholars, for all their studies made no real attempt to know the historical background of the culture of the people among whom they worked, for in them, the religious motive had a preponderance over the historical.</p>
+<p>In this area of work, the first name that occurs is that of <strong>Alexander Dow</strong>, who wrote <em>History of Hindustan</em> during the period of 1768. Actually, this work was based on a Persian book called Tehrikh-e-Ferozeshahi. Dow gave a detailed description of the culture and religion of the Hindus.</p>
+<p>The first major initiative on the part of the government was taken when in 1772 <strong>Warren Hastings</strong> became the Governor of Bengal. (Knowledge for Governance)</p>
+<ul>
+<li>&#8226; He fully understood the need for detailed information about the tradition, culture and social behavior of the people of India in the very beginning of his rule. His idea was that British need to know India better to be able to rule India better.</li>
+<li>&#8226; Warren Hastings didn&#8217;t believe that India didn&#8217;t have any laws. Unlike his contemporaries, he believed that India had its own traditional legal system which is required to be understood. Hastings made it clear that in respect to inheritance, social behaviour and contracts, these ancient codes would work as the main reference book.
+<ul>
+<li style="padding-left:2em">&#9702; On the initiative of Warren Hastings, a code of law was developed for Hindus with the help of pandits and old scriptures of India. It was published in 1776 by <strong>N. Halhed</strong> titled <em>A Code of Gentoo laws.</em></li>
+</ul>
+</li>
+<li>&#8226; So, British needed to learn the languages.
+<ul>
+<li style="padding-left:2em">&#9702; There were Sanskrit colleges or madrasahs where Persian studies, and Sanskrit studies were encouraged.</li>
+<li style="padding-left:2em">&#9702; Establishment of <strong>Calcutta Madrasa</strong> (1784) and <strong>Benaras Sanskrit College</strong> (1794), Sanskrit College Calcutta (1824)</li>
+<li style="padding-left:2em">&#9702; These institutes emphasized on the <em>indigenous</em> education and knowledge system, and were <em>funded</em> by the Company.</li>
+</ul>
+</li>
+</ul>
+<p>It was during the same period that <strong>William Jones</strong>, the primus among the Orientalists, came to India.</p>
+<ul>
+<li>&#8226; His role as a supreme court judge led him to learn <strong>Sanskrit</strong> and translate <strong>Manusmriti</strong> in English.</li>
+<li>&#8226; <strong>Sanskrit Literature</strong>
+<ul>
+<li style="padding-left:2em">&#9702; William Jones translated <strong>Abhijnana Shakuntalam</strong> in English and said that Kalidasa was the Shakespeare of India.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Comparative Religion</strong>
+<ul>
+<li style="padding-left:2em">&#9702; He compared the European past with the present of India. E.g. Indian deities were compared to Roman or Greek gods and goddesses. So, William Jones was the progenitor of a discipline of comparative religion.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Philology</strong>
+<ul>
+<li style="padding-left:2em">&#9702; To establish a certain commensality between Indians and the Europeans, William Jones came up with the idea of the <strong>Indo-European language family.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; He said in 1786, &#8216;Sanskrit language, whatever may be its antiquity, is of a wonderful structure, more perfect than the Greek and more copious than the Latin, and more exquisitely refined than either. Yet bearing to both a stronger affinity, both in the roots of verbs and in the forms of grammar than could possibly have been produced by an accident.&#8217;</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; So, comparative language was also another very important contribution of William Jones.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Institutional work</strong>
+<ul>
+<li style="padding-left:2em">&#9702; He was also instrumental in founding an organization called <strong>Asiatic Society</strong> in 1784 in Calcutta. The birth of the Asiatic Society was an event of momentous importance. Jones extended to Indology the methods of organized scientific research then spreading in Europe. It was consciously modelled on the Royal Society in London and it ushered in the age of scientific and specialized study in Indian history and culture. Thus, the Oriental intellectual project was institutionalized.
+<ul>
+<li style="padding-left:4em">&#9632; The Asiatic Society became a centre for organized research and hundreds of articles on Indian antiquities were published in its Journal. Systematic attempts were made to search for old manuscripts, and translations and critical editions of important texts on Indian history and culture were published in the Bibliotheca Indica series.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; He also started an academic journal called the <strong>Asiatic Researches</strong> under the auspices of the same society. That journal became a chief medium for the publication of serious research work.</li>
+</ul>
+</li>
+</ul>
+<p>Jones certainly represents the best that oriented his scholarship had produced at that stage. The Asiatic Society&#8217;s unremitting labor bore its first fruit in important translations from Sanskrit literature:</p>
+<ul>
+<li>&#8226; <strong>William Jones:</strong> Shakuntala (1789), Geet Govindam, Manusmriti (published posthumously), Hitopadesha.</li>
+<li>&#8226; <strong>Henry Colebrooke:</strong> Translation of Samkhya Karika, a book on Sanskrit Grammar, Essay on Vedas (1805)</li>
+<li>&#8226; <strong>Charles Wilkins:</strong> Bhagvad Geeta (1785), Hitopadesha (1787). He also wrote a book on Sanskrit Grammar.</li>
+<li>&#8226; <strong>William Carey:</strong> Ramayana</li>
+<li>&#8226; <strong>HH Wilson:</strong> Meghdootam, Vishnupurana
+<ul>
+<li style="padding-left:2em">&#9702; He also wrote Sanskrit-English dictionary, Survey of Indian theatre/drama, compilation of local ayruvedic traditional practices, catalogue of Mackenzie collection, and updation of Mill&#8217;s History of India.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Codification</strong> of Indian laws: <strong>Henry Colebrooke:</strong> Digest of Hindu Laws (unfinished by William Jones, published in 1801), Law of Inheritance (both Mitakshara and Daybhaga)</li>
+</ul>
+<p>Thus, the interest in understanding <strong>India&#8217;s past, her geography, mineral and natural wealth</strong> began at the turn of the 18th century for the purpose of trade and commerce. Later on, it became more serious research and the <strong>documentation of India&#8217;s history, the study of birds, animals, trees and plants.</strong></p>
+<p>Key institutions: Calcutta Madrasa (1781) &#8226; Asiatic Society, Bengal (1784) &#8226; Sanskrit College, Banaras (1791) &#8226; Fort William College, Calcutta (1800) &#8226; Asiatic Society, Bombay (1804) by Sir James Mackintosh &#8226; Indian Museum, Calcutta (1814)</p>
+<h3>Fort William College, Calcutta (1800)</h3>
+<p>It was established for the purpose of training of <strong>Civil Servants.</strong> With this, Lord Wellesley attempted to give professional training to the European Civil Servants and make them efficient. The idea was to teach the fresh British recruits so that they can understand the Oriental Culture, tradition, law and administration.</p>
+<ul>
+<li>&#8226; Most of the <strong>British officers</strong> stationed in India were guided by Orientalism here. Lord Wellesley himself designed a three-year course of study for fresh recruits (between 16-18 years old upon arrival in India).</li>
+<li>&#8226; Many of the pioneers of orientalist studies and scholars associated with the Asiatic Society were associated with this institute.</li>
+<li>&#8226; By 1805 the college had become a veritable laboratory where Europeans and Asians worked out new transliteration schemes, regularized spoken languages into precise grammatical forms, and compiled dictionaries in languages relatively unknown in Europe.
+<ul>
+<li style="padding-left:2em">&#9702; Along with the Asiatic Society of Bengal, this college was the centre of the <strong>creation of colonial knowledge.</strong></li>
+<li style="padding-left:2em">&#9702; Thousands of books translated from Sanskrit, Arabic, Persian, Bengali, Hindi, and Urdu into English.</li>
+<li style="padding-left:2em">&#9702; The college was instrumental in publishing dictionaries, grammar textbooks, and translations.</li>
+</ul>
+</li>
+</ul>
+<h3>Impact and Significance</h3>
+<ul>
+<li>&#8226; Orientalist scholars had <strong>deep interest</strong> in the history, culture and religion of the Indian people. It inspired a number of colonial administrators to <strong>collect and collate a huge amount of research materials</strong> in respect of the Indian society and culture. For example, Thomas Munro, John Malcolm Colin Mackenzie in South India, G. Duff in Maharashtra, James Todd in Rajasthan had collected valuable information pertaining to their respective areas.</li>
+</ul>
+<p>Their work led to many <strong>great historical discoveries:</strong></p>
+<ul>
+<li>&#8226; With the discovery of Indo-European language family and the idea of Aryan Race, Jones had demonstrated the importance of linguistic studies in historical inquiry.</li>
+<li>&#8226; Beginning of modern sciences of comparative religion, modern philology, comparative mythology etc disciplines.</li>
+<li>&#8226; Not only for India, it was a major <strong>breakthrough in the world history.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; They <strong>attempted to link up the history of India with that of Europe.</strong> They lay great emphasis on the common sources of the people of India with those of Europe.</li>
+<li style="padding-left:2em">&#9702; A.A.MacDonnel: &#8220;Since the Renaissance there has been no event of such worldwide significance in the history of culture as the discovery of Sanskrit literature in the latter part of the eighteenth century.&#8221;</li>
+<li style="padding-left:2em">&#9702; By a supreme irony of history even as India was helplessly passing under British rule, the British Orientalists were holding up before the world an image of the Indians as one of the creative peoples of the world with an impressive continuity of development and civilization for more than three thousand years.</li>
+</ul>
+</li>
+</ul>
+<h3>Orientalism by Edward Said</h3>
+<p><strong>Edward Said</strong>, in his book Orientalism (1978), argued that the Orientalist scholars of the eighteenth and the nineteenth century pursued their studies in respect of the Eastern countries on wrong hypotheses and intellectual formulations. According to Said:</p>
+<ul>
+<li>&#8226; Their understanding of the people of Asia was based on prejudices. It established as an ideology which:
+<ul>
+<li style="padding-left:2em">&#9702; Created a set of ideas/images and underlined a certain unbridgeable difference between the East and the West.</li>
+<li style="padding-left:2em">&#9702; It was done to establish inferiority of the East. The west was considered superior racially, intellectually, scientifically, technologically&#8230;</li>
+<li style="padding-left:2em">&#9702; These ideas were imposed by a imperialist authority from above on a weaker society.</li>
+<li style="padding-left:2em">&#9702; Thus, it created a justification for the presence of the imperial western power.</li>
+<li style="padding-left:2em">&#9702; Therefore, oriental knowledge was not an outcome of the innocent curiosity but the production of colonial knowledge, these scholars were working in the interest of the Western countries.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Orientalism outlined the basic features of the East, to help distinguish East and West (<em>idea of difference</em>)</strong></p>
+<ul>
+<li>&#8226; <strong>Culture of despotism:</strong> There was widespread impression among a section of the European scholars that while in Europe a civilised monarchy flourished which allowed people enough property and rule of law to accumulate wealth, in India, it was the Oriental despotism that led to its decadence.
+<ul>
+<li style="padding-left:2em">&#9702; Oriental despotism didn&#8217;t allow people private ownership leading to wealth generation. Also, due to the despotic nature of polity, there was no scope for rule of law.</li>
+<li style="padding-left:2em">&#9702; Some Orientalist scholars tried to remove such misunderstanding through their studies.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Changelessness:</strong> Indians were resistant to change. This idea of changelessness would recur repeatedly.
+<ul>
+<li style="padding-left:2em">&#9702; The major weakness of the Orientalists was that they were <strong>not interested in taking into consideration the &#8216;deterioration&#8217;</strong> in the old Indian cultural tradition. <strong>Thomas Metcalf</strong> believes that the basic flaw in the Orientalist way of looking at the Indian situation was that they had refused to consider and analyze the Indian historical developments that took place <em>after</em> the ancient India.</li>
+</ul>
+</li>
+</ul>
+<h3>Negative effects of Orientalism</h3>
+<ul>
+<li>&#8226; <strong>Scriptural Supremacy</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Orientalist scholars pinned their faith in the <strong>ancient books and scriptures</strong> of India as they looked upon them as the <strong>main source</strong> of Indian culture and civilization.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Monopoly over knowledge &#8594; Distortion</strong>
+<ul>
+<li style="padding-left:2em">&#9702; These were not simple translations, but they have encoded within them the power structures. With this, British gained <strong>Monopoly over interpreting</strong> Indian culture to promote colonial interest.</li>
+<li style="padding-left:2em">&#9702; The colonial administration did not want to interfere much in the social and religious life of the people of India. Still, the attempts at collection, collation and categorization of data <strong>led to interference and distortion.</strong></li>
+<li style="padding-left:2em">&#9702; Examples:
+<ul>
+<li style="padding-left:4em">&#9632; Indians more indulged in other-world, religion and spiritualism thereby neglecting this world. Centrality of religion became the basic underlying theme.</li>
+<li style="padding-left:4em">&#9632; Max Muller declared that whereas for Greeks, life was full of joy, and it was real, for Indians it was simply an illusion.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; They believed in the <strong>golden period</strong> of the ancient Indian history. They painted the picture of regressive and degenerating present of India to gain legitimacy.
+<ul>
+<li style="padding-left:2em">&#9702; However, they did not concern themselves with the basic question as to what extent those old social and cultural values were relevant in their times.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Uncritical understanding of the past &#8594; Distortions</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Colonial understanding of the <strong>caste system</strong> in India. William Jones translated Manusmriti (1784) which greatly impacted the colonial policy.
+<ul>
+<li style="padding-left:4em">&#9632; In the initial years of the colonial rule, the administrators believed that the traditional code of law should be adhered to as long as it did not go against the colonial rule. Such an understanding led to a <strong>widespread acceptance of Brahminic tradition.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; William Jones&#8217;s notion of the <strong>language-race nexus</strong> and the <strong>theory of the Aryan race</strong> has now been generally discarded. The theory, however, came to have a harmful influence on future thought.
+<ul>
+<li style="padding-left:2em">&#9702; The belief in the superiority of the white Aryan race became a basic assumption of European imperialism everywhere.</li>
+<li style="padding-left:2em">&#9702; The interpretation not only contained an explanation of upper caste superiority, but also suggestion of an Aryan-Dravidian racial divide. Future revelation and research would caste many of these assertions into the realm of motivated fancy.</li>
+<li style="padding-left:2em">&#9702; The race theory in the hands of the British imperialist historian also came to mean that everything of value in Indian life and culture, at least above reproach in European eyes, was of European origin.</li>
+</ul>
+</li>
+<li>&#8226; While being appreciative/discerning about Indian knowledge, Orientalists <strong>did not raise any big question mark against European culture, civilisation and their epistemology and ontology.</strong> So, they were not oblivious of the interests of colonial rule.</li>
+</ul>
+<p>Thus, Orientalist school played a crucial role in the initial evolution of the colonial knowledge and policy, which in turn gave stability and legitimacy to it. But it is equally true that the policy also strengthened the retrogressive forces of the Indian society.</p>`,
   'economic-impact-british-rule': `<h2>UPSC CSE PYQs</h2>
 <h3>Judicial Reforms</h3>
 <ul>
