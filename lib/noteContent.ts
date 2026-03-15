@@ -15039,7 +15039,379 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 </li>
 </ul>
-<p>When the English attacked the Marathas, the latter were already past the prime of their power. The Maratha power had lost its early vigour and momentum. Thus, the English attacked a 'divided house' which started crumbling at the first push.</p>`,
+<p>When the English attacked the Marathas, the latter were already past the prime of their power. The Maratha power had lost its early vigour and momentum. Thus, the English attacked a 'divided house' which started crumbling at the first push.</p>
+<h2>UPSC CSE PYQs</h2>
+<h3>Sindh</h3>
+<ul>
+<li>&#8226; &#8220;We have no right to seize Sind, yet we shall do so and a very advantageous, useful, humane piece of rascality it will be.&#8221; Comment. [1984, 20m]</li>
+<li>&#8226; &#8220;We have no right to seize Sind, yet we shall do so, and a very advantageous, useful and human piece of rascality it will be.&#8221; Comment. [1990, 20m]</li>
+<li>&#8226; &#8220;The British conquest of Sind was both a political and moral sequel to the first Afghan war.&#8221; Comment. [1995, 60m]</li>
+<li>&#8226; Sir Charles Napier said, &#8220;We have no right to seize Sind, yet we shall do so, and a very advantageous, useful, humane piece of rascality it will be.&#8221; Comment. [2000, 20m]</li>
+</ul>
+<h3>Punjab</h3>
+<ul>
+<li>&#8226; &#8220;Punjab&#8217;s fate after Ranjit Singh was foredoomed as the impulse of neo-Victorian Imperialism was bound to overwhelm it&#8221;. Elucidate [2010, 20m]</li>
+<li>&#8226; &#8220;Annexation of Punjab was part of a broad north-west frontier policy set in motion after the exit of Maharaja Ranjit Singh.&#8221; Critically examine [2015, 10 Marks]</li>
+<li>&#8226; Underline the major considerations of the British imperial power that led to the annexation of Punjab. [2017, 10m]</li>
+<li>&#8226; &#8220;Maharaja Ranjit Singh died in 1839. His death was the signal for an outburst of anarchy all over the Punjab.&#8221; Critically examine. [2020, 10 Marks]</li>
+<li>&#8226; &#8216;The Treaty of Amritsar (1809) was significant for its immediate as well as potential effects.&#8217; Critically examine. [2022, 10m]</li>
+</ul>
+<h2>Phase of Industrial Capitalism (1813-58)</h2>
+<p><strong>Objective:</strong> To convert India as a market for British manufactured goods and the supplier of raw materials</p>
+<ul>
+<li>&#8226; <strong>Political Policy:</strong> To bring the maximum number of states under direct control. (Paramountcy and Annexationism)</li>
+<li>&#8226; <strong>Administrative Policy:</strong> Substantial changes in the administrative structure</li>
+<li>&#8226; <strong>Economic Policy:</strong> Commercialization of Agri, Deindustrialization, Free Trade, Drain of Wealth</li>
+<li>&#8226; <strong>Social Policy:</strong> Reforms through English Education and Law (civilizing mission)</li>
+<li>&#8226; <strong>Cultural Policy:</strong> Liberals, Utilitarians, Evangelism</li>
+</ul>
+<h2>Inauguration of aggressive British imperialism in India</h2>
+<p>There was a significant change in the nature of British imperialism in the early part of the 19th century. One can trace the beginning from the time of <strong>Lord Wellesley</strong> (1798-1805), but he was discouraged by the authorities in London. As the London was unsatisfied with Wellesley&#8217;s costly programme of conflict and expansion, he was repatriated from India. However, the policy started changing decisively after 1810s.</p>
+<p>With the arrival of <strong>Lord Hastings</strong> as the Governor of Bengal (1813-1823), the nature and character of British policies in India changed significantly. Hereafter the vision of extensive British Empire guided the actions and policies of British rulers both in India as well as in London.</p>
+<h3>Reasons</h3>
+<ul>
+<li>&#8226; By this time, British had captured extensive territories. Roots of British in India became very strong. Once the <strong>Marathas were completely defeated</strong> in 1805, the British became more aggressive.</li>
+<li>&#8226; There was also a change in the policy of the British authorities in <strong>London</strong>. they were now becoming <strong>more supportive of aggression</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; In continental Europe, the <strong>threat of Napoleon</strong> to British dominance had also subsided by mid-1810s.</li>
+</ul>
+</li>
+<li>&#8226; There was an <strong>Economic logic</strong> for aggressive policy
+<ul>
+<li style="padding-left:2em">&#9702; With the beginning of <strong>Industrial capitalism</strong>, there was a need to convert India as a market for British manufactured goods and the supplier of raw materials. The industrial revolution heightened the need for resources to sustain economic growth.</li>
+<li style="padding-left:2em">&#9702; Also, after conquering Ganga basin completely, British now turned their greedy gaze towards <strong>Indus valley</strong>. Control of the Indus valley was seen as not only economically lucrative but also as a gateway to the Central Asia.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Victorian neo-imperialism</strong> (from 1830s onwards)
+<ul>
+<li style="padding-left:2em">&#9702; There was a <strong>sense of national pride and competition</strong> among European powers. Acquiring colonies was often seen as a measure of a nation&#8217;s strength and prestige.</li>
+</ul>
+</li>
+<li>&#8226; In the 1830s, there was the beginning of <strong>The Great Game</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; It was a <strong>rivalry between the 19th century British and Russian Empires over influence in Asia</strong>, primarily in Afghanistan, Persia, and later Tibet.</li>
+<li style="padding-left:2em">&#9702; Britain feared Russia&#8217;s southward expansion would threaten the India possession. As a result, British made it a high priority to protect all approaches to India, to stop Russian expansion towards India.
+<ul>
+<li style="padding-left:4em">&#9632; To protect India, Britain aimed to create a protectorate in Afghanistan, and support the Ottoman Empire, Persia, Khiva, and Bukhara as buffer states against Russian expansion.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; British also wanted to protect sea trade routes by blocking Russia from gaining a port on the Persian Gulf or the Indian Ocean.</li>
+</ul>
+</li>
+</ul>
+<p>Overall, this era was characterized by an aggressive pursuit of economic interests, the consolidation of political control, and the imposition of Western values on the Indian subcontinent. Thus, the British expanded in two ways: by more <strong>interfering</strong> in princely states to depose the rulers and by following <strong>aggressive</strong> war policy at the frontiers.</p>
+<h3>(A) Internally: Interference through the Paramountcy</h3>
+<ul>
+<li>&#8226; In 1813 came governor-general <strong>Hastings of Moira</strong> who spelt out the certain <strong>notion of paramountcy</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; He demanded British must be recognised as supreme and sovereign power in India. He aimed to assert British supremacy over all Indian native states.</li>
+<li style="padding-left:2em">&#9702; <strong>Paramountcy vis-&#224;-vis Princely states:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The policy asserted the Governor General&#8217;s <strong>right to intervene in the internal affairs of the Indian princely states</strong>, and to supersede their authority if necessary. It is a claim to overlordship.</li>
+<li style="padding-left:4em">&#9632; Theoretically, it tried to establish the <strong>superior authority</strong> of the British Empire over the princely states which were tied in treaty relationship with the with the company. So, even the large states like Hyderabad had to listen to the dictates of the Company.</li>
+<li style="padding-left:4em">&#9632; In the long run, paramountcy also involved <strong>more direct intervention</strong> of the British to the point of the government of the princely states being directly <strong>taken over by the British authorities.</strong> So, in the long run, paramountcy threatened the existence of the princely states altogether. (justification for annexation)</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; This trend climaxed in the 1830s-40s.
+<ul>
+<li style="padding-left:4em">&#9632; Lord William <strong>Bentick</strong> (1828-35) annexed Mysore, Central/Northern Cachar and Jaintia etc.</li>
+<li style="padding-left:4em">&#9632; During 1848 when governor-general <strong>Dalhousie</strong> embarked on a <strong>systematic policy of annexation</strong> of the territories of many of the more prominent princely states. The annexation of <strong>Awadh</strong> (1856) finally led to the outbreak of the revolt of 1857.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>(B) Externally, aggressive policy territorial expansion was pursued</h3>
+<p>Policy of territorial expansion was pursued aggressively. All those native states were wipe out that tried to challenge the British dominance in India. Hereafter, the Wars and Battles were not fought for defensive purpose, but they guided by aggressive imperialistic designs.</p>
+<p>As part of its long-term objective of bringing under imperial control the frontier the Indian subcontinent, the East India Company tried to extend its empire in North, East and West.</p>
+<ul>
+<li>&#8226; Lord Hastings (1813-23): Third Anglo Maratha War</li>
+<li>&#8226; <strong>Himalayan region:</strong> Anglo-<strong>Nepal</strong> War (1814-16) by Lord Hastings</li>
+<li>&#8226; Northeast: Lord Amherst (1823-28) annexed of Assam, and led the British in First Anglo-<strong>Burmese</strong> War (Treaty of Yandabo 1826)</li>
+<li>&#8226; <strong>Northwest:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Lord Auckland (1836-42): First Anglo-Afghan War (1839)</li>
+<li style="padding-left:2em">&#9702; Lord Ellenborough (1842-44): Annexation of Sindh (1843)</li>
+<li style="padding-left:2em">&#9702; Lord Hardinge (1844-48): First Anglo-Sikh War (1845)</li>
+<li style="padding-left:2em">&#9702; Lord Dalhousie (1848-56): Second Anglo-Sikh War (1848)</li>
+<li style="padding-left:2em">&#9702; Lord Lytton (1876-80): Second Anglo-Afghan War (1878)</li>
+</ul>
+</li>
+</ul>
+<p>Thus, the policy of British in the Northwest must be situated in this larger historical backdrop of a new kind of imperialism which was becoming more aggressive, more interfering, more conscious about the security of the empire.</p>
+<h2>Afghanistan &#8212; The Graveyard of Imperial powers</h2>
+<ul>
+<li>&#8226; <strong>Shah Shuja</strong>, the ruler of Afghanistan was expelled from Afghanistan by <strong>Shah Mahmud</strong> (1809). From 1815 onwards <strong>Shah Shuja resided at Ludhiana</strong>.</li>
+<li>&#8226; <strong>Failed attempt of Shah Shuja to re-capture power:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Dost Mohammad</strong>, came to power in 1826.</li>
+<li style="padding-left:2em">&#9702; <strong>Shah Shuja</strong> he launched an <strong>invasion</strong> of eastern Afghanistan. However, in the middle of 1834 Shuja was <strong>defeated</strong> by Dost Mohammad at Kandahar.</li>
+</ul>
+</li>
+</ul>
+<h3>Auckland&#8217;s Forward Policy in Afghanistan</h3>
+<ul>
+<li>&#8226; Soon after Auckland (1836-42) assumed office, there was <strong>sustained propaganda</strong> of <strong>Russophobia</strong> in India and Britain to justify the forward policy in Afghanistan.</li>
+<li>&#8226; Initially, <strong>Alexander Burnes</strong>, was <strong>deputed to Kabul in 1837</strong> on a so-called <em>commercial mission</em>. However, he was unsuccessful in diplomatic negotiations with Dost Mohammad due to the issue of control of Peshawar.</li>
+<li>&#8226; It was now decided by the Company that Dost Mohammad needed to be <em>overthrown</em> and for that, <strong>Shah Shuja was given active help.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; As a prelude to the implementation of this scheme a treaty was signed between <strong>Shah Shuja, Ranjit Singh, and the British (Tripartite Treaty of 1838).</strong></li>
+<li style="padding-left:2em">&#9702; According to the original plan, Ranjit Singh was to render military support to Shah Shuja to enable him to acquire control over Afghanistan. In return, Shuja was to renounce claims over those territories of Afghanistan which had been acquired by the Punjab kingdom, particularly Peshawar.</li>
+<li style="padding-left:2em">&#9702; Eventually, it was decided that British troops would accompany Shuja on his march to Kabul.</li>
+</ul>
+</li>
+<li>&#8226; The death of Ranjit Singh in 1839, and the uncertainties of succession in the Punjab kingdom, made Shuja even more dependent on the British.</li>
+</ul>
+<h3>First Anglo-Afghan War</h3>
+<ul>
+<li>&#8226; The <strong>Punjab army</strong> was to march from Peshawar to Kabul via the <strong>Khyber Pass</strong>. But it couldn&#8217;t move beyond Peshawar.</li>
+<li>&#8226; The Company&#8217;s contingents, which now constituted the main force &#8211; <strong>Army of the Indus</strong> &#8211; was to take a southerly route through Sind and Baluchistan and proceed to Kabul through the <strong>Bolan Pass</strong> in 1839.</li>
+<li>&#8226; <strong>Initial British Victory (1839)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Army of the Indus was able to occupy <strong>Kandahar</strong> and <strong>Ghazni</strong> on its way to <strong>Kabul</strong>.</li>
+<li style="padding-left:2em">&#9702; Dost Mohammad retreated from Kabul as the British army approached the city; and <strong>Shah Shuja was proclaimed as the ruler.</strong></li>
+<li style="padding-left:2em">&#9702; Soon, they became complacent without noticing Afghan discontent.</li>
+</ul>
+</li>
+<li>&#8226; British stuck in Kabul
+<ul>
+<li style="padding-left:2em">&#9702; It soon became apparent that the new ruler could not maintain his position without continuing British presence. Thus, it was decided that the British force would stay on for some time.</li>
+<li style="padding-left:2em">&#9702; Two worries:
+<ul>
+<li style="padding-left:4em">&#9632; A <strong>prolonged stay</strong> in Afghanistan was financially unviable.</li>
+<li style="padding-left:4em">&#9632; <strong>Punjab was unwilling to allow the British army to march</strong> through its territory.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; As Dost Muhammad was powerful &#8594; Negotiation.
+<ul>
+<li style="padding-left:2em">&#9702; Despite British presence, Dost Mohammad was able to <strong>gather sufficient supporters</strong>.</li>
+<li style="padding-left:2em">&#9702; However, since his forces were too small for a sustained offensive, he decided to negotiate with the British. The British authorities agreed to his <strong>voluntary exile in India</strong>. He was placed under virtual house arrest in <strong>Mussoorie</strong>.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Still, the situation continued to deteriorate</strong> despite the exile of Dost Mohammad. By 1841, there was <strong>widespread unrest</strong> and troops had to be constantly rushed to put down armed rebellions.</li>
+<li>&#8226; <strong>Retreat of the British Army (1842)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Soon, <strong>the Army of the Indus commenced its retreat</strong> in January 1842.</li>
+<li style="padding-left:2em">&#9702; It met with <strong>stiff opposition from local tribal communities</strong></li>
+<li style="padding-left:2em">&#9702; Almost the entire British force of nearly 16,000 men, was wiped out much before reaching Jalalabad.</li>
+</ul>
+</li>
+<li>&#8226; The First Afghan War was the <strong>most comprehensive defeat the British faced</strong> in their colonial wars during the nineteenth century, and one in which they suffered huge losses. British prestige was heavily damaged.</li>
+<li>&#8226; The <strong>final catastrophe</strong> for the British cause was the <strong>assassination of Shah Shuja</strong> in April 1842. it was decided that Dost Mohammad be released so that he could return to power in Afghanistan. Upon his return to Kabul, Dost Mohmammad once again became the ruler of Afghanistan and reigned till his death in 1863.</li>
+</ul>
+<p>The <strong>First Afghan War</strong> thus ended in a colossal defeat for the British. This was perhaps the <strong>worst military disaster</strong> for the British during their expansionist drive in the first half of the nineteenth century.</p>
+<h2>Sindh (Talpur)</h2>
+<p>The Afghan War had created conditions for the conquest of Sind. The process which finally led to the annexation of the region was set in motion just as British forces retreated from Afghanistan.</p>
+<h3>Causes behind Sindh&#8217;s Annexation</h3>
+<ul>
+<li>&#8226; <strong>Russophobia:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; To counter Russian expansion in NW of India</li>
+<li style="padding-left:2em">&#9702; Sind was passing through a phase of internal crisis it could have easily target for Russians.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Tail of Afghan War:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After the defeat in the First Afghan War, the Company lost influence in Afghanistan. It was thus necessary for the company to strengthen its defence on Afghanistan-Sind border by annexing Sind.</li>
+<li style="padding-left:2em">&#9702; Afghan expedition was a blow to British prestige. They wanted to restore it by annexing Sindh.</li>
+</ul>
+</li>
+</ul>
+<p>In the early nineteenth century Sind was ruled by <strong>chiefs/amirs of the Talpur clan</strong>.</p>
+<h3>The colonial penetration of Sind</h3>
+<p>Sind was an independent state and the John Company had friendly relations with Sind. The Company repeatedly promised to protect unity and integrity of Sindh.</p>
+<ul>
+<li>&#8226; For the first time the English company came into contact with Sind in 1775 when it set up 1st factory at Thatta. This factory was abandoned in 1792 due to commercial reasons.</li>
+<li>&#8226; <strong>French Menace &#8594; Early Treaties</strong>
+<ul>
+<li style="padding-left:2em">&#9702; During the Napoleonic Wars, <strong>a treaty (1809)</strong> was signed with the amirs under which they agreed <strong>not to allow the French</strong> into the region.</li>
+<li style="padding-left:2em">&#9702; This was followed up by another <strong>treaty in 1820</strong> intended to <strong>exclude all Europeans</strong> (and Americans) from Sind.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Commercial Explorations &#8594; Treaty of 1832</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Alexander Burnes&#8217; brother <strong>James</strong> visited Hyderabad in the late 1820s and published an account of his stay at the court of Hyderabad.</li>
+<li style="padding-left:2em">&#9702; It was in the early 1830s that the British began to systematically gather information about Sind. <strong>Alexander Burnes</strong>&#8217;s espionage mission of 1831 was the first major attempt to explore the lower Indus.</li>
+<li style="padding-left:2em">&#9702; Treaty of 1832 &#8211; A more substantial treaty was concluded in <strong>1832</strong> which compelled the amirs to <strong>open up their territories, the river Indus particularly,</strong> to commerce. This marked the beginning of regular British intervention in the affairs of the Sind.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Punjab politics &#8594; Treaty of 1838</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>southward expansion</strong> of the Punjab kingdom in the direction of northern Sind lent urgency to British manoeuvres.
+<ul>
+<li style="padding-left:4em">&#9632; In 1836, <strong>Ranjit Singh</strong> was planning to occupy the city of <strong>Shikarpur</strong> in northern Sind. The threat to occupy Shikarpur was meant to pressurize the amirs to pay the <strong>tribute</strong>.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; At this point, the British intervened and offered their <strong>&#8216;protection&#8217;</strong> to the amirs, forcing <strong>another treaty (1838)</strong> on them.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Henry Pottinger</strong>, played a prominent role in the 1830s in undermining the authority of the Sind amirs.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Afghan Expedition &#8594; Treaty of 1839</strong>
+<ul>
+<li style="padding-left:2em">&#9702; During Kabul expedition, <strong>Karachi</strong> was occupied in <strong>1839</strong>, following which another treaty was signed with the amirs under which they were forced to accept a <strong>subsidiary force</strong> and pay Rs 3 lakhs per annum towards its expenses.</li>
+</ul>
+</li>
+</ul>
+<h3>Role of Charles Napier</h3>
+<p>Shortly after Ellenborough took over as governor general, <strong>Charles Napier</strong>, a senior British military officer, was appointed the Company&#8217;s supreme military commander and Resident in Sind and given wide-ranging political authority. It was he who created circumstances and led the process of annexation of Sindh.</p>
+<ul>
+<li>&#8226; Napier conducted a farcical inquiry into allegations of secret support by Sindh amirs to anti-British activities. Finding the amirs guilty, he imposed a new treaty with onerous and unacceptable conditions, which was sure to be refused.</li>
+<li>&#8226; At the same time the British made use of a factional tussle at Khairpur to support one side against another, which led to the popular spontaneous resistance.</li>
+</ul>
+<p>Thus started the war in which Amirs were swiftly defeated. Sind was annexed by the British. Napier was made governor of the province.</p>
+<h2>The Punjab</h2>
+<p>Aggressive policy of paramountcy, and Russophobia as security challenge to the Indian possessions of the British Empire came face to face with a situation in Punjab after the collapse of Ranjit Singh&#8217;s Kingdom.</p>
+<p>British intervention in this region in 1840s was provoked by <strong>the fear of a troubled frontier</strong>. Russian intervention in the region (Russophobia) persuaded the British to constantly recalibrate its Punjab policy.</p>
+<ul>
+<li>&#8226; <strong>Earlier Policy</strong> &#8211; To prop-up Ranjit Singh&#8217;s regime as a possible bulwark/barrier against possible Russian invasions through Afghanistan.</li>
+<li>&#8226; <strong>Later Policy</strong> &#8211; Once Ranjit Singh&#8217;s Kingdom collapsed, and instability became rampant, and this policy had to be changed.</li>
+</ul>
+<h3>Rise of the Sikhs &#8211; Ranjit Singh (Punjab Kesari)</h3>
+<p>This Sikh polity had the memory of anti-Mughal resistance as in ideology and faced the military compulsion of containing the Afghans. This demanded the emergence of a more organized and more powerful leadership.</p>
+<p>At the end of the 18th century, Zaman Shan, a successor of Abdali in Afghanistan was invading north India regularly. So, it was this necessity of resistance to Afghans that eventually made for the rise of Ranjit Singh possible. Ranjit Singh, by dint of his leadership, competency and muscle power, fused the various Sikh misls into a powerful state.</p>
+<ul>
+<li>&#8226; Born in 1780, he assumed the leadership of the <strong>sukarchakia</strong> misl at the age of 12 after the premature death of his father.</li>
+<li>&#8226; His main source of strength was his <strong>army</strong>. He modelled it on European style, on East India Company&#8217;s army. It became the second largest army in Asia.
+<ul>
+<li style="padding-left:2em">&#9702; Ranjit Singh was a <strong>military adventurer</strong>, and he knew that military superiority was the key to power. He <strong>laboured hard to build up a disciplined, well-armed military</strong> force along modern lines.</li>
+<li style="padding-left:2em">&#9702; He appointed <strong>European military experts</strong> to train his soldiers.</li>
+<li style="padding-left:2em">&#9702; The <strong>cavalry</strong> was well organized.</li>
+<li style="padding-left:2em">&#9702; He set up modern <strong>manufacturing</strong> units to manufacture cannons.</li>
+<li style="padding-left:2em">&#9702; The <strong>racial composition</strong> of his army and administration was <strong>heterogeneous</strong>. He recruited both the Hindus and the Muslims.</li>
+</ul>
+</li>
+<li>&#8226; He also introduced the <strong>system of vassalage</strong> &#8211; all these great Sikh sardars in other places were enticed to be his vassals.</li>
+<li>&#8226; Initially, Ranjit Singh was firmly established in <strong>Lahore in 1799</strong> then <strong>Amritsar</strong> came under his control in <strong>1805</strong>. The control over the holy city of Amritsar gave him a certain advantage. Thus, both the political and religious capital of Sikhism was under him.</li>
+<li>&#8226; Shortly thereafter, he forced <strong>all the Sikh chiefs west of the river Sutlej</strong> to acknowledge him as the King of Punjab and thus <strong>created a unified state.</strong></li>
+</ul>
+<p>This powerful Kingdom was capable of generating a measure of prosperity as well.</p>
+<ul>
+<li>&#8226; It was natural for Ranjit Singh to look after <strong>irrigation</strong> facilities for the peasants because ultimately rural peasantry (esp. Jat Sikhs) was the main support base.</li>
+<li>&#8226; At the same time, Ranjit Singh brought <strong>order and security</strong> to the region was beleaguered by invasions and instability for a long time. There began the <strong>trade revival</strong> which brought more prosperity, greater income and propelled the <strong>artisanal industry.</strong></li>
+</ul>
+<p>So, this is how the basis of <strong>a powerful kingdom</strong> was created. It was not just a kind of a <strong>military</strong> state. It could draw on <strong>huge economic resources</strong> (agriculture, trade revival, handicraft revival) which gave Ranjit Singh the kind of power that he was able to wilt over the entire region.</p>
+<h3>Relations with the English</h3>
+<p>As early as 1800, the English, fearing an Afghan invasion of India under Zaman Shah, had requested that the Maharaja should not join Zaman Shah in case he invaded India.</p>
+<p>In 1805 Jaswant Rao Holkar hotly pursued by Lord Lake came to Amritsar and solicited Ranjit Singh to make a common cause against the English. Ranjit Singh at that time did not think it prudent to incur the hostility of the English. In 1806, Ranjit Singh signed a treaty of friendship with General Lake agreeing to force Jaswant Rao Holkar to leave Amritsar. General Lake, in turn, promised that the English would never form any plans for the seizure of Ranjit Singh&#8217;s possessions and property.</p>
+<h3>Treaty of Amritsar (1809)</h3>
+<ul>
+<li>&#8226; Ranjit Singh&#8217;s ambition to acquire the Cis-Sutlej territories brought him face to face with the English East India Company.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>After successfully uniting the Sikhs on the west bank of the Sutlej</strong>, Ranjit turned to bring the Cis-Sutlej states under his control.</li>
+<li style="padding-left:2em">&#9702; When he tried to capture <strong>cis-Sutlej</strong>, these states applied British for help to safeguard their independence.</li>
+</ul>
+</li>
+<li>&#8226; At this time, the Punjab had become particularly important from the British point of view as they <strong>apprehended possible joint Franco-Russian invasion</strong> into India through land-route via Afghanistan. They had been so far watching Ranjit Singh&#8217;s expansionist policy with a deep sense of concern. Now, they responded quickly.
+<ul>
+<li style="padding-left:2em">&#9702; British officer at Ludhiana, <strong>David Ochterlony</strong>, declared the states under British <strong>patronage</strong> and provided <strong>protection</strong>. It was an open warning to Ranjit Singh to control his ambition by threat with open conflict.</li>
+</ul>
+</li>
+<li>&#8226; Ranjit Singh finally entered into the <strong>Treaty of Amritsar with EIC.</strong> By this treaty:
+<ul>
+<li style="padding-left:2em">&#9702; Ranjit Singh was <strong>forced to give up all his claims on the Cis-Sutlej states</strong> which were to be henceforth under the protection of the British. (British sphere of influence)</li>
+<li style="padding-left:2em">&#9702; In return, the British too, acknowledged Ranjit Singh&#8217;s sovereign authority on the western side of Sutlej.</li>
+<li style="padding-left:2em">&#9702; So far, <strong>in the east</strong>, Ranajit Singh&#8217;s domain was <strong>confined upto Sutlej.</strong></li>
+</ul>
+</li>
+</ul>
+<p>The Treaty of Amritsar was important for its immediate as well as potential effects.</p>
+<ul>
+<li>&#8226; It <strong>checked one of the most cherished ambitions of Ranjit Singh</strong> to extend his rule over the entire Sikh nation, living east or west of the river Sutlej.</li>
+<li>&#8226; The treaty also gave Ranjit Singh a <strong>carte blanche so far as the region to the west of Sutlej was concerned.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; With the disappearance of all danger from the English, the Maharaja directed his energies towards the west and captured Multan (1818), Kashmir (1819) and Peshawar (1834).</li>
+</ul>
+</li>
+<li>&#8226; In its ultimate effects the treaty <strong>showed the weak position of Ranjit Singh</strong> vis-a-vis the Company.
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>British were brought close to the frontier</strong> of the Lahore kingdom and this brought the danger of war nearer.</li>
+<li style="padding-left:2em">&#9702; Besides, the <strong>treaty gave the Company a degree of control over Ranjit Singh&#8217;s relations with the neighbouring states</strong> of Sind, Bahawalpur and Afghanistan.</li>
+</ul>
+</li>
+<li>&#8226; The relations of Raja Ranjit Singh with the Company, from 1809 to 1839, clearly indicate the former&#8217;s weak position.
+<ul>
+<li style="padding-left:2em">&#9702; The Company forestalled the moves of Ranjit Singh on Sind.</li>
+<li style="padding-left:2em">&#9702; The fear of Russian advances in Central Asia led the English to occupy and later build a cantonment at Ferozepur in 1835. The stationing of British troops at that strategic town worried Ranjit Singh but his protest went unheeded.</li>
+<li style="padding-left:2em">&#9702; In 1838, Ranjit Singh was compelled by political compulsions to sign the Tripartite Treaty with the English; however he refused to give passage to the British army through his territories to attack Dost Mohammad, the Afghan Amir.</li>
+<li style="padding-left:2em">&#9702; &#8220;Ranjit Singh feared to expose the kingdom that he created to the risk of war with the Company and chose instead the policy of yielding, yielding and yielding.&#8221; (<strong>NK Sinha</strong>)</li>
+</ul>
+</li>
+</ul>
+<h3>The First Anglo-Sikh War (1845-1846) &#8211; Lord Hardinge (1844-1848)</h3>
+<p>The causes of the Anglo-Sikh war were both strategic and economic. So far as Ranjit Singh was alive, he checked the ambitions of local nobles and controlled the army. However, his death in 1839 was followed by a <strong>period of political uncertainty, family rivalry, conspiracies and factionalism.</strong></p>
+<ul>
+<li>&#8226; A series of <strong>weak rulers</strong> sat on throne one after another.</li>
+<li>&#8226; Sikh court was <strong>divided</strong> into <strong>two factions</strong> &#8211; who wanted to be kingmakers. It created disorder.</li>
+<li>&#8226; Maharaja Ranjit Singh had created the 2nd biggest <strong>army</strong> in entire Asia but after his death there was a division between <strong>civil authority</strong> and <strong>military authority.</strong></li>
+</ul>
+<p>Sikh Emperors after Ranjit Singh:</p>
+<ul>
+<li>&#8226; <strong>1839 &#8211; Kharak Singh</strong> (eldest son): He was one of Ranajit Singh&#8217;s sons and became the ruler as per the desire of Ranajit Singh himself. However, Kharak Singh didn&#8217;t have a long life.</li>
+<li>&#8226; <strong>1839&#8211;1840 &#8211; Nau Nihal Singh:</strong> Kharak Singh died on 5 November 1839; Nau Nihal Singh (his own son) died on the same day when a gateway, likely accidentally, fell on him.</li>
+<li>&#8226; <strong>1841&#8211;1843 &#8211; Sher Singh:</strong> With the support of now-influential Dhyan Singh, Sher Singh, a half-brother of Kharak Singh, became the next maharaja in 1841. But Sher Shah was assassinated in 1843 by the rival family group, and soon Dhyan Singh too was killed.</li>
+<li>&#8226; <strong>1843&#8211;1849 &#8211; Duleep Singh</strong> (youngest son): The army now supported the claim of Dalip Singh, the youngest son of Ranjit Singh, to be the maharaja. <strong>Rani Jindan</strong> (his mother) became regent for the minor maharaja. The strong support of the army ensured the ascendancy of Rani Jindan in the years between the accession of Dalip Singh and the First Punjab War.</li>
+</ul>
+<p>This internal political turmoil was watched by the British. In fact, they had been throwing their greedy glances on trans-Sutlej area since the days of Maharaja Ranjit Singh. The recent situation of relative instability created an opening for them. This led to an important change in British policy. There was now a departure from the position that the British had taken in 1809 in the Treaty of Amritsar.</p>
+<p>Ever since the Treaty of Amritsar, the Company had been gradually infiltrating the state apparatus of the Punjab kingdom through espionage and diplomacy, so that Punjab had already become vulnerable to its manoeuvres by 1839. Following Ranjit Singh&#8217;s death, dissensions were encouraged at the Lahore court, allowing the British to easily undermine the authority of the ruling elite.</p>
+<ul>
+<li>&#8226; <strong>Major Broadfoot</strong> was appointed as the British agent in 1844. He provoked the khalsa army by repeatedly insulting and alienating the Sikh sardars and army officials.</li>
+</ul>
+<p>Sikhs too started preparations to counter a possible British attack.</p>
+<ul>
+<li>&#8226; By this time, the Khalsa/Sikh army had become somewhat independent of the control of the palace or of the control of the rulers. It was without a General or at any rate without one supreme controlling mind.</li>
+<li>&#8226; At the time, selfish and traitorous people controlled the government at Lahore. Rani Jindan, under the influence of a section of the civilian chiefs who wanted to weaken the army, ordered the army to strike at the British.</li>
+</ul>
+<p>The governor general, Henry Hardinge, who had succeeded Ellenborough in 1844, declared war on 13 December 1845. Sikh Army crossed the river, and the wars were fought. The First Punjab War dragged on for nearly two months. Eventually the Sikh Army lost out.</p>
+<p>However, the Panjab was not annexed in February 1846. Given the kind of resistance that the British encountered from the Sikhs, the Company realized that the Khalsa army had been defeated, but not annihilated. This would have involved prolonged fighting for which the British lacked the strength for the time being. There was also a deficit in the Indian treasury and the hot season was ahead. So, the company gave up the idea of immediately annexing Punjab. Hardinge rather decided to follow a moderate policy but use the victory to weaken the kingdom politically, to such an extent that its absorption would be a matter of time.</p>
+<p>In <strong>1846</strong>, the Sikh court had to sign the <strong>Treaty of Lahore</strong>.</p>
+<ul>
+<li>&#8226; <strong>Subsidiary Alliance</strong> Treaty</li>
+<li>&#8226; The <strong>size of the Khalsa army</strong> was reduced to 20,000 infantry and 12,000 cavalry.</li>
+<li>&#8226; The <strong>British Army</strong> was stationed at Lahore for some time.</li>
+<li>&#8226; A <strong>British resident</strong> was appointed in the Sikh court.</li>
+<li>&#8226; British were to be <strong>indemnified</strong> with Rs 1.5 crores for the expenses of the war</li>
+<li>&#8226; British took possession of the <strong>fertile Jullundhar Doab</strong> (between Sutlej and Beas)</li>
+<li>&#8226; Sikhs had to lose a large area including <strong>Kashmir</strong>. Kashmir was sold to a Dogra Sardar <strong>Gulab Singh</strong> for 50 Lakh rupees.</li>
+</ul>
+<p>Tensions soon surfaced between the resident at Lahore, <strong>Henry Lawrence</strong>, and the regent, Rani Jindan. A <strong>new supplementary treaty (Treaty of Bhyrowal)</strong> was signed in December 1846 to strengthen the position of the resident.</p>
+<ul>
+<li>&#8226; A <strong>council of regency</strong> was constituted, comprising eight Punjab chiefs. The council was to function under the supervision of the resident.</li>
+<li>&#8226; <strong>British troops were to remain in Punjab</strong>, for whose maintenance Rs 22 lakhs had to be paid annually.</li>
+<li>&#8226; This arrangement would <strong>continue till 1854 when Dalip Singh came of age.</strong></li>
+</ul>
+<p>With this, the position of Rani Jindan was marginalized. In August 1847, Rani Jindan was compelled to leave Lahore so as to curtail her influence. Now, <strong>British resident</strong> was practically running the Sikh state after the first war. Duleep Singh was just a nominal ruler. With this, the British control over domestic policy and foreign policy was established in a Sikh state. Sikhs lost their autonomy.</p>
+<h3>The Second Anglo-Sikh War (1849) &#8211; Lord Dalhousie (1848-56)</h3>
+<p>The Treaty of Lahore could not satisfy the British imperialist appetite. So, another conflict was inevitable.</p>
+<p>On the other hand, the freedom loving Sikhs were not happy with the Treaty of Lahore. The prominent presence of the British the resident trying to control the government, to undermine the Council of Regency, to pension of Rani Jindan; all this created a certain kind of grievance in the Punjab and there was resistance against it. What really worried the Sikhs was the presence of the British army in the Punjab. Thus, there was a Sikh revolt in 1848, a series of rebellions in Multan and Lahore led by <strong>Mulraj</strong> and <strong>Chattar Singh</strong> respectively.</p>
+<p><strong>Lord Dalhousie</strong> came to India in 1848 and started his aggressive imperial policy. He undertook the annexation of Punjab in 1849. This annexation was a logical outcome of the opportunities of interference that British got after 1846 Treaty.</p>
+<p>The situation in several areas of Punjab was <strong>unstable</strong>, and often the <strong>Lahore authorities had to rely on the Company&#8217;s apparatus</strong> to deal with problems. Once the preparations for the invasion were completed, British forces under Gough crossed into Punjab in November 1848. This marked the beginning of the war, even though no formal declaration of war was made.</p>
+<p>The Sikhs were finally defeated in the most decisive <strong>battle of Gujrat</strong> (battle of guns) and Dalhousie annexed Punjab in 1849. The Khalsa militia was disbanded. British forced Dileep Singh, the infant ruler, to sign the document of annexation. Dileep was sent out to England, and he lived the rest of his life in England as an exile. Thus, the last major autonomous Indian state became a part of the British Indian Empire.</p>
+<h3>Causes of Sikh Defeat</h3>
+<ul>
+<li>&#8226; Despite its big size and military strength, the <strong>Sikh state was medieval in nature</strong>. It didn&#8217;t evolve its own <strong>modern institutions</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Ranajit Singh had consolidated and <strong>centralized the administration</strong> to such an extent that his absence created a void, leading to the gradual collapse of the entire structure.</li>
+<li style="padding-left:2em">&#9702; Even though Ranjit Singh united the Sikhs under a national monarchy, he also actively aided the feudalization process. As he did not have enough resources to pay for a huge army due to the weak economic basis of his kingdom, he started distributing <strong>jagirs in lieu of salary</strong>. This created a class of <strong>feudal military aristocrats</strong> who were tied to land and not to the state.</li>
+</ul>
+</li>
+<li>&#8226; So long as there existed a powerful monarch like Ranjit Singh, the Sikh sardars remained united against a common enemy, the British. However, under the <strong>weak successors</strong> of Ranjit Singh, there was mutual rivalry and the Sikh court fell prey to <strong>factionalism</strong>.</li>
+<li>&#8226; <strong>Khalsa Army</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Ranjit Singh had turned the <strong>Khalsa army</strong> into a heroic fighting force. The army fought with the British with a remarkable patriotic spirit. But they <strong>lacked modern sophisticated firearms to combat the English</strong> who were armed with superior arms and ammunitions.</li>
+<li style="padding-left:2em">&#9702; He <strong>couldn&#8217;t bring the army under civilian authority</strong>. While he was alive, his personal influence kept the army in check, but after his death, the army spiraled out of control, meddling in politics and rendering the civil government powerless.</li>
+<li style="padding-left:2em">&#9702; The jagir system also weakened the army and contributed to its <strong>undisciplined character</strong>.</li>
+</ul>
+</li>
+<li>&#8226; Unlike Shivaji, Ranjit Singh <strong>failed to instill a unifying sentiment</strong> that would endure after his death. While Shivaji&#8217;s successors may have been equally incompetent as Ranjit Singh&#8217;s, the post-death history of Maharashtra contrasts significantly with that of Punjab.</li>
+<li>&#8226; Ranjit Singh&#8217;s <strong>lack of foresight is evident in his interactions with the English</strong>. Despite knowing that the English were encircling his kingdom and aware of their expansionist goals, he chose to wait and avoid a confrontation. Instead, he left the responsibility of facing the English to his feeble and incompetent successors.</li>
+<li>&#8226; Ranjit Singh was powerless to avert future <strong>British danger</strong>. By signing the Treaty of Amritsar, he protected Punjab from British expansion temporarily but effectively passed the matter on to his successors.</li>
+</ul>
+<p>Notwithstanding his shortsighted policy Ranjit Singh occupies a high place in Indian History. Ranjit Singh transformed a chaotic Punjab, torn by internal conflicts and threatened by Afghans and Marathas, into a unified kingdom. He secured territories from Kabul, prevented English interference, and pushed back invasions from the northwest, reaching the Khyber Pass. His legacy lies in creating a powerful tradition, celebrated by history.</p>`,
   'early-british-raj': `<h2>UPSC CSE PYQs</h2>
 <ul>
 <li>&#8226; &#8220;What kind of administrative change was introduced in India under the East India Company?&#8221; [1993, 60m]</li>
