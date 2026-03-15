@@ -12,12 +12,12 @@ function injectHeadingIds(html: string): string {
   let h2count = 0;
   let h3count = 0;
   return html
-    .replace(/<h2([^>]*)>(.*?)<\/h2>/gi, (_, attrs, inner) => {
+    .replace(/<h2([^>]*)>(.*?)<\/h2>/gis, (_, attrs, inner) => {
       const text = inner.replace(/<[^>]+>/g, '').trim();
       const id = `toc-${h2count++}-${text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`;
       return `<h2${attrs} id="${id}">${inner}</h2>`;
     })
-    .replace(/<h3([^>]*)>(.*?)<\/h3>/gi, (_, attrs, inner) => {
+    .replace(/<h3([^>]*)>(.*?)<\/h3>/gis, (_, attrs, inner) => {
       const text = inner.replace(/<[^>]+>/g, '').trim();
       const id = `toc-${h3count++}-${text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`;
       return `<h3${attrs} id="${id}">${inner}</h3>`;
