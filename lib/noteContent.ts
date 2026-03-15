@@ -13953,6 +13953,138 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 </li>
 <li>&#8226; Similarly, in 17th century, the <strong>main item imported into India</strong> was horses, now that item became a precious commodity (silver and gold).</li>
+</ul>
+<h2>Anglo-French Rivalry and Carnatic Wars</h2>
+
+<h2>Transformation from a trading company to a political power:</h2>
+<p>The journey as a political power began in Carnatic, where the company first intervened in the succession matter of Indian rulers. It took this model from French Governor Dupleix.</p>
+<p>At that time, the only rival power left was the French company. The French were the late comer to India, but they became a very formidable rival to the British company by 1730s. A conflict for supremacy between the two started from south India this conflict was known as Carnatic war.</p>
+
+<h2>Causes behind the Carnatic Wars:</h2>
+<ul>
+<li>&#8226; Both British &amp; Dutch company competed to monopolize their trade from the region of south India.
+<ul>
+<li style="padding-left:2em">&#9702; Coromandal coast was very important for international trade.</li>
+</ul>
+</li>
+<li>&#8226; Both French &amp; British companies started to compete with each other in extending their influence on southern states.</li>
+<li>&#8226; The Carnatic wars got involved with European questions as well. In other words, in Europe if conflict started between the British &amp; French, that was extended up to India as well.</li>
+</ul>
+
+<h2>First Carnatic War (1744-1748)</h2>
+<ul>
+<li>&#8226; It was an extension of European question. (Austrian war of succession)
+<ul>
+<li style="padding-left:2em">&#9702; The conflict started between the British and French power in Europe and this conflict came upto the doorstep of India after two years.</li>
+</ul>
+</li>
+<li>&#8226; In India, it was the British Company which initiated the war but very soon it received a discomfiture.</li>
+<li>&#8226; When the Nawab of Carnatic Anwaruddin intervened into the matter, the French power could not be subdued. This war was known for the <strong>battle of Saint Thome</strong> which took place in 1746.
+<ul>
+<li style="padding-left:2em">&#9702; This battle proved the military superiority of European vis-à-vis Indian states.</li>
+</ul>
+</li>
+<li>&#8226; Finally in 1748, peace was concluded between the British and French Party with the treaty of <strong>Aix-la-Chapelle.</strong> As per the treaty, there was mutual restitution of the territory.</li>
+</ul>
+
+<p><strong>Lessons/Significance of the First Carnatic War:</strong></p>
+<ul>
+<li>&#8226; <u>Superiority of the European military</u>
+<ul>
+<li style="padding-left:2em">&#9702; The real significance of the First Carnatic war lay in the outcome of the Battle of St. Thome, which proved the military superiority of small but well-trained European forces over large, Indian armies.</li>
+</ul>
+</li>
+<li>&#8226; <u>Superiority of French</u> in the first war
+<ul>
+<li style="padding-left:2em">&#9702; The capture of Madras was a salutary achievement. It enhanced the <strong>power and prestige</strong> of the French as a <strong>territorial</strong> and <strong>naval</strong> power in India.</li>
+</ul>
+</li>
+<li>&#8226; <u>Dupleix got opening</u> into the domestic quarrel of Indian princes.
+<ul>
+<li style="padding-left:2em">&#9702; It demonstrated the overwhelming, far reaching <strong>influence of sea power.</strong></li>
+<li style="padding-left:2em">&#9702; It also revealed the state of political decay in India. Indians possessed no navy, and their military was weak, while there was no Mughal backup on land.</li>
+</ul>
+</li>
+<li>&#8226; <u>EIC started to build its private army.</u>
+<ul>
+<li style="padding-left:2em">&#9702; At Madras in 1721 the English Company had total of only 545 men of all ranks (245 Europeans and the rest Eurasians).</li>
+<li style="padding-left:2em">&#9702; War with France saw a hasty re-assessment of priorities and, thanks in large part to the extensive recruitment of Indian troops, by 1763 the Madras Army mustered some 9,000 men.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Second Carnatic War (1749-1754)</h2>
+<ul>
+<li>&#8226; This started on Indian question i.e. both, French and the British companies intervened into succession matter of Indian states. In fact, a war of succession had started in two Indian states, Hyderabad and Carnatic. Both the companies intervened into the matter.</li>
+<li>&#8226; At the end, Hyderabad fell under the control of the French power while the Carnatic under the control of British Company.</li>
+</ul>
+<p>Under the circumstances, it was a kind of <u>stalemate</u> in India. So, the two companies arrived at a negotiated settlement. Representatives of the two companies started discussion leading to the <strong>Treaty of Pondicherry (1754)</strong></p>
+<ul>
+<li>&#8226; Each side promised <strong>not to interfere</strong> in local powers.</li>
+<li>&#8226; The war gave the <u>British a stronghold over the Carnatic</u>, which was a setback for the French company.</li>
+<li>&#8226; <u>Recall of Dupleix (1754):</u> Dupleix's career ended in 1754. He returned home after the career of 34 years in India. <strong>Charles Godeheu</strong> appointed as new GG with wide-ranging powers to sort out the problems.</li>
+<li>&#8226; With his recall, there was a <strong>complete reversal of Dupleix policy.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It served as a huge blow to French political ambitions in India, since it was his vision and ambition which had made the French company a real contender for power in the Indian subcontinent.</li>
+<li style="padding-left:2em">&#9702; His work was undone in Carnatic. Only in Hyderabad de Bussy continued influence.</li>
+</ul>
+</li>
+</ul>
+<p>Even before the treaty could be ratified at home, the <strong>Seven Years' war broke out.</strong> Thus, the <u>only effect of the treaty was to give a breathing space to two sides.</u></p>
+
+<h2>Third Carnatic War (1758-1763)</h2>
+<ul>
+<li>&#8226; Once again, this war started on European question. This war was the extension of Seven years' War (1756-1763) to India.
+<ul>
+<li style="padding-left:2em">&#9702; The French government sent an important military officer <strong>Count de Lally</strong> to India to lead the French party but even the De Lally could not manage the situation properly.</li>
+</ul>
+</li>
+<li>&#8226; French earlier lost the control over Hyderabad and finally it lost the total war.</li>
+<li>&#8226; In 1760, in the <strong>battle of Wandiwash</strong>, the British under Sir Eyre Coote routed the French under De Lally completely.</li>
+<li>&#8226; In 1763, there was a peace between French and British. The French factories were returned but they couldn't be fortified. After this, the French lost India and couldn't ever recover.</li>
+</ul>
+
+<p><strong>Outcomes:</strong></p>
+<ul>
+<li>&#8226; The Third Carnatic war proved to be the <strong>final blow to French political ambitions in India.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; French factories and Pondicherry were returned but without fortifications and confined only to local trade. However, the possibility of the French Empire in India was over.</li>
+</ul>
+</li>
+<li>&#8226; By the end of the Third War, the <u>EIC</u>:
+<ul>
+<li style="padding-left:2em">&#9702; Became a territorial power in South India</li>
+<li style="padding-left:2em">&#9702; Established pre-eminence in Hyderabad.</li>
+<li style="padding-left:2em">&#9702; The most substantial gain was however in the Eastern India after the battle of Plassey.</li>
+</ul>
+</li>
+<li>&#8226; There was near complete French <strong>expulsion from Bengal too.</strong></li>
+<li>&#8226; Soon the French company was wrapped up.
+<ul>
+<li style="padding-left:2em">&#9702; French government went heavily into debt during the Seven Years' War. It had neither resource nor intent to salvage the company in India. The Company now completely lost the royal attention. French EIC formally ended in 1769. The French crown maintained the possessions thereafter.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Reasons behind the French failure</h2>
+<ul>
+<li>&#8226; British company was much ahead of French company in <strong>expertise</strong>, <strong>resources</strong> and <strong>enthusiasm</strong>.</li>
+<li>&#8226; British company was <strong>commercially more successful</strong> than the French company.</li>
+<li>&#8226; <strong>Dupleix's error:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Instead of focusing on trade to financially enrich the company, Dupleix attempted to extend territorial claims. Thus, his initial success could not be sustained in the long run as he could not absorb the costs of war for long.</li>
+</ul>
+</li>
+<li>&#8226; French were inferior at Sea (Naval dominance). French had <strong>no permanent base near India</strong> (Mauritius faraway than Bengal) while the British had mastery over Indian sea.</li>
+<li>&#8226; British company was led by <strong>competent officers</strong> like Sir Eyre Coote, Robert Clive and many others but except Dupleix French company did not enjoy the support of any competent officer.</li>
+<li>&#8226; <strong>Strategic mistakes</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It was a strategic mistake <strong>to recall Dupleix after the Second War</strong>, French reversals on ground began after his exit.</li>
+<li style="padding-left:2em">&#9702; It was also a strategic mistake <strong>to ask de Bussy to leave Hyderabad</strong> in the Third War.</li>
+</ul>
+</li>
+<li>&#8226; British company was <strong>autonomous</strong> in taking decision as it was a <strong>joint-stock</strong> company, but the French company had to function under the strict control of the government.</li>
+<li>&#8226; <strong>Resources of Bengal</strong> had fell into the hands of British after the battle of Plassey.</li>
 </ul>`,
   'british-expansion-india': ``,
   'early-british-raj': ``,
