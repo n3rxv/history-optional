@@ -15040,7 +15040,339 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 </ul>
 <p>When the English attacked the Marathas, the latter were already past the prime of their power. The Maratha power had lost its early vigour and momentum. Thus, the English attacked a 'divided house' which started crumbling at the first push.</p>`,
-  'early-british-raj': ``,
+  'early-british-raj': `<h2>UPSC CSE PYQs</h2>
+<ul>
+<li>&#8226; &#8220;What kind of administrative change was introduced in India under the East India Company?&#8221; [1993, 60m]</li>
+<li>&#8226; &#8220;The object of the Act (Regulating) was good, but system that it established was imperfect.&#8221; Comment. [2004, 20m]</li>
+<li>&#8226; &#8220;The Dual System of Government was a complete failure from the outset. In the first place, the abuse of the private trade reached a greater height than ever. In the second place, the demands of the Company for the increase led to gross oppression of the peasantry.&#8221; Examine. [2014, 20m]</li>
+</ul>
+<p>Between 1757 and 1857, as the British conquered and annexed different parts of the country, they were faced with the difficult question of how to govern these territories. Changes were frequently made to the administrative structure that British East India Company established in India.</p>
+<p>It was essentially a continuous process of experimentation, adjusted and readjusted either in accordance with the economic/ideological developments taking place at the time in Great Britain or in accordance with the peculiar on-the-ground realities that the Company encountered in India.</p>
+<h2>Approach to understanding Colonialism</h2>
+<p>While studying colonialism, one should keep following things in mind:</p>
+<ul>
+<li>&#8226; Although colonialism was basically an <strong>economic relationship</strong> between the mother country and a colonized country, it affected the <strong>political, social &amp; cultural structure as well.</strong></li>
+<li>&#8226; Some scholars consider colonialism as a catalyst for modernization in developing societies, while others emphasize its detrimental effects on economic and social structures, creating lasting underdevelopment. Colonialism was a series of contradictions i.e. <strong>poverty vs. development phenomena</strong>. The essential intended impact of the colonialism is backwardness and poverty, but its unintended impact was &#8216;development&#8217;.</li>
+<li>&#8226; Colonialism should be studied <strong>as a structure, not as a policy</strong>. In other words, the policy can change with the change of officers, but the structure remains the same.
+<ul>
+<li style="padding-left:2em">&#9702; There may be some change in the policies of individual administrators, whether Lord Hastings or Bentinck, Lytton or Ripon. But it doesn&#8217;t affect the basic colonial structure.</li>
+</ul>
+</li>
+</ul>
+<p>Colonialism can be divided colonialism into three phases:</p>
+<ul>
+<li>&#8226; Mercantilist phase</li>
+<li>&#8226; Industrial phase</li>
+<li>&#8226; Financial phase</li>
+</ul>
+<p>The British policies towards India must be studied in the context of colonial interests. All the administrators from Clive to Curzon were guided by the same motive.</p>
+<h2>Limited Objectives of the Mercantile Phase (1757-1813)</h2>
+<p>This phase unfolds after the battle of Plassey and that of Buxar.</p>
+<h3>Objectives</h3>
+<ul>
+<li>&#8226; <strong>Minimize bullion imports</strong> (Discourage the drain of precious metal to India)</li>
+<li>&#8226; <strong>Maximize revenue</strong> to invest in trade and commerce.</li>
+</ul>
+<h3>Policies</h3>
+<p>Although the colonial relation was basically an economic relation, it influenced political, social and cultural structure as well. During this phase, the British company followed a specific political, administrative and socio-cultural policy towards India.</p>
+<ul>
+<li>&#8226; <strong>Political Policy:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Ring Fence Policy</li>
+<li style="padding-left:2em">&#9702; Subsidiary Alliance.</li>
+<li style="padding-left:2em">&#9702; Wars were waged only for commercial interest, otherwise avoided.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Administrative Policy:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Not interested in major restructuring of the existing administrative structure. Preferred to <strong>maintain the existing Mughal structure</strong> with certain modifications.</li>
+<li style="padding-left:2em">&#9702; Maintenance of law and order at the minimum possible cost</li>
+<li style="padding-left:2em">&#9702; Make extraction of revenue efficient.</li>
+<li style="padding-left:2em">&#9702; Thus,
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Clive</strong> didn&#8217;t bother to take the administration of Bengal directly into his hands.</li>
+<li style="padding-left:4em">&#9632; <strong>Warren Hastings</strong> tried to plant British elements on the Mughal system, yet he wasn&#8217;t ready to overhaul the whole structure.</li>
+<li style="padding-left:4em">&#9632; <strong>Lord Cornwallis</strong> was guided by a sense of British egoism i.e. belief in supremacy of British institutions.</li>
+<li style="padding-left:4em">&#9632; <strong>Lord Wellesley</strong> tried to strengthen the British rule by centralizing power, codifying laws, and giving sound basis to the fledging bureacracy.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Economic Policy:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Origin of drain of wealth</li>
+<li style="padding-left:2em">&#9702; Decline of handicraft industries.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Socio-cultural Policy:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Maintain traditional social structure.</li>
+<li style="padding-left:2em">&#9702; Orientalism</li>
+</ul>
+</li>
+</ul>
+<h2>(1) Robert Clive&#8217;s Reforms</h2>
+<h3>Dyarchy or Dual Government (1765-72)</h3>
+<p>Clive&#8217;s solution of the political tangle of Bengal was the setting up of the infamous <strong>Dual System</strong> whereby the Company acquired real power while the responsibility for administration rested on the shoulders of the Nawab of Bengal.</p>
+<ul>
+<li>&#8226; EIC received <em>Diwani</em> of Bengal directly from the Mughal emperor.</li>
+<li>&#8226; Clive chose not to usurp the Nizami rights directly. However, since the Nawab had become the puppet of the Company, EIC chose to control <em>Nizamat</em> indirectly.</li>
+</ul>
+<p>Thus, the Company acquired the Diwani functions from the Emperor and the Nizamat functions from the Subahdar of Bengal.</p>
+<p>At this time the Company was neither willing nor able to undertake the direct collection of revenue.</p>
+<ul>
+<li>&#8226; For the exercise of Diwani functions, the Company appointed <strong>two Deputy Diwans, Mohammad Reza Khan for Bengal and Raja Shitab Roy for Bihar.</strong></li>
+<li>&#8226; Mohammad Reza Khan also acted as Deputy Nazim.</li>
+</ul>
+<p>This system of government came to be remembered as Dual System or Dyarchy, i.e., rule of two, the Company and the Nawab. In actual practice, the Dual System proved a sham, for the East India Company exercised all political power and used the Indian agency merely as an instrument for their purposes.</p>
+<p>Clive was fully conscious of the fact that all power had passed into the hands of the Company, and nothing was left to the Nawab except the name and shadow of authority. &#8220;This name&#8221;, wrote Clive to the Select Committee, &#8220;this shadow, it is indispensably necessary we should seem to venerate&#8221;.</p>
+<h3>Reforms in Land revenue system</h3>
+<ul>
+<li>&#8226; Heavy enhancement in land revenue (almost <em>doubled</em>)</li>
+<li>&#8226; Indian revenue collectors continued but they were now under the supervision of inexperienced/untrained European authorities &#8594; excessive corruption.</li>
+</ul>
+<h3>Impact of Dyarchy</h3>
+<p>The system of <strong>dual government</strong> established by Clive in Bengal was a <strong>miserable failure</strong>. In this system, all the powers were enjoyed by company and responsibility of administration was in the hands of Nawab, who had neither resources nor authority to perform admin functions because of which a situation of <strong>anarchy</strong> developed in Bengal.</p>
+<p>The company misused its authority to <strong>exploit the peasants, artisans, and traders.</strong></p>
+<ul>
+<li>&#8226; <strong>Administrative breakdown:</strong> Owing to the impotence of the Nizamat, the administration of law and order virtually broke down and the administration of justice was reduced to a farce</li>
+<li>&#8226; Traders/Merchants
+<ul>
+<li style="padding-left:2em">&#9702; Indian <strong>merchants</strong> and traders were forced to pay different types of <strong>duties</strong>.</li>
+<li style="padding-left:2em">&#9702; The Company&#8217;s servants virtually monopolised the internal trade of Bengal and would undersell the Indian merchants in the local markets.</li>
+<li style="padding-left:2em">&#9702; Gomasta grain trade monopoly.</li>
+</ul>
+</li>
+<li>&#8226; The <strong>artisans</strong> and <strong>craftsmen</strong> were:
+<ul>
+<li style="padding-left:2em">&#9702; Forced to sell their goods at <strong>cheap rates</strong> and purchase raw material from company at high price.</li>
+<li style="padding-left:2em">&#9702; William Bolts, a contemporary, wrote about the various and innumerable methods of oppressing the poor weavers which were duly practised by the <em>gomastahs</em> in the country, such as by fines, imprisonments, floggings, forcing bonds from them etc.</li>
+<li style="padding-left:2em">&#9702; They were forced by company to work at very <strong>low wage</strong> and at times without any wage at all, to escape this exploitation many craftsmen <strong>cut their thumb.</strong></li>
+<li style="padding-left:2em">&#9702; The craftsmen were <strong>forced to divulge their traditional crafts secrets</strong>.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Decline of agriculture:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The class hardest hit by the new system was the <strong>peasantry</strong>. The burden of <strong>land revenue</strong> was enormous on peasants. Tax farming (to highest bidder) was used to maximize the collection, it led to the exploitation of poor peasants.</li>
+<li style="padding-left:2em">&#9702; The Bengali peasant suffered from the evils of over-assessment, harshness of collection and was subjected to the worst exactions by government officials. Peasants did not have any protection against the exploitative activities of English company.</li>
+<li style="padding-left:2em">&#9702; Finally, it led to the failure of crops and smallpox epidemic.</li>
+</ul>
+</li>
+<li>&#8226; Thus, the result of Dual Government was the <strong>impoverishment of Bengal&#8217;s economy.</strong></li>
+<li>&#8226; From the British perspective, all of this led to the massive <strong>drain of wealth</strong>.</li>
+<li>&#8226; However, in India, this extreme exploitation resulted in <strong>massive famine in Bengal in 1770</strong>.</li>
+</ul>
+<h3>Company&#8217;s response to Famine of 1770</h3>
+<ul>
+<li>&#8226; The Company was not responsible for the famine but it and its agents were largely to blame for a complete collapse of government. W.E.H. Lecky describes the plight of the people in the following words: &#8220;Never before had the Indians experienced a tyranny which was so skilful, so searching and so strong...&#8221;</li>
+<li>&#8226; Neither the Nawab nor the Company cared for the welfare of people. (Adam Morrisette)
+<ul>
+<li style="padding-left:2em">&#9702; <strong>There was a massive negligence.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; &#8220;When the famine of 1770 was looming on the horizon, the East India Company largely <strong>forgot all of their duties</strong> as Diwan, except those that produced a profit.&#8221;</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Servants of the Company added to the misery of the people by <strong>trading and profiteering in essential articles</strong> of foodstuff.
+<ul>
+<li style="padding-left:4em">&#9632; &#8220;Furthermore, if the agents of the East India Company had, in fact, bought up all the rice in anticipation of a dearth, they had gone far beyond shirking their duties as Diwan; they had grossly <strong>abused their position</strong> with no regard for the Bengalis that were, technically, under their protection.&#8221;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Clive&#8217;s Responsibility</strong> (William Dalrymple)
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;Clive established an exploitative, extractive system that channelled all the profits of India back to Britain.&#8221; &#8220;While he was not in India during the famine, he had set up a system that failed to respond to the famine.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; It proved to be one of the worst events in the history of mankind, in which <strong>one-third of Bengal&#8217;s population perished</strong> (70 lakh to 1 crore).</li>
+<li>&#8226; Even after the onset of Famine in 1770, the company kept on ruthlessly collecting the revenue with equal rigour and vigour till 1772.</li>
+</ul>
+<p>K. M. Pannikar very aptly remarks that during 1765-1772 the Company established a <strong>&#8216;robber state&#8217;</strong> in Bengal and plundered and looted Bengal indiscriminately. During this period British Imperialism showed its worst side in India and the people of Bengal suffered greatly.</p>
+<h3>Response from London</h3>
+<ul>
+<li>&#8226; As long as the Company kept paying taxes and customs, and the payment was a huge money for the British treasury, no one asked too many questions.</li>
+<li>&#8226; However, the reforms of Clive were a fiasco. They ruined not only the industry agriculture of Bengal, but also consequently ruined company finances and exports. Thus, both the revenue and trade of the Company were adversely affected.</li>
+<li>&#8226; Only when the profits sank in 1772, and the EIC had to go to the <strong>Bank of England to borrow</strong>, the questions began to be raised.</li>
+<li>&#8226; It was happening exactly at the time when individual company servants were going back home with huge wealth. While the servants of the Company were making huge profits, the Company itself was on the verge of insolvency.</li>
+<li>&#8226; At that point in 1772, when the American war was about to start and there is huge corruption going on in England, the old nobility became sensitive.</li>
+<li>&#8226; Thus, there were <strong>two issues</strong> that drove the London politics in 1773, the revenue fall leading to loss of profit and the rich nabobs who were corrupting London culture.</li>
+</ul>
+<h3>Actions taken</h3>
+<ul>
+<li>&#8226; When <strong>Warren Hastings</strong> was appointed as the Governor of Bengal in 1772
+<ul>
+<li style="padding-left:2em">&#9702; He was shocked to see the condition of the people. Thus, he <strong>abolished the system of dual government.</strong></li>
+<li style="padding-left:2em">&#9702; Thus, the famine hastened the end of dual governance in Bengal, and the Company became the sole administrator.</li>
+</ul>
+</li>
+<li>&#8226; In London, the <strong>parliament was recalled</strong> considering the issue of the survival of the Company. In return for salvaging the Company finances and to streamline administration, the <strong>Regulating Act of 1773</strong> was passed.</li>
+</ul>
+<h2>The Regulating Act 1773</h2>
+<p>It represents the first attempt of the British Parliament to regulate EIC&#8217;s activities in India.</p>
+<h3>Background</h3>
+<ul>
+<li>&#8226; As the EIC emerged as a territorial power in India, an intense struggle broke out in Britain as to whose interest the newly acquired empire would serve.</li>
+<li>&#8226; The acquisition of political power by the Company also had an adverse reaction in Great Britain.
+<ul>
+<li style="padding-left:2em">&#9702; There grew the fear that the <strong>newly rich nabob class</strong> might be able <strong>to influence British Parliamentary politics</strong> by dint of their economic power and thereby disturb the balance of British democracy.</li>
+</ul>
+</li>
+<li>&#8226; Although the Company had emerged as an important political power in India, at the same time company was <strong>losing badly as a commercial entity</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Spending on wars, corruption in private trade and famines had led to <strong>huge losses.</strong> Thus, the Company was in dire need of credit just when its activities began to be scrutinized and had applied to the government for a large loan.</li>
+<li style="padding-left:2em">&#9702; By 1772, it was verging on bankruptcy and had applied for a loan of 1 million pounds from the British government.</li>
+</ul>
+</li>
+<li>&#8226; At that time, imperial policies began to be seriously questioned against the <strong>backdrop of problems that Britain was facing in keeping its American colonies</strong> under control.</li>
+</ul>
+<p>Thus, it became necessary to determine the framework of Company&#8217;s Government in India and to exert some control on it. By the Regulating Act of 1773, the parliament sought to regulate the Company <em>to a limited extent</em>.</p>
+<h3>Provisions</h3>
+<ul>
+<li>&#8226; Home:
+<ul>
+<li style="padding-left:2em">&#9702; <strong>The Directors</strong> of the Company were duty-bound to <strong>submit before the British Government all correspondence</strong> relating to civil, military and revenue affairs in India to enable it to monitor the management of the empire.</li>
+<li style="padding-left:2em">&#9702; The <strong>Company&#8217;s organization in London</strong> was streamlined under this Act by restricting the <strong>voting rights of shareholders.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; This was done firstly by limiting the vote to those who held <strong>minimum &#163;1,000</strong> worth of stock. Besides, the shareholder had to be in possession of the stock for <strong>at least one year</strong> to qualify for voting.</li>
+<li style="padding-left:4em">&#9632; Members of the <strong>court of directors</strong> were to be elected for a period of <strong>four years.</strong> One fourth of the members were to retire every year and stay out of office for a minimum duration of one year before they could seek re-election.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; The Act laid down that the Government of Bengal would be headed by the <strong>Governor General and a Council comprising 4 members.</strong> All civil and military authority was vested in the governor general and his council.
+<ul>
+<li style="padding-left:2em">&#9702; Hereafter, the Governor of Bengal came to be known as the <strong>&#8216;Governor-General of Bengal.&#8217;</strong> Warren Hastings was the first Governor-General of Bengal.</li>
+<li style="padding-left:2em">&#9702; The Governor-General was required to run the Government of Bengal according to the decisions taken <strong>in the council by a majority vote.</strong></li>
+<li style="padding-left:2em">&#9702; The Governor-General had <strong>no power to overrule</strong> the decision of the Council, though he had a <strong>casting vote</strong> in case the house was divided equally on a given issue. Each had a five-year term.</li>
+</ul>
+</li>
+<li>&#8226; It recognized the <strong>precedence of the Bengal Presidency</strong> (&#8216;Presidency of Fort William in Bengal&#8217;) over the two other presidencies.</li>
+<li>&#8226; The Act also provided for the <strong>establishment of a Supreme Court in Calcutta</strong> to administer justice to the Europeans and their employees.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Sir Elija Impey</strong> became the first Chief Justice of the Supreme Court in 1774.</li>
+</ul>
+</li>
+</ul>
+<h3>Outcome</h3>
+<p>The attempt of the British Parliament to develop a remote-control mechanism to regulate the Company ended in a failure. The Act had certain inherent loopholes which created problems in the running of administration.</p>
+<ul>
+<li>&#8226; Under the provisions of the Act, it was <strong>not possible for the Governor-General to act independently.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The numerical composition of the council (four members in addition to the governor general) constituted under the 1773 Act rendered the governor general vulnerable in case <strong>three of the members combined to oppose him.</strong></li>
+</ul>
+</li>
+<li>&#8226; The Regulating Act intended to make the <strong>Governments of the Madras and Bombay Presidencies</strong> subordinate to the Governor-General of Bengal. But, in reality, the control of the Governor General over the other two Presidencies was inadequate.</li>
+<li>&#8226; Though the Act created the <strong>Supreme Court</strong>, it did not clearly indicate the specific power of the said court vis a vis the Governor-General-in-Council.
+<ul>
+<li style="padding-left:2em">&#9702; Later, the Amending Act of 1781 fixed the jurisdiction of the Supreme Court to the city limits of Calcutta and Europeans only.</li>
+</ul>
+</li>
+<li>&#8226; The Regulating Act failed to resolve the friction between the Company and <strong>its rival groups in England.</strong> The opponents of the Company continued to exert pressure on the Parliament to discipline the Company.</li>
+</ul>
+<p>Although the Act was a well-meant attempt to introduce a better system of government, being designed in ignorance of the real nature of the problem, it contained several anomalies. It had neither given the state a definite control over the Company nor the Directors a definite control over their servants, nor the Governor-General a definite control over his Council nor the Calcutta Presidency a definite control over Madras and Bombay. Thus, it only added to Hastings&#8217; difficulties instead of strengthening his hands.</p>
+<p>Later, the anomalies were sought to be rectified through a subsequent legislative measure, enacted in 1784 (Pitt&#8217;s India Act).</p>
+<h2>(2) Warren Hastings (1772-1785)</h2>
+<p>&#8220;Hastings provided a coherent shape to a state of which Clive had only sketched an outline, and he successfully defended that state almost singlehanded with hardly any help from home against a concerted Indian attack.&#8221; &#8211; Percival Spear</p>
+<ul>
+<li>&#8226; He became the <strong>first Governor-General of Bengal</strong> (1773).</li>
+<li>&#8226; <strong>Abolition of Dual Government</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Diarchy was abolished and the Company in 1772 assumed the direct responsibility of the <strong>revenue administration</strong> of Bengal.</li>
+<li style="padding-left:2em">&#9702; &#8216;the Dewanee being ours by right, and the military and political affairs by Prescription&#8217;, Warren Hastings.</li>
+<li style="padding-left:2em">&#9702; By implication, the Company, also became in charge of the <strong>judicial administration</strong> as well.</li>
+<li style="padding-left:2em">&#9702; Now, the Company had to shake off its commercial nature to some extent and begin to assert the authority of a state. Thus started the initial shape to the British administration in Bengal for future.</li>
+</ul>
+</li>
+</ul>
+<h3>Economic Reforms</h3>
+<ul>
+<li>&#8226; <strong>Financial Reforms:</strong> Transferred the <strong>royal treasury</strong> from <em>Murshidabad to Calcutta.</em></li>
+<li>&#8226; <strong>Toll Tax Reform:</strong> Hastings opened up and incentivized inland commerce by ending the dastak system, reducing taxes and standardized collection of duties.
+<ul>
+<li style="padding-left:2em">&#9702; Hastings was <strong>much more successful</strong> in his commercial reforms. Trade was opened up for everybody. These changes <strong>stimulated trade.</strong></li>
+<li style="padding-left:2em">&#9702; At the same time, Hastings established the lucrative trades <strong>in salt and opium as monopolies</strong> for the Company.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Monetary Reforms:</strong> Hastings controlled the issue and value of silver coinage, establishing coins from the year 1773 as the base value for all future rupees. He also centralized the production of siccas in the Calcutta mint, and abolished the old custom of annual depreciations on circulating coin.</li>
+<li>&#8226; <strong>Land Revenue Reforms: Farming System</strong> (for maximization of revenue)
+<ul>
+<li style="padding-left:2em">&#9702; It was the phase of <em>trial and error.</em> Many experiments followed in quick succession.</li>
+<li style="padding-left:2em">&#9702; Initially: <strong>a five-year scheme</strong> (1772-76). The <strong>auctioning</strong> system was carried out under supervision of diwans and European collectors.
+<ul>
+<li style="padding-left:4em">&#9632; It proved to be a failure, didn&#8217;t make revenue stable, and adversely affected agriculture. Both peasantry as well as agriculture were affected.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Course-correction:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Hastings now consciously <strong>discouraged zamindars</strong>/intermediaries whom he considered as vested interests who absorbed money.</li>
+<li style="padding-left:4em">&#9632; To gather systematic information about the different aspects of the Indian agrarian structure he appointed the <strong>Amini Commission in 1776</strong>.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; After five years, in <strong>1777</strong>, the five-year settlement was abolished. A new <strong>one-year scheme</strong> with role for zamindars was introduced.</li>
+<li style="padding-left:2em">&#9702; The system of revenue collection under Hastings was <strong>by no means direct rule</strong>, but it did introduce a new principle in the <strong>idea of European superintendence of Indian agency.</strong> In the actual control of the revenue management, Hastings was not satisfied, achieving a little more than a series of unsuccessful experiments.</li>
+</ul>
+</li>
+</ul>
+<h3>Judicial Plans of 1772, 1774</h3>
+<p>Hastings viewed the judicial plan as an essential corollary to the revenue farms. It was supposed to establish a competent network of law courts which would assist in the liquidation of debts at interest, deal with disputes between raiyats and farmers or between farmers and government officers, and to decide on questions of inheritance.</p>
+<p>Thus, Warren Hastings (and later Lord Cornwallis) introduced a series of Judicial Plans, beginning in 1772. These plans established a <strong>hierarchy of courts</strong> and <strong>designated officials</strong> who were to decide matters, taking <strong>help from advisors</strong> who were well-versed with the parties&#8217; personal laws. This system formed the basic framework for the system of courts that we have today.</p>
+<ul>
+<li>&#8226; As per the Regulating Act 1773, he established the <strong>Supreme Court</strong> in Calcutta in 1774.</li>
+<li>&#8226; Hastings established a <strong>hierarchy of civil and criminal courts</strong> (Development of The Adalat System).
+<ul>
+<li style="padding-left:2em">&#9702; To make adalats accessible, he divided Calcutta, Orissa and Bihar into <strong>six divisions with several districts each.</strong></li>
+<li style="padding-left:2em">&#9702; There was an <strong>Office of the Remembrancer</strong>, who had to record all cases at all levels and was under the direct supervision of the Governor-General.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Separation</strong> of courts handling criminal and civil cases</li>
+<li>&#8226; <strong>For criminal cases,</strong> Qazis and Muftis were appointed.</li>
+<li>&#8226; <strong>Civil district courts</strong> under Indian officials were setup.</li>
+<li>&#8226; <strong>Separate laws</strong> for <strong>Hindus</strong> and <strong>Muslims</strong> in civil justice.
+<ul>
+<li style="padding-left:2em">&#9702; It safeguarded the personal laws of Hindus and Muslims. The cases relating to inheritance, marriage, caste etc. were to be decided according to the laws of Quran with regard to Muslims, and laws of Shastras with respect to the Hindus.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Codification of laws:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The idea was to retain, as far as possible, the native magistracy and codes of law, recorded and oral, to which the people had become accustomed. The plan aimed at correcting the defects without destroying the traditions of the local systems.</li>
+<li style="padding-left:2em">&#9702; Hastings believed that the legal practices of the earlier regime were irregular and arbitrary. He wanted fixed and immutable laws for greater efficiency.</li>
+<li style="padding-left:2em">&#9702; In 1773, Warren Hastings appointed ten Brahmin pandits from Bengal to compile a digest of the Hindu scriptural law in four main civil matters&#8212;marriage, divorce, inheritance, and succession. Thus, a series of law codes such as &#8216;Code of Gentoo laws&#8217;, &#8216;Colebrook&#8217;s Digest&#8217; etc. came into existence.</li>
+</ul>
+</li>
+</ul>
+<p>Despite the limitations and flaws, Warren Hastings is considered as the father of modern judiciary in India.</p>
+<h3>Impeachment Trial of Warren Hastings in the British House of Commons</h3>
+<p>In 1785, Hastings was accused of rampant corruption, abuse of office and blackmail by Sir Philip Francis and Edmund Burke. The impeachment trial went on for about a decade from 1774 to 1784. Finally, he was acquitted.</p>
+<h2>Pitt&#8217;s India Act 1784</h2>
+<p>The various limitations of the Regulating Act and the increasing pressure of the rival groups on the East India Company in England encouraged the Government of Britain to pass the Pitt&#8217;s India Act in 1784. By this Act, The British Government was finally able to <strong>tighten up its grip over the Indian administration.</strong></p>
+<p>According to the provisions of this Act:</p>
+<ul>
+<li>&#8226; Established a system of <strong>dual control</strong> on the Indian affairs. (most imp feature)
+<ul>
+<li style="padding-left:2em">&#9702; A <strong>Board of Control</strong> comprising 6 commissioners was created. The Board of Control was to work in a <strong>supervisory capacity on behalf of the parliament.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The Board of Control had no independent executive power. It had no patronage. Its power was veiled; it had access to all the Company&#8217;s papers and its approval was necessary for all despatches that were not purely commercial.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; However, it was the <strong>Court of Directors</strong> that actually governed the Indian empire.
+<ul>
+<li style="padding-left:4em">&#9632; The Court of Directors retained its control over commerce and patronage, but only with the approval of the Crown could it appoint its principal servants in India, such as the governor general, governors and the commander-in-chief.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Normally, instructions would be sent out to India by or via the court of directors, but there was a provision for bypassing CoD and conveying orders directly to Fort William through a <strong>&#8216;secret committee&#8217;</strong>.</li>
+</ul>
+</li>
+<li>&#8226; The Pitt&#8217;s India Act <strong>elevated the status of the Governor-General</strong> to a very large extent and in this sense, it was an improvement upon the Regulating Act. It made the Governor-General in India a royal appointment while his authority over his Council and over the Presidencies was somewhat enhanced.
+<ul>
+<li style="padding-left:2em">&#9702; The governor general&#8217;s <strong>council was reconstituted</strong> by reducing its strength from 4 to 3. More powers were concentrated in the hands of the governor general so that his authority might not be constrained by the council.</li>
+<li style="padding-left:2em">&#9702; The Bombay and Madras Presidencies were subordinated to Bengal in all matters relating to war, diplomacy and revenues in unambiguous terms.</li>
+</ul>
+</li>
+<li>&#8226; Thus, a clear hierarchy of command and more direct parliamentary control over Indian administration was established.</li>
+</ul>
+<p>The significance of the Pitt&#8217;s India Act lies in the fact, that, hereafter, the <strong>East India Company became an organ of the broader British national interest</strong>. India was to play a subservient role in the interest of the British ruling class.</p>
+<p>An effective and authoritarian instrument of control was thus put in place, which <strong>continued till 1858</strong> with only little modifications.</p>
+<p>According to Prof. <strong>PE Roberts</strong>, this Act &#8216;converted the Company into a quasi-state department&#8217; and rendered its final abolition in 1858 merely &#8216;a formal and explicit recognition of facts already existing&#8217;.</p>`,
   'economic-impact-british-rule': ``,
   'social-cultural-developments': ``,
   'social-religious-reform': ``,
