@@ -13354,7 +13354,178 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 <li>&#8226; <strong>A. Rahman</strong>: &#8220;Major innovations in technology can only take place when the technical knowledge is well-developed, in a theoretical framework, and is applied to improve or change the technology. It is detrimental to both society and science when the available scientific knowledge is divorced from technology, or when there is no inter-action between scientists and technologists or artisans and craftsmen due to social or other factors.&#8221;</li>
 </ul>`,
-  'eighteenth-century': `<h2>The Maratha Confederacy (18th Century)</h2>
+  'eighteenth-century': `<p>The 18th century is referred to as the <u>transition period</u> in Indian history. This was the period when, on the one hand, the Mughal Empire declined, and the provincial states came into existence. On the other hand, a company from Europe became a political power and then at one time it replaced the Mughal Empire, itself.</p>
+
+<p>The biggest question that emerged was the evaluation of the 18th century. Is it appropriate to recognise the first half of the 18th century as Dark Age or age of decline, while the latter half of this period as the period marked by progress, prosperity, and modernity? Evaluation of this fact is possible only after investigating the changes that took place throughout the century.</p>
+
+<h2>Evaluation of the first half of the 18th century:</h2>
+<p>There had already been cracks in the structure of the Mughal Empire. Then after the death of Aurangzeb, those cracks deepened more and the Mughal Empire disintegrated.</p>
+<p><strong>Athar Ali</strong> mentions three categories of state formations in 18th century India:</p>
+<ul>
+<li>&#8226; Successor states like Hyderabad, Awadh and Bengal which were part of the Mughal empire and emerged due to the disintegration of Mughal empire. Their administrative structure was a continuation of the Mughal model.</li>
+<li>&#8226; The Maratha confederacy, Jats, Sikhs and Afghans rose to power as a consequence of the crisis which had weakened the Mughal imperial structure.</li>
+<li>&#8226; South Indian state of Mysore under Hyder Ali Khan and Tipu Sultan.</li>
+</ul>
+
+<h2>Successor States</h2>
+<p>The following states were important as the successor states of the Mughal Empire:</p>
+
+<p><strong>Bengal:</strong></p>
+<ul>
+<li>&#8226; Murshid Quli Khan
+<ul>
+<li style="padding-left:2em">&#9702; In the last days of his rule, Aurangzeb made <strong>Murshid Quli Khan</strong> the Diwan of Bengal in 1700 AD, for better revenue collection.</li>
+<li style="padding-left:2em">&#9702; Murshid Quli Khan strengthened the revenue administration by suppressing the rebel landlords.</li>
+<li style="padding-left:2em">&#9702; Then, taking advantage of the circumstances arising due to Aurangzeb's death, he also became the Subedar of Bengal in 1717 AD. Thus, when the <u>posts of Subedar and Diwan were united, there appeared the post of Nawab.</u></li>
+</ul>
+</li>
+<li>&#8226; Successors
+<ul>
+<li style="padding-left:2em">&#9702; Murshid Quli Khan ruled till 1727. He was later succeeded by his son-in-law <strong>Shujauddin</strong> who ruled until 1739. Shujauddin's successor was <strong>Sarfaraz Khan</strong> who ruled for only 1 year. In 1740, <strong>Alivardi Khan</strong> removed him from the throne and forcefully seized the power. Then Alivardi Khan ruled as the Nawab of Bengal between 1740 and 1756.</li>
+</ul>
+</li>
+<li>&#8226; Autonomy
+<ul>
+<li style="padding-left:2em">&#9702; Murshid Quli Khan kept the vestige of the empire, he accepted Mughal sovereignty in his lifetime.</li>
+<li style="padding-left:2em">&#9702; The successors of Murshid Quli Khan also accepted the nominal power of the Mughals and were sending them revenue, but <em>Alivardi Khan stopped even giving revenue.</em></li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Awadh:</strong></p>
+<ul>
+<li>&#8226; Awadh became an independent kingdom under ambitious leader <strong>Saadat Khan.</strong> Saadat Khan ruled from 1720 to 1739. He had committed suicide in course of Nadir Shah's incident.</li>
+<li>&#8226; Then he was succeeded by <strong>Safdar Jung</strong> who was also appointed to the post of Vazir. Hence, the Nawab of Awadh was called the Nawab-Vazir.</li>
+</ul>
+
+<p><strong>Hyderabad:</strong></p>
+<ul>
+<li>&#8226; An independent Hyderabad state was established under <strong>Nizam-Mulk Asaf Jah.</strong> He held the post of Vazir under the Mughal Empire between 1720 and 1722.</li>
+<li>&#8226; But after being disappointed with the Mughal Empire, he left Delhi and moved to Hyderabad and in 1724 he established an independent kingdom in Hyderabad.</li>
+<li>&#8226; Later on, the state of <strong>Carnatic</strong> became independent from Hyderabad under Sadatulla Khan. Its capital was Arcot.</li>
+</ul>
+
+<p>The three successor states mentioned above were established by the <em>highly qualified nobles</em> and they established there very capable governments. Therefore, the <u>irony is that on one side the central power was disintegrating and on the other side strong and efficient provincial governments were being established</u>.</p>
+
+<h2>Rebel Kingdom</h2>
+
+<p><strong>Marathas:</strong></p>
+<ul>
+<li>&#8226; <strong>Shivaji's Swarajya:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In south, the Marathas established their power by rebelling against the southern kingdom and further against the Mughals. Shivaji established an independent Maratha kingdom which extended into Maharashtra as well as the Karnataka region.</li>
+<li style="padding-left:2em">&#9702; Although these territories were conquered during the southern expedition of Aurangzeb, after the death of Aurangzeb, Shahu again established as an independent ruler and was recognized by the Mughals as well.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Peshwas</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Some <strong>ambitious Peshwas</strong> emerged under Shahu, such as Balaji Vishwanath, Bajirao I, Balaji Bajirao etc. Under their leadership, Maratha state was converted into a <strong>Maratha empire.</strong></li>
+<li style="padding-left:2em">&#9702; Balaji Vishwanath got the right from the Mughals to collect <strong>Chauth</strong> and <strong>Sardeshmukhi</strong> in 6 Subahs of Deccan. He then divided this authority among other Maratha chieftains. Due to this, some Maratha chieftains became extremely powerful.</li>
+<li style="padding-left:2em">&#9702; A <strong>Maratha Confederacy</strong> was formed at the centre of which was Peshwa of Poona, while its other members were Scindia of Gwalior, Holkar of Indore, Bhosale of Nagpur and Gaikwad of Baroda.</li>
+<li style="padding-left:2em">&#9702; It was the time; Maratha power was expanding in the north under the Peshwas. Marathas got entangled in Delhi politics. Marathas involved themselves by trying to play to role of kingmakers at Delhi as well in the nearby Rajputana region.
+<ul>
+<li style="padding-left:4em">&#9632; It was the time when north India was subjected to the regular invasions from Afghanistan under the leadership of Abdali.</li>
+<li style="padding-left:4em">&#9632; Hence, his confrontation with the Afghans became natural, resulting in the <strong>Third War of Panipat</strong> (1761).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Sikhs:</strong></p>
+<ul>
+<li>&#8226; The Sikh, originally a peaceful religious sect, was militarized due to the Mughal policy.
+<ul>
+<li style="padding-left:2em">&#9702; From the fourth Guru, <strong>Guru Ramdas</strong>, the Guruship became hereditary.</li>
+<li style="padding-left:2em">&#9702; Fifth <strong>Guru Arjun Dev</strong> built Golden Temple. He developed regional Masnad and started to live in semi royal life and started collecting spiritual tax. By this time, Sikh Guru had emerged to be a political entity. But he was tortured executed by Jahangir.</li>
+<li style="padding-left:2em">&#9702; Sixth <strong>Guru Hargobind</strong> built Akal Takht and militarized Sikhism. He was also imprisoned by Jahangir for some time.</li>
+<li style="padding-left:2em">&#9702; The 9th <strong>Guru Tegh Bahadur</strong> had to face martyrdom in face of Aurangzeb's policy.</li>
+<li style="padding-left:2em">&#9702; The 10th and last Guru, <strong>Guru Gobind Singh</strong> founded the <em>Khalsa sect</em>. He tried to govern by making Anandpur Sahib as his headquarter, but he had to face the invasion of Mughal Subedar Wazir Khan. He finally was treacherously murdered in Nanded in 1708. He had declared that he would be the last living Guru and after him, the Granth sahib would be the Guru.</li>
+</ul>
+</li>
+<li>&#8226; After Gurugovind Singh, <strong>Banda Bahadur</strong> carried the Sikhs revolt against the Mughals
+<ul>
+<li style="padding-left:2em">&#9702; He had organized Jats of Punjab.</li>
+<li style="padding-left:2em">&#9702; A Mughal noble, Hussain Ali, defeated and killed Banda Bahadur at the fort of Lohgarh. Hence this rebellion subsided for some time.</li>
+</ul>
+</li>
+<li>&#8226; Taking advantage of the political vacuum after the battle of Panipat (1761), some eminent Sikh leaders gathered at Amritsar in 1764 and then gave the slogan 'Wah-e-Guru ki Khalsa Wah-Guru ki Fatah' and issued pure silver coins. With this, an independent Sikh state was established.</li>
+<li>&#8226; Initially, the Sikh states were <strong>organized as Misl</strong> whose nature was republican.
+<ul>
+<li style="padding-left:2em">&#9702; There were a total of 12 Misls, among them the Bhangi Misl was the most powerful.</li>
+<li style="padding-left:2em">&#9702; Another important Misl was Sukerchakia Misl to which <strong>Ranjit Singh</strong> was associated. A large and powerful Sikh kingdom was established under Ranjit Singh.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>More states:</strong></p>
+<ul>
+<li>&#8226; <strong>Jat State:</strong> Gokul Jat first revolted against Aurangzeb and was suppressed. Later, in 1685 <strong>Rajaram Jat</strong> revolted and posed a serious challenge. However, this rebellion too was suppressed. After Aurangzeb, <strong>Churaman Jat</strong> and <strong>Badan Singh</strong> established an independent Jat state. Later, <strong>Surajmal Jat</strong> was a major Jat leader in the mid 18th century.</li>
+<li>&#8226; <strong>Rohilla State:</strong> Some Pathan nobles together established an independent Rohilla State from the North of Awadh.</li>
+<li>&#8226; <strong>Bangash Pathan State:</strong> An independent Bangash Pathan state was established near Ruhela State.</li>
+<li>&#8226; <strong>State of Bundelkhand:</strong> A Rajput ruler Chhatrashal rebelled against the Mughals and established an independent Bundelkhand state.</li>
+</ul>
+
+<h2>States outside the Mughal Empire</h2>
+<ul>
+<li>&#8226; <strong>Mysore State:</strong> It remained outside the periphery of the Mughal Empire and was the <u>successor of Vijayanagar.</u> Mysore gradually emerged to be powerful under <strong>Wodeyars</strong>, esp. Chikkadevaraya in the 18th century.
+<ul>
+<li style="padding-left:2em">&#9702; Hyder was an ambitious and capable military general. He reformed army, and with the help of French he established an armoury at Dindigul. Soon, he captured the power by sidelining Wodeyars.</li>
+</ul>
+</li>
+<li>&#8226; <strong>The state of Kerala:</strong> The Malabar Coast also remained outside the periphery of the Mughal Empire. Calicut, Cochin and Travancore were established as major states in this region.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Martanda Varma</strong> and <strong>Rama Varma</strong> were powerful rulers in Travancore.</li>
+<li style="padding-left:2em">&#9702; The Dutch were defeated by Martand Varma in the <strong>battle of Colachel (1741)</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Rajput State:</strong> The Rajputs served under the Mughals but their own territory remained autonomous. Hence even after the disintegration of the Mughal Empire, they continued to rule in the states of Amer, Mewar, Bikaner, Jodhpur, Bundi, Kota etc.</li>
+</ul>
+
+<h2>Dark Age Hypothesis</h2>
+<p>The first half of 18th century has been characterized as dark age:</p>
+
+<p><strong>Political basis:</strong></p>
+<ul>
+<li>&#8226; It was termed as a period of political disintegration and anarchy.
+<ul>
+<li style="padding-left:2em">&#9702; It is said that small states came into existence after the decline of the Mughal Empire, then during this period, the rebel leaders created chaos.</li>
+<li style="padding-left:2em">&#9702; Raids by Marathas brought the situation further to dismal condition.</li>
+</ul>
+</li>
+<li>&#8226; But after observation, we found that while on one side, the central power was disintegrating, but on the other, efficient governments were established at the regional level in Bengal, Awadh and Hyderabad. These governments not only strengthened law and order, but also encouraged economic activities.
+<ul>
+<li style="padding-left:2em">&#9702; Bengal, Hyderabad, Mysore, Travancore were well governed states with competent rulers.</li>
+<li style="padding-left:2em">&#9702; Despite initial disruption, Marathas were able to create a strong and efficient administration in Central India.</li>
+<li style="padding-left:2em">&#9702; Thus, the focus of Mughal empire as representing pan-Indian aspirations and neglect of the peripheral polities is unwarranted.</li>
+</ul>
+</li>
+<li>&#8226; Lack of Mughal centralization should not be equated with the lack of prosperity. We should keep in mind the cyclical nature of Indian history, when a large empire disintegrates and regional powers emerge, only to form an empire later once more.
+<ul>
+<li style="padding-left:2em">&#9702; Therefore, there is no reason to believe that only the British could give an alternative to the Mughal Empire. We can definitely say that if the British intervention had not taken place, the Indian politics could have taken another direction.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Economic basis:</strong></p>
+<ul>
+<li>&#8226; Most of the scholars working on this period had a Mughal centric view. Hence he saw the disintegration of the Mughal Empire as an economic crisis and attributed it to the disruption in the agrarian economy.</li>
+<li>&#8226; But after examining minutely, it is known that during this period the <strong>cultivation of cash crops</strong> had increased. Then due to European trade, <strong>precious metals</strong> were coming to India in large scale.</li>
+<li>&#8226; In recent research, scholars like <strong>Muzaffar Alam, Karen Leonard, P.J. Marshall</strong> have pointed to the fact that a <strong>group of rich merchants and bankers</strong> was established in this period. They started playing an important role in the economy and they had formed a kind of alliance with the officials and landlords too. In this way the economy was strengthening on a regional basis.</li>
+</ul>
+
+<p><strong>Socio-cultural Aspects:</strong></p>
+<ul>
+<li>&#8226; There was a cultural stagnation in literature and arts. Artists and Poets lost the patronage and had to migrate to smaller town in search of alternative. The thriving Mughal urban culture had started to give way to decadence.
+<ul>
+<li style="padding-left:2em">&#9702; The Urdu <strong>Shahr Ashobs</strong> (Ruined cities) of the contemporary poets Mir and Sauda have been analysed by <strong>Ralph Russell</strong> and <strong>Khurshidul Islam.</strong> The poets lament the destruction of Delhi and Agra and the degeneration of the ethics and principles.</li>
+</ul>
+</li>
+<li>&#8226; However, regional patriarchs supported the artists which led to unprecedented diversity of forms. There was emergence of Pahari/Rajasthani painting styles and various gharanas of classical music. Moreover, the new capitals of emerging states were centres of arts and architecture with regional diversity. <em>So, even after the decline of Mughal Empire, Mughal culture flourished.</em></li>
+</ul>
+
+<p>On the basis of the above facts, this period has come to be known as <strong>pre-modern period</strong> That is why, it is now necessary to consider <em><u>British intervention as a major disruption, not as an indicator of progress.</u></em></p>
+<h2>The Maratha Confederacy (18th Century)</h2>
 <p>The nature of Maratha political power evolved through three distinct phases, culminating in the Maratha Confederacy after 1761.</p>
 <h3>From Centralised State to Confederacy</h3>
 <ul>
