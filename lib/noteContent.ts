@@ -13382,7 +13382,177 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; Although the Peshwa remained the head, in principle, Maratha chiefs like Gaekwad, Holkar, Sindhia, Bhonsle, etc. became almost sovereign.</li>
 <li>&#8226; So, there emerged a number of parallel powers as these chiefs were almost autonomous in their rights, which considerably <strong>undermined the powers of Peshwas</strong>.</li>
 </ul>`,
-  'european-penetration-india': ``,
+  'european-penetration-india': `<p>Historiography is the study of writing history. It gives an insight into the different Approaches to the study of history.</p>
+
+<h2>(1) Colonial School</h2>
+<ul>
+<li>&#8226; <strong>Objective:</strong> It tries to defend British position/policies in India.
+<ul>
+<li style="padding-left:2em">&#9702; This schools says that there was no ulterior motive of British in India, and they were not guided by colonial imperatives.</li>
+<li style="padding-left:2em">&#9702; As they tried to defend the British, these historians are termed as apologist scholars.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>(A) Conquest of India:</strong> British didn't have any specific plan to conquer India – India was <strong>conquered in a fit of absentmindedness</strong>. The British conquest of India was an accident rather than the result of a deliberate policy and design.</p>
+<ul>
+<li>&#8226; <em>"Our acquisition of India was made blindly. Nothing great that has ever been done by Englishmen was done so unintentionally, so accidentally, as the conquest of India."</em> (John Seeley, Expansion of England, 1884)</li>
+<li>&#8226; UPSC PYQs
+<ul>
+<li style="padding-left:2em">&#9702; The British conquered India&#44; "in a fit of absent minded-ness". Comment. [1997, 20m]</li>
+<li style="padding-left:2em">&#9702; "The rise and expansion of British empire was an accident rather than the result of a deliberate policy and design." Critically examine this statement. [2002, 60m]</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>(B) Nature of Colonial Rule:</strong> In India, colonialism didn't exist as a political, economic and socio-cultural phenomenon. In reality, it was not a <em>colonial rule</em>, but rather merely a <em>foreign rule</em>.</p>
+<ul>
+<li>&#8226; UPSC PYQs
+<ul>
+<li style="padding-left:2em">&#9702; "On 23 June 1757, the middle ages of India ended and her modern age began." Comment. [1992, 20m]</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>(C) Denial of Drain of Wealth,</strong> deindustrialization as well as economic exploitation of India.</p>
+<ul>
+<li>&#8226; UPSC PYQs
+<ul>
+<li style="padding-left:2em">&#9702; India has been the world leader in the field of hand spun and hand-woven yarn and cloth for many centuries. Many nationalist and Marxist critiques considered that the British dominion deliberately shattered the traditional and world-famous handicrafts of India. Comment. [2021, 20 Marks]</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>(D)</strong> As they denied the phenomenon of colonialism, they also denied the <strong><u>phenomenon of nationalism in India.</u></strong></p>
+<ul>
+<li>&#8226; Nationalism, for them, is suited to that society which is largely homogenous. India was not a nation and could never be a nation because of divisions on the basis of religion, region, language, caste etc.</li>
+<li>&#8226; Its later emergence was the response of the Indian bourgeois elite to the <strong>stimulus provided by British ideas, institutions, opportunities and resources</strong>.</li>
+</ul>
+
+<p><strong>Contribution of Colonial History:</strong></p>
+<ul>
+<li>&#8226; They were the first to start studying modern Indian history. They were the trend-setter.</li>
+<li>&#8226; Their critical approach, sometimes, may check the excessive jingoism of nationalist scholars, who sometimes paint a very idealistic picture of national movement.</li>
+</ul>
+
+<h2>(2) Nationalist School</h2>
+<ul>
+<li>&#8226; It was the product of the national movement. These historians rose as a reaction to the imperial school. They were the first scholars to oppose the imperialist line of historiography (old Cambridge school).
+<ul>
+<li style="padding-left:2em">&#9702; As colonial historical narrative became negative and, in contrast, a justificatory view of colonialism, a nationalist reaction by Indian historians came.</li>
+<li style="padding-left:2em">&#9702; Colonial historians now increasingly, day by day, threw colonial stereotypes at Indians. Indian nationalist historians set out to create counter-stereotypes, often explicitly designed to oppose colonial stereotypes thrown at them day after day.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Scholars:</strong> RC Majumdar, SN Banerjee, RG Pradhan, Ambika Charan Majumdar</li>
+<li>&#8226; Nationalism
+<ul>
+<li style="padding-left:2em">&#9702; Modern historians have also been divided between those, such as Tara Chand, who held that India has been a nation-in-the-making since the 19th century and those who argue that India has been a nation since the ancient times.</li>
+</ul>
+</li>
+<li>&#8226; Colonialism: They carried modern historiography one step further.
+<ul>
+<li style="padding-left:2em">&#9702; They accepted that colonialism existed as a political as well as socio-economic phenomenon.</li>
+<li style="padding-left:2em">&#9702; They also believed that there was a basic contradiction between British colonial interests and interests of Indians.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Limitations:</strong> As a whole, historians neglected economic, social and cultural history and at the most attached a chapter or two on these without integrating them into the main narrative.
+<ul>
+<li style="padding-left:2em">&#9702; They accepted India's diversity, i.e., its multi-lingual, multi-religious, multi-ethnic, and therefore multi-cultural character but they neglected the <strong>social reality within India.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Ignore/underplayed inner contradictions of Indian society: Class, caste, women, tribes.</li>
+<li style="padding-left:4em">&#9632; They give due space to the social reform movements but do not take a critical look at them, and often ignore the movements of the tribal people and the lower castes for their emancipation.</li>
+<li style="padding-left:4em">&#9632; They tried to prove that interests of all Indians were same against the British. They <strong>romanticized middle class leadership</strong> of the national movement.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; They have seldom made an in-depth analysis of the national movement, and often indulged in its blind glorification.</li>
+<li style="padding-left:2em">&#9702; While adopting a secular position and condemning communalism, they do not make a serious analysis of its character or elements, causation, and development.</li>
+</ul>
+</li>
+</ul>
+
+<h2>(3) Marxist School</h2>
+<ul>
+<li>&#8226; <strong>Early scholars:</strong> RP Dutt, AR Desai, MN Roy.</li>
+<li>&#8226; <strong>Later scholars:</strong> Bipan Chandra, Sumit Sarkar, Aditya Mukherjee, Mrudula Mukherjee etc.</li>
+<li>&#8226; This school tried to rectify the limitations of the earlier approaches. It also extended the meaning/objective of freedom.
+<ul>
+<li style="padding-left:2em">&#9702; E.g Tribal and peasant unrests, which were branded as law-and-order issue by the British to justify suppression with the iron hand, were now brought in the scope of the study.</li>
+</ul>
+</li>
+<li>&#8226; It accepts the Nationalist school partially and rejects it on other grounds.
+<ul>
+<li style="padding-left:2em">&#9702; It accepts the basic contradiction between Indian and colonial interests. It was called as Primary contradiction.</li>
+<li style="padding-left:2em">&#9702; But this is not the single contradiction – there are many other secondary contradictions within Indian society itself like landlord-peasant, capitalists-labours which should not be neglected.</li>
+<li style="padding-left:2em">&#9702; Thus, the ambit of study of history expanded from beyond Indian-British relations to other aspects.</li>
+</ul>
+</li>
+<li>&#8226; Evolution
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Early Marxist scholars</strong> were very mechanical and too much Marxist. They tried always to give primacy to the secondary contradiction than the primary contradiction. It was because they were very much interested in class struggle rather than national freedom movement.</li>
+<li style="padding-left:2em">&#9702; <strong>Later Marxist scholars</strong> didn't prefer excessive/puritanical Marxism and tried to balance them.</li>
+</ul>
+</li>
+</ul>
+
+<h2>(4) Neo-Cambridge School</h2>
+<p>In the 1970s, some modifications in view, a new approach emerged among Cambridge historians. They offered interpretation in reaction to the Marxist school.</p>
+<ul>
+<li>&#8226; Important scholars: <strong>Gordon Johnson, DA Low, JH Broomfield, Christopher Bayley, Anil Seal, Judith Brown, David Washbrook</strong></li>
+<li>&#8226; This school claimed a move from <u>province to region</u> and from <u>community to faction</u> in their interpretation. However, on close observation, it reveals there is no major change but a more polished version of the Old.</li>
+</ul>
+
+<p>Three debates between Marxist and neo-Cambridge historians.</p>
+<ul>
+<li>&#8226; <strong>What is the innermost spring of the mechanics of modern politics in British India in the late nineteenth and early twentieth centuries?</strong>
+<ul>
+<li style="padding-left:2em">&#9702; They tried to interpret change in the context of the interest of Indian elite, as well as British parliament decisions, political factions in India etc. (and not economic factors).</li>
+</ul>
+</li>
+<li>&#8226; <strong>What is the most decisive territorial unit to study the political change?</strong>
+<ul>
+<li style="padding-left:2em">&#9702; They emphasized on the use of the concept of "micro study" (study of locality) while all-India generalisations were avoided as incorrect. However, it is in the garb of micro-study, these scholars try to divert attention of all the scholars from British economic exploitation. Over-generalization across the subcontinent is considered to be wrong.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Nature of the social group on which they should focus.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; British rule expanded political opportunities in India through better institutional government, rivalry started among Indian elites to appropriate maximum benefits.</li>
+<li style="padding-left:2em">&#9702; In the course, some elites at the regional level became patrons (regional brokers) and created a band of followers as clients.</li>
+<li style="padding-left:2em">&#9702; As many regional brokers emerged, there appeared a need for collaboration and coordination among them – led to rise of all India brokers ….!</li>
+</ul>
+</li>
+</ul>
+
+<h2>Towards freedom series</h2>
+<p>In the 1970s, the British Government commissioned a series of 12 books, <strong>The Transfer of Power</strong> that disregarded the Indian freedom struggle and projected the transition as a smooth process.</p>
+<p>In response, a number of historians in India conceptualized a 10-volume project called <strong>'Towards Freedom'</strong> in the 1970s. It was to be a documentation of the decade leading up to 1947. ICHR was entrusted with its publishing; the first two volumes came out in 1997. Gyanendra Pandey, Bipin Chandra, Basudev Chatterji, Sumit Sarkar, Mushirul Hasan, KM Panikkar, Sucheta Mahajan, Arjun Dev and Bimal Prasad were among the historians tasked with editing the different volumes. But in 2017, the final three parts, which made up the tenth volume, were scrapped.</p>
+
+<h2>(5) Subaltern Approach</h2>
+<ul>
+<li>&#8226; Subaltern: Those who are on the margin and are neglected.</li>
+<li>&#8226; <strong>Scholars:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It was developed as a historiographical school under <strong>Ranajit Guha</strong> in 1980s.</li>
+<li style="padding-left:2em">&#9702; Soon, many others like Partha Chatterjee, Gyan Pandey, David Arnold, David Hardiman, Shahid Amin, Dipesh Chakravarti, David Ludden etc. contributed to it.</li>
+</ul>
+</li>
+<li>&#8226; Guha asserts that parallel to elite politics, there was a <strong>domain of people's politics</strong> in which the principal actors were the subaltern classes and groups constituting the mass of the population. He believes that <strong>no elite leader controls masses, rather it's the masses who control the leaders.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; According to them, all previous schools (namely imperialist/nationalist/Marxists) suffered from a common problem – of over-emphasizing the role of the leadership in the movement. However, the actual role was played by the subalterns. <u>They have the real agency and their actions are political.</u></li>
+<li style="padding-left:2em">&#9702; Subaltern school gives too much importance to social process rather than role of leadership.</li>
+</ul>
+</li>
+<li>&#8226; UPSC PYQs
+<ul>
+<li style="padding-left:2em">&#9702; How far is it correct to say that the 19th century tribal uprisings are a part of subaltern nationalism? [2016, 20m]</li>
+<li style="padding-left:2em">&#9702; "Gandhi restrained mass movements, yet he retained his popularity among the masses." Comment. [2002, 20m]</li>
+<li style="padding-left:2em">&#9702; Why is the Quit India Movement characterised as a 'Spontaneous Revolution'? Did it accelerate the process of Indian independence? [2019, 20 Marks]
+<ul>
+<li style="padding-left:4em">&#9632; Similarly, <strong>Stephen Henningham,</strong> a subaltern historian, shows how in Bihar and eastern Uttar Pradesh the 'Quit India' movement of 1942 was a dual revolt consisting of an elite nationalist uprising combined with a subaltern rebellion.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>`,
   'british-expansion-india': ``,
   'early-british-raj': ``,
   'economic-impact-british-rule': ``,
