@@ -15373,7 +15373,303 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <p>The significance of the Pitt&#8217;s India Act lies in the fact, that, hereafter, the <strong>East India Company became an organ of the broader British national interest</strong>. India was to play a subservient role in the interest of the British ruling class.</p>
 <p>An effective and authoritarian instrument of control was thus put in place, which <strong>continued till 1858</strong> with only little modifications.</p>
 <p>According to Prof. <strong>PE Roberts</strong>, this Act &#8216;converted the Company into a quasi-state department&#8217; and rendered its final abolition in 1858 merely &#8216;a formal and explicit recognition of facts already existing&#8217;.</p>`,
-  'economic-impact-british-rule': ``,
+  'economic-impact-british-rule': `<h2>UPSC CSE PYQs</h2>
+<h3>Judicial Reforms</h3>
+<ul>
+<li>&#8226; Discuss the basic features of the judicial administration under the East India Company. Did the British introduce the modern concept of the rule of law in India? [1986, 60m]</li>
+</ul>
+<h3>Zamindari Settlement</h3>
+<ul>
+<li>&#8226; Trace the circumstances that led to the introduction of the Permanent Settlement in Bengal. Discuss its impact on landlords, peasants and the Government. [1981, 60m]</li>
+<li>&#8226; &#8220;The Permanent Settlement of land revenue in Bengal was a bold, brave and wise measure.&#8221; Comment. [1983, 20m]</li>
+<li>&#8226; Show how British rule led to the spread of landlordism in certain parts of India, and how the peasant was progressively impoverished under this rule. [1985, 60m]</li>
+<li>&#8226; &#8220;The permanent system of Bengal though initiated with best of best of intentions, was a sadly blundering affair.&#8221; Comment. [1993, 20m]</li>
+<li>&#8226; &#8220;The Permanent settlement was a bold, brave and wise measures.&#8221; Comment. [1997, 20m]</li>
+<li>&#8226; &#8220;Absentee landlordism was a consequential feature of Bengal&#8217;s Permanent land settlement.&#8221; Comment. [2003, 20m]</li>
+<li>&#8226; &#8220;Permanent Settlement disappointed many expectations and introduced there results that were not anticipated.&#8221; Comment. [2004, 20m]</li>
+<li>&#8226; &#8220;Though the Permanent Settlement had serious defects, it gave tranquility to the countryside and stability to the government.&#8221; Comment. [2009, 20m]</li>
+<li>&#8226; &#8220;The passing of the land from the hands of the peasant proprietors into the hands of non-cultivating landlords brought about increasing polarization of classes in agrarian areas.&#8221; [2018, 10 Marks]</li>
+<li>&#8226; Explain how the Permanent Settlement initiated a rule of property in Bengal and what were its consequences? [2022, 20m]</li>
+</ul>
+<h2>Lord Cornwallis</h2>
+<p>&#8220;If Clive founded the British Indian state Warren Hastings gave it coherence and made it politically viable, it was Cornwallis who gave it definite form and stamped on it characteristics of its own.&#8221;: Percival Spear</p>
+<p>The arrival of Lord Cornwallis as the Governor-General <strong>marked the beginning of a new era</strong> in the history of British India.</p>
+<ul>
+<li>&#8226; The appointment of Cornwallis as Governor-General was the direct result of the controversies aroused by the acts of <strong>Clive</strong> and the rule of <strong>Hastings</strong>.</li>
+<li>&#8226; <strong>British had already lost America</strong> &#8594; So, they tried to strengthen its rule in India through various reforms of Cornwallis.</li>
+<li>&#8226; Certain <strong>broad principles of the relationship of India with Britain</strong> were worked out.
+<ul>
+<li style="padding-left:2em">&#9702; The impeachment of Warren Hastings showed that henceforth, no one could act tyrannically in India and hope to get away with it. It was clear that there was to be no private mercantile British dominion in India.</li>
+</ul>
+</li>
+<li>&#8226; Cornwallis was guided by a <strong>sense of racial superiority</strong> of the British.
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;A landed gentleman, English to the backbone, and proud of his heritage, he (Cornwallis) was convinced that English ways were right and best.&#8221; &#8211; C. H. Phillips</li>
+<li style="padding-left:2em">&#9702; His reforms gave <strong>social and political stability</strong> to Bengal but neglected Indian from administration and ignored the rights of lesser landholders.</li>
+</ul>
+</li>
+</ul>
+<h2>Cornwallis Code (1793)</h2>
+<p>Cornwallis sought to address issues of corruption and inefficiency in the East India Company&#8217;s administration and focused on restructuring the administrative and judicial systems in India, to provide a new framework conducive to trade and investment.</p>
+<p>The early stage of Company&#8217;s law making came to a climax with the Cornwallis Code (1793). It contained a series of Regulations regarding governing, policing, judiciary and civil administration that remained in force till 1833.</p>
+<h3>(A) Legal Reforms</h3>
+<p>Cornwallis was the real architect of the modern Indian judicial system. He tried to bring <strong>Rule of Law</strong> to ensure a uniform system of justice based on the principle of equality before law. He tried to create a more standardized, predictable, transparent system.</p>
+<ul>
+<li>&#8226; <strong>Humanization law:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Cornwallis took some prevailing <strong>Muslim criminal laws</strong> as barbarous and so he tried to make them a bit <strong>humane</strong>.</li>
+</ul>
+</li>
+<li>&#8226; He insisted on <strong>British-like procedure</strong> in the courts.
+<ul>
+<li style="padding-left:2em">&#9702; It was clearly laid down that all district courts were <strong>to administer fixed forms of law</strong>.</li>
+<li style="padding-left:2em">&#9702; <strong>Open trials</strong> were to be conducted.</li>
+<li style="padding-left:2em">&#9702; Everybody had the right to approach the court either personally or through a Vakeel.</li>
+<li style="padding-left:2em">&#9702; Now, a witness could belong to any caste.</li>
+<li style="padding-left:2em">&#9702; Intention, rather than type of weapon, was more emphasized.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Separation of powers:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Cornwallis separated judicial and revenue functions which had been clubbed earlier.</li>
+<li style="padding-left:2em">&#9702; District collector &#8594; revenue collection</li>
+<li style="padding-left:2em">&#9702; Civil justice &#8594; district judge</li>
+</ul>
+</li>
+<li>&#8226; <strong>Control of judiciary over executive.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; All executive officers, including the collector, were made amenable to the jurisdiction of the court personally. Thus, for the first time, the privilege was given to the people against Company&#8217;s officials who might commit any wrong against them. (earlier, only remedy was to move a petition in the GG-in-C at Calcutta)</li>
+</ul>
+</li>
+<li>&#8226; <strong>Government liability</strong>
+<ul>
+<li style="padding-left:2em">&#9702; For the first time, the liability of the Government for its wrongs and wrongs committed by its officers during their duties was recognized.</li>
+</ul>
+</li>
+<li>&#8226; <strong>British subjects were made amenable to the Diwani Adalat.</strong></li>
+</ul>
+<p>Thus, he created a <strong>system of European style courts</strong> independent of the executive, replacing the corrupt and inefficient Mughal system. This was supposed to improve access to justice and helped to curb corruption. It was expected that the new system would stabilise landed relations, provide security for property, and make people right explicit.</p>
+<h3>(B) Father of Civil Service</h3>
+<ul>
+<li>&#8226; Personnel is divided into <strong>three branches: revenue, judicial, and commercial.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Now, commercial services of the company were clearly demarcated from the administrative services. The servants of the Company were directed to make their choice between the two.</li>
+</ul>
+</li>
+<li>&#8226; To curb potential corruption,
+<ul>
+<li style="padding-left:2em">&#9702; Cornwallis suspended the whole Board of Revenue for irregularities and enforced the new rules against private trade.</li>
+<li style="padding-left:2em">&#9702; While a merchant one could still trade on one&#8217;s own, an official had to be content with a handsome salary. He insisted on the company providing generous salaries in its place.
+<ul>
+<li style="padding-left:4em">&#9632; Collector&#8217;s fixed salary Rs. 1500/- pm + 1% share of revenue. (highly paid)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Cornwallis implemented a <strong>district-based administrative structure.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; He divided the provinces into districts. Each district was headed by a collector who was responsible for revenue collection and administration.</li>
+</ul>
+</li>
+<li>&#8226; Foundation of <strong>Thana/Police station system.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The modern Indian police dates back to the days of Lord Cornwallis.</li>
+<li style="padding-left:2em">&#9702; <strong>Earlier</strong>, <strong>zamindars</strong> were supposed to do the policing work but Cornwallis divested them of this right.</li>
+<li style="padding-left:2em">&#9702; The <strong>police</strong> power was henceforth, to be vested in the <strong>Magistrate</strong> who was directed to divide his district into police jurisdictions or thanas.</li>
+<li style="padding-left:2em">&#9702; Each such <strong>thana</strong> was to be headed by a <strong>darogah</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; For nearly every 400 sq miles = an officer, Daroga appointed as in-charge.</li>
+<li style="padding-left:4em">&#9632; The duty of the darogah was restricted to apprehension and production of criminals before the Magistrate.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The police reforms of Cornwallis, despite later modifications remained the basis of the police organisation in colonial India for nearly two centuries.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Europeanization and Exclusion of Indians:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; All high Indian officials were dismissed and all posts worth more than &#163;500 a year were reserved for Europeans.</li>
+</ul>
+</li>
+</ul>
+<p>All these reforms marked the beginning of the civil service. The tradition myth of &#8220;law-abiding, incorruptible&#8221; British rule in India starts from the era of Cornwallis. <strong>Steel-frame of the civil service</strong> started to emerge in this era, and it was <strong>Europeanized</strong>.</p>
+<h2>(C) Permanent / Zamindari Settlement</h2>
+<ul>
+<li>&#8226; <strong>Economic background:</strong> The attempt to maximise revenue collection found manifestation in the various revenue <strong>experiments of Warren Hastings.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; However, his schemes were unsuccessful. Under the farming system, landowners had no incentive to augment production as the revenue farmers were only interested in short term appropriation. Such a situation was not conducive to the development of the agrarian economy.</li>
+<li style="padding-left:2em">&#9702; The condition of the peasants became deplorable. After his arrival in India Cornwallis found, &#8220;agriculture and trade decaying, Zamindars and ryots sinking into poverty and the money lenders the only flourishing class in the community.&#8221;</li>
+<li style="padding-left:2em">&#9702; This failure created instability in the Company&#8217;s revenues at a time when the British were hard pressed for money. Thus, the Company&#8217;s government in India was looking for a stable income, which was required to maintain the trade surplus.</li>
+<li style="padding-left:2em">&#9702; It was at this critical juncture that <strong>Lord Cornwallis was appointed</strong> as the Governor-General. He was expected to end the uncertainty surrounding revenue collection. Cornwallis himself belonged to feudal class of landed magnates in Britain and therefore, had some knowledge of land and agriculture.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Ideological background:</strong> French physiocrats
+<ul>
+<li style="padding-left:2em">&#9702; Mercantilism gave primacy to the accumulation of gold through commercial activity (balance of trade). Physiocrats emphasized agricultural production as the source of national wealth.</li>
+<li style="padding-left:2em">&#9702; Mercantilism tried to create a monopoly over trade while physiocrats were strongly opposed of all kinds of <strong>monopolies as well as to feudal privileges.</strong></li>
+<li style="padding-left:2em">&#9702; Physiocrats believed in the institution of private property. A programme for <strong>strengthening of property rights</strong> in land figured prominently in physiocratic prescriptions.</li>
+<li style="padding-left:2em">&#9702; <strong>Cornwallis also supported</strong> permanent zamindari because of his own background.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Prevailing Indian system:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; During Mughal period, individual private ownership was not fully established. Different contenders claimed different parts of production.</li>
+<li style="padding-left:2em">&#9702; This system confused Cornwallis who was in search of a viable system.</li>
+</ul>
+</li>
+</ul>
+<h3>Features of the Zamindari System</h3>
+<ul>
+<li>&#8226; <strong>Region:</strong> Bengal, Bihar, Orissa (and also in Banaras division of UP and North Karnataka) constituting total of around 19% of British India.</li>
+<li>&#8226; <strong>With whom:</strong> Zamindars (earlier neglected by Hastings)
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>zamindars were construed as the original hereditary owners</strong> of the land and they were required to collect land revenue from the ryots as agents of the Company.</li>
+<li style="padding-left:2em">&#9702; Thus, <strong>free peasants</strong> were converted into <strong>tenants-at-will</strong>. Therefore, the traditional rights of the ryots on land were abolished. <strong>Community land</strong> was also placed under zamindari control. (Barren land, irrigation, pasture, forest land etc.)</li>
+</ul>
+</li>
+<li>&#8226; <strong>Land was now made a private property</strong> and a transferable commodity.</li>
+<li>&#8226; <strong>Sunset Law (1793)</strong> mandated that if a zamindar failed to pay the stipulated amount by sunset of the due date, his land was seized, and zamindari rights were auctioned.</li>
+<li>&#8226; <strong>Rate of Revenue:</strong> Tax fixed based on taxes collected in 1790-92 as the base year. (which was equal to Rs. 2.68 crore)
+<ul>
+<li style="padding-left:2em">&#9702; 10/11 part to the Company, while the Zamindars were permitted to enjoy the 1/11 share.</li>
+<li style="padding-left:2em">&#9702; The government share was fixed initially for 10 years (in 1790) and then permanently (in 1793). All future increase in total income (either through extension or through revenue increase) would go to the zamindar.</li>
+</ul>
+</li>
+</ul>
+<h3>The expectations</h3>
+<ul>
+<li>&#8226; <strong>Economic Motive</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Fix stable and secure income for the state.</li>
+<li style="padding-left:2em">&#9702; Magic touch of private property + permanent settlement: Progressive zamindar &#8594; investment in agriculture &#8594; improvement in productivity &#8594; boost to trade (NOT increase in revenue)
+<ul>
+<li style="padding-left:4em">&#9632; model of zamindar as landlord-entrepreneur</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Administrative Motive</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Permanent settlement directly with zamindar without involving government officers. Company&#8217;s officers would remain free from revenue collection responsibilities. They could be appointed for other duties.</li>
+<li style="padding-left:2em">&#9702; Easy to collect revenue from a few hundred zamindars instead of lakhs of peasants.</li>
+<li style="padding-left:2em">&#9702; Check over corruption.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Political motive:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; zamindar as a friendly class, pillars of support</li>
+<li style="padding-left:2em">&#9702; Company would not be target of popular reaction because Zamindars were collecting revenue.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Zamindars:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Zamindars would also be immensely benefited because the amount of Land revenue paid by them was fixed till perpetuity.</li>
+<li style="padding-left:2em">&#9702; Zamindars were expected only to collect the bid amount from peasants.</li>
+<li style="padding-left:2em">&#9702; Zamindars were expected to take care of welfare of peasants as fulfilment of their interest was dependent on peasants.</li>
+</ul>
+</li>
+</ul>
+<h3>The outcome: For the government</h3>
+<ul>
+<li>&#8226; The state <strong>secured a stable and fixed income</strong> from the people.
+<ul>
+<li style="padding-left:2em">&#9702; In case the Zamindars did not pay the revenue, the land of the Zamindars was sold.</li>
+<li style="padding-left:2em">&#9702; The Government became <strong>free from the problem of fixation of revenue</strong> every year/periodically.
+<ul>
+<li style="padding-left:4em">&#9632; It avoided the evils of periodical settlement which produced harassment of cultivators, evasion of taxes, concealment of wealth, a tendency on the part of the peasants to leave the land uncultivated etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Absolute land property created a land market in Bengal.</li>
+<li>&#8226; <strong>Instead of Progressive Zamindars, there were absentee zamindars.</strong> (failure)
+<ul>
+<li style="padding-left:2em">&#9702; Against expectation, Zamindars did not take interest in investing in agriculture. There was no flow of capital from urban to rural areas.</li>
+<li style="padding-left:2em">&#9702; Rather the reverse situation emerged whereby many zamindars turned absentee landlords.</li>
+</ul>
+</li>
+<li>&#8226; In the long term, by making the Zamindars the owners of the land, the settlement created a <strong>class of loyal landlords</strong> who formed a stable element in the state.
+<ul>
+<li style="padding-left:2em">&#9702; It secured the political support of the Zamindars of Bengal who stood loyal during the great mutiny of 1857.</li>
+</ul>
+</li>
+</ul>
+<h3>The outcome: For Zamindars</h3>
+<ul>
+<li>&#8226; The assessment was arbitrary.
+<ul>
+<li style="padding-left:2em">&#9702; Thus, the immediate effect of the settlement was harmful upon the landlords who failed to collect the revenue from the peasants and so were unable to pay the fixed revenue at fixed time. As a result, they lost their ownership right over the land.</li>
+</ul>
+</li>
+<li>&#8226; Absolute land property created a land market in Bengal. The <strong>new class of landlords</strong>, which emerged because of the Permanent Settlement, had <strong>commercial interests.</strong> Most of the landlords did not take any interest in the improvement of the land. The landlords became indolent and led luxurious lives staying in the cities. Thus, this settlement created a <strong>class of absentee landlords.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Many of them were <strong>residents of Calcutta</strong> who decided to invest their capital in the purchase of land in the countryside.</li>
+</ul>
+</li>
+<li>&#8226; There developed a complex rent collecting structure with <strong>various grades of intermediary</strong> tenure-holders.</li>
+</ul>
+<h3>The outcome: For Peasants</h3>
+<ul>
+<li>&#8226; The cultivators were <strong>deprived of their traditional rights of land.</strong></li>
+<li>&#8226; As the landlords were contract-bound to remit the revenue within a short time, they raised <strong>rent to an unprecedented degree</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; The farmers had to give 50-60% yield in the form of land revenue.</li>
+<li style="padding-left:2em">&#9702; <strong>Ruthless appropriation</strong> of the rural surplus, the peasants were adversely affected.</li>
+</ul>
+</li>
+<li>&#8226; The cultivators were put at the <strong>mercy of the Zamindars.</strong> Their grievances remained unheard as they had no attachment to the government.</li>
+<li>&#8226; As taxes had then <strong>to be paid in cash</strong>, the peasants were compelled to have recourse to <strong>moneylenders</strong> or <strong>mahajans</strong>.</li>
+<li>&#8226; The condition of the peasant became even more miserable as the <strong>new rule of property was backed up by the new judiciary and the police</strong> introduced by Lord Cornwallis. The police and the judiciary responded to the interest of the wealthier classes alone. The peasants were invariably denied justice.</li>
+<li>&#8226; In the process, a <strong>class of landless sharecroppers</strong> and <strong>agricultural labourers</strong> emerged in Bengal. Thus, the introduction of the Permanent Settlement led to <strong>the evolution of a new set of agrarian relations</strong> that was <strong>extremely regressive</strong>.</li>
+</ul>
+<p>The misery inflicted by the British on the Indians was of a different kind, which was never experienced before. <strong>It reduced the peasants to extreme poverty and ushered in a period of chronic famine, starvation and hunger.</strong></p>
+<p>By the 1820s, it was clear that the permanent settlement had failed to meet its original expectations.</p>
+<h2>Economic Policies</h2>
+<h3>Drain of Wealth (DoW)</h3>
+<ul>
+<li>&#8226; Meaning
+<ul>
+<li style="padding-left:2em">&#9702; In 17th and 18th c Europe, Drain of Wealth meant negative Balance of Trade and outflow of precious metal (bullionism).</li>
+<li style="padding-left:2em">&#9702; In colonized India, it meant excess export and unilateral transfer of surplus from India to Britain.</li>
+</ul>
+</li>
+<li>&#8226; Pipeline during the Mercantile Era: &#8220;investment&#8221;
+<ul>
+<li style="padding-left:2em">&#9702; Before 1750s, the EIC struggled to finance one-sided Indian trade. It was compelled to bring precious metal from Britain.</li>
+<li style="padding-left:2em">&#9702; However, after getting the Diwani of Bengal, it invested the plunder, profit from inter-regional trade, and land revenue into trading activities. Indian goods were now purchased through Indian money while company curtailed the import of silver from Britain &#8211; unilateral transfer of surplus.</li>
+</ul>
+</li>
+</ul>
+<h3>Decline of Handicraft</h3>
+<ul>
+<li>&#8226; Earlier:
+<ul>
+<li style="padding-left:2em">&#9702; Various European companies competed with each other to purchase Indian handicraft products.</li>
+<li style="padding-left:2em">&#9702; Bengal textile purchases used to happen through Dadni system (putting-out system) through Banians (brokers)</li>
+</ul>
+</li>
+<li>&#8226; After Plassey and Buxar:
+<ul>
+<li style="padding-left:2em">&#9702; British <strong>eliminated European rivals</strong> from this race. Once that was achieved, British put <strong>severe pressure on the artisans of Bengal.</strong></li>
+<li style="padding-left:2em">&#9702; Now, <strong>Dadani system &#8594; Agency System</strong> (complete control over artisans and production)</li>
+<li style="padding-left:2em">&#9702; Dual pressure by Gumastas (agents):
+<ul>
+<li style="padding-left:4em">&#9632; The company developed a monopoly over the raw material supplies and started to provide it to the artisans at higher cost.</li>
+<li style="padding-left:4em">&#9632; Simultaneously, the Company compelled the artisans to sell the product cheap (with legal backing)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Worst exploitation of artisans in Bengal
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Murshidabad &amp; Dhaka became desolate.</strong> Dhaka (Lancashire of India), a great supplier of cotton and Muslin (Malmal) now lost its position.</li>
+<li style="padding-left:2em">&#9702; Unemployed artisans moved to already crowded agriculture: <strong>impoverishment</strong>.</li>
+</ul>
+</li>
+</ul>
+<p><em>Weavers also, upon their inability to perform such agreements as have been forced from them by the Company&#8217;s agents ... have had their goods seized, and sold on the spot, to make good the deficiency: and the winders of raw silk, called Nagaads, have been treated also with such injustice, that instances have been known of their cutting off their thumbs, to prevent their being forced to wind silk.</em> &#8211; William Bolts (1772)</p>
+<p><em>The bones of the cotton weavers are bleaching the plains of India</em> &#8211; William Bentick (1834)</p>
+<h3>Indian Opium &#8211; Chinese Tea Triangular trade</h3>
+<p>In 1773, the then British Governor-General, Lord Warren Hastings brought the whole of the opium trade under the control of the Government. Very soon, there emerged an Opium-Tea triangular trade between India-China-Europa.</p>`,
   'social-cultural-developments': ``,
   'social-religious-reform': ``,
   'indian-response-british-rule': ``,
