@@ -47,6 +47,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle, userI
   const [penWidth,  setPenWidth]  = useState(2);
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'saved' | 'error'>('idle');
   const [tick,      setTick]      = useState(0);
+  const [eraserPos, setEraserPos] = useState<{ x: number; y: number } | null>(null);
 
   // ── Supabase sync ──────────────────────────────────────────────
   const saveToCloud = useCallback(async (strokes: Stroke[]) => {
@@ -242,21 +243,39 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle, userI
       <canvas
         ref={canvasRef}
         onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
+        onPointerMove={(e) => { onPointerMove(e); if (tool === 'eraser') setEraserPos({ x: e.clientX, y: e.clientY }); }}
         onPointerUp={onPointerUp}
-        onPointerLeave={onPointerUp}
+        onPointerLeave={() => { onPointerUp(); setEraserPos(null); }}
         style={{
           position: 'fixed', top: 0, left: 0,
           width: '100vw', height: '100vh',
           zIndex: active ? 35 : -1,
           pointerEvents: active ? 'all' : 'none',
           touchAction: 'none',
-          cursor: tool === 'eraser' ? 'cell' : 'crosshair',
+          cursor: tool === 'eraser' ? 'none' : 'crosshair',
           opacity: active ? 1 : 0,
           transition: 'opacity 0.2s',
           background: 'transparent',
         }}
       />
+
+      {/* Eraser circle cursor */}
+      {active && tool === 'eraser' && eraserPos && (
+        <div style={{
+          position: 'fixed',
+          left: eraserPos.x - (penWidth * 4),
+          top: eraserPos.y - (penWidth * 4),
+          width: penWidth * 8,
+          height: penWidth * 8,
+          borderRadius: '50%',
+          border: '2px solid rgba(255,255,255,0.8)',
+          background: 'rgba(255,255,255,0.08)',
+          pointerEvents: 'none',
+          zIndex: 200,
+          boxShadow: '0 0 0 1px rgba(0,0,0,0.5)',
+          transform: 'translateZ(0)',
+        }} />
+      )}
 
       {active && (
         <div style={{

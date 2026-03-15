@@ -393,10 +393,17 @@ export default function PadPage() {
   const cursorMap: Record<Tool, string> = {
     pen: 'crosshair',
     highlighter: 'cell',
-    eraser: 'cell',
+    eraser: 'none',
     text: 'text',
     select: 'default',
   };
+
+  const [eraserPos, setEraserPos] = useState<{ x: number; y: number } | null>(null);
+
+  function onEraserMouseMove(e: React.PointerEvent<HTMLCanvasElement>) {
+    const rect = (e.currentTarget as HTMLCanvasElement).getBoundingClientRect();
+    setEraserPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#0d0d0d', color: '#f0ede8', fontFamily: "'Courier New', monospace" }}>
@@ -574,10 +581,28 @@ export default function PadPage() {
                 height={CANVAS_H}
                 style={{ position: 'absolute', top: 0, left: 0, display: 'block' }}
                 onPointerDown={onPointerDown}
-                onPointerMove={onPointerMove}
+                onPointerMove={(e) => { onPointerMove(e); if (tool === 'eraser') onEraserMouseMove(e); }}
                 onPointerUp={onPointerUp}
-                onPointerLeave={onPointerUp}
+                onPointerLeave={() => { onPointerUp(); setEraserPos(null); }}
               />
+
+              {/* Eraser circle cursor */}
+              {tool === 'eraser' && eraserPos && (
+                <div style={{
+                  position: 'absolute',
+                  left: eraserPos.x - (penSize * 4),
+                  top: eraserPos.y - (penSize * 4),
+                  width: penSize * 8,
+                  height: penSize * 8,
+                  borderRadius: '50%',
+                  border: '2px solid rgba(255,255,255,0.8)',
+                  background: 'rgba(255,255,255,0.08)',
+                  pointerEvents: 'none',
+                  zIndex: 20,
+                  boxShadow: '0 0 0 1px rgba(0,0,0,0.5)',
+                  transform: 'translateZ(0)',
+                }} />
+              )}
 
               {/* Text input box */}
               {editingText && (
