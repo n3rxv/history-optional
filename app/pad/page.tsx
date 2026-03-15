@@ -58,10 +58,10 @@ const PEN_COLORS: { label: string; value: string }[] = [
 ];
 
 const HIGHLIGHT_COLORS: { label: string; value: string }[] = [
-  { label: 'Yellow', value: '#fef08a' },
-  { label: 'Green', value: '#bbf7d0' },
-  { label: 'Blue', value: '#bfdbfe' },
-  { label: 'Pink', value: '#fbcfe8' },
+  { label: 'Yellow', value: 'rgba(255,235,0,0.4)'    },
+  { label: 'Cyan',   value: 'rgba(0,220,220,0.35)'   },
+  { label: 'Pink',   value: 'rgba(255,100,160,0.35)' },
+  { label: 'Green',  value: 'rgba(80,220,100,0.35)'  },
 ];
 
 const FONT_FAMILIES = ['Courier New', 'Georgia', 'Arial', 'Times New Roman'];
@@ -157,7 +157,8 @@ export default function PadPage() {
     if (stroke.tool === 'highlighter') {
       ctx.globalCompositeOperation = 'multiply';
     } else if (stroke.tool === 'eraser') {
-      ctx.globalCompositeOperation = 'destination-out';
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.strokeStyle = '#000000';
       ctx.globalAlpha = 1;
     } else {
       ctx.globalCompositeOperation = 'source-over';
