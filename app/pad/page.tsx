@@ -362,7 +362,13 @@ export default function PadPage() {
   }
 
   async function loadPadList() {
-    const { data } = await supabase.from('writing_pads').select('id, name, updated_at').order('updated_at', { ascending: false });
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+    const { data } = await supabase
+      .from('writing_pads')
+      .select('id, name, updated_at')
+      .eq('user_id', session.user.id)
+      .order('updated_at', { ascending: false });
     if (data) setPads(data as PadRecord[]);
   }
 
