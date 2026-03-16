@@ -54,9 +54,13 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle, userI
     if (!userId) return;
     setSyncStatus('syncing');
     try {
+      const { data: { session } } = await (await import('@/lib/supabase')).supabase.auth.getSession();
       const res = await fetch('/api/canvas-annotations', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token ?? ''}`,
+        },
         body: JSON.stringify({ user_id: userId, note_slug: noteSlug, strokes }),
       });
       setSyncStatus(res.ok ? 'saved' : 'error');
