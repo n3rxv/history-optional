@@ -42,6 +42,7 @@ function ChatContent() {
   const sendMessage = async (text?: string) => {
     const q = text || input;
     if (!q.trim() || loading) return;
+    if (q.length > 2000) { alert('Message too long. Max 2000 characters.'); return; }
 
     const userMsg: Message = { role: 'user', content: q };
     setMessages(prev => [...prev, userMsg]);
@@ -49,12 +50,10 @@ function ChatContent() {
     setLoading(true);
 
     try {
-      const response = await fetch('https://chat-api-five-black.vercel.app/api/chat', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
           system: `You are an expert UPSC History Optional tutor. You have deep knowledge of Indian history (Ancient, Medieval, Modern) and World History as per the UPSC syllabus.
 
 When answering:
@@ -80,6 +79,14 @@ Always be accurate with historical facts.`,
       setLoading(false);
     }
   };
+
+  function sanitize(html: string) {
+    return html
+      .replace(/<script[\s\S]*?<\/script>/gi, '')
+      .replace(/on\w+="[^"]*"/gi, '')
+      .replace(/on\w+='[^']*'/gi, '')
+      .replace(/javascript:/gi, '');
+  }
 
   const formatMessage = (text: string) => {
     return text
@@ -140,7 +147,7 @@ Always be accurate with historical facts.`,
                 {msg.role === 'user' ? (
                   <span style={{ color: 'var(--text)' }}>{msg.content}</span>
                 ) : (
-                  <div dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
+                  <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content)) }} />
                 )}
               </div>
               <span style={{ color: 'var(--text3)', fontSize: '0.7rem', marginTop: '0.3rem', padding: '0 4px' }}>
