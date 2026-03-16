@@ -8,6 +8,9 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
+  icons: {
+    icon: '/favicon.svg',
+  },
   title: "History Optional — UPSC Mains",
   description: "Comprehensive notes, PYQs, timelines and AI assistance for UPSC History Optional",
 };
