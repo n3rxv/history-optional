@@ -16087,7 +16087,300 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 <li>&#8226; While being appreciative/discerning about Indian knowledge, Orientalists <strong>did not raise any big question mark against European culture, civilisation and their epistemology and ontology.</strong> So, they were not oblivious of the interests of colonial rule.</li>
 </ul>
-<p>Thus, Orientalist school played a crucial role in the initial evolution of the colonial knowledge and policy, which in turn gave stability and legitimacy to it. But it is equally true that the policy also strengthened the retrogressive forces of the Indian society.</p>`,
+<p>Thus, Orientalist school played a crucial role in the initial evolution of the colonial knowledge and policy, which in turn gave stability and legitimacy to it. But it is equally true that the policy also strengthened the retrogressive forces of the Indian society.</p>
+<h2>Financial Phase (1858-1947)</h2>
+<p>The British Colonialism in India is categorised into three phases:</p>
+<ul>
+<li>&#8226; <strong>Mercantile Phase (1757-1813):</strong> During this phase Europeans were competing with each other to buy Indian finished products and earn hefty profits by selling them to Europe. So British had to depend on British bullion to buy Indian goods which was a drain of wealth on their economy. This led them to annex Bengal in order to earn Indian bullion which could be reinvested into Indian trade.</li>
+<li>&#8226; <strong>Industrial Phase (1813-1857):</strong> Industrialization was well established in Britain by now and thus it converted India into a supplier of raw materials and buyer of finished British products through discriminatory policies.</li>
+</ul>
+<h3>3. Financial phase (1858-1947):</h3>
+<ul>
+<li>&#8226; As the Industrial revolution reached saturation in 1850s, Britain faced the problem of middle income trap &#8211; rise in wages and industrial expenses but less potential for profits through investment.
+<ul>
+<li style="padding-left:2em">&#9702; Thus, British investment needed other avenues. In this scenario, India with its vast resources emerged as the obvious choice.</li>
+</ul>
+</li>
+<li>&#8226; Secondly, the revolt of 1857 gave the rude shock to British colonial enterprise in India.
+<ul>
+<li style="padding-left:2em">&#9702; Thus the era of self-confident annexation within the framework of &#8220;New Victorian imperialism&#8221; was discarded and new cautious policy was adopted.</li>
+<li style="padding-left:2em">&#9702; British also realised the anger caused by liberal social reforms and henceforth worked consciously in what is known as Conservative liberalism. It looked on to befriend conservative and elitist sections of the society in order to have a strong alliance within the Indian society.</li>
+</ul>
+</li>
+<li>&#8226; Thirdly, Britain&#8217;s monopoly over Industrialization had ended as many other countries like France, USA, Germany etc. had started emerging on the horizon. But Britain did not want to lose its monopoly over Indian commerce.
+<ul>
+<li style="padding-left:2em">&#9702; As such the British enacted a mechanism of tariff and non-tariff barriers to maintain the monopoly.</li>
+</ul>
+</li>
+</ul>
+<p>These factors motivated Political, administrative, economic and cultural policy of the British in India.</p>
+<h2>Political Policy</h2>
+<table>
+<tr><th>Industrial phase</th><th>Financial phase</th></tr>
+<tr><td>Imperialism was supported by territorial expansion through war and unequal alliances.</td><td>During Financial phase too, British had to maintain their Paramountcy but it was based on <strong>unequal partnership.</strong></td></tr>
+<tr><td>British Paramountcy relied either on direct or indirect political control.</td><td>The direct rule of the crown was established to solve the issue of absentee rule of British monarch.</td></tr>
+<tr><td>British supported liberal reforms such as Abolition of Sati and Widows&#8217; Remarriage Act.</td><td>Now it focused on conservative liberalism which only created an impression of reforms but were meant to further British control.</td></tr>
+</table>
+<h3>1. Queen&#8217;s Proclamation (1st November, 1858):</h3>
+<p>It was organised at Allahabad. Although the Queen did not attend herself but she sent a dispatch to be delivered to the <strong>Chamber of Princes</strong> organised by Viceroy <strong>Lord Canning.</strong></p>
+<p>He announced that from then onwards:</p>
+<ul>
+<li>&#8226; <strong>No Indian state shall be annexed</strong> &#8211; This convinced Indian ruling classes that from now onwards the sovereignty will lie in the hands of the queen herself and they will not have to deal with annexations.</li>
+<li>&#8226; <strong>No forcible religious conversion</strong> should take place &#8211; It was a sigh of relief for conservative class.</li>
+<li>&#8226; <strong>No discrimination in the recruitment for the services</strong> &#8211; It was aimed at conciliating middle classes. They will not face discriminations in civil services or other jobs.</li>
+</ul>
+<p>The significance of the Queen&#8217;s Proclamation was that:</p>
+<ul>
+<li>&#8226; It clearly established the British Queen as the sovereign of the whole of India.</li>
+<li>&#8226; It ended the policy of the Imperial expansion.</li>
+<li>&#8226; It helped British in securing the loyalty of Indian rulers</li>
+<li>&#8226; It dispelled the fears of orthodox Indians scared of Christianization</li>
+<li>&#8226; It indicated emerging middle class that they could flourish under the policy of non-discrimination under British rule.</li>
+</ul>
+<h3>2. Act for the Better Government of India, 1858:</h3>
+<ul>
+<li>&#8226; Company&#8217;s rule ended. All its positions, assets, liabilities and privileges were transferred to the crown. British Crown was <strong>converted from an outsider to insider.</strong></li>
+<li>&#8226; <strong>India Council/office</strong> headed by new cabinet minister Secretary of State consisting of 15 member <strong>replaced Board of Control</strong> &#8211; It meant that Government of India would work as an extension of the Imperial Government. Secondly, British government would have an absolute control over all its functionaries.</li>
+<li>&#8226; The Governor General of India was given the <strong>additional title of Viceroy.</strong> While Governor General of India was overall in charge of British administration in India, Viceroy means the direct representative of British crown towards Princely states.</li>
+<li>&#8226; <strong>It Formalised the beginning of Crown&#8217;s rule and marked the beginning of British Raj.</strong> It also created the <strong>emotional link between British crown and princely states</strong> and provided the continuation of British Paramountcy.</li>
+</ul>
+<h3>3. Indian Councils Act, 1861:</h3>
+<ul>
+<li>&#8226; Although the Act introduced the <strong>Principle of representatives</strong> of non-officials in legislative bodies, still it was practically confined only to elite sections of the Indian society in order to secure their loyalty towards the British rule.</li>
+</ul>
+<h3>4. Royal Titles Act, 1876</h3>
+<p>During Viceroyship of Lord Lytton.</p>
+<ul>
+<li>&#8226; According to it, the power to confer titles among individuals to Government of India.</li>
+<li>&#8226; Accordingly, in Delhi Durbar of 1877, the title of &#8216;Kaiser-i-Hind&#8217; (Empress of India) was conferred to the British Queen.</li>
+<li>&#8226; Similarly, hierarchical gun salutes were decided for Indian rulers according to respective titles.</li>
+</ul>
+<p>It was significant because:</p>
+<ul>
+<li>&#8226; It transformed the British Queen from an outsider to the insider in the context of British Raj.</li>
+<li>&#8226; It integrated the Indian rulers into a common hierarchy subordinate to the Viceroy.</li>
+<li>&#8226; It created an avenue for the integration of ordinary Indian into the imperial aristocracy.</li>
+</ul>
+<h3>5. Indian Councils Act, 1892</h3>
+<p>The Act tried to enlarge the representation to Provincial Assemblies through indirect election (without actually using the word election). However, members were recommended by Universities, District boards, Municipalities, Zamindars, trade bodies and Chambers of Commerce which again belonged to the elite section. Thus, there was a conscious attempt to keep the masses away.</p>
+<h3>6. Policy of Befriending the Indian Princes</h3>
+<p>Canning noticed that Indian rulers had actively helped the company during the revolt and thus adopted this policy to ensure their continued loyalty.</p>
+<ul>
+<li>&#8226; Princes were guaranteed support and protection against external and internal threats.</li>
+<li>&#8226; Secondly, they were assured that British would not interfere in their internal matters.</li>
+<li>&#8226; Thirdly, they were also offered cooperation in commerce, defence and communication.</li>
+<li>&#8226; Superficially it seemed to be a major departure from the predatory attitude of Dalhousie but in reality, it represented more continuity than change.
+<ul>
+<li style="padding-left:2em">&#9702; The initiative defense, communication and commerce were monopolised by the British. Indian states virtually surrendered their prerogatives.</li>
+<li style="padding-left:2em">&#9702; The real aim was to benefit British rule because on the one hand this made Indian rulers complacent vis-&#224;-vis their responsibility as they had the assured support of British and on the other hand, the actual rule was exercised by British residents.</li>
+<li style="padding-left:2em">&#9702; Also, the impression of rule of Indian rulers shifted the blame of misgovernance on the native princes.</li>
+</ul>
+</li>
+<li>&#8226; However, British carried stick in the other hand as in 1870 Lord Mayo made the protection conditional on good governance. In reality, they even interfered in internal affairs of the Princely states. Secondly, in 1900, Curzon denied visa application of Indian princes on account of poor governance.</li>
+<li>&#8226; Gradually, the rise of nationalism took the national movement to the princely states under the banner of Praja Mandal movement. In 1927, All India State People&#8217;s Conference was established under the leadership of Pt Jawahar Lal Nehru thus furthering the integration of princely states with India.</li>
+<li>&#8226; As per the recommendations of the <strong>Harcourt-Butler Committee and Simon Commission, GoI Act of 1935</strong> provided for the All India Federation but conditional on the approval by stipulated number of Princely states which did not happen thus proving the symbiotic relation between British and the Princely states.</li>
+<li>&#8226; While the national movement was trying to integrate Princely states into Pan Indian movement, the British tried to halt the process for their strategic interests:
+<ul>
+<li style="padding-left:2em">&#9702; They acted as Colonial collaborators;</li>
+<li style="padding-left:2em">&#9702; Allowed the British to pass off their responsibility of providing governance;</li>
+<li style="padding-left:2em">&#9702; Helped the British during severe crises such as both world wars;</li>
+<li style="padding-left:2em">&#9702; Allowed British to enforce their trade regimes;</li>
+<li style="padding-left:2em">&#9702; Allowed the British to keep the nationalists divided.</li>
+</ul>
+</li>
+<li>&#8226; The same attitude was continued by British throughout 1940s:
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Cripps Proposal</strong> &#8211; Princely states would nominate members to the Constituent Assembly. It was not accepted by Congress.</li>
+<li style="padding-left:2em">&#9702; <strong>Cabinet Mission Plan</strong> &#8211; Similarly, the right to nominate was given to Princely states.</li>
+<li style="padding-left:2em">&#9702; <strong>Attlee&#8217;s Proclamation (Feb 1947)</strong> &#8211; &#8220;It is not the objective of His Majesty&#8217;s Government to force the Princely States to merge with Indian Government&#8221;. The British Government was thinking of creating a constant problem for Indian nationalists.</li>
+<li style="padding-left:2em">&#9702; <strong>Mountbatten Plan (3rd June 1947)</strong> &#8211; also provided Princely states three options:
+<ul>
+<li style="padding-left:4em">&#9632; Join Indian Union</li>
+<li style="padding-left:4em">&#9632; Join Pakistan Union</li>
+<li style="padding-left:4em">&#9632; Remain Independent</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; It was only as a result of compulsion that the British finally accepted that maintenance of Princely states as independent domains would no longer be possible. It was due to:
+<ul>
+<li style="padding-left:4em">&#9632; The inability of the British to protect the princely states following the second world war</li>
+<li style="padding-left:4em">&#9632; Growing pressure from the USA and the USSR to decolonize India</li>
+<li style="padding-left:4em">&#9632; Practical weaknesses of the Princely states politically, strategically, geographically, economically and defensely.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Chambers of Indian Princes Meeting (Delhi July 1947)</strong> &#8211; Mountbatten clarified that independence of the Princely states is a &#8216;mirage&#8217;. Thus by this time British guarantee of independence of Princely states was weakening.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>The Principle of Geographical Proximity</strong> was laid down as per which Princely states should merge either with Indian or Pakistani Union considering their Geographical closeness.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Conclusion:</strong> This way British colonialism entered its financial phase post 1857 and thus began the process of &#8216;drain of wealth&#8217; which became a major issue of national movement. However, British managed it by befriending elite sections such as Princely states.</p>
+<h2>Administrative Policy</h2>
+<p>British Administrative policies were guided by two objectives:</p>
+<ul>
+<li>&#8226; To maintain effective control over India</li>
+<li>&#8226; To reduce discontent among Indians.</li>
+</ul>
+<p>It was important because:</p>
+<ul>
+<li>&#8226; To prevent another revolt;</li>
+<li>&#8226; To suppress nationalism;</li>
+<li>&#8226; To protect Indian markets from other industrialised nations.</li>
+</ul>
+<h3>1. Secretary of State for India:</h3>
+<p>After the revolt of 1857 the Indian Administration was taken over by the British crown, and a post of <strong>Secretary of State for India</strong> was constituted. He was assisted by a council of 15 members.</p>
+<ul>
+<li>&#8226; Initially it was difficult for the Secretary of State to supervise the Indian administration due to lack of transport and communication.</li>
+<li>&#8226; However after the development of modern transport and communication this problem was solved. For e.g.
+<ul>
+<li style="padding-left:2em">&#9702; In 1869 <strong>Suez Canal</strong> was opened. Thus Arabian Sea was directly linked to Mediterranean Sea.</li>
+<li style="padding-left:2em">&#9702; <strong>Steamships</strong> made travel easier and faster.</li>
+<li style="padding-left:2em">&#9702; Furthermore, by 1870 the <strong>undersea cables</strong> were laid, directly linking India and Britain.</li>
+<li style="padding-left:2em">&#9702; <strong>Indian Postal system, Telegraph and Railways&#8217;</strong> infrastructure introduced by Lord Dalhousie penetrated deeper to integrate the nation further.</li>
+</ul>
+</li>
+</ul>
+<h3>2. Act for the Better Government of India, 1858</h3>
+<p>Through this, the offices of Governor General of India and Viceroy was merged and was authorised to oversee the postings, transfers and promotions of British residents and agents of Princely states thus aligning the administration of British government with Princely states.</p>
+<h3>3. Indian Councils Act, 1861</h3>
+<ul>
+<li>&#8226; <strong>Portfolio System</strong> introduced by Lord Canning was accepted. Thus each Executive Councilor was given a specific portfolio such as finance, military, communication, public welfare etc.</li>
+<li>&#8226; Secondly, all Executive Councilors were made directly responsible to the Governor General of India.</li>
+<li>&#8226; <strong>Beginning of Legislative devolution</strong> &#8211; Legislative powers were vested in Government of Bombay and Madras (later in Awadh and Punjab as well) thus reversing the peak of centralisation reached in 1833.</li>
+<li>&#8226; <strong>Principle of Representation</strong> of Non officials in legislative bodies became accepted.</li>
+<li>&#8226; Laws were to be made through deliberations.</li>
+</ul>
+<p>However the Act contained following limitations:</p>
+<ul>
+<li>&#8226; Councils could not discuss important matters and no financial matters without government&#8217;s approval;</li>
+<li>&#8226; Legislative councils possessed no real power with no control over budget at all;</li>
+<li>&#8226; It could not discuss executive action;</li>
+<li>&#8226; Passage of bill needed Viceroy&#8217;s approval;</li>
+<li>&#8226; Indians associated as non-official members were only from elite sections thus only allowing loyal members to enter.</li>
+</ul>
+<h3>4. Legislative Devolution:</h3>
+<p>The process began through the Act of 1861. It was conveyed that it was done to strengthen Provincial administration.</p>
+<ul>
+<li>&#8226; However, lack of resources with provincial governments only constrained their power.</li>
+<li>&#8226; Secondly, the central British government could shift the blame of maladministration to provinces thus relegating its responsibility.</li>
+</ul>
+<p>The process of devolution got further boost in the 1870s when <strong>Mayo</strong> started the <strong>policy of financial devolution</strong> i.e. the right of taxation and finances were also given to the states. Later <strong>Lytton</strong> and <strong>Ripon</strong> further encouraged it.</p>
+<p>The <strong>Government of India Act of 1919</strong> finally led to the demarcation of power between the <strong>central list and state list.</strong></p>
+<p>It was the <strong>Government of India Act of 1935</strong> which accepted the provision of <strong>Provincial autonomy</strong> leading to almost complete decentralisation, the principle on which federalism is still working in India.</p>
+<h3>5. Military Reforms:</h3>
+<p>The revolt of 1857 forced British to introduce changes in the military structure. The following measures were taken:</p>
+<ul>
+<li>&#8226; A better balance was created in the army between the European and Indian elements. For e.g. the ratio of European soldiers to Indian sepoys in Bengal army was increased from 1:4 to 1:2.</li>
+<li>&#8226; The post of officers was secured in the hands of the British.</li>
+<li>&#8226; <strong>Artillery</strong> was placed only under British command.</li>
+<li>&#8226; <strong>Policy of balance and Counterpoise</strong> &#8211; Indian regiments were consciously created in the name of region and caste so that national consciousness should not develop among soldiers.</li>
+<li>&#8226; It was observed that ordinary Indian sepoy was nothing but &#8216;Peasant in Uniform&#8217; and it was felt necessary to check this connection. Thus it was attempted to isolate sepoys from ordinary peasants &#8211; separate townships, separate schools for their children, separate canteens for shopping etc. which are continuing even till today. Secondly, it was even tried to separate sepoys ideologically from ordinary citizens.</li>
+<li>&#8226; The concept of <strong>Martial</strong> and <strong>non-martial</strong> races was introduced. It discouraged recruitment from Awadh and Bengal claiming that these &#8216;rice eating&#8217; people are weaker than &#8216;wheat eating&#8217; people of North West and western India. Whereas actually the motive was to control Awadh and Bengal as they were the hotspots during the great revolt. This was another instrument of &#8216;divide and rule&#8217;.</li>
+</ul>
+<h3>6. Nationalist sentiments:</h3>
+<ul>
+<li>&#8226; So under Lord Ripon, the government introduced the <strong>Principle of Local Self Government</strong> and Indians were allowed in the local administration.</li>
+<li>&#8226; Although British apologist scholars hailed this as British benevolence but in actual sense this decision was guided by following objectives:
+<ul>
+<li style="padding-left:2em">&#9702; Through the provision of local self-government they were looking to shift the poor governance on Indians.</li>
+<li style="padding-left:2em">&#9702; It would save the government from the accusation that it was doing nothing for development.</li>
+</ul>
+</li>
+</ul>
+<h3>7. Reforms in the Civil Services:</h3>
+<ul>
+<li>&#8226; The civil services consisted of two types:
+<ul>
+<li style="padding-left:2em">&#9702; First was the <strong>Covenanted Civil Services (1793)</strong> introduced by Lord Cornwallis which represented the highest positions and was exclusively reserved for British officers.</li>
+<li style="padding-left:2em">&#9702; Indians could join only the second category i.e. <strong>Uncovenanted Civil Service (1853).</strong> The same year Civil Services Examinations were provided.</li>
+<li style="padding-left:2em">&#9702; In 1856, 1st Civil Service Examination was conducted. However there were significant challenges:
+<ul>
+<li style="padding-left:4em">&#9632; No simultaneous examination. It could only take place in Britain.</li>
+<li style="padding-left:4em">&#9632; Secondly, the subjects were highly Anglicized and syllabus was deliberately prepared in a manner to exclude Indians.</li>
+<li style="padding-left:4em">&#9632; Discrimination was observed against Indians during personality test.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Lord Lytton introduced <strong>Statutory Civil Service in 1878-79</strong> through which 1/6th of the Covenanted posts were to be filled by Indians of high families through nominations by local governments subject to approval by Secretary of State and Viceroy. The system was designed to introduce only &#8216;noble blood&#8217; into the administration that would remain loyal to the British. However, the system failed. In fact, Lord Lytton also reduced the maximum age for Civil Service Examinations from 21 to 19.</li>
+<li>&#8226; In 1892, Statutory Civil Service was abolished. This was in response to the demands of Indian nationalists.</li>
+<li>&#8226; Alternatively, it was provided that some officers of the PCS will be promoted to the ICS after a given period.</li>
+<li>&#8226; It was only through Government of India Act 1919 that the demand for separate exam (not simultaneous) was accepted. First such exam was conducted in 1922 at Allahabad. From this time onward number of Indian civil servants started increasing reaching above 40% by the 1940s. This Indianised bureaucracy played an important role in ousting British and also provided the much needed administrative continuity post-independence.</li>
+</ul>
+<h3>8. Police Reforms</h3>
+<p>Before the 1860s, the concept of military police was prevalent because the purpose was to control rebellions rather than maintaining law and order. But by this time, change was necessitated.</p>
+<ul>
+<li>&#8226; Thus a <strong>Police Commission</strong> was appointed in 1860 and <strong>Indian Police Act, 1861</strong> was enacted on its recommendation. It paved the way for civilian police.</li>
+</ul>
+<table>
+<tr><th>Civil Constabulary</th><th>Village</th></tr>
+<tr><td>Sub Inspector</td><td>Thana</td></tr>
+<tr><td>Inspector</td><td>Circle</td></tr>
+<tr><td>Superintendent of Police</td><td>District</td></tr>
+<tr><td>Deputy Inspector General</td><td>Range</td></tr>
+<tr><td>Inspector General</td><td>Province</td></tr>
+</table>
+<p>Another Police Commission was appointed in 1901 and it recommended greater representation of Indians at both lower and higher levels in the police system. However, it was not implemented effectively.</p>
+<h3>9. Famine Policy:</h3>
+<p>Famine was a recurring phenomenon of colonial rule. In the first century of colonial rule, more than hundred small and big famines had occurred across the British Empire.</p>
+<ul>
+<li>&#8226; It was the major cause for peasant discontentment that had played an important role during the great revolt.</li>
+<li>&#8226; However, the British could easily ignore the Indian suffering since famines affected isolated regions and the suffering was largely limited to the poorer sections who had no political representation.</li>
+<li>&#8226; Following the revolt of 1857 this began changing as Indian nationalism began taking route along with the development of the Indian press.</li>
+<li>&#8226; Thus the British came under the increasing pressure to address the problem of recurring famines. As a consequence three famine Commissions were appointed:
+<ul>
+<li style="padding-left:2em">&#9702; Strachey Commission (1880)</li>
+<li style="padding-left:2em">&#9702; Lyall Commission (1896)</li>
+<li style="padding-left:2em">&#9702; Mc Donnel Commission (1901)</li>
+</ul>
+</li>
+</ul>
+<p>Each of them was constituted after the outbreak of a major famine. This reveals that the British did not have any proactive policy to address famines. Rather they were adjusting to the rising nationalist pressure.</p>
+<p>In response to the recommendations of these commissions different famine codes were introduced with the following general provisions:</p>
+<ul>
+<li>&#8226; Automatic suspension of rent/revenue collection.</li>
+<li>&#8226; Food/fodder supply in the affected areas to be ensured by the state.</li>
+<li>&#8226; Alternative sources of income should be encouraged.</li>
+<li>&#8226; Rehabilitative grants/loans.</li>
+<li>&#8226; Improve transport and communication infrastructure.</li>
+</ul>
+<p>Nationalist scholars argued that famine is primarily a man-made phenomenon resulting from administrative failure such as:</p>
+<ul>
+<li>&#8226; Inability to address food shortages by organising additional supplies</li>
+<li>&#8226; Inability to prevent black marketing and hoarding leading to artificial shortages.</li>
+<li>&#8226; Insensitive administration including depriving communities of essential services and assets that may be crucial for their survival.</li>
+<li>&#8226; Insufficient attention towards the development of agriculture resulting in high dependence on rainfall;</li>
+<li>&#8226; Lack of economic diversification resulting in higher vulnerability;</li>
+<li>&#8226; Excessive burden of taxation resulting in poverty, landlessness and indebtedness.</li>
+<li>&#8226; Nationalist scholars further argued that contrarily the colonial argument that Indian poverty was the result of frequent famines, the reverse is actually true. Recurring famines are a product of Indian poverty for which the exploitative colonial administration is solely to blame.</li>
+</ul>
+<p>The British due to their flawed understanding of the phenomenon of famines continued to ignore this problem and then after the great revolt, the problem of recurring famines continued unabated with major famines occurring in 1876, 1880, 1896, 1900, 1910, 1914, 1922, 1928, 1936, 1943 and 1947.</p>
+<p>Peasant discontent was also resulting from their exploitation by other Indians such as Zamindars and moneylenders which prompted the colonial administration to introduce certain acts:</p>
+<ul>
+<li>&#8226; <strong>Bengal Tenancy Act, 1859</strong> which provided protection against summary evictions of tenants by Zamindars for non-payment of rent and other dues.</li>
+<li>&#8226; <strong>Deccan Agriculturist relief Act, 1879</strong> which provided that property of an individual could not be confiscated for non-repayment of loans. Further defaulter could not be arrested.</li>
+</ul>
+<h3>10. Press Policy</h3>
+<p>In any modern society, the press plays an important role in educating the masses and spreading critical awareness among them. It acts as a check against the misuse of powers against the state functionaries and institutions and acts as an advocate of the general public interest.</p>
+<ul>
+<li>&#8226; Further the press lays a crucial role in shaping the public opinion and mobilising it towards the political action.</li>
+<li>&#8226; As expected from the very beginning, the attitude of the alien exploitative British colonial regime towards the Indian press was extremely hostile. Thus colonial policy toward the Indian press was always characterised more by restrictions rather than freedoms.</li>
+</ul>
+<p>This restrictive approach is evident in the series of the draconian colonial legislations as follows:</p>
+<ul>
+<li>&#8226; Vernacular Press Act, 1878</li>
+<li>&#8226; Criminal law (Amendment) Act, 1898</li>
+<li>&#8226; Official Secrets Act, 1904</li>
+<li>&#8226; Indian Press Act, 1908</li>
+<li>&#8226; Defence of India Regulation Act, 1915</li>
+<li>&#8226; Press ordinances (1919, 1921, 1930 etc.) claimed in the backdrop of major mass movements.</li>
+</ul>
+<p>Despite these restrictions the nationalist press emerged as an effective tool not only to criticise the failures of the colonial administration but also to propagate the nationalist sentiments and draw out in masses during mass movements.</p>
+<p>In the twentieth century, radio emerged as another prominent tool of nationalist propaganda. It was used by the Indian masses to reach the masses directly.</p>
+<ul>
+<li>&#8226; During the Quit India Movement, an absolute radio blackout was imposed. However, in some pockets, revolutionaries such as <strong>Usha Mehta</strong> succeeded in operating a secret radio service by bypassing the colonial surveillance before being ultimately captured.</li>
+</ul>`,
   'economic-impact-british-rule': `<h2>UPSC CSE PYQs</h2>
 <h3>Judicial Reforms</h3>
 <ul>
@@ -17218,15 +17511,99 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <p>In the aftermath of major setback of 1857, and as per the Queen&#8217;s Proclamation, the <strong>post-1857</strong> colonial state resorted to a <strong>cautious policy of non-intervention</strong> in the existing social and cultural practices. Sometimes, missionaries entered the conflict with state policies, as Rev. James Lang did during Indigo rebellion.</p>
 <p>As the modern states no longer needed any religious sanction to exercise their power, the state-religion linkage became further diluted over time.</p>`,
   'indian-response-british-rule': ``,
-  'birth-indian-nationalism': ``,
+  'birth-indian-nationalism': `
+<h2>Social Policy (Financial Phase)</h2>
+<p>The British approach towards Indian society during the Industrial phase had been characterised by aggressive intervention in the form of Social reform legislation including Female infanticide (1795), Ban on Sati (1829), human sacrifice (1846), Widow remarriage Act (1856) etc.</p>
+<p>Further Christian Missionaries who were working to spread Christianity since at least late 18th century got major boost after the Act of 1813 which allowed missionaries to preach and propagate their religion. They used the education as a tool to spread Christianity and westernize India.</p>
+<p>This approach was primarily based on two objectives:</p>
+<ul>
+<li>&#8226; Transform Indian taste thus creating demand for Indian goods</li>
+<li>&#8226; To make British rule palatable to Indians by westernising and Christianising.</li>
+</ul>
+<p>However it backfired as any social change cannot be brought from above. This social resentment among orthodox sections of Indians gave way to channelisation of anger against the company rule during the Great revolt.</p>
+<p>Understandably post-independence this policy was abandoned and conservative policy of non-intervention was adopted in social matters.</p>
+<p>However, it is not that no reforms were taken at all but in all cases the initiative of reform was taken by Indian reformers rather than colonial administrators. This engagement is clearly visible in cases such as The Age of consent bill, 1891 and Sharda Act, 1929.</p>
+<h2>Cultural Policy (Financial Phase)</h2>
+<p>The cultural policy during industrial phase was guided mainly by <strong>Utilitarianism</strong> and <strong>Liberalism.</strong> Although there was a minor difference that Utilitarianism envisaged an independent India in far future, Liberalism did not envisage so. But both ultimately were &#8216;civilising missions&#8217; aimed at controlling India in order to &#8216;civilise&#8217; Indians (white man&#8217;s burden).</p>
+<p>However, after the Great revolt, there was a drastic change in the colonial activities due to the following factors:</p>
+<ul>
+<li>&#8226; Indians had rejected the civilising mission of the British;</li>
+<li>&#8226; British industrial leadership was coming under threat from other powers.</li>
+<li>&#8226; The desire to leverage India&#8217;s diversity against her in order to perpetuate British rule.</li>
+</ul>
+<p>In response, the British abandoned their Utilitarian and Liberal principles in favour of a much more conservative position.</p>
+<ul>
+<li>&#8226; The abandoned their civilising missions and declared Indians inherently Barbaric and unfit for civilization. Conversely, conservative thinkers such as James Fitzjames declared the Europeans to be the &#8216;master race&#8217; and thus justified the permanent subjugation of Indians to the British.</li>
+<li>&#8226; Additionally recent advances in science were co-opted in a corrupt manner to justify this position. For example, Darwin&#8217;s theory of Evolution was used by Herbert Spencer to propose the framework of <strong>Social Darwinism</strong> which tried to ply the maxim of the &#8216;survival of the fittest&#8217; to nation and the races.</li>
+</ul>
+<p>The idea of racial superiority, the British began actively racially segregating the Indian society.</p>
+<ul>
+<li>&#8226; Racial discrimination which was earlier largely confined within the imperial apparatus now emerged as a social phenomenon.</li>
+<li>&#8226; The British consciously segregating whites and Anglo-Indians from the non-whites in order to preserve the aura of racial superiority.</li>
+<li>&#8226; Further, in response to rising industrial competition, the Utilitarian vision of a self-governed India in the future was discarded. Instead, Indians were declared unfit for self-rule. It was argued that the steady hand of the British was necessary to prevent India from sliding back into darkness and backwardness.</li>
+<li>&#8226; Further the British also began actively denying the presence of the so called &#8216;Indian civilization&#8217;. Instead they began highlighting the cultural diversity of India in order to oppose India as a land of multiple cultural clusters.</li>
+</ul>
+<p>Additionally, the British also realised that it was important for them to divide Indians internally so as to prevent the emergence of wider alliance among them as it would have been disastrous for the British rule. Thus the British devised their infamous <strong>&#8216;divide and rule&#8217;</strong> policy.</p>
+<ul>
+<li>&#8226; It was designed to divide the Indian society along communal lines and criticise this communal division resulting in permanent division of Indian society into hostile segments.</li>
+<li>&#8226; Initially it was used to divide Hindus and Muslims and later to divide different linguistic caste and class and gender groups.</li>
+</ul>
+<p>Therefore during the financial phase the British finally revealed their true face and intentions towards India and Indians. Thus it is not surprising that Indian nationalism emerged during this period.</p>
+<h2>Rise of Nationalism</h2>
+<p>The origin of modern nationalism can be found in Europe during 16th-18th when it was going through the phase of enlightenment. <strong>Benedict Anderson</strong> describes nationalism as &#8216;an imagined community&#8217; that shares some commonality.</p>
+<h3>Features of European Nationalism:</h3>
+<ul>
+<li>&#8226; Cultural homogeneity &#8211; European nationalism was based on linguistic homogeneity in which people speaking same language developed a sense of oneness.</li>
+<li>&#8226; Absolute monarchy emerged during this phase because of rise of enlightened despots and weakening of feudalism leading to rise of <strong>Monarchical nationalism</strong></li>
+<li>&#8226; <strong>Treaty of Westphalia (1648)</strong> gave Europe the concept of territorial sovereignty, non-interference in each other&#8217;s internal affairs etc. which provided for fixed territories.</li>
+<li>&#8226; <strong>Popular Nationalism</strong> &#8211; French Revolution transformed <strong>subjects into citizens.</strong> It gave them popular sovereignty, natural rights, equality, limited government, and individual liberty. These changes gradually spread throughout the world and paved way for popular nationalism.</li>
+<li>&#8226; After this, monarchical wars start taking the shape of National wars.</li>
+<li>&#8226; When popular nationalism aligned with Industrial Capitalism, it also added economic dimension to the conflict. This led to more and more demand for resources giving rise to colonialism and even to two Imperial wars &#8211; World War one and World War two.</li>
+</ul>
+<p>This way idea of nationalism imported through the process of colonization. In India, it can be seen with the introduction of western education and rise of middle class in second half of the nineteenth century.</p>
+<h3>Factors for the rise of Indian nationalism:</h3>
+<ul>
+<li>&#8226; Reaction to colonial rule</li>
+<li>&#8226; Unintended consequence of British rule &#8211; education, press, rail and road, economic integration, Political/administrative unity of India.</li>
+<li>&#8226; Inspiration from Western Ideology by coming into contact with Western civilization.</li>
+<li>&#8226; Inspiration from Indian civilizational past &#8211; <strong>CA Bayly</strong> has traced the roots of Indian nationalism to its pre-colonial days. He describes it as <strong>Traditional Patriotism</strong> which was a sentiment attached to land, language and cult that developed long before the process of Westernization.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Partha Chatterjee,</strong> while highlighting the local origins of nationalism countered the view of Benedict Anderson which denies intellectual agency to the people of India in shaping their own history.</li>
+<li style="padding-left:2em">&#9702; He argues that even before the political struggle for power began, the Indian society was imagining its nation in a private cultural sphere.</li>
+</ul>
+</li>
+<li>&#8226; Role of <strong>Socio-Religious Reform movement</strong> which aroused the spirit of Indians and provided them symbols of resistance and oneness. For example &#8211; &#8216;India for Indians&#8217; by Swami Dayanand Saraswati.</li>
+</ul>
+<h3>Debate on Indian Nationalism</h3>
+<p><strong>Colonial Historiography</strong> &#8211; It has either tried to out rightly deny Indian nationalism on account of lack of <strong>Cultural Homogeneity or has credited British</strong> for its rise.</p>
+<ul>
+<li>&#8226; <strong>Benedict Anderson</strong> even goes to such an extent to say that nationalism in the developing world of Asia and Africa followed one or the other model developed in the West.</li>
+<li>&#8226; <strong>Colonial scholars</strong> find its origin in following British policies:
+<ul>
+<li style="padding-left:2em">&#9702; Political unity under a single umbrella</li>
+<li style="padding-left:2em">&#9702; Census which provided a sense of identity to common Indian</li>
+<li style="padding-left:2em">&#9702; Administrative unity &#8211; uniform laws, courts, offices, civil services etc.</li>
+<li style="padding-left:2em">&#9702; Western education and knowledge introduced modern ideas</li>
+<li style="padding-left:2em">&#9702; Print media was introduced by British which played a significant role in spreading awareness among people.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Nationalist Historiography</strong> &#8211; Indian scholars argue that it is altogether a different brand of Nationalism which is not dependent on cultural uniformity but it is a Spiritual concept that transcends political boundaries.</p>
+<p>Scholars have pointed out the historical connection of India nationalism:</p>
+<ul>
+<li>&#8226; Rig Veda talks about &#8216;Bharat Rashtra&#8217; in a sense of geographical entity ranging from Himalayas to Indian Ocean.</li>
+<li>&#8226; Jambudvipa is a geo-cultural entity which represents a whole region howsoever politically divided it may be.</li>
+<li>&#8226; Kautilya and Kalidasa&#8217;s literature too represents the cultural unity of whole Bharat in a poetic manner.</li>
+<li>&#8226; Bhakti Movement infused a cultural-spiritual flavour to such a diverse nation based on same religious and cultural themes. It led to <strong>Cultural integration</strong> of India.</li>
+<li>&#8226; Foreign sources too have always talked about the region east of Indus as India, Hind or Hindustan.</li>
+</ul>`,
   'gandhian-nationalism': ``,
   'constitutional-developments': ``,
   'other-strands-national-movement': ``,
   'politics-separatism-partition': ``,
   'post-independence-consolidation': ``,
   'caste-ethnicity-post-1947': ``,
-  'economic-development-political-change': `
-<h2>Land Revenue Reforms</h2>
+  'economic-development-political-change': `<h2>Land Revenue Reforms</h2>
 <p>Earlier, the Permanent Settlement was guided by mercantilist interest. However, in the early decades of the 19th century, India was being developed as a British commodity market.</p>
 <p>In this era, new revenue arrangements viz. Ryotwari and Mahalwari systems were developed during this period to suit the changed requirements of the British government. Permanent settlement was not expanded to other areas. Now, the British adjusted the revenue-strategy according to the special characteristics of the agrarian structure in each region.</p>
 <h2>Ryotwari Settlement</h2>
@@ -17353,6 +17730,138 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li style="padding-left:2em">&#9702; <strong>Rights of women</strong> who did not own property but had rights to the produce were totally sidelined.</li>
 </ul>
 </li>
+</ul>
+<h2>Economic Policy (Financial Phase)</h2>
+<p>The British mechanism of exploitation is most visible in its economic policy. During this period, it can be studied under three headings:</p>
+<ul>
+<li>&#8226; Drain of Wealth in the form of home charges;</li>
+<li>&#8226; Influx of British Capital in India;</li>
+<li>&#8226; Discouraging industrialisation in India.</li>
+</ul>
+<h2>1. Drain of Wealth (Home Charges)</h2>
+<p>The nature of drain of wealth had been changing with time.</p>
+<ul>
+<li>&#8226; In the mercantile phase, Indian handicraft products, after being purchased through Indian revenues, were exported to Britain.</li>
+<li>&#8226; In the Industrial phase, raw materials and agricultural products were exported from India to Britain.</li>
+<li>&#8226; In the financial phase, the mode of drain was in the form of <strong>home charges</strong> i.e. the amount that the Indian government was liable to pay to the British government and private British capitalists.</li>
+<li>&#8226; It consisted of many items such as the:
+<ul>
+<li style="padding-left:2em">&#9702; Guaranteed profit of railways,</li>
+<li style="padding-left:2em">&#9702; Interest on government loans,</li>
+<li style="padding-left:2em">&#9702; The amount which was spent in Britain for military purchase for the British Indian army,</li>
+<li style="padding-left:2em">&#9702; Pension to retired British officers,</li>
+<li style="padding-left:2em">&#9702; A portion of the salaries and dividends of British officers and investors, remitted to Britain, etc.</li>
+</ul>
+</li>
+<li>&#8226; In 1901-02, the amount of home charges was estimated at 173 million pounds; of which 64 million pounds was only the guaranteed interest on the railways.</li>
+<li>&#8226; Secretary of State used to issue Council Bills in London that was bought by British traders who were the future buyers of Indian products. They used to pay in pounds to the Secretary of state. Then that Council bill was used to draw Rupees from the Indian Revenue account and purchase Indian merchandise. In this way, payment of home charges was done by Indian revenue account.</li>
+</ul>
+<h3>Debate among scholars regarding the impact of home charges:</h3>
+<ul>
+<li>&#8226; <strong>Nationalist scholars</strong> like <strong>Dadabhai Nauroji and RC Dutt</strong> tried to prove that the total amount which was transferred from India to Britain (home charges) belonged to the category of drain of wealth. RC Dutt even calculated that in 1901-02 roughly 174 million pounds were transferred from India to Britain as home charges.
+<ul>
+<li style="padding-left:2em">&#9702; Major bulk of the home charges was constituted of the unproductive revenue expenditure such as salaries, pensions, military expenditure and interest servicing.</li>
+<li style="padding-left:2em">&#9702; The amount which was brought to India as a capital was lesser than the amount which was taken by the British from India to Britain as profit and remittances.</li>
+<li style="padding-left:2em">&#9702; Instead of focusing on irrigation projects, agriculture credit, British capital was primarily channelised towards railways construction.</li>
+<li style="padding-left:2em">&#9702; The nationalist scholars also argued that by draining India&#8217;s surplus production, the British deprived India of capital creation that was necessary to facilitate Indian industrialisation.</li>
+<li style="padding-left:2em">&#9702; In other words, home charges played an important role in deindustrialisation and underdevelopment of India.</li>
+<li style="padding-left:2em">&#9702; Had the civil service been Indianised, there would have been no need to send the pension amount to Britain.</li>
+</ul>
+</li>
+<li>&#8226; On the other hand this Indian view was vehemently challenged by colonial scholars. Old Cambridge scholars such as <strong>Morris D. Morris</strong> have argued that the amount that was sent from India to Britain as home charges should not be characterised as drain of wealth because:
+<ul>
+<li style="padding-left:2em">&#9702; A major portion of this amount was invested back to India to facilitate investment into India.</li>
+<li style="padding-left:2em">&#9702; Additionally the total amount of home charges was not that much. New Cambridge scholars have estimated that it accounted to roughly 2% of the total Indian Revenue Account.</li>
+<li style="padding-left:2em">&#9702; Above all, they have emphasised that this amount was essential for the development of India through British capital investment.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Conclusion:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After closer observation we can say that the total amount of home charges should not be placed under drain of wealth and part of it was invested back in India.</li>
+<li style="padding-left:2em">&#9702; However it is undeniable that it facilitated kind of capital investment that was predatory and exploitative resulting in poverty and underdevelopment.</li>
+<li style="padding-left:2em">&#9702; Additionally home charges prevented native capital formation which may have resulted in the growth of Indian industries.</li>
+<li style="padding-left:2em">&#9702; But there is no denying that amount was huge and if it was not transferred then Indian economic condition would not have deteriorated that badly.</li>
+</ul>
+</li>
+</ul>
+<h2>2. Influx of British Capital in India</h2>
+<p>By the second half of the 19th century, British industrialisation had started reaching stage of capital saturation. Due to rising wages, marginal productivity of investment in the British industry was declining. With the surplus wealth accumulated due to Industrial revolution, the next question was that of its prudent investment. In this scenario, the colonies emerged as &#8216;attractive destinations&#8217; for British capital because of the following factors:</p>
+<ul>
+<li>&#8226; Absence of any native or foreign competition;</li>
+<li>&#8226; Presence of a large population that could be put to work;</li>
+<li>&#8226; The availability of cheap and abundant labor;</li>
+<li>&#8226; Complete Political control which could ensure high returns and protect the British investment from the domestic disturbances.</li>
+<li>&#8226; The beneficial effect that the British investment in railways, mining and plantation would have for British industries.</li>
+</ul>
+<p>Therefore from 1858 onwards, the British government of India began encouraging the investment of British capital towards the development of connectivity infrastructure, plantations and mines in India. British investors were assured of a minimum 5% return on any investment in the Indian railways that were constructed by the Government of India through British contractors by issuing railway bonds to the British public.</p>
+<ul>
+<li>&#8226; Over the late 19th century, roughly half the British capital invested in India went towards the development of the railways.</li>
+</ul>
+<h3>Impact of British Capital</h3>
+<p><strong>Positive:</strong></p>
+<ul>
+<li>&#8226; The Railways, ports, canals etc. were vital in integrating India internally and with the Global economy.</li>
+<li>&#8226; Further, railways, plantations and mines created by British were the roots of future Indian industrialisation.</li>
+<li>&#8226; British Capital investment played a fundamental role in transforming India from a purely agrarian economy to a partially industrialised economy.</li>
+</ul>
+<p><strong>Negative:</strong> Despite the above mentioned steps, British capital could not be credited for transforming Indian economy. These benefits were simply the unintended consequences of colonial exploitation. Actual consequences of the British economic policies were:</p>
+<ul>
+<li>&#8226; Unbalanced regional growth &#8211; The real aim of British infrastructural policy was to connect Indian hinterlands to coasts in order to secure stable transport network for their goods. In this endeavour those regions with less commercial value were ignored.</li>
+<li>&#8226; Deindustrialisation &#8211; Influx of cheap capital goods, decline of Indian ruling class, lopsided impact of British capital, discriminatory trade and financial policies led to deindustrialisation.</li>
+<li>&#8226; Neglect of Indian economic priorities &#8211; Neither the infrastructure, nor the benefits accruing out of it were meant for welfare of India and Indians.</li>
+<li>&#8226; Poverty and famines were prevalent.</li>
+<li>&#8226; Underdevelopment of skilled and technical workforce &#8211; Indian workforce was generally confined to unskilled tasks whereas skilled and expensive skills were outsourced to Britishers.</li>
+</ul>
+<h2>3. Prevention of the development of Indian capital</h2>
+<p>Basic contradiction merged in the imperial economy during the financial phase:</p>
+<ul>
+<li>&#8226; On the one hand, British capital investment in India had to be encouraged but at the same time it was important to prevent the rise of Indian industries.</li>
+<li>&#8226; Therefore the bulk of British capital investment was directed towards the construction of connectivity infrastructure, mining and plantations.</li>
+<li>&#8226; This would allow the British to secure sufficient mineral and agriculture raw material for their industries while penetrating the Indian economy.</li>
+<li>&#8226; Further during this phase, strict foreign trade regulations were imposed upon India to isolate it from the global market.</li>
+<li>&#8226; The development of native industry was strangled with the following mechanisms:
+<ul>
+<li style="padding-left:2em">&#9702; One way free trade</li>
+<li style="padding-left:2em">&#9702; Introduction of foreign exchange and investment regulations to prevent the entry of non-British capital to India while encouraging the entry of British capital.</li>
+<li style="padding-left:2em">&#9702; Discriminatory freight rates</li>
+<li style="padding-left:2em">&#9702; Exclusive British control over Indian shipping</li>
+<li style="padding-left:2em">&#9702; Non extension of credit to Indian entrepreneurs by British banks and Investment houses.</li>
+<li style="padding-left:2em">&#9702; Further, native industries faced the following additional limitations:
+<ul>
+<li style="padding-left:4em">&#9632; Administrative apathy</li>
+<li style="padding-left:4em">&#9632; Non availability of skilled labour</li>
+<li style="padding-left:4em">&#9632; Shortage of technical and managerial experts</li>
+<li style="padding-left:4em">&#9632; Shortage of raw material which was exported to Britain</li>
+<li style="padding-left:4em">&#9632; Insufficient Power infrastructure</li>
+<li style="padding-left:4em">&#9632; Lack of Capital goods</li>
+<li style="padding-left:4em">&#9632; Social backwardness of Indian society</li>
+<li style="padding-left:4em">&#9632; Lack of indigenous technical research</li>
+<li style="padding-left:4em">&#9632; Lack of indigenous entrepreneurs (even the few which rose were dependent on British)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Despite this, some Indian industrialists established factories in India:
+<ul>
+<li style="padding-left:2em">&#9702; Indian capital was invested in sectors where British capital was absent.</li>
+<li style="padding-left:2em">&#9702; Indian cotton industries appeared in the Bombay-Gujarat belt but the Jute industry did not see significant Indian investment.</li>
+<li style="padding-left:2em">&#9702; Gradually by the early 20th century, Indian industries began diversifying. A large number of core, and heavy industries along with consumer goods industries emerged.</li>
+<li style="padding-left:2em">&#9702; The general attitude of the British towards Indian industries remained hostile.</li>
+<li style="padding-left:2em">&#9702; Periods when British capital faced crisis bore golden opportunities for Indian industries. For example when British capital was withdrawn during World wars and the Great depression, Indian investment started increasing.</li>
+</ul>
+</li>
+</ul>
+<h2>4. Indian Capital and Nationalism</h2>
+<ul>
+<li>&#8226; Initially <strong>Marxist scholars</strong> viewed Indian industrialists and British from the lens of <strong>class collaborators.</strong> They considered capitalists as hostile to mass movements and an exploitative class.</li>
+<li>&#8226; However, even among Marxists, <strong>Bipan Chandra</strong> says that Indian capitalist class had developed a long term contradiction with imperialism while retaining short term dependence on and accommodation with it. Similarly, <strong>Aditya Mukherjee</strong> talks about a multi-pronged capitalist strategy to overthrow imperialism but maintain capitalism. Recent studies point out that at this time capitalist was not a matured class.</li>
+<li>&#8226; Secondly, recent historiography also shows that there was a conflict between British and capitalists. The British capital had traditionally been hostile towards Indian capital. They hardly belong to the same class.</li>
+<li>&#8226; Thirdly, Indian capitalists had always been supportive of national movement led by the Congress. In fact a symbiotic relationship was shared by the two.</li>
+<li>&#8226; Through the Congress, a bridge had emerged between the industrialists and the working classes which resulted in greater class cooperation rather than conflict.</li>
+<li>&#8226; But at the same time Indian capital definitely had a moderating effect on the movement. They preferred constitutional and phased movement instead of a radical and phased one.</li>
+<li>&#8226; Probably their influence played an important role on Gandhian philosophy of <strong>Trusteeship</strong> and Struggle-Truce-Struggle strategy.</li>
+<li>&#8226; Therefore, Indian capitalist class worked as both the fuel and the brakes of the national movement.</li>
+<li>&#8226; In this scenario it would be difficult to dismiss them simply as an exploitative and unpatriotic class.</li>
 </ul>`,
   'enlightenment-modern-ideas': ``,
   'origins-modern-politics': ``,
