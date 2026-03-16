@@ -438,6 +438,7 @@ export default function NoteReader({ slug }: { slug: string }) {
           </>}
         </div>
         </div>
+        </div>
       </aside>
 
       {/* Main */}
