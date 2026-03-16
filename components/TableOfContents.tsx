@@ -9,8 +9,8 @@ type TocEntry = {
 
 export default function TableOfContents({ contentHtml }: { contentHtml: string }) {
   const [entries, setEntries] = useState<TocEntry[]>([]);
-  const [open, setOpen] = useState(true);
   const [activeId, setActiveId] = useState<string>('');
+  const [open, setOpen] = useState(true);
 
   useEffect(() => {
     const parser = new DOMParser();
@@ -31,7 +31,7 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
     if (entries.length === 0) return;
     const observer = new IntersectionObserver(
       (obs) => {
-        const visible = obs.filter(e => e.isIntersecting);
+        const visible = obs.filter((e) => e.isIntersecting);
         if (visible.length > 0) setActiveId(visible[0].target.id);
       },
       { rootMargin: '-60px 0px -60% 0px', threshold: 0 }
@@ -44,49 +44,91 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
   }, [entries]);
 
   if (entries.length === 0) return null;
+
   let h2index = 0;
+
   return (
-    <div style={{
-      background: 'var(--bg2)',
-      border: '1px solid var(--border)',
-      borderRadius: 8,
-      padding: open ? '1rem 1.25rem' : '0.6rem 1.25rem',
-      marginBottom: '2rem',
-      maxWidth: 760,
-      transition: 'padding 0.2s',
-    }}>
+    <div
+      style={{
+        background: 'var(--bg2)',
+        border: '1px solid var(--border)',
+        borderRadius: 8,
+        padding: open ? '1rem 1.25rem' : '0.6rem 1.25rem',
+        marginBottom: '2rem',
+        maxWidth: 760,
+        transition: 'padding 0.2s',
+      }}
+    >
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={() => setOpen((o) => !o)}
         style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          width: '100%', background: 'none', border: 'none', cursor: 'pointer',
-          padding: '0.15rem 0', marginBottom: open ? '0.75rem' : 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: '0.15rem 0',
+          marginBottom: open ? '0.75rem' : 0,
           userSelect: 'none',
         }}
       >
-        <span style={{
-          display: 'flex', alignItems: 'center', gap: '0.5rem',
-          fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.12em',
-          color: 'var(--text3)', fontFamily: 'var(--font-ui)', fontWeight: 600,
-        }}>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-            style={{ transition: 'transform 0.2s', transform: open ? 'rotate(0deg)' : 'rotate(-90deg)', flexShrink: 0 }}>
-            <path d="M2 4.5L7 9.5L12 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <span
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            fontSize: '0.68rem',
+            textTransform: 'uppercase',
+            letterSpacing: '0.12em',
+            color: 'var(--text3)',
+            fontFamily: 'var(--font-ui)',
+            fontWeight: 600,
+          }}
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            style={{
+              transition: 'transform 0.2s',
+              transform: open ? 'rotate(0deg)' : 'rotate(-90deg)',
+              flexShrink: 0,
+            }}
+          >
+            <path
+              d="M2 4.5L7 9.5L12 4.5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           Table of Contents
         </span>
-        <span style={{ fontSize: '0.65rem', color: 'var(--text3)', opacity: 0.55, fontFamily: 'var(--font-ui)' }}>
+        <span
+          style={{
+            fontSize: '0.65rem',
+            color: 'var(--text3)',
+            opacity: 0.55,
+            fontFamily: 'var(--font-ui)',
+          }}
+        >
           {open ? '▲ hide' : '▼ show'}
         </span>
       </button>
+
       {open && (
         <nav>
           {entries.map((entry) => {
             if (entry.level === 2) h2index++;
+            const isActive = activeId === entry.id;
             return (
-              
+              <a
                 key={entry.id}
-                href={`#${entry.id}`}
+                href={'#' + entry.id}
                 onClick={(e) => {
                   e.preventDefault();
                   const el = document.getElementById(entry.id);
@@ -97,9 +139,13 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
                 }}
                 style={{
                   display: 'block',
-                  padding: entry.level === 2 ? '0.28rem 0' : '0.22rem 0 0.22rem 1rem',
+                  padding: entry.level === 2 ? '0.28rem 0' : '0.22rem 0',
                   fontSize: entry.level === 2 ? '0.82rem' : '0.76rem',
-                  color: activeId === entry.id ? 'var(--accent)' : entry.level === 2 ? 'var(--text2)' : 'var(--text3)',
+                  color: isActive
+                    ? 'var(--accent)'
+                    : entry.level === 2
+                    ? 'var(--text2)'
+                    : 'var(--text3)',
                   textDecoration: 'none',
                   borderLeft: entry.level === 3 ? '2px solid var(--border2)' : 'none',
                   marginLeft: entry.level === 3 ? '0.5rem' : 0,
@@ -109,14 +155,18 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
                   fontWeight: entry.level === 2 ? 500 : 400,
                   lineHeight: 1.5,
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.color =
-                    activeId === entry.id ? 'var(--accent)' :
-                    entry.level === 2 ? 'var(--text2)' : 'var(--text3)';
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = 'var(--accent)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = isActive
+                    ? 'var(--accent)'
+                    : entry.level === 2
+                    ? 'var(--text2)'
+                    : 'var(--text3)';
                 }}
               >
-                {entry.level === 2 ? `${h2index}. ` : '– '}
+                {entry.level === 2 ? h2index + '. ' : '– '}
                 {entry.text}
               </a>
             );
