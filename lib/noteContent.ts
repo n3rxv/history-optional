@@ -16666,7 +16666,196 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <tr><td>Integration: uniform judicial system from top to bottom</td><td>The gap between the judicial system and common people increased and justice became expensive. Justice delayed is justice denied.</td></tr>
 <tr><td>An attempt to implement the rule of law</td><td></td></tr>
 <tr><td>Some laws were made more humane</td><td></td></tr>
-</table>`,
+</table>
+<h2>Commercialisation of Agriculture</h2>
+<p>It means cultivation of cash crops in place of food crops. The food crops like wheat, barley and rice were replaced with cash crops like tea, indigo, sugarcane, tobacco, opium and coffee etc.</p>
+<p>Agriculture in India so far had been a way of life rather than an out-and-out business enterprise. However, from now onwards, agriculture began to be influenced by commercial consideration and fluctuating prices as certain specialized crops were grown not for consumption in the village but for sale in the regional, national and even international markets.</p>
+<p>This change in the character of Indian agriculture was the outcome of circumstances created by British colonial rule.</p>
+<h3>Objective/Causes:</h3>
+<ul>
+<li>&#8226; To make the collection of the increased <strong>land revenue</strong> easier.
+<ul>
+<li style="padding-left:2em">&#9702; In order to pay <strong>taxes in cash</strong> it became obligatory for peasants to cultivate cash crop and get money to pay the higher taxes.</li>
+</ul>
+</li>
+<li>&#8226; <strong>British Industrial policy:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; To <strong>secure raw-material</strong> for the British industries. (e.g. Jute, raw cotton, indigo)</li>
+<li style="padding-left:2em">&#9702; To facilitate <strong>export of food grains</strong> from India to Britain.</li>
+<li style="padding-left:2em">&#9702; The British policy of one-way free trade</li>
+</ul>
+</li>
+<li>&#8226; To maintain <strong>balance of trade</strong> globally (Tea-Opium Triangle)</li>
+<li>&#8226; <strong>Infrastructural developments</strong> like railways, shipbuilding and roads led to the favourable environment for businesses.</li>
+<li>&#8226; The <strong>world events</strong> like opening of Suez Canal and the American civil war also speeded the commercialisation of the agricultural.</li>
+</ul>
+<h3>Regional variation</h3>
+<ul>
+<li>&#8226; Cotton: Encouraged in western India</li>
+<li>&#8226; Indigo: For dying of clothes in north and east India</li>
+<li>&#8226; Opium: Warren Hastings made opium production a company monopoly first in 1773. It was exported to China.</li>
+<li>&#8226; Tea: encouraged in northeast, mainly based on British capital. It gave rise to the problem of indentured labour.</li>
+<li>&#8226; Coffee: encouraged in south India</li>
+<li>&#8226; Jute: encouraged in eastern India</li>
+<li>&#8226; Sugarcane: it was encouraged after 1830s in various parts, especially in north India.</li>
+</ul>
+<h3>Pattern and Effects:</h3>
+<ul>
+<li>&#8226; There was production for market but:
+<ul>
+<li style="padding-left:2em">&#9702; It was <strong>focused on European market:</strong> Only those crops which were required by British industries or were having market in Europe were cultivated such as indigo, cotton and sugarcane.</li>
+<li style="padding-left:2em">&#9702; It helped in the <strong>emergence of a subservient economy in India</strong> because Indian economic system was used to fulfill the needs of British economy. (Classical colonial economy)</li>
+<li style="padding-left:2em">&#9702; It <strong>facilitated for drain of wealth</strong> from India because commercial crops could be sold easily in European market. It <strong>benefitted only European.</strong> It failed to benefit Indian peasants in any significant manner.</li>
+<li style="padding-left:2em">&#9702; <strong>Monetisation</strong> of agriculture</li>
+<li style="padding-left:2em">&#9702; The earlier <strong>self-sufficient village economy</strong> was shattered. The peasants were encouraged to cultivate those crops which were having greater demand in the <strong>global market.</strong> The <strong>life of the Indian peasant was tied to the highly fluctuating international market.</strong> He was no longer a deciding factor in agricultural practices.</li>
+</ul>
+</li>
+<li>&#8226; <strong>It didn&#8217;t lead to modernisation of agriculture:</strong> There was hardly any commercialisation of &#8216;input&#8217; and it was merely commercialisation of &#8216;output.&#8217;
+<ul>
+<li style="padding-left:2em">&#9702; It was carried out by using the <strong>traditional old</strong> tools and <strong>no modern technology</strong> was introduced.</li>
+<li style="padding-left:2em">&#9702; The <strong>use of small farms</strong> for cultivation of cash crops was another typical feature.</li>
+</ul>
+</li>
+<li>&#8226; It was a <strong>forced process</strong> for the majority of peasants. It was not adopted by them under free will.
+<ul>
+<li style="padding-left:2em">&#9702; Different strategies were adopted to induce production of the exportable goods by Indian peasantry, which ranged from binding the producers by advancing a paltry sum to open use of force and fraud. <strong>Different kinds of tenancy practices</strong> were used by Europeans to cultivate cash crops in India.</li>
+<li style="padding-left:2em">&#9702; Teenkathiya (3/20) used in Champaran district of Bengal for Indigo cultivation.
+<ul>
+<li style="padding-left:4em">&#9632; The worst effect of commercialisation was the oppression of Indian peasants at hands of European. This found full expression in the famous <strong>Indigo revolt in 1859.</strong></li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The Charter Act 1833 allowed European to purchase immovable property in India. As a result of this tea, coffee, and jute plantations emerged contract farming was practiced by European in plantations.
+<ul>
+<li style="padding-left:4em">&#9632; The Company did not hesitate to treat the <strong>workers in tea-gardens of Assam as virtual slaves.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; It was <strong>exploitative</strong> in nature. The peasants suffered immensely due to cultivation of cash crops.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>There was no capital formation.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Indian peasants were not free to market their goods at competitive prices. They had to supply these goods to the Company under the threat of force. Hence by producing these goods, they did not get enriched, instead they were impoverished.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Rather, it led to <strong>rural indebtedness.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The growing commercialisation <strong>helped the money lenders</strong> to exploit the cultivator.</li>
+<li style="padding-left:4em">&#9632; Peasants had to take loans from money leaders to buy new seeds and implements. They could not repay these loans.</li>
+<li style="padding-left:4em">&#9632; If the poor farmers fail to repay the loans the land was confiscated.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Cultivation of cash crops <strong>reduced production and increased the prices of food grains.</strong> It led to hunger and famine became a regular phenomenon in Indian economy.</li>
+<li style="padding-left:2em">&#9702; It resulted in <strong>rural instability</strong> because the prices of commercial crops fluctuated in accordance with the availability of those crops in the international market. This instability triggered crises many times. The Deccan riots of 1870s was an example of the same.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Environmental Impact:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Cultivation of cash crops like indigo <strong>adversely affected the fertility of soil.</strong> In the long run these crops ruined agriculture.</li>
+</ul>
+</li>
+</ul>
+<p>It is true that in subsequent years a number of steps were taken by the British to improve the state of affairs in the field of Indian agriculture. This included new irrigational facilities by new canal systems particularly in Punjab, western UP and some parts of Madras. Besides, the new tenancy laws of 1859 and 1885 did give some relief and protection to the impoverished tenants. But all these measures proved too inadequate to tackle the problem actually faced by the Indian cultivators. Even where some positive results came out of these measures; they were confined to some areas like Punjab, western UP and parts of Madras. And there too, it was only a small group of privileged few who actually benefited from it.</p>
+<h2>Decline of Handicraft (de-industrialisation)</h2>
+<p>India held the title of the world&#8217;s largest manufacturing nation until the mid-18th century. European countries, in particular, had a high demand for Indian products. The British during colonial rule systematically dismantled India&#8217;s handicraft industry, and by the mid-19th century, it was almost decimated.</p>
+<h3>Destruction of Cotton Textile Industry</h3>
+<h3>Causes:</h3>
+<p><strong>Dr. D.R. Gadgil</strong> mentions three principal causes which operated in the first half of the 19th century in bringing the rapid deindustrialisation in India with the special reference of the decline of craft industry- The disappearance of native ruling power, the establishment of an alien rule and the competition of a more developed machinery.</p>
+<h3>Mercantile Phase:</h3>
+<ul>
+<li>&#8226; <strong>Initial oppression by the Company:</strong> As soon as the Company established its political supremacy in Bengal, it began to exploit the artisans of cotton and silk cloth. As a result, the cloth trade did not remain a source of profit for the artisans and the cloth industry of Bengal disintegrated.
+<ul>
+<li style="padding-left:2em">&#9702; Appointment of <strong>intermediaries</strong> for exploitation of artisans. The weavers were <strong>forced to accept dadan</strong> or advance from the English merchants. There was a <strong>blatant use of force and fraud</strong> to force the Indian producers to sell their goods at the minimum price. At times, the forcibly fixed price was less than 35% of the market price.</li>
+<li style="padding-left:2em">&#9702; To make the system more ruthless, the Company replaced the middlemen by a system of <strong>gomastas</strong> who followed a no-holds barred policy to force the producers to sell their goods to the Company at unremunerative prices.</li>
+<li style="padding-left:2em">&#9702; Compelling Indian artisans to reveal their <strong>trade secrets.</strong></li>
+<li style="padding-left:2em">&#9702; <strong>The Company regulations</strong> in 1770s-1800 had made the weavers sink into the position of indentured workers.
+<ul>
+<li style="padding-left:4em">&#9632; Indian craftsmen were made to work for company at a very low wage and at times without any wage at all.</li>
+<li style="padding-left:4em">&#9632; These craftsmen were forced to sell their goods to the company at cheap rate and by company&#8217;s raw material from company&#8217;s merchants at high prices.</li>
+<li style="padding-left:4em">&#9632; Many craftsmen cut their thumbs to escape this exploitation.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Destruction of Guilds</strong>
+<ul>
+<li style="padding-left:2em">&#9702; With the entry of British traders, Indian guilds lost their power. As soon as supervising bodies were removed, many evils began to appear. These were, for example, the adulteration of materials, shady and poor workmanship etc. This at once led to a decline in the artistic and commercial value of the goods produced.</li>
+</ul>
+</li>
+</ul>
+<h3>Industrial Phase:</h3>
+<ul>
+<li>&#8226; <strong>Industrial development:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The foreign <strong>machine-made products</strong> were superior in quality and cheaper in price. The primitive technology of Indian handicrafts could not compete with the modern technology of an industrial economy.</li>
+<li style="padding-left:2em">&#9702; <strong>Lancashire</strong> and <strong>Manchester exports</strong> flooded Indian markets.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Commercial Policy:</strong> The British commercial policy ruined the artisans and craftsmen.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Commercialisation of Agriculture:</strong> The British pressurized farmers in India to take <strong>cash crops</strong> needed to their industries. So, it turned India into a supplier of raw materials for British Industries. The <strong>Export of raw materials</strong> made them dear for Indian artisans and made their products <strong>uncompetitive</strong>.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Market Capture</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Manipulation of export and import duty</strong> with a view to making Indian goods more expensive in the British markets and the British industrial goods less expensive in the Indian markets. This was an unnatural competition.
+<ul>
+<li style="padding-left:4em">&#9632; Indian cotton products were <strong>banned in Britain (protectionism). Heavy duties</strong> were imposed on the Indian handicraft products in Britain. Import duty of 67.5% on Indian cotton cloth and 37.5% on Indian muslin in 1824.</li>
+<li style="padding-left:4em">&#9632; A condition was imposed upon EIC whereby it was <strong>mandatory to carry British goods of around 3000 tons free of cost</strong> to India in 1793.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; British also ousted Indian products from other markets <strong>(West Asia, Africa etc)</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Diminishing local markets</strong>
+<ul>
+<li style="padding-left:4em">&#9632; With the gradual <strong>decline of the Indian states and their courts</strong>, who were the <strong>chief patrons</strong> of Indian weavers and spinners, there was no chance for the Indian cotton industry to survive.</li>
+<li style="padding-left:4em">&#9632; <strong>Flooding Indian market:</strong> The monopoly of the EIC for trade with India was abolished by the <strong>Charter Act of 1813/1833</strong> which opened India completely for the British goods. The fate of the Indian cotton industry was sealed with the <strong>arrival of railroad.</strong> Opening of the <strong>Suez Canal</strong> reduced the distance between England and India.</li>
+<li style="padding-left:4em">&#9632; <strong>Spread the network of the British administrative machinery</strong> even to the remotest area and new legal and judicial system, so as to ensure the safety of trade routes as well as to make secure the British financial-commercial interests. The entire structure of the legal system, including Indian Penal Code (IPC) and Criminal Procedure Code (CrPC), was raised during this phase.</li>
+<li style="padding-left:4em">&#9632; <strong>Policy of westernisation</strong> changed demand by Indian middle class too. (English education produced a new class)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>The cumulative impact of the new strategy was the total destruction of the entire structure of Indian handicrafts, making it possible for the British goods to reach each and every corner of the country. From 1814 to 1835 the export of the British cotton clothes to India increased by 51 times, whereas that of India to England decreased by 13 times. Cotton Mills of Lancashire were built up on the ruins of Dacca, Murshidabad and Surat.</p>
+<p>Thus, India soon became a supplier of raw materials for the British industries. India went through a process of what historians have called &#8216;de-industrialisation&#8217;, which was primarily responsible for mass pauperisation and impoverishment of our people.</p>
+<h3>Destruction of other Industries</h3>
+<ul>
+<li>&#8226; <strong>Jute Industry</strong> (handicraft in Bengal): Collapsed due to the competition with the products of modern factory system at Dundee (Scotland).</li>
+<li>&#8226; <strong>Silk Industry:</strong> Indian silk industry flourished in various regions. In Kashmir, it employed nearly 45,000 workers. Competition from industrial silk products of Paisley (Scotland) decimated it.</li>
+<li>&#8226; <strong>Iron Industry</strong> (world famous wootz): Indian industries could not produce low quality steel, thereby eliminating a huge chunk of market from them.</li>
+<li>&#8226; <strong>Ship building</strong> industries at Surat, Malabar and Bengal were crushed. In 1814, another law was passed under which Indian built ships were refused to be considered &#8216;British-registered vessels&#8217; which could trade with America and the European continent.</li>
+</ul>
+<h2>Impact of De-industrialisation</h2>
+<p>&#8220;The misery hardly finds a parallel in the history of commerce. The bones of the cotton weavers are bleaching the plains of India.&#8221; - Lord Bentinck</p>
+<p>The substantial influx of resources and capital from India to England naturally elevated the standard of living for the English population. This outflow of wealth also facilitated increased investments in English agriculture (thus playing a significant role in agricultural revolution of 18th c in England) and industry post-1750 (thus contributing to the onset of the industrial revolution).</p>
+<p>In India, however, the impact was the opposite. Karl Marx has cited the impact of the deindustrialisation process. According to him, it was the British rulers who broke up the Indian handloom and textile handicrafts.</p>
+<ul>
+<li>&#8226; It ruined India&#8217;s prosperity and resulted in excessive <strong>unemployment</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; It has been estimated that <strong>about 10,00,000 people were thrown out of employment by 1828.</strong> The industry was totally shattered. The affected persons were weavers, cotton growers, spinners, dressers, embroiderers, and others.</li>
+<li style="padding-left:2em">&#9702; The disaster was heightened by the fact that the decline of the traditional industries was <strong>not accompanied by the rise of modern industries</strong> in India as was the case in the West.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Urbanisation:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>De-urbanisation:</strong> The destruction of the Indian cotton industry was mirrored in the decline of the towns and cities which were famous for their manufacture. Cities like Dacca, Murshidabad, Mirzapur, Tanjore and Surat became depopulated.</li>
+<li style="padding-left:2em">&#9702; <strong>Growth of commercial towns:</strong> There was a migration of the people from the old industrial towns to the new trading centers. Among the important cities that developed were Delhi, Bombay, Calcutta, Madras, Bangalore, Nagpur Karpura and Karachi, Lahore, Chittagong, Rangoon etc. These cities grew in importance as great commercial towns.</li>
+</ul>
+</li>
+<li>&#8226; The connection between agriculture and industry was snapped. Rather with the dislocation of traditional crafts, there was an <strong>increase in the burden on agriculture</strong> (ruralisation, peasantisation)
+<ul>
+<li style="padding-left:2em">&#9702; The weavers thus overthrown, had no other option but to turn to agriculture for survival. Thousands of them became <strong>sharecroppers or agricultural labourers.</strong></li>
+<li style="padding-left:2em">&#9702; They added to the general <strong>pressure on land</strong> and further contributed to the general <strong>impoverishment of agriculture.</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Fragmentation of land-holding</strong> converted many of them to landless labourers for survival.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Reduction in per capita income, rural poverty</strong> (immiseration, pauperisation)
+<ul>
+<li style="padding-left:2em">&#9702; There ushered in a period of <strong>chronic famine, hunger and starvation.</strong></li>
+</ul>
+</li>
+</ul>
+<p>Even the western world went through such phase of decline. However, unlike India, the decline of handicraft industries in the west was compensated by the foundation of modern industries. In India, the wilful destruction of traditional structure was not replaced by any new structure.</p>`,
   'social-cultural-developments': ``,
   'social-religious-reform': ``,
   'indian-response-british-rule': ``,
