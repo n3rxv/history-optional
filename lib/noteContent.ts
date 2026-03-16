@@ -16572,7 +16572,101 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <p>It is true that the EIC gradually transformed from a trading concern into a political-administrative body. As the time went by, increasing checks were instituted by the British parliament to regulate the Company&#8217;s finances, reduce corruption as well as manage the foreign policy. It was done in order to ensure that the Company doesn&#8217;t emerge as an autocratic power, and India remains open for all the British in London. It started with the Regulating Act of 1773 in the wake of the financial debacle post-1770s famine.</p>
 <p>It went a step further in the Pitt&#8217;s India 1783, when a Board of Control was formed and dual control over company affairs with parliamentary supervision was created. Later, by the Charter of 1833, the trade monopoly was abolished, diminished its commercial role and the Company was converted into administrative authority which had to work to the tune of London.</p>
 <p>However, despite the attempts to increase the oversight, in practice, the Company was never a mere shadow. It reserved unlimited administrative authority in India. Due to the lack of quick communication between London and Calcutta, Indian administrators always had some leeway in decision-making. London couldn&#8217;t make a proper supervision and thus, the Governor-General was a man-on-the-spot with arbitrary power. Post 1833, Governors-General from Auckland to Ellenborough and above all Lord Dalhousie carried unrestricted annexationism in their will.</p>
-<p>Thus, even though the Company was gradually hollowed out from 1773 till 1858 when it was finally abolished, it remained to be a powerful body. Its primary function however evolved over time, first as commercial and later as administrative.</p>`,
+<p>Thus, even though the Company was gradually hollowed out from 1773 till 1858 when it was finally abolished, it remained to be a powerful body. Its primary function however evolved over time, first as commercial and later as administrative.</p>
+<h2>Industrial Era: Administrative Reforms</h2>
+<p>The robber-ruler synthesis eventually gave way to what would become classical colonialism, with the recognition of the need for law and order and a modicum of reasonable governance. &#8211; Amartya Sen</p>
+<h3>Major overhauling of administrative structure</h3>
+<table>
+<tr><th>Factors</th><th>Features</th></tr>
+<tr><td>Material Compulsion: Need of Industrial Capitalism of London</td><td>Better law and order</td></tr>
+<tr><td>Ideological Factor: Liberalism and Utilitarianism advocating administrative reforms to pull out of backwardness and stagnation.</td><td>Judicial and legal reforms</td></tr>
+<tr><td></td><td>New land revenue settlements</td></tr>
+<tr><td></td><td>Reforms in civil service, police, and army</td></tr>
+</table>
+<h2>Law and Order</h2>
+<p>Improvement in the law-and-order condition was essential if India had to develop as a market for the British manufactured goods. That&#8217;s why during this phase, several Governor Generals took steps for improvement in the law-and-order situation.</p>
+<h3>Suppression of Pindaris and Pathans by Lord Hastings</h3>
+<ul>
+<li>&#8226; <strong>Pindaris</strong> plunderers created law and order problems in parts of India after the decline of Marathas.
+<ul>
+<li style="padding-left:2em">&#9702; GG Hastings dispatched a big army under the command of General Thomas Hislop to suppress Pindaris.</li>
+<li style="padding-left:2em">&#9702; Most important Pindari leaders like Heeru, Buran and Wasir Md. Chitu were killed. Karim Khan surrendered before the army.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Pathans</strong> were also a threat to law and order. Hasting started a military offence against the Pathans. Pathan leader Aamir Khan surrendered and promised to lead a peaceful life. He was afforded Jagir of Gauspur.</li>
+</ul>
+<h3>Suppression of Thugee by Lord Bentinck</h3>
+<ul>
+<li>&#8226; Thugs were the criminals, who were mainly linked with road robbery, ritualized murder and mutilation on highways. Poverty and unemployment created by British rule that gave a new fodder to this profession.</li>
+<li>&#8226; Bentinck decided to suppress Thugee.
+<ul>
+<li style="padding-left:2em">&#9702; He created a Thuggee and Dacoity Department 1830.</li>
+<li style="padding-left:2em">&#9702; <strong>Colonel William Sleeman</strong> headed it from 1835-39 to eliminate the problem.</li>
+<li style="padding-left:2em">&#9702; Many thugs were hanged or imprisoned, and the thuggee menace was largely eradicated by the mid-19th century.</li>
+</ul>
+</li>
+</ul>
+<h2>Judicial Reforms</h2>
+<p>During this period, the judicial reforms were being implemented under the <strong>influence of utilitarian ideas.</strong> Utilitarian ideas were deeply associated with the rise of industrial capitalism in Britain.</p>
+<p><strong>Jeremy Bentham</strong> was a critic of the Indian Judicial system, and he underlined following weaknesses in it.</p>
+<ul>
+<li>&#8226; The absence of <strong>Habeas Corpus</strong></li>
+<li>&#8226; Lack of <strong>codification</strong> and <strong>uniformity</strong> in legal system</li>
+<li>&#8226; Some Indian laws were <strong>cruel</strong> and <strong>inhuman</strong>.</li>
+</ul>
+<p>He aggressively advocated the codification of all the common law into a coherent set of statutes. Therefore, under Benthamite influence, following steps were undertaken to establish a centralized and modernized legal system:</p>
+<h3>Codification of Laws</h3>
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>Charter Act of 1833</strong> provided for a <strong>law member</strong> in the Governor General&#8217;s council. <strong>Lord Macaulay</strong> was appointed as the first law member to start codification and a <strong>Law Commission</strong> was established.
+<ul>
+<li style="padding-left:4em">&#9632; He drafted rational, unified legal codes for British India, finishing the job in two years of intensive work.</li>
+<li style="padding-left:4em">&#9632; Later, it became the basis for <strong>IPC 1860</strong>, <strong>CrPC 1872</strong>, <strong>CPC 1908</strong> etc. which were applicable throughout British India.</li>
+</ul>
+</li>
+</ul>
+<h3>Equality/Uniformity of Law</h3>
+<ul>
+<li style="padding-left:2em">&#9702; Macaulay&#8217;s draft Penal Code reformed and standardized criminal law, making it applicable to all under British Indian jurisdiction regardless of religion or caste <strong>(territorial laws).</strong></li>
+<li style="padding-left:2em">&#9702; In 1836, Macaulay revoked the privilege accorded to Europeans to have cases heard in the Supreme Court in Calcutta, rather than in the Company&#8217;s Sadr Adalat.</li>
+<li style="padding-left:2em">&#9702; This measure reduced the white privilege but was dubbed the Black Act, was resisted vigorously, but unsuccessfully, by the European population of Calcutta.</li>
+</ul>
+<h3>Monolingual ascendency of English Language</h3>
+<ul>
+<li style="padding-left:2em">&#9702; Since 1765, when the Company obtained Diwani from the Mughal emperor, it had maintained an extensive, cumbersome and inefficient bilingual bureacracy for its administrative functions. (English for internal communication while Persian with Indians with the help of Dobashis)</li>
+<li style="padding-left:2em">&#9702; In the era of William Bentinck, English replaced Persian as the language of higher courts (1835-37).
+<ul>
+<li style="padding-left:4em">&#9632; It rejected the bilingual equation with Persian in favour of monolingual ascendancy of English. It asserted the power of colonial state over its subjects and, in effect, removed British India from subordinate Mughal order and re-situated it within the global British empire on the basis of language.</li>
+</ul>
+</li>
+</ul>
+<h3>Unified Judicial Administration</h3>
+<ul>
+<li style="padding-left:2em">&#9702; Earlier, a duality existed in the Indian Judicial System.
+<ul>
+<li style="padding-left:4em">&#9632; On the one hand, the courts like Sadar Diwani Adalat and Sadar Nizamat Adalat existed in Calcutta, in which Indian laws were prevailing.</li>
+<li style="padding-left:4em">&#9632; On the other hand, there was a Supreme Court in Calcutta, where English laws were invoked.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; This duality was abolished and a unified system of judicial administration was created.
+<ul>
+<li style="padding-left:4em">&#9632; The Sadar Diwani Adalat, Sadar Nizamat Adalat and the Supreme Court were abolished.</li>
+<li style="padding-left:4em">&#9632; The High Courts were established at Calcutta, Madras and Bombay on the basis of High Court Act of 1861.</li>
+</ul>
+</li>
+</ul>
+<h3>Appointment of Indians</h3>
+<ul>
+<li style="padding-left:2em">&#9702; Bentinck abolished the Cornwallis-era practice of not employing Indians as subordinate judges. He employed many Indians as subordinate judges (Charter Act of 1833 &#8211; recruitment of Indians without discrimination)</li>
+</ul>
+<h3>Judicial Reforms &#8211; Critical Analysis</h3>
+<table>
+<tr><th>Positives</th><th>Negatives</th></tr>
+<tr><td>Comprehensive codification of the Indian legal system</td><td>Lord Macaulay had no knowledge of Indian condition, yet he was given such a huge responsibility.</td></tr>
+<tr><td>Standardization: Same legal system in all regions</td><td>The Indian legal system was Europeanized.</td></tr>
+<tr><td>Integration: uniform judicial system from top to bottom</td><td>The gap between the judicial system and common people increased and justice became expensive. Justice delayed is justice denied.</td></tr>
+<tr><td>An attempt to implement the rule of law</td><td></td></tr>
+<tr><td>Some laws were made more humane</td><td></td></tr>
+</table>`,
   'social-cultural-developments': ``,
   'social-religious-reform': ``,
   'indian-response-british-rule': ``,
@@ -16583,7 +16677,135 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
   'politics-separatism-partition': ``,
   'post-independence-consolidation': ``,
   'caste-ethnicity-post-1947': ``,
-  'economic-development-political-change': ``,
+  'economic-development-political-change': `
+<h2>Land Revenue Reforms</h2>
+<p>Earlier, the Permanent Settlement was guided by mercantilist interest. However, in the early decades of the 19th century, India was being developed as a British commodity market.</p>
+<p>In this era, new revenue arrangements viz. Ryotwari and Mahalwari systems were developed during this period to suit the changed requirements of the British government. Permanent settlement was not expanded to other areas. Now, the British adjusted the revenue-strategy according to the special characteristics of the agrarian structure in each region.</p>
+<h2>Ryotwari Settlement</h2>
+<p>Ryotwari system of land revenue collection was first introduced in Madras by its Governor <strong>Thomas Munro</strong>. In this system the <strong>land revenue was to be collected directly</strong> from the cultivators, instead of being collected through intermediaries as under the zamindari system. A direct relationship was created between the Government and the cultivator.</p>
+<p>It had many features of revenue system of the Mughals. Where the land revenue was imposed directly on the ryots (the individual cultivators who actually worked the land) the system of assessment was known as Ryotwari.</p>
+<p>It was argued that though the Company would be getting more revenue, the peasants would be paying less, as intermediaries would be eliminated from the system.</p>
+<p>This system was introduced in Madras Presidency, Bombay Presidency, Assam and some other portions covering 51% area of British India.</p>
+<h3>Ideological Factors:</h3>
+<ul>
+<li>&#8226; <strong>Indian Paternalism:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Many English officers like <strong>Reed</strong>, <strong>Munro and Elphinstone</strong>, who had first-hand knowledge about the region, felt that Ryotwari system was as per local Indian tradition where the cultivator had enjoyed certain rights since time immemorial. The super-imposition of the zamindari settlement would completely disrupt the existing local order.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Utilitarian economics:</strong> Capitalist thinkers like <strong>David Ricardo</strong> targeted landlords in their <strong>&#8216;Rent Theory&#8217;</strong>. This philosophy had a &#8216;distaste for landlordism&#8217;, as per <strong>Eric Stokes.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Maximization of Revenue: Rent was surplus from land.
+<ul>
+<li style="padding-left:4em">&#9632; If the cost production and labour/equipment is deducted from the total produce, what remains is the surplus.</li>
+<li style="padding-left:4em">&#9632; This surplus was equated with rent and the government can legitimately claim a large portion of it as revenue.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Elimination of unproductive intermediaries: Zamindar was a parasite who had no role in producing value. Yet, he received a fraction of land revenue. Therefore, it theoretically suggested eliminating the intermediaries and state should appropriate larger share.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Effect of Scottish Enlightenment:</strong> It too denied the role of landlords in production and gave greater importance to agricultural peasants. It celebrated the importance of yeoman farmer in agricultural societies.</li>
+</ul>
+<h3>Material Factors:</h3>
+<p><strong>Firoj Sarwar</strong> has argued that the Ryotwari System was more pragmatic than doctrinal.</p>
+<ul>
+<li>&#8226; <strong>Inapplicability of Zamindari system:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; There were <strong>no zamindars holding big estates</strong> with whom revenue settlement could be struck. Local chiefs in these regions had been eliminated or reduced to insignificance.</li>
+<li style="padding-left:2em">&#9702; In Zamindari, the government was deprived of the <strong>opportunity to increase the revenue</strong>, so CoD was dissatisfied. They needed the right to enhance the revenue in future, as and when possible.</li>
+</ul>
+</li>
+<li>&#8226; Company-government at this stage <strong>needed more resources</strong> due to constant wars (Madras government was chronically short of funds) and to satisfy the needs of British industrialization.
+<ul>
+<li style="padding-left:2em">&#9702; Thus, the arrangement was to be made <strong>directly with the actual cultivators</strong> (ryots).</li>
+</ul>
+</li>
+<li>&#8226; The state&#8217;s direct dealing with an individual farmer meant that it had direct access to the area being cultivated and the income that accrued from it. Both helped the state assess and collect the revenue better.</li>
+</ul>
+<h3>Ryotwari System: Madras Presidency</h3>
+<p>Ryotwari was first implemented in <strong>Barahmahal</strong> region by <strong>Colonel Alexander Reed</strong> in 1792 when the region was taken from Tipu Sultan. Soon, <strong>Thomas Munro</strong> elaborated and implemented it in some <strong>districts</strong> in 1810, in the areas of Malabar, Canara, Coimbatore, Dindigul. When he became the Madras Governor, he implemented it throughout the presidency in 1820. This system was in operation for nearly 30 years.</p>
+<h3>Ryotwari System: Bombay Presidency</h3>
+<p>The British took away the land of western India from the Marathas and there needed the management of land revenue. <strong>Elphinstone</strong>, a disciple of Munro, attempted to implement the Ryotwari system in Bombay. The land revenue was too high upto 1836. In 1836, certain reforms were brought in after the survey conducted by Wingate and Goldsmith, which was slightly more rational. Based on this, land revenue rate was reduced.</p>
+<h3>Ryotwari: Evaluation</h3>
+<table>
+<tr><th>Characteristic Features</th><th>Consequences</th></tr>
+<tr><td>Unlike the Zamindari system, every registered raiyat was considered as the owner of the land, and the agreement of land revenue was made with him</td><td>In reality, under the Ryotwari Settlement the state became the virtual zamindar. It did not bring positive changes in the life of cultivators because the large number of landlords had been replaced by the British government.</td></tr>
+<tr><td>The cultivator cannot be evicted by Government so long as he pays the fixed assessment. (The system was expected to increase the security of the cultivator and removed the Zamindar the middleman.)</td><td>Community land was owned by the government.</td></tr>
+<tr><td>The assessment rate was fixed and did not vary from year to year.</td><td>The quantum of rent was fixed arbitrarily by the Company officials. The system of survey and measurement was abandoned. Thus, land revenue in reality was very high, sometimes even 50-55% of the total produce. The people were left with bare maintenance with available resources. Moreover, the government retained the right to enhance land revenue at any time.</td></tr>
+<tr><td>Ideally the Ryotwari system was supposed to be based on fixation of the rent for each Ryot and each field.</td><td>When most of peasant started declining cultivation, they were forced to do by government.</td></tr>
+<tr><td>A Ryot was to be given a choice to accept or reject the offer made by the government&#8217;s assessment for a particular piece of land. Thus, a Ryot had the option annually of increasing or diminishing his holding, or of entirely abandoning it.</td><td>Harsh collection: The peasants were also not allowed any exemption in case of bad harvests or natural calamities. The cultivators had to pay revenue even the produce was partially or completely destroyed by droughts or floods. Both force and fraud were used to extract maximum rent from the cultivators.</td></tr>
+<tr><td>The land revenue was temporarily fixed for 30-40 years. Thus, a temporary agreement (not permanent) was done with the ryots and the revenue could be increased periodically.</td><td>Those who failed to pay it, were deprived the ownership of land by mean of confiscation of the land.</td></tr>
+<tr><td>In unfavourable seasons, remissions of assessment are granted for entire or partial loss of produce.</td><td>No uniformity in the determination of land revenue. Privileged farmers had to pay relatively less revenue</td></tr>
+<tr><td>The land was made salable. The ryots were given right of transaction of land. He is at liberty to sublet his property, or to transfer it by gift, sale, or mortgage.</td><td>Cultivation was no longer profitable. Many peasants abounded agriculture and escaped into forests or neighbouring native states.</td></tr>
+<tr><td></td><td>The system had become obnoxious and repressive, which was brought out by the Report of the Madras Torture Commission in 1855. It was found that only 14.5 million acre land was under the plough and 18 million acre fertile land was lying fallow due to extremely heavy burden. Only after that the government was forced to provide some relief.</td></tr>
+<tr><td></td><td>Gradually, due to over-assessment, the land shifted from the poor peasants to rich peasants. Therefore, a landlord class established (like zamindar), which began crop-sharing.</td></tr>
+</table>
+<ul>
+<li>&#8226; Thus, the agriculture was ruined in Ryotwari areas. Production declined sharply. Even the availability of food grains was seriously affected. Poverty, hunger and famine became widespread.</li>
+<li>&#8226; Land lost its market value in Ryotwari areas, as nobody wanted purchase it as agriculture was not profitable.</li>
+<li>&#8226; Since there was no maximum limit on the amount of land a person could own, big landlord emerged in fertile delta of Kaveri.</li>
+<li>&#8226; The distress of peasantry was acknowledged by the Company&#8217;s government in the report. In the second round of settlements arrived at in the 1840s, the tax burden was reduced considerably (Firoj Sarwar). Unfortunately, this was neutralized by the excessive powers granted to revenue collectors.</li>
+<li>&#8226; Moneylenders were afraid to invest money due to high revenue rate. When a reformed version was introduced (1854-55), the land gained market value but now <strong>money leaders started capturing</strong> land of poor peasants. Soom, an extremely severe problem of <strong>rural indebtedness</strong> emerged and the peasants got no benefit.</li>
+</ul>
+<h2>Mahalwari Settlement</h2>
+<p>First it came into force in North (central region of the Mughal Empire), and later implemented in NW, Punjab, Awadh and some part of Central India. In these regions, the panchayat system was quite active.</p>
+<h3>Features:</h3>
+<ul>
+<li>&#8226; The name mahalwari has been derived from the word mahal or village. Here the settlement was struck with the village headman or with the leading families of the village collectively.</li>
+<li>&#8226; In Mahalwari system, a group of villages (Mahal) was taken as a unit, and thus rent was fixed for the entire Mahal. The rent was collected through the village Pradhan/muqqadam/lambardar or any other cultivator of high standing in the village. It was such villages committee was held responsible for collection of the taxes. Thus, the revenue settlement was made mahalwise (estatewise).</li>
+<li>&#8226; However, every cultivator had a joint responsibility for payment of the rent. So, ownership rights were vested with the peasants. The private responsibility of the farmers remained.</li>
+</ul>
+<p>It was implemented by <strong>Holt McKenzie</strong> for the first time in 1822. He is regarded as the father of Mahalwari settlement. The rent here remained arbitrary and too high. Revenue arrears mounted and soon the entire system virtually broke down under the weight of high rent. The agricultural depression of 1828 made the situation worse.</p>
+<p>Subsequently, an attempt was made to retrieve the system by the Regulation of 1833 which did bring some relief to these cultivators. <strong>Thomson</strong> and <strong>RM Bird</strong> played a role in its evolution during the time of Lord Bentinck. The Settlement was made for 30 years in UP and for 20 years in Punjab and the Central Provinces and 66% of the net produce of the land was fixed as the share of the state. Lord Dalhousie further rationalized the system in 1855 and reduce the burden to 50%. The revised settlement was led astray by corrupt settlement officers who did not pay heed to the carefully laid out rules in collecting revenue. Misery and discontent continued.</p>
+<h3>Mahalwari Impact:</h3>
+<ul>
+<li>&#8226; In the Mahalwari assessment area, especially in Awadh, the <strong>taluqdars</strong> (big landlords) were uprooted who opposed Mahalwari.</li>
+<li>&#8226; In this arrangement too, <strong>the oppression of the cultivators by the leaders of the village</strong> was inevitable. The headmen of the village misused their power and swindled the poor peasants.</li>
+<li>&#8226; <strong>Exorbitant rates</strong> of the land revenue put tremendous pressure (Normally 65%, going up to 95% of surplus). And unlike zamindari areas, it was fixed temporarily. Thus, on the whole, Mahalwari system also ruined the cultivators giving a field day for moneylenders.</li>
+</ul>
+<p>Thus, in Mahalwari region, there was intense peasant rebellion in 1857.</p>
+<h2>Overall Impact of the Land-Revenue Settlements</h2>
+<p>The three settlements were based on different principles. At the same time, they were governed by same concern &#8211; <strong>need to maximize the revenue.</strong> Land tax remained the single most important source of the government&#8217;s revenue (<strong>Neils Charlesworth</strong>). In 1858&#8211;59, land revenue constituted 50.3% of the government&#8217;s total revenue.</p>
+<p>By the middle of the nineteenth century the Company&#8217;s administration had devised three systems of land revenue administration, creating private property in land and conferring that proprietary right on three different groups. According to a rough estimate, in 1928-29 about 19% of the cultivable land in India was under zamindari settlement, 29% under Mahalwari settlement and 52% under Ryotwari system.</p>
+<h3>Consequences: Breakdown of village society:</h3>
+<p>The traditional Indian village had a self-sufficient, self-subsistent character. The villagers in each village used to remit their taxes to the state collectively. Under the new arrangement however, tax was to be assessed separately and individually. The aim of the settlements was to create an atmosphere conducive to trade and investment. As a result, there took place certain associated developments like the growth of a market economy, commodity production, money economy etc. Such developments demolished the self-sufficient character of the village economy of the pre-colonial times. Under the forceful thrust of the various land revenue settlements India&#8217;s traditional village economy was shattered. It was indeed a sharp break with the past. To the peasants it was the loss of the old world, but, there was no corresponding gain of a new world. From the cultivators point of view the new arrangements were strange, alien and unintelligible.</p>
+<h3>Historians debate regarding:</h3>
+<ul>
+<li>&#8226; How far the earlier zamindars and village headmen were displaced? (BB Chaudhuri)</li>
+<li>&#8226; The extent of peasant indebtedness? (Dharma Kumar)</li>
+<li>&#8226; Increase in the number of moneylenders? (Neil Charlesworth, H Fukuzawa, Ravinder Kumar)</li>
+<li>&#8226; Was there complete rupture of agrarian relations or some continuity? (CA Bayly, Burton Stein).</li>
+</ul>
+<p>However, it cannot be gainsaid that there were important changes brought about by the new revenue settlements. These are summarised as below:</p>
+<ul>
+<li>&#8226; <strong>Revenue demand</strong> increased dramatically.
+<ul>
+<li style="padding-left:2em">&#9702; All three ultimately resulted in <strong>over-assessment and arbitrary fixation of high rent</strong>.</li>
+<li style="padding-left:2em">&#9702; There was rigorous/<strong>harsh way of its collection.</strong></li>
+<li style="padding-left:2em">&#9702; A system of <strong>cash payment</strong> and that too <strong>during the harvest time</strong> (further aggravated the situation)</li>
+<li style="padding-left:2em">&#9702; The results were arrears of payment, mounting debt, increasing land sales and dispossession. All of this led to miserable condition of peasants (chronic hunger, starvation) and created several famines that occurred all over the 19th century.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Land as property</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The British created a new form of private property in land for their own benefit (to protect revenue).</li>
+<li style="padding-left:2em">&#9702; As the land became a marketable commodity, <strong>landed property changed hands rapidly</strong>. Eventually, it led to the evolution of a <strong>new set of agrarian relations</strong> that was extremely regressive. Overall, it promoted differentiation within the rural society and intensified social conflicts.
+<ul>
+<li style="padding-left:4em">&#9632; It strengthened the power of rural magnates (wherever they existed). For example, as pointed out by <strong>David Ludden</strong>, in many districts in Tamil Nadu, the mirsadars manipulated the system to get privileged rents and convert their collective rights into individual property rights. By the beginning of the twentieth century, there was an affluent group of big landholders whom <strong>A. Satyanarayana</strong> calls &#8220;peasant-bourgeoisie&#8221;-who controlled large farms and leased out surplus lands to landless tenants and sharecroppers.</li>
+<li style="padding-left:4em">&#9632; The intermediate strata also did well and lived under stable economic conditions.</li>
+<li style="padding-left:4em">&#9632; The rights of the small landowners progressively reduced due to indebtedness. The poor peasants were exploited by rich ryots, creditors and lessors, and were forced to hire themselves despite wretched conditions and remained tied to small plots of land. Thus, there also emerged a vast class of landless sharecroppers and agricultural labourers.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Thus, it affected the local power structure. The <strong>stability and continuity</strong> of the Indian villages were shaken because of this.</li>
+</ul>
+</li>
+<li>&#8226; The introduction of <strong>contractual relationship</strong> between the owners-tenants initially reinforced the dominant power structures. Gradually it <strong>changed social relations</strong>. <strong>&#8216;Customary&#8217; rights</strong>/practices were ignored.
+<ul>
+<li style="padding-left:2em">&#9702; Various <strong>informal arrangements</strong> which helped poor people (poor peasants, sharecroppers, landless labourers) to rely on agriculture were abolished.</li>
+<li style="padding-left:2em">&#9702; <strong>Rights of women</strong> who did not own property but had rights to the produce were totally sidelined.</li>
+</ul>
+</li>
+</ul>`,
   'enlightenment-modern-ideas': ``,
   'origins-modern-politics': ``,
   'industrialization': ``,
