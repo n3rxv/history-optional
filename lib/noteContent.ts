@@ -15411,7 +15411,130 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; Ranjit Singh&#8217;s <strong>lack of foresight is evident in his interactions with the English</strong>. Despite knowing that the English were encircling his kingdom and aware of their expansionist goals, he chose to wait and avoid a confrontation. Instead, he left the responsibility of facing the English to his feeble and incompetent successors.</li>
 <li>&#8226; Ranjit Singh was powerless to avert future <strong>British danger</strong>. By signing the Treaty of Amritsar, he protected Punjab from British expansion temporarily but effectively passed the matter on to his successors.</li>
 </ul>
-<p>Notwithstanding his shortsighted policy Ranjit Singh occupies a high place in Indian History. Ranjit Singh transformed a chaotic Punjab, torn by internal conflicts and threatened by Afghans and Marathas, into a unified kingdom. He secured territories from Kabul, prevented English interference, and pushed back invasions from the northwest, reaching the Khyber Pass. His legacy lies in creating a powerful tradition, celebrated by history.</p>`,
+<p>Notwithstanding his shortsighted policy Ranjit Singh occupies a high place in Indian History. Ranjit Singh transformed a chaotic Punjab, torn by internal conflicts and threatened by Afghans and Marathas, into a unified kingdom. He secured territories from Kabul, prevented English interference, and pushed back invasions from the northwest, reaching the Khyber Pass. His legacy lies in creating a powerful tradition, celebrated by history.</p>
+<h2>Stages of British Paramountcy</h2>
+<p>Beginning around in the middle of 18th century, the English company emerged as the political master of India. In 1858, company was taken over by British crown and direct rule commenced. The ascendance of British power in India was a gradual multi-stage process. During these stages the attitude of British and the character of their policies towards native states changed fundamentally. The relations between the British and the Indian states followed following stages:</p>
+<h2>UPSC PYQs</h2>
+<ul>
+<li>&#8226; &#8220;The British endeavored as far as possible to live within a Ring-Fence and beyond that they avoided intercourse with the chiefs.&#8221; Comment. [1987, 20m]</li>
+<li>&#8226; &#8220;If the paramount power cast its imperial cloak over the princes, it was also entitled to see that what was sheltered was in the main creditable.&#8221; Comment. [1989]</li>
+<li>&#8226; &#8220;No native state should be left to exist in India which is not upheld by the British power or the political conduct of which is not under the absolute control.&#8221; Comment. [1992, 20m]</li>
+<li>&#8226; &#8220;The British policy towards Indian States in 1818-1858 was one of isolation and noninterference tempered by annexation.&#8221; Comment. [1996, 20m]</li>
+<li>&#8226; &#8220;Dalhousie changed the map of India with speed and thoroughness no campaign could equal.&#8221; Comment. [2001, 20m]</li>
+<li>&#8226; Examine the essential principles of the Subsidiary Alliance system. How far did it contribute in making the British Company the supreme sovereign authority in India? [2005, 60m]</li>
+</ul>
+<h2>(1) The Company Struggles for Equality, 1740-65</h2>
+<ul>
+<li>&#8226; Prior to 1740, the East India Company focused primarily on commerce. However, during the Carnatic wars English asserted the political presence by <strong>capturing Arcot in 1751.</strong></li>
+<li>&#8226; In 1757 the English won the <strong>battle of Plassey</strong> and became the political force behind the nawabs of Bengal. Still, it hesitated to assert the power openly. Rather, it stood in relation to the Indian state in a position of subordination. The Company became a ruling power after the Emperor, Shah Alam II granted it the <strong>Diwani of Bengal, Bihar and Orissa</strong> in 1765 in the Treaty of Allahabad after the battle of Buxar.</li>
+</ul>
+<h2>(2) The Policy of Ring Fence (1765-1799)</h2>
+<p>This period saw the emergence of the policy of creating buffer states around the Company&#8217;s territories. The idea was purely that of defense of the frontiers of the Company.</p>
+<p>Moreover, in this phase, the company conquered territories gradually, but it was not very powerful. It was considered necessary to avoid wars and battles. It was rather apprehensive that the powerful native states could harm its interest if the company indulged in open expansionism. Thus, the Company tried to remain away from unfriendly native states as much as possible.</p>
+<ul>
+<li>&#8226; To save Bengal from Marathas and Afghans, Awadh was treated as a buffer.</li>
+<li>&#8226; To save Madras and Norther Sircar, it was the Nizam&#8217;s domain acting as a buffer.</li>
+</ul>
+<h2>(3) Subsidiary Alliance (1798-1813)</h2>
+<p>With the arrival of Wellesley, the Company&#8217;s relations with the Indian states underwent a change. In light of the possible French invasion of India, he aimed at bringing the Indian states within the ambit of British political power and military protection using subsidiary alliance.</p>
+<p>Starting with the Nizam of Hyderabad, many other states including Mysore and Oudh were forced to accept the Subsidiary Alliance System. It was the Trojan-horse tactics in Empire-building. The defeat of the Marathas in 1803-05 virtually established the supremacy of British power.</p>
+<p>&#8220;No native state should be left to exist in India which is not upheld by the British power or the political conduct of which is not under its absolute control.&#8221; George Barlow (Acting GG, 1805-07)</p>
+<h2>(4) The Policy of Paramountcy and Annexationism, 1813-57</h2>
+<ul>
+<li>&#8226; <strong>Factors and forces of change:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Industrial capitalism</li>
+<li style="padding-left:2em">&#9702; Neo-Victorian imperialism</li>
+<li style="padding-left:2em">&#9702; Utilitarian ideas &#8211; better and efficient government</li>
+<li style="padding-left:2em">&#9702; With the arrival of Lord Hastings in 1813, the nature and character of company&#8217;s policies in India changed fundamentally, a new stage of imperialism started, the <strong>theory of Paramountcy</strong> began to develop.</li>
+<li style="padding-left:2em">&#9702; By this time consolidation of the company&#8217;s authority in India was over.</li>
+<li style="padding-left:2em">&#9702; The <strong>Charter Act of 1833</strong> marked a significant shift in the character of the East India Company. The company phased out its commercial operations, assuming a more prominent political role.</li>
+</ul>
+</li>
+</ul>
+<p>Now, British started to establish the <strong>superior authority</strong> over the princely states tied in treaty relationship. All the activities of the company were guided by the vision of imperialism.</p>
+<ul>
+<li>&#8226; <strong>Company-Mughal Emperor relations:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Till 1813, Mughals were accepted as sovereign.</li>
+<li style="padding-left:2em">&#9702; After 1813, there was a change. Lord <strong>Hasting</strong> refuse to meet Mughal emperor <strong>Akbar II</strong> without the terms of equality.
+<ul>
+<li style="padding-left:4em">&#9632; Lord <strong>Amherst</strong> became the First Governor General to meet Mughal Emperor on the terms of Equality on in 1827.</li>
+<li style="padding-left:4em">&#9632; During the reign of Akbar II, the British no longer regarded themselves as a subject under the Mughal rule.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>With respect to states:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The treaties with the Indian states were not on the basis of reciprocity and mutual amity. Rather, they imposed the obligation to act in subordinate cooperation and acknowledge British supremacy.</li>
+<li style="padding-left:2em">&#9702; Thus, the Indian states surrendered all forms of <strong>external sovereignty</strong> to the East India Company. The states, however, retained full sovereignty in internal administration.</li>
+<li style="padding-left:2em">&#9702; However, even internally, the policy asserted the Governor General&#8217;s <strong>right to intervene</strong>, and to supersede their authority if necessary. It is a claim to overlordship.
+<ul>
+<li style="padding-left:4em">&#9632; The decades following the retirement of Lord Hastings saw a rapid increase in the influence of the Company in the internal administration of the states.</li>
+<li style="padding-left:4em">&#9632; Gradually, the influence, power and interference of the <strong>British Residents</strong> increased in the native courts. With the assertion of the Company&#8217;s Paramountcy, the Residents slowly but effectively transformed from diplomatic agents (representing a foreign power) into controlling officers of a superior government.</li>
+<li style="padding-left:4em">&#9632; The branch of the Company&#8217;s government which handled matters pertaining to princely states was known as the <strong>foreign department</strong>, created first in 1783.</li>
+<li style="padding-left:4em">&#9632; Residents and political agents often wielded enormous authority and constituted parallel centres of power. Lord Hastings noted: &#8220;Instead of acting in the character of ambassador, he (the Resident) assumes the functions of a dictator.&#8221;</li>
+<li style="padding-left:4em">&#9632; Even the large states like Hyderabad had to listen to the dictates of the Company.</li>
+<li style="padding-left:4em">&#9632; In the long run, paramountcy involved <strong>more direct intervention</strong> in the form of annexation.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; After 1833, there was a substantial <strong>change in its approach toward Indian states.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The company now started insisting on its prior approval in all matters of state succession.</li>
+<li style="padding-left:2em">&#9702; Eventually, it became common for the company to provide advice to the princes on the selection of ministers.</li>
+<li style="padding-left:2em">&#9702; The <strong>policy of annexation</strong> of states &#8216;whenever and wherever possible&#8217; was allowed by the <strong>Court of Directors in 1834</strong>. Annexations were made to acquire new territories and new sources of revenue on the plea of failure of natural heirs or misgovernment. Thus, Paramountcy was used as a legal fiction to justify outright annexation.</li>
+</ul>
+</li>
+</ul>
+<p>The Governors-General of this period were frankly annexationists.</p>
+<ul>
+<li>&#8226; <strong>William Bentinck</strong> annexed Mysore (1831), Cachar (1832), Coorg (1834), and Jaintia (1835).</li>
+<li>&#8226; <strong>Auckland</strong> annexed Karnul, Mandavi (1839), Kolaba and Jalaun (1840).</li>
+</ul>
+<h2>Lord Dalhousie, the greatest imperialist</h2>
+<p>Lord Dalhousie (1848-56) was greatest imperialist in the history of British India, and he used every method and opportunity to carry out the territorial expansion of British East India possessions. He embarked on a <strong>systematic policy of annexation</strong> of the territories. Dalhousie strongly advocated decreasing the areas under indirect rule and bringing them under direct British administration. This trend might have continued beyond his tenure had the revolt not intervened.</p>
+<h3>Three-fold Policy of Dalhousie:</h3>
+<ul>
+<li>&#8226; Continued the British <strong>policy of conquest</strong> &#8211; Vast Territorial Expansion
+<ul>
+<li style="padding-left:2em">&#9702; Second Anglo-Sikh War (1849) &#8211; Annexation of <strong>Punjab</strong></li>
+<li style="padding-left:2em">&#9702; Second <strong>Burmese</strong> war (1852) &#8211; pushed the eastern frontier to the Salween river.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Pressure tactics</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Snatched <strong>Berar</strong> from the Nizam (1853)</li>
+<li style="padding-left:2em">&#9702; <strong>Sikkim</strong> fell into the clutches of Dalhousie&#8217;s imperialist policy (1850) and the southern part was annexed.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Annexation</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Doctrine of Lapse</strong>
+<ul>
+<li style="padding-left:4em">&#9632; It was earlier vaguely used by Auckland in the past, but Dalhousie gave it a concrete shape.</li>
+<li style="padding-left:4em">&#9632; Under this, if the ruler did not have a natural heir, his kingdom could be annexed by the British authorities, unless the adopted son was specifically approved by the British earlier.</li>
+<li style="padding-left:4em">&#9632; The Doctrine paid rich dividends to the Company. On this basis, Dalhouise annexed <strong>seven states</strong>: Satara (1848), Jaitpur and Sambhalpur (1849), Baghat (1850), Udaipur (1852), Jhansi (1853) and Nagpur (1854)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<tr><th>Type of State</th><th>Doctrine of Lapse</th></tr>
+<tr><td>Independent and Friendly States</td><td>Doctrine of Lapse was not applicable here. The states were free to choose successors without any British intervention</td></tr>
+<tr><td>States earlier subordinated by Mughals or Marathas</td><td>In the matter of succession, these states had to seek British approval, which was easily granted. So, the Doctrine was not recalled here.</td></tr>
+<tr><td>States created by the Company (through sanad)</td><td>If there was no legal heir to the throne, the ruler was not permitted to adopt for succession purpose. As per the British, it amounted to the delegated power.</td></tr>
+</table>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Doctrine of Mal-Administration or Mis-governance.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Awadh</strong> had a great economic and strategic importance, but the doctrine of lapse was not applicable to it. So, Dalhousie invented another doctrine of mis-governance in context of Awadh &#8211; Company could annex any state based on mis-governance caused by an incompetent ruler. Thus, Nawab Wajid Ali of Awadh was removed from power on this pretext and Awadh was annexed in 1856 CE.</li>
+</ul>
+</li>
+</ul>`,
   'early-british-raj': `<h2>UPSC CSE PYQs</h2>
 <ul>
 <li>&#8226; &#8220;What kind of administrative change was introduced in India under the East India Company?&#8221; [1993, 60m]</li>
