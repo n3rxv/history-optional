@@ -64,7 +64,7 @@ const HIGHLIGHT_COLORS = [
 
 const GRID_SIZE = 28;
 
-function uid() { return Math.random().toString(36).slice(2, 10); }
+function uid() { return crypto.randomUUID(); }
 
 // ─────────────────────────────────────────────────────────────────
 export default function PadPage() {
