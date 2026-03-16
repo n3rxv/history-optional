@@ -16384,7 +16384,195 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <p><em>Weavers also, upon their inability to perform such agreements as have been forced from them by the Company&#8217;s agents ... have had their goods seized, and sold on the spot, to make good the deficiency: and the winders of raw silk, called Nagaads, have been treated also with such injustice, that instances have been known of their cutting off their thumbs, to prevent their being forced to wind silk.</em> &#8211; William Bolts (1772)</p>
 <p><em>The bones of the cotton weavers are bleaching the plains of India</em> &#8211; William Bentick (1834)</p>
 <h3>Indian Opium &#8211; Chinese Tea Triangular trade</h3>
-<p>In 1773, the then British Governor-General, Lord Warren Hastings brought the whole of the opium trade under the control of the Government. Very soon, there emerged an Opium-Tea triangular trade between India-China-Europa.</p>`,
+<p>In 1773, the then British Governor-General, Lord Warren Hastings brought the whole of the opium trade under the control of the Government. Very soon, there emerged an Opium-Tea triangular trade between India-China-Europa.</p>
+<h2>Charter Acts of 1793, 1813, 1833, 1853</h2>
+<h2>UPSC PYQs</h2>
+<ul>
+<li>&#8226; The Charter Act of 1833 rung down the curtain on the company&#8217;s trade and introduced a new concept of government in India. Substantiate. [2011, 20m]</li>
+<li>&#8226; &#8220;The Regulating Act (1773), the Pitt&#8217;s India Act (1784) and eventually the Charter Act of 1833 left the East India Company as a mere shadow of its earlier political and economic power in India.&#8221; Critically examine. [2015, 10m]</li>
+<li>&#8226; &#8220;The need to impose greater parliamentary control over the Company&#8217;s affairs increased during the decades (1773 &#8211; 1853) after Plassey.&#8221; Elucidate. [2016, 20m]</li>
+</ul>
+<p>As the Company&#8217;s domains expanded and its responsibilities diversified, a series of new questions had to be faced. What type of government should be set up in the new territories? What kind of political institutions would fit most suitably with Indian social structures? And what of the &#8216;pacified&#8217; Indians? Should they be educated, or even converted to more acceptable forms of religion? Was the EIC really a fit organ of government? Should its monopoly be maintained? Distinct approaches to these questions emerged, each with its partisan advocates.</p>
+<h2>Industrial Capitalism</h2>
+<p>In the 18th century, the EIC faced domestic opposition due to the fears of pernicious influence of corrupt nabobs on English society and politic leading to the Acts of 1773, 1784 and attempts at professionalization of its bureaucracy. Still, the EIC remained powerful and entrenched in parliamentary politics and never lost its trade monopoly. In the 19th century, however, the scale of opposition to it changed after industrial capitalists became powerful.</p>
+<h3>Growing Opposition to the Company in London</h3>
+<p>Due to the monopoly, nobody in England had right to do business with India and anyone trying would be arrested and imprisoned. By the late 18th century, there was growing opposition to the East India Company&#8217;s (EIC) monopoly over commerce with India and China.</p>
+<ul>
+<li>&#8226; With <strong>&#8216;free trade&#8217;</strong> becoming the dominant economic doctrine in Britain, it was difficult for the government to resist demands for the termination of the Company&#8217;s monopoly.</li>
+<li>&#8226; <strong>Private traders</strong> wanted to share in the profits.</li>
+<li>&#8226; <strong>Industrial capitalists</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>The success of the Industrial Revolution drastically altered conditions</strong> in Britain: rather than buying finished products, Britain now needed to secure markets for its factory goods produced on a massive scale, and captive suppliers of raw materials for the production of these goods.</li>
+<li style="padding-left:2em">&#9702; At pace with the altered conditions, Company rule in India now had to act as an accessory, an instrument to ensure &#8216;the necessary conditions of law and order&#8217; to make the vast Indian market captive for British goods. (Eric Stokes)</li>
+</ul>
+</li>
+</ul>
+<p>Thus, a loose free trade pressure group had been operating in British politics for some time and had tried, unsuccessfully, to have the Company&#8217;s monopoly withdrawn in 1793.</p>
+<p>With renewal of the charter due in 1813, this alliance of manufacturers and exporters reinvigorated its efforts. These industrial capitalists successfully bribed/pressurized the government to abolish trade monopoly by Charter Act of 1813 partially and 1833 fully.</p>
+<h2>The Charter of 1793</h2>
+<p>The control over the Company was further tightened when its Charter was renewed in 1793.</p>
+<ul>
+<li>&#8226; The Charter Act of 1793 <strong>renewed the charter</strong> of the Company for <strong>20 years</strong>, giving it possession of all territories in India during that period.
+<ul>
+<li style="padding-left:2em">&#9702; The Act established that &#8220;acquisition of sovereignty by the subjects of the Crown is on behalf of the Crown and not in its own right,&#8221; which clearly stated that the company&#8217;s political functions were on behalf of the British government.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Control over the Company:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The financial independence of the Company was taken away.</li>
+<li style="padding-left:2em">&#9702; The <strong>Home Government</strong> members were to be <strong>paid out of Indian revenues</strong> which continued up to 1919.</li>
+<li style="padding-left:2em">&#9702; The <strong>royal approval</strong> was mandated <strong>for the appointment</strong> of the governor-general, the governors, and the commander-in-chief.</li>
+</ul>
+</li>
+<li>&#8226; There was a <strong>modest concession to the free traders.</strong> The Company was empowered to give <strong>licences to individuals</strong> as well as the Company&#8217;s employees to trade in India.</li>
+<li>&#8226; <strong>Steps towards centralisation</strong> within India
+<ul>
+<li style="padding-left:2em">&#9702; Not many significant changes in the government of India except the increase in the power of the governor.</li>
+<li style="padding-left:2em">&#9702; The <strong>governor general&#8217;s power over the council</strong> was extended.</li>
+<li style="padding-left:2em">&#9702; He was given power to levy taxes and authorized to issue licenses for liquor.</li>
+<li style="padding-left:2em">&#9702; Governors of Bombay and Madras were brought more decisively under his control.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Reduced administrative discretion:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; A specific direction was given to the Company administration that it would have to draw a written code of law for India. Thus, it introduced in India the <strong>concept of a civil law</strong>, enacted by a secular human agency, and applied universally.</li>
+<li style="padding-left:2em">&#9702; All laws were to be printed with translations in Indian languages, so that people could know of their rights, privileges, and immunities.</li>
+<li style="padding-left:2em">&#9702; It bound the courts to regulate their decisions by the rules and directives contained therein. Thus, a new tradition was set as the judicial courts could interpret these written laws (rules and regulations). Pure discretionary powers of the administration was thus to be curtailed.</li>
+</ul>
+</li>
+</ul>
+<p>The Act of 1793 was a consolidating measure. It laid out the high-sounding principle of non-aggression. This was merely a re-iteration of the principle already defined in the Pitt&#8217;s India Act of 1784. However, this policy remained a high-sounding principle and was not followed by the Governors-General (Cornwallis, Wellesley, Hastings). Even though the Directors of the Company were not enthusiastic about the wars, the Governors took advantage of the distance from London, and a more protracted process of decision making on part of the BoC and CoD. Thus, the Company continued to expand its territorial limits. Before the Act of 1813, it had brought under its sway a significant part of Indian territory.</p>
+<h2>The Charter Act of 1813</h2>
+<p>The Company fiercely contested the proposal to abolish its Indian monopoly when its charter came up for renewal in 1813.</p>
+<p>Parliament was, on the other hand, unconvinced of the Company&#8217;s arguments and the Charter Act of 1813 put an end to its monopoly over India.</p>
+<h3>Provisions:</h3>
+<ul>
+<li>&#8226; It included a clause asserting the Crown&#8217;s undoubted sovereignty over all of the Company&#8217;s territories. Its preamble explicitly declared that the sovereignty of the British Crown over the Company&#8217;s territories in India was paramount.</li>
+<li>&#8226; In 1813 the Company <strong>Charter</strong> was renewed with a proviso that the Company monopolistic hold over the Indian trade would end and a <strong>new era of free trade</strong> would be initiated. Thus
+<ul>
+<li style="padding-left:2em">&#9702; Renewal of charter for 20 years, thus the Company was granted right over Indian possessions and revenues for next 20 years.</li>
+<li style="padding-left:2em">&#9702; The chairman of the Board of Control was necessarily to be from among the Ministers of the government.</li>
+<li style="padding-left:2em">&#9702; Partial abolition of trade monopoly: Except for trade in tea and trade with China.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Partial opening of India to British emigrants:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It imposed licensing restrictions on long-term residence by private British individuals (private merchants, free traders) in India.</li>
+<li style="padding-left:2em">&#9702; The act also allowed Christian missionaries to enter India and propagate their religion.</li>
+</ul>
+</li>
+<li>&#8226; Rs. 1 lakh per annum for promotion of Indian languages, literature and scientific education in India. It was for encouraging learned natives and the revival of literature, and for promoting knowledge of the sciences among the inhabitants of the country.</li>
+</ul>
+<p>The Charter Act of 1813 was thus an important benchmark in the <strong>push towards westernisation</strong> of India. At pace with the altered conditions, Company rule in India now had to act as an accessory, an instrument to ensure &#8216;the necessary conditions of law and order&#8217; to make the vast Indian market captive for British goods.</p>
+<h2>The Charter Act of 1833</h2>
+<p>When the time came to renew the Charter in 1833, there was <strong>increased pressure</strong> in Britain for the government to take over the Indian administration directly and abolish the Company. <strong>The Reform Act of 1832</strong> had recently been passed, which fuelled a general desire for reform in Britain. A parliamentary inquiry was conducted, and the resulting Act of 1833 became a significant moment in the constitutional history of India.</p>
+<p>This Act became a landmark in the constitutional history of India and had a larger significance. Most of its provisions pertained to arrangements for governing the Indian empire. The framework evolved in 1833 was to continue almost unchanged down to 1858, and some elements were retained in the latter half of the nineteenth century.</p>
+<h3>Provisions:</h3>
+<ul>
+<li>&#8226; The charter gave to the Company the authority to govern the Indian empire for <strong>another 20 years.</strong></li>
+<li>&#8226; All its business activities were wound up, including the <strong>abolition of the monopoly of tea trade with China</strong>. Now, the Company ceased to be a commercial concern. Henceforth, it was to be <strong>only a political-administrative body.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; This did not amount to a loss for its shareholders who were guaranteed an annual dividend of 10.5% by the British government.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Opening India further:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; All restrictions on British <strong>immigration</strong>, through licensing requirements were removed. Also, British settlers could henceforth settle and <strong>acquire land</strong> in India.</li>
+<li style="padding-left:2em">&#9702; It laid down the regulation for <strong>Christian establishments</strong> in India and the number of <strong>Bishops</strong> was made three.</li>
+</ul>
+</li>
+<li>&#8226; It further <strong>tightened the control</strong> of the government over the Company. The <strong>Board of Control</strong> was empowered to superintend all administrative affairs in India.</li>
+<li>&#8226; <strong>Centralisation of Government:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Centralization of financial, legislative and administrative matters.</li>
+<li style="padding-left:2em">&#9702; The governor general was henceforth to be known as the <strong>&#8216;Governor General of India&#8217;.</strong> (Lord Bentinck becomes the first one).</li>
+<li style="padding-left:2em">&#9702; He would, in consultation with his council, control all civil, military and revenue matters in the whole of India.</li>
+<li style="padding-left:2em">&#9702; Governors of Madras and Bombay were made fully subordinate to him.</li>
+<li style="padding-left:2em">&#9702; Thus, the Act created, for the first time, a Government of India, with authority over entire territorial possessions of the British India.</li>
+</ul>
+</li>
+<li>&#8226; The Charter Act of 1833 also introduced some <strong>administrative changes.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Formation of a fourth presidency (<strong>Agra Presidency</strong>) by splitting the Bengal Presidency into two. This experiment was a <strong>short-lived one.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Separation of Power:</strong> Some crucial changes were made to the governor general&#8217;s council. It made a distinction between the executive and legislative duties of the Governor-General. Thus, this was the <strong>conceptual beginning of the legislative council</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; The governor general in council was, therefore, <strong>empowered to legislate</strong> for the <strong>whole of British territories in India</strong> and these laws were to be applicable to <strong>all persons, British or Indian</strong>.</li>
+<li style="padding-left:2em">&#9702; The Act <strong>centralized the process</strong> of framing laws (One Legislative Council for all British territories in India) and gave to the laws and regulations framed by the governor general&#8217;s council the <strong>force of statutes.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The council thus became the main legislative body in India. Presidency governments could submit drafts of legislation to the council for consideration.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Since the making of laws required legal expertise, a provision was made for adding a <strong>&#8216;law member&#8217;</strong> to the council. (4th member)
+<ul>
+<li style="padding-left:4em">&#9632; The law member&#8217;s presence was supposed to be essential when the council was deliberating upon any legislation.</li>
+<li style="padding-left:4em">&#9632; <strong>Thomas Macaulay</strong> was the first law member to be appointed.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; It provided for a <strong>law commission</strong> to facilitate the codification of law.
+<ul>
+<li style="padding-left:4em">&#9632; This four-member commission was <strong>headed by Macaulay</strong>.</li>
+<li style="padding-left:4em">&#9632; Subsequently, both civil and criminal codes were prepared based on the recommendation of the law commission.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Reform Provisions:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Indians to be recruited</strong> in jobs and no discrimination based on race. (Section 87)</li>
+<li style="padding-left:2em">&#9702; It enjoined the Company&#8217;s government <strong>to abolish slavery</strong> in India. (Slavery was finally abolished in 1843.)</li>
+</ul>
+</li>
+</ul>
+<h2>The Charter Act of 1853</h2>
+<p>In 1853, during the renewal of the Company&#8217;s charter, the parliament asserted its right to decide how India was to be governed more strongly than before. The <strong>free traders&#8217; demand</strong> to end the Company&#8217;s mechanism of governing India, which had already won a significant victory with the <strong>repeal of the Corn Laws in 1846</strong>, could not be ignored much longer. Yet the Company could still muster sufficient political support to be able to continue with its hold over the Indian empire, even though this hold was considerably weakened by the 1853 Act.</p>
+<h3>Provisions:</h3>
+<ul>
+<li>&#8226; The <strong>Charter was renewed</strong> in 1853, but this time not for another 20 years. It <strong>did not specify the duration</strong> for which it would be valid.
+<ul>
+<li style="padding-left:2em">&#9702; The Company was allowed to retain the Indian possessions &#8220;in trust for Her Majesty, her heirs and successors until Parliament shall otherwise provide&#8221;, thus keeping the door ajar for a future takeover. Thus, it was made clear that the Company would be in control till the Parliament would make alternative arrangement.</li>
+</ul>
+</li>
+<li>&#8226; It subjected the EIC&#8217;s empire in India to much <strong>tighter control by the British government.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; A decisive measure was the provision for <strong>reconstituting the court of directors.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; <strong>One-third</strong> of its members were now to be <strong>nominees</strong> of the British government. They were to be the members of the British Council of Ministers.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The <strong>selection of covenanted civil servants</strong> was now to be based on an <strong>open competition</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; Members of the court of directors were deprived of the privilege of nominating candidates for appointment to superior posts in the civil service.</li>
+<li style="padding-left:4em">&#9632; A committee was constituted by the board of control to work out the modalities of the competition. <strong>Public examinations commenced in 1855.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; The idea of a distinct <strong>&#8216;legislative council&#8217;</strong>, which was already conceptually present in the Charter Act of 1833, was now developed further. This was now a body of <strong>12 members</strong> comprising the
+<ul>
+<li style="padding-left:2em">&#9702; Governor general</li>
+<li style="padding-left:2em">&#9702; Four &#8216;ordinary members&#8217; (including the law member)
+<ul>
+<li style="padding-left:4em">&#9632; The <strong>law member</strong> (added in 1833) was now made a <strong>full member</strong> of the council.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The commander-in-chief</li>
+<li style="padding-left:2em">&#9702; Six &#8216;additional members&#8217; (added in 1853)
+<ul>
+<li style="padding-left:4em">&#9632; Chief justice and a judge of the Supreme Court of Calcutta</li>
+<li style="padding-left:4em">&#9632; One member each from the three presidencies of Bengal, Madras, and Bombay, and from the North-Western Provinces.</li>
+<li style="padding-left:4em">&#9632; (Did not sit when the council met to discuss executive matters)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>After 1773, 1783 and 1833, British company in India simply remained a shadow of its own authority. Examine.</h2>
+<p>It is true that the EIC gradually transformed from a trading concern into a political-administrative body. As the time went by, increasing checks were instituted by the British parliament to regulate the Company&#8217;s finances, reduce corruption as well as manage the foreign policy. It was done in order to ensure that the Company doesn&#8217;t emerge as an autocratic power, and India remains open for all the British in London. It started with the Regulating Act of 1773 in the wake of the financial debacle post-1770s famine.</p>
+<p>It went a step further in the Pitt&#8217;s India 1783, when a Board of Control was formed and dual control over company affairs with parliamentary supervision was created. Later, by the Charter of 1833, the trade monopoly was abolished, diminished its commercial role and the Company was converted into administrative authority which had to work to the tune of London.</p>
+<p>However, despite the attempts to increase the oversight, in practice, the Company was never a mere shadow. It reserved unlimited administrative authority in India. Due to the lack of quick communication between London and Calcutta, Indian administrators always had some leeway in decision-making. London couldn&#8217;t make a proper supervision and thus, the Governor-General was a man-on-the-spot with arbitrary power. Post 1833, Governors-General from Auckland to Ellenborough and above all Lord Dalhousie carried unrestricted annexationism in their will.</p>
+<p>Thus, even though the Company was gradually hollowed out from 1773 till 1858 when it was finally abolished, it remained to be a powerful body. Its primary function however evolved over time, first as commercial and later as administrative.</p>`,
   'social-cultural-developments': ``,
   'social-religious-reform': ``,
   'indian-response-british-rule': ``,
