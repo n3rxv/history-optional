@@ -108,7 +108,7 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
             </a>
           );
         })}
-      </nav>}
+      </nav>)}
     </div>
   );
 }
