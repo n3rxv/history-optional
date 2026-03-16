@@ -14,6 +14,7 @@
     "@fontsource/lora": "^5.2.8",
     "@supabase/supabase-js": "^2.99.1",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "fuse.js": "^7.1.0",
     "gray-matter": "^4.0.3",
     "next": "16.1.6",
