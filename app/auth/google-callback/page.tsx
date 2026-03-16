@@ -8,7 +8,8 @@ function CallbackHandler() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const next = searchParams.get('next') ?? '/';
+    const rawNext = searchParams.get('next') ?? '/';
+    const next = rawNext.startsWith('/') ? rawNext : '/';
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         router.replace(next);

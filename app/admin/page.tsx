@@ -283,6 +283,10 @@ function NoteEditor({ password }: { password: string }) {
     const file = e.target.files?.[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
+      if ((reader.result as string).length > 500_000) {
+        alert('Image too large! Please use an image under 500KB.');
+        return;
+      }
       document.execCommand('insertHTML', false, `<img src="${reader.result}" style="max-width:100%;border-radius:6px;margin:8px 0;" />`);
       editorRef.current?.focus();
     };

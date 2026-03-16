@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const chatLimits = new Map<string, { count: number; ts: number }>();
+const LIMIT = 20; // max 20 messages per 10 minutes per IP
+
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown';
+  const now = Date.now();
+  const entry = chatLimits.get(ip);
+
+  if (entry && now - entry.ts > 10 * 60 * 1000) chatLimits.delete(ip);
+
+  const current = chatLimits.get(ip);
+  if (current && current.count >= LIMIT) {
+    return NextResponse.json({ content: [{ text: 'Too many messages. Please wait a few minutes.' }] }, { status: 429 });
+  }
+  chatLimits.set(ip, { count: (current?.count ?? 0) + 1, ts: current?.ts ?? now });
+
   try {
     const { messages, system } = await req.json();
 
@@ -23,7 +38,7 @@ export async function POST(req: NextRequest) {
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content || 'No response';
     return NextResponse.json({ content: [{ text }] });
-  } catch (err) {
-    return NextResponse.json({ content: [{ text: 'Error: ' + err }] });
+  } catch {
+    return NextResponse.json({ content: [{ text: 'Something went wrong. Please try again.' }] });
   }
 }
