@@ -52,9 +52,10 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
       background: 'var(--bg2)',
       border: '1px solid var(--border)',
       borderRadius: 8,
-      padding: '1rem 1.25rem',
+      padding: open ? '1rem 1.25rem' : '0.6rem 1.25rem',
       marginBottom: '2rem',
       maxWidth: 760,
+      transition: 'padding 0.2s',
     }}>
       <div style={{
         fontSize: '0.68rem',
