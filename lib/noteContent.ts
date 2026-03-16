@@ -16856,8 +16856,367 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 </ul>
 <p>Even the western world went through such phase of decline. However, unlike India, the decline of handicraft industries in the west was compensated by the foundation of modern industries. In India, the wilful destruction of traditional structure was not replaced by any new structure.</p>`,
-  'social-cultural-developments': ``,
-  'social-religious-reform': ``,
+  'social-cultural-developments': `
+<h2>Industrial Era: Socio-cultural Aspects</h2>
+<p>&#8220;I am going to British India, but I shall not be Governor General. It is you that will be Governor General.&#8221; &#8212;Lord William Bentinck to James Mill</p>
+<h2>Before 1813</h2>
+<ul>
+<li>&#8226; <strong>Indomania of Orientalists:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Orientalists were admirers of the Indian culture and religion, primarily based on Indian scriptures; Indian past was seen as a cradle of civilization and great cultural heights.</li>
+<li style="padding-left:2em">&#9702; Though they did accept that the Indian society had fallen from that ancient golden age, they also thought that the ancient culture could be revived through introducing some of its codes in judicial courts and administration.</li>
+</ul>
+</li>
+<li>&#8226; Even though the officials of the EIC were eager to &#8216;reform and improve&#8217; Indian society but were forced to maintain an indifferent attitude. This was due to two reasons:
+<ul>
+<li style="padding-left:2em">&#9702; Till about 1813, the EIC was mainly interested in its trading activities and maximizing its profit from the revenue administration.</li>
+<li style="padding-left:2em">&#9702; Secondly, the Company also did not want to disturb the strong religious base of the Indian Society.</li>
+</ul>
+</li>
+<li>&#8226; Thus, although <strong>Jonathan Duncan</strong>, a Resident of <strong>Benaras</strong>, attempted to <strong>stop female infanticide</strong> and some of <strong>Wellesley&#8217;s officers</strong> tried to <strong>stop the practice of sati</strong>, these were mere exceptions and did not change the larger picture for the better. India continued to practise these social evils.</li>
+</ul>
+<p>By 1820s, Orientalism as a policy was discarded by a set of people; ambitious, somewhat arrogant, and aggressive officials. They followed James Mill and James Mill&#8217;s mentor Bentham and tried to apply utilitarian principles in India for India&#8217;s possible transformation into a modern society. It was a part of the modernization project that many of these early 19th century officials, now more confident about their ability to change India, tried to carry out. People like Bentinck, Macaulay, Charles Grant visualized a new western India.</p>
+<h2>Factors behind the change:</h2>
+<p>Earlier, the British policy was to maintain the traditional structure of society, but in this period, the British policy emphasized the reforms and changes in the social sector.</p>
+<h3>Material Factors</h3>
+<ul>
+<li>&#8226; British policies during this era were guided by the <strong>interest of industrial capitalism</strong> &#8211; to develop India as a supplier of raw material to British industries and a captive market for British goods.</li>
+<li>&#8226; Social reform and English education were designed <strong>to create a class of Indians</strong> who were British in taste and morality and thus <strong>eager to consume British manufactured goods.</strong></li>
+<li>&#8226; India would need westernized legal system, supply networks and a larger bureacracy. It would be affordable only if Indians, trained in western ways of thinking and behaviour, would be available in sufficient number to be recruited.</li>
+</ul>
+<h3>Political Logic:</h3>
+<p>Orientalism in British policy was the consequence of a relatively weak empire. Once British control in the early part of the 19th century became firmly established after the fall of Marathas, this earlier policy was discarded. Anglicism/westernization was the ideological articulation of a more confident imperialism, when Indian resistance had been completely removed, and the British had become so confident about their ability or longevity that they were now posing as the civilizers of the empire.</p>
+<h3>Social Milieu:</h3>
+<p>By the beginning of the 19th century, there was a new crop of officials who came from relatively upper class or aristocratic background, like Lord Cornwallis, Marquis Wellesley, Lord Bentick. Their attitude was different from their predecessors&#8217;.</p>
+<p>Instead of getting imbibed into Indian culture, like Warren Hastings, they had a specific mission in mind: not only to establish the British superiority in India, but also eventually create an India in a new mould. They represented a completely new philosophy of imperialism which took upon itself the role of the civilizer.</p>
+<h3>Ideological Factors: Liberalism, Utilitarianism, Evangelism</h3>
+<p>With Industrial Revolution, the social-cultural atmosphere in England started to change. There was a rise of a new group of thinkers in Britain, known as the liberals and the utilitarians, in the first half of the 19th century.</p>
+<ul>
+<li>&#8226; <strong>Liberalism</strong> is based on the idea of individual liberty and equality before the law.
+<ul>
+<li style="padding-left:2em">&#9702; Protecting individual rights and freedoms, such as freedom of speech, religion, and association, as well as the right to property.</li>
+<li style="padding-left:2em">&#9702; Importance of limited government and the rule of law, which are seen as necessary to protect individual rights and prevent abuses of power.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Utilitarianism</strong> is based on the principle of maximizing happiness/pleasure and minimizing pain/suffering.
+<ul>
+<li style="padding-left:2em">&#9702; According to Bentham, Nature has placed mankind under the governance of two sovereign masters: pleasure and pain. (famous pleasure-pain arithmetic of Bentham) So, Bentham defined utility as pleasure or happiness.</li>
+<li style="padding-left:2em">&#9702; Utilitarianism sees morality as a matter of producing the best outcomes for society as a whole (Promoting the greatest good for the greatest number of people)</li>
+<li style="padding-left:2em">&#9702; Issue:
+<ul>
+<li style="padding-left:4em">&#9632; These statistics of pleasure ignored individual freedom or rights. Thus, utilitarian thought showed a certain indifference towards forms of government. For them, it was happiness and not the liberty, that was the end of the government.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Thinker: Jeremy Bentham, James Mill, John Stuart Mill etc.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Evangelism:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>Evangelicals</strong> believed that it was their moral duty to preach the Gospel, to show the people the right path of humanity, to oppose idol worship, superstitious and cruel beliefs.</li>
+</ul>
+</li>
+</ul>
+<h2>After 1813: (Indomania &#8594; Indophobia)</h2>
+<p>The new generation in 1820s was influenced by these ideas. Utilitarians (Mill father and son) were critical of Indian society at the root of which they saw &#8216;primitive barbarism&#8217;, &#8216;despotism&#8217; and an encompassing religious tyranny.</p>
+<ul>
+<li>&#8226; They <strong>marginalised India&#8217;s past achievements and focused on present degenerate condition</strong> of Indian society.
+<ul>
+<li style="padding-left:2em">&#9702; Their basic premise was that the Indian society was totally degenerated. In fact, it was in the grip of all kinds of social evils.</li>
+<li style="padding-left:2em">&#9702; It could be <strong>reformed only by governmental intervention.</strong> Thus, they now turned against the tolerance and respect for Indian civilization characteristic of the ages of Clive and Warren Hastings.</li>
+<li style="padding-left:2em">&#9702; <strong>James Mill&#8217;s The History of India (1817),</strong> presented a full picture of the <strong>degenerated Indian society.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; He took the extreme view that India never had a glorious history; on the contrary, he argued the country had always been at a lower level of civilisation.</li>
+<li style="padding-left:4em">&#9632; He said that Indians would have to come out of their stupor, forget their history in order to achieve equality with the West.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Reform</h3>
+<ul>
+<li>&#8226; <strong>James Mill</strong> made happiness of Indians contingent upon the nature of laws, the form of government, and the mode of taxation. For him, an <strong>effective</strong> and <strong>good government,</strong> capable of enacting <strong>good laws</strong> was needed for India. Only then, the people of India could be freed from Brahminic domination.</li>
+<li>&#8226; <strong>John Stuart Mill</strong> (son of James Mill) further extended this line of thinking. But in certain respects, he differed from his father. According to him, <strong>educational programs</strong> were to be more effective than mere legal remedies.</li>
+<li>&#8226; <strong>Civilising Mission</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Although utilitarians favoured the idea of a representative democracy to ensure good government in England, they considered that people of India were not yet ready for it.</li>
+<li style="padding-left:2em">&#9702; They believed that the real task of the British was to westernize Indian society, to raise the Indian people on the scale of civilization, so that Indians can become worthy of self-government. With the help of British laws, institutions, educational system etc. Indian could progress and gradually rise in the civilizational scale in future.</li>
+<li style="padding-left:2em">&#9702; Thus, Indians were required to live under the guidance of the British.
+<ul>
+<li style="padding-left:4em">&#9632; Thus, a paternalist idea was already inherent in the kind of liberalism of the Mills: India was to be changed but changed under British guardianship.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; So, this was the self-imposed obligation, a sacred duty of British, to civilize the Indians. Such a view provided legitimacy to colonial rule as the civilising mission.</li>
+</ul>
+</li>
+</ul>
+<p><strong>They started to influence the British policy towards India</strong> and soon its impact was witnessed in India. The colonial administration started to develop a major reformist agenda for the Indian society. <strong>State was considered as an agent of change</strong> and it was emphasised that good laws, strong centralised state and efficient administration would bring about an improvement in the life of people.</p>
+<ul>
+<li>&#8226; Smithian <strong>doctrine of laissez faire</strong>. It was against monopolistic practices.
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>Charter Act of 1813</strong> and <strong>1833</strong> were deeply influenced by Utilitarianism as they gradually abolished the Company&#8217;s monopoly over trade.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Land Reforms</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The introduction of <strong>Ryotwari</strong> settlements in Madras/Bombay presidency and <strong>Mahalwari</strong> in parts in NWFP/Punjab was also inspired by Utilitarianism. These settlements were opposed to the role of landlords.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Legal codification</strong></li>
+<li>&#8226; <strong>Socio-religious enactments</strong>: for abolition of sati, slavery and infanticide and legalisation of widow remarriage</li>
+<li>&#8226; <strong>The education policy</strong> formulated during GG of Lord William Bentinck
+<ul>
+<li style="padding-left:2em">&#9702; Instead of classical knowledge/education, the education which provided means of livelihood was more important for the utilitarians.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Missionary works</strong></li>
+</ul>
+<h2>(A) Official Social Reform Measures (1820s-57)</h2>
+<p><strong>Lord William Bentinck</strong> was the first Governor-General who initiated, directed, and implemented the policy of reform in India. He was appointed as Governor-General of India in 1828. Unlike his predecessors, he focussed on reforms and retrenchment, rather than expansion and conquest. His objective was to modernize the government policy in areas of law, language, education, social reform, finance and administration.</p>
+<ul>
+<li>&#8226; <strong>Sati Prohibition</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Lord William <strong>Bentinck&#8217;s</strong> Government passed a <strong>Resolution in 1829 (Resolution No. XVII)</strong> that declared <strong>Sati as &#8216;culpable homicide&#8217; or &#8216;suicide&#8217; (if the woman died).</strong> Punishment would be given to both: those who attempted Sati and to those who instigated it.</li>
+<li style="padding-left:2em">&#9702; The same law was implemented in Bombay and Chennai in 1830.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Female infanticide</strong> was criminalised.</li>
+<li>&#8226; <strong>Thugee</strong> was stamped out.</li>
+<li>&#8226; <strong>Other reforms by Bentinck:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The language of government and the high courts was changed from Persian to English.</li>
+<li style="padding-left:2em">&#9702; The currency was standardised as the Bengal silver rupee.</li>
+<li style="padding-left:2em">&#9702; Internal customs were abolished.</li>
+<li style="padding-left:2em">&#9702; Mughal emperor&#8217;s head was taken off the coinage.</li>
+<li style="padding-left:2em">&#9702; Indians were more closely involved in the structure of Company rule, especially in the lower ranks of the judiciary.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Slavery abolition</strong>
+<ul>
+<li style="padding-left:2em">&#9702; William <strong>Bentick</strong> was instrumental in creating the ground for abolition of slavery. He <strong>banned slave trade</strong> within the EIC territory and prohibited the export of slaves in 1833 after the recommendation in the Charter Act of 1833.</li>
+<li style="padding-left:2em">&#9702; Initially, British officials in India pursued the route of mitigation and amelioration (e.g. suppressing the export trade of slaves), instead of abolition. Finally, it was legally <strong>abolished altogether</strong> in <strong>1843</strong>, during the tenure of <strong>Lord Ellenborough</strong>.</li>
+</ul>
+</li>
+</ul>
+<h3>Post William Bentinck Reforms:</h3>
+<ul>
+<li>&#8226; <strong>Human sacrifice</strong> was banned by <strong>Lord Hardinge</strong> (1844-48)
+<ul>
+<li style="padding-left:2em">&#9702; It was mostly common among <strong>Gonds</strong>, India&#8217;s largest tribe.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Lord Dalhousie</strong> era:
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Religious Disability Act</strong> allowed a person could inherit the property from his father even after religious conversion.</li>
+<li style="padding-left:2em">&#9702; <strong>Widow Remarriage Act (1856)</strong> permitted a Hindu widow to re-marry.</li>
+<li style="padding-left:2em">&#9702; His third important decision was to provide grants-in-aid for the missionary schools.
+<ul>
+<li style="padding-left:4em">&#9632; When critical points were raised against his decision, he agreed that secular education would be provided even in these missionary schools.</li>
+<li style="padding-left:4em">&#9632; Besides, he also conceded that the schools run by the Indians would have the same facilities.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>(B) Anglicist-Orientalist Controversy</h2>
+<p>When the English company emerged as an important political power in India after winning the Battle of Buxar and by signing the treaty of Allahabad but for almost 50 years, company did not pay much attention to the educational advancement of India. It remained busy in exploiting Indian resources while development of India was not its concern and did not make any effort to educate Indians in English in a big way.</p>
+<p>The <strong>Charter Act of 1813</strong> had three major changes with respect to Education.</p>
+<ul>
+<li>&#8226; <strong>Opened India for the traders</strong> and other British people.</li>
+<li>&#8226; Lifting prohibition on <strong>missionary activity</strong></li>
+<li>&#8226; <strong>Responsibility of public education (Clause 43)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; English company to keep aside a sum of Rs. 1 lakh/per annum for educational advancement of India. Company would undertake educational responsibility and duty of the Indian people.</li>
+<li style="padding-left:2em">&#9702; &#8220;&#8230;&#8230;.A sum of not less than <strong>one lac of rupees</strong> in each year shall be set apart and applied to the <strong>revival and improvement of <em>literate</em></strong> and the <strong>encouragement of the <em>learned natives</em></strong> of India and for the <strong>introduction and promotion of a knowledge of the <em>sciences</em></strong> among the inhabitants of the British territories in India&#8221;.</li>
+</ul>
+</li>
+</ul>
+<p>However, this money was <strong>not spent for a decade</strong> because of lack of unanimity about the syllabus and medium of instruction. The Company was also reluctant initially to spend the money as it had no definite policy and agency. Thus, this section remained inoperative till 1823.</p>
+<p>Meanwhile, Calcutta experienced significant growth and development in the early 19th century, with a large and increasingly wealthy population engaged in commercial activities. English-language education also saw a rapid growth in demand, supplied by Fort William College and the Protestant mission in Serampore. To cater to this demand, the independent <strong>Hindu College</strong> was established in 1817, offering modern subjects in English to Hindu boys eager to absorb Western education as a qualification for employment.</p>
+<p>The Company had declined to involve itself in the founding of the Hindu College, but in recognition of the changing circumstances it set up a <strong>General Committee of Public Instruction in 1823</strong> by the Governor General John Adams. Its members were H.T. Prinsep and H.H. Wilson.</p>
+<p>However, the activities of the Committee for the decade from 1823 clearly indicate its inclination towards <strong>Orientalism</strong>.</p>
+<p>But the opinion was rapidly growing in favour of English education because missionaries had started to popularize English education; Anglicization of bureaucracy and legal system was taking place, and English education was regarded as a panacea for all social ills. Soon, a group of aspirational Bengalis emerged who rejected the traditional conservative practices and wanted to embrace western modernity.</p>
+<p>Thus, some young members in the Committee started to oppose Oriental approach. In 1832 the sharp division of opinion in the Committee led to the rise of two distinct and hostile parties of equal number &#8211; the Orientalists (classicists) and Occidentalists (Anglicists).</p>
+<table>
+<tr><th></th><th>Oriental Party</th><th>Anglicist Party</th></tr>
+<tr><td><strong>Proponents</strong></td><td>H.T Princep, HH Wilson</td><td>Charles Trevelyan, Charles Grant, Alexander Duff.</td></tr>
+<tr><td><strong>Whom to Educate?</strong></td><td>Imparting education to the traditional upper castes</td><td>Educating the upper and middle strata of the society to produce native Government employees.</td></tr>
+<tr><td><strong>What to teach?</strong></td><td>Oriental culture was not inferior to Western culture. Preserve and use great native knowledge. A foreign culture should not be transplanted in Indian soil. Teach Sanskrit and Arabic books. Translation, Printing, Publication of classical works (Revival and Improvement)</td><td>Literature = English literature, European knowledge. Printing and publication of books on western learning. (Revival and Improvement)</td></tr>
+<tr><td><strong>Medium of Instruction</strong></td><td>An imposition of English language upon the people would provoke their resentment.</td><td>Western content can be delivered only in English language.</td></tr>
+</table>
+<p>Due to <strong>equal division in the Committee</strong>, it was very difficult to transact any business and no decision could be reached.</p>
+<p>Meanwhile, in <strong>1833, a new Charter Act</strong> was passed which had certain provisions with the impact on education:</p>
+<ul>
+<li>&#8226; India was <strong>fully opened to the missionaries</strong> of all nations.</li>
+<li>&#8226; Indians <strong>knowing English</strong> became entitled to get high <strong>posts under the Government.</strong></li>
+<li>&#8226; There was <strong>administrative centralisation</strong> of India which raised the question of language of government transaction.</li>
+<li>&#8226; It <strong>increased the educational grant</strong> from Rs. 1 lakh to 10 lakh</li>
+</ul>
+<p><strong>Lord Macaulay</strong>, who came to India in 1834 as the first law member, was appointed as the chairman of the committee in 1835, and he <strong>supported Anglicist group.</strong> He wrote his <strong>famous minute</strong> on February 2, 1835, in favour of English education.</p>
+<p>Despite the objections of the Orientalists, <strong>William Bentinck,</strong> who already supported English education, <strong>passed a resolution on March 7, 1835</strong>, and gave his verdict in favour of the Anglicists. This resolution proclaimed that the objective of the British Government ought to be the promotion of European literature and science among the natives of India, and that all the funds appropriated for the purpose of education would be best employed on English education alone.</p>
+<p>Thus, the issue was finally resolved.</p>
+<ul>
+<li>&#8226; The <strong>stipend</strong> being given to students in Oriental schools or colleges was immediately stopped.</li>
+<li>&#8226; All expenditure on <strong>printing</strong> of all oriental works was discontinued.</li>
+<li>&#8226; English became <strong>medium</strong> of education in the country.
+<ul>
+<li style="padding-left:2em">&#9702; Lower level: western education in vernacular medium</li>
+<li style="padding-left:2em">&#9702; Higher level: English medium</li>
+</ul>
+</li>
+<li>&#8226; English became important for government <strong>jobs</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; In <strong>1837</strong>, the <strong>Persian</strong> language was abolished as the <strong>court language</strong> and was substituted by English.</li>
+<li style="padding-left:2em">&#9702; <strong>Lord Harding passed a Resolution in 1844</strong>, declared that for all kinds of government posts, a clear preference would be given to those who could read and write English.</li>
+<li style="padding-left:2em">&#9702; A new circular in 1854 made English education compulsory in government jobs.</li>
+</ul>
+</li>
+<li>&#8226; This education policy was based on <strong>downward filtration approach.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; I feel&#8230; that it is impossible for us, with our limited means, to attempt to educate the body of the people. We must at present do our best to form a class who may be interpreters between us and the millions whom we govern, &#8211; a class of persons Indian in blood and colour, but English in tastes, in opinions, in morals and in intellect. To that class we may leave it to refine the vernacular dialects of the country, to enrich those dialects with terms of science borrowed from the Western nomenclature, and to render them by degrees fit vehicles for conveying knowledge to the great mass of the population.</li>
+</ul>
+</li>
+</ul>
+<p>The decision ushered a new era in the field of modern Indian education with far-reaching effects.</p>
+<h3>Further Development in Education</h3>
+<p>Despite some progress by 1853, education had still to reach the masses. Downward filtration did not take place, and the vernacular education continued to be neglected both by the Government and the English educated Indians.</p>
+<p>The home authorities in England now felt that the education of the entire country was the responsibility of the State. It is in this context that <strong>Wood&#8217;s Dispatch (1854)</strong> assumes importance because it altered the downward filtration theory of Lord Macaulay. It is the most important document of British education policy in India and is rightfully considered as the Magna Carta of English education in India.</p>
+<h3>Recommendations of the Wood&#8217;s Dispatch:</h3>
+<ul>
+<li>&#8226; <strong>Mass education</strong> was the responsibility of the government and ought to be implemented effectively. A <strong>separate department of education</strong> in every Indian province should be created.</li>
+<li>&#8226; It conceived the education at three different levels:
+<ul>
+<li style="padding-left:2em">&#9702; Primary (vernacular language)</li>
+<li style="padding-left:2em">&#9702; Middle level (vernacular + English)</li>
+<li style="padding-left:2em">&#9702; Higher level (English)</li>
+</ul>
+</li>
+<li>&#8226; Thus,
+<ul>
+<li style="padding-left:2em">&#9702; Attention to be given for <strong>extension of education</strong>, both English and Vernacular.</li>
+<li style="padding-left:2em">&#9702; <strong>New middle schools</strong>, especially vernacular schools and technical schools and colleges should be established.</li>
+<li style="padding-left:2em">&#9702; Institutions for the purpose of <strong>training teachers</strong> should be established.</li>
+<li style="padding-left:2em">&#9702; <strong>Universities</strong> to be established in the three Presidency&#8217;s towns. These Universities had to only <strong>conduct the examinations</strong> for testing the knowledge of students who were taught elsewhere.</li>
+<li style="padding-left:2em">&#9702; A system of <strong>granting aid to privately-run schools and colleges</strong> should be introduced.
+<ul>
+<li style="padding-left:4em">&#9632; Instead of government actually directly promoting institutions of Education barring a few major centers, it was important to resort to a grant-in-aid system in order to encourage private initiatives in the field of education.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Female education</strong> should be encouraged.</li>
+</ul>
+</li>
+</ul>
+<p>The importance of Wood&#8217;s dispatch can also be understood by the observation of <strong>H.R. James</strong> (historian) &#8220;The Dispatch of 1854 is a climax in the history of Indian education: what goes before, leads up to it; what follows flows from it.&#8221; Most of the clauses of Wood&#8217;s dispatch were implemented. The first three modern universities were set up at Calcutta, Madras and Bombay.</p>
+<h3>Aims and objectives behind British education policy</h3>
+<p>British educational policy in India was guided by <strong>British colonial interest</strong>. They wanted to create a class of persons Indian in blood and colour, but British in taste, opinion, morals and intellect. This class was supposed to:</p>
+<ul>
+<li>&#8226; <strong>Consume British industrial goods:</strong> so that <strong>market of British goods</strong> could be expanded and Indian could be habituated in western way of life.</li>
+<li>&#8226; <strong>Cheaper clerks:</strong> The western education was propagated in India to train Indians for <strong>lower administrative positions.</strong> It was practically not possible to appoint Europeans everywhere European were too costly as well.</li>
+<li>&#8226; Develop fellow-feeling and <strong>loyalty towards British</strong> empire.
+<ul>
+<li style="padding-left:2em">&#9702; According to Macaulay, the westernisation in India would keep the British interest safe for a long time even if British rule comes to an end.</li>
+</ul>
+</li>
+<li>&#8226; English education was regarded as a <strong>panacea for all social ills.</strong></li>
+<li>&#8226; <strong>De-culturise</strong> Indians with secular education in order to <strong>spread Christianity</strong>.</li>
+<li>&#8226; Implied ambition of the Empire <strong>to make English the global language</strong> by making a populous country like India speak English.</li>
+</ul>
+<h3>English Education: Consequences</h3>
+<p>The intentions of English were more selfish than noble. Although India did move towards modernisation, this was more of a side-effect than an intended efforts of the British.</p>
+<p><strong>It did more harm done than good</strong> and the immediate negative impact of the colonial English education policy was profoundly devastating.</p>
+<ul>
+<li>&#8226; <strong>Decline of well-functioning traditional pathashala system</strong> as reported in Adam&#8217;s Report
+<ul>
+<li style="padding-left:2em">&#9702; Traditional institutions started to languish due to the loss of protection and patronage.</li>
+</ul>
+</li>
+<li>&#8226; It had a detrimental <strong>impact on mass education</strong>. In 1947, just 16% literacy rate in India (Among women, it was 8%)
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Mahatma Gandhi&#8217;s 1931 speech at Chatham House, London:</strong> India is more illiterate today than it was a fifty or a hundred years ago&#8230; because the British administrators, when they came to India, instead of taking hold of things as they were, began to root them out. They scratched the soil and began to look at the root, and left the root like that, and the beautiful tree perished. The village schools were not good enough for the British administrator, so he came out with his own program. Every school must have so much paraphernalia, building and so on.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Curriculum</strong>: Teaching of English language and literature, humanist education and liberal arts were emphasised but not western science and technology. It was an important issue &#8211; scientific education was not intended to be imparted to Indians.
+<ul>
+<li style="padding-left:2em">&#9702; It was Indians had to take a lot of efforts to make scientific knowledge accessible to Indians.</li>
+<li style="padding-left:2em">&#9702; By the end of the 19th century, a large community of English educated Indians was created but could not be absorbed as professional or offered jobs. There were not enough opportunities and soon a <strong>problem of educated unemployment crops up.</strong></li>
+<li style="padding-left:2em">&#9702; A large number of colleges were setup for liberal education and a handful of medical colleges by the turn of the century. Technological institutions were very small in number. <strong>It didn&#8217;t lead to modernisation of the economy.</strong> Even after introducing English, neglect of modern science belied the hope of scientific revolution and modernisation.</li>
+</ul>
+</li>
+<li>&#8226; Downward filtration led to <strong>Cultural colonisation</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; Extreme emphasis on English language also led to the <strong>atrophy of cultivation of Indian knowledge systems.</strong></li>
+<li style="padding-left:2em">&#9702; Now, the original ideas were generated in Britain, while Indians were just supposed to translate and imitate. It ensured <strong>intellectual subservience</strong> to the mother country and Inferiority Complex</li>
+</ul>
+</li>
+<li>&#8226; Theory of downward filtration also created a lot of <strong>internal divisions</strong> due to asymmetric spread of education.
+<ul>
+<li style="padding-left:2em">&#9702; It created a <strong>divide in the education system</strong> &#8211; between languishing Indian vernacular system in large parts of India and a handful of western education institutions limited for urban elites.</li>
+<li style="padding-left:2em">&#9702; <strong>Religion</strong>: By 1880s in Bengal, where Muslim constituted majority population, the number of Hindus passing University entrance examination was 1200 while that of Muslims was merely 66-70, merely 5%.</li>
+<li style="padding-left:2em">&#9702; <strong>Caste</strong>: During 1880s, out of 6800 scholars registered at the University of Madras, 66% were Brahmins while there population was merely 3%.</li>
+<li style="padding-left:2em">&#9702; <strong>Region</strong>: Between 1864 and 1873, the largest number of degrees were awarded from Calcutta University (12,000), followed by Madras University (5,500) and Bombay University (2700)</li>
+<li style="padding-left:2em">&#9702; Rural and Women&#8217;s education lagged badly behind throughout the 19th century.</li>
+</ul>
+</li>
+</ul>
+<h3>Unintended positive impact:</h3>
+<ul>
+<li>&#8226; English education was perhaps the biggest boon as Indians not only got access to <strong>western knowledge</strong>, but they also even got a language to communicate with each other. While English language was to unite India as one administrative nation state it was also to unite Indians as one people.</li>
+<li>&#8226; <strong>Creative engagement with the West</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In history writing: new historical methods to write the history of our own country using your own resources.</li>
+<li style="padding-left:2em">&#9702; In pursuit of Sciences: Modern science from the West was learnt to project a sort of nationalist science.</li>
+<li style="padding-left:2em">&#9702; Socio-religious Reforms: People like Raja Rammohan Roy and his followers in the Brahmo movement tried to recast Indian religious system in the light of the lessons that they had derived from their knowledge of Christianity.</li>
+</ul>
+</li>
+<li>&#8226; If English education created a class of Indians who would be loyal to the British rule, it was also instrumental in creating a class of Indians who would be opposed to the British rule. It was this small group of elite Indians, inspired by western liberal ideas, provided a social <strong>basis for the modern nationalism.</strong></li>
+<li>&#8226; It led to the <strong>modernisation of Indian script, languages, literature.</strong></li>
+<li>&#8226; English was also to continue benefit Indians long after the British had departed. It unwittingly played an important role in <strong>future economic success</strong> of India.</li>
+</ul>
+<p>Thus, English language education acted as both liberating as well as colonizing force and its effects can be seen even today.</p>`,
+  'social-religious-reform': `
+<h2>(C) Evangelical Activities</h2>
+<p><strong>Q. The Christian Missionary propaganda from 1813 onwards was &#8220;often insensitive and wounding.&#8221; Comment. [1999, 20m]</strong></p>
+<p>In 1792, Charles Grant, a key advocate for spreading Christianity in India, identified &#8216;ignorant religious beliefs&#8217; as the primary obstacle to progress of India. He proposed that introducing Christian teachings could dispel ignorance among the Indian population. William Wilberforce later promoted Grant&#8217;s ideas in the British Parliament, leading to the passage of the Charter Act of 1813. This act removed restrictions on Christian missionaries entering India, marking the beginning of Christian outreach in the country.</p>
+<ul>
+<li>&#8226; Impact:
+<ul>
+<li style="padding-left:2em">&#9702; It had a wounding effect on self-confidence of Indians. Vivekananda quote &#8220;The child is taken to school, and the first thing he learns is that his father is a fool, the second thing that his grandfather is a lunatic, the third thing that all his teachers are hypocrites, the fourth that all the sacred books are lies! By the time he is sixteen he is a mass of negation, lifeless and boneless.&#8221;</li>
+<li style="padding-left:2em">&#9702; Such propaganda also led to contempt of Indians to fellow converted Christian and increased hostility, rather than mutual amity.</li>
+<li style="padding-left:2em">&#9702; Among the Northeast tribes: American Baptists insisted on wholesale abandonment of community customs and traditional festivals - de-culturization, thus enhancing religious hostility.</li>
+</ul>
+</li>
+<li>&#8226; Quickened the social reform:
+<ul>
+<li style="padding-left:2em">&#9702; Gandhiji said that the efforts of missionaries spurred Hindu reformers to address internal issues. Missionaries&#8217; eagerness to convert Hindus and condemn social problems like untouchability intensified reformers&#8217; commitment to uplift and integrate oppressed sections into the broader Hindu society.</li>
+</ul>
+</li>
+<li>&#8226; Some counter-perspectives were presented.
+<ul>
+<li style="padding-left:2em">&#9702; Mahatma Gandhi had opposed Conversion staunchly while Ramkrishna showed all religions as different paths to same god, and thus true, and therefore obviating the need of conversion at all.</li>
+<li style="padding-left:2em">&#9702; In some cases, however, the reaction also emerged with equally anti-Christian polemic. E.g. Swami Dayanand dismissed Christ as a mere carpenter&#8217;s son living in wild and poor country, &#8216;that is why he prays for daily bread.&#8217;</li>
+</ul>
+</li>
+<li>&#8226; Mutual criticism also led to mutual learning of faiths.
+<ul>
+<li style="padding-left:2em">&#9702; There developed a lively tradition of public debate in oral/print in the 19th century. Although acrimonious, it created space for serious and important discussion around questions of theology, belief and practice. (eg Raja Rammohan Roy).</li>
+<li style="padding-left:2em">&#9702; However, in the 20th century, such doctrinal discussions declined with large scale emergence of communal identity politics.</li>
+</ul>
+</li>
+</ul>
+<h2>Q. Christian missionaries and Colonial state were often complicit in the agenda of conversion. Do you agree? (15 Marks)</h2>
+<p>As per KM Panikkar, conversion under colonial aegis was a kind of mental and spiritual conquest that was often supplemented by the political authority (e.g. Goa Inquisition.) However, in the British India, the relation between the missionaries and the colonial state were never static, they shifted across time. They were sometimes symbiotic sometimes conflicting.</p>
+<p><strong>Before 1813,</strong> the EIC, with the primary aim of profit maximization, <strong>opposed open missionary work in India</strong> in order to avoid unnecessary provocation to Indians (eg Vellore Mutiny in 1806). Instead, it tried to reduce the administrative cost by supporting oriental studies and winning local collaborators. Thus, there were restrictions on movement of Europeans in India. Initial efforts at conversion had to take place by by-passing the Company state, as in the case of the Baptist mission of William Carrey which preferred to settle in Danish Serampore.</p>
+<p>However, with religious revival in England as a reaction to French Revolution, industrialisation and individualism, evangelicals (eg Charles, Grant, William Wilberforce) pressurized to open India for missionary work. The decades between <strong>1813 to 1857 exhibit state-missionary closeness.</strong> Missionaries were now free to preach and proselytize.</p>
+<ul>
+<li>&#8226; According to Sanjay Seth and Sujit Sivasundaram, missionaries supported the spread of scientific-secular education to de-Hinduize Indian mind and prepare it for Christianity.</li>
+<li>&#8226; Gauri Vishwanathan has cited several instances of state-missionary nexus behind religious conversion like evangelic officers in Punjab, missionary support to social reform agenda of William Bentinck or Lexi Loci Act in 1850 to help the converts.</li>
+</ul>
+<p>However, it is very hard to draw unilinear state-missionary relationship.</p>
+<ul>
+<li>&#8226; Even after 1813, as per Antony Copley, there were many checks on the missionary activities. Majority conversions were by German missions and not state-supported English missions.</li>
+<li>&#8226; Parinita Shetty has shown that more than the state, the officials supported missions in their personal capacity.</li>
+</ul>
+<p>In the aftermath of major setback of 1857, and as per the Queen&#8217;s Proclamation, the <strong>post-1857</strong> colonial state resorted to a <strong>cautious policy of non-intervention</strong> in the existing social and cultural practices. Sometimes, missionaries entered the conflict with state policies, as Rev. James Lang did during Indigo rebellion.</p>
+<p>As the modern states no longer needed any religious sanction to exercise their power, the state-religion linkage became further diluted over time.</p>`,
   'indian-response-british-rule': ``,
   'birth-indian-nationalism': ``,
   'gandhian-nationalism': ``,
