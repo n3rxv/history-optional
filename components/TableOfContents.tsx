@@ -9,6 +9,7 @@ type TocEntry = {
 
 export default function TableOfContents({ contentHtml }: { contentHtml: string }) {
   const [entries, setEntries] = useState<TocEntry[]>([]);
+  const [open, setOpen] = useState(true);
   const [activeId, setActiveId] = useState<string>('');
 
   useEffect(() => {
@@ -107,7 +108,7 @@ export default function TableOfContents({ contentHtml }: { contentHtml: string }
             </a>
           );
         })}
-      </nav>
+      </nav>}
     </div>
   );
 }
