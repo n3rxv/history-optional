@@ -426,6 +426,13 @@ export default function NoteReader({ slug }: { slug: string }) {
         {/* Toolbar */}
         <div style={{ borderBottom: '1px solid var(--border)', padding: '0.85rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', background: 'var(--bg)', position: 'sticky', top: 60, zIndex: 30 }}>
 
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+            style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text2)', cursor: 'pointer', padding: '0.3rem 0.6rem', borderRadius: 4, fontSize: '0.8rem', lineHeight: 1, display: 'flex', alignItems: 'center' }}
+          >
+            {sidebarOpen ? '◂' : '▸'}
+          </button>
           <Link href={`/paper${note.paper}`} style={{ color: 'var(--text3)', fontSize: '0.78rem', textDecoration: 'none' }}>Paper {note.paper}</Link>
           <span style={{ color: 'var(--border2)' }}>›</span>
           <span style={{ color: 'var(--text3)', fontSize: '0.78rem' }}>{note.section}</span>
