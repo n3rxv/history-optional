@@ -389,9 +389,27 @@ export default function NoteReader({ slug }: { slug: string }) {
       <aside style={{
         width: sidebarOpen ? 240 : 0, minWidth: sidebarOpen ? 240 : 0,
         borderRight: '1px solid var(--border)', background: 'var(--bg2)',
-        overflow: 'hidden', transition: 'all 0.2s',
-        position: 'sticky', top: 60, height: 'calc(100vh - 60px)', overflowY: 'auto', flexShrink: 0,
+        overflow: 'visible', transition: 'all 0.2s',
+        position: 'sticky', top: 60, height: 'calc(100vh - 60px)', flexShrink: 0,
       }}>
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+          style={{
+            position: 'absolute', right: -14, top: '50%', transform: 'translateY(-50%)',
+            zIndex: 40, width: 14, height: 48,
+            background: 'var(--bg2)', border: '1px solid var(--border)',
+            borderLeft: 'none', borderRadius: '0 6px 6px 0',
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'var(--text3)', fontSize: '0.6rem', padding: 0,
+            transition: 'background 0.15s, color 0.15s',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'var(--bg3)'; (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'var(--bg2)'; (e.currentTarget as HTMLElement).style.color = 'var(--text3)'; }}
+        >
+          {sidebarOpen ? '◂' : '▸'}
+        </button>
+        <div style={{ height: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
         <div style={{ padding: '1.25rem 1rem', opacity: sidebarOpen ? 1 : 0, transition: 'opacity 0.2s' }}>
           <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>{note.section} • Topic {note.topic}</div>
           <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.9rem', color: 'var(--text)', fontWeight: 600, marginBottom: '1.25rem', lineHeight: 1.3 }}>{note.title}</div>
@@ -419,13 +437,14 @@ export default function NoteReader({ slug }: { slug: string }) {
             ))}
           </>}
         </div>
+        </div>
       </aside>
 
       {/* Main */}
       <div style={{ flex: 1, minWidth: 0 }}>
         {/* Toolbar */}
         <div style={{ borderBottom: '1px solid var(--border)', padding: '0.85rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', background: 'var(--bg)', position: 'sticky', top: 60, zIndex: 30 }}>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text2)', cursor: 'pointer', padding: '0.3rem 0.55rem', borderRadius: 4, fontSize: '0.85rem' }}>{sidebarOpen ? '◁' : '▷'}</button>
+
           <Link href={`/paper${note.paper}`} style={{ color: 'var(--text3)', fontSize: '0.78rem', textDecoration: 'none' }}>Paper {note.paper}</Link>
           <span style={{ color: 'var(--border2)' }}>›</span>
           <span style={{ color: 'var(--text3)', fontSize: '0.78rem' }}>{note.section}</span>
