@@ -17510,7 +17510,268 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 <p>In the aftermath of major setback of 1857, and as per the Queen&#8217;s Proclamation, the <strong>post-1857</strong> colonial state resorted to a <strong>cautious policy of non-intervention</strong> in the existing social and cultural practices. Sometimes, missionaries entered the conflict with state policies, as Rev. James Lang did during Indigo rebellion.</p>
 <p>As the modern states no longer needed any religious sanction to exercise their power, the state-religion linkage became further diluted over time.</p>`,
-  'indian-response-british-rule': ``,
+  'indian-response-british-rule': `<h2 id="localized-uprisings">Localized Uprisings</h2>
+<p>Earlier we have studied how British policies during financial phase got further intensified leading to resentment among Indians. As public&#8217;s knowledge regarding the exploitative government started increasing, their anger too, started getting manifested into various forms:</p>
+<ul>
+<li>&#8226; <strong>Proto-Nationalist Reaction</strong>- It consisted of <strong>localized uprisings</strong> and the <strong>Great revolt of 1857.</strong></li>
+<li>&#8226; <strong>Nationalist Reaction</strong>- Movement led by various organizations formed by educated middle class culminating into the Congress.</li>
+</ul>
+<p>British Indian Empire was created piecemeal as one region after the other was conquered and annexed by the British over a period of 100 years (1757-1857).</p>
+<p>With British rule, their laws, administration, institutions, officials and agents arrived in the newly conquered regions and fundamentally altered the basic pattern of regional politics, society and economy. Such disruption was patently harmful for the interests of the local community and leadership, resulting in deep seated resentment.</p>
+<p>In the absence of modern political consciousness and nationalism, these communities expressed their discontent in traditional ways.</p>
+<ul>
+<li>&#8226; This often took the shape violent rebellion or non-cooperation with the oppressor class/regime.</li>
+</ul>
+<p>These uprisings had a distinctly localized character.</p>
+<ul>
+<li>&#8226; There was no simultaneous uprising across British India since different communities across India came under British rule at different stages of time.</li>
+<li>&#8226; There was no grand alliance of oppressed classes at a larger scale. There was no class consciousness among Indians at this stage. Further, the limitations of physical infrastructure prevented a wider regional consciousness or alliance.</li>
+<li>&#8226; These uprisings often took the shape of communal movements organized along the lines of religious, caste or tribal identity since the society of this period was traditionally based on these parochial parameters. Consciousness had not yet emerged to check such limitations.</li>
+</ul>
+<p>As British rule expanded across India from the mid-18th &#8211; mid 19th centuries, more than 100 such localized uprisings had occurred. They may be divided into the following categories-</p>
+<ul>
+<li>&#8226; Tribal Uprisings</li>
+<li>&#8226; Peasant revolts</li>
+<li>&#8226; Politico-Religious rebellions</li>
+<li>&#8226; Rebellions by dispossessed Feudal elements</li>
+</ul>
+<h2 id="tribal-uprisings">Tribal Uprisings</h2>
+<p>During the pre-capitalist stage of development, the tribals enjoyed almost complete autonomy resulting in their virtual isolation from the mainstream socio-economic and political system.</p>
+<ul>
+<li>&#8226; As such, they were not subjected to the exploitative tendencies of these systems.</li>
+<li>&#8226; Further, they were shielded from the problems, crisis ad affected these structures.</li>
+</ul>
+<p>As a result the diverse tribal communities spread across the forests, deserts and plateaus of India and enjoyed relative stability.</p>
+<ul>
+<li>&#8226; Although the level of material and logical development was not very high, the tribals enjoyed relative peace, equality and general contentment.</li>
+<li>&#8226; Over thousands of years they had attained perfect harmony with nature and enjoyed relative safety from the disruptions of the civil society.</li>
+</ul>
+<p>However, with the expansion of the British rule especially during the Industrial phase, the isolation of the tribes was violently disrupted. It permanently destroyed the traditional tribal way of life including the tribal economy, polity and society life which led to various upheavals among tribal communities. <strong>Ramachandra Guha</strong> explains this phenomenon as &#8216;unquiet woods&#8217; of the 19th century.</p>
+<h3 id="impact-tribal-economy">Impact of British Rule on Tribal Economy</h3>
+<p><strong>Before:</strong> Self-sufficient nature; Economic isolation; Economic equality because of joint ownership of resources; Hunting, gathering, fishing were important occupations; Subsistence agriculture with shifting cultivation; Absolute ownership of its traditional territory.</p>
+<p><strong>After:</strong> Zamindari system was introduced which changed the land ownership criteria and converted tribals to mere tenants. It led to Landlessness, Poverty, Rural/tribal indebtedness, Bonded labour. Government ownership of forest was introduced. Development of mining and plantation industries led not only to interference in tribal regions but also in exploitation of tribal labour in such industries.</p>
+<h3 id="impact-tribal-polity">Impact of British Rule on the Tribal Polity</h3>
+<p><strong>Before:</strong> Political autonomy; Political equality; Democratic organization owing to socio-political equality; It was highly integrated with the tribal belief system.</p>
+<p><strong>After:</strong> Strict British political control. British laws, courts, bureaucracy and police increasingly restricted the traditional tribal economic pursuits in favour of Zamindars and traders. The tribals thus lost not only their autonomy but were subjected to inherently hostile political machinery.</p>
+<h3 id="impact-tribal-society">Impact of British Rule on Tribal Societies</h3>
+<p><strong>Before:</strong> Unique customs, religion, practices, language and culture; Naturalism and Animism were the pillars of tribal religion; No sharp social divisions. Caste, Varna, Gotra, and religious distinctions were absent; Gender equality was there.</p>
+<p><strong>After:</strong> Since it was important for British and their collaborators to destroy the social and spiritual connection between tribals and their habitat and they consciously tried to destroy the tribal religion and culture.</p>
+<ul>
+<li>&#8226; Conscious attempt was made to mainstream the tribal societies. Tribal societies were fragmented and forcibly separated from their tribal customs and language.</li>
+<li>&#8226; The different tribal deities were characterized either as Avatars of Brahmanical gods or as demons of the Christian missionaries and Islamic clerics. They faced Sanskritisation as well as religious conversions from other religions.</li>
+</ul>
+<p>As the tribals were forcibly integrated to mainstream society, not only did they permanently lose their culture but were relegated to the lowest rank within the society. This became the basis for the ideological justification of their brutal exploitation.</p>
+<p>As such the establishment of British rule violently disrupted the traditional tribal way of life. Their simple and happy existence was rudely interrupted and replaced by brutal exploitation. Thus, violent rebellion was a natural outcome of tribal resentment. Some major uprisings were:</p>
+<ul>
+<li>&#8226; 1. Kol uprising- Buddho Bhagat (1832)</li>
+<li>&#8226; 2. Santhal uprising (Hool) - Murmu brothers (1855)</li>
+<li>&#8226; 3. Munda Rebellion (Ulgulan) - Birsa Munda (1899)</li>
+</ul>
+<h3 id="character-uprisings">Character of the Uprisings</h3>
+<p>Colonial historians such as <strong>Eric Stokes</strong> have termed these uprisings as primary resistance. He argues that it was <strong>traditional societies&#8217; act of violent defiance</strong>, from which usually follows the imposition of colonial rule in response.</p>
+<p>Likewise <strong>DN Dhanagare</strong> termed the revolts as &#8216;<strong>pre-political</strong>&#8217; because of lack of organization, programme and ideology.</p>
+<p>However, sub-altern historians have challenged such ignorant observations. <strong>Ranajit Guha</strong> and <strong>Sumit Sarkar</strong> have re-evaluated is of the opinion that these tribal uprisings highlight their sophisticated political character.</p>
+<p>According to them the element of critical consciousness is visible in every aspect of these tribal revolts including their objectives, methods and targets. <strong>Ranajit Guha</strong> points out that the tribals not only their immediate oppressors i.e. Zamindars, moneylenders, traders, and Christian missionaries but also the British officials, government buildings, post offices and law courts. Further, the tribals understood the symbolic importance attacking government buildings as they represented the physical manifestation of foreign exploitation.</p>
+<p>Ranajit Guha further points out that tribal method of political organization and mobilization reflected a high level of sophistication.</p>
+<ul>
+<li>&#8226; Tribal uprisings were not the spontaneous outpourings of rage that they had been portrayed as.</li>
+<li>&#8226; Rather, the tribal leadership carefully mobilized their communities to united political action.</li>
+<li>&#8226; Leadership displayed remarkable political maturity in transforming the symbols of tribal way of life into symbols of resistance. For example, all the tribal uprisings, warriors were organized into traditional hunting parties.</li>
+<li>&#8226; Additionally some tribal leaders were able to transform their uprisings into Messianic cult. For example, by giving the framework of Ram Rajya to his resistance, Birsa Munda transformed the Munda uprising to, millenarian movement resulting in massive and enthusiastic participation.</li>
+</ul>
+<p>According to Sumit Sarkar, the objectives of these tribal revolts also reflect their mature political insight.</p>
+<ul>
+<li>&#8226; They desired not to simply resist &#8216;civilization&#8217; but, in fact, to overthrow the exploitative regime behind it and restore their political autonomy.</li>
+<li>&#8226; This is also reflected in their conscious choice to attack British officials and the symbols of British power along with their collaborators.</li>
+<li>&#8226; The decision to frame these insurrections within the framework of religion and culture was a conscious political choice of the leadership. They appreciated the deep bonds that existed between the tribals and their land and religion. They wanted to mobilize this energy and thus they consciously pursued this objective of restoring or preserving the distinct tribal culture, language, religion and identity.</li>
+</ul>
+<h2 id="peasant-revolts">Peasant Revolts</h2>
+<p>The peasants of India were among the worst affected classes to suffer under British rule. Ever since the establishment of colonial rule, British made a conscious attempt to maximize agrarian revenue regardless the suffering of the Indian peasantry.</p>
+<p>The specific factors for peasant discontent with colonial rule are as follows-</p>
+<ul>
+<li>&#8226; The heavy burden of taxation pushed the peasants towards desperation.</li>
+<li>&#8226; Peasants were alienated from their traditional rights, privileges and even property as British administrative innovations such as the Zamindari, Ryotwari and Mahalwari settlements created the problem of landlessness.</li>
+<li>&#8226; Since the beginning of the 19th century, as the British destroyed Indian handicrafts to flood the Indian market with British cotton. There was a major wave of migration from Indian cities to the villages as artisans lost their livelihoods. This increased the burden on agriculture further compounding the problems of the Indian peasantry.</li>
+<li>&#8226; With the influx of the urban artisans, the landholding structure of India collapsed. Holdings were fragmented resulting in stagnation.</li>
+<li>&#8226; Due to stagnant agriculture, problem of disguised unemployment increased substantially.</li>
+<li>&#8226; Combined effect of these problems was a perceptible rise in the rural poverty.</li>
+<li>&#8226; Since the British were never interested in actually promoting agriculture, they never attempted to create robust mechanism for agrarian credit. As a result, farmers easily fell into the clutches of predatory moneylenders.</li>
+<li>&#8226; As a result of rural indebtedness, the peasants lost their property, their homes, their land ultimately their freedom. Bonded labour reared its ugly head.</li>
+<li>&#8226; With the accelerating pace of British industrialization, the demand for Indian raw materials kept rising. In response, British encouraged, often forcibly the cultivation of cash crops such as cotton, jute, indigo, sugarcane, tea etc.</li>
+<li>&#8226; Commercialization of Agriculture resulted in acute food shortages without giving efficient result to the cultivators as the bulk of the produce was transferred to European planters and the traders.</li>
+<li>&#8226; Further the Indian farmers were exposed to Global price supply fluctuations. Additionally, the British traders and planters easily shift the burden of losses onto the farmers.</li>
+<li>&#8226; Combined effect of these developments was frequent famines throughout the entire length of colonial rule in India.</li>
+</ul>
+<p>The peasants expressed their discontent either by abandoning agriculture altogether or by rebelling violently against state and its representatives.</p>
+<ul>
+<li>&#8226; Thus these two methods were used by the peasants even during British rule.</li>
+<li>&#8226; It should also be remembered there was a basic difference between British colonial regime and medieval Indian states. On one hand, medieval Indian states were simply superimposed on the rural civic society. Medieval Indian rulers depended upon the active cooperation of the rural intermediaries such as Zamindars, Talukdars, and Mirasidars etc. These elements played an important role in balancing interests of the state and those of the peasantry.</li>
+<li>&#8226; On the other hand, the British were able to either remove the Indian intermediaries either altogether or undermine them so thoroughly that they became irrelevant. When it came to balancing British interests against that of the peasantry, the old local machinery replaced by British institutions, laws, courts, these were at best apathetic and often openly hostile towards the peasants. Thus the peasants were aggrieved by feeling of hopelessness and desperation which resulted in several open rebellions.</li>
+</ul>
+<p>Thus it is not surprising that throughout British rule in India, several large and small peasant rebellions took place including-</p>
+<ul>
+<li>&#8226; <strong>The Rangpur Dhing, 1783 (Bengal)</strong> - The peasants of Rangpur in North Bengal organized themselves under the leadership of Kena Sarkar against the Ijaradar of Rangpur Debi Singh introduced by Warren Hastings in Bengal.
+<ul>
+<li style="padding-left:2em">&#9702; Although the rebellion was suppressed, it forced the British to reconsider their position in the Ijaradar leading to the introduction of Permanent Settlement in 1793.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Indigo Revolt, 1860 (Bengal)</strong> - Indigo farmers in Bengal stopped cultivating Indigo as a symbol of protest against the British planters who were forcing them to cultivate the crop to coercive contracts.
+<ul>
+<li style="padding-left:2em">&#9702; Dinabandhu Mitra&#8217;s play &#8216;Neel Darpan&#8217; became much popular. Newspapers such as &#8220;The Hindoo Patriot&#8221; and &#8220;Som Prakash&#8221; brought attention to the matter.</li>
+<li style="padding-left:2em">&#9702; Due to the involvement of the Bengali intelligentsia, the issue received global attention and British were forced to prohibit the forcible cultivation of Indigo in Bengal.</li>
+<li style="padding-left:2em">&#9702; However, Indigo cultivation continued in Bihar where a local intelligentsia was yet to emerge.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Pabna Revolt, 1870 (Bengal)</strong> - The jute farmers of Pabna were demanding remission of rent and concession of dues owing to severe crop failures. However, the local Zamindars did not relent.
+<ul>
+<li style="padding-left:2em">&#9702; Thus the peasants rebelled against the Zamindars and the government under the leadership of Ishan Chandra Roy (Birodhi Raja).</li>
+<li style="padding-left:2em">&#9702; Apart from that an Agrarian League was formed in Pargana district in 1873 in order to mobilize peasants. This experiment was recorded in several districts leading to peasant consolidation.</li>
+<li style="padding-left:2em">&#9702; Although the rebellion was widely suppressed but it clearly demonstrated that Commercialization of Agriculture in India was a major contributor in Pabna region.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Deccan Agrarian Riots, 1875 (Maharashtra)</strong> - The region of Deccan especially around Poona was swept by wave of agrarian riots by peasants against Marwari traders and sahukars.
+<ul>
+<li style="padding-left:2em">&#9702; On superficial levels, it seems that this was a case of linguistic and cultural conflict.</li>
+<li style="padding-left:2em">&#9702; However, upon closer observation, it becomes clear that this was manifestation of class conflict.</li>
+<li style="padding-left:2em">&#9702; The Ryotwari system had created the platform for the entry of moneylenders into the rural Deccan. This opportunity was capitalized upon by some individuals of the Marwari community.</li>
+<li style="padding-left:2em">&#9702; Gradually the Deccan peasantry entered into the clutches of these Marwari Mahajans and sahukars resulting in rising poverty, landlessness and bonded labour.</li>
+<li style="padding-left:2em">&#9702; The British legal machinery offered no protection to the peasants from these predatory moneylenders and even favoured the exploitative class. The issue was further contrasted as class differences overlapped with cultural and linguistic distinctions.</li>
+<li style="padding-left:2em">&#9702; The peasants targeted the houses of the moneylenders, the shops of Marwari traders, government buildings and Kotwalis.</li>
+<li style="padding-left:2em">&#9702; The public burning of moneylenders&#8217; account ledgers emerged as the most common activity.</li>
+<li style="padding-left:2em">&#9702; The uprising lasted almost two years during which the Deccan riots Commission was appointed and recommended substantial reforms.</li>
+<li style="padding-left:2em">&#9702; The local Marathi intelligentsia especially The Poona Sarvajanik Sabha made a strong case in favour of the peasants.</li>
+<li style="padding-left:2em">&#9702; The Deccan Agriculturalists Relief Act, 1979 provided some protections to the peasants including the provision that individual could not be imprisoned simply for defaulting on a loan.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Eka Movement, 1920-21 (Awadh)</strong> - In the backdrop of the call for non-payment of revenue during the Non-cooperation movement, the farmers of Awadh began a no-rent campaign against the local intermediaries such as Zamindars, Taluqdars, and Numbardars.
+<ul>
+<li style="padding-left:2em">&#9702; With this the fractures became visible in the grand alliance of Indians that Mahatma Gandhi had raised against the British.</li>
+<li style="padding-left:2em">&#9702; The no rent campaign was the direct attack on Mahatma Gandhi&#8217;s vision of class alliance that threatened to violently divide Indians among each other. Therefore, the Marxist historians alleged that the rising peasant radicalism against Zamindars was the real factor that prompted Mahatma Gandhi to suddenly withdraw the non-cooperation movement. Thus, according to them the Chauri-Chaura incident was simply a convenient excuse.</li>
+</ul>
+</li>
+</ul>
+<p>Throughout 1920s and 1930s, there was a significant rise in Kisan Sabhas throughout the country. Ultimately, efforts of various Kisan sabhas culminated into the formation of <strong>All India Kisan Sabha in Lucknow session</strong> of Congress in 1936.</p>
+<p>At the same time, Communist organizations also started focusing on increasing their reach to the masses. While Congress was constrained vis-&#224;-vis class collaboration, communist movement favoured radical demands.</p>
+<ul>
+<li style="padding-left:2em">&#9702; In 1935, <strong>Comintern</strong> Communist parties throughout the world to form united fronts. After that, many Communists joined AIKS and came closer to Congress through Congress Socialist Party.</li>
+<li style="padding-left:2em">&#9702; However, their radical demands and Congress&#8217; inability to implement them during its <strong>Ministry rule</strong> led AIKS to adopt red flag as its official banner. Its impact can be seen in the radical peasant movements of 1940s:</li>
+</ul>
+<ul>
+<li>&#8226; <strong>Tebhaga Movement, 1946 (Bengal)</strong>: Bengal faced one of the most severe humanitarian crises in the form of Great famine of 1943. Per capita entitlement of rice grains was very low as it was diverted for the needs of British military during Second World War and decline in rice import from Myanmar.
+<ul>
+<li style="padding-left:2em">&#9702; The communists responded adequately to the food crisis. Through Bengal Provincial Kisan Sabha, they carried on extensive relief works and gained popularity in Bengal.</li>
+<li style="padding-left:2em">&#9702; Under the movement, peasants harvested the paddy and took it to their own <strong>Khamar</strong> (storehouse) and then invited the landlords to come and take their one-third share. Here, the peasants carved out their &#8216;Tebhaga elaka&#8217; or liberated zones.</li>
+<li style="padding-left:2em">&#9702; Ultimately, the government of Bengal led by the Muslim League conceded sharecroppers&#8217; demand in <strong>Bargadar Bill</strong> in January, 1947 but they had to drop it because of internal opposition from Muslim League and from the Congress.</li>
+<li style="padding-left:2em">&#9702; Thereafter, the movement took a violent turn and could only be controlled by strong police action.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Telangana Movement, 1946-51</strong>- Under the rule of Nizam, the agrarian relations were on feudal lines where Jagirdars, pattadars, deshmukhs and deshpandes acted as the intermediary class.
+<ul>
+<li style="padding-left:2em">&#9702; After Commercialization of agriculture, Sahukars were also increasing which increased the burden of agricultural labour.</li>
+<li style="padding-left:2em">&#9702; Economic dislocation due to Second World War added to the worries of the peasants.</li>
+<li style="padding-left:2em">&#9702; Since mid-1946, attacks started on notorious landlords. The demands of the peasants were regarding wage increase, abolition of Vetti bonded labour, illegal exactions, and the recently imposed grain levy.</li>
+<li style="padding-left:2em">&#9702; Gradually, the struggle merged with freedom struggle against Nizam&#8217;s government.</li>
+</ul>
+</li>
+</ul>
+<h2 id="politico-religious-uprisings">Politico-Religious Uprisings</h2>
+<p>Throughout the length of colonial rule, series of uprisings were organized by religious communities against colonial rule under the banner of religion.</p>
+<p>Superficially, they appear to be religious revolts against a foreign and exploitative regime that had hurt native religious sentiments. In other words, they seem to be a religious reaction to British colonialism.</p>
+<p>However, upon closer observation, it becomes clear that in reality the basic grievances underlined these rebellions were of a political or economic nature.</p>
+<ul>
+<li>&#8226; The response to these grievances simply happened to be enveloped in religion.</li>
+<li>&#8226; Thus, it would be more accurate to characterize them as politico-religious uprisings.</li>
+<li>&#8226; The following factors may be attributed to the emergence of this combination-
+<ul>
+<li style="padding-left:2em">&#9702; Such uprisings were the norm during medieval age and had become engrained in the body politic of India.</li>
+<li style="padding-left:2em">&#9702; The Mughal period witnessed revolts by Sikhs, Satnamis, Jats, Rajputs and Marathas which were all raised under the banner of religion.</li>
+<li style="padding-left:2em">&#9702; The Indian society of the 18th and 19th centuries was deeply attached to religion. Thus religion was an immensely powerful mobiliser. Moreover, the leadership of these religious communities drew upon their religious authority as the main basis of their power. Thus, organizing these rebellions under the umbrella of religious uprising was a natural choice for them.</li>
+</ul>
+</li>
+</ul>
+<p>Some important politico-religious movements against the British rule are as follows-</p>
+<ul>
+<li>&#8226; <strong>Sanyasi Rebellion (1770s-1820s), Bengal</strong>- It was organized under the leadership of Sanyasis (Hindu wandering mendicants) who mobilized the peasantry of Bengal against the British.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Causes:</strong> The impoverishment of the Bengal peasantry and old Zamindars following the establishment of British rule meant that they were unable to support these Sanyasis who were dependent upon their alms.</li>
+<li style="padding-left:2em">&#9702; The British considered these Sanyasis the unlawful elements that were extorting money from the populace. Thus, they imposed restrictions upon their annual pilgrimages.</li>
+<li style="padding-left:2em">&#9702; The Sanyasi rebellion took place in several stages over five decades before it could be brutally suppressed during the 1820s.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Fakir Uprising (1776-77)</strong> - Following the British rule Fakirs (Muslim wandering mendicants) too, came under immense pressure. Thus, they organized a massive rebellion with the assistance of local peasants, Zamindars, Rajputs, Pathans and disbanded soldiers of the nawab&#8217;s army.
+<ul>
+<li style="padding-left:2em">&#9702; Their leaders included Majnu Shah and Chirag Shah. They set up parallel state within Bengal and claimed the right to levy taxes.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Pagalpanthi Rebellion (1825-50) in Bengal</strong>- It was a peaceful and tolerant sect of Muslims led by <strong>Karim Shah</strong> followed by his son Tipu Shah.
+<ul>
+<li style="padding-left:2em">&#9702; They borrowed the philosophy of Sufism along with nature worship and the worship of Hindu gods.</li>
+<li style="padding-left:2em">&#9702; Under the leadership of Tipu Shah they raised a peasant uprising in North Bengal against both Zamindars and British government.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Faraizi Revolt (1838-57), Bengal</strong>- It was an offshoot of Wahabism established by <strong>Haji Shariatullah</strong> to purify the practice of Islam in Bengal.
+<ul>
+<li style="padding-left:2em">&#9702; Under the leadership of his son <strong>Dudu Mian</strong> the movement became politicized resulting in an uprising of Muslim peasants in North Bengal against Hindu Zamindars, moneylender and the East India Company.</li>
+<li style="padding-left:2em">&#9702; During the revolt of 1857, the Faraizis entered a coalition with the Wahabis in Bihar and Awadh. Generally they were more organized than other rebels.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Kuka revolt (1871), Punjab</strong>- It is also known as the Namdhari movement and had emerged as the Puritanical movement within Sikhism that aimed to purify the Sikh religious practices and society by removing external influences.
+<ul>
+<li style="padding-left:2em">&#9702; Under Baba Ram Singh, the movement became politicized with the objective of restoring the Sikh Empire.</li>
+<li style="padding-left:2em">&#9702; Notably, the rebellion was peaceful characterized by public protests and boycott of British goods, laws and schools.</li>
+<li style="padding-left:2em">&#9702; Ultimately, the uprising was suppressed with the use of ruthless military force.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Moplah rebellion (1830s-1921), Kerala</strong>- the Moplahs were the descendants of Arab Muslim settlers who had arrived in the Malabar and married local women between the 7th and 9th centuries. The word Moplah thus means son-in-law in Malayalam. Traditionally, the Moplahs constituted the cultivator class of North Malabar. The land ownership structure of this region was as follows-
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Jenmis</strong> belonging primarily to the Namboodri Brahmin community enjoyed hereditary titles of large tracts of arable land.</li>
+<li style="padding-left:2em">&#9702; Below them were the <strong>Kudiyam</strong> primarily belonging to the Hindu Nair community. They oversaw cultivation and managed revenue collection.</li>
+<li style="padding-left:2em">&#9702; Below them were the Moplah who were Muslim and the primary producers. Thus, the religious divide overlapped the class divide and tensions were always present in this relationship.</li>
+<li style="padding-left:2em">&#9702; However, the different classes and communities lived in relative harmony due to a shared linguistic identity and custom of inter-religious marriages.</li>
+<li style="padding-left:2em">&#9702; Additionally, the Moplahs enjoyed limited ownership rights over the land that they had cultivated for generations.</li>
+</ul>
+</li>
+</ul>
+<p>Situation changed drastically when Tipu Sultan annexed North Malabar during 1790s.</p>
+<ul>
+<li style="padding-left:2em">&#9702; Either to cultivate a loyal class among locals, land ownership was taken away from the Jenmis and given away to Moplahs. This continued in much resentment and bloodshed between both communities.</li>
+<li style="padding-left:2em">&#9702; Following the defeat of Tipu Sultan, north Malabar was restored to Travancore and the traditional land structure was revived.</li>
+<li style="padding-left:2em">&#9702; Additionally, the Moplahs also lost their traditional protections and privileges.</li>
+</ul>
+<p>This resulted in a series of communal riots over the entire 19th century.</p>
+<ul>
+<li style="padding-left:2em">&#9702; Finally in 1896 normalcy was restored when following the suppression of a major riot reforms were instituted to give relief to the Moplahs.</li>
+</ul>
+<p>However, the dormant communalism of North Malabar was revived in the backdrop of the Khilafat movement. The Moplahs led by Ali Musaliar and Variyamkunath Kunjahmmad Haji organized a powerful revolt. The tragedy was that instead of targeting only the British, the Moplahs also targeted ordinary Hindus and Christians.</p>
+<p>Many prominent scholars including <strong>CP Ramaswamy Iyer</strong> bitterly criticized Mahatma Gandhi for supporting the Khilafat cause and communalizing the national politics.</p>
+<h2 id="feudal-uprisings">Feudal Uprisings</h2>
+<p>Eighteenth century India presented the picture of political fragmentation. Mughal Empire was disintegrating and regional kingdoms were trying to consolidate their position. In this scenario central authority remained weak as both the imperial crown a well as the regional rulers came to depend heavily upon powerful feudatories.</p>
+<p>Thus, there was a distinct rise of feudalism in 18th century India. The feudal class exercised influence in the following manner-</p>
+<ul>
+<li>&#8226; They enjoyed hereditary titles over fertile lands;</li>
+<li>&#8226; They performed prominent roles in both local as well as central politics</li>
+<li>&#8226; They were able to accumulate the bulk of the taxes generated in their regions</li>
+<li>&#8226; Using this wealth they raised large armies and constructed powerful forts</li>
+</ul>
+<p>In other words, this feudal class emerged as the virtually autonomous ruling class of 18th century India.</p>
+<p>However, as the British Empire expanded from the second half of the 18th century onwards, the Indian feudal class was gradually deprived of its wealth, power and autonomy.</p>
+<p>Thus, the natural reaction of the dispossessed Indian ruling class was rebellion. <strong>Kathleen Gough describes this phenomenon as &#8216;Restorative rebellions&#8217;.</strong></p>
+<p>Some important feudal rebellions were as follows-</p>
+<ul>
+<li>&#8226; <strong>Polygar rebellion (1799-1806)</strong> - Polygars also known as the Palaiyagars were the intermediate level feudal chiefs in the Mysore state who had been present since the glory days of the Vijayanagara Empire.
+<ul>
+<li style="padding-left:2em">&#9702; Following the defeat of Tipu Sultan in fourth Anglo-Mysore war, the British annexed much of the Mysore and stripped the Polygars of their revenue, military and administrative powers.</li>
+<li style="padding-left:2em">&#9702; Many disgruntled Polygars rebelled against the British but were crushed ruthlessly.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Rebellion of Velu Thampi</strong>- Velu Thampi was the Diwan of Travancore and was opposed to the Subsidiary alliance treaty that the British had recently imposed upon his state.
+<ul>
+<li style="padding-left:2em">&#9702; It had substantially increased the financial burden of Travancore</li>
+<li style="padding-left:2em">&#9702; The British had started meddling the internal politics of Travancore</li>
+</ul>
+</li>
+</ul>
+<p>Thampi alongwith some top military officials hatched conspiracy to forcibly expel the British from Travancore. However, the revolt was suppressed with overwhelming military superiority.</p>`,
   'birth-indian-nationalism': `
 <h2>Social Policy (Financial Phase)</h2>
 <p>The British approach towards Indian society during the Industrial phase had been characterised by aggressive intervention in the form of Social reform legislation including Female infanticide (1795), Ban on Sati (1829), human sacrifice (1846), Widow remarriage Act (1856) etc.</p>
