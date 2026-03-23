@@ -20108,7 +20108,179 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; In 1951, the UN passed the resolution asking Pakistan to withdraw its army and India to conduct a plebiscite. Neither side has initiated any attempts to fulfill the resolution&#8217;s mandate.</li>
 </ul>
 <h3>Conclusion of the integration procedure</h3>
-<p>Integration of Princely states by this time was still incomplete. Their special privileges and powers were still remaining. India had a loose federation with Princely states who still retained their undemocratic, monarchical and feudal nature. However, this was the first step in a multi-step process which gradually led to complete merger. Many Princely states were merged with the existing Indian provinces and some Princely unions were also formed.</p>`,
+<p>Integration of Princely states by this time was still incomplete. Their special privileges and powers were still remaining. India had a loose federation with Princely states who still retained their undemocratic, monarchical and feudal nature. However, this was the first step in a multi-step process which gradually led to complete merger. Many Princely states were merged with the existing Indian provinces and some Princely unions were also formed.</p><h2>Issue of Linguistic States</h2>
+<h3>Background</h3>
+<ul>
+<li>&#8226; During freedom struggle, leaders such as Tilak, Gandhi, Nehru, Patel, C Rajagopalachari, Azad, and Bose etc. favoured Hindustani in either Devanagari or Persian script to emerge as the national language of India.</li>
+<li>&#8226; While Mahatma Gandhi admired the English language and appreciated its importance in the modern world, he opposed it as India&#8217;s national language due to its foreign origin. He argued that it was a symbol of colonial rule and declared that the true genius of a person can be expressed only in their mother tongue.</li>
+<li>&#8226; Since 1925, it had become compulsory for the Provincial Congress Committees to conduct their activities in the regional languages.</li>
+<li>&#8226; Pt Nehru also assured the non-Hindi speakers that Hindi would never be imposed upon them by destroying their own vernaculars.</li>
+<li>&#8226; However, the issue of national language was communalized. With partition, Pakistan claimed Urdu and Hindi was deliberately Sanskritized to make it distinct from Urdu. Changing vocabulary made it difficult for non-native speakers to understand.</li>
+<li>&#8226; Following this, a compromise was reached namely that Hindi would not become India&#8217;s national language rather it would become the official language i.e. the administrative language of the central and state governments and the medium of communication between different federating units and the centre.</li>
+</ul>
+<h3>Deadline set by the Constituent assembly</h3>
+<ul>
+<li>&#8226; Once it became clear that Hindi would become India&#8217;s official language, a debate emerged within the Constituent assembly regarding the time frame for its introduction.</li>
+<li>&#8226; Hindi speakers wanted immediate introduction while non-Hindi speakers wanted gradual introduction.</li>
+<li>&#8226; Ultimately, a 15 year deadline was set. Non-Hindi speakers were given upto 1965 to adopt it.</li>
+<li>&#8226; The constitution also provided for the appointment for a Language commission to study the feasibility of introducing Hindi. It submitted its report in 1956 and recommended that English should be progressively replaced by Hindi and the process should be completed by 1965.</li>
+<li>&#8226; This resulted in heavy opposition from the Tamil belt prompting Nehru to suggest that English would continue to be used as an associate official language even after 1965.</li>
+<li>&#8226; A joint Parliamentary Committee also approved of this compromise in 1960.</li>
+<li>&#8226; However, a Presidential Directorate in April 1960 revived the suspicions of the non-Hindi speakers once again. It setup the Central Hindi Directorate which began carrying out-
+<ul>
+<li style="padding-left:2em">&#9702; Publication and translation of standard works, medicine, law and administration in Hindi.</li>
+<li style="padding-left:2em">&#9702; Promoting the use of Hindi in courts.</li>
+<li style="padding-left:2em">&#9702; Giving compulsory Hindi training to all central government employees.</li>
+</ul>
+</li>
+<li>&#8226; Tamil belt was in a rebellious mood. Major demonstrations were organised calling for the boycott of the Central Hindi Directorate. The slogan &#8216;English Ever Hindi Never&#8217; was used to convey the anger of the people against the imposition of Hindi.</li>
+<li>&#8226; In 1963, under the leadership of Pt Nehru, Parliament enacted the Official Languages Act. Its main objective was to regain the trust of the South India by removing the constitutional deadline and providing for the continued use of English even after 1965.</li>
+<li>&#8226; The Act, however, became controversial due to the use of the term &#8216;may&#8217; instead of &#8216;shall&#8217;.</li>
+<li>&#8226; At the time of Pt Nehru&#8217;s death, the future was uncertain when Lal Bahadur Shastri was chosen as the new Prime Minister. In 1965, Shastri&#8217;s government introduced Hindi as a compulsory subject for all UPSC exams.
+<ul>
+<li style="padding-left:2em">&#9702; This resulted in widespread protests and riots.</li>
+<li style="padding-left:2em">&#9702; Some students even committed self-immolation and two prominent Tamil ministers resigned from their cabinet positions.</li>
+</ul>
+</li>
+<li>&#8226; Shastri government was forced to backdown and Indira Gandhi, the then Minister for Information and Broadcasting was sent to Madras to convince people that Hindi would not be imposed.</li>
+<li>&#8226; In 1967, Indira Gandhi&#8217;s government introduced an amendment to the 1963 amendment act which provided a constructive solution to the dangerous national language issue. Firstly, it removed all the ambiguities of the act. Its major provisions were as follows-
+<ul>
+<li style="padding-left:2em">&#9702; English would continue as the Associate Official language.</li>
+<li style="padding-left:2em">&#9702; An indefinite policy of bilinguism would be adopted.</li>
+<li style="padding-left:2em">&#9702; 3 language formula was proposed for education-
+<ul>
+<li style="padding-left:4em">&#9632; Hindi belt- Hindi, English and a regional language should be taught.</li>
+<li style="padding-left:4em">&#9632; Non-Hindi belt- Hindi, English and the Vernacular language.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Public Service Examinations can be attempted in any major Indian language i.e. Hindi, English or any other major language. However, candidates would have to prove their proficiency in English, and Hindi for the Hindi speakers and English alone for the non-Hindi speakers.</li>
+<li style="padding-left:2em">&#9702; Fourteen regional languages were inserted into the Eighth Schedule of the Indian constitution. All of them were given status of official regional languages. Gradually, eight more languages were added to this schedule.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Q. Shed light on the national language issue which emerged post-independence. What were the challenges it created and how was it resolved?</strong></p>
+<p>India&#8217;s linguistic diversity, on the one hand, contributed to its multi-cultural nationalism but on the other hand, it posed challenges vis-&#224;-vis the selection of a national language.</p>
+<p>The issue of national language started since the freedom struggle with debate emerging on the Devanagari script versus the Persian script. It got communalized with Urdu being claimed as the language of Muslims and Hindi that of Hindus.</p>
+<p>Following this, a compromise was reached namely that Hindi would not become India&#8217;s national language rather it would become the official language i.e. the administrative language of the central and state governments and the medium of communication between different federating units and the centre.</p>
+<p>A 15 year deadline was set by Constituent Assembly. Non-Hindi speakers were given upto 1965 to adopt it. However, the challenge gained significant proportions with the protest by non-Hindi states against the imposition of Hindi post-independence.</p>
+<p>The constitution also provided for the appointment for a Language commission to study the feasibility of introducing Hindi. It submitted its report in 1956 and recommended that English should be progressively replaced by Hindi and the process should be completed by 1965. A joint Parliamentary Committee also approved of this compromise in 1960.</p>
+<p>However, a Presidential Directorate in April 1960 revived the suspicions of the non-Hindi speakers once again. It setup the Central Hindi Directorate which started to work for development and promotion of Hindi.</p>
+<p>Tamil belt was in a rebellious mood. Major demonstrations were organised calling for the boycott of the Central Hindi Directorate. The slogan &#8216;English Ever Hindi Never&#8217; was used to convey the anger of the people against the imposition of Hindi.</p>
+<p>In 1963, under the leadership of Pt Nehru, Parliament enacted the Official Languages Act. Its main objective was to regain the trust of the South India by removing the constitutional deadline and providing for the continued use of English even after 1965. The Act, however, became controversial due to the use of the term &#8216;may&#8217; instead of &#8216;shall&#8217;.</p>
+<p>In 1965, Shastri&#8217;s government introduced Hindi as a compulsory subject for all UPSC exams. This resulted in widespread protests and riots.</p>
+<p>Shastri government was forced to backdown and Indira Gandhi, the then Minister for Information and Broadcasting was sent to Madras to convince people that Hindi would not be imposed.</p>
+<p>In 1967, Indira Gandhi&#8217;s government introduced an amendment to the 1963 amendment act which provided a constructive solution to the dangerous national language issue. It removed all the ambiguities of the act.</p>
+<p>Thus, like every other difficulty, India&#8217;s inherent cultural accommodation and constitutional morality overpowered the linguistic sectarianism. Although, some tensions can be observed even in present times but the nationalist sentiments in India has learnt to go hand in hand with regional identities including language.</p>
+<h3>Linguistic reorganisation of states</h3>
+<h4>During the National movement</h4>
+<ul>
+<li>&#8226; The reorganisation of Provincial units had been a long standing demand of Indian nationalists.</li>
+<li>&#8226; In fact, it was the main factor behind the Swadeshi movement.</li>
+<li>&#8226; During the Home Rule Movement, Tilak had raised the demand for the linguistic reorganisation of the states as well as the spread of education in vernacular languages.</li>
+<li>&#8226; In 1925, the Congress amended its constitution making it compulsory for its Provincial Congress Committees to conduct their business in the regional languages.</li>
+<li>&#8226; Prominent leaders including Tilak, Savarkar, Mahatma Gandhi and C. Rajagopalachari supported the cause for linguistic reorganisation as a means to strengthen the nationalism.
+<ul>
+<li style="padding-left:2em">&#9702; They felt that if the linguistic aspirations of major linguistic groups could be fulfilled, they could be brought on a common platform against British imperialism.</li>
+</ul>
+</li>
+<li>&#8226; The British strategy regarding linguistic reorganisation was based on the principle of divide and rule.</li>
+<li>&#8226; They deliberately kept different linguistic communities in the same state to foster a sense of linguistic competition.
+<ul>
+<li style="padding-left:2em">&#9702; Undivided Bengal consisted of Bangla, Assamese, Odiya and Hindi speakers but Business and administration were dominated by Bangla speakers.</li>
+<li style="padding-left:2em">&#9702; Madras consisted of Tamil, Telugu, Kannada, and Malayalam speakers but was dominated by Tamil speakers.</li>
+<li style="padding-left:2em">&#9702; Bombay consisted of Marathi, Gujarati and Sindhi speakers but was dominated by Marathi speakers with Parsis being another influential minority.</li>
+<li style="padding-left:2em">&#9702; Further, the British tried to complicate the issue of languages by making it a matter of religious and caste interest.</li>
+</ul>
+</li>
+<li>&#8226; Even when they carried out linguistic reorganisation, it was done to fuel separatism, provincialism and communalism. Example- the linguistic aspirations of Sindhis and Pashto speakers were fulfilled but those of Malayalam and Gujarati speakers remained unfulfilled.</li>
+<li>&#8226; Another region where the feeling of linguistic pride was very strong was the Telugu speaking regions.
+<ul>
+<li style="padding-left:2em">&#9702; However, the Telugu movement could not reach full strength since the community was divided between the British Indian province of Madras and the Princely state of Hyderabad.</li>
+<li style="padding-left:2em">&#9702; Once Hyderabad acceded to India and power was transferred by the British, the Telugu movement emerged with full force.</li>
+</ul>
+</li>
+</ul>
+<h4>Debate within the Constituent Assembly</h4>
+<ul>
+<li>&#8226; The question of linguistic reorganisation emerged as soon as the constituent assembly was set up.</li>
+<li>&#8226; The leaders of linguistic minorities demanded the immediate reorganisation of the sates on the basis of language. Telugu speakers demanded Andhra, Marathi speakers demanded Maharashtra, Gujarati speakers demanded Gujarat and Punjabi speakers demanded Punjab.</li>
+<li>&#8226; However, the national leadership remained reluctant.
+<ul>
+<li style="padding-left:2em">&#9702; They believed that in a federal setup, the creation of a linguistic state could be dangerous to national unity. It would be difficult to obtain a consensus between neigbouring linguistic states dominated by communities with a shared history of competition and conflict.</li>
+<li style="padding-left:2em">&#9702; Further, it may lead to a deterioration of law and order. The linguistic minorities may be targeted by the dominant community and the states may not intervene as it could be politically disadvantageous.</li>
+<li style="padding-left:2em">&#9702; Further, India at that time was facing severe crisis such as the refugee crisis, Kashmir war, high inflation and food scarcity. It was felt that the country lacked the resources and man power to undertake a major reorganisation of states.</li>
+<li style="padding-left:2em">&#9702; The creation of linguistic states was considered harmful for administrative efficiency as well as economic integration. It would have required the preparation of new trade, tariff, water sharing and infrastructure building agreements which were thought to be difficult to obtain in the charged atmosphere.</li>
+<li style="padding-left:2em">&#9702; Further, linguistic reorganisation may have also presented national security threats. The demand for Punjab may have evolved into a demand for Khalistan which would have destabilized India&#8217;s sensitive western border.</li>
+<li style="padding-left:2em">&#9702; Finally, the fulfillment of the linguistic aspirations of some communities may have resulted in the emergence of other linguistic movements. The national government would remain permanently embattled with these movements leading to further disaffection and separatism.</li>
+</ul>
+</li>
+<li>&#8226; On the other hand, the leaders of the linguistic minorities argued that without linguistic reorganisation, the linguistic minorities would never be able to experience the fruits of independence. They would continue to remain at the mercy of the majority linguistic communities resulting in a feeling of disaffection and separatism.</li>
+<li>&#8226; The SK Dhar Commission was appointed in 1948 to study the feasibility of linguistic reorganisation. It recommended that the time had not yet come to carry out linguistic reorganisation and there were other pressing issues that had to be dealt with.</li>
+<li>&#8226; The linguistic minorities became restless forcing the Congress to set up the JVP committee in 1949 consisting of Jawahar Lal Nehru, Vallabhbhai Patel and Pattabhi Sitaramayya which endorsed the recommendations of the Dhar Commission and rejected the linguistic reorganisation of the states.</li>
+</ul>
+<h4>Creation of Andhra and appointment of the States Reorganisation Commission</h4>
+<ul>
+<li>&#8226; Telugu speaking regions had been restless for a long time and the attitude of the interim government fuelled further protests. Massive demonstrations were organised and the city of Madras was virtually locked down.</li>
+<li>&#8226; The linguistic passions were simultaneously inflamed by the National language issue which had resulted in massive protests by Tamil speakers. There were a series of clashes between both communities between 1950 and 1953.</li>
+<li>&#8226; A famed Gandhian leader Potti Sriramalu went on a fast unto death to demand the separate state of Andhra.</li>
+<li>&#8226; The national government did not respond resulting in his death on the 58th day of his fast.</li>
+<li>&#8226; This sparked a series of riots forcing the government to take action.</li>
+<li>&#8226; Nehru was forced to accept the demands of the Telugu speakers and the Andhra state was established in 1953.</li>
+<li>&#8226; Madras city was given to Tamil Nadu and in compensation, Andhra got Tirupati.</li>
+<li>&#8226; At the same time, the government also appointed the States Reorganisation Commission headed by Justice Fazl Ali including other prominent members such as HN Kunzru and KM Pannikar.
+<ul>
+<li style="padding-left:2em">&#9702; Its mandate was to study the feasibility of linguistic reorganisation and make recommendations with regards to the territorial reorganisation of the provinces.</li>
+<li style="padding-left:2em">&#9702; The Commission visited more than a hundred cities and was shocked by the passion of the people towards the issue of language.</li>
+<li style="padding-left:2em">&#9702; It submitted its recommendations in October 1953 on the basis of which the States Reorganisation Act, 1956 was enacted by Parliament.</li>
+</ul>
+</li>
+</ul>
+<h4>States Reorganisation Act, 1956</h4>
+<ul>
+<li>&#8226; It provided for the creation of 14 new states and 6 Union territories on the linguistic basis. Each major regional language other than Hindi got atleast one state.</li>
+<li>&#8226; However, Bombay was not divided into Gujarat and Maharashtra since the Commission could not find a workable solution.</li>
+<li>&#8226; A separate state of Punjab for Punjabi speakers was rejected on the ground that it was a communal demand of Sikhs rather than a linguistic demand. Instead, the Patiala and East Punjab States Union (PEPSU) was created having Hindi, Punjabi as well as Dogri speaking regions.</li>
+<li>&#8226; The demand for Jharkhand was rejected on the grounds that the language of both north and south Bihar was Hindi.</li>
+</ul>
+<h4>The issue of Bombay and PEPSU</h4>
+<ul>
+<li>&#8226; The demands for separate Marathi and Gujarati homelands started growing and took the shape of a mass movement following the enactment of the States Reorganisation Act.</li>
+<li>&#8226; Both sides wanted the city of Bombay to be their administrative capital.</li>
+<li>&#8226; A third group represented by major industrialists and businessmen wanted Bombay to be a union territory.</li>
+<li>&#8226; However, the national leadership was concerned about the possibility of Marathi separatism if Bombay was separated from Maharashtra.</li>
+<li>&#8226; Therefore, in 1960, the Bombay state was bifurcated into Gujarat and Maharashtra with Ahmedabad and Bombay as their capitals respectively.</li>
+<li>&#8226; Pt Nehru was reluctant to reorganise the internal borders of PEPSU because of its strategic and military importance and due to its communal sensitivity.</li>
+<li>&#8226; Therefore, linguistic reorganisation was carried out by Indira Gandhi in 1966.</li>
+<li>&#8226; PEPSU was divided into three parts namely Punjab, Haryana and Himachal Pradesh.</li>
+<li>&#8226; Chandigarh was made a Union territory and designated as common capital of both Punjab and Haryana.
+<ul>
+<li style="padding-left:2em">&#9702; On the other hand, Shimla became capital of Himachal Pradesh.</li>
+</ul>
+</li>
+</ul>
+<h3>Issues of linguistic minorities</h3>
+<ul>
+<li>&#8226; Linguistic minorities referred to the speakers of those languages where these languages constitute the minority language in their state of residence.</li>
+<li>&#8226; Roughly 18% of Indians fall under the category of linguistic minorities.</li>
+<li>&#8226; They are spread across the whole of India including Jammu and Kashmir which has a 44% minority and Kerala with a 4% minority.</li>
+<li>&#8226; The largest minority language is Urdu spoken from Punjab to Bengal and Kashmir to Karnataka.</li>
+<li>&#8226; The constitution has enshrined certain safeguards to protect the rights of linguistic minorities. Article 30 provides for the promotion of minority languages and the safeguarding of their cultural and educational rights.</li>
+<li>&#8226; The state is required to set up primary schools in all districts having sizeable minority populations where education must be imparted in the minority languages.</li>
+<li>&#8226; A general complaint of the linguistic minorities is that they are discriminated against. State officials often remain insincere about protecting the cultural heritage of linguistic minorities and promoting education in the minority languages.
+<ul>
+<li style="padding-left:2em">&#9702; This issue is further complicated due to the nature of popular democracy and vote bank politics. The minorities are never in a position to influence provincial politics in any meaningful way due to their minority status.</li>
+<li style="padding-left:2em">&#9702; In fact, regional political leaders are often incentivised to adopt policies which reflect their &#8216;son of the soil position&#8217;. This often clashes with the interests of the linguistic minorities.</li>
+</ul>
+</li>
+<li>&#8226; Despite this, some states such as Andhra Pradesh, Telangana, Tamil Nadu, Kerala and Karnataka have performed relatively well in the protection of their linguistic minorities. However, the performance of Hindi belt states such as Rajasthan, Haryana, UP, Bihar and Madhya Pradesh has been quite poor.
+<ul>
+<li style="padding-left:2em">&#9702; This has communalized the question of linguistic minorities in North India. This has resulted in North India becoming the most prominent theatre of communal violence since the 1960s.</li>
+</ul>
+</li>
+</ul>
+<h3>Conclusion</h3>
+<p>The nation was shaken by the clash on linguistic issues. It threatened to divide India in the same way that religion had divided it. After initial reluctance, better sense prevailed and the linguistic reorganisation of states diffused the internal tensions that threatened to tear the nation apart.</p>
+<p>However, greater sincerity needs to be shown towards the issue of the linguistic minorities since it represents another fault line along which the nation may find itself divided.</p>`,
   'caste-ethnicity-post-1947': ``,
   'economic-development-political-change': `<h2>Land Revenue Reforms</h2>
 <p>Earlier, the Permanent Settlement was guided by mercantilist interest. However, in the early decades of the 19th century, India was being developed as a British commodity market.</p>
