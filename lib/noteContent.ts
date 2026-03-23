@@ -18371,7 +18371,347 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 <h3 id="conclusion-1857">Conclusion</h3>
 <p>On the basis of this discussion, it can be said that the revolt was definitely more than a simple sepoy mutiny. It involves the participation of section of civilian population including rulers, Zamindars, peasants, artisans and petty traders apart from Indian sepoys.</p>
-<p>At the same time, it was also something less than the first war of national independence. However, its impact should not be underestimated. Not only did it trigger a major overhaul of the colonial regime, it also emerged as a major source of inspiration for the later generation of nationalists.</p>`,
+<p>At the same time, it was also something less than the first war of national independence. However, its impact should not be underestimated. Not only did it trigger a major overhaul of the colonial regime, it also emerged as a major source of inspiration for the later generation of nationalists.</p><h2>Formation of Congress</h2>
+<p>Amidst the socio-economic as well as political crisis caused by the British rule and rising awareness among Indians owing to socio-religious reform movement as well as rising political awareness due to rise in a number of political organizations, it was just a matter of time before a national organization could be formed.</p>
+<p>Thus, the Indian National Congress was founded in 1885 by AO Hume at Sir Gokuldas Tejpal Sanskrit Mahavidyalaya in Bombay.</p>
+<ul>
+<li>&#8226; It was attended by 72 members</li>
+<li>&#8226; First President was WC Bonnerjee</li>
+<li>&#8226; Important leaders who were absent were SN Banerjee and AM Bose.</li>
+<li>&#8226; Its formation is considered as the true beginning of the Indian National movement because it was the first All India Political platform in which nationalists across the India participated.
+<ul>
+<li style="padding-left:2em">&#9702; Anti-colonial</li>
+<li style="padding-left:2em">&#9702; Instrumental in India`s liberation</li>
+<li style="padding-left:2em">&#9702; Secular organization which represented the interests of all Indians irrespective of class, language or region. It was a democratic, liberal and progressive platform with an inclusive agenda</li>
+<li style="padding-left:2em">&#9702; Post-independence, it provided stewardship to young India in accordance with the values of the national movement.</li>
+</ul>
+</li>
+</ul>
+<p>However, formation of the INC has invited great historiographical debate surrounding around the intentions and the objectives for its formation.</p>
+<h2>Colonial perspective: Safety Valve Theory</h2>
+<p><strong>Lala Lajpat Rai,</strong> for the first time, has written in <strong>&#8216;Young India&#8217;</strong> in 1916 that Congress was a &#8216;safety valve&#8217; deliberately created by the British in order to avoid any large scale revolt.</p>
+<ul>
+<li>&#8226; It was to handle and release the pressure of the public anger and would act as the shield for British rule.</li>
+<li>&#8226; As the source of his information, he highlighted the biography of AO Hume written by <strong>William Wedderburn-</strong>
+<ul>
+<li style="padding-left:2em">&#9702; According to him, Hume created the Congress as a safety mechanism and described Hume as an &#8216;enlightened imperialist&#8217;.</li>
+<li style="padding-left:2em">&#9702; He writes that as a revenue official in Shimla, Hume had received reports of a widespread discontent which may lead to a major revolt such as the great revolt of 1857.</li>
+<li style="padding-left:2em">&#9702; Therefore, Hume got into contact with the then Governor General Dufferin and both decided to form an organization which would let Indians to vent their anger through it.</li>
+</ul>
+</li>
+</ul>
+<h2>Nationalist perspective: Lightning conductor theory</h2>
+<p>While rejecting the colonial perspective of safety valve, nationalists believe that rather Congress wisely used AO Hume as a lightning conductor to shield the Congress which was still in its infancy.</p>
+<ul>
+<li>&#8226; Congress was actually the manifestation of maturity of India nationalism.
+<ul>
+<li style="padding-left:2em">&#9702; Since 1830s various regional political organizations had emerged which advocated the rights of the Indians versus the British.</li>
+<li style="padding-left:2em">&#9702; These organizations were not only active in India but also overseas which had even started creating a consciousness regarding British misrule in India.</li>
+<li style="padding-left:2em">&#9702; By 1880s, there was greater appetite for common action between these regional organizations.</li>
+<li style="padding-left:2em">&#9702; In 1883, Indian Association of Calcutta formed by AM Bose and SN Banerjee had launched Indian National Conference to mobilize nationalists throughout India.</li>
+<li style="padding-left:2em">&#9702; They had already created the momentum but the tough choice between Indian National Conference and Indian National Congress was to be made.</li>
+<li style="padding-left:2em">&#9702; In such a scenario, it was necessary to take help from British in order to secure the new born movement from administrative wrath. So, nationalists had used Hume as a lightning conductor.</li>
+</ul>
+</li>
+<li>&#8226; Gradually, with the declassification of official files, it came to be revealed that neither Dufferin was involved nor interested in the formation of Congress. Rather he was suspicious of the activities of Hume.</li>
+<li>&#8226; Thirdly, Lala Lajpat Rai`s opinion cannot be said to be objective because by he wrote the book, he had left Congress and formed Hindu Mahasabha. Thus, the element of rivalry and partiality cannot be rejected.</li>
+<li>&#8226; Fourthly, it is argued that Wedderburn was a good friend of Hume and he had realized that by that time Congress had ascended and looked at as the enemy of the Raj.
+<ul>
+<li style="padding-left:2em">&#9702; He was just attempting to shield his friend from guilt of creating Congress and thus his narrative also lacked objectivity.</li>
+</ul>
+</li>
+<li>&#8226; Fifthly, the report of intelligence does not go to a revenue official but to the Home Secretary. As a Revenue official, he could not have found the intelligence report thus eroding the very basis of the argument.</li>
+</ul>
+<p>In conclusion, it can be said that Hume`s intention may have been to use the INC as a &#8216;safety valve&#8217; but he himself was being used by the Indian nationalists as a lightning conductor. INC ultimately emerged as the strongest critic and opponent of the British Raj and led a lengthy and sustained struggle against it till independence. Thus, it hardly behaved as a safety valve.</p>
+<h2>Practice Question</h2>
+<p><strong>Q. To what extent do you believe that the &#8216;safety valve theory&#8217; explains the formation of Indian National Congress?</strong></p>
+<p>The formation of Congress was too important an episode of Indian national struggle to miss a critical scrutiny. On one hand is the view that looks at it as the junior partner of the British whereas on the other is the nationalist perspective which highlights its critical role in Indian independence.</p>
+<p>The first perspective tries to defame the Congress as a &#8216;safety valve&#8217; for the British. It was first propounded by Lala Lajpat Rai in his book where he mentioned about the William Wedderburn&#8217;s biography of AO Hume. Wedderburn mentions that AO Hume being a revenue official in Shimla received intelligence report that told him about a brimming revolution in India on the lines of the great revolt.</p>
+<p>Governor General Dufferin and AO Hume decided to form an organization of Indians to vent out their anger and shield British rule from its impact.</p>
+<p>Later, even Communists tried to undermine the formation as well as organization of the Congress as a Bourgeoisie (educated middle class) attempt to check any popular revolt.</p>
+<p>However, historians like <strong>Sumit Sarkar</strong> among other nationalists have proposed the theory of <strong>&#8216;lightning conductor&#8217;</strong>. They believe that Congress at its initial stage used British support to shield itself from the administrative suppression. They even put forth the following views in their support-</p>
+<ul>
+<li>&#8226; Gradual evolution- Congress had gone through a gradual process of evolution as various socio-political organizations had started coming from 1830s. The conscious attempt of Indians had risen to such a level that any national organization could not have been delayed. India Association had already conducted Indian National Conference in 1883. INC was the logical conclusion of such attempts.</li>
+<li>&#8226; The declassification of official files of that period also highlights that Dufferin was neither involved nor interested in the formation of Congress. In fact, he was suspicious of Hume`s activities.</li>
+<li>&#8226; Thirdly, Lala Lajpat Rai`s accounts cannot be said to be objective as he had left Congress by then and formed Hindu Mahasabha.</li>
+<li>&#8226; Fourthly, Wedderburn`s partiality cannot be denied because he was a good friend of Hume and was trying to present him as an enlightened imperialist who had no intentions of forming an INC which would later be problematic for British.</li>
+<li>&#8226; Fifthly, Hume was a revenue official who could not have laid his hands upon any intelligence report.</li>
+<li>&#8226; Even communist theory is not true because Congress was an umbrella which had incorporated all the shades of the national movement and led the freedom struggle.</li>
+</ul>
+<p>Thus, it would be wrong to assume the INC as a safety valve. It acted as a lightning conductor which made the organization foolproof against any administrative action. Congress gradually emerged as an umbrella which carried everyone with it to achieve Indian independence.</p>
+<h2>Phases of the Indian National Movement</h2>
+<p><strong>1. Moderate Phase (1885-1905)</strong></p>
+<p><strong>2. Extremist Phase (1905-19)</strong></p>
+<p><strong>3. Revolutionary Extremism (1907-1918) and (1924-1930)</strong></p>
+<p><strong>4. Gandhian Phase (1919- 1947)</strong></p>
+<p><strong>5. Socialist Phase (1929-1947)</strong></p>
+<p><strong>6. Communal Nationalism (1937- 1947)</strong></p>
+<h2>1. Moderate Phase (1885-1905)</h2>
+<p>This was the earliest phase of nationalist politics where the INC was dominated by moderate liberals and put forward moderate demands using moderate methods.</p>
+<ul>
+<li>&#8226; <strong>Moderate leaders-</strong> were from the upper middle class who believed in Western ideals such as Parliamentary democracy, limited government, secularism, popular sovereignty and separation of powers.
+<ul>
+<li style="padding-left:2em">&#9702; These leaders were pro-British in nature</li>
+<li style="padding-left:2em">&#9702; They were urban professionals and are also called &#8216;part time politicians&#8217;</li>
+<li style="padding-left:2em">&#9702; They believed India was not ready for complete autonomy or independence and thus preferred gradual reforms. For this reason, they are also known as gradualists or incrementalists.</li>
+<li style="padding-left:2em">&#9702; They wanted to create political awareness among masses and had no faith in mass politics.</li>
+<li style="padding-left:2em">&#9702; Prominent leaders were Dadabhai Nauroji, MG Ranade, GK Gokhale, Pherozshah Mehta, RC Dutt, Dinshaw Wacha etc.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Moderate demands-</strong> They demanded Constitutional and administrative reforms in a gradual manner such as-
+<ul>
+<li style="padding-left:2em">&#9702; Expansion of the legislature</li>
+<li style="padding-left:2em">&#9702; Indianization of the civil services- Simultaneous examination of the civil services and Indianization of the syllabus</li>
+<li style="padding-left:2em">&#9702; Reduction in administrative and military expenditure</li>
+<li style="padding-left:2em">&#9702; Increase in social sector expenditure</li>
+<li style="padding-left:2em">&#9702; Reduction in land revenue</li>
+<li style="padding-left:2em">&#9702; Reduction in export duties and increase in import duties</li>
+<li style="padding-left:2em">&#9702; Protection of peasants against Zamindars</li>
+<li style="padding-left:2em">&#9702; Introduction of electoral politics in India</li>
+</ul>
+</li>
+</ul>
+<p>These demands reveal the following-</p>
+<ul>
+<li style="padding-left:2em">&#9702; They had a secular All India outlook- none of their demands was specific to any region, religion, linguistic community or class.</li>
+<li style="padding-left:2em">&#9702; The moderates had a liberal and progressive agenda. They were inspired by the values of the Enlightenment and desired to shape Indian politics and society in line with these values.</li>
+<li style="padding-left:2em">&#9702; They had a pro-British outlook. Rather than demanding the end of the British rule, they demanded its reforms. This shows that they believed that British rule was inherently beneficial for Indians.</li>
+<li style="padding-left:2em">&#9702; On the other hand, the moderates had a rational outlook of Indian problems. They were able to pinpoint the root causes of Indian suffering and their only flow was their misperception of the nature of British rule.</li>
+</ul>
+<h2>Nature of Moderate Politics</h2>
+<ul>
+<li>&#8226; The Congress held annual sessions at the end of every year where leaders from across the country would take time out of their busy schedules to congregate and discuss the pressing issues.
+<ul>
+<li style="padding-left:2em">&#9702; Parliamentary procedure was strictly followed</li>
+<li style="padding-left:2em">&#9702; In the first sitting, President and Secretary were elected to preside over the entire session and decide the agenda of the session.</li>
+<li style="padding-left:2em">&#9702; Deliberation was an essential part of the INC methodology.</li>
+<li style="padding-left:2em">&#9702; Resolutions were then voted upon and modified if necessary.</li>
+<li style="padding-left:2em">&#9702; At the end of this session an annual resolution would be prepared and put to vote.</li>
+<li style="padding-left:2em">&#9702; Based upon this, several requests, petitions, memoranda and protests were drafted and sent to the concerned authority at the appropriate time.</li>
+<li style="padding-left:2em">&#9702; The major demands were also published through newspapers.</li>
+</ul>
+</li>
+<li>&#8226; Moderate politics had a distinctly elite and urban character.
+<ul>
+<li style="padding-left:2em">&#9702; INC members belonged to upper middle class.</li>
+<li style="padding-left:2em">&#9702; Masses had no representation and participation</li>
+<li style="padding-left:2em">&#9702; They were only limited to the cities and did not desire to engage the rural masses.</li>
+</ul>
+</li>
+<li>&#8226; Moderates felt that the masses of India were not yet ready for political action. They considered them to be
+<ul>
+<li style="padding-left:2em">&#9702; uneducated and illiterate,</li>
+<li style="padding-left:2em">&#9702; superstitious and conservative</li>
+<li style="padding-left:2em">&#9702; feudal and parochial</li>
+</ul>
+</li>
+</ul>
+<p>Thus they believed masses as counterproductive to modern politics. Instead they believed in educating and modernizing the masses.</p>
+<p>However, due to this attitude, social base of their movement remained narrow and politics remained ineffective.</p>
+<ul>
+<li>&#8226; The moderates believed in the constitutional method of politics
+<ul>
+<li style="padding-left:2em">&#9702; These included prayers, petitions, propaganda, memoranda etc.</li>
+<li style="padding-left:2em">&#9702; This was because they were admirers of constitutionalism and western liberal institutions.</li>
+<li style="padding-left:2em">&#9702; This was partly the reason why they stayed away from mass politics.</li>
+</ul>
+</li>
+<li>&#8226; Later nationalists criticized the moderates&#8217; method as a form of Political mendicancy.
+<ul>
+<li style="padding-left:2em">&#9702; However, we must remember that moderates were the pioneers of their field. They would have to undergo a period of trial and error. In this scenario, moderates should be evaluated more leniently.</li>
+<li style="padding-left:2em">&#9702; Characterizing the moderates as loyalists and unpatriotic elements would be a gross mischaracterization since their entire career was dedicated towards the well-being of all Indians.</li>
+<li style="padding-left:2em">&#9702; Thirdly, it was also a strategic decision for the early leaders as the British were unlikely to tolerate more radical approach. British repression would have completely smothered the nascent national movement.</li>
+<li style="padding-left:2em">&#9702; Fourthly, moderates had been trained in the western methods and had grown up to admire Western societies and thus moderate politics came naturally to them.</li>
+<li style="padding-left:2em">&#9702; Therefore, calling them political mendicants would be historically unfair.</li>
+</ul>
+</li>
+</ul>
+<h2>Evaluation of the Moderate Phase</h2>
+<ul>
+<li>&#8226; They failed to fulfill any of their major demands. This was due to the following limitations-
+<ul>
+<li style="padding-left:2em">&#9702; Their elite urban movement and narrow social base</li>
+<li style="padding-left:2em">&#9702; Their unwillingness to involve the masses meant that they were never in a position to pressurize the British.</li>
+<li style="padding-left:2em">&#9702; Their constitutional methods were ineffective in convincing the British to introduce reforms.</li>
+<li style="padding-left:2em">&#9702; Their failure to perceive the true character of the British rule emerged as their greater weakness. They continued believing that the British would fulfill their demands willingly but in reality any progress would have to be fought for.</li>
+<li style="padding-left:2em">&#9702; Extremist nationalists criticized the moderates as political mendicants.</li>
+</ul>
+</li>
+<li>&#8226; Finally, we should not overlook the significant achievements of the moderates.
+<ul>
+<li style="padding-left:2em">&#9702; They were the torchbearers of Indian nationalism- Through their contributions they ensured that the Congress emerged as the secular All India progressive and democratic platform.</li>
+<li style="padding-left:2em">&#9702; This transformed the Congress into legitimate representative of all Indians and vastly enhanced its effectiveness in the later stages.</li>
+<li style="padding-left:2em">&#9702; Additionally, these values became the core values of the Indian national movement as a whole and were crucial for defining our national identity.</li>
+</ul>
+</li>
+<li>&#8226; While the moderates failed in their immediate objectives, their failure was not an absolute one.
+<ul>
+<li style="padding-left:2em">&#9702; Frustrated with the ineffectiveness of the moderate methods, younger nationalists were forced to turn towards the extremist ideology which infused new energy alongwith new methods, demands and a new strength.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Economic critique of British rule-</strong> Most significant success of the moderate leadership was their economic critique of the British rule.
+<ul>
+<li style="padding-left:2em">&#9702; Their scientific appraisal of the colonial economy proved that it was inherently exploitative.</li>
+<li style="padding-left:2em">&#9702; They showed that the colonial system was designed to strip India of its wealth. In fact, the term &#8216;Drain of Wealth&#8217; was coined by these leaders to refer to this phenomenon.</li>
+<li style="padding-left:2em">&#9702; Among the moderates, DB Nauroji, MG Ranade and RC Dutt were the most prominent economic critics of British rule.</li>
+<li style="padding-left:2em">&#9702; They exposed the inherently exploitative character of British rule and thus shattered the illusion of <strong>British Providentialism</strong> (British rule is for betterment of India).</li>
+<li style="padding-left:2em">&#9702; This played an important role in the upsurge of extremist nationalism from the early twentieth century onwards.</li>
+<li style="padding-left:2em">&#9702; Further, the writings of the moderate leaders inspired further research from later Marxist scholars. This resulted not only in the growth of socialist ideology within the national movement but also in the emergence of the Marxist school of studies.</li>
+</ul>
+</li>
+<li>&#8226; While none of the major Marxist demands were fulfilled, some minor reforms were secured. These include
+<ul>
+<li style="padding-left:2em">&#9702; Indian Councils Act, 1892</li>
+<li style="padding-left:2em">&#9702; Establishment of the Welby Commission on Indian expenditure in 1895</li>
+<li style="padding-left:2em">&#9702; Appointment of a Public Service Commission in 1896.</li>
+</ul>
+</li>
+</ul>
+<h2>Practice Question</h2>
+<p><strong>Q. Critically evaluate the contributions of the moderate leaders within the national movement.</strong></p>
+<p><strong>Q. The Moderate methods were bound to fail. Critically discuss.</strong></p>
+<p>Moderate leaders dominated the political phase of Indian national movement from 1885-1905 and laid the foundation of an anti-British freedom struggle. However their role is not accepted uncritically and thus demands a comprehensive discussion.</p>
+<p>Critiques of Moderates have considered their efforts as unsuccessful and a failure on following grounds-</p>
+<ul>
+<li>&#8226; Their elite urban movement and narrow social base who are even called as &#8216;part time politicians&#8217;.</li>
+<li>&#8226; Their unwillingness to involve the masses meant that they were never in a position to pressurize the British.</li>
+<li>&#8226; Their constitutional methods were ineffective in convincing the British to introduce reforms.</li>
+<li>&#8226; Their failure to perceive the true character of the British rule emerged as their greater weakness. They continued believing that the British would fulfill their demands willingly but in reality any progress would have to be fought for.</li>
+<li>&#8226; Extremist nationalists criticized the moderates as political mendicants as their methods of demand were confined to 3 Ps- petition, prayer and protests without any strong anti-government position.</li>
+</ul>
+<p>However, a retrospective analysis of Moderates presents a more balanced opinion on following grounds-</p>
+<ul>
+<li>&#8226; They were the torchbearers of Indian nationalism- Through their contributions they ensured that the Congress emerged as the secular All India progressive and democratic platform.</li>
+<li>&#8226; This transformed the Congress into legitimate representative of all Indians and vastly enhanced its effectiveness in the later stages.</li>
+<li>&#8226; Additionally, these values became the core values of the Indian national movement as a whole and were crucial for defining our national identity.</li>
+<li>&#8226; <strong>Economic critique-</strong> Through &#8216;<strong>Drain of Wealth</strong>&#8217; theory, moderate leaders like Dadabhai Nauroji and RC Dutt challenged the myth of &#8216;British Providentialism&#8217; which fed the falsehood of betterment of India because of British rule.
+<ul>
+<li style="padding-left:2em">&#9702; It was perhaps the most significant achievement of moderates because through this one step they eroded the basis of British rule and through an organization provided a platform for discontented Indians to come together.</li>
+</ul>
+</li>
+</ul>
+<p>Therefore, moderates should not only be looked at from the point of view of immediate success or failure but it should be understood that they were the pioneers of the national movement and with little resources they possessed, they were able to create a momentum which was further utilized by coming generations.</p>
+<h2>2. Extremist Phase (1905-19)</h2>
+<p>The gradual realization of the true character of the British rule intensified the anti-British sentiment among younger nationalists. They could see that it was essentially an alien, unsympathetic and exploitative regime and was unconcerned about the welfare of Indians. He was only interested in strengthening control to exploit resources. This was accompanied by the realizations that the British could never willingly address Indian demands. Since British interests and Indian interests were mutually contradictory. Therefore, constitutional methods of struggle could never succeed.</p>
+<ul>
+<li>&#8226; This pushed the younger nationalists towards more <strong>radical nationalism</strong> including open cooperation with the colonial regime.</li>
+<li>&#8226; The <strong>failure of the moderates</strong> caused frustration among the younger nationalists.
+<ul>
+<li style="padding-left:2em">&#9702; They began searching for an alternative approach which led them towards direct action.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Reaction against British atrocities, misrule and Indian suffering-</strong> During the late 19th century, India witnessed series of severe famines which exposed the apathetic nature of colonial administration and true attention towards the general state of British misrule.
+<ul>
+<li style="padding-left:2em">&#9702; Towards the end of 19th century, with the growth of education number of graduates had increased sharply but employment opportunities had not increased accordingly.</li>
+<li style="padding-left:2em">&#9702; This resulted in sharp increase in the number of highly educated, critically aware unemployed youth.</li>
+<li style="padding-left:2em">&#9702; Naturally, resentment against British regime increased and resulted in the growth of extremism.</li>
+<li style="padding-left:2em">&#9702; Further, in the recent years, the British regime had adopted series of draconian measures to contain the rise of nationalism. These included the deportation of the Chapekar brothers (Natu brothers) without trial and the imprisonment of BG Tilak on charges of sedition for defending them.</li>
+<li style="padding-left:2em">&#9702; These further eroded the trust of Indians in the British regime.</li>
+</ul>
+</li>
+<li>&#8226; Younger generation of nationalists viewed the British attempts &#8220;to modernize India&#8221; as a deliberate attempt to destroy the India culture and way of life.
+<ul>
+<li style="padding-left:2em">&#9702; Since the beginning of the 19th century, British had been conducting an unceasing assault on the indigenous way of life with the objective &#8220;civilizing India&#8221; but their real intention had always been to colonize the Indian mind.</li>
+<li style="padding-left:2em">&#9702; They had distorted Indian history and were attempting to convince Indians that British rule was a boon for them.</li>
+<li style="padding-left:2em">&#9702; The younger nationalists saw through this British design and objected to the white washing of Indian culture. Their defense of the Indian way of life brought them into direct conflict with the British regime.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Role of external factors</strong> should also not be overlooked. The victory of Abyssinia over Italy and Japan over Russia shattered the myth of European invincibility. These small Asian and African nations had not only repelled European aggression but had also given a crushing blow to European military prestige.
+<ul>
+<li style="padding-left:2em">&#9702; In a sea of despair they emerged as beacons of hope for all the colonized people of the Earth.</li>
+<li style="padding-left:2em">&#9702; Younger Indian nationalists were also inspired to directly challenge the British colonizers.</li>
+</ul>
+</li>
+<li>&#8226; <strong>The reactionary policy of Curzon (1899-1905) -</strong> Curzon was an imperialist of the highest order and displayed immense hostility towards Indian nationalism. He took some reactionary measures to control nationalism including-
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Calcutta Corporation Act (1899)</strong> which reduced the number of elected members to the Calcutta Municipal Corporation bringing it under European control.</li>
+<li style="padding-left:2em">&#9702; <strong>Indian Universities Act, 1904</strong> was passed based upon the recommendations of the Raleigh Commission in the name of improving the standards of university education. This act brought the administration of the universities under strict government control.</li>
+<li style="padding-left:2em">&#9702; <strong>Official Secrets Act, 1904</strong> was enacted in the name of protecting India`s internal security but in reality it was meant to gag the free press and speech.</li>
+<li style="padding-left:2em">&#9702; <strong>Partition of Bengal</strong> was carried out to divide and rule India.</li>
+<li style="padding-left:2em">&#9702; Instead of weakening Indian nationalism, these actions had the effect of strengthening of the nationalist resolve.</li>
+</ul>
+</li>
+</ul>
+<h2>Nature of extremist politics</h2>
+<ul>
+<li>&#8226; Extremists were radical in their approach. Since they rejected the notion of British Providentialism, they were not satisfied with constitutional reforms and instead demanded <strong>Swaraj</strong>.</li>
+<li>&#8226; Instead of using constitutional methods, they relied on aggressive methods involving the masses including Passive Resistance, Boycott, Swadeshi and non-cooperation.</li>
+<li>&#8226; Extremist movement remained largely an <strong>urban phenomenon</strong> but shed the moderates` elite character.
+<ul>
+<li style="padding-left:2em">&#9702; Not only was the leadership from the lower middle class background but the extremists attracted participants from virtually from all urban classes including professionals, merchants, ordinary service providers, workers, students and even women.</li>
+</ul>
+</li>
+<li>&#8226; While the extremist movement remained secular, secularism was diluted as compared to the moderate movement.
+<ul>
+<li style="padding-left:2em">&#9702; Extremist leaders relied upon religious appeals and cultural symbols to mobilize the masses.</li>
+</ul>
+</li>
+<li>&#8226; While the extremist movement remained politically and socially progressive, they displayed social conservatism.
+<ul>
+<li style="padding-left:2em">&#9702; For example, Tilak`s opposition to Age of Consent Bill, 1891 which proposed to raise the minimum marriageable age for girls from 10 to 12 years. While Tilak opposed child marriage, he was not ready to accept the principle of British interference in Indian social issues.</li>
+</ul>
+</li>
+</ul>
+<h2>Critical evaluation of Extremist achievements</h2>
+<p><strong>1. New energy, new methods, new strength and new objectives</strong></p>
+<ul>
+<li style="padding-left:2em">&#9702; It became distinctly anti-colonial setting the stage for direct confrontation with British rule.</li>
+<li style="padding-left:2em">&#9702; Constitutional methods were discarded in favour of boycott, Swadeshi, and passive resistance.</li>
+<li style="padding-left:2em">&#9702; The social base of the movement multiplied exponentially as the ordinary masses entered it for the first time putting direct pressure on the British rule.</li>
+<li style="padding-left:2em">&#9702; Self-help at all costs became the motto of the movement tactically translating in the demand of Swaraj.</li>
+</ul>
+<p><strong>2.</strong> The extremists were the <strong>pioneers of mass struggle in India</strong>. They experimented with new strategies and methods such as Swaraj, Swadeshi and Boycott.</p>
+<ul>
+<li style="padding-left:2em">&#9702; These were used by far greater effect by later leaders such as Mahatma Gandhi.</li>
+</ul>
+<p><strong>3.</strong> The extremist movement <strong>permanently transformed national attitudes</strong> and aspirations.</p>
+<ul>
+<li style="padding-left:2em">&#9702; They permanently altered the national mood towards the British. Following this, the national movement remained anti-colonial till the very end.</li>
+<li style="padding-left:2em">&#9702; Under their leadership, national movement graduated from the demand of incremental reforms towards Swaraj. With time, the definition of Swaraj itself evolved to become increasingly holistic and complete.</li>
+</ul>
+<p><strong>4.</strong> The Extremists were also far <strong>more effective in pressurizing the British</strong></p>
+<p>Owing to the pressure created by the Swadeshi movement, the British were forced to respond with-</p>
+<ul>
+<li style="padding-left:2em">&#9702; Indian Councils Act, 1909</li>
+<li style="padding-left:2em">&#9702; Annulment of Partition of Bengal in Delhi Durbar in 1911.</li>
+</ul>
+<p><strong>5. Surat Split (1907) -</strong> Their inability to compromise and cooperate with the moderates resulted in the Surat split which slowed down the national movement as a whole.</p>
+<p><strong>6.</strong> The extremists also diluted the secular credentials of the national movement by mobilizing the masses in the name of religion. It appeals to the Hindu identity and use of Hindu symbols which alienated the Muslim masses.</p>
+<ul>
+<li>&#8226; The inclusiveness of the mass movement suffered and the gap between the two communities further increased.</li>
+<li>&#8226; The element of cultural nationalism became permanently associated with Indian mass politics and proved disastrous.</li>
+</ul>
+<h2>Practice Question</h2>
+<p><strong>Q. The beginning of the 20th century saw the emergence of new energy, new strength, new objectives and new methods within the national movement. On the basis of this statement, critically evaluate the contributions of the extremists.</strong></p>
+<p>In the beginning of the 20th century, national freedom struggle entered the extremist phase led by leaders such as BG Tilak, Lala Lajpat Rai, and BC Pal etc. On the foundation created by the moderates, these leaders unleashed a new form of struggle.</p>
+<ul>
+<li>&#8226; <strong>New energy-</strong> The movement from hereon became distinctly anti-colonial setting the stage for direct confrontation with the government. The earlier attitude of compromise with the colonial regime was completely shed.</li>
+<li>&#8226; <strong>New methods-</strong> New modes of protest such as boycott, Swadeshi, and passive resistance became accepted in place of prayers, petitions and propaganda being used earlier. A more direct action became possible.</li>
+<li>&#8226; <strong>New Strength-</strong> As the scope for more constructive action broadened, the social base of the masses entered it for the first time putting pressure on the British rule.</li>
+<li>&#8226; <strong>New objectives-</strong> The motto of the movement shifted from some reforms in the administration within the British umbrella to Swaraj. However, the concept of Swaraj was yet vague and ambiguous.</li>
+</ul>
+<p>In this manner, extremists were able to strengthen the national movement but there were certain significant challenges posed by their dominance-</p>
+<ul>
+<li>&#8226; <strong>Surat split-</strong> Their inability to compromise and cooperate with the moderates resulted in Surat split which slowed the struggle.</li>
+<li>&#8226; <strong>Dilution of secular credentials-</strong> although the broad outlook of the movement was secular, the use of religion and religious symbols started being predominant. Hereafter, the element of cultural nationalism became permanently associated with Indian mass politics and proved disastrous.</li>
+</ul>
+<p>The beginning of the 20th century observed the transition of Indian national movement from infancy to a comparatively young phase in which extremists took the lead. However this was also the time of beginning of cultural nationalism which was to haunt Indian politics till the very present day.</p>
+<h2>Q. Compare and contrast the extremist phase of Indian nationalism to moderates.</h2>
+<p>Both moderates and extremists were the patriots with similar intentions but different modes of action. While moderates were pioneers of the national movement itself, the extremists pioneered its mass movement phase.</p>
+<p>Moderates and extremists should not be looked at in silos. They were complementary to each other and the extremist movement was the logical extension of the British attitude towards moderates.</p>
+<table>
+<thead><tr><th>Moderate Phase</th><th>Extremist Phase</th></tr></thead>
+<tbody>
+<tr><td>Moderate leaders came from upper middle class background.</td><td>Extremists belonged to lower middle class background.</td></tr>
+<tr><td>They were inspired by Western ideals and knowledge.</td><td>They derived inspiration from traditional Indian knowledge.</td></tr>
+<tr><td>They demanded reforms within the overall umbrella of British patriarchy.</td><td>They demanded Swaraj or self-rule but it was ambiguous in nature.</td></tr>
+<tr><td>Their attitude was pro-British and they just demanded for true British paternalism.</td><td>They were distinctly anti-colonial and were completely opposed to any compromise with colonial setup.</td></tr>
+<tr><td>They were suspicious of Indians` ability to lead a struggle against the British rule and rather maintained an elite character of the organization.</td><td>They especially believed in mass politics. Even then their movement remained confined to urban areas but had shed the elitist character.</td></tr>
+<tr><td>Their methods of protest were 3 Ps- Prayers, petitions, and propaganda.</td><td>Their methods included boycott, passive resistance, Swadeshi and non-cooperation.</td></tr>
+<tr><td>The movement under Moderates was completely secular in nature and no use of religious symbols could be seen.</td><td>The movement under extremists was broadly secular but use of religious symbols began for mobilizing people. However, this also gave rise to cultural nationalism.</td></tr>
+<tr><td>Movement under extremists remained politically and socially progressive.</td><td>Under extremists, movement displayed signs of social conservatism.</td></tr>
+</tbody>
+</table>`,
   'gandhian-nationalism': ``,
   'constitutional-developments': ``,
   'other-strands-national-movement': ``,
