@@ -18381,7 +18381,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; Its formation is considered as the true beginning of the Indian National movement because it was the first All India Political platform in which nationalists across the India participated.
 <ul>
 <li style="padding-left:2em">&#9702; Anti-colonial</li>
-<li style="padding-left:2em">&#9702; Instrumental in India`s liberation</li>
+<li style="padding-left:2em">&#9702; Instrumental in IndiaIndiaIndiaIndiaIndiaIndia`s#8217;s#8217;s liberation#8217;s liberation#8217;s liberation#8217;s liberation</li>
 <li style="padding-left:2em">&#9702; Secular organization which represented the interests of all Indians irrespective of class, language or region. It was a democratic, liberal and progressive platform with an inclusive agenda</li>
 <li style="padding-left:2em">&#9702; Post-independence, it provided stewardship to young India in accordance with the values of the national movement.</li>
 </ul>
@@ -18414,7 +18414,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 </li>
 <li>&#8226; Gradually, with the declassification of official files, it came to be revealed that neither Dufferin was involved nor interested in the formation of Congress. Rather he was suspicious of the activities of Hume.</li>
-<li>&#8226; Thirdly, Lala Lajpat Rai`s opinion cannot be said to be objective because by he wrote the book, he had left Congress and formed Hindu Mahasabha. Thus, the element of rivalry and partiality cannot be rejected.</li>
+<li>&#8226; Thirdly, Lala Lajpat RaiLajpat RaiLajpat Rai`s#8217;s#8217;s opinion cannot be said to be objective because by he wrote the book, he had left Congress and formed Hindu Mahasabha. Thus, the element of rivalry and partiality cannot be rejected.</li>
 <li>&#8226; Fourthly, it is argued that Wedderburn was a good friend of Hume and he had realized that by that time Congress had ascended and looked at as the enemy of the Raj.
 <ul>
 <li style="padding-left:2em">&#9702; He was just attempting to shield his friend from guilt of creating Congress and thus his narrative also lacked objectivity.</li>
@@ -18422,7 +18422,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 <li>&#8226; Fifthly, the report of intelligence does not go to a revenue official but to the Home Secretary. As a Revenue official, he could not have found the intelligence report thus eroding the very basis of the argument.</li>
 </ul>
-<p>In conclusion, it can be said that Hume`s intention may have been to use the INC as a &#8216;safety valve&#8217; but he himself was being used by the Indian nationalists as a lightning conductor. INC ultimately emerged as the strongest critic and opponent of the British Raj and led a lengthy and sustained struggle against it till independence. Thus, it hardly behaved as a safety valve.</p>
+<p>In conclusion, it can be said that HumeHumeHume`s#8217;s#8217;s intention may have been to use the INC as a &#8216;safety valve&#8217; but he himself was being used by the Indian nationalists as a lightning conductor. INC ultimately emerged as the strongest critic and opponent of the British Raj and led a lengthy and sustained struggle against it till independence. Thus, it hardly behaved as a safety valve.</p>
 <h2>Practice Question</h2>
 <p><strong>Q. To what extent do you believe that the &#8216;safety valve theory&#8217; explains the formation of Indian National Congress?</strong></p>
 <p>The formation of Congress was too important an episode of Indian national struggle to miss a critical scrutiny. On one hand is the view that looks at it as the junior partner of the British whereas on the other is the nationalist perspective which highlights its critical role in Indian independence.</p>
@@ -18432,9 +18432,9 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <p>However, historians like <strong>Sumit Sarkar</strong> among other nationalists have proposed the theory of <strong>&#8216;lightning conductor&#8217;</strong>. They believe that Congress at its initial stage used British support to shield itself from the administrative suppression. They even put forth the following views in their support-</p>
 <ul>
 <li>&#8226; Gradual evolution- Congress had gone through a gradual process of evolution as various socio-political organizations had started coming from 1830s. The conscious attempt of Indians had risen to such a level that any national organization could not have been delayed. India Association had already conducted Indian National Conference in 1883. INC was the logical conclusion of such attempts.</li>
-<li>&#8226; The declassification of official files of that period also highlights that Dufferin was neither involved nor interested in the formation of Congress. In fact, he was suspicious of Hume`s activities.</li>
-<li>&#8226; Thirdly, Lala Lajpat Rai`s accounts cannot be said to be objective as he had left Congress by then and formed Hindu Mahasabha.</li>
-<li>&#8226; Fourthly, Wedderburn`s partiality cannot be denied because he was a good friend of Hume and was trying to present him as an enlightened imperialist who had no intentions of forming an INC which would later be problematic for British.</li>
+<li>&#8226; The declassification of official files of that period also highlights that Dufferin was neither involved nor interested in the formation of Congress. In fact, he was suspicious of HumeHumeHume`s#8217;s#8217;s activities.</li>
+<li>&#8226; Thirdly, Lala Lajpat RaiLajpat RaiLajpat Rai`s#8217;s#8217;s accounts cannot be said to be objective as he had left Congress by then and formed Hindu Mahasabha.</li>
+<li>&#8226; Fourthly, WedderburnWedderburnWedderburn`s#8217;s#8217;s partiality cannot be denied because he was a good friend of Hume and was trying to present him as an enlightened imperialist who had no intentions of forming an INC which would later be problematic for British.</li>
 <li>&#8226; Fifthly, Hume was a revenue official who could not have laid his hands upon any intelligence report.</li>
 <li>&#8226; Even communist theory is not true because Congress was an umbrella which had incorporated all the shades of the national movement and led the freedom struggle.</li>
 </ul>
@@ -18626,7 +18626,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <ul>
 <li style="padding-left:2em">&#9702; <strong>Calcutta Corporation Act (1899)</strong> which reduced the number of elected members to the Calcutta Municipal Corporation bringing it under European control.</li>
 <li style="padding-left:2em">&#9702; <strong>Indian Universities Act, 1904</strong> was passed based upon the recommendations of the Raleigh Commission in the name of improving the standards of university education. This act brought the administration of the universities under strict government control.</li>
-<li style="padding-left:2em">&#9702; <strong>Official Secrets Act, 1904</strong> was enacted in the name of protecting India`s internal security but in reality it was meant to gag the free press and speech.</li>
+<li style="padding-left:2em">&#9702; <strong>Official Secrets Act, 1904</strong> was enacted in the name of protecting IndiaIndiaIndia`s#8217;s#8217;s internal security but in reality it was meant to gag the free press and speech.</li>
 <li style="padding-left:2em">&#9702; <strong>Partition of Bengal</strong> was carried out to divide and rule India.</li>
 <li style="padding-left:2em">&#9702; Instead of weakening Indian nationalism, these actions had the effect of strengthening of the nationalist resolve.</li>
 </ul>
@@ -18636,7 +18636,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <ul>
 <li>&#8226; Extremists were radical in their approach. Since they rejected the notion of British Providentialism, they were not satisfied with constitutional reforms and instead demanded <strong>Swaraj</strong>.</li>
 <li>&#8226; Instead of using constitutional methods, they relied on aggressive methods involving the masses including Passive Resistance, Boycott, Swadeshi and non-cooperation.</li>
-<li>&#8226; Extremist movement remained largely an <strong>urban phenomenon</strong> but shed the moderates` elite character.
+<li>&#8226; Extremist movement remained largely an <strong>urban phenomenon</strong> but shed the moderatesmoderates` elite#8217; elite character.
 <ul>
 <li style="padding-left:2em">&#9702; Not only was the leadership from the lower middle class background but the extremists attracted participants from virtually from all urban classes including professionals, merchants, ordinary service providers, workers, students and even women.</li>
 </ul>
@@ -18648,7 +18648,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 <li>&#8226; While the extremist movement remained politically and socially progressive, they displayed social conservatism.
 <ul>
-<li style="padding-left:2em">&#9702; For example, Tilak`s opposition to Age of Consent Bill, 1891 which proposed to raise the minimum marriageable age for girls from 10 to 12 years. While Tilak opposed child marriage, he was not ready to accept the principle of British interference in Indian social issues.</li>
+<li style="padding-left:2em">&#9702; For example, TilakTilakTilak`s#8217;s#8217;s opposition to Age of Consent Bill, 1891 which proposed to raise the minimum marriageable age for girls from 10 to 12 years. While Tilak opposed child marriage, he was not ready to accept the principle of British interference in Indian social issues.</li>
 </ul>
 </li>
 </ul>
@@ -18706,7 +18706,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <tr><td>They were inspired by Western ideals and knowledge.</td><td>They derived inspiration from traditional Indian knowledge.</td></tr>
 <tr><td>They demanded reforms within the overall umbrella of British patriarchy.</td><td>They demanded Swaraj or self-rule but it was ambiguous in nature.</td></tr>
 <tr><td>Their attitude was pro-British and they just demanded for true British paternalism.</td><td>They were distinctly anti-colonial and were completely opposed to any compromise with colonial setup.</td></tr>
-<tr><td>They were suspicious of Indians` ability to lead a struggle against the British rule and rather maintained an elite character of the organization.</td><td>They especially believed in mass politics. Even then their movement remained confined to urban areas but had shed the elitist character.</td></tr>
+<tr><td>They were suspicious of IndiansIndians` ability#8217; ability to lead a struggle against the British rule and rather maintained an elite character of the organization.</td><td>They especially believed in mass politics. Even then their movement remained confined to urban areas but had shed the elitist character.</td></tr>
 <tr><td>Their methods of protest were 3 Ps- Prayers, petitions, and propaganda.</td><td>Their methods included boycott, passive resistance, Swadeshi and non-cooperation.</td></tr>
 <tr><td>The movement under Moderates was completely secular in nature and no use of religious symbols could be seen.</td><td>The movement under extremists was broadly secular but use of religious symbols began for mobilizing people. However, this also gave rise to cultural nationalism.</td></tr>
 <tr><td>Movement under extremists remained politically and socially progressive.</td><td>Under extremists, movement displayed signs of social conservatism.</td></tr>
@@ -18727,7 +18727,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; <strong>To weaken the national movement- Sumit Sarkar</strong> argues that administrative concern was supreme only until 1903 because-
 <ul>
 <li style="padding-left:2em">&#9702; Even nationalists were in favour of the partition of Bengal and they had even proposed its linguistic reorganization which would separate Hindi speaking regions from Bengali speaking regions.</li>
-<li style="padding-left:2em">&#9702; But in 1903, Viceroy Curzon had released the minute of Bengal`s partition and religion was made the basis for partition-
+<li style="padding-left:2em">&#9702; But in 1903, Viceroy Curzon had released the minute of BengalBengal`s partition#8217;s partition and religion was made the basis for partition-
 <ul>
 <li style="padding-left:4em">&#9632; Bengal with its capital would consist of- West Bengal, Bihar and Odisha</li>
 <li style="padding-left:4em">&#9632; East Bengal with its capital at Dhaka would consist of- Bangladesh and North-East India.</li>
@@ -18763,7 +18763,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <p><strong>3. National Education</strong></p>
 <ul>
 <li>&#8226; National curriculum, national schools were set up and even teachers were given training for teaching &#8216;Swadeshi&#8217; education to patriotic students.</li>
-<li>&#8226; Satishchandra Mukherjee`s Bhagabat Chatuspathi, the Dawn society, and Shantiniketan of Rabindranath Tagore became popular educational institutes.</li>
+<li>&#8226; Satishchandra MukherjeeMukherjee`s Bhagabat#8217;s Bhagabat Chatuspathi, the Dawn society, and Shantiniketan of Rabindranath Tagore became popular educational institutes.</li>
 </ul>
 <p><strong>4. Volunteer organizations</strong> also known as Samitis were formed which actually undertook the job of reaching the last person in order to spread the movement. They worked to spread awareness, resolve disputes and mobilize masses during processions and picketing.</p>
 <h2>MOVEMENT</h2>
@@ -18839,7 +18839,7 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <p><strong>Women&#8217;s</strong> entry into the freedom struggle was one of the biggest achievements of the Swadeshi movement. Extremist leaders were successful in transforming a political issue into a moral and religious one. Secondly, the movement provided practical means for women to participate into the movement. Now they could boycott the foreign goods, use khadi or spinning and weaving, participate in picketing.</p>
 <p>But Muslim and peasants&#8217; participation was poor on account of the following reasons-</p>
 <p><strong>Muslims-</strong> One reason was that extremist leaders used religious symbols which kept the Muslims away. Secondly, Muslim leaders and intelligentsia fell prey to the British policy of divide and rule. A delegation of Nawab Salimullah of Dhaka, Waqar ul Mulk, Mohsin ul Mulk and Agha Khan met the Governor General Minto in Shimla and ultimately it led to the establishment of Muslim League which was pro-British anti-colonial in its approach.</p>
-<p><strong>Peasants` participation</strong> was not great because</p>
+<p><strong>PeasantsPeasantsPeasants` participation#8217; participation#8217; participation</strong> was not great because</p>
 <ul>
 <li>&#8226; Rural areas were not yet efficiently mobilized</li>
 <li>&#8226; Class interests of Zamindar or pro-zamindar leaders clashed with those of the peasants.</li>
