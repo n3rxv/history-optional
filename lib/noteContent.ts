@@ -19366,7 +19366,315 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 <li>&#8226; The Indian revolutionary movement evolved especially under the influence of socialism. This resulted in the emergence of new opportunities and alliances not only between the revolutionaries and working classes but also with other international collaborators.</li>
 </ul>
-<p>Many historians tend to write-off revolutionary phase as a minor footnote in the national movement, in recent decades, new understanding has emerged. The role of the revolutionaries in shaping the class composition, energy and leanings of the national movement has been recognized along with their contributions in development of India&#8217;s foreign relations.</p>`,
+<p>Many historians tend to write-off revolutionary phase as a minor footnote in the national movement, in recent decades, new understanding has emerged. The role of the revolutionaries in shaping the class composition, energy and leanings of the national movement has been recognized along with their contributions in development of India&#8217;s foreign relations.</p><h2>Nationalism during First World War</h2>
+<blockquote>
+<p>&#8220;Swaraj is my birthright, and I shall have it!&#8221; Bal Gangadhar Tilak</p>
+</blockquote>
+<p>During First World War, colonies faced the direct burden on their economy, society as well as the very soul. In India, the seeds of nationalism had already been sown in the nineteenth century. However, following the Surat split, there was no single political platform which could give voice to the nationalists. On the other hand, revolutionary extremism had its own limitations which could not become a popular mode of resistance. In such a scenario, the nationalist movement saw three major incidents &#8211;</p>
+<ul>
+<li>&#8226; The Home Rule Movement</li>
+<li>&#8226; Lucknow Session of the Congress</li>
+<li>&#8226; Lucknow Pact</li>
+</ul>
+<h2>Home Rule Movement</h2>
+<p>The Home Rule Movement was started by Annie Besant and Bal Gangadhar Tilak with the objective of convincing the British to grant home rule or Swaraj to Indians through a mass constitutional struggle. It was inspired by the Irish Home Rule League movement.</p>
+<p>Factors responsible for the Home Rule Movement:-</p>
+<p><strong>1. World War 1-</strong> Popular unrest was widespread due to shortage of essential goods caused by the war.</p>
+<ul>
+<li>&#8226; The few civil liberties enjoyed by Indians had been crushed as part of the British war time restrictions through a series of draconian acts such as
+<ul>
+<li style="padding-left:2em">&#9702; Indian Newspapers (incitement to offences) Act, 1908</li>
+<li style="padding-left:2em">&#9702; Indian Press Act, 1910</li>
+<li style="padding-left:2em">&#9702; Defence of India Act, 1915</li>
+</ul>
+</li>
+<li>&#8226; In the backdrop of the war, conscription had been introduced in several areas. Young men and boys were being forcibly drafted into military service causing resentment.
+<ul>
+<li style="padding-left:2em">&#9702; Further, Indian conscripts were routinely mistreated and discriminated against.</li>
+<li style="padding-left:2em">&#9702; The death toll among Indian soldiers was alarming and those who returned did so with deep wounds both physical and psychological.</li>
+</ul>
+</li>
+<li>&#8226; Indians were also appalled at the level of British hypocrisy.
+<ul>
+<li style="padding-left:2em">&#9702; While the war was being waged in the name of defending freedom, the British were openly crushing Indian freedom.</li>
+</ul>
+</li>
+<li>&#8226; Indian industrialists also supported the idea of Home Rule
+<ul>
+<li style="padding-left:2em">&#9702; They were concerned that following the end of the war, the British would move to undermine Indian industries in order to revive British manufacturing which had collapsed during the war.</li>
+<li style="padding-left:2em">&#9702; Indian industries would lose all the gains made during the war and progress would be permanently derailed.</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. Failure of the Indian Councils Act, 1909</strong></p>
+<ul>
+<li>&#8226; It had failed to satisfy both the moderates and the extremists.
+<ul>
+<li style="padding-left:2em">&#9702; The Act had enlarged the scope of Constitutional autocracy by institutionalizing communalism. Thus, the nationalists were convinced of the need to overturn it.</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. Role of prominent leaders</strong></p>
+<ul>
+<li>&#8226; Tilak and Annie Besant played an active role in starting the Home Rule Movement.</li>
+<li>&#8226; Tilak was released in 1914 and adopted a strategic position of loyalty towards the British in order to secure their goodwill. He also made an open appeal to the moderates for the common action.</li>
+<li>&#8226; Annie Besant emerged as a link between the moderates and extremists by adopting a position and methods that were acceptable to both.</li>
+</ul>
+<h3>Leaders and their objectives</h3>
+<ul>
+<li>&#8226; In 1914, both Tilak and Besant started working towards the twin objectives-
+<ul>
+<li style="padding-left:2em">&#9702; Securing re-entry of extremists into the Congress;</li>
+<li style="padding-left:2em">&#9702; Convincing the Congress to launch the Home Rule League movement.</li>
+</ul>
+</li>
+<li>&#8226; However, their attempts were frustrated due to the opposition of the moderate old guard mainly Pherozshah Mehta and Gopal Krishna Gokhale.</li>
+<li>&#8226; In 1915, once again the two leaders tried to influence the Congress. By this time, both Pherozshah Mehta and Gokhale had passed away and resistance against the extremists was lower.
+<ul>
+<li style="padding-left:2em">&#9702; Thus, the Congress resolved to re-admit the extremists at its next session.</li>
+<li style="padding-left:2em">&#9702; However, it did not agree to support the Home Rule Movement because-
+<ul>
+<li style="padding-left:4em">&#9632; Swaraj was not an acceptable demand for moderates who wanted incremental reforms to introduce responsible government.</li>
+<li style="padding-left:4em">&#9632; They considered it immoral to launch a mass movement against the British at a time when they were fighting for their survival.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; In 1916, Tilak and Annie Besant launched their separate Home Rule Leagues to demand Swaraj.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Tilak&#8217;s League</strong> was launched in April, 1916 with its headquarters established in Poona. It had six branches that were organized and managed directly by Tilak. They were active in Maharashtra (except Bombay), Karnataka, the Central Provinces and Berar. It had three objectives-
+<ul>
+<li style="padding-left:4em">&#9632; Attainment of Swaraj</li>
+<li style="padding-left:4em">&#9632; Linguistic reorganization of Provinces</li>
+<li style="padding-left:4em">&#9632; Spread of education among Indians in vernacular language.</li>
+<li style="padding-left:4em">&#9632; In a few months, the league was able to create a grassroot network of around thirty thousand volunteers.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Annie Besant</strong> established her league in September, 1916 with its headquarters at Adyar in Madras. It was a loosely organized League with more than two hundred branches. Her League covered the rest of India not covered by Tilak&#8217;s league. It had only one objective-
+<ul>
+<li style="padding-left:4em">&#9632; Attainment of Home rule which was defined as Dominion status within British rule as enjoyed by the white colonies of Ireland, Canada and Australia.</li>
+<li style="padding-left:4em">&#9632; Her league attracted twenty seven thousand grassroot volunteers.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Even if the leaders had convinced the Congress to endorse the Home Rule Movement, it would have had little practical affect since the Congress completely lacked grassroots organisation or a volunteer network. In other words, it did not have any direct links with the masses.</li>
+</ul>
+<h2>Approach of the Home Rule Movement towards the masses</h2>
+<ul>
+<li>&#8226; It adopted a unique approach towards the masses which represented a combination of extremist and moderate methods.
+<ul>
+<li style="padding-left:2em">&#9702; Like the extremists, the Home Rule leaders wanted to involve the masses in a major way but like the moderates, they wanted to educate the masses instead of political activism.</li>
+</ul>
+</li>
+<li>&#8226; While Tilak refrained from the old tactics of using religious symbols for mass mobilization, Annie Besant and other theosophists did so.</li>
+<li>&#8226; Both the leaders and the Leagues committed themselves to the use of constitutional methods only.
+<ul>
+<li style="padding-left:2em">&#9702; The message of Home rule was popularised through the creation of a vast library movement, political meetings and rallies, newspapers including Tilak&#8217;s Maratha and Kesari and Besant&#8217;s New India and Commonweal and volunteers who travelled to the interiors to spread the message of Swaraj and educate people about its independence.</li>
+</ul>
+</li>
+<li>&#8226; The leaders wanted to convince British that Swaraj was not simply the demand of a small minority of political elites rather it was the desire of ordinary Indians across the country.</li>
+</ul>
+<h2>Approach towards the British</h2>
+<ul>
+<li>&#8226; The Home Rule Leagues desired the support of the moderates. Thus, they made the strategic decision not to uproot British rule outright.</li>
+<li>&#8226; While working towards the ultimate objective of Swaraj, the movement adopted a pro-British attitude with figures such as Tilak repeatedly professing loyalty to the British crown appealing to the youth to join the army.</li>
+<li>&#8226; Unlike the Swadeshi movement, there were no calls for boycott, promotion of Swadeshi, or non-cooperation with British rule. Instead, the Home Rule Leaguers wanted to convince the British to grant home rule as it would be in their interests. They argued that a self-governed India guided by Indian leaders would support the British war effort whole heartedly and would thus be a much more effective ally.
+<ul>
+<li style="padding-left:2em">&#9702; Thus, the movement never tried to disrupt the functioning of the British government of India.</li>
+<li style="padding-left:2em">&#9702; It simply tried to generate educated public opinion in favour of Swaraj and the British war effort simultaneously.</li>
+<li style="padding-left:2em">&#9702; This tells us that the Home rule leaguers were serious about their commitments to the British.</li>
+</ul>
+</li>
+</ul>
+<h2>British response to the Home Rule Movement</h2>
+<ul>
+<li>&#8226; Despite every attempt being made by the leaders not to disrupt the British Raj, India&#8217;s colonial administrators moved to ruthlessly suppress the home rule movement.</li>
+<li>&#8226; Even though the movement remained purely non-violent and constitutional, the demand of Swaraj remained inconceivable to the British.</li>
+<li>&#8226; They utilized war time restrictions on civil liberties to suppress the movement including the Indian Press Act, Defence of India Act, the sedition law, the Unlawful Assemblies Prevention law.</li>
+<li>&#8226; Many prominent leaders were arrested-
+<ul>
+<li style="padding-left:2em">&#9702; Tilak was charged with sedition</li>
+<li style="padding-left:2em">&#9702; Annie Besant was arrested at Madras. However, her arrest galvanised the nationalists into action and the mood turned radical. Fearing the beginning of a major program of boycott, the British were forced to release her.</li>
+</ul>
+</li>
+<li>&#8226; British continued to suppress the home rule movement in the name of protecting internal security. Peaceful assemblies were broken up with lathicharge and mass arrests. The military was also kept on standby to suppress the movement in order to have a chilling effect upon it.</li>
+<li>&#8226; However, the Home Rule Movement succeeded in reigniting the dormant nationalism of the Indian masses. It remains an important step in India&#8217;s march towards independence.</li>
+</ul>
+<h2>Significance of the Home Rule Movement</h2>
+<p>While the Home rule movement did not succeed in fulfilling its ultimate objective of Swaraj, it should not be considered a complete failure. In fact, home rule movement was immensely successful in many other respects</p>
+<ul>
+<li>&#8226; It played a significant role in reviving mass politics in India. Since the Surat split, there had been no mass movement till the launching of the Home Rule movement.</li>
+<li>&#8226; The Surat split had given a body blow to the national movement as a whole. In this context, the Home rule movement acted as a huge shock which reignited India&#8217;s dormant nationalism.</li>
+<li>&#8226; The movement popularised the idea of Swaraj and instilled it to the national consciousness. Swaraj became the enduring objective of all Indian nationalists and would remain the ultimate demand for the remainder of the national movement.</li>
+<li>&#8226; Home rule leagues performed the important task of spreading political awareness among the masses through their newspapers, meetings, speeches and volunteers. They educated the masses about ideas such as Home rule, Swaraj, responsible government, constitutionalism, critical organization and civil liberties. By doing this, they succeeded in modernizing the Indian political consciousness to a significant degree.</li>
+<li>&#8226; The Home rule movement also succeeded in exerting significant pressure upon the British forcing them to respond positively to the national movement.</li>
+<li>&#8226; It played a direct role in the proclamation of the August declaration (1917), Montford reforms (1919).</li>
+<li>&#8226; Home rule movement also paved the way for future nationalists. Not only did it revive the idea of Swaraj and mass national consciousness, it also materially benefitted next generation of nationalists specially Mahatma Gandhi.</li>
+<li>&#8226; It prepared the framework for greater national unity involving moderates as well as extremists, Hindus as well as Muslims, Congress as well as Muslim league leaders and urban as well as rural masses. Mahatma Gandhi directly inherited a more unified India from the home rule movement.
+<ul>
+<li style="padding-left:2em">&#9702; The vast volunteer networks created by the Home rule movement remained in place even after its end. Mahatma Gandhi later enlisted these organisations to his own mass movements including the Rowlatt Satyagraha and the Khilafat non-cooperation movement.</li>
+</ul>
+</li>
+<li>&#8226; The movement played a significant role in reviving the fortunes of the Congress by facilitating both the re-entry of the extremists and the Lucknow pact. Mahatma Gandhi could later use the strengthened Congress platform for much of his political acts.</li>
+<li>&#8226; Lastly, the Home Rule movement provided a new stratagem to Mahatma Gandhi. It was not important to launch any mass movement from the Congress platform exclusively. Rather specific organisations may be created to organize mass movements. The Congress along with other parties would be forced to follow. This strategy had the added advantage of bringing different political outfits onto a common platform without necessarily rising internal friction. In other words, it could prove useful in creating a national coalition of diverse critical opinions united by a single objective.</li>
+</ul>
+<h2>Practice Question</h2>
+<p><strong>Q Discuss the factors responsible for the Home Rule movement. Is it fair to consider Mahatma Gandhi as its greatest beneficiary?</strong></p>
+<p>Home Rule movement was started by Bal Gangadhar Tilak and Annie Besant with the objective of gaining Swaraj for India. It became the logical demand after the nationalists had received the first taste of anti-British popular struggle during Swadeshi movement in which the idea of Swaraj had gained currency.</p>
+<p>Factors responsible for the Home rule movement-</p>
+<ul>
+<li>&#8226; World War One had brought great degree of hardships for India-
+<ul>
+<li style="padding-left:2em">&#9702; Civil liberties had been crushed during the war time through draconian measures such as Indian Newspapers (incitement to offences) Act, 1908; Indian Press Act, 1910 and Defence of India Act, 1915.</li>
+<li style="padding-left:2em">&#9702; In the backdrop of the war, conscription had been introduced in several areas bringing huge amount of discontentment among people.</li>
+<li style="padding-left:2em">&#9702; Indians realised that while British were fighting for liberty and freedom, the same is being taken away from Indians. When soldiers coming back from the war saw it, they were further appalled.</li>
+<li style="padding-left:2em">&#9702; Indian business community also supported the idea as they were concerned as the British would reinstate discriminatory business policies once the war time constraints would be over.</li>
+</ul>
+</li>
+<li>&#8226; Failure of the Indian Councils Act, 1909 to satisfy the demands of both moderates and extremists.</li>
+<li>&#8226; Role of prominent leaders such as Tilak and Besant also needs to be acknowledged. They created a huge cadre of volunteers thus spreading the idea of Swaraj among masses.</li>
+</ul>
+<p>The Home rule movement is credited for various reasons, one among which is its contribution to the rise of Mahatma Gandhi-</p>
+<ul>
+<li>&#8226; It provided Mahatma Gandhi with a more unified India and a conscious cadre of volunteers ready to work for national struggle.</li>
+<li>&#8226; It taught Mahatma Gandhi that the Congress platform is not necessary to launch any popular movement. He used this strategy in Non-cooperation- Khilafat movement.</li>
+<li>&#8226; The movement paved the way for the revival of the Congress which ultimately helped Mahatma Gandhi.</li>
+</ul>
+<p>The role of Home rule movement is immense in building momentum for the national movement at a time when any organizational structure was not upto the mark. This also prepared a fertile ground for Mahatma Gandhi but his own charisma and political uniqueness also deserves its own credit.</p>
+<h2>Lucknow Session of the Congress (1916)</h2>
+<p>Lucknow session of the INC was a remarkable step in the national movement as it brought the Congress out of its disarray and back into the movement after Surat split. The session is renowned for two major happenings-</p>
+<ul>
+<li>&#8226; Re-entry of extremists into the INC</li>
+<li>&#8226; Lucknow Pact</li>
+</ul>
+<h3>Re-entry of Extremists into the Congress</h3>
+<p>At the Lucknow session in 1916, under the Presidency of Ambika Charan Majumdar, the Congress passed a resolution amending its constitution to pave the way for the re-entry of extremists who had been earlier expelled from the Congress in the Surat split. Following factors were responsible for that-</p>
+<ul>
+<li>&#8226; Role of prominent leaders such as Annie Besant and Bal Gangadhar Tilak should be recognized. Both had been campaigning rigorously for the re-entry of the extremist since 1914. They wanted unified Congress to launch the Home Rule Movement. While they were unsuccessful in convincing the Congress to support the Home rule movement, they did act as a bridge between moderates and extremists.</li>
+<li>&#8226; Surat split had taken place in the backdrop of the Swadeshi movement as ideological differences regarding methods and objectives had erupted between the moderates and extremists. Almost a decade has passed since the old controversies become meaningless thus paving the way for reunification.</li>
+<li>&#8226; Among the moderates, the biggest critiques of the extremists, Pherozeshah Mehta and GK Gokhale, passed away in 1915 thus removing the biggest roadblock thus facilitating the re-entry of extremists. Other moderate leaders such as Tej Bahadur Sapru and Surendranath Banerjee were open to the idea and realized the importance of the extremists in reviving link between the masses and the Congress.</li>
+<li>&#8226; The Home rule movement had also demonstrated the ability that moderates and extremists were towards common constitutional objectives in a constructive way. It played an important role in convincing the moderates that it is possible for the two groups to cooperate on a more permanent basis.</li>
+<li>&#8226; Both sides realized the Surat split had done immense damage to the national movement. The effectiveness of the Congress depended upon the common action of both groups and thus was time to repair the relationship.</li>
+</ul>
+<h3>Significance of the Lucknow session</h3>
+<ul>
+<li>&#8226; The Surat split had resulted in the demise of the Swadeshi movement. However, re-entry of extremists into the Congress strengthened the Home rule movement.</li>
+<li>&#8226; The re-entry of extremists also revived the fortunes of the Congress which had been languishing in inactivity since the Surat split. Further, it also triggered the reawakening of Indian nationalism as a whole as it was followed by a series of mass movements</li>
+<li>&#8226; It also filled the British with a sense of trepidation forcing them to proclaim the August declaration and introduce the Montford reforms.</li>
+<li>&#8226; The re-entry of extremists into the Congress also permanently ended domination of moderate within it. The Congress from this point forward became increasingly radical and aligned with extremists and later Gandhian movement.</li>
+<li>&#8226; This development also paved the way for more direct confrontation with the colonial regime. As a result, the frequency and scale of such mass movements increased substantially following the re-entry of extremists.</li>
+<li>&#8226; The re-entry of extremists also prepared the stage for the rise of Mahatma Gandhi and the democratization of the Congress.
+<ul>
+<li style="padding-left:2em">&#9702; Mahatma Gandhi&#8217;s mass appeal and spiritual charisma would not have appealed to the moderate but was highly attractive for the extremists. Thus, by preparing the way for extremist donation within the Congress, developments at Lucknow in 1916 had prepared the ground for rise of Mahatma Gandhi as well.</li>
+<li style="padding-left:2em">&#9702; The extremists wanted to engage masse at a deeper level. The logical conclusion of this agenda was the transformation of the Congress into a mass movement unto itself. This was finally done in the Nagpur session of 1920 when Congress adopted a new policy which democratized and decentralized India. Such a development could not have been possible under the moderates.</li>
+</ul>
+</li>
+<li>&#8226; The extremists also evolved due to closer contact with moderates. To a certain degree, they shed their religious exclusivism and social conservatism adopting more inclusive and secular program which was visible during the home rule movement, Rowlatt Satyagraha and Khilafat-non-cooperation movement.</li>
+</ul>
+<h2>Lucknow Pact between INC and Muslim League</h2>
+<p>At the joint session of the Congress and the Muslim League in Lucknow in 1916, the two parties signed the Lucknow Pact preparing the way cooperation between them. The important provisions of this pact were as follows-</p>
+<ul>
+<li>&#8226; Both would hold their annual sessions jointly</li>
+<li>&#8226; Both will work jointly towards the common objective of Swaraj</li>
+<li>&#8226; Both would work to promote communal harmony</li>
+<li>&#8226; The Congress would not oppose the system of separate electorates</li>
+<li>&#8226; One-third seats in the Central legislature would be reserved for Muslims</li>
+<li>&#8226; If a bill affecting the cultural interests of a minority community was opposed by three-fourth of that communities&#8217; representatives in the legislature, Congress and Muslim League would oppose it as well. This came to be known as minority veto.</li>
+</ul>
+<h3>Factors that facilitated Lucknow Pact</h3>
+<ul>
+<li>&#8226; Within both Congress and the League, the change in leadership had brought the two parties together-
+<ul>
+<li style="padding-left:2em">&#9702; The-entry of extremists into the Congress signaled the revival of anti-colonial all India secular mass struggle.</li>
+<li style="padding-left:2em">&#9702; On the other hand, younger league leaders such as Jinnah, Hakim Ajmal Khan, Maulana Abdul Bari, Maulana Hasrat Mohani and the Ali brothers espoused the values of modernity, nationalism and secularism in both social relations and politics. Thus, they were naturally aligned with the Congress.</li>
+</ul>
+</li>
+<li>&#8226; The First World War brought immense misery to Indians. Both Hindus and Muslims were adversely affected. The apathy of the British towards Indian suffering enraged both communities and convinced them of the need to overcome internal differences and provide a unified front to the British.</li>
+<li>&#8226; Home Rule Movement- it did not utilize any communal rhetoric to mobilise the masses. Its inclusive appeal attracted members of both communities.
+<ul>
+<li style="padding-left:2em">&#9702; It also demonstrated that it was possible for Hindus and Muslims to work together.</li>
+<li style="padding-left:2em">&#9702; Further, movement had witnessed participation from leaders of both the Congress as well as League.</li>
+</ul>
+</li>
+<li>&#8226; Lastly, the movement succeeded in modernizing vast political consciousness atleast to some degree. Its program of political education succeeded in convincing bulk of both communities about the importance of prioritizing the national interest over the communal interest.</li>
+<li>&#8226; These developments prepared the framework for greater national unity of which the Lucknow pact was a shining example.</li>
+</ul>
+<h2>Significance of the Lucknow Pact</h2>
+<p><strong>Q. The Lucknow Pact of 1916 acted as a double edged sword for the national struggle. Discuss.</strong></p>
+<p>Lucknow Pact between the Congress and the Muslim League was an important development in the history of India&#8217;s nationalist struggle. In the short term it boosted the nationalist consciousness and pressurized the British. However, the long term consequences of the Lucknow Pact were decidedly negative. This paradox may be appreciated while looking at strengths and limitations of the Lucknow pact separately.</p>
+<p><strong>Strengths of the Lucknow Pact</strong></p>
+<ul>
+<li>&#8226; The Lucknow pact strengthened national movement by forging political unity and creating a secular coalition of Indians against British rule.</li>
+<li>&#8226; It resulted in visible religious harmony and neutralized divide and rule politics atleast in the short term.</li>
+<li>&#8226; The communal harmony engendered through the Lucknow pact broadened the social base of the national movement. Muslims had largely remained aloof from nationalist mass politics. They participated in large numbers during the Home rule movement, Rowlatt Satyagraha and Khilafat non-cooperation.</li>
+<li>&#8226; Subsequently, the British came under intense pressure forcing them to respond in the form of August declaration and Montford reforms.</li>
+</ul>
+<p><strong>Limitations</strong></p>
+<ul>
+<li>&#8226; In the larger scheme of things, the pact proved to be short sighted. The Muslim League&#8217;s illegitimate position on dangerous issues such as separate electorates and minority veto were accepted and legitimized by the Congress. In the future, the Congress would not be able to clearly walk back from its position.</li>
+<li>&#8226; As communal harmony broke down, the Congress-League relationship also suffered. Thus, in effect, that was a short lived affair.</li>
+<li>&#8226; The pact also provided legitimacy to the Muslim League as he representative of the Muslim League. The Congress had entered the pact with the league as equals. More disturbing was the fact that the pact presented not simply political agreement between the two political parties but social pact between the Hindus and Muslims. Therefore, Congress had unwittingly succeeded in painting itself as the representative of the Hindus.</li>
+<li>&#8226; The Pact essentially legitimized the principle of communal politics and representation by virtually accepting the league as an advocate of Muslim interests. In the future, new leaders and parties would emerge to represent the interests of other communities. It would fracture the social and political fabric of India leading to permanent divisions. This division was fully exploited by the British through their divide and rule policy to preserve British rule and stunt the growth of the Indian nation.</li>
+<li>&#8226; Mutual differences between Congress and Muslim league on core issues such as separate electorate, minority veto would lead to constant political friction causing communal tension and disharmony.</li>
+</ul>
+<p><strong>Conclusion</strong></p>
+<p>The first visible breach in Congress and Muslim League occurred in 1928 over disagreement over the provisions of the Nehru report. Following the end of the Quit India movement, these differences took the shape of a constitutional deadlock that could not be resolved politically. Constant friction emerging from the breakdown of the Lucknow Pact strengthened the two-nation theory creating the legacy of violence suffering and partition.</p>
+<h2>August Declaration/ Montague&#8217;s Declaration/ Montague&#8217;s Statement (1917)</h2>
+<p>It was a statement made by Lord Montague (Secretary of State for India) in August 1917 from the floor of the British House of Commons regarding Britain&#8217;s future policy with respect to India.</p>
+<h3>Content of the statement</h3>
+<ul>
+<li>&#8226; The ultimate objective of the ongoing set of Constitutional reforms of India was to prepare Indians for responsible self-government in the future.</li>
+</ul>
+<h3>Significance</h3>
+<ul>
+<li>&#8226; It was the victory for the nationalist demand for Swaraj as it was accepted in principle by the Government.</li>
+<li>&#8226; It represented the success of the Home Rule Movement, Revolutionary pressure and Lucknow session.</li>
+<li>&#8226; The demand of Swaraj became a form of protected speech as it could no longer be termed as seditious because the government had itself accepted it.</li>
+<li>&#8226; Nationalists could hold the government accountable for not making sufficient progress towards Swaraj or for derailing it.</li>
+<li>&#8226; August declaration also shifted the political discourse from simply demanding Swaraj to now defining it. Gradually, as the national movement evolved, demand for Swaraj became more comprehensive evolving ultimately to
+<ul>
+<li style="padding-left:2em">&#9702; Poorna Swaraj</li>
+<li style="padding-left:2em">&#9702; Socio-economic freedom</li>
+<li style="padding-left:2em">&#9702; Cultural decolonization</li>
+<li style="padding-left:2em">&#9702; Legal, political and social equality</li>
+<li style="padding-left:2em">&#9702; Individual rights</li>
+<li style="padding-left:2em">&#9702; Civic freedoms</li>
+<li style="padding-left:2em">&#9702; Minority and cultural rights</li>
+</ul>
+</li>
+<li>&#8226; The future constitutional reforms would be scrutinized on the basis of the evolving idea of Swaraj. Thus, constant program for reform could be sustained.</li>
+</ul>
+<h3>Limitations</h3>
+<p>August declaration was a proclamation that the British never intended to uphold. It is also reflected in the contents of the declaration itself because of the following reasons-</p>
+<ul>
+<li>&#8226; It lacked specific details and definitions regarding the idea of self-rule.</li>
+<li>&#8226; The British also did not make any concrete moves to introduce Swaraj.</li>
+<li>&#8226; There was no clarity on the methods or principles on which Swaraj was to be granted.</li>
+<li>&#8226; No clear deadline or roadmap was given towards the grant of the Swaraj.</li>
+</ul>
+<p>All this shows that the declaration was only a lip service to the Indians and British were never serious about devolution of powers.</p>
+<p>Moreover, British attitude towards Indians in the near future such as Rowlatt Satyagraha, Jallianwallah Bagh Massacre, Khilafat issue, and Dyarchy saga show their reactionary and anti-India approach. They wanted to preserve their rule; considered Indians unfit for rule; and wanted to frustrate, delay and derail the national movement at all stages.</p>
+<p>This led to distrust among Indians regarding British intentions and led to continuous national resistance. Any such offer during the Second World War was looked at with skepticism by the nationalist leaders.</p>
+<h2>Practice Question</h2>
+<p><strong>Q. Critically evaluate the August declaration made by Lord Montague in 1917. Did it represent a serious British commitment to the idea of self-rule in India?</strong></p>
+<p>August declaration was made by Lord Montague, the Secretary of State for India in August 1917 from the floor of British House of Commons with the objective of implementing such constitutional reforms in India which would prepare it for responsible self-government in the future.</p>
+<p><strong>Significance of the declaration</strong></p>
+<ul>
+<li>&#8226; It was the victory for demand of Swaraj made by the nationalists. Revolutionary extremists and Home rule movement had created an atmosphere forcing the government to accept the demand for self-rule in principle.</li>
+<li>&#8226; Now since the British had themselves mentioned the word &#8216;self-rule&#8217;, the demand for Swaraj could no longer be treated as sedition furthering the intensification of the demand.</li>
+<li>&#8226; Now the discourse shifted from simply demanding a vague self-rule to defining its various dimensions such as socio-economic freedom, cultural decolonization, civic rights etc.</li>
+<li>&#8226; The future constitutional reforms would be judged from the benchmark of &#8216;self-government&#8217; and thus the sustained resistance began gradually around the issue of &#8216;Poorna Swaraj&#8217;.</li>
+</ul>
+<p><strong>However, in spite of some progressive features, the declaration represented the lack of seriousness among the British-</strong></p>
+<ul>
+<li>&#8226; It lacked specific details and definitions regarding the idea of self-rule.</li>
+<li>&#8226; The British also did not make any concrete moves to introduce Swaraj.</li>
+<li>&#8226; There was no clarity on the methods or principles on which Swaraj was to be granted.</li>
+<li>&#8226; No clear deadline or roadmap was given towards the grant of the Swaraj.</li>
+</ul>
+<p>This lackadaisical attitude of the British shows that the declaration was merely a lip service to the Indians and British were never serious about their commitments.</p>
+<p>Although, the immediate British response was reactionary and contrary to the stated demand, nonetheless nationalist demand entered the mainstream of both Indian and British politics and a sustained resistance began against the British rule.</p>`,
   'politics-separatism-partition': ``,
   'post-independence-consolidation': ``,
   'caste-ethnicity-post-1947': ``,
