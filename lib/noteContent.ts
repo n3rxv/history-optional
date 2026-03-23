@@ -20453,6 +20453,204 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; The elections also legitimised the constitution since most former constituent assembly members were elected to the Lok Sabha.</li>
 <li>&#8226; The success of the election silenced critics, both foreign and domestic.</li>
 <li>&#8226; The success of the elections also raised India&#8217;s prestige especially among the newly independent countries. Newly independent countries started looking towards India as a role model.</li>
+</ul><h2>Tribal Integration and Land Reforms</h2>
+<p>Tribals are a group of people living in relative isolation mostly in forests and desert areas having a distinct language, culture, religion and identity.</p>
+<p>In India, tribals constitute roughly 8% of the population. There are more than 715 tribes spread across different parts of India, the largest concentration being in Central India and North East India.</p>
+<h3>Interaction of tribals with outsiders in Modern India</h3>
+<ul>
+<li>&#8226; Historically in ancient and medieval period, there was very little interaction between tribals and mainstream society.</li>
+<li>&#8226; It is only with the advent of industrial capitalism that the mainstream society and the tribals started interacting frequently.</li>
+<li>&#8226; From the early nineteenth century onwards, with the acceleration of British imperialism, tribal regions started being infiltrated with British as well as outsiders such as Zamindars, moneylenders, traders, missionaries, government functionaries, agents and army.</li>
+</ul>
+<h4>Impact</h4>
+<ul>
+<li>&#8226; It led to loss of political autonomy of tribals.</li>
+<li>&#8226; Economic disruption and exploitation was the norm during the British rule as the British industries needed raw materials.</li>
+<li>&#8226; Forcible social integration and marginalization of tribals followed.</li>
+<li>&#8226; Tribals faced the loss of culture due to mainstream machinery and its exploitative nature which not only wanted to grab their resources but also to convert them into taxpayers.</li>
+</ul>
+<h4>Tribal Response</h4>
+<ul>
+<li>&#8226; Frequent tribal revolts and uprisings erupted throughout the British rule.
+<ul>
+<li style="padding-left:2em">&#9702; These were localized and violent spurs of anger.</li>
+</ul>
+</li>
+<li>&#8226; These uprisings were violently suppressed by the British and only increased their exploitation.</li>
+<li>&#8226; Despite being actively reacting against the British exploitation, tribals were never in a position to set the agenda of national movement. The agenda and the movement were set up by the mainstream leaders which did include tribal affairs as well. For example, during Civil disobedience movement, Congress included Forest Satyagraha in Central India and Karnataka. At the same time, there was no programme to liberate tribals from Zamindars and moneylenders. Thus, although tribals stated participating in national movement, they were no yet able to decide the issue of the struggle.</li>
+<li>&#8226; The incomplete process of tribal integration into mainstream politics resulted in their marginalisation and preserved the exploitative relationship between the tribals and outsiders.</li>
+<li>&#8226; It was the recipe for socio-political disharmony and left-wing extremism and thus a sensitive response to the tribal issue was needed.</li>
+</ul>
+<h3>Nehru&#8217;s Formula for tribal integration</h3>
+<ul>
+<li>&#8226; Following independence, different scholars, sociologists and anthropologists were divided on the issue of tribal integration. Two positions were put forward-
+<ul>
+<li style="padding-left:2em">&#9702; To keep them completely isolated</li>
+<li style="padding-left:2em">&#9702; To completely integrate them into mainstream society.</li>
+</ul>
+</li>
+<li>&#8226; Pt Nehru rejected both and with the help of the British anthropologists Verrier Elvin developed a unique policy framework known as Tribal Panchsheel which envisaged tribal development on their own terms and not with borrowed ideas but with their own genius. The five principles of Tribal Panchsheel are as follows-
+<ul>
+<li style="padding-left:2em">&#9702; Tribals must develop with their own genius</li>
+<li style="padding-left:2em">&#9702; Their land must be protected</li>
+<li style="padding-left:2em">&#9702; Their language must be protected and promoted</li>
+<li style="padding-left:2em">&#9702; Tribals must be included in their own administration</li>
+<li style="padding-left:2em">&#9702; There should be minimal government in tribal areas.</li>
+</ul>
+</li>
+<li>&#8226; Implementation of these principles required a balancing between different objectives namely national economic development, tribal economic development, national integration, tribal autonomy, national security and political stability.</li>
+</ul>
+<h3>Impact of Tribal Panchsheel in different areas</h3>
+<h4>North East India</h4>
+<p><strong>1. NEFA and Arunachal Pradesh</strong></p>
+<ul>
+<li>&#8226; In accordance with the principles of Tribal Panchsheel, the North East Frontier Agency was created in 1948 out of the Assam division. These principles were implemented sincerely and sensitively bringing better integration.</li>
+<li>&#8226; In 1971, through the North East Areas (Organisation) Act NEFA was made a union territory. Finally, it got full statehood in 1986.</li>
+</ul>
+<p><strong>2. Creation of other North Eastern states</strong></p>
+<ul>
+<li>&#8226; In other parts of North East India, Tribal Panchsheel was not integrated with the same degree of sensitivity resulting in constant conflict.</li>
+<li>&#8226; In 1951, through Assam (Reorganisation of Boundaries) Act, an entity known as Greater Assam was created consisting of the Brahmaputra valley an territorial tribal areas such as Meghalaya, Tripura, Manipur, Mizoram and Nagaland.</li>
+<li>&#8226; These tribal areas had their own Tribal Hill Councils. However, the tribals were not emotionally or psychologically integrated with the Assamese society.</li>
+<li>&#8226; Thus, when the Assam government declared its policy of Assamisaton to make Assamese the state language, tribal areas formed a grand alliance and the movement often became violent.</li>
+</ul>
+<h4>Meghalaya, Manipur and Tripura</h4>
+<p><strong>1959-</strong> Garo, Khasi and Jaintia Councils were given greater autonomy with all powers of a state except separate Governor, separate legislature and separate and a separate executive.</p>
+<p><strong>1969-</strong> Meghalaya was made a sub-state of Assam.</p>
+<p><strong>1971-</strong> Meghalaya, Manipur and Tripura were given statehood.</p>
+<h4>Nagaland</h4>
+<ul>
+<li>&#8226; In 1955, led by PZ Phizo, the Naga declared independence and the government had to deploy the army leading to a prolonged conflict.</li>
+<li>&#8226; Ultimately, a moderate group of Nagas led by Dr. Imkong Liba Ao agreed to drop the demand for independence and in accordance with the agreement, Nagaland was made the sixteenth state of India in 1962.</li>
+</ul>
+<h4>Mizoram</h4>
+<ul>
+<li>&#8226; A similar separatist movement emerged among the Mizos led by Lal Denga. Once again, the government entered negotiations with the moderates resulting in Mizoram becoming a Union territory in 1971.</li>
+<li>&#8226; However, a splinter group emerged and the conflicts continued till 1986 when a new Accord was signed. According to this, Mizoram was given full statehood in 1986.</li>
+</ul>
+<h4>Central India</h4>
+<ul>
+<li>&#8226; In Central India, tribals are spread cross a vast region covering Chhattisgarh, Jharkhand, Madhya Pradesh, West Bengal, Odisha, Maharashtra and Andhra Pradesh.</li>
+<li>&#8226; In Central India, tribals are a minority with poor socio-economic development.</li>
+<li>&#8226; There major issues included illiteracy, poverty, backwardness, underdevelopment, underrepresentation in local assemblies, exploitation of natural resources, displacement due to land acquisition and social discrimination.</li>
+<li>&#8226; This resulted in widespread unrest and protests. The tribal movement in Central India took the shape of the Jharkhand movement.</li>
+</ul>
+<h4>Jharkhand Movement</h4>
+<ul>
+<li>&#8226; The earliest leader to mobilise the tribals of Central India was Jaipal Singh.</li>
+<li>&#8226; In 1950, he founded the Jharkhand Party demanding a separate tribal state in South Bihar.</li>
+<li>&#8226; However, the States Reorganisation Commission rejected this demand on the grounds of linguistic similarity in North and South Bihar.</li>
+<li>&#8226; Gradually, due to continuing exploitation, the movement became radical and the Jharkhand Mukti Morcha emerged in the 1970s under Shibu Soren. It joined hands with other radical groups such as the Marxist-Communists and a violent struggle started.</li>
+<li>&#8226; The violence continued till the 1980s when Shibu Soren entered mainstream politics.</li>
+<li>&#8226; During the 1990s, the JMM became highly influential due to the onset of the coalition era in both the centre and the states.</li>
+<li>&#8226; This period also witnessed a strong movement in Eastern Madhya Pradesh for a separate tribal state.</li>
+<li>&#8226; Ultimately, through the MP Reorganisation Act, 2000 and Bihar Reorganisation Act, 2000, Chhattisgarh and Jharkhand emerged as the 26th and 28th states respectively.</li>
+</ul>
+<h3>Constitutional provisions and safeguards</h3>
+<p>These include-</p>
+<ul>
+<li>&#8226; Schedule 5</li>
+<li>&#8226; Schedule 6</li>
+<li>&#8226; Article 46</li>
+<li>&#8226; Creation of Tribal Advisory Councils</li>
+<li>&#8226; Scheduled Tribes Commission</li>
+<li>&#8226; Reservation in the Lok Sabha</li>
+<li>&#8226; Reservation in State Legislative Assemblies in proportion to their population.</li>
+<li>&#8226; Reservation in employment and education</li>
+<li>&#8226; Special powers to Governors of certain states with tribal populations</li>
+<li>&#8226; Welfare schemes to provide education, health, employment and remove poverty</li>
+</ul>
+<ul>
+<li>&#8226; These provisions and safeguards have yielded tangible benefits in the form of better tribal integration, political stability, better health and education outcomes and political empowerment. However, more efforts are needed to safeguard tribal interests since they continue to remain some of the most vulnerable sections of the Indian population.</li>
+</ul>
+<p><strong>Q. Highlight the issues faced by tribals post-independence. How far have the efforts to alleviate these problems been successful?</strong></p>
+<p>Tribals constitute 8% of the total population in India who are a distinct group of relatively isolated people who have maintained their unique culture since ages. However, the modernization accompanied with industrialisation has come as a significant challenge to their way of life.</p>
+<p><strong>Issues faced by tribals post-independence</strong></p>
+<ul>
+<li>&#8226; Political backwardness- Although tribal issues have gained significant attention since independence, the issue has itself lacked participation by tribal leaders. They have rarely entered mainstream politics.</li>
+<li>&#8226; Lack of autonomy- despite several attempts such as fifth schedule and sixth schedule etc., tribal regions have faced interference from state as well as parastatal bodies frequently.</li>
+<li>&#8226; Economic interference from outsiders- projects such as mining, agro-forestry etc. led to the infiltration of outsiders. Alongwith state machinery, these have significantly reduced the scope of economic participation by tribals in their traditional mode of life.</li>
+<li>&#8226; Social marginalisation- forcible social integration without accommodating their unique lifestyles has led to the marginalisation of the tribals.</li>
+<li>&#8226; Loss of culture- tribal practices and rituals such as tree worship and an increasing trend of homogenisation have led to loss of their unique culture.</li>
+<li>&#8226; Further complications emerged in the tribal relations with the rise in left-wing extremism and international conspiracy resulting in a violent movement.</li>
+</ul>
+<p>The Indian response has been mix-</p>
+<ul>
+<li>&#8226; Tribal Panchsheel
+<ul>
+<li style="padding-left:2em">&#9702; Tribals must develop with their own genius</li>
+<li style="padding-left:2em">&#9702; Their land must be protected</li>
+<li style="padding-left:2em">&#9702; Their language must be protected and promoted</li>
+<li style="padding-left:2em">&#9702; Tribals must be included in their own administration</li>
+<li style="padding-left:2em">&#9702; There should be minimal government in tribal areas.</li>
+</ul>
+</li>
+<li>&#8226; Counter insurgency operations have been launched by Central as well as state forces.</li>
+<li>&#8226; Economic development- infrastructure development has been one of the biggest means to win the hearts of the tribals.</li>
+</ul>
+<p>Despite such attempts, tribals continue to face some problems such as socio-economic backwardness, displacement, political underrepresentation and social marginalisation which have led to lingering social tension vis-&#224;-vis tribals.</p>
+<p>Finally, it can be said that introducing Tribal Panchsheel and constitutional safeguards in spirit are needed to be implemented honestly in order to attain the actual goal of national integration.</p>
+<h2>Land Reforms</h2>
+<h3>Issues</h3>
+<ul>
+<li>&#8226; <strong>Landlessness-</strong> more than two-thirds (71%) of Indian farmers were landless. They did not own any land and lived as tenants or bonded labour on the land of others. According to Hamza Ali, Indian farmers could be categorized into-
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Rich farmers-</strong> more than 10 acres</li>
+<li style="padding-left:2em">&#9702; <strong>Middle farmers-</strong> 5-10 acres of land. They depended upon hired labour during the sowing and harvest season.</li>
+<li style="padding-left:2em">&#9702; <strong>Poor farmers-</strong> 2-5 acres. They depended only upon family labour. In the busy season, they also worked on the fields of others.</li>
+<li style="padding-left:2em">&#9702; <strong>Landless peasants or labourers-</strong> they worked on the lands of Zamindars and rich peasants and paid rent.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Credit facility-</strong> a 1954 RBI survey concluded that only 7% of Indian farmers had access to institutional credit. The others were forced to borrow from exploitative moneylenders.</li>
+<li>&#8226; <strong>Technological access-</strong> Most Indian farmers used primitive methods of farming. In 1951, only three percent Indian farmers were using iron ploughs. The availability of artificial irrigation was low (13%) and agriculture was primarily rain-fed. Access to synthetic fertilizers, modern pesticides and high yield variety seeds was virtually non-existent.
+<ul>
+<li style="padding-left:2em">&#9702; Farmers also lacked sufficient supply of cheap electricity. Thus, farming could not be mechanized.</li>
+<li style="padding-left:2em">&#9702; As a result, the rate of agricultural growth was stagnant at roughly 0-0.5% while population was growing at 3% per annum leading to a severe food shortage.</li>
+</ul>
+</li>
+</ul>
+<h3>Hurdles</h3>
+<ul>
+<li>&#8226; Land reforms could not be implemented properly since most of the leaders themselves came from the landowning families.</li>
+<li>&#8226; Additionally, the government functionaries at almost all levels- upper, middle and lower were involved atleast in some capacity with landlordism. For example, the low level functionaries such as Patwaris were themselves the rent collecting agents of big zamindars.</li>
+<li>&#8226; Another major hurdle was the unavailability of proper land records. In some cases, land records had not been updated for than a century.</li>
+<li>&#8226; The country lacked necessary infrastructure to carry out land consolidation and agricultural modernisation.</li>
+<li>&#8226; The paucity of funds and expertise also slowed down the process of agricultural modernisation and extension of formal credit.</li>
+<li>&#8226; Finally, the legal profession staunchly opposed the regulation of moneylending since the moneylending business opened a major field of litigation and contributed to a major proportion of litigation and constituted a major source of income for lawyers.</li>
+<li>&#8226; Lastly, the constitution makers had made the right to property a fundamental right which would have made land distribution legally impossible.</li>
+</ul>
+<h3>Efforts</h3>
+<ul>
+<li>&#8226; Since land is a state subject, states had to take the lead.</li>
+<li>&#8226; In 1949, the UP State Assembly passed the UP Land Reform Act or the Zamindari Abolition Act which became the model law for other states.</li>
+<li>&#8226; First Constitution amendment Act 1951 removed the Right to Property as a fundamental right and added the ninth schedule which protects social legislations from judicial review</li>
+<li>&#8226; However, beyond this the process of land reform remains low due to a combination of hurdles.</li>
+<li>&#8226; This resulted in the emergence of left-wing extremism especially in southern and eastern India prompting the Congress to resolve to accelerate the process of land reforms at its Nagpur session in 1959.</li>
+<li>&#8226; By 1961, almost all states had passed their own land reform laws including Zamindari abolition, tenancy reform and placing a land ceiling ranging from 3 to 27 acres.</li>
+<li>&#8226; Between 1961 to 1971, the proportion of land owning farmers had increased from 31 to 91% with Bihar topping the list at 99.6%</li>
+<li>&#8226; However, this success was misleading.
+<ul>
+<li style="padding-left:2em">&#9702; In reality, the north Indian states had performed extremely poorly. Grave problems such as benami transactions, eviction of tenants, small landholdings and low productivity derailed the process of land reform.</li>
+<li style="padding-left:2em">&#9702; Caste played a very important role in the abortive process of land reforms.</li>
+</ul>
+</li>
+<li>&#8226; On the other hand, some states such as West Bengal, Kerala and Kashmir were effective in land distribution but land reforms were accompanied by ideological and communal violence.</li>
+<li>&#8226; Gandhian efforts were also made to carry out land reforms. Acharya Vinoba Bhave launched the Bhoodan movement in the Telangana region in 1951. A parallel Gramdan movement was launched in Odisha. These movements called upon Zamindars to voluntarily donate a portion of their lands to be distributed among peasants. However, the response was lackluster in both cases.
+<ul>
+<li style="padding-left:2em">&#9702; Marxists accused the Gandhians of trying to sabotage the radical leftist movement which was emerging among peasants as seen by the violence in Kerala and West Bengal.</li>
+</ul>
+</li>
+</ul>
+<h3>Critical analysis</h3>
+<ul>
+<li>&#8226; While the land reform programmes succeeded in abolition of Zamindari, protection of tenants and made farm credit available to peasants, in North India much of this progress remained on paper. The added complication of caste divide in the agrarian structure resulted in caste based riots and politics from the 1970s onwards. The worst affected areas were Eastern UP and Bihar.</li>
+<li>&#8226; While West Bengal, kerala and Kashmir were more successful with respect to land reforms, bloodshed could not be avoided resulting in the growth of Left-wing extremism in areas where land reforms were stalled.</li>
+<li>&#8226; The two most significant manifestations of this were-
+<ul>
+<li style="padding-left:2em">&#9702; Naxalite movement</li>
+<li style="padding-left:2em">&#9702; Bandits of Chambal</li>
+</ul>
+</li>
 </ul>`,
   'caste-ethnicity-post-1947': ``,
   'economic-development-political-change': `<h2>Land Revenue Reforms</h2>
