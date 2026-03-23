@@ -17509,7 +17509,261 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; Parinita Shetty has shown that more than the state, the officials supported missions in their personal capacity.</li>
 </ul>
 <p>In the aftermath of major setback of 1857, and as per the Queen&#8217;s Proclamation, the <strong>post-1857</strong> colonial state resorted to a <strong>cautious policy of non-intervention</strong> in the existing social and cultural practices. Sometimes, missionaries entered the conflict with state policies, as Rev. James Lang did during Indigo rebellion.</p>
-<p>As the modern states no longer needed any religious sanction to exercise their power, the state-religion linkage became further diluted over time.</p>`,
+<p>As the modern states no longer needed any religious sanction to exercise their power, the state-religion linkage became further diluted over time.</p><h2 id="socio-religious-reform-movement">Socio-Religious Reform Movement</h2>
+<p>The 19th century marked the beginning of a new chapter of Indian history which is good for its cultural and social rejuvenation. Its intellectual stirring was triggered by Impact of Western culture and Consciousness of defeat to the West.</p>
+<p>The Indian intellectuals differed in their approach as well as the degree of reform but all of them appreciated the urgency for the need for reform.</p>
+<p>The reformers also understood that reforming the society without reforming the religion would be impossible. This was because many of the evils plaguing Indian society were sanctioned by religion. In fact, religion had been the traditional basis for creating and enforcing social norms in India.</p>
+<p>Thus, the 19th century socio-religious reform movements essentially sought to &#8216;modernize the Indian society&#8217; in order to equip it with the tools to address the Western challenge.</p>
+<p>Since this reform movement was envisioned within the framework of a clash of modern western nationalistic imperialism and Indians&#8217; native civilization, the roots of Indian nationalism were actually present within this movement.</p>
+<ul>
+<li>&#8226; In fact, many prominent historians consider this movement as the socio-cultural roots of the nationalist movement.</li>
+</ul>
+<h2 id="issues-socio-reform">Issues</h2>
+<h3 id="education-issue">1. Education</h3>
+<p>Indian education was highly discriminatory since women and the lower castes did not have any access. Only a small section of upper caste men were in a position to receive education. This resulted in harp socio-economic division of the society.</p>
+<ul>
+<li>&#8226; Further, traditional Indian education was also highly outdated. It emphasized upon reading of religious scripture alongwith an outdated syllabus of traditional science, medicine, law, philosophy and mathematics.</li>
+<li>&#8226; This outdated curriculum did not prepare students to participate in the quickly transforming modern world.</li>
+</ul>
+<h3 id="womens-issues">2. Women&#8217;s Issues</h3>
+<p>Women were subjected to a series of evils and restrictions such as Sati, Child marriage, female infanticide, Purdah, polygamy, religious disabilities, restriction on education and economic participation etc.</p>
+<ul>
+<li>&#8226; This had resulted in half of India&#8217;s population being reduced to silent spectator in the civilizational story. Women were actively prevented in contributing to the process of socio-economic, cultural and political creation. In other words, the Indian civilization had deliberately sabotaged itself by depriving itself of the female genius.</li>
+<li>&#8226; Further, the mistreatment of women was exposing the Indian civilization to bitter criticism from the West. Western intellectuals justified the colonization of India on the grounds of &#8216;defending the honour&#8217; of Indian women. Therefore, addressing the issues faced by women was of immense social as well as political importance.</li>
+</ul>
+<h3 id="caste-issues">3. Caste Related Issues</h3>
+<p>These include untouchability, discrimination in matters of education and employment, religious and social disabilities, and the treatment of lower castes as impure.</p>
+<ul>
+<li>&#8226; Indian society was deeply divided on the issue of caste and unity could not be possible without dissolving these divisions.</li>
+<li>&#8226; Further, the British could also exploit these divisions to perpetuate their rule in India.</li>
+</ul>
+<h3 id="superstition-issues">4. Superstitious Beliefs and Practices</h3>
+<p>19th century Indian society was characterized by the widespread prevalence of superstitions, both harmful and benign.</p>
+<ul>
+<li>&#8226; The presence of such superstitions indicates a lack of rational thinking. In fact, it is a symptom of a society that has trained itself not to question existing norms and rather defer to authority by default.</li>
+<li>&#8226; In such a society, change is almost impossible since there are no incentives to challenge corrupt institutions and practices.</li>
+<li>&#8226; Thus, superstition is both cause of and symptom of civilizational stagnation.</li>
+</ul>
+<h2 id="ideas-socio-reform">Ideas</h2>
+<ul>
+<li>&#8226; <strong>Rationality</strong>- it stands for the application of reason for logic in every situation and on the basis of this to evaluate the prevailing institutions, norms and practices. If they withstand this scrutiny they should be allowed to continue. But if they fail, they must be discarded or reformed.</li>
+<li>&#8226; <strong>Scientific Temper</strong>- It involves the encouragement of free thinking and critical thinking by popularizing the application of the scientific method (observe hypothesized experiment) to social problems. In this way, people can be trained to challenge unfair norm and transform the society.</li>
+<li>&#8226; <strong>Humanism</strong>- this idea emphasizes that individual humans should be at the centre of all social, religious and legal structures. Essentially, human welfare should be the priority of all collective endeavours.</li>
+<li>&#8226; <strong>Modern Western Political ideas</strong>- these include ideas such as liberty, equality, fraternity, nationalism, popular sovereignty, limited government etc. These are the core ideas of the enlightenment which are responsible for modernizing the West and to similarly modernized India.</li>
+</ul>
+<p><strong>How did these ideas spread in India?</strong> One reason was because of rising contact with the West including growing number of Indians travelling abroad for education and commerce. They brought these ideas back to India. Modern Western education in India spread these ideas. The introduction of Western scientific and social science literature played an important role. The Press in India resulted in the mainstreaming of these ideas.</p>
+<h2 id="raja-ram-mohun-roy">1. Raja Ram Mohun Roy and the Brahmo Samaj</h2>
+<p><strong>Thought</strong>- He was a firm believer of Rig Veda and the Upanishads. At the same time, he was also inspired by the equality and monotheism of Islam as well as the humanitarian approach of the Bible. Apart from these, he was also inspired by modern Western thought, both scientific and political. While he did consider the Rig Veda and Upanishad to be the most evolved form or thought but he rejected the idea of the infallibility of the Vedas. According to him, Upanishadic thought can be challenged on the basis of logic.</p>
+<p><strong>Contribution to Social reform</strong>- In 1814, he established the Atmiya Sabha in Calcutta to propagate monotheism in order to unify all Indians.</p>
+<p>In 1828, he established the Brahmo Sabha which was later renamed as the Brahmo Samaj. It had the following objectives-</p>
+<ul>
+<li>&#8226; To purify Hinduism and preach monotheism based upon the twin pillars of Reason and Upanishadic thought.</li>
+<li>&#8226; On the basis of this, he opposed idol worship, priestly domination, fast paced discrimination, Sati, child marriage, polygamy, restrictions on Widow Remarriage.</li>
+<li>&#8226; He used his platform as a common one for like-minded individuals in order to petition the British government to introduce legislations to address prevalent evils such as Sati practice.
+<ul>
+<li style="padding-left:2em">&#9702; In 1829, British responded with abolishing Sati. However, other evils such as Prohibition of Widow Remarriage, female infanticide, child marriage etc. would continue and were tackled by later generation of reformers who were inspired by the Brahmo Samaj.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Contribution to education and politics</strong>- He was well versed in numerous classical and modern languages such as Sanskrit, Persian, Arabic, Hebrew, Greek, Latin, Bangla, Hindi, Urdu, German, French, English.</p>
+<ul>
+<li>&#8226; He simplified Bangla prose writing by removing complex Sanskrit words and phrases from it. At the same time, he also modernized the theme of Bangla literature by introducing several essays and articles on modern issues.</li>
+<li>&#8226; He also published several books including the Tuhfat-ul-Muwahhidin in Persian and Precepts of Jesus in English.</li>
+<li>&#8226; He was also the first Indian to own and edit a newspaper- Sambad Kaumidi in Bangla, Mirat-ul-Akbar in Urdu, and Brahmanical Magazine in English.</li>
+<li>&#8226; He was also a pioneer of modern education- in 1817 he set up the Hindu College at Calcutta alongside Alexander Duff and David Hare. Secondly, he established Vedanta College in Calcutta in 1825 where he introduced new subjects such as mechanics and Voltaire&#8217;s philosophy.</li>
+</ul>
+<p>Raja Ram Mohun Roy was involved in political activism. He raised political issues through petitions and his writings which were published though his newspapers. These include-</p>
+<ul>
+<li style="padding-left:2em">&#9702; criticism of Zamindars who were free to exploit the peasants without any check,</li>
+<li style="padding-left:2em">&#9702; demanding the abolition of the trading rights of the East India Company,</li>
+<li style="padding-left:2em">&#9702; demanding the Indianization of both the higher and subordinate civil services,</li>
+<li style="padding-left:2em">&#9702; demanding the separation of the executive from the judiciary and providing legal equality between Indians and Europeans,</li>
+<li style="padding-left:2em">&#9702; Demanding the reduction of land revenue and the abolition of taxes in tax exempt lands.</li>
+<li style="padding-left:2em">&#9702; He also demanded the reduction of export duties in order to encourage Indian manufacturing.</li>
+</ul>
+<p>Clearly his agenda of political reform carried the undertone of nationalism and worked as a template for early generation of nationalists in the early stage.</p>
+<p><strong>Legacy</strong>- After Ram Mohun Roy&#8217;s death in 1833, the Brahmo Samaj underwent multiple stages of evolution and schisms. It lost relevance by the late 19th century but not late before preparing the stage for the next generation of reformers by creating its ideological successors across India.</p>
+<ul>
+<li>&#8226; These include organizations such as Poona Sarvajanik Sabha, Paramhans mandali, The Veda Samaj, Brahmo Samaj of South India.</li>
+<li>&#8226; After Raja Ram Mohun Roy, most prominent leaders of the Brahmo Samaj were Debendra Nath Tagore and Keshub Chandra Sen. While Debendra Nath Tagore adopted a strategic approach to reform involving Working to reform the Hindu society within Hinduism and Defending Hinduism from external attacks especially by Christian Missionaries. On the other hand, Keshub Chandra Sen adopted a radical approach including Complete discarding of the caste system, Promoting inter-caste and inter-religious marriages, Adopting the best practices from all religions.</li>
+</ul>
+<h2 id="sir-sayyid-ahmad-khan">2. Sir Sayyid Ahmad Khan and the Aligarh Movement</h2>
+<p><strong>His Thought</strong>- He was inspired by the philosophy of Quran and the Hadith. At the same time he believed that many Islamic laws and practices such as Polygamy and Purdah need a modern scientific appraisal. According to him, only modern scientific education can uplift Indian Muslims from their backwardness. He was also a great admirer of the English society and its values and wanted Indian Muslims to emulate the same.</p>
+<p><strong>His contribution to education</strong></p>
+<ul>
+<li>&#8226; He set up <strong>The Mohammedan Scientific Literary Society</strong> in order to translate European scientific works into Urdu.</li>
+<li>&#8226; In 1875, he established the <strong>Mohammedan Anglo-Oriental College</strong> at Aligarh along the lines of Ox-bridge residential universities. Later, in 1929 it was reconstituted as the Aligarh Muslim University.</li>
+<li>&#8226; He was also the first Indian to set up the school for Muslim girls.</li>
+<li>&#8226; He also simplified Urdu prose writing by freeing it from the jargon of Arabic and Persian words.</li>
+<li>&#8226; He was also the first Indian to write a book on the Great Revolt namely &#8216;Asbab-i-bagawat-i-Hind.</li>
+<li>&#8226; He began publishing a magazine called &#8216;Tahzeeb-ul-Aqlakh&#8217; in Urdu to teach morals and etiquettes to young minds.</li>
+</ul>
+<p><strong>His contribution to politics</strong>- Sir Sayyid realized the importance of British support for the success of his educational mission. Thus, he adopted a loyalist position with respect to the British. This loyalist approach is also reflected in his preaching to the Indian Muslims. He encouraged them to remain loyal to the British since they are relatively backward to Hindus and if British rule ended suddenly, they would never be able to achieve parity. When the Congress was formed in 1885, he appealed to Muslims including Badruddin Tyabji to boycott it.</p>
+<p><strong>His legacy</strong></p>
+<ul>
+<li>&#8226; Sir Sayyid&#8217;s education mission proved to be the foundational step towards modernizing Indian Muslims.</li>
+<li>&#8226; The graduates of Aligarh established similar institutions in other regions resulting in the emergence of an All India Muslim middle class intelligentsia. This resulted in the emergence of modernizing liberal movement among Muslims.</li>
+<li>&#8226; These developments also reduced the socio-economic gap between Hindus and Muslims to some extent thus reducing the potential friction between them.</li>
+<li>&#8226; Further, the Muslim politics of India became distinctly secular and nationalistic under the influence of these changes.</li>
+</ul>
+<p>However, Sir Sayyid&#8217;s legacy also contains dangerous undercurrent which did tremendous harm to the India people.</p>
+<ul>
+<li>&#8226; By characterizing the Congress as a caste Hindu party, he permanently communalized Indian politics.</li>
+<li>&#8226; Sir Sayyid could not appreciate the true British intentions and became willing participant of their <strong>&#8216;divide and rule&#8217; policy.</strong></li>
+<li>&#8226; Sir Sayyid is regarded by many as the <strong>&#8216;father of Indian Communalism&#8217;.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Not only did he communalize Indian politics but his emphasis that the political interests of Hindus and Muslims are exclusive and can never align ultimately led to <strong>&#8216;two nation theory&#8217;</strong>, communal riots and partition.</li>
+</ul>
+</li>
+<li>&#8226; However, several historians have challenged this on the following grounds-
+<ul>
+<li style="padding-left:2em">&#9702; While making this assessment, Sir Sayyid&#8217;s positive contributions have been conveniently overlooked</li>
+<li style="padding-left:2em">&#9702; He was not looking to actively communalize Indian Muslims</li>
+<li style="padding-left:2em">&#9702; Like Raja Ram Mohun Roy sought to modernize Hindus, he sought to modernize Muslims</li>
+<li style="padding-left:2em">&#9702; His personal outlook was highly secular he was a great supporter of religious harmony appealing to Muslims to remain friendly and peaceful towards Hindus.</li>
+<li style="padding-left:2em">&#9702; If Sir Sayyid&#8217;s role in spreading communalism is to be accepted, the role of others including the British government, BG Tilak, Madan Mohan Malviya and Mahatma Gandhi should not be overlooked.</li>
+</ul>
+</li>
+</ul>
+<h2 id="wahabi-movement">3. Wahabi Movement</h2>
+<p>It was started in the late 18th century in Arabia by Wahab-ibn-Arabi. It was brought to India by Sayyid Ahmad Barelvi and Shah Abdul Aziz. It had the twin objectives of Purifying Islam by removing all un-Islamic practices and Establishing an Islamic state.</p>
+<p>The Wahabis in India established their headquarters at Sithana in the North West Frontier Province in 1820 and launched a Jihad against the Sikh Empire. They wanted to convert Punjab from Dar-ul Harb to Dar-ul Islam.</p>
+<p><strong>Wahabis upto 1857</strong>- They fought a series of battle against the Sikh Empire during the 1820s and 30s. The most famous among them was the Battle of Balakot (1830) in which Sayyid Ahmad Barelvi was killed and their movement slowed down.</p>
+<ul>
+<li>&#8226; After the annexation of Punjab, Wahabis began targeting the British and spread to other parts of North India with Ambala, Delhi, Faizabad and Patna emerging as prominent Wahabi centres.</li>
+<li>&#8226; During the revolt of 1857, Wahabis participated in large numbers and cooperated with Hindu rebels as well. When rebellion was crushed, many Wahabi leaders were killed or arrested. They were tried in the Ambala and Patna trials and were given harsh punishments.
+<ul>
+<li style="padding-left:2em">&#9702; With this, the Wahabi leadership was eliminated and new generation of leaders emerged.</li>
+</ul>
+</li>
+</ul>
+<p><strong>After the Revolt of 1857</strong>- two Wahabi scholars Rashid Ahmad Gangohi and Qasim Nanotavi established the Dar-ul Uloom in Deoband as institute of traditional Islamic Education. They inherited the social attitudes of the rebels i.e. remained hostile to the British but were open to cooperation with other Indians. In this, they also diverged from the Aligarh movement.</p>
+<ul>
+<li>&#8226; They attracted scholars from around the world and produced an illustrious class of alumni.
+<ul>
+<li style="padding-left:2em">&#9702; Some of its famous alumni include the Ali brothers, Hakim Ajmal Khan, Abdul Bari and Maulana Abul Kalam Azad.</li>
+<li style="padding-left:2em">&#9702; In the backdrop of the Khilafat movement, Deobandis wholeheartedly supported Mahatma Gandhi.</li>
+<li style="padding-left:2em">&#9702; In order to promote Hindu-Muslim unity, they abandoned ideal of Dar-ul Islam and appealed to Muslims not to slaughter cows and respect the religious sentiments of Hindus.</li>
+<li style="padding-left:2em">&#9702; Later, even in the backdrop of charged communalism backed by the Aligarh school Muslims during the 1930s and 40s, the Deobandis remained committed to Hindu-Muslim unity and vehemently opposed the Pakistan demand.</li>
+<li style="padding-left:2em">&#9702; Since independence, the Deoband School has had a moderating influence amid the rising trend of Islamic religious fundamentalism.</li>
+</ul>
+</li>
+</ul>
+<h2 id="arya-samaj">4. Swami Dayanand Saraswati and the Arya Samaj</h2>
+<p><strong>His thought</strong></p>
+<ul>
+<li>&#8226; He established the Arya Samaj in 1875 at Bombay. Later, his headquarters were established at Lahore.</li>
+<li>&#8226; He subscribed to the philosophy of the Vedas and Upanishads which he considered to be the perfect expression of logic.</li>
+<li>&#8226; Consequently, he rejected the teachings of other sources such as the Puranas, the Quran and Bible etc.</li>
+<li>&#8226; In his book <strong>Satyarth Prakash</strong>, he preaches monotheism and prescribes that we should <strong>&#8216;go back to the Vedas&#8217;</strong> in order to solve our social problems.</li>
+<li>&#8226; He also wrote &#8216;Veda Bhashya&#8217; and the &#8216;Veda Bhashya Bhumika&#8217;.</li>
+</ul>
+<p><strong>Contribution to Social Reform</strong></p>
+<ul>
+<li>&#8226; Considering the Rig Vedic society the ideal society Swami Dayanand advocated for the removal of those practices which were not found in it.</li>
+<li>&#8226; These included social evils such as Purdah, caste system, sati, child marriage, rigid Varna system, female infanticide, dowry, priestly domination and the exclusion of women and lower castes from education and several occupations.</li>
+<li>&#8226; He also encouraged inter caste marriages and widow remarriage.</li>
+<li>&#8226; He was opposed to idol worship, pilgrimage and any kind of formalized rituals.</li>
+</ul>
+<p><strong>Controversial movement of Arya Samaj</strong></p>
+<ul>
+<li>&#8226; It is the pioneer of Hindutva ideology</li>
+<li>&#8226; They considered the Hindu identity threatened by Islam, Christianity and the West</li>
+<li>&#8226; Thus, they tried to create and assert identity of Sanatan Dharma.</li>
+<li>&#8226; The Arya samaj attempted to homogenize Hinduism by asserting universal symbols which did not appeal to all Hindus and caused friction.</li>
+<li>&#8226; Additionally they emphasized that all the original inhabitants of India are Hindus irrespective of their religious denomination. This also caused suspicion and friction among religious minorities.</li>
+<li>&#8226; Lastly, during the 1920s and 30s, the Arya samaj launched some controversial movements that directly contributed to communal riots. These include Cow protection movement, Shuddhi movement, Sangathan movement, Movement to prevent the looting of Hindu women.</li>
+</ul>
+<p><strong>His Legacy</strong>- Swami Dayanand Saraswati died in 1883 after which the organization split into two (Liberals: Lala Lajpat Rai, Lala Hansraj &#8211; opened DAV College, Lahore in 1886; Conservatives: Swami Sahajanand Saraswati &#8211; opened Gurukul Kangri, Haridwar).</p>
+<ul>
+<li>&#8226; In 1915, Madan Mohan Malviya, Lala Lajpat Rai and VD Savarkar were heavily inspired by the Arya samaj established the All India Hindu Mahasabha.</li>
+<li>&#8226; In 1916, Madan Mohan Malviya and Annie Besant laid the foundations of the Central Hindu College at Banaras which later became the Banaras Hindu University.</li>
+<li>&#8226; In 1925, HD Hedgewar established the Rashtriya Swayamsevak Sangh as the cultural wing of the Hindu Mahasabha.</li>
+<li>&#8226; Political leaders associated with the Arya Samaj played a prominent role in the freedom struggle. However, it cannot be denied that it also contributed to the growing communalism of Indian politics and indirectly contributed to the partition of India.</li>
+</ul>
+<h2 id="jyotiba-phule">5. Jyotiba Phule and his Satyashodak Samaj</h2>
+<p>Jyotiba Phule was born into a low caste Mali family in 1828. His personal experiences, association with Christian missionaries and education made him a critique of the Brahmanical society and Aryan culture.</p>
+<ul>
+<li>&#8226; He argued that the Aryan invaders had forcibly enslaved the natives of India who were ascribed the status of shudras. This truth is contained within the Vedas and thus Brahmins deliberately keep it hidden from the shudras.</li>
+<li>&#8226; He also accused the Brahmins of keeping women uneducated and enslaved.</li>
+<li>&#8226; According to him, the key to the emancipation of the oppressed was their empowerment. This was to be achieved through Imparting modern scientific education to them and Engendering class consciousness among them.</li>
+<li>&#8226; He firmly believed that emancipation of dalits would not be possible within the confines of the Brahmanical Varna based society. Therefore, a new path towards emancipation of the oppressed outside the Varna system was necessary.</li>
+</ul>
+<p><strong>His contribution to social work and reform</strong></p>
+<ul>
+<li>&#8226; In 1851, he and his wife Savitribai Phule started a girls&#8217; school at Poona.</li>
+<li>&#8226; He was also a pioneer of widow remarriage in Maharashtra and started widows&#8217; home for young widows in Poona.</li>
+<li>&#8226; He regularly petitioned the government to provide free and compulsory education to the lower castes through teachers drawn from the lower castes as well.</li>
+<li>&#8226; In 1854, he became first Indian to start a school for the untouchables.</li>
+<li>&#8226; In 1873, he established the <strong>Satyashodhak samaj</strong> as a reform organization to attain equal rights for the lower castes as well as women.
+<ul>
+<li style="padding-left:2em">&#9702; Through this society, he was able to persuade government officials to grant the lower castes access to some public places and places of worship around Poona.</li>
+</ul>
+</li>
+<li>&#8226; He published a series of books, pamphlets and articles to highlight the suffering of the Dalits and demand reform. These include Deen Bandhu, Ghulamgiri which compared the condition of India&#8217;s shudras to that of African slaves in America, Isara, Shetkaryacha Asuda.</li>
+</ul>
+<p><strong>His Legacy</strong>- He succeeded in mobilizing a section of the dalits and upper castes and a grassroot movement emerged in Maharashtra.</p>
+<ul>
+<li>&#8226; Thus, Jyotiba Phule is credited with triggering the Dalit movement in Western India.</li>
+<li>&#8226; After his death, the mantle for Dalit emancipation was picked up by the next generation of Dalit leaders including Dr BR Ambedkar, Shri Narayan Guru, and EV Ramaswamy Periyar Naicker etc.</li>
+<li>&#8226; His educational mission also resulted in the emergence of a Dalit middle class who led the charge of the Dalit movement within the wider national movement. This made the national movement more democratic, vibrant and egalitarian.</li>
+<li>&#8226; In fact, Dalit movement has been a major pillar towards the building of modern India by diluting the parochial caste identity.</li>
+</ul>
+<h2 id="swami-vivekananda">6. Swami Vivekananda and the Ramakrishna Mission</h2>
+<p><strong>His thought</strong></p>
+<ul>
+<li>&#8226; Swami Vivekananda was a disciple of Ramakrishna Paramhans who was a priest at the Dakshineshwar temple at Calcutta and a Vedic scholar.
+<ul>
+<li style="padding-left:2em">&#9702; Ramakrishna Paramhans founded the Belur Math and Ramakrishna movement at Calcutta with the objective of preparing a cadre of volunteers to spread the teachings of Vedanta.</li>
+<li style="padding-left:2em">&#9702; Thus, the philosophy of the Upanishads also known as Vedanta was a chief source of inspiration for the thoughts of Swami Vivekananda.</li>
+</ul>
+</li>
+<li>&#8226; He also believed that Human beings are the manifestations of the divine. He gave the famous slogan &#8216;Yatra Jiva Tatra Shiv&#8217; and thus service to mankind is service to god.</li>
+<li>&#8226; According to him, true salvation is not possible without the complete synchronization of the mind, body and soul.
+<ul>
+<li style="padding-left:2em">&#9702; According to him, Indians neglected material development in favour of spiritual development. Thus, they suffered due to poverty.</li>
+<li style="padding-left:2em">&#9702; On the other hand, the West was over materialistic and suffered due to lack of spiritual nourishment.</li>
+<li style="padding-left:2em">&#9702; Thus, civilizational and cultural exchange was necessary in which the west learned spirituality from India and India develops material development form the West.</li>
+<li style="padding-left:2em">&#9702; Thus, his teaching emphasized upon both Vedanta as well as Western science.</li>
+</ul>
+</li>
+<li>&#8226; He completely redefined the meaning of Karma which traditionally stood for the performance of rituals, pilgrimages, charity and alms. His new definition of Karma emphasized upon morally, physically, spiritually and intellectually preparing oneself to serve mankind.</li>
+</ul>
+<p><strong>His contribution to Humanitarianism and social work</strong></p>
+<ul>
+<li>&#8226; He travelled extensively across India and the world. Through his contact with the West, he was able to break several negative stereotypes regarding India.</li>
+<li>&#8226; He was able to export India&#8217;s rich culture and philosophy to the West including its greatest civilizational achievements and generated tremendous goodwill towards Indians.</li>
+<li>&#8226; At the <strong>World Parliament of Religions (1893)</strong> held at Chicago, Swami Vivekananda delivered the keystone address and impressed the global audience with his articulate speech and elegant thought. He made the case for the cultural exchange between the East and the West and emphasized upon the importance of humanitarian service.</li>
+<li>&#8226; In 1897, he set up the <strong>Ramakrishna Mission</strong> at Belur in Calcutta to train a cadre of volunteers who would dedicate their lives towards humanitarian service.
+<ul>
+<li style="padding-left:2em">&#9702; Today, the mission operates hospitals, schools, food banks, widow homes, ambulance services, libraries and community outreach centres in more than 34 countries including the UK, the US, Pakistan, Burma etc.</li>
+</ul>
+</li>
+</ul>
+<p><strong>His Legacy</strong></p>
+<ul>
+<li>&#8226; Swami Vivekananda&#8217;s teachings which were heavily inspired by Indian tradition attracted younger nationalists during the late 19th and 20th centuries.</li>
+<li>&#8226; His emphasis on self-strengthening aligned itself with the extremist idea of atma-shakti which stood for self-help, self-reliance and self-rule at any cost.</li>
+<li>&#8226; Swami Vivekananda emphasized that &#8216;preaching to the hungry is a sin&#8217;. It is more important to provide them basic relief and dignity. This message also resonated strongly with the younger nationalists who were already looking for ways to engage the masses.</li>
+<li>&#8226; Finally, Swami Vivekananda was able to present a more humane, egalitarian, inclusive and cosmopolitan face of Hinduism in the form of <strong>Neo Hinduism</strong> as compared to the dangerous and divisive ideology of Hindutva.</li>
+</ul>
+<h2 id="impact-socio-reform">Impact and Significance of Socio-Religious Reform Movement</h2>
+<p><strong>Positive aspects</strong></p>
+<ul>
+<li>&#8226; The 19th century reformers highlighted the burning issue of the age and started movements across India to address them. They were able to invite prompt government action and reform legislations were introduced.</li>
+<li>&#8226; Their efforts helped to heal the fractures that had been keeping Indian society divided and backward. In other words, they propelled India towards greater unity and modernity.</li>
+<li>&#8226; They made a comprehensive study of the Indian past in order to counter the negative colonial propaganda. This investigation revealed glorious past that was in no way inferior to the West. By shattering the myth of Western superiority, they emboldened Indian patriots and gave them a sense of pride.</li>
+<li>&#8226; These reformers also helped weaken colonial justification for ruling India. Colonial scholars had been arguing that British rule is necessary for protecting the marginalized sections such as women, tribals and the lower castes. By addressing the issues of these groups, the reformers weakened the case of colonialism.</li>
+<li>&#8226; While searching a superior national culture, they revived India&#8217;s lost art forms which emerged as permanent elements of the new national culture, symbolism and art.</li>
+<li>&#8226; On the whole, it would not be incorrect to say that 19th century&#8217;s socio-religious reform movements laid the social and cultural foundations of Indian nationalism.</li>
+</ul>
+<p><strong>Negative aspects</strong></p>
+<ul>
+<li>&#8226; Most of these movements were urban in character and had limited impact on India&#8217;s vast rural landscape.</li>
+<li>&#8226; They were elite led movements with limited social base. Therefore, the intended beneficiaries of these reforms were treated as mute spectators to their own emancipation.</li>
+<li>&#8226; Instead, majority of these movements tried to transform the attitudes of the dominant sections. No attempt was made to develop class consciousness among the oppressed classes or engage them directly. Naturally, their effectiveness remained limited.</li>
+<li>&#8226; From the very beginning, there was a strong undercurrent of cultural and religious nationalism within these movements. This resulted in the sub text of communal nationalism becoming an inherent part of Indian nationalism. This weakened unity within the national movement and caused religious division.</li>
+</ul>`,
   'indian-response-british-rule': `<h2 id="localized-uprisings">Localized Uprisings</h2>
 <p>Earlier we have studied how British policies during financial phase got further intensified leading to resentment among Indians. As public&#8217;s knowledge regarding the exploitative government started increasing, their anger too, started getting manifested into various forms:</p>
 <ul>
