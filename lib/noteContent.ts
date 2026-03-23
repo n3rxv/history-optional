@@ -20651,6 +20651,278 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li style="padding-left:2em">&#9702; Bandits of Chambal</li>
 </ul>
 </li>
+</ul><h2>Environmentalism</h2>
+<h3>Background</h3>
+<ul>
+<li>&#8226; In the initial years after independence, there was no specific Environmental policy.
+<ul>
+<li style="padding-left:2em">&#9702; This period witnessed greater stress on economic growth and infrastructure development with little concern for environmental degradation.</li>
+</ul>
+</li>
+<li>&#8226; There was no single body to oversee environmental protection. The primary environmental issue fell under the ambit of waste disposal, sanitation, public health and forest regulation. These were handled by different ministries and departments primarily at the state level.</li>
+<li>&#8226; At the same time, a few provisions were introduced to tackle problems such as destruction of forests, unplanned urban growth and the emerging problem of water pollution. These included
+<ul>
+<li style="padding-left:2em">&#9702; the Factories Act, 1948</li>
+<li style="padding-left:2em">&#9702; the River Boards Act, 1956</li>
+<li style="padding-left:2em">&#9702; Mines and Minerals (Regulation and Development Act), 1967.</li>
+</ul>
+</li>
+<li>&#8226; This reflects the lack of any unified effort in developing a policy to tackle pollution from these sources. Instead, efforts were scattered and sporadic.</li>
+<li>&#8226; At the same time, there was growing concern with regards to rising population, its polluting effects, resource depletion and its impact on forests and wildlife.</li>
+<li>&#8226; The first turning point was the Stockholm Conference, 1972 which was followed by a series of environmental protection laws as well as economic planning with a focus on clean and sustainable development.</li>
+</ul>
+<h3>Efforts to combat biodiversity laws and pollution post-Stockholm conference (1972)</h3>
+<ul>
+<li>&#8226; <strong>Wildlife Protection Act, 1972</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Prevent the decline of animal and bid protection</li>
+<li style="padding-left:2em">&#9702; It prohibits the killing of certain species except for scientific and education purpose</li>
+<li style="padding-left:2em">&#9702; It empowers state governments to declare any area to be a wildlife sanctuary or national park.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Water (Prevention of pollution) Act (1974)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It provided for the creation of Central Pollution control Boards and State Pollution Control Boards.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Forest (Conservation) Act (1980)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It aimed at checking deforestation and diversion of forest land for non-forestry purpose.</li>
+<li style="padding-left:2em">&#9702; It also promoted social forestry.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Air (Prevention of pollution) Act, 1981</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It empowered the Central and State Pollution Control Boards to monitor and check air pollution.</li>
+<li style="padding-left:2em">&#9702; It also empowered the central and state governments to adopt policies and measures to identify the sources of air pollution and frame policies to check it.</li>
+</ul>
+</li>
+<li>&#8226; Clearly, these acts were designed to protect the natural environment and improve the quality of life by checking pollution, deforestation and protecting wildlife and the natural environment.</li>
+<li>&#8226; However, there was little focus on the resolution of industrial and environmental disputes. Further, polluting industries and activities were not sufficiently checked.</li>
+<li>&#8226; The next major turning point in the evolution of India&#8217;s environmental policy came in the form of the Bhopal gas tragedy.</li>
+</ul>
+<h3>Environmental reforms after the Bhopal gas tragedy</h3>
+<ul>
+<li>&#8226; <strong>Environment Protection Act, 1986</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It was a landmark in India&#8217;s evolving environment protection framework.</li>
+<li style="padding-left:2em">&#9702; By plugging the loopholes in existing legislations, it centered the focus of the country towards environment protection.</li>
+<li style="padding-left:2em">&#9702; It primarily tackles pollution with stringent penalties for violators.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Public Liability Insurance Act, 1991</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It provides mandatory insurance cover for the purpose of providing immediate relief to persons affected by accidents involving any hazardous material.</li>
+</ul>
+</li>
+<li>&#8226; <strong>National Environment Tribunals Act, 1995</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Civil codes took a long time to dispose all disputes including those of environment.</li>
+<li style="padding-left:2em">&#9702; This act provided for speedy disposal of environmental cases to the national environment tribunal that had four benches (Delhi, Mumbai, Kolkata, and Chennai).</li>
+</ul>
+</li>
+<li>&#8226; <strong>National Environment Appellate Authority Act, 1997</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It provided for the establishment of the appellate authority to hear appeals with respect to restriction in any areas in which any industries, operations or processes may or may not be carried out subject to the safeguards provided by the environment protection act, 1986.</li>
+</ul>
+</li>
+<li>&#8226; <strong>National Biodiversity Act, 2000</strong>
+<ul>
+<li style="padding-left:2em">&#9702; This Act offers assistance to communities involved in the protection of biodiversity around them. It facilitates scientific access to genetic material while protecting the traditional knowledge of biodiversity conservation.</li>
+</ul>
+</li>
+</ul>
+<h3>Environmental movements in India post-independence</h3>
+<ul>
+<li>&#8226; A large number of environmental movements emerged in India during and after the 1970s.</li>
+<li>&#8226; Initially they emerged as a local response to local issues but gradually they coalesced into a national movement for environmentalism.</li>
+<li>&#8226; Broadly, the emergence of the Indian environmental movements may be attributed to factors such as
+<ul>
+<li style="padding-left:2em">&#9702; control over natural resources</li>
+<li style="padding-left:2em">&#9702; Misguided developmental policies of the government resulting from centralized top-down planning.</li>
+<li style="padding-left:2em">&#9702; Environmental degradation or destruction causing socio-economic distress.</li>
+</ul>
+</li>
+<li>&#8226; Rising awareness about the importance of the ecological balance and the environment protection through literature and media. For example, the publication of &#8216;Silent Spring&#8217; in 1960 by Rachel Carson.</li>
+</ul>
+<h4>Major Movements</h4>
+<ul>
+<li>&#8226; <strong>Bishnoi Movement</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Led by Amrita Devi in Rajasthan to prevent poaching of wildlife, deforestation and combat desertification.</li>
+<li style="padding-left:2em">&#9702; More than 363 members of the Bishnoi community sacrificed their lives in conflict against powerful local elements and the government.</li>
+<li style="padding-left:2em">&#9702; The Bishnoi movement represents a unique blend of environmentalism with religious spiritualism.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Chipko Andolan</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Led by activists such as Sundar Lal Bahuguna, Chandi Prasad Bhatt, Gaura Devi and others in the forested hilly areas of Uttarakhand.</li>
+<li style="padding-left:2em">&#9702; The Chipko Movement gets its name from the tactic used by the activists to prevent the felling of trees, namely hugging the trees.</li>
+<li style="padding-left:2em">&#9702; Women played a leading role in the movement since deforestation affected them directly. This was because women were primarily responsible for gathering firewood and pastoral activities. Both these activities required easy access to healthy forests.</li>
+<li style="padding-left:2em">&#9702; Chipko movement thus emerged as the major step not only towards the democratization of environmentalism but also the growth of feminist influence within environmentalism.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Narmada Bachao Andolan</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Pioneered by Medha Patekar, it opposed the Narmada river valley project.</li>
+<li style="padding-left:2em">&#9702; It has emphasized upon the social, environmental and economic risks associated with such projects. It also brings focus on issues such as forced displacement.</li>
+<li style="padding-left:2em">&#9702; It has directly contributed to the introduction of tools such as environmental and social assessments of major projects as well as the incorporation of specific guidelines to resettle and rehabilitate the displaced communities.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Silent Valley Movement</strong>
+<ul>
+<li style="padding-left:2em">&#9702; A series of protests took place in the Silent valley to protect the ecology, he dense tropical and temperate forests and against hydro-electricity projects planned for this region.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Appiko Movement</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It emerged in the Uttara Kannada district of Karnataka with the following objectives-
+<ul>
+<li style="padding-left:4em">&#9632; Restoring forests in the denuded areas</li>
+<li style="padding-left:4em">&#9632; Protecting existing forest cover</li>
+<li style="padding-left:4em">&#9632; Utilizing forest wealth with consideration for the conservation of natural resources</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Like the Chipko movement, it was the grassroots movement of local communities against the degradation of natural forests due to infrastructure development, industrial expansion and commercial exploitation.</li>
+</ul>
+</li>
+</ul>
+<h3>Nature of India&#8217;s environmental movement</h3>
+<ul>
+<li>&#8226; These began as localized movements but coalesced into national environmental alliance.</li>
+<li>&#8226; They have been non-violent movements which relied on constitutional methods.</li>
+<li>&#8226; They have strong democratic credentials as most of them are grassroots movements and they believed in the democratic rights of the local communities.</li>
+<li>&#8226; They represent synthesis between modern science and traditional knowledge.</li>
+<li>&#8226; These movements have been able to attract large number of NGOs and groups, both domestic and foreign.</li>
+<li>&#8226; India&#8217;s environmental movement has remained constructive rather than obstructive when it comes to economic development. They have found creative solutions to solve the dilemma of growth versus environmentalism by adopting the strategy of sustainable development with the focus on conservation and inclusivity.</li>
+</ul>
+<h2>Nehru&#8217;s Foreign Policy</h2>
+<ul>
+<li>&#8226; <strong>War with Pakistan</strong></li>
+<li>&#8226; <strong>Border disputes</strong></li>
+<li>&#8226; <strong>Cold war era</strong></li>
+<li>&#8226; <strong>Need of foreign aid</strong></li>
+<li>&#8226; <strong>To transform India into a world leader</strong></li>
+<li>&#8226; <strong>To influence international relations with a view to combat colonialism and racism</strong></li>
+<li>&#8226; <strong>To prevent global conflict</strong></li>
+</ul>
+<h3>Background of Nehru&#8217;s foreign policy</h3>
+<ul>
+<li>&#8226; In 1927, Nehru became Congress&#8217; foreign representative. He travelled extensively including to the International Decolonisation Conference (1927), Soviet Union and also to several Asian and African colonies.</li>
+<li>&#8226; He was also fully inspired by socialism as well as to its ideological opposition to colonialism and racism.</li>
+<li>&#8226; He was deeply inspired by Gandhian principles including non-violence and self-rule.</li>
+</ul>
+<h3>Nehru&#8217;s foreign policy principles</h3>
+<ul>
+<li>&#8226; Non-alignment- it stood for political neutrality in the Cold war.
+<ul>
+<li style="padding-left:2em">&#9702; In the era of bloc politics, Nehru advocated the third path distinct from both capitalism and communalism which stood for equal cooperation with both superpowers for economic development.</li>
+</ul>
+</li>
+<li>&#8226; Panchsheel- He outlined principles on the basis of which international relations especially between neighbours could be conducted.
+<ul>
+<li style="padding-left:2em">&#9702; Mutual non-aggression</li>
+<li style="padding-left:2em">&#9702; Mutual respect of international boundaries and territorial sovereignty</li>
+<li style="padding-left:2em">&#9702; Mutual non-interference in each other&#8217;s&#8217; internal affairs</li>
+<li style="padding-left:2em">&#9702; Equality and cooperation for mutual benefit</li>
+<li style="padding-left:2em">&#9702; Peaceful co-existence.</li>
+</ul>
+</li>
+<li>&#8226; Decolonisation- Nehru envisioned a world free of colonialism and India as a leader of the newly decolonised countries.
+<ul>
+<li style="padding-left:2em">&#9702; He condemned French aggression in Africa and South East Asia after the Second World War.</li>
+<li style="padding-left:2em">&#9702; He also condemned the joint British and French invasion of Egypt in 1956.</li>
+<li style="padding-left:2em">&#9702; In 1947, he laid the foundations of the Asian Relations Conference at its first summit at Delhi.</li>
+<li style="padding-left:2em">&#9702; The Asian Relations Conference represented the assertion of newly independent countries to determine their own fate free from superpower influence.</li>
+<li style="padding-left:2em">&#9702; At the Bandung Conference in 1955, Nehru floated the creation of the non-aligned movement.</li>
+<li style="padding-left:2em">&#9702; In 1956, first summit of NAM took place in Belgrade.</li>
+</ul>
+</li>
+<li>&#8226; International peace through dialogue- Nehru was subscriber of the idea that international disputes must be resolved through mutual dialogue.
+<ul>
+<li style="padding-left:2em">&#9702; During the Korean War, he emerged as the negotiator between the two sides.</li>
+</ul>
+</li>
+<li>&#8226; Internationalism- Nehru was a supporter of international institutions such as UNO, World Bank and IMF.
+<ul>
+<li style="padding-left:2em">&#9702; He unilaterally referred the Kashmir issue to the UN for resolution.</li>
+<li style="padding-left:2em">&#9702; Similarly, the Indus Water Treaty (1960) was finalised between India and Pakistan through the World Bank.</li>
+<li style="padding-left:2em">&#9702; At the same time, Nehru was not a pacifist. While he did not believe in the violent resolution of disputes, he also felt that national defence is the most important objective of foreign policy.</li>
+<li style="padding-left:2em">&#9702; As such, in 1948, he laid the foundations of the Atomic Energy Cooperation and in 1949, he laid the foundation of the National Defence Academy with the purpose of making India a nuclear state and to strengthen the armed forces respectively.</li>
+</ul>
+</li>
+</ul>
+<h3>Major Foreign Policy Moves</h3>
+<ul>
+<li>&#8226; <strong>London Declaration, 1950-</strong> India joined the Commonwealth and the British Commonwealth was renamed as the Commonwealth of Nations.</li>
+<li>&#8226; <strong>Delhi Pact, 1950-</strong> It was signed between Nehru and Liaqat Ali Khan.
+<ul>
+<li style="padding-left:2em">&#9702; It sought to resolve the disputes caused by the refugee crisis</li>
+</ul>
+</li>
+<li>&#8226; <strong>Asian Relations Conference, 1947</strong></li>
+<li>&#8226; <strong>Non-Aligned Movement, 1956</strong></li>
+<li>&#8226; <strong>Panchsheel Agreement, 1956</strong></li>
+<li>&#8226; <strong>India-China war, 1962</strong></li>
+</ul>
+<h3>Assessment of Nehruvian foreign Policy</h3>
+<p><strong>Pros</strong></p>
+<ul>
+<li>&#8226; Nehru&#8217;s Foreign policy operated along a predictable path. This instilled confidence among other countries with respect to Nehru.</li>
+<li>&#8226; Nehru&#8217;s policy of decolonisation anti-apartheid and non-alignment presented India as a natural leader of the third world countries.</li>
+<li>&#8226; The success of humanity&#8217;s second experiment with internationalism (the UN) was in large part due to Nehru&#8217;s belief in its effectiveness.</li>
+<li>&#8226; India was able to obtain developmental assistance and cooperation from both superpowers without sacrificing her strategic autonomy.</li>
+<li>&#8226; Nehruvian insistence on strong national defence played a direct role in India&#8217;s future military success against Pakistan.</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+<li>&#8226; However, one of the biggest weaknesses of Nehruvian internationalism was its idealism as reflected by Indo-China war as well as the internationalisation of the Kashmir issue.</li>
+<li>&#8226; Non-Alignment was seen as defiance of their influence by both superpowers thus their attitude towards India remained cool bordering on hostility.</li>
+<li>&#8226; Nehru&#8217;s decision to abstain from UN resolution number 48 which named China one of the aggressors during the Korean War was seen by Americans as opportunism. Nehru had clearly acted to protect neutrality at the cost of the truth. Consequently, Pakistan became a member of SEATO and received American aid and acted against India with impunity.</li>
+</ul>
+<h2>Communalism Post-independence</h2>
+<ul>
+<li>&#8226; When a community (either religious or non-religious) is feeling that its interests (social, economic, political and cultural) are not only distinct from the interests of other communities but also mutually antagonistic, a feeling of hatred, fear and competition manifests itself. Communalism refers to this feeling.</li>
+</ul>
+<h3>Background</h3>
+<ul>
+<li>&#8226; Communalism is a modern concept with respect to India as different religious communities may have shared an adversarial relationship in the past, assimilative character of Indian society overcame these differences through a lengthy process of cultural synthesis.</li>
+<li>&#8226; It was during British rule that communalism emerged as a major political trend. This was due to the following factors-
+<ul>
+<li style="padding-left:2em">&#9702; The decadal census from 1881 onwards divided Indians on the basis of religion.</li>
+<li style="padding-left:2em">&#9702; Divide and Rule policy adopted by the British following Revolt of 1857.</li>
+<li style="padding-left:2em">&#9702; Popular democracy based on first past the post system encouraged vote bank politics.</li>
+<li style="padding-left:2em">&#9702; Reservation based on separate electorates to religious minorities.</li>
+<li style="padding-left:2em">&#9702; Parties and groups such as Hindu Mahasabha, Arya Samaj, and the Muslim League regularly engaged in dangerous communal rhetoric.</li>
+<li style="padding-left:2em">&#9702; Mass communalisation during Khilafat movement.</li>
+<li style="padding-left:2em">&#9702; Series of communal riots during 1920s and 30s.</li>
+<li style="padding-left:2em">&#9702; Pakistan demand and the partition of India.</li>
+</ul>
+</li>
+</ul>
+<h3>Post-Independence</h3>
+<ul>
+<li>&#8226; Following partition, the government cracked down on right-wing Hindu groups following the assassination of Mahatma Gandhi. As a result, 1950s remained peaceful.</li>
+<li>&#8226; However, major communal riot at Jabalpur shocked the nation forcing the government to introduce new laws to increase security and clamp down on local leaders.</li>
+<li>&#8226; However, the 1960s remained disturbed.</li>
+<li>&#8226; 1970s were relatively peaceful with the emergency period being the most peaceful.</li>
+<li>&#8226; 1980s was a turning point for Indian communalism. The Shah Bano case, followed by the decision to open Babri Masjid to Hindu devotees was the greatest contributor to rising communalism.</li>
+<li>&#8226; 1990s witnessed communalism to reach its boiling point with issues such as Rath Yatra, cross-border terrorism, violence against Kashmiri pandits, Babri Masjid demolition and Bombay serious bomb blasts in 1993.</li>
+<li>&#8226; The government responded by setting up anti-terrorism task forces, introduced preventive detention laws and threatened down on suspicious activity at the local and national levels.</li>
+<li>&#8226; In the new millennium, the atmosphere was poisoned by the Godhra incidence and riots.</li>
+<li>&#8226; Since the 2010s, communal harmony has been threatened due to issues such as Love Jihad, cow protection, mob-lynching and fake reporting especially on social media.</li>
+</ul>
+<h3>Conclusion</h3>
+<p>Communalism has thus remained a persistent problem in Indian politic and requires a multi-pronged response including-</p>
+<ul>
+<li>&#8226; Improving the law and order machinery</li>
+<li>&#8226; Holding the perpetrators to account</li>
+<li>&#8226; Holding the local government functionaries responsible for being unable to stop communal rioting.</li>
+<li>&#8226; The immediate relief of affecting persons.</li>
+<li>&#8226; Organizing Mohalla committees including leaders from all communities, resolution of trivial disputes locally.</li>
+<li>&#8226; Enforcing reasonable restrictions on free speech especially incendiary speech in sensitive areas by political and community leaders.</li>
+<li>&#8226; Responsible and unbiased reporting of communal incidents in the media.</li>
+<li>&#8226; Spreading education and awareness especially among women.</li>
 </ul>`,
   'caste-ethnicity-post-1947': ``,
   'economic-development-political-change': `<h2>Land Revenue Reforms</h2>
