@@ -18712,8 +18712,489 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <tr><td>Movement under extremists remained politically and socially progressive.</td><td>Under extremists, movement displayed signs of social conservatism.</td></tr>
 </tbody>
 </table>`,
-  'gandhian-nationalism': ``,
-  'constitutional-developments': ``,
+  'gandhian-nationalism': `<h2>Swadeshi Movement</h2>
+<p>Swadeshi movement began against the partition of Bengal and was the first episode of mass movement experienced by Indian national struggle. The partition of Bengal was in the offing since at least 1901 and even nationalists had accepted it for its administrative efficiency. However, the manner in which this was done led to a widespread movement.</p>
+<h2>Partition of Bengal</h2>
+<h3>Reasons</h3>
+<ul>
+<li>&#8226; <strong>Official justification</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Bengal was too large for effective governance. The census of 1901 revealed the huge population of around 7.8 crores in Bengal.</li>
+<li style="padding-left:2em">&#9702; The Bengal province consisted of present day Bangladesh, West Bengal, Bihar, Jharkhand, Odisha as well as North East India which indeed was a huge province to manage.</li>
+<li style="padding-left:2em">&#9702; Thirdly, concern for administrative efficiency was shown as the major necessity for the partition.</li>
+</ul>
+</li>
+<li>&#8226; <strong>To weaken the national movement- Sumit Sarkar</strong> argues that administrative concern was supreme only until 1903 because-
+<ul>
+<li style="padding-left:2em">&#9702; Even nationalists were in favour of the partition of Bengal and they had even proposed its linguistic reorganization which would separate Hindi speaking regions from Bengali speaking regions.</li>
+<li style="padding-left:2em">&#9702; But in 1903, Viceroy Curzon had released the minute of Bengal`s partition and religion was made the basis for partition-
+<ul>
+<li style="padding-left:4em">&#9632; Bengal with its capital would consist of- West Bengal, Bihar and Odisha</li>
+<li style="padding-left:4em">&#9632; East Bengal with its capital at Dhaka would consist of- Bangladesh and North-East India.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>But Curzon had clearly stated his intentions that Congress was run from Calcutta and to weaken Calcutta means to weaken the Congress.</p>
+<ul>
+<li style="padding-left:2em">&#9702; Therefore, Sumit Sarkar argues, the true intentions were-
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Divide and Rule-</strong> Division based on the religion would sow the seeds of communalism.</li>
+<li style="padding-left:4em">&#9632; <strong>Lord Minto</strong> even said that educated Bhadralok community of Bengal leads the national freedom struggle from Bengal and if it is weakened from within, the movement will die. Thus, he argued that in a new province of East Bengal the Muslims would enjoy a unity and in the West Bengal, Bengali speakers would become a minority.</li>
+<li style="padding-left:4em">&#9632; <strong>Home Secretary Herbert Risley</strong> also told that Bengal united is a power and divided will pull up in several different ways.</li>
+</ul>
+</li>
+</ul>
+<p>The partition of Bengal was formally announced on 19th July, 1905. Since moderates were already in discussions with administration, British government as well as activists through their modes of prayers, petitions, meetings and newspaper, the awareness regarding the issue was already there. With the failure of their methods, the extremists were ready to launch a mass movement.</p>
+<h3>Methods used by Extremists</h3>
+<p><strong>1. Boycott</strong></p>
+<ul>
+<li>&#8226; <strong>Boycott of British goods-</strong> It was an economic attack on colonialism. Public burnings of foreign clothes was organized, priests would not solemnize such marriages where foreign clothes were burned, washermen refused to wash British clothes. This method was the most successful one.</li>
+<li>&#8226; <strong>Boycott of British institutions</strong> (non-cooperation) such as schools, colleges, law courts etc. Call for self-reliance or as Rabindranath Tagore called it &#8216;Atma-Shakti&#8217; was given.</li>
+<li>&#8226; <strong>Civil Disobedience</strong> of certain laws and passive resistance. However, the latter two methods could not gain much popularity as neither leaders nor masses had enough experience regarding this.</li>
+</ul>
+<p><strong>2. Swadeshi</strong></p>
+<ul>
+<li>&#8226; <strong>Economic-</strong> It was related to boycott of goods as an alternate mechanism encouraged Indian goods such as textiles, chemicals, services etc.</li>
+<li>&#8226; <strong>Social-</strong> It refers to social aspect of Swadeshi. Thus focus was on strengthening rural communities, anti-untouchability programs, developing indigenous dispute settling bodies such as Swadesh Bandhab Samiti etc. The focus was on preparing the masses for action.</li>
+<li>&#8226; <strong>Cultural-</strong> It stood for the rejection of Western colonial symbols in favour of indigenous art forms, patriotic literature, songs such as Bande Mataram, Amar Sonar Bangla, paintings of Bharat Mata became highly popular.</li>
+</ul>
+<p><strong>3. National Education</strong></p>
+<ul>
+<li>&#8226; National curriculum, national schools were set up and even teachers were given training for teaching &#8216;Swadeshi&#8217; education to patriotic students.</li>
+<li>&#8226; Satishchandra Mukherjee`s Bhagabat Chatuspathi, the Dawn society, and Shantiniketan of Rabindranath Tagore became popular educational institutes.</li>
+</ul>
+<p><strong>4. Volunteer organizations</strong> also known as Samitis were formed which actually undertook the job of reaching the last person in order to spread the movement. They worked to spread awareness, resolve disputes and mobilize masses during processions and picketing.</p>
+<h2>MOVEMENT</h2>
+<h3>Spread and extent</h3>
+<ul>
+<li>&#8226; The movement was most active in Bengal
+<ul>
+<li style="padding-left:2em">&#9702; Here it attracted followers from several classes including professionals, workers, traders and businessmen, students and women.</li>
+</ul>
+</li>
+<li>&#8226; In 1906, under Extremist leadership, the movement spread beyond Bengal as well.
+<ul>
+<li style="padding-left:2em">&#9702; BG Tilak popularized it in Maharashtra with Poona and Bombay emerging as important centres of the movement.</li>
+<li style="padding-left:2em">&#9702; Lala Lajpat Rai and Ajit Singh popularized the movement in Punjab with Lahore emerging as an important centre.</li>
+<li style="padding-left:2em">&#9702; At Delhi, the Swadeshi movement was led by Syed Haider Raza.</li>
+<li style="padding-left:2em">&#9702; VO Chidambaram Pillai led the movement at Madras.</li>
+</ul>
+</li>
+<li>&#8226; Across India, the Swadeshi movement attracted support from students, workers, women, professionals and petty traders.
+<ul>
+<li style="padding-left:2em">&#9702; Mass rallies, public demonstrations and organized burning of foreign cloth met resounding practical success in cities.</li>
+</ul>
+</li>
+<li>&#8226; However, the response of <strong>rural India</strong> to the call of Swadeshi was lacklustre. This was due to the following factors-
+<ul>
+<li style="padding-left:2em">&#9702; The Extremists had not been able to link the political urges of rural India to the cities. While volunteer organizations had started becoming active in the Indian villages, their activities were still at the initial stages. In other words, the preparatory work needed to mobilize the rural masses was yet to be done.</li>
+<li style="padding-left:2em">&#9702; The movement also suffered due to a certain clash of interests between the aspirations of the rural peasants and the personal interests of the Congress leadership. Most of the Congress leaders either owned land in the villages or depended upon the support of the wealthy Zamindars of Bengal. Therefore, mobilizing the peasant for a political cause seemed like a dangerous proposition. As a result, Congress leadership was not very enthusiastic about mobilizing the peasants.</li>
+<li style="padding-left:2em">&#9702; Further, in Bengal, the class divide also overlapped with the communal divide. The bulk of Zamindars were Hindus, while peasants were Muslims. This was further compounded by the inability of the movement to attract Muslims due to it repeated appeal to Hindu religion and culture.</li>
+</ul>
+</li>
+<li>&#8226; The movement also failed to draw substantial support from <strong>Indian Muslims.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; This was largely due to the use of Hindu cultural symbols by the extremists to attract the masses. Muslim masses were automatically excluded.</li>
+<li style="padding-left:2em">&#9702; Secondly, a section of the Muslim political elite also opposed the Swadeshi movement on political grounds. Leaders such as Nawab Salimullah of Dhaka, Agha Khan, Mohsin ul Mulk and Waqar ul Mulk were satisfied with the creation of new Muslim majority provinces in Bengal. They felt that this was in the long term interests of the Bengali Muslim community. In June, 1906 they led a deputation to Shimla to meet the Governor General Lord Minto, pledge loyalty to the British rule and demanded further concessions for Indian Muslims. Later, in December, 1906 they laid the foundation of the Muslim League with the agenda to represent the interests of Indian Muslims. From the very beginning, they had a pro-British anti-Congress stance and did their best to undermine the Swadeshi movement in the eyes of ordinary Muslims.</li>
+</ul>
+</li>
+<li>&#8226; Swadeshi movement greatly benefitted from the <strong>active support of intellectuals and artists.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Rabindranath Tagore</strong> emerged as the intellectual grandfather of the Swadeshi movement. He popularized the idea of <strong>atma-shakti</strong> is the means to assert independence. It stood for inner strength, self-sufficiency and self-help. This became the motto behind <strong>Swadeshi and Swaraj</strong>. The former represented self-sufficiency while the latter stood for self-rule.</li>
+<li style="padding-left:2em">&#9702; Further, Rabindranath Tagore actively contributed to the building of strong cultural identity not only for the movement but for Bengalis and Indians as a whole. He wrote his famous song &#8216;Amar Sonar Bangla&#8217; which emerged as the unofficial anthem of the people of Bengal and stood for the solidarity between the two halves of Bengal.</li>
+<li style="padding-left:2em">&#9702; Other artists such as <strong>Abanindranath Tagore</strong> led the charge for creating patriotic art. He visualized India as a holy goddess in the form of Bharat Mata. Such symbols resonated powerfully with the masses transforming their struggle into a holy crusade against a foreign oppressor.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Students</strong> also participated in large numbers. This was despite the Carlyle circular which was designed to have a chilling effect on student participation.
+<ul>
+<li style="padding-left:2em">&#9702; The main reason behind this was the program of national education launched by the leaders which provided Swadeshi alternative to government schools and colleges and promised the inculcation of patriotic values within the framework of comprehensive education, sought to overcome technical deficits by adopting the best practices and technology of foreign allies such as Japan and offered legal protection from government repression.</li>
+</ul>
+</li>
+<li>&#8226; One highlight of the movement was the <strong>entry of women</strong> into nationalist politics- this was made possible due to the appeals and propaganda of the extremist leaders. They had successfully transformed the political struggle against British rule into a moral and religious struggle.
+<ul>
+<li style="padding-left:2em">&#9702; This normalized the participation of women in nationalistic politics since it was considered to be the part of the traditional role of women.</li>
+<li style="padding-left:2em">&#9702; Further, movement was also able to provide practical means for the participation of women including the Khadi program, peaceful picketing of shops selling foreign goods, boycott of liquor and public burning of foreign cloth.</li>
+</ul>
+</li>
+</ul>
+<h2>Practice Question</h2>
+<p><strong>Q. Throw light on the level of mass participation during the Swadeshi movement. How did it attract women and students? Why was it unable to draw out Muslims and peasants?</strong></p>
+<p>Swadeshi movement (1905-08) began as a struggle against the partition of Bengal in 1905 but soon, under the leadership of extremists in spread to various parts of the country thus becoming the first mass movement of Indian national movement.</p>
+<p>The Swadeshi movement was most active in Bengal because-</p>
+<ul>
+<li>&#8226; Firstly, the Bengal was the centre of nationalist awareness at that time and people were already mobilized upto a great extent,</li>
+<li>&#8226; Secondly, the partition of Bengal was directly affecting the people of Bengal.</li>
+</ul>
+<p>However, the movement also spread to other regions under the leadership of extremists leaders. For example-</p>
+<ul>
+<li>&#8226; BG Tilak was the leader of the movement in Bombay province.</li>
+<li>&#8226; Lala Lajpat Rai and Ajit Singh led the movement in Punjab.</li>
+<li>&#8226; It spread to Delhi under Syed Haider Raza</li>
+<li>&#8226; VO Chidambaram Pillai popularized it in Madras province</li>
+</ul>
+<p>The movement was successful in attracting students and women because of the following reasons-</p>
+<p><strong>Students&#8217;</strong> participation was very high because the youth was already more oriented towards patriotism and now found a platform to channelize its anger. Despite the Carlyle circular aimed at an attempt to check the student participation, the influence of national education models, curriculum and a chain of alternate Swadeshi schools was high and thus student participation remained to be significant.</p>
+<p><strong>Women&#8217;s</strong> entry into the freedom struggle was one of the biggest achievements of the Swadeshi movement. Extremist leaders were successful in transforming a political issue into a moral and religious one. Secondly, the movement provided practical means for women to participate into the movement. Now they could boycott the foreign goods, use khadi or spinning and weaving, participate in picketing.</p>
+<p>But Muslim and peasants&#8217; participation was poor on account of the following reasons-</p>
+<p><strong>Muslims-</strong> One reason was that extremist leaders used religious symbols which kept the Muslims away. Secondly, Muslim leaders and intelligentsia fell prey to the British policy of divide and rule. A delegation of Nawab Salimullah of Dhaka, Waqar ul Mulk, Mohsin ul Mulk and Agha Khan met the Governor General Minto in Shimla and ultimately it led to the establishment of Muslim League which was pro-British anti-colonial in its approach.</p>
+<p><strong>Peasants` participation</strong> was not great because</p>
+<ul>
+<li>&#8226; Rural areas were not yet efficiently mobilized</li>
+<li>&#8226; Class interests of Zamindar or pro-zamindar leaders clashed with those of the peasants.</li>
+<li>&#8226; In Bengal, class interest overlapped with communalism as peasants were mostly Muslims and Zamindars mainly came from Hindus.</li>
+</ul>
+<p>The importance of Swadeshi cannot be gauged merely from the fact how great its spread was but it should be understood that it laid the broad framework under which Gandhian movement thrived later.</p>
+<h2>Reasons for the failure of the Swadeshi movement</h2>
+<ul>
+<li>&#8226; It was unsuccessful in attracting the peasants and Muslims. As a result, it lacked the necessary strength and cohesion.</li>
+<li>&#8226; The methods adopted during the Swadeshi movement were new and unfamiliar.
+<ul>
+<li style="padding-left:2em">&#9702; Neither the leaders nor the masses had any prior experience of organizing a mass struggle and strategies such as passive resistance, non-cooperation and boycott were being experimented with for the first time.</li>
+<li style="padding-left:2em">&#9702; It was difficult to put some of these ideas into practice.</li>
+</ul>
+</li>
+<li>&#8226; All mass struggles have certain inherent limitations and Swadeshi movement was also not immune to them.
+<ul>
+<li style="padding-left:2em">&#9702; It lacked cohesive leadership due to the deep ideological difference between moderates and extremists,</li>
+<li style="padding-left:2em">&#9702; The masses had limited ability to make sacrifices with no rewards in sight and the practical realities of life began catching up as the movement dragged on for years.</li>
+<li style="padding-left:2em">&#9702; Generally it was a significant lack of political unity among the masses as Indian society was heavily divided and stratified.</li>
+</ul>
+</li>
+<li>&#8226; Bitter government repression
+<ul>
+<li style="padding-left:2em">&#9702; The British were determined to crush the movement. They began by suspending civil liberties such as free speech, free movement and assembly.</li>
+<li style="padding-left:2em">&#9702; They criminalized the chanting of patriotic slogans and songs such as Bande Mataram.</li>
+<li style="padding-left:2em">&#9702; They used the sedition law to target the leaders</li>
+<li style="padding-left:2em">&#9702; The masses were threatened with police brutalities such as lathicharge, mass arrests, and preventive detention.</li>
+<li style="padding-left:2em">&#9702; Students were especially targeted in order to create a chilling effect on the movement as a whole and not even women were spared from police brutalities.</li>
+<li style="padding-left:2em">&#9702; In such a scenario, it was very difficult to sustain the mass struggle in any meaningful way.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Surat Split (1907)</strong>
+<p>The Surat split refers to the expulsion of the extremists from the Congress at its Surat session in 1907. It gave a death blow to the Swadeshi movement and slowed down national movement as a whole. Superficially, this development seems surprising but closer observation reveals that it was largely inevitable.</p>
+<ul>
+<li style="padding-left:2em">&#9702; The Surat split was simply the physical manifestation of the ideological division of the Congress. It was bound to happen sooner or later.</li>
+<li style="padding-left:2em">&#9702; It was the pressure created by the Swadeshi movement that brought about the split in 1907.</li>
+</ul>
+</li>
+</ul>
+<h2>Factors behind the Surat split</h2>
+<ul>
+<li>&#8226; Ideological differences between the moderates and extremists.
+<ul>
+<li style="padding-left:2em">&#9702; Moderates and Extremists had wide ideological gulf dividing them. Their opinions differed on almost all issues pertaining to the national struggle.</li>
+<li style="padding-left:2em">&#9702; Moderates preferred to stick to constitutional methods while Extremists favoured passive resistance involving the masses.</li>
+<li style="padding-left:2em">&#9702; The objective of the moderates was simply the annulment of partition alongwith incremental constitutional reforms whereas the Extremists wanted Swaraj.</li>
+<li style="padding-left:2em">&#9702; Moderates wanted to keep the movement confined to Bengal but the extremists wanted to spread it across India.</li>
+<li style="padding-left:2em">&#9702; Similarly, moderates wanted simply the idea of economic boycott while the extremists wanted to extend boycott to the level of general non-cooperation with the British rule.</li>
+</ul>
+</li>
+<li>&#8226; The numerical disparity between the moderates and extremists.
+<ul>
+<li style="padding-left:2em">&#9702; While the moderates had majority of numbers within the Congress, the extremists enjoyed much higher popularity among the masses.</li>
+<li style="padding-left:2em">&#9702; Swadeshi movement being an extremist led movement frustrated the moderates and was bound to cause friction.</li>
+<li style="padding-left:2em">&#9702; Moderates used their numerical advantage to slow down the movement. This caused suspicion in the minds of the extremists.</li>
+</ul>
+</li>
+<li>&#8226; Increasing an open hostility between the moderates and extremists.
+<ul>
+<li style="padding-left:2em">&#9702; The extremists used their public platform not only to condemn British misrule but also to paint moderates as loyalist, patriotic and political mendicants.</li>
+<li style="padding-left:2em">&#9702; Aurobindo Ghosh published a series of essays titled &#8216;New Lamps for the old&#8217; which criticized in a bitter and sarcastic fashion not only the moderate method but also the moderate leadership personally.</li>
+<li style="padding-left:2em">&#9702; Naturally this caused personal rancour between the two factions. The relationship suffered grievously gradually reaching the breaking point.</li>
+<li style="padding-left:2em">&#9702; This hostility ended any hopes for a future compromise as both groups became increasingly adamant.</li>
+<li style="padding-left:2em">&#9702; These weaknesses were exploited by the British to bring about the Surat split.</li>
+</ul>
+</li>
+</ul>
+<h2>Build up towards the Surat split</h2>
+<p>To appreciate the events in Surat in December 1907 we must go back all the way to the beginning of the Swadeshi movement since this created domino effect that would ultimately destroy Congress&#8217; unity.</p>
+<ul>
+<li>&#8226; <strong>Banaras session (1905), Gopal Krishna Gokhale-</strong> the movement had started in August, 1905 and was still gaining momentum when the session was in place.
+<ul>
+<li style="padding-left:2em">&#9702; Moderates used their numerical advantage to try and retard the movement</li>
+<li style="padding-left:2em">&#9702; Under Gokhale&#8217;s Presidency, the Congress adopted mild resolutions condemning the partition of Bengal and calling for limited program i.e. economic boycott within Bengal.</li>
+<li style="padding-left:2em">&#9702; This frustrated the extremist greatly who wanted to control the Congress agenda and wield it as weapon in the Swadeshi movement.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Calcutta Session (1906), Dadabhai Nauroji-</strong> During 1906, the Swadeshi movement had emerged as powerful All India mass movement.
+<ul>
+<li style="padding-left:2em">&#9702; The national movement as a whole had perceptively slipped out of the moderate grasp and the extremists had upper hand.</li>
+<li style="padding-left:2em">&#9702; The moderates had increasing pressure to respond to the extremist agenda in a positive manner.</li>
+<li style="padding-left:2em">&#9702; As a compromise, Dadabhai Nauroji was respected by both sides and was elected as President in place of BG Tilak or Lala Lajpat Rai who the extremists wanted. In return, the Congress adopted more radical stance towards the British with four resolutions-
+<ul>
+<li style="padding-left:4em">&#9632; Swaraj- Congress officially raised the demand of Swaraj for the first time. While it was generally understood as &#8220;self-rule within the British Empire&#8221; like the white colonies of Canada and Australia, it was not clearly defined. This vagueness resulted in emergence of radically differing interpretations. This caused even greater faction between the moderates and extremists.</li>
+<li style="padding-left:4em">&#9632; Swadeshi- Congress adopted Swadeshi as the means to attain Swaraj. For the moderates it meant promotion of Swadeshi economic enterprises only. On the other hand, the extremists supported a more comprehensive version involving political, economic, social, cultural and psychological self-sufficiency. They wanted complete decolonization of India and the uprooting of Western influence.</li>
+<li style="padding-left:4em">&#9632; Boycott- Congress resolved boycott not only of British goods but also British institutions and services such as schools, colleges, law courts legislatures and councils. However, this was a bitter pill for the moderates to swallow.</li>
+<li style="padding-left:4em">&#9632; National education- The Congress resolved to promote national education involving both literary and technical education in the vernacular medium. Its objective was to liberate India from the ideological domination of the British rule and inspire cultural pride and nationalism. Once again, moderates felt arm-twisted.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Surat session (1907), Rash Behari Ghosh-</strong> During 1906-07, new developments had taken place which shifted the political discourse and brought about the split. These included
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Meeting of Gokhale with Montague-</strong> Montague travelled to Britain at the invitation of the Secretary of state for India. He was assured of Constitutional reforms if the moderates withdrew their support for the Swadeshi movement.</li>
+<li style="padding-left:2em">&#9702; <strong>Shimla deputation and formation of the Muslim League in 1906-</strong> Creation of the Muslim League and the demand for the separate electorates exposed chinks in the armour of Indian nationalism and strengthened the anti- extremist alliance.</li>
+<li style="padding-left:2em">&#9702; <strong>Arrest and deportation of Ajit Singh and the exile of Lala Lajpat Rai in 1907-</strong> The government crackdown in Punjab was meant to rattle the moderates to quickly disavowing political extremism to end the demand of the Swaraj.</li>
+</ul>
+</li>
+<li>&#8226; Due to these, the moderates were anxious to distance themselves from the extremists and roll back the movement. On the other hand, the extremists are becoming even more radical with Aurobindo Ghosh putting the idea of complete independence and mass civil disobedience. Once again, extremists wanted either Tilak or Lala Lajpat Rai to be President. The latter was intimidated by exile while the former was eliminated by organizing the session at Surat which was in Tilak&#8217;s native province of Bombay instead of Nagpur (CP) as the extremists had been demanding.</li>
+<li>&#8226; The two sides met at Surat in a charged atmosphere. The moderates elected Rash Behari Ghosh and quickly resolved to withdraw the four resolutions of 1906.</li>
+<li>&#8226; This caused the outbreak of physical violence following which police was called in to physically expel the extremists. After this, the moderates passed a resolution for permanently expelling the extremists from Congress. For this amendments were made to the Congress constitution which made their re-entry virtually impossible if the moderates did not wish so.</li>
+</ul>
+<h2>The government approach</h2>
+<p>Beginning of the Swadeshi movement and its popularity alarmed the British. Their tried and tested policy of divide and rule had backfired.</p>
+<ul>
+<li>&#8226; They were desperately searching for an alternative approach. The ideological differences within the Congress exposed it. The British, wanting to capitalize adopted the &#8216; carrot and stick policy&#8217; that was to be implemented in three stages-
+<ul>
+<li style="padding-left:2em">&#9702; Mild repression-They mildly repressed the extremist movement in Punjab. This was done primarily to terrify the moderates.</li>
+<li style="padding-left:2em">&#9702; Conciliation- Moderates were conciliated to indications of upcoming liberal reforms if they distance themselves from the extremists.</li>
+<li style="padding-left:2em">&#9702; Isolation and suppression- Once the moderates withdrew their support from the Swadeshi movement, the extremists would become isolated and the British could ruthlessly suppress the movement without any resistance.</li>
+</ul>
+</li>
+<li>&#8226; The carrot and stick approach succeeded where the divide and rule policy had failed. Swadeshi movement was left leaderless following the large scale arrest of extremist leaders.</li>
+<li>&#8226; The moderates did not try to defend the extremists, resulting in stiff sentences and mass deportations.
+<ul>
+<li style="padding-left:2em">&#9702; Tilak was deported to Mandalay for six years while Aurobindo Ghosh was forced to retire from active politics.</li>
+<li style="padding-left:2em">&#9702; The Surat split thus directly caused the demise of Swadeshi movement.</li>
+</ul>
+</li>
+<li>&#8226; Further, Indian nationalism was pushed into a lengthy phase of dormancy. While moderates were the shield of the movement, the extremists were its sword.
+<ul>
+<li style="padding-left:2em">&#9702; Following the end of the Swadeshi movement, no mass movement was launched for almost a decade.</li>
+<li style="padding-left:2em">&#9702; With the extremist out of the picture, the British would simply ignore the moderates and progress on the nationalist demand remained virtually non-existent.</li>
+</ul>
+</li>
+</ul>
+<p>The Surat split and the demise of Swadeshi filled the younger nationalists with a sense of disenchantment and despair.</p>
+<ul>
+<li style="padding-left:2em">&#9702; They drifted apart from both political moderation and extremism towards the use of revolutionary methods.</li>
+</ul>
+<p>Surat split also imparted a tough lesson to future nationalists.</p>
+<ul>
+<li style="padding-left:2em">&#9702; The Congress realized that the split has caused immense damage and was determined to prevent it in future. This determination allowed the Congress leadership to preserve unity during the Swarajist controversy and the post-CDM strategic debate (1934-37).</li>
+</ul>
+<h2>Practice Questions</h2>
+<p><strong>Q. Discuss the factors responsible for the Surat split. How did the split manifest since the beginning of the Swadeshi movement?</strong></p>
+<p>Surat split exposed the existing divisions among the Congress leaders which became highlighted on the issue of partition of Bengal and the method to oppose it. It led not only to the bifurcation of the Congress but also delayed the freedom movement.</p>
+<p>Factors responsible for the Surat split-</p>
+<ul>
+<li>&#8226; Ideological differences between the moderates and the extremists- While moderates were talking of constitutional methods to secure annulment of partition of Bengal, extremists wanted passive resistance to attain Swaraj.
+<ul>
+<li style="padding-left:2em">&#9702; Secondly, moderates wanted to confine it to Bengal but extremists wanted to spread it across India.</li>
+</ul>
+</li>
+<li>&#8226; The numerical disparity between moderates and extremists- Moderates were numerically superior to extremists within the Congress but extremist leaders had much greater popularity among masses.</li>
+<li>&#8226; Increasing hostilities among moderates and extremists- Leaders such as Aurobindo Ghosh openly criticized moderate methods as well as leadership bitterly and sarcastically.</li>
+<li>&#8226; Government&#8217;s role- Government used its carrot and stick policy to convince moderates of constitutional reforms, then taking action against extremists to scare them and finally to crush extremists by unleashing the legal and administrative powers.</li>
+</ul>
+<p>Split&#8217;s manifestation could clearly be seen atleast from 1905 even if its elements were present since the beginning-</p>
+<ul>
+<li>&#8226; Banaras session (1905), GK Gokhale- under Gokhale&#8217;s Presidency, the Congress adopted mild resolutions condemning the partition and called for limited program in contradiction to extremists&#8217; demands.</li>
+<li>&#8226; Calcutta session (1906) the conflict began on the issue of the election of President in which extremists wanted either BG Tilak or Lala Lajpat Rai.
+<ul>
+<li style="padding-left:2em">&#9702; The Swadeshi movement had gone in the favour of extremist and under increasing pressure, moderates pushed for Dadabhai Nauroji&#8217;s name for Presidency.</li>
+<li style="padding-left:2em">&#9702; As he was widely respected, moderates did not oppose him but Congress had to accept radical resolution of- Swaraj, Swadeshi, Boycott and national education.</li>
+</ul>
+</li>
+<li>&#8226; Surat session (1907): By this time, British government had talked to moderate leaders assuring them of some Constitutional reforms.
+<ul>
+<li style="padding-left:2em">&#9702; Secondly, government&#8217;s attempted crackdown on Extremist leaders such as Lala Lajpat Rai had strengthened moderates.</li>
+<li style="padding-left:2em">&#9702; The moderates elected Rash Behari Ghosh and withdrawal of four resolutions led to physical altercation between moderated and extremists. This led to the infamous Surat split.</li>
+</ul>
+</li>
+</ul>
+<p>Surat split worked as a break on the freedom struggle for almost a decade but it also imparted an important lesson of organizational unity which helped Congress later.</p>
+<p><strong>Q. The carrot and stick policy succeeded where the divide and rule policy had failed. In the context of this statement, discuss the significance of the Surat split.</strong></p>
+<p>The divide and policy was the most formidable tool in the hands of British owing to religious-linguistic-regional diversities in India. However during Swadeshi movement, despite all attempts from the above its popular appeal could not be reduced thus forcing British to devise a new policy.</p>
+<p><strong>Failure of divide and rule policy</strong></p>
+<p>Muslims leaders and intelligentsia fell prey to the British. A delegation of Nawab Salimullah, Waqar ul Mulk, Mohsin ul Mulk and Agha Khan met the Governor General Minto in Shimla and ultimately it led to the establishment of Muslim League which was pro-British anti-Congress organization.</p>
+<p>Despite low participation from Muslims, overall movement had gathered a strong momentum and thus &#8216;divide and rule policy&#8217; could not succeed.</p>
+<p><strong>Carrot and stick policy</strong></p>
+<p>The failure of divide and rule policy led to the emergence of carrot and stick policy which was implemented in the following manner-</p>
+<ul>
+<li>&#8226; Mild repression- They mildly repressed the extremist movement in Punjab in order to terrify the moderates.</li>
+<li>&#8226; Conciliation- Moderates were conciliated to indications of upcoming liberal reforms if they distance themselves from the extremists.</li>
+<li>&#8226; Isolation and suppression- Once the moderates withdrew their support, the extremists would become isolated and the British could ruthlessly suppress the movement without any resistance.</li>
+</ul>
+<p>This approach succeeded as the Swadeshi movement was left leaderless following the large scale arrest of extremist leaders. The moderates did not try to defend the extremists resulting in stiff sentences and mass deportations.</p>
+<p>Thus, carrot and stick policy was a new weapon which helped moderates greatly but on the other hand, it seems to be the extension of the divide and rule policy in which ultimately mutual discontent was utilized to divide moderates and extremists.</p>
+<h2>Significance of Swadeshi Movement</h2>
+<p>In many ways, the Swadeshi movement represented a new beginning in the nationalist struggle.</p>
+<p>1. It announced the beginning of All India mass politics. In the future, the masses would continue to play a massive role in the national movement.</p>
+<p>2. The Swadeshi movement also marked the beginning of the extremist phase of Indian politics. Leadership permanently slipped out of the grip of the moderates.</p>
+<p>3. The Swadeshi movement gave to Indian national movement new demands, new energy, new methods and a new power. This was due to the complete transformation of the model of politics brought out by this movement characterized by Swaraj, Swadeshi, boycott, passive resistance, mass participation and anti-colonialism.</p>
+<p>4. This movement prepared the template for the future of Indian nationalism. It acted as the laboratory for testing out new methods and strategies such as boycott and Swadeshi with mass support. These strategies would be perfected by later nationalists such as Mahatma Gandhi and was used more effectively.</p>
+<p>5. The Swadeshi movement also gave nationalists a new tool for mass mobilization, namely cultural and religious symbols. This would become a permanent picture of Indian nationalism. However, it was a double edged sword.</p>
+<ul>
+<li style="padding-left:2em">&#9702; Its raw appeal could draw millions to the streets but it also contributed to the communalization of Indian politics.</li>
+</ul>
+<p>6. Swadeshi also exposed the internal fissures within he national movement exposing it to the British policy of divide and rule these included the deep divide between-</p>
+<ul>
+<li style="padding-left:2em">&#9702; Moderates and extremists</li>
+<li style="padding-left:2em">&#9702; Hindus and Muslims</li>
+<li style="padding-left:2em">&#9702; The Westernized upper middle class the deeply patriotic lower middle class</li>
+<li style="padding-left:2em">&#9702; Linguistic and caste divides.</li>
+</ul>
+<p>As a result, future nationalists, particularly Mahatma Gandhi had to adopt measured and cautious strategy to simultaneously challenge British rule and overcome internal division among Indians. In other words, the national struggle and nation building would have to be carried out hand in hand. This was why Mahatma Gandhi adopted a strategy that sought to prioritize the primary contradiction between Indian nationalism and British imperialism over secondary contradictions within Indian nationalists. This strategy resulted in ideas such as class cooperation, trusteeship, anti-untouchability and emphasis on cultural unity.</p>
+<h2>Practice Question</h2>
+<p><strong>Q. Discuss the features of the Swadeshi movement and highlight the significance to the national struggle as a whole.</strong></p>
+<p>Swadeshi movement started in around 1905 against the partition of Bengal which became a transitionary moment in Indian struggle where the national freedom movement came out of a limited political programme to a popular mass struggle.</p>
+<p>Features of the Swadeshi movement-</p>
+<ul>
+<li>&#8226; <strong>Extremist movement-</strong> it began the period of dominance of extremists which lasted for a short period but created the ground for radical demands.</li>
+<li>&#8226; <strong>Mass movement-</strong> In Swadeshi, the method of protest shifted to mass struggle. Masses participated in huge numbers in rallies and meetings.</li>
+<li>&#8226; <strong>Extra-Constitutional methods</strong> such as boycott, picketing etc. were adopted as the mode of protest.</li>
+<li>&#8226; <strong>Radical demands</strong> such as Swaraj and Swadeshi were made which broke the earlier hesitation of moderate leaders.</li>
+<li>&#8226; <strong>All India Movement-</strong> unlike previous protests, Swadeshi was the first pan-India movement thus strengthening the feelings of nationalism.</li>
+<li>&#8226; <strong>Trendsetter-</strong> Swadeshi set the trend for future movements which were later experimented and refined by Mahatma Gandhi.</li>
+<li>&#8226; <strong>Muslims and Peasants</strong> were absent from the movement to a great extent. Partially because of lack of class consciousness and partially because of British policy, the movement revolved around lower middle class urban Indians.</li>
+<li>&#8226; <strong>Destroyed the unity of Indian nationalism-</strong> Moderate-Extremist schism led to the split in Congress at its Surat session in 1907.</li>
+<li>&#8226; <strong>Effective than Moderate movement</strong> as after this British had to bring Indian Councils Act, 1909 conceding significant powers to the India.</li>
+</ul>
+<h3>Significance of Swadeshi Movement to the national struggle</h3>
+<ul>
+<li>&#8226; It announced the beginning of All India mass politics. In the future, the masses would continue to play a massive role in the national movement.</li>
+<li>&#8226; The Swadeshi movement also marked the beginning of the extremist phase of Indian politics. Leadership permanently slipped out of the grip of the moderates.</li>
+<li>&#8226; The Swadeshi movement gave to Indian national movement new demands, new energy, new methods and a new power. This was due to the complete transformation of the model of politics brought out by this movement characterized by Swaraj, Swadeshi, boycott, passive resistance, mass participation and anti-colonialism.</li>
+<li>&#8226; This movement prepared the template for the future of Indian nationalism. It acted as the laboratory for testing out new methods and strategies such as boycott and Swadeshi with mass support. These strategies would be perfected by later nationalists such as Mahatma Gandhi and was used more effectively.</li>
+<li>&#8226; The Swadeshi movement also gave nationalists a new tool for mass mobilization, namely cultural and religious symbols. This would become a permanent picture of Indian nationalism. However, it was a double edged sword.
+<ul>
+<li style="padding-left:2em">&#9702; Its raw appeal could draw millions to the streets but it also contributed to the communalization of Indian politics.</li>
+</ul>
+</li>
+<li>&#8226; Swadeshi also exposed the internal fissures within he national movement exposing it to the British policy of divide and rule these included the deep divide between-
+<ul>
+<li style="padding-left:2em">&#9702; Moderates and extremists</li>
+<li style="padding-left:2em">&#9702; Hindus and Muslims</li>
+<li style="padding-left:2em">&#9702; The Westernized upper middle class the deeply patriotic lower middle class</li>
+<li style="padding-left:2em">&#9702; Linguistic and caste divides</li>
+</ul>
+</li>
+</ul>`,
+  'constitutional-developments': `<h2>Indian Council Act, 1909/ Morley Minto Reforms</h2>
+<blockquote>
+<p>Reforms may not save the Raj, but if they don&#8217;t, nothing else will- Lord Morley</p>
+<p>The reforms of 1909 afforded no answer, and could afford no answer to Indian problems- Montford Report.</p>
+<p>Political barrier was created round them, isolating them from the rest of India and reversing the unifying and amalgamating process which had been going on for centuries&#8230;.The barrier was a small one at first, for the electorates were very limited, but with every extension of franchise it grew and affected the whole structure of political and social life like some canker which corrupted the entire system- Jawaharlal Nehru.</p>
+</blockquote>
+<p>Indian Councils Act or Morley Minto reforms were Constitutional reforms drafted on the basis of the recommendations of a committee set up by Morley and Minto, Secretary of state for India and Governor General of India respectively.</p>
+<p>Background to the reforms-</p>
+<ul>
+<li>&#8226; Swadeshi Movement which had resulted in the intensification of nationalism. It had exerted higher pressure on the British to satisfy nationalist aspirations.</li>
+<li>&#8226; Promises of liberal reforms to the moderates had to be fulfilled. They had withdrawn from the Swadeshi movement on the promise of Constitutional reforms.</li>
+<li>&#8226; New opportunities had emerged for the British to divide and rule Indians. All India Muslim League with its demands of separate electorates had provided the chance to British.</li>
+<li>&#8226; A longstanding demand of the Indian Nationalists had been responsible self-rule. Although British were not serious about it but they had to create such an impression.</li>
+<li>&#8226; The British desired to create the appearance of introducing responsible government while expanding the apparatus of constitutional autonomy.</li>
+</ul>
+<h2>Important Provisions</h2>
+<ul>
+<li>&#8226; Size of the Imperial Legislative Councils and Provincial Legislative Councils was increased.
+<ul>
+<li style="padding-left:2em">&#9702; The Imperial Legislative Council was to retain an official majority.</li>
+<li style="padding-left:2em">&#9702; Provincial Legislative Councils were to have non-official non-elected majority.</li>
+</ul>
+</li>
+<li>&#8226; Power to discuss budget but could not vote upon it.
+<ul>
+<li style="padding-left:2em">&#9702; Legislators could only suggest amendments</li>
+<li style="padding-left:2em">&#9702; They could demand additional grants for local self-governing bodies</li>
+</ul>
+</li>
+<li>&#8226; Legislators had the power to ask supplementary questions on matters of public importance.</li>
+<li>&#8226; Elected members were to be elected indirectly by the local self-governing bodies in case of Provincial Legislative councils and provincial legislatures in case of the Imperial Legislative Council.</li>
+<li>&#8226; One Indian was to be elected to Governor General of India&#8217;s Executive Council. (First such member was Satyendra Prasad Sinha.</li>
+<li>&#8226; Two Indians were to be elected to Secretary of State for India&#8217;s India Council (KC Gupta and SH Bilgrami).</li>
+<li>&#8226; Franchise was limited in nature based on property and educational qualifications.</li>
+<li>&#8226; Separate electorates were granted to-
+<ul>
+<li style="padding-left:2em">&#9702; Zamindars</li>
+<li style="padding-left:2em">&#9702; Chambers of Commerce, Bombay</li>
+<li style="padding-left:2em">&#9702; Chambers of Commerce, Calcutta</li>
+<li style="padding-left:2em">&#9702; Indian Musalmans.</li>
+</ul>
+</li>
+</ul>
+<h2>Critical Evaluation</h2>
+<p>The Morley-Minto reforms filed to satisfy Indian nationalism due to its following limitations-</p>
+<ul>
+<li>&#8226; The Indian demand of responsible self-rule had been completely overlooked.</li>
+<li>&#8226; The Principle of Collective Responsibility which is the bedrock of a popular democracy was completely absent-
+<ul>
+<li style="padding-left:2em">&#9702; The legislatures had majority of official or appointed members</li>
+<li style="padding-left:2em">&#9702; They lacked financial or legislative control over the government.</li>
+</ul>
+</li>
+<li>&#8226; The existence of voting qualifications also weakened the notion of popular sovereignty.</li>
+<li>&#8226; The Governors and Governor General of India continued to exercise a wide array of discretionary powers such as
+<ul>
+<li style="padding-left:2em">&#9702; Power to issue ordinances</li>
+<li style="padding-left:2em">&#9702; Veto power</li>
+<li style="padding-left:2em">&#9702; Power to certify bills etc.</li>
+</ul>
+</li>
+<li>&#8226; The Act also failed to satisfy the demands of Indianizing the Civil Service reducing military and administrative expenditure.</li>
+<li>&#8226; It also failed to reduce the burden of taxation on peasants and to provide protection to Indian industries.</li>
+<li>&#8226; It also failed to address the issue of home charges. In fact, even the demand of separating the expenditure of the Secretary of State for India and his council from the Indian budget was ignored.</li>
+<li>&#8226; The introduction of Separate Electorates which was the basis for minority representation &#8216;institutionalised Communalism&#8217; in the words of Pt. Jawahar Lal Nehru.
+<ul>
+<li style="padding-left:2em">&#9702; Separate electorates emerged as the sticking point between the Muslim League and Congress.</li>
+<li style="padding-left:2em">&#9702; Other groups also began demanding separate electorates, causing further divisions in the Indian body politic.</li>
+<li style="padding-left:2em">&#9702; Separate electorates had the effect of disenfranchising vast majority of the electorate, thus causing conflict, anger and ill will. Gradually, this feeling fuelled the ideas of criticism, two-nation theory, the Pakistan demand ultimately resulting in a series of communal riots and partition.</li>
+<li style="padding-left:2em">&#9702; In fact, even post-independence, the generational trauma of these separate electorates continues to affect the present day society which has still not been able to completely able to overcome communalism.</li>
+<li style="padding-left:2em">&#9702; It was due to this that Morley later commented with regard to the separate electorates that &#8220;we have sown dragon&#8217;s teeth and the harvest is bound to be bitter.&#8221;</li>
+</ul>
+</li>
+<li>&#8226; The Act had a few redeeming features such as-
+<ul>
+<li style="padding-left:2em">&#9702; Larger legislature</li>
+<li style="padding-left:2em">&#9702; Right to discuss the budget and suggest amendments</li>
+<li style="padding-left:2em">&#9702; Right to ask supplementary questions</li>
+<li style="padding-left:2em">&#9702; Introduction of elections, atleast indirect, for the first time.</li>
+</ul>
+</li>
+<li>&#8226; However, these reforms were insignificant when viewed in the context of failures of the Act. Further, they reflect the lack of sincerity on the part of the British to introduce meaningful change.
+<ul>
+<li style="padding-left:2em">&#9702; In fact, they reveal a sinister motive namely the disguising of autocratic changes as liberal reforms. Perhaps this is why the Morley Minto reforms remained the shortest lived Constitutional mechanism introduced by the British in India.</li>
+</ul>
+</li>
+</ul>
+<h2>Practice Question</h2>
+<p><strong>Q. Discuss the factors responsible for the introduction of the Morley-Minto reforms. Is it true that they constitutionalized Communalism in India?</strong></p>
+<p>Morley-Minto reforms were necessitated by the nationalist upsurge in the first decade of the twentieth century. British manipulated the whole scenario by creating an impression of Constitutional reforms but in the end it proved worthy of none.</p>
+<p>Factors responsible for the introduction of the Morley-Minto reforms-</p>
+<ul>
+<li>&#8226; Swadeshi Movement which had resulted in the intensification of nationalism. It had exerted higher pressure on the British to satisfy nationalist aspirations.</li>
+<li>&#8226; Promises of liberal reforms to the moderates had to be fulfilled. They had withdrawn from the Swadeshi movement on the promise of Constitutional reforms.</li>
+<li>&#8226; New opportunities had emerged for the British to divide and rule Indians. All India Muslim League with its demands of separate electorates had provided the chance to British.</li>
+<li>&#8226; A longstanding demand of the Indian Nationalists had been responsible self-rule. Although British were not serious about it but they had to create such an impression.</li>
+<li>&#8226; The British desired to create the appearance of introducing responsible government while expanding the apparatus of constitutional autonomy.</li>
+</ul>
+<p>It constitutionalized the Communalism in India through the provision of <strong>Separate Electorates</strong> for Muslims.</p>
+<ul>
+<li>&#8226; It emerged as the sticking point between the Muslim League and Congress.</li>
+<li>&#8226; Gradually, other groups also began demanding separate electorates.</li>
+<li>&#8226; It disenfranchised a vast majority of the electorate ultimately causing conflict, anger and ill will. This gradually paved the way for communalism.</li>
+<li>&#8226; The issue has not been completely solved even till now and the issue of communalism keeps engulfing the whole India subcontinent.</li>
+</ul>
+<p>Neither could the Act prove worthy of any party but it also created communalism as the perpetual problem for the whole subcontinent. This was precisely why the Morley-Minto reforms remained to be the shortest living Act in India.</p>
+<p><strong>Q. We have sown the dragon&#8217;s teeth and the harvest is bound to be bitter. Discuss.</strong></p>
+<p>With regard to the provision of Separate Electorate in the Indian Councils Act of 1909, Lord Morley commented the above statement owing to its detrimental effect on Indian society, politics and British reputation.</p>
+<p>It was a dragon&#8217;s teeth because-</p>
+<ul>
+<li>&#8226; The Act constitutionalized the provision of separate electorate through which only Muslims franchise could elect the Muslim candidate from a legislative council.</li>
+<li>&#8226; Other groups also began demanding separate electorates, causing further divisions in the Indian body politic.</li>
+</ul>
+<p>Its harvest proved to be bitter because-</p>
+<ul>
+<li>&#8226; Gradually it led to frustration, anger and tensions leading to communalism.</li>
+<li>&#8226; Increasing communal riots ultimately led to partition of India.</li>
+<li>&#8226; Moreover, the problem of partition has become perpetual in whole Indian subcontinent with riots taking place often till the very present day.</li>
+<li>&#8226; This has led intellectuals and scholars to make British policies stand scrutiny of the day and has brought them disrepute.</li>
+</ul>
+<p>However, the role of Indian society in general and extremist leaders in particular should also be analyzed vis-&#224;-vis use of religious symbols and accepting religious diversity as religious differences.</p>
+<p>Thus, this dragon&#8217;s teeth are a challenge for the present times which now needs to be rooted out to reverse an ugly episode of Indian history.</p>`,
   'other-strands-national-movement': ``,
   'politics-separatism-partition': ``,
   'post-independence-consolidation': ``,
