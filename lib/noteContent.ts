@@ -17857,7 +17857,267 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; Kautilya and Kalidasa&#8217;s literature too represents the cultural unity of whole Bharat in a poetic manner.</li>
 <li>&#8226; Bhakti Movement infused a cultural-spiritual flavour to such a diverse nation based on same religious and cultural themes. It led to <strong>Cultural integration</strong> of India.</li>
 <li>&#8226; Foreign sources too have always talked about the region east of Indus as India, Hind or Hindustan.</li>
-</ul>`,
+</ul><h2 id="great-revolt-1857">Great Revolt of 1857</h2>
+<p>The revolt of 1857 is often regarded as a watershed of modern India history. It brought about permanent shift in the British colonial policy towards India.</p>
+<p>Further, the revolt has been a matter of intense historical discussion as different historians from the very beginning have interpreted its causes, nature and consequences through different perspectives.</p>
+<h2 id="causes-1857">Causes</h2>
+<h3 id="greased-cartridges">1. Issue of Greased Cartridges</h3>
+<p>Colonial historians such as LER Rees, James Outram and W. Taylor have identified the greased cartridges issue as the single most important cause for the mutiny of the sepoys.</p>
+<p>However, this reveals two important flaws in the colonial understanding-</p>
+<ul>
+<li>&#8226; The revolt was a simple sepoy mutiny</li>
+<li>&#8226; The mutiny was spontaneous and unexpected</li>
+</ul>
+<p>On the other hand, it becomes clear that the greased cartridge issue simply acted as the trigger that ignited sepoys. The gunpowder of resentment had been accumulating among Indians since the establishment of British rule.</p>
+<p>In fact, the revolt was not a spontaneous uprising. Deep seated resentment over economic, political, administrative, military and socio-cultural grievances had made it inevitable. It would have happened sooner or later. The greased cartridges issue simply ensured that it began as a sepoy mutiny.</p>
+<h3 id="economic-causes-1857">2. Economic Causes</h3>
+<p>The British policies of direct plunder, over-taxation, and deindustrialization, commercialization of agriculture and complete destruction of native commerce had totally destroyed the balance of traditional Indian economy and transformed it into a primarily agrarian and rural economy.</p>
+<p>British rule had become synonymous with famine, poverty, landlessness, deprivation, bonded labour and economic dependency.</p>
+<p>The peasants and artisans were the worst affected but apart from a small minority of urban merchants, the economic interests of India&#8217;s traditional Zamindars, merchants and bankers had also been hurt.</p>
+<p>Thus British colonial rule caused resentment among every section of the Indian society.</p>
+<h3 id="political-causes-1857">3. Political Causes</h3>
+<p>British adopted a deceitful attitude towards Indian rulers such policy of Ring fence, Effective control, Subsidiary alliance and Doctrine of Lapse. They either imposed an unequal alliance from them or annex their territory outright.</p>
+<ul>
+<li>&#8226; The British policy of imperialism during the initial phase also caused suspicion among Indian rulers.</li>
+<li>&#8226; The abolition of titles and pensions enjoyed by Indian rulers were perceived as broken promises. The annexation of Awadh on the pretext of misgovernance caused huge resentment among the rulers, taluqdars and the ordinary peasants. It was seen as a clear betrayal as Awadh had been a friendly British ally since 1765.</li>
+<li>&#8226; The people of the newly annexed regions felt immense resentment due to British economic exploitation and could easily remember the relative better times of native rule.</li>
+<li>&#8226; Further, the alien character of the British rule alienated Indians from it. Unlike previous foreign invaders, the British consciously avoided cultural assimilation with India. Rather, they were more interested in draining India&#8217;s wealth to Britain. Thus, British rule appeared permanently as foreign and exploitative to ordinary Indians.</li>
+<li>&#8226; The issue of <strong>absentee sovereigntyship</strong>- It was allowing British crown to relegate Indian affairs in the hands of a private company. This was leading to mal-administration and exploitation causing resentment among Indians.</li>
+</ul>
+<h3 id="administrative-causes-1857">4. Administrative Causes</h3>
+<ul>
+<li>&#8226; <strong>Institutional racial discrimination</strong>- The colonial administrative machinery was inherently racist. Indians were discriminated against in matters of appointment, salary, promotions, transfers, postings etc. For example
+<ul>
+<li style="padding-left:2em">&#9702; no Indian could aspire to enter civil services;</li>
+<li style="padding-left:2em">&#9702; no Indian in the army could attain a rank higher than Subedar;</li>
+<li style="padding-left:2em">&#9702; Indian soldiers received a salary that was on average five times lower than European counterparts of the same rank;</li>
+<li style="padding-left:2em">&#9702; the barracks and mess of Indian soldiers were separate and inferior to European soldiers;</li>
+<li style="padding-left:2em">&#9702; European officials routinely verbally and physically abused Indian soldiers often referring to them with derogatory names.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Replacement of Persian with English as the court language</strong>- In 1837 Persian was replaced by English as official language for all government business.
+<ul>
+<li style="padding-left:2em">&#9702; Earlier, the Muslim Ashrafia community (affluent class) which was fluent in Persian was employed as government officials. Suddenly, they lost their major source of income and were forced into penury.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Insensitivity of the administration and its alien character</strong>- the colonial administration was designed not to serve the Indians but to make their exploitation more efficient.
+<ul>
+<li style="padding-left:2em">&#9702; The machinery was guided by the objective of maximizing economic returns for the British and revenue.</li>
+<li style="padding-left:2em">&#9702; Thus, it emerged as the enforcer for the drain of wealth.</li>
+<li style="padding-left:2em">&#9702; Further, the administration maintained a clearly demarcated boundary between Europeans and Indians and made no attempt to win the trust of Indians.</li>
+<li style="padding-left:2em">&#9702; As a result, it assumed the character of an insensitive, exploitative and distinctly alien regime.</li>
+<li style="padding-left:2em">&#9702; Ordinary Indians felt no goodwill towards it. Rather, they felt extreme resentment.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Petty corruption</strong>- The lower level of administration is the first point of contact between the state and the people.
+<ul>
+<li style="padding-left:2em">&#9702; British administrative machinery that emphasized upon absolute control and the suppression of common aspirations provided an opportunity for petty officials such as low clerks, constables, watchmen, revenue assessors and accountants who freely exploit the people.</li>
+<li style="padding-left:2em">&#9702; Petty corruption was a major contributor towards the erosion of public trust in the colonial regime that caused deep seated resentment.</li>
+<li style="padding-left:2em">&#9702; Thus, British laws, courts, institutions and the police had an inherent anti-Indian bias.</li>
+<li style="padding-left:2em">&#9702; Thus, the large amount of civilian participation during the great revolt was not surprising.</li>
+</ul>
+</li>
+</ul>
+<h3 id="military-causes-1857">5. Military Causes</h3>
+<ul>
+<li>&#8226; <strong>Racial discrimination</strong> (as discussed earlier)</li>
+<li>&#8226; <strong>Sepoy was essentially a peasant in uniform.</strong> This discontent mirrored the general discontent of ordinary Indians. For example, the sepoys of Awadh were the largest section of rebels since Awadh had recently been annexed.</li>
+<li>&#8226; <strong>Rising religious tensions</strong>- Service in the companies&#8217; army was coming increasingly at odds with the religious preferences, beliefs and practice of the Indian sepoys.
+<ul>
+<li style="padding-left:2em">&#9702; British officials and chaplains openly mocked Hindu gods and the Islamic faith and pressurized soldiers to accept Christianity.</li>
+<li style="padding-left:2em">&#9702; The <strong>General Service Enlistment Act, 1856</strong> required that every new recruit would have to provide an undertaking that they would not refuse to serve abroad. This was in violation of the upper caste taboo against oversea travel.</li>
+<li style="padding-left:2em">&#9702; Thirdly, rumours that the British were mixing animal bone dust into the flour alarmed both Hindus and Muslim soldiers.</li>
+<li style="padding-left:2em">&#9702; Greased cartridges issue.</li>
+</ul>
+</li>
+<li>&#8226; The economic interests of Indian sepoys had also been harmed in the recent years-
+<ul>
+<li style="padding-left:2em">&#9702; In 1849, Dalhousie passed a resolution discontinuing the <strong>foreign service allowance</strong> (Bhatta) for soldiers serving in Sindh and Punjab.</li>
+<li style="padding-left:2em">&#9702; <strong>The Indian Post Act, 1854</strong> also abolished the military post and made the use of postage stamps compulsory which added further economic burden on the sepoys.</li>
+</ul>
+</li>
+<li>&#8226; <strong>The myth of British invincibility had been shattered.</strong> In the recent past, the British had suffered some embarrassing defeats during Anglo-Sikh war, the Crimean war and the first Anglo-Afghan war.
+<ul>
+<li style="padding-left:2em">&#9702; Their aura of invincibility was broken emboldening the Indian Sepoys to act.</li>
+<li style="padding-left:2em">&#9702; In this sense, the mutiny of 1857 was a continuation of the series of earlier mutinies including the Bengal mutiny (1764), Vellore mutiny (1806), Barrackpore mutiny (1825), mutiny during the Afghan war (1840).</li>
+</ul>
+</li>
+</ul>
+<h3 id="socio-cultural-causes-1857">6. Socio-Cultural Causes</h3>
+<ul>
+<li>&#8226; <strong>Social reform legislations</strong> such as the ban on Sati (1829), Widow Remarriage (1856) and allowing girls to receive education alarmed the conservative Indians. These acts were perceived as an undue interference in Indian social matters. Conservative Indians became suspicious that the British were deliberately trying to destroy the fabric of Indian society in order to Christianize and westernize it.</li>
+<li>&#8226; <strong>The activities of the Christian missionaries</strong> and the attitude of the government towards them also alarmed Indians.
+<ul>
+<li style="padding-left:2em">&#9702; Forcible conversions, mass conversions and conversions by inducement were either overlooked or actively supported by the British administration.</li>
+<li style="padding-left:2em">&#9702; The hostilities of the Indian Christian missionaries towards the Indian religions and the open support given to them by the British government caused further resentment.</li>
+</ul>
+</li>
+<li>&#8226; <strong>The taxation of Indian places of religious worship</strong> such as mosques and temples infuriated the Maulvis and Pundits along with pious Indians from all backgrounds. This was an unprecedented development in Indian history.</li>
+<li>&#8226; <strong>Lex Loci Act, 1850 and Religious Disabilities Act, 1856</strong> allowed a Christian convert who inherit the property of his &#8216;heathen&#8217; father. This removed a major hurdle towards the mass conversion of Hindus to Christianity and was perceived as a direct attack on Hinduism by the British.</li>
+</ul>
+<p>Therefore, Great Revolt of 1857 was the outcome of general discontent that had accumulated over decades among Indians of all classes due to a variety of factors.</p>
+<h2 id="storm-centres-1857">Storm Centres and Leaders</h2>
+<p>The revolt was largely a north Indian affair affecting the region between Delhi and Bihar that began on 10th May, 1857 when sepoys at Meerut killed their superiors and freed their imprisoned comrades, looted the armoury and marched to Delhi. At Delhi, they proclaimed Bahadur Shah Zafar as the leader of the revolt. This was a development of immense political significance.</p>
+<ul>
+<li>&#8226; With this act, the sepoys had transformed their mutiny into a general revolt of Indians against the British.</li>
+<li>&#8226; Further, this proclamation gave an all India sense to the revolt since the long history of Mughal rule had transformed the Mughals to a symbol of an all India unity.</li>
+<li>&#8226; The rebels drafted letters to the rulers across India encouraging them to join the rebellion and expel the British.</li>
+</ul>
+<p>Storm Centres and Leaders: Meerut &#8211; Soldiers; Delhi &#8211; Bahadur Shah Zafar, Begum Zeenat Mahal, General Bakht Khan; Kanpur &#8211; Nana Saheb, Tania Tope, Azimullah; Bareilly &#8211; Khan Bahadur; Jhansi &#8211; Rani Lakshmi Bai; Lucknow &#8211; Begum Hazrat Mahal; Faizabad &#8211; Maulvi Ahmadullah; Patna &#8211; Maulvi Pir Ali; Arrah (Jagdishpura) &#8211; Kunwar Singh.</p>
+<h2 id="spread-extent-1857">Spread and Extent of the Revolt</h2>
+<ul>
+<li>&#8226; <strong>Areas</strong>- North India (mainly Ganga-Yamuna doab)</li>
+<li>&#8226; <strong>Classes</strong>- peasants, artisans, shopkeepers, petty traders, Zamindars, rulers, native officers (elites who had suffered). Most of the intellectual class remained neutral.</li>
+<li>&#8226; <strong>Religions</strong>- Hindus and Muslims participated enthusiastically and displayed complete unity.</li>
+<li>&#8226; <strong>Genders</strong>- Both men and women participated in large numbers. Women were performing leadership roles.</li>
+<li>&#8226; <strong>Civilian participation</strong> was extremely high.</li>
+<li>&#8226; <strong>Castes</strong>- All castes participated but the participation of the upper castes was the most intense.</li>
+</ul>
+<p><strong>Targets:</strong> British armouries, offices, courts and forts. Along with it, British officials, soldiers civilians (traders, bankers, women and children). Indian collaborators such as big Zamindars, money lenders and loyal Indian princes were also targeted. British infrastructure like postage and telegraph infrastructure was targeted alongwith blocking of major roads and canals.</p>
+<h2 id="failure-1857">Causes for the Failure of the Revolt</h2>
+<ul>
+<li>&#8226; The revolt was not an All India movement. It was confined primarily to the North India.
+<ul>
+<li style="padding-left:2em">&#9702; The other parts remained peaceful. Therefore, the British could regroup and tackle the rebels with relative ease.</li>
+</ul>
+</li>
+<li>&#8226; The revolt could not mobilize all Indians. General participation remained limited to the North-West provinces and Awadh.</li>
+<li>&#8226; In fact, in other regions, the British could rely upon the support of powerful Indian allies such as the Scindias of Gwalior and the Maharaja of Patiala.
+<ul>
+<li style="padding-left:2em">&#9702; Furthermore, powerful elements such as big Zamindars and moneylenders who owed their fortunes to the British rule, emerged as &#8216;breakwaters in the storm&#8217;.</li>
+</ul>
+</li>
+<li>&#8226; The revolt also suffered due to lack of proper planning and coordination. The Indian leadership was also suffering from mutual suspicions and mistrust.</li>
+<li>&#8226; The revolt also suffered due to a deficit of a proper leadership. Bahadur Shah Zafar was an unwilling and incapable rebel.</li>
+<li>&#8226; Other leaders were guided by their narrow personal dynastic or regional interest. For example, Nana Saheb was fighting for the restoration of his pension while Rani Lakshmi Bai and Begum Hazrat Mahal were fighting for the restoration of their respective states.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>CA Bayly</strong> has pointed out that the rebels had various motives which were not always connected to any specific grievance against the British. Often they fought against each other and this disunity played into British hands.</li>
+<li style="padding-left:2em">&#9702; <strong>Thomas Metcalfe</strong> argues that united in defeat, the rebel leaders would have fallen at each other&#8217;s throats in victory.</li>
+</ul>
+</li>
+<li>&#8226; The rebellion also suffered due to the lack of any clear national vision. For the majority of the rebels, their revolt meant the restoration of old India by ending British rule.
+<ul>
+<li style="padding-left:2em">&#9702; Viewed within long arc of history, the revolt appears to be a medieval reaction to British imperialism. It was a backward looking and a feudal movement as it lacked national character.</li>
+<li style="padding-left:2em">&#9702; Even <strong>Pt. Jawahar Lal Nehru</strong> believed that the revolt was the <strong>&#8216;last flicker in Indian feudalism&#8217;s flame&#8217;.</strong></li>
+</ul>
+</li>
+<li>&#8226; The British also had access to better equipment, logistics and reinforcements.</li>
+<li>&#8226; The rebellion lacked the academic support of the Indian middle class intelligentsia. The urban intellectual class remained neutral.</li>
+<li>&#8226; The rebels also lacked proper understanding of British imperialism.
+<ul>
+<li style="padding-left:2em">&#9702; They perceived British Indian Empire as a traditional &#8216;Indian&#8217; power. They did not realize that the British Empire was in fact, the world&#8217;s most formidable global superpower.</li>
+<li style="padding-left:2em">&#9702; However, the Indian rebels did not appeal to the enemies of Britain for any assistance.</li>
+</ul>
+</li>
+</ul>
+<h2 id="consequences-1857">Consequences of the Revolt of 1857</h2>
+<h3 id="queens-proclamation-1858">1. Queen&#8217;s Proclamation, 1858</h3>
+<p>Presented by Canning in assembly of Princes at Allahabad. It proclaimed that &#8211;</p>
+<ul>
+<li>&#8226; No Indian state shall be annexed</li>
+<li>&#8226; No Indian shall be forced to convert</li>
+<li>&#8226; There shall be equal protection under the law for all Indians</li>
+<li>&#8226; There shall be no discrimination against Indians in matters of recruitment for the services</li>
+<li>&#8226; India shall be governed directly by the Crown</li>
+</ul>
+<h3 id="act-better-govt-1858">2. An Act for the Better Government of India, 1858</h3>
+<ul>
+<li>&#8226; The Board of Control was abolished</li>
+<li>&#8226; It was replaced by the Secretary of State for India with a council of 15 members</li>
+<li>&#8226; The Governor General of India was made answerable to the Secretary of State and was given the additional role of a Viceroy</li>
+</ul>
+<h3 id="military-reorganisation-1857">3. Military Reorganization</h3>
+<ul>
+<li>&#8226; The proportion of European soldier to Indian soldier was increased.</li>
+<li>&#8226; Sensitive and Strategic wings of the army such has Intelligence and Artillery were monopolized by European officials.</li>
+<li>&#8226; <strong>Principle of division and counterpoise</strong> was utilized to reorganize army along regional and sectarian lines in order to prevent future general mutiny.</li>
+<li>&#8226; Indian sepoys were distanced physically, materially as well as ideologically from the civilian population to prevent the infection of general discontent.</li>
+<li>&#8226; Myth of martial races was introduced to discourage recruitment from those regions that had been most active during the revolt.</li>
+</ul>
+<h3 id="end-civilising-mission">4. End of the British Civilizing Mission</h3>
+<p>The British had realized that their aggressive social reform movement in India had backfired. Thus, they abandoned their mission <strong>&#8216;civilize India&#8217;.</strong> Instead, they adopted much more conservative approach towards reform.</p>
+<ul>
+<li>&#8226; In this way they fulfilled two objectives simultaneously-
+<ul>
+<li style="padding-left:2em">&#9702; They neutralized the animosity of conservative Indians</li>
+<li style="padding-left:2em">&#9702; At the same time by declaring the Indians &#8216;unfit for civilization&#8217;, they were able to come up with a new justification for their continued rule.</li>
+</ul>
+</li>
+</ul>
+<h3 id="intensification-racism">5. Intensification of Racism</h3>
+<p>The British declared that Indians were unfit for civilization and self-governance because they were racially inferior. On the other hand, the &#8216;racially superior&#8217; whites were declared as the master race.</p>
+<ul>
+<li>&#8226; Following the Great Revolt, a strict policy of racial segregation was introduced in order to maintain &#8216;racial purity&#8217; of the master race.</li>
+</ul>
+<h3 id="divide-rule-1857">6. Divide and Rule Policy</h3>
+<p>The British came to the realization that in order to ensure the longevity of their regime, they would need to ensure that Indians never unite against them.</p>
+<ul>
+<li>&#8226; Thus, they envisioned to exploit India&#8217;s diversity to their advantage.</li>
+<li>&#8226; The biggest strength of the Revolt of 1857 had been its remarkable Hindu-Muslim unity.</li>
+<li>&#8226; The British worked deliberately to destroy this unity and permanently divide these communities politically. Thus, the Divide and Rule policy became the official social policy of the British in India. Later, this policy was applied to further groups as well such as different languages, castes, classes and genders.</li>
+</ul>
+<h2 id="nature-revolt-1857">Nature of the Revolt of 1857</h2>
+<p>The revolt of 1857 is one of the most important chapters of modern Indian History. Understandably, divergence of views exists among historians regarding its nature and generating a consensus is difficult.</p>
+<p>Broadly, there are two extreme positions regarding this issue- 1. The colonial historians tend to characterize it as a simple sepoy mutiny. On the other hand, nationalist scholars framed it as national war of independence. 2. Recent research concludes that the reality lies somewhere in the middle.</p>
+<p><strong>British Scholars/officials</strong></p>
+<ul>
+<li>&#8226; <strong>John Lawrence, Seeley and Malleson- &#8216;Selfish Sepoy Mutiny&#8217;</strong>
+<ul>
+<li style="padding-left:2em">&#9702; These scholars characterize it as a selfish sepoy mutiny. According to them, they enjoyed no political leadership or popular support. However, this view has been challenged on the grounds that the uprising may have started as the mutiny of soldiers but it did not remain confined to it.</li>
+</ul>
+</li>
+<li>&#8226; <strong>JG Medley</strong>- The revolt was a racial struggle for the supremacy between whites and blacks.
+<ul>
+<li style="padding-left:2em">&#9702; This has also been rejected because even if it is true that all whites were on one side, the same cannot be said for the blacks of India.</li>
+<li style="padding-left:2em">&#9702; If anything, racial consciousness affected the British mind far more profusely than the Indian mind.</li>
+</ul>
+</li>
+<li>&#8226; According to <strong>TR Holmes,</strong> the revolt started as a conflict between civilization and barbarism. He has tried to frame it as a conflict between the <strong>Occident and the Orient.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; However, this viewpoint has narrow racism. While overlooking the atrocity of British against Indians, it focuses on so called barbarism of Indians against European women and children alone.</li>
+</ul>
+</li>
+<li>&#8226; According to <strong>LER Rees,</strong> the revolt was a <strong>religious war</strong> against Christians.
+<ul>
+<li style="padding-left:2em">&#9702; However, this position has also been rejected on the ground that both sides used religious rhetoric to justify their actions.</li>
+<li style="padding-left:2em">&#9702; <strong>James Outram</strong> tried to term it as the <strong>Hindu-Muslim</strong> conspiracy against British rule. However, this viewpoint has also been rejected on the grounds that there is little evidence on any major conspiracy.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Nationalist Historians</strong></p>
+<p>In contrast to the British historians, nationalist scholars such as VD Savarkar, KC Panikkar, JC Vidyalankar, and Ashok Mehta have tried to portray the revolt as well planned war of independence, a nationalist uprising and as the first war of Indian independence.</p>
+<ul>
+<li>&#8226; <strong>VD Savarkar and Ashok Mehta</strong> have portrayed the revolt as the first war of Indian independence and nationalist movement respectively.</li>
+<li>&#8226; Similarly, <strong>KC Panikkar</strong> emphasized that the aim of the revolt was to expel the British and establish national state.</li>
+<li>&#8226; <strong>Lala Lajpat Rai</strong> in his <strong>Young India</strong> described the revolt as political as well as National Uprising.</li>
+<li>&#8226; SC Bose described it as a national uprising rather than a sepoy mutiny. In 1870, future British PM Benjamin Disraeli while speaking from the core of the house of commons characterized revolt as India&#8217;s national revolt.</li>
+</ul>
+<p><strong>Balanced Perspective</strong></p>
+<p>Post-independence, Indian scholars conducted extensive research into the revolt and reinterpreted its character. Prominent among them are RC Majumdar, SN Sen and SB Chaudhary. Apart from them, certain political figures such as JL Nehru and Maulana Azad have also questioned the national perspective.</p>
+<ul>
+<li>&#8226; <strong>RC Majumdar</strong> is of the opinion that it was &#8216;neither the first, nor national, nor a war of independence&#8217;.
+<ul>
+<li style="padding-left:2em">&#9702; The 1857 uprising was neither the first mutiny nor the first popular revolt against the British. Instead, it was the most powerful one of the long series of powerful revolts against colonial exploitation.</li>
+<li style="padding-left:2em">&#9702; It is hard to ascribe a national character to the revolt due to its limited territorial spread and participation. Also Indian nationalism was still in its embryonic stage.</li>
+<li style="padding-left:2em">&#9702; Thus, it was at best, an anti-colonial revolt.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Dr. SN Sen</strong>- While the revolt of 1857 did not involve any elaborate planning, it should still be considered a war of independence or a revolutionary war.
+<ul>
+<li style="padding-left:2em">&#9702; The revolt transformed from a sepoy mutiny into a revolutionary war once the rebellious soldiers proclaimed Bahadur Shah Zafar as their leader and convinced section of the aristocracy and the common population to join them.</li>
+<li style="padding-left:2em">&#9702; Thus, the revolt of 1857 may have started as a sepoy mutiny but it ended as a war of independence in a national revolt.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Dr. SB Chaudhary</strong> in his book &#8216;Civil Rebellions in the Indian Mutiny&#8217; (1857-59), regards the revolt of 1857 as the coming together of two series of disturbances resulting from Military grievances and Civilian grievances.
+<ul>
+<li style="padding-left:2em">&#9702; He argues that merger of the military and civil disturbances transformed the revolt into something like a <strong>War of Independence.</strong></li>
+<li style="padding-left:2em">&#9702; At the same time, he also points out the relatively independent motivations behind these disturbances and argued that the revolt was something less than truly national war of independence.</li>
+</ul>
+</li>
+</ul>
+<h3 id="conclusion-1857">Conclusion</h3>
+<p>On the basis of this discussion, it can be said that the revolt was definitely more than a simple sepoy mutiny. It involves the participation of section of civilian population including rulers, Zamindars, peasants, artisans and petty traders apart from Indian sepoys.</p>
+<p>At the same time, it was also something less than the first war of national independence. However, its impact should not be underestimated. Not only did it trigger a major overhaul of the colonial regime, it also emerged as a major source of inspiration for the later generation of nationalists.</p>`,
   'gandhian-nationalism': ``,
   'constitutional-developments': ``,
   'other-strands-national-movement': ``,
