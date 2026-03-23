@@ -19072,7 +19072,228 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li style="padding-left:2em">&#9702; Linguistic and caste divides</li>
 </ul>
 </li>
-</ul>`,
+</ul><h2>Early Phase of Gandhi</h2>
+<p>By the end of the first decade of the twentieth century, the political movement in India was rather dull. Congress had already split in 1907 at Surat and British repression along with the policy of carrot and stick had weakened the movement. However, by the beginning of the second decade, the movement started regaining momentum. Revolutionary extremism and Home rule movement had intensified the struggle. Still, the greatest development of the period proved to be the entry of Mahatma Gandhi in Indian national struggle. Let us examine the transition of Mohandas Karamchand Gandhi to Mahatma Gandhi, his philosophy and early experiments in this chapter.</p>
+<h2>Gandhi in South Africa</h2>
+<ul>
+<li>&#8226; Mahatma Gandhi went to South Africa in 1893 as an advocate to represent his client and Gujarati origin friend Dadabhai Abdullah and his company in a legal matter in South Africa.</li>
+<li>&#8226; In South Africa, under British rule, an <strong>informal racial segregation</strong> known as <strong>Apartheid</strong> was being followed at that time. Apartheid was the legal and social division of different racial groups. All the schools, parks, buses, toilets, cinemas, theatres, restaurants, offices, living quarters etc. were racially segregated.</li>
+<li>&#8226; Although African societies consisted of Whites, blacks, coloured and Asians (two-third were Indians), the social division was between Whites and non-whites.</li>
+<li>&#8226; Gandhi experienced this racial segregation in a train ride from Durban to Pretoria and even again in a cart ride when he was not allowed to sit in the first class despite having the ticket. The humiliation made him realise the gravity of the situation and he also experienced first-hand the implicit and explicit face of &#8216;Colonial supremacy&#8217;.</li>
+<li>&#8226; This led him to set up <strong>Indian Natal Congress in 1894</strong> in order to generate sympathetic opinion in the Indian community living in Natal. The Congress used to organise meetings, made representations to provincial and union governments of South Africa and attempted to shape public opinion among both Indians and others through his newspaper Indian Opinion.</li>
+<li>&#8226; Alongwith these, Mahatma Gandhi also established <strong>Phoenix ashram and Tolstoy farm</strong> to develop his own social philosophy, political ideology and further strategy. It was here that he got to experience his unique philosophy of Satyagraha.</li>
+<li>&#8226; This experiment emboldened him to establish <strong>Passive Resistance Association in 1907</strong> through which his Satyagraha phase began to start manifesting. Boycott, promotion of Swadeshi, non-cooperation and civil disobedience were used to overcome certain problems Indian community was facing.</li>
+<li>&#8226; He not only challenged various problematic and discriminatory laws such as Marriage law, Asiatic Registration bill, Natal Disenfranchisement bill and poll tax but also succeeded in the legal fight against these bills.</li>
+<li>&#8226; Apart from this, he established <strong>Natal Indian Ambulance Corps</strong> during <strong>Boer War (1899-1902).</strong> Although the war was fought between two &#8216;white groups&#8217; i.e. British and the Afrikaners (Dutch who had settled in 15th-16th centuries), Mahatma Gandhi led this humanitarian initiative to provide medical assistance to the British soldiers. While recognizing his contributions, he was awarded &#8216;Kaiser-i-Hind&#8217; by the British.</li>
+</ul>
+<h2>Gandhian thought</h2>
+<h3>Religious thought</h3>
+<ul>
+<li>&#8226; <strong>God and truth is the same thing</strong> &#8211; he believed that truth and the God are the same thing. The word truth or &#8216;satya&#8217; is derived from &#8216;Sat&#8217;, which means &#8216;being&#8217;. Nothing is or exists in reality except truth. That is why sat or truth is perhaps the most important name of God. He suggests that it is more correct to say that Truth is God, than to say that God is truth.</li>
+<li>&#8226; <strong>Spirit or soul of a religion is more important than its body/form</strong> &#8211; he believed in following the religious values rather than just creating an outward impression of following a religion.
+<ul>
+<li style="padding-left:2em">&#9702; According to him, the soul of any religion lies in its core values rather than its physical attributes such as costumes etc.</li>
+</ul>
+</li>
+<li>&#8226; <strong>He believed that different religions are simply different paths to realize the same destination</strong> &#8211; since the essential values of various religions are same, any tangible or intangible difference is more virtual than real.</li>
+</ul>
+<h3>Political thought</h3>
+<ul>
+<li>&#8226; Mahatma Gandhi was inspired by the political philosophies of John Ruskin, HD Thoreau and Leo Tolstoy. However, the major chunk of his political philosophies comes from his own experiments.</li>
+<li>&#8226; Political thoughts of Mahatma Gandhi include -
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Satyagraha</strong> i.e. &#8216;to search for the truth&#8217; was his political philosophy and strategy for mass struggle. Its important components were non-violence and truthfulness which, according to Gandhi, were paramount in the search for truth. His adherence to and insistence upon the truth was without the fear of consequences, making God as a witness, to change the heart and mind of the opponent through self-suffering. He believed that man by nature is good, so in order to change the heart and mind of an opponent one should endure &#8216;self-suffering&#8217;.</li>
+<li style="padding-left:2em">&#9702; <strong>Trusteeship</strong> was Mahatma Gandhi&#8217;s solution for class struggle. He believed that class cooperation and harmony will increase if the affluent class voluntarily let go of some of its wealth and privileges to establish class harmony. He believed that it will also increase national unity.</li>
+<li style="padding-left:2em">&#9702; <strong>Sarvodaya and Antyodaya</strong> &#8211; Sarvodaya means nobody should be left behind and that everyone&#8217;s participation should be ensured in various aspects of public life vis-&#224;-vis politics, economy and religious. Antyodaya means upliftment of the people living at the margins of the society. He believed that humanity is like a great ocean in which the core is constituted of elite people who are few but have huge share in public affairs whereas there are people at the margins of the margins who are unrepresented. So the idea of the Antyodaya speaks for the rise of the people at the margins of the margins. It is also known as Gandhi&#8217;s Talisman as he famously said that whenever one is confused for the consequences of his actions, he should think from the point of view of its impact on the last person in the society.</li>
+<li style="padding-left:2em">&#9702; <strong>The idea of Swaraj-</strong> Mahatma Gandhi&#8217;s Swaraj does not simply mean political freedom but it also comprised of social, economic, ideological and cultural liberation. This was a comprehensive definition of Swaraj for the common masses.</li>
+</ul>
+</li>
+</ul>
+<h2>Gandhi&#8217;s arrival in India</h2>
+<ul>
+<li>&#8226; Mahatma Gandhi came to India on 9th January, 1915. His political guru Gopal Krishna Gokhale advised him not to enter the Indian politics directly and rather to travel across the country first. Over the next two years, Gandhi worked on this advice travelling to every corner of the country.</li>
+<li>&#8226; He was already a known figure owing to his achievements in South Africa and so he attended some of the meetings of Home rule leagues as well but never participated directly on any political activity until he got to know about the ground realities.</li>
+<li>&#8226; His direct contact with Indians from various regions and diverse background gave him an innate ability to connect with the masses later allowing him to emerge as a true mass leader.</li>
+<li>&#8226; It was during his journey that Raj Kumar Shukla, a farmer from Champaran asked him to visit Champaran in Bihar and sought his help for the problems they were facing. He was finally prepared to test his strategy of non-violent Satyagraha against British rule in India.</li>
+<li>&#8226; During 1917-18, he launched three regional satyagrahas upon specific regional issues. These could be considered as mini experiments of his strategy before they could be replicated at a grander stage. These include &#8211; 1) Champaran Satyagraha, 2) Ahmedabad Mill strike, 3) Kheda Satyagraha.</li>
+</ul>
+<h2>Gandhi&#8217;s early Satyagrahas in India</h2>
+<h3>Champaran Satyagraha (1917): First Civil disobedience</h3>
+<p><strong>Issues</strong></p>
+<ul>
+<li>&#8226; The Indigo farmers from Champaran wanted freedom from forced indigo plantation under the &#8216;teenkathia system&#8217;.</li>
+<li>&#8226; Under this system, indigo farmers were legally forced to cultivate indigo on 3/20th of their land through legal contracts enforced upon them by the British planters with the help of local authorities and courts.
+<ul>
+<li style="padding-left:2em">&#9702; Since indigo cultivation is highly capital intensive, the contracts provided for arrangement of loans for the farmers by the planters. In return they would have to supply a fixed quantity of indigo to the planters.</li>
+</ul>
+</li>
+<li>&#8226; The farmers wanted freedom from the teenkathia system due to the following problems-
+<ul>
+<li style="padding-left:2em">&#9702; Indigo cultivation had become uncomfortable due to rising competition from synthetic German dyes. The planters were shifting losses onto the farmers thus increasing their indigo demands.</li>
+<li style="padding-left:2em">&#9702; It was also leading to the problem of rural indebtedness.</li>
+<li style="padding-left:2em">&#9702; Indigo cultivation also led to shortage of food crops diverting valuable agriculture land away from it.</li>
+<li style="padding-left:2em">&#9702; It was also harmful for soil fertility reducing productivity of agriculture.</li>
+<li style="padding-left:2em">&#9702; It also caused imbalances due to its water intensive and polluting nature. It also disrupted the labour market due to its high labour intensity.</li>
+</ul>
+</li>
+<li>&#8226; European planters wanted heavy monetary compensation to dissolve the contracts but the farmers were not in a position to pay.</li>
+</ul>
+<p><strong>Gandhiji&#8217;s response</strong></p>
+<ul>
+<li>&#8226; As we read, he was approached by a local farmer Rajkumar Shukla to visit Champaran. Initially, he asked his other companions to lead a fact finding mission in Champaran. These involved Anugraha Narayan Sinha, Dr. Rajendra Prasad, Mazhur ul Haq, Narhari Parekh, Bhulabhai Desai, JB Kriplani.</li>
+<li>&#8226; Once he was convinced that the issues of the farmers were real, he advised them not to cultivate indigo thus violating their contracts.</li>
+<li>&#8226; Morally, it was justified on the grounds that these forced contracts were unjust and illegitimate. By upholding them the farmers would be participating in injustice.</li>
+<li>&#8226; Strategically, it was meant to pressurize the British planters and the authorities who knew that quick solution would have to be found. Gandhiji demanded the establishment of an inquiry commission and simultaneously used the press to criticize the authorities and gain national sympathy for the farmers.</li>
+</ul>
+<p><strong>Outcome</strong></p>
+<ul>
+<li>&#8226; Ultimately, indigo commission was set up with Gandhiji as the member.
+<ul>
+<li style="padding-left:2em">&#9702; It concluded that the contracts forcing farmers to cultivate indigo were illegal since they violated basic principles of English law.</li>
+<li style="padding-left:2em">&#9702; It recommended that no farmer should be forced to cultivate the crop against their wishes and the planters&#8217; demand for monetary compensation was invalid.</li>
+</ul>
+</li>
+</ul>
+<p>With this, Gandhi&#8217;s first act of civil disobedience in India was a resounding success.</p>
+<h3>Ahmedabad Mill strike (1918): First Hunger strike</h3>
+<p><strong>Issue</strong></p>
+<ul>
+<li>&#8226; The mill workers were unhappy due to discontinuation of plague bonus that had been in place since the outbreak of Bubonic plague in the Surat-Ahmedabad belt in 1916.</li>
+<li>&#8226; The textile mill owners had discontinued it because of two reasons-
+<ul>
+<li style="padding-left:2em">&#9702; The revival of British textiles industry following Germany&#8217;s capitulation in World War One resulting in higher competition.</li>
+<li style="padding-left:2em">&#9702; End of the plague accompanying labour shortage.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Gandhiji&#8217;s response</strong></p>
+<ul>
+<li>&#8226; He advised the workers to go on an indefinite strike and he himself went on a hunger strike to pressurize the mill owners and draw national attention to the problems of the workers.</li>
+<li>&#8226; He also outlined more comprehensive demand program for the workers including
+<ul>
+<li style="padding-left:2em">&#9702; 50% bonus</li>
+<li style="padding-left:2em">&#9702; Wage hikes</li>
+<li style="padding-left:2em">&#9702; Improvement in living and working conditions</li>
+<li style="padding-left:2em">&#9702; Establishment of industrial disputes resolution tribunal</li>
+</ul>
+</li>
+</ul>
+<p><strong>Outcome</strong></p>
+<ul>
+<li>&#8226; Mill owners ultimately agreed to set up a tribunal which awarded
+<ul>
+<li style="padding-left:2em">&#9702; 35% bonus</li>
+<li style="padding-left:2em">&#9702; Fixed working hours and wages</li>
+<li style="padding-left:2em">&#9702; Safety and hygiene protocols</li>
+</ul>
+</li>
+<li>&#8226; Mahatma Gandhi called off the strike and advised the workers to accept the award.</li>
+<li>&#8226; This was because he wanted to strike a compromise between both sides as they involved Indian interests. This was an early example of Gandhian trusteeship and class cooperation.</li>
+</ul>
+<h3>Kheda Satyagraha (1918): First Non-cooperation</h3>
+<p><strong>Issue</strong></p>
+<ul>
+<li>&#8226; The farmers at Kheda wanted exemption from land revenue due to massive crop failure urging from a drought.</li>
+<li>&#8226; Revenue officials, on the other hand, continued demanding revenue in full even though their own famine code recommended the automatic suspension of collection to bring crop failures in access of 50%.</li>
+</ul>
+<p><strong>Gandhi&#8217;s response</strong></p>
+<ul>
+<li>&#8226; He sent Sardar Patel and Indu Lal Yagnik on a fact finding mission. After meeting the peasants, they reported back validating their problems.</li>
+<li>&#8226; Gandhiji advised the peasants not to cooperate with the revenue officials. He also asked them to prepare for lengthy campaign of civil disobedience.</li>
+<li>&#8226; Gandhiji&#8217;s strategy was to compromise the revenue officials, attract national sympathy for the farmer and expose the British hypocrisy. Simultaneously, he wanted Indians to retain the moral high-ground by remaining entirely non-violent and giving an opportunity to the British to accept their demands.</li>
+</ul>
+<p><strong>Outcome</strong></p>
+<ul>
+<li>&#8226; Ultimately, the government issued internal circular instructing revenue officials to collect revenue only from those peasants who were in a position to pay.</li>
+<li>&#8226; Mahatma Gandhi advised the peasants to resume cooperation with the tax authorities and call off their protests. He did not persist towards complete victory due to the following reasons-
+<ul>
+<li style="padding-left:2em">&#9702; He considered it the moral responsibility of capable farmers to pay their share of the taxes</li>
+<li style="padding-left:2em">&#9702; He wanted a demonstrable victory that was quickly attained.</li>
+<li style="padding-left:2em">&#9702; He did not want to test the British patience since it may have resulted in the evaporation of ay gains made by the farmers.</li>
+</ul>
+</li>
+<li>&#8226; Thus, once again, Mahatma Gandhi had succeeded in demonstrating strength of non-violent Satyagraha.</li>
+</ul>
+<h2>Significance of the three Satyagrahas</h2>
+<ul>
+<li>&#8226; It was the early political expression of Gandhian philosophy in India. It demonstrated the strength of non-violent Satyagraha.</li>
+<li>&#8226; Gandhiji was also propelled to the national limelight.</li>
+<li>&#8226; The success of the satyagrahas filled Indians with enthusiasm. It increased Gandhiji&#8217;s popularity and attached masses with him for future struggles as well.</li>
+<li>&#8226; He forged a balance between different classes without taking sides for any particular class and rather keeping his approach issue-centric. This measured strategy won the confidence of the nationalist leadership as well as the common masses.</li>
+<li>&#8226; His success and style of protest removed the fear of British repression from the minds of ordinary Indians.</li>
+<li>&#8226; He also demonstrated the ability to transform mundane issues and disputes to a moral, righteous and religious struggle.</li>
+<li>&#8226; He also displayed the ability to publicise even local issues.</li>
+<li>&#8226; These three satyagrahas announced the beginning of the Gandhian phase of the Indian national movement.</li>
+</ul>
+<h2>Criticism</h2>
+<ul>
+<li>&#8226; <strong>Colonial historians</strong> claimed that Mahatma Gandhi was a shrewd political operator who used his religious image and spiritual charisma to &#8216;hijack&#8217; the national leadership.</li>
+<li>&#8226; <strong>Marxist historians</strong>, on the other hand, have leveled the allegations that Mahatma Gandhi deliberately used his image as a miracle worker to transform himself into an ideologue. This, according to them, reduced the democratic credentials of the movement.
+<ul>
+<li style="padding-left:2em">&#9702; They accuse that Mahatma Gandhi tactically made the movement to revolve around him and thus did not allow any other leader to shine.</li>
+<li style="padding-left:2em">&#9702; The whole Gandhian movement is described by them as a demagoguery which flourished in the absence of a strong anti-British intellectual base.</li>
+<li style="padding-left:2em">&#9702; The also allege that Gandhian ideology was never actually meant to serve the interests of the working class. It was always meant to preserve the Bourgeoisie and landed classes. His idea of trusteeship and class cooperation were never meant to succeed. Rather, they were simply meant to create the impression of goodwill between the classes so that the real interest of the working classes could not be fulfilled.</li>
+<li style="padding-left:2em">&#9702; Gandhi&#8217;s cooperation and rather acceptance of caste system, according to them, only decelerated the progress of Indian society.</li>
+</ul>
+</li>
+</ul>
+<h2>Counter-arguments</h2>
+<ul>
+<li>&#8226; Colonial and Marxist historians were inherently biased against Mahatma Gandhi.</li>
+<li>&#8226; Since colonial historians were against the very idea of the national struggle so there delegitimizing of Mahatma Gandhi is not surprising. They would discredit any movement or idea which led to the independence.</li>
+<li>&#8226; Marxists, on the other hand, looked at the movement only through the lens of the class struggle. They tried to discredit Gandhi because of his attempt at class solidarity and for successfully leading a multi-class movement.</li>
+<li>&#8226; Contrary to these criticisms, it was Gandhi&#8217;s effective leadership which could maintain cohesion and unity of action.
+<ul>
+<li style="padding-left:2em">&#9702; To be a good leader, Gandhiji needed to put himself in a position of leadership.</li>
+<li style="padding-left:2em">&#9702; Greatest gains were made under his leadership.</li>
+</ul>
+</li>
+<li>&#8226; In response to the accusation of demagoguery, it should be understood that Gandhi is regarded as one of the greatest leaders in human history for his own unique style.
+<ul>
+<li style="padding-left:2em">&#9702; Secondly, Gandhiji never personally engaged in demagoguery. Rather it was the superstitious Indian masses that ascribed supernatural abilities upon him.</li>
+<li style="padding-left:2em">&#9702; Thirdly, the inherent flaw with the Marxism itself should be understood. It has itself failed on several fronts owing to a rigid class concept.</li>
+<li style="padding-left:2em">&#9702; Therefore, Gandhi should be credited for giving a new ideology to the world.</li>
+</ul>
+</li>
+<li>&#8226; In words of <strong>Ravindra Kumar,</strong> Gandhiji enlisted loyalty of different social groups for the Congress and thus it became the umbrella under which almost all the shades of Indian nationalism found their place.</li>
+</ul>
+<p>While concluding the discussion, it can be said that these three early satyagrahas of Gandhi laid the foundation of Gandhian mass politics that redefined the Indian nationalism.</p>
+<h2>Practice Question</h2>
+<p><strong>Q. Throw light on the entry of Gandhi into nationalistic politics. Discuss the significance of his three early satyagrahas.</strong></p>
+<p>Mahatma Gandhi&#8217;s entry into Indian national movement was a millennial step which not only contributed greatly to the freedom of India but also gave an original political thought to the world with the unique feature of mass participation.</p>
+<p>Gandhiji&#8217;s entry into nationalistic politics was through three satyagrahas that revolved around local issues-</p>
+<ul>
+<li>&#8226; <strong>Champaran Satyagraha (1917) (first civil disobedience) -</strong> under &#8216;teenkathia system&#8217;, farmers of the region were forced by the planters to cultivate indigo on 3/20th of their respective land. They had to supply a fixed quantity of indigo to the planters who controlled its prices on the one hand and on the other hand, it was leading to food shortages due to diversion of land.
+<ul>
+<li style="padding-left:2em">&#9702; Gandhiji asked farmers to violate their contracts and not to cultivate the indigo.</li>
+<li style="padding-left:2em">&#9702; Under pressure, British had to set up indigo commission with Gandhiji as the member and forced indigo cultivation was abandoned.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Ahmedabad Mill Strike (1918) (First hunger strike) -</strong> The mill discontinued the plague bonus at a time when inflation was on the rise. As workers approached Mahatma Gandhi, he asked them to go on an indefinite strike and he himself went on a hunger strike.
+<ul>
+<li style="padding-left:2em">&#9702; Gandhi also realized that mill owners were also under pressure and thus a mutually acceptable rise in bonus alongwith better working hours and safety and hygiene protocols were agreed upon.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Kheda Satyagraha (1918) (First non-cooperation) &#8211;</strong> The farmers in Kheda were demanding exemptions from land revenue due to massive crop failure owing to drought.
+<ul>
+<li style="padding-left:2em">&#9702; However, revenue officials continued demanding full revenue.</li>
+<li style="padding-left:2em">&#9702; Gandhiji asked peasants not to cooperate with revenue officials.</li>
+<li style="padding-left:2em">&#9702; Ultimately, government asked officials to tax only those peasants who were capable.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Significance of the three Satyagrahas</strong></p>
+<ul>
+<li>&#8226; It was the early political expression of Gandhian philosophy in India. It demonstrated the strength of non-violent Satyagraha.</li>
+<li>&#8226; Gandhiji was also propelled to the national limelight.</li>
+<li>&#8226; The success of the satyagrahas filled Indians with enthusiasm. It increased Gandhiji&#8217;s popularity and attached masses with him for future struggles as well.</li>
+<li>&#8226; He forged a balance between different classes without taking sides for any particular class and rather keeping his approach issue-centric. This measured strategy won the confidence of the nationalist leadership as well as the common masses.</li>
+<li>&#8226; His success and style of protest removed the fear of British repression from the minds of ordinary Indians.</li>
+<li>&#8226; He also demonstrated the ability to transform mundane issues and disputes to a moral, righteous and religious struggle.</li>
+<li>&#8226; He also displayed the ability to publicise even local issues.</li>
+<li>&#8226; These three satyagrahas announced the beginning of the Gandhian phase of the Indian national movement.</li>
+</ul>
+<p>These three satyagrahas prepared the blueprint for nationalists all over the world to stand against a cruel opponent in a disproportionate struggle. Even till the very end of the Indian independence, these strategies were used by Gandhi in one or the other way.</p>`,
   'constitutional-developments': `<h2>Indian Council Act, 1909/ Morley Minto Reforms</h2>
 <blockquote>
 <p>Reforms may not save the Raj, but if they don&#8217;t, nothing else will- Lord Morley</p>
