@@ -19897,7 +19897,218 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <p>This lackadaisical attitude of the British shows that the declaration was merely a lip service to the Indians and British were never serious about their commitments.</p>
 <p>Although, the immediate British response was reactionary and contrary to the stated demand, nonetheless nationalist demand entered the mainstream of both Indian and British politics and a sustained resistance began against the British rule.</p>`,
   'politics-separatism-partition': ``,
-  'post-independence-consolidation': ``,
+  'post-independence-consolidation': `<h2>Integration of Princely States</h2>
+<h3>Background</h3>
+<ul>
+<li>&#8226; A few months before Independence, India consisted of 11 British provinces and 600 princely states. Out of these, 18 were large states whereas others were smaller ones also known as &#8216;Salute states&#8217; and &#8216;non-Salute states&#8217; respectively, together constituting almost 1/3rd of the territory of the Indian subcontinent. As such, the integration of these states into Indian Union was a formidable challenge before an infant nation gripped with multiple challenges.</li>
+<li>&#8226; Among Princely states, larger states enjoyed complete internal autonomy. Thus, subjects of defence, communication and External affairs were under British control while others were directly under Princely states.</li>
+<li>&#8226; Then, there were some smaller states which were only nominally autonomous. In these states, alongwith the defence, communications and External affairs subjects such as law and order, currency, commerce etc. were also managed by the British government.</li>
+<li>&#8226; Between these states were intermediate states which did not possess autonomy of larger states but enjoyed greater than that of the smallest ones.</li>
+<li>&#8226; Thus, we can say that the relationship between British India and princely states was not homogenous.</li>
+</ul>
+<h3>British Expansion</h3>
+<ul>
+<li>&#8226; British East India Company relied on aggressive territorial expansion in the first half of the nineteenth century. This created a rivalry between the Company and the princely states.</li>
+<li>&#8226; However, post-1857, policy of non-intervention vis-&#224;-vis annexation started. In this phase, British worked to establish their Paramountcy through treaties, alliances and agreements. Therefore, the British crown emerged as a friend and protector of Indian princes post 1857.</li>
+<li>&#8226; With the rise in nationalism and political consciousness, the British had to further deepen their relationship with the Princes. Thus, Chamber of Princes was established in 1921 with Viceroy as its ex-officio Head.
+<ul>
+<li style="padding-left:2em">&#9702; However, the President of the Chamber of Princes remained to be an Indian prince.</li>
+</ul>
+</li>
+<li>&#8226; In 1935, an All India Federation was proposed through the Government of India Act, 1935. As per the Act, the Princely states could become part of the Federation but it was not compulsory for them. Finally, the Federation could not materialize because of the disinterest of the Princely states and their &#8216;virtual veto&#8217; over its ratification.</li>
+<li>&#8226; However, with the outbreak of the Second World War, all such attempts were stopped. British had realised that they needed the support of princes in the war who generously sent their men and material while the Congress was reluctant to do so.</li>
+<li>&#8226; During the 1940s, British prevented the forcible integration of Princely States into the Indian nation. It was a strategy to derail the independence struggle.</li>
+<li>&#8226; In 1946-47, British attitude changed slightly to accept that while the treaties and alliances between the British government and Princely states could not be inherited by India, the British itself would no longer be able to fulfill its treaty obligations towards the Princely states. The change in this attitude was because of the following factors-
+<ul>
+<li style="padding-left:2em">&#9702; The destructive effect of the World War Two,</li>
+<li style="padding-left:2em">&#9702; Rising internal pressure to demobilize the soldiers who were away from their homelands for so long,</li>
+<li style="padding-left:2em">&#9702; Rising external pressure from USA and USSR.</li>
+</ul>
+</li>
+</ul>
+<h3>Nationalism in the Princely States</h3>
+<ul>
+<li>&#8226; It emerged later in Princely states as compared to rest of the nation because of the-
+<ul>
+<li style="padding-left:2em">&#9702; Lower levels of education and political awareness,</li>
+<li style="padding-left:2em">&#9702; Ideological indoctrination of the Princely states&#8217; people towards the divine rights of Kings,</li>
+<li style="padding-left:2em">&#9702; The reluctance of top Congress leaders to mobilise the states&#8217; people because of low availability of funds as well as organizational capacity atleast before Gandhi. Even after that, Gandhi considered some of the progressive princes to be legitimate and thus avoided any widespread movement there.</li>
+</ul>
+</li>
+<li>&#8226; In 1920s, there was the growth of communalism in the Princely states. It led to rise in nationalism as it caused disaffection between the rulers and the people pushing the latter towards nationalism.
+<ul>
+<li style="padding-left:2em">&#9702; Secondly, the growth of Socialism in India integrated the working class of the Princely states and the British India. Socialist leaders realised that their struggle is not only against the British but also against the Princes and they also brought them under the umbrella of nationalism.</li>
+</ul>
+</li>
+<li>&#8226; In 1927, Harcourt-Butler Committee was set up to upraise the relationship between British India and the Princely states and to suggest the needed modifications as such.</li>
+<li>&#8226; In this background, various states&#8217; people movement came together under All India States&#8217; Peoples&#8217; Conference under Pt Jawahar Lal Nehru. This led to the maturation of States Peoples&#8217; movement also known as the Praja Mandal Movement.
+<ul>
+<li style="padding-left:2em">&#9702; From the very beginning, this movement was dominated by Congress leaders such as Pt Nehru, SC Bose, GP Narayan, Acharya Narendra Dev etc.</li>
+</ul>
+</li>
+</ul>
+<h3>Demands of the Praja Mandal Movement and the INC</h3>
+<ul>
+<li>&#8226; Democratic reforms in Princely States.</li>
+<li>&#8226; Workers and Peasants reforms.</li>
+<li>&#8226; United India or Akhand Bharat.</li>
+<li>&#8226; Independent India.</li>
+</ul>
+<p><strong>Government of India Act, 1935</strong> came as a huge disappointment to the States&#8217; Peoples&#8217; Movement. However, it only strengthened the nationalism.</p>
+<p>During <strong>World War Two,</strong> States&#8217; People showed solidarity with the INC.</p>
+<p><strong>Cripps Proposal</strong> and the <strong>Cabinet Mission Plan</strong> only increased the disappointment of the people as it allowed Princely States&#8217; representation through nomination rather than through elections. This further increased the nationalist sentiments in the princely states.</p>
+<ul>
+<li>&#8226; The potential of Princely states remaining independent was shrinking rapidly. The political impracticality owing to the emerging divergence among the British as well as the Congress and the people made it almost impossible.</li>
+<li>&#8226; Economic impracticality was even stronger. During British rule the princely states had completely integrated with the economy of the rest of the British India. Princely states were deeply dependent upon British India.</li>
+</ul>
+<p><strong>Q. Discuss the possibility of a Confederation of Princely States emerging as a third independent political entity after the transfer of power by the British to Indians.</strong></p>
+<p>A Confederation of Princely States was suggested by Hamidullah Khan, the nawab of Bhopal as well as the President of the Chamber of Princes. However, upon closer observation, possibility of such a Confederation emerging seems impossible.</p>
+<p>It was so because of the following factors-</p>
+<ul>
+<li>&#8226; <strong>Political factors-</strong> it was politically impractical because by the time of independence, Princely states lacked the support of British, Congress as well as the people. After transfer of power, the British Paramountcy would end and Princely states could not have received British support.</li>
+<li>&#8226; <strong>Economic factors-</strong> Due to territorial integration of the British Indian Empire, the economy of Princely states had deeply integrated with the rest of the nation. It was completely dependent upon the British India.</li>
+<li>&#8226; <strong>Geographical factors-</strong> the territory of the princely states were not contiguous and they could not have communicated with each other without depending on India which would be hostile to these states.
+<ul>
+<li style="padding-left:2em">&#9702; Secondly, the interests of the princely states would not have always remained mutual. Any clash of interests would ultimately lead to disputes. Mutual suspicions, jealousies and communalism could not allow a long-term unity.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Internal stress-</strong> Princely states were facing internal pressure from people who have tasted nationalism. Under States&#8217; Peoples&#8217; Movement, they were demanding democracy and unity with India. The erstwhile ideological indoctrination towards the divine rights of the princes was being challenged by the rising nationalism and socialism.</li>
+</ul>
+<p>The possibility of independence was thus a &#8216;mirage&#8217; for the Princely states. Thus, independence disappeared before it could be conceived for the princely states.</p>
+<h3>Role of important Personalities</h3>
+<h4>Mountbatten</h4>
+<ul>
+<li>&#8226; The last Viceroy and Governor General of India promised &#8216;maximum India&#8217; if the Congress accepted partition.</li>
+<li>&#8226; He encouraged the princes to accede to India.</li>
+<li>&#8226; The principle that &#8216;Geographic Proximity&#8217; rather than communal identity should be the criteria for Princely states to join any of the nations was designed by him.</li>
+</ul>
+<h4>Nehru</h4>
+<ul>
+<li>&#8226; In 1946, he declared that India does not recognize the Divine rights of Kings.</li>
+<li>&#8226; Later in 1947, he made it clear that the Indian Union was the direct successor of the British Empire and would inherit Paramountcy over the Princely States.</li>
+<li>&#8226; He even warned the Princely states that he would not be able to resist the army of independent India.</li>
+<li>&#8226; Thus, Nehru&#8217;s tough policy was designed to pressurize the princes into signing the Instrument of Accession.</li>
+</ul>
+<h4>Sardar Patel and V.P. Menon</h4>
+<ul>
+<li>&#8226; They were the Minister and Secretary of the State department respectively. Menon was also the Permanent Secretary of the Executive Council thus acting as the bridge between the Home Minister and the Governor General.</li>
+<li>&#8226; In contrast to Nehru&#8217;s tough stance, Sardar Patel adopted a more conciliatory tone.</li>
+<li>&#8226; They adopted the Carrot and Stick approach.
+<ul>
+<li style="padding-left:2em">&#9702; They appealed to the patriotism of the rulers.</li>
+<li style="padding-left:2em">&#9702; They also highlighted the sacrifices made by their predecessors for their people and reminded them of their duty towards their subjects.</li>
+<li style="padding-left:2em">&#9702; They promised practical autonomy by continuing the same relationship that the rulers had with the British crown.</li>
+<li style="padding-left:2em">&#9702; Accession would simply mean the accession of the territory and the subjects. The personal property of the rulers would remain untouched.</li>
+<li style="padding-left:2em">&#9702; Further, their titles and honours would remain intact.</li>
+<li style="padding-left:2em">&#9702; State functionaries, employees and officers would absorb into the Indian bureaucracy.</li>
+<li style="padding-left:2em">&#9702; They also promised continuation of judicial immunity.</li>
+<li style="padding-left:2em">&#9702; Privy purses would be setup for the rulers.</li>
+<li style="padding-left:2em">&#9702; On the other hand, the rulers were made aware of the problems they may face if they refuse to merge with India- economic blockade, internal rebellion, communal riots, aggression from Pakistan, and the indication that delayed merger would take place on the basis of much less favourable terms for the rulers.</li>
+</ul>
+</li>
+<li>&#8226; The response of the Indian princes was not unanimous.
+<ul>
+<li style="padding-left:2em">&#9702; Some rulers such as the Maharaja of Bikaner, Rewa etc. willingly signed Instrument of Accession as a matter of their patriotic duty.</li>
+<li style="padding-left:2em">&#9702; Others such as the nawab of Bhopal, Nizam of Hyderabad, Maharaja of Travancore, and Maharaja of Kashmir wanted to remain independent.</li>
+<li style="padding-left:2em">&#9702; Still other such as the Maharaja of Jodhpur, Nawab of Junagarh began to entertain offers from Jinnah.</li>
+</ul>
+</li>
+<li>&#8226; Patel and Menon remained extremely patient but firmly insisted upon merger as the only way forward.</li>
+<li>&#8226; By 15th August, 1947 most princely states that were geographically contiguous with India had signed the Instrument of Accession with India.
+<ul>
+<li style="padding-left:2em">&#9702; Bhopal, Travancore and Jodhpur signed before independence.</li>
+<li style="padding-left:2em">&#9702; Whereas Hyderabad, Junagarh and Kashmir signed after independence.</li>
+</ul>
+</li>
+</ul>
+<h3>Procedure of Integration</h3>
+<ul>
+<li>&#8226; There were two separate Legal instruments
+<ul>
+<li style="padding-left:2em">&#9702; Standstill Agreement- it contained the guarantee of the continuation of the same relationship with the government of India as the Princely states enjoyed with the British crown.</li>
+<li style="padding-left:2em">&#9702; Instrument of Accession- through this, the princes would agree to surrender their territory, defence, communications, currency, and commerce to the government of India.</li>
+<li style="padding-left:2em">&#9702; While the Instruments of Accession were designed to bring the princely states under the sovereignty of Indian government, each of them was unique.</li>
+</ul>
+</li>
+</ul>
+<h3>Problematic Princely states</h3>
+<h4>Jodhpur</h4>
+<ul>
+<li>&#8226; Maharaja Hanwant Singh felt that accession to India would prohibit him from leading the lavish lifestyle that he was accustomed to.</li>
+<li>&#8226; He appealed to the neigbouring rulers of Bikaner and Jaisalmer to join him in declaring independence and negotiating a separate standstill agreement with Jinnah. However, Maharaja of Jaisalmer responded by promptly signing Instrument of Accession with India and called upon other rulers to do the same as it was their sacred patriotic duty.
+<ul>
+<li style="padding-left:2em">&#9702; The Maharaja of Jodhpur now began to openly entertain offers from Jinnah who virtually gave him a blank cheque.</li>
+</ul>
+</li>
+<li>&#8226; KM Pannikar, a noted historian and Diwan of Bikaner approached the King of Jodhpur and reminded him of the painful history of Islamic invasions in Jodhpur.</li>
+<li>&#8226; Sardar Patel also indicated that without the formal accession of Jodhpur into India, Indian government would not be in a position to defend Jodhpur from a Pakistani attack or a communal infiltration and uprising. Finally, the Maharaja of Jodhpur signed the Instrument of Accession with India.</li>
+</ul>
+<h4>Bhopal</h4>
+<ul>
+<li>&#8226; Nawab Hamidullah Khan felt that his close personal friendship with the Governor General will help him remain independent. However, Mountbatten made it clear that independence was a mirage for the princely states and advised the nawab to sign the instrument of accession with India.</li>
+<li>&#8226; Following this, the Nawab tried to use his position as President of the Chamber of Princes to form an independent Confederation of Princely states but was unsuccessful as the bulk of other princes signed the Instrument of Accession.</li>
+<li>&#8226; Ultimately, he invoked religion and appealed to his Muslim subjects to protect Islam against the Hindu majority area.</li>
+<li>&#8226; However, subjects did not respond and ultimately acceded to India.</li>
+</ul>
+<h4>Travancore</h4>
+<ul>
+<li>&#8226; Its Maharaja wanted to remain independent and expected British help.
+<ul>
+<li style="padding-left:2em">&#9702; Unlike other Princely states, Travancore had a long coastline, flourishing shipping industry, high literacy, and a relatively democratized form of government.</li>
+<li style="padding-left:2em">&#9702; It had rich deposits of Thorium which had become a mineral of extremely high strategic value with the dawn of the nuclear age.</li>
+</ul>
+</li>
+<li>&#8226; The Diwan of Travancore CP Ramaswamy Aiyer had been approached by Sardar Patel who had offered him extremely favourable terms. However, all these offers were rejected.</li>
+<li>&#8226; CP Ramaswamy Aiyer was brutally beaten by an unknown man and then he wired the King to immediately sign the Instrument of Accession.</li>
+</ul>
+<h4>Junagarh</h4>
+<ul>
+<li>&#8226; It was a small Princely state with a Hindu majority and Muslim nawab in the Saurashtra region.</li>
+<li>&#8226; The nawab wanted to remain independent but felt that he would be unable to sustain the state without active foreign help.</li>
+<li>&#8226; Thus, he signed the Instrument of Accession with Pakistan and with his family went to Karachi by sea.</li>
+<li>&#8226; His Diwan Shah Nawaz Khan Bhutto relayed to the government of India that Junagarh was now part of Pakistan.</li>
+<li>&#8226; The state&#8217;s department convinced the vassals of the nawab to sign the Instrument of Accession with India.</li>
+<li>&#8226; The Junagarh army occupied these Indian enclaves.</li>
+<li>&#8226; Sardar Patel then threatened with military action.</li>
+<li>&#8226; At the same time, VP Menon encouraged Shamaldas Gandhi, a popular figure in the local politics to form an Aarzi Hukumat at Bombay. The nawab of Junagarh set up a rival provisional government at Karachi.</li>
+<li>&#8226; In the meanwhile, the Praja Mandal of Junagarh began a mass campaign calling for a plebiscite. Sardar Patel and Shamaldas Gandhi supported this call. In the plebiscite, the people of Junagarh with an overwhelming majority (99.1%) integrated with India.</li>
+</ul>
+<h4>Hyderabad</h4>
+<ul>
+<li>&#8226; Its ruler Nizam Usmal Ali khan wanted the landlocked state to become independent. He even sent deputations to European governments to finalise commercial and diplomatic agreements. He approached Portugal to lease or purchase Goa in order to get access to the sea. Simultaneously, he appealed to Pakistan, the British and the Americans for military assistance.</li>
+<li>&#8226; However, all these attempts failed.</li>
+<li>&#8226; In this scenario, he began encouraging the paramilitary group known as Razakars to change the communal complexion of the Hyderabad state.</li>
+<li>&#8226; As a result, extremely quickly, the law and order situation deteriorated.</li>
+<li>&#8226; The local Congress committee as well as the Communist Party appealed to India to intervene.</li>
+<li>&#8226; India responded with the police action known as &#8216;Operation Polo&#8217;. The Indian forces quickly overwhelmed the Razakars and reached the city of Hyderabad.</li>
+<li>&#8226; The Nizam was given a graceful exit by making him the Rajpramukh of the reconstituted state of Hyderabad.</li>
+</ul>
+<h4>Kashmir</h4>
+<ul>
+<li>&#8226; On the 15th August 1947, Kashmir was neither part of India nor Pakistan.</li>
+<li>&#8226; Its ruler Maharaja Hari Singh was a descendant of Gulab Singh Dogra, the ruler of Kashmir, who had purchased Kashmir from East India Company in 1847 after its victory against the Sikhs in the First Anglo-Sikh war.</li>
+<li>&#8226; Both India and Pakistan recognized the strategic importance of Kashmir and treated it as a special case.</li>
+<li>&#8226; Hari Singh had signed Standstill agreements with both countries without signing the Instrument of Accession.</li>
+<li>&#8226; Sardar Patel criticized Nehru for not insisting upon Kashmir&#8217;s accession.
+<ul>
+<li style="padding-left:2em">&#9702; Nehru&#8217;s justification was that Kashmir may have acceded to Pakistan if India did not sign the Standstill agreement.</li>
+</ul>
+</li>
+<li>&#8226; On 26th October, 1947 a large number of Pathan tribals, with the backing of the Pakistan army, invaded Kashmir plundering the valley targeting Hindus and reached the outskirts of Srinagar.
+<ul>
+<li style="padding-left:2em">&#9702; The ruler of Kashmir asked for help from India.</li>
+<li style="padding-left:2em">&#9702; India, in turn, asked the Maharaja to sign the Instrument of Accession first.</li>
+</ul>
+</li>
+<li>&#8226; On 26th October 1947, Hari Singh signed the Instrument of Accession.</li>
+<li>&#8226; Then Indian troops were airlifted to Srinagar. They repelled the Pakistani troops in pitched battles but could not push on due to the arrival of winter. Portions of northern and western Kashmir remained under Pakistani occupation.</li>
+<li>&#8226; Ceasefire was declared unilaterally by Pt Nehru and the Kashmir question was referred the UN.</li>
+<li>&#8226; Due to the emerging Cold War bloc politics, under the influence of American and British diplomats, the Kashmir question became the India-Pakistan question overnight.</li>
+<li>&#8226; This had the effect of legitimizing Pakistan&#8217;s claim to Kashmir instead of viewing Pakistan as the aggressor and violator of international peace.</li>
+<li>&#8226; In 1951, the UN passed the resolution asking Pakistan to withdraw its army and India to conduct a plebiscite. Neither side has initiated any attempts to fulfill the resolution&#8217;s mandate.</li>
+</ul>
+<h3>Conclusion of the integration procedure</h3>
+<p>Integration of Princely states by this time was still incomplete. Their special privileges and powers were still remaining. India had a loose federation with Princely states who still retained their undemocratic, monarchical and feudal nature. However, this was the first step in a multi-step process which gradually led to complete merger. Many Princely states were merged with the existing Indian provinces and some Princely unions were also formed.</p>`,
   'caste-ethnicity-post-1947': ``,
   'economic-development-political-change': `<h2>Land Revenue Reforms</h2>
 <p>Earlier, the Permanent Settlement was guided by mercantilist interest. However, in the early decades of the 19th century, India was being developed as a British commodity market.</p>
