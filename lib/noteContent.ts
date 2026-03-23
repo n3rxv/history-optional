@@ -20280,7 +20280,180 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 <h3>Conclusion</h3>
 <p>The nation was shaken by the clash on linguistic issues. It threatened to divide India in the same way that religion had divided it. After initial reluctance, better sense prevailed and the linguistic reorganisation of states diffused the internal tensions that threatened to tear the nation apart.</p>
-<p>However, greater sincerity needs to be shown towards the issue of the linguistic minorities since it represents another fault line along which the nation may find itself divided.</p>`,
+<p>However, greater sincerity needs to be shown towards the issue of the linguistic minorities since it represents another fault line along which the nation may find itself divided.</p><h2>Refugee Crisis</h2>
+<ul>
+<li>&#8226; The people of Bengal and Punjab faced a great degree of uncertainty at the time of partition. The Boundary Commission announced its award on the 18th August, 1947. The general atmosphere of hatred created by the Muslim League&#8217;s Direct action programme led to an enhanced sense of anxiety.</li>
+<li>&#8226; Chaos erupted as Lahore was given to Pakistan. Its Hindu and Sikh residents had accepted to be the part of India.</li>
+<li>&#8226; Both India and Pakistan assured their religious minorities of full state protection but were unable to convince sizeable sections of their minorities to stay in place.</li>
+<li>&#8226; Popular resentment boiled over taking the shape of communal outbursts. This triggered a major communal pogrom on both sides of the border which could not be calmed for several months.</li>
+<li>&#8226; The law and order machinery was poorly equipped to handle such a major crisis and failed to protect the lives, property and dignity of the minorities.
+<ul>
+<li style="padding-left:2em">&#9702; More than one crore people were forced to flee and more than ten lakh were slaughtered. Such a massive humanitarian crisis had never occurred before or since India&#8217;s partition.</li>
+<li style="padding-left:2em">&#9702; Women, children and the elderly were the worst affected.</li>
+<li style="padding-left:2em">&#9702; The problems of the migrants did not end at the end of their journeys. Those who survived their ordeal found themselves without food, shelter, clean drinking water or medicine.</li>
+<li style="padding-left:2em">&#9702; They were constantly threatened without the presence of adequate police protection.</li>
+<li style="padding-left:2em">&#9702; The most painful was their immense sense of loss. Their lives had been completely uprooted and many would be permanently separated from their loved ones.</li>
+</ul>
+</li>
+</ul>
+<h3>Response to the refugee crisis</h3>
+<h4>North western India: Delhi-Punjab belt</h4>
+<ul>
+<li>&#8226; The largest number of refugees came to this region. Providing security, food, clothing shelter, medicine, water and sanitation were the immediate tasks before the administration to provide relief to these victims of partition.</li>
+<li>&#8226; For months, they had to live under open skies, on roadsides, along railway lines or in makeshift camps in cities such as Jalandhar, Kurukshetra, Delhi, Faridabad etc.</li>
+<li>&#8226; A rehabilitation centre was setup with the task of-
+<ul>
+<li style="padding-left:2em">&#9702; Reuniting separate family members,</li>
+<li style="padding-left:2em">&#9702; To rehabilitate the refugees both physically and emotionally.</li>
+</ul>
+</li>
+<li>&#8226; Most migrant from Punjab were farmers who had to be provided land in order to rebuild their lives.</li>
+<li>&#8226; Land distribution was done in two phases-
+<ul>
+<li style="padding-left:2em">&#9702; A small parcel of land was assigned to each family</li>
+<li style="padding-left:2em">&#9702; Further distribution was done on the basis of &#8216;claimed loss&#8217; and &#8216;graded cut&#8217;.</li>
+</ul>
+</li>
+<li>&#8226; Land left behind by the Muslim migrants from India to Pakistan was distributed among the India bound refugees.</li>
+<li>&#8226; However, the general complaint was that their new lands were too little and less fertile than the land they had left behind.</li>
+<li>&#8226; Refugee colonies were set up in cities such as Jalandhar, Delhi and Faridabad to resettle the urban refugees.
+<ul>
+<li style="padding-left:2em">&#9702; Financial assistance was provided to them to settle new businesses and construct their houses.</li>
+</ul>
+</li>
+</ul>
+<h4>East and North East India: West Bengal and Manipur-Tripura region</h4>
+<ul>
+<li>&#8226; A major complication of the refugee crisis in East India was that migration was a one-way affair i.e. from East Pakistan towards India.</li>
+<li>&#8226; Therefore, there was virtually no land or property to be distributed among the incoming refugees.</li>
+<li>&#8226; Most refugees in Bengal remained concentrated in Calcutta where large slums sprouted up. They faced severe problems such as the lack of basic amenities, healthcare, education. Employment opportunities were also poor since the economy was unable to absorb the additional workforce.</li>
+<li>&#8226; Another problem was that the bulk of refugees in the east were poor, illiterate and unskilled which further deepened the crisis.</li>
+<li>&#8226; Some refugees from East Pakistan also migrated towards the Assam valley and the tribal dominated regions of Tripura and Manipur.
+<ul>
+<li style="padding-left:2em">&#9702; They faced hostility from locals due to linguistic, cultural and ethnic differences.</li>
+<li style="padding-left:2em">&#9702; The problem was most severe in the sparsely populated tribal regions where the influx of refugees threatened to change the demographic complexion.</li>
+</ul>
+</li>
+<li>&#8226; This created political conditions that are relevant even today and created major hurdle towards the process of tribal integration and nation building in the north east.</li>
+</ul>
+<h4>Western India: Gujarat and Maharashtra</h4>
+<ul>
+<li>&#8226; Roughly twenty lakh Pakistani migrants from Sindh came to this region in the months following partition.</li>
+<li>&#8226; They faced problems similar to refugees in other regions but with even greater complications.</li>
+<li>&#8226; They suffered an added sense of loss of culture. The locals of Gujarat and Maharashtra treated them as unwanted outsiders with a foreign identity and culture. This created problems with regards to their assimilation.</li>
+<li>&#8226; They were discriminated against in matters of business and employment. Additionally, the state machinery remained apathetic to their issues and progress towards rehabilitation was slow.</li>
+<li>&#8226; Due to lack of land and housing, both urban and rural migrants from Sindh had to live in slums in cities such as Ahmedabad, Surat and Bombay.</li>
+<li>&#8226; Slowly, they were able to rebuild their lives to emerge as one of the most influential business classes in western India. However, they received little outside or state help.</li>
+</ul>
+<h3>Impact of the refugee crisis</h3>
+<ul>
+<li>&#8226; More than fifteen lakh refugees each arrive in north western, western and eastern India.</li>
+<li>&#8226; Roughly forty lakh Muslim migrants migrated from India towards Pakistan.</li>
+<li>&#8226; The largest influx of refugees was seen in the Delhi-Punjab belt causing a major demographic shift. Delhi&#8217;s famous Indo-Islamic culture was destroyed overnight and came to be dominated by Punjabi culture.</li>
+<li>&#8226; In Calcutta and Bengal, communists mobilised migrants by providing them relief and promising reforms. Thus, the politics of West Bengal slowly came to be dominated by the Communist Party.</li>
+<li>&#8226; In Delhi, the Jan Sangha and RSS became extremely popular due to their relief work among refugees. They also benefitted from the undercurrent of intense communal hatred and succeeded in recruiting the refugee youth.</li>
+<li>&#8226; In the Gujarat-Bombay region, the influx of Sindhi refugees strengthened the linguistic movement. The native Gujarati and Marathi speakers were threatened by the possible dilution of their linguistic identity.</li>
+<li>&#8226; In the tribal dominated north east, the influx of Bengali refugees created political complications which manifested themselves in the form of strong movement for tribal independence which often became violent. This threatened political stability, national security and national integration.</li>
+<li>&#8226; The theme of the refugee crisis became prominent within the popular culture. The subjects of partition, suffering of the refugees, separation communal relations, exploitation of women and human struggle captured the imagination of poets, novelists, short story writers, musicians, painters and cine makers.
+<ul>
+<li style="padding-left:2em">&#9702; Some important works touching these themes include Tobatek Singh written in Urdu by Manto, Train to Pakistan in English by Khushwant Singh, Pinjar in Punjabi by Amrita Pritam, Tamas in Hindi by Bhishm Sahni.</li>
+</ul>
+</li>
+<li>&#8226; More than 75 years after partition, the wounds of the refugee crisis may have been healed but the scars remain.
+<ul>
+<li style="padding-left:2em">&#9702; Poverty, crime, addiction, truancy and communal feelings continue to linger with the refugee communities being the worst affected.</li>
+<li style="padding-left:2em">&#9702; This is often perceived to be the result of the generational trauma of partition. As such, rehabilitation should not focus only upon physical and economic resettlement. It should also involve cultural protection and emphasis on mental health.</li>
+</ul>
+</li>
+</ul>
+<h2>Democracy and first General election</h2>
+<h3>During the National Movement</h3>
+<ul>
+<li>&#8226; The national movement had been deeply democratic especially since the formation of Congress.</li>
+<li>&#8226; Major demand of the nationalists was the introduction of a limited, constitutional, responsible and democratic government.</li>
+<li>&#8226; Since the beginning of the 20th century, self-rule and democracy became the twin objectives of the nationalists.</li>
+<li>&#8226; Gandhiji broadened the social base of the movement thus enlisting virtually all sections of the population in the struggle for democracy.</li>
+<li>&#8226; From the 1920s onwards, people of the Princely states also joined the struggle for national unification, national independence and democracy.</li>
+<li>&#8226; The Nehru report of 1928 raised the demand of universal adult franchise and the abolition of separate electorates to create a self-ruled democratic and secular India.</li>
+<li>&#8226; The entry of workers and peasants into the national movement further strengthened the case for democracy.</li>
+<li>&#8226; Same pattern was echoed by the rising participation of dalits, Muslims and women in the national movement.</li>
+<li>&#8226; Therefore, the national movement had a rich legacy of democracy.</li>
+</ul>
+<h3>Constitutional debate</h3>
+<ul>
+<li>&#8226; Following the transfer of power, major constitutional debate erupted within the nationalist leadership with regards to the following questions-
+<ul>
+<li style="padding-left:2em">&#9702; <strong>1. Form of government</strong></li>
+</ul>
+</li>
+<li>&#8226; With regards to the first question, one group of leaders led by Dr Rajendra Prasad and C. Rajagopalachari suggested that India should have a Presidential form of government i.e. indirectly elected.
+<ul>
+<li style="padding-left:2em">&#9702; They argued that India was not ready for direct elections and Presidential form of government could represent continuity of the Governor General&#8217;s office within a Republican system.</li>
+</ul>
+</li>
+<li>&#8226; Pt Nehru insisted upon a Westminster Parliamentary system with direct elections.
+<ul>
+<li style="padding-left:2em">&#9702; The Westminster system was the logical choice since Indian democracy was modeled on British democracy. Moreover, indirect elections would be against the legacy of the national movement.</li>
+</ul>
+</li>
+<li>&#8226; <strong>2. Timing of election</strong></li>
+<li>&#8226; Some prominent members of Nehru&#8217;s cabinet wanted to delay elections. They argued-
+<ul>
+<li style="padding-left:2em">&#9702; The country was facing sever crisis and would not be able to bear additional burden of the general elections.</li>
+<li style="padding-left:2em">&#9702; Law and order machinery was not equipped to provide necessary security.</li>
+<li style="padding-left:2em">&#9702; The bulk of voters were illiterate and were susceptible to caste and communal appeals.</li>
+<li style="padding-left:2em">&#9702; Threat of muscle and money power was extremely strong.</li>
+<li style="padding-left:2em">&#9702; The task of registering voters had not been completed and would require a massive undertaking.</li>
+<li style="padding-left:2em">&#9702; The infrastructure needed to conduct elections in remote and distinct areas was nonexistent.</li>
+<li style="padding-left:2em">&#9702; Ensuring the neutrality of officials would be a big challenge.</li>
+<li style="padding-left:2em">&#9702; Both domestic and foreign experts had expressed doubts regarding the preparedness of elections.</li>
+<li style="padding-left:2em">&#9702; If the elections could not be performed successfully, it would tarnish India&#8217;s image and could threaten national unity.</li>
+</ul>
+</li>
+<li>&#8226; Pt Nehru insisted upon conducting elections as soon as possible arguing that the ordinary masses would be unable to taste the real fruits of freedom till they are able to elect their own governments.</li>
+<li>&#8226; <strong>3. Extent of franchise</strong></li>
+<li>&#8226; Prominent leaders such as Dr Rajendra Prasad and C. Rajagopalachari suggested the gradual introduction of Universal Franchise.</li>
+<li>&#8226; Pt Nehru argued that democracy and independence would be meaningless without equality. Limited franchise would prolong the exploitation of the underprivileged by the dominant minority.</li>
+</ul>
+<h3>Nehru&#8217;s approach in the First general elections</h3>
+<ul>
+<li>&#8226; Pt Nehru emerged as a true statesman insisting upon direct elections with Universal Adult Franchise as soon as possible. Leading from the front, he convinced other leaders and it was declared that elections to be held in 1951.</li>
+<li>&#8226; Election Commission of India was set up on the 25th January 1950. It had one Chief Election Commissioner (Sukumar Sen, an ICS officer with Maths background).</li>
+<li>&#8226; Representation of People&#8217;s Act, 1951 provided for elections of Lok Sabha as well as state legislative assemblies with the principle of direct elections with Universal Adult Franchise.</li>
+<li>&#8226; Election Commission of India began registering voters primarily by using government school teachers. It also began training state officials to conduct elections. It simultaneously began preparing for elections by creating the necessary infrastructure such as polling booth, transportation and security apparatus.</li>
+<li>&#8226; Once the voter list was prepared, it had to be prepared again since more than thirty lakh names were found to be fictitious.</li>
+<li>&#8226; To overcome the hurdle of mass illiteracy, election symbols were assigned to the different parties.</li>
+<li>&#8226; Campaigning was done through newspapers, speeches, public rallies, pamphlets, posters and door to door campaigning.</li>
+<li>&#8226; State run All India Radio was prohibited from caring campaign messages.</li>
+<li>&#8226; The election was planned in several phases between October 1951 to February 1952. This was done to prevent the overburdening of the election machinery</li>
+</ul>
+<h3>Policy agenda of different parties</h3>
+<ul>
+<li>&#8226; <strong>The Congress</strong> promised progressive and secular society with poverty removal and economic growth.</li>
+<li>&#8226; <strong>Jan Sangh</strong> accused the Congress of minority appeasement and promised to restore Hindu cultural pride.</li>
+<li>&#8226; <strong>Communists</strong> accused the Congress of being a bourgeoisie party and promised structural reforms for workers and peasants.</li>
+<li>&#8226; <strong>The Scheduled Caste Federation</strong> accused the Congress of being an upper caste sympathiser and promised to address the problems of dalits and women.</li>
+<li>&#8226; <strong>The DMK</strong> came out with an agenda of Tamil pride.</li>
+<li>&#8226; <strong>Pro-Hindi</strong> groups promised to make Hindi the national language.</li>
+</ul>
+<h3>Day of the election</h3>
+<ul>
+<li>&#8226; The election began with the Chini tehsil (Himachal Pradesh) and in several phases was conducted across India.</li>
+<li>&#8226; The atmosphere was festive and the people participated in a celebratory mood.</li>
+<li>&#8226; Voter turnout was healthy at 58%. The voting percentage was highest at Kottayam (Kerala) i.e. 84% and lowest at Shahdol (UP) at 18%.</li>
+<li>&#8226; The Congress won absolute majorities both at the centre and the states. Almost all top figures of the national movement were elected but there were few upsets such as Dr Ambedkar and Morarji Desai.</li>
+</ul>
+<h3>Impact and Significance of these elections</h3>
+<ul>
+<li>&#8226; The biggest success was the participation of the people in healthy numbers with the hope of change.</li>
+<li>&#8226; In a hierarchical society, the principle of one person, one vote was revolutionary. In a single stroke, centuries of social disability and political discrimination were wiped out.</li>
+<li>&#8226; The myth that the illiterate Indian masses were unfit for democracy was shattered. They rose above the politics of case, religion, language or class and rejected the divisive agenda of some parties who choose progressive and secular society as promised by Congress.</li>
+<li>&#8226; Neutrality of state officials was another major achievement.</li>
+<li>&#8226; The composition of first Lok Sabha represented the true spirit of India. Some members were rich, others were educated, others illiterate. Some Hindi speakers, some regional, some representing business interests, others workers, some were liberal and others orthodox.</li>
+<li>&#8226; The elections also legitimised the constitution since most former constituent assembly members were elected to the Lok Sabha.</li>
+<li>&#8226; The success of the election silenced critics, both foreign and domestic.</li>
+<li>&#8226; The success of the elections also raised India&#8217;s prestige especially among the newly independent countries. Newly independent countries started looking towards India as a role model.</li>
+</ul>`,
   'caste-ethnicity-post-1947': ``,
   'economic-development-political-change': `<h2>Land Revenue Reforms</h2>
 <p>Earlier, the Permanent Settlement was guided by mercantilist interest. However, in the early decades of the 19th century, India was being developed as a British commodity market.</p>
