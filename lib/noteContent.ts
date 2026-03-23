@@ -19195,7 +19195,178 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 <p>However, the role of Indian society in general and extremist leaders in particular should also be analyzed vis-&#224;-vis use of religious symbols and accepting religious diversity as religious differences.</p>
 <p>Thus, this dragon&#8217;s teeth are a challenge for the present times which now needs to be rooted out to reverse an ugly episode of Indian history.</p>`,
-  'other-strands-national-movement': ``,
+  'other-strands-national-movement': `<h2>First Phase of Revolutionary Extremism</h2>
+<blockquote>
+<p>Justice and righteousness are the atmosphere of political morality and the sword of the warrior is necessary to its fulfillment- Sri Aurobindo Ghosh.</p>
+</blockquote>
+<p>In the context of Indian history, revolutionaries were those nationalists who were ready to use violence to liberate India from British rule through assassinations, dacoities, military conspiracies and creating an international network of revolutionaries against British rule.</p>
+<p>While the use of political violence against the British rule was not new, it emerged as the major trend following the failure of the Swadeshi movement.</p>
+<h2>Factors for the emergence of Revolutionary extremism</h2>
+<ul>
+<li>&#8226; Failure of mainstream politics filled the younger patriots with a sense of disillusionment. Both the moderates and extremists had failed to make any meaningful progress. This pushed the highly patriotic younger nationalists towards the path of revolution.</li>
+<li>&#8226; While the extremists had succeeded in inspiring the patriotism of the younger nationalists, they failed to clearly distinguish between revolution based on the activity of the masses and acts of individual heroism.
+<ul>
+<li style="padding-left:2em">&#9702; As a result, following the failure of the Swadeshi movement, the younger nationalists felt it was their duty to continue the struggle individually.</li>
+</ul>
+</li>
+<li>&#8226; The biggest cause for the emergence of revolutionary extremism was definitely British misrule, their atrocities and their autocracy.
+<ul>
+<li style="padding-left:2em">&#9702; The British had been exploiting India for over a century resulting in the upwelling of anger and discontent.</li>
+<li style="padding-left:2em">&#9702; Their ruthless suppression of previous uprisings had fuelled unfulfilled nationalist aspirations.</li>
+<li style="padding-left:2em">&#9702; The nationalists had organized peaceful Swadeshi movement but the British suppressed it like all previous revolts.</li>
+<li style="padding-left:2em">&#9702; This convinced the younger nationalists that the British are not interested in compromise thus preparing the way for direct confrontation.</li>
+<li style="padding-left:2em">&#9702; In other words, by making peaceful change impossible, the British had made the use of violence inevitable.</li>
+</ul>
+</li>
+<li>&#8226; The early revolutionaries also lacked a clear understanding of the true nature of British rule.
+<ul>
+<li style="padding-left:2em">&#9702; They felt that assassination of a few unpopular British officials would terrify the British enough to grant Swaraj or to leave India.</li>
+<li style="padding-left:2em">&#9702; They also felt that this could provide relief to ordinary Indians suffering under British misrule.</li>
+<li style="padding-left:2em">&#9702; They failed to perceive the systemic nature of the colonial regime in which individual officials were no more than replaceable parts in complex machinery.</li>
+</ul>
+</li>
+<li>&#8226; The younger revolutionaries were also inspired by the activities and achievements of foreign revolutionaries such as the IRA that had been battling the British in Ireland and the Nihilists which had been opposing the Czarist regime in Russia.
+<ul>
+<li style="padding-left:2em">&#9702; Instead they wanted to use the Western hammer (Political violence) to shatter Western rule in India.</li>
+<li style="padding-left:2em">&#9702; In the recent decades, there had been a major cultural shift in Indian nationalism. The younger nationalists had been ideologically trained to view India as their divine motherland.</li>
+<li style="padding-left:2em">&#9702; The spirit of sacrifice was infused in their psychological makeup. They considered it their sacred duty to defend their motherland against a foreign invader.</li>
+<li style="padding-left:2em">&#9702; For this, the use of all means including violence was acceptable.</li>
+<li style="padding-left:2em">&#9702; Therefore, the use of revolutionary methods came as a natural choice for this group of young nationalists.</li>
+</ul>
+</li>
+</ul>
+<h2>Practice Question</h2>
+<p><strong>Q. Discuss the factors responsible for the emergence of revolutionary extremism in India after the failure of the Swadeshi movement.</strong></p>
+<p>The Swadeshi movement had raised both the hope and awareness of the people but its insignificant end led the agitated youth to move towards revolutionary tactics as the divergence with British rule had been finalized by then.</p>
+<p>Factors responsible for the emergence of revolutionary extremism in India were-</p>
+<ul>
+<li>&#8226; Failure of Swadeshi movement without any concrete result proved the young nationalists that British rule is completely apathetic to Indian demands.</li>
+<li>&#8226; Failure of mainstream leaders- Moderates had already failed earlier but even extremists could not build a momentum. Surat split had further weakened the organisational strength.</li>
+<li>&#8226; British misrule- just like violent uprisings, British had also suppressed the peaceful Swadeshi movement. Extremist leaders like BG Tilak and Aurobindo Ghosh were detained and harsh legal power was unleashed disproportionately.</li>
+<li>&#8226; Cultural change in India started by late 19th century when revolutionary thoughts were manifested in openings of Akharas (Gymnasiums), groups such as Mitra mela by Savarkar brothers etc. started emphasizing &#8216;masculinity&#8217;.</li>
+<li>&#8226; International influence- newly educated middle class was inspired by IRA of Ireland and Nihilists of Russia and were eager to undergo individual heroism or dacoit, murder involving small secret groups.</li>
+<li>&#8226; International support- As World War 1 began in 1914 in which Germany&#8217;s anti-British alliance found resonance with Indian revolutionaries known as Zimmerman Plan.</li>
+</ul>
+<p>These were the factors which motivated the youth to sacrifice their life for their motherland and they were not comfortable in compromising with the peaceful protests considered as a &#8216;weakness&#8217; by these revolutionaries.</p>
+<h2>Important Revolutionary activities and groups</h2>
+<p>Indian revolutionaries, in its first phase, were active in both India as well as abroad. In India, there were three major centres of revolutionary groups- Bengal, Punjab and Maharashtra.</p>
+<p><strong>Bengal-</strong> in Bengal political awareness was very high since a long time. During Swadeshi movement, various volunteer organisations and Samitis had already come up in Bengal. Some important organisations were-</p>
+<ul>
+<li>&#8226; <strong>Dacca Anushilan Samiti led by Pulin Das-</strong> Its chief activities were-
+<ul>
+<li style="padding-left:2em">&#9702; Barrah dacoity (1908) - The cash at Kutchery of Barrah was looted for further revolutionary activities.</li>
+<li style="padding-left:2em">&#9702; Barisal conspiracy (1912) - it was aimed at looting British armoury but remained unsuccessful and Pulin Das was deported for life.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Yugantar group- Barindra Kumar Ghosh, Aurobindo Ghosh, Jatindranath Mukherjee-</strong> Its important acts were-
+<ul>
+<li style="padding-left:2em">&#9702; Muzaffarpur blast (1908) carried out by Khudi Ram Bose and Prafulla Chaki with the objective of killing an unpopular and sadistic judge Kingsford who was the district judge of Muzaffarpur. Unfortunately, the bomb accidentally killed two British women going in a carriage. Chaki was arrested and hanged while Bose committed suicide.</li>
+<li style="padding-left:2em">&#9702; Further investigations led to the arrest of Ghosh brothers. While Barindra Kumar was deported for life whereas Aurobindo retired from active politics in what came to be own as Alipore conspiracy case.</li>
+<li style="padding-left:2em">&#9702; However, Yugantar group continued to survive and even allied with other groups throughout the nation.</li>
+<li style="padding-left:2em">&#9702; The group played important role in the attack on Viceroy Hardinge in 1912 in Delhi. Sachin Sanyal and Rashbehari Bose were the two revolutionaries involved.</li>
+<li style="padding-left:2em">&#9702; Although Hardinge survived the attack but both revolutionaries were able to escape considering it as partially successful.</li>
+<li style="padding-left:2em">&#9702; Zimmerman Plan (1915) was a German plot to ally with Indian revolutionaries by supplying them weapons to raise armed struggle against the British. The weapons&#8217; consignment was about to reach Balasore (Odisha) but the plan got leaked and Jatindranath was killed by British.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Punjab-</strong> Revolutionaries activities were organized by Ajit Singh and Lala Lajpat Rai even during Swadeshi movement.</p>
+<ul>
+<li style="padding-left:2em">&#9702; However, both these leaders were arrested and forced to exile.</li>
+<li style="padding-left:2em">&#9702; After that, Punjab observed a trend of exile of revolutionaries to abroad mainly to Canada and USA.</li>
+<li style="padding-left:2em">&#9702; This led to the formation of Ghadar party under the leadership of Lala Hardayal, Madan Lal Dhingra, and Bhai Parmanand etc.</li>
+</ul>
+<p><strong>Maharashtra-</strong> revolutionary fervour was already present in Maharashtra even before the beginning of Swadeshi movement. Chapekar brothers had assassinated Justice Rand and Tilak was also sentenced for defending them in his newspaper.</p>
+<ul>
+<li>&#8226; VD Savarkar and GD Savarkar founded Mitra Mela and then Abhinav Bharat and emerged as prominent organisers of the revolutionaries.
+<ul>
+<li style="padding-left:2em">&#9702; AL Kanhere assassinated the District Collector Jackson of Nasik.</li>
+<li style="padding-left:2em">&#9702; Chapekar brothers were also linked with their platform.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Abroad-</strong> London, Geneva, Paris, Berlin and USA (San Francisco) emerged as the major centre for Indian revolutionaries.</p>
+<p><strong>London-</strong> Shyamji Krishna Verma established India House (1905) as support house for revolutionaries.</p>
+<ul>
+<li style="padding-left:2em">&#9702; Madan Lal Dhingra had assassinated a British official in London.</li>
+<li style="padding-left:2em">&#9702; After that, members of Indian House League had to shift to Berlin following British repression.</li>
+</ul>
+<p><strong>Geneva and Paris-</strong> Madam Bhikaji Cama formed common alliance with French socialists.</p>
+<p><strong>Berlin-</strong> during First World War, Virendranath Chattopadhyay established Berlin Committee for Indian independence and began conspiring with the German authorities to overthrow British rule in India.</p>
+<ul>
+<li style="padding-left:2em">&#9702; It played an important role in forming Zimmerman Plan.</li>
+</ul>
+<p><strong>USA (San Francisco) -</strong> it emerged as an important hub for the activities of Punjabi revolutionaries who created Ghadar Party in 1913.</p>
+<ul>
+<li style="padding-left:2em">&#9702; The objective was to incite revolution, overthrow British rule in India, hatching conspiracy against British by befriending common enemies and other like-minded organisations.</li>
+<li style="padding-left:2em">&#9702; Their chief act was the Ghadar conspiracy in which they got in contact with the Yugantar group to incite a popular rebellion by inciting a mass mutiny of British-Indian soldiers in Punjab. However, the plan got leaked and the conspiracy failed.</li>
+</ul>
+<h2>Reasons for the decline of Revolutionary extremism</h2>
+<ul>
+<li>&#8226; <strong>End of World War 1-</strong> With the end of World War 1, British also ended several wartime restrictions such as the restrictions placed by Defence of India rules, restrictions on Press etc.
+<ul>
+<li style="padding-left:2em">&#9702; The economic misery brought by the war such as inflation, war time shortages etc. also started easing by this time.</li>
+<li style="padding-left:2em">&#9702; As the anger of the people started declining, the support for the revolutionary activities also declined.</li>
+</ul>
+</li>
+<li>&#8226; <strong>British also took certain steps to restore relations with Indians</strong>
+<ul>
+<li style="padding-left:2em">&#9702; British freed all the political prisoners arrested under the Defence of India rules which allowed British to detain anyone for two years without any charge sheet.</li>
+<li style="padding-left:2em">&#9702; August declaration (1917) &#8211; British promised Constitutional reforms through the declaration. Revolutionaries as well as mainstream leaders did not want to derail this potentially progressive step.</li>
+<li style="padding-left:2em">&#9702; Montford Report (1918) &#8211; It gave further hopes for Constitutional reforms. By accepting the flaws of Morley-Minto reforms, this report gave hope of significant reforms.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Home Rule League Movement</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Re-entry of BG Tilak in politics after completing his sentence and efforts of Annie Besant led to formation of two Home Rule Leagues which again provided a platform for masses to participate in open politics.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Entry of Mahatma Gandhi into Indian Politics</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The revolutionaries wanted to give an opportunity to the new strategy of non-violent Satyagraha to succeed.</li>
+</ul>
+</li>
+</ul>
+<p>Owing to these happenings, the revolutionary activities started declining sharply by 1918-19.</p>
+<h2>Significance of Revolutionary Extremism</h2>
+<p>Although revolutionaries were unable to liberate India but their significant contribution is far reaching-</p>
+<ul>
+<li>&#8226; They kept nationalism alive at a time when the mainstream movement had been flattened.
+<ul>
+<li style="padding-left:2em">&#9702; Because of this reason, they even became heroes and role models of ordinary Indians.</li>
+</ul>
+</li>
+<li>&#8226; They prepared the way for resurgence of mainstream nationalism by linking the spirit of patriotism with displays of individual bravery.</li>
+<li>&#8226; They were able to redefine the parameters of Indian nationalism because the use of violent means became a viable means of releasing anti-colonial anger for the first time.</li>
+<li>&#8226; They succeeded in creating a national and international network of allies against British imperialism thus also increasing Indian national movement&#8217;s awareness of and interaction with global anti-colonial trends.</li>
+<li>&#8226; Revolutionaries directly contributed to the further radicalization of the mainstream movement. Leaders such as VD Savarkar and Lala Lajpat Rai had come into contact with the revolutionaries and been influenced by their passion and energy.</li>
+<li>&#8226; It was partly due to the pressure exerted by the revolutionaries that the British had to respond positively in the form of general amnesty, Montford report, Act of 1919.</li>
+</ul>
+<h2>Critical Evaluation of their achievements and failures</h2>
+<ul>
+<li>&#8226; <strong>Failed to liberate India</strong> due to a flawed understanding of the true nature of British rule. However, they were not solely responsible for this as even moderates and extremists had failed to guide the younger nationalists.</li>
+<li>&#8226; Colonial historians have alleged that revolutionaries derailed and delayed the process of liberal political reform. However, it has been pointed out that the British were never actually interested in introducing meaningful reforms-
+<ul>
+<li style="padding-left:2em">&#9702; Indian nationalists have been demanding such reforms since atleast the mid-90s. in fact, sine he foundation of the Congress, two major political changes had emerged and vanished mainly moderate politics and extremism.</li>
+<li style="padding-left:2em">&#9702; The British had responded to the moderates with apathy and to the extremists with hostility.</li>
+<li style="padding-left:2em">&#9702; In light of this, the colonial allegation regarding the disruptive role of the revolutionaries rings hollow.</li>
+<li style="padding-left:2em">&#9702; On the other hand, the argument may be made that the revolutionaries in fact ended the British complacency resulting in a visible urgency for reform within the government from 1917-18.</li>
+</ul>
+</li>
+<li>&#8226; While the extremists failed to end British rule by instigating a mass revolt against them, this detail can be contextualized in the backdrop of certain facts
+<ul>
+<li style="padding-left:2em">&#9702; Revolutionary approach towards the masses never actually envisaged a mass revolt. All they wanted was to lead the masses by example and keep the spirit of patriotism alive among them especially at a time the mainstream movement had faltered.</li>
+<li style="padding-left:2em">&#9702; Judging by this parameter the revolutionaries achieved resounding success.</li>
+</ul>
+</li>
+<li>&#8226; While revolutionary activities experienced sharp decline in 1918-19 but this does not mean that their role ended in the Indian national movement.
+<ul>
+<li style="padding-left:2em">&#9702; They inspired future revolutionaries with their courage and sacrifice.</li>
+<li style="padding-left:2em">&#9702; Early revolutionaries remained active and directly participated in the later phases of the revolutionary activities. For example Sachin Sanyal who played a leading role in both the HRA and HSRA. Similarly, Rashbehari Bose who escaped to Japan following the failure of the Ghadar policy and played a leading role in raising the Indian National Army in Singapore in the second World war.</li>
+</ul>
+</li>
+<li>&#8226; The Indian revolutionary movement evolved especially under the influence of socialism. This resulted in the emergence of new opportunities and alliances not only between the revolutionaries and working classes but also with other international collaborators.</li>
+</ul>
+<p>Many historians tend to write-off revolutionary phase as a minor footnote in the national movement, in recent decades, new understanding has emerged. The role of the revolutionaries in shaping the class composition, energy and leanings of the national movement has been recognized along with their contributions in development of India&#8217;s foreign relations.</p>`,
   'politics-separatism-partition': ``,
   'post-independence-consolidation': ``,
   'caste-ethnicity-post-1947': ``,
