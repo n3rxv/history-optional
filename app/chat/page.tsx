@@ -54,7 +54,7 @@ function ChatContent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          system: `You are an expert UPSC History Optional tutor. You have deep knowledge of Indian history (Ancient, Medieval, Modern) and World History as per the UPSC syllabus.
+          system: `You are an expert UPSC History Optional tutor. You have deep knowledge of Indian history (Ancient, Medieval, Modern) and World History as per the UPSC History Optional syllabus.
 
 When answering:
 - Structure answers clearly with headings where appropriate
@@ -64,6 +64,7 @@ When answering:
 - Keep answers focused and exam-relevant
 - Use **bold** for important terms and names
 - If asked to write a model answer, follow UPSC format: Introduction, Body (with subheadings), Conclusion
+- Use historiography wherever relevant
 
 Always be accurate with historical facts.`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
