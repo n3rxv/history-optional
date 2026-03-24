@@ -24132,7 +24132,252 @@ He argued that <em>our knowledge of the world is limited</em> by the way our min
 <li style="padding-left:2em">&#9702; &#8220;The American War of Independence transformed Europe as well as America.&#8221; Critically examine. [2018, 10 Marks]</li>
 </ul>
 </li>
-</ul>`,
+</ul>
+
+<h2>Handout 8: Making of the American Constitution</h2>
+<blockquote>
+<p>&#8220;We the people of the United States, in order to form a more perfect union, establish justice, insure domestic tranquillity, provide for the common defence, promote the general welfare, and secure the blessings of liberty to ourselves and our posterity, do ordain and establish this constitution for the United States of America.&#8221;</p>
+<p><em>The Preamble to the US constitution</em></p>
+</blockquote>
+<p>The US Constitution is the earliest example of the modern, written and republican constitution. It successfully harmonized the interests spread of 13 settlements and transformed a colonial society into a modern nation. Above all, it has remained intact its importance by successfully facing many challenges over the last two centuries.</p>
+<p>Looking at its making, it could became possible only after an extensive debates. In a sense, in front of the Americans, more than the war of independence, the task of nation-building was a greater challenge. It was like bringing together 13 nations.</p>
+<h3>Articles of Confederation (1781-89)</h3>
+<p>After a long debate from 1777-81, the <strong>Articles of Confederation</strong> were drafted and ratified by the Second Continental. It is regarded as the First US Constitution and remained in force for a decade from 1781-89.</p>
+<ul>
+<li>&#8226; <strong>Confederation of sovereign states</strong></li>
+<li>&#8226; <strong>Government:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Legislature: One-house body of delegates, with each state having a single vote.</li>
+<li style="padding-left:2em">&#9702; There was no executive branch or president and no judiciary to settle disputes.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Limited power:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; On paper, the Congress had power to regulate foreign affairs + Indian affairs, declare war, and the postal service and monetary policy. In reality, however, the Articles gave the Congress no power to enforce its requests to the states for money or troops. It could coin money but couldn&#8217;t impose taxes.</li>
+<li style="padding-left:2em">&#9702; The government was deliberately weak, which followed logically from Americans&#8217; fear of tyrannical governments taxing them and quartering soldiers in their houses. Very soon, governmental effectiveness broke down.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Performance of the Articles:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Guidance for the conduction of business during revolutionary years</li>
+<li style="padding-left:2em">&#9702; Certain state claims to western lands were settled.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>The Northwest Ordinance of 1787</strong> set up a process to create 5 new states between the Ohio and Mississippi rivers. Importantly, the ordinance <u>outlawed slavery in all five of the new states.</u></li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; It provided the new nation with instructive experience in self-government under a written document.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Issues due to weakness:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It often resulted in the deadlock along sectional lines between North/South, Big/Small.</li>
+<li style="padding-left:2em">&#9702; <strong>Treaty of Paris (1783)</strong> stipulated that <strong>debts owed by Americans to British subjects were to be honored</strong>, These provisions were unpopular, and many states blocked their enforcement. This led to British refusal to vacate military forts in U.S. territory.</li>
+<li style="padding-left:2em">&#9702; <strong>It couldn&#8217;t collect taxes.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; States were not required to provide any help. Although Congress asked for millions in the 1780s, it received less than 1.5 million from the states between 1781 and 1784.</li>
+<li style="padding-left:4em">&#9632; Both the national government and the individual states had racked up massive debt to pay for the war, and their main source of revenue became tariffs, but because Congress couldn&#8217;t impose them, states had to do it individually.</li>
+<li style="padding-left:4em">&#9632; After the war, <strong>British traders flooded U.S. markets</strong> with British goods, to the detriment of American importers and manufacturers. But the Confederation <strong>lacked the authority to regulate this trade</strong>.</li>
+<li style="padding-left:4em">&#9632; People who held government bonds wanted central government to have tax revenue, so that they would be paid back.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Shay&#8217;s Rebellion</strong> (1786-87): Massachusetts farmers rose up and closed the courts to prevent them from foreclosing upon their debt-encumbered farms.</li>
+<li style="padding-left:2em">&#9702; In revealing their own weaknesses, the Articles paved the way for the Constitutional Convention of 1787 and the present form of U.S. government.</li>
+</ul>
+</li>
+</ul>
+<p>So, there was clearly a need for a stronger central government. However, weaker sections, small merchants and agriculturalists didn&#8217;t want a strong central government. They feared strong centre with its army and bureaucracy to impost the taxes on all and collect it.</p>
+<h3>Constitutional Convention, Philadelphia (1787-89)</h3>
+<p>The convention met in the Pennsylvania, Philadelphia (1787), ostensibly to amend the Articles of Confederation, but ended up writing a new Constitution altogether.</p>
+<p>The <strong>55 delegates</strong> included many of the leading figures of the period. Among them were George Washington, who was elected to preside, James Madison, Benjamin Franklin, James Wilson, John Rutledge, Charles Pinckney, Oliver Ellsworth, and Gouverneur Morris.</p>
+<p>Among the first things that the Convention did were to choose a presiding officer, unanimously electing George Washington to be the president of the convention.</p>
+<p>Discarding the idea of amending the Articles of Confederation, the assembly set about drawing up a new scheme of government but found itself divided, delegates from small states opposing those from large states over the apportionment of representation.</p>
+<p>Most of the delegates voted for a <strong>powerful central government</strong> capable of establishing law and order, paying off debt, promoting economic growth, and protecting American interests on the foreign soil. At the same time, they took care that the popular opinion about <strong>the rights of the provinces</strong> should not be disregarded.</p>
+<p>Second, they <strong>ignored the concept of universal adult franchise</strong> because they believed that this type of government would affect the right to property and enlightened leadership. They were not in favour of abolishing <strong>majority rule</strong>, they only wanted to secure the interests of the wealthy minorities.</p>
+<p>Then the emphasis of these constitution makers was on establishing a <strong>balance among the different interests.</strong> In particular, the emphasis was to establish a <em>balance between property and numbers</em> in such a way that the poor should not be exploited by the rich, on the other hand the poor also could not forcefully deprive the rich people of property.</p>
+<h3>Features of the American constitution</h3>
+<ul>
+<li>&#8226; Government to have executive, legislative and judicial arm
+<ul>
+<li style="padding-left:2em">&#9702; Separation of power</li>
+<li style="padding-left:2em">&#9702; Check &amp; Balance</li>
+<li style="padding-left:2em">&#9702; Bicameral legislature</li>
+</ul>
+</li>
+<li>&#8226; A republican government and representative democracy
+<ul>
+<li style="padding-left:2em">&#9702; Directly elected president.</li>
+<li style="padding-left:2em">&#9702; Limited franchise</li>
+<li style="padding-left:2em">&#9702; 538 members of Electoral college</li>
+</ul>
+</li>
+<li>&#8226; Federal structure</li>
+<li>&#8226; Fundamental rights</li>
+</ul>
+<h3>Sectional Tensions: Controversies</h3>
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%">
+<thead>
+<tr><th></th><th>Issue</th><th>Solution</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Big states vs small state</strong></td>
+<td>Small states demanded equality in representation of states, while big states pleaded for representation on the s of the states.</td>
+<td><strong>Connecticut (Great) Compromise: Bicameral legislature</strong><br>
+&#8226; Proportional representation in the lower house.<br>
+&nbsp;&nbsp;&#8211; Congress, for 2 years term<br>
+&nbsp;&nbsp;&#8211; Responsible to people<br>
+&#8226; Equal representation of the states in the upper house<br>
+&nbsp;&nbsp;&#8211; Senate, 6 years term, with 1/3 rolling retirement cycle<br>
+All revenue measures would originate in the lower house. But the upper house was slightly more powerful overall because it represented states.</td>
+</tr>
+<tr>
+<td><strong>Free state vs slave state</strong></td>
+<td>Slaveholding states demanded that while providing them representation in the House of Representatives even slaves had to be counted. Free states opposed this move for fear of losing the status of majority in the lower chamber.</td>
+<td>Settled by a compromise agreement that <strong>three-fifths of the &#8216;other persons&#8217;</strong> should be counted as population in representation and should also be counted as property in assessing taxes.</td>
+</tr>
+<tr>
+<td><strong>Federalist vs Democratic debate</strong></td>
+<td>Big merchants, financiers, capitalists &amp; bankers favoured a strong federal government for economic protection against European competition.<br><br>Lower peasants and merchants opposed a federal government because it would <strong>impose and collect high taxes with iron hand</strong> (strong army/police)</td>
+<td><strong>To avoid tyranny of the government, the Constitution embraced two principles:</strong><br>
+(1) <strong>Strict separation of power:</strong> The powers of the executive and judiciary were enumerated, and the Constitution was itself declared to be the &#8220;supreme law of the land.&#8221;<br>
+(2) <strong>Federalism:</strong> governmental authority rests both in the national and the state governments. The national government set up by the Constitution possessed limited enumerated powers only.<br><br>
+<strong>To protect against the tyranny of majority</strong><br>
+(1) Senators were elected by the states, usually by state legislatures.<br>
+(2) Electoral College<br>
+&nbsp;&nbsp;&#9702; The electors were supposed to be prominent, educated men of property who were better able to elect a president.<br>
+However, since most delegates in the Convention wanted a stronger centre, this debate was not resolved satisfactorily. Thus, afterwards we have the first 10 amendments called Bill of Rights.</td>
+</tr>
+</tbody>
+</table>
+<p>Every previous national authority had been either a centralized government, or a confederation of sovereign constituent states. The Constitutional Convention created a new, unprecedented form of government by reallocating powers of government. Thus, in 1789 in Philadelphia Congress, the constitution which was adopted was a <strong>compromise</strong> between big states &amp; smaller states, slave states &amp; Free states, and federalist &amp; non-federalist.</p>
+<p>After nearly four months of debate, the draft was finalized in Sept 1787. 39/55 delegates signed it. Benjamin Franklin summed up the sentiments of those who did sign, stating: <u>&#8220;There are several parts of this Constitution which I do not at present approve, but I am not sure I shall never approve them.&#8221;</u> He would accept the Constitution, <u>&#8220;because I expect no better and because I am not sure that it is not the best&#8221;</u>.</p>
+<h3>Federalist vs anti-Federalist debate &#8212;&gt; Bill of Rights</h3>
+<p>Since most delegates in the Convention were Federalists, who came from capitalist interest and thus wanted a stronger center, the debate between federalist-democratic was not resolved satisfactorily <em>during the Convention</em>. This debate came to fore during the <em>process of ratification by the states</em> (1787-1790).</p>
+<p>Ratification by 9/13 states was required. Each state had a special convention where delegates could vote on whether or not to adopt the new constitution.</p>
+<p>In 1787, there were many prominent politicians on both sides of the debate and <strong>public opinion was evenly divided.</strong> The main disagreement between Federalists and Anti-Federalists was over <strong>how much power the federal government should have.</strong> Throughout the debate, both attempted to disseminate their views to the general public. <u>This debate helped clarify America&#8217;s political ideology.</u></p>
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%">
+<thead>
+<tr><th>Federalist</th><th>Anti-Federalist</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>Ben Franklin, Alexander Hamilton, John Jay, and James Madison</td>
+<td>John Hancock, Patrick Henry, Richard Henry Lee, George Mason, and Mercy Otis Warren.</td>
+</tr>
+<tr>
+<td>&#8226; They came from the cities and represented commercial classes. They felt that a strong centre would benefit country as a whole. A stronger national government would improve relationships between states, and help create, as the Constitution stated, a <em>&#8220;more perfect union.&#8221;</em></td>
+<td>They were <strong>usually supported by common people, small farmers</strong> who weren&#8217;t as involved in commercial activity. They wanted weak centre and strong states.<br>
+&#8226; They saw less need for a strong national government that would foster trade and protect creditors.<br>
+&#8226; They were very afraid of a strong government (especially one dominated by the wealthy) which would be prone to tyranny.<br>
+&#8226; They pushed for the addition of a bill of rights, which would guarantee several rights and freedoms of individual.<br>
+&#8226; A smaller unit of states, closer to people, would be more responsive to people needs.</td>
+</tr>
+</tbody>
+</table>
+<p>Thus, in Feb 1788, a compromise was reached with the states holding ratification out. These states agreed to ratify the document with the assurance that amendments will be immediately proposed. Thus, it became the law of the Land.</p>
+<p>George Washington became the first president of the USA and, in 1790, the government was fully operative. Just within 2 years of passing the constitution, <u>the first 10 amendments</u> called <strong>Bill of Rights</strong> were passed in 1791, as a single unit. On the basis of these amendments, Fundamental Rights were provided to the people. These ten amendments to the Constitution guarantee many of the rights and freedoms we now consider <em>hallmarks of the American democracy.</em></p>
+<p>The Bill of Rights derives from the <strong>Magna Carta</strong> (1215), the <strong>English Bill of Rights</strong> (1689), the <strong>colonial struggle against king and Parliament</strong>, and a gradually <strong>broadening concept of equality</strong> among the American people.</p>
+<h3>Rights:</h3>
+<ul>
+<li>&#8226; <strong>First Amendment:</strong> Congress can make no law respecting an establishment of religion or prohibiting its free exercise, or abridging freedom of speech or press or the right to assemble and petition for redress of grievances.</li>
+<li>&#8226; <strong>Second Amendment:</strong> Right to bear arms.</li>
+<li>&#8226; <strong>Fifth Amendment:</strong> requires grand jury indictment in prosecutions for major crimes and prohibits double jeopardy for a single offense. It provides that no person shall be compelled to testify against himself and forbids the taking of life, liberty, or property without due process of law and the taking of private property for public use (eminent domain) without just compensation.</li>
+<li>&#8226; <strong>Sixth and Seventh Amendment:</strong> Trial by jury.</li>
+<li>&#8226; <strong>Ninth Amendment:</strong> protects unenumerated residual rights of the people.</li>
+<li>&#8226; <strong>Tenth Amendment:</strong> powers not delegated to the United States are reserved to the states or the people.</li>
+</ul>
+<h3>&#8220;An Economic Interpretation of the Constitution of the United States&#8221; &#8211; Charles Beard</h3>
+<p>The American constitution has been interpreted by various scholars ever since its drafting in 1787.</p>
+<p>In 1913, a very controversial interpretation was put forward by <strong>Charles A Beard</strong>, that it was an economic document. He is known for <u>radical re-evaluation of the Founding Fathers of the United States</u>, whom he believed to be more motivated by economics than by philosophical principles.</p>
+<p>His <em>progressive interpretation</em> of the Constitution <em>assumed class-conflict</em>. To Beard, the <em>Constitution was a counter-revolution</em> set up by rich bondholders, against the farmers and planters. Beard argued the Constitution was <u>designed to reverse the radical democratic tendencies unleashed by the Revolution</u> among the common people, especially farmers and debtors.</p>
+<h4>Representation: (elite interest group)</h4>
+<ul>
+<li>&#8226; Most of the delegates were rich merchants and big landlords. Out of the 55-delegate Convention, 25 were slave owners.</li>
+<li>&#8226; The delegates to the Constitution Convention were sent by state assemblies whose voting rights were based on property qualification. In fact, about 75% of qualified voters were excluded from the election process on one ground or another.</li>
+<li>&#8226; It was supported by those sections of the population that had huge assets and investment in trade. The weak and poor sections of the population opposed it when it was drafted.</li>
+</ul>
+<p>Thus, the ordinary poor Americans did not play any role either directly or indirectly in the drafting of constitution. Beard emphasized that Constitution Convention was made by rich class. When the British rule came to an end, this rich class captured the power through constitutional convention.</p>
+<h4>Substantive Clauses:</h4>
+<p>Beard found that provisions of the constitution indicate its economic character:</p>
+<ul>
+<li>&#8226; It guaranteed the rights to private property as a fundamental inviolable right. This provision was in accordance with the aspirations of rich class and was against interest of ordinary Americans who were not well off.</li>
+<li>&#8226; Other provisions such as Laissez Faire, continuation of voting rights on basis of property qualification and continuation of practice of slavery were in accordance with aspirations of rich population.</li>
+</ul>
+<p>This interpretation put forward by beard enjoyed acceptance for almost half a century, till 1950s. With the emergence of the Cold War, there was successful re-evaluation of his thesis.</p>
+<ul>
+<li>&#8226; <strong>Forrest McDonald</strong> (1958) carried out a fresh examination of the entire constitutional scheme.
+<ul>
+<li style="padding-left:2em">&#9702; They argue that Beard&#8217;s reliance on economic data and property ownership records is overly reductionist.</li>
+<li style="padding-left:2em">&#9702; Beard had misinterpreted the economic interests due to the lens of class-conflict. They argue that the framers were driven by a <em>complex mix of economic, political, and ideological factors.</em> While economic interests may have played a role, they contend that the framers also had broader goals such as creating a stable government and protecting individual liberties.</li>
+</ul>
+</li>
+</ul>
+<p>By 1950s, Beard&#8217;s <em>economic determinism</em> was largely replaced by the <u>intellectual history approach</u>, which stressed the power of ideas, especially republicanism, in stimulating the Revolution. It argues that the constitution is not just an economic document because its provisions deal with politico-admin, socio-cultural and religious issues as well.</p>
+<ul>
+<li>&#8226; Idea of equal protection of law which is pro- common people.</li>
+<li>&#8226; It guaranteed the freedom of religious beliefs and practices. It is cosmopolitan in character.</li>
+<li>&#8226; The democratic system envisioned.</li>
+</ul>
+<p>Thus,</p>
+<ul>
+<li>&#8226; &#8220;While it is true that many of the delegates at the Constitutional Convention had economic interests, the Constitution they produced cannot be reduced to a simple economic document. The framers were influenced by a range of political and philosophical ideas that went beyond narrow economic self-interest.&#8221; <strong>(Gordon Wood)</strong></li>
+<li>&#8226; &#8220;The framers of the Constitution were deeply influenced by Enlightenment ideas and political theory. Their goal was to create a government that balanced power and protected individual liberties, not simply to protect their economic interests.&#8221;<strong>(Bernard Bailyn)</strong></li>
+</ul>
+<p>Thus, the constitution cannot be accepted as an economic document only. However, the legacy of examining the economic interests of historical actors is still found in the 21st century.</p>
+<h3>Features of American Constitution: Comparative Perspective</h3>
+<h4>Was every feature of the American constitution of British in origin?</h4>
+<p>British constitution is an unwritten constitution that came about during the process of growth of representative parliamentary structure.</p>
+<p>American colonists were of British origin. So, obviously they shared the constitutional vision of the British people. It was due to this fact that certain provisions of the American constitution seem to be of British origin.</p>
+<p>However, many other factors played a role when Americans developed their constitution.</p>
+<ul>
+<li>&#8226; British constitution ensured a model of a <strong>unitary government</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; But the outlook shaped due to cultural diversity, spirit of freedom, cosmopolitanism, pluralism.</li>
+</ul>
+</li>
+<li>&#8226; British presented a model which <strong>fused monarchy, aristocracy, and democracy</strong> into one. There were no such constraints of feudalism, aristocracy, or monarchy in the US. Infused with the ideas of European enlightenment, Americans found republicanism more suitable.</li>
+<li>&#8226; It was an <strong>unwritten</strong> constitution which had evolved through centuries.
+<ul>
+<li style="padding-left:2em">&#9702; The British government <strong>functioned mainly based on customs and tradition</strong> which required <strong>some consensus on basic constitutional values.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Capitalism</strong> was the dominant idea among Americans.</li>
+<li>&#8226; <u>For British, parliamentary sovereignty was a solution to monarchical despotism. But Americans, who experienced that even the British parliament can be despotic and a threat to their freedom, it was individual rights, judicial supremacy and separation of power that mattered more.</u></li>
+</ul>
+<p>So, Americans <strong>developed a different sense of constitutionalism.</strong></p>
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%">
+<thead>
+<tr><th>Similarity</th><th>Dissimilarity</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>
+&#8226; Rule of law<br>
+&#8226; The control of Congress on taxation matters<br>
+&#8226; British Magna Carta and Bill of Rights became the precursor of American fundamental rights.
+</td>
+<td>
+&#8226; Unwritten vs written.<br>
+&#8226; Evolution vs Adopted constitution.<br>
+&#8226; Monarchical vs Republican<br>
+&#8226; Prime ministerial vs Presidential<br>
+&#8226; Parliamentary supremacy vs Judicial supremacy<br>
+&#8226; No check and balances vs checks and balances<br>
+&#8226; Unitary vs Federal<br>
+&#8226; Fusion of power vs Separation of power<br>
+&#8226; Single citizenship vs Dual citizenship<br>
+&#8226; Natural rights vs Bill of Rights.
+</td>
+</tr>
+</tbody>
+</table>
+<h3>UPSC CSE PYQs &#8211; American Constitution</h3>
+<ul>
+<li>&#8226; What were the factors that worked in the drafting of the American Constitution? Do you agree with Beard&#8217;s view of the Constitution being an Economic Document? [2005, 60 Marks]</li>
+<li>&#8226; How far is it correct to say that every feature of the American Constitution was ultimately of English Origin? [2010, 20 Marks]</li>
+<li>&#8226; Explain the main features of the US Federal Constitution. [2016, 10 Marks]</li>
+</ul>
+`,
   'industrialization': ``,
   'nation-state-system': ``,
   'imperialism-colonialism': ``,
