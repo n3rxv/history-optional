@@ -24377,6 +24377,230 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <li>&#8226; How far is it correct to say that every feature of the American Constitution was ultimately of English Origin? [2010, 20 Marks]</li>
 <li>&#8226; Explain the main features of the US Federal Constitution. [2016, 10 Marks]</li>
 </ul>
+
+<h2>Handout 9: American Civil War (1861-65)</h2>
+<p>The American Civil War (1861-65) was fought between the Union (the North) and the Confederacy of seceded 11 states (the South). The war began after decades of tensions between the northern and southern states over <u>slavery, states&#8217; rights, and westward expansion.</u></p>
+<p>It was the bloodiest conflict in entire American history, in which 2000+ battles were fought, 6.20 lakh+ people were killed and more than double of this were injured. More than 2000 battles were fought b/w forces of union and rebellious southern states. This war had continued for more than 4 years, and it had shaken the American union to the core.</p>
+<h3>Causes of Civil War</h3>
+<p>There were many factors which prepared the background of the American Civil War. Some scholars consider slave system as the foremost cause for this war, while some others consider the issue of unity and security of the American federalism as an important reason. In fact, the American Civil War involved many theories and questions.</p>
+<ul>
+<li>&#8226; <strong>Slavery as a Moral issue:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Northern and southern states had different views on the issue of slavery.</li>
+<li style="padding-left:2em">&#9702; North American states, which were more liberal and progressive, declared the slavery as amoral/evil.</li>
+<li style="padding-left:2em">&#9702; In the southern states, social status of family was dependent on number of slaves held by it. These states tried to justify it on the moral ground while taking a reference from &#8216;the Bible&#8217;.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Economic issues:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Northern and central parts of United States of America were economically more advanced, and they were carrying industrialization. &#8216;Free wage labour&#8217; was the demand for industrialization, but not slavery. So, slavery didn&#8217;t have economic value for them.</li>
+<li style="padding-left:2em">&#9702; Slavery was the lifeblood of the economy of southern American states, as they were involved in plantation agriculture, which was heavily export oriented and labour intensive.
+<ul>
+<li style="padding-left:4em">&#9632; Gained new vitality when extremely profitable cotton-based agriculture developed in the South in the early 19th century.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Another economic issue</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The newly industrialist class of North America wanted protection of American industries from foreign competition.</li>
+<li style="padding-left:4em">&#9632; The southern states objected it because due to the protectionist policy, they received manufactured goods at expensive prices.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Political issue:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; European scholars and humanitarians constantly criticized America for its slavery system. In Europe, slavery was abolished already by 1833 in Britain but USA alone remained.</li>
+<li style="padding-left:2em">&#9702; (Tidbit - Brazil abolished slavery in 1888)</li>
+</ul>
+</li>
+<li>&#8226; <strong>Constitutional issue:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; During the westward expansion (&#8216;Manifest Destiny&#8217;), the integration of every region raised the question of Free-vs-Slave state.</li>
+<li style="padding-left:2em">&#9702; This question was associated with the constitutional issue of representation in the House of Representatives.</li>
+</ul>
+</li>
+</ul>
+<h3>Polarization on the issue of Slavery</h3>
+<ul>
+<li>&#8226; With the expansion of America westward, the issue of Slave/Free state became complicated. To avert the situation of conflict with every new state induction, <strong>Henry Clay</strong> initiated the <strong>Missouri Agreement in 1820</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Missouri was inducted as a slave state</li>
+<li style="padding-left:2em">&#9702; <u>The regions north of 30&#176; 36 parallel in Louisiana land and to the west of Missouri had to be inducted as a Free State</u> in the future. Otherwise, it would be inducted as a slave state.</li>
+<li style="padding-left:2em">&#9702; This plan didn&#8217;t give any permanent solution as the southern states didn&#8217;t stick to its term and created problems with the induction of every new state including Texas, California, Kansas and Nebraska.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Decade of 1850s</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Texas and California &#8594; Compromise of 1850</strong>
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Texas</strong> was inducted into the USA as Slave state in 1845.</li>
+<li style="padding-left:4em">&#9632; Now <strong>California</strong> wanted to enter as a free-state, but it would have upset Free-Slave balance.</li>
+<li style="padding-left:4em">&#9632; <strong>Compromise of 1850</strong> (series of 5 bills), to maintain free-slave balance.
+<ul>
+<li style="padding-left:6em">California admitted as a free state.</li>
+<li style="padding-left:6em">New Mexico and Utah &#8211; without mentioning Slavery (popular sovereignty would decide)</li>
+<li style="padding-left:6em">Slave trade abolished in Washington DC</li>
+<li style="padding-left:6em">Amending Fugitive Slave Act (to satisfy southern states)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Kansas-Nebraska Act 1854</strong>: Climax of the dispute.
+<ul>
+<li style="padding-left:4em">&#9632; These states should have been incorporated as slave free-states according to the Missouri Accords. But a political leader named King Stephen Douglas included these two states as slave states in order to get votes of southern states. Naturally there was resentment in northern states.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Response from North: Strengthening of Abolitionist movement.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Antislavery northerners, who held the Missouri Compromise sacrosanct, condemned Douglas for being a dupe of southern interests.</li>
+<li style="padding-left:4em">&#9632; So far northern states used to oppose the slavery system in principle, but now a full scale <strong>&#8216;Abolitionist Movement&#8217;</strong> started to emerge which encouraged antislavery consciousness and gathered momentum.</li>
+<li style="padding-left:4em">&#9632; Literature: &#8216;Uncle Tome&#8217;s Cabin&#8217; by HB Stove (1852) played the powerful role in mobilizing public opinion. It evoked a far-reaching emotional response which further strengthened abolitionist cause.</li>
+<li style="padding-left:4em">&#9632; <u>It helped the rise of the anti-slavery Republican Party.</u>
+<ul>
+<li style="padding-left:6em">The <strong>Republican Party</strong> was founded in the northern states in <strong>1854</strong> and grew out of opposition to the Kansas&#8211;Nebraska Act. It quickly became the principal opposition to the dominant Democratic Party.</li>
+<li style="padding-left:6em">In the <strong>Presidential election of 1856</strong>, Democrat James Buchanan defeated Republican John C. Fr&#233;mont. However, once dominant Whig party was almost collapsed in the wake of the Kansas-Nebraska Act.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Role of American Supreme Court: Dred Scott verdict (1857)</strong> (Chief Justice Roger B. Taney)
+<ul>
+<li style="padding-left:4em">&#9632; Slavery was enshrined the American constitution. Slaves were just like <em>Chattel without rights</em>. Like property.</li>
+<li style="padding-left:4em">&#9632; It voided the Missouri Compromise (1820) and made slavery legal in entire U.S.</li>
+<li style="padding-left:4em">&#9632; Anti-slavery movement suffered a deep blow by this decision, which confirmed that the scope for compromise was exhausted.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>No more compromises possible.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; By this point many Americans, North and South, had concluded that <strong><u>slavery and freedom could not much longer coexist</u></strong> in the United States. There was an <u>irreconcilable conflict</u> between freedom and slavery. The compromises going on since 1820 became impossible by the 1850s.</li>
+<li style="padding-left:2em">&#9702; <strong>For Southerners</strong> the answer was withdrawal from a Union that no longer protected their rights and interests
+<ul>
+<li style="padding-left:4em">&#9632; They had talked of it as early as the Nashville Convention of 1850, when the compromise measures were under consideration.</li>
+<li style="padding-left:4em">&#9632; Now more and more Southerners favoured secession.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>For Northerners</strong> the remedy was to change the social institutions of the South
+<ul>
+<li style="padding-left:4em">&#9632; Few advocated immediate or complete emancipation of enslaved people</li>
+<li style="padding-left:4em">&#9632; Most felt that the South&#8217;s &#8220;peculiar institution&#8221; must be contained.</li>
+<li style="padding-left:4em">&#9632; A rising Republican politician, <strong>Abraham Lincoln</strong> (Illinois) unsuccessfully contested Douglas for a seat in the Senate, announced that <u>&#8220;A house divided against itself cannot stand this government cannot endure, permanently half slave and half free.&#8221;(1858)</u></li>
+<li style="padding-left:4em">&#9632; <strong>Harpers Ferry Raid 1859</strong> An armed band of abolitionists led by <u>John Brown</u> raided a federal armoury to incite slave rebellion. It became a main precipitating incident to the American Civil War.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Election of 1860:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Abraham Lincoln was the candidate of anti-Slavery Republican Party. In his election manifesto, two issues were much prominent:
+<ul>
+<li style="padding-left:4em">&#9632; Abolition of slavery</li>
+<li style="padding-left:4em">&#9632; Protectionism for industries</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Many Southerners saw the potential election of Abraham Lincoln as a threat to their way of life and the harbinger of secession. But most people didn&#8217;t expect Lincoln to win the election. However, due to internal split within the Democratic Party, Lincoln won the presidential election.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Secession:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In the South, Lincoln&#8217;s election was taken as the signal for secession, and on December 20 <strong>South Carolina</strong> became the first state to withdraw from the Union. By Lincoln&#8217;s inauguration in March, seven Southern states had seceded. Later it increased to <strong>eleven</strong>.</li>
+<li style="padding-left:2em">&#9702; Southern states considered that their steps were permissible under the Constitution as they believed in the doctrine of state sovereignty.</li>
+<li style="padding-left:2em">&#9702; Faced with a fait accompli, Lincoln, when inaugurated, was prepared to conciliate the South in every way but one: he would not recognize that the Union could be divided. In April the American Civil War began.</li>
+</ul>
+</li>
+</ul>
+<h3>Contribution of Abraham Lincoln</h3>
+<ul>
+<li>&#8226; He fought the civil war not in the name of abolition of slavery, but in the name of <u>protection of the American Union.</u>
+<ul>
+<li style="padding-left:2em">&#9702; After entering the office of American President on 4th March 1861, Lincoln tried to persuade the rebellious southern states to abandon their separatist policy and declare their faith in American union. Talks were held between the representatives of the Union and Confederate. Lincoln repeatedly emphasized that emancipation shall not be imposed on any state against its will.</li>
+<li style="padding-left:2em">&#9702; He declared that <strong>&#8220;If I can save the union through freeing all slaves, we do it, if we can save union through not freeing any slave, I will do it &amp; if I can save the union through freeing some slaves, but not some others, I will also do that.&#8217;</strong> (1862)</li>
+<li style="padding-left:2em">&#9702; Southern states had declared secession from the Union on the basis of the <u>&#8216;concept of state sovereignty&#8217;</u>, but Lincoln rejected it and rather he propagated the <u>concept of the sovereignty of the federation.</u> If states are indestructible, so is the federal union. So, he very sagaciously, first <strong>made the stance of southern state unconstitutional and illegal.</strong></li>
+<li style="padding-left:2em">&#9702; Constitutional position was also important because otherwise this would have become an international war.</li>
+<li style="padding-left:2em">&#9702; When civil war broke out American parliament passed a resolution by which the Union was declared Insoluble.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Emancipation Proclamation (1863)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In the midst of the Civil War (1861-65), Lincoln emancipated slavery in South (1863)</li>
+<li style="padding-left:2em">&#9702; It freed only those slaves held in the Confederate States of America. It was intended not to benefit the slaves but to hamper the Southern war efforts.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Thirteenth Amendment (1865)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Slavery was nationally abolished through the 13th Amendment.
+<ul>
+<li style="padding-left:4em">&#9632; Lincoln played a significant role in securing congressional support for the 13th Amendment, which permanently abolished slavery throughout the United States. He used his political skills to garner the necessary votes and build a coalition of supporters.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; After passing the amendment, Lincoln signed it, but he was assassinated by <strong>John Wilkes Booth</strong> before it was ratified by requisite number of states.</li>
+</ul>
+</li>
+</ul>
+<h3>Gettysburg Address</h3>
+<blockquote>
+<p>Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.</p>
+<p>Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.</p>
+<p>But, in a larger sense, we can not dedicate -- we can not consecrate -- we can not hallow -- this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us -- that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion -- that we here highly resolve that these dead shall not have died in vain -- that this nation, under God, shall have a new birth of freedom -- and that government of the people, by the people, for the people, shall not perish from the earth.</p>
+<p style="text-align:right">Abraham Lincoln<br>November 19, 1863</p>
+</blockquote>
+<h3>Significance of American Civil War</h3>
+<p>The Union won the war due to their superior resources, transportation, and industrial capacity. The Union&#8217;s victory was also due to the leadership of President Abraham Lincoln and the military strategies of General Ulysses S. Grant.</p>
+<ul>
+<li>&#8226; Devastating Modern War
+<ul>
+<li style="padding-left:2em">&#9702; The American Civil War is considered the first modern war.
+<ul>
+<li style="padding-left:4em">&#9632; Railways, telegraph, and newspapers played an important role in influencing public opinion.</li>
+<li style="padding-left:4em">&#9632; Both the naval and the army performed important tasks.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The war was <strong>horribly costly</strong> for both sides.
+<ul>
+<li style="padding-left:4em">&#9632; Federal forces: 3.5 lakh+ deaths</li>
+<li style="padding-left:4em">&#9632; Confederate armies: 2.5 lakh+ deaths.</li>
+<li style="padding-left:4em">&#9632; Both governments took loans and printed fiat money to finance the war (collectively more than $15b)</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>The south was physically and economically devastated.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Most of the war was fought in South.</li>
+<li style="padding-left:4em">&#9632; It lost its labour system.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Thus, although the Union was preserved and restored, the cost in physical and moral suffering was incalculable, and some emotional wounds caused by the war still have not been healed.</li>
+</ul>
+</li>
+<li>&#8226; It was a partly <u>successful social surgery</u> of the USA, as a result of which it emerged to be more powerful. After this, cultural and economic integration between the North and the South American states became possible.
+<ul>
+<li style="padding-left:2em">&#9702; 13th Amendment abolished slavery</li>
+<li style="padding-left:2em">&#9702; 14th Amendment gave citizenship</li>
+<li style="padding-left:2em">&#9702; 15th Amendment gave black voting rights.</li>
+</ul>
+</li>
+<li>&#8226; It proved a <u>capitalist movement</u> due to following factors:
+<ul>
+<li style="padding-left:2em">&#9702; After the abolition of slavery, even southern American states moved for industrialization. Therefore, the USA underwent a <u>capitalist transformation as industrialization became all-pervasive</u>.</li>
+<li style="padding-left:2em">&#9702; Factors
+<ul>
+<li style="padding-left:4em">&#9632; It also led to the economic integration of America.</li>
+<li style="padding-left:4em">&#9632; Protectionism: after the civil war, USA followed the protectionist policy in favour of its industries, for more than half a century. It did so at a time when in the rest part of the world free trade policy was being encouraged.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; It is not merely a coincidence that the economy of USA manifested the fastest rate of growth between 1870 and 1970. Here, the abolition of slavery worked as a major trigger.</li>
+</ul>
+<h3>UPSC CSE PYQs &#8211; American Civil War</h3>
+<ul>
+<li>&#8226; &#8220;If I could save the Union without freeing any slave, I would do it; and if I could save it by freeing all the slaves, I would do it; and if I could save it by freeing some and leaving others alone, I would also do that.&#8221;. Comment. [1986, 20 Marks]</li>
+<li>&#8226; Examine the issues involved in the American Civil War. Was it a contest between two separate nations? [1991, 60 Marks]</li>
+<li>&#8226; &#8220;Six hundred thousand men had died. The union was preserved, the slaves freed. A nation &#8216;conceived in liberty and dedicated to the proposition that all men are created equal&#8217; had survived its most terrible ordeal.&#8221; Critically examine. [2013, 10 Marks]</li>
+<li>&#8226; &#8220;A house divided against itself cannot stand. I believe this government cannot endure permanently, half slave and half free&#8221; Explain Abraham Lincoln&#8217;s perspective. [2016, 20 Marks]</li>
+<li>&#8226; &#8220;Lincoln&#8217;s main thesis was that the Slavery issue had to be decided one way or the other and could no longer be evaded by compromise.&#8221; Comment in the light of his role in the American Civil War. [2020, 20 Marks]</li>
+<li>&#8226; In the American civil war, the victory of the North had many consequences. Some of them were direct and obvious. However, its indirect effects on American development were perhaps even more important. Comment. [2021, 20 Marks]</li>
+</ul>
 `,
   'industrialization': ``,
   'nation-state-system': ``,
