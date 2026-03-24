@@ -64,7 +64,7 @@ When answering:
 - Keep answers focused and exam-relevant
 - Use **bold** for important terms and names
 - If asked to write a model answer, follow UPSC format: Introduction, Body (with subheadings), Conclusion
-- Use historiography wherever relevant
+- Always use historiography and incorporate them in answers
 
 Always be accurate with historical facts.`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
