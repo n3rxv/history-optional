@@ -24601,6 +24601,280 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <li>&#8226; &#8220;Lincoln&#8217;s main thesis was that the Slavery issue had to be decided one way or the other and could no longer be evaded by compromise.&#8221; Comment in the light of his role in the American Civil War. [2020, 20 Marks]</li>
 <li>&#8226; In the American civil war, the victory of the North had many consequences. Some of them were direct and obvious. However, its indirect effects on American development were perhaps even more important. Comment. [2021, 20 Marks]</li>
 </ul>
+
+<h2>Handout 10: French Revolution 1: Causes</h2>
+<blockquote>
+<p>&#8220;It was the best of times; it was the worst of times.&#8221;<br>&#8211; Charles Dickens, &#8220;A Tale of Two Cities&#8221;</p>
+<p>&#8220;Liberty, equality, fraternity, or death.&#8221;<br>&#8211; Maximilien Robespierre</p>
+<p>&#8220;A revolution is a struggle between the future and the past.&#8221;<br>&#8211; Fidel Castro</p>
+<p>&#8220;In revolutions, the first victor is the one who seizes the imagination of the future.&#8221;<br>&#8211; Hannah Arendt, &#8220;On Revolution&#8221;</p>
+</blockquote>
+<p>By the end of 18th c., Europe had undergone <strong>profound change under the influence of Enlightenment.</strong> Philosophers and artists promoted reasoning and human freedom over traditions and religion. The rise of a middle class and availability of printed material encouraged political awareness, and the American Revolution had turned a former English colony into an independent republic.</p>
+<p>Yet France, one of the largest and richest European countries was still governed by <strong>Ancien Regime, a three-level rigid social class system.</strong> The French Revolution was a major landmark which challenged the Ancien Regime and led to the formation of a new republic. It established the power and prestige of the middle class parallel to the monarchy, the nobility and the church.</p>
+<p>This phenomenon didn&#8217;t remain restricted to France only, rather it proved to be a widespread upheaval which <strong>shook all institutions in other part of Europe as well.</strong> Thus, the French Revolution gave a definite shape to the transitional process from the Middle Age into the Modern Age, which began with the Renaissance in the European history.</p>
+<h3>Causes of the French Revolution</h3>
+<h4>1. <u>Social divisions in Early Modern France: Ancien Regime</u></h4>
+<p><strong>The estates of the realm</strong> were the <u>orders of social hierarchy</u> used in Christian Europe of the Middle Ages.</p>
+<ul>
+<li>&#8226; <strong>England</strong>: <u>two-estate system</u> with nobility + clergy into one lordly estate and &#8220;commons&#8221; as the second estate.</li>
+<li>&#8226; <strong>French Ancien R&#233;gime (Old Regime):</strong> A <u>three-estate system</u> of clergy (the First Estate), nobles (Second Estate), peasants and bourgeoisie (Third Estate).</li>
+<li>&#8226; <strong>Sweden</strong> and <strong>Russia</strong>: A <u>four-estate system</u> with rural commoners ranking the lowest as the Fourth Estate.</li>
+<li>&#8226; <strong>The first &amp; second estate enjoyed various economic &amp; social privileges</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; The French political system was <strong>aristocratic</strong> in nature. All the high offices under the state were monopolized by nobles and clergymen.</li>
+<li style="padding-left:2em">&#9702; <u>First Estate (Church, clergy class):</u> Only 1% population (1.5 lakh in 2.5m) but controlled 10% land. It was itself exempted from all sorts of tax.</li>
+<li style="padding-left:2em">&#9702; <u>Second Estate (Aristocracy):</u> owning vast land, collecting tax, free gifts (milk, fruits) and <em>corvee</em> from peasants. Their population was around 1% but they controlled more than 15% of the nation&#8217;s resources. Since they controlled vast tracts of land, they dominated the countryside.</li>
+</ul>
+</li>
+<li>&#8226; <strong>The Third Estate (98% people)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <u>The middle class</u> (bourgeoise of rich peasants, intellectuals, teachers, merchants etc.) was highly dissatisfied with its position as its economic status largely improved, but it was socially deprived.
+<ul>
+<li style="padding-left:4em">&#9632; <u>In France, there was a major contradiction between economically effective class &amp; socially effective class (<strong>David Thomson</strong>)</u>. They were educated and awakened. Although the burden of taxes on them was quite less when compared with peasants and other poorer sections of society, the level of discontent was most intense. It was this middle class that was in forefront in the French Revolution, at least during the initial phase.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <u>The lower class</u> was aggrieved due to tax burden and excessive feudal exaction. Peasants formed 85% of population and paid most of the taxes.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Taille</strong> (land tax)</li>
+<li style="padding-left:4em">&#9632; <strong>Gabelle</strong> (salt tax)</li>
+<li style="padding-left:4em">&#9632; <strong>Tithe</strong> (called <strong>Dime</strong>) to Church.</li>
+<li style="padding-left:4em">&#9632; Feudal dues, <strong>gifts</strong></li>
+<li style="padding-left:4em">&#9632; <strong>Corvee</strong> (free labour) to Lords.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>One major reason the French Revolution was the dissatisfaction of members of the Third Estate, who wanted a more equal distribution of wealth, power and privilege.</p>
+<h4>2. <u>Economic factors:</u></h4>
+<ul>
+<li>&#8226; The French economy continued to be in the <strong>medieval state</strong>, because even during 1780s there was no trace of industrial Revolution in French.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Agriculture</strong>:
+<ul>
+<li style="padding-left:4em">&#9632; Most of land was owned by the Church and Feudal lords.</li>
+<li style="padding-left:4em">&#9632; There were large no peasant-proprietors.</li>
+<li style="padding-left:4em">&#9632; Peasants were heavily burdened with taxes.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Industries:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Handicraft-based, level of production was low.</li>
+<li style="padding-left:4em">&#9632; Guilds enjoyed monopolistic control.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Calamities, disaster and decline after growth:</strong> Despite the limitations, French economy widely expanded between 1730s and 1760s &#8211; three-fold growth in agriculture and 5-fold increase in industry within two generations. But from 1770s onwards, there was a decline due to:
+<ul>
+<li style="padding-left:2em">&#9702; After the American war of independence, <strong>inflow of precious metal decreased</strong>, and there was a sort of <strong>depressionary situation</strong> in French economy.</li>
+<li style="padding-left:2em">&#9702; <strong>Incidents of crop failure</strong> in France consecutively in 1788-89.
+<ul>
+<li style="padding-left:4em">&#9632; It led to <strong>famines</strong>, shortages and finally bread riots occurred with the outbreak of the revolutions.</li>
+<li style="padding-left:4em">&#9632; It also led to huge hunger-driven out-migration of peasants towards the cities, esp Paris, looking for new occupations.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Bankruptcy</strong> of government and <strong>failure of economic reforms.</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Impact on middle class</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Economic decline following a long period of prosperity created a deep psychological effect.</li>
+<li style="padding-left:4em">&#9632; Firstly, the interests of the aristocracy and the middle class began to collide. Secondly, both these classes were unhappy with the monarchy.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Thus, overall, there was a dismal economic condition. <u>So, economic decline was not the cause of the Revolution, rather economic crisis that set-in after a long period of growth was the cause of the revolution.</u></p>
+<h4>3. <u>Ideological factors:</u></h4>
+<p><strong>(A) Direct influence:</strong><br>
+<u>An all-encompassing event like French Revolution can never occur in the condition of intellectual vacuum.</u> The writings of the French scholars like Voltaire, Montesquieu, Diderot, and Rousseau certainly contributed to the outbreak of the revolution.</p>
+<p>The French citizens valued the ideas of liberty and equality discussed by Rousseau and Voltaire etc., and <u>these ideas formed the core of Revolutionary ideology</u>. <em>Thus, French Revolution is when the ideas of the Enlightenment were put into action.</em></p>
+<ul>
+<li>&#8226; The thinkers drew the <strong>attention</strong> of the people <strong>towards existing political, economic &amp; social apathy.</strong> They openly criticized the autocracy of the monarchy, the dogma of the nobility and the superstition of the Church. They created a revolutionary awakening among the people to the outbreak of the revolution.</li>
+<li>&#8226; They <strong>coined/popularized certain revolutionary terms/slogans</strong> like liberty, equality, fraternity, rule of law (loi), citizen (citoyen), homeland (patrie), individual rights.</li>
+<li>&#8226; The Enlightenment ideas were particularly popularized in France by the influence of the <strong>American War of Independence</strong></li>
+<li>&#8226; Revolutionaries used the <strong>ideas to formulate</strong> their <strong>strategy:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Fictional dialogue with Montesquieu and Rousseau by <strong>Abb&#233; Si&#232;yes&#8217;</strong> &#8216;What is the Third Estate?&#8217; (1789)</li>
+<li style="padding-left:2em">&#9702; Its influence can clearly be seen in the <strong>Declaration of the Rights of Man and of the Citizen.</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>(B) Minimal/Insignificant Influence:</strong></p>
+<ul>
+<li>&#8226; Unlike American leaders Thomas Jefferson &amp; Benjamin Franklin, the thinkers <strong>didn&#8217;t participate.</strong> At the time of the revolution, none of the thinkers was alive.</li>
+<li>&#8226; <strong>Books</strong> which ultimately shaped the public opinion were more of the semi-pornographic/scandalous novels and tabloid/libelous journals which purported to expose the sexual and moral corruption of the court. It damaged the credibility and led to desacralization of monarchy.</li>
+<li>&#8226; <u>Marxist interpretation</u> emphasizes <strong>long-term structural factors.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; French Revolution not simply a political struggle from absolute monarchy towards democratic republicanism, it was a <strong>bourgeois revolution</strong>, essentially marked by <strong>class conflict</strong>. It represented destruction of nobility, and a shift from feudalism to capitalism. Since the Enlightenment thinkers came from <strong>middle-class</strong> background and thus <strong>believed in peaceful transformation, not in revolution.</strong> (e.g. enlightened despotism or constitutional monarchy)</li>
+<li style="padding-left:2em">&#9702; In one way, the <u>Revolution was the anti-thesis of Enlightenment</u>. Where Enlightenment philosophers looked to an informed public opinion to exert an indirect, restraining influence on government, and supported gradual progress of the society, the revolutionaries were committed to the overthrow of the ancien r&#233;gime by direct action.</li>
+</ul>
+</li>
+</ul>
+<p><strong>(C) Indirect influence: Catalyst</strong></p>
+<ul>
+<li>&#8226; The outbreak of the French Revolution was the result of the combined effect of various factors working together. It was a response and reaction to evils prevailing in French politico-admin system social, religious, and economic system. So, even though the Philosophers <strong>didn&#8217;t create the circumstances responsible</strong> for the revolution, they <strong>certainly exposed the ills</strong> of the Ancien regime and <strong>provided alternative vision.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The people were already suffering, and discontent was accumulating in them since a long time. The awakening created by Philosophers intensified the pain by drawing attention of masses towards limitation of existing regime. So, the philosophers played the role of catalyst.</li>
+</ul>
+</li>
+<li>&#8226; Thinkers formed one of the earliest forms of <strong>civil society</strong> i.e., debating clubs, coffee houses, salons etc. through which their ideas circulated rapidly.
+<ul>
+<li style="padding-left:2em">&#9702; The ideas discussed in clubs/meetings resulted in a <strong>breakdown of the stratification</strong>, fundamentally changing France&#8217;s social organization.
+<ul>
+<li style="padding-left:4em">&#9632; When the Estates-General was called, its rigid organization conflicted with the new, informal organization, and caused dissent; and the King&#8217;s refusal to equality triggered their secession from royal authority.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; The ideas only played a part after the Revolution had begun; it was <strong>used to justify revolutionary action</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; In the midst of the revolution, the <strong>leaders quoted these philosophers at their convenience.</strong></li>
+<li style="padding-left:2em">&#9702; The revolution embraced a radical ideology of <strong>popular sovereignty (General Will)</strong> so that any abuse of power could be excused so long as it was achieved in the name of the people.</li>
+<li style="padding-left:2em">&#9702; Thus, the philosophers <strong>reflected public discontent.</strong> Therefore, the role of those philosophers cannot be seen in isolation.</li>
+</ul>
+</li>
+</ul>
+<h4>4. <u>Political factors:</u></h4>
+<ul>
+<li>&#8226; French polity was <strong>absolutist</strong> (Bourbon dynasty) and the <strong>Divine right</strong> of the monarch was the guiding principle. As a consequence, the French Politico-Admin system was <strong>centralized</strong> in nature. Such system required a king of exceptional abilities for its effective management.
+<ul>
+<li style="padding-left:2em">&#9702; It functioned well under Louis XIII and XIV (1643-1715) but under their successors Louis XV (1715-1774) and Louis XVI (1774-92), the <strong>evils of centralised despotism</strong> started becoming visible. Neither of the successors of Louis XIV were competent enough to tackle the complex situation. Therefore, economic &amp; social unrest were allowed to culminate into a major political crisis which became a prelude to the revolution.</li>
+</ul>
+</li>
+<li>&#8226; The suffering of people increased enormously because the <strong>aristocracy started misusing authority of state for their own benefit.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; E.g the <strong>judicial/legal system in France was arbitrary</strong> and the concept of rule of law was absent. The word of <strong>the king was the law of the land.</strong> The worst feature was the instrument of <strong>&#8216;letters de cachet&#8217;</strong>.</li>
+</ul>
+</li>
+</ul>
+<p>It was this accumulated discontent among the masses that came out in the form of massive revolution in 1789.</p>
+<h4>5. <u>Immediate factor:</u></h4>
+<p>The French government had taken <strong>no interest in the advancement of economy.</strong></p>
+<ul>
+<li>&#8226; There was <strong>no system of budget</strong> in French.</li>
+<li>&#8226; The <strong>tax system was unscientific and irrational</strong> because rich/privileged class was free from the burden of taxes while all the taxes were paid by commoners.</li>
+<li>&#8226; The French participation of <strong>American war of Independence ruined the financial health</strong> completely because an amount on this war.</li>
+</ul>
+<p>Thus, the first problem before the French monarchy was to overcome the financial crisis.</p>
+<ul>
+<li>&#8226; <strong>Louis XVI</strong> appointed a number of capable ministers such as Turgot (1774-76), Necker (1776-81), Cologne (1783-87) Brienne (1787-88) but they were dismissed one after the other when they suggested the imposition of taxes on privileged class. Thus, the <strong>economic bankruptcy</strong> of the French government and its desperate attempt to find a solution led to the summoning of the <strong>Estate General</strong>, which had remained in the state of animated suspension for the last 175 years.</li>
+<li>&#8226; The news of the meeting of the <strong>&#8216;Estates General&#8217;</strong> made excited all the sections of French society. The decision to convene the Estate General was welcomed by all the three Estates. They considered it as a panacea for all the problems.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>The privileged class</strong> saw it as a means to reassert its power and privileges.</li>
+<li style="padding-left:2em">&#9702; <strong>The bourgeoisie</strong> saw it as an opportunity for fundamental constitutional reforms, which would enable the bourgeoisie to exert more control over the political institutions and to redesign the economic structure by changing the taxation norms.</li>
+<li style="padding-left:2em">&#9702; <strong>For peasantry</strong> it was a means by which the unequal distribution of taxation would be remedied.</li>
+</ul>
+</li>
+<li>&#8226; The Estates-General were summoned by a royal edict dated to 24 January 1789.
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>summoning</strong> of Estate General under the combined pressure of the Estates was <strong>taken as the collapse of monarchy.</strong></li>
+<li style="padding-left:2em">&#9702; Finally, in May 1789 the session of the Estates General started. <strong>It meant that the monarchy had surrendered.</strong></li>
+<li style="padding-left:2em">&#9702; It was in Estate General on the <strong>issue of Voting</strong> that the differences among different classes took the form of a political crisis.</li>
+<li style="padding-left:2em">&#9702; Finally, the representatives of the third estate boycotted the session and moved to <strong>Tennis Court Assembly</strong> in nearby region. It is here they were joined by artisans of Paris and peasants of France popularly known as <strong>&#8216;Mob of Paris&#8217;</strong>. Thus, started the revolution.</li>
+</ul>
+</li>
+</ul>
+<h3>From the Estates-General to National Assembly</h3>
+<ul>
+<li>&#8226; <strong>Voting Procedure</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Such a session had taken place 175 years ago, so there was no latest tradition.</li>
+<li style="padding-left:2em">&#9702; Earlier tradition: Three Estates to meet in three different chambers - each to vote separately. The value of each Estate was similar. Thus, Nobles and Clergy could together outvote the Commons by 2 to 1. This issue was widely discussed in the press during the autumn of 1788.</li>
+<li style="padding-left:2em">&#9702; As the press began to demand that the Commons be allocated more delegates, to bolster his failing popularity, the King acceded to this measure of &#8220;<u>doubling the Third.</u>&#8221; He was confident of his influence over the Nobility and Clergy.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Elections during early 1789</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Total elected delegates: 1,200 (about 300+300+600)</li>
+<li style="padding-left:2em">&#9702; French society had changed since 1614, and these Estates-General were not identical to those of 1614.</li>
+<li style="padding-left:2em">&#9702; Many nobles were elected to the Third Estate. The total number of nobles in the three Estates was about 400. Noble representatives of the Third Estate were among the most passionate revolutionaries in attendance, including <strong>Jean Joseph Mounier</strong> and the <strong>Comte de Mirabeau.</strong></li>
+<li style="padding-left:2em">&#9702; Some clergy were also elected as Third Estate delegates, most notably the <strong>Abb&#233; Siey&#232;s.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>King&#8217;s Miscalculation:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Aristocracy:</strong> The Nobles in the Second Estate were the richest and most powerful in the kingdom. The King thought he could count on them. However, since the aristocracy was vociferously against monarchy, the first salvo came from aristocracy only.</li>
+<li style="padding-left:2em">&#9702; <strong>Clergy:</strong> The king also expected that the First Estate would be predominantly the noble Bishops. The electorate, however, returned mainly parish priests, most of whom were sympathetic to the Commons.</li>
+<li style="padding-left:2em">&#9702; <strong>Third Estate</strong> elections returned predominantly magistrates and lawyers.
+<ul>
+<li style="padding-left:4em">&#9632; As the session started inside the palace of Versailles, on 5th May 1789, the common people of lower class were not allowed to go there. Thus, only middle classes could go and join.</li>
+<li style="padding-left:4em">&#9632; So, the middle class represented both itself and lower class.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Opening of the Estates-General (5th May)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Differences on the issue of Voting led to a political crisis.
+<ul>
+<li style="padding-left:4em">&#9632; On 6th May, the Third Estate discovered that the royal decree, despite granting double representation, upheld the traditional voting &#8220;by orders&#8221;.</li>
+<li style="padding-left:4em">&#9632; The Third Estate wanted the estates to meet as one body and for each delegate to have one vote.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Suspicion</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The representative of 3rd Estate came to attend the session of Estate general with great enthusiasm. They brought the letter of Grievances (<strong>Cahiers</strong>) but the moment the session of Estate general commenced their hopes got shattered because the Privileged class wanted to prevent them.</li>
+<li style="padding-left:4em">&#9632; The <strong>realization of the anti-people nature of functioning</strong> propelled the representatives of 3rd Estate to <strong>demand the joint sitting of Parliament.</strong></li>
+<li style="padding-left:4em">&#9632; This demand was rejected by the king and the representative of the privileged class.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>National Constituent Assembly</strong>
+<ul>
+<li style="padding-left:2em">&#9702; On 13th June, Third Estate resolved to examine and settle the powers of the three orders.
+<ul>
+<li style="padding-left:4em">&#9632; They declared themselves redefined as the <strong>National Assembly</strong>, <u>an assembly not of the Estates, but of the people.</u></li>
+<li style="padding-left:4em">&#9632; They invited the other orders to join them but made it clear that they intended <u>to conduct the nation&#8217;s affairs with or without them.</u></li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The <strong>King attempted to resist this</strong> reorganization of the Estates-General.
+<ul>
+<li style="padding-left:4em">&#9632; On <strong>20th June</strong>, he ordered the hall where the National Assembly met to be closed, and entry to the Third Estate was disallowed. The Assembly then went out, taking their deliberations to the nearby tennis court, where they proceeded to swear the &#8216;<strong>Tennis Court Oath</strong>&#8217;, agreeing not to disband until they had settled the constitution of France.</li>
+<li style="padding-left:4em">&#9632; The monarch now sent army to vacate the Tennis Court.
+<ul>
+<li style="padding-left:6em">In the meantime, the news of all this tug-of-war broke out. <strong>Artisans and peasants (mob of Paris - Sans-culottes)</strong> surrounded them and thus police/army didn&#8217;t dare to crush them with iron hand. Brutal step couldn&#8217;t have been taken by them. <em><u>Middle class leadership was saved by the active role of the lower class.</u></em> Thus, started the revolution.</li>
+<li style="padding-left:6em">Failing to disperse the delegates, <strong>Louis reluctantly recognized their validity</strong> on <strong>27 June</strong>.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; Now, those representatives of the nobility who still stood apart also joined the National Assembly. The <u>Estates-General had ceased to exist, having become the National Assembly.</u>
+<ul>
+<li style="padding-left:6em">The Assembly renamed itself the <strong>National Constituent Assembly</strong> on <strong>9 July</strong> and began to function as a governing body and a constitution-drafter.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>UPSC CSE PYQs &#8211; French Revolution</h3>
+<p><strong>Causes: Philosophers&#8217; role?</strong></p>
+<ul>
+<li>&#8226; &#8220;The writings of the philosophers had a tremendous influence on the minds of the people and created a revolutionary awakening in their minds and formed the intellectual creed of the French Revolution.&#8221; Comment. [1983, 20m]</li>
+<li>&#8226; &#8220;What mattered in 1789 - and what made men revolutionary almost in spite of themselves - was the whole &#8216;revolutionary situation&#8217;; and in producing that situation the work of the philosophers played no very important role.&#8221; Comment. [1985, 20m]</li>
+<li>&#8226; &#8220;French political writers of the eighteenth century were influenced by Locke and also by the curious contrasts which they perceived between the government of his country and their own.&#8221; Comment. [1991, 20m]</li>
+<li>&#8226; &#8220;If monarchical misrule ignited the French revolution, lofty ideas both inspired and sustained it.&#8221; Comment. [1997, 20m]</li>
+<li>&#8226; &#8220;If monarchical misrule ignited the French Revolution, lofty ideas both inspired and sustained it.&#8221; Comment. [2002, 20m]</li>
+<li>&#8226; &#8220;The writings of the philosophers had a tremendous influence on the minds of the people and created a revolutionary awakening in their minds and formed the intellectual creed of the French Revolution.&#8221; Comment. [2005, 20m]</li>
+<li>&#8226; &#8220;No event as encompassing as the French Revolution occurs in an intellectual vacuum.&#8221; Comment. [2007, 20m]</li>
+<li>&#8226; &#8220;The connection between the philosophers&#8217; ideas and the outbreak of the French Revolution (1789) is somewhat remote and indirect.&#8221; Critically evaluate. [2012, 10m]</li>
+<li>&#8226; Critically examine the statement that the French Revolution was not caused by the French philosophers but by the conditions of national life and by the mistakes of the government. [2016, 20m]</li>
+</ul>
+<p><strong>Causes: Other factors?</strong></p>
+<ul>
+<li>&#8226; What were the ideals of the French Revolution of 1789? How far is it correct to say that it overthrew mercantilism and the surviving relics of feudalism and contributed to the political supremacy of the middle class? [1979, 60m]</li>
+<li>&#8226; &#8220;To some extent, the American War of Independence inspired the French Revolution.&#8221; Comment. [1999, 20m]</li>
+<li>&#8226; &#8220;The multiple contradictions that quickly undermined the new edifice had been expressed even before the meeting of the Estate General in France. The internal conflict among Estates had manifested itself.&#8221; Critically examine. [2015, 10m]</li>
+<li>&#8226; &#8220;The causes of the French Revolution of 1789 included both long term and structural factors, as well as more immediate events.&#8221; Critically examine. [2020, 10m]</li>
+</ul>
+<p><strong>Objectives and achievements</strong></p>
+<ul>
+<li>&#8226; The French Revolution (1789) sought to remove both &#8220;the religious and secular props of the existing social order.&#8221; Elucidate. [1996, 20m]</li>
+<li>&#8226; &#8220;The French Revolution attacked privileges and not property.&#8221; Comment. [2003, 20m]</li>
+<li>&#8226; The French Revolution (1789) really achieved far less than what it intended to effect. Do you agree? [1989, 20m]</li>
+<li>&#8226; &#8220;The Declaration of Rights was the death-warrant of the system of privilege, and so of the ancient regime &#8230; Yet in the history of ideas it belonged rather to the past than to the future.&#8221; Examine. [2014, 20m]</li>
+</ul>
 `,
   'industrialization': ``,
   'nation-state-system': ``,
