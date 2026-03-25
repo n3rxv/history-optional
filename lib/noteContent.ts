@@ -25147,7 +25147,384 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <li>&#8226; &#8220;The French Revolution attacked privileges and not property.&#8221; Comment. [2003, 20m]</li>
 <li>&#8226; The French Revolution (1789) really achieved far less than what it intended to effect. Do you agree? [1989, 20m]</li>
 <li>&#8226; &#8220;The Declaration of Rights was the death-warrant of the system of privilege, and so of the ancient regime &#8230; Yet in the history of ideas it belonged rather to the past than to the future.&#8221; Examine. [2014, 20m]</li>
-</ul>`,
+</ul><h2>Handout 11: French Revolution 2 &#8211; First Phase: The Phase of Constitutional Monarchy (1789-92)</h2>
+<h3>(A) Fiscal Crisis (Immediate Cause): Aristocratic Revolution and Calling of Estates-General</h3>
+<p>The French government had taken <strong>no interest in the advancement of economy.</strong></p>
+<ul>
+<li>&#8226; There was <strong>no system of budget</strong> in French.</li>
+<li>&#8226; The <strong>tax system was unscientific and irrational</strong> because rich/privileged class was free from the burden of taxes while all the taxes were paid by commoners.</li>
+</ul>
+<p>The problem before the French monarchy was to overcome the financial crisis.</p>
+<ul>
+<li>&#8226; Louis XIV: He fought 4 extravagant wars + Built the palace of Versailles.</li>
+<li>&#8226; Louis XV: Seven Years&#8217; War because of rivalry with Britain: very costly and burdensome.</li>
+<li>&#8226; Louis XVI: The French participation of <strong>American war of Independence</strong> ruined the financial health completely.
+<ul>
+<li style="padding-left:2em">&#9702; He appointed a number of capable ministers such as Turgot (1774-76), Necker (1776-81), Cologne (1783-87) Brienne (1787-88) but they were dismissed one after the other when they suggested the imposition of taxes on privileged class.</li>
+<li style="padding-left:2em">&#9702; <strong>Lefebvre</strong>: the French Revolution was started and laid to victory in its first phase by the aristocracy.
+<ul>
+<li style="padding-left:4em">&#9632; In the mid-1780s, the government realized that without tax reforms, the fiscal crisis could not be solved, the various reform proposals of the ministers encountered the opposition of both Estates and the aristocrats to the lead in this.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Thus, the <strong>economic bankruptcy</strong> of the French government and its desperate attempt to find a solution led to the summoning of the <strong>Estate General</strong>, which had remained in the state of animated suspension for the last 175 years.</li>
+<li>&#8226; The news of the meeting of the <strong>&#8216;Estates General&#8217;</strong> made excited all the sections of French society. The decision to convene the Estate General was welcomed by all the three Estates. They considered it as a panacea for all the problems.
+<ul>
+<li style="padding-left:2em">&#9702; The privileged class saw it as a means to reassert its power and privileges.</li>
+<li style="padding-left:2em">&#9702; <strong>The bourgeoisie</strong> saw it as an opportunity for fundamental constitutional reforms, which would enable the bourgeoisie to exert more control over the political institutions and to redesign the economic structure by changing the taxation norms.</li>
+<li style="padding-left:2em">&#9702; <strong>For peasantry</strong> it was a means by which the unequal distribution of taxation would be remedied.</li>
+</ul>
+</li>
+</ul>
+<p>Aristocratic revolution ended with the summoning of the Estate General.</p>
+<h3>(B) Bourgeoise Revolution and formation of National Assembly</h3>
+<ul>
+<li>&#8226; <strong>Elections during early 1789</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>&#8220;Doubling the Third&#8221;:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; As the press began to demand that the Commons be allocated more delegates, to bolster his failing popularity, the King (as per advice of Necker) acceded to this measure of doubling the Third.</li>
+<li style="padding-left:4em">&#9632; Total elected delegates: 1,200 (about 300+300+600)</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; French society had changed since 1614, and these Estates-General were not identical to those of 1614.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Aristocracy:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Members of the nobility were not required to stand for election to the Second Estate.</li>
+<li style="padding-left:4em">&#9632; Amongst the nobles, about 1/3rd of them were liberal minded.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Clergy:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The electorate returned mainly parish priests, most of whom were sympathetic to the Commons. (about 50%, who were originally from the Third Estate)</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Third Estate</strong> elections returned predominantly magistrates and lawyers.
+<ul>
+<li style="padding-left:4em">&#9632; Amont the Third Estate representatives, there were men like Mounier, Barnave, Target, and even Robespierre.</li>
+<li style="padding-left:4em">&#9632; Many nobles were also elected to the Third Estate. The total number of nobles in the three Estates was about 400.
+<ul>
+<li style="padding-left:4em">&#9632; Renegade nobles elected in Third Estate: <strong>Comte de Mirabeau and Lafayette.</strong></li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; Some clergy were also elected as Third Estate delegates, most notably the <strong>Abb&#233; Siey&#232;s.</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Opening of the Estates-General (5th May)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The representative of 3rd Estate came to attend the session of Estate general with great enthusiasm. They brought the letter of Grievances (<strong>Cahiers</strong>), but there was no indication of the joint session.</li>
+<li style="padding-left:2em">&#9702; The king, after inaugural his address (On 6th May), left asking the orders to have their separate sessions. Despite granting double representation, traditional voting-by-orders was to continue.</li>
+<li style="padding-left:2em">&#9702; The Third Estate wanted the estates to meet as one body and for each delegate to have one vote. They <strong>demanded a joint sitting like a Parliament.</strong> This demand was rejected by the king and the representative of the privileged class.</li>
+</ul>
+</li>
+<li>&#8226; The stalemate continued for about a month.</li>
+<li>&#8226; The king then called the royal session on 22nd June but the deputies of the Third Estate came to the assembly on 20th June, only to find the doors of the hall closed. The King had ordered the hall to be closed to disallow their entry.
+<ul>
+<li style="padding-left:2em">&#9702; The Assembly then went out, taking their deliberations to the nearby indoor tennis court, where they proceeded to swear the <strong>&#8216;Tennis Court Oath&#8217;</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; The oath read &#8220;we will not disband until we have constructed a nation of individual Citizens instead of a kingdom of servile subjects&#8221;</li>
+<li style="padding-left:4em">&#9632; The oath was proposed by <strong>Jean Joseph Mounier.</strong> He said there is no going away, and the nation would remain united so long as the Estate General was not reorganized as National Assembly.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Thus,
+<ul>
+<li style="padding-left:4em">&#9632; They declared/redefined themselves as the <strong>National Assembly</strong>, an assembly not of the Estates, but of the people.</li>
+<li style="padding-left:4em">&#9632; They invited the other orders to join them but made it clear that they intended to conduct the nation&#8217;s affairs with or without them.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; The monarch now sent the army to vacate the Tennis Court.</li>
+<li>&#8226; However, in the meantime, the news of all this tug-of-war broke out. <strong>Artisans and peasants (mob of Paris - Sans-culottes)</strong> surrounded them and thus police/army didn&#8217;t dare to crush them with iron hand.
+<ul>
+<li style="padding-left:2em">&#9702; Middle class leadership was saved by the active role of the lower class.</li>
+</ul>
+</li>
+<li>&#8226; Failing to disperse the delegates, <strong>Louis reluctantly recognized their validity</strong> on <strong>27 June.</strong></li>
+<li>&#8226; The Estates-General had ceased to exist, having become the National Assembly.
+<ul>
+<li style="padding-left:2em">&#9702; Now, some of those representatives of the nobility, who had still stood apart, also joined the National Assembly. However, the majority remained to be bourgeoise in nature.</li>
+<li style="padding-left:2em">&#9702; The Assembly renamed itself the <strong>National Constituent Assembly</strong> on <strong>9th July</strong> and began to function as a governing body and a constitution-drafter.</li>
+</ul>
+</li>
+</ul>
+<h3>(C) Popular Revolution and Fall of Bastille (14th July 1789)</h3>
+<ul>
+<li>&#8226; Soon, the king asked the <strong>army to parade the streets</strong> of Paris and Versailles.
+<ul>
+<li style="padding-left:2em">&#9702; This was seen as a direct affront by the Third Estate. Bourgeois revolution, which had won when the Estates-General was converted into the national assembly, seemed lost when the king decided to have recourse to army.</li>
+</ul>
+</li>
+<li>&#8226; It produced a <em>revolutionary mentality</em>. <strong>(Lefebvre)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; This mentality of insurrection had two aspects: <strong>Great hope</strong> and <strong>Great fear</strong>.</li>
+<li style="padding-left:2em">&#9702; Great hope was the expectation of quick reforms from the Estates-general.</li>
+<li style="padding-left:2em">&#9702; When there were difficulties, people became impatient, and this hope was turned into a fear.
+<ul>
+<li style="padding-left:4em">&#9632; Already, the lack of food supplies had infuriated towns/provinces.</li>
+<li style="padding-left:4em">&#9632; There were <strong>rumours</strong> of aristocratic conspiracy going around. That the aristocrats and monarch were trying to bring in brigands from outside, collaborate with foreign powers to destroy the people&#8217;s initiative and overthrow the Third Estate.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Fall of Bastille</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The people took to the streets of Paris. When the army finally started parading the streets on 14th of July, there was a great assembly and popular violence.</li>
+<li style="padding-left:2em">&#9702; This violence was their response to the Kings resorting to arms. A monastery at Saint Lazare was looted, gun shops and arsenals were looted and then they were marching towards the Bastille fort, which was now a prison.
+<ul>
+<li style="padding-left:4em">&#9632; Although there were only 7 prisoners at the time, it was the symbol of the absolutist character of the government.</li>
+<li style="padding-left:4em">&#9632; The aim was not to free prisoners when they were very few, but the problem was that they wanted to take the arms and ammunition stored there.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Significance:</strong> The fall of the Bastille had a tremendous impact on the attitude of the people.
+<ul>
+<li style="padding-left:4em">&#9632; The &#8216;public&#8217; had drawn first blood. It marked the success of armed uprising.</li>
+<li style="padding-left:4em">&#9632; The king was obliged to accept this as a revolution.</li>
+<li style="padding-left:4em">&#9632; It symbolized the decline of the autocratic nature of the monarchy.</li>
+<li style="padding-left:4em">&#9632; All press censorship was lifted in its wake.</li>
+<li style="padding-left:4em">&#9632; It was the emblem of the old regime, and its fall signified the fall of the Ancien Regime</li>
+<li style="padding-left:4em">&#9632; In the countryside, peasants took over cheataux and destroyed aristocratic titles to Land. Opened the door for the Great Fear.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>(D) Peasant Revolution (Great Fear, July-August)</h3>
+<ul>
+<li>&#8226; The fall of Bastille also had its impact on the countryside (provinces), where peasants had been greatly influenced by rumours.
+<ul>
+<li style="padding-left:2em">&#9702; There was a <strong>rumor</strong> that the wandering vagrants are nothing but the brigands that the aristocrats had recruited to unleash them on the peasants.</li>
+</ul>
+</li>
+<li>&#8226; So, in the provinces, there was a whole series of peasant uprisings against the lord.
+<ul>
+<li style="padding-left:2em">&#9702; The nobles and the bourgeois now took fright.</li>
+<li style="padding-left:2em">&#9702; Their attack was on manorial rights. They attacked the manor houses; they destroyed whatever document there had been</li>
+</ul>
+</li>
+<li>&#8226; The King now had no option but to allow the National Assembly to properly meet draft a new constitution and decide the fate of France. The King retired to Versailles.</li>
+</ul>
+<h2>Work of the National Constituent Assembly (1789-91)</h2>
+<h3>(a) End of feudalism in France (4th August, 1789)</h3>
+<p>On the night of the 4th of August 1789, a set of 19 articles were passed by the National Constituent Assembly which abolished feudalism in France and ended the tax exemptions as well as privileges of the upper classes. Thus, the institutional and practices of old regime were wiped out.</p>
+<ul>
+<li>&#8226; The principle of <strong>equality</strong> was declared as the basis of state and society.
+<ul>
+<li style="padding-left:2em">&#9702; Established fiscal equality.</li>
+<li style="padding-left:2em">&#9702; Equality of rights, freedom from arbitrary arrests and freedom of expression etc.</li>
+<li style="padding-left:2em">&#9702; Subjects of the king were transformed into citizen of France.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Seigneurial rights and manorialism were abolished</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Hunting, gifts, <em>corvee</em> of the Second Estate (the nobility)</li>
+<li style="padding-left:2em">&#9702; <em>tithe</em> gathered by the First Estate (the Catholic clergy)</li>
+</ul>
+</li>
+<li>&#8226; <strong>Guilds</strong> were destroyed. All economic activities were thrown open to every Frenchman.</li>
+<li>&#8226; The old <strong>judicial system</strong>, founded on the 13 regional <strong>parlements</strong> was also abolished.</li>
+</ul>
+<p>Thus, both economic and social privileges were abolished. This was the middle-class triumph. These resolutions destroyed the old France gave birth to a new France. That is why, it is commented that,</p>
+<ul>
+<li>&#8226; On 4th August 1789 the France mentioned in history disappeared and a new democratic France emerged.</li>
+<li>&#8226; On the night of 4th August, the old France went to bed but next morning, a new France woke up.</li>
+<li>&#8226; 14th of July ended the political regime of Bourbons, while the decrees of the night of 4th of August ended the social and administrative base of the regime.</li>
+<li>&#8226; The revolution went through the stages, started by the aristocracy but finally the aristocracy was to find a common grave as it were with the monarchy.</li>
+</ul>
+<p>5th August &#8211; after wiping out the old France the new Assembly dedicated itself to the tank of making of new constitution. In fact, on 9th July itself, the National Assembly had announced the formation of the constituent Assembly.</p>
+<h3>(b) Replacing the Ancien Regime with Modern system</h3>
+<p><strong>Declaration of the Rights of Men &amp; Citizen (26th August 1789):</strong><br>(Death Warrant of the Old Regime &#8211; Lefebvre)</p>
+<ul>
+<li>&#8226; It consisted of 17 articles and served as the preamble to the French Constitution of 1791.</li>
+<li>&#8226; It was drafted by <strong>Abbe Sieyes</strong> and Marquis de <strong>Lafayette</strong>, in consultation with Jefferson.</li>
+<li>&#8226; It was a noble document on which the French Revolution and the working of the Constitution were to be based.</li>
+<li>&#8226; Clearly inspired by the Enlightenment Age principles.</li>
+<li>&#8226; A <strong>number of rights</strong> were enshrined in this declaration like
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Right to life</strong></li>
+<li style="padding-left:2em">&#9702; Every person is born with certain <strong>natural rights</strong>. It is the <strong>duty of the state to protect</strong> these rights of citizens.</li>
+<li style="padding-left:2em">&#9702; <strong>Liberty:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Every citizen is free to practice and propagate any <strong>religion</strong> within the limits prescribed by the law.</li>
+<li style="padding-left:4em">&#9632; Freedom from arbitrary arrest.
+<ul>
+<li style="padding-left:4em">&#9632; An individual must be <strong>safeguarded against arbitrary police</strong> or judicial action.</li>
+<li style="padding-left:4em">&#9632; No person shall be accused, arrested or imprisoned except in <strong>accordance with the law.</strong></li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Freedom of expression and press</strong></li>
+<li style="padding-left:4em">&#9632; Right to own <strong>property</strong> (described as sacred, inalienable, and inviolable)</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Equality</strong>:
+<ul>
+<li style="padding-left:4em">&#9632; Equality <strong>before law</strong></li>
+<li style="padding-left:4em">&#9632; Right to acquire <strong>government ranks</strong> in accordance with their <strong>merit</strong>.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Separation of powers</strong></li>
+<li style="padding-left:2em">&#9702; Law to be enacted by <strong>elected assembly.</strong></li>
+<li style="padding-left:2em">&#9702; Law to be expression of <strong>general will.</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Sovereignty</strong> to reside in nation.</li>
+</ul>
+</li>
+</ul>
+<p>An entire new basis was created or for the restructuring of France politically, legally and constitutionally. The Declaration served as an affirmation of the core values of the French Revolution and had a major impact on the development of liberty and democracy in Europe and across the world.</p>
+<p><strong>Analytical Perspective</strong></p>
+<p><strong>Positive side:</strong></p>
+<ul>
+<li>&#8226; It was unique as it was theoretically <strong>guided by Rousseau&#8217;s concept of &#8216;General Will&#8217;.</strong></li>
+<li>&#8226; Some essential rights for a citizen such as rule of law, right to property, right to safety from arbitrary imprisonment, etc.</li>
+<li>&#8226; It reflected the principles which became the <strong>basis for the future government</strong> of France.
+<ul>
+<li style="padding-left:2em">&#9702; The future constitution in France tried to conform to it in spirit.</li>
+</ul>
+</li>
+<li>&#8226; It became a <strong>charter of freedom for liberals of 19th c.</strong> Europe. It was not only in the context of France but rather of the entire world. It talked about the <strong>whole of humanity.</strong></li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li>&#8226; Favoured middle class:
+<ul>
+<li style="padding-left:2em">&#9702; The enshrined rights reflected the interest of the middle class. That&#8217;s why the right to property, freedom of thought and expression, freedom of religion etc. were accepted but not right to work, right to assembly and right to food, which could have benefited the lower class. It was limited to the <em>right to form organization.</em></li>
+</ul>
+</li>
+<li>&#8226; The Declaration was indeed a watershed moment in the history of human rights, going further in scope than most of the similar documents that came before. Yet, at the time of its framing, active citizenship was only granted to male property owners over the age of 25 who paid their taxes. This amounted to roughly 20% of the population. Women, slaves, and foreigners were thereby omitted from the democratic process.
+<ul>
+<li style="padding-left:2em">&#9702; Women
+<ul>
+<li style="padding-left:4em">&#9632; Frustration that women&#8217;s rights were not considered led the playwright Olympe de Gouges to pen the Declaration of the Rights of Woman and of the Female Citizen (1791), stating explicitly women&#8217;s equality with men. She sought to expose the failure of the Revolution to live up to its promises of equality.</li>
+<li style="padding-left:4em">&#9632; <strong>Mary Wollstonecraft</strong> (English journalist) witnessed the revolution first-hand by going to Paris. She defended the quote &#8220;rights of man&#8221; in a 1791 book and in 1792 she published A Vindication of the Rights of Woman.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; It failed to end slavery.
+<ul>
+<li style="padding-left:4em">&#9632; Although the Declaration did not mention slavery, its principles inspired slaves in the French colony of Saint-Domingue (Haiti) to rise, thus leading to the Haitian Revolution (1791-1804).</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Workers
+<ul>
+<li style="padding-left:4em">&#9632; When inspired workers started to form their association, they were prohibited to do so. So, the declaration was more abstract than real for them.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Because of these limitations, it appears that the declaration of rights was drawing inspiration more from past than future.</p>
+<p><strong>Conclusion:</strong></p>
+<ul>
+<li>&#8226; Despite its shortcomings, it was one of the most significant and enduring achievements of the French Revolution.</li>
+<li>&#8226; Even the limited aims of the framers of the Declaration (especially Article 1) extended logically to mean political and even social democracy.
+<ul>
+<li style="padding-left:2em">&#9702; It was &#8220;the credo of the new age.&#8221; (19th-c historian Jules Michelet)</li>
+</ul>
+</li>
+</ul>
+<h3>Women&#8217;s March (5 October 1789)</h3>
+<p>The king refused to sanction the August Decrees and Declaration both. There was still a fear and anxiety among the people that the king and the aristocrats were continuing their conspiracy to defeat the revolution.</p>
+<p>The <strong>Parisians rose again</strong> and on <strong>October 5</strong> marched to Versailles. There was a <strong>Women&#8217;s March on Versailles</strong> (one of the most significant events in FR) &#8211; Thousands of women march to Versailles, demanding bread, and the return of the royal family to Paris. The next day they <strong>brought the royal family back to Paris</strong>.</p>
+<ul>
+<li>&#8226; <strong>Significance</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The march proved that the monarchy was subject to the will of the people. It also gave the revolutionaries confidence in the power of the people over the king. It stripped the king of much of his remaining independence and authority.</li>
+<li style="padding-left:2em">&#9702; As a result of the march, the monarchist faction in the Assembly effectively lost its significance.</li>
+<li style="padding-left:2em">&#9702; So, for many scholars, <strong>FR was not about high Enlightenment ideas but about primarily economic hardship.</strong></li>
+<li style="padding-left:2em">&#9702; Louis attempted to work within the framework of his limited powers after the women&#8217;s march but won little support, and he and the royal family remained virtual prisoners in the Tuileries.</li>
+<li style="padding-left:2em">&#9702; Desperate, he made his abortive flight to Varennes in June 1791. Attempting to escape and join with royalist armies, the king was once again captured by a mixture of citizens and national guardsmen who hauled him back to Paris.</li>
+<li style="padding-left:2em">&#9702; Now the aristocrats began to flee the country.</li>
+</ul>
+</li>
+</ul>
+<h3>(c) Administrative Re-organization (Decree of 22 December 1789)</h3>
+<ul>
+<li>&#8226; The complicated administrative system of the ancien r&#233;gime was swept away. The old feudal system was replaced with a more centralized and rational system of governance.</li>
+<li>&#8226; The anarchy was sought to be ended by reconstituting France
+<ul>
+<li style="padding-left:2em">&#9702; Creation of 83 departments (new provinces).</li>
+<li style="padding-left:2em">&#9702; System of intendants was abolished.</li>
+<li style="padding-left:2em">&#9702; General Council and Executive Council etc were created.</li>
+<li style="padding-left:2em">&#9702; Departments &#8594; Districts &#8594; Cantons</li>
+<li style="padding-left:2em">&#9702; Municipal government was in the hands of the communes, who were elected.</li>
+<li style="padding-left:2em">&#9702; So, there was decentralization of power.</li>
+</ul>
+</li>
+<li>&#8226; Judicial principles were radically changed.
+<ul>
+<li style="padding-left:2em">&#9702; No longer arbitrary arrest of people</li>
+<li style="padding-left:2em">&#9702; People have the right to defend themselves.</li>
+<li style="padding-left:2em">&#9702; Significantly, the judges were to be elected.</li>
+<li style="padding-left:2em">&#9702; Justice of peace in every Canton, appeal courts at national level.</li>
+</ul>
+</li>
+</ul>
+<h3>(d) Economy</h3>
+<ul>
+<li>&#8226; <strong>Nationalization of Church Property (Nov 1789)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It <strong>nationalized</strong> the <strong>lands</strong> of the Roman Catholic Church in France to pay off the public debt.</li>
+<li style="padding-left:2em">&#9702; Also, against this Church property, the assembly decided to issue <strong>Assignant</strong> (paper currency).</li>
+</ul>
+</li>
+<li>&#8226; The Assembly preferred <strong>free trade</strong> and removal of control.
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>toll barriers</strong> were removed. The grain trade was freed. This all helped bourgeoise.</li>
+</ul>
+</li>
+</ul>
+<h3>(e) Church: Civil Constitution of the Clergy (July 1790)</h3>
+<p>(to restructuring the relationship between the church and the state)</p>
+<ul>
+<li>&#8226; Separated the church of France from the Papacy. It was to democratize religion and disown the connection of Pope.
+<ul>
+<li style="padding-left:2em">&#9702; No longer 135 Bishops but 83, corresponding 83 departments. There would be no archbishop.</li>
+<li style="padding-left:2em">&#9702; Election of bishops and parish priests by the people, rather than their appointment by the Pope.</li>
+<li style="padding-left:2em">&#9702; State would have control over appointment and dismissal of clergy.</li>
+<li style="padding-left:2em">&#9702; Anointment of provincial bishops by the bishops in capital and likewise.</li>
+<li style="padding-left:2em">&#9702; Salaries would be paid by the government.</li>
+<li style="padding-left:2em">&#9702; Clergy to take oath of loyalty as witnesses to the new constitution.
+<ul>
+<li style="padding-left:4em">&#9632; It led to <em>deep internal division</em> among the French clergy.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; It virtually made the Church a department of the government. It was rejected by Pope Pius VI.</li>
+</ul>
+<h3>(f) The Constitution (Sept 1791)</h3>
+<ul>
+<li>&#8226; Constitution-making took two years since the Declaration.</li>
+<li>&#8226; Not a republic but a <strong>constitutional monarchy</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Change in King&#8217;s title: Louis, by the grace of God, King of France and Navarre &#8594; Louis, by the grace of God and the constitutional will of the people, the king of the French.</li>
+<li style="padding-left:2em">&#9702; King was not the King of territory but the a king of a people.</li>
+<li style="padding-left:2em">&#9702; The king retained substantial executive authority but in reality, most of his orders had to be counter-signed by a minister who was sort of responsible to the assembly.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Legislative assembly</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Montesquieuean concept of <strong>separation of power</strong> introduced.</li>
+<li style="padding-left:2em">&#9702; It introduced a <strong>unicameral legislative assembly</strong> (or <strong>National Assembly</strong>) with limited powers to make laws and levy taxes.</li>
+<li style="padding-left:2em">&#9702; Provision for <strong>limited franchise</strong>, based on property, suited the interest of the middle class. There was a clear distinction was made between active and inactive citizens of France.
+<ul>
+<li style="padding-left:4em">&#9632; Active citizens (with property) &#8211; given franchise.</li>
+<li style="padding-left:4em">&#9632; Passive citizens (didn&#8217;t have property)</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; These 4.3 m people (Primary level) would select about 50,000 electors (Secondary level), who would in turn elect the deputies (members of the assembly)</li>
+<li style="padding-left:2em">&#9702; Women had no right to vote.</li>
+</ul>
+</li>
+<li>&#8226; It guaranteed <strong>basic civil liberties</strong> such as freedom of speech, press, and religion.</li>
+<li>&#8226; In this constitution, the hegemony of the middle class was present. The influence of the middle class could be seen on this new constitution. This is the reason why political balance and social harmony were emphasized in this constitution.</li>
+</ul>
+<p>Thus, the National Constituent Assembly completed the abolition of feudalism, suppressed the old orders, established civil equality among men and made more than half the adult male population eligible to vote. What is significant is that career was open to talent, it marked very definitely the end of the special privileges which the upper orders enjoyed earlier. It ended the old France. It was given a new legal, administrative and social basis.</p>
+<p>Finally, in September, the Constitution was formally accepted by King Louis XVI and the <strong>National Constituent Assembly officially dissolved</strong>, and the Legislative Assembly takes its place.</p>`,
   'industrialization': ``,
   'nation-state-system': ``,
   'imperialism-colonialism': ``,
