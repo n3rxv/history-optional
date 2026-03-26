@@ -230,6 +230,7 @@ export default function PadPage() {
       isPanning.current = true;
       panStart.current  = { x: e.clientX, y: e.clientY };
       panOrigin.current = { ...offsetRef.current };
+      e.currentTarget.setPointerCapture(e.pointerId);
       return;
     }
     if (tool === 'text') {
@@ -247,7 +248,7 @@ export default function PadPage() {
       tool,
       color: tool === 'highlighter'
         ? (HIGHLIGHT_COLORS.find(c => c.value === penColor)?.value ?? '#fef08a')
-        : tool === 'eraser' ? '#0e0c0a' : penColor,
+        : tool === 'eraser' ? '#1a1612' : penColor,
       size: tool === 'eraser' ? penSize * 8 : tool === 'highlighter' ? penSize * 6 : penSize,
       opacity: tool === 'highlighter' ? 0.5 : 1,
       points: [{ x: pos.x, y: pos.y, pressure }],
@@ -418,11 +419,19 @@ export default function PadPage() {
       if (e.key === 'h') setTool('highlighter');
       if (e.key === 'e') setTool('eraser');
       if (e.key === 't') setTool('text');
-      if (e.key === ' ') setTool('select');
+      if (e.key === ' ') { e.preventDefault(); setTool('select'); }
       if (e.key === 'Escape') { setEditingText(null); setTool('pen'); }
     }
+    function onKeyUp(e: KeyboardEvent) {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key === ' ') setTool('pen');
+    }
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener('keyup', onKeyUp);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('keyup', onKeyUp);
+    };
   }, []);
 
   const cursorStyle = tool === 'eraser' ? 'none'
@@ -689,6 +698,7 @@ export default function PadPage() {
             0 8px 40px rgba(0,0,0,0.8),
             0 2px 8px rgba(0,0,0,0.5),
             inset 0 1px 0 rgba(212,168,67,0.06);
+          pointer-events: auto;
         }
 
         .tb-tool-btn {
@@ -1105,12 +1115,12 @@ export default function PadPage() {
         </nav>
 
         {/* ── CANVAS AREA ── */}
-        <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        <div style={{ flex: 1, position: 'relative', overflow: 'hidden', touchAction: 'none' }}>
 
           {/* Main drawing container */}
           <div
             ref={containerRef}
-            style={{ position: 'absolute', inset: 0, cursor: cursorStyle }}
+            style={{ position: 'absolute', inset: 0, cursor: cursorStyle, touchAction: 'none' }}
             onClick={() => setShowColorPicker(false)}
           >
             <canvas ref={canvasRef} width={canvasSize.w} height={canvasSize.h}
@@ -1118,7 +1128,7 @@ export default function PadPage() {
             <canvas
               ref={overlayRef}
               width={canvasSize.w} height={canvasSize.h}
-              style={{ position: 'absolute', top: 0, left: 0, display: 'block', cursor: cursorStyle }}
+              style={{ position: 'absolute', top: 0, left: 0, display: 'block', cursor: cursorStyle, touchAction: 'none' }}
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
