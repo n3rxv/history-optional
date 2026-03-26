@@ -120,17 +120,17 @@ export default function PadPage() {
 
   // ── Draw dot grid ──────────────────────────────────────────────
   function drawGrid(ctx: CanvasRenderingContext2D, w: number, h: number, ox: number, oy: number) {
-    // Warm parchment-style dark background
-    ctx.fillStyle = '#0e0c0a';
+    // Deep warm charcoal — clearly distinct from the toolbar
+    ctx.fillStyle = '#1a1612';
     ctx.fillRect(0, 0, w, h);
-    // Subtle warm dots
-    ctx.fillStyle = 'rgba(180,160,120,0.08)';
+    // Visible warm dots
+    ctx.fillStyle = 'rgba(200,175,130,0.28)';
     const startX = ((-ox) % GRID_SIZE + GRID_SIZE) % GRID_SIZE;
     const startY = ((-oy) % GRID_SIZE + GRID_SIZE) % GRID_SIZE;
     for (let x = startX; x < w; x += GRID_SIZE) {
       for (let y = startY; y < h; y += GRID_SIZE) {
         ctx.beginPath();
-        ctx.arc(x, y, 1, 0, Math.PI * 2);
+        ctx.arc(x, y, 1.2, 0, Math.PI * 2);
         ctx.fill();
       }
     }
@@ -149,7 +149,7 @@ export default function PadPage() {
       ctx.globalCompositeOperation = 'screen';
     } else if (stroke.tool === 'eraser') {
       ctx.globalCompositeOperation = 'source-over';
-      ctx.strokeStyle = '#0e0c0a';
+      ctx.strokeStyle = '#1a1612';
       ctx.globalAlpha = 1;
     } else {
       ctx.globalCompositeOperation = 'source-over';
@@ -161,7 +161,7 @@ export default function PadPage() {
     if (pts.length === 1) {
       ctx.beginPath();
       ctx.arc(pts[0].x, pts[0].y, stroke.size * zoom / 2, 0, Math.PI * 2);
-      ctx.fillStyle = stroke.tool === 'eraser' ? '#0e0c0a' : stroke.color;
+      ctx.fillStyle = stroke.tool === 'eraser' ? '#1a1612' : stroke.color;
       ctx.fill();
     } else {
       ctx.beginPath();
@@ -528,14 +528,13 @@ export default function PadPage() {
         /* === TITLEBAR === */
         .titlebar {
           height: 44px;
-          background: rgba(10,9,7,0.97);
-          border-bottom: 1px solid rgba(180,160,120,0.08);
+          background: #0a0806;
+          border-bottom: 1px solid rgba(212,168,67,0.12);
           display: flex;
           align-items: center;
           padding: 0 16px;
           gap: 0;
           flex-shrink: 0;
-          backdrop-filter: blur(12px);
           position: relative;
           z-index: 50;
         }
@@ -568,7 +567,7 @@ export default function PadPage() {
           align-items: center;
           gap: 5px;
           font-size: 10px;
-          color: rgba(180,160,120,0.35);
+          color: rgba(200,175,130,0.5);
           letter-spacing: 0.08em;
           text-decoration: none;
           font-family: 'DM Mono', monospace;
@@ -576,15 +575,15 @@ export default function PadPage() {
           border-radius: 6px;
           transition: all 0.18s;
         }
-        .home-btn:hover { color: rgba(180,160,120,0.65); background: rgba(180,160,120,0.06); }
+        .home-btn:hover { color: rgba(200,175,130,0.85); background: rgba(212,168,67,0.07); }
 
-        .title-sep { width: 1px; height: 16px; background: rgba(180,160,120,0.1); }
+        .title-sep { width: 1px; height: 16px; background: rgba(212,168,67,0.12); }
 
         .pad-name-input {
           background: none;
           border: none;
           outline: none;
-          color: rgba(240,235,225,0.75);
+          color: rgba(240,235,220,0.85);
           font-family: 'Fraunces', serif;
           font-size: 13px;
           font-style: italic;
@@ -593,7 +592,7 @@ export default function PadPage() {
           max-width: 280px;
           letter-spacing: 0.01em;
         }
-        .pad-name-input::placeholder { color: rgba(180,160,120,0.25); }
+        .pad-name-input::placeholder { color: rgba(200,175,130,0.3); }
 
         .save-state {
           font-size: 9.5px;
@@ -604,50 +603,50 @@ export default function PadPage() {
           transition: all 0.3s;
         }
         .save-state.saving {
-          color: #d4a843;
-          background: rgba(212,168,67,0.08);
-          border: 1px solid rgba(212,168,67,0.15);
+          color: #e8c96a;
+          background: rgba(212,168,67,0.12);
+          border: 1px solid rgba(212,168,67,0.22);
         }
         .save-state.saved {
-          color: rgba(180,160,120,0.22);
+          color: rgba(200,175,130,0.3);
         }
 
-        .tb-divider { width: 1px; height: 16px; background: rgba(180,160,120,0.08); }
+        .tb-divider { width: 1px; height: 16px; background: rgba(212,168,67,0.1); }
 
         /* Zoom cluster */
         .zoom-cluster {
           display: flex;
           align-items: center;
           gap: 0;
-          background: rgba(180,160,120,0.05);
-          border: 1px solid rgba(180,160,120,0.09);
+          background: rgba(212,168,67,0.06);
+          border: 1px solid rgba(212,168,67,0.14);
           border-radius: 8px;
           overflow: hidden;
         }
         .zoom-btn {
           background: none; border: none; border-radius: 0;
-          color: rgba(180,160,120,0.4); cursor: pointer;
+          color: rgba(200,175,130,0.55); cursor: pointer;
           font-size: 15px; padding: 3px 7px;
           line-height: 1; transition: all 0.12s;
           font-weight: 300;
         }
-        .zoom-btn:hover { color: rgba(180,160,120,0.8); background: rgba(180,160,120,0.07); }
+        .zoom-btn:hover { color: rgba(212,168,67,0.9); background: rgba(212,168,67,0.08); }
         .zoom-label {
-          font-size: 9.5px; color: rgba(180,160,120,0.35);
+          font-size: 9.5px; color: rgba(200,175,130,0.5);
           font-family: 'DM Mono', monospace;
           min-width: 38px; text-align: center;
           cursor: pointer; padding: 0 2px;
           transition: color 0.12s;
         }
-        .zoom-label:hover { color: rgba(180,160,120,0.6); }
+        .zoom-label:hover { color: rgba(200,175,130,0.8); }
 
         /* Nav buttons */
         .nav-btn {
           display: flex; align-items: center; gap: 5px;
           background: transparent;
-          border: 1px solid rgba(180,160,120,0.1);
+          border: 1px solid rgba(212,168,67,0.14);
           border-radius: 7px;
-          color: rgba(180,160,120,0.4);
+          color: rgba(200,175,130,0.55);
           cursor: pointer;
           font-size: 10.5px;
           font-family: 'DM Mono', monospace;
@@ -656,19 +655,19 @@ export default function PadPage() {
           transition: all 0.15s;
           white-space: nowrap;
         }
-        .nav-btn:hover { border-color: rgba(180,160,120,0.22); color: rgba(180,160,120,0.7); background: rgba(180,160,120,0.04); }
-        .nav-btn.active { background: rgba(180,160,120,0.08); border-color: rgba(180,160,120,0.2); color: rgba(240,235,225,0.6); }
+        .nav-btn:hover { border-color: rgba(212,168,67,0.28); color: rgba(220,195,150,0.85); background: rgba(212,168,67,0.05); }
+        .nav-btn.active { background: rgba(212,168,67,0.1); border-color: rgba(212,168,67,0.28); color: rgba(232,201,106,0.8); }
         .nav-btn.primary {
-          background: rgba(212,168,67,0.12);
-          border-color: rgba(212,168,67,0.28);
+          background: rgba(212,168,67,0.14);
+          border-color: rgba(212,168,67,0.35);
           color: #d4a843;
           font-weight: 500;
         }
         .nav-btn.primary:hover {
-          background: rgba(212,168,67,0.2);
-          border-color: rgba(212,168,67,0.45);
+          background: rgba(212,168,67,0.24);
+          border-color: rgba(212,168,67,0.55);
           color: #e8c96a;
-          box-shadow: 0 0 12px rgba(212,168,67,0.12);
+          box-shadow: 0 0 14px rgba(212,168,67,0.15);
         }
 
         /* === FLOATING TOOLBAR (Freenotes style) === */
@@ -683,15 +682,13 @@ export default function PadPage() {
           align-items: center;
           gap: 2px;
           padding: 10px 7px;
-          background: rgba(13,11,9,0.88);
-          border: 1px solid rgba(180,160,120,0.1);
+          background: #111008;
+          border: 1px solid rgba(212,168,67,0.18);
           border-radius: 16px;
           box-shadow:
-            0 8px 32px rgba(0,0,0,0.6),
-            0 2px 8px rgba(0,0,0,0.4),
-            inset 0 1px 0 rgba(255,255,255,0.03);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+            0 8px 40px rgba(0,0,0,0.8),
+            0 2px 8px rgba(0,0,0,0.5),
+            inset 0 1px 0 rgba(212,168,67,0.06);
         }
 
         .tb-tool-btn {
@@ -701,34 +698,34 @@ export default function PadPage() {
           border-radius: 10px;
           cursor: pointer;
           display: flex; align-items: center; justify-content: center;
-          color: rgba(180,160,120,0.35);
+          color: rgba(200,180,140,0.55);
           transition: all 0.15s;
           position: relative;
         }
         .tb-tool-btn:hover {
-          background: rgba(180,160,120,0.07);
-          color: rgba(180,160,120,0.7);
-          border-color: rgba(180,160,120,0.1);
+          background: rgba(212,168,67,0.08);
+          color: rgba(220,195,150,0.9);
+          border-color: rgba(212,168,67,0.12);
         }
         .tb-tool-btn.active {
-          background: rgba(212,168,67,0.12);
-          border-color: rgba(212,168,67,0.25);
-          color: #d4a843;
-          box-shadow: 0 0 12px rgba(212,168,67,0.08), inset 0 1px 0 rgba(212,168,67,0.1);
+          background: rgba(212,168,67,0.15);
+          border-color: rgba(212,168,67,0.35);
+          color: #e8c96a;
+          box-shadow: 0 0 14px rgba(212,168,67,0.12), inset 0 1px 0 rgba(212,168,67,0.12);
         }
         .tb-tool-btn.danger:hover {
-          color: rgba(200,80,80,0.8);
-          background: rgba(200,80,80,0.08);
-          border-color: rgba(200,80,80,0.15);
+          color: rgba(220,80,80,0.85);
+          background: rgba(200,60,60,0.1);
+          border-color: rgba(200,60,60,0.18);
         }
 
         .tb-divider-h {
           width: 22px; height: 1px;
-          background: rgba(180,160,120,0.08);
+          background: rgba(212,168,67,0.1);
           margin: 3px 0;
         }
 
-        /* Active tool indicator dot */
+        /* Active tool indicator */
         .tb-tool-btn.active::after {
           content: '';
           position: absolute;
@@ -736,7 +733,7 @@ export default function PadPage() {
           width: 3px; height: 14px;
           background: linear-gradient(180deg, #e8c96a, #d4a843);
           border-radius: 2px;
-          box-shadow: 0 0 6px rgba(212,168,67,0.5);
+          box-shadow: 0 0 8px rgba(212,168,67,0.6);
         }
 
         /* Color indicator on toolbar */
@@ -760,7 +757,7 @@ export default function PadPage() {
         }
         .size-dot {
           border-radius: 50%;
-          background: rgba(180,160,120,0.3);
+          background: rgba(200,175,130,0.45);
           cursor: pointer;
           transition: all 0.12s;
           flex-shrink: 0;
@@ -768,23 +765,22 @@ export default function PadPage() {
         }
         .size-dot.active {
           background: #d4a843;
-          box-shadow: 0 0 6px rgba(212,168,67,0.4);
-          border-color: rgba(212,168,67,0.4);
+          box-shadow: 0 0 8px rgba(212,168,67,0.5);
+          border-color: rgba(232,201,106,0.5);
         }
-        .size-dot:hover { transform: scale(1.25); }
+        .size-dot:hover { transform: scale(1.25); background: rgba(212,168,67,0.7); }
 
         /* === FLOATING COLOR PICKER === */
         .color-picker-float {
           position: absolute;
           left: 70px;
           z-index: 200;
-          background: rgba(12,10,8,0.95);
-          border: 1px solid rgba(180,160,120,0.12);
+          background: #0c0a08;
+          border: 1px solid rgba(212,168,67,0.18);
           border-radius: 14px;
           padding: 14px;
           width: 168px;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.03);
-          backdrop-filter: blur(20px);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.85), inset 0 1px 0 rgba(212,168,67,0.05);
           animation: popIn 0.15s cubic-bezier(0.34,1.56,0.64,1);
         }
 
@@ -795,7 +791,7 @@ export default function PadPage() {
 
         .cpf-label {
           font-size: 8.5px;
-          color: rgba(180,160,120,0.3);
+          color: rgba(200,175,130,0.45);
           letter-spacing: 0.16em;
           text-transform: uppercase;
           font-family: 'DM Mono', monospace;
@@ -831,12 +827,11 @@ export default function PadPage() {
           width: 230px;
           position: absolute;
           top: 0; right: 0; bottom: 0;
-          background: rgba(10,9,7,0.96);
-          border-left: 1px solid rgba(180,160,120,0.08);
+          background: #0c0a08;
+          border-left: 1px solid rgba(212,168,67,0.12);
           display: flex; flex-direction: column;
           z-index: 80;
           animation: slideIn 0.2s cubic-bezier(0.16,1,0.3,1);
-          backdrop-filter: blur(20px);
         }
         @keyframes slideIn {
           from { opacity: 0; transform: translateX(16px); }
@@ -845,7 +840,7 @@ export default function PadPage() {
 
         .pad-sidebar-header {
           padding: 16px 16px 12px;
-          border-bottom: 1px solid rgba(180,160,120,0.07);
+          border-bottom: 1px solid rgba(212,168,67,0.1);
           display: flex; align-items: center; justify-content: space-between;
         }
 
@@ -856,28 +851,27 @@ export default function PadPage() {
           border-left: 2px solid transparent;
           transition: all 0.15s;
         }
-        .pad-item:hover { background: rgba(180,160,120,0.03); border-left-color: rgba(180,160,120,0.12); }
+        .pad-item:hover { background: rgba(212,168,67,0.04); border-left-color: rgba(212,168,67,0.2); }
         .pad-item.active {
-          background: rgba(212,168,67,0.05);
+          background: rgba(212,168,67,0.07);
           border-left-color: #d4a843;
         }
-        .pad-item + .pad-item { border-top: 1px solid rgba(180,160,120,0.04); }
+        .pad-item + .pad-item { border-top: 1px solid rgba(212,168,67,0.05); }
 
         /* === PAN HINT === */
         .pan-hint {
           position: absolute;
           bottom: 24px; left: 50%; transform: translateX(-50%);
           font-size: 9.5px;
-          color: rgba(180,160,120,0.2);
+          color: rgba(200,175,130,0.35);
           font-style: italic;
           font-family: 'DM Mono', monospace;
           pointer-events: none;
           letter-spacing: 0.08em;
-          background: rgba(10,9,7,0.6);
+          background: rgba(10,8,6,0.75);
           padding: 5px 14px;
           border-radius: 20px;
-          border: 1px solid rgba(180,160,120,0.06);
-          backdrop-filter: blur(8px);
+          border: 1px solid rgba(212,168,67,0.1);
           white-space: nowrap;
         }
 
@@ -886,7 +880,7 @@ export default function PadPage() {
           position: absolute;
           bottom: 14px; right: 14px;
           font-size: 8.5px;
-          color: rgba(180,160,120,0.12);
+          color: rgba(200,175,130,0.2);
           font-family: 'DM Mono', monospace;
           pointer-events: none;
           letter-spacing: 0.05em;
@@ -940,15 +934,15 @@ export default function PadPage() {
           backdrop-filter: blur(16px);
         }
         .welcome-card {
-          background: #0b0908;
-          border: 1px solid rgba(180,160,120,0.1);
+          background: #0c0a08;
+          border: 1px solid rgba(212,168,67,0.15);
           border-radius: 20px;
           padding: 36px 40px;
           width: 500px;
           max-width: 92vw;
           box-shadow:
             0 40px 100px rgba(0,0,0,0.95),
-            0 0 0 1px rgba(255,255,255,0.02) inset;
+            inset 0 1px 0 rgba(212,168,67,0.05);
           animation: welcomeIn 0.28s cubic-bezier(0.16,1,0.3,1);
         }
         @keyframes welcomeIn {
@@ -966,12 +960,12 @@ export default function PadPage() {
         }
         .welcome-subtitle {
           font-size: 11px;
-          color: rgba(180,160,120,0.22);
+          color: rgba(200,175,130,0.35);
           font-style: italic;
           margin-bottom: 24px;
           font-family: 'DM Mono', monospace;
           padding-bottom: 20px;
-          border-bottom: 1px solid rgba(180,160,120,0.07);
+          border-bottom: 1px solid rgba(212,168,67,0.08);
           letter-spacing: 0.06em;
         }
         .shortcut-row {
@@ -980,9 +974,9 @@ export default function PadPage() {
         }
         .shortcut-key {
           min-width: 54px; font-size: 8.5px;
-          color: rgba(180,160,120,0.5);
-          background: rgba(180,160,120,0.06);
-          border: 1px solid rgba(180,160,120,0.1);
+          color: rgba(200,175,130,0.6);
+          background: rgba(212,168,67,0.07);
+          border: 1px solid rgba(212,168,67,0.14);
           border-radius: 5px;
           padding: 3px 6px; text-align: center;
           letter-spacing: 0.06em; margin-top: 1px;
@@ -991,13 +985,13 @@ export default function PadPage() {
         }
         .shortcut-label {
           font-size: 12px;
-          color: rgba(240,235,225,0.65);
+          color: rgba(240,235,220,0.75);
           font-weight: 700;
           font-family: 'Libre Baskerville', serif;
         }
         .shortcut-desc {
           font-size: 11px;
-          color: rgba(180,160,120,0.28);
+          color: rgba(200,175,130,0.35);
           font-style: italic;
           margin-left: 7px;
           font-family: 'Libre Baskerville', serif;
@@ -1006,11 +1000,11 @@ export default function PadPage() {
           display: flex; align-items: center; gap: 10px;
           margin-bottom: 20px; margin-top: 20px;
           padding-top: 18px;
-          border-top: 1px solid rgba(180,160,120,0.07);
+          border-top: 1px solid rgba(212,168,67,0.08);
         }
         .welcome-checkbox {
           width: 16px; height: 16px; border-radius: 4px;
-          border: 1px solid rgba(180,160,120,0.18);
+          border: 1px solid rgba(212,168,67,0.25);
           background: transparent;
           cursor: pointer; flex-shrink: 0;
           display: flex; align-items: center; justify-content: center;
@@ -1045,7 +1039,7 @@ export default function PadPage() {
 
       <div style={{
         display: 'flex', flexDirection: 'column', height: '100vh',
-        background: '#0e0c0a', color: '#f0ede8',
+        background: '#1a1612', color: '#f0ede8',
         fontFamily: "'Libre Baskerville', serif",
         overflow: 'hidden',
       }}>
@@ -1286,7 +1280,7 @@ export default function PadPage() {
             <div className="pad-sidebar">
               <div className="pad-sidebar-header">
                 <span style={{
-                  fontSize: 8.5, color: 'rgba(180,160,120,0.3)',
+                  fontSize: 8.5, color: 'rgba(200,175,130,0.45)',
                   letterSpacing: '0.16em', textTransform: 'uppercase',
                   fontFamily: "'DM Mono', monospace",
                 }}>My Pads</span>
@@ -1301,8 +1295,8 @@ export default function PadPage() {
               <div style={{ flex: 1, overflowY: 'auto' }}>
                 {pads.length === 0 && (
                   <div style={{ padding: '32px 16px', textAlign: 'center' }}>
-                    <div style={{ fontSize: 11, color: 'rgba(180,160,120,0.18)', fontStyle: 'italic' }}>No pads yet</div>
-                    <div style={{ fontSize: 9, color: 'rgba(180,160,120,0.1)', marginTop: 6, fontFamily: "'DM Mono', monospace", letterSpacing: '0.06em' }}>create one to begin</div>
+                    <div style={{ fontSize: 11, color: 'rgba(200,175,130,0.3)', fontStyle: 'italic' }}>No pads yet</div>
+                    <div style={{ fontSize: 9, color: 'rgba(200,175,130,0.18)', marginTop: 6, fontFamily: "'DM Mono', monospace", letterSpacing: '0.06em' }}>create one to begin</div>
                   </div>
                 )}
                 {pads.map(pad => (
