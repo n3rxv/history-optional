@@ -25524,7 +25524,353 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <li>&#8226; In this constitution, the hegemony of the middle class was present. The influence of the middle class could be seen on this new constitution. This is the reason why political balance and social harmony were emphasized in this constitution.</li>
 </ul>
 <p>Thus, the National Constituent Assembly completed the abolition of feudalism, suppressed the old orders, established civil equality among men and made more than half the adult male population eligible to vote. What is significant is that career was open to talent, it marked very definitely the end of the special privileges which the upper orders enjoyed earlier. It ended the old France. It was given a new legal, administrative and social basis.</p>
-<p>Finally, in September, the Constitution was formally accepted by King Louis XVI and the <strong>National Constituent Assembly officially dissolved</strong>, and the Legislative Assembly takes its place.</p>`,
+<p>Finally, in September, the Constitution was formally accepted by King Louis XVI and the <strong>National Constituent Assembly officially dissolved</strong>, and the Legislative Assembly takes its place.</p>
+<h2>Handout 12: French Revolution &#8212; Second and Third Phase (1792-99)</h2>
+
+<h3>Legislative Assembly</h3>
+<p>On the basis of the Constitution of 1791, there was the formation of unicameral legislation after the <strong>election in 1791.</strong></p>
+<ul>
+<li>&#8226; The assembly, thus formed, was divided into two groups: <strong>Rightist</strong> (Pro-monarchial elements, royalists) &amp; <strong>Leftist</strong> (Radical members).
+<ul>
+<li style="padding-left:2em">&#9702; Radicals wanted to completely abolish the monarchy and establish republican government while the rightist wanted to restore the tradition and old order.</li>
+<li style="padding-left:2em">&#9702; Radicals:
+<ul>
+<li style="padding-left:4em">&#9632; Middle class was represented by <strong>Girondists</strong>, relatively less radicals.</li>
+<li style="padding-left:4em">&#9632; Lower class was represented by <strong>Mountain</strong> (petty merchants, shop keepers, dockyard workers etc.) &#8211; highly radical.</li>
+<li style="padding-left:4em">&#9632; <strong>Plains</strong> &#8211; in between. They occupied centrist position.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>French Revolutionary War</h3>
+<p>While the Constituent Assembly was in session, a few disturbing trends could be seen:</p>
+<ul>
+<li>&#8226; <strong>Fear of Counter-Revolution:</strong> The revolutionaries in France were concerned about the possibility of foreign intervention aimed at restoring the French monarchy.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Flight to Varennes</strong> (June 1791)
+<ul>
+<li style="padding-left:4em">&#9632; Louis XVI&#8217;s failed attempt to flee to Varennes. It raised suspicions that foreign powers might be conspiring with the French royal family.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>The Declaration of Pillnitz</strong> in mid-1791
+<ul>
+<li style="padding-left:4em">&#9632; If there was any attempt on the life of the king, the European powers would form a coalition and intervene in France.</li>
+<li style="padding-left:4em">&#9632; It was clearly seen as a signal for a possible invasion of France by the monarch occult powers of Europe.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Many <strong>&#233;migr&#233;s</strong> formed <strong>armed groups</strong> close to the NE frontier of France and sought help from the rulers of Europe.
+<ul>
+<li style="padding-left:4em">&#9632; It was widely suspected that they were conspiring with the aide of the possible upsurge of the counter-revolutionary emotions in France.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; When the National Constituent Assembly proclaimed a revolutionary principle of the right of self-determination, it gave <strong>new hope to the revolutionaries across Europe,</strong> the rulers in various countries began to worry when.</li>
+<li style="padding-left:2em">&#9702; <strong>Brunswick Manifesto</strong> (July 1792)
+<ul>
+<li style="padding-left:4em">&#9632; The Duke of Brunswick, commanding general of the Austro&#8211;Prussian Army, threatened the destruction of Paris should any harm come to King Louis XVI of France.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>The French Legislative Assembly <strong>declared war on Austria in April 1792</strong>. It marked the <strong>beginning of the French Revolutionary Wars</strong>, which would eventually involve many European powers and have <strong>profound consequences for both France and Europe as a whole.</strong></p>
+
+<h3>Fall of Monarchy</h3>
+<p><strong>Domestic Developments:</strong></p>
+<ul>
+<li>&#8226; The fear of conspiracy of the &#233;migr&#233; nobility and the monarchical powers (that counter-revolution threatened the revolution) gradually led to <strong>radicalization of politics.</strong></li>
+<li>&#8226; Formation of <strong>Paris Commune</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The radical sections of Paris got together at the hotel de Ville of that townhall and decided to create the revolutionary commune that was the municipal government of Paris. The assembly was forced to recognize it.</li>
+</ul>
+</li>
+<li>&#8226; The <strong>economic crisis</strong> continued. It gradually worsened.</li>
+<li>&#8226; King&#8217;s attempt to flight. He tried to leave France was caught with his family at <strong>Verennes</strong> and was brought back.</li>
+<li>&#8226; <strong>The war</strong> was continuing.
+<ul>
+<li style="padding-left:2em">&#9702; It had started well for France, but very soon it started going against France.</li>
+<li style="padding-left:2em">&#9702; It deepened the passion and sense of urgency among the various factions. There was a widespread belief that they had been betrayed by the monarchy.</li>
+</ul>
+</li>
+</ul>
+<p>This exacerbated France&#8217;s domestic political turmoil. Due to public violence and the political instability, there was <strong>political breakdown.</strong></p>
+<ul>
+<li>&#8226; <strong>August Insurrection (1792):</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Now, people decided to act once more. There was an insurrection on 10th August. People <strong>attacked Tuileries Palace</strong>, where the King lived. 600 royal guards were killed. The king left the palace and took refuge in the assembly chamber. The assembly decided to suspend the King for the moment.</li>
+</ul>
+</li>
+<li>&#8226; <strong>September Massacres (1792):</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In September, the Parisian crowd broke into the prisons and massacred the nobles and clergy held there.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Radicalization inside the Assembly:</strong></p>
+<p>It was now decided to overthrow the monarchy and to establish a republic in France.</p>
+<ul>
+<li>&#8226; A new assembly would be elected and known as <strong>the National Convention</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; It would be elected on the basis of <strong>Universal Adult Male Suffrage</strong>.</li>
+</ul>
+</li>
+<li>&#8226; On 22nd September, the monarchy finale came to an end. <strong>France became a republic.</strong> It marked the beginning of the new calendar, year one of the republic.</li>
+<li>&#8226; Apart from the abolition of the French monarchy, they assembly gave call for every other kingdom to do the same: &#8220;All governments are our enemies, all people our friends,&#8221; the <strong>Edict of Fraternity.</strong> (Dec 1792)</li>
+</ul>
+<p>What started as a movement not against the monarchy, now consumed the monarchy, as the revolutionary ideas and revolutionary enthusiasm propelled the revolution to earth a Republican solution. With the fall of the monarchy, the revolution entered a new phase. It was still at war with Europe which had to be fought, but for that, the revolution would now be more successfully organized.</p>
+
+<h3>Second Phase: The phase of Radical Republicanism (1792-94)</h3>
+
+<h4>Formation of the National Convention:</h4>
+<ul>
+<li>&#8226; <strong>Formation of Republic:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The radical members prevailed in the new Convention. So, it abolished the monarchy and declared the France as a Republic on 25th Sept 1792.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Regicide:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; With further reverses on war front, <strong>Louis XVI was condemned to death</strong> for treason by the Convention and executed on January 21, 1793; Marie-Antoinette was guillotined nine months later.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Internal Division and the failure of Girondin ministry</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Internal Division:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; According to <strong>Girondists</strong>, now the objective of the revolution was accomplished, so it was the time of consolidation domestically. The goal of the people&#8217;s war has been achieved.</li>
+<li style="padding-left:4em">&#9632; <strong>Jacobins</strong>, led by <strong>Maximilien Robespierre</strong>, wanted to give the lower classes a greater share in political and economic power.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Internal Crisis:</strong> Economic crisis continued. The bread was not only dear, but it was also becoming scarce.</li>
+<li style="padding-left:2em">&#9702; <strong>External Crisis:</strong> Meanwhile, the war started to bad once again for France.</li>
+<li style="padding-left:2em">&#9702; It is in this context, the people of France preferred almost emergency kind of government. But the <strong>weakness of the Girondist ministry compounded the problem.</strong></li>
+</ul>
+</li>
+<li>&#8226; The <strong>Jacobins took advantage</strong> of this and seized power. (Fall of Girondists)
+<ul>
+<li style="padding-left:2em">&#9702; Girondin leaders were dragged out from the National Convention by the crowd of 20,000 Jacobin supporters and killed in broad daylight. Thus, <strong>Jacobins seized power</strong> in June 1793.</li>
+</ul>
+</li>
+<li>&#8226; Thus, by July, there was the beginning of the <strong>Reign of Terror</strong> (July 1793-July 1794). With this, French Revolution turned bloody and violent.
+<ul>
+<li style="padding-left:2em">&#9702; Now for time being, <strong>Revolution slipped out of the hands of middle class</strong> and hijacked by the lower class. It even has tarnished its own image in the eyes of other Europeans.</li>
+<li style="padding-left:2em">&#9702; It was an emergency form of government, when terror was used as instrument of enforcement of certain policies, and particularly to eliminate &#8216;enemies of revolution&#8217;.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Instruments of the government</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Committee of Public Safety</strong>:
+<ul>
+<li style="padding-left:4em">&#9632; It was charged with protecting the new republic against its foreign enemies (First Coalition) and domestic enemies (emigres).</li>
+<li style="padding-left:4em">&#9632; As a war-time measure, it was given broad supervisory powers over the army, judiciary, and legislature. (Concentration of executive authority)</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Deputies/representatives sent to the army</strong> to bring it under political control.</li>
+<li style="padding-left:2em">&#9702; <strong>Deputies were also sent to provinces</strong> to gather support for this more radical form of government.</li>
+<li style="padding-left:2em">&#9702; <strong>Revolutionary Tribunal</strong>: for trial of political offenders and enemies of revolutionaries.</li>
+<li style="padding-left:2em">&#9702; <strong>Law of Suspect</strong> defined suspects and authorized their elimination. It gave greater power of surveillance.</li>
+<li style="padding-left:2em">&#9702; <strong>Law of the Maximum</strong> was the most important one. It decided the maximum price of the bread and certain other commodities. Very soon, <strong>Law of Minimum</strong> to decide minimum wages. Thus, there was a movement towards a more controlled economy.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Robespierre</strong> soon eliminated the other leaders (Dante, Herbert etc) and established a <strong>one-man dictatorship.</strong></li>
+</ul>
+
+<h4>Assessment of Jacobin Government in National Convention</h4>
+<p>With the king dead and the church legally abandoned, the Jacobins under Robespierre&#8217;s leadership, committed the nation to a so-called reign of virtue and complete obedience to Rousseau&#8217;s idea of the general will of the people&#8212;despite all those freedoms agreed upon in the Declaration of the Rights of Man.</p>
+
+<h4>The Second Constitution of 1793 (June 1793)</h4>
+<p>It abolished the monarchy and established a democratic republic.</p>
+<ul>
+<li>&#8226; It gave <strong>universal suffrage</strong> to all men over the age of 21 who could read and write.</li>
+<li>&#8226; It established the <strong>National Convention</strong> as the legislative body, which had <strong>unlimited powers</strong> to make laws and levy taxes.</li>
+<li>&#8226; It guaranteed several <strong>social and economic rights</strong>, such as the right to work, education, and public assistance.</li>
+</ul>
+<ul>
+<li>&#8226; Positive contribution:
+<ul>
+<li style="padding-left:2em">&#9702; The objective of the Revolution was clearly defined.
+<ul>
+<li style="padding-left:4em">&#9632; It was not just the overthrow of monarchy and destruction of old order in France. Rather the spread of revolution among the san-culottes and peasants, and also other parts of Europe who were under the same tyranny.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Converted France into a republic:
+<ul>
+<li style="padding-left:4em">&#9632; Ordered the confiscation and sale of the property of &#233;migr&#233;s.</li>
+<li style="padding-left:4em">&#9632; Supported democratic ideas by introducing the universal adult male franchise.</li>
+<li style="padding-left:4em">&#9632; Churches were shut down and its buildings were being used as barracks and offices.</li>
+<li style="padding-left:4em">&#9632; Decimal system and new calendar were adopted.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Encouraged welfarist ideas:
+<ul>
+<li style="padding-left:4em">&#9632; Ensuring &#8216;right to work&#8217; and &#8216;right to food&#8217;.</li>
+<li style="padding-left:4em">&#9632; To control food riots and mass hunger in the cities: Introduced the <em>Maximum</em> (government control of prices), rationing of meat and bread etc.</li>
+<li style="padding-left:4em">&#9632; Taxed the rich</li>
+<li style="padding-left:4em">&#9632; Brought national assistance to the poor and to the disabled (due to war)</li>
+<li style="padding-left:4em">&#9632; Abolished slavery and slave trade.</li>
+<li style="padding-left:4em">&#9632; Declared that education should be free and compulsory.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The system of military conscription was introduced, which was instrumental behind the military success of France.</li>
+<li style="padding-left:2em">&#9702; Culture
+<ul>
+<li style="padding-left:4em">&#9632; Changing everything. Not only government but entire Society. Names of street, measurement system, time (hour of 100 units).. everything.</li>
+<li style="padding-left:4em">&#9632; A new rational calendar was created.</li>
+<li style="padding-left:4em">&#9632; The Jacobins transformed culture: festivals celebrated patriotic virtue; churches were turned into temples of reason; dishware carried patriotic mottos; and clothing was in red, white, and blue&#8212;the colors of the revolutionary flag.</li>
+<li style="padding-left:4em">&#9632; Louvre museum was opened in August 1792.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Terror:
+<ul>
+<li style="padding-left:2em">&#9702; These exceptional measures provoked violent reactions. Opposition to it was broken by the <strong>Reign of Terror.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; &#8220;The basis of popular government in time of revolution is both virtue and terror. Terror without virtue is dangerous, virtue without terror is powerless. Terror is nothing else than swift, severe, indomitable justice &#8211; it flows, then, from virtue.&#8221; Robespierre</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Political Terror:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Violence</strong>, which was earlier considered the natural outrage of a frustrated mob, was now given a legitimate and institutional basis. Terror was bureaucratized. (<strong>Public Safety Committee</strong>, <strong>Revolutionary Tribunal, Law of suspects and Guillotine</strong> etc.)</li>
+<li style="padding-left:4em">&#9632; It arrested of at least 300,000 suspects, 17,000 of whom were sentenced to death on guillotine and executed while more died in prisons or were killed without any form of trial. (estimated total about 40,000 died)</li>
+<li style="padding-left:4em">&#9632; It <strong>gave a cruel face to the revolution</strong>, and then the revolution started to devour its own children.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Economic Terror:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Attempt to control the economy was inimical to the interest of upper bourgeoise.</li>
+<li style="padding-left:4em">&#9632; Created Revolutionary Armies, around 22,000 of them across France, to find out economic offenders (hoarding, black marketing, profiteering)</li>
+<li style="padding-left:4em">&#9632; They also wanted death penalty for hoarders and black marketeers</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Religious Terror:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Attack on Christianity &#8211; either de-Christianization movement, new secular festivals were created and made mandatory.</li>
+<li style="padding-left:4em">&#9632; The Bishop of Paris was forced to resign. In Notre Dame, y celebrated the festival of reason. It was converted into a Temple of Reason.</li>
+<li style="padding-left:4em">&#9632; Later, Robespierre introduced the worship of Supreme Being.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h4>End of the Reign of Terror: (Thermidorian Reaction)</h4>
+<p>But as French soldiers began to win their wars abroad, people became tired of excessive revolutionary bloodshed and mounted opposition. Victory in the War made the Terror, and the economic and social restrictions seem pointless. In the end, there was a fierce reaction against this rule of Robespierre. Robespierre was overthrown on 9 Thermidor, year II (July 27, 1794), and executed the following day.</p>
+<p>Now, the <strong>red terror</strong> of the Jacobins was replaced with the <strong>white terror</strong> of the Thermidorian reaction. Thus, terror didn&#8217;t end but the Jacobin terror ended on 27th of July.</p>
+<p>Not only right (middle class and aristocratic elements) but also left (lower class, as his govt was scourge to French people) combined to demolish his government. <strong>It was not just the overthrow of a few persons but rejection of a system of government.</strong> Soon after his fall, the Maximum was abolished, the social laws were no longer applied, and efforts toward economic equality were abandoned.</p>
+<p><strong>Final Word:</strong> It was a broken dream. It was an attempt to create a democracy, but it didn&#8217;t succeed. However, the failure was not the last word, the dream would be realized much later. Terror notwithstanding, there was a positive side to the revolutionary government.</p>
+
+<h3>The Third Phase: Liberal Republicanism (1795-1799)</h3>
+<h3>(The Age of Directory)</h3>
+<p>During the stage once again, the <strong>leadership came into the hands of the middle class.</strong> It became possible due to two factors:</p>
+<ul>
+<li>&#8226; At this turn of history, lower-class people were not so strongly organized.</li>
+<li>&#8226; Differences appeared between peasants &amp; artisans w.r.t the rationing of grains.</li>
+</ul>
+
+<h4>Third Constitution (1795) (Constitution of Year 3)</h4>
+<p>Since the Second constitution had created Jacobin Terror, it was found to be unsuitable and was soon replaced by the <strong>Third constitution.</strong></p>
+<ul>
+<li>&#8226; <strong>Bicameral</strong> legislation
+<ul>
+<li style="padding-left:2em">&#9702; Council of Ancients/Elders</li>
+<li style="padding-left:2em">&#9702; Council of Five Hundred (1/3rd members retiring every year)</li>
+</ul>
+</li>
+<li>&#8226; <strong>Executive</strong> power was vested in <strong>5 directors. (Directory)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Earlier there were different committees in charge of executive power.</li>
+</ul>
+</li>
+<li>&#8226; The two chambers as well as the five directors &#8211; all were <strong>elected by the people</strong>. But it <strong>limited suffrage</strong> to men who paid a certain level of taxes.</li>
+<li>&#8226; It <strong>curtailed some of the social and economic rights</strong> guaranteed by the previous constitution such as right to work and right to public assistance.</li>
+</ul>
+<p>This government is known as the <strong>&#8216;Rule by Directory&#8217;.</strong></p>
+
+<p><strong>Critical analysis:</strong></p>
+<ul>
+<li>&#8226; Now, there was the <strong>return to the principles of 1789.</strong></li>
+<li>&#8226; Jacobin sympathisers viewed the Directory as a betrayal of the Revolution.</li>
+<li>&#8226; The rule of Directory was also known as <strong>bourgeoisie republic</strong>.</li>
+<li>&#8226; <strong>They sought to neutralize the power of the popular movement.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In this government, the <strong>political</strong> parties were consciously discouraged.</li>
+<li style="padding-left:2em">&#9702; White Terror was used to suppress the Red Terror.</li>
+<li style="padding-left:2em">&#9702; It was the restoration of the property owners&#8217; republic. Only about 40,000 people constituted the political nation.</li>
+<li style="padding-left:2em">&#9702; Thus, it reflected a <strong>shift towards a more conservative and cautious approach</strong> to governance, following the excesses and upheavals of the preceding years.</li>
+</ul>
+</li>
+</ul>
+
+<h4>Rule of Directory</h4>
+<p>According to <strong>David Thomson,</strong> the directory was ill fated from birth. It faced internal unrest, a weak economy, and an expensive war.</p>
+<ul>
+<li>&#8226; Directory followed the <strong>politics of balance</strong>. They wanted to restore the politics of the possessing classes. Thus, there was <strong>gradual exclusion</strong> of the people. It led to the popular discontent against the Directory.</li>
+<li>&#8226; There was <strong>administrative ineptitude, inefficiency, nepotism and increasing corruption</strong> which didn&#8217;t allow them to concentrate on solving the problem.</li>
+<li>&#8226; <strong>The war</strong> was still ongoing, which demanded their major attention.
+<ul>
+<li style="padding-left:2em">&#9702; The war also meant the continuous need for furnishing supplies. The currency had all but disappeared. The directory <strong>tried to reintroduce the metal currency</strong> and it was made possible because of certain conquests which were made during this period particularly the campaigns in Italy. Although the Directory repudiated most of the assignats and the debt, it failed to restore financial confidence or stability. But the price continued to rise.</li>
+<li style="padding-left:2em">&#9702; The war soon certainly went in favour of France but it <strong>increased dependence of the Directory on the army.</strong></li>
+</ul>
+</li>
+<li>&#8226; There was a <strong>fear of both counter-revolution and increasing radicalism</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; The elections which came increasingly every year, returned both loyalist deputies and Jacobin deputies in increasing numbers. So, the directory at a level was always waged between a Royalist fear and the fear of the Jacobins. It limited options of the Directory.</li>
+</ul>
+</li>
+</ul>
+<p>So, Directory failed to bring France out of the continuing chaos. It led to the <strong>rise of Napoleon Bonaparte</strong> during the Italian campaign, which brought the directory into some kind of semantic relationship with him. They would increasingly depend on Napoleon and on the generals, in a manner of speaking, in order to sustain themselves in power against series of coup d&#8217;etat.</p>
+<ul>
+<li>&#8226; <strong>Coup d&#8217;&#233;tat Vend&#233;miaire (Oct 1795):</strong> royalist uprising. Napoleon successfully suppressed it.</li>
+<li>&#8226; <strong>Conspiracy of Equals:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Gracchus Babeuf</strong> (1760-97) was a militant revolutionary of the earlier period. He wanted to stage another insurrection/revolution to capture power.</li>
+<li style="padding-left:2em">&#9702; At a signal, there would be insurrection in different parts of France, and they would capture power. But this did not continue for a long time and the Directory get to know about the conspiracy and it was suppressed. The leaders were guillotined.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Coup d&#8217;&#233;tat of 18 Fructidor</strong> (Sept 1797): In the 1797 elections, Royalists were on the verge of power. But the Directory managed the situation. Using the army of Napoleon, the election of 177 deputies was annulled, the royalists were deported, and the power was retained by the republicans.</li>
+</ul>
+<p>It never had a strong base of popular support; when elections were held, most of its candidates were defeated. After 1797, Jacobin deputies returned in very large number to the Council of Five Hundreds. Without a majority in the legislature, the Directors relied on the army to enforce decrees, and extract revenue from conquered territories. Generals like Napoleon and Joubert were now central to the political process, while both the army and Directory became notorious for their corruption.</p>
+
+<h4>Fall of Directory</h4>
+<ul>
+<li>&#8226; <strong>Background:</strong> There was <strong>increasing weakness of Directory</strong> in France.
+<ul>
+<li style="padding-left:2em">&#9702; It was inept and corrupt. The economic crisis continued, and the coffers of the state were empty. And there was a threat from royalists as well as Jacobins. This was the multi-faceted crisis.</li>
+<li style="padding-left:2em">&#9702; <strong>Lefebvre</strong> has said that there was a need to close the revolution and preserve its gains. <em>&#8216;Indeed, it was the <strong>inner necessity</strong> that drove the revolution to dictatorship, and not for the first time.&#8217;</em></li>
+<li style="padding-left:2em">&#9702; Thus, the Directory collapsed because by 1799, many &#8216;preferred the uncertainties of authoritarian rule to the continuing ambiguities of parliamentary politics&#8217;.</li>
+<li style="padding-left:2em">&#9702; The French people fed up the weak Directory rule. They wanted a strong regime to resolve their domestic issues as well as to protect French people from foreign powers. It was the discontent against the Directory coupled with the increasing importance of army which prepared the ground for the rise of Napoleon Bonaparte.</li>
+<li style="padding-left:2em">&#9702; <em>&#8216;In what sort of state did I leave France and in what sort of state do I find it again? I left you peace, I find war. I left you conquests and the enemy is crossing our frontier. I left you our arsenals full, I do not find a single weapon. I left you the millions of Italy and I find spoliating laws and poverty everywhere.&#8217;</em> &#8211; Napoleon to a friend, while coming back from Egypt.</li>
+<li style="padding-left:2em">&#9702; So, it was this inner necessity that drove Napoleon to take revolution, to find a strong man and a strong government there.</li>
+</ul>
+</li>
+</ul>
+<p>The Jacobins earlier wanted a democratic dictatorship. But what they got in 1799 was a bourgeoise dictatorship. But it was too late for them, and the resistance was almost impossible. It was now widely believed that Napoleon could be the saviour. To save France from the royalist threat, European invasion and Jacobin danger. He, in short, became the bulwark of the society.</p>
+
+<h4>Coup d&#8217;&#233;tat of 18 Brumaire:</h4>
+<ul>
+<li>&#8226; The architect of its end was Abbe Siey&#232;s. Nominated to the Directory, his first action was to remove Barras, with the help of allies including Talleyrand, and Napoleon&#8217;s brother Lucien Bonaparte (President of the Council of 500).</li>
+<li>&#8226; On 9 November 1799, the <strong>Coup d&#8217;&#233;tat of 18 Brumaire</strong> replaced the five Directors with the 3-member <strong>French Consulate</strong>, which consisted of <strong>three members, Napoleon, Siey&#232;s, and Roger Ducos.</strong></li>
+<li>&#8226; But it seemed there were <strong>not one but two coup d&#8217;etat in on 18 Brumaire 1799.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; One that was devised by the politicians when they thought of using Napoleon to come to power.</li>
+<li style="padding-left:2em">&#9702; But the second was executed by the Napoleon when he turned tables on the politicians of the directory and arrogated all power to himself.</li>
+</ul>
+</li>
+<li>&#8226; In 1799 he became the first consul. The constitution was duly adopted, of the year 7.
+<ul>
+<li style="padding-left:2em">&#9702; All power in France passed into the hands of a 30 years old general, who was to control the destiny not only of France but virtually the whole of Europe for the next 15 years.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Tocqueville</strong> had long time back said that there were two ways in which the revolution could be brought to a close. A, through personal interest and B, through national glory and as he commented neither led to Liberty but both to Napoleon Bonaparte. Most historians consider this <strong>the end point of the French Revolution.</strong></p>
+
+<h4>The significance of 18th Brumaire</h4>
+<p><strong>Jean Tulard</strong>, a historian, has said that faced with internal and external danger the French bourgeoisie always succeeded in inventing a savior. In his book, <strong>The Myth of the Saviour</strong>, he suggests that Napoleon was a savior that the bourgeoise had invented to protect themselves against the two-pronged internal and external danger.</p>
+<p>&#8220;Why did they want to do it? The sale of the confiscated property had helped the bourgeoise. Many upper and middle level of the bourgeoise had benefited from the revolution, by indulging in trade, in speculation, through the purchase of land. And they now wanted the revolution to be brought to a successful conclusion. It was an alliance between the bourgeoisie and a part of the peasantry. They could now do this around one man and around one principle. The principle was already known &#8211; the property. The man was now found &#8211; Napoleon.&#8221;</p>
+`,
   'industrialization': ``,
   'nation-state-system': ``,
   'imperialism-colonialism': ``,
