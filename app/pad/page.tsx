@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, type JSX } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
 
@@ -442,156 +442,481 @@ export default function PadPage() {
   const textScreenX = editingText ? (editingText.x - offsetRef.current.x) * zoom : 0;
   const textScreenY = editingText ? (editingText.y - offsetRef.current.y) * zoom : 0;
 
+  // SVG icons for tools
+  const ToolIcons: Record<string, JSX.Element> = {
+    pen: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+      </svg>
+    ),
+    highlighter: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m9 11-6 6v3h3l6-6"/>
+        <path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/>
+      </svg>
+    ),
+    eraser: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/>
+        <path d="M22 21H7"/><path d="m5 11 9 9"/>
+      </svg>
+    ),
+    text: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>
+      </svg>
+    ),
+    select: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 3a2 2 0 0 0-2 2"/><path d="M19 3a2 2 0 0 1 2 2"/><path d="M21 19a2 2 0 0 1-2 2"/><path d="M5 21a2 2 0 0 1-2-2"/><path d="M9 3h1"/><path d="M9 21h1"/><path d="M14 3h1"/><path d="M14 21h1"/><path d="M3 9v1"/><path d="M21 9v1"/><path d="M3 14v1"/><path d="M21 14v1"/>
+      </svg>
+    ),
+    undo: (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
+      </svg>
+    ),
+    trash: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+      </svg>
+    ),
+  };
+
   return (
     <>
-      {/* Google Font */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
         * { box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #252525; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #333; }
+
+        .pad-nav-btn {
+          background: transparent;
+          border: 1px solid #1e1e1e;
+          border-radius: 6px;
+          color: #555;
+          cursor: pointer;
+          font-size: 11px;
+          font-family: 'DM Mono', monospace;
+          letter-spacing: 0.02em;
+          padding: 4px 10px;
+          transition: all 0.15s;
+          white-space: nowrap;
+        }
+        .pad-nav-btn:hover { border-color: #333; color: #999; background: rgba(255,255,255,0.03); }
+        .pad-nav-btn.active { background: rgba(240,237,232,0.08); border-color: #383838; color: #c0bdb8; }
+        .pad-nav-btn.primary { background: #f0ede8; color: #0a0a0a; border-color: #f0ede8; font-weight: 600; }
+        .pad-nav-btn.primary:hover { background: #fff; border-color: #fff; }
+
+        .tool-btn {
+          width: 40px; height: 40px;
+          background: transparent;
+          border: 1px solid transparent;
+          border-radius: 8px;
+          cursor: pointer;
+          display: flex; align-items: center; justify-content: center;
+          color: #3a3a3a;
+          transition: all 0.15s;
+          position: relative;
+        }
+        .tool-btn:hover { background: rgba(255,255,255,0.05); color: #888; }
+        .tool-btn.active {
+          background: rgba(240,237,232,0.1);
+          border-color: rgba(240,237,232,0.15);
+          color: #f0ede8;
+          box-shadow: 0 0 0 1px rgba(240,237,232,0.05) inset;
+        }
+        .tool-btn.active::before {
+          content: '';
+          position: absolute;
+          left: 3px; top: 50%; transform: translateY(-50%);
+          width: 2px; height: 16px;
+          background: #d4a843;
+          border-radius: 2px;
+        }
+        .tool-btn.danger:hover { color: #c0392b; background: rgba(192,57,43,0.08); }
+
+        .size-btn {
+          width: 40px; height: 32px;
+          background: transparent; border: 1px solid transparent;
+          border-radius: 6px; cursor: pointer;
+          display: flex; align-items: center; justify-content: center;
+          transition: all 0.15s;
+        }
+        .size-btn:hover { background: rgba(255,255,255,0.04); }
+        .size-btn.active { border-color: rgba(240,237,232,0.12); background: rgba(255,255,255,0.06); }
+
+        .pad-item {
+          display: flex; align-items: center;
+          padding: 9px 14px;
+          border-bottom: 1px solid #0e0e0e;
+          cursor: pointer;
+          border-left: 2px solid transparent;
+          transition: all 0.15s;
+          gap: 10px;
+        }
+        .pad-item:hover { background: rgba(255,255,255,0.025); border-left-color: #2a2a2a; }
+        .pad-item.active { background: rgba(240,237,232,0.04); border-left-color: #d4a843; }
+
+        .color-swatch {
+          width: 22px; height: 22px; border-radius: 5px;
+          cursor: pointer; transition: all 0.12s;
+          border: 1.5px solid transparent;
+          flex-shrink: 0;
+        }
+        .color-swatch:hover { transform: scale(1.15); }
+        .color-swatch.active { border-color: #fff; transform: scale(1.2); box-shadow: 0 0 0 2px rgba(255,255,255,0.1); }
+
+        .hl-swatch {
+          width: 28px; height: 14px; border-radius: 3px;
+          cursor: pointer; transition: all 0.12s;
+          border: 1.5px solid transparent;
+          flex-shrink: 0;
+        }
+        .hl-swatch:hover { transform: scale(1.1); }
+        .hl-swatch.active { border-color: #fff; }
+
+        .color-picker-panel {
+          position: absolute; left: 56px; top: 160px;
+          background: #0c0c0c;
+          border: 1px solid #222;
+          border-radius: 12px;
+          padding: 16px;
+          z-index: 300;
+          width: 176px;
+          box-shadow: 0 16px 48px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.02) inset;
+        }
+        .picker-label {
+          font-size: 9px; color: #3a3a3a;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          margin-bottom: 10px;
+          font-family: 'DM Mono', monospace;
+        }
+
+        @keyframes fadeInPad { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform: translateY(0); } }
+        .pad-list-sidebar { animation: fadeInPad 0.18s ease; }
+
+        @keyframes welcomeIn { from { opacity:0; transform: scale(0.97) translateY(8px); } to { opacity:1; transform: scale(1) translateY(0); } }
+        .welcome-card { animation: welcomeIn 0.25s cubic-bezier(0.16,1,0.3,1); }
+
+        .toolbar-divider { width: 24px; height: 1px; background: #181818; margin: 6px auto; }
       `}</style>
 
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#000', color: '#f0ede8', fontFamily: "'Libre Baskerville', serif", overflow: 'hidden' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#080808', color: '#f0ede8', fontFamily: "'Libre Baskerville', serif", overflow: 'hidden' }}>
 
         {/* ── TOP NAV ── */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '0 20px', height: 50, borderBottom: '1px solid #1a1a1a', flexShrink: 0, background: '#000' }}>
-          <Link href="/" style={{ fontSize: 11, color: '#555', letterSpacing: '0.1em', textDecoration: 'none', fontFamily: "'Libre Baskerville', serif", fontStyle: 'italic' }}>← Home</Link>
-          <span style={{ color: '#222', fontSize: 10 }}>|</span>
-          <input
-            value={padName}
-            onChange={e => setPadName(e.target.value)}
-            onBlur={saveToDb}
-            style={{ background: 'none', border: 'none', outline: 'none', color: '#f0ede8', fontFamily: "'Libre Baskerville', serif", fontSize: 13, fontStyle: 'italic', minWidth: 180 }}
-          />
-          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
-            {saving && <span style={{ fontSize: 10, color: '#444', letterSpacing: '0.1em', fontStyle: 'italic' }}>saving…</span>}
-            <span style={{ fontSize: 11, color: '#444', fontFamily: "'Libre Baskerville', serif" }}>{Math.round(zoom * 100)}%</span>
-            <button onClick={() => setZoom(z => Math.min(4, z + 0.1))} style={navBtnStyle}>+</button>
-            <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} style={navBtnStyle}>−</button>
-            <button onClick={() => setZoom(1)} style={navBtnStyle}>100%</button>
-            <button onClick={() => setZoom(0.6)} style={navBtnStyle}>Fit</button>
-            <button onClick={() => setShowPadList(p => !p)} style={{ ...navBtnStyle, background: showPadList ? 'rgba(255,255,255,0.06)' : 'transparent', color: showPadList ? '#f0ede8' : '#666' }}>
-              All Pads
+        <nav style={{
+          display: 'flex', alignItems: 'center', gap: 12,
+          padding: '0 18px', height: 48,
+          borderBottom: '1px solid #141414',
+          flexShrink: 0,
+          background: '#080808',
+        }}>
+          {/* Left: home + pad name */}
+          <Link href="/" style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            fontSize: 10, color: '#3a3a3a', letterSpacing: '0.08em',
+            textDecoration: 'none', fontFamily: "'DM Mono', monospace",
+            transition: 'color 0.15s', flexShrink: 0,
+          }}
+          onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#666'}
+          onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = '#3a3a3a'}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Home
+          </Link>
+
+          <div style={{ width: 1, height: 18, background: '#1e1e1e', flexShrink: 0 }} />
+
+          {/* Pad name input */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3a3a3a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <input
+              value={padName}
+              onChange={e => setPadName(e.target.value)}
+              onBlur={saveToDb}
+              style={{
+                background: 'none', border: 'none', outline: 'none',
+                color: '#c0bdb8', fontFamily: "'Libre Baskerville', serif",
+                fontSize: 13, fontStyle: 'italic',
+                minWidth: 140, maxWidth: 260,
+              }}
+            />
+          </div>
+
+          {/* Right controls */}
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>
+            {/* Save indicator */}
+            {saving ? (
+              <span style={{ fontSize: 10, color: '#d4a843', letterSpacing: '0.08em', fontFamily: "'DM Mono', monospace", opacity: 0.8 }}>
+                saving…
+              </span>
+            ) : (
+              <span style={{ fontSize: 10, color: '#282828', fontFamily: "'DM Mono', monospace" }}>✓ saved</span>
+            )}
+
+            <div style={{ width: 1, height: 16, background: '#1e1e1e' }} />
+
+            {/* Zoom controls */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#0f0f0f', border: '1px solid #1a1a1a', borderRadius: 7, padding: '2px 6px' }}>
+              <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} style={{ background: 'none', border: 'none', color: '#555', cursor: 'pointer', fontSize: 14, padding: '0 2px', lineHeight: 1, transition: 'color 0.1s' }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#999'}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = '#555'}
+              >−</button>
+              <span style={{ fontSize: 10, color: '#555', fontFamily: "'DM Mono', monospace", minWidth: 34, textAlign: 'center', cursor: 'pointer' }}
+                onClick={() => setZoom(1)}
+              >{Math.round(zoom * 100)}%</span>
+              <button onClick={() => setZoom(z => Math.min(4, z + 0.1))} style={{ background: 'none', border: 'none', color: '#555', cursor: 'pointer', fontSize: 14, padding: '0 2px', lineHeight: 1, transition: 'color 0.1s' }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#999'}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = '#555'}
+              >+</button>
+            </div>
+
+            <button onClick={() => setZoom(0.6)} className="pad-nav-btn">Fit</button>
+
+            <div style={{ width: 1, height: 16, background: '#1e1e1e' }} />
+
+            <button
+              onClick={() => setShowPadList(p => !p)}
+              className={`pad-nav-btn${showPadList ? ' active' : ''}`}
+              style={{ display: 'flex', alignItems: 'center', gap: 5 }}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+                <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+              </svg>
+              My Pads
             </button>
-            <button onClick={newPad} style={{ ...navBtnStyle, borderColor: '#2a2a2a', color: '#888' }}>+ New</button>
-            <button onClick={saveToDb} style={{ ...navBtnStyle, background: '#f0ede8', color: '#000', borderColor: '#f0ede8', fontWeight: 700 }}>Save</button>
+
+            <button onClick={newPad} className="pad-nav-btn" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              New
+            </button>
+
+            <button onClick={saveToDb} className="pad-nav-btn primary" style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+              </svg>
+              Save
+            </button>
           </div>
         </nav>
 
         <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
 
           {/* ── TOOLBAR ── */}
-          <div style={{ width: 52, background: '#050505', borderRight: '1px solid #111', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '12px 0', gap: 2, flexShrink: 0 }}>
+          <div style={{
+            width: 52, background: '#080808',
+            borderRight: '1px solid #141414',
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', padding: '10px 0', gap: 2,
+            flexShrink: 0,
+          }}>
+
+            {/* Tool group */}
             {([
-              { t: 'pen',         icon: '✒', label: 'Pen (P)' },
-              { t: 'highlighter', icon: '▋', label: 'Highlight (H)' },
-              { t: 'eraser',      icon: 'E',  label: 'Eraser (E)' },
-              { t: 'text',        icon: 'T',  label: 'Text (T)' },
-              { t: 'select',      icon: '✥',  label: 'Pan (Space)' },
-            ] as const).map(({ t, icon, label }) => (
-              <button key={t} title={label} onClick={() => setTool(t)} style={{
-                ...toolBtnStyle,
-                background: tool === t ? 'rgba(255,255,255,0.1)' : 'transparent',
-                color: tool === t ? '#f0ede8' : '#444',
-                fontFamily: "'Libre Baskerville', serif",
-                fontStyle: (t === 'text' || t === 'eraser') ? 'normal' : 'italic',
-                fontWeight: tool === t ? 700 : 400,
-                fontSize: t === 'pen' || t === 'select' ? 16 : 14,
-                border: tool === t ? '1px solid rgba(255,255,255,0.12)' : '1px solid transparent',
-              }}>
-                {icon}
+              { t: 'pen',         label: 'Pen  (P)' },
+              { t: 'highlighter', label: 'Highlight  (H)' },
+              { t: 'eraser',      label: 'Eraser  (E)' },
+              { t: 'text',        label: 'Text  (T)' },
+              { t: 'select',      label: 'Pan  (Space)' },
+            ] as const).map(({ t, label }) => (
+              <button
+                key={t}
+                title={label}
+                onClick={() => setTool(t)}
+                className={`tool-btn${tool === t ? ' active' : ''}`}
+              >
+                {ToolIcons[t]}
               </button>
             ))}
 
-            <div style={{ width: 28, height: 1, background: '#161616', margin: '8px 0' }} />
+            <div className="toolbar-divider" />
 
-            {/* Color swatch */}
-            <button title="Color" onClick={() => setShowColorPicker(p => !p)} style={{ ...toolBtnStyle, position: 'relative' }}>
-              <div style={{ width: 16, height: 16, borderRadius: 3, background: penColor, border: '1px solid rgba(255,255,255,0.2)', boxShadow: penColor === '#111111' ? 'inset 0 0 0 1px rgba(255,255,255,0.2)' : 'none' }} />
+            {/* Color swatch button */}
+            <button
+              title="Color picker"
+              onClick={() => setShowColorPicker(p => !p)}
+              className={`tool-btn${showColorPicker ? ' active' : ''}`}
+            >
+              <div style={{
+                width: 18, height: 18, borderRadius: 4,
+                background: penColor,
+                border: '1.5px solid rgba(255,255,255,0.18)',
+                boxShadow: penColor === '#111111' ? 'inset 0 0 0 1px rgba(255,255,255,0.2)' : `0 0 6px ${penColor}44`,
+                transition: 'box-shadow 0.2s',
+              }} />
             </button>
 
+            {/* Color picker panel */}
             {showColorPicker && (
-              <div style={{ position: 'absolute', left: 60, top: 180, background: '#0d0d0d', border: '1px solid #1f1f1f', borderRadius: 10, padding: 14, zIndex: 300, width: 170, boxShadow: '0 8px 40px rgba(0,0,0,0.9)' }}>
-                <div style={{ fontSize: 9, color: '#444', letterSpacing: '0.12em', marginBottom: 8, fontFamily: "'Libre Baskerville', serif", fontStyle: 'italic' }}>pen</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              <div className="color-picker-panel">
+                <div className="picker-label">Pen color</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
                   {PEN_COLORS.map(c => (
-                    <button key={c.value} title={c.label} onClick={() => { setPenColor(c.value); setShowColorPicker(false); }} style={{
-                      width: 22, height: 22, borderRadius: 4, background: c.value,
-                      border: penColor === c.value ? '2px solid #fff' : '1px solid rgba(255,255,255,0.15)',
-                      cursor: 'pointer', transform: penColor === c.value ? 'scale(1.2)' : 'scale(1)', transition: 'all 0.12s',
-                      boxShadow: c.value === '#111111' ? 'inset 0 0 0 1px rgba(255,255,255,0.25)' : 'none',
-                    }} />
+                    <button
+                      key={c.value}
+                      title={c.label}
+                      onClick={() => { setPenColor(c.value); setShowColorPicker(false); }}
+                      className={`color-swatch${penColor === c.value ? ' active' : ''}`}
+                      style={{
+                        background: c.value,
+                        boxShadow: c.value === '#111111' ? 'inset 0 0 0 1px rgba(255,255,255,0.2)' : 'none',
+                      }}
+                    />
                   ))}
                 </div>
-                <div style={{ fontSize: 9, color: '#444', letterSpacing: '0.12em', margin: '10px 0 8px', fontFamily: "'Libre Baskerville', serif", fontStyle: 'italic' }}>highlight</div>
+                <div className="picker-label">Highlighter</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                   {HIGHLIGHT_COLORS.map(c => (
-                    <button key={c.value} title={c.label} onClick={() => { setPenColor(c.value); setTool('highlighter'); setShowColorPicker(false); }} style={{
-                      width: 22, height: 14, borderRadius: 3,
-                      background: c.value.replace(/[\d.]+\)$/, '0.85)'),
-                      border: penColor === c.value ? '2px solid #fff' : '1px solid transparent',
-                      cursor: 'pointer', transition: 'all 0.12s',
-                    }} />
+                    <button
+                      key={c.value}
+                      title={c.label}
+                      onClick={() => { setPenColor(c.value); setTool('highlighter'); setShowColorPicker(false); }}
+                      className={`hl-swatch${penColor === c.value ? ' active' : ''}`}
+                      style={{ background: c.value.replace(/[\d.]+\)$/, '0.9)') }}
+                    />
                   ))}
                 </div>
               </div>
             )}
 
-            <div style={{ width: 28, height: 1, background: '#161616', margin: '6px 0' }} />
+            <div className="toolbar-divider" />
 
-            {/* Sizes */}
+            {/* Size picker */}
             {[1, 2, 4, 8].map(s => (
-              <button key={s} title={`Size ${s}`} onClick={() => setPenSize(s)} style={{
-                ...toolBtnStyle,
-                background: penSize === s ? 'rgba(255,255,255,0.08)' : 'transparent',
-                border: penSize === s ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
-              }}>
-                <div style={{ width: Math.min(s * 2.5 + 2, 20), height: Math.min(s * 2.5 + 2, 20), borderRadius: '50%', background: penSize === s ? '#f0ede8' : '#333' }} />
+              <button
+                key={s}
+                title={`Size ${s}`}
+                onClick={() => setPenSize(s)}
+                className={`size-btn${penSize === s ? ' active' : ''}`}
+              >
+                <div style={{
+                  width: Math.min(s * 2.5 + 2, 20),
+                  height: Math.min(s * 2.5 + 2, 20),
+                  borderRadius: '50%',
+                  background: penSize === s ? '#f0ede8' : '#2e2e2e',
+                  transition: 'all 0.12s',
+                }} />
               </button>
             ))}
 
+            {/* Text size options */}
             {tool === 'text' && (
               <>
-                <div style={{ width: 28, height: 1, background: '#161616', margin: '6px 0' }} />
+                <div className="toolbar-divider" />
                 {[14, 18, 24, 32].map(fs => (
-                  <button key={fs} title={`${fs}px`} onClick={() => setTextFontSize(fs)} style={{
-                    ...toolBtnStyle, fontSize: 9,
-                    color: textFontSize === fs ? '#f0ede8' : '#444',
-                    background: textFontSize === fs ? 'rgba(255,255,255,0.08)' : 'transparent',
-                    fontFamily: "'Libre Baskerville', serif",
-                  }}>{fs}</button>
+                  <button
+                    key={fs}
+                    title={`${fs}px`}
+                    onClick={() => setTextFontSize(fs)}
+                    style={{
+                      width: 40, height: 28,
+                      background: textFontSize === fs ? 'rgba(255,255,255,0.07)' : 'transparent',
+                      border: `1px solid ${textFontSize === fs ? 'rgba(255,255,255,0.1)' : 'transparent'}`,
+                      borderRadius: 5, cursor: 'pointer',
+                      fontSize: 9, color: textFontSize === fs ? '#c0bdb8' : '#3a3a3a',
+                      fontFamily: "'DM Mono', monospace",
+                      transition: 'all 0.12s',
+                    }}
+                  >{fs}</button>
                 ))}
               </>
             )}
 
             <div style={{ flex: 1 }} />
-            <button title="Undo (⌘Z)" onClick={undo} style={{ ...toolBtnStyle, fontSize: 16, color: '#555' }}>↩</button>
-            <button title="Clear pad" onClick={clearPad} style={{ ...toolBtnStyle, fontSize: 13, color: '#3a1a1a' }}>✕</button>
+            <div className="toolbar-divider" />
+
+            {/* Undo */}
+            <button title="Undo (⌘Z)" onClick={undo} className="tool-btn">{ToolIcons.undo}</button>
+            {/* Clear */}
+            <button title="Clear pad" onClick={clearPad} className="tool-btn danger">{ToolIcons.trash}</button>
           </div>
 
           {/* ── PAD LIST SIDEBAR ── */}
           {showPadList && (
-            <div style={{ width: 210, background: '#050505', borderRight: '1px solid #111', display: 'flex', flexDirection: 'column', overflow: 'hidden', flexShrink: 0 }}>
-              <div style={{ padding: '14px 16px 10px', fontSize: 9, color: '#444', letterSpacing: '0.12em', borderBottom: '1px solid #111', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontFamily: "'Libre Baskerville', serif", fontStyle: 'italic' }}>
-                my pads
-                <button onClick={newPad} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid #222', color: '#888', borderRadius: 4, padding: '2px 8px', fontSize: 10, cursor: 'pointer', fontFamily: "'Libre Baskerville', serif" }}>+ New</button>
+            <div className="pad-list-sidebar" style={{
+              width: 220,
+              background: '#080808',
+              borderRight: '1px solid #141414',
+              display: 'flex', flexDirection: 'column',
+              overflow: 'hidden', flexShrink: 0,
+            }}>
+              {/* Sidebar header */}
+              <div style={{
+                padding: '12px 14px 10px',
+                borderBottom: '1px solid #141414',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              }}>
+                <span style={{ fontSize: 9, color: '#3a3a3a', letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: "'DM Mono', monospace" }}>My Pads</span>
+                <button onClick={newPad} style={{
+                  background: 'rgba(255,255,255,0.04)', border: '1px solid #252525',
+                  color: '#666', borderRadius: 5, padding: '3px 9px',
+                  fontSize: 10, cursor: 'pointer', fontFamily: "'DM Mono', monospace",
+                  display: 'flex', alignItems: 'center', gap: 4, transition: 'all 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = '#383838'}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = '#252525'}
+                >
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  New
+                </button>
               </div>
+
+              {/* Pad list */}
               <div style={{ flex: 1, overflowY: 'auto' }}>
-                {pads.length === 0 && <div style={{ padding: '20px 16px', fontSize: 11, color: '#333', textAlign: 'center', fontStyle: 'italic' }}>No pads yet</div>}
+                {pads.length === 0 && (
+                  <div style={{ padding: '28px 16px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 11, color: '#2a2a2a', fontStyle: 'italic' }}>No pads yet</div>
+                    <div style={{ fontSize: 9, color: '#1e1e1e', marginTop: 6, fontFamily: "'DM Mono', monospace", letterSpacing: '0.06em' }}>create one to begin</div>
+                  </div>
+                )}
                 {pads.map(pad => (
-                  <div key={pad.id} onClick={() => loadPad(pad.id)} style={{
-                    display: 'flex', alignItems: 'center', padding: '10px 14px',
-                    borderBottom: '1px solid #0d0d0d', cursor: 'pointer',
-                    background: pad.id === activePadId ? 'rgba(255,255,255,0.04)' : 'transparent',
-                    borderLeft: pad.id === activePadId ? '2px solid #f0ede8' : '2px solid transparent',
-                  }}>
+                  <div
+                    key={pad.id}
+                    onClick={() => loadPad(pad.id)}
+                    className={`pad-item${pad.id === activePadId ? ' active' : ''}`}
+                  >
+                    {/* Doc icon */}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={pad.id === activePadId ? '#d4a843' : '#333'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                    </svg>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 12, color: '#c0bdb8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontStyle: 'italic' }}>{pad.name}</div>
-                      <div style={{ fontSize: 9, color: '#333', marginTop: 2, letterSpacing: '0.06em' }}>{new Date(pad.updated_at).toLocaleDateString()}</div>
+                      <div style={{
+                        fontSize: 12, color: pad.id === activePadId ? '#e8e5e0' : '#888',
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                        fontStyle: 'italic', transition: 'color 0.15s',
+                      }}>{pad.name}</div>
+                      <div style={{ fontSize: 9, color: '#2e2e2e', marginTop: 2, fontFamily: "'DM Mono', monospace", letterSpacing: '0.04em' }}>
+                        {new Date(pad.updated_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                      </div>
                     </div>
-                    <button onClick={e => { e.stopPropagation(); deletePad(pad.id); }} style={{ background: 'none', border: 'none', color: '#2a2a2a', cursor: 'pointer', fontSize: 14, padding: '2px 4px', flexShrink: 0 }}>×</button>
+                    <button
+                      onClick={e => { e.stopPropagation(); deletePad(pad.id); }}
+                      style={{
+                        background: 'none', border: 'none', color: '#242424',
+                        cursor: 'pointer', padding: '3px', borderRadius: 4,
+                        display: 'flex', transition: 'all 0.12s', flexShrink: 0,
+                      }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#c0392b'; (e.currentTarget as HTMLElement).style.background = 'rgba(192,57,43,0.1)'; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#242424'; (e.currentTarget as HTMLElement).style.background = 'none'; }}
+                    >
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
                   </div>
                 ))}
               </div>
@@ -625,8 +950,8 @@ export default function PadPage() {
                 width: penSize * 8,
                 height: penSize * 8,
                 borderRadius: '50%',
-                border: '1.5px solid rgba(255,255,255,0.6)',
-                background: 'rgba(255,255,255,0.04)',
+                border: '1.5px solid rgba(255,255,255,0.5)',
+                background: 'rgba(255,255,255,0.03)',
                 pointerEvents: 'none',
                 zIndex: 10,
                 boxShadow: '0 0 0 1px rgba(0,0,0,0.8)',
@@ -644,75 +969,107 @@ export default function PadPage() {
                   onBlur={commitText}
                   onKeyDown={e => { if (e.key === 'Escape') setEditingText(null); if (e.key === 'Enter' && e.shiftKey) commitText(); }}
                   style={{
-                    background: 'rgba(0,0,0,0.85)',
-                    border: '1px dashed rgba(255,255,255,0.2)',
-                    borderRadius: 3, outline: 'none',
-                    padding: '4px 8px',
+                    background: 'rgba(8,8,8,0.92)',
+                    border: '1px dashed rgba(212,168,67,0.35)',
+                    borderRadius: 4, outline: 'none',
+                    padding: '6px 10px',
                     fontFamily: "'Libre Baskerville', serif",
                     fontSize: textFontSize * zoom,
                     color: penColor,
-                    minWidth: 120, minHeight: 40,
-                    resize: 'both', lineHeight: 1.5,
+                    minWidth: 140, minHeight: 44,
+                    resize: 'both', lineHeight: 1.55,
+                    backdropFilter: 'blur(4px)',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.8)',
                   }}
                   placeholder="Type… (Shift+Enter to place)"
                 />
-                <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', marginTop: 3, fontStyle: 'italic', fontFamily: "'Libre Baskerville', serif" }}>
-                  Shift+Enter to place · Esc to cancel
+                <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.2)', marginTop: 4, fontStyle: 'italic', fontFamily: "'DM Mono', monospace", letterSpacing: '0.06em' }}>
+                  shift+enter to place · esc to cancel
                 </div>
               </div>
             )}
 
             {/* Pan hint */}
             {tool === 'select' && (
-              <div style={{ position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)', fontSize: 10, color: '#333', fontStyle: 'italic', fontFamily: "'Libre Baskerville', serif", pointerEvents: 'none' }}>
-                drag to pan · Esc to return to pen
+              <div style={{
+                position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)',
+                fontSize: 10, color: 'rgba(255,255,255,0.12)', fontStyle: 'italic',
+                fontFamily: "'DM Mono', monospace", pointerEvents: 'none',
+                letterSpacing: '0.08em',
+                background: 'rgba(0,0,0,0.5)', padding: '5px 12px', borderRadius: 20,
+                backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.05)',
+              }}>
+                drag to pan · esc to return to pen
               </div>
             )}
+
+            {/* Canvas position indicator (bottom right) */}
+            <div style={{
+              position: 'absolute', bottom: 14, right: 16,
+              fontSize: 9, color: '#222',
+              fontFamily: "'DM Mono', monospace",
+              pointerEvents: 'none', letterSpacing: '0.06em',
+            }}>
+              {Math.round(offsetRef.current.x)}, {Math.round(offsetRef.current.y)}
+            </div>
           </div>
         </div>
 
         {/* ── STATUS BAR ── */}
-        <div style={{ height: 24, background: '#000', borderTop: '1px solid #0d0d0d', display: 'flex', alignItems: 'center', padding: '0 20px', gap: 20, flexShrink: 0 }}>
-          {[['P','Pen'],['H','Highlight'],['E','Eraser'],['T','Text'],['Space','Pan'],['⌘Z','Undo'],['⌘S','Save'],['⌘ Scroll','Zoom']].map(([k,v]) => (
-            <span key={k} style={{ fontSize: 9, color: '#2a2a2a', fontFamily: "'Libre Baskerville', serif", fontStyle: 'italic' }}>
-              <span style={{ color: '#3a3a3a' }}>{k}</span>
-              <span style={{ marginLeft: 4 }}>{v}</span>
+        <div style={{
+          height: 26, background: '#060606',
+          borderTop: '1px solid #111',
+          display: 'flex', alignItems: 'center',
+          padding: '0 18px', gap: 0, flexShrink: 0,
+          overflow: 'hidden',
+        }}>
+          {[
+            ['P', 'Pen'], ['H', 'Highlight'], ['E', 'Eraser'], ['T', 'Text'],
+            ['Space', 'Pan'], ['⌘Z', 'Undo'], ['⌘S', 'Save'], ['⌘ Scroll', 'Zoom'],
+          ].map(([k, v], i) => (
+            <span key={k} style={{
+              fontSize: 9, color: '#242424',
+              fontFamily: "'DM Mono', monospace",
+              display: 'flex', alignItems: 'center', gap: 4,
+              padding: '0 10px',
+              borderRight: i < 7 ? '1px solid #131313' : 'none',
+            }}>
+              <span style={{ color: '#333', background: '#111', border: '1px solid #1a1a1a', borderRadius: 3, padding: '0 4px', fontSize: 8, letterSpacing: '0.05em' }}>{k}</span>
+              <span style={{ color: '#282828' }}>{v}</span>
             </span>
           ))}
-          <span style={{ marginLeft: 'auto', fontSize: 9, color: '#2a2a2a', fontStyle: 'italic', fontFamily: "'Libre Baskerville', serif" }}>
-            {Math.round(offsetRef.current.x)}, {Math.round(offsetRef.current.y)}
-          </span>
         </div>
       </div>
+
       {/* ── WELCOME POPUP ── */}
       {showWelcome && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 1000,
-          background: 'rgba(0,0,0,0.85)',
+          background: 'rgba(0,0,0,0.88)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          backdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(12px)',
         }}>
-          <div style={{
-            background: '#080808',
-            border: '1px solid #1f1f1f',
-            borderRadius: 16,
+          <div className="welcome-card" style={{
+            background: '#0a0a0a',
+            border: '1px solid #1e1e1e',
+            borderRadius: 18,
             padding: '36px 40px',
-            width: 480,
+            width: 490,
             maxWidth: '90vw',
-            boxShadow: '0 24px 80px rgba(0,0,0,0.9)',
+            boxShadow: '0 32px 96px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.02) inset',
             fontFamily: "'Libre Baskerville', serif",
           }}>
             {/* Title */}
-            <div style={{ marginBottom: 6 }}>
-              <span style={{ fontSize: 22, fontWeight: 700, color: '#f0ede8', letterSpacing: '-0.01em' }}>Writing Pad</span>
-              <span style={{ fontSize: 12, color: '#444', fontStyle: 'italic', marginLeft: 10 }}>infinite canvas</span>
+            <div style={{ marginBottom: 4, display: 'flex', alignItems: 'baseline', gap: 10 }}>
+              <span style={{ fontSize: 24, fontWeight: 700, color: '#f0ede8', letterSpacing: '-0.02em' }}>Writing Pad</span>
+              <span style={{ fontSize: 11, color: '#d4a843', fontStyle: 'italic', fontFamily: "'DM Mono', monospace", letterSpacing: '0.06em' }}>∞ canvas</span>
             </div>
-            <div style={{ fontSize: 12, color: '#444', fontStyle: 'italic', marginBottom: 28, borderBottom: '1px solid #111', paddingBottom: 20 }}>
+            <div style={{ fontSize: 12, color: '#3a3a3a', fontStyle: 'italic', marginBottom: 28, borderBottom: '1px solid #131313', paddingBottom: 20 }}>
               A distraction-free space to write, annotate, and think.
             </div>
 
             {/* Features */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 28 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 28 }}>
               {[
                 { key: 'P', label: 'Pen', desc: 'Freehand drawing with 6 colors and 4 sizes' },
                 { key: 'H', label: 'Highlighter', desc: 'Semi-transparent highlights in 4 colors' },
@@ -723,16 +1080,17 @@ export default function PadPage() {
                 { key: '⌘Z', label: 'Undo', desc: 'Undo last stroke or text' },
                 { key: '⌘S', label: 'Save', desc: 'Auto-saves to cloud — manual save also available' },
               ].map(({ key, label, desc }) => (
-                <div key={key} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                <div key={key} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
                   <span style={{
-                    minWidth: 52, fontSize: 10, color: '#888',
+                    minWidth: 54, fontSize: 9, color: '#777',
                     background: '#111', border: '1px solid #1e1e1e',
-                    borderRadius: 5, padding: '2px 6px', textAlign: 'center',
+                    borderRadius: 5, padding: '3px 6px', textAlign: 'center',
                     letterSpacing: '0.06em', marginTop: 1, flexShrink: 0,
+                    fontFamily: "'DM Mono', monospace",
                   }}>{key}</span>
                   <div>
                     <span style={{ fontSize: 12, color: '#c0bdb8', fontWeight: 700 }}>{label}</span>
-                    <span style={{ fontSize: 11, color: '#555', fontStyle: 'italic', marginLeft: 8 }}>{desc}</span>
+                    <span style={{ fontSize: 11, color: '#444', fontStyle: 'italic', marginLeft: 8 }}>{desc}</span>
                   </div>
                 </div>
               ))}
@@ -743,9 +1101,9 @@ export default function PadPage() {
               <div
                 onClick={() => setDontShowAgain(p => !p)}
                 style={{
-                  width: 16, height: 16, borderRadius: 3,
-                  border: dontShowAgain ? '1px solid #f0ede8' : '1px solid #333',
-                  background: dontShowAgain ? '#f0ede8' : 'transparent',
+                  width: 16, height: 16, borderRadius: 4,
+                  border: dontShowAgain ? '1px solid #d4a843' : '1px solid #2e2e2e',
+                  background: dontShowAgain ? '#d4a843' : 'transparent',
                   cursor: 'pointer', flexShrink: 0,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'all 0.15s',
@@ -755,7 +1113,7 @@ export default function PadPage() {
               </div>
               <span
                 onClick={() => setDontShowAgain(p => !p)}
-                style={{ fontSize: 11, color: '#555', cursor: 'pointer', fontStyle: 'italic', userSelect: 'none' }}
+                style={{ fontSize: 11, color: '#444', cursor: 'pointer', fontStyle: 'italic', userSelect: 'none', transition: 'color 0.15s' }}
               >
                 Don't show this again
               </span>
@@ -765,14 +1123,19 @@ export default function PadPage() {
             <button
               onClick={dismissWelcome}
               style={{
-                width: '100%', padding: '10px 0',
-                background: '#f0ede8', color: '#000',
-                border: 'none', borderRadius: 8,
+                width: '100%', padding: '11px 0',
+                background: 'linear-gradient(135deg, #c8a84b, #e8c96a, #c8a84b)',
+                backgroundSize: '200%',
+                color: '#0a0a0a',
+                border: 'none', borderRadius: 10,
                 fontSize: 13, fontWeight: 700,
                 fontFamily: "'Libre Baskerville', serif",
                 cursor: 'pointer', letterSpacing: '0.04em',
-                transition: 'opacity 0.15s',
+                transition: 'all 0.2s',
+                boxShadow: '0 4px 20px rgba(212,168,67,0.2)',
               }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundPosition = 'right center'; (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 28px rgba(212,168,67,0.35)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundPosition = 'left center'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(212,168,67,0.2)'; }}
             >
               Start Writing
             </button>
@@ -783,7 +1146,7 @@ export default function PadPage() {
   );
 }
 
-// ── Styles ────────────────────────────────────────────────────────
+// ── Styles (kept for reference, superseded by className approach) ──
 const navBtnStyle: React.CSSProperties = {
   background: 'transparent',
   border: '1px solid #1a1a1a',
