@@ -1,7 +1,6 @@
 'use client';
 import { useState, useRef, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -17,6 +16,220 @@ const SUGGESTED = [
   'Critically analyse the nature of the Mughal state under Aurangzeb.',
 ];
 
+// ─── PDF Download Helper ──────────────────────────────────────────────────────
+async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
+  const { jsPDF } = await import('jspdf');
+
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 18;
+  const contentW = pageW - margin * 2;
+
+  // ── Watermark on current page ──
+  const addWatermark = () => {
+    doc.saveGraphicsState();
+    // @ts-ignore
+    doc.setGState(doc.GState({ opacity: 0.07 }));
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(28);
+    doc.setTextColor(80, 60, 20);
+    const text = 'history-optional.vercel.app';
+    for (let y = 30; y < pageH; y += 50) {
+      doc.text(text, pageW / 2, y, { align: 'center', angle: 35 });
+    }
+    doc.restoreGraphicsState();
+  };
+
+  // ── Header ──
+  const drawHeader = () => {
+    doc.setFillColor(245, 240, 225);
+    doc.rect(0, 0, pageW, 18, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(120, 90, 30);
+    doc.text('HISTORY OPTIONAL — Model Answer', margin, 11);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(160, 130, 60);
+    doc.text('history-optional.vercel.app', pageW - margin, 11, { align: 'right' });
+    doc.setDrawColor(200, 170, 80);
+    doc.setLineWidth(0.4);
+    doc.line(0, 18, pageW, 18);
+  };
+
+  // ── Footer ──
+  const drawFooter = (pageNum: number, totalPages: number) => {
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(160, 130, 60);
+    doc.setDrawColor(200, 170, 80);
+    doc.setLineWidth(0.3);
+    doc.line(margin, pageH - 12, pageW - margin, pageH - 12);
+    doc.text('history-optional.vercel.app', margin, pageH - 7);
+    doc.text(`Page ${pageNum} / ${totalPages}`, pageW - margin, pageH - 7, { align: 'right' });
+  };
+
+  // ── Strip markdown bold/italic ──
+  const strip = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1');
+
+  // ── Parse lines ──
+  const lines: Array<{ type: 'heading' | 'bullet' | 'body' | 'blank'; text: string }> = [];
+  for (const raw of markdownText.split('\n')) {
+    const trimmed = raw.trim();
+    if (!trimmed) { lines.push({ type: 'blank', text: '' }); continue; }
+    if (/^#{1,3}\s/.test(trimmed)) {
+      lines.push({ type: 'heading', text: trimmed.replace(/^#{1,3}\s*/, '') });
+    } else if (/^[•\-\*]\s/.test(trimmed)) {
+      lines.push({ type: 'bullet', text: trimmed.replace(/^[•\-\*]\s*/, '') });
+    } else {
+      lines.push({ type: 'body', text: trimmed });
+    }
+  }
+
+  const topY = 24;
+  const bottomY = pageH - 16;
+  let curPage = 1;
+  let y = topY;
+
+  addWatermark();
+  drawHeader();
+
+  const ensureSpace = (needed: number) => {
+    if (y + needed > bottomY) {
+      doc.addPage();
+      curPage++;
+      addWatermark();
+      drawHeader();
+      y = topY;
+    }
+  };
+
+  // ── Question box ──
+  if (questionText) {
+    const qText = strip(questionText);
+    const qLines = doc.splitTextToSize(`Q: ${qText}`, contentW - 8);
+    const qBoxH = qLines.length * 5.5 + 6;
+    doc.setFillColor(250, 245, 225);
+    doc.setDrawColor(200, 170, 80);
+    doc.setLineWidth(0.4);
+    doc.roundedRect(margin, y, contentW, qBoxH, 2, 2, 'FD');
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(9.5);
+    doc.setTextColor(100, 70, 20);
+    doc.text(qLines, margin + 4, y + 5.5);
+    y += qBoxH + 6;
+  }
+
+  // ── Render lines ──
+  for (const line of lines) {
+    if (line.type === 'blank') { y += 3; continue; }
+
+    const txt = strip(line.text);
+
+    if (line.type === 'heading') {
+      const wrapped = doc.splitTextToSize(txt, contentW);
+      ensureSpace(wrapped.length * 6.5 + 4);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(120, 80, 10);
+      doc.text(wrapped, margin, y);
+      y += wrapped.length * 6.5;
+      doc.setDrawColor(200, 160, 60);
+      doc.setLineWidth(0.3);
+      doc.line(margin, y - 1, margin + Math.min(contentW, txt.length * 2.8), y - 1);
+      y += 3;
+    } else if (line.type === 'bullet') {
+      const wrapped = doc.splitTextToSize(txt, contentW - 6);
+      ensureSpace(wrapped.length * 5.5 + 1);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(40, 30, 10);
+      doc.text('•', margin + 1, y);
+      doc.text(wrapped, margin + 6, y);
+      y += wrapped.length * 5.5 + 1;
+    } else {
+      const wrapped = doc.splitTextToSize(txt, contentW);
+      ensureSpace(wrapped.length * 5.5 + 1);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(40, 30, 10);
+      doc.text(wrapped, margin, y);
+      y += wrapped.length * 5.5 + 1;
+    }
+  }
+
+  // ── Footers on all pages ──
+  const totalPages = curPage;
+  for (let p = 1; p <= totalPages; p++) {
+    doc.setPage(p);
+    drawFooter(p, totalPages);
+  }
+
+  const slug = markdownText.slice(0, 40).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'answer';
+  doc.save(`${slug}.pdf`);
+}
+
+// ─── Download Button ──────────────────────────────────────────────────────────
+function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
+  const [downloading, setDownloading] = useState(false);
+
+  const handleClick = async () => {
+    setDownloading(true);
+    try {
+      await downloadAnswerAsPDF(content, question);
+    } catch (e) {
+      alert('PDF generation failed. Ensure jsPDF is installed: npm install jspdf');
+      console.error(e);
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={downloading}
+      title="Download answer as PDF"
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+        background: 'none', border: '1px solid var(--border)',
+        borderRadius: 5, padding: '0.3rem 0.65rem',
+        color: 'var(--text3)', cursor: downloading ? 'wait' : 'pointer',
+        fontSize: '0.72rem', fontFamily: 'var(--font-body)',
+        transition: 'all 0.15s', opacity: downloading ? 0.6 : 1,
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent2)';
+        (e.currentTarget as HTMLElement).style.color = 'var(--accent)';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
+        (e.currentTarget as HTMLElement).style.color = 'var(--text3)';
+      }}
+    >
+      {downloading ? (
+        <>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+          </svg>
+          Generating…
+        </>
+      ) : (
+        <>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download PDF
+        </>
+      )}
+    </button>
+  );
+}
+
+// ─── Chat ─────────────────────────────────────────────────────────────────────
 function ChatContent() {
   const searchParams = useSearchParams();
   const initialQ = searchParams.get('q') || '';
@@ -119,6 +332,14 @@ When answering:
       .replace(/\n/g, '<br/>');
   };
 
+  // Get the preceding user question for an assistant message
+  const getPrecedingQuestion = (msgIndex: number): string | undefined => {
+    for (let i = msgIndex - 1; i >= 0; i--) {
+      if (messages[i].role === 'user') return messages[i].content;
+    }
+    return undefined;
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)' }}>
 
@@ -133,7 +354,7 @@ When answering:
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--text)', fontWeight: 600 }}>
             AI History Assistant
           </h1>
-          <p style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>Powered by Claude — UPSC History Optional specialist</p>
+          <p style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>UPSC History Optional specialist</p>
         </div>
         <button onClick={() => setMessages([{
           role: 'assistant',
@@ -171,9 +392,26 @@ When answering:
                   <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content)) }} />
                 )}
               </div>
-              <span style={{ color: 'var(--text3)', fontSize: '0.7rem', marginTop: '0.3rem', padding: '0 4px' }}>
-                {msg.role === 'user' ? 'You' : '🤖 AI Assistant'}
-              </span>
+
+              {/* Label + Download button row */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                marginTop: '0.3rem',
+                padding: '0 4px',
+                flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
+              }}>
+                <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>
+                  {msg.role === 'user' ? 'You' : '🤖 AI Assistant'}
+                </span>
+                {msg.role === 'assistant' && i > 0 && (
+                  <DownloadPDFButton
+                    content={msg.content}
+                    question={getPrecedingQuestion(i)}
+                  />
+                )}
+              </div>
             </div>
           ))}
 
