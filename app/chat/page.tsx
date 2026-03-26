@@ -187,45 +187,58 @@ function DownloadPDFButton({ content, question }: { content: string; question?: 
   };
 
   return (
-    <button
-      onClick={handleClick}
-      disabled={downloading}
-      title="Download answer as PDF"
-      style={{
-        display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-        background: 'none', border: '1px solid var(--border)',
-        borderRadius: 5, padding: '0.3rem 0.65rem',
-        color: 'var(--text3)', cursor: downloading ? 'wait' : 'pointer',
-        fontSize: '0.72rem', fontFamily: 'var(--font-body)',
-        transition: 'all 0.15s', opacity: downloading ? 0.6 : 1,
-      }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent2)';
-        (e.currentTarget as HTMLElement).style.color = 'var(--accent)';
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
-        (e.currentTarget as HTMLElement).style.color = 'var(--text3)';
-      }}
-    >
-      {downloading ? (
-        <>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-          </svg>
-          Generating…
-        </>
-      ) : (
-        <>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Download PDF
-        </>
-      )}
-    </button>
+    <>
+      <style>{`
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .pdf-btn {
+          display: inline-flex; align-items: center; gap: 0.4rem;
+          background: linear-gradient(135deg, #c8a84b 0%, #e8c96a 50%, #c8a84b 100%);
+          background-size: 200% 200%;
+          border: none; border-radius: 20px;
+          padding: 0.38rem 0.9rem;
+          color: #1a1200;
+          cursor: pointer; font-size: 0.72rem; font-weight: 600;
+          letter-spacing: 0.02em;
+          font-family: var(--font-body);
+          box-shadow: 0 1px 4px rgba(200,168,75,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+          transition: all 0.2s ease;
+          position: relative; overflow: hidden;
+        }
+        .pdf-btn:hover {
+          background-position: right center;
+          box-shadow: 0 3px 10px rgba(200,168,75,0.4), inset 0 1px 0 rgba(255,255,255,0.35);
+          transform: translateY(-1px);
+        }
+        .pdf-btn:active { transform: translateY(0); box-shadow: 0 1px 3px rgba(200,168,75,0.3); }
+        .pdf-btn:disabled { opacity: 0.65; cursor: wait; transform: none; }
+        .pdf-btn .spin-icon { animation: spin 1s linear infinite; }
+      `}</style>
+      <button
+        onClick={handleClick}
+        disabled={downloading}
+        title="Download model answer as PDF"
+        className="pdf-btn"
+      >
+        {downloading ? (
+          <>
+            <svg className="spin-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M12 2a10 10 0 0 1 10 10" />
+            </svg>
+            Generating…
+          </>
+        ) : (
+          <>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="12" y1="18" x2="12" y2="12"/>
+              <polyline points="9 15 12 18 15 15"/>
+            </svg>
+            Save as PDF
+          </>
+        )}
+      </button>
+    </>
   );
 }
 
