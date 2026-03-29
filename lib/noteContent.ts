@@ -25870,7 +25870,343 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <h4>The significance of 18th Brumaire</h4>
 <p><strong>Jean Tulard</strong>, a historian, has said that faced with internal and external danger the French bourgeoisie always succeeded in inventing a savior. In his book, <strong>The Myth of the Saviour</strong>, he suggests that Napoleon was a savior that the bourgeoise had invented to protect themselves against the two-pronged internal and external danger.</p>
 <p>&#8220;Why did they want to do it? The sale of the confiscated property had helped the bourgeoise. Many upper and middle level of the bourgeoise had benefited from the revolution, by indulging in trade, in speculation, through the purchase of land. And they now wanted the revolution to be brought to a successful conclusion. It was an alliance between the bourgeoisie and a part of the peasantry. They could now do this around one man and around one principle. The principle was already known &#8211; the property. The man was now found &#8211; Napoleon.&#8221;</p>
-`,
+<h2>French Revolution — 4th Phase: Napoleon (1799-1814)</h2>
+
+<h2>Why is Napoleon considered the child of the Revolution?</h2>
+<p>Napoleon was the child of revolution. He was product of the circumstances created by revolution. It was the revolution itself that prepared the way for the rise of Napoleon Bonaparte. Without the positive transformations brought about by the French revolution of 1789 a commoner like Napoleon could have never achieved such phenomenal success.</p>
+<ul>
+<li>&#8226; The revolution overthrew the old regime based on class privileges, aristocratic values and feudal institutional. The revolution <strong>opened the gate for the rise of talent/merit.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; A commoner like Napoleon could never have received a high military rank or dreamt of becoming head of state of France without it.</li>
+<li style="padding-left:2em">&#9702; The revolution proclaimed the principle of <strong>equality</strong> as the basis of state and society. The class privileges were wiped out. Any Frenchmen irrespective of his social background could aspire for high offices under the state.</li>
+</ul>
+</li>
+<li>&#8226; The French <strong>monarchy was abolished</strong> by revolution in 1792. The throne was empty after the regicide and discontinuation of hereditary monarchy. This empty throne could be filled by Napoleon to become the head of state.</li>
+<li>&#8226; The revolution provided an <strong>opportunity for Napoleon to capture the imagination</strong> of Frenchmen through his phenomenal success. In the in the absence of revolutionary wars, Napoleon would have never gained such popularity.</li>
+<li>&#8226; It was the ideals of the revolution which <strong>legitimized the position of Napoleon Bonaparte</strong> on many occasions.</li>
+</ul>
+
+<h2>Reasons for the Rise of Napoleon</h2>
+<ul>
+<li>&#8226; <strong>Role of the revolution</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Napoleon was the child of revolution. He was product of the circumstances created by revolution. (explained already)</li>
+</ul>
+</li>
+<li>&#8226; <strong>Role of counter-revolution:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The revolution of 1789 destroyed the old regime successfully, but it failed to replace it with a new stable structure. The failure of various experiments pushed France into serious internal disorder.</li>
+<li style="padding-left:2em">&#9702; The common Frenchmen were tired of the fluctuations in their fortune, economic instability and the extreme violence faced by France. By 1799, the people were strongly demanding peace and stability.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Role of Nationalism and French Revolutionary War</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The phenomenal victories of Napoleon against the enemies of France satisfied the nationalist hunger for glory of common Frenchmen. These victories had captured the imagination of masses in France and the Frenchmen became the blind supporter of Napoleon.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Failure of Directory</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The institution of directory was created in 1795 to eliminate the possibility of misuse of state authority by one individual but this institution proved to be completely ineffective &amp; its polities pushed France into a bigger crisis, on both internal as well as external fronts.</li>
+<li style="padding-left:2em">&#9702; Since the directory was bringing national shame and disgrace, when Napoleon threw it off, not a single Frenchmen shed tears.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Role of Napoleon's personality, talent and policies</strong>
+<ul>
+<li style="padding-left:2em">&#9702; His achievements were unparalleled. The reforms initiated by him in Italy during 1796–97 proved his administrative acumen. That is why, the people had started looking towards Napoleon to pull them out of the situation of disorder.</li>
+<li style="padding-left:2em">&#9702; Napoleon was a common born person. He was a son of revolution. His rise as a head of the state was a guarantee of safety for the ideas of revolution.</li>
+<li style="padding-left:2em">&#9702; <strong>Section-wise support:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The nationalists supported Napoleon because he brought national glory.</li>
+<li style="padding-left:4em">&#9632; Common masses supported him because he was expected to secure the gains of revolution.</li>
+<li style="padding-left:4em">&#9632; The monarchists supported him because they were hopeful that only a strong personality like Napoleon could restore the monarchical system in France.</li>
+<li style="padding-left:4em">&#9632; The bourgeoisie supported Napoleon because his rise was the guarantee of peace and stability.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The massive support passed the way for the rise of Napoleon in 1799.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Napoleonic Reforms to consolidate the gains of Revolution</h2>
+<ul>
+<li>&#8226; <strong>In the administrative field</strong>, he left the legacy of a visionary government.
+<ul>
+<li style="padding-left:2em">&#9702; Napoleon created a modern state system in France based on the ideas of equality, rule of law, secularism, merit, toleration &amp; the doctrine of peaceful co-existence (fraternity)</li>
+<li style="padding-left:2em">&#9702; There was resemblance with the Revolutionary era:
+<ul>
+<li style="padding-left:4em">&#9632; Executive power:
+<ul>
+<li style="padding-left:6em">&#9632; National Convention: Different committees.</li>
+<li style="padding-left:6em">&#9632; Directory: 5 directors</li>
+<li style="padding-left:6em">&#9632; Napoleon Bonaparte: 3 councils.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; When Napoleon declared himself to be the first Consul for a lifetime or an emperor, he represented the French republic.</li>
+<li style="padding-left:2em">&#9702; Creation of a system of <strong>merit-based promotion</strong> within the civil service.</li>
+<li style="padding-left:2em">&#9702; Napoleon carried out <strong>centralization of administrative</strong> to counter the prevailing disorders and instability.
+<ul>
+<li style="padding-left:4em">&#9632; Central secretariat was created by him to manage the administrative affairs.</li>
+<li style="padding-left:4em">&#9632; He appointed officers known as perfects and sub perfects at district level. They were responsible to central government.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Even in the economic field</strong>, Napoleon carried the legacy of the revolution.
+<ul>
+<li style="padding-left:2em">&#9702; National Convention had originally brought a plan for the <strong>survey of whole income</strong> in France. Later, it was implemented by Napoleon.</li>
+<li style="padding-left:2em">&#9702; The <strong>land captured by peasants</strong> from feudal lords was recognized as their property.</li>
+<li style="padding-left:2em">&#9702; The doctrine of <strong>Laissez Faire</strong> (Free Trade) was adopted.</li>
+<li style="padding-left:2em">&#9702; <strong>Freedom of profession</strong> was granted to every French citizen.</li>
+<li style="padding-left:2em">&#9702; The National Convention brought a plan for organizing exhibitions to promote <strong>industrialization</strong>. Napoleon also adopted this method.
+<ul>
+<li style="padding-left:4em">&#9632; Machines were imported to commence the Industrial Revolution.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Directory had introduced <strong>metallic coins</strong>, which were continued by Napoleon. <strong>Bank of France</strong> was established in 1800.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Legal reforms</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Napoleon created a <strong>modern judicial legal system</strong> in France in accordance with the ideas of the revolution. <strong>Rule of law</strong> was implemented without any discriminatory treatment on the basis of birth or any other criteria.</li>
+<li style="padding-left:2em">&#9702; Napoleon codified the laws under <strong>Code Napoleon</strong> (1807)
+<ul>
+<li style="padding-left:4em">&#9632; It replaced the patchwork of laws that had existed under the ancien régime.</li>
+<li style="padding-left:4em">&#9632; It codified many of the principles of the Revolution, such as equality before the law, the right to property, and religious toleration.</li>
+<li style="padding-left:4em">&#9632; It had separate provisions for civil and criminal matters. It was having a separate commercial court to deal with the economic offences.</li>
+<li style="padding-left:4em">&#9632; It was simple, liberal &amp; progressive. It inspired and deeply influenced the judicial legal system all over the world.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>In social field</strong>, Napoleon could maintain certain ideals of revolution.
+<ul>
+<li style="padding-left:2em">&#9702; He continued the <strong>abolition of feudalism</strong> &amp; maintaining <strong>equality</strong> in society.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Religious Reforms</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The French Revolution of 1789 attacked the institution of Church fiercely to wipe out its evils. Such acts of revolution were deeply resented by many Frenchmen who were committed Catholic.</li>
+<li style="padding-left:2em">&#9702; In 1801, Napoleon entered a religious treaty with pope as <strong>Concordat</strong> (religious peace) that established the relation of state with church and satisfied the religious aspirations of Frenchmen.</li>
+<li style="padding-left:2em">&#9702; As per the concordat,
+<ul>
+<li style="padding-left:4em">&#9632; Roman Catholicism was recognized as the religion of majority of French people.</li>
+<li style="padding-left:4em">&#9632; Religious freedom was guaranteed to every Frenchmen including the atheist.</li>
+<li style="padding-left:4em">&#9632; The priest would be selected by the state and were to be invested by the Pope.</li>
+<li style="padding-left:4em">&#9632; The priests were too paid by state.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Establishment of a <strong>national education system</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Napoleon initiated several steps in the field of education so that thinking of Frenchmen can be regulated.</li>
+<li style="padding-left:2em">&#9702; In 1802, a series of military style schools known as <strong>Lycee</strong> was created.</li>
+<li style="padding-left:2em">&#9702; In 1808, French <strong>university system</strong> was established.</li>
+<li style="padding-left:2em">&#9702; <strong>Ecole Polytechnique</strong> was established to produce engineers.</li>
+<li style="padding-left:2em">&#9702; <strong>Teachers training institutes</strong> were established and only these teachers were appointed in schools.</li>
+<li style="padding-left:2em">&#9702; The education of women was neglected by Napoleon.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Even outside of France,</strong> he was welcomed as crowned-Jacobian, as Napoleon projected himself as the representative of revolution.
+<ul>
+<li style="padding-left:2em">&#9702; The principles of liberty, equality, Fraternity, rule of law, toleration and laissez faire were implemented by Napoleon in Italy as well as in Germany.</li>
+<li style="padding-left:2em">&#9702; He was welcomed as a liberator by common masses and because of this, his empire symbolized the extension of revolution beyond French borders.</li>
+</ul>
+</li>
+</ul>
+<p>By presenting himself as a leader who was carrying on the legacy of the Revolution, Napoleon was <strong>able to win the support of many French people who had been disillusioned by the chaos and violence of the revolutionary period.</strong> Although his autocratic rule and military conquests ultimately led to his downfall, the <strong>legacy of the Revolution continued to inspire</strong> political movements throughout the 19th and 20th centuries.</p>
+
+<h2>Did Napoleon reverse some of the ideals of the revolution?</h2>
+<ul>
+<li>&#8226; In <strong>political</strong> field
+<ul>
+<li style="padding-left:2em">&#9702; Napoleon put a check over <strong>liberty</strong>, one of the ideals of the revolution.
+<ul>
+<li style="padding-left:4em">&#9632; Napoleon restored the <strong>monarchy</strong> in altered form and even tried to link his legacy to old Bourbon kings. He called Louis XIV <em>'mon-oncle'</em> means my uncle.</li>
+<li style="padding-left:4em">&#9632; Political liberty was curtailed by him:
+<ul>
+<li style="padding-left:6em">&#9632; More than 20 people could not gather without the permission of state.</li>
+<li style="padding-left:6em">&#9632; Anybody could be arrested on suspicion of indulging in Anti state activities.</li>
+<li style="padding-left:6em">&#9632; Political dissidents were prosecuted.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Although he permitted <strong>equality</strong>, for him the equality means equal opportunity for all but not economic equality of wealth
+<ul>
+<li style="padding-left:4em">&#9632; Napoleon was product of equality. This was the most cherished ideal of FR but the institution of <strong>legion of honor</strong> created by him was against the principle of quality. This institution created a kind of semi-mobility in France.</li>
+<li style="padding-left:4em">&#9632; Napoleon proclaimed his faith in the principle of <strong>merit</strong>. He was the product of a system based on merit, but he dissolved this principle by appointing his brothers and other close relatives to high offices.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Napoleon proclaimed his faith in the ideal of <strong>fraternity</strong>, but his wars and battles were against this very ideal.</li>
+<li style="padding-left:2em">&#9702; He also revived some of the <strong>unjust laws of old Bourbon kings</strong> in which there was a provision for arrest even without a warrant. (eg letters de cachet)</li>
+<li style="padding-left:2em">&#9702; He put a check over the <strong>political parties</strong> and preferred to eliminate his enemies through his <strong>secret police</strong>. It became a very common feature among the future dictators.</li>
+<li style="padding-left:2em">&#9702; He <strong>sidelined the legislative body</strong> and carried his works through plebiscite.</li>
+<li style="padding-left:2em">&#9702; Democratic instruments like <strong>the plebiscite</strong> were used by Napoleon to strengthen but at the same time, he curbed the power and functions of elected bodies for effective control over administrative.</li>
+</ul>
+</li>
+<li>&#8226; In the <strong>economic</strong> field
+<ul>
+<li style="padding-left:2em">&#9702; The emphasis of revolution had been on free trade but Napoleon always emphasized <strong>mercantilist</strong> policy. (eg. continental system)</li>
+<li style="padding-left:2em">&#9702; Likewise, the revolution had emphasized the method of direct tax but Napoleon gave more emphasis on indirect tax.
+<ul>
+<li style="padding-left:4em">&#9632; In 1804, he laid the foundation of an excise bureau.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; In the <strong>social</strong> field
+<ul>
+<li style="padding-left:2em">&#9702; Napoleon's code was <strong>inspired by the Roman code of law</strong> in which <em>female members were subordinated</em> to the male members and the head of the family was enjoying too much power. So even these measures seemed counter to the basic ideals of the revolution.</li>
+<li style="padding-left:2em">&#9702; Napoleon did nothing for the empowerment of women. He neglected their education.</li>
+</ul>
+</li>
+<li>&#8226; Even <strong>outside of France</strong>, he represented rather the distorted ideas of the revolution.</li>
+</ul>
+
+<h2>How did Napoleon link old France to New France?</h2>
+<p>Napoleon certainly adopted some measures which could bring stability and prosperity in France. Even on the military front, France could get a better success but in this course, Napoleon changed the course of the revolution itself. Therefore, the role of Napoleon needs a rational and balanced evaluation.</p>
+<ul>
+<li>&#8226; On the one hand, Napoleon was a revolutionary figure who sought to break with the traditions and institutions of the ancien régime. On the other hand, he also recognized the need to maintain some continuity with the past in order to ensure stability and legitimacy for his regime.
+<ul>
+<li style="padding-left:2em">&#9702; The Old France meant pre-revolutionary France and New France meant the radical France of the post-revolutionary era.</li>
+</ul>
+</li>
+<li>&#8226; On the one hand, he tried to <strong>maintain equality</strong> but put a certain <strong>check on liberty.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; He put a check on liberty and even defined equality in a practical way as for him equality meant equal opportunity for all but not economic equality. So, even on the front of <strong>equality</strong>, he was a bit cautious as he promised to apply the equality of opportunity.</li>
+<li style="padding-left:2em">&#9702; He maintained the <strong>limited franchise</strong> and avoided universal suffrage.</li>
+<li style="padding-left:2em">&#9702; Although he maintained the <strong>abolition of feudalism</strong> and talked in terms of <strong>equality</strong> of people, but he revived some old laws of Bourbon <strong>monarchs</strong> in which there was a provision of <strong>arrest even without a warrant</strong>.</li>
+<li style="padding-left:2em">&#9702; He reintroduced the <strong>titles of nobility</strong> that had been abolished during the Revolution, but he also created a <strong>system of merit-based promotion</strong> within the civil service that allowed talented individuals from all social backgrounds to rise through the ranks.</li>
+<li style="padding-left:2em">&#9702; He also introduced the <strong>Napoleonic Code</strong>, a new legal code that replaced the patchwork of laws that had existed under the ancien régime, but which also codified many of the principles of the Revolution, such as equality before the law and religious toleration.
+<ul>
+<li style="padding-left:4em">&#9632; The objective of the Napoleonic code was to maintain balance and stability in society that's why he consciously subordinated the females to the male members of the society.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; He tried to <strong>link his lineage to the Bourbon kings</strong> and in their fashion, he concentrated the power into his hand.
+<ul>
+<li style="padding-left:2em">&#9702; Although his monarchy was different from the Bourbon monarchy, in that it was approved by the <strong>popular support and plebiscite.</strong></li>
+<li style="padding-left:2em">&#9702; On the one hand he neglected the <strong>legislative</strong> body but on the other hand, he got the approval for his policy directly from the people through the method of a <strong>plebiscite</strong>.</li>
+<li style="padding-left:2em">&#9702; Likewise, through <strong>secret police</strong>, he preferred to eliminate his enemy.</li>
+</ul>
+</li>
+<li>&#8226; One way that Napoleon linked old France to New France was through his use of <strong>symbols and pageantry.</strong> Napoleon recognized the power of symbols and rituals in reinforcing the legitimacy of his regime, and he drew on <strong>both</strong> the traditions of the ancien régime and the symbols of the Revolution to create a new, hybrid system of symbols and rituals.
+<ul>
+<li style="padding-left:2em">&#9702; For example, he adopted the <strong>imperial eagle</strong> as a symbol of his regime, which harked back to the traditions of the Roman Empire. At the same time, he also retained some of the symbols of the Revolution, such as the <strong>tricolor flag</strong> and the <strong>"Marseillaise" national anthem.</strong></li>
+</ul>
+</li>
+</ul>
+<p>Overall, Napoleon sought to create a new order in France that drew on both the traditions of the past and the values of the Revolution. By linking old France to New France in this way, he was able to create a regime that was seen as legitimate and stable, while also introducing significant reforms that helped to modernize French society and lay the groundwork for future political developments.</p>
+
+<h2>What was the contribution of Napoleon Bonaparte to Europe?</h2>
+<ul>
+<li>&#8226; <strong>Major contribution:</strong> the spread of nationalism and the ideals of the revolution.
+<ul>
+<li style="padding-left:2em">&#9702; Wherever Napoleon went, he brought certain reforms with him. For example, he abolished feudalism, put a check over the church and introduced the Napoleonic code. Because of this, monarchial nations transformed into popular nations, subjects became citizens and different regions started to emerge as nations.</li>
+<li style="padding-left:2em">&#9702; Due to the exploitative policy of Napoleon in that region, <strong>popular reaction set in against his policy</strong> and it took the form of nationalist resistance.</li>
+</ul>
+</li>
+<li>&#8226; In the <strong>case of Italy and Germany</strong>, his geographic reorganization became the harbinger of the future integration of Italy and Germany.</li>
+<li>&#8226; It is said that although the Napoleonic Empire proved ephemeral, <strong>his reforms were put on granite.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Napoleonic reforms continued in Europe even after Napoleon Bonaparte. It was because most of the reforms carried by Napoleon Bonaparte suited to the interest of the rising middle class.</li>
+</ul>
+</li>
+</ul>
+
+<h2>Reasons for the Decline of Napoleon</h2>
+<p>Though Napoleon empire collapsed as a result of his defeat in a battle, this defeat itself was the outcome of a number of factors operating at various levels.</p>
+
+<p><strong>Was the Napoleonic Empire bound to collapse due to its internal contradictions?</strong></p>
+<p>Although Napoleon created one of the largest empires in Europe, right from the very beginning, this empire had continued to face some basic contradictions.</p>
+<p>The Napoleonic Empire was very extensive, but its foundations were weak because it was resting on a number of inherent contradictions that affected its ethical, moral foundations.</p>
+<ul>
+<li>&#8226; Napoleon proclaimed himself as the <strong>'son of revolution'</strong>, but many of the essential ideals of revolution were abandoned by him.</li>
+<li>&#8226; One major <strong>contradiction</strong> was the incompatibility between the noble ideas of <strong>revolution</strong> and the reality of the Napoleonic <strong>Empire</strong>. Initially, Napoleon was welcomed by European people as a liberator, but very soon the imperialistic character of his rule was exposed, and people turned against him.</li>
+<li>&#8226; One of the major factors behind the military success of France against Europe was <strong>military conscription</strong> (citizens' army). However, soon afterwards, every nation adopted the same method and France lost its relative advantage. Now, the French were outnumbered by the soldiers of other European nations together.</li>
+<li>&#8226; Napoleon dealt with European nations individually and tried to keep them <strong>divided</strong>. But as Napoleon defeated and humiliated European kings, obviously, he unconsciously gave them a common ground for developing a sense of fellow feeling. So, from time-to-time, European nations formed <strong>coalitions</strong> against Napoleon Bonaparte.</li>
+</ul>
+
+<p><strong>Faults in Personality</strong></p>
+<p>Napoleon was a great military conqueror, but he suffered from a number of personal limitations. These limitations of his personality hastened the process of his downfall once it commenced.</p>
+<ul>
+<li>&#8226; Napoleon was <strong>autocratic</strong>. He imposed his will on other without caring for their opinion.
+<ul>
+<li style="padding-left:2em">&#9702; Many of his advisors and well wishes left him and during the hour of crisis, he could not get the best input.</li>
+</ul>
+</li>
+<li>&#8226; Napoleon was <strong>over-ambitious</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; In fact, his ambitions knew no limits. At one time. Entire continental Europe was under his dominance, but his desire for Britain doomed the fate of his empire.</li>
+</ul>
+</li>
+<li>&#8226; Napoleon was <strong>selfish</strong> and <strong>opportunist</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; He pursued his dreams and ambitions blindly. Many of his well-wishers left him to join hands with his enemies.</li>
+</ul>
+</li>
+<li>&#8226; Napoleon was <strong>revengeful</strong> in his outlook.
+<ul>
+<li style="padding-left:2em">&#9702; He failed to learn the art of forgiveness, because of this, the events of past continuously haunted him and he could not concentrate on future.</li>
+</ul>
+</li>
+<li>&#8226; Napoleon was <strong>overconfident</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; He under-estimated the strength and capabilities of his opponents. This had played an important role in his disastrous fall during Russian campaign and defeat in the battles of Leipzig and Waterloo.</li>
+</ul>
+</li>
+<li>&#8226; Napoleon faced serious <strong>health problems</strong> during the last years of his reign.
+<ul>
+<li style="padding-left:2em">&#9702; While fighting in the battle of Leipzig, he was unable to sit on a horse for a long time. This affected the effectiveness of his command &amp; contributed to his defeat.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Character of the Napoleonic Empire</strong></p>
+<ul>
+<li>&#8226; The Napoleonic empire was <strong>over-centralized</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; The level of <strong>institutionalization</strong> of empire was quite low. No smooth administration.</li>
+<li style="padding-left:2em">&#9702; Everything revolved around the personality of Napoleon. This one-person-centric empire could not be administered effectively when Napoleon got busy in continuous wars and battles.</li>
+</ul>
+</li>
+<li>&#8226; Napoleon created an extensive empire within a <strong>short period of time</strong>, but he could find no time for its consolidation because of which the foundation of his empire remained weak, and it could not last long.</li>
+</ul>
+<p>Thus, it kept on facing internal stress and strain which played an important role in the downfall ultimately.</p>
+
+<p><strong>Role of Nationalism:</strong></p>
+<ul>
+<li>&#8226; Napoleon was a symbol of French nationalism. But his imperialism outside France was against the spirit of nationalism of German, Italian, Spanish and Russians etc.</li>
+<li>&#8226; Napoleon seized the crown of Spain deceptively, by pressurizing Spanish ruler Charles IV and his son Ferdinand to renounce their claims to the throne. He imposed the rule of his Brother Joseph Bonaparte on Spain. This Napoleonic imperialism triggered national upsurge in Spain. The Spanish rebels inspired by the spirit of nationalism fought hard against the forces of napoleon. They used the guerilla method of warfare against which napoleon's military could not stand napoleon got trapped in a crisis known as 'Spanish war'.</li>
+<li>&#8226; His withdrawal from Spain seriously affected his prestige and the myth of Napoleon's in win ability got shattered. This inspired the Germans, Italians, Russians to rise against napoleon dominance and they defected him in a battle of Leipzig leading to the downfall of Napoleon empire.</li>
+</ul>
+
+<p><strong>More reasons behind the decline of Napoleon Bonaparte:</strong></p>
+<ul>
+<li>&#8226; <strong>Continental system:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Napoleon introduced the system <strong>without the proper planning and preparation.</strong></li>
+<li style="padding-left:2em">&#9702; It resulted in <strong>scarcity</strong> of essential goods and created wider public <strong>discontent</strong>.</li>
+<li style="padding-left:2em">&#9702; Forced implementation against the will led to the <strong>Peninsular war</strong> that sapped his energies.</li>
+<li style="padding-left:2em">&#9702; This <strong>popular revolt</strong> was later joined by European power against Napoleon. So, Napoleon was defeated in 1813.</li>
+</ul>
+</li>
+<li>&#8226; Napoleon was <strong>dependent too much on the military option</strong>. He did not learn the technique that how to perpetuate the victory through the <strong>method of diplomacy</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; For example, he fought 5 battles with Austria, but 3 battles were fought only for preserving the gains ensured through the earlier two battles.</li>
+</ul>
+</li>
+<li>&#8226; <strong>The Moscow expedition</strong> was a major mistake on the part of Napoleon Bonaparte.
+<ul>
+<li style="padding-left:2em">&#9702; In this expedition, a substantial part of his Grande Army was destroyed, and he also lost prestige.</li>
+<li style="padding-left:2em">&#9702; A big mistake on the part of Napoleon was that he went on such a devastating expedition in the eastern part (Moscow expedition) while in west, Britain was still unconquered. The same mistake was committed by Hitler 130 years later.</li>
+</ul>
+</li>
+</ul>`,
   'industrialization': ``,
   'nation-state-system': ``,
   'imperialism-colonialism': ``,
