@@ -39,6 +39,30 @@ function bodyParas(body: string | string[]): string[] {
   return body.split(/\n\n+/).filter(Boolean);
 }
 
+
+async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promise<File> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const scale = Math.min(1, maxWidth / img.width);
+      const w = Math.round(img.width * scale);
+      const h = Math.round(img.height * scale);
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(img, 0, 0, w, h);
+      canvas.toBlob(
+        (blob) => resolve(blob ? new File([blob], file.name, { type: "image/jpeg" }) : file),
+        "image/jpeg", quality
+      );
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
 async function downloadModelAnswerPDF(question: string, marks: number, evaluation: Evaluation) {
   const { jsPDF } = await import("jspdf");
   const doc = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
@@ -214,8 +238,9 @@ export default function EvaluatePage() {
 const handleOcr = async () => {
     if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one image and enter the question."); return; }
     setError(""); setOcrLoading(true);
+    const compressed = await Promise.all(files.map(f => compressImage(f)));
     const fd = new FormData();
-    files.forEach(f => fd.append("files", f));
+    compressed.forEach(f => fd.append("files", f));
     try {
       const res = await fetch("/api/ocr", { method: "POST", body: fd });
       const data = await res.json();
