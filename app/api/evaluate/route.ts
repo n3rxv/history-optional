@@ -136,10 +136,28 @@ WORD COUNT — enforce strictly in Presentation marks:
 Count the words you can read carefully. Report exact count in word_count.
 
 ─────────────────────────────────
-CALIBRATION:
+CALIBRATION — READ THIS BEFORE MARKING:
 ─────────────────────────────────
-Most serious aspirant 15M answers: Intro ~1M + Body ~4M + Conclusion ~1M + Presentation ~2M = 6–7/15.
-A 10/15 is genuinely good. A 12/15 is exceptional. Do not inflate.
+UPSC reality check — real examiner benchmarks:
+10M answers:
+- No modern historian at all = 3–4/10
+- 1 strong historian point = 5–6/10
+- 3+ strong points + good intro + synthesis = 8–9/10. This is rare.
+
+15M answers:
+- No modern historian at all = 4–5/15
+- 1 strong historian point = 6–7/15
+- 3+ strong points + good intro + synthesis = 10–11/15. Rare.
+- 12+/15 is exceptional. 13+/15 essentially does not exist.
+
+20M answers:
+- No modern historian at all = 6–8/20
+- 1-2 strong historian points = 9–11/20
+- 5+ strong points + strong intro + synthesis = 15–16/20. Very rare.
+- 18+/20 essentially does not exist.
+
+DO NOT inflate. "The student tried hard" is NOT a marking criterion.
+If tempted to award above band — re-check your STRONG/WEAK/NONE tally. You have likely miscounted.
 Sum your four section marks honestly — that is your total.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -150,37 +168,36 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
 
 {
   "demand_of_question": [
-    "Primary demand: directive word and what it requires",
-    "Thematic demand: what historical content must appear",
-    "Methodological demand: level of historiographical depth expected"
+    "Primary demand: [write the actual directive word from the question and exactly what it requires the student to do — e.g. 'EXPLAIN requires the student to give reasons and mechanisms, not just describe outcomes']",
+    "Thematic demand: [write the specific historical content that MUST appear — name the exact themes, periods, regions, processes the question targets]",
+    "Methodological demand: [write what historiographical depth is expected — which debates, which historians, what level of source-criticism is needed for THIS question specifically]"
   ],
   "introduction": {
-    "what_was_written": "Precise summary of what student actually wrote",
-    "analysis": "Did it open with debate or definition? Name historians? Preview argument? Be specific.",
+    "what_was_written": "Quote or closely paraphrase the exact opening sentence(s) the student wrote.",
+    "analysis": "Elaborate judgment across ALL of these dimensions: (1) Did it open with a historiographical debate or a definition/narrative/date? Quote the exact phrase that shows this. (2) Did it name a MODERN historian with their SPECIFIC thesis, or just a primary source/general statement? Name who was cited and whether their argument was stated. (3) Did it preview the argument the answer would make, or just set context? (4) What band does this introduction fall in and exactly why? Be as specific as possible — reference the student's actual words.",
     "suggestions": [
-      "Exactly what a strong intro for THIS question would have opened with — name the specific debate and historians",
-      "The specific conceptual frame this question demanded"
+      "Write out EXACTLY what the opening sentence of a strong introduction for THIS question should look like — name the specific historiographical debate, the two competing positions, and the historians on each side. e.g. 'A strong intro should have opened: Whether Mauryan expansion was primarily a vehicle of Gangetic cultural imperialism as R.S. Sharma implies through his agrarian-state model, or a more complex process of acculturation and regional synthesis as B.D. Chattopadhyaya argues, remains the central problem...'",
+      "Name the specific conceptual frame this question demanded and explain WHY the student's intro fell short of it — what debate was completely absent, which historian's thesis was the essential anchor."
     ]
   },
   "body": {
-    "strengths": ["Specific strength referencing what student actually wrote"],
+    "strengths": ["Reference the EXACT point the student made that was strong — quote their phrase, name the historian they cited correctly, and explain why that specific point earns credit."],
     "weaknesses": [
-      "[DEMAND GAP]: exactly what was missed and why it matters",
-      "[DESCRIPTIVE, NOT ANALYTICAL]: where student listed facts without arguing",
-      "[FACTUAL ERROR if present]: exact error and correct fact",
-      "[SOURCE CONFLATION if present]: what was conflated and why"
+      "[DEMAND GAP]: Name the specific historical dimension the question required that was entirely missing from the answer. Explain which historian addresses this dimension and what their specific argument is — not generically but tied to THIS question's exact demand.",
+      "[DESCRIPTIVE NOT ANALYTICAL]: Quote the exact sentence or passage from the student's answer that was descriptive rather than analytical. Explain what analytical move was needed — e.g. 'Instead of listing that Brahmi spread, the student needed to argue WHY this spread was a vehicle of Gangetic cultural hegemony, citing R.S. Sharma's thesis that...'",
+      "[HISTORIAN MISSING]: Name the specific historian whose argument was essential for THIS question but absent. Give their exact thesis and explain how it would have strengthened a specific body point — e.g. 'Kosambi's argument that Mauryan state power was essentially extractive-agrarian, not culturally missionary, was needed to complicate the diffusion thesis.'"
     ],
     "suggestions": [
-      "Specific historian + argument that must appear for THIS question",
-      "Structural or argumentative suggestion specific to THIS answer"
+      "Give a FULLY WRITTEN example of what one strong body point for this answer should look like — include the analytical claim, the specific evidence (inscription/text/policy/date), the historian's name and exact argument, and the analytical link to the question. This should be 3-4 sentences minimum.",
+      "Name a second specific historian + their exact argument + how it should have appeared in this answer as a distinct body point with its own claim and evidence."
     ]
   },
   "conclusion": {
-    "what_was_written": "Precise summary of conclusion written",
-    "analysis": "Does it synthesise and take a position? Connect to intro frame? Or merely summarise?",
+    "what_was_written": "Quote or closely paraphrase the exact conclusion the student wrote.",
+    "analysis": "Elaborate judgment across ALL of these: (1) Did it synthesise multiple threads from the body or just pick one and summarise it? (2) Did it take a CLEAR POSITION on the historiographical debate introduced in the intro, or remain descriptive? Quote the exact phrase that shows this. (3) Did it connect back to the intro's framing, or introduce new material, or just restate body points? (4) What band does this conclusion fall in and exactly why?",
     "suggestions": [
-      "What this conclusion should have argued — specific synthesis position for THIS question",
-      "Which historiographical tension to resolve to close powerfully"
+      "Write out EXACTLY what this conclusion should have argued — give the specific synthesis position for THIS question, naming the historiographical tension that needed resolving and how to resolve it in 2-3 sentences.",
+      "Name the specific historiographical debate that needed to be adjudicated in the conclusion — which historian's position should have been affirmed, qualified, or rejected, and on what grounds — tied specifically to the evidence the student actually presented."
     ]
   },
   "historians_to_cite": [
@@ -198,7 +215,7 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     ],
     "conclusion": "2-3 sentence synthesis. Takes a clear position, connects to intro frame. No new material."
   },
-  "overall_feedback": "Sentence 1: central genuine strength with specific reference. Sentence 2: single most important failure named precisely. Sentence 3: what student clearly understands. Sentence 4: single most actionable change for next attempt. Sentence 5: estimated marks gain if primary weakness fixed and which band they enter.",
+  "overall_feedback": "Sentence 1: central genuine strength with specific reference to what the student actually wrote. Sentence 2: single most important failure named precisely — which historian and argument was missing and why it mattered for THIS question. Sentence 3: what the student clearly understands about this topic. Sentence 4: single most actionable change for the next attempt — specific historian + argument to add, not generic advice. Sentence 5: which band the student needs to reach next and exactly what it requires — do NOT say 'X more marks' or 'additional Y marks' or any marks-gain estimate.",
   "section_marks": {
     "introduction": { "awarded": 1.5, "out_of": 2, "reasoning": "One sentence explaining this section's score" },
     "body":         { "awarded": 4.5, "out_of": 8, "reasoning": "One sentence explaining this section's score" },
@@ -377,26 +394,36 @@ Write one sentence each for: intro, each body point (list historian named + argu
 Skip question text at top. Count answer body words only. Write the exact number.
 
 == STEP 3: INTRODUCTION (max ${introMax}M) — pick EXACTLY ONE band, no decimals allowed ==
-BAND 0M (ONLY): definition opener, no intro, or only generic context with no historian — award exactly 0
-BAND ${marks === "10" ? "0.5" : "1"}M (ONLY): mentions historical significance or Kautilya/primary source but no modern historian named — award exactly ${marks === "10" ? "0.5" : "1"}
-BAND ${introMax}M (ONLY): names a MODERN historian (Romila Thapar / R.S. Sharma / Irfan Habib / U.N. Ghoshal etc.) with their specific thesis framing the debate — award exactly ${introMax}
-RULE: You MUST pick one of the three values above. 1.5 is NOT a valid intro mark for 15M questions.
+BAND 0M (ONLY): definition opener, no intro, only generic context, no historian at all — award exactly 0
+BAND ${marks === "10" ? "0.5" : "1"}M (ONLY): mentions historical context OR names a primary source (Kautilya, Ashoka, Megasthenes) but NO modern historian named — OR names a modern historian but gives NO specific thesis/argument — award exactly ${marks === "10" ? "0.5" : "1"}
+BAND ${introMax}M (ONLY): names a MODERN historian (Romila Thapar / R.S. Sharma / Irfan Habib / U.N. Ghoshal / Kosambi / B.D. Chattopadhyaya etc.) AND states their SPECIFIC thesis AND frames a historiographical debate AND previews the argument — ALL FOUR required — award exactly ${introMax}
+IMPORTANT: Simply naming a historian without their specific thesis = BAND 1M only, NOT full marks.
+RULE: You MUST pick one of the three values above.
 → INTRO BAND CHOSEN: [write mark]
 
 == STEP 4: BODY (max ${bodyMax}M) — count then pick band ==
-For each body point write: STRONG (MODERN historian named + specific argument — Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein etc.) or WEAK (modern historian named but argument vague) or NONE (no modern historian — Kautilya/Arthashastra/primary sources do NOT count as modern historians, they are NONE).
+DEFINITIONS — be extremely strict:
+- STRONG: modern historian named (Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, Kosambi, B.D. Chattopadhyaya, Satish Chandra etc.) WITH their specific argument clearly stated. "R.S. Sharma argues..." counts. "R.S. Sharma has written about this" does NOT count.
+- WEAK: modern historian named but their argument is vague, absent, or just their name dropped without context.
+- NONE: no modern historian. Primary sources (Kautilya, Arthashastra, Megasthenes, Ashoka's edicts, Ain-i-Akbari) do NOT count as modern historians — they are evidence, not historiography.
+
+For each body point write: STRONG / WEAK / NONE with one-line justification.
 Tally: STRONG=__ WEAK=__ NONE=__
 
-${marks === "10" ? `BAND 2M (ONLY): 0 strong points — always award exactly 2, no more, no less
-BAND 3M (ONLY): 1 strong OR 2 weak — always award exactly 3, no more, no less
-BAND 4M (ONLY): 2 strong points — always award exactly 4, no more, no less
-BAND 5.5M (ONLY): 3+ strong points — always award exactly 5.5, no more, no less` : marks === "15" ? `BAND 3M (ONLY): 0 strong points — always award exactly 3, no more, no less
-BAND 5M (ONLY): 1-2 strong points — always award exactly 5, no more, no less
-BAND 6.5M (ONLY): 3 strong points — always award exactly 6.5, no more, no less
-BAND 8M (ONLY): 4+ strong points — always award exactly 8, no more, no less` : `BAND 4M (ONLY): 0 strong points — always award exactly 4, no more, no less
-BAND 7M (ONLY): 1-2 strong points — always award exactly 7, no more, no less
-BAND 9M (ONLY): 3-4 strong points — always award exactly 9, no more, no less
-BAND 11M (ONLY): 5+ strong points — always award exactly 11, no more, no less`}
+${marks === "10" ? `BAND 1M (ONLY): 0 strong, 0 weak — purely narrative, no historians at all — award exactly 1
+BAND 2M (ONLY): 0 strong, 1-2 weak — historian names dropped without arguments — award exactly 2
+BAND 3M (ONLY): 1 strong point only — award exactly 3
+BAND 4M (ONLY): 2 strong points — award exactly 4
+BAND 5.5M (ONLY): 3+ strong points, all dimensions covered — award exactly 5.5` : marks === "15" ? `BAND 2M (ONLY): 0 strong, 0 weak — purely descriptive, no historians at all — award exactly 2
+BAND 3.5M (ONLY): 0 strong, 1-3 weak — historian names without arguments — award exactly 3.5
+BAND 5M (ONLY): 1 strong point only — award exactly 5
+BAND 6.5M (ONLY): 2 strong points — award exactly 6.5
+BAND 8M (ONLY): 3+ strong points with multi-dimensional coverage — award exactly 8` : `BAND 3M (ONLY): 0 strong, 0 weak — purely narrative, no historians at all — award exactly 3
+BAND 5M (ONLY): 0 strong, 1-3 weak — historian names without arguments — award exactly 5
+BAND 7M (ONLY): 1 strong point only — award exactly 7
+BAND 8.5M (ONLY): 2 strong points — award exactly 8.5
+BAND 9.5M (ONLY): 3-4 strong points — award exactly 9.5
+BAND 11M (ONLY): 5+ strong points, all dimensions covered — award exactly 11`}
 → BODY BAND CHOSEN: [write mark]
 
 == STEP 5: CONCLUSION (max ${concMax}M) — pick EXACTLY ONE band, no decimals allowed ==
@@ -538,7 +565,7 @@ Now write RICH, SPECIFIC qualitative feedback. Use your deep knowledge of UPSC H
 
 Return ONLY a JSON object with these exact fields:
 {
-  "overall_feedback": "5 sentences: (1) central genuine strength with specific reference to what student wrote, (2) single most important failure named precisely with which historian/argument was missing, (3) what the student clearly understands about this topic, (4) single most actionable change for next attempt — specific, not generic, (5) estimated marks gain if primary weakness fixed.",
+  "overall_feedback": "5 sentences: (1) central genuine strength with specific reference to what student wrote, (2) single most important failure named precisely — which historian and argument was missing and why it mattered for THIS question specifically, (3) what the student clearly understands about this topic, (4) single most actionable change for next attempt — name the specific historian + their exact argument to incorporate, not generic advice, (5) which band the student should target next and exactly what it requires in terms of historians and argument structure. STRICT RULE: Do NOT include any statement like 'X more marks', 'additional Y marks', 'could have gained Z marks', or any numerical marks-gain estimate in this feedback — this is forbidden.",
   "body": {
     "strengths": ["specific strength 1 referencing exactly what student wrote", "specific strength 2 if any"],
     "weaknesses": ["[DEMAND GAP]: exactly what was missed and which historian fills this gap", "[DESCRIPTIVE NOT ANALYTICAL]: where student listed facts without arguing — quote the specific part", "[HISTORIAN MISSING]: which specific historian with which specific argument was needed here"],
