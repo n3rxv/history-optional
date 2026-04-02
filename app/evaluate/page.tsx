@@ -622,7 +622,7 @@ const handleOcr = async () => {
             )}
 
             <button className="ev-btn" style={{ marginTop:28 }}
-              onClick={() => { setEvaluation(null); setFiles([]); setQuestion(""); setSubmittedQ(""); }}>
+              onClick={() => { setEvaluation(null); setFiles([]); setQuestion(""); setSubmittedQ(""); setExtractedText(""); setError(""); setStage("form"); }}>
               ← Evaluate Another Answer
             </button>
           </div>
