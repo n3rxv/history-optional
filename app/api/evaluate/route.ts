@@ -584,6 +584,36 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
     }
     const eval_ = evaluation as any;
 
+    // ── SECTION MARKS GUARD ───────────────────────────────────────
+    // Reconstruct correct out_of values based on marks if missing or malformed
+    const marksNum = parseInt(marks as string);
+    const outOfs = marksNum === 10
+      ? { introduction: 2, body: 5.5, conclusion: 1.5, presentation: 1 }
+      : marksNum === 20
+      ? { introduction: 3, body: 11, conclusion: 3, presentation: 3 }
+      : { introduction: 2, body: 8, conclusion: 2, presentation: 3 };
+
+    if (!eval_.section_marks || typeof eval_.section_marks !== "object") {
+      eval_.section_marks = {
+        introduction: { awarded: 0, out_of: outOfs.introduction, reasoning: "Could not evaluate" },
+        body:         { awarded: 0, out_of: outOfs.body,         reasoning: "Could not evaluate" },
+        conclusion:   { awarded: 0, out_of: outOfs.conclusion,   reasoning: "Could not evaluate" },
+        presentation: { awarded: 0, out_of: outOfs.presentation, reasoning: "Could not evaluate" },
+      };
+    } else {
+      // Force correct out_of values regardless of what model returned
+      (["introduction","body","conclusion","presentation"] as const).forEach(sec => {
+        if (!eval_.section_marks[sec]) {
+          eval_.section_marks[sec] = { awarded: 0, out_of: (outOfs as any)[sec], reasoning: "Could not evaluate" };
+        } else {
+          eval_.section_marks[sec].out_of = (outOfs as any)[sec];
+          if (typeof eval_.section_marks[sec].awarded !== "number") {
+            eval_.section_marks[sec].awarded = 0;
+          }
+        }
+      });
+    }
+
     // ── PASS 3: Rich qualitative feedback ────────────────────────
     const pass3Prompt = `You are a UPSC History Optional expert examiner. A student has written the following answer.
 
