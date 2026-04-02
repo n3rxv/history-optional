@@ -235,7 +235,7 @@ export default function EvaluatePage() {
   const [ocrLoading, setOcrLoading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const addFileRef = useRef<HTMLInputElement>(null);
-  const [dragIdx, setDragIdx] = useState<number | null>(null);
+  const [swapIdx, setDragIdx] = useState<number | null>(null);
   const [previews, setPreviews] = useState<string[]>([]);
 
 const handleOcr = async () => {
@@ -385,11 +385,11 @@ const handleOcr = async () => {
         .ev-sec-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
         .ev-sec-rsn { font-size:0.76rem; color:#666; line-height:1.5; font-family:var(--font-ui); }
         .ev-pages { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
-        .ev-page-item { position:relative; width:80px; cursor:grab; user-select:none; touch-action:none; -webkit-user-select:none; }
-        .ev-page-item:active { cursor:grabbing; }
+        .ev-page-item { position:relative; width:80px; cursor:pointer; user-select:none; -webkit-user-select:none; }
+        .ev-page-item.selected img { border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.5); }
         .ev-page-item img { width:80px; height:100px; object-fit:cover; border-radius:4px; border:2px solid #333; display:block; transition:border-color 0.15s; }
-        .ev-page-item.dragging img { border-color:#3b82f6; opacity:0.5; }
-        .ev-page-item.dragover img { border-color:#3b82f6; box-shadow:0 0 0 2px rgba(59,130,246,0.4); }
+        .ev-page-item.selected { transform:scale(1.05); }
+        .ev-page-item { transition: transform 0.15s; }
         .ev-page-num { position:absolute; top:4px; left:4px; background:rgba(0,0,0,0.75); color:#fff; font-family:var(--font-mono); font-size:0.6rem; padding:2px 6px; border-radius:3px; }
         .ev-page-del { position:absolute; top:4px; right:4px; background:rgba(248,113,113,0.85); color:#fff; font-size:0.65rem; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; line-height:1; }
         .ev-page-add { width:80px; height:100px; border:1.5px dashed #333; border-radius:4px; background:#161616; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; color:#555; font-size:1.4rem; transition:all 0.15s; }
@@ -450,23 +450,23 @@ const handleOcr = async () => {
                 {files && files.length > 0 ? (
                   <div onClick={e => e.stopPropagation()} style={{ textAlign:"left" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"#3b82f6", marginBottom:8 }}>
-                      {files.length} page{files.length > 1 ? "s" : ""} — drag to reorder
+                      {swapIdx !== null ? "Now tap another page to swap ↕" : `${files.length} page${files.length > 1 ? "s" : ""} — tap to reorder`}
                     </div>
                     <div className="ev-pages">
                       {files.map((f, i) => (
                         <div
                           key={i}
-                          className={`ev-page-item${dragIdx === i ? " dragging" : ""}`}
+                          className={`ev-page-item${swapIdx === i ? " dragging" : ""}`}
                           onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); setDragIdx(i); }}
                           onPointerEnter={() => {
-                            if (dragIdx === null || dragIdx === i) return;
+                            if (swapIdx === null || swapIdx === i) return;
                             const newFiles = [...files];
                             const newPrev = [...previews];
-                            newFiles.splice(i, 0, newFiles.splice(dragIdx, 1)[0]);
-                            newPrev.splice(i, 0, newPrev.splice(dragIdx, 1)[0]);
+                            newFiles.splice(i, 0, newFiles.splice(swapIdx, 1)[0]);
+                            newPrev.splice(i, 0, newPrev.splice(swapIdx, 1)[0]);
                             setFiles(newFiles);
                             setPreviews(newPrev);
-                            setDragIdx(i < dragIdx ? i : i);
+                            setDragIdx(i < swapIdx ? i : i);
                           }}
                           onPointerUp={() => setDragIdx(null)}
                           onPointerCancel={() => setDragIdx(null)}
