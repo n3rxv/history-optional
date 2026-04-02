@@ -234,6 +234,9 @@ export default function EvaluatePage() {
   const [extractedText, setExtractedText] = useState("");
   const [ocrLoading, setOcrLoading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const addFileRef = useRef<HTMLInputElement>(null);
+  const [dragIdx, setDragIdx] = useState<number | null>(null);
+  const [previews, setPreviews] = useState<string[]>([]);
 
 const handleOcr = async () => {
     if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one image and enter the question."); return; }
@@ -380,6 +383,16 @@ const handleOcr = async () => {
         .ev-sec-bar-bg { background:#222; border-radius:2px; height:3px; overflow:hidden; margin:10px 0 8px; }
         .ev-sec-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
         .ev-sec-rsn { font-size:0.76rem; color:#666; line-height:1.5; font-family:var(--font-ui); }
+        .ev-pages { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+        .ev-page-item { position:relative; width:80px; cursor:grab; user-select:none; touch-action:none; }
+        .ev-page-item:active { cursor:grabbing; }
+        .ev-page-item img { width:80px; height:100px; object-fit:cover; border-radius:4px; border:2px solid #333; display:block; transition:border-color 0.15s; }
+        .ev-page-item.dragging img { border-color:#3b82f6; opacity:0.5; }
+        .ev-page-item.dragover img { border-color:#3b82f6; box-shadow:0 0 0 2px rgba(59,130,246,0.4); }
+        .ev-page-num { position:absolute; top:4px; left:4px; background:rgba(0,0,0,0.75); color:#fff; font-family:var(--font-mono); font-size:0.6rem; padding:2px 6px; border-radius:3px; }
+        .ev-page-del { position:absolute; top:4px; right:4px; background:rgba(248,113,113,0.85); color:#fff; font-size:0.65rem; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; line-height:1; }
+        .ev-page-add { width:80px; height:100px; border:1.5px dashed #333; border-radius:4px; background:#161616; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; color:#555; font-size:1.4rem; transition:all 0.15s; }
+        .ev-page-add:hover { border-color:#3b82f6; color:#3b82f6; background:#0d1b3e; }
 
       `}</style>
 
@@ -428,13 +441,64 @@ const handleOcr = async () => {
               <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:10 }}>Answer Images</label>
               <div className={`ev-upload ${files && files.length > 0 ? "has" : ""}`} onClick={() => fileRef.current?.click()}>
                 <input ref={fileRef} type="file" accept="image/*" multiple style={{ display:"none" }}
-                  onChange={e => setFiles(Array.from(e.target.files || []))} />
+                  onChange={e => {
+                    const newFiles = Array.from(e.target.files || []);
+                    setFiles(newFiles);
+                    setPreviews(newFiles.map(f => URL.createObjectURL(f)));
+                  }} />
                 {files && files.length > 0 ? (
-                  <>
-                    <div style={{ fontSize:"2rem", marginBottom:10 }}>🖼️</div>
-                    <div style={{ color:"#3b82f6", fontFamily:"var(--font-mono)", fontSize:"0.85rem" }}>{files.length} image{files.length > 1 ? "s" : ""} selected</div>
-                    <div style={{ color:"#555", fontSize:"0.78rem", marginTop:6 }}>Click to change</div>
-                  </>
+                  <div onClick={e => e.stopPropagation()} style={{ textAlign:"left" }}>
+                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"#3b82f6", marginBottom:8 }}>
+                      {files.length} page{files.length > 1 ? "s" : ""} — drag to reorder
+                    </div>
+                    <div className="ev-pages">
+                      {files.map((f, i) => (
+                        <div
+                          key={i}
+                          className={`ev-page-item${dragIdx === i ? " dragging" : ""}`}
+                          draggable
+                          onDragStart={() => setDragIdx(i)}
+                          onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add("dragover"); }}
+                          onDragLeave={e => e.currentTarget.classList.remove("dragover")}
+                          onDrop={e => {
+                            e.preventDefault();
+                            e.currentTarget.classList.remove("dragover");
+                            if (dragIdx === null || dragIdx === i) return;
+                            const newFiles = [...files];
+                            const newPrev = [...previews];
+                            newFiles.splice(i, 0, newFiles.splice(dragIdx, 1)[0]);
+                            newPrev.splice(i, 0, newPrev.splice(dragIdx, 1)[0]);
+                            setFiles(newFiles);
+                            setPreviews(newPrev);
+                            setDragIdx(null);
+                          }}
+                          onDragEnd={() => setDragIdx(null)}
+                          onTouchStart={() => setDragIdx(i)}
+                        >
+                          <img src={previews[i] || ""} alt={`page ${i+1}`} />
+                          <div className="ev-page-num">pg {i+1}</div>
+                          <button className="ev-page-del" onClick={() => {
+                            const nf = files.filter((_,j) => j !== i);
+                            const np = previews.filter((_,j) => j !== i);
+                            setFiles(nf.length ? nf : undefined as any);
+                            setPreviews(np);
+                          }}>×</button>
+                        </div>
+                      ))}
+                      <div className="ev-page-add" onClick={() => addFileRef.current?.click()}>
+                        <input ref={addFileRef} type="file" accept="image/*" multiple style={{ display:"none" }}
+                          onChange={e => {
+                            const added = Array.from(e.target.files || []);
+                            const nf = [...(files||[]), ...added];
+                            const np = [...previews, ...added.map(f => URL.createObjectURL(f))];
+                            setFiles(nf);
+                            setPreviews(np);
+                          }} />
+                        <span>+</span>
+                        <span style={{ fontSize:"0.55rem", fontFamily:"var(--font-mono)", marginTop:4 }}>add</span>
+                      </div>
+                    </div>
+                  </div>
                 ) : (
                   <>
                     <div style={{ fontSize:"2rem", marginBottom:12, opacity:0.35 }}>⬆</div>
@@ -647,7 +711,7 @@ const handleOcr = async () => {
             )}
 
             <button className="ev-btn" style={{ marginTop:28 }}
-              onClick={() => { setEvaluation(null); setFiles([]); setQuestion(""); setSubmittedQ(""); setExtractedText(""); setError(""); setStage("form"); }}>
+              onClick={() => { setEvaluation(null); setFiles(undefined as any); setPreviews([]); setQuestion(""); setSubmittedQ(""); setExtractedText(""); setError(""); setStage("form"); }}>
               ← Evaluate Another Answer
             </button>
           </div>
