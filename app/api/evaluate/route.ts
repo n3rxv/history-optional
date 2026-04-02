@@ -493,6 +493,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
     if (!evaluation) {
       return NextResponse.json({ error: "Evaluation failed to produce a result. Please try again." }, { status: 500 });
     }
+    const eval_ = evaluation as any;
 
     // ── PASS 3: Rich qualitative feedback ────────────────────────
     const pass3Prompt = `You are a UPSC History Optional expert examiner. A student has written the following answer.
@@ -503,11 +504,11 @@ Student's answer (transcribed):
 ${extractedText || cotReasoning.slice(0, 800)}
 
 The structured evaluation already concluded:
-- Introduction: ${evaluation.section_marks?.introduction?.awarded}/${evaluation.section_marks?.introduction?.out_of}
-- Body: ${evaluation.section_marks?.body?.awarded}/${evaluation.section_marks?.body?.out_of}
-- Conclusion: ${evaluation.section_marks?.conclusion?.awarded}/${evaluation.section_marks?.conclusion?.out_of}
-- Presentation: ${evaluation.section_marks?.presentation?.awarded}/${evaluation.section_marks?.presentation?.out_of}
-- Total: ${evaluation.marks}/${evaluation.marks_out_of}
+- Introduction: ${eval_.section_marks?.introduction?.awarded}/${eval_.section_marks?.introduction?.out_of}
+- Body: ${eval_.section_marks?.body?.awarded}/${eval_.section_marks?.body?.out_of}
+- Conclusion: ${eval_.section_marks?.conclusion?.awarded}/${eval_.section_marks?.conclusion?.out_of}
+- Presentation: ${eval_.section_marks?.presentation?.awarded}/${eval_.section_marks?.presentation?.out_of}
+- Total: ${eval_.marks}/${eval_.marks_out_of}
 
 Now write RICH, SPECIFIC qualitative feedback. Use your deep knowledge of UPSC History historiography.
 
