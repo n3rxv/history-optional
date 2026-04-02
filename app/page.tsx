@@ -11,10 +11,10 @@ const stats = [
 ];
 
 const features = [
-  { icon: '✍️', title: 'Smart Annotations', color: 'var(--yellow)', desc: 'Highlight in 4 colours and add sticky notes — saved in your browser.' },
-  { icon: '📖', title: 'Full PDF Notes',    color: 'var(--accent)', desc: 'Complete unabridged notes from all handouts, structured by syllabus.' },
-  { icon: '📅', title: 'Timelines',          color: 'var(--red)',    desc: 'Visualize events chronologically. Filter by period and topic.' },
-  { icon: '🤖', title: 'AI Assistant',       color: 'var(--green)',  desc: 'Ask any History Optional question and get structured answers.' },
+  { icon: '✍️', title: 'Smart Annotations',              color: 'var(--yellow)', desc: 'Handwritten annotations support — write with your digital pen directly on the notes.' },
+  { icon: '📖', title: 'Comprehensive & Exhaustive Notes', color: 'var(--accent)', desc: 'Complete unabridged notes with embedded historiography, structured by syllabus.' },
+  { icon: '📝', title: 'Free Answer Evaluation',          color: 'var(--red)',    desc: 'Get your UPSC answers evaluated instantly — detailed feedback, structure & scoring.' },
+  { icon: '🤖', title: 'Your Personalized AI Assistant',  color: 'var(--green)',  desc: 'An AI that knows your syllabus — ask any History Optional question, get structured answers.' },
 ];
 
 const p1Sections = ['Ancient India', 'Medieval India'];
