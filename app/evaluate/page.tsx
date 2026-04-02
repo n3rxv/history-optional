@@ -265,7 +265,6 @@ const handleOcr = async () => {
     try {
       const res  = await fetch("/api/evaluate", { method: "POST", body: fd });
       const data = await res.json();
-      console.log("EVAL RESULT:", JSON.stringify(data).slice(0, 500));
       if (!res.ok) throw new Error(data.error || "Evaluation failed");
       setSubmittedQ(question);
       setSubmittedM(marks);
