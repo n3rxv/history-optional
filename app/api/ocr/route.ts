@@ -1,3 +1,5 @@
+export const config = { api: { bodyParser: { sizeLimit: "20mb" } } };
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

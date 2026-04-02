@@ -1,3 +1,5 @@
+export const config = { api: { bodyParser: { sizeLimit: "20mb" } } };
+
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -215,7 +217,7 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     ],
     "conclusion": "2-3 sentence synthesis. Takes a clear position, connects to intro frame. No new material."
   },
-  "overall_feedback": "Sentence 1: central genuine strength with specific reference to what the student actually wrote. Sentence 2: single most important failure named precisely — which historian and argument was missing and why it mattered for THIS question. Sentence 3: what the student clearly understands about this topic. Sentence 4: single most actionable change for the next attempt — specific historian + argument to add, not generic advice. Sentence 5: what the student must do differently next time in terms of argument structure and historiographical depth — NO marks mentioned, NO band numbers, NO 'X-Y mark band', NO 'target the X band', just concrete advice on what to write differently.",
+  "overall_feedback": "Sentence 1: central genuine strength with specific reference to what the student actually wrote. Sentence 2: single most important failure named precisely — which historian and argument was missing and why it mattered for THIS question. Sentence 3: what the student clearly understands about this topic. Sentence 4: single most actionable change for the next attempt — name the specific historian + their exact argument to incorporate, not generic advice. Sentence 5: what the student must do differently next time in terms of argument structure and historiographical depth — NO marks mentioned, NO band numbers, NO 'X-Y mark band', NO 'target the X band', just concrete advice on what to write differently.",
   "section_marks": {
     "introduction": { "awarded": 1.5, "out_of": 2, "reasoning": "One sentence explaining this section's score" },
     "body":         { "awarded": 4.5, "out_of": 8, "reasoning": "One sentence explaining this section's score" },
@@ -327,19 +329,57 @@ export async function POST(req: NextRequest) {
     let finalTranscript = extractedText;
 
     if (!finalTranscript && imageContents.length > 0) {
-      const ocrPrompt = `You are a specialist handwriting transcription engine. Your ONLY job is to read handwritten text from these answer sheet images and transcribe it faithfully.
+      const ocrPrompt = `You are the world's most precise handwriting transcription engine, built specifically for UPSC History Optional answer sheets. Your ONLY function is letter-perfect transcription. A student's evaluation depends entirely on the accuracy of your reading — a single misread word can cause wrong marks, wrong feedback, and wrong historian attribution. Errors are unacceptable.
 
-RULES:
-1. Transcribe EVERYTHING you can read — every word, sentence, heading, and margin note.
-2. Go page by page, line by line, in reading order.
-3. Preserve paragraph breaks and any underlines or headings (mark headings with [HEADING: ...]).
-4. If a word is illegible, write [illegible] — do NOT guess wildly. If you're 70%+ confident, write your best read with a (?) suffix.
-5. Preserve historian names, dates, and proper nouns carefully — these are critical for evaluation.
-6. Do NOT skip any content. Do NOT summarise. Do NOT evaluate — just transcribe.
-7. Separate pages with --- PAGE BREAK ---.
-8. The student writes the question at the top before the answer — transcribe it too, marking it as [QUESTION: ...].
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ABSOLUTE TRANSCRIPTION RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Transcribe all ${imageContents.length} page(s) now:`;
+RULE 1 — TRANSCRIBE EVERY SINGLE WORD.
+Do not skip, summarise, paraphrase, or compress anything. Every word on every line on every page must appear in your output. If the answer is 300 words, your transcript must be ~300 words. If you produce significantly fewer words than appear on the page, you have failed.
+
+RULE 2 — GO SLOW. READ CHARACTER BY CHARACTER IF NEEDED.
+Do not skim. For each word: look at every letter individually, consider the full word context, then commit. Rushing causes errors. Take your time on every single word.
+
+RULE 3 — HISTORIAN NAMES ARE SACRED. NEVER GET THEM WRONG.
+Historian names are the most critical part of this evaluation. Read them with extreme care.
+Known names that may appear — read these exactly:
+Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, D.D. Kosambi, B.D. Chattopadhyaya, Satish Chandra, Upinder Singh, Shereen Ratnagar, Possehl, Kenoyer, Fairservis, Shaffer, K.A.R. Kennedy, Uma Chakravarti, R.P. Kangle, Thomas Trautmann, Hermann Kulke, D.C. Sircar, Sheldon Pollock, Noboru Karashima, K.A. Nilakanta Sastri, David Ludden, Phillip Wagoner, David Lorenzen, Peter Hardy, Mohammed Habib, Peter Jackson, K.A. Nizami, Simon Digby, Muzaffar Alam, J.F. Richards, M. Athar Ali, Jadunath Sarkar, Ranajit Guha, Ayesha Jalal, Mushirul Hasan, Gyanendra Pandey, Urvashi Butalia, Bipan Chandra, Anil Seal, Sumit Sarkar, Shahid Amin, Judith Brown, Partha Chatterjee, Lata Mani, Eric Stokes, Bernard Cohn, Utsa Patnaik, E.P. Thompson, Hobsbawm, Max Weber, Lefebvre, Soboul, Furet, Fischer, Fitzpatrick, Gaddis, Fanon, Frederick Cooper, C.A. Bayly, André Wink, Frank Perlin, Bandyopadhyay.
+If you see a name that resembles one of these, read it carefully and transcribe it exactly as written — do not auto-correct to the known spelling unless you are certain.
+
+RULE 4 — DATES, NUMBERS, AND YEARS: TRANSCRIBE EXACTLY.
+Do not round, approximate, or guess dates. If you see "1857" write "1857". If you cannot read a digit clearly, write [illegible digit].
+
+RULE 5 — TECHNICAL TERMS: TRANSCRIBE EXACTLY AS WRITTEN.
+Terms like: iqta, mansabdari, jagirdari, zabti, dahsala, batai, kankut, saptanga, rajamandala, shadgunya, adhyaksha, gahapati, nayankara, tinai, akam, puram, sama, pargana, sarkar — transcribe these exactly as the student wrote them, even if misspelled.
+
+RULE 6 — UNCERTAIN WORDS: USE THE RIGHT FLAG.
+- If you are 90%+ confident: transcribe normally.
+- If you are 70–89% confident: transcribe with (?) suffix — e.g. "Kosambi(?)"
+- If you are below 70% confident: write [illegible] — do NOT guess.
+- NEVER silently substitute a wrong word. A flagged uncertainty is infinitely better than a silent error.
+
+RULE 7 — PRESERVE ALL STRUCTURE EXACTLY.
+- New paragraph → blank line in transcript
+- Underlined heading → [HEADING: text]
+- Margin note → [MARGIN: text]
+- Numbered point → keep the number
+- The question written at top → [QUESTION: text]
+- Page break → --- PAGE BREAK ---
+
+RULE 8 — DO NOT EVALUATE, INTERPRET, OR COMMENT.
+You are a transcription machine. Do not add "[good point]" or "[historian cited correctly]" or any commentary whatsoever. Pure text output only.
+
+RULE 9 — DO NOT SKIP LINES EVEN IF THEY SEEM REPETITIVE OR UNIMPORTANT.
+Every line matters. A line you skip might contain the one historian name the evaluator needs.
+
+RULE 10 — AFTER TRANSCRIBING, DO A MENTAL PASS-CHECK.
+Before outputting, ask yourself: Did I get every word? Did I read every historian name carefully? Did I flag uncertainties properly? Only then output.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NOW TRANSCRIBE: ${imageContents.length} PAGE(S)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Go page by page. Do not rush. Every word matters.`;
 
       const ocrRes = await groqFetch(
         {
@@ -354,7 +394,7 @@ Transcribe all ${imageContents.length} page(s) now:`;
             },
           ],
           temperature: 0.0,
-          max_tokens: 3000,
+          max_tokens: 4000,
         },
         process.env.GROQ_API_KEY!
       );
@@ -565,7 +605,7 @@ Now write RICH, SPECIFIC qualitative feedback. Use your deep knowledge of UPSC H
 
 Return ONLY a JSON object with these exact fields:
 {
-  "overall_feedback": "5 sentences: (1) central genuine strength with specific reference to what student wrote, (2) single most important failure named precisely — which historian and argument was missing and why it mattered for THIS question specifically, (3) what the student clearly understands about this topic, (4) single most actionable change for next attempt — name the specific historian + their exact argument to incorporate, not generic advice, (5) which band the student should target next and exactly what it requires in terms of historians and argument structure. ABSOLUTE FORBIDDEN LIST — sentence 5 must NOT contain any of these: 'X more marks', 'additional Y marks', 'could have gained', 'mark band', 'target the X band', 'X-Y marks', '10-12 marks', any number followed by 'marks', or any marks/score reference of any kind. Sentence 5 must only describe WHAT TO WRITE DIFFERENTLY, not what score it will produce.",
+  "overall_feedback": "5 sentences: (1) central genuine strength with specific reference to what student wrote, (2) single most important failure named precisely — which historian and argument was missing and why it mattered for THIS question specifically, (3) what the student clearly understands about this topic, (4) single most actionable change for next attempt — name the specific historian + their exact argument to incorporate, not generic advice, (5) what the student must do concretely differently next time in terms of argument structure and historiographical depth. ABSOLUTE FORBIDDEN LIST — sentence 5 must NOT contain any of these: 'X more marks', 'additional Y marks', 'could have gained', 'mark band', 'target the X band', 'X-Y marks', '10-12 marks', any number followed by 'marks', or any marks/score reference of any kind. Sentence 5 must only describe WHAT TO WRITE DIFFERENTLY, not what score it will produce.",
   "body": {
     "strengths": ["specific strength 1 referencing exactly what student wrote", "specific strength 2 if any"],
     "weaknesses": ["[DEMAND GAP]: exactly what was missed and which historian fills this gap", "[DESCRIPTIVE NOT ANALYTICAL]: where student listed facts without arguing — quote the specific part", "[HISTORIAN MISSING]: which specific historian with which specific argument was needed here"],
