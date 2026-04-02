@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No files provided" }, { status: 400 });
 
     const imageContents: { type: "image_url"; image_url: { url: string } }[] = [];
-
     for (const file of files) {
       const buffer = Buffer.from(await file.arrayBuffer());
       const base64 = buffer.toString("base64");
@@ -19,20 +18,68 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    const ocrPrompt = `You are the world's most precise handwriting transcription engine, built specifically for UPSC History Optional answer sheets. Your ONLY function is letter-perfect transcription. A student's evaluation depends entirely on the accuracy of your reading — a single misread word can cause wrong marks, wrong feedback, and wrong historian attribution. Errors are unacceptable.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ABSOLUTE TRANSCRIPTION RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+RULE 1 — TRANSCRIBE EVERY SINGLE WORD.
+Do not skip, summarise, paraphrase, or compress anything. Every word on every line on every page must appear in your output. If the answer is 300 words, your transcript must be ~300 words. If you produce significantly fewer words than appear on the page, you have failed.
+
+RULE 2 — GO SLOW. READ CHARACTER BY CHARACTER IF NEEDED.
+Do not skim. For each word: look at every letter individually, consider the full word context, then commit. Rushing causes errors. Take your time on every single word.
+
+RULE 3 — HISTORIAN NAMES ARE SACRED. NEVER GET THEM WRONG.
+Historian names are the most critical part of this evaluation. Read them with extreme care.
+Known names that may appear — read these exactly:
+Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, D.D. Kosambi, B.D. Chattopadhyaya, Satish Chandra, Upinder Singh, Shereen Ratnagar, Possehl, Kenoyer, Fairservis, Shaffer, K.A.R. Kennedy, Uma Chakravarti, R.P. Kangle, Thomas Trautmann, Hermann Kulke, D.C. Sircar, Sheldon Pollock, Noboru Karashima, K.A. Nilakanta Sastri, David Ludden, Phillip Wagoner, David Lorenzen, Peter Hardy, Mohammed Habib, Peter Jackson, K.A. Nizami, Simon Digby, Muzaffar Alam, J.F. Richards, M. Athar Ali, Jadunath Sarkar, Ranajit Guha, Ayesha Jalal, Mushirul Hasan, Gyanendra Pandey, Urvashi Butalia, Bipan Chandra, Anil Seal, Sumit Sarkar, Shahid Amin, Judith Brown, Partha Chatterjee, Lata Mani, Eric Stokes, Bernard Cohn, Utsa Patnaik, E.P. Thompson, Hobsbawm, Max Weber, Lefebvre, Soboul, Furet, Fischer, Fitzpatrick, Gaddis, Fanon, Frederick Cooper, C.A. Bayly, André Wink, Frank Perlin, Bandyopadhyay.
+If you see a name that resembles one of these, read it carefully and transcribe it exactly as written — do NOT auto-correct to the known spelling unless you are certain.
+
+RULE 4 — NEVER CORRECT SPELLING SILENTLY.
+Do NOT fix spelling mistakes. Transcribe exactly what is written. If the student misspelled a historian's name, transcribe the misspelling — the evaluator needs to see it. Silent corrections destroy evaluation accuracy.
+
+RULE 5 — DATES, NUMBERS, AND YEARS: TRANSCRIBE EXACTLY.
+Do not round, approximate, or guess dates. If you see "1857" write "1857". If you cannot read a digit clearly, write [illegible digit].
+
+RULE 6 — TECHNICAL TERMS: TRANSCRIBE EXACTLY AS WRITTEN.
+Terms like: iqta, mansabdari, jagirdari, zabti, dahsala, batai, kankut, saptanga, rajamandala, shadgunya, adhyaksha, gahapati, nayankara, tinai, akam, puram, sama, pargana, sarkar — transcribe these exactly as the student wrote them, even if misspelled.
+
+RULE 7 — UNCERTAIN WORDS: USE THE RIGHT FLAG.
+- If you are 90%+ confident: transcribe normally.
+- If you are 70–89% confident: transcribe with (?) suffix — e.g. "Kosambi(?)"
+- If you are below 70% confident: write [illegible] — do NOT guess silently.
+- NEVER substitute a wrong word without flagging it. A flagged uncertainty is infinitely better than a silent error.
+
+RULE 8 — PRESERVE ALL STRUCTURE EXACTLY.
+- New paragraph → blank line in transcript
+- Underlined heading → write the heading text normally (do not add any markup)
+- Numbered point → keep the number
+- Skip the question text at the very top if the student copied it — start from the first word of the answer body
+- Page break → --- PAGE BREAK ---
+
+RULE 9 — OUTPUT THE TRANSCRIPTION ONLY.
+No commentary. No analysis. No "this is a good point". No markdown. No headings like "Transcription:". Just the raw transcribed answer text, nothing else.
+
+RULE 10 — AFTER TRANSCRIBING, DO A MENTAL PASS-CHECK.
+Before outputting, ask yourself: Did I get every word? Did I read every historian name character by character? Did I flag all uncertainties? Did I skip any lines? Only then output.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NOW TRANSCRIBE: ${imageContents.length} PAGE(S)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Go page by page. Do not rush. Every word matters.`;
+
     const body = {
       model: "meta-llama/llama-4-scout-17b-16e-instruct",
       messages: [{
         role: "user",
         content: [
           ...imageContents,
-          {
-            type: "text",
-            text: "OUTPUT THE TRANSCRIPTION ONLY. No steps, no analysis, no commentary, no headings, no markdown.\nRead every word of this handwritten answer sheet and output the transcribed text directly.\n- Skip only the question text at the very top if the student copied it\n- Start directly from the first word of the answer body\n- Preserve paragraph breaks and numbering exactly as written\n- Correct obvious spelling mistakes silently\n- Write [illegible] for unreadable words\n- Do not write anything except the transcribed answer text",
-          },
+          { type: "text", text: ocrPrompt },
         ],
       }],
       temperature: 0,
-      max_tokens: 2000,
+      max_tokens: 4000,
     };
 
     const groqFetch = async (key: string) =>
