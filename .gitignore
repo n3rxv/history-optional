@@ -44,3 +44,5 @@ history-optional.tar.gz
 *.html
 *.py
 *.html
+*.pdf
+*.zip

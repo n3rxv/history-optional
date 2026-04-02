@@ -5,13 +5,14 @@ import { useState } from 'react';
 import ThemeSwitcher from './ThemeSwitcher';
 
 const links = [
-  { href: '/',       label: 'Home' },
-  { href: '/paper1', label: 'Paper I' },
-  { href: '/paper2', label: 'Paper II' },
-  { href: '/pyqs',   label: 'PYQs' },
-  { href: '/timeline', label: 'Timeline' },
-  { href: '/chat',   label: 'AI Chat' },
-  { href: '/pad',      label: 'Pad' },
+  { href: '/',          label: 'Home' },
+  { href: '/paper1',    label: 'Paper I' },
+  { href: '/paper2',    label: 'Paper II' },
+  { href: '/pyqs',      label: 'PYQs' },
+  { href: '/timeline',  label: 'Timeline' },
+  { href: '/chat',      label: 'AI Chat' },
+  { href: '/pad',       label: 'Pad' },
+  { href: '/evaluate',  label: 'Evaluate' },
 ];
 
 export default function Navbar() {
