@@ -385,11 +385,11 @@ const handleOcr = async () => {
         .ev-sec-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
         .ev-sec-rsn { font-size:0.76rem; color:#666; line-height:1.5; font-family:var(--font-ui); }
         .ev-pages { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
-        .ev-page-item { position:relative; width:80px; cursor:pointer; user-select:none; -webkit-user-select:none; }
-        .ev-page-item.selected img { border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.5); }
+        .ev-page-item { position:relative; width:80px; user-select:none; -webkit-user-select:none; }
+        .ev-page-arrows { display:flex; justify-content:center; gap:4px; margin-top:5px; }
         .ev-page-item img { width:80px; height:100px; object-fit:cover; border-radius:4px; border:2px solid #333; display:block; transition:border-color 0.15s; }
-        .ev-page-item.selected { transform:scale(1.05); }
-        .ev-page-item { transition: transform 0.15s; }
+        .ev-page-arrow { background:#222; border:1px solid #333; color:#aaa; border-radius:3px; width:34px; height:22px; font-size:0.75rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
+        .ev-page-arrow:hover { background:#333; color:#fff; border-color:#555; } .ev-page-arrow:disabled { opacity:0.2; cursor:default; }
         .ev-page-num { position:absolute; top:4px; left:4px; background:rgba(0,0,0,0.75); color:#fff; font-family:var(--font-mono); font-size:0.6rem; padding:2px 6px; border-radius:3px; }
         .ev-page-del { position:absolute; top:4px; right:4px; background:rgba(248,113,113,0.85); color:#fff; font-size:0.65rem; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; line-height:1; }
         .ev-page-add { width:80px; height:100px; border:1.5px dashed #333; border-radius:4px; background:#161616; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; color:#555; font-size:1.4rem; transition:all 0.15s; }
@@ -450,7 +450,7 @@ const handleOcr = async () => {
                 {files && files.length > 0 ? (
                   <div onClick={e => e.stopPropagation()} style={{ textAlign:"left" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"#3b82f6", marginBottom:8 }}>
-                      {swapIdx !== null ? "Now tap another page to swap ↕" : `${files.length} page${files.length > 1 ? "s" : ""} — tap to reorder`}
+                      `${files.length} page${files.length > 1 ? "s" : ""} — use arrows to reorder`
                     </div>
                     <div className="ev-pages">
                       {files.map((f, i) => (
@@ -479,6 +479,20 @@ const handleOcr = async () => {
                             setFiles(nf.length ? nf : undefined as any);
                             setPreviews(np);
                           }}>×</button>
+                          <div className="ev-page-arrows">
+                            <button className="ev-page-arrow" disabled={i === 0} onClick={() => {
+                              const nf = [...files]; const np = [...previews];
+                              [nf[i-1], nf[i]] = [nf[i], nf[i-1]];
+                              [np[i-1], np[i]] = [np[i], np[i-1]];
+                              setFiles(nf); setPreviews(np);
+                            }}>←</button>
+                            <button className="ev-page-arrow" disabled={i === files.length - 1} onClick={() => {
+                              const nf = [...files]; const np = [...previews];
+                              [nf[i+1], nf[i]] = [nf[i], nf[i+1]];
+                              [np[i+1], np[i]] = [np[i], np[i+1]];
+                              setFiles(nf); setPreviews(np);
+                            }}>→</button>
+                          </div>
                         </div>
                       ))}
                       <div className="ev-page-add" onClick={() => addFileRef.current?.click()}>
