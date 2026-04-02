@@ -233,6 +233,9 @@ export default function EvaluatePage() {
   const [stage, setStage]           = useState<"form"|"ocr"|"result">("form");
   const [extractedText, setExtractedText] = useState("");
   const [ocrLoading, setOcrLoading] = useState(false);
+  const [ocrProgress, setOcrProgress]   = useState(0);
+  const [evalProgress, setEvalProgress] = useState(0);
+  const [evalPhase, setEvalPhase]       = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const addFileRef = useRef<HTMLInputElement>(null);
   const [swapIdx, setDragIdx] = useState<number | null>(null);
@@ -240,7 +243,22 @@ export default function EvaluatePage() {
 
 const handleOcr = async () => {
     if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one image and enter the question."); return; }
-    setError(""); setOcrLoading(true);
+    setError(""); setOcrLoading(true); setOcrProgress(0);
+    // Animate OCR progress
+    const ocrSteps = [
+      { pct: 12, label: "Compressing images…" },
+      { pct: 30, label: "Sending to vision model…" },
+      { pct: 55, label: "Reading handwriting…" },
+      { pct: 78, label: "Parsing text…" },
+      { pct: 92, label: "Almost there…" },
+    ];
+    let ocrTimer: ReturnType<typeof setTimeout>;
+    const runOcrStep = (idx: number) => {
+      if (idx >= ocrSteps.length) return;
+      setOcrProgress(ocrSteps[idx].pct);
+      ocrTimer = setTimeout(() => runOcrStep(idx + 1), 900 + Math.random() * 600);
+    };
+    runOcrStep(0);
     const compressed = await Promise.all(files.map(f => compressImage(f)));
     const fd = new FormData();
     fd.append("question", question);
@@ -249,15 +267,34 @@ const handleOcr = async () => {
       const res = await fetch("/api/ocr", { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "OCR failed");
-      setExtractedText(data.text);
-      setStage("ocr");
+      setOcrProgress(100);
+      clearTimeout(ocrTimer);
+      setTimeout(() => { setExtractedText(data.text); setStage("ocr"); }, 400);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "OCR failed. Please try again.");
     } finally { setOcrLoading(false); }
   };
 
   const submit = async () => {
-    setError(""); setLoading(true); setEvaluation(null);
+    setError(""); setLoading(true); setEvaluation(null); setEvalProgress(0); setEvalPhase("");
+    const evalSteps = [
+      { pct: 8,  label: "Loading answer into context…" },
+      { pct: 18, label: "Checking demand of question…" },
+      { pct: 32, label: "Evaluating introduction…" },
+      { pct: 48, label: "Analysing body paragraphs…" },
+      { pct: 62, label: "Checking historiography…" },
+      { pct: 74, label: "Evaluating conclusion…" },
+      { pct: 84, label: "Scoring against UPSC rubric…" },
+      { pct: 93, label: "Compiling feedback…" },
+    ];
+    let evalTimer: ReturnType<typeof setTimeout>;
+    const runEvalStep = (idx: number) => {
+      if (idx >= evalSteps.length) return;
+      setEvalProgress(evalSteps[idx].pct);
+      setEvalPhase(evalSteps[idx].label);
+      evalTimer = setTimeout(() => runEvalStep(idx + 1), 1800 + Math.random() * 1200);
+    };
+    runEvalStep(0);
     const fd = new FormData();
     fd.append("question", question); fd.append("marks", marks.toString());
     fd.append("extractedText", extractedText);
@@ -266,9 +303,12 @@ const handleOcr = async () => {
       const res  = await fetch("/api/evaluate", { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Evaluation failed");
+      setEvalProgress(100);
+      setEvalPhase("Complete.");
+      clearTimeout(evalTimer);
       setSubmittedQ(question);
       setSubmittedM(marks);
-      setEvaluation(data);
+      setTimeout(() => setEvaluation(data), 500);
       setStage("result");
       setTab("eval");
     } catch (e: unknown) {
@@ -562,9 +602,51 @@ const handleOcr = async () => {
 
         {/* ── LOADING ── */}
         {loading && (
-          <div style={{ display:"flex", flexDirection:"column", alignItems:"center", padding:"90px 0", gap:22 }}>
-            <div className="ev-spinner" />
-            <div style={{ color:"#555", fontSize:"0.7rem", fontFamily:"var(--font-mono)", letterSpacing:"0.22em", textTransform:"uppercase" }}>Reading your answer…</div>
+          <div style={{ padding:"80px 0 60px", maxWidth:520, margin:"0 auto" }}>
+            {/* Title */}
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.3em", textTransform:"uppercase", color:"#444", marginBottom:32, textAlign:"center" }}>
+              Evaluating Answer
+            </div>
+            {/* Big progress number */}
+            <div style={{ display:"flex", alignItems:"flex-end", gap:6, marginBottom:18 }}>
+              <span style={{ fontFamily:"var(--font-mono)", fontSize:"4.5rem", fontWeight:700, lineHeight:1, color:"#f0f0f0", letterSpacing:"-0.04em" }}>{String(evalProgress).padStart(2,"0")}</span>
+              <span style={{ fontFamily:"var(--font-mono)", fontSize:"1.2rem", color:"#333", marginBottom:10 }}>%</span>
+            </div>
+            {/* Main bar */}
+            <div style={{ height:4, background:"#181818", borderRadius:2, overflow:"hidden", marginBottom:12 }}>
+              <div style={{
+                height:"100%",
+                width:`${evalProgress}%`,
+                background:"linear-gradient(90deg,#1e3a8a 0%,#2563eb 50%,#3b82f6 80%,#93c5fd 100%)",
+                borderRadius:2,
+                transition:"width 1.2s cubic-bezier(.16,1,.3,1)",
+                boxShadow:"0 0 18px rgba(59,130,246,0.4)"
+              }} />
+            </div>
+            {/* Checkpoint dots */}
+            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:28 }}>
+              {[8,18,32,48,62,74,84,93,100].map((p,i) => (
+                <div key={p} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:5 }}>
+                  <div style={{
+                    width: evalProgress >= p ? 8 : 5,
+                    height: evalProgress >= p ? 8 : 5,
+                    borderRadius:"50%",
+                    background: evalProgress >= p ? "#3b82f6" : "#222",
+                    border: evalProgress >= p ? "none" : "1px solid #333",
+                    boxShadow: evalProgress >= p ? "0 0 8px #3b82f6" : "none",
+                    transition:"all 0.5s"
+                  }} />
+                </div>
+              ))}
+            </div>
+            {/* Phase label */}
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#3b82f6", minHeight:20, transition:"opacity 0.4s" }}>
+              {evalPhase}
+            </div>
+            {/* Thin sub-bar (flicker effect) */}
+            <div style={{ height:1, background:"#1a1a1a", borderRadius:1, overflow:"hidden", marginTop:20 }}>
+              <div style={{ height:"100%", width:`${evalProgress}%`, background:"rgba(147,197,253,0.15)", transition:"width 1.2s cubic-bezier(.16,1,.3,1)" }} />
+            </div>
           </div>
         )}
 
