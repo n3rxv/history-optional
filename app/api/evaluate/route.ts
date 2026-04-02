@@ -271,45 +271,26 @@ export async function POST(req: NextRequest) {
 
   try {
     const formData = await req.formData();
-    const file = formData.get("file") as File;
+    const files = formData.getAll("files") as File[];
     const question = formData.get("question") as string;
     const marks = formData.get("marks") as string;
     const extractedText = (formData.get("extractedText") as string) || "";
 
-    if (!file || !question || !marks) {
+    if (!question || !marks) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Save PDF to temp file
-    const arrayBuffer = await file.arrayBuffer();
-    const pdfBuffer = Buffer.from(arrayBuffer);
-    const pdfPath = path.join(tmpDir, "answer.pdf");
-    fs.writeFileSync(pdfPath, pdfBuffer);
-
-    // Convert PDF to images using ImageMagick
-    execSync(
-      `/opt/homebrew/bin/magick -density 200 "${pdfPath}" -quality 85 "${path.join(tmpDir, "page-%d.jpeg")}"`
-    );
-
-    const imageFiles = fs.readdirSync(tmpDir)
-      .filter((f) => f.endsWith(".jpeg"))
-      .sort();
-
-    if (imageFiles.length === 0) {
-      return NextResponse.json(
-        { error: "Could not convert PDF to images. Please ensure the PDF is valid." },
-        { status: 400 }
-      );
+    // Build image contents directly from uploaded files
+    const imageContents: { type: "image_url"; image_url: { url: string } }[] = [];
+    for (const imgFile of files) {
+      const buffer = Buffer.from(await imgFile.arrayBuffer());
+      const base64 = buffer.toString("base64");
+      const mime = imgFile.type || "image/jpeg";
+      imageContents.push({ type: "image_url" as const, image_url: { url: `data:${mime};base64,${base64}` } });
     }
-
-    const imageContents = imageFiles.map((f) => {
-      const imageBuffer = fs.readFileSync(path.join(tmpDir, f));
-      const base64 = imageBuffer.toString("base64");
-      return {
-        type: "image_url" as const,
-        image_url: { url: `data:image/jpeg;base64,${base64}` },
-      };
-    });
+    if (imageContents.length === 0 && !extractedText) {
+      return NextResponse.json({ error: "No images provided" }, { status: 400 });
+    }
 
     // ── PASS 1: Chain-of-thought reasoning ─────────────────────
     const introMax = marks === "10" ? "1.5" : marks === "15" ? "2" : "3";
