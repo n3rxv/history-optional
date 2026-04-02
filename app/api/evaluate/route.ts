@@ -489,6 +489,11 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
       evaluation = JSON.parse(content);
     }
 
+    // ── NULL GUARD ────────────────────────────────────────────────
+    if (!evaluation) {
+      return NextResponse.json({ error: "Evaluation failed to produce a result. Please try again." }, { status: 500 });
+    }
+
     // ── PASS 3: Rich qualitative feedback ────────────────────────
     const pass3Prompt = `You are a UPSC History Optional expert examiner. A student has written the following answer.
 
