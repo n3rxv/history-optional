@@ -212,10 +212,10 @@ export default function EvaluatePage() {
   const fileRef = useRef<HTMLInputElement>(null);
 
 const handleOcr = async () => {
-    if (!file || !question.trim()) { setError("Please upload a PDF and enter the question."); return; }
+    if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one image and enter the question."); return; }
     setError(""); setOcrLoading(true);
     const fd = new FormData();
-    fd.append("file", file);
+    files.forEach(f => fd.append("files", f));
     try {
       const res = await fetch("/api/ocr", { method: "POST", body: fd });
       const data = await res.json();
