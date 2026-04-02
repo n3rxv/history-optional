@@ -194,7 +194,7 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
   },
   "conclusion": {
     "what_was_written": "Quote or closely paraphrase the exact conclusion the student wrote.",
-    "analysis": "Elaborate judgment across ALL of these: (1) Did it synthesise multiple threads from the body or just pick one and summarise it? (2) Did it take a CLEAR POSITION on the historiographical debate introduced in the intro, or remain descriptive? Quote the exact phrase that shows this. (3) Did it connect back to the intro's framing, or introduce new material, or just restate body points? (4) What band does this conclusion fall in and exactly why?",
+    "analysis": "Write a detailed, elaborative judgment covering ALL of these — do NOT be dry or generic, be specific and reference the student's actual words throughout: (1) Did it synthesise MULTIPLE threads from the body or just pick one? Name the specific threads and say which ones were synthesised and which were dropped. (2) Did it take a CLEAR HISTORIOGRAPHICAL POSITION — quote the EXACT phrase that shows whether it affirmed, qualified, or rejected a historian's view, or say explicitly that it failed to do so and remained purely descriptive. (3) Did it resolve the central tension set up in the introduction? Name that tension and say whether the conclusion answered it or ignored it. (4) Did it connect back to the intro's framing or introduce new material? Quote the specific phrase. (5) What band does this fall in — quote the band criteria and map the student's conclusion word-for-word to it.",
     "suggestions": [
       "Write out EXACTLY what this conclusion should have argued — give the specific synthesis position for THIS question, naming the historiographical tension that needed resolving and how to resolve it in 2-3 sentences.",
       "Name the specific historiographical debate that needed to be adjudicated in the conclusion — which historian's position should have been affirmed, qualified, or rejected, and on what grounds — tied specifically to the evidence the student actually presented."
@@ -658,7 +658,7 @@ Return ONLY a JSON object:
       "Bullet 2: same structure",
       "... ${bulletCount} bullets total"
     ],
-    "conclusion": "2-3 sentences. Take a clear position on the historiographical debate. Link back to intro frame. No new material, no mere summary."
+    "conclusion": "2-3 sentences that: (1) resolve the specific historiographical tension from the intro by name — affirm, qualify or reject a named historian's position based on the evidence presented in the body, (2) synthesise the 2-3 strongest body threads into one overarching argument, (3) end with a statement of historical significance tied to THIS question specifically. No new material, no generic summary."
   }
 }
 

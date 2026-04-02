@@ -243,6 +243,7 @@ const handleOcr = async () => {
     setError(""); setOcrLoading(true);
     const compressed = await Promise.all(files.map(f => compressImage(f)));
     const fd = new FormData();
+    fd.append("question", question);
     compressed.forEach(f => fd.append("files", f));
     try {
       const res = await fetch("/api/ocr", { method: "POST", body: fd });
@@ -384,7 +385,7 @@ const handleOcr = async () => {
         .ev-sec-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
         .ev-sec-rsn { font-size:0.76rem; color:#666; line-height:1.5; font-family:var(--font-ui); }
         .ev-pages { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
-        .ev-page-item { position:relative; width:80px; cursor:grab; user-select:none; touch-action:none; }
+        .ev-page-item { position:relative; width:80px; cursor:grab; user-select:none; touch-action:none; -webkit-user-select:none; }
         .ev-page-item:active { cursor:grabbing; }
         .ev-page-item img { width:80px; height:100px; object-fit:cover; border-radius:4px; border:2px solid #333; display:block; transition:border-color 0.15s; }
         .ev-page-item.dragging img { border-color:#3b82f6; opacity:0.5; }
@@ -456,13 +457,8 @@ const handleOcr = async () => {
                         <div
                           key={i}
                           className={`ev-page-item${dragIdx === i ? " dragging" : ""}`}
-                          draggable
-                          onDragStart={() => setDragIdx(i)}
-                          onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add("dragover"); }}
-                          onDragLeave={e => e.currentTarget.classList.remove("dragover")}
-                          onDrop={e => {
-                            e.preventDefault();
-                            e.currentTarget.classList.remove("dragover");
+                          onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); setDragIdx(i); }}
+                          onPointerEnter={() => {
                             if (dragIdx === null || dragIdx === i) return;
                             const newFiles = [...files];
                             const newPrev = [...previews];
@@ -470,10 +466,10 @@ const handleOcr = async () => {
                             newPrev.splice(i, 0, newPrev.splice(dragIdx, 1)[0]);
                             setFiles(newFiles);
                             setPreviews(newPrev);
-                            setDragIdx(null);
+                            setDragIdx(i < dragIdx ? i : i);
                           }}
-                          onDragEnd={() => setDragIdx(null)}
-                          onTouchStart={() => setDragIdx(i)}
+                          onPointerUp={() => setDragIdx(null)}
+                          onPointerCancel={() => setDragIdx(null)}
                         >
                           <img src={previews[i] || ""} alt={`page ${i+1}`} />
                           <div className="ev-page-num">pg {i+1}</div>

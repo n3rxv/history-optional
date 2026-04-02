@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
-    const files = formData.getAll("files") as File[];
+    const questionText = formData.get("question") as string || "";
     if (!files || files.length === 0)
       return NextResponse.json({ error: "No files provided" }, { status: 400 });
 
