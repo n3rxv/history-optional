@@ -4,6 +4,8 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const questionText = formData.get("question") as string || "";
+    const rawFiles = formData.getAll("files") as File[];
+    const files = [...rawFiles].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
     if (!files || files.length === 0)
       return NextResponse.json({ error: "No files provided" }, { status: 400 });
 
