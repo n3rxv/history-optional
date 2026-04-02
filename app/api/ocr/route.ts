@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { pdf } from "pdf-to-img";
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,15 +8,32 @@ export async function POST(req: NextRequest) {
 
     const pdfBuffer = Buffer.from(await file.arrayBuffer());
 
-    // Convert PDF pages to images using pdf-to-img (works on Vercel Linux)
+    // Dynamically import pdfjs-dist (pure JS, works on Vercel)
+    const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.mjs");
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "";
+
+    const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(pdfBuffer) });
+    const pdfDoc = await loadingTask.promise;
+
     const imageContents: { type: "image_url"; image_url: { url: string } }[] = [];
 
-    const document = await pdf(pdfBuffer, { scale: 2 });
-    for await (const page of document) {
-      const base64 = Buffer.from(page).toString("base64");
+    for (let i = 1; i <= pdfDoc.numPages; i++) {
+      const page = await pdfDoc.getPage(i);
+      const viewport = page.getViewport({ scale: 2.0 });
+
+      // Use OffscreenCanvas (available in Node 18+ / Vercel)
+      const canvas = new OffscreenCanvas(viewport.width, viewport.height);
+      const context = canvas.getContext("2d") as unknown as CanvasRenderingContext2D;
+
+      await page.render({ canvasContext: context, viewport }).promise;
+
+      const blob = await canvas.convertToBlob({ type: "image/jpeg", quality: 0.85 });
+      const arrayBuffer = await blob.arrayBuffer();
+      const base64 = Buffer.from(arrayBuffer).toString("base64");
+
       imageContents.push({
         type: "image_url",
-        image_url: { url: `data:image/png;base64,${base64}` },
+        image_url: { url: `data:image/jpeg;base64,${base64}` },
       });
     }
 
