@@ -224,7 +224,6 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
 export default function EvaluatePage() {
   // ── ALL hooks must be declared before any early returns ──
   const [files, setFiles]           = useState<File[]>();
-  const { UsagePill, Modal, handleEvaluate, usage } = SubscriptionGate({ onAllowed: handleOcr });
   const [question, setQuestion]     = useState("");
   const [marks, setMarks]           = useState<10 | 15 | 20>(15);
   const [loading, setLoading]       = useState(false);
@@ -315,11 +314,6 @@ const handleOcr = async () => {
       setTimeout(() => setEvaluation(data), 500);
       setStage("result");
       setTab("eval");
-      // Increment daily usage counter
-      const { data: { session } } = await (await import("@/lib/supabase")).supabase.auth.getSession();
-      if (session?.access_token) {
-        fetch("/api/eval-usage", { method: "POST", headers: { "x-user-token": session.access_token } });
-      }
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Something went wrong.");
     } finally { setLoading(false); }
@@ -605,9 +599,7 @@ const handleOcr = async () => {
             </div>
 
             {error && <div className="ev-err">{error}</div>}
-            <UsagePill />
-            <button className="ev-btn" onClick={handleEvaluate} disabled={ocrLoading || usage.loading}>{ocrLoading ? "Reading handwriting…" : "Evaluate Answer →"}</button>
-            <Modal />
+            <button className="ev-btn" onClick={handleOcr} disabled={ocrLoading}>{ocrLoading ? "Reading handwriting…" : "Evaluate Answer →"}</button>
           </div>
         )}
 
