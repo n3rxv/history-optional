@@ -232,6 +232,7 @@ const handleOcr = async () => {
     const fd = new FormData();
     fd.append("question", question); fd.append("marks", marks.toString());
     fd.append("extractedText", extractedText);
+    if (files) files.forEach(f => fd.append("files", f));
     try {
       const res  = await fetch("/api/evaluate", { method: "POST", body: fd });
       const data = await res.json();
