@@ -58,16 +58,44 @@ RULE 8 — PRESERVE ALL STRUCTURE EXACTLY.
 - Skip the question text at the very top if the student copied it — start from the first word of the answer body
 - Page break → --- PAGE BREAK ---
 
-RULE 9 — OUTPUT THE TRANSCRIPTION ONLY.
-No commentary. No analysis. No "this is a good point". No markdown. No headings like "Transcription:". Just the raw transcribed answer text, nothing else.
+RULE 9 — OUTPUT FORMAT: PLAIN TEXT ONLY. THIS IS NON-NEGOTIABLE.
+Your entire response must be ONLY the transcribed words from the answer sheet.
+FORBIDDEN — if any of these appear in your output, you have failed:
+✗ "## Step 1" or any step headings
+✗ "The handwritten text on page X is as follows:"
+✗ "Here is the transcription:"
+✗ "Transcription:" or any label before the text
+✗ $Q$, $^{n}$, $\rightarrow$, or ANY LaTeX/math notation — write these as plain text: "Q.", "Solution:", "→"
+✗ Any markdown: no ##, no **, no __, no bullet points using *, no ---
+✗ Any commentary, analysis, or observation about the text
+✗ Repeating the transcription (do NOT transcribe once per page then combine — one clean output only)
 
-RULE 10 — AFTER TRANSCRIBING, DO A MENTAL PASS-CHECK.
-Before outputting, ask yourself: Did I get every word? Did I read every historian name character by character? Did I flag all uncertainties? Did I skip any lines? Only then output.
+CORRECT output looks like this:
+"""
+Q. How far did the Mauryans facilitate the diffusion of the material culture of the Gangetic plains? Explain.
+
+The Mauryan expansion into the North-west and South led to the expansion of the Gangetic culture all across India. This view has been proposed by R.S. Sharma.
+
+1) The art/culture of Statecraft (Arthashastra) spread across the region...
+"""
+
+WRONG output looks like this (DO NOT DO THIS):
+"""
+## Step 1: Transcribe the first page.
+The handwritten text on the first page is as follows:
+$Q$. How far did...
+## Step 2: Transcribe the second page.
+"""
+
+RULE 10 — ONE PASS, ONE OUTPUT.
+Do not transcribe page by page and then combine. Read all pages, then output one clean continuous transcription. No repetition.
+
+RULE 11 — MENTAL CHECK BEFORE OUTPUTTING.
+Ask yourself: Is my output pure transcribed text with zero headings, zero LaTeX, zero step markers, zero repetition? If not, rewrite it before outputting.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-NOW TRANSCRIBE: ${imageContents.length} PAGE(S)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Go page by page. Do not rush. Every word matters.`;
+NOW OUTPUT THE TRANSCRIPTION OF ${imageContents.length} PAGE(S) — PLAIN TEXT ONLY, STARTING WITH THE FIRST WORD OF THE ANSWER:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
     const body = {
       model: "meta-llama/llama-4-scout-17b-16e-instruct",
