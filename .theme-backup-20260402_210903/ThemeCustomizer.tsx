@@ -36,6 +36,26 @@ const PRESETS: Preset[] = [
     },
   },
   {
+    name: 'Light',
+    emoji: '☀',
+    tokens: {
+      bg: '#ffffff', bg2: '#f5f5f5', bg3: '#eeeeee', bg4: '#e5e5e5',
+      text: '#111111', text2: '#444444', text3: '#777777',
+      border: '#dddddd', border2: '#cccccc',
+      accent: '#2563eb', yellow: '#b45309', green: '#16a34a', red: '#dc2626',
+    },
+  },
+  {
+    name: 'Sepia',
+    emoji: '📜',
+    tokens: {
+      bg: '#f5f0e8', bg2: '#ede8df', bg3: '#e2dbd0', bg4: '#d8d0c4',
+      text: '#2c2416', text2: '#5c4e38', text3: '#8c7a60',
+      border: '#c8bfaa', border2: '#b8ae98',
+      accent: '#9a6f2e', yellow: '#8a5c10', green: '#3a6e3a', red: '#8b2a2a',
+    },
+  },
+  {
     name: 'Slate',
     emoji: '🌫',
     tokens: {
