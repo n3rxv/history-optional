@@ -197,7 +197,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
 }
 
 export default function EvaluatePage() {
-  const [file, setFile]             = useState<File | null>(null);
+  const [files, setFiles]           = useState<File[]>();
   const [question, setQuestion]     = useState("");
   const [marks, setMarks]           = useState<10 | 15 | 20>(15);
   const [loading, setLoading]       = useState(false);
@@ -211,23 +211,7 @@ export default function EvaluatePage() {
   const [ocrLoading, setOcrLoading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const runOcr = async () => {
-    if (!file || !question.trim()) { setError("Please upload a PDF and enter the question."); return; }
-    setError(""); setOcrLoading(true);
-    const fd = new FormData();
-    fd.append("file", file);
-    try {
-      const res  = await fetch("/api/ocr", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "OCR failed");
-      setExtractedText(data.text);
-      setStage("ocr");
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "OCR failed. Please try again.");
-    } finally { setOcrLoading(false); }
-  };
-
-  const handleOcr = async () => {
+const handleOcr = async () => {
     if (!file || !question.trim()) { setError("Please upload a PDF and enter the question."); return; }
     setError(""); setOcrLoading(true);
     const fd = new FormData();
@@ -246,7 +230,7 @@ export default function EvaluatePage() {
   const submit = async () => {
     setError(""); setLoading(true); setEvaluation(null);
     const fd = new FormData();
-    fd.append("file", file!); fd.append("question", question); fd.append("marks", marks.toString());
+    fd.append("question", question); fd.append("marks", marks.toString());
     fd.append("extractedText", extractedText);
     try {
       const res  = await fetch("/api/evaluate", { method: "POST", body: fd });
@@ -415,21 +399,21 @@ export default function EvaluatePage() {
         {stage === "form" && !evaluation && !loading && (
           <div className="ev-fade">
             <div style={{ marginBottom:28 }}>
-              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:10 }}>Answer PDF</label>
-              <div className={`ev-upload ${file ? "has" : ""}`} onClick={() => fileRef.current?.click()}>
-                <input ref={fileRef} type="file" accept=".pdf" style={{ display:"none" }}
-                  onChange={e => setFile(e.target.files?.[0] || null)} />
-                {file ? (
+              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:10 }}>Answer Images</label>
+              <div className={`ev-upload ${files && files.length > 0 ? "has" : ""}`} onClick={() => fileRef.current?.click()}>
+                <input ref={fileRef} type="file" accept="image/*" multiple style={{ display:"none" }}
+                  onChange={e => setFiles(Array.from(e.target.files || []))} />
+                {files && files.length > 0 ? (
                   <>
-                    <div style={{ fontSize:"2rem", marginBottom:10 }}>📜</div>
-                    <div style={{ color:"#3b82f6", fontFamily:"var(--font-mono)", fontSize:"0.85rem" }}>{file.name}</div>
+                    <div style={{ fontSize:"2rem", marginBottom:10 }}>🖼️</div>
+                    <div style={{ color:"#3b82f6", fontFamily:"var(--font-mono)", fontSize:"0.85rem" }}>{files.length} image{files.length > 1 ? "s" : ""} selected</div>
                     <div style={{ color:"#555", fontSize:"0.78rem", marginTop:6 }}>Click to change</div>
                   </>
                 ) : (
                   <>
                     <div style={{ fontSize:"2rem", marginBottom:12, opacity:0.35 }}>⬆</div>
-                    <div style={{ color:"#888", fontSize:"0.95rem" }}>Drop your answer PDF or click to upload</div>
-                    <div style={{ color:"#555", fontSize:"0.78rem", marginTop:6, fontFamily:"var(--font-mono)" }}>PDF · Max 6MB</div>
+                    <div style={{ color:"#888", fontSize:"0.95rem" }}>Upload photos of your answer sheet</div>
+                    <div style={{ color:"#555", fontSize:"0.78rem", marginTop:6, fontFamily:"var(--font-mono)" }}>JPG / PNG · Multiple pages supported</div>
                   </>
                 )}
               </div>
@@ -637,7 +621,7 @@ export default function EvaluatePage() {
             )}
 
             <button className="ev-btn" style={{ marginTop:28 }}
-              onClick={() => { setEvaluation(null); setFile(null); setQuestion(""); setSubmittedQ(""); }}>
+              onClick={() => { setEvaluation(null); setFiles([]); setQuestion(""); setSubmittedQ(""); }}>
               ← Evaluate Another Answer
             </button>
           </div>
