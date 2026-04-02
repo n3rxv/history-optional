@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { pdf } from "pdf-to-img";
 
 export async function POST(req: NextRequest) {
   try {
@@ -7,13 +8,29 @@ export async function POST(req: NextRequest) {
     if (!file) return NextResponse.json({ error: "No file provided" }, { status: 400 });
 
     const pdfBuffer = Buffer.from(await file.arrayBuffer());
-    const base64PDF = pdfBuffer.toString("base64");
+
+    // Convert PDF pages to images using pdf-to-img (works on Vercel Linux)
+    const imageContents: { type: "image_url"; image_url: { url: string } }[] = [];
+
+    const document = await pdf(pdfBuffer, { scale: 2 });
+    for await (const page of document) {
+      const base64 = Buffer.from(page).toString("base64");
+      imageContents.push({
+        type: "image_url",
+        image_url: { url: `data:image/png;base64,${base64}` },
+      });
+    }
+
+    if (imageContents.length === 0) {
+      return NextResponse.json({ error: "Could not convert PDF to images" }, { status: 400 });
+    }
 
     const body = {
       model: "meta-llama/llama-4-scout-17b-16e-instruct",
       messages: [{
         role: "user",
         content: [
+          ...imageContents,
           {
             type: "text",
             text: `OUTPUT THE TRANSCRIPTION ONLY. No steps, no analysis, no commentary, no headings, no markdown.
@@ -24,10 +41,6 @@ Read every word of this handwritten answer sheet and output the transcribed text
 - Correct obvious spelling mistakes silently
 - Write [illegible] for unreadable words
 - Do not write anything except the transcribed answer text`
-          },
-          {
-            type: "image_url",
-            image_url: { url: `data:application/pdf;base64,${base64PDF}` }
           }
         ]
       }],
