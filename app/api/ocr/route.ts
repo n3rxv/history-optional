@@ -55,7 +55,7 @@ RULE 8 — PRESERVE ALL STRUCTURE EXACTLY.
 - New paragraph → blank line in transcript
 - Underlined heading → write the heading text normally (do not add any markup)
 - Numbered point → keep the number
-- Skip the question text at the very top if the student copied it — start from the first word of the answer body
+- Skip the question text at the very top — the student copies the question before writing their answer, do NOT include it in the transcript. Start from the first word of the answer body only.
 - Page break → --- PAGE BREAK ---
 
 RULE 9 — OUTPUT FORMAT: PLAIN TEXT ONLY. THIS IS NON-NEGOTIABLE.
@@ -94,7 +94,7 @@ RULE 11 — MENTAL CHECK BEFORE OUTPUTTING.
 Ask yourself: Is my output pure transcribed text with zero headings, zero LaTeX, zero step markers, zero repetition? If not, rewrite it before outputting.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-NOW OUTPUT THE TRANSCRIPTION OF ${imageContents.length} PAGE(S) — PLAIN TEXT ONLY, STARTING WITH THE FIRST WORD OF THE ANSWER:
+NOW OUTPUT THE TRANSCRIPTION OF ${imageContents.length} PAGE(S) — PLAIN TEXT ONLY, STARTING WITH THE FIRST WORD OF THE ANSWER BODY. SKIP THE QUESTION TEXT AT THE TOP ENTIRELY — DO NOT INCLUDE IT:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
     const body = {
