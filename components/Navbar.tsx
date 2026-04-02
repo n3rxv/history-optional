@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import ThemeSwitcher from './ThemeSwitcher';
+import ThemeCustomizer from './ThemeCustomizer';
 
 const links = [
   { href: '/',          label: 'Home' },
@@ -11,6 +11,7 @@ const links = [
   { href: '/pyqs',      label: 'PYQs' },
   { href: '/timeline',  label: 'Timeline' },
   { href: '/chat',      label: 'AI Chat' },
+  { href: '/pad',       label: 'Pad' },
   { href: '/evaluate',  label: 'Evaluate' },
 ];
 
@@ -73,7 +74,7 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <ThemeSwitcher />
+          <ThemeCustomizer />
         </div>
 
         <button onClick={() => setOpen(!open)} style={{
@@ -99,7 +100,7 @@ export default function Navbar() {
             }}>{l.label}</Link>
           ))}
           <div style={{ marginTop: '0.5rem' }}>
-            <ThemeSwitcher />
+            <ThemeCustomizer />
           </div>
         </div>
       )}
