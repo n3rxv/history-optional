@@ -103,7 +103,7 @@ export default function Home() {
         overflow: 'hidden', marginBottom: '3rem',
       }}>
         {stats.map(s => (
-          <div key={s.label} style={{ background: 'var(--bg2)', padding: '1.5rem', textAlign: 'center' }}>
+          <div key={s.label} className="g-stat-block">
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, color: s.color }}>{s.value}</div>
             <div style={{ color: 'var(--text3)', fontSize: '0.72rem', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{s.label}</div>
           </div>
@@ -190,7 +190,7 @@ export default function Home() {
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }}>
           {features.map(f => (
-            <div key={f.title} style={{ background: 'var(--bg2)', padding: '1.5rem' }}>
+            <div key={f.title} className="g-feature-tile">
               <div style={{ fontSize: '1.4rem', marginBottom: '0.75rem' }}>{f.icon}</div>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, color: f.color, marginBottom: '0.4rem', fontSize: '0.95rem' }}>{f.title}</div>
               <div style={{ color: 'var(--text3)', fontSize: '0.8rem', lineHeight: 1.6 }}>{f.desc}</div>
