@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       const canvas = new OffscreenCanvas(viewport.width, viewport.height);
       const context = canvas.getContext("2d") as unknown as CanvasRenderingContext2D;
 
-      await page.render({ canvasContext: context, viewport }).promise;
+      await page.render({ canvasContext: context, viewport, canvas: canvas as unknown as HTMLCanvasElement }).promise;
 
       const blob = await canvas.convertToBlob({ type: "image/jpeg", quality: 0.85 });
       const arrayBuffer = await blob.arrayBuffer();
