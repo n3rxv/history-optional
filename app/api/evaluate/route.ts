@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-import os from "os";
-import { execSync } from "child_process";
+
 
 const SYSTEM_PROMPT = `You are the most rigorous UPSC History Optional evaluator in existence — a specialist examiner with complete mastery of Indian and World History historiography. Your feedback is so precise that a student knows EXACTLY what they got wrong, which historians to cite, and what argument to make. Read handwriting carefully across all pages before judging.
 
@@ -267,7 +264,6 @@ Total model answer length: 10M~200 words, 15M~300 words, 20M~400 words.`;
 
 
 export async function POST(req: NextRequest) {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "evaluate-"));
 
   try {
     const formData = await req.formData();
@@ -292,6 +288,72 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No images provided" }, { status: 400 });
     }
 
+    // ── Helper: Groq fetch with fallback key ─────────────────────
+    const groqFetch = async (body: object, key: string) =>
+      fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+    const callWithFallback = async (body: object) => {
+      let res = await groqFetch(body, process.env.GROQ_API_KEY!);
+      if (res.status === 429 && process.env.GROQ_API_KEY_2) {
+        console.log("Primary key rate limited, trying key 2...");
+        res = await groqFetch(body, process.env.GROQ_API_KEY_2);
+      }
+      return res;
+    };
+
+    // ── PASS 0: Dedicated OCR transcription ──────────────────────
+    // Only run if user hasn't already provided extracted text
+    let finalTranscript = extractedText;
+
+    if (!finalTranscript && imageContents.length > 0) {
+      const ocrPrompt = `You are a specialist handwriting transcription engine. Your ONLY job is to read handwritten text from these answer sheet images and transcribe it faithfully.
+
+RULES:
+1. Transcribe EVERYTHING you can read — every word, sentence, heading, and margin note.
+2. Go page by page, line by line, in reading order.
+3. Preserve paragraph breaks and any underlines or headings (mark headings with [HEADING: ...]).
+4. If a word is illegible, write [illegible] — do NOT guess wildly. If you're 70%+ confident, write your best read with a (?) suffix.
+5. Preserve historian names, dates, and proper nouns carefully — these are critical for evaluation.
+6. Do NOT skip any content. Do NOT summarise. Do NOT evaluate — just transcribe.
+7. Separate pages with --- PAGE BREAK ---.
+8. The student writes the question at the top before the answer — transcribe it too, marking it as [QUESTION: ...].
+
+Transcribe all ${imageContents.length} page(s) now:`;
+
+      const ocrRes = await groqFetch(
+        {
+          model: "meta-llama/llama-4-scout-17b-16e-instruct",
+          messages: [
+            {
+              role: "user",
+              content: [
+                ...imageContents,
+                { type: "text", text: ocrPrompt },
+              ],
+            },
+          ],
+          temperature: 0.0,
+          max_tokens: 3000,
+        },
+        process.env.GROQ_API_KEY!
+      );
+
+      if (ocrRes.ok) {
+        const ocrData = await ocrRes.json();
+        finalTranscript = ocrData.choices[0].message.content?.trim() || "";
+        console.log("Pass 0 OCR transcript:\n", finalTranscript.slice(0, 300));
+      } else {
+        console.log("Pass 0 OCR failed, will fall back to in-line image reading in Pass 1");
+      }
+
+      // Brief pause before Pass 1
+      await new Promise(res => setTimeout(res, 3000));
+    }
+
     // ── PASS 1: Chain-of-thought reasoning ─────────────────────
     const introMax = marks === "10" ? "1.5" : marks === "15" ? "2" : "3";
     const bodyMax  = marks === "10" ? "5.5" : marks === "15" ? "8" : "11";
@@ -302,9 +364,11 @@ export async function POST(req: NextRequest) {
 Question: ${question}
 Marks: ${marks}
 
-${extractedText ? "The student's answer (transcribed from handwriting):\n\n" + extractedText : "The images show the student's handwritten answer sheet (" + imageContents.length + " page" + (imageContents.length > 1 ? "s" : "") + ")."}
+${finalTranscript
+  ? "The student's handwritten answer has been transcribed for you below. Use this transcript as the PRIMARY source — it is more reliable than reading the images yourself. The images are provided only as visual reference for presentation/handwriting quality.\n\nTRANSCRIPT:\n" + finalTranscript
+  : "The images show the student's handwritten answer sheet (" + imageContents.length + " page" + (imageContents.length > 1 ? "s" : "") + "). Read ALL pages carefully before evaluating."}
 
-Read ALL pages carefully. Then work through this RIGID RUBRIC — check each box YES or NO and assign marks exactly as the band says. Do not deviate from the bands.
+Work through this RIGID RUBRIC — check each box YES or NO and assign marks exactly as the band says. Do not deviate from the bands.
 
 == STEP 1: READING ==
 Write one sentence each for: intro, each body point (list historian named + argument if any), conclusion.
@@ -353,36 +417,15 @@ Each YES = ${presMax === "1.5" ? "0.5" : "1"}M. Total checked = PRESENTATION MAR
 INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
 → TOTAL: [write number] out of ${marks}`;
 
-    const groqFetch = async (body: object, key: string) =>
-      fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-    const callWithFallback = async (body: object) => {
-      let res = await groqFetch(body, process.env.GROQ_API_KEY!);
-      if (res.status === 429 && process.env.GROQ_API_KEY_2) {
-        console.log("Primary key rate limited, trying key 2...");
-        res = await groqFetch(body, process.env.GROQ_API_KEY_2);
-      }
-      return res;
-    };
-
     const cotRes = await callWithFallback({
         model: "meta-llama/llama-4-scout-17b-16e-instruct",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           {
             role: "user",
-            content: extractedText
-              ? [
+            content: [
                   ...imageContents,
-                  { type: "text", text: "The student's answer has been transcribed for you:\n\n" + extractedText + "\n\n" + cotPrompt },
-                ]
-              : [
-                  ...imageContents,
-                  { type: "text", text: cotPrompt },
+                  { type: "text" as const, text: cotPrompt },
                 ],
           },
         ],
@@ -482,7 +525,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
 Question: ${question} (${marks} marks)
 
 Student's answer (transcribed):
-${extractedText || cotReasoning.slice(0, 800)}
+${finalTranscript || cotReasoning.slice(0, 800)}
 
 The structured evaluation already concluded:
 - Introduction: ${eval_.section_marks?.introduction?.awarded}/${eval_.section_marks?.introduction?.out_of}
@@ -599,9 +642,5 @@ RULES:
   } catch (err) {
     console.error("Evaluation error:", err);
     return NextResponse.json({ error: "Failed to evaluate answer. Please try again." }, { status: 500 });
-  } finally {
-    try {
-      fs.rmSync(tmpDir, { recursive: true, force: true });
-    } catch {}
   }
 }
