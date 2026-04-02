@@ -8,6 +8,7 @@ import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Navbar from "@/components/Navbar";
+import AuthGuard from "@/components/AuthGuard";
 
 export const metadata: Metadata = {
   icons: {
@@ -22,7 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <Navbar />
-        <main style={{ minHeight: '100vh' }}>{children}</main>
+        <AuthGuard>
+          <main style={{ minHeight: '100vh' }}>{children}</main>
+        </AuthGuard>
         <Analytics />
         <SpeedInsights />
       </body>

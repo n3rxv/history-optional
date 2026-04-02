@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 interface Historian {
   name: string;
@@ -221,6 +222,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
 }
 
 export default function EvaluatePage() {
+  // ── ALL hooks must be declared before any early returns ──
   const [files, setFiles]           = useState<File[]>();
   const [question, setQuestion]     = useState("");
   const [marks, setMarks]           = useState<10 | 15 | 20>(15);
@@ -240,6 +242,7 @@ export default function EvaluatePage() {
   const addFileRef = useRef<HTMLInputElement>(null);
   const [swapIdx, setDragIdx] = useState<number | null>(null);
   const [previews, setPreviews] = useState<string[]>([]);
+
 
 const handleOcr = async () => {
     if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one image and enter the question."); return; }
