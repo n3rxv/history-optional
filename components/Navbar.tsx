@@ -11,7 +11,6 @@ const links = [
   { href: '/pyqs',      label: 'PYQs' },
   { href: '/timeline',  label: 'Timeline' },
   { href: '/chat',      label: 'AI Chat' },
-  { href: '/pad',       label: 'Pad' },
   { href: '/evaluate',  label: 'Evaluate' },
 ];
 
