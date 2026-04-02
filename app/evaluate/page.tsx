@@ -245,6 +245,7 @@ const handleOcr = async () => {
     if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one image and enter the question."); return; }
     setError(""); setOcrLoading(true); setOcrProgress(0);
     // Animate OCR progress
+    let ocrTimer: ReturnType<typeof setTimeout> | undefined;
     const ocrSteps = [
       { pct: 12, label: "Compressing images…" },
       { pct: 30, label: "Sending to vision model…" },
@@ -252,7 +253,6 @@ const handleOcr = async () => {
       { pct: 78, label: "Parsing text…" },
       { pct: 92, label: "Almost there…" },
     ];
-    let ocrTimer: ReturnType<typeof setTimeout>;
     const runOcrStep = (idx: number) => {
       if (idx >= ocrSteps.length) return;
       setOcrProgress(ocrSteps[idx].pct);
@@ -277,6 +277,7 @@ const handleOcr = async () => {
 
   const submit = async () => {
     setError(""); setLoading(true); setEvaluation(null); setEvalProgress(0); setEvalPhase("");
+    let evalTimer: ReturnType<typeof setTimeout> | undefined;
     const evalSteps = [
       { pct: 8,  label: "Loading answer into context…" },
       { pct: 18, label: "Checking demand of question…" },
@@ -287,7 +288,6 @@ const handleOcr = async () => {
       { pct: 84, label: "Scoring against UPSC rubric…" },
       { pct: 93, label: "Compiling feedback…" },
     ];
-    let evalTimer: ReturnType<typeof setTimeout>;
     const runEvalStep = (idx: number) => {
       if (idx >= evalSteps.length) return;
       setEvalProgress(evalSteps[idx].pct);
