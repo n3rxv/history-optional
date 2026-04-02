@@ -8,25 +8,22 @@ type Message = {
 };
 
 const SUGGESTED = [
-  'What was Ashoka\'s concept of Dhamma? How was it different from Buddhism?',
-  'Compare the revenue systems under Permanent Settlement vs Ryotwari Settlement.',
-  'What were the causes and consequences of the Revolt of 1857?',
+  "Ashoka's Dhamma vs Buddhism — how different were they?",
+  'Permanent Settlement vs Ryotwari — compare revenue systems.',
+  'Causes and consequences of the Revolt of 1857.',
   'Explain the Mandala theory from the Arthashastra.',
-  'How did the French Revolution influence the rise of nationalism in Europe?',
-  'Critically analyse the nature of the Mughal state under Aurangzeb.',
+  'French Revolution and the rise of nationalism in Europe.',
+  'Mughal state under Aurangzeb — a critical analysis.',
 ];
 
-// ─── PDF Download Helper ──────────────────────────────────────────────────────
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
   const { jsPDF } = await import('jspdf');
-
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pageW = doc.internal.pageSize.getWidth();
   const pageH = doc.internal.pageSize.getHeight();
   const margin = 18;
   const contentW = pageW - margin * 2;
 
-  // ── Watermark on current page ──
   const addWatermark = () => {
     doc.saveGraphicsState();
     // @ts-ignore
@@ -41,7 +38,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.restoreGraphicsState();
   };
 
-  // ── Header ──
   const drawHeader = () => {
     doc.setFillColor(245, 240, 225);
     doc.rect(0, 0, pageW, 18, 'F');
@@ -58,7 +54,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.line(0, 18, pageW, 18);
   };
 
-  // ── Footer ──
   const drawFooter = (pageNum: number, totalPages: number) => {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
@@ -70,192 +65,94 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.text(`Page ${pageNum} / ${totalPages}`, pageW - margin, pageH - 7, { align: 'right' });
   };
 
-  // ── Strip markdown bold/italic ──
   const strip = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1');
-
-  // ── Parse lines ──
   const lines: Array<{ type: 'heading' | 'bullet' | 'body' | 'blank'; text: string }> = [];
   for (const raw of markdownText.split('\n')) {
     const trimmed = raw.trim();
     if (!trimmed) { lines.push({ type: 'blank', text: '' }); continue; }
-    if (/^#{1,3}\s/.test(trimmed)) {
-      lines.push({ type: 'heading', text: trimmed.replace(/^#{1,3}\s*/, '') });
-    } else if (/^[•\-\*]\s/.test(trimmed)) {
-      lines.push({ type: 'bullet', text: trimmed.replace(/^[•\-\*]\s*/, '') });
-    } else {
-      lines.push({ type: 'body', text: trimmed });
-    }
+    if (/^#{1,3}\s/.test(trimmed)) lines.push({ type: 'heading', text: trimmed.replace(/^#{1,3}\s*/, '') });
+    else if (/^[•\-\*]\s/.test(trimmed)) lines.push({ type: 'bullet', text: trimmed.replace(/^[•\-\*]\s*/, '') });
+    else lines.push({ type: 'body', text: trimmed });
   }
 
-  const topY = 24;
-  const bottomY = pageH - 16;
-  let curPage = 1;
-  let y = topY;
-
-  addWatermark();
-  drawHeader();
+  const topY = 24; const bottomY = pageH - 16;
+  let curPage = 1; let y = topY;
+  addWatermark(); drawHeader();
 
   const ensureSpace = (needed: number) => {
-    if (y + needed > bottomY) {
-      doc.addPage();
-      curPage++;
-      addWatermark();
-      drawHeader();
-      y = topY;
-    }
+    if (y + needed > bottomY) { doc.addPage(); curPage++; addWatermark(); drawHeader(); y = topY; }
   };
 
-  // ── Question box ──
   if (questionText) {
     const qText = strip(questionText);
     const qLines = doc.splitTextToSize(`Q: ${qText}`, contentW - 8);
     const qBoxH = qLines.length * 5.5 + 6;
-    doc.setFillColor(250, 245, 225);
-    doc.setDrawColor(200, 170, 80);
-    doc.setLineWidth(0.4);
+    doc.setFillColor(250, 245, 225); doc.setDrawColor(200, 170, 80); doc.setLineWidth(0.4);
     doc.roundedRect(margin, y, contentW, qBoxH, 2, 2, 'FD');
-    doc.setFont('helvetica', 'italic');
-    doc.setFontSize(9.5);
-    doc.setTextColor(100, 70, 20);
+    doc.setFont('helvetica', 'italic'); doc.setFontSize(9.5); doc.setTextColor(100, 70, 20);
     doc.text(qLines, margin + 4, y + 5.5);
     y += qBoxH + 6;
   }
 
-  // ── Render lines ──
   for (const line of lines) {
     if (line.type === 'blank') { y += 3; continue; }
-
     const txt = strip(line.text);
-
     if (line.type === 'heading') {
       const wrapped = doc.splitTextToSize(txt, contentW);
       ensureSpace(wrapped.length * 6.5 + 4);
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(11);
-      doc.setTextColor(120, 80, 10);
-      doc.text(wrapped, margin, y);
-      y += wrapped.length * 6.5;
-      doc.setDrawColor(200, 160, 60);
-      doc.setLineWidth(0.3);
-      doc.line(margin, y - 1, margin + Math.min(contentW, txt.length * 2.8), y - 1);
-      y += 3;
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(120, 80, 10);
+      doc.text(wrapped, margin, y); y += wrapped.length * 6.5;
+      doc.setDrawColor(200, 160, 60); doc.setLineWidth(0.3);
+      doc.line(margin, y - 1, margin + Math.min(contentW, txt.length * 2.8), y - 1); y += 3;
     } else if (line.type === 'bullet') {
       const wrapped = doc.splitTextToSize(txt, contentW - 6);
       ensureSpace(wrapped.length * 5.5 + 1);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      doc.setTextColor(40, 30, 10);
-      doc.text('•', margin + 1, y);
-      doc.text(wrapped, margin + 6, y);
-      y += wrapped.length * 5.5 + 1;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(40, 30, 10);
+      doc.text('•', margin + 1, y); doc.text(wrapped, margin + 6, y); y += wrapped.length * 5.5 + 1;
     } else {
       const wrapped = doc.splitTextToSize(txt, contentW);
       ensureSpace(wrapped.length * 5.5 + 1);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      doc.setTextColor(40, 30, 10);
-      doc.text(wrapped, margin, y);
-      y += wrapped.length * 5.5 + 1;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(40, 30, 10);
+      doc.text(wrapped, margin, y); y += wrapped.length * 5.5 + 1;
     }
   }
 
-  // ── Footers on all pages ──
   const totalPages = curPage;
-  for (let p = 1; p <= totalPages; p++) {
-    doc.setPage(p);
-    drawFooter(p, totalPages);
-  }
-
+  for (let p = 1; p <= totalPages; p++) { doc.setPage(p); drawFooter(p, totalPages); }
   const slug = markdownText.slice(0, 40).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'answer';
   doc.save(`${slug}.pdf`);
 }
 
-// ─── Download Button ──────────────────────────────────────────────────────────
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
   const [downloading, setDownloading] = useState(false);
-
   const handleClick = async () => {
     setDownloading(true);
-    try {
-      await downloadAnswerAsPDF(content, question);
-    } catch (e) {
-      alert('PDF generation failed. Ensure jsPDF is installed: npm install jspdf');
-      console.error(e);
-    } finally {
-      setDownloading(false);
-    }
+    try { await downloadAnswerAsPDF(content, question); }
+    catch (e) { alert('PDF generation failed.'); }
+    finally { setDownloading(false); }
   };
-
   return (
-    <>
-      <style>{`
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .pdf-btn {
-          display: inline-flex; align-items: center; gap: 0.4rem;
-          background: linear-gradient(135deg, #c8a84b 0%, #e8c96a 50%, #c8a84b 100%);
-          background-size: 200% 200%;
-          border: none; border-radius: 20px;
-          padding: 0.38rem 0.9rem;
-          color: #1a1200;
-          cursor: pointer; font-size: 0.72rem; font-weight: 600;
-          letter-spacing: 0.02em;
-          font-family: var(--font-body);
-          box-shadow: 0 1px 4px rgba(200,168,75,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
-          transition: all 0.2s ease;
-          position: relative; overflow: hidden;
-        }
-        .pdf-btn:hover {
-          background-position: right center;
-          box-shadow: 0 3px 10px rgba(200,168,75,0.4), inset 0 1px 0 rgba(255,255,255,0.35);
-          transform: translateY(-1px);
-        }
-        .pdf-btn:active { transform: translateY(0); box-shadow: 0 1px 3px rgba(200,168,75,0.3); }
-        .pdf-btn:disabled { opacity: 0.65; cursor: wait; transform: none; }
-        .pdf-btn .spin-icon { animation: spin 1s linear infinite; }
-      `}</style>
-      <button
-        onClick={handleClick}
-        disabled={downloading}
-        title="Download model answer as PDF"
-        className="pdf-btn"
-      >
-        {downloading ? (
-          <>
-            <svg className="spin-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M12 2a10 10 0 0 1 10 10" />
-            </svg>
-            Generating…
-          </>
-        ) : (
-          <>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="12" y1="18" x2="12" y2="12"/>
-              <polyline points="9 15 12 18 15 15"/>
-            </svg>
-            Save as PDF
-          </>
-        )}
-      </button>
-    </>
+    <button onClick={handleClick} disabled={downloading} className="chat-pdf-btn">
+      {downloading ? (
+        <><span className="chat-spin">↻</span> Generating…</>
+      ) : (
+        <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg> Save PDF</>
+      )}
+    </button>
   );
 }
 
-// ─── Chat ─────────────────────────────────────────────────────────────────────
 function ChatContent() {
   const searchParams = useSearchParams();
   const initialQ = searchParams.get('q') || '';
   const initialTopic = searchParams.get('topic') || '';
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content: initialTopic
-        ? `Hello! You're studying **${initialTopic}**. I can help you understand key concepts, important points for UPSC answers, and how to structure your responses. What would you like to know?`
-        : `Hello! I'm your History Optional AI assistant. I can help you with:\n\n• **Concept explanations** — deep dives into any topic\n• **Answer structuring** — UPSC-style answer frameworks\n• **PYQ analysis** — model answers and key points\n• **Comparisons** — between rulers, movements, periods\n• **Mnemonics** — to memorise dates, lists and sequences\n\nWhat would you like to explore?`,
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([{
+    role: 'assistant',
+    content: initialTopic
+      ? `Hello! You're studying **${initialTopic}**. Ask me anything — concepts, answer structures, historiography, or model answers.`
+      : `Hello! I'm your **History Optional AI**.\n\nI can help with:\n\n• **Concept explanations** — deep dives into any topic\n• **Answer structuring** — UPSC-style frameworks\n• **PYQ analysis** — model answers and key points\n• **Comparisons** — rulers, movements, periods\n• **Historiography** — citing historians in answers\n\nWhat would you like to explore?`,
+  }]);
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -269,12 +166,10 @@ function ChatContent() {
     const q = text || input;
     if (!q.trim() || loading) return;
     if (q.length > 2000) { alert('Message too long. Max 2000 characters.'); return; }
-
     const userMsg: Message = { role: 'user', content: q };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setLoading(true);
-
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -306,21 +201,17 @@ When answering:
 - Entity Dense Output: Ensure the inclusion of specific key dates, names, and events to provide empirical weight to the answer.
 - Visual Emphasis: Use bold for all critical terms, names of historians, and pivotal events.
 - Strategic Highlighting: Explicitly point out what is most important for UPSC Mains within the response to guide the student's revision.
-- Historiographical Mandate: Incorporate the views of relevant historians. Note: For Mode Beta (Argumentative), these must be the core of the response; for Mode Alpha (Descriptive), they serve as supporting context
+- Historiographical Mandate: Incorporate the views of relevant historians.
 - PYQ Integration: At the conclusion of the response, suggest relevant Previous Year Questions (PYQs) that align with the subject matter discussed.
-- III. SYSTEM LOGIC FOR AMBIGUITY ("THE BLUR POTENCY") When encountering "blur" words like "Discuss" or "Comment", the AI must not change its structure based on the word alone. It must determine the mode based on the subject matter and length of the question
-- Fact-based subject? Execute Mode Alpha (Descriptive)
-- Debate-based subject? Execute Mode Beta (Argumentative)
-- FINAL COMMAND: Maintain structural stability. Do not alter the core answer architecture for minor variations in directive words. If it is a fact, describe it; if it is a debate, argue it
+- III. SYSTEM LOGIC FOR AMBIGUITY When encountering "blur" words like "Discuss" or "Comment", determine the mode based on the subject matter.
 - Always be accurate with historical facts.`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
         }),
       });
-
       const data = await response.json();
       const reply = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
       setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
-    } catch (err) {
+    } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
     } finally {
       setLoading(false);
@@ -339,13 +230,14 @@ When answering:
     return text
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
-      .replace(/^#{1,3} (.+)$/gm, (_, t) => `<div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--accent);margin:1rem 0 0.25rem">${t}</div>`)
-      .replace(/^• (.+)$/gm, '<div style="padding-left:1rem;margin:0.2rem 0">• $1</div>')
-      .replace(/\n\n/g, '<br/><br/>')
+      .replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`)
+      .replace(/^### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h2">${t}</div>`)
+      .replace(/^• (.+)$/gm, '<div class="chat-bullet">• $1</div>')
+      .replace(/^[\-\*] (.+)$/gm, '<div class="chat-bullet">• $1</div>')
+      .replace(/\n\n/g, '<div class="chat-para-gap"></div>')
       .replace(/\n/g, '<br/>');
   };
 
-  // Get the preceding user question for an assistant message
   const getPrecedingQuestion = (msgIndex: number): string | undefined => {
     for (let i = msgIndex - 1; i >= 0; i--) {
       if (messages[i].role === 'user') return messages[i].content;
@@ -354,172 +246,305 @@ When answering:
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)' }}>
-
-      {/* Header */}
-      <div style={{
-        borderBottom: '1px solid var(--border)',
-        padding: '1rem 1.5rem',
-        display: 'flex', alignItems: 'center', gap: '1rem',
-        background: 'var(--bg)',
-      }}>
-        <div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--text)', fontWeight: 600 }}>
-            AI History Assistant
-          </h1>
-          <p style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>UPSC History Optional specialist</p>
-        </div>
-        <button onClick={() => setMessages([{
-          role: 'assistant',
-          content: 'New conversation started. What would you like to study?',
-        }])} style={{
-          marginLeft: 'auto', background: 'none', border: '1px solid var(--border)',
-          color: 'var(--text3)', cursor: 'pointer', padding: '0.35rem 0.75rem',
-          borderRadius: 4, fontSize: '0.78rem',
-        }}>New Chat</button>
-      </div>
-
-      {/* Messages */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem' }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          {messages.map((msg, i) => (
-            <div key={i} style={{
-              marginBottom: '1.25rem',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start',
-            }}>
-              <div style={{
-                maxWidth: '88%',
-                background: msg.role === 'user' ? 'var(--accent-dim)' : 'var(--bg2)',
-                border: `1px solid ${msg.role === 'user' ? 'var(--accent2)' : 'var(--border)'}`,
-                borderRadius: msg.role === 'user' ? '12px 12px 3px 12px' : '12px 12px 12px 3px',
-                padding: '0.85rem 1.1rem',
-                color: 'var(--text)',
-                fontSize: '0.9rem',
-                lineHeight: 1.65,
-              }}>
-                {msg.role === 'user' ? (
-                  <span style={{ color: 'var(--text)' }}>{msg.content}</span>
-                ) : (
-                  <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content)) }} />
-                )}
-              </div>
-
-              {/* Label + Download button row */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.6rem',
-                marginTop: '0.3rem',
-                padding: '0 4px',
-                flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
-              }}>
-                <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>
-                  {msg.role === 'user' ? 'You' : '🤖 AI Assistant'}
-                </span>
-                {msg.role === 'assistant' && i > 0 && (
-                  <DownloadPDFButton
-                    content={msg.content}
-                    question={getPrecedingQuestion(i)}
-                  />
-                )}
-              </div>
-            </div>
-          ))}
-
-          {loading && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text3)', fontSize: '0.85rem', marginBottom: '1rem' }}>
-              <div style={{ display: 'flex', gap: '3px' }}>
-                {[0,1,2].map(i => (
-                  <div key={i} style={{
-                    width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)',
-                    animation: 'pulse 1.2s ease infinite',
-                    animationDelay: `${i * 0.2}s`,
-                    opacity: 0.5,
-                  }} />
-                ))}
-              </div>
-              Thinking...
-            </div>
-          )}
-
-          {/* Suggested questions */}
-          {messages.length <= 1 && (
-            <div style={{ marginTop: '1rem' }}>
-              <div style={{ color: 'var(--text3)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
-                Suggested questions
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {SUGGESTED.map((q, i) => (
-                  <button key={i} onClick={() => sendMessage(q)} style={{
-                    background: 'var(--bg2)', border: '1px solid var(--border)',
-                    borderRadius: 6, padding: '0.65rem 1rem', textAlign: 'left',
-                    color: 'var(--text2)', cursor: 'pointer', fontSize: '0.85rem',
-                    transition: 'all 0.15s', lineHeight: 1.4,
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent2)'; (e.currentTarget as HTMLElement).style.color = 'var(--text)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.color = 'var(--text2)'; }}
-                  >{q}</button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div ref={bottomRef} />
-        </div>
-      </div>
-
-      {/* Input */}
-      <div style={{
-        borderTop: '1px solid var(--border)',
-        padding: '1rem 1.5rem',
-        background: 'var(--bg)',
-      }}>
-        <div style={{ maxWidth: 760, margin: '0 auto', display: 'flex', gap: '0.75rem', alignItems: 'flex-end' }}>
-          <textarea
-            ref={inputRef}
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
-            placeholder="Ask anything about History Optional... (Enter to send, Shift+Enter for newline)"
-            rows={2}
-            style={{
-              flex: 1,
-              background: 'var(--bg2)', border: '1px solid var(--border2)',
-              borderRadius: 8, padding: '0.75rem 1rem',
-              color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.9rem',
-              outline: 'none', resize: 'none', lineHeight: 1.5,
-              transition: 'border-color 0.15s',
-            }}
-            onFocus={e => { (e.target as HTMLElement).style.borderColor = 'var(--accent2)'; }}
-            onBlur={e => { (e.target as HTMLElement).style.borderColor = 'var(--border2)'; }}
-          />
-          <button
-            onClick={() => sendMessage()}
-            disabled={!input.trim() || loading}
-            style={{
-              background: input.trim() && !loading ? 'var(--accent)' : 'var(--bg3)',
-              color: input.trim() && !loading ? '#0f0e0c' : 'var(--text3)',
-              border: 'none', borderRadius: 8, padding: '0.75rem 1.25rem',
-              cursor: input.trim() && !loading ? 'pointer' : 'not-allowed',
-              fontWeight: 600, fontSize: '0.875rem',
-              transition: 'all 0.15s', flexShrink: 0,
-            }}
-          >Send →</button>
-        </div>
-      </div>
-
+    <>
       <style>{`
-        @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1); } }
+        .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 60px); background:var(--bg); }
+
+        /* Header */
+        .chat-header {
+          display:flex; align-items:center; gap:1rem;
+          padding:0.9rem 1.5rem;
+          border-bottom:1px solid var(--border);
+          background:linear-gradient(180deg, rgba(17,17,17,0.98) 0%, rgba(12,12,12,0.95) 100%);
+          backdrop-filter:blur(12px);
+          position:sticky; top:0; z-index:10;
+        }
+        .chat-header-icon {
+          width:36px; height:36px; border-radius:10px;
+          background:linear-gradient(135deg, rgba(29,78,216,0.35), rgba(59,130,246,0.15));
+          border:1px solid rgba(59,130,246,0.25);
+          display:flex; align-items:center; justify-content:center;
+          font-size:16px; flex-shrink:0;
+        }
+        .chat-header-title { font-family:var(--font-display); font-size:1rem; font-weight:600; color:var(--text); }
+        .chat-header-sub { color:var(--text3); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; margin-top:1px; }
+        .chat-new-btn {
+          margin-left:auto;
+          background:transparent; border:1px solid var(--border2);
+          color:var(--text3); cursor:pointer; padding:0.3rem 0.8rem;
+          border-radius:6px; font-size:0.72rem; font-family:var(--font-body);
+          transition:all 0.15s; letter-spacing:0.04em;
+        }
+        .chat-new-btn:hover { border-color:var(--accent2); color:var(--text2); background:rgba(59,130,246,0.06); }
+
+        /* Messages area */
+        .chat-msgs { flex:1; overflow-y:auto; padding:2rem 1.5rem 1rem; }
+        .chat-msgs-inner { max-width:780px; margin:0 auto; }
+
+        /* Message bubbles */
+        .chat-msg-row { margin-bottom:1.75rem; display:flex; flex-direction:column; }
+        .chat-msg-row.user { align-items:flex-end; }
+        .chat-msg-row.assistant { align-items:flex-start; }
+
+        .chat-bubble-user {
+          max-width:75%;
+          background:linear-gradient(135deg, rgba(29,78,216,0.22), rgba(59,130,246,0.1));
+          border:1px solid rgba(59,130,246,0.28);
+          border-radius:16px 16px 4px 16px;
+          padding:0.85rem 1.1rem;
+          color:var(--text); font-size:0.88rem; line-height:1.65;
+        }
+        .chat-bubble-ai {
+          max-width:90%;
+          background:linear-gradient(135deg, rgba(22,22,22,0.95), rgba(16,16,16,0.9));
+          border:1px solid rgba(255,255,255,0.07);
+          border-radius:4px 16px 16px 16px;
+          padding:1rem 1.2rem;
+          color:var(--text); font-size:0.88rem; line-height:1.72;
+          position:relative;
+        }
+        .chat-bubble-ai::before {
+          content:'';
+          position:absolute; top:0; left:0; right:0;
+          height:1px;
+          background:linear-gradient(90deg, rgba(59,130,246,0.4), transparent 60%);
+          border-radius:4px 16px 0 0;
+        }
+
+        /* Message formatting */
+        .chat-msg-h1 {
+          font-family:var(--font-display); font-size:0.95rem; font-weight:600;
+          background:linear-gradient(90deg, var(--accent), rgba(59,130,246,0.6));
+          -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+          background-clip:text;
+          margin:1rem 0 0.3rem; padding-bottom:0.35rem;
+          border-bottom:1px solid rgba(59,130,246,0.15);
+        }
+        .chat-msg-h2 {
+          font-family:var(--font-display); font-size:0.87rem; font-weight:600;
+          color:var(--yellow); margin:0.75rem 0 0.2rem;
+        }
+        .chat-bullet { padding-left:0.9rem; margin:0.2rem 0; color:var(--text2); }
+        .chat-bullet::first-letter { color:var(--accent); }
+        .chat-para-gap { height:0.6rem; }
+
+        /* Meta row */
+        .chat-meta {
+          display:flex; align-items:center; gap:0.5rem;
+          margin-top:0.4rem; padding:0 4px;
+        }
+        .chat-meta.user { flex-direction:row-reverse; }
+        .chat-meta-label { color:var(--text3); font-size:0.65rem; letter-spacing:0.08em; font-family:var(--font-mono); }
+        .chat-ai-badge {
+          display:inline-flex; align-items:center; gap:4px;
+          font-size:0.62rem; letter-spacing:0.1em; font-family:var(--font-mono);
+          color:rgba(59,130,246,0.7);
+        }
+        .chat-ai-dot {
+          width:5px; height:5px; border-radius:50%;
+          background:rgba(59,130,246,0.6);
+          box-shadow:0 0 4px rgba(59,130,246,0.5);
+        }
+
+        /* Typing indicator */
+        .chat-typing {
+          display:flex; align-items:center; gap:0.6rem;
+          padding:0.75rem 1rem; margin-bottom:1rem;
+          background:linear-gradient(135deg, rgba(22,22,22,0.9), rgba(16,16,16,0.85));
+          border:1px solid rgba(255,255,255,0.06); border-radius:4px 14px 14px 14px;
+          width:fit-content;
+        }
+        .chat-typing-dots { display:flex; gap:4px; }
+        .chat-typing-dot {
+          width:6px; height:6px; border-radius:50%; background:rgba(59,130,246,0.5);
+          animation:chatDotPulse 1.3s ease infinite;
+        }
+        .chat-typing-dot:nth-child(2) { animation-delay:0.15s; }
+        .chat-typing-dot:nth-child(3) { animation-delay:0.3s; }
+        .chat-typing-text { font-size:0.68rem; color:var(--text3); letter-spacing:0.08em; font-family:var(--font-mono); }
+        @keyframes chatDotPulse {
+          0%,100% { opacity:0.25; transform:scale(0.75); }
+          50% { opacity:1; transform:scale(1.1); }
+        }
+
+        /* Suggested */
+        .chat-suggested-label {
+          font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.2em;
+          text-transform:uppercase; color:var(--text3); margin-bottom:0.9rem;
+          display:flex; align-items:center; gap:0.6rem;
+        }
+        .chat-suggested-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--border),transparent); }
+        .chat-suggested-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; }
+        @media(max-width:560px) { .chat-suggested-grid { grid-template-columns:1fr; } }
+        .chat-suggested-btn {
+          background:linear-gradient(135deg, rgba(18,18,18,0.9), rgba(14,14,14,0.8));
+          border:1px solid var(--border); border-radius:8px;
+          padding:0.65rem 0.9rem; text-align:left;
+          color:var(--text2); cursor:pointer; font-size:0.8rem;
+          font-family:var(--font-body); transition:all 0.18s; line-height:1.4;
+        }
+        .chat-suggested-btn:hover {
+          border-color:rgba(59,130,246,0.35); color:var(--text);
+          background:linear-gradient(135deg, rgba(29,78,216,0.1), rgba(18,18,18,0.9));
+          transform:translateY(-1px);
+        }
+
+        /* Input area */
+        .chat-input-area {
+          border-top:1px solid var(--border);
+          padding:1rem 1.5rem 1.25rem;
+          background:linear-gradient(0deg, rgba(10,10,10,0.98) 0%, rgba(14,14,14,0.96) 100%);
+        }
+        .chat-input-inner { max-width:780px; margin:0 auto; }
+        .chat-input-box {
+          display:flex; gap:0.6rem; align-items:flex-end;
+          background:rgba(22,22,22,0.9);
+          border:1px solid rgba(255,255,255,0.09);
+          border-radius:12px; padding:0.6rem 0.6rem 0.6rem 1rem;
+          transition:border-color 0.18s, box-shadow 0.18s;
+        }
+        .chat-input-box:focus-within {
+          border-color:rgba(59,130,246,0.35);
+          box-shadow:0 0 0 3px rgba(59,130,246,0.07), 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .chat-textarea {
+          flex:1; background:transparent; border:none; outline:none; resize:none;
+          color:var(--text); font-family:var(--font-body); font-size:0.88rem;
+          line-height:1.55; padding:0.2rem 0; min-height:22px; max-height:180px;
+        }
+        .chat-textarea::placeholder { color:var(--text3); }
+        .chat-send-btn {
+          width:36px; height:36px; border-radius:8px; border:none; cursor:pointer;
+          display:flex; align-items:center; justify-content:center; flex-shrink:0;
+          transition:all 0.18s; font-size:14px;
+        }
+        .chat-send-btn.active {
+          background:linear-gradient(135deg, #1d4ed8, #3b82f6);
+          color:#fff; box-shadow:0 2px 10px rgba(59,130,246,0.35);
+        }
+        .chat-send-btn.inactive {
+          background:rgba(30,30,30,0.8); color:var(--text3); cursor:not-allowed;
+        }
+        .chat-send-btn.active:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(59,130,246,0.45); }
+        .chat-hint { font-size:0.64rem; color:var(--text3); text-align:center; margin-top:0.55rem; letter-spacing:0.04em; }
+
+        /* PDF button */
+        .chat-pdf-btn {
+          display:inline-flex; align-items:center; gap:5px;
+          background:linear-gradient(135deg, rgba(200,168,75,0.15), rgba(234,201,106,0.08));
+          border:1px solid rgba(200,168,75,0.3); border-radius:20px;
+          padding:0.28rem 0.7rem; color:rgba(200,168,75,0.85);
+          cursor:pointer; font-size:0.65rem; font-family:var(--font-mono);
+          letter-spacing:0.06em; transition:all 0.18s;
+        }
+        .chat-pdf-btn:hover { border-color:rgba(200,168,75,0.5); color:#c8a84b; background:linear-gradient(135deg,rgba(200,168,75,0.2),rgba(234,201,106,0.1)); }
+        .chat-pdf-btn:disabled { opacity:0.5; cursor:wait; }
+        .chat-spin { display:inline-block; animation:chatSpin 1s linear infinite; }
+        @keyframes chatSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
-    </div>
+
+      <div className="chat-wrap">
+        {/* Header */}
+        <div className="chat-header">
+          <div className="chat-header-icon">⚔</div>
+          <div>
+            <div className="chat-header-title">AI History Assistant</div>
+            <div className="chat-header-sub">UPSC History Optional · Powered by Claude</div>
+          </div>
+          <button className="chat-new-btn" onClick={() => setMessages([{
+            role: 'assistant',
+            content: 'New conversation started. What would you like to study?',
+          }])}>+ New Chat</button>
+        </div>
+
+        {/* Messages */}
+        <div className="chat-msgs">
+          <div className="chat-msgs-inner">
+            {messages.map((msg, i) => (
+              <div key={i} className={`chat-msg-row ${msg.role}`}>
+                <div className={msg.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'}>
+                  {msg.role === 'user' ? (
+                    <span>{msg.content}</span>
+                  ) : (
+                    <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content)) }} />
+                  )}
+                </div>
+                <div className={`chat-meta ${msg.role}`}>
+                  {msg.role === 'assistant' ? (
+                    <>
+                      <span className="chat-ai-badge"><span className="chat-ai-dot" />AI</span>
+                      {i > 0 && <DownloadPDFButton content={msg.content} question={getPrecedingQuestion(i)} />}
+                    </>
+                  ) : (
+                    <span className="chat-meta-label">You</span>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            {loading && (
+              <div className="chat-typing">
+                <div className="chat-typing-dots">
+                  <div className="chat-typing-dot" />
+                  <div className="chat-typing-dot" />
+                  <div className="chat-typing-dot" />
+                </div>
+                <span className="chat-typing-text">Thinking…</span>
+              </div>
+            )}
+
+            {messages.length <= 1 && (
+              <div style={{ marginTop: '1.5rem' }}>
+                <div className="chat-suggested-label">Suggested questions</div>
+                <div className="chat-suggested-grid">
+                  {SUGGESTED.map((q, i) => (
+                    <button key={i} className="chat-suggested-btn" onClick={() => sendMessage(q)}>{q}</button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div ref={bottomRef} />
+          </div>
+        </div>
+
+        {/* Input */}
+        <div className="chat-input-area">
+          <div className="chat-input-inner">
+            <div className="chat-input-box">
+              <textarea
+                ref={inputRef}
+                className="chat-textarea"
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+                placeholder="Ask anything about History Optional…"
+                rows={1}
+                onInput={e => {
+                  const t = e.currentTarget;
+                  t.style.height = 'auto';
+                  t.style.height = Math.min(t.scrollHeight, 180) + 'px';
+                }}
+              />
+              <button
+                className={`chat-send-btn ${input.trim() && !loading ? 'active' : 'inactive'}`}
+                onClick={() => sendMessage()}
+                disabled={!input.trim() || loading}
+              >
+                ↑
+              </button>
+            </div>
+            <div className="chat-hint">Enter to send · Shift+Enter for new line</div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={<div style={{ padding: '2rem', color: 'var(--text2)' }}>Loading...</div>}>
+    <Suspense fallback={<div style={{ padding: '2rem', color: 'var(--text2)' }}>Loading…</div>}>
       <ChatContent />
     </Suspense>
   );
