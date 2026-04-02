@@ -81,3 +81,139 @@ body {
 @keyframes pulse  { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1); } }
 .fade-up { animation: fadeUp 0.5s ease forwards; }
 .fade-in { animation: fadeIn 0.4s ease forwards; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   GRADIENT CARD SYSTEM — applied site-wide
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --grad-blue:    linear-gradient(135deg, rgba(29,78,216,0.14) 0%, rgba(59,130,246,0.06) 60%, rgba(17,17,17,0) 100%);
+  --grad-gold:    linear-gradient(135deg, rgba(161,98,7,0.16)  0%, rgba(234,179,8,0.07)  60%, rgba(17,17,17,0) 100%);
+  --grad-red:     linear-gradient(135deg, rgba(153,27,27,0.16) 0%, rgba(239,68,68,0.07)  60%, rgba(17,17,17,0) 100%);
+  --grad-green:   linear-gradient(135deg, rgba(20,83,45,0.16)  0%, rgba(34,197,94,0.07)  60%, rgba(17,17,17,0) 100%);
+  --grad-neutral: linear-gradient(135deg, rgba(30,30,30,0.9)   0%, rgba(18,18,18,0.7)    100%);
+  --glow-blue:    0 0 0 1px rgba(59,130,246,0.18),  0 4px 28px rgba(59,130,246,0.09);
+  --glow-gold:    0 0 0 1px rgba(234,179,8,0.18),   0 4px 28px rgba(234,179,8,0.09);
+  --glow-red:     0 0 0 1px rgba(239,68,68,0.18),   0 4px 28px rgba(239,68,68,0.09);
+  --glow-green:   0 0 0 1px rgba(34,197,94,0.18),   0 4px 28px rgba(34,197,94,0.09);
+  --glow-neutral: 0 0 0 1px rgba(56,56,56,0.7),     0 4px 16px rgba(0,0,0,0.35);
+}
+
+/* ── Base card ── */
+.g-card {
+  background: var(--grad-neutral);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+.g-card:hover { box-shadow: var(--glow-neutral); transform: translateY(-1px); }
+
+.g-card-blue  { background: var(--grad-blue);  border-color: rgba(59,130,246,0.2); }
+.g-card-blue:hover  { box-shadow: var(--glow-blue);  border-color: rgba(59,130,246,0.35); }
+.g-card-gold  { background: var(--grad-gold);  border-color: rgba(234,179,8,0.2); }
+.g-card-gold:hover  { box-shadow: var(--glow-gold);  border-color: rgba(234,179,8,0.35); }
+.g-card-red   { background: var(--grad-red);   border-color: rgba(239,68,68,0.2); }
+.g-card-red:hover   { box-shadow: var(--glow-red);   border-color: rgba(239,68,68,0.35); }
+.g-card-green { background: var(--grad-green); border-color: rgba(34,197,94,0.2); }
+.g-card-green:hover { box-shadow: var(--glow-green); border-color: rgba(34,197,94,0.35); }
+
+/* ── Top accent line ── */
+.g-accent-top       { border-top: 2px solid var(--accent) !important; }
+.g-accent-top-gold  { border-top: 2px solid var(--yellow) !important; }
+.g-accent-top-red   { border-top: 2px solid var(--red)    !important; }
+.g-accent-top-green { border-top: 2px solid var(--green)  !important; }
+
+/* ── Section label with fading rule ── */
+.g-label {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 0.55rem;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px;
+}
+.g-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(59,130,246,0.3), transparent); }
+.g-label-gold  { color: var(--yellow); }
+.g-label-gold::after  { background: linear-gradient(90deg, rgba(234,179,8,0.3), transparent); }
+.g-label-red   { color: var(--red); }
+.g-label-red::after   { background: linear-gradient(90deg, rgba(239,68,68,0.3), transparent); }
+.g-label-green { color: var(--green); }
+.g-label-green::after { background: linear-gradient(90deg, rgba(34,197,94,0.3), transparent); }
+
+/* ── Stat block ── */
+.g-stat-block {
+  background: var(--grad-neutral); border: 1px solid var(--border);
+  padding: 1.5rem; text-align: center; transition: background 0.22s, border-color 0.22s;
+}
+.g-stat-block:hover { background: var(--grad-blue); border-color: rgba(59,130,246,0.25); }
+
+/* ── Feature tile ── */
+.g-feature-tile {
+  background: var(--grad-neutral); border: 1px solid var(--border);
+  padding: 1.5rem; transition: background 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.g-feature-tile:hover {
+  background: var(--grad-blue); border-color: rgba(59,130,246,0.25); box-shadow: var(--glow-blue);
+}
+
+/* ── Paper card ── */
+.g-paper-card {
+  background: var(--grad-neutral); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.75rem;
+  transition: box-shadow 0.25s, border-color 0.25s;
+}
+.g-paper-card:hover { box-shadow: var(--glow-neutral); border-color: var(--border2); }
+
+/* ── Topic pill ── */
+.g-topic-pill {
+  font-size: 0.76rem; color: var(--text2);
+  padding: 4px 12px; border-radius: 20px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, rgba(26,26,26,0.9), rgba(18,18,18,0.7));
+  text-decoration: none; transition: all 0.18s ease; display: inline-block;
+}
+.g-topic-pill:hover {
+  background: var(--grad-blue); border-color: rgba(59,130,246,0.35);
+  color: var(--accent); transform: translateY(-1px);
+}
+
+/* ── Banner strip ── */
+.g-banner {
+  background: var(--grad-neutral); border: 1px solid var(--border2);
+  border-left: 3px solid var(--red); border-radius: 10px; padding: 1.75rem 2rem;
+}
+
+/* ── Note content: gradient headings ── */
+.note-content h1 {
+  background: linear-gradient(90deg, var(--accent), rgba(59,130,246,0.55));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; border-bottom: 1px solid rgba(59,130,246,0.2);
+}
+.note-content h2 {
+  background: linear-gradient(90deg, var(--yellow), rgba(234,179,8,0.6));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.note-content h3 {
+  background: linear-gradient(90deg, var(--accent), rgba(59,130,246,0.55));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.note-content blockquote {
+  background: linear-gradient(135deg, rgba(161,98,7,0.1), rgba(234,179,8,0.04));
+}
+.note-content th {
+  background: linear-gradient(135deg, rgba(29,78,216,0.18), rgba(17,17,17,0.85));
+}
+.note-content tr:nth-child(even) td {
+  background: linear-gradient(135deg, rgba(18,18,18,0.95), rgba(10,10,10,0.7));
+}
+.note-content tr:hover td {
+  background: linear-gradient(135deg, rgba(29,78,216,0.07), rgba(18,18,18,0.8));
+}
+
+/* ── TOC box ── */
+.toc-box {
+  background: linear-gradient(135deg, rgba(29,78,216,0.08), rgba(10,10,10,0.6));
+  border: 1px solid rgba(59,130,246,0.15); border-left: 3px solid var(--accent);
+}
