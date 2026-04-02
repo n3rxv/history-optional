@@ -575,7 +575,23 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
       const data = await response.json();
       let content = data.choices[0].message.content;
       content = content.replace(/```json|```/g, "").trim();
-      evaluation = JSON.parse(content);
+      try {
+        evaluation = JSON.parse(content);
+      } catch {
+        // JSON truncated — try extracting largest valid object
+        const match = content.match(/\{[\s\S]*/);
+        if (match) {
+          let partial = match[0];
+          // Try closing unclosed JSON by appending braces
+          for (let closes = 1; closes <= 5; closes++) {
+            try {
+              evaluation = JSON.parse(partial + "}}}}}}".slice(0, closes));
+              break;
+            } catch { /* keep trying */ }
+          }
+        }
+        if (!evaluation) throw new Error("Could not parse model response");
+      }
     }
 
     // ── NULL GUARD ────────────────────────────────────────────────
