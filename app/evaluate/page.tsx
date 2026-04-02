@@ -320,52 +320,73 @@ const handleOcr = async () => {
         .pill-g { background:rgba(74,222,128,0.1); color:#4ade80; border:1px solid rgba(74,222,128,0.3); }
         .pill-r { background:rgba(248,113,113,0.1); color:#f87171; border:1px solid rgba(248,113,113,0.3); }
         .pill-y { background:rgba(59,130,246,0.1); color:#3b82f6; border:1px solid rgba(59,130,246,0.3); }
-        .ev-tabs { display:flex; border-bottom:1px solid #2a2a2a; margin-bottom:28px; gap:4px; }
-        .ev-tab { padding:11px 24px; cursor:pointer; font-size:0.66rem; letter-spacing:0.22em;
-          text-transform:uppercase; font-family:var(--font-mono); color:#666;
-          border-bottom:2px solid transparent; transition:all 0.15s;
-          background:none; border-top:none; border-left:none; border-right:none; margin-bottom:-1px; }
-        .ev-tab.active { color:#3b82f6; border-bottom-color:#3b82f6; }
-        .ev-tab:hover:not(.active) { color:#aaa; }
-        .ev-card { background:#1a1a1a; border:1px solid #2e2e2e; border-radius:6px; padding:26px 28px; margin-bottom:12px; }
-        .ev-card-gold { border-color:rgba(234,179,8,0.22); }
-        .ev-card-green { border-color:rgba(74,222,128,0.14); }
-        .ev-ct { font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.32em;
-          text-transform:uppercase; color:#1d4ed8; margin-bottom:20px; }
-        .ev-sl { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.2em;
-          text-transform:uppercase; color:#555; margin-top:18px; margin-bottom:10px; }
-        .ev-sl.g { color:rgba(74,222,128,0.5); }
-        .ev-sl.r { color:rgba(248,113,113,0.45); }
-        .ev-wrote { background:#111; border-left:3px solid #333;
-          padding:14px 18px; border-radius:0 4px 4px 0; margin-bottom:16px; }
-        .ev-wrote-lbl { font-family:var(--font-mono); font-size:0.55rem;
-          letter-spacing:0.2em; text-transform:uppercase; color:#444; margin-bottom:8px; }
-        .ev-wrote-txt { font-size:0.9rem; color:#999; line-height:1.75; }
-        ul.ev-list { list-style:none; padding:0; margin:0; }
-        ul.ev-list li { padding:9px 0 9px 16px; border-left:2px solid #2e2e2e;
-          font-size:0.92rem; line-height:1.72; color:#ccc; margin-bottom:6px; }
-        ul.ev-list li.g { border-left-color:rgba(74,222,128,0.4); color:#86efac; }
-        ul.ev-list li.r { border-left-color:rgba(248,113,113,0.35); color:#fca5a5; }
-        .ev-qbox { background:#0d1b3e; border:1px solid rgba(59,130,246,0.2);
-          border-left:3px solid #3b82f6; border-radius:0 6px 6px 0;
-          padding:16px 20px; margin-bottom:28px; }
-        .ev-qlabel { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.22em;
-          text-transform:uppercase; color:#1d4ed8; margin-bottom:8px; }
-        .ev-qtext { font-size:0.95rem; color:#e2e8f0; line-height:1.75; }
-        .ev-ml { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.25em;
-          text-transform:uppercase; color:rgba(74,222,128,0.45);
-          display:flex; align-items:center; gap:12px; margin:22px 0 12px; }
+        /* ── TABS ── */
+        .ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(255,255,255,0.07); }
+        .ev-tab { padding:13px 28px; cursor:pointer; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-family:var(--font-mono); background:none; border:none; color:#444; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
+        .ev-tab.active { color:#e2e8f0; border-bottom-color:#3b82f6; }
+        .ev-tab:hover:not(.active) { color:#888; }
+
+        /* ── BASE CARD ── */
+        .ev-card { background:linear-gradient(135deg,#161616,#111); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
+        .ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent 60%); pointer-events:none; }
+        .ev-card-gold { border-color:rgba(234,179,8,0.18); background:linear-gradient(135deg,#161410,#111); }
+        .ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(234,179,8,0.4),transparent); }
+        .ev-card-green { border-color:rgba(74,222,128,0.12); background:linear-gradient(135deg,#101610,#111); }
+        .ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(74,222,128,0.35),transparent); }
+
+        /* ── SECTION TITLE ── */
+        .ev-ct { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.32em; text-transform:uppercase; color:#3b82f6; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+        .ev-ct::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,rgba(59,130,246,0.25),transparent); }
+
+        /* ── DEMAND LIST ── */
+        .ev-demand-item { display:flex; gap:14px; padding:13px 0; border-bottom:1px solid rgba(255,255,255,0.04); align-items:flex-start; }
+        .ev-demand-item:last-child { border-bottom:none; padding-bottom:0; }
+        .ev-demand-bullet { width:6px; height:6px; border-radius:50%; background:#3b82f6; margin-top:7px; flex-shrink:0; box-shadow:0 0 8px rgba(59,130,246,0.5); }
+        .ev-demand-txt { font-size:0.9rem; color:#c4c4c4; line-height:1.75; font-family:var(--font-body); }
+
+        /* ── WHAT YOU WROTE ── */
+        .ev-wrote { background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:16px 18px; margin-bottom:18px; position:relative; }
+        .ev-wrote::before { content:''; position:absolute; left:0; top:12px; bottom:12px; width:3px; background:linear-gradient(180deg,#3b82f6,rgba(59,130,246,0.2)); border-radius:0 2px 2px 0; }
+        .ev-wrote-lbl { font-family:var(--font-mono); font-size:0.52rem; letter-spacing:0.25em; text-transform:uppercase; color:#3b82f6; margin-bottom:8px; padding-left:14px; }
+        .ev-wrote-txt { font-size:0.88rem; color:#888; line-height:1.75; font-style:italic; padding-left:14px; }
+
+        /* ── ANALYSIS TEXT ── */
+        .ev-analysis { font-size:0.92rem; color:#c8c8c8; line-height:1.85; margin-bottom:18px; font-family:var(--font-body); }
+
+        /* ── SUBLABELS (Strengths / Weaknesses / Suggestions) ── */
+        .ev-sl { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.22em; text-transform:uppercase; color:#555; margin:18px 0 10px; display:flex; align-items:center; gap:8px; }
+        .ev-sl::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.05); }
+        .ev-sl.g { color:rgba(74,222,128,0.6); }
+        .ev-sl.r { color:rgba(248,113,113,0.5); }
+
+        /* ── LISTS ── */
+        ul.ev-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
+        ul.ev-list li { padding:10px 14px 10px 16px; background:rgba(255,255,255,0.02); border-radius:6px; border-left:2px solid rgba(255,255,255,0.08); font-size:0.88rem; color:#b0b0b0; line-height:1.7; font-family:var(--font-body); }
+        ul.ev-list li.g { border-left-color:rgba(74,222,128,0.45); color:#a7f3c0; background:rgba(74,222,128,0.04); }
+        ul.ev-list li.r { border-left-color:rgba(248,113,113,0.4); color:#fecaca; background:rgba(248,113,113,0.04); }
+
+        /* ── QUESTION BOX ── */
+        .ev-qbox { background:linear-gradient(135deg,#0d1b3e,#091530); border:1px solid rgba(59,130,246,0.2); border-radius:10px; padding:20px 24px; margin-bottom:20px; }
+        .ev-qlabel { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:#3b82f6; margin-bottom:10px; }
+        .ev-qtext { font-size:1.05rem; color:#e2e8f0; line-height:1.65; font-family:var(--font-body); }
+
+        /* ── MODEL ANSWER ── */
+        .ev-ml { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:rgba(74,222,128,0.55); margin:22px 0 12px; display:flex; align-items:center; gap:8px; }
         .ev-ml::after { content:''; flex:1; height:1px; background:rgba(74,222,128,0.08); }
-        .ev-ml:first-child { margin-top:0; }
-        .ev-mp { font-size:0.95rem; line-height:1.9; color:#d4d4d4; margin-bottom:16px; font-family:var(--font-body); }
-        .ev-hist { padding:20px 0; border-bottom:1px solid #222; }
+        .ev-ml:first-of-type { margin-top:0; }
+        .ev-mp { font-size:0.93rem; line-height:1.9; color:#d4d4d4; margin-bottom:0; font-family:var(--font-body); }
+
+        /* ── HISTORIANS ── */
+        .ev-hist { padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.05); display:grid; gap:6px; }
+        .ev-hist:first-child { padding-top:0; }
         .ev-hist:last-child { border-bottom:none; padding-bottom:0; }
-        .ev-hist-name { font-family:var(--font-display); font-size:1.05rem; font-weight:700; color:#3b82f6; margin-bottom:4px; }
-        .ev-hist-work { font-family:var(--font-mono); font-size:0.72rem; color:#666; margin-bottom:8px; }
-        .ev-hist-arg { font-size:0.92rem; color:#bbb; line-height:1.72; }
-        .ev-spinner { width:38px; height:38px; border:2px solid #222;
-          border-top-color:#3b82f6; border-radius:50%; animation:ev-spin 0.9s linear infinite; }
-        @keyframes ev-spin { to { transform:rotate(360deg); } }
+        .ev-hist-name { font-family:var(--font-display); font-size:1.0rem; font-weight:700; color:#60a5fa; letter-spacing:0.01em; }
+        .ev-hist-work { font-family:var(--font-mono); font-size:0.68rem; color:#555; letter-spacing:0.05em; }
+        .ev-hist-arg { font-size:0.88rem; color:#aaa; line-height:1.75; font-family:var(--font-body); }
+
+        /* ── OVERALL FEEDBACK ── */
+        .ev-overall-txt { font-size:0.93rem; line-height:1.9; color:#d4d4d4; font-family:var(--font-body); }
+
         .ev-fade { animation:ev-fi 0.4s ease; }
         @keyframes ev-fi { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
         .ev-dl-btn { display:flex; align-items:center; gap:8px; padding:10px 20px;
@@ -632,7 +653,12 @@ const handleOcr = async () => {
               <div className="ev-fade">
                 <div className="ev-card">
                   <div className="ev-ct">Demand of the Question</div>
-                  <ul className="ev-list">{evaluation.demand_of_question.map((d,i) => <li key={i}>{d}</li>)}</ul>
+                  <div>{evaluation.demand_of_question.map((d,i) => (
+                    <div key={i} className="ev-demand-item">
+                      <div className="ev-demand-bullet" />
+                      <div className="ev-demand-txt">{d}</div>
+                    </div>
+                  ))}</div>
                 </div>
                 <div className="ev-card">
                   <div className="ev-ct">Introduction</div>
@@ -640,7 +666,7 @@ const handleOcr = async () => {
                     <div className="ev-wrote-lbl">What you wrote</div>
                     <div className="ev-wrote-txt">{evaluation.introduction.what_was_written}</div>
                   </div>
-                  <div style={{ fontSize:"0.95rem", color:"#ccc", lineHeight:1.8, marginBottom:14 }}>{evaluation.introduction.analysis}</div>
+                  <div className="ev-analysis">{evaluation.introduction.analysis}</div>
                   {evaluation.introduction.suggestions.length > 0 && (<>
                     <div className="ev-sl">Suggestions</div>
                     <ul className="ev-list">{evaluation.introduction.suggestions.map((s,i) => <li key={i}>{s}</li>)}</ul>
@@ -661,7 +687,7 @@ const handleOcr = async () => {
                     <div className="ev-wrote-lbl">What you wrote</div>
                     <div className="ev-wrote-txt">{evaluation.conclusion.what_was_written}</div>
                   </div>
-                  <div style={{ fontSize:"0.95rem", color:"#ccc", lineHeight:1.8, marginBottom:14 }}>{evaluation.conclusion.analysis}</div>
+                  <div className="ev-analysis">{evaluation.conclusion.analysis}</div>
                   {evaluation.conclusion.suggestions.length > 0 && (<>
                     <div className="ev-sl">Suggestions</div>
                     <ul className="ev-list">{evaluation.conclusion.suggestions.map((s,i) => <li key={i}>{s}</li>)}</ul>
@@ -669,7 +695,7 @@ const handleOcr = async () => {
                 </div>
                 <div className="ev-card ev-card-gold">
                   <div className="ev-ct">Overall Feedback</div>
-                  <p style={{ fontSize:"0.95rem", lineHeight:1.85, color:"#d4d4d4" }}>{evaluation.overall_feedback}</p>
+                  <p className="ev-overall-txt">{evaluation.overall_feedback}</p>
                 </div>
               </div>
             )}
