@@ -313,11 +313,30 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify(body),
       });
 
+    // Swap kimi-k2 for llama fallback in a body object
+    const withFallbackModel = (body: object): object => {
+      const b = body as Record<string, unknown>;
+      if (typeof b.model === "string" && b.model.includes("kimi-k2")) {
+        return { ...b, model: "llama-3.3-70b-versatile" };
+      }
+      return body;
+    };
+
     const callWithFallback = async (body: object) => {
       let res = await groqFetch(body, process.env.GROQ_API_KEY!);
+      // Key 2 fallback for rate limits
       if (res.status === 429 && process.env.GROQ_API_KEY_2) {
         console.log("Primary key rate limited, trying key 2...");
         res = await groqFetch(body, process.env.GROQ_API_KEY_2);
+      }
+      // Model fallback for kimi-k2 over capacity (503 or 429 still failing)
+      if ((res.status === 503 || res.status === 429) && (body as Record<string, unknown>).model?.toString().includes("kimi-k2")) {
+        console.log("Kimi-K2 over capacity, falling back to llama-3.3-70b...");
+        const fallbackBody = withFallbackModel(body);
+        res = await groqFetch(fallbackBody, process.env.GROQ_API_KEY!);
+        if (res.status === 429 && process.env.GROQ_API_KEY_2) {
+          res = await groqFetch(fallbackBody, process.env.GROQ_API_KEY_2);
+        }
       }
       return res;
     };
@@ -549,7 +568,7 @@ INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
     if (!cotRes.ok) {
       const err = await cotRes.text();
       console.error("Groq CoT error:", err);
-      return NextResponse.json({ error: "Groq API error (pass 1): " + err }, { status: 500 });
+      return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
     }
 
     const cotData = await cotRes.json();
@@ -604,7 +623,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
       if (!retry.ok) {
         const err = await retry.text();
         console.error("Groq JSON error (retry):", err);
-        return NextResponse.json({ error: "Groq API error (pass 2): " + err }, { status: 500 });
+        return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
       }
       const retryData = await retry.json();
       let retryContent = retryData.choices[0].message.content;
@@ -616,7 +635,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
     if (!response.ok) {
       const err = await response.text();
       console.error("Groq JSON error:", err);
-      return NextResponse.json({ error: "Groq API error (pass 2): " + err }, { status: 500 });
+      return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
     }
 
     if (!evaluation) {
