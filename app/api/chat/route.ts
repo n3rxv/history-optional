@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
             ...(system ? [{ role: 'system', content: system }] : []),
             ...messages
           ],
-          max_tokens: 1024,
+          max_tokens: 4000,
         }),
       });
 

@@ -189,29 +189,13 @@ When answering:
 - Structure answers clearly with headings where appropriate
 - Include key dates, names and events
 - Highlight what's important for UPSC mains answers
-- Suggest relevant PYQs if applicable
+- Suggest relevant PYQs at the end if applicable
 - Keep answers focused and exam-relevant
-- Use **bold** for important terms and names
+- Use **bold** for important terms, historian names, and pivotal events
 - If asked to write a model answer, follow UPSC format: Introduction, Body (with subheadings), Conclusion
-- Always use historiography and incorporate them in answers
-- A. PROTOCOL ALPHA: DESCRIPTIVE EXECUTION
-- Activate this protocol for factual subject matter (e.g., "Discuss the features of Mughal architecture")
-- Axiomatic Acceptance: Treat the given statement as a settled matter of fact; do not challenge the premise
-- Linear Elaboration: Focus exclusively on explaining and clarifying. "Explain, explain, and explain" is the primary objective
-- Constraint on Complexity: While historiography is a general requirement, keep it minimal in this mode to ensure the answer remains focused on descriptive facts
-- B. PROTOCOL BETA: ARGUMENTATIVE SYNTHESIS
-- Activate this protocol for debate-oriented subject matter (e.g., "The Khilji Revolution was no true revolution")
-- Multi-Perspective Analysis: Identify and address the two, three, or four sides of the historical debate
-- Weighted Stance: Adopt a clear stance. You are granted the freedom to adjust the proportion of pro/con arguments (e.g., 50:50, 70:30, or 25:75) based on the strength of the historical evidence
-- Historiographical Integration: This mode requires heavy use of historiography to support the various sides of the argument
-- II. CONTENT & FORMATTING CONSTRAINTS For every output, regardless of the protocol activated, the AI must adhere to these rigid formatting standards:
-- UPSC Standard Format: Always use a formal structure—Introduction, Body (with subheadings), and Conclusion.
-- Entity Dense Output: Ensure the inclusion of specific key dates, names, and events to provide empirical weight to the answer.
-- Visual Emphasis: Use bold for all critical terms, names of historians, and pivotal events.
-- Strategic Highlighting: Explicitly point out what is most important for UPSC Mains within the response to guide the student's revision.
-- Historiographical Mandate: Incorporate the views of relevant historians.
-- PYQ Integration: At the conclusion of the response, suggest relevant Previous Year Questions (PYQs) that align with the subject matter discussed.
-- III. SYSTEM LOGIC FOR AMBIGUITY When encountering "blur" words like "Discuss" or "Comment", determine the mode based on the subject matter.
+- Always incorporate relevant historiography — name specific historians with their specific arguments
+- For descriptive questions (e.g. "Discuss features of X"): explain clearly with specific evidence, minimal historiography
+- For debate/argumentative questions (e.g. "Was X a revolution?"): present multiple perspectives, take a clear stance, use historiography heavily
 - Always be accurate with historical facts.`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
         }),
@@ -240,6 +224,7 @@ When answering:
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
       .replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`)
       .replace(/^### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h2">${t}</div>`)
+      .replace(/^#### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
       .replace(/^• (.+)$/gm, '<div class="chat-bullet">• $1</div>')
       .replace(/^[\-\*] (.+)$/gm, '<div class="chat-bullet">• $1</div>')
       .replace(/\n\n/g, '<div class="chat-para-gap"></div>')
@@ -331,6 +316,10 @@ When answering:
         .chat-msg-h2 {
           font-family:var(--font-display); font-size:0.87rem; font-weight:600;
           color:var(--yellow); margin:0.75rem 0 0.2rem;
+        }
+        .chat-msg-h3 {
+          font-family:var(--font-display); font-size:0.82rem; font-weight:600;
+          color:rgba(167,139,250,0.9); margin:0.6rem 0 0.15rem;
         }
         .chat-bullet { padding-left:0.9rem; margin:0.2rem 0; color:var(--text2); }
         .chat-bullet::first-letter { color:var(--accent); }
