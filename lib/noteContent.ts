@@ -26611,7 +26611,160 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </ul>
 </li>
 </ul>
-<p>Worst of all, Tsar <strong>Alexander declared that he would come out</strong> of the Continental system. By this time Napoleon was power drunken, he became obstinate and conceited as well, he couldn't tolerate this indiscipline of Russian monarch. So, he just decided to punish him by mobilizing 6 lakh soldiers and <strong>started a Moscow expedition.</strong> Russia was the easternmost part..!</p>`,
+<p>Worst of all, Tsar <strong>Alexander declared that he would come out</strong> of the Continental system. By this time Napoleon was power drunken, he became obstinate and conceited as well, he couldn't tolerate this indiscipline of Russian monarch. So, he just decided to punish him by mobilizing 6 lakh soldiers and <strong>started a Moscow expedition.</strong> Russia was the easternmost part..!</p>
+<h2>Handout 14: French Revolution 5</h2>
+<h3>Characteristics of the French Revolution</h3>
+<ul>
+<li>&#8226; It was primarily a <strong>bourgeoise Revolution</strong>, especially during the first and third phase. But overall, it was a <strong>mass revolution.</strong></li>
+<li>&#8226; It was <strong>not a planned</strong> revolution, but a culmination of a series of events.</li>
+<li>&#8226; It was a <strong>violent</strong> revolution, with ample instances of extreme excesses being committed during the course of the revolution.</li>
+<li>&#8226; It was <strong>progressive</strong> in nature. It was inspired by the vision of a better and brighter future.</li>
+<li>&#8226; It was a <strong>composite movement</strong> and touched Political administrative, socio-religious as well as economic sphere of human life.</li>
+<li>&#8226; It was characterized by <strong>ideological transformation</strong> during its course of the four phases.
+<ul>
+<li style="padding-left:2em">&#9702; First Phase: Liberal, constitutional, monarchical regime.</li>
+<li style="padding-left:2em">&#9702; Second Phase: Radical republic.</li>
+<li style="padding-left:2em">&#9702; Third Phase: A collegiate form of government.</li>
+<li style="padding-left:2em">&#9702; Fourth Phase: Political despotism under Napoleon.</li>
+</ul>
+</li>
+<li>&#8226; It was <strong>not an isolated phenomenon</strong> but a part of a long series of <strong>trans-Atlantic revolutions.</strong></li>
+<li>&#8226; In terms of its impact, it was <strong>pan-European in character.</strong> The direct and indirect effects of this revolution were felt throughout Europe.</li>
+</ul>
+<h3>The Legacy of FR</h3>
+<p><em>&#8220;The French Revolution is the crossroads of the modern world. We live on one side; all the issues that torment us can be traced back to the debates and actions of that era. What it is to be a citizen; what limits there are on the state&#8217;s power to write laws on your body; who can vote; what is property, what can be owned; what authority is and how it can be overthrown &#8212; these questions were posed and for the most part answered in one momentous historical sequence.&#8221;</em><br>&#8211; Simon Schama</p>
+<p>The outbreak of the French Revolution (1789) opened the doors of modern age not only for France but for almost whole of Europe. This revolution transformed every dimension of human life, and its echoes were heard far and wide.</p>
+<h4>Political-Administrative</h4>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>&#8226; Absolutism &#8594; constitutionalism, natural rights, separation of power, popular sovereignty</li>
+<li>&#8226; Aristocracy &#8594; Meritocracy</li>
+<li>&#8226; Feudalism &#8594; Equality</li>
+<li>&#8226; Arbitrariness &#8594; Rule of Law</li>
+</ul>
+<p><strong>Achievements:</strong></p>
+<ul>
+<li>&#8226; 4th August (Old Feudal France was destroyed). 26th August (Declaration of Rights) &#8594; Equality, rule of law, natural rights, separation of power, popular sovereignty. Thus, ideas of political democracy.</li>
+<li>&#8226; Absolute Bourbon dynastic rule &#8594; constitutional monarchy &#8594; Republic &#8594; Bonaparte Monarchy &#8594; Bourbons (Louis XVIII).</li>
+</ul>
+<h4>Social</h4>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>&#8226; Class privilege &#8594; Social equality</li>
+<li>&#8226; Exploitation, Discrimination &#8594; Fraternity</li>
+</ul>
+<p><strong>Achievements:</strong></p>
+<ul>
+<li>&#8226; Successfully destroyed social system based on class privileges. Principle of equality was declared as the basis of society.</li>
+<li>&#8226; The objective of fraternity could not be realized because of extreme violence witnessed during course of revolution. Only when Napoleon emerged as head of state, he tried to bring order and promote principle of fraternity.</li>
+</ul>
+<h4>Economic</h4>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>&#8226; Unequal resource distribution &#8594; uniform taxation</li>
+<li>&#8226; Guild and mercantilism &#8594; Free Trade</li>
+<li>&#8226; Poverty, hunger, unemployment &#8594; Prosperity</li>
+</ul>
+<p><strong>Achievements:</strong></p>
+<ul>
+<li>&#8226; Economic privilege enjoyed by nobles and clergymen were destroyed and uniform taxation was introduced.</li>
+<li>&#8226; Mercantilist institutes like Guilds were wiped out and a free economy was established.</li>
+<li>&#8226; Property of Church was broken into small parts &amp; sold to peasants on easy term. Whatever land peasants had confiscated from feudal lords were recognized as their, property.</li>
+<li>&#8226; Though economic crisis intensified in the first decade after the outbreak of revolution, with the rise of Napoleon the French economy started gaining health.</li>
+</ul>
+<h4>Religious</h4>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>&#8226; Evils of Church &#8594; Freedom of Religion and tolerance</li>
+</ul>
+<p><strong>Achievements:</strong></p>
+<ul>
+<li>&#8226; Destroyed the dominance of church and took away the privileges.</li>
+<li>&#8226; Freedom of religious was granted to every French citizen.</li>
+<li>&#8226; Church could no longer interfere in personal life of people against their will.</li>
+<li>&#8226; <em>&#8220;The Revolution created the secular, free society that so many people around the world now associate with modernity.&#8221;</em> &#8211; <strong>Lynn Hunt</strong></li>
+</ul>
+<p>The Congress of Vienna made every possible effort to wipe out effect of these ideas, but their impact on human thinking could not be removed. The awakening created by these ideas were responsible for European revolution of 19th century.</p>
+<h3>French Revolution and the emergence of Modern Politics</h3>
+<p><em>&#8220;The intellectual legacy of the French Revolution was perhaps best expressed in the principles of universal human rights and popular sovereignty, which became central to political and legal thought.&#8221;</em><br>- <strong>Jurgen Habermas</strong></p>
+<ul>
+<li>&#8226; Encouraged <strong>nationalist, democratic and republican thoughts.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The divine right of kingship was abandoned, and sovereignty of the people was encouraged.</li>
+<li style="padding-left:2em">&#9702; <em>&#8220;The French Revolution brought an end to the Aristotelian notion of a mixed form of government, the perfect government of the limited polis, and inaugurated the era of representative democracy.&#8221;</em> &#8211; <strong>Hannah Arendt</strong></li>
+<li style="padding-left:2em">&#9702; <em>&#8220;The French Revolution gave rise to political nationalism.&#8221;</em> &#8211; <strong>Jonathan Israel</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Popular participation</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It consolidated the idea that the nation is composed of citizens. Mostly citizen men at first&#8212;a fraternity or brotherhood that replace a kingdom in which a monarch ruled his subjects.</li>
+<li style="padding-left:2em">&#9702; Before the revolution of 1789 there was a gap between the government and society. This gap was reduced to a considerable extent after the revolution as various sections of the society, which till now had no role in the government and its machinery, became active in politics.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Ideological Spectrum</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Modern politics started after the revolution, and Leftist and Rightist ideologies spread its influence further in politics.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Authoritarian instruments</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Plebiscite was introduced during the French revolution. Even Napoleon legitimized most of his action based on plebiscite.</li>
+<li style="padding-left:2em">&#9702; The excesses of Jacobean government, their use of guillotine and the oppressive policy of Napoleon inspired future dictators.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Liberal nationalism</strong>
+<ul>
+<li style="padding-left:2em">&#9702; French revolution encouraged liberal and nationalist thoughts which had a great influence on Latin America and Asia. It played an important role in the liberalization of the colonies.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Revolutions</strong>
+<ul>
+<li style="padding-left:2em">&#9702; French revolution made revolution a part of world traditions. It continued to inspire revolutionaries in the 19th and 20th century.</li>
+</ul>
+</li>
+</ul>
+<h3>Impact outside France</h3>
+<p>It was a pan-European phenomenon. Its direct and indirect consequences were seen throughout Europe.</p>
+<p>OR</p>
+<p>With the outbreak of this revolution in France, not a single important event took place in Europe during the next 25 years that was not related with this revolution directly or indirectly. That is why, it is commented with its outbreak, history of Europe merges into the history of one event, one nation, and one man. This event was the revolution of 1789, the nation was France, and the man was Napoleon.</p>
+<ul>
+<li>&#8226; The ideological impact of FR and changes brought about by Napoleon started <strong>the process of decline of ancient regime in Europe</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Curtains started coming down on divine rights, royal absolutism, aristocracy, feudalism, class privileges, medieval institutions etc.</li>
+<li style="padding-left:2em">&#9702; By the closing years of 19th c., these practices had disappeared in almost whole of Europe.</li>
+<li style="padding-left:2em">&#9702; By this, the French Revolution paved the way for economic transformation in Europe.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Nationalism</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>The liberal and progressive ideas</strong> of FR were propagated throughout Europe by the victorious army of Napoleon.
+<ul>
+<li style="padding-left:4em">&#9632; He initiated a number of political, socio-religious and economic changes based on idea of FR in Italy &amp; Germany.</li>
+<li style="padding-left:4em">&#9632; The awakening triggered by these reforms was responsible for birth of Italian and German nationalism.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Napoleon <strong>administrative reorganization</strong> also contributed in German unification.
+<ul>
+<li style="padding-left:4em">&#9632; He successfully amalgamated smaller 300 German states into 39 states.</li>
+<li style="padding-left:4em">&#9632; This greatly eased the future task of Bismarck as he was required to merge these 39 into one.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The French Revolution was responsible for the <strong>emergence of spirit of nationalism</strong> in Europe.
+<ul>
+<li style="padding-left:4em">&#9632; When France was invaded by the First Coalition in 1791, French nationalism emerged and when Napoleon imposed his imperial rule over Spain, Italy and Germany, spirit of nationalism emerged in these countries as well.</li>
+<li style="padding-left:4em">&#9632; This spirit of nationalism was responsible for many wars and battles in Europe in the future. The conflicts associated with the process of Italian and German unification, the Balkan wars, the first and second World Wars were triggered by unfulfilled national aspirations only.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Thus, it helped usher in the idea of nation-states, and the idea that the most important people within those nation-states are the citizens. And so enthusiasts for freedom flocked to France from all corners of Europe&#8212;if not in person then at least in their imaginations. &#8220;Bliss was it in that dawn to be alive,&#8221; wrote poet William Wordsworth.</li>
+</ul>
+</li>
+<li>&#8226; All these developments placed <strong>France at the center of Europe.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; France emerged as intellectual leader of Europe &amp; the masses throughout Europe started looking towards France for guidance and inspiration.</li>
+<li style="padding-left:2em">&#9702; That is why any incident taking place in France used to create echo in whole of Europe in 1st half of 19th century. Whole of Europe used to catch cold whenever France sneezed. This effect was visible in 1830 and 1848 quite clearly.</li>
+</ul>
+</li>
+</ul>`,
   'industrialization': ``,
   'nation-state-system': ``,
   'imperialism-colonialism': ``,
