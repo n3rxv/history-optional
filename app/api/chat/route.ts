@@ -19,21 +19,30 @@ export async function POST(req: NextRequest) {
   try {
     const { messages, system } = await req.json();
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: [
-          ...(system ? [{ role: 'system', content: system }] : []),
-          ...messages
-        ],
-        max_tokens: 1024,
-      }),
-    });
+    const groqFetch = async (model: string) =>
+      fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            ...(system ? [{ role: 'system', content: system }] : []),
+            ...messages
+          ],
+          max_tokens: 1024,
+        }),
+      });
+
+    // Try Kimi-K2 first, fall back to llama-3.3-70b on capacity issues
+    let response = await groqFetch('moonshotai/kimi-k2-instruct');
+
+    if (response.status === 503 || response.status === 429) {
+      console.log('Kimi-K2 over capacity in chat, falling back to llama-3.3-70b...');
+      response = await groqFetch('llama-3.3-70b-versatile');
+    }
 
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content || 'No response';
