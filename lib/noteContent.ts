@@ -27410,7 +27410,317 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </li>
 </ul>`,
   'industrialization': ``,
-  'nation-state-system': ``,
+  'nation-state-system': `<h2>Handout 18: Italian Unification (Risorgimento)</h2>
+<h3>UPSC CSE PYQs</h3>
+<ul>
+<li>&#8226; <strong>Stages</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Trace the various stages that led to the Unification of Italy between 1848 and 1870. [1980, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; Trace the course of the movement for Italian Unification from 1848 with special reference to the contribution of Mazzini. [1983, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; How was Italy transformed from &#8216;a geographical expression&#8217; to a nation-state? [2019, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; Discuss the different stages of the unification of Italy from 1848 to the occupation of Rome in 1870. [2023, 20 Marks]</li>
+</ul>
+</li>
+<li>&#8226; <strong>Role of Cavour</strong>
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;They have stopped me from making Italy by diplomacy from the North; I will make it by revolution from the South.&#8221; Comment. [1985, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; What were the obstacles to Italian unification till 1852? How and with what methods was the unification of Italy achieved? [1993, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;They have stopped me from making Italy by diplomacy from the North; I will make it by revolution from the South.&#8221; Comment. [2005, 20 Marks]</li>
+</ul>
+</li>
+<li>&#8226; <strong>Role of Mazzini</strong>
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;Mazzini&#8217;s conception of Italian nationality was not exclusive, and his dominant ideal was the recreation of moral unity of mankind.&#8221; Critically examine. [2015, 10 Marks]</li>
+</ul>
+</li>
+<li>&#8226; <strong>With Reference to the CoV</strong>
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;The unification of Italy completed&#8230;the destruction of the European order.&#8221; Comment. [1997, 20 Marks]</li>
+</ul>
+</li>
+</ul>
+<p>Italian region did have a sense of a shared culture from the time of renaissance itself, but remained geographically, politically and economically divided at the beginning of the 19th century.</p>
+<p><strong>Risorgimento</strong> was a 19th-century ideological as well as political movement which aroused national consciousness for Italian unification. It culminated in the establishment of the Kingdom of Italy in 1861, by expelling foreign domination and uniting different regions politically.</p>
+<h3>Obstacles in unification of Italy</h3>
+<ul>
+<li>&#8226; <strong>Internal Division: &#8220;Italy was merely a geographical expression</strong>&#8221; (Metternich)
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Congress of Vienna</strong> divided Italy in various parts under different rulers.
+<ul>
+<li style="padding-left:4em">&#9632; Piedmont-Sardinia: A separate state under the House of Savoy.
+<ul>
+<li style="padding-left:6em">&#8226; It was the most powerful state in the region.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; Lombardi, Venetia: Vested under the control of Austria.</li>
+<li style="padding-left:4em">&#9632; Parma, Modena and Tuscany: Habsburg prince was established as the monarch.</li>
+<li style="padding-left:4em">&#9632; Middle Italian region: given to Pope (Papal region)</li>
+<li style="padding-left:4em">&#9632; Naples and Sicily: Kings from Bourbon dynasty were restored.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Regionalism:</strong> Every Italian states had its own unique history, culture, and language.</li>
+<li style="padding-left:2em">&#9702; Italy was <strong>economically divided</strong> between northern-southern part. Slight industrialization had taken place in North Italy but South Italy was primarily agrarian.</li>
+<li style="padding-left:2em">&#9702; The feudal lords and nobles were very powerful and wanted to keep Italy fragmented to ensure their interests.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Opposing forces:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Foreign domination:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Italy was divided into several small states and territories that were under the control of foreign powers, such as Austria, France, and Spain.</li>
+<li style="padding-left:4em">&#9632; Austrian Empire was working as vigilante opposing any change.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Papal Opposition:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The Catholic Church held significant influence in Italy and was opposed to the idea of unification because it would threaten its power and influence.</li>
+<li style="padding-left:4em">&#9632; Some region in middle Italian part was under the control of Pope and no European power could dare to invade. If disturbed, even France would have to intervene.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Weakness of the Unification movement</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Lack of popular support:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The idea of Italian unification was initially popular only among a small group of intellectuals and liberals.</li>
+<li style="padding-left:4em">&#9632; Most of the population was largely indifferent to the idea of a united Italy and did not actively support the cause.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Limited resources:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The Italian states were poor and lacked the financial resources to fund a war or a significant political movement for unification.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Internal/ideological divisions:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The Italian unification movement was marked by internal divisions, rivalries, and disagreements among its leaders and supporters. These divisions weakened the movement and made it difficult to achieve a unified strategy and approach.</li>
+<li style="padding-left:4em">&#9632; On this issue, there were three different models.
+<ul>
+<li style="padding-left:6em">&#8226; <strong>Monarchists:</strong> Unification under the leadership of the monarch of Piedmont-Sardinia. (eg Cavour)</li>
+<li style="padding-left:6em">&#8226; <strong>Republicans:</strong> Unification under the leadership of the republic as in Italy.
+<ul>
+<li style="padding-left:8em">&#9702; Italy had a long tradition of republicanism since Roman era.</li>
+<li style="padding-left:8em">&#9702; Leader: Mazzini and his disciple Garibaldi.</li>
+</ul>
+</li>
+<li style="padding-left:6em">&#8226; <strong>Neo-gulfs:</strong> Favoured the unification under the leadership of Pope of Rome. (eg Priest Geoberti)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Despite these obstacles, Italian unification was eventually achieved through the leadership of figures such as <strong>Giuseppe Garibaldi, Giuseppe Mazzini,</strong> and <strong>Camillo di Cavour.</strong></p>
+<h3>The Timeline of Unification</h3>
+<ul>
+<li>&#8226; <strong>Role of Napoleon Bonaparte</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Italy was conquered by Napoleon during 1796-97. He liberated Italy from Austria. Entire Italy was divided into three parts and a republican state was established in Italy.</li>
+<li style="padding-left:2em">&#9702; Napoleon carried out reform in accordance with the ideas of French Revolution. Political liberty was granted, principle of equality was declared as the basis of state and society by destroying feudalism. Freedom of press and religion were provided.</li>
+<li style="padding-left:2em">&#9702; Napoleon also reminded Italians of their past greatness and paved the way for the growth of awakening.</li>
+<li style="padding-left:2em">&#9702; When the rule of Napoleon turned despotic, the spirit of nationalism emerged in Italy. This Italian nationalism inspired the process of Italian political unification in future.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Role of Congress of Vienna:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Congress of Vienna, in order to <strong>suppress the idea of Nationalism, reversed the political changes carried out by Napoleon.</strong></li>
+<li style="padding-left:2em">&#9702; With this objective, it <strong>divided Italy</strong> and converted it merely a <strong>geographical expression</strong>. The changes carried out by Vienna congress were strongly against Italian nationalist aspirations, but the <strong>integration of Genoa with Piedmont Sardinia</strong> created the possibilities of Italian unification under its leadership.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Carbonari (1800-1831)</strong> (charcoal burners)
+<ul>
+<li style="padding-left:2em">&#9702; It was <strong>a secret society and revolutionary movement</strong> inspired by the Enlightenment and French Revolution. It aimed to overthrow foreign rule and absolute monarchy, promote liberal and nationalist ideals, constitutional government, and civil liberties.</li>
+<li style="padding-left:2em">&#9702; The Carbonari included <strong>members from all walks of life</strong>, including peasants, artisans, merchants, and professionals (mobilized a broad range of people in support of Italian unification).</li>
+<li style="padding-left:2em">&#9702; It was also involved in revolutionary activities like uprisings, conspiracies, and insurrections against foreign rulers and conservative governments in Italy. (e.g. <strong>Neapolitan Carbonari uprising</strong> of 1820)</li>
+<li style="padding-left:2em">&#9702; However, the secrecy made coordination difficult, and internal divisions hindered effectiveness. Additionally, their uprisings <strong>faced harsh repression</strong> from foreign powers, such as Austria and the Bourbon monarchy in Naples.</li>
+<li style="padding-left:2em">&#9702; Still, they contributed to <strong>the early awakening of Italian nationalism</strong> and their legacy as a symbol of Italian resistance and the desire for unification endured and <strong>inspired future generations</strong> of Italian nationalists, including Giuseppe Garibaldi and Camillo Benso, Count of Cavour.</li>
+</ul>
+</li>
+<li>&#8226; The course of events carried the movement of unification naturally in <strong>favour of monarchy</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; 1820s: disturbance in Naples, Sicily and many other regions.</li>
+<li style="padding-left:2em">&#9702; 1830s: Activism of republican leader <strong>Mazzini</strong> who promoted his organization &#8216;<strong>Young Italy</strong>&#8217; encouraged the revolution through republican ideas. (already covered in earlier class)</li>
+<li style="padding-left:2em">&#9702; <strong>1848:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Charles Albert</strong> rose up to the occasion and he declared a war against Austria.</li>
+<li style="padding-left:4em">&#9632; But Piedmont-Sardinia was not a match for the Austrian empire. So, It was defeated at the hand of Austria and the process of unification received a serious jolt.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>The Era of Victor Immanuel II and Count Cavour</h3>
+<ul>
+<li>&#8226; Victor Immanuel II was a very competent ruler. He decided to make Piedmont-Sardinia a powerful state in Italy. So, he started a <strong>process of reforms in Piedmont-Sardinia</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; The king appointed <strong>Count Cavour I as the finance minister.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; He was a proponent of constitutional monarchy and liberal reforms.</li>
+<li style="padding-left:4em">&#9632; He carried reforms in <strong>agriculture</strong>, worked for the promotion of <strong>industrialization</strong>, and in order to promote trade and <strong>commerce</strong>, he pursued the policy of free trade and concluded treaties with European countries. Banks and cooperative societies were established.</li>
+<li style="padding-left:4em">&#9632; So, <strong>economically</strong> now Piedmont-Sardinia was in a <strong>better position</strong>.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; After that in 1852, Victor Immanuel II promoted Cavour to the post of <strong>Prime Minister</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; He now did a lot for the <strong>reorganization of the army</strong> of Piedmont-Sardinia. So, even on the <strong>military front</strong>, Piedmont-Sardinia became a powerful state. A strong force of 90,000 soldiers was created.</li>
+<li style="padding-left:4em">&#9632; Steps were taken to provide civil liberties to people. The role of the Church was curtailed and a secular polity was established.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Thus, Piedmont Sardinia became a model state in the Italian Peninsula &#8211; the wealthiest, powerful and most liberal state.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Crimean War</strong> and diplomatic gains of Piedmont-Sardinia <strong>(1854-56)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After having been prepared economically and militarily, Cavour set a foot in <strong>international politics.</strong></li>
+<li style="padding-left:2em">&#9702; Firstly, he <strong>discarded the doctrine of <em>Italia&#8211;fara&#8211;da&#8211;se</em></strong> (Italy will go alone) promoted by earlier King Charles Albert. He started to search for an international ally.</li>
+<li style="padding-left:2em">&#9702; <strong>Crimean War</strong> gave him a good opportunity for internationalizing Italian issue and find an international ally.
+<ul>
+<li style="padding-left:4em">&#9632; He supported Britain and France in the battle. In this war, he volunteered for a military contingent of 15,000 soldiers.</li>
+<li style="padding-left:4em">&#9632; As a result of this move, Piedmont-Sardinia could get a seat in the <strong>Paris Conference (1856)</strong> after the war. Thus, Crimean war proved the game changer - thus <strong>from the mud of Crimea the unified Italy emerged.</strong>
+<ul>
+<li style="padding-left:6em">&#8226; In this conference, Cavour internationalized the issue even after the objection from the Austrian representative.</li>
+<li style="padding-left:6em">&#8226; Rift caused between Austria and Russia</li>
+<li style="padding-left:6em">&#8226; In the Paris Conference, Cavour developed personal rapport with Napoleon III, which helped in Plombiers&#8217; Pact. It was with the French help in the second war of Italian unification, that Austria was expelled from some Italian reigon.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Treaty of Plombieres (1858):</strong> In Paris conference, Cavour came near to French Monarch, Louis Napoleon III as well. Now he decided to conclude a treaty to reserve the support from France for Piedmont-Sardinia on the Italian issue.
+<ul>
+<li style="padding-left:2em">&#9702; Treaty
+<ul>
+<li style="padding-left:4em">&#9632; It established a <strong>military alliance</strong> between Piedmont-Sardinia and France. France promised assistance of 2 lakh soldiers.</li>
+<li style="padding-left:4em">&#9632; France would help Piedmont-Sardinia to recover Lombardy and Venetia from the Austria. In return, France would get Nice and Savoy.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The Plombi&#232;res Pact marked a turning point in the Risorgimento, and set in motion the process that eventually led to the unification of Italy under the leadership of Sardinia. It was a diplomatic success by Cavour.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Second war of Italian Independence (1859) &#8594; Unification of Lombardy</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After getting assurance of French support, Cavour instigated a revolt against Austria in Lombardy, at this Austria attacked Piedmont in 1859. As per the pact, French forces arrived for help.</li>
+<li style="padding-left:2em">&#9702; Then France and Piedmont started a joint military operation against Austria. After this operation, when they got initial success, French emperor Louis Napoleon III changed his mind. He did a <strong>volte-face</strong> and signed the <strong>Treaty of Villafranca</strong> in 1859.</li>
+<li style="padding-left:2em">&#9702; Why did he do so?
+<ul>
+<li style="padding-left:4em">&#9632; In fact, it was in the hope of Nice and Savoy from Piedmont, Louis had joined the alliance, and he was hoping for domestic support. However, the people of France became disturbed because
+<ul>
+<li style="padding-left:6em">&#8226; France being a Roman Catholic Nation fighting against another Roman Catholic Nation, Austria.</li>
+<li style="padding-left:6em">&#8226; Large number of French casualties were reported.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; So, he withdrew from the war and signed a separate peace from Austria.</li>
+<li style="padding-left:4em">&#9632; Thereby, Piedmont-Sardinia received a serious jolt. Cavour felt backstabbed and considered it as deceit of Villafranca.</li>
+<li style="padding-left:4em">&#9632; Cavour: &#8220;They have stopped me from making Italy by diplomacy from the north, I will make by revolution from the south.&#8221;</li>
+<li style="padding-left:4em">&#9632; At least, due to the intervention of Louis Napoleon III, Austria had to cede the region of <strong>Lombardy</strong> to Piedmont-Sardinia but Venetia remained under Austrian control. So, a part of the original plan was successful.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Parma, Modena, Tuscany</strong>
+<ul>
+<li style="padding-left:2em">&#9702; With annexation of Lombardy to Piedmont-Sardinia, there was a <strong>wave of the nationalist sentiments</strong> in the Italian region. So, a movement for unification started in the region of Parma, Modena and Tuscany. (revolutionary environment prevailing in the region)</li>
+<li style="padding-left:2em">&#9702; Cavour was confident that if a referendum was conducted in the region, the region could be merged with Piedmont-Sardinia.</li>
+<li style="padding-left:2em">&#9702; He assured Louis Napoleon of transfer of Nice and Savoy after the referendum the region. So, the French emperor intervened in the matter.</li>
+<li style="padding-left:2em">&#9702; On the basis of the referendum, with almost unanimous vote, the region of Parma, Modena and Tuscany were integrated with Piedmont-Sardinia. So, the integration of Northern Italy was almost over.</li>
+<li style="padding-left:2em">&#9702; Austria wanted to intervene in Italy to restore the rulers of Parma, Modena, Tuscany, but British neutrality did not allow Austria to do so. British government led by PM Palmerston declared that Italians must he left alone to decide their future, and nobody must interface from outside.</li>
+<li style="padding-left:2em">&#9702; Based on referendum, Savoy and Nice was also united with France. When Napoleon III accepted Nice and Savoy, Cavour said, <strong>&#8220;We are not accomplices.&#8221;</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Southern Expedition by Garibaldi:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The nationalist transformations going on in North Italy triggered popular revolution in Naples against the foreign rule of Bourbon dynasty. But it was not possible for Cavour to intervene in Naples and Sicily directly because of the possibility of French Reaction.</li>
+<li style="padding-left:2em">&#9702; Integration of Southern states became possible due to the role of <strong>Garibaldi</strong> who was a disciple of Mazzini, a <strong>republican</strong>.</li>
+<li style="padding-left:2em">&#9702; Garibaldi, in association with his 1000 well-disciplined volunteers (<strong>Redshirts</strong>), moved towards southern states.
+<ul>
+<li style="padding-left:4em">&#9632; En route, Garibaldi captured <strong>Naples</strong> and <strong>Sicily</strong> in 1860. He overthrew the Bourbon monarchy there. Soon, Cavour also conquered <strong>Umbria</strong> &amp; <strong>Marche</strong>. He was asked to merge these territories with North Italy, but he refused to do so because he wanted to create a Republic.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Cavour realized that Garibaldi might convert southern states into republics.
+<ul>
+<li style="padding-left:4em">&#9632; So, he suggested Italian king <strong>Victor Immanuel II</strong> to go south and to take charge of Naples and Sicily from Garibaldi. While moving southwards, Victor Immanuel II captured <strong>some region of Pope</strong>, and then he <strong>took charge of Naples and Sicily</strong> from Garibaldi.</li>
+<li style="padding-left:4em">&#9632; A <strong>plebiscite</strong> was held in all these regions to understand people&#8217;s desire. When the result was announced, Garibaldi realized his mistake and he surrendered to king victor Immanuel II but was pardoned and was allowed to go away. As per the result, all these territories were merged with North Italy and Victor Immanuel II was coronated as the king of united Italy.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; So, except Venetia and Rome, the whole of Italy was unified and Victor Immanuel II became the emperor of the <strong>Kingdom of Italy (1861-1946).</strong></li>
+<li>&#8226; The further development on the issues of Venetia and Rome was linked to the issue of unification of Germany.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Third War of Italian Unification (Venetia, 1866)</strong>
+<ul>
+<li style="padding-left:4em">&#9632; When Prussia defeated the Austrian empire in the <strong>Battle of Sadowa</strong>, there was the Treaty of Prague. Being an ally of Prussia, Italy also gained the region of <strong>Venetia</strong> from Austria.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Papal States (Rome, 1870)</strong>
+<ul>
+<li style="padding-left:4em">&#9632; In the <strong>Battle of Sedan</strong> between France and Germany (1870), France came under pressure and withdrew its soldiers from Rome. Prussia soon defeated France.</li>
+<li style="padding-left:4em">&#9632; Italy seized the moment, sent its army and capture Rome. Pope was left with small territory known as Vatican City and Rome was made the capital of Italy.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Thus, the unification of Italy was completed.</li>
+</ul>
+<h3>The relative contribution of different personalities in the unification of Italy</h3>
+<p>Victor Emmanuel, Garibaldi, Cavour, and Mazzini have been referred as Italy&#8217;s <strong>Four Fathers of the Fatherland.</strong></p>
+<h4>Mazzini:</h4>
+<ul>
+<li>&#8226; Mazzini was a very important personality. He was a great visionary. It was he, who conceived the idea of unified Italy.</li>
+<li>&#8226; However, he was too idealistic in his approach. Republicanism was his first priority and unification was the second one. So, wherever there was a conflict in the objective of unification and republicanism, he gave priority to republicanism than to unification.
+<ul>
+<li style="padding-left:2em">&#9702; When he found his disciple, Garibaldi, coming under the influence of monarchy of Piedmont-Sardinia, discarding the objective of republicanism, he was grieved and declared that <strong>&#8220;Aah, ultimately Machiavelli emerged to be victorious&#8221;.</strong></li>
+</ul>
+</li>
+</ul>
+<h4>Victor Immanuel II:</h4>
+<ul>
+<li>&#8226; The first important personality was King Victor Immanuel II.</li>
+<li>&#8226; He took charge of the affairs after the failure of his predecessor, Charles Albert.</li>
+<li>&#8226; After coming to power, he did a lot for the modernization of Piedmont-Sardinia, and to make it militarily a powerful state.</li>
+<li>&#8226; He not simply chose Count Cavour as Prime Minister of Italy but also gave him sufficient power to deal with the affairs.</li>
+</ul>
+<h4>Count Cavour:</h4>
+<ul>
+<li>&#8226; Count Cavour was a <strong>constitutional monarchist.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; His first objective was to strengthen the position of the ruler of Piedmont-Sardinia. Earlier, he was not in favour of Italian unification as a whole. Thus, his initial objective was to geographically expand Piedmont-Sardinia in the region of Lombardy and Venetia.</li>
+<li style="padding-left:2em">&#9702; He was suspicious about the movement of republicanism. He took republicanist as a danger to the monarchy of Piedmont-Sardinia. However, it was after the treaty of Villafranca, he became soft towards republicanism.</li>
+<li style="padding-left:2em">&#9702; When France deserted him, out of reaction, Cavour declared that they (European powers) have stopped us from unification through diplomacy from north, we would complete it through a revolution from south. Then it was with the support of republicans he won through the referendum in the states of Parma, Modena and Tuscany.</li>
+</ul>
+</li>
+<li>&#8226; Still, throughout his life, he remained <strong>worried about republicans.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After the integration of Northern Italy, he was not in a mood to go to south for the fear that republican ideas could prevail in Italy.</li>
+<li style="padding-left:2em">&#9702; But when Garibaldi chose the independent course of action, so for the fear of southern states turning to be republican, he intervened in the matter and decided to go to south.</li>
+</ul>
+</li>
+<li>&#8226; So, what appeared later as unified Italy, was not totally according to the vision of Count Cavour.</li>
+</ul>
+<h4>Garibaldi:</h4>
+<ul>
+<li>&#8226; Without the role of Garibaldi, one can&#8217;t explain unification.</li>
+<li>&#8226; He was the disciple of Mazzini, and he was the republican. But he gave priority first to unification and then to republican ideas, and whenever there was a contradiction between the two he chose the course of the unification.
+<ul>
+<li style="padding-left:2em">&#9702; That&#8217;s why he welcomed the decision of Italian republicans, when they accepted the leadership of the monarchy of Piedmont-Sardinia.</li>
+</ul>
+</li>
+<li>&#8226; But it didn&#8217;t mean that he was at peace with monarchy.
+<ul>
+<li style="padding-left:2em">&#9702; Once he expressed his grief, &#8220;Aah, what have you done, we have expelled Bourbon (Naples and Sicily) but brought another dynasty (Immanuel II), we have dismissed a corpse from the throne but restored on that his sick brother&#8221;.</li>
+</ul>
+</li>
+</ul>
+<p>In this way, the unification of Italy was neither totally in the vision of Cavour not in the vision of Garibaldi, both had to make a lot of compromises.</p>
+<h3>Role of Popular Movement in the unification of Italy:</h3>
+<p>There is a debate over the relative importance of elites and the masses in the Risorgimento.</p>
+<ul>
+<li>&#8226; Some historians have emphasized the role of political and intellectual elites in shaping the direction of the movement, while others have focused on the role of popular uprisings and mass movements in achieving Italian unification.</li>
+<li>&#8226; In the unification of Italy, popular sentiments played a very significant role. Sometimes the people enthusiastically participated in the movement, but middle-class leadership was always conscious about its rights and privileges and used the popular movement in its favour.</li>
+</ul>`,
   'imperialism-colonialism': ``,
   'revolution-counter-revolution': ``,
   'world-wars': ``,
