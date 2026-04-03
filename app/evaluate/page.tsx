@@ -239,6 +239,7 @@ export default function EvaluatePage() {
   const [evalPhase, setEvalPhase]       = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const addFileRef = useRef<HTMLInputElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
   const [swapIdx, setDragIdx] = useState<number | null>(null);
   const [previews, setPreviews] = useState<string[]>([]);
 
@@ -730,7 +731,7 @@ const handleOcr = useCallback(async () => {
             )}
 
             {/* Tabs */}
-            <div className="ev-tabs">
+            <div className="ev-tabs" ref={tabsRef}>
               {(["eval","model","hist"] as const).map(t => (
                 <button key={t} className={`ev-tab ${tab===t?"active":""}`} onClick={() => setTab(t)}>
                   {t==="eval"?"Evaluation":t==="model"?"Model Answer":"Historians"}
@@ -874,8 +875,12 @@ const handleOcr = useCallback(async () => {
             )}
 
             <button className="ev-btn" style={{ marginTop:28 }}
-              onClick={() => setTab("model")}>
-              View Model Answer →
+              onClick={() => {
+                const next = tab === "eval" ? "model" : "eval";
+                setTab(next);
+                setTimeout(() => tabsRef.current?.scrollIntoView({ behavior:"smooth", block:"start" }), 50);
+              }}>
+              {tab === "eval" ? "View Model Answer →" : "← View Answer Evaluation"}
             </button>
             <button className="ev-btn" style={{ marginTop:12, background:"transparent", color:"#555", borderColor:"#2a2a2a" }}
               onClick={() => { setEvaluation(null); setFiles(undefined as any); setPreviews([]); setQuestion(""); setSubmittedQ(""); setExtractedText(""); setError(""); setStage("form"); }}>
