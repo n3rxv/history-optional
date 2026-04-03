@@ -525,7 +525,7 @@ Every response must:
           <div className="chat-header-icon">⚔</div>
           <div>
             <div className="chat-header-title">AI History Assistant</div>
-            <div className="chat-header-sub">UPSC History Optional · Powered by Claude</div>
+            <div className="chat-header-sub">UPSC History Optional</div>
           </div>
           <button className="chat-new-btn" onClick={() => setMessages([{
             role: 'assistant',
