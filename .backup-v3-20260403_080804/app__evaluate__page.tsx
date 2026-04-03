@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import { useSubscriptionGate } from "@/components/SubscriptionGate";
 
 interface Historian {
@@ -242,7 +242,7 @@ export default function EvaluatePage() {
   const [swapIdx, setDragIdx] = useState<number | null>(null);
   const [previews, setPreviews] = useState<string[]>([]);
 
-const handleOcr = useCallback(async () => {
+const handleOcr = async () => {
     if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one image and enter the question."); return; }
     setError(""); setOcrLoading(true); setOcrProgress(0);
     // Animate OCR progress
@@ -274,7 +274,7 @@ const handleOcr = useCallback(async () => {
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "OCR failed. Please try again.");
     } finally { setOcrLoading(false); }
-  }, [files, question]);
+  };
 
   // ── Subscription gate — must come after handleOcr is defined ──────────────
   const { UsagePill, GateModals, handleEvaluate, usage, increment } = useSubscriptionGate(handleOcr);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 
 const FREE_LIMIT = 2;
@@ -304,8 +304,6 @@ function GoogleIcon() {
 
 // ── Main hook — use this in EvaluatePage ─────────────────────────────────────
 export function useSubscriptionGate(onAllowed: () => void) {
-  const onAllowedRef = useRef(onAllowed);
-  useEffect(() => { onAllowedRef.current = onAllowed; }, [onAllowed]);
   const [state, setState] = useState<UsageState>({
     loading: true, allowed: false, used: 0,
     limit: FREE_LIMIT, subscribed: false, owner: false, noPhone: false, token: null,
@@ -346,7 +344,7 @@ export function useSubscriptionGate(onAllowed: () => void) {
     if (!state.token)  { setModal('unauthenticated'); return; }
     if (state.noPhone) { setModal('phone'); return; }
     if (!state.allowed){ setModal('limit_reached');   return; }
-    onAllowedRef.current();
+    onAllowed();
   }, [state, onAllowed]);
 
   // ── Dot pill showing remaining evals ────────────────────────────────────
@@ -377,7 +375,7 @@ export function useSubscriptionGate(onAllowed: () => void) {
   const GateModals = () => (
     <>
       {modal === 'phone' && state.token && (
-        <PhoneModal token={state.token} onDone={() => { setModal('none'); refresh().then(() => onAllowedRef.current()); }} />
+        <PhoneModal token={state.token} onDone={() => { setModal('none'); refresh().then(() => onAllowed()); }} />
       )}
       {(modal === 'unauthenticated' || modal === 'limit_reached') && (
         <PaywallModal
