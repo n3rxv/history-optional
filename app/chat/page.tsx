@@ -157,9 +157,17 @@ function ChatContent() {
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const lastAiRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // If last message is from assistant, scroll to top of that response
+    // Otherwise scroll to bottom (user message sent, waiting for reply)
+    const last = messages[messages.length - 1];
+    if (last?.role === 'assistant' && messages.length > 1) {
+      setTimeout(() => lastAiRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    } else {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages]);
 
   const sendMessage = async (text?: string) => {
@@ -461,7 +469,8 @@ When answering:
         <div className="chat-msgs">
           <div className="chat-msgs-inner">
             {messages.map((msg, i) => (
-              <div key={i} className={`chat-msg-row ${msg.role}`}>
+              <div key={i} className={`chat-msg-row ${msg.role}`}
+                ref={msg.role === 'assistant' && i === messages.length - 1 ? lastAiRef : null}>
                 <div className={msg.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'}>
                   {msg.role === 'user' ? (
                     <span>{msg.content}</span>
