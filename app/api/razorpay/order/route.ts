@@ -2,12 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase";
 import Razorpay from "razorpay";
 
-const razorpay = new Razorpay({
-  key_id:     process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
-
 export async function POST(req: NextRequest) {
+  const razorpay = new Razorpay({
+    key_id:     process.env.RAZORPAY_KEY_ID!,
+    key_secret: process.env.RAZORPAY_KEY_SECRET!,
+  });
   const token = req.headers.get("x-user-token");
   if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
