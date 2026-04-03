@@ -39,6 +39,14 @@ function bodyParas(body: string | string[]): string[] {
   if (Array.isArray(body)) return body.filter(Boolean);
   return body.split(/\n\n+/).filter(Boolean);
 }
+// Safely convert any AI field that should be string[] but might come back as object/string
+function toArray(val: unknown): string[] {
+  if (Array.isArray(val)) return val.map(String).filter(Boolean);
+  if (val && typeof val === 'object') return Object.values(val as object).map(String).filter(Boolean);
+  if (typeof val === 'string' && val.trim()) return [val];
+  return [];
+}
+
 
 
 async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promise<File> {
@@ -744,7 +752,7 @@ const handleOcr = useCallback(async () => {
               <div className="ev-fade">
                 <div className="ev-card">
                   <div className="ev-ct">Demand of the Question</div>
-                  <div>{evaluation.demand_of_question.map((d,i) => (
+                  <div>{toArray(evaluation.demand_of_question).map((d,i) => (
                     <div key={i} className="ev-demand-item">
                       <div className="ev-demand-bullet" />
                       <div className="ev-demand-txt">{d}</div>
@@ -758,9 +766,9 @@ const handleOcr = useCallback(async () => {
                     <div className="ev-wrote-txt">{evaluation.introduction.what_was_written}</div>
                   </div>
                   <div className="ev-analysis">{evaluation.introduction.analysis}</div>
-                  {evaluation.introduction.suggestions.length > 0 && (<>
+                  {toArray(evaluation.introduction.suggestions).length > 0 && (<>
                     <div className="ev-sl">Suggestions</div>
-                    <ul className="ev-list">{evaluation.introduction.suggestions.map((s,i) => <li key={i}>{s}</li>)}</ul>
+                    <ul className="ev-list">{toArray(evaluation.introduction.suggestions).map((s,i) => <li key={i}>{s}</li>)}</ul>
                   </>)}
                   <div className="ev-card" style={{ marginTop:16, marginBottom:0, background:"rgba(59,130,246,0.04)", border:"1px solid rgba(59,130,246,0.15)" }}>
                     <div className="ev-ct" style={{ color:"#3b82f6" }}>Model Introduction</div>
@@ -772,10 +780,10 @@ const handleOcr = useCallback(async () => {
                 <div className="ev-card">
                   <div className="ev-ct">Body</div>
                   <div className="ev-sl g" style={{ marginTop:0 }}>Strengths</div>
-                  <ul className="ev-list" style={{ marginBottom:16 }}>{evaluation.body.strengths.map((s,i) => <li key={i} className="g">{s}</li>)}</ul>
+                  <ul className="ev-list" style={{ marginBottom:16 }}>{toArray(evaluation.body.strengths).map((s,i) => <li key={i} className="g">{s}</li>)}</ul>
                   <div className="ev-sl r">Weaknesses</div>
                   <div style={{ display:"flex", flexDirection:"column", gap:8, marginBottom:16 }}>
-                    {evaluation.body.weaknesses.map((w,i) => {
+                    {toArray(evaluation.body.weaknesses).map((w,i) => {
                       const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
                       const tag = tagMatch ? tagMatch[1] : null;
                       const text = tagMatch ? w.slice(tagMatch[0].length) : w;
@@ -801,7 +809,7 @@ const handleOcr = useCallback(async () => {
                     })}
                   </div>
                   <div className="ev-sl">Suggestions</div>
-                  <ul className="ev-list">{evaluation.body.suggestions.map((s,i) => <li key={i}>{s}</li>)}</ul>
+                  <ul className="ev-list">{toArray(evaluation.body.suggestions).map((s,i) => <li key={i}>{s}</li>)}</ul>
                 </div>
                 <div className="ev-card">
                   <div className="ev-ct">Conclusion</div>
@@ -810,9 +818,9 @@ const handleOcr = useCallback(async () => {
                     <div className="ev-wrote-txt">{evaluation.conclusion.what_was_written}</div>
                   </div>
                   <div className="ev-analysis">{evaluation.conclusion.analysis}</div>
-                  {evaluation.conclusion.suggestions.length > 0 && (<>
+                  {toArray(evaluation.conclusion.suggestions).length > 0 && (<>
                     <div className="ev-sl">Suggestions</div>
-                    <ul className="ev-list">{evaluation.conclusion.suggestions.map((s,i) => <li key={i}>{s}</li>)}</ul>
+                    <ul className="ev-list">{toArray(evaluation.conclusion.suggestions).map((s,i) => <li key={i}>{s}</li>)}</ul>
                   </>)}
                   <div className="ev-card" style={{ marginTop:16, marginBottom:0, background:"rgba(74,222,128,0.03)", border:"1px solid rgba(74,222,128,0.12)" }}>
                     <div className="ev-ct" style={{ color:"rgba(74,222,128,0.7)" }}>Model Conclusion</div>
@@ -863,11 +871,11 @@ const handleOcr = useCallback(async () => {
               <div className="ev-fade">
                 <div className="ev-card">
                   <div className="ev-ct">Historians to Cite for This Topic</div>
-                  {evaluation.historians_to_cite.map((h,i) => (
+                  {(Array.isArray(evaluation.historians_to_cite) ? evaluation.historians_to_cite : []).map((h,i) => (
                     <div key={i} className="ev-hist">
-                      <div className="ev-hist-name">{h.name}</div>
-                      {h.work && <div className="ev-hist-work">{h.work}</div>}
-                      <div className="ev-hist-arg">{h.argument}</div>
+                      <div className="ev-hist-name">{typeof h === 'object' && h !== null ? (h as any).name : String(h)}</div>
+                      {typeof h === 'object' && h !== null && (h as any).work && <div className="ev-hist-work">{(h as any).work}</div>}
+                      <div className="ev-hist-arg">{typeof h === 'object' && h !== null ? (h as any).argument : ''}</div>
                     </div>
                   ))}
                 </div>
