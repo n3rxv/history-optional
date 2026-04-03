@@ -763,7 +763,7 @@ const handleOcr = useCallback(async () => {
                   </>)}
                   <div className="ev-card" style={{ marginTop:16, marginBottom:0, background:"rgba(59,130,246,0.04)", border:"1px solid rgba(59,130,246,0.15)" }}>
                     <div className="ev-ct" style={{ color:"#3b82f6" }}>Model Introduction</div>
-                    <p style={{ fontSize:"0.9rem", color:"#c8c8c8", lineHeight:1.85, fontFamily:"var(--font-body)", margin:0, fontStyle:"italic" }}>
+                    <p style={{ fontSize:"0.9rem", color:"#c8c8c8", lineHeight:1.85, fontFamily:"var(--font-body)", margin:0 }}>
                       {evaluation.model_answer.introduction}
                     </p>
                   </div>
@@ -815,7 +815,7 @@ const handleOcr = useCallback(async () => {
                   </>)}
                   <div className="ev-card" style={{ marginTop:16, marginBottom:0, background:"rgba(74,222,128,0.03)", border:"1px solid rgba(74,222,128,0.12)" }}>
                     <div className="ev-ct" style={{ color:"rgba(74,222,128,0.7)" }}>Model Conclusion</div>
-                    <p style={{ fontSize:"0.9rem", color:"#c8c8c8", lineHeight:1.85, fontFamily:"var(--font-body)", margin:0, fontStyle:"italic" }}>
+                    <p style={{ fontSize:"0.9rem", color:"#c8c8c8", lineHeight:1.85, fontFamily:"var(--font-body)", margin:0 }}>
                       {evaluation.model_answer.conclusion}
                     </p>
                   </div>
