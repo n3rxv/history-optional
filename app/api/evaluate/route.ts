@@ -329,7 +329,7 @@ export async function POST(req: NextRequest) {
     try {
       const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
       const refRes = await callWithFallback({
-        model: "llama-3.3-70b-versatile",
+        model: "moonshotai/kimi-k2-instruct",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           {
@@ -572,7 +572,7 @@ Do not re-evaluate. Faithfully convert your reasoning into JSON.
 Return ONLY the JSON object, no preamble, no markdown fences.`;
 
     const response = await callWithFallback({
-        model: "meta-llama/llama-4-scout-17b-16e-instruct",
+        model: "moonshotai/kimi-k2-instruct",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: cotPrompt },
@@ -590,7 +590,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
       console.log("Pass 2 rate limited, waiting 20s...");
       await new Promise(res => setTimeout(res, 20000));
       const retry = await callWithFallback({
-        model: "meta-llama/llama-4-scout-17b-16e-instruct",
+        model: "moonshotai/kimi-k2-instruct",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: cotPrompt },
@@ -715,7 +715,7 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
 
     try {
       const pass3Res = await callWithFallback({
-        model: "meta-llama/llama-4-scout-17b-16e-instruct",
+        model: "moonshotai/kimi-k2-instruct",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: pass3Prompt },
@@ -764,7 +764,7 @@ RULES:
 
         try {
           const pass4Res = await callWithFallback({
-            model: "meta-llama/llama-4-scout-17b-16e-instruct",
+            model: "moonshotai/kimi-k2-instruct",
             messages: [
               { role: "system", content: SYSTEM_PROMPT },
               { role: "user", content: pass4Prompt },
