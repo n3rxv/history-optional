@@ -334,7 +334,7 @@ const handleOcr = useCallback(async () => {
         .ev-upload:hover, .ev-upload.has { border-color:#3b82f6; background:#0d1b3e; }
         .ev-ta { width:100%; background:#161616; border:1.5px solid #333; border-radius:6px;
           color:#f0f0f0; padding:14px 16px; font-family:var(--font-body); font-size:0.95rem;
-          resize:vertical; line-height:1.75; transition:border-color 0.2s; outline:none; }
+          resize:vertical; line-height:1.75; transition:border-color 0.2s; outline:none; text-align:justify; }
         .ev-ta:focus { border-color:#3b82f6; }
         .ev-ta::placeholder { color:#555; }
         .ev-mchip { padding:9px 26px; border-radius:4px; cursor:pointer;
@@ -761,6 +761,12 @@ const handleOcr = useCallback(async () => {
                     <div className="ev-sl">Suggestions</div>
                     <ul className="ev-list">{evaluation.introduction.suggestions.map((s,i) => <li key={i}>{s}</li>)}</ul>
                   </>)}
+                  <div className="ev-card" style={{ marginTop:16, marginBottom:0, background:"rgba(59,130,246,0.04)", border:"1px solid rgba(59,130,246,0.15)" }}>
+                    <div className="ev-ct" style={{ color:"#3b82f6" }}>Model Introduction</div>
+                    <p style={{ fontSize:"0.9rem", color:"#c8c8c8", lineHeight:1.85, fontFamily:"var(--font-body)", margin:0, fontStyle:"italic" }}>
+                      {evaluation.model_answer.introduction}
+                    </p>
+                  </div>
                 </div>
                 <div className="ev-card">
                   <div className="ev-ct">Body</div>
@@ -807,6 +813,12 @@ const handleOcr = useCallback(async () => {
                     <div className="ev-sl">Suggestions</div>
                     <ul className="ev-list">{evaluation.conclusion.suggestions.map((s,i) => <li key={i}>{s}</li>)}</ul>
                   </>)}
+                  <div className="ev-card" style={{ marginTop:16, marginBottom:0, background:"rgba(74,222,128,0.03)", border:"1px solid rgba(74,222,128,0.12)" }}>
+                    <div className="ev-ct" style={{ color:"rgba(74,222,128,0.7)" }}>Model Conclusion</div>
+                    <p style={{ fontSize:"0.9rem", color:"#c8c8c8", lineHeight:1.85, fontFamily:"var(--font-body)", margin:0, fontStyle:"italic" }}>
+                      {evaluation.model_answer.conclusion}
+                    </p>
+                  </div>
                 </div>
                 <div className="ev-card ev-card-gold">
                   <div className="ev-ct">Overall Feedback</div>
@@ -862,6 +874,10 @@ const handleOcr = useCallback(async () => {
             )}
 
             <button className="ev-btn" style={{ marginTop:28 }}
+              onClick={() => setTab("model")}>
+              View Model Answer →
+            </button>
+            <button className="ev-btn" style={{ marginTop:12, background:"transparent", color:"#555", borderColor:"#2a2a2a" }}
               onClick={() => { setEvaluation(null); setFiles(undefined as any); setPreviews([]); setQuestion(""); setSubmittedQ(""); setExtractedText(""); setError(""); setStage("form"); }}>
               ← Evaluate Another Answer
             </button>
