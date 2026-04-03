@@ -167,6 +167,7 @@ function ChatContent() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const lastAiRef = useRef<HTMLDivElement>(null);
+  const pendingMsgRef = useRef<string | null>(null);
 
   // Load session + chat usage on mount
   useEffect(() => {
@@ -201,7 +202,7 @@ function ChatContent() {
 
     // Gate checks
     if (!token) { setModal('unauthenticated'); return; }
-    if (noPhone) { setModal('no_phone'); return; }
+    if (noPhone) { pendingMsgRef.current = q; setModal('no_phone'); return; }
     if (!isOwner && !isSubscribed && chatUsed >= chatLimit) { setModal('limit_reached'); return; }
 
     const userMsg: Message = { role: 'user', content: q };
@@ -505,7 +506,13 @@ When answering:
         {modal === 'no_phone' && token && (
           <PhoneModal
             token={token}
-            onDone={() => { setNoPhone(false); setModal('none'); }}
+            onDone={() => {
+                setNoPhone(false);
+                setModal('none');
+                const pending = pendingMsgRef.current;
+                pendingMsgRef.current = null;
+                if (pending) setTimeout(() => sendMessage(pending), 100);
+              }}
             onCancel={() => setModal('none')}
           />
         )}
