@@ -143,6 +143,61 @@ function DownloadPDFButton({ content, question }: { content: string; question?: 
   );
 }
 
+function PhoneModal({ token, onSuccess, onCancel }: { token: string | null; onSuccess: () => void; onCancel: () => void }) {
+  const [phone, setPhone] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSave = async () => {
+    const cleaned = phone.replace(/\D/g, '');
+    if (cleaned.length < 10) { setError('Please enter a valid phone number.'); return; }
+    setSaving(true);
+    setError('');
+    try {
+      const res = await fetch('/api/save-phone', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token ?? '' },
+        body: JSON.stringify({ phone: cleaned }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || 'Failed to save. Try again.'); return; }
+      onSuccess();
+    } catch {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+      <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%' }}>
+        <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#3b82f6', marginBottom:12 }}>One-time setup</div>
+        <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:10 }}>Add your phone number</div>
+        <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:24 }}>We need your phone number to complete your profile. We don't call or send any messages.</div>
+        <input
+          type="tel"
+          placeholder="Enter your mobile number"
+          value={phone}
+          onChange={e => { setPhone(e.target.value); setError(''); }}
+          onKeyDown={e => { if (e.key === 'Enter') handleSave(); }}
+          style={{ width:'100%', padding:'12px 14px', borderRadius:8, border: error ? '1px solid #f87171' : '1px solid #333', background:'#161616', color:'#f0f0f0', fontSize:'0.9rem', outline:'none', boxSizing:'border-box', marginBottom: error ? 8 : 16 }}
+          autoFocus
+        />
+        {error && <div style={{ color:'#f87171', fontSize:'0.78rem', marginBottom:16 }}>{error}</div>}
+        <button
+          onClick={handleSave}
+          disabled={saving || !phone.trim()}
+          style={{ width:'100%', padding:'13px', borderRadius:8, border:'none', background: saving || !phone.trim() ? '#1e293b' : 'linear-gradient(135deg,#2563eb,#3b82f6)', color: saving || !phone.trim() ? '#475569' : '#fff', fontWeight:700, fontSize:'0.9rem', cursor: saving || !phone.trim() ? 'not-allowed' : 'pointer', transition:'all 0.18s' }}
+        >
+          {saving ? 'Saving…' : 'Save & Continue →'}
+        </button>
+        <button onClick={onCancel} style={{ width:'100%', marginTop:10, padding:'10px', background:'transparent', border:'1px solid #222', borderRadius:8, color:'#555', cursor:'pointer', fontSize:'0.82rem' }}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
 function ChatContent() {
   const searchParams = useSearchParams();
   const initialQ = searchParams.get('q') || '';
@@ -502,16 +557,11 @@ When answering:
           </div>
         )}
         {modal === 'no_phone' && (
-          <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
-            <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%' }}>
-              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#3b82f6', marginBottom:12 }}>One-time setup</div>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:10 }}>Add your phone number</div>
-              <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:24 }}>We need your phone number to complete your profile. We don't call or send any messages.</div>
-              <div style={{ color:'#aaa', fontSize:'0.85rem', marginBottom:16 }}>Please go to the Evaluate page to add your phone number, then come back to chat.</div>
-              <button onClick={() => { setModal('none'); window.location.href = '/evaluate'; }} style={{ width:'100%', padding:'13px', borderRadius:8, border:'none', background:'linear-gradient(135deg,#2563eb,#3b82f6)', color:'#fff', fontWeight:700, fontSize:'0.9rem', cursor:'pointer' }}>Go to Evaluate page →</button>
-              <button onClick={() => setModal('none')} style={{ width:'100%', marginTop:10, padding:'10px', background:'transparent', border:'1px solid #222', borderRadius:8, color:'#555', cursor:'pointer', fontSize:'0.82rem' }}>Cancel</button>
-            </div>
-          </div>
+          <PhoneModal
+            token={token}
+            onSuccess={() => { setNoPhone(false); setModal('none'); }}
+            onCancel={() => setModal('none')}
+          />
         )}
         {modal === 'limit_reached' && (
           <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
