@@ -322,6 +322,48 @@ export async function POST(req: NextRequest) {
       return res;
     };
 
+    // ── PASS 0.5: Generate reference answer (internal, never shown to user) ──
+    // Runs before evaluation so Pass 1 can judge the student's answer
+    // against what a strong answer actually looks like.
+    let referenceAnswer = "";
+    try {
+      const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
+      const refRes = await callWithFallback({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          {
+            role: "user",
+            content: `Generate a strong internal reference answer for this UPSC History Optional question. This will be used only to calibrate evaluation — it will NOT be shown to the student.
+
+Question: ${question} (${marks} marks)
+
+Write a complete model answer as flowing prose:
+- Introduction (2-3 sentences): Opens with a historiographical debate, names at least one modern historian with their specific thesis, previews the argument.
+- Body (${refBulletCount} points): Each point must have a named modern historian + their specific argument + specific evidence (inscription/text/policy/date) + analytical link to the question.
+- Conclusion (2-3 sentences): Takes a clear historiographical position, resolves the intro tension, no new material.
+
+Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be specific — name real historians with real arguments. No generic statements.`,
+          },
+        ],
+        temperature: 0.3,
+        max_tokens: 1500,
+      });
+
+      if (refRes.ok) {
+        const refData = await refRes.json();
+        referenceAnswer = refData.choices?.[0]?.message?.content?.trim() || "";
+        console.log("Pass 0.5 reference answer generated:", referenceAnswer.slice(0, 200));
+      } else {
+        console.log("Pass 0.5 skipped (rate limited or failed) — evaluating without reference");
+      }
+    } catch (refErr) {
+      console.log("Pass 0.5 error (non-fatal):", refErr);
+    }
+
+    // Brief pause before OCR
+    await new Promise(res => setTimeout(res, 2000));
+
     // ── PASS 0: Dedicated OCR transcription ──────────────────────
     // Only run if user hasn't already provided extracted text
     let finalTranscript = extractedText;
@@ -423,6 +465,12 @@ ${finalTranscript
   ? "The student's handwritten answer has been transcribed for you below. Use this transcript as the PRIMARY source — it is more reliable than reading the images yourself. The images are provided only as visual reference for presentation/handwriting quality.\n\nTRANSCRIPT:\n" + finalTranscript
   : "The images show the student's handwritten answer sheet (" + imageContents.length + " page" + (imageContents.length > 1 ? "s" : "") + "). Read ALL pages carefully before evaluating."}
 
+${referenceAnswer ? `REFERENCE ANSWER (for calibration only — not shown to student):
+The following is what a strong answer to this question looks like. Use it to calibrate your evaluation — judge the student's answer against this standard when assessing which body points are STRONG, WEAK, or NONE, and whether the introduction and conclusion meet the historiographical bar.
+
+${referenceAnswer}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━` : ""}
 Work through this RIGID RUBRIC — check each box YES or NO and assign marks exactly as the band says. Do not deviate from the bands.
 
 == STEP 1: READING ==
