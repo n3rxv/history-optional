@@ -27410,6 +27410,202 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </li>
 </ul>`,
   'industrialization': ``,
+
+  'german-unification': `<h2>Handout 19: German Unification (1865-1871)</h2>
+
+<h3>UPSC CSE PYQs</h3>
+<ul>
+<li>&#8226; <strong>Overall</strong></li>
+<li style="padding-left:2em">&#9702; What determinant factors, along with diplomatic, shaped the process of German Unification? [2017, 20 Marks]</li>
+<li>&#8226; <strong>Napoleon</strong></li>
+<li style="padding-left:2em">&#9702; &#8220;Napoleon kindled the national sentiment, but German unity was achieved by Bismarck.&#8221; Discuss. [1981, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;It is one of the ironies of history that Napoleon was the creator of modern Germany.&#8221; Comment. [1984, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;Napoleon kindled the national sentiment, but German unity was achieved by Bismarck.&#8221; Discuss. [2002, 60 Marks]</li>
+<li>&#8226; <strong>Bismarck</strong></li>
+<li style="padding-left:2em">&#9702; &#8220;The Unification of Germany was the one thing Bismarck was determined to prevent.&#8221; Comment. [1987, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;The political unification of Germany was accomplished solely by Bismarck.&#8221; Comment. [1999, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;Bismarck created a new Germany with the policy of &#8216;blood and iron&#8217;.&#8221; Comment. [2001, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; Bismarck united Germany not by majority of votes and speeches but by a policy of &#8220;Blood and Iron&#8221;. In the light of this statement assess the contribution of Bismarck to the unification of Germany. [2003, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; Was German unification achieved more by &#8216;coal and iron&#8217; than by &#8216;blood and iron&#8217;? [2012, 30 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;From Bismarck&#8217;s &#8216;Blood and Iron&#8217; speech and his forceful actions to achieve German unification, Bismarck came to be known as the Iron Chancellor.&#8221; Critically examine. [2020, 20 Marks]</li>
+</ul>
+
+<p>Right from the time of Westphalia, German states was a sleeping Satan. None attempted to wake it up.</p>
+<p>In was merely a geographic entity in 1805, divided into numerous units. Austria &amp; Prussia were two big states, while there were more than 300 small German states. All of these together were part of Holy Roman Empire headed by the king of Austria.</p>
+
+<h3>Emergence of sense of national consciousness:</h3>
+<ul>
+<li>&#8226; <strong>Historical Context:</strong></li>
+<li style="padding-left:2em">&#9702; The <strong>protestant movement</strong> under Martin Luther gave the German region a <strong>common cultural identity</strong> particularly for the fact that Martin Luther translated the Bible into <strong>German language.</strong></li>
+<li>&#8226; <strong>Role of Napoleon Bonaparte</strong> proved to be an unconscious stimulator for German unification. His conquests and reforms had a profound impact on Germany.</li>
+<li style="padding-left:2em">&#9702; Territorial reorganization: He defeated Austria in the battle of Austerlitz in 1805 and imposed the peace of Pressburg. As per which,</li>
+<li style="padding-left:4em">&#9632; He demolished the relic of the so-called Holy Roman Empire.</li>
+<li style="padding-left:4em">&#9632; Created Confederation of Rhine by reorganizing 300 tiny German states into 16 bigger states. (In Future, Bismark was required to merge these 39 into one.)</li>
+<li style="padding-left:2em">&#9702; Internal Reforms:</li>
+<li style="padding-left:4em">&#9632; Napoleon abolished feudalism, put control over Church, and introduced the Napoleonic Code. So, he internally organized the administration of Germany. These reforms helped to create a sense of national identity among the German people.</li>
+<li style="padding-left:2em">&#9702; War of Nations:</li>
+<li style="padding-left:4em">&#9632; The influence of these ideas resulted in the growth of awakening among Germany and when the rule of Napoleon turned despotic during the last year of his reign, a strong wave of German nationalism emerged.</li>
+<li style="padding-left:4em">&#9632; In a war against Napoleon Bonaparte, German states participated. So, unconsciously the German states developed a sense of fellow-feeling among themselves.</li>
+<li style="padding-left:2em">&#9702; It was this spirit of German nationalism that guided and inspired the process of German unification which was concluded finally by Bismark.</li>
+<li style="padding-left:4em">&#9632; &#8220;Napoleon kindled German national sentiment &amp; Bismark carried out political unification.&#8221;</li>
+<li style="padding-left:4em">&#9632; &#8220;Napoleon wrote the preamble of German unification, but it was Bismarck who provided it with the finishing touch.&#8221;</li>
+<li style="padding-left:2em">&#9702; However, Napoleon&#8217;s defeat in 1815 led to the dissolution of the Confederation of the Rhine and the restoration of the old order in Germany.</li>
+<li style="padding-left:2em">&#9702; Inspite of being an imperialist, the works of Napoleon helped in the emergence of modern unified Germany. That is why, it is commented that &#8216;It is one of the ironies of history that Napoleon was a creator of modern Germany.&#8217;</li>
+<li>&#8226; <strong>Congress of Vienna (1815)</strong></li>
+<li style="padding-left:2em">&#9702; It made every possible effort to restore the pre-Napoleonic picture in Germany.</li>
+<li style="padding-left:2em">&#9702; Since the 39 states of Rhine Confederation could not be reverted, a <strong>German Confederation</strong> was created.</li>
+<li style="padding-left:4em">&#9632; It consisted larger kingdoms like Austria and Prussia, as well as smaller duchies, principalities, and free cities.</li>
+<li style="padding-left:4em">&#9632; It was a patchwork of states, each with its own ruler, laws, and degree of autonomy.</li>
+<li style="padding-left:2em">&#9702; <strong>The Frankfurt parliament</strong>, closed down by Napoleon, was also reestablished. Its powers were limited.</li>
+<li style="padding-left:4em">&#9632; The Federal Diet could not levy taxes, maintain a standing army, or enact significant legislative measures. Decisions required a consensus among member states, making it difficult to take decisive action. Austria and Prussia were the most influential states and competed for dominance.</li>
+<li>&#8226; <strong>Cultural-Ideological factor:</strong> Soon, the German philosophers promoted the sense of fellowfeeling as well as nationalist consciousness.</li>
+<li style="padding-left:2em">&#9702; Their speeches &amp; writings intensified nationalist awakening among the people and this German nationalism was responsible for the political unification of Germany.</li>
+<li style="padding-left:2em">&#9702; The <strong>Romantics</strong> wanted to discard the cold, artificial logic of the Enlightenment to return to the roots of a simple and authentic life based on direct experience and community.</li>
+<li style="padding-left:4em">&#9632; <strong>Language</strong> was seen by Herder as a vessel that molded community and national identities.</li>
+<li style="padding-left:4em">&#9632; The <strong>brothers Grimm</strong> went out to collect "authentic" German folk tales while at the same time studying the German language, pursuing the Romantic conviction that language and folk culture were deeply related.</li>
+<li style="padding-left:2em">&#9702; <strong>The German historians</strong> re-interpreted the past of German people in a positive light. The achievements of rulers like Frederick, the Great were highlighted the common elements prevailing among Germans living in different parts were brought to the notice of people.</li>
+<li style="padding-left:2em">&#9702; Some German thinkers like Johann <strong>Herder</strong>, <strong>Fichte</strong>, <strong>Hegel</strong> rejected the universalism of Enlightenment, rather they gave emphasis over the German unification.</li>
+<li style="padding-left:2em">&#9702; These German philosophers and historians brought about cultural unity in German. Their efforts prepared a solid-cultural platform our which the political unification of Germany could be carried out. That is why it is commented that "The Political unity of Germany was placed on a solid cultural base."</li>
+<li>&#8226; <strong>Burschenschaft</strong> (student union)</li>
+<li style="padding-left:2em">&#9702; It was an organization of university students, with the goal of patriotism, unity and liberal rule. In the Wartburg Festival (1817), students from various universities gathered and burned reactionary books and expressed their desire for political reform.</li>
+<li style="padding-left:2em">&#9702; The reactionary political authorities in the various German states, including Metternich, viewed the Burschenschaften with suspicion. They cracked down on the student fraternities, leading to arrests, censorship, and the banning of their activities.</li>
+</ul>
+
+<h3>Economic-Industrial factor:</h3>
+<ul>
+<li>&#8226; The unification under Austria might have been historical for the fact that Austria carried the legacy of the Holy Roman Empire. But German states preferred the integration with Prussia in place of Austria, for the fact that Prussia was economically and industrially more advanced than Austria.</li>
+<li>&#8226; Economic and material basis for integration:</li>
+<li style="padding-left:2em">&#9702; At the beginning of 19th century, industrial revolution started in Prussia, and it spread to the other parts of Germany. As Prussia was the leading region in industrialisation, all other regions were looking to Prussia for leadership.</li>
+<li>&#8226; In 1834, there was the formation of the custom union <strong>Zollverin</strong> in Germany.</li>
+<li style="padding-left:2em">&#9702; In 1830s and 1840s, it paved the way for the development of means of transportation such as roads and railways lines. Thus, the geographical distance among Germans got reduced. Also, the German market was better integrated. (geographic and economic unification)</li>
+<li style="padding-left:2em">&#9702; Since Austria refused to join it, the lesser German states gradually moved away from Austria and closer to Prussia and their economic interests got interlinked. (integration of economic interests with Prussia alone).</li>
+<li style="padding-left:2em">&#9702; It helped in the growth of modern industries in Germany and thereby a strong capitalist group emerged. In the international competition with British capitalists, they preferred and supported strong unified centralized state for better protectionist policies and colonies abroad for raw material/markets. They threw their weight behind Bismarck. (class interest in unification)</li>
+<li style="padding-left:2em">&#9702; The economic progress brought about by its success allowed Bismarck to raise a large army. This military strength imparted the winning edge to German nationalism. (resources for militarization)</li>
+<li>&#8226; So, the economic-industrial factor played such a significant role in the unification of Germany.</li>
+<li style="padding-left:2em">&#9702; <strong>John Maynard Keynes</strong>, declared that &#8220;It was not blood and iron rather iron and coal which made the unification of Germany possible.&#8221;</li>
+<li style="padding-left:2em">&#9702; The success of Bismarckian policy of blood &amp; iron depended to a large extent on the forces of coal and iron.</li>
+<li style="padding-left:2em">&#9702; The forces of coal &amp; Iron prepared a strong material base for the political unification of Germany.</li>
+<li style="padding-left:2em">&#9702; Without the support of the forces of coal &amp; iron German nationalism would have remained a much weaker force.</li>
+</ul>
+
+<h3>Political-Diplomatic Factor:</h3>
+<p>From 1815 to 1866, about 37 independent German-speaking states existed within the German Confederation. The &#8216;<strong>German question</strong>&#8217; was debated intensely during these decades. The question about the best way to achieve a unification was confounded due to historic problem of <strong>German Dualism</strong>.</p>
+<p>The alternate two solutions were discussed:</p>
+<ul>
+<li>&#8226; <strong>Greater German solution:</strong> Favored unifying all German-speaking peoples under one state and was promoted by the Austrian Empire and its supporters.</li>
+<li>&#8226; <strong>Little German solution:</strong> sought only to unify the northern German states and did not include any part of Austria; this proposal was favored by the Kingdom of Prussia.</li>
+</ul>
+<p>When the Revolutions of 1848 swept across Europe, demands for political reforms, constitutional rights, and national unification were widespread. The Frankfurt National Assembly was convened in 1848 in an attempt to create a unified and liberal German state, but it ultimately failed.</p>
+
+<h3>(A) Failure of 1848</h3>
+<ul>
+<li>&#8226; In spite of the economic integration, political integration was not possible till the demise of Austria as the political power. Whenever some step was taken towards German integration, due to opposition from the side of Austria, it failed. It is here, the role of Bismarck that of the policy of blood and iron became decisive.</li>
+<li style="padding-left:2em">&#9702; In 1848, at <strong>Frankfurt Parliament</strong>, an attempt was made by Prussian monarch, Fredrick William IV, to bring a model of unification. The whole project failed due to the resistance/threat from Austria, and he had to withdrew.</li>
+<li style="padding-left:2em">&#9702; Furthermore, on the basis of <strong>Olmutz Punctation</strong> of 1850, the old German confederacy was restored by Austria.</li>
+<li>&#8226; <strong>Outcome:</strong></li>
+<li style="padding-left:2em">&#9702; The Failure of liberal methods in accomplishing the task of German unification convinced German nationalist that only militarism could succeed. Rise of Bismarck in German polities was the outcome of the same.</li>
+<li style="padding-left:2em">&#9702; It also became crystal clear that no future constitutional revolution in Germany was possible without a war with Austria. So, far Austria was there, such political unification under Prussia was a impossible.</li>
+<li>&#8226; <strong>Attitude of Bismarck:</strong> &#8220;The Unification of Germany was the one thing Bismarck was determined to prevent.&#8221;</li>
+<li style="padding-left:2em">&#9702; Bismarck was <strong>basically reactionary.</strong></li>
+<li style="padding-left:4em">&#9632; He came from Junker class. He was ultraconservative champion of Junker interests.</li>
+<li style="padding-left:4em">&#9632; He was a radical nationalist, totally dedicated to the institution of monarchy.</li>
+<li style="padding-left:2em">&#9702; He <strong>didn&#8217;t believe in parliamentary politics.</strong></li>
+<li style="padding-left:4em">&#9632; He had no faith in the efficiency of liberal methods. He saw liberalism as an expression of the political, economic, and social interests of the propertied urban class associated with industrialization.</li>
+<li style="padding-left:4em">&#9632; He countered it by raising the material interests of the Junkers to the level of patriotic duty.</li>
+<li style="padding-left:4em">&#9632; If this unification was to be carried out under Liberal leaders, they would prevail, and the demand of liberalism was constitutional monarchy.</li>
+<li style="padding-left:4em">&#9632; He believed that the German unity forget through liberal method would remain weak and fragile. He wanted to create united Germany only through military methods.</li>
+<li style="padding-left:2em">&#9702; He never left anyone in doubt that he was a <strong>Prussian patriot, not a German nationalist. "Prussian we are and Prussian we wish to remain"</strong> he said in June 1848.</li>
+<li style="padding-left:4em">&#9632; He wanted to carry out the <strong>Prussianization of Germany</strong> rather than Germanization of Prussia.</li>
+<li style="padding-left:4em">&#9632; He believed that only Prussia&#8217;s internal strength can overcome its revolutionaries and helped to protect Germany from its foreign enemies.</li>
+<li style="padding-left:4em">&#9632; Bismarck believed that Germany was too small for both Austria and Prussian. He wanted to oust Austria from Germany, so that Prussian domination could be imposed. Thus, there was no place for Austria in Bismarckian vision. Thus, he created obstruction in the way German unity till the time Austria was ousted.</li>
+<li style="padding-left:2em">&#9702; Bismarck also wanted that <strong>German prestige must be highest in Europe.</strong> He wanted to carry out German unification in such a way that Austrian and French Prestige could be shattered.</li>
+<li style="padding-left:4em">&#9632; That is why, it is commented that &#8216;Bismarck did not fight his wars for the sake of German unification but in reality, he used the Process of German unification as an ensure to fight his wars.&#8217;</li>
+<li style="padding-left:2em">&#9702; So, it is true that initially Bismarck was opposed to the unification of old Germany.</li>
+</ul>
+
+<h3>(B) Bismarck In the Parliament</h3>
+<p>From 1865 onwards, Bismarck was ready for this great job of unification, and it was he who, through a diplomatic and military option, made the unification possible. (<em>machtpolitiks</em> - power politics, <em>realpolitik</em> &#8211; pragmatism).</p>
+<ul>
+<li>&#8226; <strong>Before Bismarck:</strong></li>
+<li style="padding-left:2em">&#9702; William I was a strong German nationalist. He wanted to carry out political unification of Germany. He knew that Prussia might have to fight a war with Austria. Thus, William I started a very ambitious plan for militarization.</li>
+<li style="padding-left:2em">&#9702; But the liberal members of the bicameral parliament turned down his proposals.</li>
+<li style="padding-left:4em">&#9632; The lower house of Prussia parliament was dominated by liberal. This house did not approve the budget for military reforms.</li>
+<li style="padding-left:2em">&#9702; Having failed repeatedly in his efforts to persuade the liberal dominated Prussian Parliament, king William I appointed Bismarck as Prussian chancellor in 1862 because by this time, Bismarck developed a strong reputation for his ruthlessness. (<strong>1862</strong>)</li>
+<li style="padding-left:4em">&#9632; With the appointment of Bismarck as Prussian chancellor, the process of German unification commenced in a real way. He provided complete support and promised, &#8220;I will be destroyed in fight against the parliament, but I will never desert you.&#8221;</li>
+<li>&#8226; <strong>Bismarck&#8217;s approach:</strong></li>
+<li style="padding-left:2em">&#9702; Bismarck too faced <strong>significant opposition in the House of Representatives when he sought to pass military reforms and increase funding</strong> for the Prussian army. The liberal majority in the House resisted these measures, seeing them as potentially strengthening the monarchy&#8217;s power at the expense of parliamentary democracy.</li>
+<li style="padding-left:2em">&#9702; Liberal thinkers also preferred unification but not through military means. To counter their method, Bismarck gave his <strong>famous Blood and iron (Eisen and Blut) speech</strong> in parliament in the course of getting these proposals passed. (30 Sept 1862)</li>
+<li style="padding-left:4em">&#9632; In the speech, Bismarck called for a small German nation-state dominated by Prussia.</li>
+<li style="padding-left:4em">&#9632; He stated that the great questions of the day should be decided by blood and iron.</li>
+<li style="padding-left:4em">&#9632; &#8216;You are mistaken, German states are not looking upto us for our liberalism but for our power&#8230; it is not by speeches and majority resolutions that the great questions of the time are decided &#8211; that was the big mistake of 1848 and 1849 &#8211; but by iron and blood&#8230; With power game only, this problem could be solved. This The Gordian knot was not to be untied by the gentle methods of dual policy and could only be cut by the sword.&#8217;</li>
+<li style="padding-left:2em">&#9702; But the liberal members were not ready in 1862. So, Bismarck neglected the lower chamber of the parliament.</li>
+<li style="padding-left:4em">&#9632; Ultimately, Bismarck used a combination of political maneuvering, diplomacy, and the threat of external conflict to navigate these hurdles and push through his policies.</li>
+<li style="padding-left:4em">&#9632; He started bypassing the lower house, used ordinances, and passed budgets with the help of upper house to sanction funds for the military reforms.</li>
+<li>&#8226; Thus, He led Prussia into three wars in seven years, eschewing democracy and its plebiscites and achieve a united German aristocracy behind the king of Prussia. He became known as <strong>"the iron chancellor"</strong>.</li>
+</ul>
+
+<h3>(C) The Three Wars (1866-1871)</h3>
+<ul>
+<li>&#8226; <strong>Phase 1: Integration of the two dutchies, Schleswig and Holstein</strong></li>
+<li style="padding-left:2em">&#9702; Two Duchies in the north of Germany, named Schleswig and Holstein were a kind of frontiers. From time immemorial, it was not clear whether they were with Denmark and Germany.</li>
+<li style="padding-left:2em">&#9702; They were placed under the nominal control of Denmark by Vienna congress of 1815 but the majority of population there was German.</li>
+<li style="padding-left:2em">&#9702; So, Prussia and Austria invaded them and annexed them.</li>
+<li style="padding-left:2em">&#9702; Under the Gastein Convention of 1865. The regions were put under joint administration. Although the Convention temporarily postponed the final struggle between them for hegemony over Germany. Bismarck managed to engineer a difference between Austria and Prussia with the help of intentional vagueness in the arrangement.</li>
+<li>&#8226; <strong>Phase 2 &#8211; Creation of North German Confederation.</strong></li>
+<li style="padding-left:2em">&#9702; The <strong>joint administration led to disputes</strong> between the two powers.</li>
+<li style="padding-left:2em">&#9702; Finally, in 1866, Prussia was so prepared. So, Bismarck provoked a war with Austria. In the <strong>Battle of Sadowa</strong> (1866) he gave Austria a crushing defeat. Within 6 weeks Austrian empire was routed.</li>
+<li style="padding-left:2em">&#9702; So, northern German states were integrated with Prussia, in the Treaty of Prague (1866). With this, more than 50% unification was completed.</li>
+<li style="padding-left:2em">&#9702; Before the war began, Bismark had ensured French and Russian neutrality, while Italy was on the Prussian side, to gain Venetia.</li>
+<li style="padding-left:2em">&#9702; In the battle of Sadowa, it was not Austria, rather France which was defeated.</li>
+<li>&#8226; Bismarck now dissolved the Austria-dominated German Confederation and replaced with <strong>North German Confederation</strong>.</li>
+<li style="padding-left:2em">&#9702; Austria was excluded from German affairs, and the North German Confederation, led by Prussia, emerged as the dominant power in northern and central Germany.</li>
+<li style="padding-left:2em">&#9702; <strong>Prussia-dominated Reichstag</strong> was also established to represent people.</li>
+<li style="padding-left:2em">&#9702; <strong>Zollverin</strong> was reconstituted with enlarged territories.</li>
+<li style="padding-left:4em">&#9632; The new Zollverein was stronger, in that no individual state had a veto.</li>
+<li style="padding-left:2em">&#9702; A key feature of the North German Confederation was its unified military structure. This military cooperation not only enhanced the confederation&#8217;s defense capabilities but also underscored Prussia&#8217;s dominance.</li>
+<li>&#8226; <strong>Phase 3: Integration of South German states</strong></li>
+<li style="padding-left:2em">&#9702; South German states were close to France because of their Catholic religion. Bismarck had to first create a division between them. Bismarck <strong>used German Nationalism for bringing southern German states</strong> into his fold.</li>
+<li style="padding-left:2em">&#9702; Bismarck consciously created tension with France and provoked a war by leaking the edited version of Ems Telegram, to hurt both French as well as German sentiments.</li>
+<li style="padding-left:2em">&#9702; Since he was already prepared for war, he roundly defeated it in the Battle of Sedan in 1870.</li>
+<li style="padding-left:2em">&#9702; Then, on the basis of the Treaty of Frankfurt in 1871, southern German states were integrated with Prussia.</li>
+</ul>
+<p>In this way, German unification was completed. So, if iron and coal created the basis for unification, it was blood and iron which gave it a finishing touch.</p>
+
+<h3>Impact of German Unification:</h3>
+<p>&#8220;With the battle of Sedan, Europe lost a mistress and got a master.&#8221;</p>
+<ul>
+<li>&#8226; The completion of the process of German unification resulted in the <strong>emergence of most powerful empire in Europe.</strong></li>
+<li style="padding-left:2em">&#9702; German prestige was highest in whole of Europe. Berlin emerged as the capital of Germany as well as Europe, because all important decisions were taken in Berlin under the leadership of Bismarck.</li>
+<li style="padding-left:2em">&#9702; Till the time Bismarck remained German chancellor (resigned in 1890) not a single important event took place in entire Europe that was not dictated or directed by Germany.</li>
+<li>&#8226; With the unification of Germany, <strong>Europe gained a master</strong>, and their master replaced that role of minister played by France.</li>
+<li style="padding-left:2em">&#9702; The French influence in Europe had been mild. It was positive because France spread the ideas of revolution in whole of Europe these liberal and progressive ideas propagated by France were liberating in nature. France was a leader of Europe ideologically.</li>
+<li style="padding-left:2em">&#9702; While France enjoyed soft power in Europe, but German dominance was an example of hard power. The Bismarckian system of alliances ensured that no country was left in Europe that could stand against German domination.</li>
+</ul>
+
+<h3>Comparison between Italian and German Unification</h3>
+<h4>Similarities:</h4>
+<ul>
+<li>&#8226; Geographic division</li>
+<li>&#8226; Role of Napoleon</li>
+<li>&#8226; Role of Vienna Congress as an obstacle</li>
+<li>&#8226; Austria as a common enemy</li>
+<li>&#8226; Bigger states taking lead &#8211; Piedmont Sardinia and Prussia</li>
+<li>&#8226; Prime Ministers played important role &#8211; Cavour and Bismarck</li>
+<li>&#8226; Use of Diplomacy, war, and nationalism</li>
+</ul>
+
+<h4>Differences:</h4>
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th></th><th>Italy</th><th>Germany</th></tr></thead>
+<tbody>
+<tr><td><strong>Obstacles</strong></td><td></td><td></td></tr>
+<tr><td><strong>Role of intellectual unification</strong></td><td></td><td></td></tr>
+<tr><td><strong>Leadership</strong></td><td></td><td></td></tr>
+<tr><td><strong>Role of King and Monarchy</strong></td><td></td><td></td></tr>
+<tr><td><strong>Method</strong></td><td></td><td></td></tr>
+<tr><td><strong>Wider Impact</strong></td><td></td><td></td></tr>
+</tbody>
+</table>`,
   'nation-state-system': `<h2>Handout 18: Italian Unification (Risorgimento)</h2>
 <h3>UPSC CSE PYQs</h3>
 <ul>
