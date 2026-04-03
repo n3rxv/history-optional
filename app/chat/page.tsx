@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -155,13 +156,35 @@ function ChatContent() {
   }]);
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+  const [chatUsed, setChatUsed] = useState(0);
+  const [chatLimit] = useState(5);
+  const [isOwner, setIsOwner] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [noPhone, setNoPhone] = useState(false);
+  const [modal, setModal] = useState<'none' | 'unauthenticated' | 'no_phone' | 'limit_reached'>('none');
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const lastAiRef = useRef<HTMLDivElement>(null);
 
+  // Load session + chat usage on mount
   useEffect(() => {
-    // If last message is from assistant, scroll to top of that response
-    // Otherwise scroll to bottom (user message sent, waiting for reply)
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      const t = session?.access_token ?? null;
+      setToken(t);
+      if (!t) return;
+      const res = await fetch('/api/chat-usage', { headers: { 'x-user-token': t } });
+      const data = await res.json();
+      if (data.owner) { setIsOwner(true); return; }
+      if (data.subscribed) { setIsSubscribed(true); return; }
+      if (data.reason === 'no_phone') { setNoPhone(true); return; }
+      setChatUsed(data.used ?? 0);
+    };
+    init();
+  }, []);
+
+  useEffect(() => {
     const last = messages[messages.length - 1];
     if (last?.role === 'assistant' && messages.length > 1) {
       setTimeout(() => lastAiRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
@@ -174,6 +197,12 @@ function ChatContent() {
     const q = text || input;
     if (!q.trim() || loading) return;
     if (q.length > 2000) { alert('Message too long. Max 2000 characters.'); return; }
+
+    // Gate checks
+    if (!token) { setModal('unauthenticated'); return; }
+    if (noPhone) { setModal('no_phone'); return; }
+    if (!isOwner && !isSubscribed && chatUsed >= chatLimit) { setModal('limit_reached'); return; }
+
     const userMsg: Message = { role: 'user', content: q };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
@@ -181,7 +210,7 @@ function ChatContent() {
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token ?? '' },
         body: JSON.stringify({
           system: `You are an expert UPSC History Optional tutor. You have deep knowledge of Indian history (Ancient, Medieval, Modern) and World History as per the UPSC History Optional syllabus.
 
@@ -189,20 +218,41 @@ When answering:
 - Structure answers clearly with headings where appropriate
 - Include key dates, names and events
 - Highlight what's important for UPSC mains answers
-- Suggest relevant PYQs at the end if applicable
+- Suggest relevant PYQs if applicable
 - Keep answers focused and exam-relevant
-- Use **bold** for important terms, historian names, and pivotal events
+- Use **bold** for important terms and names
 - If asked to write a model answer, follow UPSC format: Introduction, Body (with subheadings), Conclusion
-- Always incorporate relevant historiography — name specific historians with their specific arguments
-- For descriptive questions (e.g. "Discuss features of X"): explain clearly with specific evidence, minimal historiography
-- For debate/argumentative questions (e.g. "Was X a revolution?"): present multiple perspectives, take a clear stance, use historiography heavily
+- Always use historiography and incorporate them in answers
+- A. PROTOCOL ALPHA: DESCRIPTIVE EXECUTION
+- Activate this protocol for factual subject matter (e.g., "Discuss the features of Mughal architecture")
+- Axiomatic Acceptance: Treat the given statement as a settled matter of fact; do not challenge the premise
+- Linear Elaboration: Focus exclusively on explaining and clarifying. "Explain, explain, and explain" is the primary objective
+- Constraint on Complexity: While historiography is a general requirement, keep it minimal in this mode to ensure the answer remains focused on descriptive facts
+- B. PROTOCOL BETA: ARGUMENTATIVE SYNTHESIS
+- Activate this protocol for debate-oriented subject matter (e.g., "The Khilji Revolution was no true revolution")
+- Multi-Perspective Analysis: Identify and address the two, three, or four sides of the historical debate
+- Weighted Stance: Adopt a clear stance. You are granted the freedom to adjust the proportion of pro/con arguments (e.g., 50:50, 70:30, or 25:75) based on the strength of the historical evidence
+- Historiographical Integration: This mode requires heavy use of historiography to support the various sides of the argument
+- II. CONTENT & FORMATTING CONSTRAINTS For every output, regardless of the protocol activated, the AI must adhere to these rigid formatting standards:
+- UPSC Standard Format: Always use a formal structure—Introduction, Body (with subheadings), and Conclusion.
+- Entity Dense Output: Ensure the inclusion of specific key dates, names, and events to provide empirical weight to the answer.
+- Visual Emphasis: Use bold for all critical terms, names of historians, and pivotal events.
+- Strategic Highlighting: Explicitly point out what is most important for UPSC Mains within the response to guide the student's revision.
+- Historiographical Mandate: Incorporate the views of relevant historians.
+- PYQ Integration: At the conclusion of the response, suggest relevant Previous Year Questions (PYQs) that align with the subject matter discussed.
+- III. SYSTEM LOGIC FOR AMBIGUITY When encountering "blur" words like "Discuss" or "Comment", determine the mode based on the subject matter.
 - Always be accurate with historical facts.`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
         }),
       });
       const data = await response.json();
+      if (response.status === 401) { setModal('unauthenticated'); setLoading(false); return; }
+      if (response.status === 403 && data.error === 'no_phone') { setModal('no_phone'); setLoading(false); return; }
+      if (response.status === 403 && data.error === 'limit_reached') { setModal('limit_reached'); setLoading(false); return; }
       const reply = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
       setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+      // Increment local usage count
+      if (!isOwner && !isSubscribed) setChatUsed(prev => prev + 1);
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
     } finally {
@@ -224,7 +274,6 @@ When answering:
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
       .replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`)
       .replace(/^### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h2">${t}</div>`)
-      .replace(/^#### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
       .replace(/^• (.+)$/gm, '<div class="chat-bullet">• $1</div>')
       .replace(/^[\-\*] (.+)$/gm, '<div class="chat-bullet">• $1</div>')
       .replace(/\n\n/g, '<div class="chat-para-gap"></div>')
@@ -316,10 +365,6 @@ When answering:
         .chat-msg-h2 {
           font-family:var(--font-display); font-size:0.87rem; font-weight:600;
           color:var(--yellow); margin:0.75rem 0 0.2rem;
-        }
-        .chat-msg-h3 {
-          font-family:var(--font-display); font-size:0.82rem; font-weight:600;
-          color:rgba(167,139,250,0.9); margin:0.6rem 0 0.15rem;
         }
         .chat-bullet { padding-left:0.9rem; margin:0.2rem 0; color:var(--text2); }
         .chat-bullet::first-letter { color:var(--accent); }
@@ -441,6 +486,48 @@ When answering:
       `}</style>
 
       <div className="chat-wrap">
+        {/* Gate modals */}
+        {modal === 'unauthenticated' && (
+          <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+            <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%' }}>
+              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#3b82f6', marginBottom:12 }}>Sign in required</div>
+              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:10 }}>Sign in to chat</div>
+              <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:24 }}>Create a free account to start chatting with your AI History tutor.</div>
+              <button onClick={async () => { await supabase.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.href } }); }} style={{ width:'100%', padding:'13px', borderRadius:8, border:'1px solid #333', background:'#161616', color:'#f0f0f0', fontWeight:600, fontSize:'0.9rem', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:10 }}>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+                Continue with Google
+              </button>
+              <button onClick={() => setModal('none')} style={{ width:'100%', marginTop:10, padding:'10px', background:'transparent', border:'1px solid #222', borderRadius:8, color:'#555', cursor:'pointer', fontSize:'0.82rem' }}>Cancel</button>
+            </div>
+          </div>
+        )}
+        {modal === 'no_phone' && (
+          <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+            <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%' }}>
+              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#3b82f6', marginBottom:12 }}>One-time setup</div>
+              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:10 }}>Add your phone number</div>
+              <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:24 }}>We need your phone number to complete your profile. We don't call or send any messages.</div>
+              <div style={{ color:'#aaa', fontSize:'0.85rem', marginBottom:16 }}>Please go to the Evaluate page to add your phone number, then come back to chat.</div>
+              <button onClick={() => { setModal('none'); window.location.href = '/evaluate'; }} style={{ width:'100%', padding:'13px', borderRadius:8, border:'none', background:'linear-gradient(135deg,#2563eb,#3b82f6)', color:'#fff', fontWeight:700, fontSize:'0.9rem', cursor:'pointer' }}>Go to Evaluate page →</button>
+              <button onClick={() => setModal('none')} style={{ width:'100%', marginTop:10, padding:'10px', background:'transparent', border:'1px solid #222', borderRadius:8, color:'#555', cursor:'pointer', fontSize:'0.82rem' }}>Cancel</button>
+            </div>
+          </div>
+        )}
+        {modal === 'limit_reached' && (
+          <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+            <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%' }}>
+              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#f87171', marginBottom:12 }}>Daily limit reached</div>
+              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:10 }}>You've used {chatLimit} free messages today</div>
+              <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:24 }}>Resets at midnight. Subscribe for unlimited access.</div>
+              <div style={{ background:'linear-gradient(135deg,#0d1b3e,#091530)', border:'1px solid rgba(59,130,246,0.3)', borderRadius:12, padding:'20px', marginBottom:20 }}>
+                <div style={{ fontFamily:'var(--font-mono)', fontSize:'2.8rem', fontWeight:700, color:'#f0f0f0', lineHeight:1 }}>₹999<span style={{ fontSize:'0.85rem', color:'#555', fontWeight:400 }}>/year</span></div>
+                <div style={{ marginTop:12, fontSize:'0.82rem', color:'#aaa' }}>✓ Unlimited AI chat every day</div>
+                <div style={{ fontSize:'0.82rem', color:'#aaa', marginTop:6 }}>✓ Unlimited answer evaluations</div>
+              </div>
+              <button onClick={() => setModal('none')} style={{ width:'100%', marginTop:10, padding:'10px', background:'transparent', border:'1px solid #222', borderRadius:8, color:'#555', cursor:'pointer', fontSize:'0.82rem' }}>Maybe later</button>
+            </div>
+          </div>
+        )}
         {/* Header */}
         <div className="chat-header">
           <div className="chat-header-icon">⚔</div>
@@ -533,6 +620,11 @@ When answering:
               </button>
             </div>
             <div className="chat-hint">Enter to send · Shift+Enter for new line</div>
+            {token && !isOwner && !isSubscribed && (
+              <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: chatUsed >= chatLimit ? '#f87171' : '#555', letterSpacing:'0.08em' }}>
+                {chatUsed >= chatLimit ? 'Daily limit reached · resets at midnight' : `${chatLimit - chatUsed} of ${chatLimit} free messages remaining today`}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,21 +1,76 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createServerClient } from "@/lib/supabase";
 
 const chatLimits = new Map<string, { count: number; ts: number }>();
 const LIMIT = 20; // max 20 messages per 10 minutes per IP
+const CHAT_FREE_LIMIT = 5;
+const OWNER_EMAIL = "nirxv03@gmail.com";
+const OWNER_PHONE = "+917976570494";
 
 export async function POST(req: NextRequest) {
+  // ── IP rate limit (abuse protection) ────────────────────────────
   const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown';
   const now = Date.now();
   const entry = chatLimits.get(ip);
-
   if (entry && now - entry.ts > 10 * 60 * 1000) chatLimits.delete(ip);
-
   const current = chatLimits.get(ip);
   if (current && current.count >= LIMIT) {
-    return NextResponse.json({ content: [{ text: 'Too many messages. Please wait a few minutes.' }] }, { status: 429 });
+    return NextResponse.json({ error: 'too_many_requests' }, { status: 429 });
   }
   chatLimits.set(ip, { count: (current?.count ?? 0) + 1, ts: current?.ts ?? now });
 
+  const token = req.headers.get('x-user-token');
+
+  // ── Auth check ───────────────────────────────────────────────────
+  if (!token) {
+    return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+  }
+
+  const db = createServerClient();
+  const { data: { user }, error: userErr } = await db.auth.getUser(token);
+  if (userErr || !user) {
+    return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+  }
+
+  // ── Usage check (skip for owner) ─────────────────────────────────
+  const isOwner = user.email === OWNER_EMAIL;
+  if (!isOwner) {
+    const { data: profile } = await db.from("user_profiles").select("phone").eq("user_id", user.id).single();
+    const phone = profile?.phone ?? "";
+
+    if (!phone) {
+      return NextResponse.json({ error: 'no_phone' }, { status: 403 });
+    }
+
+    if (phone !== OWNER_PHONE) {
+      // Check subscription
+      const nowISO = new Date().toISOString();
+      const { data: sub } = await db
+        .from("subscriptions").select("status").eq("user_id", user.id)
+        .eq("status", "active").gt("expires_at", nowISO).single();
+
+      if (!sub) {
+        // Check daily chat usage
+        const today = new Date().toISOString().split("T")[0];
+        const { data: usage } = await db
+          .from("chat_usage").select("count").eq("phone", phone).eq("date", today).single();
+        const used = usage?.count ?? 0;
+
+        if (used >= CHAT_FREE_LIMIT) {
+          return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
+        }
+
+        // Increment usage
+        if (usage) {
+          await db.from("chat_usage").update({ count: used + 1 }).eq("phone", phone).eq("date", today);
+        } else {
+          await db.from("chat_usage").insert({ user_id: user.id, phone, date: today, count: 1 });
+        }
+      }
+    }
+  }
+
+  // ── Call Groq ────────────────────────────────────────────────────
   try {
     const { messages, system } = await req.json();
 
@@ -36,11 +91,9 @@ export async function POST(req: NextRequest) {
         }),
       });
 
-    // Try Kimi-K2 first, fall back to llama-3.3-70b on capacity issues
     let response = await groqFetch('moonshotai/kimi-k2-instruct');
-
     if (response.status === 503 || response.status === 429) {
-      console.log('Kimi-K2 over capacity in chat, falling back to llama-3.3-70b...');
+      console.log('Kimi-K2 over capacity, falling back to llama-3.3-70b...');
       response = await groqFetch('llama-3.3-70b-versatile');
     }
 
