@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = await req.json();
 
   // Verify signature
-  const body        = razorpay_order_id + "|" + razorpay_payment_id;
+  const body = razorpay_order_id + "|" + razorpay_payment_id;
   const expectedSig = crypto
     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
     .update(body)
@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  // Activate subscription — 1 year from now
   const expiresAt = new Date();
   expiresAt.setFullYear(expiresAt.getFullYear() + 1);
 

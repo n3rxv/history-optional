@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { useSubscriptionGate } from "@/components/SubscriptionGate";
+import { useState, useRef, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 interface Historian {
   name: string;
@@ -222,7 +222,9 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
 }
 
 export default function EvaluatePage() {
+  // ── ALL hooks must be declared before any early returns ──
   const [files, setFiles]           = useState<File[]>();
+  const { UsagePill, Modal, handleEvaluate, usage } = SubscriptionGate({ onAllowed: handleOcr });
   const [question, setQuestion]     = useState("");
   const [marks, setMarks]           = useState<10 | 15 | 20>(15);
   const [loading, setLoading]       = useState(false);
@@ -241,6 +243,7 @@ export default function EvaluatePage() {
   const addFileRef = useRef<HTMLInputElement>(null);
   const [swapIdx, setDragIdx] = useState<number | null>(null);
   const [previews, setPreviews] = useState<string[]>([]);
+
 
 const handleOcr = async () => {
     if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one image and enter the question."); return; }
@@ -275,9 +278,6 @@ const handleOcr = async () => {
       setError(e instanceof Error ? e.message : "OCR failed. Please try again.");
     } finally { setOcrLoading(false); }
   };
-
-  // ── Subscription gate — must come after handleOcr is defined ──────────────
-  const { UsagePill, GateModals, handleEvaluate, usage, increment } = useSubscriptionGate(handleOcr);
 
   const submit = async () => {
     setError(""); setLoading(true); setEvaluation(null); setEvalProgress(0); setEvalPhase("");
@@ -315,8 +315,11 @@ const handleOcr = async () => {
       setTimeout(() => setEvaluation(data), 500);
       setStage("result");
       setTab("eval");
-      // Increment daily usage counter via hook
-      if (usage.token) increment(usage.token);
+      // Increment daily usage counter
+      const { data: { session } } = await (await import("@/lib/supabase")).supabase.auth.getSession();
+      if (session?.access_token) {
+        fetch("/api/eval-usage", { method: "POST", headers: { "x-user-token": session.access_token } });
+      }
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Something went wrong.");
     } finally { setLoading(false); }
@@ -604,7 +607,7 @@ const handleOcr = async () => {
             {error && <div className="ev-err">{error}</div>}
             <UsagePill />
             <button className="ev-btn" onClick={handleEvaluate} disabled={ocrLoading || usage.loading}>{ocrLoading ? "Reading handwriting…" : "Evaluate Answer →"}</button>
-            <GateModals />
+            <Modal />
           </div>
         )}
 
