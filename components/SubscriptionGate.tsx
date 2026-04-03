@@ -285,7 +285,7 @@ export function useSubscriptionGate(onAllowed: () => void) {
           ))}
         </div>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: remaining === 0 ? '#f87171' : '#666', letterSpacing: '0.08em' }}>
-          {remaining === 0 ? 'Weekly limit reached' : `${remaining} evaluation${remaining === 1 ? '' : 's'} left today`}
+          {remaining === 0 ? 'Weekly limit reached' : `${remaining} evaluation${remaining === 1 ? '' : 's'} left this week`}
         </span>
       </div>
     );
