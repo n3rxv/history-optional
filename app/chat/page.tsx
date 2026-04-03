@@ -508,9 +508,9 @@ Every response must:
         {modal === 'limit_reached' && (
           <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
             <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%' }}>
-              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#f87171', marginBottom:12 }}>Daily limit reached</div>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:10 }}>You've used {chatLimit} free messages today</div>
-              <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:24 }}>Resets at midnight. Subscribe for unlimited access.</div>
+              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#f87171', marginBottom:12 }}>Monthly limit reached</div>
+              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:10 }}>You've used {chatLimit} free messages this month</div>
+              <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:24 }}>Resets on the 1st of next month. Subscribe for unlimited access.</div>
               <div style={{ background:'linear-gradient(135deg,#0d1b3e,#091530)', border:'1px solid rgba(59,130,246,0.3)', borderRadius:12, padding:'20px', marginBottom:20 }}>
                 <div style={{ fontFamily:'var(--font-mono)', fontSize:'2.8rem', fontWeight:700, color:'#f0f0f0', lineHeight:1 }}>₹999<span style={{ fontSize:'0.85rem', color:'#555', fontWeight:400 }}>/year</span></div>
                 <div style={{ marginTop:12, fontSize:'0.82rem', color:'#aaa' }}>✓ Unlimited AI chat every day</div>
@@ -614,7 +614,7 @@ Every response must:
             <div className="chat-hint">Enter to send · Shift+Enter for new line</div>
             {token && !isOwner && !isSubscribed && (
               <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: chatUsed >= chatLimit ? '#f87171' : '#555', letterSpacing:'0.08em' }}>
-                {chatUsed >= chatLimit ? 'Daily limit reached · resets at midnight' : `${chatLimit - chatUsed} of ${chatLimit} free messages remaining today`}
+                {chatUsed >= chatLimit ? 'Monthly limit reached · resets on the 1st' : `${chatLimit - chatUsed} of ${chatLimit} free messages remaining this month`}
               </div>
             )}
           </div>
