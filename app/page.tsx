@@ -13,8 +13,8 @@ const stats = [
 const features = [
   { icon: '✍️', title: 'Smart Annotations',              color: 'var(--yellow)', desc: 'Handwritten annotations support — write with your digital pen directly on the notes.' },
   { icon: '📖', title: 'Comprehensive & Exhaustive Notes', color: 'var(--accent)', desc: 'Complete unabridged notes with embedded historiography, structured by syllabus. Completely free.' },
-  { icon: '📝', title: 'Free Answer Evaluation',          color: 'var(--red)',    desc: 'Get your UPSC answers evaluated instantly — detailed feedback, structure & scoring. 2 answers/day for free.' },
-  { icon: '🤖', title: 'Your Personalized AI Assistant',  color: 'var(--green)',  desc: 'An AI that knows your syllabus — ask any History Optional question, get structured answers. 5 queries/day for free.' },
+  { icon: '📝', title: 'Free Answer Evaluation',          color: 'var(--red)',    desc: 'Get your UPSC answers evaluated instantly — detailed feedback, structure & scoring. 1 answer evalution/week for free.' },
+  { icon: '🤖', title: 'Your Personalized AI Assistant',  color: 'var(--green)',  desc: 'An AI that knows your syllabus — ask any History Optional question, get structured answers. 5 queries/month for free.' },
 ];
 
 const p1Sections = ['Ancient India', 'Medieval India'];
