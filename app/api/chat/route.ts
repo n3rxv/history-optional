@@ -3,7 +3,7 @@ import { createServerClient } from "@/lib/supabase";
 
 const chatLimits = new Map<string, { count: number; ts: number }>();
 const LIMIT = 20; // max 20 messages per 10 minutes per IP
-const CHAT_FREE_LIMIT = 5;
+const CHAT_FREE_LIMIT = 5; // per month
 const OWNER_EMAIL = "nirxv03@gmail.com";
 const OWNER_PHONE = "+917976570494";
 
@@ -50,21 +50,25 @@ export async function POST(req: NextRequest) {
         .eq("status", "active").gt("expires_at", nowISO).single();
 
       if (!sub) {
-        // Check daily chat usage
-        const today = new Date().toISOString().split("T")[0];
+        // Check MONTHLY chat usage
+        const thisMonth = new Date().toISOString().slice(0, 7); // "YYYY-MM"
         const { data: usage } = await db
-          .from("chat_usage").select("count").eq("phone", phone).eq("date", today).single();
+          .from("chat_usage")
+          .select("count")
+          .eq("phone", phone)
+          .eq("month", thisMonth)
+          .single();
         const used = usage?.count ?? 0;
 
         if (used >= CHAT_FREE_LIMIT) {
           return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
         }
 
-        // Increment usage
+        // Increment monthly usage
         if (usage) {
-          await db.from("chat_usage").update({ count: used + 1 }).eq("phone", phone).eq("date", today);
+          await db.from("chat_usage").update({ count: used + 1 }).eq("phone", phone).eq("month", thisMonth);
         } else {
-          await db.from("chat_usage").insert({ user_id: user.id, phone, date: today, count: 1 });
+          await db.from("chat_usage").insert({ user_id: user.id, phone, month: thisMonth, count: 1 });
         }
       }
     }

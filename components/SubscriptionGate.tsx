@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { PhoneModal } from '@/components/PhoneModal';
 
-const FREE_LIMIT = 2;
+const FREE_LIMIT = 1; // 1 per week
 
 interface UsageState {
   loading:    boolean;
@@ -127,7 +127,7 @@ function PaywallModal({
                 Evaluate Your Answers
               </div>
               <div style={{ color: '#888', fontSize: '0.88rem', lineHeight: 1.65 }}>
-                Sign in with Google to evaluate up to <span style={{ color: '#f0f0f0' }}>{limit} answers/day</span> for free.
+                Sign in with Google to evaluate up to <span style={{ color: '#f0f0f0' }}>{limit} answer/week</span> for free.
                 Upgrade for <span style={{ color: '#3b82f6' }}>unlimited evaluations</span> at ₹999/year.
               </div>
             </div>
@@ -153,13 +153,13 @@ function PaywallModal({
           <>
             <div style={{ marginBottom: 24 }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#f87171', marginBottom: 12 }}>
-                Daily limit reached
+                Weekly limit reached
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#f0f0f0', marginBottom: 10 }}>
                 Unlock Unlimited Evaluations
               </div>
               <div style={{ color: '#888', fontSize: '0.88rem', lineHeight: 1.65 }}>
-                You've used all <span style={{ color: '#f0f0f0' }}>{limit} free evaluations</span> for today. Resets at midnight.
+                You've used all <span style={{ color: '#f0f0f0' }}>{limit} free evaluations</span> this week. Resets every Monday.
               </div>
             </div>
 
@@ -285,7 +285,7 @@ export function useSubscriptionGate(onAllowed: () => void) {
           ))}
         </div>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: remaining === 0 ? '#f87171' : '#666', letterSpacing: '0.08em' }}>
-          {remaining === 0 ? 'Daily limit reached' : `${remaining} evaluation${remaining === 1 ? '' : 's'} left today`}
+          {remaining === 0 ? 'Weekly limit reached' : `${remaining} evaluation${remaining === 1 ? '' : 's'} left today`}
         </span>
       </div>
     );

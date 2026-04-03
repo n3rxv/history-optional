@@ -3,7 +3,17 @@ import { createServerClient } from "@/lib/supabase";
 
 const OWNER_EMAIL  = "nirxv03@gmail.com";
 const OWNER_PHONE  = "+917976570494";
-const FREE_LIMIT   = 2;
+const FREE_LIMIT   = 1; // 1 per week
+
+// Get the start of the current ISO week (Monday)
+function getWeekStart(): string {
+  const now = new Date();
+  const day = now.getUTCDay(); // 0=Sun, 1=Mon...
+  const diff = (day === 0 ? -6 : 1 - day); // adjust to Monday
+  const monday = new Date(now);
+  monday.setUTCDate(now.getUTCDate() + diff);
+  return monday.toISOString().slice(0, 10); // "YYYY-MM-DD"
+}
 
 export async function GET(req: NextRequest) {
   const db = createServerClient();
@@ -16,7 +26,6 @@ export async function GET(req: NextRequest) {
 
   const email = user.email ?? "";
 
-  // Fetch stored phone
   const { data: profile } = await db
     .from("user_profiles")
     .select("phone")
@@ -25,12 +34,12 @@ export async function GET(req: NextRequest) {
 
   const phone = profile?.phone ?? "";
 
-  // Owner exception: both email AND phone must match
+  // Owner exception
   if (email === OWNER_EMAIL && phone === OWNER_PHONE) {
     return NextResponse.json({ allowed: true, owner: true, used: 0, limit: Infinity });
   }
 
-  // No phone yet — must complete profile
+  // No phone yet
   if (!phone) {
     return NextResponse.json({ allowed: false, reason: "no_phone", used: 0, limit: FREE_LIMIT });
   }
@@ -47,13 +56,13 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ allowed: true, subscribed: true, used: 0, limit: Infinity });
   }
 
-  // Daily usage keyed on phone (blocks multi-account bypass)
-  const today = new Date().toISOString().slice(0, 10);
+  // Weekly usage keyed on phone + week_start
+  const weekStart = getWeekStart();
   const { data: usage } = await db
     .from("eval_usage")
     .select("count")
     .eq("phone", phone)
-    .eq("date", today)
+    .eq("date", weekStart)
     .single();
 
   const used    = usage?.count ?? 0;
@@ -84,19 +93,19 @@ export async function POST(req: NextRequest) {
   if (email === OWNER_EMAIL && phone === OWNER_PHONE) return NextResponse.json({ ok: true });
   if (!phone) return NextResponse.json({ ok: false, reason: "no_phone" });
 
-  const today = new Date().toISOString().slice(0, 10);
+  const weekStart = getWeekStart();
 
   const { data: existing } = await db
     .from("eval_usage")
     .select("id, count")
     .eq("phone", phone)
-    .eq("date", today)
+    .eq("date", weekStart)
     .single();
 
   if (existing) {
     await db.from("eval_usage").update({ count: existing.count + 1 }).eq("id", existing.id);
   } else {
-    await db.from("eval_usage").insert({ user_id: user.id, phone, date: today, count: 1 });
+    await db.from("eval_usage").insert({ user_id: user.id, phone, date: weekStart, count: 1 });
   }
 
   return NextResponse.json({ ok: true });
