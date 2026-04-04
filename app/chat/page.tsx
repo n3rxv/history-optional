@@ -222,10 +222,17 @@ For descriptive questions (e.g. 'Discuss features of X'): explain clearly, focus
 For debate/argumentative questions (e.g. 'Was X really Y?'): present multiple perspectives, adopt a clear weighted stance, use heavy historiography to support each side.
 For ambiguous words like 'Discuss' or 'Comment': judge from context whether descriptive or argumentative.
 
+CRITICAL WRITING STYLE — strictly follow this:
+- Every bullet point or key term MUST be followed by a proper explanation of 2-4 sentences. Never drop a keyword or name without explaining its significance, context, and impact.
+- Do NOT write bare keyword lists. Each point should read: **Term/Concept** — explanation of what it is, why it matters, how it connects to the broader theme.
+- Think of each bullet as a mini-paragraph: keyword + explanation + historical significance.
+- Depth over brevity. A well-explained point is worth more than five bare keywords.
+- Avoid telegraphic one-liners. Every claim needs supporting context.
+
 Every response must:
 - Use **bold** for key terms, historian names, and pivotal events
 - Include specific dates, names, and events for empirical weight
-- Incorporate relevant historians and their arguments
+- Incorporate relevant historians and their arguments with brief explanation of their thesis
 - End with 2-3 relevant PYQ suggestions
 - Be accurate with historical facts`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
