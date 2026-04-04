@@ -29845,7 +29845,490 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </td>
 </tr>
 </tbody>
-</table>`,
+</table>
+<h2>Handout 32: Russian Revolution</h2>
+
+<h3>UPSC CSE PYQs</h3>
+
+<h4>Causes and Nature</h4>
+<ul>
+<li>&#8226; Overall
+<ul>
+<li style="padding-left:2em">&#9702; Analyze the causes of the Russian Revolutions of 1917. Why was the second Revolution Significant in more than one way? [1985, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; Examine the causes of the Russian Revolution of 1917 and indicate its significance in world history. [2003, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;The Russian Revolution (1917) was an economic explosion hastened by the stupidities of the autocratic Government&#8221;. Comment. [2005, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; Account for the overthrow of the Tsarist regime in Russia. [2009, 30 Marks]</li>
+</ul>
+</li>
+<li>&#8226; Nature
+<ul>
+<li style="padding-left:2em">&#9702; The Russian Revolution of 1917 was a single revolution which developed two phases. Elucidate. [1992, 60 Marks]</li>
+</ul>
+</li>
+<li>&#8226; Lenin
+<ul>
+<li style="padding-left:2em">&#9702; Write a critical note on Lenin&#8217;s role in the Russian Revolution of 1917. [1981, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;The bold knight, Lenin, having rescued the fair maiden of the Revolution from the evil sorcerer, Kerensky, everyone lived happily hereafter.&#8221; Comment. [1983, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; In Russia, Lenin was &#8220;the father of socialism, organizer of the revolution and the founder of the new Russian society.&#8221; Examine the statement. [1998, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; How did Lenin achieve an abrupt transition from a Monarchical autocratic to a Socialist State? [2016, 20 Marks]</li>
+</ul>
+</li>
+</ul>
+
+<h4>Success and Significance</h4>
+<ul>
+<li>&#8226; Overall
+<ul>
+<li style="padding-left:2em">&#9702; What were the causes for the success of Bolshevik Revolution of 1917? Discuss its significance in the history of the world. [1980, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; Examine the statement that &#8220;the danger of &#8216;Bolshevism&#8217; dominated not only the history of the years immediately following the Russian Revolution of 1917 but the entire history of the world since that date&#8221;. [2017, 20 Marks]</li>
+</ul>
+</li>
+<li>&#8226; Comparative
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;The impact of the French Revolution (1789) was initially confined the Europe, but, that of the Russia Revolution (1917) was global.&#8221; &#8211; Critically review. [2012, 30 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;If the 1917 Bolshevik Revolution in Russia (that resulted in the creation of the Union of Soviet Socialist Republics or Soviet Union) inaugurated an international competition for the hearts and minds of people all over the globe, the Chinese revolution raised the stakes of that struggle.&#8221; Critically examine. [2013 10 Marks]</li>
+</ul>
+</li>
+<li>&#8226; Stalin
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;Stalinist Russia was a despotic regime.&#8221; Critically examine this view. [1999, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; How did Stalin build on Lenin&#8217;s legacy of Bolshevik Revolution and introduce new elements of totalitarianism to transform USSR as a superpower? [2020, 20 Marks]</li>
+</ul>
+</li>
+</ul>
+
+<blockquote>&#8220;The inherent vice of capitalism is the unequal sharing of blessings; the inherent virtue of socialism is the equal sharing of miseries.&#8221; &#8212; Winston Churchill</blockquote>
+
+<ul>
+<li>&#8226; This revolution influenced the course of history so deeply that some scholars believed it to be the <strong>most important event</strong> in the 20th century.</li>
+<li>&#8226; Russian Revolution was <strong>unique</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Inspired by long years of discontent and leadership that emerged in the course of the revolution, almost all the <u>earlier revolutions occurred suddenly</u> and spontaneously.</li>
+<li style="padding-left:2em">&#9702; But the <u>Bolshevik revolution</u> in Russia was organized/engineered through well-defined planning and program. So, it was known as a <u>&#8216;textbook revolution&#8217;</u> as well, it was designed and orchestrated.</li>
+</ul>
+</li>
+<li>&#8226; Russian revolution tried to answer some of those <strong>questions that had remained unanswered during the French revolution</strong>, i.e. the relationship between the bourgeois class and the proletariat class.
+<ul>
+<li style="padding-left:2em">&#9702; The Russian revolution of 1917 was a complementary and supplementary to French revolution of 1789. The process of revolutionary transformations commenced by the French revolution was carried to its culmination by Russian revolution of 1917.</li>
+</ul>
+</li>
+<li>&#8226; It is always a matter of controversy whether this revolution was an <strong>amalgamation of two revolutions, or it was the two stages of a single revolution.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Russian Julian calendar was 13 days behind the international Gregorian calendar that is why these revolutions are known as Feb/March or Oct/Nov Revolutions.</li>
+<li style="padding-left:2em">&#9702; The significance of the Russian revolution lay in the second stage. If it would have stopped at the first stage, hardly it could go beyond the French revolution.
+<ul>
+<li style="padding-left:4em">&#9632; The March revolution was better than 1905 but not more than FR 1789.</li>
+<li style="padding-left:4em">&#9632; Only because of Oct/Nov, it surpassed all and became important in 20th c history.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>Causes and March Revolution</h3>
+
+<p>It was response to the politico-administrative and socio-economic environment prevailing in Russia. The suffering of common masses under the prevailing czarist regime came out in form of revolutionary outburst in 1917.</p>
+
+<ul>
+<li>&#8226; <strong>Political</strong>: <strong>Absolutist</strong> nature of Tsarist regime
+<ul>
+<li style="padding-left:2em">&#9702; It was based on the idea of divine monarchy.</li>
+<li style="padding-left:2em">&#9702; It was despotic, aristocratic, and feudal in outlook.</li>
+<li style="padding-left:2em">&#9702; It was inefficient, corrupt and anti-people.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Economic</strong>: Even the <strong>industrialization</strong> in Russia was <strong>unique</strong> in character.
+<ul>
+<li style="padding-left:2em">&#9702; The Russian government did not take much interest in economic advancement of nation.
+<ul>
+<li style="padding-left:4em">&#9632; Few modern industries had emerged in Russia under British, French and German ownership but the level of industrialization was very low, and condition of factory workers was pathetic.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Russia was <strong>not properly industrialized</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; In the words of some critics, Industries in Russia was an <strong>island</strong> in the vast sea. Most of the industries were <strong>concentrated</strong> in a particular region.</li>
+<li style="padding-left:4em">&#9632; So, there was a <strong>concentration of workers</strong> in a specific region. This phenomenon led to <strong>growing proletarianization</strong> among Russian workers.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Politicians such as <strong>Sergei Witte</strong> had <u>succeeded in partially industrializing Russia but failed to reform and modernize Russia socially.</u></li>
+</ul>
+</li>
+<li>&#8226; <strong>Social</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; A Russian monarch Czar Alexander II had abolished the serfdom system, but the <strong>condition of peasants</strong> did not improve as there was <strong>no redistribution of land.</strong></li>
+<li style="padding-left:2em">&#9702; Reaction set in among the <strong>different ethnic groups</strong> in Russia against the policy of <strong>Russification</strong> adopted by Russian Emperor Czar Nicholas II.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Intellectual</strong>: Before the revolution, there occurred intellectual revolutions as well.
+<ul>
+<li style="padding-left:2em">&#9702; For example, scholars like Leo <strong>Tolstoy</strong>, Ivan <strong>Turgenev</strong> and <strong>Dostoyevsky</strong> etc. encouraged newer ideas in Russia.</li>
+<li style="padding-left:2em">&#9702; These were not communists, but they prepared the basis for discontent. They were opposed to the absolutist nature of the government and also unequal socio-economic condition of the time - both factors.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Some events:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After the defeat of Russia at the hands of Japan in 1905 a revolution had broken out in Russia. The Tsar promised reforms to cool down temper people, but these promises were not kept. The <strong>revolution of 1905</strong> became a dress rehearsal of the revolution of 1917.</li>
+<li style="padding-left:2em">&#9702; After the Russian Revolution of 1905, <strong>Peter Stolypin</strong> initiated far-reaching <strong>land reforms</strong> to improve peasantry and bring political stability.
+<ul>
+<li style="padding-left:4em">&#9632; Industrious peasants could leave communes and acquire private land.</li>
+<li style="padding-left:4em">&#9632; Outcome: moderate success.
+<ul>
+<li style="padding-left:2em">&#8226; By 1911, more than 2 million peasants were allotted land on easy term and more than 3.5 million were settled in Siberia. However, this number was less than 20% of all the peasants.</li>
+<li style="padding-left:2em">&#8226; This process of reforms got derailed when Peter Stolypin was murdered in 1911. His death took away the ablest supporter of czarist regime.</li>
+<li style="padding-left:2em">&#8226; Overall, it did not transform the peasantry into the bulwark of support that the autocracy needed.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Several <strong>revolutionary parties</strong> had emerged in Russia in opening decades of 20th century. These revolutionaries were spreading socialist ideas among workers their activities had further intensified conditions in Russia.</li>
+<li style="padding-left:2em">&#9702; The <strong>conspiracy promoted by Tsarina</strong> and her spiritual teacher <strong>Rasputin</strong> gave a further blow to the prestige of the royal house. It was further tarnished.</li>
+<li style="padding-left:2em">&#9702; The <strong>First World War</strong> proved a major game-changer. It prepared the way for the revolution in following manner:
+<ul>
+<li style="padding-left:4em">&#9632; There was already a conflict between the <strong>Tsar</strong> (executive) and <strong>Duma</strong> (legislature) and World War <strong>widened the gulf further.</strong></li>
+<li style="padding-left:4em">&#9632; Tsar was away on battle front because of which the <strong>officers misused their power</strong> for personal benefit.</li>
+<li style="padding-left:4em">&#9632; It gave a big boost to <strong>inflation and scarcity</strong> of goods which was the immediate factor behind the Revolution.
+<ul>
+<li style="padding-left:2em">&#8226; Without planning, moving to the war proved burdensome.</li>
+<li style="padding-left:2em">&#8226; Error in judgement of minting new money aggravated the inflation.</li>
+<li style="padding-left:2em">&#8226; Black marketing and hoarding became rampant. Even the food items moved beyond the reach of common masses.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; As the Russian government followed the <strong>&#8220;Scorched Earth Policy&#8221;</strong> against the enemy, so, it created discontentment among Russian peoples as well.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>March Revolution</strong>
+<ul>
+<li style="padding-left:2em">&#9702; On 8th March 1917, <strong>a group of hungry women</strong> attacked shops selling bread in Petrograd. The police opened fire resulting in the death of 40 people, this incident triggered revolutionary uprising all over Russia.</li>
+<li style="padding-left:2em">&#9702; Since workers were much aggrieved, at least <strong>4 lakh workers</strong> came on the roads of <strong>Petrograd</strong> demanding <strong>bread</strong>.</li>
+<li style="padding-left:2em">&#9702; The government passed an order to soldiers to open fire on the mob to disperse it, but the <strong>soldiers</strong> refused to follow the command. So, the government was helpless.</li>
+<li style="padding-left:2em">&#9702; On 15th March the government of Czar Nicholas II resigned. Thus occurred the March Revolution.</li>
+</ul>
+</li>
+</ul>
+
+<h3>October Revolution</h3>
+
+<p>The downfall of Tsarist regime was followed by establishment of <strong>provisional government</strong>. It was reorganized twice over its 8-month existence, each time as a coalition of several political parties.</p>
+
+<ul>
+<li>&#8226; Mar to July: The <strong>Liberal Bourgeoisie</strong> government under <strong>George Lvov</strong>.</li>
+<li>&#8226; July to Oct: <strong>Liberal/moderate Socialist</strong> Government under <strong>Kerensky</strong>.</li>
+</ul>
+
+<p>So, the provisional government could not function for long and it was swept from power in a bloodless coup by the Bolsheviks in the second phase of the Russian Revolution. <strong>The Bolshevik revolution was the outcome of number of serious mistakes committed by Kerensky&#8217;s government</strong> which intensified the discontent prevailing among the masses.</p>
+
+<ul>
+<li>&#8226; One major challenge before the government was regarding the <strong>role of Russia in WWI.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Russians were in favour of signing a separate peace with Germany to come out of war.</li>
+<li style="padding-left:2em">&#9702; However, the Kerensky government decided to continue with war. A major offensive <strong>(June Offensive)</strong> was launched by Russia in June 1917, but it ended in miserable failure leading to heavy casualties.</li>
+</ul>
+</li>
+<li>&#8226; Apart from political freedom, Russian people aspired for <strong>socioeconomic freedom</strong> as well.
+<ul>
+<li style="padding-left:2em">&#9702; The factory workers continued to suffer, and the peasant continued to face exploitation at the hands of feudal lords.</li>
+<li style="padding-left:2em">&#9702; <strong>The land</strong> question was important. Peasants had already captured some land and its fate was hanging in balance. The new government remained indecisive about it.</li>
+<li style="padding-left:2em">&#9702; <strong>Kerensky</strong> also lost the confidence of the left wing by refusing to implement their radical social and economic programs and by apparently planning to assume dictatorial powers.</li>
+</ul>
+</li>
+<li>&#8226; The Russian government got <strong>sandwiched between the Duma and Petrograd Soviet</strong> as both had contrary objectives.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Soviet vs Duma</strong>
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Soviet</strong>: Workers&#8217; council, grassroot organization of workers and soldiers. It was radical in approach.</li>
+<li style="padding-left:4em">&#9632; <strong>The Duma</strong> was organized since 1905 as representative. It was bit soft-liner and was packed with either aristocracy or middle class.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Kerensky&#8217;s government had to share power with Petrograd soviet because of which it could not implement its decisions effectively.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Kerensky</strong> was <strong>only person to hold positions in both</strong> governing bodies, he assumed the role of liaison between them.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The Kerensky government took <strong>the unpopular decision to postpone the elections.</strong> It was contended that elections were not possible at a time when Russian forces were busy in war.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Return of Lenin</strong> from exile in April 1917 increased the troubles for Kerensky&#8217;s government.</li>
+</ul>
+
+<h3>Lenin and the Road to Revolution:</h3>
+<ul>
+<li>&#8226; <strong>April</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Lenin</strong> came <strong>back to Russia in April</strong> 1917 from Germany where he had been deported by Tsar Nicholes II due to his revolutionary acts earlier.
+<ul>
+<li style="padding-left:4em">&#9632; Germans arranged for his secret illegal into Russia. Berlin hoped that the return of anti-war Socialists to Russia would undermine the Russian war effort.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; In the <strong>April Theses</strong>, Lenin argued that the February Revolution had been a bourgeois revolution, but that it had not gone far enough. He argued that the working class needed to make a second socialist revolution to complete the democratic revolution and to establish socialism in Russia.</li>
+<li style="padding-left:2em">&#9702; He raised the battle cry, &#8220;All power to the Soviets!&#8221;
+<ul>
+<li style="padding-left:4em">&#9632; Although at that time, the Bolsheviks constituted a minority within the soviets. The Menshevik&#8211;SR were in majority, but they were unwilling to exercise such power.</li>
+<li style="padding-left:4em">&#9632; The Bolsheviks, Lenin exhorted, must persuade the workers, peasants, and soldiers, to retrieve state power for the soviets.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; After several weeks of persuasion, Lenin <strong>won the Bolshevik Party Central Committee</strong> to his view. Finally in the Party endorsed his program.
+<ul>
+<li style="padding-left:4em">&#9632; Withhold support from the Provisional Government</li>
+<li style="padding-left:4em">&#9632; Win a majority in the soviets in favour of soviet power.</li>
+<li style="padding-left:4em">&#9632; A soviet government, once established, should begin immediate negotiations for a general peace on all fronts.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Establishing majority in Soviets:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The Bolsheviks were a minority in the soviets.</li>
+<li style="padding-left:4em">&#9632; <strong>Kerensky</strong> claimed that a freely elected <strong>constituent assembly</strong> would decide Russia&#8217;s political future&#8212;but that must await the return of order.</li>
+<li style="padding-left:4em">&#9632; But increasing war-weariness, breakdown of the economy and frustration of <strong>workers, peasants, and soldiers</strong>, led to the <strong>growing disillusionment</strong> with the Provisional government of Kerensky. Lenin capitalized on this. He demanded immediate peace, land, and bread. <u>Lenin&#8217;s slogan <strong>Bread, Peace and Land</strong></u> galvanized the support for the Bolsheviks.</li>
+<li style="padding-left:4em">&#9632; With this, the Bolsheviks won increasing support and by September, they voted for a <strong>Bolshevik majority in the Petrograd Soviet</strong> and in the soviets of the major cities and towns throughout the country.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>July:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Workers and soldiers in Petrograd</strong> stage a series of armed demonstrations known as the <strong>July Days.</strong> The demonstrations are suppressed by the Provisional Government, and many Bolsheviks are arrested, including Lenin.</li>
+<li style="padding-left:2em">&#9702; Lenin went underground in July after he had been accused as a &#8220;German agent&#8221; by Kerensky&#8217;s government.</li>
+</ul>
+</li>
+<li>&#8226; <strong>August:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; General Lavr <strong>Kornilov</strong>, commander of the Petrograd Military District, attempts to overthrow the Provisional Government. The coup was foiled by the Bolsheviks and other revolutionary groups.</li>
+</ul>
+</li>
+<li>&#8226; <strong>October</strong>: Communist Seize the Power.
+<ul>
+<li style="padding-left:2em">&#9702; Now Lenin decided that the time was ripe to seize power. The party immediately began preparations for an armed uprising to transfer state power to the soviets, now headed by a Bolshevik majority.</li>
+<li style="padding-left:2em">&#9702; The Bolsheviks launched a successful coup against the Provisional Government. They stormed the Winter Palace in Petrograd and overthrew the Provisional Government, establishing the world&#8217;s first communist state.</li>
+</ul>
+</li>
+</ul>
+
+<h3>The contributions of Lenin in the Bolshevik revolution (Marxism vs Leninism)</h3>
+
+<blockquote>&#8220;We do not consider the theory of Marx to be a complete, immutable whole. We think, on the contrary, that this theory has only laid the cornerstone of the science, a science which socialists must further develop in all directions if they do not want to let themselves be overtaken by life. We think that, for the Russian socialists, an independent elaboration of the theory is particularly necessary.&#8221; &#8212; Lenin</blockquote>
+
+<p>Marx was just a theorist whereas Lenin was a political worker. This was the reason that Lenin, at times, deviated from the course of Marxism to adjust the revolution to the prevailing situation. Also, this was one of the main reasons for the success of the Bolshevik Revolution.</p>
+
+<ul>
+<li>&#8226; <strong>Ideological contribution:</strong> Lenin redefined Marxism according to the specific condition of Russia. He justified why the revolution should first take place in Russia. He also created a clear ideological framework for revolution.</li>
+<li>&#8226; <strong>Propaganda:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Lenin was adept at utilizing propaganda to mobilize the masses and garner support for the Bolshevik cause.</li>
+<li style="padding-left:2em">&#9702; Through the use of newspapers, pamphlets, and public speeches, he effectively communicated the Bolshevik message. His slogans formulated and popularized Bolshevik programs.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Strategist</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Lenin was too conscious about the timing. He was also ready to follow opportunistic policy and sometimes he cooperated even with his rival party if the situation demanded.
+<ul>
+<li style="padding-left:4em">&#9632; For example, on one occasion he cooperated with the government of Kerensky, also.</li>
+<li style="padding-left:4em">&#9632; Lenin presented <strong>pragmatic tactics</strong> for the revolution in Russia. He endorsed the <u>temporary United Front strategy</u> in his famous pamphlet <strong>&#8220;Two Tactics of Social-Democrats&#8221;</strong>. (1905)</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; He was ready even to adopt any sort of destructive policy to outwit his rival.
+<ul>
+<li style="padding-left:4em">&#9632; For example, on one occasion he <strong>encouraged the minorities in Russia</strong> against the government of Kerensky, in spite of the fact that this minority group would create a problem even for Lenin in future.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Organizer: Vanguard Party and Professional Revolutionaries</strong>
+<ul>
+<li style="padding-left:2em">&#9702; With his pamphlet Chto delat? (1902; <strong>What Is to Be Done?</strong>), Lenin specified the theoretical principles of the communist party organization.
+<ul>
+<li style="padding-left:4em">&#9632; The working class cannot achieve socialism on its own. It <strong>needs the leadership of a professional revolutionary party.</strong></li>
+<li style="padding-left:4em">&#9632; He advocated for the <strong>recruitment of educated and politically conscious individuals</strong> into the party to provide leadership to the working class.</li>
+<li style="padding-left:4em">&#9632; Lenin also argued that the revolutionary party must be organized in a <strong>centralized and disciplined manner.</strong> He developed the party along <strong>Democratic Centralism.</strong></li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <u>Thus, unlike what Marx had said, during the Russian revolution, instead of the proletarian class trained and selected members of the Bolshevik party captured the power.</u></li>
+<li style="padding-left:2em">&#9702; <strong>Formation of Bolshevik Party</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Lenin took part in the <strong>second Congress of the Russian Social-Democratic Workers&#8217; Party</strong>, which was held in Brussels and London (1903) and induced the majority of the Congress members to adopt his views.</li>
+<li style="padding-left:4em">&#9632; Two factions formed at the Congress:
+<ul>
+<li style="padding-left:2em">&#8226; <strong>Bolshevik</strong> (majoritarian) with Lenin as the leader. It wanted a restricted party of militants and advocated the dictatorship of the proletariat.</li>
+<li style="padding-left:2em">&#8226; <strong>Menshevik</strong> (minotitarian) with L. Martov at the head. It wanted a wide-open proletarian party, collaboration with the liberals, and a democratic constitution for Russia.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; As one Menshevik opponent described Lenin: <strong>&#8220;There is no other man who is absorbed by the revolution twenty-four hours a day, who has no other thoughts but the thought of revolution, and who even when he sleeps, dreams of nothing but revolution.&#8221;</strong> <u>Placing revolution above party unity, Lenin would accept no unity compromise if he thought it might delay, not accelerate, revolution.</u></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; With the selected band of disciplined volunteers, he captured the power in Russia in Oct 1917.</li>
+<li>&#8226; After capturing power, Lenin moved forward according to the prevailing situation and was guided by his experience during this course. Marx had not left any blueprint for this stage.
+<ul>
+<li style="padding-left:2em">&#9702; Lenin made compromises to the certain principle of Marxism to meet his objectives.</li>
+<li style="padding-left:2em">&#9702; Lenin established the dominance of a party in Soviet Russia, which was converted into the dominance of a single man under Stalin.</li>
+<li style="padding-left:2em">&#9702; Lenin carried a series of experiments and due to the experiments, Russian people had to suffer.</li>
+</ul>
+</li>
+</ul>
+
+<h3>Steps taken by Lenin to consolidate the revolution after seizing power</h3>
+
+<p>Marx talked about the mode of production, dictatorship of proletariat &#8211; but he was less focused on details of communist government. The details of the dictatorship of proletariat were not worked out. So, Lenin had to go for trial and error.</p>
+
+<ul>
+<li>&#8226; <strong>Withdrawal from the WWI:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The priority of Lenin was to consolidate the revolution in Russia, so he decided to end the war with Germany. Lenin considered Imperialism as the highest form of capitalism. So, he decided to opt out of the war by signing a separate treaty with Germany.</li>
+<li style="padding-left:2em">&#9702; Lenin signed the &#8216;Treaty of Brest-Litovsk&#8217; in March 1918 with Germany. He submitted to Germany 1/4th of its European Russia and 1/3rd of European Russians as Germany put harsh terms.
+<ul>
+<li style="padding-left:4em">&#9632; Signing peace with Germany invited wrath of allied powers, who invaded Russia (USA, France, Britain, Japan - all four). But Lenin didn&#8217;t succumb, he rose up to the occasion and with the support of the Red Army under Trotsky, he successfully combatted invading army.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>The policy of terror and concessions:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Terror</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Lenin organized <strong>secret police (Cheka)</strong> and unleashed coercive machinery against his <strong>rivals (enemy of revolution)</strong></li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Concessions</strong>
+<ul>
+<li style="padding-left:4em">&#9632; He permitted the <strong>peasants</strong>, who had already seized land from the landlords at the time of March revolution, <strong>to retain the land, in spite of the fact that it run counter to Marxist ideals.</strong></li>
+<li style="padding-left:4em">&#9632; Marxism didn&#8217;t recognize racial or cultural division, but Lenin <strong>accepted the distinct identity of minority groups in USSR.</strong> In the new constitution of USSR special position of minority groups was accepted under Russian federation.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Economic Policy</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After coming to power, Lenin initially adopted a very tough approach towards economic policy. This system was known as <strong>&#8220;War Communism&#8221; (1918-21).</strong> This was the coercive system established <u>to take care of a crisis situation during the Civil war.</u>
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Features:</strong>
+<ul>
+<li style="padding-left:2em">&#8226; Forced requisition of surplus grain and other food products from the peasantry</li>
+<li style="padding-left:2em">&#8226; Nationalization of industry throughout Soviet Russia</li>
+<li style="padding-left:2em">&#8226; Private enterprises were declared illegal.</li>
+<li style="padding-left:2em">&#8226; State control over foreign trade</li>
+<li style="padding-left:2em">&#8226; Workers were brought under strict discipline, strikes were prohibited. Obligatory Labour duty was imposed over man working classes.</li>
+<li style="padding-left:2em">&#8226; Military style control was imposed over railways.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Effects</strong>
+<ul>
+<li style="padding-left:2em">&#8226; This was an extreme form of communism in which no private property was allowed in any form; this policy was adopted so that the challenge of civil war could be faced successfully.</li>
+<li style="padding-left:2em">&#8226; However, these measures <strong>negatively affected both agricultural and industrial</strong> production.
+<ul>
+<li style="padding-left:2em">&#9702; With no incentives to grow surplus grain (since it would just be confiscated), the peasants&#8217; production plummeted. There was a threat of starvation in the cities.</li>
+<li style="padding-left:2em">&#9702; A hastily created large, untrained bureaucracy to supervise the state-owned economy destroyed labour productivity and industrial output.</li>
+<li style="padding-left:2em">&#9702; Uncontrolled inflation rendered paper currency worthless, and so the government had to resort to the barter system.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#8226; By early 1921 <strong>public discontent became widespread,</strong> resulting in numerous strikes and protests</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; New Economic Policy (NEP, 1921-28).
+<ul>
+<li style="padding-left:4em">&#9632; With <strong>the end of Russian civil war</strong>, the extreme communism was no longer required. <strong>it was a temporary retreat</strong> from the previous policy of extreme centralization and doctrinaire socialism.</li>
+<li style="padding-left:4em">&#9632; <strong>Features</strong>
+<ul>
+<li style="padding-left:2em">&#8226; <u>It tried to bring back incentive structure by operationalizing open markets and private property. It was based on the idea of a mixed economy.</u></li>
+<li style="padding-left:2em">&#8226; <strong>The peasantry</strong> was allowed to own and cultivate their own land, sell the grains in the open market while paying taxes to the state.</li>
+<li style="padding-left:2em">&#8226; <strong>Partial privatization:</strong> Nearly 90% of Russian economy was placed under private capital (most agriculture, retail trade, and small-scale light industry)
+<ul>
+<li style="padding-left:2em">&#9702; The state retained control of heavy industry, transport, banking, and foreign trade.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#8226; The state control over capital flow was reduced so that <strong>foreign capital</strong> could be encouraged to invest in Russia. Foreign capitalists were allowed to run industries in Russia on the condition that their products would only be sold to government.</li>
+<li style="padding-left:2em">&#8226; <strong>Labour reforms</strong> were introduced in which salary of workers was linked to productivity.</li>
+<li style="padding-left:2em">&#8226; Government enterprises were allowed to hire <strong>engineering and other specialists</strong> from market to improve efficiency.</li>
+<li style="padding-left:2em">&#8226; <strong>Money</strong> was reintroduced into the economy in 1922</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Effects:</strong>
+<ul>
+<li style="padding-left:2em">&#8226; It reintroduced a measure of stability to the economy and allowed the Soviet people to recover from years of war, civil war, and governmental mismanagement.
+<ul>
+<li style="padding-left:2em">&#9702; The small businessmen and managers who flourished in this period became known as <strong>NEP men</strong>.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#8226; NEP was <strong>based on a socialist model.</strong> It infused new energy in Russia economy because of which <strong>extremely rapid economic progress</strong> was witnessed.</li>
+<li style="padding-left:2em">&#8226; It was viewed by the Soviet government as merely a <strong>temporary/expedient measure</strong> to allow the economy to recover while the Communists solidified their hold on power.</li>
+<li style="padding-left:2em">&#8226; The success of Russian NEP inspired many other countries.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>End of NEP:</strong>
+<ul>
+<li style="padding-left:2em">&#8226; Still, the grain shortages continued.</li>
+<li style="padding-left:2em">&#8226; In 1928&#8211;29 Stalin forcibly eliminated collectivized agriculture under the state&#8217;s control, thus ensuring the procurement of adequate food supplies.</li>
+<li style="padding-left:2em">&#8226; This abrupt policy change marked the end of the NEP. It was followed by the reimposition of state control over all industry and commerce in the country by 1931.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>The advent of Stalin</h3>
+
+<p>Lenin&#8217;s chosen successor was Trotsky but an ambitious leader, Stalin, sidelined him and seized the power. In 1924 Lenin passed away and a war of successions started. Lenin eliminated his rivals and captured power. Some rivals were killed, some put in mental asylum and electrocuted (tortured to death).</p>
+
+<p><strong>Changes by Stalin:</strong></p>
+<ul>
+<li>&#8226; <strong>Change in Ideology:</strong> <u>World Revolution vs. Socialism in a single country.</u>
+<ul>
+<li style="padding-left:2em">&#9702; Marx had prophesied that the third phase of revolution would be the world revolution. With this objective, Lenin even formed Communist International.</li>
+<li style="padding-left:2em">&#9702; But Stalin changed this ideal. He emphasized that due to this, the capitalist western countries have turned hostile and anti-Russia.. So, first we need to consolidate revolution in Russia. For the time being, the ideal of world revolution was suspended.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Changes in Economy: State control</strong>
+<ul>
+<li style="padding-left:2em">&#9702; He emphasized rapid industrialization and with this purpose, he introduced <strong>economic planning in 1928.</strong></li>
+<li style="padding-left:2em">&#9702; A strong agricultural base was required for industrialization. Thus, Stalin abolished private property in land and enforced <strong>collectivisation</strong> of agriculture (co-operative farming). The Russian economy was completely transformed under Stalin.</li>
+<li style="padding-left:2em">&#9702; <strong>Central Planning:</strong> First time experimented.</li>
+<li style="padding-left:2em">&#9702; <strong><u>Visionary:</u></strong> All this great development happened when the west was grueling under Great Depression. Soon, Russia became a super-power. And it was due to this that Stalin could withstand future invasion from Nazi Germany.</li>
+</ul>
+</li>
+<li>&#8226; The <strong>dictatorship</strong> of the government
+<ul>
+<li style="padding-left:2em">&#9702; During his reign, <strong>dictatorship of a party was transformed into the dictatorship of a single man.</strong></li>
+<li style="padding-left:2em">&#9702; All dissents were silenced with iron hand. Because of which, Stalin is remembered in history as <strong>one of the worst despots</strong>. <u>In extermination of his enemies, and in causing cruel suppression, he competed with Adolf Hitler.</u></li>
+</ul>
+</li>
+</ul>
+
+<h3>Impact and Significance</h3>
+
+<p>The Bolshevik revolution of Nov 1917 in Russia was a development of world-wide development. The echoes of its impact were heard far and wide.</p>
+
+<ul>
+<li>&#8226; <strong>Positive impact</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Bolshevik revolution resulted in the emergence of the first communist state in the world. It transformed communism from an idea to reality. For the first time, <u>Marxist ideology was given a concrete shape</u> and Karl Marx could be saved from being called Utopian.</li>
+<li style="padding-left:2em">&#9702; The USSR could develop an <u>alternative model of economic development</u>, Economic planning was introduced in the world for the first time by the USSR.
+<ul>
+<li style="padding-left:4em">&#9632; It ran counter to the market forces.</li>
+<li style="padding-left:4em">&#9632; It became much more attractive to the Third World countries, particularly after its manifested success at the time of Great Depression 1929-30.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Its success inspired the <u>workers and peasants throughout the world.</u> Leftist ideas gained popularity everywhere. <u>Socialist and communist parties</u> emerged in Europe as well as in other countries.</li>
+<li style="padding-left:2em">&#9702; The Bolshevik revolution <u>inspired similar communist revolutions</u> in many parts of world. The <u>Chinese</u> communist revolution and revolution in <u>Cuba</u> can be cited as examples.</li>
+<li style="padding-left:2em">&#9702; The USSR contributed to the <u>process of decolonization</u> as well.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Negative impact</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Bolshevik revolution was responsible for civil in Russia a <u>long-drawn-out civil war</u> was fought in Russia between 1918-21.</li>
+<li style="padding-left:2em">&#9702; The Russian revolution resulted in serious ideological differences in the world. <u>The capitalist world felt a formidable challenge.</u>
+<ul>
+<li style="padding-left:4em">&#9632; The success of communism in Russia presented an alternative to capitalist model of political, social and economic life. As a result of which, an intense conflict commenced in the world to capture the heart and mind of people.</li>
+<li style="padding-left:4em">&#9632; After the era of protestant movement, <u>Europe was ideologically divided</u> for the first time.</li>
+<li style="padding-left:4em">&#9632; Emergence of communist Russia terrified the capitalist world the western democracies were forced to pursue the <u>policy of appeasement with Germany &amp; Italy</u> to counter spread of communism.</li>
+<li style="padding-left:4em">&#9632; This ideological division was very soon also visible in <u>world context as well</u>, leading to the phenomenon of <u>cold war.</u></li>
+</ul>
+</li>
+</ul>
+`,
   'imperialism-colonialism': `
 <h2>Handout 25: Colonialism and Imperialism: Part 1</h2>
 
@@ -30441,488 +30924,6 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </ul>
 <h3><u>Collapse</u></h3>
 <p>All of this culminated in the First World War. But even the World War didn&#8217;t give a jolt to it. Finally, after the WW2, gradually the process of decolonization started.</p>
-<h2>Handout 32: Russian Revolution</h2>
-
-<h3>UPSC CSE PYQs</h3>
-
-<h4>Causes and Nature</h4>
-<ul>
-<li>&#8226; Overall
-<ul>
-<li style="padding-left:2em">&#9702; Analyze the causes of the Russian Revolutions of 1917. Why was the second Revolution Significant in more than one way? [1985, 60 Marks]</li>
-<li style="padding-left:2em">&#9702; Examine the causes of the Russian Revolution of 1917 and indicate its significance in world history. [2003, 60 Marks]</li>
-<li style="padding-left:2em">&#9702; &#8220;The Russian Revolution (1917) was an economic explosion hastened by the stupidities of the autocratic Government&#8221;. Comment. [2005, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; Account for the overthrow of the Tsarist regime in Russia. [2009, 30 Marks]</li>
-</ul>
-</li>
-<li>&#8226; Nature
-<ul>
-<li style="padding-left:2em">&#9702; The Russian Revolution of 1917 was a single revolution which developed two phases. Elucidate. [1992, 60 Marks]</li>
-</ul>
-</li>
-<li>&#8226; Lenin
-<ul>
-<li style="padding-left:2em">&#9702; Write a critical note on Lenin&#8217;s role in the Russian Revolution of 1917. [1981, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; &#8220;The bold knight, Lenin, having rescued the fair maiden of the Revolution from the evil sorcerer, Kerensky, everyone lived happily hereafter.&#8221; Comment. [1983, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; In Russia, Lenin was &#8220;the father of socialism, organizer of the revolution and the founder of the new Russian society.&#8221; Examine the statement. [1998, 60 Marks]</li>
-<li style="padding-left:2em">&#9702; How did Lenin achieve an abrupt transition from a Monarchical autocratic to a Socialist State? [2016, 20 Marks]</li>
-</ul>
-</li>
-</ul>
-
-<h4>Success and Significance</h4>
-<ul>
-<li>&#8226; Overall
-<ul>
-<li style="padding-left:2em">&#9702; What were the causes for the success of Bolshevik Revolution of 1917? Discuss its significance in the history of the world. [1980, 60 Marks]</li>
-<li style="padding-left:2em">&#9702; Examine the statement that &#8220;the danger of &#8216;Bolshevism&#8217; dominated not only the history of the years immediately following the Russian Revolution of 1917 but the entire history of the world since that date&#8221;. [2017, 20 Marks]</li>
-</ul>
-</li>
-<li>&#8226; Comparative
-<ul>
-<li style="padding-left:2em">&#9702; &#8220;The impact of the French Revolution (1789) was initially confined the Europe, but, that of the Russia Revolution (1917) was global.&#8221; &#8211; Critically review. [2012, 30 Marks]</li>
-<li style="padding-left:2em">&#9702; &#8220;If the 1917 Bolshevik Revolution in Russia (that resulted in the creation of the Union of Soviet Socialist Republics or Soviet Union) inaugurated an international competition for the hearts and minds of people all over the globe, the Chinese revolution raised the stakes of that struggle.&#8221; Critically examine. [2013 10 Marks]</li>
-</ul>
-</li>
-<li>&#8226; Stalin
-<ul>
-<li style="padding-left:2em">&#9702; &#8220;Stalinist Russia was a despotic regime.&#8221; Critically examine this view. [1999, 60 Marks]</li>
-<li style="padding-left:2em">&#9702; How did Stalin build on Lenin&#8217;s legacy of Bolshevik Revolution and introduce new elements of totalitarianism to transform USSR as a superpower? [2020, 20 Marks]</li>
-</ul>
-</li>
-</ul>
-
-<blockquote>&#8220;The inherent vice of capitalism is the unequal sharing of blessings; the inherent virtue of socialism is the equal sharing of miseries.&#8221; &#8212; Winston Churchill</blockquote>
-
-<ul>
-<li>&#8226; This revolution influenced the course of history so deeply that some scholars believed it to be the <strong>most important event</strong> in the 20th century.</li>
-<li>&#8226; Russian Revolution was <strong>unique</strong>.
-<ul>
-<li style="padding-left:2em">&#9702; Inspired by long years of discontent and leadership that emerged in the course of the revolution, almost all the <u>earlier revolutions occurred suddenly</u> and spontaneously.</li>
-<li style="padding-left:2em">&#9702; But the <u>Bolshevik revolution</u> in Russia was organized/engineered through well-defined planning and program. So, it was known as a <u>&#8216;textbook revolution&#8217;</u> as well, it was designed and orchestrated.</li>
-</ul>
-</li>
-<li>&#8226; Russian revolution tried to answer some of those <strong>questions that had remained unanswered during the French revolution</strong>, i.e. the relationship between the bourgeois class and the proletariat class.
-<ul>
-<li style="padding-left:2em">&#9702; The Russian revolution of 1917 was a complementary and supplementary to French revolution of 1789. The process of revolutionary transformations commenced by the French revolution was carried to its culmination by Russian revolution of 1917.</li>
-</ul>
-</li>
-<li>&#8226; It is always a matter of controversy whether this revolution was an <strong>amalgamation of two revolutions, or it was the two stages of a single revolution.</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The Russian Julian calendar was 13 days behind the international Gregorian calendar that is why these revolutions are known as Feb/March or Oct/Nov Revolutions.</li>
-<li style="padding-left:2em">&#9702; The significance of the Russian revolution lay in the second stage. If it would have stopped at the first stage, hardly it could go beyond the French revolution.
-<ul>
-<li style="padding-left:4em">&#9632; The March revolution was better than 1905 but not more than FR 1789.</li>
-<li style="padding-left:4em">&#9632; Only because of Oct/Nov, it surpassed all and became important in 20th c history.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-<h3>Causes and March Revolution</h3>
-
-<p>It was response to the politico-administrative and socio-economic environment prevailing in Russia. The suffering of common masses under the prevailing czarist regime came out in form of revolutionary outburst in 1917.</p>
-
-<ul>
-<li>&#8226; <strong>Political</strong>: <strong>Absolutist</strong> nature of Tsarist regime
-<ul>
-<li style="padding-left:2em">&#9702; It was based on the idea of divine monarchy.</li>
-<li style="padding-left:2em">&#9702; It was despotic, aristocratic, and feudal in outlook.</li>
-<li style="padding-left:2em">&#9702; It was inefficient, corrupt and anti-people.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Economic</strong>: Even the <strong>industrialization</strong> in Russia was <strong>unique</strong> in character.
-<ul>
-<li style="padding-left:2em">&#9702; The Russian government did not take much interest in economic advancement of nation.
-<ul>
-<li style="padding-left:4em">&#9632; Few modern industries had emerged in Russia under British, French and German ownership but the level of industrialization was very low, and condition of factory workers was pathetic.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; Russia was <strong>not properly industrialized</strong>.
-<ul>
-<li style="padding-left:4em">&#9632; In the words of some critics, Industries in Russia was an <strong>island</strong> in the vast sea. Most of the industries were <strong>concentrated</strong> in a particular region.</li>
-<li style="padding-left:4em">&#9632; So, there was a <strong>concentration of workers</strong> in a specific region. This phenomenon led to <strong>growing proletarianization</strong> among Russian workers.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; Politicians such as <strong>Sergei Witte</strong> had <u>succeeded in partially industrializing Russia but failed to reform and modernize Russia socially.</u></li>
-</ul>
-</li>
-<li>&#8226; <strong>Social</strong>:
-<ul>
-<li style="padding-left:2em">&#9702; A Russian monarch Czar Alexander II had abolished the serfdom system, but the <strong>condition of peasants</strong> did not improve as there was <strong>no redistribution of land.</strong></li>
-<li style="padding-left:2em">&#9702; Reaction set in among the <strong>different ethnic groups</strong> in Russia against the policy of <strong>Russification</strong> adopted by Russian Emperor Czar Nicholas II.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Intellectual</strong>: Before the revolution, there occurred intellectual revolutions as well.
-<ul>
-<li style="padding-left:2em">&#9702; For example, scholars like Leo <strong>Tolstoy</strong>, Ivan <strong>Turgenev</strong> and <strong>Dostoyevsky</strong> etc. encouraged newer ideas in Russia.</li>
-<li style="padding-left:2em">&#9702; These were not communists, but they prepared the basis for discontent. They were opposed to the absolutist nature of the government and also unequal socio-economic condition of the time - both factors.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Some events:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; After the defeat of Russia at the hands of Japan in 1905 a revolution had broken out in Russia. The Tsar promised reforms to cool down temper people, but these promises were not kept. The <strong>revolution of 1905</strong> became a dress rehearsal of the revolution of 1917.</li>
-<li style="padding-left:2em">&#9702; After the Russian Revolution of 1905, <strong>Peter Stolypin</strong> initiated far-reaching <strong>land reforms</strong> to improve peasantry and bring political stability.
-<ul>
-<li style="padding-left:4em">&#9632; Industrious peasants could leave communes and acquire private land.</li>
-<li style="padding-left:4em">&#9632; Outcome: moderate success.
-<ul>
-<li style="padding-left:2em">&#8226; By 1911, more than 2 million peasants were allotted land on easy term and more than 3.5 million were settled in Siberia. However, this number was less than 20% of all the peasants.</li>
-<li style="padding-left:2em">&#8226; This process of reforms got derailed when Peter Stolypin was murdered in 1911. His death took away the ablest supporter of czarist regime.</li>
-<li style="padding-left:2em">&#8226; Overall, it did not transform the peasantry into the bulwark of support that the autocracy needed.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; Several <strong>revolutionary parties</strong> had emerged in Russia in opening decades of 20th century. These revolutionaries were spreading socialist ideas among workers their activities had further intensified conditions in Russia.</li>
-<li style="padding-left:2em">&#9702; The <strong>conspiracy promoted by Tsarina</strong> and her spiritual teacher <strong>Rasputin</strong> gave a further blow to the prestige of the royal house. It was further tarnished.</li>
-<li style="padding-left:2em">&#9702; The <strong>First World War</strong> proved a major game-changer. It prepared the way for the revolution in following manner:
-<ul>
-<li style="padding-left:4em">&#9632; There was already a conflict between the <strong>Tsar</strong> (executive) and <strong>Duma</strong> (legislature) and World War <strong>widened the gulf further.</strong></li>
-<li style="padding-left:4em">&#9632; Tsar was away on battle front because of which the <strong>officers misused their power</strong> for personal benefit.</li>
-<li style="padding-left:4em">&#9632; It gave a big boost to <strong>inflation and scarcity</strong> of goods which was the immediate factor behind the Revolution.
-<ul>
-<li style="padding-left:2em">&#8226; Without planning, moving to the war proved burdensome.</li>
-<li style="padding-left:2em">&#8226; Error in judgement of minting new money aggravated the inflation.</li>
-<li style="padding-left:2em">&#8226; Black marketing and hoarding became rampant. Even the food items moved beyond the reach of common masses.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; As the Russian government followed the <strong>&#8220;Scorched Earth Policy&#8221;</strong> against the enemy, so, it created discontentment among Russian peoples as well.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; <strong>March Revolution</strong>
-<ul>
-<li style="padding-left:2em">&#9702; On 8th March 1917, <strong>a group of hungry women</strong> attacked shops selling bread in Petrograd. The police opened fire resulting in the death of 40 people, this incident triggered revolutionary uprising all over Russia.</li>
-<li style="padding-left:2em">&#9702; Since workers were much aggrieved, at least <strong>4 lakh workers</strong> came on the roads of <strong>Petrograd</strong> demanding <strong>bread</strong>.</li>
-<li style="padding-left:2em">&#9702; The government passed an order to soldiers to open fire on the mob to disperse it, but the <strong>soldiers</strong> refused to follow the command. So, the government was helpless.</li>
-<li style="padding-left:2em">&#9702; On 15th March the government of Czar Nicholas II resigned. Thus occurred the March Revolution.</li>
-</ul>
-</li>
-</ul>
-
-<h3>October Revolution</h3>
-
-<p>The downfall of Tsarist regime was followed by establishment of <strong>provisional government</strong>. It was reorganized twice over its 8-month existence, each time as a coalition of several political parties.</p>
-
-<ul>
-<li>&#8226; Mar to July: The <strong>Liberal Bourgeoisie</strong> government under <strong>George Lvov</strong>.</li>
-<li>&#8226; July to Oct: <strong>Liberal/moderate Socialist</strong> Government under <strong>Kerensky</strong>.</li>
-</ul>
-
-<p>So, the provisional government could not function for long and it was swept from power in a bloodless coup by the Bolsheviks in the second phase of the Russian Revolution. <strong>The Bolshevik revolution was the outcome of number of serious mistakes committed by Kerensky&#8217;s government</strong> which intensified the discontent prevailing among the masses.</p>
-
-<ul>
-<li>&#8226; One major challenge before the government was regarding the <strong>role of Russia in WWI.</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Russians were in favour of signing a separate peace with Germany to come out of war.</li>
-<li style="padding-left:2em">&#9702; However, the Kerensky government decided to continue with war. A major offensive <strong>(June Offensive)</strong> was launched by Russia in June 1917, but it ended in miserable failure leading to heavy casualties.</li>
-</ul>
-</li>
-<li>&#8226; Apart from political freedom, Russian people aspired for <strong>socioeconomic freedom</strong> as well.
-<ul>
-<li style="padding-left:2em">&#9702; The factory workers continued to suffer, and the peasant continued to face exploitation at the hands of feudal lords.</li>
-<li style="padding-left:2em">&#9702; <strong>The land</strong> question was important. Peasants had already captured some land and its fate was hanging in balance. The new government remained indecisive about it.</li>
-<li style="padding-left:2em">&#9702; <strong>Kerensky</strong> also lost the confidence of the left wing by refusing to implement their radical social and economic programs and by apparently planning to assume dictatorial powers.</li>
-</ul>
-</li>
-<li>&#8226; The Russian government got <strong>sandwiched between the Duma and Petrograd Soviet</strong> as both had contrary objectives.
-<ul>
-<li style="padding-left:2em">&#9702; <strong>Soviet vs Duma</strong>
-<ul>
-<li style="padding-left:4em">&#9632; <strong>Soviet</strong>: Workers&#8217; council, grassroot organization of workers and soldiers. It was radical in approach.</li>
-<li style="padding-left:4em">&#9632; <strong>The Duma</strong> was organized since 1905 as representative. It was bit soft-liner and was packed with either aristocracy or middle class.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; Kerensky&#8217;s government had to share power with Petrograd soviet because of which it could not implement its decisions effectively.
-<ul>
-<li style="padding-left:4em">&#9632; <strong>Kerensky</strong> was <strong>only person to hold positions in both</strong> governing bodies, he assumed the role of liaison between them.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; The Kerensky government took <strong>the unpopular decision to postpone the elections.</strong> It was contended that elections were not possible at a time when Russian forces were busy in war.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Return of Lenin</strong> from exile in April 1917 increased the troubles for Kerensky&#8217;s government.</li>
-</ul>
-
-<h3>Lenin and the Road to Revolution:</h3>
-<ul>
-<li>&#8226; <strong>April</strong>
-<ul>
-<li style="padding-left:2em">&#9702; <strong>Lenin</strong> came <strong>back to Russia in April</strong> 1917 from Germany where he had been deported by Tsar Nicholes II due to his revolutionary acts earlier.
-<ul>
-<li style="padding-left:4em">&#9632; Germans arranged for his secret illegal into Russia. Berlin hoped that the return of anti-war Socialists to Russia would undermine the Russian war effort.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; In the <strong>April Theses</strong>, Lenin argued that the February Revolution had been a bourgeois revolution, but that it had not gone far enough. He argued that the working class needed to make a second socialist revolution to complete the democratic revolution and to establish socialism in Russia.</li>
-<li style="padding-left:2em">&#9702; He raised the battle cry, &#8220;All power to the Soviets!&#8221;
-<ul>
-<li style="padding-left:4em">&#9632; Although at that time, the Bolsheviks constituted a minority within the soviets. The Menshevik&#8211;SR were in majority, but they were unwilling to exercise such power.</li>
-<li style="padding-left:4em">&#9632; The Bolsheviks, Lenin exhorted, must persuade the workers, peasants, and soldiers, to retrieve state power for the soviets.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; After several weeks of persuasion, Lenin <strong>won the Bolshevik Party Central Committee</strong> to his view. Finally in the Party endorsed his program.
-<ul>
-<li style="padding-left:4em">&#9632; Withhold support from the Provisional Government</li>
-<li style="padding-left:4em">&#9632; Win a majority in the soviets in favour of soviet power.</li>
-<li style="padding-left:4em">&#9632; A soviet government, once established, should begin immediate negotiations for a general peace on all fronts.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; <strong>Establishing majority in Soviets:</strong>
-<ul>
-<li style="padding-left:4em">&#9632; The Bolsheviks were a minority in the soviets.</li>
-<li style="padding-left:4em">&#9632; <strong>Kerensky</strong> claimed that a freely elected <strong>constituent assembly</strong> would decide Russia&#8217;s political future&#8212;but that must await the return of order.</li>
-<li style="padding-left:4em">&#9632; But increasing war-weariness, breakdown of the economy and frustration of <strong>workers, peasants, and soldiers</strong>, led to the <strong>growing disillusionment</strong> with the Provisional government of Kerensky. Lenin capitalized on this. He demanded immediate peace, land, and bread. <u>Lenin&#8217;s slogan <strong>Bread, Peace and Land</strong></u> galvanized the support for the Bolsheviks.</li>
-<li style="padding-left:4em">&#9632; With this, the Bolsheviks won increasing support and by September, they voted for a <strong>Bolshevik majority in the Petrograd Soviet</strong> and in the soviets of the major cities and towns throughout the country.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; <strong>July:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; <strong>Workers and soldiers in Petrograd</strong> stage a series of armed demonstrations known as the <strong>July Days.</strong> The demonstrations are suppressed by the Provisional Government, and many Bolsheviks are arrested, including Lenin.</li>
-<li style="padding-left:2em">&#9702; Lenin went underground in July after he had been accused as a &#8220;German agent&#8221; by Kerensky&#8217;s government.</li>
-</ul>
-</li>
-<li>&#8226; <strong>August:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; General Lavr <strong>Kornilov</strong>, commander of the Petrograd Military District, attempts to overthrow the Provisional Government. The coup was foiled by the Bolsheviks and other revolutionary groups.</li>
-</ul>
-</li>
-<li>&#8226; <strong>October</strong>: Communist Seize the Power.
-<ul>
-<li style="padding-left:2em">&#9702; Now Lenin decided that the time was ripe to seize power. The party immediately began preparations for an armed uprising to transfer state power to the soviets, now headed by a Bolshevik majority.</li>
-<li style="padding-left:2em">&#9702; The Bolsheviks launched a successful coup against the Provisional Government. They stormed the Winter Palace in Petrograd and overthrew the Provisional Government, establishing the world&#8217;s first communist state.</li>
-</ul>
-</li>
-</ul>
-
-<h3>The contributions of Lenin in the Bolshevik revolution (Marxism vs Leninism)</h3>
-
-<blockquote>&#8220;We do not consider the theory of Marx to be a complete, immutable whole. We think, on the contrary, that this theory has only laid the cornerstone of the science, a science which socialists must further develop in all directions if they do not want to let themselves be overtaken by life. We think that, for the Russian socialists, an independent elaboration of the theory is particularly necessary.&#8221; &#8212; Lenin</blockquote>
-
-<p>Marx was just a theorist whereas Lenin was a political worker. This was the reason that Lenin, at times, deviated from the course of Marxism to adjust the revolution to the prevailing situation. Also, this was one of the main reasons for the success of the Bolshevik Revolution.</p>
-
-<ul>
-<li>&#8226; <strong>Ideological contribution:</strong> Lenin redefined Marxism according to the specific condition of Russia. He justified why the revolution should first take place in Russia. He also created a clear ideological framework for revolution.</li>
-<li>&#8226; <strong>Propaganda:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Lenin was adept at utilizing propaganda to mobilize the masses and garner support for the Bolshevik cause.</li>
-<li style="padding-left:2em">&#9702; Through the use of newspapers, pamphlets, and public speeches, he effectively communicated the Bolshevik message. His slogans formulated and popularized Bolshevik programs.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Strategist</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Lenin was too conscious about the timing. He was also ready to follow opportunistic policy and sometimes he cooperated even with his rival party if the situation demanded.
-<ul>
-<li style="padding-left:4em">&#9632; For example, on one occasion he cooperated with the government of Kerensky, also.</li>
-<li style="padding-left:4em">&#9632; Lenin presented <strong>pragmatic tactics</strong> for the revolution in Russia. He endorsed the <u>temporary United Front strategy</u> in his famous pamphlet <strong>&#8220;Two Tactics of Social-Democrats&#8221;</strong>. (1905)</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; He was ready even to adopt any sort of destructive policy to outwit his rival.
-<ul>
-<li style="padding-left:4em">&#9632; For example, on one occasion he <strong>encouraged the minorities in Russia</strong> against the government of Kerensky, in spite of the fact that this minority group would create a problem even for Lenin in future.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; <strong>Organizer: Vanguard Party and Professional Revolutionaries</strong>
-<ul>
-<li style="padding-left:2em">&#9702; With his pamphlet Chto delat? (1902; <strong>What Is to Be Done?</strong>), Lenin specified the theoretical principles of the communist party organization.
-<ul>
-<li style="padding-left:4em">&#9632; The working class cannot achieve socialism on its own. It <strong>needs the leadership of a professional revolutionary party.</strong></li>
-<li style="padding-left:4em">&#9632; He advocated for the <strong>recruitment of educated and politically conscious individuals</strong> into the party to provide leadership to the working class.</li>
-<li style="padding-left:4em">&#9632; Lenin also argued that the revolutionary party must be organized in a <strong>centralized and disciplined manner.</strong> He developed the party along <strong>Democratic Centralism.</strong></li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; <u>Thus, unlike what Marx had said, during the Russian revolution, instead of the proletarian class trained and selected members of the Bolshevik party captured the power.</u></li>
-<li style="padding-left:2em">&#9702; <strong>Formation of Bolshevik Party</strong>
-<ul>
-<li style="padding-left:4em">&#9632; Lenin took part in the <strong>second Congress of the Russian Social-Democratic Workers&#8217; Party</strong>, which was held in Brussels and London (1903) and induced the majority of the Congress members to adopt his views.</li>
-<li style="padding-left:4em">&#9632; Two factions formed at the Congress:
-<ul>
-<li style="padding-left:2em">&#8226; <strong>Bolshevik</strong> (majoritarian) with Lenin as the leader. It wanted a restricted party of militants and advocated the dictatorship of the proletariat.</li>
-<li style="padding-left:2em">&#8226; <strong>Menshevik</strong> (minotitarian) with L. Martov at the head. It wanted a wide-open proletarian party, collaboration with the liberals, and a democratic constitution for Russia.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; As one Menshevik opponent described Lenin: <strong>&#8220;There is no other man who is absorbed by the revolution twenty-four hours a day, who has no other thoughts but the thought of revolution, and who even when he sleeps, dreams of nothing but revolution.&#8221;</strong> <u>Placing revolution above party unity, Lenin would accept no unity compromise if he thought it might delay, not accelerate, revolution.</u></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; With the selected band of disciplined volunteers, he captured the power in Russia in Oct 1917.</li>
-<li>&#8226; After capturing power, Lenin moved forward according to the prevailing situation and was guided by his experience during this course. Marx had not left any blueprint for this stage.
-<ul>
-<li style="padding-left:2em">&#9702; Lenin made compromises to the certain principle of Marxism to meet his objectives.</li>
-<li style="padding-left:2em">&#9702; Lenin established the dominance of a party in Soviet Russia, which was converted into the dominance of a single man under Stalin.</li>
-<li style="padding-left:2em">&#9702; Lenin carried a series of experiments and due to the experiments, Russian people had to suffer.</li>
-</ul>
-</li>
-</ul>
-
-<h3>Steps taken by Lenin to consolidate the revolution after seizing power</h3>
-
-<p>Marx talked about the mode of production, dictatorship of proletariat &#8211; but he was less focused on details of communist government. The details of the dictatorship of proletariat were not worked out. So, Lenin had to go for trial and error.</p>
-
-<ul>
-<li>&#8226; <strong>Withdrawal from the WWI:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The priority of Lenin was to consolidate the revolution in Russia, so he decided to end the war with Germany. Lenin considered Imperialism as the highest form of capitalism. So, he decided to opt out of the war by signing a separate treaty with Germany.</li>
-<li style="padding-left:2em">&#9702; Lenin signed the &#8216;Treaty of Brest-Litovsk&#8217; in March 1918 with Germany. He submitted to Germany 1/4th of its European Russia and 1/3rd of European Russians as Germany put harsh terms.
-<ul>
-<li style="padding-left:4em">&#9632; Signing peace with Germany invited wrath of allied powers, who invaded Russia (USA, France, Britain, Japan - all four). But Lenin didn&#8217;t succumb, he rose up to the occasion and with the support of the Red Army under Trotsky, he successfully combatted invading army.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; <strong>The policy of terror and concessions:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; <strong>Terror</strong>
-<ul>
-<li style="padding-left:4em">&#9632; Lenin organized <strong>secret police (Cheka)</strong> and unleashed coercive machinery against his <strong>rivals (enemy of revolution)</strong></li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; <strong>Concessions</strong>
-<ul>
-<li style="padding-left:4em">&#9632; He permitted the <strong>peasants</strong>, who had already seized land from the landlords at the time of March revolution, <strong>to retain the land, in spite of the fact that it run counter to Marxist ideals.</strong></li>
-<li style="padding-left:4em">&#9632; Marxism didn&#8217;t recognize racial or cultural division, but Lenin <strong>accepted the distinct identity of minority groups in USSR.</strong> In the new constitution of USSR special position of minority groups was accepted under Russian federation.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; <strong>Economic Policy</strong>
-<ul>
-<li style="padding-left:2em">&#9702; After coming to power, Lenin initially adopted a very tough approach towards economic policy. This system was known as <strong>&#8220;War Communism&#8221; (1918-21).</strong> This was the coercive system established <u>to take care of a crisis situation during the Civil war.</u>
-<ul>
-<li style="padding-left:4em">&#9632; <strong>Features:</strong>
-<ul>
-<li style="padding-left:2em">&#8226; Forced requisition of surplus grain and other food products from the peasantry</li>
-<li style="padding-left:2em">&#8226; Nationalization of industry throughout Soviet Russia</li>
-<li style="padding-left:2em">&#8226; Private enterprises were declared illegal.</li>
-<li style="padding-left:2em">&#8226; State control over foreign trade</li>
-<li style="padding-left:2em">&#8226; Workers were brought under strict discipline, strikes were prohibited. Obligatory Labour duty was imposed over man working classes.</li>
-<li style="padding-left:2em">&#8226; Military style control was imposed over railways.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; <strong>Effects</strong>
-<ul>
-<li style="padding-left:2em">&#8226; This was an extreme form of communism in which no private property was allowed in any form; this policy was adopted so that the challenge of civil war could be faced successfully.</li>
-<li style="padding-left:2em">&#8226; However, these measures <strong>negatively affected both agricultural and industrial</strong> production.
-<ul>
-<li style="padding-left:2em">&#9702; With no incentives to grow surplus grain (since it would just be confiscated), the peasants&#8217; production plummeted. There was a threat of starvation in the cities.</li>
-<li style="padding-left:2em">&#9702; A hastily created large, untrained bureaucracy to supervise the state-owned economy destroyed labour productivity and industrial output.</li>
-<li style="padding-left:2em">&#9702; Uncontrolled inflation rendered paper currency worthless, and so the government had to resort to the barter system.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#8226; By early 1921 <strong>public discontent became widespread,</strong> resulting in numerous strikes and protests</li>
-</ul>
-</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; New Economic Policy (NEP, 1921-28).
-<ul>
-<li style="padding-left:4em">&#9632; With <strong>the end of Russian civil war</strong>, the extreme communism was no longer required. <strong>it was a temporary retreat</strong> from the previous policy of extreme centralization and doctrinaire socialism.</li>
-<li style="padding-left:4em">&#9632; <strong>Features</strong>
-<ul>
-<li style="padding-left:2em">&#8226; <u>It tried to bring back incentive structure by operationalizing open markets and private property. It was based on the idea of a mixed economy.</u></li>
-<li style="padding-left:2em">&#8226; <strong>The peasantry</strong> was allowed to own and cultivate their own land, sell the grains in the open market while paying taxes to the state.</li>
-<li style="padding-left:2em">&#8226; <strong>Partial privatization:</strong> Nearly 90% of Russian economy was placed under private capital (most agriculture, retail trade, and small-scale light industry)
-<ul>
-<li style="padding-left:2em">&#9702; The state retained control of heavy industry, transport, banking, and foreign trade.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#8226; The state control over capital flow was reduced so that <strong>foreign capital</strong> could be encouraged to invest in Russia. Foreign capitalists were allowed to run industries in Russia on the condition that their products would only be sold to government.</li>
-<li style="padding-left:2em">&#8226; <strong>Labour reforms</strong> were introduced in which salary of workers was linked to productivity.</li>
-<li style="padding-left:2em">&#8226; Government enterprises were allowed to hire <strong>engineering and other specialists</strong> from market to improve efficiency.</li>
-<li style="padding-left:2em">&#8226; <strong>Money</strong> was reintroduced into the economy in 1922</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; <strong>Effects:</strong>
-<ul>
-<li style="padding-left:2em">&#8226; It reintroduced a measure of stability to the economy and allowed the Soviet people to recover from years of war, civil war, and governmental mismanagement.
-<ul>
-<li style="padding-left:2em">&#9702; The small businessmen and managers who flourished in this period became known as <strong>NEP men</strong>.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#8226; NEP was <strong>based on a socialist model.</strong> It infused new energy in Russia economy because of which <strong>extremely rapid economic progress</strong> was witnessed.</li>
-<li style="padding-left:2em">&#8226; It was viewed by the Soviet government as merely a <strong>temporary/expedient measure</strong> to allow the economy to recover while the Communists solidified their hold on power.</li>
-<li style="padding-left:2em">&#8226; The success of Russian NEP inspired many other countries.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; <strong>End of NEP:</strong>
-<ul>
-<li style="padding-left:2em">&#8226; Still, the grain shortages continued.</li>
-<li style="padding-left:2em">&#8226; In 1928&#8211;29 Stalin forcibly eliminated collectivized agriculture under the state&#8217;s control, thus ensuring the procurement of adequate food supplies.</li>
-<li style="padding-left:2em">&#8226; This abrupt policy change marked the end of the NEP. It was followed by the reimposition of state control over all industry and commerce in the country by 1931.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-<h3>The advent of Stalin</h3>
-
-<p>Lenin&#8217;s chosen successor was Trotsky but an ambitious leader, Stalin, sidelined him and seized the power. In 1924 Lenin passed away and a war of successions started. Lenin eliminated his rivals and captured power. Some rivals were killed, some put in mental asylum and electrocuted (tortured to death).</p>
-
-<p><strong>Changes by Stalin:</strong></p>
-<ul>
-<li>&#8226; <strong>Change in Ideology:</strong> <u>World Revolution vs. Socialism in a single country.</u>
-<ul>
-<li style="padding-left:2em">&#9702; Marx had prophesied that the third phase of revolution would be the world revolution. With this objective, Lenin even formed Communist International.</li>
-<li style="padding-left:2em">&#9702; But Stalin changed this ideal. He emphasized that due to this, the capitalist western countries have turned hostile and anti-Russia.. So, first we need to consolidate revolution in Russia. For the time being, the ideal of world revolution was suspended.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Changes in Economy: State control</strong>
-<ul>
-<li style="padding-left:2em">&#9702; He emphasized rapid industrialization and with this purpose, he introduced <strong>economic planning in 1928.</strong></li>
-<li style="padding-left:2em">&#9702; A strong agricultural base was required for industrialization. Thus, Stalin abolished private property in land and enforced <strong>collectivisation</strong> of agriculture (co-operative farming). The Russian economy was completely transformed under Stalin.</li>
-<li style="padding-left:2em">&#9702; <strong>Central Planning:</strong> First time experimented.</li>
-<li style="padding-left:2em">&#9702; <strong><u>Visionary:</u></strong> All this great development happened when the west was grueling under Great Depression. Soon, Russia became a super-power. And it was due to this that Stalin could withstand future invasion from Nazi Germany.</li>
-</ul>
-</li>
-<li>&#8226; The <strong>dictatorship</strong> of the government
-<ul>
-<li style="padding-left:2em">&#9702; During his reign, <strong>dictatorship of a party was transformed into the dictatorship of a single man.</strong></li>
-<li style="padding-left:2em">&#9702; All dissents were silenced with iron hand. Because of which, Stalin is remembered in history as <strong>one of the worst despots</strong>. <u>In extermination of his enemies, and in causing cruel suppression, he competed with Adolf Hitler.</u></li>
-</ul>
-</li>
-</ul>
-
-<h3>Impact and Significance</h3>
-
-<p>The Bolshevik revolution of Nov 1917 in Russia was a development of world-wide development. The echoes of its impact were heard far and wide.</p>
-
-<ul>
-<li>&#8226; <strong>Positive impact</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The Bolshevik revolution resulted in the emergence of the first communist state in the world. It transformed communism from an idea to reality. For the first time, <u>Marxist ideology was given a concrete shape</u> and Karl Marx could be saved from being called Utopian.</li>
-<li style="padding-left:2em">&#9702; The USSR could develop an <u>alternative model of economic development</u>, Economic planning was introduced in the world for the first time by the USSR.
-<ul>
-<li style="padding-left:4em">&#9632; It ran counter to the market forces.</li>
-<li style="padding-left:4em">&#9632; It became much more attractive to the Third World countries, particularly after its manifested success at the time of Great Depression 1929-30.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; Its success inspired the <u>workers and peasants throughout the world.</u> Leftist ideas gained popularity everywhere. <u>Socialist and communist parties</u> emerged in Europe as well as in other countries.</li>
-<li style="padding-left:2em">&#9702; The Bolshevik revolution <u>inspired similar communist revolutions</u> in many parts of world. The <u>Chinese</u> communist revolution and revolution in <u>Cuba</u> can be cited as examples.</li>
-<li style="padding-left:2em">&#9702; The USSR contributed to the <u>process of decolonization</u> as well.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Negative impact</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Bolshevik revolution was responsible for civil in Russia a <u>long-drawn-out civil war</u> was fought in Russia between 1918-21.</li>
-<li style="padding-left:2em">&#9702; The Russian revolution resulted in serious ideological differences in the world. <u>The capitalist world felt a formidable challenge.</u>
-<ul>
-<li style="padding-left:4em">&#9632; The success of communism in Russia presented an alternative to capitalist model of political, social and economic life. As a result of which, an intense conflict commenced in the world to capture the heart and mind of people.</li>
-<li style="padding-left:4em">&#9632; After the era of protestant movement, <u>Europe was ideologically divided</u> for the first time.</li>
-<li style="padding-left:4em">&#9632; Emergence of communist Russia terrified the capitalist world the western democracies were forced to pursue the <u>policy of appeasement with Germany &amp; Italy</u> to counter spread of communism.</li>
-<li style="padding-left:4em">&#9632; This ideological division was very soon also visible in <u>world context as well</u>, leading to the phenomenon of <u>cold war.</u></li>
-</ul>
-</li>
-</ul>
 </li>
 </ul>`,
   'world-wars': `
