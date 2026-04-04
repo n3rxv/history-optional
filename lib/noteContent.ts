@@ -30925,6 +30925,193 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <h3><u>Collapse</u></h3>
 <p>All of this culminated in the First World War. But even the World War didn&#8217;t give a jolt to it. Finally, after the WW2, gradually the process of decolonization started.</p>
 </li>
+</ul>
+<h2>Handout 37: Imperial Japan</h2>
+
+<h3>Causes of Japanese Imperialism</h3>
+
+<p>The roots of Japanese imperialism can be traced to the mid-19th century, when the country embarked on a rapid modernization process (Meiji Restoration). This period of intense social, political, and economic transformation aimed to propel Japan into the ranks of the world's great powers.</p>
+
+<ul>
+  <li>&#8226; The <strong>Meiji restoration</strong> in 1868 was in fact an economic revolution which was triggered off by the entry of Western capitalism into Japan. With the Meiji Restoration, the feudal economy was abolished, and a modern capitalist economy emerged in Japan.
+    <ul>
+      <li style="padding-left:2em">&#9702; Japan lacked sufficient natural resources, and sought to secure raw materials and energy sources, such as oil, coal, and iron, to fuel its industrialization and economic growth.</li>
+      <li style="padding-left:2em">&#9702; Japanese expansion aimed to open new markets for Japanese goods and create spheres of influence to strengthen its economic and trade position, particularly in East Asia.</li>
+    </ul>
+  </li>
+  <li>&#8226; Japan emerged as an imperial power after 1868, more as a <strong>product of modernization than of native tradition.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Like the Western imperialist powers, Japan too, looked for colonies and jumped into the fray of an international competition.</li>
+    </ul>
+  </li>
+  <li>&#8226; Achieving equality with the West was one of the primary goals of the Meiji leaders.</li>
+  <li>&#8226; <strong>Nationalism and Pan-Asianism:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; A strong sense of nationalism emerged in Japan during the Meiji era, fueled by a belief in Japanese superiority and a desire to restore the country's historical greatness.</li>
+      <li style="padding-left:2em">&#9702; This nationalism was intertwined with Pan-Asianism, the ideology of Asian unity against Western imperialism.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>International Rivalries:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Japan's growing power brought it into conflict with other imperial powers, such as Russia and Britain, leading to wars and territorial acquisitions. These rivalries reinforced the notion of Japan's need for a strong military and overseas possessions.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Militarism:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The Meiji government invested heavily in modernizing the military, creating a powerful force that could support Japan's imperial ambitions. The military played a significant role in shaping Japan's foreign policy and promoting expansionist goals.</li>
+      <li style="padding-left:2em">&#9702; Strategic Interests: The Japanese military leadership sought to establish a regional hegemony in East Asia and the Pacific, leading to the occupation of territories such as Korea, Manchuria, and parts of China to create a buffer zone and secure strategic positions.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Domestic Politics:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Social unrest and economic challenges within Japan fostered a belief that imperial expansion could divert attention from domestic problems and unite the nation around a common goal.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Iwakura Mission</strong> (1871) to US and Europe: <strong>Treaty reform</strong> to end the foreigners' judicial and economic privileges provided by extraterritoriality and fixed customs duties.</p>
+<ul>
+  <li>&#8226; The Western powers insisted, however, that they could not revise the treaties until Japanese legal institutions were reformed along European and American lines.</li>
+  <li>&#8226; Efforts to reach a compromise settlement in the 1880s were rejected by the press and opposition groups in Japan.</li>
+</ul>
+
+<h3>Building of Japanese Empire</h3>
+
+<ul>
+  <li>&#8226; <strong>Annexation of Korea</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Japan had economic and strategic interests in Korea. Korea was a major producer of rice and also provided a good commercial market for Japanese products. However, in Korea, Japanese interests collided with those of China and Russia.</li>
+      <li style="padding-left:2em">&#9702; <strong>Sino-Japanese War (1894)</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; The Sino-Japanese War erupted in 1894 in which Japanese forces proved to be superior and China was roundly defeated. It then sued for peace. Thus, was signed Shimonoseki Treaty (1895)
+            <ul>
+              <li style="padding-left:6em">&#8226; Both sides recognized the independence of Korea.</li>
+              <li style="padding-left:6em">&#8226; China ceded to Japan Formosa, Liaotung Peninsula, and Port Arthur.</li>
+              <li style="padding-left:6em">&#8226; China was also forced to pay a huge war indemnity to Japan.</li>
+              <li style="padding-left:6em">&#8226; China granted Japan all rights enjoyed by European powers. China made significant economic concessions, including the opening of new treaty ports.</li>
+            </ul>
+          </li>
+          <li style="padding-left:4em">&#9632; <strong>Analysis</strong>
+            <ul>
+              <li style="padding-left:6em">&#8226; Japan marked its own emancipation from the unequal treaties by imposing even harsher terms on its neighbour.</li>
+              <li style="padding-left:6em">&#8226; Japan's overwhelming victory upset the power balance within China as well as on the international scene.
+                <ul>
+                  <li style="padding-left:8em">&#9702; The defeat of China exposed her weaknesses and there began a scramble for concessions among the big powers.</li>
+                </ul>
+              </li>
+              <li style="padding-left:6em">&#8226; It also demonstrated that the Japanese could not maintain Asian military victories without Western sufferance.
+                <ul>
+                  <li style="padding-left:8em">&#9702; However, the three-power intervention (France, Russia, and Germany) didn't allow Japan to enjoy the fruits of its victory. They didn't endorse Japanese gains and forced the return of the Liaotung Peninsula to China. It made Japan hostile towards them.</li>
+                  <li style="padding-left:8em">&#9702; Russia leased the same territory with its important naval base, Port Arthur (Lu-shun), from China in 1898.</li>
+                </ul>
+              </li>
+              <li style="padding-left:6em">&#8226; The victory also proved a tremendous source of prestige for Japan and brought the government much internal support; it also strengthened the hand of the military in national affairs.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>Russo-Japanese War (1905)</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; <strong>Increasing Russo-Korean proximity:</strong>
+            <ul>
+              <li style="padding-left:6em">&#8226; Reluctant to accept Japanese leadership, Korea instead sought Russia's help. During Boxer Rebellion, Russia occupied southern Manchuria, thereby strengthening its links with Korea.</li>
+              <li style="padding-left:6em">&#8226; Japan was concerned by Russian penetration into Manchuria and Korea for it stood as a stumbling block on her road to supremacy.</li>
+            </ul>
+          </li>
+          <li style="padding-left:4em">&#9632; <strong>Anglo-Japanese Treaty (1902):</strong>
+            <ul>
+              <li style="padding-left:6em">&#8226; England too, disapproved the Russian designs in Asia as it might run counter to her own interest in the British Indian Empire. The common interests of Japan and England brought about the Anglo-Japanese Alliance (1902).</li>
+              <li style="padding-left:6em">&#8226; This alliance provided that Britain would help Japan in the eventuality that France helped Russia.</li>
+              <li style="padding-left:6em">&#8226; Backed by Britain, Tokyo was prepared to take a firmer stand against Russian advances in Manchuria and Korea.</li>
+            </ul>
+          </li>
+          <li style="padding-left:4em">&#9632; <strong>The Russo-Japanese War (1905):</strong>
+            <ul>
+              <li style="padding-left:6em">&#8226; In 1904 Japanese ships attacked the Russian fleet at Port Arthur without warning. In the war that followed, Japanese arms were everywhere successful.</li>
+            </ul>
+          </li>
+          <li style="padding-left:4em">&#9632; <strong>Treaty of Portsmouth (1905):</strong> U.S. President Theodore Roosevelt mediated a peace settlement.
+            <ul>
+              <li style="padding-left:6em">&#8226; It gave Japan primacy in Korea. Russia was forced to recognize Japan's paramount political, military, and economic interests in Korea.</li>
+              <li style="padding-left:6em">&#8226; Russia granted to Japan its economic and political interests in southern Manchuria, including the Liaotung Peninsula.</li>
+              <li style="padding-left:6em">&#8226; Russia also ceded to Japan the southern half of the island of Sakhalin.</li>
+            </ul>
+          </li>
+          <li style="padding-left:4em">&#9632; <strong>Analysis:</strong>
+            <ul>
+              <li style="padding-left:6em">&#8226; The victory of Japan over Russia shattered the myth of Western invincibility and paved the way for the emergence of Japan as one of the leading powers of the world.</li>
+              <li style="padding-left:6em">&#8226; The victory over Russia altered the balance of power in East Asia.</li>
+              <li style="padding-left:6em">&#8226; Japan's rise as a world power then brought her into a bitter rivalry with the USA whose capitalistic interests in the Far East were threatened.</li>
+              <li style="padding-left:6em">&#8226; It encouraged nationalist movements in India and the Middle East.</li>
+              <li style="padding-left:6em">&#8226; The war was extremely costly in Japanese lives and treasure. At home Japan's failure to gain an indemnity to pay for the heavy war costs made the treaty unpopular.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>Annexation of Korea (1910)</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; After 1905 Russia withdrew from Korea. After the war, Korean liberties and resistance were crushed. Initially, Japan sought to control Korea through a Korean ruling house.</li>
+          <li style="padding-left:4em">&#9632; Japan finally annexed Korea and brought her into the fold of the Japanese Empire in 1910.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; So, by 1912, when the Meiji emperor died, Japan had not only achieved equality with the West but also had become the strongest imperialist power in East Asia.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Twenty-One demands on China during World War I</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; During World War I, Japan fought on the Allied side but limited its activities to seizing German possessions in China and the Pacific. Shantung fell at the feet of Japan and was turned into her 'sphere of influence'.</li>
+      <li style="padding-left:2em">&#9702; China sought its return, but Japan responded with the notorious Twenty-one Demands (1915) that tried to pressure China into widespread concessions.</li>
+      <li style="padding-left:2em">&#9702; <strong>Consequence</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; Chinese succumbed to many demands and was virtually reduced to became a protectorate of Japan. It led to permanent enmity between Japan and China. It created anti-Japanese nature of modern Chinese nationalism.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; Worries in the West: <strong>Disarmament conference (Washington, D.C. 1921–22)</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; To reduce the influence of Japan, USA eventually compelled Japan to sign the Treaty of Washington in 1921. It happened in the Washington Conference, called by the United States to limit the naval arms race and to work out security agreements in the Pacific area.</li>
+      <li style="padding-left:2em">&#9702; A network of treaties was designed to place restraints on Japanese ambitions while guaranteeing Japanese security.
+        <ul>
+          <li style="padding-left:4em">&#9632; Four-Power Pact (Japan, Britain, France, US) replaced the Anglo-Japanese Alliance</li>
+          <li style="padding-left:4em">&#9632; Five-Power Naval Limitation Treaty (with Italy) that set limits for battleships at a ratio of five for Great Britain and the United States to three for Japan.</li>
+          <li style="padding-left:4em">&#9632; An agreement on the fortification of Pacific island bases to assure Japan of security in its home waters.</li>
+          <li style="padding-left:4em">&#9632; Nine-Power Pact to protect China from further unilateral demands.
+            <ul>
+              <li style="padding-left:6em">&#8226; Japan subsequently agreed to retire from Shantung.</li>
+            </ul>
+          </li>
+          <li style="padding-left:4em">&#9632; In 1925 a treaty with the Soviet Union extended recognition to the U.S.S.R. and ended active hostilities.
+            <ul>
+              <li style="padding-left:6em">&#8226; Japanese armies withdrew from Siberia and northern Sakhalin.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Thus, by the mid-1920s Japan's great surge forward in Asia and the Pacific had ended. This brought hope that a new quality of moderation and reasonableness, based on the absence of irritating reminders of inferiority and weakness, might characterize Japanese policy.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Invasion of China (1930s)</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; In 1931, Japan invaded China and captured Manchuria.
+        <ul>
+          <li style="padding-left:4em">&#9632; China appealed to the League of Nations for justice. The League of Nations marked the Japanese as aggressors and so Japan resigned their membership of the League of Nations in 1933.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; In 1937, Japan invaded China again.
+        <ul>
+          <li style="padding-left:4em">&#9632; The League of Nations advised the member nations to impose military sanctions on Japan. This was, however, never implemented.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>In 1941, Japan joined WW2</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The Japanese air-strikes on Pearl Harbour, the American naval base, and on several British establishments in Asia were important events of the Second World War.</li>
+      <li style="padding-left:2em">&#9702; In retaliation the United States dropped atomic bombs on Hiroshima and Nagasaki in 1945. Shortly thereafter, Japan surrendered.</li>
+      <li style="padding-left:2em">&#9702; Japanese imperialism was thus eventually contained by the USA.</li>
+    </ul>
+  </li>
 </ul>`,
   'world-wars': `
 <h2>Handout 28: Eastern Question</h2>
