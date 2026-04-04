@@ -110,14 +110,25 @@ function FloatingAuthWidget({ user, onSignIn, onSignOut, syncStatus }: {
           onClick={() => setExpanded(e => !e)}
           style={{
             width: 42, height: 42, borderRadius: '50%',
-            background: 'var(--bg2)', border: '2px solid #51cf66',
-            cursor: 'pointer', fontSize: '1.1rem',
+            background: 'none', border: '2px solid #51cf66',
+            cursor: 'pointer', padding: 0, overflow: 'hidden',
             boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
           title={user.email}
         >
-          {user.email?.[0]?.toUpperCase() ?? '👤'}
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="21" cy="21" r="21" fill="#1a2a1a"/>
+            <ellipse cx="21" cy="32" rx="11" ry="7" fill="#2d4a2d"/>
+            <circle cx="21" cy="17" r="7.5" fill="#51cf66"/>
+            <circle cx="18" cy="16.5" r="1.8" fill="#0a1a0a"/>
+            <circle cx="24" cy="16.5" r="1.8" fill="#0a1a0a"/>
+            <circle cx="18.5" cy="16" r="0.6" fill="white"/>
+            <circle cx="24.5" cy="16" r="0.6" fill="white"/>
+            <path d="M18 19.8 Q21 22 24 19.8" stroke="#0a1a0a" strokeWidth="1" fill="none" strokeLinecap="round"/>
+            <ellipse cx="13.5" cy="15.5" rx="1.8" ry="2.4" fill="#51cf66"/>
+            <ellipse cx="28.5" cy="15.5" rx="1.8" ry="2.4" fill="#51cf66"/>
+          </svg>
         </button>
       </div>
     );
