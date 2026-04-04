@@ -34707,7 +34707,182 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
 </ul>`,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
-  'unification-europe': ``,
+  'unification-europe': `
+<h2>Handout 46: Integration of Europe</h2>
+<p>After the end of WW II, several significant developments were witnessed in the world and among these developments the beginning of process of unification in Europe was most important. While on the one hand, Europe was divided into Western and Eastern Europe, on the other, integration among the countries of Western Europe also got a boost. What commenced with the formation of small custom unions in 1947 has at present 27 European nations together in European Union.</p>
+
+<h3>Factors behind the integration of Europe:</h3>
+<ul>
+<li>&#8226; The disastrous WW II left behind a trail of devastation in Europe more than 60 million people lost their life.
+  <ul>
+  <li style="padding-left:2em">&#9702; European <strong>leaders</strong> and <strong>intellectuals</strong> realized that each generation of Europe was facing a fierce war. This war could be ended only when there was a unification of Europe. Apart from that, there was awareness among the <strong>common people</strong> in favour of integration as well.</li>
+  <li style="padding-left:2em">&#9702; The need to curb the spirit of nationalism by creating a supranational institution also brought western European nations closer. They consciously promoted <em>spirit of Europeanism</em> so that nationalism could be subdued.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Post-World War economic reconstruction</strong> would have been easy after the integration of Europe.
+  <ul>
+  <li style="padding-left:2em">&#9702; The need of rapid economic compelled European nations to work together, this attitude of co-operation started the process of unification in Europe.</li>
+  <li style="padding-left:2em">&#9702; The policy of protectionism was adopted by European nations after WWI. Instead of resolving prevailing economic crisis, protectionism intensified the hostilities between the nations and aggravated the crisis further. European leaders were determined not to repeat same mistake after WWII.</li>
+  </ul>
+</li>
+<li>&#8226; Many European countries believed that it would be possible <strong>to limit the influence of both the superpowers on Europe</strong> after the unification.
+  <ul>
+  <li style="padding-left:2em">&#9702; The need to mountain influence of western Europe in international matters at a time when the world was being dominated by two superpowers also strengthened the process of co-operation in western Europe.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>The fear of Soviet Union</strong> was also responsible for the process of unification of Europe.
+  <ul>
+  <li style="padding-left:2em">&#9702; After WWII, USSR pushed the policy of communist expansion. Entire eastern Europe was occupied by the Soviet forces and the communist governments were installed in Poland, Romania, Bulgaria, Hungary and Czechoslovakia. It was not possible for the western nations to face Soviet aggression individually. Therefore, they decided to come together.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>France</strong> realized that the issue of its <strong>conflict with Germany</strong> would end after unification.</li>
+<li>&#8226; <strong>Germany</strong> (West Germany) would have found it <strong>easier to be accepted in the community of European nations quickly</strong> if Europe was integrated.
+  <ul>
+  <li style="padding-left:2em">&#9702; Germany, which needed to avoid international isolation, also encouraged unification of Europe. After WWI Germany had to face international isolation for many years. The German leadership now wanted to avoid repetition of the same.</li>
+  </ul>
+</li>
+</ul>
+<p>The initiatives undertaken by leaders like Belgian PM <strong>Paul-Henri Spaak</strong> and French foreign Minister <strong>Robert Schuman</strong> strengthened the process of unification in Europe.</p>
+
+<h3>Models of integration:</h3>
+<ul>
+<li>&#8226; An <strong>organized</strong> federation of different nations like the <strong>US.</strong></li>
+<li>&#8226; A <strong>loose union</strong> of different nations, like the <strong>United Nations.</strong></li>
+</ul>
+
+<h2>(A) Initial Efforts</h2>
+<ul>
+<li>&#8226; 1947: <strong>Benelux Custom Union</strong> was created. (Belgium, Netherland and Luxembourg)
+  <ul>
+  <li style="padding-left:2em">&#9702; These three countries were under German occupation during war period. The government was running in exit from London. By 1944 German had started retreating and thus discussions of possible reconstruction started.</li>
+  </ul>
+</li>
+<li>&#8226; 1948: <strong>Brussels Defence Treaty</strong> was signed by BeNeLux + Britain + France
+  <ul>
+  <li style="padding-left:2em">&#9702; It was a military alliance based on the idea of collective security. The member nations also decided to promote eco, social, cultural collaborations among them.</li>
+  </ul>
+</li>
+<li>&#8226; 1949: <strong>NATO</strong> was created when USA, Canada, Portugal, Denmark, Italy, Ireland and Norway joined Brussels Defence Treaty.</li>
+</ul>
+
+<h3>European Coal and Steel Community (ECSC) (1951)</h3>
+<ul>
+<li>&#8226; It was created to integrate Europe's coal and steel industries into a single common market.</li>
+<li>&#8226; Its objective was to prevent another war between France and Germany. He declared "the solidarity in production" from pooling "coal and steel production" would make war between the two "not only unthinkable but materially impossible".</li>
+<li>&#8226; It set an example for the pan-European organizations created later.</li>
+</ul>
+
+<h2>(B) European Economic Community (EEC) (1958)</h2>
+<ul>
+<li>&#8226; An international organization was created by the <strong>Treaty of Rome of 1957.</strong></li>
+<li>&#8226; Its aim was to bring about economic integration, including a common market, a customs union and a common external trade policy, among its members.</li>
+<li>&#8226; Six founding members: Belgium, Luxembourg, Netherlands, France, Italy, and West Germany.</li>
+</ul>
+
+<h3>Some of the Institutions of EEC:</h3>
+<ul>
+<li>&#8226; European Parliament</li>
+<li>&#8226; European Council of Ministers</li>
+<li>&#8226; European Court</li>
+<li>&#8226; European Commission</li>
+<li>&#8226; Euratom: A collective nuclear program of member countries.</li>
+</ul>
+
+<h2>(C) European Community</h2>
+<p>In <strong>1967</strong>, more efforts were made towards economic integration and in this regard, the European Community was formed instead of the European Economic Community. Under this, an effort was made to form an organization by combining the European Economic Community, the European Coal and Iron Commission and the Euratom.</p>
+<p>Throughout the 1970s and '80s the EEC gradually expanded both its membership and its scope. In 1973 the United Kingdom, Denmark, and Ireland were admitted, followed by Greece in 1981 and Portugal and Spain in 1986.</p>
+
+<h3>Britain's Response:</h3>
+<ul>
+<li>&#8226; Initially, Britain was not willing to join this institution, rather it formed an organization EFTA (European Free Trade Association) in association with seven other countries in 1960.</li>
+<li>&#8226; <strong>Why did Britain not join EEC?</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; She was apprehensive that participation in custom union could adversely affect independence of British economy.</li>
+  <li style="padding-left:2em">&#9702; She had more confidence in the Commonwealth market than in the European market.</li>
+  <li style="padding-left:2em">&#9702; She believed that his relationship with the United States would be weakened by joining this organization.</li>
+  <li style="padding-left:2em">&#9702; British were very concerned about political independence. Many leaders in Britain were apprehensive that economic unification could result in political unification in future.</li>
+  </ul>
+</li>
+<li>&#8226; But after the <strong>rapid expansion of the economy of France and Germany</strong> and the <strong>decline of the British economy</strong> on the other side, Britain realized its mistake.</li>
+<li>&#8226; Then it tried constantly to join the institution but now its decision was vetoed by France. Finally, in 1973 it was successful in joining this institution.</li>
+</ul>
+
+<h2>(D) Formation of European Union and European Federation</h2>
+<p>With the disintegration of USSR and downfall of communism, a new spirit of co-operation was visible in Europe. The proponents of European unity supported the entry of East European nations into European Union &amp; NATO, but these supporters of One Europe encountered a number of serious challenges: of political, economic and socio cultural nature.</p>
+<ul>
+<li>&#8226; <strong>Trust deficit</strong> between the nations of west and east was major challenges faced by proponent of EU after 1991.</li>
+<li>&#8226; Post 1991, there was a greater thrust from economic to <strong>political unification.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; However, the <strong>difference in the political system</strong> between the nations of west and east Europe also came in way of EU unification.</li>
+  </ul>
+</li>
+<li>&#8226; The economic structure as well as <strong>level of development in east and west</strong> European countries were quite different.</li>
+<li>&#8226; <strong>Re-unification of Germany</strong> caused concern to France which was still burdened with past memory.</li>
+<li>&#8226; <strong>The socio-cultural life</strong> was also quite different in eastern &amp; western European nations. The level of education was high in western countries, individualism and materialism were far more dominant ideas in west.</li>
+<li>&#8226; The <strong>Russian government strongly opposed</strong> the entry of eastern countries in EU.
+  <ul>
+  <li style="padding-left:2em">&#9702; It considered that these countries fall in Russian sphere of influence. Any entry of eastern countries in western countries was seen as an attempt to isolate &amp; corner Russia by western powers.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>New Developments:</h3>
+<ul>
+<li>&#8226; In 1986, with the <strong>Single European Act</strong>, they agreed to create a Europe without borders by 1992.
+  <ul>
+  <li style="padding-left:2em">&#9702; It aimed to establish a single market by removing trade barriers and promoting economic cooperation among member states.</li>
+  <li style="padding-left:2em">&#9702; The SEA also strengthens the EC's role in foreign policy and environmental protection.</li>
+  </ul>
+</li>
+<li>&#8226; A conference at Dutch city of Maastricht popularly known as <strong>Maastricht</strong> conference in 1991.
+  <ul>
+  <li style="padding-left:2em">&#9702; It established the European Union (EU) and laid the groundwork for a common currency.</li>
+  <li style="padding-left:2em">&#9702; The treaty also strengthens the EU's role in foreign policy, security, and justice.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Monetary Union:</strong> In 1993, the creation of a common market and in 2002 the introduction of a common currency, the Euro. It also created monetary union through Eurosystem, a monetary authority and European Central Bank.</li>
+<li>&#8226; After the cold war, there was also an <strong>expansion of EU to Eastern part of Europe</strong> with the increasing number of memberships up to 28.</li>
+</ul>
+
+<h3>Special emphasis:</h3>
+<ul>
+<li>&#8226; A common EU citizenship</li>
+<li>&#8226; A common foreign and security policy</li>
+<li>&#8226; A single European currency (EURO)</li>
+<li>&#8226; A common production standard.</li>
+<li>&#8226; Uniform tax rate</li>
+</ul>
+
+<h2>Challenges faced by EU Today</h2>
+<p>EU worked perfect with very degree of success for many years but in recent times it has started facing serious stress and strain. The very existence of EU is facing threat, and it has become the 'New Sick man of Europe'.</p>
+<ul>
+<li>&#8226; <strong>Economic Integration:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Differences in the size of economic of various members of EU are creating complex challenges in front of it. <strong>EU has benefitted the big economies</strong> who found a big market in custom union. The smaller economies could not face challenge of free trade in this unequal environment. Thus, the big economies have grown bigger but the gains for the smaller economies have been meagre.</li>
+  <li style="padding-left:2em">&#9702; The <strong>sovereign debt crisis</strong> was faced by PIGS countries was a very serious challenges before EU. These crises ridden states were expecting assistance from big economies like Germany but who were not eager to provide any help.</li>
+  <li style="padding-left:2em">&#9702; Recently, there is a <strong>lack of enthusiasm for fiscal integration.</strong></li>
+  <li style="padding-left:2em">&#9702; The <strong>ageing population</strong> is another serious challenge being faced by EU.
+    <ul>
+    <li style="padding-left:4em">&#9632; In countries like Italy the population is facing negative growth and future of people is black.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>Lack of credible leadership</strong> is another serious challenge being faced by EU.</li>
+<li>&#8226; <strong>Eastward Expansion</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; After the disintegration of USSR and decline of erstwhile socialist countries, these started asking for membership.</li>
+  <li style="padding-left:2em">&#9702; However, some like <strong>Turkey</strong> have been waiting to join EU for long time.</li>
+  <li style="padding-left:2em">&#9702; <strong>Russia's aggressive foreign policy</strong> being witnessed in recent times is also threatening stability of EU. Russia is strongly against the entry of former members of USSR into the EU and NATO. The Crimean/Ukrainian crisis is the example of the same.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>The migrants</strong> are also posing a serious challenge to safety and stability of EU.
+  <ul>
+  <li style="padding-left:2em">&#9702; Millions of migrants are knocking at doors of EU at present. This flood of immigrants is threatening the open-door policy among members of EU. The countries like Germany are facing inflow of Asian and African migrants.</li>
+  </ul>
+</li>
+</ul>
+`,
   'disintegration-soviet-union': `
 <h2>Handout 43: Disintegration of USSR</h2>
 
