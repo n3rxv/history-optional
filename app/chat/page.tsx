@@ -21,109 +21,210 @@ const SUGGESTED = [
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const pageW = doc.internal.pageSize.getWidth();
-  const pageH = doc.internal.pageSize.getHeight();
-  const margin = 18;
-  const contentW = pageW - margin * 2;
 
-  const addWatermark = () => {
-    doc.saveGraphicsState();
-    // @ts-ignore
-    doc.setGState(doc.GState({ opacity: 0.07 }));
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(28);
-    doc.setTextColor(80, 60, 20);
-    const text = 'history-optional.vercel.app';
-    for (let y = 30; y < pageH; y += 50) {
-      doc.text(text, pageW / 2, y, { align: 'center', angle: 35 });
-    }
-    doc.restoreGraphicsState();
+  const pageW = 210;
+  const pageH = 297;
+  const M = 20;
+  const contentW = pageW - M * 2;
+
+  const GOLD   = [212, 168, 67]  as [number, number, number];
+  const GOLD2  = [160, 125, 45]  as [number, number, number];
+  const DARK   = [10, 10, 16]    as [number, number, number];
+  const DARK2  = [18, 18, 28]    as [number, number, number];
+  const DARK3  = [26, 26, 40]    as [number, number, number];
+  const WHITE  = [238, 235, 225] as [number, number, number];
+  const DIM    = [130, 125, 110] as [number, number, number];
+  const BLUE   = [96, 165, 250]  as [number, number, number];
+
+  const DOMAIN     = 'www.historyoptional.xyz';
+  const DOMAIN_URL = 'https://www.historyoptional.xyz';
+
+  let pageNum = 1;
+  let y = 0;
+
+  const drawPageBg = () => {
+    doc.setFillColor(...DARK);
+    doc.rect(0, 0, pageW, pageH, 'F');
+    doc.setFillColor(...GOLD2);
+    doc.rect(0, 0, 2, pageH, 'F');
   };
 
   const drawHeader = () => {
-    doc.setFillColor(245, 240, 225);
-    doc.rect(0, 0, pageW, 18, 'F');
+    doc.setFillColor(...DARK2);
+    doc.rect(0, 0, pageW, 16, 'F');
+    doc.setFillColor(...GOLD);
+    doc.rect(2, 15.7, pageW - 2, 0.5, 'F');
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.setTextColor(120, 90, 30);
-    doc.text('HISTORY OPTIONAL — Model Answer', margin, 11);
-    doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.setTextColor(160, 130, 60);
-    doc.text('history-optional.vercel.app', pageW - margin, 11, { align: 'right' });
-    doc.setDrawColor(200, 170, 80);
-    doc.setLineWidth(0.4);
-    doc.line(0, 18, pageW, 18);
-  };
-
-  const drawFooter = (pageNum: number, totalPages: number) => {
+    doc.setTextColor(...GOLD);
+    doc.text('HISTORY OPTIONAL', M, 10);
+    doc.link(M, 3, 52, 10, { url: DOMAIN_URL });
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(160, 130, 60);
-    doc.setDrawColor(200, 170, 80);
-    doc.setLineWidth(0.3);
-    doc.line(margin, pageH - 12, pageW - margin, pageH - 12);
-    doc.text('history-optional.vercel.app', margin, pageH - 7);
-    doc.text(`Page ${pageNum} / ${totalPages}`, pageW - margin, pageH - 7, { align: 'right' });
+    doc.setFontSize(6.5);
+    doc.setTextColor(...DIM);
+    doc.text(DOMAIN, M + 54, 10);
+    doc.text('AI Chat  |  Model Answer  |  UPSC History Optional', pageW - M, 10, { align: 'right' });
   };
 
-  const strip = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1');
-  const lines: Array<{ type: 'heading' | 'bullet' | 'body' | 'blank'; text: string }> = [];
-  for (const raw of markdownText.split('\n')) {
-    const trimmed = raw.trim();
-    if (!trimmed) { lines.push({ type: 'blank', text: '' }); continue; }
-    if (/^#{1,3}\s/.test(trimmed)) lines.push({ type: 'heading', text: trimmed.replace(/^#{1,3}\s*/, '') });
-    else if (/^[•\-\*]\s/.test(trimmed)) lines.push({ type: 'bullet', text: trimmed.replace(/^[•\-\*]\s*/, '') });
-    else lines.push({ type: 'body', text: trimmed });
-  }
-
-  const topY = 24; const bottomY = pageH - 16;
-  let curPage = 1; let y = topY;
-  addWatermark(); drawHeader();
-
-  const ensureSpace = (needed: number) => {
-    if (y + needed > bottomY) { doc.addPage(); curPage++; addWatermark(); drawHeader(); y = topY; }
+  const drawFooter = () => {
+    doc.setFillColor(...DARK2);
+    doc.rect(0, pageH - 13, pageW, 13, 'F');
+    doc.setFillColor(...GOLD);
+    doc.rect(2, pageH - 13, pageW - 2, 0.4, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    doc.setTextColor(...GOLD);
+    doc.text(DOMAIN, M, pageH - 6);
+    doc.link(M, pageH - 11, 58, 8, { url: DOMAIN_URL });
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...DIM);
+    doc.text('AI History Assistant  |  UPSC History Optional', pageW / 2, pageH - 6, { align: 'center' });
+    doc.text(`${pageNum}`, pageW - M, pageH - 6, { align: 'right' });
   };
 
+  const newPage = () => {
+    doc.addPage();
+    pageNum++;
+    drawPageBg();
+    drawHeader();
+    drawFooter();
+    y = 24;
+  };
+
+  const checkPage = (needed: number) => {
+    if (y + needed > pageH - 16) newPage();
+  };
+
+  // Init
+  drawPageBg();
+  drawHeader();
+  drawFooter();
+  y = 24;
+
+  // Title block
+  doc.setFillColor(...DARK3);
+  doc.setDrawColor(...GOLD2);
+  doc.setLineWidth(0.4);
+  doc.roundedRect(M, y, contentW, 12, 2, 2, 'FD');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.setTextColor(...GOLD);
+  doc.text('AI MODEL ANSWER', M + contentW / 2, y + 8.5, { align: 'center' });
+  y += 18;
+
+  // Question box
   if (questionText) {
-    const qText = strip(questionText);
-    const qLines = doc.splitTextToSize(`Q: ${qText}`, contentW - 8);
-    const qBoxH = qLines.length * 5.5 + 6;
-    doc.setFillColor(250, 245, 225); doc.setDrawColor(200, 170, 80); doc.setLineWidth(0.4);
-    doc.roundedRect(margin, y, contentW, qBoxH, 2, 2, 'FD');
-    doc.setFont('helvetica', 'italic'); doc.setFontSize(9.5); doc.setTextColor(100, 70, 20);
-    doc.text(qLines, margin + 4, y + 5.5);
-    y += qBoxH + 6;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(6.5);
+    doc.setTextColor(...GOLD);
+    doc.text('QUESTION', M, y + 1);
+    y += 5;
+    doc.setFillColor(...DARK2);
+    doc.setDrawColor(50, 46, 34);
+    doc.setLineWidth(0.3);
+    const qLines = doc.splitTextToSize(questionText, contentW - 6) as string[];
+    const qH = qLines.length * 6 + 8;
+    doc.roundedRect(M, y, contentW, qH, 2, 2, 'FD');
+    doc.setFillColor(...GOLD);
+    doc.roundedRect(M, y, 2.5, qH, 1, 1, 'F');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.setTextColor(...WHITE);
+    qLines.forEach((line: string, i: number) => {
+      doc.text(line, M + 6, y + 6 + i * 6);
+    });
+    y += qH + 8;
   }
 
-  for (const line of lines) {
-    if (line.type === 'blank') { y += 3; continue; }
-    const txt = strip(line.text);
-    if (line.type === 'heading') {
-      const wrapped = doc.splitTextToSize(txt, contentW);
-      ensureSpace(wrapped.length * 6.5 + 4);
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(120, 80, 10);
-      doc.text(wrapped, margin, y); y += wrapped.length * 6.5;
-      doc.setDrawColor(200, 160, 60); doc.setLineWidth(0.3);
-      doc.line(margin, y - 1, margin + Math.min(contentW, txt.length * 2.8), y - 1); y += 3;
-    } else if (line.type === 'bullet') {
-      const wrapped = doc.splitTextToSize(txt, contentW - 6);
-      ensureSpace(wrapped.length * 5.5 + 1);
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(40, 30, 10);
-      doc.text('•', margin + 1, y); doc.text(wrapped, margin + 6, y); y += wrapped.length * 5.5 + 1;
+  // Parse markdown and render
+  const strip = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1');
+  const rawLines = markdownText.split('
+');
+
+  for (const raw of rawLines) {
+    const trimmed = raw.trim();
+    if (!trimmed) { y += 2.5; continue; }
+
+    if (/^#{1,2}\s/.test(trimmed)) {
+      // H1/H2 — section label style
+      const text = strip(trimmed.replace(/^#{1,2}\s*/, ''));
+      checkPage(16);
+      y += 4;
+      doc.setFillColor(...GOLD);
+      doc.rect(M, y - 4, 2.5, 8, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(...GOLD);
+      doc.text(text.toUpperCase(), M + 6, y + 0.5);
+      doc.setDrawColor(45, 42, 32);
+      doc.setLineWidth(0.25);
+      doc.line(M + 6 + text.length * 2.6, y - 2, pageW - M, y - 2);
+      y += 8;
+
+    } else if (/^###\s/.test(trimmed)) {
+      // H3 — subheading
+      const text = strip(trimmed.replace(/^###\s*/, ''));
+      checkPage(10);
+      y += 2;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(...BLUE);
+      doc.text(text, M + 4, y);
+      y += 6;
+
+    } else if (/^[•\-\*]\s/.test(trimmed)) {
+      // Bullet
+      const text = strip(trimmed.replace(/^[•\-\*]\s*/, ''));
+      const bLines = doc.splitTextToSize(text, contentW - 7) as string[];
+      checkPage(bLines.length * 5.8 + 4);
+      doc.setFillColor(...GOLD);
+      doc.circle(M + 2.5, y + 1.5, 1.1, 'F');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(...WHITE);
+      bLines.forEach((line: string) => {
+        checkPage(7);
+        doc.text(line, M + 7, y);
+        y += 5.8;
+      });
+      y += 1;
+
     } else {
-      const wrapped = doc.splitTextToSize(txt, contentW);
-      ensureSpace(wrapped.length * 5.5 + 1);
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(40, 30, 10);
-      doc.text(wrapped, margin, y); y += wrapped.length * 5.5 + 1;
+      // Body paragraph
+      const text = strip(trimmed);
+      const pLines = doc.splitTextToSize(text, contentW) as string[];
+      checkPage(pLines.length * 5.8 + 2);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(210, 205, 190);
+      pLines.forEach((line: string) => {
+        checkPage(7);
+        doc.text(line, M, y);
+        y += 5.8;
+      });
+      y += 1.5;
     }
   }
 
-  const totalPages = curPage;
-  for (let p = 1; p <= totalPages; p++) { doc.setPage(p); drawFooter(p, totalPages); }
+  // Watermark
+  for (let p = 1; p <= pageNum; p++) {
+    doc.setPage(p);
+    doc.saveGraphicsState();
+    // @ts-ignore
+    doc.setGState(doc.GState({ opacity: 0.035 }));
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.setTextColor(...GOLD);
+    for (let wy = 50; wy < pageH - 20; wy += 60) {
+      doc.text(DOMAIN, pageW / 2, wy, { align: 'center', angle: 28 });
+    }
+    doc.restoreGraphicsState();
+  }
+
   const slug = markdownText.slice(0, 40).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'answer';
   doc.save(`${slug}.pdf`);
 }
+
 
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
   const [downloading, setDownloading] = useState(false);
