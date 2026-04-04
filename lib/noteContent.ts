@@ -34150,7 +34150,238 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
   'unification-europe': ``,
-  'disintegration-soviet-union': ``,
+  'disintegration-soviet-union': `
+<h2>Handout 43: Disintegration of USSR</h2>
+
+<p>Soviet Union came into existence in 1922 when the 12 members of former Russian empire signed union treaty. The three Baltic states (Estonia, Latvia, and Lithuania) were integrated by Soviet President Joseph Stalin in 1940.</p>
+
+<p>It achieved remarkable success during the early decades. Within a short period of less than three decades, it emerged as a superpower.</p>
+
+<p>But this phenomenal success could not be sustained. The difficulties got transformed into a serious politico-economic crisis which doomed the fate of Soviet Union. The process of change in USSR become quick in 1989, which was the bi-centenary year of French revolution. These changes proved to be revolutionary and finally led to the disintegration of USSR.</p>
+
+<p>Thus, the largest empire of the world, which reached at its pinnacle at the time of Russian monarch Peter the Great, finally collapsed in 1991.</p>
+
+<h3>Structural Causes</h3>
+
+<h4>1. Economic Factors:</h4>
+
+<ul>
+  <li>&#8226; The factors responsible for the disintegration of Soviet Union were inherent in nature and structure of soviet socialist economy. <strong>Socialist model of economy</strong> functioned well up to 1960's but after that it <strong>stagnated.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; According to CIA estimates, the growth rate of the Soviet GNP dropped from almost 5 per cent annually in the 1960s to 2-3 per cent in the 1970s and under 2 per cent in the 1980s.</li>
+      <li style="padding-left:2em">&#9702; The soviet economy was based on a <strong>rigid centralized planning</strong>.
+        <ul>
+          <li style="padding-left:4em">&#9632; The economic plans formulated by central government were imposed throughout. Thus, flexibility was missing in structure of soviet economy, and it could not adapt itself with the changing realities.</li>
+          <li style="padding-left:4em">&#9632; By 1970s, a serious disconnect had developed between the plans being formulated by central government and economic realities prevailing on ground, because of which Soviet Union started facing a serious economic crisis.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; There was <strong>no scope of private initiative</strong> in soviet economy.
+        <ul>
+          <li style="padding-left:4em">&#9632; It did not encourage entrepreneurship. Because of this, serious economic stagnation developed by 1970s. In the absence of private efforts and risk-taking ability of people, new economic activities could not be developed.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The <strong>role of market forces was almost absent</strong> in soviet economy.
+        <ul>
+          <li style="padding-left:4em">&#9632; The state decided what was to be produced, how much to be produced and to whom goods are to be sold &amp; at what price. Such a rigid system by state created inefficiency, because of which a serious economic crisis developed.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; The capitalist world encouraged <strong>USSR to be converted into the energy supplier</strong> of the world. As USSR started to receive the <strong>easy money through selling out hydrocarbon</strong> products its <strong>attention was diverted from improving its manufacturing sector and technology.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Except in the field of defence and space, USSR lagged USA in technological development. Also, USSR failed to catch up the third industrial revolution (Information technology).</li>
+    </ul>
+  </li>
+  <li>&#8226; Russian economy felt a <strong>heavy burden of the cold war.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Apart from maintaining the <strong>armed race</strong> against USA it had to give <strong>economic support to many third world nations.</strong></li>
+    </ul>
+  </li>
+  <li>&#8226; Russian industrialisation was based on the foundation of the basic and heavy industries. So, there was a dearth of consumer goods industries. The <strong>scarcity of consumer goods created wider discontentment</strong> among the people.</li>
+</ul>
+
+<h4>2. Political factors:</h4>
+
+<ul>
+  <li>&#8226; <strong>Autocratic/despotic nature of the government</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; After Bolshevik revolution, Lenin established <strong>dictatorship of the party.</strong> But up to the era of Stalin it was converted into the <strong>dictatorship of a particular leader.</strong> Even during the era of Nikita Khrushchev and Leonard Brezhnev, there was not any substantial change in the system. The <strong>basic freedom of Russian people continued to be suppressed.</strong></li>
+      <li style="padding-left:2em">&#9702; Political Un-accountability: There was a single party rule for around 70 years that turned authoritarian. The <strong>opaqueness</strong> prevailing in soviet political system resulted in growth of corruption during 1970s. There were widespread corruption and lack of transparency in the system. The communist leaders were making <strong>personal fortunes</strong> when common masses were facing economic difficulties. This <strong>rigid communist system could not initiate necessary measures to revive</strong> soviet polity.</li>
+      <li style="padding-left:2em">&#9702; Gorbachev decided to allow elections with a multi-party system and create a presidency for the Soviet Union. This began a slow process of democratization that eventually destabilized Communist control and contributed to the collapse of the Soviet Union.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Ethnic division</strong> within Russia continued to be a major reason of conflict from centuries.
+    <ul>
+      <li style="padding-left:2em">&#9702; Under the autocratic rule of the communist government, all sort of racial and cultural divisions remained to be suppressed.</li>
+      <li style="padding-left:2em">&#9702; But once Gorbachev relaxed the system, different racial groups raised their heads, and this led to the collapse of the system.</li>
+      <li style="padding-left:2em">&#9702; There was a rise of nationalism among countries like Russia, Baltic republics, Ukraine, Georgia etc. This is the most important and immediate cause of the disintegration of the USSR.</li>
+      <li style="padding-left:2em">&#9702; The national feeling was strong among the most prosperous areas in USSR and not in Central Asian republics. Ordinary people among prosperous republics never liked to pay the big price to uplift the backward Central Asian republics.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><u><strong>Consciously or unconsciously, Gorbachev played a role in demise of USSR.</strong></u></p>
+
+<ul>
+  <li>&#8226; He introduced the policy of <strong>'Perestroika'</strong> &amp; <strong>'Glasnost'</strong>. It was adopted to infuse new energy and enthusiasm among people.
+    <ul>
+      <li style="padding-left:2em">&#9702; <strong>Glasnost</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; Openness of ideas, freedom of expression, free press, releasing political dissidents.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>Perestroika</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; <strong>Economic restructuring:</strong> He started his economic reforms by investing huge amounts in heavy industry, alongside partial liberalisation of small trade, and wages linked to production.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>Political restructuring</strong> (policy of <u>demokratizatsiya</u> i.e. democratization): The aim was to give the Soviet system more legitimacy through partial democratisation.
+        <ul>
+          <li style="padding-left:4em">&#9632; Members of local soviet began to be elected by people directly, instead of the choice of party, the choice of candidate was given to people.</li>
+          <li style="padding-left:4em">&#9632; The old soviet parliament was replaced by new parliament to have greater representation of people.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; However, due to the policy of economic restructuring, the Russian society was going through a <strong>phase of major upheaval.</strong> The initiatives were well intended but they <strong>could not produce desired result.</strong> Soviet economy dropped by 15% during 1989-91 which led to increased hardship of people.</li>
+  <li>&#8226; And exactly in the meanwhile, the policy of <strong>glasnost proved fatal as it created a chain reaction.</strong> People used political liberty to organize agitations and demonstrations. Gorbachev was of opinion the popular pressure will force government to initiate necessary reforms and the party to be more accountable. But very soon mass agitations started everywhere.</li>
+  <li>&#8226; <strong>Issues with partial democratization:</strong> In USSR, at the time of Gorbachev, the conflict was going on between the radical and conservative members. The <strong>radical members</strong>, in order to strengthen their position vis-a-vis conservative members, <strong>consciously encouraged ethnic division</strong>.</li>
+</ul>
+
+<p>The member states of the USSR held soviet government responsible for prevailing crisis. Beginning in April 1991, these republics started declaring independence one by one. The union government was not in position to maintain unity by force, under these circumstances the dissolution of Soviet Union was announced by Gorbachev on 25 Dec 1991 and by 31 Dec all the Soviet Institutions were closed. The power enjoyed by Soviet Union were transferred to Russia.</p>
+
+<h3>Changes in Socialist World (East Europe)</h3>
+
+<p>Changes in the socialist world were deeply linked to the changes in USSR. In fact, both were suffering from the common problem. So far USSR itself was a major obstacle behind the changes in those countries but now this barrier was finally removed.</p>
+
+<h4>Causes:</h4>
+
+<ul>
+  <li>&#8226; <strong>Historical factor:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; In east European countries socialist government were <strong>imposed from above</strong> and they were not enjoying the support of the people. That's why these governments remained <strong>alienated from the people</strong>, and they were treated as <strong>Russian satellite states.</strong></li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Economic factor:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; After 1960s, <strong>stagnation</strong> appeared in socialist model of command economy.</li>
+      <li style="padding-left:2em">&#9702; Communism miserably failed to improve the economic condition in Eastern Europe. It could not produce the standard of living, which should have been possible, as vast resources available in Eastern European countries.</li>
+      <li style="padding-left:2em">&#9702; In socialist model of industrialisation there was emphasis over the heavy industries. Naturally it led to the <strong>scarcity of consumer goods.</strong></li>
+      <li style="padding-left:2em">&#9702; Socialist world <strong>failed to catch up the third industrial revolution</strong>.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Cultural Factor:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Increasing contact with the West in the 1980's showed people how backward the East was in comparison with the West, and suggested that their living standards were falling even further.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>External Factors:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; <em>Gorbachev worked as a factor</em> behind the change in socialist world.
+        <ul>
+          <li style="padding-left:4em">&#9632; He <strong>recognized the failings of the system</strong> and he admitted that it was 'an absurd situation' that the Soviet Union, the world's biggest producer of steel, fuel and energy, should be suffering shortages because of waste and inefficiency.</li>
+          <li style="padding-left:4em">&#9632; He hoped to save communism by revitalizing and modernizing it. He introduced new policies of <strong>glasnost</strong> (openness) and <strong>perestroika</strong> (economic and social reform). Criticism of the system was encouraged in the drive for improvement, provided nobody criticized the communist party.</li>
+          <li style="padding-left:4em">&#9632; In 1988 <strong>Gorbachev discarded the 'Brezhnev doctrine'</strong> in case of East European countries and recalled Russian soldiers from there.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>The encouragement by the capitalist power:</strong> USA and its allies continuously encouraged change in the region. They gave promise to pro-changers that, in case of demise of communist government in their country USA and its allies would give economic and technological support to new governments.</li>
+      <li style="padding-left:2em">&#9702; <strong>Demonstration effect:</strong> Change in one region encouraged changes in another region too.
+        <ul>
+          <li style="padding-left:4em">&#9632; For example, changes <strong>started from Poland</strong>, and it influenced <strong>Hungary</strong> and thus started the chain reaction leading to demolition of <strong>Berlin wall</strong> and re-unification of Germany.</li>
+          <li style="padding-left:4em">&#9632; In sum, the changes continued for about one year, while starting from Poland it <strong>ended with the bloody conflict in Romania.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4>Developments after 1989</h4>
+
+<ul>
+  <li>&#8226; <strong>Re-unification of Germany (1990)</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The four original powers which had occupied Germany gathered again in Berlin: US, UK, France and Russia. They sat together and decide there is no use of continued partition of Germany as the people are craving for unification. So, Germany was unified in 1990.</li>
+    </ul>
+  </li>
+  <li>&#8226; Difficulties faced by these countries in carrying <strong>transition from socialist to capitalist model.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; A major economic upheaval started in different countries creating a fear of the comeback of the socialist governments again. Thus, shock-therapy was given to various economies.</li>
+    </ul>
+  </li>
+  <li>&#8226; Erstwhile socialist countries demanded their <strong>entry into the European Union.</strong> But earlier, as their economy couldn't meet the criteria, thus they were initially offered the membership of <strong>NATO</strong> from 2001 onwards. It was only 2004 onwards that they were allowed to join the EU.</li>
+  <li>&#8226; In 1993, there was dissolution of Czechoslovakia and Yugoslavia.
+    <ul>
+      <li style="padding-left:2em">&#9702; Czechoslovakia was divided into two parts: Czech Republic and Slovak Republic.</li>
+      <li style="padding-left:2em">&#9702; Yugoslavia had to face multiple fractures. Initially it was divided into 6 parts and later 7.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Impact of the disintegration of USSR on International Relations</h3>
+
+<p>The disintegration of Soviet Union and downfall of communism in Eastern Europe resulted in multiple far-reaching changes, not only in Europe but around the world.</p>
+
+<ul>
+  <li>&#8226; With the disintegration of Soviet Union, the <strong>Cold War came to an end.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The end of cold war <strong>removed the clouds of a major conflict hovering</strong> over the horizons.
+        <ul>
+          <li style="padding-left:4em">&#9632; During the period of Cold War, it appeared on many occasions that a major conflict will break out between the superpowers and MAD will get operationalized.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>End of ideological battle:</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; The disintegration of USSR showed the lacunae of socialistic model of economic governance to the developing world. It was seen as a victory of capitalism over socialism, often termed as <u>'end of ideology' thesis.</u></li>
+          <li style="padding-left:4em">&#9632; It gave a <strong>serious blow to the prestige and popularity of communism.</strong> As a result of this popularity of capitalism enormously after 1991.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>USA</strong> was left behind as the <strong>only superpower</strong> in the world after the disintegration of USSR.
+    <ul>
+      <li style="padding-left:2em">&#9702; This resulted in completion of the process American ascending. This process was going on for more than 200 years.</li>
+      <li style="padding-left:2em">&#9702; It resulted in <strong>emergence of unipolar world,</strong> because no other major power was available to challenge American dominance.</li>
+      <li style="padding-left:2em">&#9702; With this, the <strong>international relations started revolving around the USA</strong> and <strong>hegemony of American national interest</strong> was witnessed in the world.</li>
+      <li style="padding-left:2em">&#9702; The forces of <strong>globalization and liberalization</strong> got a boost with disintegration of USSR. The capitalist world could push its agenda more effectively when USSR was no more.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Impact on the Socialist Bloc:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The <strong>eastern bloc was no more</strong>. As a result of this, the bloc politics became a thing of past.</li>
+      <li style="padding-left:2em">&#9702; <strong>Reorganization of Eastern Europe:</strong> The division of Europe came to an end with the disintegration of Soviet Union.
+        <ul>
+          <li style="padding-left:4em">&#9632; Demolition of the Berlin wall, the unification of Germany, the end of the Warsaw Pact and rise of democratic regimes changed the politics of Europe by creating a <strong>spirit of unity</strong>. The iron curtain maintained by Soviet Union came down with its disintegration. The membership of European Union and NATO was enlarged, leading to emergence of new economic bloc – EU.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>Rise of Central Asia:</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; Central Asia became a new centre of global interest particularly from Chinese expansionist ambitions in the region.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Impact on the Third World</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; <strong>Rise of free-market economic model:</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; Dominance of western institutions like <strong>IMF and World Bank</strong> in the global economic governance <strong>pushed developing countries to adopt neo-liberal economic policies.</strong></li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The <strong>forces of democracy</strong> also got a boost due to disintegration of USSR and downfall of communist totalitarianism.</li>
+      <li style="padding-left:2em">&#9702; <strong>Decline in financial aid to other countries:</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; Due to the end of the Cold War, the ability of Russia and need of the US to attract the third world countries with aid and financial support reduced.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The disintegration of USSR was a <strong>lesson for Chinese leadership</strong>.
+        <ul>
+          <li style="padding-left:4em">&#9632; China did not commit the mistake of initiating political and economic reforms simultaneously. Because of which the Chinese communist party could maintain its hold effectively and at the same time it could enjoy the benefits of a liberal economy.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+`,
 
 
 };
