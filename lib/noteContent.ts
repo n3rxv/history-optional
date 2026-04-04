@@ -28062,6 +28062,7 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </ul>
 
 <p>With the two victories, Japan gained respect in the eyes of the Western world. The death of the emperor Meiji in 1912 marked the end of the period.</p>
+`,
 
   'nation-state-system': `<h2>Handout 18: Italian Unification (Risorgimento)</h2>
 <h3>UPSC CSE PYQs</h3>
