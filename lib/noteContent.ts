@@ -33731,7 +33731,197 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
     </ul>
   </li>
 </ul>
-`,
+<h2>Handout 41: Cold War Part 2</h2>
+
+<h3>Spread of Cold War across the world</h3>
+
+<ul>
+  <li>&#8226; The Cold War, initially confined to Western Europe until the late 1940s, expanded to Asia, Africa, and Latin America from the 1950s onward.
+    <ul>
+      <li style="padding-left:2em">&#9702; Both the USA and USSR recognized that access to global resources would determine their influence in this geopolitical rivalry. Consequently, both superpowers developed extensive strategies to expand their reach in these regions.</li>
+      <li style="padding-left:2em">&#9702; By this time, the process of decolonization was already underway, which led to the emergence of many new nations. Most of these nations quickly were caught up in the bloc politics of Cold War.</li>
+    </ul>
+  </li>
+  <li>&#8226; The USA decided to take following steps to check expansion of Communist ideas:
+    <ul>
+      <li style="padding-left:2em">&#9702; Military bases: e.g. Turkey, Pakistan, Japan, Philippines, Saudi Arabia</li>
+      <li style="padding-left:2em">&#9702; Forming military blocks: Baghdad Pact in West Asia (1955), SEATO (Southeast Asia treaty organization, 1954) etc.</li>
+      <li style="padding-left:2em">&#9702; Aggressive doctrines: Domino theory (Southeast Asia), Eisenhower Doctrine (West Asia), revived the Munro doctrine (Latin America).</li>
+    </ul>
+  </li>
+  <li>&#8226; On the other hand, even the USSR was ready to give a reply to capitalist power.
+    <ul>
+      <li style="padding-left:2em">&#9702; It supported communist parties across the world.</li>
+      <li style="padding-left:2em">&#9702; Support to decolonization movement across the world.</li>
+      <li style="padding-left:2em">&#9702; Putting its ideological compulsion aside, USSR developed an alliance and friendship with non-communist countries.</li>
+    </ul>
+  </li>
+  <li>&#8226; More strategies:
+    <ul>
+      <li style="padding-left:2em">&#9702; Economic Aid, Media propaganda, Cultural diplomacy, Education and scholarly exchanges like Fulbright Program.</li>
+      <li style="padding-left:2em">&#9702; Both USA and USSR supplied arms and military equipment as well as funding to allied and sympathetic nations.</li>
+      <li style="padding-left:2em">&#9702; Both engaged in covert operations to influence and, at times, topple governments aligned with the opposing superpower. It often led to engineering coup and the installation of puppet governments.
+        <ul>
+          <li style="padding-left:4em">&#9632; USSR: Czechoslovakia (1948), Hungary (1956), Afghanistan (1970s) etc</li>
+          <li style="padding-left:4em">&#9632; USA: Iran (1953), Chile (1973) etc</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Korean Crisis (1950-53)</h3>
+
+<p>Between 1910 and 1945, the Japanese empire annexed and occupied the Korean peninsula. The Eulsa Treaty, also known as the Japan–Korea Treaty of 1905, made the Korean peninsula a protectorate of Japan, that five years later, was formally annexed by Japan. The Korean peninsula gained independence from Japan after a 35-year struggle in 1945.</p>
+
+<h4>Causes of the crisis:</h4>
+
+<ul>
+  <li>&#8226; The division of Korea into two zones along the 38th parallel was an after-effect of the two world wars.
+    <ul>
+      <li style="padding-left:2em">&#9702; At the end of the Second World War, the Allies agreed that Soviet forces would accept the surrender of Japanese troops in Korea north of the 38th degree of parallel, while American troops would accept the Japanese surrender south of that line.</li>
+      <li style="padding-left:2em">&#9702; The United Nations wanted free elections for the whole country. However, the artificial division of Korea continued.</li>
+      <li style="padding-left:2em">&#9702; <u>Elections were held in the south under the supervision of the United Nations</u>, and the independent South Korea (RoK) was set up with Seoul as the capital, in August 1948.</li>
+      <li style="padding-left:2em">&#9702; Russians created North Korea under the communist government of <strong>Kim Il Sung</strong>, with its capital at Pyongyang, the very next month.</li>
+      <li style="padding-left:2em">&#9702; In 1949 Russian and American troops were withdrawn, leaving a potentially dangerous situation. However, most Koreans bitterly resented the artificial division of their country by outsiders, but both leaders claimed the right to rule the whole country.</li>
+    </ul>
+  </li>
+  <li>&#8226; In 1950, the North Korean troops, without warning, invaded South Korea with Chinese backing and with the support of Russian arms.</li>
+  <li>&#8226; Truman held Stalin responsible for the invasion of South Korea by North Korea.
+    <ul>
+      <li style="padding-left:2em">&#9702; The policy of the United States therefore changed decisively. Instead of just economic help and promises of support, Truman decided it was essential for the West to take a stand, by supporting South Korea.</li>
+      <li style="padding-left:2em">&#9702; American troops were ordered to proceed from Japan to Korea <em>even before the UN had decided</em> what action to take.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Role of UN</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The UN Security Council urged North Korea to withdraw its troops. When ignored, member states were asked to aid South Korea.</li>
+    </ul>
+  </li>
+  <li>&#8226; Heeding the call of the UN, the USA + 14 countries sent troops, though the vast majority were Americans. All forces were under the command of American General <strong>Macarthur</strong> (joint command) with an objective to liberate South Korea.
+    <ul>
+      <li style="padding-left:2em">&#9702; By the end of September, UN troops had entered Seoul and cleared the south of communists.</li>
+    </ul>
+  </li>
+  <li>&#8226; The joint command after liberating South Korea encroached the line and tried to conquer North Korea.
+    <ul>
+      <li style="padding-left:2em">&#9702; Instead of calling for a cease-fire now that the original UN objective had been achieved, Truman ordered an invasion of North Korea, aiming to unite the country and hold free elections.</li>
+    </ul>
+  </li>
+  <li>&#8226; Then the Chinese carried a counter-invasion on joint command.
+    <ul>
+      <li style="padding-left:2em">&#9702; Chou En-lai, the Chinese foreign minister, had cautioned against UN troops entering North Korea, but this warning was disregarded.</li>
+      <li style="padding-left:2em">&#9702; By the end of October 1950, UN forces had taken Pyongyang, claimed two-thirds of North Korea.</li>
+      <li style="padding-left:2em">&#9702; China launched a significant counter-offensive. By mid-January 1951, 2-lakh strong Chinese forces succeeded in pushing UN troops out of North Korea, crossing the 38th parallel, and recapturing Seoul.</li>
+    </ul>
+  </li>
+  <li>&#8226; In June, UN troops cleared the communists out of South Korea again and fortified the frontier.</li>
+  <li>&#8226; After a brief renewal of hostilities, an <strong>armistice</strong> was concluded in July <strong>1953</strong> at <strong>Panmunjom</strong> with an agreement that the frontier between North and South Korea should be roughly along the 38th parallel line.</li>
+</ul>
+
+<h4>Impact:</h4>
+
+<p><u>Korean crisis internationalised the cold war.</u> In general, American estimation, Korean crisis established aggressive posture of communist bloc. Then the USA became more aggressive and chalked out multi-pronged strategies to pursue the policy of containment against communism even outside of Europe.</p>
+
+<p>It brought a new dimension to the Cold War. American relations were permanently strained with China as well as with Russia. Familiar pattern of both sides trying to build up alliances appeared in Asia as well as Europe.</p>
+
+<ul>
+  <li>&#8226; China
+    <ul>
+      <li style="padding-left:2em">&#9702; Supported Indo-Chinese communists in struggle for independence from France.</li>
+      <li style="padding-left:2em">&#9702; Offered friendship and aid to under-developed Third World countries in Asia, Africa and Latin America.</li>
+      <li style="padding-left:2em">&#9702; Signed 'peaceful co-existence' agreements with India and Burma.</li>
+    </ul>
+  </li>
+  <li>&#8226; Meanwhile the Americans tried to encircle China with bases.
+    <ul>
+      <li style="padding-left:2em">&#9702; In 1951 defensive agreements were signed with Australia and New Zealand (ANZUS Pact).</li>
+      <li style="padding-left:2em">&#9702; In 1954 these three states together with Britain and France set up the South East Asia Treaty Organization (SEATO).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Suez Canal Crisis (1956)</h3>
+
+<ul>
+  <li>&#8226; <strong>Background</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; <strong>Nahas pasha</strong> was the most prominent Egyptian ruler who led Egyptian struggle against British rule between the <strong>interwar years.</strong> As a result of pressure built by Egyptian national movement, <strong>Treaty of London</strong> was signed between Britain and Egypt in 1936.</li>
+      <li style="padding-left:2em">&#9702; Before the treaty of London could be implemented <strong>WWII broke out</strong>. Instead of withdrawal of British forces from Egypt, more British forces landed on Egyptian soil.</li>
+      <li style="padding-left:2em">&#9702; <strong>With the end of WWII</strong> in 1945 the Egyptian once again started demanding the withdrawal of British forces &amp; recognition of Egyptian independence.</li>
+      <li style="padding-left:2em">&#9702; When British government refused to take the Egyptian demands seriously, a <strong>revolution</strong> broke out in Egypt in <strong>1952</strong>. The sultanate was overthrown. <strong>King Farouk</strong> was forced to abdicate and subsequently went into exile. Now, General <strong>Muhammad Naguib</strong> became the president for a short while (1952-54).
+        <ul>
+          <li style="padding-left:4em">&#9632; This new Prez was expected to demand immediate withdrawal of forces from Egyptian soil.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; When he failed to take any strong measures, he was overthrown by <strong>Gamal Abdul Nasser</strong> through a revolution in 1954.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Nasser</strong> had developed a very strong <strong>anti-colonial approach</strong>.
+    <ul>
+      <li style="padding-left:2em">&#9702; Britain initiated the formation of the Baghdad Pact in 1955.</li>
+      <li style="padding-left:2em">&#9702; Western block under Britain expected Egypt to fall in line with its foreign policy and with this purpose <strong>economic assistance for Aswan dam</strong> was announced.</li>
+      <li style="padding-left:2em">&#9702; But Nasser did not follow the line and extended <strong>recognition to communist China</strong>. So, in reaction, Britain withheld the amount.</li>
+      <li style="padding-left:2em">&#9702; Nasser demanded immediate withdrawal of British and French forces. When his demand was not accepted, he announced <strong>nationalization of Suez Canal</strong> on 20 July 1956.</li>
+    </ul>
+  </li>
+  <li>&#8226; This decision triggered a war famously known as <strong>Second Arab war</strong>. In this war Britain, French, Israel was on one side and Egypt was alone. The <strong>Egyptian forces were defeated.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The Egyptian issue was raised in UNO, but it was vetoed out by Britain &amp; France in <strong>UNSC</strong>. At this <strong>UNGA</strong> adopted a resolution with 64:5 votes.</li>
+      <li style="padding-left:2em">&#9702; This resolution did not have any legal weight, but its moral weight was immense. This pressure compelled Britain &amp; France to withdraw their Force from Egypt &amp; Egypt emerged as independent &amp; sovereign nation.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Implications:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The Suez Crisis ended in a <strong>military victory for the aggressors</strong> but an overwhelming <strong>political victory for Egypt</strong>, which kept control over the canal, which was shut for more than six months due to the conflict.</li>
+      <li style="padding-left:2em">&#9702; The withdrawal of British forces from Egypt symbolize <strong>decline of British as world power.</strong> Britain could not maintain its ownership over Suez canal. The loss of Suez canal carried the British Prestige to its lowest point.</li>
+      <li style="padding-left:2em">&#9702; This was also a pivotal moment in the Cold War, with <strong>Soviet threats of intervention</strong> key to stopping the allied aggression against Egypt.</li>
+      <li style="padding-left:2em">&#9702; After the decline of British power in west Asia, a vacuum was created and that was filled by the USA.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Vietnam War (1954-1973)</h3>
+
+<ul>
+  <li>&#8226; Vietnam was an independent country till 1859. French captured it gradually from 1859 to 1885 and Vietnam became a French colony.</li>
+  <li>&#8226; Like other parts of Asia nationalism emerged in Vietnam as well. The Vietnam nationalist was led by Ho chi Minh. Vietnam was the name of his movement. It was more popular in north Vietnam because French HQ was in south Vietnam at Saigon.</li>
+  <li>&#8226; With the entry of Japan in WWII, the face of Vietnam got transformed because it was captured by Japanese forces.
+    <ul>
+      <li style="padding-left:2em">&#9702; When the WW2 started, France was conquered by Germany and Vietnam was swiftly occupied by Japan soon thereafter. The French colonial rulers ran away by leaving the local Vietnamese at the mercy of Japanese forces.</li>
+      <li style="padding-left:2em">&#9702; Japanese exploited Vietnam ruthlessly. In 1945 a massive famine struck Vietnam killing more than 2 million people. These sufferings intensified national struggle in Vietnam.</li>
+    </ul>
+  </li>
+  <li>&#8226; With the dropping of nuclear bombs Japan surrendered in 1945. It appeared as if Vietnam would gain independence.</li>
+  <li>&#8226; Civil War (1946-54)
+    <ul>
+      <li style="padding-left:2em">&#9702; Ho Chi Minh declared Vietnam as independent nation with Communist government and Hanoi as capital.</li>
+      <li style="padding-left:2em">&#9702; However, his dream got shattered when French returned in 1946 to re-occupy and restart their colonial rule in Vietnam. France rushed in and captured the southern part and installed a Bourgeoise government under Bao Dai.</li>
+      <li style="padding-left:2em">&#9702; Then civil war broke out in Vietnam (1945-54).</li>
+      <li style="padding-left:2em">&#9702; Since the Cold War tensions had already started, it became a part of it. US and Britain supported France to contain communism while USSR and China (after 1949) supported Ho Chi Minh. Thus, the war continued against the backdrop of an intense Cold War. In the <strong>battle of Dien Bien Phu</strong> (1954), France was defeated.</li>
+    </ul>
+  </li>
+  <li>&#8226; Geneva Accords (1954)
+    <ul>
+      <li style="padding-left:2em">&#9702; In July 1954 Geneva Peace accord was signed through which France withdrew.</li>
+      <li style="padding-left:2em">&#9702; As a temporary arrangement, Vietnam was partitioned along 17th parallel. This was supposed to be for 300 days after which free elections are to be held to decide future of Vietnam.</li>
+      <li style="padding-left:2em">&#9702; French left Vietnam by handling over political authority to Vietnam Emperor Bao Dei.</li>
+      <li style="padding-left:2em">&#9702; However, due to American pressure, plebiscite was postponed. USA was terrified by possibility of communist regime in Vietnam.</li>
+    </ul>
+  </li>
+  <li>&#8226; USA supported PM of South Vietnam Ngo Dinh Diem in fight with North Vietnam. When south Vietnam government could not stand against Vietnam and Vietcong USA entered the war directly. The USA sent its army to crush the movement.</li>
+  <li>&#8226; In 1965 there were 5 lakh American soldiers on ground in Vietnam.</li>
+  <li>&#8226; Growing opposition to the war in the United States led to bitter divisions among the Americans. President Richard Nixon ordered the withdrawal of U.S. forces in 1973. Having fought for almost two decades in Vietnam, under four different presidents, the USA left Vietnam.</li>
+  <li>&#8226; As per Paris Peace, Vietnamese independence was recognized by all.</li>
+  <li>&#8226; In 1975, communist forces seized control of Saigon, ending the Vietnam War, and the country was unified as the Socialist Republic of Vietnam the following year. It ended the 30 year war.</li>
+</ul>
+
+<h4>Impact:</h4>
+
+<ul>
+  <li>&#8226; It proved a waterloo for the USA as it could not prevent the reunification of Vietnam even after sacrificing 58000 soldiers.</li>
+  <li>&#8226; It proved the popular nature of the Asian variant of communism which was different from the European variant.</li>
+</ul>`,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
   'unification-europe': ``,
