@@ -29359,8 +29359,7 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </ul>
 
 <p><strong>How scientific is Marxism really?</strong></p>
-
-
+`,
   'imperialism-colonialism': `
 <h2>Handout 25: Colonialism and Imperialism: Part 1</h2>
 
