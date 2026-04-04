@@ -1,0 +1,74 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+// Known AI crawler / scraper User-Agent strings
+const AI_BOTS = [
+  'gptbot',           // OpenAI
+  'chatgpt-user',     // ChatGPT browsing
+  'oai-searchbot',    // OpenAI search
+  'claudebot',        // Anthropic
+  'anthropic-ai',     // Anthropic
+  'cohere-ai',        // Cohere
+  'google-extended',  // Google Bard/Gemini training
+  'gemini',           // Google Gemini
+  'notebooklm',       // Google NotebookLM
+  'perplexitybot',    // Perplexity
+  'youbot',           // You.com
+  'diffbot',          // Diffbot
+  'bytespider',       // ByteDance/TikTok
+  'petalbot',         // Huawei
+  'scrapy',           // Generic scraper framework
+  'python-requests',  // Common scraper lib
+  'httpx',            // Common scraper lib
+  'curl',             // CLI scraping
+  'wget',             // CLI scraping
+  'go-http-client',   // Go scrapers
+  'node-fetch',       // Node.js scrapers
+  'axios',            // JS scraper lib
+];
+
+export function middleware(req: NextRequest) {
+  const ua = (req.headers.get('user-agent') ?? '').toLowerCase();
+  const pathname = req.nextUrl.pathname;
+
+  // Block known AI bots from ALL pages
+  if (AI_BOTS.some(bot => ua.includes(bot))) {
+    return new NextResponse('Access denied', {
+      status: 403,
+      headers: {
+        'Content-Type': 'text/plain',
+        'X-Robots-Tag': 'noindex, nofollow, noarchive, nosnippet',
+      },
+    });
+  }
+
+  // Block headless browsers commonly used for scraping
+  const isHeadless =
+    ua.includes('headlesschrome') ||
+    ua.includes('phantomjs') ||
+    ua.includes('selenium') ||
+    ua.includes('puppeteer') ||
+    ua.includes('playwright') ||
+    (ua.includes('chrome') && !ua.includes('mobile') && !ua.includes('safari') && ua.includes('headless'));
+
+  if (isHeadless && pathname.startsWith('/notes')) {
+    return new NextResponse('Access denied', { status: 403 });
+  }
+
+  // Add anti-scraping headers to all note pages
+  if (pathname.startsWith('/notes') || pathname.startsWith('/api/admin/note-content')) {
+    const res = NextResponse.next();
+    res.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet, noimageindex');
+    res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.headers.set('X-Content-Type-Options', 'nosniff');
+    return res;
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    '/notes/:path*',
+    '/api/admin/note-content/:path*',
+  ],
+};

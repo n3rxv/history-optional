@@ -1,6 +1,57 @@
-User-agent: *
-Disallow: /admin
-Disallow: /api/
-Disallow: /pad
+# History Optional — robots.txt
 
-Sitemap: https://history-optional.vercel.app/sitemap.xml
+# Block all AI training and scraping bots
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Gemini
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+# Block all crawlers from notes and API entirely
+User-agent: *
+Disallow: /notes/
+Disallow: /api/
+
+# Allow search engines on public pages only
+User-agent: Googlebot
+Disallow: /notes/
+Disallow: /api/
+Allow: /
+
+User-agent: Bingbot
+Disallow: /notes/
+Disallow: /api/
+Allow: /
