@@ -110,14 +110,36 @@ function FloatingAuthWidget({ user, onSignIn, onSignOut, syncStatus }: {
           onClick={() => setExpanded(e => !e)}
           style={{
             width: 42, height: 42, borderRadius: '50%',
-            background: 'var(--bg2)', border: '2px solid #51cf66',
-            cursor: 'pointer', fontSize: '1.1rem',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+            background: '#1a1a2e', border: '2px solid #51cf66',
+            cursor: 'pointer',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.4), 0 0 12px rgba(81,207,102,0.2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: 0, overflow: 'hidden',
           }}
           title={user.email}
         >
-          {user.email?.[0]?.toUpperCase() ?? '👤'}
+          <svg width="28" height="28" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="32" fill="#1a1a2e"/>
+            {/* Antenna */}
+            <circle cx="42" cy="14" r="4" fill="#51cf66"/>
+            <line x1="38" y1="16" x2="32" y2="22" stroke="#51cf66" strokeWidth="2.5" strokeLinecap="round"/>
+            {/* Head */}
+            <circle cx="32" cy="30" r="14" fill="#51cf66"/>
+            {/* Eyes */}
+            <circle cx="27" cy="28" r="3.5" fill="white"/>
+            <circle cx="37" cy="28" r="3.5" fill="white"/>
+            <circle cx="28" cy="28.5" r="1.8" fill="#1a1a2e"/>
+            <circle cx="38" cy="28.5" r="1.8" fill="#1a1a2e"/>
+            {/* Smile */}
+            <path d="M27 34 Q32 38 37 34" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+            {/* Ears */}
+            <circle cx="18" cy="30" r="4" fill="#51cf66"/>
+            <circle cx="18" cy="30" r="2" fill="#ff6b6b"/>
+            <circle cx="46" cy="30" r="4" fill="#51cf66"/>
+            <circle cx="46" cy="30" r="2" fill="#ff6b6b"/>
+            {/* Body */}
+            <ellipse cx="32" cy="50" rx="10" ry="7" fill="#51cf66"/>
+          </svg>
         </button>
       </div>
     );
@@ -592,33 +614,146 @@ export default function NoteReader({ slug }: { slug: string }) {
       {/* Sidebar */}
       <aside style={{
         width: sidebarOpen ? 240 : 0, minWidth: sidebarOpen ? 240 : 0,
-        borderRight: '1px solid var(--border)', background: 'var(--bg2)',
-        overflow: 'hidden', transition: 'all 0.2s',
+        borderRight: '1px solid #0d0d0d',
+        background: 'linear-gradient(180deg, #06060f 0%, #070710 60%, #05050c 100%)',
+        overflow: 'hidden', transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
         position: 'sticky', top: 60, height: 'calc(100vh - 60px)', overflowY: 'auto', flexShrink: 0,
+        boxShadow: 'inset -1px 0 0 #111116',
       }}>
+        <style>{`
+          .sb-section-label {
+            font-size: 0.6rem;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: rgba(59,130,246,0.45);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 1.2rem 0 0.5rem;
+          }
+          .sb-section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(59,130,246,0.2), transparent);
+          }
+          .sb-chip {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 0.32rem 0.6rem;
+            font-size: 0.76rem;
+            color: rgba(255,255,255,0.5);
+            border-left: 2px solid rgba(59,130,246,0.15);
+            margin-bottom: 0.18rem;
+            border-radius: 0 4px 4px 0;
+            transition: all 0.15s ease;
+            cursor: default;
+          }
+          .sb-chip:hover {
+            background: rgba(59,130,246,0.07);
+            border-left-color: rgba(59,130,246,0.5);
+            color: rgba(255,255,255,0.85);
+            transform: translateX(2px);
+          }
+          .sb-related-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.38rem 0.6rem;
+            font-size: 0.76rem;
+            color: rgba(255,255,255,0.45);
+            text-decoration: none;
+            border: 1px solid rgba(59,130,246,0.08);
+            border-radius: 5px;
+            margin-bottom: 0.28rem;
+            background: rgba(59,130,246,0.03);
+            transition: all 0.15s ease;
+          }
+          .sb-related-link:hover {
+            background: rgba(59,130,246,0.1);
+            border-color: rgba(59,130,246,0.3);
+            color: #fff;
+            transform: translateX(3px);
+            box-shadow: 0 2px 12px rgba(59,130,246,0.12);
+          }
+          .sb-related-link .sb-arrow {
+            font-size: 0.6rem;
+            color: rgba(59,130,246,0.4);
+            margin-left: auto;
+            transition: transform 0.15s;
+          }
+          .sb-related-link:hover .sb-arrow {
+            transform: translateX(3px);
+            color: rgba(59,130,246,0.8);
+          }
+          .sb-hl-chip {
+            padding: 0.3rem 0.55rem;
+            font-size: 0.71rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 0.25rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 0 4px 4px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.12s;
+          }
+          .sb-hl-chip:hover { background: rgba(255,255,255,0.06); }
+          aside::-webkit-scrollbar { width: 3px; }
+          aside::-webkit-scrollbar-track { background: transparent; }
+          aside::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.2); border-radius: 2px; }
+        `}</style>
+
         <div style={{ padding: '1.25rem 1rem', opacity: sidebarOpen ? 1 : 0, transition: 'opacity 0.2s' }}>
-          <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>{note.section} • Topic {note.topic}</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.9rem', color: 'var(--text)', fontWeight: 600, marginBottom: '1.25rem', lineHeight: 1.3 }}>{note.title}</div>
+
+          {/* Topic badge */}
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            padding: '0.25rem 0.65rem', marginBottom: '0.75rem',
+            background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.18)',
+            borderRadius: 20,
+          }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#3b82f6', boxShadow: '0 0 6px #3b82f6', animation: 'pulse 2s infinite' }} />
+            <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', color: 'rgba(59,130,246,0.75)', textTransform: 'uppercase' }}>{note.section} · Topic {note.topic}</span>
+          </div>
+
+          {/* Title */}
+          <div style={{
+            fontFamily: 'var(--font-display)', fontSize: '0.88rem',
+            color: '#ffffff', fontWeight: 700, lineHeight: 1.4,
+            marginBottom: '0.85rem',
+            textShadow: '0 0 20px rgba(59,130,246,0.2)',
+          }}>{note.title}</div>
+          <div style={{ height: 1, background: 'linear-gradient(90deg, rgba(59,130,246,0.25), transparent)', marginBottom: '0.2rem' }} />
+
           {note.subtopics && <>
-            <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>Contents</div>
-            {note.subtopics.map((s,i) => <div key={i} style={{ padding: '0.3rem 0.5rem', fontSize: '0.78rem', color: 'var(--text2)', borderLeft: '2px solid var(--border)', marginBottom: '0.2rem', borderRadius: '0 3px 3px 0' }}>{s}</div>)}
-          </>}
-          {highlights.length > 0 && <>
-            <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '1.25rem 0 0.5rem' }}>My Highlights ({highlights.length})</div>
-            {highlights.map(h => (
-              <div key={h.id} style={{ padding: '0.35rem 0.5rem', fontSize: '0.73rem', color: 'var(--text2)', borderLeft: `2px solid ${HIGHLIGHT_COLORS.find(c=>c.id===h.color)?.color}`, marginBottom: '0.3rem', background: 'var(--bg3)', borderRadius: '0 3px 3px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{h.text.slice(0,38)}{h.text.length>38?'…':''}</span>
-                <button onClick={() => setHighlights(p => p.filter(x=>x.id!==h.id))} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.7rem', flexShrink: 0 }}>✕</button>
+            <div className="sb-section-label">Contents</div>
+            {note.subtopics.map((s,i) => (
+              <div key={i} className="sb-chip">
+                <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'rgba(59,130,246,0.4)', flexShrink: 0 }} />
+                {s}
               </div>
             ))}
           </>}
+
+          {highlights.length > 0 && <>
+            <div className="sb-section-label">Highlights ({highlights.length})</div>
+            {highlights.map(h => (
+              <div key={h.id} className="sb-hl-chip" style={{ borderLeft: `2px solid ${HIGHLIGHT_COLORS.find(c=>c.id===h.color)?.color}` }}>
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{h.text.slice(0,36)}{h.text.length>36?'…':''}</span>
+                <button onClick={() => setHighlights(p => p.filter(x=>x.id!==h.id))} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.25)', cursor: 'pointer', fontSize: '0.68rem', flexShrink: 0, padding: '0 2px' }}>✕</button>
+              </div>
+            ))}
+          </>}
+
           {related.length > 0 && <>
-            <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '1.25rem 0 0.5rem' }}>Related</div>
+            <div className="sb-section-label">Related</div>
             {related.map(r => (
-              <Link key={r.slug} href={`/notes/${r.slug}`} style={{ display: 'block', padding: '0.35rem 0.5rem', fontSize: '0.78rem', color: 'var(--text2)', textDecoration: 'none', marginBottom: '0.2rem', borderRadius: 4 }}
-                onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color='var(--accent)';}}
-                onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color='var(--text2)';}}>
-                → {r.title}
+              <Link key={r.slug} href={`/notes/${r.slug}`} className="sb-related-link">
+                <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.title}</span>
+                <span className="sb-arrow">→</span>
               </Link>
             ))}
           </>}
