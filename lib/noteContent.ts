@@ -29955,7 +29955,315 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </ul>
 <h3><u>Collapse</u></h3>
 <p>All of this culminated in the First World War. But even the World War didn&#8217;t give a jolt to it. Finally, after the WW2, gradually the process of decolonization started.</p>`,
-  'world-wars': ``,
+  'world-wars': `
+<h2>Handout 28: Eastern Question</h2>
+
+<ul>
+<li>&#8226; <strong>Nationalism produced both the impact, unifying as well as dividing, on Europe in the 19th century.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In context of Italy and Germany, it produced a unifying impact. That&#8217;s why Italy and Germany emerged as a modern nation.</li>
+<li style="padding-left:2em">&#9702; But in the context of old empires of Europe like Ottoman Empire, Habsburg Empire, and Russian Empire it produced a destabilizing impact.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Eastern Europe</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The countries of western Europe progressively transitioned into modern nation-states as modern nationalism rose in Europe, but the empires of eastern Europe continued to be of a mediaeval type.</li>
+<li style="padding-left:2em">&#9702; They were an empire made up of many different languages, regions, and races. These ethnic groupings were acting as if they were different nationalities.</li>
+<li style="padding-left:2em">&#9702; These empires steadfastly worked to uphold their unity and integrity through the use of the monarchy, bureaucracy, and military. Hence, the old empires, particularly the Ottoman and Habsburg Empires, continued to resist pressure from various socioeconomic classes throughout the 19th century.</li>
+<li style="padding-left:2em">&#9702; As a result of this continuous pressure, the <strong>First World War</strong> eventually broke out.</li>
+</ul>
+</li>
+<li>&#8226; The situation of the <strong>Ottoman Empire</strong> was quite different from other contemporary empires. By the beginning of 19th century, it was converted into a <strong>sick man of Europe.</strong> There were several factors that contributed to the decline of the Ottoman Empire in the 19th century.
+<ul>
+<li style="padding-left:4em">&#9632; One was the empire&#8217;s <strong>long-standing economic and administrative problems</strong>, which had been compounded by the cost of maintaining a large and expensive military. This made it difficult for the Ottoman state to keep up with the economic and technological changes that were taking place in Europe.</li>
+<li style="padding-left:4em">&#9632; Another factor was the <strong>empire&#8217;s multiethnic and multicultural makeup</strong>, which made it <strong>difficult to maintain political unity</strong> and led to internal divisions and conflicts. This was particularly true in the Balkans, where nationalist movements were seeking independence from Ottoman rule.</li>
+<li style="padding-left:4em">&#9632; It was suffering from religious strife as well - as the ruler was Muslim while the majority of subject people from Balkans Christians.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; In addition, unlike Russia/Hapsburg, the Ottoman Empire continuously faced <strong>external pressure and intervention from European powers</strong>, who were competing for influence and territory in the region.
+<ul>
+<li style="padding-left:4em">&#9632; So, different European powers were having their greedy glance over the Ottoman Empire and they were inclined to benefit from their weak position.</li>
+<li style="padding-left:4em">&#9632; This led to a series of military defeats and territorial losses for the Ottoman state, including the loss of Egypt, Greece, and parts of the Balkans.</li>
+</ul>
+</li>
+<li>&#8226; As the interest of the European power collided with each other, so, there was a big confusion in their policy towards Turkey in the Ottoman Empire. <u>So, the Ottoman Empire was neither permitted to survive, nor to die. It was in this duality in the approach</u> of European power that the <strong>Eastern Question</strong> (<strong>Balkan Question</strong>) laid in that time.</li>
+<li>&#8226; Colliding interests of various powers:
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Russia</strong> was a neighbor of the Ottoman Empire.
+<ul>
+<li style="padding-left:4em">&#9632; The short-term objective was to have <strong>control over two straits, Dardanelles and Bosporus.</strong> So that, Russia could come directly to the Mediterranean Sea from the Black Sea.</li>
+<li style="padding-left:4em">&#9632; The long-term objective was to make a <strong>complete dismemberment of the Ottoman</strong> Empire and to capture a larger chunk of it.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Austrian</strong> Empire was also a neighbouring region.
+<ul>
+<li style="padding-left:4em">&#9632; Due to shared ethnic compositions with Ottoman Empire, Austria was about any ethnic-national movement emerging within Ottoman Empire.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Britain</strong> was much suspicious about the Russian move.
+<ul>
+<li style="padding-left:4em">&#9632; She was worried about two things:
+<ul>
+<li>&#8226; Balance of power in Europe in case of Ottoman disintegration</li>
+<li>&#8226; Route to eastern empire</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; That&#8217;s why Britain always opposed to dismemberment of the Ottoman Empire but simultaneously, it was inclined to take some concessions from it.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>France</strong> had invested a lot in Egypt which was a part of the Ottoman Empire at that time. So, France was much concerned about its investment.</li>
+</ul>
+</li>
+<li>&#8226; In this way, the interests of European powers collided with each other and it was this collision of interests that made the matter more complicated. This is known as Eastern Question and <strong>Eastern Question always became an international question.</strong></li>
+</ul>
+
+<h3><u>Disintegration of Ottoman Empire</u></h3>
+
+<p>From the beginning of the 19th century due to the rise of modern nationalism, the Ottoman Empire faced racial/ethnic tensions. The intervention by the European powers complicated the process of disintegration.</p>
+
+<ul>
+<li>&#8226; <strong>Greece</strong>: A nationalist movement started in Greece in 1820s.
+<ul>
+<li style="padding-left:2em">&#9702; The Christian powers of Europe intervened in the matter on the behalf of Greece. So, Greece got independence in <strong>1832</strong>.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Formation of Romania</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Wallachian</strong> Revolution of 1848: liberal constitution</li>
+<li style="padding-left:2em">&#9702; <strong>Moldavian</strong> Revolution of 1848: liberal constitution</li>
+<li style="padding-left:2em">&#9702; In 1859, Romanian population from Ottoman Empire got separated and there was the creation of separate Union of the Principalities (two principalities of Wallachia and Moldavia were united). The new state was known as the <strong>United Principalities of Wallachia and Moldavia</strong>. It was later renamed as <strong>Romania</strong> in <strong>1866</strong>.</li>
+</ul>
+</li>
+<li>&#8226; <strong>The Crimean War</strong> (1853-56) (Russia v/s France, Britain, and Ottoman)
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Causes:</strong>
+<ul>
+<li>&#8226; <strong>The Eastern Question</strong></li>
+<li>&#8226; <strong>Russian expansionism:</strong>
+<ul>
+<li>&#8226; Tsar Nicholas I wanted to expand its territory towards Balkans, increase influence in Eastern Europe.</li>
+<li>&#8226; Additionally, there were territorial disputes between Russia and the Ottoman Empire over areas such as the Crimea and the Danubian principalities.</li>
+<li>&#8226; Greek Orthodox Church was supported by Russian Tsar.</li>
+</ul>
+</li>
+<li>&#8226; <strong>France:</strong> Napoleon III had to follow aggressive foreign policy to bring glory to the French people as a consequence. France traditionally supported Catholic Church of Pope.</li>
+<li>&#8226; In Jerusalem, both Roman Catholic monks and Greek Orthodox monks inhabited the city. So, when the differences appeared between the two, both Russia and France had to intervene to protect the respective interests.</li>
+<li>&#8226; <strong>British interests:</strong> Great Britain wanted to maintain its access to the Black Sea trade routes.</li>
+<li>&#8226; <strong>Balance of power issue:</strong>
+<ul>
+<li>&#8226; Russia always tried to invade India through either Afghanistan route or Tibet route during the Great Game. It also tried to dismember the Ottoman Empire and enter Balkans/Med sea.</li>
+<li>&#8226; So, British quickly came to support France and offered help to LN III to maintain the BoP. Both British and French gave assurance of support to Ottoman Caliph.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The war was marked by several significant battles, including the <strong>Siege of Sevastopol</strong>, and resulted in the defeat of Russia.</li>
+<li style="padding-left:2em">&#9702; The <strong>Treaty of Paris</strong> (1856) ended the war
+<ul>
+<li>&#8226; It recognized the Ottoman Empire as a European power.</li>
+<li>&#8226; It limited the naval power of Russia in the Black Sea</li>
+<li>&#8226; Several territorial changes, including the transfer of the Crimea from Russia to the Ottoman Empire.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The Crimean War has been called the <strong>&#8220;most useless war&#8221;:</strong> Perceived lack of strategic or long-term significance.
+<ul>
+<li>&#8226; Although the war resulted in the defeat of Russia and limited its expansionism, it did not lead to any significant changes in the balance of power in Europe.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong><u>Trajectory of Serbia and Bulgaria (both Slav people)</u></strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Serbian nationalism:</strong>
+<ul>
+<li>&#8226; Desire for independence and the creation of a larger, pan-Serbian state that included other Slavic populations in the region. They were supported by Russia.</li>
+<li>&#8226; Thus, conflict with the Ottoman Empire, which controlled much of the Balkans.</li>
+<li>&#8226; <strong>The Serbian Revolution (1848-1850):</strong> A rebellion in the Principality of Serbia against Ottoman rule, which resulted in the recognition of Serbian autonomy.</li>
+<li>&#8226; <strong>Serbian-Ottoman War of 1876-78</strong> resulted in the establishment of an <strong>independent Serbia</strong>, but also created new tensions between Serbia and its neighbors.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Bulgarian nationalism</strong>
+<ul>
+<li>&#8226; Wanted independence and creating a larger state that included other Slavic populations in the region.</li>
+<li>&#8226; <strong>Russo-Turkish War of 1877-78</strong>, in which Bulgaria played a significant role, led to the creation of an <strong>autonomous Bulgarian state</strong>.</li>
+<li>&#8226; However, the country remained ethnically diverse, and tensions between Bulgarian majority and Turkish/Greek minority persisted.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Competition between Bulgaria and Serbia for leadership in the Pan-Slavic movement.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Both countries saw themselves as natural leaders of the Slavic peoples</li>
+<li style="padding-left:2em">&#9702; Both sought to promote their own regional interests within broader Pan-Slavism.</li>
+<li style="padding-left:2em">&#9702; The competition between Bulgaria and Serbia came to a head in the <strong>Balkan Wars</strong> (1912-1913).</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>The Russo-Turkish War (1877-1878):</strong> This war marked the beginning of the end for the Ottoman Empire in the Balkans. <strong>Bosnia-Herzegovina</strong> (Slav populated region in Ottoman area) was incited to rise against Ottomans. Serbians and Russian supported it. Russia even crossed Bulgaria and reached Turkey and attacked it. The Ottomans were defeated by the Russian Empire, and as a result, they were forced to sign the <strong>Treaty of San Stefano</strong>,
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Independence</strong>: Romania, <strong>Serbia</strong>, Montenegro.</li>
+<li style="padding-left:4em">&#9632; <strong>Autonomy</strong>: <strong>Bulgaria</strong>, <strong>Bosnia-Herzegovina.</strong></li>
+<li style="padding-left:4em">&#9632; <strong>The first attempt to establish autonomous Greater Bulgaria</strong> under Russian protection. This provision fueled nationalist sentiments among Slavs in the region.</li>
+<li style="padding-left:4em">&#9632; As per the treaty, only Russian warship was to ply in Black Sea and no other European countries were allowed to come to Black Sea.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; This threatened British interests. So, PM Disraeli made Russia submit the treaty to European powers. At <strong>Berlin Congress (1878)</strong> Russia&#8217;s military-political gains were severely restricted. In this congress:
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Independence</strong> and <strong>enlargement</strong> of <strong><u>Serbia</u></strong> was confirmed.
+<ul>
+<li style="padding-left:2em">&#9702; Enlargement: Access to the Adriatic Sea via the newly established state of <strong>Montenegro</strong>.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Bosnia-Herzegovina</strong> were taken from the Ottoman Empire and put under the protectorate of the Hapsburg Empire.
+<ul>
+<li style="padding-left:2em">&#9702; The occupation <strong>increased tensions</strong> in the Balkans. Serbia was offended and Russia was disturbed. In future, the rivalry between Austria and Serbia became the immediate cause for the Word War One.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Autonomy to <u>Bulgaria</u></strong> in reduced size.
+<ul>
+<li style="padding-left:2em">&#9702; It created a semi-autonomous region of <strong>Bulgaria</strong> with a Christian ruler and its own constitution.</li>
+<li style="padding-left:2em">&#9702; It greatly reduced the size of Greater Bulgaria (created by San Stephano)</li>
+<li style="padding-left:2em">&#9702; The loss of territory was a significant blow to Bulgarian national aspirations, and it led to significant resentment among the Bulgarian population.</li>
+<li style="padding-left:2em">&#9702; It created a strong revanchist demand in Bulgaria. The nationalist demand continued and in 1912 it became one of many causes of the First Balkan War.</li>
+<li style="padding-left:2em">&#9702; <strong>1885:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; A nationalist movement started among the Bulgan population under the Ottoman Empire.</li>
+<li style="padding-left:2em">&#9702; Russia, as it was already frustrated with Berlin Congress, supported the cause of the Bulgan population, encouraged them to be free from Ottoman.</li>
+<li style="padding-left:2em">&#9702; With Russian backup, Bulgaria annexed <strong>Eastern Rumelia</strong> in <strong>1885</strong>. (bloodless revolution). So, there was a creation of unified Bulgaria again to some extent.</li>
+<li style="padding-left:2em">&#9702; This was a rupture of the European Order created by the Berlin Conference. So, Hapsburg, Britain, Italy &#8211; all were offended at this point, and it created a war-like situation.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>1908</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Bulgarian</strong> declared <strong>independence</strong> in <strong>1908</strong> completely from Ottomans.</li>
+<li style="padding-left:2em">&#9702; <strong>Austria-Hungary</strong> annexed <strong>Bosnia-Herzegovina</strong>, which is seen as a blow to Slavic nationalism in the region.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Young Turk movement (1908-18):</strong>
+<ul>
+<li style="padding-left:4em">&#9632; In reaction to the expansionist policy of <strong>European</strong> powers, nationalism in various minorities in <strong>Balkan</strong> and declining position of the <strong>Ottoman</strong> Empire, a group of young Turks reacted, and they decided to bring the Ottoman Empire out of dismal condition.</li>
+<li style="padding-left:4em">&#9632; So, they captured the government and established <strong>constitutional</strong> rule in 1908. They also implemented a number of significant <strong>reforms</strong> in the areas of education, law, and public administration, which aimed to <strong>modernize</strong> and <strong>secularize</strong> the Ottoman state.</li>
+<li style="padding-left:4em">&#9632; But the measures taken by young Turks proved a failure in history. There were two problems:
+<ul>
+<li style="padding-left:2em">&#9702; Young Turks&#8217; commitment to modernization and reform was often accompanied by authoritarian tendencies and suppression of political dissent.</li>
+<li style="padding-left:2em">&#9702; They emphasized <strong>Turkish nationalism</strong> in reaction to the Greek/Slav/Bulgan ethnic nationalisms. This measure proved counterproductive. Some critics have rightly told, <u>&#8220;young Turks started the wind of nationalism and in return, they had to face the whirlpool of nationalism.&#8221;</u></li>
+<li style="padding-left:2em">&#9702; In particular, nationalist movements among non-Turkish ethnic groups, such as the Greeks, Armenians, and Kurds, emerged in response to Turkish nationalism. Their policies led to territorial losses to the Ottoman Empire.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; In reaction to young Turks, in 1912, Balkan states like Greece, Romania, Serbia, Bulgaria etc. invaded the Ottoman Empire. So, it resulted in the Balkan wars.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Two Balkan Wars (1912, 1913)</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Conflicts between the Ottoman Empire and several Balkan states, including Serbia, Greece, Montenegro, and Bulgaria.</li>
+<li style="padding-left:4em">&#9632; The Balkan states were victorious, and as a result, the Ottoman Empire lost almost all of its remaining territory in the Balkans.</li>
+<li style="padding-left:4em">&#9632; At the end of the First Balkan war, European powers intervened and in the <strong>London Conference</strong>
+<ul>
+<li style="padding-left:2em">&#9702; They forced the Ottoman Empire to cede most of its remaining European territory to the Balkan states.</li>
+<li style="padding-left:2em">&#9702; An independent nation, <strong>Albania,</strong> was created.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>During/After World War 1</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Britain, France, and Russia planned the dismemberment of the Ottoman Empire, which was aligned with the Central Powers during the Great War.</li>
+<li style="padding-left:4em">&#9632; <strong>Sykes-Picot Agreement</strong> (1916)
+<ul>
+<li style="padding-left:2em">&#9702; A secret agreement between Britain and France to divide up the Ottoman Empire into respective spheres of influence.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Treaty of S&#232;vres</strong> (1920)
+<ul>
+<li style="padding-left:2em">&#9702; Between the Allied powers and the Ottoman Empire.</li>
+<li style="padding-left:2em">&#9702; Creation of an independent Armenia, an independent Kurdistan, and the partition of the Ottoman Empire&#8217;s Arab territories between Britain and France.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; However, these plans were not fully realized, as the <strong>Turkish War of Independence</strong>, led by Mustafa Kemal Atat&#252;rk, ultimately resulted in the formation of the modern-day <strong>Republic of Turkey</strong> in <strong>1923</strong>.</li>
+<li style="padding-left:4em">&#9632; He signed the <strong>Treaty of Lausanne</strong> as revised treaty, and his leadership in the war cemented his position as the founder of the Turkish Republic.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Creation of Turkey as a modern nation under Mustafa Kemal Pasha:</strong> The remaining part of Turkey was converted it into a modern westernized nation-state by Mustafa Kemal Pasha.
+<ul>
+<li style="padding-left:4em">&#9632; He abolished the Caliphate.</li>
+<li style="padding-left:4em">&#9632; Breaking with the past
+<ul>
+<li style="padding-left:2em">&#9702; Changed the names of various towns to create a new identity and not medieval Islamic identity (eg Istanbul)</li>
+<li style="padding-left:2em">&#9702; In place of Friday, Sundays were declared to be holidays on European pattern.</li>
+<li style="padding-left:2em">&#9702; Maulavi cap was banned while European hats were encouraged.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; Westernisation
+<ul>
+<li style="padding-left:2em">&#9702; In place of Arabic script &#8211; Roman script</li>
+<li style="padding-left:2em">&#9702; Western science, education, technology was promoted.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; Industrialization was promoted.</li>
+</ul>
+</li>
+</ul>
+
+<h3><u>Disintegration of Habsburg Empire</u></h3>
+
+<ul>
+<li>&#8226; The Habsburg Empire was a medieval empire, and it was carrying the <strong>legacy of the Holy Roman Empire</strong>. Later, Habsburg kings became the hereditary kings of the Austrian empire.</li>
+<li>&#8226; Like the Ottoman Empire, even the Habsburg Empire was <strong>multi-racial, multi-lingual and multi-regional</strong> in character.
+<ul>
+<li style="padding-left:2em">&#9702; In the population of the Austrian empire
+<ul>
+<li>&#8226; Germans were in majority.</li>
+<li>&#8226; Magyar community (Hungarians) was the second.</li>
+<li>&#8226; Slavs formed the third major community.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; During <strong>the medieval</strong> age, it faced the challenge from <strong>regionalism</strong> and during <strong>the modern</strong> age it got the challenge from <strong>nationalism</strong> to its unity and integrity.</li>
+</ul>
+</li>
+<li>&#8226; On many occasions, the Austrian Empire tried to promote <strong>administrative centralization,</strong> but it did not get success.</li>
+<li>&#8226; When in <strong>1866</strong> Austria was defeated at the hand of Prussia in the <strong>Battle of Sadowa</strong> then the Austrian empire was compelled to give a <strong>major concession to the Magyar</strong> community.
+<ul>
+<li style="padding-left:2em">&#9702; There was the creation of <strong>dual monarchy of <u>Austria-Hungary</u>.</strong> Under this, Austria and Hungary were co-equal in power. The two states conducted common foreign, defense, and financial policies, but all other governmental faculties were divided among respective states. It lasted from <strong>1867 to 1918.</strong></li>
+</ul>
+</li>
+<li>&#8226; Up to the <strong>First World War</strong>, it saved itself but when it lost the war the allied powers divided it into different nations and new nations
+<ul>
+<li style="padding-left:2em">&#9702; Austria, Hungary</li>
+<li style="padding-left:2em">&#9702; New states: Yugoslavia, Poland, and Czechoslovakia</li>
+</ul>
+</li>
+</ul>
+
+<h3><u>Disintegration of Russian Empire</u></h3>
+
+<ul>
+<li>&#8226; The Russian Empire was a multi-racial Empire like the Ottoman/Habsburg Empire, but the situation of the Russian Empire was different from both of them.
+<ul>
+<li style="padding-left:2em">&#9702; In Russia, there was a <strong>clear majority of the Slav</strong> population.</li>
+<li style="padding-left:2em">&#9702; Russia maintained its <strong>separate Church</strong> like the Eastern Orthodox Church. So, the religious loyalty of the Russian people remained to be undivided.</li>
+<li style="padding-left:2em">&#9702; In comparison to the Ottoman Empire and the Habsburg Empire, Russia adopted a <strong>modernization programme</strong> in a better manner.</li>
+<li style="padding-left:2em">&#9702; Furthermore, except one or two wars, Russia <strong>did not lose any major war</strong></li>
+</ul>
+</li>
+<li>&#8226; It was due to these factors, in spite of the nationalist pressure from minority communities, Russia could maintain unity and integrity in a better manner.</li>
+<li>&#8226; Russia was a party in the First World War on the behalf of allied powers, but it was in course of the First World War that <strong>Russian Revolution</strong> took place. Then there was the formation of a Communist government in Russia.
+<ul>
+<li style="padding-left:2em">&#9702; This communist government signed a separate peace with Germany in March 1918, and withdrew from the <strong>First World War</strong>. But it <u>lost one-fourth of the European region</u> as war compensation.</li>
+<li style="padding-left:2em">&#9702; Later, European power in Paris Peace Conference created four separate nations like <strong>Lativia, Lithuania, Estonia and Ukraine</strong> out of the Russian region.</li>
+</ul>
+</li>
+<li>&#8226; <strong>USSR</strong>
+<ul>
+<li style="padding-left:2em">&#9702; But in 1939, USSR came near to Nazi Germany and signed a No Aggression Pact with Hitler. On that basis, head of the USSR, Stalin reconquered the Russian region of Lativia, Lithuania, Estonia and Ukraine. So, Russia was re-united.</li>
+<li style="padding-left:2em">&#9702; Under Stalin, there was the imposition of a tough and strict communist government in USSR under which there was no scope for the right to expression. <strong>Under the tough government, the racial division in USSR remained to be dominant.</strong></li>
+<li style="padding-left:2em">&#9702; But when there was the rise of Gorbachev, a liberal president, in 1980s, Russian people regained the right to expression. So, racial division once again re-surfaced and USSR just collapsed in 1991.</li>
+</ul>
+</li>
+</ul>
+`,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
