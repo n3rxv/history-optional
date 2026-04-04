@@ -35476,7 +35476,168 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
     </ul>
   </li>
 </ul>
-`,
+<h2>Handout 48: Third World and NAM</h2>
+
+<h2>The Rise of Third World</h2>
+<p>The term 'Third world' has two different connotations – political as well as economic.</p>
+
+<h3>Political context:</h3>
+<ul>
+<li>&#8226; 'First World' signifies the capitalist countries of western Europe, and the 'Second World' denotes the socialist countries of eastern Europe. On the other hand, the Third world denotes the <em>newly independent countries of Asia, Africa, and Latin America.</em></li>
+<li>&#8226; They didn't belong to the same political bloc necessarily. Some nations from the Third World <strong>aligned themselves</strong> with the American bloc, while others leaned towards the Russian bloc during the Cold War era.</li>
+</ul>
+
+<h3>Economic context:</h3>
+<ul>
+<li>&#8226; The term Third world symbolizes the countries which are <strong>suffering from the common socioeconomic malaise</strong> i.e. low investment in social sector, higher birth rate, lower per capita income, poor health and education sectors, etc.</li>
+<li>&#8226; The countries of the third world are <strong>not a monolithic group.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; These countries were situated across Asia, Africa, and Latin America and encountered <strong>diversity of socio-economic and geopolitical circumstances</strong>.</li>
+  <li style="padding-left:2em">&#9702; Also, there was a considerable <strong>disparity in their levels of development.</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; Notably, nations such as South Korea and Taiwan exhibited economic conditions comparable to developed countries, while certain Asian and African countries faced significantly lower economic development.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+</ul>
+
+<h3>What led them to form a separate entity?</h3>
+<ul>
+<li>&#8226; All of them had a common memory of being exploited for decades/centuries.</li>
+<li>&#8226; Secondly, even before the independence, both Asian and African countries started to develop a sense of fraternity.</li>
+</ul>
+
+<h3>The achievements of the Third World:</h3>
+<ul>
+<li>&#8226; <strong>Consolidation</strong> among the Third World countries made them a powerful entity. So, even the superpowers started to take them seriously.</li>
+<li>&#8226; From the late 1940s, they took initiative for making some <strong>associations</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, in March 1947, at the initiative of Nehru, the Asian Relations Conference was organized in New Delhi.</li>
+  <li style="padding-left:2em">&#9702; Likewise, another conference was organized in New Delhi in 1949 on the issue of the liberation of Indonesia.</li>
+  <li style="padding-left:2em">&#9702; Later in 1955, the Bandung Conference was organised. In this conference 29 Afro-Asian countries participated. It was particularly after Bandung Conference that better consolidation among third world nations was visible.</li>
+  </ul>
+</li>
+<li>&#8226; The third world nations organized <strong>NAM</strong> at Belgrade in 1961.</li>
+<li>&#8226; At the international forum, they could form a <strong>common opinion on important international issues</strong> like colonialism, imperialism, racialism, etc. Later, even western powers were compelled to accept their importance in these forums.</li>
+</ul>
+
+<h3>Challenges before the third world nations:</h3>
+<ul>
+<li>&#8226; After the liberation, most of the nations accepted the capitalist model of government, so naturally their <strong>economy became subservient</strong> to the developed economy of the western world.
+  <ul>
+  <li style="padding-left:2em">&#9702; Naturally, their economic dependency over western countries made their freedom meaningless.</li>
+  <li style="padding-left:2em">&#9702; The <strong>multilateral institutions</strong> like IMF, World Bank and GATT as well as multinational companies persistently intervened in their economy.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>During the era of the Cold War:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Peace and stability returned to the First World. Likewise, after the initial disturbance, even Second World got stabilized. But the Third World remained to be disturbed and devastated as it became the main battleground for the superpower rivalry.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>After the Cold War:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Particularly, after the disintegration of Soviet Russia and the decline of socialist countries the Third World countries lost their staunch supporters.</li>
+  <li style="padding-left:2em">&#9702; Above all, in 1990s, on the basis of the Washington Consensus the policy of economic liberalisation was imposed over the third world nations and on the basis their market was forcefully opened.</li>
+  </ul>
+</li>
+</ul>
+
+<h2>NAM</h2>
+
+<h3>Meaning of the Non-Align Movement:</h3>
+<ul>
+<li>&#8226; This issue has become a matter of controversy. Sometimes it confers with the terms like neutrality, non-commitment, isolation etc.</li>
+<li>&#8226; On the contrary, Non-alignment implies active participation in international politics. It does not mean that there should be no relations with superpower. Rather, it means to form an independent decision on important international issues without getting influenced by any superpower.</li>
+</ul>
+
+<h3>Causes behind NAM: (objectives)</h3>
+<ul>
+<li>&#8226; NAM does not believe in neutrality or passivism. It believes in playing <strong>an active role in international matters.</strong> The only intention of NAM is to remain away from bloc politics and militarism and not away from international developments.
+  <ul>
+  <li style="padding-left:2em">&#9702; Newly independent countries came to realize that to join any military block means to get their foreign policy mortgaged and in that eventuality, their <strong>hard-earned freedom</strong> would be meaningless. Newly independent nations wanted to remain away from capitalist and communist military bloc.</li>
+  </ul>
+</li>
+<li>&#8226; Before newly independent Afro-Asian nations, <strong>economic reconstruction</strong> was the first priority. So, to join any block means to spend the <strong>scarce resources</strong> on military expenditure at the cost of a development program.
+  <ul>
+  <li style="padding-left:2em">&#9702; In a condition of the policy of Non-Alignment, the third world nations would expect the economic support for <strong>reconstruction program from both the blocks simultaneously.</strong></li>
+  <li style="padding-left:2em">&#9702; NAM was created so that member nations could tackle their social, economic and political challenges effectively through <strong>mutual co-operation.</strong> The nature of challenges being faced by these nations were quite similar.</li>
+  </ul>
+</li>
+<li>&#8226; NAM is the symbol of urges and aspirations of newly independent nations.
+  <ul>
+  <li style="padding-left:2em">&#9702; These nations wanted to play an <strong>active role at international level by working together</strong> on a common platform.</li>
+  <li style="padding-left:2em">&#9702; NAM was created so that comparatively <strong>smaller national of world could have effective say in international actives.</strong> Individually they were not strong enough to Influence the course of world politics.</li>
+  </ul>
+</li>
+<li>&#8226; Some countries like India and Egypt tried to prove that the policy of non-alignment is <strong>inherent in their culture itself.</strong></li>
+</ul>
+
+<h3>Process of formation of NAM:</h3>
+<ul>
+<li>&#8226; Various Afro-Asian countries had identical experience of colonial exploitation since decades. So, they were eager to develop some sort of consolidation among themselves.</li>
+<li>&#8226; Predecessors:
+  <ul>
+  <li style="padding-left:2em">&#9702; In March 1947, under the leadership of Pandit Jawaharlal Nehru, organization of Asiatic Relations Conference at Delhi. Likewise, between 1900 and 1927, at least four pan African conferences were organized at the initiative of African-Americans.</li>
+  </ul>
+</li>
+<li>&#8226; 1954 Colombo Speech
+  <ul>
+  <li style="padding-left:2em">&#9702; Zhou Enlai and Nehru described the Five Principles of Peaceful Coexistence to be used as a guide for Sino-Indian relations called Panchsheel (five restraints); these principles would later serve as the basis of the Non-Aligned Movement. The five principles were:
+    <ul>
+    <li style="padding-left:4em">&#9632; Mutual respect for each other's territorial integrity and sovereignty.</li>
+    <li style="padding-left:4em">&#9632; Mutual non-aggression.</li>
+    <li style="padding-left:4em">&#9632; Mutual non-interference in domestic affairs.</li>
+    <li style="padding-left:4em">&#9632; Equality and mutual benefit.</li>
+    <li style="padding-left:4em">&#9632; Peaceful co-existence.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; Then once again, such a conference convened in 1945. In <strong>Bandung</strong> Conference of 1955 the basis for NAM was prepared. In this Conference, there participated 29 Asian/African countries.
+  <ul>
+  <li style="padding-left:2em">&#9702; Sukarno, U Nu, Naser, Nkrumah, Tito, Nehru, Ho Chi Minh, Chau Enlai, U Thant</li>
+  </ul>
+</li>
+<li>&#8226; But the formal declaration of formation of NAM in <strong>Belgrade</strong> Conference in 1961, six years after Bandung.
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Declaration:</strong> Respect for fundamental/human rights, respect for territorial integrity and sovereignty, recognition of equality of nations, non-interference, abstention from defence pacts, not giving land for military operations of superpowers, peaceful settlements, promotion of justice and mutual interests.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>The contribution of NAM:</h3>
+<ul>
+<li>&#8226; Right from its beginning in Belgrade, the policy of non-alignment left its imprint on international politics. The NAM has always <strong>touched on the important international issues.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, after its first session, it raised the <strong>issue of a nuclear test by France, apartheid in South Africa</strong> and simultaneously it demanded the <strong>membership of the Chinese republic in the UNO and Security Council.</strong></li>
+  </ul>
+</li>
+<li>&#8226; Non-alignment worked as a <strong>strong pressure group in UNO</strong> against the imperialist powers.</li>
+<li>&#8226; NAM was on the forefront for the <strong>liberation of colonies.</strong></li>
+<li>&#8226; Non-alignment also carried the persistent demand for the <strong>democratization of economic relations</strong> at the international level.</li>
+</ul>
+
+<h3>Limitations:</h3>
+<ul>
+<li>&#8226; The western powers could not take this movement much seriously. Likewise, even the apartheid regime of South Africa could not take this movement seriously.</li>
+<li>&#8226; Some members of NAM have regularly been linked to either superpower while putting a question mark on the term 'nonalignment'.</li>
+<li>&#8226; NAM persistently failed to stop any major international war like the Iran-Iraq war.</li>
+</ul>
+
+<h3>Is NAM relevant today?</h3>
+<ul>
+<li>&#8226; Though NAM was established at a time when Cold War was going on, it was not merely a reaction to the Cold War politics. It was created with many the intentions and objectives. On closer scrutiny, we find that NAM still has a larger relevance, but only in the context of the <strong>original objectives of NAM</strong>, which was to protect the basic interest of the third world, as at that time cold war and bloc politics worked as a major threat to the interest of the third world nations.
+  <ul>
+  <li style="padding-left:2em">&#9702; NAM was established so that newly independent nations could pursue independent foreign policy. The relevance of independent foreign policy can never be lost.</li>
+  <li style="padding-left:2em">&#9702; Today, after the end of the cold war, the basic interest of the nations is still threatened. Rather, the Third World has become <strong>more vulnerable to the intervention by imperialist powers.</strong> Here NAM can work as an important forum for protecting their interest.</li>
+  <li style="padding-left:2em">&#9702; The newly independent nations came together on platform of NAM, so that they would work together for their socio-economic advancement. The relevance of such co-operation can never become less.</li>
+  <li style="padding-left:2em">&#9702; Instead of losing its relevance, NAM has become much more significant in recent times because of many trans-national challenges like climate change, environmental degradation, human &amp; drug trafficking, Arms trafficking &amp; terrorism etc, which cannot be tackled individually. They need a <strong>multi-lateral approach</strong> to solve them. So, it is possible only with the co-operation of a large number of nations. NAM can work as an effective forum as it is the largest in size after UNO.</li>
+  <li style="padding-left:2em">&#9702; Furthermore, on such important international issues, the third world nations are generally worried about the <em>arm-twisting by developed nations</em> against their own interest. Even in that situation, NAM can work as a strong bullwork against such tactics.</li>
+  </ul>
+</li>
+<li>&#8226; Today, NAM has 120 members; 17 observer states are present in NAM representing more than 55% of world population. It is the second biggest political platform after UNO, representing 50% plus of world. Such a big organization can never be irrelevant. Instead of abandoning NAM, steps should be taken to strengthen it further. To make NAM more effective, it needs to be restructured with revised objectives and programs.</li>
+</ul>`,
 
 
 };
