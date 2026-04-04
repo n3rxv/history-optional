@@ -33239,7 +33239,131 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
   </li>
 </ul>
 
-<p>Overall, the League of Nations made important contributions to the <strong>development of international law and diplomacy</strong>. Its work <strong>inspired the formation of the United Nations</strong>, which has been more successful in promoting peace and international cooperation.</p>`,
+<p>Overall, the League of Nations made important contributions to the <strong>development of international law and diplomacy</strong>. Its work <strong>inspired the formation of the United Nations</strong>, which has been more successful in promoting peace and international cooperation.</p>
+<h2>Handout 39: Consequences of World War 2</h2>
+
+<p>The Second World War lasted for nearly 6 years and came to an end in Europe with the unconditional surrender of Germany on 7th May 1945 and in Asia with that of rout of Japan on 14th August 1945. It led to various consequences which of great significance for the future history of mankind.</p>
+
+<ul>
+  <li>&#8226; <strong>Unprecedented loss of life and property:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The war caused unparallel destruction of life and property.
+        <ul>
+          <li style="padding-left:4em">&#9632; It is estimated at least 17 million men died on the battle fields and 18 million noncombatants were killed because of bombing, starvation and disease.</li>
+          <li style="padding-left:4em">&#9632; The cities in which the battles were fought lay in ruins.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; No country escaped the effects of war in its economic spheres.
+        <ul>
+          <li style="padding-left:4em">&#9632; The war caused acute scarcity of food stuffs, commodities, goods, petrol, matchboxes, salt, cement etc. which led to runaway inflation.</li>
+          <li style="padding-left:4em">&#9632; People had to fore go even the basic necessities of life. The standard of life went down wiping out all the previous prosperity.</li>
+          <li style="padding-left:4em">&#9632; Every country was faced with gigantic problem of recovery and reconstruction.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Morale degradation:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Men killed their own species on such a large scale without any guilt conscious.
+        <ul>
+          <li style="padding-left:4em">&#9632; The atrocities committed by the Nazis of Germany, the Fascists of Italy and the militarist regime of Japan were unforgivable.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The fault lay with the Allies as well.
+        <ul>
+          <li style="padding-left:4em">&#9632; The dropping of the atomic bombs on Hiroshima and Nagasaki in August 1945, whatever the consideration that might have been behind the decision, exposed the naked truth that the so-called civilised men could sink to the levels of barbarians.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Race for accumulation of nuclear weapons:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The invention of atom bomb had introduced an element of mistrust between the United States and the Soviet Union. After the end of the Second World War, a race for acquisition of nuclear arms began between the two countries and this added new dimensions to the balance of power in the world.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Destruction of the Axis Powers:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The Axis powers Germany, Italy and Japan were destroyed. Germany which was the main architect of the war was utterly humiliated and destroyed.</li>
+      <li style="padding-left:2em">&#9702; The Allies imposed their terms of peace on Axis powers.</li>
+      <li style="padding-left:2em">&#9702; According to Potsdam agreement Germany was militarily and economically crippled.</li>
+      <li style="padding-left:2em">&#9702; At San Francisco Conference (September 1951), a peace treaty with Japan was signed.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>England and France as a Second-Rate Power:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; England emerged from the war as a second-rate world power.
+        <ul>
+          <li style="padding-left:4em">&#9632; If the United States had not come to the rescue of Britain, the latter would have been annihilated by Nazi Germany and Fascist Italy.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Unlike Britain, France had been occupied by the Germans during the war as a result of which she had to face great destruction.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Rise of Two Superpowers the USA and the USSR:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; During the course of the war, USA industrialists made tremendous profits, increasing her prosperity, her prestige shot up in the world because she assumed the role of a creditor and aid giving power.
+        <ul>
+          <li style="padding-left:4em">&#9632; The First World war had broken her isolation for a while, but she had thereafter retreated into her isolationist shell. The Second World War once again shattered this isolation and enabled her to take interest in world affairs, making sure that a second retreat into the isolationist shell would be impossible now as she had financial, political, and diplomatic stakes all over the world.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The U.S.S.R. was the other country to emerge as a superpower in the post-World War II period. Through clever negotiations Stalin was able to extract maximum concession from the Allies. At the end of the war Russian influence extended to practically whole of Eastern Europe making her a superpower.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Cold War:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The Second World War facilitated great opportunities to Communism. It spread rapidly under Soviet Union to Eastern Europe. About One-third of the world became red. The USA with the help of other democracy like Britain and France tried to combat this surge. The whole world came to be divided into two power blocs diametrically opposed to each other viz, the capitalist Bloc of the USA and her Allies and the Communist Bloc of Russia and her satellites. Countries like India, however, did not joined the Blocs and stayed non-aligned leading to the formation of third Bloc, the Non-Aligned Bloc.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Greater Importance to Middle East and Far East:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Post World War II, the Middle East, and Far East in the constituent of Asia became of prime importance in international politics.</li>
+      <li style="padding-left:2em">&#9702; The discovery of rich oil deposits made the middle East important as well as conflict zone in world politics.</li>
+      <li style="padding-left:2em">&#9702; The emergence of India is as an important democratic and non-aligned nation and the development of Communist China as a great power made the Far-East one of the most important regions in the World.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Birth of New Nations:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; World War II gave an opportunity to many countries in Africa and Asia to get themselves free from imperialist powers. Many countries like India, Ceylon, Libya, Syria, Lebanon, Malaya, Indochina and Indonesia secured complete independence after the World War II.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Weakening of the Spirit of Nationalism:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The nations began to organise themselves into various groups.
+        <ul>
+          <li style="padding-left:4em">&#9632; After World War II, the East European nations which followed the Communist ideology decided to form a bloc under the patronage of Soviet Union.</li>
+          <li style="padding-left:4em">&#9632; Similarly, the Western European nations which stood for democracy decided to join into a group to avert communism.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Philosophy of Humanism:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; After the Second World War, Humanism has prime place. The constant goal of all political activities is the freedom and welfare of mankind.</li>
+      <li style="padding-left:2em">&#9702; The world realised the need for averting any future war of such magnitude which had caused annihilation.</li>
+      <li style="padding-left:2em">&#9702; Discussion on human rights had continued even during the war and Universal Declaration of Human Rights by the United Nations Organisation (U.N.O.) was a significant step in this direction.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Establishment of the United Nations Organisation (U.N.O.):</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The World War II made the statesmen of the world to realize the need for an international organisation to safeguard peace and save mankind from any future war of such magnitude. After the World War I, the League of Nations was established but it had failed. Now they were determined to avoid the defects of the League of Nations and set up a new organisation for which efforts in this direction had already started while the war was still going on.</li>
+      <li style="padding-left:2em">&#9702; The outline of its organisation and constitution were prepared and given a final shape in San Francisco Conference June 1945. The charter of the UN is committed to the maintenance of world peace and international cooperation.</li>
+      <li style="padding-left:2em">&#9702; The 51 states which signed the charter in San Francisco Conference were considered the founder member of the U.N.O. Today, the number is 193.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Development of Regional Organisations:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The U.N.O. also became a platform of the Cold War between U.S.A. and U.S.S.R. Consequently, to ensure their future security, both the power blocs facilitated the formation of Regional Organisation.</li>
+      <li style="padding-left:2em">&#9702; The U.S.A. led countries organised themselves to restrict the onward march of Communism. Among the Security Organisations of the western countries prominent being North Atlantic Treaty Organisation (N.A.T.O.) and South-East Asia Treaty Organisation (S.E.A.T.O) and the Baghdad pact.</li>
+      <li style="padding-left:2em">&#9702; On the other hand, U.S.S.R. created Communist government between herself and western nations to strengthen her security. Among the Communist security organisation, the Warsaw Pact was the most prominent.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>New Shape of the British Commonwealth of Nations:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; After the Second World War, many countries in Africa and Asia which were former British colonies attained freedom, wanted to be the member of the British Commonwealth of Nations.</li>
+      <li style="padding-left:2em">&#9702; It is not a military group, but it is designed to promote international understanding and trade and cultural relations among the members.</li>
+    </ul>
+  </li>
+</ul>`,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
