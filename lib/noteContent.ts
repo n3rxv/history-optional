@@ -34512,6 +34512,198 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
     </ul>
   </li>
   <li>&#8226; The Cold War also coincided with the <strong>rise of civil rights and social movements</strong>, as people challenged discrimination and advocated for equality. These movements gained momentum in the context of the Cold War ideological struggle.</li>
+</ul>
+<h2>Handout 45: United Nation Organisation (UNO)</h2>
+<p>UNO was established on 24 Oct 1945 by the peace-loving nations of the world to protect future generation from destruction and devastations caused by wars.</p>
+
+<h3>Background for the formation of UNO</h3>
+<ul>
+<li>&#8226; The WW II had left behind a trail of devastation: almost 60 million people perished, compared to 20 million during the WWI.</li>
+<li>&#8226; World leaders, who had learnt from the failure of LoN, were eager to establish a successful UNO.</li>
+<li>&#8226; The influence of the principles of the <strong>Atlantic Charter</strong> (1941).</li>
+<li>&#8226; Agreement between USA, Britain, USSR and China on 1st Jan 1942 to form an international peace organisation. (Declaration of UN in the <strong>Arcadia Conference</strong>)</li>
+<li>&#8226; The United Nations Charter was signed by 51 states at the <strong>San Francisco Conference</strong> which was held on 25 April 1945. These nations became the founder members of the UNO.</li>
+<li>&#8226; The Charter was adopted on 25 June 1945, and it declared the aims and objectives of the UN.</li>
+</ul>
+
+<h3>Aims and Objectives of the UNO (as per Charter)</h3>
+<ul>
+<li>&#8226; To preserve peace and to eliminate war.</li>
+<li>&#8226; To suppress those powers that violate peace and to solve international disputes.</li>
+<li>&#8226; To remove the causes of conflict by encouraging economic, social, educational, scientific and cultural progress as well as co-operation throughout the world.</li>
+<li>&#8226; To safeguard rights of nations and men.</li>
+</ul>
+
+<h3>Six main organs of UNO</h3>
+<ul>
+<li>&#8226; <strong>General Assembly:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It is the main deliberative organ of the UN.</li>
+  <li style="padding-left:2em">&#9702; It is made up of all UN member states having equal voting rights.
+    <ul>
+    <li style="padding-left:4em">&#9632; Every member nation can send 5 representatives and 5 additional representatives to UNGA, but every member nation has one vote.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; Functions:
+    <ul>
+    <li style="padding-left:4em">&#9632; It directs UNSC to take steps for maintaining peace and harmony in the world. It receives reports from UNSC about actions, undertaken and discusses them.</li>
+    <li style="padding-left:4em">&#9632; It elects temporary members of UNSC.</li>
+    <li style="padding-left:4em">&#9632; It undertakes necessary studies for promoting international co-operation.</li>
+    <li style="padding-left:4em">&#9632; It supervises the trusteeship arrangement for the territories placed under UN administration.</li>
+    <li style="padding-left:4em">&#9632; It discusses and passes UN budget.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; The General Assembly begins its sessions in the month of September every year. In addition to the regular sessions, special sessions can be held according to requirement.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Security Council:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It is the main executive organ of the UN.</li>
+  <li style="padding-left:2em">&#9702; It consists of 15 members, of which 5 are permanent and 10 are non-permanent.
+    <ul>
+    <li style="padding-left:4em">&#9632; Only the permanent members have veto power.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; The Security Council is known as the <em>heart of the UN</em> as diverse nature of work is done here.</li>
+  <li style="padding-left:2em">&#9702; Function:
+    <ul>
+    <li style="padding-left:4em">&#9632; Taking important decisions like inclusion of new member, sanction on any errant country, declaration of war etc.</li>
+    <li style="padding-left:4em">&#9632; It is responsible for maintaining international peace. It controls the UN peacekeeping force.</li>
+    <li style="padding-left:4em">&#9632; It implements the decisions of UNO and sends reports to UNGA.</li>
+    <li style="padding-left:4em">&#9632; Prior approval of UNSC is request for entry of new member in UNO.</li>
+    <li style="padding-left:4em">&#9632; It holds its sessions fortnightly, but the meetings can be held at shorter intervals according to requirements.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>Economic and Social Council:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; The purpose of the Council is to assure economic and social welfare and to make people conscious about human rights.</li>
+  <li style="padding-left:2em">&#9702; Has 54 members, elected by the General Assembly to serve staggered three-year mandates.</li>
+  <li style="padding-left:2em">&#9702; Co-ordinates co-operation between the UN's numerous specialized agencies like UNESCO, ILO, IMF, IMO, WIPO.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Trusteeship Council:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It was formed in 1945 to oversee the decolonisation of those dependent territories that were placed under the international trusteeship system created by the UN charter as a successor to the League of Nations mandate system. It made sure that the imperial powers couldn't reassert their influence on these territories.</li>
+  <li style="padding-left:2em">&#9702; It is in suspended state since Nov 1994 as UNO has no territory under its admin control.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>International Court of Justice:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It is the principal judicial organ of the UN. It is designed for dispute resolution among the member states.</li>
+  <li style="padding-left:2em">&#9702; Judges are elected by the members of the Security Council and General Assembly in two separate votes.</li>
+  <li style="padding-left:2em">&#9702; The judges have diplomatic immunity, but their judgment is <em>not binding</em> on the member states.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>The Secretariat:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It is headed by the <strong>UN General Secretary</strong> who is chosen every 5 years.
+    <ul>
+    <li style="padding-left:4em">&#9632; The first Secretary-General of the UNO was <strong>Trygve Li.</strong></li>
+    <li style="padding-left:4em">&#9632; The Secretary-General has to submit an annual report to the General Assembly regarding the activities of the UN.</li>
+    <li style="padding-left:4em">&#9632; He is able to draw the attention of the Security Council to any situation he considers serious.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; It looks after day to day functioning of UNO.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Fundamental ideals and principles of the UNO</h3>
+<ul>
+<li>&#8226; UN respects the sovereignty of nations. It does not interfere in the internal matters of a country.</li>
+<li>&#8226; UN endeavours to performs its duties and responsibilities honestly in accordance of principle of equality.</li>
+<li>&#8226; UN endeavours to resolve all issues peacefully; military action is only used as a last resort.</li>
+</ul>
+
+<h3>Nature and character of the UN</h3>
+<ul>
+<li>&#8226; UN is symbol of internationalism.</li>
+<li>&#8226; UN believes in the doctrine of peaceful co-existence.</li>
+<li>&#8226; UN is the biggest multilateral platform in the world.</li>
+<li>&#8226; UN is a democratic institution.</li>
+<li>&#8226; There is an egalitarian outlook in UNGA.
+  <ul>
+  <li style="padding-left:2em">&#9702; All the member nation has one vote.</li>
+  <li style="padding-left:2em">&#9702; Every member nation has representation in UNGA.</li>
+  </ul>
+</li>
+<li>&#8226; UN is liberal and progressive institution.
+  <ul>
+  <li style="padding-left:2em">&#9702; It has always stood for humanity, principle of self-determination and freedom of people.</li>
+  <li style="padding-left:2em">&#9702; UN has propagated scientific outlook through its various programs.</li>
+  </ul>
+</li>
+<li>&#8226; UN is not a just politico military platform. Its social cultural programs are equally important.</li>
+</ul>
+
+<h3>League of Nations v/s the UNO</h3>
+<p>As UNO was formed after the failure of the league of nations, thus an attempt was made to make it more powerful and effective.</p>
+<ul>
+<li>&#8226; UNO is <strong>more representative</strong> compared to the League of Nations. It has much more members.</li>
+<li>&#8226; The UN <strong>Charter</strong> is a much longer and a more explicit document than the League Covenant and thus its <strong>functions are more extensive.</strong></li>
+<li>&#8226; The equal powers of Assembly and Council was considered the main reason for the failure of League of Nations. Thus, in UNO, <strong>Security Council was given more power than the General assembly.</strong></li>
+<li>&#8226; Powerful countries were not having any special power in the League of Nations. Thus, they didn't get any motivation to put effort for world peace. Thus, in UNO, apart from the equality of the nations, there is a concept of <strong>special status for powerful countries.</strong> This is in the form of <strong>'Veto'</strong> power given to five permanent members of the Security Council.</li>
+<li>&#8226; League of Nations didn't have any military arrangement, but UNO has such provision. UN is provided with a <strong>Military Staff Committee</strong> to consider the use of armed forces by the Security Council for the maintenance of global peace and security.</li>
+</ul>
+<p>However, despite detailed provisions on paper for the maintenance of global peace, there is still a huge scope for improvement of overall effectiveness of the UN.</p>
+
+<h2>Assessment of the career of UN</h2>
+<p>Although nearly 75 years after its establishment, the UN has gained a very prominent position in world society, there are still many problems which the UN could not solve. In terms its success and failure, UN has been a mixed story.</p>
+<p>The UN was established with the ambition of maintaining international peace and security. The successful functioning of the UN depends on the mutual understanding and cooperation of the member states. However, since the members of UN do not all have equal rights, and as the permanent members of the Security Council enjoy special privileges, the principle of equality has not been implemented in practice. The UN can function much better if the big powers do not intervene in various issues to protect their vested interests.</p>
+
+<h3>Achievements of UNO:</h3>
+<ul>
+<li>&#8226; <strong>Political:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; UNO played an important role in disposing various international conflicts.</li>
+  <li style="padding-left:2em">&#9702; The Suez Canal Crisis of 1956, Congo Crisis of 1961, the First Gulf Crisis of 1990-91, Cambodia Crisis of 1993 etc are few good examples.</li>
+  <li style="padding-left:2em">&#9702; Kosovo crisis was resolved in 2006.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Economic:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It encourages new research through its specialised agencies like the IMF, ILO etc to improve economic scenario of the world.</li>
+  <li style="padding-left:2em">&#9702; FAO works to improve food security globally.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Social:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It achieved breakthrough in the field of health. Smallpox and Polio are under control now. It became possible via huge vaccination programmes. Major efforts are being made for the control of AIDS.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Cultural:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; UNO's effort to restore remains of forgotten cultures of ancient world is commendable.</li>
+  <li style="padding-left:2em">&#9702; UNESCO has played a pivotal role in cultural preservation worldwide.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Limitations of UNO</h3>
+<ul>
+<li>&#8226; It has <strong>limited success in political field.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Due to the veto arrangement the whole system couldn't work properly <strong>during the cold war.</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; <strong>Even after the cold war</strong> it was not much effective. E.g., the Iraq war (US invasion on Iraq) in 2003, the Libya war (2011) and Syria war and the current Ukraine invasion by Russia and Israel-Hamas couldn't be stopped or handled properly by UNO.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; UNO depends on member nations for <strong>military support.</strong> But there is no clear arrangement for the fulfilment of the same.</li>
+  <li style="padding-left:2em">&#9702; It doesn't have any proper <strong>funding arrangement.</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; Since it is mainly dependent on US funds, thus US enjoys undue influence on the organisation.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Discernible USA influence</strong></li>
+  </ul>
+</li>
+<li>&#8226; UNO was formed in 1945 and its <strong>structure remains almost unchanged till date.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Its composition reflects the political truth of 1945 even today in 2020s. Today, the power status of various countries has changed and the countries in the Security Council don't enjoy the same power today. Thus, this arrangement should be changed, and new roles should be given to rising powers like India, Brazil, Japan, and Nigeria etc.</li>
+  </ul>
+</li>
 </ul>`,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
