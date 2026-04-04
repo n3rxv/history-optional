@@ -32288,6 +32288,171 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
 <li>&#8226; President Franklin Roosevelt&#8217;s New Deal &#8220;had the wit to start the political economy in a fresh, more promising direction.&#8221; Do you agree? [1997, 60 Marks]</li>
 <li>&#8226; The Great Depression (1928 &#8211; 34) was &#8220;attended by momentous consequences in the economic as well as in the political sphere.&#8221; Comment. [2002, 20 Marks]</li>
 <li>&#8226; What policy instruments were deployed to contain the great economic depression? [GS, 2013]</li>
+</ul>
+<h2>Handout 35: Arabian Peninsula</h2>
+
+<h3>Impact of the First World War on West Asia and the Arab world</h3>
+
+<p>New political tremors in Arabian world created background for Arab nationalism.</p>
+
+<p><strong>The contradictory condition created by the three treaties:</strong></p>
+<ul>
+  <li>&#8226; <strong><u>Hussain-McMahon Agreement:</u></strong> <strong>British</strong> concluded a <strong>secret treaty</strong> with Arab leaders like <strong>Hussain, Grand Sherif of Mecca, and his son Faisal.</strong> They were to organize a revolt against Turkey. And as a reward after the war, they would get a unified Arab nation.
+    <ul>
+      <li style="padding-left:2em">&#9702; Arab nationalism emerged during opening decade of 19th century. By the First World War, Arab Nationalism had assumed its embryonic form (nascent phase), and the British decided to exploit it to their benefit.</li>
+      <li style="padding-left:2em">&#9702; <strong>Emergence of Arab Nationalism:</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; Ideas of Arab Nationalism revolved around <strong>common language, culture, literature &amp; religion.</strong> Being an original homeland of Islam, Muslim Prophet Muhammad as well as other Caliphs, Arab region has a distinct cultural identity. However, the region was under the control of Ottoman Turks. As the Ottoman Empire entered the First World War in 1914, the loyalty of Arabs could no longer be taken for granted, for two reasons.
+            <ul>
+              <li style="padding-left:6em">&#8226; The first was the <strong>growth of a nascent Arab nationalism</strong> that drew inspiration from 19th-century Western ideas.
+                <ul>
+                  <li style="padding-left:8em">&#9702; Some Arabs looked to the <strong>nationalist movements of the Slavic</strong> (and mostly Christian) minorities of the Ottoman Balkan territories, which had, by the end of 1912, all won their independence.</li>
+                  <li style="padding-left:8em">&#9702; This Arab nationalism was largely fostered by <strong>educated urban elites</strong> – intellectuals, civil servants and former or serving officers in the Ottoman Army – living in great Arab cities like <strong>Damascus</strong> and <strong>Baghdad</strong>.</li>
+                </ul>
+              </li>
+              <li style="padding-left:6em">&#8226; The second unsettling factor was the <strong>completion in 1908 of the Hejaz railway</strong>, which provided a direct link between Medina and Damascus, greatly facilitating Ottoman access to the Arabian interior.
+                <ul>
+                  <li style="padding-left:8em">&#9702; This intrusion was especially resented by the <strong>Hashemite clan</strong>. The clan's leader in 1914 was 61-year-old <strong>Sharif Hussein ibn Ali</strong>, a regional figure of considerable standing and political acumen.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li style="padding-left:4em">&#9632; <strong>By 1914 unrest was high</strong> among the tribes of the <strong>central Arabian interior</strong>. The Ottoman Empire's <strong>entry into the First World War in</strong> November 1914 provided the final spark for outright revolt.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The British Government seized this opportunity and encouraged the latent Arab national sentiment against the Ottoman Sultan.
+        <ul>
+          <li style="padding-left:4em">&#9632; <strong>Britain</strong> was worried that Ottomans might <strong>block Suez canal route</strong> towards India.</li>
+          <li style="padding-left:4em">&#9632; Britain <strong>hatched a conspiracy</strong> and created a plan with the help of a British officer there named <strong>Lawrence</strong>. With his encouragement, the Arabs began to express themselves as a nationally conscious people. Colonel Lawrence became friendly with Emir <strong>Faisal</strong>, a <strong>son of Hussein of Mecca</strong> and with the Arabs, in general.</li>
+          <li style="padding-left:4em">&#9632; Arab Revolt of 1916-1918: On receiving British equipment and funding, the Arabs under Hussein, the Sharif of Mecca, broke out in revolt and Faisal captured Aaaba and Mean. He entered Damascus in October 1918, at the same time as the British.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong><u>Sykes-Picot Agreement:</u></strong> It was a secret treaty between Britain and France that run counter to the earlier agreement.
+    <ul>
+      <li style="padding-left:2em">&#9702; Two spheres of influence:
+        <ul>
+          <li style="padding-left:4em">&#9632; Iraq, Transjordan, and Palestine under British influence</li>
+          <li style="padding-left:4em">&#9632; Syria and Lebanon under French influence</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong><u>Belfour Declaration:</u></strong> In 1917 Britain gave a promise to Jews for the creation of a separate nation in Palestine.
+    <ul>
+      <li style="padding-left:4em">&#9632; It stated that the British government supported <strong>"the establishment in Palestine of a national home for the Jewish people".</strong> From the Mediterranean to the eastern flank of the River Jordan, an area which came to be known as Palestine.</li>
+      <li style="padding-left:4em">&#9632; At the same time, it said that nothing should "prejudice the civil and religious rights of existing non-Jewish communities".</li>
+      <li style="padding-left:4em">&#9632;</li>
+    </ul>
+  </li>
+</ul>
+
+<p>All the three treaties/declarations were mutually contradictory.</p>
+
+<h3>The outcome of the Paris Peace Conference:</h3>
+<ul>
+  <li>&#8226; After the first world war, Arab Nationalism was cheated in Paris Peace Conference when, in place of a single Arab nation, multiple Arabian states were created.</li>
+  <li>&#8226; Some regions were colonized by Britain and France under the cover of the <strong>mandate system</strong>.
+    <ul>
+      <li style="padding-left:2em">&#9702; <strong>Syria</strong> and <strong>Lebanon</strong> were put under <strong><u>French</u></strong> mandate.</li>
+      <li style="padding-left:2em">&#9702; Direct control of Britain over <strong>Iraq</strong> and <strong>Transjordan</strong>. Although the independence of <strong>Hejaz</strong> was recognized, <strong>Palestine</strong> was put under a <strong><u>British</u></strong> mandate. None of them was accorded complete freedom.
+        <ul>
+          <li style="padding-left:4em">&#9632; <strong>Hussein</strong> as the ruler of <strong>Hedjaz</strong></li>
+          <li style="padding-left:4em">&#9632; His third son <strong>Faisal</strong> as the ruler of <strong>Iraq</strong></li>
+          <li style="padding-left:4em">&#9632; His other son <strong>Abdullah</strong> as the ruler of <strong>Transjordan</strong>.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; All this cheating created anger among Arabs against the western powers. <strong>This arrangement betrayed Arab Nationalism.</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3>British Colonies and Mandates: Post War Trajectory</h3>
+<ul>
+  <li style="padding-left:2em">&#9702; <strong>Iraq:</strong>
+    <ul>
+      <li style="padding-left:4em">&#9632; In 1921, <strong>Faisal</strong>, who was a popular regional leader, was appointed as the ruler of Iraq. He introduced a spirit of confidence among the Iraqis and made them stronger.</li>
+      <li style="padding-left:4em">&#9632; Because of his leadership, he emerged as a strong leader and, after continuous agitations, British were compelled to leave Iraq by <strong>1932</strong>. (although they remained in supervisory role till WW2)</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Jordan</strong>
+    <ul>
+      <li style="padding-left:4em">&#9632; <strong>Abdulla</strong>, the younger brother of Faisal, was declared to be the ruler of Transjordan.</li>
+      <li style="padding-left:4em">&#9632; He was mostly assisted by British officials to exert greater administrative efficiency. Abdullah, in a similar way to Hussein of Hedjaz, was immensely indebted to the British.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Saudi Arabia: Hussain</strong> was appointed as the ruler of Hejaz.
+    <ul>
+      <li style="padding-left:4em">&#9632; <strong>Hussain</strong> could not emerge as very capable ruler and kept looking at British support. So, in Hejaz, among local people, a <strong>reaction set in against the excessive intervention of the British</strong> in the region.</li>
+      <li style="padding-left:4em">&#9632; This sentiment was exploited by a rising leader <strong>Ibn Saud</strong>.
+        <ul>
+          <li style="padding-left:6em">&#8226; He raised the banner of revolt and captured power in 1932. So, practically as a nation, Saudi Arabia emerged in <strong>1932</strong>.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Yemen</strong>
+    <ul>
+      <li style="padding-left:4em">&#9632; <strong>North Yemen</strong> was already declared independent in 1918.</li>
+      <li style="padding-left:4em">&#9632; <strong>South Yemen</strong> remained under British rule till 1967.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Palestine-Israel Issue:</strong> British drive to give a homeland to Jews in Palestine region created a permanent conflict in Palestine region.</li>
+</ul>
+
+<h3>Overview of Oil Imperialism</h3>
+
+<p>Oil imperialism became prevalent since the early 20th century when oil began to play a critical role in the global economy and in the military strategies of many nations.</p>
+<ul>
+  <li>&#8226; <strong>The rise of oil as a critical resource:</strong> In the early 20th century, oil emerged as a critical resource for industrialization, transportation, and military power. This led to a growing demand for oil, as well as increased competition among countries to control oil resources.</li>
+  <li>&#8226; <strong>Discovery and Exploration:</strong> During the 1920s and 1930s, European and American companies discovered enormous oil deposits in Iran, Iraq, Saudi Arabia, and Kuwait. Geologists later learned that the land around the Persian Gulf has nearly two-thirds of the world's known supply of oil.</li>
+  <li>&#8226; Because oil brought huge profits, <strong>Western nations tried to dominate this region.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Overtime, Oil imperialism took many forms, including <strong>direct control</strong> over oil resources through <strong>military intervention</strong> or through the establishment of <strong>puppet regimes</strong>, as well as more <strong>indirect control</strong> through <strong>economic and political pressure</strong>.</li>
+      <li style="padding-left:2em">&#9702; European powers, particularly Britain and France, were eager to control the oil resources of the Middle East. This led to the <strong>establishment of oil companies</strong> that were controlled by European interests.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Conflict</strong> between the western companies and the petroleum-producing nations.
+    <ul>
+      <li style="padding-left:2em">&#9702; The profits from oil production were largely repatriated to Europe, while the Arab people saw little benefit from the oil wealth of their own lands. This led to resentment and anger among Arabs, who felt that they were being exploited by European powers.</li>
+      <li style="padding-left:2em">&#9702; Oil imperialism played a significant role in the growth of Arab nationalism. It helped to create a common enemy in the form of European powers and to solidify the sense of Arab identity.</li>
+      <li style="padding-left:2em">&#9702; Arab nationalists argued that the oil wealth of the Middle East should be used to benefit the Arab people, rather than being exploited by European powers. They called for the nationalization of oil companies and for the use of oil profits to develop Arab economies and societies.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>During World Wars</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; After the war, the victorious powers imposed harsh reparations on Germany, including control over its oil resources, which helped to cement the power of the multinational oil companies.</li>
+      <li style="padding-left:2em">&#9702; During World War I, the British and French empires fought to gain control over oil resources in the Middle East, while in World War II, the United States and its allies relied heavily on oil to power their war efforts.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>During Cold War</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; United States used its economic and military power to gain control over oil resources in the Middle East and other regions, while the Soviet Union sought to gain influence in these regions through its own alliances and economic agreements.</li>
+      <li style="padding-left:2em">&#9702; First problem started in <strong>Iran</strong> itself.
+        <ul>
+          <li style="padding-left:4em">&#9632; There was a government presided over by <strong>Mossadegh (1951-53)</strong>. He was irritated at the dishonest role of Anglo-Iranian company. So, he initiated its <strong>nationalization</strong>.</li>
+          <li style="padding-left:4em">&#9632; It led to panic among all European governments that it might encourage other nations to follow, and all western powers might be forced to exit the region. Thus, the <strong>USA intervened</strong> in 1953 and toppled Mossadegh government, and established <strong>Raza Shah Pahlavi's</strong> puppet government.
+            <ul>
+              <li style="padding-left:6em">&#8226; Then the deep-seated enmity between Iran and USA started here which has continued for last nine decades.</li>
+            </ul>
+          </li>
+          <li style="padding-left:4em">&#9632; This Raza Shah government had a <strong>westernized outlook</strong>. Like Kemal Pasha in Turkey, such westernization was encouraged by Shah government. Unfortunately, although Kemal Pasha used to enjoy goodwill of people (title of Ataturk) but in case of Reza Shah, he was considered stooge and puppet by Iranians.</li>
+          <li style="padding-left:4em">&#9632; People successfully revolted finally against it under the leadership of a <strong>Muslim cleric Khomeni</strong> in <strong>1979</strong>.
+            <ul>
+              <li style="padding-left:6em">&#8226; This is a landmark event in the history - Iranian Revolution of 1979. It started a direct conflict with USA. Drama didn't end their - there was hostage crisis for 2.5 years…</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>OPEC and the oil crises of the 1970s:</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; In the 1960s and 1970s, major oil-producing countries, particularly those in the Middle East, began to organize themselves into the Organization of Petroleum Exporting Countries (OPEC) in 1960 represented a significant shift in the global oil market.</li>
+          <li style="padding-left:4em">&#9632; OPEC member countries, which controlled a significant share of the world's oil reserves, began to use their collective economic power to demand greater control over the production and pricing of oil. Through OPEC, these countries sought to gain greater control over the price and production of oil, leading to a series of oil crises in the 1970s that had significant economic and geopolitical implications.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>`,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
