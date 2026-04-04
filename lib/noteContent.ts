@@ -30688,7 +30688,384 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
 <li style="padding-left:2em">&#9702; The war also gave rise to <strong>new forms of popular culture</strong>, such as <strong>jazz music and film</strong>, which shaped the cultural landscape of the remaining century.</li>
 </ul>
 </li>
-</ul>`,
+</ul>
+<h2>Handout 31: Paris Peace Treaties</h2>
+
+<h3>UPSC CSE PYQs &#8211; Paris Peace Treaties</h3>
+
+<ul>
+<li>&#8226; &#8220;The international situation that confronted the peacemakers in Paris was in the brutal realities of history, the result of a temporary redistribution of the balance of power in the world.&#8221; Comment. [1987, 60 Marks]</li>
+<li>&#8226; The treaties made at the Paris Peace conference in 1919-20 were replete with unstable compromises, reflecting more materialism than idealism. Elucidate. [1990, 60 Marks]</li>
+<li>&#8226; &#8220;The Treaty of Versailles was merely an armistice for twenty years.&#8221; Comment. [1993, 20 Marks]</li>
+<li>&#8226; Analyze the provisions of the Treaty of Versailles of 1919 and examine the validity of Germany&#8217;s objections to the Treaty. [2000, 60 Marks]</li>
+<li>&#8226; &#8220;The most important single factor &#8230; in the year following 1919 was the French demand for security.&#8221; Comment. [2004, 10 Marks]</li>
+<li>&#8226; &#8220;Treaty of Versailles contained the seeds of future conflicts.&#8221; Comment. [2006, 10 Marks]</li>
+<li>&#8226; &#8220;A clever conquerer will always impose his demands on the conquered by installments.&#8221; Comment. [2006, 10 Marks]</li>
+<li>&#8226; &#8220;There was not only a difference of principles at Paris (Peace Conference) but a clash of personalities.&#8221; Comment. [2001, 20 Marks]</li>
+<li>&#8226; &#8220;The peace of Versailles lacked moral validity from the start.&#8221; Critically evaluate. [2011, 20 Marks]</li>
+<li>&#8226; Do you agree with the view that the Treaty of Versailles was a bad compromise between a treaty based upon force and a treaty based on ideas? [2016, 20 Marks]</li>
+<li>&#8226; &#8220;18 January, 1871 had been a day of triumph for the strength and pride of Germany and 28 June, 1919 was the day of chastisement.&#8221; Critically examine. [2017, 10 Marks]</li>
+<li>&#8226; Europe was at war with itself in the first half of the twentieth century with a long ceasefire. Comment. [2021, 20 Marks]</li>
+<li>&#8226; The Treaty of Versailles contained in itself the seeds of the Second World War. Examine. [2023, 10 Marks]</li>
+</ul>
+
+<h3><u>Wilson&#8217;s 14 Points and Paris Peace Treaties</u></h3>
+
+<p>In January 1918, Wilson proposed his famous <strong>14 Points</strong>. It was supposed to be a blueprint for world peace and used for peace negotiations after WW1.</p>
+
+<ul>
+<li>&#8226; 8 points treated specific territorial issues among the combatant nations. (Russia, Belgium, France, Italy, Austria-Hungary, Serbia, Turkey, Poland)</li>
+<li>&#8226; 5 points concerned general principles for a peaceful world:
+<ul>
+<li style="padding-left:2em">&#9702; Open covenants (i.e. treaties or agreements) openly arrived at</li>
+<li style="padding-left:2em">&#9702; Freedom of navigation on seas</li>
+<li style="padding-left:2em">&#9702; Free trade</li>
+<li style="padding-left:2em">&#9702; Reduction of armaments</li>
+<li style="padding-left:2em">&#9702; Adjustment of colonial claims based on the principles of self-determination.</li>
+</ul>
+</li>
+<li>&#8226; One point proposed what was to become the League of Nations to guarantee the &#8220;political independence and territorial integrity [of] great and small states alike.&#8221;</li>
+</ul>
+
+<p>In his speech, he said, &#8220;It is the principle of justice to all peoples and nationalities, and their right to live on equal terms of liberty and safety with one another, whether they be strong or weak. Unless this principle be made its foundation no part of the structure of international justice can stand.&#8221; This idea of absolute justice to all, meted out to victors and defeated party both was a ray of hope for Germany as well. Germany thought of surrendering after the assurance from USA about it.</p>
+
+<p>The war came to an end, when <strong>Kaiser Wilhelm abdicated</strong> the throne and took political asylum in Holland. Thus, with the surrender of Germany on 11th November 1918, WWI came to an end. On the same day, there was the signing of the <strong>Armistice of Compi&#232;gne</strong>. The terms of the armistice required Germany to withdraw from occupied territories and to disarm.</p>
+
+<p>However, the problem was that the German Army was very arrogant/adamant and it refused to surrender. On the other hand, the allied powers were not willing to talk to the Army. They <strong>insisted on making a deal with a civilian government.</strong> Thus, there was a requirement of elections in Germany.</p>
+
+<p>Apart from elections in Germany, even <strong>France, Britain etc preferred to hold elections</strong> to gauge people&#8217;s mood and get proper moral authority to negotiate in the Paris Peace Conference.</p>
+
+<p>In January 1919, the Paris Peace Conference began. The victor powers assembled at Paris to decide the terms of peace.</p>
+
+<p>It was called as <strong><u>Paris Peace Conference (PPC)</u></strong>. <strong>The four main leaders of the conference (Big Four) were</strong>:</p>
+
+<ul>
+<li>&#8226; US &#8211; President Woodrow Wilson</li>
+<li>&#8226; British &#8211; PM David Lloyd George</li>
+<li>&#8226; France &#8211; Premier Georges Clemenceau</li>
+<li>&#8226; Italy &#8211; Premier Vittorio Orlando</li>
+</ul>
+
+<p><strong>The objectives</strong> of the Paris Peace Conference were:</p>
+
+<ul>
+<li>&#8226; The settlement of the defeated powers
+<ul>
+<li style="padding-left:2em">&#9702; <u>Treaty of Versailles</u> &#8211; Germany</li>
+<li style="padding-left:2em">&#9702; Treaty of St. Germain &#8211; Austria</li>
+<li style="padding-left:2em">&#9702; Treaty of Trianon &#8211; Hungary</li>
+<li style="padding-left:2em">&#9702; Treaty of Neuilly &#8211; Bulgaria</li>
+<li style="padding-left:2em">&#9702; <u>Treaty of Sevres</u> &#8211; Ottomans</li>
+</ul>
+</li>
+<li>&#8226; To protect the interest of the minorities in Europe</li>
+<li>&#8226; To decide the future of the colonies of defeated powers</li>
+<li>&#8226; To ensure collective peace through formation of an international organization.</li>
+</ul>
+
+<h3><u>Treaty of Versailles (28 June 1919)</u></h3>
+
+<p>&#8220;The statement had not been equal to the grandeur of events. They had made a peace which was no peace.&#8221;<br>&#8212; JM Keynes</p>
+
+<p><strong>Was the treaty of Versailles an unjust treaty?</strong></p>
+
+<ul>
+<li>&#8226; It was a <strong>dictated peace</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Germany surrendered in WWI after the <u>assurance that there would be proper justice</u> even to the defeated party but against the earlier assurance, Germany was <strong>penalized</strong>.</li>
+<li style="padding-left:2em">&#9702; German representatives were <strong>not allowed to participate in the discussions.</strong> All the provisions were decided by the victor power on their own and the German representatives were made to sign this treaty with the threat of war.</li>
+</ul>
+</li>
+<li>&#8226; It was <strong>humiliating</strong> as well because:
+<ul>
+<li style="padding-left:2em">&#9702; German representatives were made to sign treaty in same hall of mirrors of the place of Versailles where the unification of Germany was proclaimed 50 years ago.</li>
+<li style="padding-left:2em">&#9702; The German representatives were not allowed to sit and were not allowed to express their displeasure of terms of the treaty.</li>
+<li style="padding-left:2em">&#9702; Thus, not even the <strong>minimum courtesy</strong> of international diplomacy was maintained, and German representatives were <strong>treated as criminals</strong>.</li>
+<li style="padding-left:2em">&#9702; <strong>War guilt clause (Article 231)</strong></li>
+</ul>
+</li>
+</ul>
+
+<p>Article 231: &#8220;The Allied and Associated Governments affirm, and Germany accepts the responsibility of Germany and her allies for causing all the loss and damage to which the Allied and Associated Governments and their nationals have been subjected as a consequence of the war imposed upon them by the aggression of Germany and her allies.&#8221;</p>
+
+<ul>
+<li style="padding-left:4em">&#9632; There was a debate whether Germany should be held solely responsible for the war or whether the blame should be shared among all the countries involved.</li>
+<li style="padding-left:4em">&#9632; The German delegation at the Paris Peace Conference objected to the War Guilt Clause
+<ul>
+<li>&#8226; They argued that Germany was <strong>not the sole aggressor</strong> and that other countries had played a role in causing the war.</li>
+<li>&#8226; They also argued that the clause would place an <strong>unfair burden of reparations</strong> on Germany.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; However, the Allied Powers, particularly <strong>France</strong>, insisted on it.
+<ul>
+<li>&#8226; It was a <strong>way of punishing Germany and preventing future wars.</strong></li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Historians&#8217; opinions</strong>
+<ul>
+<li>&#8226; <strong>Fritz Fischer:</strong> Germany bore primary responsibility for the outbreak of World War I, due to its aggressive foreign policy and expansionist aims.</li>
+<li>&#8226; <strong>A.J.P. Taylor</strong>: War Guilt Clause was a <strong>mistake</strong>, as it led to a sense of <strong>resentment</strong> among Germans and paved the way for the <strong>rise of Hitler</strong>.</li>
+</ul>
+</li>
+<li>&#8226; It was an <strong><u>extremely harsh treaty.</u></strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Significant Territorial Losses:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Alsace-Lorraine</strong> was returned to France.</li>
+<li style="padding-left:4em">&#9632; <strong>Poland</strong> needed access to sea - a corridor was created.
+<ul>
+<li style="padding-left:2em">&#9702; Due to this factor, East Prussia was separated from Germany.</li>
+<li style="padding-left:2em">&#9702; <strong>Danzig</strong> was made a free city.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Rhineland</strong> was also <u>demilitarized</u> and placed under Allied occupation.</li>
+<li style="padding-left:4em">&#9632; <strong>Saar coal mines</strong> were placed under the control of the <u>League of Nations</u> for 15 years, after which a plebiscite was to be held to determine the region&#8217;s future.
+<ul>
+<li style="padding-left:2em">&#9702; The plebiscite was eventually held in 1935, and the Saar was returned to Germany.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; All the <strong>German colonies</strong> were converted into mandates and were put under League of Nations. The League transferred these territories to Britain and France.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Germany was also subject to significant <strong>military restrictions.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; German army was limited to 100,000 troops.</li>
+<li style="padding-left:4em">&#9632; Conscription was abolished.</li>
+<li style="padding-left:4em">&#9632; Production of military equipment and submarines was strictly limited.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Punitive Reparations/Indemnity:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The burden of payment was huge - 132 billion gold marks.</li>
+<li style="padding-left:4em">&#9632; This treaty was unjust even for the fact that before the Paris Peace Conference, the defeated party was supposed to give <strong>compensation</strong> but now the defeated party was expected to give <strong>reparations/indemnity</strong>. It was unprecedented and not possible to do practically.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>However, the treaty is highly criticized because:</strong></p>
+
+<ul>
+<li>&#8226; <strong>Unduly harsh and vindictive</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Treaty was unduly harsh to a Republican Germany. Having overthrown the Imperialist Government, she deserved milder terms. But the provisions gave the indication <strong>as if peace-makers were fighting a war with Germany</strong> in peace conference.</li>
+<li style="padding-left:2em">&#9702; <strong>It was revengeful in nature</strong> as France made every effort to take revenge of 1870-71. The attitude of the allies, particularly of France, was rather vindictive as was shown by her demand of the Rhine frontier and heavy reparation.</li>
+</ul>
+</li>
+<li>&#8226; The treaty was <strong>economically devastating to Germany.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; If the terms of the treaty were implemented in totality, then the German economy would have been completely destroyed. While, on one hand more than 10% of German Industrial area were given to newly created nations, on the other hand, a huge war indemnity was imposed on Germany.</li>
+<li style="padding-left:2em">&#9702; <strong>JM Keynes</strong> wrote a book called <strong>&#8216;The Economic Consequences of Peace&#8217;</strong> in 1919. Keynes criticized the harsh terms imposed on Germany and argued that the treaty would have negative economic consequences for Europe as a whole.</li>
+<li style="padding-left:2em">&#9702; The prophecy of Keynes came true when, in the
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Ruhr</strong> was occupied by French and Belgian forces in 1923 in response to Germany&#8217;s failure to meet its reparations obligations.
+<ul>
+<li>&#8226; The occupation was met with passive resistance by the German workers, which had a devastating effect on the region&#8217;s economy.</li>
+<li>&#8226; The occupation ended in 1925 as a result of the Dawes Plan.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Dawes Plan</strong> of 1924, it was reduced to 50 billion gold marks.</li>
+<li style="padding-left:4em">&#9632; <strong>Lausanne Conference</strong> of 1932 allied powers were compelled to waive off 66% amount of compensation from Germany.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>It was a morally defective treaty:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Principle of self-determination was used very selectively. While non-Germans were given the right to decide their fate, the same right was denied to Germans. More than 1m Germans were left in Poland and more than 3m were left in Sudetenland given to Czechoslovakia.</li>
+<li style="padding-left:2em">&#9702; Till the time war was going on, the entente powers expressed their faith in 14 points of President Wilson. But with the end of war, these 14 points were breached.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Arguments in the favour of the treaty:</strong></p>
+
+<ul>
+<li>&#8226; It has been told that even <strong>Germany had adopted such tough approach to Russia and Romania</strong> when they sought the separate peace while withdrawing from WWI. So, Germany deserved it.</li>
+<li>&#8226; Even the government of allied powers had to work under the <strong>acute public pressure</strong> which was anti-German in its approach.
+<ul>
+<li style="padding-left:2em">&#9702; In the course of the war, Germany caused such devastation that the public opinion in Britain and France was staunchly anti-Germany. There was a slogan-shouting <em>&#8220;Hang William Kaiser&#8221;.</em></li>
+<li style="padding-left:2em">&#9702; <strong>Margaret MacMillan</strong> in &#8220;Paris 1919: Six Months That Changed the World&#8221; argued that the public opinion/mood in France and Britain was strongly in favor of punishing Germany for its role in the war, and made it difficult for negotiators to find a more balanced and reasonable solution.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Georges-Henri Soutou</strong> has pointed out that <strong>France&#8217;s security concerns</strong> were the primary driver in the conference. France wanted a lasting peace to ensure its security against Germany. Thus, it supported massive reparations payments and territorial concessions to weaken Germany&#8217;s economic and military power.</li>
+</ul>
+
+<p><strong>Final Verdict:</strong></p>
+
+<ul>
+<li>&#8226; Whatever may be the ground, we can&#8217;t justify the treaty.</li>
+<li>&#8226; Although it was called a peace conference it proved the <strong>worst type of judicial court</strong> in which neither any pleading nor witness was permitted, and the decisions were taken <strong>arbitrarily</strong>.</li>
+<li>&#8226; This treaty was an <strong>imposed</strong> treaty on Germany without <strong>any moral content</strong> and the after-effect of the treaty proved a hard lesson to almost every victor party involved in the future.</li>
+</ul>
+
+<h3><u>Assessment of Paris Peace Conference</u></h3>
+
+<p>The declared objective of the Paris Peace conference was to provide the <strong>right to self-judgment and absolute justice to every party</strong> on the basis of the <strong>14-Point program</strong> of President Wilson. But due to certain compulsions and material conditions, the peacemakers diverted from the main objective on many occasions.</p>
+
+<p><strong><u>Those material compulsions were:</u></strong></p>
+
+<ul>
+<li>&#8226; The existence of <strong>secret treaties</strong> between <u>Britain, France, Italy and Japan</u> for the future territorial division. These were in contravention of the principle of the right to self-judgment in the 14-Point Program.
+<ul>
+<li style="padding-left:2em">&#9702; Southern Tyrol (German populated region) was given to Italy (London Conference)</li>
+<li style="padding-left:2em">&#9702; Region of Shantung in China was given to Japan.</li>
+</ul>
+</li>
+<li>&#8226; <strong>To put a check over the future upsurge of Germany:</strong> <u>It is said that the international situation which the peacemakers in Paris had to confront, in the brutal realities of history, was the result of temporary readjustment of the balance of power.</u>
+<ul>
+<li style="padding-left:2em">&#9702; In other words, in the Paris Peace Conference, one of the objectives of the allied power was to emasculate the power of Germany and simultaneously to strengthen the neighbouring countries of Germany.</li>
+<li style="padding-left:2em">&#9702; To fulfill this objective, they were ready to sideline Wilson&#8217;s 14-Point program. For example,
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Poland</strong> was given access to the sea while going across German region.</li>
+<li style="padding-left:4em">&#9632; But simultaneously Germany was not permitted to merge with <strong>Austria</strong>.</li>
+<li style="padding-left:4em">&#9632; The German populated region of <strong>Sudetenland</strong> was given to <strong>Czechoslovakia.</strong> Czechoslovakia itself was put together by combining two nations just to check Germany&#8217;s power in the neighborhood.</li>
+<li style="padding-left:4em">&#9632; <strong>Yugoslavia</strong> was made larger by including other populations into it, again contravening right to self judgement.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Eric Hobsbawm was critical</strong> of the Paris Peace Conference&#8217;s approach to redrawing the map of Europe, arguing that it was <u>driven more by political expediency and the interests of the Great Powers than by a genuine commitment to self-determination and national sovereignty.</u></li>
+</ul>
+</li>
+<li>&#8226; <strong>To put a check over the spread of Communism:</strong> With this purpose in the Russian region, taken from Germany, the Independent nations were created, which had to work as a <u>buffer region between Soviet Russia and western Europe.</u> Here also Wilson&#8217;s 14-Point program was neglected.
+<ul>
+<li style="padding-left:2em">&#9702; Four separate nations were created - Estonia, Latvia, Lithuania, and Finland.</li>
+<li style="padding-left:2em">&#9702; <strong>David Thomson:</strong> As Jacobinism had threatened peacemakers at Vienna, so did communism to peacemakers at Paris.</li>
+</ul>
+</li>
+<li>&#8226; In order to maintain the <strong>economic balance</strong> and to maintain the transport and communication lines in Europe, the issue of the right to self-judgment was undermined.
+<ul>
+<li style="padding-left:2em">&#9702; Eg Railway line integrity</li>
+</ul>
+</li>
+<li>&#8226; <strong>Creation of Mandates</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Wilson&#8217;s 14 points were <u>not applicable to the colonies of victor powers.</u></li>
+<li style="padding-left:2em">&#9702; Mandate system designed to govern former colonies of defeated powers (Germany, Ottoman etc), and placed under the control of the victorious Allied Powers.
+<ul>
+<li style="padding-left:4em">&#9632; It was <strong>expected to be a temporary solution</strong> to the question of how to govern these territories until they were deemed ready for self-government.</li>
+<li style="padding-left:4em">&#9632; It was <strong>a form of imperialism</strong>, as it perpetuated the subjugation of colonized peoples. The system would give the victors the right to control and exploit the resources of these territories without any regard for the wishes of the local populations.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><strong><u>Merits of the Treaty:</u></strong></p>
+
+<ul>
+<li>&#8226; The establishment of national states in <strong>Central and South-Eastern Europe on the principle of &#8216;self-determination&#8217;</strong> was a grand achievement and fulfilled the aspirations or the subject races of the Emperor and the Porte.</li>
+<li>&#8226; The holding of <strong>plebiscites in disputed areas</strong> was a welcome device to adjust frontiers according to the wishes of the people.</li>
+<li>&#8226; The introduction of the <strong>Mandatory System</strong> was a great improvement on the past practice of out-right annexation by the victors. It caused less heartburn among the vanquished states and ensured the development of colonies in the interests of the people themselves.</li>
+<li>&#8226; Minorities in states like Czechoslovakia and Poland were <strong>guaranteed protection</strong> by special treaties.</li>
+<li>&#8226; The establishment of the <strong>League of Nations</strong>, to settle international disputes, might ensure peace in the future provided the small and great Powers worked in a spirit of cooperation and amity.</li>
+</ul>
+
+<h3><u>Clash of personalities in Paris</u></h3>
+
+<p><strong>Margaret MacMillan</strong> in her book &#8220;Paris 1919: Six Months That Changed the World&#8221; focuses on the personalities of the leaders involved in the negotiations.</p>
+
+<ul>
+<li>&#8226; <strong>Wilson &#8211; Personalities:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Wilson was idealistic and believed in the power diplomacy to resolve the problems. He was a strong believed in internationalism.</li>
+<li style="padding-left:2em">&#9702; He was free from prejudices/malice and historical baggage as he came from another continent.</li>
+<li style="padding-left:2em">&#9702; Wilson was inexperienced in foreign affairs and had limited knowledge of European politics and ground reality of Europe. His ideas lacked practical touch. eg. Access to sea for Poland.</li>
+<li style="padding-left:2em">&#9702; Wilson had to return from Europe. His own Senate vetoed his proposals, and he was compelled to make exit from Europe.</li>
+</ul>
+</li>
+<li>&#8226; <strong>George &#8211; Personalities:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Lloyd George was aware of the ground situation. He was a skilled negotiator, but his tendency to make contradictory statements and promises made it difficult for other leaders to trust him.</li>
+<li style="padding-left:2em">&#9702; Much more aware about the European condition.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Clemenceau &#8211; Personalities:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Clemenceau was known for his sharp tongue and uncompromising nature. His was a revengeful personality and aggressive approach. He wanted peace but by destroying Germany.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Wilson &#8211; Interests:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Interested in ensuring the continuity of American influence on European politics.</li>
+<li style="padding-left:2em">&#9702; Wanted to safeguard American Economic interest in Europe.</li>
+<li style="padding-left:2em">&#9702; Was interested in curtailing British Naval Supremacy.</li>
+</ul>
+</li>
+<li>&#8226; <strong>George &#8211; Interests:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Wanted territorial gains by capturing German colonies.</li>
+<li style="padding-left:2em">&#9702; Wanted to weaken Germany but was against complete German interest because Germany was by market for British products.</li>
+<li style="padding-left:2em">&#9702; Wanted to maintain Balance of power in Europe.</li>
+<li style="padding-left:2em">&#9702; Wanted to maintain British Naval supremacy.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Clemenceau &#8211; Interests:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Need to ensure French National security against any possible German aggressive in future which was the biggest concert.</li>
+<li style="padding-left:2em">&#9702; Wanted expansion of French territories on banks of Rhine.</li>
+<li style="padding-left:2em">&#9702; Wanted complete destruction of Germany both economically and military.</li>
+</ul>
+</li>
+</ul>
+
+<p>These differences led to several clashes and disagreements between the three leaders, particularly over the issue of Germany&#8217;s punishment and the establishment of a League of Nations. Ultimately, compromise was necessary to reach an agreement, and the Treaty of Versailles reflected a balance of the different priorities and perspectives of the three leaders. However, to a considerable extent, the Paris Peace was dominated by French interests.</p>
+
+<ul>
+<li>&#8226; <strong>Idealism vs. Realism:</strong> Woodrow Wilson was an idealistic leader who came to Paris with a vision for a new world order based on collective security, democracy, absolute justice and human rights. (14 points program).
+<ul>
+<li style="padding-left:2em">&#9702; He believed in the idea of lasting peace. He initiated collective security efforts in form of <strong>League of Nations.</strong></li>
+<li style="padding-left:2em">&#9702; Clemenceau and Lloyd George were more pragmatic and focused on protecting their countries&#8217; interests and preserving the balance of power in Europe.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Punishment vs. Rehabilitation:</strong> Wilson was more interested in rehabilitating Germany and creating a stable peace in Europe. Clemenceau was focused on punishing Germany for the damage done during the war.</li>
+<li>&#8226; <strong>Self-determination vs. Imperialism:</strong> Wilson&#8217;s emphasis on self-determination for small nations. His emphasis inspired nationalist movements around the world. Clemenceau and Lloyd George were concerned about the impact of nationalist movements on their empires and colonies.</li>
+</ul>
+
+<h3><u>Was Wilson successful in his objective?</u></h3>
+
+<p><strong>Niall Ferguson</strong> in &#8220;Colossus&#8221; says that Wilson&#8217;s vision of a new world order was ultimately flawed. His emphasis on self-determination, democracy and human rights was na&#239;ve.</p>
+
+<ul>
+<li>&#8226; <strong>The open agenda</strong> was to implement the program of the right to self-judgment and absolute justice in Europe. Definitely, in this program, he failed.</li>
+<li>&#8226; But, certainly, in his <strong><u>hidden agenda</u></strong>, <u>he was successful.</u> His hidden agenda was having following objectives:
+<ul>
+<li style="padding-left:2em">&#9702; His 14 Points program had a greater <strong>propaganda value</strong> than its actual value. There, he definitely had success; as in the peace conference, both Lloyd George and Clemenceau were overshadowed by his personality.</li>
+<li style="padding-left:2em">&#9702; To search for a <strong>big market</strong> for American products. Here also, he made a success as many European countries were attracted to U.S.A.</li>
+<li style="padding-left:2em">&#9702; To give too much emphasis on nationalism to <strong>counterbalance the internationalism of Lenin</strong>. Even here his objective was fulfilled.</li>
+</ul>
+</li>
+</ul>
+
+<h3><u>Armistice of 20 years</u></h3>
+
+<p>The ToV failed to provide lasting peace to Europe because of many serious limitations.</p>
+
+<ul>
+<li>&#8226; <strong>EH Carr</strong> argued in <strong>&#8220;The Twenty Years&#8217; Crisis, 1919-1939&#8221;</strong> that the Treaty of Versailles ultimately contributed to the outbreak of the Second World War. He called the Treaty as <strong>&#8216;20 years armistice.&#8217;</strong> It contained the germs of another war.</li>
+<li>&#8226; <strong>Eric Hobsbawm</strong> also takes the Second world war as a continuation of the first world war &#8211; <strong>30 years&#8217; war. (1914-45)</strong></li>
+</ul>
+
+<p><strong>Reasons:</strong></p>
+
+<ul>
+<li>&#8226; Germany suffered during peace than in the war.
+<ul>
+<li style="padding-left:2em">&#9702; The reparations and territorial exchanges imposed on Germany in the Treaty were too harsh on Germany and led to future conflict. German economy was completely destroyed by peace makers of Paris.</li>
+<li style="padding-left:2em">&#9702; The Provisions of Paris peace pushed Germany into a serious crisis as result of which the democratic forces could not stabilize in Germany.</li>
+<li style="padding-left:2em">&#9702; The Political instability and deep sense of humiliation in Germany resulted in emergence of extreme German Nationalism.</li>
+<li style="padding-left:2em">&#9702; The rise of Adolf hitless was the outcome. When he started violating the provisions of Paris, clouds of another started gathering on horizons of Europe.</li>
+</ul>
+</li>
+<li>&#8226; On the other hand,
+<ul>
+<li style="padding-left:2em">&#9702; The &#8216;peacemakers&#8217; of Paris were too focused on their own national interests and lacked the vision to create a truly international system of collective security. On the other hand, the concept of collective security of the League of Nations was idealistic and impractical and instead perpetuated the old balance-of-power politics.</li>
+<li style="padding-left:2em">&#9702; The treaty failed to address the underlying economic and social issues that had led to the war.</li>
+</ul>
+</li>
+</ul>
+
+<p>All of it contributed to the instability and conflict that characterized the interwar period. Thus, Carr believed that the failure of the Paris Peace Conference was a missed opportunity. All of this set the stage for another war.</p>`,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
