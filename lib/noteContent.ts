@@ -32453,7 +32453,204 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
       </li>
     </ul>
   </li>
-</ul>`,
+</ul>
+<h2>Handout 36: Locarno and League of Nations</h2>
+
+<h3>The Spirit of Locarno</h3>
+
+<p>It was the most serious initiative taken by European power to maintain peace in Europe after the foundation of LoN but it eroded the moral authority of Paris and doomed the fate of LoN.</p>
+
+<ul>
+  <li>&#8226; It was signed in Oct 1925 to remove the causes of conflict from Europe.
+    <ul>
+      <li style="padding-left:2em">&#9702; Locarno is located in Switzerland was the place of gathering of 7 European nations; Britain, France, Germany, Poland, Italy, Czechoslovakia.</li>
+      <li style="padding-left:2em">&#9702; Their leaders gathered to discuss various challenges faced by Europe and to find their solution peacefully.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Developments</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The countries mutually guaranteed peace in western Europe.
+        <ul>
+          <li style="padding-left:4em">&#9632; The treaty of mutual guarantee provided that the German-Belgian and Franco-German frontiers as fixed by the Treaty of Versailles were inviolable</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The treaties of guarantee between France and Poland or Czechoslovakia provided for mutual support against unprovoked attack.</li>
+    </ul>
+  </li>
+  <li>&#8226; The Locarno Treaties marked a <strong>dramatic improvement in the political climate of Europe in 1925–1930.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Locarno marked the end of the war period and the beginning of a hopeful new era of peace, cooperation, and reconciliation in Europe.</li>
+      <li style="padding-left:2em">&#9702; They promoted expectations for continued peaceful settlements, often called the "spirit of Locarno". This spirit was made concrete:
+        <ul>
+          <li style="padding-left:4em">&#9632; Germany joined the League in 1926</li>
+          <li style="padding-left:4em">&#9632; Withdrawal of Allied troops occupying Germany's Rhineland.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Long term consequences:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Great Britain promised to defend Belgium and France but not Poland and Czechoslovakia. <strong>British refusal to guarantee Germany's eastern frontier</strong> was the most significant development at Locarno.
+        <ul>
+          <li style="padding-left:4em">&#9632; This was an act of <strong>appeasement</strong> on part of Britain.</li>
+          <li style="padding-left:4em">&#9632; This was a big setback for the system created by ToV as well as for League of Nations. Although the LoN was to maintain this German eastern frontier, but it became clear that the prominent members of the League were not interested in supporting it in the task. Its consequences were quite serious in the long run.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The Locarno Spirit did not survive the economic and political crisis of the 1930s.
+        <ul>
+          <li style="padding-left:4em">&#9632; <strong>Western Front:</strong> In 1936 Hitler sent troops into the Rhineland, which had been demilitarized by the Treaty of Versailles. So, he repudiated Locarno.</li>
+          <li style="padding-left:4em">&#9632; <strong>Eastern Front:</strong> Germany made no effort to arbitrate its dispute with Czechoslovakia in 1938 or with Poland in 1939.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3>League of Nations</h3>
+
+<blockquote>"There must be not a balance of power, but a community of power; not organized rivalries, but an organized common peace."<br>Woodrow Wilson (1917)</blockquote>
+
+<p>An international organization, 'League of Nations' was formed in 1920. It was born out of atrocities of WW1 in order to ensure <strong>collective peace and promote international cooperation</strong>.</p>
+
+<ul>
+  <li>&#8226; It was founded by peacemakers to protect future generations from the devastation caused by conflicts. WWI had left a path of devastation throughout Europe, with over 8.5 million people killed. The European economy was in complete disarray. The leader of Paris Peace sensed an urgent need to develop the spirit of internationalism by establishing the LoN.</li>
+  <li>&#8226; It was based on <strong>Wilson's 14th point</strong>, which called for 'A general association of nations' to be formed 'for the purpose of affording mutual guarantees of political independence and territorial integrity to great and small states alike'. In one sense, it was a denial of the old concept of balance of power, which was supposed to ensure international peace but had failed to do so, and rather created a new condition of war.</li>
+  <li>&#8226; At the outset, its membership was 34, which increased to 60 by 1923. Even India was given an entry as a member.</li>
+</ul>
+
+<p>The founders of the League of Nations were desperate to avoid a repetition of the horrors of the Great War. The <strong>main aims of the organization</strong>:</p>
+<ul>
+  <li>&#8226; Disarmament</li>
+  <li>&#8226; Preventing war through collective security</li>
+  <li>&#8226; Settling disputes between countries through negotiation and diplomacy</li>
+  <li>&#8226; Improving global welfare.</li>
+</ul>
+
+<p><strong>Organizational structure:</strong></p>
+<ul>
+  <li>&#8226; Three main organs - Assembly, Council and Secretariat</li>
+  <li>&#8226; Two more institutions were attached to it:
+    <ul>
+      <li style="padding-left:2em">&#9702; Permanent Court of International Justice (PCIJ)</li>
+      <li style="padding-left:2em">&#9702; International Labour Organization</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Although the League ultimately failed to prevent the outbreak of World War II, it did have <strong>several positive contributions</strong> during its existence.</p>
+
+<h3>Success of LoN:</h3>
+<ul>
+  <li>&#8226; It was not only a European organization but <strong>rather a world organization</strong>. So, it could potentially deal with issues even outside of Europe. i.e. Manchurian crisiss.</li>
+  <li>&#8226; In the <strong>matter of smaller nations, LoN could work efficiently</strong> and could resolve the disputes:
+    <ul>
+      <li style="padding-left:2em">&#9702; Aaland Islands dispute between Finland and Sweden in 1921</li>
+      <li style="padding-left:2em">&#9702; A dispute between Germany and Poland over upper Silesia in 1921</li>
+      <li style="padding-left:2em">&#9702; Memel dispute between Lithuania and Germany in 1923</li>
+      <li style="padding-left:2em">&#9702; Dispute between Greece and Bulgaria in 1925</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Though there were minor successes involving small powers, overall, the League lacked any real teeth. When it came to the <strong>disputes between major states, League faltered.</strong></p>
+
+<ul>
+  <li>&#8226; <strong>Conflicts:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; In 1923 Italy refused to accept the decision of league over Corfu incident.</li>
+      <li style="padding-left:2em">&#9702; The Manchuria crisis of 1931 was another major failure of league Japan invaded Manchuria. League could do nothing to help China against Japanese aggression.</li>
+      <li style="padding-left:2em">&#9702; Italian invasion of Ethiopia (1935) couldn't be averted.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Promoting disarmament:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Article VIII in the Covenant of the League of Nations outlined the League's work with armaments: <em>"The Members of the League recognise that the maintenance of peace requires the reduction of national armaments to the lowest point consistent with national safety and the enforcement by common action of international obligations. (...)"</em></li>
+      <li style="padding-left:2em">&#9702; <strong>Permanent Armaments Commission (PAC)</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; It worked to reduce the number of weapons and military forces in the world.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>World Disarmament Conference</strong> (1932-34)
+        <ul>
+          <li style="padding-left:4em">&#9632; It was attended by 61 states, which included the members of LoN and others. It symbolised global co-operation to a combined goal of limiting arms.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; It ultimately <strong>failed to prevent the outbreak of World War II</strong> and was dissolved in 1946.</li>
+</ul>
+
+<p>The LoN had failed in resolving the politico military disputes involving major power. The league also failed to prevent another disastrous war in Europe. It also failed in maintaining the system created by Peace makers of Paris. But the league was not just a politico-military institution. Its socio eco &amp; cultural elements did a commendable job.</p>
+
+<ul>
+  <li>&#8226; <strong>Advancing social justice:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The League advocated for social justice and human rights, including the protection of minority rights and the prevention of human trafficking.</li>
+      <li style="padding-left:2em">&#9702; ILO was a success.</li>
+      <li style="padding-left:2em">&#9702; Refugees Organization and Health Organization also did good job.</li>
+      <li style="padding-left:2em">&#9702; <strong>Providing aid:</strong> The League provided humanitarian aid to <strong>refugees</strong>, including those affected by the Russian <strong>Revolution</strong> and the Armenian <strong>Genocide</strong>.</li>
+    </ul>
+  </li>
+  <li>&#8226; It is due to the presence of the League of Nations that the <strong>mandated region could not be annexed</strong> by the powerful victor nations. The Mandate Commission of league was also quite successful because the territories placed under admin control were managed quite efficiently.</li>
+</ul>
+
+<h3>Why did the League fail?</h3>
+<ul>
+  <li>&#8226; The LON failed in its main objective because it was too closely linked with provisions of Paris peace. It was burdened with the <strong>impossible responsibility of maintaining ToV</strong> which was having serious practical &amp; moral defects.</li>
+  <li>&#8226; <strong>Limited membership:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Despite wider membership, it did not include some of the most powerful nations in the world, such as the United States, Germany, and the Soviet Union. So, it was merely an <strong>Anglo-French affair.</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; The absence of the United States seriously weakened the League. It <strong>lacked</strong> the <strong>resources</strong> and <strong>influence</strong> it needed to effectively prevent conflict and enforce its decisions.</li>
+          <li style="padding-left:4em">&#9632; While Germany was not allowed to join it till 1926, Soviet communist regime was recognized only in 1933. By the USSR joined League in 1934, Germany and Japan left the League.</li>
+          <li style="padding-left:4em">&#9632; This <em>narrow international support base</em> proved to be the biggest limitation.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; The <strong>Conference of Ambassador</strong> located at Paris hurt the prestige of league seriously.
+    <ul>
+      <li style="padding-left:2em">&#9702; It was conference of Anglo-French Ambassadors it was to remain in function till the time League started functioning, but this conference continued to operate even after the league had started functioning. On many occasions decisions of the League were overruled by the Conference of Ambassadors, as a result of which league lost its prestige.</li>
+    </ul>
+  </li>
+  <li>&#8226; The <strong>Great Powers</strong> that joined the League - like France and Britain - were generally <strong>reluctant to be assertive.</strong></li>
+  <li>&#8226; <strong>Lack of enforcement mechanisms:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The League couldn't enforce its decisions to ensure compliance of member states. This lack of enforcement power meant that member-nations could violate League decisions with impunity, which undermined the credibility of the organization.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Weakness of collective security:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The League <strong>lacked an armed force of its own</strong> to enforce any actions to achieve these aims.</li>
+      <li style="padding-left:2em">&#9702; <strong>Article X of the League's Covenant</strong> called on member nations to defend each other against aggression (collective security), but it proved <strong>ineffective</strong>.
+        <ul>
+          <li style="padding-left:4em">&#9632; This was demonstrated most notably during the <strong>Manchurian Crisis</strong> and the <strong>Abyssinian Crisis</strong>, when Japan and Italy, respectively, were able to defy League resolutions without facing any meaningful consequences.</li>
+          <li style="padding-left:4em">&#9632; There was a <strong>unanimity/consensus clause</strong> which was much difficult to implement.</li>
+          <li style="padding-left:4em">&#9632; <strong>Two organs</strong> of the League of Nations were the assembly and council. But both had <strong>equal powers</strong>.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Bypassing the League</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The <strong>Locano pact</strong> of 1925 greatly affected the prestige of the League.</li>
+      <li style="padding-left:2em">&#9702; <strong>The policy of appeasement</strong> pursued by western democracies also played an important role in the failure of LoN.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>The Great depression</strong> also played an important role in destroying LoN.
+    <ul>
+      <li style="padding-left:2em">&#9702; It reversed the process of economic revival in Europe. The European governments got busy in their internal matters, and these was nobody in Europe who was concerned about LoN.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Rise of totalitarianism:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The rise of totalitarian regimes in Germany, Italy, and Japan in the 1930s challenged the League's authority and undermined its efforts to promote peace.</li>
+      <li style="padding-left:2em">&#9702; These regimes rejected the League's principles of collective security and international cooperation and pursued aggressive expansionist policies that led to the outbreak of World War II.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Overall, the League of Nations made important contributions to the <strong>development of international law and diplomacy</strong>. Its work <strong>inspired the formation of the United Nations</strong>, which has been more successful in promoting peace and international cooperation.</p>`,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
