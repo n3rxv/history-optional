@@ -34705,7 +34705,150 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
   </ul>
 </li>
 </ul>`,
-  'liberation-colonial-rule': ``,
+  'liberation-colonial-rule': `
+<h2>Handout 49: Apartheid</h2>
+<p>It literally means the policy of social segregation. It was the <em><u>worst form of racial discrimination</u></em> in South Africa. Literally, it means apart-hood or <u>separation of the races</u>. Most pathetic aspect of the policy of apartheid is that it was enforced in South Africa at the time when the policy of decolonization was being followed in the rest of the world.</p>
+
+<h3><u>Factors which encouraged the policy of Apartheid in South Africa:</u></h3>
+<ul style="list-style:none;padding-left:0;">
+  <li>&#8226; <strong>Domestic developments:</strong>
+    <ul style="list-style:none;padding-left:0;">
+      <li style="padding-left:2em">&#9702; <strong>1946 census:</strong> it came to light that even in urban region the population of Blacks surpassed that of the Whites.
+        <ul style="list-style:none;padding-left:0;">
+          <li style="padding-left:4em">&#9632; So, it created some concern in the mind of the White people.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>Fagon commission (1946):</strong> According to its recommendations, Blacks should be gradually assimilated in common public life.</li>
+      <li style="padding-left:2em">&#9702; Such recommendation created larger concern among the members of Nationalist Party (formed in 1912) who were inclined to maintain the purity of white blood.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>International Developments:</strong>
+    <ul style="list-style:none;padding-left:0;">
+      <li style="padding-left:2em">&#9702; Up to the end of 1940&#39;s the <strong>process of decolonization</strong> started and the countries like India got independence. Even the <strong>non-white countries got the membership of British Commonwealth.</strong></li>
+      <li style="padding-left:2em">&#9702; It created fear among White racists of South Africa that majority of black countries in British Commonwealth would create <strong>pressure over South African government to give acceptance to the rights of the Blacks.</strong></li>
+    </ul>
+  </li>
+  <li>&#8226; In 1948, <strong>Nationalist Party</strong> won election and it formed the government under <strong>DF Malan</strong>. As a counter measure the Nationalist party introduced a rigid system of racial discrimination.</li>
+</ul>
+
+<h3><u>Implementation of Apartheid Policy</u></h3>
+<p>Thus, to ensure their political control, the White European minority developed the policy of apartheid. An informal practice for many years, apartheid became law in 1948.</p>
+<ul style="list-style:none;padding-left:0;">
+  <li>&#8226; The blacks were not allowed to go on strike and form trade unions.</li>
+  <li>&#8226; The political representation of Blacks was taken away. It denied the Black majority South African citizenship, and a formal voice in government.</li>
+  <li>&#8226; Mixed Marriage Act (1949): Whites were prohibited to marry Blacks.</li>
+  <li>&#8226; Population registration Act (1950): White and black population to be settled in different regions.</li>
+  <li>&#8226; Pass System: Blacks could come to the white region to work as a labour only after attaining a pass.</li>
+  <li>&#8226; The blacks could not use the common public transport and they can&#39;t even use the common roads &amp; parks.</li>
+  <li>&#8226; Separate areas were ear marked for the residence of blacks. These areas were known as <em>Bantustans.</em></li>
+</ul>
+
+<h3><u>Impact of Apartheid</u></h3>
+<ul style="list-style:none;padding-left:0;">
+  <li>&#8226; The prosperous White minority defended its privileges by viewing Blacks as social inferiors.</li>
+  <li>&#8226; It deprived the blacks of their economic social and political rights.</li>
+  <li>&#8226; Blacks held low-paying jobs; on average, they earned only one-fourth what whites did.</li>
+  <li>&#8226; The properties of blacks were taken away and they were pushed into separate areas ear marked for them.
+    <ul style="list-style:none;padding-left:0;">
+      <li style="padding-left:2em">&#9702; The <em>Bantustans</em> were extremely crowded life in these territories of blocks was inhuman.</li>
+      <li style="padding-left:2em">&#9702; All the homelands together constituted only 14% of South Africa&#39;s land, while Blacks made up close to 80% of the country&#39;s population. The resulting starvation and suffering were intense and widespread.</li>
+    </ul>
+  </li>
+  <li>&#8226; The blacks were treated as 2nd class citizens. The government accepted no responsibility of welfare and progress of blacks.</li>
+  <li>&#8226; The Blacks suffered extreme exploitation during apartheid because no legal protection was available to them.</li>
+</ul>
+
+<h3><u>Protest against the policy of Apartheid</u></h3>
+<ul style="list-style:none;padding-left:0;">
+  <li>&#8226; <strong>Domestic Resistance:</strong>
+    <ul style="list-style:none;padding-left:0;">
+      <li style="padding-left:2em">&#9702; In 1912, African National Congress (ANC) was formed under Albert Luthuli.
+        <ul style="list-style:none;padding-left:0;">
+          <li style="padding-left:4em">&#9632; Anti-apartheid struggle in South Africa commenced in 1952. The African National Congress (ANC) of Luthuli and Mandela was at the forefront.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Initially, Luthuli started to break apartheid laws peacefully.
+        <ul style="list-style:none;padding-left:0;">
+          <li style="padding-left:4em">&#9632; In 1952, the ANC asked blacks to stop working for whites and strikes were organized all over south Africa.</li>
+          <li style="padding-left:4em">&#9632; In 1955, all Asian and African blacks&#39; organizations came together against the policy of apartheid. A <strong>freedom charter</strong> (1955) was issued by them in which racial equality was demanded.</li>
+          <li style="padding-left:4em">&#9632; The leaders of South African <strong>church</strong> also raised their voice against the policy of apartheid.</li>
+          <li style="padding-left:4em">&#9632; In 1957, <strong>bus boycott</strong> was organized when separate buses were introduced for blacks.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; South African government reacted sharply, and it cracked down the movement in the name of suppression of communism.
+        <ul style="list-style:none;padding-left:0;">
+          <li style="padding-left:4em">&#9632; In 1960, a massive agitation was organized at <strong>Sharpeville</strong>. These agitators were shot upon, and hundreds were killed.</li>
+          <li style="padding-left:4em">&#9632; Nelson Mandela was given life imprisonment (1962).</li>
+          <li style="padding-left:4em">&#9632; ANC leader Albert Luthuli was found dead in a mysterious condition. (1962)</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The Anti-Apartheid agitations gained intensity during 1970s because the conditions in Bantustans were extremely horrible.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>International Pressure:</strong>
+    <ul style="list-style:none;padding-left:0;">
+      <li style="padding-left:2em">&#9702; The Sharpeville incident triggered anti-apartheid agitations all over the world.</li>
+      <li style="padding-left:2em">&#9702; In 1960, British PM <strong>Harold Macmillan</strong> visited Cape Town &amp; asked South African government to abandon apartheid.</li>
+      <li style="padding-left:2em">&#9702; In 1961, <strong>Commonwealth</strong> condemned the policy of apartheid, as a result of which South Africa left commonwealth.</li>
+      <li style="padding-left:2em">&#9702; In 1962 <strong>UNO</strong> imposed sanctions on South Africa due to policy of apartheid.</li>
+      <li style="padding-left:2em">&#9702; In 1975, <strong>Mozambique</strong> and <strong>Angola</strong> got independence. The emergence of these black nations inspired south Africa to fight against apartheid with greater strength.
+        <ul style="list-style:none;padding-left:0;">
+          <li style="padding-left:4em">&#9632; After the liberation of African countries, <strong>African League</strong> also started protest against apartheid.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; In 1970s, <strong>USA</strong> had started treating its blacks better as a result of which pressure led on South Africa</li>
+      <li style="padding-left:2em">&#9702; In 1986, <strong>Commonwealth</strong> and <strong>USA</strong> imposed sanctions against South Africa.
+        <ul style="list-style:none;padding-left:0;">
+          <li style="padding-left:4em">&#9632; At the initiative of <strong>Indian PM Rajiv Gandhi</strong>, British Commonwealth was compelled to bring an economic embargo against the government of South Africa.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<p>The pressure of all these developments forced south Africa government to abandon apartheid gradually.</p>
+
+<h3><u>Abandonment of Apartheid: Phase 1</u></h3>
+<p>Under the pressure of world public opinion, for the first time, in the end of 1970&#39;s and the early 80s, the government of <strong>Botha</strong> took some initiatives in relaxing the system.</p>
+<ul style="list-style:none;padding-left:0;">
+  <li>&#8226; The &#39;pass system&#39; for black was repealed.</li>
+  <li>&#8226; The &#39;mixed marriage act&#39; was abolished.</li>
+  <li>&#8226; Blacks were allowed to form trade unions and go on strike.</li>
+  <li>&#8226; Bantus (native blacks) were given the right to fight elections and cast their votes in the elections of municipal corporations. (but not in national elections)</li>
+</ul>
+
+<h3><u>Abandonment of Apartheid: Phase 2 (1990-94)</u></h3>
+<p>These developments did not satisfy the blacks (Bantus) in South Africa, and they continued the protest. In the meantime, the economy of South Africa fell to its lowest ebb due to <strong>economic embargo</strong>.</p>
+<p>It forced the government of <strong>F.W.D. Clark</strong> (elected in 1989) to take initiative and he <strong>released Nelson Mandela from jail in 1990. National Party government started to negotiate</strong> with the recently legalized African National Congress (ANC).<br>
+(In the same year, the last colony in Africa, <strong>Namibia was liberated</strong> by South Africa.)</p>
+<p><strong>De Klerk repealed Population Registration Act and Land Acts,</strong> which were major pillars of the Apartheid regime. In return, the <strong>National Peace Accord</strong> was signed between all parties to ensure peaceful negotiations. It was <strong>not easy because several violent instances</strong> like Boipatong massacre (1992), Bisho massacre (1993), assassination of charismatic leader Chris Hani (1993) took place which <strong>could have derailed the peaceful transition.</strong></p>
+<p>However, <strong>Nelson Mandela adopted a conciliatory approach</strong> towards South African government and in order to dispel the fear of Whites he gave two promises. First the white oppressors would not be punished and second the industries (mostly owned by white) would not be nationalized.</p>
+<p>The negotiations (<strong>CODESA</strong>) were successfully concluded and leading to the successful drafting of the new <strong>Interim Constitution (1993)</strong> which provided for racial equality. It paved the way for the first democratic elections. In 1994, elections were held in South Africa. Black majority was established under President Nelson Mandela and W.D. Clark as Vice President.</p>
+
+<h3><u>Abandonment of Apartheid: Phase 3 (1994-1999)</u></h3>
+<ul style="list-style:none;padding-left:0;">
+  <li>&#8226; The <strong>1994 elections</strong> were a <strong>watershed</strong> moment in South African history.
+    <ul style="list-style:none;padding-left:0;">
+      <li style="padding-left:2em">&#9702; They marked the <strong>end of white minority rule</strong> and the ushered in the new era of democracy and equality.</li>
+      <li style="padding-left:2em">&#9702; The ANC won the elections, and Nelson <strong>Mandela became the president</strong>.</li>
+      <li style="padding-left:2em">&#9702; However, since <strong>democracy was new</strong> to South Africa, the new government needed to build democratic institutions and a culture of tolerance, to avoid the revenge cycle. In his inaugural address, Mandela promised to build <em>&#8220;a rainbow nation at peace with itself and the world.&#8221;</em></li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Fighting the legacy of apartheid:</strong>
+    <ul style="list-style:none;padding-left:0;">
+      <li style="padding-left:2em">&#9702; Apartheid had left <strong>racial division</strong> deeply entrenched. The transition needed to ensure peaceful reconciliation and foster sense of unity.</li>
+      <li style="padding-left:2em">&#9702; <strong>Truth and Reconciliation Commission (TRC)</strong>, under chairmanship of <strong>Desmund Tutu</strong>, was established (1994) to investigate human rights abuses and published its reports. It also held public hearings in which victims and perpetrators testified about their experiences.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Socio-economic inequalities:</strong>
+    <ul style="list-style:none;padding-left:0;">
+      <li style="padding-left:2em">&#9702; The new government needed to ensure <strong>land redistribution</strong>, ensure <strong>property rights</strong> and promote <strong>agricultural productivity</strong>, all at the same time.</li>
+      <li style="padding-left:2em">&#9702; <strong>Reconstruction and Development Programme (RDP)</strong> implemented several policies to address the economic and social inequalities.</li>
+    </ul>
+  </li>
+</ul>
+<p>Under the <strong>able and compassionate leadership of Nelson Mandela</strong>, the government made significant progress. Finally, it framed a <strong>new constitution in 1998</strong> giving rights of all South Africans. First general <strong>elections were held in 1999</strong> under the new constitution.</p>
+<p>Thus, the <strong><u>peaceful transition</u></strong> from Apartheid regime to democracy was a remarkable achievement. However, although the Constitution of post-apartheid South Africa has banned racial discrimination, <strong><u>economic capital remains concentrated in White hands.</u></strong> Empowering the Black majority represents a continuing challenge for the new society.</p>
+`,
   'decolonization-underdevelopment': `
 <h2>Handout 47: Decolonisation (Liberation of colonies)</h2>
 <p>Decolonization means the <em>liberation</em> of colonies, and emergence of new nations. But the process of liberation did not prove smooth rather it proved a long and arduous process.</p>
