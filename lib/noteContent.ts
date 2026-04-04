@@ -29298,6 +29298,239 @@ Post 1870s: High Industrialization</p>
 </li>
 </ul>
 
+<h2>Handout 23: Rise of socialist ideas (up to Marx); spread of Marxian Socialism &#8211; Part 1</h2>
+
+<h3>UPSC CSE PYQs</h3>
+
+<ul>
+<li>&#8226; <strong>Pre Marxian development</strong></li>
+<li style="padding-left:2em">&#9702; &#8220;If we were to define our conception of the State, our answer would be that the State is the banker of the poor. The government would finance and supervise the purchase of productive equipments and the formation of workshops.&#8221; In light of the above statement of Louis Blanc, throw light on the Pre-Marxist Socialist Thought in Europe. [2014, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; How would you explain the nature of pre-Marxian Socialism? [2019, 10 Marks]</li>
+<li>&#8226; <strong>Marx</strong></li>
+<li style="padding-left:2em">&#9702; &#8220;Marxian Communism is primarily the offspring of German Hegelianism and French Socialism.&#8221; Comment. [2001, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;Karl Marx applied his critical intelligence to Wealth of Nations ... Where Smith had seen only the sunlight, Marx saw only the shadows thrown upon the human scene by the unimpeded exercise of individual liberty...&#8221; Elucidate. [2016, 10 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;With the writings of Karl Marx, Socialism assumed the form of Scientific Socialism.&#8221; Critically examine. [2018, 10 Marks]</li>
+<li style="padding-left:2em">&#9702; Marxian socialism claims itself to be a scientific socialist theory capable of explaining the history of humankind. Discuss. [2023, 20 Marks]</li>
+<li>&#8226; <strong>Spread</strong></li>
+<li style="padding-left:2em">&#9702; &#8220;France was more fertile than Britain in producing new Socialist theories and movements, though they bore less concrete results in France than in Britain.&#8221; Comment. [2008, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;France was more fertile than Britain in producing new Socialist theories and movements, though they bore less concrete results in France than in Britain.&#8221; Critically examine. [2015, 10 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8216;Engels did much more than Marx himself to popularize the ideas of Marxism.&#8217; Critically examine. [2022, 10m]</li>
+</ul>
+
+<h3>Utopian Socialism</h3>
+
+<p>The idea of simple equalitarian society was there among certain scholars from the <strong>ancient</strong> period. Even during <strong>Enlightenment</strong>, Rousseau&#8217;s ideas have elements of socialism. However, the term socialism was coined in 1830s in France by Saint-Simon (or his disciple Pierre Leroux). It was the product of the Industrial Revolution. Thus, it is a distinctly <strong>modern</strong> phenomenon.</p>
+
+<p>With the industrial revolution there appeared an issue of the relationship between the labor and the capital. Labor was exploited by capital and the condition of workers declined rapidly due to urban migration, slums in cities, unsanitary living conditions, workplace issues like long duration, inhuman work conditions, accidents etc.&#8230;</p>
+
+<p>So, initially, it was the middle-class scholars who wanted to bring reforms to resolve the issue. In France a group of thinkers, calling themselves socialists, wanted to better society. They believed that the French revolutionary era had focused too much on the individual and there should instead be more focus more on the health of the whole. Their socialism entailed philanthropy.</p>
+
+<p><strong>Robert Owen:</strong></p>
+<ul>
+<li>&#8226; Being a British Industrialist, he laid the foundation of industry in Scotland.</li>
+<li>&#8226; In <strong>New Lanark Mill</strong>, he provided all facilities for the working class (salaries, 8-hour work, education etc.). And profit was to take a back seat to the overall well-being of the community and all of its individual members. Soon, he came to realize that through extending better facilities to workers, even the profit of the industry increased. Thus, he concluded; a satisfied worker is a real asset.</li>
+<li style="padding-left:2em">&#9702; Owen&#8217;s ideas gained traction among reform-minded industrialists, and officials, and workers, and thinkers.</li>
+<li>&#8226; In 1824, he moved to America and put most of his fortune in an experimental socialistic <strong>community at New Harmony</strong>, Indiana, as a preliminary for his Utopian society.</li>
+<li style="padding-left:2em">&#9702; It lasted about two years.</li>
+<li>&#8226; Other Owenite communities also failed, and in 1828 Owen returned to London, where he continued to champion the working class, lead in developing <strong>cooperatives</strong> and the <strong>trade union movement</strong>, and support <strong>child labor legislation and free schools.</strong></li>
+</ul>
+
+<p><strong>In France</strong> during the post-Napoleonic period, Claude Henri Saint-Simon, Charles Fourier, and Auguste Comte devised ideas for well-run communities that emphasized harmony and efficient management.</p>
+
+<p><strong>Saint Simon (1760-1825):</strong></p>
+<ul>
+<li>&#8226; He was a supporter of capitalism and modern industrial production. He believed that the <strong>resources of nature are abundant</strong> so in place of unhealthy competition with each other, all should try to use natural resources with <strong>proper cooperation</strong> with each other. Then everyone would be satisfied.</li>
+<li>&#8226; He gave his famous slogan &#8220;From each according to his capacity, to each according to its Work&#8221;.</li>
+<li>&#8226; He became a very prestigious socialist thinker in Europe. He formed a society named <strong>League of Just</strong> of which even Engels and Karl Marx became members.</li>
+</ul>
+
+<p><strong>Charles Fourier (1772-1837):</strong></p>
+<ul>
+<li>&#8226; He <strong>did not believe in industrial society,</strong> rather he preferred to live in the countryside or in a small town. There is less scope for exploitation in such areas.</li>
+<li>&#8226; He supported <strong>cooperative agriculture</strong> and pleaded for organizing the peasants into a cooperative group for production and taking the benefit of agriculture.</li>
+</ul>
+
+<p><strong>Criticism of Utopian Socialists</strong></p>
+<ul>
+<li>&#8226; These scholars were <strong>middle-class thinkers</strong>, and they were <strong>idealistic in their approach</strong>.</li>
+<li>&#8226; Like enlightened thinkers, they believed in the <strong>basic goodness of man and perfectibility</strong> of the world.</li>
+<li style="padding-left:2em">&#9702; So, they believed in <strong>class co-operation, not in class conflict.</strong> One common idea was <strong>belief in the rational organization of human societies</strong>.</li>
+<li style="padding-left:2em">&#9702; <strong>Humanitarianism and Morality:</strong> These thinkers sought to address the issue of the suffering and exploitation of the workers from a moral standpoint. They believed in the moral duty of society to care for its less fortunate members.</li>
+<li style="padding-left:2em">&#9702; Thus, there was no concrete/critical understanding based on historical/class analysis. They <strong>lacked clear understanding of the nature of capitalism or how to overthrow it.</strong></li>
+<li>&#8226; These thinkers contributed to the <strong>formation of modern social sciences</strong>: sociology, economics, anthropology, and government.</li>
+<li style="padding-left:2em">&#9702; Eg. August Comte promoted the idea of positivism (empirical observation and scientific study)</li>
+<li>&#8226; Pre-Marxian socialists often favored gradual and peaceful reform. They were <strong>opposed to the revolution</strong> as they learnt a bitter lesson from the French revolution that how did French Revolution start to devour its own children.</li>
+<li style="padding-left:2em">&#9702; They believed that change could be achieved through legislative means and gradual shifts in societal norms.</li>
+<li style="padding-left:2em">&#9702; Examples:</li>
+<li style="padding-left:4em">&#9632; Saint-Simon, Charles Fourier: it was possible to create a perfect and harmonious society on Earth through peaceful means, such as voluntary cooperation and education.</li>
+<li style="padding-left:4em">&#9632; Louis Blanc: believed that socialism could be achieved through gradual social and political reforms.</li>
+<li>&#8226; <strong>Role of State:</strong></li>
+<li style="padding-left:2em">&#9702; Pre-Marxian socialists typically believed in the active role of the state in shaping and reforming society. The state was viewed as a means to achieve collective welfare.</li>
+<li>&#8226; <strong>Cooperative and Communal solutions:</strong> They promoted ideas such as arrangements where resources and labor would be shared.</li>
+<li style="padding-left:2em">&#9702; Around the world, such people set up <strong>communities</strong>. Engineers and planners&#8217; skills to make society operate without tensions and uprisings.</li>
+<li style="padding-left:2em">&#9702; These were <strong>abstract, idealistic and unrealistic visions</strong> without detailed plans.</li>
+<li>&#8226; These plans often involved top-down, state-driven or community-based solutions rather than a fundamental transformation of the economic base of society. Thus, Marx rejected their methods and objectives as utopian.</li>
+</ul>
+
+<p>However, pre-Marxian socialists made important contributions to the development of socialist thought. They were the <strong>first to advocate for social ownership</strong> of the means of production and distribution of goods and services. They also developed a number of important concepts, such as the <strong>idea of class conflict</strong> and the <strong>need for social reform.</strong></p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th colspan="2">Louis Blanc (1811-82)</th></tr></thead>
+<tbody>
+<tr><td colspan="2">
+<ul>
+<li>&#8226; In order to ensure economic betterment of workers, it is essential for them to gain <strong>political power</strong> as well. Only a <strong>pro-working-class government</strong> in true sense can work for upliftment of workers.</li>
+<li>&#8226; According to him, the <strong>state should play an active role for the betterment of workers.</strong></li>
+<li style="padding-left:2em">&#9702; The State should establish social workshops under its direct supervision.</li>
+<li style="padding-left:2em">&#9702; Such workshops should extend help to individual workers by way of initial capital (financial assistance) and essential tools, so that they can organize the production on their own (start their own business or workshop).</li>
+<li style="padding-left:2em">&#9702; This sort of production encouraged by the state would be beneficial to all workers.</li>
+<li>&#8226; <strong>In 1848, in French Republic</strong>, he came to grace the post of a minister. In this, he introduced all round reform program. He initiated the foundation of Social Workshops.</li>
+</ul>
+</td></tr>
+</tbody>
+</table>
+
+<h3>Marxism</h3>
+
+<p><strong>1. The theory of Dialectical Materialism:</strong></p>
+<ul>
+<li>&#8226; Marx was inspired by Hegel (Idealistic thinker).</li>
+<li style="padding-left:2em">&#9702; Hegel conceived dialecticism on an ideological basis.</li>
+<li style="padding-left:2em">&#9702; For <strong>Idealists,</strong> our state of mind guides our behavior and emotions. Thus, cultural condition drives economic change.</li>
+<li>&#8226; Marx was basically a materialistic scholar, so, although he borrowed the concept of dialecticism from Hegel he applied it to the material base i.e., the means of production.</li>
+<li style="padding-left:2em">&#9702; For <strong>Materialists</strong>, all actions and behaviors arise from material reality. Thus, economic conditions drive material changes.</li>
+<li style="padding-left:2em">&#9702; Marx said that with change in the means of production, there will be socio-cultural change. So, his dialecticism reflected itself through the concept of class conflict.</li>
+</ul>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th>Hegel</th><th>Marx</th></tr></thead>
+<tbody>
+<tr><td>Idealist</td><td>Materialist</td></tr>
+<tr><td>Believed that history is driven by the unfolding of the Absolute Spirit.</td><td>Believed that history is driven by class conflict.</td></tr>
+<tr><td>Saw the state as the embodiment of the Absolute Spirit.</td><td>Saw the state as a tool of the ruling class.</td></tr>
+<tr><td>Believed in the inevitability of progress</td><td>Believed that progress is only possible through revolution</td></tr>
+</tbody>
+</table>
+
+<p><strong>2. The Basic structure and Superstructure</strong></p>
+
+<p>The substructure is the material base of society, and it includes the things that are necessary for people to produce and distribute goods and services.</p>
+<ul>
+<li>&#8226; The forces of production are the physical means of production, such as land, labor, and tools.</li>
+<li>&#8226; The relations of production are the social relationships between people who are involved in the production of goods and services.</li>
+</ul>
+
+<p>The superstructure is the cultural and ideological realm of society.</p>
+<ul>
+<li>&#8226; It includes the things that are produced by the substructure, such as culture, ideology, law, politics, religion, and the state.</li>
+<li>&#8226; The superstructure reflects and reinforces the relations of production in the substructure.</li>
+</ul>
+
+<p>Marx believed that the substructure is the primary determinant of the superstructure. He argued that the substructure changes over time, and that these changes eventually lead to changes in the superstructure.</p>
+
+<p><strong>3. Materialistic interpretation of history:</strong></p>
+
+<p>&#8220;The history of all hitherto existing society is the history of class struggle,&#8221; says the Communist Manifesto, co-written with Friedrich Engels and published in 1848.</p>
+
+<p>Marx divided European society into following stages:</p>
+<p>According to Marx society goes from one stage to another stage <strong>due to material change.</strong></p>
+<ul>
+<li>&#8226; <strong>Primary communism:</strong> No scope for surplus production, thus no concept of private property and no division in society.</li>
+<li>&#8226; <strong>Slavery system:</strong> Here, a small class of nobles, aristocrats started exploiting labour of other humans (slaves). It was a slave production system. Such system can be seen in ancient Greece and Rome.</li>
+<li>&#8226; <strong>Feudalism:</strong> A group of people developed control over land (means of production).</li>
+<li style="padding-left:2em">&#9702; Free peasants were converted into the agricultural labour &#8211; serf. They were not free cultivators but tied to the land.</li>
+<li>&#8226; <strong>Capitalism:</strong></li>
+<li style="padding-left:2em">&#9702; Those who controlled trade/commerce/industry were bourgeoise and the rest were the proletariat.</li>
+<li style="padding-left:2em">&#9702; Industrial society is exploitative due to its clash of interest. So, the next stage would be socialism.</li>
+<li>&#8226; <strong>Socialism and Communism:</strong></li>
+<li style="padding-left:2em">&#9702; Marx envisioned socialism as a transitional stage between capitalism and communism. In socialism, the means of production are collectively owned by the working class, and wealth is distributed more equitably.</li>
+<li style="padding-left:2em">&#9702; The socialist stage involves planned economies and the abolition of private ownership of key industries.</li>
+<li style="padding-left:2em">&#9702; Marx argued that class distinctions would gradually wither away in socialism, leading to a classless, communist society.</li>
+<li style="padding-left:2em">&#9702; The ultimate goal of Marx&#8217;s theory was the establishment of a communist society, where wealth is held in common, and class distinctions cease to exist. In communism, &#8220;from each according to his ability, to each according to his needs&#8221; would be the guiding principle.</li>
+</ul>
+
+<p>So, according to Marxist estimation, socialism would be the natural culmination of (European) society.</p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th>Stage</th><th>Oppressor Class</th><th>Oppressed Class</th></tr></thead>
+<tbody>
+<tr><td><strong>Primitive Communism</strong></td><td colspan="2">No Classes = No Conflict</td></tr>
+<tr><td><strong>Slavery</strong></td><td>Slave-owners</td><td>Slaves</td></tr>
+<tr><td><strong>Feudalism</strong></td><td>Feudal Lords</td><td>Serfs</td></tr>
+<tr><td><strong>Capitalism</strong></td><td>Bourgeoisie</td><td>Proletariat</td></tr>
+<tr><td><strong>Socialism</strong></td><td>State Managers</td><td>Workers</td></tr>
+<tr><td><strong>Communism</strong></td><td colspan="2">No Classes = No Conflict</td></tr>
+</tbody>
+</table>
+
+<p><strong>4. The theory of value and surplus-value</strong></p>
+
+<p>According to Marx, in every production, labour plays a very significant role in creating surplus value while capital just arranges raw material. Still, most of the profit is appropriated by the capitalists. This is because the capitalist class has control over the means of production, it deprives labour of its due share.</p>
+
+<p><strong>Value:</strong></p>
+<ul>
+<li>&#8226; According to Marx, the value of a commodity (product/service) is determined by the amount of <strong>socially necessary labor time</strong> required to produce it (given the prevailing level of tech/skills).</li>
+<li>&#8226; In other words, the more labor it takes to make something, the more valuable it is.</li>
+</ul>
+
+<p><strong>Surplus-Value:</strong></p>
+<ul>
+<li>&#8226; It represents the extra value created by workers during their labor, beyond what they are paid in wages.</li>
+<li style="padding-left:2em">&#9702; Surplus = value of commodity &#8211; cost of producing it.</li>
+<li style="padding-left:2em">&#9702; Cost of production = raw material, machinery, labour power etc.</li>
+<li>&#8226; In a capitalist system, workers are paid a wage that is typically less than the value they produce. The difference between the value of their labor and their wages is surplus-value.</li>
+<li>&#8226; So, surplus is appropriated by a capitalist because he owns the means of production.</li>
+</ul>
+
+<p>This surplus is the source of profit for capitalists and is at the heart of class struggle and economic inequality in Marxist analysis.</p>
+
+<p><strong>5. Marxian concept of self-alienation:</strong></p>
+<ul>
+<li>&#8226; Marx tried to establish that what separates man from animal is not reasoning and moral choice rather the capacity to do labour.</li>
+<li>&#8226; According to Marx, in an industrial society, the working class has continuously been deprived of their labour. So, they easily fell in the condition of self-alienation.</li>
+<li style="padding-left:2em">&#9702; <strong>Alienation from Produce:</strong> Workers do not own or control the products of their labor.</li>
+<li style="padding-left:2em">&#9702; <strong>Alienation form Process:</strong> Workers have no control over the way in which their work is organized. They are forced to work long hours in repetitive and monotonous jobs.</li>
+<li style="padding-left:2em">&#9702; <strong>Alienation from other humans:</strong> Workers are alienated from other human beings because they are forced to compete with each other for jobs and wages. This competition creates a sense of isolation and hostility among workers.</li>
+<li style="padding-left:2em">&#9702; <strong>Alienation from one&#8217;s own nature:</strong> Under capitalism, workers are reduced to mere commodities, to be bought and sold on the market. This alienates them from their own human nature, which is to be creative and productive beings.</li>
+<li>&#8226; Marx argued that the only way to overcome self-alienation is to develop class consciousness, overthrow capitalism and establish a socialist society, in which workers will own and control the means of production and will be able to work in a way that is fulfilling and meaningful.</li>
+</ul>
+
+<p><strong>Different stages in Marxian Revolution</strong></p>
+<ul>
+<li>&#8226; <strong>Capitalism:</strong></li>
+<li style="padding-left:2em">&#9702; In this stage, the means of production are privately owned, production is oriented toward profit, while the working class (proletariat) sells its labor power to capitalists.</li>
+<li style="padding-left:2em">&#9702; As capitalism develops, class contradictions become more pronounced. The working-class experiences exploitation, inequality, and worsening living conditions, leading to heightened class consciousness and collective action.</li>
+<li>&#8226; <strong>Rise of Proletarian Movements:</strong></li>
+<li style="padding-left:2em">&#9702; Workers&#8217; movements, labor unions, and socialist organizations gain strength and momentum. Proletarian revolutionaries advocate for the overthrow of the capitalist system and the establishment of a new order.</li>
+<li>&#8226; <strong>Seizure of state power:</strong></li>
+<li style="padding-left:2em">&#9702; The proletariat class could make an attack on the government through a bloody revolution, and it will seize the power. In that, they would be led by a revolutionary vanguard.</li>
+<li>&#8226; <strong>Dictatorship of the proletariat:</strong></li>
+<li style="padding-left:2em">&#9702; After seizing power, the proletariat class could establish its dictatorship. So, the working class controls the political power.</li>
+<li style="padding-left:2em">&#9702; <strong>Transition to Socialism:</strong> During this stage, the means of production are typically nationalized or brought under collective ownership.</li>
+<li style="padding-left:4em">&#9632; The goal is to begin the process of transitioning from capitalism to socialism.</li>
+<li style="padding-left:4em">&#9632; Using the same state machinery, it would destroy private property and terminate the bourgeoisie class itself.</li>
+<li style="padding-left:4em">&#9632; It is the stage of transition from capitalism to communism where the means of production pass from private to collective ownership while the state still exists.</li>
+<li style="padding-left:2em">&#9702; <strong>Internationalism</strong></li>
+<li style="padding-left:4em">&#9632; It was during this stage; the proletariat class should work for the spread of the revolution in other regions.</li>
+<li>&#8226; <strong>Communism:</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Classless society:</strong> Naturally, a time will come when in every region there will be a dictatorship of the proletariat class. So, now there would be a single class that would be the proletariat class. So, the class-struggle will end forever.</li>
+<li style="padding-left:2em">&#9702; <strong>Stateless Society:</strong> After that, there would be no longer any need for the state. Naturally, the state would wither away.</li>
+</ul>
+
+<p><strong>Limitations of Marxist Theory</strong></p>
+<ul>
+<li>&#8226; Marx declared that <strong>capitalism would die a natural death</strong> as its methods are self-destructive, but he undermined the power of adaptability in capitalism.</li>
+<li style="padding-left:2em">&#9702; Later Lenin forwarded the theory to explain why it didn&#8217;t happen in most industrialized countries. It is because Marx didn&#8217;t perceive the adaptable character of capitalism.</li>
+<li>&#8226; Marx proved to be the wrong prophet in history.</li>
+<li style="padding-left:2em">&#9702; He declared that the <strong>proletariat revolution had to take place in the most industrialized nation</strong> - Germany or Britain. But such a revolution took place in an agrarian country like Russia that too after a great manipulation by Lenin.</li>
+<li>&#8226; Marxism declared the state to be a class instrument, but the <strong>state is not a plaything into the hand of a single class</strong> rather it exists on the support of different classes.</li>
+<li>&#8226; Finally, even where there was the foundation of a socialist government that did not happen through any proletariat revolution but rather through a <strong>takeover of government by trained volunteers of the party.</strong></li>
+<li style="padding-left:2em">&#9702; It was not the proletariats but group of political activists and opportunist political parties as well as local militia which established socialist governments.</li>
+</ul>
+
+<p><strong>How scientific is Marxism really?</strong></p>
+
+
 `,
   'world-wars': ``,
   'world-after-wwii': ``,
