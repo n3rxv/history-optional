@@ -27059,357 +27059,6 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </ul>
 </li>
 </ul>
-<h2>Handout 16: Post-Napoleonic European Revolutions</h2>
-<h3>UPSC CSE PYQs</h3>
-<ul>
-<li>&#8226; <strong>Metternich System</strong>
-<ul>
-<li style="padding-left:2em">&#9702; &#8220;For a tired and timid generation Metternich was the necessary man.&#8221; Comment. [1993, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; What is Metternich system? Assess its impact on Europe. [2016, 10 Marks]</li>
-</ul>
-</li>
-<li>&#8226; <strong>Liberalism and Nationalism</strong>
-<ul>
-<li style="padding-left:2em">&#9702; &#8220;The characteristic motive of this period (1830-1871) was not so much Liberalism as Nationalism.&#8221; Comment. [1982, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; Do you subscribe to the view that the Greek War of Independence was mired in contrasts of the best and the worst episodes? How did it affect the Concert of Europe? [2019, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; The rise of nationalism across nations shattered the chains which held together the empires of modern Europe. Discuss. [2021, 20 Marks]</li>
-</ul>
-</li>
-<li>&#8226; <strong>Revolutions of 1830</strong>
-<ul>
-<li style="padding-left:2em">&#9702; &#8220;The whole episode that is known as the July Revolution (1830) was fought and won not for the establishment of an extreme democracy but to get rid of the aristocratic and clericalist attitude of the restored Bourbons.&#8221; Critically examine. [2015, 10 Marks]</li>
-</ul>
-</li>
-</ul>
-<p>At the Congress of Vienna, Prince Metternich and his allies tried to prevent another French Revolution. But despite the Congress of Vienna&#8217;s determined efforts to prevent them, reform and activism heated up after 1815, alongside industrialization.</p>
-<table>
-<thead>
-<tr><th></th><th>1820s</th><th>1830</th><th>1848</th></tr>
-</thead>
-<tbody>
-<tr><td><strong>England</strong></td><td>Peterloo Massacre (1819)</td><td>Reform Act (1832)</td><td>Chartist Movement</td></tr>
-<tr><td><strong>France</strong></td><td></td><td>July Uprising against Charles X &#8211; Constitutional Monarchy</td><td>February Revolution against Louis Philipp, Second Republic (1848-52), Napoleon III</td></tr>
-<tr><td><strong>Belgium</strong></td><td></td><td>Independence from Dutch, kingdom formation</td><td></td></tr>
-<tr><td><strong>Italy</strong></td><td>Carbonari coup</td><td>Mazzini and Young Italy</td><td>Charles Albert went on war with Austria.</td></tr>
-<tr><td><strong>Austria</strong></td><td></td><td>Demands in Italian parts (Venetia/Lombardy) suppressed</td><td>Initial promise of liberal constitution, later suppression. Metternich fled.</td></tr>
-<tr><td><strong>Prussia</strong></td><td></td><td>A series of limited and short-lived reforms followed by suppression.</td><td>Prussian Landtag was established.</td></tr>
-<tr><td><strong>German States</strong></td><td></td><td>Urban/student revolts largely suppressed</td><td>Frankfurt Parliament</td></tr>
-<tr><td><strong>Greece</strong></td><td colspan="3">Greek War of Independence (1821-32)</td></tr>
-<tr><td><strong>Russia</strong></td><td>Decemberist Revolt (1825)</td><td>Polish uprising brutally suppressed</td><td></td></tr>
-<tr><td><strong>Latin America</strong></td><td colspan="3">Independence of various Countries (1820s)</td></tr>
-<tr><td><strong>Portugal</strong></td><td>Liberal Revolution &#8211; Constitutional Monarchy</td><td>Portuguese Liberal Wars (1832-34)</td><td>Liberal Constitution</td></tr>
-<tr><td><strong>Spain</strong></td><td>Trienio Liberal</td><td></td><td>Liberal Constitution</td></tr>
-</tbody>
-</table>
-<h3>The Revolutions of 1820s</h3>
-<p>The Revolutions of 1820s were a series of liberal and nationalist uprisings that occurred across several European countries. Unlike the revolutionary wave in the 1830s, these tended to take place in the peripheries of Europe. Its nerve centers were in Russia, Italy, Portugal, Spain and Greece.</p>
-<p><strong>Causes:</strong></p>
-<p>The primary causes of the 1820s revolutions were discontent with authoritarian regimes, demands for constitutional government, and aspirations for national sovereignty. Economic hardships, social inequality, and the desire for political representation also played a role in fuelling the uprisings.</p>
-<ul>
-<li>&#8226; <strong>Italy</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Coup by <strong>Carbonari</strong> (secret society of liberal intellectuals and military officers) in 1821, forced King Victor Emmanuel I of Piedmont-Sardinia to abdicate. It led to a <strong>temporary constitutional monarchy</strong> before the Holy Alliance intervened. (Austria, Prussia, Russia)</li>
-<li style="padding-left:2em">&#9702; <strong>Mazzini</strong> participated as a young boy of 15 in these demonstrations and was influenced by Carbonari.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Portugal &#8211; Liberal Revolution</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The Revolution resulted in the return of the Portuguese Court to Portugal (in 1821) from Brazil, where it had fled during the Peninsular War.</li>
-<li style="padding-left:2em">&#9702; Establishment of <strong>Constitutional monarchy.</strong></li>
-</ul>
-</li>
-<li>&#8226; <strong>Russia &#8211; Decemberist Revolt</strong> (1825)
-<ul>
-<li style="padding-left:2em">&#9702; Russian military officers who had been exposed to liberal and nationalist ideas in Europe led the failed attempt to overthrow Tsar Nicholas I.</li>
-</ul>
-</li>
-<li>&#8226; <strong>England:</strong> Peterloo Massacre (1819)</li>
-</ul>
-<h3>Greek war of independence (1821-32)</h3>
-<ul>
-<li>&#8226; Against its master <em>Ottomans</em> in 1821.
-<ul>
-<li style="padding-left:2em">&#9702; <strong>Ottoman</strong> Empire was a Muslim Empire but under its control, there was a larger Christian population in Eastern Europe. Greece was among them.</li>
-<li style="padding-left:2em">&#9702; For over 400 years, the Greeks had suffered various forms of oppression, including economic exploitation and restrictions on their language, culture, and religion.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Nationalism</strong> and the idea of self-determination were gaining traction which created a favorable context for the revolt.</li>
-<li>&#8226; When Greece revolted against their master, <strong>Ottomans responded with brutal force</strong> and a long-standing warfare began.</li>
-<li>&#8226; When Turkey was not nable to suppress it on its own, it <strong>hired services of Egypt</strong>.</li>
-<li>&#8226; The conflict attracted <strong>international attention</strong> and support.
-<ul>
-<li style="padding-left:2em">&#9702; Various European powers, including Britain, France, and Russia, provided aid to the Greeks.</li>
-<li style="padding-left:2em">&#9702; On the basis of <strong>the principle of legal inheritance</strong>, even this revolt should have been suppressed by the Concert of Europe but here the matter was complicated due to religious factors.
-<ul>
-<li style="padding-left:4em">&#9632; Since most of the Greeks belonged to the Greek Orthodox Church, <strong>Russia</strong> had natural affinity towards Greek independence.</li>
-<li style="padding-left:4em">&#9632; However, <strong>Metternich</strong> wanted to support old states and oppose any nationalism which he considered equally dangerous to all. So, a <strong>rift appeared between Austria and Russia</strong> on this issue.</li>
-<li style="padding-left:4em">&#9632; <strong>Britain</strong> got involved the matter by supporting/sympathizing with Greece as it didn&#8217;t want Russia to take the sole credit of support.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; In 1827, Britain, France, and Russia signed the <strong>Treaty of London</strong>, which recognized Greece as an independent state and called for the withdrawal of Ottoman forces from Greek territory. Britain played a key role in negotiating this treaty, which helped to bring an end to the war.</li>
-<li style="padding-left:2em">&#9702; Then, in 1827, a <strong>combined British, French, and Russian fleet</strong> defeated an Ottoman fleet at the <strong>Battle of Navarino</strong>, which helped to enforce the Treaty of Constantinople and secure Greece&#8217;s independence (1832). Thus, with European intervention, Greece got independence.</li>
-</ul>
-</li>
-<li>&#8226; The war had a significant impact on European politics and contributed to the <strong>growth of nationalism</strong> and the <strong>principle of national self-determination.</strong></li>
-</ul>
-<h3>Latin America</h3>
-<ul>
-<li>&#8226; When <strong>Spain</strong> became free after defeat of Napoleon, it again <strong>tried to assert its dominance</strong> on Latin America. It was protected by Concert of Europe.</li>
-<li>&#8226; But in the meanwhile, <strong>Britain had expanded its trade</strong> relationship with Britain. Spanish re-assertion would have snapped the trade relation. So, Britain became the vested interest and <strong>encouraged Spanish nationalists</strong> to rise against their masters. Britain extended the secret help. Thus, started their liberation movement.</li>
-<li>&#8226; Among creoles emerged <strong>Simon Bolivar</strong>, a military leader. He started to liberate colonies one by one. When Spain sent his army to suppress the movement, even the army revolted against the Spanish government.</li>
-<li>&#8226; It was the time that some of the conservative members of <strong>the Concert of Europe</strong> decided to <strong>intervene</strong> in the matter of Latin America and to send their army to suppress the movement there.
-<ul>
-<li style="padding-left:2em">&#9702; Both Metternich and Tsar Alexander I of Russia wanted to suppress the ideals of FR &#8211; liberalism and nationalism.</li>
-<li style="padding-left:2em">&#9702; But this proposal was opposed by Britain under PM Canning.</li>
-</ul>
-</li>
-<li>&#8226; However, since Metternich and Tsar Alexander were not budging, Britain encouraged the USA to step in. It was American President James Munroe who propagated his famous <strong>Munroe doctrine</strong> (1823) and gave a serious warning to European powers for not intervening in the matter of America.
-<ul>
-<li style="padding-left:2em">&#9702; &#8220;Latin America is the backyard of United States of America and if any power makes an intervention into the matter, it is just like making an intervention into the internal matter of U.S.A.&#8221;</li>
-</ul>
-</li>
-</ul>
-<p>A great rupture was created in the rupture of Europe as Britain was not willing to go with the conservative policy of Austria/Russia and even France was nearer to Britain.</p>
-<h4>Liberation of Latin America and Simon Bolivar</h4>
-<p>Latin America was Spanish colonial empire ruled over it ever since the discovery of America. Like the America colonies in North, the Spanish American empire was also inhabited by whites only and these whites fought for independence from Spanish rule.</p>
-<p><strong>Factors responsible for the rise of Nationalism:</strong></p>
-<p>The land was ethnically diverse.</p>
-<ul>
-<li>&#8226; Peninsulares = Spanish</li>
-<li>&#8226; Creoles = Spanish origin but settled here</li>
-<li>&#8226; Mestizos = Creoles + Indians</li>
-<li>&#8226; Mulattos = Creoles + Africans</li>
-<li>&#8226; Indians</li>
-<li>&#8226; African</li>
-</ul>
-<ul>
-<li>&#8226; <strong>Conflict of interest between Peninsulares and Creoles:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Most posts were occupied by Peninsulares while Creoles were educated, landholders, respectables but were deprived from power structure. It created a clash of interest.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Success of North American colonies:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; In 1780s, the <strong>British American colonies</strong> in north America led the first <strong>liberation</strong> movement of a colony in the world and successfully emerged as an independent nation. Its success encouraged aspiration among Latin American people. The impact of ideas of American Revolution also resulted in growth of awakening in Latin America.</li>
-</ul>
-</li>
-<li>&#8226; The political transformation brought about FR of 1789 also played role in the commencement of nationalist struggle in Latin America.
-<ul>
-<li style="padding-left:2em">&#9702; The message of nationalism of FR reached Latin America.</li>
-<li style="padding-left:2em">&#9702; Soon, <strong>Napoleon</strong> conquered whole Europe including Spain (1808) which was the mother country of Latin American states. Napoleon disgraced the king. The Spanish control over colonies became negligible. Now, local Spanish commanders were ruling in name of Spain. This provided an opportunity to nationalist elements to intensify its struggle for independence from Spanish rule. It created some sort of confidence in the Creoles.</li>
-</ul>
-</li>
-</ul>
-<p>During opening decades of 19th c., the Latin American struggle was led by <strong>San Jose Martin,</strong> and <strong>Simon Bolivar</strong>.</p>
-<ul>
-<li>&#8226; Simon Bolivar: Liberation of several South American nations, including Venezuela, Colombia, Ecuador, Peru, and Bolivia.</li>
-<li>&#8226; San Jose Martin: Liberated Argentina, Chile, and Peru from Spanish colonial rule.</li>
-<li>&#8226; Others:
-<ul>
-<li style="padding-left:2em">&#9702; Mexican independence: Miguel Hidalgo, Jose Maria Morelos and Agustin de Iturbide</li>
-<li style="padding-left:2em">&#9702; Chile: Bernardo O&#8217;Higgins</li>
-</ul>
-</li>
-</ul>
-<p><strong>Simon Bolivar (The Liberator):</strong></p>
-<ul>
-<li>&#8226; Simon Bolivar, himself a Creole, started a war of liberation after having been <strong>inspired by the episode of British Americans.</strong></li>
-<li>&#8226; Bolivar propagated progressive and liberal ideas of the <strong>French Revolution</strong>. He penned <strong>two political treatises</strong> encouraging the people of South America to rebel against Spanish colonial rule.
-<ul>
-<li style="padding-left:2em">&#9702; Manifiesto de Cartagena (&#8220;Cartagena Manifesto&#8221;)</li>
-<li style="padding-left:2em">&#9702; Carta de Jamaica (&#8220;Letter from Jamaica&#8221;)</li>
-</ul>
-</li>
-<li>&#8226; He was also inspired by <strong>Napoleon.</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Napoleon, he believed, had freed people from the old regime of absolutism.</li>
-</ul>
-</li>
-<li>&#8226; Bol&#237;var himself led multiple expeditionary forces against the Spaniards with <strong>covert British support.</strong></li>
-<li>&#8226; Between 1819 and 1822 he successfully liberated three territories
-<ul>
-<li style="padding-left:2em">&#9702; New Granada (Colombia and Panama)</li>
-<li style="padding-left:2em">&#9702; Venezuela (1813), and Quito (Ecuador, 1821)</li>
-</ul>
-</li>
-<li>&#8226; With the help of Argentine revolutionary Jos&#233; de San Mart&#237;n, Bol&#237;var freed
-<ul>
-<li style="padding-left:2em">&#9702; Peru (1824)</li>
-<li style="padding-left:2em">&#9702; Upper Peru (Bolivia, 1825)</li>
-</ul>
-</li>
-<li>&#8226; So, there emerged from the fragments of the former Spanish Empire a collection of republics most of them ruled by soldiers.</li>
-</ul>
-<p><strong>Vision of a United South America</strong></p>
-<ul>
-<li>&#8226; Bolivar&#8217;s original plan was, after liberating the region, to constitute a federation.</li>
-<li>&#8226; Bolivar&#8217;s most notable attempt at creating a united South American nation was the formation of <strong>Gran Colombia. (on lines of USA)</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Bolivar envisioned Gran Colombia as a federation of these newly independent regions. He wanted to create a single, strong nation that would serve as a beacon of liberty and democracy in South America.</li>
-<li style="padding-left:2em">&#9702; At the <strong>Congress of Angostura</strong> (1819), Bolivar presented his ideas for Gran Colombia.
-<ul>
-<li style="padding-left:4em">&#9632; The Congress adopted a constitution, and Bolivar was elected as its first president.</li>
-<li style="padding-left:4em">&#9632; The constitution of Gran Colombia emphasized democratic principles and equal rights.</li>
-<li style="padding-left:4em">&#9632; Life-long presidency, nominated upper house of parliament &amp; Elected lower house of parliament.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; However, the practical challenges of governance and regional differences soon became apparent.
-<ul>
-<li style="padding-left:4em">&#9632; Bolivar struggled to maintain unity within the federation. Political disagreements and conflicts between centralists and federalists further strained the union.</li>
-<li style="padding-left:4em">&#9632; His ideas were too conservative for liberals and too liberal for conservatives.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; By 1831, Gran Colombia had dissolved due to internal strife and regional separatism. He was overthrown and Local commander established their rule in different parts of Latin America. Venezuela, Ecuador, and New Granada (present-day Colombia) became separate, independent nations.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Panama Congress</strong> (1826)
-<ul>
-<li style="padding-left:2em">&#9702; Convened with broader Bolivar&#8217;s vision of regional integration and solidarity among newly independent nations.</li>
-<li style="padding-left:2em">&#9702; Despite Bolivar&#8217;s aspirations, the Congress of Panama faced significant challenges. Many of the participating nations had differing priorities and concerns. Internal divisions and rivalries among the delegates also hindered the congress from achieving its intended goals.</li>
-</ul>
-</li>
-</ul>
-<p>So, his specific plans for creating a united states of South America did not come to full fruition.</p>
-<p><strong>Causes behind the failure:</strong></p>
-<ul>
-<li>&#8226; Just like in Africa, the mismatch between the geographical and ethnic boundaries.</li>
-<li>&#8226; Division between urban minorities which led the liberation movement and their followers.</li>
-<li>&#8226; Racial division</li>
-<li>&#8226; Economic dependency</li>
-<li>&#8226; Growing role of Church in politics</li>
-<li>&#8226; The affairs of the republics were usurped by <em>Caudillos</em></li>
-<li>&#8226; Civil wars ensued between different states.</li>
-</ul>
-<p>Although Simon bolivar died as a hated man, importance of his ideas realized by Latin American even today and he is hailed as EL LIBERATOR. His ideas of unity, democracy, and liberty had a lasting impact on the region. He is often referred to as the <strong>&#8220;George Washington of South America&#8221;</strong> for his role in the independence movement.</p>
-<p>Even though his dream of United South America couldn&#8217;t be fulfilled, organizations like the Union of South American Nations (UNASUR) and the Community of Latin American and Caribbean States (CELAC) are examples of recent initiatives that aim to foster cooperation and unity among Latin American nations.</p>
-<h3>Revolution of 1830s</h3>
-<p>The revolution started in <strong>France</strong> <em>(July Revolution of 1830),</em> and very soon it assumed Pan European character.</p>
-<h4>France:</h4>
-<p>After the downfall of Napoleon, the Charter of 1814 established constitutional monarchy. It limited the powers of the king, created bicameral legislature, protected certain rights and liberties of people, and ensure property rights. It led to the restoration of Bourbons.</p>
-<p><strong>Bourbon Restoration Period (1814-1830)</strong></p>
-<ul>
-<li>&#8226; Louis XVIII (1815-24)</li>
-<li>&#8226; Charles X (1824-30)</li>
-</ul>
-<p>The revolution of 1830 took place against the ruler <strong>Charles X</strong>.</p>
-<ul>
-<li>&#8226; Charles didn&#8217;t want to follow the compromising policy of his predecessor
-<ul>
-<li style="padding-left:2em">&#9702; His attempts to restrict the powers of the legislature and limit the rights of the people led to widespread opposition.</li>
-<li style="padding-left:2em">&#9702; He also tried to enforce Roman Catholic religion on people.</li>
-<li style="padding-left:2em">&#9702; He imposed death penalty for any pilfering of Church objects.</li>
-<li style="padding-left:2em">&#9702; Compensation for aristocratic losses in the revolution of 1789.</li>
-</ul>
-</li>
-<li>&#8226; His assertion was opposed by the middle-class people who were in the assembly. So, he tried to bypass the Assembly and Charter, and started to rule through <strong>Four Ordinances</strong>.
-<ul>
-<li style="padding-left:2em">&#9702; Restrict the freedom of the press.</li>
-<li style="padding-left:2em">&#9702; Dissolve the newly elected Chamber of Deputies</li>
-<li style="padding-left:2em">&#9702; Change the electoral laws in favor of the monarchy</li>
-<li style="padding-left:2em">&#9702; Reduction in number of voters</li>
-</ul>
-</li>
-<li>&#8226; People saw them as an attack on the liberties and an attempt by the monarchy to maintain absolute power. It was taken as a harbinger of return to Absolutism. The ordinances sparked widespread protests and demonstrations, which was the July Revolution of 1830.</li>
-<li>&#8226; As street protests erupted, these opponents of Charles X were also worried that commoners would demand that France become a republic once again which they didn&#8217;t want.</li>
-<li>&#8226; Eventually, <strong>Charles X was forced to abdicate</strong>, there was the overthrew of the Bourbon monarchy and establishment of a new constitution.</li>
-</ul>
-<p><strong>Outcome:</strong></p>
-<ul>
-<li>&#8226; It marked the <strong>end of the Bourbon monarchy</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The revolution resulted in the <strong>establishment of a constitutional monarchy</strong> under the rule of <strong>Louis-Philippe</strong> of the house of Orleans. He was thus known as <strong>Citizen King</strong>. This marked a shift towards a more liberal and constitutional form of government, known as the <strong>July Monarchy</strong>.</li>
-<li style="padding-left:2em">&#9702; This change of government was definitely <strong>a rupture which was created in European order</strong>, as the government of Charles X was a legitimate government duly accepted by the Concert of Europe. Thus, the <strong>principle of legitimacy emphasized by Vienna Congress</strong> got shattered.</li>
-</ul>
-</li>
-<li>&#8226; <strong>French middle class</strong> established its political dominance in the country.
-<ul>
-<li style="padding-left:2em">&#9702; New king expanded suffrage to around 1.7L people (out of 3 crore population) (</li>
-<li style="padding-left:2em">&#9702; <strong>Secularism</strong> also triumphed in France because the educations was liberated from the control of church.</li>
-</ul>
-</li>
-<li>&#8226; However,
-<ul>
-<li style="padding-left:2em">&#9702; Social unrest remained high as France became a more industrialized economy with more people living in cities. Both living and working conditions for common people were often terrible.</li>
-</ul>
-</li>
-</ul>
-<h4>Spread of Revolution outside France</h4>
-<p>Austrian Chancellor Metternich commented <em>&#8220;what did happen to Europe, whenever France sneezes, the whole of Europe catches cold&#8221;.</em></p>
-<ul>
-<li>&#8226; The news of success of revolution in France inspired the people all over Europe revolutions broke out in parts of Italy, Germany, Poland, Belgium, Spain, and Portugal.</li>
-<li>&#8226; As a result of impact of FR of 1789, France had attained the status of leader in Europe, any incidence taken place in France used to generate echoes in all over Europe.</li>
-<li>&#8226; The people of Europe had supported their kings in 1813 against Napoleon&#8217;s imperialism with the hope of getting liberal constitutional regime. But the Vienna Order shattered their hopes and aspirations. As a result of which the people started looking towards France once again for guidance and leadership.</li>
-<li>&#8226; <strong>Belgium</strong>
-<ul>
-<li style="padding-left:2em">&#9702; A revolution started against Holland/Dutch and finally, <strong>Belgium</strong> got independence.</li>
-<li style="padding-left:2em">&#9702; London Conference of 1830 established Belgium as an independent and neutral kingdom.</li>
-<li style="padding-left:2em">&#9702; This incident also shows growing rapture in European order. The <strong>territorial arrangement on the border of France set up by CoV was disturbed.</strong></li>
-</ul>
-</li>
-<li>&#8226; <strong>Britain</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The revolutionary situation was averted through introducing a parliament <strong>reforms bill in 1832</strong>. On the basis of this bill 6 lakh new voters got the franchise. It widened the social base of democracy.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Italy</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Various Italian states, including the Papal States, the Kingdom of the Two Sicilies, and the Duchy of Modena, experienced uprisings and revolts against their rulers. These revolts, while not leading to significant political changes, demonstrated growing nationalist sentiments and desires for reform.</li>
-<li style="padding-left:2em">&#9702; A revolution in favor of unification started under <strong>Mazzini</strong> in 1831. Mazzini emerged as a key figure in the Italian nationalist movement.
-<ul>
-<li style="padding-left:4em">&#9632; He spread nationalist awakening among Italians through his writings and speeches.
-<ul>
-<li style="padding-left:4em">&#9632; He sought to create a sense of national identity among the diverse peoples of Italy.</li>
-<li style="padding-left:4em">&#9632; He highlighted the common demands present among diverse Italian cultures.</li>
-<li style="padding-left:4em">&#9632; The spirit of fraternity was propagated by him among the people.</li>
-<li style="padding-left:4em">&#9632; He emphasized the virtue of sacrifice for the causes of nation.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; The efforts made by Mazzini brought about an intellectual revolution in Italy. He successfully carried out intellectual unification of all Italians and this intellectual unification prepared a background for political unification of Italy in future.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; <strong>Young Italy</strong> was formed in 1831 by Mazzini. It aimed to unify Italy, free it from foreign domination and establish of a democratic republic. It worked overtly through activism, propaganda, and education, with the aim of creating a popular uprising. It established a network of secret societies throughout Italy, working to recruit and radicalize individuals.</li>
-<li style="padding-left:2em">&#9702; Its activities were suppressed by the various reactionary forces that dominated the Italian peninsula at the time. Thus, it didn&#8217;t succeed in unifying Italy.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Germany</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The revolution in German states (esp urban uprisings and student movements) was mostly suppressed.</li>
-<li style="padding-left:2em">&#9702; However, people of Brunswick, Hesse and Hanover could extract liberal constitutions from their rulers.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Polish</strong> November Uprising (1830): Brutally suppressed by the Russian Tzar Nicholas I.</li>
-</ul>
-<h4>Analysis of 1830</h4>
-<ul>
-<li>&#8226; <strong>Nationalism</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The Revolutions of 1830 were marked by a <strong>rising tide of nationalism</strong>, with people across Europe seeking greater political autonomy and independence from foreign rulers.</li>
-<li style="padding-left:2em">&#9702; Nationalist sentiments were particularly evident in the Belgian and Polish uprisings.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Class role debate:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; <strong>Liberal ideas,</strong> including demands for constitutional government, individual rights, and freedom of the press, were central to the revolutions. In many cases, liberals played a key role in organizing and leading the uprisings. In countries like Belgium, Britain and France, liberalism triumphed.
-<ul>
-<li style="padding-left:4em">&#9632; <strong>Franz Mehring</strong> (German socialist historian): &#8220;The July Revolution of 1830 was an uprising of the middle classes, the bourgeoisie, which was directed not only against the Bourbon dynasty, but also against the old feudal system.&#8221;</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; <strong>Social and economic discontent</strong> played a role in these revolutions. The urban working class, influenced by liberal and republican ideas, often supported calls for political reform and representation.
-<ul>
-<li style="padding-left:4em">&#9632; <strong>George Rude</strong> (British Marxist historian): &#8220;The social and economic crisis, which swept through the towns and countryside of the Bourbon kingdom in 1830, had produced a class-consciousness among the urban workers.&#8221;</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; <strong>Outcome:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; While some countries, like Belgium, France and Britain <strong>(Western Part),</strong> achieved their independence or constitutional reforms, others, like Italy, Germany and Poland <strong>(Eastern Part),</strong> saw their uprisings crushed.</li>
-<li style="padding-left:2em">&#9702; <strong>Limited Impact:</strong> &#8220;The Revolution of 1830 did not represent a general overthrow of the old order. It was a disturbance, a violent break in the rhythms of established life and society.&#8221; <strong>(Eric Hobsbawm)</strong></li>
-<li style="padding-left:2em">&#9702; The Revolutions of 1830 demonstrated the <strong>persistence of revolutionary spirit</strong> in Europe, setting the stage for further revolutionary movements in the decades that followed, including the Revolutions of 1848.</li>
-</ul>
-</li>
-</ul>
-
 <h2>Handout 21: British Democratic Politics, 1815-1850; Parliamentary Reformers, Free Traders, Chartists</h2>
 
 <h3>UPSC CSE PYQs</h3>
@@ -29298,7 +28947,358 @@ Post 1870s: High Industrialization</p>
 </tbody>
 </table>`,
   'imperialism-colonialism': ``,
-  'revolution-counter-revolution': ``,
+  'revolution-counter-revolution': `<h2>Handout 16: Post-Napoleonic European Revolutions</h2>
+<h3>UPSC CSE PYQs</h3>
+<ul>
+<li>&#8226; <strong>Metternich System</strong>
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;For a tired and timid generation Metternich was the necessary man.&#8221; Comment. [1993, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; What is Metternich system? Assess its impact on Europe. [2016, 10 Marks]</li>
+</ul>
+</li>
+<li>&#8226; <strong>Liberalism and Nationalism</strong>
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;The characteristic motive of this period (1830-1871) was not so much Liberalism as Nationalism.&#8221; Comment. [1982, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; Do you subscribe to the view that the Greek War of Independence was mired in contrasts of the best and the worst episodes? How did it affect the Concert of Europe? [2019, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; The rise of nationalism across nations shattered the chains which held together the empires of modern Europe. Discuss. [2021, 20 Marks]</li>
+</ul>
+</li>
+<li>&#8226; <strong>Revolutions of 1830</strong>
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;The whole episode that is known as the July Revolution (1830) was fought and won not for the establishment of an extreme democracy but to get rid of the aristocratic and clericalist attitude of the restored Bourbons.&#8221; Critically examine. [2015, 10 Marks]</li>
+</ul>
+</li>
+</ul>
+<p>At the Congress of Vienna, Prince Metternich and his allies tried to prevent another French Revolution. But despite the Congress of Vienna&#8217;s determined efforts to prevent them, reform and activism heated up after 1815, alongside industrialization.</p>
+<table>
+<thead>
+<tr><th></th><th>1820s</th><th>1830</th><th>1848</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>England</strong></td><td>Peterloo Massacre (1819)</td><td>Reform Act (1832)</td><td>Chartist Movement</td></tr>
+<tr><td><strong>France</strong></td><td></td><td>July Uprising against Charles X &#8211; Constitutional Monarchy</td><td>February Revolution against Louis Philipp, Second Republic (1848-52), Napoleon III</td></tr>
+<tr><td><strong>Belgium</strong></td><td></td><td>Independence from Dutch, kingdom formation</td><td></td></tr>
+<tr><td><strong>Italy</strong></td><td>Carbonari coup</td><td>Mazzini and Young Italy</td><td>Charles Albert went on war with Austria.</td></tr>
+<tr><td><strong>Austria</strong></td><td></td><td>Demands in Italian parts (Venetia/Lombardy) suppressed</td><td>Initial promise of liberal constitution, later suppression. Metternich fled.</td></tr>
+<tr><td><strong>Prussia</strong></td><td></td><td>A series of limited and short-lived reforms followed by suppression.</td><td>Prussian Landtag was established.</td></tr>
+<tr><td><strong>German States</strong></td><td></td><td>Urban/student revolts largely suppressed</td><td>Frankfurt Parliament</td></tr>
+<tr><td><strong>Greece</strong></td><td colspan="3">Greek War of Independence (1821-32)</td></tr>
+<tr><td><strong>Russia</strong></td><td>Decemberist Revolt (1825)</td><td>Polish uprising brutally suppressed</td><td></td></tr>
+<tr><td><strong>Latin America</strong></td><td colspan="3">Independence of various Countries (1820s)</td></tr>
+<tr><td><strong>Portugal</strong></td><td>Liberal Revolution &#8211; Constitutional Monarchy</td><td>Portuguese Liberal Wars (1832-34)</td><td>Liberal Constitution</td></tr>
+<tr><td><strong>Spain</strong></td><td>Trienio Liberal</td><td></td><td>Liberal Constitution</td></tr>
+</tbody>
+</table>
+<h3>The Revolutions of 1820s</h3>
+<p>The Revolutions of 1820s were a series of liberal and nationalist uprisings that occurred across several European countries. Unlike the revolutionary wave in the 1830s, these tended to take place in the peripheries of Europe. Its nerve centers were in Russia, Italy, Portugal, Spain and Greece.</p>
+<p><strong>Causes:</strong></p>
+<p>The primary causes of the 1820s revolutions were discontent with authoritarian regimes, demands for constitutional government, and aspirations for national sovereignty. Economic hardships, social inequality, and the desire for political representation also played a role in fuelling the uprisings.</p>
+<ul>
+<li>&#8226; <strong>Italy</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Coup by <strong>Carbonari</strong> (secret society of liberal intellectuals and military officers) in 1821, forced King Victor Emmanuel I of Piedmont-Sardinia to abdicate. It led to a <strong>temporary constitutional monarchy</strong> before the Holy Alliance intervened. (Austria, Prussia, Russia)</li>
+<li style="padding-left:2em">&#9702; <strong>Mazzini</strong> participated as a young boy of 15 in these demonstrations and was influenced by Carbonari.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Portugal &#8211; Liberal Revolution</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Revolution resulted in the return of the Portuguese Court to Portugal (in 1821) from Brazil, where it had fled during the Peninsular War.</li>
+<li style="padding-left:2em">&#9702; Establishment of <strong>Constitutional monarchy.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Russia &#8211; Decemberist Revolt</strong> (1825)
+<ul>
+<li style="padding-left:2em">&#9702; Russian military officers who had been exposed to liberal and nationalist ideas in Europe led the failed attempt to overthrow Tsar Nicholas I.</li>
+</ul>
+</li>
+<li>&#8226; <strong>England:</strong> Peterloo Massacre (1819)</li>
+</ul>
+<h3>Greek war of independence (1821-32)</h3>
+<ul>
+<li>&#8226; Against its master <em>Ottomans</em> in 1821.
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Ottoman</strong> Empire was a Muslim Empire but under its control, there was a larger Christian population in Eastern Europe. Greece was among them.</li>
+<li style="padding-left:2em">&#9702; For over 400 years, the Greeks had suffered various forms of oppression, including economic exploitation and restrictions on their language, culture, and religion.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Nationalism</strong> and the idea of self-determination were gaining traction which created a favorable context for the revolt.</li>
+<li>&#8226; When Greece revolted against their master, <strong>Ottomans responded with brutal force</strong> and a long-standing warfare began.</li>
+<li>&#8226; When Turkey was not nable to suppress it on its own, it <strong>hired services of Egypt</strong>.</li>
+<li>&#8226; The conflict attracted <strong>international attention</strong> and support.
+<ul>
+<li style="padding-left:2em">&#9702; Various European powers, including Britain, France, and Russia, provided aid to the Greeks.</li>
+<li style="padding-left:2em">&#9702; On the basis of <strong>the principle of legal inheritance</strong>, even this revolt should have been suppressed by the Concert of Europe but here the matter was complicated due to religious factors.
+<ul>
+<li style="padding-left:4em">&#9632; Since most of the Greeks belonged to the Greek Orthodox Church, <strong>Russia</strong> had natural affinity towards Greek independence.</li>
+<li style="padding-left:4em">&#9632; However, <strong>Metternich</strong> wanted to support old states and oppose any nationalism which he considered equally dangerous to all. So, a <strong>rift appeared between Austria and Russia</strong> on this issue.</li>
+<li style="padding-left:4em">&#9632; <strong>Britain</strong> got involved the matter by supporting/sympathizing with Greece as it didn&#8217;t want Russia to take the sole credit of support.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; In 1827, Britain, France, and Russia signed the <strong>Treaty of London</strong>, which recognized Greece as an independent state and called for the withdrawal of Ottoman forces from Greek territory. Britain played a key role in negotiating this treaty, which helped to bring an end to the war.</li>
+<li style="padding-left:2em">&#9702; Then, in 1827, a <strong>combined British, French, and Russian fleet</strong> defeated an Ottoman fleet at the <strong>Battle of Navarino</strong>, which helped to enforce the Treaty of Constantinople and secure Greece&#8217;s independence (1832). Thus, with European intervention, Greece got independence.</li>
+</ul>
+</li>
+<li>&#8226; The war had a significant impact on European politics and contributed to the <strong>growth of nationalism</strong> and the <strong>principle of national self-determination.</strong></li>
+</ul>
+<h3>Latin America</h3>
+<ul>
+<li>&#8226; When <strong>Spain</strong> became free after defeat of Napoleon, it again <strong>tried to assert its dominance</strong> on Latin America. It was protected by Concert of Europe.</li>
+<li>&#8226; But in the meanwhile, <strong>Britain had expanded its trade</strong> relationship with Britain. Spanish re-assertion would have snapped the trade relation. So, Britain became the vested interest and <strong>encouraged Spanish nationalists</strong> to rise against their masters. Britain extended the secret help. Thus, started their liberation movement.</li>
+<li>&#8226; Among creoles emerged <strong>Simon Bolivar</strong>, a military leader. He started to liberate colonies one by one. When Spain sent his army to suppress the movement, even the army revolted against the Spanish government.</li>
+<li>&#8226; It was the time that some of the conservative members of <strong>the Concert of Europe</strong> decided to <strong>intervene</strong> in the matter of Latin America and to send their army to suppress the movement there.
+<ul>
+<li style="padding-left:2em">&#9702; Both Metternich and Tsar Alexander I of Russia wanted to suppress the ideals of FR &#8211; liberalism and nationalism.</li>
+<li style="padding-left:2em">&#9702; But this proposal was opposed by Britain under PM Canning.</li>
+</ul>
+</li>
+<li>&#8226; However, since Metternich and Tsar Alexander were not budging, Britain encouraged the USA to step in. It was American President James Munroe who propagated his famous <strong>Munroe doctrine</strong> (1823) and gave a serious warning to European powers for not intervening in the matter of America.
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;Latin America is the backyard of United States of America and if any power makes an intervention into the matter, it is just like making an intervention into the internal matter of U.S.A.&#8221;</li>
+</ul>
+</li>
+</ul>
+<p>A great rupture was created in the rupture of Europe as Britain was not willing to go with the conservative policy of Austria/Russia and even France was nearer to Britain.</p>
+<h4>Liberation of Latin America and Simon Bolivar</h4>
+<p>Latin America was Spanish colonial empire ruled over it ever since the discovery of America. Like the America colonies in North, the Spanish American empire was also inhabited by whites only and these whites fought for independence from Spanish rule.</p>
+<p><strong>Factors responsible for the rise of Nationalism:</strong></p>
+<p>The land was ethnically diverse.</p>
+<ul>
+<li>&#8226; Peninsulares = Spanish</li>
+<li>&#8226; Creoles = Spanish origin but settled here</li>
+<li>&#8226; Mestizos = Creoles + Indians</li>
+<li>&#8226; Mulattos = Creoles + Africans</li>
+<li>&#8226; Indians</li>
+<li>&#8226; African</li>
+</ul>
+<ul>
+<li>&#8226; <strong>Conflict of interest between Peninsulares and Creoles:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Most posts were occupied by Peninsulares while Creoles were educated, landholders, respectables but were deprived from power structure. It created a clash of interest.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Success of North American colonies:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In 1780s, the <strong>British American colonies</strong> in north America led the first <strong>liberation</strong> movement of a colony in the world and successfully emerged as an independent nation. Its success encouraged aspiration among Latin American people. The impact of ideas of American Revolution also resulted in growth of awakening in Latin America.</li>
+</ul>
+</li>
+<li>&#8226; The political transformation brought about FR of 1789 also played role in the commencement of nationalist struggle in Latin America.
+<ul>
+<li style="padding-left:2em">&#9702; The message of nationalism of FR reached Latin America.</li>
+<li style="padding-left:2em">&#9702; Soon, <strong>Napoleon</strong> conquered whole Europe including Spain (1808) which was the mother country of Latin American states. Napoleon disgraced the king. The Spanish control over colonies became negligible. Now, local Spanish commanders were ruling in name of Spain. This provided an opportunity to nationalist elements to intensify its struggle for independence from Spanish rule. It created some sort of confidence in the Creoles.</li>
+</ul>
+</li>
+</ul>
+<p>During opening decades of 19th c., the Latin American struggle was led by <strong>San Jose Martin,</strong> and <strong>Simon Bolivar</strong>.</p>
+<ul>
+<li>&#8226; Simon Bolivar: Liberation of several South American nations, including Venezuela, Colombia, Ecuador, Peru, and Bolivia.</li>
+<li>&#8226; San Jose Martin: Liberated Argentina, Chile, and Peru from Spanish colonial rule.</li>
+<li>&#8226; Others:
+<ul>
+<li style="padding-left:2em">&#9702; Mexican independence: Miguel Hidalgo, Jose Maria Morelos and Agustin de Iturbide</li>
+<li style="padding-left:2em">&#9702; Chile: Bernardo O&#8217;Higgins</li>
+</ul>
+</li>
+</ul>
+<p><strong>Simon Bolivar (The Liberator):</strong></p>
+<ul>
+<li>&#8226; Simon Bolivar, himself a Creole, started a war of liberation after having been <strong>inspired by the episode of British Americans.</strong></li>
+<li>&#8226; Bolivar propagated progressive and liberal ideas of the <strong>French Revolution</strong>. He penned <strong>two political treatises</strong> encouraging the people of South America to rebel against Spanish colonial rule.
+<ul>
+<li style="padding-left:2em">&#9702; Manifiesto de Cartagena (&#8220;Cartagena Manifesto&#8221;)</li>
+<li style="padding-left:2em">&#9702; Carta de Jamaica (&#8220;Letter from Jamaica&#8221;)</li>
+</ul>
+</li>
+<li>&#8226; He was also inspired by <strong>Napoleon.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Napoleon, he believed, had freed people from the old regime of absolutism.</li>
+</ul>
+</li>
+<li>&#8226; Bol&#237;var himself led multiple expeditionary forces against the Spaniards with <strong>covert British support.</strong></li>
+<li>&#8226; Between 1819 and 1822 he successfully liberated three territories
+<ul>
+<li style="padding-left:2em">&#9702; New Granada (Colombia and Panama)</li>
+<li style="padding-left:2em">&#9702; Venezuela (1813), and Quito (Ecuador, 1821)</li>
+</ul>
+</li>
+<li>&#8226; With the help of Argentine revolutionary Jos&#233; de San Mart&#237;n, Bol&#237;var freed
+<ul>
+<li style="padding-left:2em">&#9702; Peru (1824)</li>
+<li style="padding-left:2em">&#9702; Upper Peru (Bolivia, 1825)</li>
+</ul>
+</li>
+<li>&#8226; So, there emerged from the fragments of the former Spanish Empire a collection of republics most of them ruled by soldiers.</li>
+</ul>
+<p><strong>Vision of a United South America</strong></p>
+<ul>
+<li>&#8226; Bolivar&#8217;s original plan was, after liberating the region, to constitute a federation.</li>
+<li>&#8226; Bolivar&#8217;s most notable attempt at creating a united South American nation was the formation of <strong>Gran Colombia. (on lines of USA)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Bolivar envisioned Gran Colombia as a federation of these newly independent regions. He wanted to create a single, strong nation that would serve as a beacon of liberty and democracy in South America.</li>
+<li style="padding-left:2em">&#9702; At the <strong>Congress of Angostura</strong> (1819), Bolivar presented his ideas for Gran Colombia.
+<ul>
+<li style="padding-left:4em">&#9632; The Congress adopted a constitution, and Bolivar was elected as its first president.</li>
+<li style="padding-left:4em">&#9632; The constitution of Gran Colombia emphasized democratic principles and equal rights.</li>
+<li style="padding-left:4em">&#9632; Life-long presidency, nominated upper house of parliament &amp; Elected lower house of parliament.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; However, the practical challenges of governance and regional differences soon became apparent.
+<ul>
+<li style="padding-left:4em">&#9632; Bolivar struggled to maintain unity within the federation. Political disagreements and conflicts between centralists and federalists further strained the union.</li>
+<li style="padding-left:4em">&#9632; His ideas were too conservative for liberals and too liberal for conservatives.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; By 1831, Gran Colombia had dissolved due to internal strife and regional separatism. He was overthrown and Local commander established their rule in different parts of Latin America. Venezuela, Ecuador, and New Granada (present-day Colombia) became separate, independent nations.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Panama Congress</strong> (1826)
+<ul>
+<li style="padding-left:2em">&#9702; Convened with broader Bolivar&#8217;s vision of regional integration and solidarity among newly independent nations.</li>
+<li style="padding-left:2em">&#9702; Despite Bolivar&#8217;s aspirations, the Congress of Panama faced significant challenges. Many of the participating nations had differing priorities and concerns. Internal divisions and rivalries among the delegates also hindered the congress from achieving its intended goals.</li>
+</ul>
+</li>
+</ul>
+<p>So, his specific plans for creating a united states of South America did not come to full fruition.</p>
+<p><strong>Causes behind the failure:</strong></p>
+<ul>
+<li>&#8226; Just like in Africa, the mismatch between the geographical and ethnic boundaries.</li>
+<li>&#8226; Division between urban minorities which led the liberation movement and their followers.</li>
+<li>&#8226; Racial division</li>
+<li>&#8226; Economic dependency</li>
+<li>&#8226; Growing role of Church in politics</li>
+<li>&#8226; The affairs of the republics were usurped by <em>Caudillos</em></li>
+<li>&#8226; Civil wars ensued between different states.</li>
+</ul>
+<p>Although Simon bolivar died as a hated man, importance of his ideas realized by Latin American even today and he is hailed as EL LIBERATOR. His ideas of unity, democracy, and liberty had a lasting impact on the region. He is often referred to as the <strong>&#8220;George Washington of South America&#8221;</strong> for his role in the independence movement.</p>
+<p>Even though his dream of United South America couldn&#8217;t be fulfilled, organizations like the Union of South American Nations (UNASUR) and the Community of Latin American and Caribbean States (CELAC) are examples of recent initiatives that aim to foster cooperation and unity among Latin American nations.</p>
+<h3>Revolution of 1830s</h3>
+<p>The revolution started in <strong>France</strong> <em>(July Revolution of 1830),</em> and very soon it assumed Pan European character.</p>
+<h4>France:</h4>
+<p>After the downfall of Napoleon, the Charter of 1814 established constitutional monarchy. It limited the powers of the king, created bicameral legislature, protected certain rights and liberties of people, and ensure property rights. It led to the restoration of Bourbons.</p>
+<p><strong>Bourbon Restoration Period (1814-1830)</strong></p>
+<ul>
+<li>&#8226; Louis XVIII (1815-24)</li>
+<li>&#8226; Charles X (1824-30)</li>
+</ul>
+<p>The revolution of 1830 took place against the ruler <strong>Charles X</strong>.</p>
+<ul>
+<li>&#8226; Charles didn&#8217;t want to follow the compromising policy of his predecessor
+<ul>
+<li style="padding-left:2em">&#9702; His attempts to restrict the powers of the legislature and limit the rights of the people led to widespread opposition.</li>
+<li style="padding-left:2em">&#9702; He also tried to enforce Roman Catholic religion on people.</li>
+<li style="padding-left:2em">&#9702; He imposed death penalty for any pilfering of Church objects.</li>
+<li style="padding-left:2em">&#9702; Compensation for aristocratic losses in the revolution of 1789.</li>
+</ul>
+</li>
+<li>&#8226; His assertion was opposed by the middle-class people who were in the assembly. So, he tried to bypass the Assembly and Charter, and started to rule through <strong>Four Ordinances</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; Restrict the freedom of the press.</li>
+<li style="padding-left:2em">&#9702; Dissolve the newly elected Chamber of Deputies</li>
+<li style="padding-left:2em">&#9702; Change the electoral laws in favor of the monarchy</li>
+<li style="padding-left:2em">&#9702; Reduction in number of voters</li>
+</ul>
+</li>
+<li>&#8226; People saw them as an attack on the liberties and an attempt by the monarchy to maintain absolute power. It was taken as a harbinger of return to Absolutism. The ordinances sparked widespread protests and demonstrations, which was the July Revolution of 1830.</li>
+<li>&#8226; As street protests erupted, these opponents of Charles X were also worried that commoners would demand that France become a republic once again which they didn&#8217;t want.</li>
+<li>&#8226; Eventually, <strong>Charles X was forced to abdicate</strong>, there was the overthrew of the Bourbon monarchy and establishment of a new constitution.</li>
+</ul>
+<p><strong>Outcome:</strong></p>
+<ul>
+<li>&#8226; It marked the <strong>end of the Bourbon monarchy</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The revolution resulted in the <strong>establishment of a constitutional monarchy</strong> under the rule of <strong>Louis-Philippe</strong> of the house of Orleans. He was thus known as <strong>Citizen King</strong>. This marked a shift towards a more liberal and constitutional form of government, known as the <strong>July Monarchy</strong>.</li>
+<li style="padding-left:2em">&#9702; This change of government was definitely <strong>a rupture which was created in European order</strong>, as the government of Charles X was a legitimate government duly accepted by the Concert of Europe. Thus, the <strong>principle of legitimacy emphasized by Vienna Congress</strong> got shattered.</li>
+</ul>
+</li>
+<li>&#8226; <strong>French middle class</strong> established its political dominance in the country.
+<ul>
+<li style="padding-left:2em">&#9702; New king expanded suffrage to around 1.7L people (out of 3 crore population) (</li>
+<li style="padding-left:2em">&#9702; <strong>Secularism</strong> also triumphed in France because the educations was liberated from the control of church.</li>
+</ul>
+</li>
+<li>&#8226; However,
+<ul>
+<li style="padding-left:2em">&#9702; Social unrest remained high as France became a more industrialized economy with more people living in cities. Both living and working conditions for common people were often terrible.</li>
+</ul>
+</li>
+</ul>
+<h4>Spread of Revolution outside France</h4>
+<p>Austrian Chancellor Metternich commented <em>&#8220;what did happen to Europe, whenever France sneezes, the whole of Europe catches cold&#8221;.</em></p>
+<ul>
+<li>&#8226; The news of success of revolution in France inspired the people all over Europe revolutions broke out in parts of Italy, Germany, Poland, Belgium, Spain, and Portugal.</li>
+<li>&#8226; As a result of impact of FR of 1789, France had attained the status of leader in Europe, any incidence taken place in France used to generate echoes in all over Europe.</li>
+<li>&#8226; The people of Europe had supported their kings in 1813 against Napoleon&#8217;s imperialism with the hope of getting liberal constitutional regime. But the Vienna Order shattered their hopes and aspirations. As a result of which the people started looking towards France once again for guidance and leadership.</li>
+<li>&#8226; <strong>Belgium</strong>
+<ul>
+<li style="padding-left:2em">&#9702; A revolution started against Holland/Dutch and finally, <strong>Belgium</strong> got independence.</li>
+<li style="padding-left:2em">&#9702; London Conference of 1830 established Belgium as an independent and neutral kingdom.</li>
+<li style="padding-left:2em">&#9702; This incident also shows growing rapture in European order. The <strong>territorial arrangement on the border of France set up by CoV was disturbed.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Britain</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The revolutionary situation was averted through introducing a parliament <strong>reforms bill in 1832</strong>. On the basis of this bill 6 lakh new voters got the franchise. It widened the social base of democracy.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Italy</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Various Italian states, including the Papal States, the Kingdom of the Two Sicilies, and the Duchy of Modena, experienced uprisings and revolts against their rulers. These revolts, while not leading to significant political changes, demonstrated growing nationalist sentiments and desires for reform.</li>
+<li style="padding-left:2em">&#9702; A revolution in favor of unification started under <strong>Mazzini</strong> in 1831. Mazzini emerged as a key figure in the Italian nationalist movement.
+<ul>
+<li style="padding-left:4em">&#9632; He spread nationalist awakening among Italians through his writings and speeches.
+<ul>
+<li style="padding-left:4em">&#9632; He sought to create a sense of national identity among the diverse peoples of Italy.</li>
+<li style="padding-left:4em">&#9632; He highlighted the common demands present among diverse Italian cultures.</li>
+<li style="padding-left:4em">&#9632; The spirit of fraternity was propagated by him among the people.</li>
+<li style="padding-left:4em">&#9632; He emphasized the virtue of sacrifice for the causes of nation.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; The efforts made by Mazzini brought about an intellectual revolution in Italy. He successfully carried out intellectual unification of all Italians and this intellectual unification prepared a background for political unification of Italy in future.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Young Italy</strong> was formed in 1831 by Mazzini. It aimed to unify Italy, free it from foreign domination and establish of a democratic republic. It worked overtly through activism, propaganda, and education, with the aim of creating a popular uprising. It established a network of secret societies throughout Italy, working to recruit and radicalize individuals.</li>
+<li style="padding-left:2em">&#9702; Its activities were suppressed by the various reactionary forces that dominated the Italian peninsula at the time. Thus, it didn&#8217;t succeed in unifying Italy.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Germany</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The revolution in German states (esp urban uprisings and student movements) was mostly suppressed.</li>
+<li style="padding-left:2em">&#9702; However, people of Brunswick, Hesse and Hanover could extract liberal constitutions from their rulers.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Polish</strong> November Uprising (1830): Brutally suppressed by the Russian Tzar Nicholas I.</li>
+</ul>
+<h4>Analysis of 1830</h4>
+<ul>
+<li>&#8226; <strong>Nationalism</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Revolutions of 1830 were marked by a <strong>rising tide of nationalism</strong>, with people across Europe seeking greater political autonomy and independence from foreign rulers.</li>
+<li style="padding-left:2em">&#9702; Nationalist sentiments were particularly evident in the Belgian and Polish uprisings.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Class role debate:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Liberal ideas,</strong> including demands for constitutional government, individual rights, and freedom of the press, were central to the revolutions. In many cases, liberals played a key role in organizing and leading the uprisings. In countries like Belgium, Britain and France, liberalism triumphed.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Franz Mehring</strong> (German socialist historian): &#8220;The July Revolution of 1830 was an uprising of the middle classes, the bourgeoisie, which was directed not only against the Bourbon dynasty, but also against the old feudal system.&#8221;</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Social and economic discontent</strong> played a role in these revolutions. The urban working class, influenced by liberal and republican ideas, often supported calls for political reform and representation.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>George Rude</strong> (British Marxist historian): &#8220;The social and economic crisis, which swept through the towns and countryside of the Bourbon kingdom in 1830, had produced a class-consciousness among the urban workers.&#8221;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Outcome:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; While some countries, like Belgium, France and Britain <strong>(Western Part),</strong> achieved their independence or constitutional reforms, others, like Italy, Germany and Poland <strong>(Eastern Part),</strong> saw their uprisings crushed.</li>
+<li style="padding-left:2em">&#9702; <strong>Limited Impact:</strong> &#8220;The Revolution of 1830 did not represent a general overthrow of the old order. It was a disturbance, a violent break in the rhythms of established life and society.&#8221; <strong>(Eric Hobsbawm)</strong></li>
+<li style="padding-left:2em">&#9702; The Revolutions of 1830 demonstrated the <strong>persistence of revolutionary spirit</strong> in Europe, setting the stage for further revolutionary movements in the decades that followed, including the Revolutions of 1848.</li>
+</ul>
+</li>
+</ul>
+
+`,
   'world-wars': ``,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
