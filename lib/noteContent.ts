@@ -29955,7 +29955,6 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </ul>
 <h3><u>Collapse</u></h3>
 <p>All of this culminated in the First World War. But even the World War didn&#8217;t give a jolt to it. Finally, after the WW2, gradually the process of decolonization started.</p>`,
-`,
   'world-wars': ``,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
