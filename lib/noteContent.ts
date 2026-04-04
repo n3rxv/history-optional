@@ -33921,6 +33921,231 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
 <ul>
   <li>&#8226; It proved a waterloo for the USA as it could not prevent the reunification of Vietnam even after sacrificing 58000 soldiers.</li>
   <li>&#8226; It proved the popular nature of the Asian variant of communism which was different from the European variant.</li>
+</ul>
+<h2>Handout 42: Cold War Part 3</h2>
+
+<h3>13 Days' Standoff: Cuba Missile Crisis (1963)</h3>
+
+<h4>Causes:</h4>
+
+<ul>
+  <li>&#8226; A guerilla leader, <strong>Fidel Castro</strong>, captured the power in Cuba and started to resist American imperialism.
+    <ul>
+      <li style="padding-left:2em">&#9702; When Fidel Castro took over the power from the discredited dictator Batista at the beginning of 1959, he was far from admitting that he was a communist. However, he fiercely followed anti-American policy in Cuba. He embarked on a policy of increasing his economic links with the Soviet Union and with the Soviet bloc in general. This put a severe strain on his relations with the United States.</li>
+    </ul>
+  </li>
+  <li>&#8226; America couldn't tolerate this sort of activism. When the USA tried to crush his government in the <strong>botched-up Bay of Pigs invasion</strong> (1961)
+    <ul>
+      <li style="padding-left:2em">&#9702; US-backed Cuban counterrevolutionaries attempted to overthrow Fidel Castro's regime in the country and establish a non-communist government friendly to the US.</li>
+    </ul>
+  </li>
+  <li>&#8226; Castro now declared that he was now a Marxist, Cuba a socialist state and developed intimate relations with the <strong>Soviet Union</strong>.</li>
+  <li>&#8226; An agreement was made between the two, and by July 1962, a number of <strong>clandestine missile launch facilities</strong> began to be constructed in Cuba.</li>
+  <li>&#8226; The 13-day Cuban missile crisis, when President Kennedy received a report that Soviet missile sites had been identified on the island.
+    <ul>
+      <li style="padding-left:2em">&#9702; In spite of the pressure from the military advisers to launch air strikes against the missile bases in Cuba, Kennedy began a encircling of Cuba to keep out 25 Russian ships, which were bringing missiles to Cuba. (Naval Quarantine of Cuba). US destroyers and submarines were placed around Cuba in order to prevent military supplies being brought to the island.</li>
+      <li style="padding-left:2em">&#9702; Further, Kennedy demanded the dismantling of the missile sites and the removal of those missiles already in Cuba.</li>
+    </ul>
+  </li>
+  <li>&#8226; However, the USSR initiated installing more such missiles. So there appeared the situation of direct confrontation.</li>
+  <li>&#8226; The situation reached a <strong><u>stalemate</u></strong>.
+    <ul>
+      <li style="padding-left:2em">&#9702; Due to <u><strong>MAD</strong></u>, Leaders of the two superpowers maintained contact by means of letters and telephone messages. Neither wanted the world to be plunged into war. Both were under a lot of pressure.</li>
+      <li style="padding-left:2em">&#9702; <strong>Brinkmanship:</strong> In the next few days, as a number of merchant ships carrying Soviet missiles approached the ring of the United States warships, the world held its breath and waited for what appeared to be an inevitable US-Soviet clash, which might lead in a matter of hours to all-out thermo-nuclear war.</li>
+      <li style="padding-left:2em">&#9702; The Secretary general of the UN, U Thant, appealed to both sides for restraint.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>De-escalation</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; President Kennedy, at the same time as making his firm military response to the situation, was however seeking means to leave open a loophole in order to make it as easy as possible for Khrushchev to climb down without much loss of face. While ships were stopped and searched, those which had no missiles were allowed to enter Cuban waters.</li>
+      <li style="padding-left:2em">&#9702; The first sign of de-escalation came on October 26, when Khrushchev sent Kennedy a letter, stating that he would be willing to stop military shipments and withdraw his forces from Cuba if the US agreed to not invade or support any invasion of its neighbour. Khrushchev ordered Russian ships, carrying additional missiles, to turn back on 27 October 1962. He also promised to remove the missiles and dismantle the launching sites from Cuba.</li>
+      <li style="padding-left:2em">&#9702; In return Kennedy promised that the USA would not invade Cuba again and undertook to disarm the Jupiter missiles in Turkey.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4>Significance:</h4>
+
+<ul>
+  <li>&#8226; The Cuban Missile Crisis had only lasted for a few days, but it was extremely tense, and it had important results. Both sides could claim to have gained something.</li>
+  <li>&#8226; The <strong>danger of nuclear war</strong> compelled both the superpowers to think over <u><strong>detente</strong></u>.
+    <ul>
+      <li style="padding-left:2em">&#9702; Thus, in 1963, for the first time, an initiative was taken for a <strong>Hotline Agreement</strong> between the two countries which provided direct telephonic connection. Then there was <strong>PBT</strong>, partial ban agreement.</li>
+      <li style="padding-left:2em">&#9702; There would be no more 'brinkmanship' on the one side or the other.</li>
+    </ul>
+  </li>
+  <li>&#8226; The <strong>USSR</strong> came to realize that it lagged behind the USA in the matter of nuclear arsenals and thus, it started to further strengthen its <strong>nuclear stockpile.</strong></li>
+  <li>&#8226; For Europe, the crisis had been the plainest evidence that there was now a bi-polar world, in which decisions would be reached by the superpowers without Europe being considered.</li>
+  <li>&#8226; It created <strong>differences between USA and France</strong> about NATO's policy.</li>
+</ul>
+
+<h3>Phase of Détente (1962-79)</h3>
+
+<p>During this period significant improvement was witnessed in the relations between the two superpowers. It was a phase of comparative international peace commenced in 1962.</p>
+
+<h4>Causes:</h4>
+
+<ul>
+  <li>&#8226; The <strong>Cuban missile crisis</strong>, when it appeared that a full-fledged war was about to break out and MAD would get operational, forced both superpowers to take steps to reduce hostilities and improve the relations.</li>
+  <li>&#8226; <strong>Economic difficulties</strong> being faced by <strong>Soviet Union</strong> forced soviet leadership to adopt a conciliatory approach. By 1960s, the Soviet Union was finding the cost of Cold war competition crippling for civilian economy.</li>
+  <li>&#8226; The <strong>West European nations</strong> worked actively to improve the relations with Eastern bloc.</li>
+  <li>&#8226; <strong>NAM</strong> also played an important role by acting as a bridge between the 2 blocs.</li>
+</ul>
+
+<h4>Developments during détente:</h4>
+
+<ul>
+  <li>&#8226; 1963: <strong>Hotline agreement</strong> between USA and USSR</li>
+  <li>&#8226; 1963: <strong>Partial Test Ban Treaty</strong> (PTBT)</li>
+  <li>&#8226; 1968: <strong>Non-Proliferation Treaty</strong> (NPT)</li>
+  <li>&#8226; 1971: Improvement in <strong>China-US relationship</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Kissinger secretly visited China, facilitated by Pakistan.</li>
+      <li style="padding-left:2em">&#9702; In 1971 Chinese Communist regime was recognized by USA.</li>
+      <li style="padding-left:2em">&#9702; In 1972, US President Richard Nixon visited China and met Mao.</li>
+    </ul>
+  </li>
+  <li>&#8226; 1972: Nixon-Brezhnev talks led to the signing of <strong>SALT I</strong> (Strategic Arms Reduction Treaty)</li>
+  <li>&#8226; 1973: The <strong>withdrawal of American forces from Vietnam</strong> also improved the relations.
+    <ul>
+      <li style="padding-left:2em">&#9702; The Failure of American policy of containment in Vietnam convinced the US leadership that some other strategies have to be adopted to counter communism.</li>
+    </ul>
+  </li>
+  <li>&#8226; 1975: <strong>Helsinki Agreement</strong> (Helsinki Final Act)
+    <ul>
+      <li style="padding-left:2em">&#9702; The agreement emphasized the principle of the inviolability of borders and respect for territorial integrity, seeking to reduce tensions related to border disputes.</li>
+      <li style="padding-left:2em">&#9702; It included provisions for increased economic cooperation and exchanges between Eastern and Western European countries.</li>
+      <li style="padding-left:2em">&#9702; It was groundbreaking in its inclusion of human rights provisions.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Détente <strong>could not continue for longer time</strong> and proved short-termed. Soon, the old enmity resurfaced, new tensions appeared, and the cold war was revived by the end of 1970s.</p>
+
+<h3>New/Second Cold War (1979-85)</h3>
+
+<p>During this period the hostilities between the capitalist and communist blocs got intensified once again. Both the blocs condemned each other and took vows to destroy the opponent.</p>
+
+<ul>
+  <li>&#8226; It was triggered by <strong>Soviet invasion of Afghanistan (1979)</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; In Dec 1979, Soviet Union captured Afghanistan. This move terrified the western capitalist nations. They realized that Soviet Union was not much interested in peace, and it was determined to spread communism.</li>
+      <li style="padding-left:2em">&#9702; In response: USA announced the boycott of 1980 summer <strong>Olympics held in Moscow.</strong></li>
+    </ul>
+  </li>
+  <li>&#8226; There were other <strong>proxy conflicts:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Iran-Iraq War, the civil war in El Salvador, and the Angolan Civil War.</li>
+      <li style="padding-left:2em">&#9702; These proxy conflicts further destabilized international relations and made it more difficult to achieve peace in these regions.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Rhetorical escalation:</strong> In 1983, US president <strong>Ronald Reagan termed Soviet Union as Evil Empire.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; This was taken as great insult by the Soviet leadership and it boycotted summer <strong>Olympics 1984 held in Los Angeles.</strong></li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Intensified Arms Race:</strong> Both the US and the Soviet Union significantly increased their military spending during this period, leading to a major arms race.
+    <ul>
+      <li style="padding-left:2em">&#9702; SDI: Strategic Defence Initiative (<strong>Star War</strong>) was undertaken by USA.</li>
+      <li style="padding-left:2em">&#9702; The US led western Alliance established <strong>new missile bases in West Germany.</strong></li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Nuclear brinkmanship:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; NATO deployed <strong>intermediate-range nuclear missiles</strong> in Western Europe.
+        <ul>
+          <li style="padding-left:4em">&#9632; This move was met with strong opposition and protests, contributing to a climate of heightened military tensions.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3>End of the Cold War (1985-91)</h3>
+
+<p>With the elections of Mikhail Gorbachev as Soviet President in 1985, the Cold War hostilities started getting reduced and ultimately in 1991 it came to an end.</p>
+
+<ul>
+  <li>&#8226; <strong>USSR Side:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Due to the <strong>crisis in the economy of the USSR</strong>, the armed race became almost unsustainable for USSR.
+        <ul>
+          <li style="padding-left:4em">&#9632; It was the time when President of the USA, Ronald Reagan, declared his famous 'SDI Programme' (Star War program). Although the technological feasibility of the program was not clear, still it created deep psychological pressure over USSR.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The <strong>liberal policy of Russian president Gorbachev</strong> and his defence minister Eduard Shevardnadze resulted in the easing of tensions.
+        <ul>
+          <li style="padding-left:4em">&#9632; In fact, it was the USSR which took a major initiative in a bigger curtailment of weapons. Gorbachev was a liberal and a progressive visionary leader. He took conscious steps to reduce the hostilities with west, because he wanted to revive soviet economy to save the existence of communism.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>American Side:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; By 1980s, American economy had also started experiences stress and strain due to the burden of Cold war competition.</li>
+      <li style="padding-left:2em">&#9702; The <strong>USA came under pressure from its allies</strong> to ease the tension with Soviet Russia.
+        <ul>
+          <li style="padding-left:4em">&#9632; In fact, <strong>European nations</strong> planned construction of a 3500-km long <strong>gas pipeline</strong> from USSR directly to consumption centres. <em>(Siberian Pipeline directly to Germany)</em></li>
+          <li style="padding-left:4em">&#9632; But due to the pressure from the side of American president Ronald Reagan, this program was <strong>dropped</strong>.</li>
+          <li style="padding-left:4em">&#9632; As a result of this west European countries felt much disturbed.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; President <strong>Reagan felt the pressure even from American people.</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; In fact, in America, an <strong>anti-nuclear consciousness</strong> had already developed.</li>
+          <li style="padding-left:4em">&#9632; As the year 1984 was an election year for the American president so, the American president followed the policy of peace in order to appease the American public opinion.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Eastern Europe:</strong> Downfall of communism in the Eastern Europe during 1988-91 greatly weakened the eastern bloc.
+    <ul>
+      <li style="padding-left:2em">&#9702; The communist governments were successfully overthrown in Czechoslovakia (1989), Romania (1990), Albania (1990), Bulgaria (1990), Hungary (1990) &amp; Poland (1990).</li>
+      <li style="padding-left:2em">&#9702; Berlin wall was also opened in Nov 1989 and in 1990, Germany was re-unified.</li>
+      <li style="padding-left:2em">&#9702; These Changes in eastern Europe greatly improved the relations with nations and Cold War hostilities got reduced drastically.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Disintegration of the USSR</strong> in Dec 1991 destroyed the concept of second world. The communist bloc was no more, and the Cold War came to an end.</li>
+</ul>
+
+<h3>Impact of the cold war</h3>
+
+<ul>
+  <li>&#8226; During the cold war, the <strong>foreign policies of most of the countries were subordinated</strong> to the policy of the USA or that of USSR.</li>
+  <li>&#8226; The cold war created the way for the new conflict but didn't solve the old ones. The <strong>old conflicts resurfaced after the cold war</strong>, which were covered/suppressed temporarily.
+    <ul>
+      <li style="padding-left:2em">&#9702; For example, Kuwait remained to be an independent nation right from 1961 onwards, but Iraq invaded Kuwait after 1990 when the cold war ended.</li>
+    </ul>
+  </li>
+  <li>&#8226; The cold war encouraged the <strong>process of decolonization</strong> or the liberation of colonies.</li>
+  <li>&#8226; Even before the end of WWII, the USA campaigned for the cause of the liberation of colonies with its famous Atlantic Charter (1941). But during the Cold War, to strengthen its position, the <strong>USA toppled the democratic government and supported dictatorships in many regions.</strong></li>
+  <li>&#8226; The Cold War fueled an <strong>unprecedented arm race.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; It led to significant <strong>technological advancements in military and space technology</strong>. These advancements had <strong>spin-off effects</strong> in civilian applications, impacting various industries.</li>
+      <li style="padding-left:2em">&#9702; An <strong>illegal market for weapons</strong> was created in many parts of the world.</li>
+      <li style="padding-left:2em">&#9702; <strong>Nuclear:</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; The arms race between the U.S. and the Soviet Union led to the development of <strong>vast nuclear arsenals.</strong></li>
+          <li style="padding-left:4em">&#9632; The <strong>proliferation of nuclear technology</strong> to other states also became a concern.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>Space Militarization:</strong> The Cold War extended to space exploration, as both superpowers sought to gain a strategic advantage in the new frontier. The militarization of space has continued in the post-Cold War era, raising concerns about potential conflicts and arms races in space.</li>
+    </ul>
+  </li>
+  <li>&#8226; During the cold war, the region of <strong>Asia and Africa as well as Latin America remained to be disturbed</strong> but it was the time there was <strong>relative peace and prosperity in Europe.</strong> The integration of Europe started during this period.</li>
+  <li>&#8226; The Cold War saw <strong>numerous proxy wars</strong> in various regions, including Korea, Vietnam, Afghanistan, and Africa. Many of these conflicts left <strong>lasting scars</strong>, contributed to <strong>ongoing regional tensions</strong>, and, in some cases, laid the <strong>groundwork for contemporary geopolitical challenges</strong>.</li>
+  <li>&#8226; The Cold War <strong>highlighted the importance of collective security and the role of the United Nations</strong> in maintaining peace and preventing conflict.
+    <ul>
+      <li style="padding-left:2em">&#9702; The UN played a crucial role in peacekeeping missions and conflict resolution efforts.</li>
+    </ul>
+  </li>
+  <li>&#8226; Despite the ideological divide, the Cold War also <strong>fostered economic interdependence.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Countries became reliant on each other for resources and trade.</li>
+      <li style="padding-left:2em">&#9702; This interdependence has increased in the post-Cold War era.</li>
+    </ul>
+  </li>
+  <li>&#8226; The Cold War also coincided with the <strong>rise of civil rights and social movements</strong>, as people challenged discrimination and advocated for equality. These movements gained momentum in the context of the Cold War ideological struggle.</li>
 </ul>`,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
