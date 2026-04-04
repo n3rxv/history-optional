@@ -30729,6 +30729,372 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <ul>
   <li>&#8226; He <strong>destroyed the system created by peacemakers of Paris</strong> gradually. By 1938-39, Germany had emerged as a big military power. His aggression became higher with the passage of time. The annexation of Austria and Czechoslovakia had convinced western democracies that Hitler had no respect for existing international order and that he was determined to push German national interest at the cost of International Peace.</li>
   <li>&#8226; The <strong>Non-Aggression Pact with Russia</strong> greatly strengthened the resolve of western democracies to counter German aggression, because alliance of Nazism and Communism was threatening the very existence of western capitalist world. It was the fear created by this German soviet alliance that forced Britain and France to declare war on Germany when Hitler attacked Poland.</li>
+</ul>
+<h2>Handout 44: Chinese Revolution (1949)</h2>
+<p>The Chinese civil war, which was fought between the Kuomintang (KMT) regime led by General Chiang Kai Shek and the Chinese Communist Party (CCP) led by Mao Tse Tung (Mao Zedong), is known as Chinese Revolution in the modern Chinese history. This civil war ended in the victory of CCP and on 1st Oct 1949 and China emerged as a communist nation.</p>
+
+<h2>Background: Rise of Communism in China</h2>
+
+<h3>Revolution of 1912:</h3>
+<ul>
+<li>&#8226; At the beginning of the century, China was ruled by <strong>Manchu Dynasty</strong>. However, by now, China had faced years of humiliation at the hands of outsiders. She was subjected to <strong>imperialist exploitation.</strong></li>
+<li>&#8226; Thus, by the early 1900s, China was ripe for revolution.</li>
+<li>&#8226; As a result, in 1912, there was an overthrow of the last Manchu ruler and the formation of republic. It was led by <strong>Dr. Sun Yat Sen</strong> (Sun Yixian) who then came to power. This marked the end of over 2,000 years of imperial rule in China.</li>
+<li>&#8226; Dr. Sen's government was guided by 3 ideals:
+  <ul>
+  <li style="padding-left:2em">&#9702; Nationalism: to end the foreign control</li>
+  <li style="padding-left:2em">&#9702; Livelihood and Land reforms: Economic security of all citizens</li>
+  <li style="padding-left:2em">&#9702; Democracy: Democracy was essential to liberate China from clutches of despotism and war lords.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>After Revolution (1912-1919):</h3>
+<p>The KMT faced a lot of challenges from the very beginning.</p>
+<ul>
+<li>&#8226; Despite being an influential revolutionary leader, Sun lacked the authority and military support to secure national unity. He deferred to <strong>Yuan Shikai</strong>, commander of the only military force capable of unifying the country.
+  <ul>
+  <li style="padding-left:2em">&#9702; Yuan Shikai remained president for 4 years, but he quickly betrayed the democratic ideals of the revolution. His actions sparked local revolts.</li>
+  </ul>
+</li>
+<li>&#8226; After the general died in 1916, <strong>civil war broke out.</strong> Real authority fell into the hands of <strong>provincial warlords</strong> (powerful military leaders). They ruled territories as large as their armies could conquer.
+  <ul>
+  <li style="padding-left:2em">&#9702; So, despite the best of the efforts made by Dr Sen and his colleagues to create a modern China, the republic didn't work.</li>
+  <li style="padding-left:2em">&#9702; <strong>Sun</strong> saw this as an opportunity to regain power, and he returned to China in 1917. He formed a government in southern China: <strong>Guangzhou</strong></li>
+  </ul>
+</li>
+<li>&#8226; Meanwhile, in 1917, when <strong>Bolshevik revolution became successful in Russia.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; China being a neighbouring country was influenced and fascinated. Some Chinese intellectual and scholars came under its spell. One of them was Mao.</li>
+  <li style="padding-left:2em">&#9702; <strong>Sun Yat-Sen</strong> was also an early proponent of certain socialist ideals, arguing that <strong>socialism and communism were both subsets of the doctrine of Minsheng</strong> (People's Livelihood), an idea centered around the taxation of land.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>May Fourth Movement (1919-21)</h3>
+<ul>
+<li>&#8226; China at this juncture in 1917 participated in <strong>WW1</strong> in the hope to liberate Shantung from Germany. However, under the Treaty of Versailles, the Allied leaders gave Japan those territories.</li>
+<li>&#8226; This deceitful humiliation in China led to a strong anti-imperialist feeling which led to the <strong>May Fourth movement</strong>.
+  <ul>
+  <li style="padding-left:2em">&#9702; Workers, shopkeepers, and professionals joined the cause.</li>
+  <li style="padding-left:2em">&#9702; The movement marks the <strong>beginning of Chinese nationalism.</strong></li>
+  <li style="padding-left:2em">&#9702; <strong>Sun Yat Sen</strong> also shared the aims of the movement.
+    <ul>
+    <li style="padding-left:4em">&#9632; He reorganized his party into the <strong>Kuomintang</strong> (Nationalist Party or <strong>KMT</strong>) to create a more unified and disciplined political force.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Intellectual-Cultural Awakening</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; Influential intellectuals and students rejected traditional Confucian values and advocated for a new, modern, and science-based approach to culture and society.</li>
+    <li style="padding-left:4em">&#9632; There was a call for vernacular language, democracy, and individual rights, reflecting a broader shift toward modernity.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Student Activism</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; Students and young intellectuals played a central role in the May Fourth Movement. University campuses became hotbeds of activism, with students organizing protests, strikes, and intellectual forums.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Communism</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; Many young Chinese intellectuals and students, who participated in the movement, soon turned <strong>disillusioned with Western democracy in favor of Lenin's brand of Soviet communism.</strong></li>
+    <li style="padding-left:4em">&#9632; After 1919, <strong>Bolsheviks also assisted China</strong> by sending some agents, under the banner of Commintern.</li>
+    <li style="padding-left:4em">&#9632; Now, communism began to <strong>gain serious traction in China</strong>. During 1919-20, <strong>reading groups</strong> focused on the study of Marxism began to develop in China.</li>
+    <li style="padding-left:4em">&#9632; Thus, was formed the <strong>Communist party in China (CCP) in 1921.</strong></li>
+    </ul>
+  </li>
+  </ul>
+</li>
+</ul>
+
+<h2>Chinese Communist Movement under Mao-Tse-Tung</h2>
+
+<h2>First Phase: United Front Policy (1922-27)</h2>
+<p>Initially, both parties worked together to create a modern China.</p>
+<ul>
+<li>&#8226; <strong>Dr Sen (KMT)</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Like the Communists, Sun became disillusioned with the Western democracies that refused to support his struggling government.</li>
+  <li style="padding-left:2em">&#9702; He hoped to unite all the revolutionary groups for common action.</li>
+  <li style="padding-left:2em">&#9702; Dr. Sen also wanted to carry out the Northern Expedition to unify China under a single government.</li>
+  <li style="padding-left:2em">&#9702; Sun Yat-sen announced the Three Great Policies, which emphasized nationalism, democracy, and <em>socialism</em>. This framework provided a basis for cooperation between the KMT and CCP, as both parties shared the goal of a unified and modernized China.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Mao (CCP)</strong> decided to help the KMT and oppose the imperialist powers.
+  <ul>
+  <li style="padding-left:2em">&#9702; He adopted a very <strong>pragmatic policy</strong> in China. Chinese Communist Party seized every opportunity to strengthen its position.</li>
+  <li style="padding-left:2em">&#9702; Its policies were similar to KMT regime of Dr. Sun Yat Sen.</li>
+  <li style="padding-left:2em">&#9702; There was a guidance coming from Moscow.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Role of Lenin</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Lenin seized the opportunity to promote his United Front Policy and</li>
+  <li style="padding-left:2em">&#9702; To help KMT government, in 1923, he sent military advisers and equipment in return for allowing the Chinese Communists to join the Kuomintang.</li>
+  </ul>
+</li>
+</ul>
+<p>Despite their cooperation, the Communists and Nationalists had fundamental ideological differences that would eventually lead to their split. The United Front Strategy didn't last long.</p>
+<p><strong>Reasons:</strong></p>
+<ul>
+<li>&#8226; Lenin died in 1924 and Dr Sen passed away in 1925. Now, the differences flared up between the new leaders – <strong>Chiang Kai Shek (CKS,</strong> Jiang Jieshi) and Mao.</li>
+<li>&#8226; <strong>Chiang was anti-communist.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; He had promised democracy and political rights to all Chinese. Yet his government became steadily <strong>less democratic and more corrupt.</strong></li>
+  <li style="padding-left:2em">&#9702; Most peasants believed that Chiang was doing little to improve their lives. As a result, <strong>many peasants threw their support behind the CCP</strong>.</li>
+  <li style="padding-left:2em">&#9702; Despite that, the <strong>Northern Expedition</strong> (1926-28) was carried out by the KMT with CPC support which was aimed at unifying the country under one government by defeating the warlords.</li>
+  </ul>
+</li>
+<li>&#8226; In 1927, <strong>CPC published a future strategy which alarmed KMT.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Its final objective was declared to be the proletariat revolution and end of capitalism. However, collaboration with the nationalist party (deemed as capitalist) was considered only a tactical necessity.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>CCP tried to capture some industries</strong> and organize some workers for the revolution.
+  <ul>
+  <li style="padding-left:2em">&#9702; It created cleavage between the two parties.</li>
+  </ul>
+</li>
+</ul>
+<p>Thus, by 1927, the period of honeymoon was over, and the members of CPC were expelled. Coalition government was over.</p>
+
+<h2>Second Phase: Chinese Civil War (1927-37)</h2>
+<ul>
+<li>&#8226; In 1927, the <strong>United Front was broken</strong> by KMT and then CKS declared a war against communist in China.
+  <ul>
+  <li style="padding-left:2em">&#9702; He initiated violence, <strong>purges and massacres</strong> to suppress CCP.</li>
+  <li style="padding-left:2em">&#9702; The Nationalists nearly wiped out the Chinese Communist Party.</li>
+  </ul>
+</li>
+<li>&#8226; In 1928, <strong>CKS became president</strong> of the Nationalist Republic of China.
+  <ul>
+  <li style="padding-left:2em">&#9702; Great Britain and the United States both formally recognized the new government, but the Soviet Union did not.</li>
+  </ul>
+</li>
+<li>&#8226; After the massacre, the <strong>Communists fled cities and retreated to the countryside.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; By early 1930s, they had created a political base in rural China.</li>
+  <li style="padding-left:2em">&#9702; A Chinese Soviet Republic (CSR, also <strong>Jiangxi Soviet)</strong> (1927-34) was created and even issued a currency and ran welfare programs. Mao even re-distributed land among peasants.
+    <ul>
+    <li style="padding-left:4em">&#9632; Mao also recruited the peasants to join his Red Army.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>KMT was alarmed with this development.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It continued its <strong>counter-insurgency operations</strong> and kept on sending <strong>expeditions to destroy the soviet.</strong></li>
+  <li style="padding-left:2em">&#9702; In the meantime, <strong>Japan invaded China in 1931</strong> and tried to capture Manchuria.
+    <ul>
+    <li style="padding-left:4em">&#9632; However, for CKS, the bigger enemy still was not Japan but CCP under Mao. Even during this critical juncture, continued his counter-insurgency operations.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; He sent a large <strong>army of 10L soldiers</strong> against CPC in Jianxi province. These soldiers almost started slaughter of Communist party volunteers. <strong>Finally, it captured Jiangxi Soviet.</strong></li>
+  </ul>
+</li>
+<li>&#8226; <strong>Long March (1934-35)</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Communist Party leaders realized that they were totally surrounded by the nationalist forces and faced defeat. Now it became the matter of survival for Mao.</li>
+  <li style="padding-left:2em">&#9702; In a daring move, 100,000 Communist forces fled. They began a hazardous, 6,000-mile-long journey called the Long March. They moved across the country and reach <strong>Shaanxi Province</strong> in NW and created a new base.
+    <ul>
+    <li style="padding-left:4em">&#9632; After finally arriving at the caves in Shaanxi, Mao declared, "If we can survive all this, we can survive everything. This is but the first stage of our Long March. The final stage leads to Peking [Beijing]!"</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>Significance of Long March:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Escape from encirclement:</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; It allowed the Red Army to escape from encirclement by the KMT forces and to establish a new base in northwestern China.</li>
+    <li style="padding-left:4em">&#9632; This was a significant military victory for the Communists and enabled it to continue fighting the KMT.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Increased popular base:</strong> It also helped to increase popular support for the CRA.
+    <ul>
+    <li style="padding-left:4em">&#9632; Red Army's willingness to endure such hardship and sacrifice won over many Chinese people to their cause.</li>
+    <li style="padding-left:4em">&#9632; During the March, communists came into contact with more than 200 million people. They could spread the ideas among masses &amp; won massive mass support. It was this mass support that helped CCP in winning against KMT regime.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Party Unity:</strong> It forged a sense of unity and ideological purity within the CCP.
+    <ul>
+    <li style="padding-left:4em">&#9632; The harsh conditions and constant threat from external forces forced the party to address internal ideological differences and solidify its commitment to communism.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Rise of Mao Zedong:</strong> It solidified Mao Zedong's position as the leader of the Chinese Communist Party (CCP).
+    <ul>
+    <li style="padding-left:4em">&#9632; Mao's leadership during the Long March demonstrated his strategic brilliance, determination, and ability to inspire loyalty.</li>
+    <li style="padding-left:4em">&#9632; Amid the Long March, in 1935, Mao became the main leader in CCP in <strong>Zunyi Conference</strong>.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Ideological shift:</strong> Mao's emphasis on guerrilla warfare and political mobilization led to a more pragmatic and mass-oriented approach to revolution.
+    <ul>
+    <li style="padding-left:4em">&#9632; "The guerrilla must move amongst the people as a fish swims in the sea." – Mao</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Formation of Red Army's military doctrine:</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; This experience shaped the military doctrine of the Red Army, emphasizing flexibility, mobility, and the ability to operate in diverse and challenging environments.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+</ul>
+
+<h2>Third Phase: Japanese Invasion and WW2 (1937-45)</h2>
+<ul>
+<li>&#8226; In 1937, Japan embarked on a program of conquest across much of eastern China.</li>
+<li>&#8226; <strong>Mao's Initiative:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Appeal to Nationalists:</strong> Mao made several attempts to persuade Chiang Kai-shek to form a united front against the Japanese.</li>
+  <li style="padding-left:2em">&#9702; <strong>Tactical Move:</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; In the face of the Japanese invasion, the CCP retreated to preserve its forces and form alliances with various local warlords and the KMT.</li>
+    <li style="padding-left:4em">&#9632; This tactical maneuvering facilitated the establishment of a united front against the common enemy.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>CKS Reaction:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Notwithstanding, Chiang continued to press against CPC.</li>
+  <li style="padding-left:2em">&#9702; But his commander, did not support the attack on the Communists. Instead, Chiang was kidnapped for two weeks and forced into making a "Second United Front" with the Communists against Japan.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Second United Front</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; During this phase, the CCP and the KMT were temporarily in an alliance so they could fight against their common enemy, Japanese invaders.</li>
+  <li style="padding-left:2em">&#9702; Once the actual war started, CKS realized very soon that this collaboration was simply a tactical move on part of Mao. Mao preserved his resources and expanded his base.
+    <ul>
+    <li style="padding-left:4em">&#9632; From Northwest, they mobilized peasants for guerrilla war against the Japanese in the northeast.</li>
+    <li style="padding-left:4em">&#9632; Communists aggressively expanded their military strength through absorbing Chinese guerrilla forces behind enemy lines.</li>
+    <li style="padding-left:4em">&#9632; Thanks to their efforts to promote literacy and improve food production, the Communists won the peasants' loyalty. By 1945, they controlled much of northern China.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; On the other hand, due to the invasion from Japan, the area under the Kuomintang government weakened.
+    <ul>
+    <li style="padding-left:4em">&#9632; Its <strong>power was reduced in defence.</strong></li>
+    <li style="padding-left:4em">&#9632; <strong>Chiang withdrew:</strong>
+      <ul>
+      <li style="padding-left:4em">&#9632; Having lost most of China's economic and industrial centers, Chiang withdrew into the hinterlands, stretched the Japanese supply lines, and bogged down Japanese soldiers in the vast Chinese interior.</li>
+      </ul>
+    </li>
+    <li style="padding-left:4em">&#9632; <strong>Scorched-earth policy:</strong>
+      <ul>
+      <li style="padding-left:4em">&#9632; As part of a policy of protracted resistance, Chiang authorized the use of scorched-earth tactics, which <strong>resulted in many civilian deaths.</strong></li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Disaster Relief:</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; Chiang/KMT were slow to provide disaster relief.</li>
+    <li style="padding-left:4em">&#9632; At this moment the communist party rushed to fill up the vacuum and expanded its base in the region.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; In the meantime, in 1941, Pearl Harbour happened, and the <strong>USA entered the war.</strong> So, the Chinese question became the part of the bigger question of the World War.
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Corruption in Chiang's army:</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; From 1942 to 1945, the US sent the Nationalists at least $1.5 billion in aid to fight the Japanese. Instead of benefiting the army, however, these supplies and money often ended up in the hands of a few corrupt officers.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; On 15 August, Japan surrendered after Hiroshima and Nagasaki and the war ended.</li>
+</ul>
+
+<h2>Fourth Phase: Second Phase of the Civil War (1945-49)</h2>
+<p>After the conclusion of World War II, the civil war resumed between the KMT and the CCP.</p>
+<ul>
+<li>&#8226; There were 40L soldiers from the side of KMT while 10L from the side of CPC in the People's Army.</li>
+<li>&#8226; At first, the <strong>Nationalists had the advantage.</strong> Their army outnumbered the Communists' army by more than three to one.</li>
+<li>&#8226; <strong>External Support:</strong> In the war, the United States supported the KMT, and the Soviet Union supported the CCP, but both to limited extent.
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>American Strategy:</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; American government did not intervene in CCW directly.</li>
+    <li style="padding-left:4em">&#9632; Initially USA tried to resolve the Chinese crisis through talks. Both the groups were brought to discussion table to settle their difference.</li>
+    <li style="padding-left:4em">&#9632; When these talks failed, to end the hostilities American government provided financial support to KMT regime ($2b aid).</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; The Nationalist forces, however, did little to win <strong>popular support.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; By this time, the CCP had strengthened its base.</li>
+  <li style="padding-left:2em">&#9702; With China's economy collapsing, thousands of Nationalist soldiers deserted to the Communists.</li>
+  <li style="padding-left:2em">&#9702; Mao's troops were also enthusiastic about his promise to return land to the peasants.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>War</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; As Japan started to evacuate Chinese region. A race started between the two parties to capture the region and establish the government.</li>
+  <li style="padding-left:2em">&#9702; During this war, there was widespread devastation in China.</li>
+  <li style="padding-left:2em">&#9702; In spring 1949, China's major cities fell to the well-trained Red forces.</li>
+  <li style="padding-left:2em">&#9702; The remnants of Chiang's shattered army fled south.</li>
+  <li style="padding-left:2em">&#9702; Thus, despite initial gains by the KMT, they were eventually defeated and forced to flee to offshore islands, most notably <strong>Taiwan</strong>.</li>
+  </ul>
+</li>
+<li>&#8226; Mao Zedong established the People's Republic of China in Beijing on 1 October 1949.</li>
+</ul>
+
+<h2>Why did CCP Emerge Victorious while KMT Fail?</h2>
+<p>The victory of CCP against the KMT regime was as much the results of strengths of communist as the weakness of KMT regime.</p>
+<ul>
+<li>&#8226; <strong>Leadership:</strong> Mao Zedong's efficient, charismatic and strategic leadership vs. Chiang Kai-shek's perceived authoritarianism.</li>
+<li>&#8226; <strong>Soldiers:</strong> Highly motivated soldiers led by inspiring leaders such as Mao and Chou En Lai vs. demoralized, not properly paid and more of mercenaries.</li>
+<li>&#8226; <strong>Social Base:</strong> Immense mass support due to pro-people policies. Mobilization of peasants (land reforms, social reforms). Period of Long March was used to widen mass base vs. anti-people approach. Failure among rural peasantry; association with landlords. Lack of concern for common people.</li>
+<li>&#8226; <strong>Military Tactics:</strong> Successful use of guerrilla warfare against a much bigger army of KMT vs. military weaknesses, corruption within ranks, and loss of critical battles.</li>
+<li>&#8226; <strong>Ideological Flexibility:</strong> Adapted ideology to specific circumstances vs. struggled with internal divisions and factionalism; lacked ideological adaptability.</li>
+<li>&#8226; <strong>International Support:</strong> Received support and guidance from the Soviet Union vs. inability to gain substantial international support; inefficient use of U.S. backing.</li>
+<li>&#8226; <strong>Impact of World War II:</strong> Decision to suspend civil war and prioritize resistance to Japan made it popular. It emerged from the conflict in a stronger position vs. didn't care about occupation of Manchuria and thus unpopular. Its military capabilities were severely impacted; failed to capitalize on wartime contributions.</li>
+<li>&#8226; <strong>Overall Unity and Coherence:</strong> Achieved a sense of unity and ideological purity vs. internal divisions and factionalism weakened overall coherence.</li>
+</ul>
+
+<h2>Impact/Significance</h2>
+<ul>
+<li>&#8226; <strong>For China:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; The Chinese revolution was a "nationalist revolution" that helped to <strong>unify</strong> China.</li>
+  <li style="padding-left:2em">&#9702; It resulted in the emergence of a <strong>powerful</strong> and <strong>ambitious</strong> China.</li>
+  </ul>
+</li>
+<li>&#8226; The success of the CCP <strong>made the communist revolution relevant in Asia.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Mao <em>redefined Marxist ideology</em> according to the specific Asian condition. Basis of this revolution was the peasants as proletariat class.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Transformation of Society:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It brought about significant socio-economic changes, including land reforms, the redistribution of wealth, and the empowerment of the rural peasantry. These transformations aimed to address long-standing social inequalities and improve the living conditions of the masses, albeit with varying degrees of success.</li>
+  </ul>
+</li>
+<li>&#8226; The Chinese republic presented an <strong>alternative model of development</strong> which was <strong>different from the Russian model.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; While denying the Russian model which based on heavy industries, the Chinese model brought agrarian economy into the focus. According to this model, agriculture would be the mainstay of the economy and smaller industries and workshops would work as a supplement to agrarian economy.</li>
+  </ul>
+</li>
+<li>&#8226; After the foundation of the Chinese republic in Asia there <strong>emerged a powerful nation</strong> which could give a challenge to western imperialism.</li>
+<li>&#8226; The foundation of a communist government in China gave an alternative model of protest to colonies. So, Chinese republic <strong>accelerated the process of decolonisation</strong> of Asia.</li>
+</ul>
+
+<h3>Limitations:</h3>
+<ul>
+<li>&#8226; It was also a <strong>violent catastrophe</strong> that led to the deaths of millions of people. It was also a <strong>betrayal of the Chinese people</strong>, as it led to the establishment of a totalitarian regime that was as repressive, if not more, than the Qing Dynasty.</li>
+<li>&#8226; In place of world revolution, <strong>Chinese communism took the form of radical and aggressive nationalism</strong> and created havoc for its neighbours.</li>
+<li>&#8226; The emergence of a strong and an aggressive China was destabilizing for entire because Chinese did not believe in the efficacy of conciliatory approach. Chinese nationalist interest was pushed aggressively by communist regime.</li>
+<li>&#8226; <strong>Maoism</strong> which was the product of the Chinese revolution became <strong>synonymous with violence</strong>. Presently, it has created a law-and-order issue in many Asian countries.</li>
+<li>&#8226; The Chinese communist government pursued the <strong>One China Policy</strong>. It emphasized integration of all Chinese territories under one rule. Annexation of Tibet in Oct 1950 was the example of the same.</li>
+<li>&#8226; <strong>Intensified Cold War</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Many people in the West viewed the takeover of China as another step in a Communist campaign to conquer the world.</li>
+  <li style="padding-left:2em">&#9702; The establishment of a Communist state in China shifted the balance of power in favour of the Soviet Union. The United States was now facing a major communist rival in Asia.</li>
+  <li style="padding-left:2em">&#9702; The policy of indirect intervention was abandoned and hereafter, the USA started participating directly in fight against communism. (e.g. American participation in Korea and Vietnam)</li>
+  <li style="padding-left:2em">&#9702; The existence of two Chinas, and the conflicting international loyalties they inspired, intensified the Cold War.</li>
+  </ul>
+</li>
 </ul>`,
   'imperialism-colonialism': `
 <h2>Handout 25: Colonialism and Imperialism: Part 1</h2>
