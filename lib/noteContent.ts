@@ -30263,7 +30263,265 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </ul>
 </li>
 </ul>
-`,
+<h2>Handout 29: Causes of World War 1</h2>
+
+<p>&#8220;We muddled into water&#8221;. <br>David Lloyd George (1934)</p>
+
+<p>Immediately after the war the victorious nations agreed that Germany was the cause of the war. <strong>Article 231 of the Treaty of Versailles</strong> - the famous &#8216;war guilt&#8217; clause - said so.</p>
+
+<p>The same idea that Germany, or rather German militarism was the root cause of the WW1 remained popular in the aftermath of WW2.</p>
+
+<p>British historian <strong><u>A.J.P. Taylor</u></strong> in &#8216;The Struggle for Mastery in Europe (1954)&#8217; claimed that &#8216;<strong>The German bid for continental supremacy</strong> was certainly decisive in bringing on the European War ...&#8217;</p>
+
+<p>German historian <strong><u>Fritz Fischer</u></strong> (1960s) argued that: there was a <strong>&#8216;will to war&#8217; amongst the leaders of Germany.</strong></p>
+
+<ul>
+<li>&#8226; The German government wanted events to slide into war in 1914.</li>
+<li>&#8226; German leaders (Junkers) were particularly aggressive in the years before 1914, and that this destabilized international politics.</li>
+</ul>
+
+<p>Although most modern historians allocate some of the blame to Germany, there was just as much <strong>&#8216;will to war&#8217;</strong> <u>in other countries, and among masses.</u></p>
+
+<ul>
+<li>&#8226; The issue is one nation&#8217;s militarism is other nation&#8217;s defence.</li>
+<li>&#8226; Moreover, the militarism of certain people cannot be blamed on the entire nation.</li>
+<li>&#8226; It was not just Germans who were militaristic, but the idea of glory of war was quite popular among Europeans in 1914.</li>
+</ul>
+
+<p><strong>So, the real causes go much deeper:</strong><br>
+The First World War was the culmination of <em>Nationalism</em>, <em>Militarism</em> and <em>Imperialism</em>, while mutual distrust acted as a catalyst. Although the war started on the issue of Sarajevo massacre, various factors economic, political, social and intellectual were accountable for it.</p>
+
+<p><strong>(A) Political, economic and diplomatic causes:</strong></p>
+
+<ul>
+<li>&#8226; <strong>Rabid Nationalism</strong>
+<ul>
+<li style="padding-left:2em">&#9702; By the opening years of 20th century, an extreme form of nationalism had emerged in Balkan peninsula. It was practically impossible to satisfy the mutually contradictory national aspirations of all the groups in the Balkan.</li>
+<li style="padding-left:2em">&#9702; These unfulfilled national aspirations were behind the murder of Austrian French Ferdinand in June 1914 which triggered the war.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Industrial Revolution and economic competition</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Industrial Revolution created multi-polar power centres in Europe, which complicated the balance of power.</li>
+<li style="padding-left:2em">&#9702; <strong>German and British capitalists were competing</strong> against each other for market share in Europe.
+<ul>
+<li style="padding-left:4em">&#9632; Britain was interested in maintaining her economic domination and Germans were determined to establish their economic dominance in Europe.</li>
+<li style="padding-left:4em">&#9632; This intense competition was also responsible for the creation of a fragile environment in Europe.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Imperial rivalry in Asia and Africa</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The aggressive expansionist policy adopted by German king Kaisar William II had triggered a new phase of imperial expansion in Europe. It affected the power equation among European countries, leading to the <strong>collision of interests</strong> and created the situation for future war.
+<ul>
+<li style="padding-left:4em">&#9632; The 1st and 2nd Moroccan crisis were the outcome of the same.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; However, for the time being, it was the imperialistic expansion in Asia and Africa that <strong>diverted the continental tension</strong> outwards. By the end of the 19th century, <strong>the whole world was partitioned</strong> among European powers. Thus started the return to the continent, which vitiated the problem more as they fell into the <strong>trap of the Balkan question</strong> which led to the war.
+<ul>
+<li style="padding-left:4em">&#9632; The <strong>Annexation of Bosnia by Austria</strong> in 1908 was another blatant example of imperialism. It was this Bosman issue that triggered the war in the immediate sense.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; The <strong>treaty of Frankfurt (1871) and the alliance system</strong> developed by Bismarck is supposed to be a major factor behind WWI.
+<ul>
+<li style="padding-left:2em">&#9702; By the beginning of the 20th century, there was the creation of two big military alliances such as the <strong>Triple Alliance</strong> and the <strong>Triple Entente</strong> in Europe.</li>
+<li style="padding-left:2em">&#9702; However, these were <em>defensive</em> alliances. So, these alliances are not directly accountable for the war. WWI was started after the Sarajevo massacre, and <em>not</em> due to the clauses of the treaty.</li>
+<li style="padding-left:2em">&#9702; Simultaneously, the role of the alliances cannot be undermined. In fact, due to the presence of the two military alliances, any local conflict became an all-European question.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Militarism and Arms Race:</strong> Furthermore, the presence of military alliances led to <strong>military rivalry and the manufacturing of weapons.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; By the opening years of the 20th century, an extremely intense arms race started in Europe. There was unrestricted <strong>military preparedness</strong> situation.</li>
+<li style="padding-left:2em">&#9702; This measure created <strong>mutual distrust</strong> among European powers. <em>Every nation was searching for peace in the strength of arms.</em></li>
+<li style="padding-left:2em">&#9702; As a result of this, massive military infrastructure had developed in Europe. In the course of the military preparation, the power of policymaking slipped out from the hand of civil authority to <strong>the military authority.</strong></li>
+<li style="padding-left:2em">&#9702; Apart from that, it <strong>polluted public opinion</strong> as well.</li>
+<li style="padding-left:2em">&#9702; Now, only a spark was required to trigger a catastrophic crises and this spark was provided by the murder of Austrian prince French Ferdinand.</li>
+</ul>
+</li>
+</ul>
+
+<p>Italian journalist <strong>Luigi Albertini</strong> (The origins of the War of 1914) believed that the primary responsibility for the war lay with Germany&#8217;s plan of mobilisation. Unlike other countries&#8217; mobilisation plans, the <strong>Schlieffen Plan was offensive</strong>, and meant that, when Germany mobilised, Germany went to war.</p>
+
+<p><strong>Schlieffen Plan (1905)</strong></p>
+<ul>
+<li>&#8226; An ambitious plan to avert two-front war situation for Germany.</li>
+<li>&#8226; Invade France first, defeat in 42 days, capture Paris and re-rout the troops to Russian front before the Russians could completely mobilize.</li>
+<li>&#8226; It relied on three things: German Speed, Russian mobilization (6 weeks), British neutrality.</li>
+</ul>
+
+<ul>
+<li>&#8226; <strong>Diplomatic Humiliations:</strong> Almost all the major powers in European had to fare diplomatic humiliations in one way or other during the opening decade of 20th century.
+<ul>
+<li style="padding-left:2em">&#9702; Germany felt humiliated in Algeciras conference (1st Moroccan crisis, 1906) when her demand was not supported by any other power except Austria Hungary.</li>
+<li style="padding-left:2em">&#9702; Serbia and Russia felt humiliated when Bosnia was annexed by Austria Hungary in 1908.</li>
+<li style="padding-left:2em">&#9702; France felt humiliated when she was made to surrender a part of French Congo to Germany in 1911.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Breakdown of the diplomatic process</strong> in Europe.
+<ul>
+<li style="padding-left:2em">&#9702; There were two military alliances/blocks, but simultaneously, the diplomatic channel was not open. Due to the dearth of diplomatic channels, a single incident at Sarajevo could result in a world war.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Social Imperialism</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The aggressive foreign policies of many nations were guided by the need to divert the attention of people from domestic problems.
+<ul>
+<li style="padding-left:4em">&#9632; E.g. General Tirpitz advised Emperor William that the better way to control the activities of SDP is to allow the army to move further, promote imperialist expansion.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p>So, every major power shares a part of blame.</p>
+
+<p><strong>(B) <u>Socio-cultural causes:</u></strong> Before 1914, there was a general cultural belief that the war was seen as glorious.</p>
+
+<p><strong>J. M. Roberts</strong> in History of World War One (1978) writes: <em>&#8216;There was a deliberate cultivation of values and qualities directly opposed to those of the liberal civilization of the day. One spectacular example was the French engineer-turned-philosopher,</em> Georges Sorel. <em>His work, Reflections on Violence (1908), attributed all great achievements to violence. It is not, therefore, in the diplomatic documents, or the plans of the war offices that the whole story of the origins of the war can be found, but in mass psychology.&#8217;</em></p>
+
+<ul>
+<li>&#8226; <strong>Social Darwinism</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Harvard Spencer,</strong> a radical individualist, promoted Social Darwinism, which idealized war and conflict. If a nation is fighting a war, it will emerge as stronger.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Militaristic society</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Traditional elites still saw themselves as a warrior caste. Emperors and Kings often appeared in military uniforms. For them, war was regarded as a legitimate tool of statecraft.</li>
+<li style="padding-left:4em">&#9632; War was also regarded as natural and inevitable. Every state in Europe had been forged and sustained on the battlefield.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Role of Public Media</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The press and Newspaper also played a very important role in creating the extremely volatile environment in Europe leading to the outbreak of WWI. The press in every country was pushing the government to the maximum possible extent.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; As a result of this, the Governments in Europe were not in a position to pursue a conciliatory approach. Any effort to settle the issues peacefully was being interpreted as a weakness on the part of the governments.</li>
+<li style="padding-left:2em">&#9702; <strong>Popular level</strong>
+<ul>
+<li style="padding-left:4em">&#9632; In popular European mentality, the war was perceived as a progressive phenomenon. So, when WWI started the European people enthusiastically welcomed the war.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Winston Churchill&#8217;s</strong> argued that war came in 1914 because of <em>a general restlessness throughout Europe, in which everybody was turning to violence as a way of sorting out their dissatisfactions.</em></p>
+
+<h3><u>Could WWI be averted, or was it inevitable?</u></h3>
+
+<p><em>&#8220;Very few countries wanted to take part in World War, but very few believed that they could stay away from the war. This dichotomy played that most important role important role in bringing the war nearer.&#8221;</em></p>
+
+<ul>
+<li>&#8226; <strong>Germany</strong>: There were no German interests involved in war.
+<ul>
+<li style="padding-left:2em">&#9702; German king was pursuing a policy of brinkmanship (1st and 2nd Moroccan crisis) but on both the occasions Germany withdrew.</li>
+<li style="padding-left:2em">&#9702; German capitalist believed that in one more decade of peace, German economy would be far ahead of Britain.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Russia</strong>: Had no capacity to fight war because in 1905, Russia was decisively defeated by Japan Russia was got to come out of that shock.</li>
+<li>&#8226; <strong>Britain</strong> never pushed for war. The British government always tried to resolve the issue peacefully.</li>
+<li>&#8226; <strong>France</strong> had just come out of a long international isolation &amp; French government had no intention to risk another such punishment.</li>
+<li>&#8226; <strong>Italy</strong> was not a very Big power to think of war.</li>
+<li>&#8226; <strong>Turkey</strong> was the sick man of Europe. It was finding it difficult to maintain its existence.</li>
+<li>&#8226; <strong>Serbia</strong> and <strong>Austria-Hungary</strong> were the only 2 states in Europe that believed that their problems could be resolved only through a war.
+<ul>
+<li style="padding-left:2em">&#9702; Serbia knew very well that her demands would not reach the years of big powers of Europe all the time peace war prevailing and only the outbreak of a war would draw international attention towards Serbia.</li>
+<li style="padding-left:2em">&#9702; Austria-Hungary believed that Serbia would not listen to Austria peacefully, Serbian challenge could be wiped out on a permanent basis only through a war.</li>
+</ul>
+</li>
+</ul>
+
+<p>Thus, the question arises, had the assassination of Archduke Ferdinand not happened - would it have averted the war?</p>
+
+<ul>
+<li>&#8226; The assassination of a king and a prince was not such a major incident in itself that should have resulted in a war. Even before this incident, the king of Italy and that of Portugal were assassinated in 1900 and 1909 respectively. But the incidents did not result in the world war. So, the actual reason for the war was different.</li>
+</ul>
+
+<p>Behind WWI, the basic interest of the European powers was involved.</p>
+
+<ul>
+<li>&#8226; For <strong>Austrian</strong> Empire, it was a last-ditch attempt for preventing its collapse.</li>
+<li>&#8226; For <strong>Russia</strong>, the question was to maintain its credibility and to secure its interest in the Balkan region.</li>
+<li>&#8226; For <strong>Germany</strong>, it was a means for gaining the market.
+<ul>
+<li style="padding-left:2em">&#9702; Also, if Russia was to enter the war from Serbia side, it was impossible for Germany to stay away because disintegration of Austria-Hungary empire would have resulted in German isolation in Europe.</li>
+</ul>
+</li>
+<li>&#8226; For <strong>Britain</strong>, WWI was a better means for maintaining the balance of power in Europe.</li>
+<li>&#8226; For <strong>France</strong>, there was a question for the restoration of her old power and prestige, which she had maintained before the battle of Sedan.</li>
+<li>&#8226; For <strong>Italy</strong>, WWI was the extension of the unification of Italy. Through it, she would fulfill the unfinished agenda of unification.</li>
+</ul>
+
+<p>In light of the basic clash of interest of European powers, we come to the conclusion that WWI was almost inevitable.</p>
+
+<h3><u>Total War</u></h3>
+
+<p><strong>Why is the First World War characterized as a Total War?</strong></p>
+
+<p>The Concept of total war was developed by German General Ludendorff in 1935 in his book &#8216;The Total war.&#8217; It is identified by some attributes related to its nature, intensity and impact. The first world war proved to be different from earlier wars in all these respects.</p>
+
+<ul>
+<li>&#8226; <strong>Total commitment of national resources</strong> is the most important feature.
+<ul>
+<li style="padding-left:2em">&#9702; The nations involved in it invest their entire resources to win the war because a victory is essential for their survival.</li>
+<li style="padding-left:2em">&#9702; The war efforts proved very taxing on belligerent nations. Apart from being a war of soldiers, it proved to be a war of resources as well.</li>
+</ul>
+</li>
+<li>&#8226; Total <strong>participation of all sections.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; This war was not fought only by soldiers, but the civilians also participated in it indirectly.
+<ul>
+<li style="padding-left:4em">&#9632; The political leaders and diplomats participate by forming alliances and counter alliances.</li>
+<li style="padding-left:4em">&#9632; The industrialists participate by producing war goods.</li>
+<li style="padding-left:4em">&#9632; The workers participate by offering their labour unconditionally.</li>
+<li style="padding-left:4em">&#9632; The cultural groups participate by motivating soldiers &amp; civilians.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; During world wars, unified HQ and central command and communication n/ws were created to mobilise the forces effectively.</li>
+<li style="padding-left:2em">&#9702; Government propaganda posters were used to divert all attention to the war on the home front.</li>
+<li style="padding-left:2em">&#9702; Since it blurred the distinction between the army and civilians, it involved heavy casualties of civilians as well. The civilian targets are deliberately selected to cause maximum possible damage to enemy and destroy their fighting resolve.</li>
+</ul>
+</li>
+<li>&#8226; It stretched for a <strong>long time period.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; When Austria had invaded Serbia, she was confident about finishing it within limited time, but it could not happen. Both sides were almost evenly matched so the war did not conclude quickly.</li>
+</ul>
+</li>
+<li>&#8226; It had a wider <strong>geographical reach.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It is fought simultaneously at hundreds of fonts across the globe. The fight is not limited to any particular geographical region.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Total participation</strong>
+<ul>
+<li style="padding-left:2em">&#9702; It involves most of the important nations of the world either directly or indirectly. Apart from Europe, it expanded to other continents as well involving Asian and African colonies of European powers. (Total of around 30 countries)</li>
+</ul>
+</li>
+<li>&#8226; It was all <strong>devastating</strong>, using the latest technology.
+<ul>
+<li style="padding-left:2em">&#9702; Airplane, submarines, maxin machine gun</li>
+<li style="padding-left:2em">&#9702; Weapons of mass destruction:
+<ul>
+<li style="padding-left:4em">&#9632; Even chemical and biological weapons came into use.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The first world war even involved <strong>genocide</strong> in course of war - Turkey causes Armenian genocides.</li>
+</ul>
+</li>
+<li>&#8226; It is a <strong>war of attrition</strong> because it involves the slow degeneration of the fighting capacity of the nations involved.
+<ul>
+<li style="padding-left:2em">&#9702; Trench warfare</li>
+<li style="padding-left:2em">&#9702; Naval blockades</li>
+</ul>
+</li>
+<li>&#8226; <strong>Total Victory</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The objective of the total war is to completely destroy the adversary&#8217;s capacity to resist and inflict unacceptable level of destruction. The destruction of the enemy regime is intended to get total unconditional surrender, and no negotiated peace.</li>
+</ul>
+</li>
+</ul>`,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
