@@ -200,7 +200,7 @@ export default function TimelinePage() {
       <div style={{ marginBottom: '2rem' }}>
         <div style={{ color: 'var(--text3)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>History Optional</div>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.5rem' }}>Historical Timeline</h1>
-        <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>{events.length} events from 2500 BCE to 1991 CE to 1991 CE</p>
+        <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>{events.length} events from 2500 BCE to 1991 CE</p>
       </div>
 
       {/* Filters */}
