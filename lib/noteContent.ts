@@ -29678,6 +29678,601 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <p><strong>How scientific is Marxism really?</strong></p>
 
 
+  'imperialism-colonialism': `
+<h2>Handout 25: Colonialism and Imperialism: Part 1</h2>
+
+<h3>Colonialism and Imperialism</h3>
+
+<ul>
+<li>&#8226; Colonialism appeared in the Early Modern era along with mercantilism. Its objective was to promote the interest of the metropolitan state at the cost of the colony.</li>
+<li style="padding-left:2em">&#9702; This ideology believed that the colony existed for the benefit of the metropolitan state.</li>
+<li style="padding-left:2em">&#9702; For example, the colonies were supposed to provide precious metals if possible or to provide gifts in the form of commodity.</li>
+<li>&#8226; There is much controversy about the specific nature of colonialism and imperialism and the relationship between the two.</li>
+<li style="padding-left:2em">&#9702; According to one definition, colonialism implies an attitude while imperialism denotes physical control.</li>
+<li style="padding-left:2em">&#9702; Other definitions differentiate imperialism from neo-imperialism, which started after 1870, as a consequence of industrialisation.</li>
+<li style="padding-left:2em">&#9702; But this definition is not convincing. In fact, the term &#8216;Imperialism&#8217; is of late origin. Even Marx did not use this term in his writing till his death in 1883. However, by the end of the 19th century, the term became very common among European Intellectuals.</li>
+</ul>
+
+<h3>First Phase of Colonialism</h3>
+
+<p><strong>Factors/Causes:</strong></p>
+<ul>
+<li>&#8226; Expansion of Europe started after geographical discoveries.</li>
+<li style="padding-left:2em">&#9702; After the decline of Constantinople in 1453, sea voyages started in order to find out an alternative route to India.</li>
+<li style="padding-left:2em">&#9702; Factors like renaissance and reformation encouraged the zeal of the people for expansion.</li>
+<li style="padding-left:2em">&#9702; Furthermore, some technological advancements in shipping industries i.e., the use of compass and astrolabe encouraged the process of discovery.</li>
+<li>&#8226; There were three major factors, &#8220;Gold, Glory and God&#8221;.</li>
+<li style="padding-left:2em">&#9702; Glory: In the process of discovery, Spain and Portugal took the initiative. From the rubble of feudalism, there was rise of national monarchies who started to support sea voyages.</li>
+<li style="padding-left:2em">&#9702; God: They were given ideological support even by Pope of Rome, as the discovery was associated with a religious issue as well.</li>
+<li style="padding-left:2em">&#9702; Gold: Apart from that, the European economy was expanding and there was a rise in the consumer-class for luxury goods. This phenomenon also encouraged the process of colonisation.</li>
+</ul>
+
+<h3>Africa and Slave Trade</h3>
+
+<ul>
+<li>&#8226; From the 15th c. onwards, Europeans colonized the coastal regions of Africa.</li>
+<li>&#8226; From Africa, they exploited some <strong>commodities like slaves, gold, black pepper</strong>, etc., but most importantly European powers were in <strong>search of slaves.</strong></li>
+<li style="padding-left:2em">&#9702; Although it was Arabian people who started the slave trade, the Europeans brought the slave trade to its climax. Almost all the European countries like Britain, France, Holland, Denmark, Portugal, Spain, etc. were involved in the slave trade.</li>
+<li>&#8226; <strong>Development of Slave Trade:</strong></li>
+<li style="padding-left:2em">&#9702; Portuguese Discovery</li>
+<li style="padding-left:4em">&#9632; 1441: Portuguese explorers capture the first African slaves on the West African coast, marking the beginning of the European involvement in the transatlantic slave trade.</li>
+<li style="padding-left:4em">&#9632; 1482: The Portuguese establish Elmina Castle on the Gold Coast (modern-day Ghana) as a trading post for slaves and gold.</li>
+<li style="padding-left:2em">&#9702; The <strong>demand for labor in the sugar plantations and mines</strong> in the Americas, particularly the Caribbean and Brazil, intensified this demand.</li>
+<li style="padding-left:4em">&#9632; 1518: Spain officially authorizes the African slave trade to its American colonies.</li>
+<li style="padding-left:4em">&#9632; 1626: The Dutch establish New Amsterdam (later New York) as a major slave trading port.</li>
+<li style="padding-left:4em">&#9632; 1672: The Royal African Company is established in England to control the English slave trade.</li>
+<li>&#8226; By 1700s: The transatlantic slave trade reaches its peak, with millions of Africans transported to the Americas as forced labor.</li>
+</ul>
+
+<p><strong>Triangular Trade:</strong></p>
+<ul>
+<li style="padding-left:2em">&#9702; In fact, Europeans developed a <strong>triangular trade among three continents</strong> such as Europe, Africa, and America.</li>
+<li style="padding-left:2em">&#9702; European ships carried manufactured goods to Africa, traded these goods for enslaved Africans, transported them to the Americas, where they were sold as laborers, and then carried American products (like sugar, tobacco, and cotton) back to Europe.</li>
+<li style="padding-left:2em">&#9702; European powers established forts and trading posts along the African coast to facilitate the capture and transportation of slaves. These forts served as key points in the slave trade network.</li>
+</ul>
+
+<ul>
+<li>&#8226; The slave trade was a very sad story in European colonialism.</li>
+<li style="padding-left:2em">&#9702; One human being was <strong>treated as an animal</strong> by other human beings.</li>
+<li style="padding-left:2em">&#9702; About 1.3 crore Africans were sold in international market as slaves.</li>
+<li style="padding-left:2em">&#9702; Condition of enslaved Africans</li>
+<li style="padding-left:4em">&#9632; Enslaved Africans endured brutal conditions during the Middle Passage, the transatlantic voyage. Crowded and unsanitary conditions, malnutrition, disease, and physical abuse were common, leading to high mortality rates.</li>
+<li style="padding-left:4em">&#9632; Slaves in the Americas were subjected to harsh and brutal conditions on plantations, mines, and other labor-intensive industries. They were treated as property and had no legal rights.</li>
+<li style="padding-left:2em">&#9702; Negative impact on Africa:</li>
+<li style="padding-left:4em">&#9632; The slave trade had devastating effects on African societies. It caused death of millions of Africans. It resulted in widespread violence, disrupted local economies, and created political instability as African leaders often collaborated with European slave traders in capturing slaves.</li>
+<li style="padding-left:4em">&#9632; The forced migration of millions of Africans led to a significant loss of human capital on the continent. Communities were torn apart, and skilled individuals were often taken, leaving a long-lasting impact.</li>
+<li>&#8226; Abolitionism and emancipation: It continued for almost three centuries as a profitable business.</li>
+<li style="padding-left:2em">&#9702; Reasons:</li>
+<li style="padding-left:4em">&#9632; Enlightenment Ideals: The Enlightenment era in Europe promoted ideas of human rights, freedom, and equality, which laid the intellectual groundwork for the eventual abolition of the slave trade.</li>
+<li style="padding-left:4em">&#9632; Economic factor: So far as it was profitable, European intellectuals supported it. When the industrial revolution started, it produced a new requirement of skilled labour and slaves had no place in it.</li>
+<li style="padding-left:2em">&#9702; Milestones:</li>
+<li style="padding-left:4em">&#9632; In 1791, the Haitian Revolution began, ultimately leading to the abolition of slavery in the French colony in 1794.</li>
+<li style="padding-left:4em">&#9632; Banning of the slave trade: 1792 Denmark-Norway, 1807 British (only trade), 1833 British, 1848 French, 1865 USA</li>
+<li style="padding-left:2em">&#9702; Still, Europeans were not satisfied, they created a new system in place - called indentured labour.</li>
+</ul>
+
+<h3>Americas</h3>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th></th><th>North America</th><th>Latin America</th></tr></thead>
+<tbody>
+<tr><td><strong>Discovery</strong></td><td colspan="2">Columbus, Spanish sailor, accidentally discovered America in 1492. But he remained under confusion as if he had discovered India. In 1513, Spanish explorer de Le&#243;n landed in Florida. It was the first contact with north American continent.</td></tr>
+<tr><td><strong>Colonization</strong></td><td>Spain tried to colonise Northern America as well, but it did not get success due to the resistance by the Red Indians. So, later, this responsibility was taken by Britain, France and Holland. Britain colonised 13 settlements in Northern America, France developed Canada and even Holland captured some regions there.
+<ul>
+<li>&#8226; 1607: English established the Jamestown colony in Virginia.</li>
+<li>&#8226; 1620: Pilgrims, English religious separatists, arrived on the Mayflower and founded Plymouth Colony (Massachusetts).</li>
+<li>&#8226; 1626: Dutch purchased Manhattan Island from Indigenous people, establishing New Amsterdam (New York City).</li>
+</ul>
+</td><td>Spain started colonisation of America and it colonised a major part of it. Likewise, Portugal colonised Brazil in Latin America.
+<ul>
+<li>&#8226; 1520s: Hern&#225;n Cort&#233;s led the Spanish expedition that resulted in the fall of the Aztec Empire (Mexico).</li>
+<li>&#8226; 1530s: Francisco Pizarro conquered the Inca Empire (Peru).</li>
+<li>&#8226; Latin America became a very important source for procuring silver.</li>
+<li>&#8226; Apart from the supply of silver and gold, America continued to supply plantation products as well.</li>
+<li>&#8226; Plantation agriculture was supported by the import of African slaves.</li>
+<li>&#8226; Portuguese introduced coffee in 1727.</li>
+</ul>
+</td></tr>
+<tr><td><strong>Decolonization</strong></td><td>1763: Chief Pontiac of the Ottawa tribe leads protest against the British<br>1776: Declaration of Independence<br>1838: Trail of tears. Thousands of native Americans were forced to migrate westwards.</td><td>1821: Simon Bolivar leads Venezuela to independence</td></tr>
+</tbody>
+</table>
+
+<h3>South Africa</h3>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<tbody>
+<tr><td colspan="2"><strong>1488:</strong> Portuguese explorer <strong>Bartolomeu Dias</strong> sailed around the southern tip of Africa, which he named the <strong>Cape of Good Hope</strong>, opening up a sea route to the East.</td></tr>
+<tr><td colspan="2"><strong>Dutch colonized Cape Region</strong>
+<ul>
+<li>&#8226; The first European settlement in southern Africa was established by the <strong>Dutch East India Company in Table Bay</strong> (Cape Town) in 1652.</li>
+<li>&#8226; Created to supply passing ships with fresh produce, the colony grew rapidly as <strong>Dutch farmers settled to grow crops.</strong></li>
+<li>&#8226; Shortly afterwards, <strong>slaves were imported</strong> from East Africa, Madagascar and the East Indies.</li>
+<li>&#8226; <strong>Conflict with natives:</strong> From the 1770s, colonists came into contact and inevitable conflict with Bantu-speaking chiefdoms. A century of intermittent warfare ensued during which the colonist&#8217;s gained ascendancy over the <strong>Bantu-speaking chiefdoms.</strong></li>
+</ul>
+</td></tr>
+<tr><td colspan="2"><strong>British Occupation:</strong>
+<ul>
+<li>&#8226; In 1795, the British occupied the Cape as a strategic base against the French, controlling the sea route to the East.</li>
+</ul>
+</td></tr>
+<tr><td colspan="2"><strong>Boers Displaced:</strong>
+<ul>
+<li>&#8226; Throughout the 1800s, the boundaries of European influence spread eastwards. However, British couldn&#8217;t tolerate such strategic points in the control of other colonizers.</li>
+<li>&#8226; Boers were moved by British incoming and gradually moved inwards, towards north-east. In the 1830s they developed and established two independent republics in <strong>Transvaal</strong> and the <strong>Orange Free State</strong>, which Britain was forced to recognise in the early 1850s.</li>
+</ul>
+</td></tr>
+<tr><td colspan="2"><strong>Discovery of diamond and gold</strong>
+<ul>
+<li>&#8226; Diamonds were discovered near Kimberley in 1867.</li>
+<li>&#8226; Discovery of the Witwatersrand goldfields in 1886</li>
+<li>&#8226; 1877-1880: British defeated Zulu kingdom (<strong>Anglo-Zulu War</strong>)</li>
+<li>&#8226; <strong>Cecil Rhodes</strong> who took aggressive stance.</li>
+<li>&#8226; Demand for franchise rights for English immigrant miners/labours was used as a pretext to wage Boer wars (1880-81, 1899-1902) and defeated the Dutch.</li>
+</ul>
+</td></tr>
+<tr><td colspan="2"><strong>Union of South Africa</strong>
+<ul>
+<li>&#8226; British formed a unitary state for the four colonies of the Cape, Natal, Orange Free State, and Transvaal, in 1910, which became a member of Commonwealth in 1931.</li>
+<li>&#8226; It excluded indigenous Africans from all aspects of political/social life.</li>
+</ul>
+</td></tr>
+</tbody>
+</table>
+
+<h3>Australia and New Zealand</h3>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th></th><th>Details</th></tr></thead>
+<tbody>
+<tr><td><strong>Discovery</strong></td><td>
+<ul>
+<li>&#8226; The first known landing in Australia by Europeans was in 1606 by Dutch navigator Willem Janszoon.</li>
+<li>&#8226; In 1770, Lieutenant James Cook charted the east coast of Australia and claimed it for Great Britain. He returned to London with accounts favouring colonisation at Botany Bay (now in Sydney).</li>
+</ul>
+</td></tr>
+<tr><td><strong>Colonization</strong></td><td>British colonization:
+<ul>
+<li>&#8226; The First Fleet of British ships with convicts arrived at Botany Bay in 1788 to establish a penal colony.</li>
+<li>&#8226; The traditional view is that Britain thereby sought to relieve the pressure upon its prisons, intensified by the loss of its American colonies. But some historians argue about sea power in the eastern seas or economic exploitation of the area.</li>
+<li>&#8226; 1801: Matthew Flinders circumnavigates and then names it Australia (southern)</li>
+</ul>
+1830-1860: Major Shift
+<ul>
+<li>&#8226; There was a problem of food scarcity. So, British sent army to colonize interior and start agriculture.</li>
+<li>&#8226; Australian Agricultural Company (1824) established Brisbane.</li>
+<li>&#8226; Soon, Gold rushes and agricultural industries brought prosperity.</li>
+<li>&#8226; Conflict with natives: Unlike American native, the aboriginal people in Australia were not so fearsome or warring, they were also greatly diminished by introduced diseases and conflict.</li>
+<li>&#8226; Maori Uprising 1840s</li>
+<li>&#8226; There was conflict between free citizens and criminals. Transportation of British convicts to Australia was phased out from 1840 to 1868. In 1868, transportation of prisoners ends.</li>
+<li>&#8226; 1890: Autonomous parliamentary democracies began to be established throughout the six British colonies from the mid-19th c.</li>
+<li>&#8226; Emergence of Federation of several democratic colonies in 1901.</li>
+</ul>
+</td></tr>
+</tbody>
+</table>
+
+<h3>Asia</h3>
+
+<ul>
+<li>&#8226; Discovery of India led to the colonisation of Asia, but Europeans adopted a different strategy in context of Asia.</li>
+<li>&#8226; In the American continent, the original civilizations were virtually wiped out by Europeans. More than guns, it was epidemics which proved decisive.</li>
+<li>&#8226; In Asia however, some powerful states like Mughals, Vijayanagara, Manchu empire existed, which could not be coercively subdued by the Europeans. Here, Europeans entered as merchants and petitioners. It was only during later centuries when Asian powers disintegrated and that created a power vacuum that was filled up by Europeans.</li>
+<li>&#8226; It was the Portuguese who took initiative in the colonisation of Asia, and they were involved mainly in the spice trade. They created monopoly over sea (as existing strong land-based empires wouldn&#8217;t give opportunity). But very soon the Dutch, British and French replaced them.</li>
+</ul>
+
+<p><strong>Collapse</strong></p>
+<ul>
+<li>&#8226; This colonialism reached its climax by the 18th century. After that, it received a serious jolt. The year 1776 proved a big challenge to mercantilism and colonialism because on the one hand there was the publication of the famous text of Adam Smith &#8220;Wealth of Nations&#8221; on the other there was the American war of Independence. Both put a question mark on the policy of mercantilism.</li>
+<li>&#8226; American war of Independence proved that colonization is a financially losing business. After 1815, under the leadership of Simon Bolivar, these colonies got independence. In 1852, British Prime Minister Disraeli declared that these colonies are just like stones which are hanging in our neck.</li>
+<li>&#8226; Furthermore, some of the important scholars of that time like Adam Smith, Richard Cobden and even James Mill started an ideological battle against mercantilism and colonialism.</li>
+<li>&#8226; So, naturally, during this period European nations developed a sense of disenchantment with colonialism.</li>
+</ul>
+
+<h3>Second Phase: Neo-imperialism</h3>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th>Classical Imperialism</th><th>Neo-imperialism</th></tr></thead>
+<tbody>
+<tr><td>16th &#8211; 19th centuries</td><td>Revival from 1870s</td></tr>
+<tr><td>Mercantile empires (e.g. slave trade, mining, plantation)</td><td>Characterized by financial domination and cultural conquest rather than direct territorial conquest. (spheres of influence)</td></tr>
+<tr><td>Americas, coastal Africa, Australia, Asia</td><td>China, Japan, SE Asia, Africa, Egypt etc.</td></tr>
+<tr><td>Typically imposed colonial governments (direct domination of foreign territories)</td><td>Allowed degree of local autonomy while retaining economic control</td></tr>
+<tr><td>Decline in the 19th c. - USA independence, Simon Bolivar&#8217;s liberation movement</td><td>Declined after World War 2</td></tr>
+</tbody>
+</table>
+
+<p>The new imperialism, that started in 1870s marked the end of vacillation over the choice of imperialist military and political policies. All the leading industrial nations made similar decisions to push imperialist programs to the forefront over a relatively short period.</p>
+
+<p>The explanation for this is debated among historians, esp. with respect to the degree to which it was the product of the developed capitalist system. Although there are a multitude of factors involved; economic, political, military, and ideological, the problem, however, is one of assigning priority to causes.</p>
+
+<h3>Economic Imperialism</h3>
+
+<p>(A) The <strong>father of the economic interpretation</strong> of the new imperialism was the British liberal economist <strong>John Atkinson Hobson</strong>. In his famous text <strong>&#8216;Imperialism: A Study&#8217; (1902)</strong>, he linked this phenomenon to the excessive profit-making by the capitalist class.</p>
+<ul>
+<li>&#8226; As per Hobson, financial interest of the capitalist class was &#8220;the governor of the imperial engine.&#8221;</li>
+<li style="padding-left:2em">&#9702; &#8220;Taproot of imperialism&#8221; is not in nationalist pride, but in capitalist oligarchy.</li>
+<li>&#8226; Imperialism is not only unnecessary and immoral, but also the result of the mis-distribution of wealth in a capitalist society.</li>
+<li style="padding-left:2em">&#9702; The profiteering capitalist class deprives labor of its due share in profit. So, the purchasing power of the labour class declines. As a result of this, the home market of a nation shrinks.</li>
+<li style="padding-left:2em">&#9702; However, as the capitalist class cannot curtail the production, their search for new markets leads to the rise of Imperialism.</li>
+<li>&#8226; According to Hobson, a better remedy is to make an economic redistribution in that nation. It could lead to the expansion of the home market, so there could be no need for imperialist expansion.</li>
+</ul>
+
+<p>(B) <strong>Lenin&#8217;s &#8216;Imperialism, the Highest stage of Capitalism&#8217;</strong> (1917)</p>
+<ul>
+<li>&#8226; Lenin also linked this imperialism to capitalism.</li>
+<li>&#8226; <strong>Lenin&#8217;s thesis</strong></li>
+<li style="padding-left:2em">&#9702; Capitalism changed its nature in the late 19th century; and this happened at pretty much at the same time in several leading capitalist nations. There was the rise of <strong>monopoly capitalism</strong>.</li>
+<li style="padding-left:4em">&#9632; It was a more advanced stage in which finance capital (an alliance between large industrial and banking firms), dominates the economic and political life of society.</li>
+<li style="padding-left:4em">&#9632; Competition continues, but among a relatively small number of giants who are able to control large sectors of the national and international economy.</li>
+<li style="padding-left:4em">&#9632; The <strong>rivalry among monopoly capitalist nations fosters imperialism</strong>; and in turn, the imperialism stimulates monopoly capitalism and its influence on society further.</li>
+<li style="padding-left:2em">&#9702; To avert the situation of labour unrest/movement domestically, western capitalists preferred to go to the colonial exploitation. So, for the time being, they stopped the exploitation of their own labour, rather they shared some profit from their colonial expansion.</li>
+<li>&#8226; <strong>Corollaries:</strong></li>
+<li style="padding-left:2em">&#9702; Socialists in various countries abandoned internationalism for the sake of patriotism.</li>
+<li style="padding-left:4em">&#9632; Lenin gave a warning to the working class that due to imperialistic rivalry there would be an all-European war in which workers would be the worst sufferers.</li>
+<li style="padding-left:2em">&#9702; Lenin also charted out a strategy for the proletariat class that this war would prove the crisis in capitalism. So, the proletariat class should benefit from the situation, use this opportunity, and seize the power when capitalism would be at its most vulnerable point.</li>
+<li style="padding-left:2em">&#9702; Lenin linked Imperialism to financial capitalism as well. Lenin made Marxism relevant to colonial societies by calling the <strong>colonial people</strong> as a <strong>new proletariat.</strong></li>
+<li>&#8226; Although Lenin&#8217;s theory is not without criticism, at the least we can&#8217;t deny the fact that the industrial revolution played a major role in the rise of neo-imperialism.</li>
+</ul>
+
+<p>(C) <strong>Schumpeter&#8217;s</strong> The <strong>Sociology of Imperialism</strong> (1918), <strong>Imperialism and Social Classes</strong> (1919)</p>
+<ul>
+<li>&#8226; Capitalism in its purest form is antithetical to imperialism: it thrives best with peace and free trade. However, monopoly capitalism creates a powerful social group that pressurizes for exclusive control in colonies, to maximize profits.</li>
+<li>&#8226; Monopoly capitalism is an artificial graft on the more natural competitive capitalism. It is due to the residue from the preceding feudal society.</li>
+<li style="padding-left:2em">&#9702; Schumpeter argued that monopoly capitalism can only grow and prosper under the protection of high tariff walls. Without that shield, there would be large-scale industry but no cartels/monopolies.</li>
+<li style="padding-left:2em">&#9702; Tariff walls are erected by political decisions, and thus it is the state and not a natural economic process that promotes monopoly. <em>(elite manipulation of political process)</em></li>
+<li style="padding-left:2em">&#9702; Therefore, it is in the nature of the state that the cause of imperialism lies.</li>
+<li>&#8226; Imperialism in modern times is affected by capitalism, and capitalism itself is modified by the imperialist experience. In Schumpeter&#8217;s analysis, however, imperialism is not an inevitable product of capitalism.</li>
+</ul>
+
+<p><strong>Other contributing factors</strong></p>
+<ul>
+<li>&#8226; Sense of ultranationalism</li>
+<li>&#8226; Colonial possession was social prestige and thus provided a sense of national glory as well. For example, the</li>
+<li style="padding-left:2em">&#9702; British declared that there is no sunset in our empire.</li>
+<li style="padding-left:2em">&#9702; Germany gave a counter declaration &#8211; we also need land under the sun.</li>
+<li>&#8226; <strong>Social imperialism:</strong></li>
+<li style="padding-left:2em">&#9702; Governments justified the colonization of other countries to benefit their own citizens.</li>
+<li style="padding-left:2em">&#9702; Distraction away from domestic issues: Most of the countries were worried about the progress of the socialist/communist parties which promoted class conflict. So, as a countermeasure, the western power preferred to export this conflict from internal to external front, so that the attention of the people from domestic issues could be diverted to the external front.</li>
+<li style="padding-left:2em">&#9702; Coined by left-wing German historian Hans-Ulrich Wehler.</li>
+<li>&#8226; <strong>Social Darwinism</strong> &#8211; Herber Spencer (Racial superiority)</li>
+<li style="padding-left:2em">&#9702; Social Darwinism applies Darwin&#8217;s theory of evolution to human societies. It argued that the strong and successful will naturally rise to the top, while the weak and unsuccessful will be eliminated.</li>
+<li style="padding-left:2em">&#9702; Social Darwinists often used this theory to justify imperialism. They argued that nations were in competition with one another for resources, territory, and global influence. European powers were more advanced and therefore had a right to rule over less advanced peoples.</li>
+<li>&#8226; <strong>Role of European diplomacy:</strong></li>
+<li style="padding-left:2em">&#9702; For example, Germany under Bismarck was inclined to prevent the conflict of powers in Europe, so he consciously diverted European powers from Europe to African continent.</li>
+<li>&#8226; <strong>Self-justification</strong></li>
+<li style="padding-left:2em">&#9702; England, the desire for greater military security in the Mediterranean and India. (Egypt and Cape regions on way to India).</li>
+<li style="padding-left:2em">&#9702; Initially there was less degree of control over colonies. However, once colonies tried to be free through revolt, in course of suppression, the metropolitan state preferred complete control over the colony. Eg Arabi Pasha revolt in Egypt.</li>
+<li>&#8226; In the search for colonies, even Christian missionaries played some role. They encouraged their respective government to make expansion in the new region, where they could work for the spread Christianity.</li>
+<li style="padding-left:2em">&#9702; They posed as if Christianity is the most progressive or developed religion. And these native Africans, Asians etc need upliftment. By converting to Christianity, Barbarous people would get deliverance.</li>
+<li style="padding-left:2em">&#9702; Some critics therefore argued that <strong>Christianity acted as the advance guard (or sometimes rear guard) of imperialism.</strong></li>
+<li>&#8226; <strong>Role of Technology: Daniel Headrick</strong> attempts to illustrate the significant role that technological advances played in European imperialism during this period.</li>
+<li style="padding-left:2em">&#9702; Steamboats, improved weaponry and malaria vaccination (quinine).</li>
+<li style="padding-left:2em">&#9702; Breakthroughs that allowed European nations &#8211; Britain in particular &#8211; to get more use out of the colonies, like railroads in India and the Suez Canal.</li>
+</ul>
+
+<p>In this way, imperialism or neo-colonialism was the product of a complex process.</p>
+
+<h3>Scramble for Africa</h3>
+
+<ul>
+<li>&#8226; From the viewpoint of geographical distance, the African continent was much near to Europe. Earlier, European powers simply colonized the coastal region and kept themselves away from the interior part. Reasons being:</li>
+<li style="padding-left:2em">&#9702; Prevalence of Malaria</li>
+<li style="padding-left:2em">&#9702; Powery symmetry: Muskets were sold to Africans already.</li>
+<li>&#8226; In the 1870s Africans controlled 90 percent of Africa. Any areas that were controlled by European countries were on the coast. However, <strong>after 1880s</strong>, African continent was partitioned by European powers within a <strong>short span 20 years.</strong> Except Ethiopia and Liberia, all <strong>the regions</strong> came <strong>swiftly</strong> under the control of European powers.</li>
+<li>&#8226; <strong>Reasons:</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Need to conquer:</strong></li>
+<li style="padding-left:4em">&#9632; The <strong>industrial revolution</strong> created a situation where European powers were in search of <strong>raw materials</strong> as well as the <strong>market</strong> for manufactured goods. That&#8217;s why they divided Africa so quickly.</li>
+<li style="padding-left:4em">&#9632; <strong>Imperial Glory:</strong> European powers were competing with each other for global influence, and Africa was seen as a way to expand their empires.</li>
+<li style="padding-left:4em">&#9632; <strong>Strategic Rivalry:</strong> European powers saw Africa as a strategic asset, and they wanted to control it to prevent their rivals from gaining an advantage.</li>
+<li style="padding-left:4em">&#9632; <strong>Imperial Ideology:</strong> Many Europeans believed that they had a moral duty to &#8220;civilize&#8221; Africa, and they saw colonization as a way to achieve this goal.</li>
+<li style="padding-left:2em">&#9702; <strong>Ability to conquer:</strong></li>
+<li style="padding-left:4em">&#9632; Quinine</li>
+<li style="padding-left:4em">&#9632; Machine Guns</li>
+<li style="padding-left:4em">&#9632; Geographic Discovery - Stanley and Livingstone - Congo region</li>
+<li>&#8226; <strong>Berlin Conference</strong></li>
+<li style="padding-left:2em">&#9702; In fact, in <strong>1884</strong> there was the convening of the <strong>Berlin Conference</strong> under leadership of <strong>Bismarck</strong>. This Congress regulated the colonization and trade, and <strong>apportioned Africa</strong> among different European powers.</li>
+<li>&#8226; <strong>Conquest:</strong></li>
+<li style="padding-left:2em">&#9702; In order to successfully take over the continent, European powers constructed railroads and sailed steamships on rivers into the interior. Soon, they established control over trade.</li>
+<li style="padding-left:2em">&#9702; Many African groups, such as the Ashanti, Fulani, Tuareg, Opobo, Nbele, and Shona, fought to control their land. However, they were defeated by European forces.</li>
+<li style="padding-left:2em">&#9702; One exception was in northern Africa, where Italy tried to take control of Ethiopia. The Ethiopians defeated the Italians in 1896.</li>
+</ul>
+
+<p><strong>Division</strong></p>
+<ul>
+<li>&#8226; <strong>France:</strong> control over the major part in North-West i.e. Tunisia, Algeria etc.</li>
+<li>&#8226; <strong>Britain:</strong> control over the regions near the river Nile. She captured the regions such as Egypt, Sudan, Uganda and Kenya.</li>
+<li>&#8226; <strong>Italy:</strong> brought under control the regions like Eritrea, Libya and Somaliland.</li>
+<li>&#8226; <strong>Germany:</strong> Cameroon, Togoland, Tanzania and Namibia.</li>
+<li>&#8226; <strong>Portuguese:</strong> Angola, Mozambique</li>
+<li>&#8226; <strong>Belgium:</strong> Congo</li>
+</ul>
+
+<ul>
+<li>&#8226; <strong>Impact:</strong></li>
+<li style="padding-left:2em">&#9702; The Scramble for Africa had a profound impact on Africa. It led to the displacement of millions of people, the destruction of traditional cultures, and the exploitation of African resources.</li>
+<li style="padding-left:2em">&#9702; The invading powers drew boundaries between their colonies with no thought of the ethnic groups and kingdoms that already lived there.</li>
+<li>&#8226; Although after WWI, there was some hope for the liberation of the colonies, all the hopes were belied when the imperialist powers not simply celebrated their victory in WWI but also consolidated their grip over the colonies. Only Egypt got liberation in 1922 but even it got liberation only in name. So, this <strong>imperialist policy continued upto the WW2.</strong></li>
+</ul>
+
+<p>The Belgian Congo was a particularly brutal example of European colonialism. The Belgian King Leopold II ruled the Congo as his personal fiefdom, and he forced the Congolese people to work in rubber plantations under harsh conditions. Millions of Congolese people died as a result of Leopold II&#8217;s exploitation. Many atrocities were perpetrated in the Congo Free State. Labourers who failed to meet rubber collection quotas were punished by having their hands cut off.</p>
+<h2>Handout 26: Colonialism and Imperialism: Part 2</h2>
+<h3>New Imperialism (Neo-Imperialism)</h3>
+<ul>
+<li>&#8226; Write a critical note on: Theory of &#8216;The New imperialism&#8217; after 1870. [1981, 20 Marks]</li>
+<li>&#8226; &#8220;Imperialism and Colonialism have long employed as instruments of national policy.&#8221; Comment. [1982, 20 Marks]</li>
+<li>&#8226; &#8220;If imperialism is viewed as a phase of the struggle for power between States, its result must be judged in terms of its role in power politics.&#8221; Comment. [1984, 20 Marks]</li>
+<li>&#8226; &#8220;The simultaneous expansion of European powers overseas during the last quarter of the 19th century brought them into frequent collisions at a remote point all over Africa and Asia.&#8221; Comment. [2000, 20 Marks]</li>
+<li>&#8226; &#8220;New imperialism was a nationalistic, not an economic phenomenon.&#8221; Comment. [2007, 20 Marks]</li>
+<li>&#8226; Discuss the emergence of neo-imperialism in the late nineteenth century. [2009, 30 Marks]</li>
+<li>&#8226; &#8220;New imperialism was a nationalistic, not an economic phenomenon.&#8221; Critically examine. [2013, 25 Marks]</li>
+<li>&#8226; &#8220;The commercial and industrial interests created a veritable hothouse atmosphere in Europe for the establishment of colonies.&#8221; Critically examine. [2014, 10 Marks]</li>
+</ul>
+<h3><u>Africa</u></h3>
+<ul>
+<li>&#8226; <strong>Generic</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Write a critique on the partition of Africa from 1870 to 1914, with particular reference to Germany&#8217;s imperial designs in the Continent. [1989, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; Trace the stages in the partition of Africa after 1870. How did it affect international relations? [1996, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; Trace the various stages of European imperialism in Africa in the nineteenth century. [2001, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;In all the long annals of Imperialism, the partition of Africa is a remarkable freak.&#8221; Comment. [2009, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; What do you understand by imperialism? State briefly its unique features in the case of Africa? [2010, 20 Marks]</li>
+</ul>
+</li>
+<li>&#8226; <strong>South Africa</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Trace the growth of British imperialism in South Africa from 1800 to 1907. [2016, 10 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;The British imperialism in South Africa from 1867 to 1902 was influenced to a large extent by the capitalist mining of diamonds.&#8221; [2023, 10 Marks]</li>
+</ul>
+</li>
+</ul>
+<h3><u>Asia</u></h3>
+<ul>
+<li>&#8226; What do you understand by Imperialism? How did it affect the people of Asia in the 19th century? [1979, 60 Marks]</li>
+<li>&#8226; <strong>Indonesia</strong>
+<ul>
+<li style="padding-left:2em">&#9702; &#8220;Holland was engaged in a systematic exploitation of Indonesia in the nineteenth century.&#8221; Elucidate. [1979, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; What was the culture system in the Dutch East Indies (Indonesia) during the 19th century? Why was it dismantled? [1981, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; Critically examine the culture system in the Dutch East Indies (Indonesia) during the nineteenth century. Why was it dismantled? [1985, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; Critically examine the Dutch colonial policy in Indonesia. [2010, 30 Marks]</li>
+<li style="padding-left:2em">&#9702; Examine the nature of Dutch imperialism in Indonesia. [2017, 10 Marks]</li>
+</ul>
+</li>
+<li>&#8226; <strong>America</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Explain how American imperialism in Philippines differed with European imperialism in Indonesia and Indo-China. [2011, 30 Marks]</li>
+<li style="padding-left:2em">&#9702; Discuss the nature of American overseas expansion in Asia and explain the consequences. [2014, 10 Marks]</li>
+</ul>
+</li>
+<li>&#8226; <strong>Malaya</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Which factors would you attribute to the British colonial intervention in Malaya in the 19th century? How did Malays react to British colonial rule? [2019, 20 Marks]</li>
+</ul>
+</li>
+</ul>
+<h3><u>Scramble for Africa</u></h3>
+<ul>
+<li>&#8226; <strong>Dark Continent</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In the 1870s Africans controlled 90% of Africa.</li>
+<li style="padding-left:2em">&#9702; Earlier, European powers simply colonized the coastal region and kept themselves away from the interior part. Reasons being:
+<ul>
+<li style="padding-left:4em">&#9632; Prevalence of Malaria</li>
+<li style="padding-left:4em">&#9632; Difficult river navigation</li>
+<li style="padding-left:4em">&#9632; Powery symmetry
+<ul>
+<li style="padding-left:2em">&#9702; Muskets were sold to Africans already.</li>
+<li style="padding-left:2em">&#9702; Gunpowder used by European used to become dysfunctional in extremely humid climate of Africa.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Most of the areas away from the coast were unexplored and thus, it was known as <strong>Dark Continent.</strong></li>
+</ul>
+</li>
+<li>&#8226; However, <strong>after 1880s</strong>, African continent was partitioned by European powers within a <strong>short span 20 years.</strong> Except Ethiopia and Liberia, all <strong>the regions</strong> came <strong>swiftly</strong> under the control of European powers.</li>
+<li>&#8226; <strong>Reasons:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Need to conquer:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The <strong>industrial revolution</strong> created a situation where European powers were in search of <strong>raw materials</strong> as well as the <strong>market</strong> for manufactured goods. That&#8217;s why they divided Africa so quickly.</li>
+<li style="padding-left:4em">&#9632; <strong>Imperial Glory:</strong> European powers were competing with each other for global influence, and Africa was seen as a way to expand their empires.
+<ul>
+<li style="padding-left:2em">&#9702; At that time. the prestige of nation in Europe was measured on basis of the extent of colonial empire.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Strategic Rivalry:</strong> European powers saw Africa as a strategic asset, and they wanted to control it to prevent their rivals from gaining an advantage.</li>
+<li style="padding-left:4em">&#9632; <strong>Imperial Ideology:</strong> Many Europeans believed that they had a moral duty to &#8220;civilize&#8221; Africa, and they saw colonization as a way to achieve this goal.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Ability to conquer:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Quinine</li>
+<li style="padding-left:4em">&#9632; Machine Guns</li>
+<li style="padding-left:4em">&#9632; The invention of percussion cap in 1860 made the guns moisture proof the sealed Cartridges could be used even under water.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Geographic Discovery Congo region</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In 1865 Belgian king Leopold II sent Livingstone &amp; Stanley to navigate Africa.</li>
+<li style="padding-left:2em">&#9702; The personal colonization efforts of King Leopold II of Belgium in the Congo region, initiated through the establishment of the Congo Free State, highlighted the <strong>increasing competition</strong> among European powers for African territories and resources.</li>
+<li style="padding-left:2em">&#9702; By 1884 almost whole of African continent was successfully mapped.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Berlin Conference</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In fact, in <strong>1884</strong> the <strong>Berlin Conference</strong> was convened under leadership of <strong>Bismarck</strong>.</li>
+<li style="padding-left:2em">&#9702; This Congress regulated <em>navigation</em> and <em>trade</em>, created <em>free trade zones</em>, and <strong>apportioned Africa</strong> among different European powers, even <em>before the actual conquest.</em></li>
+<li style="padding-left:2em">&#9702; On the one hand, the conference helped to <em>reduce tensions</em> between the European powers and to establish some <em>basic rules for European colonization</em> in Africa. On the other hand, the conference led to the <em>exploitation</em> of African resources and the <em>colonization</em> of African peoples.</li>
+<li style="padding-left:2em">&#9702; In other parts of world, European colonizers fought for every inch of land but in Africa boundaries were <strong>decided peacefully</strong> at Berlin conference.</li>
+<li style="padding-left:2em">&#9702; Notably, the conference <strong>lacked the participation of African leaders</strong>, reflecting the <em>disregard for African sovereignty and self-determination</em> in the colonial decision-making process.</li>
+<li style="padding-left:2em">&#9702; <strong>Natural frontiers</strong> were used to draw political boundaries without any attention paid to ground realities. The African <strong>tribes were divided</strong> into two or more parts they were placed in different European powers.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Conquest:</strong> The process of African colonization <strong>was extremely rapid</strong> after Berlin conference of 1884-85, <strong>almost whole of African continent</strong> was colonized by European power within a period of <strong>less than 30 years</strong>. At the time of commencement of WWI in 1914 only Liberia and Ethiopia were independent territories in entire Africa.
+<ul>
+<li style="padding-left:2em">&#9702; In order to successfully take over the continent, European powers constructed <strong>railroads</strong> and sailed <strong>steamships</strong> on rivers into the interior. Soon, they established <strong>control over trade.</strong></li>
+<li style="padding-left:2em">&#9702; Many <strong>African tribal groups</strong>, such as the Ashanti, Fulani, Tuareg, Opobo, Nbele, and Shona, fought to control their land. However, they were defeated by European forces.</li>
+<li style="padding-left:2em">&#9702; One exception was in northern Africa, where <strong>Italy tried to take control of Ethiopia.</strong> The Ethiopians defeated the Italians in 1896.</li>
+</ul>
+</li>
+</ul>
+<h3>Division</h3>
+<ul>
+<li>&#8226; <strong>France:</strong> control over the major part in North-West i.e. Tunisia, Algeria etc.</li>
+<li>&#8226; <strong>Britain:</strong> control over the regions near the river Nile. She captured the regions such as Egypt, Sudan, Uganda and Kenya.</li>
+<li>&#8226; <strong>Italy:</strong> brought under control the regions like Eritrea, Libya and Somaliland.</li>
+<li>&#8226; <strong>Germany:</strong> Cameroon, Togoland, Tanzania and Namibia.</li>
+<li>&#8226; <strong>Portuguese:</strong> Angola, Mozambique</li>
+<li>&#8226; <strong>Belgium:</strong> Congo</li>
+<li>&#8226; <strong>Impact:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Scramble for Africa had a <strong>profound</strong> impact on Africa. It led to the <strong>displacement</strong> of millions of people, the <strong>destruction</strong> of traditional cultures, and the <strong>exploitation</strong> of African resources.</li>
+</ul>
+</li>
+<li>&#8226; Although after WWI, there was some hope for the liberation of the colonies, all the hopes were belied when the imperialist powers not simply celebrated their victory in WWI but also consolidated their grip over the colonies. Only Egypt got liberation in 1922 but even it got liberation only in name. So, this <strong>imperialist policy continued upto the WW2.</strong></li>
+</ul>
+<h3><u>South East Asia</u></h3>
+<p>The search for colonies continued even in the Asia-Pacific region. SE Asia was rich in oil, minerals, agricultural products. The lands of SE Asia were perfect for plantation farming of sugarcane, coffee, cocoa, rubber, coconut, pineapple, and bananas. As the demand for these products increased, so did the competition among Europeans to control this area.</p>
+<p>By the 19th century, there were no more Mughals and Manchus to halt their progress. So, using political vacuum, they expanded their trade and colonized the region.</p>
+<ul>
+<li>&#8226; Holland captured the region of Indonesia (East Indies).</li>
+<li>&#8226; Britain captured Srilanka, Burma, Malaya and Singapore.</li>
+<li>&#8226; France captured Indo-China (Vietnam etc).</li>
+<li>&#8226; Only Siam (Thailand) remained independent.</li>
+<li>&#8226; Germans took over New Guinea and Soloman Islands.</li>
+<li>&#8226; America put its hold over Philippines.</li>
+<li>&#8226; Japan captured Manchuria and Taiwan.</li>
+</ul>
+<p>So, the imperialist expansion was going on in this era of Imperialism.</p>
+<h3><u>Dutch East Indies (1799-1949)</u></h3>
+<p>In the 19th century, the Dutch developed a very exploitative system known as <strong>&#8216;Dutch Culture System&#8217; (<em>Cultuurstelsel</em>, 1830-77).</strong> It was institutionalized by <strong>Johannes, van den Bosch.</strong></p>
+<ul>
+<li>&#8226; Earlier the peasants used to pay tax in kind, in the form of paddy, to the rulers. Now, Dutch government made it <strong>mandatory for every peasant to produce cash crops (coffee/sugarcane/indigo) on some part of the land.</strong> (1/5th land at village level)</li>
+<li>&#8226; This whole produce of sugarcane and coffee was to be given to the government <strong>in the form of tax, without any return.</strong></li>
+<li>&#8226; Since sugarcane couldn&#8217;t directly be exported. So, many sugar mills were built. Here, peasants were supposed to provide <strong>free labour for 1/5th of the year (66 days)</strong>, just like bonded labour, if they didn&#8217;t own the land. It was <strong>a sort of modern slavery</strong> was imposed on the peasants of Indonesia by Dutch.</li>
+<li>&#8226; In practice the system was <strong>burdensome</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; More than one-fifth of the rice fields were used for the growing of export crops.</li>
+<li style="padding-left:2em">&#9702; Considerably more than 66 days of labour were required of the landless.</li>
+<li style="padding-left:2em">&#9702; Production was also demanded of the people who had paid taxes by working under the Culture System.</li>
+<li style="padding-left:2em">&#9702; In case of crop failure, the people were left responsible for the loss.</li>
+<li style="padding-left:2em">&#9702; The system led to an increase in famine and disease among Javanese peasants in the 1840s. According to one estimate, the mortality rates increased by as much as 30% during this period.</li>
+</ul>
+</li>
+<li>&#8226; It brought <strong>significant returns to the Dutch government.</strong> It extracted vast riches of the export crops, added about 50% of the national revenue, and promoted Dutch commerce and shipping.</li>
+</ul>
+<h4>Opposition:</h4>
+<p>By the second half of the 19th century, criticism started everywhere, esp. in the capital city. Here, initiative was taken by some Christian missionaries to speak out against it. one of the most outspoken critics was <strong>Multatuli</strong> (pseudonym of Dutch writer Eduard Douwes Dekker), who condemned the system in his book <strong>Max Havelaar</strong> (1860).</p>
+<p>With mounting criticism, finally the government decided to abolish the system and introduce a new system in <strong>Dutch Ethical System in 1877.</strong></p>
+<ul>
+<li>&#8226; Now, the declared <strong>objective was to develop Indonesia,</strong> build schools and hospitals and make it economically self-reliant, politically representative.
+<ul>
+<li style="padding-left:2em">&#9702; So, Dutch govt encouraged <strong>production of some local products</strong> like tin, rubber etc which would help Indonesian people to earn profit.</li>
+<li style="padding-left:2em">&#9702; They were <strong>given education</strong> so that they could properly evaluate the value of labour and value of products.</li>
+<li style="padding-left:2em">&#9702; Furthermore, Indonesians were given <strong>some political representation</strong> by forming a sort of Assembly. (local autonomy)</li>
+</ul>
+</li>
+<li>&#8226; However, on close observation, one realizes that, although it appeared like extension of some welfare measures, the <strong>real objective was to win over heart and minds in order to perpetuate the colonial rule.</strong> So, basic objective was the <strong>extend the grip</strong> of Holland over Indonesia.</li>
+<li>&#8226; <strong>Consequences:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; This policy led to the development of a Dutch school and a further penetration of the Western economic system in the rural areas.</li>
+<li style="padding-left:2em">&#9702; Rapid social dislocation eventually manifested itself in the form of unrest.</li>
+<li style="padding-left:2em">&#9702; It caused the Dutch authorities to reconsider the Ethical Policy program. It was abolished in 1926&#8211;27 after Indonesian Communist Uprisings.</li>
+</ul>
+</li>
+</ul>
+<h3><u>American Imperialism</u></h3>
+<p>America has always tried to appear/project a different image from that of its European counterparts. It believes that Europeans are colonizers, but they are not. It believed that since it was the first colony to get liberation (&#8220;<em>first new nation</em>&#8221;), it is like an elder brother to all those who followed. In this way, Americans tried to prove themselves as exception.</p>
+<ul>
+<li>&#8226; <strong>19th c. Westward Expansion and Manifest Destiny:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Early stages of American imperialism were characterized by territorial expansion and the acquisition of new territories.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Louisiana Purchase</strong> in 1803.</li>
+<li style="padding-left:4em">&#9632; <strong>Annexation of Texas.</strong> (defeat of Mexico in 1840s/50s)</li>
+<li style="padding-left:4em">&#9632; <strong>Alaska (1867):</strong> America purchased Alaska from Russia and thus extended its territory to far northeast.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The concept of &#8220;Manifest Destiny&#8221; contributed to the belief that the United States had a <u>divine mission to expand its influence</u> across the North American continent.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Latin America:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Munroe doctrine (1823)</strong>
+<ul>
+<li style="padding-left:4em">&#9632; It declared that the United States would oppose any European interference in the Americas.</li>
+<li style="padding-left:4em">&#9632; This doctrine stopped European powers from entering western hemisphere and established the United States as the dominant power there.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Spanish-American War of 1898</strong> marked a significant turning point, leading to the acquisition of territories such as Puerto Rico and Cuba.</li>
+<li style="padding-left:2em">&#9702; <strong>Roosevelt Corollary (1904):</strong> More interventionist approach
+<ul>
+<li style="padding-left:4em">&#9632; The Roosevelt Corollary to the Monroe Doctrine in Latin America.</li>
+<li style="padding-left:4em">&#9632; It asserted the United States&#8217; right to intervene in the affairs of Latin American countries to maintain stability and protect its economic interests.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Dollar Diplomacy:</strong> Interventions in Latin America, Caribbean and SE Asia.
+<ul>
+<li style="padding-left:4em">&#9632; Interventionist foreign policy during the presidency of <em>William Howard Taft</em> (1909-1913).</li>
+<li style="padding-left:4em">&#9632; It marked a shift from the military interventionism of the preceding Roosevelt Corollary to a focus on economic expansion and investment to promote American interests and gain market access. Financial assistance, aid, loans, subsidies etc were used to stabilize the region, foster closer economic ties and extend political influence.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Good Neighbor Policy (1934-1945)</strong> was a period of relative non-intervention in Latin America.</li>
+</ul>
+</li>
+<li>&#8226; <strong>East Asia</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Hawaii</strong>
+<ul>
+<li style="padding-left:4em">&#9632; US interest started in 1790s as Hawaii was a port of ships enroute to East Asia. (strategic location)</li>
+<li style="padding-left:4em">&#9632; In 1820s, the sugar cane plantation changed Hawaiian economy. By 1850s, American sugar plantation accounted for 75% of Hawaiian wealth.</li>
+<li style="padding-left:4em">&#9632; Till 1890, there was a tariff on sugar which made Hawaiian sugar cheaper than foreign sugar. However, <strong>McKinley Tariff Act</strong> eliminated tariff on foreign sugar. The loss of revenue promoted the business leaders to push for annexation of Hawaii.</li>
+<li style="padding-left:4em">&#9632; <strong>Queen Liliuokalani</strong> called for a new constitution to increase her power and reduce the power of plantation owners. This was a bid for independence. To stop Hawaii from gaining political power, the US businessmen removed the queen. In 1894, Stanford Dole became the president of the Republic of Hawaii. And then he annexed it to America. In 1898.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Japan:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; <u>Already covered</u></li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>China and Open Door Policy (1899):</strong>
+<ul>
+<li style="padding-left:4em">&#9632; It aimed to secure <em>equal trading rights</em> in China. Thus, it promoted Free Trade.</li>
+<li style="padding-left:4em">&#9632; America also tried to <em>prevent the colonization of China</em> by European powers (Britain, France, Germany etc). It protected China&#8217;s territorial integrity.</li>
+<li style="padding-left:4em">&#9632; Thus, it was a shift towards a more assertive approach to global trade.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Philippines</strong>
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Spanish-American War (1898):</strong> A pivotal moment
+<ul>
+<li style="padding-left:2em">&#9702; It resulted in the acquisition of territories such as <strong>Puerto Rico</strong>, <strong>Guam</strong>, and the Philippines.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Cuba</strong> was already under Monroe doctrine.</li>
+<li style="padding-left:4em">&#9632; But <strong>Philippines</strong> was a new addition.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; It effectively established the US as a global power with overseas possessions.</li>
+<li style="padding-left:2em">&#9702; The war also reflected the growing influence of naval power and the desire for overseas markets.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; <strong>Philippines as a colony:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The American imperialism in Philippines was unique in many ways because American helped Philippines in getting independence from Spanish rule.</li>
+<li style="padding-left:2em">&#9702; American imperialism was guided by strategic interest rather than any economic gains Philippines was captured by USA to counter the rise of Japan. The hostility b/w USA and Japan was going on since the Meiji Restoration.</li>
+<li style="padding-left:2em">&#9702; After liberating Philippines, USA didn&#8217;t leave it. Rather they stayed there, claiming the duty to work for development.</li>
+<li style="padding-left:2em">&#9702; Thus, Americans developed new model of colonization - it is not a colony but a <u>divine duty as a white man to develop and civilize</u>. This is <u>American neo-colonialism.</u></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3><u>Collapse</u></h3>
+<p>All of this culminated in the First World War. But even the World War didn&#8217;t give a jolt to it. Finally, after the WW2, gradually the process of decolonization started.</p>`,
 `,
   'world-wars': ``,
   'world-after-wwii': ``,
