@@ -110,25 +110,14 @@ function FloatingAuthWidget({ user, onSignIn, onSignOut, syncStatus }: {
           onClick={() => setExpanded(e => !e)}
           style={{
             width: 42, height: 42, borderRadius: '50%',
-            background: 'none', border: '2px solid #51cf66',
-            cursor: 'pointer', padding: 0, overflow: 'hidden',
+            background: 'var(--bg2)', border: '2px solid #51cf66',
+            cursor: 'pointer', fontSize: '1.1rem',
             boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
           title={user.email}
         >
-          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="21" cy="21" r="21" fill="#1a2a1a"/>
-            <ellipse cx="21" cy="32" rx="11" ry="7" fill="#2d4a2d"/>
-            <circle cx="21" cy="17" r="7.5" fill="#51cf66"/>
-            <circle cx="18" cy="16.5" r="1.8" fill="#0a1a0a"/>
-            <circle cx="24" cy="16.5" r="1.8" fill="#0a1a0a"/>
-            <circle cx="18.5" cy="16" r="0.6" fill="white"/>
-            <circle cx="24.5" cy="16" r="0.6" fill="white"/>
-            <path d="M18 19.8 Q21 22 24 19.8" stroke="#0a1a0a" strokeWidth="1" fill="none" strokeLinecap="round"/>
-            <ellipse cx="13.5" cy="15.5" rx="1.8" ry="2.4" fill="#51cf66"/>
-            <ellipse cx="28.5" cy="15.5" rx="1.8" ry="2.4" fill="#51cf66"/>
-          </svg>
+          {user.email?.[0]?.toUpperCase() ?? '👤'}
         </button>
       </div>
     );
@@ -398,37 +387,117 @@ export default function NoteReader({ slug }: { slug: string }) {
     <div style={{ display: 'flex', minHeight: 'calc(100vh - 60px)' }}>
       {/* Sidebar */}
       <aside style={{
-        width: sidebarOpen ? 240 : 0, minWidth: sidebarOpen ? 240 : 0,
-        borderRight: '1px solid var(--border)', background: 'var(--bg2)',
-        overflow: 'hidden', transition: 'all 0.2s',
+        width: sidebarOpen ? 248 : 0, minWidth: sidebarOpen ? 248 : 0,
+        borderRight: '1px solid rgba(59,130,246,0.1)',
+        background: 'linear-gradient(180deg, #070710 0%, #050508 60%, #060609 100%)',
+        overflow: 'hidden', transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
         position: 'sticky', top: 60, height: 'calc(100vh - 60px)', overflowY: 'auto', flexShrink: 0,
+        boxShadow: 'inset -1px 0 0 rgba(59,130,246,0.07), 4px 0 24px rgba(0,0,0,0.4)',
       }}>
-        <div style={{ padding: '1.25rem 1rem', opacity: sidebarOpen ? 1 : 0, transition: 'opacity 0.2s' }}>
-          <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>{note.section} • Topic {note.topic}</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.9rem', color: 'var(--text)', fontWeight: 600, marginBottom: '1.25rem', lineHeight: 1.3 }}>{note.title}</div>
-          {note.subtopics && <>
-            <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>Contents</div>
-            {note.subtopics.map((s,i) => <div key={i} style={{ padding: '0.3rem 0.5rem', fontSize: '0.78rem', color: 'var(--text2)', borderLeft: '2px solid var(--border)', marginBottom: '0.2rem', borderRadius: '0 3px 3px 0' }}>{s}</div>)}
-          </>}
-          {highlights.length > 0 && <>
-            <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '1.25rem 0 0.5rem' }}>My Highlights ({highlights.length})</div>
-            {highlights.map(h => (
-              <div key={h.id} style={{ padding: '0.35rem 0.5rem', fontSize: '0.73rem', color: 'var(--text2)', borderLeft: `2px solid ${HIGHLIGHT_COLORS.find(c=>c.id===h.color)?.color}`, marginBottom: '0.3rem', background: 'var(--bg3)', borderRadius: '0 3px 3px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{h.text.slice(0,38)}{h.text.length>38?'…':''}</span>
-                <button onClick={() => setHighlights(p => p.filter(x=>x.id!==h.id))} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.7rem', flexShrink: 0 }}>✕</button>
+        <style>{`
+          .sb-chip { transition: all 0.17s ease; cursor: default; }
+          .sb-chip:hover {
+            color: #fff !important;
+            background: rgba(59,130,246,0.11) !important;
+            border-left-color: rgba(59,130,246,0.6) !important;
+            padding-left: 1rem !important;
+          }
+          .sb-related { transition: all 0.17s ease; }
+          .sb-related:hover {
+            color: var(--accent) !important;
+            background: rgba(59,130,246,0.08) !important;
+            border-color: rgba(59,130,246,0.25) !important;
+            padding-left: 1.1rem !important;
+          }
+          .sb-label {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.59rem; letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--text3); font-family: var(--font-mono); font-weight: 500;
+          }
+          .sb-label::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(90deg, rgba(59,130,246,0.2), transparent);
+          }
+          aside::-webkit-scrollbar { width: 3px; }
+          aside::-webkit-scrollbar-track { background: transparent; }
+          aside::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.2); border-radius: 4px; }
+        `}</style>
+        <div style={{ padding: '1.5rem 1rem 2.5rem', opacity: sidebarOpen ? 1 : 0, transition: 'opacity 0.2s' }}>
+          <div style={{ marginBottom: '1rem' }}>
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)',
+              borderRadius: 20, padding: '3px 10px',
+              fontSize: '0.57rem', fontFamily: 'var(--font-mono)',
+              letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--accent)',
+            }}>
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--accent)', boxShadow: '0 0 6px var(--accent)', display: 'inline-block', flexShrink: 0 }} />
+              {note.section} · Topic {note.topic}
+            </span>
+          </div>
+          <div style={{
+            fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700,
+            lineHeight: 1.35, color: '#fff', marginBottom: '1.75rem',
+            paddingBottom: '1.25rem', borderBottom: '1px solid rgba(59,130,246,0.1)',
+            textShadow: '0 0 20px rgba(59,130,246,0.15)',
+          }}>{note.title}</div>
+          {note.subtopics && (
+            <div style={{ marginBottom: '1.75rem' }}>
+              <div className="sb-label" style={{ marginBottom: '0.65rem' }}>Contents</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                {note.subtopics.map((s,i) => (
+                  <div key={i} className="sb-chip" style={{
+                    padding: '0.38rem 0.75rem', fontSize: '0.775rem', color: 'var(--text2)',
+                    border: '1px solid rgba(255,255,255,0.03)',
+                    borderLeft: '2px solid rgba(59,130,246,0.22)',
+                    borderRadius: '0 5px 5px 0', background: 'rgba(255,255,255,0.018)', lineHeight: 1.4,
+                  }}>{s}</div>
+                ))}
               </div>
-            ))}
-          </>}
-          {related.length > 0 && <>
-            <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '1.25rem 0 0.5rem' }}>Related</div>
-            {related.map(r => (
-              <Link key={r.slug} href={`/notes/${r.slug}`} style={{ display: 'block', padding: '0.35rem 0.5rem', fontSize: '0.78rem', color: 'var(--text2)', textDecoration: 'none', marginBottom: '0.2rem', borderRadius: 4 }}
-                onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.color='var(--accent)';}}
-                onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.color='var(--text2)';}}>
-                → {r.title}
-              </Link>
-            ))}
-          </>}
+            </div>
+          )}
+          {highlights.length > 0 && (
+            <div style={{ marginBottom: '1.75rem' }}>
+              <div className="sb-label" style={{ marginBottom: '0.65rem' }}>
+                Highlights&nbsp;
+                <span style={{ background: 'rgba(59,130,246,0.15)', color: 'var(--accent)', borderRadius: 10, padding: '1px 7px', fontSize: '0.6rem' }}>{highlights.length}</span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.22rem' }}>
+                {highlights.map(h => {
+                  const col = HIGHLIGHT_COLORS.find(c => c.id === h.color)?.color ?? '#888';
+                  return (
+                    <div key={h.id} style={{
+                      padding: '0.38rem 0.6rem', fontSize: '0.72rem', color: 'var(--text2)',
+                      borderLeft: `2px solid ${col}`, background: `${col}12`,
+                      borderRadius: '0 4px 4px 0',
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 4,
+                    }}>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{h.text.slice(0,36)}{h.text.length>36?'…':''}</span>
+                      <button onClick={() => setHighlights(p => p.filter(x => x.id !== h.id))} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.65rem', flexShrink: 0, opacity: 0.6 }}>✕</button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          {related.length > 0 && (
+            <div>
+              <div className="sb-label" style={{ marginBottom: '0.65rem' }}>Related</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                {related.map(r => (
+                  <Link key={r.slug} href={`/notes/${r.slug}`} className="sb-related" style={{
+                    display: 'block', padding: '0.4rem 0.75rem', fontSize: '0.775rem',
+                    color: 'var(--text2)', textDecoration: 'none',
+                    border: '1px solid rgba(255,255,255,0.03)',
+                    borderRadius: 5, background: 'rgba(255,255,255,0.015)', lineHeight: 1.4,
+                  }}>
+                    <span style={{ color: 'rgba(59,130,246,0.45)', marginRight: 5, fontSize: '0.68rem' }}>→</span>
+                    {r.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </aside>
 
