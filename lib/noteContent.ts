@@ -23516,350 +23516,6 @@ He argued that <em>our knowledge of the world is limited</em> by the way our min
 </ul>
 </li>
 </ul>`,
-  'british-democratic-politics': `<h2>Handout 21: British Democratic Politics, 1815-1850; Parliamentary Reformers, Free Traders, Chartists</h2>
-
-<h3>UPSC CSE PYQs</h3>
-
-<p><strong>British liberalism in 19th century, Free Traders</strong></p>
-<ul>
-<li>&#8226; Write a critical note on: Effect of British liberalism on the social or economic life of the people of England. [1981, 20 Marks]</li>
-<li>&#8226; Account for the growth of Liberalism in Britain in the nineteenth century. How far did it influence the contemporary social and economic issues in the country? [1984, 60 Marks]</li>
-<li>&#8226; &#8220;The arguments of the free traders were a curious mixture of economic hard-headedness, social benevolence, cosmopolitan idealism and class prejudice.&#8221; Critically examine. [2019, 10 Marks]</li>
-</ul>
-
-<p><strong>Reforms Act 1832</strong></p>
-<ul>
-<li>&#8226; &#8220;Though reform was inevitable, the Act (1832) by which it was accomplished was open to grave criticism.&#8221; Comment. [2005, 20 Marks]</li>
-<li>&#8226; &#8220;Change in Britain came comparatively peacefully through democratic process in the first half of the nineteenth century and a model of a functioning democracy through ballot box was successfully put in place.&#8221; Elaborate. [2013, 25 Marks]</li>
-<li>&#8226; &#8220;&#8230; the passing of the &#8216;Reform Act&#8217; marked the real beginning of modern party organization in England&#8230; In a real sense, the present political system of England dates from 1832.&#8221; Critically examine. [2014, 10 Marks]</li>
-<li>&#8226; &#8216;The first Reformation Act (1832) occupies a significant place in the constitutional development of Britain.&#8217; Critically examine. [2022, 10m]</li>
-</ul>
-
-<p><strong>Chartists</strong></p>
-<ul>
-<li>&#8226; Review the background of the Chartist Movement. Despite its failure how had their demands been met in the succeeding years? [2004, 60 Marks]</li>
-<li>&#8226; &#8220;The roots of Chartism are partly political and partly economic.&#8221; Elaborate. [2011, 20 Marks]</li>
-<li>&#8226; &#8220;The roots of the Chartist movement in Great Britain were partly political and partly economic.&#8221; Critically examine. [2017, 10 Marks]</li>
-<li>&#8226; The Chartist Movement failed to achieve its stated objective, but succeeded in seeding the idea that a representative democracy should include all citizens. Critically examine. [2021, 10 Marks]</li>
-<li>&#8226; &#8220;The Chartist Movement not only fulfilled some of the demands of the middle class, but its ramifications were felt among the working class and the colonies as well.&#8221; [2023, 10 Marks]</li>
-</ul>
-
-<h3>Section A: British Liberalism and Middle-Class Politics</h3>
-
-<h4>Factors behind rise of liberalism:</h4>
-<ul>
-<li>&#8226; Impact of <strong>Enlightenment ideas</strong> of the 18th century:</li>
-<li style="padding-left:2em">&#9702; John Lock, Adam Smith: emphasized individual rights, the rule of law, and the importance of limited government.</li>
-<li>&#8226; <strong>Industrial Revolution:</strong></li>
-<li style="padding-left:2em">&#9702; It led to the rise of a new middle class which supported liberal ideas, such as individual liberty and free trade.</li>
-<li>&#8226; <strong>The Reform Act of 1832</strong></li>
-<li style="padding-left:2em">&#9702; It expanded the franchise and <strong>gave middle class a say in government.</strong> This middle class supported liberal candidates and policies.</li>
-<li>&#8226; <strong>Economic liberalism</strong></li>
-<li style="padding-left:2em">&#9702; Figures like David Ricardo, Malthus, Richard Cobden were influential proponents of free trade.</li>
-<li>&#8226; <strong>Utilitarianism:</strong> Benthal and Mill argued that individuals should be free to live their lives as they see fit, without interference from the government. They also supported government role in promoting social and economic justice.</li>
-</ul>
-
-<h4>Liberals supported several reforms:</h4>
-<ul>
-<li>&#8226; <strong>Free trade:</strong> Liberals believed in free trade which benefited the consumers and workers, as it led to lower prices and more job opportunities.</li>
-<li style="padding-left:2em">&#9702; The repeal of the Corn Laws in 1846</li>
-<li>&#8226; <strong>Parliamentary reform:</strong> Liberals supported the process of making Parliament more representative. They believed that everyone should have a say in government, regardless of their wealth or social class.</li>
-<li style="padding-left:2em">&#9702; The Great Reform Act of 1832</li>
-<li style="padding-left:2em">&#9702; Leading role in the campaigns for women&#8217;s suffrage by the end of the century.</li>
-<li>&#8226; <strong>Individual rights and civil liberties:</strong> This included campaigns for religious freedom, the abolition of slavery, and the expansion of personal freedoms.</li>
-<li style="padding-left:2em">&#9702; Catholic Emancipation of 1790s</li>
-<li style="padding-left:2em">&#9702; Free speech and Freedom of Press</li>
-<li style="padding-left:2em">&#9702; Prison Reforms</li>
-<li style="padding-left:2em">&#9702; Slavery Abolition</li>
-<li>&#8226; <strong>Civic and Municipal Reforms:</strong></li>
-<li style="padding-left:2em">&#9702; Municipal Corporations Act, 1835</li>
-<li style="padding-left:2em">&#9702; The Public Health Act of 1848</li>
-<li style="padding-left:2em">&#9702; The Education Act of 1870</li>
-<li>&#8226; <strong>Social reform:</strong> Liberals believed that the government should play a role in promoting social justice. They supported social reform for the improvement of working conditions.</li>
-<li style="padding-left:2em">&#9702; The Factory Act of 1833</li>
-</ul>
-
-<p>Thus, liberalism played a major role in shaping the contemporary social and economic landscape of Britain and helped to create a more democratic, free, and prosperous society.</p>
-
-<h3>Some Important Economic Liberal Thinkers</h3>
-<ul>
-<li>&#8226; <strong>Adam Smith</strong></li>
-<li style="padding-left:2em">&#9702; Smith argued that the best way to promote economic growth was to let the free market operate without government interference. The pursuit of individual self-interest (invisible hand) in competitive market would lead to the greatest good for society.</li>
-<li style="padding-left:2em">&#9702; The middle-class entrepreneurs embraced Smith&#8217;s ideas about <strong>individualism, competition, and free trade.</strong></li>
-</ul>
-
-<p>The Economists of Capitalism Smith&#8217;s basic ideas were supported by British economists Thomas Malthus and David Ricardo. Like Smith, they believed that natural laws governed economic life. Their important ideas were the foundation of laissez-faire capitalism.</p>
-
-<ul>
-<li>&#8226; <strong>Thomas Malthus</strong></li>
-<li style="padding-left:2em">&#9702; Malthus argued that the human population would tend to grow faster than the food supply, leading to widespread poverty and famine. Without wars and epidemics to kill off the extra people, most were destined to be poor and miserable.</li>
-<li style="padding-left:2em">&#9702; The middle class, concerned about social unrest by a growing poor workers, embraced Malthus&#8217;s ideas about the <strong>need to limit population growth</strong> and family planning.</li>
-<li style="padding-left:2em">&#9702; Malthus also justified the exploitation of the working class to some extent, which helped <strong>reduce middle-class guilt.</strong></li>
-<li style="padding-left:4em">&#9632; It contributed to the belief that poverty was an unavoidable consequence of overpopulation.</li>
-<li>&#8226; <strong>Jeremy Bentham</strong> (father of utilitarianism)</li>
-<li style="padding-left:2em">&#9702; Bentham believed that the best way to promote happiness was to maximize pleasure and minimize pain (greatest good for greatest number).</li>
-<li style="padding-left:2em">&#9702; Utilitarianism aligned with middle-class values of rationality, efficiency, and individual self-interest. It emphasized the pursuit of pleasure and the avoidance of pain as the basis for <strong>ethical decision-making</strong>.</li>
-<li style="padding-left:2em">&#9702; The middle class embraced utilitarian ideas at it supported <strong>social reform</strong> to improve the lives of the working class and helped in creation of just and equitable society.</li>
-<li>&#8226; <strong>David Ricardo</strong></li>
-<li style="padding-left:2em">&#9702; <strong>Iron Law of Wages:</strong> Wages tend to settle at a subsistence level, just enough to maintain the worker and their family at a basic standard of living. Any increase in wages above this level would lead to increased population growth, which, in turn, would drive wages back down to the subsistence level.</li>
-<li style="padding-left:2em">&#9702; It suggested that workers&#8217; efforts to secure higher wages might be temporary, as any gains could be offset by increased population growth and a subsequent decline in wages.</li>
-</ul>
-
-<p>Laissez-faire thinkers such as Smith, Malthus, and Ricardo opposed government efforts to help poor workers. They thought that creating minimum wage laws and better working conditions would upset the free market system, lower profits, and undermine the production of wealth in society.</p>
-
-<h3>Great Reform Act, 1832</h3>
-
-<p>&#8220;But the age of chivalry is gone. That of sophisters, economists, and calculators has succeeded; and the glory of Europe is extinguished forever.&#8221; &#8211; Edmund Burke.</p>
-
-<h4>Causes:</h4>
-<p>The circumstances leading to enactment of the Reform Act were created by impact of industrial revolution.</p>
-<ul>
-<li>&#8226; <strong>Population shift &#8594; Rotten Boroughs and Unequal Representation:</strong></li>
-<li style="padding-left:2em">&#9702; The IR resulted in the vast urban migration whereby many of the existing constituencies got depopulated which continued to enjoy representation in British parliament.</li>
-<li style="padding-left:2em">&#9702; On the other hand, the newly expanding industrial towns had no/least representation in British parliament. Thus, there was a need for redistribution of parliamentary constituencies.</li>
-<li>&#8226; <strong>Emerging classes:</strong></li>
-<li style="padding-left:2em">&#9702; The British parliament was under the monopoly of nobles &amp; clergymen. The new classes created by IR (capitalist &amp; working class) did not have a representation in British parliament.</li>
-<li style="padding-left:2em">&#9702; The right to vote was based on property qualifications. There was a need to readjust this qualification so that the new classes could get representation in British parliament.</li>
-<li>&#8226; <strong>Memory of the French Revolution:</strong></li>
-<li style="padding-left:2em">&#9702; The memory of the French Revolution and the fear of similar upheaval in Britain served as a catalyst for political reform. Some in the government believed that reforming the electoral system would help maintain social stability.</li>
-<li>&#8226; <strong>Political Pressure:</strong></li>
-<li style="padding-left:2em">&#9702; There was growing popular pressure for reform in the years leading up to the Reform Act of 1832. This pressure was manifested in the form of mass demonstrations, petitions, and other forms of political activism. The government realized that it could no longer ignore the demands for reform without risking a revolution.</li>
-</ul>
-
-<h4>Provisions of the Reform:</h4>
-<ul>
-<li>&#8226; Delimitation:</li>
-<li style="padding-left:2em">&#9702; Constituencies with less than 2000 population were deprived of representation.</li>
-<li style="padding-left:2em">&#9702; Constituencies with 2000-5000 population were allowed one seat in parliament.</li>
-<li style="padding-left:2em">&#9702; It freed 143 seats which were allotted to unrepresented towns and cities.</li>
-<li>&#8226; Voting qualifications: The property qualifications for voting rights readjusted.</li>
-<li style="padding-left:2em">&#9702; In borough, a person 10 pounds /annum tax was given right to vote.</li>
-<li style="padding-left:2em">&#9702; In rural areas this amount was fixed as 5 pounds for peasant proprietors and 2 pounds for lease holders.</li>
-<li>&#8226; It provided that all those citizens whose names were included in electoral rolls at the time of announcement of elections shall have rights to vote.</li>
-</ul>
-
-<h4>Significance:</h4>
-<p>The Reform Act of 1832 was a landmark piece of legislation that had a profound impact on British politics and society.</p>
-<ul>
-<li>&#8226; The Act symbolized Britain&#8217;s <strong>ability to adapt its constitutional framework</strong> to changing societal and political dynamics. It marked a shift from a more aristocratic and exclusive system to a <strong>more inclusive parliament and representative modern democracy.</strong></li>
-<li>&#8226; <strong>Empowered Middle Class:</strong> It shattered the monopoly of nobles and clergymen over British parliament. It paved the way for entry of middle class in British politics. Now, the middle class gained much greater say in government.</li>
-<li style="padding-left:2em">&#9702; The middle class was the driving force behind the Industrial Revolution. By giving the middle class a greater say in government, the Reform Act helped to create a more favorable environment for economic growth and development. This led to a number of reforms in the following years, such as the abolition of the Corn Laws and the introduction of free trade.</li>
-<li style="padding-left:2em">&#9702; This emerging middle class emphasized on colonisation, and severance from European conflicts. Thus, the British government adopted a policy of &#8216;splendid isolation&#8217; in continental affairs and concentrated on expansion of its dominance in India.</li>
-<li>&#8226; <strong>Expansion of electorate:</strong> The number of voters doubled. (3.6L to 6.5L)</li>
-<li>&#8226; <strong>Reduction of rotten boroughs:</strong> Discrepancies prevailing in the distribution of constituencies were removed to a large extent. Thus, it eliminated unfair representation and made the parliament more representative of the industrial towns.</li>
-<li style="padding-left:2em">&#9702; <strong>Major Shakeup:</strong> Almost a third of the existing seats were redistributed to areas that had grown in population.</li>
-<li>&#8226; <strong>Realignment of political parties:</strong> The Whigs, who supported reform, gained more prominence, while the Tories were divided over the issue. This realignment laid the foundation for the modern political party system in Britain.</li>
-<li>&#8226; <strong>Stability:</strong> It tried to address social and political discontent. It reduced the risk of revolution and maintained political stability in Britain.</li>
-<li>&#8226; <strong>Established the reformist tradition:</strong> Similar reforms acts were enacted 1867, 1884, 1911 &amp; 1928. Thus, it created precedent which eventually led to universal male suffrage.</li>
-</ul>
-
-<h4>Impact of the Reform Act of 1832 on the party politics/organization in Britain</h4>
-<p>Prior to the Reform Act, British politics was dominated by a small number of wealthy landowners and aristocrats. These individuals were able to control the outcome of elections by buying votes and intimidating voters.</p>
-<p>The Reform Act of 1832 expanded the franchise, which led to a more democratic and competitive political system.</p>
-<p>This created a need for political parties to develop more sophisticated organizations in order to mobilize voters and win elections. In response to the Reform Act, the two major political parties in Britain, the Whigs and the Tories, began to develop more modern party organizations. They established local party branches, held party conventions, and developed party platforms. They also began to use more sophisticated techniques to campaign for votes, such as distributing leaflets and holding public rallies.</p>
-<p>The Act led to the emergence of political leaders such as Robert Peel and Lord Melbourne, who played pivotal roles in shaping the early Conservative and Liberal parties. Party organizations began to develop with clear platforms and ideologies.</p>
-
-<h4>Limitations:</h4>
-<ul>
-<li>&#8226; <strong>Continued unequal representation:</strong></li>
-<li style="padding-left:2em">&#9702; While the Act eliminated some rotten boroughs, it did not completely eliminate all forms of unequal representation.</li>
-<li style="padding-left:2em">&#9702; Despite some redistribution of seats, urban areas were still underrepresented compared to their population size. This urban-rural divide persisted and continued to affect the political landscape.</li>
-<li>&#8226; <strong>There was no provision of secret ballot.</strong></li>
-<li style="padding-left:2em">&#9702; It was done openly, which meant that voters could be subject to intimidation or pressure from employers, landlords, or others in positions of authority.</li>
-<li>&#8226; <strong>Limited franchise:</strong></li>
-<li style="padding-left:2em">&#9702; Property qualifications.</li>
-<li style="padding-left:2em">&#9702; The lower middle class, the artisans, and the industrial workers got no representation in the parliament.</li>
-<li style="padding-left:2em">&#9702; Women were excluded.</li>
-<li>&#8226; The Act did not address the need for <strong>reform in the House of Lords</strong>, which remained largely unchanged and continued to wield significant political power.</li>
-<li style="padding-left:2em">&#9702; Thus, the monopoly of nobles and clergymen continued in the house of lords.</li>
-<li style="padding-left:2em">&#9702; This also led to ongoing disputes between the two houses.</li>
-<li>&#8226; The Act <strong>did not directly address broader social and economic inequalities in society.</strong> While it extended political rights, it did not significantly impact broader issues of wealth and class disparities.</li>
-</ul>
-
-<h3>Anti-Corn Law League and Free Traders (1815-46)</h3>
-<ul>
-<li>&#8226; In the late 18th and early 19th centuries, Britain followed a <strong>protectionist economic policy.</strong> This period was marked by high tariffs, trade restrictions, and the Navigation Acts, which aimed to protect British industries and maintain control over colonial trade.</li>
-<li>&#8226; For example, the <strong>Corn Laws</strong> were a series of tariffs and trade restrictions on imported grains in the United Kingdom from 1815 to 1846.</li>
-<li style="padding-left:2em">&#9702; The laws were intended to protect English farmers from cheap foreign imports of grain. They raised the price of corn, which increased food costs and poverty among the working class. They were a deeply divisive issue in the first half of the nineteenth century.</li>
-</ul>
-
-<h4>Free Trade Advocacy: Anti-Corn Law League</h4>
-<ul>
-<li>&#8226; In the early 19th century, a group of reformers and political economists, including <strong>David Ricardo, John Stuart Mill, and Richard Cobden</strong>, emerged as advocates of free trade.</li>
-<li>&#8226; The Corn Laws became a focal point for the free trade movement.</li>
-<li style="padding-left:2em">&#9702; The <strong>Anti-Corn Law League,</strong> founded in <strong>1838</strong> by <strong>Richard Cobden</strong> and <strong>John Bright,</strong> campaigned vigorously for the repeal of the protectionist laws.</li>
-<li style="padding-left:4em">&#9632; The laws supported by the landed aristocracy and agricultural interests, benefitted the wealthy at the expense of the poor, consumers and workers.</li>
-<li style="padding-left:4em">&#9632; They were preventing British manufacturers from competing in the global market.</li>
-<li style="padding-left:4em">&#9632; The League&#8217;s economic argument was that free trade would lead to greater economic efficiency, prosperity for all, individual liberty, and international peace.</li>
-<li style="padding-left:2em">&#9702; <strong>Campaign:</strong> It was able to <strong>mobilize public support.</strong></li>
-<li style="padding-left:4em">&#9632; This grassroots mobilization was key to its success.</li>
-<li style="padding-left:4em">&#9632; It published pamphlets and gave speeches.</li>
-<li style="padding-left:4em">&#9632; It organized meetings, rallies, and campaigns to educate public opinion.</li>
-<li style="padding-left:4em">&#9632; They also lobbied Parliament and tried to persuade MPs to support repeal.</li>
-<li style="padding-left:4em">&#9632; The Economist newspaper became the mouthpiece of the free-trade advocacy.</li>
-<li>&#8226; <strong>Repeal of the Corn Laws and shift to Free Trade</strong></li>
-<li style="padding-left:2em">&#9702; In <strong>1846</strong>, under the leadership of <strong>Prime Minister Sir Robert Peel</strong>, the British government repealed the Corn Laws.</li>
-<li style="padding-left:2em">&#9702; This marked a significant victory for the free trade movement. It signaled a shift <strong>away from protectionism towards free trade principles.</strong></li>
-<li style="padding-left:2em">&#9702; It led to a decrease in the price of food, which benefited British consumers. It also led to an increase in exports, which benefited British manufacturers.</li>
-<li style="padding-left:2em">&#9702; It was followed by a series of additional free trade measures, including reductions in tariffs and the gradual opening of British markets to foreign goods. This period of free trade policies is associated with economic growth and the expansion of the British Empire&#8217;s global trade networks.</li>
-</ul>
-
-<h3>Section B: Working Class Movement in Britain</h3>
-
-<p>As England was the first country in the world to experience the Industrial Revolution, the English working class were the first to experience the hardships of industrialization.</p>
-
-<p>Advocates of laissez-faire economics maintained that it was <strong>not the duty of the government to intervene</strong> between the employers and employees. In 1799, the <strong>Combination Act</strong> was passed prohibiting the formation of trade unions in England.</p>
-
-<h4>A. The Luddite Movement (1811-16)</h4>
-<ul>
-<li>&#8226; It arose in response to rapid industrialization. As machines were replacing skilled artisans, there were job losses. The Luddites were primarily skilled workers who saw machinery as a threat to their livelihoods. They started destroying machines believing that it would help protect their jobs.</li>
-<li>&#8226; Luddites engaged in acts of <strong>organized machine-breaking/sabotage</strong> in textile mills and factories.</li>
-<li style="padding-left:2em">&#9702; It began in the vicinity of Nottingham toward the end of 1811 and in the next year spread to Yorkshire, Lancashire, Derbyshire, and Leicestershire.</li>
-<li>&#8226; Mill and factory owners took to shooting protesters. The British government responded with repressive measures, deploying troops to suppress the movement and passing laws that made machine-breaking a capital offense. In 1813, several Luddites were hanged for their crimes.</li>
-<li>&#8226; <strong>Comment:</strong></li>
-<li style="padding-left:2em">&#9702; Luddites are today seen as symbols of resistance to technological change and as early defenders of workers&#8217; rights. However, they were unable to prevent the broader adoption of machinery and factory-based production.</li>
-<li style="padding-left:2em">&#9702; Although the Luddite Movement was crushed by the authorities, it paved the way for the next stage of the working-class agitation in England.</li>
-<li style="padding-left:4em">&#9632; It was an essential stage on the road towards a working-class consciousness. It raised awareness of the issues and contributed to the broader labor movement and the development of trade unions in the 19th century.</li>
-<li style="padding-left:4em">&#9632; Workers began organizing to advocate for better working conditions, higher wages, and job security.</li>
-</ul>
-
-<h4>B. Post-Napoleonic Unrest (1815-1825)</h4>
-<ul>
-<li>&#8226; <strong>Causes</strong></li>
-<li style="padding-left:2em">&#9702; There was an acute economic slump (post-Napoleonic depression).</li>
-<li style="padding-left:2em">&#9702; It was accompanied by chronic unemployment and harvest failure.</li>
-<li style="padding-left:2em">&#9702; The overall impact was worsened by the <strong>Corn Laws (1815)</strong>, which kept the price of bread high by prohibiting the importation of cheap grains.</li>
-<li>&#8226; <strong>Popular Agitation and Riots</strong></li>
-<li style="padding-left:2em">&#9702; There was mass rioting throughout Britain.</li>
-<li style="padding-left:2em">&#9702; Many working class papers started being published and received by a wide audience.</li>
-<li style="padding-left:2em">&#9702; This outbreak of lawlessness led to a government crackdown on agitation in 1817 known as the <strong>Gagging Acts</strong>, a <strong>suspension of habeas corpus (1816).</strong></li>
-<li>&#8226; <strong>Blanketeers March (1817)</strong></li>
-<li style="padding-left:2em">&#9702; In protest of the Gagging Acts, as well as the poor working conditions in the textile industry, workers in Manchester attempted to march on London to deliver petitions in a demonstration.</li>
-<li style="padding-left:2em">&#9702; The Blanketeers, named after the blankets they brought to sleep on the roadside during their journey, were intercepted, with most participants either arrested or chased off by the British military. The march was broken up violently and its leaders imprisoned.</li>
-<li>&#8226; <strong>Political Reform Movement</strong></li>
-<li style="padding-left:2em">&#9702; Now, reformers identified parliamentary reform as the solution and a mass campaign to petition parliament for manhood suffrage began.</li>
-<li style="padding-left:2em">&#9702; Political demonstrations increased in popularity throughout industrial Britain. It culminated in an incident in Manchester, <strong>Peterloo Massacre (1819)</strong></li>
-<li style="padding-left:4em">&#9632; The mounted units attacked the crowd of 80,000, resulted in 18 deaths and up to 500 injuries.</li>
-<li style="padding-left:4em">&#9632; The British government responded with draconian measures known as the <strong>Six Acts</strong> that allowed government searches, prohibited large assemblies, and punished anti-government publications.</li>
-<li style="padding-left:2em">&#9702; Soon, a need was felt to reform the existing combination laws against trade laws.</li>
-<li style="padding-left:4em">&#9632; The <strong>Combination Act of 1824</strong> finally repealed all previous statutes concerning trade unions and declared that trade unions would no longer be treated as illegal.</li>
-<li style="padding-left:4em">&#9632; The legality of the working class unions was further enhanced by the <strong>Combination Act of 1825.</strong></li>
-<li style="padding-left:2em">&#9702; Now, the government began to recognize the need to address labor grievances and allow for peaceful labor organizing.</li>
-</ul>
-
-<h4>Early Trade Unionism</h4>
-<ul>
-<li>&#8226; This legislation brought trade unions into <strong>legal existence.</strong></li>
-<li style="padding-left:2em">&#9702; Until then, trade unions had been operating secretly but hereafter, they were allowed to negotiate openly with the employers.</li>
-<li style="padding-left:2em">&#9702; These early unions, <strong>often limited to skilled workers</strong>, focused on issues like wages, working hours, and apprenticeship standards.</li>
-<li style="padding-left:2em">&#9702; By the 1830s, there were hundreds of trade unions in Britain.</li>
-<li>&#8226; The early phase of trade unionism <strong>did not bring much relief for the workers.</strong></li>
-<li style="padding-left:2em">&#9702; They still operated within a <strong>restrictive legal framework</strong>. Courts often deemed strikes illegal, and union activity was <strong>closely scrutinized</strong>. There was <strong>hostility from the employers</strong> as well.</li>
-<li style="padding-left:2em">&#9702; Trade unionism in this period was often <strong>fragmented</strong>, with numerous small, specialized unions representing specific trades or industries. Coordination and collective action across different sectors were limited.</li>
-<li style="padding-left:4em">&#9632; Failed attempt to set up national general union: <strong>Robert Owen&#8217;s Grand National Consolidated Trades Union</strong> in 1834.</li>
-<li>&#8226; Early Trade unionists contributed to the <strong>development of Chartist demands</strong> for political reform. The Chartists saw trade unions as an important tool for organizing and mobilizing the working class.</li>
-</ul>
-
-<h4>C. Owenism (1820s, 1830s)</h4>
-<ul>
-<li>&#8226; Owenism was a social and economic movement founded by Robert Owen, who was a British textile manufacturer.</li>
-<li>&#8226; Ideas and writing:</li>
-<li style="padding-left:2em">&#9702; He believed that socio-economic problems due to the Industrial revolution could be solved by creating a new social system based on cooperation and equality. He emphasized importance of improving working conditions and education for workers.</li>
-<li style="padding-left:2em">&#9702; Owen&#8217;s writings and experiments contributed to the development of early socialist thought. His work laid the intellectual foundation for cooperative socialism and utopian socialism, which influenced later socialist thinkers.</li>
-<li>&#8226; <strong>Initiatives</strong></li>
-<li style="padding-left:2em">&#9702; Robert Owen put many of his ideas into practice at the <strong>New Lanark</strong> cotton mills in Scotland. He transformed New Lanark into a model industrial community, introducing progressive labor practices, education for children, and social reforms.</li>
-<li style="padding-left:2em">&#9702; Owen established a number of <strong>experimental communities</strong>, including <strong>New Harmony in Indiana.</strong> These experiments aimed to create self-sustaining, cooperative communities based on his principles. However, these communities couldn&#8217;t sustain and were ultimately unsuccessful.</li>
-<li>&#8226; Owenism gained popularity in Britain and the United States in the 1820s and 1830s but declined by the late 1830s. This was due to the failure of the Owenite communities and the rise of other socialist movements.</li>
-<li>&#8226; However, Owenism had a significant impact on the development of the workers&#8217; movement. His ideas had a lasting impact on the development of socialist thought, labor movements, and the concept of workers&#8217; rights. His emphasis on the importance of education, fair labor practices, and cooperation left a lasting legacy in the broader context of social reform and socialism.</li>
-</ul>
-
-<h4>D. Chartist Movement</h4>
-<p>&#8220;The Chartists were pioneers of democracy. They fought for the right of all men to have a say in how they were governed.&#8221; - Eric Hobsbawm</p>
-
-<p>The Chartist movement was the first mass movement for parliamentary reforms driven entirely by the industrial workers and was largely inspired by the evolving theories of socialism.</p>
-
-<p>From 1820s onwards, workers developed their own organization and leadership. By the end of 1830s, they started a campaign called Chartist movement. It was a peaceful movement for political demands. At a time when the right to vote was severely limited, the Charter demanded the vote for all men. There were, in all, <strong>six demands:</strong></p>
-<ul>
-<li>&#8226; A vote for every man 21 years of age, of sound mind, and not undergoing punishment for crime.</li>
-<li>&#8226; Secret ballots.</li>
-<li>&#8226; No property qualification for Members of Parliament.</li>
-<li>&#8226; Payment to MPs.</li>
-<li>&#8226; Equal size constituencies.</li>
-<li>&#8226; Annual parliaments.</li>
-</ul>
-
-<p>It rapidly gathered support from industrial workers in the North of England, Wales, and Scotland. By the 1840s, it had largely lost its middle-class support and become a working class political movement.</p>
-
-<p>Chartists were not the first to demand these things. However, it was in 1830s that the movement received massive public support. <strong>Reasons for the rise:</strong></p>
-<ul>
-<li>&#8226; <strong>Economic Factors:</strong></li>
-<li style="padding-left:2em">&#9702; <strong>Hard times</strong></li>
-<li style="padding-left:4em">&#9632; Severe economic depression in 1840s</li>
-<li style="padding-left:4em">&#9632; <strong>Plight of workers</strong>: Low wages, labour exploitation, unemployment, squalid urbanization</li>
-<li style="padding-left:4em">&#9632; <strong>Hungry Forties</strong>: Potato famine, food shortages</li>
-<li style="padding-left:2em">&#9702; People were furious over the <strong>new Poor Law</strong> which established the <strong>workhouse system.</strong></li>
-<li>&#8226; <strong>Political Factors:</strong></li>
-<li style="padding-left:2em">&#9702; <strong>Idea of popular sovereignty:</strong> The English Revolution gave rise to the idea of popular sovereignty which inspired the Chartists to demand political reforms.</li>
-<li style="padding-left:2em">&#9702; <strong>Lack of political representation:</strong> Many working people had supported the campaign that resulted in the <strong>1832 Reform Act</strong> in the belief that this would be a first step towards wider democracy. They were angry at the Whig government&#8217;s failure to honour its political debts.</li>
-<li style="padding-left:2em">&#9702; <strong>The influence of political movements</strong> like the Radicals and the Reformers who advocated for political reform.</li>
-<li style="padding-left:2em">&#9702; <strong>Influence of European Revolutions:</strong></li>
-<li style="padding-left:4em">&#9632; The European revolutions like July Revolution in France (1830) influenced the political consciousness in England and fueled demands for greater political rights.</li>
-<li style="padding-left:2em">&#9702; This was also a time when, following the repeal of the anti-trade union <strong>Combination Acts</strong>, working people were becoming more confident in forming their own organisations.</li>
-</ul>
-
-<p>The Chartist movement was a <strong>challenge to the rising middle class</strong> which had gained the most by the Act of 1832, and as such the parliament rejected the petition summarily.</p>
-
-<p>Important leaders: Feargus O&#8217;Connor, John Collins, William Lovett</p>
-
-<h4>Three Upsurges:</h4>
-<p>There followed certain abortive attempts at armed uprising also, but these were quickly suppressed. The leaders of the movement were arrested and sentenced to short prison terms, and a few of them were also exiled.</p>
-<p>Thereafter, for more than a decade the Chartist leaders kept agitating and even threatened violence, but no serious unrest took place. It remained largely peaceful.</p>
-<ul>
-<li>&#8226; 1839 &#8211; first Chartists movement</li>
-<li>&#8226; 1842 &#8211; second Chartists movement</li>
-<li>&#8226; 1848 &#8211; third and most formidable, coincided with the year of revolutions in Europe.</li>
-<li style="padding-left:2em">&#9702; 5 lakh workers gathered in London in 1848 to present the charter to parliament.</li>
-<li style="padding-left:2em">&#9702; In favour of the charter, they collected 60 lakh signatures, including many fakes.</li>
-<li style="padding-left:2em">&#9702; Meantime, it was the rainy season, police dispersed the workers.</li>
-</ul>
-
-<h4>Decline and Failure?</h4>
-<p>By 1848, the Chartists had tried every avenue open to them, from petitions to strikes and economic boycotts and revolution &#8211; and all had failed. After 1848, it ceased to be a mass movement. Reasons for the outcome:</p>
-<ul>
-<li>&#8226; Ineffective leadership</li>
-<li>&#8226; Inability to popularize ideas and program.</li>
-<li>&#8226; Internal factionalism</li>
-<li>&#8226; Use of unethical practices</li>
-<li>&#8226; Misdirected energy (common people wanted economic relief, while chartists promised political outcome)</li>
-</ul>
-
-<h4>Still, the Chartist movement was significant:</h4>
-<p>The Chartist movement failed in immediate objectives, but it was not complete failure. In history of democratic reforms, this movement enjoy a place of great significance.</p>
-<ul>
-<li>&#8226; This was the 1st major <strong>working-class movement anywhere in the world.</strong> It inspired workers to come together in favour of their demands.</li>
-<li>&#8226; Chartism helped create a <strong>long-term political culture</strong> in which later left-wing ideas flourished.</li>
-<li style="padding-left:2em">&#9702; Chartism was primarily a working-class movement. It <strong>fostered a sense of class consciousness</strong> and empowered the working-class population by providing a <strong>platform for political activism and collective action.</strong></li>
-<li style="padding-left:2em">&#9702; Although many Chartists eventually drifted into single-issue politics or the Liberal Party, or gave up altogether, the ideas developed by Chartists were <strong>enormously important for the socialist parties</strong> that emerged later in the century.</li>
-<li style="padding-left:2em">&#9702; Chartism taught organizational structure, mobilization techniques, leadership skills, collective action that <strong>inspired trade union leadership.</strong> It helped to strengthen the trade unions and they emerged much more powerful in the second half of the 19th century than before.</li>
-<li>&#8226; The awareness created by movement among <strong>persuaded the government to take several steps</strong> in improvement of condition of workers parliament enacted &#8211; Health Act, Minning Act, Factory Act etc. to take care interest of working class.</li>
-<li>&#8226; In all, there was no result in immediate term. But these movements were not insignificant. Gradually, <strong>5/6 demands were fulfilled</strong>, except annual parliament. In that sense, they did not fail, but success took rather longer than the Chartists might have hoped.</li>
-</ul>
-
-<table border="1" cellpadding="6" cellspacing="0">
-<thead><tr><th>#</th><th>Demand</th><th>When Fulfilled</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>Redistribution of seats between county (countryside) and boroughs.</td><td>Redistribution of Seats Act 1885</td></tr>
-<tr><td>2</td><td>Universal male suffrage above 21 years old</td><td>1867, 1884, 1918: universal male suffrage. (women - 1928)</td></tr>
-<tr><td>3</td><td>Secret Ballot</td><td>Secret Ballot Act in 1872</td></tr>
-<tr><td>4</td><td>No property qualifications</td><td>Property Qualification for Members of Parliament Act 1858</td></tr>
-<tr><td>5</td><td>Payment of MPs</td><td>Parliament Act 1911</td></tr>
-<tr><td>6</td><td>Annual Parliaments</td><td>Not introduced</td></tr>
-</tbody>
-</table>
-
-<h4>E. Resurgence of Trade Unionism (post 1850s)</h4>
-<p>After Chartism had petered out, there was again a <strong>resurgence of the trade union movement</strong> in the 1850s. There began a long period of industrial expansion and economic growth during which trade unionism entered a <strong>phase of steady expansion and consolidation.</strong></p>
-<p>The unions formed during the 1850s are often referred to as the <strong>New Model Unions</strong> and such unions were meant for the <strong>more skilled sections of the working classes.</strong></p>`,
   'origins-modern-politics': `<h2>Handout 7: American Revolution</h2>
 <p><em>&#8220;We hold these truths to be self-evident, that all men are created equal, that they are endowed by their creator with certain unalienable right, that among these are life, liberty, and the pursuit of happiness.&#8221;</em><br>&#8212;The Declaration of American Independence, 4 July 1776</p>
 <p>The American Revolution (1765-81) was an ideological and political revolution based on the principles of the American Enlightenment and led to the independence of the American colonies from the British. It was the first successful struggle against colonialism. It opened the doors of the modern age for mankind, led to worldwide impact and transformed both America and Europe.</p>
@@ -27752,7 +27408,352 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <li style="padding-left:2em">&#9702; The Revolutions of 1830 demonstrated the <strong>persistence of revolutionary spirit</strong> in Europe, setting the stage for further revolutionary movements in the decades that followed, including the Revolutions of 1848.</li>
 </ul>
 </li>
-</ul>`,
+</ul>
+
+<h2>Handout 21: British Democratic Politics, 1815-1850; Parliamentary Reformers, Free Traders, Chartists</h2>
+
+<h3>UPSC CSE PYQs</h3>
+
+<p><strong>British liberalism in 19th century, Free Traders</strong></p>
+<ul>
+<li>&#8226; Write a critical note on: Effect of British liberalism on the social or economic life of the people of England. [1981, 20 Marks]</li>
+<li>&#8226; Account for the growth of Liberalism in Britain in the nineteenth century. How far did it influence the contemporary social and economic issues in the country? [1984, 60 Marks]</li>
+<li>&#8226; &#8220;The arguments of the free traders were a curious mixture of economic hard-headedness, social benevolence, cosmopolitan idealism and class prejudice.&#8221; Critically examine. [2019, 10 Marks]</li>
+</ul>
+
+<p><strong>Reforms Act 1832</strong></p>
+<ul>
+<li>&#8226; &#8220;Though reform was inevitable, the Act (1832) by which it was accomplished was open to grave criticism.&#8221; Comment. [2005, 20 Marks]</li>
+<li>&#8226; &#8220;Change in Britain came comparatively peacefully through democratic process in the first half of the nineteenth century and a model of a functioning democracy through ballot box was successfully put in place.&#8221; Elaborate. [2013, 25 Marks]</li>
+<li>&#8226; &#8220;&#8230; the passing of the &#8216;Reform Act&#8217; marked the real beginning of modern party organization in England&#8230; In a real sense, the present political system of England dates from 1832.&#8221; Critically examine. [2014, 10 Marks]</li>
+<li>&#8226; &#8216;The first Reformation Act (1832) occupies a significant place in the constitutional development of Britain.&#8217; Critically examine. [2022, 10m]</li>
+</ul>
+
+<p><strong>Chartists</strong></p>
+<ul>
+<li>&#8226; Review the background of the Chartist Movement. Despite its failure how had their demands been met in the succeeding years? [2004, 60 Marks]</li>
+<li>&#8226; &#8220;The roots of Chartism are partly political and partly economic.&#8221; Elaborate. [2011, 20 Marks]</li>
+<li>&#8226; &#8220;The roots of the Chartist movement in Great Britain were partly political and partly economic.&#8221; Critically examine. [2017, 10 Marks]</li>
+<li>&#8226; The Chartist Movement failed to achieve its stated objective, but succeeded in seeding the idea that a representative democracy should include all citizens. Critically examine. [2021, 10 Marks]</li>
+<li>&#8226; &#8220;The Chartist Movement not only fulfilled some of the demands of the middle class, but its ramifications were felt among the working class and the colonies as well.&#8221; [2023, 10 Marks]</li>
+</ul>
+
+<h3>Section A: British Liberalism and Middle-Class Politics</h3>
+
+<h4>Factors behind rise of liberalism:</h4>
+<ul>
+<li>&#8226; Impact of <strong>Enlightenment ideas</strong> of the 18th century:</li>
+<li style="padding-left:2em">&#9702; John Lock, Adam Smith: emphasized individual rights, the rule of law, and the importance of limited government.</li>
+<li>&#8226; <strong>Industrial Revolution:</strong></li>
+<li style="padding-left:2em">&#9702; It led to the rise of a new middle class which supported liberal ideas, such as individual liberty and free trade.</li>
+<li>&#8226; <strong>The Reform Act of 1832</strong></li>
+<li style="padding-left:2em">&#9702; It expanded the franchise and <strong>gave middle class a say in government.</strong> This middle class supported liberal candidates and policies.</li>
+<li>&#8226; <strong>Economic liberalism</strong></li>
+<li style="padding-left:2em">&#9702; Figures like David Ricardo, Malthus, Richard Cobden were influential proponents of free trade.</li>
+<li>&#8226; <strong>Utilitarianism:</strong> Benthal and Mill argued that individuals should be free to live their lives as they see fit, without interference from the government. They also supported government role in promoting social and economic justice.</li>
+</ul>
+
+<h4>Liberals supported several reforms:</h4>
+<ul>
+<li>&#8226; <strong>Free trade:</strong> Liberals believed in free trade which benefited the consumers and workers, as it led to lower prices and more job opportunities.</li>
+<li style="padding-left:2em">&#9702; The repeal of the Corn Laws in 1846</li>
+<li>&#8226; <strong>Parliamentary reform:</strong> Liberals supported the process of making Parliament more representative. They believed that everyone should have a say in government, regardless of their wealth or social class.</li>
+<li style="padding-left:2em">&#9702; The Great Reform Act of 1832</li>
+<li style="padding-left:2em">&#9702; Leading role in the campaigns for women&#8217;s suffrage by the end of the century.</li>
+<li>&#8226; <strong>Individual rights and civil liberties:</strong> This included campaigns for religious freedom, the abolition of slavery, and the expansion of personal freedoms.</li>
+<li style="padding-left:2em">&#9702; Catholic Emancipation of 1790s</li>
+<li style="padding-left:2em">&#9702; Free speech and Freedom of Press</li>
+<li style="padding-left:2em">&#9702; Prison Reforms</li>
+<li style="padding-left:2em">&#9702; Slavery Abolition</li>
+<li>&#8226; <strong>Civic and Municipal Reforms:</strong></li>
+<li style="padding-left:2em">&#9702; Municipal Corporations Act, 1835</li>
+<li style="padding-left:2em">&#9702; The Public Health Act of 1848</li>
+<li style="padding-left:2em">&#9702; The Education Act of 1870</li>
+<li>&#8226; <strong>Social reform:</strong> Liberals believed that the government should play a role in promoting social justice. They supported social reform for the improvement of working conditions.</li>
+<li style="padding-left:2em">&#9702; The Factory Act of 1833</li>
+</ul>
+
+<p>Thus, liberalism played a major role in shaping the contemporary social and economic landscape of Britain and helped to create a more democratic, free, and prosperous society.</p>
+
+<h3>Some Important Economic Liberal Thinkers</h3>
+<ul>
+<li>&#8226; <strong>Adam Smith</strong></li>
+<li style="padding-left:2em">&#9702; Smith argued that the best way to promote economic growth was to let the free market operate without government interference. The pursuit of individual self-interest (invisible hand) in competitive market would lead to the greatest good for society.</li>
+<li style="padding-left:2em">&#9702; The middle-class entrepreneurs embraced Smith&#8217;s ideas about <strong>individualism, competition, and free trade.</strong></li>
+</ul>
+
+<p>The Economists of Capitalism Smith&#8217;s basic ideas were supported by British economists Thomas Malthus and David Ricardo. Like Smith, they believed that natural laws governed economic life. Their important ideas were the foundation of laissez-faire capitalism.</p>
+
+<ul>
+<li>&#8226; <strong>Thomas Malthus</strong></li>
+<li style="padding-left:2em">&#9702; Malthus argued that the human population would tend to grow faster than the food supply, leading to widespread poverty and famine. Without wars and epidemics to kill off the extra people, most were destined to be poor and miserable.</li>
+<li style="padding-left:2em">&#9702; The middle class, concerned about social unrest by a growing poor workers, embraced Malthus&#8217;s ideas about the <strong>need to limit population growth</strong> and family planning.</li>
+<li style="padding-left:2em">&#9702; Malthus also justified the exploitation of the working class to some extent, which helped <strong>reduce middle-class guilt.</strong></li>
+<li style="padding-left:4em">&#9632; It contributed to the belief that poverty was an unavoidable consequence of overpopulation.</li>
+<li>&#8226; <strong>Jeremy Bentham</strong> (father of utilitarianism)</li>
+<li style="padding-left:2em">&#9702; Bentham believed that the best way to promote happiness was to maximize pleasure and minimize pain (greatest good for greatest number).</li>
+<li style="padding-left:2em">&#9702; Utilitarianism aligned with middle-class values of rationality, efficiency, and individual self-interest. It emphasized the pursuit of pleasure and the avoidance of pain as the basis for <strong>ethical decision-making</strong>.</li>
+<li style="padding-left:2em">&#9702; The middle class embraced utilitarian ideas at it supported <strong>social reform</strong> to improve the lives of the working class and helped in creation of just and equitable society.</li>
+<li>&#8226; <strong>David Ricardo</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Iron Law of Wages:</strong> Wages tend to settle at a subsistence level, just enough to maintain the worker and their family at a basic standard of living. Any increase in wages above this level would lead to increased population growth, which, in turn, would drive wages back down to the subsistence level.</li>
+<li style="padding-left:2em">&#9702; It suggested that workers&#8217; efforts to secure higher wages might be temporary, as any gains could be offset by increased population growth and a subsequent decline in wages.</li>
+</ul>
+
+<p>Laissez-faire thinkers such as Smith, Malthus, and Ricardo opposed government efforts to help poor workers. They thought that creating minimum wage laws and better working conditions would upset the free market system, lower profits, and undermine the production of wealth in society.</p>
+
+<h3>Great Reform Act, 1832</h3>
+
+<p>&#8220;But the age of chivalry is gone. That of sophisters, economists, and calculators has succeeded; and the glory of Europe is extinguished forever.&#8221; &#8211; Edmund Burke.</p>
+
+<h4>Causes:</h4>
+<p>The circumstances leading to enactment of the Reform Act were created by impact of industrial revolution.</p>
+<ul>
+<li>&#8226; <strong>Population shift &#8594; Rotten Boroughs and Unequal Representation:</strong></li>
+<li style="padding-left:2em">&#9702; The IR resulted in the vast urban migration whereby many of the existing constituencies got depopulated which continued to enjoy representation in British parliament.</li>
+<li style="padding-left:2em">&#9702; On the other hand, the newly expanding industrial towns had no/least representation in British parliament. Thus, there was a need for redistribution of parliamentary constituencies.</li>
+<li>&#8226; <strong>Emerging classes:</strong></li>
+<li style="padding-left:2em">&#9702; The British parliament was under the monopoly of nobles &amp; clergymen. The new classes created by IR (capitalist &amp; working class) did not have a representation in British parliament.</li>
+<li style="padding-left:2em">&#9702; The right to vote was based on property qualifications. There was a need to readjust this qualification so that the new classes could get representation in British parliament.</li>
+<li>&#8226; <strong>Memory of the French Revolution:</strong></li>
+<li style="padding-left:2em">&#9702; The memory of the French Revolution and the fear of similar upheaval in Britain served as a catalyst for political reform. Some in the government believed that reforming the electoral system would help maintain social stability.</li>
+<li>&#8226; <strong>Political Pressure:</strong></li>
+<li style="padding-left:2em">&#9702; There was growing popular pressure for reform in the years leading up to the Reform Act of 1832. This pressure was manifested in the form of mass demonstrations, petitions, and other forms of political activism. The government realized that it could no longer ignore the demands for reform without risking a revolution.</li>
+</ul>
+
+<h4>Provisions of the Reform:</h4>
+<ul>
+<li>&#8226; Delimitation:</li>
+<li style="padding-left:2em">&#9702; Constituencies with less than 2000 population were deprived of representation.</li>
+<li style="padding-left:2em">&#9702; Constituencies with 2000-5000 population were allowed one seat in parliament.</li>
+<li style="padding-left:2em">&#9702; It freed 143 seats which were allotted to unrepresented towns and cities.</li>
+<li>&#8226; Voting qualifications: The property qualifications for voting rights readjusted.</li>
+<li style="padding-left:2em">&#9702; In borough, a person 10 pounds /annum tax was given right to vote.</li>
+<li style="padding-left:2em">&#9702; In rural areas this amount was fixed as 5 pounds for peasant proprietors and 2 pounds for lease holders.</li>
+<li>&#8226; It provided that all those citizens whose names were included in electoral rolls at the time of announcement of elections shall have rights to vote.</li>
+</ul>
+
+<h4>Significance:</h4>
+<p>The Reform Act of 1832 was a landmark piece of legislation that had a profound impact on British politics and society.</p>
+<ul>
+<li>&#8226; The Act symbolized Britain&#8217;s <strong>ability to adapt its constitutional framework</strong> to changing societal and political dynamics. It marked a shift from a more aristocratic and exclusive system to a <strong>more inclusive parliament and representative modern democracy.</strong></li>
+<li>&#8226; <strong>Empowered Middle Class:</strong> It shattered the monopoly of nobles and clergymen over British parliament. It paved the way for entry of middle class in British politics. Now, the middle class gained much greater say in government.</li>
+<li style="padding-left:2em">&#9702; The middle class was the driving force behind the Industrial Revolution. By giving the middle class a greater say in government, the Reform Act helped to create a more favorable environment for economic growth and development. This led to a number of reforms in the following years, such as the abolition of the Corn Laws and the introduction of free trade.</li>
+<li style="padding-left:2em">&#9702; This emerging middle class emphasized on colonisation, and severance from European conflicts. Thus, the British government adopted a policy of &#8216;splendid isolation&#8217; in continental affairs and concentrated on expansion of its dominance in India.</li>
+<li>&#8226; <strong>Expansion of electorate:</strong> The number of voters doubled. (3.6L to 6.5L)</li>
+<li>&#8226; <strong>Reduction of rotten boroughs:</strong> Discrepancies prevailing in the distribution of constituencies were removed to a large extent. Thus, it eliminated unfair representation and made the parliament more representative of the industrial towns.</li>
+<li style="padding-left:2em">&#9702; <strong>Major Shakeup:</strong> Almost a third of the existing seats were redistributed to areas that had grown in population.</li>
+<li>&#8226; <strong>Realignment of political parties:</strong> The Whigs, who supported reform, gained more prominence, while the Tories were divided over the issue. This realignment laid the foundation for the modern political party system in Britain.</li>
+<li>&#8226; <strong>Stability:</strong> It tried to address social and political discontent. It reduced the risk of revolution and maintained political stability in Britain.</li>
+<li>&#8226; <strong>Established the reformist tradition:</strong> Similar reforms acts were enacted 1867, 1884, 1911 &amp; 1928. Thus, it created precedent which eventually led to universal male suffrage.</li>
+</ul>
+
+<h4>Impact of the Reform Act of 1832 on the party politics/organization in Britain</h4>
+<p>Prior to the Reform Act, British politics was dominated by a small number of wealthy landowners and aristocrats. These individuals were able to control the outcome of elections by buying votes and intimidating voters.</p>
+<p>The Reform Act of 1832 expanded the franchise, which led to a more democratic and competitive political system.</p>
+<p>This created a need for political parties to develop more sophisticated organizations in order to mobilize voters and win elections. In response to the Reform Act, the two major political parties in Britain, the Whigs and the Tories, began to develop more modern party organizations. They established local party branches, held party conventions, and developed party platforms. They also began to use more sophisticated techniques to campaign for votes, such as distributing leaflets and holding public rallies.</p>
+<p>The Act led to the emergence of political leaders such as Robert Peel and Lord Melbourne, who played pivotal roles in shaping the early Conservative and Liberal parties. Party organizations began to develop with clear platforms and ideologies.</p>
+
+<h4>Limitations:</h4>
+<ul>
+<li>&#8226; <strong>Continued unequal representation:</strong></li>
+<li style="padding-left:2em">&#9702; While the Act eliminated some rotten boroughs, it did not completely eliminate all forms of unequal representation.</li>
+<li style="padding-left:2em">&#9702; Despite some redistribution of seats, urban areas were still underrepresented compared to their population size. This urban-rural divide persisted and continued to affect the political landscape.</li>
+<li>&#8226; <strong>There was no provision of secret ballot.</strong></li>
+<li style="padding-left:2em">&#9702; It was done openly, which meant that voters could be subject to intimidation or pressure from employers, landlords, or others in positions of authority.</li>
+<li>&#8226; <strong>Limited franchise:</strong></li>
+<li style="padding-left:2em">&#9702; Property qualifications.</li>
+<li style="padding-left:2em">&#9702; The lower middle class, the artisans, and the industrial workers got no representation in the parliament.</li>
+<li style="padding-left:2em">&#9702; Women were excluded.</li>
+<li>&#8226; The Act did not address the need for <strong>reform in the House of Lords</strong>, which remained largely unchanged and continued to wield significant political power.</li>
+<li style="padding-left:2em">&#9702; Thus, the monopoly of nobles and clergymen continued in the house of lords.</li>
+<li style="padding-left:2em">&#9702; This also led to ongoing disputes between the two houses.</li>
+<li>&#8226; The Act <strong>did not directly address broader social and economic inequalities in society.</strong> While it extended political rights, it did not significantly impact broader issues of wealth and class disparities.</li>
+</ul>
+
+<h3>Anti-Corn Law League and Free Traders (1815-46)</h3>
+<ul>
+<li>&#8226; In the late 18th and early 19th centuries, Britain followed a <strong>protectionist economic policy.</strong> This period was marked by high tariffs, trade restrictions, and the Navigation Acts, which aimed to protect British industries and maintain control over colonial trade.</li>
+<li>&#8226; For example, the <strong>Corn Laws</strong> were a series of tariffs and trade restrictions on imported grains in the United Kingdom from 1815 to 1846.</li>
+<li style="padding-left:2em">&#9702; The laws were intended to protect English farmers from cheap foreign imports of grain. They raised the price of corn, which increased food costs and poverty among the working class. They were a deeply divisive issue in the first half of the nineteenth century.</li>
+</ul>
+
+<h4>Free Trade Advocacy: Anti-Corn Law League</h4>
+<ul>
+<li>&#8226; In the early 19th century, a group of reformers and political economists, including <strong>David Ricardo, John Stuart Mill, and Richard Cobden</strong>, emerged as advocates of free trade.</li>
+<li>&#8226; The Corn Laws became a focal point for the free trade movement.</li>
+<li style="padding-left:2em">&#9702; The <strong>Anti-Corn Law League,</strong> founded in <strong>1838</strong> by <strong>Richard Cobden</strong> and <strong>John Bright,</strong> campaigned vigorously for the repeal of the protectionist laws.</li>
+<li style="padding-left:4em">&#9632; The laws supported by the landed aristocracy and agricultural interests, benefitted the wealthy at the expense of the poor, consumers and workers.</li>
+<li style="padding-left:4em">&#9632; They were preventing British manufacturers from competing in the global market.</li>
+<li style="padding-left:4em">&#9632; The League&#8217;s economic argument was that free trade would lead to greater economic efficiency, prosperity for all, individual liberty, and international peace.</li>
+<li style="padding-left:2em">&#9702; <strong>Campaign:</strong> It was able to <strong>mobilize public support.</strong></li>
+<li style="padding-left:4em">&#9632; This grassroots mobilization was key to its success.</li>
+<li style="padding-left:4em">&#9632; It published pamphlets and gave speeches.</li>
+<li style="padding-left:4em">&#9632; It organized meetings, rallies, and campaigns to educate public opinion.</li>
+<li style="padding-left:4em">&#9632; They also lobbied Parliament and tried to persuade MPs to support repeal.</li>
+<li style="padding-left:4em">&#9632; The Economist newspaper became the mouthpiece of the free-trade advocacy.</li>
+<li>&#8226; <strong>Repeal of the Corn Laws and shift to Free Trade</strong></li>
+<li style="padding-left:2em">&#9702; In <strong>1846</strong>, under the leadership of <strong>Prime Minister Sir Robert Peel</strong>, the British government repealed the Corn Laws.</li>
+<li style="padding-left:2em">&#9702; This marked a significant victory for the free trade movement. It signaled a shift <strong>away from protectionism towards free trade principles.</strong></li>
+<li style="padding-left:2em">&#9702; It led to a decrease in the price of food, which benefited British consumers. It also led to an increase in exports, which benefited British manufacturers.</li>
+<li style="padding-left:2em">&#9702; It was followed by a series of additional free trade measures, including reductions in tariffs and the gradual opening of British markets to foreign goods. This period of free trade policies is associated with economic growth and the expansion of the British Empire&#8217;s global trade networks.</li>
+</ul>
+
+<h3>Section B: Working Class Movement in Britain</h3>
+
+<p>As England was the first country in the world to experience the Industrial Revolution, the English working class were the first to experience the hardships of industrialization.</p>
+
+<p>Advocates of laissez-faire economics maintained that it was <strong>not the duty of the government to intervene</strong> between the employers and employees. In 1799, the <strong>Combination Act</strong> was passed prohibiting the formation of trade unions in England.</p>
+
+<h4>A. The Luddite Movement (1811-16)</h4>
+<ul>
+<li>&#8226; It arose in response to rapid industrialization. As machines were replacing skilled artisans, there were job losses. The Luddites were primarily skilled workers who saw machinery as a threat to their livelihoods. They started destroying machines believing that it would help protect their jobs.</li>
+<li>&#8226; Luddites engaged in acts of <strong>organized machine-breaking/sabotage</strong> in textile mills and factories.</li>
+<li style="padding-left:2em">&#9702; It began in the vicinity of Nottingham toward the end of 1811 and in the next year spread to Yorkshire, Lancashire, Derbyshire, and Leicestershire.</li>
+<li>&#8226; Mill and factory owners took to shooting protesters. The British government responded with repressive measures, deploying troops to suppress the movement and passing laws that made machine-breaking a capital offense. In 1813, several Luddites were hanged for their crimes.</li>
+<li>&#8226; <strong>Comment:</strong></li>
+<li style="padding-left:2em">&#9702; Luddites are today seen as symbols of resistance to technological change and as early defenders of workers&#8217; rights. However, they were unable to prevent the broader adoption of machinery and factory-based production.</li>
+<li style="padding-left:2em">&#9702; Although the Luddite Movement was crushed by the authorities, it paved the way for the next stage of the working-class agitation in England.</li>
+<li style="padding-left:4em">&#9632; It was an essential stage on the road towards a working-class consciousness. It raised awareness of the issues and contributed to the broader labor movement and the development of trade unions in the 19th century.</li>
+<li style="padding-left:4em">&#9632; Workers began organizing to advocate for better working conditions, higher wages, and job security.</li>
+</ul>
+
+<h4>B. Post-Napoleonic Unrest (1815-1825)</h4>
+<ul>
+<li>&#8226; <strong>Causes</strong></li>
+<li style="padding-left:2em">&#9702; There was an acute economic slump (post-Napoleonic depression).</li>
+<li style="padding-left:2em">&#9702; It was accompanied by chronic unemployment and harvest failure.</li>
+<li style="padding-left:2em">&#9702; The overall impact was worsened by the <strong>Corn Laws (1815)</strong>, which kept the price of bread high by prohibiting the importation of cheap grains.</li>
+<li>&#8226; <strong>Popular Agitation and Riots</strong></li>
+<li style="padding-left:2em">&#9702; There was mass rioting throughout Britain.</li>
+<li style="padding-left:2em">&#9702; Many working class papers started being published and received by a wide audience.</li>
+<li style="padding-left:2em">&#9702; This outbreak of lawlessness led to a government crackdown on agitation in 1817 known as the <strong>Gagging Acts</strong>, a <strong>suspension of habeas corpus (1816).</strong></li>
+<li>&#8226; <strong>Blanketeers March (1817)</strong></li>
+<li style="padding-left:2em">&#9702; In protest of the Gagging Acts, as well as the poor working conditions in the textile industry, workers in Manchester attempted to march on London to deliver petitions in a demonstration.</li>
+<li style="padding-left:2em">&#9702; The Blanketeers, named after the blankets they brought to sleep on the roadside during their journey, were intercepted, with most participants either arrested or chased off by the British military. The march was broken up violently and its leaders imprisoned.</li>
+<li>&#8226; <strong>Political Reform Movement</strong></li>
+<li style="padding-left:2em">&#9702; Now, reformers identified parliamentary reform as the solution and a mass campaign to petition parliament for manhood suffrage began.</li>
+<li style="padding-left:2em">&#9702; Political demonstrations increased in popularity throughout industrial Britain. It culminated in an incident in Manchester, <strong>Peterloo Massacre (1819)</strong></li>
+<li style="padding-left:4em">&#9632; The mounted units attacked the crowd of 80,000, resulted in 18 deaths and up to 500 injuries.</li>
+<li style="padding-left:4em">&#9632; The British government responded with draconian measures known as the <strong>Six Acts</strong> that allowed government searches, prohibited large assemblies, and punished anti-government publications.</li>
+<li style="padding-left:2em">&#9702; Soon, a need was felt to reform the existing combination laws against trade laws.</li>
+<li style="padding-left:4em">&#9632; The <strong>Combination Act of 1824</strong> finally repealed all previous statutes concerning trade unions and declared that trade unions would no longer be treated as illegal.</li>
+<li style="padding-left:4em">&#9632; The legality of the working class unions was further enhanced by the <strong>Combination Act of 1825.</strong></li>
+<li style="padding-left:2em">&#9702; Now, the government began to recognize the need to address labor grievances and allow for peaceful labor organizing.</li>
+</ul>
+
+<h4>Early Trade Unionism</h4>
+<ul>
+<li>&#8226; This legislation brought trade unions into <strong>legal existence.</strong></li>
+<li style="padding-left:2em">&#9702; Until then, trade unions had been operating secretly but hereafter, they were allowed to negotiate openly with the employers.</li>
+<li style="padding-left:2em">&#9702; These early unions, <strong>often limited to skilled workers</strong>, focused on issues like wages, working hours, and apprenticeship standards.</li>
+<li style="padding-left:2em">&#9702; By the 1830s, there were hundreds of trade unions in Britain.</li>
+<li>&#8226; The early phase of trade unionism <strong>did not bring much relief for the workers.</strong></li>
+<li style="padding-left:2em">&#9702; They still operated within a <strong>restrictive legal framework</strong>. Courts often deemed strikes illegal, and union activity was <strong>closely scrutinized</strong>. There was <strong>hostility from the employers</strong> as well.</li>
+<li style="padding-left:2em">&#9702; Trade unionism in this period was often <strong>fragmented</strong>, with numerous small, specialized unions representing specific trades or industries. Coordination and collective action across different sectors were limited.</li>
+<li style="padding-left:4em">&#9632; Failed attempt to set up national general union: <strong>Robert Owen&#8217;s Grand National Consolidated Trades Union</strong> in 1834.</li>
+<li>&#8226; Early Trade unionists contributed to the <strong>development of Chartist demands</strong> for political reform. The Chartists saw trade unions as an important tool for organizing and mobilizing the working class.</li>
+</ul>
+
+<h4>C. Owenism (1820s, 1830s)</h4>
+<ul>
+<li>&#8226; Owenism was a social and economic movement founded by Robert Owen, who was a British textile manufacturer.</li>
+<li>&#8226; Ideas and writing:</li>
+<li style="padding-left:2em">&#9702; He believed that socio-economic problems due to the Industrial revolution could be solved by creating a new social system based on cooperation and equality. He emphasized importance of improving working conditions and education for workers.</li>
+<li style="padding-left:2em">&#9702; Owen&#8217;s writings and experiments contributed to the development of early socialist thought. His work laid the intellectual foundation for cooperative socialism and utopian socialism, which influenced later socialist thinkers.</li>
+<li>&#8226; <strong>Initiatives</strong></li>
+<li style="padding-left:2em">&#9702; Robert Owen put many of his ideas into practice at the <strong>New Lanark</strong> cotton mills in Scotland. He transformed New Lanark into a model industrial community, introducing progressive labor practices, education for children, and social reforms.</li>
+<li style="padding-left:2em">&#9702; Owen established a number of <strong>experimental communities</strong>, including <strong>New Harmony in Indiana.</strong> These experiments aimed to create self-sustaining, cooperative communities based on his principles. However, these communities couldn&#8217;t sustain and were ultimately unsuccessful.</li>
+<li>&#8226; Owenism gained popularity in Britain and the United States in the 1820s and 1830s but declined by the late 1830s. This was due to the failure of the Owenite communities and the rise of other socialist movements.</li>
+<li>&#8226; However, Owenism had a significant impact on the development of the workers&#8217; movement. His ideas had a lasting impact on the development of socialist thought, labor movements, and the concept of workers&#8217; rights. His emphasis on the importance of education, fair labor practices, and cooperation left a lasting legacy in the broader context of social reform and socialism.</li>
+</ul>
+
+<h4>D. Chartist Movement</h4>
+<p>&#8220;The Chartists were pioneers of democracy. They fought for the right of all men to have a say in how they were governed.&#8221; - Eric Hobsbawm</p>
+
+<p>The Chartist movement was the first mass movement for parliamentary reforms driven entirely by the industrial workers and was largely inspired by the evolving theories of socialism.</p>
+
+<p>From 1820s onwards, workers developed their own organization and leadership. By the end of 1830s, they started a campaign called Chartist movement. It was a peaceful movement for political demands. At a time when the right to vote was severely limited, the Charter demanded the vote for all men. There were, in all, <strong>six demands:</strong></p>
+<ul>
+<li>&#8226; A vote for every man 21 years of age, of sound mind, and not undergoing punishment for crime.</li>
+<li>&#8226; Secret ballots.</li>
+<li>&#8226; No property qualification for Members of Parliament.</li>
+<li>&#8226; Payment to MPs.</li>
+<li>&#8226; Equal size constituencies.</li>
+<li>&#8226; Annual parliaments.</li>
+</ul>
+
+<p>It rapidly gathered support from industrial workers in the North of England, Wales, and Scotland. By the 1840s, it had largely lost its middle-class support and become a working class political movement.</p>
+
+<p>Chartists were not the first to demand these things. However, it was in 1830s that the movement received massive public support. <strong>Reasons for the rise:</strong></p>
+<ul>
+<li>&#8226; <strong>Economic Factors:</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Hard times</strong></li>
+<li style="padding-left:4em">&#9632; Severe economic depression in 1840s</li>
+<li style="padding-left:4em">&#9632; <strong>Plight of workers</strong>: Low wages, labour exploitation, unemployment, squalid urbanization</li>
+<li style="padding-left:4em">&#9632; <strong>Hungry Forties</strong>: Potato famine, food shortages</li>
+<li style="padding-left:2em">&#9702; People were furious over the <strong>new Poor Law</strong> which established the <strong>workhouse system.</strong></li>
+<li>&#8226; <strong>Political Factors:</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Idea of popular sovereignty:</strong> The English Revolution gave rise to the idea of popular sovereignty which inspired the Chartists to demand political reforms.</li>
+<li style="padding-left:2em">&#9702; <strong>Lack of political representation:</strong> Many working people had supported the campaign that resulted in the <strong>1832 Reform Act</strong> in the belief that this would be a first step towards wider democracy. They were angry at the Whig government&#8217;s failure to honour its political debts.</li>
+<li style="padding-left:2em">&#9702; <strong>The influence of political movements</strong> like the Radicals and the Reformers who advocated for political reform.</li>
+<li style="padding-left:2em">&#9702; <strong>Influence of European Revolutions:</strong></li>
+<li style="padding-left:4em">&#9632; The European revolutions like July Revolution in France (1830) influenced the political consciousness in England and fueled demands for greater political rights.</li>
+<li style="padding-left:2em">&#9702; This was also a time when, following the repeal of the anti-trade union <strong>Combination Acts</strong>, working people were becoming more confident in forming their own organisations.</li>
+</ul>
+
+<p>The Chartist movement was a <strong>challenge to the rising middle class</strong> which had gained the most by the Act of 1832, and as such the parliament rejected the petition summarily.</p>
+
+<p>Important leaders: Feargus O&#8217;Connor, John Collins, William Lovett</p>
+
+<h4>Three Upsurges:</h4>
+<p>There followed certain abortive attempts at armed uprising also, but these were quickly suppressed. The leaders of the movement were arrested and sentenced to short prison terms, and a few of them were also exiled.</p>
+<p>Thereafter, for more than a decade the Chartist leaders kept agitating and even threatened violence, but no serious unrest took place. It remained largely peaceful.</p>
+<ul>
+<li>&#8226; 1839 &#8211; first Chartists movement</li>
+<li>&#8226; 1842 &#8211; second Chartists movement</li>
+<li>&#8226; 1848 &#8211; third and most formidable, coincided with the year of revolutions in Europe.</li>
+<li style="padding-left:2em">&#9702; 5 lakh workers gathered in London in 1848 to present the charter to parliament.</li>
+<li style="padding-left:2em">&#9702; In favour of the charter, they collected 60 lakh signatures, including many fakes.</li>
+<li style="padding-left:2em">&#9702; Meantime, it was the rainy season, police dispersed the workers.</li>
+</ul>
+
+<h4>Decline and Failure?</h4>
+<p>By 1848, the Chartists had tried every avenue open to them, from petitions to strikes and economic boycotts and revolution &#8211; and all had failed. After 1848, it ceased to be a mass movement. Reasons for the outcome:</p>
+<ul>
+<li>&#8226; Ineffective leadership</li>
+<li>&#8226; Inability to popularize ideas and program.</li>
+<li>&#8226; Internal factionalism</li>
+<li>&#8226; Use of unethical practices</li>
+<li>&#8226; Misdirected energy (common people wanted economic relief, while chartists promised political outcome)</li>
+</ul>
+
+<h4>Still, the Chartist movement was significant:</h4>
+<p>The Chartist movement failed in immediate objectives, but it was not complete failure. In history of democratic reforms, this movement enjoy a place of great significance.</p>
+<ul>
+<li>&#8226; This was the 1st major <strong>working-class movement anywhere in the world.</strong> It inspired workers to come together in favour of their demands.</li>
+<li>&#8226; Chartism helped create a <strong>long-term political culture</strong> in which later left-wing ideas flourished.</li>
+<li style="padding-left:2em">&#9702; Chartism was primarily a working-class movement. It <strong>fostered a sense of class consciousness</strong> and empowered the working-class population by providing a <strong>platform for political activism and collective action.</strong></li>
+<li style="padding-left:2em">&#9702; Although many Chartists eventually drifted into single-issue politics or the Liberal Party, or gave up altogether, the ideas developed by Chartists were <strong>enormously important for the socialist parties</strong> that emerged later in the century.</li>
+<li style="padding-left:2em">&#9702; Chartism taught organizational structure, mobilization techniques, leadership skills, collective action that <strong>inspired trade union leadership.</strong> It helped to strengthen the trade unions and they emerged much more powerful in the second half of the 19th century than before.</li>
+<li>&#8226; The awareness created by movement among <strong>persuaded the government to take several steps</strong> in improvement of condition of workers parliament enacted &#8211; Health Act, Minning Act, Factory Act etc. to take care interest of working class.</li>
+<li>&#8226; In all, there was no result in immediate term. But these movements were not insignificant. Gradually, <strong>5/6 demands were fulfilled</strong>, except annual parliament. In that sense, they did not fail, but success took rather longer than the Chartists might have hoped.</li>
+</ul>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th>#</th><th>Demand</th><th>When Fulfilled</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Redistribution of seats between county (countryside) and boroughs.</td><td>Redistribution of Seats Act 1885</td></tr>
+<tr><td>2</td><td>Universal male suffrage above 21 years old</td><td>1867, 1884, 1918: universal male suffrage. (women - 1928)</td></tr>
+<tr><td>3</td><td>Secret Ballot</td><td>Secret Ballot Act in 1872</td></tr>
+<tr><td>4</td><td>No property qualifications</td><td>Property Qualification for Members of Parliament Act 1858</td></tr>
+<tr><td>5</td><td>Payment of MPs</td><td>Parliament Act 1911</td></tr>
+<tr><td>6</td><td>Annual Parliaments</td><td>Not introduced</td></tr>
+</tbody>
+</table>
+
+<h4>E. Resurgence of Trade Unionism (post 1850s)</h4>
+<p>After Chartism had petered out, there was again a <strong>resurgence of the trade union movement</strong> in the 1850s. There began a long period of industrial expansion and economic growth during which trade unionism entered a <strong>phase of steady expansion and consolidation.</strong></p>
+<p>The unions formed during the 1850s are often referred to as the <strong>New Model Unions</strong> and such unions were meant for the <strong>more skilled sections of the working classes.</strong></p>`,
   'industrialization': `<h2>Handout 20: Industrial Revolution</h2>
 
 <h3>UPSC CSE PYQ</h3>
@@ -28414,201 +28415,6 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <p>With the two victories, Japan gained respect in the eyes of the Western world. The death of the emperor Meiji in 1912 marked the end of the period.</p>`,
 
 
-  'german-unification': `<h2>Handout 19: German Unification (1865-1871)</h2>
-
-<h3>UPSC CSE PYQs</h3>
-<ul>
-<li>&#8226; <strong>Overall</strong></li>
-<li style="padding-left:2em">&#9702; What determinant factors, along with diplomatic, shaped the process of German Unification? [2017, 20 Marks]</li>
-<li>&#8226; <strong>Napoleon</strong></li>
-<li style="padding-left:2em">&#9702; &#8220;Napoleon kindled the national sentiment, but German unity was achieved by Bismarck.&#8221; Discuss. [1981, 60 Marks]</li>
-<li style="padding-left:2em">&#9702; &#8220;It is one of the ironies of history that Napoleon was the creator of modern Germany.&#8221; Comment. [1984, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; &#8220;Napoleon kindled the national sentiment, but German unity was achieved by Bismarck.&#8221; Discuss. [2002, 60 Marks]</li>
-<li>&#8226; <strong>Bismarck</strong></li>
-<li style="padding-left:2em">&#9702; &#8220;The Unification of Germany was the one thing Bismarck was determined to prevent.&#8221; Comment. [1987, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; &#8220;The political unification of Germany was accomplished solely by Bismarck.&#8221; Comment. [1999, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; &#8220;Bismarck created a new Germany with the policy of &#8216;blood and iron&#8217;.&#8221; Comment. [2001, 20 Marks]</li>
-<li style="padding-left:2em">&#9702; Bismarck united Germany not by majority of votes and speeches but by a policy of &#8220;Blood and Iron&#8221;. In the light of this statement assess the contribution of Bismarck to the unification of Germany. [2003, 60 Marks]</li>
-<li style="padding-left:2em">&#9702; Was German unification achieved more by &#8216;coal and iron&#8217; than by &#8216;blood and iron&#8217;? [2012, 30 Marks]</li>
-<li style="padding-left:2em">&#9702; &#8220;From Bismarck&#8217;s &#8216;Blood and Iron&#8217; speech and his forceful actions to achieve German unification, Bismarck came to be known as the Iron Chancellor.&#8221; Critically examine. [2020, 20 Marks]</li>
-</ul>
-
-<p>Right from the time of Westphalia, German states was a sleeping Satan. None attempted to wake it up.</p>
-<p>In was merely a geographic entity in 1805, divided into numerous units. Austria &amp; Prussia were two big states, while there were more than 300 small German states. All of these together were part of Holy Roman Empire headed by the king of Austria.</p>
-
-<h3>Emergence of sense of national consciousness:</h3>
-<ul>
-<li>&#8226; <strong>Historical Context:</strong></li>
-<li style="padding-left:2em">&#9702; The <strong>protestant movement</strong> under Martin Luther gave the German region a <strong>common cultural identity</strong> particularly for the fact that Martin Luther translated the Bible into <strong>German language.</strong></li>
-<li>&#8226; <strong>Role of Napoleon Bonaparte</strong> proved to be an unconscious stimulator for German unification. His conquests and reforms had a profound impact on Germany.</li>
-<li style="padding-left:2em">&#9702; Territorial reorganization: He defeated Austria in the battle of Austerlitz in 1805 and imposed the peace of Pressburg. As per which,</li>
-<li style="padding-left:4em">&#9632; He demolished the relic of the so-called Holy Roman Empire.</li>
-<li style="padding-left:4em">&#9632; Created Confederation of Rhine by reorganizing 300 tiny German states into 16 bigger states. (In Future, Bismark was required to merge these 39 into one.)</li>
-<li style="padding-left:2em">&#9702; Internal Reforms:</li>
-<li style="padding-left:4em">&#9632; Napoleon abolished feudalism, put control over Church, and introduced the Napoleonic Code. So, he internally organized the administration of Germany. These reforms helped to create a sense of national identity among the German people.</li>
-<li style="padding-left:2em">&#9702; War of Nations:</li>
-<li style="padding-left:4em">&#9632; The influence of these ideas resulted in the growth of awakening among Germany and when the rule of Napoleon turned despotic during the last year of his reign, a strong wave of German nationalism emerged.</li>
-<li style="padding-left:4em">&#9632; In a war against Napoleon Bonaparte, German states participated. So, unconsciously the German states developed a sense of fellow-feeling among themselves.</li>
-<li style="padding-left:2em">&#9702; It was this spirit of German nationalism that guided and inspired the process of German unification which was concluded finally by Bismark.</li>
-<li style="padding-left:4em">&#9632; &#8220;Napoleon kindled German national sentiment &amp; Bismark carried out political unification.&#8221;</li>
-<li style="padding-left:4em">&#9632; &#8220;Napoleon wrote the preamble of German unification, but it was Bismarck who provided it with the finishing touch.&#8221;</li>
-<li style="padding-left:2em">&#9702; However, Napoleon&#8217;s defeat in 1815 led to the dissolution of the Confederation of the Rhine and the restoration of the old order in Germany.</li>
-<li style="padding-left:2em">&#9702; Inspite of being an imperialist, the works of Napoleon helped in the emergence of modern unified Germany. That is why, it is commented that &#8216;It is one of the ironies of history that Napoleon was a creator of modern Germany.&#8217;</li>
-<li>&#8226; <strong>Congress of Vienna (1815)</strong></li>
-<li style="padding-left:2em">&#9702; It made every possible effort to restore the pre-Napoleonic picture in Germany.</li>
-<li style="padding-left:2em">&#9702; Since the 39 states of Rhine Confederation could not be reverted, a <strong>German Confederation</strong> was created.</li>
-<li style="padding-left:4em">&#9632; It consisted larger kingdoms like Austria and Prussia, as well as smaller duchies, principalities, and free cities.</li>
-<li style="padding-left:4em">&#9632; It was a patchwork of states, each with its own ruler, laws, and degree of autonomy.</li>
-<li style="padding-left:2em">&#9702; <strong>The Frankfurt parliament</strong>, closed down by Napoleon, was also reestablished. Its powers were limited.</li>
-<li style="padding-left:4em">&#9632; The Federal Diet could not levy taxes, maintain a standing army, or enact significant legislative measures. Decisions required a consensus among member states, making it difficult to take decisive action. Austria and Prussia were the most influential states and competed for dominance.</li>
-<li>&#8226; <strong>Cultural-Ideological factor:</strong> Soon, the German philosophers promoted the sense of fellowfeeling as well as nationalist consciousness.</li>
-<li style="padding-left:2em">&#9702; Their speeches &amp; writings intensified nationalist awakening among the people and this German nationalism was responsible for the political unification of Germany.</li>
-<li style="padding-left:2em">&#9702; The <strong>Romantics</strong> wanted to discard the cold, artificial logic of the Enlightenment to return to the roots of a simple and authentic life based on direct experience and community.</li>
-<li style="padding-left:4em">&#9632; <strong>Language</strong> was seen by Herder as a vessel that molded community and national identities.</li>
-<li style="padding-left:4em">&#9632; The <strong>brothers Grimm</strong> went out to collect "authentic" German folk tales while at the same time studying the German language, pursuing the Romantic conviction that language and folk culture were deeply related.</li>
-<li style="padding-left:2em">&#9702; <strong>The German historians</strong> re-interpreted the past of German people in a positive light. The achievements of rulers like Frederick, the Great were highlighted the common elements prevailing among Germans living in different parts were brought to the notice of people.</li>
-<li style="padding-left:2em">&#9702; Some German thinkers like Johann <strong>Herder</strong>, <strong>Fichte</strong>, <strong>Hegel</strong> rejected the universalism of Enlightenment, rather they gave emphasis over the German unification.</li>
-<li style="padding-left:2em">&#9702; These German philosophers and historians brought about cultural unity in German. Their efforts prepared a solid-cultural platform our which the political unification of Germany could be carried out. That is why it is commented that "The Political unity of Germany was placed on a solid cultural base."</li>
-<li>&#8226; <strong>Burschenschaft</strong> (student union)</li>
-<li style="padding-left:2em">&#9702; It was an organization of university students, with the goal of patriotism, unity and liberal rule. In the Wartburg Festival (1817), students from various universities gathered and burned reactionary books and expressed their desire for political reform.</li>
-<li style="padding-left:2em">&#9702; The reactionary political authorities in the various German states, including Metternich, viewed the Burschenschaften with suspicion. They cracked down on the student fraternities, leading to arrests, censorship, and the banning of their activities.</li>
-</ul>
-
-<h3>Economic-Industrial factor:</h3>
-<ul>
-<li>&#8226; The unification under Austria might have been historical for the fact that Austria carried the legacy of the Holy Roman Empire. But German states preferred the integration with Prussia in place of Austria, for the fact that Prussia was economically and industrially more advanced than Austria.</li>
-<li>&#8226; Economic and material basis for integration:</li>
-<li style="padding-left:2em">&#9702; At the beginning of 19th century, industrial revolution started in Prussia, and it spread to the other parts of Germany. As Prussia was the leading region in industrialisation, all other regions were looking to Prussia for leadership.</li>
-<li>&#8226; In 1834, there was the formation of the custom union <strong>Zollverin</strong> in Germany.</li>
-<li style="padding-left:2em">&#9702; In 1830s and 1840s, it paved the way for the development of means of transportation such as roads and railways lines. Thus, the geographical distance among Germans got reduced. Also, the German market was better integrated. (geographic and economic unification)</li>
-<li style="padding-left:2em">&#9702; Since Austria refused to join it, the lesser German states gradually moved away from Austria and closer to Prussia and their economic interests got interlinked. (integration of economic interests with Prussia alone).</li>
-<li style="padding-left:2em">&#9702; It helped in the growth of modern industries in Germany and thereby a strong capitalist group emerged. In the international competition with British capitalists, they preferred and supported strong unified centralized state for better protectionist policies and colonies abroad for raw material/markets. They threw their weight behind Bismarck. (class interest in unification)</li>
-<li style="padding-left:2em">&#9702; The economic progress brought about by its success allowed Bismarck to raise a large army. This military strength imparted the winning edge to German nationalism. (resources for militarization)</li>
-<li>&#8226; So, the economic-industrial factor played such a significant role in the unification of Germany.</li>
-<li style="padding-left:2em">&#9702; <strong>John Maynard Keynes</strong>, declared that &#8220;It was not blood and iron rather iron and coal which made the unification of Germany possible.&#8221;</li>
-<li style="padding-left:2em">&#9702; The success of Bismarckian policy of blood &amp; iron depended to a large extent on the forces of coal and iron.</li>
-<li style="padding-left:2em">&#9702; The forces of coal &amp; Iron prepared a strong material base for the political unification of Germany.</li>
-<li style="padding-left:2em">&#9702; Without the support of the forces of coal &amp; iron German nationalism would have remained a much weaker force.</li>
-</ul>
-
-<h3>Political-Diplomatic Factor:</h3>
-<p>From 1815 to 1866, about 37 independent German-speaking states existed within the German Confederation. The &#8216;<strong>German question</strong>&#8217; was debated intensely during these decades. The question about the best way to achieve a unification was confounded due to historic problem of <strong>German Dualism</strong>.</p>
-<p>The alternate two solutions were discussed:</p>
-<ul>
-<li>&#8226; <strong>Greater German solution:</strong> Favored unifying all German-speaking peoples under one state and was promoted by the Austrian Empire and its supporters.</li>
-<li>&#8226; <strong>Little German solution:</strong> sought only to unify the northern German states and did not include any part of Austria; this proposal was favored by the Kingdom of Prussia.</li>
-</ul>
-<p>When the Revolutions of 1848 swept across Europe, demands for political reforms, constitutional rights, and national unification were widespread. The Frankfurt National Assembly was convened in 1848 in an attempt to create a unified and liberal German state, but it ultimately failed.</p>
-
-<h3>(A) Failure of 1848</h3>
-<ul>
-<li>&#8226; In spite of the economic integration, political integration was not possible till the demise of Austria as the political power. Whenever some step was taken towards German integration, due to opposition from the side of Austria, it failed. It is here, the role of Bismarck that of the policy of blood and iron became decisive.</li>
-<li style="padding-left:2em">&#9702; In 1848, at <strong>Frankfurt Parliament</strong>, an attempt was made by Prussian monarch, Fredrick William IV, to bring a model of unification. The whole project failed due to the resistance/threat from Austria, and he had to withdrew.</li>
-<li style="padding-left:2em">&#9702; Furthermore, on the basis of <strong>Olmutz Punctation</strong> of 1850, the old German confederacy was restored by Austria.</li>
-<li>&#8226; <strong>Outcome:</strong></li>
-<li style="padding-left:2em">&#9702; The Failure of liberal methods in accomplishing the task of German unification convinced German nationalist that only militarism could succeed. Rise of Bismarck in German polities was the outcome of the same.</li>
-<li style="padding-left:2em">&#9702; It also became crystal clear that no future constitutional revolution in Germany was possible without a war with Austria. So, far Austria was there, such political unification under Prussia was a impossible.</li>
-<li>&#8226; <strong>Attitude of Bismarck:</strong> &#8220;The Unification of Germany was the one thing Bismarck was determined to prevent.&#8221;</li>
-<li style="padding-left:2em">&#9702; Bismarck was <strong>basically reactionary.</strong></li>
-<li style="padding-left:4em">&#9632; He came from Junker class. He was ultraconservative champion of Junker interests.</li>
-<li style="padding-left:4em">&#9632; He was a radical nationalist, totally dedicated to the institution of monarchy.</li>
-<li style="padding-left:2em">&#9702; He <strong>didn&#8217;t believe in parliamentary politics.</strong></li>
-<li style="padding-left:4em">&#9632; He had no faith in the efficiency of liberal methods. He saw liberalism as an expression of the political, economic, and social interests of the propertied urban class associated with industrialization.</li>
-<li style="padding-left:4em">&#9632; He countered it by raising the material interests of the Junkers to the level of patriotic duty.</li>
-<li style="padding-left:4em">&#9632; If this unification was to be carried out under Liberal leaders, they would prevail, and the demand of liberalism was constitutional monarchy.</li>
-<li style="padding-left:4em">&#9632; He believed that the German unity forget through liberal method would remain weak and fragile. He wanted to create united Germany only through military methods.</li>
-<li style="padding-left:2em">&#9702; He never left anyone in doubt that he was a <strong>Prussian patriot, not a German nationalist. "Prussian we are and Prussian we wish to remain"</strong> he said in June 1848.</li>
-<li style="padding-left:4em">&#9632; He wanted to carry out the <strong>Prussianization of Germany</strong> rather than Germanization of Prussia.</li>
-<li style="padding-left:4em">&#9632; He believed that only Prussia&#8217;s internal strength can overcome its revolutionaries and helped to protect Germany from its foreign enemies.</li>
-<li style="padding-left:4em">&#9632; Bismarck believed that Germany was too small for both Austria and Prussian. He wanted to oust Austria from Germany, so that Prussian domination could be imposed. Thus, there was no place for Austria in Bismarckian vision. Thus, he created obstruction in the way German unity till the time Austria was ousted.</li>
-<li style="padding-left:2em">&#9702; Bismarck also wanted that <strong>German prestige must be highest in Europe.</strong> He wanted to carry out German unification in such a way that Austrian and French Prestige could be shattered.</li>
-<li style="padding-left:4em">&#9632; That is why, it is commented that &#8216;Bismarck did not fight his wars for the sake of German unification but in reality, he used the Process of German unification as an ensure to fight his wars.&#8217;</li>
-<li style="padding-left:2em">&#9702; So, it is true that initially Bismarck was opposed to the unification of old Germany.</li>
-</ul>
-
-<h3>(B) Bismarck In the Parliament</h3>
-<p>From 1865 onwards, Bismarck was ready for this great job of unification, and it was he who, through a diplomatic and military option, made the unification possible. (<em>machtpolitiks</em> - power politics, <em>realpolitik</em> &#8211; pragmatism).</p>
-<ul>
-<li>&#8226; <strong>Before Bismarck:</strong></li>
-<li style="padding-left:2em">&#9702; William I was a strong German nationalist. He wanted to carry out political unification of Germany. He knew that Prussia might have to fight a war with Austria. Thus, William I started a very ambitious plan for militarization.</li>
-<li style="padding-left:2em">&#9702; But the liberal members of the bicameral parliament turned down his proposals.</li>
-<li style="padding-left:4em">&#9632; The lower house of Prussia parliament was dominated by liberal. This house did not approve the budget for military reforms.</li>
-<li style="padding-left:2em">&#9702; Having failed repeatedly in his efforts to persuade the liberal dominated Prussian Parliament, king William I appointed Bismarck as Prussian chancellor in 1862 because by this time, Bismarck developed a strong reputation for his ruthlessness. (<strong>1862</strong>)</li>
-<li style="padding-left:4em">&#9632; With the appointment of Bismarck as Prussian chancellor, the process of German unification commenced in a real way. He provided complete support and promised, &#8220;I will be destroyed in fight against the parliament, but I will never desert you.&#8221;</li>
-<li>&#8226; <strong>Bismarck&#8217;s approach:</strong></li>
-<li style="padding-left:2em">&#9702; Bismarck too faced <strong>significant opposition in the House of Representatives when he sought to pass military reforms and increase funding</strong> for the Prussian army. The liberal majority in the House resisted these measures, seeing them as potentially strengthening the monarchy&#8217;s power at the expense of parliamentary democracy.</li>
-<li style="padding-left:2em">&#9702; Liberal thinkers also preferred unification but not through military means. To counter their method, Bismarck gave his <strong>famous Blood and iron (Eisen and Blut) speech</strong> in parliament in the course of getting these proposals passed. (30 Sept 1862)</li>
-<li style="padding-left:4em">&#9632; In the speech, Bismarck called for a small German nation-state dominated by Prussia.</li>
-<li style="padding-left:4em">&#9632; He stated that the great questions of the day should be decided by blood and iron.</li>
-<li style="padding-left:4em">&#9632; &#8216;You are mistaken, German states are not looking upto us for our liberalism but for our power&#8230; it is not by speeches and majority resolutions that the great questions of the time are decided &#8211; that was the big mistake of 1848 and 1849 &#8211; but by iron and blood&#8230; With power game only, this problem could be solved. This The Gordian knot was not to be untied by the gentle methods of dual policy and could only be cut by the sword.&#8217;</li>
-<li style="padding-left:2em">&#9702; But the liberal members were not ready in 1862. So, Bismarck neglected the lower chamber of the parliament.</li>
-<li style="padding-left:4em">&#9632; Ultimately, Bismarck used a combination of political maneuvering, diplomacy, and the threat of external conflict to navigate these hurdles and push through his policies.</li>
-<li style="padding-left:4em">&#9632; He started bypassing the lower house, used ordinances, and passed budgets with the help of upper house to sanction funds for the military reforms.</li>
-<li>&#8226; Thus, He led Prussia into three wars in seven years, eschewing democracy and its plebiscites and achieve a united German aristocracy behind the king of Prussia. He became known as <strong>"the iron chancellor"</strong>.</li>
-</ul>
-
-<h3>(C) The Three Wars (1866-1871)</h3>
-<ul>
-<li>&#8226; <strong>Phase 1: Integration of the two dutchies, Schleswig and Holstein</strong></li>
-<li style="padding-left:2em">&#9702; Two Duchies in the north of Germany, named Schleswig and Holstein were a kind of frontiers. From time immemorial, it was not clear whether they were with Denmark and Germany.</li>
-<li style="padding-left:2em">&#9702; They were placed under the nominal control of Denmark by Vienna congress of 1815 but the majority of population there was German.</li>
-<li style="padding-left:2em">&#9702; So, Prussia and Austria invaded them and annexed them.</li>
-<li style="padding-left:2em">&#9702; Under the Gastein Convention of 1865. The regions were put under joint administration. Although the Convention temporarily postponed the final struggle between them for hegemony over Germany. Bismarck managed to engineer a difference between Austria and Prussia with the help of intentional vagueness in the arrangement.</li>
-<li>&#8226; <strong>Phase 2 &#8211; Creation of North German Confederation.</strong></li>
-<li style="padding-left:2em">&#9702; The <strong>joint administration led to disputes</strong> between the two powers.</li>
-<li style="padding-left:2em">&#9702; Finally, in 1866, Prussia was so prepared. So, Bismarck provoked a war with Austria. In the <strong>Battle of Sadowa</strong> (1866) he gave Austria a crushing defeat. Within 6 weeks Austrian empire was routed.</li>
-<li style="padding-left:2em">&#9702; So, northern German states were integrated with Prussia, in the Treaty of Prague (1866). With this, more than 50% unification was completed.</li>
-<li style="padding-left:2em">&#9702; Before the war began, Bismark had ensured French and Russian neutrality, while Italy was on the Prussian side, to gain Venetia.</li>
-<li style="padding-left:2em">&#9702; In the battle of Sadowa, it was not Austria, rather France which was defeated.</li>
-<li>&#8226; Bismarck now dissolved the Austria-dominated German Confederation and replaced with <strong>North German Confederation</strong>.</li>
-<li style="padding-left:2em">&#9702; Austria was excluded from German affairs, and the North German Confederation, led by Prussia, emerged as the dominant power in northern and central Germany.</li>
-<li style="padding-left:2em">&#9702; <strong>Prussia-dominated Reichstag</strong> was also established to represent people.</li>
-<li style="padding-left:2em">&#9702; <strong>Zollverin</strong> was reconstituted with enlarged territories.</li>
-<li style="padding-left:4em">&#9632; The new Zollverein was stronger, in that no individual state had a veto.</li>
-<li style="padding-left:2em">&#9702; A key feature of the North German Confederation was its unified military structure. This military cooperation not only enhanced the confederation&#8217;s defense capabilities but also underscored Prussia&#8217;s dominance.</li>
-<li>&#8226; <strong>Phase 3: Integration of South German states</strong></li>
-<li style="padding-left:2em">&#9702; South German states were close to France because of their Catholic religion. Bismarck had to first create a division between them. Bismarck <strong>used German Nationalism for bringing southern German states</strong> into his fold.</li>
-<li style="padding-left:2em">&#9702; Bismarck consciously created tension with France and provoked a war by leaking the edited version of Ems Telegram, to hurt both French as well as German sentiments.</li>
-<li style="padding-left:2em">&#9702; Since he was already prepared for war, he roundly defeated it in the Battle of Sedan in 1870.</li>
-<li style="padding-left:2em">&#9702; Then, on the basis of the Treaty of Frankfurt in 1871, southern German states were integrated with Prussia.</li>
-</ul>
-<p>In this way, German unification was completed. So, if iron and coal created the basis for unification, it was blood and iron which gave it a finishing touch.</p>
-
-<h3>Impact of German Unification:</h3>
-<p>&#8220;With the battle of Sedan, Europe lost a mistress and got a master.&#8221;</p>
-<ul>
-<li>&#8226; The completion of the process of German unification resulted in the <strong>emergence of most powerful empire in Europe.</strong></li>
-<li style="padding-left:2em">&#9702; German prestige was highest in whole of Europe. Berlin emerged as the capital of Germany as well as Europe, because all important decisions were taken in Berlin under the leadership of Bismarck.</li>
-<li style="padding-left:2em">&#9702; Till the time Bismarck remained German chancellor (resigned in 1890) not a single important event took place in entire Europe that was not dictated or directed by Germany.</li>
-<li>&#8226; With the unification of Germany, <strong>Europe gained a master</strong>, and their master replaced that role of minister played by France.</li>
-<li style="padding-left:2em">&#9702; The French influence in Europe had been mild. It was positive because France spread the ideas of revolution in whole of Europe these liberal and progressive ideas propagated by France were liberating in nature. France was a leader of Europe ideologically.</li>
-<li style="padding-left:2em">&#9702; While France enjoyed soft power in Europe, but German dominance was an example of hard power. The Bismarckian system of alliances ensured that no country was left in Europe that could stand against German domination.</li>
-</ul>
-
-<h3>Comparison between Italian and German Unification</h3>
-<h4>Similarities:</h4>
-<ul>
-<li>&#8226; Geographic division</li>
-<li>&#8226; Role of Napoleon</li>
-<li>&#8226; Role of Vienna Congress as an obstacle</li>
-<li>&#8226; Austria as a common enemy</li>
-<li>&#8226; Bigger states taking lead &#8211; Piedmont Sardinia and Prussia</li>
-<li>&#8226; Prime Ministers played important role &#8211; Cavour and Bismarck</li>
-<li>&#8226; Use of Diplomacy, war, and nationalism</li>
-</ul>
-
-<h4>Differences:</h4>
-<table border="1" cellpadding="6" cellspacing="0">
-<thead><tr><th></th><th>Italy</th><th>Germany</th></tr></thead>
-<tbody>
-<tr><td><strong>Obstacles</strong></td><td></td><td></td></tr>
-<tr><td><strong>Role of intellectual unification</strong></td><td></td><td></td></tr>
-<tr><td><strong>Leadership</strong></td><td></td><td></td></tr>
-<tr><td><strong>Role of King and Monarchy</strong></td><td></td><td></td></tr>
-<tr><td><strong>Method</strong></td><td></td><td></td></tr>
-<tr><td><strong>Wider Impact</strong></td><td></td><td></td></tr>
-</tbody>
-</table>`,
   'nation-state-system': `<h2>Handout 18: Italian Unification (Risorgimento)</h2>
 <h3>UPSC CSE PYQs</h3>
 <ul>
@@ -28919,7 +28725,203 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <ul>
 <li>&#8226; Some historians have emphasized the role of political and intellectual elites in shaping the direction of the movement, while others have focused on the role of popular uprisings and mass movements in achieving Italian unification.</li>
 <li>&#8226; In the unification of Italy, popular sentiments played a very significant role. Sometimes the people enthusiastically participated in the movement, but middle-class leadership was always conscious about its rights and privileges and used the popular movement in its favour.</li>
-</ul>`,
+</ul>
+
+<h2>Handout 19: German Unification (1865-1871)</h2>
+
+<h3>UPSC CSE PYQs</h3>
+<ul>
+<li>&#8226; <strong>Overall</strong></li>
+<li style="padding-left:2em">&#9702; What determinant factors, along with diplomatic, shaped the process of German Unification? [2017, 20 Marks]</li>
+<li>&#8226; <strong>Napoleon</strong></li>
+<li style="padding-left:2em">&#9702; &#8220;Napoleon kindled the national sentiment, but German unity was achieved by Bismarck.&#8221; Discuss. [1981, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;It is one of the ironies of history that Napoleon was the creator of modern Germany.&#8221; Comment. [1984, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;Napoleon kindled the national sentiment, but German unity was achieved by Bismarck.&#8221; Discuss. [2002, 60 Marks]</li>
+<li>&#8226; <strong>Bismarck</strong></li>
+<li style="padding-left:2em">&#9702; &#8220;The Unification of Germany was the one thing Bismarck was determined to prevent.&#8221; Comment. [1987, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;The political unification of Germany was accomplished solely by Bismarck.&#8221; Comment. [1999, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;Bismarck created a new Germany with the policy of &#8216;blood and iron&#8217;.&#8221; Comment. [2001, 20 Marks]</li>
+<li style="padding-left:2em">&#9702; Bismarck united Germany not by majority of votes and speeches but by a policy of &#8220;Blood and Iron&#8221;. In the light of this statement assess the contribution of Bismarck to the unification of Germany. [2003, 60 Marks]</li>
+<li style="padding-left:2em">&#9702; Was German unification achieved more by &#8216;coal and iron&#8217; than by &#8216;blood and iron&#8217;? [2012, 30 Marks]</li>
+<li style="padding-left:2em">&#9702; &#8220;From Bismarck&#8217;s &#8216;Blood and Iron&#8217; speech and his forceful actions to achieve German unification, Bismarck came to be known as the Iron Chancellor.&#8221; Critically examine. [2020, 20 Marks]</li>
+</ul>
+
+<p>Right from the time of Westphalia, German states was a sleeping Satan. None attempted to wake it up.</p>
+<p>In was merely a geographic entity in 1805, divided into numerous units. Austria &amp; Prussia were two big states, while there were more than 300 small German states. All of these together were part of Holy Roman Empire headed by the king of Austria.</p>
+
+<h3>Emergence of sense of national consciousness:</h3>
+<ul>
+<li>&#8226; <strong>Historical Context:</strong></li>
+<li style="padding-left:2em">&#9702; The <strong>protestant movement</strong> under Martin Luther gave the German region a <strong>common cultural identity</strong> particularly for the fact that Martin Luther translated the Bible into <strong>German language.</strong></li>
+<li>&#8226; <strong>Role of Napoleon Bonaparte</strong> proved to be an unconscious stimulator for German unification. His conquests and reforms had a profound impact on Germany.</li>
+<li style="padding-left:2em">&#9702; Territorial reorganization: He defeated Austria in the battle of Austerlitz in 1805 and imposed the peace of Pressburg. As per which,</li>
+<li style="padding-left:4em">&#9632; He demolished the relic of the so-called Holy Roman Empire.</li>
+<li style="padding-left:4em">&#9632; Created Confederation of Rhine by reorganizing 300 tiny German states into 16 bigger states. (In Future, Bismark was required to merge these 39 into one.)</li>
+<li style="padding-left:2em">&#9702; Internal Reforms:</li>
+<li style="padding-left:4em">&#9632; Napoleon abolished feudalism, put control over Church, and introduced the Napoleonic Code. So, he internally organized the administration of Germany. These reforms helped to create a sense of national identity among the German people.</li>
+<li style="padding-left:2em">&#9702; War of Nations:</li>
+<li style="padding-left:4em">&#9632; The influence of these ideas resulted in the growth of awakening among Germany and when the rule of Napoleon turned despotic during the last year of his reign, a strong wave of German nationalism emerged.</li>
+<li style="padding-left:4em">&#9632; In a war against Napoleon Bonaparte, German states participated. So, unconsciously the German states developed a sense of fellow-feeling among themselves.</li>
+<li style="padding-left:2em">&#9702; It was this spirit of German nationalism that guided and inspired the process of German unification which was concluded finally by Bismark.</li>
+<li style="padding-left:4em">&#9632; &#8220;Napoleon kindled German national sentiment &amp; Bismark carried out political unification.&#8221;</li>
+<li style="padding-left:4em">&#9632; &#8220;Napoleon wrote the preamble of German unification, but it was Bismarck who provided it with the finishing touch.&#8221;</li>
+<li style="padding-left:2em">&#9702; However, Napoleon&#8217;s defeat in 1815 led to the dissolution of the Confederation of the Rhine and the restoration of the old order in Germany.</li>
+<li style="padding-left:2em">&#9702; Inspite of being an imperialist, the works of Napoleon helped in the emergence of modern unified Germany. That is why, it is commented that &#8216;It is one of the ironies of history that Napoleon was a creator of modern Germany.&#8217;</li>
+<li>&#8226; <strong>Congress of Vienna (1815)</strong></li>
+<li style="padding-left:2em">&#9702; It made every possible effort to restore the pre-Napoleonic picture in Germany.</li>
+<li style="padding-left:2em">&#9702; Since the 39 states of Rhine Confederation could not be reverted, a <strong>German Confederation</strong> was created.</li>
+<li style="padding-left:4em">&#9632; It consisted larger kingdoms like Austria and Prussia, as well as smaller duchies, principalities, and free cities.</li>
+<li style="padding-left:4em">&#9632; It was a patchwork of states, each with its own ruler, laws, and degree of autonomy.</li>
+<li style="padding-left:2em">&#9702; <strong>The Frankfurt parliament</strong>, closed down by Napoleon, was also reestablished. Its powers were limited.</li>
+<li style="padding-left:4em">&#9632; The Federal Diet could not levy taxes, maintain a standing army, or enact significant legislative measures. Decisions required a consensus among member states, making it difficult to take decisive action. Austria and Prussia were the most influential states and competed for dominance.</li>
+<li>&#8226; <strong>Cultural-Ideological factor:</strong> Soon, the German philosophers promoted the sense of fellowfeeling as well as nationalist consciousness.</li>
+<li style="padding-left:2em">&#9702; Their speeches &amp; writings intensified nationalist awakening among the people and this German nationalism was responsible for the political unification of Germany.</li>
+<li style="padding-left:2em">&#9702; The <strong>Romantics</strong> wanted to discard the cold, artificial logic of the Enlightenment to return to the roots of a simple and authentic life based on direct experience and community.</li>
+<li style="padding-left:4em">&#9632; <strong>Language</strong> was seen by Herder as a vessel that molded community and national identities.</li>
+<li style="padding-left:4em">&#9632; The <strong>brothers Grimm</strong> went out to collect "authentic" German folk tales while at the same time studying the German language, pursuing the Romantic conviction that language and folk culture were deeply related.</li>
+<li style="padding-left:2em">&#9702; <strong>The German historians</strong> re-interpreted the past of German people in a positive light. The achievements of rulers like Frederick, the Great were highlighted the common elements prevailing among Germans living in different parts were brought to the notice of people.</li>
+<li style="padding-left:2em">&#9702; Some German thinkers like Johann <strong>Herder</strong>, <strong>Fichte</strong>, <strong>Hegel</strong> rejected the universalism of Enlightenment, rather they gave emphasis over the German unification.</li>
+<li style="padding-left:2em">&#9702; These German philosophers and historians brought about cultural unity in German. Their efforts prepared a solid-cultural platform our which the political unification of Germany could be carried out. That is why it is commented that "The Political unity of Germany was placed on a solid cultural base."</li>
+<li>&#8226; <strong>Burschenschaft</strong> (student union)</li>
+<li style="padding-left:2em">&#9702; It was an organization of university students, with the goal of patriotism, unity and liberal rule. In the Wartburg Festival (1817), students from various universities gathered and burned reactionary books and expressed their desire for political reform.</li>
+<li style="padding-left:2em">&#9702; The reactionary political authorities in the various German states, including Metternich, viewed the Burschenschaften with suspicion. They cracked down on the student fraternities, leading to arrests, censorship, and the banning of their activities.</li>
+</ul>
+
+<h3>Economic-Industrial factor:</h3>
+<ul>
+<li>&#8226; The unification under Austria might have been historical for the fact that Austria carried the legacy of the Holy Roman Empire. But German states preferred the integration with Prussia in place of Austria, for the fact that Prussia was economically and industrially more advanced than Austria.</li>
+<li>&#8226; Economic and material basis for integration:</li>
+<li style="padding-left:2em">&#9702; At the beginning of 19th century, industrial revolution started in Prussia, and it spread to the other parts of Germany. As Prussia was the leading region in industrialisation, all other regions were looking to Prussia for leadership.</li>
+<li>&#8226; In 1834, there was the formation of the custom union <strong>Zollverin</strong> in Germany.</li>
+<li style="padding-left:2em">&#9702; In 1830s and 1840s, it paved the way for the development of means of transportation such as roads and railways lines. Thus, the geographical distance among Germans got reduced. Also, the German market was better integrated. (geographic and economic unification)</li>
+<li style="padding-left:2em">&#9702; Since Austria refused to join it, the lesser German states gradually moved away from Austria and closer to Prussia and their economic interests got interlinked. (integration of economic interests with Prussia alone).</li>
+<li style="padding-left:2em">&#9702; It helped in the growth of modern industries in Germany and thereby a strong capitalist group emerged. In the international competition with British capitalists, they preferred and supported strong unified centralized state for better protectionist policies and colonies abroad for raw material/markets. They threw their weight behind Bismarck. (class interest in unification)</li>
+<li style="padding-left:2em">&#9702; The economic progress brought about by its success allowed Bismarck to raise a large army. This military strength imparted the winning edge to German nationalism. (resources for militarization)</li>
+<li>&#8226; So, the economic-industrial factor played such a significant role in the unification of Germany.</li>
+<li style="padding-left:2em">&#9702; <strong>John Maynard Keynes</strong>, declared that &#8220;It was not blood and iron rather iron and coal which made the unification of Germany possible.&#8221;</li>
+<li style="padding-left:2em">&#9702; The success of Bismarckian policy of blood &amp; iron depended to a large extent on the forces of coal and iron.</li>
+<li style="padding-left:2em">&#9702; The forces of coal &amp; Iron prepared a strong material base for the political unification of Germany.</li>
+<li style="padding-left:2em">&#9702; Without the support of the forces of coal &amp; iron German nationalism would have remained a much weaker force.</li>
+</ul>
+
+<h3>Political-Diplomatic Factor:</h3>
+<p>From 1815 to 1866, about 37 independent German-speaking states existed within the German Confederation. The &#8216;<strong>German question</strong>&#8217; was debated intensely during these decades. The question about the best way to achieve a unification was confounded due to historic problem of <strong>German Dualism</strong>.</p>
+<p>The alternate two solutions were discussed:</p>
+<ul>
+<li>&#8226; <strong>Greater German solution:</strong> Favored unifying all German-speaking peoples under one state and was promoted by the Austrian Empire and its supporters.</li>
+<li>&#8226; <strong>Little German solution:</strong> sought only to unify the northern German states and did not include any part of Austria; this proposal was favored by the Kingdom of Prussia.</li>
+</ul>
+<p>When the Revolutions of 1848 swept across Europe, demands for political reforms, constitutional rights, and national unification were widespread. The Frankfurt National Assembly was convened in 1848 in an attempt to create a unified and liberal German state, but it ultimately failed.</p>
+
+<h3>(A) Failure of 1848</h3>
+<ul>
+<li>&#8226; In spite of the economic integration, political integration was not possible till the demise of Austria as the political power. Whenever some step was taken towards German integration, due to opposition from the side of Austria, it failed. It is here, the role of Bismarck that of the policy of blood and iron became decisive.</li>
+<li style="padding-left:2em">&#9702; In 1848, at <strong>Frankfurt Parliament</strong>, an attempt was made by Prussian monarch, Fredrick William IV, to bring a model of unification. The whole project failed due to the resistance/threat from Austria, and he had to withdrew.</li>
+<li style="padding-left:2em">&#9702; Furthermore, on the basis of <strong>Olmutz Punctation</strong> of 1850, the old German confederacy was restored by Austria.</li>
+<li>&#8226; <strong>Outcome:</strong></li>
+<li style="padding-left:2em">&#9702; The Failure of liberal methods in accomplishing the task of German unification convinced German nationalist that only militarism could succeed. Rise of Bismarck in German polities was the outcome of the same.</li>
+<li style="padding-left:2em">&#9702; It also became crystal clear that no future constitutional revolution in Germany was possible without a war with Austria. So, far Austria was there, such political unification under Prussia was a impossible.</li>
+<li>&#8226; <strong>Attitude of Bismarck:</strong> &#8220;The Unification of Germany was the one thing Bismarck was determined to prevent.&#8221;</li>
+<li style="padding-left:2em">&#9702; Bismarck was <strong>basically reactionary.</strong></li>
+<li style="padding-left:4em">&#9632; He came from Junker class. He was ultraconservative champion of Junker interests.</li>
+<li style="padding-left:4em">&#9632; He was a radical nationalist, totally dedicated to the institution of monarchy.</li>
+<li style="padding-left:2em">&#9702; He <strong>didn&#8217;t believe in parliamentary politics.</strong></li>
+<li style="padding-left:4em">&#9632; He had no faith in the efficiency of liberal methods. He saw liberalism as an expression of the political, economic, and social interests of the propertied urban class associated with industrialization.</li>
+<li style="padding-left:4em">&#9632; He countered it by raising the material interests of the Junkers to the level of patriotic duty.</li>
+<li style="padding-left:4em">&#9632; If this unification was to be carried out under Liberal leaders, they would prevail, and the demand of liberalism was constitutional monarchy.</li>
+<li style="padding-left:4em">&#9632; He believed that the German unity forget through liberal method would remain weak and fragile. He wanted to create united Germany only through military methods.</li>
+<li style="padding-left:2em">&#9702; He never left anyone in doubt that he was a <strong>Prussian patriot, not a German nationalist. "Prussian we are and Prussian we wish to remain"</strong> he said in June 1848.</li>
+<li style="padding-left:4em">&#9632; He wanted to carry out the <strong>Prussianization of Germany</strong> rather than Germanization of Prussia.</li>
+<li style="padding-left:4em">&#9632; He believed that only Prussia&#8217;s internal strength can overcome its revolutionaries and helped to protect Germany from its foreign enemies.</li>
+<li style="padding-left:4em">&#9632; Bismarck believed that Germany was too small for both Austria and Prussian. He wanted to oust Austria from Germany, so that Prussian domination could be imposed. Thus, there was no place for Austria in Bismarckian vision. Thus, he created obstruction in the way German unity till the time Austria was ousted.</li>
+<li style="padding-left:2em">&#9702; Bismarck also wanted that <strong>German prestige must be highest in Europe.</strong> He wanted to carry out German unification in such a way that Austrian and French Prestige could be shattered.</li>
+<li style="padding-left:4em">&#9632; That is why, it is commented that &#8216;Bismarck did not fight his wars for the sake of German unification but in reality, he used the Process of German unification as an ensure to fight his wars.&#8217;</li>
+<li style="padding-left:2em">&#9702; So, it is true that initially Bismarck was opposed to the unification of old Germany.</li>
+</ul>
+
+<h3>(B) Bismarck In the Parliament</h3>
+<p>From 1865 onwards, Bismarck was ready for this great job of unification, and it was he who, through a diplomatic and military option, made the unification possible. (<em>machtpolitiks</em> - power politics, <em>realpolitik</em> &#8211; pragmatism).</p>
+<ul>
+<li>&#8226; <strong>Before Bismarck:</strong></li>
+<li style="padding-left:2em">&#9702; William I was a strong German nationalist. He wanted to carry out political unification of Germany. He knew that Prussia might have to fight a war with Austria. Thus, William I started a very ambitious plan for militarization.</li>
+<li style="padding-left:2em">&#9702; But the liberal members of the bicameral parliament turned down his proposals.</li>
+<li style="padding-left:4em">&#9632; The lower house of Prussia parliament was dominated by liberal. This house did not approve the budget for military reforms.</li>
+<li style="padding-left:2em">&#9702; Having failed repeatedly in his efforts to persuade the liberal dominated Prussian Parliament, king William I appointed Bismarck as Prussian chancellor in 1862 because by this time, Bismarck developed a strong reputation for his ruthlessness. (<strong>1862</strong>)</li>
+<li style="padding-left:4em">&#9632; With the appointment of Bismarck as Prussian chancellor, the process of German unification commenced in a real way. He provided complete support and promised, &#8220;I will be destroyed in fight against the parliament, but I will never desert you.&#8221;</li>
+<li>&#8226; <strong>Bismarck&#8217;s approach:</strong></li>
+<li style="padding-left:2em">&#9702; Bismarck too faced <strong>significant opposition in the House of Representatives when he sought to pass military reforms and increase funding</strong> for the Prussian army. The liberal majority in the House resisted these measures, seeing them as potentially strengthening the monarchy&#8217;s power at the expense of parliamentary democracy.</li>
+<li style="padding-left:2em">&#9702; Liberal thinkers also preferred unification but not through military means. To counter their method, Bismarck gave his <strong>famous Blood and iron (Eisen and Blut) speech</strong> in parliament in the course of getting these proposals passed. (30 Sept 1862)</li>
+<li style="padding-left:4em">&#9632; In the speech, Bismarck called for a small German nation-state dominated by Prussia.</li>
+<li style="padding-left:4em">&#9632; He stated that the great questions of the day should be decided by blood and iron.</li>
+<li style="padding-left:4em">&#9632; &#8216;You are mistaken, German states are not looking upto us for our liberalism but for our power&#8230; it is not by speeches and majority resolutions that the great questions of the time are decided &#8211; that was the big mistake of 1848 and 1849 &#8211; but by iron and blood&#8230; With power game only, this problem could be solved. This The Gordian knot was not to be untied by the gentle methods of dual policy and could only be cut by the sword.&#8217;</li>
+<li style="padding-left:2em">&#9702; But the liberal members were not ready in 1862. So, Bismarck neglected the lower chamber of the parliament.</li>
+<li style="padding-left:4em">&#9632; Ultimately, Bismarck used a combination of political maneuvering, diplomacy, and the threat of external conflict to navigate these hurdles and push through his policies.</li>
+<li style="padding-left:4em">&#9632; He started bypassing the lower house, used ordinances, and passed budgets with the help of upper house to sanction funds for the military reforms.</li>
+<li>&#8226; Thus, He led Prussia into three wars in seven years, eschewing democracy and its plebiscites and achieve a united German aristocracy behind the king of Prussia. He became known as <strong>"the iron chancellor"</strong>.</li>
+</ul>
+
+<h3>(C) The Three Wars (1866-1871)</h3>
+<ul>
+<li>&#8226; <strong>Phase 1: Integration of the two dutchies, Schleswig and Holstein</strong></li>
+<li style="padding-left:2em">&#9702; Two Duchies in the north of Germany, named Schleswig and Holstein were a kind of frontiers. From time immemorial, it was not clear whether they were with Denmark and Germany.</li>
+<li style="padding-left:2em">&#9702; They were placed under the nominal control of Denmark by Vienna congress of 1815 but the majority of population there was German.</li>
+<li style="padding-left:2em">&#9702; So, Prussia and Austria invaded them and annexed them.</li>
+<li style="padding-left:2em">&#9702; Under the Gastein Convention of 1865. The regions were put under joint administration. Although the Convention temporarily postponed the final struggle between them for hegemony over Germany. Bismarck managed to engineer a difference between Austria and Prussia with the help of intentional vagueness in the arrangement.</li>
+<li>&#8226; <strong>Phase 2 &#8211; Creation of North German Confederation.</strong></li>
+<li style="padding-left:2em">&#9702; The <strong>joint administration led to disputes</strong> between the two powers.</li>
+<li style="padding-left:2em">&#9702; Finally, in 1866, Prussia was so prepared. So, Bismarck provoked a war with Austria. In the <strong>Battle of Sadowa</strong> (1866) he gave Austria a crushing defeat. Within 6 weeks Austrian empire was routed.</li>
+<li style="padding-left:2em">&#9702; So, northern German states were integrated with Prussia, in the Treaty of Prague (1866). With this, more than 50% unification was completed.</li>
+<li style="padding-left:2em">&#9702; Before the war began, Bismark had ensured French and Russian neutrality, while Italy was on the Prussian side, to gain Venetia.</li>
+<li style="padding-left:2em">&#9702; In the battle of Sadowa, it was not Austria, rather France which was defeated.</li>
+<li>&#8226; Bismarck now dissolved the Austria-dominated German Confederation and replaced with <strong>North German Confederation</strong>.</li>
+<li style="padding-left:2em">&#9702; Austria was excluded from German affairs, and the North German Confederation, led by Prussia, emerged as the dominant power in northern and central Germany.</li>
+<li style="padding-left:2em">&#9702; <strong>Prussia-dominated Reichstag</strong> was also established to represent people.</li>
+<li style="padding-left:2em">&#9702; <strong>Zollverin</strong> was reconstituted with enlarged territories.</li>
+<li style="padding-left:4em">&#9632; The new Zollverein was stronger, in that no individual state had a veto.</li>
+<li style="padding-left:2em">&#9702; A key feature of the North German Confederation was its unified military structure. This military cooperation not only enhanced the confederation&#8217;s defense capabilities but also underscored Prussia&#8217;s dominance.</li>
+<li>&#8226; <strong>Phase 3: Integration of South German states</strong></li>
+<li style="padding-left:2em">&#9702; South German states were close to France because of their Catholic religion. Bismarck had to first create a division between them. Bismarck <strong>used German Nationalism for bringing southern German states</strong> into his fold.</li>
+<li style="padding-left:2em">&#9702; Bismarck consciously created tension with France and provoked a war by leaking the edited version of Ems Telegram, to hurt both French as well as German sentiments.</li>
+<li style="padding-left:2em">&#9702; Since he was already prepared for war, he roundly defeated it in the Battle of Sedan in 1870.</li>
+<li style="padding-left:2em">&#9702; Then, on the basis of the Treaty of Frankfurt in 1871, southern German states were integrated with Prussia.</li>
+</ul>
+<p>In this way, German unification was completed. So, if iron and coal created the basis for unification, it was blood and iron which gave it a finishing touch.</p>
+
+<h3>Impact of German Unification:</h3>
+<p>&#8220;With the battle of Sedan, Europe lost a mistress and got a master.&#8221;</p>
+<ul>
+<li>&#8226; The completion of the process of German unification resulted in the <strong>emergence of most powerful empire in Europe.</strong></li>
+<li style="padding-left:2em">&#9702; German prestige was highest in whole of Europe. Berlin emerged as the capital of Germany as well as Europe, because all important decisions were taken in Berlin under the leadership of Bismarck.</li>
+<li style="padding-left:2em">&#9702; Till the time Bismarck remained German chancellor (resigned in 1890) not a single important event took place in entire Europe that was not dictated or directed by Germany.</li>
+<li>&#8226; With the unification of Germany, <strong>Europe gained a master</strong>, and their master replaced that role of minister played by France.</li>
+<li style="padding-left:2em">&#9702; The French influence in Europe had been mild. It was positive because France spread the ideas of revolution in whole of Europe these liberal and progressive ideas propagated by France were liberating in nature. France was a leader of Europe ideologically.</li>
+<li style="padding-left:2em">&#9702; While France enjoyed soft power in Europe, but German dominance was an example of hard power. The Bismarckian system of alliances ensured that no country was left in Europe that could stand against German domination.</li>
+</ul>
+
+<h3>Comparison between Italian and German Unification</h3>
+<h4>Similarities:</h4>
+<ul>
+<li>&#8226; Geographic division</li>
+<li>&#8226; Role of Napoleon</li>
+<li>&#8226; Role of Vienna Congress as an obstacle</li>
+<li>&#8226; Austria as a common enemy</li>
+<li>&#8226; Bigger states taking lead &#8211; Piedmont Sardinia and Prussia</li>
+<li>&#8226; Prime Ministers played important role &#8211; Cavour and Bismarck</li>
+<li>&#8226; Use of Diplomacy, war, and nationalism</li>
+</ul>
+
+<h4>Differences:</h4>
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th></th><th>Italy</th><th>Germany</th></tr></thead>
+<tbody>
+<tr><td><strong>Obstacles</strong></td><td></td><td></td></tr>
+<tr><td><strong>Role of intellectual unification</strong></td><td></td><td></td></tr>
+<tr><td><strong>Leadership</strong></td><td></td><td></td></tr>
+<tr><td><strong>Role of King and Monarchy</strong></td><td></td><td></td></tr>
+<tr><td><strong>Method</strong></td><td></td><td></td></tr>
+<tr><td><strong>Wider Impact</strong></td><td></td><td></td></tr>
+</tbody>
+</table>`,
   'imperialism-colonialism': ``,
   'revolution-counter-revolution': ``,
   'world-wars': ``,
