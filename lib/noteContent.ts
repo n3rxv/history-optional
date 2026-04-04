@@ -28887,9 +28887,7 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <li>&#8226; Although after WWI, there was some hope for the liberation of the colonies, all the hopes were belied when the imperialist powers not simply celebrated their victory in WWI but also consolidated their grip over the colonies. Only Egypt got liberation in 1922 but even it got liberation only in name. So, this <strong>imperialist policy continued upto the WW2.</strong></li>
 </ul>
 
-<p>The Belgian Congo was a particularly brutal example of European colonialism. The Belgian King Leopold II ruled the Congo as his personal fiefdom, and he forced the Congolese people to work in rubber plantations under harsh conditions. Millions of Congolese people died as a result of Leopold II&#8217;s exploitation. Many atrocities were perpetrated in the Congo Free State. Labourers who failed to meet rubber collection quotas were punished by having their hands cut off.</p>
-
-  'imperialism-colonialism': ``,
+<p>The Belgian Congo was a particularly brutal example of European colonialism. The Belgian King Leopold II ruled the Congo as his personal fiefdom, and he forced the Congolese people to work in rubber plantations under harsh conditions. Millions of Congolese people died as a result of Leopold II&#8217;s exploitation. Many atrocities were perpetrated in the Congo Free State. Labourers who failed to meet rubber collection quotas were punished by having their hands cut off.</p>`,
   'revolution-counter-revolution': `<h2>Handout 16: Post-Napoleonic European Revolutions</h2>
 <h3>UPSC CSE PYQs</h3>
 <ul>
