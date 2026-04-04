@@ -30328,7 +30328,408 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </tr>
 </tbody>
 </table>
-`,
+<h2>Handout 38: Foreign Policy of Mussolini and Hitler</h2>
+
+<h3>Foreign Policy of Mussolini</h3>
+
+<p><strong>Objectives:</strong></p>
+<ul>
+  <li>&#8226; To dismantle the clauses of the treaty of St. Germain.</li>
+  <li>&#8226; To restore the glory of Italy in the World and make her one of the great powers of the World.</li>
+  <li>&#8226; To complete the unfinished agenda of Italian unification.</li>
+  <li>&#8226; To established Italian empire in Africa and Mediterranean Sea.</li>
+  <li>&#8226; Aggressive policy was also a characteristic of Fascism.</li>
+</ul>
+
+<p><strong><u>Mussolini's Initiatives:</u></strong></p>
+<ul>
+  <li>&#8226; <strong>Acquisition of Rhodes (Dodecanese):</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Mussolini was committed to strengthen the maritime power and position of Italy.</li>
+      <li style="padding-left:2em">&#9702; Italy put her claims on Rhodes and the Dodecanese islands in the eastern part of the Mediterranean Sea, Mussolini built a naval base there; it was the first success of his foreign policy and strengthen his position in Italy.</li>
+    </ul>
+  </li>
+  <li>&#8226; Possession of <strong>Fiume port</strong> after a treaty with Yugoslavia (1924)</li>
+  <li>&#8226; He brought Albania under protectorate by a <strong>treaty of Tirana</strong> (1927)</li>
+  <li>&#8226; He invaded the <strong>Korfu</strong> region in <strong>Greece</strong>. Although he had to evacuate this region, he got 5 Crore Lira as compensation.</li>
+</ul>
+
+<p><strong>Short-lived Italy-French Friendship:</strong> Earlier there was a rivalry between Italy and France but after the rise of Hitler, France and Italy came near to each other.</p>
+
+<p>So, until 1935, Mussolini was with western powers, opposed Hitler and was even willing to give guarantee of safety to neighbors of Hitler. But his friendship with the western power couldn't remain strong for long because Mussolini was compelled to follow aggressive foreign policy.</p>
+
+<p><strong>After the invasion of Ethiopia</strong> in October 1935, Mussolini was isolated and then he decided to come near to Hitler. Germany recognised the Mussolini's conquest of Abyssinia which brought Fascist Italy and Nazi Germany closer to each other based on mutual interest and their opposition to Bolshevism. In his speech at Milan in 1936, Mussolini declared, "The Rome-Berlin Line is not diaphragm but rather an axis." In 1937, Mussolini joined the Anti-Comintern Pact, which was earlier signed between Germany and Japan in 1936 and was directed against international communism.</p>
+
+<p><strong>Participation of Italy in Spanish Civil War (1936):</strong> Italy wanted to establish her supremacy in the Mediterranean Sea and thus supported Franco in the Civil War, because it realised that success of Franco could of great help to Italy to check French and British influence over the Mediterranean region. Mussolini also wanted to have naval and air base along the seacoast of Spain and could procure metals such as iron, copper, zinc and lead which useful for war purposes and necessary for industrial development of Italy.</p>
+
+<p>In 1939, Germany and Italy signed a non-aggression and defence pact. So, ultimately this phenomenon led to the formation of the <strong>Rome–Berlin axis.</strong> Later Italy <strong>annexed Albania</strong> in 1939.</p>
+
+<h3>Foreign Policy of Hitler</h3>
+
+<p>Three basic <strong>objectives</strong> of Hitler's Foreign Policy:</p>
+<ul>
+  <li>&#8226; To denounce the Treaty of Versailles.</li>
+  <li>&#8226; To organise and bring together all the German race under the Third Reich/</li>
+  <li>&#8226; To expand the German empire.</li>
+</ul>
+
+<p>To achieve all these objectives Hitler did not hesitate to adopt any method. The path chosen by Hitler for the achievement of these objectives has been explained in his book 'Mien Kampf'. He adopted all illegitimate methods like threat, assault, arrogant presumption of peace, denunciation of Treaties and War. He believed that conduct of vigorous foreign policy was possible only through transformation of nation into a strongly armed military state.</p>
+
+<p>Hitler's Foreign Policy was the outcome of his domestic compulsions and the prevailing international environment. Hitler transformed Germany from a war-battered state into a great power. Besides putting the economy on the rails of deficit financing to create jobs, Hitler achieved quick diplomatic victories, which won him wide acclaim at home and abroad. His early diplomatic manoeuvres resulted in nullifying many of the ill effects of the Versailles Treaty without any bloodshed. Finally, his foreign policy left a lasting impact not only on Germany but also an entire Europe.</p>
+
+<p><strong><u>Features/elements:</u></strong></p>
+<ul>
+  <li>&#8226; The first objective of Hitler's foreign policy was to <strong>dismantle the unjust clauses of the Treaty of Versailles.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; When Germany was punished after WW1, it was dismembered and lost nearly 13% area.</li>
+      <li style="padding-left:2em">&#9702; The extreme nationalism triggered by German humiliation at the hands of peace makers of Paris guided Hitler's Foreign Policy.</li>
+      <li style="padding-left:2em">&#9702; He targeted each and every provision of this ToV so that German national Pride could be restored.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Ultra nationalism</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; He was inspired by radical German nationalism. Germany's national interest dominated his foreign policy moves.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Domestic compulsions (war economy)</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; His economic strategy of producing war goods transformed Germany into a great military power and his military strength also shaped Hitler's Foreign policy.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Militarist and anti-internationalist</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Hitler's Foreign policy was militarist in nature, because he believed that important issues can be resolved only through military methods.</li>
+      <li style="padding-left:2em">&#9702; Hitler was anti-internationalist. He did not have any faith of idea of international peace and co-operation.</li>
+    </ul>
+  </li>
+  <li>&#8226; He was <strong>an expansionist</strong> in nature. He believed that territorial expansion is the necessary sign of life.
+    <ul>
+      <li style="padding-left:2em">&#9702; The idea of <strong>Pan Germanism</strong> also influenced Hitler. He wanted to integrate all German inhabited territories with Germany.</li>
+      <li style="padding-left:2em">&#9702; Hitler <strong>differed from the policy of neo-Bismarckians</strong>. Neo-Bismarckians believed that Germany had a <strong>definite boundary</strong> but <strong>Hitler's approach was continental.</strong></li>
+      <li style="padding-left:2em">&#9702; Hitler gave emphasis to the <strong>policy of Lebensraum</strong> i.e. expansion in east up to the Ural mountain to obtain living space for next 1000 years.</li>
+    </ul>
+  </li>
+  <li>&#8226; Hitler preferred to call his empire as Third Reich. The <strong>idea of Third Reich</strong> also dominated Hitler's Foreign Policy. Hitler wanted to created 3rd German empire on the line of Great German empire built by Fredrick the great and Bismarck.</li>
+  <li>&#8226; His foreign policy was <strong>guided by racial ideology.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Hitler's expansionist goals were driven by a racial vision of establishing a Greater Germanic Reich and achieving Lebensraum living space for the Aryan race, which necessitated the conquest and subjugation of other nations and peoples.</li>
+    </ul>
+  </li>
+  <li>&#8226; There was an element of system in Hitler's foreign policy. He did not move haphazardly to achieve his FP objectives. The elements of aggression and conciliation was maintained in Balance by him to ensure that no Anti-German alliance emerge immediately.</li>
+</ul>
+
+<h3>Stages of Hitler's foreign policy</h3>
+
+<p><strong><u>The first stage (1933-36):</u></strong> In this stage, he consistently broke the clauses of the treaty of Versailles but simultaneously, tried to convince the allied powers that he was not opposed to the European order.</p>
+
+<ul>
+  <li>&#8226; <strong>Belligerent posture</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; 1933 – <strong>Withdrew from Disarmament Commission and the League of Nations</strong></li>
+      <li style="padding-left:2em">&#9702; 1933 – Started <strong>re-armament program</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; Soon, reintroduced conscription (compulsory military service)</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; 1935 – <strong>Saar Region was reintegrated</strong> in Germany through a plebiscite.</li>
+      <li style="padding-left:2em">&#9702; 1936 – Sent <strong>army in demilitarized zone of Rhineland</strong></li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Conciliatory approach</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; In various speeches, he constantly declared that he was dedicated to peace.</li>
+      <li style="padding-left:2em">&#9702; In 1934, he signed 10 years <strong>No Aggression Pact with Poland.</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; This move was aimed at convincing the European powers that Hitler was not looking for a military conflict.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; 1935 – he signed a naval treaty with Britain. <strong>(Anglo-German Naval Treaty).</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; Hitler promised to limit German Naval strength to 35%. But it allowed Germany to exceed the limits imposed by the Treaty of Versailles.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong><u>The second stage (1936-38):</u></strong></p>
+<p>Now Hitler gauged that Britain and France don't have common threat perception. So, he became slightly more belligerent. Two steps are important in this period. Annexation of Austria (1938) and the capture of Sudetenland of Czechoslovakia on the basis of the Treaty of Munich in Sept 1938.</p>
+
+<ul>
+  <li>&#8226; Creation of <strong>Rome-Berlin-Tokyo Axis</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; 1936 – Rome-Belin Axis was created.</li>
+      <li style="padding-left:2em">&#9702; 1936 – Hitler signed Anti-Comintern Pact with Japan.</li>
+      <li style="padding-left:2em">&#9702; 1937 – Rome –Berlin –Tokyo Axis came into existence when Italy joined Anti-Commintern Pact.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Spanish Civil War (1936-39)</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Hitler supported General Franco in Spanish Civil War.</li>
+      <li style="padding-left:2em">&#9702; He tested all the latest war technologies and war strategies for effectiveness.</li>
+      <li style="padding-left:2em">&#9702; The victory of Germany side greatly emboldened Hitler and he became more aggressive.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Annexation of Austria (1938)</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Austria was composed of Germans, but the Paris Peace specifically disallowed its reunion with Germany, despite the fact that it went against the principle of self-determination.</li>
+      <li style="padding-left:2em">&#9702; Hitler first formed Nazi party in Austria, for fostering pro-German sentiment and undermining the Austrian government's ability to resist external pressure. Then with its approval he moved into Austria and merged it. Then he conducted a plebiscite in Austria to confirm it.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Sudetenland (1938)</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; It was peopled by 30 lakh Germans. Hitler declared that it was his next target. He demanded its return from Czechoslovakia which was given by Peace makers of Paris.</li>
+      <li style="padding-left:2em">&#9702; <strong>Munich Pact</strong> (1938) – Chamberlain, Daladier, Mussolini, Hitler.
+        <ul>
+          <li style="padding-left:4em">&#9632; The agreement was brokered on 1 October 1938, in the presence of Dadalier from France and Mussolini from Italy, while Czechoslovakia and USSR were kept out.</li>
+          <li style="padding-left:4em">&#9632; The British government pressurized Czechoslovakia to accept demands of Hitler with almost open threat. As a result of this settlement Czechoslovakia was forced to cede 1/5th of her territory, which had the most powerful fortifications and centres of important industries. Sudetenland was transferred to Germany as per Munich Pact.</li>
+          <li style="padding-left:4em">&#9632; It was a serious violation of the sovereignty of Czechoslovakia and sanctity of ToV. This is known as the <strong>policy of Appeasement.</strong></li>
+          <li style="padding-left:4em">&#9632; The Munich Pact was the climax of appeasement. It was hailed by Chamberlain as <strong>'peace in our time'.</strong> However, it didn't stop Hitler rather it encouraged him further. Hitler's true aims were soon revealed when he marched into Prague on 15 March 1939, thereby flouting the pledge made in the Munich Agreement not to make any further territorial claims. However, this settlement proved to be fateful because six months late Hitler occupied Prague, the capital of Czechoslovakia and devoured its remaining part.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Additional Note: Spanish Civil War (1936 – 1939)</h3>
+
+<p>Spanish Civil War was the outcome of the socio-economic and political crisis faced by Spain after WWI. It was fought during 1936-39 between the democratically elected Spanish government on one side and the alliance of senior military commanders and church on the other.</p>
+
+<ul>
+  <li>&#8226; Spain was a monarchy till 1930 but it failed to find solutions to economic problems in the wake of WW1. Thus in 1931, due to popular discontent, there was the formation of a Republic. However, the democratic and republican ideas were not deep-rooted.
+    <ul>
+      <li style="padding-left:2em">&#9702; In 1931 elections, Liberals, socialists, communists - all formed a coalition and got success and formed government.</li>
+      <li style="padding-left:2em">&#9702; The 1933 election was won by the right-wing pro-monarchist forces.
+        <ul>
+          <li style="padding-left:4em">&#9632; In retaliation, socialists called a general strike which developed into rebellion. It was then crushed.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; In the 1936 election, the Popular Front of liberal, socialists and communists won a narrow victory. They were pro-change and pro-people.
+        <ul>
+          <li style="padding-left:4em">&#9632; The Right (military officers, clergy, ultra-nationalists etc) came together and staged a coup. General Franco led the coup, which developed into a full-fledged civil war in 1936.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; Perspective: It was an all-European war, fought on Spanish soil.
+    <ul>
+      <li style="padding-left:2em">&#9702; <strong>Hitler</strong> and <strong>Mussolini</strong> rushed to support Franco, as he also represented Fascist elements.</li>
+      <li style="padding-left:2em">&#9702; <strong>Russia</strong> rushed to support Popular Front, as Communists were also part it.</li>
+      <li style="padding-left:2em">&#9702; The sympathy of <strong>Britain and France</strong> was with Spanish republic because it was democratically elected government. Stalin was also expecting Britian and France to join the war, as Fascism was a threat to the democracies also. But to his surprise, they didn't participate.
+        <ul>
+          <li style="padding-left:4em">&#9632; Instead, Br-Fr started the mediate and decided that it was an internal matter of Spain and outside powers should not interfere. Following this dictate, as a responsible power, Russia was compelled to withdraw.</li>
+          <li style="padding-left:4em">&#9632; However, Germany remained recalcitrant. It didn't accept the decision and extended the support to Franco.</li>
+          <li style="padding-left:4em">&#9632; So, the Popular Front was orphaned without USSR support.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Finally, in March 1939, Franco emerged victorious and captured power.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong><u>Consequences/Significance</u></strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; It was one of the most important developments during the inter-war period. Its direct and indirect repercussions were extremely serious. It was not just an internal matter of Spain because it involved Soviet Union, Germany, and Italy directly. According to Claude Bowers, U.S. ambassador to Spain during the war, it was the "dress rehearsal" for World War II.</li>
+      <li style="padding-left:2em">&#9702; Military perspective
+        <ul>
+          <li style="padding-left:4em">&#9632; Hitler successfully tested his latest weapons and military technique sand tactics – <strong>Blitzkrieg.</strong></li>
+          <li style="padding-left:4em">&#9632; For the first time, civilian targets were deliberately bombed to see the effects of civilian death on democratic government. Spanish city of Basque was bombed by German air force resulting in hundreds of casualties.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; For USSR and Western Democracies
+        <ul>
+          <li style="padding-left:4em">&#9632; Since the British and French sympathy was also attached to Spanish Republican government. There was a possibility of capitalist and communist alliance against Nazism and Fascism, but it proved impossible.</li>
+          <li style="padding-left:4em">&#9632; Stalin was disillusioned and realized that it was the larger game-plan of Britain and France to use Fascism against Communism.</li>
+          <li style="padding-left:4em">&#9632; So, it led to German-Russian No-Aggression Pact.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; For Fascism
+        <ul>
+          <li style="padding-left:4em">&#9632; It was a <strong>major success and big morale booster</strong> to Fascist powers in Europe. It emboldened Hitler and his foreign policy became more aggressive.</li>
+          <li style="padding-left:4em">&#9632; In course of war, <strong>Hitler-Mussolini developed better coordination.</strong> Mussolini developed firm faith in the leadership of Hitler.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; This newfound German confidence pushed the world into the second great war in 1939. It ended in March 1939, while within six months, in Sept 1939, WW2 started.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Additional Note: Policy of Appeasement</h3>
+
+<ul>
+  <li>&#8226; One of the most significant factors that led to World War II was the policy of Appeasement adopted by Britain and France towards Germany, Italy and Japan. The two countries felt that if the genuine grievances of the Germans and Italians were removed, they would feel satisfied and not to disturb the peace of the world. However, their policy of Appeasement encouraged Hitler and empowered him to push the world in to yet another war. The USA was not willing to give up her neutrality hence, she merely watched.</li>
+  <li>&#8226; <strong>Rationale</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; It was the outcome of various compulsions of western democracies. It was not a matter of choice to them.</li>
+      <li style="padding-left:2em">&#9702; <strong>To Avoid War</strong> (Pacifism)
+        <ul>
+          <li style="padding-left:4em">&#9632; <strong>WW1</strong> had left behind a trail of destruction and there was a sense of disillusionment. Thus, Britain and France were trying to avoid the war.</li>
+          <li style="padding-left:4em">&#9632; The British and French Government were under <strong>extreme public pressure</strong> to avoid war.</li>
+          <li style="padding-left:4em">&#9632; Chamberlain thought that it's better to allow Hitler to get it, otherwise he would have to defy the entire <strong>European Order</strong> which would be more dangerous.</li>
+          <li style="padding-left:4em">&#9632; The <strong>failure of the League of Nations</strong> left western democracies in little choice but to maintain peace in Europe through appeasement.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>Bruised nationalism and genuine demand</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; There was a realization among the leaders of Britain and France that mistakes were committed at Paris during the peace conference. They believed Germany had certain genuine grievances.</li>
+          <li style="padding-left:4em">&#9632; The feeling that the Versailles Treaty had gone too far in the direction of seeking vendetta was indeed widespread in the British public sphere</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>The fear of communism</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; The left-wing alternative to the Appeasement Policy was the Popular Front adopted by the Comintern. Its engineers led by the USSR were indeed the harshest critics of Hitler's policies and were acutely aware of the dangers of promoting his aggressive foreign policies.</li>
+          <li style="padding-left:4em">&#9632; The western powers, including the socialists, were more afraid of a Bolshevik threat than a fascist one and would have chosen to trade with the latter rather than the former. The western democracies rather believed that Germany and Italy could be used as defensive wall to check spread of communism into west.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; <strong>Balance of Power</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; Britain wanted to maintain the balance of power in international politics. Therefore, it short-sightedly expected Germany, the Soviet Union and Japan to check and fight each other and by the mutual conflicts to exhaust one another thereby permitting Britain to maintain her isolation.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Germany was a <strong>big market for British goods</strong>. Revival of German economy was expected to benefit Britain.</li>
+      <li style="padding-left:2em">&#9702; Chamberlin is often deemed a coward for his "appeasement" of Hitler but some historians argue that the Munich Conference was a <strong>stalling tactic to allow Britain to prepare</strong> for an inevitable war with Nazi Germany
+        <ul>
+          <li style="padding-left:4em">&#9632; The internal weakness of Britain was yet another reason. Her economic condition did not permit her the luxury of such an involvement in Europe again. British would have liked to avoid another bloody conflict this time led by Hitler.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Last of all, the <strong>inability of the leaders in Britain to understand the character and nature of these dictators</strong> led them to a belief that the dictators would honour their words once they were permitted to annex territories they wished. They were sadly disillusioned in 1939.</li>
+    </ul>
+  </li>
+  <li>&#8226; This policy of appeasement commenced in the early 1920s. It was intensified after Neville Chamberlain became British PM in 1937. He believed that if the demands of Hitler were fulfilled peacefully then a war be avoided in Europe.
+    <ul>
+      <li style="padding-left:2em">&#9702; Dawes Plan (1923), Locarno Pact (1925), Young Plan (1929)</li>
+      <li style="padding-left:2em">&#9702; Japanese capture of Manchuria (1931)</li>
+      <li style="padding-left:2em">&#9702; Italian invasion of Ethiopia (1935)</li>
+      <li style="padding-left:2em">&#9702; Toleration of aggressive activities of Hitler: Rearmament of Germany, fortification of Rhineland, Annexation of Austria and Sudetenland etc.</li>
+      <li style="padding-left:2em">&#9702; Civil war in Spain</li>
+    </ul>
+  </li>
+  <li>&#8226; The policy of appeasement has been criticized because:
+    <ul>
+      <li style="padding-left:2em">&#9702; It was based on wrong premise of bruised German nationalism and limited German ambition.</li>
+      <li style="padding-left:2em">&#9702; It was not a successful policy. It is ineffective.</li>
+      <li style="padding-left:2em">&#9702; It is morally wrong.</li>
+    </ul>
+  </li>
+  <li>&#8226; Outcome
+    <ul>
+      <li style="padding-left:2em">&#9702; It allowed Germany and Italy to emerge as major military powers. It demolished all the forms of security against Germany which had been devised after 1918. This military rise of fascist forces ultimately led to the second world war.</li>
+      <li style="padding-left:2em">&#9702; International relations deteriorated, during the years of appeasement into naked conflict to power between rival camps. This conflict led to the World War II.</li>
+      <li style="padding-left:2em">&#9702; Appeasement assured Hitler that Allied powers would not take any strong action against him because spread of communism was more grave challenge for western powers and Hitler declared his anti-communist policy. So, it emboldened the fascist forces to take western forces for granted. The warning issued by western democracies fell on deaf ears. This over confidence was responsible for German attack on Poland which triggered WWII.</li>
+      <li style="padding-left:2em">&#9702; It spelled doom to the fate of the system created by Paris Peacemakers because all its provisions were allowed to be violated.</li>
+      <li style="padding-left:2em">&#9702; It also doomed the fate of League of Nations which lost its credibility as it could not maintain the system made by Paris peacemakers.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong><u>Third stage (After 1938):</u></strong> Annexation of Czechoslovakia by Germany and attack on Poland.</p>
+<ul>
+  <li>&#8226; 1939 – Soon, the whole of <strong>Czechoslovakia</strong> was annexed.
+    <ul>
+      <li style="padding-left:2em">&#9702; This act of aggression of Hitler shocked the entire Europe. It made two things clear
+        <ul>
+          <li style="padding-left:4em">&#9632; It was not a bruised German nationalism, but German imperialism. Hitler's target was not simply to annex the German populated regions but to expand German region.</li>
+          <li style="padding-left:4em">&#9632; And secondly, the policy of appeasement was not working. The western democracies realized that the ambitions of Hitler knew no limit. They abandoned the appeasement and decided to confront Hitler with military in future.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; Britain and France signed treaty with <strong>Poland to guarantee its security.</strong></li>
+  <li>&#8226; 1939 – Hitler demanded return of <strong>Danzig port</strong>. He also demanded rail and road links across Polish corridor to connect both parts of Germany.
+    <ul>
+      <li style="padding-left:2em">&#9702; This was the most legitimate demand of a Hitler but by this time the western democracies had abandoned their policy of appeasement, and they did not consider this demand of Hitler as genuine.</li>
+    </ul>
+  </li>
+  <li>&#8226; 1939 – Hitler signed a <strong>No-aggression pact with USSR</strong>. (Molotov-Ribbentrop Pact) Signed by the Foreign ministers of USSR and Germany.
+    <ul>
+      <li style="padding-left:2em">&#9702; Overt Clause: Mutual non-aggression for 10 years.</li>
+      <li style="padding-left:2em">&#9702; Covert Clause: Secretly agreed to partition Poland.
+        <ul>
+          <li style="padding-left:4em">&#9632; So, this pact was a part of German planning to attack Poland.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; This was a master stroke of German Foreign policy. It became the immediate factor behind the second world war.
+        <ul>
+          <li style="padding-left:4em">&#9632; It shocked the western democracies who were appeasing Hitler as against Soviet Union.</li>
+          <li style="padding-left:4em">&#9632; In the Eastern part, Germany made Russia free from competition while in the Western part, Russia made Germany free from competition. So, it emboldened Hitler too much.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; 1939 –
+    <ul>
+      <li style="padding-left:2em">&#9702; 1 Sept: Hitler <strong>invaded Poland.</strong></li>
+      <li style="padding-left:2em">&#9702; 3 Sept: With it, Britain and France declared war against Germany, thus started the WW2.</li>
+      <li style="padding-left:2em">&#9702; 17 Sept: Stalin joined Hitler to divide Poland.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Origin/causes of the Second World War:</h3>
+
+<p>According to Erick Hobsbawm, it was a war of 31 years which had ended on 15th August 1945. A number of factors were accountable for the war:</p>
+<ul>
+  <li>&#8226; Legacies of WW1
+    <ul>
+      <li style="padding-left:2em">&#9702; Treaty of Versailles (mistakes made by the peacemakers of Paris)
+        <ul>
+          <li style="padding-left:4em">&#9632; Devastating impact on German economy as well as wounded nationalism, aggrieved nationalism. It was unjust and dictated treaty. Germans didn't tolerate it.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Lack of cooperation between Britain and France in implementation of the treaty
+        <ul>
+          <li style="padding-left:4em">&#9632; Severe punishment to Germany - differences cropped up between Br and Fr over this. This was a major factor. Their failure in adhering to the terms of Treaty created room for Hitler to do his adventure.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; Failure of League of Nations</li>
+  <li>&#8226; Failure of Disarmament</li>
+  <li>&#8226; World Economic Depression</li>
+  <li>&#8226; Rise of Dictators</li>
+  <li>&#8226; Rise of Fascist ideology and extreme nationalism</li>
+  <li>&#8226; Conflict of ideologies, Fear of communism</li>
+  <li>&#8226; Policy of appeasement</li>
+  <li>&#8226; Formation of Rome-Berlin-Tokyo axis</li>
+  <li>&#8226; German attack on Poland</li>
+</ul>
+
+<h3>Additional Note: 'Nazi foreign policy debate'</h3>
+
+<p>Whether Hitler had a grand strategy for German expansion or whether his actions were primarily opportunistic and reactive? Also, was WW2 inevitable?</p>
+
+<ul>
+  <li>&#8226; <strong><u>Traditionalist historians</u></strong> argue that Hitler did have a <strong>grand strategy for German expansion</strong>, which they call <strong>Lebensraum</strong> (living space).
+    <ul>
+      <li style="padding-left:2em">&#9702; This Section of historians believe that Hitler's expansionist policy was to continue until German frontiers were to reach Ural Mountains, considered as natural boundaries for Germany. Thus, Hitler's outlook was continental.</li>
+      <li style="padding-left:2em">&#9702; Hitler's writing in <strong>Mein Kampf and speeches</strong> laid out his vision of a German empire that would encompass all of Central and Eastern Europe.</li>
+      <li style="padding-left:2em">&#9702; Hitler's aggressive intentions (territorial expansion) were evident from the outset. Hitler's <strong>actions</strong>, such as the reoccupation of the Rhineland, the annexation of Austria, invasion of Poland etc. as consistent with his long-term objectives.</li>
+      <li style="padding-left:2em">&#9702; Such a scenario would have subjugated entire Europe to Germany and because of this a major war with Germany was inevitable.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong><u>Revisionist historians</u></strong> argue that Hitler did not have a grand strategy, but instead made decisions based on his immediate circumstances and goals. Nazi foreign policy was more opportunistic, reacting to circumstances and evolving situations rather than following a predetermined master plan.
+    <ul>
+      <li style="padding-left:2em">&#9702; Hitler's foreign policy was <strong>often contradictory</strong> and that he was <strong>willing to change</strong> his plans abruptly. Hitler was <strong>not a military strategist</strong> and that his decisions were often based on his personal intuitions and beliefs.
+        <ul>
+          <li style="padding-left:4em">&#9632; AJP Taylor's thesis was that Hitler, in foreign policy terms, was a normal German leader. He continued the same foreign policy of the Weimar Republic i.e., wanting the destruction of the Treaty of Versailles and wanting her former territories back, all by peaceful means, not aggressive. His argument was that Hitler wished to make Germany the strongest power in Europe. He was an opportunist, but he did not want, nor did have a long term plan for a war.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Hitler's actions can be explained by <strong>factors other than Lebensraum</strong>, such as his desire to avenge Germany's defeat in World War I or to consolidate his power within Germany or domestic pressure etc.</li>
+      <li style="padding-left:2em">&#9702; These historians believe that Hitler was <strong>looking only a short war with Poland</strong>, he did not intend a World war.
+        <ul>
+          <li style="padding-left:4em">&#9632; Hitler attacked Poland because he did not believe that Britain would support Poland military.</li>
+          <li style="padding-left:4em">&#9632; In Locarno Britain had refused to guarantee sanctity of German polish border.</li>
+          <li style="padding-left:4em">&#9632; Even after the war broke out, Hitler tried to negotiate peace with Britain to the end of war.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>There is no easy answer. However, it is clear that even though Hitler might not have intended a World War, but it was his actions ensured it. His aggressive expansionist foreign policy terrified the entire Europe and became a major factor in the outbreak of World War II.</p>
+
+<ul>
+  <li>&#8226; He <strong>destroyed the system created by peacemakers of Paris</strong> gradually. By 1938-39, Germany had emerged as a big military power. His aggression became higher with the passage of time. The annexation of Austria and Czechoslovakia had convinced western democracies that Hitler had no respect for existing international order and that he was determined to push German national interest at the cost of International Peace.</li>
+  <li>&#8226; The <strong>Non-Aggression Pact with Russia</strong> greatly strengthened the resolve of western democracies to counter German aggression, because alliance of Nazism and Communism was threatening the very existence of western capitalist world. It was the fear created by this German soviet alliance that forced Britain and France to declare war on Germany when Hitler attacked Poland.</li>
+</ul>`,
   'imperialism-colonialism': `
 <h2>Handout 25: Colonialism and Imperialism: Part 1</h2>
 
