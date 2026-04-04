@@ -943,15 +943,80 @@ export default function NoteReader({ slug }: { slug: string }) {
           </div>
 
           {!editMode && (
-            <div style={{ maxWidth: 760, margin: '3rem auto 0', borderTop: '1px solid var(--border)', paddingTop: '1.5rem', display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-              {prev ? <Link href={`/notes/${prev.slug}`} style={{ color: 'var(--text2)', textDecoration: 'none', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>← Previous</span>
-                <span>{prev.title}</span>
-              </Link> : <div/>}
-              {next ? <Link href={`/notes/${next.slug}`} style={{ color: 'var(--text2)', textDecoration: 'none', fontSize: '0.85rem', textAlign: 'right', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>Next →</span>
-                <span>{next.title}</span>
-              </Link> : <div/>}
+            <div style={{ maxWidth: 760, margin: '3.5rem auto 0' }}>
+              <style>{`
+                .nav-card {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 6px;
+                  padding: 1rem 1.25rem;
+                  border-radius: 10px;
+                  text-decoration: none;
+                  background: linear-gradient(135deg, #07070f 0%, #0a0a18 100%);
+                  border: 1px solid rgba(59,130,246,0.1);
+                  flex: 1;
+                  max-width: 48%;
+                  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+                  position: relative;
+                  overflow: hidden;
+                }
+                .nav-card::before {
+                  content: '';
+                  position: absolute;
+                  inset: 0;
+                  background: linear-gradient(135deg, rgba(59,130,246,0.06), transparent);
+                  opacity: 0;
+                  transition: opacity 0.2s;
+                }
+                .nav-card:hover {
+                  border-color: rgba(59,130,246,0.35);
+                  box-shadow: 0 4px 24px rgba(59,130,246,0.12), 0 0 0 1px rgba(59,130,246,0.08);
+                  transform: translateY(-2px);
+                }
+                .nav-card:hover::before { opacity: 1; }
+                .nav-card:hover .nav-title { color: #fff; }
+                .nav-card:hover .nav-arrow { color: #60a5fa; transform: translateX(3px); }
+                .nav-card-right { text-align: right; }
+                .nav-card-right:hover .nav-arrow { transform: translateX(-3px); }
+                .nav-label {
+                  font-size: 0.58rem;
+                  font-family: var(--font-mono);
+                  text-transform: uppercase;
+                  letter-spacing: 0.16em;
+                  color: rgba(59,130,246,0.45);
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                }
+                .nav-title {
+                  font-size: 0.88rem;
+                  color: rgba(255,255,255,0.65);
+                  font-family: var(--font-display);
+                  font-weight: 600;
+                  line-height: 1.35;
+                  transition: color 0.2s;
+                }
+                .nav-arrow {
+                  font-size: 0.75rem;
+                  color: rgba(59,130,246,0.35);
+                  transition: all 0.2s;
+                  display: inline-block;
+                }
+              `}</style>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
+                {prev ? (
+                  <Link href={`/notes/${prev.slug}`} className="nav-card">
+                    <span className="nav-label"><span className="nav-arrow" style={{ display: 'inline-block' }}>←</span> Previous</span>
+                    <span className="nav-title">{prev.title}</span>
+                  </Link>
+                ) : <div style={{ flex: 1 }} />}
+                {next ? (
+                  <Link href={`/notes/${next.slug}`} className="nav-card nav-card-right" style={{ alignItems: 'flex-end' }}>
+                    <span className="nav-label">Next <span className="nav-arrow" style={{ display: 'inline-block' }}>→</span></span>
+                    <span className="nav-title">{next.title}</span>
+                  </Link>
+                ) : <div style={{ flex: 1 }} />}
+              </div>
             </div>
           )}
         </div>
