@@ -31549,7 +31549,260 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
 </li>
 </ul>
 
-<p>All of it contributed to the instability and conflict that characterized the interwar period. Thus, Carr believed that the failure of the Paris Peace Conference was a missed opportunity. All of this set the stage for another war.</p>`,
+<p>All of it contributed to the instability and conflict that characterized the interwar period. Thus, Carr believed that the failure of the Paris Peace Conference was a missed opportunity. All of this set the stage for another war.</p>
+<h2>Handout 33: Great Economic Depression (1929-39)</h2>
+
+<blockquote>&#8220;The modern conservative is engaged in one of man&#8217;s oldest exercises in moral philosophy; that is, the search for a superior moral justification for selfishness.&#8221; &#8212; John Kenneth Galbraith</blockquote>
+
+<p>Economic depression refers to scenario of sustained recession. In one sense, the phenomenon of recession and depression is inherent in the capitalist economy itself. In its over-enthusiasm for profit, the capitalist class destroys its own market.</p>
+
+<p>The American economy was struck by Great Depression in Oct 1929. It was triggered by the collapse of the Wall Street on 29th Oct 1929 because of which American companies lost their market values and banking institutions that had given loan to these companies became bankrupt. The spiralling effect was faced by every American citizen especially the service class. Millions of people lost their jobs. The rate of unemployment crosses 25% &amp; in some state it was a high as 33%</p>
+
+<p>The collapse of American economy affected the health of every other capitalist economy in the world Europe was also severely affected. The process of economic revival taking place in Europe by mid-20s got reversed.</p>
+
+<h3>Causes</h3>
+
+<p>It was primarily triggered by bursting out of the bubble of extreme optimism in USA.</p>
+
+<ul>
+<li>&#8226; There was an <strong>imbalance of trade</strong> between western <strong>imperialist countries and the colonies.</strong></li>
+<li>&#8226; There was a <strong>trade imbalance</strong> between <strong>Europe and the USA</strong> as well.
+<ul>
+<li style="padding-left:2em">&#9702; WWI benefitted American economy greatly. At a time when European industries were bombed, the American industries were growing rapidly. Europe was no longer a competitor of USA and the WWI had changed the direction of international trade.</li>
+<li style="padding-left:2em">&#9702; The American Financial institutions extended huge amount of loans to American industries for capacity expansion. Most of these loans were without any collateral deposits because the banks were expecting to make money by becoming a partner in growth.</li>
+<li style="padding-left:2em">&#9702; The American manufactures extended their capacity immensely by 1919 but by 1928-39 it had started becoming visible that market had saturated. The high production of American industries was not finding market a major part was ending up in godowns.</li>
+</ul>
+</li>
+<li>&#8226; In the meantime, some American capitalists started to take interest in <strong>speculation</strong>, and they invested a massive amount in the share market.
+<ul>
+<li style="padding-left:2em">&#9702; When American companies started declaring their results a fear started gripping stock market that the companies will make loss, this fear triggered the stock market crash.</li>
+<li style="padding-left:2em">&#9702; In 1929 (24th October Thursday), the share market crashed and could not rise again. It led to great depression.</li>
+</ul>
+</li>
+<li>&#8226; After WWI, European economy was more or less functioning on American capital. So, depression in the US also dislocated the European economy.</li>
+</ul>
+
+<h3>Impact</h3>
+
+<ul>
+<li>&#8226; <strong>Economic Impact:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Global GDP declined by an 25% and global trade fell by 60%. It led to massive unemployment, and poverty.</li>
+<li style="padding-left:2em">&#9702; There was a <strong>rise in protectionism</strong> which reduced trade further.</li>
+<li style="padding-left:2em">&#9702; The <strong>failure of thousands of banks</strong> led to a loss of confidence in the banking system. At that time, around 10,000 banks were closed in a few years.</li>
+<li style="padding-left:2em">&#9702; The <strong>gold standard</strong> and the <strong>international monetary system</strong> also collapsed.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Social Impact:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The average living standards of people declined. There were lines of <strong>unemployed people</strong> in front of bread stores and soup kitchens.</li>
+<li style="padding-left:2em">&#9702; Unemployment created a situation of unrest with riots, protests, and even coups d&#8217;état in some countries.</li>
+<li style="padding-left:2em">&#9702; <strong>Teens</strong> became drifters; <strong>marriages</strong> were postponed; <strong>birth</strong> rates declined; and <strong>children</strong> grew up quickly, often taking on adult responsibilities while the number of <strong>women</strong> in the workplace increased.</li>
+<li style="padding-left:2em">&#9702; It influenced <strong>social values</strong> also. It created a community resilience in the face of adversity. It also taught people the value of economic security.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Impact on colonies:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The Great Depression severely impacted colonies which were heavily dependent on <strong>exports of agricultural goods and minerals.</strong> With the rise of <strong>protectionist policies</strong> there was a <strong>steep rise in prices</strong> which affected the living standards in the colonies.</li>
+<li style="padding-left:2em">&#9702; Both of these things ultimately <strong>intensified ongoing anti-imperial movements</strong> in colonies. E.g. in India, Gandhiji launched Civil Disobedience Movement.</li>
+</ul>
+</li>
+</ul>
+
+<h3>Various Responses</h3>
+
+<ul>
+<li>&#8226; Some countries tried to solve the problem on an individual basis. They tried to tighten their purse by curtailing their expenditure. But it proved counter-productive.
+<ul>
+<li style="padding-left:2em">&#9702; Two measures adopted by individual countries turned out to be counterproductive.
+<ul>
+<li style="padding-left:4em">&#9632; Competitive protectionism</li>
+<li style="padding-left:4em">&#9632; Competitive currency depreciation</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; There was a world conference at <strong>Lausanne 1932</strong> to discuss the issue, but it failed to reach a consensus approach. Again, in 1933 a conference was organized in <strong>London</strong> without any concrete outcome.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Capitalism reacted in two different ways</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Creative reaction:</strong> Capitalism tried to re-define itself in the US, and even picked up some ideas from socialism.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Keynesian Revolution</strong></li>
+<li style="padding-left:4em">&#9632; <strong>New Deal</strong> Policy of Franklin D Roosevelt</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Destructive reaction:</strong> While the Americans were occupied with their own domestic hardships, the Europeans and Asians were occupied with the spread of totalitarian regimes that arose in place of post-war liberal states.
+<ul>
+<li style="padding-left:4em">&#9632; In <strong>Japan</strong>, the Great Depression led to the rise of militarism.</li>
+<li style="padding-left:4em">&#9632; There was a rise of <strong>fascism</strong> in Germany, Italy and Spain.
+<ul>
+<li style="padding-left:2em">&#8226; The <strong>Nazi government</strong> of Germany tried to give a better solution to this problem. To generate employment, it started <strong>recruitment</strong> for the army, <strong>construction</strong> of roads, and arms production. But this led German economy towards a war.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>USSR</strong> claimed to have shielded its economy to Great Depression due to:
+<ul>
+<li style="padding-left:2em">&#9702; It was a <strong>planned</strong> economy under state direction and control.</li>
+<li style="padding-left:2em">&#9702; It was at tha time separated from the world economy, <strong>decoupled</strong>.</li>
+<li style="padding-left:2em">&#9702; Its success became eye-catching and that resulted in the progress of socialism in the world. This further posed problems for capitalism by highlighting its weakness.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Russian economy was thus saved</strong>. It didn&#8217;t face depression. And it also made a <strong>huge propaganda</strong> out of it.</li>
+<li style="padding-left:4em">&#9632; There was <strong>increased attraction of Marxism</strong> across the world. In the US, union membership doubled between 1930 and 1940.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>Classical Economics vs Keynesian Economics</h3>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<thead>
+<tr><th>Classical Economics</th><th>Keynesian Economics</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<ul>
+<li>&#8226; Adam Smith, David Ricardo, Jean-Baptist Say, Malthus etc.</li>
+<li>&#8226; Advocates self-regulating markets.</li>
+<li>&#8226; Promotes laissez-faire.</li>
+<li>&#8226; Thus, the economy would automatically adjust if we unleash <u>animal spirits</u> of the market.</li>
+<li>&#8226; No government intervention.</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>&#8226; John Meynard Keynes</li>
+<li>&#8226; Economy doesn&#8217;t automatically adjust.</li>
+<li>&#8226; Advocates for active government intervention to increase expenditure and boost demand. Thus, it promotes government spending on infrastructure, social welfare, education etc to boost demand.</li>
+<li>&#8226; Keynes suggested that <em>&#8220;the Government should have people dig up holes and then fill them up&#8221;.</em></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h3>New Deal Policy of Franklin D Roosevelt</h3>
+
+<blockquote>&#8220;The test of our progress is not whether we add more to the abundance of those who have much; it is whether we provide enough for those who have too little.&#8221; &#8212; FDR</blockquote>
+
+<ul>
+<li>&#8226; Initial Response by President Hoover was found inadequate and didn&#8217;t lead to the desired effect.</li>
+<li>&#8226; American president FDR (elected in 1932) introduced the policy of &#8216;New Deal&#8217; to counter world economic depression.</li>
+<li>&#8226; In order to create demand in the economy, Roosevelt&#8217;s government took several measures such as giving subsidies to peasants and the unemployed, encouraging construction works in order to generate employment.</li>
+<li>&#8226; The response revolved around <em><u>3R&#8217;s &#8211; Relief, Recovery, Reforms</u></em></li>
+<li>&#8226; <strong>First New Deal (1933-34)</strong>
+<ul>
+<li style="padding-left:2em">&#8226; To provide immediate relief, stabilize banks, restore confidence in the financial system and implement economic recovery.</li>
+<li style="padding-left:2em">&#8226; Key programs:
+<ol>
+<li>Banking Act</li>
+<li>Federal Deposit Insurance Corporation (FDIC)</li>
+<li>USA abandoned Gold Standards (1933)</li>
+<li>Civilian Conservation Corps (CCC)</li>
+<li>Agricultural Adjustment Act (AAA)</li>
+<li>National Industrial Recovery Act (NIRA)</li>
+<li>Tennessee Valley Authority (TVA)</li>
+<li>Rural Electrification Act</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Second New Deal (1935-38)</strong>
+<ul>
+<li style="padding-left:2em">&#8226; It was launched in response to criticism that the First New Deal did not go far enough in addressing the underlying causes of the Great Depression. There was a greater emphasis on social welfare and economic reforms.</li>
+<li style="padding-left:2em">&#8226; Initiatives:
+<ol>
+<li>Works Progress Administration (WPA)</li>
+<li>Social Security Act</li>
+<li>Wagner Act</li>
+<li>Wealth Tax Act.</li>
+</ol>
+</li>
+<li style="padding-left:2em">&#8226; These initiatives aimed to provide more extensive relief to the unemployed, support labor rights, establish a social safety net, and promote economic recovery.</li>
+</ul>
+</li>
+</ul>
+
+<p>Thus, the depression cycle was broken. Although there is some sort of controversy as some scholars believed that <u><strong>it was finally WW2</strong></u> that, with its heavy demand, led to end of the cycle of Depression. But the New Deal also played its own role.</p>
+
+<h4><em>Did Keynes/FDR borrow something from the socialist model?</em></h4>
+
+<ul>
+<li>&#8226; The New Deal developed into many public works and utilities.
+<ul>
+<li style="padding-left:2em">&#8226; Creation of <strong>government-run projects</strong> like Tennessee Valley Project which went against laissez faire.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Welfare orientation</strong>
+<ul>
+<li style="padding-left:2em">&#8226; <strong>Social Security</strong> which went against classical liberalism.</li>
+</ul>
+</li>
+<li>&#8226; Increased recognition of <strong>labour rights.</strong>
+<ul>
+<li style="padding-left:2em">&#8226; The National Labor Relations Act, passed in 1935, protected the right of workers to organize unions and bargain collectively.</li>
+<li style="padding-left:2em">&#8226; This led to a significant increase in union membership in the United States.</li>
+</ul>
+</li>
+<li>&#8226; It legitimized the state&#8217;s <strong>regulatory role.</strong>
+<ul>
+<li style="padding-left:2em">&#8226; Regulation of private industry</li>
+</ul>
+</li>
+<li>&#8226; It led to the creation of some sort of <strong>mixed economy.</strong>
+<ul>
+<li style="padding-left:2em">&#8226; There was a significant expansion of the role of the federal government in the economy (elements of economic planning)</li>
+</ul>
+</li>
+<li>&#8226; It was no longer minimal state as per classical economist but now there was maximal government.</li>
+</ul>
+
+<p><strong>However,</strong> New Deal was <strong>not intended</strong> to establish a socialist system in the United States. Rather, it was an effort to address the economic crisis and to provide relief and support to those who were suffering.</p>
+
+<ul>
+<li>&#8226; All the laws were passed with proper <strong>due process</strong> and there were no revolutionary means employed.</li>
+<li>&#8226; Despite the influence of Keynesian economics, Roosevelt <strong>continued the &#8216;sound money&#8217; policy</strong> and thus kept the <strong>fiscal deficit under check.</strong></li>
+<li>&#8226; It <strong>did not involve the nationalization of private industry</strong> or the means of production.
+<ul>
+<li style="padding-left:2em">&#8226; It did not fundamentally alter the capitalist nature of the American economy.</li>
+</ul>
+</li>
+<li>&#8226; He focused on the need to secure <strong>social justice without destroying democracy.</strong>
+<ul>
+<li style="padding-left:2em">&#8226; He talked about making capitalism work better.</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Opinion:</strong> It can be considered as a mix of different ideologies, such as progressivism, Keynesian economics, and pragmatism in response to unprecedented economic crisis. It aimed to provide a balance between the needs of the people and the needs of the economy, and it was designed to save capitalism from itself, not to replace it with socialism.</p>
+
+<ul>
+<li>&#8226; <strong>Economically</strong>:
+<ul>
+<li style="padding-left:2em">&#8226; A new capitalist model based on demand-management i.e. <strong>capitalism 2.0</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Politically</strong>: A maximal state based on a tilt in favour of central government.
+<ul>
+<li style="padding-left:2em">&#8226; There was an expansion of the role of the Federal government in economy and society (e.g. Social Security, Works Progress Admin). It fundamentally altered the relationship between state and citizen in the US.</li>
+</ul>
+</li>
+</ul>
+
+<h3>UPSC CSE PYQs &#8211; Great Depression</h3>
+
+<ul>
+<li>&#8226; Critically examine the New Deal of Franklin D. Roosevelt. Did he want to introduce a sort of socialism? [1987, 60 Marks]</li>
+<li>&#8226; The Great Depression (1928 &#8211; 34) was &#8220;attended by momentous consequences in the economic as well as in the political sphere.&#8221; Comment. [1996, 20 Marks]</li>
+<li>&#8226; President Franklin Roosevelt&#8217;s New Deal &#8220;had the wit to start the political economy in a fresh, more promising direction.&#8221; Do you agree? [1997, 60 Marks]</li>
+<li>&#8226; The Great Depression (1928 &#8211; 34) was &#8220;attended by momentous consequences in the economic as well as in the political sphere.&#8221; Comment. [2002, 20 Marks]</li>
+<li>&#8226; What policy instruments were deployed to contain the great economic depression? [GS, 2013]</li>
+</ul>`,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
