@@ -16,6 +16,39 @@ const links = [
   { href: '/evaluate',  label: 'Evaluate' },
 ];
 
+function snooColor(email: string): string {
+  const palette = [
+    '#ff4500', '#51cf66', '#339af0', '#cc5de8', '#f59f00',
+    '#20c997', '#ff6b6b', '#74c0fc', '#a9e34b', '#ffa94d',
+  ];
+  let hash = 0;
+  for (let i = 0; i < email.length; i++) hash = (hash * 31 + email.charCodeAt(i)) >>> 0;
+  return palette[hash % palette.length];
+}
+
+function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
+  const c = snooColor(email);
+  const bg = '#0f0f1a';
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="32" fill={bg}/>
+      <circle cx="43" cy="13" r="4.5" fill={c}/>
+      <line x1="39.5" y1="15.5" x2="33" y2="21" stroke={c} strokeWidth="2.5" strokeLinecap="round"/>
+      <circle cx="32" cy="30" r="14" fill={c}/>
+      <circle cx="27" cy="28" r="3.5" fill="white"/>
+      <circle cx="37" cy="28" r="3.5" fill="white"/>
+      <circle cx="28" cy="28.5" r="1.8" fill={bg}/>
+      <circle cx="38" cy="28.5" r="1.8" fill={bg}/>
+      <path d="M27 34 Q32 38.5 37 34" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+      <circle cx="18" cy="29" r="4.5" fill={c}/>
+      <circle cx="46" cy="29" r="4.5" fill={c}/>
+      <circle cx="18" cy="29" r="2.2" fill="#ff6b6b"/>
+      <circle cx="46" cy="29" r="2.2" fill="#ff6b6b"/>
+      <ellipse cx="32" cy="51" rx="10" ry="6.5" fill={c}/>
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -113,31 +146,15 @@ export default function Navbar() {
                 onClick={() => setUserMenuOpen(o => !o)}
                 style={{
                   width: 34, height: 34, borderRadius: '50%',
-                  background: 'none', border: '2px solid #51cf66',
+                  background: '#0f0f1a', border: `2px solid ${snooColor(user.email ?? '')}`,
                   cursor: 'pointer', padding: 0, overflow: 'hidden',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   marginLeft: '0.4rem', flexShrink: 0,
+                  boxShadow: `0 0 10px ${snooColor(user.email ?? '')}44`,
                 }}
                 title={user.email}
               >
-                <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="17" cy="17" r="17" fill="#1a2a1a"/>
-                  {/* body */}
-                  <ellipse cx="17" cy="26" rx="9" ry="6" fill="#2d4a2d"/>
-                  {/* head */}
-                  <circle cx="17" cy="14" r="6" fill="#51cf66"/>
-                  {/* eyes */}
-                  <circle cx="14.5" cy="13.5" r="1.5" fill="#0a1a0a"/>
-                  <circle cx="19.5" cy="13.5" r="1.5" fill="#0a1a0a"/>
-                  {/* shine */}
-                  <circle cx="14.9" cy="13.1" r="0.5" fill="white"/>
-                  <circle cx="19.9" cy="13.1" r="0.5" fill="white"/>
-                  {/* smile */}
-                  <path d="M14.5 16.2 Q17 18 19.5 16.2" stroke="#0a1a0a" strokeWidth="0.8" fill="none" strokeLinecap="round"/>
-                  {/* ears */}
-                  <ellipse cx="11.2" cy="12.5" rx="1.5" ry="2" fill="#51cf66"/>
-                  <ellipse cx="22.8" cy="12.5" rx="1.5" ry="2" fill="#51cf66"/>
-                </svg>
+                <SnooAvatar email={user.email ?? ''} size={30} />
               </button>
               {userMenuOpen && (
                 <div style={{

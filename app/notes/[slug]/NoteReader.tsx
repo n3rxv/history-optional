@@ -70,6 +70,57 @@ function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLD
   );
 }
 
+// ── SNOO AVATAR (per-account color from email hash) ──
+function snooColor(email: string): string {
+  const palette = [
+    '#ff4500', // reddit orange
+    '#51cf66', // mint green
+    '#339af0', // sky blue
+    '#cc5de8', // purple
+    '#f59f00', // amber
+    '#20c997', // teal
+    '#ff6b6b', // coral
+    '#74c0fc', // light blue
+    '#a9e34b', // lime
+    '#ffa94d', // peach
+  ];
+  let hash = 0;
+  for (let i = 0; i < email.length; i++) hash = (hash * 31 + email.charCodeAt(i)) >>> 0;
+  return palette[hash % palette.length];
+}
+
+function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
+  const c = snooColor(email);
+  const bg = '#0f0f1a';
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="32" fill={bg}/>
+      {/* Antenna ball */}
+      <circle cx="43" cy="13" r="4.5" fill={c}/>
+      {/* Antenna stick */}
+      <line x1="39.5" y1="15.5" x2="33" y2="21" stroke={c} strokeWidth="2.5" strokeLinecap="round"/>
+      {/* Head */}
+      <circle cx="32" cy="30" r="14" fill={c}/>
+      {/* Eyes white */}
+      <circle cx="27" cy="28" r="3.5" fill="white"/>
+      <circle cx="37" cy="28" r="3.5" fill="white"/>
+      {/* Pupils */}
+      <circle cx="28" cy="28.5" r="1.8" fill={bg}/>
+      <circle cx="38" cy="28.5" r="1.8" fill={bg}/>
+      {/* Smile */}
+      <path d="M27 34 Q32 38.5 37 34" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+      {/* Ears outer */}
+      <circle cx="18" cy="29" r="4.5" fill={c}/>
+      <circle cx="46" cy="29" r="4.5" fill={c}/>
+      {/* Ears inner */}
+      <circle cx="18" cy="29" r="2.2" fill="#ff6b6b"/>
+      <circle cx="46" cy="29" r="2.2" fill="#ff6b6b"/>
+      {/* Body */}
+      <ellipse cx="32" cy="51" rx="10" ry="6.5" fill={c}/>
+    </svg>
+  );
+}
+
 // ── FLOATING AUTH WIDGET ──
 function FloatingAuthWidget({ user, onSignIn, onSignOut, syncStatus }: {
   user: User | null;
@@ -110,36 +161,15 @@ function FloatingAuthWidget({ user, onSignIn, onSignOut, syncStatus }: {
           onClick={() => setExpanded(e => !e)}
           style={{
             width: 42, height: 42, borderRadius: '50%',
-            background: '#1a1a2e', border: '2px solid #51cf66',
+            background: '#0f0f1a', border: `2px solid ${snooColor(user.email ?? '')}`,
             cursor: 'pointer',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.4), 0 0 12px rgba(81,207,102,0.2)',
+            boxShadow: `0 4px 16px rgba(0,0,0,0.4), 0 0 12px ${snooColor(user.email ?? '')}33`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: 0, overflow: 'hidden',
           }}
           title={user.email}
         >
-          <svg width="28" height="28" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="32" r="32" fill="#1a1a2e"/>
-            {/* Antenna */}
-            <circle cx="42" cy="14" r="4" fill="#51cf66"/>
-            <line x1="38" y1="16" x2="32" y2="22" stroke="#51cf66" strokeWidth="2.5" strokeLinecap="round"/>
-            {/* Head */}
-            <circle cx="32" cy="30" r="14" fill="#51cf66"/>
-            {/* Eyes */}
-            <circle cx="27" cy="28" r="3.5" fill="white"/>
-            <circle cx="37" cy="28" r="3.5" fill="white"/>
-            <circle cx="28" cy="28.5" r="1.8" fill="#1a1a2e"/>
-            <circle cx="38" cy="28.5" r="1.8" fill="#1a1a2e"/>
-            {/* Smile */}
-            <path d="M27 34 Q32 38 37 34" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
-            {/* Ears */}
-            <circle cx="18" cy="30" r="4" fill="#51cf66"/>
-            <circle cx="18" cy="30" r="2" fill="#ff6b6b"/>
-            <circle cx="46" cy="30" r="4" fill="#51cf66"/>
-            <circle cx="46" cy="30" r="2" fill="#ff6b6b"/>
-            {/* Body */}
-            <ellipse cx="32" cy="50" rx="10" ry="7" fill="#51cf66"/>
-          </svg>
+          <SnooAvatar email={user.email ?? ''} size={30} />
         </button>
       </div>
     );
