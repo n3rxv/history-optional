@@ -30521,6 +30521,173 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
 <li style="padding-left:2em">&#9702; The objective of the total war is to completely destroy the adversary&#8217;s capacity to resist and inflict unacceptable level of destruction. The destruction of the enemy regime is intended to get total unconditional surrender, and no negotiated peace.</li>
 </ul>
 </li>
+</ul>
+<h2>Handout 30: Impact of the WW1</h2>
+
+<p><strong>Eric Hobsbawm</strong> argues that the war was a turning point in modern history, marking the end of the &#8220;long 19th century&#8221; and the beginning of a new era of conflict and instability.</p>
+
+<h3><u>Political impact of WW1</u></h3>
+
+<ul>
+<li>&#8226; Decline of four powerful old dynasties and formation of elected governments in some regions
+<ul>
+<li style="padding-left:2em">&#9702; Russia | Romanoff dynasty | Monarchy was first replaced by Bourgeoise government and then by a communist government.</li>
+<li style="padding-left:2em">&#9702; Austria | Hapsburg dynasty | Division</li>
+<li style="padding-left:2em">&#9702; Germany | Hohenzollern dynasty | Weimar Republic</li>
+<li style="padding-left:2em">&#9702; West Asia | Ottoman Dynasty | Division</li>
+</ul>
+</li>
+<li>&#8226; It resulted in the emergence of <strong>many new independent nations</strong>:
+<ul>
+<li style="padding-left:2em">&#9702; Austria, Hungary</li>
+<li style="padding-left:2em">&#9702; Latvia, Lithuania &amp; Estonia</li>
+<li style="padding-left:2em">&#9702; Poland</li>
+<li style="padding-left:2em">&#9702; Czechoslovakia, Yugoslavia</li>
+<li style="padding-left:2em">&#9702; Independence of Albania and Finland was recognized</li>
+</ul>
+</li>
+<li>&#8226; WWI was responsible for <strong>revolutions</strong> in Russia (1917) and Turkey (1921).</li>
+<li>&#8226; It led to <strong>changes in the borders and territories</strong> of several European countries.
+<ul>
+<li style="padding-left:2em">&#9702; For example, Romania was granted control over Transylvania, which had previously been part of Hungary.</li>
+<li style="padding-left:2em">&#9702; Germany <strong>lost significant territory.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Alsace-Lorraine was returned to France.</li>
+<li style="padding-left:4em">&#9632; West Prussia and Posen were given to Poland.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; WWI gave a <strong>boost to democracy</strong> in Europe because the totalitarian regimes were replaced by democratically elected governments.</li>
+<li>&#8226; WWI gave a <strong>boost to nationalism</strong> in Europe.
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>principle of self-determination</strong> used by the peacemakers of Paris intensified nationalist sentiments.</li>
+<li style="padding-left:2em">&#9702; The <strong>humiliation of Germany, Italy and Japan</strong> also resulted in the emergence of radical nationalist force in these countries.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Socialism and communism</strong> gained popularity in Europe as a result of the devastation left behind by WWI. The <strong>concept of welfare state</strong> gained popularity because of the need for massive reconstruction.</li>
+<li>&#8226; Thus, there were growing elements of <strong>democratization</strong> on one hand, while on the other hand, due to <strong>challenge of economic reconstruction</strong> in nations, the <strong>existing governments assumed more power</strong>. So, both these opposing trends are visible simultaneously.</li>
+<li>&#8226; It also led to the <strong>breakup of several empires.</strong> Many <strong>new nations were created</strong> from the former territories of the empires.
+<ul>
+<li style="padding-left:2em">&#9702; The German was also dissolved, and its colonies were divided among the Allied Powers.</li>
+<li style="padding-left:2em">&#9702; There was a creation of <strong>new mandates</strong> in the Ottoman territory. These territories were placed under Allied Powers and were intended to be governed until they were ready for independence.</li>
+</ul>
+</li>
+<li>&#8226; There was an emergence of a <strong>new balance of power</strong> in the world.
+<ul>
+<li style="padding-left:2em">&#9702; USA, Britain, Japan, and France emerged as big powers due to direct and indirect effects of WWI.</li>
+<li style="padding-left:2em">&#9702; Restoring the balance of power to pre-1870 was a major challenge for the peacemakers.</li>
+<li style="padding-left:2em">&#9702; Secondly, European powers were concerned due to that fact that the first world war was won with the support of two major outside powers - USA and Japan. So, there was the question of rebalancing Europe as well.</li>
+<li style="padding-left:2em">&#9702; However, for the Americans, it was not the European balance of power, but the rise of Bolsheviks in Russia was a major concern. So, he was interested in the right to self judgement for the ethnic minorities.</li>
+</ul>
+</li>
+<li>&#8226; There was a <strong>wave of nationalism that emerged in the colonies</strong>, as a consequence of forced participation of colonies in the world war as well as experience of the returning soldiers from the warfront.</li>
+</ul>
+
+<h3><u>Economic impact of WW1</u></h3>
+
+<ul>
+<li>&#8226; WWI left behind a <strong>trial of devastation</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; The total economic cost of the war was more than 400 billion dollars.</li>
+<li style="padding-left:2em">&#9702; The European economy was badly ruined by the war.</li>
+</ul>
+</li>
+<li>&#8226; It changed the <strong>direction of international trade.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Europe became an importer. The industrial supremacy of Europe was no more. Business in Europe fell to 25% of the pre-war period.</li>
+</ul>
+</li>
+<li>&#8226; The war pushed Europe into a <strong>trap of hyperinflation.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; This was the outcome of the policy of pump priming. As a result of this, the life of common masses became extremely difficult.</li>
+</ul>
+</li>
+<li>&#8226; The war pushed Europe into an <strong>extremely serious debt crisis.</strong> When America demanded the return on loans, there was no money to pay.</li>
+<li>&#8226; The war-time demand crashed leading to recession and within one decade of the war, the worst type of depression visited the world, popularly characterized as <strong>World Economic Depression of 1929-30.</strong></li>
+</ul>
+
+<h3><u>Socio-cultural Impact of WW1</u></h3>
+
+<p>World War 1 had a <strong>profound</strong> impact on the socio-cultural fabric of the societies involved, with lasting effects that <strong>continue to be felt today</strong>. The war <strong>shattered traditional values and attitudes</strong>, as well as <strong>social structures</strong> and <strong>hierarchies</strong>. Historians have analyzed these changes from various perspectives, considering both the short-term and long-term consequences of the war.</p>
+
+<ul>
+<li>&#8226; WWI resulted in an <strong>extremely serious demographic crisis</strong> in Europe
+<ul>
+<li style="padding-left:2em">&#9702; More than 8.5m lives were lost lives, more than 21m were wounded and millions could never be traced.</li>
+<li style="padding-left:2em">&#9702; In some of the countries like Bulgaria &amp; Britain almost whole of young generation had got wiped out.</li>
+<li style="padding-left:2em">&#9702; <strong>Death of millions</strong> had a profound impact on families and communities.</li>
+<li style="padding-left:2em">&#9702; Significant changes in <strong>migration</strong> patterns and <strong>social mobility</strong>.</li>
+<li style="padding-left:2em">&#9702; <strong>Psychological consequences on survivors:</strong> Shellshocked soldiers</li>
+</ul>
+</li>
+<li>&#8226; Significant changes in <strong>gender roles</strong> and the <strong>emergence of women&#8217;s rights movements</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; The male members went on the border and thus women took new responsibilities in the absence of men, such as working in factories, hospitals, and other essential roles. This experience <strong>challenged traditional gender norms</strong>, leading to increased demands for women&#8217;s suffrage and greater gender equality.</li>
+<li style="padding-left:2em">&#9702; Suffrage:
+<ul>
+<li style="padding-left:4em">&#9632; Germany 1918, Austria 1919, US 1920, Britain 1928</li>
+<li style="padding-left:4em">&#9632; Later (post WW2): France 1944, Italy 1946, Belgium 1948</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Impact on <strong>working class</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Success of a nation depended to a large extent on the domestic industrial front where working class <strong>participation was crucial.</strong> It led to the <strong>empowerment of the working class</strong> as well.</li>
+<li style="padding-left:2em">&#9702; The working class gained social status as a result of war because the economic significance of workers increased enormously due to massive loss of life.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Impact on Education</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The war <strong>disrupted schooling</strong> in almost all the combatant nations.
+<ul>
+<li style="padding-left:4em">&#9632; The armies requisitioned schoolhouses for hospitals, and young male teachers entered the military en masse. The shortage of personnel made it difficult to carry out a normal school regime.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; World War I altered education through <strong>curriculum changes.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; There was a strong focus on patriotism in education during the war.</li>
+<li style="padding-left:4em">&#9632; In the post-war era, the larger focus shifted on international peace.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Erosion of trust in traditional authority</strong> figures, such as political leaders, the military, and the church.
+<ul>
+<li style="padding-left:2em">&#9702; The war exposed the shortcomings of these institutions, as they failed to prevent the outbreak of hostilities, and then struggled to manage the conflict.</li>
+<li style="padding-left:2em">&#9702; This loss of faith in authority figures led to a <strong>widespread sense of disillusionment</strong>, which contributed to the <strong>rise of new political movements and ideologies</strong>, such as fascism and communism.</li>
+</ul>
+</li>
+<li>&#8226; It resulted in <strong>a strong anti-war attitude</strong> in Europe.
+<ul>
+<li style="padding-left:2em">&#9702; People failed to understand the efficacy of war as a part of national policy because they failed to find any positives impact of war.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Belief in science</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Culturally, WWI gave a serious jolt to the idea of progress, and humanism, and encouraged a sense of <strong>skepticism</strong>.
+<ul>
+<li style="padding-left:4em">&#9632; Before WWI, it was emphasized by European scholars that European culture had reached up to the highest stage of civilization.</li>
+<li style="padding-left:4em">&#9632; But WWI rejected such a perception and rather tried to prove that human beings are still savaged or uncivilized and they could use weapons of mass destruction even against their fellow human beings.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; The war also had a profound impact on <strong>art and culture</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Many writers and artists were deeply affected by the war and its aftermath, and sought to express <strong>the traumas and sense of dislocation and uncertainty</strong> in their work.</li>
+<li style="padding-left:2em">&#9702; <strong>Modernist movement,</strong> which emerged during this period, rejected traditional values and a focused on experimentation and individual expression.</li>
+<li style="padding-left:2em">&#9702; They were influenced by the work of philosophers such as <strong>Friedrich Nietzsche and Sigmund Freud</strong>, who <u>questioned traditional notions of truth, morality, and the self</u>.</li>
+<li style="padding-left:2em">&#9702; Examples:
+<ul>
+<li style="padding-left:4em">&#9632; James Joyce, Virginia Woolf, and T.S. Eliot in literature.</li>
+<li style="padding-left:4em">&#9632; Pablo Picasso, Wassily Kandinsky, and Henri Matisse in Painting.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; The war also gave rise to <strong>new forms of popular culture</strong>, such as <strong>jazz music and film</strong>, which shaped the cultural landscape of the remaining century.</li>
+</ul>
+</li>
 </ul>`,
   'world-after-wwii': ``,
   'liberation-colonial-rule': ``,
