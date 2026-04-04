@@ -33364,7 +33364,374 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
     </ul>
   </li>
 </ul>`,
-  'world-after-wwii': ``,
+  'world-after-wwii': `
+<h2>Handout 40: Cold War Part 1</h2>
+
+<blockquote>"Peace is not only better than war, but infinitely more arduous." — George Bernard Shaw</blockquote>
+
+<p>It was a war of ideologies this war was fought between the capitalist bloc headed by USA and the communist bloc headed by Soviet Union during 1945-1991. However, it war was not an open military conflict. Rather, it was a psychological or diplomatic war, which involved many local and proxy conflicts across the globe, whose objective was to check the influence of one bloc by the other. It was characterized by continued hostility, and efforts to weaken or undermine the enemy by every means other than direct military conflict.</p>
+
+<p>The term Cold War was coined by British writer <strong>George Orwell</strong> in 1945. It was popularized in geopolitical and strategic sense by <strong>Bernard Baruch</strong>, the advisor to American president Truman in 1947.</p>
+
+<p><u><strong>Dimensions:</strong></u></p>
+
+<ul>
+  <li>&#8226; <strong>Silent warfare:</strong> The parties behave friendly in public, but privately they make every possible effort to destroy each other.</li>
+  <li>&#8226; <strong>Geopolitical and strategic conflict:</strong> Both the parties promote their interest at the cost of other to have an upper hand.</li>
+  <li>&#8226; <strong>Psychological warfare:</strong> The parties test the mental resolve of each other through arms race, military exercise and by indulging in pressure tactics.
+    <ul>
+      <li style="padding-left:2em">&#9702; <em>"Let us not be deceived; we are today in the midst of a Cold War. Our enemies are to be found abroad and at home. Let us never forget this: Our unrest is the heart of their success."</em> – Bernard Baruch</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>War of diplomats and secret services:</strong> The role of regular military forces in limited.
+    <ul>
+      <li style="padding-left:2em">&#9702; The diplomats fight in conferences by targeting the opponent and by isolating them in international platform. They use their skills to form alliances to surround the opponent.</li>
+      <li style="padding-left:2em">&#9702; The secret services undertake covert operations to weaken the opponent.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Propaganda War:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Mass media is used as a weapon to attack the prestige of opponent.</li>
+      <li style="padding-left:2em">&#9702; Mass media is used to convince everybody about the virtues of the ideas represented by one nation or block.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Proxy War:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; USA and USSR could not afford to target each other directly because of MAD (Mutually Assured Destruction).</li>
+      <li style="padding-left:2em">&#9702; There were low-intensity conflicts and undeclared local wars throughout the world.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Every arena of human life becomes a battlefield:</strong> It is fundamentally different from traditional warfare. It is fought in sports ground, cultural events, scientific inventions and in diplomatic conferences.</li>
+</ul>
+
+<p>According to <strong>Eric Hobsbawm</strong>, it should be better known as WWIII. <strong>Fred Halliday</strong> has argued that the Cold War was a <strong>"global civil war"</strong> in which both sides sought to impose their vision of world order on the rest of the planet.</p>
+
+<p><u><strong>The background of the cold war</strong></u></p>
+
+<p><strong>(A) Interwar distrust</strong></p>
+
+<ul>
+  <li>&#8226; The larger background responsible for commencement of Cold War can be traced to <strong>Russian revolution of 1917.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; This Russian communist regime was not recognized by western capitalist nations till 1933.</li>
+      <li style="padding-left:2em">&#9702; The ideological difference between the two models was already there. These differences continued to intensify with the passage of time.</li>
+    </ul>
+  </li>
+  <li>&#8226; In the <strong>civil war after the birth of USSR</strong>, the western powers sent armed forces to support the Whites, which created mutual distrust.</li>
+  <li>&#8226; This distrust further increased as <strong>Russia was not invited to Paris Peace</strong> Conference.</li>
+  <li>&#8226; The instances like <strong>Spanish civil war</strong> and <strong>Munich Agreement</strong> (Appeasement) only confirmed Lenin's suspicion that western democracies would prefer Fascism over cooperation with communism. Thus, he signed <strong>no-aggression pact</strong> with Germany. This was seen as stab-in-the-back by the western democracies.</li>
+</ul>
+
+<p><strong>(B) During the War</strong></p>
+
+<p>Notwithstanding mutual distrust, there was <strong>still cooperation between the western democracies and communist Russia during the WW2.</strong></p>
+
+<ul>
+  <li>&#8226; The issue of <strong>opening of second military front</strong> during the Second World War - against Nazi invasion.
+    <ul>
+      <li style="padding-left:2em">&#9702; The western front was opened in (June 1944), much after the battle of Stalingrad (July 1942). Stalin felt that it is a deliberate delay to ensure Russia is devastated.</li>
+    </ul>
+  </li>
+  <li>&#8226; The issue of <strong>surrendering of Italy</strong> (Sept 1943) also created distrust between the two.
+    <ul>
+      <li style="padding-left:2em">&#9702; Britain and the USA chose to talk to Italy separately. But the USSR was not invited to this talk.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>(C) Post War Developments</strong></p>
+
+<p>Although many historians sought to trace the origin of the Cold War in 1947 when the Bolshevik revolution took place, the phenomenon surfaced in earnest only after the Second World War. <u>Friends during the Second World War didn't remain together at the end of the war</u> as fresh points of conflict appeared among them:</p>
+
+<p><strong>(i) Western Theatre: East Europe and Germany</strong></p>
+
+<ul>
+  <li>&#8226; In the last phase, there was a virtual competition to occupy ever larger part of Germany between the two sides.
+    <ul>
+      <li style="padding-left:2em">&#9702; The occupation of East European territories by the Soviet forces during March 1944 - Feb 1945 terrified the western capitalist nations. The western capitalist nations took this soviet move as an act of expansionism.
+        <ul>
+          <li style="padding-left:4em">&#9632; <strong>The occupation of East European territories</strong> by the Soviet forces during March 1944 - Feb 1945 terrified the western capitalist nations. The western capitalist nations took this soviet move as an act of expansionism.</li>
+          <li style="padding-left:4em">&#9632; The installation of communist government in Poland in 1945 further intensified the ideological difference. Western nations realized that Communist expansion has to be countered to save capitalist world.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; October 1944 – Having been suspicious of Russian movement, Churchill signed a secret <strong>"percentage agreement"</strong> with USSR.
+        <ul>
+          <li style="padding-left:4em">&#9632; According to this agreement, Russian occupied region had to be divided between capitalist and communist spheres of influence.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Meanwhile there were <strong>Yalta</strong> (Feb 45) and <strong>Potsdam</strong> (Aug 45) conferences. <strong>Differences over peace treaties</strong> also intensified the hostility.
+        <ul>
+          <li style="padding-left:4em">&#9632; USSR insisted that harsh treaties shall be imposed on Germany, and it be made to pay for the destruction caused by German Forces.</li>
+          <li style="padding-left:4em">&#9632; The Western capitalist nations did not want to repeat the mistakes of 1919-20. They wanted a peace based on equality and mutual respect, so that possibility of another war in future could be eliminated.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse:collapse; margin: 1em 0;">
+  <thead>
+    <tr>
+      <th></th>
+      <th><strong>Yalta (Feb 1945)</strong><br>Roosevelt, Churchill, Stalin</th>
+      <th><strong>Potsdam (Aug 1945)</strong><br>Truman, Churchill/Atlee, Stalin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Germany</strong></td>
+      <td>
+        <ul style="margin:0; padding-left:1em;">
+          <li>Aim was to secure the unconditional surrender of Germany, destroy German militarism and Nazism and to ensure that Germany would never again be able to disturb the peace of the world.</li>
+          <li>Germany would be divided into occupied zones administered by U.S., British, French, and Soviet forces – 4 operational zones.</li>
+          <li>"five Ds": Demilitarization, denazification, democratization, decentralization, and deindustrialization.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:1em;">
+          <li>The central focus of the Potsdam Conference was the future of Germany. Allies could not reach a conclusion regarding the future of Germany. For example, they could not decide when the four zones of Germany would be allowed to join to form a state.</li>
+          <li>Each Allied power was to seize reparations from its own occupation zones, although the Soviet Union was permitted 10–15 percent of the industrial equipment in the western zones of Germany in exchange for agricultural and other natural products from its zone.</li>
+          <li>Berlin, Vienna, and Austria were also each divided into four occupation zones.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>East Europe</strong></td>
+      <td>
+        <ul style="margin:0; padding-left:1em;">
+          <li>To assist the countries of Europe to establish post-war democratic institutions, the Allies formulated a <strong>'Declaration on Liberated Europe'</strong>. The declaration pledged that "the earliest possible establishment through free elections governments responsive to the will of the people".</li>
+          <li>Roosevelt tried to persuade Stalin to conduct the elections in occupied regions of East Europe. Stalin promised yes but he didn't act.</li>
+        </ul>
+      </td>
+      <td>
+        <ul style="margin:0; padding-left:1em;">
+          <li>The governments of Romania, Hungary, and Bulgaria were already controlled by communists.</li>
+          <li>Truman created pressurized Stalin to conduct elections in East Europe, but Stalin was adamant in refusing to let the Allies interfere in eastern Europe.</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>(ii) Eastern Theatre: Japan</strong></p>
+
+<ul>
+  <li>&#8226; Although Germany had surrendered, Japan had not.
+    <ul>
+      <li style="padding-left:2em">&#9702; Now Russia also tried to occupy Japan from north, but USA had already entered there and apart from a few islands, nothing much was allowed.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Dropping of atomic bombs on Japan in Aug 1945 brought the differences in open.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; <strong>Stalin was informed only at the last moment</strong> of the existence of such weapon.
+        <ul>
+          <li style="padding-left:4em">&#9632; Stalin expected that, being a coalition partner, USSR had every right to be consulted before taking such a major step like bombardment of Hiroshima and Nagasaki. But the government of Truman kept this matter secret and did not share it with any partner.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; The bombing of Hiroshima and Nagasaki was <strong>totally unnecessary</strong> to bring Japan to surrender which was already underway.
+        <ul>
+          <li style="padding-left:4em">&#9632; Still, the USA took such a harsh step - and everyone was surprised. Stalin felt that Japan was a mere scape goat. He felt that although the bomb was fell in Japan, but the real target of these bombs were Soviet ambitions.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; The devastation caused by these nuclear weapons <strong>tilted the strategic balance</strong> in favour of capitalist world. Because of this, the war time friendship came to an end with the end of war itself. The friends in war could not remain friends in peace.</li>
+</ul>
+
+<p><u><strong>Comprehensive causes behind the cold war:</strong></u></p>
+
+<ul>
+  <li>&#8226; It was the <strong>product of a historical situation.</strong> In fact, in history, there was a very short period of co-operation but a long period of conflict.</li>
+  <li>&#8226; The <strong>US and the USSR emerged</strong> as the two most powerful nations of the world after the Second World War. They tried to <strong>fill up the power vacuum</strong> that emerged after the WWII.</li>
+  <li>&#8226; The <strong>ideological conflict</strong> between Soviet Russia &amp; the USA became a major point of difference between the two.</li>
+  <li>&#8226; <strong>Mutual distrust</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; The main basis of the contradiction between the two powers was that the mutual distrust. US was suspicious about the Soviet Union's aims while Soviet Union was suspicious about US policies.</li>
+      <li style="padding-left:2em">&#9702; Russia had bitter memories to be invaded, from both the fronts, western as well as eastern. Thus, it installed the communist governments in the Eastern European countries to create strategic depth.</li>
+      <li style="padding-left:2em">&#9702; This mutual distrust gradually gave way to such tension in world politics that it influenced the whole world.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><u><strong>Phases of Cold War</strong></u></p>
+
+<p><strong><u>First Phase (1946-62): Confrontation</u></strong></p>
+<p>During this phase, the hostilities between capitalist and communist blocs came out in open, in front of the world.</p>
+
+<ul>
+  <li>&#8226; In Feb 1946, in an election <strong>speech in Moscow</strong>, <strong>Joseph Stalin</strong> declared that capitalism and communism are poles apart.
+    <ul>
+      <li style="padding-left:2em">&#9702; As long as capitalism is there, the enmity will go on. Thus, he claimed that the <u>war was inevitable and blamed it on capitalism.</u></li>
+      <li style="padding-left:2em">&#9702; He asked for a communist <u>revolution all over the world.</u> USSR announced open support to the communists for overthrowing the capitalist government.</li>
+      <li style="padding-left:2em">&#9702; The extremely offensive speech terrified the western world.</li>
+    </ul>
+  </li>
+  <li>&#8226; In March 1946, ex-PM <strong>Churchill</strong> gave a speech at the <strong>University of Fulton, Missouri</strong>, in the US in which he stated that <u>'from Stettin in the Baltic to Trieste in the Adriatic an <em>iron curtain</em> has descended across the continent.'</u>
+    <ul>
+      <li style="padding-left:2em">&#9702; This speech further intensified the hostilities between capitalism and communism.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Truman Doctrine</strong> (March 1947)</p>
+
+<ul>
+  <li>&#8226; This doctrine was announced by President Harry S. Truman.
+    <ul>
+      <li style="padding-left:2em">&#9702; It marked the <strong>abandonment of traditional policy of isolation</strong> &amp; USA assumed the responsibility of leading the capitalist world.</li>
+      <li style="padding-left:2em">&#9702; <strong>Greek Civil War:</strong> In 1946, a civil war commenced in Greece when the Communists tried to overthrow the democratically elected capitalist government. Britain supported the democrats while the communists were supported by Soviet Union. However, the cost of such intervention was too high for Britain.</li>
+      <li style="padding-left:2em">&#9702; As Britain withdrew from Greece, the <strong>security of Greece and that of Turkey</strong> became a big issue and that fell on the head of USA. This responsibility was announced by government as Truman Doctrine.</li>
+      <li style="padding-left:2em">&#9702; Truman told the Congress <em>'Greece must have assistance if it is to become a self-supporting'</em> and respecting democracy... <em>I believe that it must be the policy of the United States to support free people.'</em></li>
+      <li style="padding-left:2em">&#9702; $450 million was sanctioned by the Congress for maintaining US naval force in the Mediterranean Sea. Greece began to receive huge number of arms and other supplies and Turkey received aid amounting to 60 million dollars.</li>
+      <li style="padding-left:2em">&#9702; Due to US aid, the communists in Greece were defeated by 1949. The same thing happened in the case of Turkey.</li>
+    </ul>
+  </li>
+  <li>&#8226; The announcement of Truman Doctrine greatly <strong>intensified by cold war.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; <u>The Truman doctrine initiated the phase of the <strong>US policy of containment of communism across the world.</strong> <em>Thus, began the Cold War.</em></u></li>
+      <li style="padding-left:2em">&#9702; The policy of the US Government was to intervene militarily and economically in the civil wars against the communists.</li>
+      <li style="padding-left:2em">&#9702; This policy of containment continued to be followed in other parts of the world.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Marshall Plan and Molotov Plan</strong> (June 1947)</p>
+
+<ul>
+  <li>&#8226; Marshall Plan was formulated by George Marshall, the American secretary of state, to counter the spread of communism. It was officially known as <strong>European Recovery Plan.</strong></li>
+  <li>&#8226; <u>It was an economic extension of the Truman Doctrine.</u> It was based on the belief that communism was less likely to thrive in prosperous society.
+    <ul>
+      <li style="padding-left:2em">&#9702; Marshall said in Harvard University speech in June 1947 that Europe's requirements for foreign food and essential products were so much greater than her present ability to pay, that she must have substantial additional help or face severe economic deterioration. It is logical that the United States should assist in the return of normal economic health in the world.</li>
+      <li style="padding-left:2em">&#9702; Under this plan a huge amount of 13,000 million dollars was to be extended to euro nations over a period of 4 years. (aid)</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Molotov plan</strong> by USSR.
+    <ul>
+      <li style="padding-left:2em">&#9702; Although the Marshall aid was for entire Europe, the East European countries were not allowed to receive it by Soviet Union.
+        <ul>
+          <li style="padding-left:4em">&#9632; It believed that the Marshall Plan was an attempt to weaken Soviet interest in their satellite states by making beneficiary countries economically dependent on the United States. He termed it <strong>'dollar imperialism'.</strong></li>
+          <li style="padding-left:4em">&#9632; The Soviet Union also criticized the Marshall Plan because it undermined the importance of the United Nations.</li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Thus, the Eastern Europe continued to face serious economic crisis whereas the countries of western Europe recovered quickly. This contrast further was intensified by the cold war.</li>
+      <li style="padding-left:2em">&#9702; Soviet foreign minister Molotov proposed the Soviet-sponsored economic grouping of bilateral trade agreements (Molotov Plan) which was eventually expanded to become the COMECON.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Further Developments</strong></p>
+
+<ul>
+  <li>&#8226; Imposition of a communist government in <strong>Czechoslovakia</strong> by USSR in Feb 1948.</li>
+  <li>&#8226; Formation of <strong>'Brussels Pact'</strong> by western countries in March 1948.</li>
+</ul>
+
+<p><strong>Berlin Blockade</strong> (June 1948 – May 1949)</p>
+
+<ul>
+  <li>&#8226; Western nations invested huge amount in their parts of Berlin whereas USSR tried to extract as much as possible from soviet controlled Berlin as well as Germany.
+    <ul>
+      <li style="padding-left:2em">&#9702; Thus, an island of prosperity existed in Soviet controlled Germany. It was causing day to day humiliation to Soviet and puncturing their propaganda of pro people communism and anti-people capitalism.</li>
+    </ul>
+  </li>
+  <li>&#8226; In March 1948 the Allied powers decided to unite their different occupation zones of Germany into a single economic unit. There was also an introduction of a new deutsche mark in West Berlin (as throughout West Germany). All of these was regarded as a violation of agreements by the USSR.</li>
+  <li>&#8226; To stop this embarrassment, Berlin blockade was imposed by Soviet Union.
+    <ul>
+      <li style="padding-left:2em">&#9702; In June 1948, Soviet Union blocked the routes connecting American, British and French controlled Germany with Parts of Germany.</li>
+      <li style="padding-left:2em">&#9702; Soviet leadership was under the impression that the capitalist nations will abandon their Berlin when there will be no connectivity.</li>
+    </ul>
+  </li>
+  <li>&#8226; However,
+    <ul>
+      <li style="padding-left:2em">&#9702; The western nations maintained connecting through airlift and ensures supply of food and other basic needs.</li>
+    </ul>
+  </li>
+  <li>&#8226; High tensions
+    <ul>
+      <li style="padding-left:2em">&#9702; Soviet army of occupation in East Germany increased to 40 divisions, against 8 in the Allied sectors. In return, U.S. sent many strategic bombers to reinforce Britain. Tension remained high, but war did not break out.</li>
+      <li style="padding-left:2em">&#9702; To counter Soviet Union through military force, <strong>NATO was formed</strong> in April 1949 by western capitalist nations.</li>
+    </ul>
+  </li>
+  <li>&#8226; The blockade lasted for 324 days. Finally, in May 1949 the Berlin blockade was lifted by Soviet Union. But this incidence had greatly intensified Cold war.</li>
+</ul>
+
+<p><strong>More developments tilted the balance in favour of USSR.</strong></p>
+
+<ul>
+  <li>&#8226; <strong>USSR became Nuclear Power</strong> (Sept 1949).
+    <ul>
+      <li style="padding-left:2em">&#9702; Soviet Union now emerged as nuclear power, which tilted the strategic balance in favour of USSR.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Chinese Communist Revolution</strong> (Oct 1949)
+    <ul>
+      <li style="padding-left:2em">&#9702; In Oct 1949, China emerged as a communist nation.</li>
+      <li style="padding-left:2em">&#9702; In Feb 1950 the Sino-Russian Treaty of Peace and Friendship was signed through which China joined soviet bloc.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Korean War</strong> (1950-53)</p>
+
+<ul>
+  <li>&#8226; In 1950, Korean War commenced which continued for three years. Now, the hostilities reached its peak.</li>
+</ul>
+
+<p><strong><u>The Thaw</u></strong> (1953-1962)</p>
+<p>During this phase, a significant improvement was witnessed in the relations between the two blocks.</p>
+
+<ul>
+  <li>&#8226; <strong>Causes:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; Death of Soviet president Joseph <strong>Stalin</strong> (1953)
+        <ul>
+          <li style="padding-left:4em">&#9632; Stalin was extremely aggressive. He was a symbol of soviet expansionism. When he was no more the fear of soviet expansion got reduced.</li>
+          <li style="padding-left:4em">&#9632; Nikita Khrushchev's policies
+            <ul>
+              <li style="padding-left:6em">&#8226; De-Stalinization</li>
+              <li style="padding-left:6em">&#8226; Peaceful coexistence with other nations.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li style="padding-left:2em">&#9702; Exposure of American senator Joseph <strong>McCarthy</strong>
+        <ul>
+          <li style="padding-left:4em">&#9632; American senator published many fabricated reports to intensify fear of communism among the people.</li>
+          <li style="padding-left:4em">&#9632; It was a period of political persecution and repression of left-wing people. It also involved spreading fear of Soviet espionage and communist influence on American institutions.</li>
+          <li style="padding-left:4em">&#9632; When he was investigated, all his reports and claims were found to be false, Americans took sigh of relief.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>This improvement in IR reflected in:</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; End of Korean war (1953)</li>
+      <li style="padding-left:2em">&#9702; End of hostilities in Vietnam (1954)</li>
+      <li style="padding-left:2em">&#9702; Recognition of Austria as an independent sovereign state (1955)</li>
+      <li style="padding-left:2em">&#9702; Removal of Soviet military bases from Finland (1955)</li>
+    </ul>
+  </li>
+  <li>&#8226; However, the feeling of Thaw represented only a partial picture because at the same time both the blocs were busy in <strong>strengthening themselves.</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; In 1954, <strong>SEATO</strong> was established by USA, Australia, NZ, Pakistan, Philippines, and Thailand.</li>
+      <li style="padding-left:2em">&#9702; In 1955, <strong>Warsaw Pact</strong> was signed by Soviet Union with its friendly state to counter NATO.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Developments in Middle East</strong>
+    <ul>
+      <li style="padding-left:2em">&#9702; <strong>Baghdad Pact (1955)</strong> was signed between Turkey, Iraq, Great Britain, Pakistan and Iran to prevent communist incursions and foster peace in the Middle East. It was renamed as <strong>CENTO</strong> in 1959.</li>
+      <li style="padding-left:2em">&#9702; In 1956, the <strong>Second Arab War</strong> broke out due to <strong>Suez Canal Crisis.</strong></li>
+      <li style="padding-left:2em">&#9702; In 1957, USA announced the <strong>Eisenhower Doctrine</strong>. Accordingly, a Middle Eastern country could request American economic assistance or aid from U.S. military forces if it was being threatened by armed aggression.</li>
+    </ul>
+  </li>
+  <li>&#8226; <strong>Cuban Missile Crisis</strong> (1962)
+    <ul>
+      <li style="padding-left:2em">&#9702; It carried the hostility to its peak. It appeared as if full-fledged war would break out anytime and MAD (Mutually Assured Destruction) will come into operation.</li>
+      <li style="padding-left:2em">&#9702; Thus, super-powers started to think about creating the communication channel between the two blocs, so that any confusion wouldn't escalate into a devastating war.</li>
+    </ul>
+  </li>
+</ul>
+`,
   'liberation-colonial-rule': ``,
   'decolonization-underdevelopment': ``,
   'unification-europe': ``,
