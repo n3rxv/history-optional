@@ -28570,7 +28570,110 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <tr><td><strong>Method</strong></td><td></td><td></td></tr>
 <tr><td><strong>Wider Impact</strong></td><td></td><td></td></tr>
 </tbody>
-</table>`,
+</table>
+<h2>Handout 27: Bismarck&#8217;s Foreign Policy after German Unification</h2>
+<blockquote>&#8220;Diplomacy is war by other means&#8221;<br>Prussian military General Carl von Clausewitz</blockquote>
+<ul>
+<li>&#8226; <strong>Objective and strategy of Bismarck:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After unification, Now Germany is a <strong><u>satiated</u></strong> power. So, Germany does not need to make further expansion in any new region.</li>
+<li style="padding-left:2em">&#9702; Rather it had to work to maintain its unity and integrity.
+<ul>
+<li style="padding-left:4em">&#9632; The nearest danger that Germany faced was from France which was humiliated in Sedan</li>
+<li style="padding-left:4em">&#9632; So, Bismark&#8217;s objective was to <strong>isolate France completely</strong> in European politics. So that France would not dare to retaliate without support/help/friends.</li>
+<li style="padding-left:4em">&#9632; <strong>Grand Strategy:</strong>
+<ul>
+<li>&#8226; Among the six powers of Europe except for Germany and France, the other four were Britain, Austria, Russia, and Italy.</li>
+<li>&#8226; Here the grand strategy of Bismarck was to bring <u>three powers much near to Germany</u> and the <u>fourth-one should not very distant from Germany</u>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; If a war takes place, then French isolation would be over and both Germany and France would have to take opposite sides. So, another major concern of Bismarck was to avert any possible war.
+<ul>
+<li style="padding-left:4em">&#9632; Just after German unification, in 1873, at Berlin, Bismarck organized a conference of three emperors &#8211; <strong>German</strong> (Hohenzollern), <strong>Austrian</strong> (Hapsburg) and <strong>Russian</strong> (Romanov).
+<ul>
+<li>&#8226; Symbolically, this was organized against Republican France (third republic founded in 1871 after Napoleon III was removed).</li>
+<li>&#8226; But the basic problem for Bismarck was that the Austrian and Russian interests were at cross in Balkans. There was a fundamental clash of interests and thus, he could not take both these monarchs together for a long time.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Clash of Interest among European powers in Balkan region led to Berlin Congress of 1878</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In 1878 Britain and Austria were offended at the behavior of Russia in the Balkan Region and on this issue Berlin Congress was convened.</li>
+<li style="padding-left:2em">&#9702; This was presided over by Bismarck. Here, Bismarck did not work as a neutral broker. He rather sided with Austria and Britain.
+<ul>
+<li style="padding-left:4em">&#9632; Bismarck decided that the place where the problem started - <u>Bosnia and Harzegovina &#8211; should be put under the patronage of Austria</u>. This was quite disturbing to Serbia and Russia both.</li>
+<li style="padding-left:4em">&#9632; On the other hand, Bismarck wanted to keep Britain in good humor. So, <u>Britain gained Cyprus</u>, so he favoured Britain as well.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Consequence &#8211; Beginning of a Treaty System.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Its natural consequence was a <u>treaty between Austria and Germany</u>. So, the double alliance was created in 1879. It was a <u>defensive</u> alliance. <strong>(Dual Alliance between Germany-Austria in 1879).</strong>
+<ul>
+<li style="padding-left:4em">&#9632; When <strong>Italy</strong> joined it, the Dual Alliance was transformed into <strong>Triple Alliance in 1882.</strong></li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Not simply that, Bismarck even signed the treaty of <strong>Re-assurance with Russia in 1887</strong>. In this treaty, there was a provision that if any third party attacks either of them, none of them would support that third party. This treaty was <strong>signed for three years.</strong> (Triple alliance was defensive treaty but re-assurance is little less the collective defence. It only translated as - if in future France invades Germany then Russia would not extent support to France against Germany)</li>
+</ul>
+</li>
+</ul>
+<h3>Foreign policy under Emperor Kaiser William</h3>
+<ul>
+<li>&#8226; <strong>First Reversal: Russia</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Although Bismarck signed a treaty with Austria, he was not willing to isolate Russia as well. He followed a policy of balance between the two.</li>
+<li style="padding-left:2em">&#9702; However, Kaiser William introduced a <strong>pro-Austrian policy while neglecting Russia.</strong> He allowed the Re-assurance treaty to lapse after 3 years. Bismarck, in frustration, resigned in 1890 from the post of Chancellor. It was the first reversal.</li>
+<li style="padding-left:2em">&#9702; <strong>William Kaiser allowed Austria to annex Bosina-Herzegovina</strong> which created <strong>major rift between Austria-Russia.</strong> And since in the meanwhile, re-assurance treaty was lapsed, <strong>Russia drifted towards France.</strong></li>
+<li style="padding-left:2em">&#9702; In 1894, France and Russia signed a treaty of <strong><u>Double Entente.</u></strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Second reversal: Britain</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Bismarck was not willing to antagonize Britain. He avoided giving any challenge to her naval supremacy, but William Kaiser started to give a challenge to the naval supremacy of Britain.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Third Reversal: Britain</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Bismarck was inclined to confine Germany to its European bounds (<strong>satiated power</strong>) but William Kaiser gave emphasis on <strong>weltpolitik</strong> (World Policy). In other words, William Kaiser was willing to follow the expansion in Asia and Africa also.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Britain</strong> found that in the continent there was a Triple Alliance between Germany-Austria-Italy. And then there was Double Entente between France and Russia. Britain realized that it was isolated.
+<ul>
+<li style="padding-left:2em">&#9702; It moved towards France and signed a <strong>separate double entente in 1904</strong>. This happened because Britain had a long-seated hatred against Russia historically, and it chose not to enter into Triple Entente suddenly. Thus, it was a separate treaty.</li>
+</ul>
+</li>
+<li>&#8226; Now on one hand there was a <strong>Triple Alliance (Ge-Au-It)</strong> and <strong>two Double Ententes (Br-Fr, Rs-Fr).</strong></li>
+<li>&#8226; This separate treaty emboldened William Kaiser even more, who was sure that the bear and whale could never go together. But this miracle happened in history, and both went together in WW1. Why?
+<ul>
+<li style="padding-left:2em">&#9702; Britain was undoubtedly irritated at Russia over the <strong>Great Game.</strong> So, in the East Britain signed <strong>Anglo-Japanese Treaty with Japan in 1902.</strong> It emboldened Japan, which was an Asian power.
+<ul>
+<li style="padding-left:4em">&#9632; For the first time a reputed western power signed such a treaty with Asian power on equal footing.</li>
+<li style="padding-left:4em">&#9632; Japan got so much emboldened and even challenged giant Russia and crushing defeat despite being a pigmy country.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Russia came to its sense that it is not wise to antagonize Britain any further. So, it assured Britain about its future and in 1907, there was a treaty between Russia and Britain Thus, it led to <strong>Triple Entente</strong> - the two Double Ententes were recasted into one single Triple Entente in <strong>1907</strong>.</li>
+</ul>
+</li>
+</ul>
+<h3>Why did Kaiser William make a reversal of the policy of Bismarck?</h3>
+<ul>
+<li>&#8226; William Kaiser represented the <strong>aspiration of the German capitalist class</strong>, which was in search of a vast market at the cost of the British capitalist class. So, this factor compelled William Kaiser to search for new colonies, even outside of Europe.</li>
+<li>&#8226; However, William Kaiser was mistaken to think that British can be pressurized by challenging their supremacy and then they would be ready to share the colonies with Germany. Instead, his policy resulted in a counter-reaction from Britain. It came near to France and Russia and there was the formation of a Triple Entente which consisted of Britain, France and Russia in 1907.</li>
+</ul>
+<h3>Did Bismarck become successful in his foreign policy after 1870?</h3>
+<p>Although Bismarck got <u>initial success</u> because, as a result of his policy during his tenure, France was isolated, and the situation of war was averted in Europe. However, in the <u>long term,</u> his policy turned out to be a failure and led to WWI.</p>
+<ul>
+<li>&#8226; During his earlier tenure, Bismarck demanded changes in Europe and through giving a military challenge to the power equation of Europe, he could unify Germany. But after unification during his second tenure as a chancellor, he became an ardent follower of the <strong>policy of status-quo in Europe.</strong> But here, Bismarck was mistaken. <u>The forces of change could never be reversed, it was not wise to work against the tide of History.</u></li>
+<li>&#8226; Bismarck was inclined to keep Germany within its European bounds, but the <strong>demand of the German capitalist class</strong> and <strong>ultra-German nationalists</strong> was to go for expansion. So, he was rejected by these forces.</li>
+<li>&#8226; Bismarck&#8217;s foreign policy was <strong>too complex</strong>, but he <strong>did not develop any successor</strong> to carry his foreign policy further after him.</li>
+</ul>
+<p>That&#8217;s why the Bismarckian system collapsed in course of time.</p>`,
 
 <h2>Handout 25: Colonialism and Imperialism: Part 1</h2>
 
