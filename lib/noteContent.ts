@@ -29359,493 +29359,6 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 </ul>
 
 <p><strong>How scientific is Marxism really?</strong></p>
-<h2>Handout 34: Fascist Counter-Revolution, Italy, and Germany</h2>
-
-<blockquote>&#8220;Fascism is a lie that tells itself it is true.&#8221; &#8212; Umberto Eco</blockquote>
-<blockquote>&#8220;Fascism is a disease of weakness. It is the fear of the strong and the envy of the weak. It is the hatred of the individual for the group and the group for the individual.&#8221; &#8212; H.G. Wells</blockquote>
-<blockquote>&#8220;Fascism is not defined by the number of its victims, but by the way it kills them.&#8221; &#8212; Jean-Paul Sartre</blockquote>
-
-<h3>UPSC CSE PYQs</h3>
-
-<p><strong>Characteristics</strong></p>
-<ul>
-<li>&#8226; &#8220;Extreme nationalism of the Fascist Variety has various faces in various countries, but it has everywhere certain common characteristics.&#8221; Comment. [1989, 20 Marks]</li>
-<li>&#8226; &#8220;Comparison of the fascist regime in Italy with the National Socialist regime of Germany is almost inevitable. The similarities are obvious, but there is one point of difference which is worth mentioning.&#8221; Comment. [1991, 20 Marks]</li>
-<li>&#8226; Discuss the main characteristics of Fascism. [2007, 60 Marks]</li>
-</ul>
-
-<p><strong>Causes</strong></p>
-<ul>
-<li>&#8226; &#8220;The roots of the rise of Fascism lay in Peace Treaties.&#8221; Comment. [2003, 20 Marks]</li>
-<li>&#8226; Discuss how Fascism was a response to the post-war situation arising out of political instability, thwarted nationalist hopes, and fears of the spread of communism? [2022, 20m]</li>
-</ul>
-
-<p><strong>Italy</strong></p>
-<ul>
-<li>&#8226; &#8216;Corporate State&#8217; was Mussolini&#8217;s answer to sociopolitical problems of his country. Elucidate. [1995, 60 Marks]</li>
-<li>&#8226; Examine the circumstances which led to the overthrow of democracy and the establishment of Fascist dictatorship in Italy. [2017, 20 Marks]</li>
-</ul>
-
-<p><strong>Germany</strong></p>
-<ul>
-<li>&#8226; What were the weaknesses and difficulties of the Weimer Republic? How did Hitler succeed in establishing his dictatorship? [2004, 60 Marks]</li>
-<li>&#8226; Hitler was &#8220;a creature flung to the top by the tides of revolutionary change, or the embodiment of the collective unconsciousness of a people obsessed with violence and death.&#8221; Comment. [1984, 20 Marks]</li>
-</ul>
-
-<p><strong>Fascism</strong> gradually evolved since the 19th century. There are conflicting ideas about it:</p>
-<ul>
-<li>&#8226; According to one view, it was a reflection of <strong>ultra-nationalism.</strong></li>
-<li>&#8226; According to Max Weber, Fascism was a <strong>desperate attempt on the part of nobles and aristocrats to regain power.</strong></li>
-<li>&#8226; According to leftist thinkers, it was a sharp reaction of capitalism against the progress of socialism.</li>
-</ul>
-
-<p><u>Fascism is a far-right ideology characterized by totalitarian power in the hands of a dictator. There is a total submission to the state and strong regimentation of society and economy.</u> However, it is not a very consistent idea. Rather it seems to be a mixture of different ideologies, i.e.</p>
-<ul>
-<li>&#8226; Authoritarian and anti-democratic</li>
-<li>&#8226; Anti-liberal, anti-individual</li>
-<li>&#8226; Anti laissez faire</li>
-<li>&#8226; Anti-intellectualism</li>
-<li>&#8226; Anti-communism</li>
-<li>&#8226; Anti-internationalism</li>
-</ul>
-
-<p>Before WWI, fascism was on the fringes. It was only after WWI that it got wider acceptance among European people. As it developed, there emerged various versions in various nations/leaders. Apart from Hitler (Germany) and Mussolini (Italy), Juan Peron (Argentina), Salazar (Portugal), Dollfuss (Austria), General Tojo (Japan), Metaxas (Greece), General Franco (Spain) were also the Variants of fascism.</p>
-
-<p>Despite differences, there are certain <strong>points of similarity</strong>, such as:</p>
-<ul>
-<li>&#8226; Glorification of the power of the state.
-<ul>
-<li style="padding-left:2em">&#9702; Hegelian nationalism</li>
-<li style="padding-left:2em">&#9702; Belied in supreme statism.
-<ul>
-<li style="padding-left:4em">&#9632; Mussolini: &#8220;everything within state, nothing is outside state, nothing is against state.&#8221;</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; Centralization of administration.</li>
-</ul>
-</li>
-<li>&#8226; Totalitarian in nature.</li>
-<li>&#8226; Glorification of leadership and the promotion of the cult of hero-worship.
-<ul>
-<li style="padding-left:2em">&#9702; Belief in one party, one leader and one idea. Divergence of opinion was not tolerated. The word of the leader was to be followed rigidly by all.</li>
-</ul>
-</li>
-<li>&#8226; Conservative socio-cultural outlook.
-<ul>
-<li style="padding-left:2em">&#9702; Promotion of status-quo in society and emphasis over customs and traditions.</li>
-</ul>
-</li>
-<li>&#8226; Fascism emphasized self-sufficiency of state. It was considered as a pre consideration for creating a strong nation.</li>
-<li>&#8226; Populism
-<ul>
-<li style="padding-left:2em">&#9702; The Fascist regimes adopted populist approach to widen their mass following, they promised what people wanted.</li>
-</ul>
-</li>
-<li>&#8226; Elements of the welfare state</li>
-<li>&#8226; Use of the official machinery as well as almost all socio-cultural venues to promote their ideology.</li>
-<li>&#8226; To make use of mob psychology.</li>
-<li>&#8226; Social Darwinism</li>
-<li>&#8226; Militarism</li>
-<li>&#8226; Follow aggressive foreign policy.
-<ul>
-<li style="padding-left:2em">&#9702; Belief in expansionism was another common feature among fascist regimes.</li>
-</ul>
-</li>
-<li>&#8226; Use of tactical approach and opportunism</li>
-</ul>
-
-<p><strong>Factors behind the rise of fascism in Europe:</strong></p>
-<ul>
-<li>&#8226; The growth of new ideologies like social Darwinism and Freud&#8217;s psychology,</li>
-<li>&#8226; Disenchantment of Italy &amp; Germany in the Paris Peace Conference.</li>
-<li>&#8226; The World Economic Depression in 1929-30 created a crisis in the capitalist system. So, capitalism tried to save itself from communism even through the fascist method.</li>
-</ul>
-
-<p><strong>Who supported Fascism in post-war Europe?</strong><br>Fascism&#8217;s support base included following elements:</p>
-<ul>
-<li>&#8226; Small shopkeepers (Petty bourgeoise), small merchants, daily wage-earners, artisans etc.</li>
-<li>&#8226; Defeated and depressed military elements in post-World war condition</li>
-<li>&#8226; Ultra-nationalists were utterly dissatisfied with the performance of PPC.</li>
-</ul>
-
-<p><strong>Why did Italy and Germany prove a green pasture for Fascist ideology?</strong></p>
-<ul>
-<li>&#8226; Weak democratic traditions due to their specific nature of nation-building.</li>
-<li>&#8226; Both Italy and Germany were dissatisfied with the PPC.</li>
-</ul>
-
-<h3>Rise of Mussolini in Italy</h3>
-
-<p>Mussolini formed a party <strong>fasci di combattimento</strong> (fighting leagues) in 1919 in Milan. It was the official name, but it became popular by the name Fascism. Its symbol was a bundle of sticks.</p>
-
-<p><u><strong>The factors behind his rise to power:</strong></u></p>
-<ul>
-<li>&#8226; <strong>Situation</strong>
-<ul>
-<li style="padding-left:2em">&#9702; <strong>Weakness of Liberal State:</strong> Italy&#8217;s parliamentary system was plagued by corruption and instability. This made it difficult for the government to respond effectively to the challenges facing the country.</li>
-<li style="padding-left:2em">&#9702; <strong>Impact of WW1:</strong>
-<ul>
-<li style="padding-left:4em">&#9632; The war had left Italy with a devastated economy, high unemployment, and widespread social unrest. Many Italians were disillusioned with the government&#8217;s inability to address these problems.</li>
-<li style="padding-left:4em">&#9632; The perceived betrayal in the Paris Peace fueled ultra-nationalism and anti-establishment sentiments.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; <strong>Political Instability</strong>
-<ul>
-<li style="padding-left:4em">&#9632; The democratically elected government failed to provide a stable government and resolve economic problems. Italians thus started to lose faith in democracy.</li>
-<li style="padding-left:4em">&#9632; There was <strong>fear of communism</strong> among many sections of the population.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; <strong>Mussolini capitalized on the popular desire for strong leadership:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Mussolini promised to restore Italy to its <strong>former greatness.</strong>
-<ul>
-<li style="padding-left:4em">&#9632; He consciously <strong>encouraged the ultra-nationalist emotions</strong> among the people and started to undo the historical norms which were accepted by Italy in Paris Peace Conference.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; He promised to solve the country&#8217;s <strong>economic and social problems.</strong></li>
-<li style="padding-left:2em">&#9702; His <strong>fascist ideology</strong> appealed to many Italians who were looking for strong leadership and a sense of national unity.</li>
-<li style="padding-left:2em">&#9702; He was a <strong>skilled orator and organizer.</strong> He was able to build a large following for his fascist movement by appealing to the emotions of the Italian people.</li>
-<li style="padding-left:2em">&#9702; He followed a <u>thorough opportunist policy</u> in Italy.
-<ul>
-<li style="padding-left:4em">&#9632; Earlier he used to publish a journal <strong>Avanti</strong> and posed himself as a <strong>socialist</strong>. So, at the time of invasion of Libya by Italy, he stood along with socialist internationalism and denounced this aggression.</li>
-<li style="padding-left:4em">&#9632; In 1922, he said he is launching <strong>all-out war against socialism</strong>.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; He tried to <strong>win over different social groups</strong> in his favour through giving them false promises, which were <strong>mutually conflicting.</strong>
-<ul>
-<li style="padding-left:4em">&#9632; Capitalists were promised freedom from workers strikes.</li>
-<li style="padding-left:4em">&#9632; Workers were promised protection from capitalists&#8217; lockouts.</li>
-<li style="padding-left:4em">&#9632; Ultra-nationalists were promised revenge on the PPC.</li>
-<li style="padding-left:4em">&#9632; Middle class was promised law and order establishment.</li>
-<li style="padding-left:4em">&#9632; Students were promised employment.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-<p><u><strong>Capture of power:</strong></u></p>
-<ul>
-<li>&#8226; But still in the elections of 1921, the Fascist party bagged only 35 seats.</li>
-<li>&#8226; Now Mussolini changed the strategy and started physical struggle against communists on the streets.</li>
-<li>&#8226; Then in 1922, he organized <strong>50 thousand volunteers</strong> (disciplined blackshirt paramilitary cadres) and carried a <strong><u>March on Rome.</u></strong>
-<ul>
-<li style="padding-left:2em">&#9702; King Victor Immanuel III succumbed to his pressure and appointed him as the Prime Minister.</li>
-</ul>
-</li>
-</ul>
-
-<p><u><strong>The regimentation of power by Mussolini in Italy:</strong></u></p>
-<p>Once in power, Mussolini quickly moved to consolidate his control over Italy. By the mid-1920s, Mussolini had established himself as the absolute dictator of Italy.</p>
-
-<ul>
-<li>&#8226; <strong>Concentration of power</strong>
-<ul>
-<li style="padding-left:2em">&#9702; He concentrated all the power in his hands.</li>
-<li style="padding-left:2em">&#9702; He <strong>dismissed the municipal corporations in towns</strong> and continued to appoint the officers directly from Rome.</li>
-<li style="padding-left:2em">&#9702; He declared himself to be the <strong>head of the judiciary, army, and education</strong> system.</li>
-<li style="padding-left:2em">&#9702; He destroyed almost the whole election process. He <strong>banned all political parties.</strong></li>
-<li style="padding-left:2em">&#9702; He <strong>censored the media.</strong></li>
-</ul>
-</li>
-<li>&#8226; <strong>Guns and the educational texts</strong>
-<ul>
-<li style="padding-left:2em">&#9702; <strong>Indoctrination:</strong> He brought changes in the educational curriculum/syllabus.</li>
-<li style="padding-left:2em">&#9702; <strong>Violence:</strong> With the support of a <strong>secret police</strong> organization, <strong>OVRA</strong>, he eliminated his enemies.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Religious Policy</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Mussolini initiated to bridge the gap between Rome and Vatican though singing a <strong>Lateran Agreement with Pope in 1929.</strong></li>
-<li style="padding-left:2em">&#9702; It recognized Vatican City as an independent state under the sovereignty of the Holy See. The treaty also acknowledged Roman Catholicism as the state religion of Italy</li>
-</ul>
-</li>
-<li>&#8226; <strong>Social control</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Youth organizations such as the <strong>Opera Nazionale Balilla</strong> and the <strong>Giovent&#xF9; Italiana del Littorio</strong> to indoctrinate young Italians with fascist ideology from an early age.</li>
-<li style="padding-left:2em">&#9702; <strong>Dopolavoro</strong> (After Work) was a fascist cultural, leisure and recreational organization founded in 1925 for workers.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Corporatism</strong>
-<ul>
-<li style="padding-left:2em">&#9702; When Mussolini came to power in Italy in 1922 the entire nation was passing through a phase of serious economic crisis.</li>
-<li style="padding-left:2em">&#9702; It threatened the capitalist system and promoted class conflict in society. Agitations and demonstrations of the working class were quite common. This atmosphere of extreme crisis provided fertile ground to communism.</li>
-<li style="padding-left:2em">&#9702; Mussolini tried to give a reply to it through a corporate state system. With the support of this system, Mussolini brought the whole <strong>economy under strict state control.</strong></li>
-<li style="padding-left:2em">&#9702; <strong>What is Corporatism?</strong>
-<ul>
-<li style="padding-left:4em">&#9632; A model of production which was inspired by <u>medieval guild system</u> as well as modern ideology of <u>syndicalism by George Sorrel</u>.</li>
-<li style="padding-left:4em">&#9632; It means organizing society into &#8220;corporations&#8221; subordinate to the state.</li>
-<li style="padding-left:4em">&#9632; It advocated the cooperation between employers-employees.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; <strong>Objective:</strong> To enable Mussolini to counter economic, political and social challenges.
-<ul>
-<li style="padding-left:4em">&#9632; It was viewed as a useful form of social organization for harmonious class relations.
-<ul>
-<li style="padding-left:2em">&#8226; Suppress the market forces and encourage production to reduce depression during the World Economic Crisis.</li>
-<li style="padding-left:2em">&#8226; If fascist party member in control of such guild/corporations, then there is less scope for class conflict.</li>
-<li style="padding-left:2em">&#8226; Thus, strikes, lockouts, agitations and demonstrations became a thing of the past. Entire national energy was to be channelized to higher production, and thus achieve economic revival.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; To work as anti-dote to capitalism and strengthen Mussolini&#8217;s claim to nationalism.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; <strong>Evolution</strong>
-<ul>
-<li style="padding-left:4em">&#9632; 1926:
-<ul>
-<li style="padding-left:2em">&#8226; Italian economy was divided in <strong>regions.</strong></li>
-<li style="padding-left:2em">&#8226; In each region, a separate association of employers and that of employees was formed (syndicates). At the head of each association, a member of the Fascist party was placed.</li>
-<li style="padding-left:2em">&#8226; Total 13 syndicates: 6 capitalists, 6 workers, 1 independent professionals</li>
-<li style="padding-left:2em">&#8226; These syndicates were placed under the administrative regulation of the government under supervision of Mussolini.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; 1927:
-<ul>
-<li style="padding-left:2em">&#8226; <strong>Labour charter</strong> was issued to define the responsible of various economic groups (employer and employee) to each other.
-<ul>
-<li style="padding-left:2em">&#9702; Labour was proclaimed as social duty; nobody could deny it. Strikes and Lockouts were prohibited.</li>
-<li style="padding-left:2em">&#9702; The state became the arbitrator in all disputes between the workers and capitalists.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; 1929:
-<ul>
-<li style="padding-left:2em">&#8226; Political representation was granted to various economic groups so that difficulties faced by various groups could be understood quickly and tackled peacefully.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; 1934:
-<ul>
-<li style="padding-left:2em">&#8226; When the bitter impact of world economic depression was visibly felt, the whole economy was brought under the command of <strong>22 corporations</strong>.
-<ul>
-<li style="padding-left:2em">&#9702; 8 for Agricultural related activities, 8 for Industrial activities, 6 for services</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#8226; It tried to save the economy from depressionary impact and checked intensification of class conflict.</li>
-<li style="padding-left:2em">&#8226; All these corporations were put together under the <strong>National Conference of Corporations</strong> headed by Mussolini.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; 1936:
-<ul>
-<li style="padding-left:2em">&#8226; The Lower house of Italian parliament (House of Deputies) was replaced by a new house known as the Chamber of Fascists and Corporations.
-<ul>
-<li style="padding-left:2em">&#9702; 823 members = 66 Fascist Party + 757 representatives of the 22 employer and employee corporations.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#8226; Members of the Fascist party and the representatives of corporations used to debate and discussion on the challenges to the Italian economy. The necessary laws and regulations could thus be drafted easily.</li>
-<li style="padding-left:2em">&#8226; It was the completion of the legal structure of the corporate state.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; However, ultimately failed in its objective. It was broken by the onset of World War II.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; Encouragement to employment among youth by <strong>army recruitment.</strong></li>
-</ul>
-
-<h3>Rise of Hitler in Germany</h3>
-
-<p>Hitler started his career as an ordinary soldier in Austrian army and this Austrian citizen become German chancellor in 1933. His rise in German politics were response to circumstances prevailing in Germany after WWI. He was the product of his times his rise added a new chapter to European history.</p>
-
-<p><u><strong>Factors behind the rise of Nazism:</strong></u></p>
-<ul>
-<li>&#8226; Nazism had its <strong>root in German militarism.</strong></li>
-<li>&#8226; The <strong>Treaty of Versailles</strong>, in which Germany was humiliated, created a favorable situation for the rise of Nazism.</li>
-<li>&#8226; The Treaty of Versailles imposed heavy reparations and territorial losses on Germany. This led to <strong>economic instability, hyperinflation, and social discontent</strong>.</li>
-<li>&#8226; Scared of <strong>growing influence of communism</strong>, both the Junker Class and the capitalist class strengthened the hand of Hitler or the Nazi party.
-<ul>
-<li style="padding-left:2em">&#9702; SDP was German Marxist party and wanted to establish dictatorship of proletariat. This danger became more imminent after the success of revolution in the neighborhood Russia.</li>
-</ul>
-</li>
-</ul>
-
-<p><u><strong>Reasons behind the decline of the Weimar Republic:</strong></u><br>It was the first republican experience in Germany, but unfortunately it didn&#8217;t survive.</p>
-<ul>
-<li>&#8226; The Republican system was a <strong>new to Germany.</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The German had always lived under strong Monarchical government. German monarchy was considered a symbol of strength in Germany and republic was taken as a symbol of weakness. Thus, it failed to find much acceptance among the people.</li>
-</ul>
-</li>
-<li>&#8226; Right from the very beginning, this republic was <strong>associated with the humiliating treaty of Versailles.</strong> So, it could not get respectability in the eyes of common Germans.</li>
-<li>&#8226; As the Weimar republic represented a <strong>centrist government</strong>, right from the very beginning, it faced the situation of <strong>attack from rightist and leftist parties both.</strong> Attempts to suppress the uprisings contributed to <strong>political instability</strong> and an erosion of public confidence in the government.</li>
-<li>&#8226; In the <strong>Weimar constitution</strong>, there was a provision for <strong>proportional representation.</strong> Due to this provision, a strong government could not be formed.</li>
-<li>&#8226; Initially, it had to face extreme economic difficulties. Still there was a temporary respite:
-<ul>
-<li style="padding-left:2em">&#9702; Chancellor <strong>Gustav Stresemann&#8217;s</strong> policies brought some recovery.</li>
-<li style="padding-left:2em">&#9702; <strong>Dawes Plan</strong> in 1924 helped stabilize the German economy.</li>
-<li style="padding-left:2em">&#9702; <strong>Locarno Treaties</strong> ensured peaceful relations with the neighbors.</li>
-</ul>
-</li>
-<li>&#8226; In the meantime, there appeared a <strong>great depression</strong> which undid all the efforts made by the republic. It led to widespread unemployment and social unrest, which <strong>fueled the rise of political extremism.</strong></li>
-<li>&#8226; In the Weimar constitution, there was a provision for a national emergency <strong>(Article-48).</strong> Misusing this article, Hitler destroyed the republic after coming to power in 1933.</li>
-</ul>
-
-<p><u><strong>Factors behind the rise of Hitler:</strong></u></p>
-<ul>
-<li>&#8226; After <strong>joining the Nazi party</strong>, he quickly rose to prominence within the organization (<strong>political skill</strong>) due to his powerful oratory skills (<strong>charisma</strong>) and extreme nationalist and anti-Semitic views. (<strong>ideology</strong>)
-<ul>
-<li style="padding-left:2em">&#9702; His Personality was magnetic. Hitler was a great <strong>orator</strong>. He could hypnotize millions through his speech.</li>
-<li style="padding-left:2em">&#9702; Hitler started a <strong>propaganda campaign</strong> in favour of its party&#8217;s program and consciously <strong>promoted a sense of hatred</strong> among common Germans against <strong>Jews, Jesuits as well as the Communist.</strong></li>
-</ul>
-</li>
-<li>&#8226; <strong>Under Hitler&#8217;s leadership, the party grew rapidly,</strong> attracting disaffected citizens, particularly those disillusioned by the economic turmoil and political instability following World War I. <strong>He promised what people wanted.</strong> Like Mussolini, Hitler also gave <strong>promises to different social groups</strong>, for example, the capitalist class, the workers, the youth and unemployed, the ultra-German nationalist etc. He guaranteed <u>restoration of peace, revival of economy and regaining German greatness.</u></li>
-<li>&#8226; Initially, like Mussolini, he also tried to capture power by dint of force. However, this <strong>Munich coup failed</strong>, forcing him to change his strategy. Then he decided to seize power by following the <strong>democratic means.</strong></li>
-<li>&#8226; <strong>Party development</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Uniformed disciplined cadres of Brownshirts was established in 1921 called Sturmabteilung (<strong>SA</strong>) to attack enemies.</li>
-<li style="padding-left:2em">&#9702; Well-built party machinery to take form of mini-state in itself.
-<ul>
-<li style="padding-left:4em">&#9632; Hitler was ruthless organizer. The Nazi Party machine created by him was extremely effective and efficient.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-<p><u><strong>Capture of Power:</strong></u></p>
-<ul>
-<li>&#8226; In spite of the best of his efforts, he could not get the expected success. So, he realized that Nazi ideals should have been spread to the rural areas as well. That&#8217;s why in between 1924 and 1928, he worked for creating a base even in the countryside. Notwithstanding that, in the <strong>elections of 1928</strong>, Hitler&#8217;s performance was not impressive.</li>
-<li>&#8226; Contributory factors behind the success of Nazi Party post-1928
-<ul>
-<li style="padding-left:2em">&#9702; <strong>World Economic Depression</strong> of 1929-30 proved a game-changer as Hitler&#8217;s popularity shot up during the time of this economic crisis. <em>Some historians therefore say that had Great Depression not taken place, Hitler would not have become so popular, and remained on the margins of history.</em></li>
-<li style="padding-left:2em">&#9702; <strong>Dismal performance of Weimar Republic</strong> in handling the crisis.</li>
-</ul>
-</li>
-<li>&#8226; Still in <strong>1930 elections</strong>, Nazi emerged <strong>second</strong> while SDP emerged as top.
-<ul>
-<li style="padding-left:2em">&#9702; So, there was dramatic rise of Nazi party but so was increase in Communist seats.</li>
-</ul>
-</li>
-<li>&#8226; In the <strong>elections of 1932</strong>, Nazi party got the <strong>majority votes</strong> and German president Hindenburg invited him to take charge of <strong>Chancellor in 1933</strong>. Thus, Hitler came to power.</li>
-<li>&#8226; From Chancellor, Hitler transformed himself <strong>into a Dictator within span of 2 years.</strong></li>
-</ul>
-
-<p><u><strong>Regimentation of power by Hitler:</strong></u></p>
-<ul>
-<li>&#8226; <strong>Suppression of political opposition</strong>
-<ul>
-<li style="padding-left:2em">&#9702; The <strong>Reichstag Fire</strong> in February 1933 provided a pretext for the suspension of civil liberties, allowing Hitler to issue the <strong>Reichstag Fire Decree</strong>, which suspended freedom of the press, assembly, and speech.</li>
-<li style="padding-left:2em">&#9702; Germany was declared as <strong>one-party state.</strong> All the other parties except the Nazi party were banned.</li>
-<li style="padding-left:2em">&#9702; Hitler established the <strong>Gestapo</strong>, a secret police force that was responsible for suppressing dissent and terrorizing the German people.</li>
-</ul>
-</li>
-<li>&#8226; He used <strong>propaganda</strong> to shape public opinion, promote Nazi ideology and to demonize the enemies.
-<ul>
-<li style="padding-left:2em">&#9702; <em>&#8220;The receptivity of the masses is very limited, their intelligence is small, but their power of forgetting is enormous. In consequence of these facts, all effective propaganda must be limited to a very few points and must harp on these in slogans until the last member of the public understands what you want him to understand by your slogan.&#8221;</em> &#8211; Hitler (Mein Kampf)</li>
-<li style="padding-left:2em">&#9702; <strong>Joseph Goebbels</strong>, the Minister of Propaganda, controlled the dissemination of information and tightly regulated the media, ensuring that only the Nazi party&#8217;s version of events was broadcast.</li>
-<li style="padding-left:2em">&#9702; He <strong>censored</strong> the <strong>media</strong> to suppress dissenting voices, and controlled all information that was disseminated to the German people.</li>
-<li style="padding-left:2em">&#9702; Hitler created a <strong>cult of personality</strong> around himself, portraying himself as a strong and infallible leader.</li>
-<li style="padding-left:2em">&#9702; <strong>Mass rallies</strong> to build support.</li>
-</ul>
-</li>
-<li>&#8226; <strong>National Emergency</strong>
-<ul>
-<li style="padding-left:2em">&#9702; After coming to power Hitler invoked Article-48 of the Weimar Republic and declared a national emergency.</li>
-</ul>
-</li>
-<li>&#8226; In 1934, President <strong>Hindenburg passed away</strong>. So, Hitler, on the basis of a <strong>referendum</strong>, <strong>combined the post of Chancellor and President</strong>, into a single one and occupied the post.</li>
-<li>&#8226; <strong>Gleichschaltung</strong> (coordination)
-<ul>
-<li style="padding-left:2em">&#9702; It meant coordination of all aspects of German society under Nazi control.</li>
-<li style="padding-left:2em">&#9702; <strong>Nazification</strong> of the civil service, judiciary, education system, and other institutions.</li>
-<li style="padding-left:2em">&#9702; It effectively eliminated any remaining opposition and ensured the loyalty of all.</li>
-</ul>
-</li>
-<li>&#8226; He <strong>purged</strong> the party of any internal political rival and ensured complete control.</li>
-<li>&#8226; <strong>Economic Policy:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; In order to put control over the strikes, Hitler dissolved independent trade unions and created <strong>German Labour Front.</strong> Thus, he brought the working-class under his control.</li>
-<li style="padding-left:2em">&#9702; On the front of <strong>employment</strong>, he got unparallel success, as he unconsciously adopted some <strong>Keynesian methods</strong> for promoting employment by the state through increasing state spending.
-<ul>
-<li style="padding-left:4em">&#9632; <strong>Hjalmar Schacht</strong> was the economist who helped Hitler to run the economy. He believed in <strong>government intervention</strong> in the economy to achieve full employment and economic growth. He implemented a number of policies to achieve these goals, including <strong>public works projects, tax breaks for businesses, and subsidies for exports.</strong></li>
-<li style="padding-left:4em">&#9632; <strong>Four-Year Plan</strong> to achieve economic self-sufficiency and prepare the country for war.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; <strong>Social welfare programs:</strong> Public works projects, affordable housing, and the expansion of social services to alleviate economic hardships faced by the working class and to create a sense of loyalty and dependence on the state.</li>
-</ul>
-</li>
-<li>&#8226; <strong>Social policy (established racial state)</strong>
-<ul>
-<li style="padding-left:2em">&#9702; He brought changes in the <strong>educational curriculum</strong> and encouraged the scholars and artists to <strong>glorify the Nazi party and Hitler.</strong></li>
-<li style="padding-left:2em">&#9702; Hitler and the Nazi party adopted a <strong>harsh method for women.</strong> They prescribed only <strong>Kinder</strong> (kids), <strong>Kirch</strong> (Church), <strong>Kuch</strong> (kitchen) to women.</li>
-<li style="padding-left:2em">&#9702; <strong>The Hitler Youth</strong> and the <strong>League of German Girls</strong> were created to indoctrinate young Germans with Nazi beliefs.
-<ul>
-<li style="padding-left:4em">&#9632; These organizations emphasized physical fitness, militarism, and racial purity, aiming to create a generation loyal to the Nazi cause and the F&#xFC;hrer.</li>
-</ul>
-</li>
-<li style="padding-left:2em">&#9702; Hitler <strong>promoted a racist ideology</strong> that espoused the superiority of the so-called Aryan race while denigrating and persecuting minority groups, particularly Jews, as well as Roma, disabled individuals, and others deemed inferior.
-<ul>
-<li style="padding-left:4em">&#9632; <strong>Eugenics</strong> Under Nazi rule, eugenics became a central component of the racial policies, leading to discriminatory and genocidal measures targeting individuals deemed racially or genetically &#8220;undesirable.&#8221;
-<ul>
-<li style="padding-left:2em">&#8226; Hitler provided <strong>subsidies to peasants</strong> because in Nazi conception the greater value is allocated to &#8216;pure&#8217; blood, higher fertility rate and connection with soil.</li>
-<li style="padding-left:2em">&#8226; <strong>Law for the Prevention of Hereditarily Diseased Offspring (1933)</strong>, which authorized the forced sterilization of individuals with hereditary diseases or disabilities.</li>
-<li style="padding-left:2em">&#8226; <strong>T-4 Euthanasia Program</strong> aimed to systematically exterminate individuals with mental illnesses and disabilities.</li>
-</ul>
-</li>
-<li style="padding-left:4em">&#9632; Discriminatory laws, such as the <strong>Nuremberg Laws</strong> in 1935, solidified the racial policies and initiated systematic persecution. Jews were deprived of their citizenship, prohibited inter-racial marriages by Jews, and in 1938, riots started against them.</li>
-<li style="padding-left:4em">&#9632; <strong>Concentration camps</strong> soon followed for the <em>&#8216;Final Solution&#8217;.</em>
-<ul>
-<li style="padding-left:2em">&#8226; It was the culmination of the policy of eugenics.</li>
-<li style="padding-left:2em">&#8226; Systematic genocide of six million Jews and millions of others.</li>
-<li style="padding-left:2em">&#8226; <strong>Schutzstaffel</strong> (SS) under the leadership of <strong>Heinrich Himmler</strong>, managed <strong>holocaust</strong>.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>&#8226; <strong>Militarization and expansionist policies:</strong>
-<ul>
-<li style="padding-left:2em">&#9702; Hitler&#8217;s regime embarked on a program of military expansion and rearmament, in violation of the Treaty of Versailles.</li>
-<li style="padding-left:2em">&#9702; This aggressive foreign policy was aimed at achieving <strong>Lebensraum</strong> (living space) for the German people and establishing German <strong>hegemony</strong> over Europe, ultimately leading to the outbreak of World War II in 1939.</li>
-</ul>
-</li>
-</ul>
-
-<h3>Hitler-Mussolini Comparison</h3>
-
-<p><strong>Similarities between Mussolini and Hitler:</strong></p>
-<ul>
-<li>&#8226; Both were totalitarian regimes.</li>
-<li>&#8226; Regimentation of all the powers into the hand of an individual.</li>
-<li>&#8226; To support extreme nationalism.</li>
-<li>&#8226; To oppose Communism, Socialism &amp; Liberalism.</li>
-<li>&#8226; To put a check over the class struggle.</li>
-<li>&#8226; To introduce an aggressive foreign policy.</li>
-</ul>
-
-<p><strong>Differences between Mussolini and Hitler:</strong></p>
-<table border="1" cellpadding="6" cellspacing="0">
-<thead>
-<tr><th>Mussolini</th><th>Hitler</th></tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<ul>
-<li>&#8226; Less scope for anti-Semitism. He followed it later under influence of Hitler, but it was not inherently anti-Semitic.</li>
-<li>&#8226; Mussolini strengthened his position but not equally the position of his party. When he started to lose, the party couldn&#8217;t rise upto the occasion.</li>
-<li>&#8226; Italian fascism maintained effective state control over economic activities. The corporate state of Mussolini was an example of same.</li>
-<li>&#8226; Although expansionist, Mussolini was hesitant to go no war with European powers.</li>
-</ul>
-</td>
-<td>
-<ul>
-<li>&#8226; More radical than Mussolini</li>
-<li>&#8226; Nazism was deeply associated with racial purity and anti-Semitism.</li>
-<li>&#8226; Pre-peasant bias (supposed pure blood, fertility rate higher)</li>
-<li>&#8226; Hitler strengthened his position and that of his party also.</li>
-<li>&#8226; No such corporatist system was enforced in Germany.</li>
-<li>&#8226; Extremely expansionist, invaded Poland in 1939 and sparked the Second World War</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
 <h2>Handout 32: Russian Revolution</h2>
 
 <h3>UPSC CSE PYQs</h3>
@@ -32224,6 +31737,493 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
 </ul>
 
 <p>All of it contributed to the instability and conflict that characterized the interwar period. Thus, Carr believed that the failure of the Paris Peace Conference was a missed opportunity. All of this set the stage for another war.</p>
+<h2>Handout 34: Fascist Counter-Revolution, Italy, and Germany</h2>
+
+<blockquote>&#8220;Fascism is a lie that tells itself it is true.&#8221; &#8212; Umberto Eco</blockquote>
+<blockquote>&#8220;Fascism is a disease of weakness. It is the fear of the strong and the envy of the weak. It is the hatred of the individual for the group and the group for the individual.&#8221; &#8212; H.G. Wells</blockquote>
+<blockquote>&#8220;Fascism is not defined by the number of its victims, but by the way it kills them.&#8221; &#8212; Jean-Paul Sartre</blockquote>
+
+<h3>UPSC CSE PYQs</h3>
+
+<p><strong>Characteristics</strong></p>
+<ul>
+<li>&#8226; &#8220;Extreme nationalism of the Fascist Variety has various faces in various countries, but it has everywhere certain common characteristics.&#8221; Comment. [1989, 20 Marks]</li>
+<li>&#8226; &#8220;Comparison of the fascist regime in Italy with the National Socialist regime of Germany is almost inevitable. The similarities are obvious, but there is one point of difference which is worth mentioning.&#8221; Comment. [1991, 20 Marks]</li>
+<li>&#8226; Discuss the main characteristics of Fascism. [2007, 60 Marks]</li>
+</ul>
+
+<p><strong>Causes</strong></p>
+<ul>
+<li>&#8226; &#8220;The roots of the rise of Fascism lay in Peace Treaties.&#8221; Comment. [2003, 20 Marks]</li>
+<li>&#8226; Discuss how Fascism was a response to the post-war situation arising out of political instability, thwarted nationalist hopes, and fears of the spread of communism? [2022, 20m]</li>
+</ul>
+
+<p><strong>Italy</strong></p>
+<ul>
+<li>&#8226; &#8216;Corporate State&#8217; was Mussolini&#8217;s answer to sociopolitical problems of his country. Elucidate. [1995, 60 Marks]</li>
+<li>&#8226; Examine the circumstances which led to the overthrow of democracy and the establishment of Fascist dictatorship in Italy. [2017, 20 Marks]</li>
+</ul>
+
+<p><strong>Germany</strong></p>
+<ul>
+<li>&#8226; What were the weaknesses and difficulties of the Weimer Republic? How did Hitler succeed in establishing his dictatorship? [2004, 60 Marks]</li>
+<li>&#8226; Hitler was &#8220;a creature flung to the top by the tides of revolutionary change, or the embodiment of the collective unconsciousness of a people obsessed with violence and death.&#8221; Comment. [1984, 20 Marks]</li>
+</ul>
+
+<p><strong>Fascism</strong> gradually evolved since the 19th century. There are conflicting ideas about it:</p>
+<ul>
+<li>&#8226; According to one view, it was a reflection of <strong>ultra-nationalism.</strong></li>
+<li>&#8226; According to Max Weber, Fascism was a <strong>desperate attempt on the part of nobles and aristocrats to regain power.</strong></li>
+<li>&#8226; According to leftist thinkers, it was a sharp reaction of capitalism against the progress of socialism.</li>
+</ul>
+
+<p><u>Fascism is a far-right ideology characterized by totalitarian power in the hands of a dictator. There is a total submission to the state and strong regimentation of society and economy.</u> However, it is not a very consistent idea. Rather it seems to be a mixture of different ideologies, i.e.</p>
+<ul>
+<li>&#8226; Authoritarian and anti-democratic</li>
+<li>&#8226; Anti-liberal, anti-individual</li>
+<li>&#8226; Anti laissez faire</li>
+<li>&#8226; Anti-intellectualism</li>
+<li>&#8226; Anti-communism</li>
+<li>&#8226; Anti-internationalism</li>
+</ul>
+
+<p>Before WWI, fascism was on the fringes. It was only after WWI that it got wider acceptance among European people. As it developed, there emerged various versions in various nations/leaders. Apart from Hitler (Germany) and Mussolini (Italy), Juan Peron (Argentina), Salazar (Portugal), Dollfuss (Austria), General Tojo (Japan), Metaxas (Greece), General Franco (Spain) were also the Variants of fascism.</p>
+
+<p>Despite differences, there are certain <strong>points of similarity</strong>, such as:</p>
+<ul>
+<li>&#8226; Glorification of the power of the state.
+<ul>
+<li style="padding-left:2em">&#9702; Hegelian nationalism</li>
+<li style="padding-left:2em">&#9702; Belied in supreme statism.
+<ul>
+<li style="padding-left:4em">&#9632; Mussolini: &#8220;everything within state, nothing is outside state, nothing is against state.&#8221;</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Centralization of administration.</li>
+</ul>
+</li>
+<li>&#8226; Totalitarian in nature.</li>
+<li>&#8226; Glorification of leadership and the promotion of the cult of hero-worship.
+<ul>
+<li style="padding-left:2em">&#9702; Belief in one party, one leader and one idea. Divergence of opinion was not tolerated. The word of the leader was to be followed rigidly by all.</li>
+</ul>
+</li>
+<li>&#8226; Conservative socio-cultural outlook.
+<ul>
+<li style="padding-left:2em">&#9702; Promotion of status-quo in society and emphasis over customs and traditions.</li>
+</ul>
+</li>
+<li>&#8226; Fascism emphasized self-sufficiency of state. It was considered as a pre consideration for creating a strong nation.</li>
+<li>&#8226; Populism
+<ul>
+<li style="padding-left:2em">&#9702; The Fascist regimes adopted populist approach to widen their mass following, they promised what people wanted.</li>
+</ul>
+</li>
+<li>&#8226; Elements of the welfare state</li>
+<li>&#8226; Use of the official machinery as well as almost all socio-cultural venues to promote their ideology.</li>
+<li>&#8226; To make use of mob psychology.</li>
+<li>&#8226; Social Darwinism</li>
+<li>&#8226; Militarism</li>
+<li>&#8226; Follow aggressive foreign policy.
+<ul>
+<li style="padding-left:2em">&#9702; Belief in expansionism was another common feature among fascist regimes.</li>
+</ul>
+</li>
+<li>&#8226; Use of tactical approach and opportunism</li>
+</ul>
+
+<p><strong>Factors behind the rise of fascism in Europe:</strong></p>
+<ul>
+<li>&#8226; The growth of new ideologies like social Darwinism and Freud&#8217;s psychology,</li>
+<li>&#8226; Disenchantment of Italy &amp; Germany in the Paris Peace Conference.</li>
+<li>&#8226; The World Economic Depression in 1929-30 created a crisis in the capitalist system. So, capitalism tried to save itself from communism even through the fascist method.</li>
+</ul>
+
+<p><strong>Who supported Fascism in post-war Europe?</strong><br>Fascism&#8217;s support base included following elements:</p>
+<ul>
+<li>&#8226; Small shopkeepers (Petty bourgeoise), small merchants, daily wage-earners, artisans etc.</li>
+<li>&#8226; Defeated and depressed military elements in post-World war condition</li>
+<li>&#8226; Ultra-nationalists were utterly dissatisfied with the performance of PPC.</li>
+</ul>
+
+<p><strong>Why did Italy and Germany prove a green pasture for Fascist ideology?</strong></p>
+<ul>
+<li>&#8226; Weak democratic traditions due to their specific nature of nation-building.</li>
+<li>&#8226; Both Italy and Germany were dissatisfied with the PPC.</li>
+</ul>
+
+<h3>Rise of Mussolini in Italy</h3>
+
+<p>Mussolini formed a party <strong>fasci di combattimento</strong> (fighting leagues) in 1919 in Milan. It was the official name, but it became popular by the name Fascism. Its symbol was a bundle of sticks.</p>
+
+<p><u><strong>The factors behind his rise to power:</strong></u></p>
+<ul>
+<li>&#8226; <strong>Situation</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Weakness of Liberal State:</strong> Italy&#8217;s parliamentary system was plagued by corruption and instability. This made it difficult for the government to respond effectively to the challenges facing the country.</li>
+<li style="padding-left:2em">&#9702; <strong>Impact of WW1:</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The war had left Italy with a devastated economy, high unemployment, and widespread social unrest. Many Italians were disillusioned with the government&#8217;s inability to address these problems.</li>
+<li style="padding-left:4em">&#9632; The perceived betrayal in the Paris Peace fueled ultra-nationalism and anti-establishment sentiments.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Political Instability</strong>
+<ul>
+<li style="padding-left:4em">&#9632; The democratically elected government failed to provide a stable government and resolve economic problems. Italians thus started to lose faith in democracy.</li>
+<li style="padding-left:4em">&#9632; There was <strong>fear of communism</strong> among many sections of the population.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Mussolini capitalized on the popular desire for strong leadership:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Mussolini promised to restore Italy to its <strong>former greatness.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; He consciously <strong>encouraged the ultra-nationalist emotions</strong> among the people and started to undo the historical norms which were accepted by Italy in Paris Peace Conference.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; He promised to solve the country&#8217;s <strong>economic and social problems.</strong></li>
+<li style="padding-left:2em">&#9702; His <strong>fascist ideology</strong> appealed to many Italians who were looking for strong leadership and a sense of national unity.</li>
+<li style="padding-left:2em">&#9702; He was a <strong>skilled orator and organizer.</strong> He was able to build a large following for his fascist movement by appealing to the emotions of the Italian people.</li>
+<li style="padding-left:2em">&#9702; He followed a <u>thorough opportunist policy</u> in Italy.
+<ul>
+<li style="padding-left:4em">&#9632; Earlier he used to publish a journal <strong>Avanti</strong> and posed himself as a <strong>socialist</strong>. So, at the time of invasion of Libya by Italy, he stood along with socialist internationalism and denounced this aggression.</li>
+<li style="padding-left:4em">&#9632; In 1922, he said he is launching <strong>all-out war against socialism</strong>.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; He tried to <strong>win over different social groups</strong> in his favour through giving them false promises, which were <strong>mutually conflicting.</strong>
+<ul>
+<li style="padding-left:4em">&#9632; Capitalists were promised freedom from workers strikes.</li>
+<li style="padding-left:4em">&#9632; Workers were promised protection from capitalists&#8217; lockouts.</li>
+<li style="padding-left:4em">&#9632; Ultra-nationalists were promised revenge on the PPC.</li>
+<li style="padding-left:4em">&#9632; Middle class was promised law and order establishment.</li>
+<li style="padding-left:4em">&#9632; Students were promised employment.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><u><strong>Capture of power:</strong></u></p>
+<ul>
+<li>&#8226; But still in the elections of 1921, the Fascist party bagged only 35 seats.</li>
+<li>&#8226; Now Mussolini changed the strategy and started physical struggle against communists on the streets.</li>
+<li>&#8226; Then in 1922, he organized <strong>50 thousand volunteers</strong> (disciplined blackshirt paramilitary cadres) and carried a <strong><u>March on Rome.</u></strong>
+<ul>
+<li style="padding-left:2em">&#9702; King Victor Immanuel III succumbed to his pressure and appointed him as the Prime Minister.</li>
+</ul>
+</li>
+</ul>
+
+<p><u><strong>The regimentation of power by Mussolini in Italy:</strong></u></p>
+<p>Once in power, Mussolini quickly moved to consolidate his control over Italy. By the mid-1920s, Mussolini had established himself as the absolute dictator of Italy.</p>
+
+<ul>
+<li>&#8226; <strong>Concentration of power</strong>
+<ul>
+<li style="padding-left:2em">&#9702; He concentrated all the power in his hands.</li>
+<li style="padding-left:2em">&#9702; He <strong>dismissed the municipal corporations in towns</strong> and continued to appoint the officers directly from Rome.</li>
+<li style="padding-left:2em">&#9702; He declared himself to be the <strong>head of the judiciary, army, and education</strong> system.</li>
+<li style="padding-left:2em">&#9702; He destroyed almost the whole election process. He <strong>banned all political parties.</strong></li>
+<li style="padding-left:2em">&#9702; He <strong>censored the media.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Guns and the educational texts</strong>
+<ul>
+<li style="padding-left:2em">&#9702; <strong>Indoctrination:</strong> He brought changes in the educational curriculum/syllabus.</li>
+<li style="padding-left:2em">&#9702; <strong>Violence:</strong> With the support of a <strong>secret police</strong> organization, <strong>OVRA</strong>, he eliminated his enemies.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Religious Policy</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Mussolini initiated to bridge the gap between Rome and Vatican though singing a <strong>Lateran Agreement with Pope in 1929.</strong></li>
+<li style="padding-left:2em">&#9702; It recognized Vatican City as an independent state under the sovereignty of the Holy See. The treaty also acknowledged Roman Catholicism as the state religion of Italy</li>
+</ul>
+</li>
+<li>&#8226; <strong>Social control</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Youth organizations such as the <strong>Opera Nazionale Balilla</strong> and the <strong>Giovent&#xF9; Italiana del Littorio</strong> to indoctrinate young Italians with fascist ideology from an early age.</li>
+<li style="padding-left:2em">&#9702; <strong>Dopolavoro</strong> (After Work) was a fascist cultural, leisure and recreational organization founded in 1925 for workers.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Corporatism</strong>
+<ul>
+<li style="padding-left:2em">&#9702; When Mussolini came to power in Italy in 1922 the entire nation was passing through a phase of serious economic crisis.</li>
+<li style="padding-left:2em">&#9702; It threatened the capitalist system and promoted class conflict in society. Agitations and demonstrations of the working class were quite common. This atmosphere of extreme crisis provided fertile ground to communism.</li>
+<li style="padding-left:2em">&#9702; Mussolini tried to give a reply to it through a corporate state system. With the support of this system, Mussolini brought the whole <strong>economy under strict state control.</strong></li>
+<li style="padding-left:2em">&#9702; <strong>What is Corporatism?</strong>
+<ul>
+<li style="padding-left:4em">&#9632; A model of production which was inspired by <u>medieval guild system</u> as well as modern ideology of <u>syndicalism by George Sorrel</u>.</li>
+<li style="padding-left:4em">&#9632; It means organizing society into &#8220;corporations&#8221; subordinate to the state.</li>
+<li style="padding-left:4em">&#9632; It advocated the cooperation between employers-employees.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Objective:</strong> To enable Mussolini to counter economic, political and social challenges.
+<ul>
+<li style="padding-left:4em">&#9632; It was viewed as a useful form of social organization for harmonious class relations.
+<ul>
+<li style="padding-left:2em">&#8226; Suppress the market forces and encourage production to reduce depression during the World Economic Crisis.</li>
+<li style="padding-left:2em">&#8226; If fascist party member in control of such guild/corporations, then there is less scope for class conflict.</li>
+<li style="padding-left:2em">&#8226; Thus, strikes, lockouts, agitations and demonstrations became a thing of the past. Entire national energy was to be channelized to higher production, and thus achieve economic revival.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; To work as anti-dote to capitalism and strengthen Mussolini&#8217;s claim to nationalism.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Evolution</strong>
+<ul>
+<li style="padding-left:4em">&#9632; 1926:
+<ul>
+<li style="padding-left:2em">&#8226; Italian economy was divided in <strong>regions.</strong></li>
+<li style="padding-left:2em">&#8226; In each region, a separate association of employers and that of employees was formed (syndicates). At the head of each association, a member of the Fascist party was placed.</li>
+<li style="padding-left:2em">&#8226; Total 13 syndicates: 6 capitalists, 6 workers, 1 independent professionals</li>
+<li style="padding-left:2em">&#8226; These syndicates were placed under the administrative regulation of the government under supervision of Mussolini.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; 1927:
+<ul>
+<li style="padding-left:2em">&#8226; <strong>Labour charter</strong> was issued to define the responsible of various economic groups (employer and employee) to each other.
+<ul>
+<li style="padding-left:2em">&#9702; Labour was proclaimed as social duty; nobody could deny it. Strikes and Lockouts were prohibited.</li>
+<li style="padding-left:2em">&#9702; The state became the arbitrator in all disputes between the workers and capitalists.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; 1929:
+<ul>
+<li style="padding-left:2em">&#8226; Political representation was granted to various economic groups so that difficulties faced by various groups could be understood quickly and tackled peacefully.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; 1934:
+<ul>
+<li style="padding-left:2em">&#8226; When the bitter impact of world economic depression was visibly felt, the whole economy was brought under the command of <strong>22 corporations</strong>.
+<ul>
+<li style="padding-left:2em">&#9702; 8 for Agricultural related activities, 8 for Industrial activities, 6 for services</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#8226; It tried to save the economy from depressionary impact and checked intensification of class conflict.</li>
+<li style="padding-left:2em">&#8226; All these corporations were put together under the <strong>National Conference of Corporations</strong> headed by Mussolini.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; 1936:
+<ul>
+<li style="padding-left:2em">&#8226; The Lower house of Italian parliament (House of Deputies) was replaced by a new house known as the Chamber of Fascists and Corporations.
+<ul>
+<li style="padding-left:2em">&#9702; 823 members = 66 Fascist Party + 757 representatives of the 22 employer and employee corporations.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#8226; Members of the Fascist party and the representatives of corporations used to debate and discussion on the challenges to the Italian economy. The necessary laws and regulations could thus be drafted easily.</li>
+<li style="padding-left:2em">&#8226; It was the completion of the legal structure of the corporate state.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; However, ultimately failed in its objective. It was broken by the onset of World War II.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; Encouragement to employment among youth by <strong>army recruitment.</strong></li>
+</ul>
+
+<h3>Rise of Hitler in Germany</h3>
+
+<p>Hitler started his career as an ordinary soldier in Austrian army and this Austrian citizen become German chancellor in 1933. His rise in German politics were response to circumstances prevailing in Germany after WWI. He was the product of his times his rise added a new chapter to European history.</p>
+
+<p><u><strong>Factors behind the rise of Nazism:</strong></u></p>
+<ul>
+<li>&#8226; Nazism had its <strong>root in German militarism.</strong></li>
+<li>&#8226; The <strong>Treaty of Versailles</strong>, in which Germany was humiliated, created a favorable situation for the rise of Nazism.</li>
+<li>&#8226; The Treaty of Versailles imposed heavy reparations and territorial losses on Germany. This led to <strong>economic instability, hyperinflation, and social discontent</strong>.</li>
+<li>&#8226; Scared of <strong>growing influence of communism</strong>, both the Junker Class and the capitalist class strengthened the hand of Hitler or the Nazi party.
+<ul>
+<li style="padding-left:2em">&#9702; SDP was German Marxist party and wanted to establish dictatorship of proletariat. This danger became more imminent after the success of revolution in the neighborhood Russia.</li>
+</ul>
+</li>
+</ul>
+
+<p><u><strong>Reasons behind the decline of the Weimar Republic:</strong></u><br>It was the first republican experience in Germany, but unfortunately it didn&#8217;t survive.</p>
+<ul>
+<li>&#8226; The Republican system was a <strong>new to Germany.</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The German had always lived under strong Monarchical government. German monarchy was considered a symbol of strength in Germany and republic was taken as a symbol of weakness. Thus, it failed to find much acceptance among the people.</li>
+</ul>
+</li>
+<li>&#8226; Right from the very beginning, this republic was <strong>associated with the humiliating treaty of Versailles.</strong> So, it could not get respectability in the eyes of common Germans.</li>
+<li>&#8226; As the Weimar republic represented a <strong>centrist government</strong>, right from the very beginning, it faced the situation of <strong>attack from rightist and leftist parties both.</strong> Attempts to suppress the uprisings contributed to <strong>political instability</strong> and an erosion of public confidence in the government.</li>
+<li>&#8226; In the <strong>Weimar constitution</strong>, there was a provision for <strong>proportional representation.</strong> Due to this provision, a strong government could not be formed.</li>
+<li>&#8226; Initially, it had to face extreme economic difficulties. Still there was a temporary respite:
+<ul>
+<li style="padding-left:2em">&#9702; Chancellor <strong>Gustav Stresemann&#8217;s</strong> policies brought some recovery.</li>
+<li style="padding-left:2em">&#9702; <strong>Dawes Plan</strong> in 1924 helped stabilize the German economy.</li>
+<li style="padding-left:2em">&#9702; <strong>Locarno Treaties</strong> ensured peaceful relations with the neighbors.</li>
+</ul>
+</li>
+<li>&#8226; In the meantime, there appeared a <strong>great depression</strong> which undid all the efforts made by the republic. It led to widespread unemployment and social unrest, which <strong>fueled the rise of political extremism.</strong></li>
+<li>&#8226; In the Weimar constitution, there was a provision for a national emergency <strong>(Article-48).</strong> Misusing this article, Hitler destroyed the republic after coming to power in 1933.</li>
+</ul>
+
+<p><u><strong>Factors behind the rise of Hitler:</strong></u></p>
+<ul>
+<li>&#8226; After <strong>joining the Nazi party</strong>, he quickly rose to prominence within the organization (<strong>political skill</strong>) due to his powerful oratory skills (<strong>charisma</strong>) and extreme nationalist and anti-Semitic views. (<strong>ideology</strong>)
+<ul>
+<li style="padding-left:2em">&#9702; His Personality was magnetic. Hitler was a great <strong>orator</strong>. He could hypnotize millions through his speech.</li>
+<li style="padding-left:2em">&#9702; Hitler started a <strong>propaganda campaign</strong> in favour of its party&#8217;s program and consciously <strong>promoted a sense of hatred</strong> among common Germans against <strong>Jews, Jesuits as well as the Communist.</strong></li>
+</ul>
+</li>
+<li>&#8226; <strong>Under Hitler&#8217;s leadership, the party grew rapidly,</strong> attracting disaffected citizens, particularly those disillusioned by the economic turmoil and political instability following World War I. <strong>He promised what people wanted.</strong> Like Mussolini, Hitler also gave <strong>promises to different social groups</strong>, for example, the capitalist class, the workers, the youth and unemployed, the ultra-German nationalist etc. He guaranteed <u>restoration of peace, revival of economy and regaining German greatness.</u></li>
+<li>&#8226; Initially, like Mussolini, he also tried to capture power by dint of force. However, this <strong>Munich coup failed</strong>, forcing him to change his strategy. Then he decided to seize power by following the <strong>democratic means.</strong></li>
+<li>&#8226; <strong>Party development</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Uniformed disciplined cadres of Brownshirts was established in 1921 called Sturmabteilung (<strong>SA</strong>) to attack enemies.</li>
+<li style="padding-left:2em">&#9702; Well-built party machinery to take form of mini-state in itself.
+<ul>
+<li style="padding-left:4em">&#9632; Hitler was ruthless organizer. The Nazi Party machine created by him was extremely effective and efficient.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<p><u><strong>Capture of Power:</strong></u></p>
+<ul>
+<li>&#8226; In spite of the best of his efforts, he could not get the expected success. So, he realized that Nazi ideals should have been spread to the rural areas as well. That&#8217;s why in between 1924 and 1928, he worked for creating a base even in the countryside. Notwithstanding that, in the <strong>elections of 1928</strong>, Hitler&#8217;s performance was not impressive.</li>
+<li>&#8226; Contributory factors behind the success of Nazi Party post-1928
+<ul>
+<li style="padding-left:2em">&#9702; <strong>World Economic Depression</strong> of 1929-30 proved a game-changer as Hitler&#8217;s popularity shot up during the time of this economic crisis. <em>Some historians therefore say that had Great Depression not taken place, Hitler would not have become so popular, and remained on the margins of history.</em></li>
+<li style="padding-left:2em">&#9702; <strong>Dismal performance of Weimar Republic</strong> in handling the crisis.</li>
+</ul>
+</li>
+<li>&#8226; Still in <strong>1930 elections</strong>, Nazi emerged <strong>second</strong> while SDP emerged as top.
+<ul>
+<li style="padding-left:2em">&#9702; So, there was dramatic rise of Nazi party but so was increase in Communist seats.</li>
+</ul>
+</li>
+<li>&#8226; In the <strong>elections of 1932</strong>, Nazi party got the <strong>majority votes</strong> and German president Hindenburg invited him to take charge of <strong>Chancellor in 1933</strong>. Thus, Hitler came to power.</li>
+<li>&#8226; From Chancellor, Hitler transformed himself <strong>into a Dictator within span of 2 years.</strong></li>
+</ul>
+
+<p><u><strong>Regimentation of power by Hitler:</strong></u></p>
+<ul>
+<li>&#8226; <strong>Suppression of political opposition</strong>
+<ul>
+<li style="padding-left:2em">&#9702; The <strong>Reichstag Fire</strong> in February 1933 provided a pretext for the suspension of civil liberties, allowing Hitler to issue the <strong>Reichstag Fire Decree</strong>, which suspended freedom of the press, assembly, and speech.</li>
+<li style="padding-left:2em">&#9702; Germany was declared as <strong>one-party state.</strong> All the other parties except the Nazi party were banned.</li>
+<li style="padding-left:2em">&#9702; Hitler established the <strong>Gestapo</strong>, a secret police force that was responsible for suppressing dissent and terrorizing the German people.</li>
+</ul>
+</li>
+<li>&#8226; He used <strong>propaganda</strong> to shape public opinion, promote Nazi ideology and to demonize the enemies.
+<ul>
+<li style="padding-left:2em">&#9702; <em>&#8220;The receptivity of the masses is very limited, their intelligence is small, but their power of forgetting is enormous. In consequence of these facts, all effective propaganda must be limited to a very few points and must harp on these in slogans until the last member of the public understands what you want him to understand by your slogan.&#8221;</em> &#8211; Hitler (Mein Kampf)</li>
+<li style="padding-left:2em">&#9702; <strong>Joseph Goebbels</strong>, the Minister of Propaganda, controlled the dissemination of information and tightly regulated the media, ensuring that only the Nazi party&#8217;s version of events was broadcast.</li>
+<li style="padding-left:2em">&#9702; He <strong>censored</strong> the <strong>media</strong> to suppress dissenting voices, and controlled all information that was disseminated to the German people.</li>
+<li style="padding-left:2em">&#9702; Hitler created a <strong>cult of personality</strong> around himself, portraying himself as a strong and infallible leader.</li>
+<li style="padding-left:2em">&#9702; <strong>Mass rallies</strong> to build support.</li>
+</ul>
+</li>
+<li>&#8226; <strong>National Emergency</strong>
+<ul>
+<li style="padding-left:2em">&#9702; After coming to power Hitler invoked Article-48 of the Weimar Republic and declared a national emergency.</li>
+</ul>
+</li>
+<li>&#8226; In 1934, President <strong>Hindenburg passed away</strong>. So, Hitler, on the basis of a <strong>referendum</strong>, <strong>combined the post of Chancellor and President</strong>, into a single one and occupied the post.</li>
+<li>&#8226; <strong>Gleichschaltung</strong> (coordination)
+<ul>
+<li style="padding-left:2em">&#9702; It meant coordination of all aspects of German society under Nazi control.</li>
+<li style="padding-left:2em">&#9702; <strong>Nazification</strong> of the civil service, judiciary, education system, and other institutions.</li>
+<li style="padding-left:2em">&#9702; It effectively eliminated any remaining opposition and ensured the loyalty of all.</li>
+</ul>
+</li>
+<li>&#8226; He <strong>purged</strong> the party of any internal political rival and ensured complete control.</li>
+<li>&#8226; <strong>Economic Policy:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; In order to put control over the strikes, Hitler dissolved independent trade unions and created <strong>German Labour Front.</strong> Thus, he brought the working-class under his control.</li>
+<li style="padding-left:2em">&#9702; On the front of <strong>employment</strong>, he got unparallel success, as he unconsciously adopted some <strong>Keynesian methods</strong> for promoting employment by the state through increasing state spending.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Hjalmar Schacht</strong> was the economist who helped Hitler to run the economy. He believed in <strong>government intervention</strong> in the economy to achieve full employment and economic growth. He implemented a number of policies to achieve these goals, including <strong>public works projects, tax breaks for businesses, and subsidies for exports.</strong></li>
+<li style="padding-left:4em">&#9632; <strong>Four-Year Plan</strong> to achieve economic self-sufficiency and prepare the country for war.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; <strong>Social welfare programs:</strong> Public works projects, affordable housing, and the expansion of social services to alleviate economic hardships faced by the working class and to create a sense of loyalty and dependence on the state.</li>
+</ul>
+</li>
+<li>&#8226; <strong>Social policy (established racial state)</strong>
+<ul>
+<li style="padding-left:2em">&#9702; He brought changes in the <strong>educational curriculum</strong> and encouraged the scholars and artists to <strong>glorify the Nazi party and Hitler.</strong></li>
+<li style="padding-left:2em">&#9702; Hitler and the Nazi party adopted a <strong>harsh method for women.</strong> They prescribed only <strong>Kinder</strong> (kids), <strong>Kirch</strong> (Church), <strong>Kuch</strong> (kitchen) to women.</li>
+<li style="padding-left:2em">&#9702; <strong>The Hitler Youth</strong> and the <strong>League of German Girls</strong> were created to indoctrinate young Germans with Nazi beliefs.
+<ul>
+<li style="padding-left:4em">&#9632; These organizations emphasized physical fitness, militarism, and racial purity, aiming to create a generation loyal to the Nazi cause and the F&#xFC;hrer.</li>
+</ul>
+</li>
+<li style="padding-left:2em">&#9702; Hitler <strong>promoted a racist ideology</strong> that espoused the superiority of the so-called Aryan race while denigrating and persecuting minority groups, particularly Jews, as well as Roma, disabled individuals, and others deemed inferior.
+<ul>
+<li style="padding-left:4em">&#9632; <strong>Eugenics</strong> Under Nazi rule, eugenics became a central component of the racial policies, leading to discriminatory and genocidal measures targeting individuals deemed racially or genetically &#8220;undesirable.&#8221;
+<ul>
+<li style="padding-left:2em">&#8226; Hitler provided <strong>subsidies to peasants</strong> because in Nazi conception the greater value is allocated to &#8216;pure&#8217; blood, higher fertility rate and connection with soil.</li>
+<li style="padding-left:2em">&#8226; <strong>Law for the Prevention of Hereditarily Diseased Offspring (1933)</strong>, which authorized the forced sterilization of individuals with hereditary diseases or disabilities.</li>
+<li style="padding-left:2em">&#8226; <strong>T-4 Euthanasia Program</strong> aimed to systematically exterminate individuals with mental illnesses and disabilities.</li>
+</ul>
+</li>
+<li style="padding-left:4em">&#9632; Discriminatory laws, such as the <strong>Nuremberg Laws</strong> in 1935, solidified the racial policies and initiated systematic persecution. Jews were deprived of their citizenship, prohibited inter-racial marriages by Jews, and in 1938, riots started against them.</li>
+<li style="padding-left:4em">&#9632; <strong>Concentration camps</strong> soon followed for the <em>&#8216;Final Solution&#8217;.</em>
+<ul>
+<li style="padding-left:2em">&#8226; It was the culmination of the policy of eugenics.</li>
+<li style="padding-left:2em">&#8226; Systematic genocide of six million Jews and millions of others.</li>
+<li style="padding-left:2em">&#8226; <strong>Schutzstaffel</strong> (SS) under the leadership of <strong>Heinrich Himmler</strong>, managed <strong>holocaust</strong>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#8226; <strong>Militarization and expansionist policies:</strong>
+<ul>
+<li style="padding-left:2em">&#9702; Hitler&#8217;s regime embarked on a program of military expansion and rearmament, in violation of the Treaty of Versailles.</li>
+<li style="padding-left:2em">&#9702; This aggressive foreign policy was aimed at achieving <strong>Lebensraum</strong> (living space) for the German people and establishing German <strong>hegemony</strong> over Europe, ultimately leading to the outbreak of World War II in 1939.</li>
+</ul>
+</li>
+</ul>
+
+<h3>Hitler-Mussolini Comparison</h3>
+
+<p><strong>Similarities between Mussolini and Hitler:</strong></p>
+<ul>
+<li>&#8226; Both were totalitarian regimes.</li>
+<li>&#8226; Regimentation of all the powers into the hand of an individual.</li>
+<li>&#8226; To support extreme nationalism.</li>
+<li>&#8226; To oppose Communism, Socialism &amp; Liberalism.</li>
+<li>&#8226; To put a check over the class struggle.</li>
+<li>&#8226; To introduce an aggressive foreign policy.</li>
+</ul>
+
+<p><strong>Differences between Mussolini and Hitler:</strong></p>
+<table border="1" cellpadding="6" cellspacing="0">
+<thead>
+<tr><th>Mussolini</th><th>Hitler</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<ul>
+<li>&#8226; Less scope for anti-Semitism. He followed it later under influence of Hitler, but it was not inherently anti-Semitic.</li>
+<li>&#8226; Mussolini strengthened his position but not equally the position of his party. When he started to lose, the party couldn&#8217;t rise upto the occasion.</li>
+<li>&#8226; Italian fascism maintained effective state control over economic activities. The corporate state of Mussolini was an example of same.</li>
+<li>&#8226; Although expansionist, Mussolini was hesitant to go no war with European powers.</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>&#8226; More radical than Mussolini</li>
+<li>&#8226; Nazism was deeply associated with racial purity and anti-Semitism.</li>
+<li>&#8226; Pre-peasant bias (supposed pure blood, fertility rate higher)</li>
+<li>&#8226; Hitler strengthened his position and that of his party also.</li>
+<li>&#8226; No such corporatist system was enforced in Germany.</li>
+<li>&#8226; Extremely expansionist, invaded Poland in 1939 and sparked the Second World War</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <h2>Handout 33: Great Economic Depression (1929-39)</h2>
 
 <blockquote>&#8220;The modern conservative is engaged in one of man&#8217;s oldest exercises in moral philosophy; that is, the search for a superior moral justification for selfishness.&#8221; &#8212; John Kenneth Galbraith</blockquote>
