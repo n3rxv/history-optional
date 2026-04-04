@@ -34706,7 +34706,369 @@ The First World War was the culmination of <em>Nationalism</em>, <em>Militarism<
 </li>
 </ul>`,
   'liberation-colonial-rule': ``,
-  'decolonization-underdevelopment': ``,
+  'decolonization-underdevelopment': `
+<h2>Handout 47: Decolonisation (Liberation of colonies)</h2>
+<p>Decolonization means the <em>liberation</em> of colonies, and emergence of new nations. But the process of liberation did not prove smooth rather it proved a long and arduous process.</p>
+<p>This process of decolonization commenced in 1776 with the proclamation of American independence and continued for more than 200 years till the last colonies Eritrea (1993) and Palau (1994).</p>
+<p>However, the focus of this chapter is on the post-world war decolonization. One of the most important outcomes of the Second World War was the end of direct colonial rule in different parts of the world, and particularly in Asia. Due to the rising tide of anti-colonial movements, British, Dutch, French, and Portuguese colonial rule ended in many countries. During the 1940s anti-colonial political ideology was spreading fast in colonies like India, Burma, Sri Lanka, Indonesia, and Indochina. As a result of these movements most of the former colonies achieved independence by 1950. It is said that what impact had earlier Napoleonic war produced on Spanish colony of Latin America, same impact the Second World War left on Asio-African colonies of Britain, France Holland etc.</p>
+<p>The process of decolonization was inspired and powered by several factors that were intellectual socio-cultural, political and economic.</p>
+
+<h3>The factors which encouraged decolonisation:</h3>
+<ul>
+<li>&#8226; <strong>At the International level:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; The impact of the <strong>Atlantic charter.</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; The second world war was fought in the name of preserving human freedom and protecting democracy from fascist power. So, it naturally encouraged the aspiration of colonial people.</li>
+    <li style="padding-left:4em">&#9632; It inspired colonized people, and pressurized colonial powers.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+</ul>
+
+<h3>Atlantic Charter (14 August 1945)</h3>
+<p><strong>Contributions:</strong></p>
+<ul>
+<li>&#8226; It promised the right to self-judgment to all the people living in different parts of the world. It proved a death knell to colonialism and imperialism, and it became a charter for decolonization.
+  <ul>
+  <li style="padding-left:2em">&#9702; Historian Caroline Elkins: "The independence genie was out of her bottle, and it was the Atlantic Charter that had set her free."</li>
+  </ul>
+</li>
+<li>&#8226; The Atlantic Charter was subsequently incorporated by reference in the Declaration of the United Nations (January 1, 1942).</li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li>&#8226; Through the Atlantic charter, the USA had been searching for its own market desperately through removing control by colonial powers from the international market.</li>
+<li>&#8226; Very soon, the agenda of the cold war violated the Atlantic charter.</li>
+</ul>
+
+<ul>
+<li>&#8226; <strong>At the International level (continued):</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; In context of Asian colonies, <strong>Japanese occupation</strong> worked as a major factor.
+    <ul>
+    <li style="padding-left:4em">&#9632; During the war, most of the British, Dutch, and French colonies in Asia were occupied by Japan. When the Japanese realized that they were facing defeat, they started to encourage the nationalist movements in these colonies to destabilize their enemies. They encouraged the nationalists in Indonesia, Indochina, and India and even supplied weapons to the Indonesian nationalists.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; The role played by <strong>UNO.</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; UNO also played an important role in success of process of decolonization ever since its established in 1945, UNO has supported right of self-determination of people.</li>
+    <li style="padding-left:4em">&#9632; A committee on decolonization was established by UNO in 1962. This committee handled the task of liberation of colonies and worked to ensure that every colony gets liberated.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Cold War Rivalry:</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; The pressure from USSR.</li>
+    <li style="padding-left:4em">&#9632; An initiative from the side of the USA.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>NAM</strong> also played a role in the process of decolonization. It always stood for the rights of self-determination of natives and condemned colonial rules.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>At the level of colonial power:</strong> Decline of Europe after WW 2
+  <ul>
+  <li style="padding-left:2em">&#9702; All the three imperialist powers, British, French and Dutch declined after the Second World War. The European colonial powers faced massive destruction during WW. It was practically impossible for them to maintain their colonial empire against the will of natives after WWII.</li>
+  <li style="padding-left:2em">&#9702; The Second World War had put tremendous pressures on the exchequers of the former colonial powers.
+    <ul>
+    <li style="padding-left:4em">&#9632; After the Second World War, they became badly involved in post-war economic reconstruction.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; They found the European market more lucrative than the colonial market.</li>
+  <li style="padding-left:2em">&#9702; European powers while taking the German instance came to realise that colonisation adversely affected their domestic economy.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>At the level of colonies:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Spread of awakening among the people of colonies played most important role in the commencement of decolonization.</li>
+  <li style="padding-left:2em">&#9702; The colonial exploitation of natives also played role in the process of decolonization.</li>
+  <li style="padding-left:2em">&#9702; The WW II also played an important role in spread of awakening among natives.
+    <ul>
+    <li style="padding-left:4em">&#9632; Natives encountered outside world directly. African soldiers fought along with whites and absorbed western ideas; these soldiers carried modern ideas with them to their countries when war got over.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; Emergence of nationalism and commencement of national movement played most important role in the success of process of decolonization. Colonial resistance movement started in many colonies i.e. 'Quit India Movement' in India, 'Mau Mau Movement' in Kenya, 'Bloody conflict' in Vietnam and Algeria. These anti-colonial movements compelled the already overstretched colonial powers to look for compromise.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>The process and the nature of decolonization:</h3>
+<ul>
+<li>&#8226; In the process of decolonisation, we notice <strong>two different models,</strong> Capitalist and Communist.
+  <ul>
+  <li style="padding-left:2em">&#9702; Most of the Asian and African countries got freedom based on the capitalist model.</li>
+  <li style="padding-left:2em">&#9702; In some countries like China and Vietnam, the Communist Party led the movement.
+    <ul>
+    <li style="padding-left:4em">&#9632; Very soon the liberation movement in these countries became part of the cold war.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; The process of <strong>decolonization varied from one power to another power and region to region.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; For example, France was a bit hardliner in approach, it did not allow its colonies to slip out of its hand so smoothly.</li>
+  <li style="padding-left:2em">&#9702; On the other hand, Britain adopted a bit soft approach to nationalist resistance against its rule.</li>
+  </ul>
+</li>
+<li>&#8226; The nature of decolonization depended even <strong>on the basis that the stake</strong> some colonial power had in the region concerned. If the stake was higher (e.g. larger settled population or larger investment), then colonial power was not ready to vacate the region smoothly.</li>
+<li>&#8226; Even the <strong>term 'decolonization' itself is a misnomer.</strong> It sounds as if the liberation was a smooth process and imperialist powers liberated colonies willingly. However, the situation was quite the opposite and the imperialist powers vacated the colonies only then it became almost impossible for them to hold the colonies furthermore.</li>
+</ul>
+
+<h2>Liberation of Asian Countries</h2>
+<p>In post-world war era, <strong>India</strong> was the first country to attain independence.</p>
+<ul>
+<li>&#8226; An English <strong>educated middle class leadership</strong>, which was the product of English education, emerged in India and led the premier nationalist organization, <strong>Indian National Congress</strong>. It worked as an umbrella organization in national movement under <strong>Gandhi</strong>. It was in 1947 British negotiated transfer of power to India.</li>
+<li>&#8226; It was in 1948 that <strong>Sri Lanka</strong> and <strong>Burma</strong> got independence.</li>
+</ul>
+
+<h3>Liberation movement in Southeast Asia</h3>
+<ul>
+<li>&#8226; It took a specific turn due to two factors – firstly, the factor of <strong>Japanese occupation</strong> and secondly, activism of the <strong>communist party</strong>.</li>
+<li>&#8226; <strong>Philippines</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; It was a <strong>semi-American colony.</strong> It was the first region where USA could experiment with the policy of neo-colonialism after snatching the region from Spain in 1898.</li>
+  <li style="padding-left:2em">&#9702; Later Philippines was conquered by <strong>Japan</strong> during the Second World War.</li>
+  <li style="padding-left:2em">&#9702; The <strong>demand for the liberation</strong> for Philippines from semi-colonial status under USA had started from 1930s onwards but it was after the exit of Japan that USA granted its independence in 1946.</li>
+  <li style="padding-left:2em">&#9702; Just after the independence, there was a <strong>civil war (1946-57).</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; The conservative government of Philippines had to face the severe <strong>challenge from leftist or communist group.</strong> It was a matter of <strong>concern for USA</strong> which continuously gave covert support to the rightist government. Finally, leftist groups were defeated and suppressed in Philippines.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; <strong>Malaya Peninsula</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; In Malaya there was <strong>three ethnic groups</strong>, Chinese, Malayas who were in majority and others including Indian immigrants. One distinctive aspect of the Malayan decolonization process was the <strong>emphasis on multiracialism to minimize ethnic tensions.</strong></li>
+  <li style="padding-left:2em">&#9702; <strong>The aftermath of World War II</strong> significantly influenced the decolonization process.
+    <ul>
+    <li style="padding-left:4em">&#9632; The war weakened European colonial powers and enhanced the spirit of nationalism among colonized peoples.</li>
+    <li style="padding-left:4em">&#9632; The British, who had control over Malaya, were weakened economically and politically after the war, making it difficult to maintain their colonies.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Economic Factor:</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; The rubber and tin industries in Malaya were significant contributors to the British economy.</li>
+    <li style="padding-left:4em">&#9632; However, the changing global economic landscape and the declining importance of these commodities influenced the British decision to decolonize.</li>
+    <li style="padding-left:4em">&#9632; Also, due to the nationalist pressure Britain decided to withdraw.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Communist Insurgency and Malayan Emergency (1948-1960)</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; The <strong>Malayan Communist Party (MCP)</strong> played a role in the independence movement, initially collaborating with the British against the Japanese during the war but later turning against colonial rule. As the Chinese communists became too much active, it created the apprehension among the British.</li>
+    <li style="padding-left:4em">&#9632; So, emergency was declared in response to communist insurgency. It was a critical period in the decolonization process. It was primarily a guerrilla war between the British and the MCP, but it also spurred anti-colonial sentiments and demands for self-rule.</li>
+    <li style="padding-left:4em">&#9632; Therefore, against communists, the British, the Malays and non-communist Chinese all were united. Finally, communists were defeated.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Federation of Malaya to Malaysia</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; After negotiation with the Alliance Party, a dominant nationalist party, the British withdrew in 1957. <strong>The Federation of Malaya</strong> achieved independence on August 31, 1957. Tunku Abdul Rahman became the first Prime Minister.</li>
+    <li style="padding-left:4em">&#9632; In 1963, the Federation of Malaya merged with Singapore, Sabah (North Borneo), and Sarawak to create <strong>Malayasia</strong>.</li>
+    <li style="padding-left:4em">&#9632; However, <strong>Singapore</strong> separated from Malaysia in 1965.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; In Southeast Asia liberation movement in <strong>Indonesia</strong> more or less took the same turn.
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Aftermath of WWII</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; In course of the Second World War Indonesia also fell a prey to Japanese occupation and after exit of Japan in mid-August Indonesia was also vacated.</li>
+    <li style="padding-left:4em">&#9632; Then once again <strong>Holland</strong> initiated to re-occupy her old colony. As she was pre-occupied with home affairs, <strong>British government of India</strong> came to take charge of Indonesia on behalf of Holland.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; But in the meantime, a nationalist party under <strong>Dr. Sukarno</strong>, which had strengthened its position under Japanese government, opposed the move tooth and nail.
+    <ul>
+    <li style="padding-left:4em">&#9632; It was at that time even <strong>communist insurgency</strong> resurfaced but Dr. Sukarno's party countered it. As Dr. Sukarno was having an anti-communist posture, so he earned the sympathy of western countries.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>International support for freedom</strong>
+    <ul>
+    <li style="padding-left:4em">&#9632; Then colonial power Holland also felt the pinch of <strong>international pressure</strong> as well.</li>
+    <li style="padding-left:4em">&#9632; Even Prime Minister of India <strong>Jawaharlal Nehru</strong>, played a pivotal role in mobilising international diplomacy in favour of Indonesia. He organized a <strong>conference of Asian countries</strong> on the issue of liberation of Indonesia in 1949.</li>
+    <li style="padding-left:4em">&#9632; Finally, due to <strong>intervention of UNO</strong>, Indonesia's independence could be ensured.</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>&#8226; The case of <strong>Indochina</strong> was quite different, and it turned to be a <em>hot issue in international diplomacy.</em>
+  <ul>
+  <li style="padding-left:2em">&#9702; Indochina was a French colony, but it was conquered by Japan in course of the Second World War. After the exit of Japan in August 1945, French tried to regain its old position.</li>
+  <li style="padding-left:2em">&#9702; In the meantime, a communist leader, <strong>Ho Chi Minh</strong> installed in North Vietnam a communist government in the name of Vietnamese Republic. On the other hand, the French established a puppet government under Bao Dai in South Vietnam.</li>
+  <li style="padding-left:2em">&#9702; Very soon the issue became a burning issue of cold war which left southeast Asia disturbed for next 30 years.</li>
+  </ul>
+</li>
+</ul>
+
+<h2>Liberation movements in Africa</h2>
+<p>The process of decolonization was long and arduous. In some countries, fortunately the process remained to be a bit smoother, but in others it turned out to be violent.</p>
+<ul>
+<li>&#8226; <strong>Northwest Africa:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; <em>Except Algeria</em>, in other Northwest African countries, transfer of power was <strong>negotiated relatively peacefully.</strong></li>
+  <li style="padding-left:2em">&#9702; Here the model of colonial liberation was prepared by <strong>Ghana</strong>.
+    <ul>
+    <li style="padding-left:4em">&#9632; There emerged a <strong>middle class</strong> which was the product of the colonial rule.
+      <ul>
+      <li style="padding-left:4em">&#9632; They were <strong>western educated</strong> indigenous intellectuals. Some of them were the product of <strong>missionary schools.</strong></li>
+      <li style="padding-left:4em">&#9632; Some African intellectuals were associated even with <strong>lower government jobs</strong> under the British/French government.</li>
+      <li style="padding-left:4em">&#9632; Some Africans even <strong>moved to western countries</strong> for higher education.</li>
+      <li style="padding-left:4em">&#9632; Apart from that, some Black intellectuals of West Africa came in touch with the <strong>Black movement in U.S.A.</strong></li>
+      </ul>
+    </li>
+    <li style="padding-left:4em">&#9632; The pioneer of decolonization in western Africa was to be Ghana's <strong>Khwame Nkrumah.</strong></li>
+    <li style="padding-left:4em">&#9632; Decolonization in Ghana was thought to be reasonably peaceful. There were <strong>no White settlers</strong> whose racial privileges needed special protection.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; The process followed in other countries of West Africa such as <strong>Senegal, Zambia, Guinea Bissau, Sierra Leon, Mauritania</strong> etc.</li>
+  <li style="padding-left:2em">&#9702; The case of <strong>Algeria</strong> seems to be exceptional where France had a greater stake in the colony. So, it took the form of a <strong>military conflict.</strong></li>
+  </ul>
+</li>
+</ul>
+
+<h3>Decolonization of Algeria</h3>
+<p>Algeria was a French colony for 132 years, from 1830 to 1962. The French conquest of Algeria was a brutal one, and it resulted in the deaths of hundreds of thousands of Algerians.</p>
+<p><strong>Colonial Policy:</strong></p>
+<ul>
+<li>&#8226; Algeria was <strong>regarded as an integral part</strong> of France, and the French government implemented policies aimed at <strong>assimilating</strong> Algerians into French culture. This included the imposition of French language, legal systems, and education.</li>
+<li>&#8226; Large portions of Algerian <strong>land</strong> were confiscated, and European settlers, known as "<strong>colons</strong>" were encouraged to move to Algeria.</li>
+</ul>
+<p><strong>Post WW II Developments:</strong></p>
+<ul>
+<li>&#8226; After World War II, nationalist sentiments intensified.</li>
+<li>&#8226; The <strong>Sétif massacre</strong> (1945), where peaceful protests turned violent, marked a turning point.</li>
+<li>&#8226; Repressive measures by France resulted in casualties and fueled the demand for independence.</li>
+</ul>
+<p><strong>The Algerian War of Independence (1954-62):</strong></p>
+<ul>
+<li>&#8226; It began in 1954 with attacks by the <strong>National Liberation Front (FLN)</strong> which sought to end French rule and establish an independent Algerian state.</li>
+<li>&#8226; It was a bloody and protracted conflict. French engaged huge army to crush the demand of the national liberation and also used brutal tactics, including torture, mass killings, and forced displacement. The French military, as well as paramilitary groups, employed torture and repression.</li>
+<li>&#8226; However, the Algerian National Liberation Front (FLN) was determined to win, and they received support from the Soviet Union and other anti-colonial movements. It carried out guerrilla warfare and acts of terrorism.</li>
+</ul>
+<p><strong>Freedom:</strong></p>
+<ul>
+<li>&#8226; As the war continued, <strong>French public opinion</strong> shifted, and there were calls for negotiations. In 1959, <strong>Charles de Gaulle</strong> returned to power and acknowledged the need for a political solution.</li>
+<li>&#8226; After seven and a half years of fighting, the French government was forced to concede defeat. Negotiations led to the signing of the <strong>Évian Accords</strong> (1962). In a plebiscite (1962), Algerians voted overwhelmingly in favor of independence.</li>
+</ul>
+
+<ul>
+<li>&#8226; <strong>East Africa:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; In Eastern Africa the process of liberation appeared to be a <strong>bit more difficult</strong> as in countries like Egypt, Sudan, and Kenya etc. It is because the British had a greater stake in these colonies.
+    <ul>
+    <li style="padding-left:4em">&#9632; If Ghana prepared the model of liberation of colonies in West Africa, <strong>Kenya</strong> prepared its model in east Africa.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; <strong>Suez Canal crisis</strong> in 1956 put a death knell to British colonialism in Africa. Still British resisted the liberation of <strong>Kenya</strong> where <strong>Mau Mau Rebellion</strong> created a larger pressure on White settlers.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>South Africa:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; In South Africa a new type of colonization was visible.
+    <ul>
+    <li style="padding-left:4em">&#9632; In fact, White settlers in South Africa got autonomy first from metropolitan state, then complete freedom. After that, White settlers in South Africa introduced the worst type of colonization on Black majority, Bantus. That was known as apartheid.</li>
+    <li style="padding-left:4em">&#9632; It does not simply represent racial policy rather it represented most formidable type of racial discrimination based on complete social segregation of Black population.</li>
+    </ul>
+  </li>
+  <li style="padding-left:2em">&#9702; Later due to consistent movement against the system and continuous pressure from world community the system gave way to a democratic government.</li>
+  </ul>
+</li>
+</ul>
+
+<h3>Indian Contribution to liberation of Africa</h3>
+<ul>
+<li>&#8226; <em><strong>Indian National Movement:</strong> Inspiration for anti-colonialism through example, method and ideology:</em>
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Tunisia, Morocco,</strong> and <strong>Gold Coast</strong> had placed the demand of liberation, but colonial power had continuously rejected their demand for freedom. However, once India got independence in 1947, the demand for their liberation could not be avoided for a longer time and finally Tunisia and Morocco got independence in 1956 while Gold Coast emerged to be an independent nation in the name of Ghana in 1958.</li>
+  <li style="padding-left:2em">&#9702; At least two African leaders <strong>Nkrumah</strong> of Ghana, Jomo <strong>Kenyatta</strong> in Kenya and <strong>Kenneth Kaunda</strong> of Zambia clearly mentioned in their autobiographies that they were largely inspired by Indian independence.</li>
+  <li style="padding-left:2em">&#9702; <strong>Gandhian Satyagrah</strong> gave a new <em>method of protest</em> to the African National Congress in South Africa. In fact, the leader of ANC, <strong>Albert Luthuli</strong> and later <strong>Nelson Mandela</strong> fell under the spell of Gandhi.</li>
+  </ul>
+</li>
+<li>&#8226; <em><strong>Indian Activism:</strong> Pan African Solidarity, Diplomatic Support and Advocacy:</em>
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Jawaharlal Nehru</strong>, who became the first Prime Minister of independent India, was a vocal advocate for anti-colonial struggles worldwide. India actively supported the decolonization of African nations through diplomatic channels and international forums.</li>
+  <li style="padding-left:2em">&#9702; India played a crucial role in the <strong>Asian-African conferences</strong>, such as the Bandung Conference in 1955. These conferences provided a platform for Asian and African nations to discuss common concerns related to colonialism, imperialism, and the promotion of economic cooperation. The principles of these conferences emphasized the right to self-determination for all nations.</li>
+  <li style="padding-left:2em">&#9702; India led the <strong>international boycott of South Africa</strong> in protest of its apartheid regime. This boycott included economic sanctions, sporting bans, and cultural isolation, putting significant pressure on the South African government.</li>
+  <li style="padding-left:2em">&#9702; India offered <strong>financial assistance</strong> to African independence movements, providing them with the resources needed to sustain their <em>perjuangan</em> (struggle). This financial support was often channelled through multilateral institutions like the Organization of African Unity (OAU).</li>
+  <li style="padding-left:2em">&#9702; In some instances, India provided <strong>direct military support to African liberation</strong> movements, under the aegis of UN. For example, India sent troops to support the liberation of Congo from Belgian rule in the 1961-64.</li>
+  </ul>
+</li>
+</ul>
+
+<h2>Constraints in the development of Africa</h2>
+<p><strong>Causes:</strong></p>
+<ul>
+<li>&#8226; Mismatch between geography and community</li>
+<li>&#8226; Lack of a binding force as a nation</li>
+<li>&#8226; Backwardness in the economy and lack of proper industrialisation due to the dearth of infrastructure.</li>
+<li>&#8226; Lack of human resources and technology</li>
+<li>&#8226; Division of economy in two different enclaves</li>
+<li>&#8226; Dependence over the export of one or two items</li>
+<li>&#8226; Fell a prey to Cold war politics.</li>
+<li>&#8226; Even the policy of economic liberalisation proved fatal to African economies.</li>
+</ul>
+
+<h2>Impediments in the development of Latin America</h2>
+<ul>
+<li>&#8226; Economic exploitations carried out by colonial masters left hardly any resource with the people when these countries gained independence, they had to commence their process of economic development from zero.</li>
+<li>&#8226; Most of Latin American countries fell under the <strong>control of despotic rulers</strong> after their independence. These despots were no better colonial masters.</li>
+<li>&#8226; Freedom proved meaningless to Latin American republics as they were transformed into <strong>semi-colonies of USA.</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; Even after the end of colonialism the policies continued to be dictated by foreign powers.</li>
+  </ul>
+</li>
+<li>&#8226; Due to the dominance of an alliance between <strong>landed elites and military elements,</strong> most experiments with democracy after the second world war turned out to be a failure.
+  <ul>
+  <li style="padding-left:2em">&#9702; Political instability in countries also obstructed the process of economic development.</li>
+  </ul>
+</li>
+<li>&#8226; Just like in Africa, the <strong>mismatch between the geographical and ethnic boundaries.</strong> Civil wars ensued between different states.</li>
+<li>&#8226; <strong>Racial division</strong></li>
+<li>&#8226; Growing role of Church in politics</li>
+<li>&#8226; The level of <strong>education and awakening</strong> was very low among the people as a result of which they could not walk confidently on the path of progress.
+  <ul>
+  <li style="padding-left:2em">&#9702; The socio-cultural life was dominated by traditional outlook the people remained trapped in backwardness due to superstition and other evils.</li>
+  <li style="padding-left:2em">&#9702; Control of Church on education system.</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Economic dependency:</strong>
+  <ul>
+  <li style="padding-left:2em">&#9702; The <strong>policy of import substitution</strong> did not produce results.</li>
+  </ul>
+</li>
+<li>&#8226; Drug economy and drug war</li>
+<li>&#8226; Fell prey to <strong>Cold war politics.</strong></li>
+</ul>
+
+<h2>Did colonialism really come to an end?</h2>
+<h3>Is the concept of decolonization merely a myth or a reality?</h3>
+<p>Colonialism did not end rather it changed its form and it manifested itself in a non-formal way. The end of formal colonial rule did not eradicate <strong>colonial ideologies and institutions.</strong> Many post-colonial nations continue with colonial administration and legal system including borders.</p>
+
+<h3>In the economic field:</h3>
+<ul>
+<li>&#8226; Colonization had deliberately created extractive economy to suit the metropole which continued even afterwards, perpetuating unequal power relationship. E.g. Many African countries continue to export raw materials to the Global North, while importing finished goods, resulting in a <strong>lopsided trade relationship.</strong></li>
+<li>&#8226; Colonization also created <strong>structural inequality in land distribution and resource access</strong> by favouring certain castes and communities against another. The post-colonial nations continue to struggle with political and social unrest emerging out of such disruption.</li>
+<li>&#8226; Formation of organizations such as <strong>IMF</strong>, <strong>World Bank</strong> and <strong>GATT/WTO</strong> to maintain their economic dominance just after the decolonization.
+  <ul>
+  <li style="padding-left:2em">&#9702; Colonization is persisted through <strong>neo-colonial practices</strong> like MNCs and global financial institutions, which continue to exert pressure, influence economies and thereby trample upon the sovereignty of the nations.</li>
+  <li style="padding-left:2em">&#9702; Presently, to open the <strong>service sector</strong> and <strong>capital investment</strong> in third world countries in the name of <strong>economic liberalization.</strong></li>
+  </ul>
+</li>
+</ul>
+
+<h3>In the socio-cultural field:</h3>
+<ul>
+<li>&#8226; To characterise non-Europeans as <strong>'Oriental'</strong> and a policy of racial discrimination against them.
+  <ul>
+  <li style="padding-left:2em">&#9702; Colonization had <strong>re-shaped socio-cultural and psychological set-up</strong> of people. E.g. local languages, indigenous knowledge, cultural norms, artforms and thus identity were <strong>objectified, inferiorized and suffered the imposition of foreign culture.</strong></li>
+  <li style="padding-left:2em">&#9702; Despite some amount of cultural revival during the freedom movements, such sense of deep inferiority has not been overcome and true decolonization of mind still remains in future.</li>
+  </ul>
+</li>
+<li>&#8226; To divide the world into the central region and the peripheral region by the western intellectuals and making attempts to prove that <strong>all the important and progressive ideas are originated in the central region</strong> and from there they expanded into the peripheral region.</li>
+<li>&#8226; Western intellectuals maintained their dominance and <strong>hegemony over humanity subjects</strong> like history, sociology, political science, anthropology, and other subjects. Their research/analysis was inclined to <strong>prove the superiority of the West.</strong> This is probably the most dangerous form of colonialism.</li>
+<li>&#8226; A postmodernist thinker, <strong>Michel Foucault</strong>, has given the concept of <strong>power-knowledge</strong> i.e. knowledge is superimposed by the superior authority.</li>
+<li>&#8226; As <strong>Frantz Fanon</strong> argues in "The Wretched of the Earth", decolonization is not merely a political process but also a deeply psychological and cultural one. The struggle with the internalized oppression and the task of rebuilding their identities continues long after the formal decolonization.</li>
+</ul>
+`,
   'unification-europe': `
 <h2>Handout 46: Integration of Europe</h2>
 <p>After the end of WW II, several significant developments were witnessed in the world and among these developments the beginning of process of unification in Europe was most important. While on the one hand, Europe was divided into Western and Eastern Europe, on the other, integration among the countries of Western Europe also got a boost. What commenced with the formation of small custom unions in 1947 has at present 27 European nations together in European Union.</p>
