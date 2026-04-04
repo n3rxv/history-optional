@@ -23516,6 +23516,350 @@ He argued that <em>our knowledge of the world is limited</em> by the way our min
 </ul>
 </li>
 </ul>`,
+  'british-democratic-politics': `<h2>Handout 21: British Democratic Politics, 1815-1850; Parliamentary Reformers, Free Traders, Chartists</h2>
+
+<h3>UPSC CSE PYQs</h3>
+
+<p><strong>British liberalism in 19th century, Free Traders</strong></p>
+<ul>
+<li>&#8226; Write a critical note on: Effect of British liberalism on the social or economic life of the people of England. [1981, 20 Marks]</li>
+<li>&#8226; Account for the growth of Liberalism in Britain in the nineteenth century. How far did it influence the contemporary social and economic issues in the country? [1984, 60 Marks]</li>
+<li>&#8226; &#8220;The arguments of the free traders were a curious mixture of economic hard-headedness, social benevolence, cosmopolitan idealism and class prejudice.&#8221; Critically examine. [2019, 10 Marks]</li>
+</ul>
+
+<p><strong>Reforms Act 1832</strong></p>
+<ul>
+<li>&#8226; &#8220;Though reform was inevitable, the Act (1832) by which it was accomplished was open to grave criticism.&#8221; Comment. [2005, 20 Marks]</li>
+<li>&#8226; &#8220;Change in Britain came comparatively peacefully through democratic process in the first half of the nineteenth century and a model of a functioning democracy through ballot box was successfully put in place.&#8221; Elaborate. [2013, 25 Marks]</li>
+<li>&#8226; &#8220;&#8230; the passing of the &#8216;Reform Act&#8217; marked the real beginning of modern party organization in England&#8230; In a real sense, the present political system of England dates from 1832.&#8221; Critically examine. [2014, 10 Marks]</li>
+<li>&#8226; &#8216;The first Reformation Act (1832) occupies a significant place in the constitutional development of Britain.&#8217; Critically examine. [2022, 10m]</li>
+</ul>
+
+<p><strong>Chartists</strong></p>
+<ul>
+<li>&#8226; Review the background of the Chartist Movement. Despite its failure how had their demands been met in the succeeding years? [2004, 60 Marks]</li>
+<li>&#8226; &#8220;The roots of Chartism are partly political and partly economic.&#8221; Elaborate. [2011, 20 Marks]</li>
+<li>&#8226; &#8220;The roots of the Chartist movement in Great Britain were partly political and partly economic.&#8221; Critically examine. [2017, 10 Marks]</li>
+<li>&#8226; The Chartist Movement failed to achieve its stated objective, but succeeded in seeding the idea that a representative democracy should include all citizens. Critically examine. [2021, 10 Marks]</li>
+<li>&#8226; &#8220;The Chartist Movement not only fulfilled some of the demands of the middle class, but its ramifications were felt among the working class and the colonies as well.&#8221; [2023, 10 Marks]</li>
+</ul>
+
+<h3>Section A: British Liberalism and Middle-Class Politics</h3>
+
+<h4>Factors behind rise of liberalism:</h4>
+<ul>
+<li>&#8226; Impact of <strong>Enlightenment ideas</strong> of the 18th century:</li>
+<li style="padding-left:2em">&#9702; John Lock, Adam Smith: emphasized individual rights, the rule of law, and the importance of limited government.</li>
+<li>&#8226; <strong>Industrial Revolution:</strong></li>
+<li style="padding-left:2em">&#9702; It led to the rise of a new middle class which supported liberal ideas, such as individual liberty and free trade.</li>
+<li>&#8226; <strong>The Reform Act of 1832</strong></li>
+<li style="padding-left:2em">&#9702; It expanded the franchise and <strong>gave middle class a say in government.</strong> This middle class supported liberal candidates and policies.</li>
+<li>&#8226; <strong>Economic liberalism</strong></li>
+<li style="padding-left:2em">&#9702; Figures like David Ricardo, Malthus, Richard Cobden were influential proponents of free trade.</li>
+<li>&#8226; <strong>Utilitarianism:</strong> Benthal and Mill argued that individuals should be free to live their lives as they see fit, without interference from the government. They also supported government role in promoting social and economic justice.</li>
+</ul>
+
+<h4>Liberals supported several reforms:</h4>
+<ul>
+<li>&#8226; <strong>Free trade:</strong> Liberals believed in free trade which benefited the consumers and workers, as it led to lower prices and more job opportunities.</li>
+<li style="padding-left:2em">&#9702; The repeal of the Corn Laws in 1846</li>
+<li>&#8226; <strong>Parliamentary reform:</strong> Liberals supported the process of making Parliament more representative. They believed that everyone should have a say in government, regardless of their wealth or social class.</li>
+<li style="padding-left:2em">&#9702; The Great Reform Act of 1832</li>
+<li style="padding-left:2em">&#9702; Leading role in the campaigns for women&#8217;s suffrage by the end of the century.</li>
+<li>&#8226; <strong>Individual rights and civil liberties:</strong> This included campaigns for religious freedom, the abolition of slavery, and the expansion of personal freedoms.</li>
+<li style="padding-left:2em">&#9702; Catholic Emancipation of 1790s</li>
+<li style="padding-left:2em">&#9702; Free speech and Freedom of Press</li>
+<li style="padding-left:2em">&#9702; Prison Reforms</li>
+<li style="padding-left:2em">&#9702; Slavery Abolition</li>
+<li>&#8226; <strong>Civic and Municipal Reforms:</strong></li>
+<li style="padding-left:2em">&#9702; Municipal Corporations Act, 1835</li>
+<li style="padding-left:2em">&#9702; The Public Health Act of 1848</li>
+<li style="padding-left:2em">&#9702; The Education Act of 1870</li>
+<li>&#8226; <strong>Social reform:</strong> Liberals believed that the government should play a role in promoting social justice. They supported social reform for the improvement of working conditions.</li>
+<li style="padding-left:2em">&#9702; The Factory Act of 1833</li>
+</ul>
+
+<p>Thus, liberalism played a major role in shaping the contemporary social and economic landscape of Britain and helped to create a more democratic, free, and prosperous society.</p>
+
+<h3>Some Important Economic Liberal Thinkers</h3>
+<ul>
+<li>&#8226; <strong>Adam Smith</strong></li>
+<li style="padding-left:2em">&#9702; Smith argued that the best way to promote economic growth was to let the free market operate without government interference. The pursuit of individual self-interest (invisible hand) in competitive market would lead to the greatest good for society.</li>
+<li style="padding-left:2em">&#9702; The middle-class entrepreneurs embraced Smith&#8217;s ideas about <strong>individualism, competition, and free trade.</strong></li>
+</ul>
+
+<p>The Economists of Capitalism Smith&#8217;s basic ideas were supported by British economists Thomas Malthus and David Ricardo. Like Smith, they believed that natural laws governed economic life. Their important ideas were the foundation of laissez-faire capitalism.</p>
+
+<ul>
+<li>&#8226; <strong>Thomas Malthus</strong></li>
+<li style="padding-left:2em">&#9702; Malthus argued that the human population would tend to grow faster than the food supply, leading to widespread poverty and famine. Without wars and epidemics to kill off the extra people, most were destined to be poor and miserable.</li>
+<li style="padding-left:2em">&#9702; The middle class, concerned about social unrest by a growing poor workers, embraced Malthus&#8217;s ideas about the <strong>need to limit population growth</strong> and family planning.</li>
+<li style="padding-left:2em">&#9702; Malthus also justified the exploitation of the working class to some extent, which helped <strong>reduce middle-class guilt.</strong></li>
+<li style="padding-left:4em">&#9632; It contributed to the belief that poverty was an unavoidable consequence of overpopulation.</li>
+<li>&#8226; <strong>Jeremy Bentham</strong> (father of utilitarianism)</li>
+<li style="padding-left:2em">&#9702; Bentham believed that the best way to promote happiness was to maximize pleasure and minimize pain (greatest good for greatest number).</li>
+<li style="padding-left:2em">&#9702; Utilitarianism aligned with middle-class values of rationality, efficiency, and individual self-interest. It emphasized the pursuit of pleasure and the avoidance of pain as the basis for <strong>ethical decision-making</strong>.</li>
+<li style="padding-left:2em">&#9702; The middle class embraced utilitarian ideas at it supported <strong>social reform</strong> to improve the lives of the working class and helped in creation of just and equitable society.</li>
+<li>&#8226; <strong>David Ricardo</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Iron Law of Wages:</strong> Wages tend to settle at a subsistence level, just enough to maintain the worker and their family at a basic standard of living. Any increase in wages above this level would lead to increased population growth, which, in turn, would drive wages back down to the subsistence level.</li>
+<li style="padding-left:2em">&#9702; It suggested that workers&#8217; efforts to secure higher wages might be temporary, as any gains could be offset by increased population growth and a subsequent decline in wages.</li>
+</ul>
+
+<p>Laissez-faire thinkers such as Smith, Malthus, and Ricardo opposed government efforts to help poor workers. They thought that creating minimum wage laws and better working conditions would upset the free market system, lower profits, and undermine the production of wealth in society.</p>
+
+<h3>Great Reform Act, 1832</h3>
+
+<p>&#8220;But the age of chivalry is gone. That of sophisters, economists, and calculators has succeeded; and the glory of Europe is extinguished forever.&#8221; &#8211; Edmund Burke.</p>
+
+<h4>Causes:</h4>
+<p>The circumstances leading to enactment of the Reform Act were created by impact of industrial revolution.</p>
+<ul>
+<li>&#8226; <strong>Population shift &#8594; Rotten Boroughs and Unequal Representation:</strong></li>
+<li style="padding-left:2em">&#9702; The IR resulted in the vast urban migration whereby many of the existing constituencies got depopulated which continued to enjoy representation in British parliament.</li>
+<li style="padding-left:2em">&#9702; On the other hand, the newly expanding industrial towns had no/least representation in British parliament. Thus, there was a need for redistribution of parliamentary constituencies.</li>
+<li>&#8226; <strong>Emerging classes:</strong></li>
+<li style="padding-left:2em">&#9702; The British parliament was under the monopoly of nobles &amp; clergymen. The new classes created by IR (capitalist &amp; working class) did not have a representation in British parliament.</li>
+<li style="padding-left:2em">&#9702; The right to vote was based on property qualifications. There was a need to readjust this qualification so that the new classes could get representation in British parliament.</li>
+<li>&#8226; <strong>Memory of the French Revolution:</strong></li>
+<li style="padding-left:2em">&#9702; The memory of the French Revolution and the fear of similar upheaval in Britain served as a catalyst for political reform. Some in the government believed that reforming the electoral system would help maintain social stability.</li>
+<li>&#8226; <strong>Political Pressure:</strong></li>
+<li style="padding-left:2em">&#9702; There was growing popular pressure for reform in the years leading up to the Reform Act of 1832. This pressure was manifested in the form of mass demonstrations, petitions, and other forms of political activism. The government realized that it could no longer ignore the demands for reform without risking a revolution.</li>
+</ul>
+
+<h4>Provisions of the Reform:</h4>
+<ul>
+<li>&#8226; Delimitation:</li>
+<li style="padding-left:2em">&#9702; Constituencies with less than 2000 population were deprived of representation.</li>
+<li style="padding-left:2em">&#9702; Constituencies with 2000-5000 population were allowed one seat in parliament.</li>
+<li style="padding-left:2em">&#9702; It freed 143 seats which were allotted to unrepresented towns and cities.</li>
+<li>&#8226; Voting qualifications: The property qualifications for voting rights readjusted.</li>
+<li style="padding-left:2em">&#9702; In borough, a person 10 pounds /annum tax was given right to vote.</li>
+<li style="padding-left:2em">&#9702; In rural areas this amount was fixed as 5 pounds for peasant proprietors and 2 pounds for lease holders.</li>
+<li>&#8226; It provided that all those citizens whose names were included in electoral rolls at the time of announcement of elections shall have rights to vote.</li>
+</ul>
+
+<h4>Significance:</h4>
+<p>The Reform Act of 1832 was a landmark piece of legislation that had a profound impact on British politics and society.</p>
+<ul>
+<li>&#8226; The Act symbolized Britain&#8217;s <strong>ability to adapt its constitutional framework</strong> to changing societal and political dynamics. It marked a shift from a more aristocratic and exclusive system to a <strong>more inclusive parliament and representative modern democracy.</strong></li>
+<li>&#8226; <strong>Empowered Middle Class:</strong> It shattered the monopoly of nobles and clergymen over British parliament. It paved the way for entry of middle class in British politics. Now, the middle class gained much greater say in government.</li>
+<li style="padding-left:2em">&#9702; The middle class was the driving force behind the Industrial Revolution. By giving the middle class a greater say in government, the Reform Act helped to create a more favorable environment for economic growth and development. This led to a number of reforms in the following years, such as the abolition of the Corn Laws and the introduction of free trade.</li>
+<li style="padding-left:2em">&#9702; This emerging middle class emphasized on colonisation, and severance from European conflicts. Thus, the British government adopted a policy of &#8216;splendid isolation&#8217; in continental affairs and concentrated on expansion of its dominance in India.</li>
+<li>&#8226; <strong>Expansion of electorate:</strong> The number of voters doubled. (3.6L to 6.5L)</li>
+<li>&#8226; <strong>Reduction of rotten boroughs:</strong> Discrepancies prevailing in the distribution of constituencies were removed to a large extent. Thus, it eliminated unfair representation and made the parliament more representative of the industrial towns.</li>
+<li style="padding-left:2em">&#9702; <strong>Major Shakeup:</strong> Almost a third of the existing seats were redistributed to areas that had grown in population.</li>
+<li>&#8226; <strong>Realignment of political parties:</strong> The Whigs, who supported reform, gained more prominence, while the Tories were divided over the issue. This realignment laid the foundation for the modern political party system in Britain.</li>
+<li>&#8226; <strong>Stability:</strong> It tried to address social and political discontent. It reduced the risk of revolution and maintained political stability in Britain.</li>
+<li>&#8226; <strong>Established the reformist tradition:</strong> Similar reforms acts were enacted 1867, 1884, 1911 &amp; 1928. Thus, it created precedent which eventually led to universal male suffrage.</li>
+</ul>
+
+<h4>Impact of the Reform Act of 1832 on the party politics/organization in Britain</h4>
+<p>Prior to the Reform Act, British politics was dominated by a small number of wealthy landowners and aristocrats. These individuals were able to control the outcome of elections by buying votes and intimidating voters.</p>
+<p>The Reform Act of 1832 expanded the franchise, which led to a more democratic and competitive political system.</p>
+<p>This created a need for political parties to develop more sophisticated organizations in order to mobilize voters and win elections. In response to the Reform Act, the two major political parties in Britain, the Whigs and the Tories, began to develop more modern party organizations. They established local party branches, held party conventions, and developed party platforms. They also began to use more sophisticated techniques to campaign for votes, such as distributing leaflets and holding public rallies.</p>
+<p>The Act led to the emergence of political leaders such as Robert Peel and Lord Melbourne, who played pivotal roles in shaping the early Conservative and Liberal parties. Party organizations began to develop with clear platforms and ideologies.</p>
+
+<h4>Limitations:</h4>
+<ul>
+<li>&#8226; <strong>Continued unequal representation:</strong></li>
+<li style="padding-left:2em">&#9702; While the Act eliminated some rotten boroughs, it did not completely eliminate all forms of unequal representation.</li>
+<li style="padding-left:2em">&#9702; Despite some redistribution of seats, urban areas were still underrepresented compared to their population size. This urban-rural divide persisted and continued to affect the political landscape.</li>
+<li>&#8226; <strong>There was no provision of secret ballot.</strong></li>
+<li style="padding-left:2em">&#9702; It was done openly, which meant that voters could be subject to intimidation or pressure from employers, landlords, or others in positions of authority.</li>
+<li>&#8226; <strong>Limited franchise:</strong></li>
+<li style="padding-left:2em">&#9702; Property qualifications.</li>
+<li style="padding-left:2em">&#9702; The lower middle class, the artisans, and the industrial workers got no representation in the parliament.</li>
+<li style="padding-left:2em">&#9702; Women were excluded.</li>
+<li>&#8226; The Act did not address the need for <strong>reform in the House of Lords</strong>, which remained largely unchanged and continued to wield significant political power.</li>
+<li style="padding-left:2em">&#9702; Thus, the monopoly of nobles and clergymen continued in the house of lords.</li>
+<li style="padding-left:2em">&#9702; This also led to ongoing disputes between the two houses.</li>
+<li>&#8226; The Act <strong>did not directly address broader social and economic inequalities in society.</strong> While it extended political rights, it did not significantly impact broader issues of wealth and class disparities.</li>
+</ul>
+
+<h3>Anti-Corn Law League and Free Traders (1815-46)</h3>
+<ul>
+<li>&#8226; In the late 18th and early 19th centuries, Britain followed a <strong>protectionist economic policy.</strong> This period was marked by high tariffs, trade restrictions, and the Navigation Acts, which aimed to protect British industries and maintain control over colonial trade.</li>
+<li>&#8226; For example, the <strong>Corn Laws</strong> were a series of tariffs and trade restrictions on imported grains in the United Kingdom from 1815 to 1846.</li>
+<li style="padding-left:2em">&#9702; The laws were intended to protect English farmers from cheap foreign imports of grain. They raised the price of corn, which increased food costs and poverty among the working class. They were a deeply divisive issue in the first half of the nineteenth century.</li>
+</ul>
+
+<h4>Free Trade Advocacy: Anti-Corn Law League</h4>
+<ul>
+<li>&#8226; In the early 19th century, a group of reformers and political economists, including <strong>David Ricardo, John Stuart Mill, and Richard Cobden</strong>, emerged as advocates of free trade.</li>
+<li>&#8226; The Corn Laws became a focal point for the free trade movement.</li>
+<li style="padding-left:2em">&#9702; The <strong>Anti-Corn Law League,</strong> founded in <strong>1838</strong> by <strong>Richard Cobden</strong> and <strong>John Bright,</strong> campaigned vigorously for the repeal of the protectionist laws.</li>
+<li style="padding-left:4em">&#9632; The laws supported by the landed aristocracy and agricultural interests, benefitted the wealthy at the expense of the poor, consumers and workers.</li>
+<li style="padding-left:4em">&#9632; They were preventing British manufacturers from competing in the global market.</li>
+<li style="padding-left:4em">&#9632; The League&#8217;s economic argument was that free trade would lead to greater economic efficiency, prosperity for all, individual liberty, and international peace.</li>
+<li style="padding-left:2em">&#9702; <strong>Campaign:</strong> It was able to <strong>mobilize public support.</strong></li>
+<li style="padding-left:4em">&#9632; This grassroots mobilization was key to its success.</li>
+<li style="padding-left:4em">&#9632; It published pamphlets and gave speeches.</li>
+<li style="padding-left:4em">&#9632; It organized meetings, rallies, and campaigns to educate public opinion.</li>
+<li style="padding-left:4em">&#9632; They also lobbied Parliament and tried to persuade MPs to support repeal.</li>
+<li style="padding-left:4em">&#9632; The Economist newspaper became the mouthpiece of the free-trade advocacy.</li>
+<li>&#8226; <strong>Repeal of the Corn Laws and shift to Free Trade</strong></li>
+<li style="padding-left:2em">&#9702; In <strong>1846</strong>, under the leadership of <strong>Prime Minister Sir Robert Peel</strong>, the British government repealed the Corn Laws.</li>
+<li style="padding-left:2em">&#9702; This marked a significant victory for the free trade movement. It signaled a shift <strong>away from protectionism towards free trade principles.</strong></li>
+<li style="padding-left:2em">&#9702; It led to a decrease in the price of food, which benefited British consumers. It also led to an increase in exports, which benefited British manufacturers.</li>
+<li style="padding-left:2em">&#9702; It was followed by a series of additional free trade measures, including reductions in tariffs and the gradual opening of British markets to foreign goods. This period of free trade policies is associated with economic growth and the expansion of the British Empire&#8217;s global trade networks.</li>
+</ul>
+
+<h3>Section B: Working Class Movement in Britain</h3>
+
+<p>As England was the first country in the world to experience the Industrial Revolution, the English working class were the first to experience the hardships of industrialization.</p>
+
+<p>Advocates of laissez-faire economics maintained that it was <strong>not the duty of the government to intervene</strong> between the employers and employees. In 1799, the <strong>Combination Act</strong> was passed prohibiting the formation of trade unions in England.</p>
+
+<h4>A. The Luddite Movement (1811-16)</h4>
+<ul>
+<li>&#8226; It arose in response to rapid industrialization. As machines were replacing skilled artisans, there were job losses. The Luddites were primarily skilled workers who saw machinery as a threat to their livelihoods. They started destroying machines believing that it would help protect their jobs.</li>
+<li>&#8226; Luddites engaged in acts of <strong>organized machine-breaking/sabotage</strong> in textile mills and factories.</li>
+<li style="padding-left:2em">&#9702; It began in the vicinity of Nottingham toward the end of 1811 and in the next year spread to Yorkshire, Lancashire, Derbyshire, and Leicestershire.</li>
+<li>&#8226; Mill and factory owners took to shooting protesters. The British government responded with repressive measures, deploying troops to suppress the movement and passing laws that made machine-breaking a capital offense. In 1813, several Luddites were hanged for their crimes.</li>
+<li>&#8226; <strong>Comment:</strong></li>
+<li style="padding-left:2em">&#9702; Luddites are today seen as symbols of resistance to technological change and as early defenders of workers&#8217; rights. However, they were unable to prevent the broader adoption of machinery and factory-based production.</li>
+<li style="padding-left:2em">&#9702; Although the Luddite Movement was crushed by the authorities, it paved the way for the next stage of the working-class agitation in England.</li>
+<li style="padding-left:4em">&#9632; It was an essential stage on the road towards a working-class consciousness. It raised awareness of the issues and contributed to the broader labor movement and the development of trade unions in the 19th century.</li>
+<li style="padding-left:4em">&#9632; Workers began organizing to advocate for better working conditions, higher wages, and job security.</li>
+</ul>
+
+<h4>B. Post-Napoleonic Unrest (1815-1825)</h4>
+<ul>
+<li>&#8226; <strong>Causes</strong></li>
+<li style="padding-left:2em">&#9702; There was an acute economic slump (post-Napoleonic depression).</li>
+<li style="padding-left:2em">&#9702; It was accompanied by chronic unemployment and harvest failure.</li>
+<li style="padding-left:2em">&#9702; The overall impact was worsened by the <strong>Corn Laws (1815)</strong>, which kept the price of bread high by prohibiting the importation of cheap grains.</li>
+<li>&#8226; <strong>Popular Agitation and Riots</strong></li>
+<li style="padding-left:2em">&#9702; There was mass rioting throughout Britain.</li>
+<li style="padding-left:2em">&#9702; Many working class papers started being published and received by a wide audience.</li>
+<li style="padding-left:2em">&#9702; This outbreak of lawlessness led to a government crackdown on agitation in 1817 known as the <strong>Gagging Acts</strong>, a <strong>suspension of habeas corpus (1816).</strong></li>
+<li>&#8226; <strong>Blanketeers March (1817)</strong></li>
+<li style="padding-left:2em">&#9702; In protest of the Gagging Acts, as well as the poor working conditions in the textile industry, workers in Manchester attempted to march on London to deliver petitions in a demonstration.</li>
+<li style="padding-left:2em">&#9702; The Blanketeers, named after the blankets they brought to sleep on the roadside during their journey, were intercepted, with most participants either arrested or chased off by the British military. The march was broken up violently and its leaders imprisoned.</li>
+<li>&#8226; <strong>Political Reform Movement</strong></li>
+<li style="padding-left:2em">&#9702; Now, reformers identified parliamentary reform as the solution and a mass campaign to petition parliament for manhood suffrage began.</li>
+<li style="padding-left:2em">&#9702; Political demonstrations increased in popularity throughout industrial Britain. It culminated in an incident in Manchester, <strong>Peterloo Massacre (1819)</strong></li>
+<li style="padding-left:4em">&#9632; The mounted units attacked the crowd of 80,000, resulted in 18 deaths and up to 500 injuries.</li>
+<li style="padding-left:4em">&#9632; The British government responded with draconian measures known as the <strong>Six Acts</strong> that allowed government searches, prohibited large assemblies, and punished anti-government publications.</li>
+<li style="padding-left:2em">&#9702; Soon, a need was felt to reform the existing combination laws against trade laws.</li>
+<li style="padding-left:4em">&#9632; The <strong>Combination Act of 1824</strong> finally repealed all previous statutes concerning trade unions and declared that trade unions would no longer be treated as illegal.</li>
+<li style="padding-left:4em">&#9632; The legality of the working class unions was further enhanced by the <strong>Combination Act of 1825.</strong></li>
+<li style="padding-left:2em">&#9702; Now, the government began to recognize the need to address labor grievances and allow for peaceful labor organizing.</li>
+</ul>
+
+<h4>Early Trade Unionism</h4>
+<ul>
+<li>&#8226; This legislation brought trade unions into <strong>legal existence.</strong></li>
+<li style="padding-left:2em">&#9702; Until then, trade unions had been operating secretly but hereafter, they were allowed to negotiate openly with the employers.</li>
+<li style="padding-left:2em">&#9702; These early unions, <strong>often limited to skilled workers</strong>, focused on issues like wages, working hours, and apprenticeship standards.</li>
+<li style="padding-left:2em">&#9702; By the 1830s, there were hundreds of trade unions in Britain.</li>
+<li>&#8226; The early phase of trade unionism <strong>did not bring much relief for the workers.</strong></li>
+<li style="padding-left:2em">&#9702; They still operated within a <strong>restrictive legal framework</strong>. Courts often deemed strikes illegal, and union activity was <strong>closely scrutinized</strong>. There was <strong>hostility from the employers</strong> as well.</li>
+<li style="padding-left:2em">&#9702; Trade unionism in this period was often <strong>fragmented</strong>, with numerous small, specialized unions representing specific trades or industries. Coordination and collective action across different sectors were limited.</li>
+<li style="padding-left:4em">&#9632; Failed attempt to set up national general union: <strong>Robert Owen&#8217;s Grand National Consolidated Trades Union</strong> in 1834.</li>
+<li>&#8226; Early Trade unionists contributed to the <strong>development of Chartist demands</strong> for political reform. The Chartists saw trade unions as an important tool for organizing and mobilizing the working class.</li>
+</ul>
+
+<h4>C. Owenism (1820s, 1830s)</h4>
+<ul>
+<li>&#8226; Owenism was a social and economic movement founded by Robert Owen, who was a British textile manufacturer.</li>
+<li>&#8226; Ideas and writing:</li>
+<li style="padding-left:2em">&#9702; He believed that socio-economic problems due to the Industrial revolution could be solved by creating a new social system based on cooperation and equality. He emphasized importance of improving working conditions and education for workers.</li>
+<li style="padding-left:2em">&#9702; Owen&#8217;s writings and experiments contributed to the development of early socialist thought. His work laid the intellectual foundation for cooperative socialism and utopian socialism, which influenced later socialist thinkers.</li>
+<li>&#8226; <strong>Initiatives</strong></li>
+<li style="padding-left:2em">&#9702; Robert Owen put many of his ideas into practice at the <strong>New Lanark</strong> cotton mills in Scotland. He transformed New Lanark into a model industrial community, introducing progressive labor practices, education for children, and social reforms.</li>
+<li style="padding-left:2em">&#9702; Owen established a number of <strong>experimental communities</strong>, including <strong>New Harmony in Indiana.</strong> These experiments aimed to create self-sustaining, cooperative communities based on his principles. However, these communities couldn&#8217;t sustain and were ultimately unsuccessful.</li>
+<li>&#8226; Owenism gained popularity in Britain and the United States in the 1820s and 1830s but declined by the late 1830s. This was due to the failure of the Owenite communities and the rise of other socialist movements.</li>
+<li>&#8226; However, Owenism had a significant impact on the development of the workers&#8217; movement. His ideas had a lasting impact on the development of socialist thought, labor movements, and the concept of workers&#8217; rights. His emphasis on the importance of education, fair labor practices, and cooperation left a lasting legacy in the broader context of social reform and socialism.</li>
+</ul>
+
+<h4>D. Chartist Movement</h4>
+<p>&#8220;The Chartists were pioneers of democracy. They fought for the right of all men to have a say in how they were governed.&#8221; - Eric Hobsbawm</p>
+
+<p>The Chartist movement was the first mass movement for parliamentary reforms driven entirely by the industrial workers and was largely inspired by the evolving theories of socialism.</p>
+
+<p>From 1820s onwards, workers developed their own organization and leadership. By the end of 1830s, they started a campaign called Chartist movement. It was a peaceful movement for political demands. At a time when the right to vote was severely limited, the Charter demanded the vote for all men. There were, in all, <strong>six demands:</strong></p>
+<ul>
+<li>&#8226; A vote for every man 21 years of age, of sound mind, and not undergoing punishment for crime.</li>
+<li>&#8226; Secret ballots.</li>
+<li>&#8226; No property qualification for Members of Parliament.</li>
+<li>&#8226; Payment to MPs.</li>
+<li>&#8226; Equal size constituencies.</li>
+<li>&#8226; Annual parliaments.</li>
+</ul>
+
+<p>It rapidly gathered support from industrial workers in the North of England, Wales, and Scotland. By the 1840s, it had largely lost its middle-class support and become a working class political movement.</p>
+
+<p>Chartists were not the first to demand these things. However, it was in 1830s that the movement received massive public support. <strong>Reasons for the rise:</strong></p>
+<ul>
+<li>&#8226; <strong>Economic Factors:</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Hard times</strong></li>
+<li style="padding-left:4em">&#9632; Severe economic depression in 1840s</li>
+<li style="padding-left:4em">&#9632; <strong>Plight of workers</strong>: Low wages, labour exploitation, unemployment, squalid urbanization</li>
+<li style="padding-left:4em">&#9632; <strong>Hungry Forties</strong>: Potato famine, food shortages</li>
+<li style="padding-left:2em">&#9702; People were furious over the <strong>new Poor Law</strong> which established the <strong>workhouse system.</strong></li>
+<li>&#8226; <strong>Political Factors:</strong></li>
+<li style="padding-left:2em">&#9702; <strong>Idea of popular sovereignty:</strong> The English Revolution gave rise to the idea of popular sovereignty which inspired the Chartists to demand political reforms.</li>
+<li style="padding-left:2em">&#9702; <strong>Lack of political representation:</strong> Many working people had supported the campaign that resulted in the <strong>1832 Reform Act</strong> in the belief that this would be a first step towards wider democracy. They were angry at the Whig government&#8217;s failure to honour its political debts.</li>
+<li style="padding-left:2em">&#9702; <strong>The influence of political movements</strong> like the Radicals and the Reformers who advocated for political reform.</li>
+<li style="padding-left:2em">&#9702; <strong>Influence of European Revolutions:</strong></li>
+<li style="padding-left:4em">&#9632; The European revolutions like July Revolution in France (1830) influenced the political consciousness in England and fueled demands for greater political rights.</li>
+<li style="padding-left:2em">&#9702; This was also a time when, following the repeal of the anti-trade union <strong>Combination Acts</strong>, working people were becoming more confident in forming their own organisations.</li>
+</ul>
+
+<p>The Chartist movement was a <strong>challenge to the rising middle class</strong> which had gained the most by the Act of 1832, and as such the parliament rejected the petition summarily.</p>
+
+<p>Important leaders: Feargus O&#8217;Connor, John Collins, William Lovett</p>
+
+<h4>Three Upsurges:</h4>
+<p>There followed certain abortive attempts at armed uprising also, but these were quickly suppressed. The leaders of the movement were arrested and sentenced to short prison terms, and a few of them were also exiled.</p>
+<p>Thereafter, for more than a decade the Chartist leaders kept agitating and even threatened violence, but no serious unrest took place. It remained largely peaceful.</p>
+<ul>
+<li>&#8226; 1839 &#8211; first Chartists movement</li>
+<li>&#8226; 1842 &#8211; second Chartists movement</li>
+<li>&#8226; 1848 &#8211; third and most formidable, coincided with the year of revolutions in Europe.</li>
+<li style="padding-left:2em">&#9702; 5 lakh workers gathered in London in 1848 to present the charter to parliament.</li>
+<li style="padding-left:2em">&#9702; In favour of the charter, they collected 60 lakh signatures, including many fakes.</li>
+<li style="padding-left:2em">&#9702; Meantime, it was the rainy season, police dispersed the workers.</li>
+</ul>
+
+<h4>Decline and Failure?</h4>
+<p>By 1848, the Chartists had tried every avenue open to them, from petitions to strikes and economic boycotts and revolution &#8211; and all had failed. After 1848, it ceased to be a mass movement. Reasons for the outcome:</p>
+<ul>
+<li>&#8226; Ineffective leadership</li>
+<li>&#8226; Inability to popularize ideas and program.</li>
+<li>&#8226; Internal factionalism</li>
+<li>&#8226; Use of unethical practices</li>
+<li>&#8226; Misdirected energy (common people wanted economic relief, while chartists promised political outcome)</li>
+</ul>
+
+<h4>Still, the Chartist movement was significant:</h4>
+<p>The Chartist movement failed in immediate objectives, but it was not complete failure. In history of democratic reforms, this movement enjoy a place of great significance.</p>
+<ul>
+<li>&#8226; This was the 1st major <strong>working-class movement anywhere in the world.</strong> It inspired workers to come together in favour of their demands.</li>
+<li>&#8226; Chartism helped create a <strong>long-term political culture</strong> in which later left-wing ideas flourished.</li>
+<li style="padding-left:2em">&#9702; Chartism was primarily a working-class movement. It <strong>fostered a sense of class consciousness</strong> and empowered the working-class population by providing a <strong>platform for political activism and collective action.</strong></li>
+<li style="padding-left:2em">&#9702; Although many Chartists eventually drifted into single-issue politics or the Liberal Party, or gave up altogether, the ideas developed by Chartists were <strong>enormously important for the socialist parties</strong> that emerged later in the century.</li>
+<li style="padding-left:2em">&#9702; Chartism taught organizational structure, mobilization techniques, leadership skills, collective action that <strong>inspired trade union leadership.</strong> It helped to strengthen the trade unions and they emerged much more powerful in the second half of the 19th century than before.</li>
+<li>&#8226; The awareness created by movement among <strong>persuaded the government to take several steps</strong> in improvement of condition of workers parliament enacted &#8211; Health Act, Minning Act, Factory Act etc. to take care interest of working class.</li>
+<li>&#8226; In all, there was no result in immediate term. But these movements were not insignificant. Gradually, <strong>5/6 demands were fulfilled</strong>, except annual parliament. In that sense, they did not fail, but success took rather longer than the Chartists might have hoped.</li>
+</ul>
+
+<table border="1" cellpadding="6" cellspacing="0">
+<thead><tr><th>#</th><th>Demand</th><th>When Fulfilled</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Redistribution of seats between county (countryside) and boroughs.</td><td>Redistribution of Seats Act 1885</td></tr>
+<tr><td>2</td><td>Universal male suffrage above 21 years old</td><td>1867, 1884, 1918: universal male suffrage. (women - 1928)</td></tr>
+<tr><td>3</td><td>Secret Ballot</td><td>Secret Ballot Act in 1872</td></tr>
+<tr><td>4</td><td>No property qualifications</td><td>Property Qualification for Members of Parliament Act 1858</td></tr>
+<tr><td>5</td><td>Payment of MPs</td><td>Parliament Act 1911</td></tr>
+<tr><td>6</td><td>Annual Parliaments</td><td>Not introduced</td></tr>
+</tbody>
+</table>
+
+<h4>E. Resurgence of Trade Unionism (post 1850s)</h4>
+<p>After Chartism had petered out, there was again a <strong>resurgence of the trade union movement</strong> in the 1850s. There began a long period of industrial expansion and economic growth during which trade unionism entered a <strong>phase of steady expansion and consolidation.</strong></p>
+<p>The unions formed during the 1850s are often referred to as the <strong>New Model Unions</strong> and such unions were meant for the <strong>more skilled sections of the working classes.</strong></p>`,
   'origins-modern-politics': `<h2>Handout 7: American Revolution</h2>
 <p><em>&#8220;We hold these truths to be self-evident, that all men are created equal, that they are endowed by their creator with certain unalienable right, that among these are life, liberty, and the pursuit of happiness.&#8221;</em><br>&#8212;The Declaration of American Independence, 4 July 1776</p>
 <p>The American Revolution (1765-81) was an ideological and political revolution based on the principles of the American Enlightenment and led to the independence of the American colonies from the British. It was the first successful struggle against colonialism. It opened the doors of the modern age for mankind, led to worldwide impact and transformed both America and Europe.</p>
