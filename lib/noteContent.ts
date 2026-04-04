@@ -29153,6 +29153,109 @@ However, since most delegates in the Convention wanted a stronger centre, this d
 <li style="padding-left:2em">&#9702; It was not the proletariats but group of political activists and opportunist political parties as well as local militia which established socialist governments.</li>
 </ul>
 
+
+<h2>Handout 24: Spread of Marxian Socialism &#8211; Part 2</h2>
+
+<p>Marx and Engels were quite active in Paris during the year 1848, full of European Revolutions. But very soon reactionary elements re-surfaced and revolution was suppressed. After the relative failure of revolutions of 1848, Europe remained quiet for some time to come.</p>
+
+<p>However, three developments in European history in quick succession once again recharged the forces of change and give blow to the old order.</p>
+
+<ul>
+<li>&#8226; Crimean war of 1854-56</li>
+<li>&#8226; Success of Italian nationalists after the annexation of Lombardi by Piedmont-Sardinia in 1859.</li>
+<li>&#8226; The abolition of the slavery system in Russia by Russian emperor Czar Alexander II in 1861.</li>
+</ul>
+
+<p>With these three factors of change, once again, the dormant forces of Socialism and Marxism resurfaced. Marx again became active in Europe. He took the initiative in organizing the <strong>First International</strong> in 1860s.</p>
+
+<h3>The First International (1864-1876)</h3>
+<h3>(International Workingmen&#8217;s Association)</h3>
+
+<ul>
+<li>&#8226; Founded in London to as a federation of workers&#8217; groups, esp. in France and England.</li>
+<li>&#8226; Originally a loose-knit organization, it gradually assumed centralized character.</li>
+<li>&#8226; Though Karl Marx was not its president/founder, he soon became one of the most important leaders.</li>
+<li style="padding-left:2em">&#9702; Marx delivered the inaugural address at the organization&#8217;s founding and authored many of its resolutions and documents. He also served on the General Council of the IWA.</li>
+<li style="padding-left:2em">&#9702; Through it, Marx tried to organize the workers of Britain and France.</li>
+<li>&#8226; It held a number of congresses, at which it debated and adopted policies on a variety of issues, including workers&#8217; rights, trade unions, and international solidarity. It also played a role in organizing strikes and other forms of worker protest.</li>
+<li>&#8226; Due to its ideologically diverse character, there were many conflicts within: Marxism, Proudhonism, Blanquism, Bakuninism etc. Finally, it collapsed over differences between Marxism and Anarchism.</li>
+<li>&#8226; Despite its short life, the First International played a major role in the development of the socialist movement.</li>
+<li style="padding-left:2em">&#9702; It helped to unite workers across national borders, and it raised awareness of the problems of capitalism and the need for socialism. It demonstrated the potential for workers from different countries to unite for a common cause.</li>
+<li style="padding-left:2em">&#9702; Marx&#8217;s influence on the organization helped solidify the role of Marxism as a significant force within the workers&#8217; movement.</li>
+<li style="padding-left:2em">&#9702; It laid the groundwork for future international workers&#8217; organizations and labor movements. It inspired the creation of new socialist and social democratic parties around the world.</li>
+</ul>
+
+<h3>Role of Engels in Popularizing Marxist Socialism</h3>
+
+<ul>
+<li>&#8226; <strong>Collaboration with Marx:</strong></li>
+<li style="padding-left:2em">&#9702; Close intellectual partnership that spanned several decades.</li>
+<li style="padding-left:4em">&#9632; They co-authored several key works like &#8220;The German Ideology&#8221;, which laid the foundation for Marxist theory.</li>
+<li style="padding-left:4em">&#9632; &#8220;The Communist Manifesto&#8221; (1848)</li>
+<li style="padding-left:2em">&#9702; Financial Support:</li>
+<li style="padding-left:4em">&#9632; Engels financially supported Marx, allowing him to focus on his theoretical work.</li>
+<li style="padding-left:2em">&#9702; Both worked together in the <strong>First International.</strong></li>
+<li>&#8226; <strong>Dissemination of Marxist Ideas:</strong></li>
+<li style="padding-left:2em">&#9702; After Marx&#8217;s death in 1883, Engels continued to defend and promote Marxist ideas.</li>
+<li style="padding-left:2em">&#9702; Engels edited and prepared many of Marx&#8217;s manuscripts for publication after Marx&#8217;s death, including volumes of &#8220;Das Kapital.&#8221;</li>
+<li style="padding-left:2em">&#9702; He wrote prefaces, introductions, and commentaries for various editions of Marx&#8217;s works, helping to make them more accessible to a wider audience.</li>
+<li style="padding-left:2em">&#9702; Engels played a key role in popularizing Marxism through his works like</li>
+<li style="padding-left:4em">&#9632; The Holy Family (1844)</li>
+<li style="padding-left:4em">&#9632; The Condition of the Working Class in England (1845)</li>
+<li style="padding-left:4em">&#9632; Socialism: Utopian and Scientific (1880)</li>
+<li style="padding-left:4em">&#9632; Dialectics of Nature (1883)</li>
+<li style="padding-left:4em">&#9632; The Origin of the Family, Private Property and the State (1884)</li>
+<li>&#8226; <strong>Mentoring Other Marxists:</strong></li>
+<li style="padding-left:2em">&#9702; Engels also corresponded with and provided guidance to socialist and working-class movements worldwide.</li>
+<li style="padding-left:2em">&#9702; Engels mentored and influenced several prominent Marxists, including Karl Kautsky and Eduard Bernstein, who went on to play significant roles in the communist movement.</li>
+<li style="padding-left:2em">&#9702; Engels also played a significant role in the initial phase of communist party formation, especially SPD in Germany with finance, writing and other kinds of support.</li>
+<li style="padding-left:2em">&#9702; He helped in the foundation of the <strong>Second International.</strong></li>
+</ul>
+
+<h3>Marxist Political Parties in Europe</h3>
+
+<p>Due to the activities of Marxists in industrialised nation of Western Europe as well as Germany, there was <strong>a looming possibility of a working-class revolution.</strong></p>
+
+<ul>
+<li>&#8226; <strong>Britain</strong></li>
+<li style="padding-left:2em">&#9702; There was a big strike by dockyard workers in London in 1889.</li>
+<li style="padding-left:2em">&#9702; In 1890s there was formation of the <strong>Labour Party</strong> which soon adopted humanist and welfare demands for the workers. So, the condition of a revolution was averted. It was not Marxist but worked as a socialist party and didn&#8217;t want to destroy the existing system.</li>
+<li>&#8226; In <strong>Germany</strong>, there was the rise of a leftist party (the <strong>Social Democratic Party</strong>). This party gave emphasis to the method of class struggle.</li>
+<li style="padding-left:2em">&#9702; In order to counter the program of the ultra-leftist party, the German government first adopted <strong>anti-socialist laws</strong>, but then adopted <strong>a series of welfare works for the workers</strong> - appease the workers and detract the support of SDP.</li>
+<li style="padding-left:2em">&#9702; Apart from that, the German government promoted <strong>imperialist policy</strong> so that the attention of the people is diverted from internal to external issues.</li>
+<li>&#8226; In <strong>France</strong>, there was a rise of ultra-leftist.</li>
+<li style="padding-left:2em">&#9702; First of all, just after the battle of Sedan and humiliation of French Monarch Napoleon III and the loss of France in this war, there was <strong>Third Republic.</strong></li>
+<li style="padding-left:2em">&#9702; But in the meantime, workers became impatient, and the ultra-nationalist group of workers seized power in Paris in 1871. This is known as <strong>Paris Commune</strong>. It was as per the prophecy of Marx &#8211; by workers themselves. Workers in the Paris Commune remained in power for two months then it lost the power to a middle-class government. Authorities re-captured power.</li>
+<li style="padding-left:2em">&#9702; Later, there was the rise of trade union federation in France.</li>
+<li>&#8226; Apart from France, the leftist party was formed in the <strong>west European</strong> countries as well, for example, in Spain, Switzerland, Netherland, Portugal, etc., but nowhere the bourgeoisie government was replaced by a Marxist government in 19th century.</li>
+<li>&#8226; It was only in the early 20th century that there was the formation of a Marxist government in <strong>Russia.</strong> It was a semi-industrialised nation and based on manipulation by Lenin.</li>
+</ul>
+
+<h3>Second International (1889-1916)</h3>
+
+<ul>
+<li>&#8226; <strong>Founded in Paris in 1889.</strong></li>
+<li style="padding-left:2em">&#9702; Unlike the First International, it was based on the membership of national parties and trade unions only.</li>
+<li style="padding-left:2em">&#9702; It was not a centralized organization, like the first, but rather a loose federation that did not set up an executive body till 1900.</li>
+<li>&#8226; <strong>Outreach:</strong></li>
+<li style="padding-left:2em">&#9702; By 1912 the Second International represented the socialist and social democratic parties of all European countries, the United States, Canada, and Japan, with a voting strength of nearly nine million.</li>
+<li style="padding-left:2em">&#9702; The Second International was more successful than its predecessor in building a mass movement for socialism, and it played a major role in the development of the socialist movement in Europe and around the world.</li>
+<li>&#8226; <strong>Debates on the issue of reform vs. revolution.</strong></li>
+<li style="padding-left:2em">&#9702; Reformists believe that socialism can be achieved through gradual reforms within the capitalist system, while revolutionaries believe that socialism can only be achieved through a revolutionary overthrow of the capitalist system.</li>
+<li style="padding-left:2em">&#9702; It rejected the theory of gradual reform and cooperation with nonsocialist parties in office. It reaffirmed the Marxist doctrine of the class struggle and the inevitability of revolution.</li>
+<li>&#8226; Its main concern was the prevention of <strong>all-out European war.</strong></li>
+<li style="padding-left:2em">&#9702; World War I confronted the socialist parties in the belligerent countries with a dilemma. Except for the Serbian and Russian socialists, all parties supported the war efforts of their respective countries. This situation split the International.</li>
+</ul>
+
+<h3>Why did Marx&#8217;s prophecy fail?</h3>
+
+<p>In fact, it was due to the specific strategy adopted by middle-class leadership.</p>
+<ul>
+<li>&#8226; The bourgeoisie government of Western Europe adopted a series of <strong>welfare measures</strong> to counter the Marxist challenge.</li>
+<li>&#8226; In order to divert the attention of the people from class struggle, or internal issues to external ones, <strong>imperialism was consciously promoted</strong> by the governments of western Europe.</li>
+<li>&#8226; There was a <strong>collaboration between the aristocratic class and middle class</strong> against the proletariat class and through their combined efforts, the situation of Marxist revolution was averted.</li>
+</ul>
+
 <p><strong>How scientific is Marxism really?</strong></p>
 
 
