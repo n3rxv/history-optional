@@ -113,14 +113,31 @@ export default function Navbar() {
                 onClick={() => setUserMenuOpen(o => !o)}
                 style={{
                   width: 34, height: 34, borderRadius: '50%',
-                  background: 'var(--bg2)', border: '2px solid #51cf66',
-                  cursor: 'pointer', fontSize: '0.9rem', fontWeight: 700,
-                  color: '#51cf66', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginLeft: '0.4rem',
+                  background: 'none', border: '2px solid #51cf66',
+                  cursor: 'pointer', padding: 0, overflow: 'hidden',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginLeft: '0.4rem', flexShrink: 0,
                 }}
                 title={user.email}
               >
-                {user.email?.[0]?.toUpperCase() ?? '👤'}
+                <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="17" cy="17" r="17" fill="#1a2a1a"/>
+                  {/* body */}
+                  <ellipse cx="17" cy="26" rx="9" ry="6" fill="#2d4a2d"/>
+                  {/* head */}
+                  <circle cx="17" cy="14" r="6" fill="#51cf66"/>
+                  {/* eyes */}
+                  <circle cx="14.5" cy="13.5" r="1.5" fill="#0a1a0a"/>
+                  <circle cx="19.5" cy="13.5" r="1.5" fill="#0a1a0a"/>
+                  {/* shine */}
+                  <circle cx="14.9" cy="13.1" r="0.5" fill="white"/>
+                  <circle cx="19.9" cy="13.1" r="0.5" fill="white"/>
+                  {/* smile */}
+                  <path d="M14.5 16.2 Q17 18 19.5 16.2" stroke="#0a1a0a" strokeWidth="0.8" fill="none" strokeLinecap="round"/>
+                  {/* ears */}
+                  <ellipse cx="11.2" cy="12.5" rx="1.5" ry="2" fill="#51cf66"/>
+                  <ellipse cx="22.8" cy="12.5" rx="1.5" ry="2" fill="#51cf66"/>
+                </svg>
               </button>
               {userMenuOpen && (
                 <div style={{

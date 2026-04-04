@@ -40,10 +40,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border3); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-track-piece { background: var(--bg2); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent) 0%, rgba(59,130,246,0.5) 60%, rgba(59,130,246,0.15) 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(59,130,246,0.2);
+  box-shadow: 0 0 6px rgba(59,130,246,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+  min-height: 40px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #60a5fa 0%, var(--accent) 50%, rgba(59,130,246,0.6) 100%);
+  box-shadow: 0 0 12px rgba(59,130,246,0.7), 0 0 4px rgba(59,130,246,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+::-webkit-scrollbar-thumb:active {
+  background: #60a5fa;
+  box-shadow: 0 0 16px rgba(96,165,250,0.8);
+}
+::-webkit-scrollbar-corner { background: var(--bg); }
 ::selection { background: rgba(59,130,246,0.25); color: var(--text); }
 
 .hl-yellow { background: rgba(234,179,8,0.3);  border-radius: 2px; cursor: pointer; padding: 0 2px; }
@@ -183,27 +199,32 @@ body {
   border-left: 3px solid var(--red); border-radius: 10px; padding: 1.75rem 2rem;
 }
 
-/* ── Note content: gradient headings ── */
+/* ── Note content: solid headings (no gradient fade) ── */
 .note-content h1 {
-  background: linear-gradient(90deg, var(--accent), rgba(59,130,246,0.55));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; border-bottom: 1px solid rgba(59,130,246,0.2);
+  color: var(--accent) !important;
+  -webkit-text-fill-color: var(--accent) !important;
+  border-bottom: 1px solid rgba(59,130,246,0.2);
 }
 .note-content h2 {
-  background: linear-gradient(90deg, var(--yellow), rgba(234,179,8,0.6));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--yellow) !important;
+  -webkit-text-fill-color: var(--yellow) !important;
 }
 .note-content h3 {
-  background: linear-gradient(90deg, var(--accent), rgba(59,130,246,0.55));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--accent) !important;
+  -webkit-text-fill-color: var(--accent) !important;
+}
+.note-content h4 {
+  color: var(--green) !important;
+  -webkit-text-fill-color: var(--green) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.82rem !important;
 }
 .note-content blockquote {
   background: linear-gradient(135deg, rgba(161,98,7,0.1), rgba(234,179,8,0.04));
 }
 .note-content th {
-  background: linear-gradient(135deg, rgba(29,78,216,0.18), rgba(17,17,17,0.85));
+  background: var(--bg4);
 }
 .note-content tr:nth-child(even) td {
   background: linear-gradient(135deg, rgba(18,18,18,0.95), rgba(10,10,10,0.7));
