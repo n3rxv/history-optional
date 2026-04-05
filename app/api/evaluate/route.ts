@@ -671,7 +671,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
     // Reconstruct correct out_of values based on marks if missing or malformed
     const marksNum = parseInt(marks as string);
     const outOfs = marksNum === 10
-      ? { introduction: 2, body: 5.5, conclusion: 1.5, presentation: 1 }
+      ? { introduction: 1.5, body: 5.5, conclusion: 1.5, presentation: 1.5 }
       : marksNum === 20
       ? { introduction: 3, body: 11, conclusion: 3, presentation: 3 }
       : { introduction: 2, body: 8, conclusion: 2, presentation: 3 };
@@ -684,18 +684,28 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
         presentation: { awarded: 0, out_of: outOfs.presentation, reasoning: "Could not evaluate" },
       };
     } else {
-      // Force correct out_of values regardless of what model returned
       (["introduction","body","conclusion","presentation"] as const).forEach(sec => {
         if (!eval_.section_marks[sec]) {
           eval_.section_marks[sec] = { awarded: 0, out_of: (outOfs as any)[sec], reasoning: "Could not evaluate" };
         } else {
           eval_.section_marks[sec].out_of = (outOfs as any)[sec];
-          if (typeof eval_.section_marks[sec].awarded !== "number") {
-            eval_.section_marks[sec].awarded = 0;
-          }
+          const raw = eval_.section_marks[sec].awarded;
+          const parsed = parseFloat(raw);
+          eval_.section_marks[sec].awarded = isNaN(parsed) ? 0 : parsed;
         }
       });
     }
+
+    // Recalculate total from sections if marks missing or zero
+    const totalAwarded =
+      eval_.section_marks.introduction.awarded +
+      eval_.section_marks.body.awarded +
+      eval_.section_marks.conclusion.awarded +
+      eval_.section_marks.presentation.awarded;
+    if (!eval_.marks || eval_.marks === 0) {
+      eval_.marks = Math.round(totalAwarded * 10) / 10;
+    }
+    eval_.marks_out_of = marksNum;
 
     // ── PASS 3: Rich qualitative feedback ────────────────────────
     const pass3Prompt = `You are a UPSC History Optional expert examiner. A student has written the following answer.

@@ -694,10 +694,70 @@ function Settings({ onLogout, password }: { onLogout: () => void; password: stri
   );
 }
 
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SUBMISSIONS
+// ─────────────────────────────────────────────────────────────────────────────
+function Submissions({ password }: { password: string }) {
+  const [rows, setRows] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<'all' | 'contact' | 'bug'>('all');
+
+  useEffect(() => {
+    fetch('/api/admin/submissions', { headers: { 'x-admin-password': password } })
+      .then(r => r.json())
+      .then(({ data }) => { setRows(data || []); setLoading(false); });
+  }, [password]);
+
+  const deleteRow = async (id: string) => {
+    if (!confirm('Delete this submission?')) return;
+    await fetch('/api/admin/submissions', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+      body: JSON.stringify({ id }),
+    });
+    setRows(r => r.filter(x => x.id !== id));
+  };
+
+  const visible = rows.filter(r => filter === 'all' || r.type === filter);
+  if (loading) return <div style={{ padding: 32, color: '#444' }}>Loading...</div>;
+
+  return (
+    <div style={{ padding: 24, maxWidth: 860 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+        <h3 style={{ color: '#fff', fontFamily: 'serif', margin: 0 }}>Submissions</h3>
+        <span style={{ color: '#555', fontSize: '0.8rem' }}>{rows.length} total</span>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
+          {(['all', 'contact', 'bug'] as const).map(f => (
+            <button key={f} onClick={() => setFilter(f)} style={{ padding: '4px 12px', borderRadius: 5, cursor: 'pointer', fontSize: '0.78rem', background: filter === f ? 'rgba(212,168,67,0.12)' : 'transparent', border: filter === f ? '1px solid rgba(212,168,67,0.3)' : '1px solid #222', color: filter === f ? '#d4a843' : '#555' }}>{f === 'all' ? 'All' : f === 'contact' ? '✉ Contact' : '🐛 Bug'}</button>
+          ))}
+        </div>
+      </div>
+      {visible.length === 0 ? (
+        <div style={{ color: '#333', fontSize: '0.85rem', padding: '32px 0', textAlign: 'center' }}>No submissions yet.</div>
+      ) : (
+        visible.map(row => (
+          <div key={row.id} style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 8, padding: '14px 16px', marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <span style={{ padding: '2px 8px', borderRadius: 4, fontSize: '0.7rem', fontWeight: 600, background: row.type === 'bug' ? 'rgba(255,80,80,0.1)' : 'rgba(212,168,67,0.1)', border: row.type === 'bug' ? '1px solid rgba(255,80,80,0.25)' : '1px solid rgba(212,168,67,0.25)', color: row.type === 'bug' ? '#ff8080' : '#d4a843' }}>{row.type === 'bug' ? '🐛 Bug' : '✉ Contact'}</span>
+              {row.name && <span style={{ color: '#ccc', fontSize: '0.85rem', fontWeight: 600 }}>{row.name}</span>}
+              {row.email && <span style={{ color: '#555', fontSize: '0.78rem' }}>{row.email}</span>}
+              {row.page && <span style={{ color: '#777', fontSize: '0.78rem' }}>• {row.page}</span>}
+              <span style={{ marginLeft: 'auto', color: '#333', fontSize: '0.72rem' }}>{new Date(row.created_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+              <button onClick={() => deleteRow(row.id)} style={{ padding: '2px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.72rem', background: 'rgba(255,80,80,0.08)', border: '1px solid rgba(255,80,80,0.2)', color: '#ff8080' }}>✕</button>
+            </div>
+            <p style={{ color: '#aaa', fontSize: '0.85rem', lineHeight: 1.6, margin: 0, whiteSpace: 'pre-wrap' }}>{row.message}</p>
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN
 // ─────────────────────────────────────────────────────────────────────────────
-type Tab = 'notes' | 'posts' | 'analytics' | 'settings';
+type Tab = 'notes' | 'posts' | 'analytics' | 'submissions' | 'settings';
 
 export default function AdminPage() {
   const { authed, checking, login, logout, password } = useAdminAuth();
@@ -710,6 +770,7 @@ export default function AdminPage() {
     { id: 'notes',     label: 'Note Editor', icon: '📝' },
     { id: 'posts',     label: 'Posts',       icon: '📰' },
     { id: 'analytics', label: 'Analytics',   icon: '📊' },
+    { id: 'submissions', label: 'Submissions', icon: '📬' },
     { id: 'settings',  label: 'Settings',    icon: '⚙️' },
   ];
 
@@ -730,6 +791,7 @@ export default function AdminPage() {
       {tab === 'notes'     && <NoteEditor password={password} />}
       {tab === 'posts'     && <PostsManager password={password} />}
       {tab === 'analytics' && <Analytics password={password} />}
+      {tab === 'submissions' && <Submissions password={password} />}
       {tab === 'settings'  && <Settings onLogout={logout} password={password} />}
     </div>
   );
