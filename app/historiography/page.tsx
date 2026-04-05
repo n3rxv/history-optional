@@ -299,7 +299,7 @@ export default function HistoriographyPage() {
         .hb-position { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem 1rem; }
         .hb-pos-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; }
         .hb-pos-name { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--text); }
-        .hb-pos-stance { font-size: 0.72rem; color: var(--text2); margin-top: 2px; font-style: italic; }
+        .hb-pos-stance { font-size: 0.72rem; color: var(--text2); margin-top: 2px;  }
         .hb-pos-work { font-size: 0.68rem; font-family: var(--font-mono); color: var(--text3); margin-bottom: 0.5rem; }
         .hb-pos-work span { color: #60a5fa; }
         .hb-pos-arg { font-size: 0.8rem; color: var(--text2); line-height: 1.65; }
