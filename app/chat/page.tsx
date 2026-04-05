@@ -24,15 +24,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   const pageW = 210, pageH = 297, M = 20, contentW = 170;
 
-  // Site palette — white page, blue accents
-  const BLUE1  : [number,number,number] = [37,  99,  235]; // primary blue
-  const BLUE2  : [number,number,number] = [59, 130,  246]; // lighter blue
-  const BLUE3  : [number,number,number] = [219,234,254];   // blue tint bg
-  const GOLD   : [number,number,number] = [180, 130,  30]; // accent gold
-  const INK    : [number,number,number] = [15,  23,  42];  // near-black text
-  const INK2   : [number,number,number] = [51,  65,  85];  // secondary text
-  const MUTED  : [number,number,number] = [100,116,139];   // muted text
-  const RULE   : [number,number,number] = [203,213,225];   // divider lines
+  const BLUE1  : [number,number,number] = [37,  99,  235];
+  const BLUE2  : [number,number,number] = [59, 130,  246];
+  const BLUE3  : [number,number,number] = [219,234,254];
+  const INK    : [number,number,number] = [15,  23,  42];
+  const INK2   : [number,number,number] = [51,  65,  85];
+  const MUTED  : [number,number,number] = [100,116,139];
+  const RULE   : [number,number,number] = [203,213,225];
   const DOMAIN = 'www.historyoptional.xyz';
   const URL    = 'https://www.historyoptional.xyz';
 
@@ -41,7 +39,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const drawBg = () => {
     doc.setFillColor(255,255,255);
     doc.rect(0,0,pageW,pageH,'F');
-    // Blue left stripe
     doc.setFillColor(...BLUE1);
     doc.rect(0,0,3,pageH,'F');
   };
@@ -51,18 +48,15 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.rect(0,0,pageW,15,'F');
     doc.setFillColor(...BLUE1);
     doc.rect(3,14.7,pageW-3,0.5,'F');
-    // Logo
     doc.setFont('helvetica','bold');
     doc.setFontSize(8);
     doc.setTextColor(...BLUE1);
     doc.text('HISTORY OPTIONAL',M,9.5);
     doc.link(M,3,52,10,{url:URL});
-    // Domain
     doc.setFont('helvetica','normal');
     doc.setFontSize(6.5);
     doc.setTextColor(...MUTED);
     doc.text(DOMAIN, M+54, 9.5);
-    // Right tag
     doc.text('AI Chat  |  UPSC History Optional', pageW-M, 9.5, {align:'right'});
   };
 
@@ -89,28 +83,16 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   const chk = (n: number) => { if (y+n > pageH-15) nextPage(); };
 
-  // Init
   drawBg(); drawHeader(); drawFooter(); y = 23;
 
-  // Title block
-  doc.setFillColor(...BLUE3);
-  doc.setDrawColor(...BLUE2);
-  doc.setLineWidth(0.4);
-  doc.roundedRect(M,y,contentW,11,2,2,'FD');
-  doc.setFont('helvetica','bold');
-  doc.setFontSize(11);
-  doc.setTextColor(...BLUE1);
-  doc.text('AI MODEL ANSWER', M+contentW/2, y+8, {align:'center'});
-  y += 17;
-
-  // Question box
   if (questionText) {
     doc.setFont('helvetica','bold');
     doc.setFontSize(6.5);
     doc.setTextColor(...BLUE2);
     doc.text('QUESTION', M, y+1);
     y += 5;
-    const qL = doc.splitTextToSize(questionText, contentW-6) as string[];
+    const strip0 = (t: string) => t.replace(/\*\*(.+?)\*\*/g,'$1').replace(/\*(.+?)\*/g,'$1');
+    const qL = doc.splitTextToSize(strip0(questionText), contentW-6) as string[];
     const qH = qL.length*6+8;
     doc.setFillColor(248,250,255);
     doc.setDrawColor(...BLUE2);
@@ -125,13 +107,12 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     y += qH+8;
   }
 
-  // Parse + render markdown
-  const strip = (t: string) => t.replace(/\*\*(.+?)\*\*/g,'$1').replace(/\*(.+?)\*/g,'$1');
+  const strip = (t: string) => t.replace(/\*\*(.+?)\*\*/g,'$1').replace(/\*(.+?)\*/g,'$1').replace(/`(.+?)`/g,'$1');
   const lines = markdownText.split('\n');
 
   for (const raw of lines) {
     const t = raw.trim();
-    if (!t) { y += 2; continue; }
+    if (!t || /^---+$/.test(t)) { y += 2; continue; }
 
     if (/^#{1,2} /.test(t)) {
       const txt = strip(t.replace(/^#{1,2} /,''));
@@ -146,16 +127,14 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       doc.setLineWidth(0.25);
       doc.line(M+6+txt.length*2.8, y-2, pageW-M, y-2);
       y += 8;
-
-    } else if (/^### /.test(t)) {
-      const txt = strip(t.replace(/^### /,''));
+    } else if (/^#{3,4} /.test(t)) {
+      const txt = strip(t.replace(/^#{3,4} /,''));
       chk(10); y += 2;
       doc.setFont('helvetica','bold');
       doc.setFontSize(9.5);
       doc.setTextColor(...BLUE2);
       doc.text(txt, M+4, y);
       y += 6.5;
-
     } else if (/^[•\-\*] /.test(t)) {
       const txt = strip(t.replace(/^[•\-\*] /,''));
       const bL = doc.splitTextToSize(txt, contentW-7) as string[];
@@ -167,7 +146,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       doc.setTextColor(...INK);
       bL.forEach((l:string)=>{ chk(7); doc.text(l,M+7,y); y+=5.8; });
       y += 1;
-
     } else {
       const txt = strip(t);
       const pL = doc.splitTextToSize(txt, contentW) as string[];
@@ -180,7 +158,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     }
   }
 
-  // Watermark
   for (let p=1; p<=pg; p++) {
     doc.setPage(p);
     doc.saveGraphicsState();
@@ -243,7 +220,6 @@ function ChatContent() {
   const lastAiRef = useRef<HTMLDivElement>(null);
   const pendingMsgRef = useRef<string | null>(null);
 
-  // Load session + chat usage on mount
   useEffect(() => {
     const init = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -274,7 +250,6 @@ function ChatContent() {
     if (!q.trim() || loading) return;
     if (q.length > 2000) { alert('Message too long. Max 2000 characters.'); return; }
 
-    // Gate checks
     if (!token) { setModal('unauthenticated'); return; }
     if (noPhone) { pendingMsgRef.current = q; setModal('no_phone'); return; }
     if (!isOwner && !isSubscribed && chatUsed >= chatLimit) { setModal('limit_reached'); return; }
@@ -318,7 +293,6 @@ Every response must:
       if (response.status === 403 && data.error === 'limit_reached') { setModal('limit_reached'); setLoading(false); return; }
       const reply = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
       setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
-      // Increment local usage count
       if (!isOwner && !isSubscribed) setChatUsed(prev => prev + 1);
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
@@ -337,19 +311,14 @@ Every response must:
 
   const formatMessage = (text: string) => {
     return text
-      // Bold & italic
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
-      // Horizontal rules --- must come before bullet rules
       .replace(/^---+$/gm, '<div class="chat-hr"></div>')
-      // Headings
       .replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`)
       .replace(/^### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h2">${t}</div>`)
       .replace(/^#### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
-      // Bullets
       .replace(/^• (.+)$/gm, '<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>$1</span></div>')
       .replace(/^[\-\*] (.+)$/gm, '<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>$1</span></div>')
-      // Gaps
       .replace(/\n\n/g, '<div class="chat-para-gap"></div>')
       .replace(/\n/g, '<br/>');
   };
@@ -366,7 +335,6 @@ Every response must:
       <style>{`
         .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 60px); background:var(--bg); }
 
-        /* Header */
         .chat-header {
           display:flex; align-items:center; gap:1rem;
           padding:0.9rem 1.5rem;
@@ -393,16 +361,13 @@ Every response must:
         }
         .chat-new-btn:hover { border-color:var(--accent2); color:var(--text2); background:rgba(59,130,246,0.06); }
 
-        /* Messages area */
         .chat-msgs { flex:1; overflow-y:auto; padding:2rem 1.5rem 1rem; }
         .chat-msgs-inner { max-width:780px; margin:0 auto; }
 
-        /* Message rows */
         .chat-msg-row { margin-bottom:1.75rem; display:flex; flex-direction:column; }
         .chat-msg-row.user { align-items:flex-end; }
         .chat-msg-row.assistant { align-items:flex-start; }
 
-        /* User bubble */
         .chat-bubble-user {
           max-width:75%;
           background:linear-gradient(135deg, rgba(29,78,216,0.22), rgba(59,130,246,0.1));
@@ -412,7 +377,6 @@ Every response must:
           color:var(--text); font-size:0.88rem; line-height:1.65;
         }
 
-        /* AI bubble — the star of the show */
         .chat-bubble-ai {
           max-width:92%;
           background:linear-gradient(160deg, #0d1117 0%, #0a0e16 100%);
@@ -432,7 +396,6 @@ Every response must:
           border-radius:4px 16px 0 0;
         }
 
-        /* Headings inside AI bubble */
         .chat-msg-h1 {
           font-family:var(--font-display);
           font-size:1rem; font-weight:700;
@@ -448,7 +411,7 @@ Every response must:
 
         .chat-msg-h2 {
           font-family:var(--font-display);
-          font-size:0.9rem; font-weight:700;
+          font-size:0.95rem; font-weight:700;
           color:#f59e0b;
           margin:1rem 0 0.35rem;
           display:flex; align-items:center; gap:0.5rem;
@@ -461,12 +424,17 @@ Every response must:
 
         .chat-msg-h3 {
           font-family:var(--font-display);
-          font-size:0.84rem; font-weight:600;
+          font-size:0.92rem; font-weight:700;
           color:#22c55e;
-          margin:0.75rem 0 0.25rem;
+          margin:0.85rem 0 0.3rem;
+          display:flex; align-items:center; gap:0.45rem;
+        }
+        .chat-msg-h3::before {
+          content:'';
+          display:inline-block; width:3px; height:13px;
+          background:#22c55e; border-radius:2px; flex-shrink:0;
         }
 
-        /* Bullets */
         .chat-bullet {
           display:flex; align-items:flex-start; gap:0.6rem;
           margin:0.45rem 0; padding:0.35rem 0.6rem;
@@ -484,11 +452,9 @@ Every response must:
         .chat-bullet span:last-child { flex:1; line-height:1.7; }
         .chat-bullet strong { color:#f1f5f9; }
 
-        /* Body text */
         .chat-bubble-ai br + br { display:none; }
         .chat-para-gap { height:0.65rem; }
 
-        /* Horizontal rule */
         .chat-hr {
           height:1px;
           background:linear-gradient(90deg, rgba(59,130,246,0.25), rgba(59,130,246,0.05) 60%, transparent);
@@ -496,11 +462,9 @@ Every response must:
           border:none;
         }
 
-        /* Strong/em inside bubbles */
         .chat-bubble-ai strong { color:#f1f5f9; font-weight:700; }
         .chat-bubble-ai em { color:#94a3b8; font-style:italic; }
 
-        /* Meta row */
         .chat-meta {
           display:flex; align-items:center; gap:0.5rem;
           margin-top:0.4rem; padding:0 4px;
@@ -518,7 +482,6 @@ Every response must:
           box-shadow:0 0 4px rgba(59,130,246,0.5);
         }
 
-        /* Typing indicator */
         .chat-typing {
           display:flex; align-items:center; gap:0.6rem;
           padding:0.75rem 1rem; margin-bottom:1rem;
@@ -539,7 +502,6 @@ Every response must:
           50% { opacity:1; transform:scale(1.1); }
         }
 
-        /* Suggested */
         .chat-suggested-label {
           font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.2em;
           text-transform:uppercase; color:var(--text3); margin-bottom:0.9rem;
@@ -561,7 +523,6 @@ Every response must:
           transform:translateY(-1px);
         }
 
-        /* Input area */
         .chat-input-area {
           border-top:1px solid var(--border);
           padding:1rem 1.5rem 1.25rem;
@@ -598,7 +559,6 @@ Every response must:
         .chat-send-btn.active:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(59,130,246,0.45); }
         .chat-hint { font-size:0.64rem; color:var(--text3); text-align:center; margin-top:0.55rem; letter-spacing:0.04em; }
 
-        /* PDF button */
         .chat-pdf-btn {
           display:inline-flex; align-items:center; gap:5px;
           background:linear-gradient(135deg, rgba(200,168,75,0.15), rgba(234,201,106,0.08));
@@ -614,7 +574,6 @@ Every response must:
       `}</style>
 
       <div className="chat-wrap">
-        {/* Gate modals */}
         {modal === 'unauthenticated' && (
           <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
             <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%' }}>
@@ -657,7 +616,7 @@ Every response must:
             </div>
           </div>
         )}
-        {/* Header */}
+
         <div className="chat-header">
           <div className="chat-header-icon">⚔</div>
           <div>
@@ -670,7 +629,6 @@ Every response must:
           }])}>+ New Chat</button>
         </div>
 
-        {/* Messages */}
         <div className="chat-msgs">
           <div className="chat-msgs-inner">
             {messages.map((msg, i) => (
@@ -722,7 +680,6 @@ Every response must:
           </div>
         </div>
 
-        {/* Input */}
         <div className="chat-input-area">
           <div className="chat-input-inner">
             <div className="chat-input-box">
