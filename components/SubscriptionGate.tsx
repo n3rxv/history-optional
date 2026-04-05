@@ -174,7 +174,7 @@ function PaywallModal({
                 <span style={{ color: '#555', fontSize: '0.85rem', marginBottom: 6 }}>/year</span>
               </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: '#3b82f6', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 16 }}>
-                ₹83/month · cancel anytime
+                
               </div>
               {[
                 '✓  Truly unlimited evaluations — every day',
