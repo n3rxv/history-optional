@@ -1,20 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { generateAdminToken } from '@/lib/admin-auth';
 
-// In-memory rate limiting (per-IP brute-force protection)
 const attempts = new Map<string, { count: number; ts: number }>();
-
-// Short-lived session tokens — issued on successful login, used by all admin routes
-// Token → expiry timestamp (ms). Tokens expire after 8 hours.
-export const adminTokens = new Map<string, number>();
-const TOKEN_TTL = 8 * 60 * 60 * 1000;
-
-function purgeExpiredTokens() {
-  const now = Date.now();
-  for (const [tok, exp] of adminTokens) {
-    if (now > exp) adminTokens.delete(tok);
-  }
-}
 
 function timingSafeCompare(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
@@ -46,9 +34,7 @@ export async function POST(req: NextRequest) {
 
   if (timingSafeCompare(password, process.env.ADMIN_PASSWORD)) {
     attempts.delete(ip);
-    purgeExpiredTokens();
-    const token = crypto.randomBytes(32).toString('hex');
-    adminTokens.set(token, Date.now() + TOKEN_TTL);
+    const token = generateAdminToken();
     return NextResponse.json({ ok: true, token });
   }
 

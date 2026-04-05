@@ -1,16 +1,26 @@
-// Shared admin token verification for all /api/admin/* routes.
-// Import this instead of checking x-admin-password directly.
 import { NextRequest } from 'next/server';
-import { adminTokens } from '@/app/api/admin/verify-password/route';
+import crypto from 'crypto';
+
+const SECRET = process.env.ADMIN_PASSWORD ?? '';
+const TOKEN_TTL = 8 * 60 * 60 * 1000; // 8 hours
+
+export function generateAdminToken(): string {
+  const exp = Date.now() + TOKEN_TTL;
+  const payload = `${exp}`;
+  const sig = crypto.createHmac('sha256', SECRET).update(payload).digest('hex');
+  return `${exp}.${sig}`;
+}
 
 export function isAdminAuthed(req: NextRequest): boolean {
   const token = req.headers.get('x-admin-token');
   if (!token) return false;
-  const exp = adminTokens.get(token);
-  if (!exp) return false;
-  if (Date.now() > exp) {
-    adminTokens.delete(token);
+  const [expStr, sig] = token.split('.');
+  if (!expStr || !sig) return false;
+  if (Date.now() > parseInt(expStr)) return false;
+  const expected = crypto.createHmac('sha256', SECRET).update(expStr).digest('hex');
+  try {
+    return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected));
+  } catch {
     return false;
   }
-  return true;
 }
