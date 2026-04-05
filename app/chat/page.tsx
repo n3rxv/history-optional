@@ -107,7 +107,20 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     y += qH+8;
   }
 
-  const strip = (t: string) => t.replace(/\*\*(.+?)\*\*/g,'$1').replace(/\*(.+?)\*/g,'$1').replace(/`(.+?)`/g,'$1');
+  // Strip markdown + replace non-latin chars jsPDF can't handle
+  const strip = (t: string) => t
+    .replace(/\*\*(.+?)\*\*/g,'$1')
+    .replace(/\*(.+?)\*/g,'$1')
+    .replace(/`(.+?)`/g,'$1')
+    .replace(/[^\x00-\x7F]/g, c => {
+      const map: Record<string,string> = {
+        '\u1e63':'s','\u1e6d':'t','\u012b':'i','\u016b':'u','\u0101':'a',
+        '\u015b':'s','\u1e45':'n','\u1e47':'n','\u015d':'s','\u1e25':'h',
+        '\u2013':'--','\u2014':'--','\u2018':"'",'\u2019':"'",
+        '\u201c':'"','\u201d':'"','\u2026':'...',
+      };
+      return map[c] ?? '';
+    });
   const lines = markdownText.split('\n');
 
   for (const raw of lines) {
@@ -148,27 +161,26 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       y += 1;
     } else {
       const txt = strip(t);
-      const pL = doc.splitTextToSize(txt, contentW) as string[];
-      chk(pL.length*5.8+2);
       doc.setFont('helvetica','normal');
       doc.setFontSize(10);
+      const pL = doc.splitTextToSize(txt, contentW-4) as string[];
+      chk(pL.length*5.8+2);
       doc.setTextColor(...INK2);
       pL.forEach((l:string)=>{ chk(7); doc.text(l,M,y); y+=5.8; });
       y += 1.5;
     }
   }
 
+  // Subtle watermark — once per page, center only
   for (let p=1; p<=pg; p++) {
     doc.setPage(p);
     doc.saveGraphicsState();
     // @ts-ignore
-    doc.setGState(doc.GState({opacity:0.04}));
+    doc.setGState(doc.GState({opacity:0.03}));
     doc.setFont('helvetica','bold');
-    doc.setFontSize(20);
+    doc.setFontSize(18);
     doc.setTextColor(...BLUE1);
-    for (let wy=50; wy<pageH-20; wy+=60) {
-      doc.text(DOMAIN, pageW/2, wy, {align:'center', angle:28});
-    }
+    doc.text(DOMAIN, pageW/2, pageH/2, {align:'center', angle:28});
     doc.restoreGraphicsState();
   }
 
@@ -282,7 +294,8 @@ Every response must:
 - Use **bold** for key terms, historian names, and pivotal events
 - Include specific dates, names, and events for empirical weight
 - Incorporate relevant historians and their arguments with brief explanation of their thesis
-- Be accurate with historical facts`,
+- Be accurate with historical facts
+- Use plain English spellings only — no diacritical marks or special Unicode characters (write "Vijigishu" not "Vijigishu with diacritics", "Kautilya" not "Kautilya with diacritics", "Arthashastra" not "Arthasastra" etc.)`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
         }),
       });
