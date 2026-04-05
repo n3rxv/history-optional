@@ -47,8 +47,14 @@ function useAdminAuth() {
 
   useEffect(() => {
     const stored = sessionStorage.getItem(SESSION_KEY);
-    if (stored) { setAuthed(true); setToken(stored); }
-    setChecking(false);
+    if (!stored) { setChecking(false); return; }
+    // Verify token is still valid with the server
+    fetch('/api/admin/verify-token', { headers: { 'x-admin-token': stored } })
+      .then(r => {
+        if (r.ok) { setAuthed(true); setToken(stored); }
+        else { sessionStorage.removeItem(SESSION_KEY); }
+      })
+      .finally(() => setChecking(false));
   }, []);
 
   const login = async (pass: string) => {
