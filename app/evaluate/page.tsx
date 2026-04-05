@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useSubscriptionGate } from "@/components/SubscriptionGate";
 
 interface Historian {
@@ -343,7 +343,7 @@ const handleOcr = useCallback(async () => {
     fd.append("question", question);
     compressed.forEach(f => fd.append("files", f));
     try {
-      const res = await fetch("/api/ocr", { method: "POST", body: fd });
+      const res = await fetch("/api/ocr", { method: "POST", headers: { "x-user-token": usage.token ?? "" }, body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "OCR failed");
       setOcrProgress(100);
@@ -356,6 +356,8 @@ const handleOcr = useCallback(async () => {
 
   // ── Subscription gate — must come after handleOcr is defined ──────────────
   const { UsagePill, GateModals, handleEvaluate, usage, increment } = useSubscriptionGate(handleOcr);
+  const tokenRef = useRef<string | null>(null);
+  useEffect(() => { tokenRef.current = usage.token; }, [usage.token]);
 
   const submit = async () => {
     setError(""); setLoading(true); setEvaluation(null); setEvalProgress(0); setEvalPhase("");

@@ -8,7 +8,7 @@ const ContentSecurityPolicy = [
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https:",
   "media-src 'self'",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.groq.com https://checkout.razorpay.com https://lumberjack.razorpay.com",
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.groq.com https://checkout.razorpay.com https://lumberjack.razorpay.com https://api.razorpay.com https://*.razorpay.com",
   "frame-src https://checkout.razorpay.com",
   "object-src 'none'",
   "base-uri 'self'",
