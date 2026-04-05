@@ -46,3 +46,6 @@ history-optional.tar.gz
 *.html
 *.pdf
 *.zip
+lib/noteContent.ts.bak*
+seed_script.js
+historiography_page.tsx
