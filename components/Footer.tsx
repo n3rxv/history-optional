@@ -13,12 +13,12 @@ export default function Footer() {
       gap: '12px',
       fontFamily: 'Inter, system-ui, sans-serif',
       fontSize: '12px',
-      color: '#333',
+      color: '#888',
     }}>
-      <span>© {new Date().getFullYear()} History Optional — UPSC Mains</span>
+      <span>© {new Date().getFullYear()} www.historyoptional.xyz</span>
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-        <Link href="/contact" style={{ color: '#444', textDecoration: 'none' }}>Contact</Link>
-        <Link href="/contact?tab=bug" style={{ color: '#444', textDecoration: 'none' }}>Report a Bug</Link>
+        <Link href="/contact" style={{ color: '#888', textDecoration: 'none' }}>Contact</Link>
+        <Link href="/contact?tab=bug" style={{ color: '#888', textDecoration: 'none' }}>Report a Bug</Link>
       </div>
     </footer>
   );
