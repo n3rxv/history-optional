@@ -27,14 +27,14 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const M = 20;
   const contentW = pageW - M * 2;
 
-  const GOLD   = [212, 168, 67]  as [number, number, number];
-  const GOLD2  = [160, 125, 45]  as [number, number, number];
-  const DARK   = [10, 10, 16]    as [number, number, number];
-  const DARK2  = [18, 18, 28]    as [number, number, number];
-  const DARK3  = [26, 26, 40]    as [number, number, number];
-  const WHITE  = [238, 235, 225] as [number, number, number];
-  const DIM    = [130, 125, 110] as [number, number, number];
-  const BLUE   = [96, 165, 250]  as [number, number, number];
+  const GOLD   = [180, 130, 30]  as [number, number, number];
+  const GOLD2  = [200, 160, 60]  as [number, number, number];
+  const DARK   = [255, 255, 255] as [number, number, number]; // unused - white page
+  const DARK2  = [250, 248, 242] as [number, number, number]; // header/footer
+  const DARK3  = [250, 247, 238] as [number, number, number]; // title block
+  const WHITE  = [25, 25, 35]    as [number, number, number]; // body text
+  const DIM    = [120, 115, 105] as [number, number, number];
+  const BLUE   = [37, 99, 200]   as [number, number, number];
 
   const DOMAIN     = 'www.historyoptional.xyz';
   const DOMAIN_URL = 'https://www.historyoptional.xyz';
@@ -43,14 +43,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   let y = 0;
 
   const drawPageBg = () => {
-    doc.setFillColor(...DARK);
-    doc.rect(0, 0, pageW, pageH, 'F');
+    // White page background
     doc.setFillColor(...GOLD2);
     doc.rect(0, 0, 2, pageH, 'F');
   };
 
   const drawHeader = () => {
-    doc.setFillColor(...DARK2);
+    doc.setFillColor(250, 248, 242);
     doc.rect(0, 0, pageW, 16, 'F');
     doc.setFillColor(...GOLD);
     doc.rect(2, 15.7, pageW - 2, 0.5, 'F');
@@ -67,7 +66,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   };
 
   const drawFooter = () => {
-    doc.setFillColor(...DARK2);
+    doc.setFillColor(250, 248, 242);
     doc.rect(0, pageH - 13, pageW, 13, 'F');
     doc.setFillColor(...GOLD);
     doc.rect(2, pageH - 13, pageW - 2, 0.4, 'F');
@@ -102,9 +101,9 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   y = 24;
 
   // Title block
-  doc.setFillColor(...DARK3);
+  doc.setFillColor(250, 247, 238);
   doc.setDrawColor(...GOLD2);
-  doc.setLineWidth(0.4);
+  doc.setLineWidth(0.5);
   doc.roundedRect(M, y, contentW, 12, 2, 2, 'FD');
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
@@ -119,8 +118,8 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setTextColor(...GOLD);
     doc.text('QUESTION', M, y + 1);
     y += 5;
-    doc.setFillColor(...DARK2);
-    doc.setDrawColor(50, 46, 34);
+    doc.setFillColor(250, 247, 238);
+    doc.setDrawColor(...GOLD2);
     doc.setLineWidth(0.3);
     const qLines = doc.splitTextToSize(questionText, contentW - 6) as string[];
     const qH = qLines.length * 6 + 8;
@@ -129,7 +128,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.roundedRect(M, y, 2.5, qH, 1, 1, 'F');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
-    doc.setTextColor(...WHITE);
+    doc.setTextColor(30, 28, 20);
     qLines.forEach((line: string, i: number) => {
       doc.text(line, M + 6, y + 6 + i * 6);
     });
@@ -156,7 +155,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       doc.setFontSize(9);
       doc.setTextColor(...GOLD);
       doc.text(text.toUpperCase(), M + 6, y + 0.5);
-      doc.setDrawColor(45, 42, 32);
+      doc.setDrawColor(210, 200, 175);
       doc.setLineWidth(0.25);
       doc.line(M + 6 + text.length * 2.6, y - 2, pageW - M, y - 2);
       y += 8;
@@ -196,7 +195,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       checkPage(pLines.length * 5.8 + 2);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
-      doc.setTextColor(210, 205, 190);
+      doc.setTextColor(60, 58, 55);
       pLines.forEach((line: string) => {
         checkPage(7);
         doc.text(line, M, y);
@@ -214,7 +213,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setGState(doc.GState({ opacity: 0.035 }));
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(20);
-    doc.setTextColor(...GOLD);
+    doc.setTextColor(180, 150, 60);
     for (let wy = 50; wy < pageH - 20; wy += 60) {
       doc.text(DOMAIN, pageW / 2, wy, { align: 'center', angle: 28 });
     }
