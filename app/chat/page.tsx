@@ -282,7 +282,6 @@ Every response must:
 - Use **bold** for key terms, historian names, and pivotal events
 - Include specific dates, names, and events for empirical weight
 - Incorporate relevant historians and their arguments with brief explanation of their thesis
-- End with 2-3 relevant PYQ suggestions
 - Be accurate with historical facts`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
         }),
