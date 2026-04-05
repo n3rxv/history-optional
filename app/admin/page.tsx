@@ -55,7 +55,6 @@ function useAdminAuth() {
     const result = await apiCall('/api/admin/verify-password', 'POST', { password: pass });
     if (result.ok) {
       sessionStorage.setItem(SESSION_KEY, result.token);
-      setPasswordState(pass);
       setAuthed(true);
       return true;
     }
