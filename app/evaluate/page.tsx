@@ -73,246 +73,224 @@ async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promi
 }
 
 async function downloadModelAnswerPDF(question: string, marks: number, evaluation: Evaluation) {
-  const { jsPDF } = await import("jspdf");
-  const doc = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+  const { jsPDF } = await import('jspdf');
+  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
 
-  const pageW = 210;
-  const pageH = 297;
-  const M = 20;
-  const contentW = pageW - M * 2;
+  const pageW = 210, pageH = 297, M = 20, contentW = 170;
 
-  const GOLD   = [180, 130, 30]  as [number, number, number];
-  const GOLD2  = [200, 160, 60]  as [number, number, number];
-  const DARK   = [255, 255, 255] as [number, number, number]; // page bg = white
-  const DARK2  = [248, 247, 244] as [number, number, number]; // header/footer bg
-  const DARK3  = [240, 238, 232] as [number, number, number]; // title block bg
-  const WHITE  = [25, 25, 35]    as [number, number, number]; // body text = near black
-  const DIM    = [120, 115, 105] as [number, number, number];
-  const BLUE   = [37, 99, 200]   as [number, number, number];
+  // Site palette — white page, blue/gold accents
+  const BLUE1  : [number,number,number] = [37,  99,  235];
+  const BLUE2  : [number,number,number] = [59, 130,  246];
+  const BLUE3  : [number,number,number] = [219,234,254];
+  const GOLD   : [number,number,number] = [180, 130,  30];
+  const GOLD2  : [number,number,number] = [212, 168,  67];
+  const INK    : [number,number,number] = [15,  23,  42];
+  const INK2   : [number,number,number] = [51,  65,  85];
+  const MUTED  : [number,number,number] = [100,116,139];
+  const RULE   : [number,number,number] = [203,213,225];
+  const GREEN  : [number,number,number] = [22, 163, 74];
+  const DOMAIN = 'www.historyoptional.xyz';
+  const URL    = 'https://www.historyoptional.xyz';
 
-  const DOMAIN     = "www.historyoptional.xyz";
-  const DOMAIN_URL = "https://www.historyoptional.xyz";
+  let pg = 1, y = 0;
 
-  let y = 0;
-  let pageNum = 1;
-
-  const drawPageBg = () => {
-    // White page — no background fill needed
-    doc.setFillColor(...GOLD2);
-    doc.rect(0, 0, 2, pageH, "F");
+  const drawBg = () => {
+    doc.setFillColor(255,255,255);
+    doc.rect(0,0,pageW,pageH,'F');
+    doc.setFillColor(...BLUE1);
+    doc.rect(0,0,3,pageH,'F');
   };
 
   const drawHeader = () => {
-    doc.setFillColor(250, 248, 242);
-    doc.rect(0, 0, pageW, 16, "F");
-    doc.setFillColor(...GOLD);
-    doc.rect(2, 15.7, pageW - 2, 0.5, "F");
-    doc.setFont("helvetica", "bold");
+    doc.setFillColor(248,250,255);
+    doc.rect(0,0,pageW,15,'F');
+    doc.setFillColor(...BLUE1);
+    doc.rect(3,14.7,pageW-3,0.5,'F');
+    doc.setFont('helvetica','bold');
     doc.setFontSize(8);
-    doc.setTextColor(...GOLD);
-    doc.text("HISTORY OPTIONAL", M, 10);
-    doc.link(M, 3, 52, 10, { url: DOMAIN_URL });
-    doc.setFont("helvetica", "normal");
+    doc.setTextColor(...BLUE1);
+    doc.text('HISTORY OPTIONAL', M, 9.5);
+    doc.link(M,3,52,10,{url:URL});
+    doc.setFont('helvetica','normal');
     doc.setFontSize(6.5);
-    doc.setTextColor(...DIM);
-    doc.text(DOMAIN, M + 54, 10);
-    doc.text(`Model Answer  |  ${marks}M  |  UPSC CSM`, pageW - M, 10, { align: "right" });
+    doc.setTextColor(...MUTED);
+    doc.text(DOMAIN, M+54, 9.5);
+    doc.text(`Model Answer  |  ${marks}M  |  UPSC CSM`, pageW-M, 9.5, {align:'right'});
   };
 
   const drawFooter = () => {
-    doc.setFillColor(250, 248, 242);
-    doc.rect(0, pageH - 13, pageW, 13, "F");
-    doc.setFillColor(...GOLD);
-    doc.rect(2, pageH - 13, pageW - 2, 0.4, "F");
-    doc.setFont("helvetica", "bold");
+    doc.setFillColor(248,250,255);
+    doc.rect(0,pageH-12,pageW,12,'F');
+    doc.setFillColor(...BLUE1);
+    doc.rect(3,pageH-12,pageW-3,0.4,'F');
+    doc.setFont('helvetica','bold');
     doc.setFontSize(7);
-    doc.setTextColor(...GOLD);
-    doc.text(DOMAIN, M, pageH - 6);
-    doc.link(M, pageH - 11, 58, 8, { url: DOMAIN_URL });
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(...DIM);
-    doc.text("UPSC History Optional  |  Model Answer Evaluator", pageW / 2, pageH - 6, { align: "center" });
-    doc.text(`${pageNum}`, pageW - M, pageH - 6, { align: "right" });
+    doc.setTextColor(...BLUE1);
+    doc.text(DOMAIN, M, pageH-5);
+    doc.link(M,pageH-10,58,7,{url:URL});
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(...MUTED);
+    doc.text('UPSC History Optional  |  Model Answer Evaluator', pageW/2, pageH-5, {align:'center'});
+    doc.text(String(pg), pageW-M, pageH-5, {align:'right'});
   };
 
-  const newPage = () => {
-    doc.addPage();
-    pageNum++;
-    drawPageBg();
-    drawHeader();
-    drawFooter();
-    y = 24;
+  const nextPage = () => {
+    doc.addPage(); pg++;
+    drawBg(); drawHeader(); drawFooter(); y = 23;
   };
 
-  const checkPage = (needed: number) => {
-    if (y + needed > pageH - 16) newPage();
-  };
+  const chk = (n: number) => { if (y+n > pageH-15) nextPage(); };
 
-  const sectionLabel = (text: string) => {
-    checkPage(16);
-    y += 5;
-    doc.setFillColor(...GOLD);
-    doc.rect(M, y - 4, 2.5, 8, "F");
-    doc.setFont("helvetica", "bold");
+  const secLabel = (txt: string) => {
+    chk(16); y += 5;
+    doc.setFillColor(...BLUE1);
+    doc.rect(M,y-4,2.5,8,'F');
+    doc.setFont('helvetica','bold');
     doc.setFontSize(7.5);
-    doc.setTextColor(...GOLD);
-    doc.text(text.toUpperCase(), M + 6, y + 0.5);
-    doc.setDrawColor(210, 200, 175);
+    doc.setTextColor(...BLUE1);
+    doc.text(txt.toUpperCase(), M+6, y+0.5);
+    doc.setDrawColor(...RULE);
     doc.setLineWidth(0.25);
-    doc.line(M + 6 + text.length * 2.4, y - 2, pageW - M, y - 2);
+    doc.line(M+6+txt.length*2.5, y-2, pageW-M, y-2);
     y += 8;
   };
 
-  const writeText = (text: string, size = 10, color: [number,number,number] = WHITE, bold = false, indent = 0) => {
+  const writeText = (text: string, size=10, color: [number,number,number]=INK, bold=false, indent=0) => {
     doc.setFontSize(size);
     doc.setTextColor(...color);
-    doc.setFont("helvetica", bold ? "bold" : "normal");
-    const lines = doc.splitTextToSize(text, contentW - indent) as string[];
-    lines.forEach((line: string) => {
-      checkPage(7);
-      doc.text(line, M + indent, y);
-      y += 5.8;
-    });
+    doc.setFont('helvetica', bold?'bold':'normal');
+    const ls = doc.splitTextToSize(text, contentW-indent) as string[];
+    ls.forEach((l:string)=>{ chk(7); doc.text(l, M+indent, y); y+=5.8; });
   };
 
-  // Init first page
-  drawPageBg();
-  drawHeader();
-  drawFooter();
-  y = 24;
+  // Init
+  drawBg(); drawHeader(); drawFooter(); y = 23;
 
   // Title
-  doc.setFillColor(250, 247, 238);
-  doc.setDrawColor(...GOLD2);
-  doc.setLineWidth(0.5);
-  doc.roundedRect(M, y, contentW, 12, 2, 2, "FD");
-  doc.setFont("helvetica", "bold");
+  doc.setFillColor(...BLUE3);
+  doc.setDrawColor(...BLUE2);
+  doc.setLineWidth(0.4);
+  doc.roundedRect(M,y,contentW,11,2,2,'FD');
+  doc.setFont('helvetica','bold');
   doc.setFontSize(12);
-  doc.setTextColor(...GOLD);
-  doc.text("MODEL ANSWER", M + contentW / 2, y + 8.5, { align: "center" });
-  y += 18;
+  doc.setTextColor(...BLUE1);
+  doc.text('MODEL ANSWER', M+contentW/2, y+8, {align:'center'});
+  y += 17;
 
-  // Question box
-  doc.setFont("helvetica", "bold");
+  // Question
+  doc.setFont('helvetica','bold');
   doc.setFontSize(6.5);
-  doc.setTextColor(...GOLD);
-  doc.text("QUESTION", M, y + 1);
+  doc.setTextColor(...BLUE2);
+  doc.text('QUESTION', M, y+1);
   y += 5;
-  doc.setFillColor(250, 247, 238);
-  doc.setDrawColor(...GOLD2);
-  doc.setLineWidth(0.3);
-  const qLines = doc.splitTextToSize(question, contentW - 6) as string[];
-  const qH = qLines.length * 6 + 8;
-  doc.roundedRect(M, y, contentW, qH, 2, 2, "FD");
-  doc.setFillColor(...GOLD);
-  doc.roundedRect(M, y, 2.5, qH, 1, 1, "F");
-  doc.setFont("helvetica", "normal");
+  const qL = doc.splitTextToSize(question, contentW-6) as string[];
+  const qH = qL.length*6+8;
+  doc.setFillColor(248,250,255);
+  doc.setDrawColor(...BLUE2);
+  doc.setLineWidth(0.35);
+  doc.roundedRect(M,y,contentW,qH,2,2,'FD');
+  doc.setFillColor(...BLUE1);
+  doc.roundedRect(M,y,2.5,qH,1,1,'F');
+  doc.setFont('helvetica','normal');
   doc.setFontSize(10);
-  doc.setTextColor(30, 28, 20);
-  qLines.forEach((line: string, i: number) => {
-    doc.text(line, M + 6, y + 6 + i * 6);
-  });
-  y += qH + 8;
+  doc.setTextColor(...INK);
+  qL.forEach((l:string,i:number)=>{ doc.text(l, M+6, y+6+i*6); });
+  y += qH+8;
 
   // Score cards
-  checkPage(22);
-  const idealWC = marks === 10 ? "150 words" : marks === 15 ? "200 words" : "250 words";
+  chk(22);
+  const idealWC = marks===10?'150 words':marks===15?'200 words':'250 words';
   const cards = [
-    { label: "MARKS SCORED", val: `${evaluation.marks}/${evaluation.marks_out_of}`, hi: true },
-    { label: "WORD TARGET", val: idealWC, hi: false },
-    { label: "QUESTION WEIGHT", val: `${marks} Marks`, hi: false },
+    {label:'MARKS SCORED', val:`${evaluation.marks}/${evaluation.marks_out_of}`, hi:true},
+    {label:'WORD TARGET',  val:idealWC,      hi:false},
+    {label:'WEIGHT',       val:`${marks}M`,  hi:false},
   ];
-  const cW = (contentW - 8) / 3;
-  cards.forEach((card, i) => {
-    const cx = M + i * (cW + 4);
-    doc.setFillColor(card.hi ? 252 : 248, card.hi ? 248 : 247, card.hi ? 238 : 244);
-    doc.setDrawColor(...(card.hi ? GOLD : [200, 195, 185] as [number,number,number]));
-    doc.setLineWidth(card.hi ? 0.5 : 0.25);
-    doc.roundedRect(cx, y, cW, 18, 2, 2, "FD");
-    if (card.hi) {
-      doc.setFillColor(...GOLD);
-      doc.roundedRect(cx, y, cW, 2, 1, 1, "F");
-    }
-    doc.setFont("helvetica", "bold");
+  const cW = (contentW-8)/3;
+  cards.forEach((card,i)=>{
+    const cx = M+i*(cW+4);
+    doc.setFillColor(card.hi?219:248, card.hi?234:250, card.hi?254:255);
+    doc.setDrawColor(...(card.hi ? BLUE2 : RULE));
+    doc.setLineWidth(card.hi?0.5:0.25);
+    doc.roundedRect(cx,y,cW,18,2,2,'FD');
+    if (card.hi) { doc.setFillColor(...BLUE1); doc.roundedRect(cx,y,cW,2,1,1,'F'); }
+    doc.setFont('helvetica','bold');
     doc.setFontSize(6);
-    doc.setTextColor(...DIM);
-    doc.text(card.label, cx + cW / 2, y + 7, { align: "center" });
-    doc.setFontSize(card.hi ? 13 : 10);
-    doc.setTextColor(...(card.hi ? GOLD : WHITE));
-    doc.text(card.val, cx + cW / 2, y + 14.5, { align: "center" });
+    doc.setTextColor(...MUTED);
+    doc.text(card.label, cx+cW/2, y+7, {align:'center'});
+    doc.setFontSize(card.hi?14:10);
+    doc.setTextColor(...(card.hi?BLUE1:INK));
+    doc.text(card.val, cx+cW/2, y+14.5, {align:'center'});
   });
   y += 26;
 
   // Introduction
-  sectionLabel("Introduction");
-  writeText(evaluation.model_answer.introduction, 10, WHITE);
+  secLabel('Introduction');
+  writeText(evaluation.model_answer.introduction, 10, INK2);
   y += 3;
 
   // Body
-  sectionLabel("Body");
+  secLabel('Body');
   const paras = bodyParas(evaluation.model_answer.body);
-  paras.forEach((p, i) => {
-    checkPage(14);
-    doc.setFillColor(...GOLD);
-    doc.circle(M + 2.5, y + 1.5, 1.2, "F");
-    writeText(p, 10, WHITE, false, 7);
-    if (i < paras.length - 1) {
-      doc.setDrawColor(210, 200, 175);
+  paras.forEach((p:string,i:number)=>{
+    chk(14);
+    doc.setFillColor(...BLUE1);
+    doc.circle(M+2.5, y+1.5, 1.2,'F');
+    writeText(p, 10, INK, false, 7);
+    if (i<paras.length-1) {
+      doc.setDrawColor(...RULE);
       doc.setLineWidth(0.2);
-      doc.line(M + 7, y + 1, pageW - M, y + 1);
+      doc.line(M+7, y+1, pageW-M, y+1);
       y += 4;
     }
   });
   y += 5;
 
   // Conclusion
-  sectionLabel("Conclusion");
-  writeText(evaluation.model_answer.conclusion, 10, WHITE);
+  secLabel('Conclusion');
+  writeText(evaluation.model_answer.conclusion, 10, INK2);
   y += 3;
 
   // Historians
-  sectionLabel("Historians to Cite");
-  evaluation.historians_to_cite.forEach((h) => {
-    const hLines = doc.splitTextToSize(h.argument, contentW - 10) as string[];
-    const hH = hLines.length * 5.8 + (h.work ? 20 : 16);
-    checkPage(hH + 6);
-    doc.setFillColor(242, 246, 255);
-    doc.setDrawColor(180, 200, 230);
+  secLabel('Historians to Cite');
+  evaluation.historians_to_cite.forEach((h:any)=>{
+    const hL = doc.splitTextToSize(h.argument, contentW-10) as string[];
+    const hH = hL.length*5.8+(h.work?20:16);
+    chk(hH+6);
+    doc.setFillColor(242,246,255);
+    doc.setDrawColor(180,200,235);
     doc.setLineWidth(0.3);
-    doc.roundedRect(M, y, contentW, hH, 2, 2, "FD");
-    doc.setFillColor(...BLUE);
-    doc.roundedRect(M, y, 2.5, hH, 1, 1, "F");
-    doc.setFont("helvetica", "bold");
+    doc.roundedRect(M,y,contentW,hH,2,2,'FD');
+    doc.setFillColor(...BLUE2);
+    doc.roundedRect(M,y,2.5,hH,1,1,'F');
+    doc.setFont('helvetica','bold');
     doc.setFontSize(9.5);
-    doc.setTextColor(...BLUE);
-    doc.text(h.name, M + 7, y + 7);
+    doc.setTextColor(...BLUE1);
+    doc.text(h.name, M+7, y+7);
     if (h.work) {
-      doc.setFont("helvetica", "italic");
+      doc.setFont('helvetica','italic');
       doc.setFontSize(8);
-      doc.setTextColor(...DIM);
-      doc.text(h.work, M + 7, y + 13);
+      doc.setTextColor(...MUTED);
+      doc.text(h.work, M+7, y+13);
     }
-    doc.setFont("helvetica", "normal");
+    doc.setFont('helvetica','normal');
     doc.setFontSize(9);
-    doc.setTextColor(55, 55, 70);
-    const textStartY = y + (h.work ? 19 : 14);
-    hLines.forEach((line: string, li: number) => {
-      doc.text(line, M + 7, textStartY + li * 5.8);
-    });
-    y += hH + 5;
+    doc.setTextColor(...INK2);
+    const tY = y+(h.work?19:14);
+    hL.forEach((l:string,li:number)=>{ doc.text(l, M+7, tY+li*5.8); });
+    y += hH+5;
   });
 
-  // Watermark on all pages
-  for (let p = 1; p <= pageNum; p++) {
+  // Watermark
+  for (let p=1; p<=pg; p++) {
     doc.setPage(p);
     doc.saveGraphicsState();
     // @ts-ignore
-    doc.setGState(doc.GState({ opacity: 0.035 }));
-    doc.setFont("helvetica", "bold");
+    doc.setGState(doc.GState({opacity:0.04}));
+    doc.setFont('helvetica','bold');
     doc.setFontSize(20);
-    doc.setTextColor(180, 150, 60);
-    for (let wy = 50; wy < pageH - 20; wy += 60) {
-      doc.text(DOMAIN, pageW / 2, wy, { align: "center", angle: 28 });
+    doc.setTextColor(...BLUE1);
+    for (let wy=50; wy<pageH-20; wy+=60) {
+      doc.text(DOMAIN, pageW/2, wy, {align:'center', angle:28});
     }
     doc.restoreGraphicsState();
   }

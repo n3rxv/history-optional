@@ -22,208 +22,182 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-  const pageW = 210;
-  const pageH = 297;
-  const M = 20;
-  const contentW = pageW - M * 2;
+  const pageW = 210, pageH = 297, M = 20, contentW = 170;
 
-  const GOLD   = [180, 130, 30]  as [number, number, number];
-  const GOLD2  = [200, 160, 60]  as [number, number, number];
-  const DARK   = [255, 255, 255] as [number, number, number]; // unused - white page
-  const DARK2  = [250, 248, 242] as [number, number, number]; // header/footer
-  const DARK3  = [250, 247, 238] as [number, number, number]; // title block
-  const WHITE  = [25, 25, 35]    as [number, number, number]; // body text
-  const DIM    = [120, 115, 105] as [number, number, number];
-  const BLUE   = [37, 99, 200]   as [number, number, number];
+  // Site palette — white page, blue accents
+  const BLUE1  : [number,number,number] = [37,  99,  235]; // primary blue
+  const BLUE2  : [number,number,number] = [59, 130,  246]; // lighter blue
+  const BLUE3  : [number,number,number] = [219,234,254];   // blue tint bg
+  const GOLD   : [number,number,number] = [180, 130,  30]; // accent gold
+  const INK    : [number,number,number] = [15,  23,  42];  // near-black text
+  const INK2   : [number,number,number] = [51,  65,  85];  // secondary text
+  const MUTED  : [number,number,number] = [100,116,139];   // muted text
+  const RULE   : [number,number,number] = [203,213,225];   // divider lines
+  const DOMAIN = 'www.historyoptional.xyz';
+  const URL    = 'https://www.historyoptional.xyz';
 
-  const DOMAIN     = 'www.historyoptional.xyz';
-  const DOMAIN_URL = 'https://www.historyoptional.xyz';
+  let pg = 1, y = 0;
 
-  let pageNum = 1;
-  let y = 0;
-
-  const drawPageBg = () => {
-    // White page background
-    doc.setFillColor(...GOLD2);
-    doc.rect(0, 0, 2, pageH, 'F');
+  const drawBg = () => {
+    doc.setFillColor(255,255,255);
+    doc.rect(0,0,pageW,pageH,'F');
+    // Blue left stripe
+    doc.setFillColor(...BLUE1);
+    doc.rect(0,0,3,pageH,'F');
   };
 
   const drawHeader = () => {
-    doc.setFillColor(250, 248, 242);
-    doc.rect(0, 0, pageW, 16, 'F');
-    doc.setFillColor(...GOLD);
-    doc.rect(2, 15.7, pageW - 2, 0.5, 'F');
-    doc.setFont('helvetica', 'bold');
+    doc.setFillColor(248,250,255);
+    doc.rect(0,0,pageW,15,'F');
+    doc.setFillColor(...BLUE1);
+    doc.rect(3,14.7,pageW-3,0.5,'F');
+    // Logo
+    doc.setFont('helvetica','bold');
     doc.setFontSize(8);
-    doc.setTextColor(...GOLD);
-    doc.text('HISTORY OPTIONAL', M, 10);
-    doc.link(M, 3, 52, 10, { url: DOMAIN_URL });
-    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...BLUE1);
+    doc.text('HISTORY OPTIONAL',M,9.5);
+    doc.link(M,3,52,10,{url:URL});
+    // Domain
+    doc.setFont('helvetica','normal');
     doc.setFontSize(6.5);
-    doc.setTextColor(...DIM);
-    doc.text(DOMAIN, M + 54, 10);
-    doc.text('AI Chat  |  Model Answer  |  UPSC History Optional', pageW - M, 10, { align: 'right' });
+    doc.setTextColor(...MUTED);
+    doc.text(DOMAIN, M+54, 9.5);
+    // Right tag
+    doc.text('AI Chat  |  UPSC History Optional', pageW-M, 9.5, {align:'right'});
   };
 
   const drawFooter = () => {
-    doc.setFillColor(250, 248, 242);
-    doc.rect(0, pageH - 13, pageW, 13, 'F');
-    doc.setFillColor(...GOLD);
-    doc.rect(2, pageH - 13, pageW - 2, 0.4, 'F');
-    doc.setFont('helvetica', 'bold');
+    doc.setFillColor(248,250,255);
+    doc.rect(0,pageH-12,pageW,12,'F');
+    doc.setFillColor(...BLUE1);
+    doc.rect(3,pageH-12,pageW-3,0.4,'F');
+    doc.setFont('helvetica','bold');
     doc.setFontSize(7);
-    doc.setTextColor(...GOLD);
-    doc.text(DOMAIN, M, pageH - 6);
-    doc.link(M, pageH - 11, 58, 8, { url: DOMAIN_URL });
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(...DIM);
-    doc.text('AI History Assistant  |  UPSC History Optional', pageW / 2, pageH - 6, { align: 'center' });
-    doc.text(`${pageNum}`, pageW - M, pageH - 6, { align: 'right' });
+    doc.setTextColor(...BLUE1);
+    doc.text(DOMAIN, M, pageH-5);
+    doc.link(M,pageH-10,58,7,{url:URL});
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(...MUTED);
+    doc.text('AI History Assistant  |  UPSC History Optional', pageW/2, pageH-5, {align:'center'});
+    doc.text(String(pg), pageW-M, pageH-5, {align:'right'});
   };
 
-  const newPage = () => {
-    doc.addPage();
-    pageNum++;
-    drawPageBg();
-    drawHeader();
-    drawFooter();
-    y = 24;
+  const nextPage = () => {
+    doc.addPage(); pg++;
+    drawBg(); drawHeader(); drawFooter(); y = 23;
   };
 
-  const checkPage = (needed: number) => {
-    if (y + needed > pageH - 16) newPage();
-  };
+  const chk = (n: number) => { if (y+n > pageH-15) nextPage(); };
 
   // Init
-  drawPageBg();
-  drawHeader();
-  drawFooter();
-  y = 24;
+  drawBg(); drawHeader(); drawFooter(); y = 23;
 
   // Title block
-  doc.setFillColor(250, 247, 238);
-  doc.setDrawColor(...GOLD2);
-  doc.setLineWidth(0.5);
-  doc.roundedRect(M, y, contentW, 12, 2, 2, 'FD');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(12);
-  doc.setTextColor(...GOLD);
-  doc.text('AI MODEL ANSWER', M + contentW / 2, y + 8.5, { align: 'center' });
-  y += 18;
+  doc.setFillColor(...BLUE3);
+  doc.setDrawColor(...BLUE2);
+  doc.setLineWidth(0.4);
+  doc.roundedRect(M,y,contentW,11,2,2,'FD');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(11);
+  doc.setTextColor(...BLUE1);
+  doc.text('AI MODEL ANSWER', M+contentW/2, y+8, {align:'center'});
+  y += 17;
 
   // Question box
   if (questionText) {
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('helvetica','bold');
     doc.setFontSize(6.5);
-    doc.setTextColor(...GOLD);
-    doc.text('QUESTION', M, y + 1);
+    doc.setTextColor(...BLUE2);
+    doc.text('QUESTION', M, y+1);
     y += 5;
-    doc.setFillColor(250, 247, 238);
-    doc.setDrawColor(...GOLD2);
-    doc.setLineWidth(0.3);
-    const qLines = doc.splitTextToSize(questionText, contentW - 6) as string[];
-    const qH = qLines.length * 6 + 8;
-    doc.roundedRect(M, y, contentW, qH, 2, 2, 'FD');
-    doc.setFillColor(...GOLD);
-    doc.roundedRect(M, y, 2.5, qH, 1, 1, 'F');
-    doc.setFont('helvetica', 'normal');
+    const qL = doc.splitTextToSize(questionText, contentW-6) as string[];
+    const qH = qL.length*6+8;
+    doc.setFillColor(248,250,255);
+    doc.setDrawColor(...BLUE2);
+    doc.setLineWidth(0.35);
+    doc.roundedRect(M,y,contentW,qH,2,2,'FD');
+    doc.setFillColor(...BLUE1);
+    doc.roundedRect(M,y,2.5,qH,1,1,'F');
+    doc.setFont('helvetica','normal');
     doc.setFontSize(10);
-    doc.setTextColor(30, 28, 20);
-    qLines.forEach((line: string, i: number) => {
-      doc.text(line, M + 6, y + 6 + i * 6);
-    });
-    y += qH + 8;
+    doc.setTextColor(...INK);
+    qL.forEach((l:string,i:number)=>{ doc.text(l,M+6,y+6+i*6); });
+    y += qH+8;
   }
 
-  // Parse markdown and render
-  const strip = (t: string) => t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1');
-  const rawLines = markdownText.split('
-');
+  // Parse + render markdown
+  const strip = (t: string) => t.replace(/\*\*(.+?)\*\*/g,'$1').replace(/\*(.+?)\*/g,'$1');
+  const lines = markdownText.split('\n');
 
-  for (const raw of rawLines) {
-    const trimmed = raw.trim();
-    if (!trimmed) { y += 2.5; continue; }
+  for (const raw of lines) {
+    const t = raw.trim();
+    if (!t) { y += 2; continue; }
 
-    if (/^#{1,2}\s/.test(trimmed)) {
-      // H1/H2 — section label style
-      const text = strip(trimmed.replace(/^#{1,2}\s*/, ''));
-      checkPage(16);
-      y += 4;
-      doc.setFillColor(...GOLD);
-      doc.rect(M, y - 4, 2.5, 8, 'F');
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
-      doc.setTextColor(...GOLD);
-      doc.text(text.toUpperCase(), M + 6, y + 0.5);
-      doc.setDrawColor(210, 200, 175);
+    if (/^#{1,2} /.test(t)) {
+      const txt = strip(t.replace(/^#{1,2} /,''));
+      chk(16); y += 4;
+      doc.setFillColor(...BLUE1);
+      doc.rect(M,y-4,2.5,8,'F');
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(...BLUE1);
+      doc.text(txt.toUpperCase(), M+6, y+0.5);
+      doc.setDrawColor(...RULE);
       doc.setLineWidth(0.25);
-      doc.line(M + 6 + text.length * 2.6, y - 2, pageW - M, y - 2);
+      doc.line(M+6+txt.length*2.8, y-2, pageW-M, y-2);
       y += 8;
 
-    } else if (/^###\s/.test(trimmed)) {
-      // H3 — subheading
-      const text = strip(trimmed.replace(/^###\s*/, ''));
-      checkPage(10);
-      y += 2;
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
-      doc.setTextColor(...BLUE);
-      doc.text(text, M + 4, y);
-      y += 6;
+    } else if (/^### /.test(t)) {
+      const txt = strip(t.replace(/^### /,''));
+      chk(10); y += 2;
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(...BLUE2);
+      doc.text(txt, M+4, y);
+      y += 6.5;
 
-    } else if (/^[•\-\*]\s/.test(trimmed)) {
-      // Bullet
-      const text = strip(trimmed.replace(/^[•\-\*]\s*/, ''));
-      const bLines = doc.splitTextToSize(text, contentW - 7) as string[];
-      checkPage(bLines.length * 5.8 + 4);
-      doc.setFillColor(...GOLD);
-      doc.circle(M + 2.5, y + 1.5, 1.1, 'F');
-      doc.setFont('helvetica', 'normal');
+    } else if (/^[•\-\*] /.test(t)) {
+      const txt = strip(t.replace(/^[•\-\*] /,''));
+      const bL = doc.splitTextToSize(txt, contentW-7) as string[];
+      chk(bL.length*5.8+4);
+      doc.setFillColor(...BLUE1);
+      doc.circle(M+2.5, y+1.5, 1.1,'F');
+      doc.setFont('helvetica','normal');
       doc.setFontSize(10);
-      doc.setTextColor(...WHITE);
-      bLines.forEach((line: string) => {
-        checkPage(7);
-        doc.text(line, M + 7, y);
-        y += 5.8;
-      });
+      doc.setTextColor(...INK);
+      bL.forEach((l:string)=>{ chk(7); doc.text(l,M+7,y); y+=5.8; });
       y += 1;
 
     } else {
-      // Body paragraph
-      const text = strip(trimmed);
-      const pLines = doc.splitTextToSize(text, contentW) as string[];
-      checkPage(pLines.length * 5.8 + 2);
-      doc.setFont('helvetica', 'normal');
+      const txt = strip(t);
+      const pL = doc.splitTextToSize(txt, contentW) as string[];
+      chk(pL.length*5.8+2);
+      doc.setFont('helvetica','normal');
       doc.setFontSize(10);
-      doc.setTextColor(60, 58, 55);
-      pLines.forEach((line: string) => {
-        checkPage(7);
-        doc.text(line, M, y);
-        y += 5.8;
-      });
+      doc.setTextColor(...INK2);
+      pL.forEach((l:string)=>{ chk(7); doc.text(l,M,y); y+=5.8; });
       y += 1.5;
     }
   }
 
   // Watermark
-  for (let p = 1; p <= pageNum; p++) {
+  for (let p=1; p<=pg; p++) {
     doc.setPage(p);
     doc.saveGraphicsState();
     // @ts-ignore
-    doc.setGState(doc.GState({ opacity: 0.035 }));
-    doc.setFont('helvetica', 'bold');
+    doc.setGState(doc.GState({opacity:0.04}));
+    doc.setFont('helvetica','bold');
     doc.setFontSize(20);
-    doc.setTextColor(180, 150, 60);
-    for (let wy = 50; wy < pageH - 20; wy += 60) {
-      doc.text(DOMAIN, pageW / 2, wy, { align: 'center', angle: 28 });
+    doc.setTextColor(...BLUE1);
+    for (let wy=50; wy<pageH-20; wy+=60) {
+      doc.text(DOMAIN, pageW/2, wy, {align:'center', angle:28});
     }
     doc.restoreGraphicsState();
   }
 
-  const slug = markdownText.slice(0, 40).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'answer';
-  doc.save(`${slug}.pdf`);
+  const slug = markdownText.slice(0,40).replace(/[^a-zA-Z0-9 ]/g,'').trim().replace(/\s+/g,'_')||'answer';
+  doc.save(slug+'.pdf');
 }
-
 
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
   const [downloading, setDownloading] = useState(false);
