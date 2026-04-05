@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isAdminAuthed } from '@/lib/admin-auth';
 import { createClient } from '@supabase/supabase-js';
 
 const sb = createClient(
@@ -7,7 +8,7 @@ const sb = createClient(
 );
 
 function checkAuth(req: NextRequest) {
-  return req.headers.get('x-admin-password') === process.env.ADMIN_PASSWORD;
+  return isAdminAuthed(req);
 }
 
 export async function GET(req: NextRequest) {

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createServerClient } from "@/lib/supabase";
 
 
 const SYSTEM_PROMPT = `You are the most rigorous UPSC History Optional evaluator in existence — a specialist examiner with complete mastery of Indian and World History historiography. Your feedback is so precise that a student knows EXACTLY what they got wrong, which historians to cite, and what argument to make. Read handwriting carefully across all pages before judging.
@@ -280,7 +281,17 @@ Total model answer length: 10M~200 words, 15M~300 words, 20M~400 words.`;
 
 
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILES = 10;
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
+
 export async function POST(req: NextRequest) {
+  // Auth gate
+  const token = req.headers.get("x-user-token");
+  if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const db = createServerClient();
+  const { data: { user }, error: authErr } = await db.auth.getUser(token);
+  if (authErr || !user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const formData = await req.formData();
@@ -291,6 +302,20 @@ export async function POST(req: NextRequest) {
 
     if (!question || !marks) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    // Input length limits
+    if (question.length > 600)
+      return NextResponse.json({ error: "Question too long (max 600 chars)" }, { status: 400 });
+
+    // File validation
+    if (files.length > MAX_FILES)
+      return NextResponse.json({ error: `Too many files (max ${MAX_FILES})` }, { status: 400 });
+    for (const file of files) {
+      if (file.size > MAX_FILE_SIZE)
+        return NextResponse.json({ error: "File too large (max 5MB each)" }, { status: 400 });
+      if (!ALLOWED_TYPES.includes(file.type))
+        return NextResponse.json({ error: `Invalid file type: ${file.type}` }, { status: 400 });
     }
 
     // Build image contents directly from uploaded files

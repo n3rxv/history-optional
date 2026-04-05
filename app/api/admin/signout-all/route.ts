@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAdminAuthed } from "@/lib/admin-auth";
 import { createServerClient } from "@/lib/supabase";
 import { createClient } from "@supabase/supabase-js";
 
@@ -8,7 +9,7 @@ import { createClient } from "@supabase/supabase-js";
 //        -H "x-admin-secret: YOUR_ADMIN_SECRET"
 
 export async function POST(req: NextRequest) {
-  const secret = req.headers.get("x-admin-secret");
+  const secret = req.headers.get("x-admin-token");
   if (!secret || secret !== process.env.ADMIN_SECRET) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }

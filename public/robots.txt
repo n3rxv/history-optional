@@ -44,14 +44,17 @@ Disallow: /
 User-agent: *
 Disallow: /notes/
 Disallow: /api/
+Disallow: /admin
 
 # Allow search engines on public pages only
 User-agent: Googlebot
 Disallow: /notes/
 Disallow: /api/
+Disallow: /admin
 Allow: /
 
 User-agent: Bingbot
 Disallow: /notes/
 Disallow: /api/
+Disallow: /admin
 Allow: /

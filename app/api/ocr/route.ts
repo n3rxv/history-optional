@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createServerClient } from "@/lib/supabase";
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILES = 10;
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
 
 export async function POST(req: NextRequest) {
+  // Auth gate
+  const token = req.headers.get("x-user-token");
+  if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const db = createServerClient();
+  const { data: { user }, error: authErr } = await db.auth.getUser(token);
+  if (authErr || !user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   try {
     const formData = await req.formData();
     const questionText = formData.get("question") as string || "";
@@ -8,6 +20,14 @@ export async function POST(req: NextRequest) {
     const files = [...rawFiles].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
     if (!files || files.length === 0)
       return NextResponse.json({ error: "No files provided" }, { status: 400 });
+    if (files.length > MAX_FILES)
+      return NextResponse.json({ error: `Too many files (max ${MAX_FILES})` }, { status: 400 });
+    for (const file of files) {
+      if (file.size > MAX_FILE_SIZE)
+        return NextResponse.json({ error: "File too large (max 5MB each)" }, { status: 400 });
+      if (!ALLOWED_TYPES.includes(file.type))
+        return NextResponse.json({ error: `Invalid file type: ${file.type}` }, { status: 400 });
+    }
 
     const imageContents: { type: "image_url"; image_url: { url: string } }[] = [];
     for (const file of files) {

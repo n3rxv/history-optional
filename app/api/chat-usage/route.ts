@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase";
 
 const CHAT_FREE_LIMIT = 5;
-const OWNER_EMAIL     = "nirxv03@gmail.com";
-const OWNER_PHONE     = "+917976570494";
+const OWNER_EMAIL     = process.env.OWNER_EMAIL!;
+const OWNER_PHONE     = process.env.OWNER_PHONE!;
 
 export async function GET(req: NextRequest) {
   const token = req.headers.get("x-user-token");

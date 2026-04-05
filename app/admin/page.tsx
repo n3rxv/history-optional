@@ -23,12 +23,12 @@ interface Post {
 // ─────────────────────────────────────────────────────────────────────────────
 // API HELPERS
 // ─────────────────────────────────────────────────────────────────────────────
-async function apiCall(url: string, method: string, body?: object, password?: string) {
+async function apiCall(url: string, method: string, body?: object, token?: string) {
   const res = await fetch(url, {
     method,
     headers: {
       'Content-Type': 'application/json',
-      ...(password ? { 'x-admin-password': password } : {}),
+      ...(token ? { 'x-admin-token': token } : {}),
     },
     body: body ? JSON.stringify(body) : undefined,
   });
@@ -43,18 +43,18 @@ const SESSION_KEY = 'histopt_admin_v2';
 function useAdminAuth() {
   const [authed, setAuthed] = useState(false);
   const [checking, setChecking] = useState(true);
-  const [password, setPasswordState] = useState('');
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     const stored = sessionStorage.getItem(SESSION_KEY);
-    if (stored) { setAuthed(true); setPasswordState(stored); }
+    if (stored) { setAuthed(true); setToken(stored); }
     setChecking(false);
   }, []);
 
   const login = async (pass: string) => {
     const result = await apiCall('/api/admin/verify-password', 'POST', { password: pass });
     if (result.ok) {
-      sessionStorage.setItem(SESSION_KEY, pass);
+      sessionStorage.setItem(SESSION_KEY, result.token);
       setPasswordState(pass);
       setAuthed(true);
       return true;
@@ -65,10 +65,10 @@ function useAdminAuth() {
   const logout = () => {
     sessionStorage.removeItem(SESSION_KEY);
     setAuthed(false);
-    setPasswordState('');
+    setToken('');
   };
 
-  return { authed, checking, login, logout, password };
+  return { authed, checking, login, logout, token };
 }
 
 function LoginScreen({ onLogin }: { onLogin: (p: string) => Promise<boolean> }) {
@@ -178,7 +178,7 @@ function EditorToolbar({ editorRef, onImageInsert, onVideoInsert }: {
 // ─────────────────────────────────────────────────────────────────────────────
 // NOTE EDITOR
 // ─────────────────────────────────────────────────────────────────────────────
-function NoteEditor({ password }: { password: string }) {
+function NoteEditor({ token }: { token: string }) {
   const [selectedSlug, setSelectedSlug] = useState(notes[0]?.slug || '');
   const [overrides, setOverrides] = useState<Record<string, string>>({});
   const [originalContent, setOriginalContent] = useState<Record<string, string>>({});
@@ -194,7 +194,7 @@ function NoteEditor({ password }: { password: string }) {
 
   // Load all overrides from Supabase on mount
   useEffect(() => {
-    fetch('/api/admin/note-content', { headers: { 'x-admin-password': password } })
+    fetch('/api/admin/note-content', { headers: { 'x-admin-token': token } })
       .then(r => r.json())
       .then(({ data }) => {
         if (data) {
@@ -203,7 +203,7 @@ function NoteEditor({ password }: { password: string }) {
           setOverrides(map);
         }
       });
-  }, [password]);
+  }, [token]);
 
   // Load original noteContent for current slug
   useEffect(() => {
@@ -227,7 +227,7 @@ function NoteEditor({ password }: { password: string }) {
 
   const saveToSupabase = async (html: string) => {
     setSaving(true);
-    const res = await apiCall('/api/admin/note-content', 'POST', { slug: selectedSlug, content: html }, password);
+    const res = await apiCall('/api/admin/note-content', 'POST', { slug: selectedSlug, content: html }, token);
     setSaving(false);
     if (res.ok) {
       setOverrides(prev => ({ ...prev, [selectedSlug]: html }));
@@ -267,7 +267,7 @@ function NoteEditor({ password }: { password: string }) {
 
   const resetToOriginal = async () => {
     if (!confirm('Reset to original content? This will delete your edits from the cloud.')) return;
-    await apiCall('/api/admin/note-content', 'DELETE', { slug: selectedSlug }, password);
+    await apiCall('/api/admin/note-content', 'DELETE', { slug: selectedSlug }, token);
     const updated = { ...overrides };
     delete updated[selectedSlug];
     setOverrides(updated);
@@ -389,7 +389,7 @@ function NoteEditor({ password }: { password: string }) {
 // ─────────────────────────────────────────────────────────────────────────────
 // POSTS MANAGER
 // ─────────────────────────────────────────────────────────────────────────────
-function PostsManager({ password }: { password: string }) {
+function PostsManager({ token }: { token: string }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [editing, setEditing] = useState<Post | null>(null);
   const [mode, setMode] = useState<'list' | 'edit'>('list');
@@ -400,10 +400,10 @@ function PostsManager({ password }: { password: string }) {
   const coverInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    fetch('/api/admin/blog-posts?all=true', { headers: { 'x-admin-password': password } })
+    fetch('/api/admin/blog-posts?all=true', { headers: { 'x-admin-token': token } })
       .then(r => r.json())
       .then(({ data }) => { if (data) setPosts(data); });
-  }, [password]);
+  }, [token]);
 
   const newPost = (type: PostType): Post => ({
     id: Date.now().toString(),
@@ -427,7 +427,7 @@ function PostsManager({ password }: { password: string }) {
     const content = editorRef.current?.innerHTML || editing.content;
     const updated = { ...editing, content };
     setSaving(true);
-    const res = await apiCall('/api/admin/blog-posts', 'POST', updated, password);
+    const res = await apiCall('/api/admin/blog-posts', 'POST', updated, token);
     setSaving(false);
     if (res.ok) {
       const existing = posts.find(p => p.id === updated.id);
@@ -440,7 +440,7 @@ function PostsManager({ password }: { password: string }) {
 
   const deletePost = async (id: string) => {
     if (!confirm('Delete this post?')) return;
-    await apiCall('/api/admin/blog-posts', 'DELETE', { id }, password);
+    await apiCall('/api/admin/blog-posts', 'DELETE', { id }, token);
     setPosts(posts.filter(p => p.id !== id));
     if (editing?.id === id) { setEditing(null); setMode('list'); }
   };
@@ -448,7 +448,7 @@ function PostsManager({ password }: { password: string }) {
   const togglePublish = async (id: string) => {
     const post = posts.find(p => p.id === id)!;
     const updated = { ...post, published: !post.published };
-    await apiCall('/api/admin/blog-posts', 'POST', updated, password);
+    await apiCall('/api/admin/blog-posts', 'POST', updated, token);
     setPosts(posts.map(p => p.id === id ? updated : p));
   };
 
@@ -586,20 +586,20 @@ function PostsManager({ password }: { password: string }) {
 // ─────────────────────────────────────────────────────────────────────────────
 // ANALYTICS
 // ─────────────────────────────────────────────────────────────────────────────
-function Analytics({ password }: { password: string }) {
+function Analytics({ token }: { token: string }) {
   const [overrideCount, setOverrideCount] = useState(0);
   const [postStats, setPostStats] = useState({ total: 0, published: 0 });
   const totalNotes = notes.length;
   const sections = [...new Set(notes.map(n => n.section))];
 
   useEffect(() => {
-    fetch('/api/admin/note-content', { headers: { 'x-admin-password': password } })
+    fetch('/api/admin/note-content', { headers: { 'x-admin-token': token } })
       .then(r => r.json()).then(({ data }) => setOverrideCount(data?.length || 0));
-    fetch('/api/admin/blog-posts?all=true', { headers: { 'x-admin-password': password } })
+    fetch('/api/admin/blog-posts?all=true', { headers: { 'x-admin-token': token } })
       .then(r => r.json()).then(({ data }) => {
         if (data) setPostStats({ total: data.length, published: data.filter((p: Post) => p.published).length });
       });
-  }, [password]);
+  }, [token]);
 
   const stat = (label: string, value: string | number, sub?: string) => (
     <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 8, padding: '16px 20px' }}>
@@ -645,19 +645,19 @@ function Analytics({ password }: { password: string }) {
 // ─────────────────────────────────────────────────────────────────────────────
 // SETTINGS
 // ─────────────────────────────────────────────────────────────────────────────
-function Settings({ onLogout, password }: { onLogout: () => void; password: string }) {
+function Settings({ onLogout, token }: { onLogout: () => void; token: string }) {
   const [msg, setMsg] = useState('');
   const flash = (m: string) => { setMsg(m); setTimeout(() => setMsg(''), 2500); };
 
   const exportOverrides = async () => {
-    const res = await fetch('/api/admin/note-content', { headers: { 'x-admin-password': password } });
+    const res = await fetch('/api/admin/note-content', { headers: { 'x-admin-token': token } });
     const { data } = await res.json();
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'note_overrides_backup.json' }).click();
   };
 
   const exportPosts = async () => {
-    const res = await fetch('/api/admin/blog-posts?all=true', { headers: { 'x-admin-password': password } });
+    const res = await fetch('/api/admin/blog-posts?all=true', { headers: { 'x-admin-token': token } });
     const { data } = await res.json();
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'posts_backup.json' }).click();
@@ -698,22 +698,22 @@ function Settings({ onLogout, password }: { onLogout: () => void; password: stri
 // ─────────────────────────────────────────────────────────────────────────────
 // SUBMISSIONS
 // ─────────────────────────────────────────────────────────────────────────────
-function Submissions({ password }: { password: string }) {
+function Submissions({ token }: { token: string }) {
   const [rows, setRows] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'contact' | 'bug'>('all');
 
   useEffect(() => {
-    fetch('/api/admin/submissions', { headers: { 'x-admin-password': password } })
+    fetch('/api/admin/submissions', { headers: { 'x-admin-token': token } })
       .then(r => r.json())
       .then(({ data }) => { setRows(data || []); setLoading(false); });
-  }, [password]);
+  }, [token]);
 
   const deleteRow = async (id: string) => {
     if (!confirm('Delete this submission?')) return;
     await fetch('/api/admin/submissions', {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json', 'x-admin-password': password },
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
       body: JSON.stringify({ id }),
     });
     setRows(r => r.filter(x => x.id !== id));
@@ -760,7 +760,7 @@ function Submissions({ password }: { password: string }) {
 type Tab = 'notes' | 'posts' | 'analytics' | 'submissions' | 'settings';
 
 export default function AdminPage() {
-  const { authed, checking, login, logout, password } = useAdminAuth();
+  const { authed, checking, login, logout, token } = useAdminAuth();
   const [tab, setTab] = useState<Tab>('notes');
 
   if (checking) return <div style={{ background: '#000', minHeight: '100vh' }} />;
@@ -788,11 +788,11 @@ export default function AdminPage() {
           ))}
         </div>
       </div>
-      {tab === 'notes'     && <NoteEditor password={password} />}
-      {tab === 'posts'     && <PostsManager password={password} />}
-      {tab === 'analytics' && <Analytics password={password} />}
-      {tab === 'submissions' && <Submissions password={password} />}
-      {tab === 'settings'  && <Settings onLogout={logout} password={password} />}
+      {tab === 'notes'     && <NoteEditor token={token} />}
+      {tab === 'posts'     && <PostsManager token={token} />}
+      {tab === 'analytics' && <Analytics token={token} />}
+      {tab === 'submissions' && <Submissions token={token} />}
+      {tab === 'settings'  && <Settings onLogout={logout} token={token} />}
     </div>
   );
 }

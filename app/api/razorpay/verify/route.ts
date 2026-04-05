@@ -23,7 +23,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  const expiresAt = new Date();
+  // Extend from current expiry if still active, otherwise start from today
+  const { data: existingSub } = await db
+    .from("subscriptions")
+    .select("expires_at")
+    .eq("user_id", user.id)
+    .single();
+
+  const base = existingSub?.expires_at && new Date(existingSub.expires_at) > new Date()
+    ? new Date(existingSub.expires_at)
+    : new Date();
+  const expiresAt = new Date(base);
   expiresAt.setFullYear(expiresAt.getFullYear() + 1);
 
   const { error: upsertErr } = await db

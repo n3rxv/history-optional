@@ -69,6 +69,7 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     '/notes/:path*',
-    '/api/admin/note-content/:path*',
+    '/api/:path*',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };

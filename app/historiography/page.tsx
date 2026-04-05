@@ -24,7 +24,7 @@ type Debate = {
   positions: Position[];
 };
 
-const OWNER_EMAIL = 'nirxv03@gmail.com';
+const OWNER_EMAIL = process.env.NEXT_PUBLIC_OWNER_EMAIL!;
 
 const PERIODS = ['All', 'Ancient India', 'Early Medieval', 'Medieval India', '18th Century / Early Modern', 'Modern India', 'World History'];
 const PAPERS  = ['All', 'Paper I', 'Paper II'];

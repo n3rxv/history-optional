@@ -1,12 +1,7 @@
 'use client';
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { createClient } from '@supabase/supabase-js';
 
-const sb = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
-);
 
 function ContactForm() {
   const searchParams = useSearchParams();
@@ -22,10 +17,12 @@ function ContactForm() {
   async function handleContact(e: React.FormEvent) {
     e.preventDefault();
     setStatus('sending');
-    const { error } = await sb.from('contact_submissions').insert({
-      type: 'contact', name: form.name, email: form.email, message: form.message,
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'contact', name: form.name, email: form.email, message: form.message }),
     });
-    if (error) { setStatus('error'); return; }
+    if (!res.ok) { setStatus('error'); return; }
     setStatus('done');
     setForm({ name: '', email: '', message: '' });
   }
@@ -33,10 +30,12 @@ function ContactForm() {
   async function handleBug(e: React.FormEvent) {
     e.preventDefault();
     setStatus('sending');
-    const { error } = await sb.from('contact_submissions').insert({
-      type: 'bug', page: bugForm.page, message: bugForm.description, email: bugForm.email || null,
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'bug', page: bugForm.page, description: bugForm.description, email: bugForm.email }),
     });
-    if (error) { setStatus('error'); return; }
+    if (!res.ok) { setStatus('error'); return; }
     setStatus('done');
     setBugForm({ page: '', description: '', email: '' });
   }

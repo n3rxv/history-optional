@@ -4,8 +4,8 @@ import { createServerClient } from "@/lib/supabase";
 const chatLimits = new Map<string, { count: number; ts: number }>();
 const LIMIT = 20; // max 20 messages per 10 minutes per IP
 const CHAT_FREE_LIMIT = 5; // per month
-const OWNER_EMAIL = "nirxv03@gmail.com";
-const OWNER_PHONE = "+917976570494";
+const OWNER_EMAIL = process.env.OWNER_EMAIL!;
+const OWNER_PHONE = process.env.OWNER_PHONE!;
 
 export async function POST(req: NextRequest) {
   // ── IP rate limit (abuse protection) ────────────────────────────
@@ -77,6 +77,13 @@ export async function POST(req: NextRequest) {
   // ── Call Groq ────────────────────────────────────────────────────
   try {
     const { messages, system } = await req.json();
+
+  // Input length limit
+  const lastMsg = messages?.[messages.length - 1]?.content ?? '';
+  if (typeof lastMsg === 'string' && lastMsg.length > 4000)
+    return NextResponse.json({ error: 'Message too long' }, { status: 400 });
+  if (!Array.isArray(messages) || messages.length > 50)
+    return NextResponse.json({ error: 'Too many messages in context' }, { status: 400 });
 
     const groqFetch = async (model: string) =>
       fetch('https://api.groq.com/openai/v1/chat/completions', {

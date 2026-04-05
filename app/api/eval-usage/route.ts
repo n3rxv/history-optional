@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase";
 
-const OWNER_EMAIL  = "nirxv03@gmail.com";
-const OWNER_PHONE  = "+917976570494";
+const OWNER_EMAIL  = process.env.OWNER_EMAIL!;
+const OWNER_PHONE  = process.env.OWNER_PHONE!;
 const FREE_LIMIT   = 1; // 1 per week
 
 // Get the start of the current ISO week (Monday)
