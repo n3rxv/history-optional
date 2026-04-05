@@ -14,6 +14,7 @@ const links = [
   { href: '/timeline',  label: 'Timeline' },
   { href: '/chat',      label: 'AI Chat' },
   { href: '/evaluate',  label: 'Evaluate' },
+  { href: '/historiography', label: 'Historiography' },
 ];
 
 function snooColor(email: string): string {
