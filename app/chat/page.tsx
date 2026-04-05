@@ -137,14 +137,14 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       y += 6.5;
     } else if (/^[•\-\*] /.test(t)) {
       const txt = strip(t.replace(/^[•\-\*] /,''));
-      const bL = doc.splitTextToSize(txt, contentW-7) as string[];
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(10);
+      const bL = doc.splitTextToSize(txt, contentW-12) as string[];
       chk(bL.length*5.8+4);
       doc.setFillColor(...BLUE1);
       doc.circle(M+2.5, y+1.5, 1.1,'F');
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(10);
       doc.setTextColor(...INK);
-      bL.forEach((l:string)=>{ chk(7); doc.text(l,M+7,y); y+=5.8; });
+      bL.forEach((l:string)=>{ chk(7); doc.text(l,M+8,y); y+=5.8; });
       y += 1;
     } else {
       const txt = strip(t);
