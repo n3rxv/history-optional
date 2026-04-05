@@ -9,10 +9,11 @@ const ContentSecurityPolicy = [
   "img-src 'self' data: blob: https:",
   "media-src 'self'",
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.groq.com https://checkout.razorpay.com https://lumberjack.razorpay.com https://api.razorpay.com https://*.razorpay.com",
-  "frame-src https://checkout.razorpay.com",
+  "frame-src https://checkout.razorpay.com https://*.razorpay.com",
+  "worker-src blob: https://checkout.razorpay.com",
   "object-src 'none'",
   "base-uri 'self'",
-  "form-action 'self'",
+  "form-action 'self' https://*.razorpay.com",
   "upgrade-insecure-requests",
 ].join('; ');
 
