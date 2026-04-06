@@ -58,3 +58,5 @@ Disallow: /notes/
 Disallow: /api/
 Disallow: /admin
 Allow: /
+
+Sitemap: https://historyoptional.xyz/sitemap.xml
