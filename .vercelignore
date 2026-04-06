@@ -1,0 +1,7 @@
+*.pdf
+*.tar.gz
+*.zip
+*.py
+slug_texts/
+out/
+handout*.html
