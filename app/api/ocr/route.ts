@@ -119,37 +119,33 @@ Ask yourself: Is my output pure transcribed text with zero headings, zero LaTeX,
 NOW OUTPUT THE TRANSCRIPTION OF ${imageContents.length} PAGE(S) — PLAIN TEXT ONLY, STARTING WITH THE FIRST WORD OF THE ANSWER BODY. SKIP THE QUESTION TEXT AT THE TOP ENTIRELY — DO NOT INCLUDE IT:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
-    const body = {
-      model: "meta-llama/llama-4-scout-17b-16e-instruct",
-      messages: [{
-        role: "user",
-        content: [
-          ...imageContents,
-          { type: "text", text: ocrPrompt },
-        ],
-      }],
-      temperature: 0,
-      max_tokens: 4000,
-    };
+    const geminiParts = [
+      ...imageContents.map((img: { type: string; image_url: { url: string } }) => {
+        const matches = img.image_url.url.match(/^data:([^;]+);base64,(.+)$/);
+        return matches
+          ? { inline_data: { mime_type: matches[1], data: matches[2] } }
+          : null;
+      }).filter(Boolean),
+      { text: ocrPrompt },
+    ];
 
-    const groqFetch = async (key: string) =>
-      fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const res = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=" + process.env.GEMINI_API_KEY,
+      {
         method: "POST",
-        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-    let res = await groqFetch(process.env.GROQ_API_KEY!);
-    if (res.status === 429 && process.env.GROQ_API_KEY_2)
-      res = await groqFetch(process.env.GROQ_API_KEY_2);
-
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: geminiParts }],
+          generationConfig: { temperature: 0.0, maxOutputTokens: 4000 },
+        }),
+      }
+    );
     if (!res.ok) {
       const err = await res.text();
       return NextResponse.json({ error: "OCR failed: " + err }, { status: 500 });
     }
-
     const data = await res.json();
-    const text = data.choices[0].message.content;
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
     return NextResponse.json({ text });
 
   } catch (err) {
