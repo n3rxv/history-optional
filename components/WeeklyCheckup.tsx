@@ -23,7 +23,7 @@ export default function WeeklyCheckup() {
     const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
     if (!last || now - parseInt(last) > ONE_WEEK) {
       if (!dismissed || now - parseInt(dismissed) > ONE_WEEK) {
-        const timer = setTimeout(() => setVisible(true), 3000);
+        const timer = setTimeout(() => setVisible(true), 15 * 60 * 1000);
         return () => clearTimeout(timer);
       }
     }
