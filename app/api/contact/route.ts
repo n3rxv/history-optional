@@ -54,6 +54,11 @@ export async function POST(req: NextRequest) {
     });
     if (error) return NextResponse.json({ error: 'Failed to submit' }, { status: 500 });
 
+  } else if (body.type === 'weekly_checkup') {
+    const message = sanitizeText(body.message, 2000);
+    if (!message) return NextResponse.json({ error: 'Missing message' }, { status: 400 });
+    const { error } = await db.from('contact_submissions').insert({ type: 'weekly_checkup', message, name: 'checkup', email: 'checkup@system' });
+    if (error) return NextResponse.json({ error: 'Failed to submit' }, { status: 500 });
   } else {
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
   }

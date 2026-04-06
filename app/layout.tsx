@@ -10,6 +10,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AuthGuard from "@/components/AuthGuard";
+import WeeklyCheckup from "@/components/WeeklyCheckup";
 
 export const metadata: Metadata = {
   icons: { icon: '/favicon.svg' },
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             "description": "Free comprehensive notes, PYQs, historiography and AI answer evaluation for UPSC History Optional",
           }) }}
         />
+        <WeeklyCheckup />
         <Navbar />
         <AuthGuard>
           <main style={{ minHeight: '100vh' }}>{children}</main>
