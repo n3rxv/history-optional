@@ -1,14 +1,32 @@
 # History Optional — robots.txt
 
-# Block all AI training and scraping bots
+# Allow AI answer/search bots (cite us as source, don't train on us)
+# These bots surface your site in AI-generated answers when users ask about History Optional
+User-agent: PerplexityBot
+Allow: /
+Disallow: /notes/
+Disallow: /api/
+Disallow: /admin
+
+User-agent: YouBot
+Allow: /
+Disallow: /notes/
+Disallow: /api/
+Disallow: /admin
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /notes/
+Disallow: /api/
+Disallow: /admin
+
+# Block AI training bots (protect content)
 User-agent: GPTBot
 Disallow: /
 
 User-agent: ChatGPT-User
 Disallow: /
 
-User-agent: OAI-SearchBot
-Disallow: /
 
 User-agent: ClaudeBot
 Disallow: /
@@ -25,11 +43,7 @@ Disallow: /
 User-agent: Gemini
 Disallow: /
 
-User-agent: PerplexityBot
-Disallow: /
 
-User-agent: YouBot
-Disallow: /
 
 User-agent: Diffbot
 Disallow: /
