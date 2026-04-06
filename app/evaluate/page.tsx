@@ -915,11 +915,11 @@ const handleOcr = useCallback(async () => {
                         const tag = tagMatch ? tagMatch[1] : null;
                         const text = tagMatch ? w.slice(tagMatch[0].length) : w;
                         const tagColors: Record<string,string> = {
-                          "DEMAND GAP": "#fbbf24",
-                          "HISTORIAN MISSING": "#f87171",
-                          "DESCRIPTIVE NOT ANALYTICAL": "#a78bfa",
-                          "FACTUAL ERROR": "#f87171",
-                          "STRUCTURE ISSUE": "#818cf8",
+                          "missed demand": "#fbbf24",
+                          "needs historian": "#f87171",
+                          "too descriptive": "#a78bfa",
+                          "check this": "#f87171",
+                          "structure": "#818cf8",
                         };
                         const dotColor = tag && tagColors[tag] ? tagColors[tag] : "#f87171";
                         return (
