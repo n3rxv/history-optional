@@ -54,26 +54,10 @@ export function middleware(req: NextRequest) {
     return new NextResponse('Access denied', { status: 403 });
   }
 
-  // Return 404 for /admin to anyone except the owner
+  // Return 404 for /admin to anyone without valid admin cookie
   if (pathname === '/admin' || pathname.startsWith('/admin/')) {
-    try {
-      const OWNER_EMAIL = 'nirxv03@gmail.com';
-      const JWT_SECRET = process.env.SUPABASE_JWT_SECRET ?? '';
-      // Get Supabase auth token from cookie
-      const cookieHeader = req.headers.get('cookie') ?? '';
-      const match = cookieHeader.match(/sb-[^-]+-auth-token=([^;]+)/);
-      if (!match) return new NextResponse(null, { status: 404 });
-      const rawCookie = decodeURIComponent(match[1]);
-      const parsed = JSON.parse(rawCookie);
-      const accessToken = Array.isArray(parsed) ? parsed[0] : parsed?.access_token;
-      if (!accessToken) return new NextResponse(null, { status: 404 });
-      // Decode JWT payload (Edge runtime — no verify, just decode)
-      const parts = accessToken.split('.');
-      if (parts.length !== 3) return new NextResponse(null, { status: 404 });
-      const payload = JSON.parse(atob(parts[1]));
-      if (payload?.email !== OWNER_EMAIL) return new NextResponse(null, { status: 404 });
-      if (payload?.exp && Date.now() / 1000 > payload.exp) return new NextResponse(null, { status: 404 });
-    } catch {
+    const adminToken = req.cookies.get('admin_token')?.value;
+    if (!adminToken) {
       return new NextResponse(null, { status: 404 });
     }
   }
