@@ -67,7 +67,7 @@ export default function Home() {
           color: 'var(--text2)', fontSize: '1.05rem',
           maxWidth: 500, margin: '0 auto 2.5rem', lineHeight: 1.7,
         }}>
-          Complete notes · PYQ bank · Answer Evaluation · AI assistant · Interactive timelines — everything History Optional for free at one place.
+          Complete notes · PYQ bank · Historiography bank · Answer Evaluation · AI assistant · Interactive timelines — everything History Optional for free at one place.
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
