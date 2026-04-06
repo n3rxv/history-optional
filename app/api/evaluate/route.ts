@@ -590,7 +590,9 @@ INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
           { role: "system", content: SYSTEM_PROMPT },
           {
             role: "user",
-            content: [
+            content: finalTranscript
+              ? cotPrompt
+              : [
                   ...imageContents,
                   { type: "text" as const, text: cotPrompt },
                 ],
