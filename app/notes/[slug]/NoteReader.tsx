@@ -582,7 +582,7 @@ export default function NoteReader({ slug }: { slug: string }) {
     setSaving(true);
     const res = await fetch('/api/admin/note-content', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-password': adminPassword },
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': adminPassword },
       body: JSON.stringify({ slug, content: html }),
     });
     const data = await res.json();

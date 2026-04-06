@@ -19,8 +19,7 @@ export async function GET(req: NextRequest) {
 
 // POST and DELETE require admin password
 export async function POST(req: NextRequest) {
-  const adminPassword = req.headers.get('x-admin-password');
-  if (adminPassword !== process.env.ADMIN_PASSWORD) {
+  if (!isAdminAuthed(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   const { slug, content } = await req.json();
@@ -36,8 +35,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const adminPassword = req.headers.get('x-admin-password');
-  if (adminPassword !== process.env.ADMIN_PASSWORD) {
+  if (!isAdminAuthed(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   const { slug } = await req.json();
