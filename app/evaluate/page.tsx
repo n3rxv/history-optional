@@ -343,7 +343,7 @@ const handleOcr = useCallback(async () => {
     fd.append("question", question);
     compressed.forEach(f => fd.append("files", f));
     try {
-      const res = await fetch("/api/ocr", { method: "POST", headers: { "x-user-token": usage.token ?? "" }, body: fd });
+      const res = await fetch("/api/ocr", { method: "POST", headers: { "x-user-token": tokenRef.current ?? "" }, body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "OCR failed");
       setOcrProgress(100);
@@ -384,7 +384,7 @@ const handleOcr = useCallback(async () => {
     fd.append("extractedText", extractedText);
     if (files) { const compEval = await Promise.all(files.map(f => compressImage(f))); compEval.forEach(f => fd.append("files", f)); }
     try {
-      const res  = await fetch("/api/evaluate", { method: "POST", headers: { "x-user-token": usage.token ?? "" }, body: fd });
+      const res  = await fetch("/api/evaluate", { method: "POST", headers: { "x-user-token": tokenRef.current ?? "" }, body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Evaluation failed");
       setEvalProgress(100);
