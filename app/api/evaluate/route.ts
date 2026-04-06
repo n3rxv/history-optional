@@ -175,6 +175,9 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
   ],
   "introduction": {
     "what_was_written": "Quote or closely paraphrase the exact opening sentence(s) the student wrote.",
+    "strengths": [
+      "IMPORTANT: Only include if genuinely present. Use [WHAT WORKED] tag: quote the exact phrase from the intro that was strongest and explain specifically why it earns credit. Use [CONCEPTUAL GRASP] tag: ONLY if the student showed historiographical awareness beyond surface description. If nothing genuine to praise, return empty array."
+    ],
     "analysis": "Elaborate judgment across ALL of these dimensions: (1) Did it open with a historiographical debate or a definition/narrative/date? Quote the exact phrase that shows this. (2) Did it name a MODERN historian with their SPECIFIC thesis, or just a primary source/general statement? Name who was cited and whether their argument was stated. (3) Did it preview the argument the answer would make, or just set context? (4) What band does this introduction fall in and exactly why? Be as specific as possible — reference the student's actual words.",
     "suggestions": [
       "Write out EXACTLY what the opening sentence of a strong introduction for THIS question should look like — name the specific historiographical debate, the two competing positions, and the historians on each side. e.g. 'A strong intro should have opened: Whether Mauryan expansion was primarily a vehicle of Gangetic cultural imperialism as R.S. Sharma implies through his agrarian-state model, or a more complex process of acculturation and regional synthesis as B.D. Chattopadhyaya argues, remains the central problem...'",
@@ -182,11 +185,21 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     ]
   },
   "body": {
-    "strengths": ["Reference the EXACT point the student made that was strong — quote their phrase, name the historian they cited correctly, and explain why that specific point earns credit."],
+    "strengths": [
+      "IMPORTANT: Only include a strength if it GENUINELY exists. Do NOT pad with generic praise. Each strength must start with its tag in square brackets. Only use these tags if truly applicable:",
+      "Use [HISTORIAN WELL USED]: ONLY if the student correctly cited a historian with their actual argument, not just their name.",
+      "Use [ANALYTICAL MOVE]: ONLY if the student made a genuine analytical argument — weighed interpretations, explained causation, or connected evidence to the question.",
+      "Use [CONTENT STRENGTH]: ONLY if the student correctly identified a specific fact, mechanism, or policy that shows real command of the topic.",
+      "Use [HISTORIOGRAPHICAL AWARENESS]: ONLY if the student showed awareness of a debate or competing interpretations, even partially.",
+      "If the answer is weak with no genuine strengths, the strengths array may have just 1 entry acknowledging what little worked, or note the attempt honestly."
+    ],
     "weaknesses": [
-      "[DEMAND GAP]: Name the specific historical dimension the question required that was entirely missing from the answer. Explain which historian addresses this dimension and what their specific argument is — not generically but tied to THIS question's exact demand.",
-      "[DESCRIPTIVE NOT ANALYTICAL]: Quote the exact sentence or passage from the student's answer that was descriptive rather than analytical. Explain what analytical move was needed — e.g. 'Instead of listing that Brahmi spread, the student needed to argue WHY this spread was a vehicle of Gangetic cultural hegemony, citing R.S. Sharma's thesis that...'",
-      "[HISTORIAN MISSING]: Name the specific historian whose argument was essential for THIS question but absent. Give their exact thesis and explain how it would have strengthened a specific body point — e.g. 'Kosambi's argument that Mauryan state power was essentially extractive-agrarian, not culturally missionary, was needed to complicate the diffusion thesis.'"
+      "IMPORTANT: Only include a weakness if it GENUINELY exists in this specific answer. Do NOT manufacture weaknesses to fill slots. If the answer is strong, this array may have just 1 entry or even be empty. Each weakness must start with its tag in square brackets. Only use these tags if truly applicable:",
+      "Use [DEMAND GAP]: ONLY if a major dimension the question explicitly demanded is completely absent — not just underdeveloped. Name the missing dimension and the historian who addresses it.",
+      "Use [DESCRIPTIVE NOT ANALYTICAL]: ONLY if the student listed facts without making an argument. Quote the exact descriptive passage and explain the specific analytical move that was needed.",
+      "Use [HISTORIAN MISSING]: ONLY if a historian whose argument is essential and non-negotiable for this question is absent. Name them, their thesis, and why their absence specifically weakens this answer.",
+      "Use [FACTUAL ERROR]: ONLY if the student stated something demonstrably incorrect. Quote the exact error and correct it with evidence.",
+      "Use [STRUCTURE ISSUE]: ONLY if the answer has a genuine structural problem affecting clarity or argument flow."
     ],
     "suggestions": [
       "Give a FULLY WRITTEN example of what one strong body point for this answer should look like — include the analytical claim, the specific evidence (inscription/text/policy/date), the historian's name and exact argument, and the analytical link to the question. This should be 3-4 sentences minimum.",
@@ -195,6 +208,9 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
   },
   "conclusion": {
     "what_was_written": "Quote or closely paraphrase the exact conclusion the student wrote.",
+    "strengths": [
+      "IMPORTANT: Only include if genuinely present. Use [SYNTHESIS ATTEMPT] tag: quote any phrase where the student tried to synthesise or take a position. Use [HISTORIOGRAPHICAL AWARENESS] tag: ONLY if the student cited a historian or framed a position in the conclusion. If nothing genuine to praise, return empty array."
+    ],
     "analysis": "Write 4-6 sentences of detailed, specific analysis — NEVER a one-liner or vague summary. Cover ALL of: (1) Did it synthesise multiple threads from the body — name the specific threads included and any dropped. (2) Did it take a clear historiographical position? Quote the EXACT phrase that shows this, or state explicitly it failed to. (3) Did it resolve the central tension from the introduction — name that tension and say whether this conclusion answered or ignored it. (4) Quote a specific phrase from the conclusion and analyse whether it connects back to the intro's framing or introduces new material. (5) Which band does this fall in and why, mapped word-for-word to the student's text. Be concrete, specific, never generic.",
     "suggestions": [
       "Write out EXACTLY what this conclusion should have argued — give the specific synthesis position for THIS question, naming the historiographical tension that needed resolving and how to resolve it in 2-3 sentences.",

@@ -17,9 +17,9 @@ interface SectionMark {
 
 interface Evaluation {
   demand_of_question: string[];
-  introduction: { what_was_written: string; analysis: string; suggestions: string[]; };
+  introduction: { what_was_written: string; strengths: string[]; analysis: string; suggestions: string[]; };
   body: { strengths: string[]; weaknesses: string[]; suggestions: string[]; };
-  conclusion: { what_was_written: string; analysis: string; suggestions: string[]; };
+  conclusion: { what_was_written: string; strengths: string[]; analysis: string; suggestions: string[]; };
   historians_to_cite: Historian[];
   model_answer: { introduction: string; body: string | string[]; conclusion: string; };
   overall_feedback: string;
@@ -836,7 +836,24 @@ const handleOcr = useCallback(async () => {
                     <div className="ev-wrote-lbl">What you wrote</div>
                     <div className="ev-wrote-txt">{evaluation.introduction.what_was_written}</div>
                   </div>
-                  <div className="ev-analysis">{evaluation.introduction.analysis}</div>
+                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, margin:"16px 0" }}>
+                    <div style={{ background:"rgba(74,222,128,0.05)", border:"1px solid rgba(74,222,128,0.2)", borderRadius:8, padding:"12px 16px" }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
+                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#4ade80", boxShadow:"0 0 6px #4ade80" }} />
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#4ade80", textTransform:"uppercase" }}>Strengths</span>
+                      </div>
+                      {toArray(evaluation.introduction.strengths).map((s,i) => (
+                        <div key={i} style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)", marginBottom:8 }}>{s}</div>
+                      ))}
+                    </div>
+                    <div style={{ background:"rgba(248,113,113,0.05)", border:"1px solid rgba(248,113,113,0.2)", borderRadius:8, padding:"12px 16px" }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
+                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#f87171", boxShadow:"0 0 6px #f87171" }} />
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#f87171", textTransform:"uppercase" }}>Analysis</span>
+                      </div>
+                      <div style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)" }}>{evaluation.introduction.analysis}</div>
+                    </div>
+                  </div>
                   {toArray(evaluation.introduction.suggestions).length > 0 && (<>
                     <div className="ev-sl">Suggestions</div>
                     <ul className="ev-list">{toArray(evaluation.introduction.suggestions).map((s,i) => <li key={i}>{s}</li>)}</ul>
@@ -850,34 +867,49 @@ const handleOcr = useCallback(async () => {
                 </div>
                 <div className="ev-card">
                   <div className="ev-ct">Body</div>
-                  <div className="ev-sl g" style={{ marginTop:0 }}>Strengths</div>
-                  <ul className="ev-list" style={{ marginBottom:16 }}>{toArray(evaluation.body.strengths).map((s,i) => <li key={i} className="g">{s}</li>)}</ul>
-                  <div className="ev-sl r">Weaknesses</div>
-                  <div style={{ display:"flex", flexDirection:"column", gap:8, marginBottom:16 }}>
-                    {toArray(evaluation.body.weaknesses).map((w,i) => {
-                      const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
-                      const tag = tagMatch ? tagMatch[1] : null;
-                      const text = tagMatch ? w.slice(tagMatch[0].length) : w;
-                      const tagColors: Record<string,{bg:string,color:string,dot:string}> = {
-                        "DEMAND GAP":              { bg:"rgba(251,191,36,0.08)",  color:"#fbbf24", dot:"#f59e0b" },
-                        "HISTORIAN MISSING":       { bg:"rgba(248,113,113,0.07)", color:"#f87171", dot:"#ef4444" },
-                        "DESCRIPTIVE NOT ANALYTICAL": { bg:"rgba(167,139,250,0.08)", color:"#a78bfa", dot:"#8b5cf6" },
-                        "FACTUAL ERROR":           { bg:"rgba(248,113,113,0.1)",  color:"#f87171", dot:"#ef4444" },
-                        "STRUCTURE ISSUE":         { bg:"rgba(99,102,241,0.08)",  color:"#818cf8", dot:"#6366f1" },
-                      };
-                      const style = tag && tagColors[tag] ? tagColors[tag] : { bg:"rgba(248,113,113,0.07)", color:"#f87171", dot:"#ef4444" };
-                      return (
-                        <div key={i} style={{ background:style.bg, border:`1px solid ${style.dot}22`, borderRadius:8, padding:"12px 16px", display:"flex", flexDirection:"column", gap:8 }}>
-                          {tag && (
-                            <div style={{ display:"flex", alignItems:"center", gap:7 }}>
-                              <div style={{ width:6, height:6, borderRadius:"50%", background:style.dot, boxShadow:`0 0 6px ${style.dot}` }} />
-                              <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:style.color, textTransform:"uppercase" }}>{tag}</span>
-                            </div>
-                          )}
-                          <div style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)" }}>{text}</div>
-                        </div>
-                      );
-                    })}
+                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, margin:"16px 0" }}>
+                    <div style={{ background:"rgba(74,222,128,0.05)", border:"1px solid rgba(74,222,128,0.2)", borderRadius:8, padding:"12px 16px" }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
+                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#4ade80", boxShadow:"0 0 6px #4ade80" }} />
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#4ade80", textTransform:"uppercase" }}>Strengths</span>
+                      </div>
+                      {toArray(evaluation.body.strengths).map((s,i) => {
+                        const tagMatch = s.match(/^\[([^\]]+)\]:\s*/);
+                        const tag = tagMatch ? tagMatch[1] : null;
+                        const text = tagMatch ? s.slice(tagMatch[0].length) : s;
+                        return (
+                          <div key={i} style={{ marginBottom:10 }}>
+                            {tag && <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.52rem", letterSpacing:"0.15em", color:"#4ade80", textTransform:"uppercase", marginBottom:4 }}>{tag}</div>}
+                            <div style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)" }}>{text}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div style={{ background:"rgba(248,113,113,0.05)", border:"1px solid rgba(248,113,113,0.2)", borderRadius:8, padding:"12px 16px" }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
+                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#f87171", boxShadow:"0 0 6px #f87171" }} />
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#f87171", textTransform:"uppercase" }}>Weaknesses</span>
+                      </div>
+                      {toArray(evaluation.body.weaknesses).map((w,i) => {
+                        const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
+                        const tag = tagMatch ? tagMatch[1] : null;
+                        const text = tagMatch ? w.slice(tagMatch[0].length) : w;
+                        const tagColors: Record<string,{color:string,dot:string}> = {
+                          "DEMAND GAP":              { color:"#fbbf24", dot:"#f59e0b" },
+                          "HISTORIAN MISSING":       { color:"#f87171", dot:"#ef4444" },
+                          "DESCRIPTIVE NOT ANALYTICAL": { color:"#a78bfa", dot:"#8b5cf6" },
+                          "FACTUAL ERROR":           { color:"#f87171", dot:"#ef4444" },
+                          "STRUCTURE ISSUE":         { color:"#818cf8", dot:"#6366f1" },
+                        } as any;
+                        const style = tag && tagColors[tag] ? tagColors[tag] : { color:"#f87171", dot:"#ef4444" };
+                        return (
+                          <div key={i} style={{ marginBottom:10 }}>
+                            {tag && <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.52rem", letterSpacing:"0.15em", color:style.color, textTransform:"uppercase", marginBottom:4 }}>{tag}</div>}
+                            <div style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)" }}>{text}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                   <div className="ev-sl">Suggestions</div>
                   <ul className="ev-list">{toArray(evaluation.body.suggestions).map((s,i) => <li key={i}>{s}</li>)}</ul>
@@ -888,7 +920,24 @@ const handleOcr = useCallback(async () => {
                     <div className="ev-wrote-lbl">What you wrote</div>
                     <div className="ev-wrote-txt">{evaluation.conclusion.what_was_written}</div>
                   </div>
-                  <div className="ev-analysis">{evaluation.conclusion.analysis}</div>
+                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, margin:"16px 0" }}>
+                    <div style={{ background:"rgba(74,222,128,0.05)", border:"1px solid rgba(74,222,128,0.2)", borderRadius:8, padding:"12px 16px" }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
+                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#4ade80", boxShadow:"0 0 6px #4ade80" }} />
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#4ade80", textTransform:"uppercase" }}>Strengths</span>
+                      </div>
+                      {toArray(evaluation.conclusion.strengths).map((s,i) => (
+                        <div key={i} style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)", marginBottom:8 }}>{s}</div>
+                      ))}
+                    </div>
+                    <div style={{ background:"rgba(248,113,113,0.05)", border:"1px solid rgba(248,113,113,0.2)", borderRadius:8, padding:"12px 16px" }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
+                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#f87171", boxShadow:"0 0 6px #f87171" }} />
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#f87171", textTransform:"uppercase" }}>Analysis</span>
+                      </div>
+                      <div style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)" }}>{evaluation.conclusion.analysis}</div>
+                    </div>
+                  </div>
                   {toArray(evaluation.conclusion.suggestions).length > 0 && (<>
                     <div className="ev-sl">Suggestions</div>
                     <ul className="ev-list">{toArray(evaluation.conclusion.suggestions).map((s,i) => <li key={i}>{s}</li>)}</ul>
