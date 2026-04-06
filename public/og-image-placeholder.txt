@@ -1,0 +1,4 @@
+Create a 1200x630px image for historyoptional.xyz
+Dark background (#0a0a0a), title "History Optional" in large serif font,
+subtitle "Free UPSC Mains Notes · PYQs · AI Evaluation"
+Save as public/og-image.png
