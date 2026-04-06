@@ -431,7 +431,8 @@ export default function NoteReader({ slug }: { slug: string }) {
   const [cloudContent, setCloudContent] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState('');
-  const adminPassword = typeof window !== 'undefined' ? sessionStorage.getItem(SESSION_KEY) : null;
+  const [adminPassword, setAdminPassword] = useState<string|null>(null);
+  useEffect(() => { setAdminPassword(sessionStorage.getItem(SESSION_KEY)); }, []);
 
   // Auth state
   const [user, setUser] = useState<User | null>(null);
