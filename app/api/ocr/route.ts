@@ -49,6 +49,9 @@ ABSOLUTE TRANSCRIPTION RULES
 RULE 1 — TRANSCRIBE EVERY SINGLE WORD.
 Do not skip, summarise, paraphrase, or compress anything. Every word on every line on every page must appear in your output. If the answer is 300 words, your transcript must be ~300 words. If you produce significantly fewer words than appear on the page, you have failed.
 
+RULE 1B — JOIN HYPHENATED LINE BREAKS.
+When a word is split across two lines with a hyphen (e.g. "Kaut-" on one line and "man" on the next), join them into one complete word "Kautman". Never preserve mid-word hyphens that exist only because the student ran out of space on a line. Only keep hyphens that are part of the actual word (e.g. "semi-religious", "non-Brahman").
+
 RULE 2 — GO SLOW. READ CHARACTER BY CHARACTER IF NEEDED.
 Do not skim. For each word: look at every letter individually, consider the full word context, then commit. Rushing causes errors. Take your time on every single word.
 
@@ -56,7 +59,7 @@ RULE 3 — HISTORIAN NAMES ARE SACRED. NEVER GET THEM WRONG.
 Historian names are the most critical part of this evaluation. Read them with extreme care.
 Known names that may appear — read these exactly:
 Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, D.D. Kosambi, B.D. Chattopadhyaya, Satish Chandra, Upinder Singh, Shereen Ratnagar, Possehl, Kenoyer, Fairservis, Shaffer, K.A.R. Kennedy, Uma Chakravarti, R.P. Kangle, Thomas Trautmann, Hermann Kulke, D.C. Sircar, Sheldon Pollock, Noboru Karashima, K.A. Nilakanta Sastri, David Ludden, Phillip Wagoner, David Lorenzen, Peter Hardy, Mohammed Habib, Peter Jackson, K.A. Nizami, Simon Digby, Muzaffar Alam, J.F. Richards, M. Athar Ali, Jadunath Sarkar, Ranajit Guha, Ayesha Jalal, Mushirul Hasan, Gyanendra Pandey, Urvashi Butalia, Bipan Chandra, Anil Seal, Sumit Sarkar, Shahid Amin, Judith Brown, Partha Chatterjee, Lata Mani, Eric Stokes, Bernard Cohn, Utsa Patnaik, E.P. Thompson, Hobsbawm, Max Weber, Lefebvre, Soboul, Furet, Fischer, Fitzpatrick, Gaddis, Fanon, Frederick Cooper, C.A. Bayly, André Wink, Frank Perlin, Bandyopadhyay.
-If you see a name that resembles one of these, read it carefully and transcribe it exactly as written — do NOT auto-correct to the known spelling unless you are certain.
+If you see a name that resembles one of these, transcribe it EXACTLY as written — letter for letter. NEVER substitute one historian name for another. If the student wrote "Trautmann", write "Trautmann" — do NOT change it to "Kautilya" or any other name. If the student wrote an unfamiliar name, transcribe it exactly as written even if you think it is wrong. Your job is transcription, not correction.
 
 RULE 4 — NEVER CORRECT SPELLING SILENTLY.
 Do NOT fix spelling mistakes. Transcribe exactly what is written. If the student misspelled a historian's name, transcribe the misspelling — the evaluator needs to see it. Silent corrections destroy evaluation accuracy.
