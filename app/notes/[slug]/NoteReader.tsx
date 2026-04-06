@@ -41,31 +41,166 @@ function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLD
     document.execCommand(command, false, value);
     contentRef.current?.focus();
   };
-  const btn = (label: string, action: () => void, title: string) => (
-    <button onMouseDown={e => { e.preventDefault(); action(); }} title={title}
-      style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.78rem', fontWeight: 600, background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)', color: '#d4a843' }}>
-      {label}
+
+  const insertImage = () => {
+    const url = prompt('Enter image URL:');
+    if (url) cmd('insertImage', url);
+  };
+
+  const insertLink = () => {
+    const url = prompt('Enter URL:');
+    if (url) cmd('createLink', url);
+  };
+
+  const insertTable = () => {
+    const table = `<table style="border-collapse:collapse;width:100%;margin:1rem 0"><tr><td style="border:1px solid #d4a843;padding:8px">&nbsp;</td><td style="border:1px solid #d4a843;padding:8px">&nbsp;</td><td style="border:1px solid #d4a843;padding:8px">&nbsp;</td></tr><tr><td style="border:1px solid #d4a843;padding:8px">&nbsp;</td><td style="border:1px solid #d4a843;padding:8px">&nbsp;</td><td style="border:1px solid #d4a843;padding:8px">&nbsp;</td></tr></table>`;
+    document.execCommand('insertHTML', false, table);
+    contentRef.current?.focus();
+  };
+
+  const setColor = (color: string) => cmd('foreColor', color);
+  const setHighlight = (color: string) => cmd('hiliteColor', color);
+  const setFontSize = (size: string) => cmd('fontSize', size);
+
+  const IconBtn = ({ title, onClick, children }: { title: string; onClick: () => void; children: React.ReactNode }) => (
+    <button
+      onMouseDown={e => { e.preventDefault(); onClick(); }}
+      title={title}
+      style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        width: 28, height: 28, borderRadius: 5, cursor: 'pointer',
+        background: 'transparent', border: '1px solid transparent',
+        color: '#c9a84c', fontSize: '0.82rem', fontWeight: 700,
+        transition: 'all 0.15s',
+      }}
+      onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = 'rgba(212,168,67,0.15)'; (e.target as HTMLButtonElement).style.borderColor = 'rgba(212,168,67,0.3)'; }}
+      onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = 'transparent'; (e.target as HTMLButtonElement).style.borderColor = 'transparent'; }}
+    >
+      {children}
     </button>
   );
-  const divider = () => <div style={{ width: 1, height: 16, background: 'var(--border)', margin: '0 2px' }} />;
+
+  const Divider = () => <div style={{ width: 1, height: 20, background: 'rgba(212,168,67,0.2)', margin: '0 3px', flexShrink: 0 }} />;
+
+  const ColorDot = ({ color, title, onClick }: { color: string; title: string; onClick: () => void }) => (
+    <button
+      onMouseDown={e => { e.preventDefault(); onClick(); }}
+      title={title}
+      style={{ width: 16, height: 16, borderRadius: '50%', background: color, border: '2px solid rgba(255,255,255,0.15)', cursor: 'pointer', flexShrink: 0 }}
+    />
+  );
+
   return (
-    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', alignItems: 'center', padding: '6px 12px', background: 'rgba(212,168,67,0.04)', border: '1px solid rgba(212,168,67,0.15)', borderRadius: 6, marginBottom: '1rem' }}>
-      {btn('B', () => cmd('bold'), 'Bold')}
-      {btn('I', () => cmd('italic'), 'Italic')}
-      {btn('U', () => cmd('underline'), 'Underline')}
-      {btn('S', () => cmd('strikeThrough'), 'Strikethrough')}
-      {divider()}
-      {btn('H2', () => cmd('formatBlock', 'h2'), 'Heading 2')}
-      {btn('H3', () => cmd('formatBlock', 'h3'), 'Heading 3')}
-      {btn('P',  () => cmd('formatBlock', 'p'),  'Paragraph')}
-      {divider()}
-      {btn('• List',  () => cmd('insertUnorderedList'), 'Bullet list')}
-      {btn('1. List', () => cmd('insertOrderedList'),   'Numbered list')}
-      {btn('" Quote', () => cmd('formatBlock', 'blockquote'), 'Blockquote')}
-      {divider()}
-      {btn('↩', () => cmd('undo'), 'Undo')}
-      {btn('↪', () => cmd('redo'), 'Redo')}
-      {btn('✕ fmt', () => cmd('removeFormat'), 'Clear formatting')}
+    <div style={{
+      position: 'sticky', top: 0, zIndex: 100,
+      display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center',
+      padding: '6px 10px',
+      background: 'rgba(18,16,12,0.97)',
+      backdropFilter: 'blur(12px)',
+      border: '1px solid rgba(212,168,67,0.2)',
+      borderRadius: 8,
+      marginBottom: '1rem',
+      boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
+    }}>
+      {/* History */}
+      <IconBtn title="Undo" onClick={() => cmd('undo')}>↩</IconBtn>
+      <IconBtn title="Redo" onClick={() => cmd('redo')}>↪</IconBtn>
+      <Divider />
+
+      {/* Block format dropdown */}
+      <select
+        onMouseDown={e => e.stopPropagation()}
+        onChange={e => { cmd('formatBlock', e.target.value); contentRef.current?.focus(); }}
+        style={{
+          background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)',
+          color: '#c9a84c', borderRadius: 5, padding: '2px 4px', fontSize: '0.75rem',
+          cursor: 'pointer', height: 28,
+        }}
+        defaultValue=""
+      >
+        <option value="" disabled>Style</option>
+        <option value="h1">Heading 1</option>
+        <option value="h2">Heading 2</option>
+        <option value="h3">Heading 3</option>
+        <option value="h4">Heading 4</option>
+        <option value="p">Paragraph</option>
+        <option value="blockquote">Blockquote</option>
+        <option value="pre">Code Block</option>
+      </select>
+
+      {/* Font size */}
+      <select
+        onMouseDown={e => e.stopPropagation()}
+        onChange={e => { setFontSize(e.target.value); contentRef.current?.focus(); }}
+        style={{
+          background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)',
+          color: '#c9a84c', borderRadius: 5, padding: '2px 4px', fontSize: '0.75rem',
+          cursor: 'pointer', height: 28, width: 46,
+        }}
+        defaultValue=""
+      >
+        <option value="" disabled>Size</option>
+        <option value="1">10</option>
+        <option value="2">13</option>
+        <option value="3">16</option>
+        <option value="4">18</option>
+        <option value="5">24</option>
+        <option value="6">32</option>
+        <option value="7">48</option>
+      </select>
+      <Divider />
+
+      {/* Text style */}
+      <IconBtn title="Bold" onClick={() => cmd('bold')}><b>B</b></IconBtn>
+      <IconBtn title="Italic" onClick={() => cmd('italic')}><i>I</i></IconBtn>
+      <IconBtn title="Underline" onClick={() => cmd('underline')}><u>U</u></IconBtn>
+      <IconBtn title="Strikethrough" onClick={() => cmd('strikeThrough')}><s>S</s></IconBtn>
+      <IconBtn title="Superscript" onClick={() => cmd('superscript')}>x²</IconBtn>
+      <IconBtn title="Subscript" onClick={() => cmd('subscript')}>x₂</IconBtn>
+      <Divider />
+
+      {/* Alignment */}
+      <IconBtn title="Align left" onClick={() => cmd('justifyLeft')}>⬅</IconBtn>
+      <IconBtn title="Align center" onClick={() => cmd('justifyCenter')}>☰</IconBtn>
+      <IconBtn title="Align right" onClick={() => cmd('justifyRight')}>➡</IconBtn>
+      <IconBtn title="Justify" onClick={() => cmd('justifyFull')}>≡</IconBtn>
+      <Divider />
+
+      {/* Lists & indent */}
+      <IconBtn title="Bullet list" onClick={() => cmd('insertUnorderedList')}>•≡</IconBtn>
+      <IconBtn title="Numbered list" onClick={() => cmd('insertOrderedList')}>1≡</IconBtn>
+      <IconBtn title="Indent" onClick={() => cmd('indent')}>→|</IconBtn>
+      <IconBtn title="Outdent" onClick={() => cmd('outdent')}>|←</IconBtn>
+      <Divider />
+
+      {/* Insert */}
+      <IconBtn title="Insert link" onClick={insertLink}>🔗</IconBtn>
+      <IconBtn title="Insert image" onClick={insertImage}>🖼</IconBtn>
+      <IconBtn title="Insert table" onClick={insertTable}>⊞</IconBtn>
+      <IconBtn title="Horizontal rule" onClick={() => cmd('insertHorizontalRule')}>—</IconBtn>
+      <Divider />
+
+      {/* Text colors */}
+      <span style={{ fontSize: '0.65rem', color: 'rgba(212,168,67,0.5)', marginRight: 2 }}>A</span>
+      <ColorDot color="#ffffff" title="White text" onClick={() => setColor('#ffffff')} />
+      <ColorDot color="#d4a843" title="Gold text" onClick={() => setColor('#d4a843')} />
+      <ColorDot color="#60a5fa" title="Blue text" onClick={() => setColor('#60a5fa')} />
+      <ColorDot color="#4ade80" title="Green text" onClick={() => setColor('#4ade80')} />
+      <ColorDot color="#f87171" title="Red text" onClick={() => setColor('#f87171')} />
+      <ColorDot color="#c084fc" title="Purple text" onClick={() => setColor('#c084fc')} />
+      <Divider />
+
+      {/* Highlight colors */}
+      <span style={{ fontSize: '0.65rem', color: 'rgba(212,168,67,0.5)', marginRight: 2 }}>H</span>
+      <ColorDot color="rgba(212,168,67,0.35)" title="Gold highlight" onClick={() => setHighlight('rgba(212,168,67,0.35)')} />
+      <ColorDot color="rgba(96,165,250,0.35)" title="Blue highlight" onClick={() => setHighlight('rgba(96,165,250,0.35)')} />
+      <ColorDot color="rgba(74,222,128,0.35)" title="Green highlight" onClick={() => setHighlight('rgba(74,222,128,0.35)')} />
+      <ColorDot color="rgba(248,113,113,0.35)" title="Red highlight" onClick={() => setHighlight('rgba(248,113,113,0.35)')} />
+      <Divider />
+
+      {/* Clear */}
+      <IconBtn title="Clear formatting" onClick={() => cmd('removeFormat')}>✕</IconBtn>
+      <IconBtn title="Remove link" onClick={() => cmd('unlink')}>🔗✕</IconBtn>
     </div>
   );
 }
