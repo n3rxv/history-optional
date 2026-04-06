@@ -474,7 +474,7 @@ const handleOcr = useCallback(async () => {
         .ev-wrote { background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:16px 18px; margin-bottom:18px; position:relative; }
         .ev-wrote::before { content:''; position:absolute; left:0; top:12px; bottom:12px; width:3px; background:linear-gradient(180deg,#3b82f6,rgba(59,130,246,0.2)); border-radius:0 2px 2px 0; }
         .ev-wrote-lbl { font-family:var(--font-mono); font-size:0.52rem; letter-spacing:0.25em; text-transform:uppercase; color:#3b82f6; margin-bottom:8px; padding-left:14px; }
-        .ev-wrote-txt { font-size:0.88rem; color:#888; line-height:1.75; font-style:normal; padding-left:14px; }
+        .ev-wrote-txt { font-size:0.88rem; color:#888; line-height:1.75; font-style:normal; padding-left:14px; text-align:justify; }
 
         /* ── ANALYSIS TEXT ── */
         .ev-analysis { font-size:0.92rem; color:#c8c8c8; line-height:1.85; margin-bottom:18px; font-family:var(--font-body); }
