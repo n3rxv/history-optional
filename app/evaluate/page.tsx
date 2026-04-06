@@ -567,8 +567,9 @@ const handleOcr = useCallback(async () => {
             {error && <div className="ev-err">{error}</div>}
             <textarea
               className="ev-ta"
-              style={{ minHeight:320, marginBottom:20 }}
-              value={extractedText}
+              style={{ minHeight:320, marginBottom:20, textAlign:"justify" }}
+              value={extractedText.replace(/--- PAGE BREAK ---/g, "
+")}
               onChange={e => setExtractedText(e.target.value)}
             />
             <div style={{ display:"flex", gap:12 }}>
