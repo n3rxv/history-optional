@@ -821,137 +821,180 @@ const handleOcr = useCallback(async () => {
             {/* EVALUATION TAB */}
             {tab==="eval" && (
               <div className="ev-fade">
-                <div className="ev-card">
-                  <div className="ev-ct">Demand of the Question</div>
-                  <div>{toArray(evaluation.demand_of_question).map((d,i) => (
-                    <div key={i} className="ev-demand-item">
-                      <div className="ev-demand-bullet" />
-                      <div className="ev-demand-txt">{d}</div>
-                    </div>
-                  ))}</div>
-                </div>
-                <div className="ev-card">
-                  <div className="ev-ct">Introduction</div>
-                  <div className="ev-wrote">
-                    <div className="ev-wrote-lbl">What you wrote</div>
-                    <div className="ev-wrote-txt">{evaluation.introduction.what_was_written}</div>
-                  </div>
-                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, margin:"16px 0" }}>
-                    <div style={{ background:"rgba(74,222,128,0.05)", border:"1px solid rgba(74,222,128,0.2)", borderRadius:8, padding:"12px 16px" }}>
-                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
-                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#4ade80", boxShadow:"0 0 6px #4ade80" }} />
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#4ade80", textTransform:"uppercase" }}>Strengths</span>
+                {/* Demand of Question — minimal pill row */}
+                <div className="ev-card" style={{ padding:"16px 20px" }}>
+                  <div className="ev-ct" style={{ marginBottom:12 }}>Demand of the Question</div>
+                  <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                    {toArray(evaluation.demand_of_question).map((d,i) => (
+                      <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
+                        <div style={{ width:4, height:4, borderRadius:"50%", background:"#555", marginTop:8, flexShrink:0 }} />
+                        <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{d}</div>
                       </div>
-                      {toArray(evaluation.introduction.strengths).map((s,i) => (
-                        <div key={i} style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)", marginBottom:8 }}>{s}</div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Section evaluator — Introduction */}
+                <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Introduction</span>
+                    {evaluation.section_marks?.introduction && (
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                        {evaluation.section_marks.introduction.awarded}<span style={{ color:"#555" }}>/{evaluation.section_marks.introduction.out_of}</span>
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)", background:"rgba(255,255,255,0.015)" }}>
+                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#555", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
+                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction.what_was_written}</div>
+                  </div>
+                  {toArray(evaluation.introduction.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).length > 0 && (
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                      {toArray(evaluation.introduction.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).map((s,i) => (
+                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.introduction.strengths).length - 1 ? 6 : 0 }}>
+                          <div style={{ width:5, height:5, borderRadius:"50%", background:"#4ade80", marginTop:7, flexShrink:0 }} />
+                          <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                        </div>
                       ))}
                     </div>
-                    <div style={{ background:"rgba(248,113,113,0.05)", border:"1px solid rgba(248,113,113,0.2)", borderRadius:8, padding:"12px 16px" }}>
-                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
-                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#f87171", boxShadow:"0 0 6px #f87171" }} />
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#f87171", textTransform:"uppercase" }}>Analysis</span>
-                      </div>
-                      <div style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)" }}>{evaluation.introduction.analysis}</div>
-                    </div>
+                  )}
+                  <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction.analysis}</div>
                   </div>
-                  {toArray(evaluation.introduction.suggestions).length > 0 && (<>
-                    <div className="ev-sl">Suggestions</div>
-                    <ul className="ev-list">{toArray(evaluation.introduction.suggestions).map((s,i) => <li key={i}>{s}</li>)}</ul>
-                  </>)}
-                  <div className="ev-card" style={{ marginTop:16, marginBottom:0, background:"rgba(59,130,246,0.04)", border:"1px solid rgba(59,130,246,0.15)" }}>
-                    <div className="ev-ct" style={{ color:"#3b82f6" }}>Model Introduction</div>
-                    <p style={{ fontSize:"0.9rem", color:"#c8c8c8", lineHeight:1.85, fontFamily:"var(--font-body)", margin:0 }}>
-                      {evaluation.model_answer.introduction}
-                    </p>
+                  {toArray(evaluation.introduction.suggestions).filter(s => s).length > 0 && (
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#555", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
+                      {toArray(evaluation.introduction.suggestions).map((s,i) => (
+                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.introduction.suggestions).length - 1 ? 8 : 0 }}>
+                          <div style={{ width:4, height:4, borderRadius:"50%", background:"#3b82f6", marginTop:8, flexShrink:0 }} />
+                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{ padding:"12px 20px", background:"rgba(59,130,246,0.03)" }}>
+                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#3b82f6", textTransform:"uppercase", marginBottom:8 }}>Model introduction</div>
+                    <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{evaluation.model_answer.introduction}</div>
                   </div>
                 </div>
-                <div className="ev-card">
-                  <div className="ev-ct">Body</div>
-                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, margin:"16px 0" }}>
-                    <div style={{ background:"rgba(74,222,128,0.05)", border:"1px solid rgba(74,222,128,0.2)", borderRadius:8, padding:"12px 16px" }}>
-                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
-                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#4ade80", boxShadow:"0 0 6px #4ade80" }} />
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#4ade80", textTransform:"uppercase" }}>Strengths</span>
-                      </div>
-                      {toArray(evaluation.body.strengths).map((s,i) => {
+
+                {/* Section evaluator — Body */}
+                <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Body</span>
+                    {evaluation.section_marks?.body && (
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                        {evaluation.section_marks.body.awarded}<span style={{ color:"#555" }}>/{evaluation.section_marks.body.out_of}</span>
+                      </span>
+                    )}
+                  </div>
+                  {toArray(evaluation.body.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use [")).length > 0 && (
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#4ade80", textTransform:"uppercase", marginBottom:8 }}>What worked</div>
+                      {toArray(evaluation.body.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use [")).map((s,i) => {
                         const tagMatch = s.match(/^\[([^\]]+)\]:\s*/);
                         const tag = tagMatch ? tagMatch[1] : null;
                         const text = tagMatch ? s.slice(tagMatch[0].length) : s;
                         return (
-                          <div key={i} style={{ marginBottom:10 }}>
-                            {tag && <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.52rem", letterSpacing:"0.15em", color:"#4ade80", textTransform:"uppercase", marginBottom:4 }}>{tag}</div>}
-                            <div style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)" }}>{text}</div>
+                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
+                            <div style={{ width:5, height:5, borderRadius:"50%", background:"#4ade80", marginTop:7, flexShrink:0 }} />
+                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>
+                              {tag && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", letterSpacing:"0.12em", color:"#4ade80", textTransform:"uppercase", background:"rgba(74,222,128,0.08)", border:"1px solid rgba(74,222,128,0.2)", borderRadius:4, padding:"2px 6px", marginRight:8, display:"inline-block", verticalAlign:"middle" }}>{tag}</span>}
+                              {text}
+                            </div>
                           </div>
                         );
                       })}
                     </div>
-                    <div style={{ background:"rgba(248,113,113,0.05)", border:"1px solid rgba(248,113,113,0.2)", borderRadius:8, padding:"12px 16px" }}>
-                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
-                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#f87171", boxShadow:"0 0 6px #f87171" }} />
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#f87171", textTransform:"uppercase" }}>Weaknesses</span>
-                      </div>
-                      {toArray(evaluation.body.weaknesses).map((w,i) => {
+                  )}
+                  {toArray(evaluation.body.weaknesses).filter(w => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use [")).length > 0 && (
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#f87171", textTransform:"uppercase", marginBottom:8 }}>What fell short</div>
+                      {toArray(evaluation.body.weaknesses).filter(w => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use [")).map((w,i) => {
                         const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
                         const tag = tagMatch ? tagMatch[1] : null;
                         const text = tagMatch ? w.slice(tagMatch[0].length) : w;
-                        const tagColors: Record<string,{color:string,dot:string}> = {
-                          "DEMAND GAP":              { color:"#fbbf24", dot:"#f59e0b" },
-                          "HISTORIAN MISSING":       { color:"#f87171", dot:"#ef4444" },
-                          "DESCRIPTIVE NOT ANALYTICAL": { color:"#a78bfa", dot:"#8b5cf6" },
-                          "FACTUAL ERROR":           { color:"#f87171", dot:"#ef4444" },
-                          "STRUCTURE ISSUE":         { color:"#818cf8", dot:"#6366f1" },
-                        } as any;
-                        const style = tag && tagColors[tag] ? tagColors[tag] : { color:"#f87171", dot:"#ef4444" };
+                        const tagColors: Record<string,string> = {
+                          "DEMAND GAP": "#fbbf24",
+                          "HISTORIAN MISSING": "#f87171",
+                          "DESCRIPTIVE NOT ANALYTICAL": "#a78bfa",
+                          "FACTUAL ERROR": "#f87171",
+                          "STRUCTURE ISSUE": "#818cf8",
+                        };
+                        const dotColor = tag && tagColors[tag] ? tagColors[tag] : "#f87171";
                         return (
-                          <div key={i} style={{ marginBottom:10 }}>
-                            {tag && <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.52rem", letterSpacing:"0.15em", color:style.color, textTransform:"uppercase", marginBottom:4 }}>{tag}</div>}
-                            <div style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)" }}>{text}</div>
+                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
+                            <div style={{ width:5, height:5, borderRadius:"50%", background:dotColor, marginTop:7, flexShrink:0 }} />
+                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>
+                              {tag && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", letterSpacing:"0.12em", color:dotColor, textTransform:"uppercase", background:`rgba(${dotColor === "#fbbf24" ? "251,191,36" : dotColor === "#a78bfa" ? "167,139,250" : dotColor === "#818cf8" ? "99,102,241" : "248,113,113"},0.08)`, border:`1px solid ${dotColor}33`, borderRadius:4, padding:"2px 6px", marginRight:8, display:"inline-block", verticalAlign:"middle" }}>{tag}</span>}
+                              {text}
+                            </div>
                           </div>
                         );
                       })}
                     </div>
-                  </div>
-                  <div className="ev-sl">Suggestions</div>
-                  <ul className="ev-list">{toArray(evaluation.body.suggestions).map((s,i) => <li key={i}>{s}</li>)}</ul>
-                </div>
-                <div className="ev-card">
-                  <div className="ev-ct">Conclusion</div>
-                  <div className="ev-wrote">
-                    <div className="ev-wrote-lbl">What you wrote</div>
-                    <div className="ev-wrote-txt">{evaluation.conclusion.what_was_written}</div>
-                  </div>
-                  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, margin:"16px 0" }}>
-                    <div style={{ background:"rgba(74,222,128,0.05)", border:"1px solid rgba(74,222,128,0.2)", borderRadius:8, padding:"12px 16px" }}>
-                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
-                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#4ade80", boxShadow:"0 0 6px #4ade80" }} />
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#4ade80", textTransform:"uppercase" }}>Strengths</span>
-                      </div>
-                      {toArray(evaluation.conclusion.strengths).map((s,i) => (
-                        <div key={i} style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)", marginBottom:8 }}>{s}</div>
+                  )}
+                  {toArray(evaluation.body.suggestions).filter(s => s).length > 0 && (
+                    <div style={{ padding:"12px 20px" }}>
+                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#555", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
+                      {toArray(evaluation.body.suggestions).map((s,i) => (
+                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.body.suggestions).length - 1 ? 10 : 0 }}>
+                          <div style={{ width:4, height:4, borderRadius:"50%", background:"#3b82f6", marginTop:8, flexShrink:0 }} />
+                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                        </div>
                       ))}
                     </div>
-                    <div style={{ background:"rgba(248,113,113,0.05)", border:"1px solid rgba(248,113,113,0.2)", borderRadius:8, padding:"12px 16px" }}>
-                      <div style={{ display:"flex", alignItems:"center", gap:7, marginBottom:10 }}>
-                        <div style={{ width:6, height:6, borderRadius:"50%", background:"#f87171", boxShadow:"0 0 6px #f87171" }} />
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.2em", color:"#f87171", textTransform:"uppercase" }}>Analysis</span>
-                      </div>
-                      <div style={{ fontSize:"0.88rem", color:"#c0c0c0", lineHeight:1.75, fontFamily:"var(--font-body)" }}>{evaluation.conclusion.analysis}</div>
-                    </div>
+                  )}
+                </div>
+
+                {/* Section evaluator — Conclusion */}
+                <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Conclusion</span>
+                    {evaluation.section_marks?.conclusion && (
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                        {evaluation.section_marks.conclusion.awarded}<span style={{ color:"#555" }}>/{evaluation.section_marks.conclusion.out_of}</span>
+                      </span>
+                    )}
                   </div>
-                  {toArray(evaluation.conclusion.suggestions).length > 0 && (<>
-                    <div className="ev-sl">Suggestions</div>
-                    <ul className="ev-list">{toArray(evaluation.conclusion.suggestions).map((s,i) => <li key={i}>{s}</li>)}</ul>
-                  </>)}
-                  <div className="ev-card" style={{ marginTop:16, marginBottom:0, background:"rgba(74,222,128,0.03)", border:"1px solid rgba(74,222,128,0.12)" }}>
-                    <div className="ev-ct" style={{ color:"rgba(74,222,128,0.7)" }}>Model Conclusion</div>
-                    <p style={{ fontSize:"0.9rem", color:"#c8c8c8", lineHeight:1.85, fontFamily:"var(--font-body)", margin:0 }}>
-                      {evaluation.model_answer.conclusion}
-                    </p>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)", background:"rgba(255,255,255,0.015)" }}>
+                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#555", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
+                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion.what_was_written}</div>
+                  </div>
+                  {toArray(evaluation.conclusion.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).length > 0 && (
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                      {toArray(evaluation.conclusion.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).map((s,i) => (
+                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
+                          <div style={{ width:5, height:5, borderRadius:"50%", background:"#4ade80", marginTop:7, flexShrink:0 }} />
+                          <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion.analysis}</div>
+                  </div>
+                  {toArray(evaluation.conclusion.suggestions).filter(s => s).length > 0 && (
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#555", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
+                      {toArray(evaluation.conclusion.suggestions).map((s,i) => (
+                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.conclusion.suggestions).length - 1 ? 8 : 0 }}>
+                          <div style={{ width:4, height:4, borderRadius:"50%", background:"#3b82f6", marginTop:8, flexShrink:0 }} />
+                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{ padding:"12px 20px", background:"rgba(74,222,128,0.02)" }}>
+                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"rgba(74,222,128,0.5)", textTransform:"uppercase", marginBottom:8 }}>Model conclusion</div>
+                    <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{evaluation.model_answer.conclusion}</div>
                   </div>
                 </div>
-                <div className="ev-card ev-card-gold">
-                  <div className="ev-ct">Overall Feedback</div>
-                  <p className="ev-overall-txt">{evaluation.overall_feedback}</p>
+
+                {/* Overall feedback */}
+                <div className="ev-card ev-card-gold" style={{ padding:"16px 20px" }}>
+                  <div className="ev-ct" style={{ marginBottom:10 }}>Overall Feedback</div>
+                  <p className="ev-overall-txt" style={{ margin:0, lineHeight:1.8 }}>{evaluation.overall_feedback}</p>
                 </div>
               </div>
             )}
