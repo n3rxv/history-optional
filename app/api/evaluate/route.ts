@@ -471,30 +471,34 @@ NOW TRANSCRIBE: ${imageContents.length} PAGE(S)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Go page by page. Do not rush. Every word matters.`;
 
-      const ocrRes = await groqFetch(
-        {
-          model: "meta-llama/llama-4-scout-17b-16e-instruct",
-          messages: [
-            {
-              role: "user",
-              content: [
-                ...imageContents,
-                { type: "text", text: ocrPrompt },
-              ],
-            },
-          ],
-          temperature: 0.0,
-          max_tokens: 4000,
-        },
-        process.env.GROQ_API_KEY!
-      );
+      const geminiParts = [
+        ...imageContents.map((img: { type: string; image_url: { url: string } }) => {
+          const matches = img.image_url.url.match(/^data:([^;]+);base64,(.+)$/);
+          return matches
+            ? { inline_data: { mime_type: matches[1], data: matches[2] } }
+            : null;
+        }).filter(Boolean),
+        { text: ocrPrompt },
+      ];
 
+      const ocrRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${process.env.GEMINI_API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: geminiParts }],
+            generationConfig: { temperature: 0.0, maxOutputTokens: 4000 },
+          }),
+        }
+      );
       if (ocrRes.ok) {
         const ocrData = await ocrRes.json();
-        finalTranscript = ocrData.choices[0].message.content?.trim() || "";
-        console.log("Pass 0 OCR transcript:\n", finalTranscript.slice(0, 300));
+        finalTranscript = ocrData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+        console.log("Pass 0 OCR transcript (Gemini):\n", finalTranscript.slice(0, 300));
       } else {
-        console.log("Pass 0 OCR failed, will fall back to in-line image reading in Pass 1");
+        const errText = await ocrRes.text();
+        console.log("Pass 0 Gemini OCR failed:", errText, "— falling back to in-line image reading in Pass 1");
       }
 
       // Brief pause before Pass 1
