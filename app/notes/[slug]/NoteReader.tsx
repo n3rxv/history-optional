@@ -62,145 +62,227 @@ function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLD
   const setHighlight = (color: string) => cmd('hiliteColor', color);
   const setFontSize = (size: string) => cmd('fontSize', size);
 
-  const IconBtn = ({ title, onClick, children }: { title: string; onClick: () => void; children: React.ReactNode }) => (
+  const IconBtn = ({ title, onClick, children, danger }: { title: string; onClick: () => void; children: React.ReactNode; danger?: boolean }) => (
     <button
       onMouseDown={e => { e.preventDefault(); onClick(); }}
       title={title}
       style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        width: 28, height: 28, borderRadius: 5, cursor: 'pointer',
+        width: 30, height: 30, borderRadius: 6, cursor: 'pointer',
         background: 'transparent', border: '1px solid transparent',
-        color: '#c9a84c', fontSize: '0.82rem', fontWeight: 700,
-        transition: 'all 0.15s',
+        color: danger ? '#f87171' : '#c9a84c',
+        fontSize: '0.85rem', fontWeight: 700,
+        transition: 'background 0.12s, border-color 0.12s, transform 0.1s',
+        flexShrink: 0,
       }}
-      onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = 'rgba(212,168,67,0.15)'; (e.target as HTMLButtonElement).style.borderColor = 'rgba(212,168,67,0.3)'; }}
-      onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = 'transparent'; (e.target as HTMLButtonElement).style.borderColor = 'transparent'; }}
+      onMouseEnter={e => {
+        const el = e.currentTarget;
+        el.style.background = danger ? 'rgba(248,113,113,0.12)' : 'rgba(212,168,67,0.13)';
+        el.style.borderColor = danger ? 'rgba(248,113,113,0.3)' : 'rgba(212,168,67,0.35)';
+        el.style.transform = 'translateY(-1px)';
+      }}
+      onMouseLeave={e => {
+        const el = e.currentTarget;
+        el.style.background = 'transparent';
+        el.style.borderColor = 'transparent';
+        el.style.transform = 'none';
+      }}
     >
       {children}
     </button>
   );
 
-  const Divider = () => <div style={{ width: 1, height: 20, background: 'rgba(212,168,67,0.2)', margin: '0 3px', flexShrink: 0 }} />;
+  const Divider = () => (
+    <div style={{
+      width: 1, height: 22, margin: '0 4px', flexShrink: 0,
+      background: 'linear-gradient(to bottom, transparent, rgba(212,168,67,0.25), transparent)',
+    }} />
+  );
 
-  const ColorDot = ({ color, title, onClick }: { color: string; title: string; onClick: () => void }) => (
+  const Group = ({ children }: { children: React.ReactNode }) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 1, padding: '0 2px' }}>
+      {children}
+    </div>
+  );
+
+  const StyledSelect = ({ onChange, defaultValue, children, width }: any) => (
+    <select
+      onMouseDown={e => e.stopPropagation()}
+      onChange={onChange}
+      defaultValue={defaultValue}
+      style={{
+        background: 'rgba(212,168,67,0.07)',
+        border: '1px solid rgba(212,168,67,0.22)',
+        color: '#c9a84c', borderRadius: 6, padding: '0 6px',
+        fontSize: '0.73rem', fontWeight: 600,
+        cursor: 'pointer', height: 30, width: width ?? 'auto',
+        outline: 'none', letterSpacing: '0.02em',
+        transition: 'border-color 0.12s',
+      }}
+    >
+      {children}
+    </select>
+  );
+
+  const ColorSwatch = ({ color, title, onClick, ring }: { color: string; title: string; onClick: () => void; ring?: string }) => (
     <button
       onMouseDown={e => { e.preventDefault(); onClick(); }}
       title={title}
-      style={{ width: 16, height: 16, borderRadius: '50%', background: color, border: '2px solid rgba(255,255,255,0.15)', cursor: 'pointer', flexShrink: 0 }}
+      style={{
+        width: 17, height: 17, borderRadius: 4,
+        background: color,
+        border: `2px solid ${ring ?? 'rgba(255,255,255,0.1)'}`,
+        cursor: 'pointer', flexShrink: 0,
+        transition: 'transform 0.1s, border-color 0.1s',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.4)',
+      }}
+      onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.25)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.borderColor = ring ?? 'rgba(255,255,255,0.1)'; }}
     />
+  );
+
+  const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+    <span style={{
+      fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em',
+      color: 'rgba(212,168,67,0.4)', textTransform: 'uppercase', userSelect: 'none',
+    }}>{children}</span>
   );
 
   return (
     <div style={{
       position: 'sticky', top: 0, zIndex: 100,
       display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center',
-      padding: '6px 10px',
-      background: 'rgba(18,16,12,0.97)',
-      backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(212,168,67,0.2)',
-      borderRadius: 8,
-      marginBottom: '1rem',
-      boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
+      padding: '5px 10px',
+      background: 'linear-gradient(135deg, rgba(15,13,9,0.98) 0%, rgba(22,19,12,0.98) 100%)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      borderBottom: '1px solid rgba(212,168,67,0.18)',
+      borderRadius: '0 0 10px 10px',
+      marginBottom: '1.2rem',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(212,168,67,0.1)',
     }}>
-      {/* History */}
-      <IconBtn title="Undo" onClick={() => cmd('undo')}>↩</IconBtn>
-      <IconBtn title="Redo" onClick={() => cmd('redo')}>↪</IconBtn>
+      <Group>
+        <IconBtn title="Undo (Cmd+Z)" onClick={() => cmd('undo')}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+        </IconBtn>
+        <IconBtn title="Redo (Cmd+Shift+Z)" onClick={() => cmd('redo')}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"/></svg>
+        </IconBtn>
+      </Group>
       <Divider />
 
-      {/* Block format dropdown */}
-      <select
-        onMouseDown={e => e.stopPropagation()}
-        onChange={e => { cmd('formatBlock', e.target.value); contentRef.current?.focus(); }}
-        style={{
-          background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)',
-          color: '#c9a84c', borderRadius: 5, padding: '2px 4px', fontSize: '0.75rem',
-          cursor: 'pointer', height: 28,
-        }}
-        defaultValue=""
-      >
-        <option value="" disabled>Style</option>
-        <option value="h1">Heading 1</option>
-        <option value="h2">Heading 2</option>
-        <option value="h3">Heading 3</option>
-        <option value="h4">Heading 4</option>
-        <option value="p">Paragraph</option>
-        <option value="blockquote">Blockquote</option>
-        <option value="pre">Code Block</option>
-      </select>
-
-      {/* Font size */}
-      <select
-        onMouseDown={e => e.stopPropagation()}
-        onChange={e => { setFontSize(e.target.value); contentRef.current?.focus(); }}
-        style={{
-          background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.2)',
-          color: '#c9a84c', borderRadius: 5, padding: '2px 4px', fontSize: '0.75rem',
-          cursor: 'pointer', height: 28, width: 46,
-        }}
-        defaultValue=""
-      >
-        <option value="" disabled>Size</option>
-        <option value="1">10</option>
-        <option value="2">13</option>
-        <option value="3">16</option>
-        <option value="4">18</option>
-        <option value="5">24</option>
-        <option value="6">32</option>
-        <option value="7">48</option>
-      </select>
+      <Group>
+        <StyledSelect width={88} defaultValue="" onChange={(e: any) => { cmd('formatBlock', e.target.value); contentRef.current?.focus(); }}>
+          <option value="" disabled>Style</option>
+          <option value="h1">Heading 1</option>
+          <option value="h2">Heading 2</option>
+          <option value="h3">Heading 3</option>
+          <option value="h4">Heading 4</option>
+          <option value="p">Paragraph</option>
+          <option value="blockquote">Quote</option>
+          <option value="pre">Code</option>
+        </StyledSelect>
+        <StyledSelect width={52} defaultValue="" onChange={(e: any) => { setFontSize(e.target.value); contentRef.current?.focus(); }}>
+          <option value="" disabled>Sz</option>
+          <option value="1">10</option>
+          <option value="2">13</option>
+          <option value="3">16</option>
+          <option value="4">18</option>
+          <option value="5">24</option>
+          <option value="6">32</option>
+          <option value="7">48</option>
+        </StyledSelect>
+      </Group>
       <Divider />
 
-      {/* Text style */}
-      <IconBtn title="Bold" onClick={() => cmd('bold')}><b>B</b></IconBtn>
-      <IconBtn title="Italic" onClick={() => cmd('italic')}><i>I</i></IconBtn>
-      <IconBtn title="Underline" onClick={() => cmd('underline')}><u>U</u></IconBtn>
-      <IconBtn title="Strikethrough" onClick={() => cmd('strikeThrough')}><s>S</s></IconBtn>
-      <IconBtn title="Superscript" onClick={() => cmd('superscript')}>x²</IconBtn>
-      <IconBtn title="Subscript" onClick={() => cmd('subscript')}>x₂</IconBtn>
+      <Group>
+        <IconBtn title="Bold (Cmd+B)" onClick={() => cmd('bold')}><b style={{fontFamily:'Georgia,serif',fontSize:'0.95rem'}}>B</b></IconBtn>
+        <IconBtn title="Italic (Cmd+I)" onClick={() => cmd('italic')}><i style={{fontFamily:'Georgia,serif',fontSize:'0.95rem'}}>I</i></IconBtn>
+        <IconBtn title="Underline (Cmd+U)" onClick={() => cmd('underline')}><span style={{textDecoration:'underline',fontFamily:'Georgia,serif',fontSize:'0.9rem'}}>U</span></IconBtn>
+        <IconBtn title="Strikethrough" onClick={() => cmd('strikeThrough')}><s style={{fontFamily:'Georgia,serif',fontSize:'0.9rem'}}>S</s></IconBtn>
+        <IconBtn title="Superscript" onClick={() => cmd('superscript')}><span style={{fontSize:'0.7rem'}}>x<sup style={{fontSize:'0.6rem'}}>2</sup></span></IconBtn>
+        <IconBtn title="Subscript" onClick={() => cmd('subscript')}><span style={{fontSize:'0.7rem'}}>x<sub style={{fontSize:'0.6rem'}}>2</sub></span></IconBtn>
+      </Group>
       <Divider />
 
-      {/* Alignment */}
-      <IconBtn title="Align left" onClick={() => cmd('justifyLeft')}>⬅</IconBtn>
-      <IconBtn title="Align center" onClick={() => cmd('justifyCenter')}>☰</IconBtn>
-      <IconBtn title="Align right" onClick={() => cmd('justifyRight')}>➡</IconBtn>
-      <IconBtn title="Justify" onClick={() => cmd('justifyFull')}>≡</IconBtn>
+      <Group>
+        <IconBtn title="Align left" onClick={() => cmd('justifyLeft')}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="2" rx="1"/><rect x="3" y="10" width="12" height="2" rx="1"/><rect x="3" y="15" width="18" height="2" rx="1"/><rect x="3" y="20" width="10" height="2" rx="1"/></svg>
+        </IconBtn>
+        <IconBtn title="Center" onClick={() => cmd('justifyCenter')}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="2" rx="1"/><rect x="6" y="10" width="12" height="2" rx="1"/><rect x="3" y="15" width="18" height="2" rx="1"/><rect x="7" y="20" width="10" height="2" rx="1"/></svg>
+        </IconBtn>
+        <IconBtn title="Align right" onClick={() => cmd('justifyRight')}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="2" rx="1"/><rect x="9" y="10" width="12" height="2" rx="1"/><rect x="3" y="15" width="18" height="2" rx="1"/><rect x="11" y="20" width="10" height="2" rx="1"/></svg>
+        </IconBtn>
+        <IconBtn title="Justify" onClick={() => cmd('justifyFull')}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="2" rx="1"/><rect x="3" y="10" width="18" height="2" rx="1"/><rect x="3" y="15" width="18" height="2" rx="1"/><rect x="3" y="20" width="18" height="2" rx="1"/></svg>
+        </IconBtn>
+      </Group>
       <Divider />
 
-      {/* Lists & indent */}
-      <IconBtn title="Bullet list" onClick={() => cmd('insertUnorderedList')}>•≡</IconBtn>
-      <IconBtn title="Numbered list" onClick={() => cmd('insertOrderedList')}>1≡</IconBtn>
-      <IconBtn title="Indent" onClick={() => cmd('indent')}>→|</IconBtn>
-      <IconBtn title="Outdent" onClick={() => cmd('outdent')}>|←</IconBtn>
+      <Group>
+        <IconBtn title="Bullet list" onClick={() => cmd('insertUnorderedList')}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="4" cy="6" r="1.5"/><rect x="8" y="5" width="13" height="2" rx="1"/><circle cx="4" cy="12" r="1.5"/><rect x="8" y="11" width="13" height="2" rx="1"/><circle cx="4" cy="18" r="1.5"/><rect x="8" y="17" width="13" height="2" rx="1"/></svg>
+        </IconBtn>
+        <IconBtn title="Numbered list" onClick={() => cmd('insertOrderedList')}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+        </IconBtn>
+        <IconBtn title="Indent" onClick={() => cmd('indent')}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/><polyline points="3,9 6,12 3,15"/></svg>
+        </IconBtn>
+        <IconBtn title="Outdent" onClick={() => cmd('outdent')}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/><polyline points="7,9 4,12 7,15"/></svg>
+        </IconBtn>
+      </Group>
       <Divider />
 
-      {/* Insert */}
-      <IconBtn title="Insert link" onClick={insertLink}>🔗</IconBtn>
-      <IconBtn title="Insert image" onClick={insertImage}>🖼</IconBtn>
-      <IconBtn title="Insert table" onClick={insertTable}>⊞</IconBtn>
-      <IconBtn title="Horizontal rule" onClick={() => cmd('insertHorizontalRule')}>—</IconBtn>
+      <Group>
+        <IconBtn title="Insert link" onClick={insertLink}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </IconBtn>
+        <IconBtn title="Insert image" onClick={insertImage}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
+        </IconBtn>
+        <IconBtn title="Insert table" onClick={insertTable}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+        </IconBtn>
+        <IconBtn title="Horizontal rule" onClick={() => cmd('insertHorizontalRule')}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12"/></svg>
+        </IconBtn>
+      </Group>
       <Divider />
 
-      {/* Text colors */}
-      <span style={{ fontSize: '0.65rem', color: 'rgba(212,168,67,0.5)', marginRight: 2 }}>A</span>
-      <ColorDot color="#ffffff" title="White text" onClick={() => setColor('#ffffff')} />
-      <ColorDot color="#d4a843" title="Gold text" onClick={() => setColor('#d4a843')} />
-      <ColorDot color="#60a5fa" title="Blue text" onClick={() => setColor('#60a5fa')} />
-      <ColorDot color="#4ade80" title="Green text" onClick={() => setColor('#4ade80')} />
-      <ColorDot color="#f87171" title="Red text" onClick={() => setColor('#f87171')} />
-      <ColorDot color="#c084fc" title="Purple text" onClick={() => setColor('#c084fc')} />
+      <Group>
+        <SectionLabel>A</SectionLabel>
+        <ColorSwatch color="#f8f8f2" title="White" onClick={() => setColor('#f8f8f2')} />
+        <ColorSwatch color="#d4a843" title="Gold" onClick={() => setColor('#d4a843')} ring="rgba(212,168,67,0.5)" />
+        <ColorSwatch color="#60a5fa" title="Blue" onClick={() => setColor('#60a5fa')} />
+        <ColorSwatch color="#4ade80" title="Green" onClick={() => setColor('#4ade80')} />
+        <ColorSwatch color="#f87171" title="Red" onClick={() => setColor('#f87171')} />
+        <ColorSwatch color="#c084fc" title="Purple" onClick={() => setColor('#c084fc')} />
+        <ColorSwatch color="#fb923c" title="Orange" onClick={() => setColor('#fb923c')} />
+      </Group>
       <Divider />
 
-      {/* Highlight colors */}
-      <span style={{ fontSize: '0.65rem', color: 'rgba(212,168,67,0.5)', marginRight: 2 }}>H</span>
-      <ColorDot color="rgba(212,168,67,0.35)" title="Gold highlight" onClick={() => setHighlight('rgba(212,168,67,0.35)')} />
-      <ColorDot color="rgba(96,165,250,0.35)" title="Blue highlight" onClick={() => setHighlight('rgba(96,165,250,0.35)')} />
-      <ColorDot color="rgba(74,222,128,0.35)" title="Green highlight" onClick={() => setHighlight('rgba(74,222,128,0.35)')} />
-      <ColorDot color="rgba(248,113,113,0.35)" title="Red highlight" onClick={() => setHighlight('rgba(248,113,113,0.35)')} />
+      <Group>
+        <SectionLabel>H</SectionLabel>
+        <ColorSwatch color="rgba(212,168,67,0.4)" title="Gold highlight" onClick={() => setHighlight('rgba(212,168,67,0.4)')} ring="rgba(212,168,67,0.5)" />
+        <ColorSwatch color="rgba(96,165,250,0.4)" title="Blue highlight" onClick={() => setHighlight('rgba(96,165,250,0.4)')} />
+        <ColorSwatch color="rgba(74,222,128,0.4)" title="Green highlight" onClick={() => setHighlight('rgba(74,222,128,0.4)')} />
+        <ColorSwatch color="rgba(248,113,113,0.4)" title="Red highlight" onClick={() => setHighlight('rgba(248,113,113,0.4)')} />
+        <ColorSwatch color="rgba(192,132,252,0.4)" title="Purple highlight" onClick={() => setHighlight('rgba(192,132,252,0.4)')} />
+      </Group>
       <Divider />
 
-      {/* Clear */}
-      <IconBtn title="Clear formatting" onClick={() => cmd('removeFormat')}>✕</IconBtn>
-      <IconBtn title="Remove link" onClick={() => cmd('unlink')}>🔗✕</IconBtn>
+      <Group>
+        <IconBtn title="Clear formatting" onClick={() => cmd('removeFormat')} danger>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19l7-7-4-4-7 7 4 4z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><line x1="2" y1="22" x2="22" y2="2"/></svg>
+        </IconBtn>
+        <IconBtn title="Remove link" onClick={() => cmd('unlink')} danger>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+        </IconBtn>
+      </Group>
     </div>
   );
 }
