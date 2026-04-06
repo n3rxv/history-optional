@@ -169,52 +169,42 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
 
 {
   "demand_of_question": [
-    "Primary demand: [write the actual directive word from the question and exactly what it requires the student to do — e.g. 'EXPLAIN requires the student to give reasons and mechanisms, not just describe outcomes']",
-    "Thematic demand: [write the specific historical content that MUST appear — name the exact themes, periods, regions, processes the question targets]",
-    "Methodological demand: [write what historiographical depth is expected — which debates, which historians, what level of source-criticism is needed for THIS question specifically]"
+    "What the directive word requires (DISCUSS/EXPLAIN/ANALYSE/EXAMINE) — one sentence on what this specifically demands from the student.",
+    "What historical content must appear — name the exact themes, events, regions, processes the question targets.",
+    "What historiographical depth is expected — which specific debates and historians are non-negotiable for this question."
   ],
   "introduction": {
-    "what_was_written": "Quote or closely paraphrase the exact opening sentence(s) the student wrote.",
+    "what_was_written": "Quote the exact opening sentence(s) the student wrote.",
     "strengths": [
-      "IMPORTANT: Only include if genuinely present. Use [WHAT WORKED] tag: quote the exact phrase from the intro that was strongest and explain specifically why it earns credit. Use [CONCEPTUAL GRASP] tag: ONLY if the student showed historiographical awareness beyond surface description. If nothing genuine to praise, return empty array."
+      "One sentence on what genuinely worked in the introduction — quote the student's exact words and say precisely why it earns credit. If nothing genuinely worked, return empty array."
     ],
-    "analysis": "Elaborate judgment across ALL of these dimensions: (1) Did it open with a historiographical debate or a definition/narrative/date? Quote the exact phrase that shows this. (2) Did it name a MODERN historian with their SPECIFIC thesis, or just a primary source/general statement? Name who was cited and whether their argument was stated. (3) Did it preview the argument the answer would make, or just set context? (4) What band does this introduction fall in and exactly why? Be as specific as possible — reference the student's actual words.",
+    "analysis": "2-3 sentences maximum. Did it open with a historiographical debate or a definition? Did it name a historian with their specific thesis or just their name? Was the analytical frame clear? Quote the student's exact words in your judgement.",
     "suggestions": [
-      "Write out EXACTLY what the opening sentence of a strong introduction for THIS question should look like — name the specific historiographical debate, the two competing positions, and the historians on each side. e.g. 'A strong intro should have opened: Whether Mauryan expansion was primarily a vehicle of Gangetic cultural imperialism as R.S. Sharma implies through his agrarian-state model, or a more complex process of acculturation and regional synthesis as B.D. Chattopadhyaya argues, remains the central problem...'",
-      "Name the specific conceptual frame this question demanded and explain WHY the student's intro fell short of it — what debate was completely absent, which historian's thesis was the essential anchor."
+      "Write the exact opening sentence this introduction should have had — name the debate, the two positions, the historians on each side.",
+      "Name the one conceptual frame that was completely missing and why it was essential for this question."
     ]
   },
   "body": {
     "strengths": [
-      "IMPORTANT: Only include a strength if it GENUINELY exists. Do NOT pad with generic praise. Each strength must start with its tag in square brackets. Only use these tags if truly applicable:",
-      "Use [HISTORIAN WELL USED]: ONLY if the student correctly cited a historian with their actual argument, not just their name.",
-      "Use [ANALYTICAL MOVE]: ONLY if the student made a genuine analytical argument — weighed interpretations, explained causation, or connected evidence to the question.",
-      "Use [CONTENT STRENGTH]: ONLY if the student correctly identified a specific fact, mechanism, or policy that shows real command of the topic.",
-      "Use [HISTORIOGRAPHICAL AWARENESS]: ONLY if the student showed awareness of a debate or competing interpretations, even partially.",
-      "If the answer is weak with no genuine strengths, the strengths array may have just 1 entry acknowledging what little worked, or note the attempt honestly."
+      "One sentence per genuine strength — quote the student's exact phrase and say precisely why it earns credit. Only include what genuinely exists. If nothing worked, return empty array."
     ],
     "weaknesses": [
-      "IMPORTANT: Only include a weakness if it GENUINELY exists in this specific answer. Do NOT manufacture weaknesses to fill slots. If the answer is strong, this array may have just 1 entry or even be empty. Each weakness must start with its tag in square brackets. Only use these tags if truly applicable:",
-      "Use [DEMAND GAP]: ONLY if a major dimension the question explicitly demanded is completely absent — not just underdeveloped. Name the missing dimension and the historian who addresses it.",
-      "Use [DESCRIPTIVE NOT ANALYTICAL]: ONLY if the student listed facts without making an argument. Quote the exact descriptive passage and explain the specific analytical move that was needed.",
-      "Use [HISTORIAN MISSING]: ONLY if a historian whose argument is essential and non-negotiable for this question is absent. Name them, their thesis, and why their absence specifically weakens this answer.",
-      "Use [FACTUAL ERROR]: ONLY if the student stated something demonstrably incorrect. Quote the exact error and correct it with evidence.",
-      "Use [STRUCTURE ISSUE]: ONLY if the answer has a genuine structural problem affecting clarity or argument flow."
+      "One sentence per genuine weakness prefixed with [DEMAND GAP], [DESCRIPTIVE NOT ANALYTICAL], [HISTORIAN MISSING], [FACTUAL ERROR], or [STRUCTURE ISSUE] — only use a tag if that problem genuinely exists. Quote the student's exact words. If the answer is strong, return empty array or just one entry."
     ],
     "suggestions": [
-      "Give a FULLY WRITTEN example of what one strong body point for this answer should look like — include the analytical claim, the specific evidence (inscription/text/policy/date), the historian's name and exact argument, and the analytical link to the question. This should be 3-4 sentences minimum.",
-      "Name a second specific historian + their exact argument + how it should have appeared in this answer as a distinct body point with its own claim and evidence."
+      "Write one complete model body point — analytical claim + specific evidence + named historian + their exact argument + link to the question. 2-3 sentences.",
+      "Name one more historian whose argument was essential, their thesis in one sentence, and how it should have appeared."
     ]
   },
   "conclusion": {
-    "what_was_written": "Quote or closely paraphrase the exact conclusion the student wrote.",
+    "what_was_written": "Quote the exact conclusion the student wrote.",
     "strengths": [
-      "IMPORTANT: Only include if genuinely present. Use [SYNTHESIS ATTEMPT] tag: quote any phrase where the student tried to synthesise or take a position. Use [HISTORIOGRAPHICAL AWARENESS] tag: ONLY if the student cited a historian or framed a position in the conclusion. If nothing genuine to praise, return empty array."
+      "One sentence on what genuinely worked — quote the student's exact words. If nothing worked, return empty array."
     ],
-    "analysis": "Write 4-6 sentences of detailed, specific analysis — NEVER a one-liner or vague summary. Cover ALL of: (1) Did it synthesise multiple threads from the body — name the specific threads included and any dropped. (2) Did it take a clear historiographical position? Quote the EXACT phrase that shows this, or state explicitly it failed to. (3) Did it resolve the central tension from the introduction — name that tension and say whether this conclusion answered or ignored it. (4) Quote a specific phrase from the conclusion and analyse whether it connects back to the intro's framing or introduces new material. (5) Which band does this fall in and why, mapped word-for-word to the student's text. Be concrete, specific, never generic.",
+    "analysis": "2-3 sentences maximum. Did it synthesise or just repeat? Did it take a clear historiographical position? Did it resolve the tension from the introduction? Quote the student's exact words in your judgement.",
     "suggestions": [
-      "Write out EXACTLY what this conclusion should have argued — give the specific synthesis position for THIS question, naming the historiographical tension that needed resolving and how to resolve it in 2-3 sentences.",
-      "Name the specific historiographical debate that needed to be adjudicated in the conclusion — which historian's position should have been affirmed, qualified, or rejected, and on what grounds — tied specifically to the evidence the student actually presented."
+      "Write exactly what this conclusion should have argued — the specific synthesis position, the tension resolved, in 2-3 sentences.",
+      "Name the historiographical debate that needed adjudicating and which position the evidence supports."
     ]
   },
   "historians_to_cite": [
