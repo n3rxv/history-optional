@@ -222,7 +222,7 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     ],
     "conclusion": "2-3 sentence synthesis. Takes a clear position, connects to intro frame. No new material."
   },
-  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. No marks mentioned. No band numbers.",
+  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. NEVER mention marks, numbers, scores, bands, or any suggestion of what score a change would produce.",
   "section_marks": {
     "introduction": { "awarded": 1.5, "out_of": 2, "reasoning": "One sentence explaining this section's score" },
     "body":         { "awarded": 4.5, "out_of": 8, "reasoning": "One sentence explaining this section's score" },
@@ -763,10 +763,10 @@ Now write RICH, SPECIFIC qualitative feedback. Use your deep knowledge of UPSC H
 
 Return ONLY a JSON object with these exact fields:
 {
-  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. No marks mentioned. No band numbers.",
+  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. NEVER mention marks, numbers, scores, bands, or any suggestion of what score a change would produce.",
   "body": {
     "strengths": ["specific strength 1 referencing exactly what student wrote", "specific strength 2 if any"],
-    "weaknesses": ["[DEMAND GAP]: exactly what was missed and which historian fills this gap", "[DESCRIPTIVE NOT ANALYTICAL]: where student listed facts without arguing — quote the specific part", "[HISTORIAN MISSING]: which specific historian with which specific argument was needed here"],
+    "weaknesses": ["[missed demand]: exactly what was missed and which historian fills this gap", "[too descriptive]: where student listed facts without arguing — quote the specific part", "[needs historian]: which specific historian with which specific argument was needed here"],
     "suggestions": ["Specific historian name + their exact argument that must appear for THIS question", "Specific structural suggestion for THIS answer"]
   },
   "historians_to_cite": [
