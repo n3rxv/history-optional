@@ -572,7 +572,7 @@ export default function NoteReader({ slug }: { slug: string }) {
   useEffect(() => {
     if (editMode && editableRef.current) {
       editableRef.current.innerHTML = cloudContent ?? getNoteContent(slug);
-      editableRef.current.focus();
+      editableRef.current.focus({ preventScroll: true });
     }
   }, [editMode]);
 
@@ -589,7 +589,6 @@ export default function NoteReader({ slug }: { slug: string }) {
     setSaving(false);
     if (data.ok) {
       setCloudContent(html);
-      setEditMode(false);
       setSaveMsg('✓ Saved');
       setTimeout(() => setSaveMsg(''), 3000);
     } else {
