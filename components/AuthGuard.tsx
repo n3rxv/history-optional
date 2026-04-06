@@ -16,6 +16,12 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       setLoading(false);
+      if (session?.access_token) {
+        fetch('/api/ping', {
+          method: 'POST',
+          headers: { 'x-user-token': session.access_token },
+        }).catch(() => {});
+      }
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
