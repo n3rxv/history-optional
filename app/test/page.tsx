@@ -1,14 +1,7 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 import { pyqs } from '@/lib/pyqData';
 import { mapData, MapEntry } from '@/lib/mapData';
-
-const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
-
-// ISO numeric IDs for countries to show
-const INDIA_ID = '356';
-const NEIGHBOUR_IDS = ['586','156','524','064','050','104','144','004'];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -73,7 +66,78 @@ function pick<T>(arr: T[], n: number): T[] {
   return shuffle(arr).slice(0, n);
 }
 
-// ─── India Map (react-simple-maps) ───────────────────────────────────────────
+// ─── India Map (d3-geo + TopoJSON fetched client-side) ───────────────────────
+
+const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+const INDIA_ID = 356;
+const NEIGHBOUR_IDS = new Set([586, 156, 524, 64, 50, 104, 144, 4]);
+const W = 560, H = 620;
+
+// Manual Mercator projection matching react-simple-maps' projectionConfig
+// { center: [83, 23], scale: 800 }
+const RAD = Math.PI / 180;
+function mercProject(lng: number, lat: number): [number, number] {
+  const x = W / 2 + 800 * (lng - 83) * RAD;
+  const sinLat = Math.sin(lat * RAD);
+  const sinCtr = Math.sin(23 * RAD);
+  const y = H / 2 - 800 * (
+    Math.log((1 + sinLat) / (1 - sinLat)) / 2 -
+    Math.log((1 + sinCtr) / (1 - sinCtr)) / 2
+  );
+  return [x, y];
+}
+
+// Convert a ring of [lng,lat] pairs to an SVG path string
+function ringToPath(ring: number[][]): string {
+  return ring.map(([lng, lat], i) => {
+    const [x, y] = mercProject(lng, lat);
+    return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ') + ' Z';
+}
+
+// Decode a TopoJSON arc delta-encoded array into absolute [lng,lat] coords
+function decodeArc(arc: number[][], transform: { scale: [number,number]; translate: [number,number] }): number[][] {
+  const [sx, sy] = transform.scale;
+  const [tx, ty] = transform.translate;
+  let x = 0, y = 0;
+  return arc.map(([dx, dy]) => {
+    x += dx; y += dy;
+    return [x * sx + tx, y * sy + ty];
+  });
+}
+
+// Resolve TopoJSON arcs (positive = forward, negative = reversed, ~index)
+function resolveArcs(
+  arcIndices: number[],
+  arcs: number[][][],
+  transform: { scale: [number,number]; translate: [number,number] }
+): number[][] {
+  const pts: number[][] = [];
+  for (const idx of arcIndices) {
+    const raw = idx >= 0 ? arcs[idx] : [...arcs[~idx]].reverse();
+    const decoded = decodeArc(raw, transform);
+    // Skip first point of each arc after the first (they share endpoints)
+    pts.push(...(pts.length === 0 ? decoded : decoded.slice(1)));
+  }
+  return pts;
+}
+
+// Build SVG path string from a TopoJSON geometry
+function geomToPath(geom: any, arcs: number[][][], transform: any): string {
+  const paths: string[] = [];
+  if (geom.type === 'Polygon') {
+    for (const ring of geom.arcs) {
+      paths.push(ringToPath(resolveArcs(ring, arcs, transform)));
+    }
+  } else if (geom.type === 'MultiPolygon') {
+    for (const poly of geom.arcs) {
+      for (const ring of poly) {
+        paths.push(ringToPath(resolveArcs(ring, arcs, transform)));
+      }
+    }
+  }
+  return paths.join(' ');
+}
 
 function IndiaMap({
   mapType,
@@ -90,6 +154,24 @@ function IndiaMap({
   answered: Record<number, string>;
   revealed: Record<number, boolean>;
 }) {
+  const [geos, setGeos] = useState<{ id: number; d: string }[]>([]);
+
+  useEffect(() => {
+    fetch(GEO_URL)
+      .then(r => r.json())
+      .then(topo => {
+        const { arcs, transform, objects } = topo;
+        const features = objects.countries.geometries as any[];
+        const result = features
+          .filter((g: any) => {
+            const id = Number(g.id);
+            return id === INDIA_ID || NEIGHBOUR_IDS.has(id);
+          })
+          .map((g: any) => ({ id: Number(g.id), d: geomToPath(g, arcs, transform) }));
+        setGeos(result);
+      });
+  }, []);
+
   return (
     <div style={{
       width: '100%', maxWidth: 560,
@@ -98,33 +180,21 @@ function IndiaMap({
       borderRadius: 4,
       overflow: 'hidden',
     }}>
-      <ComposableMap
-        projection="geoMercator"
-        projectionConfig={{ center: [83, 23], scale: 800 }}
-        width={560}
-        height={620}
-        style={{ width: '100%', height: 'auto', display: 'block' }}
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        width="100%"
+        style={{ display: 'block' }}
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <Geographies geography={GEO_URL}>
-          {({ geographies }: { geographies: any[] }) =>
-            geographies.map((geo) => {
-              const id = String(geo.id);
-              const isIndia = id === INDIA_ID;
-              const isNeighbour = NEIGHBOUR_IDS.includes(id);
-              if (!isIndia && !isNeighbour) return null;
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  fill={isIndia ? '#ffffff' : '#e8e8e8'}
-                  stroke={isIndia ? '#333' : '#aaa'}
-                  strokeWidth={isIndia ? 1.5 : 0.8}
-                  style={{ default: { outline: 'none' }, hover: { outline: 'none' }, pressed: { outline: 'none' } }}
-                />
-              );
-            })
-          }
-        </Geographies>
+        {geos.map(({ id, d }) => (
+          <path
+            key={id}
+            d={d}
+            fill={id === INDIA_ID ? '#ffffff' : '#e8e8e8'}
+            stroke={id === INDIA_ID ? '#333' : '#aaa'}
+            strokeWidth={id === INDIA_ID ? 1.5 : 0.8}
+          />
+        ))}
 
         {entries.map(entry => {
           const isSelected = selectedDot === entry.number;
@@ -135,21 +205,14 @@ function IndiaMap({
           else if (isAnswered) fill = '#b48c3c';
           else if (isSelected) fill = '#e05c2a';
 
+          const [cx, cy] = mercProject(entry.lng, entry.lat);
+          const r = isSelected ? 10 : 7;
+
           return (
-            <Marker
-              key={entry.number}
-              coordinates={[entry.lng, entry.lat]}
-              onClick={() => onDotClick(entry.number)}
-            >
-              <circle
-                r={isSelected ? 10 : 7}
-                fill={fill}
-                stroke="#fff"
-                strokeWidth={1.5}
-                opacity={0.92}
-                style={{ cursor: 'pointer' }}
-              />
+            <g key={entry.number} onClick={() => onDotClick(entry.number)} style={{ cursor: 'pointer' }}>
+              <circle cx={cx} cy={cy} r={r} fill={fill} stroke="#fff" strokeWidth={1.5} opacity={0.92} />
               <text
+                x={cx} y={cy}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fill="#fff"
@@ -159,10 +222,10 @@ function IndiaMap({
               >
                 {entry.number}
               </text>
-            </Marker>
+            </g>
           );
         })}
-      </ComposableMap>
+      </svg>
     </div>
   );
 }
