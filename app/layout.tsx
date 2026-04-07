@@ -1,4 +1,5 @@
 import '@fontsource/libre-baskerville/400.css';
+import Script from 'next/script';
 import '@fontsource/libre-baskerville/400-italic.css';
 import '@fontsource/libre-baskerville/700.css';
 import '@fontsource/inter/400.css';
@@ -54,6 +55,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZF23N3PZC" strategy="afterInteractive" />
+      <Script id="google-analytics" strategy="afterInteractive">{`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-7ZF23N3PZC');
+      `}</Script>
       <body>
         <script
           type="application/ld+json"
