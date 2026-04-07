@@ -10,7 +10,6 @@ const links = [
   { href: '/',          label: 'Home' },
   { href: '/paper1',    label: 'Paper I' },
   { href: '/paper2',    label: 'Paper II' },
-  { href: '/pyqs',      label: 'PYQs' },
   { href: '/timeline',  label: 'Timeline' },
   { href: '/chat',      label: 'AI Chat' },
   { href: '/evaluate',  label: 'Evaluate' },
@@ -56,6 +55,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -117,7 +117,44 @@ export default function Navbar() {
         </Link>
 
         <div style={{ display: 'flex', gap: '0.15rem', alignItems: 'center' }} className="desktop-nav">
-          {links.map(l => {
+          {/* PYQs dropdown */}
+          <div style={{ position: 'relative' }} onMouseEnter={() => setPyqsMenuOpen(true)} onMouseLeave={() => setPyqsMenuOpen(false)}>
+            <button style={{
+              padding: '0.4rem 0.9rem',
+              borderRadius: 5,
+              fontSize: '0.85rem',
+              fontFamily: 'var(--font-ui)',
+              color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)',
+              background: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'rgba(59,130,246,0.1)' : 'transparent',
+              border: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? '1px solid rgba(59,130,246,0.25)' : '1px solid transparent',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem',
+              transition: 'all 0.15s',
+            }}>
+              PYQs ▾
+            </button>
+            {pyqsMenuOpen && (
+              <div style={{
+                position: 'absolute', top: '100%', left: 0,
+                background: 'var(--bg2)', border: '1px solid var(--border2)',
+                borderRadius: 8, padding: '0.4rem',
+                minWidth: 140, zIndex: 200,
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+              }}>
+                <Link href="/pyqs" onClick={() => setPyqsMenuOpen(false)} style={{
+                  display: 'block', padding: '0.5rem 0.75rem', borderRadius: 5,
+                  fontSize: '0.85rem', textDecoration: 'none',
+                  color: pathname === '/pyqs' ? 'var(--accent)' : 'var(--text2)',
+                  background: pathname === '/pyqs' ? 'rgba(59,130,246,0.1)' : 'transparent',
+                }}>📋 Browse PYQs</Link>
+                <Link href="/test" onClick={() => setPyqsMenuOpen(false)} style={{
+                  display: 'block', padding: '0.5rem 0.75rem', borderRadius: 5,
+                  fontSize: '0.85rem', textDecoration: 'none',
+                  color: pathname === '/test' ? 'var(--accent)' : 'var(--text2)',
+                  background: pathname === '/test' ? 'rgba(59,130,246,0.1)' : 'transparent',
+                }}>🎯 Start Test</Link>
+              </div>
+            )}
+          </div>
             const active = l.href === '/' ? pathname === '/' : pathname.startsWith(l.href);
             return (
               <Link key={l.href} href={l.href} style={{
@@ -224,6 +261,16 @@ export default function Navbar() {
               color: pathname === l.href ? 'var(--accent)' : 'var(--text2)',
             }}>{l.label}</Link>
           ))}
+          <Link href="/pyqs" onClick={() => setOpen(false)} style={{
+            padding: '0.65rem 0.75rem', borderRadius: 5,
+            fontSize: '0.9rem', textDecoration: 'none',
+            color: pathname === '/pyqs' ? 'var(--accent)' : 'var(--text2)',
+          }}>📋 PYQs</Link>
+          <Link href="/test" onClick={() => setOpen(false)} style={{
+            padding: '0.65rem 0.75rem', borderRadius: 5,
+            fontSize: '0.9rem', textDecoration: 'none',
+            color: pathname === '/test' ? 'var(--accent)' : 'var(--text2)',
+          }}>🎯 Start Test</Link>
           <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <ThemeCustomizer />
             {user ? (

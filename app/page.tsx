@@ -200,35 +200,59 @@ export default function Home() {
       </section>
       <CurrentAffairsSection />
 
-      {/* PYQs banner */}
-      <div style={{
-        background: 'var(--bg2)',
-        border: '1px solid var(--border2)',
-        borderRadius: 10, padding: '1.75rem 2rem',
-        display: 'flex', alignItems: 'center',
-        justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap',
-        borderLeft: '3px solid var(--red)',
-      }}>
-        <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#ffffff', marginBottom: '0.35rem', fontWeight: 600 }}>
-            Previous Year Questions
-          </h3>
-          <p style={{ color: 'var(--text2)', fontSize: '0.875rem' }}>
-            Filter by year, paper and topic. Study patterns and question trends.
-          </p>
+      {/* PYQs + Test banner row */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+        <div style={{
+          background: 'var(--bg2)',
+          border: '1px solid var(--border2)',
+          borderRadius: 10, padding: '1.75rem 2rem',
+          display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '1rem',
+          borderLeft: '3px solid var(--red)',
+        }}>
+          <div>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#ffffff', marginBottom: '0.35rem', fontWeight: 600 }}>
+              Previous Year Questions
+            </h3>
+            <p style={{ color: 'var(--text2)', fontSize: '0.875rem' }}>
+              Filter by year, paper and topic. Study patterns and question trends.
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <Link href="/pyqs" style={{
+              background: 'var(--red)', color: '#ffffff',
+              padding: '0.65rem 1.5rem', borderRadius: 6,
+              textDecoration: 'none', fontWeight: 600, fontSize: '0.875rem',
+            }}>Browse PYQs</Link>
+            <Link href="/chat" style={{
+              background: 'transparent', color: 'var(--accent)',
+              padding: '0.65rem 1.5rem', borderRadius: 6,
+              textDecoration: 'none', fontWeight: 500, fontSize: '0.875rem',
+              border: '1px solid rgba(59,130,246,0.3)',
+            }}>Ask AI →</Link>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <Link href="/pyqs" style={{
-            background: 'var(--red)', color: '#ffffff',
+
+        <div style={{
+          background: 'var(--bg2)',
+          border: '1px solid var(--border2)',
+          borderRadius: 10, padding: '1.75rem 2rem',
+          display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '1rem',
+          borderLeft: '3px solid var(--accent)',
+        }}>
+          <div>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#ffffff', marginBottom: '0.35rem', fontWeight: 600 }}>
+              Attempt a Test
+            </h3>
+            <p style={{ color: 'var(--text2)', fontSize: '0.875rem' }}>
+              Timed mock tests with map questions, PYQs, and instant self-evaluation. 1hr · 2hr · 3hr formats.
+            </p>
+          </div>
+          <Link href="/test" style={{
+            background: 'var(--accent)', color: '#000000',
             padding: '0.65rem 1.5rem', borderRadius: 6,
-            textDecoration: 'none', fontWeight: 600, fontSize: '0.875rem',
-          }}>Browse PYQs</Link>
-          <Link href="/chat" style={{
-            background: 'transparent', color: 'var(--accent)',
-            padding: '0.65rem 1.5rem', borderRadius: 6,
-            textDecoration: 'none', fontWeight: 500, fontSize: '0.875rem',
-            border: '1px solid rgba(59,130,246,0.3)',
-          }}>Ask AI →</Link>
+            textDecoration: 'none', fontWeight: 700, fontSize: '0.875rem',
+            display: 'inline-block',
+          }}>Start Test →</Link>
         </div>
       </div>
 
