@@ -1,10 +1,14 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { geoMercator, geoPath } from 'd3-geo';
-import { feature } from 'topojson-client';
-
+import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
 import { pyqs } from '@/lib/pyqData';
 import { mapData, MapEntry } from '@/lib/mapData';
+
+const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+
+// ISO numeric IDs for countries to show
+const INDIA_ID = '356';
+const NEIGHBOUR_IDS = ['586','156','524','064','050','104','144','004'];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -69,17 +73,7 @@ function pick<T>(arr: T[], n: number): T[] {
   return shuffle(arr).slice(0, n);
 }
 
-// ─── India Map (D3 + TopoJSON from Natural Earth) ─────────────────────────────
-
-const MAP_W = 600;
-const MAP_H = 700;
-
-// South Asia bounding box for projection fit
-const SOUTH_ASIA_BBOX: [[number, number], [number, number]] = [[60, 5], [100, 38]];
-
-// Country ISO codes to show as neighbours
-const NEIGHBOUR_CODES = ['PAK', 'CHN', 'NPL', 'BTN', 'BGD', 'MMR', 'LKA', 'AFG'];
-const INDIA_CODE = 'IND';
+// ─── India Map (react-simple-maps) ───────────────────────────────────────────
 
 function IndiaMap({
   mapType,
@@ -96,132 +90,80 @@ function IndiaMap({
   answered: Record<number, string>;
   revealed: Record<number, boolean>;
 }) {
-  const [paths, setPaths] = useState<{ india: string[]; neighbours: string[]; states: string[] } | null>(null);
-
-  useEffect(() => {
-    async function load() {
-      // World countries TopoJSON (Natural Earth 110m)
-      const worldRes = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
-      const world = await worldRes.json() as any;
-
-      // India states TopoJSON
-      const statesRes = await fetch('https://cdn.jsdelivr.net/npm/india-atlas@1.0.0/india/districts.json');
-      const indiaAtlas = statesRes.ok ? await statesRes.json() as any : null;
-
-      const projection = geoMercator().fitExtent(
-        [[20, 20], [MAP_W - 20, MAP_H - 20]],
-        { type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[60, 5],[100, 5],[100, 38],[60, 38],[60, 5]]] }, properties: {} }
-      );
-      const pathGen = geoPath(projection);
-
-      // World features
-      const countries = feature(world, world.objects.countries as any) as unknown as GeoJSON.FeatureCollection;
-
-      // Map ISO numeric to alpha-3 (subset we need)
-      const isoMap: Record<string, string> = {
-        '356': 'IND', '586': 'PAK', '156': 'CHN', '524': 'NPL',
-        '064': 'BTN', '050': 'BGD', '104': 'MMR', '144': 'LKA', '004': 'AFG',
-      };
-
-      const indiaPaths: string[] = [];
-      const neighbourPaths: string[] = [];
-
-      for (const f of countries.features) {
-        const id = String(f.id).padStart(3, '0');
-        const code = isoMap[id];
-        if (!code) continue;
-        const d = pathGen(f);
-        if (!d) continue;
-        if (code === 'IND') indiaPaths.push(d);
-        else if (NEIGHBOUR_CODES.includes(code)) neighbourPaths.push(d);
-      }
-
-      // State borders
-      const statePaths: string[] = [];
-      if (indiaAtlas && indiaAtlas.objects) {
-        const key = Object.keys(indiaAtlas.objects)[0];
-        const stateFeatures = feature(indiaAtlas, indiaAtlas.objects[key] as any) as unknown as GeoJSON.FeatureCollection;
-        for (const f of stateFeatures.features) {
-          const d = pathGen(f);
-          if (d) statePaths.push(d);
-        }
-      }
-
-      setPaths({ india: indiaPaths, neighbours: neighbourPaths, states: statePaths });
-    }
-    load().catch(console.error);
-  }, []);
-
-  // Project lat/lng to SVG coords using same projection logic
-  const projection = geoMercator().fitExtent(
-    [[20, 20], [MAP_W - 20, MAP_H - 20]],
-    { type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[60, 5],[100, 5],[100, 38],[60, 38],[60, 5]]] }, properties: {} }
-  );
-
   return (
-    <svg
-      viewBox={`0 0 ${MAP_W} ${MAP_H}`}
-      style={{
-        width: '100%',
-        maxWidth: 560,
-        height: 'auto',
-        background: '#d6eaf8',
-        border: '1.5px solid #999',
-        borderRadius: 4,
-        display: 'block',
-      }}
-    >
-      {!paths && (
-        <text x={MAP_W / 2} y={MAP_H / 2} textAnchor="middle" fill="#999" fontSize="14">
-          Loading map…
-        </text>
-      )}
+    <div style={{
+      width: '100%', maxWidth: 560,
+      background: '#d6eaf8',
+      border: '1.5px solid #999',
+      borderRadius: 4,
+      overflow: 'hidden',
+    }}>
+      <ComposableMap
+        projection="geoMercator"
+        projectionConfig={{ center: [83, 23], scale: 800 }}
+        width={560}
+        height={620}
+        style={{ width: '100%', height: 'auto', display: 'block' }}
+      >
+        <Geographies geography={GEO_URL}>
+          {({ geographies }: { geographies: any[] }) =>
+            geographies.map((geo) => {
+              const id = String(geo.id);
+              const isIndia = id === INDIA_ID;
+              const isNeighbour = NEIGHBOUR_IDS.includes(id);
+              if (!isIndia && !isNeighbour) return null;
+              return (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  fill={isIndia ? '#ffffff' : '#e8e8e8'}
+                  stroke={isIndia ? '#333' : '#aaa'}
+                  strokeWidth={isIndia ? 1.5 : 0.8}
+                  style={{ default: { outline: 'none' }, hover: { outline: 'none' }, pressed: { outline: 'none' } }}
+                />
+              );
+            })
+          }
+        </Geographies>
 
-      {paths && (
-        <>
-          {/* Neighbour countries */}
-          {paths.neighbours.map((d, i) => (
-            <path key={i} d={d} fill="#e8e8e8" stroke="#aaa" strokeWidth="0.8" />
-          ))}
+        {entries.map(entry => {
+          const isSelected = selectedDot === entry.number;
+          const isAnswered = !!answered[entry.number];
+          const isRevealed = !!revealed[entry.number];
+          let fill = '#1a1a2e';
+          if (isRevealed) fill = '#22a85a';
+          else if (isAnswered) fill = '#b48c3c';
+          else if (isSelected) fill = '#e05c2a';
 
-          {/* India fill */}
-          {paths.india.map((d, i) => (
-            <path key={i} d={d} fill="#ffffff" stroke="#333" strokeWidth="1.5" />
-          ))}
-
-          {/* State borders (political only) */}
-          {mapType === 'political' && paths.states.map((d, i) => (
-            <path key={i} d={d} fill="none" stroke="#aaa" strokeWidth="0.5" strokeDasharray="3,2" />
-          ))}
-        </>
-      )}
-
-      {/* Dots — always shown once projection is ready */}
-      {entries.map(entry => {
-        const [x, y] = projection([entry.lng, entry.lat]) ?? [0, 0];
-        const isSelected = selectedDot === entry.number;
-        const isAnswered = !!answered[entry.number];
-        const isRevealed = !!revealed[entry.number];
-        let fill = '#1a1a2e';
-        if (isRevealed) fill = '#22a85a';
-        else if (isAnswered) fill = '#b48c3c';
-        else if (isSelected) fill = '#e05c2a';
-
-        return (
-          <g key={entry.number} onClick={() => onDotClick(entry.number)} style={{ cursor: 'pointer' }}>
-            <circle cx={x} cy={y} r={isSelected ? 10 : 7} fill={fill} stroke="#fff" strokeWidth="1.5" opacity={0.92} />
-            <text
-              x={x} y={y + 1}
-              textAnchor="middle" dominantBaseline="middle"
-              fill="#fff" fontSize="8" fontWeight="bold"
-              style={{ pointerEvents: 'none', userSelect: 'none' }}
+          return (
+            <Marker
+              key={entry.number}
+              coordinates={[entry.lng, entry.lat]}
+              onClick={() => onDotClick(entry.number)}
             >
-              {entry.number}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
+              <circle
+                r={isSelected ? 10 : 7}
+                fill={fill}
+                stroke="#fff"
+                strokeWidth={1.5}
+                opacity={0.92}
+                style={{ cursor: 'pointer' }}
+              />
+              <text
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#fff"
+                fontSize={8}
+                fontWeight="bold"
+                style={{ pointerEvents: 'none', userSelect: 'none' }}
+              >
+                {entry.number}
+              </text>
+            </Marker>
+          );
+        })}
+      </ComposableMap>
+    </div>
   );
 }
 
