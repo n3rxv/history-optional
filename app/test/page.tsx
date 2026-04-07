@@ -71,10 +71,10 @@ function pick<T>(arr: T[], n: number): T[] {
 // Map image bounds (geographic): what lat/lng the image corners correspond to
 // Using Survey of India standard map extent
 const MAP_BOUNDS = {
-  north: 37.6,   // top of image (Jammu/Ladakh)
+  north: 38.5,   // top of image (Jammu/Ladakh)
   south: 5.5,    // bottom of image (Kanyakumari / Sri Lanka)
-  west:  62.0,   // left edge (Pakistan/Afghanistan border)
-  east:  100.0,  // right edge (Myanmar border)
+  west:  61.5,   // left edge (Pakistan/Afghanistan border)
+  east:  101.5,  // right edge (Myanmar border)
 };
 
 // Convert lat/lng to % position on the map image
@@ -86,7 +86,7 @@ function geoToPercent(lng: number, lat: number): { x: number; y: number } {
 
 // Public domain blank political map of India with neighbours from Wikimedia
 const MAP_IMAGE_URL =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/India_location_map.svg/800px-India_location_map.svg.png';
+  '/india-map.svg';
 
 function IndiaMap({
   mapType,
@@ -610,23 +610,9 @@ export default function TestPage() {
               <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>{q.year}</span>
             </div>
 
-            <p style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.65, marginBottom: '1rem' }}>
+            <p style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.65 }}>
               {q.question}
             </p>
-
-            <textarea
-              value={answers[q.id] ?? ''}
-              onChange={e => setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
-              placeholder="Write your answer here..."
-              rows={6}
-              style={{
-                width: '100%', boxSizing: 'border-box',
-                background: 'var(--bg3)', border: '1px solid var(--border)',
-                borderRadius: 6, padding: '0.75rem 1rem',
-                color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.9rem',
-                lineHeight: 1.6, resize: 'vertical', outline: 'none',
-              }}
-            />
           </div>
         ))}
 
