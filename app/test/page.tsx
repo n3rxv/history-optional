@@ -1,5 +1,8 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { geoMercator, geoPath } from 'd3-geo';
+import { feature } from 'topojson-client';
+import type { Topology, GeometryCollection } from 'topojson-specification';
 import { pyqs } from '@/lib/pyqData';
 import { mapData, MapEntry } from '@/lib/mapData';
 
@@ -66,66 +69,17 @@ function pick<T>(arr: T[], n: number): T[] {
   return shuffle(arr).slice(0, n);
 }
 
-// ─── India SVG Map ────────────────────────────────────────────────────────────
-// Simplified path — India outline + neighbour outlines
-// We use a Mercator-like projection: lng 60–100 → x 0–800, lat 5–38 → y 0–660
+// ─── India Map (D3 + TopoJSON from Natural Earth) ─────────────────────────────
 
-const LNG_MIN = 60, LNG_MAX = 100, LAT_MIN = 5, LAT_MAX = 38;
-const MAP_W = 800, MAP_H = 660;
+const MAP_W = 600;
+const MAP_H = 700;
 
-function project(lat: number, lng: number): [number, number] {
-  const x = ((lng - LNG_MIN) / (LNG_MAX - LNG_MIN)) * MAP_W;
-  const y = ((LAT_MAX - lat) / (LAT_MAX - LAT_MIN)) * MAP_H;
-  return [x, y];
-}
+// South Asia bounding box for projection fit
+const SOUTH_ASIA_BBOX: [[number, number], [number, number]] = [[60, 5], [100, 38]];
 
-// State borders path data (approximate, for political map)
-const STATE_BORDERS = `M 310 80 L 340 100 L 360 90 L 370 110 L 350 130 L 330 120 Z
-M 270 150 L 300 140 L 320 160 L 310 180 L 280 175 Z
-M 200 200 L 240 190 L 260 220 L 240 250 L 200 240 Z
-M 380 200 L 420 210 L 430 240 L 400 260 L 370 245 Z
-M 300 280 L 340 270 L 360 300 L 340 330 L 300 320 Z
-M 240 300 L 280 290 L 290 320 L 260 350 L 230 335 Z
-M 380 320 L 420 310 L 440 340 L 420 370 L 380 360 Z
-M 300 370 L 340 360 L 360 390 L 340 420 L 300 410 Z
-M 240 390 L 280 380 L 295 410 L 270 440 L 240 425 Z
-M 340 430 L 380 420 L 395 450 L 370 480 L 340 465 Z
-M 280 460 L 315 450 L 325 480 L 300 505 L 275 492 Z`;
-
-// India outline (simplified polygon approximation)
-const INDIA_PATH = `M 312 12 L 330 8 L 352 15 L 368 10 L 390 18 L 405 28 L 418 22 L 432 30
-L 445 45 L 452 62 L 460 78 L 468 95 L 472 112 L 478 128 L 485 142
-L 490 158 L 492 175 L 488 192 L 482 208 L 478 225 L 475 242 L 472 258
-L 470 272 L 468 285 L 462 298 L 455 312 L 448 325 L 440 338 L 432 352
-L 422 365 L 410 378 L 398 390 L 385 402 L 370 415 L 355 428 L 340 440
-L 325 452 L 312 462 L 300 472 L 290 482 L 282 492 L 278 502 L 280 512
-L 285 522 L 295 530 L 305 538 L 315 545 L 318 555 L 312 562 L 302 568
-L 292 572 L 282 575 L 272 572 L 262 565 L 255 555 L 250 545 L 248 535
-L 248 522 L 252 510 L 255 498 L 252 488 L 245 478 L 235 468 L 225 458
-L 215 448 L 205 438 L 195 425 L 188 412 L 182 398 L 178 382 L 175 365
-L 172 348 L 170 330 L 168 312 L 165 295 L 162 278 L 158 262 L 155 248
-L 152 235 L 150 222 L 148 208 L 145 195 L 142 180 L 140 165 L 138 150
-L 136 135 L 135 120 L 135 105 L 136 90 L 138 78 L 142 65 L 148 55
-L 155 46 L 163 38 L 172 30 L 182 25 L 192 20 L 202 16 L 215 14
-L 228 12 L 242 10 L 258 9 L 272 10 L 285 11 L 298 11 Z`;
-
-// Pakistan outline
-const PAKISTAN_PATH = `M 135 105 L 130 95 L 122 85 L 115 75 L 108 65 L 102 55 L 98 45
-L 96 35 L 98 25 L 104 18 L 112 12 L 122 8 L 135 5 L 148 4 L 162 5
-L 178 8 L 195 12 L 212 14 L 228 12 L 215 14 L 202 16 L 192 20 L 182 25
-L 172 30 L 163 38 L 155 46 L 148 55 L 142 65 L 138 78 L 136 90
-L 135 105 Z`;
-
-// Afghanistan outline
-const AFGHANISTAN_PATH = `M 98 45 L 88 38 L 78 30 L 70 22 L 65 14 L 62 8 L 62 2 L 68 0
-L 80 0 L 95 2 L 108 5 L 118 10 L 128 8 L 135 5 L 122 8 L 112 12
-L 104 18 L 98 25 L 96 35 L 98 45 Z`;
-
-// Bangladesh outline
-const BANGLADESH_PATH = `M 490 175 L 498 170 L 506 168 L 515 170 L 520 178 L 518 188
-L 512 196 L 505 202 L 498 205 L 492 200 L 490 192 L 488 192 L 492 175 Z`;
-
-// ─── Map Component ────────────────────────────────────────────────────────────
+// Country ISO codes to show as neighbours
+const NEIGHBOUR_CODES = ['PAK', 'CHN', 'NPL', 'BTN', 'BGD', 'MMR', 'LKA', 'AFG'];
+const INDIA_CODE = 'IND';
 
 function IndiaMap({
   mapType,
@@ -142,6 +96,68 @@ function IndiaMap({
   answered: Record<number, string>;
   revealed: Record<number, boolean>;
 }) {
+  const [paths, setPaths] = useState<{ india: string[]; neighbours: string[]; states: string[] } | null>(null);
+
+  useEffect(() => {
+    async function load() {
+      // World countries TopoJSON (Natural Earth 110m)
+      const worldRes = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+      const world = await worldRes.json() as Topology;
+
+      // India states TopoJSON
+      const statesRes = await fetch('https://cdn.jsdelivr.net/npm/india-atlas@1.0.0/india/districts.json');
+      const indiaAtlas = statesRes.ok ? await statesRes.json() as Topology : null;
+
+      const projection = geoMercator().fitExtent(
+        [[20, 20], [MAP_W - 20, MAP_H - 20]],
+        { type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[60, 5],[100, 5],[100, 38],[60, 38],[60, 5]]] }, properties: {} }
+      );
+      const pathGen = geoPath(projection);
+
+      // World features
+      const countries = feature(world, world.objects.countries as GeometryCollection) as GeoJSON.FeatureCollection;
+
+      // Map ISO numeric to alpha-3 (subset we need)
+      const isoMap: Record<string, string> = {
+        '356': 'IND', '586': 'PAK', '156': 'CHN', '524': 'NPL',
+        '064': 'BTN', '050': 'BGD', '104': 'MMR', '144': 'LKA', '004': 'AFG',
+      };
+
+      const indiaPaths: string[] = [];
+      const neighbourPaths: string[] = [];
+
+      for (const f of countries.features) {
+        const id = String(f.id).padStart(3, '0');
+        const code = isoMap[id];
+        if (!code) continue;
+        const d = pathGen(f);
+        if (!d) continue;
+        if (code === 'IND') indiaPaths.push(d);
+        else if (NEIGHBOUR_CODES.includes(code)) neighbourPaths.push(d);
+      }
+
+      // State borders
+      const statePaths: string[] = [];
+      if (indiaAtlas && indiaAtlas.objects) {
+        const key = Object.keys(indiaAtlas.objects)[0];
+        const stateFeatures = feature(indiaAtlas, indiaAtlas.objects[key] as GeometryCollection) as GeoJSON.FeatureCollection;
+        for (const f of stateFeatures.features) {
+          const d = pathGen(f);
+          if (d) statePaths.push(d);
+        }
+      }
+
+      setPaths({ india: indiaPaths, neighbours: neighbourPaths, states: statePaths });
+    }
+    load().catch(console.error);
+  }, []);
+
+  // Project lat/lng to SVG coords using same projection logic
+  const projection = geoMercator().fitExtent(
+    [[20, 20], [MAP_W - 20, MAP_H - 20]],
+    { type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[60, 5],[100, 5],[100, 38],[60, 38],[60, 5]]] }, properties: {} }
+  );
+
   return (
     <svg
       viewBox={`0 0 ${MAP_W} ${MAP_H}`}
@@ -149,47 +165,55 @@ function IndiaMap({
         width: '100%',
         maxWidth: 560,
         height: 'auto',
-        background: '#fff',
-        border: '1.5px solid #ccc',
+        background: '#d6eaf8',
+        border: '1.5px solid #999',
         borderRadius: 4,
         display: 'block',
       }}
     >
-      {/* Neighbour countries */}
-      <path d={AFGHANISTAN_PATH} fill="#f8f8f8" stroke="#aaa" strokeWidth="1.2" />
-      <path d={PAKISTAN_PATH}    fill="#f8f8f8" stroke="#aaa" strokeWidth="1.2" />
-      <path d={BANGLADESH_PATH}  fill="#f8f8f8" stroke="#aaa" strokeWidth="1.2" />
-
-      {/* India fill */}
-      <path d={INDIA_PATH} fill="#fff" stroke="#333" strokeWidth="1.8" />
-
-      {/* State borders (political only) */}
-      {mapType === 'political' && (
-        <path d={STATE_BORDERS} fill="none" stroke="#999" strokeWidth="0.8" strokeDasharray="4,3" />
+      {!paths && (
+        <text x={MAP_W / 2} y={MAP_H / 2} textAnchor="middle" fill="#999" fontSize="14">
+          Loading map…
+        </text>
       )}
 
-      {/* Dots */}
+      {paths && (
+        <>
+          {/* Neighbour countries */}
+          {paths.neighbours.map((d, i) => (
+            <path key={i} d={d} fill="#e8e8e8" stroke="#aaa" strokeWidth="0.8" />
+          ))}
+
+          {/* India fill */}
+          {paths.india.map((d, i) => (
+            <path key={i} d={d} fill="#ffffff" stroke="#333" strokeWidth="1.5" />
+          ))}
+
+          {/* State borders (political only) */}
+          {mapType === 'political' && paths.states.map((d, i) => (
+            <path key={i} d={d} fill="none" stroke="#aaa" strokeWidth="0.5" strokeDasharray="3,2" />
+          ))}
+        </>
+      )}
+
+      {/* Dots — always shown once projection is ready */}
       {entries.map(entry => {
-        const [x, y] = project(entry.lat, entry.lng);
+        const [x, y] = projection([entry.lng, entry.lat]) ?? [0, 0];
         const isSelected = selectedDot === entry.number;
         const isAnswered = !!answered[entry.number];
         const isRevealed = !!revealed[entry.number];
-        let fill = '#333';
+        let fill = '#1a1a2e';
         if (isRevealed) fill = '#22a85a';
         else if (isAnswered) fill = '#b48c3c';
         else if (isSelected) fill = '#e05c2a';
 
         return (
           <g key={entry.number} onClick={() => onDotClick(entry.number)} style={{ cursor: 'pointer' }}>
-            <circle cx={x} cy={y} r={isSelected ? 10 : 7} fill={fill} stroke="#fff" strokeWidth="1.5" opacity={0.9} />
+            <circle cx={x} cy={y} r={isSelected ? 10 : 7} fill={fill} stroke="#fff" strokeWidth="1.5" opacity={0.92} />
             <text
-              x={x}
-              y={y + 1}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fill="#fff"
-              fontSize="8"
-              fontWeight="bold"
+              x={x} y={y + 1}
+              textAnchor="middle" dominantBaseline="middle"
+              fill="#fff" fontSize="8" fontWeight="bold"
               style={{ pointerEvents: 'none', userSelect: 'none' }}
             >
               {entry.number}
