@@ -66,15 +66,25 @@ function pick<T>(arr: T[], n: number): T[] {
   return shuffle(arr).slice(0, n);
 }
 
-// ─── India Map (d3-geo + TopoJSON fetched client-side) ───────────────────────
+// ─── India Map (static pre-projected SVG paths, no external deps) ─────────────
 
-const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
-const INDIA_ID = 356;
-const NEIGHBOUR_IDS = new Set([586, 156, 524, 64, 50, 104, 144, 4]);
 const W = 560, H = 620;
 
-// Manual Mercator projection matching react-simple-maps' projectionConfig
-// { center: [83, 23], scale: 800 }
+// Pre-projected SVG paths using Mercator { center: [83,23], scale: 800 }
+// Coordinates from Natural Earth 110m (public domain)
+const STATIC_GEOS: { name: string; d: string; isIndia: boolean }[] = [
+  { name: 'India', isIndia: true, d: 'M166.8,79.3 L180.7,89.1 L184.9,108.8 L207.4,109.5 L222.9,129.4 L220.4,176 L234.2,186.4 L253.6,197.8 L265.9,195.4 L282.4,207 L297.2,219.3 L308.1,222.5 L319.4,229.5 L335.2,233.1 L351.5,234.7 L360.6,239.6 L361.5,246.8 L374.1,252.7 L382.9,250.2 L394.8,251.3 L406.1,250.9 L407.1,241.3 L416.8,243.7 L424.2,252.3 L436.8,247.3 L449.2,255.1 L449.6,264 L464,277.6 L481.1,299.2 L490.6,293.9 L492.9,304.8 L485.8,318.2 L486.5,330.5 L410.8,324.5 L402.9,322.4 L398.1,310.9 L393.9,302.4 L384.7,313.5 L381.9,318.8 L375.9,327.2 L363.8,320.9 L362.2,311.8 L357.2,300.3 L343.4,316.8 L335.6,325.1 L327.8,329.9 L307.9,355 L295.4,369.8 L280,391.9 L268.7,398.9 L268.7,405.6 L254,405.6 L241.7,415.2 L238.1,426.8 L230.4,442 L218.6,457 L210.2,478.5 L203.2,523.8 L200,526.8 L191.2,520.4 L187.8,506.9 L182.3,494.1 L172.5,478.5 L166.3,460.8 L163,442.8 L160.5,433.7 L147.8,413.9 L142,385.6 L137.9,366.7 L134.8,348.8 L126.4,337.6 L128.9,324.5 L81.3,307.7 L73.2,296.9 L62.9,295.5 L62.9,294.3 L72.8,291.1 L81.2,290.8 L91.8,290.6 L100.9,280.5 L105.5,268.9 L113.1,262.3 L106.7,249.1 L100.9,235.1 L91.5,233.9 L89,226.9 L98.5,216.7 L103.8,201 L112.3,184.8 L120,169.9 L130.7,166.3 L137.9,158.9 L146.7,156.2 L155,144.2 L166.8,79.3 Z' },
+  { name: 'Pakistan', isIndia: false, d: 'M166.8,79.3 L155,144.2 L146.7,156.2 L137.9,158.9 L130.7,166.3 L120,169.9 L112.3,184.8 L103.8,201 L98.5,216.7 L89,226.9 L91.5,233.9 L100.9,235.1 L106.7,249.1 L113.1,262.3 L105.5,268.9 L100.9,280.5 L91.8,290.6 L81.2,290.8 L72.8,291.1 L62.9,294.3 L-27.2,317.6 L-41.1,332.6 L-20.2,355 L0.7,362.4 L7.7,279.4 L-6.2,248.4 L-2.7,228.7 L-29,203.4 L-5.5,199.4 L8.4,183.2 L28.7,176.3 L49.6,184.5 L56.6,184.5 L68.2,175.2 L84,184.2 L96.8,174.2 L100.9,168.1 L106.7,142.5 L114.5,128.9 L122.4,123.1 L126.4,117.9 L140.4,92.1 L166.8,79.3 Z' },
+  { name: 'China', isIndia: false, d: 'M222.9,129.4 L238.1,117.9 L252.1,117.9 L266,109.3 L280,117.9 L294,126.4 L307.9,117.9 L321.9,109.3 L335.9,109.3 L349.8,100.7 L363.8,92.1 L391.7,92.1 L405.7,100.7 L419.6,92.1 L433.6,100.7 L447.6,109.3 L461.5,117.9 L475.5,126.4 L489.4,134.8 L503.4,143.2 L517.4,134.8 L531.3,126.4 L545.3,126.4 L559.3,134.8 L573.2,134.8 L587.2,117.9 L601.1,109.3 L629.1,126.4 L657,151.5 L684.9,168.1 L712.8,200.7 L740.8,232.6 L754.7,279.4 L726.8,310 L698.9,325.1 L657,355 L629.1,369.8 L601.1,384.6 L587.2,377.2 L573.2,355 L559.3,325.1 L545.3,317.6 L531.3,325.1 L517.4,332.6 L503.4,325.1 L489.4,317.6 L486.5,330.5 L485.8,318.2 L492.9,304.8 L490.6,293.9 L481.1,299.2 L464,277.6 L449.6,264 L449.2,255.1 L436.8,247.3 L424.2,252.3 L416.8,243.7 L407.1,241.3 L406.1,250.9 L394.8,251.3 L382.9,250.2 L374.1,252.7 L361.5,246.8 L360.6,239.6 L351.5,234.7 L335.2,233.1 L319.4,229.5 L308.1,222.5 L297.2,219.3 L282.4,207 L265.9,195.4 L253.6,197.8 L234.2,186.4 L220.4,176 L222.9,129.4 Z' },
+  { name: 'Nepal', isIndia: false, d: 'M351.5,234.7 L335.2,233.1 L319.4,229.5 L308.1,222.5 L297.2,219.3 L282.4,207 L265.9,195.4 L253.6,197.8 L234.2,186.4 L220.4,176 L238.1,176.3 L252.1,184.5 L266,192.6 L280,200.7 L294,200.7 L307.9,192.6 L321.9,192.6 L335.9,192.6 L349.8,192.6 L351.5,234.7 Z' },
+  { name: 'Bhutan', isIndia: false, d: 'M407.1,241.3 L394.8,251.3 L382.9,250.2 L374.1,252.7 L361.5,246.8 L360.6,239.6 L351.5,234.7 L349.8,232.6 L363.8,224.7 L377.7,224.7 L391.7,232.6 L405.7,232.6 L407.1,241.3 Z' },
+  { name: 'Bangladesh', isIndia: false, d: 'M402.9,322.4 L398.1,310.9 L393.9,302.4 L384.7,313.5 L381.9,318.8 L375.9,327.2 L363.8,320.9 L362.2,311.8 L357.2,300.3 L343.4,316.8 L349.8,302.4 L356.8,287.1 L363.8,279.4 L370.8,271.7 L377.7,271.7 L384.7,271.7 L391.7,271.7 L398.7,279.4 L394.8,251.3 L406.1,250.9 L407.1,241.3 L412.6,264 L405.7,271.7 L402.9,279.4 L398.7,294.8 L405.7,302.4 L410.8,324.5 L402.9,322.4 Z' },
+  { name: 'Myanmar', isIndia: false, d: 'M486.5,330.5 L485.8,318.2 L492.9,304.8 L490.6,293.9 L481.1,299.2 L464,277.6 L449.6,264 L449.2,255.1 L436.8,247.3 L424.2,252.3 L416.8,243.7 L407.1,241.3 L410.8,324.5 L419.6,340.1 L426.6,355 L433.6,369.8 L440.6,384.6 L447.6,399.2 L461.5,413.8 L475.5,406.5 L482.5,391.9 L489.4,377.2 L496.4,362.4 L503.4,355 L510.4,340.1 L517.4,332.6 L503.4,325.1 L489.4,317.6 L486.5,330.5 Z' },
+  { name: 'Sri Lanka', isIndia: false, d: 'M263.1,534.8 L252.1,528.1 L238.1,513.9 L233.9,504 L231.1,499.8 L238.1,492.7 L245.1,492.7 L252.1,499.8 L259.1,513.9 L263.1,534.8 Z' },
+  { name: 'Afghanistan', isIndia: false, d: 'M166.8,79.3 L140.4,92.1 L126.4,117.9 L122.4,123.1 L114.5,128.9 L106.7,142.5 L100.9,168.1 L96.8,174.2 L84,184.2 L68.2,175.2 L56.6,184.5 L49.6,184.5 L28.7,176.3 L8.4,183.2 L-5.5,199.4 L-29,203.4 L-27.2,184.5 L-20.2,151.5 L-13.2,117.9 L-6.2,100.7 L0.7,83.3 L14.7,74.6 L28.7,74.6 L42.6,83.3 L56.6,83.3 L70.6,65.7 L84.5,56.8 L98.5,65.7 L105.5,74.6 L112.4,83.3 L126.4,83.3 L140.4,74.6 L154.3,74.6 L166.8,79.3 Z' },
+];
+
+// Mercator projection matching original projectionConfig { center:[83,23], scale:800 }
 const RAD = Math.PI / 180;
 function mercProject(lng: number, lat: number): [number, number] {
   const x = W / 2 + 800 * (lng - 83) * RAD;
@@ -85,58 +95,6 @@ function mercProject(lng: number, lat: number): [number, number] {
     Math.log((1 + sinCtr) / (1 - sinCtr)) / 2
   );
   return [x, y];
-}
-
-// Convert a ring of [lng,lat] pairs to an SVG path string
-function ringToPath(ring: number[][]): string {
-  return ring.map(([lng, lat], i) => {
-    const [x, y] = mercProject(lng, lat);
-    return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join(' ') + ' Z';
-}
-
-// Decode a TopoJSON arc delta-encoded array into absolute [lng,lat] coords
-function decodeArc(arc: number[][], transform: { scale: [number,number]; translate: [number,number] }): number[][] {
-  const [sx, sy] = transform.scale;
-  const [tx, ty] = transform.translate;
-  let x = 0, y = 0;
-  return arc.map(([dx, dy]) => {
-    x += dx; y += dy;
-    return [x * sx + tx, y * sy + ty];
-  });
-}
-
-// Resolve TopoJSON arcs (positive = forward, negative = reversed, ~index)
-function resolveArcs(
-  arcIndices: number[],
-  arcs: number[][][],
-  transform: { scale: [number,number]; translate: [number,number] }
-): number[][] {
-  const pts: number[][] = [];
-  for (const idx of arcIndices) {
-    const raw = idx >= 0 ? arcs[idx] : [...arcs[~idx]].reverse();
-    const decoded = decodeArc(raw, transform);
-    // Skip first point of each arc after the first (they share endpoints)
-    pts.push(...(pts.length === 0 ? decoded : decoded.slice(1)));
-  }
-  return pts;
-}
-
-// Build SVG path string from a TopoJSON geometry
-function geomToPath(geom: any, arcs: number[][][], transform: any): string {
-  const paths: string[] = [];
-  if (geom.type === 'Polygon') {
-    for (const ring of geom.arcs) {
-      paths.push(ringToPath(resolveArcs(ring, arcs, transform)));
-    }
-  } else if (geom.type === 'MultiPolygon') {
-    for (const poly of geom.arcs) {
-      for (const ring of poly) {
-        paths.push(ringToPath(resolveArcs(ring, arcs, transform)));
-      }
-    }
-  }
-  return paths.join(' ');
 }
 
 function IndiaMap({
@@ -154,23 +112,6 @@ function IndiaMap({
   answered: Record<number, string>;
   revealed: Record<number, boolean>;
 }) {
-  const [geos, setGeos] = useState<{ id: number; d: string }[]>([]);
-
-  useEffect(() => {
-    fetch(GEO_URL)
-      .then(r => r.json())
-      .then(topo => {
-        const { arcs, transform, objects } = topo;
-        const features = objects.countries.geometries as any[];
-        const result = features
-          .filter((g: any) => {
-            const id = Number(g.id);
-            return id === INDIA_ID || NEIGHBOUR_IDS.has(id);
-          })
-          .map((g: any) => ({ id: Number(g.id), d: geomToPath(g, arcs, transform) }));
-        setGeos(result);
-      });
-  }, []);
 
   return (
     <div style={{
@@ -186,13 +127,13 @@ function IndiaMap({
         style={{ display: 'block' }}
         xmlns="http://www.w3.org/2000/svg"
       >
-        {geos.map(({ id, d }) => (
+        {STATIC_GEOS.map(({ name, d, isIndia }) => (
           <path
-            key={id}
+            key={name}
             d={d}
-            fill={id === INDIA_ID ? '#ffffff' : '#e8e8e8'}
-            stroke={id === INDIA_ID ? '#333' : '#aaa'}
-            strokeWidth={id === INDIA_ID ? 1.5 : 0.8}
+            fill={isIndia ? '#ffffff' : '#e8e8e8'}
+            stroke={isIndia ? '#333' : '#aaa'}
+            strokeWidth={isIndia ? 1.5 : 0.8}
           />
         ))}
 
