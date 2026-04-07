@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
-import type { Topology, GeometryCollection } from 'topojson-specification';
+import type { Topology, GeometryCollection } from 'topojson-client';
 import { pyqs } from '@/lib/pyqData';
 import { mapData, MapEntry } from '@/lib/mapData';
 
