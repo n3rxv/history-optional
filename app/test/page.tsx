@@ -115,7 +115,7 @@ function IndiaMap({
       const pathGen = geoPath(projection);
 
       // World features
-      const countries = feature(world, world.objects.countries as any) as GeoJSON.FeatureCollection;
+      const countries = feature(world, world.objects.countries as any) as unknown as GeoJSON.FeatureCollection;
 
       // Map ISO numeric to alpha-3 (subset we need)
       const isoMap: Record<string, string> = {
@@ -140,7 +140,7 @@ function IndiaMap({
       const statePaths: string[] = [];
       if (indiaAtlas && indiaAtlas.objects) {
         const key = Object.keys(indiaAtlas.objects)[0];
-        const stateFeatures = feature(indiaAtlas, indiaAtlas.objects[key] as any) as GeoJSON.FeatureCollection;
+        const stateFeatures = feature(indiaAtlas, indiaAtlas.objects[key] as any) as unknown as GeoJSON.FeatureCollection;
         for (const f of stateFeatures.features) {
           const d = pathGen(f);
           if (d) statePaths.push(d);
