@@ -48,12 +48,25 @@ export default function PYQsPage() {
         <div style={{ color: 'var(--text3)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
           History Optional
         </div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.5rem' }}>
-          Previous Year Questions
-        </h1>
-        <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>
-          UPSC Mains 1979–2025 · {pyqs.length} questions
-        </p>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.5rem' }}>
+              Previous Year Questions
+            </h1>
+            <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>
+              UPSC Mains 1979–2025 · {pyqs.length} questions
+            </p>
+          </div>
+          <Link href="/test" style={{
+            background: 'var(--accent)', color: '#fff',
+            padding: '0.55rem 1.25rem', borderRadius: 6,
+            fontSize: '0.88rem', fontWeight: 600, textDecoration: 'none',
+            display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+            flexShrink: 0, marginTop: '0.25rem',
+          }}>
+            Start Test →
+          </Link>
+        </div>
       </div>
 
       {/* Quick-filter tabs */}
