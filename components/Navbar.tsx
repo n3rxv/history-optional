@@ -155,6 +155,8 @@ export default function Navbar() {
               </div>
             )}
           </div>
+
+          {links.map(l => {
             const active = l.href === '/' ? pathname === '/' : pathname.startsWith(l.href);
             return (
               <Link key={l.href} href={l.href} style={{
