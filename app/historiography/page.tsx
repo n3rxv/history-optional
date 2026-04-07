@@ -73,6 +73,95 @@ function TypeBadge({ type }: { type: string }) {
   );
 }
 
+const labelStyle: React.CSSProperties = { display: 'block', fontSize: '0.65rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 4 };
+const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.45rem 0.65rem', color: 'var(--text)', fontSize: '0.83rem', fontFamily: 'var(--font-body)', outline: 'none', boxSizing: 'border-box' };
+const smallBtnStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.3rem 0.7rem', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.72rem', fontFamily: 'var(--font-body)' };
+// ── Form helpers (outside component to prevent remount on each keystroke) ──
+function updatePos(form: any, setForm: any, idx: number, field: keyof Position, val: string) {
+  const positions = form.positions.map((p: any, i: number) => i === idx ? { ...p, [field]: val } : p);
+  setForm({ ...form, positions });
+}
+function addPos(form: any, setForm: any) {
+  setForm({ ...form, positions: [...form.positions, { ...BLANK_POSITION }] });
+}
+function removePos(form: any, setForm: any, idx: number) {
+  setForm({ ...form, positions: form.positions.filter((_: any, i: number) => i !== idx) });
+}
+function DebateForm({ form, setForm, topicInp, setTopicInp, onSave, onCancel, saving }: any) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+        <div style={{ gridColumn: '1 / -1' }}>
+          <label style={labelStyle}>Title</label>
+          <input style={inputStyle} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="e.g. Indian Feudalism Debate" />
+        </div>
+        <div>
+          <label style={labelStyle}>Period</label>
+          <select style={inputStyle} value={form.period} onChange={e => setForm({ ...form, period: e.target.value })}>
+            {PERIODS.filter(p => p !== 'All').map(p => <option key={p}>{p}</option>)}
+          </select>
+        </div>
+        <div>
+          <label style={labelStyle}>Paper</label>
+          <select style={inputStyle} value={form.paper} onChange={e => setForm({ ...form, paper: e.target.value })}>
+            {PAPERS.filter(p => p !== 'All').map(p => <option key={p}>{p}</option>)}
+          </select>
+        </div>
+        <div>
+          <label style={labelStyle}>Type</label>
+          <select style={inputStyle} value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}>
+            <option value="debate">Contested Debate</option>
+            <option value="topic">Contextual Historiography</option>
+          </select>
+        </div>
+        <div>
+          <label style={labelStyle}>Topics (press Enter)</label>
+          <input style={inputStyle} value={topicInp} placeholder="Add tag..." onKeyDown={e => { if (e.key === 'Enter' && topicInp.trim()) { setForm({ ...form, topics: [...form.topics, topicInp.trim()] }); setTopicInp(''); }}} onChange={e => setTopicInp(e.target.value)} />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
+            {form.topics.map((t: string, i: number) => (
+              <span key={i} onClick={() => setForm({ ...form, topics: form.topics.filter((_: any, j: number) => j !== i) })} style={{ fontSize: '0.65rem', padding: '2px 8px', borderRadius: 20, background: 'rgba(59,130,246,0.12)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.3)', cursor: 'pointer' }}>{t} ×</span>
+            ))}
+          </div>
+        </div>
+        <div style={{ gridColumn: '1 / -1' }}>
+          <label style={labelStyle}>UPSC Tip</label>
+          <textarea style={{ ...inputStyle, minHeight: 60, resize: 'vertical' }} value={form.upsc_tip} onChange={e => setForm({ ...form, upsc_tip: e.target.value })} placeholder="Practical advice for writing answers..." />
+        </div>
+      </div>
+      <div style={{ borderTop: '1px solid var(--border)', paddingTop: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+          <span style={{ color: 'var(--text2)', fontSize: '0.78rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Positions / Historians</span>
+          <button onClick={() => addPos(form, setForm)} style={smallBtnStyle}>+ Add Position</button>
+        </div>
+        {form.positions.map((pos: Position, idx: number) => (
+          <div key={idx} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: 8, padding: '0.75rem', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+              <span style={{ color: 'var(--text3)', fontSize: '0.65rem', fontFamily: 'var(--font-mono)' }}>POSITION {idx + 1}</span>
+              {form.positions.length > 1 && <button onClick={() => removePos(form, setForm, idx)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.72rem' }}>Remove</button>}
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+              <input style={inputStyle} value={pos.historian_name} onChange={e => updatePos(form, setForm, idx, 'historian_name', e.target.value)} placeholder="Historian Name" />
+              <input style={inputStyle} value={pos.stance} onChange={e => updatePos(form, setForm, idx, 'stance', e.target.value)} placeholder="Their Stance" />
+              <input style={inputStyle} value={pos.key_work} onChange={e => updatePos(form, setForm, idx, 'key_work', e.target.value)} placeholder="Key Work / Book" />
+              <select style={inputStyle} value={pos.school} onChange={e => updatePos(form, setForm, idx, 'school', e.target.value)}>
+                <option value="">Select School</option>
+                {SCHOOLS.map(s => <option key={s}>{s}</option>)}
+              </select>
+              <textarea style={{ ...inputStyle, gridColumn: '1 / -1', minHeight: 56, resize: 'vertical' }} value={pos.argument} onChange={e => updatePos(form, setForm, idx, 'argument', e.target.value)} placeholder="Their core argument..." />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+        <button onClick={onCancel} style={{ ...smallBtnStyle, background: 'transparent', color: 'var(--text3)' }}>Cancel</button>
+        <button onClick={onSave} disabled={saving} style={{ ...smallBtnStyle, background: 'rgba(59,130,246,0.15)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.3)' }}>
+          {saving ? 'Saving…' : 'Save'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ── Main Component ─────────────────────────────────────────────────────────
 export default function HistoriographyPage() {
   const [debates, setDebates] = useState<Debate[]>([]);
@@ -170,99 +259,8 @@ export default function HistoriographyPage() {
     await loadDebates();
   }
 
-  // ── Form helpers ───────────────────────────────────────────────────────
-  function updatePos(form: typeof BLANK_DEBATE, setForm: any, idx: number, field: keyof Position, val: string) {
-    const positions = form.positions.map((p, i) => i === idx ? { ...p, [field]: val } : p);
-    setForm({ ...form, positions });
-  }
-  function addPos(form: typeof BLANK_DEBATE, setForm: any) {
-    setForm({ ...form, positions: [...form.positions, { ...BLANK_POSITION }] });
-  }
-  function removePos(form: typeof BLANK_DEBATE, setForm: any, idx: number) {
-    setForm({ ...form, positions: form.positions.filter((_, i) => i !== idx) });
-  }
 
-  // ── Render form ────────────────────────────────────────────────────────
-  function DebateForm({ form, setForm, topicInp, setTopicInp, onSave, onCancel }: any) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-          <div style={{ gridColumn: '1 / -1' }}>
-            <label style={labelStyle}>Title</label>
-            <input style={inputStyle} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="e.g. Indian Feudalism Debate" />
-          </div>
-          <div>
-            <label style={labelStyle}>Period</label>
-            <select style={inputStyle} value={form.period} onChange={e => setForm({ ...form, period: e.target.value })}>
-              {PERIODS.filter(p => p !== 'All').map(p => <option key={p}>{p}</option>)}
-            </select>
-          </div>
-          <div>
-            <label style={labelStyle}>Paper</label>
-            <select style={inputStyle} value={form.paper} onChange={e => setForm({ ...form, paper: e.target.value })}>
-              {PAPERS.filter(p => p !== 'All').map(p => <option key={p}>{p}</option>)}
-            </select>
-          </div>
-          <div>
-            <label style={labelStyle}>Type</label>
-            <select style={inputStyle} value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}>
-              <option value="debate">Contested Debate</option>
-              <option value="topic">Contextual Historiography</option>
-            </select>
-          </div>
-          <div>
-            <label style={labelStyle}>Topics (press Enter)</label>
-            <input style={inputStyle} value={topicInp} placeholder="Add tag..." onKeyDown={e => { if (e.key === 'Enter' && topicInp.trim()) { setForm({ ...form, topics: [...form.topics, topicInp.trim()] }); setTopicInp(''); }}} onChange={e => setTopicInp(e.target.value)} />
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
-              {form.topics.map((t: string, i: number) => (
-                <span key={i} onClick={() => setForm({ ...form, topics: form.topics.filter((_: any, j: number) => j !== i) })} style={{ fontSize: '0.65rem', padding: '2px 8px', borderRadius: 20, background: 'rgba(59,130,246,0.12)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.3)', cursor: 'pointer' }}>{t} ×</span>
-              ))}
-            </div>
-          </div>
-          <div style={{ gridColumn: '1 / -1' }}>
-            <label style={labelStyle}>UPSC Tip</label>
-            <textarea style={{ ...inputStyle, minHeight: 60, resize: 'vertical' }} value={form.upsc_tip} onChange={e => setForm({ ...form, upsc_tip: e.target.value })} placeholder="Practical advice for writing answers..." />
-          </div>
-        </div>
 
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '0.75rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-            <span style={{ color: 'var(--text2)', fontSize: '0.78rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Positions / Historians</span>
-            <button onClick={() => addPos(form, setForm)} style={smallBtnStyle}>+ Add Position</button>
-          </div>
-          {form.positions.map((pos: Position, idx: number) => (
-            <div key={idx} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: 8, padding: '0.75rem', marginBottom: '0.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                <span style={{ color: 'var(--text3)', fontSize: '0.65rem', fontFamily: 'var(--font-mono)' }}>POSITION {idx + 1}</span>
-                {form.positions.length > 1 && <button onClick={() => removePos(form, setForm, idx)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.72rem' }}>Remove</button>}
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                <input style={inputStyle} value={pos.historian_name} onChange={e => updatePos(form, setForm, idx, 'historian_name', e.target.value)} placeholder="Historian Name" />
-                <input style={inputStyle} value={pos.stance} onChange={e => updatePos(form, setForm, idx, 'stance', e.target.value)} placeholder="Their Stance" />
-                <input style={inputStyle} value={pos.key_work} onChange={e => updatePos(form, setForm, idx, 'key_work', e.target.value)} placeholder="Key Work / Book" />
-                <select style={inputStyle} value={pos.school} onChange={e => updatePos(form, setForm, idx, 'school', e.target.value)}>
-                  <option value="">Select School</option>
-                  {SCHOOLS.map(s => <option key={s}>{s}</option>)}
-                </select>
-                <textarea style={{ ...inputStyle, gridColumn: '1 / -1', minHeight: 56, resize: 'vertical' }} value={pos.argument} onChange={e => updatePos(form, setForm, idx, 'argument', e.target.value)} placeholder="Their core argument..." />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-          <button onClick={onCancel} style={{ ...smallBtnStyle, background: 'transparent', color: 'var(--text3)' }}>Cancel</button>
-          <button onClick={onSave} disabled={saving} style={{ ...smallBtnStyle, background: 'rgba(59,130,246,0.15)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.3)' }}>
-            {saving ? 'Saving…' : 'Save'}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  const labelStyle: React.CSSProperties = { display: 'block', fontSize: '0.65rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 4 };
-  const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.45rem 0.65rem', color: 'var(--text)', fontSize: '0.83rem', fontFamily: 'var(--font-body)', outline: 'none', boxSizing: 'border-box' };
-  const smallBtnStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.3rem 0.7rem', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.72rem', fontFamily: 'var(--font-body)' };
 
   return (
     <>
@@ -350,7 +348,7 @@ export default function HistoriographyPage() {
         {addingNew && isOwner && (
           <div className="hb-add-form">
             <div className="hb-add-form-title">New Entry</div>
-            <DebateForm form={newForm} setForm={setNewForm} topicInp={newTopicInput} setTopicInp={setNewTopicInput} onSave={saveNew} onCancel={() => setAddingNew(false)} />
+            <DebateForm form={newForm} setForm={setNewForm} topicInp={newTopicInput} setTopicInp={setNewTopicInput} onSave={saveNew} onCancel={() => setAddingNew(false)} saving={saving} />
           </div>
         )}
 
@@ -368,7 +366,7 @@ export default function HistoriographyPage() {
             {editingId === debate.id && editForm && isOwner ? (
               <div style={{ padding: '1.25rem' }}>
                 <div className="hb-add-form-title">Editing: {debate.title}</div>
-                <DebateForm form={editForm} setForm={setEditForm} topicInp={topicInput} setTopicInp={setTopicInput} onSave={saveEdit} onCancel={() => { setEditingId(null); setEditForm(null); }} />
+                <DebateForm form={editForm} setForm={setEditForm} topicInp={topicInput} setTopicInp={setTopicInput} onSave={saveEdit} onCancel={() => { setEditingId(null); setEditForm(null); }} saving={saving} />
               </div>
             ) : (
               <>
