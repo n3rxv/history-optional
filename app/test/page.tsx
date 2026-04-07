@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
-import type { Topology, GeometryCollection } from 'topojson-client';
+
 import { pyqs } from '@/lib/pyqData';
 import { mapData, MapEntry } from '@/lib/mapData';
 
@@ -102,11 +102,11 @@ function IndiaMap({
     async function load() {
       // World countries TopoJSON (Natural Earth 110m)
       const worldRes = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
-      const world = await worldRes.json() as Topology;
+      const world = await worldRes.json() as any;
 
       // India states TopoJSON
       const statesRes = await fetch('https://cdn.jsdelivr.net/npm/india-atlas@1.0.0/india/districts.json');
-      const indiaAtlas = statesRes.ok ? await statesRes.json() as Topology : null;
+      const indiaAtlas = statesRes.ok ? await statesRes.json() as any : null;
 
       const projection = geoMercator().fitExtent(
         [[20, 20], [MAP_W - 20, MAP_H - 20]],
@@ -115,7 +115,7 @@ function IndiaMap({
       const pathGen = geoPath(projection);
 
       // World features
-      const countries = feature(world, world.objects.countries as GeometryCollection) as GeoJSON.FeatureCollection;
+      const countries = feature(world, world.objects.countries as any) as GeoJSON.FeatureCollection;
 
       // Map ISO numeric to alpha-3 (subset we need)
       const isoMap: Record<string, string> = {
@@ -140,7 +140,7 @@ function IndiaMap({
       const statePaths: string[] = [];
       if (indiaAtlas && indiaAtlas.objects) {
         const key = Object.keys(indiaAtlas.objects)[0];
-        const stateFeatures = feature(indiaAtlas, indiaAtlas.objects[key] as GeometryCollection) as GeoJSON.FeatureCollection;
+        const stateFeatures = feature(indiaAtlas, indiaAtlas.objects[key] as any) as GeoJSON.FeatureCollection;
         for (const f of stateFeatures.features) {
           const d = pathGen(f);
           if (d) statePaths.push(d);
