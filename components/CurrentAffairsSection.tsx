@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Post {
   id: string;
@@ -438,8 +439,8 @@ export default function CurrentAffairsSection() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'current-affairs' | 'new-note'>('current-affairs');
-  const [expanded, setExpanded] = useState<string | null>(null);
   const { authed, token } = useAdminAuth();
+  const router = useRouter();
 
   const fetchPosts = useCallback(async () => {
     try {
@@ -557,7 +558,7 @@ export default function CurrentAffairsSection() {
                 (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
                 (e.currentTarget as HTMLElement).style.transform = 'none';
               }}
-              onClick={() => setExpanded(expanded === post.id ? null : post.id)}
+              onClick={() => router.push(`/posts/${post.id}`)}
             >
               {/* Draft badge (admin only) */}
               {authed && !post.published && (
@@ -608,26 +609,10 @@ export default function CurrentAffairsSection() {
                     {new Date(post.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </span>
                   <span style={{ color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600 }}>
-                    {expanded === post.id ? 'Close ↑' : 'Read →'}
+                    Read →
                   </span>
                 </div>
               </div>
-
-              {/* Expanded content */}
-              {expanded === post.id && (
-                <div
-                  className="note-content"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
-                  style={{
-                    padding: '14px 16px 16px',
-                    borderTop: '1px solid var(--border)',
-                    color: 'var(--text)', fontSize: '0.88rem',
-                    lineHeight: 1.7, maxHeight: 500, overflow: 'auto',
-                  }}
-                  onClick={e => e.stopPropagation()}
-                />
-              )}
-            </div>
           ))}
         </div>
       )}
