@@ -28,7 +28,10 @@ const AI_BOTS = [
 
 export function middleware(req: NextRequest) {
   const ua = (req.headers.get('user-agent') ?? '').toLowerCase();
-  const pathname = req.nextUrl.pathname;
+  const pathname = req.nextUrl.pathname; 
+  if (pathname === '/sitemap.xml' || pathname === '/robots.txt') {
+    return NextResponse.next();
+  }
 
   // Block known AI bots from ALL pages
   if (AI_BOTS.some(bot => ua.includes(bot))) {
