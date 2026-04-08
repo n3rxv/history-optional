@@ -4,14 +4,15 @@ import { createServerClient } from '@/lib/supabase';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const db = createServerClient();
   const isAdmin = isAdminAuthed(req);
 
   const query = isAdmin
-    ? db.from('posts').select('*').eq('id', params.id).single()
-    : db.from('posts').select('*').eq('id', params.id).eq('published', true).single();
+    ? db.from('posts').select('*').eq('id', id).single()
+    : db.from('posts').select('*').eq('id', id).eq('published', true).single();
 
   const { data, error } = await query;
 

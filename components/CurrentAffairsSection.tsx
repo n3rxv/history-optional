@@ -507,7 +507,7 @@ export default function CurrentAffairsSection() {
               ['current-affairs', '📰 Current Affairs', caCount],
               ['new-note', '📄 New Notes', nnCount],
             ] as const).map(([id, label, count]) =>
-              count > 0 && (
+              count > 0 ? (
                 <button key={id} onClick={() => setActiveTab(id)} style={{
                   padding: '5px 12px', borderRadius: 6, cursor: 'pointer', fontSize: '0.78rem',
                   background: activeTab === id ? 'var(--accent-dim)' : 'transparent',
@@ -517,7 +517,7 @@ export default function CurrentAffairsSection() {
                 }}>
                   {label} <span style={{ opacity: 0.6, fontSize: '0.7rem' }}>({count})</span>
                 </button>
-              )
+              ) : null
             )}
           </div>
         )}
@@ -613,6 +613,7 @@ export default function CurrentAffairsSection() {
                   </span>
                 </div>
               </div>
+            </div>
           ))}
         </div>
       )}
