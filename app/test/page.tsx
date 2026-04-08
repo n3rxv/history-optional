@@ -66,27 +66,11 @@ function pick<T>(arr: T[], n: number): T[] {
   return shuffle(arr).slice(0, n);
 }
 
-// ─── India Map (real image + overlay dots) ────────────────────────────────────
+// ─── India Map (Leaflet) ──────────────────────────────────────────────────────
 
-// Map image bounds (geographic): what lat/lng the image corners correspond to
-// Using Survey of India standard map extent
-const MAP_BOUNDS = {
-  north: 35.5,   // top of image (Jammu/Ladakh)
-  south: 8.0,    // bottom of image (Kanyakumari / Sri Lanka)
-  west:  66.5,   // left edge (Pakistan/Afghanistan border)
-  east:  94.5,  // right edge (Myanmar border)
-};
+import dynamic from 'next/dynamic';
 
-// Convert lat/lng to % position on the map image
-function geoToPercent(lng: number, lat: number): { x: number; y: number } {
-  const x = ((lng - MAP_BOUNDS.west) / (MAP_BOUNDS.east - MAP_BOUNDS.west)) * 100;
-  const y = ((MAP_BOUNDS.north - lat) / (MAP_BOUNDS.north - MAP_BOUNDS.south)) * 100;
-  return { x, y };
-}
-
-// Public domain blank political map of India with neighbours from Wikimedia
-const MAP_IMAGE_URL =
-  '/india-map.svg';
+const LeafletMap = dynamic(() => import('@/components/LeafletMap'), { ssr: false });
 
 function IndiaMap({
   mapType,
@@ -104,71 +88,13 @@ function IndiaMap({
   revealed: Record<number, boolean>;
 }) {
   return (
-    <div style={{
-      width: '100%',
-      maxWidth: 500,
-      position: 'relative',
-      border: '1.5px solid #aaa',
-      borderRadius: 6,
-      overflow: 'hidden',
-      background: '#d6eaf8',
-    }}>
-      {/* Real India map image */}
-      <img
-        src={MAP_IMAGE_URL}
-        alt="India map"
-        style={{ width: '100%', height: 'auto', display: 'block' }}
-        draggable={false}
-      />
-
-      {/* Dot overlay — positioned absolutely over the image */}
-      <div style={{ position: 'absolute', inset: 0 }}>
-        {entries.map(entry => {
-          const isSelected = selectedDot === entry.number;
-          const isAnswered = !!answered[entry.number];
-          const isRevealed = !!revealed[entry.number];
-
-          let bg = '#1a1a2e';
-          if (isRevealed) bg = '#22a85a';
-          else if (isAnswered) bg = '#b48c3c';
-          else if (isSelected) bg = '#e05c2a';
-
-          const { x, y } = geoToPercent(entry.lng, entry.lat);
-          const size = isSelected ? 26 : 20;
-
-          return (
-            <div
-              key={entry.number}
-              onClick={() => onDotClick(entry.number)}
-              style={{
-                position: 'absolute',
-                left: `${x}%`,
-                top: `${y}%`,
-                transform: 'translate(-50%, -50%)',
-                width: size,
-                height: size,
-                borderRadius: '50%',
-                background: bg,
-                border: `2px solid ${isSelected ? '#fff' : 'rgba(255,255,255,0.8)'}`,
-                boxShadow: isSelected ? '0 0 0 2px #e05c2a' : '0 1px 3px rgba(0,0,0,0.4)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                fontSize: isSelected ? 10 : 8,
-                fontWeight: 700,
-                color: '#fff',
-                userSelect: 'none',
-                transition: 'all 0.15s',
-                zIndex: isSelected ? 10 : 1,
-              }}
-            >
-              {entry.number}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    <LeafletMap
+      entries={entries}
+      selectedDot={selectedDot}
+      onDotClick={onDotClick}
+      answered={answered}
+      revealed={revealed}
+    />
   );
 }
 
