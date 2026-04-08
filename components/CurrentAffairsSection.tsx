@@ -15,7 +15,6 @@ interface Post {
   published: boolean;
 }
 
-// ─── tiny API helper ───────────────────────────────────────────────────────────
 async function apiCall(url: string, method: string, body?: object, token?: string) {
   const res = await fetch(url, {
     method,
@@ -28,13 +27,11 @@ async function apiCall(url: string, method: string, body?: object, token?: strin
   return res.json();
 }
 
-// ─── auth hook (same as admin panel) ──────────────────────────────────────────
 const SESSION_KEY = 'histopt_admin_v2';
 
 function useAdminAuth() {
   const [authed, setAuthed] = useState(false);
   const [token, setToken] = useState('');
-
   useEffect(() => {
     const stored = sessionStorage.getItem(SESSION_KEY);
     if (!stored) return;
@@ -43,11 +40,9 @@ function useAdminAuth() {
       else sessionStorage.removeItem(SESSION_KEY);
     });
   }, []);
-
   return { authed, token };
 }
 
-// ─── Editor Toolbar ────────────────────────────────────────────────────────────
 function Toolbar({ editorRef, onImage, onVideo }: {
   editorRef: React.RefObject<HTMLDivElement | null>;
   onImage: () => void;
@@ -57,7 +52,6 @@ function Toolbar({ editorRef, onImage, onVideo }: {
     document.execCommand(command, false, value);
     editorRef.current?.focus();
   };
-
   const tools: Array<{ label: string; action: () => void; title: string; accent?: boolean; group?: boolean }> = [
     { label: 'B',      action: () => cmd('bold'),                    title: 'Bold' },
     { label: 'I',      action: () => cmd('italic'),                  title: 'Italic' },
@@ -71,14 +65,13 @@ function Toolbar({ editorRef, onImage, onVideo }: {
     { label: '1. List',action: () => cmd('insertOrderedList'),       title: 'Numbered list' },
     { label: '" Quote',action: () => cmd('formatBlock', 'blockquote'), title: 'Blockquote', group: true },
     { label: 'A',      action: () => { const c = prompt('Hex color:'); if (c) cmd('foreColor', c); }, title: 'Text color' },
-    { label: '🖍',     action: () => { const c = prompt('Highlight color:') || '#fff3cd'; cmd('hiliteColor', c); }, title: 'Highlight', group: true },
-    { label: '↩',      action: () => cmd('undo'),                    title: 'Undo' },
-    { label: '↪',      action: () => cmd('redo'),                    title: 'Redo' },
-    { label: '✕ fmt',  action: () => cmd('removeFormat'),            title: 'Clear formatting', group: true },
-    { label: '🖼',     action: onImage,                              title: 'Insert image', accent: true },
-    { label: '▶',      action: onVideo,                              title: 'Insert video', accent: true },
+    { label: 'Hi',     action: () => { const c = prompt('Highlight color:') || '#fff3cd'; cmd('hiliteColor', c); }, title: 'Highlight', group: true },
+    { label: 'Undo',   action: () => cmd('undo'),                    title: 'Undo' },
+    { label: 'Redo',   action: () => cmd('redo'),                    title: 'Redo' },
+    { label: 'Clear',  action: () => cmd('removeFormat'),            title: 'Clear formatting', group: true },
+    { label: 'Image',  action: onImage,                              title: 'Insert image', accent: true },
+    { label: 'Video',  action: onVideo,                              title: 'Insert video', accent: true },
   ];
-
   return (
     <div style={{
       display: 'flex', flexWrap: 'wrap', gap: 3, padding: '8px 12px',
@@ -105,12 +98,11 @@ function Toolbar({ editorRef, onImage, onVideo }: {
         onMouseDown={e => { e.preventDefault(); const url = prompt('URL:'); if (url) { document.execCommand('createLink', false, url); editorRef.current?.focus(); } }}
         title="Insert link"
         style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', color: 'var(--text2)' }}
-      >🔗</button>
+      >Link</button>
     </div>
   );
 }
 
-// ─── Inline Post Creator (WordPress-style) ─────────────────────────────────────
 function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) => void }) {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState<'current-affairs' | 'new-note'>('current-affairs');
@@ -122,7 +114,6 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
   const [saving, setSaving] = useState(false);
   const [savedMsg, setSavedMsg] = useState('');
   const [activePanel, setActivePanel] = useState<'write' | 'preview'>('write');
-
   const editorRef = useRef<HTMLDivElement>(null);
   const imgInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
@@ -184,11 +175,11 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
     const res = await apiCall('/api/admin/blog-posts', 'POST', post, token);
     setSaving(false);
     if (res.ok) {
-      setSavedMsg('✓ Published!');
+      setSavedMsg('Saved!');
       onSaved(post);
       setTimeout(() => { setSavedMsg(''); setOpen(false); reset(); }, 1200);
     } else {
-      setSavedMsg('⚠ Save failed');
+      setSavedMsg('Save failed');
       setTimeout(() => setSavedMsg(''), 2500);
     }
   };
@@ -202,13 +193,13 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
           padding: '10px 20px', borderRadius: 8, cursor: 'pointer',
           background: 'rgba(212,168,67,0.08)', border: '1px dashed rgba(212,168,67,0.35)',
           color: '#d4a843', fontSize: '0.85rem', fontWeight: 600,
-          marginBottom: '1.5rem', width: '100%', justifyContent: 'center',
+          marginBottom: '2rem', width: '100%', justifyContent: 'center',
           transition: 'all 0.2s',
         }}
         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.14)'; }}
         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.08)'; }}
       >
-        <span style={{ fontSize: '1.1rem' }}>✍️</span> New Post
+        + New Post
       </button>
     );
   }
@@ -219,13 +210,11 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
       borderRadius: 12, overflow: 'hidden', marginBottom: '2rem',
       boxShadow: '0 8px 40px rgba(0,0,0,0.4)',
     }}>
-      {/* Top bar */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
         padding: '10px 16px', background: 'var(--bg3)',
         borderBottom: '1px solid var(--border)',
       }}>
-        {/* Type selector */}
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--border)' }}>
           {(['current-affairs', 'new-note'] as const).map(t => (
             <button key={t} onClick={() => setType(t)} style={{
@@ -235,12 +224,10 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
               color: type === t ? '#d4a843' : 'var(--text3)',
               fontWeight: type === t ? 700 : 400,
             }}>
-              {t === 'current-affairs' ? '📰 Current Affairs' : '📄 New Note'}
+              {t === 'current-affairs' ? 'Current Affairs' : 'New Note'}
             </button>
           ))}
         </div>
-
-        {/* Write / Preview toggle */}
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--border)', marginLeft: 4 }}>
           {(['write', 'preview'] as const).map(p => (
             <button key={p} onClick={() => setActivePanel(p)} style={{
@@ -250,187 +237,186 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
               color: activePanel === p ? 'var(--accent)' : 'var(--text3)',
               fontWeight: activePanel === p ? 600 : 400,
             }}>
-              {p === 'write' ? '✍ Write' : '👁 Preview'}
+              {p === 'write' ? 'Write' : 'Preview'}
             </button>
           ))}
         </div>
-
-        {/* Publish toggle */}
         <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', marginLeft: 'auto' }}>
           <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>Published</span>
-          <input
-            type="checkbox" checked={published}
-            onChange={e => setPublished(e.target.checked)}
-            style={{ accentColor: '#51cf66', width: 14, height: 14 }}
-          />
+          <input type="checkbox" checked={published} onChange={e => setPublished(e.target.checked)} style={{ accentColor: '#51cf66', width: 14, height: 14 }} />
         </label>
-
         <button onClick={save} disabled={saving} style={{
           padding: '5px 16px', borderRadius: 6, cursor: saving ? 'default' : 'pointer',
           fontSize: '0.82rem', fontWeight: 700,
-          background: savedMsg?.startsWith('✓') ? 'rgba(81,207,102,0.15)' : 'rgba(212,168,67,0.15)',
-          border: savedMsg?.startsWith('✓') ? '1px solid rgba(81,207,102,0.4)' : '1px solid rgba(212,168,67,0.4)',
-          color: savedMsg?.startsWith('✓') ? '#51cf66' : '#d4a843',
+          background: savedMsg === 'Saved!' ? 'rgba(81,207,102,0.15)' : 'rgba(212,168,67,0.15)',
+          border: savedMsg === 'Saved!' ? '1px solid rgba(81,207,102,0.4)' : '1px solid rgba(212,168,67,0.4)',
+          color: savedMsg === 'Saved!' ? '#51cf66' : '#d4a843',
           opacity: saving ? 0.7 : 1,
         }}>
-          {saving ? 'Saving…' : savedMsg || 'Save'}
+          {saving ? 'Saving...' : savedMsg || 'Save'}
         </button>
-
         <button onClick={() => { setOpen(false); reset(); }} style={{
           padding: '5px 10px', borderRadius: 6, cursor: 'pointer', fontSize: '0.8rem',
           background: 'transparent', border: '1px solid var(--border)', color: 'var(--text3)',
-        }}>✕</button>
+        }}>X</button>
       </div>
 
       {activePanel === 'write' && (
         <>
-          {/* Meta fields */}
           <div style={{ padding: '14px 20px 0', display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'flex-start' }}>
             <div style={{ flex: 2, minWidth: 220 }}>
-              <input
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-                placeholder="Post title…"
-                style={{
-                  width: '100%', background: 'transparent', border: 'none',
-                  borderBottom: '2px solid var(--border2)', color: 'var(--text)',
-                  fontSize: '1.3rem', fontWeight: 700, fontFamily: 'var(--font-display)',
-                  padding: '4px 0', outline: 'none', boxSizing: 'border-box',
-                  caretColor: '#d4a843',
-                }}
-                onFocus={e => (e.currentTarget.style.borderBottomColor = '#d4a843')}
-                onBlur={e => (e.currentTarget.style.borderBottomColor = 'var(--border2)')}
-              />
-              <input
-                value={excerpt}
-                onChange={e => setExcerpt(e.target.value)}
-                placeholder="Short excerpt shown on homepage…"
-                style={{
-                  width: '100%', background: 'transparent', border: 'none',
-                  borderBottom: '1px solid var(--border)', color: 'var(--text2)',
-                  fontSize: '0.88rem', padding: '6px 0', outline: 'none',
-                  marginTop: 8, boxSizing: 'border-box',
-                }}
-              />
-              <input
-                value={tags}
-                onChange={e => setTags(e.target.value)}
-                placeholder="Tags: Mughal, British Raj, UPSC 2024… (comma separated)"
-                style={{
-                  width: '100%', background: 'transparent', border: 'none',
-                  borderBottom: '1px solid var(--border)', color: 'var(--text3)',
-                  fontSize: '0.78rem', padding: '6px 0', outline: 'none',
-                  marginTop: 6, boxSizing: 'border-box',
-                }}
-              />
+              <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Post title..." style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '2px solid var(--border2)', color: 'var(--text)', fontSize: '1.3rem', fontWeight: 700, fontFamily: 'var(--font-display)', padding: '4px 0', outline: 'none', boxSizing: 'border-box', caretColor: '#d4a843' }} onFocus={e => (e.currentTarget.style.borderBottomColor = '#d4a843')} onBlur={e => (e.currentTarget.style.borderBottomColor = 'var(--border2)')} />
+              <input value={excerpt} onChange={e => setExcerpt(e.target.value)} placeholder="Short excerpt shown on homepage..." style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text2)', fontSize: '0.88rem', padding: '6px 0', outline: 'none', marginTop: 8, boxSizing: 'border-box' }} />
+              <input value={tags} onChange={e => setTags(e.target.value)} placeholder="Tags: Mughal, British Raj... (comma separated)" style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text3)', fontSize: '0.78rem', padding: '6px 0', outline: 'none', marginTop: 6, boxSizing: 'border-box' }} />
             </div>
-
-            {/* Cover image picker */}
             <div>
-              <div
-                onClick={() => coverInputRef.current?.click()}
-                style={{
-                  width: 130, height: 88, borderRadius: 7,
-                  border: '1px dashed var(--border2)', cursor: 'pointer',
-                  overflow: 'hidden', display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', background: 'var(--bg3)',
-                  transition: 'border-color 0.15s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = '#d4a843')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border2)')}
-              >
-                {coverImg
-                  ? <img src={coverImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  : <span style={{ color: 'var(--text3)', fontSize: '0.7rem', textAlign: 'center', lineHeight: 1.4, padding: '0 8px' }}>🖼<br />Cover image</span>
-                }
+              <div onClick={() => coverInputRef.current?.click()} style={{ width: 130, height: 88, borderRadius: 7, border: '1px dashed var(--border2)', cursor: 'pointer', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)', transition: 'border-color 0.15s' }} onMouseEnter={e => (e.currentTarget.style.borderColor = '#d4a843')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border2)')}>
+                {coverImg ? <img src={coverImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: 'var(--text3)', fontSize: '0.7rem', textAlign: 'center', lineHeight: 1.4, padding: '0 8px' }}>Cover image</span>}
               </div>
-              {coverImg && (
-                <button
-                  onClick={() => setCoverImg(undefined)}
-                  style={{ marginTop: 4, background: 'none', border: 'none', color: '#f55', cursor: 'pointer', fontSize: '0.7rem' }}
-                >Remove</button>
-              )}
+              {coverImg && <button onClick={() => setCoverImg(undefined)} style={{ marginTop: 4, background: 'none', border: 'none', color: '#f55', cursor: 'pointer', fontSize: '0.7rem' }}>Remove</button>}
             </div>
           </div>
-
-          {/* Hidden file inputs */}
           <input ref={imgInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onImageFile} />
           <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onCoverFile} />
-
-          {/* Toolbar */}
           <div style={{ marginTop: 12 }}>
             <Toolbar editorRef={editorRef} onImage={handleImageInsert} onVideo={handleVideoInsert} />
           </div>
-
-          {/* Rich text editor */}
-          <div
-            ref={editorRef}
-            contentEditable
-            suppressContentEditableWarning
-            style={{
-              minHeight: 260, padding: '20px 24px',
-              outline: 'none', color: 'var(--text)',
-              fontFamily: 'Georgia, "Times New Roman", serif',
-              fontSize: '1rem', lineHeight: 1.8,
-              caretColor: '#d4a843',
-              background: 'var(--bg)',
-            }}
-            onFocus={() => {
-              if (editorRef.current?.innerHTML === '<p>Start writing your post here...</p>') {
-                editorRef.current.innerHTML = '';
-              }
-            }}
-          />
-
-          {/* Word count / status bar */}
-          <div style={{
-            padding: '6px 20px', background: 'var(--bg3)',
-            borderTop: '1px solid var(--border)',
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          }}>
-            <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>
-              Rich text editor — supports images, videos, headings, lists & more
-            </span>
-            <span style={{ color: '#d4a843', fontSize: '0.7rem', opacity: 0.6 }}>
-              {published ? '🟢 Will publish immediately' : '⚫ Draft — hidden from homepage'}
-            </span>
+          <div ref={editorRef} contentEditable suppressContentEditableWarning style={{ minHeight: 260, padding: '20px 24px', outline: 'none', color: 'var(--text)', fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '1rem', lineHeight: 1.8, caretColor: '#d4a843', background: 'var(--bg)' }} onFocus={() => { if (editorRef.current?.innerHTML === '<p>Start writing your post here...</p>') { editorRef.current.innerHTML = ''; } }} />
+          <div style={{ padding: '6px 20px', background: 'var(--bg3)', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>Rich text editor</span>
+            <span style={{ color: '#d4a843', fontSize: '0.7rem', opacity: 0.6 }}>{published ? 'Will publish immediately' : 'Draft - hidden from homepage'}</span>
           </div>
         </>
       )}
 
       {activePanel === 'preview' && (
         <div style={{ padding: 24 }}>
-          <div style={{
-            background: 'var(--bg)', border: '1px solid var(--border)',
-            borderRadius: 10, overflow: 'hidden', maxWidth: 680, margin: '0 auto',
-          }}>
-            {coverImg && (
-              <div style={{ height: 200, overflow: 'hidden' }}>
-                <img src={coverImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-            )}
+          <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden', maxWidth: 680, margin: '0 auto' }}>
+            {coverImg && <div style={{ height: 200, overflow: 'hidden' }}><img src={coverImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>}
             <div style={{ padding: '20px 24px' }}>
-              {tags && (
-                <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>
-                  {tags.split(',').filter(Boolean).map(t => (
-                    <span key={t} style={{ padding: '2px 8px', borderRadius: 4, fontSize: '0.68rem', background: 'var(--bg3)', color: 'var(--text3)', border: '1px solid var(--border2)' }}>{t.trim()}</span>
-                  ))}
-                </div>
-              )}
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--text)', fontWeight: 700, margin: '0 0 8px' }}>
-                {title || <span style={{ opacity: 0.3 }}>Untitled post</span>}
-              </h2>
+              {tags && <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>{tags.split(',').filter(Boolean).map(t => <span key={t} style={{ padding: '2px 8px', borderRadius: 4, fontSize: '0.68rem', background: 'var(--bg3)', color: 'var(--text3)', border: '1px solid var(--border2)' }}>{t.trim()}</span>)}</div>}
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--text)', fontWeight: 700, margin: '0 0 8px' }}>{title || <span style={{ opacity: 0.3 }}>Untitled post</span>}</h2>
               {excerpt && <p style={{ color: 'var(--text2)', fontSize: '0.88rem', lineHeight: 1.6, margin: '0 0 16px' }}>{excerpt}</p>}
-              <div
-                className="note-content"
-                dangerouslySetInnerHTML={{ __html: editorRef.current?.innerHTML || '<p style="opacity:0.3">Nothing written yet…</p>' }}
-                style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.8 }}
-              />
+              <div className="note-content" dangerouslySetInnerHTML={{ __html: editorRef.current?.innerHTML || '<p style="opacity:0.3">Nothing written yet...</p>' }} style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.8 }} />
             </div>
           </div>
         </div>
       )}
     </div>
+  );
+}
+
+// ─── Post Card (small grid) ────────────────────────────────────────────────────
+function PostCard({ post, onClick, authed }: { post: Post; onClick: () => void; authed: boolean }) {
+  const [hovered, setHovered] = useState(false);
+  const date = new Date(post.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  return (
+    <article
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        cursor: 'pointer',
+        background: 'var(--bg2)',
+        border: `1px solid ${hovered ? 'rgba(212,168,67,0.5)' : 'var(--border)'}`,
+        borderRadius: 12,
+        overflow: 'hidden',
+        transition: 'border-color 0.2s, transform 0.2s',
+        transform: hovered ? 'translateY(-3px)' : 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+      }}
+    >
+      {authed && !post.published && (
+        <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2, padding: '2px 8px', borderRadius: 4, fontSize: '0.6rem', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border2)', color: 'var(--text3)', fontWeight: 700, letterSpacing: '0.05em' }}>DRAFT</div>
+      )}
+      {post.cover_image && (
+        <div style={{ height: 160, overflow: 'hidden', flexShrink: 0 }}>
+          <img src={post.cover_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s', transform: hovered ? 'scale(1.04)' : 'scale(1)' }} />
+        </div>
+      )}
+      <div style={{ padding: '18px 20px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+        {post.tags?.length > 0 && (
+          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>
+            {post.tags.slice(0, 3).map(tag => (
+              <span key={tag} style={{ padding: '2px 8px', borderRadius: 3, fontSize: '0.65rem', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', background: 'rgba(212,168,67,0.08)', color: '#c9993a', border: '1px solid rgba(212,168,67,0.2)' }}>{tag}</span>
+            ))}
+          </div>
+        )}
+        <h3 style={{ color: 'var(--text)', fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, margin: '0 0 8px', lineHeight: 1.4, flex: 1 }}>
+          {post.title}
+        </h3>
+        {post.excerpt && (
+          <p style={{ color: 'var(--text2)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 16px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            {post.excerpt}
+          </p>
+        )}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
+          <span style={{ color: 'var(--text3)', fontSize: '0.72rem', letterSpacing: '0.02em' }}>{date}</span>
+          <span style={{ color: hovered ? '#d4a843' : 'var(--text3)', fontSize: '0.78rem', fontWeight: 600, transition: 'color 0.2s', letterSpacing: '0.01em' }}>Read &rarr;</span>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+// ─── Featured Post Card ────────────────────────────────────────────────────────
+function FeaturedCard({ post, onClick, authed }: { post: Post; onClick: () => void; authed: boolean }) {
+  const [hovered, setHovered] = useState(false);
+  const date = new Date(post.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  return (
+    <article
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        cursor: 'pointer',
+        display: 'grid',
+        gridTemplateColumns: post.cover_image ? '1fr 1fr' : '1fr',
+        border: `1px solid ${hovered ? 'rgba(212,168,67,0.5)' : 'var(--border)'}`,
+        borderRadius: 14,
+        overflow: 'hidden',
+        background: 'var(--bg2)',
+        marginBottom: '1.5rem',
+        transition: 'border-color 0.2s',
+        position: 'relative',
+        minHeight: 240,
+      }}
+    >
+      {authed && !post.published && (
+        <div style={{ position: 'absolute', top: 14, right: 14, zIndex: 2, padding: '3px 10px', borderRadius: 4, fontSize: '0.6rem', background: 'rgba(0,0,0,0.5)', border: '1px solid var(--border2)', color: 'var(--text3)', fontWeight: 700, letterSpacing: '0.05em' }}>DRAFT</div>
+      )}
+      <div style={{ padding: '32px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+            <span style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#c9993a', padding: '3px 10px', borderRadius: 3, background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.25)' }}>Featured</span>
+            {post.tags?.slice(0, 2).map(tag => (
+              <span key={tag} style={{ fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--text3)' }}>{tag}</span>
+            ))}
+          </div>
+          <h2 style={{ color: 'var(--text)', fontFamily: 'var(--font-display)', fontSize: '1.45rem', fontWeight: 700, margin: '0 0 12px', lineHeight: 1.3 }}>
+            {post.title}
+          </h2>
+          {post.excerpt && (
+            <p style={{ color: 'var(--text2)', fontSize: '0.88rem', lineHeight: 1.65, margin: 0, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+              {post.excerpt}
+            </p>
+          )}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 24 }}>
+          <span style={{ color: 'var(--text3)', fontSize: '0.75rem', letterSpacing: '0.02em' }}>{date}</span>
+          <span style={{ color: hovered ? '#d4a843' : 'var(--accent)', fontSize: '0.82rem', fontWeight: 600, transition: 'color 0.2s' }}>Read article &rarr;</span>
+        </div>
+      </div>
+      {post.cover_image && (
+        <div style={{ overflow: 'hidden' }}>
+          <img src={post.cover_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s', transform: hovered ? 'scale(1.04)' : 'scale(1)' }} />
+        </div>
+      )}
+    </article>
   );
 }
 
@@ -447,8 +433,6 @@ export default function CurrentAffairsSection() {
       const headers: Record<string, string> = {};
       const stored = sessionStorage.getItem(SESSION_KEY);
       if (stored) headers['x-admin-token'] = stored;
-
-      // If admin, fetch all (including drafts); else only published
       const url = stored ? '/api/admin/blog-posts?all=true' : '/api/admin/blog-posts';
       const res = await fetch(url, { headers });
       const { data } = await res.json();
@@ -466,56 +450,41 @@ export default function CurrentAffairsSection() {
     });
   };
 
-  // For non-admin: only published posts
-  const visiblePosts = posts.filter(p =>
-    (authed || p.published) && p.type === activeTab
-  );
-
+  const visiblePosts = posts.filter(p => (authed || p.published) && p.type === activeTab);
   const caCount = posts.filter(p => (authed || p.published) && p.type === 'current-affairs').length;
   const nnCount = posts.filter(p => (authed || p.published) && p.type === 'new-note').length;
 
   const hasAny = caCount + nnCount > 0 || authed;
   if (!hasAny && !loading) return null;
 
+  const [featured, ...rest] = visiblePosts;
+
   return (
-    <section style={{ marginBottom: '3rem' }}>
-      {/* Section header */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem',
-      }}>
+    <section style={{ marginBottom: '4rem' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '0.75rem', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
         <div>
-          <h2 style={{
-            fontFamily: 'var(--font-display)', fontSize: '1.3rem',
-            color: 'var(--text)', margin: 0, fontWeight: 700,
-          }}>
-            Latest from History
+          <p style={{ color: 'var(--text3)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>History Optional</p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--text)', margin: 0, fontWeight: 700, letterSpacing: '-0.01em' }}>
+            Latest Dispatches
           </h2>
-          <p style={{ color: 'var(--text3)', fontSize: '0.78rem', marginTop: '0.2rem' }}>
-            Current affairs &amp; new study material
-          </p>
         </div>
 
-        {/* Tab toggle */}
         {(caCount > 0 || nnCount > 0) && (
-          <div style={{
-            display: 'flex', background: 'var(--bg2)',
-            border: '1px solid var(--border)', borderRadius: 8,
-            padding: 3, gap: 2,
-          }}>
+          <div style={{ display: 'flex', gap: 2, background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: 3 }}>
             {([
-              ['current-affairs', '📰 Current Affairs', caCount],
-              ['new-note', '📄 New Notes', nnCount],
+              ['current-affairs', 'Current Affairs', caCount],
+              ['new-note', 'New Notes', nnCount],
             ] as const).map(([id, label, count]) =>
               count > 0 ? (
                 <button key={id} onClick={() => setActiveTab(id)} style={{
-                  padding: '5px 12px', borderRadius: 6, cursor: 'pointer', fontSize: '0.78rem',
-                  background: activeTab === id ? 'var(--accent-dim)' : 'transparent',
-                  border: activeTab === id ? '1px solid var(--accent2)' : '1px solid transparent',
-                  color: activeTab === id ? 'var(--accent)' : 'var(--text3)',
+                  padding: '5px 14px', borderRadius: 6, cursor: 'pointer', fontSize: '0.75rem',
+                  background: activeTab === id ? 'rgba(212,168,67,0.12)' : 'transparent',
+                  border: activeTab === id ? '1px solid rgba(212,168,67,0.3)' : '1px solid transparent',
+                  color: activeTab === id ? '#d4a843' : 'var(--text3)',
                   transition: 'all 0.15s', fontWeight: activeTab === id ? 600 : 400,
                 }}>
-                  {label} <span style={{ opacity: 0.6, fontSize: '0.7rem' }}>({count})</span>
+                  {label} <span style={{ opacity: 0.5, fontSize: '0.68rem' }}>({count})</span>
                 </button>
               ) : null
             )}
@@ -523,99 +492,27 @@ export default function CurrentAffairsSection() {
         )}
       </div>
 
-      {/* Admin: inline post creator */}
       {authed && <PostCreator token={token} onSaved={onPostSaved} />}
 
-      {/* Posts grid */}
       {loading ? (
-        <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '16px 0' }}>
-          Loading posts…
-        </div>
+        <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '24px 0', letterSpacing: '0.02em' }}>Loading...</div>
       ) : visiblePosts.length === 0 ? (
-        <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '16px 0' }}>
-          {authed ? 'No posts yet — create one above.' : 'No posts yet.'}
+        <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '24px 0' }}>
+          {authed ? 'No posts yet - create one above.' : 'No posts yet.'}
         </div>
       ) : (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '1rem',
-        }}>
-          {visiblePosts.map(post => (
-            <div
-              key={post.id}
-              style={{
-                background: 'var(--bg2)', border: '1px solid var(--border)',
-                borderRadius: 10, overflow: 'hidden', cursor: 'pointer',
-                transition: 'border-color 0.15s, transform 0.15s',
-                position: 'relative',
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent2)';
-                (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
-                (e.currentTarget as HTMLElement).style.transform = 'none';
-              }}
-              onClick={() => router.push(`/posts/${post.id}`)}
-            >
-              {/* Draft badge (admin only) */}
-              {authed && !post.published && (
-                <div style={{
-                  position: 'absolute', top: 10, right: 10, zIndex: 2,
-                  padding: '2px 8px', borderRadius: 4, fontSize: '0.65rem',
-                  background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border2)',
-                  color: 'var(--text3)', fontWeight: 600,
-                }}>DRAFT</div>
-              )}
-
-              {/* Cover image */}
-              {post.cover_image && (
-                <div style={{ height: 140, overflow: 'hidden' }}>
-                  <img src={post.cover_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-              )}
-
-              <div style={{ padding: '14px 16px' }}>
-                {/* Tags */}
-                {post.tags?.length > 0 && (
-                  <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 8 }}>
-                    {post.tags.slice(0, 3).map(tag => (
-                      <span key={tag} style={{
-                        padding: '2px 7px', borderRadius: 4, fontSize: '0.68rem',
-                        background: 'var(--bg3)', color: 'var(--text3)',
-                        border: '1px solid var(--border2)',
-                      }}>{tag}</span>
-                    ))}
-                  </div>
-                )}
-
-                <h3 style={{
-                  color: 'var(--text)', fontFamily: 'var(--font-display)',
-                  fontSize: '0.95rem', fontWeight: 700, margin: '0 0 6px', lineHeight: 1.35,
-                }}>
-                  {post.title}
-                </h3>
-
-                {post.excerpt && (
-                  <p style={{ color: 'var(--text2)', fontSize: '0.8rem', lineHeight: 1.5, margin: '0 0 10px' }}>
-                    {post.excerpt}
-                  </p>
-                )}
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>
-                    {new Date(post.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </span>
-                  <span style={{ color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600 }}>
-                    Read →
-                  </span>
-                </div>
-              </div>
+        <>
+          {featured && (
+            <FeaturedCard post={featured} onClick={() => router.push(`/posts/${featured.id}`)} authed={authed} />
+          )}
+          {rest.length > 0 && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
+              {rest.map(post => (
+                <PostCard key={post.id} post={post} onClick={() => router.push(`/posts/${post.id}`)} authed={authed} />
+              ))}
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
     </section>
   );
