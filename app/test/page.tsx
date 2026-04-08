@@ -71,10 +71,10 @@ function pick<T>(arr: T[], n: number): T[] {
 // Map image bounds (geographic): what lat/lng the image corners correspond to
 // Using Survey of India standard map extent
 const MAP_BOUNDS = {
-  north: 38.5,   // top of image (Jammu/Ladakh)
-  south: 5.5,    // bottom of image (Kanyakumari / Sri Lanka)
-  west:  61.5,   // left edge (Pakistan/Afghanistan border)
-  east:  101.5,  // right edge (Myanmar border)
+  north: 37.5,   // top of image (Jammu/Ladakh)
+  south: 6.5,    // bottom of image (Kanyakumari / Sri Lanka)
+  west:  65.0,   // left edge (Pakistan/Afghanistan border)
+  east:  99.5,  // right edge (Myanmar border)
 };
 
 // Convert lat/lng to % position on the map image
