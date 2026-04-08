@@ -16,10 +16,10 @@ import WeeklyCheckup from "@/components/WeeklyCheckup";
 export const metadata: Metadata = {
   icons: { icon: '/favicon.svg' },
   title: {
-    default: "History Optional — Free UPSC Mains Notes, PYQs & AI Evaluation",
+    default: "History Optional — UPSC Notes, PYQs & AI Eval",
     template: "%s | History Optional",
   },
-  description: "Free comprehensive notes, previous year questions, historiography, timelines and AI answer evaluation for UPSC History Optional. Structured by syllabus, built for Mains.",
+  description: "Free notes, PYQs, historiography & AI answer evaluation for UPSC History Optional. Syllabus-structured, built for Mains.",
   keywords: [
     "UPSC History Optional", "History Optional notes", "History Optional PYQ",
     "UPSC Mains History Optional", "History Optional answer evaluation",
@@ -35,13 +35,13 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://historyoptional.xyz",
     siteName: "History Optional",
-    title: "History Optional — Free UPSC Mains Notes, PYQs & AI Evaluation",
+    title: "History Optional — UPSC Notes, PYQs & AI Eval",
     description: "Free comprehensive notes, PYQs, historiography, timelines and AI answer evaluation for UPSC History Optional. Built for serious Mains aspirants.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "History Optional — UPSC Mains" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "History Optional — Free UPSC Mains Notes, PYQs & AI Evaluation",
+    title: "History Optional — UPSC Notes, PYQs & AI Eval",
     description: "Free comprehensive notes, PYQs, historiography and AI answer evaluation for UPSC History Optional.",
     images: ["/og-image.png"],
   },
