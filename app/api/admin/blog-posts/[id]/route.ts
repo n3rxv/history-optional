@@ -1,30 +1,20 @@
-// app/api/admin/blog-posts/[id]/route.ts
-// Returns a single post by ID.
-// Admin token → returns drafts too. No token → published only.
-
 import { NextRequest, NextResponse } from 'next/server';
-
-// Re-use whatever storage mechanism your existing /api/admin/blog-posts uses.
-// Replace `getPostById` with your actual data-fetching logic.
-import { getPostById } from '@/lib/posts'; // ← adjust path to match your project
+import { isAdminAuthed } from '@/lib/admin-auth';
+import { createServerClient } from '@/lib/supabase';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string } }
 ) {
-  const token = req.headers.get('x-admin-token');
-  const isAdmin = token && token === process.env.ADMIN_TOKEN;
+  const db = createServerClient();
+  const isAdmin = isAdminAuthed(req);
 
-  const post = await getPostById(params.id);
+  const query = isAdmin
+    ? db.from('posts').select('*').eq('id', params.id).single()
+    : db.from('posts').select('*').eq('id', params.id).eq('published', true).single();
 
-  if (!post) {
-    return NextResponse.json({ data: null }, { status: 404 });
-  }
+  const { data, error } = await query;
 
-  // Hide drafts from non-admins
-  if (!post.published && !isAdmin) {
-    return NextResponse.json({ data: null }, { status: 404 });
-  }
-
-  return NextResponse.json({ data: post });
+  if (error) return NextResponse.json({ error: error.message }, { status: 404 });
+  return NextResponse.json({ data });
 }
