@@ -66,12 +66,10 @@ export function middleware(req: NextRequest) {
     }
   }
 
-  // Add anti-scraping headers to all note pages
-  if (pathname.startsWith('/notes') || pathname.startsWith('/api/admin/note-content')) {
+  // Protect API but allow notes to be indexed
+  if (pathname.startsWith('/api/admin/note-content')) {
     const res = NextResponse.next();
-    res.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet, noimageindex');
     res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-    res.headers.set('X-Content-Type-Options', 'nosniff');
     return res;
   }
 
