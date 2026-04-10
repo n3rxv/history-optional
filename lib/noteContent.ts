@@ -7737,7 +7737,268 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; <strong>Bhoja of Malwa (Paramara)</strong> &#8212; prolific royal author; works include the Samarangana Sutradhara (architecture/mechanics), Shringara Prakasha (poetics/rhetoric), Rajamartanda (yoga commentary), Yuktikalpataru (administration), and Ayurveda texts</li>
 <li>&#8226; <strong>Kalhana</strong>&#8217;s <strong>Rajatarangini</strong> (12th century, Kashmir) &#8212; first systematic historical chronicle in Sanskrit of the rulers of Kashmir; unique for its relatively critical historical method</li>
 </ul>`,
-  'early-indian-cultural-history': ``,
+  'early-indian-cultural-history': `<h2>Themes in Early Indian Cultural History</h2>
+<p><strong>Syllabus:</strong> Languages and texts, major stages in the evolution of art and architecture, major philosophical thinkers and schools, ideas in Science and Mathematics.</p>
+
+<h2>I. LANGUAGES</h2>
+
+<h3>A. Sanskrit</h3>
+<ul>
+<li>&#8226; Sanskrit is a remote cousin of all European languages except Finnish, Estonian, Hungarian, Turkish, and Basque &#8212; part of the Indo-European family; its relationship to European languages was revealed by the discovery of Sanskrit by Western scholars, which gave birth to the science of comparative philology (Bopp, Rask)</li>
+<li>&#8226; Vedic Sanskrit is in many respects the closest surviving language to the original Indo-European parent tongue &#8212; bearing about the same relation to classical Sanskrit as Homeric Greek does to classical Greek</li>
+<li>&#8226; A striking feature of Vedic Sanskrit is the <strong>tonic accent</strong> &#8212; an accented syllable on which the voice rose in pitch (not stressed), exactly as in classical Greek</li>
+<li>&#8226; The science of phonetics and grammar developed in India from the necessity of preserving the purity of the Vedas; the oldest Indian linguistic text is <strong>Yaska&#8217;s Nirukta</strong> (5th century BCE), explaining obsolete Vedic words</li>
+<li>&#8226; <strong>Panini&#8217;s Ashtadhyayi</strong> (&#8220;Eight Chapters&#8221;), composed towards the end of the 4th century BCE &#8212; over <strong>4,000 grammatical rules in shorthand</strong>; the most detailed and scientific grammar composed before the 19th century anywhere in the world; it effectively stabilized Sanskrit; Panini based his work on the language as spoken in the North-West</li>
+<li>&#8226; Later commentaries on Panini: <strong>Mahabhashya</strong> of Patanjali (2nd century BCE) and the <strong>Kashi-ka Vritti</strong> of Jayaditya and Vamana (7th century CE)</li>
+<li>&#8226; From Panini&#8217;s time the language was called <strong>Samskrita</strong> (&#8220;perfected&#8221; or &#8220;refined&#8221;) as opposed to the <strong>Prakrits</strong> (&#8220;natural&#8221;) &#8212; the popular dialects</li>
+<li>&#8226; Classical Sanskrit developed long compound nouns to replace clauses, a tendency possibly influenced by Dravidian speech; compounds of 20&#8211;30 members are found in panegyric inscriptions</li>
+<li>&#8226; Sanskrit served as a <em>lingua franca</em> for the whole of India; learned Brahmins from opposite ends of the subcontinent could converse in Sanskrit even today with mutual intelligibility</li>
+<li>&#8226; The first important dynasty to use Sanskrit officially was the Sakas of Ujjain; the <strong>Girnar inscription of Rudradaman</strong> (c. CE 150) is the earliest surviving courtly Sanskrit document of importance</li>
+<li>&#8226; Important lexicographers: <strong>Amarasimha</strong> &#8212; the earliest surviving lexicographer, traditionally a contemporary of Kalidasa; compiled a thesaurus-style dictionary (not alphabetical)</li>
+</ul>
+
+<h3>B. Prakrits and Pali</h3>
+<ul>
+<li>&#8226; The everyday speech of ancient India has been preserved largely through the unorthodox religions; most pre-Gupta inscriptions, notably the Ashokan edicts, are in Prakrit</li>
+<li>&#8226; Prakrits were much simpler than Sanskrit &#8212; consonant groups simplified, diphthongs ai/au vanished, dual number disappeared, inflections reduced</li>
+<li>&#8226; <strong>Pali</strong> &#8212; the most important early Prakrit; became the language of Sthaviravadin (Theravada) Buddhists; a Western dialect probably spoken around Sanchi and Ujjain; still the religious language of Buddhists of Ceylon, Burma and South-East Asia</li>
+<li>&#8226; <strong>Magadhi</strong> &#8212; official language of the Mauryan court; Ashoka&#8217;s edicts were composed in it (though affected by local vernaculars); a hybrid form known as <strong>Ardha-Magadhi</strong> became the sacred language of the Jainas</li>
+<li>&#8226; <strong>Shauraseni</strong> &#8212; used in drama for women and respectable people of lower orders; spoken originally in western UP</li>
+<li>&#8226; <strong>Maharashtri</strong> &#8212; literary language especially popular for lyric song; spoken in north-western Deccan</li>
+<li>&#8226; <strong>Apabhramsha</strong> (&#8220;falling away&#8221;) &#8212; a vernacular of western India that achieved literary form in the Middle Ages; used by Jaina writers in Gujarat and Rajasthan; further reduction of inflections replaced by postpositions; ancestor of modern Indian languages</li>
+</ul>
+
+<h3>C. Dravidian Languages</h3>
+<ul>
+<li>&#8226; Four Dravidian languages have distinctive scripts and written literatures: <strong>Tamil</strong> (south, from Cape Comorin to Madras), <strong>Kannada/Canarese</strong> (Mysore and parts of Andhra), <strong>Telugu</strong> (from Madras northward to Orissa borders), <strong>Malayalam</strong> (Kerala)</li>
+<li>&#8226; Tamil is certainly the oldest with a literature going back to the early centuries CE; its sound system is rich in retroflex consonants; it does not recognize aspirated consonants &#8212; Sanskrit <em>bhuta</em> becomes Tamil <em>puda</em></li>
+<li>&#8226; Tamil is not inflected in the Sanskrit sense; relations between words shown by suffixes that can be piled indefinitely; the earliest texts contain comparatively few Sanskrit loan-words</li>
+<li>&#8226; <strong>Kannada</strong> first appears in inscriptions at the end of the 6th century; earliest surviving literature from the 9th century</li>
+<li>&#8226; <strong>Telugu</strong> did not become a literary language until the 12th century; became important under the Vijayanagara Empire</li>
+<li>&#8226; <strong>Malayalam</strong> &#8212; closely akin to Tamil; a separate language by the 11th century</li>
+</ul>
+
+<h3>D. Scripts</h3>
+<ul>
+<li>&#8226; <strong>Brahmi</strong> &#8212; the most important Ashokan script; read from left to right; used everywhere in India except the North-West; origin debated &#8212; some scholars derive it from the Semitic alphabet, others from Harappan script; so skilfully adapted to Indian sounds that its development must have been at least in part deliberate; by Ashoka&#8217;s time it was the most scientific script in the world</li>
+<li>&#8226; Brahmi vowels expressed by modification of the basic letter (which contained an inherent short <em>a</em>); consonant combinations expressed by placing one under the other; words not generally divided</li>
+<li>&#8226; From Brahmi developed: <strong>Nagari/Devanagari</strong> (serifs joined into a continuous line at the top); scripts of Punjab, Bengal, Orissa, Gujarat, and the South; all South-East Asian scripts (except Arabic and Roman) can be traced back to Brahmi &#8212; the earliest South-East Asian inscriptions (Borneo, Java, Malaya, 4th&#8211;5th centuries) are in Sanskrit and a Pallava-type script</li>
+<li>&#8226; <strong>Kharoshthi</strong> &#8212; the other Ashokan script; derived from the Aramaic alphabet; read from right to left; used in the North-West; disappeared from India after the 3rd century CE but survived longer in Central Asia</li>
+<li>&#8226; Writing materials: <strong>palm leaf</strong> (talipot palm, dried and cut into strips), <strong>birch bark</strong> (in Himalayan districts), sized cotton and silk, thin slips of wood or bamboo; important documents engraved on <strong>copper plates</strong></li>
+</ul>
+
+<h2>II. TEXTS AND LITERATURE</h2>
+
+<h3>A. Vedic Literature</h3>
+<ul>
+<li>&#8226; The <strong>Rigveda</strong> &#8212; 1,028 hymns divided into ten <em>mandalas</em> (circles/books); books ii&#8211;vii ascribed to individual families of seers and contain the earliest hymns; books i, viii, x are later; book ix extracted hymns to Soma from elsewhere; the archaic language and obscurity of allusions makes many passages not fully understood</li>
+<li>&#8226; The Rigvedic hymn to <strong>Vritra</strong> (Indra&#8217;s fight with the cloud-dragon) is among the most notable; hymns to Ushas (dawn) and Ratri (night) show deep feeling for nature; the <em>Gambler&#8217;s Lament</em> is the most famous quasi-secular poem</li>
+<li>&#8226; The <strong>Atharvaveda</strong> &#8212; mainly a collection of spells, but contains a few poems of great merit</li>
+<li>&#8226; The prose <strong>Brahmanas</strong> and the <strong>Yajurveda</strong> recensions &#8212; generally without literary pretensions though written in simple, straightforward language; legends told in terse nervous prose (e.g., Pururavas and Urvashi in the Shatapatha Brahmana)</li>
+<li>&#8226; The <strong>Upanishads</strong> &#8212; rank high as literature; their chief importance is religious; form the basis of Vedanta philosophy</li>
+<li>&#8226; <strong>Vedangas</strong> (six auxiliary sciences of the Vedas): Shiksha (phonetics), Kalpa (ritual), Vyakarana (grammar), Nirukta (etymology), Chhandas (meter), Jyotisha (astronomy)</li>
+</ul>
+
+<h3>B. The Epics</h3>
+<ul>
+<li>&#8226; <strong>Mahabharata</strong> &#8212; over 90,000 stanzas; probably the longest single poem in world literature; traditionally authored by the sage Vyasa; stripped of its episodes and interpolations tells the great civil war in the kingdom of the Kurus (Kurukshetra); contains the <strong>Bhagavad Gita</strong>, <strong>Shanti Parva</strong> (on statecraft and ethics, recited by Bhishma), and famous narrative episodes (Nala-Damayanti, Savitri, Shakuntala)</li>
+<li>&#8226; <strong>Ramayana</strong> &#8212; about a quarter the size of the Mahabharata; traditionally authored by Valmiki; the main narrative (excluding first and last books) gives the impression of a single hand; more artistic but less vigorous than the Mahabharata; the story: Rama&#8217;s voluntary exile, Sita&#8217;s abduction by Ravana, the war against Lanka, and Rama&#8217;s final return; Theravada Buddhists preserved in the Jatakas a version without the abduction and war, suggesting Valmiki conflated two separate traditions</li>
+<li>&#8226; Both epics use the <em>shloka</em> metre (8 syllables per quarter); the epic style and metre became standard for didactic literature (Puranas, Dharma-shastras)</li>
+</ul>
+
+<h3>C. Classical Sanskrit Poetry</h3>
+<ul>
+<li>&#8226; The earliest surviving classical-style Sanskrit poetry is that of the Buddhist writer <strong>Ashvaghosha</strong> (c. end of 1st century CE) &#8212; who composed the <em>Buddhacharita</em> in a comparatively simple classical style; the <strong>Girnar inscription of Rudradaman</strong> (CE 150) is the earliest courtly Sanskrit prose</li>
+<li>&#8226; <strong>Kalidasa</strong> &#8212; greatest Sanskrit poet; probably flourished in the reigns of Chandragupta II and Kumaragupta I (376&#8211;454 CE); works include three dramas, two long <em>mahakavyas</em> &#8212; <strong>Kumarasambhava</strong> (Birth of the War-god) and <strong>Raghuvamsha</strong> (Dynasty of Raghu) &#8212; and two shorter poems: <strong>Meghaduta</strong> (Cloud Messenger) and <strong>Ritusamhara</strong> (Garland of Seasons)</li>
+<li>&#8226; The <strong>Meghaduta</strong> &#8212; over 100 verses; a yaksha banished to Ramagiri sends a message to his beloved in Alaka via a cloud; the poem describes the lands, rivers, and cities the cloud must pass over; noted for its bird&#8217;s-eye-view imagery and masterful use of assonance and alliteration wedded to sense</li>
+<li>&#8226; <strong>Rasa theory</strong>: eight basic <em>rasas</em> (flavours) &#8212; love, courage, loathing, anger, mirth, terror, pity, and surprise; poetic theory also developed <strong>dhvani</strong> (&#8220;reverberation&#8221; &#8212; the suggestion/incantation of words beyond their bare meaning) and <strong>alamkara</strong> (ornamentation &#8212; simile, metaphor, pun, alliteration)</li>
+<li>&#8226; Later <em>mahakavya</em> poets: <strong>Bharavi</strong> (<em>Kiratarajuniya</em>), <strong>Magha</strong> (<em>Shishupala-vadha</em>, famous for verbal ingenuity including stanzas using only one consonant), <strong>Kumara-dasa</strong> (<em>Janaki-harana</em>), <strong>Bhatti</strong> (<em>Bhatti-kavya</em> &#8212; a poem on Rama to illustrate grammatical rules)</li>
+<li>&#8226; Single-stanza poems: <strong>Bhartrhari</strong> (7th century) &#8212; three centuries on worldly wisdom, love, and renunciation; <strong>Amaru</strong> (7th century) &#8212; erotic stanzas of great charm; <strong>Bilhana</strong> (<em>Chaura-panchashika</em> &#8212; &#8220;Fifty Stanzas of the Thief&#8221;, 11th&#8211;12th century)</li>
+<li>&#8226; <strong>Bana</strong> (7th century) &#8212; prose romance writer; works: <em>Harsha-charita</em> (Deeds of Harsha &#8212; part autobiography, first-person narration) and <em>Kadambari</em>; his style is the Gauda (Bengali) style with enormously long sentences, contrasting with the simpler Vaidarbha style of Kalidasa</li>
+<li>&#8226; <strong>Jayadeva</strong> (12th century, Bengal) &#8212; <em>Gita Govinda</em> (Songs of the Cowherd) &#8212; a series of dramatic lyrics on Krishna&#8217;s love for Radha; uniquely rhymed unlike most Sanskrit poetry; still sung at Bengali Vaishnava festivals</li>
+<li>&#8226; <strong>Somadeva</strong> (11th century) &#8212; <em>Katha-sarit-sagara</em> (Ocean of Story) &#8212; the most famous version of the <em>Brihat-katha</em>; stories told with directness, simplicity, and touches of humour</li>
+<li>&#8226; The <strong>Panchatantra</strong> &#8212; a book of instruction in <em>niti</em> through animal fables; translated into Pahlavi in the 6th century, then Syriac, then Arabic (8th century), then Hebrew, Greek, Latin, and spread across Europe; the fables of La Fontaine are based on it (through &#8220;Pilpay&#8221;)</li>
+<li>&#8226; <strong>Kalhana&#8217;s Rajatarangini</strong> (12th century, Kashmir) &#8212; a historical chronicle of the rulers of Kashmir; the first systematic historical chronicle in Sanskrit with a relatively critical method</li>
+</ul>
+
+<h3>D. Classical Sanskrit Drama</h3>
+<ul>
+<li>&#8226; Dramas performed without scenery with minimal properties; stage divided from backstage by a curtain (<em>yavanika</em> &#8212; the Greek-derived name, suggesting possible Greek theatrical influence); every part of the body used in gesture; costume and attributes regulated by convention</li>
+<li>&#8226; Drama began with an invocation to the gods and a prologue in which the <em>sutradhara</em> (stage manager/chief actor) discussed the play with his wife</li>
+<li>&#8226; Main dialogue in prose, freely interspersed with verses; no classical unities of time and place, but violence was forbidden on stage; endings almost invariably happy &#8212; no tragedy; melodrama and pathos were common</li>
+<li>&#8226; Stock characters: <em>nayaka</em> (hero), <em>nayika</em> (heroine), <em>pratinayaka</em> (villain), <em>vidushaka</em> (ugly Brahmin comic companion of the hero), <em>vita</em> (cultured man-about-town)</li>
+<li>&#8226; <strong>Ashvaghosha</strong> &#8212; earliest known dramatist; fragments preserved in Central Asian manuscripts</li>
+<li>&#8226; <strong>Bhasa</strong> &#8212; 13 surviving plays; notably <em>Svapna-vasavadatta</em> (Dream of Vasavadatta) and <em>Pratijna-yaugandharayana</em>; broke rules by permitting violence on stage; excelled in the heroic sentiment</li>
+<li>&#8226; <strong>Kalidasa</strong>&#8217;s three plays: <em>Malavika and Agnimitra</em> (harem intrigue comedy), <em>Vikramorvasiya</em> (Urvashi Won by Valour), and <strong><em>Abhijnana-shakuntala</em></strong> (Recognition of Shakuntala) &#8212; reckoned his masterpiece at all times; plot: King Dushyanta falls in love with Shakuntala in a hermitage; curse of Durvasa causes him to forget her; he recognizes her only after seeing the ring he gave her; play ends in reunion</li>
+<li>&#8226; <strong>Shudraka</strong>&#8217;s <em>Mricchakatika</em> (Little Clay Cart) &#8212; a more realistic comedy involving a poor Brahmin, a courtesan, and a usurping king; has been compared to late Greek New Comedy</li>
+<li>&#8226; <strong>Vishakhadatta</strong>&#8217;s <em>Mudrarakshasa</em> &#8212; a political drama on Chandragupta Maurya&#8217;s rise to power</li>
+<li>&#8226; <strong>Bhavabhuti</strong> (8th century) &#8212; <em>Uttararamacharita</em> &#8212; the only Sanskrit drama with a somewhat unhappy tone; known for philosophical depth</li>
+</ul>
+
+<h3>E. Pali Literature</h3>
+<ul>
+<li>&#8226; Pali style generally simpler than Sanskrit; Pali scriptures are largely prosaic and repetitive (same stock phrases recurring), but narrative portions are often of great merit</li>
+<li>&#8226; The <strong>Jatakas</strong> &#8212; stories of the Buddha&#8217;s previous lives, in terse, dry style; the verses are the original, the prose stories commentary; contain secular tales of talking animals resembling Aesop&#8217;s fables; their influence spread to the West through the Panchatantra</li>
+<li>&#8226; <strong>Theragatha</strong> and <strong>Therigatha</strong> (Songs of Elder Monks and Nuns) &#8212; poetry of simple style suggesting influence of popular song; among the most beautiful are the poems of Ambapali (the courtesan-turned-nun)</li>
+<li>&#8226; The <strong>Mahavamsa</strong> (Ceylon Chronicle) &#8212; contains stirring narrative poetry including the capture of Vijitanagara by King Dutthagamani with his elephant Kandula</li>
+</ul>
+
+<h3>F. Prakrit Literature</h3>
+<ul>
+<li>&#8226; Jaina scriptures in Ardha-Magadhi &#8212; generally arid and repetitive; the poetry is better than the prose</li>
+<li>&#8226; <strong>Hala&#8217;s <em>Saptashataka</em></strong> (Seven Hundred) &#8212; a large collection of self-contained stanzas of great charm and beauty in the Arya metre; most anonymous despite being attributed to the Satavahana king Hala; notable for conciseness; contain simple natural descriptions of peasants and lower classes; often suggest whole stories in four short lines; the treatment of rural love reminds us of early Tamil poetry</li>
+</ul>
+
+<h3>G. Tamil Literature</h3>
+<ul>
+<li>&#8226; <strong>Three Sangams</strong> tradition: the first was attended by gods and legendary sages (all works perished); the second produced only the grammar <strong>Tolkappiyam</strong>; the third Sangam produced the <strong>Eight Anthologies</strong> (<em>Ettutogai</em>) &#8212; the greatest monument of ancient Tamil literature &#8212; and the <strong>Ten Songs</strong> (<em>Pattuppattu</em>)</li>
+<li>&#8226; The Eight Anthologies contain well over 2,000 poems ascribed to more than 200 authors; the collection was almost forgotten even by Tamils until recovered in the last 150 years</li>
+<li>&#8226; Poetry divided into two main groups: <em>akam</em> (internal/love) and <em>puram</em> (external/praise of kings); further classified according to five <em>tinai</em> (regions): hills (<em>kurinji</em>), dry lands (<em>palai</em>), jungle (<em>mullai</em>), cultivated plains (<em>marudam</em>), and coast (<em>neytal</em>); each associated with a specific aspect of love or war, its own flowers, animals, and people</li>
+<li>&#8226; A unique feature: the initial rhyme or assonance (<em>etukai</em>) &#8212; the first syllable(s) of each couplet must rhyme; not found in any other known language</li>
+<li>&#8226; The <strong>Tolkappiyam</strong> &#8212; the earliest surviving Tamil grammar; establishes the tinai convention</li>
+<li>&#8226; <strong>Silappadikaram</strong> (Song of the Anklet) by Ilankovadikal &#8212; Tamil epic; story of Kovalan, Kannaki, and the Pandya king of Madurai; celebrates wifely fidelity and justice; contains rich social history</li>
+<li>&#8226; <strong>Manimekalai</strong> &#8212; the second Tamil epic; Buddhist in tone, continuing the story of Silappadikaram</li>
+<li>&#8226; <strong>Tirukkural</strong> by Tiruvalluvar &#8212; moral aphorisms; notable for its positive ethic of love and forgiveness; still highly influential</li>
+<li>&#8226; Devotional literature: <strong>Nalayira Divya Prabandham</strong> (Four Thousand Holy Hymns) &#8212; collected by Nathamuni in the 10th century from the 12 Alvars; the Vaishnava canon; and the <strong>Thirumurai</strong> (12 books) &#8212; the Shaiva canon including the Tevaram hymns of Sambandar, Appar, and Sundarar (7th&#8211;8th centuries CE)</li>
+</ul>
+
+<h2>III. MAJOR STAGES IN THE EVOLUTION OF ART AND ARCHITECTURE</h2>
+
+<h3>Stage 1: Mauryan and Early Historical Period (3rd century BCE &#8211; 1st century CE)</h3>
+<ul>
+<li>&#8226; The great Mauryan polished stone <strong>pillars</strong> with their finely carved capitals (lion, bull, elephant, lotus) &#8212; showing Persian and possibly Greek influence but distinctly Indian in character; most came from the Chunar quarry near Varanasi; their workshops likely maintained by Mauryan kings and disappeared when the dynasty fell</li>
+<li>&#8226; The earliest surviving significant architecture imitates <strong>wooden originals</strong> &#8212; octagonal pillars, barrel-vault ribbing carved in stone, elaborate carpentry imitated in rock; this is clearly visible in the early cave temples</li>
+<li>&#8226; <strong>The Stupa</strong>: began as an earthen burial mound; Ashoka raised stupas all over India enclosing relics of the Buddha; structure &#8212; hemispherical dome of unburnt brick core faced with burnt brick and plaster, crowned by an umbrella (<em>yashti</em>) and surrounded by a railing (<em>vedika</em>) and circumambulatory path</li>
+<li>&#8226; <strong>Sanchi Stupa No. 1</strong> &#8212; enlarged in the 2nd century BCE to 120 feet diameter; the four great gateways (<em>toranas</em>) added c. 1st century BCE are the masterpiece; carved with a multitude of figures &#8212; yakshas, narrative Jataka scenes, processions, battles &#8212; by private donors (including guilds of ivory carvers from Vidisha); no single coordinating scheme but a unity of culture and delight in the world</li>
+<li>&#8226; At Bharhut, Sanchi, and Amaravati the <strong>Buddha is never shown in human form</strong> but only symbolized by a wheel, empty throne, pair of footprints, or pipal tree</li>
+</ul>
+
+<h3>Stage 2: Kushana and Satavahana Period (1st&#8211;3rd centuries CE) &#8212; First Buddha images</h3>
+<ul>
+<li>&#8226; <strong>Gandhara School</strong> (lower Kabul Valley/upper Indus around Peshawar) &#8212; influenced by Greco-Roman art; craftsmen may have been Westerners from Syria or Alexandria; produced images of the Buddha and Bodhisattvas, and small votive plaques depicting Jataka stories; style called &#8220;Greco-Buddhist&#8221; though the Greco-Bactrian kingdoms had already vanished; later worked mainly in plaster/stucco; influenced Chinese Buddhist art</li>
+<li>&#8226; <strong>Mathura School</strong> &#8212; working in white-spotted red sandstone; probably the origin of the Buddha image (debated with Gandhara); earlier works are happy, fleshy figures with little spirituality; yakshas and yakshis of great sensual vitality; later developed toward grace and religious feeling; through Mathura the Gupta style developed</li>
+<li>&#8226; <strong>Amaravati School</strong> (lower Krishna-Godavari region, completed c. CE 200) &#8212; the great stupa adorned with limestone reliefs; style characterised by intense vitality, sense of rapid movement, slender long-legged figures in vigorous action; the famous medallion of ecstatic demigods carrying the Buddha&#8217;s begging-bowl is among the greatest works of Indian art; great influence on Ceylon and South-East Asian styles</li>
+<li>&#8226; <strong>Cave temples</strong> of the Western Deccan &#8212; under Satavahana patronage; greatest is the <em>chaitya</em> hall at <strong>Karle</strong> (c. beginning of Christian era) &#8212; 124 feet deep, columns with heavy ornate capitals carrying groups of horses and elephants with riders; stupa at the far end; the finest of the cave halls</li>
+</ul>
+
+<h3>Stage 3: Gupta Period (4th&#8211;7th centuries CE) &#8212; &#8220;Classical Age&#8221;</h3>
+<ul>
+<li>&#8226; Gupta sculpture suggests <strong>serenity, security, and certainty</strong>; some of India&#8217;s most truly religious art; especially the Buddhas of Sarnath</li>
+<li>&#8226; The <strong>Buddha &#8220;turning the Wheel of the Law&#8221; at Sarnath</strong> &#8212; the Master sits majestically, body simplified so no muscular contour can be seen, delicate fingers forming the <em>dharmachakra mudra</em>; half-closed eyes and slight smile convey the fundamental Buddhist message; flanked by two small demigods and a large ornate halo &#8212; universally regarded as one of the greatest works of Indian religious art</li>
+<li>&#8226; <strong>Great Boar (Varaha) at Udayagiri</strong> &#8212; Vishnu in his boar incarnation rescuing the earth from the cosmic ocean; the tiny female figure of the personified earth clinging to his tusk; conveys the impression of primeval power working for good; perhaps the only theriomorphic image in world art conveying a truly religious message</li>
+<li>&#8226; <strong>Gupta temple architecture</strong>: the Dashavatara temple at Deogarh and the brick temple at Bhitargaon (both UP) &#8212; the earliest examples of the Nagara-style temple; cruciform plan and curvilinear <em>shikhara</em> visible from the 6th century</li>
+<li>&#8226; <strong>Ajanta cave paintings</strong> &#8212; some date from before the Christian era (Cave X), the finest from the 5th&#8211;7th centuries; technique: tempera on a prepared plaster surface (not true fresco); original pigments still remarkably fresh; no perspective but illusion of depth by placing background figures higher; no frame divides scenes; chief subjects &#8212; life of the Buddha and Jataka stories; but the spirit is secular, depicting the whole life of the times &#8212; princes in palaces, courtesans, coolies, peasants, animals, and birds; the <strong>Bodhisattva Padmapani</strong> (the Lotus-bearer Avalokiteshvara) &#8212; a young man with gentle sorrow and compassionate downward glance &#8212; is among the greatest paintings in any civilization</li>
+</ul>
+
+<h3>Stage 4: Early Medieval Period (7th&#8211;12th centuries CE) &#8212; Temple Architecture Dominant</h3>
+<ul>
+<li>&#8226; Three major temple styles (as described in Shilpashastras): <strong>Nagara</strong> (north of Vindhyas) &#8212; cruciform plan, curvilinear <em>shikhara</em> crowned by <em>amalaka</em>; <strong>Dravida</strong> (between Krishna and Kaveri) &#8212; pyramidal <em>vimana</em> (shikhara) with progressively smaller storeys, huge <em>gopurams</em>, pillared halls; <strong>Vesara</strong> (hybrid, Deccan) &#8212; combining elements of both; Hardy argues &#8220;Karnata-Dravida&#8221; is better than &#8220;Vesara&#8221;</li>
+<li>&#8226; <strong>Pallava rock-cut and structural temples</strong>: Mahendravarman I initiated rock-cut caves at Mamallapuram; Narasimhavarman I (Mahamalla) built the <strong>Five Rathas</strong> (Pancha Rathas) &#8212; monolithic rock-cut temples each in a different style &#8212; and the <strong>Descent of the Ganga</strong> (Arjuna&#8217;s Penance) &#8212; the great open-air relief over 80 feet long on a split boulder &#8212; including the famous sardonic detail of the cat performing penance to catch mice; Narasimhavarman II (Rajasimha) built the <strong>Shore Temple</strong> and the <strong>Kailashanatha temple at Kanchipuram</strong></li>
+<li>&#8226; <strong>Chalukya temples at Pattadakal</strong> &#8212; finest is the Virupaksha temple (built by queen Lokamahadevi to commemorate Vikramaditya II&#8217;s conquest of Kanchipuram); combines Nagara and Dravida elements; Kannada inscription eulogizes the architect Gunda</li>
+<li>&#8226; <strong>Kailasa temple at Ellora</strong> (Rashtrakuta king Krishna I) &#8212; the greatest rock-cut temple; entirely carved from a single rock in imitation of masonry; plan modelled on the Virupaksha at Pattadakal; sculptures include the great panel of Ravana lifting Mount Kailasha &#8212; a work of great grace and energy; the whole series at Ellora characterised by balanced design and energy akin to Amaravati</li>
+<li>&#8226; <strong>Elephanta caves</strong> &#8212; the colossal <strong>Trimurti (Mahesh-murti)</strong> of Shiva &#8212; the three-headed bust, calm with the calmness of eternity &#8212; perhaps the highest plastic expression of the Hindu concept of divinity; perhaps the best-known of all ancient Indian sculptures</li>
+<li>&#8226; <strong>Chola temples and bronzes</strong>: The <em>Brihadishvara/Rajarajeshvara</em> temple at Tanjavur (Rajaraja I) &#8212; pyramidal vimana in classic Dravida style; walls with Shiva in many forms, Tripurantaka given special prominence (political/religious significance); <strong>Chola bronzes</strong> &#8212; the dancing Shiva (<strong>Nataraja</strong>) &#8212; limbs, sash, and locks flaring towards a circular rim of fire; one foot firm on the back of a demon; the essence of vital ordered movement, eternal youth, and ethereal light; the finest school of bronze-casting in the world (<em>cire perdue</em> process)</li>
+<li>&#8226; <strong>Pala and Sena sculpture</strong> (Bihar and Bengal, 8th&#8211;12th centuries) &#8212; in local black basalt; characterised by fine finish, much decoration and polish; Pala bronzes mass-produced and exported to South-East Asia, Nepal, and Tibet; the <em>Sultanganj Buddha</em> (c. 7&#189; feet high, Birmingham Museum) &#8212; a graceful figure of great elegance</li>
+<li>&#8226; <strong>Orissa temples</strong> &#8212; carvings at Bhubaneshwar and Konarak; the courtyard sculptures at the <strong>Sun Temple at Konarak</strong> &#8212; forceful horses and mighty elephant crushing a malefactor &#8212; a strength of treatment rare in world art, reminiscent of Tang dynasty Chinese animal sculpture</li>
+<li>&#8226; <strong>Khajuraho temples</strong> &#8212; covered with figures of divinities and pairs of lovers of wonderful delicacy and grace</li>
+<li>&#8226; <strong>Hoysala temples</strong> (Halebid, Belur) &#8212; elaborately decorated soapstone; star-shaped plan (jagati); bands of ornamental friezes &#8212; elephants, lions, horses, scrollwork, figures; a hybrid Vesara/Karnata-Dravida style</li>
+</ul>
+
+<h3>Painting</h3>
+<ul>
+<li>&#8226; Ajanta murals (discussed above under Stage 3) are the greatest surviving paintings; other cave paintings at Bagh (procession of elephants, dance scene), Badami, Ellora, Sittanavasal (Jaina cave, Tamil Nadu), and Tanjavur Brihadishvara temple (Chola period murals recently revealed)</li>
+<li>&#8226; <strong>Sigiriya rock paintings</strong> (Ceylon, late 6th century) &#8212; heavenly damsels immersed from hips down in clouds, toying with flowers; so well preserved they seem painted yesterday</li>
+<li>&#8226; After the 8th century: outlines become sharper, modelling less delicate; tradition continued to the Muslim invasions; thereafter miniature painting and book illustration developed with Persian influence</li>
+</ul>
+
+<h2>IV. MAJOR PHILOSOPHICAL THINKERS AND SCHOOLS</h2>
+
+<h3>A. The Six Systems (Shaddarshana) &#8212; Orthodox Schools</h3>
+<ul>
+<li>&#8226; Early in the Christian era, six philosophical schools were brought into a theoretical classification as equal ways of salvation; divided into three complementary pairs: <strong>Nyaya</strong> and <strong>Vaisheshika</strong>; <strong>Samkhya</strong> and <strong>Yoga</strong>; <strong>Mimamsa</strong> and <strong>Vedanta</strong></li>
+<li>&#8226; <strong>Nyaya</strong> (&#8220;Analysis&#8221;) &#8212; founded by Akshapada Gautama (<em>sutras</em> probably no earlier than the Christian era); essentially a school of logic and epistemology; recognised four valid means of knowledge: <em>pratyaksha</em> (perception), <em>anumana</em> (inference), <em>upamana</em> (analogy), and <em>shabda</em> (verbal testimony); syllogism in the Indian form (<em>panchavayava</em>) was somewhat more cumbrous than Aristotelian; fallacies analysed: <em>reductio ad absurdum</em>, circular argument, infinite regression, dilemma</li>
+<li>&#8226; <strong>Vaisheshika</strong> (&#8220;School of Individual Characteristics&#8221;) &#8212; earliest text: sutras of the legendary Uluka Kanada; greatest exponent Prashastapada (5th century CE); complementary to Nyaya; interested in physics rather than theology; <em>basic tenet</em>: nature is atomic; each element has individual characteristics (<em>visheshas</em>) distinguishing it from the four non-atomic substances (time, space, soul, mind); salvation depends on recognizing the atomic nature of the universe and its difference from the soul; in the great dissolution atoms separate, then a new Brahma uses the old atoms to recreate the world</li>
+<li>&#8226; <strong>Samkhya</strong> (&#8220;The Count&#8221;) &#8212; perhaps the oldest of the six systems; legendary founder Kapila; earliest surviving text: <em>Samkhya-karika</em> of Ishvarakrishna (c. 4th century CE); rigid dualism and fundamental atheism; teaches 25 basic principles (<em>tattvas</em>): <em>prakriti</em> (primal matter/energy) &#8212; which evolves into <em>buddhi</em> (intelligence/mahat), <em>ahankara</em> (self-consciousness), 5 subtle elements, 5 material elements, 5 sense organs, 5 action organs, and <em>manas</em> (mind); the 25th is <em>purusha</em> (soul) &#8212; eternally inactive spectator of prakriti&#8217;s evolution; doctrine of three <em>gunas</em> (constituent qualities): <em>sattva</em> (virtue/light), <em>rajas</em> (passion/energy), <em>tamas</em> (dullness/darkness) &#8212; in equilibrium in undeveloped prakriti, preponderating differently in different objects in the evolved world</li>
+<li>&#8226; <strong>Yoga</strong> &#8212; basic text: <em>Yoga Sutras</em> of Patanjali (probably several centuries later than the famous grammarian); metaphysically close to Samkhya but introduced a deity (<em>Ishvara</em>) &#8212; a specially exalted soul that never became enmeshed in matter, symbolized in the sacred syllable <strong>OM</strong>; the eightfold course of training: (1) <em>yama</em> (self-control &#8212; non-violence, truthfulness, non-stealing, chastity, non-greed), (2) <em>niyama</em> (observances), (3) <em>asana</em> (posture), (4) <em>pranayama</em> (breath control), (5) <em>pratyahara</em> (restraint of senses), (6) <em>dharana</em> (steadying the mind), (7) <em>dhyana</em> (meditation), (8) <em>samadhi</em> (deep meditation/dissolution of personality); later developments include Hatha Yoga and the concept of <em>kundalini</em> rising through the <em>sushumna</em> to unite with <em>sahasrara</em></li>
+<li>&#8226; <strong>Mimamsa</strong> (&#8220;Enquiry&#8221;) &#8212; originally an exposition of the Vedas; earliest text: sutras of Jaimini (c. 2nd century BCE); declared the Vedas to be eternal, self-existent, and wholly authoritative; great exponent Shabarasvamin (?6th century CE); Kumarila (8th century) developed a full philosophy of salvation; by his time the school was beginning to merge with Vedanta</li>
+<li>&#8226; <strong>Vedanta</strong> (&#8220;End of the Vedas&#8221;) &#8212; most important of the six systems; still a living school; based on the Upanishads; basic text: <em>Brahma Sutras</em> of Badarayana (early Christian era)</li>
+</ul>
+
+<h3>B. Key Vedanta Thinkers</h3>
+<ul>
+<li>&#8226; <strong>Gaudapada</strong> (7th/8th century) &#8212; earliest formal Advaita Vedanta; <em>Mandukyakarika</em> &#8212; a verse commentary on the Mandukya Upanishad; influenced by Madhyamika and Vijnanavada Buddhism; held that worldly objects are like things seen in a dream; reality is one (<em>a-dvaita</em>), plurality due to <em>maya</em></li>
+<li>&#8226; <strong>Shankara</strong> (?788&#8211;820 CE) &#8212; the greatest exponent of <strong>Advaita Vedanta</strong> (also called <em>Kevala-advaita</em> or strict monism); South Indian Shaiva Brahmin; composed extensive commentaries on the Brahma Sutras, Upanishads, and Bhagavad Gita; travelled all over India debating philosophical adversaries (as described in the <em>Shankara-digvijaya</em> of Madhava, though all hagiographies were composed after the 14th century); <em>doctrine</em>: <strong>brahman</strong> is the ultimate reality &#8212; without qualities (<em>nirguna</em>), pure consciousness, eternal, unchanging; the phenomenal universe is <strong>maya</strong> (illusion born of ignorance/<em>avidya</em>) &#8212; like a person mistaking a coiled rope for a snake; salvation comes from realizing the identity of <em>atman</em> with <em>brahman</em>; two levels of reality &#8212; conventional (<em>vyavaharika</em>) and absolute (<em>paramarthika</em>); his critics called him a &#8220;hidden Buddhist&#8221;; his comparison to St Thomas Aquinas in Catholicism is fair &#8212; he gave logical form to Upanishadic philosophy that has remained standard intellectual Hinduism to the present day; is said to have founded the <strong>Dashanami sect</strong> and four <em>Amanaya mathas</em> at Sringeri, Puri, Dwarka, and Badari (historians argue most mathas were established centuries later)</li>
+<li>&#8226; <strong>Ramanuja</strong> (traditionally 1017&#8211;1137 CE) &#8212; <strong>Vishishtadvaita</strong> (&#8220;Qualified Monism&#8221;) &#8212; taught at the great temple of Srirangam; wrote lengthy commentaries on the Brahma Sutras, Bhagavad Gita, and Upanishads; best means of salvation is <strong>bhakti-yoga</strong> &#8212; intense devotion to Vishnu &#8212; and <em>prapatti</em> (complete self-abandonment to God&#8217;s grace); Ramanuja&#8217;s God is a personal being full of love for his creation who can even override karma to draw repentant sinners to him; the individual soul, made from God&#8217;s own essence, returns to God and lives in full communion but always remains distinct (not completely absorbed); his doctrine spread all over India and was the starting point of most later devotional sects; two later doctrinal divisions: Northern School (&#8220;monkey analogy&#8221; &#8212; some effort needed by the devotee) vs Southern School (&#8220;cat analogy&#8221; &#8212; God saves entirely by his grace)</li>
+<li>&#8226; <strong>Madhva</strong> (13th century, Canarese theologian) &#8212; <strong>Dvaita</strong> (dualism): broke completely with Upanishadic monism; Vishnu, individual souls, and matter are eternally and completely distinct; Vishnu saves entirely by his grace; evil souls are predestined to eternal damnation; remarkable resemblances to Christianity &#8212; the status of the wind-god Vayu (son of Vishnu, agent in the world) resembles the Holy Ghost; miracles attributed to Madhva in legend closely parallel Gospel miracles, suggesting influence perhaps through Syrian Christians of Malabar</li>
+</ul>
+
+<h3>C. Non-Orthodox Schools (Nastika)</h3>
+<ul>
+<li>&#8226; <strong>Lokayata/Charvaka</strong> (Materialism) &#8212; allowed only perception as a valid means of knowledge; denied the soul, afterlife, and karma; rejected the Vedas; a consistent materialist and hedonist philosophy; no texts survive, only opponents&#8217; accounts</li>
+<li>&#8226; <strong>Buddhism &#8212; main philosophical schools</strong>:
+  <ul>
+  <li style="padding-left:2em">&#9702; <strong>Madhyamika</strong> (Nagarjuna, c. 2nd century CE) &#8212; doctrine of <em>shunyata</em> (Emptiness/Void); all phenomena are empty of intrinsic existence; the Middle Way between existence and non-existence; influenced Gaudapada and indirectly Shankara</li>
+  <li style="padding-left:2em">&#9702; <strong>Vijnanavada/Yogachara</strong> (Asanga, Vasubandhu, 4th&#8211;5th centuries CE) &#8212; idealism: only mind (<em>vijnana</em>) exists; the external world is a projection of consciousness; <em>alaya-vijnana</em> (store-consciousness) is the basis of all mental activity</li>
+  </ul>
+</li>
+<li>&#8226; <strong>Jainism &#8212; philosophical contributions</strong>: rigid dualism of eternal souls (<em>jivas</em>) and matter (<em>ajiva</em>); <em>anekantavada</em> (many-sidedness of truth) &#8212; any statement about reality is only conditionally true; <em>syadvada</em> (&#8220;perhaps-ism&#8221;) &#8212; every proposition must be qualified by &#8220;in some sense&#8221;; atomic theory &#8212; all atoms identical, differences due to manner of combination</li>
+</ul>
+
+<h3>D. Theistic Developments (Bhakti Philosophy)</h3>
+<ul>
+<li>&#8226; <strong>Pancharatra</strong> school &#8212; Vaishnava school identifying Vasudeva-Krishna with Vishnu; cosmology of five emanations (<em>vyuhas</em>): Vasudeva → Sankarshana → Pradyumna → Aniruddha → Brahma; may have developed in Kashmir; foundational for later Vaishnavism</li>
+<li>&#8226; <strong>Tamil Shaiva Siddhanta</strong> &#8212; three categories: God (<em>Pati</em>), souls (<em>pashu</em>), and matter (<em>pasha</em> &#8212; bond); in salvation the soul is united but not identified with Shiva; Tamil Shaivism approaches genuine monotheism more closely than any other Hindu sect; Shiva&#8217;s justice is an aspect of his love; the harsh and capricious attributes of the old Shiva entirely disappear</li>
+<li>&#8226; <strong>Kashmir Shaivism (Trika)</strong> &#8212; monistic; the greatest name is <strong>Abhinavagupta</strong> (10th century) &#8212; a brilliant theorist in both theology and poetics; salvation comes from a sudden act of recognition/enlightenment</li>
+<li>&#8226; <strong>Lingayat/Veerashaiva</strong> movement &#8212; founded by <strong>Basavanna</strong> (minister of the Kalachuri king Bijjala, CE 1156); rejected the Vedas and Brahmin authority; opposed image worship (only the linga worn on the person); rejected caste distinctions and caste-based priesthood (replaced by <em>jangamas</em>); opposed pilgrimage, sacrifice; cremation replaced by burial; women could remarry; <em>vachanas</em> (prose-poems) by Basavanna are the literary expression; possibly influenced by Islam</li>
+</ul>
+
+<h2>V. IDEAS IN SCIENCE AND MATHEMATICS</h2>
+
+<h3>A. Mathematics</h3>
+<ul>
+<li>&#8226; India&#8217;s greatest contribution to world knowledge: the <strong>decimal place-value system of numerals with zero</strong> &#8212; the unknown inventor is, from the world&#8217;s point of view after the Buddha, the most important son of India; the earliest inscription recording a date in this system comes from Gujarat, dated CE 595; the system had been known to mathematicians for centuries before this</li>
+<li>&#8226; The Arabs called mathematics <em>&#8220;the Indian art&#8221;</em> (<em>hindisa</em>); they learned the decimal notation through Arab merchants trading with the west coast of India and through the Arab conquest of Sind (CE 712); it was known in Syria as early as CE 662 (Severus Sebokht)</li>
+<li>&#8226; The <strong>Bakshali Manuscript</strong> (discovered 1881, ~70 birch bark leaves, 70 miles from Taxila) &#8212; a copy of a text of the 4th century CE; the earliest surviving mathematical text using the decimal system</li>
+<li>&#8226; <strong>Aryabhata I</strong> &#8212; wrote at least two works: the <em>Aryabhatiya</em> (CE 499, surviving) and the <em>Aryabhata-siddhanta</em> (known only through references); native of Ashmaka country; lived in Kusumapura (Pataliputra); said: <em>&#8220;I dived deep in the ocean of astronomical theories, true and false, and rescued the precious sunken jewel of true knowledge by means of the boat of my own intellect&#8221;</em>; discovered that the earth rotates on its axis; gave the first scientific explanation of eclipses (by shadow, not demons); worked out sine functions; calculated the length of a year as 365.2586805 days (extremely accurate); gave an accurate value of &#960; &#8212; approximated to 3.1416</li>
+<li>&#8226; <strong>Brahmagupta</strong> (late 6th/7th century CE) &#8212; <em>Brahmasputasiddhanta</em> (628 CE) and <em>Khandakhadyaka</em> (665 CE); these texts became very influential in India and their Arab translations introduced Indian astronomy to the Arab world; the Brahmasputasiddhanta is the first surviving Indian text with a systematic discussion of astronomical instruments; referred to complex automatic devices called <em>svayamvaha yantras</em> reflecting awareness of perpetual motion</li>
+<li>&#8226; <strong>Varahamihira</strong> (6th century CE) &#8212; astrologer, astronomer, mathematician; native of Avanti; his <em>Panchasiddhantika</em> summarized five astronomical schools including the <em>Romaka Siddhanta</em> and <em>Paulisha Siddhanta</em> (deriving from Paul of Alexandria, indicating Greek influence); his <em>Brihatsamhita</em> is encyclopaedic: covers sword sharpening, precious metals, tree-flowering, animal breeds, water divination, temple and palace design, meteorology</li>
+<li>&#8226; Medieval mathematicians: <strong>Mahaviracharya</strong> (9th century, Rashtrakuta court) &#8212; <em>Ganitasarasangraha</em>; formulae for the area and circumference of an ellipse (area formula incorrect but circumference correct); <strong>Bhaskara II</strong> (12th century) &#8212; <em>Lilavati</em>; proved that any number divided by zero is infinity; established mathematically that infinity divided by any number remains infinity; important ideas in calculus</li>
+<li>&#8226; Indian mathematicians understood: positive and negative quantities; sound systems for square and cube roots; quadratic equations; certain types of indeterminate equations; steps in trigonometry, spherical geometry, and calculus; the mathematical implications of zero (<em>shunya</em>) and infinity &#8212; never more than vaguely realized in the classical world</li>
+</ul>
+
+<h3>B. Astronomy</h3>
+<ul>
+<li>&#8226; <strong>Nakshatras</strong> &#8212; the 27 (or 28) lunar mansions; the heavens charted according to the group of stars near which the moon passes on each day of its sidereal cycle of ~27.3 days; known even in the Rigvedic period; the concept of nakshtras is an indigenous development predating the introduction of the zodiac from the West</li>
+<li>&#8226; <strong>Western astronomical influence</strong>: felt from the early centuries CE; Greek words entered Sanskrit through astronomy; the zodiac, seven-day week, the hour, and several other ideas were introduced from the West; Varahamihira&#8217;s <em>Romaka</em> and <em>Paulisha</em> Siddhantas attest Greek influence</li>
+<li>&#8226; The precession of equinoxes was known and calculated with some accuracy; lengths of year, lunar month, and other astronomical constants more accurate in many cases than Greco-Roman equivalents; eclipses forecast with accuracy and their true cause understood</li>
+<li>&#8226; Aryabhata suggested that the earth revolves around the sun and rotates on its axis &#8212; this theory was also known to later astronomers but never affected astronomical practice (calculations remained geocentric)</li>
+</ul>
+
+<h3>C. Medicine</h3>
+<ul>
+<li>&#8226; The basic texts of Indian medicine: <strong>Charaka Samhita</strong> (1st&#8211;2nd centuries CE) on internal medicine and <strong>Sushruta Samhita</strong> (c. 4th century CE) on surgery; both products of a fully evolved system resembling Hippocratic medicine in some respects, exceeding it in others; development encouraged by Buddhism (monks served as doctors) and by contact with Hellenistic physicians</li>
+<li>&#8226; Basic conception: the doctrine of three humours (<em>doshas</em>) &#8212; <em>vata</em> (wind), <em>pitta</em> (gall/bile), <em>kapha</em> (mucus); health maintained through their even balance; these connected with the three <em>gunas</em>; the five <em>vayus</em> (winds): <em>prana</em> (breathing), <em>samana</em> (digestion), <em>apana</em> (excretion), <em>vyana</em> (blood circulation), <em>udana</em> (speech)</li>
+<li>&#8226; <strong>Surgery</strong>: the caesarean section was known; bone-setting reached a high degree of skill; <strong>plastic surgery</strong> (rhinoplasty &#8212; repair of noses, ears, and lips lost in battle or judicial mutilation) developed far beyond anything known elsewhere at the time; Indian surgeons remained ahead of European surgery in this respect until the 18th century when surgeons of the East India Company learned rhinoplasty from Indians</li>
+<li>&#8226; The pharmacopoeia was very large; oil of the <em>chaulmogra</em> tree &#8212; prescribed for leprosy &#8212; is still the basis of modern treatment; dissection discouraged by taboo on contact with dead bodies but not completely unknown</li>
+<li>&#8226; Ashoka is said to have provided medicine for man and beast; Faxian (early 6th century CE) specifically noted free hospitals maintained by pious citizens</li>
+</ul>
+
+<h3>D. Atomic Theory and Physics</h3>
+<ul>
+<li>&#8226; <strong>Indian atomism</strong> was certainly independent of Greek influence &#8212; Pakudha Katyayana (older contemporary of the Buddha) taught an atomic theory before Democritus</li>
+<li>&#8226; The <strong>Vaisheshika school</strong> especially elaborated atomic doctrines; atom viewed as an eternal point in space without magnitude; atoms of each of the four elements (earth, water, fire, air) have distinct characteristics; before combining they form primary combinations of diads and triads; concept somewhat resembling modern molecular theory</li>
+<li>&#8226; Buddhist and Ajivika atomic theory: atoms exist only in combined molecules (<em>sanghata/kalapa</em>); every molecule contains at least one atom of all four types; Buddhist atoms have a temporal dimension &#8212; atoms come into being and vanish in an instant (resembling Planck&#8217;s quantum)</li>
+<li>&#8226; In acoustics: India made real experimental discoveries; the octave was divided into <strong>22 shrutis</strong> (quarter-tones) whose proportions were measured with great accuracy; overtones (<em>anuranana</em>) recognized as causing differences of timbre between instruments</li>
+</ul>
+
+<h3>E. Music Theory</h3>
+<ul>
+<li>&#8226; The earliest surviving authority on music, drama, and dance: the <strong>Bharata Natyashastra</strong> (anonymous, attributed to the sage Bharata; several centuries around the beginning of the Christian era) &#8212; shows India already had a fully developed system of music by that time</li>
+<li>&#8226; The basic scale (<em>grama</em>) of seven notes: <em>sadja, rishaba, gandhara, madhyama, panchama, dhaivata, nishada</em> &#8212; abbreviated <em>sa, ri, ga, ma, pa, dha, ni</em> &#8212; corresponding approximately to the notes of the European major scale; may be elaborated with half-tones; the theoretical interval is the <em>shruti</em> (22 in an octave)</li>
+<li>&#8226; The <strong>raga</strong> &#8212; a series of 5 or more notes upon which a melody is based; by the 10th century the ragas were firmly established; classified according to time of day appropriate for performance and associated emotions; six basic ragas with raginis as their &#8220;wives&#8221;</li>
+<li>&#8226; The <strong>tala</strong> &#8212; system of musical time; Bharata recognized numerous talas; cross-rhythms of great subtlety and complexity; no developed harmony &#8212; the melodic line sustained by drone notes and drumming; Indian musicians were improvisers &#8212; no finished notation system was devised</li>
+<li>&#8226; Chief instrument: the <strong>vina</strong> &#8212; originally a bow-harp of 10 strings (similar to ancient Egyptian harp); by end of Gupta period superseded first by a pear-shaped lute, then in the 8th century by the early form of the modern vina with a long fingerboard and gourd body; percussion instruments (small finger-drums, cymbals, bells, gongs) considered almost essential for any musical performance; the conch shell was most auspicious</li>
+</ul>`,
   'eastern-india-deccan-south': `<h2>Early State and Society in Eastern India, Deccan and South India</h2>
 
 <h3>Kharavela of Kalinga</h3>
