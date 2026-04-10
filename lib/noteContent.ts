@@ -7480,7 +7480,163 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>`,
   'regional-states-gupta-era': ``,
   'early-indian-cultural-history': ``,
-  'eastern-india-deccan-south': ``,
+  'eastern-india-deccan-south': `<h2>Early State and Society in Eastern India, Deccan and South India</h2>
+
+<h3>Kharavela of Kalinga</h3>
+<ul>
+<li>• Kharavela ruled Kalinga in the first half of the second century BCE; his reign is known primarily from the Hathigumpha (Elephant Cave) inscription at Udayagiri near Bhubaneswar — one of the longest and most important royal inscriptions of ancient India</li>
+<li>• In the eleventh year of his reign (c. 165 BCE), the inscription records the destruction of a confederacy of Tamil states — <em>Tramiradesasanghatam</em> — which was 113 years old at that time and had long been a source of danger to Kalinga; Kharavela also caused numerous pearls and perhaps horses, elephants, jewels, and rubies to be brought from the Pandya to Kalinga</li>
+<li>• In his second regnal year, Kharavela defied the Satavahana king Satakarni by sending a large army of horse, elephant, foot-soldiers, and chariots westward; two years later he defeated the Rathikas of the Maratha country and the Bhojas of Berar, both feudatories of the Andhra ruler of Pratishthana</li>
+<li>• The Hathigumpha inscription also mentions a king named Satakarni in connection with the construction of an aqueduct and records that an earlier Nanda king had carried away a Jina statue and other heirlooms of Kalinga; Kharavela recovered this statue and brought it back</li>
+<li>• Kharavela's inscription is a difficult document — its gaps and extremely worn condition render its meaning uncertain at several crucial points — but it provides the only early epigraphic reference to Tamil kingdoms between the Ashokan inscriptions and the Sangam literature</li>
+</ul>
+
+<h3>The Satavahanas</h3>
+<h4>Origin, Chronology, and Extent</h4>
+<ul>
+<li>• The Satavahanas are identified with the Andhras or Andhrabhrityas of the Puranic lists; the Matsya and Brahmanda Puranas list 30 kings ruling for 460 years in total; their rule likely began in the mid-1st century BCE and ended in the early 3rd century CE</li>
+<li>• Two competing hypotheses exist regarding their original base: (1) inscriptions at Naneghat and Nashik caves point to the western Deccan around Pratishthana (modern Paithan) as their locus; (2) early coins found at Kotalingala and Sangareddy in Karimnagar district of Andhra Pradesh suggest initial eastern Deccan roots; the dominant view is that they rose in the west and expanded in all directions</li>
+<li>• At its greatest extent the Satavahana empire covered the whole of the Deccan — modern Andhra Pradesh and Maharashtra — and at times extended into northern Karnataka, eastern and southern Madhya Pradesh, and Saurashtra; Pliny mentioned 30 walled towns in the Andhra territory with an army of 100,000 infantry, 2,000 cavalry, and 1,000 elephants</li>
+<li>• Their collapse followed upon prolonged wars with the Sakas of Gujarat; by the beginning of the 3rd century the empire had virtually disappeared, giving place to minor independent dynasties</li>
+</ul>
+
+<h4>Key Rulers</h4>
+<ul>
+<li>• <strong>Simuka</strong> — the founder; succeeded by his brother Kanha (Krishna) who extended the kingdom westward at least to Nashik; the third king Satakarni I is depicted in a portrait gallery at Naneghat alongside his queen Naganika, who recorded his performance of two ashvamedhas and one rajasuya — inscribed after his death during the reign of his son Vedashri; he is described as 'Lord of Dakshinapatha' and 'wielder of the unchecked wheel' (apratihata-chakra)</li>
+<li>• <strong>Hala</strong> — the seventeenth Satavahana king (c. 20–24 CE), famous in literature as the compiler of the Sattasai (Gatha Saptasati), a collection of 700 erotic gathas in the Arya metre in Maharashtri Prakrit</li>
+<li>• <strong>Gautamiputra Satakarni</strong> (c. 80–104 CE) — the greatest Satavahana ruler; described in his mother Gautami Balashri's Nashik inscription as the destroyer of the Shakas, Pahlavas, and Yavanas, and the uprooter of the Kshaharatas; he overthrew Nahapana, re-struck large numbers of his silver coins, and recovered northern Maharashtra, Konkan, the Narmada valley, Saurashtra, Malwa, and western Rajputana; his horses are said to have drunk the waters of the three oceans</li>
+<li>• <strong>Vasishthiputra Pulumayi II</strong> — his coins have been found in the Godavari and Guntur districts and on the Coromandel coast as far south as Cuddalore; a daughter of the Kardamaka ruler Rudradaman was probably married to him</li>
+<li>• <strong>Yajnashri (Sri Yajna) Satakarni</strong> (c. 170–99 CE) — probably the last king to control both the western and eastern provinces; his coins depict ships (some single-masted, some double-masted), indicating maritime power; he renewed the struggle with the Shakas and recovered some southern territories of the Kardamakas</li>
+</ul>
+
+<h4>Satavahana Polity and Administration</h4>
+<ul>
+<li>• Kingship was hereditary in the male line, though matronymics were freely prefixed to royal names (e.g., Gautamiputra, Vasishthiputra) — this may reflect cross-cousin marriage practices or simply a polygynous situation; the Satavahana practice was later continued by the Pallavas</li>
+<li>• Feudatories were of three grades: Rajas who struck coins in their own names; Mahabhojas and Maharathis confined to a few families in the western Deccan (the latter connected to the Satavahanas by marriage); a later office of mahasenapatiwas created for outlying provinces and central departments</li>
+<li>• The state was divided into aharas (administrative divisions) each under an amatya (minister); below these came villages each with a gramika (headman); other officials included treasurers, stewards, goldsmiths and coiners, administrators (mahamatras), record keepers, ushers, and ambassadors</li>
+<li>• The earliest inscriptions recording royal land grants with tax exemptions are Satavahana and Kshatrapa epigraphs found at Nashik; these initiated the series of brahmadeyas (gifts to Brahmins) that increased in importance through subsequent centuries</li>
+</ul>
+
+<h4>Economy, Trade, and Guilds</h4>
+<ul>
+<li>• The western and eastern coasts were studded with active ports; in the western Deccan, Barygaza (Broach/Bharukachcha) was the most northern port, Sopara the most ancient, and Kalyan the largest; Ptolemy names several ports in 'Maisolia' (the Godavari-Krishna delta region), one of which was the starting point of ships bound for the Malay Peninsula and eastern archipelago</li>
+<li>• Interior market towns of the western Deccan included Paithan, Tagara, Junnar, Karahataka, Nasik, and Vaijayanti; those of the eastern Deccan — Dhanyakataka, Vijayapura, and Narasela — were less prominent</li>
+<li>• Each group of traders — corn-dealers, braziers, weavers, florists, ironmongers, and scribes — was organized into a guild (shreni); each guild had an alderman (setti) and its own guildhall (nigamasabha), and acted as a bank, receiving deposits and lending out money</li>
+<li>• Imports included luxury goods — wine, fine cloth, choice unguents, glass, storax, and sweet clover (largely from Rome and the West); exports were common cloth, cornelian, muslins, and mallow cloth</li>
+<li>• Roman gold coins flowed into peninsular India in large quantities in the early centuries CE; locally made imitations of Roman gold coins and clay bullae imitating Roman coins have been found across the subcontinent; a 'Roman factory' has been identified archaeologically near Pondicherry (Arikamedu) dating to the 1st century CE</li>
+<li>• Satavahana coins were issued in silver, copper, lead, and potin; coins of Yajnashri bearing ships reflect the maritime dimension of the empire's economy</li>
+</ul>
+
+<h4>Society and Religion</h4>
+<ul>
+<li>• New sub-castes were forming on an occupational basis — shepherds (golikas) and ploughmen (halikas); foreigners such as Shakas and Yavanas were absorbed either as Buddhists or degraded Kshatriyas, many adopting thoroughly Indian names like Dharmadeva, Rishabhadatta, and Agnivarman</li>
+<li>• Royal women of the Satavahana family were prominent in epigraphic records and exercised initiative in making donations in their own right — seen in the inscriptions of Naganika at Naneghat and of Gautami Balashri at Nashik</li>
+<li>• Buddhism flourished through the first two centuries CE — constituting the most glorious epoch of Buddhism in the Deccan; new stupas were built at Alluru, Gummadiduru, Ghantasala, Gudivada, and Goli; caves were cut at Nashik, Karle, and Kanheri; the stupa of Amaravati was enlarged and embellished</li>
+<li>• Brahminism also flourished — most Satavahana rulers performed Vedic sacrifices; Hala's Saptasati opens with an adoration of Shiva; Gautamiputra tried to emulate epic heroes Rama, Keshava, and Arjuna; the pantheon included Indra, Vasudeva, the sun and moon, Shiva, Vishnu, Krishna, Ganesha, and Pashupati</li>
+</ul>
+
+<h3>Successors of the Satavahanas in the Deccan and East</h3>
+<ul>
+<li>• <strong>Abhiras</strong> — occupied the north-west; ten Abhira kings ruled for 67 years; Madhariputra Isvarasena, the Abhira, is mentioned in a Nashik inscription; the dynasty originated an era called the Kalachuri or Chedi era in c. 249–50 CE</li>
+<li>• <strong>Ikshvakus</strong> — ruled the Krishna-Guntur region (eastern Andhra); the Puranas call them Sriparvatiyas; originally feudatories of the Satavahanas bearing the title mahatalavara; Virapurisadata's reign formed a glorious epoch in Buddhism — his royal women built a great stupa at Nagarjunakonda and various apsidal temples, viharas, and mandapas; the stupa at Nagarjunakonda also accommodated Sinhalese monks, reflecting close ties with Ceylonese Buddhism; the sculptures show Greek influence and Mahayana tendencies</li>
+<li>• <strong>Vakatakas</strong> — rose in Madhya Pradesh in the late 3rd century CE; Pravarasena I performed four ashvamedhas and one vajapeya; the dynasty had matrimonial alliances with the imperial Guptas (Prabhavati Gupta, daughter of Chandragupta II, became regent); made substantial additions to the cave temples and paintings at Ajanta</li>
+<li>• <strong>Kadambas of Banavasi</strong> — a Brahmin family of the Manavya gotra rising to power in south-west Deccan from the mid-4th century CE; capital at Vaijayanti (Banavasi); Kakusthavarman was one of the great rulers, his daughters marrying into many important royal families including the Guptas; the dynasty worshipped the kadamba tree and Svami Mahasena (Subrahmanya)</li>
+<li>• <strong>Pallavas</strong> — made Kanchipuram their capital; earliest records are Prakrit copper-plate grants of Skandavarman, who performed agnishtoma, vajapeya, and ashvamedha sacrifices and bore the title 'Supreme King of Kings devoted to dharma'; kingdom extended to the Krishna in the north and the Arabian Sea in the west; their name is taken to be the Sanskrit-Prakrit rendering of tondai (the name of their land and its rulers as well as of a creeper)</li>
+<li>• <strong>Salankayanas</strong> — rose in Vengi (eastern Deccan) after the Brihatphalayanas; their village headman was called mutuda; the tutelary deity was the sun god; their charters bear close resemblance to the earliest inscriptions of Hindu colonies in Indo-China and Malaysia, suggesting the Telugu country took a prominent part in overseas colonization</li>
+<li>• <strong>Gangas of Gangavadi</strong> — kingdom in southern Mysore territory; Konganivarman was the founder (c. 400 CE); the Gangas were generally compelled to acknowledge the suzerainty of the greater dynasties of South India throughout their history</li>
+</ul>
+
+<h3>Tamil States of the Sangam Age</h3>
+<h4>Kharavela's Tamil Confederacy and Chronology</h4>
+<ul>
+<li>• The first well-lighted epoch in Tamil history is reflected in the Sangam literature — the earliest stratum of Tamil literature available, generally dated c. 100–250 CE based on: (1) synchronism of Gajabahu I of Ceylon (c. 173–95 CE) with the Chera king Senguttuvan mentioned in the Padirruppattu; (2) striking correspondence between Sangam evidence of trade with Yavanas (Greeks and Romans) and classical writers — Strabo, the anonymous Periplus author, Pliny, and Ptolemy; (3) discovery throughout South India of gold and silver Roman coins of the 1st–2nd centuries CE and evidence of a 'Roman factory' near Pondicherry</li>
+</ul>
+
+<h4>Sangam Literature</h4>
+<ul>
+<li>• The Sangam corpus comprises eight anthologies (Ettutokai): (1) Narrinai, (2) Kurundogai, (3) Aingurunuru, (4) Padirruppattu, (5) Paripatal, (6) Kalittogai, (7) Akanannuru, (8) Purananuru; a ninth group Pattuppattu ('Ten Idylls') completes the collection; together they include 2,279 poems of varying lengths by 473 poets (including some women) plus 102 anonymous pieces</li>
+<li>• The Tolkappiyam — a comprehensive work on Tamil grammar — is also of the same age; parts of it go back to the early centuries CE; it is said to have been modelled on the grammar of the Aindra school of Sanskrit</li>
+<li>• Two types of Sangam poems: akam (love poems using the tinai landscape convention — kurinchi/mountain for union, palai/arid terrain for separation, mullai/pastoral for patient waiting, neytal/seashore for pining, marutam/riverine for sulking) and puram (war poems celebrating the valour and generosity of kings)</li>
+<li>• Later Tamil didactic works include the Kural (Thirukkural); Tamil epics include the Silappadikaram (the story of Kovalan and Kannagi and the institution of the Pattini cult) and the Manimekalai; these are post-Sangam works but build on Sangam traditions</li>
+</ul>
+
+<h4>The Three Crowned Kingdoms</h4>
+<ul>
+<li>• The land was divided among the three 'crowned kings' of the Chera, Chola, and Pandya lines, along with a number of minor chieftains; seven chieftains gained recognition as <em>vallals</em> (patrons) for their liberal support of literature and arts</li>
+<li>• <strong>Cheras</strong> — capital at Vanji (identified with Karuvur on the Vani river, confirmed by numerous Roman coins in the neighbourhood and Ptolemy's statement that the inland city of Korura was the Chera capital); the Padirruppattu is the anthology exclusively devoted to the Cheras; key rulers include Udiyanjeral, Nedunjeral Adan (captured Yavana traders, released them for ransom), Kuttuvan, Senguttuvan 'the Righteous Kuttuva' (c. 180 CE) — celebrated by the poet Paranar, known for the institution of the Pattini cult and the stone for Kannagi's image being bathed in the Ganges before being brought south</li>
+<li>• <strong>Cholas</strong> — capital at Uraiyur (Kaveri-pattinam, described vividly in the Pattinappalai as a great port); <strong>Karikala</strong> (c. 190 CE) stands pre-eminent — his name means 'the man with the charred leg'; early in life he was deposed and imprisoned, escaped and re-established himself; his victory at the battle of Venni (15 miles east of Tanjore) broke up a widespread confederacy of eleven rulers (Pandya and Chera among them, the Chera being shamed into starving himself to death facing north); Karikala promoted forest reclamation, multiplied irrigation tanks, and established a sort of hegemony over the Tamil crowned kings; later legends attribute to him the flood-banks of the Kaveri and a conquest to the Himalayas</li>
+<li>• <strong>Pandyas</strong> — capital at Madura (Madurai); Korkai was their port on the pearl-fishery coast; <strong>Nedunjeliyan of Talaiyalanganam</strong> (c. 210 CE) — celebrated by Mangudi Marudan and Nakkirar — came to the throne as a youth, repulsed a hostile combination of the Chola and Chera kings and five minor chieftains, pursued the invading forces across his frontier into the Chola country, and defeated them at Talaiyalanganam about 8 miles north-west of Tiruvalur in the Tanjore district; in this battle the Chera king 'Sey of the elephant-look' was taken captive; the Maduraikkkanji gives a full-length description of Madura under Nedunjeliyan's rule</li>
+</ul>
+
+<h4>Administration</h4>
+<ul>
+<li>• Hereditary monarchy was the prevailing form; the king was in all essential respects an autocrat whose autocracy was tempered by the maxims of the wise and the occasional intercession of a minister, poet, or friend; he held a daily durbar (nalavai) to hear and redress complaints</li>
+<li>• The sabha or manram of the king in the capital was the highest court of justice; village manrams were the common meeting places for all village activities and may have had a political dimension — the germ of the highly organized village government that functioned so admirably in later Chola times</li>
+<li>• Land and trade were the chief sources of royal revenue; foreign trade was important and customs revenue occupied a high place — the Pattinappalai gives a vivid account of customs officials in Puhar (Kaveri-pattinam); internal transit duties on merchandise were another source; roads were guarded night and day by soldiers to prevent smuggling; the Cholas had a strongly guarded treasury at Kumbakonam</li>
+<li>• The army comprised the traditional four arms — chariots (drawn by oxen), elephants, cavalry, and infantry; captains were distinguished by the title endadi conferred at a formal ceremony; each ruler's war-drum was bathed periodically and worshipped with mantras</li>
+</ul>
+
+<h4>Economy and Trade</h4>
+<ul>
+<li>• The Chera country was noted for buffaloes, jack-fruit, pepper, and turmeric; in the Chola country watered by the Kaveri, a veli of land yielded a round thousand kaulams of paddy; the principality of Pari abounded in bamboo-rice, jack-fruit, vaili-root, and honey</li>
+<li>• Yavanas (Greeks and Romans) were numerous in ports like Tondi, Musiri, and Puhar (Kaveri-pattinam) which they visited for trade; though unable to speak Tamil, they were employed as palace guards in Madura and on police duty; they brought curiously wrought lamps and wine in bottles</li>
+<li>• The Nedunjeral Adan episode — capturing and then ransoming Yavana traders — suggests that foreign commerce could be disrupted and controlled by Tamil kings; the port at Kaveri-pattinam is described in vivid detail in the Pattinappalai as a great international trading centre</li>
+<li>• Internal transit duties were levied; roads were guarded; the measure of land — ma and veli — were known; the king's share of agricultural produce is not precisely stated in any source</li>
+</ul>
+
+<h4>Society and Culture</h4>
+<ul>
+<li>• The most striking feature of Sangam society is its composite character — an unmistakable blend of Tamilian and Aryan cultures; the Tolkappiyam states that marriage as a sacrament attended with ritual was established in the Tamil country by the Aryas; stories of the Mahabharata and Ramayana were well known; each of the three Tamil kings claimed to have fed the warring armies at Kurukshetra</li>
+<li>• The varna classification was known to Sangam poets — mention is made of the Arashar (kings), Vaishiyar (traders), and Velalar (farmers); Brahmanas performed yajnas on battlefields to ensure victory; however, the four-fold varna had little application to ancient Tamil society and the jati system was not a feature of this period</li>
+<li>• The more relevant basis of social classification was kuti — clan-based descent groups central to the early Tamil system of agricultural production; though associated with lineage and hereditary occupation, there were no real restrictions on inter-dining and social interaction among kuti groups</li>
+<li>• Sangam literature reflects belief in sacred or magical forces called ananku inhabiting various objects; ritualistic groups — Pariyans, Tutiyans, Panans, Velans — carried out rites to control the ananku; ananku was believed to cling to women; widows were considered extremely inauspicious</li>
+<li>• A warrior ethic pervaded Sangam society: the goal of the puram hero was pukal (glory, fame); heroic death in battle was greatly valued; vattakirutal was the practice by which a defeated king committed ritual suicide by starvation; memorial stones (natukal/natakal) were erected in honour of fallen warriors and worshipped regularly — connecting with the megalithic memorial stone tradition</li>
+<li>• One poem in the Purananuru affirms that there are only four castes (kudi) — tudiyan, panan, paraivan, and kadamban — and only one god worthy of worship: the hero-stone recalling the fall of a brave warrior</li>
+<li>• Women played active roles — engaged in farming (planting paddy, weeding), cattle rearing, spinning, fishing, salt making, garland making, and pottery; the cheviliattai (foster mothers) were closely associated with family members; viraliyar were women bards and dancers; kings employed women bodyguards; the Purananuru poem of Kakkaipatiniyar Nachchellaiyar — composed by a woman — graphically celebrates a mother's joy at her son's heroic death in battle</li>
+</ul>
+
+<h4>Sangam Literature and Culture (detailed)</h4>
+<ul>
+<li>• The Silappadikaram — one of the great Tamil epics — tells the story of Kovalan and Kannagi (Kannaki), ending with the destruction of Madura and the establishment of the Pattini cult by Senguttuvan; the Manimekalai continues the story of Kovalan's daughter by a courtesan who becomes a Buddhist nun; both are post-Sangam in their present form but preserve Sangam-age traditions</li>
+<li>• The Tolkappiyam — the oldest surviving Tamil grammar — is divided into three books covering phonology, morphology, and poetics (including the tinai convention); it is said to have been composed by Tolkappiyan, a disciple of Agastya according to later tradition</li>
+<li>• Later Tamil didactic literature includes the Kural (Thirukkural) of Tiruvalluvar — a post-Sangam work — dealing with dharma, artha, and kama in 1,330 couplets; also notable are the Naladiyar and various other ethical texts</li>
+<li>• A 2nd century CE inscription from Mannarkoil mentions the katikai — derived from the Sanskrit ghatika — possibly referring to an assembly of learned persons or institution of higher learning</li>
+<li>• Champakalakshmi has identified the 'Sangam age' with the last phase of the megalithic culture in the Tamil region, identifying the megalithic communities and their large agricultural settlements with the velir (chieftains) and the vela/a (peasantry) of the Sangam poems; a broad correspondence exists between Sangam cultural features — agriculture, cattle rearing, fishing, use of iron, warfare, memorial stones — and the megalithic archaeological record</li>
+</ul>
+
+<h4>Religion in the Sangam Age</h4>
+<ul>
+<li>• The Sangam poems are not fundamentally religious texts, but they reflect a world where gods are present; Murugan (also called Velan, Subramanya) was the most important indigenous Tamil deity — his weapon was the vel (trident/lance) and his banner bore the wild fowl (cock); he later became part of Shiva's family as Kartikeya</li>
+<li>• The Tolkappiyam mentions the worship of Seyyon (Murugan) in the kurinchi (mountain) landscape, Mayon (Vishnu/Krishna) in the mullai (pastoral) landscape, Vendan (Indra) in the marutam (riverine) landscape, and Varunan (Varuna) in the neytal (coastal) landscape — showing a systematic association of deities with regions</li>
+<li>• The Sangam poets also know of Vedic religion — Indra, Brahma, Vishnu are mentioned; Brahmanas perform sacrifices and serve as royal purohitas; yet Brahmanical social codes had not yet taken deep root in Tamil society</li>
+<li>• Buddhism and Jainism were present in the Tamil land during the Sangam age — the cave inscriptions in Tamil-Brahmi (3rd century BCE – 4th century CE) in rock shelters near Madurai record names of Jain and Buddhist monks; however, the Sangam literature does not present Buddhism or Jainism as dominant forces in popular life</li>
+</ul>
+
+<h4>The Dark Age and the Kalabhras</h4>
+<ul>
+<li>• After the close of the Sangam epoch, from about 300–600 CE, there is an almost total lack of information regarding occurrences in the Tamil land; the poet of the Sirupanartruppadai, writing about Nalliyakkodan at the end of the Sangam age (c. 275 CE), says that charity had dried up in the capitals of all three Tamil kingdoms and all ancient patrons of learning were no more</li>
+<li>• The Kalabhras — described as evil rulers in later sources — overthrew numberless chieftains (adhirajar) and got a stranglehold on the country; their origins, nature, and the precise duration of their rule remain obscure; with their overthrow, the new era of Pandya-Pallava achievements began from the close of the 6th century CE</li>
+</ul>
+
+<h3>Buddhist Centres</h3>
+<ul>
+<li>• <strong>Amaravati</strong> (ancient Dhanyakataka) on the Krishna river — one of the greatest Buddhist sites in India; the great stupa was enlarged and embellished under the Satavahanas; occupation goes back to at least the 4th century BCE; the sculptures represent the pinnacle of the Andhra school of Buddhist art — showing the Buddha in narrative scenes and yaksha/yakshi figures in exuberant, dynamic poses; Graeco-Roman influence is discernible in the modelling</li>
+<li>• <strong>Nagarjunakonda</strong> — developed under the Ikshvakus in the 3rd–4th centuries CE; a whole complex of stupas, apsidal temples, viharas, and mandapas; a sthalavihara was founded for Sinhalese monks — a chaitya-ghara was dedicated to the fraternities (theriyas) of Tambapanni (Ceylon), reflecting the close ties between Andhra Buddhism and Sri Lanka; sculptures show Greek influence and Mahayana tendencies; large figures of the Buddha found here</li>
+<li>• <strong>Goli, Ghantasala, Gudivada, Alluru, Gummadiduru</strong> — all in the Krishna-Godavari delta region; new stupas built or old ones enlarged during the Satavahana period; inscriptions mention various Buddhist sects and monks of different grades of learning</li>
+<li>• <strong>Nashik, Karle, Kanheri</strong> — cave sites in western Deccan; new caves cut and additional benefactions made during the Satavahana period; some of the most important donative inscriptions recording land grants to Buddhist monks come from Nashik</li>
+<li>• <strong>Sanchi</strong> — while primarily in central India, the gateways of the Sanchi stupa (1st century BCE – 1st century CE) represent the culmination of early Buddhist narrative sculpture; the four toranas (gateways) are covered with scenes from the life of the Buddha and Jataka stories carved in high relief — vivid, crowded, and full of life; the Buddha is not shown in human form but represented by symbols — wheel, footprints, parasol, empty throne, Bodhi tree</li>
+<li>• The first two centuries CE constitute the most glorious epoch of Buddhism in the Deccan; sculptural evidence from this period shows men and women in states of ecstatic devotion rather than merely performing prostrations; Buddhist monasteries and guilds developed a close relationship — monasteries along trade routes received donations from passing traders and provided services in return</li>
+</ul>
+
+<h3>Art and Architecture</h3>
+<ul>
+<li>• <strong>Satavahana art</strong> — centred on the great Buddhist sites of the Deccan; the stupa at Amaravati was enlarged with sculptured railings and gateways; Graeco-Roman influence is clearly visible in the modelling of figures, the rendering of drapery, and certain decorative motifs; the Satavahana coin bearing a two-masted ship on the obverse indicates the maritime power and activity of the Andhras</li>
+<li>• <strong>Amaravati school</strong> — the most distinctive school of Buddhist sculpture of the Deccan; characterized by animated figures in complex poses, narrative scenes arranged in horizontal bands, the use of white limestone (often called Palnad marble), and an exuberant vitality; the Buddha is depicted in aniconic symbols in earlier phases and in human form (with a distinctive flame-shaped ushnisha) in later phases; many of the finest Amaravati slabs are now in the Government Museum, Chennai and the British Museum, London</li>
+<li>• <strong>Nagarjunakonda</strong> — sculptures from here include large standing and seated Buddha figures as well as narrative reliefs; the complex represents a later phase of the Amaravati style; distinct Mahayana iconographic elements appear</li>
+<li>• <strong>Ikshvaku period</strong> — royal ladies of the Ikshvaku family appear as active patrons of Buddhist construction at Nagarjunakonda; apsidal temples, circular shrines, and various stupa forms are represented</li>
+<li>• <strong>Ajanta</strong> — while primarily a Gupta-period achievement, the Vakatakas made substantial additions to the cave temples and paintings at Ajanta; cave paintings here represent the pinnacle of ancient Indian mural painting — with subjects drawn from the Jataka stories and the life of the Buddha rendered in warm, flowing lines with rich colours</li>
+<li>• <strong>Sanchi gateways</strong> — the four toranas of the Great Stupa at Sanchi (Stupa No. 1) are the finest examples of early Indian Buddhist sculpture; the post-and-lintel construction is covered with intricate carvings; donors' inscriptions on the gateways include references to guilds of ivory workers from Vidisha, indicating guild patronage of Buddhist art</li>
+</ul>`,
   'early-medieval-india': `<h2>Early Medieval Age (8th - 12th C. CE)</h2>
 <h3>Tripartite struggle (8th - 10th C. CE)</h3>
 <p>It was a struggle for supremacy and control over the Central Gangetic Valley among three early medieval empires. The major factors for the struggle were as follows:</p>
