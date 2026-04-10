@@ -7478,7 +7478,265 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </li>
 <li>&#8226; There is no doubt that <strong>division within the imperial family, concentration of power in the hands of local chiefs or governors, loose administrative structure of the empire etc.</strong> contributed towards the disintegration of the Gupta Empire.</li>
 </ul>`,
-  'regional-states-gupta-era': ``,
+  'regional-states-gupta-era': `<h2>Regional States during Gupta Era</h2>
+<p><strong>Syllabus:</strong> Kadambas, Pallavas, Chalukyas of Badami; Polity and Administration, Trade guilds, Literature; growth of Vaishnava and Shaiva religions. Tamil Bhakti movement, Shankaracharya; Vedanta; Institutions of temple and temple architecture; Palas, Senas, Rashtrakutas, Paramaras; Polity and administration; Cultural aspects. Arab conquest of Sind; Alberuni. The Chalukyas of Kalyana, Cholas, Hoysalas, Pandyas; Polity and Administration; Local Government; Growth of art and architecture, religious sects, Institution of temple and Mathas, Agraharas, education and literature, economy and society.</p>
+
+<h2>I. THE KADAMBAS (c. 345&#8211;525 CE)</h2>
+<ul>
+<li>&#8226; Founded by <strong>Mayurasharman</strong> (also known as Mayurasharma), a Brahmin who turned warrior after an insult at the Pallava court at Kanchi; he established a kingdom in the <strong>Banavasi</strong> region of Karnataka</li>
+<li>&#8226; The Kadambas claimed Brahmin origin and are recorded as performing the <strong>ashvamedha</strong>; inscriptions invoke Jinendra, indicating early Jaina patronage alongside Brahmanical practice</li>
+<li>&#8226; <strong>Kakusthavarman</strong> was the most powerful Kadamba ruler &#8212; his copper plate grants from Halsi open with invocations to Jinendra; he arranged matrimonial alliances with the Guptas, Vakatakas, and Gangas, raising the Kadambas to pan-Indian prominence</li>
+<li>&#8226; King <strong>Mrigeshavarman</strong> made multiple land grants to Jaina establishments; the Banavasi inscription records a grant of black-soil land for sweeping the temple, anointing the image with ghee, worship, and repairs</li>
+<li>&#8226; A <strong>Kadamba queen named Divabbarasi</strong> is attested as having ruled as regent until her minor son attained majority &#8212; one of the earliest instances of a queen ruling in South India</li>
+<li>&#8226; The Kadambas were eventually overwhelmed by <strong>Pulakeshin I of the Chalukyas of Badami</strong>, who fought successful wars against the Kadambas of Banavasi (through his son Kirtivarman I)</li>
+<li>&#8226; A collateral branch &#8212; the <strong>Kadambas of Goa</strong> &#8212; continued into the 11th&#8211;12th centuries and issued identifiable coins</li>
+</ul>
+
+<h2>II. THE PALLAVAS OF KANCHI (c. 300&#8211;893 CE)</h2>
+<h3>Political History</h3>
+<ul>
+<li>&#8226; Associated with <strong>Tondaimandalam</strong> &#8212; the area between the north Penner and Vellar rivers; capital at <strong>Kanchipuram</strong></li>
+<li>&#8226; Earliest Prakrit inscriptions mention <strong>Shivaskandavarman</strong> (early 4th century CE); <strong>Vishnugopa</strong> was among the kings of Dakshinapatha defeated by Samudragupta</li>
+<li>&#8226; A period of political dislocation caused by the <strong>Kalabhras</strong> preceded the great expansion; the Kalabhras&#8217; identity remains debated &#8212; variously identified with Muttaraiyars, Karnata people, or Kalavar chieftains of Sangam literature</li>
+<li>&#8226; <strong>Simhavishnu</strong> (late 6th century) ended Kalabhra disturbances, conquered up to the Kaveri, and clashed with the Pandyas and Sri Lanka</li>
+<li>&#8226; <strong>Mahendravarman I</strong> (590&#8211;630) &#8212; great patron of arts, poet and musician; his reign began the prolonged Pallava&#8211;Chalukya conflict; Pulakeshin II&#8217;s army reached the Pallava capital and annexed its northern part</li>
+<li>&#8226; <strong>Narasimhavarman I Mahamalla</strong> (630&#8211;68) &#8212; defeated the Chalukyas multiple times with the aid of the Sri Lankan prince Manavarma; invaded and captured <strong>Badami</strong>; built the port of <strong>Mamallapuram</strong> with its five rathas; claimed to have defeated the Cholas, Cheras, and Kalabhras; despatched two successful naval expeditions to Sri Lanka</li>
+<li>&#8226; <strong>Narasimhavarman II Rajasimha</strong> &#8212; built the <strong>Kailashanatha temple at Kanchipuram</strong> (also called Rajasimheshvara); the Virupaksha temple at Pattadakal was built by queen Lokamahadevi to commemorate her husband <strong>Vikramaditya II</strong>&#8217;s conquest of Kanchipuram</li>
+<li>&#8226; <strong>Dantivarman</strong> suffered an invasion by the Rashtrakuta Govinda III; <strong>Nandivarman III</strong> defeated the Pandyas</li>
+<li>&#8226; <strong>Aparajita</strong>, the last imperial Pallava, was defeated and the dynasty overthrown c. 893 CE by the Chola king <strong>Aditya I</strong>; Tondaimandalam passed to the Cholas</li>
+</ul>
+<h3>Polity and Administration</h3>
+<ul>
+<li>&#8226; The Pallavas claimed <strong>Brahmana origin</strong> of the Bharadvaja gotra, tracing lineage back to Brahma &#8212; a legitimizing genealogy common among new dynasties</li>
+<li>&#8226; The king&#8217;s court included a <strong>council of ministers (mantrins)</strong>; functionaries such as the <strong>adhikari</strong>, <strong>vayil ketpar</strong>, and <strong>tirumandira-olai</strong> are attested in inscriptions</li>
+<li>&#8226; The Pallavas issued earliest surviving <strong>copper plate land grants</strong> (mid-4th century); bilingual Tamil-Sanskrit inscriptions became common from the 7th century &#8212; Sanskrit for the invocation and genealogy, Tamil for the details of grants</li>
+<li>&#8226; Tamil became an important language of South Indian inscriptions under the Pallava dynasty; hundreds of donative Tamil inscriptions were inscribed on temple walls</li>
+</ul>
+
+<h2>III. THE CHALUKYAS OF BADAMI (c. 535&#8211;757 CE)</h2>
+<h3>Political History</h3>
+<ul>
+<li>&#8226; Claimed Brahmin origin as <strong>Haritiputras of the Manavya gotra</strong></li>
+<li>&#8226; <strong>Pulakeshin I</strong> (535&#8211;66) &#8212; founded the dynasty by building a strong fortress at <strong>Vatapi (Badami)</strong>; performed ashvamedha and other shrauta sacrifices</li>
+<li>&#8226; <strong>Kirtivarman I</strong> (566&#8211;597/98) &#8212; fought successful wars against the Kadambas of Banavasi, Mauryas of the Konkan, and Nalas of Bastar</li>
+<li>&#8226; <strong>Pulakeshin II</strong> (610/11&#8211;642) &#8212; the most powerful Chalukya king; his achievements are described in the <strong>Aihole inscription</strong> composed by the poet Ravikirti (who compared himself to Kalidasa and Bhasa); victories against Kadambas, Alupas, Gangas; repelled <strong>Harshavardhana</strong> on the banks of the Narmada; attacked the Pallava kingdom but was killed by a Pallava counter-attack that captured Badami</li>
+<li>&#8226; <strong>Vikramaditya II</strong> &#8212; reversed Pallava humiliation; his queen Lokamahadevi built the Virupaksha temple at Pattadakal to commemorate the victory; another queen built the Sangameshvara temple; the <strong>Virupaksha temple</strong> is considered the finest of the Pattadakal group</li>
+<li>&#8226; The <strong>Eastern Chalukyas</strong> established themselves in Vengi (Andhra region); key ruler <strong>Vijayaditya II</strong> achieved military successes before being overwhelmed by Rashtrakutas</li>
+<li>&#8226; Western Chalukyas were overwhelmed by the <strong>Rashtrakutas</strong> in the mid-8th century; the <strong>Chalukya-Vikrama era of 1076</strong> was later used in Karnataka inscriptions</li>
+</ul>
+<h3>Literature</h3>
+<ul>
+<li>&#8226; The <strong>Aihole inscription</strong> of Pulakeshin II is a key literary and historical source &#8212; 19 lines in Sanskrit verse on the Meguti temple at Aihole, dated 634&#8211;35 CE (Shaka year 556)</li>
+<li>&#8226; <strong>Mahendravarman I</strong> of the Pallavas (a contemporary) authored the <strong>Mattavilasa Prahasana</strong> &#8212; a Sanskrit farce</li>
+<li>&#8226; The <strong>Vikramankadevacharita</strong> by Bilhana eulogized <strong>Vikramaditya VI</strong> of the Chalukyas of Kalyana</li>
+</ul>
+
+<h2>IV. THE RASHTRAKUTAS (c. 733&#8211;982 CE)</h2>
+<ul>
+<li>&#8226; Migrated from the Latur area to Ellichpur c. 625 CE; were initially feudatories of the Chalukyas</li>
+<li>&#8226; <strong>Dantidurga</strong> (ascended throne 733 CE) &#8212; assumed independent status, won many military victories, and adopted imperial titles; name meaning &#8220;he whose elephant is his fortress&#8221;</li>
+<li>&#8226; Empire expanded under <strong>Krishna I</strong>, <strong>Govinda III</strong>, and <strong>Amoghavarsha</strong>; campaigns into north India and against peninsular rulers; could not sustain victories against Western Chalukyas, Eastern Chalukyas, Eastern Gangas, and Pallavas</li>
+<li>&#8226; <strong>Krishna I</strong> built the magnificent <strong>Kailashanatha temple at Ellora</strong> &#8212; carved entirely out of rock, it represents the pinnacle of rock-cut architecture in India</li>
+<li>&#8226; <strong>Amoghavarsha</strong> (814&#8211;878) &#8212; built new capital at <strong>Manyakheta</strong> (modern Malkhed); patron of literature; wrote the <strong>Kavirajamarga</strong>, the earliest Kannada work on poetics; also a devout Jaina</li>
+<li>&#8226; <strong>Indra III</strong> captured Kanauj; victories against the Cholas; but also suffered reverses</li>
+<li>&#8226; Towards end of 10th century, the <strong>Paramaras sacked Manyakheta</strong> &#8212; signalling the decline of the Rashtrakutas; they were finally overthrown by the <strong>Chalukyas of Kalyana (Later Western Chalukyas)</strong></li>
+<li>&#8226; The <strong>mathematician Mahaviracharya</strong> was associated with the Rashtrakuta court; his <strong>Ganitasarasangraha</strong> dealt with mathematical problems including formulae for the circumference of an ellipse</li>
+</ul>
+
+<h2>V. THE PALAS (c. 750&#8211;1161 CE)</h2>
+<ul>
+<li>&#8226; Founded by <strong>Gopala</strong> &#8212; elected by the people to rescue Bengal from <strong>matsya-nyaya</strong> (the law of the fish &#8212; the big devouring the small), as stated in the Khalimpur copper plate of Dharmapala</li>
+<li>&#8226; <strong>Dharmapala</strong> (770&#8211;810) &#8212; key ruler; initially defeated by Pratiharas and Rashtrakutas, but went on to conquer much of north India; held a <strong>durbar at Kanauj</strong>, installing his puppet Chakrayudha on the throne; direct control over Bengal and Bihar; vassals included rulers of the Punjab, hill states, Rajputana, Malwa, and Berar; founded Buddhist monasteries at <strong>Vikramashila</strong> (Antichak, Bhagalpur) and <strong>Somapuri</strong> (Paharpur, Rajshahi); Odantapuri also attributed to him</li>
+<li>&#8226; <strong>Devapala</strong> (810&#8211;850) &#8212; extended the empire; claimed tribute from the Himalayas to the Vindhyas, east to west oceans; campaigns to Kamboja, exterminated Utkalas, conquered Pragjyotisha; great patron of Buddhism</li>
+<li>&#8226; Pala power declined in the late 9th century under weak kings; revival under <strong>Mahipala I</strong> in the late 10th century; final decline in the 12th century</li>
+<li>&#8226; The Palas were the greatest patrons of <strong>Vajrayana Buddhism</strong>; Nalanda, Vikramashila, Odantapuri, and Somapuri (Paharpur) flourished under their patronage</li>
+<li>&#8226; Pala land grants mention the <strong>puroga</strong> (village leader), <strong>mahattara/mahattama</strong> (village elders), and <strong>kutumbin</strong> (farmer) as important rural figures; the Irda plate addresses tradesmen and clerks in addition to cultivators</li>
+</ul>
+
+<h2>VI. THE SENAS (c. 1070&#8211;1230 CE)</h2>
+<ul>
+<li>&#8226; Replaced the Palas in Bengal; their origin inscriptions describe them as of <strong>Brahma-Kshatriya</strong> stock from the Deccan (Karnataka)</li>
+<li>&#8226; <strong>Vijayasena</strong> &#8212; first major ruler; consolidated Sena power across Bengal</li>
+<li>&#8226; <strong>Ballalasena</strong> &#8212; authored the <strong>Danasagara</strong> and <strong>Adbhutasagara</strong>; known for introducing a strict <strong>caste system (kulinism)</strong> into Bengal society</li>
+<li>&#8226; <strong>Lakshmanasena</strong> &#8212; last powerful Sena ruler; his court included the poets Jayadeva (author of the <strong>Gita Govinda</strong>), Dhoyi, and Umapatidhara; defeated by Muhammad bin Bakhtyar Khilji c. 1203 CE</li>
+<li>&#8226; Sena land grants are remarkable for <strong>meticulous detail</strong> &#8212; giving dimensions of gifted land in both surface measures (nala, pataka, bhu-pataka) and seed measures (drona, bhu-drona, adhavapa); annual revenue specified in currency units called puranas, kapardaka-puranas, and churnis &#8212; indicating careful state revenue records</li>
+<li>&#8226; The Senas were ardent <strong>Shaivas</strong> and also patronized Vaishnavism</li>
+</ul>
+
+<h2>VII. THE PARAMARAS (c. 800&#8211;1305 CE)</h2>
+<ul>
+<li>&#8226; Capital at <strong>Dhara</strong> (modern Dhar, MP); early inscriptions describe them as born in the family of the Rashtrakutas; later inscriptions give the <strong>agnikula legend</strong> &#8212; the hero Paramara (slayer of the enemy) sprang from the sacrificial fire on Mount Abu lit by the sage Vasishtha</li>
+<li>&#8226; Initially feudatories of the Rashtrakutas; power revived in mid-10th century under <strong>Vairasimha II</strong> and <strong>Siyaka II (Harsha)</strong> &#8212; Siyaka threw off allegiance to the Rashtrakutas and sacked their capital Manyakheta</li>
+<li>&#8226; <strong>Munja</strong> (Utpala/Vakpatiraja II) &#8212; extended empire; victories against Kalachuris; raids into Rajputana; sacked Aghata, capital of the Guhilas; annexed Mount Abu; was finally defeated by the Chalukya ruler <strong>Taila II</strong>; accomplished poet and patron of art</li>
+<li>&#8226; <strong>Bhoja of Malwa</strong> (c. 1000&#8211;1055) &#8212; the greatest Paramara ruler; prolific author; wrote on architecture (Samarangana Sutradhara), poetics (Shringara Prakasha), yoga (Rajamartanda), grammar, and medicine; built the Bhojeshvara Shiva temple; founded <strong>Bhojpur</strong> and patronized the Sarasvati Kanthabharana college at Dhara; struggled against a coalition of Chalukyas and Kalachuris; Dhara was ultimately captured</li>
+<li>&#8226; The Paramaras were finally extinguished by the <strong>Khilji</strong> forces in 1305</li>
+</ul>
+
+<h2>VIII. THE CHALUKYAS OF KALYANA (Later Western Chalukyas, c. 973&#8211;1189 CE)</h2>
+<ul>
+<li>&#8226; <strong>Tailapa II</strong> &#8212; overthrew the Rashtrakutas c. 973 and re-established Chalukya power from Manyakheta</li>
+<li>&#8226; <strong>Vikramaditya VI (Vikramaditya Tribhuvanamalla)</strong> &#8212; the greatest ruler; initiated the <strong>Chalukya-Vikrama era of 1076</strong>; his court included famous poets; Bilhana wrote the <strong>Vikramankadevacharita</strong> in his praise; Vijnaneshvara wrote the <strong>Mitakshara</strong>, a major commentary on the Yajnavalkya Smriti that became authoritative on Hindu law across most of India</li>
+<li>&#8226; The Chalukyas of Kalyana were eventually overthrown by their own feudatories &#8212; the <strong>Hoysalas</strong> and <strong>Kalachuris</strong></li>
+</ul>
+
+<h2>IX. THE CHOLAS (c. 850&#8211;1279 CE)</h2>
+<h3>Political History</h3>
+<ul>
+<li>&#8226; <strong>Vijayalaya</strong> &#8212; founder of the medieval Chola dynasty; established power around Uraiyur; captured Tanjore from the Muttaraiyar chieftains; accepted Pallava overlordship</li>
+<li>&#8226; <strong>Aditya I</strong> (871&#8211;907) &#8212; confederated with the Pallavas; defeated the Pandyas at Shripurambiyam; killed the Pallava king Aparajita (893); conquered Kongudesha; formed a matrimonial alliance with the Pallavas</li>
+<li>&#8226; <strong>Parantaka I</strong> (907&#8211;953) &#8212; conquered Madurai with allies; took title Madurantaka; defeated the Pandyas and Sri Lanka at the battle of Vellur; but suffered a heavy defeat at the hands of the Rashtrakutas at the battle of <strong>Takkolam</strong> (949)</li>
+<li>&#8226; <strong>Rajaraja I (Arumolivarman)</strong> (985&#8211;1014) &#8212; the peak of Chola power begins; broke the Pandya&#8211;Kerala&#8211;Sri Lanka confederation; conducted a naval expedition to Sri Lanka, destroyed Anuradhapura, and established a Chola province in northern Sri Lanka; victories against Western Chalukyas and Rashtrakutas; conquered the Maldives; built the <strong>Brihadishvara (Rajarajeshvara) temple at Tanjavur</strong>; initiated a great <strong>land survey</strong> across the empire</li>
+<li>&#8226; <strong>Rajendra I</strong> &#8212; continued expansion; built new capital at <strong>Gangaikondacholapuram</strong>; despatched a successful naval expedition in <strong>1025 CE</strong> to <strong>Sri Vijaya</strong> in the Malay peninsula (a major strategic move in Indian Ocean trade)</li>
+<li>&#8226; <strong>Kulottunga I</strong> (1070&#8211;1122) &#8212; long peaceful reign; sent an embassy of merchants to China; title <strong>Shungam-tavirttar</strong> (abolisher of tolls); reign saw Chola-Chalukya and Chola-Hoysala tensions</li>
+<li>&#8226; Imperial Chola power declined in the 13th century; dynasty ended in 1279</li>
+</ul>
+<h3>Polity and Administration</h3>
+<ul>
+<li>&#8226; King referred to as <strong>ko, perumal,</strong> or <strong>peruman adigal</strong> (the great one); imperial titles included <strong>raja-rajadhiraja</strong> and <strong>ko-konmai-kondan</strong> (king of kings); kings compared with gods &#8212; Rajaraja called <strong>Ulakalanda Perumal</strong> (the great one who measured the earth) &#8212; a double entendre referencing Vishnu&#8217;s three strides</li>
+<li>&#8226; Revenue was assessed and collected not by state officials alone but by <strong>corporate bodies</strong>: the <strong>ur</strong> (village assembly of tax-paying landowners in non-brahm adeya villages), the <strong>sabha</strong> (Brahmana assembly in brahm adeya villages), the <strong>nagaram</strong> (merchant assembly in urban centres); these passed revenue on to the centre</li>
+<li>&#8226; <strong>Ur</strong>: corporate body of vellanvagai (non-brahm adeya) villages; members were tax-paying landowners; dealt with land sale, gift, and tax exemptions; the ur-nattam was the residential quarter of landowning farmers; the kammanacheri housed artisans; the paraicheri housed agricultural labourers</li>
+<li>&#8226; <strong>Sabha</strong>: Brahmana assembly in brahm adeya villages; membership governed by property ownership, learning, family antecedents, and good conduct; managed landed property and temple revenue; could reach very large sizes &#8212; some 11th&#8211;12th century inscriptions mention sabhas of 300, 500, 1,000, 3,000, and even 12,000 members</li>
+<li>&#8226; The Chola state reorganized the empire under Rajaraja I into units known as <strong>valanadu</strong>s; the revenue department post-Rajaraja was known as <strong>puravu-vari-tinaikkalam</strong> or shri-karanam</li>
+<li>&#8226; Revenue dues included <strong>eccoru</strong> (obligation to provide food for state officials), <strong>muttaiyal</strong> and <strong>vetti</strong> (labour services), <strong>kudamai</strong> (labour obligation); <strong>kadamai</strong> was the main land revenue term in the later Chola period &#8212; possibly 40&#8211;50% of produce, collected in kind; the <strong>antarayam</strong> was a rural cash tax</li>
+<li>&#8226; Military included a standing army with <strong>senapati</strong> and <strong>dandanayakam</strong> as senior officers; personal bodyguards tied to the king through loyalty bonds, given land revenue assignments; periodic levies from chieftains supplemented the standing force; Rajendra I&#8217;s Sri Vijaya expedition is cited as evidence of a Chola navy</li>
+<li>&#8226; Justice: the <strong>dharmasana</strong> (central royal court) existed theoretically; day-to-day justice was handled by local bodies like the sabha</li>
+</ul>
+<h3>Local Government</h3>
+<ul>
+<li>&#8226; The empire was divided into <strong>mandalams</strong> (provinces), subdivided into <strong>nadus</strong> (localities); functionaries at the nadu level included the <strong>nadu-vagai</strong>, <strong>nadu-kakani-nayakam</strong>, and <strong>kottam-vagai</strong></li>
+<li>&#8226; Land rights: <strong>kani</strong> signified rights of possession; <strong>karanmai</strong> (right to cultivate) and <strong>mitatchi</strong> (superior possessive right) are attested; <strong>kutamai</strong> denoted right of occupancy</li>
+<li>&#8226; Social hierarchy in the village: <strong>paraiyar</strong> (ritually impure, segregated), <strong>vellalar</strong> (cultivating groups &#8212; divided into kaniyudaiyar/landowning and ulukudi/tenant farmers), service groups (potters, blacksmiths)</li>
+</ul>
+
+<h2>X. THE HOYSALAS (c. 1006&#8211;1346 CE)</h2>
+<ul>
+<li>&#8226; Rose as feudatories of the Chalukyas of Kalyana in the south Karnataka region; capital at <strong>Dvarasamudra (Halebid)</strong></li>
+<li>&#8226; <strong>Vishnuvardhana</strong> (1108&#8211;42) &#8212; first major ruler; converted from Jainism to Vaishnavism under the influence of <strong>Ramanujacharya</strong>; expanded Hoysala territory at the expense of the Cholas; built the Chennakeshava temple at Belur</li>
+<li>&#8226; <strong>Vira Narasimha II</strong> and <strong>Vira Ballala II</strong> &#8212; later important rulers; the Hoysalas effectively replaced the Cholas and Chalukyas as the dominant power in the Deccan</li>
+<li>&#8226; Distinguished by the <strong>Hoysala architectural style</strong> &#8212; elaborately decorated star-shaped platforms (jagati), intricately carved soapstone walls with bands of sculptural decoration; Hoysaleshvara temple at Halebid and Chennakeshava temple at Belur are the finest examples</li>
+<li>&#8226; Temples built in a hybrid <strong>Vesara</strong> style combining Nagara and Dravida elements; also called <strong>Karnata-Dravida</strong> by Hardy</li>
+<li>&#8226; Destroyed by the Khilji invasion under <strong>Malik Kafur</strong> (1310); finally extinguished by the Bahmani Sultanate</li>
+</ul>
+
+<h2>XI. THE PANDYAS (early medieval revival)</h2>
+<ul>
+<li>&#8226; Early medieval line began with <strong>Kadungon</strong> (560&#8211;90) and <strong>Maravarman Avanishulamani</strong> (590&#8211;620) &#8212; the latter ended Kalabhra rule and revived Pandya power</li>
+<li>&#8226; <strong>Rajasimha I</strong> (735&#8211;65) bore the epithet <strong>Pallava-bhanjana</strong> (breaker of the Pallavas); the empire expanded under him and his successors Jatila Parantaka Nedunjadaiyan and Shrimara Shrivallabha</li>
+<li>&#8226; Completely overpowered by the <strong>Cholas in the 10th century</strong>; revived later as the Later Pandyas and outlasted the Cholas</li>
+<li>&#8226; The Pandyas linked themselves to the <strong>lunar dynasty</strong>; inscriptions mention <strong>mantrins</strong> (ministers) organized into a council</li>
+</ul>
+
+<h2>XII. TRADE GUILDS</h2>
+<ul>
+<li>&#8226; Corporate merchant organizations became very prominent from the <strong>10th century</strong> onwards; referred to as <strong>samaya</strong> (organization by agreement/contract); members governed by a code of conduct called <strong>bananju-dharma</strong></li>
+<li>&#8226; <strong>Ayyavole (The Five Hundred)</strong> &#8212; also known as <strong>Ainnurruvar</strong>; the most powerful supra-regional merchant guild; originated in <strong>Aihole</strong> (Karnataka) c. 8th century; earliest inscription in the Lad Khan temple at Aihole; found inscriptions as far as <strong>Padaviya (Sri Lanka)</strong> and <strong>Loboe Toewa (Sumatra, 1088 CE)</strong>; membership cut across caste and religion</li>
+<li>&#8226; <strong>Manigramam</strong> &#8212; another important Tamil merchant guild; established a base at <strong>Takuapa (Thailand)</strong>; a 9th century inscription there invokes the Pallava king and mentions armed protection of a tank &#8212; evidence of autonomous Tamil trading colonies abroad; subordinated to Ayyavole in the 13th century</li>
+<li>&#8226; <strong>Anjuvannam</strong> &#8212; association of foreign merchants initially on the Kerala coast; later spread to other areas</li>
+<li>&#8226; Over 300 Hindu images found at <strong>Quanzhou (Fujian province, China)</strong>, along with a bilingual Tamil-Chinese inscription &#8212; evidence of Tamil merchant colonies in China in the 13th/14th century</li>
+<li>&#8226; Guilds had links with craft specialists (e.g., weaver associations); they patronized temples and their inscriptions frequently record donations; guild prashastis list commodities and describe the guild&#8217;s relationship with the state</li>
+<li>&#8226; <strong>Nagaram</strong>: the corporate merchant assembly in South Indian towns; levied taxes at trade centres; raja-shreshtis (royal merchants) procured luxury items and war animals for rulers</li>
+</ul>
+
+<h2>XIII. GROWTH OF VAISHNAVISM AND SHAIVISM</h2>
+<h3>Vaishnavism</h3>
+<ul>
+<li>&#8226; The <strong>Puranas</strong> elaborated the <strong>dashavatara</strong> (ten avatars) of Vishnu &#8212; including the Matsya, Kurma, Varaha, Narasimha, Vamana, Parashurama, Rama, Krishna/Balarama, Buddha, and Kalkin forms; the Buddha avatar was a later addition incorporating Buddhism into the Vaishnava fold</li>
+<li>&#8226; The <strong>Pancharatra</strong> tradition of worship &#8212; involving elaborate rituals of image installation and daily worship in temples &#8212; became the dominant form of Vaishnava temple worship</li>
+<li>&#8226; Rulers such as the Guptas (parama-bhagavata) and later the Pallavas, Chalukyas, and Cholas competed in patronizing both Vaishnava and Shaiva establishments</li>
+</ul>
+<h3>Shaivism</h3>
+<ul>
+<li>&#8226; Shiva came to be associated with <strong>Ganesha</strong>, <strong>Karttikeya</strong>, and the <strong>river goddess Ganga</strong>; the Shaiva Puranas describe various forms of the god and the installation of Shiva lingas in temples</li>
+<li>&#8226; Various Shaiva sects emerged &#8212; some within the mainstream smarta tradition and some on its margins (e.g., <strong>Tantra</strong>); <strong>Pashupatas</strong>, <strong>Kapalikas</strong>, and <strong>Kalamukhas</strong> were important heterodox Shaiva sects</li>
+<li>&#8226; The <strong>Lingayat (Veerashaiva)</strong> movement associated with <strong>Basavanna</strong> (12th century, Karnataka) &#8212; represented a radical Shaiva bhakti tradition; Basavanna&#8217;s <strong>vachanas</strong> (prose-poems) challenged caste and ritual formalism</li>
+</ul>
+
+<h2>XIV. TAMIL BHAKTI MOVEMENT &#8212; ALVARS AND NAYANMARS</h2>
+<ul>
+<li>&#8226; The Tamil Bhakti movement produced two streams: <strong>Vaishnava Alvars</strong> (&#8220;those who dive deep&#8221; or &#8220;those absorbed in the divine&#8221;) and <strong>Shaiva Nayanmars/Nayanars</strong> (honorific meaning &#8220;leader&#8221;)</li>
+<li>&#8226; Nayanmars referred to themselves as <strong>atiyar</strong> (servant) or <strong>tontar</strong> (slave) of Shiva; 63 Nayanmars in tradition; three especially important &#8212; the <strong>muvar</strong>: <strong>Sambandar</strong>, <strong>Appar</strong>, and <strong>Sundarar</strong>; <strong>Manikkavachakar</strong> is also sometimes included</li>
+<li>&#8226; Sundarar wrote the <strong>Tiruttondar Tokai</strong> (Assembly of Sacred Slaves, early 8th century) &#8212; listing 62 Nayanmars; in early 10th century, Nambi Andar Nambi collected the hymns and wrote the <strong>Tiruttondar Tiruvantai</strong>; in the 12th century, the <strong>Periyapuranam</strong> collected their hagiographies; the hymns form the core of the Shaiva canon, the <strong>Thirumurai</strong> (12 books), the first 7 books known as the <strong>Tevaram</strong></li>
+<li>&#8226; In Shaiva bhakti, devotion expressed as master-slave relationship; Manikkavachakar&#8217;s poems describe &#8220;melting&#8221; before the lord, ecstatic worship, frenzied devotion, and familiar tones towards Shiva</li>
+<li>&#8226; <strong>Alvars</strong> &#8212; 12 in number; earliest were Peyalvar, Puttalvar, and Poikaialvar; <strong>Nathamuni</strong> (10th century) collected Alvar hymns into the <strong>Nalayira Divya Prabandham</strong> (Four Thousand Holy Hymns) &#8212; the Vaishnava canon; <strong>Andal</strong> was a notable female Alvar saint; <strong>Nammalvar</strong>&#8217;s poems used the feminine voice of total surrender to the male god</li>
+<li>&#8226; In Alvar bhakti, the relation between the devotee and Mayon/Mai (Krishna) expressed as the <strong>lover-beloved</strong> or <strong>mother-child</strong> relationship; performance of conventional rituals was considered meaningless compared to love for the god</li>
+<li>&#8226; Shaiva devotional literature began with <strong>Tirumular</strong> and <strong>Karaikkal Ammaiyar</strong> (an early female poet-saint who abandoned normal social life to worship Shiva)</li>
+<li>&#8226; The Tamil Bhakti movement challenged caste, Jainism, and Buddhism; it reinvigorated temple Hinduism and contributed to the eventual decline of Buddhism in South India</li>
+</ul>
+
+<h2>XV. SHANKARACHARYA AND VEDANTA</h2>
+<ul>
+<li>&#8226; <strong>Shankara</strong> &#8212; lived in the <strong>late 8th and early 9th centuries</strong>; his hagiographies were composed after the 14th century, the most popular being the <strong>Shankara-digvijaya</strong> of Madhava, which describes him travelling all over India defeating philosophical adversaries in debate</li>
+<li>&#8226; Shankara&#8217;s version of Vedanta is known as <strong>Advaita Vedanta</strong> (non-dualism); the earliest formal exposition of Advaita was by <strong>Gaudapada</strong> (7th/8th century) in his <strong>Mandukyakarika</strong> &#8212; influenced by Madhyamika and Vijnanavada Buddhism</li>
+<li>&#8226; Shankara&#8217;s major work is his <strong>bhashya (commentary) on the Brahma Sutra</strong>; according to him, the performance of Vedic sacrifices was for those seeking material gains; the Upanishads revealed the path to supreme knowledge</li>
+<li>&#8226; In Shankara&#8217;s monistic doctrine, <strong>brahman is the ultimate reality</strong> &#8212; without qualities (<strong>nirguna</strong>), pure consciousness, eternal, and unchanging; <strong>maya</strong> (illusion born out of ignorance/avidya) makes the world of plurality appear real &#8212; like a person mistaking a coiled rope for a snake; the goal is liberation through realization of the identity of <strong>atman</strong> with brahman</li>
+<li>&#8226; Shankara identified two levels of reality &#8212; <strong>conventional (vyavaharika)</strong> and <strong>absolute (paramarthika)</strong></li>
+<li>&#8226; Shankara is supposed to have founded the <strong>Dashanami sect</strong> and established <strong>four Amanaya mathas</strong> (monasteries): at <strong>Sringeri</strong> (south), <strong>Puri</strong> (east), <strong>Dwarka</strong> (west), and <strong>Jyotirmath/Badari</strong> (north); however, historians note that most of these mathas were probably established centuries later and attributed to Shankara for prestige; the Sringeri matha seems to have been set up in the 14th century during the Vijayanagara period</li>
+<li>&#8226; Shankara&#8217;s critics called him a <strong>&#8220;hidden Buddhist&#8221;</strong> because his treatment of the world as illusion resembled Mahayana ideas; however, Shankara himself vigorously critiqued Buddhist schools including Madhyamika, Vijnanavada, and also Samkhya, Nyaya, and Mimamsa</li>
+<li>&#8226; His espousal of a Vedic-rooted philosophy is seen by some scholars as a key factor in the <strong>decline of Buddhism in India</strong></li>
+</ul>
+
+<h2>XVI. INSTITUTION OF TEMPLE AND TEMPLE ARCHITECTURE</h2>
+<h3>The Temple as Institution</h3>
+<ul>
+<li>&#8226; Temples functioned not only as sacred spaces but as <strong>cores of urban centres, political symbols, and economic institutions</strong>; royal patronage made them points of convergence for diverse social groups</li>
+<li>&#8226; Temples employed <strong>temple women (devadasis)</strong>, musicians, washermen, and watchmen; special performances were staged on days marking royal birth asterisms &#8212; tightly linking temple and kingship</li>
+<li>&#8226; The <strong>matha</strong> was a monastic institution associated with a temple or religious order; mathas like those attributed to Shankara became centres of learning and sectarian propagation</li>
+<li>&#8226; <strong>Agraharas</strong> were Brahmin settlement grants &#8212; villages gifted entirely to Brahmins, who became the landowning community; these were autonomous islands in the rural landscape exempt from state jurisdiction; the <strong>brahmadeya</strong> was the South Indian version</li>
+</ul>
+<h3>Three Major Styles of Temple Architecture</h3>
+<ul>
+<li>&#8226; Architectural texts (Shilpashastras) of early medieval times refer to three styles: <strong>Nagara</strong>, <strong>Dravida</strong>, and <strong>Vesara</strong></li>
+<li>&#8226; <strong>Nagara style</strong> &#8212; associated with the land between the Himalayas and Vindhyas; basic plan is <strong>square with cruciform projections</strong>; elevation marked by a <strong>conical or curvilinear shikhara</strong> crowned by an <strong>amalaka</strong> (notched ring stone); visible from the 6th century CE in the Dashavatara temple at Deogarh and brick temple at Bhitargaon; fully developed by the 8th century</li>
+<li>&#8226; <strong>Dravida style</strong> &#8212; associated with land between the Krishna and Kaveri; most striking feature is the <strong>pyramidal vimana (shikhara)</strong> consisting of progressively smaller storeys culminating in a slender pinnacle with a small dome (stupika); later South Indian temples marked by <strong>huge gopurams</strong> (gateway towers) and pillared halls/corridors; square inner sanctum set within a large covered enclosure; external walls divided into niches by pilasters</li>
+<li>&#8226; <strong>Vesara style</strong> &#8212; a hybrid (vesara = mule) borrowing from both Nagara and Dravida; associated with the area between the Vindhyas and Krishna; temples of the Later Chalukyas of Kalyana and Hoysalas are the classic examples; Hardy argues &#8220;Karnata-Dravida&#8221; is a better term</li>
+</ul>
+<h3>Key Monuments</h3>
+<ul>
+<li>&#8226; <strong>Pallava cave temples</strong> &#8212; initiated by Mahendravarman I; caves at Mamallapuram have massive pillars square at bottom and top, chamfered octagonal in between; fine relief carving including Shiva receiving Ganga at Tiruchirapalli; <strong>Descent of the Ganga (Arjuna&#8217;s Penance)</strong> &#8212; massive open-air relief at Mamallapuram</li>
+<li>&#8226; <strong>Five Rathas (Pancha Rathas)</strong> at Mamallapuram &#8212; built during Narasimhavarman I&#8217;s reign; monolithic rock-cut temples in the form of chariots; each ratha in a different architectural style</li>
+<li>&#8226; <strong>Shore Temple at Mamallapuram</strong> &#8212; structural temple built by Narasimhavarman II Rajasimha; one of the earliest structural temples in South India</li>
+<li>&#8226; <strong>Kailashanatha temple at Kanchipuram</strong> &#8212; built by Narasimhavarman II Rajasimha (Rajasimheshvara); large rectangular enclosure with main shrine and 50+ subsidiary shrines; enclosure walls have gopuras; Somaskanda representations very frequent</li>
+<li>&#8226; <strong>Virupaksha temple at Pattadakal</strong> &#8212; finest of the Pattadakal group; built by queen Lokamahadevi; Kannada inscription in the east porch eulogizes the architect Gunda; combines Nagara and Dravida elements; considered the finest example of Vesara/Karnata-Dravida style</li>
+<li>&#8226; <strong>Kailasa temple at Ellora (Cave 16)</strong> &#8212; built by Rashtrakuta king Krishna I; entirely rock-cut in imitation of masonry; one of the greatest achievements of Indian architecture; sculptures include Ravana lifting Mount Kailasha</li>
+<li>&#8226; <strong>Elephanta caves</strong> &#8212; famous for the <strong>Trimurti (Maheshmurti)</strong> &#8212; the great three-headed Shiva sculpture; in the same style as Ellora</li>
+<li>&#8226; <strong>Brihadishvara (Rajarajeshvara) temple at Tanjavur</strong> &#8212; built by Rajaraja I; symbol of Chola imperial power; walls carry representations of Shiva in multiple forms including <strong>Nataraja</strong>, <strong>Tripurantaka</strong>, Harihara, Lingodbhava, Ardhanarishvara, and Bhairava; Tripurantaka given special prominence &#8212; associated with Rajaraja&#8217;s claims as great conqueror and champion of Shaivism</li>
+<li>&#8226; <strong>Chola bronzes</strong> &#8212; Nataraja (Shiva as Lord of Dance) in the classic Chola form: limbs, sash, and locks flaring towards a <strong>circular rim of fire</strong>; contrast with earlier Pallava bronze Natarajas (elliptical rim, limbs close-set); craftsmen recognized metal&#8217;s greater tensile strength and exploited it</li>
+<li>&#8226; <strong>Hoysaleshvara temple at Halebid</strong> and <strong>Chennakeshava temple at Belur</strong> &#8212; finest Hoysala temples; elaborately decorated soapstone; star-shaped plan (jagati); bands of sculptural ornamentation including friezes of elephants, lions, horses, scrollwork, and figures</li>
+</ul>
+
+<h2>XVII. ARAB CONQUEST OF SIND</h2>
+<ul>
+<li>&#8226; Arabs launched several expeditions and conquered <strong>Makran</strong> before the main conquest of Sindh</li>
+<li>&#8226; <strong>Hajjaj</strong>, governor of Iraq, despatched his nephew and son-in-law <strong>Muhammad bin Qasim (bin Kasim)</strong> with an army</li>
+<li>&#8226; <strong>Debal</strong> was captured first; followed by annexation of Nehrun (Hyderabad) and Siwistan (Sehwan); <strong>decisive victory over king Dahar</strong> at the fort of Raor (near his capital Alor)</li>
+<li>&#8226; Alor, Brahmanabad, and Multan subsequently taken; conquest completed by <strong>Junaid</strong></li>
+<li>&#8226; Source: the <strong>Chachnama</strong> &#8212; an early 13th century Persian translation of an old Arabic history of the conquest; also describes how a <strong>Brahmin named Chach</strong> usurped the throne of Sindh in the mid-7th century before Dahar&#8217;s line</li>
+<li>&#8226; Arab hold over Sindh remained precarious; Junaid&#8217;s inroads into Malwa were thwarted by the <strong>Pratihara Nagabhata I</strong>, <strong>Chalukya Pulakeshin II</strong>, and possibly by Yashovarman</li>
+<li>&#8226; Significance: first permanent Muslim political presence in the Indian subcontinent; facilitated cultural exchanges (Indian numerals, astronomy, chess into the Arab world)</li>
+</ul>
+
+<h2>XVIII. ALBERUNI (Al-Biruni)</h2>
+<ul>
+<li>&#8226; <strong>Abu Rayhan (Al-Biruni)</strong> &#8212; native of Khwarizm/Khiva (modern Turkmenistan); one of the greatest intellectuals of early medieval times; only 40 of his 180 books have survived</li>
+<li>&#8226; Travelled to India to satisfy his curiosity about the land and its people; studied ancient texts in their original language (Sanskrit)</li>
+<li>&#8226; His major work on India is the <strong>Tahqiq-i-Hind</strong> (also known as <strong>Kitab al-Hind</strong>) &#8212; covers Indian scripts, sciences, geography, astronomy, astrology, philosophy, literature, beliefs, customs, religions, festivals, rituals, social organization, and laws</li>
+<li>&#8226; Historically crucial: the Tahqiq-i-Hind states that the <strong>Gupta era began 241 years after the Shaka era</strong>; since the Shaka era began in 78 CE, this places the <strong>beginning of the Gupta era at 319&#8211;20 CE</strong> &#8212; a key chronological fix used by modern historians</li>
+<li>&#8226; Accompanied <strong>Mahmud of Ghazni</strong>&#8217;s campaigns to India; his account of 11th century India is invaluable for social and intellectual history</li>
+<li>&#8226; Noted for his critical, independent perspective; contrasted with Arab scholars who relied heavily on Greek works</li>
+</ul>
+
+<h2>XIX. LITERATURE OF THE PERIOD</h2>
+<ul>
+<li>&#8226; <strong>Mahendravarman I</strong> of the Pallavas &#8212; authored the <strong>Mattavilasa Prahasana</strong> (Sanskrit farce)</li>
+<li>&#8226; <strong>Amoghavarsha</strong> of the Rashtrakutas &#8212; authored the <strong>Kavirajamarga</strong>, earliest Kannada work on poetics</li>
+<li>&#8226; <strong>Vikramaditya VI</strong>&#8217;s court &#8212; included <strong>Bilhana</strong> (Vikramankadevacharita), <strong>Vijnaneshvara</strong> (Mitakshara &#8212; commentary on Yajnavalkya Smriti, became authoritative on Hindu law across most of India except Bengal), <strong>Somadeva</strong> (Kathasaritsagara)</li>
+<li>&#8226; <strong>Lakshmidhara</strong>&#8217;s Kritya Kalpataru and <strong>Devanabhatta</strong>&#8217;s Smritichandrika &#8212; important Dharmashastra works of the 11th&#8211;12th centuries</li>
+<li>&#8226; Tamil: <strong>Nalayira Divya Prabandham</strong> (Alvar hymns); Shaiva <strong>Thirumurai</strong> (12 books including Tevaram); <strong>Periyapuranam</strong> (hagiographies of Nayanmars, 12th century)</li>
+<li>&#8226; New Tamil poetic genres: <strong>Kalampakam</strong> (interlocking verses), <strong>Kovai</strong> (thematically sequenced poems), <strong>Ula</strong> (processional praise songs), <strong>Tutu</strong> (messenger poems); Avvaiyar&#8217;s moral aphorisms still popular</li>
+<li>&#8226; <strong>Jayadeva</strong>&#8217;s <strong>Gita Govinda</strong> &#8212; composed at the court of Sena king Lakshmanasena; celebrated Sanskrit work on Krishna&#8217;s love for Radha; a landmark in Vaishnava devotional literature</li>
+<li>&#8226; <strong>Bhoja of Malwa (Paramara)</strong> &#8212; prolific royal author; works include the Samarangana Sutradhara (architecture/mechanics), Shringara Prakasha (poetics/rhetoric), Rajamartanda (yoga commentary), Yuktikalpataru (administration), and Ayurveda texts</li>
+<li>&#8226; <strong>Kalhana</strong>&#8217;s <strong>Rajatarangini</strong> (12th century, Kashmir) &#8212; first systematic historical chronicle in Sanskrit of the rulers of Kashmir; unique for its relatively critical historical method</li>
+</ul>`,
   'early-indian-cultural-history': ``,
   'eastern-india-deccan-south': `<h2>Early State and Society in Eastern India, Deccan and South India</h2>
 
