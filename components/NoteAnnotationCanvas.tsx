@@ -137,25 +137,26 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
 
   const onPointerMove = (e: React.PointerEvent) => {
     if (!isDrawing.current || !currentRef.current) return;
-    currentRef.current.points.push(getPos(e));
-    redraw();
-    // Draw current stroke live
+    const pt = getPos(e);
+    const s = currentRef.current;
+    const pts = s.points;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d')!;
-    const s = currentRef.current;
-    const pts = s.points;
-    if (pts.length < 2) return;
-    ctx.beginPath();
-    ctx.lineWidth = s.tool === 'highlighter' ? s.width * 8 : s.width;
-    ctx.strokeStyle = s.color;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.globalAlpha = s.tool === 'highlighter' ? 0.4 : 1;
-    ctx.moveTo(pts[pts.length - 2].x, pts[pts.length - 2].y);
-    ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
-    ctx.stroke();
-    ctx.globalAlpha = 1;
+    // Draw incremental segment directly — no full redraw
+    if (pts.length >= 1) {
+      ctx.beginPath();
+      ctx.lineWidth = s.tool === 'highlighter' ? s.width * 8 : s.width;
+      ctx.strokeStyle = s.color;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.globalAlpha = s.tool === 'highlighter' ? 0.4 : 1;
+      ctx.moveTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
+      ctx.lineTo(pt.x, pt.y);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+    pts.push(pt);
   };
 
   const onPointerUp = () => {
