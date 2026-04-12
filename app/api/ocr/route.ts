@@ -127,8 +127,8 @@ NOW OUTPUT THE TRANSCRIPTION OF ${imageContents.length} PAGE(S) — PLAIN TEXT O
       { text: ocrPrompt },
     ];
 
-    const res = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + process.env.GEMINI_API_KEY,
+    const geminiFetch = (model: string) => fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -138,6 +138,11 @@ NOW OUTPUT THE TRANSCRIPTION OF ${imageContents.length} PAGE(S) — PLAIN TEXT O
         }),
       }
     );
+    let res = await geminiFetch('gemini-2.5-flash');
+    if (res.status === 503 || res.status === 429) {
+      console.log('gemini-2.5-flash overloaded, falling back to gemini-2.0-flash...');
+      res = await geminiFetch('gemini-2.0-flash');
+    }
     if (!res.ok) {
       const err = await res.text();
       return NextResponse.json({ error: "OCR failed: " + err }, { status: 500 });
