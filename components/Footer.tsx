@@ -17,8 +17,8 @@ export default function Footer() {
     }}>
       <span>© {new Date().getFullYear()} www.historyoptional.xyz</span>
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-        <Link href="/contact" style={{ color: '#888', textDecoration: 'none' }}>Contact</Link>
-        <Link href="/contact?tab=bug" style={{ color: '#888', textDecoration: 'none' }}>Report a Bug</Link>
+        <Link href="/contact" style={{ color: '#888', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#fff')} onMouseLeave={e => (e.currentTarget.style.color = '#888')}>Contact</Link>
+        <Link href="/contact?tab=bug" style={{ color: '#888', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#fff')} onMouseLeave={e => (e.currentTarget.style.color = '#888')}>Report a Bug</Link>
       </div>
     </footer>
   );
