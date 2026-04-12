@@ -381,7 +381,7 @@ export default function Navbar() {
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(212,168,67,0.25), rgba(251,191,36,0.2))'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(212,168,67,0.15), rgba(251,191,36,0.1))'; }}
             >
-              ✦ Go Premium
+              ✦ Premium
             </button>
           )}
           {showPremiumModal && <PremiumModal onClose={() => setShowPremiumModal(false)} />}
