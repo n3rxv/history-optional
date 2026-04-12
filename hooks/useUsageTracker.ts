@@ -6,6 +6,7 @@ export type UsageData = {
   fingerprint: string;
   eval_count: number;
   chat_count: number;
+  isPremium?: boolean;
 };
 
 const FREE_EVAL_LIMIT = 1;
@@ -28,14 +29,24 @@ export function useUsageTracker() {
       // Fetch usage from DB
       const res = await fetch(`/api/usage?fp=${fingerprint}`);
       const data = await res.json();
-      setUsage(data);
+      let isPremium = false;
+      try {
+        const { supabase } = await import('@/lib/supabase');
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.access_token) {
+          const subRes = await fetch(`/api/usage?fp=${fingerprint}&checkSub=1&token=${session.access_token}`);
+          const subData = await subRes.json();
+          isPremium = subData.isPremium ?? false;
+        }
+      } catch {}
+      setUsage({ ...data, isPremium });
       setLoading(false);
     }
     init();
   }, []);
 
-  const canEval = (usage?.eval_count ?? 0) < FREE_EVAL_LIMIT;
-  const canChat = (usage?.chat_count ?? 0) < FREE_CHAT_LIMIT;
+  const canEval = !!(usage?.isPremium) || (usage?.eval_count ?? 0) < FREE_EVAL_LIMIT;
+  const canChat = !!(usage?.isPremium) || (usage?.chat_count ?? 0) < FREE_CHAT_LIMIT;
 
   const incrementEval = async () => {
     if (!usage) return;

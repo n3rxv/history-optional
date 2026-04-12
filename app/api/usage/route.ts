@@ -25,6 +25,27 @@ export async function GET(req: NextRequest) {
   const currentWeek = getWeekStart();
   const currentMonth = getMonthStart();
 
+  // Optional subscription check
+  const checkSub = req.nextUrl.searchParams.get('checkSub');
+  const authToken = req.nextUrl.searchParams.get('token');
+  if (checkSub && authToken) {
+    const { createServerClient } = await import('@/lib/supabase');
+    const db = createServerClient();
+    const { data: { user } } = await db.auth.getUser(authToken);
+    if (user) {
+      const nowISO = new Date().toISOString();
+      const { data: sub } = await supabase
+        .from('subscriptions')
+        .select('status')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .gt('expires_at', nowISO)
+        .single();
+      if (sub) return NextResponse.json({ isPremium: true });
+    }
+    return NextResponse.json({ isPremium: false });
+  }
+
   const { data, error } = await supabase
     .from('usage_tracking')
     .select('*')
