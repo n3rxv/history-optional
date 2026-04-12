@@ -659,8 +659,8 @@ Every response must:
             </div>
             <div className="chat-hint">Enter to send · Shift+Enter for new line</div>
             {!usageLoading && (
-              <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : '#555', letterSpacing:'0.08em' }}>
-                {!canChat ? 'Free messages used · subscribe for unlimited' : `${(usage?.chat_count ?? 0)} of 10 free messages used`}
+              <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : usage?.isPremium ? '#51cf66' : '#555', letterSpacing:'0.08em' }}>
+                {usage?.isPremium ? '✦ Unlimited messages' : !canChat ? 'Free messages used · subscribe for unlimited' : `${(usage?.chat_count ?? 0)} of 5 free messages used`}
               </div>
             )}
           </div>
