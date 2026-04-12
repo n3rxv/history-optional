@@ -445,5 +445,6 @@ export default function Navbar() {
         }
       `}</style>
     </nav>
+    {showPremiumModal && <PremiumModal onClose={() => setShowPremiumModal(false)} />}
   );
 }
