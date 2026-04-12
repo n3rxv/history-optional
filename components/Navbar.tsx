@@ -376,7 +376,7 @@ export default function Navbar() {
                 padding: '0.35rem 0.85rem', borderRadius: 6,
                 fontSize: '0.8rem', fontWeight: 700,
                 marginLeft: '0.4rem', transition: 'all 0.15s',
-                letterSpacing: '0.03em',
+                letterSpacing: '0.03em', whiteSpace: 'nowrap',
               }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(212,168,67,0.25), rgba(251,191,36,0.2))'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(212,168,67,0.15), rgba(251,191,36,0.1))'; }}
