@@ -20,7 +20,8 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     pathname.startsWith('/paper2') ||
     pathname.startsWith('/posts') ||
     pathname.startsWith('/chat') ||
-    pathname.startsWith('/evaluate');
+    pathname.startsWith('/evaluate') ||
+    pathname.startsWith('/test');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
