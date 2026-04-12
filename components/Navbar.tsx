@@ -249,6 +249,17 @@ function PremiumModal({ onClose }: { onClose: () => void }) {
               {step === 'paying' ? 'Opening payment…' : `✦ Subscribe — ${price}/year`}
             </button>
             <button onClick={onClose} style={{ width: '100%', padding: '10px', background: 'transparent', border: '1px solid #222', borderRadius: 8, color: '#555', cursor: 'pointer', fontSize: '0.82rem' }}>Maybe later</button>
+            <div style={{ textAlign: 'center', marginTop: 10 }}>
+              <button onClick={async () => {
+                const { supabase } = await import('@/lib/supabase');
+                await supabase.auth.signInWithOAuth({
+                  provider: 'google',
+                  options: { redirectTo: `${window.location.origin}${window.location.pathname}` },
+                });
+              }} style={{ background: 'none', border: 'none', color: '#555', cursor: 'pointer', fontSize: '0.75rem', textDecoration: 'underline' }}>
+                Already subscribed? Sign in
+              </button>
+            </div>
           </>
         )}
       </div>
