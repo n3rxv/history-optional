@@ -17,7 +17,7 @@ function getMonthStart(): string {
 export async function GET(req: NextRequest) {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SECRET_KEY!
   );
   const fp = req.nextUrl.searchParams.get('fp');
   if (!fp) return NextResponse.json({ error: 'No fingerprint' }, { status: 400 });
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SECRET_KEY!
   );
   const { fingerprint, type } = await req.json();
   if (!fingerprint || !type) return NextResponse.json({ error: 'Invalid' }, { status: 400 });
