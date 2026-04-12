@@ -77,6 +77,7 @@ function PremiumModal({ onClose }: { onClose: () => void }) {
           });
           const orderData = await orderRes.json();
           if (!orderData.orderId) { setStep('plans'); return; }
+          let paymentSucceeded = false;
           const rzp = new (window as any).Razorpay({
             key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
             amount: orderData.amount,
