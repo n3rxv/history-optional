@@ -233,6 +233,7 @@ export default function Navbar() {
   };
 
   return (
+    <>
     <nav style={{
       position: 'sticky', top: 0, zIndex: 50,
       background: 'rgba(0,0,0,0.95)',
@@ -446,5 +447,6 @@ export default function Navbar() {
       `}</style>
     </nav>
     {showPremiumModal && <PremiumModal onClose={() => setShowPremiumModal(false)} />}
+  </>
   );
 }
