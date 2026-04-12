@@ -50,7 +50,7 @@ function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
   );
 }
 
-function PremiumModal({ onClose }: { onClose: () => void }) {
+function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound?: boolean }) {
   const [slots, setSlots] = React.useState(45);
   const [step, setStep] = React.useState<'plans' | 'signing_in' | 'paying' | 'success'>('plans');
 
@@ -197,6 +197,11 @@ function PremiumModal({ onClose }: { onClose: () => void }) {
           <div style={{ textAlign: 'center', padding: '2rem 0', color: '#888' }}>Redirecting to Google…</div>
         ) : (
           <>
+            {noSubFound && (
+              <div style={{ background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.25)', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: '0.82rem', color: '#f87171', textAlign: 'center' }}>
+                No active subscription found for this account.
+              </div>
+            )}
             <div style={{ textAlign: 'center', marginBottom: 20 }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#d4a843', marginBottom: 8 }}>✦ Premium</div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#f0f0f0' }}>Unlock Everything</div>
@@ -276,6 +281,7 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [noSubFound, setNoSubFound] = useState(false);
 
   useEffect(() => {
     if (typeof sessionStorage !== 'undefined') {
@@ -293,9 +299,8 @@ export default function Navbar() {
             const data = await res.json();
             if (!data.isPremium) {
               await supabase.auth.signOut();
+              setNoSubFound(true);
               setShowPremiumModal(true);
-              // Show message
-              alert('No active subscription found. Please purchase to get unlimited access.');
             }
           }
         })();
@@ -488,7 +493,7 @@ export default function Navbar() {
               ✦ Premium
             </button>
           )}
-          {showPremiumModal && <PremiumModal onClose={() => setShowPremiumModal(false)} />}
+          {showPremiumModal && <PremiumModal onClose={() => { setShowPremiumModal(false); setNoSubFound(false); }} noSubFound={noSubFound} />}
         </div>
 
         <button onClick={() => setOpen(!open)} style={{
@@ -549,7 +554,7 @@ export default function Navbar() {
         }
       `}</style>
     </nav>
-    {showPremiumModal && <PremiumModal onClose={() => setShowPremiumModal(false)} />}
+    {showPremiumModal && <PremiumModal onClose={() => { setShowPremiumModal(false); setNoSubFound(false); }} noSubFound={noSubFound} />}
   </>
   );
 }
