@@ -55,13 +55,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZF23N3PZC" strategy="afterInteractive" />
-      <Script id="google-analytics" strategy="afterInteractive">{`
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-7ZF23N3PZC');
-      `}</Script>
       <body>
         <script
           type="application/ld+json"
@@ -75,6 +68,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <WeeklyCheckup />
         <Navbar />
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZF23N3PZC" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-7ZF23N3PZC');
+        `}</Script>
         <AuthGuard>
           <main style={{ minHeight: '100vh' }}>{children}</main>
         </AuthGuard>
