@@ -219,6 +219,11 @@ export function useSubscriptionGate(onEvaluate: () => void) {
 
   const UsagePill = () => {
     if (loading) return null;
+    if (usage?.isPremium) return (
+      <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.62rem', color:'#51cf66', letterSpacing:'0.08em', marginBottom:12 }}>
+        ✦ Unlimited access
+      </div>
+    );
     const remaining = FREE_EVAL_LIMIT - (usage?.eval_count ?? 0);
     const color = remaining <= 0 ? '#f87171' : remaining === 1 ? '#fbbf24' : '#555';
     return (
