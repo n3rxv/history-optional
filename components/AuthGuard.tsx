@@ -10,7 +10,15 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [signingIn, setSigningIn] = useState(false);
 
-  const isPublic = pathname === '/';
+  const isPublic =
+    pathname === '/' ||
+    pathname.startsWith('/notes') ||
+    pathname.startsWith('/pyqs') ||
+    pathname.startsWith('/timeline') ||
+    pathname.startsWith('/historiography') ||
+    pathname.startsWith('/paper1') ||
+    pathname.startsWith('/paper2') ||
+    pathname.startsWith('/posts');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
