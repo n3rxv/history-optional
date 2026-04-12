@@ -198,63 +198,59 @@ function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound
         ) : (
           <>
             {noSubFound && (
-              <div style={{ background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.25)', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: '0.82rem', color: '#f87171', textAlign: 'center' }}>
+              <div style={{ background: 'rgba(248,113,113,0.06)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: '0.8rem', color: '#f87171', textAlign: 'center', letterSpacing: '0.01em' }}>
                 No active subscription found for this account.
               </div>
             )}
-            <div style={{ textAlign: 'center', marginBottom: 20 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#d4a843', marginBottom: 8 }}>✦ Premium</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#f0f0f0' }}>Unlock Everything</div>
+
+            {/* Header */}
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#d4a843', marginBottom: 6 }}>Premium</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 700, color: '#f0f0f0', lineHeight: 1.2 }}>Unlock everything</div>
+              <div style={{ fontSize: '0.82rem', color: '#666', marginTop: 6 }}>Notes & PYQs are always free. Premium unlocks evaluations and AI chat.</div>
             </div>
 
-            {/* Features table */}
-            <div style={{ border: '1px solid #1e1e1e', borderRadius: 10, overflow: 'hidden', marginBottom: 20 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', background: '#141414', padding: '8px 14px', borderBottom: '1px solid #1e1e1e' }}>
-                <span style={{ fontSize: '0.7rem', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Feature</span>
-                <span style={{ fontSize: '0.7rem', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', minWidth: 56 }}>Free</span>
-                <span style={{ fontSize: '0.7rem', color: '#d4a843', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', minWidth: 72 }}>Premium</span>
-              </div>
+            {/* Features */}
+            <div style={{ marginBottom: 20 }}>
               {features.map((f, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', padding: '9px 14px', borderBottom: i < features.length - 1 ? '1px solid #161616' : 'none', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.82rem', color: '#ccc' }}>{f.name}</span>
-                  <span style={{ textAlign: 'center', minWidth: 56, fontSize: '0.78rem', color: f.free === true ? '#51cf66' : '#888' }}>
-                    {f.free === true ? '✓' : f.free === false ? '✗' : f.free}
-                  </span>
-                  <span style={{ textAlign: 'center', minWidth: 72, fontSize: '0.78rem', color: '#d4a843', fontWeight: 600 }}>
-                    {f.premium === true ? '✓' : f.premium === false ? '✗' : f.premium}
-                  </span>
+                <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: i < features.length - 1 ? '1px solid #1a1a1a' : 'none' }}>
+                  <span style={{ fontSize: '0.84rem', color: '#bbb' }}>{f.name}</span>
+                  <div style={{ display: 'flex', gap: 0, alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.75rem', color: f.free === true ? '#3d7a50' : '#4a4a4a', minWidth: 60, textAlign: 'center' }}>
+                      {f.free === true ? '✓ free' : f.free === false ? '—' : f.free}
+                    </span>
+                    <span style={{ fontSize: '0.75rem', color: '#d4a843', fontWeight: 600, minWidth: 72, textAlign: 'right' }}>
+                      {f.premium === true ? '✓' : f.premium}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Notes are free callout */}
-            <div style={{ background: 'rgba(81,207,102,0.06)', border: '1px solid rgba(81,207,102,0.2)', borderRadius: 8, padding: '8px 12px', marginBottom: 16, fontSize: '0.78rem', color: '#51cf66', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span>📚</span> All notes, PYQs & timelines are <strong>completely free</strong> — always.
-            </div>
-
-            {/* Price */}
-            <div style={{ background: 'linear-gradient(135deg,#0d1b3e,#091530)', border: '1px solid rgba(212,168,67,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 16, position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,transparent,#d4a843,transparent)' }} />
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8 }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '2.4rem', fontWeight: 700, color: '#f0f0f0', lineHeight: 1 }}>{price}</span>
-                <span style={{ color: '#555', fontSize: '0.85rem', marginBottom: 4 }}>/year</span>
+            {/* Price row */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: '#111', border: '1px solid #222', borderRadius: 10, marginBottom: 14 }}>
+              <div>
+                <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#f0f0f0', fontFamily: 'var(--font-mono)', lineHeight: 1 }}>{price}</div>
+                <div style={{ fontSize: '0.72rem', color: '#555', marginTop: 3 }}>per year · renews annually</div>
               </div>
-              {slots > 0 ? (
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: '#f87171', letterSpacing: '0.08em', marginTop: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#f87171', boxShadow: '0 0 6px #f87171' }} />
-                  Only {slots} early-bird slot{slots === 1 ? '' : 's'} left at this price
+              {slots > 0 && (
+                <div style={{ fontSize: '0.7rem', color: '#c0392b', fontFamily: 'var(--font-mono)', textAlign: 'right', lineHeight: 1.4 }}>
+                  {slots} slots<br/>left
                 </div>
-              ) : (
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: '#f87171', letterSpacing: '0.08em', marginTop: 6 }}>Early-bird slots full — standard pricing</div>
               )}
             </div>
 
             <button onClick={handleSubscribe} disabled={step === 'paying'}
-              style={{ width: '100%', padding: '14px', borderRadius: 8, border: 'none', background: step === 'paying' ? '#1a1a1a' : 'linear-gradient(135deg,#b8860b,#d4a843)', color: step === 'paying' ? '#555' : '#000', fontWeight: 700, fontSize: '0.95rem', cursor: step === 'paying' ? 'not-allowed' : 'pointer', marginBottom: 10, letterSpacing: '0.03em' }}>
-              {step === 'paying' ? 'Opening payment…' : `✦ Subscribe — ${price}/year`}
+              style={{ width: '100%', padding: '13px', borderRadius: 8, border: 'none', background: step === 'paying' ? '#1a1a1a' : '#d4a843', color: step === 'paying' ? '#555' : '#000', fontWeight: 700, fontSize: '0.9rem', cursor: step === 'paying' ? 'not-allowed' : 'pointer', marginBottom: 8, letterSpacing: '0.02em' }}>
+              {step === 'paying' ? 'Opening payment…' : `Subscribe — ${price}/year`}
             </button>
-            <button onClick={onClose} style={{ width: '100%', padding: '10px', background: 'transparent', border: '1px solid #222', borderRadius: 8, color: '#555', cursor: 'pointer', fontSize: '0.82rem' }}>Maybe later</button>
-            <div style={{ textAlign: 'center', marginTop: 10 }}>
+
+            <button onClick={onClose}
+              style={{ width: '100%', padding: '10px', background: 'transparent', border: '1px solid #1e1e1e', borderRadius: 8, color: '#444', cursor: 'pointer', fontSize: '0.8rem' }}>
+              Maybe later
+            </button>
+
+            <div style={{ textAlign: 'center', marginTop: 12 }}>
               <button onClick={async () => {
                 sessionStorage.setItem('ho_verify_sub', '1');
                 const { supabase } = await import('@/lib/supabase');
@@ -262,7 +258,9 @@ function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound
                   provider: 'google',
                   options: { redirectTo: `${window.location.origin}${window.location.pathname}` },
                 });
-              }} style={{ background: 'none', border: 'none', color: '#555', cursor: 'pointer', fontSize: '0.75rem', textDecoration: 'underline' }}>
+              }} style={{ background: 'none', border: 'none', color: '#444', cursor: 'pointer', fontSize: '0.75rem', textDecoration: 'underline' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#444')}>
                 Already subscribed? Sign in
               </button>
             </div>
