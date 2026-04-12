@@ -6,12 +6,7 @@ const MAX_FILES = 10;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
 
 export async function POST(req: NextRequest) {
-  // Auth gate
-  const token = req.headers.get("x-user-token");
-  if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const db = createServerClient();
-  const { data: { user }, error: authErr } = await db.auth.getUser(token);
-  if (authErr || !user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // Auth removed — fingerprint-based access
 
   try {
     const formData = await req.formData();
