@@ -355,13 +355,19 @@ export default function Navbar() {
                 minWidth: 140, zIndex: 1000,
                 boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
               }}>
-                <Link href="/pyqs" onClick={() => setPyqsMenuOpen(false)} style={{
+                <Link href="/pyqs" onClick={() => setPyqsMenuOpen(false)}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname === '/pyqs' ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname === '/pyqs' ? 'rgba(59,130,246,0.1)' : 'transparent'; }}
+                  style={{
                   display: 'block', padding: '0.5rem 0.75rem', borderRadius: 5,
                   fontSize: '0.85rem', textDecoration: 'none',
                   color: pathname === '/pyqs' ? 'var(--accent)' : 'var(--text2)',
                   background: pathname === '/pyqs' ? 'rgba(59,130,246,0.1)' : 'transparent',
                 }}>📋 Browse PYQs</Link>
-                <Link href="/test" onClick={() => setPyqsMenuOpen(false)} style={{
+                <Link href="/test" onClick={() => setPyqsMenuOpen(false)}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname === '/test' ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname === '/test' ? 'rgba(59,130,246,0.1)' : 'transparent'; }}
+                  style={{
                   display: 'block', padding: '0.5rem 0.75rem', borderRadius: 5,
                   fontSize: '0.85rem', textDecoration: 'none',
                   color: pathname === '/test' ? 'var(--accent)' : 'var(--text2)',
