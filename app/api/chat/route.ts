@@ -49,13 +49,14 @@ export async function POST(req: NextRequest) {
 
     if (!sub) {
       // Check monthly chat usage via usage_tracking
+      const currentMonth = new Date().toISOString().slice(0, 7);
       const { data: usage } = await supabase
         .from('usage_tracking')
-        .select('chat_count')
+        .select('chat_count, chat_month')
         .eq('fingerprint', fingerprint)
         .single();
 
-      const used = usage?.chat_count ?? 0;
+      const used = (usage?.chat_month === currentMonth) ? (usage?.chat_count ?? 0) : 0;
       if (used >= CHAT_FREE_LIMIT)
         return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
     }
