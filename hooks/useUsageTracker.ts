@@ -34,9 +34,13 @@ export function useUsageTracker() {
         const { supabase } = await import('@/lib/supabase');
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.access_token) {
-          const subRes = await fetch(`/api/usage?fp=${fingerprint}&checkSub=1&token=${session.access_token}`);
-          const subData = await subRes.json();
-          isPremium = subData.isPremium ?? false;
+          if (session.user?.email === process.env.NEXT_PUBLIC_OWNER_EMAIL) {
+            isPremium = true;
+          } else {
+            const subRes = await fetch(`/api/usage?fp=${fingerprint}&checkSub=1&token=${session.access_token}`);
+            const subData = await subRes.json();
+            isPremium = subData.isPremium ?? false;
+          }
         }
       } catch {}
       setUsage({ ...data, isPremium });
