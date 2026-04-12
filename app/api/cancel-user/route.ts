@@ -4,13 +4,14 @@ import { createClient } from '@supabase/supabase-js';
 
 export async function POST(req: NextRequest) {
   const token = req.headers.get('x-user-token');
-  if (!token) return NextResponse.json({ ok: false });
+  console.log('cancel-user: token present:', !!token);
+  if (!token) return NextResponse.json({ ok: false, reason: 'no_token' });
 
   const db = createServerClient();
-  const { data: { user } } = await db.auth.getUser(token);
-  if (!user) return NextResponse.json({ ok: false });
+  const { data: { user }, error } = await db.auth.getUser(token);
+  console.log('cancel-user: user:', user?.id, 'error:', error?.message);
+  if (!user) return NextResponse.json({ ok: false, reason: 'no_user' });
 
-  // Check they don't have an active subscription before deleting
   const admin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SECRET_KEY!
@@ -23,8 +24,10 @@ export async function POST(req: NextRequest) {
     .eq('status', 'active')
     .single();
 
+  console.log('cancel-user: has sub:', !!sub);
   if (sub) return NextResponse.json({ ok: false, reason: 'has_subscription' });
 
-  await admin.auth.admin.deleteUser(user.id);
-  return NextResponse.json({ ok: true });
+  const { error: delErr } = await admin.auth.admin.deleteUser(user.id);
+  console.log('cancel-user: delete error:', delErr?.message);
+  return NextResponse.json({ ok: !delErr });
 }
