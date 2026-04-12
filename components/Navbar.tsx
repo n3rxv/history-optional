@@ -98,24 +98,21 @@ function PremiumModal({ onClose }: { onClose: () => void }) {
             },
           });
           rzp.on('payment.failed', async () => {
-            const { supabase } = await import('@/lib/supabase');
-            await supabase.auth.signOut();
             document.body.style.overflow = '';
             document.body.style.pointerEvents = '';
+            const { supabase } = await import('@/lib/supabase');
+            await supabase.auth.signOut();
+            onClose();
+          });
+          // Razorpay calls this on modal dismiss/cancel
+          rzp.on('dismiss', async () => {
+            document.body.style.overflow = '';
+            document.body.style.pointerEvents = '';
+            const { supabase } = await import('@/lib/supabase');
+            await supabase.auth.signOut();
             onClose();
           });
           rzp.open();
-          // Restore scroll if Razorpay overlay is dismissed without payment
-          const interval = setInterval(() => {
-            const rzpOverlay = document.querySelector('.razorpay-container');
-            if (!rzpOverlay) {
-              clearInterval(interval);
-              import('@/lib/supabase').then(({ supabase }) => supabase.auth.signOut());
-              document.body.style.overflow = '';
-              document.body.style.pointerEvents = '';
-              onClose();
-            }
-          }, 500);
         }
       }, 800);
     }
