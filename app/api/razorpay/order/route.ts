@@ -3,11 +3,6 @@ import { createServerClient } from "@/lib/supabase";
 import { createClient } from "@supabase/supabase-js";
 import Razorpay from "razorpay";
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 export async function POST(req: NextRequest) {
   const razorpay = new Razorpay({
     key_id:     process.env.RAZORPAY_KEY_ID!,
@@ -17,6 +12,10 @@ export async function POST(req: NextRequest) {
   const token = req.headers.get("x-user-token");
   if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
   const db = createServerClient();
   const { data: { user }, error } = await db.auth.getUser(token);
   if (error || !user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
