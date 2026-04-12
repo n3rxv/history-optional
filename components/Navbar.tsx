@@ -207,6 +207,12 @@ export default function Navbar() {
   const [showPremiumModal, setShowPremiumModal] = useState(false);
 
   useEffect(() => {
+    if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('ho_pending_payment') === '1') {
+      setShowPremiumModal(true);
+    }
+  }, []);
+
+  useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
     });
@@ -245,7 +251,7 @@ export default function Navbar() {
         padding: '0 1.5rem',
         display: 'flex', alignItems: 'center',
         justifyContent: 'space-between',
-        height: 60, flexWrap: 'nowrap', overflow: 'hidden',
+        height: 60, flexWrap: 'nowrap',
       }}>
         <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <span style={{
@@ -351,7 +357,7 @@ export default function Navbar() {
                   position: 'absolute', top: 'calc(100% + 10px)', right: 0,
                   background: 'var(--bg2)', border: '1px solid var(--border2)',
                   borderRadius: 10, padding: '1rem', width: 220,
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.5)', zIndex: 200,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.5)', zIndex: 1000,
                 }}>
                   <div style={{ fontSize: '0.72rem', color: 'var(--text3)', marginBottom: 4 }}>Signed in as</div>
                   <div style={{ fontSize: '0.82rem', color: 'var(--text)', fontWeight: 600, marginBottom: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
