@@ -86,6 +86,15 @@ function PremiumModal({ onClose }: { onClose: () => void }) {
             description: 'Unlimited Access · 1 Year',
             prefill: { email: session.user?.email ?? '' },
             theme: { color: '#d4a843' },
+            modal: {
+              ondismiss: async () => {
+                document.body.style.overflow = '';
+                document.body.style.pointerEvents = '';
+                const { supabase } = await import('@/lib/supabase');
+                await supabase.auth.signOut();
+                onClose();
+              }
+            },
             handler: async (resp: any) => {
               const FP = await (await import('@fingerprintjs/fingerprintjs')).default.load();
               const { visitorId: fingerprint } = await FP.get();
@@ -98,14 +107,6 @@ function PremiumModal({ onClose }: { onClose: () => void }) {
             },
           });
           rzp.on('payment.failed', async () => {
-            document.body.style.overflow = '';
-            document.body.style.pointerEvents = '';
-            const { supabase } = await import('@/lib/supabase');
-            await supabase.auth.signOut();
-            onClose();
-          });
-          // Razorpay calls this on modal dismiss/cancel
-          rzp.on('dismiss', async () => {
             document.body.style.overflow = '';
             document.body.style.pointerEvents = '';
             const { supabase } = await import('@/lib/supabase');
