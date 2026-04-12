@@ -385,7 +385,10 @@ const handleOcr = useCallback(async () => {
     if (files) { const compEval = await Promise.all(files.map(f => compressImage(f))); compEval.forEach(f => fd.append("files", f)); }
     try {
       const res  = await fetch("/api/evaluate", { method: "POST", headers: { "x-user-token": tokenRef.current ?? "" }, body: fd });
-      const data = await res.json();
+      const rawText = await res.text();
+      console.log("Evaluate raw response:", rawText.slice(0, 500));
+      if (!rawText) throw new Error("Empty response from server");
+      const data = JSON.parse(rawText);
       if (!res.ok) throw new Error(data.error || "Evaluation failed");
       setEvalProgress(100);
       setEvalPhase("Complete.");
