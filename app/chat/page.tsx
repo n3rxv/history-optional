@@ -1,8 +1,7 @@
 'use client';
 import { useState, useRef, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
-import { PhoneModal } from '@/components/PhoneModal';
+import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -220,33 +219,14 @@ function ChatContent() {
   }]);
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
-  const [chatUsed, setChatUsed] = useState(0);
-  const [chatLimit] = useState(5);
-  const [isOwner, setIsOwner] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [noPhone, setNoPhone] = useState(false);
-  const [modal, setModal] = useState<'none' | 'unauthenticated' | 'no_phone' | 'limit_reached'>('none');
+  const { usage, canChat, incrementChat, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
+  const usageLoading = usage?.loading ?? true;
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const lastAiRef = useRef<HTMLDivElement>(null);
-  const pendingMsgRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    const init = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const t = session?.access_token ?? null;
-      setToken(t);
-      if (!t) return;
-      const res = await fetch('/api/chat-usage', { headers: { 'x-user-token': t } });
-      const data = await res.json();
-      if (data.owner) { setIsOwner(true); return; }
-      if (data.subscribed) { setIsSubscribed(true); return; }
-      if (data.reason === 'no_phone') { setNoPhone(true); return; }
-      setChatUsed(data.used ?? 0);
-    };
-    init();
-  }, []);
+
+
 
   useEffect(() => {
     const last = messages[messages.length - 1];
@@ -262,9 +242,7 @@ function ChatContent() {
     if (!q.trim() || loading) return;
     if (q.length > 2000) { alert('Message too long. Max 2000 characters.'); return; }
 
-    if (!token) { setModal('unauthenticated'); return; }
-    if (noPhone) { pendingMsgRef.current = q; setModal('no_phone'); return; }
-    if (!isOwner && !isSubscribed && chatUsed >= chatLimit) { setModal('limit_reached'); return; }
+    if (!canChat) { showChatLimitModal(); return; }
 
     const userMsg: Message = { role: 'user', content: q };
     setMessages(prev => [...prev, userMsg]);
@@ -273,7 +251,7 @@ function ChatContent() {
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-token': token ?? '' },
+        headers: { 'Content-Type': 'application/json', 'x-user-token': usage?.fingerprint ?? '' },
         body: JSON.stringify({
           system: `You are an expert UPSC History Optional tutor with deep knowledge of Indian history (Ancient, Medieval, Modern) and World History per the UPSC History Optional syllabus.
 
@@ -300,12 +278,10 @@ Every response must:
         }),
       });
       const data = await response.json();
-      if (response.status === 401) { setModal('unauthenticated'); setLoading(false); return; }
-      if (response.status === 403 && data.error === 'no_phone') { setModal('no_phone'); setLoading(false); return; }
-      if (response.status === 403 && data.error === 'limit_reached') { setModal('limit_reached'); setLoading(false); return; }
+      if (!response.ok) { setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]); setLoading(false); return; }
       const reply = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
       setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
-      if (!isOwner && !isSubscribed) setChatUsed(prev => prev + 1);
+      incrementChat();
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
     } finally {
@@ -591,48 +567,7 @@ Every response must:
       `}</style>
 
       <div className="chat-wrap">
-        {modal === 'unauthenticated' && (
-          <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
-            <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%' }}>
-              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#3b82f6', marginBottom:12 }}>Sign in required</div>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:10 }}>Sign in to chat</div>
-              <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:24 }}>Create a free account to start chatting with your AI History tutor.</div>
-              <button onClick={async () => { await supabase.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.href } }); }} style={{ width:'100%', padding:'13px', borderRadius:8, border:'1px solid #333', background:'#161616', color:'#f0f0f0', fontWeight:600, fontSize:'0.9rem', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:10 }}>
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
-                Continue with Google
-              </button>
-              <button onClick={() => setModal('none')} style={{ width:'100%', marginTop:10, padding:'10px', background:'transparent', border:'1px solid #222', borderRadius:8, color:'#555', cursor:'pointer', fontSize:'0.82rem' }}>Cancel</button>
-            </div>
-          </div>
-        )}
-        {modal === 'no_phone' && token && (
-          <PhoneModal
-            token={token}
-            onDone={() => {
-                setNoPhone(false);
-                setModal('none');
-                const pending = pendingMsgRef.current;
-                pendingMsgRef.current = null;
-                if (pending) setTimeout(() => sendMessage(pending), 100);
-              }}
-            onCancel={() => setModal('none')}
-          />
-        )}
-        {modal === 'limit_reached' && (
-          <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
-            <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%' }}>
-              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#f87171', marginBottom:12 }}>Monthly limit reached</div>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:10 }}>You've used {chatLimit} free messages this month</div>
-              <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:24 }}>Resets on the 1st of next month. Subscribe for unlimited access.</div>
-              <div style={{ background:'linear-gradient(135deg,#0d1b3e,#091530)', border:'1px solid rgba(59,130,246,0.3)', borderRadius:12, padding:'20px', marginBottom:20 }}>
-                <div style={{ fontFamily:'var(--font-mono)', fontSize:'2.8rem', fontWeight:700, color:'#f0f0f0', lineHeight:1 }}>₹999<span style={{ fontSize:'0.85rem', color:'#555', fontWeight:400 }}>/year</span></div>
-                <div style={{ marginTop:12, fontSize:'0.82rem', color:'#aaa' }}>✓ Unlimited AI chat every day</div>
-                <div style={{ fontSize:'0.82rem', color:'#aaa', marginTop:6 }}>✓ Unlimited answer evaluations</div>
-              </div>
-              <button onClick={() => setModal('none')} style={{ width:'100%', marginTop:10, padding:'10px', background:'transparent', border:'1px solid #222', borderRadius:8, color:'#555', cursor:'pointer', fontSize:'0.82rem' }}>Maybe later</button>
-            </div>
-          </div>
-        )}
+        <GateModals slots={slots} />
 
         <div className="chat-header">
           <div className="chat-header-icon">⚔</div>
@@ -723,9 +658,9 @@ Every response must:
               </button>
             </div>
             <div className="chat-hint">Enter to send · Shift+Enter for new line</div>
-            {token && !isOwner && !isSubscribed && (
-              <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: chatUsed >= chatLimit ? '#f87171' : '#555', letterSpacing:'0.08em' }}>
-                {chatUsed >= chatLimit ? 'Monthly limit reached · resets on the 1st' : `${chatLimit - chatUsed} of ${chatLimit} free messages remaining this month`}
+            {!usageLoading && (
+              <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : '#555', letterSpacing:'0.08em' }}>
+                {!canChat ? 'Free messages used · subscribe for unlimited' : `${(usage?.chat_count ?? 0)} of 10 free messages used`}
               </div>
             )}
           </div>

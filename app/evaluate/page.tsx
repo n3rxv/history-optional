@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useSubscriptionGate } from "@/components/SubscriptionGate";
+import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
 
 interface Historian {
   name: string;
@@ -355,7 +355,7 @@ const handleOcr = useCallback(async () => {
   }, [files, question]);
 
   // ── Subscription gate — must come after handleOcr is defined ──────────────
-  const { UsagePill, GateModals, handleEvaluate, usage, increment } = useSubscriptionGate(handleOcr);
+  const { UsagePill, GateModals, handleEvaluate, usage, increment, slots } = useSubscriptionGate(handleOcr);
   const tokenRef = useRef<string | null>(null);
   useEffect(() => { tokenRef.current = usage.token; }, [usage.token]);
 
@@ -684,7 +684,7 @@ const handleOcr = useCallback(async () => {
             {error && <div className="ev-err">{error}</div>}
             <UsagePill />
             <button className="ev-btn" onClick={handleEvaluate} disabled={ocrLoading || usage.loading}>{ocrLoading ? "Reading handwriting…" : "Evaluate Answer →"}</button>
-            <GateModals />
+            <GateModals slots={slots} />
           </div>
         )}
 

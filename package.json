@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^5.2.0",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/libre-baskerville": "^5.2.10",
     "@fontsource/lora": "^5.2.8",
