@@ -56,9 +56,52 @@ function PremiumModal({ onClose }: { onClose: () => void }) {
 
   React.useEffect(() => {
     fetch('/api/slots').then(r => r.json()).then(d => setSlots(d.slots ?? 45)).catch(() => {});
-    const s = document.createElement('script');
-    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    document.head.appendChild(s);
+    if (!document.getElementById('rzp-script')) {
+      const s = document.createElement('script');
+      s.id = 'rzp-script';
+      s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      document.head.appendChild(s);
+    }
+    // Auto-trigger payment if returning from OAuth
+    if (sessionStorage.getItem('ho_pending_payment') === '1') {
+      setTimeout(async () => {
+        const { supabase } = await import('@/lib/supabase');
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          sessionStorage.removeItem('ho_pending_payment');
+          setStep('paying');
+          // inline pay
+          const orderRes = await fetch('/api/razorpay/order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-user-token': session.access_token },
+          });
+          const orderData = await orderRes.json();
+          if (!orderData.orderId) { setStep('plans'); return; }
+          const rzp = new (window as any).Razorpay({
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            order_id: orderData.orderId,
+            name: 'History Optional',
+            description: 'Unlimited Access · 1 Year',
+            prefill: { email: session.user?.email ?? '' },
+            theme: { color: '#d4a843' },
+            handler: async (resp: any) => {
+              const FP = await (await import('@fingerprintjs/fingerprintjs')).default.load();
+              const { visitorId: fingerprint } = await FP.get();
+              const vRes = await fetch('/api/razorpay/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-user-token': session.access_token },
+                body: JSON.stringify({ ...resp, fingerprint }),
+              });
+              if ((await vRes.json()).ok) setStep('success');
+            },
+          });
+          rzp.on('payment.failed', () => setStep('plans'));
+          rzp.open();
+        }
+      }, 800);
+    }
   }, []);
 
   const price = slots > 0 ? '₹1,999' : '₹9,999';
@@ -293,7 +336,7 @@ export default function Navbar() {
                 position: 'absolute', top: '100%', left: 0,
                 background: 'var(--bg2)', border: '1px solid var(--border2)',
                 borderRadius: 8, padding: '0.4rem',
-                minWidth: 140, zIndex: 200,
+                minWidth: 140, zIndex: 1000,
                 boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
               }}>
                 <Link href="/pyqs" onClick={() => setPyqsMenuOpen(false)} style={{
