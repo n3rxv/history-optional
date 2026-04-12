@@ -30,209 +30,156 @@ interface Props {
   noteSlug: string;
   active: boolean;
   onToggle: () => void;
-  userId?: string | null; // passed from NoteReader when logged in
 }
 
-export default function NoteAnnotationCanvas({ noteSlug, active, onToggle, userId }: Props) {
+export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Props) {
   const canvasRef  = useRef<HTMLCanvasElement>(null);
   const strokesRef = useRef<Stroke[]>([]);
   const currentRef = useRef<Stroke | null>(null);
   const isDrawing  = useRef(false);
-  const syncTimer  = useRef<ReturnType<typeof setTimeout> | null>(null);
   const storageKey = `annotations_v3_${noteSlug}`;
 
   const [tool,      setTool]      = useState<'pen' | 'highlighter' | 'eraser'>('pen');
   const [penColor,  setPenColor]  = useState('#f0f0f0');
   const [hlColor,   setHlColor]   = useState('rgba(255,235,0,0.4)');
   const [penWidth,  setPenWidth]  = useState(2);
-  const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'saved' | 'error'>('idle');
   const [tick,      setTick]      = useState(0);
   const [eraserPos, setEraserPos] = useState<{ x: number; y: number } | null>(null);
 
-  // ── Supabase sync ──────────────────────────────────────────────
-  const saveToCloud = useCallback(async (strokes: Stroke[]) => {
-    if (!userId) return;
-    setSyncStatus('syncing');
+  const saveLocal = useCallback((strokes: Stroke[]) => {
+    try { localStorage.setItem(storageKey, JSON.stringify(strokes)); } catch {}
+  }, [storageKey]);
+
+  // Load from localStorage
+  useEffect(() => {
     try {
-      const { data: { session } } = await (await import('@/lib/supabase')).supabase.auth.getSession();
-      const res = await fetch('/api/canvas-annotations', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session?.access_token ?? ''}`,
-        },
-        body: JSON.stringify({ user_id: userId, note_slug: noteSlug, strokes }),
-      });
-      setSyncStatus(res.ok ? 'saved' : 'error');
-      if (res.ok) setTimeout(() => setSyncStatus('idle'), 2000);
-    } catch {
-      setSyncStatus('error');
-    }
-  }, [userId, noteSlug]);
+      const raw = localStorage.getItem(storageKey);
+      if (raw) strokesRef.current = JSON.parse(raw);
+    } catch {}
+    setTick(t => t + 1);
+  }, [storageKey]);
 
-  const debouncedSave = useCallback((strokes: Stroke[]) => {
-    if (syncTimer.current) clearTimeout(syncTimer.current);
-    syncTimer.current = setTimeout(() => saveToCloud(strokes), 1200);
-  }, [saveToCloud]);
-
-  // ── Load: cloud first (if logged in), else localStorage ────────
-  useEffect(() => {
-    const loadStrokes = async () => {
-      if (userId) {
-        try {
-          const res = await fetch(`/api/canvas-annotations?user_id=${userId}&slug=${noteSlug}`);
-          const json = await res.json();
-          if (json.strokes?.length) {
-            strokesRef.current = json.strokes;
-            // Also keep localStorage in sync as backup
-            localStorage.setItem(storageKey, JSON.stringify(json.strokes));
-            setTick(t => t + 1);
-            return;
-          }
-        } catch {}
-      }
-      // Fall back to localStorage
-      try {
-        const raw = localStorage.getItem(storageKey);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          strokesRef.current = parsed;
-          // Migrate to cloud if we just logged in
-          if (userId && parsed.length) saveToCloud(parsed);
-          setTick(t => t + 1);
-        }
-      } catch {}
-    };
-    loadStrokes();
-  }, [userId, noteSlug, storageKey, saveToCloud]);
-
-  // ── Redraw ──────────────────────────────────────────────────────
-  useEffect(() => {
-    const canvas = canvasRef.current; if (!canvas) return;
-    const ctx    = canvas.getContext('2d'); if (!ctx) return;
-    const W = window.innerWidth, H = window.innerHeight;
-    canvas.width  = W;
-    canvas.height = H;
-    ctx.clearRect(0, 0, W, H);
-    const scrollTop = window.scrollY;
-
-    const drawStroke = (s: Stroke) => {
-      if (s.points.length < 1) return;
-      const dy = s.scrollY - scrollTop;
-      ctx.save();
-      ctx.translate(0, dy);
+  // Redraw canvas
+  const redraw = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const scrollY = window.scrollY;
+    for (const stroke of strokesRef.current) {
+      if (stroke.points.length < 2) continue;
       ctx.beginPath();
-      ctx.lineCap  = 'round';
+      ctx.lineWidth = stroke.tool === 'highlighter' ? stroke.width * 8 : stroke.width;
+      ctx.strokeStyle = stroke.color;
+      ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      if (s.tool === 'eraser') {
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.strokeStyle = 'rgba(0,0,0,1)';
-        ctx.lineWidth   = s.width;
-      } else {
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.strokeStyle = s.color;
-        ctx.lineWidth   = s.width;
+      ctx.globalAlpha = stroke.tool === 'highlighter' ? 0.4 : 1;
+      const dy = stroke.scrollY - scrollY;
+      ctx.moveTo(stroke.points[0].x, stroke.points[0].y + dy);
+      for (let i = 1; i < stroke.points.length; i++) {
+        ctx.lineTo(stroke.points[i].x, stroke.points[i].y + dy);
       }
-      if (s.points.length === 1) {
-        ctx.arc(s.points[0].x, s.points[0].y, s.width / 2, 0, Math.PI * 2);
-        ctx.fillStyle = s.color;
-        ctx.fill();
-      } else {
-        ctx.moveTo(s.points[0].x, s.points[0].y);
-        for (let i = 1; i < s.points.length - 1; i++) {
-          const mx = (s.points[i].x + s.points[i + 1].x) / 2;
-          const my = (s.points[i].y + s.points[i + 1].y) / 2;
-          ctx.quadraticCurveTo(s.points[i].x, s.points[i].y, mx, my);
-        }
-        ctx.lineTo(s.points[s.points.length - 1].x, s.points[s.points.length - 1].y);
-        ctx.stroke();
-      }
-      ctx.restore();
-    };
-
-    strokesRef.current.forEach(s => drawStroke(s));
-    if (currentRef.current) drawStroke(currentRef.current);
-  }, [tick]);
-
-  useEffect(() => {
-    if (!active) return;
-    const onScroll = () => setTick(t => t + 1);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [active]);
-
-  useEffect(() => {
-    const onResize = () => setTick(t => t + 1);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
   }, []);
 
-  // ── Drawing handlers ────────────────────────────────────────────
-  const getPos = (e: React.PointerEvent<HTMLCanvasElement>): Point => ({
-    x: e.clientX, y: e.clientY,
-  });
+  useEffect(() => { redraw(); }, [tick, redraw]);
 
-  const onPointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    (e.target as Element).setPointerCapture(e.pointerId);
-    const color = tool === 'highlighter' ? hlColor : penColor;
-    const width = tool === 'highlighter' ? penWidth * 7 : tool === 'eraser' ? penWidth * 8 : penWidth;
-    currentRef.current = { points: [getPos(e)], color, width, tool, scrollY: window.scrollY };
-    isDrawing.current  = true;
-    setTick(t => t + 1);
+  // Resize canvas
+  useEffect(() => {
+    const resize = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      redraw();
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    return () => window.removeEventListener('resize', resize);
+  }, [redraw]);
+
+  // Scroll redraw
+  useEffect(() => {
+    window.addEventListener('scroll', redraw, { passive: true });
+    return () => window.removeEventListener('scroll', redraw);
+  }, [redraw]);
+
+  const getPos = (e: React.PointerEvent): Point => {
+    const canvas = canvasRef.current!;
+    const rect = canvas.getBoundingClientRect();
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
-  const onPointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (!active) return;
+    isDrawing.current = true;
+    const pt = getPos(e);
+    if (tool === 'eraser') {
+      strokesRef.current = strokesRef.current.filter(s => {
+        const dy = s.scrollY - window.scrollY;
+        return !s.points.some(p => Math.hypot(p.x - pt.x, p.y - (p.y + dy) + pt.y) < penWidth * 6);
+      });
+      saveLocal(strokesRef.current);
+      setTick(t => t + 1);
+      return;
+    }
+    currentRef.current = {
+      points: [pt],
+      color: tool === 'highlighter' ? hlColor : penColor,
+      width: penWidth,
+      tool,
+      scrollY: window.scrollY,
+    };
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
     if (!isDrawing.current || !currentRef.current) return;
-    e.preventDefault();
     currentRef.current.points.push(getPos(e));
-    setTick(t => t + 1);
+    redraw();
+    // Draw current stroke live
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
+    const s = currentRef.current;
+    const pts = s.points;
+    if (pts.length < 2) return;
+    ctx.beginPath();
+    ctx.lineWidth = s.tool === 'highlighter' ? s.width * 8 : s.width;
+    ctx.strokeStyle = s.color;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.globalAlpha = s.tool === 'highlighter' ? 0.4 : 1;
+    ctx.moveTo(pts[pts.length - 2].x, pts[pts.length - 2].y);
+    ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
   };
 
   const onPointerUp = () => {
-    if (!currentRef.current) return;
-    strokesRef.current = [...strokesRef.current, currentRef.current];
+    if (!isDrawing.current || !currentRef.current) return;
+    isDrawing.current = false;
+    strokesRef.current.push(currentRef.current);
     currentRef.current = null;
-    isDrawing.current  = false;
-    // Save to localStorage
-    try { localStorage.setItem(storageKey, JSON.stringify(strokesRef.current)); } catch {}
-    // Debounced save to Supabase
-    debouncedSave(strokesRef.current);
+    saveLocal(strokesRef.current);
     setTick(t => t + 1);
   };
 
   const undo = () => {
     strokesRef.current = strokesRef.current.slice(0, -1);
-    try { localStorage.setItem(storageKey, JSON.stringify(strokesRef.current)); } catch {}
-    debouncedSave(strokesRef.current);
+    saveLocal(strokesRef.current);
     setTick(t => t + 1);
   };
 
   const clearAll = () => {
     strokesRef.current = [];
     try { localStorage.removeItem(storageKey); } catch {}
-    if (userId) {
-      fetch('/api/canvas-annotations', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId, note_slug: noteSlug }),
-      }).catch(() => {});
-    }
     setTick(t => t + 1);
   };
 
-  // ── UI helpers ──────────────────────────────────────────────────
-  const syncLabel =
-    syncStatus === 'syncing' ? '↑ Syncing…' :
-    syncStatus === 'saved'   ? '✓ Saved'    :
-    syncStatus === 'error'   ? '⚠ Error'    : null;
-
-  const syncColor =
-    syncStatus === 'saved'  ? '#51cf66' :
-    syncStatus === 'error'  ? '#ff6b6b' : '#888';
-
   const sep = <div style={{ width: 1, height: 24, background: 'rgba(255,255,255,0.1)', flexShrink: 0 }} />;
-
   const toolBtn = (t: typeof tool, icon: string, label: string) => (
     <button onClick={() => setTool(t)} title={label} style={{
       padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 15,
@@ -263,21 +210,17 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle, userI
         }}
       />
 
-      {/* Eraser circle cursor */}
       {active && tool === 'eraser' && eraserPos && (
         <div style={{
           position: 'fixed',
           left: eraserPos.x - (penWidth * 4),
           top: eraserPos.y - (penWidth * 4),
-          width: penWidth * 8,
-          height: penWidth * 8,
+          width: penWidth * 8, height: penWidth * 8,
           borderRadius: '50%',
           border: '2px solid rgba(255,255,255,0.8)',
           background: 'rgba(255,255,255,0.08)',
-          pointerEvents: 'none',
-          zIndex: 200,
+          pointerEvents: 'none', zIndex: 200,
           boxShadow: '0 0 0 1px rgba(0,0,0,0.5)',
-          transform: 'translateZ(0)',
         }} />
       )}
 
@@ -342,11 +285,6 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle, userI
             padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 13,
             background: 'rgba(255,60,60,0.08)', border: '1px solid rgba(255,60,60,0.2)', color: '#ff8080',
           }}>🗑</button>
-          {syncLabel && (
-            <span style={{ fontSize: 11, color: syncColor, minWidth: 70, textAlign: 'center' }}>
-              {syncLabel}
-            </span>
-          )}
           <button onClick={onToggle} style={{
             padding: '5px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 12, fontWeight: 600,
             background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.45)', color: '#d4a843',

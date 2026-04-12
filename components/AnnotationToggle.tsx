@@ -5,10 +5,9 @@ import NoteAnnotationCanvas from './NoteAnnotationCanvas';
 
 interface Props {
   noteSlug: string;
-  userId?: string | null; // passed from NoteReader
 }
 
-export default function AnnotationToggle({ noteSlug, userId }: Props) {
+export default function AnnotationToggle({ noteSlug }: Props) {
   const [active, setActive] = useState(false);
 
   return (
@@ -17,7 +16,6 @@ export default function AnnotationToggle({ noteSlug, userId }: Props) {
         noteSlug={noteSlug}
         active={active}
         onToggle={() => setActive(false)}
-        userId={userId}
       />
       <button
         onClick={() => setActive(a => !a)}
