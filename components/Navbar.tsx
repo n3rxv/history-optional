@@ -251,6 +251,7 @@ function PremiumModal({ onClose }: { onClose: () => void }) {
             <button onClick={onClose} style={{ width: '100%', padding: '10px', background: 'transparent', border: '1px solid #222', borderRadius: 8, color: '#555', cursor: 'pointer', fontSize: '0.82rem' }}>Maybe later</button>
             <div style={{ textAlign: 'center', marginTop: 10 }}>
               <button onClick={async () => {
+                sessionStorage.setItem('ho_verify_sub', '1');
                 const { supabase } = await import('@/lib/supabase');
                 await supabase.auth.signInWithOAuth({
                   provider: 'google',
@@ -277,8 +278,28 @@ export default function Navbar() {
   const [showPremiumModal, setShowPremiumModal] = useState(false);
 
   useEffect(() => {
-    if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('ho_pending_payment') === '1') {
-      setShowPremiumModal(true);
+    if (typeof sessionStorage !== 'undefined') {
+      if (sessionStorage.getItem('ho_pending_payment') === '1') {
+        setShowPremiumModal(true);
+      }
+      if (sessionStorage.getItem('ho_verify_sub') === '1') {
+        sessionStorage.removeItem('ho_verify_sub');
+        // Check if they have a subscription, sign out if not
+        (async () => {
+          const { supabase } = await import('@/lib/supabase');
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session?.access_token) {
+            const res = await fetch(`/api/usage?fp=check&checkSub=1&token=${session.access_token}`);
+            const data = await res.json();
+            if (!data.isPremium) {
+              await supabase.auth.signOut();
+              setShowPremiumModal(true);
+              // Show message
+              alert('No active subscription found. Please purchase to get unlimited access.');
+            }
+          }
+        })();
+      }
     }
   }, []);
 
