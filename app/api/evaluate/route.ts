@@ -456,7 +456,7 @@ Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be spe
     }
 
     // Brief pause before OCR
-    await new Promise(res => setTimeout(res, 2000));
+    await new Promise(res => setTimeout(res, 500));
 
     // ── PASS 0: Dedicated OCR transcription ──────────────────────
     // Only run if user hasn't already provided extracted text
@@ -546,7 +546,7 @@ Go page by page. Do not rush. Every word matters.`;
       }
 
       // Brief pause before Pass 1
-      await new Promise(res => setTimeout(res, 3000));
+      await new Promise(res => setTimeout(res, 500));
     }
 
     // ── PASS 1: Chain-of-thought reasoning ─────────────────────
@@ -657,7 +657,7 @@ INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
     console.log("CoT reasoning:\n", cotReasoning);
 
     // Wait between passes to avoid TPM rate limiting
-    await new Promise(res => setTimeout(res, 12000));
+    await new Promise(res => setTimeout(res, 1000));
 
     // ── PASS 2: Convert reasoning to JSON ────────────────────────
     const jsonPrompt = `You already reasoned through this answer. Your reasoning:
@@ -688,7 +688,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
 
     if (response.status === 429) {
       console.log("Pass 2 rate limited, waiting 20s...");
-      await new Promise(res => setTimeout(res, 20000));
+      await new Promise(res => setTimeout(res, 1000));
       const retry = await callWithFallback({
         model: "moonshotai/kimi-k2-instruct",
         messages: [
