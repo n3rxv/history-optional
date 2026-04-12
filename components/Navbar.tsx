@@ -482,16 +482,17 @@ export default function Navbar() {
               onClick={() => setShowPremiumModal(true)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 6,
-                background: 'linear-gradient(135deg, rgba(212,168,67,0.15), rgba(251,191,36,0.1))',
-                border: '1px solid rgba(212,168,67,0.5)',
-                color: '#d4a843', cursor: 'pointer',
+                background: 'linear-gradient(135deg, rgba(212,168,67,0.2), rgba(251,191,36,0.12))',
+                border: '1px solid rgba(212,168,67,0.7)',
+                color: '#f0c040', cursor: 'pointer',
                 padding: '0.3rem 0.65rem', borderRadius: 6,
                 fontSize: '0.78rem', fontWeight: 700,
-                marginLeft: '0.4rem', transition: 'all 0.15s',
+                marginLeft: '0.4rem', transition: 'all 0.2s',
                 letterSpacing: '0.03em', whiteSpace: 'nowrap',
+                boxShadow: '0 0 10px rgba(212,168,67,0.3), 0 0 20px rgba(212,168,67,0.1)',
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(212,168,67,0.25), rgba(251,191,36,0.2))'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(212,168,67,0.15), rgba(251,191,36,0.1))'; }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'linear-gradient(135deg, rgba(212,168,67,0.3), rgba(251,191,36,0.2))'; el.style.boxShadow = '0 0 16px rgba(212,168,67,0.5), 0 0 32px rgba(212,168,67,0.2)'; el.style.borderColor = 'rgba(212,168,67,0.9)'; el.style.color = '#ffd700'; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'linear-gradient(135deg, rgba(212,168,67,0.2), rgba(251,191,36,0.12))'; el.style.boxShadow = '0 0 10px rgba(212,168,67,0.3), 0 0 20px rgba(212,168,67,0.1)'; el.style.borderColor = 'rgba(212,168,67,0.7)'; el.style.color = '#f0c040'; }}
             >
               ✦ Premium
             </button>
