@@ -292,12 +292,47 @@ const MAX_FILES = 10;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
 
 export async function POST(req: NextRequest) {
-  // Auth gate
-  const token = req.headers.get("x-user-token");
-  if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const db = createServerClient();
-  const { data: { user }, error: authErr } = await db.auth.getUser(token);
-  if (authErr || !user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const token = req.headers.get("x-user-token") ?? "";
+
+  // Owner bypass — check if real auth token
+  let isOwner = false;
+  try {
+    const db = createServerClient();
+    const { data: { user } } = await db.auth.getUser(token);
+    if (user?.email === process.env.OWNER_EMAIL) isOwner = true;
+  } catch {}
+
+  // Fingerprint-based usage check
+  if (!isOwner) {
+    const { createClient } = await import("@supabase/supabase-js");
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+
+    // Check subscription first
+    const nowISO = new Date().toISOString();
+    const { data: sub } = await supabase
+      .from("subscriptions")
+      .select("status")
+      .eq("user_id", token)
+      .eq("status", "active")
+      .gt("expires_at", nowISO)
+      .single();
+
+    if (!sub) {
+      // Check weekly eval usage via usage_tracking
+      const { data: usage } = await supabase
+        .from("usage_tracking")
+        .select("eval_count")
+        .eq("fingerprint", token)
+        .single();
+
+      const used = usage?.eval_count ?? 0;
+      if (used >= 1)
+        return NextResponse.json({ error: "limit_reached" }, { status: 403 });
+    }
+  }
 
   try {
     const formData = await req.formData();

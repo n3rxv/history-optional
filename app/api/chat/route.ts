@@ -1,89 +1,74 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 
 const chatLimits = new Map<string, { count: number; ts: number }>();
-const LIMIT = 20; // max 20 messages per 10 minutes per IP
+const RATE_LIMIT = 20; // max 20 messages per 10 minutes per IP
 const CHAT_FREE_LIMIT = 5; // per month
 const OWNER_EMAIL = process.env.OWNER_EMAIL!;
-const OWNER_PHONE = process.env.OWNER_PHONE!;
 
 export async function POST(req: NextRequest) {
-  // ── IP rate limit (abuse protection) ────────────────────────────
+  // ── IP rate limit ────────────────────────────────────────────────
   const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown';
   const now = Date.now();
-  const entry = chatLimits.get(ip);
-  if (entry && now - entry.ts > 10 * 60 * 1000) chatLimits.delete(ip);
+  if (chatLimits.get(ip) && now - chatLimits.get(ip)!.ts > 10 * 60 * 1000) chatLimits.delete(ip);
   const current = chatLimits.get(ip);
-  if (current && current.count >= LIMIT) {
+  if (current && current.count >= RATE_LIMIT)
     return NextResponse.json({ error: 'too_many_requests' }, { status: 429 });
-  }
   chatLimits.set(ip, { count: (current?.count ?? 0) + 1, ts: current?.ts ?? now });
 
-  const token = req.headers.get('x-user-token');
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
 
-  // ── Auth check ───────────────────────────────────────────────────
-  if (!token) {
-    return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
-  }
+  const token = req.headers.get('x-user-token') ?? '';
 
-  const db = createServerClient();
-  const { data: { user }, error: userErr } = await db.auth.getUser(token);
-  if (userErr || !user) {
-    return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
-  }
+  // ── Owner bypass — check if token is a real auth token ──────────
+  let isOwner = false;
+  try {
+    const { createServerClient } = await import('@/lib/supabase');
+    const db = createServerClient();
+    const { data: { user } } = await db.auth.getUser(token);
+    if (user?.email === OWNER_EMAIL) isOwner = true;
+  } catch {}
 
-  // ── Usage check (skip for owner) ─────────────────────────────────
-  const isOwner = user.email === OWNER_EMAIL;
+  // ── Fingerprint-based usage check ───────────────────────────────
   if (!isOwner) {
-    const { data: profile } = await db.from("user_profiles").select("phone").eq("user_id", user.id).single();
-    const phone = profile?.phone ?? "";
+    const fingerprint = token; // frontend sends fingerprint as x-user-token
+    if (!fingerprint) return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
 
-    if (!phone) {
-      return NextResponse.json({ error: 'no_phone' }, { status: 403 });
-    }
+    // Check subscription
+    const nowISO = new Date().toISOString();
+    const { data: sub } = await supabase
+      .from('subscriptions')
+      .select('status')
+      .eq('user_id', fingerprint)
+      .eq('status', 'active')
+      .gt('expires_at', nowISO)
+      .single();
 
-    if (phone !== OWNER_PHONE) {
-      // Check subscription
-      const nowISO = new Date().toISOString();
-      const { data: sub } = await db
-        .from("subscriptions").select("status").eq("user_id", user.id)
-        .eq("status", "active").gt("expires_at", nowISO).single();
+    if (!sub) {
+      // Check monthly chat usage via usage_tracking
+      const { data: usage } = await supabase
+        .from('usage_tracking')
+        .select('chat_count')
+        .eq('fingerprint', fingerprint)
+        .single();
 
-      if (!sub) {
-        // Check MONTHLY chat usage
-        const thisMonth = new Date().toISOString().slice(0, 7); // "YYYY-MM"
-        const { data: usage } = await db
-          .from("chat_usage")
-          .select("count")
-          .eq("phone", phone)
-          .eq("month", thisMonth)
-          .single();
-        const used = usage?.count ?? 0;
-
-        if (used >= CHAT_FREE_LIMIT) {
-          return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
-        }
-
-        // Increment monthly usage
-        if (usage) {
-          await db.from("chat_usage").update({ count: used + 1 }).eq("phone", phone).eq("month", thisMonth);
-        } else {
-          await db.from("chat_usage").insert({ user_id: user.id, phone, month: thisMonth, count: 1 });
-        }
-      }
+      const used = usage?.chat_count ?? 0;
+      if (used >= CHAT_FREE_LIMIT)
+        return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
     }
   }
 
   // ── Call Groq ────────────────────────────────────────────────────
   try {
     const { messages, system } = await req.json();
-
-  // Input length limit
-  const lastMsg = messages?.[messages.length - 1]?.content ?? '';
-  if (typeof lastMsg === 'string' && lastMsg.length > 4000)
-    return NextResponse.json({ error: 'Message too long' }, { status: 400 });
-  if (!Array.isArray(messages) || messages.length > 50)
-    return NextResponse.json({ error: 'Too many messages in context' }, { status: 400 });
+    const lastMsg = messages?.[messages.length - 1]?.content ?? '';
+    if (typeof lastMsg === 'string' && lastMsg.length > 4000)
+      return NextResponse.json({ error: 'Message too long' }, { status: 400 });
+    if (!Array.isArray(messages) || messages.length > 50)
+      return NextResponse.json({ error: 'Too many messages in context' }, { status: 400 });
 
     const groqFetch = async (model: string) =>
       fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -96,7 +81,7 @@ export async function POST(req: NextRequest) {
           model,
           messages: [
             ...(system ? [{ role: 'system', content: system }] : []),
-            ...messages
+            ...messages,
           ],
           max_tokens: 4000,
         }),
@@ -107,7 +92,6 @@ export async function POST(req: NextRequest) {
       console.log('Kimi-K2 over capacity, falling back to llama-3.3-70b...');
       response = await groqFetch('llama-3.3-70b-versatile');
     }
-
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content || 'No response';
     return NextResponse.json({ content: [{ text }] });

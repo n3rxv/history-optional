@@ -8,8 +8,8 @@ export type UsageData = {
   chat_count: number;
 };
 
-const FREE_EVAL_LIMIT = 3;
-const FREE_CHAT_LIMIT = 10;
+const FREE_EVAL_LIMIT = 1;
+const FREE_CHAT_LIMIT = 5;
 
 export function useUsageTracker() {
   const [usage, setUsage] = useState<UsageData | null>(null);
