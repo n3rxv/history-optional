@@ -122,9 +122,9 @@ function PremiumModal({ onClose }: { onClose: () => void }) {
   ];
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
+    <div style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflowY: 'auto' }}
       onClick={onClose}>
-      <div style={{ background: '#0e0e0e', border: '1px solid #222', borderRadius: 18, padding: '2rem', maxWidth: 440, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
+      <div style={{ background: '#0e0e0e', border: '1px solid #222', borderRadius: 18, padding: '2rem', maxWidth: 440, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)', margin: 'auto' }}
         onClick={e => e.stopPropagation()}>
 
         {step === 'success' ? (
