@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -49,6 +50,153 @@ function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
   );
 }
 
+function PremiumModal({ onClose }: { onClose: () => void }) {
+  const [slots, setSlots] = React.useState(45);
+  const [step, setStep] = React.useState<'plans' | 'signing_in' | 'paying' | 'success'>('plans');
+
+  React.useEffect(() => {
+    fetch('/api/slots').then(r => r.json()).then(d => setSlots(d.slots ?? 45)).catch(() => {});
+    const s = document.createElement('script');
+    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    document.head.appendChild(s);
+  }, []);
+
+  const price = slots > 0 ? '₹1,999' : '₹9,999';
+
+  const handleSubscribe = async () => {
+    // Get fingerprint
+    const FP = await (await import('@fingerprintjs/fingerprintjs')).default.load();
+    const { visitorId: fingerprint } = await FP.get();
+
+    // Check if already have auth session
+    const { supabase } = await import('@/lib/supabase');
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      sessionStorage.setItem('ho_pending_payment', '1');
+      setStep('signing_in');
+      await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: `${window.location.origin}${window.location.pathname}` },
+      });
+      return;
+    }
+
+    setStep('paying');
+    const orderRes = await fetch('/api/razorpay/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-user-token': session.access_token },
+    });
+    const orderData = await orderRes.json();
+    if (!orderData.orderId) { setStep('plans'); return; }
+
+    const rzp = new (window as any).Razorpay({
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      amount: orderData.amount,
+      currency: orderData.currency,
+      order_id: orderData.orderId,
+      name: 'History Optional',
+      description: 'Unlimited Access · 1 Year',
+      prefill: { email: session.user?.email ?? '' },
+      theme: { color: '#d4a843' },
+      handler: async (resp: any) => {
+        const vRes = await fetch('/api/razorpay/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-user-token': session.access_token },
+          body: JSON.stringify({ ...resp, fingerprint }),
+        });
+        if ((await vRes.json()).ok) setStep('success');
+      },
+    });
+    rzp.on('payment.failed', () => setStep('plans'));
+    rzp.open();
+  };
+
+  const features = [
+    { name: 'All notes (Paper I & II)', free: true,  premium: true  },
+    { name: 'PYQ bank',                 free: true,  premium: true  },
+    { name: 'Timeline & Historiography',free: true,  premium: true  },
+    { name: 'Answer evaluation',        free: '1/week', premium: 'Unlimited' },
+    { name: 'AI Chat (History tutor)',  free: '5/month', premium: 'Unlimited' },
+    { name: 'Annotations & highlights', free: true,  premium: true  },
+  ];
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
+      onClick={onClose}>
+      <div style={{ background: '#0e0e0e', border: '1px solid #222', borderRadius: 18, padding: '2rem', maxWidth: 440, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
+        onClick={e => e.stopPropagation()}>
+
+        {step === 'success' ? (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '3rem', marginBottom: 12 }}>🎉</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>You're Premium!</div>
+            <div style={{ color: '#888', fontSize: '0.88rem', marginBottom: 24 }}>Unlimited access for 1 year. Go ace those answers.</div>
+            <button onClick={onClose} style={{ width: '100%', padding: '14px', borderRadius: 8, border: 'none', background: '#4ade80', color: '#000', fontWeight: 700, cursor: 'pointer' }}>Let's go →</button>
+          </div>
+        ) : step === 'signing_in' ? (
+          <div style={{ textAlign: 'center', padding: '2rem 0', color: '#888' }}>Redirecting to Google…</div>
+        ) : (
+          <>
+            <div style={{ textAlign: 'center', marginBottom: 20 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#d4a843', marginBottom: 8 }}>✦ Premium</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#f0f0f0' }}>Unlock Everything</div>
+            </div>
+
+            {/* Features table */}
+            <div style={{ border: '1px solid #1e1e1e', borderRadius: 10, overflow: 'hidden', marginBottom: 20 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', background: '#141414', padding: '8px 14px', borderBottom: '1px solid #1e1e1e' }}>
+                <span style={{ fontSize: '0.7rem', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Feature</span>
+                <span style={{ fontSize: '0.7rem', color: '#555', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', minWidth: 56 }}>Free</span>
+                <span style={{ fontSize: '0.7rem', color: '#d4a843', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', minWidth: 72 }}>Premium</span>
+              </div>
+              {features.map((f, i) => (
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', padding: '9px 14px', borderBottom: i < features.length - 1 ? '1px solid #161616' : 'none', alignItems: 'center' }}>
+                  <span style={{ fontSize: '0.82rem', color: '#ccc' }}>{f.name}</span>
+                  <span style={{ textAlign: 'center', minWidth: 56, fontSize: '0.78rem', color: f.free === true ? '#51cf66' : '#888' }}>
+                    {f.free === true ? '✓' : f.free === false ? '✗' : f.free}
+                  </span>
+                  <span style={{ textAlign: 'center', minWidth: 72, fontSize: '0.78rem', color: '#d4a843', fontWeight: 600 }}>
+                    {f.premium === true ? '✓' : f.premium === false ? '✗' : f.premium}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Notes are free callout */}
+            <div style={{ background: 'rgba(81,207,102,0.06)', border: '1px solid rgba(81,207,102,0.2)', borderRadius: 8, padding: '8px 12px', marginBottom: 16, fontSize: '0.78rem', color: '#51cf66', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>📚</span> All notes, PYQs & timelines are <strong>completely free</strong> — always.
+            </div>
+
+            {/* Price */}
+            <div style={{ background: 'linear-gradient(135deg,#0d1b3e,#091530)', border: '1px solid rgba(212,168,67,0.3)', borderRadius: 12, padding: '16px 20px', marginBottom: 16, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,transparent,#d4a843,transparent)' }} />
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '2.4rem', fontWeight: 700, color: '#f0f0f0', lineHeight: 1 }}>{price}</span>
+                <span style={{ color: '#555', fontSize: '0.85rem', marginBottom: 4 }}>/year</span>
+              </div>
+              {slots > 0 ? (
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: '#f87171', letterSpacing: '0.08em', marginTop: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#f87171', boxShadow: '0 0 6px #f87171' }} />
+                  Only {slots} early-bird slot{slots === 1 ? '' : 's'} left at this price
+                </div>
+              ) : (
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: '#f87171', letterSpacing: '0.08em', marginTop: 6 }}>Early-bird slots full — standard pricing</div>
+              )}
+            </div>
+
+            <button onClick={handleSubscribe} disabled={step === 'paying'}
+              style={{ width: '100%', padding: '14px', borderRadius: 8, border: 'none', background: step === 'paying' ? '#1a1a1a' : 'linear-gradient(135deg,#b8860b,#d4a843)', color: step === 'paying' ? '#555' : '#000', fontWeight: 700, fontSize: '0.95rem', cursor: step === 'paying' ? 'not-allowed' : 'pointer', marginBottom: 10, letterSpacing: '0.03em' }}>
+              {step === 'paying' ? 'Opening payment…' : `✦ Subscribe — ${price}/year`}
+            </button>
+            <button onClick={onClose} style={{ width: '100%', padding: '10px', background: 'transparent', border: '1px solid #222', borderRadius: 8, color: '#555', cursor: 'pointer', fontSize: '0.82rem' }}>Maybe later</button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -56,6 +204,7 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -218,27 +367,24 @@ export default function Navbar() {
             </div>
           ) : (
             <button
-              onClick={handleSignIn}
+              onClick={() => setShowPremiumModal(true)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 6,
-                background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.3)',
-                color: 'var(--accent)', cursor: 'pointer',
+                background: 'linear-gradient(135deg, rgba(212,168,67,0.15), rgba(251,191,36,0.1))',
+                border: '1px solid rgba(212,168,67,0.5)',
+                color: '#d4a843', cursor: 'pointer',
                 padding: '0.35rem 0.85rem', borderRadius: 6,
-                fontSize: '0.8rem', fontWeight: 600,
+                fontSize: '0.8rem', fontWeight: 700,
                 marginLeft: '0.4rem', transition: 'all 0.15s',
+                letterSpacing: '0.03em',
               }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.15)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.08)'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(212,168,67,0.25), rgba(251,191,36,0.2))'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(135deg, rgba(212,168,67,0.15), rgba(251,191,36,0.1))'; }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-              </svg>
-              Sign in
+              ✦ Go Premium
             </button>
           )}
+          {showPremiumModal && <PremiumModal onClose={() => setShowPremiumModal(false)} />}
         </div>
 
         <button onClick={() => setOpen(!open)} style={{
