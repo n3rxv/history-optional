@@ -244,7 +244,7 @@ export default function Navbar() {
         padding: '0 1.5rem',
         display: 'flex', alignItems: 'center',
         justifyContent: 'space-between',
-        height: 60,
+        height: 60, flexWrap: 'nowrap', overflow: 'hidden',
       }}>
         <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <span style={{
@@ -269,9 +269,9 @@ export default function Navbar() {
           {/* PYQs dropdown */}
           <div style={{ position: 'relative' }} onMouseEnter={() => setPyqsMenuOpen(true)} onMouseLeave={() => setPyqsMenuOpen(false)}>
             <button style={{
-              padding: '0.4rem 0.9rem',
+              padding: '0.3rem 0.55rem',
               borderRadius: 5,
-              fontSize: '0.85rem',
+              fontSize: '0.78rem',
               fontFamily: 'var(--font-ui)',
               color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)',
               background: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'rgba(59,130,246,0.1)' : 'transparent',
@@ -373,8 +373,8 @@ export default function Navbar() {
                 background: 'linear-gradient(135deg, rgba(212,168,67,0.15), rgba(251,191,36,0.1))',
                 border: '1px solid rgba(212,168,67,0.5)',
                 color: '#d4a843', cursor: 'pointer',
-                padding: '0.35rem 0.85rem', borderRadius: 6,
-                fontSize: '0.8rem', fontWeight: 700,
+                padding: '0.3rem 0.65rem', borderRadius: 6,
+                fontSize: '0.78rem', fontWeight: 700,
                 marginLeft: '0.4rem', transition: 'all 0.15s',
                 letterSpacing: '0.03em', whiteSpace: 'nowrap',
               }}
