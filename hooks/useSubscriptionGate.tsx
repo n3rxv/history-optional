@@ -203,7 +203,7 @@ export function useSubscriptionGate(onEvaluate: () => void) {
   }, []);
 
   const handleEvaluate = useCallback(() => {
-    if (loading) return;
+    if (loading) { onEvaluateRef.current(); return; }
     if (!canEval) { setShowEvalLimit(true); return; }
     onEvaluateRef.current();
   }, [loading, canEval]);
