@@ -39,7 +39,6 @@ export function middleware(req: NextRequest) {
       status: 403,
       headers: {
         'Content-Type': 'text/plain',
-        'X-Robots-Tag': 'noindex, nofollow, noarchive, nosnippet',
       },
     });
   }

@@ -30,7 +30,6 @@ const nextConfig: NextConfig = {
         source: '/sitemap.xml',
         headers: [
           { key: 'Content-Type', value: 'application/xml' },
-          { key: 'X-Robots-Tag', value: 'noindex' },
         ],
       },
       {
