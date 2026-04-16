@@ -224,6 +224,37 @@ function ChatContent() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const lastAiRef = useRef<HTMLDivElement>(null);
+  const [inputAreaHeight, setInputAreaHeight] = useState(180);
+  const isDragging = useRef(false);
+  const dragStartY = useRef(0);
+  const dragStartH = useRef(0);
+
+  const onDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    isDragging.current = true;
+    dragStartY.current = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    dragStartH.current = inputAreaHeight;
+    document.body.style.userSelect = 'none';
+  };
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent | TouchEvent) => {
+      if (!isDragging.current) return;
+      const y = 'touches' in e ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY;
+      const delta = dragStartY.current - y;
+      setInputAreaHeight(Math.min(420, Math.max(120, dragStartH.current + delta)));
+    };
+    const onUp = () => { isDragging.current = false; document.body.style.userSelect = ''; };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    window.addEventListener('touchmove', onMove);
+    window.addEventListener('touchend', onUp);
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('touchend', onUp);
+    };
+  }, [inputAreaHeight]);
 
 
 
@@ -632,7 +663,19 @@ Every response must:
           </div>
         </div>
 
-        <div className="chat-input-area">
+        <div
+          onMouseDown={onDragStart}
+          onTouchStart={onDragStart}
+          style={{
+            height: '6px', cursor: 'ns-resize', flexShrink: 0,
+            background: 'linear-gradient(90deg, transparent, rgba(59,130,246,0.25), transparent)',
+            borderTop: '1px solid rgba(59,130,246,0.15)',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.background = 'linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent)')}
+          onMouseLeave={e => (e.currentTarget.style.background = 'linear-gradient(90deg, transparent, rgba(59,130,246,0.25), transparent)')}
+        />
+        <div className="chat-input-area" style={{ height: inputAreaHeight + 'px', overflowY: 'auto', flexShrink: 0 }}>
           <div className="chat-input-inner">
             <div className="chat-input-box">
               <textarea
