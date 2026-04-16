@@ -224,7 +224,7 @@ function ChatContent() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const lastAiRef = useRef<HTMLDivElement>(null);
-  const [inputAreaHeight, setInputAreaHeight] = useState(180);
+  const [inputAreaHeight, setInputAreaHeight] = useState(120);
   const isDragging = useRef(false);
   const dragStartY = useRef(0);
   const dragStartH = useRef(0);
