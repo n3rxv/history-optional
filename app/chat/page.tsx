@@ -254,7 +254,7 @@ function ChatContent() {
       window.removeEventListener('touchmove', onMove);
       window.removeEventListener('touchend', onUp);
     };
-  }, [inputAreaHeight]);
+  }, [msgsHeight]);
 
 
 
