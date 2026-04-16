@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
         }),
       });
 
-    let response = await groqFetch('moonshotai/kimi-k2-instruct');
+    let response = await groqFetch('qwen/qwen3-32b');
     if (response.status === 503 || response.status === 429) {
       console.log('Kimi-K2 over capacity, falling back to llama-3.3-70b...');
       response = await groqFetch('llama-3.3-70b-versatile');
