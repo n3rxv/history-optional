@@ -352,7 +352,7 @@ Every response must:
   return (
     <>
       <style>{`
-        .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 60px); background:var(--bg); }
+        .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 60px); background:var(--bg); overflow:hidden; }
 
         .chat-header {
           display:flex; align-items:center; gap:1rem;
@@ -675,7 +675,7 @@ Every response must:
           onMouseEnter={e => (e.currentTarget.style.background = 'linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent)')}
           onMouseLeave={e => (e.currentTarget.style.background = 'linear-gradient(90deg, transparent, rgba(59,130,246,0.25), transparent)')}
         />
-        <div className="chat-input-area" style={{ height: inputAreaHeight + 'px', overflowY: 'auto', flexShrink: 0, transition: 'none' }}>
+        <div className="chat-input-area" style={{ flexShrink: 0 }}>
           <div className="chat-input-inner">
             <div className="chat-input-box">
               <textarea
