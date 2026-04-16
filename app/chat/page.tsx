@@ -224,7 +224,7 @@ function ChatContent() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const lastAiRef = useRef<HTMLDivElement>(null);
-  const [inputAreaHeight, setInputAreaHeight] = useState(120);
+  const [msgsHeight, setMsgsHeight] = useState<number | null>(null);
   const isDragging = useRef(false);
   const dragStartY = useRef(0);
   const dragStartH = useRef(0);
@@ -232,7 +232,7 @@ function ChatContent() {
   const onDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     isDragging.current = true;
     dragStartY.current = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    dragStartH.current = inputAreaHeight;
+    dragStartH.current = msgsHeight ?? (window.innerHeight - 300);
     document.body.style.userSelect = 'none';
   };
 
@@ -241,7 +241,7 @@ function ChatContent() {
       if (!isDragging.current) return;
       const y = 'touches' in e ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY;
       const delta = dragStartY.current - y;
-      setInputAreaHeight(Math.min(window.innerHeight - 200, Math.max(60, dragStartH.current + delta)));
+      setMsgsHeight(Math.min(window.innerHeight - 160, Math.max(80, dragStartH.current + delta)));
     };
     const onUp = () => { isDragging.current = false; document.body.style.userSelect = ''; };
     window.addEventListener('mousemove', onMove);
@@ -612,7 +612,7 @@ Every response must:
           }])}>+ New Chat</button>
         </div>
 
-        <div className="chat-msgs">
+        <div className="chat-msgs" style={msgsHeight ? { height: msgsHeight + 'px', flex: 'none' } : {}}>
           <div className="chat-msgs-inner">
             {messages.map((msg, i) => (
               <div key={i} className={`chat-msg-row ${msg.role}`}
@@ -675,7 +675,7 @@ Every response must:
           onMouseEnter={e => (e.currentTarget.style.background = 'linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent)')}
           onMouseLeave={e => (e.currentTarget.style.background = 'linear-gradient(90deg, transparent, rgba(59,130,246,0.25), transparent)')}
         />
-        <div className="chat-input-area" style={{ flexShrink: 0 }}>
+        <div className="chat-input-area">
           <div className="chat-input-inner">
             <div className="chat-input-box">
               <textarea
