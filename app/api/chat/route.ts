@@ -90,11 +90,12 @@ export async function POST(req: NextRequest) {
 
     let response = await groqFetch('qwen/qwen3-32b');
     if (response.status === 503 || response.status === 429) {
-      console.log('Kimi-K2 over capacity, falling back to llama-3.3-70b...');
+      console.log('Primary model over capacity, falling back to llama-3.3-70b...');
       response = await groqFetch('llama-3.3-70b-versatile');
     }
     const data = await response.json();
-    const text = data.choices?.[0]?.message?.content || 'No response';
+    const raw = data.choices?.[0]?.message?.content || 'No response';
+    const text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     return NextResponse.json({ content: [{ text }] });
   } catch {
     return NextResponse.json({ content: [{ text: 'Something went wrong. Please try again.' }] });
