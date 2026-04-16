@@ -241,7 +241,7 @@ function ChatContent() {
       if (!isDragging.current) return;
       const y = 'touches' in e ? (e as TouchEvent).touches[0].clientY : (e as MouseEvent).clientY;
       const delta = dragStartY.current - y;
-      setInputAreaHeight(Math.min(420, Math.max(120, dragStartH.current + delta)));
+      setInputAreaHeight(Math.min(500, Math.max(80, dragStartH.current + delta)));
     };
     const onUp = () => { isDragging.current = false; document.body.style.userSelect = ''; };
     window.addEventListener('mousemove', onMove);
@@ -675,7 +675,7 @@ Every response must:
           onMouseEnter={e => (e.currentTarget.style.background = 'linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent)')}
           onMouseLeave={e => (e.currentTarget.style.background = 'linear-gradient(90deg, transparent, rgba(59,130,246,0.25), transparent)')}
         />
-        <div className="chat-input-area" style={{ height: inputAreaHeight + 'px', overflowY: 'auto', flexShrink: 0 }}>
+        <div className="chat-input-area" style={{ minHeight: inputAreaHeight + 'px', flexShrink: 0 }}>
           <div className="chat-input-inner">
             <div className="chat-input-box">
               <textarea
