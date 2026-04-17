@@ -85,6 +85,7 @@ export async function POST(req: NextRequest) {
             ...messages,
           ],
           max_tokens: 4000,
+          reasoning_effort: "none",
         }),
       });
 
