@@ -95,6 +95,7 @@ export async function POST(req: NextRequest) {
       response = await groqFetch('llama-3.3-70b-versatile');
     }
     const data = await response.json();
+    console.log("Groq response:", JSON.stringify(data));
     const raw = data.choices?.[0]?.message?.content || 'No response';
     const text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     return NextResponse.json({ content: [{ text }] });
