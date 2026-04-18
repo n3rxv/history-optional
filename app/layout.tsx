@@ -14,7 +14,7 @@ import AuthGuard from "@/components/AuthGuard";
 import WeeklyCheckup from "@/components/WeeklyCheckup";
 
 export const metadata: Metadata = {
-  icons: { icon: '/favicon.svg' },
+  icons: { icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }, { url: '/favicon.png', type: 'image/png', sizes: '32x32' }], shortcut: '/favicon.png', apple: '/favicon.png' },
   title: {
     default: "History Optional — UPSC Notes, PYQs & AI Eval",
     template: "%s | History Optional",
