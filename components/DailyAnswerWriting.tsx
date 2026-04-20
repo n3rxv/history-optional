@@ -1,6 +1,6 @@
 'use client';
 import { useMemo, useState, useEffect, useRef } from 'react';
-import { pyqData } from '@/lib/pyqData';
+import { pyqs as pyqData } from '@/lib/pyqData';
 
 function getDailyQuestions() {
   const today = new Date();

@@ -1,7 +1,6 @@
 'use client';
 import CurrentAffairsSection from '@/components/CurrentAffairsSection';
 import DailyAnswerWriting from '@/components/DailyAnswerWriting';
-import DailyAnswerWriting from '@/components/DailyAnswerWriting';
 import Link from 'next/link';
 import { paper1Notes, paper2Notes } from '@/lib/notes';
 
@@ -200,7 +199,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <DailyAnswerWriting />
       <DailyAnswerWriting />
       <CurrentAffairsSection />
 
