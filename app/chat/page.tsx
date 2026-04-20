@@ -21,11 +21,14 @@ const SUGGESTED = [
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  // Embed Libre Baskerville
-  const { LB_REGULAR, LB_BOLD, LB_ITALIC } = await import('/lb-fonts.js');
-  doc.addFileToVFS('LB-Regular.ttf', LB_REGULAR);
-  doc.addFileToVFS('LB-Bold.ttf', LB_BOLD);
-  doc.addFileToVFS('LB-Italic.ttf', LB_ITALIC);
+  const [lbReg, lbBold, lbItal] = await Promise.all([
+    fetch('/LB-Regular.ttf').then(r => r.arrayBuffer()).then(b => btoa(String.fromCharCode(...new Uint8Array(b)))),
+    fetch('/LB-Bold.ttf').then(r => r.arrayBuffer()).then(b => btoa(String.fromCharCode(...new Uint8Array(b)))),
+    fetch('/LB-Italic.ttf').then(r => r.arrayBuffer()).then(b => btoa(String.fromCharCode(...new Uint8Array(b)))),
+  ]);
+  doc.addFileToVFS('LB-Regular.ttf', lbReg);
+  doc.addFileToVFS('LB-Bold.ttf', lbBold);
+  doc.addFileToVFS('LB-Italic.ttf', lbItal);
   doc.addFont('LB-Regular.ttf', 'LibreBaskerville', 'normal');
   doc.addFont('LB-Bold.ttf', 'LibreBaskerville', 'bold');
   doc.addFont('LB-Italic.ttf', 'LibreBaskerville', 'italic');
