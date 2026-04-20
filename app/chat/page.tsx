@@ -145,8 +145,8 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.text('QUESTION', M, y);
     y += 3.5;
 
-    const qLines = doc.splitTextToSize(qTxt, contentW - 10) as string[];
-    const qH = qLines.length * 7.2 + 12;
+    const qLines = doc.splitTextToSize(clean ? clean(question) : strip(questionText!), contentW - 14) as string[];
+    const qH = qLines.length * 7.5 + 14;
     doc.setFillColor(...BGSOFT);
     doc.rect(M, y, contentW, qH, 'F');
     doc.setFillColor(...GOLD);
@@ -155,7 +155,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setFont('LibreBaskerville', 'normal');
     doc.setFontSize(11);
     doc.setTextColor(...INK);
-    qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 7 + i * 6.8); });
+    qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 8 + i * 7.5); });
     y += qH + 9;
   }
 
