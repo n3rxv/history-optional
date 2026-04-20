@@ -243,7 +243,22 @@ function ChatContent() {
   const initialTopic = searchParams.get('topic') || '';
 
   const [messages, setMessages] = useState<Message[]>([{
-    role: 'assistant',
+
+  // Auto-send model answer request from Daily Answer Writing
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const q = searchParams.get('q');
+    const marks = searchParams.get('marks');
+    const isModel = searchParams.get('model');
+    if (q && isModel) {
+      const prompt = `Write a model UPSC Mains answer for the following ${marks ? marks + '-mark' : ''} History Optional question. Structure it with an introduction, well-organised body paragraphs with relevant facts, historiography, and a conclusion. Question: ${q}`;
+      // Trigger send after a short delay to let the component mount
+      setTimeout(() => {
+        setInput(prompt);
+      }, 300);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);    role: 'assistant',
     content: initialTopic
       ? `Hello! You're studying **${initialTopic}**. Ask me anything — concepts, answer structures, historiography, or model answers.`
       : `Hello! I'm your **History Optional AI**.\n\nI can help with:\n\n• **Concept explanations** — deep dives into any topic\n• **Answer structuring** — UPSC-style frameworks\n• **PYQ analysis** — model answers and key points\n• **Comparisons** — rulers, movements, periods\n• **Historiography** — citing historians in answers\n\nWhat would you like to explore?`,
