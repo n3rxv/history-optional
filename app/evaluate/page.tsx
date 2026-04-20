@@ -87,9 +87,9 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
   const INK    : [number,number,number] = [10,  10,  10];
   const INK2   : [number,number,number] = [40,  40,  40];
   const INK3   : [number,number,number] = [90,  90,  90];
-  const GOLD   : [number,number,number] = [180, 140,  40];
+  const GOLD   : [number,number,number] = [37,  99, 235];
   const RULE   : [number,number,number] = [220, 220, 220];
-  const BGSOFT : [number,number,number] = [250, 249, 246];
+  const BGSOFT : [number,number,number] = [245, 248, 255];
   const GREEN  : [number,number,number] = [30, 140,  70];
   const DOMAIN = 'www.historyoptional.xyz';
   const URL    = 'https://www.historyoptional.xyz';
@@ -169,7 +169,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
 
   const nextPage = () => {
     doc.addPage(); pg++;
-    drawBg(); drawHeader(); drawFooter(); y = 22;
+    drawBg(); drawHeader(); drawFooter(); y = 26;
   };
 
   const chk = (n: number) => { if (y + n > pageH - 14) nextPage(); };
@@ -194,7 +194,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     ls.forEach((l: string) => { chk(7); doc.text(l, M, y); y += 5.3; });
   };
 
-  drawBg(); drawHeader(); drawFooter(); y = 22;
+  drawBg(); drawHeader(); drawFooter(); y = 26;
 
   // ── Title bar ──
   doc.setFillColor(...BGSOFT);

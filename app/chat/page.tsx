@@ -28,10 +28,10 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const INK    : [number,number,number] = [10,  10,  10];
   const INK2   : [number,number,number] = [40,  40,  40];
   const INK3   : [number,number,number] = [90,  90,  90];
-  const GOLD   : [number,number,number] = [180, 140,  40];
-  const GOLD2  : [number,number,number] = [210, 170,  70];
+  const GOLD   : [number,number,number] = [37,  99, 235];
+  const GOLD2  : [number,number,number] = [59, 130, 246];
   const RULE   : [number,number,number] = [220, 220, 220];
-  const BGSOFT : [number,number,number] = [250, 249, 246];
+  const BGSOFT : [number,number,number] = [245, 248, 255];
   const DOMAIN = 'www.historyoptional.xyz';
   const URL    = 'https://www.historyoptional.xyz';
 
@@ -117,12 +117,12 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   const nextPage = () => {
     doc.addPage(); pg++;
-    drawBg(); drawHeader(); drawFooter(); y = 22;
+    drawBg(); drawHeader(); drawFooter(); y = 26;
   };
 
   const chk = (n: number) => { if (y + n > pageH - 14) nextPage(); };
 
-  drawBg(); drawHeader(); drawFooter(); y = 22;
+  drawBg(); drawHeader(); drawFooter(); y = 26;
 
   // Question block
   if (questionText) {
