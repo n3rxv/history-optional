@@ -600,12 +600,7 @@ Every response must:
       <div className="chat-wrap">
         <GateModals slots={slots} />
 
-        <div className="chat-header">
-          <div className="chat-header-icon">⚔</div>
-          <div>
-            <div className="chat-header-title">AI History Assistant</div>
-            <div className="chat-header-sub">UPSC History Optional</div>
-          </div>
+        <div className="chat-header" style={{justifyContent:'flex-end'}}>
           <button className="chat-new-btn" onClick={() => setMessages([{
             role: 'assistant',
             content: 'New conversation started. What would you like to study?',
