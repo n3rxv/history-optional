@@ -21,12 +21,7 @@ const SUGGESTED = [
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const { LB_REGULAR: lbReg, LB_BOLD: lbBold, LB_ITALIC: lbItal } = await import('@/lib/lb-fonts');
-  doc.addFileToVFS('LB-Regular.ttf', lbReg);
-  doc.addFileToVFS('LB-Bold.ttf', lbBold);
-    doc.addFont('LB-Regular.ttf', 'LibreBaskerville', 'normal');
-  doc.addFont('LB-Bold.ttf', 'LibreBaskerville', 'bold');
-  
+    
 
   const pageW = 210, pageH = 297, M = 18, contentW = 174;
 
@@ -88,13 +83,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setFillColor(...RULE);
     doc.rect(0, 13.8, pageW, 0.3, 'F');
 
-    doc.setFont('LibreBaskerville', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(...GOLD);
     doc.text('HISTORY OPTIONAL', M, 9);
     doc.link(M, 2, 52, 10, { url: URL });
 
-    doc.setFont('LibreBaskerville', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(6.2);
     doc.setTextColor(...INK3);
     doc.text(DOMAIN, M + 55, 9);
@@ -110,13 +105,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setFillColor(...GOLD);
     doc.rect(0, pageH - 0.6, pageW, 0.6, 'F');
 
-    doc.setFont('LibreBaskerville', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(6.2);
     doc.setTextColor(...INK3);
     doc.text(DOMAIN, M, pageH - 4.5);
     doc.link(M, pageH - 9, 50, 7, { url: URL });
     doc.text('AI History Assistant  ·  UPSC History Optional', pageW / 2, pageH - 4.5, { align: 'center' });
-    doc.setFont('LibreBaskerville', 'bold');
+    doc.setFont('times', 'bold');
     doc.setTextColor(...GOLD);
     doc.text(String(pg), pageW - M, pageH - 4.5, { align: 'right' });
   };
@@ -133,7 +128,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   // Question block
   if (questionText) {
     const qTxt = strip(questionText);
-    doc.setFont('LibreBaskerville', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(6);
     doc.setTextColor(...GOLD);
     doc.text('QUESTION', M, y);
@@ -146,7 +141,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setFillColor(...GOLD);
     doc.rect(M, y, 2, qH, 'F');
 
-    doc.setFont('LibreBaskerville', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(11);
     doc.setTextColor(...INK);
     qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 8 + i * 7.5); });
@@ -165,7 +160,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       // Gold left bar + heading
       doc.setFillColor(...GOLD);
       doc.rect(M, y - 5, 2, 9, 'F');
-      doc.setFont('LibreBaskerville', 'bold');
+      doc.setFont('times', 'bold');
       doc.setFontSize(10.5);
       doc.setTextColor(...INK);
       doc.text(txt, M + 6, y);
@@ -177,14 +172,14 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     } else if (/^#{3,4} /.test(t)) {
       const txt = strip(t.replace(/^#{3,4} /, ''));
       chk(10); y += 3;
-      doc.setFont('LibreBaskerville', 'bold');
+      doc.setFont('times', 'bold');
       doc.setFontSize(10.5);
       doc.setTextColor(...INK2);
       doc.text(txt, M + 4, y);
       y += 6;
     } else if (/^[•\-\*] /.test(t)) {
       const txt = strip(t.replace(/^[•\-\*] /, ''));
-      doc.setFont('LibreBaskerville', 'normal');
+      doc.setFont('times', 'normal');
       doc.setFontSize(11);
       const bL = doc.splitTextToSize(txt, contentW - 10) as string[];
       chk(bL.length * 6.8 + 3);
@@ -196,7 +191,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       y += 1.5;
     } else {
       const txt = strip(t);
-      doc.setFont('LibreBaskerville', 'normal');
+      doc.setFont('times', 'normal');
       doc.setFontSize(11);
       const pL = doc.splitTextToSize(txt, contentW) as string[];
       chk(pL.length * 6.8 + 2);
@@ -212,7 +207,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.saveGraphicsState();
     // @ts-ignore
     doc.setGState(doc.GState({ opacity: 0.025 }));
-    doc.setFont('LibreBaskerville', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(16);
     doc.setTextColor(...GOLD);
     doc.text(DOMAIN, pageW / 2, pageH / 2, { align: 'center', angle: 30 });

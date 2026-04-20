@@ -81,12 +81,7 @@ async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promi
 async function downloadModelAnswerPDF(question: string, marks: number, evaluation: Evaluation) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
-  const { LB_REGULAR: lbReg, LB_BOLD: lbBold, LB_ITALIC: lbItal } = await import('@/lib/lb-fonts');
-  doc.addFileToVFS('LB-Regular.ttf', lbReg);
-  doc.addFileToVFS('LB-Bold.ttf', lbBold);
-    doc.addFont('LB-Regular.ttf', 'LibreBaskerville', 'normal');
-  doc.addFont('LB-Bold.ttf', 'LibreBaskerville', 'bold');
-  
+    
 
   const pageW = 210, pageH = 297, M = 18, contentW = 174;
 
@@ -141,13 +136,13 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     doc.setFillColor(...RULE);
     doc.rect(0, 13.8, pageW, 0.3, 'F');
 
-    doc.setFont('LibreBaskerville', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(...GOLD);
     doc.text('HISTORY OPTIONAL', M, 9);
     doc.link(M, 2, 52, 10, { url: URL });
 
-    doc.setFont('LibreBaskerville', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(6.2);
     doc.setTextColor(...INK3);
     doc.text(DOMAIN, M + 55, 9);
@@ -162,13 +157,13 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     doc.setFillColor(...GOLD);
     doc.rect(0, pageH - 0.6, pageW, 0.6, 'F');
 
-    doc.setFont('LibreBaskerville', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(6.2);
     doc.setTextColor(...INK3);
     doc.text(DOMAIN, M, pageH - 4.5);
     doc.link(M, pageH - 9, 50, 7, { url: URL });
     doc.text('UPSC History Optional  ·  Model Answer Evaluator', pageW / 2, pageH - 4.5, { align: 'center' });
-    doc.setFont('LibreBaskerville', 'bold');
+    doc.setFont('times', 'bold');
     doc.setTextColor(...GOLD);
     doc.text(String(pg), pageW - M, pageH - 4.5, { align: 'right' });
   };
@@ -182,7 +177,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
 
   const secLabel = (txt: string) => {
     chk(14); y += 6;
-    doc.setFont('LibreBaskerville', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(6.5);
     doc.setTextColor(...GOLD);
     doc.text(txt.toUpperCase(), M, y);
@@ -193,7 +188,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
   };
 
   const writeText = (text: string, size = 9.5, color: [number,number,number] = INK2) => {
-    doc.setFont('LibreBaskerville', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(size);
     doc.setTextColor(...color);
     const ls = doc.splitTextToSize(clean(text), contentW) as string[];
@@ -207,12 +202,12 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
   doc.rect(M, y, contentW, 12, 'F');
   doc.setFillColor(...GOLD);
   doc.rect(M, y, 2, 12, 'F');
-  doc.setFont('LibreBaskerville', 'bold');
+  doc.setFont('times', 'bold');
   doc.setFontSize(11);
   doc.setTextColor(...INK);
   doc.text('MODEL ANSWER', M + 7, y + 8);
   const idealWC = marks === 10 ? '150 words' : marks === 15 ? '200 words' : '250 words';
-  doc.setFont('LibreBaskerville', 'normal');
+  doc.setFont('times', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(...INK3);
   doc.text(idealWC + '  ·  ' + marks + ' Marks', pageW - M, y + 8, { align: 'right' });
@@ -225,18 +220,18 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
   doc.rect(M, y, scoreW, 14, 'F');
   doc.setFillColor(...GOLD);
   doc.rect(M, y, scoreW, 1.2, 'F');
-  doc.setFont('LibreBaskerville', 'bold');
+  doc.setFont('times', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(...INK);
   doc.text(scoreStr, M + scoreW / 2, y + 10, { align: 'center' });
-  doc.setFont('LibreBaskerville', 'normal');
+  doc.setFont('times', 'normal');
   doc.setFontSize(6);
   doc.setTextColor(...INK3);
   doc.text('MARKS SCORED', M + scoreW / 2, y + 13.5, { align: 'center' });
   y += 20;
 
   // ── Question ──
-  doc.setFont('LibreBaskerville', 'bold');
+  doc.setFont('times', 'bold');
   doc.setFontSize(6);
   doc.setTextColor(...GOLD);
   doc.text('QUESTION', M, y);
@@ -247,7 +242,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
   doc.rect(M, y, contentW, qH, 'F');
   doc.setFillColor(...GOLD);
   doc.rect(M, y, 2, qH, 'F');
-  doc.setFont('LibreBaskerville', 'normal');
+  doc.setFont('times', 'normal');
   doc.setFontSize(11);
   doc.setTextColor(...INK);
   qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 8 + i * 7.5); });
@@ -291,19 +286,19 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     doc.setFillColor(...GOLD);
     doc.rect(M, y, 2, hH, 'F');
 
-    doc.setFont('LibreBaskerville', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(...INK);
     doc.text(clean(h.name), M + 6, y + 7);
 
     if (h.work) {
-      doc.setFont('LibreBaskerville', 'normal');
+      doc.setFont('times', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(...INK3);
       doc.text(clean(h.work), M + 6, y + 13);
     }
 
-    doc.setFont('LibreBaskerville', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(10.5);
     doc.setTextColor(...INK2);
     const tY = y + (h.work ? 18 : 13);
@@ -317,7 +312,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     doc.saveGraphicsState();
     // @ts-ignore
     doc.setGState(doc.GState({ opacity: 0.025 }));
-    doc.setFont('LibreBaskerville', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(16);
     doc.setTextColor(...GOLD);
     doc.text(DOMAIN, pageW / 2, pageH / 2, { align: 'center', angle: 30 });
