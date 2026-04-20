@@ -24,11 +24,9 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const { LB_REGULAR: lbReg, LB_BOLD: lbBold, LB_ITALIC: lbItal } = await import('@/lib/lb-fonts');
   doc.addFileToVFS('LB-Regular.ttf', lbReg);
   doc.addFileToVFS('LB-Bold.ttf', lbBold);
-  doc.addFileToVFS('LB-Italic.ttf', lbItal);
-  doc.addFont('LB-Regular.ttf', 'LibreBaskerville', 'normal');
+    doc.addFont('LB-Regular.ttf', 'LibreBaskerville', 'normal');
   doc.addFont('LB-Bold.ttf', 'LibreBaskerville', 'bold');
-  doc.addFont('LB-Italic.ttf', 'LibreBaskerville', 'italic');
-
+  
 
   const pageW = 210, pageH = 297, M = 18, contentW = 174;
 
