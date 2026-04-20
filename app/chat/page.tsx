@@ -145,7 +145,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.text('QUESTION', M, y);
     y += 3.5;
 
-    const qLines = doc.splitTextToSize(clean ? clean(question) : strip(questionText!), contentW - 14) as string[];
+    const qLines = doc.splitTextToSize(strip(questionText!), contentW - 14) as string[];
     const qH = qLines.length * 7.5 + 14;
     doc.setFillColor(...BGSOFT);
     doc.rect(M, y, contentW, qH, 'F');
