@@ -81,11 +81,7 @@ async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promi
 async function downloadModelAnswerPDF(question: string, marks: number, evaluation: Evaluation) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
-  const [lbReg, lbBold, lbItal] = await Promise.all([
-    fetch('/LB-Regular.ttf').then(r => r.arrayBuffer()).then(b => btoa(String.fromCharCode(...new Uint8Array(b)))),
-    fetch('/LB-Bold.ttf').then(r => r.arrayBuffer()).then(b => btoa(String.fromCharCode(...new Uint8Array(b)))),
-    fetch('/LB-Italic.ttf').then(r => r.arrayBuffer()).then(b => btoa(String.fromCharCode(...new Uint8Array(b)))),
-  ]);
+  const { LB_REGULAR: lbReg, LB_BOLD: lbBold, LB_ITALIC: lbItal } = await import('@/lib/lb-fonts');
   doc.addFileToVFS('LB-Regular.ttf', lbReg);
   doc.addFileToVFS('LB-Bold.ttf', lbBold);
   doc.addFileToVFS('LB-Italic.ttf', lbItal);

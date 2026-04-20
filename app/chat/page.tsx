@@ -21,11 +21,7 @@ const SUGGESTED = [
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const [lbReg, lbBold, lbItal] = await Promise.all([
-    fetch('/LB-Regular.ttf').then(r => r.arrayBuffer()).then(b => btoa(String.fromCharCode(...new Uint8Array(b)))),
-    fetch('/LB-Bold.ttf').then(r => r.arrayBuffer()).then(b => btoa(String.fromCharCode(...new Uint8Array(b)))),
-    fetch('/LB-Italic.ttf').then(r => r.arrayBuffer()).then(b => btoa(String.fromCharCode(...new Uint8Array(b)))),
-  ]);
+  const { LB_REGULAR: lbReg, LB_BOLD: lbBold, LB_ITALIC: lbItal } = await import('@/lib/lb-fonts');
   doc.addFileToVFS('LB-Regular.ttf', lbReg);
   doc.addFileToVFS('LB-Bold.ttf', lbBold);
   doc.addFileToVFS('LB-Italic.ttf', lbItal);
