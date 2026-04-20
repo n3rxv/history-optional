@@ -63,7 +63,7 @@ export default function DailyAnswerWriting() {
   const isLow = secsLeft < 120 && started;
   const timeStr = finished ? 'Time up' : `${pad(Math.floor(secsLeft / 60))}:${pad(secsLeft % 60)}`;
   const dateStr = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-  const p1count = questions.filter(q => q.section.includes('Paper I')).length;
+  const p1count = questions.filter(q => q.section.startsWith('Paper I -')).length;
   const p2count = 5 - p1count;
 
   return (
