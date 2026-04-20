@@ -191,7 +191,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     doc.setFontSize(size);
     doc.setTextColor(...color);
     const ls = doc.splitTextToSize(clean(text), contentW) as string[];
-    ls.forEach((l: string) => { chk(7); doc.text(l, M, y); y += 5.3; });
+    ls.forEach((l: string) => { chk(7); doc.text(l, M, y); y += 6.2; });
   };
 
   drawBg(); drawHeader(); drawFooter(); y = 26;
@@ -241,10 +241,10 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
   doc.rect(M, y, contentW, qH, 'F');
   doc.setFillColor(...GOLD);
   doc.rect(M, y, 2, qH, 'F');
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9.5);
+  doc.setFont('times', 'normal');
+  doc.setFontSize(11);
   doc.setTextColor(...INK);
-  qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 6 + i * 5.3); });
+  qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 6 + i * 6.2); });
   y += qH + 10;
 
   // ── Introduction ──
@@ -286,7 +286,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     doc.rect(M, y, 2, hH, 'F');
 
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9.5);
+    doc.setFontSize(11);
     doc.setTextColor(...INK);
     doc.text(clean(h.name), M + 6, y + 7);
 
@@ -297,11 +297,11 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
       doc.text(clean(h.work), M + 6, y + 13);
     }
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
+    doc.setFont('times', 'normal');
+    doc.setFontSize(10.5);
     doc.setTextColor(...INK2);
     const tY = y + (h.work ? 18 : 13);
-    argLines.forEach((l: string, li: number) => { doc.text(l, M + 6, tY + li * 5.3); });
+    argLines.forEach((l: string, li: number) => { doc.text(l, M + 6, tY + li * 6.2); });
     y += hH + 5;
   });
 

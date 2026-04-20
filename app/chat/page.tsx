@@ -133,17 +133,17 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.text('QUESTION', M, y);
     y += 3.5;
 
-    const qLines = doc.splitTextToSize(qTxt, contentW - 8) as string[];
-    const qH = qLines.length * 5.5 + 9;
+    const qLines = doc.splitTextToSize(qTxt, contentW - 10) as string[];
+    const qH = qLines.length * 6.8 + 12;
     doc.setFillColor(...BGSOFT);
     doc.rect(M, y, contentW, qH, 'F');
     doc.setFillColor(...GOLD);
     doc.rect(M, y, 2, qH, 'F');
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9.5);
+    doc.setFont('times', 'normal');
+    doc.setFontSize(11);
     doc.setTextColor(...INK);
-    qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 6 + i * 5.5); });
+    qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 7 + i * 6.8); });
     y += qH + 9;
   }
 
@@ -160,7 +160,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       doc.setFillColor(...GOLD);
       doc.rect(M, y - 5, 2, 9, 'F');
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
+      doc.setFontSize(10.5);
       doc.setTextColor(...INK);
       doc.text(txt, M + 6, y);
       // Thin rule
@@ -172,30 +172,30 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       const txt = strip(t.replace(/^#{3,4} /, ''));
       chk(10); y += 3;
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
+      doc.setFontSize(10.5);
       doc.setTextColor(...INK2);
       doc.text(txt, M + 4, y);
       y += 6;
     } else if (/^[•\-\*] /.test(t)) {
       const txt = strip(t.replace(/^[•\-\*] /, ''));
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9.5);
+      doc.setFont('times', 'normal');
+      doc.setFontSize(11);
       const bL = doc.splitTextToSize(txt, contentW - 10) as string[];
       chk(bL.length * 5.3 + 3);
       // Gold bullet
       doc.setFillColor(...GOLD);
       doc.rect(M + 2, y - 1.2, 1.5, 1.5, 'F');
       doc.setTextColor(...INK2);
-      bL.forEach((l: string) => { chk(7); doc.text(l, M + 7, y); y += 5.3; });
+      bL.forEach((l: string) => { chk(7); doc.text(l, M + 7, y); y += 6.2; });
       y += 1.5;
     } else {
       const txt = strip(t);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9.5);
+      doc.setFont('times', 'normal');
+      doc.setFontSize(11);
       const pL = doc.splitTextToSize(txt, contentW) as string[];
       chk(pL.length * 5.3 + 2);
       doc.setTextColor(...INK2);
-      pL.forEach((l: string) => { chk(7); doc.text(l, M, y); y += 5.3; });
+      pL.forEach((l: string) => { chk(7); doc.text(l, M, y); y += 6.2; });
       y += 2;
     }
   }
