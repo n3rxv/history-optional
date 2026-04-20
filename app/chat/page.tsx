@@ -21,6 +21,15 @@ const SUGGESTED = [
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  // Embed Libre Baskerville
+  const { LB_REGULAR, LB_BOLD, LB_ITALIC } = await import('/lb-fonts.js');
+  doc.addFileToVFS('LB-Regular.ttf', LB_REGULAR);
+  doc.addFileToVFS('LB-Bold.ttf', LB_BOLD);
+  doc.addFileToVFS('LB-Italic.ttf', LB_ITALIC);
+  doc.addFont('LB-Regular.ttf', 'LibreBaskerville', 'normal');
+  doc.addFont('LB-Bold.ttf', 'LibreBaskerville', 'bold');
+  doc.addFont('LB-Italic.ttf', 'LibreBaskerville', 'italic');
+
 
   const pageW = 210, pageH = 297, M = 18, contentW = 174;
 
@@ -82,13 +91,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setFillColor(...RULE);
     doc.rect(0, 13.8, pageW, 0.3, 'F');
 
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('LibreBaskerville', 'bold');
     doc.setFontSize(7.5);
     doc.setTextColor(...GOLD);
     doc.text('HISTORY OPTIONAL', M, 9);
     doc.link(M, 2, 52, 10, { url: URL });
 
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('LibreBaskerville', 'normal');
     doc.setFontSize(6.2);
     doc.setTextColor(...INK3);
     doc.text(DOMAIN, M + 55, 9);
@@ -104,13 +113,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setFillColor(...GOLD);
     doc.rect(0, pageH - 0.6, pageW, 0.6, 'F');
 
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('LibreBaskerville', 'normal');
     doc.setFontSize(6.2);
     doc.setTextColor(...INK3);
     doc.text(DOMAIN, M, pageH - 4.5);
     doc.link(M, pageH - 9, 50, 7, { url: URL });
     doc.text('AI History Assistant  ·  UPSC History Optional', pageW / 2, pageH - 4.5, { align: 'center' });
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('LibreBaskerville', 'bold');
     doc.setTextColor(...GOLD);
     doc.text(String(pg), pageW - M, pageH - 4.5, { align: 'right' });
   };
@@ -127,20 +136,20 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   // Question block
   if (questionText) {
     const qTxt = strip(questionText);
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('LibreBaskerville', 'bold');
     doc.setFontSize(6);
     doc.setTextColor(...GOLD);
     doc.text('QUESTION', M, y);
     y += 3.5;
 
     const qLines = doc.splitTextToSize(qTxt, contentW - 10) as string[];
-    const qH = qLines.length * 6.8 + 12;
+    const qH = qLines.length * 7.2 + 12;
     doc.setFillColor(...BGSOFT);
     doc.rect(M, y, contentW, qH, 'F');
     doc.setFillColor(...GOLD);
     doc.rect(M, y, 2, qH, 'F');
 
-    doc.setFont('times', 'normal');
+    doc.setFont('LibreBaskerville', 'normal');
     doc.setFontSize(11);
     doc.setTextColor(...INK);
     qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 7 + i * 6.8); });
@@ -159,7 +168,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       // Gold left bar + heading
       doc.setFillColor(...GOLD);
       doc.rect(M, y - 5, 2, 9, 'F');
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('LibreBaskerville', 'bold');
       doc.setFontSize(10.5);
       doc.setTextColor(...INK);
       doc.text(txt, M + 6, y);
@@ -171,31 +180,31 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     } else if (/^#{3,4} /.test(t)) {
       const txt = strip(t.replace(/^#{3,4} /, ''));
       chk(10); y += 3;
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('LibreBaskerville', 'bold');
       doc.setFontSize(10.5);
       doc.setTextColor(...INK2);
       doc.text(txt, M + 4, y);
       y += 6;
     } else if (/^[•\-\*] /.test(t)) {
       const txt = strip(t.replace(/^[•\-\*] /, ''));
-      doc.setFont('times', 'normal');
+      doc.setFont('LibreBaskerville', 'normal');
       doc.setFontSize(11);
       const bL = doc.splitTextToSize(txt, contentW - 10) as string[];
-      chk(bL.length * 5.3 + 3);
+      chk(bL.length * 6.8 + 3);
       // Gold bullet
       doc.setFillColor(...GOLD);
       doc.rect(M + 2, y - 1.2, 1.5, 1.5, 'F');
       doc.setTextColor(...INK2);
-      bL.forEach((l: string) => { chk(7); doc.text(l, M + 7, y); y += 6.2; });
+      bL.forEach((l: string) => { chk(7); doc.text(l, M + 7, y); y += 6.8; });
       y += 1.5;
     } else {
       const txt = strip(t);
-      doc.setFont('times', 'normal');
+      doc.setFont('LibreBaskerville', 'normal');
       doc.setFontSize(11);
       const pL = doc.splitTextToSize(txt, contentW) as string[];
-      chk(pL.length * 5.3 + 2);
+      chk(pL.length * 6.8 + 2);
       doc.setTextColor(...INK2);
-      pL.forEach((l: string) => { chk(7); doc.text(l, M, y); y += 6.2; });
+      pL.forEach((l: string) => { chk(7); doc.text(l, M, y); y += 6.8; });
       y += 2;
     }
   }
@@ -206,7 +215,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.saveGraphicsState();
     // @ts-ignore
     doc.setGState(doc.GState({ opacity: 0.025 }));
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('LibreBaskerville', 'bold');
     doc.setFontSize(16);
     doc.setTextColor(...GOLD);
     doc.text(DOMAIN, pageW / 2, pageH / 2, { align: 'center', angle: 30 });
