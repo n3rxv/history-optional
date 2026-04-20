@@ -69,8 +69,8 @@ export default function DailyAnswerWriting() {
   return (
     <section style={{ marginBottom: '3rem' }}>
       <div style={{
-        background: 'var(--card, rgba(255,255,255,0.03))',
-        border: '1px solid var(--border, rgba(255,255,255,0.08))',
+        background: 'linear-gradient(135deg, #060d1f 0%, #0d1b3e 50%, #060d1f 100%)',
+        border: '1px solid rgba(59,130,246,0.35)',
         borderRadius: 12,
         overflow: 'hidden',
       }}>
