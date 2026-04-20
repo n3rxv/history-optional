@@ -10,8 +10,8 @@ function getDailyQuestions() {
     s = (s * 1664525 + 1013904223) & 0xffffffff;
     return (s >>> 0) / 0xffffffff;
   };
-  const p1 = pyqData.filter(q => ['Ancient India', 'Medieval India'].includes(q.section));
-  const p2 = pyqData.filter(q => ['Modern India', 'World History'].includes(q.section));
+  const p1 = pyqData.filter(q => q.section.includes('Ancient') || q.section.includes('Medieval'));
+  const p2 = pyqData.filter(q => q.section.includes('Modern') || q.section.includes('World'));
   const picked: typeof pyqData = [];
   const used = new Set<number>();
   const pools = [p1, p2, p1, p2, p1.concat(p2)];
