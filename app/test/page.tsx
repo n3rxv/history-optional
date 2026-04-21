@@ -621,7 +621,7 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
             </span>
           </p>
           <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <div style={{ flex: '1 1 300px', minWidth: 280 }}>
+            <div style={{ flex: '1 1 300px', minWidth: 280, position: 'relative', zIndex: 0, isolation: 'isolate' }}>
               <LeafletMap entries={mapQ.entries} selectedDot={isResults ? null : selectedDot}
                 onDotClick={isResults ? () => {} : onDotClick}
                 answered={mapAnswers} revealed={mapRevealed} />
