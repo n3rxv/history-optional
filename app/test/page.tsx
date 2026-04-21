@@ -170,12 +170,25 @@ function RubricScorer({ marks, value, onChange }: {
             </div>
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text2)' }}>{cur[c.key].toFixed(1)}/{c.max}</span>
           </div>
-          <div style={{ position: 'relative', height: 5, background: 'var(--bg4)', borderRadius: 3 }}>
-            <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', borderRadius: 3,
-              width: `${(cur[c.key]/c.max)*100}%`, background: 'var(--accent)', transition: 'width 0.2s' }} />
+          <div style={{ position: 'relative', height: 8, background: 'var(--bg4)', borderRadius: 4, marginTop: '0.3rem' }}>
+            <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', borderRadius: 4,
+              width: `${(cur[c.key]/c.max)*100}%`,
+              background: 'linear-gradient(90deg, var(--accent), #818cf8)',
+              boxShadow: cur[c.key] > 0 ? '0 0 8px rgba(99,102,241,0.6)' : 'none',
+              transition: 'width 0.2s, box-shadow 0.2s' }} />
             <input type="range" min={0} max={c.max} step={0.5} value={cur[c.key]}
               onChange={e => onChange({ ...cur, [c.key]: parseFloat(e.target.value) })}
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', margin: 0 }} />
+            {/* Thumb indicator */}
+            <div style={{
+              position: 'absolute', top: '50%', transform: 'translate(-50%, -50%)',
+              left: `${(cur[c.key]/c.max)*100}%`,
+              width: 14, height: 14, borderRadius: '50%',
+              background: '#818cf8',
+              boxShadow: '0 0 6px rgba(99,102,241,0.8), 0 0 12px rgba(99,102,241,0.4)',
+              border: '2px solid rgba(255,255,255,0.2)',
+              pointerEvents: 'none', transition: 'left 0.2s',
+            }} />
           </div>
         </div>
       ))}
@@ -306,7 +319,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
           fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
         }}>
           <span>✦</span>
-          <span>AI Mentor{!isPremium ? ' · Premium 🔒' : ''}</span>
+          <span>📷 Upload & Evaluate{!isPremium ? ' · Premium 🔒' : ''}</span>
         </button>
         {(step === 'done' || step === 'transcript' || step === 'error') && panelOpen && (
           <button onClick={() => setPanelOpen(o => !o)} style={{
