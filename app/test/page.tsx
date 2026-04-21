@@ -200,41 +200,23 @@ function RubricScorer({ marks, value, onChange }: {
   );
 }
 
-// ─── OCR helpers (Tesseract.js via CDN, loaded lazily) ───────────────────────
+// ─── OCR via server-side Gemini (handles handwriting far better than Tesseract) ─
 
 type OcrStep = 'idle' | 'uploading' | 'ocr' | 'transcript' | 'evaluating' | 'done' | 'error';
 
-async function loadTesseract(): Promise<any> {
-  if ((window as any).Tesseract) return (window as any).Tesseract;
-  await new Promise<void>((res, rej) => {
-    const s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
-    s.onload = () => res();
-    s.onerror = rej;
-    document.head.appendChild(s);
+async function ocrViaServer(files: File[], token: string, onProgress: (msg: string) => void): Promise<string> {
+  onProgress(`Sending ${files.length} page${files.length > 1 ? 's' : ''} to Gemini…`);
+  const fd = new FormData();
+  files.forEach(f => fd.append('files', f));
+  const r = await fetch('/api/ocr', {
+    method: 'POST',
+    headers: { 'x-user-token': token },
+    body: fd,
   });
-  return (window as any).Tesseract;
-}
-
-async function ocrImages(files: File[], onProgress: (msg: string) => void): Promise<string> {
-  const T = await loadTesseract();
-  const worker = await T.createWorker('eng', 1, {
-    logger: (m: any) => {
-      if (m.status === 'recognizing text') {
-        onProgress(`Reading page… ${Math.round((m.progress ?? 0) * 100)}%`);
-      }
-    },
-  });
-  let full = '';
-  for (let i = 0; i < files.length; i++) {
-    onProgress(`Reading page ${i + 1} of ${files.length}…`);
-    const url = URL.createObjectURL(files[i]);
-    const { data } = await worker.recognize(url);
-    URL.revokeObjectURL(url);
-    full += (i > 0 ? '\n\n--- PAGE BREAK ---\n\n' : '') + data.text;
-  }
-  await worker.terminate();
-  return full.trim();
+  const data = await r.json();
+  if (!r.ok || data.error) throw new Error(data.error || 'OCR failed');
+  onProgress('Transcript ready — review below');
+  return data.transcript as string;
 }
 
 // ─── AI Mentor Panel ──────────────────────────────────────────────────────────
@@ -268,11 +250,13 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
     setTranscript('');
     setEvalData(null);
     try {
-      const text = await ocrImages(arr, (msg) => { setStep('ocr'); setOcrMsg(msg); });
+      const { supabase } = await import('@/lib/supabase');
+      const { data: { session } } = await supabase.auth.getSession();
+      const text = await ocrViaServer(arr, session?.access_token ?? '', (msg) => { setOcrMsg(msg); });
       setTranscript(text);
       setStep('transcript');
-    } catch (e) {
-      setError('OCR failed. Please try a clearer image or type your answer manually.');
+    } catch (e: any) {
+      setError(e?.message || 'OCR failed. Please try a clearer image.');
       setStep('error');
     }
   }
@@ -625,7 +609,7 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
             </span>
           </div>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text3)' }}>
-            {isResults ? `${Object.values(mapRevealed).filter(Boolean).length * 2.5} / 50 Marks` : `${answered}/${mapQ.entries.length} answered · 50 Marks`}
+            {isResults ? `${Object.entries(mapRevealed).filter(([k,v]) => v && mapAnswers[Number(k)]?.trim()).length * 2.5} / 50 Marks` : `${answered}/${mapQ.entries.length} answered · 50 Marks`}
           </span>
         </div>
         <div style={{ padding: '1.25rem' }}>
@@ -671,7 +655,9 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                       cursor: isResults ? 'default' : 'pointer',
                     }}>
                       <span style={{ minWidth: 19, height: 19, borderRadius: '50%', flexShrink: 0,
-                        background: mapRevealed[e.number] ? '#22a85a' : mapAnswers[e.number] ? 'var(--accent)' : 'var(--bg3)',
+                        background: mapRevealed[e.number]
+                          ? (mapAnswers[e.number]?.trim() ? '#22a85a' : '#ef4444')
+                          : mapAnswers[e.number] ? 'var(--accent)' : 'var(--bg3)',
                         color: (mapRevealed[e.number] || mapAnswers[e.number]) ? '#fff' : 'var(--text3)',
                         border: '1px solid var(--border)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -679,19 +665,27 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                       <span style={{ color: 'var(--text2)', fontSize: '0.76rem', flex: 1 }}>
                         ({String.fromCharCode(96 + e.number)}) {e.hint}
                       </span>
-                      {isResults && !mapRevealed[e.number] && (
+                      {isResults && !mapRevealed[e.number] && mapAnswers[e.number]?.trim() && (
                         <button onClick={() => setMapRevealed(prev => ({ ...prev, [e.number]: true }))}
                           style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text3)',
                             borderRadius: 3, padding: '1px 5px', fontSize: '0.65rem', cursor: 'pointer' }}>Reveal</button>
                       )}
+                      {isResults && !mapRevealed[e.number] && !mapAnswers[e.number]?.trim() && (
+                        <span style={{ fontSize: '0.65rem', color: 'var(--text3)', fontStyle: 'italic' }}>No answer</span>
+                      )}
                     </div>
-                    {isResults && mapAnswers[e.number] && (
+                    {isResults && mapAnswers[e.number]?.trim() && (
                       <div style={{ fontSize: '0.73rem', color: 'var(--text3)', paddingLeft: 26, marginBottom: 1 }}>
                         Your: <em style={{ color: 'var(--text)' }}>{mapAnswers[e.number]}</em>
                       </div>
                     )}
                     {isResults && mapRevealed[e.number] && (
-                      <div style={{ fontSize: '0.73rem', color: '#22a85a', paddingLeft: 26, marginBottom: 3 }}>✓ {e.answer}</div>
+                      <div style={{ fontSize: '0.73rem', paddingLeft: 26, marginBottom: 3 }}>
+                        {mapAnswers[e.number]?.trim()
+                          ? <span style={{ color: '#22a85a' }}>✓ Correct: {e.answer}</span>
+                          : <span style={{ color: '#f87171' }}>✗ Not attempted — Answer: {e.answer}</span>
+                        }
+                      </div>
                     )}
                   </div>
                 ))}
@@ -1082,8 +1076,8 @@ export default function TestPage() {
   // ── RESULTS ──────────────────────────────────────────────────────────────────
 
   if (phase === 'results') {
-    const mapScore = Object.values(mapRev1).filter(Boolean).length * 2.5
-                   + Object.values(mapRev5).filter(Boolean).length * 2.5;
+    const mapScore = Object.entries(mapRev1).filter(([k, v]) => v && mapAns1[Number(k)]?.trim()).length * 2.5
+                   + Object.entries(mapRev5).filter(([k, v]) => v && mapAns5[Number(k)]?.trim()).length * 2.5;
     const writtenScore = [...groupsA, ...groupsB].flatMap(g => g.parts).reduce((s, q) => {
       const r = rubrics[q.id]; return s + (r ? rubricTotal(r) : 0);
     }, 0);
