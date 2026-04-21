@@ -246,7 +246,7 @@ export default function Home() {
               Attempt a Test
             </h3>
             <p style={{ color: 'var(--text2)', fontSize: '0.875rem' }}>
-              Timed mock tests with map questions, PYQs, and instant self-evaluation. 1hr · 2hr · 3hr formats
+              Timed sectional and full-length mock tests with instant self/AI-mentored evaluation.
             </p>
           </div>
           <Link href="/test" style={{
