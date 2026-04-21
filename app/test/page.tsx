@@ -581,7 +581,7 @@ function SectionDivider({ label }: { label: string }) {
 // ─── Q1 / Q5 Block ───────────────────────────────────────────────────────────
 
 function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
-  mapAnswers, setMapAnswers, mapRevealed, setMapRevealed,
+  mapAnswers, setMapAnswers, mapRevealed, setMapRevealed, mapCorrect, setMapCorrect,
   shortAnswers, setShortAnswers, isResults }: {
   qNum: number; isMap: boolean;
   mapQ: MapQuestion | null; shortQs: TQ[];
@@ -590,6 +590,8 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
   setMapAnswers: (fn: (p: Record<number, string>) => Record<number, string>) => void;
   mapRevealed: Record<number, boolean>;
   setMapRevealed: (fn: (p: Record<number, boolean>) => Record<number, boolean>) => void;
+  mapCorrect: Record<number, boolean>;
+  setMapCorrect: (fn: (p: Record<number, boolean>) => Record<number, boolean>) => void;
   shortAnswers: Record<number, string>;
   setShortAnswers: (fn: (p: Record<number, string>) => Record<number, string>) => void;
   isResults: boolean;
@@ -609,7 +611,7 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
             </span>
           </div>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text3)' }}>
-            {isResults ? `${Object.entries(mapRevealed).filter(([k,v]) => v && mapAnswers[Number(k)]?.trim()).length * 2.5} / 50 Marks` : `${answered}/${mapQ.entries.length} answered · 50 Marks`}
+            {isResults ? `${Object.values(mapCorrect).filter(Boolean).length * 2.5} / 50 Marks` : `${answered}/${mapQ.entries.length} answered · 50 Marks`}
           </span>
         </div>
         <div style={{ padding: '1.25rem' }}>
@@ -655,8 +657,9 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                       cursor: isResults ? 'default' : 'pointer',
                     }}>
                       <span style={{ minWidth: 19, height: 19, borderRadius: '50%', flexShrink: 0,
-                        background: mapRevealed[e.number]
-                          ? (mapAnswers[e.number]?.trim() ? '#22a85a' : '#ef4444')
+                        background: mapCorrect[e.number] === true ? '#22a85a'
+                          : mapCorrect[e.number] === false ? '#ef4444'
+                          : mapRevealed[e.number] ? '#f59e0b'
                           : mapAnswers[e.number] ? 'var(--accent)' : 'var(--bg3)',
                         color: (mapRevealed[e.number] || mapAnswers[e.number]) ? '#fff' : 'var(--text3)',
                         border: '1px solid var(--border)',
@@ -665,6 +668,7 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                       <span style={{ color: 'var(--text2)', fontSize: '0.76rem', flex: 1 }}>
                         ({String.fromCharCode(96 + e.number)}) {e.hint}
                       </span>
+                      {/* Reveal button — only when answered, not yet revealed */}
                       {isResults && !mapRevealed[e.number] && mapAnswers[e.number]?.trim() && (
                         <button onClick={() => setMapRevealed(prev => ({ ...prev, [e.number]: true }))}
                           style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text3)',
@@ -672,6 +676,23 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                       )}
                       {isResults && !mapRevealed[e.number] && !mapAnswers[e.number]?.trim() && (
                         <span style={{ fontSize: '0.65rem', color: 'var(--text3)', fontStyle: 'italic' }}>No answer</span>
+                      )}
+                      {/* ✓/✗ buttons after reveal, before judgment */}
+                      {isResults && mapRevealed[e.number] && mapCorrect[e.number] === undefined && (
+                        <div style={{ display: 'flex', gap: '0.3rem' }}>
+                          <button onClick={() => setMapCorrect(prev => ({ ...prev, [e.number]: true }))}
+                            style={{ background: 'rgba(34,168,90,0.15)', border: '1px solid #22a85a60', color: '#22a85a',
+                              borderRadius: 3, padding: '1px 6px', fontSize: '0.65rem', cursor: 'pointer', fontWeight: 700 }}>✓</button>
+                          <button onClick={() => setMapCorrect(prev => ({ ...prev, [e.number]: false }))}
+                            style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid #ef444460', color: '#ef4444',
+                              borderRadius: 3, padding: '1px 6px', fontSize: '0.65rem', cursor: 'pointer', fontWeight: 700 }}>✗</button>
+                        </div>
+                      )}
+                      {/* Undo judgment */}
+                      {isResults && mapCorrect[e.number] !== undefined && (
+                        <button onClick={() => setMapCorrect(prev => { const n = { ...prev }; delete n[e.number]; return n; })}
+                          style={{ background: 'none', border: 'none', color: 'var(--text3)',
+                            fontSize: '0.6rem', cursor: 'pointer', padding: '0 2px' }}>undo</button>
                       )}
                     </div>
                     {isResults && mapAnswers[e.number]?.trim() && (
@@ -681,10 +702,10 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                     )}
                     {isResults && mapRevealed[e.number] && (
                       <div style={{ fontSize: '0.73rem', paddingLeft: 26, marginBottom: 3 }}>
-                        {mapAnswers[e.number]?.trim()
-                          ? <span style={{ color: '#22a85a' }}>✓ Correct: {e.answer}</span>
-                          : <span style={{ color: '#f87171' }}>✗ Not attempted — Answer: {e.answer}</span>
-                        }
+                        <span style={{ color: '#f59e0b' }}>Answer: {e.answer}</span>
+                        {mapCorrect[e.number] === true && <span style={{ color: '#22a85a', marginLeft: 6 }}>✓ Marked correct</span>}
+                        {mapCorrect[e.number] === false && <span style={{ color: '#ef4444', marginLeft: 6 }}>✗ Marked wrong</span>}
+                        {mapCorrect[e.number] === undefined && <span style={{ color: 'var(--text3)', marginLeft: 6, fontSize: '0.65rem' }}>← mark above</span>}
                       </div>
                     )}
                   </div>
@@ -839,8 +860,10 @@ export default function TestPage() {
   const [rubrics,   setRubrics]   = useState<Record<number, {intro:number;body:number;conc:number;pres:number}>>({});
   const [mapAns1,   setMapAns1]   = useState<Record<number, string>>({});
   const [mapRev1,   setMapRev1]   = useState<Record<number, boolean>>({});
+  const [mapCor1,   setMapCor1]   = useState<Record<number, boolean>>({});
   const [mapAns5,   setMapAns5]   = useState<Record<number, string>>({});
   const [mapRev5,   setMapRev5]   = useState<Record<number, boolean>>({});
+  const [mapCor5,   setMapCor5]   = useState<Record<number, boolean>>({});
   const [dot1,      setDot1]      = useState<number | null>(null);
   const [dot5,      setDot5]      = useState<number | null>(null);
   const [sAns1,     setSAns1]     = useState<Record<number, string>>({});
@@ -849,6 +872,11 @@ export default function TestPage() {
 
   const { usage, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
   const isPremium = usage?.isPremium ?? false;
+  const [navH, setNavH] = useState(56);
+  useEffect(() => {
+    const nav = document.querySelector('nav, header, [role="navigation"]') as HTMLElement | null;
+    if (nav) setNavH(nav.offsetHeight);
+  }, []);
 
   const totalMins = mode === 'sectional' ? 105 : 180;
   const maxMarks  = mode === 'sectional' ? 150 : 250;
@@ -878,7 +906,7 @@ export default function TestPage() {
     setMapQ5(isFLT && isAncient(secB) ? pickMap() : null);
     setShortQ5(isFLT && !isAncient(secB) ? pickShortAnswers(secB) : []);
     setAnswers({}); setRubrics({});
-    setMapAns1({}); setMapRev1({}); setMapAns5({}); setMapRev5({});
+    setMapAns1({}); setMapRev1({}); setMapCor1({}); setMapAns5({}); setMapRev5({}); setMapCor5({});
     setDot1(null); setDot5(null); setSAns1({}); setSAns5({});
     setTimerOn(true);
     setPhase('test');
@@ -1014,7 +1042,7 @@ export default function TestPage() {
     return (
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 6rem' }}>
         {/* Sticky timer bar */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 100,
+        <div style={{ position: 'sticky', top: navH, zIndex: 90,
           background: 'var(--bg)', borderBottom: '1px solid var(--border)', padding: '0.6rem 0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -1046,6 +1074,7 @@ export default function TestPage() {
           selectedDot={dot1} onDotClick={setDot1}
           mapAnswers={mapAns1} setMapAnswers={setMapAns1}
           mapRevealed={mapRev1} setMapRevealed={setMapRev1}
+          mapCorrect={mapCor1} setMapCorrect={setMapCor1}
           shortAnswers={sAns1} setShortAnswers={setSAns1} isResults={false} />
 
         {groupsA.map(g => (
@@ -1061,6 +1090,7 @@ export default function TestPage() {
               selectedDot={dot5} onDotClick={setDot5}
               mapAnswers={mapAns5} setMapAnswers={setMapAns5}
               mapRevealed={mapRev5} setMapRevealed={setMapRev5}
+              mapCorrect={mapCor5} setMapCorrect={setMapCor5}
               shortAnswers={sAns5} setShortAnswers={setSAns5} isResults={false} />
             {groupsB.map(g => (
               <QGroupBlock key={g.qNum} group={g} answers={answers}
@@ -1076,8 +1106,8 @@ export default function TestPage() {
   // ── RESULTS ──────────────────────────────────────────────────────────────────
 
   if (phase === 'results') {
-    const mapScore = Object.entries(mapRev1).filter(([k, v]) => v && mapAns1[Number(k)]?.trim()).length * 2.5
-                   + Object.entries(mapRev5).filter(([k, v]) => v && mapAns5[Number(k)]?.trim()).length * 2.5;
+    const mapScore = Object.values(mapCor1).filter(Boolean).length * 2.5
+                   + Object.values(mapCor5).filter(Boolean).length * 2.5;
     const writtenScore = [...groupsA, ...groupsB].flatMap(g => g.parts).reduce((s, q) => {
       const r = rubrics[q.id]; return s + (r ? rubricTotal(r) : 0);
     }, 0);
@@ -1123,6 +1153,7 @@ export default function TestPage() {
           selectedDot={null} onDotClick={() => {}}
           mapAnswers={mapAns1} setMapAnswers={setMapAns1}
           mapRevealed={mapRev1} setMapRevealed={setMapRev1}
+          mapCorrect={mapCor1} setMapCorrect={setMapCor1}
           shortAnswers={sAns1} setShortAnswers={setSAns1} isResults={true} />
 
         {groupsA.map(g => (
@@ -1138,6 +1169,7 @@ export default function TestPage() {
               selectedDot={null} onDotClick={() => {}}
               mapAnswers={mapAns5} setMapAnswers={setMapAns5}
               mapRevealed={mapRev5} setMapRevealed={setMapRev5}
+              mapCorrect={mapCor5} setMapCorrect={setMapCor5}
               shortAnswers={sAns5} setShortAnswers={setSAns5} isResults={true} />
             {groupsB.map(g => (
               <QGroupBlock key={g.qNum} group={g} answers={answers} onAnswer={() => {}}
