@@ -328,8 +328,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
           {step === 'ocr' && (
             <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
               <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem', animation: 'spin 1s linear infinite', display: 'inline-block' }}>⟳</div>
-              <div style={{ color: '#818cf8', fontSize: '0.85rem', marginBottom: '0.3rem' }}>Reading your handwriting…</div>
-              <div style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>{ocrMsg}</div>
+              <div style={{ color: '#818cf8', fontSize: '0.85rem' }}>Reading your handwriting…</div>
               <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             </div>
           )}
@@ -408,7 +407,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
           {step === 'done' && d && (
             <div style={{ fontSize: '0.85rem', lineHeight: 1.7 }}>
               {/* Score strip */}
-              <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '1rem',
+              <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '0.75rem',
                 padding: '0.75rem', background: 'var(--bg3)', borderRadius: 6 }}>
                 <div>
                   <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>AI Score</div>
@@ -431,6 +430,21 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
                     </div>
                   </div>
                 )}
+              </div>
+
+              {/* Score disclaimer warning */}
+              <div style={{
+                display: 'flex', gap: '0.6rem', alignItems: 'flex-start',
+                background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.3)',
+                borderRadius: 6, padding: '0.6rem 0.8rem', marginBottom: '1rem',
+              }}>
+                <span style={{ fontSize: '0.9rem', flexShrink: 0, marginTop: 1 }}>⚠️</span>
+                <div style={{ fontSize: '0.74rem', color: 'var(--text2)', lineHeight: 1.55 }}>
+                  <strong style={{ color: '#f59e0b' }}>AI scores are directional, not definitive.</strong>{' '}
+                  Real UPSC examiners are significantly stricter — do not treat this number as your actual marks.
+                  Focus entirely on the <strong style={{ color: 'var(--text)' }}>qualitative feedback below</strong>:
+                  the demand gaps, missing historians, and structural suggestions are far more useful than any score.
+                </div>
               </div>
 
               {/* Transcript toggle */}
