@@ -31,11 +31,6 @@ interface MapQuestion {
   mapType: MapType;
 }
 
-interface AIMentorResult {
-  loading: boolean;
-  data: Record<string, unknown> | null;
-  error: string | null;
-}
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -192,56 +187,230 @@ function RubricScorer({ marks, value, onChange }: {
   );
 }
 
+// ─── OCR helpers (Tesseract.js via CDN, loaded lazily) ───────────────────────
+
+type OcrStep = 'idle' | 'uploading' | 'ocr' | 'transcript' | 'evaluating' | 'done' | 'error';
+
+async function loadTesseract(): Promise<any> {
+  if ((window as any).Tesseract) return (window as any).Tesseract;
+  await new Promise<void>((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+    s.onload = () => res();
+    s.onerror = rej;
+    document.head.appendChild(s);
+  });
+  return (window as any).Tesseract;
+}
+
+async function ocrImages(files: File[], onProgress: (msg: string) => void): Promise<string> {
+  const T = await loadTesseract();
+  const worker = await T.createWorker('eng', 1, {
+    logger: (m: any) => {
+      if (m.status === 'recognizing text') {
+        onProgress(`Reading page… ${Math.round((m.progress ?? 0) * 100)}%`);
+      }
+    },
+  });
+  let full = '';
+  for (let i = 0; i < files.length; i++) {
+    onProgress(`Reading page ${i + 1} of ${files.length}…`);
+    const url = URL.createObjectURL(files[i]);
+    const { data } = await worker.recognize(url);
+    URL.revokeObjectURL(url);
+    full += (i > 0 ? '\n\n--- PAGE BREAK ---\n\n' : '') + data.text;
+  }
+  await worker.terminate();
+  return full.trim();
+}
+
 // ─── AI Mentor Panel ──────────────────────────────────────────────────────────
 
-function AIMentorPanel({ question, marks, answer, isPremium, onPaywall }: {
-  question: string; marks: number; answer: string; isPremium: boolean; onPaywall: () => void;
+function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
+  question: string; marks: number; isPremium: boolean; onPaywall: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-  const [res, setRes] = useState<AIMentorResult>({ loading: false, data: null, error: null });
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [step, setStep]           = useState<OcrStep>('idle');
+  const [ocrMsg, setOcrMsg]       = useState('');
+  const [images, setImages]       = useState<File[]>([]);
+  const [previews, setPreviews]   = useState<string[]>([]);
+  const [transcript, setTranscript] = useState('');
+  const [evalData, setEvalData]   = useState<any>(null);
+  const [error, setError]         = useState('');
+  const [panelOpen, setPanelOpen] = useState(false);
 
-  async function evaluate() {
+  function handleUploadClick() {
     if (!isPremium) { onPaywall(); return; }
-    if (res.data) { setOpen(true); return; }
-    setOpen(true);
-    setRes({ loading: true, data: null, error: null });
-    try {
-      const fd = new FormData();
-      fd.append('question', question);
-      fd.append('marks', String(marks));
-      fd.append('extractedText', answer);
-      const { supabase } = await import('@/lib/supabase');
-      const { data: { session } } = await supabase.auth.getSession();
-      const r = await fetch('/api/evaluate', { method: 'POST', headers: { 'x-user-token': session?.access_token ?? '' }, body: fd });
-      const data = await r.json();
-      if (!r.ok || data.error) setRes({ loading: false, data: null, error: data.error || 'Evaluation failed.' });
-      else setRes({ loading: false, data, error: null });
-    } catch { setRes({ loading: false, data: null, error: 'Network error. Please try again.' }); }
+    fileRef.current?.click();
   }
 
-  const d = res.data as any;
+  async function handleFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    const arr = Array.from(files);
+    setImages(arr);
+    setPreviews(arr.map(f => URL.createObjectURL(f)));
+    setPanelOpen(true);
+    setStep('ocr');
+    setError('');
+    setTranscript('');
+    setEvalData(null);
+    try {
+      const text = await ocrImages(arr, (msg) => { setStep('ocr'); setOcrMsg(msg); });
+      setTranscript(text);
+      setStep('transcript');
+    } catch (e) {
+      setError('OCR failed. Please try a clearer image or type your answer manually.');
+      setStep('error');
+    }
+  }
+
+  async function runEval() {
+    if (!transcript.trim()) return;
+    setStep('evaluating');
+    setError('');
+    try {
+      const fd = new FormData();
+      images.forEach(f => fd.append('files', f));
+      fd.append('question', question);
+      fd.append('marks', String(marks));
+      fd.append('extractedText', transcript);
+      const { supabase } = await import('@/lib/supabase');
+      const { data: { session } } = await supabase.auth.getSession();
+      const r = await fetch('/api/evaluate', {
+        method: 'POST',
+        headers: { 'x-user-token': session?.access_token ?? '' },
+        body: fd,
+      });
+      const data = await r.json();
+      if (!r.ok || data.error) { setError(data.error || 'Evaluation failed.'); setStep('error'); return; }
+      setEvalData(data);
+      setStep('done');
+    } catch { setError('Network error. Please try again.'); setStep('error'); }
+  }
+
+  const d = evalData;
+
   return (
-    <div style={{ marginTop: '0.75rem' }}>
-      <button onClick={() => { if (!open) evaluate(); else setOpen(o => !o); }} style={{
-        display: 'flex', alignItems: 'center', gap: '0.4rem',
-        background: isPremium ? 'rgba(99,102,241,0.12)' : 'rgba(99,102,241,0.06)',
-        border: '1px solid rgba(99,102,241,0.35)', borderRadius: 6,
-        padding: '0.45rem 0.9rem', color: '#818cf8', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
-      }}>
-        <span>✦</span><span>AI Mentor{!isPremium ? ' · Premium 🔒' : ''}</span>
-      </button>
-      {open && (
-        <div style={{ marginTop: '0.75rem', background: 'rgba(99,102,241,0.05)',
-          border: '1px solid rgba(99,102,241,0.2)', borderRadius: 8, padding: '1.25rem' }}>
-          {res.loading && (
-            <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-              <div style={{ color: '#818cf8', fontSize: '0.85rem', marginBottom: '0.4rem' }}>✦ Evaluating your answer…</div>
-              <div style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>Multi-pass evaluation · ~30 seconds</div>
+    <div style={{ marginTop: '1rem' }}>
+      {/* Hidden file input */}
+      <input ref={fileRef} type="file" accept="image/*" multiple style={{ display: 'none' }}
+        onChange={e => handleFiles(e.target.files)} />
+
+      {/* Upload button */}
+      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+        <button onClick={handleUploadClick} style={{
+          display: 'flex', alignItems: 'center', gap: '0.45rem',
+          background: isPremium ? 'rgba(99,102,241,0.12)' : 'rgba(99,102,241,0.06)',
+          border: '1px solid rgba(99,102,241,0.35)', borderRadius: 6,
+          padding: '0.45rem 0.9rem', color: '#818cf8',
+          fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+        }}>
+          <span>✦</span>
+          <span>AI Mentor{!isPremium ? ' · Premium 🔒' : ''}</span>
+        </button>
+        {(step === 'done' || step === 'transcript' || step === 'error') && panelOpen && (
+          <button onClick={() => setPanelOpen(o => !o)} style={{
+            background: 'none', border: '1px solid var(--border)', borderRadius: 6,
+            padding: '0.35rem 0.65rem', color: 'var(--text3)', fontSize: '0.75rem', cursor: 'pointer',
+          }}>{panelOpen ? 'Hide ↑' : 'Show ↓'}</button>
+        )}
+        {step !== 'idle' && step !== 'ocr' && step !== 'evaluating' && (
+          <button onClick={() => { setStep('idle'); setImages([]); setPreviews([]); setTranscript(''); setEvalData(null); setError(''); setPanelOpen(false); if (fileRef.current) fileRef.current.value = ''; }} style={{
+            background: 'none', border: '1px solid var(--border)', borderRadius: 6,
+            padding: '0.35rem 0.65rem', color: 'var(--text3)', fontSize: '0.75rem', cursor: 'pointer',
+          }}>↺ Re-upload</button>
+        )}
+      </div>
+
+      {/* Panel */}
+      {panelOpen && (
+        <div style={{ marginTop: '0.85rem', background: 'rgba(99,102,241,0.04)',
+          border: '1px solid rgba(99,102,241,0.2)', borderRadius: 10, padding: '1.25rem' }}>
+
+          {/* OCR in progress */}
+          {step === 'ocr' && (
+            <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
+              <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem', animation: 'spin 1s linear infinite', display: 'inline-block' }}>⟳</div>
+              <div style={{ color: '#818cf8', fontSize: '0.85rem', marginBottom: '0.3rem' }}>Reading your handwriting…</div>
+              <div style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>{ocrMsg}</div>
+              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             </div>
           )}
-          {res.error && <div style={{ color: '#f87171', fontSize: '0.85rem' }}>{res.error}</div>}
-          {d && !res.loading && (
+
+          {/* Evaluating */}
+          {step === 'evaluating' && (
+            <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
+              <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem', animation: 'spin 1s linear infinite', display: 'inline-block' }}>⟳</div>
+              <div style={{ color: '#818cf8', fontSize: '0.85rem', marginBottom: '0.3rem' }}>✦ Evaluating your answer…</div>
+              <div style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>Multi-pass AI evaluation · ~30 seconds</div>
+            </div>
+          )}
+
+          {/* Transcript editor */}
+          {step === 'transcript' && (
+            <div>
+              {/* Image thumbnails */}
+              {previews.length > 0 && (
+                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.85rem', flexWrap: 'wrap' }}>
+                  {previews.map((src, i) => (
+                    <img key={i} src={src} alt={`Page ${i+1}`} style={{
+                      height: 64, width: 'auto', borderRadius: 4, border: '1px solid var(--border)',
+                      objectFit: 'cover', cursor: 'pointer',
+                    }} onClick={() => window.open(src, '_blank')} />
+                  ))}
+                </div>
+              )}
+
+              <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ color: 'var(--text)', fontSize: '0.82rem', fontWeight: 600 }}>OCR Transcript</div>
+                  <div style={{ color: 'var(--text3)', fontSize: '0.72rem' }}>Review and fix any errors before evaluating</div>
+                </div>
+                <span style={{ background: 'rgba(52,211,153,0.1)', color: '#34d399', border: '1px solid rgba(52,211,153,0.3)',
+                  borderRadius: 4, padding: '2px 8px', fontSize: '0.68rem', fontWeight: 600 }}>✓ OCR Done</span>
+              </div>
+
+              <textarea value={transcript} onChange={e => setTranscript(e.target.value)}
+                rows={10}
+                style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
+                  border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.8rem',
+                  color: 'var(--text)', fontSize: '0.84rem', resize: 'vertical',
+                  outline: 'none', fontFamily: 'inherit', lineHeight: 1.65 }} />
+
+              <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                <button onClick={runEval} style={{
+                  background: 'rgba(99,102,241,0.85)', color: '#fff',
+                  border: 'none', borderRadius: 6, padding: '0.5rem 1.25rem',
+                  fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer',
+                }}>✦ Looks good, Evaluate →</button>
+              </div>
+            </div>
+          )}
+
+          {/* Error */}
+          {step === 'error' && (
+            <div>
+              <div style={{ color: '#f87171', fontSize: '0.85rem', marginBottom: '0.75rem' }}>{error}</div>
+              {transcript && (
+                <div>
+                  <div style={{ color: 'var(--text3)', fontSize: '0.75rem', marginBottom: '0.4rem' }}>You can still edit the transcript and try again:</div>
+                  <textarea value={transcript} onChange={e => setTranscript(e.target.value)} rows={8}
+                    style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
+                      border: '1px solid var(--border)', borderRadius: 6, padding: '0.6rem 0.75rem',
+                      color: 'var(--text)', fontSize: '0.84rem', resize: 'vertical', outline: 'none', fontFamily: 'inherit' }} />
+                  <button onClick={runEval} style={{ marginTop: '0.5rem', background: 'rgba(99,102,241,0.85)', color: '#fff',
+                    border: 'none', borderRadius: 6, padding: '0.5rem 1.25rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>
+                    ✦ Evaluate →
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Results */}
+          {step === 'done' && d && (
             <div style={{ fontSize: '0.85rem', lineHeight: 1.7 }}>
+              {/* Score strip */}
               <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '1rem',
                 padding: '0.75rem', background: 'var(--bg3)', borderRadius: 6 }}>
                 <div>
@@ -266,6 +435,14 @@ function AIMentorPanel({ question, marks, answer, isPremium, onPaywall }: {
                   </div>
                 )}
               </div>
+
+              {/* Transcript toggle */}
+              <details style={{ marginBottom: '0.75rem' }}>
+                <summary style={{ cursor: 'pointer', color: 'var(--text3)', fontSize: '0.75rem', userSelect: 'none' }}>View OCR Transcript</summary>
+                <div style={{ marginTop: '0.5rem', background: 'var(--bg3)', borderRadius: 6, padding: '0.65rem 0.8rem',
+                  fontSize: '0.8rem', color: 'var(--text2)', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>{transcript}</div>
+              </details>
+
               {d.overall_feedback && (
                 <div style={{ marginBottom: '1rem' }}>
                   <div style={{ color: '#818cf8', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>Mentor Feedback</div>
@@ -548,20 +725,13 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                 </div>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text3)', whiteSpace: 'nowrap' }}>[10 Marks]</span>
               </div>
-              <p style={{ color: 'var(--text)', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: isResults ? 0 : '0.5rem' }}>{q.question}</p>
+              <p style={{ color: 'var(--text)', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: '0.5rem' }}>{q.question}</p>
               {!isResults && (
-                <textarea value={shortAnswers[q.id] ?? ''}
-                  onChange={e => setShortAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
-                  placeholder="~150 words" rows={4}
-                  style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
-                    border: '1px solid var(--border)', borderRadius: 6, padding: '0.55rem 0.7rem',
-                    color: 'var(--text)', fontSize: '0.85rem', resize: 'vertical',
-                    outline: 'none', fontFamily: 'inherit', lineHeight: 1.6, marginTop: '0.4rem' }} />
-              )}
-              {isResults && shortAnswers[q.id] && (
-                <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 6,
-                  padding: '0.6rem 0.75rem', color: 'var(--text2)', fontSize: '0.85rem',
-                  lineHeight: 1.6, whiteSpace: 'pre-wrap', marginTop: '0.5rem' }}>{shortAnswers[q.id]}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem',
+                  background: 'var(--bg3)', border: '1px dashed var(--border)', borderRadius: 6,
+                  padding: '0.5rem 0.8rem', color: 'var(--text3)', fontSize: '0.78rem' }}>
+                  <span>✏️</span><span>~150 words on paper</span>
+                </div>
               )}
             </div>
           );
@@ -620,28 +790,19 @@ function QGroupBlock({ group, answers, onAnswer, rubrics, onRubric, isResults, i
             <p style={{ color: 'var(--text)', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: '0.75rem' }}>{q.question}</p>
 
             {!isResults && (
-              <textarea value={answers[q.id] ?? ''}
-                onChange={e => onAnswer(q.id, e.target.value)}
-                placeholder={`Write your answer here... (~${q.marks === 10 ? '150–200' : q.marks === 15 ? '200–250' : '250–300'} words)`}
-                rows={q.marks === 10 ? 5 : q.marks === 15 ? 7 : 9}
-                style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
-                  border: '1px solid var(--border)', borderRadius: 6, padding: '0.6rem 0.75rem',
-                  color: 'var(--text)', fontSize: '0.88rem', resize: 'vertical',
-                  outline: 'none', fontFamily: 'inherit', lineHeight: 1.65 }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem',
+                background: 'var(--bg3)', border: '1px dashed var(--border)', borderRadius: 6,
+                padding: '0.6rem 0.9rem', color: 'var(--text3)', fontSize: '0.8rem' }}>
+                <span>✏️</span>
+                <span>Write your answer on paper · ~{q.marks === 10 ? '150' : q.marks === 15 ? '200' : '250'} words</span>
+              </div>
             )}
 
             {isResults && (
               <>
-                {answers[q.id] ? (
-                  <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 6,
-                    padding: '0.75rem 1rem', color: 'var(--text2)', fontSize: '0.88rem',
-                    lineHeight: 1.6, whiteSpace: 'pre-wrap', marginBottom: '0.5rem' }}>{answers[q.id]}</div>
-                ) : (
-                  <div style={{ color: 'var(--text3)', fontSize: '0.85rem', fontStyle: 'italic', marginBottom: '0.5rem' }}>No answer written.</div>
-                )}
                 <RubricScorer marks={q.marks} value={rubrics[q.id]} onChange={r => onRubric(q.id, r)} />
-                {answers[q.id] && isPremium !== undefined && onPaywall && (
-                  <AIMentorPanel question={q.question} marks={q.marks} answer={answers[q.id]}
+                {isPremium !== undefined && onPaywall && (
+                  <AIMentorPanel question={q.question} marks={q.marks}
                     isPremium={isPremium} onPaywall={onPaywall} />
                 )}
               </>
@@ -923,7 +1084,7 @@ export default function TestPage() {
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '2rem 1.5rem 6rem' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.25rem' }}>Test Results</h1>
         <p style={{ color: 'var(--text2)', fontSize: '0.88rem', marginBottom: '2rem' }}>
-          Use the rubric sliders to self-evaluate each answer. Use AI Mentor for detailed feedback (Premium).
+          Use the rubric sliders to self-evaluate. Premium users can upload answer images for AI Mentor evaluation.
         </p>
 
         {/* Score card */}
