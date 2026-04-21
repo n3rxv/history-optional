@@ -200,7 +200,7 @@ function RubricScorer({ marks, value, onChange }: {
   );
 }
 
-// ─── OCR via server-side Gemini (handles handwriting far better than Tesseract) ─
+// ─── OCR via existing /api/ocr route (Gemini 2.5 Flash — handles handwriting) ─
 
 type OcrStep = 'idle' | 'uploading' | 'ocr' | 'transcript' | 'evaluating' | 'done' | 'error';
 
@@ -216,7 +216,7 @@ async function ocrViaServer(files: File[], token: string, onProgress: (msg: stri
   const data = await r.json();
   if (!r.ok || data.error) throw new Error(data.error || 'OCR failed');
   onProgress('Transcript ready — review below');
-  return data.transcript as string;
+  return (data.text as string) ?? '';
 }
 
 // ─── AI Mentor Panel ──────────────────────────────────────────────────────────
