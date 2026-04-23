@@ -24,8 +24,8 @@ function LimitModal({
 }) {
   const [step, setStep] = useState<'paywall' | 'signing_in' | 'paying' | 'success'>('paywall');
   const [token, setToken] = useState<string | null>(null);
-  const price = slots > 0 ? '₹1,999' : '₹9,999';
-  const priceNum = slots > 0 ? 199900 : 999900;
+  const price = slots > 0 ? '₹2,499' : '₹9,999';
+  const priceNum = slots > 0 ? 249900 : 999900;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;

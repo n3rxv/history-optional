@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     .single();
 
   const remaining = slotData ? Math.max(0, slotData.max_slots - slotData.subscribers) : 45;
-  const amount = remaining > 0 ? 199900 : 999900; // ₹1999 or ₹9999
+  const amount = remaining > 0 ? 249900 : 999900; // ₹2499 early-bird or ₹9999 standard
 
   const order = await razorpay.orders.create({
     amount,
