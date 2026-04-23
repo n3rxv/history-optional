@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 
 function GoogleIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
       <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
       <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
       <path d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/>
@@ -20,7 +20,6 @@ interface SubscribeCardProps {
   fingerprint: string | null;
   onSuccess?: () => void;
   onClose?: () => void;
-  /** If true, renders as a standalone page card (no close button, no fixed overlay) */
   standalone?: boolean;
 }
 
@@ -28,13 +27,8 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
 
-  const EARLY_BIRD_PRICE = '₹2,999';
-  const EARLY_BIRD_AMOUNT = 299900;
-  const STANDARD_PRICE = '₹9,999';
-  const STANDARD_AMOUNT = 999900;
-
-  const price = slots > 0 ? EARLY_BIRD_PRICE : STANDARD_PRICE;
-  const priceNum = slots > 0 ? EARLY_BIRD_AMOUNT : STANDARD_AMOUNT;
+  const price = slots > 0 ? '₹2,999' : '₹9,999';
+  const priceNum = slots > 0 ? 299900 : 999900;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
@@ -74,7 +68,6 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
       });
       const orderData = await orderRes.json();
       if (!orderData.orderId) throw new Error('Order failed');
-
       const rzp = new (window as any).Razorpay({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: orderData.amount,
@@ -84,7 +77,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
         description: 'Unlimited Access · 1 Year',
         image: '/favicon.svg',
         prefill: { email },
-        theme: { color: '#3b82f6' },
+        theme: { color: '#d4a843' },
         handler: async (resp: any) => {
           const vRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
@@ -109,18 +102,17 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
 
   if (step === 'success') {
     return (
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: '3rem', marginBottom: 12 }}>🎉</div>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>
-          Subscription Active!
+      <div style={{ textAlign: 'center', padding: '0.5rem 0' }}>
+        <div style={{ fontSize: '2.2rem', marginBottom: 8 }}>🎉</div>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: '#4ade80', marginBottom: 6 }}>
+          You're Premium!
         </div>
-        <div style={{ color: '#888', fontSize: '0.88rem', lineHeight: 1.6, marginBottom: 24 }}>
+        <div style={{ color: '#666', fontSize: '0.82rem', marginBottom: 18 }}>
           Unlimited access for 1 year. Go ace those answers.
         </div>
-        <button
-          onClick={() => { onClose?.(); onSuccess?.(); }}
-          style={{ width: '100%', padding: '14px', borderRadius: 8, border: 'none', background: '#4ade80', color: '#000', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}>
-          Continue →
+        <button onClick={() => { onClose?.(); onSuccess?.(); }}
+          style={{ width: '100%', padding: '11px', borderRadius: 7, border: 'none', background: '#4ade80', color: '#000', fontWeight: 700, fontSize: '0.86rem', cursor: 'pointer' }}>
+          Let's go →
         </button>
       </div>
     );
@@ -128,74 +120,72 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
 
   if (step === 'signing_in') {
     return (
-      <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-        <div style={{ color: '#888', fontSize: '0.88rem' }}>Redirecting to Google…</div>
+      <div style={{ textAlign: 'center', padding: '1.5rem 0', color: '#555', fontSize: '0.84rem' }}>
+        Redirecting to Google…
       </div>
     );
   }
 
   return (
-    <>
-      {/* Header */}
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#f87171', marginBottom: 12 }}>
-        {standalone ? 'Upgrade your plan' : 'Free limit reached'}
-      </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 700, color: '#f0f0f0', marginBottom: 8 }}>
-        Unlock Unlimited Access
-      </div>
-      <div style={{ color: '#888', fontSize: '0.85rem', lineHeight: 1.65, marginBottom: 20 }}>
-        {standalone
-          ? 'Subscribe to unlock unlimited evaluations, AI chat, and model answers — all in one place.'
-          : "You've used all your free credits. Subscribe to continue with unlimited evaluations and AI chat."}
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
 
-      {/* Price card */}
-      <div style={{ background: 'linear-gradient(135deg,#0d1b3e,#091530)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 12, padding: '20px', marginBottom: 16, position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,transparent,#3b82f6,transparent)' }} />
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, marginBottom: 8 }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '2.8rem', fontWeight: 700, color: '#f0f0f0', lineHeight: 1 }}>{price}</span>
-          <span style={{ color: '#555', fontSize: '0.85rem', marginBottom: 6 }}>/year</span>
+      {/* Price + slot badge */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: '#f0f0f0', lineHeight: 1 }}>{price}</span>
+          <span style={{ color: '#555', fontSize: '0.78rem' }}>/year</span>
         </div>
-
-        {slots > 0 ? (
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#f87171', letterSpacing: '0.08em', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#f87171', boxShadow: '0 0 6px #f87171' }} />
-            Only {slots} early-bird slot{slots === 1 ? '' : 's'} left at this price
-          </div>
-        ) : (
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: '#f87171', letterSpacing: '0.08em', marginBottom: 14 }}>
-            Early-bird slots full — standard pricing applies
+        {slots > 0 && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(248,113,113,0.07)', border: '1px solid rgba(248,113,113,0.18)', borderRadius: 6, padding: '3px 8px' }}>
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#f87171', boxShadow: '0 0 4px #f87171', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: '#f87171', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>{slots} early-bird slots left</span>
           </div>
         )}
-
-        <div style={{ fontSize: '0.82rem', color: '#aaa', marginBottom: 6 }}>✓ Unlimited answer evaluations</div>
-        <div style={{ fontSize: '0.82rem', color: '#aaa', marginBottom: 6 }}>✓ Unlimited AI chat every day</div>
-        <div style={{ fontSize: '0.82rem', color: '#aaa' }}>✓ All model answers & feedback</div>
       </div>
 
-      {!token && (
-        <div style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.15)', borderRadius: 8, padding: '10px 14px', marginBottom: 14, fontSize: '0.78rem', color: '#888', lineHeight: 1.5 }}>
-          You'll sign in with Google to complete your purchase — this keeps your subscription safe across devices.
-        </div>
-      )}
+      {/* Inline feature pills */}
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        {['Unlimited evaluations', 'Unlimited AI chat', 'Model answers'].map(f => (
+          <span key={f} style={{ fontSize: '0.7rem', color: '#777', background: 'rgba(255,255,255,0.03)', border: '1px solid #1e1e1e', borderRadius: 20, padding: '3px 9px' }}>
+            ✓ {f}
+          </span>
+        ))}
+      </div>
 
+      {/* CTA */}
       <button
         onClick={handlePay}
         disabled={step === 'paying'}
-        style={{ width: '100%', padding: '15px', borderRadius: 8, border: 'none', background: step === 'paying' ? '#1e3a8a' : 'linear-gradient(135deg,#2563eb,#3b82f6)', color: '#fff', fontWeight: 700, fontSize: '0.9rem', cursor: step === 'paying' ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-mono)', letterSpacing: '0.05em', boxShadow: '0 0 30px rgba(59,130,246,0.3)', marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-        {step === 'paying' ? 'Opening payment…' : !token ? <><GoogleIcon /> Sign in & Subscribe</> : `Subscribe — ${price}/year →`}
+        style={{
+          width: '100%', padding: '12px', borderRadius: 7, border: 'none',
+          background: step === 'paying' ? '#111' : '#d4a843',
+          color: step === 'paying' ? '#444' : '#000',
+          fontWeight: 700, fontSize: '0.875rem',
+          cursor: step === 'paying' ? 'not-allowed' : 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+          letterSpacing: '0.01em', transition: 'opacity 0.15s',
+        }}>
+        {step === 'paying'
+          ? 'Opening payment…'
+          : !token
+            ? <><GoogleIcon /> Sign in & Subscribe — {price}/yr</>
+            : `Subscribe — ${price}/year →`}
       </button>
 
-      <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: '#444', letterSpacing: '0.1em', marginBottom: onClose ? 12 : 0 }}>
-        Secure payment via Razorpay · Renews annually
+      {/* Footer */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: -4 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.56rem', color: '#333', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+          Secure · Razorpay · Renews annually
+        </span>
+        {onClose && (
+          <button onClick={onClose}
+            style={{ background: 'none', border: 'none', color: '#3a3a3a', cursor: 'pointer', fontSize: '0.76rem', padding: 0, transition: 'color 0.15s' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#888'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#3a3a3a'; }}>
+            Maybe later
+          </button>
+        )}
       </div>
-
-      {onClose && (
-        <button onClick={onClose}
-          style={{ width: '100%', padding: '10px', background: 'transparent', border: '1px solid #222', borderRadius: 8, color: '#555', cursor: 'pointer', fontSize: '0.82rem', marginTop: 8 }}>
-          Maybe later
-        </button>
-      )}
-    </>
+    </div>
   );
 }
