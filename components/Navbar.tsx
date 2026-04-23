@@ -9,7 +9,6 @@ import type { User } from '@supabase/supabase-js';
 
 const links = [
   { href: '/',          label: 'Home' },
-  { href: '/dashboard', label: 'Dashboard' },
   { href: '/paper1',    label: 'Paper I' },
   { href: '/paper2',    label: 'Paper II' },
   { href: '/timeline',  label: 'Timeline' },
@@ -373,6 +372,25 @@ export default function Navbar() {
         </Link>
 
         <div style={{ display: 'flex', gap: '0.15rem', alignItems: 'center' }} className="desktop-nav">
+          {/* Dashboard icon link */}
+          <Link href="/dashboard" title="Your Progress Dashboard"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 32, height: 32, borderRadius: 6,
+              color: pathname.startsWith('/dashboard') ? 'var(--accent)' : 'var(--text3)',
+              background: pathname.startsWith('/dashboard') ? 'rgba(59,130,246,0.1)' : 'transparent',
+              border: pathname.startsWith('/dashboard') ? '1px solid rgba(59,130,246,0.25)' : '1px solid transparent',
+              textDecoration: 'none', transition: 'all 0.15s', flexShrink: 0,
+            }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--accent)'; el.style.background = 'rgba(59,130,246,0.08)'; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; if (!pathname.startsWith('/dashboard')) { el.style.color = 'var(--text3)'; el.style.background = 'transparent'; } }}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+            </svg>
+          </Link>
+
           {/* PYQs dropdown */}
           <div style={{ position: 'relative' }} onMouseEnter={() => setPyqsMenuOpen(true)} onMouseLeave={() => setPyqsMenuOpen(false)}>
             <button style={{
@@ -523,6 +541,11 @@ export default function Navbar() {
               color: pathname === l.href ? 'var(--accent)' : 'var(--text2)',
             }}>{l.label}</Link>
           ))}
+          <Link href="/dashboard" onClick={() => setOpen(false)} style={{
+            padding: '0.65rem 0.75rem', borderRadius: 5,
+            fontSize: '0.9rem', textDecoration: 'none',
+            color: pathname === '/dashboard' ? 'var(--accent)' : 'var(--text2)',
+          }}>📊 My Progress</Link>
           <Link href="/pyqs" onClick={() => setOpen(false)} style={{
             padding: '0.65rem 0.75rem', borderRadius: 5,
             fontSize: '0.9rem', textDecoration: 'none',

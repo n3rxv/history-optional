@@ -21,7 +21,8 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     pathname.startsWith('/posts') ||
     pathname.startsWith('/chat') ||
     pathname.startsWith('/evaluate') ||
-    pathname.startsWith('/test');
+    pathname.startsWith('/test') ||
+    pathname.startsWith('/dashboard');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
