@@ -120,7 +120,7 @@ Write the full model answer now:`;
             { role: 'user', content: prompt },
           ],
           temperature: 0.35,
-          max_tokens: marksNum >= 20 ? 1400 : marksNum >= 15 ? 1100 : 800,
+          max_tokens: marksNum >= 60 ? 3000 : marksNum >= 20 ? 2000 : marksNum >= 15 ? 1400 : 1000,
         }),
       });
 
