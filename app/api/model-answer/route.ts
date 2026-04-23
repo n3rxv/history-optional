@@ -59,7 +59,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Question is required' }, { status: 400 });
     }
 
-    // ── Premium gate — same Supabase pattern as evaluate/route.ts ──
     if (!token) {
       return NextResponse.json({ error: 'premium_required' }, { status: 403 });
     }
@@ -72,18 +71,23 @@ export async function POST(req: NextRequest) {
 
     let isPremium = false;
     try {
-      const { data: { user } } = await supabase.auth.getUser(token);
-      if (user?.email === process.env.OWNER_EMAIL) {
+      // token is a real Supabase access_token from the frontend session
+      const { data: { user }, error } = await supabase.auth.getUser(token);
+      if (error || !user) {
+        return NextResponse.json({ error: 'premium_required' }, { status: 403 });
+      }
+
+      if (user.email === process.env.OWNER_EMAIL) {
         isPremium = true;
-      } else if (user) {
+      } else {
         const nowISO = new Date().toISOString();
         const { data: sub } = await supabase
           .from('subscriptions')
           .select('status')
-          .eq('user_id', token)
+          .eq('user_id', user.id)   // ← use user.id, NOT the raw token
           .eq('status', 'active')
           .gt('expires_at', nowISO)
-          .single();
+          .maybeSingle();
         isPremium = !!sub;
       }
     } catch {
