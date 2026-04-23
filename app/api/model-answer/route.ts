@@ -130,7 +130,9 @@ Write the full model answer now:`;
     }
 
     const data = await res.json();
-    const answer = data.choices?.[0]?.message?.content || '';
+    const raw = data.choices?.[0]?.message?.content || '';
+    // qwen3 leaks chain-of-thought inside <think>...</think> — strip it
+    const answer = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     if (!answer) {
       return NextResponse.json({ error: 'Failed to generate answer. Please try again.' }, { status: 500 });
     }
