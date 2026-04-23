@@ -283,6 +283,7 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
+  const [notesMenuOpen, setNotesMenuOpen] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [noSubFound, setNoSubFound] = useState(false);
 
@@ -372,24 +373,48 @@ export default function Navbar() {
         </Link>
 
         <div style={{ display: 'flex', gap: '0.15rem', alignItems: 'center' }} className="desktop-nav">
-          {/* Dashboard icon link */}
-          <Link href="/dashboard" title="Your Progress Dashboard"
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 32, height: 32, borderRadius: 6,
-              color: pathname.startsWith('/dashboard') ? 'var(--accent)' : 'var(--text3)',
-              background: pathname.startsWith('/dashboard') ? 'rgba(59,130,246,0.1)' : 'transparent',
-              border: pathname.startsWith('/dashboard') ? '1px solid rgba(59,130,246,0.25)' : '1px solid transparent',
-              textDecoration: 'none', transition: 'all 0.15s', flexShrink: 0,
-            }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--accent)'; el.style.background = 'rgba(59,130,246,0.08)'; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; if (!pathname.startsWith('/dashboard')) { el.style.color = 'var(--text3)'; el.style.background = 'transparent'; } }}
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-            </svg>
-          </Link>
+          {/* Notes dropdown */}
+          <div style={{ position: 'relative' }} onMouseEnter={() => setNotesMenuOpen(true)} onMouseLeave={() => setNotesMenuOpen(false)}>
+            <button style={{
+              padding: '0.3rem 0.55rem',
+              borderRadius: 5,
+              fontSize: '0.78rem',
+              fontFamily: 'var(--font-ui)',
+              color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'var(--accent)' : 'var(--text2)',
+              background: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'rgba(59,130,246,0.1)' : 'transparent',
+              border: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? '1px solid rgba(59,130,246,0.25)' : '1px solid transparent',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem',
+              transition: 'all 0.15s',
+            }}>
+              Notes ▾
+            </button>
+            {notesMenuOpen && (
+              <div style={{
+                position: 'absolute', top: '100%', left: 0,
+                background: 'var(--bg2)', border: '1px solid var(--border2)',
+                borderRadius: 8, padding: '0.4rem',
+                minWidth: 160, zIndex: 1000,
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+              }}>
+                {[
+                  { href: '/paper1', label: '📜 Paper I' },
+                  { href: '/paper2', label: '📖 Paper II' },
+                  { href: '/timeline', label: '🗓 Timeline' },
+                  { href: '/historiography', label: '🏛 Historiography' },
+                ].map(item => (
+                  <Link key={item.href} href={item.href} onClick={() => setNotesMenuOpen(false)}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = '#fff'; el.style.background = 'rgba(255,255,255,0.05)'; }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)'; el.style.background = pathname.startsWith(item.href) ? 'rgba(59,130,246,0.1)' : 'transparent'; }}
+                    style={{
+                      display: 'block', padding: '0.5rem 0.75rem', borderRadius: 5,
+                      fontSize: '0.85rem', textDecoration: 'none',
+                      color: pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)',
+                      background: pathname.startsWith(item.href) ? 'rgba(59,130,246,0.1)' : 'transparent',
+                    }}>{item.label}</Link>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* PYQs dropdown */}
           <div style={{ position: 'relative' }} onMouseEnter={() => setPyqsMenuOpen(true)} onMouseLeave={() => setPyqsMenuOpen(false)}>
