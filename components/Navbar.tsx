@@ -393,6 +393,7 @@ export default function Navbar() {
                   { href: '/paper2', label: 'Paper II' },
                   { href: '/timeline', label: 'Timeline' },
                   { href: '/historiography', label: 'Historiography' },
+                  { href: '/flashcards', label: 'Flashcards' },
                 ].map(item => (
                   <Link key={item.href} href={item.href} onClick={() => setNotesMenuOpen(false)}
                     style={{
@@ -569,6 +570,7 @@ export default function Navbar() {
             { href: '/paper2', label: 'Paper II' },
             { href: '/timeline', label: 'Timeline' },
             { href: '/historiography', label: 'Historiography' },
+            { href: '/flashcards', label: 'Flashcards' },
             { href: '/pyqs', label: 'PYQs' },
             { href: '/test', label: 'Start Test' },
             { href: '/chat', label: 'AI Chat' },

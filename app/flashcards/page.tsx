@@ -260,7 +260,7 @@ export default function Flashcards() {
               </div>
             ) : (
               <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--text2)', lineHeight: 1.5, marginBottom: '0.5rem', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.78rem', color: 'var(--text2)', lineHeight: 1.5, marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                   Answer
                 </div>
                 <div style={{ color: 'var(--text)', fontSize: '0.92rem', lineHeight: 1.75, whiteSpace: 'pre-line' }}>

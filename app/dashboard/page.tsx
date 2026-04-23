@@ -168,6 +168,23 @@ export default function Dashboard() {
         </div>
       )}
 
+      {/* Study Tools */}
+      <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.25rem' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text3)', marginBottom: '0.75rem' }}>Study Tools</div>
+        <Link href="/flashcards" style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0.75rem 1rem', borderRadius: 8,
+          background: 'var(--bg3)', border: '1px solid var(--border)',
+          textDecoration: 'none',
+        }}>
+          <div>
+            <div style={{ fontSize: '0.88rem', color: 'var(--text)', fontWeight: 500, marginBottom: '0.2rem' }}>Analytical Flashcards</div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text3)' }}>55 cards — historian arguments, comparisons, cause-effect chains</div>
+          </div>
+          <span style={{ color: 'var(--text3)', fontSize: '0.85rem', marginLeft: '1rem' }}>→</span>
+        </Link>
+      </div>
+
       {/* All done */}
       {mounted && totalDone === TOTAL && (
         <div style={{ background: 'var(--green-dim)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 14, padding: '1.5rem', textAlign: 'center' }}>
