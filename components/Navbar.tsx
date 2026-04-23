@@ -383,9 +383,9 @@ export default function Navbar() {
             </button>
             {notesMenuOpen && (
               <div style={{
-                position: 'absolute', top: 'calc(100% + 4px)', left: 0,
+                position: 'absolute', top: '100%', left: 0,
                 background: '#111', border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 8, padding: '0.3rem', minWidth: 150, zIndex: 1000,
+                borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 150, zIndex: 1000,
                 boxShadow: '0 12px 32px rgba(0,0,0,0.6)',
               }}>
                 {[
@@ -429,9 +429,9 @@ export default function Navbar() {
             </button>
             {pyqsMenuOpen && (
               <div style={{
-                position: 'absolute', top: 'calc(100% + 4px)', left: 0,
+                position: 'absolute', top: '100%', left: 0,
                 background: '#111', border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 8, padding: '0.3rem', minWidth: 140, zIndex: 1000,
+                borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 140, zIndex: 1000,
                 boxShadow: '0 12px 32px rgba(0,0,0,0.6)',
               }}>
                 {[
