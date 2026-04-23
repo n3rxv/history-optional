@@ -338,272 +338,270 @@ export default function Navbar() {
     router.refresh();
   };
 
+
   return (
     <>
     <nav style={{
       position: 'sticky', top: 0, zIndex: 50,
-      background: 'rgba(0,0,0,0.95)',
-      backdropFilter: 'blur(16px)',
-      borderBottom: '1px solid #1f1f1f',
+      background: 'rgba(0,0,0,0.92)',
+      backdropFilter: 'blur(20px)',
+      borderBottom: '1px solid rgba(255,255,255,0.06)',
     }}>
       <div style={{
         maxWidth: 1200, margin: '0 auto',
         padding: '0 1.5rem',
         display: 'flex', alignItems: 'center',
         justifyContent: 'space-between',
-        height: 60, flexWrap: 'nowrap',
+        height: 56,
       }}>
-        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <span style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.2rem', fontWeight: 700,
-            color: '#ffffff', letterSpacing: '-0.01em',
-          }}>
+
+        {/* Logo */}
+        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.01em' }}>
             History <span style={{ color: 'var(--accent)' }}>Optional</span>
           </span>
-          <span style={{
-            fontSize: '0.6rem',
-            background: 'rgba(59,130,246,0.1)',
-            color: 'var(--accent)',
-            border: '1px solid rgba(59,130,246,0.3)',
-            padding: '1px 6px', borderRadius: 3,
-            fontFamily: 'var(--font-mono)',
-            letterSpacing: '0.08em',
-          }}>UPSC</span>
         </Link>
 
-        <div style={{ display: 'flex', gap: '0.15rem', alignItems: 'center' }} className="desktop-nav">
+        {/* Desktop nav */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }} className="desktop-nav">
+
           {/* Notes dropdown */}
-          <div style={{ position: 'relative' }} onMouseEnter={() => setNotesMenuOpen(true)} onMouseLeave={() => setNotesMenuOpen(false)}>
+          <div style={{ position: 'relative' }}
+            onMouseEnter={() => setNotesMenuOpen(true)}
+            onMouseLeave={() => setNotesMenuOpen(false)}>
             <button style={{
-              padding: '0.3rem 0.55rem',
-              borderRadius: 5,
-              fontSize: '0.78rem',
-              fontFamily: 'var(--font-ui)',
+              padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none',
+              fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer',
               color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'var(--accent)' : 'var(--text2)',
-              background: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'rgba(59,130,246,0.1)' : 'transparent',
-              border: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? '1px solid rgba(59,130,246,0.25)' : '1px solid transparent',
-              cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem',
-              transition: 'all 0.15s',
+              background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem',
+              transition: 'color 0.15s',
             }}>
-              Notes ▾
+              Notes
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
+                <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
             {notesMenuOpen && (
               <div style={{
-                position: 'absolute', top: '100%', left: 0,
-                background: 'var(--bg2)', border: '1px solid var(--border2)',
-                borderRadius: 8, padding: '0.4rem',
-                minWidth: 160, zIndex: 1000,
-                boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                position: 'absolute', top: 'calc(100% + 4px)', left: 0,
+                background: '#111', border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 8, padding: '0.3rem', minWidth: 150, zIndex: 1000,
+                boxShadow: '0 12px 32px rgba(0,0,0,0.6)',
               }}>
                 {[
-                  { href: '/paper1', label: '📜 Paper I' },
-                  { href: '/paper2', label: '📖 Paper II' },
-                  { href: '/timeline', label: '🗓 Timeline' },
-                  { href: '/historiography', label: '🏛 Historiography' },
+                  { href: '/paper1', label: 'Paper I' },
+                  { href: '/paper2', label: 'Paper II' },
+                  { href: '/timeline', label: 'Timeline' },
+                  { href: '/historiography', label: 'Historiography' },
                 ].map(item => (
                   <Link key={item.href} href={item.href} onClick={() => setNotesMenuOpen(false)}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = '#fff'; el.style.background = 'rgba(255,255,255,0.05)'; }}
-                    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)'; el.style.background = pathname.startsWith(item.href) ? 'rgba(59,130,246,0.1)' : 'transparent'; }}
                     style={{
-                      display: 'block', padding: '0.5rem 0.75rem', borderRadius: 5,
-                      fontSize: '0.85rem', textDecoration: 'none',
+                      display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5,
+                      fontSize: '0.82rem', textDecoration: 'none',
                       color: pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)',
-                      background: pathname.startsWith(item.href) ? 'rgba(59,130,246,0.1)' : 'transparent',
-                    }}>{item.label}</Link>
+                      background: pathname.startsWith(item.href) ? 'rgba(59,130,246,0.08)' : 'transparent',
+                      transition: 'all 0.12s',
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname.startsWith(item.href) ? 'rgba(59,130,246,0.08)' : 'transparent'; }}
+                  >{item.label}</Link>
                 ))}
               </div>
             )}
           </div>
 
           {/* PYQs dropdown */}
-          <div style={{ position: 'relative' }} onMouseEnter={() => setPyqsMenuOpen(true)} onMouseLeave={() => setPyqsMenuOpen(false)}>
+          <div style={{ position: 'relative' }}
+            onMouseEnter={() => setPyqsMenuOpen(true)}
+            onMouseLeave={() => setPyqsMenuOpen(false)}>
             <button style={{
-              padding: '0.3rem 0.55rem',
-              borderRadius: 5,
-              fontSize: '0.78rem',
-              fontFamily: 'var(--font-ui)',
+              padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none',
+              fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer',
               color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)',
-              background: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'rgba(59,130,246,0.1)' : 'transparent',
-              border: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? '1px solid rgba(59,130,246,0.25)' : '1px solid transparent',
-              cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.3rem',
-              transition: 'all 0.15s',
+              background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem',
+              transition: 'color 0.15s',
             }}>
-              PYQs ▾
+              PYQs
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
+                <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
             {pyqsMenuOpen && (
               <div style={{
-                position: 'absolute', top: '100%', left: 0,
-                background: 'var(--bg2)', border: '1px solid var(--border2)',
-                borderRadius: 8, padding: '0.4rem',
-                minWidth: 140, zIndex: 1000,
-                boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                position: 'absolute', top: 'calc(100% + 4px)', left: 0,
+                background: '#111', border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 8, padding: '0.3rem', minWidth: 140, zIndex: 1000,
+                boxShadow: '0 12px 32px rgba(0,0,0,0.6)',
               }}>
-                <Link href="/pyqs" onClick={() => setPyqsMenuOpen(false)}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname === '/pyqs' ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname === '/pyqs' ? 'rgba(59,130,246,0.1)' : 'transparent'; }}
-                  style={{
-                  display: 'block', padding: '0.5rem 0.75rem', borderRadius: 5,
-                  fontSize: '0.85rem', textDecoration: 'none',
-                  color: pathname === '/pyqs' ? 'var(--accent)' : 'var(--text2)',
-                  background: pathname === '/pyqs' ? 'rgba(59,130,246,0.1)' : 'transparent',
-                }}>📋 Browse PYQs</Link>
-                <Link href="/test" onClick={() => setPyqsMenuOpen(false)}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname === '/test' ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname === '/test' ? 'rgba(59,130,246,0.1)' : 'transparent'; }}
-                  style={{
-                  display: 'block', padding: '0.5rem 0.75rem', borderRadius: 5,
-                  fontSize: '0.85rem', textDecoration: 'none',
-                  color: pathname === '/test' ? 'var(--accent)' : 'var(--text2)',
-                  background: pathname === '/test' ? 'rgba(59,130,246,0.1)' : 'transparent',
-                }}>🎯 Start Test</Link>
+                {[
+                  { href: '/pyqs', label: 'Browse PYQs' },
+                  { href: '/test', label: 'Start Test' },
+                ].map(item => (
+                  <Link key={item.href} href={item.href} onClick={() => setPyqsMenuOpen(false)}
+                    style={{
+                      display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5,
+                      fontSize: '0.82rem', textDecoration: 'none',
+                      color: pathname === item.href ? 'var(--accent)' : 'var(--text2)',
+                      background: pathname === item.href ? 'rgba(59,130,246,0.08)' : 'transparent',
+                      transition: 'all 0.12s',
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname === item.href ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname === item.href ? 'rgba(59,130,246,0.08)' : 'transparent'; }}
+                  >{item.label}</Link>
+                ))}
               </div>
             )}
           </div>
 
-          {links.map(l => {
-            const active = l.href === '/' ? pathname === '/' : pathname.startsWith(l.href);
+          {/* Flat links */}
+          {[
+            { href: '/chat', label: 'AI Chat' },
+            { href: '/evaluate', label: 'Evaluate' },
+          ].map(l => {
+            const active = pathname.startsWith(l.href);
             return (
               <Link key={l.href} href={l.href} style={{
-                padding: '0.4rem 0.9rem',
-                borderRadius: 5,
-                fontSize: '0.85rem',
-                fontFamily: 'var(--font-ui)',
+                padding: '0.35rem 0.6rem', borderRadius: 5,
+                fontSize: '0.82rem', fontFamily: 'var(--font-ui)',
                 textDecoration: 'none',
                 color: active ? 'var(--accent)' : 'var(--text2)',
-                background: active ? 'rgba(59,130,246,0.1)' : 'transparent',
-                border: active ? '1px solid rgba(59,130,246,0.25)' : '1px solid transparent',
-                transition: 'all 0.15s',
+                background: 'transparent',
+                transition: 'color 0.15s',
               }}
-              onMouseEnter={e => { if (!active) (e.target as HTMLElement).style.color = '#ffffff'; }}
-              onMouseLeave={e => { if (!active) (e.target as HTMLElement).style.color = 'var(--text2)'; }}
-              >
-                {l.label}
-              </Link>
+              onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+              onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--text2)'; }}
+              >{l.label}</Link>
             );
           })}
+
+          {/* Divider */}
+          <div style={{ width: 1, height: 18, background: 'rgba(255,255,255,0.1)', margin: '0 0.25rem' }} />
+
+          {/* Dashboard icon */}
+          <Link href="/dashboard" title="Progress Dashboard" style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: 30, height: 30, borderRadius: 6, textDecoration: 'none',
+            color: pathname.startsWith('/dashboard') ? 'var(--accent)' : 'rgba(255,255,255,0.35)',
+            transition: 'color 0.15s',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname.startsWith('/dashboard') ? 'var(--accent)' : 'rgba(255,255,255,0.35)'; }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </Link>
+
+          {/* Theme customizer */}
           <ThemeCustomizer />
 
-          {/* Auth button */}
+          {/* Auth / Premium */}
           {user ? (
-            <div style={{ position: 'relative' }}>
-              <button
-                onClick={() => setUserMenuOpen(o => !o)}
+            <div style={{ position: 'relative', marginLeft: '0.25rem' }}>
+              <button onClick={() => setUserMenuOpen(o => !o)} title={user.email}
                 style={{
-                  width: 34, height: 34, borderRadius: '50%',
+                  width: 32, height: 32, borderRadius: '50%',
                   background: '#0f0f1a', border: `2px solid ${snooColor(user.email ?? '')}`,
                   cursor: 'pointer', padding: 0, overflow: 'hidden',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginLeft: '0.4rem', flexShrink: 0,
-                  boxShadow: `0 0 10px ${snooColor(user.email ?? '')}44`,
-                }}
-                title={user.email}
-              >
-                <SnooAvatar email={user.email ?? ''} size={30} />
+                  boxShadow: `0 0 8px ${snooColor(user.email ?? '')}44`,
+                }}>
+                <SnooAvatar email={user.email ?? ''} size={28} />
               </button>
               {userMenuOpen && (
                 <div style={{
-                  position: 'absolute', top: 'calc(100% + 10px)', right: 0,
-                  background: 'var(--bg2)', border: '1px solid var(--border2)',
-                  borderRadius: 10, padding: '1rem', width: 220,
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.5)', zIndex: 1000,
+                  position: 'absolute', top: 'calc(100% + 8px)', right: 0,
+                  background: '#111', border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 10, padding: '1rem', width: 210,
+                  boxShadow: '0 12px 40px rgba(0,0,0,0.7)', zIndex: 1000,
                 }}>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text3)', marginBottom: 4 }}>Signed in as</div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text)', fontWeight: 600, marginBottom: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {user.email}
-                  </div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text3)', marginBottom: 4 }}>Signed in as</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text)', fontWeight: 600, marginBottom: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.email}</div>
                   <button onClick={handleSignOut} style={{
-                    width: '100%', background: 'rgba(255,80,80,0.08)', border: '1px solid rgba(255,80,80,0.2)',
-                    color: '#ff8080', cursor: 'pointer', padding: '0.4rem', borderRadius: 6, fontSize: '0.78rem',
-                  }}>
-                    Sign out
-                  </button>
+                    width: '100%', background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)',
+                    color: '#ff8080', cursor: 'pointer', padding: '0.4rem', borderRadius: 6, fontSize: '0.76rem',
+                  }}>Sign out</button>
                 </div>
               )}
             </div>
           ) : (
-            <button
-              onClick={() => setShowPremiumModal(true)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                background: 'linear-gradient(135deg, rgba(212,168,67,0.2), rgba(251,191,36,0.12))',
-                border: '1px solid rgba(212,168,67,0.7)',
-                color: '#f0c040', cursor: 'pointer',
-                padding: '0.3rem 0.65rem', borderRadius: 6,
-                fontSize: '0.78rem', fontWeight: 700,
-                marginLeft: '0.4rem', transition: 'all 0.2s',
-                letterSpacing: '0.03em', whiteSpace: 'nowrap',
-                boxShadow: '0 0 10px rgba(212,168,67,0.3), 0 0 20px rgba(212,168,67,0.1)',
-              }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'linear-gradient(135deg, rgba(212,168,67,0.3), rgba(251,191,36,0.2))'; el.style.boxShadow = '0 0 16px rgba(212,168,67,0.5), 0 0 32px rgba(212,168,67,0.2)'; el.style.borderColor = 'rgba(212,168,67,0.9)'; el.style.color = '#ffd700'; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'linear-gradient(135deg, rgba(212,168,67,0.2), rgba(251,191,36,0.12))'; el.style.boxShadow = '0 0 10px rgba(212,168,67,0.3), 0 0 20px rgba(212,168,67,0.1)'; el.style.borderColor = 'rgba(212,168,67,0.7)'; el.style.color = '#f0c040'; }}
+            <button onClick={() => setShowPremiumModal(true)} style={{
+              display: 'flex', alignItems: 'center', gap: 5, marginLeft: '0.25rem',
+              background: 'rgba(212,168,67,0.12)',
+              border: '1px solid rgba(212,168,67,0.5)',
+              color: '#e8b84b', cursor: 'pointer',
+              padding: '0.3rem 0.65rem', borderRadius: 6,
+              fontSize: '0.76rem', fontWeight: 700,
+              letterSpacing: '0.03em', whiteSpace: 'nowrap',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.2)'; el.style.borderColor = 'rgba(212,168,67,0.8)'; el.style.color = '#ffd700'; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.12)'; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#e8b84b'; }}
             >
               ✦ Premium
             </button>
           )}
-          {showPremiumModal && <PremiumModal onClose={() => { setShowPremiumModal(false); setNoSubFound(false); }} noSubFound={noSubFound} />}
         </div>
 
+        {/* Mobile hamburger */}
         <button onClick={() => setOpen(!open)} style={{
           display: 'none', background: 'none', border: 'none',
-          color: 'var(--text)', cursor: 'pointer', fontSize: '1.4rem',
+          color: 'rgba(255,255,255,0.7)', cursor: 'pointer', padding: '0.25rem',
         }} className="mobile-menu-btn">
-          {open ? '✕' : '☰'}
+          {open
+            ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          }
         </button>
       </div>
 
+      {/* Mobile menu */}
       {open && (
         <div style={{
-          borderTop: '1px solid var(--border)',
-          padding: '0.75rem 1.5rem 1rem',
-          display: 'flex', flexDirection: 'column', gap: '0.25rem',
-          background: 'var(--bg)',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          padding: '0.5rem 1rem 1rem',
+          display: 'flex', flexDirection: 'column', gap: '0.1rem',
+          background: '#0a0a0a',
         }}>
-          {links.map(l => (
+          {[
+            { href: '/paper1', label: 'Paper I' },
+            { href: '/paper2', label: 'Paper II' },
+            { href: '/timeline', label: 'Timeline' },
+            { href: '/historiography', label: 'Historiography' },
+            { href: '/pyqs', label: 'PYQs' },
+            { href: '/test', label: 'Start Test' },
+            { href: '/chat', label: 'AI Chat' },
+            { href: '/evaluate', label: 'Evaluate' },
+            { href: '/dashboard', label: 'My Progress' },
+          ].map(l => (
             <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{
-              padding: '0.65rem 0.75rem', borderRadius: 5,
-              fontSize: '0.9rem', textDecoration: 'none',
-              color: pathname === l.href ? 'var(--accent)' : 'var(--text2)',
+              padding: '0.6rem 0.5rem', borderRadius: 5,
+              fontSize: '0.88rem', textDecoration: 'none',
+              color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)',
             }}>{l.label}</Link>
           ))}
-          <Link href="/dashboard" onClick={() => setOpen(false)} style={{
-            padding: '0.65rem 0.75rem', borderRadius: 5,
-            fontSize: '0.9rem', textDecoration: 'none',
-            color: pathname === '/dashboard' ? 'var(--accent)' : 'var(--text2)',
-          }}>📊 My Progress</Link>
-          <Link href="/pyqs" onClick={() => setOpen(false)} style={{
-            padding: '0.65rem 0.75rem', borderRadius: 5,
-            fontSize: '0.9rem', textDecoration: 'none',
-            color: pathname === '/pyqs' ? 'var(--accent)' : 'var(--text2)',
-          }}>📋 PYQs</Link>
-          <Link href="/test" onClick={() => setOpen(false)} style={{
-            padding: '0.65rem 0.75rem', borderRadius: 5,
-            fontSize: '0.9rem', textDecoration: 'none',
-            color: pathname === '/test' ? 'var(--accent)' : 'var(--text2)',
-          }}>🎯 Start Test</Link>
-          <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <ThemeCustomizer />
             {user ? (
               <button onClick={handleSignOut} style={{
-                background: 'rgba(255,80,80,0.08)', border: '1px solid rgba(255,80,80,0.2)',
-                color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.78rem',
-              }}>Sign out ({user.email?.split('@')[0]})</button>
+                background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)',
+                color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem',
+              }}>Sign out</button>
             ) : (
-              <button onClick={handleSignIn} style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.3)',
-                color: 'var(--accent)', cursor: 'pointer',
-                padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.8rem', fontWeight: 600,
-              }}>Sign in with Google</button>
+              <button onClick={() => setShowPremiumModal(true)} style={{
+                background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)',
+                color: '#e8b84b', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700,
+              }}>✦ Premium</button>
             )}
           </div>
         </div>
       )}
 
       <style>{`
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: block !important; }
+          .mobile-menu-btn { display: flex !important; }
         }
       `}</style>
     </nav>
