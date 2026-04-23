@@ -78,7 +78,7 @@ export default function Dashboard() {
       <div style={{ marginBottom: '2rem' }}>
         <div style={{ color: 'var(--text3)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>Your Study Dashboard</div>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.4rem' }}>Progress Overview</h1>
-        <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>Tracking your syllabus completion across all 51 topics. Data lives in your browser — no account needed.</p>
+        <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>Tracking your syllabus completion across all 51 topics.</p>
       </div>
 
       {/* Hero ring */}
