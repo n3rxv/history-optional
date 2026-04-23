@@ -13,11 +13,11 @@ function LimitModal({
 }) {
   return (
     <div
-      style={{ position: 'fixed', inset: 0, zIndex: 1001, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(8px)', overflowY: 'auto', padding: '2rem 1rem' }}
+      style={{ position: 'fixed', inset: 0, zIndex: 1001, background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
       onClick={onClose}
     >
       <div
-        style={{ background: '#111', border: '1px solid #2a2a2a', borderRadius: 16, padding: '2rem', maxWidth: 400, width: '100%', margin: '0 auto', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
+        style={{ background: '#111', border: '1px solid #2a2a2a', borderRadius: 16, padding: '1.75rem', maxWidth: 380, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
         onClick={e => e.stopPropagation()}
       >
         <SubscribeCard
