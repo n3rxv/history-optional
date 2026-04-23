@@ -24,6 +24,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     pathname.startsWith('/test') ||
     pathname.startsWith('/dashboard') ||
     pathname.startsWith('/contact') ||
+    pathname.startsWith('/contact?tab=bug') ||
     pathname.startsWith('/flashcards');
     
 
