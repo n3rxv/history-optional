@@ -78,6 +78,14 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
         image: '/favicon.svg',
         prefill: { email },
         theme: { color: '#d4a843' },
+        modal: {
+          ondismiss: async () => {
+            await supabase.auth.signOut();
+            setToken(null);
+            setStep('idle');
+            onClose?.();
+          },
+        },
         handler: async (resp: any) => {
           const vRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
@@ -87,7 +95,12 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
           if ((await vRes.json()).ok) setStep('success');
         },
       });
-      rzp.on('payment.failed', () => setStep('idle'));
+      rzp.on('payment.failed', async () => {
+        await supabase.auth.signOut();
+        setToken(null);
+        setStep('idle');
+        onClose?.();
+      });
       rzp.open();
     } catch {
       setStep('idle');
