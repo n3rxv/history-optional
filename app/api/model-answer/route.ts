@@ -99,7 +99,9 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Generate via Groq ──
-    const marksNum = parseInt(marks) || 10;
+    const rawMarks = parseInt(marks) || 10;
+    // Normalise mark tiers: 60/30 → 20, 12.5 → 10
+    const marksNum = rawMarks >= 30 ? 20 : rawMarks === 12 || rawMarks === 13 ? 10 : rawMarks;
     const prompt = `Write a complete UPSC History Optional model answer for this ${marksNum}-mark question. Follow the format exactly.
 
 QUESTION (${marksNum} marks): ${question}
@@ -120,7 +122,7 @@ Write the full model answer now:`;
             { role: 'user', content: prompt },
           ],
           temperature: 0.35,
-          max_tokens: marksNum >= 60 ? 3000 : marksNum >= 20 ? 2000 : marksNum >= 15 ? 1400 : 1000,
+          max_tokens: marksNum >= 20 ? 3000 : marksNum >= 15 ? 2000 : 1200,
         }),
       });
 
