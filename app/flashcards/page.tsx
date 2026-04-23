@@ -303,7 +303,7 @@ export default function Flashcards() {
                   <div style={{
                     color: 'rgba(255,255,255,0.88)', fontSize: '0.92rem',
                     lineHeight: 1.85, whiteSpace: 'pre-line',
-                    fontFamily: 'var(--font-ui)',
+                    fontFamily: 'var(--font-body)',
                     position: 'relative', zIndex: 1,
                   }}>
                     {currentCard.back}
@@ -413,7 +413,7 @@ export default function Flashcards() {
               borderRadius: 8, padding: '0.48rem 1.25rem', fontSize: '0.82rem',
               fontWeight: 600, cursor: 'pointer', transition: 'all 0.18s',
               boxShadow: '0 2px 16px rgba(59,130,246,0.35), inset 0 1px 0 rgba(255,255,255,0.12)',
-              fontFamily: 'var(--font-ui)',
+              fontFamily: 'var(--font-body)',
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 24px rgba(59,130,246,0.55), inset 0 1px 0 rgba(255,255,255,0.15)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 16px rgba(59,130,246,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}>
