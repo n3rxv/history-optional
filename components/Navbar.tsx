@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ThemeCustomizer from './ThemeCustomizer';
 import SearchModal from './SearchModal';
 import { supabase } from '@/lib/supabase';
@@ -145,6 +145,17 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
+  const notesRef = useRef<HTMLDivElement>(null);
+  const pyqsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handler = (e: MouseEvent | TouchEvent) => {
+      if (notesRef.current && !notesRef.current.contains(e.target as Node)) setNotesMenuOpen(false);
+      if (pyqsRef.current && !pyqsRef.current.contains(e.target as Node)) setPyqsMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    document.addEventListener('touchstart', handler);
+    return () => { document.removeEventListener('mousedown', handler); document.removeEventListener('touchstart', handler); };
+  }, []);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [noSubFound, setNoSubFound] = useState(false);
 
@@ -198,7 +209,7 @@ export default function Navbar() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }} className="desktop-nav">
 
             {/* Notes dropdown */}
-            <div style={{ position: 'relative' }} onMouseEnter={() => setNotesMenuOpen(true)} onMouseLeave={() => setTimeout(() => setNotesMenuOpen(false), 120)}>
+            <div ref={notesRef} style={{ position: 'relative' }}>
               <button onClick={() => setNotesMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }}>
                 Notes
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
@@ -219,7 +230,7 @@ export default function Navbar() {
             </div>
 
             {/* PYQs dropdown */}
-            <div style={{ position: 'relative' }} onMouseEnter={() => setPyqsMenuOpen(true)} onMouseLeave={() => setTimeout(() => setPyqsMenuOpen(false), 120)}>
+            <div ref={pyqsRef} style={{ position: 'relative' }}>
               <button onClick={() => setPyqsMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }}>
                 PYQs
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
