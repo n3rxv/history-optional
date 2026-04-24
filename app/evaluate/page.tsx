@@ -749,27 +749,97 @@ const handleOcr = useCallback(async () => {
 
                 {/* Body */}
                 {openEntry.body && (
-                  <div style={{ marginBottom:32 }}>
-                    <div className="ev-ct">Body</div>
-                    {openEntry.body.strengths?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#4ade80" }}>✓ {s}</div>)}
-                    {openEntry.body.weaknesses?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#f87171" }}>✗ {s}</div>)}
-                    {openEntry.body.suggestions?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#f59e0b" }}>→ {s}</div>)}
+                  <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
+                    <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Body</span>
+                      {openEntry.sectionMarks?.body && (
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                          {openEntry.sectionMarks.body.awarded}<span style={{ color:"#555" }}>/{openEntry.sectionMarks.body.out_of}</span>
+                        </span>
+                      )}
+                    </div>
+                    {(openEntry.body.strengths || []).filter(s => s).length > 0 && (
+                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#4ade80", textTransform:"uppercase", marginBottom:8 }}>What worked</div>
+                        {(openEntry.body.strengths || []).filter(s => s).map((s,i) => (
+                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
+                            <div style={{ width:5, height:5, borderRadius:"50%", background:"#4ade80", marginTop:7, flexShrink:0 }} />
+                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {(openEntry.body.weaknesses || []).filter(w => w).length > 0 && (
+                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#f87171", textTransform:"uppercase", marginBottom:8 }}>What fell short</div>
+                        {(openEntry.body.weaknesses || []).filter(w => w).map((w,i) => (
+                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
+                            <div style={{ width:5, height:5, borderRadius:"50%", background:"#f87171", marginTop:7, flexShrink:0 }} />
+                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{w}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {(openEntry.body.suggestions || []).filter(s => s).length > 0 && (
+                      <div style={{ padding:"12px 20px" }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#555", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
+                        {(openEntry.body.suggestions || []).map((s,i) => (
+                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:10 }}>
+                            <div style={{ width:4, height:4, borderRadius:"50%", background:"#3b82f6", marginTop:8, flexShrink:0 }} />
+                            <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
 
                 {/* Conclusion */}
                 {openEntry.conclusion && (
-                  <div style={{ marginBottom:32 }}>
-                    <div className="ev-ct">Conclusion</div>
-                    {openEntry.conclusion.what_was_written && <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginBottom:12 }}>{openEntry.conclusion.what_was_written}</div>}
-                    {openEntry.conclusion.strengths?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#4ade80" }}>✓ {s}</div>)}
-                    {openEntry.conclusion.suggestions?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#f59e0b" }}>→ {s}</div>)}
+                  <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
+                    <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Conclusion</span>
+                      {openEntry.sectionMarks?.conclusion && (
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                          {openEntry.sectionMarks.conclusion.awarded}<span style={{ color:"#555" }}>/{openEntry.sectionMarks.conclusion.out_of}</span>
+                        </span>
+                      )}
+                    </div>
+                    {openEntry.conclusion.what_was_written && (
+                      <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)", background:"rgba(255,255,255,0.015)" }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#555", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
+                        <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{openEntry.conclusion.what_was_written}</div>
+                      </div>
+                    )}
+                    {(openEntry.conclusion.strengths || []).filter(s => s).length > 0 && (
+                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                        {(openEntry.conclusion.strengths || []).filter(s => s).map((s,i) => (
+                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
+                            <div style={{ width:5, height:5, borderRadius:"50%", background:"#4ade80", marginTop:7, flexShrink:0 }} />
+                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {(openEntry.conclusion.suggestions || []).filter(s => s).length > 0 && (
+                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"#555", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
+                        {(openEntry.conclusion.suggestions || []).map((s,i) => (
+                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
+                            <div style={{ width:4, height:4, borderRadius:"50%", background:"#3b82f6", marginTop:8, flexShrink:0 }} />
+                            <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     {openEntry.modelAnswer?.conclusion && (
-                      <><div className="ev-ml">Model Conclusion</div><p className="ev-mp">{openEntry.modelAnswer.conclusion}</p></>
+                      <div style={{ padding:"12px 20px", background:"rgba(74,222,128,0.02)" }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"rgba(74,222,128,0.5)", textTransform:"uppercase", marginBottom:8 }}>Model conclusion</div>
+                        <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{openEntry.modelAnswer.conclusion}</div>
+                      </div>
                     )}
                   </div>
                 )}
-
                 {/* Historians */}
                 {openEntry.historiansToCite && openEntry.historiansToCite.length > 0 && (
                   <div style={{ marginBottom:32 }}>
@@ -783,21 +853,26 @@ const handleOcr = useCallback(async () => {
                     ))}
                   </div>
                 )}
-
-                {/* Overall feedback */}
-                <div className="ev-ct">Overall Feedback</div>
-                <div className="ev-overall-txt">{openEntry.overallFeedback}</div>
+                <div className="ev-card ev-card-gold" style={{ padding:"16px 20px" }}>
+                  <div className="ev-ct" style={{ marginBottom:10 }}>Overall Feedback</div>
+                  <p className="ev-overall-txt" style={{ margin:0, lineHeight:1.8 }}>{openEntry.overallFeedback}</p>
+                </div>
               </div>
             )}
-
             {tab === "model" && openEntry.modelAnswer && (
               <div className="ev-fade">
-                <div className="ev-ml">Introduction</div>
-                <p className="ev-mp">{openEntry.modelAnswer.introduction}</p>
-                <div className="ev-ml">Body</div>
-                {bodyParas(openEntry.modelAnswer.body).map((p,i) => <p key={i} className="ev-mp">{p}</p>)}
-                <div className="ev-ml">Conclusion</div>
-                <p className="ev-mp">{openEntry.modelAnswer.conclusion}</p>
+                <div className="ev-card ev-card-green">
+                  <div className="ev-ml">Introduction</div>
+                  <p className="ev-mp">{openEntry.modelAnswer.introduction}</p>
+                  <div className="ev-ml">Body</div>
+                  <ul className="ev-list" style={{ marginBottom:16 }}>
+                    {bodyParas(openEntry.modelAnswer.body).map((p,i) => (
+                      <li key={i} style={{ color:"#ccc", fontSize:"0.93rem", lineHeight:1.75, marginBottom:8 }}>{p}</li>
+                    ))}
+                  </ul>
+                  <div className="ev-ml">Conclusion</div>
+                  <p className="ev-mp" style={{ marginBottom:0 }}>{openEntry.modelAnswer.conclusion}</p>
+                </div>
               </div>
             )}
           </div>
