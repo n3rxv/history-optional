@@ -193,7 +193,7 @@ export default function SearchModal() {
 
   return (
     <div
-      style={{ position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '8vh', cursor: 'default' }}
+      style={{ position: 'fixed', top: 57, left: 0, right: 0, bottom: 0, zIndex: 999, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6vh' }}
       onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
     >
       <div
