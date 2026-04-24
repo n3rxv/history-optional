@@ -199,7 +199,7 @@ export default function Navbar() {
 
             {/* Notes dropdown */}
             <div style={{ position: 'relative' }} onMouseEnter={() => setNotesMenuOpen(true)} onMouseLeave={() => setNotesMenuOpen(false)}>
-              <button style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }}>
+              <button onClick={() => setNotesMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }}>
                 Notes
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
                   <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -220,7 +220,7 @@ export default function Navbar() {
 
             {/* PYQs dropdown */}
             <div style={{ position: 'relative' }} onMouseEnter={() => setPyqsMenuOpen(true)} onMouseLeave={() => setPyqsMenuOpen(false)}>
-              <button style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }}>
+              <button onClick={() => setPyqsMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }}>
                 PYQs
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
                   <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
