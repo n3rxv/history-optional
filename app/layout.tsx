@@ -12,6 +12,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AuthGuard from "@/components/AuthGuard";
 import WeeklyCheckup from "@/components/WeeklyCheckup";
+import VisitorTracker from "@/components/VisitorTracker";
 
 export const metadata: Metadata = {
   icons: { icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }, { url: '/favicon.png', type: 'image/png', sizes: '32x32' }], shortcut: '/favicon.png', apple: '/favicon.png' },
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }) }}
         />
         <WeeklyCheckup />
+        <VisitorTracker />
         <Navbar />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZF23N3PZC" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">{`
