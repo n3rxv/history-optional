@@ -333,32 +333,46 @@ export default function Dashboard() {
         </div>
       )}
 
-      {mounted && evalStats && evalStats.topicStats.length > 0 && (
+      {mounted && evalStats && (
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
             <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>Performance by Topic</div>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text3)' }}>{evalStats.topicStats.length} topic{evalStats.topicStats.length !== 1 ? 's' : ''} practised</span>
+            {evalStats.topicStats.length > 0 && (
+              <span style={{ fontSize: '0.7rem', color: 'var(--text3)' }}>{evalStats.topicStats.length} topic{evalStats.topicStats.length !== 1 ? 's' : ''} practised</span>
+            )}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-            {evalStats.topicStats.map(t => (
-              <div key={t.slug}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text2)', fontWeight: 500 }}>{t.title}</span>
-                    <span style={{ fontSize: '0.6rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>{t.count} answer{t.count !== 1 ? 's' : ''}</span>
-                  </div>
-                  <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: scoreColor(t.avg), fontWeight: 600 }}>{t.avg}%</span>
-                </div>
-                <div style={{ height: 4, background: 'var(--border)', borderRadius: 4, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${t.avg}%`, background: scoreColor(t.avg), borderRadius: 4, transition: 'width 0.5s ease' }} />
-                </div>
+          {evalStats.topicStats.length === 0 ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 8 }}>
+              <span style={{ fontSize: '0.85rem' }}>📊</span>
+              <div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text2)', marginBottom: 2 }}>Topic tracking starts with your next evaluation</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>New evaluations will be tagged automatically — e.g. Mauryan Empire, French Revolution.</div>
               </div>
-            ))}
-          </div>
-          {evalStats.topicStats.length > 0 && evalStats.topicStats[0].avg < 60 && (
-            <div style={{ marginTop: '0.85rem', fontSize: '0.75rem', color: '#f87171', background: 'rgba(248,113,113,0.06)', border: '1px solid rgba(248,113,113,0.15)', borderRadius: 6, padding: '8px 12px' }}>
-              Weakest topic: <span style={{ fontWeight: 600 }}>{evalStats.topicStats[0].title}</span> — focus here next.
             </div>
+          ) : (
+            <>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                {evalStats.topicStats.map(t => (
+                  <div key={t.slug}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text2)', fontWeight: 500 }}>{t.title}</span>
+                        <span style={{ fontSize: '0.6rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>{t.count} answer{t.count !== 1 ? 's' : ''}</span>
+                      </div>
+                      <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: scoreColor(t.avg), fontWeight: 600 }}>{t.avg}%</span>
+                    </div>
+                    <div style={{ height: 4, background: 'var(--border)', borderRadius: 4, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${t.avg}%`, background: scoreColor(t.avg), borderRadius: 4, transition: 'width 0.5s ease' }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {evalStats.topicStats[0].avg < 60 && (
+                <div style={{ marginTop: '0.85rem', fontSize: '0.75rem', color: '#f87171', background: 'rgba(248,113,113,0.06)', border: '1px solid rgba(248,113,113,0.15)', borderRadius: 6, padding: '8px 12px' }}>
+                  Weakest topic: <span style={{ fontWeight: 600 }}>{evalStats.topicStats[0].title}</span> — focus here next.
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
