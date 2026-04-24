@@ -698,7 +698,6 @@ const handleOcr = useCallback(async () => {
                           <circle cx="16" cy="16" r={r} fill="none" stroke={color}
                             strokeWidth="2.5" strokeDasharray={`${(pct/100)*circ} ${circ}`}
                             strokeLinecap="round"
-
                           />
                           <text x="16" y="16" textAnchor="middle" dominantBaseline="middle"
                             transform="rotate(90 16 16)"
