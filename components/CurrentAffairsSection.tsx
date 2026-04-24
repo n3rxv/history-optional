@@ -53,52 +53,29 @@ function Toolbar({ editorRef, onImage, onVideo }: {
     editorRef.current?.focus();
   };
   const tools: Array<{ label: string; action: () => void; title: string; accent?: boolean; group?: boolean }> = [
-    { label: 'B',      action: () => cmd('bold'),                    title: 'Bold' },
-    { label: 'I',      action: () => cmd('italic'),                  title: 'Italic' },
-    { label: 'U',      action: () => cmd('underline'),               title: 'Underline' },
-    { label: 'S',      action: () => cmd('strikeThrough'),           title: 'Strikethrough', group: true },
-    { label: 'H1',     action: () => cmd('formatBlock', 'h1'),       title: 'Heading 1' },
-    { label: 'H2',     action: () => cmd('formatBlock', 'h2'),       title: 'Heading 2' },
-    { label: 'H3',     action: () => cmd('formatBlock', 'h3'),       title: 'Heading 3' },
-    { label: 'P',      action: () => cmd('formatBlock', 'p'),        title: 'Paragraph', group: true },
-    { label: '• List', action: () => cmd('insertUnorderedList'),     title: 'Bullet list' },
-    { label: '1. List',action: () => cmd('insertOrderedList'),       title: 'Numbered list' },
-    { label: '" Quote',action: () => cmd('formatBlock', 'blockquote'), title: 'Blockquote', group: true },
-    { label: 'A',      action: () => { const c = prompt('Hex color:'); if (c) cmd('foreColor', c); }, title: 'Text color' },
-    { label: 'Hi',     action: () => { const c = prompt('Highlight color:') || '#fff3cd'; cmd('hiliteColor', c); }, title: 'Highlight', group: true },
-    { label: 'Undo',   action: () => cmd('undo'),                    title: 'Undo' },
-    { label: 'Redo',   action: () => cmd('redo'),                    title: 'Redo' },
-    { label: 'Clear',  action: () => cmd('removeFormat'),            title: 'Clear formatting', group: true },
-    { label: 'Image',  action: onImage,                              title: 'Insert image', accent: true },
-    { label: 'Video',  action: onVideo,                              title: 'Insert video', accent: true },
+    { label: 'B',       action: () => cmd('bold'),                      title: 'Bold' },
+    { label: 'I',       action: () => cmd('italic'),                    title: 'Italic' },
+    { label: 'U',       action: () => cmd('underline'),                 title: 'Underline' },
+    { label: 'S',       action: () => cmd('strikeThrough'),             title: 'Strikethrough', group: true },
+    { label: 'H1',      action: () => cmd('formatBlock', 'h1'),         title: 'Heading 1' },
+    { label: 'H2',      action: () => cmd('formatBlock', 'h2'),         title: 'Heading 2' },
+    { label: 'H3',      action: () => cmd('formatBlock', 'h3'),         title: 'Heading 3' },
+    { label: 'P',       action: () => cmd('formatBlock', 'p'),          title: 'Paragraph', group: true },
+    { label: '• List',  action: () => cmd('insertUnorderedList'),       title: 'Bullet list' },
+    { label: '1. List', action: () => cmd('insertOrderedList'),         title: 'Numbered list' },
+    { label: '" Quote', action: () => cmd('formatBlock', 'blockquote'), title: 'Blockquote', group: true },
+    { label: 'Image',   action: onImage,                                title: 'Insert image', accent: true },
+    { label: 'Video',   action: onVideo,                                title: 'Insert video', accent: true },
   ];
   return (
-    <div style={{
-      display: 'flex', flexWrap: 'wrap', gap: 3, padding: '8px 12px',
-      background: 'var(--bg3)', borderBottom: '1px solid var(--border)',
-      position: 'sticky', top: 0, zIndex: 10,
-    }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, padding: '8px 12px', background: 'var(--bg3)', borderBottom: '1px solid var(--border)', position: 'sticky', top: 0, zIndex: 10 }}>
       {tools.map((t, i) => (
         <span key={i} style={{ display: 'inline-flex', alignItems: 'center' }}>
           {t.group && i > 0 && <span style={{ width: 1, height: 16, background: 'var(--border2)', margin: '0 3px' }} />}
-          <button
-            onMouseDown={e => { e.preventDefault(); t.action(); }}
-            title={t.title}
-            style={{
-              padding: '3px 8px', borderRadius: 4, cursor: 'pointer',
-              fontSize: '0.75rem', fontWeight: 600,
-              background: t.accent ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.04)',
-              border: t.accent ? '1px solid rgba(212,168,67,0.2)' : '1px solid var(--border)',
-              color: t.accent ? '#d4a843' : 'var(--text2)',
-            }}
-          >{t.label}</button>
+          <button onMouseDown={e => { e.preventDefault(); t.action(); }} title={t.title} style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, background: t.accent ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.04)', border: t.accent ? '1px solid rgba(212,168,67,0.2)' : '1px solid var(--border)', color: t.accent ? '#d4a843' : 'var(--text2)' }}>{t.label}</button>
         </span>
       ))}
-      <button
-        onMouseDown={e => { e.preventDefault(); const url = prompt('URL:'); if (url) { document.execCommand('createLink', false, url); editorRef.current?.focus(); } }}
-        title="Insert link"
-        style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', color: 'var(--text2)' }}
-      >Link</button>
+      <button onMouseDown={e => { e.preventDefault(); const url = prompt('URL:'); if (url) { document.execCommand('createLink', false, url); editorRef.current?.focus(); } }} title="Insert link" style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', color: 'var(--text2)' }}>Link</button>
     </div>
   );
 }
@@ -141,11 +118,7 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
     const url = prompt('YouTube URL:'); if (!url) return;
     const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
     const embedUrl = match ? `https://www.youtube.com/embed/${match[1]}` : url;
-    document.execCommand('insertHTML', false,
-      `<div style="position:relative;padding-bottom:56.25%;height:0;margin:12px 0;border-radius:8px;overflow:hidden;">
-         <iframe src="${embedUrl}" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allowfullscreen></iframe>
-       </div>`
-    );
+    document.execCommand('insertHTML', false, `<div style="position:relative;padding-bottom:56.25%;height:0;margin:12px 0;border-radius:8px;overflow:hidden;"><iframe src="${embedUrl}" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allowfullscreen></iframe></div>`);
     editorRef.current?.focus();
   };
 
@@ -160,107 +133,38 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
   const save = async () => {
     if (!title.trim()) { alert('Please add a title'); return; }
     const content = editorRef.current?.innerHTML || '';
-    const post: Post = {
-      id: Date.now().toString(),
-      type,
-      title: title.trim(),
-      excerpt: excerpt.trim(),
-      content,
-      tags: tags.split(',').map(t => t.trim()).filter(Boolean),
-      cover_image: coverImg,
-      published_at: new Date().toISOString(),
-      published,
-    };
+    const post: Post = { id: Date.now().toString(), type, title: title.trim(), excerpt: excerpt.trim(), content, tags: tags.split(',').map(t => t.trim()).filter(Boolean), cover_image: coverImg, published_at: new Date().toISOString(), published };
     setSaving(true);
     const res = await apiCall('/api/admin/blog-posts', 'POST', post, token);
     setSaving(false);
-    if (res.ok) {
-      setSavedMsg('Saved!');
-      onSaved(post);
-      setTimeout(() => { setSavedMsg(''); setOpen(false); reset(); }, 1200);
-    } else {
-      setSavedMsg('Save failed');
-      setTimeout(() => setSavedMsg(''), 2500);
-    }
+    if (res.ok) { setSavedMsg('Saved!'); onSaved(post); setTimeout(() => { setSavedMsg(''); setOpen(false); reset(); }, 1200); }
+    else { setSavedMsg('Save failed'); setTimeout(() => setSavedMsg(''), 2500); }
   };
 
-  if (!open) {
-    return (
-      <button
-        onClick={() => setOpen(true)}
-        style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          padding: '10px 20px', borderRadius: 8, cursor: 'pointer',
-          background: 'rgba(212,168,67,0.08)', border: '1px dashed rgba(212,168,67,0.35)',
-          color: '#d4a843', fontSize: '0.85rem', fontWeight: 600,
-          marginBottom: '2rem', width: '100%', justifyContent: 'center',
-          transition: 'all 0.2s',
-        }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.14)'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.08)'; }}
-      >
-        + New Post
-      </button>
-    );
-  }
+  if (!open) return (
+    <button onClick={() => setOpen(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 8, cursor: 'pointer', background: 'rgba(212,168,67,0.08)', border: '1px dashed rgba(212,168,67,0.35)', color: '#d4a843', fontSize: '0.85rem', fontWeight: 600, marginBottom: '2rem', width: '100%', justifyContent: 'center', transition: 'all 0.2s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.14)'; }} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.08)'; }}>+ New Post</button>
+  );
 
   return (
-    <div style={{
-      background: 'var(--bg2)', border: '1px solid var(--border2)',
-      borderRadius: 12, overflow: 'hidden', marginBottom: '2rem',
-      boxShadow: '0 8px 40px rgba(0,0,0,0.4)',
-    }}>
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
-        padding: '10px 16px', background: 'var(--bg3)',
-        borderBottom: '1px solid var(--border)',
-      }}>
+    <div style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 12, overflow: 'hidden', marginBottom: '2rem', boxShadow: '0 8px 40px rgba(0,0,0,0.4)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', padding: '10px 16px', background: 'var(--bg3)', borderBottom: '1px solid var(--border)' }}>
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--border)' }}>
           {(['current-affairs', 'new-note'] as const).map(t => (
-            <button key={t} onClick={() => setType(t)} style={{
-              padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem',
-              background: type === t ? 'rgba(212,168,67,0.12)' : 'transparent',
-              border: 'none',
-              color: type === t ? '#d4a843' : 'var(--text3)',
-              fontWeight: type === t ? 700 : 400,
-            }}>
-              {t === 'current-affairs' ? 'Current Affairs' : 'New Note'}
-            </button>
+            <button key={t} onClick={() => setType(t)} style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: type === t ? 'rgba(212,168,67,0.12)' : 'transparent', border: 'none', color: type === t ? '#d4a843' : 'var(--text3)', fontWeight: type === t ? 700 : 400 }}>{t === 'current-affairs' ? 'Current Affairs' : 'New Note'}</button>
           ))}
         </div>
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--border)', marginLeft: 4 }}>
           {(['write', 'preview'] as const).map(p => (
-            <button key={p} onClick={() => setActivePanel(p)} style={{
-              padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem',
-              background: activePanel === p ? 'rgba(59,130,246,0.1)' : 'transparent',
-              border: 'none',
-              color: activePanel === p ? 'var(--accent)' : 'var(--text3)',
-              fontWeight: activePanel === p ? 600 : 400,
-            }}>
-              {p === 'write' ? 'Write' : 'Preview'}
-            </button>
+            <button key={p} onClick={() => setActivePanel(p)} style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: activePanel === p ? 'rgba(59,130,246,0.1)' : 'transparent', border: 'none', color: activePanel === p ? 'var(--accent)' : 'var(--text3)', fontWeight: activePanel === p ? 600 : 400 }}>{p === 'write' ? 'Write' : 'Preview'}</button>
           ))}
         </div>
         <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', marginLeft: 'auto' }}>
           <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>Published</span>
           <input type="checkbox" checked={published} onChange={e => setPublished(e.target.checked)} style={{ accentColor: '#51cf66', width: 14, height: 14 }} />
         </label>
-        <button onClick={save} disabled={saving} style={{
-          padding: '5px 16px', borderRadius: 6, cursor: saving ? 'default' : 'pointer',
-          fontSize: '0.82rem', fontWeight: 700,
-          background: savedMsg === 'Saved!' ? 'rgba(81,207,102,0.15)' : 'rgba(212,168,67,0.15)',
-          border: savedMsg === 'Saved!' ? '1px solid rgba(81,207,102,0.4)' : '1px solid rgba(212,168,67,0.4)',
-          color: savedMsg === 'Saved!' ? '#51cf66' : '#d4a843',
-          opacity: saving ? 0.7 : 1,
-        }}>
-          {saving ? 'Saving...' : savedMsg || 'Save'}
-        </button>
-        <button onClick={() => { setOpen(false); reset(); }} style={{
-          padding: '5px 10px', borderRadius: 6, cursor: 'pointer', fontSize: '0.8rem',
-          background: 'transparent', border: '1px solid var(--border)', color: 'var(--text3)',
-        }}>X</button>
+        <button onClick={save} disabled={saving} style={{ padding: '5px 16px', borderRadius: 6, cursor: saving ? 'default' : 'pointer', fontSize: '0.82rem', fontWeight: 700, background: savedMsg === 'Saved!' ? 'rgba(81,207,102,0.15)' : 'rgba(212,168,67,0.15)', border: savedMsg === 'Saved!' ? '1px solid rgba(81,207,102,0.4)' : '1px solid rgba(212,168,67,0.4)', color: savedMsg === 'Saved!' ? '#51cf66' : '#d4a843', opacity: saving ? 0.7 : 1 }}>{saving ? 'Saving...' : savedMsg || 'Save'}</button>
+        <button onClick={() => { setOpen(false); reset(); }} style={{ padding: '5px 10px', borderRadius: 6, cursor: 'pointer', fontSize: '0.8rem', background: 'transparent', border: '1px solid var(--border)', color: 'var(--text3)' }}>X</button>
       </div>
-
       {activePanel === 'write' && (
         <>
           <div style={{ padding: '14px 20px 0', display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'flex-start' }}>
@@ -270,7 +174,7 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
               <input value={tags} onChange={e => setTags(e.target.value)} placeholder="Tags: Mughal, British Raj... (comma separated)" style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text3)', fontSize: '0.78rem', padding: '6px 0', outline: 'none', marginTop: 6, boxSizing: 'border-box' }} />
             </div>
             <div>
-              <div onClick={() => coverInputRef.current?.click()} style={{ width: 130, height: 88, borderRadius: 7, border: '1px dashed var(--border2)', cursor: 'pointer', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)', transition: 'border-color 0.15s' }} onMouseEnter={e => (e.currentTarget.style.borderColor = '#d4a843')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border2)')}>
+              <div onClick={() => coverInputRef.current?.click()} style={{ width: 130, height: 88, borderRadius: 7, border: '1px dashed var(--border2)', cursor: 'pointer', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)' }}>
                 {coverImg ? <img src={coverImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: 'var(--text3)', fontSize: '0.7rem', textAlign: 'center', lineHeight: 1.4, padding: '0 8px' }}>Cover image</span>}
               </div>
               {coverImg && <button onClick={() => setCoverImg(undefined)} style={{ marginTop: 4, background: 'none', border: 'none', color: '#f55', cursor: 'pointer', fontSize: '0.7rem' }}>Remove</button>}
@@ -278,17 +182,14 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
           </div>
           <input ref={imgInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onImageFile} />
           <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onCoverFile} />
-          <div style={{ marginTop: 12 }}>
-            <Toolbar editorRef={editorRef} onImage={handleImageInsert} onVideo={handleVideoInsert} />
-          </div>
-          <div ref={editorRef} contentEditable suppressContentEditableWarning style={{ minHeight: 260, padding: '20px 24px', outline: 'none', color: 'var(--text)', fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '1rem', lineHeight: 1.8, caretColor: '#d4a843', background: 'var(--bg)' }} onFocus={() => { if (editorRef.current?.innerHTML === '<p>Start writing your post here...</p>') { editorRef.current.innerHTML = ''; } }} />
-          <div style={{ padding: '6px 20px', background: 'var(--bg3)', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ marginTop: 12 }}><Toolbar editorRef={editorRef} onImage={handleImageInsert} onVideo={handleVideoInsert} /></div>
+          <div ref={editorRef} contentEditable suppressContentEditableWarning style={{ minHeight: 260, padding: '20px 24px', outline: 'none', color: 'var(--text)', fontFamily: 'Georgia, serif', fontSize: '1rem', lineHeight: 1.8, caretColor: '#d4a843', background: 'var(--bg)' }} onFocus={() => { if (editorRef.current?.innerHTML === '<p>Start writing your post here...</p>') editorRef.current.innerHTML = ''; }} />
+          <div style={{ padding: '6px 20px', background: 'var(--bg3)', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>Rich text editor</span>
             <span style={{ color: '#d4a843', fontSize: '0.7rem', opacity: 0.6 }}>{published ? 'Will publish immediately' : 'Draft - hidden from homepage'}</span>
           </div>
         </>
       )}
-
       {activePanel === 'preview' && (
         <div style={{ padding: 24 }}>
           <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden', maxWidth: 680, margin: '0 auto' }}>
@@ -306,116 +207,42 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
   );
 }
 
-// ─── Post Card (small grid) ────────────────────────────────────────────────────
-function PostCard({ post, onClick, authed }: { post: Post; onClick: () => void; authed: boolean }) {
+// ─── Editorial Featured ────────────────────────────────────────────────────────
+function FeaturedCard({ post, onClick, authed, index }: { post: Post; onClick: () => void; authed: boolean; index: number }) {
   const [hovered, setHovered] = useState(false);
   const date = new Date(post.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  const num = String(index + 1).padStart(2, '0');
 
   return (
-    <article
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        cursor: 'pointer',
-        background: 'var(--bg2)',
-        border: `1px solid ${hovered ? 'rgba(212,168,67,0.5)' : 'var(--border)'}`,
-        borderRadius: 12,
-        overflow: 'hidden',
-        transition: 'border-color 0.2s, transform 0.2s',
-        transform: hovered ? 'translateY(-3px)' : 'none',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-      }}
-    >
+    <article onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      style={{ cursor: 'pointer', display: 'grid', gridTemplateColumns: '48px 1fr', gap: '0 1.5rem', padding: '1.5rem 0', borderBottom: '1px solid var(--border)', position: 'relative', transition: 'opacity 0.15s', opacity: hovered ? 0.85 : 1 }}>
       {authed && !post.published && (
-        <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2, padding: '2px 8px', borderRadius: 4, fontSize: '0.6rem', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border2)', color: 'var(--text3)', fontWeight: 700, letterSpacing: '0.05em' }}>DRAFT</div>
+        <div style={{ position: 'absolute', top: 16, right: 0, padding: '2px 8px', borderRadius: 3, fontSize: '0.58rem', background: 'rgba(255,80,80,0.08)', border: '1px solid rgba(255,80,80,0.2)', color: '#f87171', fontWeight: 700, letterSpacing: '0.06em' }}>DRAFT</div>
       )}
-      {post.cover_image && (
-        <div style={{ height: 160, overflow: 'hidden', flexShrink: 0 }}>
-          <img src={post.cover_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s', transform: hovered ? 'scale(1.04)' : 'scale(1)' }} />
-        </div>
-      )}
-      <div style={{ padding: '18px 20px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      {/* Issue number */}
+      <div style={{ paddingTop: 4 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.6rem', fontWeight: 700, color: 'var(--border2)', lineHeight: 1, display: 'block' }}>{num}</span>
+      </div>
+      <div>
         {post.tags?.length > 0 && (
-          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>
-            {post.tags.slice(0, 3).map(tag => (
-              <span key={tag} style={{ padding: '2px 8px', borderRadius: 3, fontSize: '0.65rem', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', background: 'rgba(212,168,67,0.08)', color: '#c9993a', border: '1px solid rgba(212,168,67,0.2)' }}>{tag}</span>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8, alignItems: 'center' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c9993a' }}>
+              {post.tags[0]}
+            </span>
+            {post.tags.slice(1, 3).map(tag => (
+              <span key={tag} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text3)' }}>· {tag}</span>
             ))}
           </div>
         )}
-        <h3 style={{ color: 'var(--text)', fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, margin: '0 0 8px', lineHeight: 1.4, flex: 1 }}>
-          {post.title}
-        </h3>
+        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--text)', margin: '0 0 6px', lineHeight: 1.35, letterSpacing: '-0.01em' }}>{post.title}</h3>
         {post.excerpt && (
-          <p style={{ color: 'var(--text2)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 16px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-            {post.excerpt}
-          </p>
+          <p style={{ color: 'var(--text3)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 10px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{post.excerpt}</p>
         )}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
-          <span style={{ color: 'var(--text3)', fontSize: '0.72rem', letterSpacing: '0.02em' }}>{date}</span>
-          <span style={{ color: hovered ? '#d4a843' : 'var(--text3)', fontSize: '0.78rem', fontWeight: 600, transition: 'color 0.2s', letterSpacing: '0.01em' }}>Read &rarr;</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text3)', letterSpacing: '0.04em' }}>{date}</span>
+          <span style={{ color: hovered ? '#d4a843' : 'var(--text3)', fontSize: '0.72rem', fontWeight: 600, transition: 'color 0.15s', fontFamily: 'var(--font-mono)' }}>Read →</span>
         </div>
       </div>
-    </article>
-  );
-}
-
-// ─── Featured Post Card ────────────────────────────────────────────────────────
-function FeaturedCard({ post, onClick, authed }: { post: Post; onClick: () => void; authed: boolean }) {
-  const [hovered, setHovered] = useState(false);
-  const date = new Date(post.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-
-  return (
-    <article
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        cursor: 'pointer',
-        display: 'grid',
-        gridTemplateColumns: post.cover_image ? '1fr 1fr' : '1fr',
-        border: `1px solid ${hovered ? 'rgba(212,168,67,0.5)' : 'var(--border)'}`,
-        borderRadius: 14,
-        overflow: 'hidden',
-        background: 'var(--bg2)',
-        marginBottom: '1.5rem',
-        transition: 'border-color 0.2s',
-        position: 'relative',
-        minHeight: 240,
-      }}
-    >
-      {authed && !post.published && (
-        <div style={{ position: 'absolute', top: 14, right: 14, zIndex: 2, padding: '3px 10px', borderRadius: 4, fontSize: '0.6rem', background: 'rgba(0,0,0,0.5)', border: '1px solid var(--border2)', color: 'var(--text3)', fontWeight: 700, letterSpacing: '0.05em' }}>DRAFT</div>
-      )}
-      <div style={{ padding: '32px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-            <span style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#c9993a', padding: '3px 10px', borderRadius: 3, background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.25)' }}>Featured</span>
-            {post.tags?.slice(0, 2).map(tag => (
-              <span key={tag} style={{ fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--text3)' }}>{tag}</span>
-            ))}
-          </div>
-          <h2 style={{ color: 'var(--text)', fontFamily: 'var(--font-display)', fontSize: '1.45rem', fontWeight: 700, margin: '0 0 12px', lineHeight: 1.3 }}>
-            {post.title}
-          </h2>
-          {post.excerpt && (
-            <p style={{ color: 'var(--text2)', fontSize: '0.88rem', lineHeight: 1.65, margin: 0, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-              {post.excerpt}
-            </p>
-          )}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 24 }}>
-          <span style={{ color: 'var(--text3)', fontSize: '0.75rem', letterSpacing: '0.02em' }}>{date}</span>
-          <span style={{ color: hovered ? '#d4a843' : 'var(--accent)', fontSize: '0.82rem', fontWeight: 600, transition: 'color 0.2s' }}>Read article &rarr;</span>
-        </div>
-      </div>
-      {post.cover_image && (
-        <div style={{ overflow: 'hidden' }}>
-          <img src={post.cover_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s', transform: hovered ? 'scale(1.04)' : 'scale(1)' }} />
-        </div>
-      )}
     </article>
   );
 }
@@ -457,62 +284,52 @@ export default function CurrentAffairsSection() {
   const hasAny = caCount + nnCount > 0 || authed;
   if (!hasAny && !loading) return null;
 
-  const [featured, ...rest] = visiblePosts;
-
   return (
     <section style={{ marginBottom: '4rem' }}>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '1.75rem', flexWrap: 'wrap', gap: '0.75rem', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
-        <div>
-          <p style={{ color: 'var(--text3)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>History Optional</p>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--text)', margin: 0, fontWeight: 700, letterSpacing: '-0.01em' }}>
-            Latest Dispatches
-          </h2>
-        </div>
 
+      {/* ── Masthead ── */}
+      <div style={{ borderTop: '2px solid var(--text)', borderBottom: '1px solid var(--border)', padding: '0.6rem 0', marginBottom: '0.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '1rem' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--text)', margin: 0, fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase' }}>
+            The Dispatch
+          </h2>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.06em' }}>
+            History Optional · {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </span>
+        </div>
         {(caCount > 0 || nnCount > 0) && (
-          <div style={{ display: 'flex', gap: 2, background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: 3 }}>
-            {([
-              ['current-affairs', 'Current Affairs', caCount],
-              ['new-note', 'New Notes', nnCount],
-            ] as const).map(([id, label, count]) =>
+          <div style={{ display: 'flex', gap: 2 }}>
+            {([['current-affairs', 'Current Affairs', caCount], ['new-note', 'New Notes', nnCount]] as const).map(([id, label, count]) =>
               count > 0 ? (
-                <button key={id} onClick={() => setActiveTab(id)} style={{
-                  padding: '5px 14px', borderRadius: 6, cursor: 'pointer', fontSize: '0.75rem',
-                  background: activeTab === id ? 'rgba(212,168,67,0.12)' : 'transparent',
-                  border: activeTab === id ? '1px solid rgba(212,168,67,0.3)' : '1px solid transparent',
-                  color: activeTab === id ? '#d4a843' : 'var(--text3)',
-                  transition: 'all 0.15s', fontWeight: activeTab === id ? 600 : 400,
-                }}>
-                  {label} <span style={{ opacity: 0.5, fontSize: '0.68rem' }}>({count})</span>
+                <button key={id} onClick={() => setActiveTab(id)} style={{ padding: '3px 12px', cursor: 'pointer', fontSize: '0.7rem', background: 'transparent', border: 'none', borderBottom: activeTab === id ? '2px solid var(--text)' : '2px solid transparent', color: activeTab === id ? 'var(--text)' : 'var(--text3)', fontWeight: activeTab === id ? 700 : 400, transition: 'all 0.15s', letterSpacing: '0.04em' }}>
+                  {label} <span style={{ opacity: 0.5 }}>({count})</span>
                 </button>
               ) : null
             )}
           </div>
         )}
       </div>
+      <div style={{ borderBottom: '3px double var(--border)', marginBottom: '1.5rem' }} />
 
       {authed && <PostCreator token={token} onSaved={onPostSaved} />}
 
       {loading ? (
-        <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '24px 0', letterSpacing: '0.02em' }}>Loading...</div>
+        <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '24px 0', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>Loading dispatches…</div>
       ) : visiblePosts.length === 0 ? (
-        <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '24px 0' }}>
-          {authed ? 'No posts yet - create one above.' : 'No posts yet.'}
+        <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '24px 0', fontFamily: 'var(--font-mono)' }}>
+          {authed ? 'No posts yet — create one above.' : 'No dispatches yet.'}
         </div>
       ) : (
-        <>
-          {featured && (
-            <FeaturedCard post={featured} onClick={() => router.push(`/posts/${featured.id}`)} authed={authed} />
-          )}
-          {rest.length > 0 && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
-              {rest.map(post => (
-                <PostCard key={post.id} post={post} onClick={() => router.push(`/posts/${post.id}`)} authed={authed} />
-              ))}
+        <div>
+          {visiblePosts.map((post, i) => (
+            <FeaturedCard key={post.id} post={post} index={i} onClick={() => router.push(`/posts/${post.id}`)} authed={authed} />
+          ))}
+          {visiblePosts.length >= 4 && (
+            <div style={{ paddingTop: '1.25rem', textAlign: 'right' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text3)', letterSpacing: '0.06em' }}>— end of dispatches —</span>
             </div>
           )}
-        </>
+        </div>
       )}
     </section>
   );
