@@ -1,4 +1,5 @@
 "use client";
+import { saveToHistory } from "@/hooks/useAnswerHistory";
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
@@ -418,6 +419,21 @@ const handleOcr = useCallback(async () => {
       setEvalPhase("Complete.");
       clearTimeout(evalTimer);
       setSubmittedQ(question);
+      // Save to answer history
+      if (data) {
+        saveToHistory({
+          question,
+          marks: data.marks,
+          marksOutOf: data.marks_out_of,
+          overallFeedback: data.overall_feedback,
+          sectionMarks: {
+            introduction: data.section_marks.introduction,
+            body: data.section_marks.body,
+            conclusion: data.section_marks.conclusion,
+            presentation: data.section_marks.presentation,
+          },
+        });
+      }
       setSubmittedM(marks);
       setTimeout(() => setEvaluation(data), 500);
       setStage("result");
