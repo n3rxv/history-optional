@@ -195,6 +195,7 @@ export default function SearchModal() {
     <div
       style={{ position: 'fixed', top: 57, left: 0, right: 0, bottom: 0, zIndex: 999, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '8vh' }}
       onClick={() => setOpen(false)}
+      onMouseDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
     >
       <div
         style={{ width: '100%', maxWidth: 600, margin: '0 1rem', background: '#111', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, boxShadow: '0 32px 80px rgba(0,0,0,0.8)', overflow: 'hidden' }}
