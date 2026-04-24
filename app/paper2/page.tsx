@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { paper2Notes, paper2Sections } from '@/lib/notes';
 import { useSyllabusTracker } from '@/hooks/useSyllabusTracker';
+import { getPYQFrequency } from '@/lib/notePyqMap';
 
 function ProgressRing({ completed, total, size = 52 }: { completed: number; total: number; size?: number }) {
   const r = (size - 6) / 2;
@@ -119,6 +120,13 @@ export default function Paper2() {
                           color: done ? 'var(--green)' : 'var(--accent)', fontWeight: 600, flexShrink: 0,
                         }}>{note.topic}</span>
                         <div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.3rem', flexWrap: 'wrap' }}>
+                            {(() => { const f = getPYQFrequency(note.slug, note.section); return f.count > 0 ? (
+                              <span style={{ fontSize: '0.62rem', fontFamily: 'var(--font-mono)', color: f.color, background: `${f.color}18`, border: `1px solid ${f.color}40`, padding: '1px 6px', borderRadius: 3 }}>
+                                {f.count} PYQ{f.count > 1 ? 's' : ''}
+                              </span>
+                            ) : null; })()}
+                          </div>
                           <div style={{ color: done ? 'var(--text2)' : 'var(--text)', fontWeight: 500, fontSize: '0.9rem', marginBottom: '0.25rem', lineHeight: 1.3, textDecoration: done ? 'line-through' : 'none', textDecorationColor: 'var(--text3)' }}>
                             {note.title}
                           </div>

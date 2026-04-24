@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
+import { getPYQsForNote } from '@/lib/notePyqMap';
 import { getNoteContent } from '@/lib/noteContent';
 import { supabase } from '@/lib/supabase';
 import AnnotationToggle from '@/components/AnnotationToggle';
@@ -768,6 +769,7 @@ export default function NoteReader({ slug }: { slug: string }) {
   const prev = idx > 0 ? list[idx-1] : null;
   const next = idx < list.length-1 ? list[idx+1] : null;
   const related = list.filter(n => n.section === note?.section && n.slug !== slug).slice(0, 5);
+  const relatedPYQs = note ? getPYQsForNote(slug, note.section) : [];
 
   if (!note) return (
     <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--text2)' }}>
