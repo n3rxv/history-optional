@@ -147,6 +147,8 @@ export default function Navbar() {
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
   const notesRef = useRef<HTMLDivElement>(null);
   const pyqsRef = useRef<HTMLDivElement>(null);
+  const isTouch = useRef(false);
+  useEffect(() => { isTouch.current = window.matchMedia("(hover: none)").matches; }, []);
   useEffect(() => {
     const handler = (e: MouseEvent | TouchEvent) => {
       if (notesRef.current && !notesRef.current.contains(e.target as Node)) setNotesMenuOpen(false);
