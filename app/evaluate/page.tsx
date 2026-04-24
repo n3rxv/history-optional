@@ -1,6 +1,5 @@
 "use client";
-import { saveToHistory } from "@/hooks/useAnswerHistory";
-
+import { saveToHistory, loadHistory, AnswerEntry } from "@/hooks/useAnswerHistory";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
 
@@ -334,6 +333,13 @@ export default function EvaluatePage() {
   const [error, setError]           = useState("");
   const [tab, setTab]               = useState<"eval"|"model"|"hist">("eval");
   const [stage, setStage]           = useState<"form"|"ocr"|"result">("form");
+  const [history, setHistory]        = useState<AnswerEntry[]>([]);
+  const [openEntry, setOpenEntry]    = useState<AnswerEntry | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    setHistory(loadHistory());
+  }, [stage]); // reload whenever stage changes (new eval saved)
   const [extractedText, setExtractedText] = useState("");
   const [ocrLoading, setOcrLoading] = useState(false);
   const [ocrProgress, setOcrProgress]   = useState(0);
@@ -587,7 +593,108 @@ const handleOcr = useCallback(async () => {
 
       `}</style>
 
-      <div className="ev-wrap" style={{ maxWidth:820, margin:"0 auto", padding:"48px 28px 96px", background:"#111", minHeight:"calc(100vh - 60px)" }}>
+      <div style={{ display:"flex", minHeight:"calc(100vh - 60px)", background:"#111" }}>
+
+        {/* ── History Sidebar ── */}
+        <div style={{
+          width: sidebarOpen ? 280 : 40, minWidth: sidebarOpen ? 280 : 40,
+          borderRight:"1px solid #1e1e1e", background:"#0d0d0d",
+          transition:"all 0.25s ease", overflow:"hidden", flexShrink:0,
+          display:"flex", flexDirection:"column",
+        }}>
+          {/* Sidebar toggle */}
+          <button
+            onClick={() => setSidebarOpen(o => !o)}
+            style={{ padding:"14px", background:"transparent", border:"none", borderBottom:"1px solid #1e1e1e", color:"#555", cursor:"pointer", fontSize:"0.75rem", textAlign:"left", display:"flex", alignItems:"center", gap:"8px", flexShrink:0 }}
+          >
+            <span style={{ fontSize:"1rem" }}>{sidebarOpen ? "◂" : "▸"}</span>
+            {sidebarOpen && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#555", whiteSpace:"nowrap" }}>Past Evaluations</span>}
+          </button>
+
+          {sidebarOpen && (
+            <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
+              {history.length === 0 ? (
+                <div style={{ padding:"24px 16px", color:"#444", fontSize:"0.78rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
+                  No evaluations yet. Submit your first answer above.
+                </div>
+              ) : history.map(entry => {
+                const pct = Math.round((entry.marks / entry.marksOutOf) * 100);
+                const color = pct >= 70 ? "#4ade80" : pct >= 50 ? "#f59e0b" : "#f87171";
+                const isOpen = openEntry?.id === entry.id;
+                return (
+                  <button
+                    key={entry.id}
+                    onClick={() => setOpenEntry(isOpen ? null : entry)}
+                    style={{
+                      width:"100%", padding:"12px 16px", background: isOpen ? "#161616" : "transparent",
+                      border:"none", borderBottom:"1px solid #1a1a1a",
+                      cursor:"pointer", textAlign:"left", transition:"background 0.15s",
+                    }}
+                    onMouseEnter={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "#141414"; }}
+                    onMouseLeave={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+                  >
+                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
+                      <span style={{ fontSize:"0.65rem", fontFamily:"var(--font-mono)", color, fontWeight:700 }}>{pct}%</span>
+                      <span style={{ fontSize:"0.6rem", color:"#444", fontFamily:"var(--font-mono)" }}>
+                        {new Date(entry.date).toLocaleDateString("en-IN", { day:"numeric", month:"short" })}
+                      </span>
+                    </div>
+                    <div style={{ fontSize:"0.75rem", color: isOpen ? "#e2e8f0" : "#888", lineHeight:1.4, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>
+                      {entry.question}
+                    </div>
+                    <div style={{ marginTop:6, height:2, background:"#1e1e1e", borderRadius:2, overflow:"hidden" }}>
+                      <div style={{ height:"100%", width:`${pct}%`, background:color, borderRadius:2 }} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* ── Main content ── */}
+        {openEntry ? (
+          /* Past evaluation viewer */
+          <div className="ev-wrap" style={{ flex:1, padding:"48px 40px 96px", overflowY:"auto", maxWidth:820 }}>
+            <button onClick={() => setOpenEntry(null)} style={{ background:"transparent", border:"1px solid #2a2a2a", color:"#666", cursor:"pointer", padding:"6px 14px", borderRadius:4, fontSize:"0.72rem", fontFamily:"var(--font-mono)", marginBottom:32, letterSpacing:"0.1em" }}>
+              ← Back to Evaluate
+            </button>
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#555", marginBottom:12 }}>
+              {new Date(openEntry.date).toLocaleDateString("en-IN", { day:"numeric", month:"long", year:"numeric" })}
+            </div>
+            <div style={{ fontSize:"1.05rem", color:"#e2e8f0", lineHeight:1.65, fontFamily:"var(--font-body)", marginBottom:32, paddingBottom:24, borderBottom:"1px solid #2a2a2a" }}>
+              {openEntry.question}
+            </div>
+            {/* Score grid */}
+            <div className="ev-sec-grid">
+              {(["introduction","body","conclusion","presentation"] as const).map(sec => {
+                const sm = openEntry.sectionMarks[sec];
+                const pct = (sm.awarded / sm.out_of) * 100;
+                const col = pct >= 70 ? "#4ade80" : pct >= 50 ? "#f59e0b" : "#f87171";
+                return (
+                  <div key={sec} className="ev-sec-card">
+                    <div className="ev-sec-lbl">{sec}</div>
+                    <div className="ev-sec-num" style={{ color:col }}>{sm.awarded}<span className="ev-sec-den">/{sm.out_of}</span></div>
+                    <div className="ev-sec-bar-bg"><div className="ev-sec-bar-fill" style={{ width:`${pct}%`, background:col }} /></div>
+                  </div>
+                );
+              })}
+            </div>
+            {/* Overall */}
+            <div style={{ marginTop:8 }}>
+              <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.22em", textTransform:"uppercase", color:"#555", marginBottom:12 }}>Overall Feedback</div>
+              <div className="ev-overall-txt">{openEntry.overallFeedback}</div>
+            </div>
+            {/* Total score */}
+            <div style={{ marginTop:32, padding:"20px 24px", background:"#161616", border:"1px solid #2a2a2a", borderRadius:8, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+              <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"#555" }}>Total Score</span>
+              <span style={{ fontFamily:"var(--font-mono)", fontSize:"2rem", fontWeight:700, color: (openEntry.marks/openEntry.marksOutOf) >= 0.7 ? "#4ade80" : (openEntry.marks/openEntry.marksOutOf) >= 0.5 ? "#f59e0b" : "#f87171" }}>
+                {openEntry.marks}<span style={{ fontSize:"1rem", color:"#444" }}>/{openEntry.marksOutOf}</span>
+              </span>
+            </div>
+          </div>
+        ) : (
+        <div className="ev-wrap" style={{ flex:1, padding:"48px 40px 96px", overflowY:"auto", maxWidth:820 }}>
 
         {/* Hero */}
         <div style={{ paddingBottom:40, borderBottom:"1px solid #2a2a2a", marginBottom:44 }} className="ev-fade">
@@ -1101,6 +1208,8 @@ const handleOcr = useCallback(async () => {
               ← Evaluate Another Answer
             </button>
           </div>
+        )}
+        </div>
         )}
       </div>
     </>
