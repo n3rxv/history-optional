@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase';
 import AnnotationToggle from '@/components/AnnotationToggle';
 import TableOfContents from '@/components/TableOfContents';
 import type { User } from '@supabase/supabase-js';
+import { useNoteSearch } from '@/hooks/useNoteSearch';
 
 function injectHeadingIds(html: string): string {
   let h2count = 0;
@@ -547,6 +548,7 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
 export default function NoteReader({ slug }: { slug: string }) {
   const note = getNoteBySlug(slug);
   const contentRef = useRef<HTMLDivElement>(null);
+  const noteSearch = useNoteSearch(contentRef);
   const editableRef = useRef<HTMLDivElement>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -1162,6 +1164,73 @@ export default function NoteReader({ slug }: { slug: string }) {
 
       {/* Scrollbar TOC */}
       {!editMode && <ScrollbarTOC contentHtml={processedContent} />}
+
+      {/* ── Within-note search bar ── */}
+      {noteSearch.open && (
+        <div style={{
+          position: 'fixed', bottom: 24, right: 24, zIndex: 9999,
+          background: '#111', border: '1px solid rgba(212,168,67,0.35)',
+          borderRadius: 10, boxShadow: '0 8px 40px rgba(0,0,0,0.7)',
+          display: 'flex', alignItems: 'center', gap: 6, padding: '8px 10px',
+          minWidth: 280,
+        }}>
+          <svg width="13" height="13" viewBox="0 0 20 20" fill="none" style={{ color: 'rgba(212,168,67,0.6)', flexShrink: 0 }}>
+            <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
+            <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          <input
+            autoFocus
+            value={noteSearch.query}
+            onChange={e => noteSearch.setQuery(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') noteSearch.jump(e.shiftKey ? -1 : 1);
+              if (e.key === 'Escape') noteSearch.close();
+            }}
+            placeholder="Find in note…"
+            style={{ flex: 1, background: 'none', border: 'none', outline: 'none', color: '#fff', fontSize: '0.88rem', fontFamily: 'var(--font-body)', minWidth: 0 }}
+          />
+          {noteSearch.total > 0 && (
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'rgba(212,168,67,0.7)', whiteSpace: 'nowrap', flexShrink: 0 }}>
+              {noteSearch.current}/{noteSearch.total}
+            </span>
+          )}
+          {noteSearch.query.length >= 2 && noteSearch.total === 0 && (
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#f87171', whiteSpace: 'nowrap', flexShrink: 0 }}>no match</span>
+          )}
+          <button onClick={() => noteSearch.jump(-1)} disabled={noteSearch.total === 0}
+            style={{ background: 'none', border: 'none', color: noteSearch.total > 0 ? '#c9a84c' : 'var(--text3)', cursor: noteSearch.total > 0 ? 'pointer' : 'default', padding: '2px 4px', fontSize: '0.8rem', lineHeight: 1 }}>↑</button>
+          <button onClick={() => noteSearch.jump(1)} disabled={noteSearch.total === 0}
+            style={{ background: 'none', border: 'none', color: noteSearch.total > 0 ? '#c9a84c' : 'var(--text3)', cursor: noteSearch.total > 0 ? 'pointer' : 'default', padding: '2px 4px', fontSize: '0.8rem', lineHeight: 1 }}>↓</button>
+          <button onClick={noteSearch.close}
+            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 4, color: 'var(--text3)', cursor: 'pointer', padding: '2px 7px', fontSize: '0.7rem', fontFamily: 'var(--font-mono)', marginLeft: 2 }}>esc</button>
+        </div>
+      )}
+
+      {/* Search trigger button (fixed, visible when bar is closed) */}
+      {!noteSearch.open && !editMode && (
+        <button
+          onClick={() => noteSearch.setOpen(true)}
+          title="Search in note (⌘F)"
+          style={{
+            position: 'fixed', bottom: 24, right: 24, zIndex: 9998,
+            background: '#111', border: '1px solid rgba(212,168,67,0.25)',
+            borderRadius: 8, padding: '8px 12px', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', gap: 6,
+            color: 'rgba(212,168,67,0.6)', fontSize: '0.72rem',
+            fontFamily: 'var(--font-mono)', letterSpacing: '0.04em',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+            transition: 'border-color 0.15s, color 0.15s',
+          }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#c9a84c'; }}
+          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(212,168,67,0.25)'; el.style.color = 'rgba(212,168,67,0.6)'; }}
+        >
+          <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
+            <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
+            <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          Find  <span style={{ opacity: 0.5, fontSize: '0.62rem' }}>⌘F</span>
+        </button>
+      )}
 
 
     </div>
