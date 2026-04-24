@@ -313,8 +313,30 @@ export default function PYQsPage() {
 
       {/* Questions */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-        {filtered.map((q: PYQ) => (
-          <div key={q.id} style={{
+        {(() => {
+          const topicCounts: Record<string, number> = {};
+          filtered.forEach((q: PYQ) => { topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1; });
+          const seenTopics = new Set<string>();
+          return filtered.map((q: PYQ, idx: number) => {
+            const isFirst = !seenTopics.has(q.topic);
+            if (isFirst) seenTopics.add(q.topic);
+            const count = topicCounts[q.topic];
+            const badgeColor = count >= 8 ? '#ef4444' : count >= 5 ? '#f97316' : count >= 3 ? '#eab308' : 'var(--text3)';
+            const badgeBg = count >= 8 ? 'rgba(239,68,68,0.08)' : count >= 5 ? 'rgba(249,115,22,0.08)' : count >= 3 ? 'rgba(234,179,8,0.08)' : 'rgba(255,255,255,0.04)';
+            const badgeBorder = count >= 8 ? 'rgba(239,68,68,0.3)' : count >= 5 ? 'rgba(249,115,22,0.3)' : count >= 3 ? 'rgba(234,179,8,0.3)' : 'var(--border)';
+            return (
+              <div key={q.id}>
+                {isFirst && count >= 2 && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: `${idx > 0 ? '1.25rem' : '0'} 0 0.5rem` }}>
+                    <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+                    <span style={{ fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: badgeColor, background: badgeBg, border: `1px solid ${badgeBorder}`, padding: '2px 10px', borderRadius: 20, whiteSpace: 'nowrap' }}>
+                      {q.topic} · asked {count}×
+                    </span>
+                    <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+                  </div>
+                )}
+                <div style={{
+                <div style={{
             background: 'var(--bg2)', border: '1px solid var(--border)',
             borderRadius: 8, padding: '1.25rem 1.5rem',
             borderLeft: `3px solid ${isP1(q.section) ? 'var(--accent)' : 'var(--blue, #4c8bc9)'}`,
@@ -395,7 +417,10 @@ export default function PYQsPage() {
               </div>
             </div>
           </div>
-        ))}
+              </div>
+            );
+          });
+        })()}
 
         {filtered.length === 0 && (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)' }}>

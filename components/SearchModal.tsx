@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { allNotes } from '@/lib/notes';
+import { noteContent } from '@/lib/noteContent';
 import { supabase } from '@/lib/supabase';
 import { pyqs } from '@/lib/pyqs';
 
@@ -29,6 +30,10 @@ function highlight(text: string, query: string) {
       {text.slice(idx + query.length)}
     </>
   );
+}
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 function matchScore(text: string, q: string): number {
@@ -84,12 +89,20 @@ export default function SearchModal() {
 
     const notes = allNotes
       .map(n => {
+        const bodyText = stripHtml(noteContent[n.slug] || '');
+        const bodyScore = matchScore(bodyText, q);
+        const snippet = bodyScore > 0 ? (() => {
+          const idx = bodyText.toLowerCase().indexOf(q.toLowerCase());
+          if (idx === -1) return '';
+          return '…' + bodyText.slice(Math.max(0, idx - 40), idx + 80) + '…';
+        })() : '';
         const score = Math.max(
           matchScore(n.title, q) * 3,
           matchScore(n.description, q) * 2,
           ...(n.subtopics || []).map(s => matchScore(s, q)),
+          bodyScore > 0 ? 1 : 0,
         );
-        return { ...n, score };
+        return { ...n, score, snippet };
       })
       .filter(n => n.score > 0)
       .sort((a, b) => b.score - a.score)
@@ -251,7 +264,7 @@ export default function SearchModal() {
                         {highlight(note.title, query)}
                       </div>
                       <div style={{ fontSize: '0.72rem', color: 'var(--text3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {note.subtopics?.slice(0,4).join(', ')}
+                        {(note as any).snippet || note.subtopics?.slice(0,4).join(', ')}
                       </div>
                     </div>
                     <span style={{ fontSize: '0.65rem', background: note.paper === 1 ? 'rgba(59,130,246,0.15)' : 'rgba(139,92,246,0.15)', color: note.paper === 1 ? '#93c5fd' : '#c4b5fd', border: `1px solid ${note.paper === 1 ? 'rgba(59,130,246,0.3)' : 'rgba(139,92,246,0.3)'}`, padding: '2px 7px', borderRadius: 4, fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
