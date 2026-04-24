@@ -5,6 +5,7 @@ const STORAGE_KEY = 'ho_syllabus_v1';
 
 export type SyllabusProgress = {
   completed: Record<string, boolean>;
+  completionDates?: Record<string, string>;
 };
 
 function load(): SyllabusProgress {
@@ -22,6 +23,19 @@ function save(data: SyllabusProgress) {
   } catch {}
 }
 
+export function bumpStreak() {
+  try {
+    const today = new Date().toDateString();
+    const stored = localStorage.getItem('ho_streak_v1');
+    let data = stored ? JSON.parse(stored) : { streak: 0, lastDate: '' };
+    if (data.lastDate === today) return;
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    data.streak = data.lastDate === yesterday ? data.streak + 1 : 1;
+    data.lastDate = today;
+    localStorage.setItem('ho_streak_v1', JSON.stringify(data));
+  } catch {}
+}
+
 export function useSyllabusTracker() {
   const [progress, setProgress] = useState<SyllabusProgress>({ completed: {} });
   const [mounted, setMounted] = useState(false);
@@ -33,10 +47,18 @@ export function useSyllabusTracker() {
 
   const toggle = useCallback((slug: string) => {
     setProgress(prev => {
-      const next = {
-        completed: { ...prev.completed, [slug]: !prev.completed[slug] },
+      const isCompleting = !prev.completed[slug];
+      const next: SyllabusProgress = {
+        completed: { ...prev.completed, [slug]: isCompleting },
+        completionDates: { ...(prev.completionDates || {}) },
       };
-      if (!next.completed[slug]) delete next.completed[slug];
+      if (!isCompleting) {
+        delete next.completed[slug];
+        delete next.completionDates![slug];
+      } else {
+        next.completionDates![slug] = new Date().toISOString();
+        bumpStreak();
+      }
       save(next);
       return next;
     });

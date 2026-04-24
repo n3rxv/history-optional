@@ -40,6 +40,19 @@ export function loadHistory(): AnswerEntry[] {
   } catch { return []; }
 }
 
+function bumpStreak() {
+  try {
+    const today = new Date().toDateString();
+    const stored = localStorage.getItem('ho_streak_v1');
+    let data = stored ? JSON.parse(stored) : { streak: 0, lastDate: '' };
+    if (data.lastDate === today) return;
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    data.streak = data.lastDate === yesterday ? data.streak + 1 : 1;
+    data.lastDate = today;
+    localStorage.setItem('ho_streak_v1', JSON.stringify(data));
+  } catch {}
+}
+
 export function saveToHistory(entry: Omit<AnswerEntry, 'id' | 'date'>) {
   if (typeof window === 'undefined') return;
   try {
@@ -47,6 +60,7 @@ export function saveToHistory(entry: Omit<AnswerEntry, 'id' | 'date'>) {
     const newEntry: AnswerEntry = { ...entry, id: Date.now().toString(), date: new Date().toISOString() };
     const updated = [newEntry, ...history].slice(0, MAX_ENTRIES);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    bumpStreak();
   } catch {}
 }
 
