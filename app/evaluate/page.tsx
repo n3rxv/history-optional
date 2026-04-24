@@ -701,8 +701,8 @@ const handleOcr = useCallback(async () => {
 
                           />
                           <text x="16" y="16" textAnchor="middle" dominantBaseline="middle"
-                            style={{ transform:"rotate(90deg)", transformOrigin:"16px 16px" }}
-                            fill={color} fontSize="7.5px" fontFamily="var(--font-mono)" fontWeight="700">
+                            transform="rotate(90 16 16)"
+                            fill={color} fontSize="7.5" fontFamily="var(--font-mono)" fontWeight="700">
                             {pct}%
                           </text>
                         </svg>
