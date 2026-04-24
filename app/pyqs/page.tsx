@@ -336,7 +336,6 @@ export default function PYQsPage() {
                   </div>
                 )}
                 <div style={{
-                <div style={{
             background: 'var(--bg2)', border: '1px solid var(--border)',
             borderRadius: 8, padding: '1.25rem 1.5rem',
             borderLeft: `3px solid ${isP1(q.section) ? 'var(--accent)' : 'var(--blue, #4c8bc9)'}`,
