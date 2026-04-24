@@ -266,7 +266,7 @@ export default function SearchModal() {
           {(historianResults?.length ?? 0) > 0 && (
             <>
               <div style={{ padding: '8px 16px 4px', fontSize: '0.65rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em', color: 'var(--text3)', textTransform: 'uppercase' }}>Historiography</div>
-              {historianResults.map((h, i) => {
+              {(historianResults ?? []).map((h, i) => {
                 const fi = flatItems.findIndex(f => (f as any).type === 'historian' && f.idx === i);
                 const isSel = selected === fi;
                 return (
