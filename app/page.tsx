@@ -145,8 +145,8 @@ export default function Home() {
 
         /* PYQ slide */
         .pyq-slide { transition: opacity 0.3s ease, transform 0.3s ease; }
-        .pyq-slide.visible { opacity: 1; transform: translateY(0); }
-        .pyq-slide.hidden  { opacity: 0; transform: translateY(6px); }
+        .pyq-slide.pyq-in { opacity: 1; transform: translateY(0); }
+        .pyq-slide.pyq-out { opacity: 0; transform: translateY(6px); }
 
         /* Dot indicator */
         .pyq-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border2); transition: all 0.3s; cursor: pointer; border: none; padding: 0; }
@@ -159,14 +159,14 @@ export default function Home() {
       `}</style>
 
       {/* ── Floating background topics ── */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 520, overflow: 'hidden', pointerEvents: 'none', zIndex: 0 }}>
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
         {floatingTopics.map((t, i) => (
           <span key={t} className="float-topic" style={{
             left: `${(i * 37 + 11) % 90}%`,
-            top: `${(i * 53 + 20) % 60}%`,
-            ['--dur' as any]: `${14 + (i % 5) * 3}s`,
-            ['--delay' as any]: `${(i * 1.7) % 12}s`,
-            ['--drift' as any]: `${((i % 3) - 1) * 30}px`,
+            top: `${40 + (i * 13) % 40}%`,
+            ['--dur' as any]: `${16 + (i % 5) * 3}s`,
+            ['--delay' as any]: `${(i * 1.7) % 14}s`,
+            ['--drift' as any]: `${((i % 3) - 1) * 40}px`,
           }}>{t}</span>
         ))}
       </div>
@@ -296,7 +296,7 @@ export default function Home() {
 
           {/* Sliding question */}
           <div style={{ flex: 1, minHeight: 72 }}>
-            <div className={`pyq-slide ${pyqFade ? 'visible' : 'hidden'}`}>
+            <div className={`pyq-slide ${pyqFade ? 'pyq-in' : 'pyq-out'}`}>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--red)', background: 'var(--red-dim)', border: '1px solid rgba(239,68,68,0.2)', padding: '2px 8px', borderRadius: 3 }}>{pyqSlides[pyqIdx].paper}</span>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text3)' }}>{pyqSlides[pyqIdx].year} · {pyqSlides[pyqIdx].marks}M</span>
