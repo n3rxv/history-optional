@@ -106,7 +106,11 @@ export function useNoteSearch(containerRef: React.RefObject<HTMLElement | null>)
       m.style.background = i === 0 ? 'rgba(212,168,67,0.75)' : 'rgba(212,168,67,0.3)';
       m.classList.toggle(MARK_ACTIVE, i === 0);
     });
-    if (marks[0]) marks[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
+    if (marks[0]) {
+      const rect = marks[0].getBoundingClientRect();
+      const offset = rect.top + window.scrollY - 160;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }
   }, [query, open, containerRef]);
 
   const jump = useCallback((dir: 1 | -1) => {
@@ -117,7 +121,10 @@ export function useNoteSearch(containerRef: React.RefObject<HTMLElement | null>)
       m.style.background = i === next ? 'rgba(212,168,67,0.75)' : 'rgba(212,168,67,0.3)';
       m.classList.toggle(MARK_ACTIVE, i === next);
     });
-    marks[next].scrollIntoView({ block: 'center', behavior: 'smooth' });
+    const el = marks[next];
+    const rect = el.getBoundingClientRect();
+    const offset = rect.top + window.scrollY - 160; // 160px clears sticky navbar
+    window.scrollTo({ top: offset, behavior: 'smooth' });
     setCurrent(next + 1);
   }, [current]);
 

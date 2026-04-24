@@ -1168,13 +1168,15 @@ export default function NoteReader({ slug }: { slug: string }) {
       {/* ── Within-note search bar ── */}
       {noteSearch.open && (
         <div style={{
-          position: 'fixed', bottom: 24, right: 24, zIndex: 9999,
-          background: '#111', border: '1px solid rgba(212,168,67,0.35)',
-          borderRadius: 10, boxShadow: '0 8px 40px rgba(0,0,0,0.7)',
-          display: 'flex', alignItems: 'center', gap: 6, padding: '8px 10px',
-          minWidth: 280,
+          position: 'fixed', bottom: 28, right: 28, zIndex: 9999,
+          background: 'rgba(10,14,26,0.97)',
+          border: '1px solid rgba(59,130,246,0.45)',
+          borderRadius: 12,
+          boxShadow: '0 0 0 1px rgba(59,130,246,0.1), 0 12px 48px rgba(0,0,0,0.8), 0 0 24px rgba(59,130,246,0.08)',
+          display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px',
+          minWidth: 300, backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
         }}>
-          <svg width="13" height="13" viewBox="0 0 20 20" fill="none" style={{ color: 'rgba(212,168,67,0.6)', flexShrink: 0 }}>
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style={{ color: 'rgba(99,152,255,0.7)', flexShrink: 0 }}>
             <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
             <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -1187,48 +1189,55 @@ export default function NoteReader({ slug }: { slug: string }) {
               if (e.key === 'Escape') noteSearch.close();
             }}
             placeholder="Find in note…"
-            style={{ flex: 1, background: 'none', border: 'none', outline: 'none', color: '#fff', fontSize: '0.88rem', fontFamily: 'var(--font-body)', minWidth: 0 }}
+            style={{ flex: 1, background: 'none', border: 'none', outline: 'none', color: '#e8eaf6', fontSize: '0.9rem', fontFamily: 'var(--font-body)', minWidth: 0 }}
           />
           {noteSearch.total > 0 && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'rgba(212,168,67,0.7)', whiteSpace: 'nowrap', flexShrink: 0 }}>
-              {noteSearch.current}/{noteSearch.total}
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'rgba(99,152,255,0.8)', whiteSpace: 'nowrap', flexShrink: 0, background: 'rgba(59,130,246,0.1)', padding: '2px 8px', borderRadius: 4, border: '1px solid rgba(59,130,246,0.2)' }}>
+              {noteSearch.current} / {noteSearch.total}
             </span>
           )}
           {noteSearch.query.length >= 2 && noteSearch.total === 0 && (
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#f87171', whiteSpace: 'nowrap', flexShrink: 0 }}>no match</span>
           )}
-          <button onClick={() => noteSearch.jump(-1)} disabled={noteSearch.total === 0}
-            style={{ background: 'none', border: 'none', color: noteSearch.total > 0 ? '#c9a84c' : 'var(--text3)', cursor: noteSearch.total > 0 ? 'pointer' : 'default', padding: '2px 4px', fontSize: '0.8rem', lineHeight: 1 }}>↑</button>
-          <button onClick={() => noteSearch.jump(1)} disabled={noteSearch.total === 0}
-            style={{ background: 'none', border: 'none', color: noteSearch.total > 0 ? '#c9a84c' : 'var(--text3)', cursor: noteSearch.total > 0 ? 'pointer' : 'default', padding: '2px 4px', fontSize: '0.8rem', lineHeight: 1 }}>↓</button>
+          <div style={{ display: 'flex', gap: 2, borderLeft: '1px solid rgba(59,130,246,0.2)', paddingLeft: 8, marginLeft: 2 }}>
+            <button onClick={() => noteSearch.jump(-1)} disabled={noteSearch.total === 0}
+              title="Previous (Shift+Enter)"
+              style={{ background: noteSearch.total > 0 ? 'rgba(59,130,246,0.1)' : 'transparent', border: '1px solid ' + (noteSearch.total > 0 ? 'rgba(59,130,246,0.25)' : 'transparent'), borderRadius: 6, color: noteSearch.total > 0 ? '#60a5fa' : 'var(--text3)', cursor: noteSearch.total > 0 ? 'pointer' : 'default', padding: '3px 8px', fontSize: '0.78rem', lineHeight: 1, transition: 'all 0.15s' }}>↑</button>
+            <button onClick={() => noteSearch.jump(1)} disabled={noteSearch.total === 0}
+              title="Next (Enter)"
+              style={{ background: noteSearch.total > 0 ? 'rgba(59,130,246,0.1)' : 'transparent', border: '1px solid ' + (noteSearch.total > 0 ? 'rgba(59,130,246,0.25)' : 'transparent'), borderRadius: 6, color: noteSearch.total > 0 ? '#60a5fa' : 'var(--text3)', cursor: noteSearch.total > 0 ? 'pointer' : 'default', padding: '3px 8px', fontSize: '0.78rem', lineHeight: 1, transition: 'all 0.15s' }}>↓</button>
+          </div>
           <button onClick={noteSearch.close}
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 4, color: 'var(--text3)', cursor: 'pointer', padding: '2px 7px', fontSize: '0.7rem', fontFamily: 'var(--font-mono)', marginLeft: 2 }}>esc</button>
+            style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 6, color: '#60a5fa', cursor: 'pointer', padding: '3px 9px', fontSize: '0.68rem', fontFamily: 'var(--font-mono)', marginLeft: 2, transition: 'all 0.15s' }}>esc</button>
         </div>
       )}
 
-      {/* Search trigger button (fixed, visible when bar is closed) */}
+      {/* Search trigger button */}
       {!noteSearch.open && !editMode && (
         <button
           onClick={() => noteSearch.setOpen(true)}
-          title="Search in note (⌘F)"
+          title="Find in note (⌘F)"
           style={{
-            position: 'fixed', bottom: 24, right: 24, zIndex: 9998,
-            background: '#111', border: '1px solid rgba(212,168,67,0.25)',
-            borderRadius: 8, padding: '8px 12px', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', gap: 6,
-            color: 'rgba(212,168,67,0.6)', fontSize: '0.72rem',
+            position: 'fixed', bottom: 28, right: 28, zIndex: 9998,
+            background: 'rgba(10,14,26,0.95)',
+            border: '1px solid rgba(59,130,246,0.3)',
+            borderRadius: 10, padding: '9px 14px', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', gap: 7,
+            color: '#60a5fa', fontSize: '0.75rem',
             fontFamily: 'var(--font-mono)', letterSpacing: '0.04em',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
-            transition: 'border-color 0.15s, color 0.15s',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.08)',
+            backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+            transition: 'border-color 0.15s, box-shadow 0.15s, transform 0.15s',
           }}
-          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#c9a84c'; }}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(212,168,67,0.25)'; el.style.color = 'rgba(212,168,67,0.6)'; }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(59,130,246,0.6)'; el.style.boxShadow = '0 4px 20px rgba(0,0,0,0.6), 0 0 16px rgba(59,130,246,0.15)'; el.style.transform = 'translateY(-1px)'; }}
+          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(59,130,246,0.3)'; el.style.boxShadow = '0 4px 20px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.08)'; el.style.transform = 'none'; }}
         >
-          <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
+          <svg width="13" height="13" viewBox="0 0 20 20" fill="none">
             <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
             <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
           </svg>
-          Find  <span style={{ opacity: 0.5, fontSize: '0.62rem' }}>⌘F</span>
+          Find
+          <span style={{ opacity: 0.45, fontSize: '0.62rem', background: 'rgba(59,130,246,0.1)', padding: '1px 5px', borderRadius: 3, border: '1px solid rgba(59,130,246,0.2)' }}>⌘F</span>
         </button>
       )}
 
