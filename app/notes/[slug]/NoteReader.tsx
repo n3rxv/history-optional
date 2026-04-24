@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
 import { getPYQsForNote } from '@/lib/notePyqMap';
+import DiscussionThread from '@/components/DiscussionThread';
 import { getNoteContent } from '@/lib/noteContent';
 import { supabase } from '@/lib/supabase';
 import AnnotationToggle from '@/components/AnnotationToggle';
@@ -1159,6 +1160,50 @@ export default function NoteReader({ slug }: { slug: string }) {
           )}
         </div>
       </div>
+
+      {/* Related PYQs */}
+      {!editMode && relatedPYQs.length > 0 && (
+        <div style={{ margin: '0 1.5rem 2rem', borderTop: '1px solid var(--border)', paddingTop: '2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+            <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
+              📋 Previous Year Questions — {relatedPYQs.length} questions on this topic
+            </div>
+            <Link href="/pyqs" style={{ fontSize: '0.72rem', color: 'var(--accent)', textDecoration: 'none' }}>View all →</Link>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {relatedPYQs.map((pyq, i) => (
+              <div key={i} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '1rem 1.25rem' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: 'var(--accent)', background: 'var(--accent-dim)', border: '1px solid rgba(59,130,246,0.25)', padding: '2px 7px', borderRadius: 3 }}>{pyq.year}</span>
+                  <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', padding: '2px 7px', borderRadius: 3 }}>{pyq.marks}M</span>
+                  <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', padding: '2px 7px', borderRadius: 3 }}>{pyq.source}</span>
+                </div>
+                <div style={{ fontSize: '0.88rem', color: 'var(--text)', lineHeight: 1.6, marginBottom: '0.5rem' }}>{pyq.question}</div>
+                <DiscussionThread pyqId={pyq.id} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Historiography Link */}
+      {!editMode && (
+        <div style={{ margin: '0 1.5rem 3rem' }}>
+          <Link href="/historiography" style={{ textDecoration: 'none' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.25rem', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, transition: 'all 0.15s' }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--accent2)'; el.style.background = 'var(--bg3)'; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border)'; el.style.background = 'var(--bg2)'; }}
+            >
+              <span style={{ fontSize: '1.4rem' }}>🏛️</span>
+              <div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 600, marginBottom: '0.2rem' }}>Explore Historiography</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text3)' }}>See what historians say about {note?.section} — debates, schools of thought, key arguments</div>
+              </div>
+              <span style={{ marginLeft: 'auto', color: 'var(--text3)', fontSize: '0.9rem', flexShrink: 0 }}>→</span>
+            </div>
+          </Link>
+        </div>
+      )}
 
       {/* Scrollbar TOC */}
       {!editMode && <ScrollbarTOC contentHtml={processedContent} />}
