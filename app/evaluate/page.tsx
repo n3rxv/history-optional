@@ -610,53 +610,130 @@ const handleOcr = useCallback(async () => {
 
         {/* ── History Sidebar ── */}
         <div style={{
-          width: sidebarOpen ? 280 : 40, minWidth: sidebarOpen ? 280 : 40,
-          borderRight:"1px solid #1e1e1e", background:"#0d0d0d",
-          transition:"all 0.25s ease", overflow:"hidden", flexShrink:0,
+          width: sidebarOpen ? 272 : 44, minWidth: sidebarOpen ? 272 : 44,
+          borderRight:"1px solid rgba(255,255,255,0.05)",
+          background:"rgba(8,10,18,0.98)",
+          transition:"width 0.28s cubic-bezier(0.4,0,0.2,1), min-width 0.28s cubic-bezier(0.4,0,0.2,1)",
+          overflow:"hidden", flexShrink:0,
           display:"flex", flexDirection:"column",
+          backdropFilter:"blur(12px)",
         }}>
-          {/* Sidebar toggle */}
+          {/* Toggle button */}
           <button
             onClick={() => setSidebarOpen(o => !o)}
-            style={{ padding:"14px", background:"transparent", border:"none", borderBottom:"1px solid #1e1e1e", color:"#555", cursor:"pointer", fontSize:"0.75rem", textAlign:"left", display:"flex", alignItems:"center", gap:"8px", flexShrink:0 }}
+            style={{
+              padding: sidebarOpen ? "13px 16px" : "13px",
+              background:"transparent", border:"none",
+              borderBottom:"1px solid rgba(255,255,255,0.04)",
+              color: sidebarOpen ? "rgba(99,152,255,0.7)" : "rgba(99,152,255,0.5)",
+              cursor:"pointer", textAlign:"left",
+              display:"flex", alignItems:"center", gap:"10px", flexShrink:0,
+              transition:"color 0.15s, background 0.15s",
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(59,130,246,0.06)"; (e.currentTarget as HTMLElement).style.color = "#60a5fa"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = sidebarOpen ? "rgba(99,152,255,0.7)" : "rgba(99,152,255,0.5)"; }}
           >
-            <span style={{ fontSize:"1rem" }}>{sidebarOpen ? "◂" : "▸"}</span>
-            {sidebarOpen && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#555", whiteSpace:"nowrap" }}>Past Evaluations</span>}
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink:0, transform: sidebarOpen ? "none" : "rotate(180deg)", transition:"transform 0.28s cubic-bezier(0.4,0,0.2,1)" }}>
+              <path d="M9 2L4 7L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            {sidebarOpen && (
+              <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"rgba(99,152,255,0.55)", whiteSpace:"nowrap" }}>
+                Past Evaluations
+              </span>
+            )}
           </button>
 
           {sidebarOpen && (
-            <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
+            <div style={{ flex:1, overflowY:"auto", padding:"6px 0",
+              scrollbarWidth:"thin", scrollbarColor:"rgba(59,130,246,0.15) transparent" }}>
               {history.length === 0 ? (
-                <div style={{ padding:"24px 16px", color:"#444", fontSize:"0.78rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
-                  No evaluations yet. Submit your first answer above.
+                <div style={{ padding:"32px 20px", textAlign:"center" }}>
+                  <div style={{ fontSize:"1.4rem", marginBottom:10, opacity:0.3 }}>📝</div>
+                  <div style={{ color:"#333", fontSize:"0.75rem", fontFamily:"var(--font-mono)", lineHeight:1.7 }}>
+                    No evaluations yet
+                  </div>
                 </div>
-              ) : history.map(entry => {
+              ) : history.map((entry, idx) => {
                 const pct = Math.round((entry.marks / entry.marksOutOf) * 100);
                 const color = pct >= 70 ? "#4ade80" : pct >= 50 ? "#f59e0b" : "#f87171";
-                const isOpen = openEntry?.id === entry.id;
+                const glowColor = pct >= 70 ? "rgba(74,222,128,0.12)" : pct >= 50 ? "rgba(245,158,11,0.12)" : "rgba(248,113,113,0.12)";
+                const isActive = openEntry?.id === entry.id;
+                const r = 13, circ = 2 * Math.PI * r;
                 return (
                   <button
                     key={entry.id}
-                    onClick={() => setOpenEntry(isOpen ? null : entry)}
+                    onClick={() => setOpenEntry(isActive ? null : entry)}
                     style={{
-                      width:"100%", padding:"12px 16px", background: isOpen ? "#161616" : "transparent",
-                      border:"none", borderBottom:"1px solid #1a1a1a",
-                      cursor:"pointer", textAlign:"left", transition:"background 0.15s",
+                      width:"100%", padding:"14px 16px",
+                      background: isActive
+                        ? `linear-gradient(90deg, ${glowColor} 0%, rgba(59,130,246,0.04) 100%)`
+                        : "transparent",
+                      border:"none",
+                      borderBottom:"1px solid rgba(255,255,255,0.03)",
+                      borderLeft: isActive ? `2px solid ${color}` : "2px solid transparent",
+                      cursor:"pointer", textAlign:"left",
+                      transition:"all 0.18s ease",
+                      display:"flex", flexDirection:"column", gap:9,
                     }}
-                    onMouseEnter={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "#141414"; }}
-                    onMouseLeave={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+                    onMouseEnter={e => {
+                      if (!isActive) {
+                        const el = e.currentTarget as HTMLElement;
+                        el.style.background = "rgba(255,255,255,0.025)";
+                        el.style.borderLeftColor = `${color}55`;
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (!isActive) {
+                        const el = e.currentTarget as HTMLElement;
+                        el.style.background = "transparent";
+                        el.style.borderLeftColor = "transparent";
+                      }
+                    }}
                   >
-                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
-                      <span style={{ fontSize:"0.65rem", fontFamily:"var(--font-mono)", color, fontWeight:700 }}>{pct}%</span>
-                      <span style={{ fontSize:"0.6rem", color:"#444", fontFamily:"var(--font-mono)" }}>
+                    {/* Top row: mini score ring + date */}
+                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                        <svg width="32" height="32" style={{ transform:"rotate(-90deg)", flexShrink:0 }}>
+                          <circle cx="16" cy="16" r={r} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="2.5"/>
+                          <circle cx="16" cy="16" r={r} fill="none" stroke={color}
+                            strokeWidth="2.5" strokeDasharray={`${(pct/100)*circ} ${circ}`}
+                            strokeLinecap="round"
+                            style={{ filter:`drop-shadow(0 0 3px ${color}88)` }}
+                          />
+                          <text x="16" y="16" textAnchor="middle" dominantBaseline="middle"
+                            style={{ transform:"rotate(90deg)", transformOrigin:"16px 16px" }}
+                            fill={color} fontSize="7.5px" fontFamily="var(--font-mono)" fontWeight="700">
+                            {pct}%
+                          </text>
+                        </svg>
+                        <div>
+                          <div style={{ fontSize:"0.72rem", fontFamily:"var(--font-mono)", color, fontWeight:700, lineHeight:1 }}>{entry.marks}/{entry.marksOutOf}M</div>
+                          <div style={{ fontSize:"0.58rem", color:"#3a3a3a", fontFamily:"var(--font-mono)", marginTop:3 }}>#{history.length - idx}</div>
+                        </div>
+                      </div>
+                      <span style={{ fontSize:"0.58rem", color:"#383838", fontFamily:"var(--font-mono)", letterSpacing:"0.04em" }}>
                         {new Date(entry.date).toLocaleDateString("en-IN", { day:"numeric", month:"short" })}
                       </span>
                     </div>
-                    <div style={{ fontSize:"0.75rem", color: isOpen ? "#e2e8f0" : "#888", lineHeight:1.4, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>
+
+                    {/* Question text */}
+                    <div style={{
+                      fontSize:"0.73rem", color: isActive ? "#c8d0e8" : "#565e78",
+                      lineHeight:1.45, overflow:"hidden",
+                      display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical",
+                      transition:"color 0.15s",
+                    }}>
                       {entry.question}
                     </div>
-                    <div style={{ marginTop:6, height:2, background:"#1e1e1e", borderRadius:2, overflow:"hidden" }}>
-                      <div style={{ height:"100%", width:`${pct}%`, background:color, borderRadius:2 }} />
+
+                    {/* Score bar */}
+                    <div style={{ height:2, background:"rgba(255,255,255,0.04)", borderRadius:2, overflow:"hidden" }}>
+                      <div style={{
+                        height:"100%", width:`${pct}%`, borderRadius:2,
+                        background:`linear-gradient(90deg, ${color}88, ${color})`,
+                        boxShadow:`0 0 6px ${color}55`,
+                        transition:"width 0.4s ease",
+                      }} />
                     </div>
                   </button>
                 );
