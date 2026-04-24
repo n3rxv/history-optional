@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { allNotes } from '@/lib/notes';
+import { supabase } from '@/lib/supabase';
 import { pyqs } from '@/lib/pyqs';
 
 const QUICK_JUMPS = [
@@ -45,6 +46,15 @@ export default function SearchModal() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const [historians, setHistorians] = useState<Array<{ id: string; title: string; period: string; positions: Array<{ historian_name: string; school: string }> }>>([]);
+
+  // Fetch historiography once on mount
+  useEffect(() => {
+    supabase
+      .from('debates')
+      .select('id, title, period, positions(historian_name, school)')
+      .then(({ data }) => { if (data) setHistorians(data as any); });
+  }, []);
 
   // Cmd+K / Ctrl+K to open
   useEffect(() => {
@@ -98,11 +108,23 @@ export default function SearchModal() {
       .sort((a, b) => b.score - a.score)
       .slice(0, 4);
 
-    return { notes, pyqs: pyqResults };
+    const historianResults = historians
+      .map(h => {
+        const nameMatches = (h.positions || []).filter((p: any) =>
+          matchScore(p.historian_name, q) > 0
+        );
+        const titleScore = matchScore(h.title, q);
+        const score = Math.max(titleScore * 3, nameMatches.length > 0 ? 2 : 0);
+        return { ...h, score, matchedHistorians: nameMatches.map((p: any) => p.historian_name) };
+      })
+      .filter(h => h.score > 0)
+      .slice(0, 4);
+
+    return { notes, pyqs: pyqResults, historians: historianResults };
   }, [query]);
 
-  const { notes, pyqs: pyqResults } = results();
-  const hasResults = notes.length > 0 || pyqResults.length > 0;
+  const { notes, pyqs: pyqResults, historians: historianResults } = results();
+  const hasResults = notes.length > 0 || pyqResults.length > 0 || (historianResults?.length ?? 0) > 0;
 
   // Flat list for keyboard nav
   const flatItems: Array<{ type: 'jump' | 'note' | 'pyq'; href: string; idx: number }> = [];
@@ -111,6 +133,7 @@ export default function SearchModal() {
   } else {
     notes.forEach((n, i) => flatItems.push({ type: 'note', href: `/notes/${n.slug}`, idx: i }));
     pyqResults.forEach((p, i) => flatItems.push({ type: 'pyq', href: `/pyqs?q=${encodeURIComponent(p.topic)}`, idx: i }));
+    (historianResults || []).forEach((h, i) => flatItems.push({ type: 'historian' as any, href: `/historiography?q=${encodeURIComponent(h.title)}`, idx: i }));
   }
 
   useEffect(() => { setSelected(0); }, [query]);
@@ -234,6 +257,34 @@ export default function SearchModal() {
                     <span style={{ fontSize: '0.65rem', background: note.paper === 1 ? 'rgba(59,130,246,0.15)' : 'rgba(139,92,246,0.15)', color: note.paper === 1 ? '#93c5fd' : '#c4b5fd', border: `1px solid ${note.paper === 1 ? 'rgba(59,130,246,0.3)' : 'rgba(139,92,246,0.3)'}`, padding: '2px 7px', borderRadius: 4, fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
                       Paper {note.paper}
                     </span>
+                  </button>
+                );
+              })}
+            </>
+          )}
+
+          {(historianResults?.length ?? 0) > 0 && (
+            <>
+              <div style={{ padding: '8px 16px 4px', fontSize: '0.65rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em', color: 'var(--text3)', textTransform: 'uppercase' }}>Historiography</div>
+              {historianResults.map((h, i) => {
+                const fi = flatItems.findIndex(f => (f as any).type === 'historian' && f.idx === i);
+                const isSel = selected === fi;
+                return (
+                  <button key={h.id} data-idx={fi}
+                    onClick={() => navigate(`/historiography`)}
+                    onMouseEnter={() => setSelected(fi)}
+                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', background: isSel ? 'rgba(255,255,255,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background 0.1s' }}
+                  >
+                    <span style={{ fontSize: '0.85rem', flexShrink: 0, color: 'var(--text3)' }}>🏛️</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {highlight(h.title, query)}
+                      </div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--text3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {h.matchedHistorians.length > 0 ? h.matchedHistorians.join(', ') : h.period}
+                      </div>
+                    </div>
+                    <span style={{ fontSize: '0.65rem', color: '#a78bfa', background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)', padding: '2px 7px', borderRadius: 4, fontFamily: 'var(--font-mono)', flexShrink: 0 }}>Debate</span>
                   </button>
                 );
               })}
