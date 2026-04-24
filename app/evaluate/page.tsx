@@ -1,5 +1,6 @@
 "use client";
 import { saveToHistory, loadHistory, AnswerEntry } from "@/hooks/useAnswerHistory";
+import { supabase } from "@/lib/supabase";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
 
@@ -388,7 +389,12 @@ const handleOcr = useCallback(async () => {
   // ── Subscription gate — must come after handleOcr is defined ──────────────
   const { UsagePill, GateModals, handleEvaluate, usage, increment, slots } = useSubscriptionGate(handleOcr);
   const tokenRef = useRef<string | null>(null);
-  useEffect(() => { tokenRef.current = usage.token; }, [usage.token]);
+  useEffect(() => {
+    // Get actual Supabase session token for owner bypass
+    supabase.auth.getSession().then(({ data }) => {
+      tokenRef.current = data.session?.access_token ?? usage.token ?? null;
+    });
+  }, [usage.token]);
 
   const submit = async () => {
     setError(""); setLoading(true); setEvaluation(null); setEvalProgress(0); setEvalPhase("");
