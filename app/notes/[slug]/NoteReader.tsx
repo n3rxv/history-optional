@@ -548,7 +548,8 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
 export default function NoteReader({ slug }: { slug: string }) {
   const note = getNoteBySlug(slug);
   const contentRef = useRef<HTMLDivElement>(null);
-  const noteSearch = useNoteSearch(contentRef);
+  const noteContentRef = useRef<HTMLDivElement>(null);
+  const noteSearch = useNoteSearch(noteContentRef);
   const editableRef = useRef<HTMLDivElement>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -1062,7 +1063,7 @@ export default function NoteReader({ slug }: { slug: string }) {
             ) : (
               <>
                 <TableOfContents contentHtml={processedContent} />
-                <div className="note-content" dangerouslySetInnerHTML={{ __html: processedContent }} />
+                <div ref={noteContentRef} className="note-content" dangerouslySetInnerHTML={{ __html: processedContent }} />
               </>
             )}
 
