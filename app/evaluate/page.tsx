@@ -699,7 +699,8 @@ const handleOcr = useCallback(async () => {
             {/* Section marks grid */}
             <div className="ev-sec-grid">
               {(["introduction","body","conclusion","presentation"] as const).map(sec => {
-                const sm = openEntry.sectionMarks[sec];
+                const sm = openEntry.sectionMarks?.[sec];
+                if (!sm) return null;
                 const pct = (sm.awarded / sm.out_of) * 100;
                 const col = pct >= 70 ? "#4ade80" : pct >= 50 ? "#f59e0b" : "#f87171";
                 return (
