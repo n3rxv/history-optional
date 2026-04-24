@@ -76,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('config', 'G-7ZF23N3PZC');
         `}</Script>
         <AuthGuard>
-          <main style={{ minHeight: '100vh' }}>{children}</main>
+          <main style={{ minHeight: '100vh', paddingTop: 57 }}>{children}</main>
         </AuthGuard>
         <Footer />
         <Analytics />
