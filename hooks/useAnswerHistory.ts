@@ -18,6 +18,8 @@ export interface AnswerEntry {
   wordCount?: number;
   wordCountRating?: string;
   overallFeedback: string;
+  topicSlug?: string;
+  topicTitle?: string;
   sectionMarks: {
     introduction: SectionMark;
     body: SectionMark;

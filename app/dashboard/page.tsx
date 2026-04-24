@@ -163,7 +163,18 @@ export default function Dashboard() {
     });
     const weakest = [...sectionAvgs].sort((a, b) => a.avg - b.avg)[0];
     const strongest = [...sectionAvgs].sort((a, b) => b.avg - a.avg)[0];
-    return { avg, best, recent5, sectionAvgs, weakest, strongest, total: evalHistory.length };
+    // Per-topic breakdown
+    const topicMap: Record<string, { title: string; scores: number[]; slug: string }> = {};
+    for (const e of evalHistory) {
+      if (!e.topicSlug || !e.topicTitle) continue;
+      if (!topicMap[e.topicSlug]) topicMap[e.topicSlug] = { title: e.topicTitle, scores: [], slug: e.topicSlug };
+      topicMap[e.topicSlug].scores.push(entryScore(e));
+    }
+    const topicStats = Object.values(topicMap)
+      .map(t => ({ ...t, avg: Math.round(t.scores.reduce((a, b) => a + b, 0) / t.scores.length), count: t.scores.length }))
+      .sort((a, b) => a.avg - b.avg);
+
+    return { avg, best, recent5, sectionAvgs, weakest, strongest, total: evalHistory.length, topicStats };
   }, [evalHistory]);
 
   const activityMap = useMemo(() => {
@@ -319,6 +330,36 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {mounted && evalStats && evalStats.topicStats.length > 0 && (
+        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>Performance by Topic</div>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text3)' }}>{evalStats.topicStats.length} topic{evalStats.topicStats.length !== 1 ? 's' : ''} practised</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+            {evalStats.topicStats.map(t => (
+              <div key={t.slug}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text2)', fontWeight: 500 }}>{t.title}</span>
+                    <span style={{ fontSize: '0.6rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>{t.count} answer{t.count !== 1 ? 's' : ''}</span>
+                  </div>
+                  <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: scoreColor(t.avg), fontWeight: 600 }}>{t.avg}%</span>
+                </div>
+                <div style={{ height: 4, background: 'var(--border)', borderRadius: 4, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${t.avg}%`, background: scoreColor(t.avg), borderRadius: 4, transition: 'width 0.5s ease' }} />
+                </div>
+              </div>
+            ))}
+          </div>
+          {evalStats.topicStats.length > 0 && evalStats.topicStats[0].avg < 60 && (
+            <div style={{ marginTop: '0.85rem', fontSize: '0.75rem', color: '#f87171', background: 'rgba(248,113,113,0.06)', border: '1px solid rgba(248,113,113,0.15)', borderRadius: 6, padding: '8px 12px' }}>
+              Weakest topic: <span style={{ fontWeight: 600 }}>{evalStats.topicStats[0].title}</span> — focus here next.
+            </div>
+          )}
         </div>
       )}
 

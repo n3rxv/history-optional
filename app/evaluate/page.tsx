@@ -1,4 +1,5 @@
 "use client";
+import { detectTopic } from "@/lib/detectTopic";
 import { saveToHistory, loadHistory, AnswerEntry } from "@/hooks/useAnswerHistory";
 import { supabase } from "@/lib/supabase";
 import { useState, useRef, useCallback, useEffect } from "react";
@@ -458,6 +459,31 @@ const handleOcr = useCallback(async () => {
       setTimeout(() => setEvaluation(data), 500);
       setStage("result");
       setTab("eval");
+      // Detect syllabus topic from question and save to history
+      const detectedTopic = detectTopic(question);
+      const { saveToHistory } = await import('@/hooks/useAnswerHistory');
+      saveToHistory({
+        question,
+        marks: data.marks,
+        marksOutOf: data.marks_out_of,
+        wordCount: data.word_count,
+        wordCountRating: data.word_count_rating,
+        overallFeedback: data.overall_feedback,
+        topicSlug: detectedTopic?.slug,
+        topicTitle: detectedTopic?.title,
+        sectionMarks: {
+          introduction: data.section_marks?.introduction,
+          body: data.section_marks?.body,
+          conclusion: data.section_marks?.conclusion,
+          presentation: data.section_marks?.presentation,
+        },
+        demandOfQuestion: data.demand_of_question,
+        introduction: data.introduction,
+        body: data.body,
+        conclusion: data.conclusion,
+        historiansToCite: data.historians_to_cite,
+        modelAnswer: data.model_answer,
+      });
       // Increment daily usage counter via hook
       if (usage.token) increment(usage.token);
     } catch (e: unknown) {
