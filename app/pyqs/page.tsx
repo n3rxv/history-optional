@@ -1,6 +1,5 @@
 'use client';
 import { useState, useCallback } from 'react';
-import DiscussionThread from '@/components/DiscussionThread';
 import Link from 'next/link';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
@@ -394,7 +393,6 @@ export default function PYQsPage() {
                   padding: '3px 10px', borderRadius: 4,
                 }}>Ask AI →</Link>
               </div>
-              <DiscussionThread pyqId={q.id} />
             </div>
           </div>
         ))}
