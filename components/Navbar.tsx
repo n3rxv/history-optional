@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import ThemeCustomizer from './ThemeCustomizer';
+import SearchModal from './SearchModal';
 import { supabase } from '@/lib/supabase';
 import { SubscribeCard } from '@/components/SubscribeCard';
 import type { User } from '@supabase/supabase-js';
@@ -261,7 +262,8 @@ export default function Navbar() {
               </svg>
             </Link>
 
-            <ThemeCustomizer />
+            <SearchModal />
+          <ThemeCustomizer />
 
             {/* Auth / Premium */}
             {user ? (
