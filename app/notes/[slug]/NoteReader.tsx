@@ -150,7 +150,7 @@ function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLD
 
   return (
     <div style={{
-      position: 'sticky', top: 60, zIndex: 100,
+      position: 'sticky', top: 106, zIndex: 100,
       display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center',
       padding: '5px 10px',
       background: 'linear-gradient(135deg, rgba(15,13,9,0.98) 0%, rgba(22,19,12,0.98) 100%)',
