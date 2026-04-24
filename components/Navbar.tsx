@@ -147,8 +147,6 @@ export default function Navbar() {
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
   const notesRef = useRef<HTMLDivElement>(null);
   const pyqsRef = useRef<HTMLDivElement>(null);
-  const isTouch = useRef(false);
-  useEffect(() => { isTouch.current = window.matchMedia("(hover: none)").matches; }, []);
   useEffect(() => {
     const handler = (e: MouseEvent | TouchEvent) => {
       if (notesRef.current && !notesRef.current.contains(e.target as Node)) setNotesMenuOpen(false);
@@ -211,7 +209,7 @@ export default function Navbar() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }} className="desktop-nav">
 
             {/* Notes dropdown */}
-            <div ref={notesRef} style={{ position: 'relative' }} onMouseEnter={() => { if (!isTouch.current) setNotesMenuOpen(true); }} onMouseLeave={() => { if (!isTouch.current) setNotesMenuOpen(false); }}>
+            <div ref={notesRef} style={{ position: 'relative' }}>
               <button onClick={() => setNotesMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }}>
                 Notes
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
@@ -232,7 +230,7 @@ export default function Navbar() {
             </div>
 
             {/* PYQs dropdown */}
-            <div ref={pyqsRef} style={{ position: 'relative' }} onMouseEnter={() => { if (!isTouch.current) setPyqsMenuOpen(true); }} onMouseLeave={() => { if (!isTouch.current) setPyqsMenuOpen(false); }}>
+            <div ref={pyqsRef} style={{ position: 'relative' }}>
               <button onClick={() => setPyqsMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }}>
                 PYQs
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
