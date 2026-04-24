@@ -425,12 +425,14 @@ const handleOcr = useCallback(async () => {
       setEvalPhase("Complete.");
       clearTimeout(evalTimer);
       setSubmittedQ(question);
-      // Save to answer history
+      // Save full evaluation to history
       if (data) {
         saveToHistory({
           question,
           marks: data.marks,
           marksOutOf: data.marks_out_of,
+          wordCount: data.word_count,
+          wordCountRating: data.word_count_rating,
           overallFeedback: data.overall_feedback,
           sectionMarks: {
             introduction: data.section_marks.introduction,
@@ -438,6 +440,12 @@ const handleOcr = useCallback(async () => {
             conclusion: data.section_marks.conclusion,
             presentation: data.section_marks.presentation,
           },
+          demandOfQuestion: data.demand_of_question,
+          introduction: data.introduction,
+          body: data.body,
+          conclusion: data.conclusion,
+          historiansToCite: data.historians_to_cite,
+          modelAnswer: data.model_answer,
         });
       }
       setSubmittedM(marks);
@@ -654,18 +662,35 @@ const handleOcr = useCallback(async () => {
 
         {/* ── Main content ── */}
         {openEntry ? (
-          /* Past evaluation viewer */
+          /* Past evaluation viewer — full result */
           <div className="ev-wrap" style={{ flex:1, padding:"48px 40px 96px", overflowY:"auto", maxWidth:820 }}>
             <button onClick={() => setOpenEntry(null)} style={{ background:"transparent", border:"1px solid #2a2a2a", color:"#666", cursor:"pointer", padding:"6px 14px", borderRadius:4, fontSize:"0.72rem", fontFamily:"var(--font-mono)", marginBottom:32, letterSpacing:"0.1em" }}>
               ← Back to Evaluate
             </button>
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#555", marginBottom:12 }}>
+
+            {/* Date + question */}
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#555", marginBottom:10 }}>
               {new Date(openEntry.date).toLocaleDateString("en-IN", { day:"numeric", month:"long", year:"numeric" })}
             </div>
-            <div style={{ fontSize:"1.05rem", color:"#e2e8f0", lineHeight:1.65, fontFamily:"var(--font-body)", marginBottom:32, paddingBottom:24, borderBottom:"1px solid #2a2a2a" }}>
+            <div className="ev-qtext" style={{ marginBottom:32, paddingBottom:24, borderBottom:"1px solid #2a2a2a" }}>
               {openEntry.question}
             </div>
-            {/* Score grid */}
+
+            {/* Score row */}
+            <div className="ev-score-row">
+              <div>
+                {(() => { const col = (openEntry.marks/openEntry.marksOutOf) >= 0.7 ? "#4ade80" : (openEntry.marks/openEntry.marksOutOf) >= 0.5 ? "#f59e0b" : "#f87171"; return (
+                  <><span className="ev-score-num" style={{ color:col }}>{openEntry.marks}</span><span className="ev-score-denom"> /{openEntry.marksOutOf}</span></>
+                ); })()}
+                {openEntry.wordCount && (
+                  <div style={{ marginTop:8, fontFamily:"var(--font-mono)", fontSize:"0.65rem", color:"#555" }}>
+                    {openEntry.wordCount} words · <span style={{ color: openEntry.wordCountRating === "GOOD" ? "#4ade80" : "#f59e0b" }}>{openEntry.wordCountRating}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Section marks grid */}
             <div className="ev-sec-grid">
               {(["introduction","body","conclusion","presentation"] as const).map(sec => {
                 const sm = openEntry.sectionMarks[sec];
@@ -676,22 +701,99 @@ const handleOcr = useCallback(async () => {
                     <div className="ev-sec-lbl">{sec}</div>
                     <div className="ev-sec-num" style={{ color:col }}>{sm.awarded}<span className="ev-sec-den">/{sm.out_of}</span></div>
                     <div className="ev-sec-bar-bg"><div className="ev-sec-bar-fill" style={{ width:`${pct}%`, background:col }} /></div>
+                    {sm.reasoning && <div className="ev-sec-rsn">{sm.reasoning}</div>}
                   </div>
                 );
               })}
             </div>
-            {/* Overall */}
-            <div style={{ marginTop:8 }}>
-              <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.22em", textTransform:"uppercase", color:"#555", marginBottom:12 }}>Overall Feedback</div>
-              <div className="ev-overall-txt">{openEntry.overallFeedback}</div>
+
+            {/* Tabs — Eval / Model Answer */}
+            <div className="ev-tabs">
+              {["eval","model"].map(t => (
+                <button key={t} className={`ev-tab${tab===t?" ev-tab-active":""}`} onClick={() => setTab(t as "eval"|"model")}>
+                  {t === "eval" ? "Evaluation" : "Model Answer"}
+                </button>
+              ))}
             </div>
-            {/* Total score */}
-            <div style={{ marginTop:32, padding:"20px 24px", background:"#161616", border:"1px solid #2a2a2a", borderRadius:8, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-              <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"#555" }}>Total Score</span>
-              <span style={{ fontFamily:"var(--font-mono)", fontSize:"2rem", fontWeight:700, color: (openEntry.marks/openEntry.marksOutOf) >= 0.7 ? "#4ade80" : (openEntry.marks/openEntry.marksOutOf) >= 0.5 ? "#f59e0b" : "#f87171" }}>
-                {openEntry.marks}<span style={{ fontSize:"1rem", color:"#444" }}>/{openEntry.marksOutOf}</span>
-              </span>
-            </div>
+
+            {tab === "eval" && (
+              <div className="ev-fade">
+                {/* Demand */}
+                {openEntry.demandOfQuestion && openEntry.demandOfQuestion.length > 0 && (
+                  <div style={{ marginBottom:32 }}>
+                    <div className="ev-ct">Demand of the Question</div>
+                    {openEntry.demandOfQuestion.map((d,i) => (
+                      <div key={i} className="ev-demand-item"><div className="ev-demand-bullet"/><div style={{ fontSize:"0.87rem", color:"#ccc", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{d}</div></div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Introduction */}
+                {openEntry.introduction && (
+                  <div style={{ marginBottom:32 }}>
+                    <div className="ev-ct">Introduction</div>
+                    {openEntry.introduction.what_was_written && <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginBottom:12 }}>{openEntry.introduction.what_was_written}</div>}
+                    {openEntry.introduction.strengths?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#4ade80" }}>✓ {s}</div>)}
+                    {openEntry.introduction.suggestions?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#f59e0b" }}>→ {s}</div>)}
+                    {openEntry.modelAnswer?.introduction && (
+                      <><div className="ev-ml">Model Introduction</div><p className="ev-mp">{openEntry.modelAnswer.introduction}</p></>
+                    )}
+                  </div>
+                )}
+
+                {/* Body */}
+                {openEntry.body && (
+                  <div style={{ marginBottom:32 }}>
+                    <div className="ev-ct">Body</div>
+                    {openEntry.body.strengths?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#4ade80" }}>✓ {s}</div>)}
+                    {openEntry.body.weaknesses?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#f87171" }}>✗ {s}</div>)}
+                    {openEntry.body.suggestions?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#f59e0b" }}>→ {s}</div>)}
+                  </div>
+                )}
+
+                {/* Conclusion */}
+                {openEntry.conclusion && (
+                  <div style={{ marginBottom:32 }}>
+                    <div className="ev-ct">Conclusion</div>
+                    {openEntry.conclusion.what_was_written && <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginBottom:12 }}>{openEntry.conclusion.what_was_written}</div>}
+                    {openEntry.conclusion.strengths?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#4ade80" }}>✓ {s}</div>)}
+                    {openEntry.conclusion.suggestions?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"#f59e0b" }}>→ {s}</div>)}
+                    {openEntry.modelAnswer?.conclusion && (
+                      <><div className="ev-ml">Model Conclusion</div><p className="ev-mp">{openEntry.modelAnswer.conclusion}</p></>
+                    )}
+                  </div>
+                )}
+
+                {/* Historians */}
+                {openEntry.historiansToCite && openEntry.historiansToCite.length > 0 && (
+                  <div style={{ marginBottom:32 }}>
+                    <div className="ev-ct">Historians to Cite</div>
+                    {openEntry.historiansToCite.map((h,i) => (
+                      <div key={i} className="ev-hist">
+                        <div className="ev-hist-name">{h.name}</div>
+                        {h.work && <div className="ev-hist-work">{h.work}</div>}
+                        <div className="ev-hist-arg">{h.argument}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Overall feedback */}
+                <div className="ev-ct">Overall Feedback</div>
+                <div className="ev-overall-txt">{openEntry.overallFeedback}</div>
+              </div>
+            )}
+
+            {tab === "model" && openEntry.modelAnswer && (
+              <div className="ev-fade">
+                <div className="ev-ml">Introduction</div>
+                <p className="ev-mp">{openEntry.modelAnswer.introduction}</p>
+                <div className="ev-ml">Body</div>
+                {bodyParas(openEntry.modelAnswer.body).map((p,i) => <p key={i} className="ev-mp">{p}</p>)}
+                <div className="ev-ml">Conclusion</div>
+                <p className="ev-mp">{openEntry.modelAnswer.conclusion}</p>
+              </div>
+            )}
           </div>
         ) : (
         <div className="ev-wrap" style={{ flex:1, padding:"48px 40px 96px", overflowY:"auto", maxWidth:820 }}>
