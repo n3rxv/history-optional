@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 function parseCountry(req: NextRequest): { country: string; city: string } {
   const country = req.headers.get('x-vercel-ip-country') || 'unknown';
-  const city = req.headers.get('x-vercel-ip-city') || 'unknown';
+  const city = decodeURIComponent(req.headers.get('x-vercel-ip-city') || 'unknown');
   return { country, city };
 }
 
