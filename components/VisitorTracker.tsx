@@ -35,13 +35,21 @@ function getDeviceInfo() {
   else if (/linux/i.test(ua)) os = 'Linux';
 
   let browser = 'unknown';
-  if (/brave/i.test(ua)) browser = 'Brave';
+  if ((navigator as any).brave?.isBrave) browser = 'Brave';
   else if (/edg/i.test(ua)) browser = 'Edge';
   else if (/chrome/i.test(ua)) browser = 'Chrome';
   else if (/safari/i.test(ua)) browser = 'Safari';
   else if (/firefox/i.test(ua)) browser = 'Firefox';
 
   return { device, os, browser };
+}
+
+async function sendHeartbeat(visitor_id: string) {
+  await fetch('/api/track-visit', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ visitor_id }),
+  }).catch(() => {});
 }
 
 export default function VisitorTracker() {
@@ -58,30 +66,18 @@ export default function VisitorTracker() {
       fetch('/api/track-visit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          visitor_id,
-          page: pathname,
-          referrer,
-          device,
-          os,
-          browser,
-          is_first_visit: isFirstVisit,
-        }),
+        body: JSON.stringify({ visitor_id, page: pathname, referrer, device, os, browser, is_first_visit: isFirstVisit }),
       }).catch(() => {});
     } catch {}
   }, [pathname]);
 
-  // Heartbeat — update last_active every 30 seconds
   useEffect(() => {
     try {
       const visitor_id = getVisitorId();
-      const interval = setInterval(() => {
-        fetch('/api/track-visit', {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ visitor_id }),
-        }).catch(() => {});
-      }, 30000);
+      // Fire immediately on mount
+      sendHeartbeat(visitor_id);
+      // Then every 30s
+      const interval = setInterval(() => sendHeartbeat(visitor_id), 30000);
       return () => clearInterval(interval);
     } catch {}
   }, []);
