@@ -1,15 +1,19 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 
+const BOT_UA = /bot|crawler|spider|crawling|googlebot|bingbot|ahrefsbot|semrushbot|mj12bot|dotbot|rogerbot|facebookexternalhit|python|curl|wget|axios|node-fetch|go-http-client|java|ruby|scrapy/i;
+
 function parseCountry(req: NextRequest): { country: string; city: string } {
   const country = req.headers.get('x-vercel-ip-country') || 'unknown';
   const city = decodeURIComponent(req.headers.get('x-vercel-ip-city') || 'unknown');
   return { country, city };
 }
 
-// PATCH — heartbeat to update last_active and session_duration
 export async function PATCH(req: NextRequest) {
   try {
+    const ua = req.headers.get('user-agent') || '';
+    if (BOT_UA.test(ua)) return NextResponse.json({ ok: false, reason: 'bot' });
+
     const { visitor_id } = await req.json();
     if (!visitor_id) return NextResponse.json({ ok: false });
     const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
@@ -24,10 +28,7 @@ export async function PATCH(req: NextRequest) {
     const duration = Math.floor((now.getTime() - start.getTime()) / 1000);
     await supabase
       .from('user_sessions')
-      .update({
-        last_active: now.toISOString(),
-        session_duration_secs: duration,
-      })
+      .update({ last_active: now.toISOString(), session_duration_secs: duration })
       .eq('id', existing.id);
     return NextResponse.json({ ok: true });
   } catch {
@@ -35,9 +36,11 @@ export async function PATCH(req: NextRequest) {
   }
 }
 
-// POST — page visit
 export async function POST(req: NextRequest) {
   try {
+    const ua = req.headers.get('user-agent') || '';
+    if (BOT_UA.test(ua)) return NextResponse.json({ ok: false, reason: 'bot' });
+
     const { visitor_id, page, referrer, device, os, browser, is_first_visit } = await req.json();
     if (!visitor_id) return NextResponse.json({ ok: false, reason: 'no visitor_id' });
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
