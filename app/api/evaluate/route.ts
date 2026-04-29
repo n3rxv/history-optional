@@ -551,13 +551,32 @@ Go page by page. Do not rush. Every word matters.`;
       await new Promise(res => setTimeout(res, 500));
     }
 
-    // ── PASS 1: Chain-of-thought reasoning ─────────────────────
+    // ── RAG: Fetch relevant book context ─────────────────────
+    let ragContext = '';
+    try {
+      const ragRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/rag-search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: question }),
+      });
+      const ragData = await ragRes.json();
+      ragContext = ragData.context || '';
+      if (ragContext) console.log('RAG context fetched, length:', ragContext.length);
+    } catch (ragErr) {
+      console.log('RAG fetch failed (non-fatal):', ragErr);
+    }
+
+        // ── PASS 1: Chain-of-thought reasoning ─────────────────────
     const introMax = marks === "10" ? "1.5" : marks === "15" ? "2" : "3";
     const bodyMax  = marks === "10" ? "5.5" : marks === "15" ? "8" : "11";
     const concMax  = marks === "10" ? "1.5" : marks === "15" ? "2" : "3";
     const presMax  = marks === "10" ? "1.5" : "3";
 
     const cotPrompt = `Paper: History Optional (UPSC Civil Services Mains)
+${ragContext ? `REFERENCE MATERIAL FROM BOOKS:
+${ragContext}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━` : ''}
 Question: ${question}
 Marks: ${marks}
 
