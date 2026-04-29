@@ -17,7 +17,7 @@ function isRateLimited(visitor_id: string): boolean {
   rateLimitStore.set(visitor_id, recent);
   // Cleanup old entries
   if (rateLimitStore.size > 10000) {
-    const oldestKey = rateLimitStore.keys().next().value;
+    const oldestKey = rateLimitStore.keys().next().value as string;
     rateLimitStore.delete(oldestKey);
   }
   return false;
