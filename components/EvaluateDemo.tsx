@@ -92,7 +92,7 @@ export default function EvaluateDemo() {
       {/* Section header */}
       <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between', marginBottom:'1.25rem', flexWrap:'wrap', gap:'0.5rem' }}>
         <h2 style={{ fontFamily:'var(--font-display)', fontSize:'1.4rem', color:'#fff', fontWeight:600 }}>
-          Answer Evaluation — See How It Works
+          Answer Evaluation — Crafted for History Optional
         </h2>
         <Link href="/evaluate"
           style={{ fontFamily:'var(--font-mono)', fontSize:'0.72rem', color:'var(--red)', letterSpacing:'0.06em', textDecoration:'none', border:'1px solid rgba(239,68,68,0.3)', padding:'4px 14px', borderRadius:20 }}>
