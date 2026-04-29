@@ -3,6 +3,26 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BOT_UA = /bot|crawler|spider|crawling|googlebot|bingbot|ahrefsbot|semrushbot|mj12bot|dotbot|rogerbot|facebookexternalhit|python|curl|wget|axios|node-fetch|go-http-client|java|ruby|scrapy/i;
 
+// In-memory rate limit store
+const rateLimitStore = new Map<string, number[]>();
+const RATE_LIMIT_WINDOW = 10000; // 10 seconds
+const RATE_LIMIT_MAX = 3; // max 3 requests per 10 seconds
+
+function isRateLimited(visitor_id: string): boolean {
+  const now = Date.now();
+  const timestamps = rateLimitStore.get(visitor_id) || [];
+  const recent = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW);
+  if (recent.length >= RATE_LIMIT_MAX) return true;
+  recent.push(now);
+  rateLimitStore.set(visitor_id, recent);
+  // Cleanup old entries
+  if (rateLimitStore.size > 10000) {
+    const oldestKey = rateLimitStore.keys().next().value;
+    rateLimitStore.delete(oldestKey);
+  }
+  return false;
+}
+
 function parseCountry(req: NextRequest): { country: string; city: string } {
   const country = req.headers.get('x-vercel-ip-country') || 'unknown';
   const city = decodeURIComponent(req.headers.get('x-vercel-ip-city') || 'unknown');
@@ -43,6 +63,12 @@ export async function POST(req: NextRequest) {
 
     const { visitor_id, page, referrer, device, os, browser, is_first_visit } = await req.json();
     if (!visitor_id) return NextResponse.json({ ok: false, reason: 'no visitor_id' });
+
+    // Rate limit check
+    if (isRateLimited(visitor_id)) {
+      return NextResponse.json({ ok: false, reason: 'rate_limited' });
+    }
+
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const key = process.env.SUPABASE_SECRET_KEY;
     if (!url || !key) return NextResponse.json({ ok: false, reason: 'missing env' });
