@@ -205,7 +205,7 @@ const BOOKS: Book[] = [
     category: 'World',
     description: 'Short and academic — the perfect primer for European history from the French Revolution to the 20th century. Read before Lowe for context.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/9780742562653-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Concise+History+Modern+Europe+David+Mason',
+    archiveUrl: 'https://drive.google.com/file/d/1zS2sY2-ksOSxOB_kCVzYpmll5cY7dIl1/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=Concise+History+Modern+Europe+David+Mason',
   },
   {
