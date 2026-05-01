@@ -19,7 +19,7 @@ const BOOKS: Book[] = [
     category: 'Ancient',
     description: 'The essential starting point — clear timeline, analytical grounding, and the foundational story of ancient India from Harappa to the Gupta empire.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/8174505067-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=ancient+india+rs+sharma',
+    archiveUrl: 'https://archive.org/details/AncientIndiaRSSharmaNCERT/page/n19/mode/2up',
     buyUrl: 'https://www.flipkart.com/search?q=Ancient+India+RS+Sharma+NCERT',
   },
   {
@@ -28,7 +28,7 @@ const BOOKS: Book[] = [
     category: 'Ancient',
     description: 'The current gold standard — covers sources, polity, economy, society, religion and art from prehistoric times through the early medieval period. Indispensable for UPSC.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/9788131716779-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=upinder+singh+ancient+india',
+    archiveUrl: 'https://archive.org/details/1118-singh-upinder.-a-history-of-ancient-and-early-medieval-india-2nd-ed.-easy-reading-1',
     buyUrl: 'https://www.flipkart.com/search?q=Upinder+Singh+History+Ancient+Early+Medieval+India',
   },
   {
@@ -37,7 +37,7 @@ const BOOKS: Book[] = [
     category: 'Ancient',
     description: 'A sharper, shorter alternative to Upinder Singh — especially strong on economic history, trade networks, and urban centres of ancient India.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/9788131602898-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Ranbir+Chakravarti+Exploring+Early+India',
+    archiveUrl: 'https://drive.google.com/file/d/1T-xNpAQ8iG1464X3-EqJ1x5h8pE3Vmtn/view',
     buyUrl: 'https://www.flipkart.com/search?q=Ranbir+Chakravarti+Exploring+Early+India',
   },
   {
@@ -64,7 +64,7 @@ const BOOKS: Book[] = [
     category: 'Ancient',
     description: 'The definitive connected narrative of South Indian history from ancient polities through the fall of Vijayanagar. No other source matches its depth on the Deccan.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/0195605519-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=nilakanta+sastri+history+south+india',
+    archiveUrl: 'https://archive.org/details/dli.ernet.448836/page/3/mode/2up',
     buyUrl: 'https://www.flipkart.com/search?q=History+South+India+Nilakanta+Sastri',
   },
   {
@@ -73,7 +73,7 @@ const BOOKS: Book[] = [
     category: 'Ancient',
     description: 'A comprehensive but dense read — covers ancient India through the lens of social formation and historiography. Largely supplementary if you have Upinder Singh.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/0520242254-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Romila+Thapar+Early+India',
+    archiveUrl: 'https://archive.org/details/earlyindiaromilathapar_58_M/page/n21/mode/2up',
     buyUrl: 'https://www.flipkart.com/search?q=Early+India+Romila+Thapar',
   },
   {
@@ -82,7 +82,7 @@ const BOOKS: Book[] = [
     category: 'Ancient',
     description: 'Lucid and accessible overview of ancient India with a materialist perspective. Older source but useful for quick revision of key themes.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/8173044619-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=DN+Jha+Ancient+India+Historical+Outline',
+    archiveUrl: 'https://archive.org/details/AncientIndiaInHistoricalOutlineByD.N.Jha/page/n5/mode/2up',
     buyUrl: 'https://www.flipkart.com/search?q=Ancient+India+Historical+Outline+DN+Jha',
   },
 
@@ -93,7 +93,7 @@ const BOOKS: Book[] = [
     category: 'Medieval',
     description: 'The backbone of medieval preparation — detailed political, administrative and socio-economic coverage of Sultanate and Mughal periods across two volumes.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/9788125024491-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Medieval+India+Satish+Chandra',
+    archiveUrl: 'https://archive.org/details/history-of-medieval-india-800-1700_202303/page/1/mode/2up',
     buyUrl: 'https://www.flipkart.com/search?q=Medieval+India+Satish+Chandra',
   },
   {
@@ -102,7 +102,7 @@ const BOOKS: Book[] = [
     category: 'Medieval',
     description: 'Volume 3 is essential — the best source for Mughal culture, architecture, and personality-based debates like Akbar\'s religious policy and Amir Khusrau.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/8121503566-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=JL+Mehta+Medieval+India',
+    archiveUrl: 'https://drive.google.com/file/d/1TbQkfr7jeRserCy6HkN_X6X7ijnC28Xp/view?usp=sharing',
     buyUrl: 'https://www.flipkart.com/search?q=Advanced+Study+History+Medieval+India+JL+Mehta+Volume+3',
   },
   {
@@ -111,7 +111,7 @@ const BOOKS: Book[] = [
     category: 'Medieval',
     description: 'Strong on Delhi Sultanate debates and early medieval historiography. Good for understanding different schools of interpretation on state and society.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/9789350980101-L.jpg',
-    archiveUrl: undefined,
+    archiveUrl: 'https://www.scribd.com/document/730516827/Vipul-Singh-Interpreting-Medieval-India-Early-Medieval-Delhi-Sultanate-And-Regions-Circa-750-1550-01-Macmillan-2009',
     buyUrl: 'https://www.flipkart.com/search?q=Interpreting+Medieval+India+Vipul+Singh',
   },
   {
@@ -120,7 +120,7 @@ const BOOKS: Book[] = [
     category: 'Medieval',
     description: 'An updated and detailed treatment of the Delhi Sultanate — can replace Satish Chandra\'s first volume with more current historiography and analysis.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/9788131602317-L.jpg',
-    archiveUrl: undefined,
+    archiveUrl: 'https://drive.google.com/file/d/1egq708YzMvrxSpQpqEWu6eeRG1UzSwkX/view?usp=sharing',
     buyUrl: 'https://www.flipkart.com/search?q=Sultanate+Delhi+Aniruddha+Ray',
   },
   {
@@ -129,7 +129,7 @@ const BOOKS: Book[] = [
     category: 'Medieval',
     description: 'The standard reference for medieval religion, Sufi and Bhakti movements, philosophy and fine arts. A backup to IGNOU for cultural questions.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/0283992166-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Wonder+Was+India+Rizvi+medieval',
+    archiveUrl: 'https://archive.org/details/TheWonderThatWasIndiaVol2SAARizvi',
     buyUrl: 'https://www.flipkart.com/search?q=Wonder+That+Was+India+Part+2+Rizvi',
   },
 
@@ -140,7 +140,7 @@ const BOOKS: Book[] = [
     category: 'Modern',
     description: 'The star book for Modern India — updated historiography, comprehensive narration from colonial conquest through independence. Non-negotiable for History Optional.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/9788125027980-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Plassey+Partition+Sekhar+Bandyopadhyay',
+    archiveUrl: 'https://drive.google.com/file/d/1cOR56Qn1Ojw0nKQflFercEO-ZLK9vENf/view?usp=sharing',
     buyUrl: 'https://www.flipkart.com/search?q=Plassey+to+Partition+Sekhar+Bandyopadhyay',
   },
   {
@@ -149,7 +149,7 @@ const BOOKS: Book[] = [
     category: 'Modern',
     description: 'Narrative-driven and deeply readable — the best source for the freedom movement\'s drama and ideology. Its conclusions are safe and well-accepted for UPSC.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/0140107819-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=India+Struggle+Independence+Bipan+Chandra',
+    archiveUrl: 'https://archive.org/details/indias-struggle-for-independence-bipan-chandra',
     buyUrl: 'https://www.flipkart.com/search?q=India+Struggle+Independence+Bipan+Chandra',
   },
   {
@@ -158,7 +158,7 @@ const BOOKS: Book[] = [
     category: 'Modern',
     description: 'Dense and fact-heavy — indispensable for specific statements, precise dates, and quotes that appear in UPSC questions. Use alongside Bandyopadhyay.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/0333904257-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Modern+India+Sumit+Sarkar',
+    archiveUrl: 'https://archive.org/details/modernindia1885100sark/page/n5/mode/2up',
     buyUrl: 'https://www.flipkart.com/search?q=Modern+India+1885+1947+Sumit+Sarkar',
   },
   {
@@ -167,7 +167,7 @@ const BOOKS: Book[] = [
     category: 'Modern',
     description: 'Excellent reference for the policies of Governor Generals and the pre-Congress colonial era — fills gaps that other modern history books leave.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/8121906067-L.jpg',
-    archiveUrl: undefined,
+    archiveUrl: 'https://drive.google.com/file/d/1iFHcop_uVBjMI1TbhsUcj0L5NTiylNTq/view?usp=drive_link',
     buyUrl: 'https://www.flipkart.com/search?q=New+Look+Modern+Indian+History+Grover+Mehta',
   },
 
@@ -178,7 +178,7 @@ const BOOKS: Book[] = [
     category: 'World',
     description: 'The strongest source for 18th and 19th century world history — many UPSC questions come directly from this book. Start here for Paper 1 World section.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/9788131731765-L.jpg',
-    archiveUrl: undefined,
+    archiveUrl: 'https://drive.google.com/file/d/1otp1NFebUS92LcVUZOJ13Q7Ul_Be4hvg/view?usp=sharing',
     buyUrl: 'https://www.flipkart.com/search?q=History+Modern+World+Ranjan+Chakrabarti',
   },
   {
@@ -187,7 +187,7 @@ const BOOKS: Book[] = [
     category: 'World',
     description: 'The definitive source for 20th century world history — wars, revolutions, Cold War, decolonisation. UK-centric but comprehensive. Pair with Arjun Dev for balance.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/9780230580633-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Norman+Lowe+Mastering+Modern+World+History',
+    archiveUrl: 'https://archive.org/details/NormanLoweMasteringModernWorldHistoryzLib.org/page/n215/mode/2up',
     buyUrl: 'https://www.flipkart.com/search?q=Mastering+Modern+World+History+Norman+Lowe',
   },
   {
@@ -196,7 +196,7 @@ const BOOKS: Book[] = [
     category: 'World',
     description: 'Balances Norman Lowe\'s Western bias with a Third World perspective — essential for decolonisation, nationalism in Asia and Africa, and non-European history.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/8174504915-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Story+Civilization+Arjun+Dev+NCERT',
+    archiveUrl: 'https://archive.org/details/the-story-of-civilization-vol-ii/page/306/mode/2up',
     buyUrl: 'https://www.flipkart.com/search?q=Story+Civilization+Arjun+Dev+NCERT',
   },
   {
@@ -214,7 +214,7 @@ const BOOKS: Book[] = [
     category: 'World',
     description: 'High-quality nuanced analysis of European history — best for understanding the intellectual and political undercurrents behind major events. Time-consuming but rewarding.',
     coverUrl: 'https://covers.openlibrary.org/b/isbn/0140136053-L.jpg',
-    archiveUrl: 'https://archive.org/search?query=Europe+Since+Napoleon+David+Thomson',
+    archiveUrl: 'https://archive.org/details/europe-since-napoleon-david-thomson/page/682/mode/2up',
     buyUrl: 'https://www.flipkart.com/search?q=Europe+Since+Napoleon+David+Thomson',
   },
 ];
