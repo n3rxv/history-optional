@@ -270,7 +270,7 @@ export default function ResourcesPage() {
           letterSpacing: '-0.02em',
           margin: '0 0 0.75rem',
           lineHeight: 1.2,
-        }}>The Library</h1>
+        }}>Additional Reads &amp; Basic Resources</h1>
         <p style={{
           color: 'var(--text2)',
           fontSize: '0.9rem',
