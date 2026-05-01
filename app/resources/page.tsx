@@ -222,21 +222,53 @@ const CAT = {
 
 const CATEGORIES = ['All', 'Ancient', 'Medieval', 'Modern', 'World'] as const;
 
-// Direct Google Books cover URL — no fetch, no CORS, just <img src>
-function coverUrl(isbn: string) {
-  return `https://books.google.com/books/content?vid=ISBN${isbn}&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api`;
+// Hardcoded Open Library Work IDs for books that are well-indexed there.
+// OL cover by OLID: https://covers.openlibrary.org/b/olid/{OLID}-L.jpg (no CORS)
+// OL cover by ISBN: https://covers.openlibrary.org/b/isbn/{ISBN}-L.jpg (no CORS, may return placeholder)
+const OL_COVERS: Record<string, string> = {
+  // Open Library cover IDs (b/id/{n}-L.jpg)
+  '9780330439435': 'https://covers.openlibrary.org/b/id/8739161-L.jpg',   // AL Basham - Wonder That Was India
+  '9780520242258': 'https://covers.openlibrary.org/b/id/8234695-L.jpg',   // Romila Thapar - Early India
+  '9780140107814': 'https://covers.openlibrary.org/b/id/8090396-L.jpg',   // Bipan Chandra - India's Struggle
+  '9780333904251': 'https://covers.openlibrary.org/b/id/2505308-L.jpg',   // Sumit Sarkar - Modern India
+  '9780230249172': 'https://covers.openlibrary.org/b/id/12800836-L.jpg',  // Norman Lowe
+  '9780140209662': 'https://covers.openlibrary.org/b/id/177432-L.jpg',    // David Thomson - Europe Since Napoleon
+  '9780742554955': 'https://covers.openlibrary.org/b/id/6416410-L.jpg',   // David Mason - Concise History Modern Europe
+  '9780195606867': 'https://covers.openlibrary.org/b/id/14619024-L.jpg',  // Nilakanta Sastri
+};
+
+// Build candidate URL list for a given ISBN — tried in order, first to load wins
+function coverUrls(isbn: string): string[] {
+  const urls: string[] = [];
+  // 1. Hardcoded OL ID (most reliable for known books)
+  if (OL_COVERS[isbn]) urls.push(OL_COVERS[isbn]);
+  // 2. Open Library by ISBN (works for many well-indexed books, no CORS)
+  urls.push(`https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`);
+  // 3. Google Books (works for some, may be blocked by browser for others)
+  urls.push(`https://books.google.com/books/content?vid=ISBN${isbn}&printsec=frontcover&img=1&zoom=2`);
+  return urls;
 }
 
 function BookCover({ isbn, title, color }: { isbn?: string; title: string; color: string }) {
-  const [failed, setFailed] = useState(false);
+  const candidates = isbn ? coverUrls(isbn) : [];
+  const [idx, setIdx] = useState(0);
 
-  if (isbn && !failed) {
+  const tryNext = () => setIdx(i => i + 1);
+
+  if (isbn && idx < candidates.length) {
     return (
       <img
-        src={coverUrl(isbn)}
+        key={candidates[idx]}
+        src={candidates[idx]}
         alt={title}
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        onError={() => setFailed(true)}
+        onError={tryNext}
+        // Open Library returns a tiny 1×1 gif placeholder when no cover exists.
+        // Detect it via naturalWidth once loaded.
+        onLoad={(e) => {
+          const img = e.currentTarget;
+          if (img.naturalWidth < 10) tryNext();
+        }}
       />
     );
   }
