@@ -222,53 +222,43 @@ const CAT = {
 
 const CATEGORIES = ['All', 'Ancient', 'Medieval', 'Modern', 'World'] as const;
 
-// Hardcoded Open Library Work IDs for books that are well-indexed there.
-// OL cover by OLID: https://covers.openlibrary.org/b/olid/{OLID}-L.jpg (no CORS)
-// OL cover by ISBN: https://covers.openlibrary.org/b/isbn/{ISBN}-L.jpg (no CORS, may return placeholder)
-const OL_COVERS: Record<string, string> = {
-  // Open Library cover IDs (b/id/{n}-L.jpg)
-  '9780330439435': 'https://covers.openlibrary.org/b/id/8739161-L.jpg',   // AL Basham - Wonder That Was India
-  '9780520242258': 'https://covers.openlibrary.org/b/id/8234695-L.jpg',   // Romila Thapar - Early India
-  '9780140107814': 'https://covers.openlibrary.org/b/id/8090396-L.jpg',   // Bipan Chandra - India's Struggle
-  '9780333904251': 'https://covers.openlibrary.org/b/id/2505308-L.jpg',   // Sumit Sarkar - Modern India
-  '9780230249172': 'https://covers.openlibrary.org/b/id/12800836-L.jpg',  // Norman Lowe
-  '9780140209662': 'https://covers.openlibrary.org/b/id/177432-L.jpg',    // David Thomson - Europe Since Napoleon
-  '9780742554955': 'https://covers.openlibrary.org/b/id/6416410-L.jpg',   // David Mason - Concise History Modern Europe
-  '9780195606867': 'https://covers.openlibrary.org/b/id/14619024-L.jpg',  // Nilakanta Sastri
+// Local cover images served from /public/book-covers/ — no CORS, no external dependency
+const LOCAL_COVERS: Record<string, string> = {
+  '9788174505194': '/book-covers/rs-sharma.jpg',
+  '9788131711200': '/book-covers/upinder-singh.jpg',
+  '9788131732076': '/book-covers/ranbir-chakravarti.jpg',
+  '9780330439435': '/book-covers/al-basham.jpg',
+  '9788120815315': '/book-covers/vk-jain.jpg',
+  '9780195606867': '/book-covers/nilakanta-sastri.jpg',
+  '9780520242258': '/book-covers/romila-thapar.jpg',
+  '9788173040504': '/book-covers/dn-jha.jpg',
+  '9788125011644': '/book-covers/satish-chandra.jpg',
+  '9788120703223': '/book-covers/jl-mehta.jpg',
+  '9780230635036': '/book-covers/vipul-singh.jpg',
+  '9788131606629': '/book-covers/aniruddha-ray.jpg',
+  '9780333906101': '/book-covers/saa-rizvi.jpg',
+  '9788125025962': '/book-covers/sekhar-bandyopadhyay.jpg',
+  '9780140107814': '/book-covers/bipan-chandra.jpg',
+  '9780333904251': '/book-covers/sumit-sarkar.jpg',
+  '9788121905831': '/book-covers/grover-mehta.jpg',
+  '9788187566298': '/book-covers/ranjan-chakrabarti.jpg',
+  '9780230249172': '/book-covers/norman-lowe.jpg',
+  '9788174504531': '/book-covers/arjun-dev.jpg',
+  '9780742554955': '/book-covers/david-mason.jpg',
+  '9780140209662': '/book-covers/david-thomson.jpg',
 };
 
-// Build candidate URL list for a given ISBN — tried in order, first to load wins
-function coverUrls(isbn: string): string[] {
-  const urls: string[] = [];
-  // 1. Hardcoded OL ID (most reliable for known books)
-  if (OL_COVERS[isbn]) urls.push(OL_COVERS[isbn]);
-  // 2. Open Library by ISBN (works for many well-indexed books, no CORS)
-  urls.push(`https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`);
-  // 3. Google Books (works for some, may be blocked by browser for others)
-  urls.push(`https://books.google.com/books/content?vid=ISBN${isbn}&printsec=frontcover&img=1&zoom=2`);
-  return urls;
-}
-
 function BookCover({ isbn, title, color }: { isbn?: string; title: string; color: string }) {
-  const candidates = isbn ? coverUrls(isbn) : [];
-  const [idx, setIdx] = useState(0);
+  const [failed, setFailed] = useState(false);
+  const src = isbn ? LOCAL_COVERS[isbn] : undefined;
 
-  const tryNext = () => setIdx(i => i + 1);
-
-  if (isbn && idx < candidates.length) {
+  if (src && !failed) {
     return (
       <img
-        key={candidates[idx]}
-        src={candidates[idx]}
+        src={src}
         alt={title}
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        onError={tryNext}
-        // Open Library returns a tiny 1×1 gif placeholder when no cover exists.
-        // Detect it via naturalWidth once loaded.
-        onLoad={(e) => {
-          const img = e.currentTarget;
-          if (img.naturalWidth < 10) tryNext();
-        }}
+        onError={() => setFailed(true)}
       />
     );
   }
