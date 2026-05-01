@@ -362,7 +362,14 @@ function CuttingSlider({ cuttings, authed, token, onUpdate }: {
       {lightbox && (
         <div onClick={() => setLightbox(null)} style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.92)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out', padding: '1rem' }}>
           <div onClick={e => e.stopPropagation()} style={{ maxWidth: '90vw', maxHeight: '90vh', display: 'flex', flexDirection: 'column', background: '#f5f0e8', borderRadius: 4, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.8)' }}>
-            <img src={lightbox.image} alt={lightbox.headline} style={{ maxWidth: '90vw', maxHeight: '80vh', objectFit: 'contain', display: 'block' }} />
+            <svg width="0" height="0" style={{ position: 'absolute' }}>
+              <defs>
+                <filter id="sharpen">
+                  <feConvolveMatrix order="3" kernelMatrix="0 -1 0 -1 5 -1 0 -1 0" />
+                </filter>
+              </defs>
+            </svg>
+            <img src={lightbox.image} alt={lightbox.headline} style={{ maxWidth: '90vw', maxHeight: '80vh', objectFit: 'contain', display: 'block', filter: 'url(#sharpen) contrast(1.1) brightness(1.03)' }} />
             <div style={{ padding: '0.75rem 1rem', borderTop: '2px solid #2c1810', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '0.9rem', fontWeight: 700, color: '#1a0f0a', margin: 0 }}>{lightbox.headline}</h3>
               <div style={{ display: 'flex', gap: 12, flexShrink: 0 }}>
