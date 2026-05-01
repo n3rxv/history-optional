@@ -70,6 +70,14 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  if (pathname === '/resources') {
+    return NextResponse.next();
+  }
+
+  if (pathname === '/resources') {
+    return NextResponse.next();
+  }
+
   if (pathname.startsWith('/api/admin/note-content')) {
     const res = NextResponse.next();
     res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');

@@ -251,7 +251,7 @@ export default function Navbar() {
             </div>
 
             {/* Flat links */}
-            {[{ href: '/chat', label: 'AI Chat' }, { href: '/evaluate', label: 'Evaluate' }].map(l => {
+            {[{ href: '/chat', label: 'AI Chat' }, { href: '/evaluate', label: 'Evaluate' }, { href: '/resources', label: 'Books' }].map(l => {
               const active = pathname.startsWith(l.href);
               return (
                 <Link key={l.href} href={l.href} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, fontSize: '0.82rem', fontFamily: 'var(--font-ui)', textDecoration: 'none', color: active ? 'var(--accent)' : 'var(--text2)', background: 'transparent', transition: 'color 0.15s' }}
@@ -312,7 +312,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         {open && (
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '0.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.1rem', background: '#0a0a0a' }}>
-            {[{ href: '/paper1', label: 'Paper I' }, { href: '/paper2', label: 'Paper II' }, { href: '/timeline', label: 'Timeline' }, { href: '/historiography', label: 'Historiography' }, { href: '/flashcards', label: 'Flashcards' }, { href: '/pyqs', label: 'PYQs' }, { href: '/test', label: 'Start Test' }, { href: '/chat', label: 'AI Chat' }, { href: '/evaluate', label: 'Evaluate' }, { href: '/dashboard', label: 'My Progress' }].map(l => (
+            {[{ href: '/paper1', label: 'Paper I' }, { href: '/paper2', label: 'Paper II' }, { href: '/timeline', label: 'Timeline' }, { href: '/historiography', label: 'Historiography' }, { href: '/flashcards', label: 'Flashcards' }, { href: '/pyqs', label: 'PYQs' }, { href: '/test', label: 'Start Test' }, { href: '/chat', label: 'AI Chat' }, { href: '/evaluate', label: 'Evaluate' }, { href: '/resources', label: 'Books' }, { href: '/dashboard', label: 'My Progress' }].map(l => (
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ padding: '0.6rem 0.5rem', borderRadius: 5, fontSize: '0.88rem', textDecoration: 'none', color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)' }}>{l.label}</Link>
             ))}
             <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
