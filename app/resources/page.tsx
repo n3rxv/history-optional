@@ -1,23 +1,24 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 
 interface Book {
   title: string;
   author: string;
   category: 'Ancient' | 'Medieval' | 'Modern' | 'World';
   description: string;
-  coverQuery: string;
+  isbn?: string;
   archiveUrl?: string;
   buyUrl: string;
 }
 
+// ISBNs sourced so Google Books returns the right cover via direct URL (no fetch needed)
 const BOOKS: Book[] = [
   {
     title: 'Ancient India',
     author: 'R.S. Sharma',
     category: 'Ancient',
     description: 'The essential starting point — clear timeline, analytical grounding, and the foundational story of ancient India from Harappa to the Gupta empire.',
-    coverQuery: 'Ancient India RS Sharma NCERT',
+    isbn: '9788174505194',
     archiveUrl: 'https://archive.org/details/AncientIndiaRSSharmaNCERT/page/n19/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Ancient+India+RS+Sharma+NCERT',
   },
@@ -26,7 +27,7 @@ const BOOKS: Book[] = [
     author: 'Upinder Singh',
     category: 'Ancient',
     description: 'The current gold standard — covers sources, polity, economy, society, religion and art from prehistoric times through the early medieval period.',
-    coverQuery: 'History Ancient Early Medieval India Upinder Singh',
+    isbn: '9788131711200',
     archiveUrl: 'https://archive.org/details/1118-singh-upinder.-a-history-of-ancient-and-early-medieval-india-2nd-ed.-easy-reading-1',
     buyUrl: 'https://www.amazon.in/s?k=Upinder+Singh+History+Ancient+Early+Medieval+India',
   },
@@ -35,7 +36,7 @@ const BOOKS: Book[] = [
     author: 'Ranbir Chakravarti',
     category: 'Ancient',
     description: 'A sharper, shorter alternative — especially strong on economic history, trade networks, and urban centres of ancient India.',
-    coverQuery: 'Exploring Early India Ranbir Chakravarti',
+    isbn: '9788131732076',
     archiveUrl: 'https://drive.google.com/file/d/1T-xNpAQ8iG1464X3-EqJ1x5h8pE3Vmtn/view',
     buyUrl: 'https://www.amazon.in/s?k=Ranbir+Chakravarti+Exploring+Early+India',
   },
@@ -44,7 +45,7 @@ const BOOKS: Book[] = [
     author: 'A.L. Basham',
     category: 'Ancient',
     description: 'A magisterial work on the civilisational depth of ancient India — religion, philosophy, science, literature and art. Irreplaceable for cultural questions.',
-    coverQuery: 'Wonder That Was India Basham',
+    isbn: '9780330439435',
     archiveUrl: 'https://archive.org/details/wonderthatwasind00bash',
     buyUrl: 'https://www.amazon.in/s?k=Wonder+That+Was+India+AL+Basham',
   },
@@ -53,7 +54,7 @@ const BOOKS: Book[] = [
     author: 'V.K. Jain',
     category: 'Ancient',
     description: 'The go-to for prehistory and Harappan civilisation — rich with high-quality maps and material culture evidence that most textbooks skip.',
-    coverQuery: 'Prehistory Protohistory India VK Jain',
+    isbn: '9788120815315',
     archiveUrl: undefined,
     buyUrl: 'https://www.amazon.in/s?k=Prehistory+Protohistory+India+VK+Jain',
   },
@@ -62,7 +63,7 @@ const BOOKS: Book[] = [
     author: 'K.A. Nilakanta Sastri',
     category: 'Ancient',
     description: 'The definitive connected narrative of South Indian history — from ancient polities through the fall of Vijayanagar.',
-    coverQuery: 'History South India Nilakanta Sastri',
+    isbn: '9780195606867',
     archiveUrl: 'https://archive.org/details/dli.ernet.448836/page/3/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=History+South+India+Nilakanta+Sastri',
   },
@@ -71,7 +72,7 @@ const BOOKS: Book[] = [
     author: 'Romila Thapar',
     category: 'Ancient',
     description: 'A comprehensive but dense read — covers ancient India through the lens of social formation and historiography.',
-    coverQuery: 'Early India Romila Thapar',
+    isbn: '9780520242258',
     archiveUrl: 'https://archive.org/details/earlyindiaromilathapar_58_M/page/n21/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Early+India+Romila+Thapar',
   },
@@ -80,7 +81,7 @@ const BOOKS: Book[] = [
     author: 'D.N. Jha',
     category: 'Ancient',
     description: 'Lucid and accessible overview with a materialist perspective. Older source but useful for quick revision of key themes.',
-    coverQuery: 'Ancient India Historical Outline DN Jha',
+    isbn: '9788173040504',
     archiveUrl: 'https://archive.org/details/AncientIndiaInHistoricalOutlineByD.N.Jha/page/n5/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Ancient+India+Historical+Outline+DN+Jha',
   },
@@ -89,7 +90,7 @@ const BOOKS: Book[] = [
     author: 'Satish Chandra',
     category: 'Medieval',
     description: 'The backbone of medieval preparation — detailed political, administrative and socio-economic coverage of Sultanate and Mughal periods.',
-    coverQuery: 'Medieval India Satish Chandra',
+    isbn: '9788125011644',
     archiveUrl: 'https://archive.org/details/history-of-medieval-india-800-1700_202303/page/1/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Medieval+India+Satish+Chandra',
   },
@@ -98,7 +99,7 @@ const BOOKS: Book[] = [
     author: 'J.L. Mehta',
     category: 'Medieval',
     description: "Volume 3 is essential — the best source for Mughal culture, architecture, and personality debates like Akbar's religious policy.",
-    coverQuery: 'Advanced Study History Medieval India JL Mehta',
+    isbn: '9788120703223',
     archiveUrl: 'https://drive.google.com/file/d/1TbQkfr7jeRserCy6HkN_X6X7ijnC28Xp/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=Advanced+Study+History+Medieval+India+JL+Mehta+Volume+3',
   },
@@ -107,7 +108,7 @@ const BOOKS: Book[] = [
     author: 'Vipul Singh',
     category: 'Medieval',
     description: 'Strong on Delhi Sultanate debates and early medieval historiography — different schools of interpretation on state and society.',
-    coverQuery: 'Interpreting Medieval India Vipul Singh',
+    isbn: '9780230635036',
     archiveUrl: 'https://www.scribd.com/document/730516827/Vipul-Singh-Interpreting-Medieval-India-Early-Medieval-Delhi-Sultanate-And-Regions-Circa-750-1550-01-Macmillan-2009',
     buyUrl: 'https://www.amazon.in/s?k=Interpreting+Medieval+India+Vipul+Singh',
   },
@@ -116,7 +117,7 @@ const BOOKS: Book[] = [
     author: 'Aniruddha Ray',
     category: 'Medieval',
     description: "An updated and detailed treatment — can replace Satish Chandra's first volume with more current historiography.",
-    coverQuery: 'Sultanate Delhi Aniruddha Ray',
+    isbn: '9788131606629',
     archiveUrl: 'https://drive.google.com/file/d/1egq708YzMvrxSpQpqEWu6eeRG1UzSwkX/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=Sultanate+Delhi+Aniruddha+Ray',
   },
@@ -125,7 +126,7 @@ const BOOKS: Book[] = [
     author: 'S.A.A. Rizvi',
     category: 'Medieval',
     description: 'The standard reference for medieval religion, Sufi and Bhakti movements, philosophy and fine arts.',
-    coverQuery: 'Wonder That Was India Part 2 Rizvi medieval',
+    isbn: '9780333906101',
     archiveUrl: 'https://archive.org/details/TheWonderThatWasIndiaVol2SAARizvi',
     buyUrl: 'https://www.amazon.in/s?k=Wonder+That+Was+India+Part+2+Rizvi',
   },
@@ -134,7 +135,7 @@ const BOOKS: Book[] = [
     author: 'Sekhar Bandyopadhyay',
     category: 'Modern',
     description: 'The star book for Modern India — updated historiography, comprehensive narration from colonial conquest through independence.',
-    coverQuery: 'From Plassey to Partition Sekhar Bandyopadhyay',
+    isbn: '9788125025962',
     archiveUrl: 'https://drive.google.com/file/d/1cOR56Qn1Ojw0nKQflFercEO-ZLK9vENf/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=Plassey+to+Partition+Sekhar+Bandyopadhyay',
   },
@@ -143,7 +144,7 @@ const BOOKS: Book[] = [
     author: 'Bipan Chandra',
     category: 'Modern',
     description: "Narrative-driven and deeply readable — the best source for the freedom movement's drama and ideology.",
-    coverQuery: "India Struggle Independence Bipan Chandra",
+    isbn: '9780140107814',
     archiveUrl: 'https://archive.org/details/indias-struggle-for-independence-bipan-chandra',
     buyUrl: 'https://www.amazon.in/s?k=India+Struggle+Independence+Bipan+Chandra',
   },
@@ -152,7 +153,7 @@ const BOOKS: Book[] = [
     author: 'Sumit Sarkar',
     category: 'Modern',
     description: 'Dense and fact-heavy — indispensable for specific statements, precise dates, and quotes that appear in UPSC questions.',
-    coverQuery: 'Modern India 1885 Sumit Sarkar',
+    isbn: '9780333904251',
     archiveUrl: 'https://archive.org/details/modernindia1885100sark/page/n5/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Modern+India+1885+1947+Sumit+Sarkar',
   },
@@ -161,7 +162,7 @@ const BOOKS: Book[] = [
     author: 'Grover & Mehta',
     category: 'Modern',
     description: 'Excellent reference for the policies of Governor Generals and the pre-Congress colonial era — fills gaps that other books leave.',
-    coverQuery: 'New Look Modern Indian History Grover Mehta',
+    isbn: '9788121905831',
     archiveUrl: 'https://drive.google.com/file/d/1iFHcop_uVBjMI1TbhsUcj0L5NTiylNTq/view?usp=drive_link',
     buyUrl: 'https://www.amazon.in/s?k=New+Look+Modern+Indian+History+Grover+Mehta',
   },
@@ -170,7 +171,7 @@ const BOOKS: Book[] = [
     author: 'Ranjan Chakrabarti',
     category: 'World',
     description: 'The strongest source for 18th and 19th century world history — many UPSC questions come directly from this book.',
-    coverQuery: 'History Modern World Ranjan Chakrabarti',
+    isbn: '9788187566298',
     archiveUrl: 'https://drive.google.com/file/d/1otp1NFebUS92LcVUZOJ13Q7Ul_Be4hvg/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=History+Modern+World+Ranjan+Chakrabarti',
   },
@@ -179,7 +180,7 @@ const BOOKS: Book[] = [
     author: 'Norman Lowe',
     category: 'World',
     description: 'The definitive source for 20th century world history — wars, revolutions, Cold War, decolonisation.',
-    coverQuery: 'Mastering Modern World History Norman Lowe',
+    isbn: '9780230249172',
     archiveUrl: 'https://archive.org/details/NormanLoweMasteringModernWorldHistoryzLib.org/page/n215/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Mastering+Modern+World+History+Norman+Lowe',
   },
@@ -188,7 +189,7 @@ const BOOKS: Book[] = [
     author: 'Arjun Dev (Old NCERT)',
     category: 'World',
     description: "Balances Norman Lowe's Western bias with a Third World perspective — essential for decolonisation and non-European history.",
-    coverQuery: 'Story of Civilization Arjun Dev NCERT',
+    isbn: '9788174504531',
     archiveUrl: 'https://archive.org/details/the-story-of-civilization-vol-ii/page/306/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Story+Civilization+Arjun+Dev+NCERT',
   },
@@ -197,7 +198,7 @@ const BOOKS: Book[] = [
     author: 'David Mason',
     category: 'World',
     description: 'Short and academic — the perfect primer for European history from the French Revolution to the 20th century.',
-    coverQuery: 'Concise History Modern Europe David Mason',
+    isbn: '9780742554955',
     archiveUrl: 'https://drive.google.com/file/d/1zS2sY2-ksOSxOB_kCVzYpmll5cY7dIl1/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=Concise+History+Modern+Europe+David+Mason',
   },
@@ -206,7 +207,7 @@ const BOOKS: Book[] = [
     author: 'David Thomson',
     category: 'World',
     description: 'High-quality nuanced analysis of European history — best for understanding the intellectual undercurrents behind major events.',
-    coverQuery: 'Europe Since Napoleon David Thomson',
+    isbn: '9780140209662',
     archiveUrl: 'https://archive.org/details/europe-since-napoleon-david-thomson/page/682/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Europe+Since+Napoleon+David+Thomson',
   },
@@ -221,29 +222,18 @@ const CAT = {
 
 const CATEGORIES = ['All', 'Ancient', 'Medieval', 'Modern', 'World'] as const;
 
-function BookCover({ query, title, color }: { query: string; title: string; color: string }) {
-  const [src, setSrc] = useState<string | null>(null);
+// Direct Google Books cover URL — no fetch, no CORS, just <img src>
+function coverUrl(isbn: string) {
+  return `https://books.google.com/books/content?vid=ISBN${isbn}&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api`;
+}
+
+function BookCover({ isbn, title, color }: { isbn?: string; title: string; color: string }) {
   const [failed, setFailed] = useState(false);
-  const tried = useRef(false);
 
-  useEffect(() => {
-    if (tried.current) return;
-    tried.current = true;
-    const q = encodeURIComponent(query);
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=1`)
-      .then(r => r.json())
-      .then(d => {
-        const img = d?.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
-        if (img) setSrc(img.replace('http:', 'https:').replace('zoom=1', 'zoom=3'));
-        else setFailed(true);
-      })
-      .catch(() => setFailed(true));
-  }, [query]);
-
-  if (!failed && src) {
+  if (isbn && !failed) {
     return (
       <img
-        src={src}
+        src={coverUrl(isbn)}
         alt={title}
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         onError={() => setFailed(true)}
@@ -251,19 +241,7 @@ function BookCover({ query, title, color }: { query: string; title: string; colo
     );
   }
 
-  if (!failed && !src) {
-    return (
-      <div style={{ width: '100%', height: '100%', background: `${color}12`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{
-          width: 18, height: 18, borderRadius: '50%',
-          border: `2px solid ${color}35`,
-          borderTopColor: color,
-          animation: 'bookspin 0.8s linear infinite',
-        }} />
-      </div>
-    );
-  }
-
+  // Fallback — styled initials card
   const initials = title.split(' ').filter(w => w.length > 2).slice(0, 2).map(w => w[0]).join('').toUpperCase();
   return (
     <div style={{
@@ -296,7 +274,6 @@ export default function ResourcesPage() {
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingBottom: '5rem' }}>
       <style>{`
-        @keyframes bookspin { to { transform: rotate(360deg); } }
         .bcard { transition: background 0.18s; }
         .bcard:hover { background: var(--bg2, rgba(255,255,255,0.025)) !important; }
         .bcard:hover .bcover { box-shadow: 5px 10px 28px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05) !important; transform: translateY(-2px) rotate(-1deg); }
@@ -320,7 +297,6 @@ export default function ResourcesPage() {
             repeating-linear-gradient(0deg, var(--text) 0, var(--text) 1px, transparent 0, transparent 48px),
             repeating-linear-gradient(90deg, var(--text) 0, var(--text) 1px, transparent 0, transparent 48px)`,
         }} />
-        {/* decorative roman numeral */}
         <div style={{
           position: 'absolute', right: '-1rem', top: '50%', transform: 'translateY(-50%)',
           fontSize: 'clamp(6rem,15vw,12rem)', fontFamily: 'Georgia, serif',
@@ -425,7 +401,7 @@ export default function ResourcesPage() {
                   position: 'relative',
                 }}
               >
-                <BookCover query={book.coverQuery} title={book.title} color={meta.color} />
+                <BookCover isbn={book.isbn} title={book.title} color={meta.color} />
                 {/* spine shadow */}
                 <div style={{
                   position: 'absolute', top: 0, left: 0, bottom: 0, width: 10,
