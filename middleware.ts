@@ -66,6 +66,10 @@ export function middleware(req: NextRequest) {
   }
 
   // Protect API but allow notes to be indexed
+  if (pathname === '/api/admin/cuttings' && req.method === 'GET') {
+    return NextResponse.next();
+  }
+
   if (pathname.startsWith('/api/admin/note-content')) {
     const res = NextResponse.next();
     res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
