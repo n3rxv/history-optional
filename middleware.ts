@@ -66,7 +66,7 @@ export function middleware(req: NextRequest) {
   }
 
   // Protect API but allow notes to be indexed
-  if (pathname === '/api/admin/cuttings' && req.method === 'GET') {
+  if (pathname === '/api/admin/cuttings') {
     return NextResponse.next();
   }
 
