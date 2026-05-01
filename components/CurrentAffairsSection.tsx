@@ -226,6 +226,7 @@ function CuttingSlider({ cuttings, authed, token, onUpdate }: {
 }) {
   const [idx, setIdx] = useState(0);
   const [adding, setAdding] = useState(false);
+  const [lightbox, setLightbox] = useState<Cutting | null>(null);
   const [form, setForm] = useState({ headline: '', source: 'The Hindu', date: '', tag: '' });
   const [imgData, setImgData] = useState<string | undefined>();
   const [saving, setSaving] = useState(false);
@@ -325,43 +326,51 @@ function CuttingSlider({ cuttings, authed, token, onUpdate }: {
                   background: '#f5f0e8',
                   borderRadius: 4,
                   overflow: 'hidden',
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  minHeight: 160,
                   boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3)',
-                  transform: `rotate(${i % 2 === 0 ? -0.4 : 0.3}deg)`,
+                  transform: `rotate(${i % 2 === 0 ? -0.3 : 0.2}deg)`,
                   position: 'relative',
-                }}>
-                  {/* Torn edge effect top */}
+                  cursor: 'zoom-in',
+                }} onClick={() => setLightbox(c)}>
+                  {/* Torn edge top */}
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 6, background: '#f5f0e8', zIndex: 2, clipPath: 'polygon(0 0,2% 100%,4% 20%,6% 90%,8% 10%,10% 80%,12% 5%,14% 95%,16% 15%,18% 85%,20% 0,22% 90%,24% 10%,26% 80%,28% 5%,30% 95%,32% 20%,34% 85%,36% 10%,38% 90%,40% 0,42% 80%,44% 15%,46% 90%,48% 5%,50% 85%,52% 10%,54% 95%,56% 20%,58% 80%,60% 0,62% 90%,64% 15%,66% 85%,68% 5%,70% 95%,72% 10%,74% 80%,76% 20%,78% 90%,80% 0,82% 85%,84% 15%,86% 95%,88% 5%,90% 80%,92% 10%,94% 90%,96% 20%,98% 85%,100% 0,100% 0,0 0)' }} />
                   
-                  {/* Image side */}
-                  <div style={{ position: 'relative', overflow: 'hidden' }}>
-                    <img src={c.image} alt={c.headline} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'sepia(20%) contrast(1.05)', display: 'block' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 70%, #f5f0e8 100%)' }} />
-                  </div>
+                  {/* Full width image */}
+                  <img src={c.image} alt={c.headline} style={{ width: '100%', display: 'block', maxHeight: 420, objectFit: 'contain', background: '#f5f0e8' }} />
 
-                  {/* Text side */}
-                  <div style={{ padding: '1rem 1rem 1rem 0.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: '#f5f0e8', position: 'relative' }}>
-                    {c.tag && (
-                      <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8B4513', marginBottom: 4, display: 'block' }}>{c.tag}</span>
-                    )}
-                    <div>
-                      <div style={{ borderTop: '2px solid #2c1810', marginBottom: '0.5rem', paddingTop: '0.4rem' }}>
-                        <h3 style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '0.95rem', fontWeight: 700, color: '#1a0f0a', lineHeight: 1.35, margin: 0, letterSpacing: '-0.01em' }}>{c.headline}</h3>
-                      </div>
-                      <div style={{ borderTop: '1px solid #8b7355', marginTop: 6, paddingTop: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.6rem', color: '#5c4a32', fontStyle: 'italic' }}>{c.source}</span>
-                        <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', color: '#8b7355' }}>{c.date}</span>
-                      </div>
+                  {/* Bottom overlay */}
+                  <div style={{ padding: '0.75rem 1rem', background: '#f5f0e8', borderTop: '2px solid #2c1810', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      {c.tag && <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8B4513' }}>{c.tag}</span>}
+                      <h3 style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '0.88rem', fontWeight: 700, color: '#1a0f0a', margin: 0, lineHeight: 1.3 }}>{c.headline}</h3>
                     </div>
-                    {authed && (
-                      <button onClick={(e) => { e.stopPropagation(); deleteCutting(c.id); }} style={{ position: 'absolute', top: 6, right: 6, width: 18, height: 18, borderRadius: 3, cursor: 'pointer', background: 'rgba(255,80,80,0.1)', border: '1px solid rgba(255,80,80,0.3)', color: '#f87171', fontSize: '0.6rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
-                    )}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+                      <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.6rem', color: '#5c4a32', fontStyle: 'italic' }}>{c.source}</span>
+                      <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', color: '#8b7355' }}>{c.date}</span>
+                      {authed && (
+                        <button onClick={(e) => { e.stopPropagation(); deleteCutting(c.id); }} style={{ width: 18, height: 18, borderRadius: 3, cursor: 'pointer', background: 'rgba(255,80,80,0.1)', border: '1px solid rgba(255,80,80,0.3)', color: '#f87171', fontSize: '0.6rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div onClick={() => setLightbox(null)} style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.92)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out', padding: '1rem' }}>
+          <div onClick={e => e.stopPropagation()} style={{ maxWidth: '90vw', maxHeight: '90vh', display: 'flex', flexDirection: 'column', background: '#f5f0e8', borderRadius: 4, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.8)' }}>
+            <img src={lightbox.image} alt={lightbox.headline} style={{ maxWidth: '90vw', maxHeight: '80vh', objectFit: 'contain', display: 'block' }} />
+            <div style={{ padding: '0.75rem 1rem', borderTop: '2px solid #2c1810', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '0.9rem', fontWeight: 700, color: '#1a0f0a', margin: 0 }}>{lightbox.headline}</h3>
+              <div style={{ display: 'flex', gap: 12, flexShrink: 0 }}>
+                <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.65rem', color: '#5c4a32', fontStyle: 'italic' }}>{lightbox.source}</span>
+                <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.62rem', color: '#8b7355' }}>{lightbox.date}</span>
+                <button onClick={() => setLightbox(null)} style={{ background: 'transparent', border: 'none', color: '#5c4a32', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}>✕</button>
+              </div>
+            </div>
           </div>
         </div>
       )}
