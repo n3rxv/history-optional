@@ -207,6 +207,172 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
   );
 }
 
+
+// ─── Newspaper Cutting Slider ──────────────────────────────────────────────────
+interface Cutting {
+  id: string;
+  headline: string;
+  source: string;
+  date: string;
+  image: string;
+  tag?: string;
+}
+
+function CuttingSlider({ cuttings, authed, token, onUpdate }: { 
+  cuttings: Cutting[]; 
+  authed: boolean; 
+  token: string;
+  onUpdate: (cuttings: Cutting[]) => void;
+}) {
+  const [idx, setIdx] = useState(0);
+  const [adding, setAdding] = useState(false);
+  const [form, setForm] = useState({ headline: '', source: 'The Hindu', date: '', tag: '' });
+  const [imgData, setImgData] = useState<string | undefined>();
+  const [saving, setSaving] = useState(false);
+  const imgRef = useRef<HTMLInputElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const prev = () => setIdx(i => Math.max(0, i - 1));
+  const next = () => setIdx(i => Math.min(cuttings.length - 1, i + 1));
+
+  const onImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setImgData(reader.result as string);
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  const saveCutting = async () => {
+    if (!form.headline.trim() || !imgData) { alert('Add headline and image'); return; }
+    setSaving(true);
+    const newCutting: Cutting = {
+      id: Date.now().toString(),
+      headline: form.headline.trim(),
+      source: form.source.trim() || 'The Hindu',
+      date: form.date || new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+      image: imgData,
+      tag: form.tag.trim() || undefined,
+    };
+    const updated = [newCutting, ...cuttings];
+    await apiCall('/api/admin/cuttings', 'POST', { cuttings: updated }, token);
+    onUpdate(updated);
+    setAdding(false);
+    setForm({ headline: '', source: 'The Hindu', date: '', tag: '' });
+    setImgData(undefined);
+    setSaving(false);
+  };
+
+  const deleteCutting = async (id: string) => {
+    const updated = cuttings.filter(c => c.id !== id);
+    await apiCall('/api/admin/cuttings', 'POST', { cuttings: updated }, token);
+    onUpdate(updated);
+    setIdx(Math.max(0, idx - 1));
+  };
+
+  if (cuttings.length === 0 && !authed) return null;
+
+  return (
+    <div style={{ marginBottom: '1.5rem' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{ width: 3, height: 18, background: '#c9993a' }} />
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text3)' }}>Press Clippings</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          {authed && (
+            <button onClick={() => setAdding(a => !a)} style={{ padding: '3px 10px', borderRadius: 5, cursor: 'pointer', fontSize: '0.7rem', background: adding ? 'rgba(201,153,58,0.15)' : 'transparent', border: '1px solid rgba(201,153,58,0.3)', color: '#c9993a', fontWeight: 600 }}>
+              {adding ? 'Cancel' : '+ Add'}
+            </button>
+          )}
+          {cuttings.length > 1 && (
+            <>
+              <button onClick={prev} disabled={idx === 0} style={{ width: 26, height: 26, borderRadius: 4, cursor: idx === 0 ? 'default' : 'pointer', background: 'transparent', border: '1px solid var(--border2)', color: idx === 0 ? 'var(--border2)' : 'var(--text2)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>‹</button>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)' }}>{idx + 1}/{cuttings.length}</span>
+              <button onClick={next} disabled={idx === cuttings.length - 1} style={{ width: 26, height: 26, borderRadius: 4, cursor: idx === cuttings.length - 1 ? 'default' : 'pointer', background: 'transparent', border: '1px solid var(--border2)', color: idx === cuttings.length - 1 ? 'var(--border2)' : 'var(--text2)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>›</button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Add form */}
+      {authed && adding && (
+        <div style={{ background: 'var(--bg2)', border: '1px solid rgba(201,153,58,0.25)', borderRadius: 10, padding: '1rem', marginBottom: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <div onClick={() => imgRef.current?.click()} style={{ width: 120, height: 90, borderRadius: 6, border: '1px dashed rgba(201,153,58,0.4)', cursor: 'pointer', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)', flexShrink: 0 }}>
+            {imgData ? <img src={imgData} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: 'var(--text3)', fontSize: '0.68rem', textAlign: 'center' }}>Click to upload<br/>screenshot</span>}
+          </div>
+          <input ref={imgRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onImg} />
+          <div style={{ flex: 1, minWidth: 200, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <input value={form.headline} onChange={e => setForm(f => ({ ...f, headline: e.target.value }))} placeholder="Headline..." style={{ background: 'transparent', border: 'none', borderBottom: '1px solid var(--border2)', color: 'var(--text)', fontSize: '0.88rem', fontWeight: 700, padding: '4px 0', outline: 'none', width: '100%' }} />
+            <div style={{ display: 'flex', gap: 8 }}>
+              <input value={form.source} onChange={e => setForm(f => ({ ...f, source: e.target.value }))} placeholder="Source" style={{ background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text2)', fontSize: '0.75rem', padding: '3px 0', outline: 'none', width: '50%' }} />
+              <input value={form.tag} onChange={e => setForm(f => ({ ...f, tag: e.target.value }))} placeholder="Tag (e.g. Mughals)" style={{ background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text2)', fontSize: '0.75rem', padding: '3px 0', outline: 'none', width: '50%' }} />
+            </div>
+            <input value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} placeholder="Date (e.g. 30 Apr 2026)" style={{ background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text3)', fontSize: '0.72rem', padding: '3px 0', outline: 'none', width: '100%' }} />
+            <button onClick={saveCutting} disabled={saving} style={{ alignSelf: 'flex-start', marginTop: 4, padding: '5px 16px', borderRadius: 5, cursor: saving ? 'default' : 'pointer', fontSize: '0.78rem', fontWeight: 700, background: 'rgba(201,153,58,0.15)', border: '1px solid rgba(201,153,58,0.4)', color: '#c9993a' }}>{saving ? 'Saving...' : 'Save Cutting'}</button>
+          </div>
+        </div>
+      )}
+
+      {/* Cards */}
+      {cuttings.length > 0 && (
+        <div ref={trackRef} style={{ position: 'relative', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', transform: `translateX(${-idx * 100}%)`, transition: 'transform 0.35s cubic-bezier(0.4,0,0.2,1)' }}>
+            {cuttings.map((c, i) => (
+              <div key={c.id} style={{ minWidth: '100%', padding: '0 2px' }}>
+                <div style={{
+                  background: '#f5f0e8',
+                  borderRadius: 4,
+                  overflow: 'hidden',
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  minHeight: 160,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3)',
+                  transform: `rotate(${i % 2 === 0 ? -0.4 : 0.3}deg)`,
+                  position: 'relative',
+                }}>
+                  {/* Torn edge effect top */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 6, background: '#f5f0e8', zIndex: 2, clipPath: 'polygon(0 0,2% 100%,4% 20%,6% 90%,8% 10%,10% 80%,12% 5%,14% 95%,16% 15%,18% 85%,20% 0,22% 90%,24% 10%,26% 80%,28% 5%,30% 95%,32% 20%,34% 85%,36% 10%,38% 90%,40% 0,42% 80%,44% 15%,46% 90%,48% 5%,50% 85%,52% 10%,54% 95%,56% 20%,58% 80%,60% 0,62% 90%,64% 15%,66% 85%,68% 5%,70% 95%,72% 10%,74% 80%,76% 20%,78% 90%,80% 0,82% 85%,84% 15%,86% 95%,88% 5%,90% 80%,92% 10%,94% 90%,96% 20%,98% 85%,100% 0,100% 0,0 0)' }} />
+                  
+                  {/* Image side */}
+                  <div style={{ position: 'relative', overflow: 'hidden' }}>
+                    <img src={c.image} alt={c.headline} style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'sepia(20%) contrast(1.05)', display: 'block' }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 70%, #f5f0e8 100%)' }} />
+                  </div>
+
+                  {/* Text side */}
+                  <div style={{ padding: '1rem 1rem 1rem 0.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: '#f5f0e8', position: 'relative' }}>
+                    {c.tag && (
+                      <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8B4513', marginBottom: 4, display: 'block' }}>{c.tag}</span>
+                    )}
+                    <div>
+                      <div style={{ borderTop: '2px solid #2c1810', marginBottom: '0.5rem', paddingTop: '0.4rem' }}>
+                        <h3 style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '0.95rem', fontWeight: 700, color: '#1a0f0a', lineHeight: 1.35, margin: 0, letterSpacing: '-0.01em' }}>{c.headline}</h3>
+                      </div>
+                      <div style={{ borderTop: '1px solid #8b7355', marginTop: 6, paddingTop: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.6rem', color: '#5c4a32', fontStyle: 'italic' }}>{c.source}</span>
+                        <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', color: '#8b7355' }}>{c.date}</span>
+                      </div>
+                    </div>
+                    {authed && (
+                      <button onClick={(e) => { e.stopPropagation(); deleteCutting(c.id); }} style={{ position: 'absolute', top: 6, right: 6, width: 18, height: 18, borderRadius: 3, cursor: 'pointer', background: 'rgba(255,80,80,0.1)', border: '1px solid rgba(255,80,80,0.3)', color: '#f87171', fontSize: '0.6rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {authed && cuttings.length === 0 && !adding && (
+        <div style={{ padding: '1rem', textAlign: 'center', border: '1px dashed var(--border)', borderRadius: 8, color: 'var(--text3)', fontSize: '0.78rem' }}>No press clippings yet — click + Add to upload your first cutting.</div>
+      )}
+    </div>
+  );
+}
+
 // ─── Editorial Featured ────────────────────────────────────────────────────────
 function FeaturedCard({ post, onClick, authed, index }: { post: Post; onClick: () => void; authed: boolean; index: number }) {
   const [hovered, setHovered] = useState(false);
@@ -281,7 +447,15 @@ export default function CurrentAffairsSection() {
   const caCount = posts.filter(p => (authed || p.published) && p.type === 'current-affairs').length;
   const nnCount = posts.filter(p => (authed || p.published) && p.type === 'new-note').length;
 
-  const hasAny = caCount + nnCount > 0 || authed;
+  const [cuttings, setCuttings] = useState<Cutting[]>([]);
+
+  useEffect(() => {
+    fetch('/api/admin/cuttings').then(r => r.json()).then(d => {
+      if (d.cuttings) setCuttings(d.cuttings);
+    }).catch(() => {});
+  }, []);
+
+  const hasAny = caCount + nnCount > 0 || authed || cuttings.length > 0;
   if (!hasAny && !loading) return null;
 
   return (
@@ -311,6 +485,7 @@ export default function CurrentAffairsSection() {
       </div>
       <div style={{ borderBottom: '3px double var(--border)', marginBottom: '1.5rem' }} />
 
+      <CuttingSlider cuttings={cuttings} authed={authed} token={token} onUpdate={setCuttings} />
       {authed && <PostCreator token={token} onSaved={onPostSaved} />}
 
       {loading ? (
