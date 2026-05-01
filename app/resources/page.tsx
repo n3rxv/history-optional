@@ -1,24 +1,23 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface Book {
   title: string;
   author: string;
   category: 'Ancient' | 'Medieval' | 'Modern' | 'World';
   description: string;
-  coverUrl: string;
+  coverQuery: string;
   archiveUrl?: string;
   buyUrl: string;
 }
 
 const BOOKS: Book[] = [
-  // ── ANCIENT ──────────────────────────────────────────────────────────────────
   {
     title: 'Ancient India',
     author: 'R.S. Sharma',
     category: 'Ancient',
     description: 'The essential starting point — clear timeline, analytical grounding, and the foundational story of ancient India from Harappa to the Gupta empire.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/8174505067-L.jpg',
+    coverQuery: 'Ancient India RS Sharma NCERT',
     archiveUrl: 'https://archive.org/details/AncientIndiaRSSharmaNCERT/page/n19/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Ancient+India+RS+Sharma+NCERT',
   },
@@ -26,8 +25,8 @@ const BOOKS: Book[] = [
     title: 'A History of Ancient and Early Medieval India',
     author: 'Upinder Singh',
     category: 'Ancient',
-    description: 'The current gold standard — covers sources, polity, economy, society, religion and art from prehistoric times through the early medieval period. Indispensable for UPSC.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9788131716779-L.jpg',
+    description: 'The current gold standard — covers sources, polity, economy, society, religion and art from prehistoric times through the early medieval period.',
+    coverQuery: 'History Ancient Early Medieval India Upinder Singh',
     archiveUrl: 'https://archive.org/details/1118-singh-upinder.-a-history-of-ancient-and-early-medieval-india-2nd-ed.-easy-reading-1',
     buyUrl: 'https://www.amazon.in/s?k=Upinder+Singh+History+Ancient+Early+Medieval+India',
   },
@@ -35,8 +34,8 @@ const BOOKS: Book[] = [
     title: 'Exploring Early India',
     author: 'Ranbir Chakravarti',
     category: 'Ancient',
-    description: 'A sharper, shorter alternative to Upinder Singh — especially strong on economic history, trade networks, and urban centres of ancient India.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9788131602898-L.jpg',
+    description: 'A sharper, shorter alternative — especially strong on economic history, trade networks, and urban centres of ancient India.',
+    coverQuery: 'Exploring Early India Ranbir Chakravarti',
     archiveUrl: 'https://drive.google.com/file/d/1T-xNpAQ8iG1464X3-EqJ1x5h8pE3Vmtn/view',
     buyUrl: 'https://www.amazon.in/s?k=Ranbir+Chakravarti+Exploring+Early+India',
   },
@@ -45,7 +44,7 @@ const BOOKS: Book[] = [
     author: 'A.L. Basham',
     category: 'Ancient',
     description: 'A magisterial work on the civilisational depth of ancient India — religion, philosophy, science, literature and art. Irreplaceable for cultural questions.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/8172232977-L.jpg',
+    coverQuery: 'Wonder That Was India Basham',
     archiveUrl: 'https://archive.org/details/wonderthatwasind00bash',
     buyUrl: 'https://www.amazon.in/s?k=Wonder+That+Was+India+AL+Basham',
   },
@@ -54,7 +53,7 @@ const BOOKS: Book[] = [
     author: 'V.K. Jain',
     category: 'Ancient',
     description: 'The go-to for prehistory and Harappan civilisation — rich with high-quality maps and material culture evidence that most textbooks skip.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9788121507226-L.jpg',
+    coverQuery: 'Prehistory Protohistory India VK Jain',
     archiveUrl: undefined,
     buyUrl: 'https://www.amazon.in/s?k=Prehistory+Protohistory+India+VK+Jain',
   },
@@ -62,8 +61,8 @@ const BOOKS: Book[] = [
     title: 'A History of South India',
     author: 'K.A. Nilakanta Sastri',
     category: 'Ancient',
-    description: 'The definitive connected narrative of South Indian history from ancient polities through the fall of Vijayanagar. No other source matches its depth on the Deccan.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/0195605519-L.jpg',
+    description: 'The definitive connected narrative of South Indian history — from ancient polities through the fall of Vijayanagar.',
+    coverQuery: 'History South India Nilakanta Sastri',
     archiveUrl: 'https://archive.org/details/dli.ernet.448836/page/3/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=History+South+India+Nilakanta+Sastri',
   },
@@ -71,8 +70,8 @@ const BOOKS: Book[] = [
     title: 'Early India',
     author: 'Romila Thapar',
     category: 'Ancient',
-    description: 'A comprehensive but dense read — covers ancient India through the lens of social formation and historiography. Largely supplementary if you have Upinder Singh.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/0520242254-L.jpg',
+    description: 'A comprehensive but dense read — covers ancient India through the lens of social formation and historiography.',
+    coverQuery: 'Early India Romila Thapar',
     archiveUrl: 'https://archive.org/details/earlyindiaromilathapar_58_M/page/n21/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Early+India+Romila+Thapar',
   },
@@ -80,19 +79,17 @@ const BOOKS: Book[] = [
     title: 'Ancient India: In Historical Outline',
     author: 'D.N. Jha',
     category: 'Ancient',
-    description: 'Lucid and accessible overview of ancient India with a materialist perspective. Older source but useful for quick revision of key themes.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/8173044619-L.jpg',
+    description: 'Lucid and accessible overview with a materialist perspective. Older source but useful for quick revision of key themes.',
+    coverQuery: 'Ancient India Historical Outline DN Jha',
     archiveUrl: 'https://archive.org/details/AncientIndiaInHistoricalOutlineByD.N.Jha/page/n5/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Ancient+India+Historical+Outline+DN+Jha',
   },
-
-  // ── MEDIEVAL ─────────────────────────────────────────────────────────────────
   {
     title: 'Medieval India (Part 1 & 2)',
     author: 'Satish Chandra',
     category: 'Medieval',
-    description: 'The backbone of medieval preparation — detailed political, administrative and socio-economic coverage of Sultanate and Mughal periods across two volumes.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9788125024491-L.jpg',
+    description: 'The backbone of medieval preparation — detailed political, administrative and socio-economic coverage of Sultanate and Mughal periods.',
+    coverQuery: 'Medieval India Satish Chandra',
     archiveUrl: 'https://archive.org/details/history-of-medieval-india-800-1700_202303/page/1/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Medieval+India+Satish+Chandra',
   },
@@ -100,8 +97,8 @@ const BOOKS: Book[] = [
     title: 'Advanced Study in the History of Medieval India (Vol. 3)',
     author: 'J.L. Mehta',
     category: 'Medieval',
-    description: 'Volume 3 is essential — the best source for Mughal culture, architecture, and personality-based debates like Akbar\'s religious policy and Amir Khusrau.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/8121503566-L.jpg',
+    description: "Volume 3 is essential — the best source for Mughal culture, architecture, and personality debates like Akbar's religious policy.",
+    coverQuery: 'Advanced Study History Medieval India JL Mehta',
     archiveUrl: 'https://drive.google.com/file/d/1TbQkfr7jeRserCy6HkN_X6X7ijnC28Xp/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=Advanced+Study+History+Medieval+India+JL+Mehta+Volume+3',
   },
@@ -109,8 +106,8 @@ const BOOKS: Book[] = [
     title: 'Interpreting Medieval India (Vol. 1)',
     author: 'Vipul Singh',
     category: 'Medieval',
-    description: 'Strong on Delhi Sultanate debates and early medieval historiography. Good for understanding different schools of interpretation on state and society.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9789350980101-L.jpg',
+    description: 'Strong on Delhi Sultanate debates and early medieval historiography — different schools of interpretation on state and society.',
+    coverQuery: 'Interpreting Medieval India Vipul Singh',
     archiveUrl: 'https://www.scribd.com/document/730516827/Vipul-Singh-Interpreting-Medieval-India-Early-Medieval-Delhi-Sultanate-And-Regions-Circa-750-1550-01-Macmillan-2009',
     buyUrl: 'https://www.amazon.in/s?k=Interpreting+Medieval+India+Vipul+Singh',
   },
@@ -118,8 +115,8 @@ const BOOKS: Book[] = [
     title: 'The Sultanate of Delhi',
     author: 'Aniruddha Ray',
     category: 'Medieval',
-    description: 'An updated and detailed treatment of the Delhi Sultanate — can replace Satish Chandra\'s first volume with more current historiography and analysis.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9788131602317-L.jpg',
+    description: "An updated and detailed treatment — can replace Satish Chandra's first volume with more current historiography.",
+    coverQuery: 'Sultanate Delhi Aniruddha Ray',
     archiveUrl: 'https://drive.google.com/file/d/1egq708YzMvrxSpQpqEWu6eeRG1UzSwkX/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=Sultanate+Delhi+Aniruddha+Ray',
   },
@@ -127,19 +124,17 @@ const BOOKS: Book[] = [
     title: 'The Wonder That Was India (Part 2)',
     author: 'S.A.A. Rizvi',
     category: 'Medieval',
-    description: 'The standard reference for medieval religion, Sufi and Bhakti movements, philosophy and fine arts. A backup to IGNOU for cultural questions.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/0283992166-L.jpg',
+    description: 'The standard reference for medieval religion, Sufi and Bhakti movements, philosophy and fine arts.',
+    coverQuery: 'Wonder That Was India Part 2 Rizvi medieval',
     archiveUrl: 'https://archive.org/details/TheWonderThatWasIndiaVol2SAARizvi',
     buyUrl: 'https://www.amazon.in/s?k=Wonder+That+Was+India+Part+2+Rizvi',
   },
-
-  // ── MODERN ───────────────────────────────────────────────────────────────────
   {
     title: 'From Plassey to Partition',
     author: 'Sekhar Bandyopadhyay',
     category: 'Modern',
-    description: 'The star book for Modern India — updated historiography, comprehensive narration from colonial conquest through independence. Non-negotiable for History Optional.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9788125027980-L.jpg',
+    description: 'The star book for Modern India — updated historiography, comprehensive narration from colonial conquest through independence.',
+    coverQuery: 'From Plassey to Partition Sekhar Bandyopadhyay',
     archiveUrl: 'https://drive.google.com/file/d/1cOR56Qn1Ojw0nKQflFercEO-ZLK9vENf/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=Plassey+to+Partition+Sekhar+Bandyopadhyay',
   },
@@ -147,8 +142,8 @@ const BOOKS: Book[] = [
     title: "India's Struggle for Independence",
     author: 'Bipan Chandra',
     category: 'Modern',
-    description: 'Narrative-driven and deeply readable — the best source for the freedom movement\'s drama and ideology. Its conclusions are safe and well-accepted for UPSC.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/0140107819-L.jpg',
+    description: "Narrative-driven and deeply readable — the best source for the freedom movement's drama and ideology.",
+    coverQuery: "India Struggle Independence Bipan Chandra",
     archiveUrl: 'https://archive.org/details/indias-struggle-for-independence-bipan-chandra',
     buyUrl: 'https://www.amazon.in/s?k=India+Struggle+Independence+Bipan+Chandra',
   },
@@ -156,8 +151,8 @@ const BOOKS: Book[] = [
     title: 'Modern India 1885–1947',
     author: 'Sumit Sarkar',
     category: 'Modern',
-    description: 'Dense and fact-heavy — indispensable for specific statements, precise dates, and quotes that appear in UPSC questions. Use alongside Bandyopadhyay.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/0333904257-L.jpg',
+    description: 'Dense and fact-heavy — indispensable for specific statements, precise dates, and quotes that appear in UPSC questions.',
+    coverQuery: 'Modern India 1885 Sumit Sarkar',
     archiveUrl: 'https://archive.org/details/modernindia1885100sark/page/n5/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Modern+India+1885+1947+Sumit+Sarkar',
   },
@@ -165,19 +160,17 @@ const BOOKS: Book[] = [
     title: 'A New Look at Modern Indian History',
     author: 'Grover & Mehta',
     category: 'Modern',
-    description: 'Excellent reference for the policies of Governor Generals and the pre-Congress colonial era — fills gaps that other modern history books leave.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/8121906067-L.jpg',
+    description: 'Excellent reference for the policies of Governor Generals and the pre-Congress colonial era — fills gaps that other books leave.',
+    coverQuery: 'New Look Modern Indian History Grover Mehta',
     archiveUrl: 'https://drive.google.com/file/d/1iFHcop_uVBjMI1TbhsUcj0L5NTiylNTq/view?usp=drive_link',
     buyUrl: 'https://www.amazon.in/s?k=New+Look+Modern+Indian+History+Grover+Mehta',
   },
-
-  // ── WORLD ────────────────────────────────────────────────────────────────────
   {
     title: 'A History of the Modern World',
     author: 'Ranjan Chakrabarti',
     category: 'World',
-    description: 'The strongest source for 18th and 19th century world history — many UPSC questions come directly from this book. Start here for Paper 1 World section.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9788131731765-L.jpg',
+    description: 'The strongest source for 18th and 19th century world history — many UPSC questions come directly from this book.',
+    coverQuery: 'History Modern World Ranjan Chakrabarti',
     archiveUrl: 'https://drive.google.com/file/d/1otp1NFebUS92LcVUZOJ13Q7Ul_Be4hvg/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=History+Modern+World+Ranjan+Chakrabarti',
   },
@@ -185,8 +178,8 @@ const BOOKS: Book[] = [
     title: 'Mastering Modern World History',
     author: 'Norman Lowe',
     category: 'World',
-    description: 'The definitive source for 20th century world history — wars, revolutions, Cold War, decolonisation. UK-centric but comprehensive. Pair with Arjun Dev for balance.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9780230580633-L.jpg',
+    description: 'The definitive source for 20th century world history — wars, revolutions, Cold War, decolonisation.',
+    coverQuery: 'Mastering Modern World History Norman Lowe',
     archiveUrl: 'https://archive.org/details/NormanLoweMasteringModernWorldHistoryzLib.org/page/n215/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Mastering+Modern+World+History+Norman+Lowe',
   },
@@ -194,8 +187,8 @@ const BOOKS: Book[] = [
     title: 'The Story of Civilization',
     author: 'Arjun Dev (Old NCERT)',
     category: 'World',
-    description: 'Balances Norman Lowe\'s Western bias with a Third World perspective — essential for decolonisation, nationalism in Asia and Africa, and non-European history.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/8174504915-L.jpg',
+    description: "Balances Norman Lowe's Western bias with a Third World perspective — essential for decolonisation and non-European history.",
+    coverQuery: 'Story of Civilization Arjun Dev NCERT',
     archiveUrl: 'https://archive.org/details/the-story-of-civilization-vol-ii/page/306/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Story+Civilization+Arjun+Dev+NCERT',
   },
@@ -203,8 +196,8 @@ const BOOKS: Book[] = [
     title: 'A Concise History of Modern Europe',
     author: 'David Mason',
     category: 'World',
-    description: 'Short and academic — the perfect primer for European history from the French Revolution to the 20th century. Read before Lowe for context.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/9780742562653-L.jpg',
+    description: 'Short and academic — the perfect primer for European history from the French Revolution to the 20th century.',
+    coverQuery: 'Concise History Modern Europe David Mason',
     archiveUrl: 'https://drive.google.com/file/d/1zS2sY2-ksOSxOB_kCVzYpmll5cY7dIl1/view?usp=sharing',
     buyUrl: 'https://www.amazon.in/s?k=Concise+History+Modern+Europe+David+Mason',
   },
@@ -212,273 +205,321 @@ const BOOKS: Book[] = [
     title: 'Europe Since Napoleon',
     author: 'David Thomson',
     category: 'World',
-    description: 'High-quality nuanced analysis of European history — best for understanding the intellectual and political undercurrents behind major events. Time-consuming but rewarding.',
-    coverUrl: 'https://covers.openlibrary.org/b/isbn/0140136053-L.jpg',
+    description: 'High-quality nuanced analysis of European history — best for understanding the intellectual undercurrents behind major events.',
+    coverQuery: 'Europe Since Napoleon David Thomson',
     archiveUrl: 'https://archive.org/details/europe-since-napoleon-david-thomson/page/682/mode/2up',
     buyUrl: 'https://www.amazon.in/s?k=Europe+Since+Napoleon+David+Thomson',
   },
 ];
 
-const CATEGORY_META: Record<string, { color: string; label: string }> = {
-  Ancient:  { color: '#c9993a', label: 'Ancient India' },
-  Medieval: { color: '#7c9e6e', label: 'Medieval India' },
-  Modern:   { color: '#6e8eb8', label: 'Modern India' },
-  World:    { color: '#a07bbf', label: 'World History' },
+const CAT = {
+  Ancient:  { color: '#c9993a', bg: 'rgba(201,153,58,0.09)',  border: 'rgba(201,153,58,0.22)',  label: 'Ancient India' },
+  Medieval: { color: '#7c9e6e', bg: 'rgba(124,158,110,0.09)', border: 'rgba(124,158,110,0.22)', label: 'Medieval India' },
+  Modern:   { color: '#6e8eb8', bg: 'rgba(110,142,184,0.09)', border: 'rgba(110,142,184,0.22)', label: 'Modern India' },
+  World:    { color: '#a07bbf', bg: 'rgba(160,123,191,0.09)', border: 'rgba(160,123,191,0.22)', label: 'World History' },
 };
 
 const CATEGORIES = ['All', 'Ancient', 'Medieval', 'Modern', 'World'] as const;
 
+function BookCover({ query, title, color }: { query: string; title: string; color: string }) {
+  const [src, setSrc] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
+  const tried = useRef(false);
+
+  useEffect(() => {
+    if (tried.current) return;
+    tried.current = true;
+    const q = encodeURIComponent(query);
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=1`)
+      .then(r => r.json())
+      .then(d => {
+        const img = d?.items?.[0]?.volumeInfo?.imageLinks?.thumbnail;
+        if (img) setSrc(img.replace('http:', 'https:').replace('zoom=1', 'zoom=3'));
+        else setFailed(true);
+      })
+      .catch(() => setFailed(true));
+  }, [query]);
+
+  if (!failed && src) {
+    return (
+      <img
+        src={src}
+        alt={title}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+
+  if (!failed && !src) {
+    return (
+      <div style={{ width: '100%', height: '100%', background: `${color}12`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{
+          width: 18, height: 18, borderRadius: '50%',
+          border: `2px solid ${color}35`,
+          borderTopColor: color,
+          animation: 'bookspin 0.8s linear infinite',
+        }} />
+      </div>
+    );
+  }
+
+  const initials = title.split(' ').filter(w => w.length > 2).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+  return (
+    <div style={{
+      width: '100%', height: '100%',
+      background: `${color}10`,
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      padding: '0.6rem', gap: 8,
+    }}>
+      <div style={{
+        width: 34, height: 34, borderRadius: 7,
+        background: `${color}20`, border: `1px solid ${color}35`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '0.78rem', fontWeight: 700, color,
+        fontFamily: 'Georgia, serif',
+      }}>{initials}</div>
+      <p style={{
+        fontSize: '0.46rem', color, lineHeight: 1.35,
+        textAlign: 'center', fontFamily: 'Georgia, serif',
+        fontWeight: 600, margin: 0,
+      }}>{title.slice(0, 40)}</p>
+    </div>
+  );
+}
+
 export default function ResourcesPage() {
   const [active, setActive] = useState<string>('All');
-  const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
-
   const filtered = active === 'All' ? BOOKS : BOOKS.filter(b => b.category === active);
 
   return (
-    <main style={{
-      minHeight: '100vh',
-      background: 'var(--bg)',
-      paddingBottom: '4rem',
-    }}>
-      {/* Hero */}
-      <div style={{
-        borderBottom: '1px solid var(--border)',
-        padding: '3rem 1.5rem 2rem',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* subtle grid texture */}
-        <div style={{
-          position: 'absolute', inset: 0, opacity: 0.03,
-          backgroundImage: 'repeating-linear-gradient(0deg, var(--text) 0px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, var(--text) 0px, transparent 1px, transparent 40px)',
-          pointerEvents: 'none',
-        }} />
-        <p style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.6rem',
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-          color: 'var(--text3)',
-          marginBottom: '0.75rem',
-        }}>History Optional · Reading List</p>
-        <h1 style={{
-          fontFamily: 'var(--font-serif, Georgia, serif)',
-          fontSize: 'clamp(1.6rem, 5vw, 2.6rem)',
-          fontWeight: 700,
-          color: 'var(--text)',
-          letterSpacing: '-0.02em',
-          margin: '0 0 0.75rem',
-          lineHeight: 1.2,
-        }}>Additional Reads &amp; Basic Resources</h1>
-        <p style={{
-          color: 'var(--text2)',
-          fontSize: '0.9rem',
-          maxWidth: 480,
-          margin: '0 auto',
-          lineHeight: 1.6,
-        }}>
-          Every book you need for UPSC History Optional — curated, with free reading links and buy options.
-        </p>
-      </div>
+    <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingBottom: '5rem' }}>
+      <style>{`
+        @keyframes bookspin { to { transform: rotate(360deg); } }
+        .bcard { transition: background 0.18s; }
+        .bcard:hover { background: var(--bg2, rgba(255,255,255,0.025)) !important; }
+        .bcard:hover .bcover { box-shadow: 5px 10px 28px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05) !important; transform: translateY(-2px) rotate(-1deg); }
+        .bcover { transition: box-shadow 0.22s, transform 0.22s; }
+        .rbtn { transition: opacity 0.12s; }
+        .rbtn:hover { opacity: 0.82; }
+        .bbtn { transition: background 0.12s, color 0.12s; }
+        .bbtn:hover { background: rgba(255,255,255,0.05) !important; color: var(--text2) !important; }
+        .ftab { transition: all 0.14s; }
+      `}</style>
 
-      {/* Filter tabs */}
+      {/* ── HERO ── */}
       <div style={{
-        display: 'flex',
-        gap: '0.4rem',
-        padding: '1.25rem 1.5rem',
-        overflowX: 'auto',
+        padding: 'clamp(2.5rem,6vw,4rem) 1.5rem 2.5rem',
         borderBottom: '1px solid var(--border)',
-        scrollbarWidth: 'none',
-        WebkitOverflowScrolling: 'touch',
+        position: 'relative', overflow: 'hidden',
       }}>
-        {CATEGORIES.map(cat => {
-          const isActive = active === cat;
-          const color = cat === 'All' ? 'var(--text2)' : CATEGORY_META[cat].color;
-          return (
-            <button
-              key={cat}
-              onClick={() => setActive(cat)}
-              style={{
-                padding: '0.4rem 1rem',
-                borderRadius: 20,
-                border: isActive ? `1px solid ${color}` : '1px solid var(--border)',
-                background: isActive ? `${color}18` : 'transparent',
-                color: isActive ? color : 'var(--text3)',
-                fontSize: '0.78rem',
-                fontWeight: isActive ? 700 : 400,
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-                transition: 'all 0.15s',
-                fontFamily: 'inherit',
-                flexShrink: 0,
-              }}
-            >
-              {cat === 'All' ? 'All Books' : CATEGORY_META[cat].label}
-            </button>
-          );
-        })}
-        <div style={{ marginLeft: 'auto', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', color: 'var(--text3)' }}>
-            {filtered.length} books
-          </span>
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.035,
+          backgroundImage: `
+            repeating-linear-gradient(0deg, var(--text) 0, var(--text) 1px, transparent 0, transparent 48px),
+            repeating-linear-gradient(90deg, var(--text) 0, var(--text) 1px, transparent 0, transparent 48px)`,
+        }} />
+        {/* decorative roman numeral */}
+        <div style={{
+          position: 'absolute', right: '-1rem', top: '50%', transform: 'translateY(-50%)',
+          fontSize: 'clamp(6rem,15vw,12rem)', fontFamily: 'Georgia, serif',
+          color: 'var(--text)', opacity: 0.018, fontWeight: 700,
+          userSelect: 'none', pointerEvents: 'none', letterSpacing: '-0.05em',
+        }}>MMXXVI</div>
+
+        <div style={{ maxWidth: 580, position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1rem' }}>
+            <div style={{ width: 28, height: 1, background: 'var(--text3)' }} />
+            <p style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.58rem', letterSpacing: '0.22em',
+              textTransform: 'uppercase', color: 'var(--text3)', margin: 0,
+            }}>History Optional · Curated Reading List</p>
+          </div>
+          <h1 style={{
+            fontFamily: 'var(--font-serif, Georgia, serif)',
+            fontSize: 'clamp(2rem, 5.5vw, 3.2rem)',
+            fontWeight: 700, color: 'var(--text)',
+            letterSpacing: '-0.03em', lineHeight: 1.1,
+            margin: '0 0 1.1rem',
+          }}>Additional Reads &amp;<br />Basic Resources</h1>
+          <p style={{
+            color: 'var(--text2)', fontSize: '0.87rem',
+            lineHeight: 1.7, maxWidth: 440, margin: 0,
+          }}>
+            Every book you need for UPSC History Optional — with free reading links and Amazon listings.
+          </p>
         </div>
       </div>
 
-      {/* Books grid */}
+      {/* ── STICKY FILTER BAR ── */}
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 20,
+        background: 'var(--bg)',
+        borderBottom: '1px solid var(--border)',
+        padding: '0.65rem 1.5rem',
+        display: 'flex', alignItems: 'center', gap: '0.45rem',
+        overflowX: 'auto', scrollbarWidth: 'none',
+        WebkitOverflowScrolling: 'touch',
+      }}>
+        {CATEGORIES.map(cat => {
+          const isAll = cat === 'All';
+          const meta = isAll ? null : CAT[cat as keyof typeof CAT];
+          const color = isAll ? 'var(--text2)' : meta!.color;
+          const isActive = active === cat;
+          return (
+            <button
+              key={cat}
+              className="ftab"
+              onClick={() => setActive(cat)}
+              style={{
+                padding: '0.32rem 0.9rem',
+                borderRadius: 20,
+                border: isActive ? `1px solid ${color}` : '1px solid var(--border)',
+                background: isActive ? (meta ? meta.bg : 'rgba(255,255,255,0.05)') : 'transparent',
+                color: isActive ? color : 'var(--text3)',
+                fontSize: '0.73rem',
+                fontWeight: isActive ? 700 : 400,
+                cursor: 'pointer', whiteSpace: 'nowrap',
+                fontFamily: 'inherit', flexShrink: 0,
+              }}
+            >{isAll ? 'All Books' : meta!.label}</button>
+          );
+        })}
+        <span style={{
+          marginLeft: 'auto', flexShrink: 0,
+          fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)',
+        }}>
+          {filtered.length} books
+        </span>
+      </div>
+
+      {/* ── BOOK GRID ── */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 340px), 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 330px), 1fr))',
         gap: '1px',
         background: 'var(--border)',
-        margin: '0',
       }}>
         {filtered.map((book) => {
-          const meta = CATEGORY_META[book.category];
-          const hasImgError = imgErrors[book.title];
+          const meta = CAT[book.category];
           return (
             <div
               key={book.title}
+              className="bcard"
               style={{
                 background: 'var(--bg)',
-                padding: '1.25rem',
-                display: 'flex',
-                gap: '1rem',
-                transition: 'background 0.15s',
+                padding: '1.4rem 1.25rem',
+                display: 'flex', gap: '1.1rem',
               }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg2, rgba(255,255,255,0.03))')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'var(--bg)')}
             >
-              {/* Cover */}
-              <div style={{
-                flexShrink: 0,
-                width: 72,
-                height: 104,
-                borderRadius: 4,
-                overflow: 'hidden',
-                background: `${meta.color}15`,
-                border: `1px solid ${meta.color}30`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                boxShadow: '4px 4px 12px rgba(0,0,0,0.3)',
-              }}>
-                {!hasImgError ? (
-                  <img
-                    src={book.coverUrl}
-                    alt={book.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                    onError={() => setImgErrors(e => ({ ...e, [book.title]: true }))}
-                  />
-                ) : (
-                  <div style={{ padding: '0.5rem', textAlign: 'center' }}>
-                    <div style={{ fontSize: '1.4rem', marginBottom: 4 }}>📖</div>
-                    <p style={{ fontSize: '0.5rem', color: meta.color, lineHeight: 1.3, fontWeight: 600 }}>{book.title.slice(0, 30)}</p>
-                  </div>
-                )}
+              {/* cover */}
+              <div
+                className="bcover"
+                style={{
+                  flexShrink: 0, width: 84, height: 120,
+                  borderRadius: 5, overflow: 'hidden',
+                  border: `1px solid ${meta.border}`,
+                  boxShadow: `4px 7px 20px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.04)`,
+                  position: 'relative',
+                }}
+              >
+                <BookCover query={book.coverQuery} title={book.title} color={meta.color} />
+                {/* spine shadow */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, bottom: 0, width: 10,
+                  background: 'linear-gradient(to right, rgba(0,0,0,0.4), transparent)',
+                  pointerEvents: 'none',
+                }} />
               </div>
 
-              {/* Content */}
-              <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                {/* Category tag */}
+              {/* content */}
+              <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '0.28rem' }}>
+
                 <span style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 4,
-                  fontSize: '0.58rem',
-                  fontFamily: 'var(--font-mono)',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: meta.color,
-                  fontWeight: 700,
+                  display: 'inline-flex', alignItems: 'center', gap: 5,
+                  fontSize: '0.57rem', fontFamily: 'var(--font-mono)',
+                  letterSpacing: '0.13em', textTransform: 'uppercase',
+                  color: meta.color, fontWeight: 700,
                 }}>
-                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: meta.color, display: 'inline-block' }} />
+                  <span style={{ width: 4, height: 4, borderRadius: '50%', background: meta.color, display: 'inline-block', flexShrink: 0 }} />
                   {meta.label}
                 </span>
 
-                {/* Title */}
                 <h2 style={{
                   margin: 0,
                   fontFamily: 'var(--font-serif, Georgia, serif)',
-                  fontSize: '0.92rem',
-                  fontWeight: 700,
-                  color: 'var(--text)',
-                  lineHeight: 1.3,
-                  letterSpacing: '-0.01em',
+                  fontSize: '0.9rem', fontWeight: 700,
+                  color: 'var(--text)', lineHeight: 1.3,
+                  letterSpacing: '-0.015em',
                 }}>{book.title}</h2>
 
-                {/* Author */}
                 <p style={{
-                  margin: 0,
-                  fontSize: '0.72rem',
-                  color: 'var(--text3)',
-                  fontStyle: 'italic',
+                  margin: 0, fontSize: '0.7rem',
+                  color: 'var(--text3)', fontStyle: 'italic',
                 }}>{book.author}</p>
 
-                {/* Description */}
+                <div style={{ width: 22, height: 1, background: `${meta.color}45`, margin: '0.1rem 0 0.2rem' }} />
+
                 <p style={{
-                  margin: 0,
-                  fontSize: '0.78rem',
-                  color: 'var(--text2)',
-                  lineHeight: 1.55,
+                  margin: 0, fontSize: '0.75rem',
+                  color: 'var(--text2)', lineHeight: 1.62,
                   display: '-webkit-box',
                   WebkitLineClamp: 3,
                   WebkitBoxOrient: 'vertical',
                   overflow: 'hidden',
                 }}>{book.description}</p>
 
-                {/* Buttons */}
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: 'auto', paddingTop: '0.35rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '0.4rem', marginTop: 'auto', paddingTop: '0.55rem', flexWrap: 'wrap' }}>
                   {book.archiveUrl && (
                     <a
                       href={book.archiveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="rbtn"
                       style={{
-                        padding: '0.3rem 0.75rem',
+                        padding: '0.3rem 0.85rem',
                         borderRadius: 4,
-                        border: `1px solid ${meta.color}50`,
-                        background: `${meta.color}12`,
-                        color: meta.color,
-                        fontSize: '0.7rem',
-                        fontWeight: 600,
+                        background: meta.color,
+                        color: '#0c0c0c',
+                        fontSize: '0.67rem', fontWeight: 700,
                         textDecoration: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 4,
-                        transition: 'background 0.15s',
-                        whiteSpace: 'nowrap',
+                        display: 'inline-flex', alignItems: 'center', gap: 5,
+                        whiteSpace: 'nowrap', flexShrink: 0,
+                        letterSpacing: '0.01em',
                       }}
-                      onMouseEnter={e => (e.currentTarget.style.background = `${meta.color}22`)}
-                      onMouseLeave={e => (e.currentTarget.style.background = `${meta.color}12`)}
                     >
-                      <span style={{ fontSize: '0.65rem' }}>📖</span> Read Free
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ flexShrink: 0 }}>
+                        <path d="M1 5a4 4 0 108 0 4 4 0 00-8 0z" stroke="#0c0c0c" strokeWidth="1.1"/>
+                        <path d="M3.5 5h3M5 3.5l1.5 1.5L5 6.5" stroke="#0c0c0c" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      Read Free
                     </a>
                   )}
                   <a
                     href={book.buyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="bbtn"
                     style={{
-                      padding: '0.3rem 0.75rem',
+                      padding: '0.3rem 0.85rem',
                       borderRadius: 4,
-                      border: '1px solid var(--border2, rgba(255,255,255,0.12))',
+                      border: '1px solid rgba(255,255,255,0.1)',
                       background: 'transparent',
-                      color: 'var(--text2)',
-                      fontSize: '0.7rem',
-                      fontWeight: 500,
+                      color: 'var(--text3)',
+                      fontSize: '0.67rem', fontWeight: 500,
                       textDecoration: 'none',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 4,
-                      transition: 'border-color 0.15s, color 0.15s',
-                      whiteSpace: 'nowrap',
+                      display: 'inline-flex', alignItems: 'center', gap: 5,
+                      whiteSpace: 'nowrap', flexShrink: 0,
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--text3)'; e.currentTarget.style.color = 'var(--text)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border2, rgba(255,255,255,0.12))'; e.currentTarget.style.color = 'var(--text2)'; }}
                   >
-                    <span style={{ fontSize: '0.65rem' }}>🛒</span> Buy
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ flexShrink: 0 }}>
+                      <path d="M1 1h1l1.4 5.5h4.2l.9-3.5H3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="4.5" cy="8.5" r="0.7" fill="currentColor"/>
+                      <circle cx="7.5" cy="8.5" r="0.7" fill="currentColor"/>
+                    </svg>
+                    Buy on Amazon
                   </a>
                 </div>
               </div>
@@ -487,15 +528,19 @@ export default function ResourcesPage() {
         })}
       </div>
 
-      {/* Footer note */}
+      {/* ── FOOTER ── */}
       <div style={{
-        padding: '1.5rem',
-        textAlign: 'center',
+        padding: '2rem 1.5rem', textAlign: 'center',
         borderTop: '1px solid var(--border)',
-        marginTop: 0,
       }}>
-        <p style={{ fontSize: '0.72rem', color: 'var(--text3)', lineHeight: 1.6, margin: 0 }}>
-          Free links go to Archive.org — open library, no login needed for most books. Buy links go to Flipkart.
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: '0.6rem' }}>
+          <div style={{ height: 1, width: 32, background: 'var(--border)' }} />
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text3)' }}>Note</span>
+          <div style={{ height: 1, width: 32, background: 'var(--border)' }} />
+        </div>
+        <p style={{ fontSize: '0.7rem', color: 'var(--text3)', lineHeight: 1.75, margin: 0, maxWidth: 480, marginInline: 'auto' }}>
+          Free links go to Archive.org, Google Drive, or Scribd — no login needed for most.<br />
+          Buy links search Amazon India for the paperback edition.
         </p>
       </div>
     </main>
