@@ -102,6 +102,11 @@ export async function POST(req: NextRequest) {
           pages_visited: pages,
           session_duration_secs: duration,
           is_bounce: pages.length <= 1,
+          ...(device && { device }),
+          ...(os && { os }),
+          ...(browser && { browser }),
+          ...(country && { country }),
+          ...(city && { city }),
         })
         .eq('id', existing.id);
       if (updateError) return NextResponse.json({ ok: false, reason: 'update error', error: updateError.message });
