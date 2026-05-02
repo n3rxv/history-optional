@@ -248,43 +248,11 @@ const LOCAL_COVERS: Record<string, string> = {
   '9780140209662': '/book-covers/david-thomson.jpg',
 };
 
-function BookCover({ isbn, title, color }: { isbn?: string; title: string; color: string }) {
-  const [failed, setFailed] = useState(false);
-  const src = isbn ? LOCAL_COVERS[isbn] : undefined;
-
-  if (src && !failed) {
-    return (
-      <img
-        src={src}
-        alt={title}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        onError={() => setFailed(true)}
-      />
-    );
-  }
-
-  // Fallback — styled initials card
-  const initials = title.split(' ').filter(w => w.length > 2).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+function BookCover({ title, color }: { title: string; color: string }) {
+  const initials = title.split(' ').filter((w: string) => w.length > 2).slice(0, 2).map((w: string) => w[0]).join("'').toUpperCase();
   return (
-    <div style={{
-      width: '100%', height: '100%',
-      background: `${color}10`,
-      display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center',
-      padding: '0.6rem', gap: 8,
-    }}>
-      <div style={{
-        width: 34, height: 34, borderRadius: 7,
-        background: `${color}20`, border: `1px solid ${color}35`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '0.78rem', fontWeight: 700, color,
-        fontFamily: 'Georgia, serif',
-      }}>{initials}</div>
-      <p style={{
-        fontSize: '0.46rem', color, lineHeight: 1.35,
-        textAlign: 'center', fontFamily: 'Georgia, serif',
-        fontWeight: 600, margin: 0,
-      }}>{title.slice(0, 40)}</p>
+    <div style={{ width: '100%', height: '100%', background: `${color}10`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0.6rem', gap: 8 }}>
+      <div style={{ width: 34, height: 34, borderRadius: 7, background: `${color}20`, border: `1px solid ${color}35`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.78rem', fontWeight: 700, color }}>{initials}</div>
     </div>
   );
 }
@@ -423,7 +391,7 @@ export default function ResourcesPage() {
                   position: 'relative',
                 }}
               >
-                <BookCover isbn={book.isbn} title={book.title} color={meta.color} />
+                <BookCover title={book.title} color={meta.color} />
                 {/* spine shadow */}
                 <div style={{
                   position: 'absolute', top: 0, left: 0, bottom: 0, width: 10,
