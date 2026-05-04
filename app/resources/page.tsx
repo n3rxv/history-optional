@@ -249,7 +249,7 @@ const LOCAL_COVERS: Record<string, string> = {
 };
 
 function BookCover({ title, color }: { title: string; color: string }) {
-  const initials = title.split(' ').filter((w: string) => w.length > 2).slice(0, 2).map((w: string) => w[0]).join("'').toUpperCase();
+  const initials = title.split(' ').filter((w: string) => w.length > 2).slice(0, 2).map((w: string) => w[0]).join('').toUpperCase();
   return (
     <div style={{ width: '100%', height: '100%', background: `${color}10`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0.6rem', gap: 8 }}>
       <div style={{ width: 34, height: 34, borderRadius: 7, background: `${color}20`, border: `1px solid ${color}35`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.78rem', fontWeight: 700, color }}>{initials}</div>
