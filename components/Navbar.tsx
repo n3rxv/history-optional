@@ -263,7 +263,7 @@ export default function Navbar() {
             {user ? (
               <div style={{ position: 'relative', marginLeft: '0.25rem' }}>
                 <button onClick={() => setUserMenuOpen(o => !o)} title={user.email}
-                  style={{ width: 32, height: 32, borderRadius: '50%', background: '#0f0f1a', border: `2px solid ${snooColor(user.email ?? '')}`, cursor: 'pointer', padding: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 0 8px ${snooColor(user.email ?? '')}44` }}>
+                  style={{ width: 200, height: 200, borderRadius: 0, background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, overflow: 'visible', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'none' }}>
                   <SnooAvatar email={user.email ?? ''} size={28} />
                 </button>
                 {userMenuOpen && (
