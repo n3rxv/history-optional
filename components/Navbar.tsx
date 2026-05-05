@@ -17,25 +17,8 @@ function snooColor(email: string): string {
 }
 
 function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
-  const c = snooColor(email);
-  const bg = '#0f0f1a';
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="32" cy="32" r="32" fill={bg}/>
-      <circle cx="43" cy="13" r="4.5" fill={c}/>
-      <line x1="39.5" y1="15.5" x2="33" y2="21" stroke={c} strokeWidth="2.5" strokeLinecap="round"/>
-      <circle cx="32" cy="30" r="14" fill={c}/>
-      <circle cx="27" cy="28" r="3.5" fill="white"/>
-      <circle cx="37" cy="28" r="3.5" fill="white"/>
-      <circle cx="28" cy="28.5" r="1.8" fill={bg}/>
-      <circle cx="38" cy="28.5" r="1.8" fill={bg}/>
-      <path d="M27 34 Q32 38.5 37 34" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
-      <circle cx="18" cy="29" r="4.5" fill={c}/>
-      <circle cx="46" cy="29" r="4.5" fill={c}/>
-      <circle cx="18" cy="29" r="2.2" fill="#ff6b6b"/>
-      <circle cx="46" cy="29" r="2.2" fill="#ff6b6b"/>
-      <ellipse cx="32" cy="51" rx="10" ry="6.5" fill={c}/>
-    </svg>
+    <img src="/avatar.png" alt="avatar" width={size} height={size} style={{ borderRadius: '50%', objectFit: 'cover' }} />
   );
 }
 
