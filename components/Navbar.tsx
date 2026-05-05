@@ -18,7 +18,7 @@ function snooColor(email: string): string {
 
 function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
   return (
-    <img src="/avatar.png" alt="avatar" width={size} height={size} style={{ borderRadius: '50%', objectFit: 'cover' }} />
+    <img src="/avatar.png" alt="avatar" width={size * 2.5} height={size * 2.5} style={{ objectFit: 'contain' }} />
   );
 }
 
