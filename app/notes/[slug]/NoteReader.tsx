@@ -285,50 +285,6 @@ function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLD
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
         </IconBtn>
       </Group>
-      {/* ── Historical term tooltip ───────────────────────────── */}
-      {tooltip && (
-        <div
-          style={{
-            position: "absolute",
-            left: tooltip.x,
-            top: tooltip.y,
-            transform: "translateX(-50%)",
-            background: "linear-gradient(135deg, #0f0d0a 0%, #1a1508 100%)",
-            border: "1px solid rgba(201,168,76,0.45)",
-            borderRadius: 8,
-            padding: "0.55rem 0.85rem",
-            maxWidth: 300,
-            fontSize: "0.78rem",
-            color: "#e8d9b0",
-            zIndex: 9999,
-            boxShadow: "0 8px 32px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.08)",
-            pointerEvents: "none",
-            lineHeight: 1.5,
-          }}
-        >
-          {tooltip.text}
-          {/* Arrow */}
-          <div style={{
-            position: "absolute", top: -5, left: "50%", transform: "translateX(-50%)",
-            width: 8, height: 8, background: "#1a1508",
-            border: "1px solid rgba(201,168,76,0.45)",
-            borderRight: "none", borderBottom: "none",
-            rotate: "45deg",
-          }} />
-        </div>
-      )}
-
-      <style>{`
-        .ho-term {
-          border-bottom: 1.5px dashed rgba(201,168,76,0.6);
-          cursor: help;
-          transition: border-color 0.15s, color 0.15s;
-        }
-        .ho-term:hover {
-          border-bottom-color: #c9a84c;
-          color: #f5e6c0;
-        }
-      `}</style>
     </div>
   );
 }
@@ -1341,6 +1297,49 @@ export default function NoteReader({ slug }: { slug: string }) {
       )}
 
 
+      {/* ── Historical term tooltip ───────────────────────────── */}
+      {tooltip && (
+        <div
+          style={{
+            position: "fixed",
+            left: tooltip.x,
+            top: tooltip.y,
+            transform: "translateX(-50%)",
+            background: "linear-gradient(135deg, #0f0d0a 0%, #1a1508 100%)",
+            border: "1px solid rgba(201,168,76,0.45)",
+            borderRadius: 8,
+            padding: "0.55rem 0.85rem",
+            maxWidth: 300,
+            fontSize: "0.78rem",
+            color: "#e8d9b0",
+            zIndex: 9999,
+            boxShadow: "0 8px 32px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.08)",
+            pointerEvents: "none",
+            lineHeight: 1.5,
+          }}
+        >
+          {tooltip.text}
+          <div style={{
+            position: "absolute", top: -5, left: "50%", transform: "translateX(-50%)",
+            width: 8, height: 8, background: "#1a1508",
+            border: "1px solid rgba(201,168,76,0.45)",
+            borderRight: "none", borderBottom: "none",
+            rotate: "45deg",
+          }} />
+        </div>
+      )}
+
+      <style>{`
+        .ho-term {
+          border-bottom: 1.5px dashed rgba(201,168,76,0.6);
+          cursor: help;
+          transition: border-color 0.15s, color 0.15s;
+        }
+        .ho-term:hover, .ho-term:focus {
+          border-bottom-color: #c9a84c;
+          color: #f5e6c0;
+        }
+      `}</style>
     </div>
   );
 }
