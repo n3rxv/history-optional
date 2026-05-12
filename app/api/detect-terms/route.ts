@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SYSTEM_PROMPT = `You are a UPSC History Optional expert. Given a passage of historical text, identify up to 15 important historical/technical terms that a student might not know. These can be Persian/Arabic/Sanskrit terms, administrative titles, technical concepts, or lesser-known historical events.
 
-Return ONLY a JSON array. No preamble, no markdown. Each object must have:
+Return ONLY a JSON array. No preamble, no markdown, no code fences. Each object must have:
 - "term": the exact word or phrase as it appears in the text (case-sensitive match)
 - "description": a clear 1-2 line explanation (max 25 words) suitable for a UPSC student
 
@@ -16,7 +16,8 @@ Rules:
 - Only include terms actually present verbatim in the text
 - Prefer lesser-known terms over common ones
 - Max 15 terms
-- Return empty array [] if no relevant terms found`;
+- Return empty array [] if no relevant terms found
+- Return ONLY the JSON array, nothing else`;
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,47 +26,57 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ terms: [] });
     }
 
-    // Truncate to 4000 chars to avoid token limits
     const truncated = text.slice(0, 4000);
 
-    const groqFetch = async (key: string) =>
-      fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${key}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: `Identify historical terms in this text:\n\n${truncated}` },
-          ],
-          temperature: 0.1,
-          max_tokens: 800,
-          response_format: { type: "json_object" },
-        }),
-      });
-
-    let res = await groqFetch(process.env.GROQ_API_KEY!);
-    if (res.status === 429 && process.env.GROQ_API_KEY_2) {
-      res = await groqFetch(process.env.GROQ_API_KEY_2);
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error("detect-terms: GEMINI_API_KEY not set");
+      return NextResponse.json({ terms: [] });
     }
 
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: SYSTEM_PROMPT }],
+          },
+          contents: [
+            {
+              parts: [
+                {
+                  text: `Identify historical terms in this text:\n\n${truncated}`,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.1,
+            maxOutputTokens: 800,
+            responseMimeType: "application/json",
+          },
+        }),
+      }
+    );
+
     if (!res.ok) {
-      console.error("detect-terms Groq error:", res.status);
+      console.error("detect-terms Gemini error:", res.status, await res.text());
       return NextResponse.json({ terms: [] });
     }
 
     const data = await res.json();
-    let content = data.choices?.[0]?.message?.content ?? "[]";
+    let content: string =
+      data.candidates?.[0]?.content?.parts?.[0]?.text ?? "[]";
     content = content.replace(/```json|```/g, "").trim();
 
-    // Handle both {terms:[...]} and plain [...] responses
     let terms: { term: string; description: string }[] = [];
     try {
       const parsed = JSON.parse(content);
-      terms = Array.isArray(parsed) ? parsed : (parsed.terms ?? parsed.result ?? []);
+      terms = Array.isArray(parsed)
+        ? parsed
+        : (parsed.terms ?? parsed.result ?? []);
     } catch {
       terms = [];
     }
