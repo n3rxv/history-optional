@@ -285,6 +285,50 @@ function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLD
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
         </IconBtn>
       </Group>
+      {/* ── Historical term tooltip ───────────────────────────── */}
+      {tooltip && (
+        <div
+          style={{
+            position: "absolute",
+            left: tooltip.x,
+            top: tooltip.y,
+            transform: "translateX(-50%)",
+            background: "linear-gradient(135deg, #0f0d0a 0%, #1a1508 100%)",
+            border: "1px solid rgba(201,168,76,0.45)",
+            borderRadius: 8,
+            padding: "0.55rem 0.85rem",
+            maxWidth: 300,
+            fontSize: "0.78rem",
+            color: "#e8d9b0",
+            zIndex: 9999,
+            boxShadow: "0 8px 32px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.08)",
+            pointerEvents: "none",
+            lineHeight: 1.5,
+          }}
+        >
+          {tooltip.text}
+          {/* Arrow */}
+          <div style={{
+            position: "absolute", top: -5, left: "50%", transform: "translateX(-50%)",
+            width: 8, height: 8, background: "#1a1508",
+            border: "1px solid rgba(201,168,76,0.45)",
+            borderRight: "none", borderBottom: "none",
+            rotate: "45deg",
+          }} />
+        </div>
+      )}
+
+      <style>{`
+        .ho-term {
+          border-bottom: 1.5px dashed rgba(201,168,76,0.6);
+          cursor: help;
+          transition: border-color 0.15s, color 0.15s;
+        }
+        .ho-term:hover {
+          border-bottom-color: #c9a84c;
+          color: #f5e6c0;
+        }
+      `}</style>
     </div>
   );
 }
@@ -565,6 +609,10 @@ export default function NoteReader({ slug }: { slug: string }) {
   const [stickyText, setStickyText] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  // ── Tooltip state ──────────────────────────────────────────
+  const [hoTerms, setHoTerms] = useState<{ term: string; description: string }[]>([]);
+  const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number } | null>(null);
+
   // Admin state
   const [isAdmin, setIsAdmin] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -701,6 +749,19 @@ export default function NoteReader({ slug }: { slug: string }) {
     setIsAdmin(!!sessionStorage.getItem(SESSION_KEY));
   }, []);
 
+  // ── Detect historical terms on note load ──────────────────
+  useEffect(() => {
+    const rawText = (cloudContent ?? getNoteContent(slug)).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    fetch("/api/detect-terms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: rawText }),
+    })
+      .then((r) => r.json())
+      .then(({ terms }) => { if (Array.isArray(terms)) setHoTerms(terms); })
+      .catch(() => {});
+  }, [slug, cloudContent]);
+
   // Load cloud note override
   useEffect(() => {
     fetch(`/api/admin/note-content?slug=${slug}`)
@@ -766,7 +827,21 @@ export default function NoteReader({ slug }: { slug: string }) {
     return c;
   };
 
-  const processedContent = getContent();
+  const processedContent = (() => {
+    let c = getContent();
+    // Wrap detected historical terms with hoverable spans
+    if (hoTerms.length > 0) {
+      hoTerms.forEach(({ term }) => {
+        const esc = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        // Only wrap first occurrence; skip inside existing tags
+        c = c.replace(
+          new RegExp(`(?<![\w">])\\b(${esc})\\b(?![^<]*>)`, ""),
+          `<span class="ho-term" data-term="${term.replace(/"/g, "&quot;")}">$1</span>`
+        );
+      });
+    }
+    return c;
+  })();
   const list = note?.paper === 1 ? paper1Notes : paper2Notes;
   const idx = list.findIndex(n => n.slug === slug);
   const prev = idx > 0 ? list[idx-1] : null;
@@ -1063,7 +1138,30 @@ export default function NoteReader({ slug }: { slug: string }) {
             ) : (
               <>
                 <TableOfContents contentHtml={processedContent} />
-                <div ref={noteContentRef} className="note-content" dangerouslySetInnerHTML={{ __html: processedContent }} />
+                <div
+                  ref={noteContentRef}
+                  className="note-content"
+                  dangerouslySetInnerHTML={{ __html: processedContent }}
+                  onMouseOver={(e) => {
+                    const el = e.target as HTMLElement;
+                    if (el.classList.contains("ho-term")) {
+                      const termKey = el.getAttribute("data-term") ?? "";
+                      const found = hoTerms.find((t) => t.term === termKey);
+                      if (found) {
+                        const rect = el.getBoundingClientRect();
+                        setTooltip({
+                          text: `${found.term}: ${found.description}`,
+                          x: rect.left + rect.width / 2,
+                          y: rect.bottom + window.scrollY + 6,
+                        });
+                      }
+                    }
+                  }}
+                  onMouseOut={(e) => {
+                    const el = e.target as HTMLElement;
+                    if (el.classList.contains("ho-term")) setTooltip(null);
+                  }}
+                />
               </>
             )}
 
