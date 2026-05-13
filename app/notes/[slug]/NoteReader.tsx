@@ -702,34 +702,7 @@ export default function NoteReader({ slug }: { slug: string }) {
     setIsAdmin(!!sessionStorage.getItem(SESSION_KEY));
   }, []);
 
-  // ── Detect historical terms on note load (cached in localStorage) ──
-  useEffect(() => {
-    const cacheKey = `ho-terms-${slug}`;
-    const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-      try {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setHoTerms(parsed);
-          return;
-        }
-      } catch {}
-    }
-    const rawText = (cloudContent ?? getNoteContent(slug)).replace(/<[^>]+>/g, " ").replace(/&[a-z0-9#]+;/gi, " ").replace(/\s+/g, " ").trim();
-    fetch("/api/detect-terms", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: rawText }),
-    })
-      .then((r) => r.json())
-      .then(({ terms }) => {
-        if (Array.isArray(terms) && terms.length > 0) {
-          setHoTerms(terms);
-          localStorage.setItem(cacheKey, JSON.stringify(terms));
-        }
-      })
-      .catch(() => {});
-  }, [slug, cloudContent]);
+
 
   // Load cloud note override
   useEffect(() => {
