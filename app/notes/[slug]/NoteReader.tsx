@@ -565,9 +565,6 @@ export default function NoteReader({ slug }: { slug: string }) {
   const [stickyText, setStickyText] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // ── Tooltip state ──────────────────────────────────────────
-  const [hoTerms, setHoTerms] = useState<{ term: string; description: string }[]>([]);
-  const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number } | null>(null);
 
   // Admin state
   const [isAdmin, setIsAdmin] = useState(false);
@@ -799,21 +796,7 @@ export default function NoteReader({ slug }: { slug: string }) {
     return c;
   };
 
-  const processedContent = (() => {
-    let c = getContent();
-    // Wrap detected historical terms with hoverable spans
-    if (hoTerms.length > 0) {
-      hoTerms.forEach(({ term }) => {
-        const esc = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        // Only wrap first occurrence; skip inside existing tags
-        c = c.replace(
-          new RegExp(`(?<![\w-])(${esc})(?![\w-])(?![^<]*>)`, ""),
-          `<span class="ho-term" data-term="${term.replace(/"/g, "&quot;")}">$1</span>`
-        );
-      });
-    }
-    return c;
-  })();
+  const processedContent = getContent();
   const list = note?.paper === 1 ? paper1Notes : paper2Notes;
   const idx = list.findIndex(n => n.slug === slug);
   const prev = idx > 0 ? list[idx-1] : null;
