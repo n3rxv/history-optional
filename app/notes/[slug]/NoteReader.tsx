@@ -807,7 +807,7 @@ export default function NoteReader({ slug }: { slug: string }) {
         const esc = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
         // Only wrap first occurrence; skip inside existing tags
         c = c.replace(
-          new RegExp(`(?<![\w">])\\b(${esc})\\b(?![^<]*>)`, ""),
+          new RegExp(`(?<![\w-])(${esc})(?![\w-])(?![^<]*>)`, ""),
           `<span class="ho-term" data-term="${term.replace(/"/g, "&quot;")}">$1</span>`
         );
       });
