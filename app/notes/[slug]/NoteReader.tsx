@@ -1070,25 +1070,6 @@ export default function NoteReader({ slug }: { slug: string }) {
                   ref={noteContentRef}
                   className="note-content"
                   dangerouslySetInnerHTML={{ __html: processedContent }}
-                  onMouseOver={(e) => {
-                    const el = e.target as HTMLElement;
-                    if (el.classList.contains("ho-term")) {
-                      const termKey = el.getAttribute("data-term") ?? "";
-                      const found = hoTerms.find((t) => t.term === termKey);
-                      if (found) {
-                        const rect = el.getBoundingClientRect();
-                        setTooltip({
-                          text: `${found.term}: ${found.description}`,
-                          x: rect.left + rect.width / 2,
-                          y: rect.bottom + 6,
-                        });
-                      }
-                    }
-                  }}
-                  onMouseOut={(e) => {
-                    const el = e.target as HTMLElement;
-                    if (el.classList.contains("ho-term")) setTooltip(null);
-                  }}
                 />
               </>
             )}
@@ -1267,51 +1248,6 @@ export default function NoteReader({ slug }: { slug: string }) {
           <span style={{ opacity: 0.45, fontSize: '0.62rem', background: 'rgba(59,130,246,0.1)', padding: '1px 5px', borderRadius: 3, border: '1px solid rgba(59,130,246,0.2)' }}>⌘F</span>
         </button>
       )}
-
-
-      {/* ── Historical term tooltip ───────────────────────────── */}
-      {tooltip && (
-        <div
-          style={{
-            position: "fixed",
-            left: tooltip.x,
-            top: tooltip.y,
-            transform: "translateX(-50%)",
-            background: "linear-gradient(135deg, #0f0d0a 0%, #1a1508 100%)",
-            border: "1px solid rgba(201,168,76,0.45)",
-            borderRadius: 8,
-            padding: "0.55rem 0.85rem",
-            maxWidth: 300,
-            fontSize: "0.78rem",
-            color: "#e8d9b0",
-            zIndex: 9999,
-            boxShadow: "0 8px 32px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.08)",
-            pointerEvents: "none",
-            lineHeight: 1.5,
-          }}
-        >
-          {tooltip.text}
-          <div style={{
-            position: "absolute", top: -5, left: "50%", transform: "translateX(-50%)",
-            width: 8, height: 8, background: "#1a1508",
-            border: "1px solid rgba(201,168,76,0.45)",
-            borderRight: "none", borderBottom: "none",
-            rotate: "45deg",
-          }} />
-        </div>
-      )}
-
-      <style>{`
-        .ho-term {
-          border-bottom: 1.5px dashed rgba(201,168,76,0.6);
-          cursor: help;
-          transition: border-color 0.15s, color 0.15s;
-        }
-        .ho-term:hover, .ho-term:focus {
-          border-bottom-color: #c9a84c;
-          color: #f5e6c0;
-        }
-      `}</style>
     </div>
   );
 }
