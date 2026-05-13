@@ -1124,7 +1124,7 @@ export default function NoteReader({ slug }: { slug: string }) {
                         setTooltip({
                           text: `${found.term}: ${found.description}`,
                           x: rect.left + rect.width / 2,
-                          y: rect.bottom + window.scrollY + 6,
+                          y: rect.bottom + 6,
                         });
                       }
                     }
