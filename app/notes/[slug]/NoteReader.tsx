@@ -707,7 +707,7 @@ export default function NoteReader({ slug }: { slug: string }) {
 
   // ── Detect historical terms on note load ──────────────────
   useEffect(() => {
-    const rawText = (cloudContent ?? getNoteContent(slug)).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    const rawText = (cloudContent ?? getNoteContent(slug)).replace(/<[^>]+>/g, " ").replace(/&[a-z0-9#]+;/gi, " ").replace(/\s+/g, " ").trim();
     fetch("/api/detect-terms", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
