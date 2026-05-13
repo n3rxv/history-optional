@@ -19,6 +19,20 @@ Rules:
 - Return empty array [] if no relevant terms found
 - Return ONLY the JSON array, nothing else`;
 
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code, 10)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, code) =>
+      String.fromCharCode(parseInt(code, 16))
+    );
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { text } = await req.json();
@@ -26,7 +40,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ terms: [] });
     }
 
-    const truncated = text.slice(0, 4000);
+    // Strip HTML tags, decode entities, collapse whitespace
+    const cleanText = decodeHtmlEntities(
+      text.replace(/<[^>]+>/g, " ")
+    )
+      .replace(/\s+/g, " ")
+      .trim();
+
+    if (cleanText.length < 20) {
+      return NextResponse.json({ terms: [] });
+    }
+
+    const truncated = cleanText.slice(0, 4000);
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
