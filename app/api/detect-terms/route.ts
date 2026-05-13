@@ -2,22 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SYSTEM_PROMPT = `You are a UPSC History Optional expert. Given a passage of historical text, identify up to 15 important historical/technical terms that a student might not know. These can be Persian/Arabic/Sanskrit terms, administrative titles, technical concepts, or lesser-known historical events.
 
-Return ONLY a JSON array. No preamble, no markdown, no code fences. Each object must have:
+Return ONLY a valid JSON array. No preamble, no markdown, no code fences. Each object must have:
 - "term": the exact word or phrase as it appears in the text (case-sensitive match)
 - "description": a clear 1-2 line explanation (max 25 words) suitable for a UPSC student
 
-Example:
-[
-  {"term": "iqta", "description": "Land revenue assignment given to military officers in the Delhi Sultanate instead of cash salary."},
-  {"term": "mansabdar", "description": "Mughal official holding a mansab (rank) determining their military and administrative responsibilities."}
-]
+Example output:
+[{"term":"iqta","description":"Land revenue assignment given to military officers in the Delhi Sultanate instead of cash salary."},{"term":"mansabdar","description":"Mughal official holding a mansab rank determining their military and administrative responsibilities."}]
 
 Rules:
 - Only include terms actually present verbatim in the text
-- Prefer lesser-known terms over common ones
+- Prefer lesser-known Persian/Arabic/Sanskrit terms, titles, and concepts over common English words
 - Max 15 terms
-- Return empty array [] if no relevant terms found
-- Return ONLY the JSON array, nothing else`;
+- Return empty array [] if no relevant terms found`;
 
 function decodeHtmlEntities(text: string): string {
   return text
@@ -37,63 +33,58 @@ export async function POST(req: NextRequest) {
   try {
     const { text } = await req.json();
     if (!text || typeof text !== "string") {
-      return NextResponse.json({ terms: [] });
+      return NextResponse.json({ terms: [], debug: "no text" });
     }
 
-    // Strip HTML tags, decode entities, collapse whitespace
-    const cleanText = decodeHtmlEntities(
-      text.replace(/<[^>]+>/g, " ")
-    )
+    const cleanText = decodeHtmlEntities(text.replace(/<[^>]+>/g, " "))
       .replace(/\s+/g, " ")
       .trim();
 
     if (cleanText.length < 20) {
-      return NextResponse.json({ terms: [] });
+      return NextResponse.json({ terms: [], debug: "text too short" });
     }
 
     const truncated = cleanText.slice(0, 4000);
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error("detect-terms: GEMINI_API_KEY not set");
-      return NextResponse.json({ terms: [] });
-    }
-
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
+    const groqFetch = async (key: string) =>
+      fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${key}`,
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          system_instruction: {
-            parts: [{ text: SYSTEM_PROMPT }],
-          },
-          contents: [
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
             {
-              parts: [
-                {
-                  text: `Identify historical terms in this text:\n\n${truncated}`,
-                },
-              ],
+              role: "user",
+              content: `Identify historical terms in this text:\n\n${truncated}`,
             },
           ],
-          generationConfig: {
-            temperature: 0.1,
-            maxOutputTokens: 800,
-            responseMimeType: "application/json",
-          },
+          temperature: 0.1,
+          max_tokens: 800,
         }),
-      }
-    );
+      });
+
+    const key1 = process.env.GROQ_API_KEY;
+    if (!key1) {
+      return NextResponse.json({ terms: [], debug: "no GROQ_API_KEY" });
+    }
+
+    let res = await groqFetch(key1);
+    if (res.status === 429 && process.env.GROQ_API_KEY_2) {
+      res = await groqFetch(process.env.GROQ_API_KEY_2);
+    }
 
     if (!res.ok) {
-      console.error("detect-terms Gemini error:", res.status, await res.text());
-      return NextResponse.json({ terms: [] });
+      const errText = await res.text();
+      return NextResponse.json({ terms: [], debug: `groq error ${res.status}: ${errText}` });
     }
 
     const data = await res.json();
-    let content: string =
-      data.candidates?.[0]?.content?.parts?.[0]?.text ?? "[]";
+    let content: string = data.choices?.[0]?.message?.content ?? "[]";
+    const rawContent = content;
     content = content.replace(/```json|```/g, "").trim();
 
     let terms: { term: string; description: string }[] = [];
@@ -102,13 +93,12 @@ export async function POST(req: NextRequest) {
       terms = Array.isArray(parsed)
         ? parsed
         : (parsed.terms ?? parsed.result ?? []);
-    } catch {
-      terms = [];
+    } catch (e) {
+      return NextResponse.json({ terms: [], debug: `parse error: ${e}, raw: ${rawContent}` });
     }
 
-    return NextResponse.json({ terms });
+    return NextResponse.json({ terms, debug: `ok, found ${terms.length} terms` });
   } catch (err) {
-    console.error("detect-terms error:", err);
-    return NextResponse.json({ terms: [] });
+    return NextResponse.json({ terms: [], debug: `exception: ${err}` });
   }
 }
