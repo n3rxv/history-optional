@@ -101,7 +101,21 @@ Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use 
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) return NextResponse.json({ error: 'Parse error' }, { status: 500 });
 
-    const parsed = JSON.parse(jsonMatch[0]);
+    let parsed;
+    try {
+      parsed = JSON.parse(jsonMatch[0]);
+    } catch {
+      // Try cleaning common JSON issues
+      const cleaned = jsonMatch[0]
+        .replace(/,\s*}/g, '}')
+        .replace(/,\s*]/g, ']');
+      try {
+        parsed = JSON.parse(cleaned);
+      } catch {
+        console.error('JSON parse failed:', jsonMatch[0].slice(0, 300));
+        return NextResponse.json({ error: 'Parse error' }, { status: 500 });
+      }
+    }
     return NextResponse.json(parsed);
   } catch (err) {
     console.error('prelims-explain error:', err);
