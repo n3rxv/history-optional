@@ -467,20 +467,17 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                 const status = getNavStatus(fqs);
                 const c = NAV_COLORS[status];
                 const isActive = idx === current;
-                if (!started) {
+  if (!started) {
     const topicCount = Array.from(new Set(prelimsQuestions.map((q: any) => q.topic))).length;
     const pyqCount = prelimsQuestions.filter((q: any) => q.type === 'pyq').length;
     const practiceCount = prelimsQuestions.filter((q: any) => q.type === 'practice').length;
     return (
       <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', fontFamily: 'var(--font-sans)' }}>
-        {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: 600 }}>
           <div style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '1rem' }}>UPSC PRELIMS · HISTORY OPTIONAL</div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, color: '#fff', marginBottom: '1rem', lineHeight: 1.1 }}>Prelims Practice</h1>
           <p style={{ color: 'var(--text2)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: 480, margin: '0 auto' }}>AI-powered explanations, smart guessing techniques, and elimination strategies — built for serious UPSC aspirants.</p>
         </div>
-
-        {/* Stats row */}
         <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '3rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           {[
             { value: prelimsQuestions.length, label: 'Total Questions', color: 'var(--accent)' },
@@ -494,14 +491,12 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             </div>
           ))}
         </div>
-
-        {/* Feature cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', maxWidth: 700, width: '100%', marginBottom: '3rem' }}>
           {[
-            { icon: '💡', title: 'Step-by-step Solution',     desc: 'Full breakdown of the correct answer with reasoning.',           color: 'var(--accent)'  },
-            { icon: '⚙️', title: 'Technique Identification',   desc: 'LINCHPIN, ODD-ONE-OUT, PAIR ELIMINATION and more.',              color: 'var(--yellow)' },
-            { icon: '🧠', title: 'Smart Guess Strategy',       desc: 'How to reason your way to the answer even without knowing it.',  color: 'var(--green)'  },
-            { icon: '📌', title: 'Minimum Concepts',           desc: 'Exactly what you need to know to never miss this again.',        color: 'var(--red)'    },
+            { icon: '💡', title: 'Step-by-step Solution',   desc: 'Full breakdown of the correct answer with reasoning.',          color: 'var(--accent)'  },
+            { icon: '⚙️', title: 'Technique Identification', desc: 'LINCHPIN, ODD-ONE-OUT, PAIR ELIMINATION and more.',             color: 'var(--yellow)' },
+            { icon: '🧠', title: 'Smart Guess Strategy',     desc: 'How to reason your way to the answer even without knowing it.', color: 'var(--green)'  },
+            { icon: '📌', title: 'Minimum Concepts',         desc: 'Exactly what you need to know to never miss this again.',       color: 'var(--red)'    },
           ].map(f => (
             <div key={f.title} style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 10, padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <div style={{ fontSize: '1.3rem' }}>{f.icon}</div>
@@ -510,8 +505,6 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             </div>
           ))}
         </div>
-
-        {/* CTA */}
         <button
           onClick={() => setStarted(true)}
           style={{ background: 'var(--accent)', color: '#000', padding: '1rem 3rem', borderRadius: 8, border: 'none', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', letterSpacing: '0.03em', transition: 'opacity 0.15s ease' }}
