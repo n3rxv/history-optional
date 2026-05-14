@@ -541,7 +541,7 @@ Every response must:
         .chat-suggested-btn:hover {
           border-color:rgba(59,130,246,0.32); color:var(--text);
           background:linear-gradient(135deg, rgba(29,78,216,0.1), rgba(16,16,18,0.95));
-          transform:translateY(-1px);
+          
           box-shadow:0 4px 16px rgba(0,0,0,0.3);
         }
 
@@ -579,7 +579,7 @@ Every response must:
           color:#fff; box-shadow:0 2px 12px rgba(59,130,246,0.4);
         }
         .chat-send-btn.inactive { background:rgba(28,28,32,0.9); color:var(--text3); cursor:not-allowed; }
-        .chat-send-btn.active:hover { transform:translateY(-1px); box-shadow:0 4px 18px rgba(59,130,246,0.5); }
+        .chat-send-btn.active:hover {  box-shadow:0 4px 18px rgba(59,130,246,0.5); }
         .chat-hint { font-size:0.63rem; color:var(--text3); text-align:center; margin-top:0.55rem; letter-spacing:0.04em; }
 
         /* ── PDF button ── */

@@ -81,8 +81,7 @@ function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLD
         const el = e.currentTarget;
         el.style.background = danger ? 'rgba(248,113,113,0.12)' : 'rgba(212,168,67,0.13)';
         el.style.borderColor = danger ? 'rgba(248,113,113,0.3)' : 'rgba(212,168,67,0.35)';
-        el.style.transform = 'translateY(-1px)';
-      }}
+        el}}
       onMouseLeave={e => {
         const el = e.currentTarget;
         el.style.background = 'transparent';
@@ -1119,7 +1118,7 @@ export default function NoteReader({ slug }: { slug: string }) {
                 .nav-card:hover {
                   border-color: rgba(59,130,246,0.35);
                   box-shadow: 0 4px 24px rgba(59,130,246,0.12), 0 0 0 1px rgba(59,130,246,0.08);
-                  transform: translateY(-2px);
+                  
                 }
                 .nav-card:hover::before { opacity: 1; }
                 .nav-card:hover .nav-title { color: #fff; }
@@ -1237,7 +1236,7 @@ export default function NoteReader({ slug }: { slug: string }) {
             backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
             transition: 'border-color 0.15s, box-shadow 0.15s, transform 0.15s',
           }}
-          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(59,130,246,0.6)'; el.style.boxShadow = '0 4px 20px rgba(0,0,0,0.6), 0 0 16px rgba(59,130,246,0.15)'; el.style.transform = 'translateY(-1px)'; }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(59,130,246,0.6)'; el.style.boxShadow = '0 4px 20px rgba(0,0,0,0.6), 0 0 16px rgba(59,130,246,0.15)'; el}}
           onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(59,130,246,0.3)'; el.style.boxShadow = '0 4px 20px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.08)'; el.style.transform = 'none'; }}
         >
           <svg width="13" height="13" viewBox="0 0 20 20" fill="none">

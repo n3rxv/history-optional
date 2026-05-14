@@ -130,13 +130,13 @@ export default function Flashcards() {
   return (
     <>
       <style>{`
-        @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1;  } }
         @keyframes pulse-ring { 0%,100% { opacity:0.4; transform:scale(1); } 50% { opacity:0.15; transform:scale(1.08); } }
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         @keyframes float { 0%,100% { transform:translateY(0px) rotate(0deg); } 50% { transform:translateY(-12px) rotate(1deg); } }
         .fc-card-wrap { animation: fadeUp 0.45s cubic-bezier(0.23,1,0.32,1) both; }
-        .fc-rate-btn:hover { transform: translateY(-2px) scale(1.04) !important; }
-        .fc-rate-btn:active { transform: translateY(0px) scale(0.98) !important; }
+        .fc-rate-btn:hover { box-shadow: 0 0 16px rgba(99,102,241,0.35), inset 0 1px 0 rgba(255,255,255,0.1) !important; }
+        .fc-rate-btn:active { opacity: 0.85 !important; }
         .fc-browse-row:hover .fc-browse-arrow { opacity:1 !important; transform:translateX(3px) !important; }
         .flip-inner {
           position:relative; min-height:340px;
@@ -415,8 +415,8 @@ export default function Flashcards() {
               boxShadow: '0 2px 16px rgba(59,130,246,0.35), inset 0 1px 0 rgba(255,255,255,0.12)',
               fontFamily: 'var(--font-body)',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 24px rgba(59,130,246,0.55), inset 0 1px 0 rgba(255,255,255,0.15)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-1px)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 16px rgba(59,130,246,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}>
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 24px rgba(59,130,246,0.55), inset 0 1px 0 rgba(255,255,255,0.15)'; (e.currentTarget as HTMLElement)}}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 16px rgba(59,130,246,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'; (e.currentTarget as HTMLElement)}}>
             Start {filteredDue.length > 0 ? `(${filteredDue.length} due)` : `(${filtered.length})`}
           </button>
         </div>

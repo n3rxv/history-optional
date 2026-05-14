@@ -77,7 +77,7 @@ body {
 
 .toc-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 2rem; }
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1;  } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pulse  { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1); } }
 .fade-up { animation: fadeUp 0.5s ease forwards; }
@@ -109,7 +109,7 @@ body {
   padding: 1.5rem;
   transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
 }
-.g-card:hover { box-shadow: var(--glow-neutral); transform: translateY(-1px); }
+.g-card:hover { box-shadow: var(--glow-neutral);  }
 
 .g-card-blue  { background: var(--grad-blue);  border-color: rgba(59,130,246,0.2); }
 .g-card-blue:hover  { box-shadow: var(--glow-blue);  border-color: rgba(59,130,246,0.35); }
@@ -175,7 +175,7 @@ body {
 }
 .g-topic-pill:hover {
   background: var(--grad-blue); border-color: rgba(59,130,246,0.35);
-  color: var(--accent); transform: translateY(-1px);
+  color: var(--accent); 
 }
 
 /* ── Banner strip ── */

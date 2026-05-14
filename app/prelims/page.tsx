@@ -85,8 +85,8 @@ export default function PrelimsLanding() {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
           <Link href="/prelims/practice"
             style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', color: '#fff', padding: '0.85rem 2.25rem', borderRadius: 9, textDecoration: 'none', fontWeight: 700, fontSize: '0.88rem', letterSpacing: '0.02em', boxShadow: '0 0 28px rgba(59,130,246,0.28)', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 45px rgba(59,130,246,0.5)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 28px rgba(59,130,246,0.28)'; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement)(e.currentTarget as HTMLElement).style.boxShadow = '0 0 45px rgba(59,130,246,0.5)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement)(e.currentTarget as HTMLElement).style.boxShadow = '0 0 28px rgba(59,130,246,0.28)'; }}
           >
             Begin Practice →
           </Link>

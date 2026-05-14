@@ -95,7 +95,7 @@ function AnimatedStat({ value, label, color, suffix, href }: { value: number; la
   }, []);
   return (
     <Link href={href} style={{ textDecoration: 'none' }}>
-      <div ref={ref} className="g-stat-block" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', }} onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-2px)')} onMouseLeave={e => (e.currentTarget.style.transform = 'translateY(0)')}>
+      <div ref={ref} className="g-stat-block" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', }} onMouseEnter={e => (e.currentTarget)} onMouseLeave={e => (e.currentTarget)}>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, color }}>
           {count}{suffix}
         </div>
@@ -148,7 +148,7 @@ export default function Home() {
 
         /* PYQ slide */
         .pyq-slide { transition: opacity 0.3s ease, transform 0.3s ease; }
-        .pyq-slide.pyq-in { opacity: 1; transform: translateY(0); }
+        .pyq-slide.pyq-in { opacity: 1;  }
         .pyq-slide.pyq-out { opacity: 0; transform: translateY(6px); }
 
         /* Dot indicator */
@@ -276,7 +276,7 @@ export default function Home() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }} className="grid-4col">
           {features.map(f => (
             <Link key={f.title} href={f.href} style={{ textDecoration: 'none', display: 'flex', alignSelf: 'stretch' }}>
-              <div className="g-feature-tile" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', height: '100%', boxSizing: 'border-box' }} onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.background = 'var(--bg2)'; }} onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.background = ''; }}>
+              <div className="g-feature-tile" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', height: '100%', boxSizing: 'border-box' }} onMouseEnter={e => { e.currentTargete.currentTarget.style.background = 'var(--bg2)'; }} onMouseLeave={e => { e.currentTargete.currentTarget.style.background = ''; }}>
                 <div style={{ fontSize: '1.4rem', marginBottom: '0.75rem' }}>{f.icon}</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, color: f.color, marginBottom: '0.4rem', fontSize: '0.95rem' }}>{f.title}</div>
                 <div style={{ color: 'var(--text3)', fontSize: '0.8rem', lineHeight: 1.6 }}>{f.desc}</div>

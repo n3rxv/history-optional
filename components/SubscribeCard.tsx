@@ -205,10 +205,10 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
         }
         .subscribe-cta:hover {
           filter: brightness(1.1);
-          transform: translateY(-1px);
+          
         }
         .subscribe-cta:active {
-          transform: translateY(0px);
+          
         }
         .subscribe-cta {
           transition: all 0.18s ease;
