@@ -225,7 +225,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
               background: filter === f ? 'var(--accent)' : 'rgba(255,255,255,0.06)',
               color: filter === f ? '#000' : 'rgba(255,255,255,0.5)',
               transition: 'all 0.15s',
-            }}>{f === 'all' ? 'All' : f === 'pyq' ? 'PYQ' : 'Practice'}</button>
+            }}>{f === 'all' ? 'All' : f === 'pyq' ? 'PYQs' : 'MCQs'}</button>
           ))}
         </div>
 
@@ -277,7 +277,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
               border: `1px solid ${q.type === 'pyq' ? 'rgba(212,168,67,0.3)' : 'rgba(96,165,250,0.2)'}`,
               fontWeight: 600,
             }}>
-              {q.type === 'pyq' ? `PYQ ${q.year ?? ''}` : 'Practice'}
+              {q.type === 'pyq' ? `PYQ ${q.year ?? ''}` : 'MCQs'}
             </span>
             <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.6rem', borderRadius: 5 }}>{q.topic}</span>
           </div>
