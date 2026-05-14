@@ -367,6 +367,7 @@ export default function EvaluatePage() {
     setHistory(loadHistory());
   }, [stage]); // reload whenever stage changes (new eval saved)
   const [extractedText, setExtractedText] = useState("");
+  const [processedImageFiles, setProcessedImageFiles] = useState<File[]>([]);
   const [ocrLoading, setOcrLoading] = useState(false);
   const [ocrProgress, setOcrProgress]   = useState(0);
   const [evalProgress, setEvalProgress] = useState(0);
@@ -396,6 +397,7 @@ const handleOcr = useCallback(async () => {
           }
         }
         processedFiles = expanded;
+        setProcessedImageFiles(expanded);
         setOcrProgress(20);
       } catch (e: unknown) {
         setError('PDF conversion failed: ' + (e instanceof Error ? e.message : 'Unknown error'));
@@ -417,6 +419,7 @@ const handleOcr = useCallback(async () => {
       setOcrProgress(ocrSteps[idx].pct);
       ocrTimer = setTimeout(() => runOcrStep(idx + 1), 900 + Math.random() * 600);
     };
+    setProcessedImageFiles(processedFiles);
     runOcrStep(0);
     const compressed = await Promise.all(processedFiles.map(f => compressImage(f)));
     const fd = new FormData();
@@ -467,7 +470,8 @@ const handleOcr = useCallback(async () => {
     const fd = new FormData();
     fd.append("question", question); fd.append("marks", marks.toString());
     fd.append("extractedText", extractedText);
-    if (files) { const compEval = await Promise.all(files.map(f => compressImage(f))); compEval.forEach(f => fd.append("files", f)); }
+    const evalFiles = processedImageFiles.length > 0 ? processedImageFiles : (files ? [...files] : []);
+    if (evalFiles.length > 0) { const compEval = await Promise.all(evalFiles.map(f => compressImage(f))); compEval.forEach(f => fd.append("files", f)); }
     try {
       const res  = await fetch("/api/evaluate", { method: "POST", headers: { "x-user-token": tokenRef.current ?? "" }, body: fd });
       const rawText = await res.text();
