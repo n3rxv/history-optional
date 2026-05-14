@@ -202,7 +202,7 @@ export default function PrelimsPage() {
       }}>
         {/* badge */}
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent)', background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 6, padding: '0.25rem 0.65rem', flexShrink: 0 }}>
-          AMAC Prelims
+          AMAC & Modern
         </div>
 
         {/* type pills */}
@@ -391,11 +391,11 @@ export default function PrelimsPage() {
                     { label: 'Related Concepts & Keywords', icon: '🔗', content: qs.aiResult.related   },
                   ] as const).map((sec, idx, arr) => (
                     <div key={sec.label} style={{ marginBottom: idx < arr.length-1 ? '1.1rem' : 0, paddingBottom: idx < arr.length-1 ? '1.1rem' : 0, borderBottom: idx < arr.length-1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.45rem' }}>
-                        <span style={{ fontSize: '0.9rem' }}>{sec.icon}</span>
-                        <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>{sec.label}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.6rem' }}>
+                        <span style={{ fontSize: '1.1rem' }}>{sec.icon}</span>
+                        <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, background: 'linear-gradient(90deg, var(--accent), #a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{sec.label}</span>
                       </div>
-                      <div style={{ fontSize: '0.95rem', lineHeight: 1.75, color: 'rgba(255,255,255,0.82)', whiteSpace: 'pre-line' }}>{sec.content}</div>
+                      <div style={{ fontSize: '0.97rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.85)', whiteSpace: 'pre-line' }}>{sec.content}</div>
                     </div>
                   ))}
                 </div>
@@ -411,12 +411,12 @@ export default function PrelimsPage() {
         {/* ── Navigator sidebar ── */}
         {showNav && (
           <div style={{
-            width: 230, flexShrink: 0,
+            width: 260, flexShrink: 0,
             position: 'sticky', top: 130,
-            background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)',
-            borderRadius: 16, padding: '1.1rem', maxHeight: 'calc(100vh - 170px)', overflowY: 'auto',
+            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 16, boxShadow: '0 0 0 1px rgba(59,130,246,0.08), 0 8px 32px rgba(0,0,0,0.4)', padding: '1.1rem', maxHeight: 'calc(100vh - 170px)', overflowY: 'auto',
           }}>
-            <div style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '0.8rem' }}>
+            <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700, color: 'var(--accent)', marginBottom: '0.9rem' }}>
               Navigator
             </div>
 
@@ -424,8 +424,8 @@ export default function PrelimsPage() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.9rem' }}>
               {(Object.entries(NAV_COLORS) as [NavStatus, typeof NAV_COLORS[NavStatus]][]).map(([s, c]) => (
                 <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '0.28rem' }}>
-                  <div style={{ width: 8, height: 8, borderRadius: 2, background: c.bg, border: `1px solid ${c.border}` }} />
-                  <span style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.25)', textTransform: 'capitalize' }}>
+                  <div style={{ width: 9, height: 9, borderRadius: 3, background: c.bg, border: `1px solid ${c.border}` }} />
+                  <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', textTransform: 'capitalize' }}>
                     {s === 'answered-marked' ? 'ans+marked' : s}
                   </span>
                 </div>
@@ -433,7 +433,7 @@ export default function PrelimsPage() {
             </div>
 
             {/* grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.36rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.42rem' }}>
               {filtered.map((fq, idx) => {
                 const fqs = states[fq.id] ?? emptyQS;
                 const status = getNavStatus(fqs);
@@ -445,8 +445,8 @@ export default function PrelimsPage() {
                     border: `1px solid ${isActive ? 'var(--accent)' : c.border}`,
                     background: isActive ? 'rgba(59,130,246,0.2)' : c.bg,
                     color: isActive ? 'var(--accent)' : c.text,
-                    fontSize: '0.72rem', fontWeight: isActive ? 700 : 400, cursor: 'pointer',
-                    transition: 'all 0.1s',
+                    fontSize: '0.78rem', fontWeight: isActive ? 700 : 500, cursor: 'pointer',
+                    transition: 'all 0.12s', letterSpacing: '0.01em',
                   }}>{idx + 1}</button>
                 );
               })}
@@ -461,7 +461,7 @@ export default function PrelimsPage() {
                 { label: 'Marked',  val: String(markedCnt), color: '#fbbf24' },
                 { label: 'Left',    val: String(filtered.length - answered), color: 'rgba(255,255,255,0.28)' },
               ].map(s => (
-                <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', marginBottom: '0.35rem' }}>
+                <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '0.4rem' }}>
                   <span style={{ color: 'rgba(255,255,255,0.32)' }}>{s.label}</span>
                   <span style={{ color: s.color, fontFamily: 'var(--font-mono)', fontWeight: 700 }}>{s.val}</span>
                 </div>
