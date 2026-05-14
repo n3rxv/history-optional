@@ -91,7 +91,7 @@ export default function PrelimsLanding() {
             Begin Practice →
           </Link>
           <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-mono)', margin: 0, lineHeight: 1.6 }}>
-            <span style={{ color: '#eab308' }}>Questions are free to practice · ✦ Smart dissection & analysis requires Premium</span>
+            <span style={{ color: '#eab308' }}>Questions are free to practice · Smart dissection & analysis requires Premium</span>
           </p>
         </div>
 
