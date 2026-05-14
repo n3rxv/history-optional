@@ -473,7 +473,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
     const pyqCount = prelimsQuestions.filter((q: any) => q.type === 'pyq').length;
     const practiceCount = prelimsQuestions.filter((q: any) => q.type === 'practice').length;
     return (
-      <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', fontFamily: 'var(--font-sans)' }}>
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: 600 }}>
           <div style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '1rem' }}>UPSC PRELIMS · HISTORY OPTIONAL</div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, color: '#fff', marginBottom: '1rem', lineHeight: 1.1 }}>Prelims Practice</h1>
@@ -506,12 +506,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             </div>
           ))}
         </div>
-        <button
-          onClick={() => setStarted(true)}
-          style={{ background: 'var(--accent)', color: '#000', padding: '1rem 3rem', borderRadius: 8, border: 'none', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', letterSpacing: '0.03em', transition: 'opacity 0.15s ease' }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-        >
+        <button onClick={() => setStarted(true)} style={{ background: 'var(--accent)', color: '#000', padding: '1rem 3rem', borderRadius: 8, border: 'none', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', letterSpacing: '0.03em' }}>
           Start Practice →
         </button>
         <p style={{ marginTop: '1rem', fontSize: '0.78rem', color: 'var(--text3)' }}>No login required to attempt questions</p>
