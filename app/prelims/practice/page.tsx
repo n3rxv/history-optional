@@ -218,7 +218,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
         </div>
 
         {/* type pills */}
-        <div style={{ display: 'flex', gap: '0.4rem' }}>
+        <div className="prelims-topbar-filters" style={{ display: 'flex', gap: '0.4rem' }}>
           {(['all', 'pyq', 'practice'] as Filter[]).map(f => (
             <button key={f} onClick={() => setFilter(f)} style={{
               padding: '0.28rem 0.75rem', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600,
@@ -262,7 +262,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
       </div>
 
       {/* body */}
-      <div style={{ display: 'flex', flex: 1, maxWidth: 1280, margin: '0 auto', width: '100%', padding: '2rem 1.5rem', gap: '2rem', alignItems: 'flex-start' }}>
+      <div className="prelims-body" style={{ display: 'flex', flex: 1, maxWidth: 1280, margin: '0 auto', width: '100%', padding: '2rem 1.5rem', gap: '2rem', alignItems: 'flex-start' }}>
 
         {/* ── Question panel ── */}
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -283,7 +283,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           </div>
 
           {/* question text */}
-          <div style={{ fontSize: '1.15rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.95)', whiteSpace: 'pre-line', marginBottom: '1.5rem', fontWeight: 500 }}>
+          <div className="prelims-question" style={{ fontSize: '1.15rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.95)', whiteSpace: 'pre-line', marginBottom: '1.5rem', fontWeight: 500 }}>
             {q.question}
           </div>
 
@@ -315,7 +315,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           </div>
 
           {/* action row */}
-          <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', marginBottom: '2rem', alignItems: 'center' }}>
+          <div className="prelims-actions" style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', marginBottom: '2rem', alignItems: 'center' }}>
             {!qs.submitted ? (
               <>
                 <button onClick={handleSubmit} disabled={qs.selected === null} style={{
@@ -391,7 +391,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                   {[0,1,2].map(i => (
                     <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(255,255,255,0.25)', animation: `pulse 1.2s ease-in-out ${i*0.2}s infinite` }} />
                   ))}
-                  <style>{`@keyframes pulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}`}</style>
+                  <style>{`@keyframes pulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}        /* ── Mobile / Tablet responsive ── */        @media (max-width: 768px) {          .prelims-body { flex-direction: column !important; padding: 1rem !important; gap: 1rem !important; }          .prelims-topbar { padding: 0.5rem 0.85rem !important; gap: 0.4rem !important; }          .prelims-topbar-filters { gap: 0.3rem !important; }          .prelims-topbar-filters button { padding: 0.22rem 0.55rem !important; font-size: 0.72rem !important; }          .prelims-topbar select { max-width: 130px !important; font-size: 0.72rem !important; }          .prelims-topbar-score { font-size: 0.78rem !important; gap: 0.5rem !important; }          .prelims-question { font-size: 1rem !important; }          .prelims-option { font-size: 0.92rem !important; padding: 0.75rem 1rem !important; }          .prelims-actions { gap: 0.45rem !important; }          .prelims-actions button { padding: 0.65rem 1rem !important; font-size: 0.85rem !important; }          .prelims-nav-sidebar { display: none !important; }          .prelims-nav-drawer { display: flex !important; }        }        @media (min-width: 769px) and (max-width: 1024px) {          .prelims-body { padding: 1.25rem !important; gap: 1.25rem !important; }          .prelims-nav-sidebar { width: 200px !important; }          .prelims-topbar select { max-width: 160px !important; }        }        /* Mobile nav drawer */        .prelims-nav-drawer {          display: none;          position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;          background: rgba(10,10,20,0.98); backdrop-filter: blur(16px);          border-top: 1px solid rgba(255,255,255,0.1);          padding: 0.75rem 1rem 1.25rem;          flex-direction: column; gap: 0.6rem;          max-height: 55vh; overflow-y: auto;        }        .prelims-nav-drawer-toggle {          display: none !important;        }        @media (max-width: 768px) {          .prelims-nav-drawer-toggle { display: flex !important; }          .prelims-body { padding-bottom: 5rem !important; }        }`}</style>
                   <span style={{ marginLeft: '0.5rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.3)' }}>Generating explanation…</span>
                 </div>
               ) : qs.aiResult ? (
@@ -437,7 +437,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
         {/* ── Navigator sidebar ── */}
         {showNav && (
-          <div style={{
+          <div className="prelims-nav-sidebar" style={{
             width: 260, flexShrink: 0,
             position: 'sticky', top: 130,
             background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)',
@@ -498,6 +498,56 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           </div>
         )}
       </div>
+
+      {/* Mobile Nav Drawer Toggle */}
+      <button className="prelims-nav-drawer-toggle" onClick={() => setShowNav(v => !v)} style={{
+        position: 'fixed', bottom: '1rem', right: '1rem', zIndex: 60,
+        width: 48, height: 48, borderRadius: '50%',
+        background: 'var(--accent)', border: 'none', color: '#000',
+        fontSize: '1.1rem', fontWeight: 700, cursor: 'pointer',
+        boxShadow: '0 4px 16px rgba(59,130,246,0.4)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>☰</button>
+
+      {/* Mobile Nav Drawer */}
+      {showNav && (
+        <div className="prelims-nav-drawer">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent)' }}>Navigator</span>
+            <button onClick={() => setShowNav(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '1rem' }}>✕</button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '0.35rem' }}>
+            {filtered.map((fq, idx) => {
+              const fqs = states[fq.id] ?? emptyQS;
+              const status = getNavStatus(fqs);
+              const nc = NAV_COLORS[status];
+              const isActive = idx === current;
+              return (
+                <button key={fq.id} onClick={() => { goTo(idx); setShowNav(false); }} style={{
+                  width: '100%', aspectRatio: '1', borderRadius: 6,
+                  border: `1px solid ${isActive ? 'var(--accent)' : nc.border}`,
+                  background: isActive ? 'rgba(59,130,246,0.2)' : nc.bg,
+                  color: isActive ? 'var(--accent)' : nc.text,
+                  fontSize: '0.72rem', fontWeight: isActive ? 700 : 500, cursor: 'pointer',
+                }}>{idx + 1}</button>
+              );
+            })}
+          </div>
+          <div style={{ display: 'flex', gap: '1rem', paddingTop: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            {[
+              { label: 'Score', val: `${score >= 0 ? '+' : ''}${score}`, color: score >= 0 ? '#4ade80' : '#f87171' },
+              { label: 'Correct', val: String(correct), color: '#4ade80' },
+              { label: 'Wrong', val: String(wrong), color: '#f87171' },
+              { label: 'Left', val: String(filtered.length - answered), color: 'rgba(255,255,255,0.28)' },
+            ].map(s => (
+              <div key={s.label} style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: s.color, fontFamily: 'var(--font-mono)' }}>{s.val}</div>
+                <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.3)' }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
