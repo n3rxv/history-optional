@@ -746,7 +746,7 @@ const handleOcr = useCallback(async () => {
                   <><span className="ev-score-num" style={{ color:col }}>{openEntry.marks}</span><span className="ev-score-denom"> /{openEntry.marksOutOf}</span></>
                 ); })()}
                 {openEntry.wordCount && (
-                  <div style={{ marginTop:8, fontFamily:"var(--font-mono)", fontSize:"0.65rem", color:"#555" }}>
+                  <div style={{ marginTop:8, fontFamily:"var(--font-mono)", fontSize:"0.65rem", color:"#aaa" }}>
                     {openEntry.wordCount} words · <span style={{ color: openEntry.wordCountRating === "GOOD" ? "#4ade80" : "#f59e0b" }}>{openEntry.wordCountRating}</span>
                   </div>
                 )}
@@ -1078,12 +1078,15 @@ const handleOcr = useCallback(async () => {
                 <textarea className="ev-ta" rows={3} placeholder="Write the exact question here..."
                   value={question} onChange={e => setQuestion(e.target.value)} />
               ) : (
-                <div style={{ padding:"14px 16px", border:"1px dashed #2a2a2a", borderRadius:6, background:"#111" }}>
-                  <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"#888", marginBottom:4 }}>
-                    ✦ Question will be auto-extracted from your answer script
-                  </div>
-                  <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.68rem", color:"#555" }}>
-                    Upload your sheet above → OCR will detect & fill the question automatically. You can edit it afterwards.
+                <div style={{ padding:"16px 18px", border:"1px solid #1e3a5f", borderRadius:8, background:"linear-gradient(135deg,#0a1628,#0d1f3c)", display:"flex", alignItems:"flex-start", gap:12 }}>
+                  <span style={{ fontSize:"1.1rem", marginTop:1 }}>🔍</span>
+                  <div>
+                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"#60a5fa", marginBottom:5", fontWeight:600 }}>
+                      Question will be auto-extracted from your answer script
+                    </div>
+                    <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"#94a3b8", lineHeight:1.5 }}>
+                      Upload your sheet above — the AI will detect and fill the question automatically. You can edit it afterwards.
+                    </div>
                   </div>
                 </div>
               )}
