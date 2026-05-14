@@ -977,7 +977,7 @@ const handleOcr = useCallback(async () => {
                   onChange={e => {
                     const newFiles = Array.from(e.target.files || []);
                     setFiles(newFiles);
-                    setPreviews(newFiles.map(f => URL.createObjectURL(f)));
+                    setPreviews(newFiles.map(f => f.type === "application/pdf" ? "__pdf__" : URL.createObjectURL(f)));
                   }} />
                 {files && files.length > 0 ? (
                   <div onClick={e => e.stopPropagation()} style={{ textAlign:"left" }}>
@@ -1003,7 +1003,12 @@ const handleOcr = useCallback(async () => {
                           onPointerUp={() => setDragIdx(null)}
                           onPointerCancel={() => setDragIdx(null)}
                         >
-                          <img src={previews[i] || ""} alt={`page ${i+1}`} />
+                          {previews[i] === "__pdf__"
+                            ? <div style={{width:80,height:100,borderRadius:4,border:"2px solid #333",background:"#1a1a2e",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4}}>
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><text x="6" y="19" fontSize="5" fill="#e53e3e" stroke="none" fontWeight="bold">PDF</text></svg>
+                                <span style={{color:"#e53e3e",fontSize:"0.6rem",fontFamily:"var(--font-mono)"}}>PDF</span>
+                              </div>
+                            : <img src={previews[i] || ""} alt={`page ${i+1}`} />}
                           <div className="ev-page-num">pg {i+1}</div>
                           <button className="ev-page-del" onClick={() => {
                             const nf = files.filter((_,j) => j !== i);
@@ -1032,7 +1037,7 @@ const handleOcr = useCallback(async () => {
                           onChange={e => {
                             const added = Array.from(e.target.files || []);
                             const nf = [...(files||[]), ...added];
-                            const np = [...previews, ...added.map(f => URL.createObjectURL(f))];
+                            const np = [...previews, ...added.map(f => f.type === "application/pdf" ? "__pdf__" : URL.createObjectURL(f))];
                             setFiles(nf);
                             setPreviews(np);
                           }} />
