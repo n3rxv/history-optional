@@ -95,7 +95,7 @@ function AnimatedStat({ value, label, color, suffix, href }: { value: number; la
   }, []);
   return (
     <Link href={href} style={{ textDecoration: 'none' }}>
-      <div ref={ref} className="g-stat-block" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', }} onMouseEnter={e => (e.currentTarget)} onMouseLeave={e => (e.currentTarget)}>
+      <div ref={ref} className="g-stat-block" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', }} onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-2px)")} onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, color }}>
           {count}{suffix}
         </div>
