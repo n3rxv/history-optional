@@ -12,7 +12,7 @@ export default function PrelimsLanding() {
       <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: 600 }}>
         <div style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '1rem' }}>UPSC PRELIMS · HISTORY OPTIONAL</div>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, color: '#fff', marginBottom: '1rem', lineHeight: 1.1 }}>Prelims Practice</h1>
-        <p style={{ color: 'var(--text2)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: 480, margin: '0 auto' }}>AI-powered explanations, smart guessing techniques, and elimination strategies — built for serious UPSC aspirants.</p>
+        <p style={{ color: 'var(--text2)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: 480, margin: '0 auto' }}>Smart explanations, guessing techniques, and elimination strategies — built for serious UPSC aspirants.</p>
       </div>
 
       <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '3rem', flexWrap: 'wrap', justifyContent: 'center' }}>
