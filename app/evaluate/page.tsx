@@ -956,6 +956,16 @@ const handleOcr = useCallback(async () => {
               The model has read your handwriting. Fix any errors below, then evaluate.
             </p>
             {error && <div className="ev-err">{error}</div>}
+            <div style={{ marginBottom:16 }}>
+              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:8 }}>
+                Question {!question && <span style={{ color:"#e53e3e" }}>— not detected, please fill manually</span>}
+              </label>
+              <textarea className="ev-ta" rows={2}
+                placeholder="Type or confirm the question here..."
+                value={question} onChange={e => setQuestion(e.target.value)}
+                style={{ marginBottom:0, borderColor: question ? "#2a2a2a" : "#7f1d1d" }} />
+            </div>
+            <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:8 }}>Transcription</label>
             <textarea
               className="ev-ta"
               style={{ minHeight:320, marginBottom:20, textAlign:"justify" }}
