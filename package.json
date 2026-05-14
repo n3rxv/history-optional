@@ -17,7 +17,6 @@
     "@types/dompurify": "^3.0.5",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
-    "@xenova/transformers": "^2.17.2",
     "d3-geo": "^3.1.1",
     "dompurify": "^3.3.3",
     "fuse.js": "^7.1.0",
@@ -25,16 +24,11 @@
     "jspdf": "^4.2.1",
     "leaflet": "^1.9.4",
     "next": "16.1.6",
-    "openai": "^6.35.0",
-    "pdf-parse": "^2.4.5",
-    "pdf-to-img": "^5.0.0",
-    "pdfjs-dist": "^5.4.624",
     "razorpay": "^2.9.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-leaflet": "^5.0.0",
-    "topojson-client": "^3.1.0",
-    "unpdf": "^1.4.0"
+    "topojson-client": "^3.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
