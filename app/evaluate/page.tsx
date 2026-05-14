@@ -323,6 +323,45 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
   doc.save('model-answer-' + marks + 'M.pdf');
 }
 
+
+// Convert PDF pages to image Files using PDF.js (loaded from CDN)
+async function pdfToImages(file: File): Promise<File[]> {
+  // Dynamically load PDF.js from CDN
+  if (!(window as any).pdfjsLib) {
+    await new Promise<void>((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs';
+      script.type = 'module';
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Failed to load PDF.js'));
+      document.head.appendChild(script);
+    });
+    // small wait for module init
+    await new Promise(r => setTimeout(r, 300));
+  }
+  // Use importmap-free dynamic import approach via fetch + blob
+  const pdfjs = (window as any).pdfjsLib;
+  if (!pdfjs) throw new Error('PDF.js not available');
+  pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
+
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+  const images: File[] = [];
+
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const viewport = page.getViewport({ scale: 2.0 });
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d')!;
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    const blob = await new Promise<Blob>((res) => canvas.toBlob(b => res(b!), 'image/jpeg', 0.9));
+    images.push(new File([blob], `page-${i}.jpg`, { type: 'image/jpeg' }));
+  }
+  return images;
+}
+
 export default function EvaluatePage() {
   const [files, setFiles]           = useState<File[]>();
   const [question, setQuestion]     = useState("");
@@ -353,8 +392,31 @@ export default function EvaluatePage() {
   const [previews, setPreviews] = useState<string[]>([]);
 
 const handleOcr = useCallback(async () => {
-    if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one image and enter the question."); return; }
+    if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one file and enter the question."); return; }
     setError(""); setOcrLoading(true); setOcrProgress(0);
+    // Check if any file is a PDF — convert to images first
+    let processedFiles = [...files];
+    const hasPdf = files.some(f => f.type === 'application/pdf');
+    if (hasPdf) {
+      try {
+        setOcrProgress(8);
+        const expanded: File[] = [];
+        for (const f of files) {
+          if (f.type === 'application/pdf') {
+            const pages = await pdfToImages(f);
+            expanded.push(...pages);
+          } else {
+            expanded.push(f);
+          }
+        }
+        processedFiles = expanded;
+        setOcrProgress(20);
+      } catch (e: unknown) {
+        setError('PDF conversion failed: ' + (e instanceof Error ? e.message : 'Unknown error'));
+        setOcrLoading(false);
+        return;
+      }
+    }
     // Animate OCR progress
     let ocrTimer: ReturnType<typeof setTimeout> | undefined;
     const ocrSteps = [
@@ -370,7 +432,7 @@ const handleOcr = useCallback(async () => {
       ocrTimer = setTimeout(() => runOcrStep(idx + 1), 900 + Math.random() * 600);
     };
     runOcrStep(0);
-    const compressed = await Promise.all(files.map(f => compressImage(f)));
+    const compressed = await Promise.all(processedFiles.map(f => compressImage(f)));
     const fd = new FormData();
     fd.append("question", question);
     compressed.forEach(f => fd.append("files", f));
@@ -919,9 +981,9 @@ const handleOcr = useCallback(async () => {
         {stage === "form" && !evaluation && !loading && (
           <div className="ev-fade">
             <div style={{ marginBottom:28 }}>
-              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:10 }}>Answer Images</label>
+              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:10 }}>Answer Images / PDF</label>
               <div className={`ev-upload ${files && files.length > 0 ? "has" : ""}`} onClick={() => fileRef.current?.click()}>
-                <input ref={fileRef} type="file" accept="image/*" multiple style={{ display:"none" }}
+                <input ref={fileRef} type="file" accept="image/*,application/pdf" multiple style={{ display:"none" }}
                   onChange={e => {
                     const newFiles = Array.from(e.target.files || []);
                     setFiles(newFiles);
@@ -976,7 +1038,7 @@ const handleOcr = useCallback(async () => {
                         </div>
                       ))}
                       <div className="ev-page-add" onClick={() => addFileRef.current?.click()}>
-                        <input ref={addFileRef} type="file" accept="image/*" multiple style={{ display:"none" }}
+                        <input ref={addFileRef} type="file" accept="image/*,application/pdf" multiple style={{ display:"none" }}
                           onChange={e => {
                             const added = Array.from(e.target.files || []);
                             const nf = [...(files||[]), ...added];
