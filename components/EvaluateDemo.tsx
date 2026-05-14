@@ -96,8 +96,8 @@ export default function EvaluateDemo() {
         </h2>
         <Link href="/evaluate"
           style={{ fontFamily:'var(--font-mono)', fontSize:'0.72rem', color:'var(--red)', letterSpacing:'0.06em', textDecoration:'none', border:'1px solid rgba(239,68,68,0.3)', padding:'4px 14px', borderRadius:20, transition:'all 0.2s ease' }}
-          onMouseEnter={e => { const t = e.currentTarget; t.style.background='var(--red)'; t.style.color='#fff'; t.style.boxShadow='0 0 14px rgba(239,68,68,0.45)'; t.style.transform='translateY(-1px)'; }}
-          onMouseLeave={e => { const t = e.currentTarget; t.style.background='transparent'; t.style.color='var(--red)'; t.style.boxShadow='none'; t.style.transform='translateY(0)'; }}>
+          onMouseEnter={e => { const t = e.currentTarget; t.style.background='var(--red)'; t.style.color='#fff'; t.style.boxShadow='0 0 14px rgba(239,68,68,0.45)'; }}
+          onMouseLeave={e => { const t = e.currentTarget; t.style.background='transparent'; t.style.color='var(--red)'; t.style.boxShadow='none'; }}>
           Try it free →
         </Link>
       </div>
