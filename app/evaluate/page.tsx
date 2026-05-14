@@ -1045,7 +1045,7 @@ const handleOcr = useCallback(async () => {
                   <>
                     <div style={{ fontSize:"2rem", marginBottom:12, opacity:0.35 }}>⬆</div>
                     <div style={{ color:"#888", fontSize:"0.95rem" }}>Upload photos of your answer sheet</div>
-                    <div style={{ color:"#555", fontSize:"0.78rem", marginTop:6, fontFamily:"var(--font-mono)" }}>JPG / PNG · Multiple pages supported</div>
+                    <div style={{ color:"#555", fontSize:"0.78rem", marginTop:6, fontFamily:"var(--font-mono)" }}>JPG · PNG · PDF · Multiple pages supported</div>
                   </>
                 )}
               </div>
