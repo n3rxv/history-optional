@@ -55,7 +55,16 @@ You know ALL of the following elimination and reasoning techniques:
 13. CONTEMPORARY SOURCE TECHNIQUE — If a question names a text, inscription, or traveller account, recall what period/ruler they're associated with. This often directly gives the answer.
 14. ADMINISTRATIVE/ECONOMIC TERM TECHNIQUE — Unfamiliar Sanskrit/Persian revenue or admin terms: check which dynasty/period they belong to. Revenue terms in Gupta = Kulyavapa, Dronavapa etc.
 
-Your output must be a detailed, structured analysis — not a summary. Every section must have depth, specificity, and actionable insight for a UPSC aspirant.`;
+Your output must be a detailed, structured analysis — not a summary. Every section must have depth, specificity, and actionable insight for a UPSC aspirant.
+
+CRITICAL ANTI-HALLUCINATION RULES FOR THE smart_guess SECTION — NON-NEGOTIABLE:
+- You are roleplaying as a student who does NOT know the answer with certainty. You are showing HOW to reason under uncertainty — not recalling facts.
+- NEVER invent specific dates, names, events, or facts that are not directly visible in the question text or inferable from universally known general knowledge.
+- Every inference must be explicitly flagged: use phrases like "this suggests...", "by elimination...", "the phrasing implies...", "one can infer...", "this sounds like...", "historically this pattern suggests..." — NEVER present a guess as a confirmed fact.
+- If you use a linguistic clue (a word sounds Persian / Sanskrit / Portuguese / British-era), say so explicitly. Do not fabricate a historical backstory to justify it.
+- If you use cross-domain reasoning (geography, language, polity, economics, current affairs), name the exact domain and state what you are inferring from it.
+- It is completely acceptable — and required — to say "a smart aspirant cannot know this with certainty but can narrow it down to X or Y because..." Intellectual honesty builds the right exam mindset.
+- The smart_guess section models REASONING UNDER UNCERTAINTY — not confident fact-recall dressed up as guessing. If you violate this, you are actively harming the student.`;
 
     const userPrompt = `Analyze this UPSC Prelims MCQ in extreme detail:
 
@@ -70,7 +79,8 @@ Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use 
   "solution": "DETAILED step-by-step reasoning. Analyze EACH option individually with specific facts. Separate each point with || (double pipe). No newlines inside the string. Minimum 5 points separated by ||.",
   "technique": "Identify which technique from the list BEST fits this specific question's format — do NOT default to Linchpin. If it's a statement-based MCQ, use PAIR ELIMINATION or LINCHPIN only if truly applicable. If it's a single-fact question, use ODD-ONE-OUT or EXTREME LANGUAGE TRAP. State the chosen technique name and explain exactly HOW to apply it to THIS question. Show the exact thought process: which statement/option to evaluate first, what it tells you, how it eliminates other options. Be very specific to this question.",
   "concepts": "List 3-5 concepts. Format: ConceptName: key facts. Separate each with || (double pipe). No newlines.",
-  "related": "List 4-6 UPSC themes. Format: Theme: why it matters. Separate each with || (double pipe). No newlines."
+  "related": "List 4-6 UPSC themes. Format: Theme: why it matters. Separate each with || (double pipe). No newlines.",
+  "smart_guess": "ROLEPLAY AS EXAM-HALL ASPIRANT: You are a sharp UPSC aspirant sitting in the exam. You have studied sincerely but are NOT certain of the answer to this specific question. Show your live reasoning — how you think your way to the best possible guess using indirect clues, language patterns, cross-domain knowledge, and elimination. Structure your response in 6 blocks separated by || (double pipe). No newlines inside. BLOCK 1 — FIRST READ INSTINCT: What does a prepared aspirant notice in the first 10 seconds? Any familiar name, term, place, dynasty, act, or pattern that triggers even a partial memory? State it honestly including if nothing rings a bell. Do not pretend to know more than you do. || BLOCK 2 — LINGUISTIC AND STRUCTURAL CLUES: Carefully read the actual words in the question and options. Does any term sound distinctly Sanskrit, Persian, Arabic, Portuguese, or British-colonial? Does the phrasing suggest a specific era? Does any option use absolute language like only, always, never, solely, first, all which is a classic UPSC trap making that option likely wrong? Name the exact linguistic or structural clue and what it suggests. Do NOT invent historical facts — only read and interpret the language already written. || BLOCK 3 — CROSS-DOMAIN INFERENCE: What does a well-rounded UPSC aspirant know from adjacent domains that helps here? Tap into: Geography — where is this place, which region, which river; Polity — colonial-era reform or ancient practice; Economics — revenue system or trade route; Current Affairs — has this appeared in UNESCO listings, ASI reports, or news recently. Name the exact domain and frame your inference explicitly as an inference not a fact. || BLOCK 4 — TRAP DETECTION: Identify the deliberate traps UPSC has set in the wrong options. Which option is designed to fool someone who half-knows the topic? Look for: famous name in wrong context, correct event with wrong ruler or century, plausible but geographically wrong location, statement that is almost true but uses one wrong word. Name at least one specific trap and explain why a careless aspirant would fall for it. || BLOCK 5 — ELIMINATION CHAIN: Walk through elimination step by step. Start with the option you feel MOST confident is wrong and explain why — even if it is just a pattern or linguistic hunch. Show exactly how far pure elimination gets you. If you can narrow to 2 options, state which one you would bet on and the single deciding reason — this can be a pattern, linguistic probability, or structural clue, it does NOT need to be a verified fact. || BLOCK 6 — FINAL SMART BET: State your final answer choice and confidence level: Low, Medium, or High. Give one crisp sentence explaining the core reason — this must be a reasoning statement not a fact claim. If this question is genuinely not crackable without direct memorisation, say so honestly and tell the student exactly what specific topic to study to never face this blind spot again. ABSOLUTE RULES: Never invent facts. Never state a guess as a certainty. Always use hedging language for inferences. Model intellectual honesty."
 }`;
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -81,7 +91,7 @@ Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use 
       },
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
-        max_tokens: 2000,
+        max_tokens: 3500,
         temperature: 0.2,
         messages: [
           { role: 'system', content: systemPrompt },
