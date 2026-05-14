@@ -49,13 +49,13 @@ export default function PrelimsLanding() {
       <div style={{ position: 'relative', zIndex: 1, maxWidth: 620, width: '100%', textAlign: 'center' }}>
 
         {/* Eyebrow */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 100, padding: '0.35rem 1rem', marginBottom: '2.5rem' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 100, padding: '0.35rem 1rem', marginBottom: '1.5rem' }}>
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#3b82f6', display: 'inline-block', boxShadow: '0 0 8px #3b82f6' }} />
           <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#3b82f6' }}>History Optional · Prelims</span>
         </div>
 
         {/* Main heading — editorial style, smaller, tighter */}
-        <div style={{ marginBottom: '1rem' }}>
+        <div style={{ marginBottom: '0.5rem' }}>
           <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: '0.75rem' }}>Smart MCQ Practice</div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', fontWeight: 700, color: '#fff', lineHeight: 1.25, letterSpacing: '-0.01em', margin: 0 }}>
             Master the art of intelligent<br />
@@ -64,14 +64,14 @@ export default function PrelimsLanding() {
           </h1>
         </div>
 
-        <p style={{ color: 'rgba(255,255,255,0.38)', fontSize: '0.88rem', lineHeight: 1.8, margin: '1.25rem auto 2.5rem', maxWidth: 440 }}>
+        <p style={{ color: 'rgba(255,255,255,0.38)', fontSize: '0.88rem', lineHeight: 1.8, margin: '0.9rem auto 1.5rem', maxWidth: 440 }}>
           Every question comes with a full breakdown of how a sharp aspirant thinks through it — technique, smart guess, and concept map.
         </p>
 
         {/* Feature grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem', marginBottom: '2.5rem', textAlign: 'left' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem', marginBottom: '1.5rem', textAlign: 'left' }}>
           {features.map(f => (
-            <div key={f.label} style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.9rem 1rem', display: 'flex', gap: '0.65rem', alignItems: 'flex-start' }}>
+            <div key={f.label} style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.75rem 0.9rem', display: 'flex', gap: '0.65rem', alignItems: 'flex-start' }}>
               <span style={{ fontSize: '1.1rem', marginTop: 1 }}>{f.icon}</span>
               <div>
                 <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255,255,255,0.8)', marginBottom: '0.2rem' }}>{f.label}</div>
