@@ -1005,8 +1005,8 @@ const handleOcr = useCallback(async () => {
                         >
                           {previews[i] === "__pdf__"
                             ? <div style={{width:80,height:100,borderRadius:4,border:"2px solid #333",background:"#1a1a2e",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4}}>
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><text x="6" y="19" fontSize="5" fill="#e53e3e" stroke="none" fontWeight="bold">PDF</text></svg>
-                                <span style={{color:"#e53e3e",fontSize:"0.6rem",fontFamily:"var(--font-mono)"}}>PDF</span>
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><text x="6" y="19" fontSize="5" fill="#22c55e" stroke="none" fontWeight="bold">PDF</text></svg>
+                                <span style={{color:"#22c55e",fontSize:"0.6rem",fontFamily:"var(--font-mono)"}}>PDF</span>
                               </div>
                             : <img src={previews[i] || ""} alt={`page ${i+1}`} />}
                           <div className="ev-page-num">pg {i+1}</div>
