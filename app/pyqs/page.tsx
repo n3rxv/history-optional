@@ -388,6 +388,7 @@ export default function PYQsPage() {
                 {/* Model Answer button */}
                 <button
                   onClick={e => handleModelAnswer(e, q)}
+                  className="shimmer-btn"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
                     color: usage.isPremium ? 'var(--accent)' : 'var(--text3)',
@@ -395,6 +396,7 @@ export default function PYQsPage() {
                     background: usage.isPremium ? 'rgba(180,140,60,0.08)' : 'var(--bg3)',
                     border: usage.isPremium ? '1px solid rgba(180,140,60,0.25)' : '1px solid var(--border)',
                     padding: '3px 10px', borderRadius: 4,
+                    position: 'relative', overflow: 'hidden',
                   }}
                 >
                   {!usage.isPremium && (
