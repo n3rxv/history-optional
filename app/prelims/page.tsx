@@ -406,12 +406,21 @@ export default function PrelimsPage() {
                         <span style={{ fontSize: '1.1rem' }}>{sec.icon}</span>
                         <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, background: 'linear-gradient(90deg, var(--accent), #a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{sec.label}</span>
                       </div>
-                      <div style={{ fontSize: '0.97rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.85)', whiteSpace: 'pre-line' }}
-                        dangerouslySetInnerHTML={{ __html: sec.content.replace(
-                          /\b(LINCHPIN STATEMENT|LINCHPIN\/ANCHOR STATEMENT|PAIR ELIMINATION|ODD-ONE-OUT|EXTREME LANGUAGE TRAP|CHRONOLOGICAL ORDERING|GEOGRAPHICAL ELIMINATION|ASSERTION-REASON|MATCH-THE-FOLLOWING|NEGATIVE QUESTION|DEGREE-OF-CERTAINTY|PROCESS-OF-ELIMINATION|NCERT ANCHOR|CONTEMPORARY SOURCE|ADMINISTRATIVE\/ECONOMIC TERM)\b/g,
-                          '<span style="display:inline-flex;align-items:center;padding:2px 8px;border-radius:5px;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.3);color:#93c5fd;font-size:0.72rem;font-weight:700;letter-spacing:0.04em;font-family:var(--font-mono);vertical-align:middle;margin:0 2px">$1</span>'
-                        )}}
-                      />
+                      <div style={{ fontSize: '0.97rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.85)' }}>
+                        {sec.content.split('||').map((point, i) => {
+                          const labeled = point.trim().replace(
+                            /(LINCHPIN STATEMENT|LINCHPIN\/ANCHOR STATEMENT|PAIR ELIMINATION|ODD-ONE-OUT|EXTREME LANGUAGE TRAP|CHRONOLOGICAL ORDERING|GEOGRAPHICAL ELIMINATION|ASSERTION-REASON|MATCH-THE-FOLLOWING|NEGATIVE QUESTION|DEGREE-OF-CERTAINTY|PROCESS-OF-ELIMINATION|NCERT ANCHOR|CONTEMPORARY SOURCE|ADMINISTRATIVE\/ECONOMIC TERM)/g,
+                            '|||LABEL|||$1|||ENDLABEL|||'
+                          );
+                          const parts = labeled.split('|||');
+                          return (
+                            <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '6px' }}>
+                              <span style={{ color: '#60a5fa', flexShrink: 0, marginTop: '2px' }}>•</span>
+                              <span>{parts.map((p, j) => p === 'LABEL' ? null : p === 'ENDLABEL' ? null : parts[j-1] === 'LABEL' ? <span key={j} style={{ display:'inline-flex',alignItems:'center',padding:'1px 7px',borderRadius:'5px',background:'rgba(96,165,250,0.12)',border:'1px solid rgba(96,165,250,0.3)',color:'#93c5fd',fontSize:'0.72rem',fontWeight:700,letterSpacing:'0.04em',verticalAlign:'middle',margin:'0 2px' }}>{p}</span> : <span key={j}>{p}</span>)}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   ))}
                 </div>
