@@ -125,6 +125,8 @@ export default function Home() {
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem 4rem', position: 'relative' }}>
 
       <style>{`
+        .shimmer-btn::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
+        .shimmer-btn:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }
         /* Marquee */
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
@@ -320,8 +322,8 @@ export default function Home() {
                 onClick={() => { setPyqFade(false); setTimeout(() => { setPyqIdx(i); setPyqFade(true); }, 300); }} />
             ))}
             <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem' }}>
-              <Link href="/pyqs" style={{ background: 'var(--red)', color: '#fff', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem' }}>Browse PYQs</Link>
-              <Link href="/chat" style={{ background: 'transparent', color: 'var(--accent)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 500, fontSize: '0.82rem', border: '1px solid rgba(59,130,246,0.3)' }}>Ask AI →</Link>
+              <Link href="/pyqs" style={{ background: 'var(--red)', color: '#fff', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">Browse PYQs</Link>
+              <Link href="/chat" style={{ background: 'transparent', color: 'var(--accent)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 500, fontSize: '0.82rem', border: '1px solid rgba(59,130,246,0.3)', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">Ask AI →</Link>
             </div>
           </div>
         </div>
@@ -332,7 +334,7 @@ export default function Home() {
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#fff', marginBottom: '0.35rem', fontWeight: 600 }}>Attempt a Test</h3>
             <p style={{ color: 'var(--text2)', fontSize: '0.875rem' }}>Timed sectional and full-length mock tests with instant self/AI-mentored evaluation.</p>
           </div>
-          <Link href="/test" style={{ background: 'var(--accent)', color: '#000', padding: '0.65rem 1.5rem', borderRadius: 6, textDecoration: 'none', fontWeight: 700, fontSize: '0.875rem', display: 'inline-block' }}>Start Test →</Link>
+          <Link href="/test" style={{ background: 'var(--accent)', color: '#000', padding: '0.65rem 1.5rem', borderRadius: 6, textDecoration: 'none', fontWeight: 700, fontSize: '0.875rem', display: 'inline-block', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">Start Test →</Link>
         </div>
       </div>
 
