@@ -49,6 +49,14 @@ function calcScore(questions: typeof prelimsQuestions, states: Record<string, Qu
   return { score: Math.round(score * 100) / 100, correct, wrong, skipped };
 }
 
+
+const LS_KEY = 'prelims_explanations_v1';
+function getCached(qid: string): AIResult | null {
+  try { const s = localStorage.getItem(LS_KEY); if (!s) return null; return JSON.parse(s)[qid] ?? null; } catch { return null; }
+}
+function setCached(qid: string, r: AIResult) {
+  try { const s = localStorage.getItem(LS_KEY); const o = s ? JSON.parse(s) : {}; o[qid] = r; localStorage.setItem(LS_KEY, JSON.stringify(o)); } catch {}
+}
 export default function PrelimsPage() {
   const [filter, setFilter]           = useState<Filter>('all');
   const [topicFilter, setTopicFilter] = useState<string>('all');
@@ -96,6 +104,8 @@ export default function PrelimsPage() {
     if (!q || qs.selected === null || qs.submitted) return;
     updateState(q.id, { submitted: true });
     if (!isPremium || !token) return;
+    const cached = getCached(q.id);
+    if (cached) { updateState(q.id, { aiResult: cached, aiLoading: false }); return; }
     updateState(q.id, { submitted: true, aiLoading: true });
     try {
       const res = await fetch('/api/prelims-explain', {
@@ -108,6 +118,7 @@ export default function PrelimsPage() {
       });
       if (res.ok) {
         const data = await res.json();
+        setCached(q.id, data);
         updateState(q.id, { aiResult: data, aiLoading: false });
       } else {
         updateState(q.id, { aiLoading: false });
