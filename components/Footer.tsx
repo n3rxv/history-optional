@@ -20,10 +20,12 @@ export default function Footer() {
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
         <Link href="/contact" style={{ color: '#888', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#fff')} onMouseLeave={e => (e.currentTarget.style.color = '#888')}>Contact</Link>
         <Link href="/contact?tab=bug" style={{ color: '#888', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#fff')} onMouseLeave={e => (e.currentTarget.style.color = '#888')}>Report a Bug</Link>
-        <a href="https://t.me/historyoptionalxyz" target="_blank" rel="noopener noreferrer" title="Join Telegram" style={{ color: '#888', display: 'flex', alignItems: 'center', transition: 'color 0.15s' }} onMouseEnter={e => (e.currentTarget.style.color = '#2CA5E0')} onMouseLeave={e => (e.currentTarget.style.color = '#888')}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/>
-          </svg>
+        <a href="https://t.me/historyoptionalxyz" target="_blank" rel="noopener noreferrer" title="Join Telegram"
+          style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '5px 10px', borderRadius: '8px', background: 'rgba(44,165,224,0.08)', border: '1px solid rgba(44,165,224,0.2)', color: '#2CA5E0', textDecoration: 'none', fontSize: '11px', fontWeight: 600, letterSpacing: '0.03em', transition: 'all 0.18s' }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(44,165,224,0.18)'; el.style.borderColor = 'rgba(44,165,224,0.6)'; el.style.boxShadow = '0 0 12px rgba(44,165,224,0.25)'; }}
+          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(44,165,224,0.08)'; el.style.borderColor = 'rgba(44,165,224,0.2)'; el.style.boxShadow = 'none'; }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/></svg>
+          Join Telegram
         </a>
       </div>
     </footer>
