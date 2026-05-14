@@ -11,6 +11,7 @@ interface AIResult {
   technique: string;
   concepts: string;
   related: string;
+  smart_guess: string;
 }
 
 interface QuestionState {
@@ -50,7 +51,7 @@ function calcScore(questions: typeof prelimsQuestions, states: Record<string, Qu
 }
 
 
-const LS_KEY = 'prelims_explanations_v1';
+const LS_KEY = 'prelims_explanations_v2';
 function getCached(qid: string): AIResult | null {
   try { const s = localStorage.getItem(LS_KEY); if (!s) return null; return JSON.parse(s)[qid] ?? null; } catch { return null; }
 }
@@ -383,7 +384,7 @@ export default function PrelimsPage() {
                 <div style={{ padding: '2rem', textAlign: 'center' }}>
                   <div style={{ fontSize: '1.8rem', marginBottom: '0.75rem' }}>🔒</div>
                   <div style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.6)', marginBottom: '0.5rem' }}>Explanations are for Premium members</div>
-                  <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.25)' }}>Step-by-step solution · Technique · Concepts · Keywords</div>
+                  <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.25)' }}>Step-by-step solution · Technique · Concepts · Keywords · Smart Guess</div>
                 </div>
               ) : qs.aiLoading ? (
                 <div style={{ padding: '1.75rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -400,7 +401,8 @@ export default function PrelimsPage() {
                     { label: 'Problem-Solving Technique',   icon: '⚙️', content: qs.aiResult.technique },
                     { label: 'Minimum Concepts Required',   icon: '📌', content: qs.aiResult.concepts  },
                     { label: 'Related Concepts & Keywords', icon: '🔗', content: qs.aiResult.related   },
-                  ] as const).map((sec, idx, arr) => (
+                    ...(qs.aiResult.smart_guess ? [{ label: 'How to Smart Guess', icon: '🧠', content: qs.aiResult.smart_guess }] : []),
+                  ] as { label: string; icon: string; content: string }[]).map((sec, idx, arr) => (
                     <div key={sec.label} style={{ marginBottom: idx < arr.length-1 ? '1.1rem' : 0, paddingBottom: idx < arr.length-1 ? '1.1rem' : 0, borderBottom: idx < arr.length-1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.6rem' }}>
                         <span style={{ fontSize: '1.1rem' }}>{sec.icon}</span>
