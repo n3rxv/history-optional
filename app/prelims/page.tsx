@@ -60,7 +60,8 @@ function setCached(qid: string, r: AIResult) {
 }
 export default function PrelimsPage() {
   const [filter, setFilter]           = useState<Filter>('all');
-  const [topicFilter, setTopicFilter] = useState<string>('all');
+    const [started, setStarted] = useState(false);
+const [topicFilter, setTopicFilter] = useState<string>('all');
   const [showNav, setShowNav]         = useState(true);
   const [current, setCurrent]         = useState(0);
   const [states, setStates]           = useState<Record<string, QuestionState>>({});
@@ -466,7 +467,65 @@ export default function PrelimsPage() {
                 const status = getNavStatus(fqs);
                 const c = NAV_COLORS[status];
                 const isActive = idx === current;
-                return (
+                if (!started) {
+    const topicCount = Array.from(new Set(prelimsQuestions.map((q: any) => q.topic))).length;
+    const pyqCount = prelimsQuestions.filter((q: any) => q.type === 'pyq').length;
+    const practiceCount = prelimsQuestions.filter((q: any) => q.type === 'practice').length;
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', fontFamily: 'var(--font-sans)' }}>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: 600 }}>
+          <div style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '1rem' }}>UPSC PRELIMS · HISTORY OPTIONAL</div>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, color: '#fff', marginBottom: '1rem', lineHeight: 1.1 }}>Prelims Practice</h1>
+          <p style={{ color: 'var(--text2)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: 480, margin: '0 auto' }}>AI-powered explanations, smart guessing techniques, and elimination strategies — built for serious UPSC aspirants.</p>
+        </div>
+
+        {/* Stats row */}
+        <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '3rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {[
+            { value: prelimsQuestions.length, label: 'Total Questions', color: 'var(--accent)' },
+            { value: pyqCount,                label: 'PYQs',            color: 'var(--red)'    },
+            { value: practiceCount,           label: 'Practice',        color: 'var(--yellow)' },
+            { value: topicCount,              label: 'Topics',          color: 'var(--green)'  },
+          ].map(s => (
+            <div key={s.label} style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 10, padding: '1.25rem 2rem', textAlign: 'center', minWidth: 110 }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: s.color }}>{s.value}</div>
+              <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text3)', marginTop: 4 }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Feature cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', maxWidth: 700, width: '100%', marginBottom: '3rem' }}>
+          {[
+            { icon: '💡', title: 'Step-by-step Solution',     desc: 'Full breakdown of the correct answer with reasoning.',           color: 'var(--accent)'  },
+            { icon: '⚙️', title: 'Technique Identification',   desc: 'LINCHPIN, ODD-ONE-OUT, PAIR ELIMINATION and more.',              color: 'var(--yellow)' },
+            { icon: '🧠', title: 'Smart Guess Strategy',       desc: 'How to reason your way to the answer even without knowing it.',  color: 'var(--green)'  },
+            { icon: '📌', title: 'Minimum Concepts',           desc: 'Exactly what you need to know to never miss this again.',        color: 'var(--red)'    },
+          ].map(f => (
+            <div key={f.title} style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 10, padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <div style={{ fontSize: '1.3rem' }}>{f.icon}</div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 600, color: f.color }}>{f.title}</div>
+              <div style={{ fontSize: '0.78rem', color: 'var(--text3)', lineHeight: 1.6 }}>{f.desc}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <button
+          onClick={() => setStarted(true)}
+          style={{ background: 'var(--accent)', color: '#000', padding: '1rem 3rem', borderRadius: 8, border: 'none', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', letterSpacing: '0.03em', transition: 'opacity 0.15s ease' }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+        >
+          Start Practice →
+        </button>
+        <p style={{ marginTop: '1rem', fontSize: '0.78rem', color: 'var(--text3)' }}>No login required to attempt questions</p>
+      </div>
+    );
+  }
+
+  return (
                   <button key={fq.id} onClick={() => goTo(idx)} style={{
                     width: '100%', aspectRatio: '1', borderRadius: 7,
                     border: `1px solid ${isActive ? 'var(--accent)' : c.border}`,
