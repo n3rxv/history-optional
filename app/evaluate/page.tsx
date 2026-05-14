@@ -324,25 +324,11 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
 }
 
 
-// Convert PDF pages to image Files using PDF.js (loaded from CDN)
+// Convert PDF pages to image Files using PDF.js (loaded from CDN via esm.sh)
 async function pdfToImages(file: File): Promise<File[]> {
-  // Dynamically load PDF.js from CDN
-  if (!(window as any).pdfjsLib) {
-    await new Promise<void>((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs';
-      script.type = 'module';
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error('Failed to load PDF.js'));
-      document.head.appendChild(script);
-    });
-    // small wait for module init
-    await new Promise(r => setTimeout(r, 300));
-  }
-  // Use importmap-free dynamic import approach via fetch + blob
-  const pdfjs = (window as any).pdfjsLib;
-  if (!pdfjs) throw new Error('PDF.js not available');
-  pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pdfjs = await (Function('return import("https://esm.sh/pdfjs-dist@4.4.168?bundle-deps")')() as Promise<any>);
+  pdfjs.GlobalWorkerOptions.workerSrc = '';  // disable worker in browser module context
 
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
