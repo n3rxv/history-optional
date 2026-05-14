@@ -431,7 +431,13 @@ const handleOcr = useCallback(async () => {
       if (!res.ok) throw new Error(data.error || "OCR failed");
       setOcrProgress(100);
       clearTimeout(ocrTimer);
-      setTimeout(() => { setExtractedText(data.text); setStage("ocr"); }, 400);
+      setTimeout(() => {
+        setExtractedText(data.text);
+        if (data.detectedQuestion && !question.trim()) {
+          setQuestion(data.detectedQuestion);
+        }
+        setStage("ocr");
+      }, 400);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "OCR failed. Please try again.");
     } finally { setOcrLoading(false); }

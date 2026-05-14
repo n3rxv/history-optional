@@ -77,7 +77,33 @@ Output the transcription now:`;
 
     const data = await res.json();
     const text = data.choices?.[0]?.message?.content || "";
-    return NextResponse.json({ text });
+
+    // Detect question from first image
+    let detectedQuestion = "";
+    try {
+      const qRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${process.env.GROQ_API_KEY}` },
+        body: JSON.stringify({
+          model: "meta-llama/llama-4-scout-17b-16e-instruct",
+          messages: [{
+            role: "user",
+            content: [
+              imageContents[0],
+              { type: "text", text: `Look at this handwritten answer sheet. Extract ONLY the question text written at the top of the page (usually underlined, in a box, or written before the answer begins). Output ONLY the question text, nothing else. If no question is visible, output empty string.` }
+            ]
+          }],
+          temperature: 0.0,
+          max_tokens: 300,
+        }),
+      });
+      if (qRes.ok) {
+        const qData = await qRes.json();
+        detectedQuestion = qData.choices?.[0]?.message?.content?.trim() || "";
+      }
+    } catch { /* ignore question detection errors */ }
+
+    return NextResponse.json({ text, detectedQuestion });
 
   } catch (err) {
     console.error("OCR error:", err);
