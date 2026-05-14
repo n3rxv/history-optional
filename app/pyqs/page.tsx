@@ -151,7 +151,9 @@ function ModelAnswerModal({
               <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
                 Generating model answer…
               </span>
-              <style>{`@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}`}</style>
+              <style>{`
+        .shimmer-btn::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
+        .shimmer-btn:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}`}</style>
             </div>
           )}
           {error && (
@@ -243,7 +245,8 @@ export default function PYQsPage() {
             fontSize: '0.88rem', fontWeight: 600, textDecoration: 'none',
             display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
             flexShrink: 0, marginTop: '0.25rem',
-          }}>Start Test →</Link>
+            position: 'relative', overflow: 'hidden',
+          }} className="shimmer-btn">Start Test →</Link>
         </div>
       </div>
 
@@ -412,7 +415,8 @@ export default function PYQsPage() {
                   background: 'rgba(180,140,60,0.08)',
                   border: '1px solid rgba(180,140,60,0.25)',
                   padding: '3px 10px', borderRadius: 4,
-                }}>Ask AI →</Link>
+                  position: 'relative', overflow: 'hidden',
+                }} className="shimmer-btn">Ask AI →</Link>
               </div>
             </div>
           </div>
