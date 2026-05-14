@@ -57,6 +57,7 @@ function toArray(val: unknown): string[] {
 
 
 async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promise<File> {
+  if (file.type === 'application/pdf') return file; // skip PDFs — should not reach here
   return new Promise((resolve) => {
     const img = new Image();
     const url = URL.createObjectURL(file);
