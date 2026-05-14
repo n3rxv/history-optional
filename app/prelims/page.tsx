@@ -19,7 +19,7 @@ export default function PrelimsLanding() {
         {[
           { value: prelimsQuestions.length, label: 'Total Questions', color: 'var(--accent)' },
           { value: pyqCount,                label: 'PYQs',            color: 'var(--red)'    },
-          { value: practiceCount,           label: 'Practice',        color: 'var(--yellow)' },
+          { value: practiceCount,           label: 'MCQs',        color: 'var(--yellow)' },
           { value: topicCount,              label: 'Topics',          color: 'var(--green)'  },
         ].map(s => (
           <div key={s.label} style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 10, padding: '1.25rem 2rem', textAlign: 'center', minWidth: 110 }}>
