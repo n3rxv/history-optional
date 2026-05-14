@@ -399,9 +399,9 @@ export default function PrelimsPage() {
                   {([
                     { label: 'Solution',                    icon: '💡', content: qs.aiResult.solution  },
                     { label: 'Problem-Solving Technique',   icon: '⚙️', content: qs.aiResult.technique },
+                    ...(qs.aiResult.smart_guess ? [{ label: 'How to Smart Guess', icon: '🧠', content: qs.aiResult.smart_guess }] : []),
                     { label: 'Minimum Concepts Required',   icon: '📌', content: qs.aiResult.concepts  },
                     { label: 'Related Concepts & Keywords', icon: '🔗', content: qs.aiResult.related   },
-                    ...(qs.aiResult.smart_guess ? [{ label: 'How to Smart Guess', icon: '🧠', content: qs.aiResult.smart_guess }] : []),
                   ] as { label: string; icon: string; content: string }[]).map((sec, idx, arr) => (
                     <div key={sec.label} style={{ marginBottom: idx < arr.length-1 ? '1.1rem' : 0, paddingBottom: idx < arr.length-1 ? '1.1rem' : 0, borderBottom: idx < arr.length-1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.6rem' }}>
