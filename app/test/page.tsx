@@ -329,7 +329,9 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
             <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
               <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem', animation: 'spin 1s linear infinite', display: 'inline-block' }}>⟳</div>
               <div style={{ color: '#818cf8', fontSize: '0.85rem' }}>Reading your handwriting…</div>
-              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+              <style>{`
+        .shimmer-btn::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
+        .shimmer-btn:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             </div>
           )}
 
@@ -1035,11 +1037,12 @@ export default function TestPage() {
           <span>Ancient India sections include an interactive <strong>Map Question (50M)</strong>. Other sections get 5 short-answer questions (10M each) instead.</span>
         </div>
 
-        <button onClick={startTest} disabled={!canStart} style={{
+        <button onClick={startTest} disabled={!canStart} className="shimmer-btn" style={{
           background: canStart ? 'var(--accent)' : 'var(--bg3)',
           color: canStart ? '#fff' : 'var(--text3)',
           border: 'none', borderRadius: 8, padding: '0.85rem 2.5rem',
           fontSize: '0.95rem', fontWeight: 600, cursor: canStart ? 'pointer' : 'not-allowed',
+          position: 'relative', overflow: 'hidden',
         }}>Begin Test →</button>
       </div>
     );
