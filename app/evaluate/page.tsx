@@ -1010,20 +1010,20 @@ const handleOcr = useCallback(async () => {
                               </div>
                             : <img src={previews[i] || ""} alt={`page ${i+1}`} />}
                           <div className="ev-page-num">pg {i+1}</div>
-                          <button className="ev-page-del" onClick={() => {
+                          <button className="ev-page-del" onPointerDown={e => e.stopPropagation()} onClick={() => {
                             const nf = files.filter((_,j) => j !== i);
                             const np = previews.filter((_,j) => j !== i);
                             setFiles(nf.length ? nf : undefined as any);
                             setPreviews(np);
                           }}>×</button>
                           <div className="ev-page-arrows">
-                            <button className="ev-page-arrow" disabled={i === 0} onClick={() => {
+                            <button className="ev-page-arrow" disabled={i === 0} onPointerDown={e => e.stopPropagation()} onClick={() => {
                               const nf = [...files]; const np = [...previews];
                               [nf[i-1], nf[i]] = [nf[i], nf[i-1]];
                               [np[i-1], np[i]] = [np[i], np[i-1]];
                               setFiles(nf); setPreviews(np);
                             }}>←</button>
-                            <button className="ev-page-arrow" disabled={i === files.length - 1} onClick={() => {
+                            <button className="ev-page-arrow" disabled={i === files.length - 1} onPointerDown={e => e.stopPropagation()} onClick={() => {
                               const nf = [...files]; const np = [...previews];
                               [nf[i+1], nf[i]] = [nf[i], nf[i+1]];
                               [np[i+1], np[i]] = [np[i], np[i+1]];
