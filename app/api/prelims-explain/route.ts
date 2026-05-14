@@ -67,10 +67,10 @@ Correct Answer: (${String.fromCharCode(65+correct)}) ${correctOption}
 
 Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use this exact structure:
 {
-  "solution": "DETAILED step-by-step reasoning. Use bullet points starting with • for each point. Analyze EACH option/statement individually — explain why it is correct or incorrect with specific historical facts. Each point on a new line starting with •. End with why the correct answer is definitively right. Minimum 5-6 bullet points.",
+  "solution": "DETAILED step-by-step reasoning. Analyze EACH option individually with specific facts. Separate each point with || (double pipe). No newlines inside the string. Minimum 5 points separated by ||.",
   "technique": "Identify which technique from the list BEST fits this specific question's format — do NOT default to Linchpin. If it's a statement-based MCQ, use PAIR ELIMINATION or LINCHPIN only if truly applicable. If it's a single-fact question, use ODD-ONE-OUT or EXTREME LANGUAGE TRAP. State the chosen technique name and explain exactly HOW to apply it to THIS question. Show the exact thought process: which statement/option to evaluate first, what it tells you, how it eliminates other options. Be very specific to this question.",
-  "concepts": "List 3-5 core concepts. Format each as: • Concept name: key fact(s). One concept per line starting with •.",
-  "related": "List 4-6 related UPSC themes. Format each as: • Theme: why it matters for UPSC. One theme per line starting with •."
+  "concepts": "List 3-5 concepts. Format: ConceptName: key facts. Separate each with || (double pipe). No newlines.",
+  "related": "List 4-6 UPSC themes. Format: Theme: why it matters. Separate each with || (double pipe). No newlines."
 }`;
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
