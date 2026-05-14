@@ -26,7 +26,8 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     pathname.startsWith('/contact') ||
     pathname.startsWith('/contact?tab=bug') ||
     pathname.startsWith('/flashcards') ||
-    pathname.startsWith('/resources');
+    pathname.startsWith('/resources') ||
+    pathname.startsWith('/prelims');
     
 
   useEffect(() => {
