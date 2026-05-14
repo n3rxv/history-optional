@@ -97,6 +97,7 @@ Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use 
     }
 
     const data = await response.json();
+    console.error('GROQ RAW:', JSON.stringify(data).slice(0, 500));
     const text = data.choices?.[0]?.message?.content ?? '';
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) return NextResponse.json({ error: 'Parse error' }, { status: 500 });
