@@ -467,6 +467,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                 const status = getNavStatus(fqs);
                 const c = NAV_COLORS[status];
                 const isActive = idx === current;
+
   if (!started) {
     const topicCount = Array.from(new Set(prelimsQuestions.map((q: any) => q.topic))).length;
     const pyqCount = prelimsQuestions.filter((q: any) => q.type === 'pyq').length;
