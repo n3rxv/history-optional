@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-export const runtime = 'edge';
-
-// Premium check helper
+// Remove edge runtime — Supabase admin client needs Node.js runtime
 async function checkPremium(authHeader: string | null): Promise<boolean> {
   if (!authHeader) return false;
   const token = authHeader.replace('Bearer ', '');
@@ -12,7 +10,6 @@ async function checkPremium(authHeader: string | null): Promise<boolean> {
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
     );
-    // Verify user from token via Supabase admin
     const { data: { user } } = await supabase.auth.getUser(token);
     if (!user) return false;
     const nowISO = new Date().toISOString();
@@ -30,7 +27,6 @@ async function checkPremium(authHeader: string | null): Promise<boolean> {
 }
 
 export async function POST(req: NextRequest) {
-  // Auth guard — premium only
   const authHeader = req.headers.get('authorization');
   const premium = await checkPremium(authHeader);
   if (!premium) {
@@ -78,7 +74,6 @@ Respond ONLY with raw JSON (no markdown, no backticks):
 
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content ?? '';
-
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) return NextResponse.json({ error: 'Parse error' }, { status: 500 });
 
