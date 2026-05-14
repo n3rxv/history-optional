@@ -576,10 +576,11 @@ Every response must:
         }
         .chat-send-btn.active {
           background:linear-gradient(135deg, #1d4ed8, #3b82f6);
-          color:#fff; box-shadow:0 2px 12px rgba(59,130,246,0.4);
+          color:#fff; position:relative; overflow:hidden;
         }
         .chat-send-btn.inactive { background:rgba(28,28,32,0.9); color:var(--text3); cursor:not-allowed; }
-        .chat-send-btn.active:hover {  box-shadow:0 4px 18px rgba(59,130,246,0.5); }
+        .chat-send-btn.active::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
+        .chat-send-btn.active:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }
         .chat-hint { font-size:0.63rem; color:var(--text3); text-align:center; margin-top:0.55rem; letter-spacing:0.04em; }
 
         /* ── PDF button ── */

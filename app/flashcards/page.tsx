@@ -135,7 +135,9 @@ export default function Flashcards() {
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         @keyframes float { 0%,100% { transform:translateY(0px) rotate(0deg); } 50% { transform:translateY(-12px) rotate(1deg); } }
         .fc-card-wrap { animation: fadeUp 0.45s cubic-bezier(0.23,1,0.32,1) both; }
-        .fc-rate-btn:hover { box-shadow: 0 0 16px rgba(99,102,241,0.35), inset 0 1px 0 rgba(255,255,255,0.1) !important; }
+        .fc-rate-btn { position:relative !important; overflow:hidden !important; }
+        .fc-rate-btn::before { content:"" !important; position:absolute !important; top:0 !important; left:-75% !important; width:50% !important; height:100% !important; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.1) 50%,transparent 100%) !important; transform:skewX(-20deg) !important; opacity:0 !important; pointer-events:none !important; z-index:1 !important; }
+        .fc-rate-btn:hover::before { opacity:1 !important; animation:glass-shine 0.55s ease forwards !important; }
         .fc-rate-btn:active { opacity: 0.85 !important; }
         .fc-browse-row:hover .fc-browse-arrow { opacity:1 !important; transform:translateX(3px) !important; }
         .flip-inner {
@@ -412,11 +414,11 @@ export default function Flashcards() {
               color: '#fff', border: 'none',
               borderRadius: 8, padding: '0.48rem 1.25rem', fontSize: '0.82rem',
               fontWeight: 600, cursor: 'pointer', transition: 'all 0.18s',
-              boxShadow: '0 2px 16px rgba(59,130,246,0.35), inset 0 1px 0 rgba(255,255,255,0.12)',
+              boxShadow: 'none',
               fontFamily: 'var(--font-body)',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 24px rgba(59,130,246,0.55), inset 0 1px 0 rgba(255,255,255,0.15)'; (e.currentTarget as HTMLElement)}}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 16px rgba(59,130,246,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'; (e.currentTarget as HTMLElement)}}>
+            onMouseEnter={e => {}}
+            onMouseLeave={e => {}}>
             Start {filteredDue.length > 0 ? `(${filteredDue.length} due)` : `(${filtered.length})`}
           </button>
         </div>

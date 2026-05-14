@@ -270,7 +270,7 @@ export default function Navbar() {
                   <div style={{ position: 'absolute', top: 'calc(100% + 8px)', right: 0, background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '1rem', width: 210, boxShadow: '0 12px 40px rgba(0,0,0,0.7)', zIndex: 1000 }}>
                     <div style={{ fontSize: '0.7rem', color: 'var(--text3)', marginBottom: 4 }}>Signed in as</div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text)', fontWeight: 600, marginBottom: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.email}</div>
-                    <button onClick={handleSignOut} style={{ width: '100%', background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem', borderRadius: 6, fontSize: '0.76rem' }}>Sign out</button>
+                    <button onClick={handleSignOut} style={{ width: '100%', background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
                   </div>
                 )}
               </div>
@@ -301,7 +301,7 @@ export default function Navbar() {
             <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
               <ThemeCustomizer />
               {user ? (
-                <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem' }}>Sign out</button>
+                <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
               ) : (
                 <button onClick={() => setShowPremiumModal(true)} style={{ background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700 }}>✦ Premium</button>
               )}
