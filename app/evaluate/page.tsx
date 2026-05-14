@@ -1081,7 +1081,7 @@ const handleOcr = useCallback(async () => {
                 <div style={{ padding:"16px 18px", border:"1px solid #1e3a5f", borderRadius:8, background:"linear-gradient(135deg,#0a1628,#0d1f3c)", display:"flex", alignItems:"flex-start", gap:12 }}>
                   <span style={{ fontSize:"1.1rem", marginTop:1 }}>🔍</span>
                   <div>
-                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"#60a5fa", marginBottom:5", fontWeight:600 }}>
+                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"#60a5fa", marginBottom:5, fontWeight:600 }}>
                       Question will be auto-extracted from your answer script
                     </div>
                     <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"#94a3b8", lineHeight:1.5 }}>
