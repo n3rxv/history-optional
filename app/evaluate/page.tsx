@@ -379,7 +379,7 @@ export default function EvaluatePage() {
   const [previews, setPreviews] = useState<string[]>([]);
 
 const handleOcr = useCallback(async () => {
-    if (!files || files.length === 0 || !question.trim()) { setError("Please upload at least one file and enter the question."); return; }
+    if (!files || files.length === 0) { setError("Please upload at least one file."); return; }
     setError(""); setOcrLoading(true); setOcrProgress(0);
     // Check if any file is a PDF — convert to images first
     let processedFiles = [...files];
