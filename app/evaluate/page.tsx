@@ -324,11 +324,21 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
 }
 
 
-// Convert PDF pages to image Files using PDF.js (loaded from CDN via esm.sh)
+// Convert PDF pages to image Files using PDF.js (UMD build via cdnjs)
 async function pdfToImages(file: File): Promise<File[]> {
+  // Load PDF.js UMD build if not already loaded
+  if (!(window as any).pdfjsLib) {
+    await new Promise<void>((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('Failed to load PDF.js'));
+      document.head.appendChild(s);
+    });
+  }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const pdfjs = await (Function('return import("https://esm.sh/pdfjs-dist@4.4.168?bundle-deps")')() as Promise<any>);
-  pdfjs.GlobalWorkerOptions.workerSrc = '';  // disable worker in browser module context
+  const pdfjs = (window as any).pdfjsLib;
+  pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
