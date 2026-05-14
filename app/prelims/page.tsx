@@ -81,13 +81,28 @@ export default function PrelimsLanding() {
           ))}
         </div>
 
-        {/* CTA */}
+        <style>{`
+        .prelims-cta-btn {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+          color: #fff; padding: 0.85rem 2.25rem; border-radius: 9px;
+          text-decoration: none; font-weight: 700; font-size: 0.88rem;
+          letter-spacing: 0.02em; transition: opacity 0.2s ease;
+          position: relative; overflow: hidden;
+        }
+        .prelims-cta-btn::before {
+          content: ''; position: absolute; top: 0; left: -75%;
+          width: 50%; height: 100%;
+          background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+          transform: skewX(-20deg); opacity: 0; pointer-events: none;
+        }
+        .prelims-cta-btn:hover::before {
+          opacity: 1; animation: glass-shine 0.55s ease forwards;
+        }
+      `}</style>
+      {/* CTA */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
-          <Link href="/prelims/practice"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', color: '#fff', padding: '0.85rem 2.25rem', borderRadius: 9, textDecoration: 'none', fontWeight: 700, fontSize: '0.88rem', letterSpacing: '0.02em', boxShadow: '0 0 28px rgba(59,130,246,0.28)', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 45px rgba(59,130,246,0.5)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 28px rgba(59,130,246,0.28)'; }}
-          >
+          <Link href="/prelims/practice" className="prelims-cta-btn">
             Begin Practice →
           </Link>
           <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-mono)', margin: '1.5rem 0 0', lineHeight: 1.6 }}>
