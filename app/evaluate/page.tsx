@@ -1068,12 +1068,13 @@ const handleOcr = useCallback(async () => {
                 <textarea className="ev-ta" rows={3} placeholder="Write the exact question here..."
                   value={question} onChange={e => setQuestion(e.target.value)} />
               ) : (
-                <div style={{ display:"flex", alignItems:"center", gap:10, padding:"12px 14px", border:"1px dashed #333", borderRadius:6, background:"#0f0f0f" }}>
-                  <span style={{ fontSize:"1rem" }}>🔍</span>
-                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#555", lineHeight:1.5 }}>
-                    Question will be auto-extracted from your answer script.<br/>
-                    <span style={{ color:"#444" }}>You can manually edit it after OCR.</span>
-                  </span>
+                <div style={{ padding:"14px 16px", border:"1px dashed #2a2a2a", borderRadius:6, background:"#111" }}>
+                  <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"#888", marginBottom:4 }}>
+                    ✦ Question will be auto-extracted from your answer script
+                  </div>
+                  <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.68rem", color:"#555" }}>
+                    Upload your sheet above → OCR will detect & fill the question automatically. You can edit it afterwards.
+                  </div>
                 </div>
               )}
             </div>
