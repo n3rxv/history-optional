@@ -542,11 +542,13 @@ const handleOcr = useCallback(async () => {
           font-family:var(--font-mono); font-size:0.82rem; letter-spacing:0.06em; transition:all 0.15s; }
         .ev-mchip.active { background:#0d1b3e; border-color:#3b82f6; color:#3b82f6; }
         .ev-mchip:hover:not(.active) { border-color:#555; color:#ccc; }
-        .ev-btn { width:100%; padding:16px; border:1.5px solid rgba(59,130,246,0.5);
+        .ev-btn { width:100%; padding:16px; border:1.5px solid rgba(59,130,246,0.5); overflow:hidden; position:relative;
           background:rgba(59,130,246,0.1); color:#3b82f6; font-size:0.78rem;
           font-family:var(--font-mono); cursor:pointer; transition:all 0.2s;
           letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; }
         .ev-btn:hover:not(:disabled) { background:rgba(59,130,246,0.18); border-color:#3b82f6; }
+        .ev-btn::before { content:''; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.09) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
+        .ev-btn:hover:not(:disabled)::before { opacity:1; animation:glass-shine 0.55s ease forwards; }
         .ev-btn:disabled { opacity:0.35; cursor:not-allowed; }
         .ev-btn-sm { padding:10px 20px; width:auto; font-size:0.7rem; }
         .ev-err { background:rgba(248,113,113,0.08); border:1px solid rgba(248,113,113,0.3);
