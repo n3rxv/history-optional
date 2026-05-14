@@ -51,7 +51,7 @@ export default function PrelimsLanding() {
         {/* Eyebrow */}
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 100, padding: '0.35rem 1rem', marginBottom: '1.5rem' }}>
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#3b82f6', display: 'inline-block', boxShadow: '0 0 8px #3b82f6' }} />
-          <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#3b82f6' }}>History Optional · Prelims</span>
+          <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#3b82f6' }}>AMAC & Modern · Prelims</span>
         </div>
 
         {/* Main heading — editorial style, smaller, tighter */}
