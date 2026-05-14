@@ -7,10 +7,10 @@ import { paper1Notes, paper2Notes } from '@/lib/notes';
 import { useEffect, useRef, useState } from 'react';
 
 const stats = [
-  { value: 51,   label: 'Topics',    color: 'var(--accent)',  suffix: '' },
-  { value: 2,    label: 'Papers',    color: 'var(--yellow)',  suffix: '' },
-  { value: 1533, label: 'PYQs',      color: 'var(--red)',     suffix: '' },
-  { value: 55,   label: 'Flashcards',color: 'var(--green)',   suffix: '' },
+  { value: 51,   label: 'Topics',    color: 'var(--accent)',  suffix: '', href: '/paper1'     },
+  { value: 2,    label: 'Papers',    color: 'var(--yellow)',  suffix: '', href: '/paper2'     },
+  { value: 1533, label: 'PYQs',      color: 'var(--red)',     suffix: '', href: '/pyqs'       },
+  { value: 55,   label: 'Flashcards',color: 'var(--green)',   suffix: '', href: '/flashcards' },
 ];
 
 const features = [
@@ -84,7 +84,7 @@ function useCounter(target: number, duration = 1200, start = false) {
   return count;
 }
 
-function AnimatedStat({ value, label, color, suffix }: { value: number; label: string; color: string; suffix: string }) {
+function AnimatedStat({ value, label, color, suffix, href }: { value: number; label: string; color: string; suffix: string; href: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [started, setStarted] = useState(false);
   const count = useCounter(value, 1400, started);
@@ -94,12 +94,14 @@ function AnimatedStat({ value, label, color, suffix }: { value: number; label: s
     return () => obs.disconnect();
   }, []);
   return (
-    <div ref={ref} className="g-stat-block">
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, color }}>
-        {count}{suffix}
+    <Link href={href} style={{ textDecoration: 'none' }}>
+      <div ref={ref} className="g-stat-block" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', }} onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-2px)')} onMouseLeave={e => (e.currentTarget.style.transform = 'translateY(0)')}>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, color }}>
+          {count}{suffix}
+        </div>
+        <div style={{ color: 'var(--text3)', fontSize: '0.72rem', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{label}</div>
       </div>
-      <div style={{ color: 'var(--text3)', fontSize: '0.72rem', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{label}</div>
-    </div>
+    </Link>
   );
 }
 
