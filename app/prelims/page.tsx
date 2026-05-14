@@ -90,7 +90,9 @@ export default function PrelimsLanding() {
           >
             Begin Practice →
           </Link>
-          <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.18)', fontFamily: 'var(--font-mono)' }}>no login required</span>
+          <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-mono)', margin: 0, lineHeight: 1.6 }}>
+            MCQs are free · <span style={{ color: '#eab308' }}>✦ AI explanations require Premium</span>
+          </p>
         </div>
 
       </div>
