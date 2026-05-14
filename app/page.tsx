@@ -275,8 +275,8 @@ export default function Home() {
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: '#fff', marginBottom: '1.25rem', fontWeight: 600 }}>Platform Features</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }} className="grid-4col">
           {features.map(f => (
-            <Link key={f.title} href={f.href} style={{ textDecoration: 'none' }}>
-              <div className="g-feature-tile" style={{ cursor: 'pointer', transition: 'transform 0.15s ease' }} onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.background = 'var(--bg2)'; }} onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.background = ''; }}>
+            <Link key={f.title} href={f.href} style={{ textDecoration: 'none', display: 'flex', alignSelf: 'stretch' }}>
+              <div className="g-feature-tile" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', height: '100%', boxSizing: 'border-box' }} onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.background = 'var(--bg2)'; }} onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.background = ''; }}>
                 <div style={{ fontSize: '1.4rem', marginBottom: '0.75rem' }}>{f.icon}</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, color: f.color, marginBottom: '0.4rem', fontSize: '0.95rem' }}>{f.title}</div>
                 <div style={{ color: 'var(--text3)', fontSize: '0.8rem', lineHeight: 1.6 }}>{f.desc}</div>
