@@ -1085,7 +1085,7 @@ const handleOcr = useCallback(async () => {
                       Question will be auto-extracted from your answer script
                     </div>
                     <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"#94a3b8", lineHeight:1.5 }}>
-                      Upload your sheet above — the AI will detect and fill the question automatically. You can edit it afterwards.
+                      Upload your sheet above — the system will detect and fill the question automatically. You can edit it afterwards.
                     </div>
                   </div>
                 </div>
