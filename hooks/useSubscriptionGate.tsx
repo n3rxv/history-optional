@@ -53,9 +53,12 @@ function LimitModal({
         setToken(session.access_token);
         // If they were mid-purchase (came back from OAuth), open payment
         if (sessionStorage.getItem('ho_pending_payment') === '1') {
+          const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || 'yearly';
           sessionStorage.removeItem('ho_pending_payment');
+          sessionStorage.removeItem('ho_pending_plan');
+          setSelectedPlan(savedPlan);
           setStep('paying');
-          openRazorpay(session.access_token, session.user?.email ?? '');
+          openRazorpay(session.access_token, session.user?.email ?? '', savedPlan);
         }
       }
     });
@@ -63,6 +66,7 @@ function LimitModal({
 
   const handleSignIn = async () => {
     sessionStorage.setItem('ho_pending_payment', '1');
+    sessionStorage.setItem('ho_pending_plan', selectedPlan);
     setStep('signing_in');
     await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -70,13 +74,13 @@ function LimitModal({
     });
   };
 
-  const openRazorpay = async (authToken: string, email: string) => {
+  const openRazorpay = async (authToken: string, email: string, planOverride?: 'daily'|'weekly'|'monthly'|'yearly') => {
     setStep('paying');
     try {
       const orderRes = await fetch('/api/razorpay/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
-        body: JSON.stringify({ plan: selectedPlan }),
+        body: JSON.stringify({ plan: planOverride ?? selectedPlan }),
       });
       const orderData = await orderRes.json();
       if (!orderData.orderId) throw new Error('Order failed');
@@ -95,7 +99,7 @@ function LimitModal({
           const vRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
-            body: JSON.stringify({ ...resp, fingerprint, plan: selectedPlan }),
+            body: JSON.stringify({ ...resp, fingerprint, plan: planOverride ?? selectedPlan }),
           });
           if ((await vRes.json()).ok) setStep('success');
         },
