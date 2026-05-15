@@ -61,7 +61,7 @@ function setCached(qid: string, r: AIResult) {
 export default function PrelimsPage() {
   const [filter, setFilter]           = useState<Filter>('all');
 const [topicFilter, setTopicFilter] = useState<string>('all');
-  const [showNav, setShowNav]         = useState(true);
+  const [showNav, setShowNav]         = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
   const [current, setCurrent]         = useState(0);
   const [states, setStates]           = useState<Record<string, QuestionState>>({});
   const [showResult, setShowResult]   = useState(false);

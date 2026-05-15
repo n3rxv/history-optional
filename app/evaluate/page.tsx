@@ -361,7 +361,7 @@ export default function EvaluatePage() {
   const [stage, setStage]           = useState<"form"|"ocr"|"result">("form");
   const [history, setHistory]        = useState<AnswerEntry[]>([]);
   const [openEntry, setOpenEntry]    = useState<AnswerEntry | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
 
   useEffect(() => {
     setHistory(loadHistory());

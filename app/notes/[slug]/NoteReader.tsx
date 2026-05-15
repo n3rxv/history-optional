@@ -562,7 +562,7 @@ export default function NoteReader({ slug }: { slug: string }) {
   const [showStickyForm, setShowStickyForm] = useState(false);
   const [stickyPos, setStickyPos] = useState({ x: 200, y: 200 });
   const [stickyText, setStickyText] = useState('');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
 
 
   // Admin state
