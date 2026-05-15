@@ -257,7 +257,7 @@ export default function Navbar() {
             </Link>
 
             <SearchModal />
-          <ThemeCustomizer />
+          <span className="hide-md"><ThemeCustomizer /></span>
 
             {/* Auth / Premium */}
             {user ? (
@@ -299,7 +299,7 @@ export default function Navbar() {
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ padding: '0.6rem 0.5rem', borderRadius: 5, fontSize: '0.88rem', textDecoration: 'none', color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)' }}>{l.label}</Link>
             ))}
             <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-              <ThemeCustomizer />
+              <span className="hide-md"><ThemeCustomizer /></span>
               {user ? (
                 <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
               ) : (
@@ -310,6 +310,9 @@ export default function Navbar() {
         )}
 
         <style>{`
+          @media (max-width: 1024px) {
+            .hide-md { display: none !important; }
+          }
           @media (max-width: 768px) {
             .desktop-nav { display: none !important; }
             .mobile-menu-btn { display: flex !important; }
