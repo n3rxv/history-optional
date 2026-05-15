@@ -30,12 +30,27 @@ function PaywallModal({
   const [payLoading,  setPayLoading]  = useState(false);
   const [paySuccess,  setPaySuccess]  = useState(false);
   const [signingIn,   setSigningIn]   = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('yearly');
+  const [slots, setSlots] = useState(45);
+
+  const plans = [
+    { id: 'daily',   label: 'Daily',   price: '₹29',   sub: 'per day' },
+    { id: 'weekly',  label: 'Weekly',  price: '₹149',  sub: 'per week' },
+    { id: 'monthly', label: 'Monthly', price: '₹499',  sub: 'per month' },
+    { id: 'yearly',  label: 'Annual',  price: slots > 0 ? '₹2,999' : '₹9,999', sub: 'per year' },
+  ] as const;
+  const currentPlan = plans.find(p => p.id === selectedPlan)!;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
     const s = document.createElement('script');
     s.id = 'rzp-script'; s.src = 'https://checkout.razorpay.com/v1/checkout.js';
     document.head.appendChild(s);
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/razorpay/order', { method: 'GET' }).catch(() => {});
+    fetch('/api/subscription-slots').then(r => r.json()).then(d => { if (d.remaining !== undefined) setSlots(d.remaining); }).catch(() => {});
   }, []);
 
   const handleSignIn = async () => {
@@ -50,7 +65,7 @@ function PaywallModal({
     if (!token) return;
     setPayLoading(true);
     try {
-      const orderRes  = await fetch('/api/razorpay/order', { method: 'POST', headers: { 'x-user-token': token } });
+      const orderRes  = await fetch('/api/razorpay/order', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-user-token': token }, body: JSON.stringify({ plan: selectedPlan }) });
       const orderData = await orderRes.json();
       if (!orderData.orderId) throw new Error('Order failed');
 
@@ -69,7 +84,7 @@ function PaywallModal({
           const vRes  = await fetch('/api/razorpay/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-            body: JSON.stringify(resp),
+            body: JSON.stringify({ ...resp, plan: selectedPlan }),
           });
           if ((await vRes.json()).ok) setPaySuccess(true);
         },
@@ -163,21 +178,28 @@ function PaywallModal({
               </div>
             </div>
 
-            <div style={{
-              background: 'linear-gradient(135deg, #0d1b3e, #091530)',
-              border: '1px solid rgba(59,130,246,0.3)',
-              borderRadius: 12, padding: '20px', marginBottom: 20, position: 'relative', overflow: 'hidden',
-            }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, #3b82f6, transparent)' }} />
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, marginBottom: 6 }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '2.8rem', fontWeight: 700, color: '#f0f0f0', lineHeight: 1 }}>₹999</span>
-                <span style={{ color: '#555', fontSize: '0.85rem', marginBottom: 6 }}>/year</span>
-              </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: '#3b82f6', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 16 }}>
-                
-              </div>
+            {/* Plan selector */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 16 }}>
+              {plans.map(p => (
+                <button key={p.id} onClick={() => setSelectedPlan(p.id)}
+                  style={{
+                    padding: '12px 6px', borderRadius: 10, cursor: 'pointer',
+                    border: selectedPlan === p.id ? '1.5px solid rgba(212,168,67,0.7)' : '1px solid rgba(255,255,255,0.07)',
+                    background: selectedPlan === p.id ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.02)',
+                    transition: 'all 0.15s', textAlign: 'center',
+                    boxShadow: selectedPlan === p.id ? '0 0 16px rgba(212,168,67,0.12)' : 'none',
+                  }}>
+                  <div style={{ fontSize: '0.62rem', color: selectedPlan === p.id ? '#d4a843' : '#555', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>{p.label}</div>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 800, color: selectedPlan === p.id ? '#f0e68c' : '#888', fontFamily: 'var(--font-mono)', lineHeight: 1 }}>{p.price}</div>
+                  <div style={{ fontSize: '0.58rem', color: selectedPlan === p.id ? '#a07830' : '#333', marginTop: 4 }}>{p.sub}</div>
+                </button>
+              ))}
+            </div>
+
+            {/* Features */}
+            <div style={{ marginBottom: 16 }}>
               {[
-                '✓  Truly unlimited evaluations — every day',
+                '✓  Unlimited evaluations — every day',
                 '✓  All marking schemes & model answers',
                 '✓  Priority access to new features',
               ].map((f, i) => (
@@ -189,19 +211,19 @@ function PaywallModal({
               disabled={payLoading}
               style={{
                 width: '100%', padding: '15px', borderRadius: 8, border: 'none',
-                background: payLoading ? '#1e3a8a' : 'linear-gradient(135deg, #2563eb, #3b82f6)',
-                color: '#fff', fontWeight: 700, fontSize: '0.95rem',
+                background: payLoading ? 'rgba(212,168,67,0.2)' : 'linear-gradient(135deg, #d4a843, #e8b84b)',
+                color: '#000', fontWeight: 700, fontSize: '0.95rem',
                 cursor: payLoading ? 'not-allowed' : 'pointer',
                 fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
-                boxShadow: payLoading ? 'none' : '0 0 30px rgba(59,130,246,0.3)',
+                boxShadow: payLoading ? 'none' : '0 0 30px rgba(212,168,67,0.3)',
                 marginBottom: 10,
               }}
               onClick={handlePay}
             >
-              {payLoading ? 'Opening payment…' : 'Subscribe — ₹999/year →'}
+              {payLoading ? 'Opening payment…' : `Subscribe — ${currentPlan.price}/${currentPlan.sub.split(' ')[1]} →`}
             </button>
             <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: '#444', letterSpacing: '0.1em' }}>
-              Secure payment via Razorpay · Renews annually
+              SECURE · RAZORPAY · {selectedPlan === 'yearly' ? 'RENEWS ANNUALLY' : selectedPlan.toUpperCase()}
             </div>
           </>
         )}
