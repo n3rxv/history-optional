@@ -199,7 +199,12 @@ export default function ThemeCustomizer() {
   return (
     <div style={{ position: 'relative' }} ref={panelRef}>
       {/* Trigger button */}
-      <button
+      <style>{`
+        @media (max-width: 1024px) { .theme-full { display: none !important; } }
+        @media (min-width: 1025px) { .theme-icon-only { display: none !important; } }
+      `}</style>
+      {/* Full button - desktop */}
+      <button className="theme-full"
         onClick={() => setOpen(o => !o)}
         title="Customize theme"
         style={{
@@ -212,7 +217,6 @@ export default function ThemeCustomizer() {
           whiteSpace: 'nowrap', letterSpacing: '0.01em',
         }}
       >
-        {/* Color swatch dots */}
         <span style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
           {[tokens.accent, tokens.yellow, tokens.green].map((c, i) => (
             <span key={i} style={{
@@ -223,6 +227,25 @@ export default function ThemeCustomizer() {
           ))}
         </span>
         <span style={{ fontSize: '0.75rem' }}>{currentPreset.emoji} {activePreset}</span>
+      </button>
+      {/* Icon only - tablet */}
+      <button className="theme-icon-only"
+        onClick={() => setOpen(o => !o)}
+        title="Customize theme"
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3,
+          background: 'var(--bg3)', border: '1px solid var(--border)',
+          borderRadius: 20, padding: '5px 8px',
+          cursor: 'pointer', transition: 'all 0.18s',
+        }}
+      >
+        {[tokens.accent, tokens.yellow, tokens.green].map((c, i) => (
+          <span key={i} style={{
+            width: 8, height: 8, borderRadius: '50%',
+            background: c, display: 'inline-block',
+            border: '1px solid rgba(255,255,255,0.1)',
+          }} />
+        ))}
       </button>
 
       {/* Panel */}

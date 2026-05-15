@@ -169,26 +169,38 @@ export default function SearchModal() {
   }, [selected]);
 
   if (!open) return (
-    <button
-      onClick={() => setOpen(true)}
-      title="Search (⌘K)"
-      style={{
-        display: 'flex', alignItems: 'center', gap: 6,
-        background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: 7, padding: '0.3rem 0.65rem',
-        color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem',
-        transition: 'all 0.15s',
-      }}
-      onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.2)'; el.style.color = 'var(--text2)'; }}
-      onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.1)'; el.style.color = 'var(--text3)'; }}
-    >
-      <svg width="13" height="13" viewBox="0 0 20 20" fill="none">
-        <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
-        <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-      Search
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 3, border: '1px solid rgba(255,255,255,0.1)', color: 'var(--text3)' }}>⌘K</span>
-    </button>
+    <>
+      <style>{`
+        @media (max-width: 1024px) { .search-full { display: none !important; } }
+        @media (min-width: 1025px) { .search-icon-only { display: none !important; } }
+      `}</style>
+      <button className="search-full"
+        onClick={() => setOpen(true)}
+        title="Search (⌘K)"
+        style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, padding: '0.3rem 0.65rem', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}
+        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.2)'; el.style.color = 'var(--text2)'; }}
+        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.1)'; el.style.color = 'var(--text3)'; }}
+      >
+        <svg width="13" height="13" viewBox="0 0 20 20" fill="none">
+          <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
+          <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+        Search
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 3, border: '1px solid rgba(255,255,255,0.1)', color: 'var(--text3)' }}>⌘K</span>
+      </button>
+      <button className="search-icon-only"
+        onClick={() => setOpen(true)}
+        title="Search (⌘K)"
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, padding: '0.35rem', color: 'var(--text3)', cursor: 'pointer', transition: 'all 0.15s' }}
+        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.2)'; el.style.color = 'var(--text2)'; }}
+        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.1)'; el.style.color = 'var(--text3)'; }}
+      >
+        <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
+          <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
+          <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+      </button>
+    </>
   );
 
   return (
