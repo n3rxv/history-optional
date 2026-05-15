@@ -30,7 +30,6 @@ export const metadata: Metadata = {
   authors: [{ name: "History Optional" }],
   creator: "History Optional",
   metadataBase: new URL("https://historyoptional.xyz"),
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_IN",
