@@ -27,9 +27,18 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('yearly');
 
-  const price = slots > 0 ? '₹2,999' : '₹9,999';
-  const originalPrice = slots > 0 ? '₹9,999' : null;
+  const plans = [
+    { id: 'daily',   label: 'Daily',   price: '₹29',    sub: 'per day' },
+    { id: 'weekly',  label: 'Weekly',  price: '₹149',   sub: 'per week' },
+    { id: 'monthly', label: 'Monthly', price: '₹499',   sub: 'per month' },
+    { id: 'yearly',  label: 'Annual',  price: slots > 0 ? '₹2,999' : '₹9,999', sub: 'per year' },
+  ] as const;
+
+  const currentPlan = plans.find(p => p.id === selectedPlan)!;
+  const price = currentPlan.price;
+  const originalPrice = selectedPlan === 'yearly' && slots > 0 ? '₹9,999' : null;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
@@ -66,6 +75,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
       const orderRes = await fetch('/api/razorpay/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
+        body: JSON.stringify({ plan: selectedPlan }),
       });
       const orderData = await orderRes.json();
       if (!orderData.orderId) throw new Error('Order failed');
@@ -75,7 +85,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
         currency: orderData.currency,
         order_id: orderData.orderId,
         name: 'History Optional',
-        description: 'Unlimited Access · 1 Year',
+        description: `Unlimited Access · ${currentPlan.label}`,
         image: '/favicon.svg',
         prefill: { email },
         theme: { color: '#d4a843' },
@@ -91,7 +101,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
           const vRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
-            body: JSON.stringify({ ...resp, fingerprint }),
+            body: JSON.stringify({ ...resp, fingerprint, plan: selectedPlan }),
           });
           if ((await vRes.json()).ok) setStep('success');
         },
@@ -152,7 +162,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
             You're Premium!
           </div>
           <div style={{ color: '#555', fontSize: '0.8rem', marginBottom: 18, lineHeight: 1.5 }}>
-            Unlimited access for 1 year.<br/>Go ace those answers.
+            Unlimited access · {currentPlan.label} plan.<br/>Go ace those answers.
           </div>
           <button onClick={() => { onClose?.(); onSuccess?.(); }}
             style={{
@@ -217,6 +227,24 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, position: 'relative' }}>
 
+        {/* Plan selector */}
+        <div style={{ display: 'flex', gap: 5, marginBottom: 4 }}>
+          {plans.map(p => (
+            <button key={p.id} onClick={() => setSelectedPlan(p.id)}
+              style={{
+                flex: 1, padding: '6px 4px', borderRadius: 7, cursor: 'pointer',
+                border: selectedPlan === p.id ? '1px solid rgba(212,168,67,0.6)' : '1px solid rgba(255,255,255,0.06)',
+                background: selectedPlan === p.id ? 'rgba(212,168,67,0.1)' : 'rgba(255,255,255,0.02)',
+                color: selectedPlan === p.id ? '#d4a843' : '#555',
+                fontSize: '0.65rem', fontWeight: selectedPlan === p.id ? 700 : 400,
+                transition: 'all 0.15s', textAlign: 'center', lineHeight: 1.4,
+              }}>
+              <div>{p.label}</div>
+              <div style={{ fontSize: '0.7rem', color: selectedPlan === p.id ? '#e8b84b' : '#444', fontWeight: 600 }}>{p.price}</div>
+            </button>
+          ))}
+        </div>
+
         {/* Decorative top graphic — coin/seal */}
         <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
@@ -233,7 +261,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
                 backgroundClip: 'text',
                 animation: 'shimmer 3s linear infinite',
               }}>{price}</span>
-              <span style={{ color: '#444', fontSize: '0.75rem' }}>/year</span>
+              <span style={{ color: '#444', fontSize: '0.75rem' }}>/{currentPlan.sub.split(' ')[1]}</span>
               {originalPrice && (
                 <span style={{ color: '#3a3a3a', fontSize: '0.72rem', textDecoration: 'line-through' }}>
                   {originalPrice}

@@ -28,13 +28,21 @@ export async function POST(req: NextRequest) {
     .single();
 
   const remaining = slotData ? Math.max(0, slotData.max_slots - slotData.subscribers) : 45;
-  const amount = remaining > 0 ? 299900 : 999900; // ₹2999 early-bird or ₹9999 standard
+  const reqBody = await req.json().catch(() => ({}));
+  const plan = reqBody.plan || "yearly";
+  const planAmounts: Record<string, number> = {
+    daily:   2900,
+    weekly:  14900,
+    monthly: 49900,
+    yearly:  remaining > 0 ? 299900 : 999900,
+  };
+  const amount = planAmounts[plan] ?? 299900;
 
   const order = await razorpay.orders.create({
     amount,
     currency: "INR",
     receipt:  `ho_${user.id.slice(0, 8)}_${Date.now()}`,
-    notes: { user_id: user.id, email: user.email ?? "", plan: "yearly" },
+    notes: { user_id: user.id, email: user.email ?? "", plan },
   });
 
   return NextResponse.json({ orderId: order.id, amount: order.amount, currency: order.currency, slots: remaining });

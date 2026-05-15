@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   const { data: { user }, error } = await db.auth.getUser(token);
   if (error || !user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, fingerprint } = await req.json();
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, fingerprint, plan } = await req.json();
 
   // Verify signature
   const body        = razorpay_order_id + "|" + razorpay_payment_id;
@@ -37,13 +37,17 @@ export async function POST(req: NextRequest) {
   const base = existingSub?.expires_at && new Date(existingSub.expires_at) > new Date()
     ? new Date(existingSub.expires_at) : new Date();
   const expiresAt = new Date(base);
-  expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+  const activePlan = plan || "yearly";
+  if (activePlan === "daily")        expiresAt.setDate(expiresAt.getDate() + 1);
+  else if (activePlan === "weekly")  expiresAt.setDate(expiresAt.getDate() + 7);
+  else if (activePlan === "monthly") expiresAt.setMonth(expiresAt.getMonth() + 1);
+  else                               expiresAt.setFullYear(expiresAt.getFullYear() + 1);
 
   const { error: upsertErr } = await supabaseAdmin
     .from("subscriptions")
     .upsert({
       user_id: user.id, email: user.email,
-      status: "active", plan: "yearly",
+      status: "active", plan: activePlan,
       razorpay_order_id, razorpay_payment_id,
       expires_at: expiresAt.toISOString(),
       created_at: new Date().toISOString(),
