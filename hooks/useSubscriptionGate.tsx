@@ -52,10 +52,10 @@ function LimitModal({
       if (session?.access_token) {
         setToken(session.access_token);
         // If they were mid-purchase (came back from OAuth), open payment
-        if (localStorage.getItem('ho_pending_payment') === '1') {
-          const savedPlan = localStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || 'yearly';
-          localStorage.removeItem('ho_pending_payment');
-          localStorage.removeItem('ho_pending_plan');
+        if (sessionStorage.getItem('ho_pending_payment') === '1') {
+          const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || 'yearly';
+          sessionStorage.removeItem('ho_pending_payment');
+          sessionStorage.removeItem('ho_pending_plan');
           setSelectedPlan(savedPlan);
           setStep('paying');
           openRazorpay(session.access_token, session.user?.email ?? '', savedPlan);
@@ -65,8 +65,8 @@ function LimitModal({
   }, []);
 
   const handleSignIn = async () => {
-    localStorage.setItem('ho_pending_payment', '1');
-    localStorage.setItem('ho_pending_plan', selectedPlan);
+    sessionStorage.setItem('ho_pending_payment', '1');
+    sessionStorage.setItem('ho_pending_plan', selectedPlan);
     setStep('signing_in');
     await supabase.auth.signInWithOAuth({
       provider: 'google',
