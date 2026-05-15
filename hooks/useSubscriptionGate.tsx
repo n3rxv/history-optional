@@ -128,7 +128,7 @@ function LimitModal({
             <div style={{ textAlign:'center', marginBottom:24 }}>
               <div style={{ fontSize:'3rem', marginBottom:12 }}>🎉</div>
               <div style={{ fontFamily:'var(--font-display)', fontSize:'1.4rem', fontWeight:700, color:'#4ade80', marginBottom:8 }}>Subscription Active!</div>
-              <div style={{ color:'#888', fontSize:'0.88rem', lineHeight:1.6 }}>Unlimited access for 1 year. Go ace those answers.</div>
+              <div style={{ color:'#888', fontSize:'0.88rem', lineHeight:1.6 }}>Unlimited access for {selectedPlan === 'daily' ? '1 day' : selectedPlan === 'weekly' ? '1 week' : selectedPlan === 'monthly' ? '1 month' : '1 year'}. Go ace those answers.</div>
             </div>
             <button onClick={() => { onClose(); onSuccess(); }}
               style={{ width:'100%', padding:'14px', borderRadius:8, border:'none', background:'#4ade80', color:'#000', fontWeight:700, fontSize:'0.9rem', cursor:'pointer' }}>
