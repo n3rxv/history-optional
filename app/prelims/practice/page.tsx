@@ -23,6 +23,7 @@ interface QuestionState {
 }
 
 const TOPICS = Array.from(new Set(prelimsQuestions.map(q => q.topic)));
+const YEARS = Array.from(new Set(prelimsQuestions.filter(q => q.year).map(q => q.year!))).sort((a,b) => b-a);
 
 function getNavStatus(qs: QuestionState): NavStatus {
   if (qs.marked && qs.submitted) return 'answered-marked';
@@ -61,6 +62,7 @@ function setCached(qid: string, r: AIResult) {
 export default function PrelimsPage() {
   const [filter, setFilter]           = useState<Filter>('all');
 const [topicFilter, setTopicFilter] = useState<string>('all');
+  const [yearFilter, setYearFilter]   = useState<string>('all');
   const [showNav, setShowNav]         = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
   const [current, setCurrent]         = useState(0);
   const [states, setStates]           = useState<Record<string, QuestionState>>({});
@@ -84,6 +86,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
   const filtered = prelimsQuestions.filter(q => {
     if (filter !== 'all' && q.type !== filter) return false;
     if (topicFilter !== 'all' && q.topic !== topicFilter) return false;
+    if (yearFilter !== 'all' && String(q.year) !== yearFilter) return false;
     return true;
   });
 
@@ -91,7 +94,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
   const emptyQS: QuestionState = { selected: null, submitted: false, marked: false, aiResult: null, aiLoading: false };
   const qs: QuestionState = q ? (states[q.id] ?? emptyQS) : emptyQS;
 
-  useEffect(() => { setCurrent(0); setShowResult(false); }, [filter, topicFilter]);
+  useEffect(() => { setCurrent(0); setShowResult(false); }, [filter, topicFilter, yearFilter]);
 
   const updateState = (id: string, patch: Partial<QuestionState>) =>
     setStates(prev => ({ ...prev, [id]: { ...(prev[id] ?? emptyQS), ...patch } }));
@@ -236,6 +239,14 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
         }}>
           <option value="all">All Topics</option>
           {TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
+        {/* year filter */}
+        <select value={yearFilter} onChange={e => setYearFilter(e.target.value)} style={{
+          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
+          color: 'rgba(255,255,255,0.75)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 120,
+        }}>
+          <option value="all">All Years</option>
+          {YEARS.map(y => <option key={y} value={String(y)}>{y}</option>)}
         </select>
 
         <div style={{ flex: 1 }} />
