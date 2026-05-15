@@ -179,21 +179,51 @@ function PaywallModal({
             </div>
 
             {/* Plan selector */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 16 }}>
-              {plans.map(p => (
-                <button key={p.id} onClick={() => setSelectedPlan(p.id)}
-                  style={{
-                    padding: '12px 6px', borderRadius: 10, cursor: 'pointer',
-                    border: selectedPlan === p.id ? '1.5px solid rgba(212,168,67,0.7)' : '1px solid rgba(255,255,255,0.07)',
-                    background: selectedPlan === p.id ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.02)',
-                    transition: 'all 0.15s', textAlign: 'center',
-                    boxShadow: selectedPlan === p.id ? '0 0 16px rgba(212,168,67,0.12)' : 'none',
-                  }}>
-                  <div style={{ fontSize: '0.62rem', color: selectedPlan === p.id ? '#d4a843' : '#555', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>{p.label}</div>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 800, color: selectedPlan === p.id ? '#f0e68c' : '#888', fontFamily: 'var(--font-mono)', lineHeight: 1 }}>{p.price}</div>
-                  <div style={{ fontSize: '0.58rem', color: selectedPlan === p.id ? '#a07830' : '#333', marginTop: 4 }}>{p.sub}</div>
-                </button>
-              ))}
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:6, marginBottom:16 }}>
+              {plans.map(p => {
+                const isSelected = selectedPlan === p.id;
+                const isPopular = p.id === 'yearly';
+                return (
+                  <button key={p.id} onClick={() => setSelectedPlan(p.id)}
+                    style={{
+                      padding:'10px 4px 8px', borderRadius:10, cursor:'pointer', position:'relative',
+                      border: isSelected ? '2px solid #d4a843' : '1px solid rgba(255,255,255,0.08)',
+                      background: isSelected
+                        ? 'linear-gradient(160deg, rgba(212,168,67,0.18), rgba(212,168,67,0.06))'
+                        : 'rgba(255,255,255,0.02)',
+                      transition:'all 0.2s', textAlign:'center',
+                      boxShadow: isSelected
+                        ? '0 0 24px rgba(212,168,67,0.25), inset 0 1px 0 rgba(255,255,255,0.08)'
+                        : 'none',
+                      transform: isSelected ? 'translateY(-2px)' : 'none',
+                    }}>
+                    {isPopular && (
+                      <div style={{
+                        position:'absolute', top:-8, left:'50%', transform:'translateX(-50%)',
+                        background:'linear-gradient(90deg,#d4a843,#f0e68c)',
+                        color:'#000', fontSize:'0.45rem', fontWeight:800,
+                        padding:'2px 7px', borderRadius:20, letterSpacing:'0.08em',
+                        whiteSpace:'nowrap', textTransform:'uppercase',
+                      }}>BEST VALUE</div>
+                    )}
+                    <div style={{
+                      fontSize:'0.58rem', fontWeight:700, letterSpacing:'0.08em',
+                      textTransform:'uppercase', marginBottom:5,
+                      color: isSelected ? '#f0c040' : '#444',
+                    }}>{p.label}</div>
+                    <div style={{
+                      fontSize:'1.15rem', fontWeight:900, lineHeight:1,
+                      fontFamily:'var(--font-mono)',
+                      color: isSelected ? '#ffe066' : '#666',
+                      textShadow: isSelected ? '0 0 20px rgba(255,220,80,0.4)' : 'none',
+                    }}>{p.price}</div>
+                    <div style={{
+                      fontSize:'0.55rem', marginTop:4,
+                      color: isSelected ? '#a07830' : '#2a2a2a',
+                    }}>{p.sub}</div>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Features */}
