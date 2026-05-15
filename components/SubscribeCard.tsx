@@ -29,12 +29,13 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
   const [hovered, setHovered] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('yearly');
 
-  const plans = [
+  const allPlans = [
     { id: 'daily',   label: 'Daily',   price: '₹29',    sub: 'per day' },
     { id: 'weekly',  label: 'Weekly',  price: '₹149',   sub: 'per week' },
     { id: 'monthly', label: 'Monthly', price: '₹499',   sub: 'per month' },
     { id: 'yearly',  label: 'Annual',  price: slots > 0 ? '₹2,999' : '₹9,999', sub: 'per year' },
   ] as const;
+  const plans = slots > 0 ? allPlans : allPlans.filter(p => p.id === 'yearly');
 
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
   const price = currentPlan.price;
