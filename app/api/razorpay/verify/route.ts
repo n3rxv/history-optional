@@ -55,15 +55,7 @@ export async function POST(req: NextRequest) {
 
   if (upsertErr) return NextResponse.json({ error: "DB error" }, { status: 500 });
 
-  // Increment slot counter
-  const { data: slotData } = await supabaseAdmin
-    .from("subscription_slots").select("subscribers").eq("id", 1).single();
-  if (slotData) {
-    await supabaseAdmin
-      .from("subscription_slots")
-      .update({ subscribers: slotData.subscribers + 1 })
-      .eq("id", 1);
-  }
+
 
   // Reset fingerprint usage limits if provided
   if (fingerprint) {
