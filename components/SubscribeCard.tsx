@@ -36,7 +36,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
     { id: 'yearly',  label: 'Annual',  price: slots > 0 ? '₹2,999' : '₹9,999', sub: 'per year' },
   ] as const;
   const plans = slots > 0 ? allPlans : allPlans.filter(p => p.id === 'yearly');
-  if (slots === 0 && selectedPlan !== 'yearly') setSelectedPlan('yearly');
+  useEffect(() => { if (slots === 0) setSelectedPlan('yearly'); }, [slots]);
 
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
   const price = currentPlan.price;
