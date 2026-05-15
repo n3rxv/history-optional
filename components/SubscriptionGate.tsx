@@ -231,6 +231,7 @@ function PaywallModal({
               {[
                 '✓  Unlimited evaluations — every day',
                 '✓  All marking schemes & model answers',
+                '✓  Prelims Smart Analysis included',
                 '✓  Priority access to new features',
               ].map((f, i) => (
                 <div key={i} style={{ fontSize: '0.82rem', color: '#aaa', marginBottom: 7, lineHeight: 1.4 }}>{f}</div>
