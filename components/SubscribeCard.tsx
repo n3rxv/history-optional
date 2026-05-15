@@ -54,10 +54,10 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.access_token) {
         setToken(session.access_token);
-        if (sessionStorage.getItem('ho_pending_payment') === '1') {
-          const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || 'yearly';
-          sessionStorage.removeItem('ho_pending_payment');
-          sessionStorage.removeItem('ho_pending_plan');
+        if (localStorage.getItem('ho_pending_payment') === '1') {
+          const savedPlan = localStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || 'yearly';
+          localStorage.removeItem('ho_pending_payment');
+          localStorage.removeItem('ho_pending_plan');
           setSelectedPlan(savedPlan);
           openRazorpay(session.access_token, session.user?.email ?? '', savedPlan);
         }
@@ -66,8 +66,8 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
   }, []);
 
   const handleSignIn = async () => {
-    sessionStorage.setItem('ho_pending_payment', '1');
-    sessionStorage.setItem('ho_pending_plan', selectedPlan);
+    localStorage.setItem('ho_pending_payment', '1');
+    localStorage.setItem('ho_pending_plan', selectedPlan);
     setStep('signing_in');
     await supabase.auth.signInWithOAuth({
       provider: 'google',
