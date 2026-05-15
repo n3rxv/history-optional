@@ -300,7 +300,7 @@ export default function Navbar() {
             ))}
             <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
               <SearchModal />
-              <span className="hide-md"><ThemeCustomizer /></span>
+              <ThemeCustomizer />
               {user ? (
                 <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
               ) : (
