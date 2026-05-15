@@ -24,7 +24,16 @@ function LimitModal({
 }) {
   const [step, setStep] = useState<'paywall' | 'signing_in' | 'paying' | 'success'>('paywall');
   const [token, setToken] = useState<string | null>(null);
-  const price = slots > 0 ? '₹2,999' : '₹9,999';
+  const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('yearly');
+
+  const plans = [
+    { id: 'daily',   label: 'Daily',   price: '₹29',   sub: 'per day' },
+    { id: 'weekly',  label: 'Weekly',  price: '₹149',  sub: 'per week' },
+    { id: 'monthly', label: 'Monthly', price: '₹499',  sub: 'per month' },
+    { id: 'yearly',  label: 'Annual',  price: slots > 0 ? '₹2,999' : '₹9,999', sub: 'per year' },
+  ] as const;
+  const currentPlan = plans.find(p => p.id === selectedPlan)!;
+  const price = currentPlan.price;
   const priceNum = slots > 0 ? 299900 : 999900;
 
   useEffect(() => {
@@ -65,6 +74,7 @@ function LimitModal({
       const orderRes = await fetch('/api/razorpay/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
+        body: JSON.stringify({ plan: selectedPlan }),
       });
       const orderData = await orderRes.json();
       if (!orderData.orderId) throw new Error('Order failed');
@@ -83,7 +93,7 @@ function LimitModal({
           const vRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
-            body: JSON.stringify({ ...resp, fingerprint }),
+            body: JSON.stringify({ ...resp, fingerprint, plan: selectedPlan }),
           });
           if ((await vRes.json()).ok) setStep('success');
         },
@@ -136,26 +146,26 @@ function LimitModal({
               You've used all your free credits. Subscribe to continue with unlimited evaluations and AI chat.
             </div>
 
-            {/* Price card */}
-            <div style={{ background:'linear-gradient(135deg,#0d1b3e,#091530)', border:'1px solid rgba(59,130,246,0.3)', borderRadius:12, padding:'20px', marginBottom:16, position:'relative', overflow:'hidden' }}>
-              <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:'linear-gradient(90deg,transparent,#3b82f6,transparent)' }} />
-              <div style={{ display:'flex', alignItems:'flex-end', gap:8, marginBottom:8 }}>
-                <span style={{ fontFamily:'var(--font-mono)', fontSize:'2.8rem', fontWeight:700, color:'#f0f0f0', lineHeight:1 }}>{price}</span>
-                <span style={{ color:'#555', fontSize:'0.85rem', marginBottom:6 }}>/year</span>
-              </div>
+            {/* Plan selector */}
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:8, marginBottom:16 }}>
+              {plans.map(p => (
+                <button key={p.id} onClick={() => setSelectedPlan(p.id)}
+                  style={{
+                    padding:'12px 6px', borderRadius:10, cursor:'pointer',
+                    border: selectedPlan === p.id ? '1.5px solid rgba(212,168,67,0.7)' : '1px solid rgba(255,255,255,0.07)',
+                    background: selectedPlan === p.id ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.02)',
+                    transition:'all 0.15s', textAlign:'center',
+                    boxShadow: selectedPlan === p.id ? '0 0 16px rgba(212,168,67,0.12)' : 'none',
+                  }}>
+                  <div style={{ fontSize:'0.62rem', color: selectedPlan === p.id ? '#d4a843' : '#555', fontWeight:600, letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:6 }}>{p.label}</div>
+                  <div style={{ fontSize:'1.1rem', fontWeight:800, color: selectedPlan === p.id ? '#f0e68c' : '#888', fontFamily:'var(--font-mono)', lineHeight:1 }}>{p.price}</div>
+                  <div style={{ fontSize:'0.58rem', color: selectedPlan === p.id ? '#a07830' : '#333', marginTop:4 }}>{p.sub}</div>
+                </button>
+              ))}
+            </div>
 
-              {/* Slot counter */}
-              {slots > 0 ? (
-                <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.65rem', color:'#f87171', letterSpacing:'0.08em', marginBottom:14, display:'flex', alignItems:'center', gap:6 }}>
-                  <span style={{ display:'inline-block', width:6, height:6, borderRadius:'50%', background:'#f87171', boxShadow:'0 0 6px #f87171' }} />
-                  Only {slots} early-bird slot{slots === 1 ? '' : 's'} left at this price
-                </div>
-              ) : (
-                <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.65rem', color:'#f87171', letterSpacing:'0.08em', marginBottom:14 }}>
-                  Early-bird slots full — standard pricing applies
-                </div>
-              )}
-
+            {/* Features */}
+            <div style={{ marginBottom:16 }}>
               <div style={{ fontSize:'0.82rem', color:'#aaa', marginBottom:6 }}>✓ Unlimited answer evaluations</div>
               <div style={{ fontSize:'0.82rem', color:'#aaa', marginBottom:6 }}>✓ Unlimited AI chat every day</div>
               <div style={{ fontSize:'0.82rem', color:'#aaa' }}>✓ All model answers & feedback</div>
@@ -172,11 +182,11 @@ function LimitModal({
               onClick={handlePay}
               disabled={step === 'paying'}
               style={{ width:'100%', padding:'15px', borderRadius:8, border:'none', background: step === 'paying' ? '#1e3a8a' : 'linear-gradient(135deg,#2563eb,#3b82f6)', color:'#fff', fontWeight:700, fontSize:'0.9rem', cursor: step === 'paying' ? 'not-allowed' : 'pointer', fontFamily:'var(--font-mono)', letterSpacing:'0.05em', boxShadow:'0 0 30px rgba(59,130,246,0.3)', marginBottom:10, display:'flex', alignItems:'center', justifyContent:'center', gap:10 }}>
-              {step === 'paying' ? 'Opening payment…' : !token ? <><GoogleIcon /> Sign in & Subscribe</> : `Subscribe — ${price}/year →`}
+              {step === 'paying' ? 'Opening payment…' : !token ? <><GoogleIcon /> Sign in & Subscribe — {currentPlan.price}</> : `Subscribe — ${currentPlan.price}/${currentPlan.sub.split(' ')[1]} →`}
             </button>
 
             <div style={{ textAlign:'center', fontFamily:'var(--font-mono)', fontSize:'0.6rem', color:'#444', letterSpacing:'0.1em', marginBottom:12 }}>
-              Secure payment via Razorpay · Renews annually
+              SECURE · RAZORPAY · {selectedPlan === 'yearly' ? 'RENEWS ANNUALLY' : selectedPlan.toUpperCase()}
             </div>
 
             <button onClick={onClose}
