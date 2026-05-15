@@ -10,7 +10,7 @@ type TocEntry = {
 export default function TableOfContents({ contentHtml }: { contentHtml: string }) {
   const [entries, setEntries] = useState<TocEntry[]>([]);
   const [activeId, setActiveId] = useState<string>('');
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const parser = new DOMParser();
