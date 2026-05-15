@@ -55,8 +55,11 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
       if (session?.access_token) {
         setToken(session.access_token);
         if (sessionStorage.getItem('ho_pending_payment') === '1') {
+          const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || 'yearly';
           sessionStorage.removeItem('ho_pending_payment');
-          openRazorpay(session.access_token, session.user?.email ?? '');
+          sessionStorage.removeItem('ho_pending_plan');
+          setSelectedPlan(savedPlan);
+          openRazorpay(session.access_token, session.user?.email ?? '', savedPlan);
         }
       }
     });
@@ -64,6 +67,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
 
   const handleSignIn = async () => {
     sessionStorage.setItem('ho_pending_payment', '1');
+    sessionStorage.setItem('ho_pending_plan', selectedPlan);
     setStep('signing_in');
     await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -71,13 +75,13 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
     });
   };
 
-  const openRazorpay = async (authToken: string, email: string) => {
+  const openRazorpay = async (authToken: string, email: string, planOverride?: 'daily'|'weekly'|'monthly'|'yearly') => {
     setStep('paying');
     try {
       const orderRes = await fetch('/api/razorpay/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
-        body: JSON.stringify({ plan: selectedPlan }),
+        body: JSON.stringify({ plan: planOverride ?? selectedPlan }),
       });
       const orderData = await orderRes.json();
       if (!orderData.orderId) throw new Error('Order failed');
@@ -103,7 +107,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
           const vRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
-            body: JSON.stringify({ ...resp, fingerprint, plan: selectedPlan }),
+            body: JSON.stringify({ ...resp, fingerprint, plan: planOverride ?? selectedPlan }),
           });
           if ((await vRes.json()).ok) setStep('success');
         },
