@@ -9,7 +9,7 @@ export interface PrelimsQuestion {
   year: number | null;
 }
 
-export const prelimsQuestions: PrelimsQuestion[] = [
+export const prelimsQuestions: PrelimsQuestion[] = (([
   { id: "d1_stone_1", topic: "Stone Ages & Rock Art", day: 1, type: "practice", question: "In India, the first hominid fossils have been discovered in which of the following Valleys?", options: ["Belan valley", "Narmada valley", "Krishna valley", "Godawari valley"], correct: 1, year: null },
   { id: "d1_stone_2", topic: "Stone Ages & Rock Art", day: 1, type: "practice", question: "Where was the first Palaeolithic tool discovered in India?", options: ["Attirampakkam", "Pallavaram", "Bhimbetka", "Mehrgarh"], correct: 1, year: null },
   { id: "d1_stone_3", topic: "Stone Ages & Rock Art", day: 1, type: "practice", question: "Match List I (Phase of Stone Age) with List II (Characteristics of Tools):\nA. Upper Paleolithic — B. Middle Paleolithic — C. Lower Paleolithic\n1. Blade Tools  2. Core Tools  3. Flake tools  4. Microliths", options: ["A-2, B-3, C-1", "A-1, B-3, C-2", "A-4, B-2, C-1", "A-1, B-2, C-4"], correct: 1, year: null },
@@ -625,4 +625,4 @@ export const prelimsQuestions: PrelimsQuestion[] = [
   { id: "pyq_misc_2018_puthukkuli_sujni", topic: "Art & Culture", day: 5, type: "pyq", question: "Consider the following pairs:\nCraft — Heritage of\n1. Puthukkuli shawls — Tamil Nadu\n2. Sujni embroidery — Maharashtra\n3. Uppada Jamdani sarees — Karnataka\nWhich of the pairs given above is/are correct?", options: ["1 only", "1 and 2 only", "3 only", "2 and 3 only"], correct: 0, year: 2018 },
   { id: "pyq_misc_2016_khajuraho_tirupati", topic: "Art & Culture", day: 5, type: "pyq", question: "Consider the following pairs:\nFamous place — Region\n1. Bodhgaya — Baghelkhand\n2. Khajuraho — Bundelkhand\n3. Shirdi — Vidarbha\n4. Nasik (Nashik) — Malwa\n5. Tirupati — Rayalaseema\nWhich of the pairs given above are correctly matched?", options: ["1, 2 and 4 only", "2, 3, 4 and 5 only", "2 and 5 only", "1, 3, 4 and 5 only"], correct: 2, year: 2016 },
   { id: "pyq_misc_2014_classical_languages", topic: "Art & Culture", day: 5, type: "pyq", question: "Consider the following languages:\n1. Gujarati\n2. Kannada\n3. Telugu\nWhich of the above has/have been declared as 'Classical Language/Languages' by the Government?", options: ["1 and 2 only", "3 only", "2 and 3 only", "1, 2 and 3"], correct: 2, year: 2014 }
-];
+] as PrelimsQuestion[]).filter((q): q is PrelimsQuestion => q !== undefined));
