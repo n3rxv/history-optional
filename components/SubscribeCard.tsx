@@ -227,20 +227,20 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, position: 'relative' }}>
 
-        {/* Plan selector */}
-        <div style={{ display: 'flex', gap: 5, marginBottom: 4 }}>
+        {/* Plan selector — card style */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 8 }}>
           {plans.map(p => (
             <button key={p.id} onClick={() => setSelectedPlan(p.id)}
               style={{
-                flex: 1, padding: '6px 4px', borderRadius: 7, cursor: 'pointer',
-                border: selectedPlan === p.id ? '1px solid rgba(212,168,67,0.6)' : '1px solid rgba(255,255,255,0.06)',
-                background: selectedPlan === p.id ? 'rgba(212,168,67,0.1)' : 'rgba(255,255,255,0.02)',
-                color: selectedPlan === p.id ? '#d4a843' : '#555',
-                fontSize: '0.65rem', fontWeight: selectedPlan === p.id ? 700 : 400,
-                transition: 'all 0.15s', textAlign: 'center', lineHeight: 1.4,
+                padding: '12px 6px', borderRadius: 10, cursor: 'pointer',
+                border: selectedPlan === p.id ? '1.5px solid rgba(212,168,67,0.7)' : '1px solid rgba(255,255,255,0.07)',
+                background: selectedPlan === p.id ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.02)',
+                transition: 'all 0.15s', textAlign: 'center',
+                boxShadow: selectedPlan === p.id ? '0 0 16px rgba(212,168,67,0.12)' : 'none',
               }}>
-              <div>{p.label}</div>
-              <div style={{ fontSize: '0.7rem', color: selectedPlan === p.id ? '#e8b84b' : '#444', fontWeight: 600 }}>{p.price}</div>
+              <div style={{ fontSize: '0.62rem', color: selectedPlan === p.id ? '#d4a843' : '#555', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>{p.label}</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: selectedPlan === p.id ? '#f0e68c' : '#888', fontFamily: 'var(--font-mono)', lineHeight: 1 }}>{p.price}</div>
+              <div style={{ fontSize: '0.58rem', color: selectedPlan === p.id ? '#a07830' : '#333', marginTop: 4 }}>{p.sub}</div>
             </button>
           ))}
         </div>
@@ -376,8 +376,8 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
           {step === 'paying'
             ? 'Opening payment…'
             : !token
-              ? <><GoogleIcon /> Sign in &amp; Subscribe — {price}/yr</>
-              : `Subscribe — ${price}/year →`}
+              ? <><GoogleIcon /> Sign in &amp; Subscribe — {price}/{currentPlan.sub.split(' ')[1]}</>
+              : `Subscribe — ${price}/${currentPlan.sub.split(' ')[1]} →`}
         </button>
 
         {/* Footer row */}
