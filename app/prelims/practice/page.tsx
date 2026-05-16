@@ -26,7 +26,6 @@ const TOPICS = Array.from(new Set(prelimsQuestions.map(q => q.topic)));
 const YEARS = Array.from(new Set(prelimsQuestions.filter(q => q.year).map(q => q.year!))).sort((a,b) => b-a);
 
 function getNavStatus(qs: QuestionState): NavStatus {
-  if (qs.marked && qs.submitted) return 'answered-marked';
   if (qs.marked) return 'marked';
   if (qs.submitted) return qs.selected === null ? 'answered' : (qs as any).isCorrect ? 'answered' : 'wrong';
   return 'unattempted';
@@ -482,9 +481,10 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             {/* legend */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.9rem' }}>
               {[
-                { label: 'Correct', bg: 'rgba(74,222,128,0.15)', border: 'rgba(74,222,128,0.5)' },
-                { label: 'Wrong',   bg: 'rgba(248,113,113,0.15)', border: 'rgba(248,113,113,0.5)' },
-                { label: 'Unanswered', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.12)' },
+                { label: 'Correct',    bg: 'rgba(74,222,128,0.15)',   border: 'rgba(74,222,128,0.5)' },
+                { label: 'Wrong',      bg: 'rgba(248,113,113,0.15)',  border: 'rgba(248,113,113,0.5)' },
+                { label: 'Bookmarked', bg: 'rgba(251,191,36,0.15)',   border: 'rgba(251,191,36,0.5)' },
+                { label: 'Unanswered', bg: 'rgba(255,255,255,0.04)',  border: 'rgba(255,255,255,0.12)' },
               ].map(({ label, bg, border }) => (
                 <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.28rem' }}>
                   <div style={{ width: 9, height: 9, borderRadius: 3, background: bg, border: `1px solid ${border}` }} />
