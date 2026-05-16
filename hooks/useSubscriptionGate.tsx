@@ -223,7 +223,7 @@ function LimitModal({
             </button>
 
             <div style={{ textAlign:'center', fontFamily:'var(--font-mono)', fontSize:'0.6rem', color:'#444', letterSpacing:'0.1em', marginBottom:12 }}>
-              SECURE · RAZORPAY · {selectedPlan === 'yearly' ? 'RENEWS ANNUALLY' : selectedPlan.toUpperCase()}
+              SECURE · RAZORPAY · {selectedPlan === 'yearly' ? 'RENEWS ANNUALLY' : selectedPlan === 'monthly' ? 'RENEWS MONTHLY' : selectedPlan === 'weekly' ? 'RENEWS WEEKLY' : 'RENEWS DAILY'}
             </div>
 
             <button onClick={onClose}
