@@ -414,7 +414,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: '#2a2a2a', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
-              Secure · Razorpay · Renews annually
+              {selectedPlan === 'yearly' ? 'Secure · Razorpay · Renews annually' : selectedPlan === 'monthly' ? 'Secure · Razorpay · Renews monthly' : selectedPlan === 'weekly' ? 'Secure · Razorpay · Renews weekly' : 'Secure · Razorpay · Renews daily'}
             </span>
           </div>
           {onClose && (
