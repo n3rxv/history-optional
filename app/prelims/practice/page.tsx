@@ -72,6 +72,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
     } catch { return {}; }
   });
   const [showResult, setShowResult]   = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [isPremium, setIsPremium]     = useState(false);
   const [token, setToken]             = useState<string | null>(null);
 
@@ -154,6 +155,19 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
   const answered  = correct + wrong;
   const markedCnt = filtered.filter(q => states[q.id]?.marked).length;
   const maxScore  = filtered.length * 2;
+
+  const doReset = () => {
+    setStates(prev => {
+      const next: Record<string, any> = {};
+      Object.entries(prev).forEach(([id, s]) => {
+        if ((s as any).marked) next[id] = { selected: null, submitted: false, marked: true, aiResult: (s as any).aiResult, aiLoading: false };
+      });
+      try { localStorage.setItem('ho_prelims_states', JSON.stringify(next)); } catch {}
+      return next;
+    });
+    setCurrent(0);
+    setShowResetConfirm(false);
+  };
 
   // ── Score screen ──────────────────────────────────────────────────────────
   if (showResult) {
@@ -284,7 +298,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
               style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>Score →</button>
           )}
           {answered > 0 && (
-            <button onClick={() => { if (confirm('Reset all attempts? Bookmarks will be kept.')) { setStates(prev => { const next: Record<string, any> = {}; Object.entries(prev).forEach(([id, s]) => { if ((s as any).marked) next[id] = { selected: null, submitted: false, marked: true, aiResult: (s as any).aiResult, aiLoading: false }; }); try { localStorage.setItem('ho_prelims_states', JSON.stringify(next)); } catch {} return next; }); setCurrent(0); } }}
+            <button onClick={() => { setShowResetConfirm(true); }}
               onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(248,113,113,0.1)'; b.style.borderColor = 'rgba(248,113,113,0.4)'; b.style.color = '#f87171'; }}
               onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.borderColor = 'rgba(255,255,255,0.12)'; b.style.color = 'rgba(255,255,255,0.5)'; }}
               style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>↺ Reset</button>
@@ -297,6 +311,25 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           background: 'transparent', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '0.78rem',
         }}>{showNav ? '◀ Hide' : '▶ Nav'}</button>
       </div>
+
+      {/* Reset Confirm Modal */}
+      {showResetConfirm && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={() => setShowResetConfirm(false)}>
+          <div onClick={e => e.stopPropagation()}
+            style={{ background: '#111', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '2rem', maxWidth: 360, width: '90%', textAlign: 'center' }}>
+            <div style={{ fontSize: '1.5rem', marginBottom: 12 }}>↺</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>Reset all attempts?</div>
+            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', marginBottom: 24 }}>Bookmarks and AI explanations will be kept.</div>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+              <button onClick={() => setShowResetConfirm(false)}
+                style={{ padding: '10px 24px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.85rem' }}>Cancel</button>
+              <button onClick={doReset}
+                style={{ padding: '10px 24px', borderRadius: 8, border: 'none', background: '#f87171', color: '#000', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}>Reset</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* body */}
       <div style={{ display: 'flex', flex: 1, maxWidth: 1280, margin: '0 auto', width: '100%', padding: '2rem 1.5rem', gap: '2rem', alignItems: 'flex-start' }}>
