@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { prelimsQuestions } from '@/lib/prelimsData';
 import { supabase } from '@/lib/supabase';
 
-type Filter = 'all' | 'pyq' | 'practice';
+type Filter = 'all' | 'pyq' | 'practice' | 'bookmarked';
 type NavStatus = 'unattempted' | 'answered' | 'marked' | 'answered-marked';
 
 interface AIResult {
