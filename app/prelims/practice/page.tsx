@@ -4,7 +4,7 @@ import { prelimsQuestions } from '@/lib/prelimsData';
 import { supabase } from '@/lib/supabase';
 
 type Filter = 'all' | 'pyq' | 'practice' | 'bookmarked';
-type NavStatus = 'unattempted' | 'answered' | 'marked' | 'answered-marked';
+type NavStatus = 'unattempted' | 'answered' | 'wrong' | 'marked' | 'answered-marked';
 
 interface AIResult {
   solution: string;
@@ -28,13 +28,14 @@ const YEARS = Array.from(new Set(prelimsQuestions.filter(q => q.year).map(q => q
 function getNavStatus(qs: QuestionState): NavStatus {
   if (qs.marked && qs.submitted) return 'answered-marked';
   if (qs.marked) return 'marked';
-  if (qs.submitted) return 'answered';
+  if (qs.submitted) return qs.selected === null ? 'answered' : (qs as any).isCorrect ? 'answered' : 'wrong';
   return 'unattempted';
 }
 
 const NAV_COLORS: Record<NavStatus, { bg: string; border: string; text: string }> = {
   unattempted:       { bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.12)', text: 'rgba(255,255,255,0.45)' },
   answered:          { bg: 'rgba(74,222,128,0.15)',  border: 'rgba(74,222,128,0.5)',   text: '#4ade80' },
+  wrong:             { bg: 'rgba(248,113,113,0.15)',  border: 'rgba(248,113,113,0.5)',   text: '#f87171' },
   marked:            { bg: 'rgba(251,191,36,0.15)',  border: 'rgba(251,191,36,0.5)',   text: '#fbbf24' },
   'answered-marked': { bg: 'rgba(96,165,250,0.15)',  border: 'rgba(96,165,250,0.5)',   text: '#60a5fa' },
 };
@@ -116,11 +117,11 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
   const handleSubmit = async () => {
     if (!q || qs.selected === null || qs.submitted) return;
-    updateState(q.id, { submitted: true });
+    updateState(q.id, { submitted: true, isCorrect: qs.selected === q.correct } as any);
     if (!isPremium || !token) return;
     const cached = getCached(q.id);
     if (cached) { updateState(q.id, { aiResult: cached, aiLoading: false }); return; }
-    updateState(q.id, { submitted: true, aiLoading: true });
+    updateState(q.id, { submitted: true, isCorrect: qs.selected === q.correct, aiLoading: true } as any);
     try {
       const res = await fetch('/api/prelims-explain', {
         method: 'POST',
