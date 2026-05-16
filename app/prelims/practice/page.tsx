@@ -481,12 +481,14 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
             {/* legend */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.9rem' }}>
-              {(Object.entries(NAV_COLORS) as [NavStatus, typeof NAV_COLORS[NavStatus]][]).map(([s, c]) => (
-                <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '0.28rem' }}>
-                  <div style={{ width: 9, height: 9, borderRadius: 3, background: c.bg, border: `1px solid ${c.border}` }} />
-                  <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', textTransform: 'capitalize' }}>
-                    {s === 'answered-marked' ? 'ans+marked' : s}
-                  </span>
+              {[
+                { label: 'Correct', bg: 'rgba(74,222,128,0.15)', border: 'rgba(74,222,128,0.5)' },
+                { label: 'Wrong',   bg: 'rgba(248,113,113,0.15)', border: 'rgba(248,113,113,0.5)' },
+                { label: 'Unanswered', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.12)' },
+              ].map(({ label, bg, border }) => (
+                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.28rem' }}>
+                  <div style={{ width: 9, height: 9, borderRadius: 3, background: bg, border: `1px solid ${border}` }} />
+                  <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)' }}>{label}</span>
                 </div>
               ))}
             </div>
