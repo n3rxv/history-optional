@@ -254,7 +254,7 @@ function PaywallModal({
               {payLoading ? 'Opening payment…' : `Subscribe — ${currentPlan.price}/${currentPlan.sub.split(' ')[1]} →`}
             </button>
             <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: '#444', letterSpacing: '0.1em' }}>
-              SECURE · RAZORPAY · {selectedPlan === 'yearly' ? 'RENEWS ANNUALLY' : selectedPlan.toUpperCase()}
+              SECURE · RAZORPAY · {selectedPlan === 'yearly' ? 'RENEWS ANNUALLY' : selectedPlan === 'monthly' ? 'RENEWS MONTHLY' : selectedPlan === 'weekly' ? 'RENEWS WEEKLY' : 'RENEWS DAILY'}
             </div>
           </>
         )}
