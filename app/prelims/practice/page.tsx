@@ -360,7 +360,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                   background: qs.marked ? 'rgba(251,191,36,0.1)' : 'transparent',
                   color: qs.marked ? '#fbbf24' : 'rgba(255,255,255,0.4)',
                   cursor: 'pointer', fontSize: '0.9rem', transition: 'all 0.14s',
-                }}>{qs.marked ? '★ Marked' : '☆ Mark'}</button>
+                }}>{qs.marked ? '★ Bookmarked' : '☆ Bookmark'}</button>
               </>
             ) : (
               <>
