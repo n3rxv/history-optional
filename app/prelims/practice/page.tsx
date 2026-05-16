@@ -65,7 +65,12 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
   const [yearFilter, setYearFilter]   = useState<string>('all');
   const [showNav, setShowNav]         = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
   const [current, setCurrent]         = useState(0);
-  const [states, setStates]           = useState<Record<string, QuestionState>>({});
+  const [states, setStates] = useState<Record<string, QuestionState>>(() => {
+    try {
+      const saved = localStorage.getItem('ho_prelims_states');
+      return saved ? JSON.parse(saved) : {};
+    } catch { return {}; }
+  });
   const [showResult, setShowResult]   = useState(false);
   const [isPremium, setIsPremium]     = useState(false);
   const [token, setToken]             = useState<string | null>(null);
@@ -84,6 +89,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
   }, []);
 
   const filtered = prelimsQuestions.filter(q => {
+    if (filter === 'bookmarked') return !!states[q.id]?.marked;
     if (filter !== 'all' && q.type !== filter) return false;
     if (topicFilter !== 'all' && q.topic !== topicFilter) return false;
     if (yearFilter !== 'all' && String(q.year) !== yearFilter) return false;
@@ -97,7 +103,11 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
   useEffect(() => { setCurrent(0); setShowResult(false); }, [filter, topicFilter, yearFilter]);
 
   const updateState = (id: string, patch: Partial<QuestionState>) =>
-    setStates(prev => ({ ...prev, [id]: { ...(prev[id] ?? emptyQS), ...patch } }));
+    setStates(prev => {
+      const next = { ...prev, [id]: { ...(prev[id] ?? emptyQS), ...patch } };
+      try { localStorage.setItem('ho_prelims_states', JSON.stringify(next)); } catch {}
+      return next;
+    });
 
   const handleSelect = (idx: number) => {
     if (!q || qs.submitted) return;
@@ -248,6 +258,14 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           <option value="all">All Years</option>
           {YEARS.map(y => <option key={y} value={String(y)}>{y}</option>)}
         </select>
+
+        <button onClick={() => setFilter('bookmarked' as any)}
+          style={{
+            background: filter === 'bookmarked' ? 'rgba(251,191,36,0.15)' : 'transparent',
+            border: filter === 'bookmarked' ? '1px solid rgba(251,191,36,0.5)' : '1px solid rgba(255,255,255,0.1)',
+            color: filter === 'bookmarked' ? '#fbbf24' : 'rgba(255,255,255,0.5)',
+            borderRadius: 8, padding: '0.28rem 0.75rem', cursor: 'pointer', fontSize: '0.8rem',
+          }}>★ Bookmarks</button>
 
         <div style={{ flex: 1 }} />
 
