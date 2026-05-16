@@ -260,12 +260,14 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           {YEARS.map(y => <option key={y} value={String(y)}>{y}</option>)}
         </select>
 
-        <button onClick={() => setFilter('bookmarked' as any)}
+        <button onClick={() => setFilter(filter === 'bookmarked' ? 'all' : 'bookmarked' as any)}
+          onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = 'rgba(251,191,36,0.2)'; (e.target as HTMLButtonElement).style.borderColor = 'rgba(251,191,36,0.7)'; (e.target as HTMLButtonElement).style.color = '#fbbf24'; }}
+          onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = filter === 'bookmarked' ? 'rgba(251,191,36,0.15)' : 'transparent'; (e.target as HTMLButtonElement).style.borderColor = filter === 'bookmarked' ? 'rgba(251,191,36,0.5)' : 'rgba(255,255,255,0.1)'; (e.target as HTMLButtonElement).style.color = filter === 'bookmarked' ? '#fbbf24' : 'rgba(255,255,255,0.5)'; }}
           style={{
             background: filter === 'bookmarked' ? 'rgba(251,191,36,0.15)' : 'transparent',
             border: filter === 'bookmarked' ? '1px solid rgba(251,191,36,0.5)' : '1px solid rgba(255,255,255,0.1)',
             color: filter === 'bookmarked' ? '#fbbf24' : 'rgba(255,255,255,0.5)',
-            borderRadius: 8, padding: '0.28rem 0.75rem', cursor: 'pointer', fontSize: '0.8rem',
+            borderRadius: 8, padding: '0.28rem 0.75rem', cursor: 'pointer', fontSize: '0.8rem', transition: 'all 0.15s',
           }}>★ Bookmarks</button>
 
         <div style={{ flex: 1 }} />
