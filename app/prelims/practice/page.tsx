@@ -278,10 +278,16 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           </span>
           <span style={{ color: 'rgba(255,255,255,0.3)' }}>{current + 1} / {filtered.length}</span>
           {answered > 0 && (
-            <button onClick={() => setShowResult(true)} style={{
-              padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)',
-              background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.78rem',
-            }}>Score →</button>
+            <button onClick={() => setShowResult(true)}
+              onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(255,255,255,0.08)'; b.style.color = 'rgba(255,255,255,0.8)'; }}
+              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.color = 'rgba(255,255,255,0.5)'; }}
+              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>Score →</button>
+          )}
+          {answered > 0 && (
+            <button onClick={() => { if (confirm('Reset all attempts? This cannot be undone.')) { localStorage.removeItem('ho_prelims_states'); setStates({}); setCurrent(0); } }}
+              onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(248,113,113,0.1)'; b.style.borderColor = 'rgba(248,113,113,0.4)'; b.style.color = '#f87171'; }}
+              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.borderColor = 'rgba(255,255,255,0.12)'; b.style.color = 'rgba(255,255,255,0.5)'; }}
+              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>↺ Reset</button>
           )}
         </div>
 
