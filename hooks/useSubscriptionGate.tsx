@@ -91,7 +91,7 @@ function LimitModal({
         currency: orderData.currency,
         order_id: orderData.orderId,
         name: 'History Optional',
-        description: 'Unlimited Access · 1 Year',
+        description: `Unlimited Access · ${currentPlan.label}`,
         image: '/favicon.svg',
         prefill: { email },
         theme: { color: '#3b82f6' },
