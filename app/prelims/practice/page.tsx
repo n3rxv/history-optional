@@ -317,7 +317,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           onClick={() => setShowResetConfirm(false)}>
           <div onClick={e => e.stopPropagation()}
-            style={{ background: '#111', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '2rem', maxWidth: 360, width: '90%', textAlign: 'center' }}>
+            style={{ background: '#111', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, padding: '2rem', maxWidth: 360, width: '90%', textAlign: 'center', boxShadow: '0 0 0 1px rgba(255,255,255,0.05), 0 24px 60px rgba(0,0,0,0.8)' }}>
             <div style={{ fontSize: '1.5rem', marginBottom: 12 }}>↺</div>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>Reset all attempted questions?</div>
             <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', marginBottom: 24 }}>Bookmarks and Smart Analysis for attempted questions will be kept.</div>
