@@ -20817,7 +20817,131 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 </ul>
 <p>This lackadaisical attitude of the British shows that the declaration was merely a lip service to the Indians and British were never serious about their commitments.</p>
 <p>Although, the immediate British response was reactionary and contrary to the stated demand, nonetheless nationalist demand entered the mainstream of both Indian and British politics and a sustained resistance began against the British rule.</p>`,
-  'politics-separatism-partition': ``,
+  'politics-separatism-partition': `<h2>Politics of Separatism, Communalism and Partition</h2>
+<h2>I. Muslim Politics and the Muslim League</h2>
+<h3>A. The Muslim Community: Diversity and Colonial Construction</h3>
+<ul>
+<li>&#8226; Muslims were not a homogeneous community&#8212;19.7% of India's population in 1881 with sharp regional variation: ~13% minority in UP, ~51% majority in Punjab, ~49% in Bengal (1872 census).</li>
+<li>&#8226; Deep internal divisions existed: Shia-Sunni sectarian differences, linguistic barriers, and economic disparities. Colonial authorities constructed an artificial image of a homogeneous &#8220;religio-political community,&#8221; which shaped subsequent communal identities.</li>
+<li>&#8226; Economic diversity: landed aristocracy in Awadh and Punjab, big merchants in Bombay Presidency, weavers and artisans in Bengal and UP, and the poorest peasantry in East Bengal&#8212;each group had divergent political interests.</li>
+</ul>
+<h3>B. Sayyid Ahmad Khan and the Aligarh Movement</h3>
+<ul>
+<li>&#8226; Sayyid Ahmad Khan (1817&#8211;1898) initially supported Hindu-Muslim cooperation but turned against the Congress after 1887, fearing Hindu majority domination under representative government.</li>
+<li>&#8226; Founded the Muhammadan Anglo-Oriental College at Aligarh (1875) to provide Western-style education while retaining Islamic values&#8212;to produce a modern Muslim elite loyal to British rule.</li>
+<li>&#8226; His two-nation theory argued Hindus and Muslims were two separate nations who could not share a common nationality; he appealed to Muslims to stay away from Congress and cultivate loyalty to the Crown.</li>
+<li>&#8226; The Aligarh movement remained predominantly a UP Muslim ashraf (upper-class) movement; it did not represent poor Muslim peasants or artisans.</li>
+</ul>
+<h3>C. Foundation of the Muslim League (1906)</h3>
+<ul>
+<li>&#8226; The Simla Deputation (October 1906): Muslim leaders led by the Aga Khan met Viceroy Minto and demanded separate electorates for Muslims&#8212;the founding demand of Muslim communal politics.</li>
+<li>&#8226; All India Muslim League founded at Dhaka in December 1906 under Nawab Salimullah of Dhaka. Initial aims: promote loyalty to the British government, protect Muslim political rights, prevent hostility between Muslims and other communities.</li>
+<li>&#8226; The League was dominated by the UP Muslim ashraf elite and big zamindars of East Bengal&#8212;explicitly conservative and loyalist, unlike the Congress.</li>
+<li>&#8226; Morley-Minto Reforms (1909) conceded separate electorates for Muslims&#8212;a critical colonial intervention that institutionalized communal representation and deepened Hindu-Muslim political separation.</li>
+</ul>
+<h2>II. Communalism: Ideology and Growth</h2>
+<h3>A. Nature and Origins of Communalism</h3>
+<ul>
+<li>&#8226; Communalism is the belief that people who follow the same religion have common secular interests, and that these interests are different from and opposed to the interests of followers of other religions.</li>
+<li>&#8226; It developed in three stages: (i) consciousness of belonging to a religious community; (ii) belief that the interests of one's community differ from others; (iii) belief that these interests are mutually hostile and antagonistic.</li>
+<li>&#8226; Colonial roots: census operations, separate electorates, and the policy of divide and rule solidified religious identities into political categories. The colonial state treated religious communities as the basic unit of Indian society.</li>
+<li>&#8226; Economic competition: rivalry between Hindu traders/moneylenders and Muslim weavers/artisans, and competition for government jobs between the educated Hindu middle class and Muslim ashraf, all contributed to communal tensions.</li>
+</ul>
+<h3>B. Hindu Communalism and the Hindu Mahasabha</h3>
+<ul>
+<li>&#8226; Hindu communalism emerged partly as a reaction to Muslim communalism and partly from Hindu revivalism of the late nineteenth century (Arya Samaj, cow protection movements, Hindi-Urdu controversy).</li>
+<li>&#8226; All India Hindu Mahasabha founded in 1915. V.D. Savarkar became its president in 1937 and gave ideological shape to Hindu nationalism through the concept of <em>Hindutva</em> (&#8220;Hinduness&#8221;).</li>
+<li>&#8226; Savarkar's <em>Hindutva</em> (1923) defined Hindus as those for whom India is both <em>pitribhumi</em> (fatherland) and <em>punyabhumi</em> (holy land)&#8212;explicitly excluding Muslims and Christians who had holy lands abroad.</li>
+<li>&#8226; M.S. Golwalkar's <em>We or Our Nationhood Defined</em> (1939): Muslims, Christians, and Parsis were foreign races who must adopt Hindu culture or live as subordinates with no rights.</li>
+<li>&#8226; Rashtriya Swayamsevak Sangh (RSS) founded by K.B. Hedgewar in 1925 at Nagpur&#8212;a cultural organization to build Hindu unity through physical and ideological training, closely linked to Mahasabha ideology.</li>
+</ul>
+<h3>C. Growth of Communal Violence</h3>
+<ul>
+<li>&#8226; Communal riots increased sharply after World War I: Moplah Rebellion (1921) was partly agrarian and partly communal; riots in Kohat (1924) and Calcutta (1926) revealed deepening Hindu-Muslim antagonism.</li>
+<li>&#8226; <em>Shuddhi</em> (reconversion of Muslims to Hinduism) by Arya Samaj and <em>Tabligh/Tanzim</em> (Muslim organization and reconversion) movements intensified competition and conflict in the 1920s.</li>
+<li>&#8226; Disputes over music before mosques, cow slaughter, and temple-mosque proximity became flashpoints for organized communal violence throughout the 1920s&#8211;1940s.</li>
+</ul>
+<h2>III. Congress, Gandhi, and the Communal Question</h2>
+<h3>A. Gandhi's Approach</h3>
+<ul>
+<li>&#8226; Gandhi attempted Hindu-Muslim unity through the Khilafat movement (1919&#8211;1922)&#8212;supporting the Ottoman Caliphate to bring Muslims into the non-cooperation movement. Critics argued this introduced religion into mass politics.</li>
+<li>&#8226; After the collapse of Non-Cooperation&#8211;Khilafat, Hindu-Muslim relations deteriorated sharply. Gandhi undertook fasts to stop communal violence (Delhi 1924, Calcutta 1947, Delhi 1948).</li>
+<li>&#8226; Gandhi's formula: religion was personal and private; it should not be mixed with politics. But he himself used religious imagery (Ram Rajya, etc.) extensively&#8212;a contradiction highlighted by critics including Ambedkar and Jinnah.</li>
+</ul>
+<h3>B. Congress and Muslim Political Representation</h3>
+<ul>
+<li>&#8226; Congress claimed to be a secular, all-India organization, but its leadership was disproportionately Hindu and it often failed to address specifically Muslim concerns.</li>
+<li>&#8226; Nehru Report (1928): rejected separate electorates and joint electorates with reservation for Muslims. Jinnah's amendments were rejected&#8212;a turning point in Congress-League relations.</li>
+<li>&#8226; Congress's mass contact programme (1937): after winning provincial elections, Congress tried to mobilize Muslim masses directly, bypassing the League. The League saw this as a direct threat to its claim to represent all Muslims.</li>
+</ul>
+<h2>IV. Muhammad Ali Jinnah and the Pakistan Demand</h2>
+<h3>A. Jinnah's Political Evolution</h3>
+<ul>
+<li>&#8226; Jinnah was initially an &#8220;ambassador of Hindu-Muslim unity&#8221;&#8212;a Congress member, secular constitutionalist, and architect of the Congress-League Lucknow Pact (1916) which gave Muslims reserved seats in legislatures.</li>
+<li>&#8226; He opposed Gandhi's mass politics and introduction of religion into political agitation. He left Congress in 1920 and gradually shifted toward exclusive Muslim political representation.</li>
+<li>&#8226; By the 1930s, after the failure of the Nehru Report and the Round Table Conferences, Jinnah concluded that Muslim interests could not be protected within a Congress-dominated India.</li>
+</ul>
+<h3>B. The Two-Nation Theory and Lahore Resolution</h3>
+<ul>
+<li>&#8226; Jinnah formally articulated the two-nation theory at the Lahore session of the Muslim League (March 1940): Hindus and Muslims are two nations by every definition&#8212;different religion, philosophy, social customs, literature&#8212;and must have separate homelands.</li>
+<li>&#8226; The Lahore Resolution (1940)&#8212;later called the Pakistan Resolution&#8212;demanded that geographically contiguous Muslim-majority areas in the northwest and east be grouped into independent states. The word &#8220;Pakistan&#8221; did not appear in the resolution.</li>
+<li>&#8226; The resolution was deliberately vague on whether it demanded one or two separate states, allowing flexibility in future negotiations.</li>
+</ul>
+<h3>C. League's Rise to Mass Politics</h3>
+<ul>
+<li>&#8226; 1937 elections: Muslim League performed poorly, winning only 4.4% of total Muslim votes; Congress won Muslim seats in several provinces. This humiliation pushed Jinnah to build the League into a mass party.</li>
+<li>&#8226; Congress ministries (1937&#8211;39): League alleged Congress governments were anti-Muslim&#8212;&#8220;Congress tyranny&#8221;&#8212;and promoted Hindu culture (Vande Mataram, Wardha education scheme). These allegations, though exaggerated, were politically effective.</li>
+<li>&#8226; By 1945&#8211;46 elections, the League swept all Muslim seats in the Central Assembly and most provincial Muslim seats&#8212;demonstrating its claim to be the sole representative of Muslims.</li>
+</ul>
+<h2>V. The Road to Partition</h2>
+<h3>A. World War II and the Constitutional Deadlock</h3>
+<ul>
+<li>&#8226; Congress resigned from provincial ministries in 1939 after Viceroy Linlithgow declared India a belligerent without consultation. Jinnah declared a &#8220;Day of Deliverance&#8221; from Congress tyranny.</li>
+<li>&#8226; Cripps Mission (1942): offered dominion status after the war with a right for provinces to opt out of the Indian Union&#8212;effectively conceding the possibility of Pakistan. Both Congress and the League rejected it.</li>
+<li>&#8226; Quit India Movement (1942): Congress launched mass civil disobedience; its leadership was jailed. The League did not join and used the period to consolidate its organization.</li>
+</ul>
+<h3>B. Negotiations and Failed Compromises</h3>
+<ul>
+<li>&#8226; Gandhi-Jinnah Talks (1944): Gandhi offered the right of Muslim-majority areas to secede after independence via a plebiscite. Jinnah rejected it&#8212;he wanted Pakistan before independence, not after.</li>
+<li>&#8226; Wavell Plan / Simla Conference (1945): proposed an Executive Council with equal Hindu-Muslim representation. Jinnah insisted the League alone could nominate Muslim members; Congress rejected this claim. Conference failed.</li>
+<li>&#8226; Cabinet Mission Plan (1946): proposed a three-tier federal structure&#8212;a weak Union center, provincial groupings (Group A: Hindu-majority; Group B: Muslim-majority northwest; Group C: Muslim-majority Bengal and Assam)&#8212;explicitly rejecting Pakistan.</li>
+<li style="padding-left:2em">&#9702; Congress accepted with reservations, insisting on a strong center and the right of provinces to opt out of groups. Jinnah initially accepted but later withdrew when Nehru suggested the grouping provisions were not binding.</li>
+<li style="padding-left:2em">&#9702; The failure of the Cabinet Mission Plan made partition almost inevitable.</li>
+</ul>
+<h3>C. Direct Action Day and Communal Holocaust</h3>
+<ul>
+<li>&#8226; After the failure of the Cabinet Mission Plan, Jinnah called for &#8220;Direct Action&#8221; on 16 August 1946. The resulting Calcutta killings (&#8220;Great Calcutta Killing&#8221;) left thousands dead in four days of Hindu-Muslim violence.</li>
+<li>&#8226; Violence spread to Noakhali (Bengal), Bihar, and the Punjab in 1946&#8211;47, making communal partition appear increasingly unavoidable to all parties.</li>
+<li>&#8226; Congress agreed to join the Interim Government (September 1946) but the League also joined (October 1946) without abandoning the Pakistan demand, making the government dysfunctional.</li>
+</ul>
+<h3>D. Mountbatten Plan and Partition (1947)</h3>
+<ul>
+<li>&#8226; Mountbatten arrived as the last Viceroy in March 1947 with a mandate to transfer power by June 1948. He quickly concluded that partition was the only solution.</li>
+<li>&#8226; The 3 June Plan (1947): India and Pakistan to be created as two separate dominions; Punjab and Bengal to be partitioned; Sind, NWFP, and Baluchistan to vote on accession; transfer of power advanced to August 1947.</li>
+<li>&#8226; Congress's acceptance of partition: Nehru and Patel concluded that a &#8220;moth-eaten Pakistan&#8221; was better than a weak undivided India with League obstruction. Gandhi opposed partition but was isolated.</li>
+<li>&#8226; Indian Independence Act (July 1947): passed by British Parliament; created two dominions from 15 August 1947. Radcliffe Line divided Punjab and Bengal.</li>
+</ul>
+<h3>E. Partition Violence and Scale</h3>
+<ul>
+<li>&#8226; Partition triggered one of the largest forced migrations in history&#8212;approximately 10&#8211;12 million people crossed the new borders. An estimated 200,000&#8211;500,000 people were killed in communal violence.</li>
+<li>&#8226; Violence was worst in Punjab: systematic massacres of migrants on all sides, abduction and assault of women, destruction of villages.</li>
+<li>&#8226; Bengal partition was relatively less violent than Punjab, partly due to Gandhi's peace mission in Calcutta and Noakhali.</li>
+</ul>
+<h2>VI. Historiographical Debates</h2>
+<h3>A. Why Did Partition Happen? Major Interpretations</h3>
+<ul>
+<li>&#8226; <strong>Colonial conspiracy thesis</strong>: Partition was a British policy of divide and rule&#8212;separate electorates, communal awards, and Mountbatten's rushed timetable were deliberate tools to weaken independent India.</li>
+<li>&#8226; <strong>Muslim separatism thesis</strong> (traditional Indian nationalist view): Jinnah and the League's intransigence and communal mobilization were primarily responsible; partition was not inevitable but was made so by League politics.</li>
+<li>&#8226; <strong>Congress failure thesis</strong>: Congress's refusal to share power, rejection of the Nehru Report's Muslim amendments, and mass contact programme alienated the Muslim political class.</li>
+<li>&#8226; <strong>Structural/sociological thesis</strong> (Bandyopadhyay): Communalism had deep roots in economic competition, colonial administrative structures, and competing print cultures&#8212;partition reflected deeper social fractures, not just political miscalculation.</li>
+<li>&#8226; <strong>Subaltern/partition studies</strong> (Gyanendra Pandey, Urvashi Butalia): focus on the lived experience of ordinary people&#8212;refugees, women, minorities&#8212;rather than elite negotiations; partition as trauma and memory, not just political event.</li>
+</ul>
+<h3>B. Was Pakistan Inevitable?</h3>
+<ul>
+<li>&#8226; Ayesha Jalal argues Jinnah never genuinely wanted a fully sovereign Pakistan&#8212;the demand was a bargaining counter for maximum Muslim autonomy within a confederal India. Partition happened because Congress and the British called his bluff.</li>
+<li>&#8226; Contrary view: by 1946&#8211;47 the League had built a mass movement around the Pakistan idea; rank-and-file Muslim League members expected Pakistan as a real state, not a bargaining chip.</li>
+<li>&#8226; The failure of every compromise formula (Nehru Report, Cabinet Mission, Simla Conference) suggests that the structural incompatibility between Congress's vision of a strong unitary state and the League's demand for maximum Muslim autonomy made some form of separation likely, even if the exact form of partition was not predetermined.</li>
+</ul>`,
   'post-independence-consolidation': `<h2>Integration of Princely States</h2>
 <h3>Background</h3>
 <ul>
