@@ -7,6 +7,9 @@ const FEATURES = [
   'AI Chat Assistant',
   'Notes & Historiography',
   'PYQs & Timeline',
+  'Flashcards',
+  'Prelims Practice',
+  'Timeline',
 ];
 
 export default function WeeklyCheckup() {
@@ -76,7 +79,6 @@ export default function WeeklyCheckup() {
         background:'#111', border:'1px solid #222', borderRadius:12, padding:'32px',
         maxWidth:480, width:'100%', position:'relative',
       }}>
-        {/* Header */}
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24 }}>
           <div style={{ width:6, height:6, borderRadius:'50%', background:'#3b82f6', boxShadow:'0 0 8px #3b82f6' }} />
           <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.55rem', letterSpacing:'0.2em', color:'#3b82f6', textTransform:'uppercase' }}>Weekly Web-Checkup</span>
