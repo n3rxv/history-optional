@@ -9,7 +9,6 @@ const FEATURES = [
   'PYQs & Timeline',
   'Flashcards',
   'Prelims Practice',
-  'Timeline',
 ];
 
 export default function WeeklyCheckup() {
