@@ -21969,7 +21969,151 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
 <li>&#8226; Responsible and unbiased reporting of communal incidents in the media.</li>
 <li>&#8226; Spreading education and awareness especially among women.</li>
 </ul>`,
-  'caste-ethnicity-post-1947': ``,
+  'caste-ethnicity-post-1947': `<h2>Caste and Ethnicity after 1947</h2>
+<h2>I. Constitutional Framework and the Caste Question</h2>
+<h3>A. Ambedkar, the Constitution, and the Abolition of Untouchability</h3>
+<ul>
+<li>&#8226; B.R. Ambedkar (1891&#8211;1956), the chief architect of the Indian Constitution, was himself born into the Mahar (untouchable) caste and had experienced caste discrimination firsthand. He brought the question of caste annihilation to the center of constitutional design.</li>
+<li>&#8226; Article 17 of the Constitution abolished untouchability and made its practice in any form a punishable offence&#8212;the first time in Indian history that a legal instrument declared the millennial institution of untouchability illegal.</li>
+<li>&#8226; Articles 15 and 16 prohibited discrimination on grounds of religion, race, caste, sex, or place of birth, and guaranteed equality of opportunity in public employment.</li>
+<li>&#8226; Article 46 (Directive Principle) directed the state to promote the educational and economic interests of the Scheduled Castes (SCs), Scheduled Tribes (STs), and other weaker sections.</li>
+<li>&#8226; Articles 330&#8211;342 provided for reservation of seats in the Lok Sabha, state legislatures, and government services for SCs and STs&#8212;initially for ten years, but repeatedly extended.</li>
+<li>&#8226; Ambedkar himself was deeply pessimistic about whether formal constitutional equality could overcome social inequality: &#8220;Constitutional morality is not a natural sentiment. It has to be cultivated.&#8221; He later converted to Buddhism (1956) as a rejection of the caste Hindu social order.</li>
+</ul>
+<h3>B. The Poona Pact Legacy and Scheduled Caste Politics</h3>
+<ul>
+<li>&#8226; The Poona Pact (1932) between Gandhi and Ambedkar had replaced separate electorates for untouchables with reserved seats in joint electorates&#8212;a compromise that Ambedkar accepted under duress but always resented, as it made Dalit representatives dependent on upper-caste Hindu votes.</li>
+<li>&#8226; After independence, this structural dependency continued: SC reserved constituencies required broad-based (often upper-caste majority) support, making it difficult for genuinely Dalit-agenda candidates to win.</li>
+<li>&#8226; The Scheduled Castes Federation (later Republican Party of India, RPI, 1956) founded by Ambedkar struggled electorally precisely because of this structural problem&#8212;Dalits alone could not elect their own candidates in most constituencies.</li>
+</ul>
+<h2>II. Backward Castes in Post-Colonial Electoral Politics</h2>
+<h3>A. The Non-Brahman Movement and Its Legacy</h3>
+<ul>
+<li>&#8226; The non-Brahman movement had deep pre-independence roots: Jotirao Phule in Maharashtra (19th century), the Justice Party in Madras Presidency (1917), and Periyar E.V. Ramasamy's Self-Respect Movement in Tamil Nadu (1925) had all challenged Brahman dominance in education, employment, and social life.</li>
+<li>&#8226; In Madras Presidency, the Justice Party had already introduced reservations for non-Brahmans in government jobs and education as early as 1921&#8212;a regional precedent for what would become national policy.</li>
+<li>&#8226; Periyar's Dravidar Kazhagam (DK, 1944) and its offshoot the Dravida Munnetra Kazhagam (DMK, 1949) under C.N. Annadurai channelled non-Brahman and anti-Hindi sentiment into a powerful regional political force in Tamil Nadu.</li>
+</ul>
+<h3>B. The First Backward Classes Commission: Kaka Kalelkar (1953)</h3>
+<ul>
+<li>&#8226; The Constitution (Article 340) empowered the President to appoint a commission to investigate the conditions of socially and educationally backward classes. The first such commission, headed by Kaka Kalelkar, submitted its report in 1955.</li>
+<li>&#8226; Kalelkar Commission identified 2,399 backward castes/communities and recommended reservations in central government services and educational institutions. However, the report was largely shelved by the Nehru government, which was uncomfortable with caste-based reservations beyond SCs and STs.</li>
+<li>&#8226; Nehru's dilemma: he believed that caste-based reservations perpetuated caste consciousness rather than transcending it, yet the democratic pressure from numerically dominant OBC communities was impossible to ignore indefinitely.</li>
+</ul>
+<h3>C. State-Level OBC Mobilization (1950s&#8211;1970s)</h3>
+<ul>
+<li>&#8226; Several states moved ahead of the Centre in implementing OBC reservations. Karnataka (then Mysore) under Devaraj Urs, Tamil Nadu under DMK/AIADMK governments, and Bihar under various administrations all expanded reservations for backward castes.</li>
+<li>&#8226; The Dravidian movement&#8217;s electoral success was transformative: the DMK&#8217;s landslide victory in Tamil Nadu in 1967 (defeating the Congress for the first time) demonstrated that caste-based political mobilization of non-Brahmans and lower castes could unseat the Congress.</li>
+<li>&#8226; In Bihar and UP, the rise of intermediate/backward caste groups&#8212;Yadavs, Kurmis, Koeris in Bihar; Yadavs, Kurmis, Lodhs in UP&#8212;within the Congress organization during the 1960s began fragmenting Congress&#8217;s catch-all coalition.</li>
+<li>&#8226; The 1967 elections were a watershed: Congress suffered significant reverses in several states, partly due to defections of backward caste voters and politicians to opposition parties (Socialists, BKD, Jan Sangh).</li>
+</ul>
+<h3>D. Mandal Commission and the OBC Revolution (1979&#8211;1990)</h3>
+<ul>
+<li>&#8226; The Second Backward Classes Commission, headed by B.P. Mandal, was appointed by the Janata Party government in 1979. It submitted its report in 1980, identifying 3,743 OBC castes constituting 52% of India&#8217;s population and recommending 27% reservation in central government jobs and educational institutions for OBCs.</li>
+<li>&#8226; The report was shelved by successive Congress governments (Indira Gandhi and Rajiv Gandhi) for a decade, as Congress feared alienating its upper-caste and Muslim support base.</li>
+<li>&#8226; V.P. Singh's government announced the implementation of Mandal Commission recommendations in August 1990&#8212;a politically explosive decision. Upper-caste students across north India erupted in violent protests; several students immolated themselves.</li>
+<li>&#8226; In <em>Indra Sawhney v. Union of India</em> (1992), the Supreme Court upheld OBC reservations but capped total reservations at 50%, excluded the &#8220;creamy layer&#8221; (better-off OBCs) from benefits, and rejected reservations in promotions.</li>
+<li>&#8226; Mandal&#8217;s political consequences were profound: it permanently fractured north Indian politics along caste lines, accelerated the rise of OBC-led parties (Samajwadi Party, RJD, JD-U), and ended Congress&#8217;s hegemony in the Hindi belt.</li>
+</ul>
+<h3>E. Rise of OBC Political Parties</h3>
+<ul>
+<li>&#8226; Lohia&#8217;s socialism and OBC politics: Ram Manohar Lohia (1910&#8211;1967) was the ideological godfather of OBC political assertion. He coined the slogan &#8220;<em>Pichde paaven sau mein saath</em>&#8221; (backward castes should get sixty out of hundred) and argued that caste was the most important axis of Indian social inequality.</li>
+<li>&#8226; Janata Dal and its fragments: the Janata Party (1977) and later Janata Dal (1988) were coalitions heavily dependent on OBC support. Their fragmentation produced the major OBC parties: Samajwadi Party (Mulayam Singh Yadav, UP, 1992), Rashtriya Janata Dal (Lalu Prasad Yadav, Bihar, 1997), and Janata Dal (United) (Bihar).</li>
+<li>&#8226; These parties practised &#8220;social justice&#8221; politics&#8212;combining OBC reservations, symbolic representation, and rhetoric of Dalit-OBC-Muslim solidarity against upper-caste dominance.</li>
+<li>&#8226; The Yadavization of OBC politics: Yadavs (the most politically organized OBC group in UP and Bihar) disproportionately dominated OBC politics, leading smaller OBC communities to sometimes seek alternative political patrons.</li>
+</ul>
+<h2>III. Dalit Movements after 1947</h2>
+<h3>A. Ambedkar&#8217;s Legacy and the Republican Party of India</h3>
+<ul>
+<li>&#8226; After Ambedkar&#8217;s death (1956), the Scheduled Castes Federation was transformed into the Republican Party of India (RPI, 1956). The RPI remained weak electorally because Dalits were a minority in most constituencies and internal factionalism was severe.</li>
+<li>&#8226; The Mahad Satyagraha (1927) and Ambedkar&#8217;s burning of Manusmriti became foundational myths of the Dalit movement&#8212;symbols of asserting dignity and rejecting the Hindu sacred order.</li>
+<li>&#8226; Mass Buddhist conversion (1956): Ambedkar led approximately 500,000 followers in conversion to Buddhism at Nagpur. This Navayana (&#8220;new vehicle&#8221;) Buddhism was explicitly anti-caste and egalitarian&#8212;a rejection of Hinduism rather than a spiritual search.</li>
+</ul>
+<h3>B. The Dalit Panthers (1972)</h3>
+<ul>
+<li>&#8226; Founded in Maharashtra in 1972 by Namdeo Dhasal, Raja Dhale, and J.V. Pawar, the Dalit Panthers drew inspiration from the American Black Panther Party and Ambedkarite ideology.</li>
+<li>&#8226; Context: despite constitutional protections, atrocities against Dalits continued&#8212;the Marathwada riots (1978) against renaming Marathwada University after Ambedkar exposed the depth of upper-caste hostility.</li>
+<li>&#8226; The Panthers demanded not just legal rights but radical social transformation: their manifesto defined Dalits broadly to include SCs, STs, landless agricultural labourers, women, and all exploited people.</li>
+<li>&#8226; They pioneered Dalit literature (<em>Dalit Sahitya</em>) as a movement&#8212;using poetry, autobiography, and fiction to document caste oppression from the perspective of the oppressed. Namdeo Dhasal&#8217;s poetry and Baburao Bagul&#8217;s stories became iconic.</li>
+<li>&#8226; Internal divisions (between those aligning with left parties and those insisting on Ambedkarite autonomy) led to fragmentation by the late 1970s.</li>
+</ul>
+<h3>C. The BSP and Electoral Dalit Politics</h3>
+<ul>
+<li>&#8226; Kanshi Ram (1934&#8211;2006) developed a new strategy for Dalit political empowerment. He founded BAMCEF (1973)&#8212;an organization of SC/ST/OBC government employees&#8212;and DS-4 (1981) before forming the Bahujan Samaj Party (BSP) in 1984.</li>
+<li>&#8226; Kanshi Ram&#8217;s insight: Dalits needed their own political party rather than depending on Congress or left parties. His slogan &#8220;<em>Vote hamara, raj tumhara&#8221;</em> (Our votes, your rule) captured the exploitation of Dalit votes by upper-caste-dominated parties.</li>
+<li>&#8226; Mayawati (b. 1956) took over BSP leadership and built it into a formidable force in UP. Her strategy evolved from pure Dalit assertion (&#8220;Tilak, Tarazu aur Talwar, inko maaro joote chaar&#8221;&#8212;targeting Brahmans, Banias, Rajputs) to <em>sarvajan</em> (all people) coalition-building that included Brahman voters.</li>
+<li>&#8226; BSP&#8217;s electoral milestones in UP: first minority government (1995, 13 days), second government (1997, with BJP support), and historic absolute majority (2007) with 206/403 seats&#8212;the first time a Dalit-led party won an outright majority in any major Indian state.</li>
+<li>&#8226; The BSP model was simultaneously a caste movement and an electoral machine&#8212;it organized through <em>sahebji</em> meetings, cadre discipline, and financial self-reliance (&#8220;pay and vote&#8221;).</li>
+</ul>
+<h3>D. Anti-Caste Violence and the Legal Response</h3>
+<ul>
+<li>&#8226; Despite legal protections, caste-based atrocities persisted. Major incidents: Kilvenmani massacre (Tamil Nadu, 1968)&#8212;42 Dalit agricultural labourers burned alive by landlords; Belchi massacre (Bihar, 1977)&#8212;landless Dalit labourers killed by upper-caste landlords; Tsundur massacre (Andhra Pradesh, 1991).</li>
+<li>&#8226; The Protection of Civil Rights Act (1955, amended 1976) and the Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Act (1989) were legislative responses. The 1989 Act created special courts and defined a wide range of offences as atrocities against SCs/STs.</li>
+<li>&#8226; Implementation remained weak: conviction rates under the Atrocities Act have historically been very low, and police and local administration (often upper-caste dominated) were frequently complicit in covering up crimes.</li>
+</ul>
+<h3>E. Dalit Feminism and Intersectionality</h3>
+<ul>
+<li>&#8226; Dalit women faced double discrimination&#8212;as Dalits (caste) and as women (gender)&#8212;which mainstream feminist movements dominated by upper-caste women often failed to address.</li>
+<li>&#8226; The National Federation of Dalit Women (1995) and various state-level organizations highlighted the specific vulnerabilities of Dalit women: sexual violence by upper-caste men as a tool of caste assertion, exclusion from mainstream women&#8217;s organizations, and denial of land rights.</li>
+<li>&#8226; The Bhanwari Devi case (Rajasthan, 1992)&#8212;a Dalit woman gang-raped by upper-caste men for preventing a child marriage&#8212;became a landmark in highlighting the nexus of caste, gender, and state failure. The case led eventually to the Vishaka guidelines on sexual harassment.</li>
+</ul>
+<h2>IV. Tribal (Adivasi) Politics and Movements</h2>
+<h3>A. Constitutional Provisions and the Fifth/Sixth Schedules</h3>
+<ul>
+<li>&#8226; The Constitution provided special protections for tribal areas through the Fifth Schedule (for most tribal areas) and Sixth Schedule (for tribal areas in the northeast). These gave tribal advisory councils and governors special powers over land alienation and administration.</li>
+<li>&#8226; The Panchsheel for tribal policy: Nehru&#8217;s five principles (Panchsheel) for tribal development emphasized developing tribals along their own lines, not imposing outside values, and training tribal people for administration of their own areas. In practice, these ideals were frequently violated by development projects, forest laws, and contractor interests.</li>
+</ul>
+<h3>B. Tribal Displacement and the Development Paradox</h3>
+<ul>
+<li>&#8226; Large dams, mines, industries, and wildlife sanctuaries displaced tribal populations disproportionately. Nehru&#8217;s famous statement that &#8220;dams are the temples of modern India&#8221; sat uneasily with the reality that tribals paid the highest price for these &#8220;temples.&#8221;</li>
+<li>&#8226; By 1990, an estimated 21.3 million people had been displaced by development projects since independence, of whom 40% were tribals (though tribals were only 8% of the population)&#8212;the phenomenon Walter Fernandes called &#8220;development-induced displacement.&#8221;</li>
+<li>&#8226; Forests: the Forest Conservation Act (1980) and earlier forest laws restricted tribal rights over forest produce, grazing, and cultivation&#8212;criminalizing traditional livelihoods. The Scheduled Tribes and Other Traditional Forest Dwellers (Recognition of Forest Rights) Act (2006) was a belated attempt to address this.</li>
+</ul>
+<h3>C. Naxalism and Tribal Insurgency</h3>
+<ul>
+<li>&#8226; The Naxalbari uprising (1967) in the Darjeeling district of West Bengal&#8212;led by Charu Mazumdar and Kanu Sanyal&#8212;was triggered by the struggle of tribal sharecroppers (mainly Santhal and Rajbanshi) against landlords. It gave birth to the Naxalite movement.</li>
+<li>&#8226; Naxalism spread to tribal areas of Andhra Pradesh (Srikakulam, 1968&#8211;70), Bihar, and later Chhattisgarh, Jharkhand, and Odisha&#8212;the so-called &#8220;Red Corridor.&#8221; In these areas, tribal landlessness, forest displacement, and police/landlord oppression provided fertile ground for Maoist mobilization.</li>
+<li>&#8226; The CPI(Maoist) (formed 2004 by merger of PWG and MCC) represented the culmination of this trajectory&#8212;an armed insurgency drawing heavily on tribal grievances in central and eastern India.</li>
+</ul>
+<h3>D. Separate Statehood Movements</h3>
+<ul>
+<li>&#8226; The demand for separate tribal states reflected the failure of mainstream state governments to address tribal interests. Jharkhand (separated from Bihar, 2000), Chhattisgarh (from Madhya Pradesh, 2000), and Uttarakhand (from UP, 2000) were created partly in response to regional and tribal aspirations.</li>
+<li>&#8226; Earlier, Nagaland (1963), Meghalaya (1972), Mizoram (1987), and Arunachal Pradesh (1987) were carved out of Assam to accommodate northeast tribal identities&#8212;often after prolonged armed insurgencies.</li>
+<li>&#8226; Jharkhand movement: the Jharkhand Mukti Morcha (JMM) under Shibu Soren mobilized Adivasis (Santhal, Munda, Ho, Oraon) against Diku (outsider) exploitation of their land and resources since the 1970s.</li>
+</ul>
+<h3>E. Northeast Tribal Ethnicity and Armed Insurgency</h3>
+<ul>
+<li>&#8226; The northeast presents the most complex picture of ethnic identity and armed politics in India. Naga nationalism (Naga National Council, later NSCN) asserted a distinct Naga identity separate from India&#8212;leading to decades of armed insurgency from 1956 onwards.</li>
+<li>&#8226; The Mizo National Front (MNF) under Laldenga launched an armed uprising in 1966; it was resolved through the Mizo Accord (1986), granting Mizoram statehood and incorporating the MNF into mainstream politics.</li>
+<li>&#8226; The Armed Forces Special Powers Act (AFSPA, 1958)&#8212;applied to &#8220;disturbed areas&#8221; in the northeast (and later Kashmir)&#8212;gave the military sweeping powers including immunity from prosecution. It became a symbol of the Indian state&#8217;s militarized response to ethnic insurgency and a major human rights concern.</li>
+<li>&#8226; The Bodo movement in Assam sought a separate homeland (Bodoland) for the Bodo tribal community; partly addressed through the Bodoland Territorial Council (2003) under the Sixth Schedule.</li>
+</ul>
+<h2>V. Caste in Electoral Democracy: Patterns and Debates</h2>
+<h3>A. Caste and Voting Behavior</h3>
+<ul>
+<li>&#8226; The relationship between caste and voting in India has been described by Rajni Kothari as &#8220;not politics in caste but caste in politics&#8221;&#8212;meaning that caste became a medium through which democratic competition was organized, rather than democracy simply reproducing traditional caste hierarchies.</li>
+<li>&#8226; Political parties in India have systematically constructed &#8220;caste arithmetic&#8221;&#8212;ticket distribution, coalition formation, and policy promises designed around caste calculations. The &#8220;KHAM&#8221; strategy in Gujarat (Kshatriyas, Harijans, Adivasis, Muslims) and &#8220;MY&#8221; factor in UP (Muslims and Yadavs) are classic examples.</li>
+<li>&#8226; Kothari&#8217;s &#8220;dominant caste&#8221; concept: in many districts and states, a single numerically large and economically powerful caste (Jats in western UP/Haryana, Marathas in Maharashtra, Reddys and Kammas in Andhra Pradesh, Patidars in Gujarat, Vokkaligas and Lingayats in Karnataka, Yadavs in Bihar/UP) dominated local politics.</li>
+</ul>
+<h3>B. The &#8220;Sanskritization&#8221; Debate and Democratic Assertion</h3>
+<ul>
+<li>&#8226; M.N. Srinivas&#8217;s concept of &#8220;Sanskritization&#8221; (1952) described how lower castes sought upward mobility by adopting the customs, rituals, and lifestyles of upper castes. This was a form of positional mobility within the caste system without challenging the system itself.</li>
+<li>&#8226; Democratic politics created a different logic: rather than imitating upper castes, OBC and Dalit communities began asserting their own identities with pride. Phule-Ambedkar ideology replaced Sanskritization as the dominant mode of lower-caste self-assertion by the 1970s&#8211;80s.</li>
+<li>&#8226; The &#8220;silent revolution&#8221; (Jaffrelot): the rise of OBC and Dalit politicians to power&#8212;through elections, reservations, and party politics&#8212;represented a transformation of India&#8217;s power structure from below, which Christophe Jaffrelot called India&#8217;s &#8220;silent revolution.&#8221;</li>
+</ul>
+<h3>C. Limits of Political Empowerment</h3>
+<ul>
+<li>&#8226; Political representation did not automatically translate into economic equality. Dalit and OBC politicians often operated within the same structures of patronage and corruption as upper-caste politicians, and the most marginalized within these communities often saw little improvement.</li>
+<li>&#8226; The &#8220;creamy layer&#8221; problem: within OBC and even SC communities, the benefits of reservations were often captured by the more educated and already better-off sections, leaving the most disadvantaged untouched.</li>
+<li>&#8226; Caste atrocities continued despite political empowerment: the Khairlanji massacre (Maharashtra, 2006)&#8212;in which a Dalit family was murdered by dominant OBC villagers&#8212;demonstrated that caste violence was not an exclusively upper-caste phenomenon.</li>
+</ul>
+<h2>VI. Historiographical Perspectives</h2>
+<ul>
+<li>&#8226; <strong>Liberal-nationalist view</strong> (Nehru era): caste was a pre-modern survival that modernization, education, and economic development would gradually dissolve. Reservations were a temporary corrective, not a permanent feature.</li>
+<li>&#8226; <strong>Ambedkarite view</strong>: caste is the foundational structure of Hindu society, not a peripheral feature. It cannot be reformed from within Hinduism; it must be annihilated. Political power for Dalits is necessary but insufficient without social and economic transformation.</li>
+<li>&#8226; <strong>Subaltern Studies</strong> (Ranajit Guha, Partha Chatterjee): focused on recovering the voices and agency of the marginalized&#8212;peasants, tribals, Dalits&#8212;from elite-dominated historical narratives. Critiqued nationalist historiography for its silence on caste and tribal oppression.</li>
+<li>&#8226; <strong>Jaffrelot&#8217;s &#8220;silent revolution&#8221;</strong>: the rise of lower-caste groups to political power in the 1990s was the most significant social transformation of post-independence India&#8212;more consequential than the Emergency or economic liberalization in terms of restructuring social power.</li>
+<li>&#8226; <strong>Gail Omvedt</strong>: Dalits and OBCs represent an anti-caste tradition (Phule-Ambedkar-Periyar) that is distinct from and often in conflict with both Hindu nationalism and upper-caste secular nationalism. This tradition needs to be recovered as an autonomous political and intellectual current.</li>
+</ul>`,
   'economic-development-political-change': `<h2>Land Revenue Reforms</h2>
 <p>Earlier, the Permanent Settlement was guided by mercantilist interest. However, in the early decades of the 19th century, India was being developed as a British commodity market.</p>
 <p>In this era, new revenue arrangements viz. Ryotwari and Mahalwari systems were developed during this period to suit the changed requirements of the British government. Permanent settlement was not expanded to other areas. Now, the British adjusted the revenue-strategy according to the special characteristics of the agrarian structure in each region.</p>
