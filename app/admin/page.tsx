@@ -769,11 +769,11 @@ function NotificationsManager({ token }: { token: string }) {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({ title: '', link: '', type: 'announcement' });
   const [msg, setMsg] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState({ title: '', link: '', type: 'announcement' });
+  const [editSaving, setEditSaving] = useState(false);
 
-  const flash = (m: string, err = false) => {
-    setMsg(m);
-    setTimeout(() => setMsg(''), 3000);
-  };
+  const flash = (m: string) => { setMsg(m); setTimeout(() => setMsg(''), 3000); };
 
   const load = async () => {
     setLoading(true);
@@ -795,13 +795,8 @@ function NotificationsManager({ token }: { token: string }) {
     });
     const data = await res.json();
     setSaving(false);
-    if (data.ok) {
-      setForm({ title: '', link: '', type: 'announcement' });
-      flash('✓ Notification added');
-      load();
-    } else {
-      flash('⚠ Failed to add');
-    }
+    if (data.ok) { setForm({ title: '', link: '', type: 'announcement' }); flash('✓ Notification added'); load(); }
+    else flash('⚠ Failed to add');
   };
 
   const remove = async (id: string) => {
@@ -814,8 +809,34 @@ function NotificationsManager({ token }: { token: string }) {
     setNotifications(n => n.filter(x => x.id !== id));
   };
 
+  const startEdit = (n: {id:string,title:string,link:string,type:string,created_at:string}) => {
+    setEditingId(n.id);
+    setEditForm({ title: n.title, link: n.link, type: n.type });
+  };
+
+  const cancelEdit = () => { setEditingId(null); };
+
+  const saveEdit = async (id: string) => {
+    if (!editForm.title.trim() || !editForm.link.trim()) { flash('Title and link are required'); return; }
+    setEditSaving(true);
+    const res = await fetch('/api/notifications-admin', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify({ id, ...editForm }),
+    });
+    const data = await res.json();
+    setEditSaving(false);
+    if (data.ok) {
+      setNotifications(ns => ns.map(n => n.id === id ? { ...n, ...editForm } : n));
+      setEditingId(null);
+      flash('✓ Updated');
+    } else flash('⚠ Failed to update');
+  };
+
   const typeIcon = (t: string) => t === 'note' ? '📄' : t === 'current_affairs' ? '📰' : '📢';
   const typeColor = (t: string) => t === 'note' ? '#4ecdc4' : t === 'current_affairs' ? '#74c0fc' : '#d4a843';
+
+  const inputStyle: React.CSSProperties = { padding: '7px 10px', borderRadius: 6, background: '#111', border: '1px solid #2a2a2a', color: '#e0e0e0', fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box' };
 
   return (
     <div style={{ padding: 24, maxWidth: 720 }}>
@@ -825,34 +846,21 @@ function NotificationsManager({ token }: { token: string }) {
       <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 10, padding: '18px 20px', marginBottom: 24 }}>
         <div style={{ color: '#555', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 14 }}>New Notification</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <input
-            value={form.title}
-            onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-            placeholder="Title — e.g. New notes: Bhakti Movement added"
-            style={{ padding: '9px 12px', borderRadius: 7, background: '#111', border: '1px solid #2a2a2a', color: '#e0e0e0', fontSize: '0.88rem', outline: 'none', width: '100%', boxSizing: 'border-box' }}
-          />
+          <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="Title — e.g. New notes: Bhakti Movement added"
+            style={{ ...inputStyle, width: '100%' }} />
           <div style={{ display: 'flex', gap: 10 }}>
-            <input
-              value={form.link}
-              onChange={e => setForm(f => ({ ...f, link: e.target.value }))}
-              placeholder="Link — e.g. /notes/bhakti-movement"
-              style={{ flex: 1, padding: '9px 12px', borderRadius: 7, background: '#111', border: '1px solid #2a2a2a', color: '#e0e0e0', fontSize: '0.88rem', outline: 'none', boxSizing: 'border-box' }}
-            />
-            <select
-              value={form.type}
-              onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
-              style={{ padding: '9px 12px', borderRadius: 7, background: '#111', border: '1px solid #2a2a2a', color: '#e0e0e0', fontSize: '0.88rem', outline: 'none', cursor: 'pointer' }}
-            >
+            <input value={form.link} onChange={e => setForm(f => ({ ...f, link: e.target.value }))} placeholder="Link — e.g. /notes/bhakti-movement"
+              style={{ ...inputStyle, flex: 1 }} />
+            <select value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
+              style={{ ...inputStyle, cursor: 'pointer' }}>
               <option value="announcement">📢 Announcement</option>
               <option value="note">📄 Note</option>
               <option value="current_affairs">📰 Current Affairs</option>
             </select>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <button
-              onClick={add} disabled={saving}
-              style={{ padding: '9px 22px', borderRadius: 7, cursor: saving ? 'default' : 'pointer', fontSize: '0.85rem', fontWeight: 600, background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.4)', color: '#d4a843', opacity: saving ? 0.7 : 1 }}
-            >
+            <button onClick={add} disabled={saving}
+              style={{ padding: '9px 22px', borderRadius: 7, cursor: saving ? 'default' : 'pointer', fontSize: '0.85rem', fontWeight: 600, background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.4)', color: '#d4a843', opacity: saving ? 0.7 : 1 }}>
               {saving ? 'Adding...' : '+ Add Notification'}
             </button>
             {msg && <span style={{ fontSize: '0.8rem', color: msg.startsWith('✓') ? '#51cf66' : '#f87171' }}>{msg}</span>}
@@ -868,7 +876,36 @@ function NotificationsManager({ token }: { token: string }) {
       ) : (
         <div>
           <div style={{ color: '#555', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>{notifications.length} notifications</div>
-          {notifications.map(n => (
+          {notifications.map(n => editingId === n.id ? (
+            // ── EDIT ROW ──
+            <div key={n.id} style={{ background: '#0d0d0d', border: '1px solid #2a2a2a', borderRadius: 8, padding: '12px 14px', marginBottom: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <input value={editForm.title} onChange={e => setEditForm(f => ({ ...f, title: e.target.value }))}
+                  placeholder="Title" style={{ ...inputStyle, width: '100%' }} autoFocus />
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <input value={editForm.link} onChange={e => setEditForm(f => ({ ...f, link: e.target.value }))}
+                    placeholder="Link" style={{ ...inputStyle, flex: 1 }} />
+                  <select value={editForm.type} onChange={e => setEditForm(f => ({ ...f, type: e.target.value }))}
+                    style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <option value="announcement">📢 Announcement</option>
+                    <option value="note">📄 Note</option>
+                    <option value="current_affairs">📰 Current Affairs</option>
+                  </select>
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button onClick={() => saveEdit(n.id)} disabled={editSaving}
+                    style={{ padding: '6px 16px', borderRadius: 6, cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600, background: 'rgba(81,207,102,0.12)', border: '1px solid rgba(81,207,102,0.3)', color: '#51cf66' }}>
+                    {editSaving ? 'Saving…' : '✓ Save'}
+                  </button>
+                  <button onClick={cancelEdit}
+                    style={{ padding: '6px 14px', borderRadius: 6, cursor: 'pointer', fontSize: '0.82rem', background: 'transparent', border: '1px solid #2a2a2a', color: '#555' }}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            // ── VIEW ROW ──
             <div key={n.id} style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 8, padding: '12px 16px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{typeIcon(n.type)}</span>
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -879,6 +916,10 @@ function NotificationsManager({ token }: { token: string }) {
                   <span style={{ color: '#333', fontSize: '0.7rem', marginLeft: 'auto' }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                 </div>
               </div>
+              <button onClick={() => startEdit(n)}
+                style={{ padding: '4px 10px', borderRadius: 5, cursor: 'pointer', fontSize: '0.78rem', background: 'rgba(130,130,255,0.08)', border: '1px solid rgba(130,130,255,0.2)', color: '#818cf8', flexShrink: 0 }}>
+                ✎
+              </button>
               <button onClick={() => remove(n.id)}
                 style={{ padding: '4px 10px', borderRadius: 5, cursor: 'pointer', fontSize: '0.78rem', background: 'rgba(255,80,80,0.08)', border: '1px solid rgba(255,80,80,0.2)', color: '#ff8080', flexShrink: 0 }}>
                 ✕
