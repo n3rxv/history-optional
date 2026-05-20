@@ -1,16 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/supabase';
-
-async function verifyAdmin(req: NextRequest) {
-  const token = req.headers.get('x-admin-token');
-  if (!token) return false;
-  const db = createServerClient();
-  const { data } = await db.from('admin_tokens').select('token').eq('token', token).single();
-  return !!data;
-}
+import { isAdminAuthed } from '@/lib/admin-auth';
 
 export async function GET(req: NextRequest) {
-  if (!await verifyAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!isAdminAuthed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const db = createServerClient();
   const { data, error } = await db
     .from('notifications')
@@ -21,7 +14,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!await verifyAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!isAdminAuthed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { title, link, type } = await req.json();
   if (!title || !link) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
   const db = createServerClient();
@@ -31,7 +24,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!await verifyAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!isAdminAuthed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await req.json();
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
   const db = createServerClient();
