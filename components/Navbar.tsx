@@ -443,7 +443,6 @@ export default function Navbar() {
             .mobile-menu-btn { display: flex !important; }
           }
         `}</style>
-        </div>
       </nav>
 
       {showPremiumModal && (
