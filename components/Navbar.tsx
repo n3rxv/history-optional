@@ -135,7 +135,6 @@ export default function Navbar() {
       if (notesRef.current && !notesRef.current.contains(e.target as Node)) setNotesMenuOpen(false);
       if (pyqsRef.current && !pyqsRef.current.contains(e.target as Node)) setPyqsMenuOpen(false);
       if (bellRef.current && !bellRef.current.contains(e.target as Node)) setBellOpen(false);
-      if (bellRef.current && !bellRef.current.contains(e.target as Node)) setBellOpen(false);
     };
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
@@ -143,10 +142,6 @@ export default function Navbar() {
   }, []);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [noSubFound, setNoSubFound] = useState(false);
-  const [notifications, setNotifications] = useState<{id:string,title:string,link:string,type:string,created_at:string}[]>([]);
-  const [bellOpen, setBellOpen] = useState(false);
-  const [seenIds, setSeenIds] = useState<string[]>([]);
-  const bellRef = useRef<HTMLDivElement>(null);
   const [notifications, setNotifications] = useState<{id:string,title:string,link:string,type:string,created_at:string}[]>([]);
   const [bellOpen, setBellOpen] = useState(false);
   const [seenIds, setSeenIds] = useState<string[]>([]);
@@ -172,14 +167,6 @@ export default function Navbar() {
         })();
       }
     }
-  }, []);
-
-  useEffect(() => {
-    supabase.from('notifications').select('*').order('created_at', { ascending: false }).limit(15).then(({ data }) => {
-      if (data) setNotifications(data);
-    });
-    const saved = localStorage.getItem('ho_seen_notifications');
-    if (saved) setSeenIds(JSON.parse(saved));
   }, []);
 
   useEffect(() => {
