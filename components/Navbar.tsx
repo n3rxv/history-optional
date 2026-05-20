@@ -375,7 +375,7 @@ export default function Navbar() {
         </div>
         {/* Mobile bell dropdown */}
         {bellOpen && (
-          <div style={{ position:'fixed', top:72, right:16, background:'#111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:10, minWidth:280, maxWidth:'calc(100vw - 32px)', zIndex:1200, boxShadow:'0 12px 40px rgba(0,0,0,0.7)', overflow:'hidden' }}>
+          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:72, right:16, background:'#111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:10, minWidth:280, maxWidth:'calc(100vw - 32px)', zIndex:1200, boxShadow:'0 12px 40px rgba(0,0,0,0.7)', overflow:'hidden' }}>
             <div style={{ padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,0.06)', fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', color:'#555', textTransform:'uppercase' }}>Notifications</div>
             {notifications.length === 0 ? (
               <div style={{ padding:'20px 14px', fontSize:'0.82rem', color:'#444', textAlign:'center' }}>No notifications yet</div>
@@ -428,6 +428,10 @@ export default function Navbar() {
           @media (max-width: 900px) {
             .desktop-nav { display: none !important; }
             .mobile-menu-btn { display: flex !important; }
+            .mobile-bell-dropdown { display: block !important; }
+          }
+          @media (min-width: 901px) {
+            .mobile-bell-dropdown { display: none !important; }
           }
         `}</style>
       </nav>
