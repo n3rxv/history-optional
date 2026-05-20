@@ -134,6 +134,7 @@ export default function Navbar() {
     const handler = (e: MouseEvent | TouchEvent) => {
       if (notesRef.current && !notesRef.current.contains(e.target as Node)) setNotesMenuOpen(false);
       if (pyqsRef.current && !pyqsRef.current.contains(e.target as Node)) setPyqsMenuOpen(false);
+      if (bellRef.current && !bellRef.current.contains(e.target as Node)) setBellOpen(false);
     };
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
@@ -141,6 +142,10 @@ export default function Navbar() {
   }, []);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [noSubFound, setNoSubFound] = useState(false);
+  const [notifications, setNotifications] = useState<{id:string,title:string,link:string,type:string,created_at:string}[]>([]);
+  const [bellOpen, setBellOpen] = useState(false);
+  const [seenIds, setSeenIds] = useState<string[]>([]);
+  const bellRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof sessionStorage !== 'undefined') {
@@ -162,6 +167,14 @@ export default function Navbar() {
         })();
       }
     }
+  }, []);
+
+  useEffect(() => {
+    supabase.from('notifications').select('*').order('created_at', { ascending: false }).limit(15).then(({ data }) => {
+      if (data) setNotifications(data);
+    });
+    const saved = localStorage.getItem('ho_seen_notifications');
+    if (saved) setSeenIds(JSON.parse(saved));
   }, []);
 
   useEffect(() => {
@@ -257,6 +270,55 @@ export default function Navbar() {
             </Link>
 
             <SearchModal />
+
+            {/* Bell */}
+            <div ref={bellRef} style={{ position: 'relative' }}>
+              <button onClick={() => {
+                setBellOpen(o => !o);
+                if (!bellOpen) {
+                  const allIds = notifications.map(n => n.id);
+                  setSeenIds(allIds);
+                  localStorage.setItem('ho_seen_notifications', JSON.stringify(allIds));
+                }
+              }} style={{ display:'flex', alignItems:'center', justifyContent:'center', width:30, height:30, borderRadius:6, background:'none', border:'none', cursor:'pointer', color:'rgba(255,255,255,0.35)', position:'relative', transition:'color 0.15s' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)'; }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
+                  <span style={{ position:'absolute', top:4, right:4, width:7, height:7, borderRadius:'50%', background:'#f87171', border:'1.5px solid #000' }} />
+                )}
+              </button>
+              {bellOpen && (
+                <div style={{ position:'absolute', top:'calc(100% + 8px)', right:0, background:'#111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:10, minWidth:280, maxWidth:320, zIndex:1000, boxShadow:'0 12px 40px rgba(0,0,0,0.7)', overflow:'hidden' }}>
+                  <div style={{ padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,0.06)', fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', color:'#555', textTransform:'uppercase' }}>Notifications</div>
+                  {notifications.length === 0 ? (
+                    <div style={{ padding:'20px 14px', fontSize:'0.82rem', color:'#444', textAlign:'center' }}>No notifications yet</div>
+                  ) : (
+                    <div style={{ maxHeight:360, overflowY:'auto' }}>
+                      {notifications.map(n => (
+                        <a key={n.id} href={n.link} onClick={() => setBellOpen(false)} style={{ display:'block', padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,0.04)', textDecoration:'none', transition:'background 0.12s' }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
+                          <div style={{ display:'flex', alignItems:'flex-start', gap:8 }}>
+                            <span style={{ fontSize:'0.65rem', marginTop:2, opacity:0.5 }}>
+                              {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
+                            </span>
+                            <div>
+                              <div style={{ fontSize:'0.82rem', color:'#e2e8f0', lineHeight:1.4 }}>{n.title}</div>
+                              <div style={{ fontSize:'0.68rem', color:'#444', marginTop:2 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short' })}</div>
+                            </div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
           <span className="hide-md"><ThemeCustomizer /></span>
 
             {/* Auth / Premium */}
