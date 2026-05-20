@@ -385,6 +385,7 @@ export default function Navbar() {
               }
             </button>
           </div>
+        </div>
         {/* Mobile bell dropdown */}
         {bellOpen && (
           <div style={{ position:'fixed', top:72, right:16, background:'#111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:10, minWidth:280, maxWidth:'calc(100vw - 32px)', zIndex:1200, boxShadow:'0 12px 40px rgba(0,0,0,0.7)', overflow:'hidden' }}>
@@ -442,6 +443,7 @@ export default function Navbar() {
             .mobile-menu-btn { display: flex !important; }
           }
         `}</style>
+        </div>
       </nav>
 
       {showPremiumModal && (
