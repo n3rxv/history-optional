@@ -301,29 +301,45 @@ export default function Navbar() {
                 )}
               </button>
               {bellOpen && (
-                <div style={{ position:'absolute', top:'calc(100% + 8px)', right:0, background:'#111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:10, minWidth:280, maxWidth:320, zIndex:1000, boxShadow:'0 12px 40px rgba(0,0,0,0.7)', overflow:'hidden' }}>
-                  <div style={{ padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,0.06)', fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', color:'#555', textTransform:'uppercase' }}>Notifications</div>
+                <div style={{ position:'absolute', top:'calc(100% + 12px)', right:-8, background:'rgba(8,8,12,0.96)', backdropFilter:'blur(24px)', WebkitBackdropFilter:'blur(24px)', border:'1px solid rgba(99,102,241,0.2)', borderRadius:16, minWidth:300, maxWidth:340, zIndex:1000, boxShadow:'0 0 0 1px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(99,102,241,0.08)', overflow:'hidden', animation:'bellDrop 0.18s cubic-bezier(0.16,1,0.3,1)' }}>
+                  <div style={{ padding:'12px 16px 10px', borderBottom:'1px solid rgba(255,255,255,0.05)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+                    <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+                      <div style={{ width:5, height:5, borderRadius:'50%', background:'#6366f1', boxShadow:'0 0 8px #6366f1' }} />
+                      <span style={{ fontSize:'0.55rem', fontFamily:'var(--font-mono)', letterSpacing:'0.2em', color:'#6366f1', textTransform:'uppercase' }}>Notifications</span>
+                    </div>
+                    {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
+                      <span style={{ fontSize:'0.55rem', fontFamily:'var(--font-mono)', color:'#f87171', letterSpacing:'0.1em' }}>{notifications.filter(n => !seenIds.includes(n.id)).length} NEW</span>
+                    )}
+                  </div>
                   {notifications.length === 0 ? (
-                    <div style={{ padding:'20px 14px', fontSize:'0.82rem', color:'#444', textAlign:'center' }}>No notifications yet</div>
+                    <div style={{ padding:'28px 16px', fontSize:'0.82rem', color:'#333', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.05em' }}>— empty —</div>
                   ) : (
-                    <div style={{ maxHeight:360, overflowY:'auto' }}>
-                      {notifications.map(n => (
-                        <a key={n.id} href={n.link} onClick={() => setBellOpen(false)} style={{ display:'block', padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,0.04)', textDecoration:'none', transition:'background 0.12s' }}
-                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; }}
-                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
-                          <div style={{ display:'flex', alignItems:'flex-start', gap:8 }}>
-                            <span style={{ fontSize:'0.65rem', marginTop:2, opacity:0.5 }}>
-                              {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
-                            </span>
-                            <div>
-                              <div style={{ fontSize:'0.82rem', color:'#e2e8f0', lineHeight:1.4 }}>{n.title}</div>
-                              <div style={{ fontSize:'0.68rem', color:'#444', marginTop:2 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short' })}</div>
+                    <div style={{ maxHeight:380, overflowY:'auto' }}>
+                      {notifications.map(n => {
+                        const seen = seenIds.includes(n.id);
+                        return (
+                          <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }}
+                            style={{ display:'block', padding:'12px 16px', borderBottom:'1px solid rgba(255,255,255,0.03)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.05)', position:'relative', transition:'background 0.15s' }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = seen ? 'transparent' : 'rgba(99,102,241,0.05)'; }}>
+                            {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:2, background:'linear-gradient(180deg,#6366f1,#8b5cf6)', borderRadius:'0 2px 2px 0' }} />}
+                            <div style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
+                              <div style={{ width:28, height:28, borderRadius:8, background: seen ? 'rgba(255,255,255,0.03)' : 'rgba(99,102,241,0.12)', border: seen ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(99,102,241,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.75rem' }}>
+                                {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
+                              </div>
+                              <div style={{ flex:1, minWidth:0 }}>
+                                <div style={{ fontSize:'0.82rem', color: seen ? '#555' : '#e2e8f0', lineHeight:1.45, fontWeight: seen ? 400 : 500 }}>{n.title}</div>
+                                <div style={{ fontSize:'0.65rem', color:'#333', marginTop:3, fontFamily:'var(--font-mono)', letterSpacing:'0.05em' }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
+                              </div>
                             </div>
-                          </div>
-                        </a>
-                      ))}
+                          </a>
+                        );
+                      })}
                     </div>
                   )}
+                  <div style={{ padding:'8px 16px', borderTop:'1px solid rgba(255,255,255,0.04)', background:'rgba(0,0,0,0.3)' }}>
+                    <div style={{ fontSize:'0.5rem', color:'#222', fontFamily:'var(--font-mono)', letterSpacing:'0.12em', textAlign:'center' }}>HISTORY OPTIONAL · NOTIFICATIONS</div>
+                  </div>
                 </div>
               )}
             </div>
@@ -375,24 +391,33 @@ export default function Navbar() {
         </div>
         {/* Mobile bell dropdown */}
         {bellOpen && (
-          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:72, right:16, background:'#111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:10, minWidth:280, maxWidth:'calc(100vw - 32px)', zIndex:1200, boxShadow:'0 12px 40px rgba(0,0,0,0.7)', overflow:'hidden' }}>
-            <div style={{ padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,0.06)', fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', color:'#555', textTransform:'uppercase' }}>Notifications</div>
+          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:72, right:12, left:12, background:'rgba(8,8,12,0.97)', backdropFilter:'blur(24px)', WebkitBackdropFilter:'blur(24px)', border:'1px solid rgba(99,102,241,0.2)', borderRadius:16, zIndex:1200, boxShadow:'0 0 0 1px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.9), 0 0 40px rgba(99,102,241,0.08)', overflow:'hidden', animation:'bellDrop 0.18s cubic-bezier(0.16,1,0.3,1)' }}>
+            <div style={{ padding:'12px 16px 10px', borderBottom:'1px solid rgba(255,255,255,0.05)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+              <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+                <div style={{ width:5, height:5, borderRadius:'50%', background:'#6366f1', boxShadow:'0 0 8px #6366f1' }} />
+                <span style={{ fontSize:'0.55rem', fontFamily:'var(--font-mono)', letterSpacing:'0.2em', color:'#6366f1', textTransform:'uppercase' }}>Notifications</span>
+              </div>
+              {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
+                <span style={{ fontSize:'0.55rem', fontFamily:'var(--font-mono)', color:'#f87171', letterSpacing:'0.1em' }}>{notifications.filter(n => !seenIds.includes(n.id)).length} NEW</span>
+              )}
+            </div>
             {notifications.length === 0 ? (
-              <div style={{ padding:'20px 14px', fontSize:'0.82rem', color:'#444', textAlign:'center' }}>No notifications yet</div>
+              <div style={{ padding:'28px 16px', fontSize:'0.82rem', color:'#333', textAlign:'center', fontFamily:'var(--font-mono)' }}>— empty —</div>
             ) : (
               <div style={{ maxHeight:320, overflowY:'auto' }}>
                 {notifications.map(n => {
                   const seen = seenIds.includes(n.id);
                   return (
-                    <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }} style={{ display:'block', padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(59,130,246,0.04)' }}>
-                      <div style={{ display:'flex', alignItems:'flex-start', gap:8 }}>
-                        {!seen && <span style={{ width:6, height:6, borderRadius:'50%', background:'#3b82f6', flexShrink:0, marginTop:5 }} />}
-                        <span style={{ fontSize:'0.65rem', marginTop:2, opacity:0.5, marginLeft: seen ? 14 : 0 }}>
+                    <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }}
+                      style={{ display:'block', padding:'12px 16px', borderBottom:'1px solid rgba(255,255,255,0.03)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.05)', position:'relative' }}>
+                      {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:2, background:'linear-gradient(180deg,#6366f1,#8b5cf6)', borderRadius:'0 2px 2px 0' }} />}
+                      <div style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
+                        <div style={{ width:28, height:28, borderRadius:8, background: seen ? 'rgba(255,255,255,0.03)' : 'rgba(99,102,241,0.12)', border: seen ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(99,102,241,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.75rem' }}>
                           {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
-                        </span>
-                        <div>
-                          <div style={{ fontSize:'0.82rem', color: seen ? '#888' : '#e2e8f0', lineHeight:1.4 }}>{n.title}</div>
-                          <div style={{ fontSize:'0.68rem', color:'#444', marginTop:2 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short' })}</div>
+                        </div>
+                        <div style={{ flex:1 }}>
+                          <div style={{ fontSize:'0.82rem', color: seen ? '#555' : '#e2e8f0', lineHeight:1.45, fontWeight: seen ? 400 : 500 }}>{n.title}</div>
+                          <div style={{ fontSize:'0.65rem', color:'#333', marginTop:3, fontFamily:'var(--font-mono)' }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
                         </div>
                       </div>
                     </a>
@@ -400,6 +425,9 @@ export default function Navbar() {
                 })}
               </div>
             )}
+            <div style={{ padding:'8px 16px', borderTop:'1px solid rgba(255,255,255,0.04)', background:'rgba(0,0,0,0.3)' }}>
+              <div style={{ fontSize:'0.5rem', color:'#222', fontFamily:'var(--font-mono)', letterSpacing:'0.12em', textAlign:'center' }}>HISTORY OPTIONAL · NOTIFICATIONS</div>
+            </div>
           </div>
         )}
 
@@ -422,6 +450,10 @@ export default function Navbar() {
         )}
 
         <style>{`
+          @keyframes bellDrop {
+            from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+          }
           @media (max-width: 1024px) {
             .hide-md { display: none !important; }
           }
