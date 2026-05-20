@@ -379,12 +379,12 @@ export default function Navbar() {
               )}
             </button>
             <button onClick={() => setOpen(!open)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.7)', cursor: 'pointer', padding: '0.25rem' }}>
-            {open
-              ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-            }
-          </button>
-        </div>
+              {open
+                ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+              }
+            </button>
+          </div>
         {/* Mobile bell dropdown */}
         {bellOpen && (
           <div style={{ position:'fixed', top:72, right:16, background:'#111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:10, minWidth:280, maxWidth:'calc(100vw - 32px)', zIndex:1200, boxShadow:'0 12px 40px rgba(0,0,0,0.7)', overflow:'hidden' }}>
