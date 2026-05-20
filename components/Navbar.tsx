@@ -385,6 +385,35 @@ export default function Navbar() {
             }
           </button>
         </div>
+        {/* Mobile bell dropdown */}
+        {bellOpen && (
+          <div style={{ position:'fixed', top:72, right:16, background:'#111', border:'1px solid rgba(255,255,255,0.08)', borderRadius:10, minWidth:280, maxWidth:'calc(100vw - 32px)', zIndex:1200, boxShadow:'0 12px 40px rgba(0,0,0,0.7)', overflow:'hidden' }}>
+            <div style={{ padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,0.06)', fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', color:'#555', textTransform:'uppercase' }}>Notifications</div>
+            {notifications.length === 0 ? (
+              <div style={{ padding:'20px 14px', fontSize:'0.82rem', color:'#444', textAlign:'center' }}>No notifications yet</div>
+            ) : (
+              <div style={{ maxHeight:320, overflowY:'auto' }}>
+                {notifications.map(n => {
+                  const seen = seenIds.includes(n.id);
+                  return (
+                    <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }} style={{ display:'block', padding:'10px 14px', borderBottom:'1px solid rgba(255,255,255,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(59,130,246,0.04)' }}>
+                      <div style={{ display:'flex', alignItems:'flex-start', gap:8 }}>
+                        {!seen && <span style={{ width:6, height:6, borderRadius:'50%', background:'#3b82f6', flexShrink:0, marginTop:5 }} />}
+                        <span style={{ fontSize:'0.65rem', marginTop:2, opacity:0.5, marginLeft: seen ? 14 : 0 }}>
+                          {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
+                        </span>
+                        <div>
+                          <div style={{ fontSize:'0.82rem', color: seen ? '#888' : '#e2e8f0', lineHeight:1.4 }}>{n.title}</div>
+                          <div style={{ fontSize:'0.68rem', color:'#444', marginTop:2 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short' })}</div>
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Mobile menu */}
         {open && (
