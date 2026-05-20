@@ -759,10 +759,142 @@ function Submissions({ token }: { token: string }) {
   );
 }
 
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NOTIFICATIONS MANAGER
+// ─────────────────────────────────────────────────────────────────────────────
+function NotificationsManager({ token }: { token: string }) {
+  const [notifications, setNotifications] = useState<{id:string,title:string,link:string,type:string,created_at:string}[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({ title: '', link: '', type: 'announcement' });
+  const [msg, setMsg] = useState('');
+
+  const flash = (m: string, err = false) => {
+    setMsg(m);
+    setTimeout(() => setMsg(''), 3000);
+  };
+
+  const load = async () => {
+    setLoading(true);
+    const res = await fetch('/api/notifications-admin', { headers: { 'x-admin-token': token } });
+    const { data } = await res.json();
+    setNotifications(data || []);
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const add = async () => {
+    if (!form.title.trim() || !form.link.trim()) { flash('Title and link are required'); return; }
+    setSaving(true);
+    const res = await fetch('/api/notifications-admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify(form),
+    });
+    const data = await res.json();
+    setSaving(false);
+    if (data.ok) {
+      setForm({ title: '', link: '', type: 'announcement' });
+      flash('✓ Notification added');
+      load();
+    } else {
+      flash('⚠ Failed to add');
+    }
+  };
+
+  const remove = async (id: string) => {
+    if (!confirm('Delete this notification?')) return;
+    await fetch('/api/notifications-admin', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify({ id }),
+    });
+    setNotifications(n => n.filter(x => x.id !== id));
+  };
+
+  const typeIcon = (t: string) => t === 'note' ? '📄' : t === 'current_affairs' ? '📰' : '📢';
+  const typeColor = (t: string) => t === 'note' ? '#4ecdc4' : t === 'current_affairs' ? '#74c0fc' : '#d4a843';
+
+  return (
+    <div style={{ padding: 24, maxWidth: 720 }}>
+      <h3 style={{ color: '#fff', marginBottom: 20, fontFamily: 'serif', margin: '0 0 20px' }}>🔔 Notifications</h3>
+
+      {/* Add form */}
+      <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 10, padding: '18px 20px', marginBottom: 24 }}>
+        <div style={{ color: '#555', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 14 }}>New Notification</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <input
+            value={form.title}
+            onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+            placeholder="Title — e.g. New notes: Bhakti Movement added"
+            style={{ padding: '9px 12px', borderRadius: 7, background: '#111', border: '1px solid #2a2a2a', color: '#e0e0e0', fontSize: '0.88rem', outline: 'none', width: '100%', boxSizing: 'border-box' }}
+          />
+          <div style={{ display: 'flex', gap: 10 }}>
+            <input
+              value={form.link}
+              onChange={e => setForm(f => ({ ...f, link: e.target.value }))}
+              placeholder="Link — e.g. /notes/bhakti-movement"
+              style={{ flex: 1, padding: '9px 12px', borderRadius: 7, background: '#111', border: '1px solid #2a2a2a', color: '#e0e0e0', fontSize: '0.88rem', outline: 'none', boxSizing: 'border-box' }}
+            />
+            <select
+              value={form.type}
+              onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
+              style={{ padding: '9px 12px', borderRadius: 7, background: '#111', border: '1px solid #2a2a2a', color: '#e0e0e0', fontSize: '0.88rem', outline: 'none', cursor: 'pointer' }}
+            >
+              <option value="announcement">📢 Announcement</option>
+              <option value="note">📄 Note</option>
+              <option value="current_affairs">📰 Current Affairs</option>
+            </select>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <button
+              onClick={add} disabled={saving}
+              style={{ padding: '9px 22px', borderRadius: 7, cursor: saving ? 'default' : 'pointer', fontSize: '0.85rem', fontWeight: 600, background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.4)', color: '#d4a843', opacity: saving ? 0.7 : 1 }}
+            >
+              {saving ? 'Adding...' : '+ Add Notification'}
+            </button>
+            {msg && <span style={{ fontSize: '0.8rem', color: msg.startsWith('✓') ? '#51cf66' : '#f87171' }}>{msg}</span>}
+          </div>
+        </div>
+      </div>
+
+      {/* List */}
+      {loading ? (
+        <div style={{ color: '#444', fontSize: '0.85rem', padding: '20px 0' }}>Loading...</div>
+      ) : notifications.length === 0 ? (
+        <div style={{ color: '#333', fontSize: '0.85rem', padding: '32px 0', textAlign: 'center' }}>No notifications yet.</div>
+      ) : (
+        <div>
+          <div style={{ color: '#555', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>{notifications.length} notifications</div>
+          {notifications.map(n => (
+            <div key={n.id} style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 8, padding: '12px 16px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{typeIcon(n.type)}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ color: '#e0e0e0', fontSize: '0.88rem', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{n.title}</div>
+                <div style={{ display: 'flex', gap: 8, marginTop: 3, alignItems: 'center' }}>
+                  <span style={{ color: '#444', fontSize: '0.72rem', fontFamily: 'monospace' }}>{n.link}</span>
+                  <span style={{ padding: '1px 7px', borderRadius: 4, fontSize: '0.65rem', background: 'rgba(255,255,255,0.04)', border: '1px solid #222', color: typeColor(n.type) }}>{n.type}</span>
+                  <span style={{ color: '#333', fontSize: '0.7rem', marginLeft: 'auto' }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                </div>
+              </div>
+              <button onClick={() => remove(n.id)}
+                style={{ padding: '4px 10px', borderRadius: 5, cursor: 'pointer', fontSize: '0.78rem', background: 'rgba(255,80,80,0.08)', border: '1px solid rgba(255,80,80,0.2)', color: '#ff8080', flexShrink: 0 }}>
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN
 // ─────────────────────────────────────────────────────────────────────────────
-type Tab = 'notes' | 'posts' | 'analytics' | 'submissions' | 'settings';
+type Tab = 'notes' | 'posts' | 'analytics' | 'submissions' | 'notifications' | 'settings';
 
 export default function AdminPage() {
   const { authed, checking, login, logout, token } = useAdminAuth();
@@ -776,6 +908,7 @@ export default function AdminPage() {
     { id: 'posts',     label: 'Posts',       icon: '📰' },
     { id: 'analytics', label: 'Analytics',   icon: '📊' },
     { id: 'submissions', label: 'Submissions', icon: '📬' },
+    { id: 'notifications', label: 'Notifications', icon: '🔔' },
     { id: 'settings',  label: 'Settings',    icon: '⚙️' },
   ];
 
@@ -797,6 +930,7 @@ export default function AdminPage() {
       {tab === 'posts'     && <PostsManager token={token} />}
       {tab === 'analytics' && <Analytics token={token} />}
       {tab === 'submissions' && <Submissions token={token} />}
+      {tab === 'notifications' && <NotificationsManager token={token} />}
       {tab === 'settings'  && <Settings onLogout={logout} token={token} />}
     </div>
   );
