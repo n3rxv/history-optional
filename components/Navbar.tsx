@@ -301,35 +301,37 @@ export default function Navbar() {
                 )}
               </button>
               {bellOpen && (
-                <div style={{ position:'absolute', top:'calc(100% + 12px)', right:-8, background:'rgba(8,8,12,0.96)', backdropFilter:'blur(24px)', WebkitBackdropFilter:'blur(24px)', border:'1px solid rgba(99,102,241,0.2)', borderRadius:16, minWidth:300, maxWidth:340, zIndex:1000, boxShadow:'0 0 0 1px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(99,102,241,0.08)', overflow:'hidden', animation:'bellDrop 0.18s cubic-bezier(0.16,1,0.3,1)' }}>
-                  <div style={{ padding:'12px 16px 10px', borderBottom:'1px solid rgba(255,255,255,0.05)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-                    <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-                      <div style={{ width:5, height:5, borderRadius:'50%', background:'#6366f1', boxShadow:'0 0 8px #6366f1' }} />
-                      <span style={{ fontSize:'0.55rem', fontFamily:'var(--font-mono)', letterSpacing:'0.2em', color:'#6366f1', textTransform:'uppercase' }}>Notifications</span>
+                <div style={{ position:'absolute', top:'calc(100% + 14px)', right:-8, background:'rgba(6,6,10,0.98)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, minWidth:320, maxWidth:360, zIndex:1000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.9), 0 0 80px rgba(99,102,241,0.12), inset 0 1px 0 rgba(255,255,255,0.05)', overflow:'hidden', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
+                  <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
+                    <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                      <div style={{ width:6, height:6, borderRadius:'50%', background:'#818cf8', boxShadow:'0 0 10px #818cf8, 0 0 20px rgba(129,140,248,0.4)' }} />
+                      <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'#a5b4fc', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
                     </div>
                     {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                      <span style={{ fontSize:'0.55rem', fontFamily:'var(--font-mono)', color:'#f87171', letterSpacing:'0.1em' }}>{notifications.filter(n => !seenIds.includes(n.id)).length} NEW</span>
+                      <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', color:'#fff', letterSpacing:'0.08em', background:'rgba(248,113,113,0.2)', border:'1px solid rgba(248,113,113,0.35)', borderRadius:20, padding:'2px 8px', fontWeight:600 }}>
+                        {notifications.filter(n => !seenIds.includes(n.id)).length} NEW
+                      </span>
                     )}
                   </div>
                   {notifications.length === 0 ? (
-                    <div style={{ padding:'28px 16px', fontSize:'0.82rem', color:'#333', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.05em' }}>— empty —</div>
+                    <div style={{ padding:'32px 18px', fontSize:'0.82rem', color:'#444', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>— no notifications —</div>
                   ) : (
-                    <div style={{ maxHeight:380, overflowY:'auto' }}>
+                    <div style={{ maxHeight:400, overflowY:'auto' }}>
                       {notifications.map(n => {
                         const seen = seenIds.includes(n.id);
                         return (
                           <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }}
-                            style={{ display:'block', padding:'12px 16px', borderBottom:'1px solid rgba(255,255,255,0.03)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.05)', position:'relative', transition:'background 0.15s' }}
-                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
-                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = seen ? 'transparent' : 'rgba(99,102,241,0.05)'; }}>
-                            {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:2, background:'linear-gradient(180deg,#6366f1,#8b5cf6)', borderRadius:'0 2px 2px 0' }} />}
-                            <div style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
-                              <div style={{ width:28, height:28, borderRadius:8, background: seen ? 'rgba(255,255,255,0.03)' : 'rgba(99,102,241,0.12)', border: seen ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(99,102,241,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.75rem' }}>
+                            style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(255,255,255,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.06)', position:'relative', transition:'background 0.15s' }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)'; }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = seen ? 'transparent' : 'rgba(99,102,241,0.06)'; }}>
+                            {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'linear-gradient(180deg,#818cf8,#a78bfa)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px rgba(129,140,248,0.4)' }} />}
+                            <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
+                              <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(255,255,255,0.04)' : 'linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.15))', border: seen ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(139,92,246,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px rgba(99,102,241,0.15)' }}>
                                 {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
                               </div>
                               <div style={{ flex:1, minWidth:0 }}>
-                                <div style={{ fontSize:'0.82rem', color: seen ? '#555' : '#e2e8f0', lineHeight:1.45, fontWeight: seen ? 400 : 500 }}>{n.title}</div>
-                                <div style={{ fontSize:'0.65rem', color:'#333', marginTop:3, fontFamily:'var(--font-mono)', letterSpacing:'0.05em' }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
+                                <div style={{ fontSize:'0.85rem', color: seen ? '#6b7280' : '#ffffff', lineHeight:1.5, fontWeight: seen ? 400 : 500, letterSpacing:'-0.01em' }}>{n.title}</div>
+                                <div style={{ fontSize:'0.65rem', color: seen ? '#374151' : '#818cf8', marginTop:4, fontFamily:'var(--font-mono)', letterSpacing:'0.05em', fontWeight:500 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
                               </div>
                             </div>
                           </a>
@@ -337,8 +339,10 @@ export default function Navbar() {
                       })}
                     </div>
                   )}
-                  <div style={{ padding:'8px 16px', borderTop:'1px solid rgba(255,255,255,0.04)', background:'rgba(0,0,0,0.3)' }}>
-                    <div style={{ fontSize:'0.5rem', color:'#222', fontFamily:'var(--font-mono)', letterSpacing:'0.12em', textAlign:'center' }}>HISTORY OPTIONAL · NOTIFICATIONS</div>
+                  <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(255,255,255,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
+                    <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
+                    <div style={{ fontSize:'0.52rem', color:'#4b5563', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
+                    <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
                   </div>
                 </div>
               )}
@@ -391,33 +395,35 @@ export default function Navbar() {
         </div>
         {/* Mobile bell dropdown */}
         {bellOpen && (
-          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:72, right:12, left:12, background:'rgba(8,8,12,0.97)', backdropFilter:'blur(24px)', WebkitBackdropFilter:'blur(24px)', border:'1px solid rgba(99,102,241,0.2)', borderRadius:16, zIndex:1200, boxShadow:'0 0 0 1px rgba(0,0,0,0.5), 0 20px 60px rgba(0,0,0,0.9), 0 0 40px rgba(99,102,241,0.08)', overflow:'hidden', animation:'bellDrop 0.18s cubic-bezier(0.16,1,0.3,1)' }}>
-            <div style={{ padding:'12px 16px 10px', borderBottom:'1px solid rgba(255,255,255,0.05)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-                <div style={{ width:5, height:5, borderRadius:'50%', background:'#6366f1', boxShadow:'0 0 8px #6366f1' }} />
-                <span style={{ fontSize:'0.55rem', fontFamily:'var(--font-mono)', letterSpacing:'0.2em', color:'#6366f1', textTransform:'uppercase' }}>Notifications</span>
+          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:78, right:12, left:12, background:'rgba(6,6,10,0.98)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, zIndex:1200, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.95), 0 0 80px rgba(99,102,241,0.1), inset 0 1px 0 rgba(255,255,255,0.05)', overflow:'hidden', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
+            <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
+              <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                <div style={{ width:6, height:6, borderRadius:'50%', background:'#818cf8', boxShadow:'0 0 10px #818cf8, 0 0 20px rgba(129,140,248,0.4)' }} />
+                <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'#a5b4fc', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
               </div>
               {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                <span style={{ fontSize:'0.55rem', fontFamily:'var(--font-mono)', color:'#f87171', letterSpacing:'0.1em' }}>{notifications.filter(n => !seenIds.includes(n.id)).length} NEW</span>
+                <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', color:'#fff', letterSpacing:'0.08em', background:'rgba(248,113,113,0.2)', border:'1px solid rgba(248,113,113,0.35)', borderRadius:20, padding:'2px 8px', fontWeight:600 }}>
+                  {notifications.filter(n => !seenIds.includes(n.id)).length} NEW
+                </span>
               )}
             </div>
             {notifications.length === 0 ? (
-              <div style={{ padding:'28px 16px', fontSize:'0.82rem', color:'#333', textAlign:'center', fontFamily:'var(--font-mono)' }}>— empty —</div>
+              <div style={{ padding:'32px 18px', fontSize:'0.82rem', color:'#444', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>— no notifications —</div>
             ) : (
-              <div style={{ maxHeight:320, overflowY:'auto' }}>
+              <div style={{ maxHeight:360, overflowY:'auto' }}>
                 {notifications.map(n => {
                   const seen = seenIds.includes(n.id);
                   return (
                     <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }}
-                      style={{ display:'block', padding:'12px 16px', borderBottom:'1px solid rgba(255,255,255,0.03)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.05)', position:'relative' }}>
-                      {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:2, background:'linear-gradient(180deg,#6366f1,#8b5cf6)', borderRadius:'0 2px 2px 0' }} />}
-                      <div style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
-                        <div style={{ width:28, height:28, borderRadius:8, background: seen ? 'rgba(255,255,255,0.03)' : 'rgba(99,102,241,0.12)', border: seen ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(99,102,241,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.75rem' }}>
+                      style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(255,255,255,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.06)', position:'relative' }}>
+                      {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'linear-gradient(180deg,#818cf8,#a78bfa)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px rgba(129,140,248,0.4)' }} />}
+                      <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
+                        <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(255,255,255,0.04)' : 'linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.15))', border: seen ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(139,92,246,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px rgba(99,102,241,0.15)' }}>
                           {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
                         </div>
                         <div style={{ flex:1 }}>
-                          <div style={{ fontSize:'0.82rem', color: seen ? '#555' : '#e2e8f0', lineHeight:1.45, fontWeight: seen ? 400 : 500 }}>{n.title}</div>
-                          <div style={{ fontSize:'0.65rem', color:'#333', marginTop:3, fontFamily:'var(--font-mono)' }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
+                          <div style={{ fontSize:'0.88rem', color: seen ? '#6b7280' : '#ffffff', lineHeight:1.5, fontWeight: seen ? 400 : 500, letterSpacing:'-0.01em' }}>{n.title}</div>
+                          <div style={{ fontSize:'0.68rem', color: seen ? '#374151' : '#818cf8', marginTop:4, fontFamily:'var(--font-mono)', letterSpacing:'0.05em', fontWeight:500 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
                         </div>
                       </div>
                     </a>
@@ -425,8 +431,10 @@ export default function Navbar() {
                 })}
               </div>
             )}
-            <div style={{ padding:'8px 16px', borderTop:'1px solid rgba(255,255,255,0.04)', background:'rgba(0,0,0,0.3)' }}>
-              <div style={{ fontSize:'0.5rem', color:'#222', fontFamily:'var(--font-mono)', letterSpacing:'0.12em', textAlign:'center' }}>HISTORY OPTIONAL · NOTIFICATIONS</div>
+            <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(255,255,255,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
+              <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
+              <div style={{ fontSize:'0.52rem', color:'#4b5563', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
+              <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
             </div>
           </div>
         )}
