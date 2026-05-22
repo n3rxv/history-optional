@@ -628,7 +628,6 @@ Every response must:
     h3: ({node, ...props}) => <div className="chat-msg-h3" {...props} />,
     li: ({node, ...props}) => <div className="chat-bullet"><span className="chat-bullet-dot"></span><span {...props} /></div>,
     p: ({node, ...props}) => <p style={{margin:'0 0 0.7rem', lineHeight:1.85}} {...props} />,
-    hr: () => <div className="chat-hr"></div>,
   }}
 >
   {msg.content}
