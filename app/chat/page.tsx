@@ -330,7 +330,37 @@ Every response must:
       .replace(/javascript:/gi, '');
   }
 
+  const formatTable = (text: string): string => {
+    const lines = text.split('\n');
+    let result = '';
+    let i = 0;
+    while (i < lines.length) {
+      const line = lines[i];
+      if (line.includes('|') && line.trim().startsWith('|')) {
+        // Check if next line is separator
+        const nextLine = lines[i + 1] || '';
+        if (nextLine.match(/^[|\s\-:]+$/)) {
+          // It's a table
+          const headers = line.split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
+          let rows = '';
+          i += 2; // skip header and separator
+          while (i < lines.length && lines[i].includes('|') && lines[i].trim().startsWith('|')) {
+            const cols = lines[i].split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('');
+            rows += `<tr>${cols}</tr>`;
+            i++;
+          }
+          result += `<div class="chat-table-wrap"><table class="chat-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>`;
+          continue;
+        }
+      }
+      result += lines[i] + '\n';
+      i++;
+    }
+    return result;
+  };
+
   const formatMessage = (text: string) => {
+    text = formatTable(text);
     return text
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
@@ -597,6 +627,11 @@ Every response must:
         .chat-pdf-btn:hover { border-color:rgba(200,168,75,0.5); color:#c8a84b; background:linear-gradient(135deg,rgba(200,168,75,0.2),rgba(234,201,106,0.1)); }
         .chat-pdf-btn:disabled { opacity:0.45; cursor:wait; }
         .chat-spin { display:inline-block; animation:chatSpin 1s linear infinite; }
+        .chat-table-wrap { overflow-x:auto; margin:1rem 0; border-radius:8px; border:1px solid rgba(59,130,246,0.15); }
+        .chat-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+        .chat-table th { background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.2); padding:8px 12px; text-align:left; color:#f1f5f9; font-weight:600; }
+        .chat-table td { border:1px solid rgba(255,255,255,0.07); padding:7px 12px; color:#c8d3e0; vertical-align:top; }
+        .chat-table tr:hover td { background:rgba(59,130,246,0.04); }
         @keyframes chatSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
       `}</style>
 
