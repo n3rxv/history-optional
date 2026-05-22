@@ -647,24 +647,7 @@ Every response must:
                   {msg.role === 'user' ? (
                     <span>{msg.content}</span>
                   ) : (
-                    <ReactMarkdown
-  remarkPlugins={[remarkGfm]}
-  components={{
-    table: ({node, ...props}) => <table style={{borderCollapse:'collapse', width:'100%', margin:'1rem 0', fontSize:'0.85rem'}} {...props} />,
-    th: ({node, ...props}) => <th style={{background:'rgba(59,130,246,0.15)', border:'1px solid rgba(59,130,246,0.2)', padding:'8px 12px', textAlign:'left', color:'#f1f5f9', fontWeight:600}} {...props} />,
-    td: ({node, ...props}) => <td style={{border:'1px solid rgba(255,255,255,0.07)', padding:'7px 12px', color:'#c8d3e0', verticalAlign:'top'}} {...props} />,
-    tr: ({node, ...props}) => <tr style={{borderBottom:'1px solid rgba(255,255,255,0.05)'}} {...props} />,
-    strong: ({node, ...props}) => <strong style={{color:'#f1f5f9', fontWeight:700}} {...props} />,
-    em: ({node, ...props}) => <em style={{color:'#94a3b8'}} {...props} />,
-    h1: ({node, ...props}) => <div className="chat-msg-h1" {...props} />,
-    h2: ({node, ...props}) => <div className="chat-msg-h2" {...props} />,
-    h3: ({node, ...props}) => <div className="chat-msg-h3" {...props} />,
-    li: ({node, ...props}) => <div className="chat-bullet"><span className="chat-bullet-dot"></span><span {...props} /></div>,
-    p: ({node, ...props}) => <p style={{margin:'0 0 0.7rem', lineHeight:1.85}} {...props} />,
-  }}
->
-  {msg.content}
-</ReactMarkdown>
+                    <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content)) }} />
                   )}
                 </div>
                 <div className={`chat-meta ${msg.role}`}>
