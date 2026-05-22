@@ -368,6 +368,7 @@ Every response must:
       .replace(/^#### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
       .replace(/^• (.+)$/gm, '<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>$1</span></div>')
       .replace(/^[\-\*] (.+)$/gm, '<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>$1</span></div>')
+      .replace(/^ {2,}[\-\*•] (.+)$/gm, '<div class="chat-bullet" style="margin-left:1.5rem;opacity:0.85"><span class="chat-bullet-dot" style="background:rgba(59,130,246,0.4)"></span><span>$1</span></div>')
       .replace(/\n\n/g, '<div class="chat-para-gap"></div>')
       .replace(/\n/g, '<br/>');
   };
