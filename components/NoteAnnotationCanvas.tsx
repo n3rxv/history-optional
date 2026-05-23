@@ -201,7 +201,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
         style={{
           position: 'fixed', top: 0, left: 0,
           width: '100vw', height: '100vh',
-          zIndex: active ? 35 : -1,
+          zIndex: active ? 150 : -1,
           pointerEvents: active ? 'all' : 'none',
           touchAction: 'none',
           cursor: tool === 'eraser' ? 'none' : 'crosshair',
