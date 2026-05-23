@@ -199,8 +199,8 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
         onPointerUp={onPointerUp}
         onPointerLeave={() => { onPointerUp(); setEraserPos(null); }}
         style={{
-          position: 'fixed', top: 0, left: 0,
-          width: '100vw', height: '100vh',
+          position: 'fixed', top: 60, left: 0,
+          width: '100vw', height: 'calc(100vh - 60px)',
           zIndex: active ? 150 : -1,
           pointerEvents: active ? 'all' : 'none',
           touchAction: 'none',
