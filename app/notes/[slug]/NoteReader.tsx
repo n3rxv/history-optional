@@ -544,7 +544,7 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
   );
 }
 
-export default function NoteReader({ slug }: { slug: string }) {
+export default function NoteReader({ slug, initialContent = '' }: { slug: string; initialContent?: string }) {
   const note = getNoteBySlug(slug);
   const contentRef = useRef<HTMLDivElement>(null);
   const noteContentRef = useRef<HTMLDivElement>(null);
@@ -759,7 +759,7 @@ export default function NoteReader({ slug }: { slug: string }) {
   };
 
   const getContent = () => {
-    let c = cloudContent ?? getNoteContent(slug);
+    let c = cloudContent ?? initialContent ?? getNoteContent(slug);
     c = injectHeadingIds(c);
     highlights.forEach(h => {
       const esc = h.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

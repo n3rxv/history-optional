@@ -18,5 +18,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function NotePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  return <NoteReader slug={slug} />;
+  const note = allNotes.find(n => n.slug === slug);
+  
+  // Load note content server-side for SEO
+  let initialContent = '';
+  try {
+    const mod = await import('@/lib/noteContent');
+    const noteContent = mod.noteContent as Record<string, string>;
+    initialContent = noteContent[slug] || '';
+  } catch {}
+
+  return <NoteReader slug={slug} initialContent={initialContent} />;
 }
