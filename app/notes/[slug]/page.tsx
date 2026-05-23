@@ -23,10 +23,24 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
   // Load note content server-side for SEO
   let initialContent = '';
   try {
-    const mod = await import('@/lib/noteContent');
-    const noteContent = mod.noteContent as Record<string, string>;
-    initialContent = noteContent[slug] || '';
-  } catch {}
+    // Check cloud override first
+    const { createServerClient } = await import('@/lib/supabase');
+    const db = createServerClient();
+    const { data } = await db.from('note_overrides').select('content').eq('slug', slug).single();
+    if (data?.content) {
+      initialContent = data.content;
+    } else {
+      const mod = await import('@/lib/noteContent');
+      const noteContent = mod.noteContent as Record<string, string>;
+      initialContent = noteContent[slug] || '';
+    }
+  } catch {
+    try {
+      const mod = await import('@/lib/noteContent');
+      const noteContent = mod.noteContent as Record<string, string>;
+      initialContent = noteContent[slug] || '';
+    } catch {}
+  }
 
   return <NoteReader slug={slug} initialContent={initialContent} />;
 }
