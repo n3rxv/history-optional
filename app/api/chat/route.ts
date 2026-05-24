@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
       /correct answer|mcq|prelims|pyq/i.test(lastUserMsg)
     );
 
-    const primaryModel = isMCQ ? 'openai/gpt-oss-120b' : 'qwen/qwen3-32b';
+    const primaryModel = isMCQ ? 'llama-3.3-70b-versatile' : 'qwen/qwen3-32b';
     const fallbackModel = isMCQ ? 'llama-3.3-70b-versatile' : 'llama-3.3-70b-versatile';
 
     let response = await groqFetch(primaryModel);
