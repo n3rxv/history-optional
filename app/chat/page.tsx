@@ -363,9 +363,12 @@ Every response must:
       .replace(/^---+$/gm, '<div class="chat-hr"></div>')
       .replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`)
       .replace(/^### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h2">${t}</div>`)
+      .replace(/^#{5,6} (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
       .replace(/^#### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
+      .replace(/^##### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
       .replace(/^• (.+)$/gm, '<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>$1</span></div>')
       .replace(/^[\-\*] (.+)$/gm, '<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>$1</span></div>')
+      .replace(/^- (.+)$/gm, '<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>$1</span></div>')
       .replace(/\n\n/g, '<div class="chat-para-gap"></div>')
       .replace(/\n/g, '<br/>');
   };
