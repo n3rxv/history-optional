@@ -89,10 +89,22 @@ export async function POST(req: NextRequest) {
         }),
       });
 
-    let response = await groqFetch('qwen/qwen3-32b');
+    // Detect MCQ/Prelims question
+    const lastUserMsg = messages?.[messages.length - 1]?.content ?? '';
+    const isMCQ = typeof lastUserMsg === 'string' && (
+      /\(a\)|\(b\)|\(c\)|\(d\)/.test(lastUserMsg) ||
+      /which of the following/i.test(lastUserMsg) ||
+      /consider the following/i.test(lastUserMsg) ||
+      /correct answer|mcq|prelims|pyq/i.test(lastUserMsg)
+    );
+
+    const primaryModel = isMCQ ? 'gpt-oss-120b' : 'qwen/qwen3-32b';
+    const fallbackModel = isMCQ ? 'llama-3.3-70b-versatile' : 'llama-3.3-70b-versatile';
+
+    let response = await groqFetch(primaryModel);
     if (response.status === 503 || response.status === 429) {
-      console.log('Primary model over capacity, falling back to llama-3.3-70b...');
-      response = await groqFetch('llama-3.3-70b-versatile');
+      console.log(`Primary model over capacity, falling back...`);
+      response = await groqFetch(fallbackModel);
     }
     const data = await response.json();
     console.log("Groq response:", JSON.stringify(data));
