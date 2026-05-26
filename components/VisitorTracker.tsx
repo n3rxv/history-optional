@@ -78,7 +78,20 @@ export default function VisitorTracker() {
       sendHeartbeat(visitor_id);
       // Then every 30s
       const interval = setInterval(() => sendHeartbeat(visitor_id), 30000);
-      return () => clearInterval(interval);
+      // Fire on visibility change (mobile background/foreground)
+      const onVisibility = () => {
+        if (document.visibilityState === 'hidden') sendHeartbeat(visitor_id);
+        if (document.visibilityState === 'visible') sendHeartbeat(visitor_id);
+      };
+      document.addEventListener('visibilitychange', onVisibility);
+      // Fire on page unload
+      const onUnload = () => sendHeartbeat(visitor_id);
+      window.addEventListener('beforeunload', onUnload);
+      return () => {
+        clearInterval(interval);
+        document.removeEventListener('visibilitychange', onVisibility);
+        window.removeEventListener('beforeunload', onUnload);
+      };
     } catch {}
   }, []);
 
