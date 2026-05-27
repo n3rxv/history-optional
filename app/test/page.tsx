@@ -204,6 +204,26 @@ function RubricScorer({ marks, value, onChange }: {
 
 type OcrStep = 'idle' | 'uploading' | 'ocr' | 'transcript' | 'evaluating' | 'done' | 'error';
 
+async function pdfToImages(file: File): Promise<File[]> {
+  const pdfjs = await import('pdfjs-dist');
+  pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.mjs', import.meta.url).toString();
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+  const images: File[] = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const viewport = page.getViewport({ scale: 2 });
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d')!;
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    const blob = await new Promise<Blob | null>(res => canvas.toBlob(res, 'image/jpeg', 0.85));
+    if (blob) images.push(new File([blob], `page-${i}.jpg`, { type: 'image/jpeg' }));
+  }
+  return images;
+}
+
 async function ocrViaServer(files: File[], token: string, onProgress: (msg: string) => void): Promise<string> {
   onProgress(`Sending ${files.length} page${files.length > 1 ? 's' : ''} to Gemini…`);
   const fd = new FormData();
@@ -241,7 +261,15 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
 
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
-    const arr = Array.from(files);
+    let arr: File[] = [];
+    for (const f of Array.from(files)) {
+      if (f.type === 'application/pdf') {
+        const pages = await pdfToImages(f);
+        arr = arr.concat(pages);
+      } else {
+        arr.push(f);
+      }
+    }
     setImages(arr);
     setPreviews(arr.map(f => URL.createObjectURL(f)));
     setPanelOpen(true);
@@ -290,7 +318,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
   return (
     <div style={{ marginTop: '1rem' }}>
       {/* Hidden file input */}
-      <input ref={fileRef} type="file" accept="image/*" multiple style={{ display: 'none' }}
+      <input ref={fileRef} type="file" accept="image/*,application/pdf" multiple style={{ display: 'none' }}
         onChange={e => handleFiles(e.target.files)} />
 
       {/* Upload button */}
