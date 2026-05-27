@@ -303,7 +303,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
           fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
         }}>
           <span>✦</span>
-          <span>📷 Upload & Evaluate{!isPremium ? ' · Premium 🔒' : ''}</span>
+          <span>📷 Upload & Get Evaluated{!isPremium ? ' · Premium 🔒' : ''}</span>
         </button>
         {(step === 'done' || step === 'transcript' || step === 'error') && panelOpen && (
           <button onClick={() => setPanelOpen(o => !o)} style={{
