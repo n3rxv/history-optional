@@ -355,7 +355,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
           {/* OCR in progress */}
           {step === 'ocr' && (
             <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem', animation: 'spin 1s linear infinite', display: 'inline-block' }}>⟳</div>
+              <div style={{ width: '28px', height: '28px', border: '3px solid rgba(99,102,241,0.2)', borderTop: '3px solid #6366f1', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 0.5rem' }}></div>
               <div style={{ color: '#818cf8', fontSize: '0.85rem' }}>Reading your handwriting…</div>
               <style>{`
         .shimmer-btn::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
@@ -366,7 +366,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
           {/* Evaluating */}
           {step === 'evaluating' && (
             <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem', animation: 'spin 1s linear infinite', display: 'inline-block' }}>⟳</div>
+              <div style={{ width: '28px', height: '28px', border: '3px solid rgba(99,102,241,0.2)', borderTop: '3px solid #6366f1', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 0.5rem' }}></div>
               <div style={{ color: '#818cf8', fontSize: '0.85rem', marginBottom: '0.3rem' }}>✦ Evaluating your answer…</div>
               <div style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>Multi-pass AI evaluation · ~30 seconds</div>
             </div>
