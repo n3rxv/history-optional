@@ -83,6 +83,7 @@ Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use 
   "smart_guess": "You are a UPSC aspirant in the exam hall. You do NOT have perfect knowledge. Your job is to reason out loud — showing exactly how a smart but uncertain student thinks. Follow these 6 points separated by || with no newlines. STRICT RULES THAT OVERRIDE EVERYTHING ELSE: (1) You may ONLY state as fact what is explicitly written in the question itself. Everything else is an inference and must be labeled as such using words like I think, this suggests, I am not certain but, by elimination, the phrasing implies, this sounds like, one can infer. (2) If you catch yourself about to state a specific date, name, place, or event that is NOT in the question — STOP. Either label it as uncertain or do not say it. (3) Hallucinating a confident-sounding inference is worse than saying I do not know. Intellectual honesty is the goal. || Point 1 — FIRST INSTINCT: Read the question once. What is the first thing that comes to mind — a partial memory, a vague association, a familiar word? Be honest. If nothing comes to mind say so. Do not pretend to remember things you are reconstructing. || Point 2 — WHAT THE LANGUAGE TELLS YOU: Look only at the words already written in the question and options. Do any words sound like they belong to a specific language — Sanskrit, Persian, Arabic, Portuguese, British English? Does the question structure itself give a clue — is it asking about a first, a last, a founder, a location? Does any option use extreme language like only, always, never, all, solely — which UPSC almost always makes wrong? Do not invent meaning — only read what is there. || Point 3 — CROSS-DOMAIN COMMON SENSE: What does general UPSC preparation knowledge suggest — not specific history facts but broad patterns? Examples of valid inferences: colonial-era English phrasing suggests British period; a Sanskrit-named city in options likely points to ancient India; if multiple options are geographically clustered the question is testing fine distinction not broad knowledge; if options are from different dynasties the question tests period identification. Name the pattern and say explicitly this is an inference not a confirmed fact. || Point 4 — THE REAL TRAP: The trap UPSC sets is NEVER the obviously wrong option. It is always the option that a half-prepared student mistakes for the answer because it is associated with the same topic but a different detail — right place wrong century, right person wrong event, right dynasty wrong ruler, correct institution different context. Identify which option is designed to fool someone who partially knows this topic and explain exactly why that option is tempting. If multiple options are thematically close — like different cities all associated with the same historical event series — flag all of them as traps not just one. || Point 5 — ELIMINATION STEP BY STEP: Start by eliminating what you are most confident is wrong. Explain why in one sentence. Then eliminate the next. Be honest when you cannot eliminate — say I cannot rule this out because I am not sure. If you reach 2 options state which one you would bet on and give the single deciding reason — even if it is just a hunch based on language or pattern. Never eliminate based on invented facts. || Point 6 — FINAL BET: State your answer choice and confidence — Low, Medium, or High. One sentence of core reasoning. If this question requires pure memorisation and cannot be cracked by reasoning alone say so honestly — and tell the student the exact subtopic to revise so this never happens again."
 }`;
 
+    // First call: solution, technique, concepts, related (with correct answer)
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -91,7 +92,7 @@ Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use 
       },
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
-        max_tokens: 3500,
+        max_tokens: 2500,
         temperature: 0.2,
         messages: [
           { role: 'system', content: systemPrompt },
@@ -127,6 +128,53 @@ Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use 
         return NextResponse.json({ error: 'Parse error' }, { status: 500 });
       }
     }
+    // Second call: smart_guess WITHOUT correct answer
+    const smartGuessPrompt = `You are a UPSC aspirant sitting in the exam hall RIGHT NOW. You have NOT seen the answer key.
+
+Topic: ${topic}
+Question: ${question}
+Options:
+${optionsFormatted}
+
+You do NOT know the correct answer. Reason out loud — showing exactly how a smart but uncertain student thinks through this. Follow these 6 points separated by || with no newlines inside.
+
+STRICT RULES: (1) You may ONLY state as fact what is explicitly written in the question. Everything else must be labeled as inference using: "I think", "this suggests", "I am not certain but", "by elimination", "the phrasing implies". (2) NEVER mention or hint at what the correct answer is — you don't know it. (3) Never eliminate an option by saying it is "not included in the correct answer" — you don't have the answer key.
+
+Point 1 — FIRST INSTINCT: What is the first thing that comes to mind from the question? A partial memory, vague association, familiar word? Be honest. || Point 2 — WHAT THE LANGUAGE TELLS YOU: Look only at words in the question and options. Any Sanskrit/Persian/British-era language clues? Any extreme words like only/always/never that UPSC usually makes wrong? || Point 3 — CROSS-DOMAIN COMMON SENSE: What do broad UPSC patterns suggest — not specific facts but general knowledge? Name the pattern explicitly as inference. || Point 4 — THE REAL TRAP: Which option is designed to fool a half-prepared student? Right topic wrong detail, right person wrong event, right dynasty wrong ruler? || Point 5 — ELIMINATION STEP BY STEP: Eliminate what you are most confident is wrong first. Be honest when you cannot eliminate — say so. If 2 options remain, state which you would bet on and why. || Point 6 — FINAL BET: Your answer choice and confidence (Low/Medium/High). If pure memorisation is needed say so and name the exact subtopic to revise.
+
+Respond with ONLY a raw JSON string (no markdown):
+{"smart_guess": "your full response here with || separating the 6 points"}`;
+
+    let smartGuessText = '';
+    try {
+      const sgResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          max_tokens: 1200,
+          temperature: 0.3,
+          messages: [
+            { role: 'user', content: smartGuessPrompt },
+          ],
+        }),
+      });
+      const sgData = await sgResponse.json();
+      const sgText = sgData.choices?.[0]?.message?.content ?? '';
+      const sgMatch = sgText.match(/\{[\s\S]*\}/);
+      if (sgMatch) {
+        const sgParsed = JSON.parse(sgMatch[0]);
+        smartGuessText = sgParsed.smart_guess ?? '';
+      }
+    } catch {
+      smartGuessText = '';
+    }
+
+    parsed.smart_guess = smartGuessText;
+
     return NextResponse.json(parsed);
   } catch (err) {
     console.error('prelims-explain error:', err);
