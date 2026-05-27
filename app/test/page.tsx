@@ -331,7 +331,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
           fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
         }}>
           <span>✦</span>
-          <span>📷 Upload & Get Evaluated{!isPremium ? ' · Premium 🔒' : ''}</span>
+          <span>📷 Upload Photos or PDF & Get Evaluated{!isPremium ? ' · Premium 🔒' : ''}</span>
         </button>
         {(step === 'done' || step === 'transcript' || step === 'error') && panelOpen && (
           <button onClick={() => setPanelOpen(o => !o)} style={{
@@ -1166,7 +1166,7 @@ export default function TestPage() {
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '2rem 1.5rem 6rem' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.25rem' }}>Test Results</h1>
         <p style={{ color: 'var(--text2)', fontSize: '0.88rem', marginBottom: '2rem' }}>
-          Use the rubric sliders to self-evaluate. Premium users can upload answer images for AI Mentor evaluation.
+          Use the rubric sliders to self-evaluate. Premium users can upload answer images or PDF for AI Mentor evaluation.
         </p>
 
         {/* Score card */}
