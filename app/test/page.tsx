@@ -348,6 +348,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
       </div>
 
       {/* Panel */}
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } } .shimmer-btn::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; } .shimmer-btn:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }`}</style>
       {panelOpen && (
         <div style={{ marginTop: '0.85rem', background: 'rgba(99,102,241,0.04)',
           border: '1px solid rgba(99,102,241,0.2)', borderRadius: 10, padding: '1.25rem' }}>
@@ -357,9 +358,6 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
             <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
               <div style={{ width: '28px', height: '28px', border: '3px solid rgba(99,102,241,0.2)', borderTop: '3px solid #6366f1', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 0.5rem' }}></div>
               <div style={{ color: '#818cf8', fontSize: '0.85rem' }}>Reading your handwriting…</div>
-              <style>{`
-        .shimmer-btn::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
-        .shimmer-btn:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             </div>
           )}
 
