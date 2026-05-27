@@ -454,7 +454,10 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
                     <div style={{ color: 'var(--text3)', fontSize: '0.65rem', textTransform: 'uppercase' }}>Words</div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem',
                       color: d.word_count_rating === 'GOOD' ? '#34d399' : '#f59e0b' }}>
-                      {d.word_count} ({d.word_count_rating})
+                      {d.word_count}
+                    </div>
+                    <div style={{ color: 'var(--text3)', fontSize: '0.6rem', marginTop: '0.1rem' }}>
+                      ideal: {marks === 10 ? '150' : marks === 15 ? '200' : '250'}
                     </div>
                   </div>
                 )}
