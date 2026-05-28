@@ -31,7 +31,6 @@ const nextConfig: NextConfig = {
         headers: [
           { key: 'Content-Type', value: 'application/xml' },
           { key: 'Cache-Control', value: 'public, max-age=86400' },
-          { key: 'X-Robots-Tag', value: 'noindex' },
         ],
       },
       {
