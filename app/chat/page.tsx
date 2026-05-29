@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase';
 type Message = {
   role: 'user' | 'assistant';
   content: string;
+  sources?: { book_title: string; content: string }[];
 };
 
 const SUGGESTED = [
@@ -316,7 +317,7 @@ Every response must:
       const data = await response.json();
       if (!response.ok) { setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]); setLoading(false); return; }
       const reply = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: reply, sources: data.sources ?? [] }]);
       incrementChat();
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
@@ -656,6 +657,19 @@ Every response must:
                     <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content)) }} />
                   )}
                 </div>
+                {msg.sources && msg.sources.length > 0 && (
+                  <div style={{ margin: '0.6rem 0 0.2rem', borderRadius: 10, border: '1px solid rgba(99,102,241,0.25)', overflow: 'hidden' }}>
+                    <div style={{ background: 'rgba(99,102,241,0.1)', padding: '0.4rem 0.75rem', fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#818cf8', letterSpacing: '0.08em' }}>
+                      📖 SOURCE PASSAGES
+                    </div>
+                    {msg.sources.map((s, si) => (
+                      <div key={si} style={{ padding: '0.6rem 0.75rem', borderTop: si > 0 ? '1px solid rgba(99,102,241,0.12)' : 'none' }}>
+                        <div style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: '#6366f1', marginBottom: '0.3rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.book_title}</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text2)', lineHeight: 1.6, fontStyle: 'normal' }}>{s.content}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className={`chat-meta ${msg.role}`}>
                   {msg.role === 'assistant' ? (
                     <>

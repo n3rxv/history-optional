@@ -133,9 +133,25 @@ export async function POST(req: NextRequest) {
 
     // ── RAG: inject book context if bookMode ────────────────────────
     let ragContext = '';
+    let ragSources: { book_title: string; content: string }[] = [];
     if (bookMode) {
       const lastQ = messages?.[messages.length - 1]?.content ?? '';
-      ragContext = await getBookContext(lastQ, bookTitle);
+      try {
+        const embedding = await jinaEmbed(lastQ);
+        const supabaseClient = (await import('@supabase/supabase-js')).createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.SUPABASE_SECRET_KEY!
+        );
+        const { data: chunks } = await supabaseClient.rpc('match_book_chunks', {
+          query_embedding: embedding,
+          match_count: 5,
+          filter_book: bookTitle ?? null,
+        });
+        if (chunks && chunks.length > 0) {
+          ragSources = chunks.map((c: any) => ({ book_title: c.book_title, content: c.content }));
+          ragContext = chunks.map((c: any) => '[' + c.book_title + '] ' + c.content).join(' --- ');
+        }
+      } catch(e) { console.error('RAG error:', e); }
     }
 
     const ragSystem = ragContext
@@ -169,7 +185,7 @@ Base your answer on these passages. Cite the book title when referencing specifi
     console.log("Groq response:", JSON.stringify(data));
     const raw = data.choices?.[0]?.message?.content || 'No response';
     const text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-    return NextResponse.json({ content: [{ text }] });
+    return NextResponse.json({ content: [{ text }], sources: ragSources });
   } catch {
     return NextResponse.json({ content: [{ text: 'Something went wrong. Please try again.' }] });
   }
