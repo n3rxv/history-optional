@@ -136,7 +136,6 @@ export async function POST(req: NextRequest) {
     if (bookMode) {
       const lastQ = messages?.[messages.length - 1]?.content ?? '';
       ragContext = await getBookContext(lastQ, bookTitle);
-      console.log('RAG chunks found:', ragContext.length, 'chars, bookMode:', bookMode, 'bookTitle:', bookTitle);
     }
 
     const ragSystem = ragContext
