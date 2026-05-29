@@ -18,6 +18,10 @@ async function jinaEmbed(text: string): Promise<number[]> {
     }),
   });
   const data = await res.json();
+  if (!data.data) {
+    console.error('Jina embed error:', JSON.stringify(data));
+    throw new Error('Jina embedding failed: ' + JSON.stringify(data));
+  }
   return data.data[0].embedding;
 }
 
