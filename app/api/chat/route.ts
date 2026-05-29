@@ -34,12 +34,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
       filter_book: bookTitle ?? null,
     });
     if (!chunks || chunks.length === 0) return '';
-    return chunks.map((c: any) => `[${c.book_title}]
-${c.content}`).join('
-
----
-
-');
+    return chunks.map((c: any) => '[' + c.book_title + '] ' + c.content).join(' --- ');
   } catch (e) {
     console.error('RAG error:', e);
     return '';
