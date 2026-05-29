@@ -19,6 +19,53 @@ const SUGGESTED = [
   'Mughal state under Aurangzeb — a critical analysis.',
 ];
 
+function cleanChunk(text: string): string {
+  return text
+    .replace(/indira gandhi national open university[\s\S]{0,600}/gi, '')
+    .replace(/expert committee[\s\S]{0,600}/gi, '')
+    .replace(/school of social sciences[\s\S]{0,300}/gi, '')
+    .replace(/check your progress[\s\S]{0,400}/gi, '')
+    .replace(/answers to check your progress[\s\S]{0,400}/gi, '')
+    .replace(/instructional video rec[\s\S]{0,300}/gi, '')
+    .replace(/suggested readings[\s\S]{0,400}/gi, '')
+    .replace(/consolidation check your[\s\S]{0,200}/gi, '')
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/BHIC\s*-\s*\d+/gi, '')
+    .replace(/bhic\s*-\s*\d+/gi, '')
+    .replace(/\.{4,}/g, '')
+    .replace(/_{4,}/g, '')
+    .replace(/\[\]/g, '')
+    .replace(/\s{3,}/g, ' ')
+    .trim();
+}
+
+function SourcePassages({ sources }: { sources: { book_title: string; content: string }[] }) {
+  const [expanded, setExpanded] = useState(false);
+  const cleaned = sources.map(s => ({ ...s, content: cleanChunk(s.content) })).filter(s => s.content.length > 80);
+  if (cleaned.length === 0) return null;
+  return (
+    <div style={{ margin: '0.6rem 0 0.2rem', borderRadius: 10, border: '1px solid rgba(99,102,241,0.25)', overflow: 'hidden', fontSize: '0.78rem' }}>
+      <div
+        onClick={() => setExpanded(e => !e)}
+        style={{ background: 'rgba(99,102,241,0.1)', padding: '0.4rem 0.75rem', fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#818cf8', letterSpacing: '0.08em', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>📖 SOURCE PASSAGES ({cleaned.length})</span>
+        <span style={{ fontSize: '0.65rem' }}>{expanded ? '▲ collapse' : '▼ expand'}</span>
+      </div>
+      {expanded && cleaned.map((s, si) => (
+        <div key={si} style={{ padding: '0.6rem 0.75rem', borderTop: '1px solid rgba(99,102,241,0.12)' }}>
+          <div style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: '#6366f1', marginBottom: '0.3rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.book_title}</div>
+          <div style={{ color: 'var(--text2)', lineHeight: 1.8, fontSize: '0.78rem' }}>
+            {cleanChunk(s.content).slice(0, 500).split(/\.\s+/).filter(Boolean).map((sentence, si) => (
+              <p key={si} style={{ margin: '0 0 0.4rem' }}>{sentence.trim()}{sentence.trim().endsWith('.') ? '' : '.'}</p>
+            ))}
+            {cleanChunk(s.content).length > 500 && <p style={{ color: '#6366f1', fontSize: '0.7rem' }}>…more in book</p>}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
@@ -658,17 +705,7 @@ Every response must:
                   )}
                 </div>
                 {msg.sources && msg.sources.length > 0 && (
-                  <div style={{ margin: '0.6rem 0 0.2rem', borderRadius: 10, border: '1px solid rgba(99,102,241,0.25)', overflow: 'hidden' }}>
-                    <div style={{ background: 'rgba(99,102,241,0.1)', padding: '0.4rem 0.75rem', fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#818cf8', letterSpacing: '0.08em' }}>
-                      📖 SOURCE PASSAGES
-                    </div>
-                    {msg.sources.map((s, si) => (
-                      <div key={si} style={{ padding: '0.6rem 0.75rem', borderTop: si > 0 ? '1px solid rgba(99,102,241,0.12)' : 'none' }}>
-                        <div style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: '#6366f1', marginBottom: '0.3rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.book_title}</div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text2)', lineHeight: 1.6, fontStyle: 'normal' }}>{s.content}</div>
-                      </div>
-                    ))}
-                  </div>
+                  <SourcePassages sources={msg.sources} />
                 )}
                 <div className={`chat-meta ${msg.role}`}>
                   {msg.role === 'assistant' ? (
