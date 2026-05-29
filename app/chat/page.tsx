@@ -730,14 +730,14 @@ Every response must:
 
         {/* Book paywall card */}
         {showBookPaywall && (
-          <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.55)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center' }}
+          <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center' }}
             onClick={() => setShowBookPaywall(false)}>
-            <div style={{ background:'var(--bg1)', border:'1px solid rgba(99,102,241,0.3)', borderRadius:16, padding:'2rem', maxWidth:340, width:'90%', textAlign:'center' }}
+            <div style={{ background:'#0f0f1a', border:'1px solid rgba(99,102,241,0.4)', borderRadius:16, padding:'2rem', maxWidth:340, width:'90%', textAlign:'center' }}
               onClick={e => e.stopPropagation()}>
               <div style={{ fontSize:'2rem', marginBottom:'0.5rem' }}>📚</div>
               <div style={{ fontSize:'1.1rem', fontWeight:700, color:'var(--text1)', marginBottom:'0.4rem' }}>Chat with Books</div>
               <div style={{ fontSize:'0.85rem', color:'var(--text2)', marginBottom:'1.25rem', lineHeight:1.5 }}>
-                Get answers grounded in your reference books — Mughals IGNOU, Delhi Sultanate, and more.<br/><br/>
+                Get answers grounded in 23 standard History Optional reference books — IGNOU modules, Bipin Chandra, Satish Chandra, Upinder Singh, and more.<br/><br/>
                 <span style={{ color:'#818cf8' }}>✦ Premium feature</span>
               </div>
               <button
