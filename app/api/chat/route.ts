@@ -161,7 +161,7 @@ RELEVANT BOOK PASSAGES (use these as primary source for your answer):
 
 ${ragContext}
 
-Base your answer on these passages. Cite the book title when referencing specific content.`
+IMPORTANT: Base your answer ONLY on the provided book passages above. Do NOT use general training knowledge. Quote relevant sentences directly in quotation marks with [Book Title]. If the passages do not contain enough information, say: 'The selected book does not cover this topic in detail' — do not answer from general knowledge.`
       : system;
 
     // Detect MCQ/Prelims question
