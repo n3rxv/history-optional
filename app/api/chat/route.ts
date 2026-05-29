@@ -2,6 +2,49 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from "@supabase/supabase-js";
 
 const chatLimits = new Map<string, { count: number; ts: number }>();
+
+async function jinaEmbed(text: string): Promise<number[]> {
+  const res = await fetch('https://api.jina.ai/v1/embeddings', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: 'jina-embeddings-v3',
+      task: 'retrieval.query',
+      dimensions: 384,
+      input: [text],
+    }),
+  });
+  const data = await res.json();
+  return data.data[0].embedding;
+}
+
+async function getBookContext(query: string, bookTitle?: string): Promise<string> {
+  try {
+    const embedding = await jinaEmbed(query);
+    const supabase = (await import('@supabase/supabase-js')).createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SECRET_KEY!
+    );
+    const { data: chunks } = await supabase.rpc('match_book_chunks', {
+      query_embedding: embedding,
+      match_count: 5,
+      filter_book: bookTitle ?? null,
+    });
+    if (!chunks || chunks.length === 0) return '';
+    return chunks.map((c: any) => `[${c.book_title}]
+${c.content}`).join('
+
+---
+
+');
+  } catch (e) {
+    console.error('RAG error:', e);
+    return '';
+  }
+}
 const RATE_LIMIT = 20; // max 20 messages per 10 minutes per IP
 const CHAT_FREE_LIMIT = 5; // per month
 const OWNER_EMAIL = process.env.OWNER_EMAIL!;
@@ -64,7 +107,7 @@ export async function POST(req: NextRequest) {
 
   // ── Call Groq ────────────────────────────────────────────────────
   try {
-    const { messages, system } = await req.json();
+    const { messages, system, bookMode, bookTitle } = await req.json();
     const lastMsg = messages?.[messages.length - 1]?.content ?? '';
     if (typeof lastMsg === 'string' && lastMsg.length > 4000)
       return NextResponse.json({ error: 'Message too long' }, { status: 400 });
@@ -81,13 +124,30 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           model,
           messages: [
-            ...(system ? [{ role: 'system', content: system }] : []),
+            ...(ragSystem ? [{ role: 'system', content: ragSystem }] : []),
             ...messages,
           ],
           max_tokens: 4000,
 
         }),
       });
+
+    // ── RAG: inject book context if bookMode ────────────────────────
+    let ragContext = '';
+    if (bookMode) {
+      const lastQ = messages?.[messages.length - 1]?.content ?? '';
+      ragContext = await getBookContext(lastQ, bookTitle);
+    }
+
+    const ragSystem = ragContext
+      ? `${system ?? ''}
+
+RELEVANT BOOK PASSAGES (use these as primary source for your answer):
+
+${ragContext}
+
+Base your answer on these passages. Cite the book title when referencing specific content.`
+      : system;
 
     // Detect MCQ/Prelims question
     const lastUserMsg = messages?.[messages.length - 1]?.content ?? '';

@@ -250,6 +250,9 @@ function ChatContent() {
   }]);
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
+  const [bookMode, setBookMode] = useState(false);
+  const [bookTitle, setBookTitle] = useState<string>('all');
+  const [showBookPaywall, setShowBookPaywall] = useState(false);
   const { usage, canChat, incrementChat, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
   const usageLoading = usage?.loading ?? true;
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -306,6 +309,8 @@ Every response must:
 - Be accurate with historical facts
 - Use plain English spellings only — no diacritical marks or special Unicode characters (write "Vijigishu" not "Vijigishu with diacritics", "Kautilya" not "Kautilya with diacritics", "Arthashastra" not "Arthasastra" etc.)`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
+          bookMode,
+          bookTitle: bookTitle === 'all' ? undefined : bookTitle,
         }),
       });
       const data = await response.json();
@@ -689,6 +694,64 @@ Every response must:
             <div ref={bottomRef} />
           </div>
         </div>
+
+        {/* Books toggle */}
+        <div style={{ display:'flex', justifyContent:'center', marginBottom:'0.5rem' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:'0.75rem', background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.18)', borderRadius:10, padding:'0.45rem 1rem' }}>
+            <span style={{ fontSize:'0.8rem', color:'var(--text2)' }}>📚 Chat with Books</span>
+            <button
+              onClick={() => {
+                if (!usage?.isPremium) { setShowBookPaywall(true); return; }
+                setBookMode(b => !b);
+              }}
+              style={{
+                width:38, height:22, borderRadius:11, border:'none', cursor:'pointer', position:'relative', transition:'background 0.2s',
+                background: bookMode && usage?.isPremium ? '#6366f1' : 'rgba(99,102,241,0.15)',
+              }}
+            >
+              <span style={{
+                position:'absolute', top:3, left: bookMode && usage?.isPremium ? 18 : 3,
+                width:16, height:16, borderRadius:'50%', background:'#fff', transition:'left 0.2s', display:'block'
+              }} />
+            </button>
+            {bookMode && usage?.isPremium && (
+              <select
+                value={bookTitle}
+                onChange={e => setBookTitle(e.target.value)}
+                style={{ fontSize:'0.75rem', background:'var(--bg2)', color:'var(--text1)', border:'1px solid rgba(99,102,241,0.25)', borderRadius:6, padding:'0.2rem 0.4rem' }}
+              >
+                <option value="all">All Books</option>
+                <option value="Mughals IGNOU">Mughals IGNOU</option>
+                <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
+              </select>
+            )}
+          </div>
+        </div>
+
+        {/* Book paywall card */}
+        {showBookPaywall && (
+          <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.55)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center' }}
+            onClick={() => setShowBookPaywall(false)}>
+            <div style={{ background:'var(--bg1)', border:'1px solid rgba(99,102,241,0.3)', borderRadius:16, padding:'2rem', maxWidth:340, width:'90%', textAlign:'center' }}
+              onClick={e => e.stopPropagation()}>
+              <div style={{ fontSize:'2rem', marginBottom:'0.5rem' }}>📚</div>
+              <div style={{ fontSize:'1.1rem', fontWeight:700, color:'var(--text1)', marginBottom:'0.4rem' }}>Chat with Books</div>
+              <div style={{ fontSize:'0.85rem', color:'var(--text2)', marginBottom:'1.25rem', lineHeight:1.5 }}>
+                Get answers grounded in your reference books — Mughals IGNOU, Delhi Sultanate, and more.<br/><br/>
+                <span style={{ color:'#818cf8' }}>✦ Premium feature</span>
+              </div>
+              <button
+                onClick={() => { setShowBookPaywall(false); showChatLimitModal(); }}
+                style={{ width:'100%', padding:'0.75rem', background:'linear-gradient(135deg,#6366f1,#818cf8)', color:'#fff', border:'none', borderRadius:10, fontWeight:600, fontSize:'0.95rem', cursor:'pointer' }}>
+                Unlock Premium
+              </button>
+              <button onClick={() => setShowBookPaywall(false)}
+                style={{ marginTop:'0.75rem', background:'none', border:'none', color:'var(--text3)', fontSize:'0.8rem', cursor:'pointer' }}>
+                Maybe later
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="chat-input-area">
           <div className="chat-input-inner">
