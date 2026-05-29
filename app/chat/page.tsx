@@ -775,6 +775,7 @@ Every response must:
                 <option value="all">All Books</option>
                 <option value="Mughals IGNOU">Mughals IGNOU</option>
                 <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
+                <option value="Upinder Singh - Ancient & Early Medieval India">Upinder Singh - Ancient & Early Medieval India</option>
               </select>
             )}
           </div>
