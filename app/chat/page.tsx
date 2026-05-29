@@ -701,6 +701,7 @@ Every response must:
             <span style={{ fontSize:'0.8rem', color:'var(--text2)' }}>📚 Chat with Books</span>
             <button
               onClick={() => {
+                if (usageLoading) return;
                 if (!usage?.isPremium) { setShowBookPaywall(true); return; }
                 setBookMode(b => !b);
               }}
@@ -729,7 +730,7 @@ Every response must:
         </div>
 
         {/* Book paywall card */}
-        {showBookPaywall && (
+        {showBookPaywall && !usageLoading && (
           <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center' }}
             onClick={() => setShowBookPaywall(false)}>
             <div style={{ background:'#0f0f1a', border:'1px solid rgba(99,102,241,0.4)', borderRadius:16, padding:'2rem', maxWidth:340, width:'90%', textAlign:'center' }}
