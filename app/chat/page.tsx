@@ -307,8 +307,8 @@ function ChatContent() {
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
   const [bookMode, setBookMode] = useState(false);
-  const [dragPos, setDragPos] = React.useState({ x: window.innerWidth - 180, y: window.innerHeight - 180 });
-  const dragRef = React.useRef<{dragging:boolean, startX:number, startY:number, origX:number, origY:number}>({dragging:false,startX:0,startY:0,origX:0,origY:0});
+  const [dragPos, setDragPos] = useState({ x: typeof window !== "undefined" ? window.innerWidth - 200 : 200, y: typeof window !== "undefined" ? window.innerHeight - 200 : 400 });
+  const dragRef = useRef<{dragging:boolean, startX:number, startY:number, origX:number, origY:number}>({dragging:false,startX:0,startY:0,origX:0,origY:0});
   const [bookTitle, setBookTitle] = useState<string>('all');
   const [showBookPaywall, setShowBookPaywall] = useState(false);
   const { usage, canChat, incrementChat, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
