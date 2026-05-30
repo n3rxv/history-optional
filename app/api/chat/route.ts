@@ -11,7 +11,7 @@ async function jinaEmbed(text: string): Promise<number[]> {
       'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
     },
     body: JSON.stringify({
-      model: 'jina-embeddings-v2-base-en',
+      model: 'jina-embeddings-v3',
       task: 'retrieval.query',
       dimensions: 384,
       input: [text],
