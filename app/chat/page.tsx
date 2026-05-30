@@ -440,11 +440,8 @@ Every response must:
     text = text.replace(/___H3___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`);
     text = text.replace(/___BULLET___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>${t}</span></div>`);
     // Step 7: Paragraphs and line breaks
-    text = text.replace(/
-
-/g, '<div class="chat-para-gap"></div>');
-    text = text.replace(/
-/g, '<br/>');
+    text = text.replace(/\n\n/g, '<div class="chat-para-gap"></div>');
+    text = text.replace(/\n/g, '<br/>');
     return text;
   };
 
