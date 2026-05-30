@@ -755,9 +755,9 @@ Every response must:
         </div>
 
         {/* Books toggle */}
-        <div style={{ display:'flex', justifyContent:'center', marginBottom:'0.5rem' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:'0.75rem', background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.18)', borderRadius:10, padding:'0.45rem 1rem' }}>
-            <span style={{ fontSize:'0.8rem', color:'var(--text2)' }}>📚 Chat with Books</span>
+        <div style={{ padding:'0 0.5rem', marginBottom:'0.5rem' }}>
+          <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', gap:'0.5rem', background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.18)', borderRadius:10, padding:'0.45rem 0.75rem' }}>
+            <span style={{ fontSize:'0.78rem', color:'var(--text2)', whiteSpace:'nowrap' }}>📚 Chat with Books</span>
             <button
               onClick={() => {
                 if (usageLoading) return;
@@ -765,7 +765,7 @@ Every response must:
                 setBookMode(b => !b);
               }}
               style={{
-                width:38, height:22, borderRadius:11, border:'none', cursor:'pointer', position:'relative', transition:'background 0.2s',
+                width:38, height:22, borderRadius:11, border:'none', cursor:'pointer', position:'relative', transition:'background 0.2s', flexShrink:0,
                 background: bookMode && usage?.isPremium ? '#6366f1' : 'rgba(99,102,241,0.15)',
               }}
             >
@@ -778,7 +778,7 @@ Every response must:
               <select
                 value={bookTitle}
                 onChange={e => setBookTitle(e.target.value)}
-                style={{ fontSize:'0.75rem', background:'var(--bg2)', color:'var(--text1)', border:'1px solid rgba(99,102,241,0.25)', borderRadius:6, padding:'0.2rem 0.4rem' }}
+                style={{ fontSize:'0.75rem', background:'var(--bg2)', color:'var(--text1)', border:'1px solid rgba(99,102,241,0.25)', borderRadius:6, padding:'0.2rem 0.4rem', maxWidth:'100%', width:'100%', marginTop:'0.25rem' }}
               >
                 <option value="all">All Books</option>
                 <option value="Mughals IGNOU">Mughals IGNOU</option>
