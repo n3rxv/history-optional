@@ -161,7 +161,7 @@ RELEVANT BOOK PASSAGES (use these as primary source for your answer):
 
 ${ragContext}
 
-IMPORTANT: Base your answer ONLY on the provided book passages above. Do NOT use general training knowledge. Quote relevant sentences directly in quotation marks with [Book Title]. If the passages do not contain enough information, say: 'The selected book does not cover this topic in detail' — do not answer from general knowledge.`
+IMPORTANT: Base your answer primarily on the provided book passages above. Quote relevant sentences with [Book Title]. If the passages do not directly address the question, analyse them for related evidence and supplement with your expert knowledge to give a complete UPSC Mains-style answer. Never refuse to answer.\`
       : system;
 
     // Detect MCQ/Prelims question
