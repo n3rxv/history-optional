@@ -307,7 +307,7 @@ function ChatContent() {
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
   const [bookMode, setBookMode] = useState(false);
-  const [dragPos, setDragPos] = useState({ x: typeof window !== "undefined" ? window.innerWidth - 200 : 200, y: typeof window !== "undefined" ? window.innerHeight - 200 : 400 });
+  const [dragPos, setDragPos] = useState({ x: 16, y: 180 });
   const dragRef = useRef<{dragging:boolean, startX:number, startY:number, origX:number, origY:number}>({dragging:false,startX:0,startY:0,origX:0,origY:0});
   const [bookTitle, setBookTitle] = useState<string>('all');
   const [showBookPaywall, setShowBookPaywall] = useState(false);
@@ -804,7 +804,7 @@ Every response must:
               : '0 8px 24px rgba(0,0,0,0.4)',
             backdropFilter:'blur(16px)',
             transition:'border 0.3s, box-shadow 0.3s',
-            minWidth: 180,
+            width: 220,
           }}>
             {/* Drag handle bar */}
             <div style={{ display:'flex', justifyContent:'center', marginBottom:'0.1rem' }}>
@@ -847,10 +847,11 @@ Every response must:
                 onChange={e => setBookTitle(e.target.value)}
                 onClick={e => e.stopPropagation()}
                 style={{
-                  fontSize:'0.72rem', background:'rgba(10,8,25,0.9)', color:'var(--text1)',
-                  border:'1px solid rgba(99,102,241,0.3)', borderRadius:8,
-                  padding:'0.35rem 0.5rem', width:'100%', cursor:'pointer',
+                  fontSize:'0.68rem', background:'rgba(10,8,25,0.9)', color:'var(--text1)',
+                  border:'1px solid rgba(99,102,241,0.3)', borderRadius:6,
+                  padding:'0.25rem 0.4rem', width:'100%', cursor:'pointer',
                   outline:'none', fontFamily:'var(--font-mono)',
+                  maxWidth: 196,
                 }}
               >
                 <option value="all">📖 All Books</option>
