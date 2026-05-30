@@ -377,9 +377,7 @@ Every response must:
       });
       const data = await response.json();
       if (!response.ok) { setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]); setLoading(false); return; }
-      const rawReply = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
-      const reply = rawReply;
-      console.log('RAW OUTPUT:', JSON.stringify(rawReply.slice(0, 500)));
+      const reply = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
       setMessages(prev => [...prev, { role: 'assistant', content: reply, sources: data.sources ?? [] }]);
       incrementChat();
     } catch {
