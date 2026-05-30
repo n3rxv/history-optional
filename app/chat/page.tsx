@@ -791,7 +791,8 @@ Every response must:
                 <option value="Eric Hobsbawm - Age of Empire">Eric Hobsbawm - Age of Empire</option>
                 <option value="Eric Hobsbawm - Age of Revolution">Eric Hobsbawm - Age of Revolution</option>
                 <option value="Eric Hobsbawm - Age of Capital">Eric Hobsbawm - Age of Capital</option>
-                <option value="History of Medieval India - Satish Chandra">History of Medieval India - Satish Chandra</option>
+                <option value="Satish Chandra - Medieval India (800-1700)">Satish Chandra - Medieval India (800-1700)</option>
+                <option value="Satish Chandra - Medieval India Part 2 (1526-1748)">Satish Chandra - Medieval India Part 2 (1526-1748)</option>
               </select>
             )}
           </div>
