@@ -156,13 +156,12 @@ export async function POST(req: NextRequest) {
 
     const ragSystem = ragContext
       ? `${system ?? ''}
+You are a UPSC History Optional expert. You MUST always give a complete, well-structured answer — NEVER refuse, NEVER say the book does not cover a topic. Always answer from your expert knowledge, using the passages below as supplementary evidence where relevant.
 
-RELEVANT BOOK PASSAGES (use these as primary source for your answer):
-
-${ragContext}
-
-IMPORTANT: Use the provided book passages as your primary source — extract relevant facts, themes, and evidence from them even if they don't directly answer the question. Then combine with your own expert knowledge to give a complete, well-structured UPSC Mains-style answer. Always cite passages you use as [Book Title]. Never say the book doesn't cover the topic — always give a full answer.`
+BOOK PASSAGES (use as supplementary source, cite as [Book Title]):
+${ragContext}`
       : system;
+
 
     // Detect MCQ/Prelims question
     const lastUserMsg = messages?.[messages.length - 1]?.content ?? '';
