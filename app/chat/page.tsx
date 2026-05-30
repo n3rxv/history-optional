@@ -432,6 +432,8 @@ Every response must:
     text = text.replace(/^#{4,6} (.+)$/gm, (_: string, t: string) => `___H3___${t}___END___`);
     // Step 3: Numbered bullets e.g. "1. text" or "1) text"
     text = text.replace(/^ *\d+[.)]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
+    // Step 3b: Bullet containing ONLY a bold term (with optional colon) = subheading
+    text = text.replace(/^ *[-*•–—]\s+\*\*([^*]+?)\*\*:?\s*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
     // Step 4: All bullet variants: -, *, •, –, —
     text = text.replace(/^ *[-*•–—]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
     // Step 4b: Standalone bold-only lines = subheading (must run before bold replacement)
@@ -450,6 +452,8 @@ Every response must:
     text = text.replace(/\n/g, '<br/>');
     // Remove para-gap between consecutive bullets
     text = text.replace(/<\/div><div class="chat-para-gap"><\/div><div class="chat-bullet">/g, '</div><div class="chat-bullet">');
+    // Remove para-gap between subheading and first bullet
+    text = text.replace(/(<div class="chat-msg-h[123]">[^<]+<\/div>)<div class="chat-para-gap"><\/div>(<div class="chat-bullet">)/g, '$1$2');
     return text;
   };
 
