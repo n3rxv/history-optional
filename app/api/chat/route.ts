@@ -18,27 +18,132 @@ async function jinaEmbed(text: string): Promise<number[]> {
     }),
   });
   const data = await res.json();
-  if (!data.data) {
-    console.error('Jina embed error:', JSON.stringify(data));
-    throw new Error('Jina embedding failed: ' + JSON.stringify(data));
-  }
+  if (!data.data) throw new Error('Jina embed failed: ' + JSON.stringify(data));
   return data.data[0].embedding;
+}
+
+async function jinaEmbedBatch(texts: string[]): Promise<number[][]> {
+  const res = await fetch('https://api.jina.ai/v1/embeddings', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: 'jina-embeddings-v3',
+      task: 'retrieval.query',
+      dimensions: 384,
+      input: texts,
+    }),
+  });
+  const data = await res.json();
+  if (!data.data) throw new Error('Jina batch embed failed');
+  return data.data.map((d: any) => d.embedding);
+}
+
+async function jinaRerank(query: string, chunks: {id: any, content: string, book_title: string}[]): Promise<{id: any, content: string, book_title: string, score: number}[]> {
+  try {
+    const res = await fetch('https://api.jina.ai/v1/rerank', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'jina-reranker-v2-base-multilingual',
+        query,
+        documents: chunks.map(c => c.content),
+        top_n: 6,
+      }),
+    });
+    const data = await res.json();
+    if (!data.results) return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
+    return data.results.map((r: any) => ({
+      ...chunks[r.index],
+      score: r.relevance_score,
+    }));
+  } catch {
+    return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
+  }
+}
+
+async function expandQuery(query: string): Promise<string[]> {
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        max_tokens: 150,
+        temperature: 0.3,
+        messages: [{
+          role: 'user',
+          content: `You are a UPSC History expert. Given this question, generate 3 short search queries that capture different aspects of it. Return ONLY a JSON array of 3 strings, nothing else.\nQuestion: "${query}"\nExample output: ["query 1", "query 2", "query 3"]`,
+        }],
+      }),
+    });
+    const data = await res.json();
+    const text = data.choices?.[0]?.message?.content?.trim() ?? '[]';
+    const clean = text.replace(/\`\`\`json|\`\`\`/g, '').trim();
+    const arr = JSON.parse(clean);
+    if (Array.isArray(arr) && arr.length > 0) return [query, ...arr.slice(0, 3)];
+    return [query];
+  } catch {
+    return [query];
+  }
 }
 
 async function getBookContext(query: string, bookTitle?: string): Promise<string> {
   try {
-    const embedding = await jinaEmbed(query);
-    const supabase = (await import('@supabase/supabase-js')).createClient(
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
     );
-    const { data: chunks } = await supabase.rpc('match_book_chunks', {
-      query_embedding: embedding,
-      match_count: 5,
-      filter_book: (bookTitle && bookTitle !== "all") ? bookTitle : null,
-    });
-    if (!chunks || chunks.length === 0) return '';
-    return chunks.map((c: any) => '[' + c.book_title + '] ' + c.content).join(' --- ');
+    const filter = (bookTitle && bookTitle !== "all") ? bookTitle : null;
+
+    // Step 1: Expand query into multiple sub-queries
+    const queries = await expandQuery(query);
+    console.log('Expanded queries:', queries);
+
+    // Step 2: Embed all queries in one batch call
+    const embeddings = await jinaEmbedBatch(queries);
+
+    // Step 3: Search for each sub-query in parallel
+    const searchPromises = embeddings.map(embedding =>
+      supabase.rpc('match_book_chunks', {
+        query_embedding: embedding,
+        match_count: 10,
+        filter_book: filter,
+      })
+    );
+    const results = await Promise.all(searchPromises);
+
+    // Step 4: Merge + deduplicate by id
+    const seen = new Set<any>();
+    const allChunks: {id: any, content: string, book_title: string}[] = [];
+    for (const result of results) {
+      for (const chunk of (result.data ?? [])) {
+        if (!seen.has(chunk.id)) {
+          seen.add(chunk.id);
+          allChunks.push({ id: chunk.id, content: chunk.content, book_title: chunk.book_title });
+        }
+      }
+    }
+
+    if (allChunks.length === 0) return '';
+
+    // Step 5: Rerank by true relevance
+    const reranked = await jinaRerank(query, allChunks);
+
+    // Step 6: Return top 6 chunks with source labels
+    return reranked
+      .map((c, i) => `[Source ${i + 1} — ${c.book_title}]\n${c.content}`)
+      .join('\n\n---\n\n');
+
   } catch (e) {
     console.error('RAG error:', e);
     return '';
