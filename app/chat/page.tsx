@@ -786,6 +786,7 @@ Every response must:
                 <option value="Upinder Singh - Ancient & Early Medieval India">Upinder Singh - Ancient & Early Medieval India</option>
                 <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
                 <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
+                <option value="AL Basham - The Wonder That Was India">AL Basham - The Wonder That Was India</option>
               </select>
             )}
           </div>
