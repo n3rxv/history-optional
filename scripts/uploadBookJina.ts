@@ -97,6 +97,17 @@ async function uploadBook(filePath: string, bookTitle: string) {
       .replace(/\n{3,}/g, '\n\n')
       .replace(/ {3,}/g, ' ')
       .trim();
+  } else if (filePath.endsWith('.epub')) {
+    const { execFileSync } = require('child_process');
+    try {
+      const result = execFileSync('python3', ['scripts/extract_pdf.py', filePath], {
+        maxBuffer: 200 * 1024 * 1024
+      });
+      extractedText = result.toString();
+    } catch(e: any) {
+      console.error('EPUB extraction error:', e.message);
+      extractedText = '';
+    }
   } else {
     const buffer = fs.readFileSync(filePath);
     const parsed = await pdfParse(buffer);
