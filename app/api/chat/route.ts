@@ -168,7 +168,7 @@ The passages above are retrieved from the selected book. They may directly answe
 3. CITE — when using passage content, attribute it: "According to [Book Title], ..."
 4. SUPPLEMENT — if passages lack sufficient depth, use your own expert knowledge to complete the answer. Never refuse to answer.
 5. ALWAYS give a complete UPSC Mains-style answer with introduction, body, and conclusion.
-6. BOOK MISMATCH CHECK — Before answering, check if the question topic matches the selected book. If there is a clear mismatch (e.g. Early Vedic period asked on Delhi Sultanate book, or Mughal period asked on Hobsbawm), then: (a) Inform the user naturally: "Note: This question falls outside [Book Title]. For better grounded answers, switch to [relevant book] in the Chat with Books menu." (b) Then still answer fully from your expert knowledge. Never leave the student without an answer.\`
+6. BOOK MISMATCH CHECK — Before answering, check if the question topic matches the selected book. If there is a clear mismatch (e.g. Early Vedic period asked on Delhi Sultanate book, or Mughal period asked on Hobsbawm), then: (a) Inform the user naturally: "Note: This question falls outside [Book Title]. For better grounded answers, switch to [relevant book] in the Chat with Books menu." (b) Then still answer fully from your expert knowledge. Never leave the student without an answer.`
       : system;
 
     // Detect MCQ/Prelims question
