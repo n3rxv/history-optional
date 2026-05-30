@@ -156,8 +156,14 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
 
     if (allChunks.length === 0) return '';
 
+    // Step 4b: Filter low-similarity chunks before reranking
+    // (similarity < 0.5 means book likely doesn't cover this topic)
+    const filtered = allChunks.filter((c: any) => (c.similarity ?? 1) > 0.45);
+    const chunksToRerank = filtered.length >= 3 ? filtered : allChunks;
+    console.log(`Chunks before filter: ${allChunks.length}, after: ${chunksToRerank.length}`);
+
     // Step 5: Rerank by true relevance
-    const reranked = await jinaRerank(query, allChunks);
+    const reranked = await jinaRerank(query, chunksToRerank);
 
     // Step 6: Ensure diversity - max 2 chunks per book, then fill remaining slots
     const finalChunks: typeof reranked = [];
@@ -307,6 +313,8 @@ EPISTEMIC INTEGRITY PROTOCOL — HIGHEST PRIORITY
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 You are writing for UPSC History Optional aspirants. A fabricated fact, invented quote, or hallucinated event in their answer can cost them a rank — or the exam itself. This is not a writing exercise. This is someone's career.
+
+CRITICAL RULE ON IRRELEVANT SOURCES: If the provided book passages are clearly about a different topic or era than the question (e.g., question is about French Revolution but passages are about Algeria or Vietnam), you MUST explicitly state: "The selected book does not cover this topic directly." Then answer from general knowledge — but WITHOUT inventing any quotes, statistics, names, or citations. A clean general-knowledge answer is infinitely better than a hallucinated one with fake quotes.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STEP 1 — CLASSIFY EVERY CLAIM BEFORE WRITING IT
