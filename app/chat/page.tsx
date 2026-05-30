@@ -793,6 +793,7 @@ Every response must:
                 <option value="Eric Hobsbawm - Age of Capital">Eric Hobsbawm - Age of Capital</option>
                 <option value="Satish Chandra - Medieval India (800-1700)">Satish Chandra - Medieval India (800-1700)</option>
                 <option value="Satish Chandra - Medieval India Part 2 (1526-1748)">Satish Chandra - Medieval India Part 2 (1526-1748)</option>
+                <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
               </select>
             )}
           </div>
