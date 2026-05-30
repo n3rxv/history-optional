@@ -355,13 +355,17 @@ For ambiguous words like 'Discuss' or 'Comment': judge from context whether desc
 
 CRITICAL WRITING STYLE — strictly follow this:
 - Every bullet point or key term MUST be followed by a proper explanation of 2-4 sentences. Never drop a keyword or name without explaining its significance, context, and impact.
+- NEVER write a historian name or concept as a bare standalone bullet like "- Jadunath Sarkar". Always write: "**Jadunath Sarkar** argues that..." within the bullet text.
+- NEVER add a separate "Key Historians Cited" list at the end. Weave all historian references naturally into the argument body.
 - Do NOT write bare keyword lists. Each point should read: **Term/Concept** — explanation of what it is, why it matters, how it connects to the broader theme.
 - Think of each bullet as a mini-paragraph: keyword + explanation + historical significance.
 - Depth over brevity. A well-explained point is worth more than five bare keywords.
 - Avoid telegraphic one-liners. Every claim needs supporting context.
 
 Every response must:
-- Use **bold** for key terms, historian names, and pivotal events
+- Use **bold** for key terms, historian names, and pivotal events WITHIN sentences only
+- For section subheadings use ### (e.g. ### Introduction), NEVER a standalone **bold** line on its own
+- A line that is ONLY **bold text** with nothing else is forbidden — either make it a ### heading or fold it into a sentence
 - Include specific dates, names, and events for empirical weight
 - Incorporate relevant historians and their arguments with brief explanation of their thesis
 - Be accurate with historical facts
@@ -430,6 +434,8 @@ Every response must:
     text = text.replace(/^ *\d+[.)]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
     // Step 4: All bullet variants: -, *, •, –, —
     text = text.replace(/^ *[-*•–—]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
+    // Step 4b: Standalone bold-only lines = subheading (must run before bold replacement)
+    text = text.replace(/^\s*\*\*([^*]+)\*\*\s*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
     // Step 5: Bold and italic
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
@@ -442,6 +448,8 @@ Every response must:
     // Step 7: Paragraphs and line breaks
     text = text.replace(/\n\n/g, '<div class="chat-para-gap"></div>');
     text = text.replace(/\n/g, '<br/>');
+    // Remove para-gap between consecutive bullets
+    text = text.replace(/<\/div><div class="chat-para-gap"><\/div><div class="chat-bullet">/g, '</div><div class="chat-bullet">');
     return text;
   };
 
@@ -558,13 +566,14 @@ Every response must:
         /* ── Bullets ── */
         .chat-bullet {
           display:flex; align-items:flex-start; gap:0.75rem;
-          margin:0.5rem 0;
+          margin:0.15rem 0;
           padding:0.45rem 0.7rem 0.45rem 0.5rem;
           border-radius:6px;
           transition:background 0.15s;
           color:#c8d3e0;
         }
         .chat-bullet:hover { background:rgba(59,130,246,0.05); }
+        .chat-bullet + .chat-para-gap + .chat-bullet, .chat-bullet + .chat-bullet { margin-top:0; }
         .chat-bullet-dot {
           width:7px; height:7px; border-radius:50%;
           background:linear-gradient(135deg,#3b82f6,#60a5fa);
