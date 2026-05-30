@@ -161,7 +161,7 @@ RELEVANT BOOK PASSAGES (use these as primary source for your answer):
 
 ${ragContext}
 
-IMPORTANT: Base your answer primarily on the provided book passages above. Quote relevant sentences with [Book Title]. If the passages do not directly address the question, analyse them for related evidence and supplement with your expert knowledge to give a complete UPSC Mains-style answer. Never refuse to answer.`
+IMPORTANT: Use the provided book passages as your primary source — extract relevant facts, themes, and evidence from them even if they don't directly answer the question. Then combine with your own expert knowledge to give a complete, well-structured UPSC Mains-style answer. Always cite passages you use as [Book Title]. Never say the book doesn't cover the topic — always give a full answer.`
       : system;
 
     // Detect MCQ/Prelims question
