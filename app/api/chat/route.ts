@@ -111,15 +111,36 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     // Step 2: Embed all queries in one batch call
     const embeddings = await jinaEmbedBatch(queries);
 
-    // Step 3: Search for each sub-query in parallel
-    const searchPromises = embeddings.map(embedding =>
-      supabase.rpc('match_book_chunks', {
-        query_embedding: embedding,
-        match_count: 10,
-        filter_book: filter,
-      })
-    );
-    const results = await Promise.all(searchPromises);
+    // Step 3: Search strategy depends on mode
+    let results;
+    if (!filter) {
+      // All Books mode: get top 3 per book to ensure diversity
+      const { data: bookList } = await supabase
+        .from('book_chunks')
+        .select('book_title')
+        .limit(1000);
+      const books = [...new Set((bookList ?? []).map((r: any) => r.book_title))];
+      const perBookPromises = books.flatMap(book =>
+        embeddings.map(embedding =>
+          supabase.rpc('match_book_chunks', {
+            query_embedding: embedding,
+            match_count: 3,
+            filter_book: book,
+          })
+        )
+      );
+      results = await Promise.all(perBookPromises);
+    } else {
+      // Single book mode: search normally
+      const searchPromises = embeddings.map(embedding =>
+        supabase.rpc('match_book_chunks', {
+          query_embedding: embedding,
+          match_count: 10,
+          filter_book: filter,
+        })
+      );
+      results = await Promise.all(searchPromises);
+    }
 
     // Step 4: Merge + deduplicate by id
     const seen = new Set<any>();
