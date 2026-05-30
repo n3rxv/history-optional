@@ -157,18 +157,11 @@ export async function POST(req: NextRequest) {
     const ragSystem = ragContext
       ? `${system ?? ''}
 
-BOOK PASSAGES FOR REFERENCE:
+RELEVANT BOOK PASSAGES (use these as primary source for your answer):
+
 ${ragContext}
 
-YOUR TASK AS A HISTORY OPTIONAL EXPERT:
-The passages above are retrieved from the selected book. They may directly answer the question, or they may contain related content that needs deep analysis and inference.
-
-1. ANALYSE deeply — even if passages do not directly mention the topic, extract relevant facts, themes, arguments, and evidence that bear on the question. A passage about Rig Vedic society can answer a question about early Vedic conditions even without using that exact phrase.
-2. SYNTHESISE — connect what the passages say to what the question asks. Read between the lines.
-3. CITE — when using passage content, attribute it: "According to [Book Title], ..."
-4. SUPPLEMENT — if passages lack sufficient depth, use your own expert knowledge to complete the answer. Never refuse to answer.
-5. ALWAYS give a complete UPSC Mains-style answer with introduction, body, and conclusion.
-6. BOOK MISMATCH CHECK — Before answering, check if the question topic matches the selected book. If there is a clear mismatch (e.g. Early Vedic period asked on Delhi Sultanate book, or Mughal period asked on Hobsbawm), then: (a) Inform the user naturally: "Note: This question falls outside [Book Title]. For better grounded answers, switch to [relevant book] in the Chat with Books menu." (b) Then still answer fully from your expert knowledge. Never leave the student without an answer.`
+IMPORTANT: Base your answer ONLY on the provided book passages above. Do NOT use general training knowledge. Quote relevant sentences directly in quotation marks with [Book Title]. If the passages do not contain enough information, say: 'The selected book does not cover this topic in detail' — do not answer from general knowledge.`
       : system;
 
     // Detect MCQ/Prelims question
