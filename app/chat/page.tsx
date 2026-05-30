@@ -307,7 +307,7 @@ function ChatContent() {
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
   const [bookMode, setBookMode] = useState(false);
-  const [dragPos, setDragPos] = useState({ x: 16, y: 180 });
+  const [dragPos, setDragPos] = useState(() => ({ x: 16, y: typeof window !== "undefined" && window.innerWidth < 768 ? window.innerHeight - 220 : 180 }));
   const dragRef = useRef<{dragging:boolean, startX:number, startY:number, origX:number, origY:number}>({dragging:false,startX:0,startY:0,origX:0,origY:0});
   const [bookTitle, setBookTitle] = useState<string>('all');
   const [showBookPaywall, setShowBookPaywall] = useState(false);
