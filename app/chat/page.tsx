@@ -444,12 +444,15 @@ Every response must:
     // Step 6: Replace tokens with HTML
     text = text.replace(/___HR___/g, '<div class="chat-hr"></div>');
     text = text.replace(/___H1___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`);
-    text = text.replace(/___H2___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h2">${t}</div>`);
+    text = text.replace(/___H2___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h2">${t.replace(/^#+\s*/, '')}</div>`);
     text = text.replace(/___H3___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`);
     text = text.replace(/___BULLET___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>${t}</span></div>`);
     // Step 7: Paragraphs and line breaks
     text = text.replace(/\n\n/g, '<div class="chat-para-gap"></div>');
     text = text.replace(/\n/g, '<br/>');
+    // Post-process: bold-only bullet = subheading (catches cases Step 3b misses)
+    text = text.replace(/<div class="chat-bullet"><span class="chat-bullet-dot"><\/span><span><strong>([^<]+)<\/strong>:?\s*<\/span><\/div>/g,
+      (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`);
     // Remove para-gap between consecutive bullets
     text = text.replace(/<\/div><div class="chat-para-gap"><\/div><div class="chat-bullet">/g, '</div><div class="chat-bullet">');
     // Remove para-gap between subheading and first bullet
