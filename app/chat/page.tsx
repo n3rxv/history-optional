@@ -886,6 +886,7 @@ Every response must:
                 <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
                 <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
                 <option value="AL Basham - The Wonder That Was India">AL Basham - The Wonder That Was India</option>
+                <option value="Norman Lowe - Mastering Modern World History">Norman Lowe - Mastering Modern World History</option>
                 <option value="Eric Hobsbawm - Age of Extremes">Eric Hobsbawm - Age of Extremes (1914-1991)</option>
                 <option value="Eric Hobsbawm - Age of Empire">Eric Hobsbawm - Age of Empire (1875-1914)</option>
                 <option value="Eric Hobsbawm - Age of Revolution">Eric Hobsbawm - Age of Revolution (1789-1848)</option>
