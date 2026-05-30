@@ -35,7 +35,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     const { data: chunks } = await supabase.rpc('match_book_chunks', {
       query_embedding: embedding,
       match_count: 5,
-      filter_book: bookTitle ?? null,
+      filter_book: (bookTitle && bookTitle !== "all") ? bookTitle : null,
     });
     if (!chunks || chunks.length === 0) return '';
     return chunks.map((c: any) => '[' + c.book_title + '] ' + c.content).join(' --- ');
@@ -145,7 +145,7 @@ export async function POST(req: NextRequest) {
         const { data: chunks } = await supabaseClient.rpc('match_book_chunks', {
           query_embedding: embedding,
           match_count: 5,
-          filter_book: bookTitle ?? null,
+          filter_book: (bookTitle && bookTitle !== "all") ? bookTitle : null,
         });
         if (chunks && chunks.length > 0) {
           ragSources = chunks.map((c: any) => ({ book_title: c.book_title, content: c.content }));
