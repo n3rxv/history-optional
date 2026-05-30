@@ -159,8 +159,29 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     // Step 5: Rerank by true relevance
     const reranked = await jinaRerank(query, allChunks);
 
-    // Step 6: Return top 6 chunks with source labels
-    return reranked
+    // Step 6: Ensure diversity - max 2 chunks per book, then fill remaining slots
+    const finalChunks: typeof reranked = [];
+    const bookCount: Record<string, number> = {};
+    const overflow: typeof reranked = [];
+
+    for (const chunk of reranked) {
+      const count = bookCount[chunk.book_title] ?? 0;
+      if (count < 2) {
+        finalChunks.push(chunk);
+        bookCount[chunk.book_title] = count + 1;
+      } else {
+        overflow.push(chunk);
+      }
+      if (finalChunks.length >= 8) break;
+    }
+    // Fill up to 8 if needed
+    for (const chunk of overflow) {
+      if (finalChunks.length >= 8) break;
+      finalChunks.push(chunk);
+    }
+
+    // Step 7: Return chunks with source labels
+    return finalChunks
       .map((c, i) => `[Source ${i + 1} — ${c.book_title}]\n${c.content}`)
       .join('\n\n---\n\n');
 
