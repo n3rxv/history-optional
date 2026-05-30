@@ -98,7 +98,6 @@ async function expandQuery(query: string): Promise<string[]> {
 
 async function getBookContext(query: string, bookTitle?: string): Promise<string> {
   try {
-    const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
