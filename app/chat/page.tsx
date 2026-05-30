@@ -420,19 +420,32 @@ Every response must:
 
   const formatMessage = (text: string) => {
     text = formatTable(text);
-    return text
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.+?)\*/g, '<em>$1</em>')
-      .replace(/^-{3,}$/gm, '<div class="chat-hr"></div>')
-      .replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`)
-      .replace(/^### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h2">${t}</div>`)
-      .replace(/^#{5,6} (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
-      .replace(/^#### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
-      .replace(/^##### (.+)$/gm, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`)
-      .replace(/^ *[•\*] (.+)$/gm, '<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>$1</span></div>')
-      .replace(/^ *- (.+)$/gm, '<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>$1</span></div>')
-      .replace(/\n\n/g, '<div class="chat-para-gap"></div>')
-      .replace(/\n/g, '<br/>');
+    // Step 1: Protect --- from bullet matching
+    text = text.replace(/^-{3,}$/gm, '___HR___');
+    // Step 2: Headings
+    text = text.replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `___H1___${t}___END___`);
+    text = text.replace(/^### (.+)$/gm, (_: string, t: string) => `___H2___${t}___END___`);
+    text = text.replace(/^#{4,6} (.+)$/gm, (_: string, t: string) => `___H3___${t}___END___`);
+    // Step 3: Numbered bullets e.g. "1. text" or "1) text"
+    text = text.replace(/^ *\d+[.)]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
+    // Step 4: All bullet variants: -, *, •, –, —
+    text = text.replace(/^ *[-*•–—]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
+    // Step 5: Bold and italic
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    // Step 6: Replace tokens with HTML
+    text = text.replace(/___HR___/g, '<div class="chat-hr"></div>');
+    text = text.replace(/___H1___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`);
+    text = text.replace(/___H2___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h2">${t}</div>`);
+    text = text.replace(/___H3___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`);
+    text = text.replace(/___BULLET___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>${t}</span></div>`);
+    // Step 7: Paragraphs and line breaks
+    text = text.replace(/
+
+/g, '<div class="chat-para-gap"></div>');
+    text = text.replace(/
+/g, '<br/>');
+    return text;
   };
 
   const getPrecedingQuestion = (msgIndex: number): string | undefined => {
