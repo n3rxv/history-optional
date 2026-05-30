@@ -754,33 +754,71 @@ Every response must:
           </div>
         </div>
 
-        {/* Books toggle */}
-        <div style={{ padding:'0 0.5rem', marginBottom:'0.5rem' }}>
-          <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', gap:'0.5rem', background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.18)', borderRadius:10, padding:'0.45rem 0.75rem' }}>
-            <span style={{ fontSize:'0.78rem', color:'var(--text2)', whiteSpace:'nowrap' }}>📚 Chat with Books</span>
-            <button
-              onClick={() => {
-                if (usageLoading) return;
-                if (!usage?.isPremium) { setShowBookPaywall(true); return; }
-                setBookMode(b => !b);
-              }}
-              style={{
-                width:38, height:22, borderRadius:11, border:'none', cursor:'pointer', position:'relative', transition:'background 0.2s', flexShrink:0,
-                background: bookMode && usage?.isPremium ? '#6366f1' : 'rgba(99,102,241,0.15)',
-              }}
-            >
-              <span style={{
-                position:'absolute', top:3, left: bookMode && usage?.isPremium ? 18 : 3,
-                width:16, height:16, borderRadius:'50%', background:'#fff', transition:'left 0.2s', display:'block'
-              }} />
-            </button>
+        {/* Books toggle — floating pill */}
+        <div style={{ display:'flex', justifyContent:'center', marginBottom:'0.6rem', padding:'0 0.5rem' }}>
+          <div style={{
+            display:'inline-flex', flexDirection:'column', alignItems:'center', gap:'0.5rem',
+            background: bookMode && usage?.isPremium
+              ? 'linear-gradient(135deg, rgba(99,102,241,0.18), rgba(139,92,246,0.12))'
+              : 'rgba(99,102,241,0.06)',
+            border: bookMode && usage?.isPremium
+              ? '1px solid rgba(139,92,246,0.45)'
+              : '1px solid rgba(99,102,241,0.15)',
+            borderRadius:14, padding:'0.5rem 1rem',
+            boxShadow: bookMode && usage?.isPremium
+              ? '0 0 18px rgba(99,102,241,0.2), 0 2px 8px rgba(0,0,0,0.3)'
+              : '0 2px 8px rgba(0,0,0,0.2)',
+            transition:'all 0.3s ease',
+            width: bookMode && usage?.isPremium ? '100%' : 'auto',
+            maxWidth: 480,
+          }}>
+            {/* Row 1: icon + label + toggle */}
+            <div style={{ display:'flex', alignItems:'center', gap:'0.6rem' }}>
+              <span style={{ fontSize:'0.95rem', filter: bookMode && usage?.isPremium ? 'drop-shadow(0 0 6px #818cf8)' : 'none', transition:'filter 0.3s' }}>📚</span>
+              <span style={{ fontSize:'0.75rem', fontFamily:'var(--font-mono)', letterSpacing:'0.08em', color: bookMode && usage?.isPremium ? '#a5b4fc' : 'var(--text2)', fontWeight:600, textTransform:'uppercase', whiteSpace:'nowrap' }}>
+                Chat with Books
+              </span>
+              {bookMode && usage?.isPremium && (
+                <span style={{ fontSize:'0.6rem', background:'rgba(99,102,241,0.25)', color:'#818cf8', borderRadius:4, padding:'0.1rem 0.4rem', fontFamily:'var(--font-mono)', letterSpacing:'0.06em' }}>ON</span>
+              )}
+              <button
+                onClick={() => {
+                  if (usageLoading) return;
+                  if (!usage?.isPremium) { setShowBookPaywall(true); return; }
+                  setBookMode(b => !b);
+                }}
+                style={{
+                  width:42, height:24, borderRadius:12, border:'none', cursor:'pointer',
+                  position:'relative', transition:'all 0.25s',
+                  background: bookMode && usage?.isPremium
+                    ? 'linear-gradient(90deg, #6366f1, #8b5cf6)'
+                    : 'rgba(99,102,241,0.2)',
+                  boxShadow: bookMode && usage?.isPremium ? '0 0 10px rgba(99,102,241,0.5)' : 'none',
+                  flexShrink:0,
+                }}
+              >
+                <span style={{
+                  position:'absolute', top:4, left: bookMode && usage?.isPremium ? 20 : 4,
+                  width:16, height:16, borderRadius:'50%',
+                  background: bookMode && usage?.isPremium ? '#fff' : 'rgba(255,255,255,0.7)',
+                  transition:'left 0.25s', display:'block',
+                  boxShadow:'0 1px 3px rgba(0,0,0,0.3)',
+                }} />
+              </button>
+            </div>
+            {/* Row 2: book selector */}
             {bookMode && usage?.isPremium && (
               <select
                 value={bookTitle}
                 onChange={e => setBookTitle(e.target.value)}
-                style={{ fontSize:'0.75rem', background:'var(--bg2)', color:'var(--text1)', border:'1px solid rgba(99,102,241,0.25)', borderRadius:6, padding:'0.2rem 0.4rem', maxWidth:'100%', width:'100%', marginTop:'0.25rem' }}
+                style={{
+                  fontSize:'0.76rem', background:'rgba(15,15,30,0.8)', color:'var(--text1)',
+                  border:'1px solid rgba(99,102,241,0.3)', borderRadius:8,
+                  padding:'0.35rem 0.6rem', width:'100%', cursor:'pointer',
+                  outline:'none', fontFamily:'var(--font-mono)',
+                }}
               >
-                <option value="all">All Books</option>
+                <option value="all">📖 All Books</option>
                 <option value="Mughals IGNOU">Mughals IGNOU</option>
                 <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
                 <option value="Upinder Singh - Ancient & Early Medieval India">Upinder Singh - Ancient & Early Medieval India</option>
