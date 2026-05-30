@@ -240,22 +240,20 @@ export async function POST(req: NextRequest) {
     let ragContext = '';
     let ragSources: { book_title: string; content: string }[] = [];
     if (bookMode) {
-      const lastQ = messages?.[messages.length - 1]?.content ?? '';
+      const lastQ = typeof messages?.[messages.length - 1]?.content === 'string'
+        ? messages[messages.length - 1].content
+        : '';
       try {
-        const embedding = await jinaEmbed(lastQ);
-        const supabaseClient = (await import('@supabase/supabase-js')).createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SECRET_KEY!
-        );
-        const { data: chunks } = await supabaseClient.rpc('match_book_chunks', {
-          query_embedding: embedding,
-          match_count: 5,
-          filter_book: (bookTitle && bookTitle !== "all") ? bookTitle : null,
-        });
-        if (chunks && chunks.length > 0) {
-          ragSources = chunks.map((c: any) => ({ book_title: c.book_title, content: c.content }));
-          ragContext = chunks.map((c: any) => '[' + c.book_title + '] ' + c.content).join(' --- ');
-        }
+        ragContext = await getBookContext(lastQ, bookTitle);
+        // Parse sources from formatted ragContext for UI display
+        ragSources = ragContext
+          .split('\n\n---\n\n')
+          .map(block => {
+            const match = block.match(/^\[Source \d+ — (.+?)\]\n([\s\S]+)$/);
+            if (match) return { book_title: match[1], content: match[2] };
+            return null;
+          })
+          .filter(Boolean) as { book_title: string; content: string }[];
       } catch(e) { console.error('RAG error:', e); }
     }
 
