@@ -81,9 +81,28 @@ async function reEmbedExisting() {
 
 async function uploadBook(filePath: string, bookTitle: string) {
   console.log(`Reading: ${bookTitle}`);
-  const buffer = fs.readFileSync(filePath);
-  const parsed = await pdfParse(buffer);
-  const chunks = chunkText(parsed.text);
+  let extractedText: string;
+  if (filePath.endsWith('.txt')) {
+    const raw = require('fs').readFileSync(filePath, 'utf-8');
+    extractedText = raw
+      .replace(/\r\n/g, '\n')
+      .replace(/\f/g, '\n')
+      .replace(/^\s*\d+\s*$/gm, '')
+      .replace(/check your progress[\s\S]{0,400}/gi, '')
+      .replace(/suggested readings[\s\S]{0,400}/gi, '')
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/_{4,}/g, '')
+      .replace(/\.{4,}/g, '')
+      .replace(/-\n/g, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .replace(/ {3,}/g, ' ')
+      .trim();
+  } else {
+    const buffer = fs.readFileSync(filePath);
+    const parsed = await pdfParse(buffer);
+    extractedText = parsed.text;
+  }
+  const chunks = chunkText(extractedText);
   console.log(`Total chunks: ${chunks.length}`);
   const BATCH = 10;
   let uploaded = 0;

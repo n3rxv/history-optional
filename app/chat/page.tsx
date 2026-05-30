@@ -784,6 +784,8 @@ Every response must:
                 <option value="Mughals IGNOU">Mughals IGNOU</option>
                 <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
                 <option value="Upinder Singh - Ancient & Early Medieval India">Upinder Singh - Ancient & Early Medieval India</option>
+                <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
+                <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
               </select>
             )}
           </div>
