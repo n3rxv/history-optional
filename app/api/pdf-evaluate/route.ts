@@ -15,13 +15,14 @@ async function isPremiumUser(token: string): Promise<boolean> {
     );
     const db = createServerClient();
     const { data: { user } } = await db.auth.getUser(token);
-    if (user?.email === process.env.OWNER_EMAIL) return true;
+    if (!user) return false;
+    if (user.email === process.env.OWNER_EMAIL) return true;
  
     const nowISO = new Date().toISOString();
     const { data: sub } = await supabase
       .from("subscriptions")
       .select("status")
-      .eq("user_id", token)
+      .eq("user_id", user.id)
       .eq("status", "active")
       .gt("expires_at", nowISO)
       .single();
