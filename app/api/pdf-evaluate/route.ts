@@ -106,25 +106,31 @@ RULES:
 - If unreadable (<70% confident): write [illegible]
 - Preserve paragraph breaks with double newlines`;
  
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{
-          parts: [
-            { text: prompt },
-            { inline_data: { mime_type: "application/pdf", data: pdfBase64 } }
-          ]
-        }],
-        generationConfig: { temperature: 0.1, maxOutputTokens: 32000 }
-      })
-    }
-  );
- 
-  if (!res.ok) throw new Error(`Gemini error: ${res.status}`);
-  const data = await res.json();
+  let geminiRes: Response = null!;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    geminiRes = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { text: prompt },
+              { inline_data: { mime_type: "application/pdf", data: pdfBase64 } }
+            ]
+          }],
+          generationConfig: { temperature: 0.1, maxOutputTokens: 32000 }
+        })
+      }
+    );
+    if (geminiRes.status !== 429) break;
+    const wait = (2 ** attempt) * 2000;
+    console.log(`Gemini 429 — retrying in ${wait}ms (attempt ${attempt + 1})`);
+    await new Promise(r => setTimeout(r, wait));
+  }
+  if (!geminiRes.ok) throw new Error(`Gemini error: ${geminiRes.status}`);
+  const data = await geminiRes.json();
   const raw  = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "[]";
   const clean = raw.replace(/```json\s*/gi,"").replace(/```/g,"").trim();
  
