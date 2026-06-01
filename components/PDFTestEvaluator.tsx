@@ -473,9 +473,6 @@ export default function PDFTestEvaluator({
 
   async function handleEvaluate() {
     if (!file) return;
-    if (!paperQuestions || paperQuestions.length === 0) {
-      setError("No questions configured for this paper."); return;
-    }
     setError(null);
     setStage("loading");
     setEvalProgress(5);
@@ -499,20 +496,39 @@ export default function PDFTestEvaluator({
       setTranscript(ocrText);
       setEvalProgress(32);
 
-      setEvalTotal(paperQuestions.length);
+      setStepLabel("Detecting questions from transcript…");
+      let segments: Array<{ questionNumber: string; marks: number; questionText: string; answerText: string }> = [];
+
+      if (paperQuestions && paperQuestions.length > 0) {
+        segments = paperQuestions.map(q => ({ questionNumber: q.id, marks: q.marks, questionText: q.text, answerText: ocrText }));
+      } else {
+        const detRes = await fetch("/api/detect-questions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-user-token": token ?? "" },
+          body: JSON.stringify({ transcript: ocrText }),
+        });
+        const detData = await detRes.json();
+        if (!detRes.ok) throw new Error(detData.error ?? "Question detection failed");
+        segments = detData.segments ?? [];
+        if (segments.length === 0) throw new Error("No questions detected in transcript.");
+      }
+
+      setEvalProgress(45);
+      setEvalTotal(segments.length);
       const questionResults: QuestionResult[] = [];
 
-      for (let i = 0; i < paperQuestions.length; i++) {
-        const q = paperQuestions[i];
+      for (let i = 0; i < segments.length; i++) {
+        const seg = segments[i];
+        const q: PaperQuestion = { id: seg.questionNumber, marks: seg.marks, text: seg.questionText || `Question ${seg.questionNumber}` };
         setEvalCurrent(i + 1);
-        setStepLabel(`Evaluating Q${i + 1} of ${paperQuestions.length}: ${q.text.slice(0, 50)}…`);
-        setEvalProgress(32 + Math.round(((i + 1) / paperQuestions.length) * 60));
+        setStepLabel(`Evaluating ${seg.questionNumber} (${i + 1}/${segments.length})…`);
+        setEvalProgress(45 + Math.round(((i + 1) / segments.length) * 50));
 
         try {
           const evalFd = new FormData();
           evalFd.append("question", q.text);
           evalFd.append("marks", String(q.marks));
-          evalFd.append("extractedText", ocrText);
+          evalFd.append("extractedText", seg.answerText || ocrText);
           images.forEach(img => evalFd.append("files", img));
 
           const evalRes = await fetch("/api/evaluate", {
@@ -524,7 +540,7 @@ export default function PDFTestEvaluator({
         } catch (qErr: any) {
           questionResults.push({ question: q, evaluation: null, error: qErr.message });
         }
-        if (i < paperQuestions.length - 1) await new Promise(r => setTimeout(r, 800));
+        if (i < segments.length - 1) await new Promise(r => setTimeout(r, 800));
       }
 
       setEvalProgress(100);
