@@ -693,7 +693,7 @@ export default function PDFTestEvaluator({
             <span style={{ fontSize: "1.8rem" }}>📄</span>
             <div>
               <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 700, marginBottom: 4 }}>
-                AI Full Paper Evaluation
+                Full Paper Evaluation
               </div>
               <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555", letterSpacing: "0.15em" }}>
                 Premium Feature
@@ -705,7 +705,7 @@ export default function PDFTestEvaluator({
             borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
         </div>
         <p style={{ fontSize: "0.88rem", color: "#666", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
-          Upload your complete answer script as a PDF. AI reads every page, identifies each answer,
+          Upload your complete answer script as a PDF. Evaluator Model reads every page, identifies each answer,
           and gives marks + detailed feedback for the entire paper — all at once.
         </p>
       </div>
@@ -1022,7 +1022,7 @@ export default function PDFTestEvaluator({
             <span style={{ fontSize: "1.8rem" }}>📄</span>
             <div>
               <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 700, marginBottom: 4 }}>
-                AI Full Paper Evaluation
+                Full Paper Evaluation
               </div>
               <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555", letterSpacing: "0.15em" }}>
                 {paperQuestions?.length
@@ -1036,7 +1036,7 @@ export default function PDFTestEvaluator({
             borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
         </div>
         <p style={{ fontSize: "0.88rem", color: "#666", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
-          Upload your complete answer script as a PDF. AI reads every page, detects each question,
+          Upload your complete answer script as a PDF. Evaluator Model reads every page, detects each question,
           and lets you review before evaluating — marks and detailed feedback for the whole paper.
         </p>
       </div>
