@@ -189,7 +189,7 @@ function stripRewrittenQuestion(lines: string[], qText: string): string[] {
     qText.toLowerCase().split(/\s+/).filter((w) => w.length > 4)
   );
   let cutAt = 0;
-  for (let i = 0; i < Math.min(4, lines.length); i++) {
+  for (let i = 0; i < Math.min(2, lines.length); i++) {
     const t = lines[i].trim();
     if (!t) continue;
     // Short line ending with ? → likely rewritten question
@@ -197,7 +197,7 @@ function stripRewrittenQuestion(lines: string[], qText: string): string[] {
     // Line shares >50% of long words with the question text → rewrite
     const lineWords = t.toLowerCase().split(/\s+/).filter((w) => w.length > 4);
     const overlap = lineWords.filter((w) => qWords.has(w)).length;
-    if (lineWords.length > 0 && overlap / lineWords.length > 0.5) {
+    if (lineWords.length > 0 && overlap / lineWords.length > 0.75) {
       cutAt = i + 1;
       continue;
     }
