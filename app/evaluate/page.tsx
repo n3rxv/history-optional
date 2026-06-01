@@ -1110,6 +1110,18 @@ const handleOcr = useCallback(async () => {
             <UsagePill />
             <button className="ev-btn" onClick={handleEvaluate} disabled={ocrLoading}>{ocrLoading ? "Reading handwriting…" : "Evaluate Answer →"}</button>
             <GateModals slots={slots} />
+            {/* ── PDF Full Paper Evaluation (Premium) ── */}
+            <div style={{ marginTop:32, borderTop:"1px solid #1a1a1a", paddingTop:28 }}>
+              <p style={{ fontSize:"0.6rem", color:"#333", fontFamily:"var(--font-mono)", letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:14 }}>
+                Or evaluate your entire paper at once
+              </p>
+              <PDFTestEvaluator
+                isPremium={usage.isPremium}
+                onPaywall={showEvalLimitModal}
+                token={tokenRef.current}
+                variant="evaluate"
+              />
+            </div>
           </div>
         )}
 
