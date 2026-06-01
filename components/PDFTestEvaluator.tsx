@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useState, DragEvent, ChangeEvent } from "react";
+import { saveToHistory } from "@/hooks/useAnswerHistory";
 
 interface PaperQuestion { id: string; marks: number; text: string; }
 interface QuestionResult {
@@ -642,6 +643,32 @@ export default function PDFTestEvaluator({
       setResults(questionResults);
       setStage("done");
       if (questionResults.length > 0) setExpanded(questionResults[0].question.id);
+
+      // ── Save each evaluated question to answer history ──
+      for (const r of questionResults) {
+        if (!r.evaluation) continue;
+        const ev = r.evaluation;
+        saveToHistory({
+          question: r.question.text || `Question ${r.question.id}`,
+          marks: ev.marks ?? 0,
+          marksOutOf: ev.marks_out_of ?? r.question.marks,
+          overallFeedback: ev.overall_feedback ?? ev.feedback ?? "",
+          wordCount: ev.word_count,
+          wordCountRating: ev.word_count_rating,
+          sectionMarks: {
+            introduction: ev.section_marks?.introduction ?? { awarded: 0, out_of: 0 },
+            body:         ev.section_marks?.body         ?? { awarded: 0, out_of: 0 },
+            conclusion:   ev.section_marks?.conclusion   ?? { awarded: 0, out_of: 0 },
+            presentation: ev.section_marks?.presentation ?? { awarded: 0, out_of: 0 },
+          },
+          demandOfQuestion: ev.demand_of_question ?? [],
+          introduction: ev.introduction,
+          body: ev.body,
+          conclusion: ev.conclusion,
+          historiansToCite: ev.historians_to_cite ?? [],
+          modelAnswer: ev.model_answer,
+        });
+      }
     } catch (e: any) {
       setError(e.message);
       setStage("review");
