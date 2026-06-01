@@ -3,6 +3,8 @@ import { saveToHistory, loadHistory, AnswerEntry } from "@/hooks/useAnswerHistor
 import { supabase } from "@/lib/supabase";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
+import PDFTestEvaluator from '@/components/PDFTestEvaluator';
+
 
 interface Historian {
   name: string;
@@ -444,7 +446,8 @@ const handleOcr = useCallback(async () => {
   }, [files, question]);
 
   // ── Subscription gate — must come after handleOcr is defined ──────────────
-  const { UsagePill, GateModals, handleEvaluate, usage, increment, slots } = useSubscriptionGate(handleOcr);
+  const { UsagePill, GateModals, handleEvaluate, usage, increment, slots, showChatLimitModal: showEvalLimitModal } = useSubscriptionGate(handleOcr);
+  // showEvalLimitModal re-used here as the paywall trigger for PDF evaluator
   const tokenRef = useRef<string | null>(null);
   useEffect(() => {
     // Get actual Supabase session token for owner bypass
