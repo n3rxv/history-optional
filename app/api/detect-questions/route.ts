@@ -14,12 +14,34 @@ function normQNum(raw: string): string {
 }
 
 // ── Detect map question: Q1 sub-parts listed as (i)(ii)(iii) ─────────────────
-function isMapQuestion(lines: string[]): boolean {
-  let romanCount = 0;
-  for (const l of lines) {
-    if (/^\(x{0,3}(?:ix|iv|v?i{0,3})\)/i.test(l.trim())) romanCount++;
+function isMapQuestion(lines: string[], questionText: string = ""): boolean {
+  // Signal 1: question text explicitly calls for map work
+  const qLower = questionText.toLowerCase();
+  if (/\b(on (?:the )?map|locate|mark on|shade|label the|identify.*map|map.*identify)\b/.test(qLower))
+    return true;
+
+  const nonEmpty = lines.filter((l) => l.trim().length > 0);
+
+  // Signal 2: ≥70 % of non-empty lines are ≤4 words → place-name listing
+  if (nonEmpty.length >= 3) {
+    const short = nonEmpty.filter((l) => l.trim().split(/\s+/).length <= 4);
+    if (short.length / nonEmpty.length >= 0.7) return true;
   }
-  return romanCount >= 3;
+
+  // Signal 3: roman-numeral markers (raised threshold to ≥4 to cut false positives)
+  let romanCount = 0;
+  for (const l of lines)
+    if (/^\(x{0,3}(?:ix|iv|v?i{0,3})\)/i.test(l.trim())) romanCount++;
+  if (romanCount >= 4) return true;
+
+  // Signal 4: some roman markers + very short avg line = listing, not prose
+  if (romanCount >= 2 && nonEmpty.length >= 2) {
+    const avgWords =
+      nonEmpty.reduce((s, l) => s + l.trim().split(/\s+/).length, 0) / nonEmpty.length;
+    if (avgWords <= 5) return true;
+  }
+
+  return false;
 }
 
 // ── Zone splitter ─────────────────────────────────────────────────────────────
@@ -314,7 +336,7 @@ export async function POST(req: NextRequest) {
         (s) =>
           s.answerText?.trim() &&
           s.answerText.split(/\s+/).length >= 10 &&
-          !isMapQuestion(s.answerText.split("\n"))
+          !isMapQuestion(s.answerText.split("\n"), s.questionText ?? "")
       );
       if (filtered.length > 0)
         return NextResponse.json({ segments: filtered });
