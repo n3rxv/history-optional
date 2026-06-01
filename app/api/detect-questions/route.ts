@@ -3,16 +3,190 @@ export const maxDuration = 60;
 
 const MARKS_RE = /\((\d+)\s*(?:marks?|m)\)/i;
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-function extractQMarkers(transcript: string): string[] {
-  return transcript
-    .split("\n")
-    .filter((l) => /^\[Q\]:/.test(l.trim()))
-    .map((l) => l.replace(/^\[Q\]:\s*/, "").trim());
+// ── Normalise question number strings for fuzzy matching ─────────────────────
+// "Q.5 (a)", "5(a)", "Q5a", "5 a" → "5a"
+function normQNum(raw: string): string {
+  return raw
+    .toLowerCase()
+    .replace(/^q\.?\s*/i, "")
+    .replace(/[\s.()\[\]]/g, "")
+    .replace(/–|-/g, "");
 }
 
-/** Replace long answer lines with "[N words]" so Groq sees structure only */
+// ── Detect map question: Q1 sub-parts listed as (i)(ii)(iii) ─────────────────
+function isMapQuestion(lines: string[]): boolean {
+  let romanCount = 0;
+  for (const l of lines) {
+    if (/^\(x{0,3}(?:ix|iv|v?i{0,3})\)/i.test(l.trim())) romanCount++;
+  }
+  return romanCount >= 3;
+}
+
+// ── Zone splitter ─────────────────────────────────────────────────────────────
+// Returns index of first line of the answer zone.
+// Heuristic: answer zone starts when we see a question number marker
+// followed within 6 lines by a long prose line (>80 chars).
+function findAnswerZoneStart(lines: string[]): number {
+  const QNUM = /^(?:Q\.?\s*)?(\d)\s*[.()\s]*(?:[a-e]\s*[.)]\s*)?$/i;
+  for (let i = 0; i < lines.length; i++) {
+    if (!QNUM.test(lines[i].trim())) continue;
+    // look ahead for a prose line
+    for (let j = i + 1; j < Math.min(i + 7, lines.length); j++) {
+      if (lines[j].trim().length > 80) return i;
+    }
+  }
+  // Fallback: if no split found, treat whole transcript as answer zone
+  return 0;
+}
+
+// ── Parse question paper zone → question map ─────────────────────────────────
+// Returns { normKey → { text, marks } }
+function parseQuestionMap(
+  lines: string[]
+): Record<string, { text: string; marks: number }> {
+  const map: Record<string, { text: string; marks: number }> = {};
+
+  const FULL_Q = /^(?:Q\.?\s*)?(\d)\s*[.(]\s*([a-e])\s*[.)]\s*(.*)/i;
+  const MAIN_Q = /^(?:Q\.?\s*)?([1-8])\s*[.)]\s*(.*)/i;
+  const SUB_Q  = /^\(?\s*([a-e])\s*\)\.?\s*(.*)/i;
+
+  let lastMain = "";
+  let collectingFor: string | null = null;
+  let collectBuf: string[] = [];
+
+  function flush() {
+    if (!collectingFor) return;
+    const text = collectBuf.join(" ").trim();
+    const mMatch = MARKS_RE.exec(text);
+    const marks = mMatch ? parseInt(mMatch[1]) : 15;
+    map[normQNum(collectingFor)] = { text, marks };
+    collectingFor = null;
+    collectBuf = [];
+  }
+
+  for (const raw of lines) {
+    const t = raw.trim();
+    if (!t) continue;
+
+    const fm = t.match(FULL_Q);
+    if (fm) {
+      flush();
+      lastMain = `Q${fm[1]}`;
+      const key = `Q${fm[1]}(${fm[2].toLowerCase()})`;
+      collectingFor = key;
+      collectBuf = fm[3] ? [fm[3]] : [];
+      continue;
+    }
+
+    const mm = t.match(MAIN_Q);
+    if (mm && t.length < 200) {
+      flush();
+      lastMain = `Q${mm[1]}`;
+      collectingFor = lastMain;
+      collectBuf = mm[2] ? [mm[2]] : [];
+      continue;
+    }
+
+    const sm = t.match(SUB_Q);
+    if (sm && lastMain && t.length < 200) {
+      flush();
+      const key = `${lastMain}(${sm[1].toLowerCase()})`;
+      collectingFor = key;
+      collectBuf = sm[2] ? [sm[2]] : [];
+      continue;
+    }
+
+    // continuation line
+    if (collectingFor && t.length > 0) {
+      collectBuf.push(t);
+    }
+  }
+  flush();
+
+  return map;
+}
+
+// ── Parse answer zone → segments ─────────────────────────────────────────────
+interface RawSegment {
+  qKey: string;   // normalised
+  qRaw: string;   // as written by student
+  lines: string[];
+}
+
+function parseAnswerZone(lines: string[]): RawSegment[] {
+  const FULL_Q = /^(?:Q\.?\s*)?(\d)\s*[.(]\s*([a-e])\s*[.)]/i;
+  const MAIN_Q = /^(?:Q\.?\s*)?([1-8])\s*[.)]\s*$/;
+  const SUB_Q  = /^\(?\s*([a-e])\s*\)\s*(?:→\s*)?$/i;
+
+  const bounds: { lineIdx: number; qRaw: string; qKey: string }[] = [];
+  let lastMain = "";
+
+  for (let i = 0; i < lines.length; i++) {
+    const t = lines[i].trim();
+    if (!t || t.length > 40) continue;
+
+    const fm = t.match(FULL_Q);
+    if (fm) {
+      lastMain = `Q${fm[1]}`;
+      const qRaw = `Q${fm[1]}(${fm[2].toLowerCase()})`;
+      if (!bounds.length || bounds[bounds.length - 1].qKey !== normQNum(qRaw))
+        bounds.push({ lineIdx: i, qRaw, qKey: normQNum(qRaw) });
+      continue;
+    }
+
+    const mm = t.match(MAIN_Q);
+    if (mm) {
+      const qRaw = `Q${mm[1]}`;
+      if (normQNum(qRaw) !== lastMain) {
+        lastMain = normQNum(qRaw);
+        bounds.push({ lineIdx: i, qRaw, qKey: normQNum(qRaw) });
+      }
+      continue;
+    }
+
+    const sm = t.match(SUB_Q);
+    if (sm && lastMain) {
+      const qRaw = `Q${lastMain.replace(/^q/i, "")}(${sm[1].toLowerCase()})`;
+      if (!bounds.length || bounds[bounds.length - 1].qKey !== normQNum(qRaw))
+        bounds.push({ lineIdx: i, qRaw, qKey: normQNum(qRaw) });
+    }
+  }
+
+  return bounds.map((b, idx) => {
+    const nextIdx = bounds[idx + 1]?.lineIdx ?? lines.length;
+    const segLines = lines.slice(b.lineIdx + 1, nextIdx);
+    return { qKey: b.qKey, qRaw: b.qRaw, lines: segLines };
+  });
+}
+
+// ── Strip rewritten question lines from the top of an answer ─────────────────
+// If the first 1-4 lines look like a rewritten question (short, ends with ?
+// or shares many words with qText), drop them.
+function stripRewrittenQuestion(lines: string[], qText: string): string[] {
+  const qWords = new Set(
+    qText.toLowerCase().split(/\s+/).filter((w) => w.length > 4)
+  );
+  let cutAt = 0;
+  for (let i = 0; i < Math.min(4, lines.length); i++) {
+    const t = lines[i].trim();
+    if (!t) continue;
+    // Short line ending with ? → likely rewritten question
+    if (t.endsWith("?") && t.length < 200) { cutAt = i + 1; continue; }
+    // Line shares >50% of long words with the question text → rewrite
+    const lineWords = t.toLowerCase().split(/\s+/).filter((w) => w.length > 4);
+    const overlap = lineWords.filter((w) => qWords.has(w)).length;
+    if (lineWords.length > 0 && overlap / lineWords.length > 0.5) {
+      cutAt = i + 1;
+      continue;
+    }
+    // OCR-injected [Q]: line
+    if (/^\[Q\]:/.test(t)) { cutAt = i + 1; continue; }
+    break; // first non-question line → stop
+  }
+  return lines.slice(cutAt);
+}
+
+// ── Condense transcript for Groq (keeps structure, strips prose bulk) ─────────
 function condense(transcript: string): string {
   return transcript
     .split("\n")
@@ -25,151 +199,8 @@ function condense(transcript: string): string {
     .join("\n");
 }
 
-// ── Strategy 1: [Q]: marker-based segmentation ───────────────────────────────
-// The pdf-mode OCR injects [Q]: lines. Use them as reliable question boundaries.
-
-function segmentByQMarkerLines(transcript: string): any[] | null {
-  const lines = transcript.split("\n");
-  const qIndices: number[] = [];
-
-  for (let i = 0; i < lines.length; i++) {
-    if (/^\[Q\]:/.test(lines[i].trim())) qIndices.push(i);
-  }
-
-  if (qIndices.length < 1) return null;
-
-  const FULL_Q = /^(?:Q\.?\s*)?(\d)\s*[.(]\s*([a-e])\s*[.)]/i;
-  const MAIN_Q = /^(?:Q\.?\s*)?([1-8])\s*[.)]\s*$/;
-  const SUB_Q = /^\(?([a-e])\)\.?\s*(?:→\s*)?$/i;
-
-  function guessQNum(beforeLines: string[], prevQNum: string): string {
-    for (let k = beforeLines.length - 1; k >= 0; k--) {
-      const t = beforeLines[k].trim();
-      const fm = t.match(FULL_Q);
-      if (fm) return `Q${fm[1]}(${fm[2].toLowerCase()})`;
-      const mm = t.match(MAIN_Q);
-      if (mm) return `Q${mm[1]}`;
-      const sm = t.match(SUB_Q);
-      if (sm) {
-        const base = prevQNum.match(/Q(\d+)/);
-        if (base) return `Q${base[1]}(${sm[1].toLowerCase()})`;
-      }
-    }
-    return "";
-  }
-
-  const results: any[] = [];
-
-  qIndices.forEach((qi, idx) => {
-    const nextQi = qIndices[idx + 1] ?? lines.length;
-    const questionText = lines[qi].replace(/^\[Q\]:\s*/, "").trim();
-    const marksMatch = MARKS_RE.exec(questionText);
-    const marks = marksMatch ? parseInt(marksMatch[1]) : 15;
-
-    const before = lines.slice(Math.max(0, qi - 5), qi);
-    const prevQNum = results[results.length - 1]?.questionNumber ?? "";
-    const questionNumber =
-      guessQNum(before, prevQNum) || `Q${idx + 1}`;
-
-    const answerText = lines
-      .slice(qi + 1, nextQi)
-      .filter((l) => !/^\[Q\]:/.test(l.trim()))
-      .join("\n")
-      .trim();
-
-    results.push({ questionNumber, marks, questionText, answerText });
-  });
-
-  return results.length >= 1 ? results : null;
-}
-
-// ── Strategy 2: Regex boundary detection ─────────────────────────────────────
-
-function segmentByRegex(transcript: string, qMarkers: string[]): any[] | null {
-  const lines = transcript.split("\n");
-  const bounds: { lineIdx: number; qNum: string }[] = [];
-  let lastMain = "";
-
-  const FULL_Q = /^(?:Q\.?\s*)?(\d)\s*[.(]\s*([a-e])\s*[.)]/i;
-  const MAIN_Q = /^(?:Q\.?\s*)?([1-8])\s*[.)]\s*$/;
-  const SUB_Q = /^\(?([a-e])\)\.?\s*(?:→\s*)?$/i;
-
-  for (let i = 0; i < lines.length; i++) {
-    const t = lines[i].trim();
-    if (!t || t.length > 30) continue;
-
-    const fm = t.match(FULL_Q);
-    if (fm) {
-      lastMain = `Q${fm[1]}`;
-      const qNum = `Q${fm[1]}(${fm[2].toLowerCase()})`;
-      if (!bounds.length || bounds[bounds.length - 1].qNum !== qNum)
-        bounds.push({ lineIdx: i, qNum });
-      continue;
-    }
-    const mm = t.match(MAIN_Q);
-    if (mm) {
-      const qNum = `Q${mm[1]}`;
-      if (qNum !== lastMain) {
-        lastMain = qNum;
-        bounds.push({ lineIdx: i, qNum });
-      }
-      continue;
-    }
-    const sm = t.match(SUB_Q);
-    if (sm && lastMain) {
-      const qNum = `${lastMain}(${sm[1].toLowerCase()})`;
-      if (!bounds.length || bounds[bounds.length - 1].qNum !== qNum)
-        bounds.push({ lineIdx: i, qNum });
-    }
-  }
-
-  if (bounds.length < 2) return null;
-
-  return bounds.map((b, idx) => {
-    const nextIdx = bounds[idx + 1]?.lineIdx ?? lines.length;
-    const segLines = lines.slice(b.lineIdx, nextIdx);
-    const qLine = segLines.find((l) => /^\[Q\]:/.test(l.trim()));
-    const questionText = qLine
-      ? qLine.replace(/^\[Q\]:\s*/, "").trim()
-      : qMarkers[idx] ?? "";
-    const marksMatch = qLine
-      ? MARKS_RE.exec(qLine)
-      : MARKS_RE.exec(segLines.slice(0, 5).join(" "));
-    const marks = marksMatch ? parseInt(marksMatch[1]) : 15;
-    const answerText = segLines
-      .filter((l) => !/^\[Q\]:/.test(l.trim()))
-      .join("\n")
-      .trim();
-    return { questionNumber: b.qNum, marks, questionText, answerText };
-  });
-}
-
-// ── Strategy 3: Groq with condensed transcript ────────────────────────────────
-
-async function segmentViaGroq(
-  transcript: string,
-  qMarkers: string[]
-): Promise<any[]> {
-  const condensedTx = condense(transcript);
-
-  const prompt = `You are analysing a UPSC History Optional handwritten answer sheet OCR transcript.
-Segment into individual question-answer pairs.
-
-TRANSCRIPT:
-"""
-${condensedTx}
-"""
-
-Rules:
-- Look for question markers: "Q1", "1.", "3(a)", "(b)", "[Q]: ..."
-- "[Q]: " lines contain question text — copy verbatim without the "[Q]: " prefix
-- For marks look for "(15M)", "15 marks", "(10 marks)" near markers — default 15
-- Return ALL questions including sub-parts like Q3(a), Q3(b), Q3(c), Q5(a)-(e)
-- Do NOT include [Q]: lines in answerText
-
-Return ONLY a JSON array, no markdown:
-[{"questionNumber":"Q3(a)","marks":15,"questionText":"...","answerText":"..."}]`;
-
+// ── Groq fallback for completely unstructured transcripts ─────────────────────
+async function segmentViaGroq(transcript: string): Promise<any[]> {
   const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -181,71 +212,31 @@ Return ONLY a JSON array, no markdown:
       messages: [
         {
           role: "system",
-          content:
-            "Return ONLY a valid JSON array. No markdown. No extra text.",
+          content: "Return ONLY a valid JSON array. No markdown. No extra text.",
         },
-        { role: "user", content: prompt },
+        {
+          role: "user",
+          content: `Segment this UPSC answer sheet transcript into question-answer pairs.\nTranscript:\n"""\n${condense(transcript)}\n"""\nRules: identify question markers, extract answerText (prose only, no map sub-listings), default marks=15.\nReturn: [{"questionNumber":"Q5(a)","marks":15,"questionText":"...","answerText":"..."}]`,
+        },
       ],
       temperature: 0,
       max_tokens: 3000,
     }),
   });
-
-  if (!res.ok) {
-    let errText = `HTTP ${res.status}`;
-    try {
-      errText = await res.text();
-    } catch {}
-    throw new Error("Groq API error: " + errText);
-  }
-
-  let data: any;
-  try {
-    data = await res.json();
-  } catch {
-    throw new Error("Groq returned non-JSON response");
-  }
-
+  if (!res.ok) throw new Error("Groq error: HTTP " + res.status);
+  const data = await res.json();
   const raw = data.choices?.[0]?.message?.content ?? "[]";
-  const stripped = raw
-    .replace(/```json\s*/gi, "")
-    .replace(/```/g, "")
-    .trim();
+  const stripped = raw.replace(/```json\s*/gi, "").replace(/```/g, "").trim();
   const s = stripped.indexOf("[");
   const e = stripped.lastIndexOf("]");
-  const clean = s !== -1 && e !== -1 ? stripped.slice(s, e + 1) : stripped;
-
-  let segments: any[] = [];
   try {
-    segments = JSON.parse(clean);
+    return JSON.parse(s !== -1 ? stripped.slice(s, e + 1) : stripped);
   } catch {
-    // JSON parse failed — single-segment fallback
-    return [
-      {
-        questionNumber: "Q1",
-        marks: 15,
-        questionText: qMarkers[0] ?? "",
-        answerText: transcript.replace(/^\[Q\]:.*$/gm, "").trim(),
-      },
-    ];
+    return [];
   }
-
-  // Overlay qMarkers where LLM left questionText empty
-  if (qMarkers.length > 0) {
-    segments = segments.map((seg: any, i: number) =>
-      seg.questionText?.trim() ? seg : { ...seg, questionText: qMarkers[i] ?? "" }
-    );
-  }
-
-  // Strip [Q]: lines from answer text
-  return segments.map((seg: any) => ({
-    ...seg,
-    answerText: (seg.answerText || "").replace(/^\[Q\]:.*$/gm, "").trim(),
-  }));
 }
 
 // ── Main handler ──────────────────────────────────────────────────────────────
-
 export async function POST(req: NextRequest) {
   try {
     const { transcript } = await req.json();
@@ -255,27 +246,94 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
 
-    const qMarkers = extractQMarkers(transcript);
+    const lines = transcript.split("\n");
 
-    // Strategy 1: [Q]: marker boundaries (most reliable for UPSC scripts)
-    const s1 = segmentByQMarkerLines(transcript);
-    if (s1 && s1.length >= 1) {
-      console.log(`detect-questions: strategy 1 → ${s1.length} segments`);
-      return NextResponse.json({ segments: s1 });
+    // ── Step 1: split into zones ─────────────────────────────────────────────
+    const answerStart = findAnswerZoneStart(lines);
+    const qpLines = lines.slice(0, answerStart);
+    const ansLines = lines.slice(answerStart);
+
+    console.log(
+      `detect-questions: zone split at line ${answerStart}/${lines.length}`
+    );
+
+    // ── Step 2: build question map from question paper zone ──────────────────
+    const qMap = answerStart > 0 ? parseQuestionMap(qpLines) : {};
+    console.log(
+      `detect-questions: question map keys = [${Object.keys(qMap).join(", ")}]`
+    );
+
+    // ── Step 3: parse answer zone ────────────────────────────────────────────
+    const rawSegs = parseAnswerZone(ansLines);
+    console.log(`detect-questions: raw answer segments = ${rawSegs.length}`);
+
+    // ── Step 4: merge + filter ───────────────────────────────────────────────
+    const segments: any[] = [];
+
+    for (const seg of rawSegs) {
+      // Look up question in map — exact match first, then prefix fuzzy
+      const mapEntry =
+        qMap[seg.qKey] ??
+        Object.entries(qMap).find(
+          ([k]) => k.startsWith(seg.qKey) || seg.qKey.startsWith(k)
+        )?.[1];
+
+      const questionText = mapEntry?.text ?? "";
+      const marks = mapEntry?.marks ?? 15;
+
+      // Strip rewritten question lines from top of answer
+      const cleanLines = stripRewrittenQuestion(seg.lines, questionText);
+
+      // Remove any remaining [Q]: injected lines
+      const answerText = cleanLines
+        .filter((l) => !/^\[Q\]:/.test(l.trim()))
+        .join("\n")
+        .trim();
+
+      // Omit if no actual answer content (< 10 words)
+      if (!answerText || answerText.split(/\s+/).length < 10) continue;
+
+      // Omit map questions (Q1 roman-numeral sub-listings)
+      if (isMapQuestion(cleanLines)) continue;
+
+      segments.push({
+        questionNumber: seg.qRaw,
+        marks,
+        questionText,
+        answerText,
+      });
     }
 
-    // Strategy 2: Regex boundaries
-    const s2 = segmentByRegex(transcript, qMarkers);
-    if (s2 && s2.length >= 2) {
-      console.log(`detect-questions: strategy 2 → ${s2.length} segments`);
-      return NextResponse.json({ segments: s2 });
+    // ── Step 5: Groq fallback if structured parsing found nothing ────────────
+    if (segments.length === 0) {
+      console.log(
+        "detect-questions: structured parse empty, falling back to Groq"
+      );
+      const groqSegs = await segmentViaGroq(transcript);
+      const filtered = groqSegs.filter(
+        (s) =>
+          s.answerText?.trim() &&
+          s.answerText.split(/\s+/).length >= 10 &&
+          !isMapQuestion(s.answerText.split("\n"))
+      );
+      if (filtered.length > 0)
+        return NextResponse.json({ segments: filtered });
+
+      // Last resort: single segment with full transcript
+      return NextResponse.json({
+        segments: [
+          {
+            questionNumber: "Q1",
+            marks: 15,
+            questionText: "",
+            answerText: transcript.replace(/^\[Q\]:.*$/gm, "").trim(),
+          },
+        ],
+      });
     }
 
-    // Strategy 3: Groq with condensed transcript (avoids token limits)
-    console.log("detect-questions: falling back to strategy 3 (Groq condensed)");
-    const s3 = await segmentViaGroq(transcript, qMarkers);
-    console.log(`detect-questions: strategy 3 → ${s3.length} segments`);
-    return NextResponse.json({ segments: s3 });
+    console.log(`detect-questions: final segments = ${segments.length}`);
+    return NextResponse.json({ segments });
   } catch (err: any) {
     console.error("detect-questions error:", err);
     return NextResponse.json(
