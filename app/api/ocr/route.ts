@@ -6,6 +6,9 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'i
 
 export async function POST(req: NextRequest) {
   try {
+    const url = new URL(req.url);
+    const isPdfMode = url.searchParams.get("mode") === "pdf";
+
     const formData = await req.formData();
     const rawFiles = formData.getAll("files") as File[];
     const files = [...rawFiles].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
@@ -31,7 +34,29 @@ export async function POST(req: NextRequest) {
       };
     }));
 
-    const ocrPrompt = `You are a precise handwriting transcription engine for UPSC History Optional answer sheets. Transcribe every word exactly as written.
+    // PDF mode: include question text as [Q]: markers so detect-questions can extract it.
+    // Normal mode: skip question text (user enters it manually in the single-question flow).
+    const ocrPrompt = isPdfMode
+      ? `You are a precise handwriting transcription engine for UPSC History Optional answer sheets. Transcribe every word exactly as written.
+
+RULES:
+- Transcribe ALL words — do not skip, summarise, or compress anything
+- Join hyphenated line-breaks into one word
+- Never correct spelling silently — transcribe exactly what is written
+- Historian names are critical — transcribe letter for letter as written
+- If uncertain (70-89% confident): add (?) after the word
+- If unreadable (<70%): write [illegible]
+- Preserve paragraph breaks as blank lines
+- QUESTION DETECTION — read carefully:
+  * The question text appears ONLY at the very top of the first page, explicitly labeled with "Q." or "Q" or "Ques." or a question number before it
+  * If you find such a labeled question at the top, transcribe it on its own line with the prefix "[Q]: " — example: [Q]: Discuss the role of the Bhakti movement in medieval India.
+  * Subheadings, boxed text, underlined headings, or titled sections WITHIN the answer body are NOT the question — they are part of the student's answer structure and must be transcribed normally without any [Q]: prefix
+  * If no clearly labeled question exists at the top of the page, do NOT output any [Q]: line at all
+- After the [Q]: line (if any), transcribe the complete answer body normally
+- Output ONLY plain transcribed text — no headings, no markdown, no commentary, no LaTeX
+
+Output the transcription now:`
+      : `You are a precise handwriting transcription engine for UPSC History Optional answer sheets. Transcribe every word exactly as written.
 
 RULES:
 - Transcribe ALL words — do not skip, summarise, or compress anything
@@ -78,30 +103,33 @@ Output the transcription now:`;
     const data = await res.json();
     const text = data.choices?.[0]?.message?.content || "";
 
-    // Detect question from first image
+    // In PDF mode the question text is embedded in the transcript as [Q]: lines.
+    // In normal (single-question) mode, detect it from the first image.
     let detectedQuestion = "";
-    try {
-      const qRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${process.env.GROQ_API_KEY}` },
-        body: JSON.stringify({
-          model: "meta-llama/llama-4-scout-17b-16e-instruct",
-          messages: [{
-            role: "user",
-            content: [
-              imageContents[0],
-              { type: "text", text: `Look at this handwritten answer sheet. Extract ONLY the question text written at the top of the page (usually underlined, in a box, or written before the answer begins). Output ONLY the question text, nothing else. If no question is visible, output empty string.` }
-            ]
-          }],
-          temperature: 0.0,
-          max_tokens: 300,
-        }),
-      });
-      if (qRes.ok) {
-        const qData = await qRes.json();
-        detectedQuestion = qData.choices?.[0]?.message?.content?.trim() || "";
-      }
-    } catch { /* ignore question detection errors */ }
+    if (!isPdfMode) {
+      try {
+        const qRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${process.env.GROQ_API_KEY}` },
+          body: JSON.stringify({
+            model: "meta-llama/llama-4-scout-17b-16e-instruct",
+            messages: [{
+              role: "user",
+              content: [
+                imageContents[0],
+                { type: "text", text: `Look at this handwritten answer sheet. Extract ONLY the question text written at the top of the page (usually underlined, in a box, or written before the answer begins). Output ONLY the question text, nothing else. If no question is visible, output empty string.` }
+              ]
+            }],
+            temperature: 0.0,
+            max_tokens: 300,
+          }),
+        });
+        if (qRes.ok) {
+          const qData = await qRes.json();
+          detectedQuestion = qData.choices?.[0]?.message?.content?.trim() || "";
+        }
+      } catch { /* ignore question detection errors */ }
+    }
 
     return NextResponse.json({ text, detectedQuestion });
 
