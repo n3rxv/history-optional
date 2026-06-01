@@ -1069,6 +1069,24 @@ export default function TestPage() {
           position: 'relative', overflow: 'hidden',
         }}>Begin Test →</button>
       </div>
+      {/* ─── Already have answers? Upload PDF for AI evaluation ─── */}
+      <div style={{ marginTop: 52, borderTop: "1px solid #1e1e1e", paddingTop: 36 }}>
+        <div style={{ marginBottom: 18 }}>
+          <p style={{ fontSize: "0.53rem", fontFamily: "var(--font-mono)", letterSpacing: "0.2em",
+            textTransform: "uppercase", color: "#444", margin: "0 0 8px" }}>
+            Already have a completed paper?
+          </p>
+          <p style={{ fontSize: "0.82rem", color: "#555", lineHeight: 1.65, margin: 0, maxWidth: 460 }}>
+            Skip the timer — upload your handwritten answer PDF directly and let AI evaluate it.
+          </p>
+        </div>
+        <PDFTestEvaluator
+          isPremium={!!usage.isPremium}
+          onPaywall={showChatLimitModal}
+          token={usage.token ?? null}
+          variant="test"
+        />
+      </div>
     );
   }
 
