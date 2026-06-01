@@ -529,17 +529,30 @@ export default function PDFTestEvaluator({
       setCachedImages(images);
       setEvalProgress(20);
 
-      setStepLabel(`Extracting handwriting (${images.length} page${images.length > 1 ? "s" : ""})…`);
-      const fd = new FormData();
-      images.forEach(img => fd.append("files", img));
+      const BATCH_SIZE = 10;
+      const totalBatches = Math.ceil(images.length / BATCH_SIZE);
       let ocrText = "";
-      const ocrRes = await fetch("/api/ocr?mode=pdf", {
-        method: "POST", headers: { "x-user-token": token ?? "" }, body: fd,
-      });
-      if (ocrRes.ok) {
-        const d = await ocrRes.json();
-        ocrText = d.text || d.extracted_text || d.transcript || "";
+
+      for (let b = 0; b < totalBatches; b++) {
+        const batch = images.slice(b * BATCH_SIZE, (b + 1) * BATCH_SIZE);
+        setStepLabel(
+          totalBatches === 1
+            ? `Extracting handwriting (${images.length} page${images.length > 1 ? "s" : ""})…`
+            : `Extracting handwriting… batch ${b + 1}/${totalBatches}`
+        );
+        const fd = new FormData();
+        batch.forEach(img => fd.append("files", img));
+        const ocrRes = await fetch("/api/ocr?mode=pdf", {
+          method: "POST", headers: { "x-user-token": token ?? "" }, body: fd,
+        });
+        if (ocrRes.ok) {
+          const d = await ocrRes.json();
+          const batchText = d.text || d.extracted_text || d.transcript || "";
+          if (batchText) ocrText += (ocrText ? "\n\n" : "") + batchText;
+        }
+        setEvalProgress(20 + Math.round(((b + 1) / totalBatches) * 35));
       }
+
       setTranscript(ocrText);
       setEvalProgress(55);
 
