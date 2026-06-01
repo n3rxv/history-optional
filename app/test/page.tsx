@@ -1173,7 +1173,7 @@ export default function TestPage() {
           return (
             <div style={{ marginBottom:28 }}>
               <PDFTestEvaluator
-                isPremium={usage.isPremium}
+                isPremium={!!usage.isPremium}
                 onPaywall={showChatLimitModal}
                 token={tokenRef.current}
                 paperQuestions={pdfQs}

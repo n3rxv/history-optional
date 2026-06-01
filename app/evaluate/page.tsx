@@ -1116,7 +1116,7 @@ const handleOcr = useCallback(async () => {
                 Or evaluate your entire paper at once
               </p>
               <PDFTestEvaluator
-                isPremium={usage.isPremium}
+                isPremium={!!usage.isPremium}
                 onPaywall={showEvalLimitModal}
                 token={tokenRef.current}
                 variant="evaluate"
