@@ -51,8 +51,10 @@ Return ONLY a JSON array, no markdown, no preamble:
       },
       body: JSON.stringify({
         model: "meta-llama/llama-4-scout-17b-16e-instruct",
-        system: "You are a JSON-only response bot. Your entire response must be a valid JSON array starting with [ and ending with ]. No preamble, no markdown fences, no commentary.",
-        messages: [{ role: "user", content: prompt }],
+        messages: [
+          { role: "system", content: "You are a JSON-only response bot. Your entire response must be a valid JSON array starting with [ and ending with ]. No preamble, no markdown fences, no commentary." },
+          { role: "user", content: prompt },
+        ],
         temperature: 0.0,
         max_tokens: 4000,
       }),
