@@ -529,7 +529,7 @@ export default function PDFTestEvaluator({
       setCachedImages(images);
       setEvalProgress(20);
 
-      const BATCH_SIZE = 10;
+      const BATCH_SIZE = 5;
       const totalBatches = Math.ceil(images.length / BATCH_SIZE);
       let ocrText = "";
 
@@ -545,16 +545,24 @@ export default function PDFTestEvaluator({
         const ocrRes = await fetch("/api/ocr?mode=pdf", {
           method: "POST", headers: { "x-user-token": token ?? "" }, body: fd,
         });
-        if (ocrRes.ok) {
-          const d = await ocrRes.json();
-          const batchText = d.text || d.extracted_text || d.transcript || "";
-          if (batchText) ocrText += (ocrText ? "\n\n" : "") + batchText;
+        if (!ocrRes.ok) {
+          let errDetail = `HTTP ${ocrRes.status}`;
+          try { const e = await ocrRes.json(); if (e.error) errDetail = e.error; } catch {}
+          throw new Error(`OCR failed on batch ${b + 1}/${totalBatches}: ${errDetail}`);
         }
+        const d = await ocrRes.json();
+        const batchText = d.text || d.extracted_text || d.transcript || "";
+        if (batchText) ocrText += (ocrText ? "\n\n" : "") + batchText;
         setEvalProgress(20 + Math.round(((b + 1) / totalBatches) * 35));
+        if (b < totalBatches - 1) await new Promise(r => setTimeout(r, 1000));
       }
 
       setTranscript(ocrText);
       setEvalProgress(55);
+
+      if (!ocrText.trim()) {
+        throw new Error("OCR returned no text — the PDF may be unreadable or the file quality is too low. Try re-uploading.");
+      }
 
       setStepLabel("Detecting questions from transcript…");
       let detected: Segment[] = [];
