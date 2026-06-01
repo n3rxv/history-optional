@@ -7,8 +7,17 @@ export async function POST(req: NextRequest) {
     if (!transcript?.trim())
       return NextResponse.json({ error: "No transcript provided" }, { status: 400 });
 
-    const prompt = `You are analysing a UPSC History Optional handwritten answer sheet that has been OCR-transcribed.
-Segment the transcript into individual question-answer pairs.
+    // ── Pre-extract [Q]: markers written by the PDF-mode OCR ──────────────────
+    // These are deterministic — no LLM needed for this step.
+    // Format injected by ocr/route.ts (pdf mode): "[Q]: <question text>"
+    const qMarkers: string[] = [];
+    for (const line of transcript.split("\n")) {
+      const m = line.match(/^\[Q\]:\s*(.+)/);
+      if (m) qMarkers.push(m[1].trim());
+    }
+
+    const prompt = `You are analysing a UPSC History Optional handwritten answer sheet that has been OCR-transcribed into plain text.
+Your task: segment this transcript into individual question-answer pairs.
 
 TRANSCRIPT:
 """
@@ -18,18 +27,19 @@ ${transcript}
 Rules:
 - Look for question number markers like "Q1", "Q.1", "1.", "3(a)", "7b", "5(c)", "Answer 1", etc.
 - Each marker signals the start of a new answer
-- Extract the complete answer body for each question
-- For marks: look for "(10M)", "10 marks", "15M" near the question — default to 15 if absent
-- If no question markers found, return the whole transcript as one answer with questionNumber "Q1"
+- Lines starting with "[Q]: " contain the student-written question text — copy the text after "[Q]: " verbatim as questionText (do NOT include the "[Q]: " prefix itself)
+- If no "[Q]: " line is present for a segment, check if the student wrote the question text above their answer — if so, extract it; otherwise use empty string
+- Extract the complete answer body for each question (everything AFTER the question text/[Q]: line until the next question marker) — do NOT include [Q]: lines in the answerText
+- For marks: look for patterns like "(10M)", "10 marks", "15M" near the question number — if absent, default to 15
+- If you cannot find any question markers, treat the entire transcript as one answer with questionNumber "Q1"
 
-CRITICAL: Respond with ONLY a raw JSON array. No markdown. No backticks. No explanation. No preamble. Start your response with [ and end with ].
-
+Return ONLY a JSON array, no markdown, no preamble:
 [
   {
     "questionNumber": "Q1",
     "marks": 15,
-    "questionText": "question text if student wrote it, else empty string",
-    "answerText": "complete answer body"
+    "questionText": "question text from [Q]: line or student handwriting, else empty string",
+    "answerText": "complete answer body without [Q]: lines"
   }
 ]`;
 
@@ -41,13 +51,8 @@ CRITICAL: Respond with ONLY a raw JSON array. No markdown. No backticks. No expl
       },
       body: JSON.stringify({
         model: "meta-llama/llama-4-scout-17b-16e-instruct",
-        messages: [
-          {
-            role: "system",
-            content: "You are a JSON-only response bot. You output raw JSON arrays with no markdown, no backticks, no explanation. Your entire response must be a valid JSON array starting with [ and ending with ].",
-          },
-          { role: "user", content: prompt },
-        ],
+        system: "You are a JSON-only response bot. Your entire response must be a valid JSON array starting with [ and ending with ]. No preamble, no markdown fences, no commentary.",
+        messages: [{ role: "user", content: prompt }],
         temperature: 0.0,
         max_tokens: 4000,
       }),
@@ -59,49 +64,44 @@ CRITICAL: Respond with ONLY a raw JSON array. No markdown. No backticks. No expl
     }
 
     const data = await res.json();
-    let raw: string = data.choices?.[0]?.message?.content ?? "";
+    const raw = data.choices?.[0]?.message?.content ?? "[]";
 
-    // ── Aggressive cleaning ──
-    // Strip markdown fences (```json ... ``` or ``` ... ```)
-    raw = raw.replace(/```(?:json)?\s*/gi, "").replace(/```/g, "");
-    // Strip any leading text before the first [
-    const arrayStart = raw.indexOf("[");
-    const arrayEnd   = raw.lastIndexOf("]");
-    if (arrayStart === -1 || arrayEnd === -1) {
-      // Last resort: wrap the whole transcript as one segment
-      console.error("detect-questions: no JSON array found in response:", raw.slice(0, 300));
-      return NextResponse.json({
-        segments: [{
-          questionNumber: "Q1",
-          marks: 15,
-          questionText: "",
-          answerText: transcript,
-        }],
-      });
-    }
+    // Aggressively clean: strip markdown fences, then slice from first [ to last ]
+    const stripped = raw.replace(/```json\s*/gi, "").replace(/```/g, "").trim();
+    const start = stripped.indexOf("[");
+    const end = stripped.lastIndexOf("]");
+    const clean = start !== -1 && end !== -1 ? stripped.slice(start, end + 1) : stripped;
 
-    raw = raw.slice(arrayStart, arrayEnd + 1).trim();
-
-    let segments = [];
+    let segments: any[] = [];
     try {
-      segments = JSON.parse(raw);
-    } catch (parseErr) {
-      console.error("detect-questions parse error:", parseErr, "raw:", raw.slice(0, 300));
-      // Graceful fallback: treat whole transcript as one question
+      segments = JSON.parse(clean);
+    } catch {
+      // Fallback: treat the entire transcript as one segment
       segments = [{
         questionNumber: "Q1",
         marks: 15,
-        questionText: "",
-        answerText: transcript,
+        questionText: qMarkers[0] ?? "",
+        answerText: transcript.replace(/^\[Q\]:.*$/gm, "").trim(),
       }];
+      return NextResponse.json({ segments });
     }
 
-    // Ensure every segment has required fields
-    segments = segments.map((s: any) => ({
-      questionNumber: s.questionNumber ?? "Q1",
-      marks: Number(s.marks) || 15,
-      questionText: s.questionText ?? "",
-      answerText: s.answerText ?? transcript,
+    // ── Post-process: overlay pre-extracted [Q]: markers onto segments ─────────
+    // If the LLM failed to extract questionText but we found [Q]: markers,
+    // fill them in by order (marker 0 → segment 0, marker 1 → segment 1, …).
+    // This is the reliable fallback: deterministic regex beats LLM for this case.
+    if (qMarkers.length > 0) {
+      segments = segments.map((seg: any, i: number) => {
+        if (seg.questionText && seg.questionText.trim()) return seg; // LLM got it
+        if (qMarkers[i]) return { ...seg, questionText: qMarkers[i] };
+        return seg;
+      });
+    }
+
+    // Strip any accidental [Q]: lines from answerText
+    segments = segments.map((seg: any) => ({
+      ...seg,
+      answerText: (seg.answerText || "").replace(/^\[Q\]:.*$/gm, "").trim(),
     }));
 
     return NextResponse.json({ segments });

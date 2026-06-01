@@ -533,7 +533,7 @@ export default function PDFTestEvaluator({
       const fd = new FormData();
       images.forEach(img => fd.append("files", img));
       let ocrText = "";
-      const ocrRes = await fetch("/api/ocr", {
+      const ocrRes = await fetch("/api/ocr?mode=pdf", {
         method: "POST", headers: { "x-user-token": token ?? "" }, body: fd,
       });
       if (ocrRes.ok) {
