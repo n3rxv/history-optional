@@ -1,15 +1,11 @@
 "use client";
-
 import { useRef, useState, DragEvent, ChangeEvent } from "react";
-
 interface PaperQuestion { id: string; marks: number; text: string; }
-
 interface QuestionResult {
   question: PaperQuestion;
   evaluation: any | null;
   error?: string;
 }
-
 interface PDFTestEvaluatorProps {
   isPremium: boolean;
   onPaywall: () => void;
@@ -18,327 +14,436 @@ interface PDFTestEvaluatorProps {
   variant?: "evaluate" | "test";
 }
 
+function toArray(val: any): string[] {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  if (typeof val === "string") return [val];
+  return [];
+}
+function bodyParas(body: any): string[] {
+  if (!body) return [];
+  if (Array.isArray(body)) return body.filter(Boolean);
+  if (typeof body === "string") return body.split("\n").filter(Boolean);
+  return [];
+}
+
 async function pdfToImages(file: File): Promise<File[]> {
   const pdfjs = await import("pdfjs-dist");
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    "pdfjs-dist/build/pdf.worker.mjs",
-    import.meta.url
+    "pdfjs-dist/build/pdf.worker.mjs", import.meta.url
   ).toString();
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
   const images: File[] = [];
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
-    const viewport = page.getViewport({ scale: 2.0 });
+    const vp = page.getViewport({ scale: 2 });
     const canvas = document.createElement("canvas");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext("2d")!;
-    await page.render({ canvasContext: ctx, canvas, viewport } as any).promise;
+    canvas.width = vp.width; canvas.height = vp.height;
+    await page.render({ canvasContext: canvas.getContext("2d")!, viewport: vp }).promise;
     const blob = await new Promise<Blob>(res => canvas.toBlob(b => res(b!), "image/jpeg", 0.9));
     images.push(new File([blob], `page-${i}.jpg`, { type: "image/jpeg" }));
   }
   return images;
 }
 
-const BLUE = "var(--accent, #4f8ef7)";
-const mono: React.CSSProperties = {
-  fontFamily: "var(--font-mono)", letterSpacing: "0.18em",
-  textTransform: "uppercase", fontSize: "0.53rem",
-};
-
-function ScoreBar({ awarded, outOf }: { awarded: number; outOf: number }) {
-  const pct = outOf > 0 ? (awarded / outOf) * 100 : 0;
-  const col = pct >= 70 ? "#4ade80" : pct >= 50 ? "#3b82f6" : "#f87171";
-  return (
-    <div style={{ height: 3, background: "#222", borderRadius: 2, overflow: "hidden", marginTop: 4 }}>
-      <div style={{ height: "100%", width: `${pct}%`, background: col, borderRadius: 2, transition: "width 0.5s" }} />
-    </div>
-  );
-}
-
-function SectionMark({ label, awarded, outOf }: { label: string; awarded: number; outOf: number }) {
-  return (
-    <div style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", borderRadius: 6, padding: "8px 12px" }}>
-      <div style={{ ...mono, color: "#555", fontSize: "0.44rem", marginBottom: 4 }}>{label}</div>
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.9rem", color: "#ddd" }}>
-        {awarded}<span style={{ color: "#444", fontSize: "0.7rem" }}>/{outOf}</span>
-      </div>
-      <ScoreBar awarded={awarded} outOf={outOf} />
-    </div>
-  );
-}
-
+/* ── Per-question result card — exact same UI as evaluate/page.tsx ── */
 function EvalCard({ result, isOpen, onToggle }: {
-  result: QuestionResult;
-  isOpen: boolean;
-  onToggle: () => void;
+  result: QuestionResult; isOpen: boolean; onToggle: () => void;
 }) {
-  const [tab, setTab] = useState<"feedback" | "model">("feedback");
-  const { question, evaluation, error } = result;
-
-  const pct = evaluation
-    ? (evaluation.marks / evaluation.marks_out_of) * 100
-    : 0;
+  const [tab, setTab] = useState("eval");
+  const { question, evaluation: ev, error } = result;
+  const pct      = ev ? (ev.marks / ev.marks_out_of) * 100 : 0;
   const scoreCol = pct >= 70 ? "#4ade80" : pct >= 50 ? "#3b82f6" : "#f87171";
 
   return (
-    <div style={{
-      border: `1px solid ${isOpen ? BLUE + "44" : "#1e1e1e"}`,
-      borderRadius: 8,
-      overflow: "hidden",
-      marginBottom: 8,
-      transition: "border-color 0.15s",
-    }}>
-      {/* Header — always visible */}
-      <div
-        onClick={onToggle}
-        style={{
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "13px 16px", cursor: "pointer",
-          background: isOpen ? `${BLUE}0c` : "transparent",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{
-            ...mono, fontSize: "0.48rem", color: BLUE,
-            background: `${BLUE}18`, border: `1px solid ${BLUE}44`,
-            borderRadius: 4, padding: "3px 9px",
-          }}>
-            {question.id}
-          </div>
-          <span style={{ fontSize: "0.72rem", color: "#ccc", fontFamily: "var(--font-mono)" }}>
+    <div style={{ marginBottom: 12 }}>
+      {/* Accordion header */}
+      <div onClick={onToggle} style={{
+        background: "#161616", border: "1px solid #2a2a2a", borderRadius: isOpen ? "8px 8px 0 0" : 8,
+        padding: "14px 20px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12,
+      }}>
+        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.2em",
+            textTransform: "uppercase", color: "#3b82f6", flexShrink: 0 }}>{question.id}</span>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555",
+            background: "#222", borderRadius: 4, padding: "2px 7px", flexShrink: 0 }}>
             {question.marks}M
           </span>
-          <span style={{ fontSize: "0.7rem", color: "#666", maxWidth: 340,
-            overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            {question.text}
-          </span>
+          <span style={{ fontSize: "0.85rem", color: "#aaa", overflow: "hidden",
+            textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{question.text}</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          {evaluation && (
-            <span style={{
-              fontFamily: "var(--font-mono)", fontSize: "1rem",
-              fontWeight: 700, color: scoreCol,
-            }}>
-              {evaluation.marks}
-              <span style={{ color: "#444", fontSize: "0.65rem", fontWeight: 400 }}>
-                /{evaluation.marks_out_of}
-              </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          {ev && (
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: scoreCol }}>
+              {ev.marks}/{ev.marks_out_of}
             </span>
           )}
-          {error && <span style={{ ...mono, color: "#f47070" }}>Error</span>}
-          <span style={{ color: "#444", fontSize: "0.9rem", transition: "transform 0.15s",
-            display: "block", transform: isOpen ? "rotate(180deg)" : "none" }}>▾</span>
+          {error && <span style={{ fontSize: "0.7rem", color: "#f87171" }}>Error</span>}
+          <span style={{ color: "#444", fontSize: "0.8rem", transform: isOpen ? "rotate(180deg)" : "none",
+            transition: "transform 0.2s" }}>▾</span>
         </div>
       </div>
 
-      {/* Expanded content */}
       {isOpen && (
-        <div style={{ borderTop: `1px solid ${BLUE}22`, padding: "18px 18px 20px" }}>
-
+        <div style={{ background: "#111", border: "1px solid #2a2a2a", borderTop: "none",
+          borderRadius: "0 0 8px 8px", padding: "28px 30px" }}>
           {error && (
-            <div style={{ padding: "10px 14px", background: "#1a0808", borderRadius: 6,
-              border: "1px solid #3a1515", color: "#f47070", fontSize: "0.72rem",
-              fontFamily: "var(--font-mono)" }}>
+            <div style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)",
+              borderRadius: 6, padding: "14px 18px", color: "#f87171", fontSize: "0.85rem" }}>
               {error}
             </div>
           )}
 
-          {evaluation && (
-            <>
-              {/* Score + section marks */}
-              <div style={{ display: "flex", gap: 14, marginBottom: 18, alignItems: "flex-start" }}>
-                <div style={{ background: "#0e0e0e", border: `1px solid ${scoreCol}33`,
-                  borderRadius: 8, padding: "14px 20px", minWidth: 90, textAlign: "center" }}>
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: "2.8rem",
-                    fontWeight: 700, color: scoreCol, lineHeight: 1, letterSpacing: "-0.04em" }}>
-                    {evaluation.marks}
-                  </div>
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "#555", marginTop: 2 }}>
-                    / {evaluation.marks_out_of}
-                  </div>
-                  {evaluation.word_count && (
-                    <div style={{
-                      ...mono, fontSize: "0.42rem", marginTop: 8,
-                      color: evaluation.word_count_rating === "GOOD" ? "#4ade80"
-                           : evaluation.word_count_rating === "LOW" ? "#f87171" : "#facc15",
-                    }}>
-                      {evaluation.word_count}w · {evaluation.word_count_rating}
-                    </div>
-                  )}
+          {ev && (
+            <>{/* Question box */}
+            <div className="pdf-ev-qbox">
+              <div className="pdf-ev-qlabel">Question · {question.marks}M</div>
+              <div className="pdf-ev-qtext">{question.text}</div>
+            </div>
+
+            {/* Score row */}
+            <div className="pdf-ev-score-row">
+              <div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.53rem", letterSpacing: "0.28em",
+                  textTransform: "uppercase", color: "#555", marginBottom: 14 }}>Marks Scored</div>
+                <div>
+                  <span className="pdf-ev-score-num" style={{ color: scoreCol }}>{ev.marks}</span>
+                  <span className="pdf-ev-score-denom"> /{ev.marks_out_of}</span>
                 </div>
-                {evaluation.section_marks && (
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 6, flex: 1 }}>
-                    {(["introduction","body","conclusion","presentation"] as const).map(sec => (
-                      evaluation.section_marks[sec] && (
-                        <SectionMark
-                          key={sec}
-                          label={sec}
-                          awarded={evaluation.section_marks[sec].awarded}
-                          outOf={evaluation.section_marks[sec].out_of}
-                        />
-                      )
-                    ))}
+                <div className="pdf-ev-bar-bg">
+                  <div className="pdf-ev-bar-fill" style={{ width: `${pct}%`, background: scoreCol }} />
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.53rem", letterSpacing: "0.28em",
+                  textTransform: "uppercase", color: "#555", marginBottom: 14 }}>Ideal Word Count</div>
+                <div>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "2.2rem", fontWeight: 700 }}>
+                    {question.marks === 10 ? "150" : question.marks === 15 ? "200" : "250"}
+                  </span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.9rem", color: "#444" }}> words</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Disclaimer */}
+            <div style={{ display: "flex", gap: 12, padding: "14px 18px", background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.05)", borderRadius: 6, marginBottom: 32 }}>
+              <span style={{ color: "#555", flexShrink: 0, fontSize: "0.8rem" }}>ℹ</span>
+              <p style={{ fontSize: "0.78rem", color: "#555", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
+                These marks are indicative, not exact — expect a 1–2 mark variance from what an actual UPSC examiner may award. Focus on the qualitative feedback: weak areas, missing historians, and analytical depth.
+              </p>
+            </div>
+
+            {/* Section marks grid */}
+            {ev.section_marks && (
+              <div className="pdf-ev-sec-grid">
+                {(["introduction","body","conclusion","presentation"] as const).map(sec => {
+                  const s = ev.section_marks[sec];
+                  if (!s) return null;
+                  const sp = Math.round((s.awarded / s.out_of) * 100);
+                  const sc = sp >= 75 ? "#4ade80" : sp >= 50 ? "#3b82f6" : "#f87171";
+                  return (
+                    <div key={sec} className="pdf-ev-sec-card">
+                      <div className="pdf-ev-sec-lbl">{sec}</div>
+                      <div>
+                        <span className="pdf-ev-sec-num" style={{ color: sc }}>{s.awarded}</span>
+                        <span className="pdf-ev-sec-den">/{s.out_of}</span>
+                      </div>
+                      <div className="pdf-ev-sec-bar-bg">
+                        <div className="pdf-ev-sec-bar-fill" style={{ width: `${sp}%`, background: sc }} />
+                      </div>
+                      <div className="pdf-ev-sec-rsn">{s.reasoning}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Tabs */}
+            <div className="pdf-ev-tabs">
+              {(["eval","model","hist"] as const).map(t => (
+                <button key={t} className={`pdf-ev-tab${tab === t ? " active" : ""}`} onClick={() => setTab(t)}>
+                  {t === "eval" ? "Evaluation" : t === "model" ? "Model Answer" : "Historians"}
+                </button>
+              ))}
+            </div>
+
+            {/* ── EVALUATION TAB ── */}
+            {tab === "eval" && (
+              <div className="pdf-ev-fade">
+                {/* Demand */}
+                {toArray(ev.demand_of_question).length > 0 && (
+                  <div className="pdf-ev-card" style={{ marginBottom: 16 }}>
+                    <div className="pdf-ev-ct">Demand of the Question</div>
+                    <ul className="pdf-ev-list">
+                      {toArray(ev.demand_of_question).map((d: string, i: number) => (
+                        <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                          <span style={{ color: "#3b82f6", flexShrink: 0, marginTop: 3 }}>◆</span>
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )}
-              </div>
 
-              {/* Tabs */}
-              <div style={{ display: "flex", gap: 4, marginBottom: 16, borderBottom: "1px solid #1a1a1a", paddingBottom: 0 }}>
-                {(["feedback", "model"] as const).map(t => (
-                  <button key={t} onClick={() => setTab(t)} style={{
-                    ...mono, fontSize: "0.46rem", padding: "7px 14px",
-                    background: "none", border: "none", cursor: "pointer",
-                    color: tab === t ? "#fff" : "#555",
-                    borderBottom: tab === t ? `2px solid ${BLUE}` : "2px solid transparent",
-                    marginBottom: -1,
-                  }}>
-                    {t === "feedback" ? "Feedback" : "Model Answer"}
-                  </button>
-                ))}
-              </div>
-
-              {/* Feedback tab */}
-              {tab === "feedback" && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-
-                  {/* Overall */}
-                  {evaluation.overall_feedback && (
-                    <div style={{ background: "#0e0e0e", borderRadius: 7, padding: "13px 15px",
-                      border: `1px solid ${BLUE}22`, borderLeft: `3px solid ${BLUE}` }}>
-                      <div style={{ ...mono, color: BLUE, marginBottom: 6 }}>Overall</div>
-                      <p style={{ fontSize: "0.78rem", color: "#bbb", lineHeight: 1.75, margin: 0 }}>
-                        {evaluation.overall_feedback}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Section marks reasoning */}
-                  {evaluation.section_marks && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                      {(["introduction","body","conclusion","presentation"] as const).map(sec => {
-                        const sm = evaluation.section_marks[sec];
-                        if (!sm?.reasoning) return null;
-                        return (
-                          <div key={sec} style={{ background: "#0e0e0e", borderRadius: 6,
-                            padding: "10px 14px", border: "1px solid #1a1a1a" }}>
-                            <div style={{ ...mono, color: "#555", marginBottom: 4, fontSize: "0.45rem" }}>
-                              {sec} · {sm.awarded}/{sm.out_of}
-                            </div>
-                            <p style={{ fontSize: "0.72rem", color: "#888", lineHeight: 1.65, margin: 0 }}>
-                              {sm.reasoning}
-                            </p>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-
-                  {/* Body strengths / weaknesses */}
-                  {evaluation.body && (
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                      {evaluation.body.strengths?.length > 0 && (
-                        <div style={{ background: "#0a1a0a", borderRadius: 7, padding: "12px 14px",
-                          border: "1px solid #1a2a1a" }}>
-                          <div style={{ ...mono, color: "#4ade80", marginBottom: 8, fontSize: "0.45rem" }}>Strengths</div>
-                          {evaluation.body.strengths.map((s: string, i: number) => (
-                            <p key={i} style={{ fontSize: "0.7rem", color: "#aaa", lineHeight: 1.65, margin: "0 0 6px",
-                              paddingLeft: 10, borderLeft: "2px solid #4ade8044" }}>
-                              {s}
-                            </p>
-                          ))}
-                        </div>
-                      )}
-                      {evaluation.body.weaknesses?.length > 0 && (
-                        <div style={{ background: "#1a0a0a", borderRadius: 7, padding: "12px 14px",
-                          border: "1px solid #2a1a1a" }}>
-                          <div style={{ ...mono, color: "#f87171", marginBottom: 8, fontSize: "0.45rem" }}>Gaps</div>
-                          {evaluation.body.weaknesses.map((w: string, i: number) => (
-                            <p key={i} style={{ fontSize: "0.7rem", color: "#aaa", lineHeight: 1.65, margin: "0 0 6px",
-                              paddingLeft: 10, borderLeft: "2px solid #f8717144" }}>
-                              {w}
-                            </p>
-                          ))}
-                        </div>
+                {/* Introduction */}
+                {ev.introduction && (
+                  <div className="pdf-ev-card" style={{ marginBottom: 16 }}>
+                    <div className="pdf-ev-ct" style={{ justifyContent: "space-between" }}>
+                      <span>Introduction</span>
+                      {ev.section_marks?.introduction && (
+                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#888" }}>
+                          {ev.section_marks.introduction.awarded}/{ev.section_marks.introduction.out_of}
+                        </span>
                       )}
                     </div>
-                  )}
-
-                  {/* Suggestions */}
-                  {evaluation.body?.suggestions?.length > 0 && (
-                    <div style={{ background: "#0e0e0e", borderRadius: 7, padding: "12px 14px",
-                      border: "1px solid #1a1a1a" }}>
-                      <div style={{ ...mono, color: "#facc15", marginBottom: 8, fontSize: "0.45rem" }}>Suggestions</div>
-                      {evaluation.body.suggestions.map((s: string, i: number) => (
-                        <p key={i} style={{ fontSize: "0.7rem", color: "#aaa", lineHeight: 1.65, margin: "0 0 6px",
-                          paddingLeft: 10, borderLeft: "2px solid #facc1544" }}>
-                          {s}
-                        </p>
-                      ))}
+                    <div style={{ marginBottom: 14 }}>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
+                        textTransform: "uppercase", color: "#555", marginBottom: 6 }}>What you wrote</div>
+                      <div style={{ fontSize: "0.9rem", color: "#aaa", lineHeight: 1.7, fontStyle: "italic",
+                        fontFamily: "var(--font-body)" }}>{ev.introduction.what_was_written}</div>
                     </div>
-                  )}
-
-                  {/* Historians */}
-                  {evaluation.historians_to_cite?.length > 0 && (
-                    <div style={{ background: "#0e0e0e", borderRadius: 7, padding: "12px 14px",
-                      border: `1px solid ${BLUE}1a` }}>
-                      <div style={{ ...mono, color: BLUE, marginBottom: 10, fontSize: "0.45rem" }}>Historians to Use</div>
-                      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                        {evaluation.historians_to_cite.map((h: any, i: number) => (
-                          <div key={i} style={{ paddingLeft: 10, borderLeft: `2px solid ${BLUE}44` }}>
-                            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "#ddd", marginBottom: 2 }}>
-                              {h.name}
-                              {h.work && <span style={{ color: "#555" }}> · {h.work}</span>}
-                            </div>
-                            <div style={{ fontSize: "0.68rem", color: "#777", lineHeight: 1.6 }}>{h.argument}</div>
-                          </div>
+                    {toArray(ev.introduction.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).length > 0 && (
+                      <ul className="pdf-ev-list" style={{ marginBottom: 14 }}>
+                        {toArray(ev.introduction.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).map((s: string, i: number) => (
+                          <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                            <span style={{ color: "#4ade80", flexShrink: 0, marginTop: 3 }}>✓</span>
+                            {s}
+                          </li>
                         ))}
-                      </div>
+                      </ul>
+                    )}
+                    <div style={{ fontSize: "0.88rem", color: "#b0b0b0", lineHeight: 1.75,
+                      fontFamily: "var(--font-body)", marginBottom: 14 }}>
+                      {ev.introduction.analysis}
                     </div>
-                  )}
-                </div>
-              )}
+                    {toArray(ev.introduction.suggestions).filter((s: string) => s).length > 0 && (
+                      <div>
+                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
+                          textTransform: "uppercase", color: "#555", marginBottom: 8 }}>How to improve</div>
+                        <ul className="pdf-ev-list">
+                          {toArray(ev.introduction.suggestions).map((s: string, i: number) => (
+                            <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>
+                              {s}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {ev.model_answer?.introduction && (
+                      <div style={{ marginTop: 16, padding: "14px 18px",
+                        background: "rgba(74,222,128,0.04)", border: "1px solid rgba(74,222,128,0.08)", borderRadius: 6 }}>
+                        <div className="pdf-ev-ml">Model introduction</div>
+                        <div className="pdf-ev-mp">{ev.model_answer.introduction}</div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
-              {/* Model Answer tab */}
-              {tab === "model" && evaluation.model_answer && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {evaluation.model_answer.introduction && (
-                    <div style={{ background: "#0e0e0e", borderRadius: 7, padding: "12px 15px",
-                      border: "1px solid #1a1a1a", borderLeft: `3px solid ${BLUE}` }}>
-                      <div style={{ ...mono, color: BLUE, marginBottom: 6, fontSize: "0.45rem" }}>Introduction</div>
-                      <p style={{ fontSize: "0.75rem", color: "#bbb", lineHeight: 1.75, margin: 0 }}>
-                        {evaluation.model_answer.introduction}
-                      </p>
+                {/* Body */}
+                {ev.body && (
+                  <div className="pdf-ev-card" style={{ marginBottom: 16 }}>
+                    <div className="pdf-ev-ct" style={{ justifyContent: "space-between" }}>
+                      <span>Body</span>
+                      {ev.section_marks?.body && (
+                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#888" }}>
+                          {ev.section_marks.body.awarded}/{ev.section_marks.body.out_of}
+                        </span>
+                      )}
                     </div>
-                  )}
-                  {Array.isArray(evaluation.model_answer.body) && evaluation.model_answer.body.map((pt: string, i: number) => (
-                    <div key={i} style={{ background: "#0e0e0e", borderRadius: 7, padding: "12px 15px",
-                      border: "1px solid #1a1a1a", borderLeft: "3px solid #333" }}>
-                      <div style={{ ...mono, color: "#555", marginBottom: 6, fontSize: "0.42rem" }}>
-                        Point {i + 1}
+                    {toArray(ev.body.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use [")).length > 0 && (
+                      <div style={{ marginBottom: 16 }}>
+                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
+                          textTransform: "uppercase", color: "#4ade80", marginBottom: 8, opacity: 0.7 }}>What worked</div>
+                        <ul className="pdf-ev-list">
+                          {toArray(ev.body.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use [")).map((s: string, i: number) => {
+                            const tagMatch = s.match(/^\[([^\]]+)\]:\s*/);
+                            const tag = tagMatch ? tagMatch[1] : null;
+                            const text = tagMatch ? s.slice(tagMatch[0].length) : s;
+                            return (
+                              <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                                <span style={{ color: "#4ade80", flexShrink: 0, marginTop: 3 }}>✓</span>
+                                <span>
+                                  {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
+                                    background: "rgba(74,222,128,0.1)", color: "#4ade80", borderRadius: 3,
+                                    padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
+                                  {text}
+                                </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
                       </div>
-                      <p style={{ fontSize: "0.72rem", color: "#aaa", lineHeight: 1.75, margin: 0 }}>{pt}</p>
+                    )}
+                    {toArray(ev.body.weaknesses).filter((w: string) => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use [")).length > 0 && (
+                      <div style={{ marginBottom: 16 }}>
+                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
+                          textTransform: "uppercase", color: "#f87171", marginBottom: 8, opacity: 0.7 }}>What fell short</div>
+                        <ul className="pdf-ev-list">
+                          {toArray(ev.body.weaknesses).filter((w: string) => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use [")).map((w: string, i: number) => {
+                            const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
+                            const tag = tagMatch ? tagMatch[1].toLowerCase() : null;
+                            const text = tagMatch ? w.slice(tagMatch[0].length) : w;
+                            const tagColors: Record<string, string> = { "missed demand": "#fbbf24", "needs historian": "#f87171", "too descriptive": "#a78bfa", "check this": "#f87171", "structure": "#818cf8" };
+                            const dotColor = tag && tagColors[tag] ? tagColors[tag] : "#f87171";
+                            return (
+                              <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                                <span style={{ color: dotColor, flexShrink: 0, marginTop: 3 }}>✗</span>
+                                <span>
+                                  {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
+                                    background: `${dotColor}18`, color: dotColor, borderRadius: 3,
+                                    padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
+                                  {text}
+                                </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
+                    {toArray(ev.body.suggestions).filter((s: string) => s).length > 0 && (
+                      <div>
+                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
+                          textTransform: "uppercase", color: "#555", marginBottom: 8 }}>How to improve</div>
+                        <ul className="pdf-ev-list">
+                          {toArray(ev.body.suggestions).map((s: string, i: number) => (
+                            <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>
+                              {s}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Conclusion */}
+                {ev.conclusion && (
+                  <div className="pdf-ev-card" style={{ marginBottom: 16 }}>
+                    <div className="pdf-ev-ct" style={{ justifyContent: "space-between" }}>
+                      <span>Conclusion</span>
+                      {ev.section_marks?.conclusion && (
+                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#888" }}>
+                          {ev.section_marks.conclusion.awarded}/{ev.section_marks.conclusion.out_of}
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ marginBottom: 14 }}>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
+                        textTransform: "uppercase", color: "#555", marginBottom: 6 }}>What you wrote</div>
+                      <div style={{ fontSize: "0.9rem", color: "#aaa", lineHeight: 1.7, fontStyle: "italic",
+                        fontFamily: "var(--font-body)" }}>{ev.conclusion.what_was_written}</div>
+                    </div>
+                    {toArray(ev.conclusion.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).length > 0 && (
+                      <ul className="pdf-ev-list" style={{ marginBottom: 14 }}>
+                        {toArray(ev.conclusion.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).map((s: string, i: number) => (
+                          <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                            <span style={{ color: "#4ade80", flexShrink: 0, marginTop: 3 }}>✓</span>
+                            {s}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <div style={{ fontSize: "0.88rem", color: "#b0b0b0", lineHeight: 1.75,
+                      fontFamily: "var(--font-body)", marginBottom: 14 }}>
+                      {ev.conclusion.analysis}
+                    </div>
+                    {toArray(ev.conclusion.suggestions).filter((s: string) => s).length > 0 && (
+                      <div>
+                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
+                          textTransform: "uppercase", color: "#555", marginBottom: 8 }}>How to improve</div>
+                        <ul className="pdf-ev-list">
+                          {toArray(ev.conclusion.suggestions).map((s: string, i: number) => (
+                            <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>
+                              {s}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {ev.model_answer?.conclusion && (
+                      <div style={{ marginTop: 16, padding: "14px 18px",
+                        background: "rgba(74,222,128,0.04)", border: "1px solid rgba(74,222,128,0.08)", borderRadius: 6 }}>
+                        <div className="pdf-ev-ml">Model conclusion</div>
+                        <div className="pdf-ev-mp">{ev.model_answer.conclusion}</div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Overall feedback */}
+                <div className="pdf-ev-card pdf-ev-card-gold" style={{ marginBottom: 16 }}>
+                  <div className="pdf-ev-ct">Overall Feedback</div>
+                  <div style={{ fontSize: "0.93rem", color: "#d4d4d4", lineHeight: 1.9, fontFamily: "var(--font-body)" }}>
+                    {ev.overall_feedback}
+                  </div>
+                </div>
+
+                {/* Nav button */}
+                <button className="pdf-ev-btn" onClick={() => setTab("model")}>
+                  View Model Answer →
+                </button>
+              </div>
+            )}
+
+            {/* ── MODEL ANSWER TAB ── */}
+            {tab === "model" && ev.model_answer && (
+              <div className="pdf-ev-fade">
+                <div className="pdf-ev-qbox">
+                  <div className="pdf-ev-qlabel">Question · {question.marks}M</div>
+                  <div className="pdf-ev-qtext">{question.text}</div>
+                </div>
+                <div className="pdf-ev-card pdf-ev-card-green">
+                  <div className="pdf-ev-ct">Model Answer · {question.marks}M</div>
+                  <div className="pdf-ev-ml">Introduction</div>
+                  <div className="pdf-ev-mp">{ev.model_answer.introduction}</div>
+                  <div className="pdf-ev-ml">Body</div>
+                  <ul className="pdf-ev-list">
+                    {bodyParas(ev.model_answer.body).map((p: string, i: number) => (
+                      <li key={i}>{p}</li>
+                    ))}
+                  </ul>
+                  <div className="pdf-ev-ml">Conclusion</div>
+                  <div className="pdf-ev-mp">{ev.model_answer.conclusion}</div>
+                </div>
+                <button className="pdf-ev-btn" onClick={() => setTab("eval")}>
+                  ← View Evaluation
+                </button>
+              </div>
+            )}
+
+            {/* ── HISTORIANS TAB ── */}
+            {tab === "hist" && (
+              <div className="pdf-ev-fade">
+                <div className="pdf-ev-card">
+                  <div className="pdf-ev-ct">Historians to Cite for This Topic</div>
+                  {(Array.isArray(ev.historians_to_cite) ? ev.historians_to_cite : []).map((h: any, i: number) => (
+                    <div key={i} className="pdf-ev-hist">
+                      <div className="pdf-ev-hist-name">{typeof h === "object" && h !== null ? h.name : String(h)}</div>
+                      {typeof h === "object" && h !== null && h.work && <div className="pdf-ev-hist-work">{h.work}</div>}
+                      <div className="pdf-ev-hist-arg">{typeof h === "object" && h !== null ? h.argument : ""}</div>
                     </div>
                   ))}
-                  {evaluation.model_answer.conclusion && (
-                    <div style={{ background: "#0e0e0e", borderRadius: 7, padding: "12px 15px",
-                      border: "1px solid #1a1a1a", borderLeft: "3px solid #4ade8044" }}>
-                      <div style={{ ...mono, color: "#4ade80", marginBottom: 6, fontSize: "0.45rem" }}>Conclusion</div>
-                      <p style={{ fontSize: "0.75rem", color: "#bbb", lineHeight: 1.75, margin: 0 }}>
-                        {evaluation.model_answer.conclusion}
-                      </p>
-                    </div>
-                  )}
                 </div>
-              )}
-            </>
-          )}
+              </div>
+            )}
+          </>)}
         </div>
       )}
     </div>
   );
 }
+
+const BLUE = "var(--accent, #3b82f6)";
+const mono: React.CSSProperties = {
+  fontFamily: "var(--font-mono)", letterSpacing: "0.18em",
+  textTransform: "uppercase", fontSize: "0.53rem",
+};
 
 export default function PDFTestEvaluator({
   isPremium, onPaywall, token, paperQuestions,
@@ -346,10 +451,11 @@ export default function PDFTestEvaluator({
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [stage, setStage] = useState<"upload" | "loading" | "done">("upload");
+  const [stage, setStage] = useState("upload");
   const [stepLabel, setStepLabel] = useState("");
   const [evalCurrent, setEvalCurrent] = useState(0);
   const [evalTotal, setEvalTotal] = useState(0);
+  const [evalProgress, setEvalProgress] = useState(0);
   const [transcript, setTranscript] = useState("");
   const [results, setResults] = useState<QuestionResult[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -360,7 +466,7 @@ export default function PDFTestEvaluator({
     if (!f.type.includes("pdf")) { setError("Please upload a PDF file."); return; }
     setFile(f); setError(null);
   }
-  function onDrop(e: DragEvent<HTMLDivElement>) {
+  function onDrop(e: React.DragEvent) {
     e.preventDefault(); setDragging(false);
     const f = e.dataTransfer.files[0]; if (f) handleFile(f);
   }
@@ -372,13 +478,13 @@ export default function PDFTestEvaluator({
     }
     setError(null);
     setStage("loading");
+    setEvalProgress(5);
 
     try {
-      // 1 — Convert PDF to images
       setStepLabel("Converting PDF to images…");
       const images = await pdfToImages(file);
+      setEvalProgress(18);
 
-      // 2 — OCR
       setStepLabel(`Extracting handwriting (${images.length} page${images.length > 1 ? "s" : ""})…`);
       const fd = new FormData();
       images.forEach(img => fd.append("files", img));
@@ -391,21 +497,22 @@ export default function PDFTestEvaluator({
         ocrText = d.text || d.extracted_text || d.transcript || "";
       }
       setTranscript(ocrText);
+      setEvalProgress(32);
 
-      // 3 — Evaluate each question sequentially
       setEvalTotal(paperQuestions.length);
       const questionResults: QuestionResult[] = [];
 
       for (let i = 0; i < paperQuestions.length; i++) {
         const q = paperQuestions[i];
         setEvalCurrent(i + 1);
-        setStepLabel(`Evaluating ${q.id} (${q.marks}M)…`);
+        setStepLabel(`Evaluating Q${i + 1} of ${paperQuestions.length}: ${q.text.slice(0, 50)}…`);
+        setEvalProgress(32 + Math.round(((i + 1) / paperQuestions.length) * 60));
 
         try {
           const evalFd = new FormData();
           evalFd.append("question", q.text);
-          evalFd.append("marks", q.marks.toString());
-          if (ocrText) evalFd.append("extractedText", ocrText);
+          evalFd.append("marks", String(q.marks));
+          evalFd.append("extractedText", ocrText);
           images.forEach(img => evalFd.append("files", img));
 
           const evalRes = await fetch("/api/evaluate", {
@@ -417,13 +524,10 @@ export default function PDFTestEvaluator({
         } catch (qErr: any) {
           questionResults.push({ question: q, evaluation: null, error: qErr.message });
         }
-
-        // Small delay to avoid rate limits
-        if (i < paperQuestions.length - 1) {
-          await new Promise(r => setTimeout(r, 800));
-        }
+        if (i < paperQuestions.length - 1) await new Promise(r => setTimeout(r, 800));
       }
 
+      setEvalProgress(100);
       setResults(questionResults);
       setStage("done");
       if (questionResults.length > 0) setExpanded(questionResults[0].question.id);
@@ -433,247 +537,307 @@ export default function PDFTestEvaluator({
     }
   }
 
-  // ── PAYWALL ───────────────────────────────────────────────────────────
+  /* ── PAYWALL ── */
   if (!isPremium) return (
-    <div style={{ border: `1px solid ${BLUE}33`, borderRadius: 10, background: "#111", overflow: "hidden" }}>
-      <div style={{ background: `linear-gradient(135deg,${BLUE}18 0%,transparent 60%)`,
-        borderBottom: `1px solid ${BLUE}22`, padding: "22px 24px 18px" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 7, background: `${BLUE}22`,
-              border: `1px solid ${BLUE}44`, display: "flex", alignItems: "center",
-              justifyContent: "center", fontSize: "1rem" }}>📄</div>
+    <div style={{ padding: "32px 0" }}>
+      <div style={{ background: "linear-gradient(135deg,#161616,#111)", border: "1px solid #2a2a2a",
+        borderRadius: 12, padding: "28px 30px", marginBottom: 20 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <span style={{ fontSize: "1.8rem" }}>📄</span>
             <div>
-              <div style={{ ...mono, color: "#fff", fontSize: "0.56rem" }}>AI Full Paper Evaluation</div>
-              <div style={{ fontSize: "0.6rem", color: BLUE, fontFamily: "var(--font-mono)", marginTop: 2 }}>Premium Feature</div>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 700, marginBottom: 4 }}>
+                AI Full Paper Evaluation
+              </div>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555", letterSpacing: "0.15em" }}>
+                Premium Feature
+              </div>
             </div>
           </div>
-          <div style={{ ...mono, fontSize: "0.42rem", color: BLUE, background: `${BLUE}15`,
-            border: `1px solid ${BLUE}33`, borderRadius: 4, padding: "3px 9px" }}>PREMIUM</div>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.5rem", letterSpacing: "0.2em",
+            background: "rgba(234,179,8,0.1)", color: "#eab308", border: "1px solid rgba(234,179,8,0.2)",
+            borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
         </div>
-        <p style={{ fontSize: "0.86rem", color: "#ccc", lineHeight: 1.7, margin: "0 0 6px" }}>
+        <p style={{ fontSize: "0.88rem", color: "#666", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
           Upload your complete answer script as a PDF. AI reads every page, identifies each answer,
           and gives marks + detailed feedback for the entire paper — all at once.
         </p>
-        <p style={{ ...mono, color: "#555", fontSize: "0.54rem", margin: 0 }}>
-          Handwritten scripts · Typed answers · Self-contained PDFs
-        </p>
       </div>
-      <div style={{ padding: "18px 24px 22px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8, marginBottom: 20 }}>
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ display: "flex", gap: 10 }}>
           {[
             { n: "01", t: "Write answers",     s: "On paper or digitally" },
             { n: "02", t: "Scan to PDF",        s: "All pages in one file"  },
             { n: "03", t: "Upload & evaluate",  s: "AI scores instantly"    },
           ].map(x => (
-            <div key={x.n} style={{ padding: "12px 13px", background: "#161616",
-              borderRadius: 6, border: `1px solid ${BLUE}1a` }}>
-              <span style={{ ...mono, color: BLUE, opacity: 0.5, display: "block", marginBottom: 5 }}>{x.n}</span>
-              <span style={{ fontSize: "0.7rem", color: "#ddd", fontFamily: "var(--font-mono)", display: "block", marginBottom: 2 }}>{x.t}</span>
-              <span style={{ fontSize: "0.62rem", color: "#666" }}>{x.s}</span>
+            <div key={x.n} style={{ flex: 1, background: "#161616", border: "1px solid #222",
+              borderRadius: 8, padding: "16px 14px" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#3b82f6",
+                letterSpacing: "0.15em", marginBottom: 8 }}>{x.n}</div>
+              <div style={{ fontSize: "0.82rem", fontWeight: 600, marginBottom: 4 }}>{x.t}</div>
+              <div style={{ fontSize: "0.75rem", color: "#555" }}>{x.s}</div>
             </div>
           ))}
         </div>
-        <button onClick={onPaywall} style={{ width: "100%", padding: "11px 0", background: `${BLUE}18`,
-          border: `1px solid ${BLUE}44`, borderRadius: 6, color: "#fff",
-          fontFamily: "var(--font-mono)", fontSize: "0.58rem", letterSpacing: "0.14em",
-          textTransform: "uppercase", cursor: "pointer" }}>
+        <button onClick={onPaywall} style={{ marginTop: 16, width: "100%", padding: "16px",
+          border: "1.5px solid rgba(234,179,8,0.4)", background: "rgba(234,179,8,0.08)", color: "#eab308",
+          fontSize: "0.78rem", fontFamily: "var(--font-mono)", cursor: "pointer", letterSpacing: "0.2em",
+          textTransform: "uppercase", borderRadius: 4 }}>
           🔒 &nbsp;Unlock with Premium →
         </button>
       </div>
     </div>
   );
 
-  // ── LOADING ───────────────────────────────────────────────────────────
-  if (stage === "loading") {
-    const progress = evalTotal > 0 ? (evalCurrent / evalTotal) * 100 : 0;
-    return (
-      <div style={{ border: `1px solid ${BLUE}33`, borderRadius: 10, background: "#111",
-        padding: "36px 28px", textAlign: "center" }}>
-        <div style={{ fontSize: "2rem", marginBottom: 18 }}>📄</div>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.78rem", color: "#ddd", marginBottom: 8 }}>
-          {stepLabel}
-        </div>
-        {evalTotal > 0 && (
-          <div style={{ ...mono, color: "#555", marginBottom: 16, fontSize: "0.47rem" }}>
-            Question {evalCurrent} of {evalTotal}
-          </div>
-        )}
-        <div style={{ height: 3, background: "#1a1a1a", borderRadius: 2, overflow: "hidden", maxWidth: 300, margin: "0 auto" }}>
-          <div style={{
-            height: "100%", borderRadius: 2, background: BLUE,
-            width: evalTotal > 0 ? `${progress}%` : "40%",
-            transition: "width 0.4s",
-            animation: evalTotal === 0 ? "pulse 1.5s ease-in-out infinite" : undefined,
-          }} />
-        </div>
-        <style>{`@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}`}</style>
+  /* ── LOADING ── */
+  if (stage === "loading") return (
+    <div style={{ padding: "60px 20px", textAlign: "center" }}>
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", letterSpacing: "0.3em",
+        textTransform: "uppercase", color: "#555", marginBottom: 32 }}>
+        Evaluating Paper
       </div>
-    );
-  }
+      <div style={{ marginBottom: 24 }}>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "4rem", fontWeight: 700, color: "#3b82f6" }}>
+          {String(evalProgress).padStart(2, "0")}
+        </span>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "1.5rem", color: "#444" }}>%</span>
+      </div>
+      <div style={{ background: "#222", borderRadius: 2, height: 3, overflow: "hidden",
+        maxWidth: 300, margin: "0 auto 28px" }}>
+        <div style={{ height: "100%", background: "#3b82f6", borderRadius: 2,
+          width: `${evalProgress}%`, transition: "width 0.8s cubic-bezier(.16,1,.3,1)" }} />
+      </div>
+      {evalTotal > 0 && (
+        <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 24 }}>
+          {Array.from({ length: evalTotal }, (_, i) => (
+            <div key={i} style={{
+              width: evalCurrent > i ? 8 : 5, height: evalCurrent > i ? 8 : 5,
+              borderRadius: "50%",
+              background: evalCurrent > i ? "#3b82f6" : "#222",
+              border: evalCurrent > i ? "none" : "1px solid #333",
+              boxShadow: evalCurrent > i ? "0 0 8px #3b82f6" : "none",
+              transition: "all 0.5s",
+            }} />
+          ))}
+        </div>
+      )}
+      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.58rem", letterSpacing: "0.15em",
+        color: "#444", textTransform: "uppercase" }}>
+        {stepLabel}
+      </div>
+    </div>
+  );
 
-  // ── RESULTS ───────────────────────────────────────────────────────────
+  /* ── RESULTS ── */
   if (stage === "done") {
-    const totalAwarded = results.reduce((sum, r) => sum + (r.evaluation?.marks ?? 0), 0);
-    const totalMax = results.reduce((sum, r) => sum + (r.evaluation?.marks_out_of ?? r.question.marks), 0);
-    const overallPct = totalMax > 0 ? (totalAwarded / totalMax) * 100 : 0;
-    const overallCol = overallPct >= 70 ? "#4ade80" : overallPct >= 50 ? "#3b82f6" : "#f87171";
+    const totalAwarded = results.reduce((s, r) => s + (r.evaluation?.marks ?? 0), 0);
+    const totalMax     = results.reduce((s, r) => s + (r.evaluation?.marks_out_of ?? r.question.marks), 0);
+    const overallPct   = totalMax > 0 ? (totalAwarded / totalMax) * 100 : 0;
+    const overallCol   = overallPct >= 70 ? "#4ade80" : overallPct >= 50 ? "#3b82f6" : "#f87171";
 
     return (
-      <div style={{ border: `1px solid ${BLUE}33`, borderRadius: 10, background: "#111", overflow: "hidden" }}>
-        {/* Header */}
-        <div style={{ background: `linear-gradient(135deg,${BLUE}18 0%,transparent 60%)`,
-          borderBottom: `1px solid ${BLUE}22`, padding: "20px 24px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div>
+        <style>{`
+          .pdf-ev-card { background:linear-gradient(135deg,#161616,#111); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
+          .pdf-ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent 60%); pointer-events:none; }
+          .pdf-ev-card-gold { border-color:rgba(234,179,8,0.18); background:linear-gradient(135deg,#161410,#111); }
+          .pdf-ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(234,179,8,0.4),transparent); }
+          .pdf-ev-card-green { border-color:rgba(74,222,128,0.12); background:linear-gradient(135deg,#101610,#111); }
+          .pdf-ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(74,222,128,0.35),transparent); }
+          .pdf-ev-ct { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.32em; text-transform:uppercase; color:#3b82f6; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+          .pdf-ev-ct::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,rgba(59,130,246,0.25),transparent); }
+          .pdf-ev-qbox { background:linear-gradient(135deg,#0d1b3e,#091530); border:1px solid rgba(59,130,246,0.2); border-radius:10px; padding:20px 24px; margin-bottom:20px; }
+          .pdf-ev-qlabel { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:#3b82f6; margin-bottom:10px; }
+          .pdf-ev-qtext { font-size:1.05rem; color:#e2e8f0; line-height:1.65; font-family:var(--font-body); }
+          .pdf-ev-score-row { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:36px; border-bottom:1px solid #2e2e2e; margin-bottom:32px; }
+          .pdf-ev-score-num { font-family:var(--font-mono); font-size:5.5rem; font-weight:700; line-height:1; }
+          .pdf-ev-score-denom { font-family:var(--font-mono); font-size:1.8rem; color:#444; }
+          .pdf-ev-bar-bg { background:#222; border-radius:2px; height:4px; overflow:hidden; margin-top:14px; width:260px; }
+          .pdf-ev-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
+          .pdf-ev-sec-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:32px; }
+          @media(max-width:620px){ .pdf-ev-sec-grid { grid-template-columns:repeat(2,1fr); } }
+          .pdf-ev-sec-card { background:#161616; border:1px solid #2a2a2a; border-radius:6px; padding:16px 14px; }
+          .pdf-ev-sec-lbl { font-family:var(--font-mono); font-size:0.52rem; letter-spacing:0.22em; text-transform:uppercase; color:#555; margin-bottom:10px; }
+          .pdf-ev-sec-num { font-family:var(--font-mono); font-size:1.85rem; font-weight:700; line-height:1; }
+          .pdf-ev-sec-den { font-size:0.9rem; color:#444; }
+          .pdf-ev-sec-bar-bg { background:#222; border-radius:2px; height:3px; overflow:hidden; margin:10px 0 8px; }
+          .pdf-ev-sec-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
+          .pdf-ev-sec-rsn { font-size:0.76rem; color:#666; line-height:1.5; font-family:var(--font-ui); }
+          .pdf-ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(255,255,255,0.07); }
+          .pdf-ev-tab { padding:13px 28px; cursor:pointer; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-family:var(--font-mono); background:none; border:none; color:#444; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
+          .pdf-ev-tab.active { color:#e2e8f0; border-bottom-color:#3b82f6; }
+          .pdf-ev-tab:hover:not(.active) { color:#888; }
+          .pdf-ev-ml { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:rgba(74,222,128,0.55); margin:22px 0 12px; display:flex; align-items:center; gap:8px; }
+          .pdf-ev-ml::after { content:''; flex:1; height:1px; background:rgba(74,222,128,0.08); }
+          .pdf-ev-ml:first-of-type { margin-top:0; }
+          .pdf-ev-mp { font-size:0.93rem; line-height:1.9; color:#d4d4d4; margin-bottom:0; font-family:var(--font-body); }
+          ul.pdf-ev-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
+          ul.pdf-ev-list li { padding:10px 14px 10px 16px; background:rgba(255,255,255,0.02); border-radius:6px; border-left:2px solid rgba(255,255,255,0.08); font-size:0.88rem; color:#b0b0b0; line-height:1.7; font-family:var(--font-body); }
+          .pdf-ev-hist { padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.05); display:grid; gap:6px; }
+          .pdf-ev-hist:first-child { padding-top:0; }
+          .pdf-ev-hist:last-child { border-bottom:none; padding-bottom:0; }
+          .pdf-ev-hist-name { font-family:var(--font-display); font-size:1.0rem; font-weight:700; color:#60a5fa; letter-spacing:0.01em; }
+          .pdf-ev-hist-work { font-family:var(--font-mono); font-size:0.68rem; color:#555; letter-spacing:0.05em; }
+          .pdf-ev-hist-arg { font-size:0.88rem; color:#aaa; line-height:1.75; font-family:var(--font-body); }
+          .pdf-ev-btn { width:100%; padding:16px; border:1.5px solid rgba(59,130,246,0.5); background:rgba(59,130,246,0.1); color:#3b82f6; font-size:0.78rem; font-family:var(--font-mono); cursor:pointer; transition:all 0.2s; letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; }
+          .pdf-ev-btn:hover { background:rgba(59,130,246,0.18); border-color:#3b82f6; }
+          .pdf-ev-fade { animation:pdf-ev-fi 0.4s ease; }
+          @keyframes pdf-ev-fi { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+        `}</style>
+
+        <div style={{ padding: "0 0 40px" }}>
+          {/* Header */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
             <div>
-              <div style={{ ...mono, color: "#fff" }}>Evaluation Complete</div>
-              <div style={{ display: "flex", alignItems: "flex-end", gap: 6, marginTop: 8 }}>
-                <span style={{ fontSize: "2.8rem", fontFamily: "var(--font-mono)",
-                  fontWeight: 700, color: overallCol, lineHeight: 1, letterSpacing: "-0.04em" }}>
-                  {totalAwarded}
-                </span>
-                <span style={{ fontSize: "0.9rem", color: "#555", fontFamily: "var(--font-mono)", marginBottom: 4 }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.28em",
+                textTransform: "uppercase", color: "#555", marginBottom: 10 }}>Paper Complete</div>
+              <div>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: "3.5rem", fontWeight: 700,
+                  color: overallCol, lineHeight: 1 }}>{totalAwarded}</span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: "1.4rem", color: "#444" }}>
                   / {totalMax}
                 </span>
               </div>
-              <div style={{ ...mono, color: "#555", fontSize: "0.44rem", marginTop: 4 }}>
-                {results.length} question{results.length > 1 ? "s" : ""} evaluated
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555",
+                letterSpacing: "0.15em", marginTop: 6 }}>
+                {results.length} question{results.length !== 1 ? "s" : ""} evaluated
               </div>
             </div>
-            <button onClick={() => { setStage("upload"); setFile(null); setResults([]); setTranscript(""); }} style={{
-              ...mono, color: "#888", background: "none",
-              border: "1px solid #2a2a2a", borderRadius: 4, padding: "7px 13px", cursor: "pointer",
-            }}>↩ Evaluate Another</button>
+            <button onClick={() => { setStage("upload"); setFile(null); setResults([]); setTranscript(""); }}
+              style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em",
+                textTransform: "uppercase", color: "#888", background: "none",
+                border: "1px solid #2a2a2a", borderRadius: 4, padding: "8px 16px", cursor: "pointer" }}>
+              ↩ Evaluate Another
+            </button>
           </div>
-        </div>
 
-        <div style={{ padding: "16px 18px 20px" }}>
-          {/* Transcript toggle */}
-          {transcript && (
-            <div style={{ marginBottom: 14 }}>
-              <button onClick={() => setShowTranscript(p => !p)} style={{
-                ...mono, fontSize: "0.46rem", color: "#555", background: "none",
-                border: "1px solid #1e1e1e", borderRadius: 4, padding: "6px 12px", cursor: "pointer",
-                display: "flex", alignItems: "center", gap: 6,
-              }}>
-                <span style={{ transform: showTranscript ? "rotate(90deg)" : "none", display: "inline-block" }}>▶</span>
-                {showTranscript ? "Hide Transcript" : "Show OCR Transcript"}
-              </button>
-              {showTranscript && (
-                <div style={{ marginTop: 8, background: "#0a0a0a", border: "1px solid #1a1a1a",
-                  borderRadius: 7, padding: "14px 16px", maxHeight: 260, overflowY: "auto" }}>
-                  <pre style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "#777",
-                    lineHeight: 1.75, margin: 0, whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-                    {transcript}
-                  </pre>
-                </div>
-              )}
-            </div>
-          )}
+          <div>
+            {/* Transcript toggle */}
+            {transcript && (
+              <div style={{ marginBottom: 20 }}>
+                <button onClick={() => setShowTranscript(p => !p)} style={{
+                  fontFamily: "var(--font-mono)", fontSize: "0.55rem", letterSpacing: "0.18em",
+                  textTransform: "uppercase", color: "#555", background: "none",
+                  border: "1px solid #222", borderRadius: 4, padding: "7px 14px", cursor: "pointer",
+                  display: "flex", alignItems: "center", gap: 8,
+                }}>
+                  <span style={{ fontSize: "0.6rem", transform: showTranscript ? "rotate(90deg)" : "none",
+                    transition: "transform 0.2s" }}>▶</span>
+                  {showTranscript ? "Hide OCR Transcript" : "Show OCR Transcript"}
+                </button>
+                {showTranscript && (
+                  <div style={{ marginTop: 10, background: "#0d0d0d", border: "1px solid #1e1e1e",
+                    borderRadius: 6, padding: "18px 20px" }}>
+                    <pre style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "#666",
+                      lineHeight: 1.8, whiteSpace: "pre-wrap", margin: 0 }}>
+                      {transcript}
+                    </pre>
+                  </div>
+                )}
+              </div>
+            )}
 
-          {/* Question cards */}
-          {results.map(r => (
-            <EvalCard
-              key={r.question.id}
-              result={r}
-              isOpen={expanded === r.question.id}
-              onToggle={() => setExpanded(p => p === r.question.id ? null : r.question.id)}
-            />
-          ))}
+            {/* Question result cards */}
+            {results.map(r => (
+              <EvalCard key={r.question.id} result={r}
+                isOpen={expanded === r.question.id}
+                onToggle={() => setExpanded(p => p === r.question.id ? null : r.question.id)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 
-  // ── UPLOAD ────────────────────────────────────────────────────────────
+  /* ── UPLOAD ── */
   return (
-    <div style={{ border: `1px solid ${BLUE}33`, borderRadius: 10, overflow: "hidden", background: "#111" }}>
-      <div style={{ background: `linear-gradient(135deg,${BLUE}18 0%,transparent 60%)`,
-        borderBottom: `1px solid ${BLUE}22`, padding: "22px 24px 20px" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 8, background: `${BLUE}20`,
-              border: `1px solid ${BLUE}44`, display: "flex", alignItems: "center",
-              justifyContent: "center", fontSize: "1.1rem" }}>📄</div>
+    <div style={{ padding: "32px 0" }}>
+      <div style={{ background: "linear-gradient(135deg,#161616,#111)", border: "1px solid #2a2a2a",
+        borderRadius: 12, padding: "28px 30px", marginBottom: 20 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <span style={{ fontSize: "1.8rem" }}>📄</span>
             <div>
-              <div style={{ ...mono, color: "#fff", fontSize: "0.56rem" }}>AI Full Paper Evaluation</div>
-              <div style={{ fontSize: "0.6rem", color: BLUE, fontFamily: "var(--font-mono)", marginTop: 2 }}>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 700, marginBottom: 4 }}>
+                AI Full Paper Evaluation
+              </div>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555", letterSpacing: "0.15em" }}>
                 {paperQuestions?.length
                   ? `${paperQuestions.length} question${paperQuestions.length > 1 ? "s" : ""} · Upload your script`
                   : "Upload · Evaluate · Get Feedback"}
               </div>
             </div>
           </div>
-          <div style={{ ...mono, fontSize: "0.42rem", color: BLUE, background: `${BLUE}15`,
-            border: `1px solid ${BLUE}44`, borderRadius: 4, padding: "3px 9px" }}>PREMIUM</div>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.5rem", letterSpacing: "0.2em",
+            background: "rgba(234,179,8,0.1)", color: "#eab308", border: "1px solid rgba(234,179,8,0.2)",
+            borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
         </div>
-        <p style={{ fontSize: "0.85rem", color: "#ccc", lineHeight: 1.7, margin: "0 0 5px" }}>
+        <p style={{ fontSize: "0.88rem", color: "#666", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
           Upload your complete answer script as a PDF. AI reads every page and evaluates
           each question separately — marks and detailed feedback for the whole paper at once.
         </p>
       </div>
 
-      <div style={{ padding: "20px 24px 22px" }}>
+      <div>
         {paperQuestions && paperQuestions.length > 0 && (
-          <div style={{ marginBottom: 16, display: "flex", flexWrap: "wrap", gap: 5 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
             {paperQuestions.map(q => (
-              <div key={q.id} style={{ ...mono, fontSize: "0.43rem", color: "#666",
-                background: "#111", border: "1px solid #222", borderRadius: 4, padding: "4px 9px" }}>
+              <span key={q.id} style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
+                letterSpacing: "0.15em", background: "#161616", border: "1px solid #2a2a2a",
+                borderRadius: 4, padding: "4px 10px", color: "#666" }}>
                 {q.id} · {q.marks}M
-              </div>
+              </span>
             ))}
           </div>
         )}
 
         <div
-          onDragOver={e => { e.preventDefault(); setDragging(true); }}
+          onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
           onClick={() => inputRef.current?.click()}
           style={{
-            border: `1px dashed ${dragging ? BLUE : file ? BLUE + "88" : "#2a2a2a"}`,
-            borderRadius: 6, padding: "28px 20px", textAlign: "center", cursor: "pointer",
-            background: dragging ? `${BLUE}10` : file ? `${BLUE}08` : "transparent",
-            transition: "all 0.15s", marginBottom: error ? 10 : 16,
+            border: `1.5px dashed ${dragging ? "#3b82f6" : file ? "rgba(59,130,246,0.5)" : "#333"}`,
+            borderRadius: 6, padding: "44px 24px", textAlign: "center", cursor: "pointer",
+            background: dragging ? "#0d1b3e" : file ? "rgba(59,130,246,0.04)" : "#161616",
+            transition: "all 0.2s", marginBottom: error ? 12 : 20,
           }}
         >
-          <input ref={inputRef} type="file" accept="application/pdf" style={{ display: "none" }}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
-          <div style={{ fontSize: "1.6rem", marginBottom: 10 }}>📄</div>
+          <input ref={inputRef} type="file" accept=".pdf" style={{ display: "none" }}
+            onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
+          <div style={{ fontSize: "2rem", marginBottom: 12 }}>📄</div>
           {file ? (
-            <>
-              <div style={{ fontSize: "0.75rem", color: "#ddd", fontFamily: "var(--font-mono)", marginBottom: 3 }}>{file.name}</div>
-              <div style={{ fontSize: "0.58rem", color: "#666", fontFamily: "var(--font-mono)" }}>
+            <div>
+              <div style={{ fontSize: "0.9rem", fontWeight: 600, marginBottom: 4 }}>{file.name}</div>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555",
+                letterSpacing: "0.1em" }}>
                 {(file.size / 1024 / 1024).toFixed(1)} MB · Click to change
               </div>
-            </>
+            </div>
           ) : (
-            <>
-              <div style={{ fontSize: "0.75rem", color: "#aaa", fontFamily: "var(--font-mono)", marginBottom: 4 }}>
-                Drop your answer PDF here
-              </div>
-              <div style={{ fontSize: "0.58rem", color: "#555", fontFamily: "var(--font-mono)" }}>or click to browse</div>
-            </>
+            <div>
+              <div style={{ fontSize: "0.9rem", color: "#888", marginBottom: 6 }}>Upload your answer script PDF</div>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#444",
+                letterSpacing: "0.1em" }}>Click to browse or drag and drop</div>
+            </div>
           )}
         </div>
 
         {error && (
-          <div style={{ fontSize: "0.63rem", color: "#f47070", fontFamily: "var(--font-mono)",
-            marginBottom: 12, padding: "8px 12px", background: "#1a0808",
-            borderRadius: 4, border: "1px solid #3a1515" }}>
+          <div style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)",
+            borderRadius: 6, padding: "12px 16px", color: "#f87171", fontSize: "0.82rem",
+            marginBottom: 16, fontFamily: "var(--font-body)" }}>
             {error}
           </div>
         )}
 
         {file && (
-          <button onClick={handleEvaluate} style={{
-            width: "100%", padding: "12px 0", background: BLUE, color: "#fff",
-            border: "none", borderRadius: 6, fontFamily: "var(--font-mono)",
-            fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer",
-          }}>
+          <button className="pdf-ev-btn" onClick={handleEvaluate}>
             Evaluate Full Paper →
           </button>
         )}
+        {!file && <style>{`.pdf-ev-btn { width:100%; padding:16px; border:1.5px solid rgba(59,130,246,0.5); background:rgba(59,130,246,0.1); color:#3b82f6; font-size:0.78rem; font-family:var(--font-mono); cursor:pointer; transition:all 0.2s; letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; } .pdf-ev-btn:hover { background:rgba(59,130,246,0.18); border-color:#3b82f6; }`}</style>}
       </div>
     </div>
   );
