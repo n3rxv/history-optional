@@ -133,6 +133,7 @@ interface RawSegment {
   qKey: string;   // normalised
   qRaw: string;   // as written by student
   lines: string[];
+  qTextFromMarker?: string;
 }
 
 function parseAnswerZone(lines: string[]): RawSegment[] {
@@ -140,12 +141,21 @@ function parseAnswerZone(lines: string[]): RawSegment[] {
   const MAIN_Q = /^(?:Q\.?\s*)?([1-8])\s*[.)]\s*$/;
   const SUB_Q  = /^\(?\s*([a-e])\s*\)\s*(?:→\s*)?$/i;
 
-  const bounds: { lineIdx: number; qRaw: string; qKey: string }[] = [];
+  const bounds: { lineIdx: number; qRaw: string; qKey: string; qTextFromMarker?: string }[] = [];
   let lastMain = "";
 
   for (let i = 0; i < lines.length; i++) {
     const t = lines[i].trim();
-    if (!t || t.length > 40) continue;
+    if (!t) continue;
+    // Handle OCR-injected [Q]: markers (can be long lines)
+    if (/^\[Q\]:/i.test(t)) {
+      const qNum = bounds.length + 1;
+      const qRaw = `Q${qNum}`;
+      const qTextFromMarker = t.replace(/^\[Q\]:\s*/i, '').trim();
+      bounds.push({ lineIdx: i, qRaw, qKey: normQNum(qRaw), qTextFromMarker });
+      continue;
+    }
+    if (t.length > 40) continue;
 
     const fm = t.match(FULL_Q);
     if (fm) {
@@ -177,7 +187,7 @@ function parseAnswerZone(lines: string[]): RawSegment[] {
   return bounds.map((b, idx) => {
     const nextIdx = bounds[idx + 1]?.lineIdx ?? lines.length;
     const segLines = lines.slice(b.lineIdx + 1, nextIdx);
-    return { qKey: b.qKey, qRaw: b.qRaw, lines: segLines };
+    return { qKey: b.qKey, qRaw: b.qRaw, lines: segLines, qTextFromMarker: b.qTextFromMarker };
   });
 }
 
@@ -300,7 +310,7 @@ export async function POST(req: NextRequest) {
           ([k]) => k.startsWith(seg.qKey) || seg.qKey.startsWith(k)
         )?.[1];
 
-      const questionText = mapEntry?.text ?? "";
+      const questionText = mapEntry?.text ?? seg.qTextFromMarker ?? "";
       const marks = mapEntry?.marks ?? 15;
 
       // Strip rewritten question lines from top of answer
