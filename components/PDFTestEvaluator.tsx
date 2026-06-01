@@ -232,11 +232,11 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
       <div style={{ border:"1px dashed rgba(129,140,248,0.25)", borderRadius:12, padding:"22px 24px", background:"rgba(99,102,241,0.04)", textAlign:"center" }}>
         <div style={{ fontSize:"1.5rem", marginBottom:8 }}>📄</div>
         <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8, marginBottom:10 }}>
-          <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"#e2e8f0", letterSpacing:"0.1em" }}>Full Test PDF Evaluation</span>
+          <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"#e2e8f0", letterSpacing:"0.1em" }}>Full Paper Evaluation</span>
           <span style={{ fontSize:"0.55rem", background:"rgba(129,140,248,0.15)", color:pCol, padding:"2px 7px", borderRadius:20, fontFamily:"var(--font-mono)", letterSpacing:"0.1em" }}>Premium</span>
         </div>
         <p style={{ fontSize:"0.78rem", color:"#666", lineHeight:1.6, margin:"0 0 16px", maxWidth:360, marginLeft:"auto", marginRight:"auto" }}>
-          Upload your full handwritten test PDF and get every question evaluated at once — scores, feedback, model answers, and historians for your entire paper in one go.
+          Upload your full handwritten test PDF — works even if you've written the questions yourself at the top of each answer. Get scores, feedback, model answers, and historians for every question at once.
         </p>
         <button onClick={onPaywall} style={{ background:"rgba(99,102,241,0.12)", border:"1px solid rgba(129,140,248,0.3)", borderRadius:8, padding:"10px 22px", color:pCol, fontSize:"0.72rem", fontFamily:"var(--font-mono)", letterSpacing:"0.12em", cursor:"pointer" }}>
           🔒 Unlock — Subscribe
@@ -303,7 +303,7 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background="rgba(99,102,241,0.14)"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background="rgba(99,102,241,0.08)"; }}>
           <span>📄</span>
-          <span>Upload Full Test PDF</span>
+          <span>Upload Your Answer PDF</span>
           <span style={{ fontSize:"0.55rem", background:"rgba(129,140,248,0.15)", color:pCol, padding:"2px 7px", borderRadius:20, letterSpacing:"0.1em" }}>✦ Premium</span>
         </button>
       )}
@@ -317,7 +317,7 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
             <div style={{ display:"flex", alignItems:"center", gap:12 }}>
               <span style={{ fontSize:"1.1rem" }}>📄</span>
               <div>
-                <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.68rem", color:pCol, letterSpacing:"0.12em" }}>Full Test PDF Evaluation</div>
+                <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.68rem", color:pCol, letterSpacing:"0.12em" }}>Full Paper Evaluation</div>
                 {pdfFile && <div style={{ fontSize:"0.68rem", color:"#444", marginTop:2 }}>{pdfFile.name} · {(pdfFile.size/1024).toFixed(0)}KB</div>}
               </div>
             </div>
@@ -349,7 +349,7 @@ export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQue
             {/* Ready */}
             {pdfFile && stage === "idle" && (
               <div style={{ textAlign:"center", padding:"18px 0" }}>
-                <p style={{ fontSize:"0.8rem", color:"#666", marginBottom:18 }}>PDF loaded. The evaluator will identify every question, transcribe each answer, and evaluate them one by one.</p>
+                <p style={{ fontSize:"0.8rem", color:"#666", marginBottom:18 }}>PDF loaded. Works with any answer booklet — including PDFs where you've written the question text at the top of each answer. The evaluator identifies every question, transcribes each answer, and evaluates them one by one.</p>
                 <button onClick={runEvaluation} style={{ background:"rgba(99,102,241,0.12)", border:"1px solid rgba(129,140,248,0.3)", borderRadius:9, padding:"12px 28px", color:pCol, fontSize:"0.72rem", fontFamily:"var(--font-mono)", letterSpacing:"0.12em", cursor:"pointer" }}>
                   ✦ Evaluate Full Test →
                 </button>

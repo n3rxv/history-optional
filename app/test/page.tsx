@@ -4,6 +4,7 @@ import { pyqs } from '@/lib/pyqData';
 import { mapData, MapEntry } from '@/lib/mapData';
 import dynamic from 'next/dynamic';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
+import PDFTestEvaluator from '@/components/PDFTestEvaluator';
 
 const LeafletMap = dynamic(() => import('@/components/LeafletMap'), { ssr: false });
 
@@ -1160,6 +1161,27 @@ export default function TestPage() {
     return (
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '2rem 1.5rem 6rem' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.25rem' }}>Test Results</h1>
+        {/* ── PDF Full Paper Evaluation (Premium) ── */}
+        {(() => {
+          const pdfQs = [...groupsA, ...groupsB].flatMap(g =>
+            g.parts.map((q, qi) => ({
+              id: `Q${g.qNum}(${String.fromCharCode(97 + qi)})`,
+              marks: q.marks,
+              text: q.question,
+            }))
+          );
+          return (
+            <div style={{ marginBottom:28 }}>
+              <PDFTestEvaluator
+                isPremium={usage.isPremium}
+                onPaywall={showChatLimitModal}
+                token={tokenRef.current}
+                paperQuestions={pdfQs}
+                variant="test"
+              />
+            </div>
+          );
+        })()}
         <p style={{ color: 'var(--text2)', fontSize: '0.88rem', marginBottom: '2rem' }}>
           Use the rubric sliders to self-evaluate. Premium users can upload answer images or PDF for AI Mentor evaluation.
         </p>

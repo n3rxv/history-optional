@@ -59,10 +59,34 @@ async function segmentPDFByQuestion(
   const prompt = `You are analysing a UPSC History Optional handwritten answer sheet PDF. This PDF contains answers to multiple questions written by a student.
 ${questionListStr ? `\nThe paper's questions are:\n${questionListStr}\n` : ""}
 Your task:
-1. Read through the entire PDF carefully.
-2. Identify where each question's answer starts and ends (look for question numbers written by the student like "Q3(a)", "3(a)", "7b", etc.)
-3. For each question answered, transcribe the question number and the full answer body.
- 
+1. Read through the entire PDF carefully. This PDF may be ONE of:
+   a) A student answer booklet where they have written question numbers (like "3(a)", "Q7b") followed by their answer
+   b) A self-contained PDF where the student has COPIED or PARAPHRASED the question at the top of each answer, then written their answer below
+   c) A printed question paper with handwritten answers in the margins or spaces
+   d) Any mix of the above
+
+2. For EVERY question answered, identify:
+   - The question number (look for patterns like "Q1", "3(a)", "7b", "5(c)" etc.)
+   - The question text — this could be: printed in the PDF, handwritten by student at top of answer, or absent
+   - The COMPLETE answer body — every single word the student wrote as their answer
+
+3. Transcription rules:
+   - Transcribe EVERY word of the answer — do NOT summarise or skip anything
+   - Historian names, dates, place names: letter-for-letter accuracy critical
+   - If 70-89% confident about a word: add (?) after it
+   - If under 70% confident: write [illegible]
+   - Preserve paragraph structure with double newlines
+
+Return ONLY a JSON array, no preamble, no markdown fences:
+[
+  {
+    "questionNumber": "3(a)",
+    "marks": 15,
+    "questionText": "full question text if found in PDF, else empty string",
+    "answerText": "complete verbatim transcription of every word the student wrote"
+  }
+]
+
 Return ONLY a JSON array. No preamble, no markdown fences.
  
 [
