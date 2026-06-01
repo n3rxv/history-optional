@@ -279,7 +279,15 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
     setTranscript('');
     setEvalData(null);
     try {
-      const { supabase } = await import('@/lib/supabase');
+      useEffect(() => {
+    import('@/lib/supabase').then(({ supabase }) => {
+      supabase.auth.getSession().then(({ data }) => {
+        tokenRef.current = data.session?.access_token ?? null;
+      });
+    });
+  }, []);
+
+    const { supabase } = await import('@/lib/supabase');
       const { data: { session } } = await supabase.auth.getSession();
       const text = await ocrViaServer(arr, session?.access_token ?? '', (msg) => { setOcrMsg(msg); });
       setTranscript(text);
