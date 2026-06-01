@@ -832,12 +832,12 @@ export default function PDFTestEvaluator({
           </div>
         )}
 
+        <style>{`.pdf-ev-btn { width:100%; padding:16px; border:1.5px solid rgba(59,130,246,0.5); background:rgba(59,130,246,0.1); color:#3b82f6; font-size:0.78rem; font-family:var(--font-mono); cursor:pointer; transition:all 0.2s; letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; } .pdf-ev-btn:hover { background:rgba(59,130,246,0.18); border-color:#3b82f6; }`}</style>
         {file && (
           <button className="pdf-ev-btn" onClick={handleEvaluate}>
             Evaluate Full Paper →
           </button>
         )}
-        {!file && <style>{`.pdf-ev-btn { width:100%; padding:16px; border:1.5px solid rgba(59,130,246,0.5); background:rgba(59,130,246,0.1); color:#3b82f6; font-size:0.78rem; font-family:var(--font-mono); cursor:pointer; transition:all 0.2s; letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; } .pdf-ev-btn:hover { background:rgba(59,130,246,0.18); border-color:#3b82f6; }`}</style>}
       </div>
     </div>
   );
