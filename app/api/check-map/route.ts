@@ -86,7 +86,8 @@ Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found he
     let studentAnswers: any[] = [];
 
     console.log("[check-map] mapRaw:", mapRaw.slice(0, 500));
-    console.log("[check-map] answersRaw:", answersRaw.slice(0, 500));
+    console.log("[check-map] answersRaw:", answersRaw.slice(0, 800));
+    console.log("[check-map] first student answer sample:", JSON.stringify(studentAnswers?.slice?.(0,2)));
 
     function cleanJson(raw: string): string {
       return raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```\s*$/g, "").trim();
@@ -101,17 +102,27 @@ Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found he
     const answerKey = buildAnswerKey(dots);
 
     // Step 3 — Groq text-only verify
-    const verifyPrompt = `You are a UPSC History examiner marking a History Optional map question.
-Scoring: 1.5 marks for correct site name, 1 mark for description quality.
-Description scoring: 0 if blank or wrong site, 0.5 if vague/partially relevant, 1 if accurate and historically relevant.
+    const verifyPrompt = `You are a UPSC History examiner marking a UPSC History Optional map question.
 
-Return ONLY a JSON object. Keys = roman numeral strings. Each value has:
+STRICT RULES for siteCorrect:
+- Mark siteCorrect: true if the student answer refers to the SAME site as the correct answer, even if spelling differs slightly (e.g. "Hunsgi"="Hungsi", "Ashmaka"="Assaka"="Asmaka", "Erreguda"="Yerragudi", "Nagapattinam"="Nagapatnam")
+- Mark siteCorrect: true if the site is a well-known accepted answer for that clue, even if not the most common name
+- Mark siteCorrect: false ONLY if the student wrote a clearly different site or a site that does not match the clue at all
+- The clue and region together define what is correct — use your knowledge of Indian history to judge
+- Do NOT invent obscure "correct answers" — if the student answer matches the clue and region well, mark it correct
+
+SCORING:
+- 1.5 marks for correct site name (siteCorrect: true)
+- 1 mark for description quality: 0 = blank/irrelevant, 0.5 = vague but related, 1 = accurate and historically specific
+- If siteCorrect is false, descriptionScore must be 0
+
+Return ONLY a JSON object. Keys = roman numeral strings. Each value:
 - siteCorrect: true or false
-- correctSite: standard accepted site name
+- correctSite: the standard accepted site name
 - descriptionScore: 0, 0.5, or 1
-- descriptionFeedback: one sentence on what was right/wrong/missing
+- descriptionFeedback: one sentence — what was good or what was missing
 
-Entries to evaluate:
+Entries:
 ${JSON.stringify(answerKey.map(k => {
   const s = studentAnswers.find((a: any) => a.number === k.number);
   return {
