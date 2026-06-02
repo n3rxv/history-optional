@@ -3,7 +3,6 @@ import { useState, useCallback, useRef } from "react";
 import { mapData } from "@/lib/mapData";
 import { saveToHistory } from "@/hooks/useAnswerHistory";
 
-// ── helpers ────────────────────────────────────────────────────────────────
 const AVAILABLE_YEARS = [...new Set(mapData.map((e) => e.year))].sort((a, b) => b - a);
 
 function toRoman(n: number): string {
@@ -17,51 +16,47 @@ function toRoman(n: number): string {
 }
 
 function scoreColor(pct: number) {
-  if (pct >= 80) return "#22c55e";
+  if (pct >= 80) return "#10b981";
   if (pct >= 55) return "#f59e0b";
   return "#ef4444";
 }
 
-// ── types ──────────────────────────────────────────────────────────────────
-interface MapResult {
-  number: number;
-  roman: string;
-  hint: string;
-  correctAnswer: string;
-  studentAnswer: string;
-  studentNote: string;
-  identificationMarks: number;
-  noteMarks: number;
-  total: number;
-  feedback: string;
-}
-interface MapEvalResponse {
-  results: MapResult[];
-  grandTotal: number;
-  outOf: number;
-  overallFeedback: string;
+function scoreBg(pct: number) {
+  if (pct >= 80) return "rgba(16,185,129,0.08)";
+  if (pct >= 55) return "rgba(245,158,11,0.08)";
+  return "rgba(239,68,68,0.08)";
 }
 
-// ── component ──────────────────────────────────────────────────────────────
+function scoreBorder(pct: number) {
+  if (pct >= 80) return "rgba(16,185,129,0.2)";
+  if (pct >= 55) return "rgba(245,158,11,0.2)";
+  return "rgba(239,68,68,0.2)";
+}
+
+interface MapResult {
+  number: number; roman: string; hint: string;
+  correctAnswer: string; studentAnswer: string; studentNote: string;
+  identificationMarks: number; noteMarks: number; total: number; feedback: string;
+}
+interface MapEvalResponse {
+  results: MapResult[]; grandTotal: number; outOf: number; overallFeedback: string;
+}
+
 export default function MapEvaluator({
-  isPremium,
-  onPaywall,
-  token,
-}: {
-  isPremium: boolean;
-  onPaywall: () => void;
-  token: string | null;
-}) {
-  const [year, setYear] = useState<number>(AVAILABLE_YEARS[0]);
-  const [files, setFiles] = useState<File[]>([]);
+  isPremium, onPaywall, token,
+}: { isPremium: boolean; onPaywall: () => void; token: string | null; }) {
+
+  const [year, setYear]         = useState(AVAILABLE_YEARS[0]);
+  const [files, setFiles]       = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading]   = useState(false);
   const [progress, setProgress] = useState(0);
-  const [error, setError] = useState("");
-  const [results, setResults] = useState<MapEvalResponse | null>(null);
+  const [progressLabel, setProgressLabel] = useState("");
+  const [error, setError]       = useState("");
+  const [results, setResults]   = useState<MapEvalResponse | null>(null);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
-  const dropRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [dragOver, setDragOver] = useState(false);
+  const fileInputRef            = useRef<HTMLInputElement>(null);
 
   const addFiles = useCallback((incoming: FileList | File[]) => {
     const arr = Array.from(incoming).filter(
@@ -84,20 +79,12 @@ export default function MapEvaluator({
     setPreviews((p) => p.filter((_, idx) => idx !== i));
   };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    addFiles(e.dataTransfer.files);
-  };
-
   const handleSubmit = async () => {
-    if (!files.length) { setError("Upload at least one image of your Q1 answer."); return; }
     if (!isPremium) { onPaywall(); return; }
+    if (!files.length) { setError("Upload at least one image of your Q1 answer."); return; }
+    setLoading(true); setError(""); setProgress(10);
+    setProgressLabel("Reading your answer sheet…");
 
-    setLoading(true);
-    setError("");
-    setProgress(10);
-
-    // Convert to base64 with type info
     const filePayload: { data: string; type: string }[] = [];
     for (const f of files) {
       const b64 = await new Promise<string>((res, rej) => {
@@ -109,7 +96,7 @@ export default function MapEvaluator({
       filePayload.push({ data: b64, type: f.type });
     }
 
-    setProgress(30);
+    setProgress(35); setProgressLabel("OCR in progress…");
 
     try {
       const resp = await fetch("/api/map-evaluate", {
@@ -117,19 +104,16 @@ export default function MapEvaluator({
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ files: filePayload, year, token }),
       });
-      setProgress(80);
+      setProgress(80); setProgressLabel("Scoring 20 locations…");
       const data = await resp.json();
       if (!resp.ok || data.error) throw new Error(data.error || "Evaluation failed");
-      setResults(data);
-      setProgress(100);
+      setResults(data); setProgress(100); setProgressLabel("");
 
-      // Save to history (each entry)
       for (const r of data.results) {
         saveToHistory({
           type: "map" as any,
           question: `[${year} Map Q1] (${r.roman}) ${r.hint}`,
-          marks: r.total,
-          marksOutOf: 2.5,
+          marks: r.total, marksOutOf: 2.5,
           overallFeedback: r.feedback,
           sectionMarks: {
             introduction: { awarded: r.identificationMarks, out_of: 1.5 },
@@ -146,94 +130,185 @@ export default function MapEvaluator({
     }
   };
 
-  const reset = () => {
-    setFiles([]); setPreviews([]); setResults(null); setError(""); setProgress(0);
-  };
+  const reset = () => { setFiles([]); setPreviews([]); setResults(null); setError(""); setProgress(0); setProgressLabel(""); };
 
-  // ── RESULTS VIEW ──────────────────────────────────────────────────────────
+  // ── RESULTS ────────────────────────────────────────────────────────────────
   if (results) {
     const pct = Math.round((results.grandTotal / results.outOf) * 100);
+    const correct   = results.results.filter(r => r.identificationMarks >= 1.5).length;
+    const partial   = results.results.filter(r => r.identificationMarks > 0 && r.identificationMarks < 1.5).length;
+    const incorrect = results.results.filter(r => r.identificationMarks === 0).length;
+
     return (
-      <div className="ev-fade">
-        {/* header score */}
-        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:24 }}>
-          <div>
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#555", marginBottom:6 }}>
-              Q1 · Map · {year}
+      <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+
+        {/* ── Score card ── */}
+        <div style={{
+          background:"#080808", border:"1px solid #1a1a1a", borderRadius:14,
+          overflow:"hidden",
+        }}>
+          <div style={{ padding:"20px 20px 16px" }}>
+            <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:16 }}>
+              <div>
+                <div style={{
+                  fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.2em",
+                  textTransform:"uppercase", color:"#444", marginBottom:8,
+                }}>
+                  Q1 · Map · {year}
+                </div>
+                <div style={{ display:"flex", alignItems:"baseline", gap:6 }}>
+                  <span style={{
+                    fontFamily:"var(--font-mono)", fontSize:"2.4rem", fontWeight:700,
+                    color: scoreColor(pct), lineHeight:1,
+                  }}>
+                    {results.grandTotal}
+                  </span>
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"#444" }}>
+                    / {results.outOf}
+                  </span>
+                  <span style={{
+                    fontFamily:"var(--font-mono)", fontSize:"0.7rem", fontWeight:600,
+                    color: scoreColor(pct),
+                    background: scoreBg(pct),
+                    border: `1px solid ${scoreBorder(pct)}`,
+                    borderRadius:5, padding:"2px 7px",
+                  }}>{pct}%</span>
+                </div>
+              </div>
+              <button onClick={reset} style={{
+                padding:"6px 13px", borderRadius:6, background:"#0f0f0f",
+                border:"1px solid #1e1e1e", color:"#555", cursor:"pointer",
+                fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.15em",
+              }}>
+                ↺ New
+              </button>
             </div>
-            <div style={{ display:"flex", alignItems:"baseline", gap:8 }}>
-              <span style={{ fontSize:"2.8rem", fontWeight:700, color: scoreColor(pct), fontFamily:"var(--font-mono)", lineHeight:1 }}>
-                {results.grandTotal}
-              </span>
-              <span style={{ color:"#444", fontSize:"1.1rem", fontFamily:"var(--font-mono)" }}>/ {results.outOf}</span>
-              <span style={{ color: scoreColor(pct), fontSize:"0.85rem", fontFamily:"var(--font-mono)", marginLeft:4 }}>({pct}%)</span>
+
+            {/* progress bar */}
+            <div style={{ height:4, background:"#111", borderRadius:2, overflow:"hidden", marginBottom:16 }}>
+              <div style={{
+                height:"100%", width:`${pct}%`,
+                background: pct >= 80 ? "#10b981" : pct >= 55 ? "#f59e0b" : "#ef4444",
+                borderRadius:2, transition:"width 0.6s ease",
+              }} />
+            </div>
+
+            {/* stat pills */}
+            <div style={{ display:"flex", gap:8 }}>
+              {[
+                { label:"Correct", val:correct, color:"#10b981", bg:"rgba(16,185,129,0.08)", border:"rgba(16,185,129,0.2)" },
+                { label:"Partial", val:partial, color:"#f59e0b", bg:"rgba(245,158,11,0.08)", border:"rgba(245,158,11,0.2)" },
+                { label:"Wrong", val:incorrect, color:"#ef4444", bg:"rgba(239,68,68,0.08)", border:"rgba(239,68,68,0.2)" },
+              ].map(s => (
+                <div key={s.label} style={{
+                  flex:1, padding:"8px 10px", borderRadius:8,
+                  background:s.bg, border:`1px solid ${s.border}`, textAlign:"center",
+                }}>
+                  <div style={{ fontFamily:"var(--font-mono)", fontSize:"1.1rem", fontWeight:700, color:s.color }}>{s.val}</div>
+                  <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.15em", textTransform:"uppercase", color:s.color, opacity:0.7 }}>{s.label}</div>
+                </div>
+              ))}
             </div>
           </div>
-          <button onClick={reset} style={{ padding:"8px 16px", borderRadius:6, border:"1px solid #2a2a2a", background:"transparent", color:"#666", fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.15em", textTransform:"uppercase", cursor:"pointer" }}>
-            Evaluate Again
-          </button>
+
+          {/* overall feedback */}
+          <div style={{ padding:"14px 20px", borderTop:"1px solid #111", background:"#050505" }}>
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.55rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#333", marginBottom:6 }}>Overall Feedback</div>
+            <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"#888", lineHeight:1.6 }}>{results.overallFeedback}</div>
+          </div>
         </div>
 
-        {/* overall feedback */}
-        <div style={{ marginBottom:20, padding:"14px 16px", borderRadius:8, background:"#0d0d0d", border:"1px solid #1e1e1e" }}>
-          <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"#555", marginBottom:6 }}>Overall</div>
-          <p style={{ fontFamily:"var(--font-ui)", fontSize:"0.82rem", color:"#aaa", lineHeight:1.6, margin:0 }}>{results.overallFeedback}</p>
-        </div>
-
-        {/* score bar */}
-        <div style={{ marginBottom:24, height:4, borderRadius:2, background:"#1a1a1a", overflow:"hidden" }}>
-          <div style={{ height:"100%", width:`${pct}%`, background: scoreColor(pct), borderRadius:2, transition:"width 0.6s ease" }} />
-        </div>
-
-        {/* per-location table */}
+        {/* ── Per-location list ── */}
         <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
           {results.results.map((r) => {
             const open = expandedRow === r.number;
             const rPct = Math.round((r.total / 2.5) * 100);
+            const idStatus = r.identificationMarks >= 1.5 ? "correct"
+              : r.identificationMarks > 0 ? "partial" : "wrong";
+            const idDot = idStatus === "correct" ? "#10b981" : idStatus === "partial" ? "#f59e0b" : "#ef4444";
+
             return (
-              <div key={r.number} style={{ border:"1px solid #1e1e1e", borderRadius:7, overflow:"hidden", background:"#0a0a0a" }}>
+              <div key={r.number} style={{
+                background:"#080808", border:`1px solid ${open ? "#1e1e1e" : "#141414"}`,
+                borderRadius:10, overflow:"hidden", transition:"border-color 0.15s",
+              }}>
                 <button
                   onClick={() => setExpandedRow(open ? null : r.number)}
-                  style={{ width:"100%", padding:"12px 14px", display:"flex", alignItems:"center", gap:10, background:"transparent", border:"none", cursor:"pointer", textAlign:"left" }}
-                >
-                  {/* roman numeral badge */}
-                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", color:"#444", width:28, flexShrink:0 }}>({r.roman})</span>
+                  style={{ width:"100%", padding:"11px 14px", display:"flex",
+                    alignItems:"center", gap:10, background:"transparent",
+                    border:"none", cursor:"pointer", textAlign:"left" }}>
+
+                  {/* status dot */}
+                  <div style={{ width:7, height:7, borderRadius:"50%", background:idDot, flexShrink:0 }} />
+
+                  {/* roman */}
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", color:"#444", flexShrink:0, width:28 }}>({r.roman})</span>
+
                   {/* hint */}
-                  <span style={{ fontFamily:"var(--font-ui)", fontSize:"0.76rem", color:"#888", flex:1, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{r.hint}</span>
-                  {/* marks chip */}
-                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color: scoreColor(rPct), fontWeight:600, flexShrink:0 }}>{r.total}/2.5</span>
+                  <span style={{ fontFamily:"var(--font-ui)", fontSize:"0.75rem", color:"#777", flex:1, textAlign:"left" }}>{r.hint}</span>
+
+                  {/* marks */}
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", color:idDot, flexShrink:0 }}>{r.total}/2.5</span>
+
                   {/* chevron */}
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="2" strokeLinecap="round" style={{ transform: open?"rotate(180deg)":"none", transition:"0.15s", flexShrink:0 }}>
-                    <polyline points="6 9 12 15 18 9"/>
+                  <svg width="10" height="10" viewBox="0 0 10 10" style={{ flexShrink:0, transition:"transform 0.2s", transform: open ? "rotate(180deg)" : "none" }}>
+                    <path d="M2 3.5L5 6.5L8 3.5" stroke="#333" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
                   </svg>
                 </button>
+
                 {open && (
-                  <div style={{ padding:"0 14px 14px 14px", borderTop:"1px solid #151515" }}>
-                    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10, marginTop:12 }}>
-                      <div>
-                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.56rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#444", marginBottom:4 }}>Student Answer</div>
-                        <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"#aaa" }}>{r.studentAnswer || <em style={{color:"#333"}}>blank</em>}</div>
+                  <div style={{ padding:"0 14px 14px", borderTop:"1px solid #111" }}>
+
+                    {/* answer comparison */}
+                    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, margin:"12px 0 10px" }}>
+                      <div style={{ padding:"10px 12px", background:"rgba(239,68,68,0.04)", border:"1px solid rgba(239,68,68,0.12)", borderRadius:8 }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.52rem", letterSpacing:"0.15em", textTransform:"uppercase", color:"#ef4444", opacity:0.6, marginBottom:5 }}>Your Answer</div>
+                        <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.73rem", color:"#bbb", lineHeight:1.4 }}>
+                          {r.studentAnswer || <span style={{color:"#444",fontStyle:"italic"}}>blank</span>}
+                        </div>
                       </div>
-                      <div>
-                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.56rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#444", marginBottom:4 }}>Correct Answer</div>
-                        <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"#22c55e" }}>{r.correctAnswer}</div>
+                      <div style={{ padding:"10px 12px", background:"rgba(16,185,129,0.04)", border:"1px solid rgba(16,185,129,0.12)", borderRadius:8 }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.52rem", letterSpacing:"0.15em", textTransform:"uppercase", color:"#10b981", opacity:0.6, marginBottom:5 }}>Correct</div>
+                        <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.73rem", color:"#bbb", lineHeight:1.4 }}>
+                          {r.correctAnswer}
+                        </div>
                       </div>
                     </div>
+
+                    {/* note */}
                     {r.studentNote && (
-                      <div style={{ marginBottom:10 }}>
-                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.56rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#444", marginBottom:4 }}>Student Note (~30 words)</div>
-                        <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.76rem", color:"#888", lineHeight:1.55 }}>{r.studentNote}</div>
+                      <div style={{ padding:"8px 12px", background:"#050505", border:"1px solid #141414", borderRadius:7, marginBottom:10 }}>
+                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.52rem", letterSpacing:"0.15em", textTransform:"uppercase", color:"#333", marginBottom:4 }}>Your Note</div>
+                        <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color:"#666", lineHeight:1.5 }}>{r.studentNote}</div>
                       </div>
                     )}
-                    <div style={{ display:"flex", gap:16, marginBottom:8 }}>
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.66rem", color:"#555" }}>
-                        ID <span style={{ color: r.identificationMarks>=1.5?"#22c55e":r.identificationMarks>0?"#f59e0b":"#ef4444" }}>{r.identificationMarks}/1.5</span>
-                      </span>
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.66rem", color:"#555" }}>
-                        Note <span style={{ color: r.noteMarks>=1?"#22c55e":r.noteMarks>0?"#f59e0b":"#ef4444" }}>{r.noteMarks}/1</span>
-                      </span>
+
+                    {/* marks breakdown */}
+                    <div style={{ display:"flex", flexDirection:"column", gap:6, marginBottom:10 }}>
+                      {[
+                        { label:"Identification", val:r.identificationMarks, max:1.5 },
+                        { label:"Note Quality",   val:r.noteMarks,           max:1   },
+                      ].map(m => {
+                        const mPct = Math.round((m.val / m.max) * 100);
+                        return (
+                          <div key={m.label}>
+                            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:3 }}>
+                              <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", color:"#444" }}>{m.label}</span>
+                              <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", color: scoreColor(mPct) }}>{m.val}/{m.max}</span>
+                            </div>
+                            <div style={{ height:3, background:"#111", borderRadius:2, overflow:"hidden" }}>
+                              <div style={{ height:"100%", width:`${mPct}%`, background: scoreColor(mPct), borderRadius:2 }} />
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                    <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.74rem", color:"#666", lineHeight:1.5, borderLeft:"2px solid #222", paddingLeft:10 }}>{r.feedback}</div>
+
+                    {/* feedback */}
+                    <div style={{ display:"flex", gap:8, alignItems:"flex-start" }}>
+                      <span style={{ fontSize:"0.7rem", marginTop:1 }}>💬</span>
+                      <span style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color:"#666", lineHeight:1.5 }}>{r.feedback}</span>
+                    </div>
                   </div>
                 )}
               </div>
@@ -244,144 +319,185 @@ export default function MapEvaluator({
     );
   }
 
-  // ── FORM VIEW ─────────────────────────────────────────────────────────────
+  // ── FORM ───────────────────────────────────────────────────────────────────
   return (
-    <div className="ev-fade">
+    <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
+
       {/* paywall banner */}
       {!isPremium && (
-        <div onClick={onPaywall} style={{ marginBottom:20, padding:"12px 16px", borderRadius:7,
-          background:"rgba(251,191,36,0.06)", border:"1px solid rgba(251,191,36,0.2)",
-          cursor:"pointer", display:"flex", alignItems:"center", gap:10 }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1.8" strokeLinecap="round">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        <div onClick={onPaywall} style={{
+          display:"flex", alignItems:"center", gap:10, padding:"10px 14px",
+          background:"rgba(234,179,8,0.06)", border:"1px solid rgba(234,179,8,0.18)",
+          borderRadius:8, cursor:"pointer",
+        }}>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1L9 5H13L10 8L11 12L7 10L3 12L4 8L1 5H5L7 1Z" fill="#eab308" opacity="0.8"/>
           </svg>
-          <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.14em",
-            textTransform:"uppercase", color:"#fbbf24" }}>Premium feature — tap to upgrade</span>
+          <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", color:"#eab308", letterSpacing:"0.08em" }}>Premium feature — tap to upgrade</span>
+          <svg width="10" height="10" viewBox="0 0 10 10" style={{ marginLeft:"auto" }}>
+            <path d="M3.5 2L6.5 5L3.5 8" stroke="#eab308" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+          </svg>
         </div>
       )}
+
       {/* year selector */}
-      <div style={{ marginBottom:24 }}>
-        <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:10 }}>
+      <div>
+        <div style={{
+          fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.2em",
+          textTransform:"uppercase", color:"#444", marginBottom:10,
+        }}>
           Paper Year
-        </label>
-        <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
+        </div>
+        <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
           {AVAILABLE_YEARS.map((y) => (
-            <button
-              key={y}
-              onClick={() => setYear(y)}
-              style={{
-                padding:"7px 14px", borderRadius:5, cursor:"pointer",
-                background: year===y ? "rgba(59,130,246,0.1)" : "#0d0d0d",
-                border: year===y ? "1px solid rgba(59,130,246,0.4)" : "1px solid #2a2a2a",
-                color: year===y ? "#93c5fd" : "#555",
-                fontFamily:"var(--font-mono)", fontSize:"0.68rem", letterSpacing:"0.08em",
-                transition:"all 0.15s",
-              }}
-            >{y}</button>
+            <button key={y} onClick={() => setYear(y)} style={{
+              padding:"6px 13px", borderRadius:5, cursor:"pointer",
+              background: year===y ? "rgba(16,185,129,0.08)" : "#0a0a0a",
+              border: year===y ? "1px solid rgba(16,185,129,0.35)" : "1px solid #1e1e1e",
+              color: year===y ? "#10b981" : "#444",
+              fontFamily:"var(--font-mono)", fontSize:"0.66rem", letterSpacing:"0.06em",
+              transition:"all 0.15s", fontWeight: year===y ? 600 : 400,
+            }}>{y}
+            </button>
           ))}
         </div>
       </div>
 
-      {/* drop zone */}
-      <div style={{ marginBottom:24 }}>
-        <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:10 }}>
-          Upload Q1 Answer Images (max 6)
-        </label>
+      {/* upload zone */}
+      <div>
+        <div style={{
+          fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.2em",
+          textTransform:"uppercase", color:"#444", marginBottom:10,
+        }}>
+          Upload Q1 Answer · max 6 files
+        </div>
         <div
-          ref={dropRef}
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-          style={{
-            border:"1.5px dashed #2a2a2a", borderRadius:8, padding:"28px 20px",
-            textAlign:"center", background:"#090909", cursor:"pointer", transition:"border-color 0.15s",
-          }}
+          onDrop={(e) => { e.preventDefault(); setDragOver(false); addFiles(e.dataTransfer.files); }}
+          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+          onDragLeave={() => setDragOver(false)}
           onClick={() => fileInputRef.current?.click()}
-        >
-          <input ref={fileInputRef} type="file" multiple accept="image/*,application/pdf" style={{ display:"none" }}
+          style={{
+            border: dragOver ? "1.5px dashed rgba(16,185,129,0.5)" : "1.5px dashed #1e1e1e",
+            borderRadius:10, padding:"32px 20px", textAlign:"center",
+            background: dragOver ? "rgba(16,185,129,0.03)" : "#080808",
+            cursor:"pointer", transition:"all 0.18s",
+          }}>
+          <input ref={fileInputRef} type="file" accept="image/*,application/pdf" multiple style={{ display:"none" }}
             onChange={(e) => e.target.files && addFiles(e.target.files)} />
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="1.4" strokeLinecap="round" style={{ margin:"0 auto 10px" }}>
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <p style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", color:"#444", letterSpacing:"0.12em", textTransform:"uppercase", margin:0 }}>
-            Drop images here or click to upload
-          </p>
-          <p style={{ fontFamily:"var(--font-ui)", fontSize:"0.7rem", color:"#333", marginTop:6, marginBottom:0 }}>
-            Upload images or PDF of your Q1 answer
-          </p>
+
+          <div style={{ display:"flex", justifyContent:"center", marginBottom:10 }}>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="7" fill="#111"/>
+              <path d="M14 8V18M14 8L10 12M14 8L18 12" stroke="#333" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M8 20H20" stroke="#222" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </div>
+          <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.76rem", color:"#444", marginBottom:4 }}>
+            {dragOver ? "Drop to upload" : "Drop files or click to browse"}
+          </div>
+          <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", color:"#2a2a2a", letterSpacing:"0.1em" }}>
+            JPG · PNG · PDF · up to 6 files
+          </div>
         </div>
       </div>
 
-      {/* previews */}
+      {/* file previews */}
       {previews.length > 0 && (
-        <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginBottom:20 }}>
+        <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
           {previews.map((src, i) => (
-            <div key={i} style={{ position:"relative", width:72, height:72 }}>
+            <div key={i} style={{ position:"relative" }}>
               {src === "__pdf__" ? (
-                <div style={{ width:72, height:72, borderRadius:6, border:"1px solid #222", background:"#0d0d0d", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:4 }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", color:"#444", letterSpacing:"0.08em" }}>PDF</span>
+                <div style={{
+                  width:60, height:60, borderRadius:7, background:"#0f0f0f",
+                  border:"1px solid #1a1a1a", display:"flex", flexDirection:"column",
+                  alignItems:"center", justifyContent:"center", gap:3,
+                }}>
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <rect x="3" y="1" width="12" height="16" rx="2" stroke="#444" strokeWidth="1.2"/>
+                    <path d="M6 6H12M6 9H12M6 12H9" stroke="#444" strokeWidth="1" strokeLinecap="round"/>
+                  </svg>
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", color:"#333", letterSpacing:"0.1em" }}>PDF</span>
                 </div>
               ) : (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={src} alt="" style={{ width:72, height:72, objectFit:"cover", borderRadius:6, border:"1px solid #222" }} />
+                <img src={src} alt="" style={{ width:60, height:60, objectFit:"cover", borderRadius:7, border:"1px solid #1a1a1a" }} />
               )}
-              <button
-                onClick={() => removeFile(i)}
-                style={{ position:"absolute", top:-6, right:-6, width:18, height:18, borderRadius:"50%", background:"#1a1a1a", border:"1px solid #333", color:"#666", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", padding:0, fontSize:"0.7rem", lineHeight:1 }}
-              >×</button>
+              <button onClick={() => removeFile(i)} style={{
+                position:"absolute", top:-5, right:-5, width:17, height:17,
+                borderRadius:"50%", background:"#1a1a1a", border:"1px solid #333",
+                color:"#777", cursor:"pointer", display:"flex", alignItems:"center",
+                justifyContent:"center", padding:0, fontSize:"0.65rem", lineHeight:1 }}>×
+              </button>
             </div>
           ))}
         </div>
       )}
 
-      {/* hint: year map preview */}
-      <div style={{ marginBottom:24, padding:"12px 14px", borderRadius:7, background:"#0d0d0d", border:"1px solid #1a1a1a" }}>
-        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#444", marginBottom:8 }}>
-          {year} Q1 — Locations to Identify
+      {/* hints accordion */}
+      <div style={{ background:"#080808", border:"1px solid #141414", borderRadius:10, overflow:"hidden" }}>
+        <div style={{
+          padding:"11px 14px", display:"flex", alignItems:"center",
+          justifyContent:"space-between", borderBottom:"1px solid #111",
+        }}>
+          <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", color:"#444", letterSpacing:"0.1em" }}>{year} Q1 — Locations to Identify</span>
+          <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", color:"#2a2a2a" }}>20 items</span>
         </div>
-        <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
+        <div style={{ maxHeight:220, overflowY:"auto" }}>
           {mapData.filter(e => e.year === year).sort((a,b)=>a.number-b.number).map((e) => (
-            <div key={e.number} style={{ display:"flex", gap:10, alignItems:"baseline" }}>
-              <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", color:"#444", width:28, flexShrink:0 }}>({toRoman(e.number)})</span>
-              <span style={{ fontFamily:"var(--font-ui)", fontSize:"0.73rem", color:"#555" }}>{e.hint}</span>
+            <div key={e.number} style={{
+              display:"flex", gap:10, padding:"8px 14px",
+              borderBottom:"1px solid #0d0d0d", alignItems:"flex-start",
+            }}>
+              <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", color:"#2a2a2a", flexShrink:0, width:30, paddingTop:1 }}>({toRoman(e.number)})</span>
+              <span style={{ fontFamily:"var(--font-ui)", fontSize:"0.73rem", color:"#555", lineHeight:1.5 }}>{e.hint}</span>
             </div>
           ))}
         </div>
       </div>
 
+      {/* error */}
       {error && (
-        <div style={{ marginBottom:16, padding:"10px 14px", borderRadius:6, background:"rgba(239,68,68,0.06)", border:"1px solid rgba(239,68,68,0.2)", fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"#f87171" }}>
+        <div style={{
+          padding:"10px 14px", background:"rgba(239,68,68,0.06)",
+          border:"1px solid rgba(239,68,68,0.15)", borderRadius:8,
+          fontFamily:"var(--font-ui)", fontSize:"0.73rem", color:"#ef4444",
+        }}>
           {error}
         </div>
       )}
 
-      {/* loading bar */}
+      {/* loading */}
       {loading && (
-        <div style={{ marginBottom:16 }}>
-          <div style={{ height:2, background:"#1a1a1a", borderRadius:2, overflow:"hidden" }}>
-            <div style={{ height:"100%", width:`${progress}%`, background:"#3b82f6", borderRadius:2, transition:"width 0.4s ease" }} />
+        <div style={{ padding:"12px 14px", background:"#080808", border:"1px solid #141414", borderRadius:8 }}>
+          <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
+            <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", color:"#444" }}>{progressLabel}</span>
+            <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", color:"#2a2a2a" }}>{progress}%</span>
           </div>
-          <p style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", color:"#444", letterSpacing:"0.14em", textTransform:"uppercase", marginTop:8 }}>
-            Analysing your map answer…
-          </p>
+          <div style={{ height:3, background:"#111", borderRadius:2, overflow:"hidden" }}>
+            <div style={{ height:"100%", width:`${progress}%`, background:"#10b981", borderRadius:2, transition:"width 0.4s ease" }} />
+          </div>
         </div>
       )}
 
+      {/* submit */}
       <button
         onClick={handleSubmit}
         disabled={loading}
         style={{
-          width:"100%", padding:"14px", borderRadius:7, cursor: loading ? "not-allowed" : "pointer",
-          background: loading ? "#111" : "linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(99,102,241,0.1) 100%)",
-          border: loading ? "1px solid #1e1e1e" : "1px solid rgba(59,130,246,0.3)",
-          color: loading ? "#333" : "#93c5fd",
-          fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.2em", textTransform:"uppercase",
-          transition:"all 0.18s",
-        }}
-      >
-        {loading ? "Evaluating…" : `Evaluate Q1 Map — ${year}`}
+          width:"100%", padding:"13px 20px", borderRadius:9, cursor: loading ? "not-allowed" : "pointer",
+          background: loading ? "#0a0a0a"
+            : files.length > 0
+              ? "linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(59,130,246,0.08) 100%)"
+              : "#0a0a0a",
+          border: loading ? "1px solid #141414"
+            : files.length > 0
+              ? "1px solid rgba(16,185,129,0.3)"
+              : "1px solid #1a1a1a",
+          color: loading ? "#333" : files.length > 0 ? "#10b981" : "#333",
+          fontFamily:"var(--font-mono)", fontSize:"0.64rem", letterSpacing:"0.22em",
+          textTransform:"uppercase", transition:"all 0.2s",
+        }}>
+        {loading ? progressLabel || "Evaluating…" : files.length > 0 ? `Evaluate Q1 Map — ${year}` : "Upload answer to evaluate"}
       </button>
     </div>
   );
