@@ -23,7 +23,7 @@ async function askGemini(base64: string, mimeType: string, prompt: string): Prom
             { text: prompt },
           ],
         }],
-        generationConfig: { maxOutputTokens: 4000, temperature: 0.1 },
+        generationConfig: { maxOutputTokens: 8192, temperature: 0.1 },
       }),
     }
   );
@@ -88,8 +88,11 @@ Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found he
     console.log("[check-map] mapRaw:", mapRaw.slice(0, 500));
     console.log("[check-map] answersRaw:", answersRaw.slice(0, 500));
 
-    try { dots = JSON.parse(mapRaw.replace(/```json|```/g, "").trim()); } catch (e) { console.log("[check-map] dots parse error:", e); }
-    try { studentAnswers = JSON.parse(answersRaw.replace(/```json|```/g, "").trim()); } catch (e) { console.log("[check-map] answers parse error:", e); }
+    function cleanJson(raw: string): string {
+      return raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```\s*$/g, "").trim();
+    }
+    try { dots = JSON.parse(cleanJson(mapRaw)); } catch (e) { console.log("[check-map] dots parse error:", e, mapRaw.slice(0, 200)); }
+    try { studentAnswers = JSON.parse(cleanJson(answersRaw)); } catch (e) { console.log("[check-map] answers parse error:", e, answersRaw.slice(0, 200)); }
 
     if (!dots.length) {
       return NextResponse.json({ error: "Could not read map clues — try a clearer scan" }, { status: 422 });
