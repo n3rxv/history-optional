@@ -96,6 +96,7 @@ Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found he
     }
     try { dots = JSON.parse(cleanJson(mapRaw)); } catch (e) { console.log("[check-map] dots parse error:", e, mapRaw.slice(0, 200)); }
     try { studentAnswers = JSON.parse(cleanJson(answersRaw)); } catch (e) { console.log("[check-map] answers parse error:", e, answersRaw.slice(0, 200)); }
+    console.log("[check-map] first student answer sample:", JSON.stringify(studentAnswers?.slice?.(0,2)));
 
     if (!dots.length) {
       return NextResponse.json({ error: "Could not read map clues — try a clearer scan" }, { status: 422 });
