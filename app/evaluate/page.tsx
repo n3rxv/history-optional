@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
 import PDFTestEvaluator from '@/components/PDFTestEvaluator';
+import MapEvaluator from '@/components/MapEvaluator';
 
 
 interface Historian {
@@ -364,7 +365,7 @@ export default function EvaluatePage() {
   const [history, setHistory]        = useState<AnswerEntry[]>([]);
   const [openEntry, setOpenEntry]    = useState<AnswerEntry | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
-  const [evalMode, setEvalMode] = useState<"single"|"batch">("single");
+  const [evalMode, setEvalMode] = useState<"single"|"batch"|"map">("single");
 
   useEffect(() => {
     setHistory(loadHistory());
@@ -690,9 +691,9 @@ const handleOcr = useCallback(async () => {
 
           {sidebarOpen && (
             <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
-              {history.filter(e => evalMode === "batch" ? e.type === "batch" : !e.type || e.type === "single").length === 0 ? (
+              {history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? (e.type as any) === "map" : !e.type || e.type === "single").length === 0 ? (
                 <div style={{ padding:"24px 16px", color:"#444", fontSize:"0.78rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
-                  {evalMode === "batch" ? "No batch evaluations yet. Evaluate a Full Paper / FLT first." : "No evaluations yet. Submit your first answer above."}
+                  {evalMode === "batch" ? evalMode === "map" ? "No map evaluations yet. Evaluate Q1 Map first." : "No batch evaluations yet. Evaluate a Full Paper / FLT first." : "No evaluations yet. Submit your first answer above."}
                 </div>
               ) : history.filter(e => evalMode === "batch" ? e.type === "batch" : !e.type || e.type === "single").map(entry => {
                 const pct = Math.round((entry.marks / entry.marksOutOf) * 100);
@@ -1044,8 +1045,40 @@ const handleOcr = useCallback(async () => {
                 <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="batch" ? "#6b8db5" : "#3a3a3a",
                   lineHeight:1.5, transition:"color 0.18s" }}>Sectional · FLT · full booklet</div>
               </button>
+              <button onClick={() => setEvalMode("map")} style={{
+                padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
+                gridColumn:"1 / -1",
+                background: evalMode==="map" ? "rgba(16,185,129,0.07)" : "#0d0d0d",
+                border: evalMode==="map" ? "1.5px solid rgba(16,185,129,0.45)" : "1.5px solid #222",
+                boxShadow: evalMode==="map" ? "0 0 0 3px rgba(16,185,129,0.08), inset 0 1px 0 rgba(255,255,255,0.04)" : "none",
+                transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
+                  <div style={{ width:28, height:28, borderRadius:6,
+                    background: evalMode==="map" ? "rgba(16,185,129,0.15)" : "#161616",
+                    border: evalMode==="map" ? "1px solid rgba(16,185,129,0.3)" : "1px solid #2a2a2a",
+                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="map"?"#10b981":"#555"} strokeWidth="1.8" strokeLinecap="round">
+                      <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+                      <line x1="9" y1="3" x2="9" y2="18"/>
+                      <line x1="15" y1="6" x2="15" y2="21"/>
+                    </svg>
+                  </div>
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
+                    textTransform:"uppercase", color: evalMode==="map" ? "#e2e8f0" : "#666",
+                    transition:"color 0.18s", fontWeight: evalMode==="map" ? 600 : 400 }}>Map Question — Q1</span>
+                  {evalMode==="map" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"#10b981", boxShadow:"0 0 8px #10b981" }} />}
+                </div>
+                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="map" ? "#4d9e84" : "#3a3a3a",
+                  lineHeight:1.5, transition:"color 0.18s" }}>20 locations · ~30 words each · 50 marks</div>
+              </button>
             </div>
-            {evalMode === "batch" ? (
+            {evalMode === "map" ? (
+              <MapEvaluator
+                isPremium={!!usage.isPremium}
+                onPaywall={showEvalLimitModal}
+                token={tokenRef.current}
+              />
+            ) : evalMode === "batch" ? (
               <PDFTestEvaluator
                 isPremium={!!usage.isPremium}
                 onPaywall={showEvalLimitModal}
