@@ -35,7 +35,18 @@ async function pdfPageToBase64(pdf: any, pageNum: number): Promise<string> {
   return canvas.toDataURL("image/png").split(",")[1];
 }
 
-async function pdfToPages(file: File): Promise<string[]> {
+async function renderPage(pdf: any, pageNum: number, scale: number): Promise<HTMLCanvasElement> {
+  const page = await pdf.getPage(pageNum);
+  const viewport = page.getViewport({ scale });
+  const canvas = document.createElement("canvas");
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+  const ctx = canvas.getContext("2d")!;
+  await page.render({ canvasContext: ctx, viewport }).promise;
+  return canvas;
+}
+
+async function pdfToImages(file: File): Promise<{mapPage: string, answersPage: string}> {
   const pdfjsLib = await import("pdfjs-dist");
   pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -44,11 +55,27 @@ async function pdfToPages(file: File): Promise<string[]> {
 
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
-  const pages: string[] = [];
-  for (let i = 1; i <= pdf.numPages; i++) {
-    pages.push(await pdfPageToBase64(pdf, i));
+
+  // Map page at scale 1.0
+  const mapCanvas = await renderPage(pdf, 1, 1.0);
+  const mapPage = mapCanvas.toDataURL("image/jpeg", 0.85).split(",")[1];
+
+  // Combine all answer pages into one tall canvas at scale 0.9
+  const answerCanvases: HTMLCanvasElement[] = [];
+  for (let i = 2; i <= pdf.numPages; i++) {
+    answerCanvases.push(await renderPage(pdf, i, 0.9));
   }
-  return pages;
+  const totalHeight = answerCanvases.reduce((s, c) => s + c.height, 0);
+  const maxWidth = Math.max(...answerCanvases.map(c => c.width));
+  const combined = document.createElement("canvas");
+  combined.width = maxWidth;
+  combined.height = totalHeight || 1;
+  const ctx = combined.getContext("2d")!;
+  let y = 0;
+  for (const c of answerCanvases) { ctx.drawImage(c, 0, y); y += c.height; }
+  const answersPage = combined.toDataURL("image/jpeg", 0.82).split(",")[1];
+
+  return { mapPage, answersPage };
 }
 
 // ── score colour helpers ──────────────────────────────────────
@@ -84,15 +111,16 @@ export default function MapEvaluator({
     setStage("Uploading PDF…");
 
     try {
-      const formData = new FormData();
-      formData.append("pdf", file);
-      setProgress(40); setStage("Analysing map & answers…");
+      setProgress(25); setStage("Rendering pages…");
+      const { mapPage, answersPage } = await pdfToImages(file);
+      setProgress(50); setStage("Analysing map & answers…");
       const resp = await fetch("/api/check-map", {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: formData,
+        body: JSON.stringify({ mapPage, answersPage }),
       });
       setProgress(90);
       const data = await resp.json();

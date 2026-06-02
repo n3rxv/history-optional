@@ -29,15 +29,16 @@ async function askGroq(pdfBase64: string, prompt: string): Promise<string> {
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
-    const file = formData.get("pdf") as File | null;
-    if (!file) return NextResponse.json({ error: "No PDF uploaded" }, { status: 400 });
 
-    const buffer = await file.arrayBuffer();
-    const pdfBase64 = Buffer.from(buffer).toString("base64");
+
+    const body = await req.json();
+    const { mapPage, answersPage } = body;
+    if (!mapPage || !answersPage) {
+      return NextResponse.json({ error: "Missing mapPage or answersPage" }, { status: 400 });
+    }
 
     const [mapRaw, answersRaw] = await Promise.all([
-      askGroq(pdfBase64, `This PDF is a UPSC History Optional map question paper.
+      askGroq(mapPage, `This image is a UPSC History Optional map question paper.
 Find the page with a map of India with numbered dots (i) through (xx).
 Below or beside the map the clues are listed e.g. "(i) Neolithic site", "(ii) Mesolithic site".
 For EVERY numbered dot extract:
@@ -47,7 +48,7 @@ For EVERY numbered dot extract:
 Return ONLY a valid JSON array. No markdown, no backticks.
 Example: [{"number":"i","clue":"Neolithic site","region":"Kashmir"}]`),
 
-      askGroq(pdfBase64, `This PDF is a UPSC History Optional handwritten answer booklet.
+      askGroq(answersPage, `This image is a UPSC History Optional handwritten answer booklet.
 Find the map question section where the student wrote site names and states for Roman numerals (i) through (xx).
 For each extract:
 - number: Roman numeral lowercase string e.g. "i", "xii"
