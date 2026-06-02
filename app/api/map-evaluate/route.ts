@@ -35,33 +35,15 @@ export async function POST(req: NextRequest) {
     if (!files?.length) return NextResponse.json({ error: "No files provided" }, { status: 400 });
     if (!year) return NextResponse.json({ error: "Year required" }, { status: 400 });
 
-    const entries = mapData.filter((e) => e.year === Number(year)).sort((a, b) => a.number - b.number);
-    if (!entries.length) return NextResponse.json({ error: `No map data for ${year}` }, { status: 400 });
+    const entries = mapData
+      .filter((e) => e.year === Number(year))
+      .sort((a, b) => a.number - b.number);
+    if (!entries.length)
+      return NextResponse.json({ error: `No map data for ${year}` }, { status: 400 });
 
     const answerKey = entries
       .map((e) => `(${toRoman(e.number)}) Hint: "${e.hint}" → Correct answer: ${e.answer}`)
       .join("\n");
-
-    // Build image_url blocks for Groq (images only — PDFs not supported by Groq vision)
-    const imageBlocks: { type: "image_url"; image_url: { url: string } }[] = [];
-    for (const f of files) {
-      const mime = f.type || "image/jpeg";
-      // Skip non-image files (PDFs) — Groq vision only supports images
-      if (!mime.startsWith("image/")) continue;
-      imageBlocks.push({
-        type: "image_url",
-        image_url: { url: `data:${mime};base64,${f.data}` },
-      });
-    }
-
-    // For PDF files, extract text on client side isn't possible server-side here,
-    // so inform the user if only PDFs were sent
-    if (imageBlocks.length === 0) {
-      return NextResponse.json(
-        { error: "Please upload image files (JPG/PNG). For PDFs, please convert to images first or take photos of your answer sheet." },
-        { status: 400 }
-      );
-    }
 
     const systemPrompt = `You are an expert UPSC History Optional evaluator for Q1 (Map Question).
 Q1 has 20 locations marked (i)–(xx) on a blank India map. Each is worth 2.5 marks (identification ~1.5 + note quality ~1). Total: 50 marks.
@@ -97,15 +79,66 @@ Respond ONLY with valid JSON, no markdown, no preamble:
   "overallFeedback": "2-3 sentence overall comment"
 }`;
 
-    const userContent: ({ type: "text"; text: string } | { type: "image_url"; image_url: { url: string } })[] = [
-      ...imageBlocks,
-      {
-        type: "text",
-        text: `These are the student's handwritten Q1 map answers for UPSC History Optional ${year}. Extract their answer and ~30-word note for each roman numeral (i)–(xx). Evaluate strictly per the rubric. Return only JSON.`,
-      },
-    ];
+    const userText = `These are the student's handwritten Q1 map answers for UPSC History Optional ${year}. Extract their answer and ~30-word note for each roman numeral (i)–(xx). Evaluate strictly per the rubric. Return only JSON.`;
 
-    const res = await callWithFallback({
+    // ── Step 1: OCR via Gemini (supports both images AND PDFs) ──────────────
+    let transcript = "";
+    try {
+      const geminiParts: object[] = files.map((f: { data: string; type: string }) => ({
+        inline_data: { mime_type: f.type || "image/jpeg", data: f.data },
+      }));
+      geminiParts.push({
+        text: `Transcribe every handwritten answer you can see for Q1 map question. For each roman numeral (i) through (xx), write: the location name the student wrote, and their ~30-word note. Be precise. Format as:
+(i) [location] — [note]
+(ii) [location] — [note]
+...and so on. If blank, write: (ix) blank`,
+      });
+
+      const geminiRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: geminiParts }],
+            generationConfig: { temperature: 0.0, maxOutputTokens: 3000 },
+          }),
+        }
+      );
+
+      if (geminiRes.ok) {
+        const geminiData = await geminiRes.json();
+        transcript = geminiData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+        console.log("Map OCR transcript:\n", transcript.slice(0, 400));
+      } else {
+        console.log("Gemini OCR failed — will pass images directly to Groq");
+      }
+    } catch (ocrErr) {
+      console.log("OCR error (non-fatal):", ocrErr);
+    }
+
+    // ── Step 2: Evaluate via Groq ────────────────────────────────────────────
+    // Build image blocks for Groq (images only — PDFs fallback to transcript)
+    const imageBlocks: { type: "image_url"; image_url: { url: string } }[] = [];
+    for (const f of files as { data: string; type: string }[]) {
+      if (f.type?.startsWith("image/")) {
+        imageBlocks.push({
+          type: "image_url",
+          image_url: { url: `data:${f.type};base64,${f.data}` },
+        });
+      }
+    }
+
+    const userContent: object[] = [];
+    if (imageBlocks.length > 0) userContent.push(...imageBlocks);
+    userContent.push({
+      type: "text",
+      text: transcript
+        ? `${userText}\n\nOCR TRANSCRIPT (use this as primary source):\n${transcript}`
+        : userText,
+    });
+
+    const groqRes = await callWithFallback({
       model: "meta-llama/llama-4-maverick-17b-128e-instruct",
       messages: [
         { role: "system", content: systemPrompt },
@@ -116,13 +149,13 @@ Respond ONLY with valid JSON, no markdown, no preamble:
       response_format: { type: "json_object" },
     });
 
-    if (!res.ok) {
-      const err = await res.text();
+    if (!groqRes.ok) {
+      const err = await groqRes.text();
       console.error("Groq map-evaluate error:", err);
-      return NextResponse.json({ error: `AI error: ${res.status}` }, { status: 500 });
+      return NextResponse.json({ error: `AI error: ${groqRes.status}` }, { status: 500 });
     }
 
-    const data = await res.json();
+    const data = await groqRes.json();
     const raw = data.choices?.[0]?.message?.content || "";
     const clean = raw.replace(/```json|```/g, "").trim();
     const parsed = JSON.parse(clean);
