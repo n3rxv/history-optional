@@ -3,6 +3,10 @@ import Groq from "groq-sdk";
 import { buildAnswerKey } from "@/lib/buildAnswerKey";
 import { checkAnswers } from "@/lib/checkAnswers";
 
+export const maxDuration = 60;
+export const dynamic = "force-dynamic";
+
+
 const groq = new Groq();
 const VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
 
@@ -62,6 +66,7 @@ Example: [{"number":"i","site_name":"Burzahom","state":"Kashmir"},{"number":"ix"
   try { return JSON.parse(text.replace(/```json|```/g, "").trim()); }
   catch { return []; }
 }
+
 
 export async function POST(req: NextRequest) {
   try {

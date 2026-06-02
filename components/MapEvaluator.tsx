@@ -26,7 +26,7 @@ interface MapCheckResponse {
 // ── render a PDF page to base64 PNG via canvas ────────────────
 async function pdfPageToBase64(pdf: any, pageNum: number): Promise<string> {
   const page = await pdf.getPage(pageNum);
-  const viewport = page.getViewport({ scale: 2.0 });
+  const viewport = page.getViewport({ scale: 1.5 });
   const canvas = document.createElement("canvas");
   canvas.width = viewport.width;
   canvas.height = viewport.height;

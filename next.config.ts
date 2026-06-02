@@ -1,8 +1,6 @@
 import type { NextConfig } from "next";
-
 const ContentSecurityPolicy = [
   "default-src 'self'",
-  // Next.js needs unsafe-inline for styles; unsafe-eval for dev HMR (remove in prod if possible)
   "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
@@ -16,11 +14,10 @@ const ContentSecurityPolicy = [
   "form-action 'self' https://*.razorpay.com",
   "upgrade-insecure-requests",
 ].join('; ');
-
 const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: "15mb", // lowered from 20mb (10 files × ~1.5MB avg)
+      bodySizeLimit: "50mb",
     },
   },
   images: { unoptimized: true },
@@ -49,5 +46,4 @@ const nextConfig: NextConfig = {
     ];
   },
 };
-
 export default nextConfig;
