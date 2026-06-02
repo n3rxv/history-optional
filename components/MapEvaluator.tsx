@@ -247,6 +247,18 @@ export default function MapEvaluator({
   // ── FORM VIEW ─────────────────────────────────────────────────────────────
   return (
     <div className="ev-fade">
+      {/* paywall banner */}
+      {!isPremium && (
+        <div onClick={onPaywall} style={{ marginBottom:20, padding:"12px 16px", borderRadius:7,
+          background:"rgba(251,191,36,0.06)", border:"1px solid rgba(251,191,36,0.2)",
+          cursor:"pointer", display:"flex", alignItems:"center", gap:10 }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1.8" strokeLinecap="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.14em",
+            textTransform:"uppercase", color:"#fbbf24" }}>Premium feature — tap to upgrade</span>
+        </div>
+      )}
       {/* year selector */}
       <div style={{ marginBottom:24 }}>
         <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:10 }}>
@@ -359,12 +371,12 @@ export default function MapEvaluator({
 
       <button
         onClick={handleSubmit}
-        disabled={loading || !files.length}
+        disabled={loading}
         style={{
-          width:"100%", padding:"14px", borderRadius:7, cursor: loading||!files.length ? "not-allowed" : "pointer",
-          background: loading||!files.length ? "#111" : "linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(99,102,241,0.1) 100%)",
-          border: loading||!files.length ? "1px solid #1e1e1e" : "1px solid rgba(59,130,246,0.3)",
-          color: loading||!files.length ? "#333" : "#93c5fd",
+          width:"100%", padding:"14px", borderRadius:7, cursor: loading ? "not-allowed" : "pointer",
+          background: loading ? "#111" : "linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(99,102,241,0.1) 100%)",
+          border: loading ? "1px solid #1e1e1e" : "1px solid rgba(59,130,246,0.3)",
+          color: loading ? "#333" : "#93c5fd",
           fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.2em", textTransform:"uppercase",
           transition:"all 0.18s",
         }}
