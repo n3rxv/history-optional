@@ -7,7 +7,7 @@ export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
 const GEMINI_KEY = process.env.GEMINI_API_KEY;
-const GEMINI_MODEL = "gemini-2.5-flash-preview-05-20";
+const GEMINI_MODEL = "gemini-2.5-flash";
 
 async function askGemini(base64: string, mimeType: string, prompt: string): Promise<string> {
   if (!GEMINI_KEY) throw new Error("GEMINI_API_KEY not configured");
