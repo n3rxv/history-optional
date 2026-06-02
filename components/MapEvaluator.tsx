@@ -68,9 +68,13 @@ export default function MapEvaluator({
     );
     setFiles((prev) => [...prev, ...arr].slice(0, 6));
     arr.forEach((f) => {
-      const r = new FileReader();
-      r.onload = (e) => setPreviews((prev) => [...prev, e.target?.result as string]);
-      r.readAsDataURL(f);
+      if (f.type === "application/pdf") {
+        setPreviews((prev) => [...prev, "__pdf__"]);
+      } else {
+        const r = new FileReader();
+        r.onload = (e) => setPreviews((prev) => [...prev, e.target?.result as string]);
+        r.readAsDataURL(f);
+      }
     });
   }, []);
 
@@ -92,8 +96,8 @@ export default function MapEvaluator({
     setError("");
     setProgress(10);
 
-    // Convert to base64 (strip prefix)
-    const b64List: string[] = [];
+    // Convert to base64 with type info
+    const filePayload: { data: string; type: string }[] = [];
     for (const f of files) {
       const b64 = await new Promise<string>((res, rej) => {
         const r = new FileReader();
@@ -101,7 +105,7 @@ export default function MapEvaluator({
         r.onerror = () => rej(new Error("Read failed"));
         r.readAsDataURL(f);
       });
-      b64List.push(b64);
+      filePayload.push({ data: b64, type: f.type });
     }
 
     setProgress(30);
@@ -110,7 +114,7 @@ export default function MapEvaluator({
       const resp = await fetch("/api/map-evaluate", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ images: b64List, year, token }),
+        body: JSON.stringify({ files: filePayload, year, token }),
       });
       setProgress(80);
       const data = await resp.json();
@@ -280,7 +284,7 @@ export default function MapEvaluator({
           }}
           onClick={() => document.getElementById("map-file-input")?.click()}
         >
-          <input id="map-file-input" type="file" multiple accept="image/*" style={{ display:"none" }}
+          <input id="map-file-input" type="file" multiple accept="image/*,application/pdf" style={{ display:"none" }}
             onChange={(e) => e.target.files && addFiles(e.target.files)} />
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="1.4" strokeLinecap="round" style={{ margin:"0 auto 10px" }}>
             <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -291,7 +295,7 @@ export default function MapEvaluator({
             Drop images here or click to upload
           </p>
           <p style={{ fontFamily:"var(--font-ui)", fontSize:"0.7rem", color:"#333", marginTop:6, marginBottom:0 }}>
-            Upload all pages of your Q1 answer · images only
+            Upload images or PDF of your Q1 answer
           </p>
         </div>
       </div>
@@ -301,8 +305,15 @@ export default function MapEvaluator({
         <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginBottom:20 }}>
           {previews.map((src, i) => (
             <div key={i} style={{ position:"relative", width:72, height:72 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" style={{ width:72, height:72, objectFit:"cover", borderRadius:6, border:"1px solid #222" }} />
+              {src === "__pdf__" ? (
+                <div style={{ width:72, height:72, borderRadius:6, border:"1px solid #222", background:"#0d0d0d", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:4 }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.5" strokeLinecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", color:"#444", letterSpacing:"0.08em" }}>PDF</span>
+                </div>
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={src} alt="" style={{ width:72, height:72, objectFit:"cover", borderRadius:6, border:"1px solid #222" }} />
+              )}
               <button
                 onClick={() => removeFile(i)}
                 style={{ position:"absolute", top:-6, right:-6, width:18, height:18, borderRadius:"50%", background:"#1a1a1a", border:"1px solid #333", color:"#666", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", padding:0, fontSize:"0.7rem", lineHeight:1 }}

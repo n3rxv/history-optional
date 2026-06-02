@@ -6,9 +6,13 @@ export const maxDuration = 90;
 
 export async function POST(req: NextRequest) {
   try {
-    const { images, year, token } = await req.json();
+    const { files, images, year, token } = await req.json();
+    // support both old `images` (string[]) and new `files` ({data,type}[])
+    const fileList: { data: string; type: string }[] = files?.length
+      ? files
+      : (images ?? []).map((d: string) => ({ data: d, type: "image/jpeg" }));
 
-    if (!images?.length) return NextResponse.json({ error: "No images provided" }, { status: 400 });
+    if (!fileList.length) return NextResponse.json({ error: "No files provided" }, { status: 400 });
     if (!year) return NextResponse.json({ error: "Year required" }, { status: 400 });
 
     const entries = mapData.filter((e) => e.year === Number(year));
@@ -21,15 +25,20 @@ export async function POST(req: NextRequest) {
       .map((e) => `(${toRoman(e.number)}) Hint: "${e.hint}" → Correct answer: ${e.answer}`)
       .join("\n");
 
-    // Build image content blocks
-    const imageBlocks = images.map((b64: string) => ({
-      type: "image",
-      source: {
-        type: "base64",
-        media_type: b64.startsWith("/9j") ? "image/jpeg" : "image/png",
-        data: b64,
-      },
-    }));
+    // Build content blocks — PDFs use document type, images use image type
+    const imageBlocks = fileList.map(({ data, type }) => {
+      if (type === "application/pdf") {
+        return {
+          type: "document",
+          source: { type: "base64", media_type: "application/pdf", data },
+        };
+      }
+      const media_type = type.startsWith("image/") ? type : (data.startsWith("/9j") ? "image/jpeg" : "image/png");
+      return {
+        type: "image",
+        source: { type: "base64", media_type, data },
+      };
+    });
 
     const systemPrompt = `You are an expert UPSC History Optional evaluator for Q1 (Map Question).
 Q1 has 20 locations marked (i)–(xx) on a blank India map. Each is worth 2.5 marks (identification ~1.5 + note quality ~1).
