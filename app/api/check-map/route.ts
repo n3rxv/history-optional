@@ -68,7 +68,32 @@ Example: [{"number":"i","site_name":"Burzahom","state":"Kashmir"}]`),
     }
 
     const answerKey = buildAnswerKey(dots);
-    const { results, totalMarks, maxTotal } = checkAnswers(answerKey, studentAnswers);
+
+    // Ask Groq to verify each student answer against the clue+region
+    const verifyPrompt = `You are a UPSC History examiner.
+For each entry below, the student wrote a site name for a map dot with a given clue and region.
+Determine if the student's site_name is a valid/accepted answer for that clue in that region.
+Be generous — accept common spelling variants and partially correct answers.
+Return ONLY a JSON object where keys are roman numeral numbers and values are objects:
+{"siteCorrect": true/false, "correctSite": "the standard accepted site name"}
+
+Entries:
+${JSON.stringify(answerKey.map(k => {
+  const s = studentAnswers.find(a => a.number === k.number);
+  return { number: k.number, clue: k.clue, region: k.correctLocation, student_answer: s?.site_name ?? null };
+}), null, 2)}
+
+Return ONLY valid JSON. No markdown, no backticks.`;
+
+    const verifyRaw = await askGroq(answersPage, verifyPrompt);
+    let groqVerified: Record<string, { siteCorrect: boolean; correctSite: string | null }> = {};
+    try {
+      groqVerified = JSON.parse(verifyRaw.replace(/```json|```/g, "").trim());
+    } catch (e) {
+      console.log("[check-map] verify parse error:", e, verifyRaw.slice(0, 300));
+    }
+
+    const { results, totalMarks, maxTotal } = checkAnswers(answerKey, studentAnswers, groqVerified);
 
     return NextResponse.json({
       success: true,

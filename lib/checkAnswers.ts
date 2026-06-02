@@ -9,7 +9,8 @@ export interface StudentAnswer {
 
 export interface CheckedResult {
   number: string;
-  status: "correct" | "partial" | "wrong_site" | "wrong_state" | "blank" | "low_confidence";
+  clue: string;
+  status: "correct" | "partial" | "wrong_state" | "blank" | "low_confidence";
   marks: number;
   maxMarks: number;
   siteRight: boolean;
@@ -28,15 +29,15 @@ const MAX_MARKS   = MARKS_SITE + MARKS_STATE;
 
 export function checkAnswers(
   answerKey: AnswerKeyEntry[],
-  studentAnswers: StudentAnswer[]
+  studentAnswers: StudentAnswer[],
+  groqVerified: Record<string, { siteCorrect: boolean; correctSite: string | null }> = {}
 ): { results: CheckedResult[]; totalMarks: number; maxTotal: number } {
   const results: CheckedResult[] = answerKey.map(key => {
     const student = studentAnswers.find(a => a.number === key.number);
 
-    // Blank
     if (!student?.site_name) {
       return {
-        number: key.number, status: "blank", marks: 0, maxMarks: MAX_MARKS,
+        number: key.number, clue: key.clue ?? "", status: "blank", marks: 0, maxMarks: MAX_MARKS,
         siteRight: false, stateRight: false,
         studentSite: null, studentState: null,
         correctSite: key.correctSite, correctLocation: key.correctLocation,
@@ -44,37 +45,28 @@ export function checkAnswers(
       };
     }
 
-    // Low confidence answer key — flag for teacher review
-    if (key.confidence === 0) {
-      return {
-        number: key.number, status: "low_confidence", marks: 0, maxMarks: MAX_MARKS,
-        siteRight: false, stateRight: false,
-        studentSite: student.site_name, studentState: student.state,
-        correctSite: key.correctSite, correctLocation: key.correctLocation,
-        confidence: key.confidence, candidates: key.candidates,
-      };
-    }
-
-    const siteScore  = fuzzyMatch(student.site_name, key.correctSite)  >= 75 ? MARKS_SITE  : 0;
-    const stateScore = fuzzyMatch(student.state,     key.correctLocation) >= 75 ? MARKS_STATE : 0;
+    const verified = groqVerified[key.number];
+    const siteRight = verified?.siteCorrect ?? false;
+    const stateScore = fuzzyMatch(student.state ?? "", key.correctLocation ?? "") >= 65 ? MARKS_STATE : 0;
+    const siteScore = siteRight ? MARKS_SITE : 0;
     const marks = siteScore + stateScore;
 
-    let status: CheckedResult["status"] = "wrong_site";
-    if (siteScore > 0 && stateScore > 0) status = "correct";
-    else if (siteScore > 0 && stateScore === 0) status = "wrong_state";
-    else if (siteScore === 0 && stateScore > 0) status = "partial";
+    let status: CheckedResult["status"] = "low_confidence";
+    if (siteRight && stateScore > 0) status = "correct";
+    else if (siteRight && stateScore === 0) status = "wrong_state";
+    else if (!siteRight && stateScore > 0) status = "partial";
 
     return {
-      number: key.number, status, marks, maxMarks: MAX_MARKS,
-      siteRight: siteScore > 0, stateRight: stateScore > 0,
+      number: key.number, clue: key.clue ?? "", status, marks, maxMarks: MAX_MARKS,
+      siteRight, stateRight: stateScore > 0,
       studentSite: student.site_name, studentState: student.state,
-      correctSite: key.correctSite, correctLocation: key.correctLocation,
+      correctSite: verified?.correctSite ?? key.correctSite,
+      correctLocation: key.correctLocation,
       confidence: key.confidence, candidates: key.candidates,
     };
   });
 
   const totalMarks = results.reduce((s, r) => s + r.marks, 0);
-  const maxTotal   = answerKey.length * MAX_MARKS;
-
+  const maxTotal = answerKey.length * MAX_MARKS;
   return { results, totalMarks, maxTotal };
 }
