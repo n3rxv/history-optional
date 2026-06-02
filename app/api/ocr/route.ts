@@ -47,11 +47,13 @@ RULES:
 - If uncertain (70-89% confident): add (?) after the word
 - If unreadable (<70%): write [illegible]
 - Preserve paragraph breaks as blank lines
-- QUESTION DETECTION — read carefully:
-  * The question text appears ONLY at the very top of the first page, explicitly labeled with "Q." or "Q" or "Ques." or a question number before it
-  * If you find such a labeled question at the top, transcribe it on its own line with the prefix "[Q]: " — example: [Q]: Discuss the role of the Bhakti movement in medieval India.
-  * Subheadings, boxed text, underlined headings, or titled sections WITHIN the answer body are NOT the question — they are part of the student's answer structure and must be transcribed normally without any [Q]: prefix
-  * If no clearly labeled question exists at the top of the page, do NOT output any [Q]: line at all
+- QUESTION DETECTION — STRICT RULES:
+  * Output [Q]: ONLY when the very first non-empty content on the page starts with an explicit question label like "Q.", "Q1", "Q2", "Ques.", "Question" followed by the question text
+  * The [Q]: line must be the VERY FIRST line of your output — never output [Q]: after you have already started transcribing answer content
+  * If the PDF is a continuation of an answer (no question label visible at top), do NOT output [Q]: at all
+  * NEVER output [Q]: for: examples, subheadings, boxed words, "BUT", "However", "e.g.", section titles, underlined headings mid-answer, or ANY content that appears after the first line
+  * When in doubt, do NOT add [Q]: — transcribe it as normal answer text instead
+  * One [Q]: maximum per OCR call — if you have already output one, never output another
 - After the [Q]: line (if any), transcribe the complete answer body normally
 - Output ONLY plain transcribed text — no headings, no markdown, no commentary, no LaTeX
 
