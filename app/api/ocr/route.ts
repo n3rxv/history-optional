@@ -55,7 +55,10 @@ RULES:
   * When in doubt, do NOT add [Q]: — transcribe it as normal answer text instead
   * One [Q]: maximum per OCR call — if you have already output one, never output another
 - After the [Q]: line (if any), transcribe the complete answer body normally
-- Output ONLY plain transcribed text — no headings, no markdown, no commentary, no LaTeX
+- Output ONLY the transcribed handwritten text — nothing else
+- NEVER output markdown headers (##), step descriptions, meta-commentary, reasoning, or explanations
+- NEVER output LaTeX — use plain Unicode: → for arrows, × for multiplication, etc.
+- Do NOT narrate what you are doing — just output the transcription directly
 
 Output the transcription now:`
       : `You are a precise handwriting transcription engine for UPSC History Optional answer sheets. Transcribe every word exactly as written.
@@ -69,7 +72,10 @@ RULES:
 - If unreadable (<70%): write [illegible]
 - Preserve paragraph breaks as blank lines
 - Skip the question text at the top — start from the first word of the answer body
-- Output ONLY plain transcribed text — no headings, no markdown, no commentary, no LaTeX
+- Output ONLY the transcribed handwritten text — nothing else
+- NEVER output markdown headers (##), step descriptions, meta-commentary, reasoning, or explanations
+- NEVER output LaTeX — use plain Unicode: → for arrows, × for multiplication, etc.
+- Do NOT narrate what you are doing — just output the transcription directly
 
 Output the transcription now:`;
 
