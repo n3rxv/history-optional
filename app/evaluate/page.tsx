@@ -364,6 +364,7 @@ export default function EvaluatePage() {
   const [history, setHistory]        = useState<AnswerEntry[]>([]);
   const [openEntry, setOpenEntry]    = useState<AnswerEntry | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
+  const [evalMode, setEvalMode] = useState<"single"|"batch">("single");
 
   useEffect(() => {
     setHistory(loadHistory());
@@ -991,6 +992,34 @@ const handleOcr = useCallback(async () => {
         {/* ── FORM ── */}
         {stage === "form" && !evaluation && !loading && (
           <div className="ev-fade">
+            {/* ── Mode Toggle ── */}
+            <div style={{ display:"flex", marginBottom:28, border:"1px solid #2a2a2a", borderRadius:6, overflow:"hidden", background:"#0d0d0d" }}>
+              <button
+                onClick={() => setEvalMode("single")}
+                style={{ flex:1, padding:"12px 0", background:evalMode==="single"?"#161616":"transparent",
+                  border:"none", borderRight:"1px solid #2a2a2a",
+                  color:evalMode==="single"?"#e2e8f0":"#555",
+                  fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.18em",
+                  textTransform:"uppercase", cursor:"pointer", transition:"all 0.15s" }}>
+                Single Answer
+              </button>
+              <button
+                onClick={() => setEvalMode("batch")}
+                style={{ flex:1, padding:"12px 0", background:evalMode==="batch"?"#161616":"transparent",
+                  border:"none", color:evalMode==="batch"?"#e2e8f0":"#555",
+                  fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.18em",
+                  textTransform:"uppercase", cursor:"pointer", transition:"all 0.15s" }}>
+                Full Paper / FLT
+              </button>
+            </div>
+            {evalMode === "batch" ? (
+              <PDFTestEvaluator
+                isPremium={!!usage.isPremium}
+                onPaywall={showEvalLimitModal}
+                token={tokenRef.current}
+                variant="evaluate"
+              />
+            ) : (<>
             <div style={{ marginBottom:28 }}>
               <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"#666", marginBottom:10 }}>Answer Images / PDF</label>
               <div className={`ev-upload ${files && files.length > 0 ? "has" : ""}`} onClick={() => fileRef.current?.click()}>
@@ -1110,18 +1139,7 @@ const handleOcr = useCallback(async () => {
             <UsagePill />
             <button className="ev-btn" onClick={handleEvaluate} disabled={ocrLoading}>{ocrLoading ? "Reading handwriting…" : "Evaluate Answer →"}</button>
             <GateModals slots={slots} />
-            {/* ── PDF Full Paper Evaluation (Premium) ── */}
-            <div style={{ marginTop:32, borderTop:"1px solid #1a1a1a", paddingTop:28 }}>
-              <p style={{ fontSize:"0.6rem", color:"#333", fontFamily:"var(--font-mono)", letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:14 }}>
-                Or evaluate your entire paper at once
-              </p>
-              <PDFTestEvaluator
-                isPremium={!!usage.isPremium}
-                onPaywall={showEvalLimitModal}
-                token={tokenRef.current}
-                variant="evaluate"
-              />
-            </div>
+            </>)}
           </div>
         )}
 
