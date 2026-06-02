@@ -151,8 +151,18 @@ function parseAnswerZone(lines: string[]): RawSegment[] {
     if (/^\[Q\]:/i.test(t)) {
       const qNum = bounds.length + 1;
       const qRaw = `Q${qNum}`;
-      const qTextFromMarker = t.replace(/^\[Q\]:\s*/i, '').trim();
-      bounds.push({ lineIdx: i, qRaw, qKey: normQNum(qRaw), qTextFromMarker });
+      let qText = t.replace(/^\[Q\]:\s*/i, '').trim();
+      let lastQLine = i;
+      for (let j = i + 1; j < lines.length; j++) {
+        const nx = lines[j].trim();
+        if (!nx) break;
+        if (/^Sol\b/i.test(nx)) break;
+        if (/^\[Q\]:/i.test(nx)) break;
+        if (qText.endsWith('-')) qText = qText.slice(0, -1) + nx;
+        else qText = qText + ' ' + nx;
+        lastQLine = j;
+      }
+      bounds.push({ lineIdx: lastQLine, qRaw, qKey: normQNum(qRaw), qTextFromMarker: qText });
       continue;
     }
     if (t.length > 40) continue;
@@ -278,7 +288,9 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
 
-    const lines = transcript.split("\n");
+    // Join OCR hyphenated line-breaks (e.g. lite-\nrature → literature)
+    const dehyphenated = transcript.replace(/-\n(\S)/g, '$1');
+    const lines = dehyphenated.split("\n");
 
     // ── Step 1: split into zones ─────────────────────────────────────────────
     const answerStart = findAnswerZoneStart(lines);
@@ -320,6 +332,7 @@ export async function POST(req: NextRequest) {
       const answerText = cleanLines
         .filter((l) => !/^\[Q\]:/.test(l.trim()))
         .join("\n")
+        .replace(/^Sol["'. ]*/i, '')
         .trim();
 
       // Omit if no actual answer content (< 10 words)
