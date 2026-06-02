@@ -993,23 +993,56 @@ const handleOcr = useCallback(async () => {
         {stage === "form" && !evaluation && !loading && (
           <div className="ev-fade">
             {/* ── Mode Toggle ── */}
-            <div style={{ display:"flex", marginBottom:28, border:"1px solid #2a2a2a", borderRadius:6, overflow:"hidden", background:"#0d0d0d" }}>
-              <button
-                onClick={() => setEvalMode("single")}
-                style={{ flex:1, padding:"12px 0", background:evalMode==="single"?"#161616":"transparent",
-                  border:"none", borderRight:"1px solid #2a2a2a",
-                  color:evalMode==="single"?"#e2e8f0":"#555",
-                  fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.18em",
-                  textTransform:"uppercase", cursor:"pointer", transition:"all 0.15s" }}>
-                Single Answer
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:32 }}>
+              <button onClick={() => setEvalMode("single")} style={{
+                padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
+                background: evalMode==="single" ? "rgba(59,130,246,0.07)" : "#0d0d0d",
+                border: evalMode==="single" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid #222",
+                boxShadow: evalMode==="single" ? "0 0 0 3px rgba(59,130,246,0.08), inset 0 1px 0 rgba(255,255,255,0.04)" : "none",
+                transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
+                  <div style={{ width:28, height:28, borderRadius:6,
+                    background: evalMode==="single" ? "rgba(59,130,246,0.15)" : "#161616",
+                    border: evalMode==="single" ? "1px solid rgba(59,130,246,0.3)" : "1px solid #2a2a2a",
+                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="single"?"#3b82f6":"#555"} strokeWidth="1.8" strokeLinecap="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="16" y1="13" x2="8" y2="13"/>
+                      <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                  </div>
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
+                    textTransform:"uppercase", color: evalMode==="single" ? "#e2e8f0" : "#666",
+                    transition:"color 0.18s", fontWeight: evalMode==="single" ? 600 : 400 }}>Single Answer</span>
+                  {evalMode==="single" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"#3b82f6", boxShadow:"0 0 8px #3b82f6" }} />}
+                </div>
+                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="single" ? "#6b8db5" : "#3a3a3a",
+                  lineHeight:1.5, transition:"color 0.18s" }}>One question, images or PDF</div>
               </button>
-              <button
-                onClick={() => setEvalMode("batch")}
-                style={{ flex:1, padding:"12px 0", background:evalMode==="batch"?"#161616":"transparent",
-                  border:"none", color:evalMode==="batch"?"#e2e8f0":"#555",
-                  fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.18em",
-                  textTransform:"uppercase", cursor:"pointer", transition:"all 0.15s" }}>
-                Full Paper / FLT
+              <button onClick={() => setEvalMode("batch")} style={{
+                padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
+                background: evalMode==="batch" ? "rgba(59,130,246,0.07)" : "#0d0d0d",
+                border: evalMode==="batch" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid #222",
+                boxShadow: evalMode==="batch" ? "0 0 0 3px rgba(59,130,246,0.08), inset 0 1px 0 rgba(255,255,255,0.04)" : "none",
+                transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
+                  <div style={{ width:28, height:28, borderRadius:6,
+                    background: evalMode==="batch" ? "rgba(59,130,246,0.15)" : "#161616",
+                    border: evalMode==="batch" ? "1px solid rgba(59,130,246,0.3)" : "1px solid #2a2a2a",
+                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="batch"?"#3b82f6":"#555"} strokeWidth="1.8" strokeLinecap="round">
+                      <rect x="2" y="3" width="20" height="14" rx="2"/>
+                      <path d="M8 21h8M12 17v4"/>
+                    </svg>
+                  </div>
+                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
+                    textTransform:"uppercase", color: evalMode==="batch" ? "#e2e8f0" : "#666",
+                    transition:"color 0.18s", fontWeight: evalMode==="batch" ? 600 : 400 }}>Full Paper / FLT</span>
+                  {evalMode==="batch" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"#3b82f6", boxShadow:"0 0 8px #3b82f6" }} />}
+                </div>
+                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="batch" ? "#6b8db5" : "#3a3a3a",
+                  lineHeight:1.5, transition:"color 0.18s" }}>Sectional · FLT · full booklet</div>
               </button>
             </div>
             {evalMode === "batch" ? (
