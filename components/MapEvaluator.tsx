@@ -4,17 +4,17 @@ import { saveToHistory } from "@/hooks/useAnswerHistory";
 
 interface CheckedResult {
   number: string;
-  status: "correct" | "partial" | "wrong_site" | "wrong_state" | "blank" | "low_confidence";
+  clue: string;
+  status: "correct" | "partial" | "wrong" | "blank" | "review";
   marks: number;
   maxMarks: number;
-  siteRight: boolean;
-  stateRight: boolean;
   studentSite: string | null;
-  studentState: string | null;
+  studentDescription: string | null;
   correctSite: string | null;
   correctLocation: string | null;
+  descriptionScore: number;
+  descriptionFeedback: string;
   confidence: number;
-  candidates: string[];
 }
 interface MapCheckResponse {
   results: CheckedResult[];
@@ -174,14 +174,16 @@ export default function MapEvaluator({
     const pct     = results.percentage;
     const color   = scoreColor(pct);
     const correct = results.results.filter(r => r.status === "correct").length;
-    const partial = results.results.filter(r => r.status === "partial" || r.status === "wrong_state").length;
-    const wrong   = results.results.filter(r => r.status === "wrong_site" || r.status === "blank").length;
-    const review  = results.results.filter(r => r.status === "low_confidence").length;
+    const partial = results.results.filter(r => r.status === "partial").length;
+    const wrong   = results.results.filter(r => r.status === "wrong").length;
+    const blank   = results.results.filter(r => r.status === "blank").length;
+    const review  = results.results.filter(r => r.status === "review").length;
 
     const dot = (s: CheckedResult["status"]) =>
       s === "correct" ? "#10b981"
-      : s === "partial" || s === "wrong_state" ? "#f59e0b"
-      : s === "low_confidence" ? "#818cf8"
+      : s === "partial" ? "#f59e0b"
+      : s === "review" ? "#818cf8"
+      : s === "blank" ? "#444"
       : "#ef4444";
 
     return (
@@ -204,12 +206,13 @@ export default function MapEvaluator({
             <span style={{ marginLeft:"auto", fontSize:22, fontWeight:600, color }}>{pct}%</span>
           </div>
 
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:8 }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:8 }}>
             {[
               { label:"Correct", val:correct,  c:"#10b981" },
-              { label:"Partial",  val:partial,  c:"#f59e0b" },
-              { label:"Wrong",    val:wrong,    c:"#ef4444" },
-              { label:"Review",   val:review,   c:"#818cf8" },
+              { label:"Partial", val:partial,  c:"#f59e0b" },
+              { label:"Wrong",   val:wrong,    c:"#ef4444" },
+              { label:"Blank",   val:blank,    c:"#555" },
+              { label:"Review",  val:review,   c:"#818cf8" },
             ].map(s => (
               <div key={s.label} style={{ background:`${s.c}0d`, border:`1px solid ${s.c}33`, borderRadius:8, padding:"8px 0", textAlign:"center" }}>
                 <div style={{ fontSize:20, fontWeight:700, color:s.c }}>{s.val}</div>
@@ -234,46 +237,72 @@ export default function MapEvaluator({
                   <span style={{ flex:1, color: r.studentSite ? "#e0e0e0" : "#444", fontSize:13 }}>
                     {r.studentSite ?? "—"}
                   </span>
-                  <span style={{ color: r.marks === r.maxMarks ? "#10b981" : r.marks > 0 ? "#f59e0b" : "#ef4444", fontSize:13, fontFamily:"monospace" }}>
-                    {r.marks}/{r.maxMarks}
+                  <span style={{ color: r.status === "correct" ? "#10b981" : r.status === "partial" ? "#f59e0b" : r.status === "review" ? "#818cf8" : r.status === "blank" ? "#444" : "#ef4444", fontSize:13, fontFamily:"monospace", minWidth:40, textAlign:"right" }}>
+                    {r.status === "blank" ? "—" : r.status === "review" ? "?" : `${r.marks}/${r.maxMarks}`}
                   </span>
                   <span style={{ color:"#444", fontSize:11 }}>{open ? "▲" : "▼"}</span>
                 </button>
 
                 {open && (
                   <div style={{ padding:"0 14px 12px", borderTop:"1px solid #1a1a1a" }}>
-                    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginTop:10 }}>
-                      {[
-                        { label:"Student wrote", name: r.studentSite, loc: r.studentState },
-                        { label:"Correct answer", name: r.correctSite, loc: r.correctLocation },
-                      ].map(col => (
-                        <div key={col.label} style={{ background:"#111", borderRadius:8, padding:"10px 12px" }}>
-                          <div style={{ color:"#555", fontSize:11, marginBottom:5 }}>{col.label}</div>
-                          <div style={{ color:"#e0e0e0", fontSize:13, fontWeight:500 }}>{col.name ?? "—"}</div>
-                          {col.loc && <div style={{ color:"#666", fontSize:12, marginTop:3 }}>{col.loc}</div>}
-                        </div>
-                      ))}
+
+                    {/* Clue */}
+                    <div style={{ marginTop:10, color:"#666", fontSize:12 }}>
+                      <span style={{ color:"#3a3a3a", marginRight:6 }}>Clue:</span>
+                      {r.clue || "—"}
                     </div>
 
-                    <div style={{ display:"flex", gap:8, marginTop:10 }}>
-                      {[{ label:"Site", right:r.siteRight }, { label:"State/Region", right:r.stateRight }].map(m => (
-                        <div key={m.label} style={{
-                          flex:1, padding:"6px 10px", borderRadius:6, textAlign:"center", fontSize:12,
-                          background: m.right ? "rgba(16,185,129,0.08)" : "rgba(239,68,68,0.08)",
-                          border: `1px solid ${m.right ? "rgba(16,185,129,0.2)" : "rgba(239,68,68,0.2)"}`,
-                          color: m.right ? "#10b981" : "#ef4444",
-                        }}>
-                          {m.right ? "✓" : "✗"} {m.label}
+                    {/* Student wrote vs Correct answer */}
+                    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginTop:8 }}>
+                      <div style={{ background:"#111", borderRadius:8, padding:"10px 12px" }}>
+                        <div style={{ color:"#444", fontSize:11, marginBottom:4 }}>You wrote</div>
+                        <div style={{ color: r.studentSite ? "#e0e0e0" : "#444", fontSize:13, fontWeight:500 }}>
+                          {r.studentSite ?? "—"}
                         </div>
-                      ))}
+                      </div>
+                      <div style={{
+                        background: r.status === "correct" || r.status === "partial" ? "rgba(16,185,129,0.06)" : r.status === "blank" ? "#111" : "rgba(239,68,68,0.06)",
+                        border: `1px solid ${r.status === "correct" || r.status === "partial" ? "rgba(16,185,129,0.2)" : r.status === "blank" ? "#1a1a1a" : "rgba(239,68,68,0.15)"}`,
+                        borderRadius:8, padding:"10px 12px"
+                      }}>
+                        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4 }}>
+                          <span style={{ color:"#444", fontSize:11 }}>Correct answer</span>
+                          <span style={{ fontSize:11, fontFamily:"monospace", color: r.status === "correct" || r.status === "partial" ? "#10b981" : "#ef4444" }}>
+                            {r.status === "blank" || r.status === "review" ? "" : r.status === "correct" || r.status === "partial" ? "✓ 1.5 pts" : "✗ 0 pts"}
+                          </span>
+                        </div>
+                        <div style={{ color: r.status === "correct" || r.status === "partial" ? "#10b981" : "#ef4444", fontSize:13, fontWeight:500 }}>
+                          {r.correctSite ?? "—"}
+                        </div>
+                      </div>
                     </div>
 
-                    {r.status === "low_confidence" && (
-                      <div style={{ marginTop:10, padding:"8px 10px", background:"rgba(129,140,248,0.06)", border:"1px solid rgba(129,140,248,0.2)", borderRadius:6, fontSize:12, color:"#818cf8" }}>
-                        ⚠ Teacher review needed
-                        {r.candidates.length > 0 && (
-                          <span style={{ color:"#555", marginLeft:8 }}>Possible: {r.candidates.join(" · ")}</span>
+                    {/* Student description + score */}
+                    <div style={{ marginTop:8, background:"#0a0a0a", border:"1px solid #1a1a1a", borderRadius:8, overflow:"hidden" }}>
+                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"8px 12px", borderBottom:"1px solid #141414" }}>
+                        <span style={{ color:"#444", fontSize:11 }}>Your description</span>
+                        {r.status !== "blank" && r.status !== "review" && (
+                          <span style={{
+                            fontSize:11, fontFamily:"monospace",
+                            color: r.descriptionScore >= 1 ? "#10b981" : r.descriptionScore > 0 ? "#f59e0b" : "#ef4444"
+                          }}>
+                            {r.descriptionScore}/1 pts
+                          </span>
                         )}
+                      </div>
+                      <div style={{ padding:"10px 12px", color: r.studentDescription ? "#888" : "#333", fontSize:12, lineHeight:1.7, fontStyle: r.studentDescription ? "normal" : "italic" }}>
+                        {r.studentDescription ?? "Nothing written"}
+                      </div>
+                      {r.descriptionFeedback && (
+                        <div style={{ padding:"8px 12px", borderTop:"1px solid #141414", background:"#070707", color:"#555", fontSize:11, lineHeight:1.6 }}>
+                          💬 {r.descriptionFeedback}
+                        </div>
+                      )}
+                    </div>
+
+                    {r.status === "review" && (
+                      <div style={{ marginTop:8, padding:"8px 10px", background:"rgba(129,140,248,0.06)", border:"1px solid rgba(129,140,248,0.2)", borderRadius:6, fontSize:12, color:"#818cf8" }}>
+                        ⚠ Needs teacher review
                       </div>
                     )}
                   </div>
