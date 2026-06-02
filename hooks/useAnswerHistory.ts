@@ -32,7 +32,7 @@ export interface AnswerEntry {
   conclusion?: { what_was_written?: string; strengths?: string[]; analysis?: string; suggestions?: string[] };
   historiansToCite?: { name: string; work?: string; argument: string }[];
   modelAnswer?: { introduction: string; body: string | string[]; conclusion: string };
-  type?: "single" | "batch";
+  type?: "single" | "batch" | "map";
 }
 
 export function loadHistory(): AnswerEntry[] {

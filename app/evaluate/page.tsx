@@ -691,11 +691,11 @@ const handleOcr = useCallback(async () => {
 
           {sidebarOpen && (
             <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
-              {history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? (e.type as any) === "map" : !e.type || e.type === "single").length === 0 ? (
+              {history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? e.type === "map" : !e.type || e.type === "single").length === 0 ? (
                 <div style={{ padding:"24px 16px", color:"#444", fontSize:"0.78rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
                   {evalMode === "map" ? "No map evaluations yet. Evaluate Q1 Map first." : evalMode === "batch" ? "No batch evaluations yet. Evaluate a Full Paper / FLT first." : "No evaluations yet. Submit your first answer above."}
                 </div>
-              ) : history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? (e.type as any) === "map" : !e.type || e.type === "single").map(entry => {
+              ) : history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? e.type === "map" : !e.type || e.type === "single").map(entry => {
                 const pct = Math.round((entry.marks / entry.marksOutOf) * 100);
                 const color = pct >= 70 ? "#4ade80" : pct >= 50 ? "#f59e0b" : "#f87171";
                 const isOpen = openEntry?.id === entry.id;
@@ -995,7 +995,7 @@ const handleOcr = useCallback(async () => {
           <div className="ev-fade">
             {/* ── Mode Toggle ── */}
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:32 }}>
-              <button onClick={() => setEvalMode("single")} style={{
+              <button onClick={() => { setEvalMode("single"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
                 background: evalMode==="single" ? "rgba(59,130,246,0.07)" : "#0d0d0d",
                 border: evalMode==="single" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid #222",
@@ -1021,7 +1021,7 @@ const handleOcr = useCallback(async () => {
                 <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="single" ? "#6b8db5" : "#3a3a3a",
                   lineHeight:1.5, transition:"color 0.18s" }}>One question, images or PDF</div>
               </button>
-              <button onClick={() => setEvalMode("batch")} style={{
+              <button onClick={() => { setEvalMode("batch"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
                 background: evalMode==="batch" ? "rgba(59,130,246,0.07)" : "#0d0d0d",
                 border: evalMode==="batch" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid #222",
@@ -1045,7 +1045,7 @@ const handleOcr = useCallback(async () => {
                 <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="batch" ? "#6b8db5" : "#3a3a3a",
                   lineHeight:1.5, transition:"color 0.18s" }}>Sectional · FLT · full booklet</div>
               </button>
-              <button onClick={() => setEvalMode("map")} style={{
+              <button onClick={() => { setEvalMode("map"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
                 gridColumn:"1 / -1",
                 background: evalMode==="map" ? "rgba(16,185,129,0.07)" : "#0d0d0d",

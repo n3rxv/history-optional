@@ -109,20 +109,19 @@ export default function MapEvaluator({
       if (!resp.ok || data.error) throw new Error(data.error || "Evaluation failed");
       setResults(data); setProgress(100); setProgressLabel("");
 
-      for (const r of data.results) {
-        saveToHistory({
-          type: "map" as any,
-          question: `[${year} Map Q1] (${r.roman}) ${r.hint}`,
-          marks: r.total, marksOutOf: 2.5,
-          overallFeedback: r.feedback,
-          sectionMarks: {
-            introduction: { awarded: r.identificationMarks, out_of: 1.5 },
-            body: { awarded: r.noteMarks, out_of: 1 },
-            conclusion: { awarded: 0, out_of: 0 },
-            presentation: { awarded: 0, out_of: 0 },
-          },
-        });
-      }
+      saveToHistory({
+        type: "map",
+        question: `Map Q1 — ${year} (${data.results.length} locations)`,
+        marks: data.grandTotal,
+        marksOutOf: data.outOf,
+        overallFeedback: data.overallFeedback,
+        sectionMarks: {
+          introduction: { awarded: data.results.filter((r: any) => r.identificationMarks >= 1.5).length, out_of: 20 },
+          body: { awarded: data.results.filter((r: any) => r.noteMarks >= 0.8).length, out_of: 20 },
+          conclusion: { awarded: 0, out_of: 0 },
+          presentation: { awarded: 0, out_of: 0 },
+        },
+      });
     } catch (e: any) {
       setError(e.message);
     } finally {
