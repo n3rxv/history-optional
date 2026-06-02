@@ -17,7 +17,7 @@ export interface CheckedResult {
   studentSite: string | null;
   studentState: string | null;
   correctSite: string | null;
-  correctState: string | null;
+  correctLocation: string | null;
   confidence: number;
   candidates: string[];
 }
@@ -39,7 +39,7 @@ export function checkAnswers(
         number: key.number, status: "blank", marks: 0, maxMarks: MAX_MARKS,
         siteRight: false, stateRight: false,
         studentSite: null, studentState: null,
-        correctSite: key.correctSite, correctState: key.correctState,
+        correctSite: key.correctSite, correctLocation: key.correctLocation,
         confidence: key.confidence, candidates: key.candidates,
       };
     }
@@ -50,13 +50,13 @@ export function checkAnswers(
         number: key.number, status: "low_confidence", marks: 0, maxMarks: MAX_MARKS,
         siteRight: false, stateRight: false,
         studentSite: student.site_name, studentState: student.state,
-        correctSite: key.correctSite, correctState: key.correctState,
+        correctSite: key.correctSite, correctLocation: key.correctLocation,
         confidence: key.confidence, candidates: key.candidates,
       };
     }
 
     const siteScore  = fuzzyMatch(student.site_name, key.correctSite)  >= 75 ? MARKS_SITE  : 0;
-    const stateScore = fuzzyMatch(student.state,     key.correctState) >= 75 ? MARKS_STATE : 0;
+    const stateScore = fuzzyMatch(student.state,     key.correctLocation) >= 75 ? MARKS_STATE : 0;
     const marks = siteScore + stateScore;
 
     let status: CheckedResult["status"] = "wrong_site";
@@ -68,7 +68,7 @@ export function checkAnswers(
       number: key.number, status, marks, maxMarks: MAX_MARKS,
       siteRight: siteScore > 0, stateRight: stateScore > 0,
       studentSite: student.site_name, studentState: student.state,
-      correctSite: key.correctSite, correctState: key.correctState,
+      correctSite: key.correctSite, correctLocation: key.correctLocation,
       confidence: key.confidence, candidates: key.candidates,
     };
   });

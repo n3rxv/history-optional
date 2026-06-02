@@ -11,7 +11,7 @@ type Result = {
   studentSite: string | null;
   studentState: string | null;
   correctSite: string | null;
-  correctState: string | null;
+  correctLocation: string | null;
   confidence: number;
   candidates: string[];
 };
@@ -174,8 +174,8 @@ export default function CheckMapPage() {
                   </td>
                   <td className="px-3 py-2 text-gray-600">
                     {r.correctSite ?? <span className="text-purple-500 text-xs">unresolved</span>}
-                    {r.correctState && (
-                      <span className="ml-1 text-xs text-gray-400">({r.correctState})</span>
+                    {r.correctLocation && (
+                      <span className="ml-1 text-xs text-gray-400">({r.correctLocation})</span>
                     )}
                   </td>
                   <td className="px-3 py-2 text-right font-mono">{r.marks}/{r.maxMarks}</td>

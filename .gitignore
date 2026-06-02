@@ -50,3 +50,5 @@ lib/noteContent.ts.bak*
 seed_script.js
 historiography_page.tsx
 .env*.local
+books/
+*.epub
