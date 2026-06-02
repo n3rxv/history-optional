@@ -693,9 +693,9 @@ const handleOcr = useCallback(async () => {
             <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
               {history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? (e.type as any) === "map" : !e.type || e.type === "single").length === 0 ? (
                 <div style={{ padding:"24px 16px", color:"#444", fontSize:"0.78rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
-                  {evalMode === "batch" ? evalMode === "map" ? "No map evaluations yet. Evaluate Q1 Map first." : "No batch evaluations yet. Evaluate a Full Paper / FLT first." : "No evaluations yet. Submit your first answer above."}
+                  {evalMode === "map" ? "No map evaluations yet. Evaluate Q1 Map first." : evalMode === "batch" ? "No batch evaluations yet. Evaluate a Full Paper / FLT first." : "No evaluations yet. Submit your first answer above."}
                 </div>
-              ) : history.filter(e => evalMode === "batch" ? e.type === "batch" : !e.type || e.type === "single").map(entry => {
+              ) : history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? (e.type as any) === "map" : !e.type || e.type === "single").map(entry => {
                 const pct = Math.round((entry.marks / entry.marksOutOf) * 100);
                 const color = pct >= 70 ? "#4ade80" : pct >= 50 ? "#f59e0b" : "#f87171";
                 const isOpen = openEntry?.id === entry.id;
