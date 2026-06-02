@@ -81,34 +81,22 @@ export default function MapEvaluator({
     if (!isPremium) { onPaywall(); return; }
     if (!file) { setError("Upload your answer booklet PDF first."); return; }
     setLoading(true); setError(""); setProgress(10);
-    setStage("Reading PDF pages…");
+    setStage("Uploading PDF…");
 
     try {
-      const pages = await pdfToPages(file);
-      if (pages.length < 2) throw new Error("PDF needs at least 2 pages (map + answers).");
-
-      setProgress(30); setStage("Reading question map…");
-      const [mapPage, ...answerPages] = pages;
-
-      setProgress(55); setStage("Reading student answers…");
-      // small delay so UI updates
-      await new Promise(r => setTimeout(r, 50));
-
-      setProgress(75); setStage("Scoring answers…");
-
+      const formData = new FormData();
+      formData.append("pdf", file);
+      setProgress(40); setStage("Analysing map & answers…");
       const resp = await fetch("/api/check-map", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ mapPage, answerPages }),
+        body: formData,
       });
-
-      setProgress(95);
+      setProgress(90);
       const data = await resp.json();
       if (!resp.ok || data.error) throw new Error(data.error || "Evaluation failed");
-
       setResults(data);
       setProgress(100);
       setStage("");
