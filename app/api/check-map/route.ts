@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 const groq = new Groq();
 const VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
 
-async function askGroq(pdfBase64: string, prompt: string): Promise<string> {
+async function askGroq(base64: string, prompt: string): Promise<string> {
   const res = await groq.chat.completions.create({
     model: VISION_MODEL,
     max_tokens: 3000,
@@ -18,7 +18,7 @@ async function askGroq(pdfBase64: string, prompt: string): Promise<string> {
       content: [
         {
           type: "image_url",
-          image_url: { url: `data:application/pdf;base64,${pdfBase64}` },
+          image_url: { url: `data:image/jpeg;base64,${base64}` },
         } as any,
         { type: "text", text: prompt },
       ],
