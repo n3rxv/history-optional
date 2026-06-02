@@ -38,15 +38,11 @@ export async function POST(req: NextRequest) {
     }
 
     const [mapRaw, answersRaw] = await Promise.all([
-      askGroq(mapPage, `This image is a UPSC History Optional map question paper.
-Find the page with a map of India with numbered dots (i) through (xx).
-Below or beside the map the clues are listed e.g. "(i) Neolithic site", "(ii) Mesolithic site".
-For EVERY numbered dot extract:
-- number: Roman numeral lowercase string e.g. "i", "xv"
-- clue: the clue text exactly as printed
-- region: the Indian state/region where that dot appears geographically on the map
-Return ONLY a valid JSON array. No markdown, no backticks.
-Example: [{"number":"i","clue":"Neolithic site","region":"Kashmir"}]`),
+      askGroq(mapPage, `RESPOND WITH ONLY A JSON ARRAY. NO TEXT BEFORE OR AFTER. NO EXPLANATION.
+This image shows a map of India with numbered dots and clues listed beside/below the map.
+Extract every dot: number (roman numeral lowercase), clue (exact text), region (state on map).
+START YOUR RESPONSE WITH [ AND END WITH ]. NOTHING ELSE.
+Example output: [{"number":"i","clue":"Neolithic site","region":"Kashmir"},{"number":"ii","clue":"Mesolithic site","region":"Rajasthan"}]`),
 
       askGroq(answersPage, `This image is a UPSC History Optional handwritten answer booklet.
 Find the map question section where the student wrote site names and states for Roman numerals (i) through (xx).
