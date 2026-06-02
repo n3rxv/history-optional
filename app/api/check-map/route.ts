@@ -90,8 +90,9 @@ Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found he
     console.log("[check-map] first student answer sample:", JSON.stringify(studentAnswers?.slice?.(0,2)));
 
     function cleanJson(raw: string): string {
-      const match = raw.match(/\[.*\]/s) || raw.match(/\{.*\}/s);
-      return match ? match[0].trim() : raw.trim();
+      const start = raw.indexOf("[") !== -1 ? raw.indexOf("[") : raw.indexOf("{");
+      const end = raw.lastIndexOf("]") !== -1 ? raw.lastIndexOf("]") : raw.lastIndexOf("}");
+      return start !== -1 && end !== -1 ? raw.slice(start, end + 1).trim() : raw.trim();
     }
     try { dots = JSON.parse(cleanJson(mapRaw)); } catch (e) { console.log("[check-map] dots parse error:", e, mapRaw.slice(0, 200)); }
     try { studentAnswers = JSON.parse(cleanJson(answersRaw)); } catch (e) { console.log("[check-map] answers parse error:", e, answersRaw.slice(0, 200)); }
