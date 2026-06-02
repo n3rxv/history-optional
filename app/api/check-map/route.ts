@@ -6,87 +6,125 @@ import { checkAnswers } from "@/lib/checkAnswers";
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
-const groq = new Groq();
-const VISION_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
+const GEMINI_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_MODEL = "gemini-2.5-flash-preview-05-20";
 
-async function askGroq(base64: string, prompt: string): Promise<string> {
-  const res = await groq.chat.completions.create({
-    model: VISION_MODEL,
-    max_tokens: 3000,
-    messages: [{
-      role: "user",
-      content: [
-        {
-          type: "image_url",
-          image_url: { url: `data:image/jpeg;base64,${base64}` },
-        } as any,
-        { type: "text", text: prompt },
-      ],
-    }],
-  });
-  return res.choices[0]?.message?.content ?? "[]";
+async function askGemini(base64: string, mimeType: string, prompt: string): Promise<string> {
+  if (!GEMINI_KEY) throw new Error("GEMINI_API_KEY not configured");
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { inline_data: { mime_type: mimeType, data: base64 } },
+            { text: prompt },
+          ],
+        }],
+        generationConfig: { maxOutputTokens: 4000, temperature: 0.1 },
+      }),
+    }
+  );
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Gemini error ${res.status}: ${err.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "[]";
 }
 
+// ── Groq text-only verify step ────────────────────────────────
+const groq = new Groq();
+
+async function askGroqText(prompt: string): Promise<string> {
+  const res = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    max_tokens: 3000,
+    temperature: 0.1,
+    messages: [{ role: "user", content: prompt }],
+  });
+  return res.choices[0]?.message?.content ?? "{}";
+}
+
+// ── Main handler ──────────────────────────────────────────────
 export async function POST(req: NextRequest) {
   try {
-
-
     const body = await req.json();
     const { mapPage, cluesPage, answersPage } = body;
     if (!mapPage || !cluesPage || !answersPage) {
       return NextResponse.json({ error: "Missing pages" }, { status: 400 });
     }
 
-    const [mapRaw, answersRaw] = await Promise.all([
-      askGroq(cluesPage, `RESPOND WITH ONLY A JSON ARRAY. NO TEXT BEFORE OR AFTER. NO EXPLANATION.
+    // Step 1 — Gemini reads clues from map page
+    const mapRaw = await askGemini(cluesPage, "image/jpeg", `RESPOND WITH ONLY A JSON ARRAY. NO TEXT BEFORE OR AFTER. NO EXPLANATION.
 This image shows a map of India with numbered dots and clues listed beside/below the map.
-Extract every dot: number (roman numeral lowercase), clue (exact text), region (state on map).
+Extract every dot: number (roman numeral lowercase), clue (exact text in English), region (state on map).
 START YOUR RESPONSE WITH [ AND END WITH ]. NOTHING ELSE.
-Example output: [{"number":"i","clue":"Neolithic site","region":"Kashmir"},{"number":"ii","clue":"Mesolithic site","region":"Rajasthan"}]`),
+Example: [{"number":"i","clue":"Neolithic site","region":"Kashmir"},{"number":"ii","clue":"Mesolithic site","region":"Rajasthan"}]`);
 
-      askGroq(answersPage, `This image is a UPSC History Optional handwritten answer booklet.
-Find the map question section where the student wrote site names and states for Roman numerals (i) through (xx).
-For each extract:
-- number: Roman numeral lowercase string e.g. "i", "xii"
-- site_name: the site name the student wrote (null if blank/illegible)
-- state: the state or location written (null if not written)
-Fix obvious handwriting errors: "Burzahm"→"Burzahom", "Lothl"→"Lothal", "Kalibagan"→"Kalibangan".
-Include ALL numbers i through xx, use null for blanks.
+    // Step 2 — Gemini reads student handwritten answers
+    const answersRaw = await askGemini(answersPage, "image/jpeg", `This image is a UPSC History Optional handwritten answer booklet in Hindi and English.
+Find the map question section where the student wrote site names and short notes for Roman numerals (i) through (xx).
+
+For EACH numeral i through xx extract:
+- number: roman numeral lowercase string e.g. "i", "xii"
+- site_name: the site name written (null if blank)
+- description: the 1-3 line explanation written below the site name (null if nothing written). Transcribe exactly as written.
+
+Rules:
+- Include ALL 20 numerals, use null for blanks
+- Fix obvious handwriting errors in site names only: "Burzahm"→"Burzahom", "Kalibagan"→"Kalibangan", "Lothl"→"Lothal"
+- Do NOT fix or alter the description text
+- The description is the lines written BELOW the underlined site name
+
 Return ONLY a valid JSON array. No markdown, no backticks.
-Example: [{"number":"i","site_name":"Burzahom","state":"Kashmir"}]`),
-    ]);
+Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found here. Burial grounds. Factory site."},{"number":"ii","site_name":null,"description":null}]`);
 
     let dots: any[] = [];
     let studentAnswers: any[] = [];
+
     console.log("[check-map] mapRaw:", mapRaw.slice(0, 500));
     console.log("[check-map] answersRaw:", answersRaw.slice(0, 500));
+
     try { dots = JSON.parse(mapRaw.replace(/```json|```/g, "").trim()); } catch (e) { console.log("[check-map] dots parse error:", e); }
     try { studentAnswers = JSON.parse(answersRaw.replace(/```json|```/g, "").trim()); } catch (e) { console.log("[check-map] answers parse error:", e); }
 
     if (!dots.length) {
-      return NextResponse.json({ error: "Could not read map dots — try a clearer scan" }, { status: 422 });
+      return NextResponse.json({ error: "Could not read map clues — try a clearer scan" }, { status: 422 });
     }
 
     const answerKey = buildAnswerKey(dots);
 
-    // Ask Groq to verify each student answer against the clue+region
-    const verifyPrompt = `You are a UPSC History examiner.
-For each entry below, the student wrote a site name for a map dot with a given clue and region.
-Determine if the student's site_name is a valid/accepted answer for that clue in that region.
-Be generous — accept common spelling variants and partially correct answers.
-Return ONLY a JSON object where keys are roman numeral numbers and values are objects:
-{"siteCorrect": true/false, "correctSite": "the standard accepted site name"}
+    // Step 3 — Groq text-only verify
+    const verifyPrompt = `You are a UPSC History examiner marking a History Optional map question.
+Scoring: 1.5 marks for correct site name, 1 mark for description quality.
+Description scoring: 0 if blank or wrong site, 0.5 if vague/partially relevant, 1 if accurate and historically relevant.
 
-Entries:
+Return ONLY a JSON object. Keys = roman numeral strings. Each value has:
+- siteCorrect: true or false
+- correctSite: standard accepted site name
+- descriptionScore: 0, 0.5, or 1
+- descriptionFeedback: one sentence on what was right/wrong/missing
+
+Entries to evaluate:
 ${JSON.stringify(answerKey.map(k => {
-  const s = studentAnswers.find(a => a.number === k.number);
-  return { number: k.number, clue: k.clue, region: k.correctLocation, student_answer: s?.site_name ?? null };
+  const s = studentAnswers.find((a: any) => a.number === k.number);
+  return {
+    number: k.number,
+    clue: k.clue,
+    region: k.correctLocation,
+    student_answer: s?.site_name ?? null,
+    student_description: s?.description ?? null,
+  };
 }), null, 2)}
 
-Return ONLY valid JSON. No markdown, no backticks.`;
+Return ONLY valid JSON. No markdown, no backticks.
+Example: {"i":{"siteCorrect":true,"correctSite":"Burzahom","descriptionScore":1,"descriptionFeedback":"Correctly mentions dog bones and burial grounds."}}`;
 
-    const verifyRaw = await askGroq(answersPage, verifyPrompt);
-    let groqVerified: Record<string, { siteCorrect: boolean; correctSite: string | null }> = {};
+    const verifyRaw = await askGroqText(verifyPrompt);
+    let groqVerified: Record<string, { siteCorrect: boolean; correctSite: string | null; descriptionScore: number; descriptionFeedback: string }> = {};
     try {
       groqVerified = JSON.parse(verifyRaw.replace(/```json|```/g, "").trim());
     } catch (e) {
