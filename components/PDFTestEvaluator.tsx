@@ -832,10 +832,14 @@ export default function PDFTestEvaluator({
           {showTranscript && (
             <div style={{ marginTop: 10, background: "#0d0d0d", border: "1px solid #1e1e1e",
               borderRadius: 6, padding: "18px 20px" }}>
-              <pre style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "#666",
-                lineHeight: 1.8, whiteSpace: "pre-wrap", margin: 0 }}>
-                {transcript}
-              </pre>
+              <textarea
+                value={transcript}
+                onChange={e => setTranscript(e.target.value)}
+                style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "#999",
+                  lineHeight: 1.8, whiteSpace: "pre-wrap", margin: 0, width: "100%",
+                  background: "transparent", border: "none", outline: "none", resize: "vertical",
+                  minHeight: 180 }}
+              />
             </div>
           )}
         </div>
@@ -907,7 +911,14 @@ export default function PDFTestEvaluator({
                     textTransform: "uppercase", color: "#555", marginBottom: 7 }}>
                     Detected answer text
                   </div>
-                  <div className="pdf-ev-ans-preview">{seg.answerText}</div>
+                  <textarea
+                    className="pdf-ev-input"
+                    value={seg.answerText}
+                    onChange={e => updateSegment(idx, { answerText: e.target.value })}
+                    rows={8}
+                    style={{ width: "100%", resize: "vertical", fontFamily: "var(--font-mono)",
+                      fontSize: "0.78rem", lineHeight: 1.8 }}
+                  />
                 </div>
               )}
             </div>
@@ -991,10 +1002,14 @@ export default function PDFTestEvaluator({
               {showTranscript && (
                 <div style={{ marginTop: 10, background: "#0d0d0d", border: "1px solid #1e1e1e",
                   borderRadius: 6, padding: "18px 20px" }}>
-                  <pre style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "#666",
-                    lineHeight: 1.8, whiteSpace: "pre-wrap", margin: 0 }}>
-                    {transcript}
-                  </pre>
+                  <textarea
+                    value={transcript}
+                    onChange={e => setTranscript(e.target.value)}
+                    style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "#999",
+                      lineHeight: 1.8, whiteSpace: "pre-wrap", margin: 0, width: "100%",
+                      background: "transparent", border: "none", outline: "none",
+                      resize: "vertical", minHeight: 180 }}
+                  />
                 </div>
               )}
             </div>
