@@ -46,7 +46,7 @@ async function renderPage(pdf: any, pageNum: number, scale: number): Promise<HTM
   return canvas;
 }
 
-async function pdfToImages(file: File): Promise<{mapPage: string, answersPage: string}> {
+async function pdfToImages(file: File): Promise<{mapPage: string, cluesPage: string, answersPage: string}> {
   const pdfjsLib = await import("pdfjs-dist");
   pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
     "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -56,13 +56,27 @@ async function pdfToImages(file: File): Promise<{mapPage: string, answersPage: s
   const arrayBuffer = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
 
-  // Map page at scale 1.0
+  // Page 1 = map, pages 2-3 = clues, pages 4+ = student answers
   const mapCanvas = await renderPage(pdf, 1, 1.0);
   const mapPage = mapCanvas.toDataURL("image/jpeg", 0.85).split(",")[1];
 
-  // Combine all answer pages into one tall canvas at scale 0.9
+  // Combine clue pages (2-3) into one image
+  const clueCanvases: HTMLCanvasElement[] = [];
+  for (let i = 2; i <= Math.min(3, pdf.numPages); i++) {
+    clueCanvases.push(await renderPage(pdf, i, 1.0));
+  }
+  const clueHeight = clueCanvases.reduce((s, c) => s + c.height, 0);
+  const clueWidth = Math.max(...clueCanvases.map(c => c.width));
+  const clueCanvas = document.createElement("canvas");
+  clueCanvas.width = clueWidth; clueCanvas.height = clueHeight || 1;
+  const clueCtx = clueCanvas.getContext("2d")!;
+  let cy = 0;
+  for (const c of clueCanvases) { clueCtx.drawImage(c, 0, cy); cy += c.height; }
+  const cluesPage = clueCanvas.toDataURL("image/jpeg", 0.90).split(",")[1];
+
+  // Combine answer pages (4+) into one image
   const answerCanvases: HTMLCanvasElement[] = [];
-  for (let i = 2; i <= pdf.numPages; i++) {
+  for (let i = 4; i <= pdf.numPages; i++) {
     answerCanvases.push(await renderPage(pdf, i, 0.9));
   }
   const totalHeight = answerCanvases.reduce((s, c) => s + c.height, 0);
@@ -75,7 +89,7 @@ async function pdfToImages(file: File): Promise<{mapPage: string, answersPage: s
   for (const c of answerCanvases) { ctx.drawImage(c, 0, y); y += c.height; }
   const answersPage = combined.toDataURL("image/jpeg", 0.82).split(",")[1];
 
-  return { mapPage, answersPage };
+  return { mapPage, cluesPage, answersPage };
 }
 
 // ── score colour helpers ──────────────────────────────────────
@@ -112,7 +126,7 @@ export default function MapEvaluator({
 
     try {
       setProgress(25); setStage("Rendering pages…");
-      const { mapPage, answersPage } = await pdfToImages(file);
+      const { mapPage, cluesPage, answersPage } = await pdfToImages(file);
       setProgress(50); setStage("Analysing map & answers…");
       const resp = await fetch("/api/check-map", {
         method: "POST",
@@ -120,7 +134,7 @@ export default function MapEvaluator({
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ mapPage, answersPage }),
+        body: JSON.stringify({ mapPage, cluesPage, answersPage }),
       });
       setProgress(90);
       const data = await resp.json();

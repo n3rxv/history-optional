@@ -32,13 +32,13 @@ export async function POST(req: NextRequest) {
 
 
     const body = await req.json();
-    const { mapPage, answersPage } = body;
-    if (!mapPage || !answersPage) {
-      return NextResponse.json({ error: "Missing mapPage or answersPage" }, { status: 400 });
+    const { mapPage, cluesPage, answersPage } = body;
+    if (!mapPage || !cluesPage || !answersPage) {
+      return NextResponse.json({ error: "Missing pages" }, { status: 400 });
     }
 
     const [mapRaw, answersRaw] = await Promise.all([
-      askGroq(mapPage, `RESPOND WITH ONLY A JSON ARRAY. NO TEXT BEFORE OR AFTER. NO EXPLANATION.
+      askGroq(cluesPage, `RESPOND WITH ONLY A JSON ARRAY. NO TEXT BEFORE OR AFTER. NO EXPLANATION.
 This image shows a map of India with numbered dots and clues listed beside/below the map.
 Extract every dot: number (roman numeral lowercase), clue (exact text), region (state on map).
 START YOUR RESPONSE WITH [ AND END WITH ]. NOTHING ELSE.
