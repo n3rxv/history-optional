@@ -61,6 +61,7 @@ export default function MapEvaluator({
   const [results, setResults] = useState<MapEvalResponse | null>(null);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const dropRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = useCallback((incoming: FileList | File[]) => {
     const arr = Array.from(incoming).filter(
@@ -282,9 +283,9 @@ export default function MapEvaluator({
             border:"1.5px dashed #2a2a2a", borderRadius:8, padding:"28px 20px",
             textAlign:"center", background:"#090909", cursor:"pointer", transition:"border-color 0.15s",
           }}
-          onClick={() => document.getElementById("map-file-input")?.click()}
+          onClick={() => fileInputRef.current?.click()}
         >
-          <input id="map-file-input" type="file" multiple accept="image/*,application/pdf" style={{ display:"none" }}
+          <input ref={fileInputRef} type="file" multiple accept="image/*,application/pdf" style={{ display:"none" }}
             onChange={(e) => e.target.files && addFiles(e.target.files)} />
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="1.4" strokeLinecap="round" style={{ margin:"0 auto 10px" }}>
             <rect x="3" y="3" width="18" height="18" rx="2"/>
