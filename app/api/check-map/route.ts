@@ -62,8 +62,10 @@ Example: [{"number":"i","site_name":"Burzahom","state":"Kashmir"}]`),
 
     let dots: any[] = [];
     let studentAnswers: any[] = [];
-    try { dots = JSON.parse(mapRaw.replace(/```json|```/g, "").trim()); } catch {}
-    try { studentAnswers = JSON.parse(answersRaw.replace(/```json|```/g, "").trim()); } catch {}
+    console.log("[check-map] mapRaw:", mapRaw.slice(0, 500));
+    console.log("[check-map] answersRaw:", answersRaw.slice(0, 500));
+    try { dots = JSON.parse(mapRaw.replace(/```json|```/g, "").trim()); } catch (e) { console.log("[check-map] dots parse error:", e); }
+    try { studentAnswers = JSON.parse(answersRaw.replace(/```json|```/g, "").trim()); } catch (e) { console.log("[check-map] answers parse error:", e); }
 
     if (!dots.length) {
       return NextResponse.json({ error: "Could not read map dots — try a clearer scan" }, { status: 422 });
