@@ -243,7 +243,7 @@ export default function MapEvaluator({
         onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}
         onDragOver={e => { e.preventDefault(); setDrag(true); }}
         onDragLeave={() => setDrag(false)}
-        onClick={() => inputRef.current?.click()}
+        onClick={() => { if (!isPremium) { onPaywall(); return; } inputRef.current?.click(); }}
         style={{
           border: drag ? "1.5px dashed #6366f188" : file ? "1.5px solid #6366f144" : "1.5px dashed #1e1e1e",
           borderRadius:12, padding: file ? "16px 18px" : "32px 18px",
