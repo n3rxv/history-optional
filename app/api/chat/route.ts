@@ -263,7 +263,7 @@ export async function POST(req: NextRequest) {
       const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
       return anthropic.messages.create({
         model,
-        max_tokens: 2500,
+        max_tokens: 3500,
         ...(systemPrompt ? { system: systemPrompt } : {}),
         messages: messages.map((m: any) => ({ role: m.role, content: m.content })),
       });
