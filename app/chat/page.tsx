@@ -300,11 +300,8 @@ function DownloadPDFButton({ content, question }: { content: string; question?: 
         .replace(/^# (.+)$/gm, '<h1 style="font-size:17px;margin:18px 0 8px;color:#1a1a1a;">$1</h1>')
         .replace(/^ *[-*•] (.+)$/gm, '<div style="margin:3px 0 3px 16px;">• $1</div>')
         .replace(/^ *\d+[.)]\s+(.+)$/gm, '<div style="margin:3px 0 3px 16px;">$1</div>')
-        .replace(/
-
-/g, '<div style="height:10px"></div>')
-        .replace(/
-/g, '<br/>');
+        .replace(/\n\n/g, '<div style="height:10px"></div>')
+        .replace(/\n/g, '<br/>');
       bodyEl.innerHTML = html;
       container.appendChild(bodyEl);
 
