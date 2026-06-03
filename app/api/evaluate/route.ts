@@ -893,9 +893,11 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: pass3Prompt }],
         temperature: 0.2,
-        max_tokens: 2000,
+        max_tokens: 3000,
       });
       pass3Raw = pass3Raw.replace(/```json|```/g, "").trim();
+      const p3start = pass3Raw.indexOf("{"); const p3end = pass3Raw.lastIndexOf("}");
+      if (p3start !== -1 && p3end !== -1) pass3Raw = pass3Raw.slice(p3start, p3end + 1);
       const pass3 = JSON.parse(pass3Raw);
 
       // Merge Pass 3 rich feedback into evaluation
@@ -937,6 +939,8 @@ RULES:
           max_tokens: 4500,
         });
         pass4Raw = pass4Raw.replace(/```json|```/g, "").trim();
+        const p4start = pass4Raw.indexOf("{"); const p4end = pass4Raw.lastIndexOf("}");
+        if (p4start !== -1 && p4end !== -1) pass4Raw = pass4Raw.slice(p4start, p4end + 1);
         const pass4 = JSON.parse(pass4Raw);
         if (pass4.model_answer) {
           evaluation.model_answer = pass4.model_answer;
