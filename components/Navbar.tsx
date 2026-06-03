@@ -27,7 +27,7 @@ const FEATURES = [
   { name: 'PYQ bank',                    free: '✓ free',   premium: '✓'          },
   { name: 'Timeline & Historiography',   free: '✓ free',   premium: '✓'          },
   { name: 'Answer evaluation',           free: '1/week',   premium: 'Unlimited'  },
-  { name: 'AI Chat',                     free: '5/month',  premium: 'Unlimited'  },
+  { name: 'AI Chat',                     free: '3/month',  premium: 'Unlimited'  },
   { name: 'Model answers',               free: '—',        premium: '✓'          },
 ];
 
