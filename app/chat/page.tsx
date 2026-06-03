@@ -278,8 +278,55 @@ function DownloadPDFButton({ content, question }: { content: string; question?: 
   const [downloading, setDownloading] = useState(false);
   const handleClick = async () => {
     setDownloading(true);
-    try { await downloadAnswerAsPDF(content, question); }
-    catch (e) { alert('PDF generation failed.'); }
+    try {
+      const html2pdf = (await import('html2pdf.js')).default;
+      const container = document.createElement('div');
+      container.style.cssText = 'font-family: Georgia, serif; font-size: 13px; line-height: 1.8; color: #111; padding: 32px; max-width: 680px; margin: 0 auto;';
+
+      if (question) {
+        const qEl = document.createElement('div');
+        qEl.style.cssText = 'font-size: 11px; color: #555; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid #ccc; font-family: monospace; letter-spacing: 0.03em;';
+        qEl.textContent = 'Q: ' + question;
+        container.appendChild(qEl);
+      }
+
+      const bodyEl = document.createElement('div');
+      // Convert markdown to basic HTML for PDF
+      let html = content
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/^### (.+)$/gm, '<h3 style="font-size:14px;margin:14px 0 4px;color:#1a1a1a;">$1</h3>')
+        .replace(/^## (.+)$/gm, '<h2 style="font-size:15px;margin:16px 0 6px;color:#1a1a1a;">$1</h2>')
+        .replace(/^# (.+)$/gm, '<h1 style="font-size:17px;margin:18px 0 8px;color:#1a1a1a;">$1</h1>')
+        .replace(/^ *[-*•] (.+)$/gm, '<div style="margin:3px 0 3px 16px;">• $1</div>')
+        .replace(/^ *\d+[.)]\s+(.+)$/gm, '<div style="margin:3px 0 3px 16px;">$1</div>')
+        .replace(/
+
+/g, '<div style="height:10px"></div>')
+        .replace(/
+/g, '<br/>');
+      bodyEl.innerHTML = html;
+      container.appendChild(bodyEl);
+
+      const footer = document.createElement('div');
+      footer.style.cssText = 'margin-top: 28px; padding-top: 10px; border-top: 1px solid #ddd; font-size: 10px; color: #888; font-family: monospace; text-align: center;';
+      footer.textContent = 'historyoptional.xyz — AI History Assistant';
+      container.appendChild(footer);
+
+      // PDF filename = question (trimmed) + (historyoptional.xyz).pdf
+      const rawName = question ? question.trim().replace(/[\\/:*?"<>|]/g, '').slice(0, 80) : 'Answer';
+      const fileName = rawName + ' (historyoptional.xyz).pdf';
+
+      await html2pdf().set({
+        margin: [14, 14, 14, 14],
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      }).from(container).save();
+    }
+    catch (e) { console.error(e); alert('PDF generation failed.'); }
     finally { setDownloading(false); }
   };
   return (
