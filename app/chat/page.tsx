@@ -904,6 +904,7 @@ Every response must:
                 <option value="Ranbir Chakravarti — Exploring Early India">Ranbir Chakravarti — Exploring Early India</option>
                 <option value="RC Majumdar — Ancient India">RC Majumdar — Ancient India</option>
                 <option value="DN Jha — Ancient India in Historical Outline">DN Jha — Ancient India in Historical Outline</option>
+                <option value="David Thomson — Europe Since Napoleon">David Thomson — Europe Since Napoleon</option>
               </select>
             )}
           </div>
