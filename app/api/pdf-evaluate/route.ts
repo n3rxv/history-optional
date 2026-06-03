@@ -120,7 +120,7 @@ RULES:
               { inline_data: { mime_type: "application/pdf", data: pdfBase64 } }
             ]
           }],
-          generationConfig: { temperature: 0.1, maxOutputTokens: 32000 }
+          generationConfig: { temperature: 0.1, maxOutputTokens: 8192 }
         })
       }
     );
@@ -135,7 +135,16 @@ RULES:
   const clean = raw.replace(/```json\s*/gi,"").replace(/```/g,"").trim();
  
   let segments: QuestionSegment[] = [];
-  try { segments = JSON.parse(clean); } catch { return []; }
+  try {
+    segments = JSON.parse(clean);
+  } catch {
+    // Try to repair truncated JSON by finding last complete object
+    const lastComplete = Math.max(clean.lastIndexOf('},'), clean.lastIndexOf('}]'));
+    if (lastComplete > 0) {
+      const repaired = clean.slice(0, lastComplete + 1) + (clean[lastComplete + 1] === ']' ? ']' : ']');
+      try { segments = JSON.parse(repaired); } catch { return []; }
+    } else { return []; }
+  }
  
   return segments.map(seg => {
     if (seg.marks && seg.marks > 0) return seg;
@@ -170,10 +179,15 @@ async function evaluateOneQuestion(
   });
  
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: "Evaluation failed" }));
-    throw new Error(err.error ?? "Evaluation failed");
+    const text = await res.text();
+    let errMsg = "Evaluation failed";
+    try { errMsg = JSON.parse(text).error ?? errMsg; } catch { errMsg = text.slice(0, 100); }
+    throw new Error(errMsg);
   }
-  return await res.json();
+  const text = await res.text();
+  try { return JSON.parse(text); } catch {
+    throw new Error("Invalid JSON from evaluate API");
+  }
 }
  
 // ─── Main handler ─────────────────────────────────────────────────────────────
