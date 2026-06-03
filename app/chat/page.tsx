@@ -902,6 +902,7 @@ Every response must:
                 <option value="KA Nilakanta Sastri — A History of South India">KA Nilakanta Sastri — A History of South India</option>
                 <option value="Vipul Singh — Interpreting Medieval India">Vipul Singh — Interpreting Medieval India</option>
                 <option value="Ranbir Chakravarti — Exploring Early India">Ranbir Chakravarti — Exploring Early India</option>
+                <option value="RC Majumdar — Ancient India">RC Majumdar — Ancient India</option>
               </select>
             )}
           </div>
