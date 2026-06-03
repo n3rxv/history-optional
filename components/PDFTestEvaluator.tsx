@@ -533,21 +533,43 @@ export default function PDFTestEvaluator({
         r.readAsDataURL(file);
       });
       setEvalProgress(20);
-      setStepLabel("Extracting handwriting…");
-      const ocrFd = new FormData();
-      ocrFd.append("pdf", new Blob([Uint8Array.from(atob(base64), c => c.charCodeAt(0))], { type: "application/pdf" }), "upload.pdf");
-      const ocrRes = await fetch("/api/ocr-pdf", {
-        method: "POST",
-        headers: { "x-user-token": token ?? "" },
-        body: ocrFd,
-      });
-      if (!ocrRes.ok) {
-        let errDetail = `HTTP ${ocrRes.status}`;
-        try { const e = await ocrRes.json(); if (e.error) errDetail = e.error; } catch {}
-        throw new Error(`OCR failed: ${errDetail}`);
+      const pdfjs2 = await import("pdfjs-dist");
+      pdfjs2.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.mjs", import.meta.url).toString();
+      const ab2 = await file.arrayBuffer();
+      const pdf2 = await pdfjs2.getDocument({ data: ab2 }).promise;
+      const BATCH = 8;
+      const total = pdf2.numPages;
+      const batches = Math.ceil(total / BATCH);
+      let ocrText = "";
+      for (let b = 0; b < batches; b++) {
+        const start = b * BATCH + 1;
+        const end = Math.min((b + 1) * BATCH, total);
+        setStepLabel(`Extracting handwriting… pages ${start}–${end} of ${total}`);
+        const fd = new FormData();
+        for (let i = start; i <= end; i++) {
+          const pg = await pdf2.getPage(i);
+          const vp = pg.getViewport({ scale: 1.5 });
+          const cv = document.createElement("canvas");
+          cv.width = vp.width; cv.height = vp.height;
+          await pg.render({ canvasContext: cv.getContext("2d")!, viewport: vp } as any).promise;
+          const imgB64 = cv.toDataURL("image/jpeg", 0.85).split(",")[1];
+          const blob = new Blob([Uint8Array.from(atob(imgB64), c => c.charCodeAt(0))], { type: "image/jpeg" });
+          fd.append("files", blob, `page-${i}.jpg`);
+        }
+        const bRes = await fetch("/api/ocr?mode=pdf", {
+          method: "POST",
+          headers: { "x-user-token": token ?? "" },
+          body: fd,
+        });
+        if (!bRes.ok) {
+          const e = await bRes.json().catch(() => ({}));
+          throw new Error(`OCR failed on batch ${b + 1}: ${e.error ?? bRes.status}`);
+        }
+        const bData = await bRes.json();
+        if (bData.text) ocrText += (ocrText ? "\n\n" : "") + bData.text;
+        setEvalProgress(20 + Math.round(((b + 1) / batches) * 35));
+        if (b < batches - 1) await new Promise(r => setTimeout(r, 500));
       }
-      const ocrData = await ocrRes.json();
-      const ocrText = ocrData.text || "";
       setTranscript(ocrText);
       setEvalProgress(55);
             if (!ocrText.trim()) {
