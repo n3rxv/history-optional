@@ -104,8 +104,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     );
     const filter = (bookTitle && bookTitle !== "all") ? bookTitle : null;
 
-    // Step 1: Expand query into multiple sub-queries
-    const queries = await // Step 1 (optimized): Single embedding, no query expansion
+    // Step 1 (optimized): Single embedding, no query expansion
     const [singleEmbedding] = await jinaEmbedBatch([query]);
 
     // Step 2: Search
@@ -264,7 +263,7 @@ export async function POST(req: NextRequest) {
       const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
       return anthropic.messages.create({
         model,
-        max_tokens: 4000,
+        max_tokens: 1500,
         ...(systemPrompt ? { system: systemPrompt } : {}),
         messages: messages.map((m: any) => ({ role: m.role, content: m.content })),
       });
