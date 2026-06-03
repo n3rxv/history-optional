@@ -14,14 +14,7 @@ export interface AnswerKeyEntry {
   correctLocation: string | null;
   confidence: number;
   candidates: string[];
-}
-
-function clueSimilarity(a: string, b: string): number {
-  const wordsA = a.toLowerCase().replace(/[^a-z0-9 ]/g, "").split(/\s+/).filter(w => w.length > 3);
-  const wordsB = b.toLowerCase().replace(/[^a-z0-9 ]/g, "").split(/\s+/).filter(w => w.length > 3);
-  if (!wordsA.length || !wordsB.length) return 0;
-  const matches = wordsA.filter(w => wordsB.includes(w)).length;
-  return matches / Math.max(wordsA.length, wordsB.length);
+  approxCoords: { lat: number; lon: number } | null;
 }
 
 // Geographic distance in degrees (approx)
@@ -38,81 +31,83 @@ export function buildAnswerKey(
   return dots.map(dot => {
     const coords = coordMap?.[dot.number] ?? null;
 
-    // Priority 1 — mapData: clue similarity + optional coordinate filtering
-    let bestMapMatch: typeof mapData[0] | null = null;
-    let bestMapScore = 0;
+    // ── Strategy: coords are ALWAYS the primary signal ──────────────────────
+    // If we have coordinates, find the nearest site in bookData + mapData
+    // that also loosely matches the clue. Coords alone break ties.
 
-    for (const entry of mapData) {
-      const clueScore = clueSimilarity(dot.clue, entry.hint);
-      if (clueScore < 0.3) continue; // skip weak clue matches entirely
+    if (coords) {
+      // Step 1 — find all mapData entries within 4° radius
+      const mapCandidates = mapData
+        .map(entry => ({
+          entry,
+          dist: geoDistance(coords.lat, coords.lon, entry.lat, entry.lng),
+        }))
+        .filter(c => c.dist <= 4)
+        .sort((a, b) => a.dist - b.dist);
 
-      let finalScore = clueScore;
-
-      // If we have coordinates, boost score for geographically close entries
-      // and penalise far ones — this is the key fix
-      if (coords && entry.lat && entry.lng) {
-        const dist = geoDistance(coords.lat, coords.lon, entry.lat, entry.lng);
-        if (dist <= 3) {
-          finalScore += 0.4; // strong boost for very close match
-        } else if (dist <= 6) {
-          finalScore += 0.2; // moderate boost
-        } else if (dist > 10) {
-          finalScore -= 0.3; // penalise geographically far entries
-        }
+      if (mapCandidates.length > 0) {
+        // Pick closest mapData match — coords are primary, clue is just a label
+        const best = mapCandidates[0];
+        return {
+          number: dot.number,
+          clue: dot.clue,
+          correctSite: best.entry.answer,
+          correctLocation: `${best.entry.answer} (~${best.entry.lat}°N, ${best.entry.lng}°E)`,
+          confidence: Math.max(0.85 - best.dist * 0.1, 0.5),
+          candidates: mapCandidates.slice(1, 4).map(c => c.entry.answer),
+          approxCoords: coords,
+        };
       }
 
-      if (finalScore > bestMapScore) {
-        bestMapScore = finalScore;
-        bestMapMatch = entry;
-      }
-    }
+      // Step 2 — fall back to bookData within 4° radius
+      const bookCandidates = allBookSites
+        .filter(site => site.lat != null && site.lng != null)
+        .map(site => ({
+          site,
+          dist: geoDistance(coords.lat, coords.lon, site.lat!, site.lng!),
+        }))
+        .filter(c => c.dist <= 4)
+        .sort((a, b) => a.dist - b.dist);
 
-    if (bestMapScore >= 0.4 && bestMapMatch) {
-      return {
-        number: dot.number,
-        clue: dot.clue,
-        correctSite: bestMapMatch.answer,
-        correctLocation: `${bestMapMatch.answer} (~${bestMapMatch.lat}°N, ${bestMapMatch.lng}°E)`,
-        confidence: Math.min(bestMapScore, 1),
-        candidates: [],
-      };
-    }
-
-    // Priority 2 — bookData: clue vs majorAspect + coordinate filtering
-    let bestBookMatch: typeof allBookSites[0] | null = null;
-    let bestBookScore = 0;
-
-    for (const site of allBookSites) {
-      const aspectScore = clueSimilarity(dot.clue, site.majorAspect);
-      const nameScore = clueSimilarity(dot.clue, site.name);
-      const score = Math.max(aspectScore, nameScore);
-      if (score < 0.25) continue;
-
-      if (score > bestBookScore) {
-        bestBookScore = score;
-        bestBookMatch = site;
+      if (bookCandidates.length > 0) {
+        const best = bookCandidates[0];
+        return {
+          number: dot.number,
+          clue: dot.clue,
+          correctSite: best.site.name,
+          correctLocation: best.site.location,
+          confidence: Math.max(0.75 - best.dist * 0.1, 0.4),
+          candidates: bookCandidates.slice(1, 4).map(c => c.site.name),
+          approxCoords: coords,
+        };
       }
     }
 
-    if (bestBookScore >= 0.3 && bestBookMatch) {
-      return {
-        number: dot.number,
-        clue: dot.clue,
-        correctSite: bestBookMatch.name,
-        correctLocation: bestBookMatch.location,
-        confidence: bestBookScore,
-        candidates: [],
-      };
+    // ── No coords OR nothing found within 4° — pass everything to Groq ──────
+    // Groq will use clue + coords + candidates to identify the site.
+    // We still pass nearby candidates from a wider 8° search as hints.
+
+    const widenedCandidates: string[] = [];
+
+    if (coords) {
+      const wider = allBookSites
+        .filter(s => s.lat != null && s.lng != null)
+        .map(s => ({ name: s.name, dist: geoDistance(coords.lat, coords.lon, s.lat!, s.lng!) }))
+        .filter(c => c.dist <= 8)
+        .sort((a, b) => a.dist - b.dist)
+        .slice(0, 6)
+        .map(c => c.name);
+      widenedCandidates.push(...wider);
     }
 
-    // Priority 3 — let Groq figure it out from clue + coordinates
     return {
       number: dot.number,
       clue: dot.clue,
       correctSite: null,
       correctLocation: dot.region,
       confidence: 0,
-      candidates: [],
+      candidates: widenedCandidates,
+      approxCoords: coords,
     };
   });
 }
