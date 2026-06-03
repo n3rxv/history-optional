@@ -29,7 +29,7 @@ const allBookSites = bookData.flatMap(chapter => chapter.sites);
 
 export function buildAnswerKey(dots: DotFromMap[]): AnswerKeyEntry[] {
   return dots.map(dot => {
-    // Priority 1 — mapData: match by clue similarity (has exact UPSC hints)
+    // Priority 1 — mapData: match by clue similarity (has exact UPSC hints + lat/lng)
     let bestMapMatch: typeof mapData[0] | null = null;
     let bestMapScore = 0;
     for (const entry of mapData) {
@@ -45,7 +45,8 @@ export function buildAnswerKey(dots: DotFromMap[]): AnswerKeyEntry[] {
         number: dot.number,
         clue: dot.clue,
         correctSite: bestMapMatch.answer,
-        correctLocation: dot.region,
+        // Use precise lat/lng from mapData as location context for Groq
+        correctLocation: `${bestMapMatch.answer} (~${bestMapMatch.lat}°N, ${bestMapMatch.lng}°E)`,
         confidence: bestMapScore,
         candidates: [],
       };
@@ -55,9 +56,7 @@ export function buildAnswerKey(dots: DotFromMap[]): AnswerKeyEntry[] {
     let bestBookMatch: typeof allBookSites[0] | null = null;
     let bestBookScore = 0;
     for (const site of allBookSites) {
-      // Check clue against site name
       const nameScore = clueSimilarity(dot.clue, site.name);
-      // Check clue against majorAspect description
       const aspectScore = clueSimilarity(dot.clue, site.majorAspect);
       const score = Math.max(nameScore, aspectScore);
       if (score > bestBookScore) {
@@ -71,13 +70,14 @@ export function buildAnswerKey(dots: DotFromMap[]): AnswerKeyEntry[] {
         number: dot.number,
         clue: dot.clue,
         correctSite: bestBookMatch.name,
-        correctLocation: dot.region,
+        // Use location string from bookData — Groq can reason geographically from this
+        correctLocation: bestBookMatch.location,
         confidence: bestBookScore,
         candidates: [],
       };
     }
 
-    // Priority 3 — no match found, let Groq figure it out from clue + coords
+    // Priority 3 — no match, let Groq figure it out from clue + dot coordinates alone
     return {
       number: dot.number,
       clue: dot.clue,
