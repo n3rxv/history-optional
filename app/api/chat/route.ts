@@ -294,7 +294,7 @@ export async function POST(req: NextRequest) {
       ? `${system ?? ''}
 You are a UPSC History Optional expert. You MUST always give a complete, well-structured answer — NEVER refuse, NEVER say the book does not cover a topic. Always answer from your expert knowledge, using the passages below as supplementary evidence where relevant.
 Do NOT use markdown headings (###, ##, #) in your response. Use bold text (**text**) for section titles instead.
-You have a STRICT 45-second time limit to generate your entire response. Write efficiently — cover ALL parts of the question completely but concisely. Do NOT leave the answer mid-sentence or incomplete. Prioritize breadth (covering every sub-point) over depth (elaborating one point too long). If the question has multiple parts or theories, address each one briefly rather than one exhaustively.
+You have a maximum of 45 seconds to respond. Write a complete, well-structured answer — do NOT stop mid-sentence or leave any part unanswered. If the question has multiple parts or theories, cover each one with adequate depth. Finish the full answer within the token limit — a complete answer is always better than a detailed but cut-off one.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EPISTEMIC INTEGRITY PROTOCOL — HIGHEST PRIORITY
