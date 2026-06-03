@@ -519,8 +519,7 @@ export async function POST(req: NextRequest) {
         const msgs = (b.messages as any[]) ?? [];
         const trimmed = msgs.map((m: any) => {
           if (m.role === "assistant" && typeof m.content === "string" && m.content.length > 3000) {
-            return { ...m, content: m.content.slice(0, 3000) + "
-[trimmed for length]" };
+            return { ...m, content: m.content.slice(0, 3000) + "\n[trimmed for length]" };
           }
           return m;
         });
