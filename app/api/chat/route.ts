@@ -105,13 +105,10 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     const filter = (bookTitle && bookTitle !== "all") ? bookTitle : null;
 
     // Step 1: Expand query into multiple sub-queries
-    const queries = await expandQuery(query);
-    console.log('Expanded queries:', queries);
+    const queries = await // Step 1 (optimized): Single embedding, no query expansion
+    const [singleEmbedding] = await jinaEmbedBatch([query]);
 
-    // Step 2: Embed all queries in one batch call
-    const embeddings = await jinaEmbedBatch(queries);
-
-    // Step 3: Search strategy depends on mode
+    // Step 2: Search
     let results;
     if (!filter) {
       // All Books mode: get top 3 per book to ensure diversity
@@ -120,26 +117,23 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
         .select('book_title')
         .limit(1000);
       const books = [...new Set((bookList ?? []).map((r: any) => r.book_title))];
-      const perBookPromises = books.flatMap(book =>
-        embeddings.map(embedding =>
-          supabase.rpc('match_book_chunks', {
-            query_embedding: embedding,
-            match_count: 3,
-            filter_book: book,
-          })
-        )
+      const perBookPromises = books.map(book =>
+        supabase.rpc('match_book_chunks', {
+          query_embedding: singleEmbedding,
+          match_count: 3,
+          filter_book: book,
+        })
       );
       results = await Promise.all(perBookPromises);
     } else {
-      // Single book mode: search normally
-      const searchPromises = embeddings.map(embedding =>
+      // Single book mode
+      results = await Promise.all([
         supabase.rpc('match_book_chunks', {
-          query_embedding: embedding,
-          match_count: 10,
+          query_embedding: singleEmbedding,
+          match_count: 12,
           filter_book: filter,
         })
-      );
-      results = await Promise.all(searchPromises);
+      ]);
     }
 
     // Step 4: Merge + deduplicate by id
@@ -159,7 +153,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     // Step 4b: Filter low-similarity chunks before reranking
     // (similarity < 0.5 means book likely doesn't cover this topic)
     const filtered = allChunks.filter((c: any) => (c.similarity ?? 1) > 0.45);
-    const chunksToRerank = filtered.length >= 3 ? filtered : allChunks;
+    const chunksToRerank = (filtered.length >= 3 ? filtered : allChunks).slice(0, 12);
     console.log(`Chunks before filter: ${allChunks.length}, after: ${chunksToRerank.length}`);
 
     // Step 5: Rerank by true relevance
