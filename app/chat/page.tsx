@@ -908,7 +908,7 @@ Every response must:
               <div style={{ fontSize:'2rem', marginBottom:'0.5rem' }}>📚</div>
               <div style={{ fontSize:'1.1rem', fontWeight:700, color:'var(--text1)', marginBottom:'0.4rem' }}>Chat with Books</div>
               <div style={{ fontSize:'0.85rem', color:'var(--text2)', marginBottom:'1.25rem', lineHeight:1.5 }}>
-                Get answers grounded in 23 standard History Optional reference books — IGNOU modules, Bipin Chandra, Satish Chandra, Upinder Singh, and more.<br/><br/>
+                Get answers grounded in 20+ standard History Optional reference books — IGNOU modules, Bipin Chandra, Satish Chandra, Upinder Singh, and more.<br/><br/>
                 <span style={{ color:'#818cf8' }}>✦ Premium feature</span>
               </div>
               <button
