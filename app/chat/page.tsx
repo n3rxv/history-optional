@@ -895,6 +895,7 @@ Every response must:
                 <option value="Satish Chandra - Medieval India Part 2 (1526-1748)">Satish Chandra - Medieval India Part 2 (1526-1748)</option>
                 <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
                 <option value="Ajeet Jha — A History of Ancient India">Ajeet Jha — A History of Ancient India</option>
+                <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
               </select>
             )}
           </div>
