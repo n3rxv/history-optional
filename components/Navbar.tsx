@@ -297,7 +297,9 @@ export default function Navbar() {
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                 </svg>
                 {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                  <span style={{ position:'absolute', top:4, right:4, width:7, height:7, borderRadius:'50%', background:'#f87171', border:'1.5px solid #000' }} />
+                  <span style={{ position:'absolute', top:-4, right:-4, minWidth:16, height:16, borderRadius:8, background:'#f87171', border:'1.5px solid #000', fontSize:'0.6rem', fontWeight:700, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', padding:'0 4px', fontFamily:'var(--font-mono)' }}>
+                    {notifications.filter(n => !seenIds.includes(n.id)).length > 9 ? '9+' : notifications.filter(n => !seenIds.includes(n.id)).length}
+                  </span>
                 )}
               </button>
               {bellOpen && (
