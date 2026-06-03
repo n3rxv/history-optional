@@ -122,7 +122,22 @@ Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found he
       const stripped = raw.replace(/```json|```/g, "").trim();
       const start = stripped.indexOf("[") !== -1 ? stripped.indexOf("[") : stripped.indexOf("{");
       const end = stripped.lastIndexOf("]") !== -1 ? stripped.lastIndexOf("]") : stripped.lastIndexOf("}");
-      return start !== -1 && end !== -1 ? stripped.slice(start, end + 1).trim() : stripped;
+      if (start === -1 || end === -1 || end <= start) return stripped;
+      let json = stripped.slice(start, end + 1).trim();
+      try {
+        JSON.parse(json);
+        return json;
+      } catch {
+        const lastComplete = Math.max(
+          json.lastIndexOf("},"),
+          json.lastIndexOf("}]")
+        );
+        if (lastComplete > 0) {
+          const trimmed = json.slice(0, lastComplete + 1);
+          return trimmed.endsWith("]") ? trimmed : trimmed + "]";
+        }
+        return json;
+      }
     }
 
     try { dots = JSON.parse(cleanJson(mapRaw)); }
