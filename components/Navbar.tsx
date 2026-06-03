@@ -53,7 +53,7 @@ function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound
       onClick={onClose}
     >
       <div
-        style={{ background: '#0e0e0e', border: '1px solid #1e1e1e', borderRadius: 16, padding: '1.5rem', maxWidth: 560, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)' }}
+        style={{ background: '#0e0e0e', border: '1px solid #1e1e1e', borderRadius: 16, padding: '1.5rem', maxWidth: 560, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)', maxHeight: '90vh', overflowY: 'auto' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
