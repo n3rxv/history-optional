@@ -71,7 +71,7 @@ export default function MapEvaluator({
       for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
       const pdfBase64 = btoa(binary);
 
-      setProgress(30); setStage("Sending to Claude…");
+      setProgress(30); setStage("Sending to Map Evaluator…");
 
       const resp = await fetch("/api/check-map", {
         method: "POST",
