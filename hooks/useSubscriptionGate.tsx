@@ -202,10 +202,15 @@ function LimitModal({
 
             {/* Features */}
             <div style={{ marginBottom:16 }}>
-              <div style={{ fontSize:'0.82rem', color:'#aaa', marginBottom:6 }}>✓ Unlimited answer evaluations</div>
-              <div style={{ fontSize:'0.82rem', color:'#aaa', marginBottom:6 }}>✓ Unlimited AI chat every day</div>
-              <div style={{ fontSize:'0.82rem', color:'#aaa' }}>✓ All model answers & feedback</div>
-              <div style={{ fontSize:'0.82rem', color:'#aaa' }}>✓ Prelims Smart Analysis included</div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'4px 12px' }}>
+                <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Unlimited answer evals</div>
+                <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Unlimited AI chat</div>
+                <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Map evaluation</div>
+                <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ FLT / Full paper eval</div>
+                <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Chat with Books</div>
+                <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Model answers</div>
+                <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Prelims Smart Analysis</div>
+              </div>
             </div>
 
             {/* Sign in context if not logged in */}
