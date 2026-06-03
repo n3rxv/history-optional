@@ -417,13 +417,19 @@ ${ragContext}`
     );
 
     // Routing:
-    // bookMode ON  → Sonnet 4.6 (RAG quality matters)
-    // bookMode OFF, MCQ → Haiku 4.5 (fast + accurate)
-    // bookMode OFF, normal → Groq Qwen3-32B (free, subscription)
+    // bookMode ON  → Sonnet 4.6 (Anthropic — RAG quality)
+    // bookMode OFF → Groq Qwen3-32B (subscription — MCQ + normal chat)
     let text: string;
 
-    if (!bookMode && !isMCQ) {
-      // Normal chat — Groq Qwen3
+    if (bookMode) {
+      // Book mode → Anthropic Sonnet 4.6
+      const anthropicResponse = await anthropicCall('claude-sonnet-4-6', ragSystem);
+      const raw = anthropicResponse.content?.[0]?.type === 'text'
+        ? anthropicResponse.content[0].text
+        : 'No response';
+      text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    } else {
+      // Normal chat + MCQ → Groq Qwen3
       const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -442,14 +448,6 @@ ${ragContext}`
       const groqData = await groqRes.json();
       const groqRaw = groqData.choices?.[0]?.message?.content || 'No response';
       text = groqRaw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-    } else {
-      // Book mode or MCQ → Anthropic
-      const primaryModel = isMCQ ? 'claude-haiku-4-5-20251001' : 'claude-sonnet-4-6';
-      const anthropicResponse = await anthropicCall(primaryModel, ragSystem);
-      const raw = anthropicResponse.content?.[0]?.type === 'text'
-        ? anthropicResponse.content[0].text
-        : 'No response';
-      text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     }
     return NextResponse.json({ content: [{ text }], sources: ragSources });
   } catch {
