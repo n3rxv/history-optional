@@ -1,6 +1,7 @@
 export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
 import { createServerClient } from "@/lib/supabase";
 
 
@@ -531,44 +532,25 @@ export async function POST(req: NextRequest) {
       return res;
     };
 
-    // ── PASS 0.5: Generate reference answer (internal, never shown to user) ──
-    // Runs before evaluation so Pass 1 can judge the student's answer
-    // against what a strong answer actually looks like.
-    let referenceAnswer = "";
-    try {
-      const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
-      const refRes = await callWithFallback({
-        model: "qwen/qwen3-32b",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          {
-            role: "user",
-            content: `Generate a strong internal reference answer for this UPSC History Optional question. This will be used only to calibrate evaluation — it will NOT be shown to the student.
+    // ── Helper: Anthropic Haiku call ─────────────────────────────
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
 
-Question: ${question} (${marks} marks)
-
-Write a complete model answer as flowing prose:
-- Introduction (2-3 sentences): Opens with a historiographical debate, names at least one modern historian with their specific thesis, previews the argument.
-- Body (${refBulletCount} points): Each point must have a named modern historian + their specific argument + specific evidence (inscription/text/policy/date) + analytical link to the question.
-- Conclusion (2-3 sentences): Takes a clear historiographical position, resolves the intro tension, no new material.
-
-Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be specific — name real historians with real arguments. No generic statements.`,
-          },
-        ],
-        temperature: 0.3,
-        max_tokens: 1500,
+    const anthropicCall = async (params: {
+      system: string;
+      messages: { role: "user" | "assistant"; content: string }[];
+      temperature?: number;
+      max_tokens?: number;
+    }) => {
+      const msg = await anthropic.messages.create({
+        model: "claude-haiku-4-5",
+        max_tokens: params.max_tokens ?? 1000,
+        temperature: params.temperature ?? 0.1,
+        system: params.system,
+        messages: params.messages,
       });
-
-      if (refRes.ok) {
-        const refData = await refRes.json();
-        referenceAnswer = refData.choices?.[0]?.message?.content?.trim() || "";
-        console.log("Pass 0.5 reference answer generated:", referenceAnswer.slice(0, 200));
-      } else {
-        console.log("Pass 0.5 skipped (rate limited or failed) — evaluating without reference");
-      }
-    } catch (refErr) {
-      console.log("Pass 0.5 error (non-fatal):", refErr);
-    }
+      const text = msg.content.filter((b: { type: string }) => b.type === "text").map((b: { type: string; text?: string }) => (b as { type: string; text: string }).text).join("\n");
+      return text;
+    };
 
     // Brief pause before OCR
     await new Promise(res => setTimeout(res, 500));
@@ -762,33 +744,19 @@ Each YES = ${presMax === "1.5" ? "0.5" : "1"}M. Total checked = PRESENTATION MAR
 INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
 → TOTAL: [write number] out of ${marks}`;
 
-    const cotRes = await callWithFallback({
-        model: "meta-llama/llama-4-scout-17b-16e-instruct",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          {
-            role: "user",
-            content: finalTranscript
-              ? cotPrompt
-              : [
-                  ...imageContents,
-                  { type: "text" as const, text: cotPrompt },
-                ],
-          },
-        ],
+    let cotReasoning: string;
+    try {
+      cotReasoning = await anthropicCall({
+        system: SYSTEM_PROMPT,
+        messages: [{ role: "user", content: finalTranscript ? cotPrompt : cotPrompt }],
         temperature: 0.1,
         max_tokens: 2000,
-    });
-
-    if (!cotRes.ok) {
-      const err = await cotRes.text();
-      console.error("Groq CoT error:", err);
+      });
+      console.log("CoT reasoning:\n", cotReasoning);
+    } catch (cotErr) {
+      console.error("Haiku Pass 1 error:", cotErr);
       return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
     }
-
-    const cotData = await cotRes.json();
-    const cotReasoning = cotData.choices[0].message.content;
-    console.log("CoT reasoning:\n", cotReasoning);
 
     // Wait between passes to avoid TPM rate limiting
     await new Promise(res => setTimeout(res, 1000));
@@ -805,39 +773,27 @@ The section marks and total in the JSON MUST match what you concluded above — 
 Do not re-evaluate. Faithfully convert your reasoning into JSON.
 Return ONLY the JSON object, no preamble, no markdown fences.`;
 
-    const response = await callWithFallback({
-        model: "qwen/qwen3-32b",
+    let evaluation: Record<string, unknown> | null = null;
+
+    try {
+      let rawJson = await anthropicCall({
+        system: SYSTEM_PROMPT,
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: cotPrompt },
           { role: "assistant", content: cotReasoning },
           { role: "user", content: jsonPrompt },
         ],
         temperature: 0.1,
         max_tokens: 2500,
-        response_format: { type: "json_object" },
-    });
-
-    let evaluation: Record<string, unknown> | null = null;
-
-    if (!response.ok) {
-      const err = await response.text();
-      console.error("Groq Pass 2 error:", response.status, err);
-      return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
-    }
-
-    if (!evaluation) {
-      const data = await response.json();
-      let content = data.choices[0].message.content;
-      content = content.replace(/```json|```/g, "").trim();
+      });
+      rawJson = rawJson.replace(/```json|```/g, "").trim();
       try {
-        evaluation = JSON.parse(content);
+        evaluation = JSON.parse(rawJson);
       } catch {
         // JSON truncated — try extracting largest valid object
-        const match = content.match(/\{[\s\S]*/);
+        const match = rawJson.match(/\{[\s\S]*/);
         if (match) {
           let partial = match[0];
-          // Try closing unclosed JSON by appending braces
           for (let closes = 1; closes <= 5; closes++) {
             try {
               evaluation = JSON.parse(partial + "}}}}}}".slice(0, closes));
@@ -845,8 +801,11 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
             } catch { /* keep trying */ }
           }
         }
-        if (!evaluation) throw new Error("Could not parse model response");
+        if (!evaluation) throw new Error("Could not parse Pass 2 response");
       }
+    } catch (p2err) {
+      console.error("Haiku Pass 2 error:", p2err);
+      return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
     }
 
     // ── NULL GUARD ────────────────────────────────────────────────
@@ -931,32 +890,24 @@ Return ONLY a JSON object with these exact fields:
 Be brutally specific. Name exactly which historians were missing. Quote exactly which part of the answer was weak. No generic advice like "cite more historians" — say WHICH historian and WHAT argument.`;
 
     try {
-      const pass3Res = await callWithFallback({
-        model: "qwen/qwen3-32b",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: pass3Prompt },
-        ],
+      let pass3Raw = await anthropicCall({
+        system: SYSTEM_PROMPT,
+        messages: [{ role: "user", content: pass3Prompt }],
         temperature: 0.2,
         max_tokens: 2000,
-        response_format: { type: "json_object" },
       });
+      pass3Raw = pass3Raw.replace(/```json|```/g, "").trim();
+      const pass3 = JSON.parse(pass3Raw);
 
-      if (pass3Res.ok) {
-        const pass3Data = await pass3Res.json();
-        let pass3Content = pass3Data.choices[0].message.content;
-        pass3Content = pass3Content.replace(/```json|```/g, "").trim();
-        const pass3 = JSON.parse(pass3Content);
+      // Merge Pass 3 rich feedback into evaluation
+      if (pass3.overall_feedback) evaluation.overall_feedback = pass3.overall_feedback;
+      if (pass3.body) evaluation.body = pass3.body;
+      if (pass3.historians_to_cite?.length) evaluation.historians_to_cite = pass3.historians_to_cite;
+      console.log("Pass 3 feedback merged successfully");
 
-        // Merge Pass 3 rich feedback into evaluation
-        if (pass3.overall_feedback) evaluation.overall_feedback = pass3.overall_feedback;
-        if (pass3.body) evaluation.body = pass3.body;
-        if (pass3.historians_to_cite?.length) evaluation.historians_to_cite = pass3.historians_to_cite;
-        console.log("Pass 3 feedback merged successfully");
-
-        // ── PASS 4: Rich model answer ─────────────────────────────
-        const bulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
-        const pass4Prompt = `Write a model answer for this UPSC History Optional question.
+      // ── PASS 4: Rich model answer ─────────────────────────────
+      const bulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
+      const pass4Prompt = `Write a model answer for this UPSC History Optional question.
 
 Question: ${question} (${marks} marks)
 
@@ -979,35 +930,21 @@ RULES:
 - No bullet under 4 sentences. Write as much as needed — do not cut short for word count.
 - Use your full historiographical knowledge from your training`;
 
-        try {
-          const pass4Res = await callWithFallback({
-            model: "qwen/qwen3-32b",
-            messages: [
-              { role: "system", content: SYSTEM_PROMPT },
-              { role: "user", content: pass4Prompt },
-            ],
-            temperature: 0.3,
-            max_tokens: 4500,
-            response_format: { type: "json_object" },
-          });
-
-          if (pass4Res.ok) {
-            const pass4Data = await pass4Res.json();
-            let pass4Content = pass4Data.choices[0].message.content;
-            pass4Content = pass4Content.replace(/```json|```/g, "").trim();
-            const pass4 = JSON.parse(pass4Content);
-            if (pass4.model_answer) {
-              evaluation.model_answer = pass4.model_answer;
-              console.log("Pass 4 model answer merged successfully");
-            }
-          } else {
-            console.log("Pass 4 skipped (rate limited) — using Pass 2 model answer");
-          }
-        } catch (p4err) {
-          console.log("Pass 4 error (non-fatal):", p4err);
+      try {
+        let pass4Raw = await anthropicCall({
+          system: SYSTEM_PROMPT,
+          messages: [{ role: "user", content: pass4Prompt }],
+          temperature: 0.3,
+          max_tokens: 4500,
+        });
+        pass4Raw = pass4Raw.replace(/```json|```/g, "").trim();
+        const pass4 = JSON.parse(pass4Raw);
+        if (pass4.model_answer) {
+          evaluation.model_answer = pass4.model_answer;
+          console.log("Pass 4 model answer merged successfully");
         }
-      } else {
-        console.log("Pass 3 skipped (rate limited or failed) — using Pass 2 feedback");
+      } catch (p4err) {
+        console.log("Pass 4 error (non-fatal):", p4err);
       }
     } catch (p3err) {
       console.log("Pass 3 error (non-fatal):", p3err);
