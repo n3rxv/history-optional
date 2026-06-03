@@ -896,6 +896,7 @@ Every response must:
                 <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
                 <option value="Ajeet Jha — A History of Ancient India">Ajeet Jha — A History of Ancient India</option>
                 <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
+                <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
               </select>
             )}
           </div>
