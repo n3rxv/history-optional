@@ -898,6 +898,7 @@ Every response must:
                 <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
                 <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
                 <option value="RS Sharma — Ancient India (Old NCERT)">RS Sharma — Ancient India (Old NCERT)</option>
+                <option value="Romila Thapar — Early India">Romila Thapar — Early India</option>
               </select>
             )}
           </div>
