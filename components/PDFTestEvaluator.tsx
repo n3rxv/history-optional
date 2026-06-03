@@ -56,8 +56,8 @@ async function pdfToImages(file: File): Promise<File[]> {
 }
 
 /* ── Per-question result card ── */
-function EvalCard({ result, isOpen, onToggle }: {
-  result: QuestionResult; isOpen: boolean; onToggle: () => void;
+function EvalCard({ result, isOpen, onToggle, onRetry }: {
+  result: QuestionResult; isOpen: boolean; onToggle: () => void; onRetry?: () => void;
 }) {
   const [tab, setTab] = useState("eval");
   const { question, evaluation: ev, error } = result;
@@ -97,8 +97,13 @@ function EvalCard({ result, isOpen, onToggle }: {
           borderRadius: "0 0 8px 8px", padding: "28px 30px" }}>
           {error && (
             <div style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)",
-              borderRadius: 6, padding: "14px 18px", color: "#f87171", fontSize: "0.85rem" }}>
-              {error}
+              borderRadius: 6, padding: "14px 18px", color: "#f87171", fontSize: "0.85rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span>{error}</span>
+              {onRetry && (
+                <button onClick={onRetry} style={{ marginLeft: 12, padding: "4px 12px", background: "rgba(248,113,113,0.15)", border: "1px solid rgba(248,113,113,0.3)", borderRadius: 4, color: "#f87171", fontSize: "0.75rem", cursor: "pointer" }}>
+                  Retry
+                </button>
+              )}
             </div>
           )}
 
@@ -1030,6 +1035,23 @@ export default function PDFTestEvaluator({
             <EvalCard key={r.question.id} result={r}
               isOpen={expanded === r.question.id}
               onToggle={() => setExpanded(p => p === r.question.id ? null : r.question.id)}
+              onRetry={r.error ? async () => {
+                const seg = segments.find(s => s.questionNumber === r.question.id);
+                if (!seg) return;
+                setResults(prev => prev.map(x => x.question.id === r.question.id ? { ...x, error: undefined, evaluation: null } : x));
+                try {
+                  const evalRes = await fetch("/api/evaluate", {
+                    method: "POST",
+                    headers: { "x-user-token": token ?? "", "x-internal": "1" },
+                    body: (() => { const fd = new FormData(); fd.append("question", seg.questionText || `Question ${seg.questionNumber}`); fd.append("marks", String(seg.marks)); fd.append("extractedText", seg.answerText); return fd; })(),
+                  });
+                  const evalData = await evalRes.json();
+                  if (!evalRes.ok) throw new Error(evalData.error ?? "Evaluation failed");
+                  setResults(prev => prev.map(x => x.question.id === r.question.id ? { ...x, evaluation: evalData } : x));
+                } catch (e: any) {
+                  setResults(prev => prev.map(x => x.question.id === r.question.id ? { ...x, error: e.message } : x));
+                }
+              } : undefined}
             />
           ))}
         </div>
