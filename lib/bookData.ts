@@ -4071,8 +4071,10 @@ export const bookData: BookChapter[] = [
         "name": "Debal/Deval",
         "location": "Near modern day Karachi (Pakistan)",
         "majorAspect": "Debal, located near modern-day Karachi, is an archaeological site of significant importance, dating back to the Indus Valley Civilization period (2500-1900 BCE). Excavations at Debal have yielded key finds such as pottery, seals, and other artifacts, showcasing the site's role as a major port city in the ancient civilization. The discovery of a Buddhist stupa and other remains also highlight Debal's importance as a major urban center during the Mauryan and Kushan periods.",
-        "pyqYears": []
-      },
+        "pyqYears": [],
+          "lat": 24.8,
+          "lng": 67.3
+        },
       {
         "name": "Sirpur/Shripura",
         "location": "Mahasamund district (Chhattisgarh)",
@@ -4386,8 +4388,10 @@ export const bookData: BookChapter[] = [
         "name": "Bodhgaya",
         "location": "Gaya district (Bihar), on the banks of river Phalgu",
         "majorAspect": "Buddha is said to have attained Enlightenment here. Mahabodhi temple: UNESCO World Heritage Site adorns this place.",
-        "pyqYears": []
-      },
+        "pyqYears": [],
+          "lat": 24.695,
+          "lng": 84.991
+        },
       {
         "name": "Rajgir",
         "location": "Nalanda district (Bihar)",
