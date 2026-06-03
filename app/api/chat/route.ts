@@ -409,6 +409,7 @@ The examiner's first instinct when they see a wrong citation is to distrust the 
 
 BOOK PASSAGES from "${bookTitle && bookTitle !== "all" ? bookTitle : "reference books"}" (cite passages as [${bookTitle && bookTitle !== "all" ? bookTitle : "Book Title"}]):
 IMPORTANT: The user has specifically selected "${bookTitle && bookTitle !== "all" ? bookTitle : "All Books"}" — prioritise answering from these passages above all else. Do not genericise the answer; ground it specifically in what this book covers.
+Your answer must reflect THIS BOOK'S specific arguments, framework, and perspective — not a generic textbook answer. If the book has a distinct historiographical stance (e.g. Sekhar Bandyopadhyay's subaltern/social history lens, Romila Thapar's early India framework, Satish Chandra's medieval synthesis), use that lens explicitly in your answer.
 ${ragContext}`
       : system;
 
