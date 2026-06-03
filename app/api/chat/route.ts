@@ -416,7 +416,7 @@ ${ragContext}`
 
     if (bookMode) {
       // Book mode → Anthropic Sonnet 4.6
-      const anthropicResponse = await anthropicCall('claude-sonnet-4-6', ragSystem);
+      const anthropicResponse = await anthropicCall('claude-haiku-4-5-20251001', ragSystem);
       const raw = anthropicResponse.content?.[0]?.type === 'text'
         ? anthropicResponse.content[0].text
         : 'No response';
