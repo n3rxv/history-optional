@@ -777,9 +777,15 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
           { role: "user", content: jsonPrompt },
         ],
         temperature: 0.1,
-        max_tokens: 2500,
+        max_tokens: 4000,
       });
       rawJson = rawJson.replace(/```json|```/g, "").trim();
+      // Extract first JSON object robustly
+      const jsonStart = rawJson.indexOf("{");
+      const jsonEnd = rawJson.lastIndexOf("}");
+      if (jsonStart !== -1 && jsonEnd !== -1) {
+        rawJson = rawJson.slice(jsonStart, jsonEnd + 1);
+      }
       try {
         evaluation = JSON.parse(rawJson);
       } catch {
@@ -787,9 +793,9 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
         const match = rawJson.match(/\{[\s\S]*/);
         if (match) {
           let partial = match[0];
-          for (let closes = 1; closes <= 5; closes++) {
+          for (let closes = 1; closes <= 10; closes++) {
             try {
-              evaluation = JSON.parse(partial + "}}}}}}".slice(0, closes));
+              evaluation = JSON.parse(partial + "}}}}}}}}}}".slice(0, closes));
               break;
             } catch { /* keep trying */ }
           }
