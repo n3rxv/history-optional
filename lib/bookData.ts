@@ -7,6 +7,8 @@ export interface BookSite {
   location: string;
   majorAspect: string;
   pyqYears: number[];
+  lat?: number;
+  lng?: number;
 }
 
 export interface BookChapter {
