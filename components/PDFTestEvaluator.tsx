@@ -556,7 +556,7 @@ export default function PDFTestEvaluator({
           const blob = new Blob([Uint8Array.from(atob(imgB64), c => c.charCodeAt(0))], { type: "image/jpeg" });
           fd.append("files", blob, `page-${i}.jpg`);
         }
-        const bRes = await fetch("/api/ocr?mode=pdf", {
+        const bRes = await fetch("/api/ocr-pdf", {
           method: "POST",
           headers: { "x-user-token": token ?? "" },
           body: fd,
