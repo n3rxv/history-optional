@@ -1208,7 +1208,6 @@ const handleOcr = useCallback(async () => {
             {error && <div className="ev-err">{error}</div>}
             <UsagePill />
             <button className="ev-btn" onClick={handleEvaluate} disabled={ocrLoading}>{ocrLoading ? "Reading handwriting…" : "Evaluate Answer →"}</button>
-            <GateModals slots={slots} />
             </>)}
           </div>
         )}
