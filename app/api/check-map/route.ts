@@ -114,9 +114,10 @@ Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found he
     console.log("[check-map] answersRaw:", answersRaw.slice(0, 800));
 
     function cleanJson(raw: string): string {
-      const start = raw.indexOf("[") !== -1 ? raw.indexOf("[") : raw.indexOf("{");
-      const end = raw.lastIndexOf("]") !== -1 ? raw.lastIndexOf("]") : raw.lastIndexOf("}");
-      return start !== -1 && end !== -1 ? raw.slice(start, end + 1).trim() : raw.trim();
+      const stripped = raw.replace(/```json|```/g, "").trim();
+      const start = stripped.indexOf("[") !== -1 ? stripped.indexOf("[") : stripped.indexOf("{");
+      const end = stripped.lastIndexOf("]") !== -1 ? stripped.lastIndexOf("]") : stripped.lastIndexOf("}");
+      return start !== -1 && end !== -1 ? stripped.slice(start, end + 1).trim() : stripped;
     }
 
     try { dots = JSON.parse(cleanJson(mapRaw)); }
