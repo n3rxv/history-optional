@@ -29,6 +29,9 @@ const FEATURES = [
   { name: 'Answer evaluation',           free: '1/week',   premium: 'Unlimited'  },
   { name: 'AI Chat',                     free: '3/month',  premium: 'Unlimited'  },
   { name: 'Model answers',               free: '—',        premium: '✓'          },
+  { name: 'Chat with Books',             free: '—',        premium: '✓'          },
+  { name: 'Map evaluation',              free: '—',        premium: 'Unlimited'  },
+  { name: 'FLT / Full paper eval',       free: '—',        premium: 'Unlimited'  },
 ];
 
 function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound?: boolean }) {
