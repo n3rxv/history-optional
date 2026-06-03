@@ -899,6 +899,9 @@ Every response must:
                 <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
                 <option value="RS Sharma — Ancient India (Old NCERT)">RS Sharma — Ancient India (Old NCERT)</option>
                 <option value="Romila Thapar — Early India">Romila Thapar — Early India</option>
+                <option value="KA Nilakanta Sastri — A History of South India">KA Nilakanta Sastri — A History of South India</option>
+                <option value="Vipul Singh — Interpreting Medieval India">Vipul Singh — Interpreting Medieval India</option>
+                <option value="Ranbir Chakravarti — Exploring Early India">Ranbir Chakravarti — Exploring Early India</option>
               </select>
             )}
           </div>
