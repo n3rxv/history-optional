@@ -265,7 +265,7 @@ export default function MapEvaluator({
           <>
             <div style={{ fontSize:32 }}>📋</div>
             <div style={{ color:"#e0e0e0", fontSize:15, fontWeight:500 }}>Upload answer booklet PDF</div>
-            <div style={{ color:"#555", fontSize:13 }}>Map + handwritten answers in one PDF</div>
+            <div style={{ color:"#555", fontSize:13 }}>Map + handwritten/digitally written answers in one PDF</div>
             <div style={{ color:"#333", fontSize:12, marginTop:4 }}>PDF only</div>
           </>
         )}
