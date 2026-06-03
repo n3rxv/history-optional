@@ -678,13 +678,6 @@ Marks: ${marks}
 ${finalTranscript
   ? "The student's handwritten answer has been transcribed for you below. Use this transcript as the PRIMARY source — it is more reliable than reading the images yourself. The images are provided only as visual reference for presentation/handwriting quality.\n\nTRANSCRIPT:\n" + finalTranscript
   : "The images show the student's handwritten answer sheet (" + imageContents.length + " page" + (imageContents.length > 1 ? "s" : "") + "). Read ALL pages carefully before evaluating."}
-
-${referenceAnswer ? `REFERENCE ANSWER (for calibration only — not shown to student):
-The following is what a strong answer to this question looks like. Use it to calibrate your evaluation — judge the student's answer against this standard when assessing which body points are STRONG, WEAK, or NONE, and whether the introduction and conclusion meet the historiographical bar.
-
-${referenceAnswer}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━` : ""}
 Work through this RIGID RUBRIC — check each box YES or NO and assign marks exactly as the band says. Do not deviate from the bands.
 
 == STEP 1: READING ==
