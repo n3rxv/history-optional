@@ -76,13 +76,6 @@ Evaluate all 20 questions now.`;
     const response = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 8192,
-      system: [
-        {
-          type: "text",
-          text: prompt,
-          cache_control: { type: "ephemeral" },
-        },
-      ],
       messages: [
         {
           role: "user",
@@ -97,7 +90,7 @@ Evaluate all 20 questions now.`;
             },
             {
               type: "text",
-              text: "Evaluate this map answer booklet and return the JSON scores.",
+              text: prompt,
             },
           ],
         },
