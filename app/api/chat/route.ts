@@ -422,7 +422,7 @@ ${ragContext}`
       const raw = anthropicResponse.content?.[0]?.type === 'text'
         ? anthropicResponse.content[0].text
         : 'No response';
-      text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').replace(/^#{1,6}\s*/gm, '').trim();
+      text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     } else {
       // Normal chat + MCQ → Groq Qwen3
       const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
