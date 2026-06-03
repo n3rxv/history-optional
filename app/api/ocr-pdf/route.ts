@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 
 export const maxDuration = 120;
+export const config = { api: { bodyParser: { sizeLimit: "50mb" } } };
 export const dynamic = "force-dynamic";
 
 const client = new Anthropic();
