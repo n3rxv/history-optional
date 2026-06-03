@@ -512,6 +512,23 @@ export async function POST(req: NextRequest) {
           res = await groqFetch(fallbackBody, process.env.GROQ_API_KEY_2);
         }
       }
+      // 413 — payload too large: trim assistant message content and retry
+      if (res.status === 413) {
+        console.log("413 payload too large, trimming assistant messages and retrying...");
+        const b = body as Record<string, unknown>;
+        const msgs = (b.messages as any[]) ?? [];
+        const trimmed = msgs.map((m: any) => {
+          if (m.role === "assistant" && typeof m.content === "string" && m.content.length > 3000) {
+            return { ...m, content: m.content.slice(0, 3000) + "
+[trimmed for length]" };
+          }
+          return m;
+        });
+        res = await groqFetch({ ...b, messages: trimmed }, process.env.GROQ_API_KEY!);
+        if (res.status === 429 && process.env.GROQ_API_KEY_2) {
+          res = await groqFetch({ ...b, messages: trimmed }, process.env.GROQ_API_KEY_2);
+        }
+      }
       return res;
     };
 
@@ -804,36 +821,9 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
 
     let evaluation: Record<string, unknown> | null = null;
 
-    if (response.status === 429) {
-      console.log("Pass 2 rate limited, waiting 20s...");
-      await new Promise(res => setTimeout(res, 1000));
-      const retry = await callWithFallback({
-        model: "qwen/qwen3-32b",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: cotPrompt },
-          { role: "assistant", content: cotReasoning },
-          { role: "user", content: jsonPrompt },
-        ],
-        temperature: 0.1,
-        max_tokens: 3500,
-        response_format: { type: "json_object" },
-      });
-      if (!retry.ok) {
-        const err = await retry.text();
-        console.error("Groq JSON error (retry):", err);
-        return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
-      }
-      const retryData = await retry.json();
-      let retryContent = retryData.choices[0].message.content;
-      retryContent = retryContent.replace(/```json|```/g, "").trim();
-      const jsonMatch2 = retryContent.match(/\{[\s\S]*\}/);
-      if (!jsonMatch2) return NextResponse.json({ error: "Model did not return valid JSON. Please try again." }, { status: 500 });
-      evaluation = JSON.parse(jsonMatch2[0]);
-    }
     if (!response.ok) {
       const err = await response.text();
-      console.error("Groq JSON error:", err);
+      console.error("Groq Pass 2 error:", response.status, err);
       return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
     }
 
