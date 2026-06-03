@@ -310,7 +310,7 @@ function DownloadPDFButton({ content, question }: { content: string; question?: 
 
       const footer = document.createElement('div');
       footer.style.cssText = 'margin-top: 28px; padding-top: 10px; border-top: 1px solid #ddd; font-size: 10px; color: #888; font-family: monospace; text-align: center;';
-      footer.textContent = 'historyoptional.xyz — AI History Assistant';
+      footer.textContent = 'historyoptional.xyz — History Optional Mentor';
       container.appendChild(footer);
 
       // PDF filename = question (trimmed) + (historyoptional.xyz).pdf
