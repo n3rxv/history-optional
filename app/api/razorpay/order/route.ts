@@ -31,10 +31,10 @@ export async function POST(req: NextRequest) {
   const reqBody = await req.json().catch(() => ({}));
   const plan = reqBody.plan || "yearly";
   const planAmounts: Record<string, number> = {
-    daily:   2900,
-    weekly:  14900,
-    monthly: 49900,
-    yearly:  remaining > 0 ? 299900 : 999900,
+    daily:   4900,
+    weekly:  29900,
+    monthly: 99900,
+    yearly:  remaining > 0 ? 599900 : 999900,
   };
   const amount = planAmounts[plan] ?? 299900;
 
