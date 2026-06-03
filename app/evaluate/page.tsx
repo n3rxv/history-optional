@@ -1587,6 +1587,7 @@ const handleOcr = useCallback(async () => {
         </div>
         )}
       </div>
+    <GateModals slots={slots} />
     </>
   );
 }
