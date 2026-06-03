@@ -293,6 +293,7 @@ export async function POST(req: NextRequest) {
     const ragSystem = ragContext
       ? `${system ?? ''}
 You are a UPSC History Optional expert. You MUST always give a complete, well-structured answer — NEVER refuse, NEVER say the book does not cover a topic. Always answer from your expert knowledge, using the passages below as supplementary evidence where relevant.
+Do NOT use markdown headings (###, ##, #) in your response. Use bold text (**text**) for section titles instead.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EPISTEMIC INTEGRITY PROTOCOL — HIGHEST PRIORITY
@@ -420,7 +421,7 @@ ${ragContext}`
       const raw = anthropicResponse.content?.[0]?.type === 'text'
         ? anthropicResponse.content[0].text
         : 'No response';
-      text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+      text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').replace(/^#{1,6}\s*/gm, '').trim();
     } else {
       // Normal chat + MCQ → Groq Qwen3
       const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
