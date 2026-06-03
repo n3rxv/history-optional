@@ -525,43 +525,30 @@ export default function PDFTestEvaluator({
     setEvalTotal(0);
 
     try {
-      setStepLabel("Converting PDF to images…");
-      const images = await pdfToImages(file);
-      setCachedImages(images);
+      setStepLabel("Reading PDF…");
+      const base64 = await new Promise<string>((res, rej) => {
+        const r = new FileReader();
+        r.onload = () => res((r.result as string).split(",")[1]);
+        r.onerror = () => rej(new Error("Failed to read file"));
+        r.readAsDataURL(file);
+      });
       setEvalProgress(20);
-
-      const BATCH_SIZE = 5;
-      const totalBatches = Math.ceil(images.length / BATCH_SIZE);
-      let ocrText = "";
-
-      for (let b = 0; b < totalBatches; b++) {
-        const batch = images.slice(b * BATCH_SIZE, (b + 1) * BATCH_SIZE);
-        setStepLabel(
-          totalBatches === 1
-            ? `Extracting handwriting (${images.length} page${images.length > 1 ? "s" : ""})…`
-            : `Extracting handwriting… batch ${b + 1}/${totalBatches}`
-        );
-        const fd = new FormData();
-        batch.forEach(img => fd.append("files", img));
-        const ocrRes = await fetch("/api/ocr?mode=pdf", {
-          method: "POST", headers: { "x-user-token": token ?? "" }, body: fd,
-        });
-        if (!ocrRes.ok) {
-          let errDetail = `HTTP ${ocrRes.status}`;
-          try { const e = await ocrRes.json(); if (e.error) errDetail = e.error; } catch {}
-          throw new Error(`OCR failed on batch ${b + 1}/${totalBatches}: ${errDetail}`);
-        }
-        const d = await ocrRes.json();
-        const batchText = d.text || d.extracted_text || d.transcript || "";
-        if (batchText) ocrText += (ocrText ? "\n\n" : "") + batchText;
-        setEvalProgress(20 + Math.round(((b + 1) / totalBatches) * 35));
-        if (b < totalBatches - 1) await new Promise(r => setTimeout(r, 1000));
+      setStepLabel("Extracting handwriting…");
+      const ocrRes = await fetch("/api/ocr-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-user-token": token ?? "" },
+        body: JSON.stringify({ pdf: base64 }),
+      });
+      if (!ocrRes.ok) {
+        let errDetail = `HTTP ${ocrRes.status}`;
+        try { const e = await ocrRes.json(); if (e.error) errDetail = e.error; } catch {}
+        throw new Error(`OCR failed: ${errDetail}`);
       }
-
+      const ocrData = await ocrRes.json();
+      const ocrText = ocrData.text || "";
       setTranscript(ocrText);
       setEvalProgress(55);
-
-      if (!ocrText.trim()) {
+            if (!ocrText.trim()) {
         throw new Error("OCR returned no text — the PDF may be unreadable or the file quality is too low. Try re-uploading.");
       }
 
