@@ -534,10 +534,12 @@ export default function PDFTestEvaluator({
       });
       setEvalProgress(20);
       setStepLabel("Extracting handwriting…");
+      const ocrFd = new FormData();
+      ocrFd.append("pdf", new Blob([Uint8Array.from(atob(base64), c => c.charCodeAt(0))], { type: "application/pdf" }), "upload.pdf");
       const ocrRes = await fetch("/api/ocr-pdf", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-user-token": token ?? "" },
-        body: JSON.stringify({ pdf: base64 }),
+        headers: { "x-user-token": token ?? "" },
+        body: ocrFd,
       });
       if (!ocrRes.ok) {
         let errDetail = `HTTP ${ocrRes.status}`;

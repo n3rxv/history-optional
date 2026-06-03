@@ -9,8 +9,11 @@ const client = new Anthropic();
 
 export async function POST(req: NextRequest) {
   try {
-    const { pdf } = await req.json();
-    if (!pdf) return NextResponse.json({ error: "No PDF provided" }, { status: 400 });
+    const formData = await req.formData();
+    const pdfFile = formData.get("pdf") as File | null;
+    if (!pdfFile) return NextResponse.json({ error: "No PDF provided" }, { status: 400 });
+    const buffer = Buffer.from(await pdfFile.arrayBuffer());
+    const pdf = buffer.toString("base64");
 
     const response = await client.messages.create({
       model: "claude-sonnet-4-6",
