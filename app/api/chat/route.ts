@@ -197,7 +197,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
   }
 }
 const RATE_LIMIT = 20; // max 20 messages per 10 minutes per IP
-const CHAT_FREE_LIMIT = 5; // per month
+const CHAT_FREE_LIMIT = 3; // per month
 const OWNER_EMAIL = process.env.OWNER_EMAIL!;
 
 export async function POST(req: NextRequest) {
