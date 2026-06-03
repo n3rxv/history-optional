@@ -163,9 +163,9 @@ export default function MapEvaluator({
                 {open && (
                   <div style={{ padding:"0 14px 12px", borderTop:"1px solid #1a1a1a" }}>
 
-                    <div style={{ marginTop:10, color:"#666", fontSize:12 }}>
-                      <span style={{ color:"#3a3a3a", marginRight:6 }}>Clue:</span>
-                      {r.clue || "—"}
+                    <div style={{ marginTop:10, padding:"7px 10px", background:"#141414", borderRadius:6, border:"1px solid #252525" }}>
+                      <span style={{ color:"#666", fontSize:11, marginRight:6 }}>Clue:</span>
+                      <span style={{ color:"#bbb", fontSize:12 }}>{r.clue || "—"}</span>
                     </div>
 
                     <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginTop:8 }}>
@@ -195,9 +195,9 @@ export default function MapEvaluator({
                       </div>
                     </div>
 
-                    <div style={{ marginTop:8, background:"#0a0a0a", border:"1px solid #1a1a1a", borderRadius:8, overflow:"hidden" }}>
-                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"8px 12px", borderBottom:"1px solid #141414" }}>
-                        <span style={{ color:"#444", fontSize:11 }}>Your description</span>
+                    <div style={{ marginTop:8, background:"#111", border:"1px solid #252525", borderRadius:8, overflow:"hidden" }}>
+                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"8px 12px", background:"#161616", borderBottom:"1px solid #252525" }}>
+                        <span style={{ color:"#777", fontSize:11, textTransform:"uppercase", letterSpacing:"0.05em" }}>Your description</span>
                         {r.status !== "blank" && (
                           <span style={{
                             fontSize:11, fontFamily:"monospace",
@@ -207,12 +207,13 @@ export default function MapEvaluator({
                           </span>
                         )}
                       </div>
-                      <div style={{ padding:"10px 12px", color: r.studentDescription ? "#888" : "#333", fontSize:12, lineHeight:1.7, fontStyle: r.studentDescription ? "normal" : "italic" }}>
+                      <div style={{ padding:"10px 12px", color: r.studentDescription ? "#ccc" : "#444", fontSize:13, lineHeight:1.8, fontStyle: r.studentDescription ? "normal" : "italic" }}>
                         {r.studentDescription ?? "Nothing written"}
                       </div>
                       {r.descriptionFeedback && (
-                        <div style={{ padding:"8px 12px", borderTop:"1px solid #141414", background:"#070707", color:"#555", fontSize:11, lineHeight:1.6 }}>
-                          💬 {r.descriptionFeedback}
+                        <div style={{ padding:"10px 12px", borderTop:"1px solid #1e1e1e", background:"#0e0e0e", display:"flex", gap:8, alignItems:"flex-start" }}>
+                          <span style={{ fontSize:14, flexShrink:0 }}>💬</span>
+                          <span style={{ color:"#aaa", fontSize:12, lineHeight:1.7 }}>{r.descriptionFeedback}</span>
                         </div>
                       )}
                     </div>
