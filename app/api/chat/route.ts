@@ -407,7 +407,8 @@ A shorter, factually honest answer scores higher than a long, confident, halluci
 The examiner's first instinct when they see a wrong citation is to distrust the entire answer.
 
 
-BOOK PASSAGES (use as supplementary source, cite as [Book Title]):
+BOOK PASSAGES from "${bookTitle && bookTitle !== "all" ? bookTitle : "reference books"}" (cite passages as [${bookTitle && bookTitle !== "all" ? bookTitle : "Book Title"}]):
+IMPORTANT: The user has specifically selected "${bookTitle && bookTitle !== "all" ? bookTitle : "All Books"}" — prioritise answering from these passages above all else. Do not genericise the answer; ground it specifically in what this book covers.
 ${ragContext}`
       : system;
 
