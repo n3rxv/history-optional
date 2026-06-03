@@ -144,7 +144,7 @@ Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found he
     }
     console.log("[check-map] coordMap sample:", JSON.stringify(Object.entries(coordMap).slice(0, 5)));
 
-    const answerKey = buildAnswerKey(dots);
+    const answerKey = buildAnswerKey(dots, coordMap);
 
     // ── Step 3 — Groq verify with coordinate context (PATCHED) ──
     // Each entry now carries an approx_coordinates field so Groq

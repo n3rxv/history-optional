@@ -24,18 +24,45 @@ function clueSimilarity(a: string, b: string): number {
   return matches / Math.max(wordsA.length, wordsB.length);
 }
 
-// Flatten all bookData sites into a single array
+// Geographic distance in degrees (approx)
+function geoDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  return Math.sqrt(Math.pow(lat1 - lat2, 2) + Math.pow(lon1 - lon2, 2));
+}
+
 const allBookSites = bookData.flatMap(chapter => chapter.sites);
 
-export function buildAnswerKey(dots: DotFromMap[]): AnswerKeyEntry[] {
+export function buildAnswerKey(
+  dots: DotFromMap[],
+  coordMap?: Record<string, { lat: number; lon: number }>
+): AnswerKeyEntry[] {
   return dots.map(dot => {
-    // Priority 1 — mapData: match by clue similarity (has exact UPSC hints + lat/lng)
+    const coords = coordMap?.[dot.number] ?? null;
+
+    // Priority 1 — mapData: clue similarity + optional coordinate filtering
     let bestMapMatch: typeof mapData[0] | null = null;
     let bestMapScore = 0;
+
     for (const entry of mapData) {
-      const score = clueSimilarity(dot.clue, entry.hint);
-      if (score > bestMapScore) {
-        bestMapScore = score;
+      const clueScore = clueSimilarity(dot.clue, entry.hint);
+      if (clueScore < 0.3) continue; // skip weak clue matches entirely
+
+      let finalScore = clueScore;
+
+      // If we have coordinates, boost score for geographically close entries
+      // and penalise far ones — this is the key fix
+      if (coords && entry.lat && entry.lng) {
+        const dist = geoDistance(coords.lat, coords.lon, entry.lat, entry.lng);
+        if (dist <= 3) {
+          finalScore += 0.4; // strong boost for very close match
+        } else if (dist <= 6) {
+          finalScore += 0.2; // moderate boost
+        } else if (dist > 10) {
+          finalScore -= 0.3; // penalise geographically far entries
+        }
+      }
+
+      if (finalScore > bestMapScore) {
+        bestMapScore = finalScore;
         bestMapMatch = entry;
       }
     }
@@ -45,20 +72,22 @@ export function buildAnswerKey(dots: DotFromMap[]): AnswerKeyEntry[] {
         number: dot.number,
         clue: dot.clue,
         correctSite: bestMapMatch.answer,
-        // Use precise lat/lng from mapData as location context for Groq
         correctLocation: `${bestMapMatch.answer} (~${bestMapMatch.lat}°N, ${bestMapMatch.lng}°E)`,
-        confidence: bestMapScore,
+        confidence: Math.min(bestMapScore, 1),
         candidates: [],
       };
     }
 
-    // Priority 2 — bookData: match site name or majorAspect against the clue
+    // Priority 2 — bookData: clue vs majorAspect + coordinate filtering
     let bestBookMatch: typeof allBookSites[0] | null = null;
     let bestBookScore = 0;
+
     for (const site of allBookSites) {
-      const nameScore = clueSimilarity(dot.clue, site.name);
       const aspectScore = clueSimilarity(dot.clue, site.majorAspect);
-      const score = Math.max(nameScore, aspectScore);
+      const nameScore = clueSimilarity(dot.clue, site.name);
+      const score = Math.max(aspectScore, nameScore);
+      if (score < 0.25) continue;
+
       if (score > bestBookScore) {
         bestBookScore = score;
         bestBookMatch = site;
@@ -70,14 +99,13 @@ export function buildAnswerKey(dots: DotFromMap[]): AnswerKeyEntry[] {
         number: dot.number,
         clue: dot.clue,
         correctSite: bestBookMatch.name,
-        // Use location string from bookData — Groq can reason geographically from this
         correctLocation: bestBookMatch.location,
         confidence: bestBookScore,
         candidates: [],
       };
     }
 
-    // Priority 3 — no match, let Groq figure it out from clue + dot coordinates alone
+    // Priority 3 — let Groq figure it out from clue + coordinates
     return {
       number: dot.number,
       clue: dot.clue,
