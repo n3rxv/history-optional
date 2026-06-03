@@ -880,30 +880,34 @@ Every response must:
                 }}
               >
                 <option value="all">📖 All Books</option>
-                <option value="Mughals IGNOU">Mughals IGNOU</option>
-                <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
-                <option value="Upinder Singh - Ancient & Early Medieval India">Upinder Singh - Ancient & Early Medieval India</option>
-                <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
-                <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
-                <option value="AL Basham - The Wonder That Was India">AL Basham - The Wonder That Was India</option>
-                <option value="Norman Lowe - Mastering Modern World History">Norman Lowe - Mastering Modern World History</option>
-                <option value="Eric Hobsbawm - Age of Extremes">Eric Hobsbawm - Age of Extremes (1914-1991)</option>
-                <option value="Eric Hobsbawm - Age of Empire">Eric Hobsbawm - Age of Empire (1875-1914)</option>
-                <option value="Eric Hobsbawm - Age of Revolution">Eric Hobsbawm - Age of Revolution (1789-1848)</option>
-                <option value="Eric Hobsbawm - Age of Capital">Eric Hobsbawm - Age of Capital (1848-1875)</option>
-                <option value="Satish Chandra - Medieval India (800-1700)">Satish Chandra - Medieval India (800-1700)</option>
-                <option value="Satish Chandra - Medieval India Part 2 (1526-1748)">Satish Chandra - Medieval India Part 2 (1526-1748)</option>
-                <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
+                <option disabled style={{color:'#555'}}>── Ancient ──</option>
                 <option value="Ajeet Jha — A History of Ancient India">Ajeet Jha — A History of Ancient India</option>
-                <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
-                <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
+                <option value="Upinder Singh - Ancient & Early Medieval India">Upinder Singh - Ancient & Early Medieval India</option>
                 <option value="RS Sharma — Ancient India (Old NCERT)">RS Sharma — Ancient India (Old NCERT)</option>
                 <option value="Romila Thapar — Early India">Romila Thapar — Early India</option>
-                <option value="KA Nilakanta Sastri — A History of South India">KA Nilakanta Sastri — A History of South India</option>
-                <option value="Vipul Singh — Interpreting Medieval India">Vipul Singh — Interpreting Medieval India</option>
                 <option value="Ranbir Chakravarti — Exploring Early India">Ranbir Chakravarti — Exploring Early India</option>
                 <option value="RC Majumdar — Ancient India">RC Majumdar — Ancient India</option>
                 <option value="DN Jha — Ancient India in Historical Outline">DN Jha — Ancient India in Historical Outline</option>
+                <option value="KA Nilakanta Sastri — A History of South India">KA Nilakanta Sastri — A History of South India</option>
+                <option value="AL Basham - The Wonder That Was India">AL Basham - The Wonder That Was India</option>
+                <option disabled style={{color:'#555'}}>── Medieval ──</option>
+                <option value="Mughals IGNOU">Mughals IGNOU</option>
+                <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
+                <option value="Satish Chandra - Medieval India (800-1700)">Satish Chandra - Medieval India (800-1700)</option>
+                <option value="Satish Chandra - Medieval India Part 2 (1526-1748)">Satish Chandra - Medieval India Part 2 (1526-1748)</option>
+                <option value="Vipul Singh — Interpreting Medieval India">Vipul Singh — Interpreting Medieval India</option>
+                <option disabled style={{color:'#555'}}>── Modern ──</option>
+                <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
+                <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
+                <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
+                <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
+                <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
+                <option disabled style={{color:'#555'}}>── World ──</option>
+                <option value="Norman Lowe - Mastering Modern World History">Norman Lowe - Mastering Modern World History</option>
+                <option value="Eric Hobsbawm - Age of Revolution">Eric Hobsbawm - Age of Revolution (1789-1848)</option>
+                <option value="Eric Hobsbawm - Age of Capital">Eric Hobsbawm - Age of Capital (1848-1875)</option>
+                <option value="Eric Hobsbawm - Age of Empire">Eric Hobsbawm - Age of Empire (1875-1914)</option>
+                <option value="Eric Hobsbawm - Age of Extremes">Eric Hobsbawm - Age of Extremes (1914-1991)</option>
                 <option value="David Thomson — Europe Since Napoleon">David Thomson — Europe Since Napoleon</option>
               </select>
             )}
