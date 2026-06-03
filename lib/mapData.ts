@@ -276,11 +276,11 @@ export const mapData: MapEntry[] = [
   { year: 2024, number: 20, hint: "Megalithic monumental site",                     answer: "Vangchhia",                 lat: 23.5,  lng: 92.7  },
 
   // ── 2025 ──────────────────────────────────────────────────────────────────
-  { year: 2025, number: 1,  hint: "Neolithic site",                                 answer: "Giak and Kiari",            lat: 34.3,  lng: 77.6  },
-  { year: 2025, number: 2,  hint: "Mesolithic site",                                answer: "Chandravadi",               lat: 22.1,  lng: 72.6  },
-  { year: 2025, number: 3,  hint: "Palaeolithic site",                              answer: "Hallur",                    lat: 14.5,  lng: 75.9  },
-  { year: 2025, number: 4,  hint: "Neolithic site with stone artefacts",            answer: "Koldihwa",                  lat: 25.1,  lng: 81.7  },
-  { year: 2025, number: 5,  hint: "Site of Indus Valley Civilisation",              answer: "Rojdi",                     lat: 22.0,  lng: 70.8  },
+  { year: 2025, number: 1,  hint: "Neolithic site",                                 answer: "Burzahom",                  lat: 34.2,  lng: 74.9  },
+  { year: 2025, number: 2,  hint: "Mesolithic site",                                answer: "Bagor",                     lat: 24.9,  lng: 74.6  },
+  { year: 2025, number: 3,  hint: "Palaeolithic site",                              answer: "Hunsgi",                    lat: 16.8,  lng: 76.6  },
+  { year: 2025, number: 4,  hint: "Neolithic site with stone artefacts",            answer: "Sarai Nahar Rai",           lat: 25.4,  lng: 81.9  },
+  { year: 2025, number: 5,  hint: "Site of Indus Valley Civilisation",              answer: "Lothal",                    lat: 22.5,  lng: 72.2  },
   { year: 2025, number: 6,  hint: "Early Harappan site with a fire-pit",            answer: "Kalibangan",                lat: 29.5,  lng: 74.1  },
   { year: 2025, number: 7,  hint: "Late Harappan site",                             answer: "Alamgirpur/Sinauli",        lat: 28.9,  lng: 77.7  },
   { year: 2025, number: 8,  hint: "The Ochre Coloured Pottery (OCP) site",          answer: "Lal Qila",                  lat: 28.7,  lng: 77.2  },
@@ -295,7 +295,7 @@ export const mapData: MapEntry[] = [
   { year: 2025, number: 17, hint: "Inscription mentioning Ashvamedha sacrifice",    answer: "Ayodhya",                   lat: 26.8,  lng: 82.2  },
   { year: 2025, number: 18, hint: "Site of post-Mauryan burnt brick house",         answer: "Sisupalgarh",               lat: 20.2,  lng: 85.9  },
   { year: 2025, number: 19, hint: "Terracotta craft centre of post-Mauryan period", answer: "Chandraketugarh",           lat: 22.7,  lng: 88.6  },
-  { year: 2025, number: 20, hint: "Important port of the Pallava period",           answer: "Kaveripuram",               lat: 11.1,  lng: 79.8  },
+  { year: 2025, number: 20, hint: "Important port of the Pallava period",           answer: "Nagapattinam",              lat: 10.8,  lng: 79.8  },
 ];
 
 export const mapYears = [...new Set(mapData.map(e => e.year))].sort();
