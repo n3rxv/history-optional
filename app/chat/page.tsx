@@ -250,10 +250,10 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       doc.setFont('times', 'normal');
       doc.setFontSize(11);
       const pL = doc.splitTextToSize(txt, contentW) as string[];
-      chk(pL.length * 6.8 + 2);
+      chk(pL.length * 5.5 + 2);
       doc.setTextColor(...INK2);
-      pL.forEach((l: string) => { chk(7); doc.text(l, M, y); y += 6.8; });
-      y += 2;
+      pL.forEach((l: string) => { chk(5.5); doc.text(l, M, y); y += 5.5; });
+      y += 4;
     }
   }
 
