@@ -60,6 +60,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
   result: QuestionResult; isOpen: boolean; onToggle: () => void; onRetry?: () => void;
 }) {
   const [tab, setTab] = useState("eval");
+  const [retrying, setRetrying] = useState(false);
   const { question, evaluation: ev, error } = result;
   const pct      = ev ? (ev.marks / ev.marks_out_of) * 100 : 0;
   const scoreCol = pct >= 70 ? "#4ade80" : pct >= 50 ? "#3b82f6" : "#f87171";
@@ -100,8 +101,8 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
               borderRadius: 6, padding: "14px 18px", color: "#f87171", fontSize: "0.85rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span>{error}</span>
               {onRetry && (
-                <button onClick={onRetry} style={{ marginLeft: 12, padding: "4px 12px", background: "rgba(248,113,113,0.15)", border: "1px solid rgba(248,113,113,0.3)", borderRadius: 4, color: "#f87171", fontSize: "0.75rem", cursor: "pointer" }}>
-                  Retry
+                <button onClick={async () => { setRetrying(true); await onRetry(); setRetrying(false); }} disabled={retrying} style={{ marginLeft: 12, padding: "4px 12px", background: "rgba(248,113,113,0.15)", border: "1px solid rgba(248,113,113,0.3)", borderRadius: 4, color: "#f87171", fontSize: "0.75rem", cursor: retrying ? "not-allowed" : "pointer", opacity: retrying ? 0.6 : 1 }}>
+                  {retrying ? "Retrying…" : "Retry"}
                 </button>
               )}
             </div>
