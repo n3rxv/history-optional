@@ -416,14 +416,41 @@ ${ragContext}`
       /correct answer|mcq|prelims|pyq/i.test(lastUserMsg)
     );
 
-    // isMCQ → Haiku 4.5 (fast, cheap), bookMode → Sonnet 4.6 (RAG quality)
-    const primaryModel = isMCQ ? 'claude-haiku-4-5-20251001' : 'claude-sonnet-4-6';
+    // Routing:
+    // bookMode ON  → Sonnet 4.6 (RAG quality matters)
+    // bookMode OFF, MCQ → Haiku 4.5 (fast + accurate)
+    // bookMode OFF, normal → Groq Qwen3-32B (free, subscription)
+    let text: string;
 
-    const anthropicResponse = await anthropicCall(primaryModel, ragSystem);
-    const raw = anthropicResponse.content?.[0]?.type === 'text'
-      ? anthropicResponse.content[0].text
-      : 'No response';
-    const text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    if (!bookMode && !isMCQ) {
+      // Normal chat — Groq Qwen3
+      const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'qwen/qwen3-32b',
+          messages: [
+            ...(ragSystem ? [{ role: 'system', content: ragSystem }] : []),
+            ...messages,
+          ],
+          max_tokens: 4000,
+        }),
+      });
+      const groqData = await groqRes.json();
+      const groqRaw = groqData.choices?.[0]?.message?.content || 'No response';
+      text = groqRaw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    } else {
+      // Book mode or MCQ → Anthropic
+      const primaryModel = isMCQ ? 'claude-haiku-4-5-20251001' : 'claude-sonnet-4-6';
+      const anthropicResponse = await anthropicCall(primaryModel, ragSystem);
+      const raw = anthropicResponse.content?.[0]?.type === 'text'
+        ? anthropicResponse.content[0].text
+        : 'No response';
+      text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    }
     return NextResponse.json({ content: [{ text }], sources: ragSources });
   } catch {
     return NextResponse.json({ content: [{ text: 'Something went wrong. Please try again.' }] });
