@@ -265,23 +265,16 @@ export async function POST(req: NextRequest) {
     if (!Array.isArray(messages) || messages.length > 50)
       return NextResponse.json({ error: 'Too many messages in context' }, { status: 400 });
 
-    const groqFetch = async (model: string) =>
-      fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model,
-          messages: [
-            ...(ragSystem ? [{ role: 'system', content: ragSystem }] : []),
-            ...messages,
-          ],
-          max_tokens: 4000,
-
-        }),
+    const anthropicCall = async (model: string, systemPrompt: string | undefined) => {
+      const Anthropic = (await import('@anthropic-ai/sdk')).default;
+      const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+      return anthropic.messages.create({
+        model,
+        max_tokens: 4000,
+        ...(systemPrompt ? { system: systemPrompt } : {}),
+        messages: messages.map((m: any) => ({ role: m.role, content: m.content })),
       });
+    };
 
     // ── RAG: inject book context if bookMode ────────────────────────
     let ragContext = '';
@@ -423,17 +416,13 @@ ${ragContext}`
       /correct answer|mcq|prelims|pyq/i.test(lastUserMsg)
     );
 
-    const primaryModel = isMCQ ? 'openai/gpt-oss-120b' : 'qwen/qwen3-32b';
-    const fallbackModel = isMCQ ? 'llama-3.3-70b-versatile' : 'llama-3.3-70b-versatile';
+    // isMCQ → Haiku 4.5 (fast, cheap), bookMode → Sonnet 4.6 (RAG quality)
+    const primaryModel = isMCQ ? 'claude-haiku-4-5-20251001' : 'claude-sonnet-4-6';
 
-    let response = await groqFetch(primaryModel);
-    if (response.status === 503 || response.status === 429) {
-      console.log(`Primary model over capacity, falling back...`);
-      response = await groqFetch(fallbackModel);
-    }
-    const data = await response.json();
-    console.log("Groq response:", JSON.stringify(data));
-    const raw = data.choices?.[0]?.message?.content || 'No response';
+    const anthropicResponse = await anthropicCall(primaryModel, ragSystem);
+    const raw = anthropicResponse.content?.[0]?.type === 'text'
+      ? anthropicResponse.content[0].text
+      : 'No response';
     const text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     return NextResponse.json({ content: [{ text }], sources: ragSources });
   } catch {
