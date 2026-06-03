@@ -762,7 +762,7 @@ Every response must:
                   <div className="chat-typing-dot" />
                   <div className="chat-typing-dot" />
                 </div>
-                <span className="chat-typing-text">Thinking…</span>
+                <span className="chat-typing-text">{bookMode ? "Thinking… (30-40 sec)" : "Thinking…"}</span>
               </div>
             )}
 
