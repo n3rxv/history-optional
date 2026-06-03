@@ -68,17 +68,13 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Step 1a — Gemini reads clues from clues page ──────────
-    const mapRaw = await askGemini(cluesPage, "image/jpeg", `RESPOND WITH ONLY A JSON ARRAY. NO TEXT BEFORE OR AFTER. NO EXPLANATION.
+    const [mapRaw, coordsRaw, answersRaw] = await Promise.all([
+      askGemini(cluesPage, "image/jpeg", `RESPOND WITH ONLY A JSON ARRAY. NO TEXT BEFORE OR AFTER. NO EXPLANATION.
 This image shows a map of India with numbered dots and clues listed beside/below the map.
 Extract every dot: number (roman numeral lowercase), clue (exact text in English), region (state on map).
 START YOUR RESPONSE WITH [ AND END WITH ]. NOTHING ELSE.
-Example: [{"number":"i","clue":"Neolithic site","region":"Kashmir"},{"number":"ii","clue":"Mesolithic site","region":"Rajasthan"}]`);
-
-    // ── Step 1b — Gemini reads dot pixel positions from map page (NEW) ──
-    // We ask Gemini to estimate where each numbered dot sits as a
-    // fraction of the total image width/height (0.0 = left/top, 1.0 = right/bottom).
-    // These are then converted to approximate lat/lon below.
-    const coordsRaw = await askGemini(mapPage, "image/jpeg", `RESPOND WITH ONLY A JSON ARRAY. NO TEXT BEFORE OR AFTER. NO EXPLANATION.
+Example: [{"number":"i","clue":"Neolithic site","region":"Kashmir"},{"number":"ii","clue":"Mesolithic site","region":"Rajasthan"}]`),
+      askGemini(mapPage, "image/jpeg", `RESPOND WITH ONLY A JSON ARRAY. NO TEXT BEFORE OR AFTER. NO EXPLANATION.
 This is a printed outline map of India with latitude/longitude grid lines visible.
 The map shows numbered dots labelled with Roman numerals in parentheses like (i), (ii), (iii) ... (xx).
 
@@ -90,10 +86,8 @@ Be as precise as possible. Use the printed latitude/longitude grid lines on the 
 For example, if the map spans 60°E–100°E and a dot appears 60% of the way across, x_pct ≈ 0.60.
 
 START YOUR RESPONSE WITH [ AND END WITH ]. NOTHING ELSE.
-Example: [{"number":"i","x_pct":0.52,"y_pct":0.18},{"number":"ii","x_pct":0.31,"y_pct":0.65}]`);
-
-    // ── Step 2 — Gemini reads student handwritten answers ─────
-    const answersRaw = await askGemini(answersPage, "image/jpeg", `This image is a UPSC History Optional handwritten answer booklet in Hindi and English.
+Example: [{"number":"i","x_pct":0.52,"y_pct":0.18},{"number":"ii","x_pct":0.31,"y_pct":0.65}]`),
+      askGemini(answersPage, "image/jpeg", `This image is a UPSC History Optional handwritten answer booklet in Hindi and English.
 Find the map question section where the student wrote site names and short notes for Roman numerals (i) through (xx).
 
 For EACH numeral i through xx extract:
@@ -108,7 +102,8 @@ Rules:
 - The description is the lines written BELOW the underlined site name
 
 Return ONLY a valid JSON array. No markdown, no backticks.
-Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found here. Burial grounds. Factory site."},{"number":"ii","site_name":null,"description":null}]`);
+Example: [{"number":"i","site_name":"Burzahom","description":"Dog bones found here. Burial grounds. Factory site."},{"number":"ii","site_name":null,"description":null}]`),
+    ]);
 
     let dots: any[] = [];
     let dotCoords: any[] = [];
