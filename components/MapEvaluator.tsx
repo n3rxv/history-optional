@@ -299,7 +299,7 @@ export default function MapEvaluator({
           fontSize:15, fontWeight:600, transition:"all 0.2s",
         }}
       >
-        {loading ? stage || "Evaluating…" : file ? "Check Map Answers →" : "Upload PDF to evaluate"}
+        {loading ? stage || "Evaluating…" : file ? "Check Map Answers → (1-2 min)" : "Upload PDF to evaluate"}
       </button>
     </div>
   );
