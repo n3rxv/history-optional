@@ -27,16 +27,16 @@ function LimitModal({
   const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('yearly');
 
   const allPlans = [
-    { id: 'daily',   label: 'Daily',   price: '₹49',   sub: 'per day' },
-    { id: 'weekly',  label: 'Weekly',  price: '₹299',  sub: 'per week' },
-    { id: 'monthly', label: 'Monthly', price: '₹999',  sub: 'per month' },
-    { id: 'yearly',  label: 'Annual',  price: slots > 0 ? '₹5,999' : '₹9,999', sub: 'per year' },
+    { id: 'daily',   label: 'Daily',   price: '₹99',   sub: 'per day' },
+    { id: 'weekly',  label: 'Weekly',  price: '₹599',  sub: 'per week' },
+    { id: 'monthly', label: 'Monthly', price: '₹1,999',  sub: 'per month' },
+    { id: 'yearly',  label: 'Annual',  price: slots > 0 ? '₹9,999' : '₹14,999', sub: 'per year' },
   ] as const;
   const plans = slots > 0 ? allPlans : allPlans.filter(p => p.id === 'yearly');
   useEffect(() => { if (slots === 0) setSelectedPlan('yearly'); }, [slots]);
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
   const price = currentPlan.price;
-  const priceNum = slots > 0 ? 599900 : 999900;
+  const priceNum = slots > 0 ? 999900 : 1499900;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
