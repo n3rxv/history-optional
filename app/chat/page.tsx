@@ -83,6 +83,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   const BLUE  = '#1a4fa0';
   const BLACK = '#000000';
+  const WHITE = '#ffffff';
 
   const parseInline = (t: string) =>
     t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
@@ -93,26 +94,57 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const content: any[] = [];
 
   // ── HEADER ─────────────────────────────────────────────────────
-  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 4, lineColor: BLACK }], margin: [0, 0, 0, 2] });
-  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: BLACK }], margin: [0, 0, 0, 6] });
-
+  // Black square with white bold "H." logo + big site name side by side
   content.push({
     columns: [
-      { text: 'H.', fontSize: 28, bold: true, color: BLACK, width: 50 },
+      {
+        // Black box with H. logo
+        table: {
+          widths: [54],
+          heights: [54],
+          body: [[
+            {
+              text: 'H.',
+              fontSize: 30,
+              bold: true,
+              color: WHITE,
+              fillColor: BLACK,
+              alignment: 'center',
+              margin: [0, 8, 0, 0],
+              border: [false, false, false, false],
+            }
+          ]],
+        },
+        layout: 'noBorders',
+        width: 66,
+        margin: [0, 0, 0, 0],
+      },
       {
         stack: [
-          { text: 'HISTORY OPTIONAL', fontSize: 18, bold: true, color: BLACK, alignment: 'center', characterSpacing: 4 },
-          { text: 'AI-POWERED EXAMINATION ASSISTANT', fontSize: 7, color: '#555555', alignment: 'center', characterSpacing: 2, margin: [0, 2, 0, 0] },
+          {
+            text: 'historyoptional.xyz',
+            fontSize: 36,
+            bold: true,
+            color: BLACK,
+            font: 'Helvetica',
+            margin: [12, 4, 0, 0],
+          },
+          {
+            text: dateStr,
+            fontSize: 8,
+            color: '#888888',
+            margin: [14, 2, 0, 0],
+            characterSpacing: 1,
+          },
         ],
         width: '*',
       },
-      { text: dateStr, fontSize: 7, color: '#555555', alignment: 'right', width: 80, margin: [0, 8, 0, 0] },
     ],
-    margin: [0, 0, 0, 6],
+    margin: [0, 0, 0, 10],
   });
 
-  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: BLACK }], margin: [0, 0, 0, 2] });
-  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 3, lineColor: BLUE }], margin: [0, 0, 0, 14] });
+  // Blue rule under header
+  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 3, lineColor: BLUE }], margin: [0, 0, 0, 16] });
 
   // ── QUESTION BOX ───────────────────────────────────────────────
   if (questionText) {
@@ -233,6 +265,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   pdfMake.createPdf(docDef).download(slug + ' (historyoptional.xyz).pdf');
 }
+
 
 
 
