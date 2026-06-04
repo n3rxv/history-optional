@@ -77,36 +77,32 @@ function SourcePassages({ sources }: { sources: { book_title: string; content: s
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    
 
-  const pageW = 210, pageH = 297, M = 18, contentW = 174;
-
-  // Premium palette — ink on white, gold accent
-  const INK    : [number,number,number] = [10,  10,  10];
-  const INK2   : [number,number,number] = [40,  40,  40];
-  const INK3   : [number,number,number] = [90,  90,  90];
-  const GOLD   : [number,number,number] = [37,  99, 235];
-  const GOLD2  : [number,number,number] = [59, 130, 246];
-  const RULE   : [number,number,number] = [220, 220, 220];
-  const BGSOFT : [number,number,number] = [245, 248, 255];
-  const DOMAIN = 'www.historyoptional.xyz';
-  const URL    = 'https://www.historyoptional.xyz';
+  const pageW = 210, pageH = 297, M = 20, contentW = 170;
+  const INK:    [number,number,number] = [15,  15,  15];
+  const INK2:   [number,number,number] = [45,  45,  45];
+  const INK3:   [number,number,number] = [120, 120, 120];
+  const ACCENT: [number,number,number] = [30,  30,  30];
+  const RULE:   [number,number,number] = [200, 200, 200];
+  const QBG:    [number,number,number] = [248, 248, 248];
+  const CHAT_URL = 'https://historyoptional.xyz/chat';
+  const DOMAIN   = 'www.historyoptional.xyz';
 
   let pg = 1, y = 0;
 
   const strip = (t: string) => {
     const map: Record<string,string> = {
-      '\u0101':'a','\u0100':'A','\u012b':'i','\u012a':'I','\u016b':'u','\u016a':'U',
-      '\u1e0d':'d','\u1e0c':'D','\u1e6d':'t','\u1e6c':'T','\u1e47':'n','\u1e46':'N',
-      '\u1e63':'s','\u1e62':'S','\u015b':'s','\u015a':'S','\u1e25':'h','\u1e24':'H',
-      '\u1e45':'n','\u1e44':'N','\u1e37':'l','\u1e36':'L','\u1e5b':'r','\u1e5a':'R',
-      '\u1e43':'m','\u1e42':'M','\u1e41':'m','\u1e40':'M',
-      '\u0107':'c','\u0106':'C','\u010d':'c','\u010c':'C',
-      '\u2013':'--','\u2014':'--','\u2018':"'",'\u2019':"'",
-      '\u201c':'"','\u201d':'"','\u2026':'...','\u00d7':'x','\u00f7':'/',
-      '\u00e9':'e','\u00e8':'e','\u00ea':'e','\u00e0':'a','\u00e2':'a',
-      '\u00e4':'a','\u00f6':'o','\u00fc':'u','\u00fb':'u','\u00f1':'n',
-      '\u00e7':'c','\u00df':'ss','\u00e6':'ae',
+      'ā':'a','Ā':'A','ī':'i','Ī':'I','ū':'u','Ū':'U',
+      'ḍ':'d','Ḍ':'D','ṭ':'t','Ṭ':'T','ṇ':'n','Ṇ':'N',
+      'ṣ':'s','Ṣ':'S','ś':'s','Ś':'S','ḥ':'h','Ḥ':'H',
+      'ṅ':'n','Ṅ':'N','ḷ':'l','Ḷ':'L','ṛ':'r','Ṛ':'R',
+      'ṃ':'m','Ṃ':'M','ṁ':'m','Ṁ':'M',
+      'ć':'c','Ć':'C','č':'c','Č':'C',
+      '–':'--','—':'--','‘':"'",'’':"'",
+      '“':'"','”':'"','…':'...','×':'x','÷':'/',
+      'é':'e','è':'e','ê':'e','à':'a','â':'a',
+      'ä':'a','ö':'o','ü':'u','û':'u','ñ':'n',
+      'ç':'c','ß':'ss','æ':'ae',
     };
     let result = '';
     const base = t
@@ -123,156 +119,107 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     return result;
   };
 
-  const drawBg = () => {
+  const drawPage = () => {
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, pageW, pageH, 'F');
-  };
-
-  const drawHeader = () => {
-    // Top gold rule
-    doc.setFillColor(...GOLD);
-    doc.rect(0, 0, pageW, 0.8, 'F');
-    // Header area
-    doc.setFillColor(...BGSOFT);
-    doc.rect(0, 0.8, pageW, 13, 'F');
-    // Bottom rule of header
-    doc.setFillColor(...RULE);
-    doc.rect(0, 13.8, pageW, 0.3, 'F');
-
-    doc.setFont('times', 'bold');
-    doc.setFontSize(7.5);
-    doc.setTextColor(...GOLD);
-    doc.text('HISTORY OPTIONAL', M, 9);
-    doc.link(M, 2, 52, 10, { url: URL });
-
-    doc.setFont('times', 'normal');
-    doc.setFontSize(6.2);
+    doc.setDrawColor(...RULE);
+    doc.setLineWidth(0.3);
+    doc.line(M, pageH - 12, pageW - M, pageH - 12);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
     doc.setTextColor(...INK3);
-    doc.text(DOMAIN, M + 55, 9);
-    doc.text('AI Chat  ·  UPSC History Optional', pageW - M, 9, { align: 'right' });
+    doc.text('crispy response', M, pageH - 7);
+    doc.text(DOMAIN, pageW / 2, pageH - 7, { align: 'center' });
+    doc.link(0, pageH - 14, pageW, 14, { url: CHAT_URL });
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...ACCENT);
+    doc.text(String(pg), pageW - M, pageH - 7, { align: 'right' });
   };
 
-  const drawFooter = () => {
-    doc.setFillColor(...RULE);
-    doc.rect(0, pageH - 11, pageW, 0.3, 'F');
-    doc.setFillColor(...BGSOFT);
-    doc.rect(0, pageH - 10.7, pageW, 10.7, 'F');
-    // Gold bottom rule
-    doc.setFillColor(...GOLD);
-    doc.rect(0, pageH - 0.6, pageW, 0.6, 'F');
+  const nextPage = () => { doc.addPage(); pg++; drawPage(); y = M; };
+  const chk = (n: number) => { if (y + n > pageH - 16) nextPage(); };
 
-    doc.setFont('times', 'normal');
-    doc.setFontSize(6.2);
-    doc.setTextColor(...INK3);
-    doc.text(DOMAIN, M, pageH - 4.5);
-    doc.link(M, pageH - 9, 50, 7, { url: URL });
-    doc.text('AI History Assistant  ·  UPSC History Optional', pageW / 2, pageH - 4.5, { align: 'center' });
-    doc.setFont('times', 'bold');
-    doc.setTextColor(...GOLD);
-    doc.text(String(pg), pageW - M, pageH - 4.5, { align: 'right' });
-  };
+  drawPage();
+  y = M;
 
-  const nextPage = () => {
-    doc.addPage(); pg++;
-    drawBg(); drawHeader(); drawFooter(); y = 26;
-  };
+  doc.link(0, 0, pageW, pageH - 14, { url: CHAT_URL });
 
-  const chk = (n: number) => { if (y + n > pageH - 14) nextPage(); };
-
-  drawBg(); drawHeader(); drawFooter(); y = 26;
-
-  // Question block
   if (questionText) {
-    const qTxt = strip(questionText);
-    doc.setFont('times', 'bold');
-    doc.setFontSize(6);
-    doc.setTextColor(...GOLD);
-    doc.text('QUESTION', M, y);
-    y += 3.5;
-
-    const qLines = doc.splitTextToSize(strip(questionText!), contentW - 14) as string[];
-    const qH = qLines.length * 7.5 + 14;
-    doc.setFillColor(...BGSOFT);
+    const qLines = doc.splitTextToSize(strip(questionText), contentW - 8) as string[];
+    const qH = qLines.length * 6 + 10;
+    chk(qH + 6);
+    doc.setFillColor(...QBG);
     doc.rect(M, y, contentW, qH, 'F');
-    doc.setFillColor(...GOLD);
-    doc.rect(M, y, 2, qH, 'F');
-
-    doc.setFont('times', 'normal');
-    doc.setFontSize(11);
+    doc.setDrawColor(...RULE);
+    doc.setLineWidth(0.4);
+    doc.rect(M, y, contentW, qH, 'S');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    doc.setTextColor(...INK3);
+    doc.text('QUESTION', M + 4, y + 5);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
     doc.setTextColor(...INK);
-    qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 8 + i * 7.5); });
-    y += qH + 9;
+    qLines.forEach((l: string, i: number) => { doc.text(l, M + 4, y + 10 + i * 6); });
+    y += qH + 8;
   }
 
-  // Content
+  doc.setDrawColor(...RULE);
+  doc.setLineWidth(0.2);
+  doc.line(M, y, pageW - M, y);
+  y += 6;
+
   const lines = markdownText.split('\n');
   for (const raw of lines) {
     const t = raw.trim();
-    if (!t || /^---+$/.test(t)) { y += 1.5; continue; }
+    if (!t || /^---+$/.test(t)) { y += 2; continue; }
 
     if (/^#{1,2} /.test(t)) {
       const txt = strip(t.replace(/^#{1,2} /, ''));
-      chk(14); y += 5;
-      // Gold left bar + heading
-      doc.setFillColor(...GOLD);
-      doc.rect(M, y - 5, 2, 9, 'F');
-      doc.setFont('times', 'bold');
-      doc.setFontSize(10.5);
+      chk(12); y += 4;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
       doc.setTextColor(...INK);
-      doc.text(txt, M + 6, y);
-      // Thin rule
+      doc.text(txt, M, y);
       doc.setDrawColor(...RULE);
       doc.setLineWidth(0.2);
-      doc.line(M + 6, y + 2, pageW - M, y + 2);
+      doc.line(M, y + 2, pageW - M, y + 2);
       y += 8;
     } else if (/^#{3,4} /.test(t)) {
       const txt = strip(t.replace(/^#{3,4} /, ''));
-      chk(10); y += 3;
-      doc.setFont('times', 'bold');
-      doc.setFontSize(10.5);
+      chk(9); y += 2;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
       doc.setTextColor(...INK2);
-      doc.text(txt, M + 4, y);
+      doc.text(txt, M, y);
       y += 6;
     } else if (/^[•\-\*] /.test(t)) {
       const txt = strip(t.replace(/^[•\-\*] /, ''));
-      doc.setFont('times', 'normal');
-      doc.setFontSize(11);
-      const bL = doc.splitTextToSize(txt, contentW - 10) as string[];
-      chk(bL.length * 6.8 + 3);
-      // Gold bullet
-      doc.setFillColor(...GOLD);
-      doc.rect(M + 2, y - 1.2, 1.5, 1.5, 'F');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      const bL = doc.splitTextToSize(txt, contentW - 8) as string[];
+      chk(bL.length * 5.5 + 2);
       doc.setTextColor(...INK2);
-      bL.forEach((l: string) => { chk(7); doc.text(l, M + 7, y); y += 6.8; });
+      doc.text('•', M + 2, y);
+      bL.forEach((l: string) => { chk(6); doc.text(l, M + 7, y); y += 5.5; });
       y += 1.5;
     } else {
       const txt = strip(t);
-      doc.setFont('times', 'normal');
-      doc.setFontSize(11);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
       const pL = doc.splitTextToSize(txt, contentW) as string[];
       chk(pL.length * 5.5 + 2);
       doc.setTextColor(...INK2);
       pL.forEach((l: string) => { chk(5.5); doc.text(l, M, y); y += 5.5; });
-      y += 4;
+      y += 3;
     }
   }
 
-  // Single subtle watermark per page, center only
-  for (let p = 1; p <= pg; p++) {
-    doc.setPage(p);
-    doc.saveGraphicsState();
-    // @ts-ignore
-    doc.setGState(doc.GState({ opacity: 0.025 }));
-    doc.setFont('times', 'bold');
-    doc.setFontSize(16);
-    doc.setTextColor(...GOLD);
-    doc.text(DOMAIN, pageW / 2, pageH / 2, { align: 'center', angle: 30 });
-    doc.restoreGraphicsState();
-  }
-
-  const slug = markdownText.slice(0, 40).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'answer';
-  doc.save(slug + '.pdf');
+  const slug = (questionText ?? markdownText).slice(0, 60)
+    .replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
+  doc.save(slug + ' (historyoptional.xyz).pdf');
 }
+
 
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
   const [downloading, setDownloading] = useState(false);
