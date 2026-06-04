@@ -132,7 +132,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   const docDef: any = {
     content,
-    defaultStyle: { font: 'Times', fontSize: 10 },
+    defaultStyle: { font: 'Roboto', fontSize: 10 },
     pageMargins: [40, 40, 40, 50],
     footer: (currentPage: number) => ({
       columns: [
