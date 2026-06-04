@@ -81,31 +81,77 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
   pdfMake.vfs = pdfFonts.vfs;
 
+  const BLUE = '#1a4fa0';
+  const BLACK = '#000000';
+  const LOGO_B64 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjMDAwMDAwIi8+CiAgPHRleHQgeD0iNCIgeT0iMjQiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLCBzZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2YwZWRlOCI+SC48L3RleHQ+Cjwvc3ZnPg==';
+
   const parseInline = (t: string) =>
     t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
 
   const content: any[] = [];
 
+  // Header bar with logo + site address
+  content.push({
+    table: {
+      widths: [36, '*'],
+      body: [[
+        {
+          image: LOGO_B64,
+          width: 26,
+          height: 26,
+          margin: [0, 4, 0, 4],
+          border: [false, false, false, false],
+        },
+        {
+          stack: [
+            { text: 'historyoptional.xyz', fontSize: 13, bold: true, color: '#ffffff', margin: [6, 2, 0, 0] },
+            { text: 'AI History Assistant', fontSize: 8, color: '#c8d8f8', margin: [6, 0, 0, 0] },
+          ],
+          fillColor: BLUE,
+          border: [false, false, false, false],
+        }
+      ]],
+    },
+    layout: {
+      paddingLeft: () => 10,
+      paddingRight: () => 10,
+      paddingTop: () => 6,
+      paddingBottom: () => 6,
+      fillColor: () => BLUE,
+    },
+    margin: [-40, -40, -40, 14],
+  });
+
+  // Question box
   if (questionText) {
     content.push({
       table: {
         widths: ['*'],
         body: [[{
           stack: [
-            { text: 'QUESTION', fontSize: 7, color: '#888888', bold: true, marginBottom: 4 },
-            { text: questionText, fontSize: 10, color: '#111111' },
+            { text: 'QUESTION', fontSize: 8, bold: true, color: BLUE, margin: [0, 0, 0, 5], characterSpacing: 1.5 },
+            { text: questionText, fontSize: 11, bold: true, color: BLACK, lineHeight: 1.4 },
           ],
-          fillColor: '#f8f8f8',
+          fillColor: '#eef3fc',
           border: [true, true, true, true],
-          margin: [8, 8, 8, 8],
+          margin: [12, 10, 12, 10],
         }]],
       },
-      layout: { defaultBorder: true },
-      marginBottom: 10,
+      layout: {
+        hLineColor: () => BLUE,
+        vLineColor: () => BLUE,
+        hLineWidth: () => 1.5,
+        vLineWidth: () => 1.5,
+      },
+      marginBottom: 12,
     });
   }
 
-  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#e0e0e0' }], margin: [0, 0, 0, 8] });
+  // Divider
+  content.push({
+    canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#cccccc' }],
+    margin: [0, 0, 0, 10],
+  });
 
   const mdLines = markdownText.split('\n');
   for (const raw of mdLines) {
@@ -113,17 +159,17 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     if (!t || /^---+$/.test(t)) { content.push({ text: ' ', fontSize: 4 }); continue; }
 
     if (/^# /.test(t)) {
-      content.push({ text: parseInline(t.replace(/^# /, '')), fontSize: 13, bold: true, color: '#0f0f0f', marginTop: 10, marginBottom: 4 });
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#e0e0e0' }], marginBottom: 4 });
+      content.push({ text: parseInline(t.replace(/^# /, '')), fontSize: 15, bold: true, color: BLACK, marginTop: 12, marginBottom: 2 });
+      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.8, lineColor: '#333333' }], marginBottom: 5 });
     } else if (/^## /.test(t)) {
-      content.push({ text: parseInline(t.replace(/^## /, '')), fontSize: 12, bold: true, color: '#0f0f0f', marginTop: 8, marginBottom: 3 });
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#e0e0e0' }], marginBottom: 3 });
+      content.push({ text: parseInline(t.replace(/^## /, '')), fontSize: 13, bold: true, color: BLACK, marginTop: 10, marginBottom: 2 });
+      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#666666' }], marginBottom: 4 });
     } else if (/^#{3,6} /.test(t)) {
-      content.push({ text: parseInline(t.replace(/^#{3,6} /, '')), fontSize: 11, bold: true, color: '#2d2d2d', marginTop: 6, marginBottom: 2 });
+      content.push({ text: parseInline(t.replace(/^#{3,6} /, '')), fontSize: 12, bold: true, color: BLACK, marginTop: 8, marginBottom: 3 });
     } else if (/^[•\-\*] /.test(t)) {
-      content.push({ text: '• ' + parseInline(t.replace(/^[•\-\*] /, '')), fontSize: 10, color: '#2d2d2d', margin: [10, 0, 0, 2], lineHeight: 1.6 });
+      content.push({ text: '• ' + parseInline(t.replace(/^[•\-\*] /, '')), fontSize: 11, color: BLACK, margin: [10, 0, 0, 3], lineHeight: 1.6 });
     } else {
-      content.push({ text: parseInline(t), fontSize: 10, color: '#2d2d2d', marginBottom: 4, lineHeight: 1.6 });
+      content.push({ text: parseInline(t), fontSize: 11, color: BLACK, marginBottom: 5, lineHeight: 1.6 });
     }
   }
 
@@ -132,13 +178,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   const docDef: any = {
     content,
-    defaultStyle: { font: 'Roboto', fontSize: 10 },
+    defaultStyle: { font: 'Roboto', fontSize: 11 },
     pageMargins: [40, 40, 40, 50],
-    footer: (currentPage: number) => ({
+    footer: (currentPage: number, pageCount: number) => ({
       columns: [
-        { text: 'crispy response', fontSize: 7, color: '#aaaaaa', margin: [40, 0, 0, 0] },
-        { text: 'www.historyoptional.xyz', fontSize: 7, color: '#aaaaaa', alignment: 'center' },
-        { text: String(currentPage), fontSize: 7, color: '#aaaaaa', alignment: 'right', margin: [0, 0, 40, 0] },
+        { text: 'historyoptional.xyz', fontSize: 9, bold: true, color: BLACK, margin: [40, 0, 0, 0] },
+        { text: 'crispy response', fontSize: 9, color: '#444444', alignment: 'center' },
+        { text: currentPage + ' / ' + pageCount, fontSize: 9, color: BLACK, alignment: 'right', margin: [0, 0, 40, 0] },
       ],
       margin: [0, 10, 0, 0],
     }),
@@ -146,7 +192,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   pdfMake.createPdf(docDef).download(slug + ' (historyoptional.xyz).pdf');
 }
-
 
 
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
