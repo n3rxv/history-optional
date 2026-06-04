@@ -91,19 +91,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   let pg = 1, y = 0;
 
   const strip = (t: string) => {
-    const map: Record<string,string> = {
-      'ā':'a','Ā':'A','ī':'i','Ī':'I','ū':'u','Ū':'U',
-      'ḍ':'d','Ḍ':'D','ṭ':'t','Ṭ':'T','ṇ':'n','Ṇ':'N',
-      'ṣ':'s','Ṣ':'S','ś':'s','Ś':'S','ḥ':'h','Ḥ':'H',
-      'ṅ':'n','Ṅ':'N','ḷ':'l','Ḷ':'L','ṛ':'r','Ṛ':'R',
-      'ṃ':'m','Ṃ':'M','ṁ':'m','Ṁ':'M',
-      'ć':'c','Ć':'C','č':'c','Č':'C',
-      '–':'--','—':'--','‘':"'",'’':"'",
-      '“':'"','”':'"','…':'...','×':'x','÷':'/',
-      'é':'e','è':'e','ê':'e','à':'a','â':'a',
-      'ä':'a','ö':'o','ü':'u','û':'u','ñ':'n',
-      'ç':'c','ß':'ss','æ':'ae',
-    };
     let result = '';
     const base = t
       .replace(/\*\*(.+?)\*\*/g,'$1')
@@ -111,10 +98,9 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       .replace(/`(.+?)`/g,'$1');
     for (const ch of base) {
       if (ch.charCodeAt(0) < 128) { result += ch; continue; }
-      if (map[ch]) { result += map[ch]; continue; }
       const decomposed = ch.normalize('NFD');
       const b = decomposed[0];
-      if (b.charCodeAt(0) < 128) { result += b; continue; }
+      if (b.charCodeAt(0) < 128) { result += b; }
     }
     return result;
   };
@@ -169,8 +155,8 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   doc.line(M, y, pageW - M, y);
   y += 6;
 
-  const lines = markdownText.split('\n');
-  for (const raw of lines) {
+  const mdLines = markdownText.split('\n');
+  for (const raw of mdLines) {
     const t = raw.trim();
     if (!t || /^---+$/.test(t)) { y += 2; continue; }
 
@@ -178,21 +164,21 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       const txt = strip(t.replace(/^#{1,2} /, ''));
       chk(12); y += 4;
       doc.setFont('times', 'bold');
-      doc.setFontSize(11);
+      doc.setFontSize(12);
       doc.setTextColor(...INK);
       doc.text(txt, M, y);
       doc.setDrawColor(...RULE);
       doc.setLineWidth(0.2);
       doc.line(M, y + 2, pageW - M, y + 2);
       y += 8;
-    } else if (/^#{3,4} /.test(t)) {
-      const txt = strip(t.replace(/^#{3,4} /, ''));
+    } else if (/^#{3,6} /.test(t)) {
+      const txt = strip(t.replace(/^#{3,6} /, ''));
       chk(9); y += 2;
       doc.setFont('times', 'bold');
-      doc.setFontSize(10);
+      doc.setFontSize(11);
       doc.setTextColor(...INK2);
       doc.text(txt, M, y);
-      y += 6;
+      y += 7;
     } else if (/^[•\-\*] /.test(t)) {
       const txt = strip(t.replace(/^[•\-\*] /, ''));
       doc.setFont('times', 'normal');
@@ -219,55 +205,12 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     .replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
   doc.save(slug + ' (historyoptional.xyz).pdf');
 }
-
-
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
   const [downloading, setDownloading] = useState(false);
   const handleClick = async () => {
     setDownloading(true);
     try {
-      const html2pdf = (await import('html2pdf.js')).default;
-      const container = document.createElement('div');
-      container.style.cssText = 'font-family: Georgia, serif; font-size: 13px; line-height: 1.8; color: #111; padding: 32px; max-width: 680px; margin: 0 auto;';
-
-      if (question) {
-        const qEl = document.createElement('div');
-        qEl.style.cssText = 'font-size: 11px; color: #555; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid #ccc; font-family: monospace; letter-spacing: 0.03em;';
-        qEl.textContent = 'Q: ' + question;
-        container.appendChild(qEl);
-      }
-
-      const bodyEl = document.createElement('div');
-      // Convert markdown to basic HTML for PDF
-      let html = content
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.+?)\*/g, '<em>$1</em>')
-        .replace(/^### (.+)$/gm, '<h3 style="font-size:14px;margin:14px 0 4px;color:#1a1a1a;">$1</h3>')
-        .replace(/^## (.+)$/gm, '<h2 style="font-size:15px;margin:16px 0 6px;color:#1a1a1a;">$1</h2>')
-        .replace(/^# (.+)$/gm, '<h1 style="font-size:17px;margin:18px 0 8px;color:#1a1a1a;">$1</h1>')
-        .replace(/^ *[-*•] (.+)$/gm, '<div style="margin:3px 0 3px 16px;">• $1</div>')
-        .replace(/^ *\d+[.)]\s+(.+)$/gm, '<div style="margin:3px 0 3px 16px;">$1</div>')
-        .replace(/\n\n/g, '<div style="height:10px"></div>')
-        .replace(/\n/g, '<br/>');
-      bodyEl.innerHTML = html;
-      container.appendChild(bodyEl);
-
-      const footer = document.createElement('div');
-      footer.style.cssText = 'margin-top: 28px; padding-top: 10px; border-top: 1px solid #ddd; font-size: 10px; color: #888; font-family: monospace; text-align: center;';
-      footer.textContent = 'historyoptional.xyz — History Optional Mentor';
-      container.appendChild(footer);
-
-      // PDF filename = question (trimmed) + (historyoptional.xyz).pdf
-      const rawName = question ? question.trim().replace(/[\\/:*?"<>|]/g, '').slice(0, 80) : 'Answer';
-      const fileName = rawName + ' (historyoptional.xyz).pdf';
-
-      await html2pdf().set({
-        margin: [14, 14, 14, 14],
-        filename: fileName,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      }).from(container).save();
+      await downloadAnswerAsPDF(content, question);
     }
     catch (e) { console.error(e); alert('PDF generation failed.'); }
     finally { setDownloading(false); }
@@ -275,7 +218,7 @@ function DownloadPDFButton({ content, question }: { content: string; question?: 
   return (
     <button onClick={handleClick} disabled={downloading} className="chat-pdf-btn">
       {downloading ? (
-        <><span className="chat-spin">↻</span> Generating…</>
+        <><span className="chat-spin">&#8635;</span> Generating...</>
       ) : (
         <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg> Save PDF</>
       )}
