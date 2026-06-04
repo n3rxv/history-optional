@@ -75,136 +75,142 @@ function SourcePassages({ sources }: { sources: { book_title: string; content: s
 }
 
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
-  const { jsPDF } = await import('jspdf');
-  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const { pdf } = await import('@react-pdf/renderer');
+  const { Document, Page, Text, View, StyleSheet, Link } = await import('@react-pdf/renderer');
 
-  const pageW = 210, pageH = 297, M = 20, contentW = 170;
-  const INK:    [number,number,number] = [15,  15,  15];
-  const INK2:   [number,number,number] = [45,  45,  45];
-  const INK3:   [number,number,number] = [120, 120, 120];
-  const ACCENT: [number,number,number] = [30,  30,  30];
-  const RULE:   [number,number,number] = [200, 200, 200];
-  const QBG:    [number,number,number] = [248, 248, 248];
-  const CHAT_URL = 'https://historyoptional.xyz/chat';
-  const DOMAIN   = 'www.historyoptional.xyz';
+  const styles = StyleSheet.create({
+    page: {
+      backgroundColor: '#ffffff',
+      paddingTop: 28,
+      paddingBottom: 28,
+      paddingHorizontal: 28,
+      fontFamily: 'Times-Roman',
+    },
+    questionBox: {
+      backgroundColor: '#f8f8f8',
+      border: '1pt solid #e0e0e0',
+      borderRadius: 3,
+      padding: 10,
+      marginBottom: 12,
+    },
+    questionLabel: {
+      fontSize: 7,
+      color: '#888888',
+      marginBottom: 4,
+      fontFamily: 'Times-Bold',
+      letterSpacing: 1,
+    },
+    questionText: {
+      fontSize: 10,
+      color: '#111111',
+      fontFamily: 'Times-Roman',
+      lineHeight: 1.5,
+    },
+    divider: {
+      borderBottom: '0.5pt solid #e0e0e0',
+      marginBottom: 8,
+    },
+    h1: {
+      fontSize: 13,
+      fontFamily: 'Times-Bold',
+      color: '#0f0f0f',
+      marginTop: 10,
+      marginBottom: 4,
+      borderBottom: '0.5pt solid #e0e0e0',
+      paddingBottom: 2,
+    },
+    h2: {
+      fontSize: 12,
+      fontFamily: 'Times-Bold',
+      color: '#0f0f0f',
+      marginTop: 8,
+      marginBottom: 3,
+      borderBottom: '0.5pt solid #e0e0e0',
+      paddingBottom: 2,
+    },
+    h3: {
+      fontSize: 11,
+      fontFamily: 'Times-Bold',
+      color: '#2d2d2d',
+      marginTop: 6,
+      marginBottom: 2,
+    },
+    bullet: {
+      fontSize: 10,
+      fontFamily: 'Times-Roman',
+      color: '#2d2d2d',
+      lineHeight: 1.6,
+      marginBottom: 2,
+      paddingLeft: 12,
+    },
+    para: {
+      fontSize: 10,
+      fontFamily: 'Times-Roman',
+      color: '#2d2d2d',
+      lineHeight: 1.6,
+      marginBottom: 4,
+    },
+    footer: {
+      position: 'absolute',
+      bottom: 14,
+      left: 28,
+      right: 28,
+      borderTop: '0.5pt solid #e0e0e0',
+      paddingTop: 4,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    footerText: {
+      fontSize: 7,
+      color: '#aaaaaa',
+      fontFamily: 'Times-Roman',
+    },
+  });
 
-  let pg = 1, y = 0;
-
-  const strip = (t: string) => {
-    let result = '';
-    const base = t
-      .replace(/\*\*(.+?)\*\*/g,'$1')
-      .replace(/\*(.+?)\*/g,'$1')
-      .replace(/`(.+?)`/g,'$1');
-    for (const ch of base) {
-      if (ch.charCodeAt(0) < 128) { result += ch; continue; }
-      const decomposed = ch.normalize('NFD');
-      const b = decomposed[0];
-      if (b.charCodeAt(0) < 128) { result += b; }
-    }
-    return result;
-  };
-
-  const drawPage = () => {
-    doc.setFillColor(255, 255, 255);
-    doc.rect(0, 0, pageW, pageH, 'F');
-    doc.setDrawColor(...RULE);
-    doc.setLineWidth(0.3);
-    doc.line(M, pageH - 12, pageW - M, pageH - 12);
-    doc.setFont('times', 'normal');
-    doc.setFontSize(7);
-    doc.setTextColor(...INK3);
-    doc.text('crispy response', M, pageH - 7);
-    doc.text(DOMAIN, pageW / 2, pageH - 7, { align: 'center' });
-    doc.link(0, pageH - 14, pageW, 14, { url: CHAT_URL });
-    doc.setFont('times', 'bold');
-    doc.setTextColor(...ACCENT);
-    doc.text(String(pg), pageW - M, pageH - 7, { align: 'right' });
-  };
-
-  const nextPage = () => { doc.addPage(); pg++; drawPage(); y = M; };
-  const chk = (n: number) => { if (y + n > pageH - 16) nextPage(); };
-
-  drawPage();
-  y = M;
-
-  doc.link(0, 0, pageW, pageH - 14, { url: CHAT_URL });
-
-  if (questionText) {
-    const qLines = doc.splitTextToSize(strip(questionText), contentW - 8) as string[];
-    const qH = qLines.length * 6 + 10;
-    chk(qH + 6);
-    doc.setFillColor(...QBG);
-    doc.rect(M, y, contentW, qH, 'F');
-    doc.setDrawColor(...RULE);
-    doc.setLineWidth(0.4);
-    doc.rect(M, y, contentW, qH, 'S');
-    doc.setFont('times', 'bold');
-    doc.setFontSize(7);
-    doc.setTextColor(...INK3);
-    doc.text('QUESTION', M + 4, y + 5);
-    doc.setFont('times', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(...INK);
-    qLines.forEach((l: string, i: number) => { doc.text(l, M + 4, y + 10 + i * 6); });
-    y += qH + 8;
-  }
-
-  doc.setDrawColor(...RULE);
-  doc.setLineWidth(0.2);
-  doc.line(M, y, pageW - M, y);
-  y += 6;
+  const parseInline = (t: string) =>
+    t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
 
   const mdLines = markdownText.split('\n');
-  for (const raw of mdLines) {
-    const t = raw.trim();
-    if (!t || /^---+$/.test(t)) { y += 2; continue; }
 
-    if (/^#{1,2} /.test(t)) {
-      const txt = strip(t.replace(/^#{1,2} /, ''));
-      chk(12); y += 4;
-      doc.setFont('times', 'bold');
-      doc.setFontSize(12);
-      doc.setTextColor(...INK);
-      doc.text(txt, M, y);
-      doc.setDrawColor(...RULE);
-      doc.setLineWidth(0.2);
-      doc.line(M, y + 2, pageW - M, y + 2);
-      y += 8;
-    } else if (/^#{3,6} /.test(t)) {
-      const txt = strip(t.replace(/^#{3,6} /, ''));
-      chk(9); y += 2;
-      doc.setFont('times', 'bold');
-      doc.setFontSize(11);
-      doc.setTextColor(...INK2);
-      doc.text(txt, M, y);
-      y += 7;
-    } else if (/^[•\-\*] /.test(t)) {
-      const txt = strip(t.replace(/^[•\-\*] /, ''));
-      doc.setFont('times', 'normal');
-      doc.setFontSize(10);
-      const bL = doc.splitTextToSize(txt, contentW - 8) as string[];
-      chk(bL.length * 5.5 + 2);
-      doc.setTextColor(...INK2);
-      doc.text('•', M + 2, y);
-      bL.forEach((l: string) => { chk(6); doc.text(l, M + 7, y); y += 5.5; });
-      y += 1.5;
-    } else {
-      const txt = strip(t);
-      doc.setFont('times', 'normal');
-      doc.setFontSize(10);
-      const pL = doc.splitTextToSize(txt, contentW) as string[];
-      chk(pL.length * 5.5 + 2);
-      doc.setTextColor(...INK2);
-      pL.forEach((l: string) => { chk(5.5); doc.text(l, M, y); y += 5.5; });
-      y += 3;
-    }
-  }
+  const DocComponent = () => (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {questionText && (
+          <View style={styles.questionBox}>
+            <Text style={styles.questionLabel}>QUESTION</Text>
+            <Text style={styles.questionText}>{questionText}</Text>
+          </View>
+        )}
+        <View style={styles.divider} />
+        {mdLines.map((raw, idx) => {
+          const t = raw.trim();
+          if (!t || /^---+$/.test(t)) return <View key={idx} style={{ marginBottom: 3 }} />;
+          if (/^# /.test(t))   return <Text key={idx} style={styles.h1}>{parseInline(t.replace(/^# /, ''))}</Text>;
+          if (/^## /.test(t))  return <Text key={idx} style={styles.h2}>{parseInline(t.replace(/^## /, ''))}</Text>;
+          if (/^#{3,6} /.test(t)) return <Text key={idx} style={styles.h3}>{parseInline(t.replace(/^#{3,6} /, ''))}</Text>;
+          if (/^[•\-\*] /.test(t)) return <Text key={idx} style={styles.bullet}>{'• ' + parseInline(t.replace(/^[•\-\*] /, ''))}</Text>;
+          return <Text key={idx} style={styles.para}>{parseInline(t)}</Text>;
+        })}
+        <View style={styles.footer} fixed>
+          <Text style={styles.footerText}>crispy response</Text>
+          <Link src="https://historyoptional.xyz/chat" style={styles.footerText}>www.historyoptional.xyz</Link>
+          <Text style={styles.footerText} render={({ pageNumber }) => String(pageNumber)} />
+        </View>
+      </Page>
+    </Document>
+  );
 
+  const blob = await pdf(<DocComponent />).toBlob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
   const slug = (questionText ?? markdownText).slice(0, 60)
     .replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
-  doc.save(slug + ' (historyoptional.xyz).pdf');
+  a.href = url;
+  a.download = slug + ' (historyoptional.xyz).pdf';
+  a.click();
+  URL.revokeObjectURL(url);
 }
+
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
   const [downloading, setDownloading] = useState(false);
   const handleClick = async () => {
@@ -225,6 +231,7 @@ function DownloadPDFButton({ content, question }: { content: string; question?: 
     </button>
   );
 }
+
 
 function ChatContent() {
   const searchParams = useSearchParams();
