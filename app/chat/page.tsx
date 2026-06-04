@@ -75,141 +75,79 @@ function SourcePassages({ sources }: { sources: { book_title: string; content: s
 }
 
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
-  const { pdf } = await import('@react-pdf/renderer');
-  const { Document, Page, Text, View, StyleSheet, Link } = await import('@react-pdf/renderer');
-
-  const styles = StyleSheet.create({
-    page: {
-      backgroundColor: '#ffffff',
-      paddingTop: 28,
-      paddingBottom: 28,
-      paddingHorizontal: 28,
-      fontFamily: 'Times-Roman',
-    },
-    questionBox: {
-      backgroundColor: '#f8f8f8',
-      border: '1pt solid #e0e0e0',
-      borderRadius: 3,
-      padding: 10,
-      marginBottom: 12,
-    },
-    questionLabel: {
-      fontSize: 7,
-      color: '#888888',
-      marginBottom: 4,
-      fontFamily: 'Times-Bold',
-      letterSpacing: 1,
-    },
-    questionText: {
-      fontSize: 10,
-      color: '#111111',
-      fontFamily: 'Times-Roman',
-      lineHeight: 1.5,
-    },
-    divider: {
-      borderBottom: '0.5pt solid #e0e0e0',
-      marginBottom: 8,
-    },
-    h1: {
-      fontSize: 13,
-      fontFamily: 'Times-Bold',
-      color: '#0f0f0f',
-      marginTop: 10,
-      marginBottom: 4,
-      borderBottom: '0.5pt solid #e0e0e0',
-      paddingBottom: 2,
-    },
-    h2: {
-      fontSize: 12,
-      fontFamily: 'Times-Bold',
-      color: '#0f0f0f',
-      marginTop: 8,
-      marginBottom: 3,
-      borderBottom: '0.5pt solid #e0e0e0',
-      paddingBottom: 2,
-    },
-    h3: {
-      fontSize: 11,
-      fontFamily: 'Times-Bold',
-      color: '#2d2d2d',
-      marginTop: 6,
-      marginBottom: 2,
-    },
-    bullet: {
-      fontSize: 10,
-      fontFamily: 'Times-Roman',
-      color: '#2d2d2d',
-      lineHeight: 1.6,
-      marginBottom: 2,
-      paddingLeft: 12,
-    },
-    para: {
-      fontSize: 10,
-      fontFamily: 'Times-Roman',
-      color: '#2d2d2d',
-      lineHeight: 1.6,
-      marginBottom: 4,
-    },
-    footer: {
-      position: 'absolute',
-      bottom: 14,
-      left: 28,
-      right: 28,
-      borderTop: '0.5pt solid #e0e0e0',
-      paddingTop: 4,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    footerText: {
-      fontSize: 7,
-      color: '#aaaaaa',
-      fontFamily: 'Times-Roman',
-    },
-  });
+  const pdfMakeModule = await import('pdfmake/build/pdfmake');
+  const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
+  const pdfMake = (pdfMakeModule as any).default || pdfMakeModule;
+  const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
+  pdfMake.vfs = pdfFonts.vfs;
 
   const parseInline = (t: string) =>
     t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
 
+  const content: any[] = [];
+
+  if (questionText) {
+    content.push({
+      table: {
+        widths: ['*'],
+        body: [[{
+          stack: [
+            { text: 'QUESTION', fontSize: 7, color: '#888888', bold: true, marginBottom: 4 },
+            { text: questionText, fontSize: 10, color: '#111111' },
+          ],
+          fillColor: '#f8f8f8',
+          border: [true, true, true, true],
+          margin: [8, 8, 8, 8],
+        }]],
+      },
+      layout: { defaultBorder: true },
+      marginBottom: 10,
+    });
+  }
+
+  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#e0e0e0' }], margin: [0, 0, 0, 8] });
+
   const mdLines = markdownText.split('\n');
+  for (const raw of mdLines) {
+    const t = raw.trim();
+    if (!t || /^---+$/.test(t)) { content.push({ text: ' ', fontSize: 4 }); continue; }
 
-  const DocComponent = () => (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        {questionText && (
-          <View style={styles.questionBox}>
-            <Text style={styles.questionLabel}>QUESTION</Text>
-            <Text style={styles.questionText}>{questionText}</Text>
-          </View>
-        )}
-        <View style={styles.divider} />
-        {mdLines.map((raw, idx) => {
-          const t = raw.trim();
-          if (!t || /^---+$/.test(t)) return <View key={idx} style={{ marginBottom: 3 }} />;
-          if (/^# /.test(t))   return <Text key={idx} style={styles.h1}>{parseInline(t.replace(/^# /, ''))}</Text>;
-          if (/^## /.test(t))  return <Text key={idx} style={styles.h2}>{parseInline(t.replace(/^## /, ''))}</Text>;
-          if (/^#{3,6} /.test(t)) return <Text key={idx} style={styles.h3}>{parseInline(t.replace(/^#{3,6} /, ''))}</Text>;
-          if (/^[•\-\*] /.test(t)) return <Text key={idx} style={styles.bullet}>{'• ' + parseInline(t.replace(/^[•\-\*] /, ''))}</Text>;
-          return <Text key={idx} style={styles.para}>{parseInline(t)}</Text>;
-        })}
-        <View style={styles.footer} fixed>
-          <Text style={styles.footerText}>crispy response</Text>
-          <Link src="https://historyoptional.xyz/chat" style={styles.footerText}>www.historyoptional.xyz</Link>
-          <Text style={styles.footerText} render={({ pageNumber }) => String(pageNumber)} />
-        </View>
-      </Page>
-    </Document>
-  );
+    if (/^# /.test(t)) {
+      content.push({ text: parseInline(t.replace(/^# /, '')), fontSize: 13, bold: true, color: '#0f0f0f', marginTop: 10, marginBottom: 4 });
+      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#e0e0e0' }], marginBottom: 4 });
+    } else if (/^## /.test(t)) {
+      content.push({ text: parseInline(t.replace(/^## /, '')), fontSize: 12, bold: true, color: '#0f0f0f', marginTop: 8, marginBottom: 3 });
+      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#e0e0e0' }], marginBottom: 3 });
+    } else if (/^#{3,6} /.test(t)) {
+      content.push({ text: parseInline(t.replace(/^#{3,6} /, '')), fontSize: 11, bold: true, color: '#2d2d2d', marginTop: 6, marginBottom: 2 });
+    } else if (/^[•\-\*] /.test(t)) {
+      content.push({ text: '• ' + parseInline(t.replace(/^[•\-\*] /, '')), fontSize: 10, color: '#2d2d2d', margin: [10, 0, 0, 2], lineHeight: 1.6 });
+    } else {
+      content.push({ text: parseInline(t), fontSize: 10, color: '#2d2d2d', marginBottom: 4, lineHeight: 1.6 });
+    }
+  }
 
-  const blob = await pdf(<DocComponent />).toBlob();
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
   const slug = (questionText ?? markdownText).slice(0, 60)
     .replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
-  a.href = url;
-  a.download = slug + ' (historyoptional.xyz).pdf';
-  a.click();
-  URL.revokeObjectURL(url);
+
+  const docDef: any = {
+    content,
+    defaultStyle: { font: 'Times', fontSize: 10 },
+    pageMargins: [40, 40, 40, 50],
+    footer: (currentPage: number) => ({
+      columns: [
+        { text: 'crispy response', fontSize: 7, color: '#aaaaaa', margin: [40, 0, 0, 0] },
+        { text: 'www.historyoptional.xyz', fontSize: 7, color: '#aaaaaa', alignment: 'center' },
+        { text: String(currentPage), fontSize: 7, color: '#aaaaaa', alignment: 'right', margin: [0, 0, 40, 0] },
+      ],
+      margin: [0, 10, 0, 0],
+    }),
+  };
+
+  pdfMake.createPdf(docDef).download(slug + ' (historyoptional.xyz).pdf');
 }
+
+
 
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
   const [downloading, setDownloading] = useState(false);
