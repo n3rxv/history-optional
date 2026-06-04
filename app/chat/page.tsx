@@ -83,8 +83,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   const BLUE  = '#1a4fa0';
   const BLACK = '#000000';
-  const RED   = '#c0152f';
-  const GREEN = '#1a7a3c';
 
   const parseInline = (t: string) =>
     t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
@@ -115,25 +113,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: BLACK }], margin: [0, 0, 0, 2] });
   content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 3, lineColor: BLUE }], margin: [0, 0, 0, 14] });
-
-  // ── STAMPS ─────────────────────────────────────────────────────
-  content.push({
-    columns: [
-      {
-        table: { body: [[{ text: '● FOR EXAMINATION USE ONLY', fontSize: 7, bold: true, color: RED, characterSpacing: 1.5, margin: [6, 3, 6, 3], border: [true, true, true, true] }]] },
-        layout: { hLineColor: () => RED, vLineColor: () => RED, hLineWidth: () => 1, vLineWidth: () => 1 },
-        width: 'auto',
-      },
-      {
-        table: { body: [[{ text: '● CRISPY RESPONSE', fontSize: 7, bold: true, color: GREEN, characterSpacing: 1.5, margin: [6, 3, 6, 3], border: [true, true, true, true] }]] },
-        layout: { hLineColor: () => GREEN, vLineColor: () => GREEN, hLineWidth: () => 1, vLineWidth: () => 1 },
-        width: 'auto',
-        margin: [8, 0, 0, 0],
-      },
-      { text: '', width: '*' },
-    ],
-    margin: [0, 0, 0, 12],
-  });
 
   // ── QUESTION BOX ───────────────────────────────────────────────
   if (questionText) {
@@ -167,8 +146,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   // ── CONTENT ────────────────────────────────────────────────────
   const mdLines = markdownText.split('\n');
   let sectionNum = 0;
-  let bulletNum = 0;
-  let lastWasHeading = false;
 
   for (const raw of mdLines) {
     const t = raw.trim();
@@ -176,8 +153,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
     if (/^# /.test(t)) {
       sectionNum++;
-      bulletNum = 0;
-      lastWasHeading = false;
       const heading = parseInline(t.replace(/^# /, '')).toUpperCase();
       content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#bbbbbb' }], margin: [0, 8, 0, 4] });
       content.push({
@@ -188,59 +163,39 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
         margin: [0, 0, 0, 2],
       });
       content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 2, lineColor: BLUE }], margin: [0, 2, 0, 8] });
-      lastWasHeading = true;
 
     } else if (/^## /.test(t)) {
-      bulletNum = 0;
       const heading = parseInline(t.replace(/^## /, ''));
       content.push({
         columns: [
-          { canvas: [{ type: 'rect', x: 0, y: 2, w: 4, h: 12, color: GREEN }], width: 10 },
+          { canvas: [{ type: 'rect', x: 0, y: 2, w: 4, h: 12, color: BLUE }], width: 10 },
           { text: heading, fontSize: 12, bold: true, color: BLACK, width: '*' },
         ],
         margin: [0, 10, 0, 3],
       });
-      lastWasHeading = true;
 
     } else if (/^#{3,6} /.test(t)) {
-      bulletNum = 0;
       content.push({
         columns: [
-          { canvas: [{ type: 'rect', x: 0, y: 3, w: 3, h: 9, color: RED }], width: 10 },
+          { canvas: [{ type: 'rect', x: 0, y: 3, w: 3, h: 9, color: BLUE }], width: 10 },
           { text: parseInline(t.replace(/^#{3,6} /, '')), fontSize: 11, bold: true, color: BLACK, width: '*' },
         ],
         margin: [0, 7, 0, 3],
       });
-      lastWasHeading = true;
 
     } else if (/^[•\-\*] /.test(t)) {
-      bulletNum++;
-      lastWasHeading = false;
-      const numStr = String(bulletNum).padStart(2, '0') + '.';
       content.push({
         columns: [
-          { text: numStr, fontSize: 10, bold: true, color: BLUE, width: 24, margin: [0, 1, 0, 0] },
+          { canvas: [{ type: 'ellipse', x: 3, y: 6, r1: 2.5, r2: 2.5, color: BLUE }], width: 14 },
           { text: parseInline(t.replace(/^[•\-\*] /, '')), fontSize: 11, color: BLACK, lineHeight: 1.65, width: '*' },
         ],
-        margin: [8, 0, 0, 6],
+        margin: [8, 0, 0, 5],
       });
 
     } else {
-      const isAfterHeading = lastWasHeading;
-      lastWasHeading = false;
-      content.push({
-        text: parseInline(t),
-        fontSize: 11,
-        color: isAfterHeading ? '#1a1a1a' : BLACK,
-        lineHeight: 1.7,
-        margin: isAfterHeading ? [0, 0, 0, 6] : [0, 0, 0, 5],
-      });
+      content.push({ text: parseInline(t), fontSize: 11, color: BLACK, lineHeight: 1.7, marginBottom: 5 });
     }
   }
-
-  // ── END RULE ───────────────────────────────────────────────────
-  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: BLACK }], margin: [0, 16, 0, 2] });
-  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 3, lineColor: BLUE }], margin: [0, 0, 0, 0] });
 
   const slug = (questionText ?? markdownText).slice(0, 60)
     .replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
@@ -248,15 +203,10 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const docDef: any = {
     content,
     defaultStyle: { font: 'Roboto', fontSize: 11, color: BLACK },
-    pageMargins: [40, 40, 40, 62],
+    pageMargins: [40, 40, 40, 58],
     footer: (currentPage: number, pageCount: number) => ({
       stack: [
-        {
-          canvas: [
-            { type: 'rect', x: 0, y: 0, w: 595, h: 3, color: BLUE },
-          ],
-          margin: [0, 0, 0, 0],
-        },
+        { canvas: [{ type: 'rect', x: 0, y: 0, w: 595, h: 3, color: BLUE }] },
         {
           columns: [
             {
@@ -269,14 +219,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
             },
             {
               stack: [
-                { text: 'CRISPY RESPONSE', fontSize: 7, bold: true, color: GREEN, characterSpacing: 1, alignment: 'center' },
-                { text: 'AI-POWERED EXAMINATION ASSISTANT', fontSize: 6, color: '#888888', alignment: 'center', margin: [0, 1, 0, 0] },
-              ],
-              margin: [0, 5, 0, 0],
-              width: 'auto',
-            },
-            {
-              stack: [
                 { text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' },
                 { text: 'PAGE', fontSize: 6, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] },
               ],
@@ -285,18 +227,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
             },
           ],
         },
-        {
-          canvas: [
-            { type: 'rect', x: 0, y: 0, w: 595, h: 1.5, color: RED },
-          ],
-          margin: [0, 6, 0, 0],
-        },
       ],
     }),
   };
 
   pdfMake.createPdf(docDef).download(slug + ' (historyoptional.xyz).pdf');
 }
+
 
 
 
