@@ -88,8 +88,18 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const BLACK = '#000000';
   const WHITE = '#ffffff';
 
-  const parseInline = (t: string) =>
-    t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
+  const parseInline = (t: string): any[] => {
+    const parts: any[] = [];
+    const regex = /\*\*(.+?)\*\*/g;
+    let last = 0, m;
+    while ((m = regex.exec(t)) !== null) {
+      if (m.index > last) parts.push({ text: t.slice(last, m.index), bold: false });
+      parts.push({ text: m[1], bold: true, color: '#000000' });
+      last = m.index + m[0].length;
+    }
+    if (last < t.length) parts.push({ text: t.slice(last), bold: false });
+    return parts.length ? parts : [{ text: t }];
+  };
 
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase();
@@ -101,47 +111,25 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   content.push({
     columns: [
       {
-        // Black box with H. logo
-        table: {
-          widths: [54],
-          heights: [54],
-          body: [[
-            {
-              text: 'H.',
-              fontSize: 30,
-              bold: true,
-              font: 'Roboto',
-              color: WHITE,
-              fillColor: BLACK,
-              alignment: 'center',
-              margin: [0, 8, 0, 0],
-              border: [false, false, false, false],
-            }
-          ]],
-        },
-        layout: 'noBorders',
-        width: 66,
-        margin: [0, 0, 0, 0],
-      },
-      {
         stack: [
           {
-            text: 'historyoptional.xyz',
-            fontSize: 36,
+            text: 'H.  historyoptional.xyz',
+            fontSize: 28,
             bold: true,
             font: 'Roboto',
-            color: BLACK,
-            margin: [12, 4, 0, 0],
+            color: WHITE,
+            margin: [16, 14, 0, 0],
           },
           {
             text: dateStr,
             fontSize: 8,
-            color: '#888888',
-            margin: [14, 2, 0, 0],
+            color: '#aaaaaa',
+            margin: [18, 4, 0, 0],
             characterSpacing: 1,
           },
         ],
         width: '*',
+        fillColor: BLACK,
       },
     ],
     margin: [0, 0, 0, 10],
@@ -189,7 +177,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
     if (/^# /.test(t)) {
       sectionNum++;
-      const heading = parseInline(t.replace(/^# /, '')).toUpperCase();
+      const heading = t.replace(/^# /, '').toUpperCase();
       content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#bbbbbb' }], margin: [0, 8, 0, 4] });
       content.push({
         columns: [
@@ -228,6 +216,17 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
         margin: [8, 0, 0, 5],
       });
 
+    } else if (/^\d+\.\s/.test(t)) {
+      const numMatch = t.match(/^(\d+\.\s)(.*)$/);
+      const num = numMatch ? numMatch[1] : '';
+      const rest = numMatch ? numMatch[2] : t;
+      content.push({
+        columns: [
+          { text: num, fontSize: 12, bold: true, color: '#000000', width: 20 },
+          { text: parseInline(rest), fontSize: 12, bold: true, color: '#000000', lineHeight: 1.6, width: '*' },
+        ],
+        margin: [8, 4, 0, 4],
+      });
     } else {
       content.push({ text: parseInline(t), fontSize: 11, color: BLACK, lineHeight: 1.7, marginBottom: 5 });
     }
