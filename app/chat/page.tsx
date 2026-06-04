@@ -180,11 +180,51 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   }
 
   // ── CONTENT ────────────────────────────────────────────────────
-  const mdLines = markdownText.split('\n');
+  const rawLines = markdownText.split('\n');
+  const processedLines: string[] = [];
+  let i = 0;
+  while (i < rawLines.length) {
+    const line = rawLines[i].trim();
+    if (line.startsWith('|') && line.endsWith('|')) {
+      const tableLines: string[] = [];
+      while (i < rawLines.length && rawLines[i].trim().startsWith('|')) {
+        tableLines.push(rawLines[i].trim());
+        i++;
+      }
+      const rows = tableLines.filter((l: string) => !/^\|[-| :]+\|$/.test(l));
+      const parsedRows = rows.map((r: string) =>
+        r.split('|').filter((_: string, idx: number, arr: string[]) => idx > 0 && idx < arr.length - 1).map((c: string) => c.trim())
+      );
+      if (parsedRows.length > 0) {
+        const tableBody = parsedRows.map((row: string[], rIdx: number) =>
+          row.map((cell: string) => ({
+            text: cell.replace(/\*\*(.+?)\*\*/g, '$1'),
+            bold: rIdx === 0,
+            fontSize: 10,
+            color: rIdx === 0 ? '#ffffff' : '#000000',
+            margin: [4, 4, 4, 4],
+            fillColor: rIdx === 0 ? '#1a1a2e' : rIdx % 2 === 0 ? '#f5f7ff' : '#ffffff',
+          }))
+        );
+        content.push({
+          table: { widths: Array(parsedRows[0].length).fill('*'), body: tableBody },
+          layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#cccccc', vLineColor: () => '#cccccc' },
+          margin: [0, 8, 0, 8],
+        });
+      }
+      processedLines.push('__TABLE_DONE__');
+      continue;
+    }
+    processedLines.push(rawLines[i]);
+    i++;
+  }
+
+  const mdLines = processedLines;
   let sectionNum = 0;
 
   for (const raw of mdLines) {
     const t = raw.trim();
+    if (t === '__TABLE_DONE__') continue;
     if (!t || /^---+$/.test(t)) { content.push({ text: ' ', fontSize: 4 }); continue; }
 
     if (/^# /.test(t)) {
