@@ -125,13 +125,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setDrawColor(...RULE);
     doc.setLineWidth(0.3);
     doc.line(M, pageH - 12, pageW - M, pageH - 12);
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(7);
     doc.setTextColor(...INK3);
     doc.text('crispy response', M, pageH - 7);
     doc.text(DOMAIN, pageW / 2, pageH - 7, { align: 'center' });
     doc.link(0, pageH - 14, pageW, 14, { url: CHAT_URL });
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('times', 'bold');
     doc.setTextColor(...ACCENT);
     doc.text(String(pg), pageW - M, pageH - 7, { align: 'right' });
   };
@@ -153,11 +153,11 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     doc.setDrawColor(...RULE);
     doc.setLineWidth(0.4);
     doc.rect(M, y, contentW, qH, 'S');
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(7);
     doc.setTextColor(...INK3);
     doc.text('QUESTION', M + 4, y + 5);
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(10);
     doc.setTextColor(...INK);
     qLines.forEach((l: string, i: number) => { doc.text(l, M + 4, y + 10 + i * 6); });
@@ -177,7 +177,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     if (/^#{1,2} /.test(t)) {
       const txt = strip(t.replace(/^#{1,2} /, ''));
       chk(12); y += 4;
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('times', 'bold');
       doc.setFontSize(11);
       doc.setTextColor(...INK);
       doc.text(txt, M, y);
@@ -188,14 +188,14 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     } else if (/^#{3,4} /.test(t)) {
       const txt = strip(t.replace(/^#{3,4} /, ''));
       chk(9); y += 2;
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('times', 'bold');
       doc.setFontSize(10);
       doc.setTextColor(...INK2);
       doc.text(txt, M, y);
       y += 6;
     } else if (/^[•\-\*] /.test(t)) {
       const txt = strip(t.replace(/^[•\-\*] /, ''));
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('times', 'normal');
       doc.setFontSize(10);
       const bL = doc.splitTextToSize(txt, contentW - 8) as string[];
       chk(bL.length * 5.5 + 2);
@@ -205,7 +205,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       y += 1.5;
     } else {
       const txt = strip(t);
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('times', 'normal');
       doc.setFontSize(10);
       const pL = doc.splitTextToSize(txt, contentW) as string[];
       chk(pL.length * 5.5 + 2);
