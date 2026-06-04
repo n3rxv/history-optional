@@ -90,22 +90,25 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   const content: any[] = [];
 
-  // Header bar with logo + site address
+  // Header bar with H. logo text + site address
   content.push({
     table: {
-      widths: [36, '*'],
+      widths: [38, '*'],
       body: [[
         {
-          image: LOGO_B64,
-          width: 26,
-          height: 26,
-          margin: [0, 4, 0, 4],
+          text: 'H.',
+          fontSize: 18,
+          bold: true,
+          color: '#f0ede8',
+          fillColor: BLACK,
           border: [false, false, false, false],
+          margin: [8, 5, 8, 5],
+          alignment: 'center',
         },
         {
           stack: [
-            { text: 'historyoptional.xyz', fontSize: 13, bold: true, color: '#ffffff', margin: [6, 2, 0, 0] },
-            { text: 'AI History Assistant', fontSize: 8, color: '#c8d8f8', margin: [6, 0, 0, 0] },
+            { text: 'historyoptional.xyz', fontSize: 13, bold: true, color: '#ffffff', margin: [8, 3, 0, 0] },
+            { text: 'AI History Assistant', fontSize: 8, color: '#c8d8f8', margin: [8, 1, 0, 0] },
           ],
           fillColor: BLUE,
           border: [false, false, false, false],
@@ -113,11 +116,11 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       ]],
     },
     layout: {
-      paddingLeft: () => 10,
-      paddingRight: () => 10,
-      paddingTop: () => 6,
-      paddingBottom: () => 6,
-      fillColor: () => BLUE,
+      paddingLeft: () => 0,
+      paddingRight: () => 0,
+      paddingTop: () => 0,
+      paddingBottom: () => 0,
+      fillColor: (_row: number, node: any, col: number) => col === 0 ? BLACK : BLUE,
     },
     margin: [-40, -40, -40, 14],
   });
