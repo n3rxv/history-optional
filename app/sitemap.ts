@@ -1,7 +1,6 @@
 import { MetadataRoute } from 'next'
-import { createServerClient } from '@/lib/supabase'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://historyoptional.xyz'
   const lastMod = new Date()
 
@@ -39,24 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'decolonization-underdevelopment','unification-europe','disintegration-soviet-union',
   ]
 
-  // Fetch published posts from Supabase
-  let postUrls: MetadataRoute.Sitemap = []
-  try {
-    const db = createServerClient()
-    const { data: posts } = await db
-      .from('posts')
-      .select('id, published_at')
-      .eq('published', true)
-      .order('published_at', { ascending: false })
-    if (posts) {
-      postUrls = posts.map(post => ({
-        url: `${base}/posts/${post.id}`,
-        lastModified: new Date(post.published_at),
-        changeFrequency: 'monthly' as const,
-        priority: 0.7,
-      }))
-    }
-  } catch {}
+  const postUrls: MetadataRoute.Sitemap = []
 
   return [
     ...mainPages.map(p => ({
