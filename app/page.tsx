@@ -199,7 +199,7 @@ export default function Home() {
         <h2 style={{
           fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3vw, 2rem)',
           fontWeight: 400, fontStyle: 'italic', color: 'var(--accent)', marginBottom: '1.5rem',
-        }}>Study Platform</h2>
+        }}>Self-Study Platform</h2>
 
         <p style={{ color: 'var(--text2)', fontSize: '1.05rem', maxWidth: 500, margin: '0 auto 2.5rem', lineHeight: 1.7 }}>
           Complete notes · PYQ bank · Historiography bank · Answer Evaluation · AI assistant · Interactive timelines — everything History Optional for free at one place.
