@@ -10,7 +10,6 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AuthGuard from "@/components/AuthGuard";
 import WeeklyCheckup from "@/components/WeeklyCheckup";
 import VisitorTracker from "@/components/VisitorTracker";
 
@@ -77,9 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('js', new Date());
           gtag('config', 'G-7ZF23N3PZC');
         `}</Script>
-        <AuthGuard>
           <main style={{ minHeight: '100vh', paddingTop: 57 }}>{children}</main>
-        </AuthGuard>
         <Footer />
         <Analytics />
         <SpeedInsights />
