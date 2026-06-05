@@ -143,7 +143,7 @@ export default function DailyAnswerWriting() {
           {questions.map((q, i) => {
             const mins = q.marks <= 10 ? 7 : q.marks <= 15 ? 11 : 14;
             const color = sectionColors[q.section] || 'var(--accent)';
-            const href = `/chat?q=${encodeURIComponent(q.question)}&marks=${q.marks}&model=1`;
+            const href = `/evaluate?q=${encodeURIComponent(q.question)}&marks=${q.marks}`;
             return (
               <div key={q.id} style={{
                 display: 'flex', alignItems: 'flex-start', gap: 12,
@@ -189,7 +189,7 @@ export default function DailyAnswerWriting() {
                   onMouseEnter={e => { e.currentTarget.style.color = color; e.currentTarget.style.borderColor = color; }}
                   onMouseLeave={e => { e.currentTarget.style.color = 'var(--text3)'; e.currentTarget.style.borderColor = 'var(--border, rgba(255,255,255,0.12))'; }}
                 >
-                  See answer →
+                  Submit Answer →
                 </a>
               </div>
             );
