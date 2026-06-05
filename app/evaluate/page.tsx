@@ -278,14 +278,14 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
                 { text: 'H.  HISTORY OPTIONAL', fontSize: 8, bold: true, color: BLACK },
                 { text: 'historyoptional.xyz', fontSize: 7, color: '#666666', margin: [0, 1, 0, 0] },
               ],
-              margin: [40, 8, 0, 0], width: '*',
+              margin: [40, 10, 0, 0], width: '*',
             },
             {
               stack: [
                 { text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' },
                 { text: 'PAGE', fontSize: 6, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] },
               ],
-              margin: [0, 7, 40, 0], width: 'auto',
+              margin: [0, 9, 40, 0], width: 'auto',
             },
           ],
         },
