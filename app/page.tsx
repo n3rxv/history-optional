@@ -290,7 +290,7 @@ export default function Home() {
       </section>
 
       <EvaluateDemo />
-      <DailyAnswerWriting />
+      <div id="daily-answer"><DailyAnswerWriting /></div>
       <CurrentAffairsSection />
 
       {/* ── PYQ Carousel + Test banner ── */}

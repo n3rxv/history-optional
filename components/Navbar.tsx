@@ -226,7 +226,7 @@ export default function Navbar() {
               </button>
               {notesMenuOpen && (
                 <div style={{ position: 'absolute', top: '100%', left: 0, background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 150, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
-                  {[{ href: '/paper1', label: 'Paper I' }, { href: '/paper2', label: 'Paper II' }, { href: '/timeline', label: 'Timeline' }, { href: '/historiography', label: 'Historiography' }, { href: '/flashcards', label: 'Flashcards' }].map(item => (
+                  {[{ href: '/paper1', label: 'Paper I' }, { href: '/paper2', label: 'Paper II' }, { href: '/timeline', label: 'Timeline' }, { href: '/historiography', label: 'Historiography' }, { href: '/flashcards', label: 'Flashcards' }, { href: '/#daily-answer', label: 'Daily Answer Writing' }].map(item => (
                     <Link key={item.href} href={item.href} onClick={() => setNotesMenuOpen(false)}
                       style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)', background: pathname.startsWith(item.href) ? 'rgba(59,130,246,0.08)' : 'transparent', transition: 'all 0.12s' }}
                       onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
