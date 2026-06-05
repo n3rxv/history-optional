@@ -84,247 +84,207 @@ async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promi
 }
 
 async function downloadModelAnswerPDF(question: string, marks: number, evaluation: Evaluation) {
-  const { jsPDF } = await import('jspdf');
-  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
-    
+  const pdfMakeModule = await import('pdfmake/build/pdfmake');
+  const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
+  const pdfMake = (pdfMakeModule as any).default || pdfMakeModule;
+  const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
+  pdfMake.vfs = pdfFonts.vfs;
+  if (!pdfMake.vfs) pdfMake.vfs = {};
 
-  const pageW = 210, pageH = 297, M = 18, contentW = 174;
+  const BLUE  = '#1a4fa0';
+  const BLACK = '#000000';
+  const WHITE = '#ffffff';
 
-  const INK    : [number,number,number] = [10,  10,  10];
-  const INK2   : [number,number,number] = [40,  40,  40];
-  const INK3   : [number,number,number] = [90,  90,  90];
-  const GOLD   : [number,number,number] = [37,  99, 235];
-  const RULE   : [number,number,number] = [220, 220, 220];
-  const BGSOFT : [number,number,number] = [245, 248, 255];
-  const GREEN  : [number,number,number] = [30, 140,  70];
-  const DOMAIN = 'www.historyoptional.xyz';
-  const URL    = 'https://www.historyoptional.xyz';
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase();
 
-  let pg = 1, y = 0;
-
-  const clean = (t: string) => {
-    if (!t) return '';
-    const map: Record<string,string> = {
-      '\u0101':'a','\u0100':'A','\u012b':'i','\u012a':'I','\u016b':'u','\u016a':'U',
-      '\u1e0d':'d','\u1e0c':'D','\u1e6d':'t','\u1e6c':'T','\u1e47':'n','\u1e46':'N',
-      '\u1e63':'s','\u1e62':'S','\u015b':'s','\u015a':'S','\u1e25':'h','\u1e24':'H',
-      '\u1e45':'n','\u1e44':'N','\u1e37':'l','\u1e36':'L','\u1e5b':'r','\u1e5a':'R',
-      '\u1e43':'m','\u1e42':'M','\u1e41':'m','\u1e40':'M',
-      '\u0107':'c','\u0106':'C','\u010d':'c','\u010c':'C',
-      '\u2013':'--','\u2014':'--','\u2018':"'",'\u2019':"'",
-      '\u201c':'"','\u201d':'"','\u2026':'...','\u00d7':'x','\u00f7':'/',
-      '\u00e9':'e','\u00e8':'e','\u00ea':'e','\u00e0':'a','\u00e2':'a',
-      '\u00e4':'a','\u00f6':'o','\u00fc':'u','\u00fb':'u','\u00f1':'n',
-      '\u00e7':'c','\u00df':'ss','\u00e6':'ae',
-    };
-    let result = '';
-    for (const ch of t) {
-      if (ch.charCodeAt(0) < 128) { result += ch; continue; }
-      if (map[ch]) { result += map[ch]; continue; }
-      const decomposed = ch.normalize('NFD');
-      const b = decomposed[0];
-      if (b.charCodeAt(0) < 128) { result += b; continue; }
+  const parseInline = (t: string): any[] => {
+    const parts: any[] = [];
+    const regex = /\*\*(.+?)\*\*/g;
+    let last = 0, m;
+    while ((m = regex.exec(t)) !== null) {
+      if (m.index > last) parts.push({ text: t.slice(last, m.index) });
+      parts.push({ text: m[1], bold: true, color: BLACK });
+      last = m.index + m[0].length;
     }
-    return result;
+    if (last < t.length) parts.push({ text: t.slice(last) });
+    return parts.length ? parts : [{ text: t }];
   };
 
-  const drawBg = () => {
-    doc.setFillColor(255, 255, 255);
-    doc.rect(0, 0, pageW, pageH, 'F');
+  const sectionHeader = (title: string) => ([
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#bbbbbb' }], margin: [0, 10, 0, 4] },
+    {
+      columns: [
+        { canvas: [{ type: 'rect', x: 0, y: 2, w: 4, h: 14, color: BLUE }], width: 10 },
+        { text: title.toUpperCase(), fontSize: 11, bold: true, color: BLACK, characterSpacing: 2, width: '*', margin: [4, 2, 0, 0] },
+      ],
+      margin: [0, 0, 0, 2],
+    },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 2, lineColor: BLUE }], margin: [0, 2, 0, 8] },
+  ]);
+
+  const bodyParas = (body: string | string[]): string[] => {
+    if (Array.isArray(body)) return body;
+    return body.split(/\n\n+/).map((p: string) => p.trim()).filter(Boolean);
   };
 
-  const drawHeader = () => {
-    doc.setFillColor(...GOLD);
-    doc.rect(0, 0, pageW, 0.8, 'F');
-    doc.setFillColor(...BGSOFT);
-    doc.rect(0, 0.8, pageW, 13, 'F');
-    doc.setFillColor(...RULE);
-    doc.rect(0, 13.8, pageW, 0.3, 'F');
+  const content: any[] = [];
 
-    doc.setFont('times', 'bold');
-    doc.setFontSize(7.5);
-    doc.setTextColor(...GOLD);
-    doc.text('HISTORY OPTIONAL', M, 9);
-    doc.link(M, 2, 52, 10, { url: URL });
+  // ── HEADER ──
+  content.push({
+    columns: [
+      {
+        table: {
+          widths: [54], heights: [54],
+          body: [[{
+            text: 'H.', fontSize: 30, bold: true, font: 'Roboto',
+            color: WHITE, fillColor: BLACK, alignment: 'center',
+            margin: [0, 8, 0, 0], border: [false, false, false, false],
+          }]],
+        },
+        layout: 'noBorders', width: 66, margin: [0, 0, 0, 0],
+      },
+      {
+        stack: [
+          { text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'Roboto', color: BLACK, margin: [12, 4, 0, 0] },
+          { text: dateStr, fontSize: 8, color: '#888888', margin: [14, 2, 0, 0], characterSpacing: 1 },
+        ],
+        width: '*',
+      },
+    ],
+    margin: [0, 0, 0, 10],
+  });
+  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 3, lineColor: BLUE }], margin: [0, 0, 0, 16] });
 
-    doc.setFont('times', 'normal');
-    doc.setFontSize(6.2);
-    doc.setTextColor(...INK3);
-    doc.text(DOMAIN, M + 55, 9);
-    doc.text('Model Answer  ·  ' + marks + 'M  ·  UPSC CSM', pageW - M, 9, { align: 'right' });
-  };
-
-  const drawFooter = () => {
-    doc.setFillColor(...RULE);
-    doc.rect(0, pageH - 11, pageW, 0.3, 'F');
-    doc.setFillColor(...BGSOFT);
-    doc.rect(0, pageH - 10.7, pageW, 10.7, 'F');
-    doc.setFillColor(...GOLD);
-    doc.rect(0, pageH - 0.6, pageW, 0.6, 'F');
-
-    doc.setFont('times', 'normal');
-    doc.setFontSize(6.2);
-    doc.setTextColor(...INK3);
-    doc.text(DOMAIN, M, pageH - 4.5);
-    doc.link(M, pageH - 9, 50, 7, { url: URL });
-    doc.text('UPSC History Optional  ·  Model Answer Evaluator', pageW / 2, pageH - 4.5, { align: 'center' });
-    doc.setFont('times', 'bold');
-    doc.setTextColor(...GOLD);
-    doc.text(String(pg), pageW - M, pageH - 4.5, { align: 'right' });
-  };
-
-  const nextPage = () => {
-    doc.addPage(); pg++;
-    drawBg(); drawHeader(); drawFooter(); y = 26;
-  };
-
-  const chk = (n: number) => { if (y + n > pageH - 14) nextPage(); };
-
-  const secLabel = (txt: string) => {
-    chk(14); y += 6;
-    doc.setFont('times', 'bold');
-    doc.setFontSize(6.5);
-    doc.setTextColor(...GOLD);
-    doc.text(txt.toUpperCase(), M, y);
-    y += 2;
-    doc.setFillColor(...GOLD);
-    doc.rect(M, y, contentW, 0.4, 'F');
-    y += 5;
-  };
-
-  const writeText = (text: string, size = 9.5, color: [number,number,number] = INK2) => {
-    doc.setFont('times', 'normal');
-    doc.setFontSize(size);
-    doc.setTextColor(...color);
-    const ls = doc.splitTextToSize(clean(text), contentW) as string[];
-    ls.forEach((l: string) => { chk(7); doc.text(l, M, y); y += 6.8; });
-  };
-
-  drawBg(); drawHeader(); drawFooter(); y = 26;
-
-  // ── Title bar ──
-  doc.setFillColor(...BGSOFT);
-  doc.rect(M, y, contentW, 12, 'F');
-  doc.setFillColor(...GOLD);
-  doc.rect(M, y, 2, 12, 'F');
-  doc.setFont('times', 'bold');
-  doc.setFontSize(11);
-  doc.setTextColor(...INK);
-  doc.text('MODEL ANSWER', M + 7, y + 8);
-  const idealWC = marks === 10 ? '150 words' : marks === 15 ? '200 words' : '250 words';
-  doc.setFont('times', 'normal');
-  doc.setFontSize(7);
-  doc.setTextColor(...INK3);
-  doc.text(idealWC + '  ·  ' + marks + ' Marks', pageW - M, y + 8, { align: 'right' });
-  y += 18;
-
-  // ── Score ──
+  // ── SCORE BADGE ──
   const scoreStr = evaluation.marks + ' / ' + evaluation.marks_out_of;
-  const scoreW = 48;
-  doc.setFillColor(...BGSOFT);
-  doc.rect(M, y, scoreW, 14, 'F');
-  doc.setFillColor(...GOLD);
-  doc.rect(M, y, scoreW, 1.2, 'F');
-  doc.setFont('times', 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(...INK);
-  doc.text(scoreStr, M + scoreW / 2, y + 10, { align: 'center' });
-  doc.setFont('times', 'normal');
-  doc.setFontSize(6);
-  doc.setTextColor(...INK3);
-  doc.text('MARKS SCORED', M + scoreW / 2, y + 13.5, { align: 'center' });
-  y += 20;
+  const idealWC = marks === 10 ? '150 words' : marks === 15 ? '200 words' : '250 words';
+  content.push({
+    columns: [
+      {
+        table: {
+          widths: [100],
+          body: [[{
+            stack: [
+              { text: scoreStr, fontSize: 22, bold: true, color: BLACK, alignment: 'center', margin: [0, 8, 0, 2] },
+              { text: 'MARKS SCORED', fontSize: 7, color: '#666666', alignment: 'center', characterSpacing: 1, margin: [0, 0, 0, 6] },
+            ],
+            fillColor: '#eef3fc', border: [false, false, false, false],
+          }]],
+        },
+        layout: 'noBorders', width: 110,
+      },
+      {
+        stack: [
+          { text: 'MODEL ANSWER', fontSize: 14, bold: true, color: BLACK, margin: [12, 8, 0, 4] },
+          { text: idealWC + '  ·  ' + marks + ' Marks  ·  UPSC CSM', fontSize: 8, color: '#666666', margin: [12, 0, 0, 0] },
+        ],
+        width: '*',
+      },
+    ],
+    margin: [0, 0, 0, 14],
+  });
 
-  // ── Question ──
-  doc.setFont('times', 'bold');
-  doc.setFontSize(6);
-  doc.setTextColor(...GOLD);
-  doc.text('QUESTION', M, y);
-  y += 3.5;
-  const qLines = doc.splitTextToSize(clean(question), contentW - 14) as string[];
-  const qH = qLines.length * 7.5 + 14;
-  doc.setFillColor(...BGSOFT);
-  doc.rect(M, y, contentW, qH, 'F');
-  doc.setFillColor(...GOLD);
-  doc.rect(M, y, 2, qH, 'F');
-  doc.setFont('times', 'normal');
-  doc.setFontSize(11);
-  doc.setTextColor(...INK);
-  qLines.forEach((l: string, i: number) => { doc.text(l, M + 6, y + 8 + i * 7.5); });
-  y += qH + 10;
+  // ── QUESTION BOX ──
+  content.push({
+    table: {
+      widths: [6, '*'],
+      body: [[
+        { text: '', fillColor: BLUE, border: [false, false, false, false] },
+        {
+          stack: [
+            {
+              columns: [
+                { text: 'QUESTION', fontSize: 7, bold: true, color: BLUE, characterSpacing: 2, width: 'auto' },
+                { canvas: [{ type: 'line', x1: 0, y1: 4, x2: 400, y2: 4, lineWidth: 0.5, lineColor: '#aaaaaa' }], width: '*', margin: [8, 0, 0, 0] },
+              ],
+              margin: [0, 0, 0, 6],
+            },
+            { text: question, fontSize: 12, bold: true, color: BLACK, lineHeight: 1.4 },
+          ],
+          fillColor: '#eef3fc', border: [false, false, false, false], margin: [12, 10, 12, 12],
+        },
+      ]],
+    },
+    layout: 'noBorders', margin: [0, 0, 0, 16],
+  });
 
-  // ── Introduction ──
-  secLabel('Introduction');
-  writeText(evaluation.model_answer.introduction);
-  y += 4;
+  // ── INTRODUCTION ──
+  sectionHeader('Introduction').forEach((b: any) => content.push(b));
+  content.push({ text: parseInline(evaluation.model_answer.introduction), fontSize: 11, color: BLACK, lineHeight: 1.7, marginBottom: 5 });
 
-  // ── Body ──
-  secLabel('Body');
+  // ── BODY ──
+  sectionHeader('Body').forEach((b: any) => content.push(b));
   const paras = bodyParas(evaluation.model_answer.body);
-  paras.forEach((p: string, i: number) => {
-    chk(12);
-    doc.setFillColor(...GOLD);
-    doc.rect(M, y - 1, 1.5, 1.5, 'F');
-    writeText(p, 9.5, INK2);
-    if (i < paras.length - 1) {
-      doc.setDrawColor(...RULE);
-      doc.setLineWidth(0.2);
-      doc.line(M + 5, y + 1, pageW - M, y + 1);
-      y += 4;
+  paras.forEach((p: string, idx: number) => {
+    content.push({
+      columns: [
+        { canvas: [{ type: 'ellipse', x: 3, y: 6, r1: 2.5, r2: 2.5, color: BLUE }], width: 14 },
+        { text: parseInline(p), fontSize: 11, color: BLACK, lineHeight: 1.65, width: '*' },
+      ],
+      margin: [8, 0, 0, idx < paras.length - 1 ? 8 : 0],
+    });
+    if (idx < paras.length - 1) {
+      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.3, lineColor: '#dddddd' }], margin: [0, 2, 0, 6] });
     }
   });
-  y += 6;
 
-  // ── Conclusion ──
-  secLabel('Conclusion');
-  writeText(evaluation.model_answer.conclusion);
-  y += 4;
+  // ── CONCLUSION ──
+  sectionHeader('Conclusion').forEach((b: any) => content.push(b));
+  content.push({ text: parseInline(evaluation.model_answer.conclusion), fontSize: 11, color: BLACK, lineHeight: 1.7, marginBottom: 5 });
 
-  // ── Historians ──
-  secLabel('Historians to Cite');
+  // ── HISTORIANS ──
+  sectionHeader('Historians to Cite').forEach((b: any) => content.push(b));
   evaluation.historians_to_cite.forEach((h: any) => {
-    const argLines = doc.splitTextToSize(clean(h.argument), contentW - 8) as string[];
-    const hH = argLines.length * 5.3 + (h.work ? 20 : 16);
-    chk(hH + 5);
-    doc.setFillColor(...BGSOFT);
-    doc.rect(M, y, contentW, hH, 'F');
-    doc.setFillColor(...GOLD);
-    doc.rect(M, y, 2, hH, 'F');
-
-    doc.setFont('times', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(...INK);
-    doc.text(clean(h.name), M + 6, y + 7);
-
-    if (h.work) {
-      doc.setFont('times', 'normal');
-      doc.setFontSize(8);
-      doc.setTextColor(...INK3);
-      doc.text(clean(h.work), M + 6, y + 13);
-    }
-
-    doc.setFont('times', 'normal');
-    doc.setFontSize(10.5);
-    doc.setTextColor(...INK2);
-    const tY = y + (h.work ? 18 : 13);
-    argLines.forEach((l: string, li: number) => { doc.text(l, M + 6, tY + li * 6.8); });
-    y += hH + 5;
+    content.push({
+      table: {
+        widths: [6, '*'],
+        body: [[
+          { text: '', fillColor: BLUE, border: [false, false, false, false] },
+          {
+            stack: [
+              { text: h.name, fontSize: 12, bold: true, color: BLACK, margin: [0, 0, 0, 2] },
+              ...(h.work ? [{ text: h.work, fontSize: 9, color: '#666666', italics: true, margin: [0, 0, 0, 4] }] : []),
+              { text: parseInline(h.argument), fontSize: 10.5, color: BLACK, lineHeight: 1.6 },
+            ],
+            fillColor: '#eef3fc', border: [false, false, false, false], margin: [10, 8, 10, 10],
+          },
+        ]],
+      },
+      layout: 'noBorders', margin: [0, 0, 0, 8],
+    });
   });
 
-  // ── Watermark ──
-  for (let p = 1; p <= pg; p++) {
-    doc.setPage(p);
-    doc.saveGraphicsState();
-    // @ts-ignore
-    doc.setGState(doc.GState({ opacity: 0.025 }));
-    doc.setFont('times', 'bold');
-    doc.setFontSize(16);
-    doc.setTextColor(...GOLD);
-    doc.text(DOMAIN, pageW / 2, pageH / 2, { align: 'center', angle: 30 });
-    doc.restoreGraphicsState();
-  }
+  const docDef: any = {
+    content,
+    defaultStyle: { font: 'Roboto', fontSize: 11, color: BLACK },
+    pageMargins: [40, 40, 40, 58],
+    footer: (currentPage: number, pageCount: number) => ({
+      stack: [
+        { canvas: [{ type: 'rect', x: 0, y: 0, w: 595, h: 3, color: BLUE }] },
+        {
+          columns: [
+            {
+              stack: [
+                { text: 'H.  HISTORY OPTIONAL', fontSize: 8, bold: true, color: BLACK },
+                { text: 'historyoptional.xyz', fontSize: 7, color: '#666666', margin: [0, 1, 0, 0] },
+              ],
+              margin: [40, 5, 0, 0], width: '*',
+            },
+            {
+              stack: [
+                { text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' },
+                { text: 'PAGE', fontSize: 6, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] },
+              ],
+              margin: [0, 4, 40, 0], width: 'auto',
+            },
+          ],
+        },
+      ],
+    }),
+  };
 
-  doc.save('model-answer-' + marks + 'M.pdf');
+  pdfMake.createPdf(docDef).download('model-answer-' + marks + 'M (historyoptional.xyz).pdf');
 }
 
 
