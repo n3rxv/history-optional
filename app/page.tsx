@@ -177,45 +177,8 @@ export default function Home() {
       </div>
 
       {/* ── Hero ── */}
-      <section style={{ padding: '5rem 0 3.5rem', textAlign: 'center', position: 'relative', zIndex: 1, overflow: 'hidden' }}>
-        {/* Ancient cities background */}
-        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
-          {[
-            ['Pataliputra',  4, 8],  ['Taxila',       18, 15], ['Ujjain',       35, 5],
-            ['Vaishali',     52, 12],['Nalanda',       70, 7],  ['Mathura',      85, 18],
-            ['Kanauj',        8, 25],['Hampi',         24, 32], ['Vijayanagara', 42, 22],
-            ['Thanjavur',    60, 28],['Madurai',       78, 35], ['Kalibangan',   92, 12],
-            ['Lothal',        2, 42],['Mohenjo-daro',  16, 48], ['Harappa',      33, 55],
-            ['Dholavira',    50, 42],['Rakhigarhi',    67, 50], ['Mehrgarh',     83, 45],
-            ['Kaushambi',     6, 62],['Shravasti',     22, 68], ['Rajgir',       40, 72],
-            ['Champa',       58, 60],['Vidisha',       75, 65], ['Sarnath',      90, 58],
-            ['Bodh Gaya',    12, 80],['Amaravati',     28, 85], ['Nagarjunakonda',46, 78],
-            ['Sanchi',       64, 82],['Ajanta',        80, 75], ['Ellora',        3, 90],
-            ['Prayag',       20, 92],['Ayodhya',       38, 88], ['Dwarka',       56, 92],
-            ['Golconda',     72, 85],['Bijapur',       88, 90], ['Daulatabad',   10, 38],
-            ['Multan',       30, 18],['Lahore',        48, 35], ['Babylon',      66, 20],
-            ['Persepolis',   84, 30],['Memphis',       95, 52], ['Carthage',     44, 62],
-            ['Uruk',          7, 72],['Ctesiphon',     25, 58], ['Devagiri',     62, 45],
-          ].map(([city, left, top], i) => {
-            const size = (i % 4 === 0) ? '0.62rem' : (i % 3 === 0) ? '0.55rem' : '0.48rem';
-            const op   = (i % 5 === 0) ? 0.2 : (i % 3 === 0) ? 0.14 : 0.1;
-            const col  = (i % 3 === 0) ? 'rgba(59,130,246,' + op + ')' : 'rgba(255,255,255,' + op + ')';
-            return (
-              <span key={String(city)} style={{
-                position: 'absolute',
-                left: left + '%',
-                top: top + '%',
-                fontSize: size,
-                color: col,
-                fontFamily: 'var(--font-mono)',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                whiteSpace: 'nowrap',
-                userSelect: 'none',
-              }}>{city}</span>
-            );
-          })}
-        </div>
+      <section style={{ padding: '5rem 0 3.5rem', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
           background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)',
