@@ -177,7 +177,7 @@ export default function Home() {
       </div>
 
       {/* ── Hero ── */}
-      <section style={{ padding: '5rem 0 3.5rem', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+      <section style={{ padding: '5rem 0 3.5rem', textAlign: 'center', position: 'relative', zIndex: 1, backgroundImage: 'url(/bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
           background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)',
