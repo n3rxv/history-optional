@@ -308,7 +308,8 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     }),
   };
 
-  pdfMake.createPdf(docDef).download('model-answer-' + marks + 'M (historyoptional.xyz).pdf');
+  const slug = question.slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'model-answer';
+  pdfMake.createPdf(docDef).download(slug + '-model_answer (historyoptional.xyz).pdf');
 }
 
 
