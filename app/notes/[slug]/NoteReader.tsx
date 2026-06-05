@@ -973,29 +973,199 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
             )}
 
             {!editMode && <>
-              <div style={{ display: 'flex', gap: '0.2rem', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 6, padding: '3px' }}>
-                <button onClick={() => setAnnotationMode(annotationMode==='highlight'?null:'highlight')} style={{ background: annotationMode==='highlight'?'var(--accent-dim)':'transparent', border: annotationMode==='highlight'?'1px solid var(--accent2)':'1px solid transparent', color: annotationMode==='highlight'?'var(--accent)':'var(--text2)', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 4, fontSize: '0.75rem' }}>✏️ Highlight</button>
-                <button onClick={() => setAnnotationMode(annotationMode==='sticky'?null:'sticky')} style={{ background: annotationMode==='sticky'?'var(--accent-dim)':'transparent', border: annotationMode==='sticky'?'1px solid var(--accent2)':'1px solid transparent', color: annotationMode==='sticky'?'var(--accent)':'var(--text2)', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 4, fontSize: '0.75rem' }}>📌 Sticky</button>
-              </div>
+              <style>{`
+                .tb-btn {
+                  display: inline-flex; align-items: center; gap: 5px;
+                  padding: 0.28rem 0.7rem;
+                  border-radius: 5px;
+                  font-size: 0.72rem;
+                  font-family: var(--font-mono);
+                  letter-spacing: 0.02em;
+                  cursor: pointer;
+                  transition: all 0.15s ease;
+                  position: relative;
+                }
+                .tb-btn:hover .tb-tooltip {
+                  opacity: 1; transform: translateY(0); pointer-events: none;
+                }
+                .tb-tooltip {
+                  position: absolute; bottom: calc(100% + 7px); left: 50%;
+                  transform: translateX(-50%) translateY(4px);
+                  background: #0a0a12; border: 1px solid rgba(255,255,255,0.1);
+                  color: rgba(255,255,255,0.75); font-size: 0.65rem;
+                  padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+                  opacity: 0; transition: all 0.15s ease;
+                  pointer-events: none; z-index: 100;
+                  font-family: var(--font-mono); letter-spacing: 0.04em;
+                }
+                .tb-swatch {
+                  width: 15px; height: 15px; border-radius: 50%;
+                  cursor: pointer; transition: all 0.15s ease;
+                  position: relative; flex-shrink: 0;
+                }
+                .tb-swatch:hover { transform: scale(1.2); }
+                .tb-swatch .tb-tooltip { bottom: calc(100% + 6px); }
+                .tb-divider {
+                  width: 1px; height: 18px;
+                  background: rgba(255,255,255,0.07);
+                  flex-shrink: 0;
+                }
+              `}</style>
+
+              {/* Highlight toggle */}
+              <button
+                onClick={() => setAnnotationMode(annotationMode==='highlight'?null:'highlight')}
+                className="tb-btn"
+                style={{
+                  background: annotationMode==='highlight' ? 'rgba(201,168,76,0.12)' : 'transparent',
+                  border: annotationMode==='highlight' ? '1px solid rgba(201,168,76,0.35)' : '1px solid rgba(255,255,255,0.08)',
+                  color: annotationMode==='highlight' ? '#c9a84c' : 'rgba(255,255,255,0.45)',
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+                Highlight
+                <span className="tb-tooltip">Highlight text</span>
+              </button>
+
+              {/* Color swatches — only when highlight mode active */}
               {annotationMode==='highlight' && (
-                <div style={{ display: 'flex', gap: '0.3rem' }}>
-                  {HIGHLIGHT_COLORS.map(c => <button key={c.id} onClick={() => setSelectedColor(c.id as any)} style={{ width: 18, height: 18, borderRadius: '50%', background: c.color, border: selectedColor===c.id?'2px solid white':'2px solid transparent', cursor: 'pointer', opacity: selectedColor===c.id?1:0.5 }} />)}
+                <div style={{ display: 'flex', gap: '5px', alignItems: 'center', padding: '0 2px' }}>
+                  {HIGHLIGHT_COLORS.map(c => (
+                    <button
+                      key={c.id}
+                      onClick={() => setSelectedColor(c.id as any)}
+                      className="tb-swatch"
+                      style={{
+                        background: c.color,
+                        border: selectedColor===c.id ? '2px solid rgba(255,255,255,0.8)' : '2px solid transparent',
+                        outline: selectedColor===c.id ? `2px solid ${c.color}` : 'none',
+                        outlineOffset: '1px',
+                      }}
+                      title={c.label}
+                    >
+                      <span className="tb-tooltip">{c.label}</span>
+                    </button>
+                  ))}
                 </div>
               )}
+
+              <div className="tb-divider" />
+
+              {/* Sticky toggle */}
+              <button
+                onClick={() => setAnnotationMode(annotationMode==='sticky'?null:'sticky')}
+                className="tb-btn"
+                style={{
+                  background: annotationMode==='sticky' ? 'rgba(96,165,250,0.1)' : 'transparent',
+                  border: annotationMode==='sticky' ? '1px solid rgba(96,165,250,0.3)' : '1px solid rgba(255,255,255,0.08)',
+                  color: annotationMode==='sticky' ? 'rgba(96,165,250,0.9)' : 'rgba(255,255,255,0.45)',
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3z"/><path d="M15 3v6h6"/>
+                </svg>
+                Sticky
+                <span className="tb-tooltip">Add sticky note</span>
+              </button>
+
+              <div className="tb-divider" />
+
+              {/* Clear highlights */}
               {highlights.length > 0 && (
-                <button onClick={() => { if(confirm('Clear all highlights?')) setHighlights([]); }} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text3)', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 4, fontSize: '0.72rem' }}>Clear</button>
+                <button
+                  onClick={() => { if(confirm('Clear all highlights?')) setHighlights([]); }}
+                  className="tb-btn"
+                  style={{
+                    background: 'transparent',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    color: 'rgba(255,255,255,0.3)',
+                  }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/>
+                  </svg>
+                  Clear
+                  <span className="tb-tooltip">Clear all highlights</span>
+                </button>
               )}
+
               <AnnotationToggle noteSlug={slug} />
-              <Link href={`/chat?topic=${encodeURIComponent(note.title)}`} style={{ background: 'var(--accent-dim)', border: '1px solid var(--accent2)', color: 'var(--accent)', padding: '0.3rem 0.85rem', borderRadius: 4, textDecoration: 'none', fontSize: '0.75rem' }}>Ask AI →</Link>
+
+              {/* Ask AI */}
+              <Link
+                href={`/chat?topic=${encodeURIComponent(note.title)}`}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 5,
+                  background: 'rgba(99,102,241,0.1)',
+                  border: '1px solid rgba(99,102,241,0.25)',
+                  color: 'rgba(139,143,255,0.9)',
+                  padding: '0.28rem 0.75rem',
+                  borderRadius: 5, textDecoration: 'none',
+                  fontSize: '0.72rem', fontFamily: 'var(--font-mono)',
+                  transition: 'all 0.15s ease',
+                  position: 'relative',
+                }}
+                className="tb-btn"
+              >
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                Ask AI
+                <span className="tb-tooltip">Ask AI about this topic</span>
+              </Link>
             </>}
           </div>
         </div>
 
         {/* Float highlight toolbar */}
         {showToolbar && !editMode && (
-          <div style={{ position: 'fixed', left: toolbarPos.x, top: toolbarPos.y, transform: 'translateX(-50%)', background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 8, padding: '6px 10px', display: 'flex', gap: '6px', alignItems: 'center', zIndex: 200, boxShadow: '0 8px 32px rgba(0,0,0,0.6)' }}>
-            {HIGHLIGHT_COLORS.map(c => <button key={c.id} onClick={() => applyHighlight(c.id as any)} style={{ width: 22, height: 22, borderRadius: '50%', background: c.color, border: '2px solid transparent', cursor: 'pointer' }} title={`Highlight ${c.label}`} />)}
-            <button onClick={() => setShowToolbar(false)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.75rem' }}>✕</button>
+          <div style={{
+            position: 'fixed', left: toolbarPos.x, top: toolbarPos.y,
+            transform: 'translateX(-50%)',
+            background: '#0d0d18',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 10, padding: '6px 8px',
+            display: 'flex', gap: '5px', alignItems: 'center',
+            zIndex: 200,
+            boxShadow: '0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04)',
+            backdropFilter: 'blur(12px)',
+          }}>
+            {HIGHLIGHT_COLORS.map(c => (
+              <button
+                key={c.id}
+                onClick={() => applyHighlight(c.id as any)}
+                title={c.label}
+                style={{
+                  width: 20, height: 20, borderRadius: '50%',
+                  background: c.color,
+                  border: '2px solid transparent',
+                  cursor: 'pointer',
+                  transition: 'all 0.12s ease',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.25)')}
+                onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+              />
+            ))}
+            <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.08)', margin: '0 2px' }} />
+            <button
+              onClick={() => setShowToolbar(false)}
+              title="Dismiss"
+              style={{
+                background: 'none', border: 'none',
+                color: 'rgba(255,255,255,0.25)', cursor: 'pointer',
+                width: 20, height: 20, borderRadius: 4,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '0.7rem', transition: 'color 0.12s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.25)')}
+            >
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
           </div>
         )}
 
