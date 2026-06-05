@@ -250,3 +250,20 @@ body {
   background: linear-gradient(135deg, rgba(29,78,216,0.08), rgba(10,10,10,0.6));
   border: 1px solid rgba(59,130,246,0.15); border-left: 3px solid var(--accent);
 }
+
+.g-paper-view-link {
+  display: block;
+  margin-top: 1.25rem;
+  text-align: center;
+  padding: 0.6rem;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: all 0.15s;
+}
+.g-paper-view-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}

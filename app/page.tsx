@@ -201,8 +201,7 @@ export default function Home() {
               </div>
             ))}
             <Link href={paper.href} style={{ display: 'block', marginTop: '1.25rem', textAlign: 'center', padding: '0.6rem', border: '1px solid var(--border2)', borderRadius: 6, color: 'var(--text2)', textDecoration: 'none', fontSize: '0.85rem', transition: 'all 0.15s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent)'; (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border2)'; (e.currentTarget as HTMLElement).style.color = 'var(--text2)'; }}>
+              className="g-paper-view-link">
               View all {paper.label} topics →
             </Link>
           </div>
@@ -215,7 +214,7 @@ export default function Home() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }} className="grid-4col">
           {features.map(f => (
             <Link key={f.title} href={f.href} style={{ textDecoration: 'none', display: 'flex', alignSelf: 'stretch' }}>
-              <div className="g-feature-tile" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', height: '100%', boxSizing: 'border-box' }} onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg2)'; e.currentTarget.style.transform = 'translateY(-3px)'; }} onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.transform = 'translateY(0)'; }}>
+              <div className="g-feature-tile" style={{ cursor: 'pointer', transition: 'transform 0.15s ease', height: '100%', boxSizing: 'border-box' }}>
                 <div style={{ fontSize: '1.4rem', marginBottom: '0.75rem' }}>{f.icon}</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, color: f.color, marginBottom: '0.4rem', fontSize: '0.95rem' }}>{f.title}</div>
                 <div style={{ color: 'var(--text3)', fontSize: '0.8rem', lineHeight: 1.6 }}>{f.desc}</div>
