@@ -177,7 +177,41 @@ export default function Home() {
       </div>
 
       {/* ── Hero ── */}
-      <section style={{ padding: '5rem 0 3.5rem', textAlign: 'center', position: 'relative', zIndex: 1, backgroundImage: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(/bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+      <section style={{ padding: '5rem 0 3.5rem', textAlign: 'center', position: 'relative', zIndex: 1, overflow: 'hidden' }}>
+        {/* Ancient cities background */}
+        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+          {[
+            'Pataliputra','Taxila','Ujjain','Vaishali','Nalanda','Mathura','Kanauj',
+            'Hampi','Vijayanagara','Thanjavur','Madurai','Kalibangan','Lothal',
+            'Mohenjo-daro','Harappa','Dholavira','Rakhigarhi','Mehrgarh','Sisupalgarh',
+            'Kaushambi','Shravasti','Rajgir','Champa','Vidisha','Sarnath','Bodh Gaya',
+            'Amaravati','Nagarjunakonda','Sanchi','Ajanta','Ellora','Prayag','Ayodhya',
+            'Dwarka','Somnath','Anhilwara','Manyakheta','Kalyani','Devagiri','Warangal',
+            'Golconda','Bidar','Bijapur','Daulatabad','Multan','Lahore','Peshawar',
+            'Samarkand','Balkh','Ghazni','Kabul','Ctesiphon','Persepolis','Memphis',
+            'Thebes','Carthage','Babylon','Nineveh','Ur','Eridu','Uruk',
+          ].map((city, i) => {
+            const left = ((i * 37 + i * i * 13) % 95) + 1;
+            const top  = ((i * 53 + i * 7)  % 90) + 2;
+            const size = (i % 4 === 0) ? '0.62rem' : (i % 3 === 0) ? '0.55rem' : '0.48rem';
+            const op   = (i % 5 === 0) ? 0.18 : (i % 3 === 0) ? 0.13 : 0.09;
+            const col  = (i % 3 === 0) ? 'rgba(59,130,246,' + op + ')' : 'rgba(255,255,255,' + op + ')';
+            return (
+              <span key={city} style={{
+                position: 'absolute',
+                left: left + '%',
+                top: top + '%',
+                fontSize: size,
+                color: col,
+                fontFamily: 'var(--font-mono)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+                userSelect: 'none',
+              }}>{city}</span>
+            );
+          })}
+        </div>
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
           background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)',
