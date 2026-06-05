@@ -575,12 +575,6 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   useEffect(() => { setAdminPassword(sessionStorage.getItem(SESSION_KEY)); }, []);
 
   // Auth state
-
-  // Hide server-rendered static content once client hydrates
-  useEffect(() => {
-    const el = document.getElementById('note-static-content');
-    if (el) el.style.display = 'none';
-  }, []);
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');

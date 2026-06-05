@@ -42,18 +42,5 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
     } catch {}
   }
 
-  return (
-    <>
-      {/* Visible static content for search engine crawlers */}
-      {initialContent && (
-        <article
-          style={{ maxWidth: 760, margin: '0 auto', padding: '2.5rem 2rem' }}
-          dangerouslySetInnerHTML={{ __html: initialContent }}
-          aria-hidden="false"
-          id="note-static-content"
-        />
-      )}
-      <NoteReader slug={slug} initialContent={initialContent} />
-    </>
-  );
+  return <NoteReader slug={slug} initialContent={initialContent} />;
 }
