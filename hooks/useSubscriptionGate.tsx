@@ -30,7 +30,7 @@ function LimitModal({
     { id: 'daily',   label: 'Daily',   price: '₹49',   sub: 'per day' },
     { id: 'weekly',  label: 'Weekly',  price: '₹299',  sub: 'per week' },
     { id: 'monthly', label: 'Monthly', price: '₹999',  sub: 'per month' },
-    { id: 'yearly',  label: 'Annual',  price: '₹5,999', sub: 'per year' },
+    { id: 'yearly',  label: 'Annual',  price: slots > 0 ? '₹5,999' : '₹14,999', sub: 'per year' },
   ] as const;
   const plans = slots > 0 ? allPlans : allPlans.filter(p => p.id === 'yearly');
   useEffect(() => { if (slots === 0) setSelectedPlan('yearly'); }, [slots]);

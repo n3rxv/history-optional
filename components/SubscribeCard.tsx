@@ -40,7 +40,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
 
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
   const price = currentPlan.price;
-  const originalPrice = selectedPlan === 'yearly' && slots > 0 ? '₹7,999' : null;
+  const originalPrice = selectedPlan === 'yearly' && slots > 0 ? '₹14,999' : null;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
