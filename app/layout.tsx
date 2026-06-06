@@ -9,6 +9,7 @@ import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Navbar from "@/components/Navbar";
+import AnnouncementBanner from "@/components/AnnouncementBanner";
 import Footer from "@/components/Footer";
 import WeeklyCheckup from "@/components/WeeklyCheckup";
 import VisitorTracker from "@/components/VisitorTracker";
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <WeeklyCheckup />
         <VisitorTracker />
+        <AnnouncementBanner />
         <Navbar />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZF23N3PZC" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">{`
@@ -76,7 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('js', new Date());
           gtag('config', 'G-7ZF23N3PZC');
         `}</Script>
-          <main style={{ minHeight: '100vh', paddingTop: 57 }}>{children}</main>
+          <main style={{ minHeight: '100vh', paddingTop: 90 }}>{children}</main>
         <Footer />
         <Analytics />
         <SpeedInsights />
