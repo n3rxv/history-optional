@@ -203,7 +203,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav style={{ position: 'fixed', top: 33, left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <nav style={{ position: 'fixed', top: 'var(--banner-height, 33px)', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
 
           {/* Logo */}

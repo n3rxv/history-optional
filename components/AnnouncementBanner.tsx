@@ -5,6 +5,11 @@ import Link from 'next/link';
 export default function AnnouncementBanner() {
   const [visible, setVisible] = useState(true);
 
+  const hide = () => {
+    setVisible(false);
+    document.documentElement.style.setProperty('--banner-height', '0px');
+  };
+
   if (!visible) return null;
 
   return (
@@ -72,7 +77,7 @@ export default function AnnouncementBanner() {
           View Now →
         </Link>
         <button
-          onClick={() => setVisible(false)}
+          onClick={hide}
           style={{
             background: 'none',
             border: 'none',
