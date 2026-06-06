@@ -1,7 +1,16 @@
 'use client';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function AnnouncementBanner() {
+  const [visible, setVisible] = useState(true);
+
+  const hide = () => {
+    setVisible(false);
+  };
+
+  if (!visible) return null;
+
   return (
     <div style={{
       backgroundColor: '#c8410b',
@@ -45,6 +54,24 @@ export default function AnnouncementBanner() {
       >
         View Now →
       </Link>
+      <button
+        onClick={hide}
+        style={{
+          background: 'none',
+          border: 'none',
+          color: '#fff',
+          fontSize: '18px',
+          cursor: 'pointer',
+          padding: '0 4px',
+          lineHeight: 1,
+          opacity: 0.8,
+          position: 'absolute',
+          right: '12px',
+        }}
+        aria-label="Close banner"
+      >
+        ×
+      </button>
     </div>
   );
 }
