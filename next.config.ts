@@ -26,7 +26,17 @@ const nextConfig: NextConfig = {
       {
         source: '/sitemap.xml',
         headers: [
-          { key: 'Content-Type', value: 'text/xml' },
+          { key: 'Content-Type', value: 'text/xml; charset=utf-8' },
+          { key: 'Cache-Control', value: 'public, max-age=3600' },
+          { key: 'Vary', value: '' },
+          { key: 'X-Robots-Tag', value: 'noindex' },
+          { key: 'Content-Disposition', value: '' },
+        ],
+      },
+      {
+        source: '/robots.txt',
+        headers: [
+          { key: 'Content-Type', value: 'text/plain' },
           { key: 'Cache-Control', value: 'public, max-age=3600' },
           { key: 'Vary', value: '' },
         ],
