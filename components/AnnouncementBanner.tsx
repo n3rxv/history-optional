@@ -12,7 +12,6 @@ export default function AnnouncementBanner() {
     const interval = setInterval(() => setShimmerKey(k => k + 1), 60000);
     return () => clearInterval(interval);
   }, []);
-  };
 
   if (!visible) return null;
 
