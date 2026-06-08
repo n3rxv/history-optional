@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: "50mb",
     },
+    serverComponentsExternalPackages: ['@google/generative-ai'],
   },
   // Increase body size limit for PDF upload in chat
   serverExternalPackages: ['@google/generative-ai'],

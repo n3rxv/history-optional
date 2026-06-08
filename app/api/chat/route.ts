@@ -538,7 +538,7 @@ ${ragContext}`
         }
       }
     });
-    return new Response(stream, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Accel-Buffering': 'no' } });
+    return new Response(stream, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Accel-Buffering': 'no', 'Cache-Control': 'no-cache, no-transform', 'Connection': 'keep-alive' } });
   } catch (err) {
     console.error('Chat API error:', err);
     const errMsg = err instanceof Error ? err.message : String(err);
