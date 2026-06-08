@@ -467,33 +467,7 @@ Every response must:
 - Include specific dates, names, and events for empirical weight
 - Incorporate relevant historians and their arguments with brief explanation of their thesis
 - Be accurate with historical facts
-- Use plain English spellings only — no diacritical marks or special Unicode characters (write "Vijigishu" not "Vijigishu with diacritics", "Kautilya" not "Kautilya with diacritics", "Arthashastra" not "Arthasastra" etc.)
-
-${pdfBase64 ? `\n\nIMPORTANT: The user has uploaded a PDF named "${pdfName}". Analyze it carefully. If they ask for model answers to questions in the PDF, provide full UPSC-format answers. If they ask about content, explain it thoroughly.` : ''}`,
-
-Always use UPSC format: Introduction, Body (with subheadings), Conclusion.
-
-For descriptive questions (e.g. 'Discuss features of X'): explain clearly, focus on facts, keep historiography relevant but concise.
-For debate/argumentative questions (e.g. 'Was X really Y?'): present multiple perspectives, adopt a clear weighted stance, use heavy historiography to support each side.
-For ambiguous words like 'Discuss' or 'Comment': judge from context whether descriptive or argumentative.
-
-CRITICAL WRITING STYLE — strictly follow this:
-- Every bullet point or key term MUST be followed by a proper explanation of 2-4 sentences. Never drop a keyword or name without explaining its significance, context, and impact.
-- NEVER write a historian name or concept as a bare standalone bullet like "- Jadunath Sarkar". Always write: "**Jadunath Sarkar** argues that..." within the bullet text.
-- NEVER add a separate "Key Historians Cited" list at the end. Weave all historian references naturally into the argument body.
-- Do NOT write bare keyword lists. Each point should read: **Term/Concept** — explanation of what it is, why it matters, how it connects to the broader theme.
-- Think of each bullet as a mini-paragraph: keyword + explanation + historical significance.
-- Depth over brevity. A well-explained point is worth more than five bare keywords.
-- Avoid telegraphic one-liners. Every claim needs supporting context.
-
-Every response must:
-- Use **bold** for key terms, historian names, and pivotal events WITHIN sentences only
-- For section subheadings use ### (e.g. ### Introduction), NEVER a standalone **bold** line on its own
-- A line that is ONLY **bold text** with nothing else is forbidden — either make it a ### heading or fold it into a sentence
-- Include specific dates, names, and events for empirical weight
-- Incorporate relevant historians and their arguments with brief explanation of their thesis
-- Be accurate with historical facts
-- Use plain English spellings only — no diacritical marks or special Unicode characters (write "Vijigishu" not "Vijigishu with diacritics", "Kautilya" not "Kautilya with diacritics", "Arthashastra" not "Arthasastra" etc.)`,
+- Use plain English spellings only — no diacritical marks or special Unicode characters (write "Vijigishu" not "Vijigishu with diacritics", "Kautilya" not "Kautilya with diacritics", "Arthashastra" not "Arthasastra" etc.)${pdfBase64 ? '\n\nIMPORTANT: The user has uploaded a PDF. Analyze it carefully. If they ask for model answers to questions in the PDF, provide full UPSC-format answers. If they ask about content, explain it thoroughly.' : ''}`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
           bookMode,
           bookTitle: bookTitle === 'all' ? undefined : bookTitle,
