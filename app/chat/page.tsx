@@ -1065,23 +1065,36 @@ Every response must:
             </div>
           )}
           <div className="chat-input-inner">
-            {/* PDF badge */}
-            {pdfName && (
-              <div style={{ display:'flex', alignItems:'center', gap:'0.5rem', marginBottom:'0.5rem', background:'rgba(99,102,241,0.08)', border:'1px solid rgba(99,102,241,0.2)', borderRadius:8, padding:'0.35rem 0.75rem', fontSize:'0.72rem', fontFamily:'var(--font-mono)', color:'rgba(139,143,255,0.85)', width:'fit-content' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                {pdfName}
-                <button onClick={() => { setPdfFile(null); setPdfBase64(null); setPdfName(null); }} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.3)', cursor:'pointer', padding:0, marginLeft:'0.2rem', fontSize:'0.75rem', lineHeight:1 }}>✕</button>
-              </div>
-            )}
-
             {/* Mode toggles */}
-            <div style={{ display:'flex', gap:'0.4rem', marginBottom:'0.5rem' }}>
+            <div style={{ display:'flex', gap:'0.5rem', marginBottom:'0.6rem', alignItems:'center' }}>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                title="Upload PDF to discuss or get model answers"
+                style={{
+                  display:'inline-flex', alignItems:'center', gap:'5px',
+                  padding:'0.28rem 0.7rem', borderRadius:6, fontSize:'0.68rem',
+                  fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.15s',
+                  background: pdfFile ? 'rgba(99,102,241,0.12)' : 'transparent',
+                  border: pdfFile ? '1px solid rgba(99,102,241,0.4)' : '1px solid rgba(255,255,255,0.08)',
+                  color: pdfFile ? 'rgba(139,143,255,0.9)' : 'rgba(255,255,255,0.35)',
+                }}
+              >
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                {pdfFile ? pdfName : 'Upload PDF'}
+              </button>
               <button
                 onClick={() => setBrainstormMode(b => !b)}
                 title="Brainstorm mode — get essay plans & argument maps"
-                style={{ display:'inline-flex', alignItems:'center', gap:'5px', padding:'0.22rem 0.65rem', borderRadius:6, fontSize:'0.68rem', fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.15s', background: brainstormMode ? 'rgba(251,191,36,0.1)' : 'transparent', border: brainstormMode ? '1px solid rgba(251,191,36,0.35)' : '1px solid rgba(255,255,255,0.07)', color: brainstormMode ? 'rgba(251,191,36,0.9)' : 'rgba(255,255,255,0.3)' }}
+                style={{
+                  display:'inline-flex', alignItems:'center', gap:'5px',
+                  padding:'0.28rem 0.7rem', borderRadius:6, fontSize:'0.68rem',
+                  fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.15s',
+                  background: brainstormMode ? 'rgba(251,191,36,0.1)' : 'transparent',
+                  border: brainstormMode ? '1px solid rgba(251,191,36,0.4)' : '1px solid rgba(255,255,255,0.08)',
+                  color: brainstormMode ? 'rgba(251,191,36,0.95)' : 'rgba(255,255,255,0.35)',
+                }}
               >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                 Brainstorm
               </button>
             </div>
@@ -1095,14 +1108,6 @@ Every response must:
                 style={{ display:'none' }}
                 onChange={e => { const f = e.target.files?.[0]; if (f) handlePdfUpload(f); e.target.value = ''; }}
               />
-              {/* Paperclip */}
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                title="Upload PDF"
-                style={{ background:'none', border:'none', color: pdfFile ? 'rgba(99,102,241,0.8)' : 'rgba(255,255,255,0.25)', cursor:'pointer', padding:'0.2rem', flexShrink:0, transition:'color 0.15s', display:'flex', alignItems:'center' }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-              </button>
               <textarea
                 ref={inputRef}
                 className="chat-textarea"
