@@ -1,13 +1,17 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-
 export default function AnnouncementBanner() {
   const [visible, setVisible] = useState(true);
-
+  const [shimmerKey, setShimmerKey] = useState(0);
   const hide = () => {
     setVisible(false);
     document.documentElement.style.setProperty('--banner-height', '0px');
+  };
+  useEffect(() => {
+    const interval = setInterval(() => setShimmerKey(k => k + 1), 60000);
+    return () => clearInterval(interval);
+  }, []);
   };
 
   if (!visible) return null;
@@ -27,10 +31,11 @@ export default function AnnouncementBanner() {
           width: 40%;
           height: 100%;
           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-          animation: shimmer 1.2s ease-in-out 0s 1, shimmer 1.2s ease-in-out 60s infinite;
+          animation: shimmer 1.2s ease-in-out forwards;
         }
       `}</style>
       <div
+        key={shimmerKey}
         className="banner-shimmer"
         style={{
           backgroundColor: '#c8410b',
