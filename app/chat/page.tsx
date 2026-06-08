@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect, Suspense, useCallback } from 'react';
+import { marked } from 'marked';
 import { useSearchParams } from 'next/navigation';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { supabase } from '@/lib/supabase';
@@ -866,7 +867,7 @@ Every response must:
                   ) : msg.content === '' ? (
                     <span style={{ opacity: 0.4, fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>●●●</span>
                   ) : (loading && i === messages.length - 1) ? (
-                    <span style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-body)', fontSize: '0.9rem', lineHeight: 1.6 }}>{msg.content}</span>
+                    <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(msg.content, { breaks: true }) as string) }} />
                   ) : (
                     <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content)) }} />
                   )}
