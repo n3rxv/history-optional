@@ -455,29 +455,12 @@ ${ragContext}`
         : 'No response';
       text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     } else if (pdf_base64) {
-      // PDF chat → Gemini Flash (free, large context, native PDF support)
-      const { GoogleGenerativeAI } = await import('@google/generative-ai');
-      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-      const geminiModel = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-      const lastUserMsg = messages[messages.length - 1]?.content ?? '';
-      const geminiFull = system
-        ? `${system}\n\n---\n\n${lastUserMsg}`
-        : lastUserMsg;
-      const geminiResult = await geminiModel.generateContent({
-        contents: [{
-          role: 'user',
-          parts: [
-            {
-              inlineData: {
-                mimeType: 'application/pdf',
-                data: pdf_base64,
-              },
-            },
-            { text: geminiFull },
-          ],
-        }],
-      });
-      text = geminiResult.response.text().replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+      // PDF chat → Anthropic Haiku (document support, reliable)
+      const pdfResponse = await anthropicCall('claude-haiku-4-5-20251001', system, true);
+      const pdfRaw = pdfResponse.content?.[0]?.type === 'text'
+        ? pdfResponse.content[0].text
+        : 'No response';
+      text = pdfRaw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     } else {
       // Normal chat + MCQ → Groq Qwen3
       const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
