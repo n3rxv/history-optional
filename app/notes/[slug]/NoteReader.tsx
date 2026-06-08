@@ -151,7 +151,7 @@ function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLD
 
   return (
     <div style={{
-      position: 'sticky', top: 106, zIndex: 100,
+      position: 'sticky', top: 86, zIndex: 100,
       display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center',
       padding: '5px 10px',
       background: 'linear-gradient(135deg, rgba(15,13,9,0.98) 0%, rgba(22,19,12,0.98) 100%)',
@@ -790,7 +790,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
         borderRight: '1px solid #0d0d0d',
         background: 'linear-gradient(180deg, #06060f 0%, #070710 60%, #05050c 100%)',
         overflow: 'hidden', transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
-        position: 'sticky', top: 60, height: 'calc(100vh - 60px)', overflowY: 'auto', flexShrink: 0,
+        position: 'sticky', top: 52, height: 'calc(100vh - 52px)', overflowY: 'auto', flexShrink: 0,
         boxShadow: 'inset -1px 0 0 #111116',
       }}>
         <style>{`
@@ -936,7 +936,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
       {/* Main */}
       <div style={{ flex: 1, minWidth: 0 }}>
         {/* Toolbar */}
-        <div style={{ borderBottom: '1px solid var(--border)', padding: '0.85rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', background: 'var(--bg)', position: 'sticky', top: 60, zIndex: 30 }}>
+        <div style={{ borderBottom: '1px solid var(--border)', padding: '0.85rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', background: 'var(--bg)', position: 'sticky', top: 52, zIndex: 30 }}>
 
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
