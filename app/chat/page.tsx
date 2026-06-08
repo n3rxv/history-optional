@@ -1175,7 +1175,7 @@ Every response must:
                 ↑
               </button>
             </div>
-            <div className="chat-hint">Enter to send · Shift+Enter for new line · Paperclip to upload PDF · Drag and drop PDF</div>
+            <div className="chat-hint">Enter to send · Shift+Enter for new line · Drag and drop PDF</div>
             {!usageLoading && (
               <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : usage?.isPremium ? '#51cf66' : '#555', letterSpacing:'0.08em' }}>
                 {usage?.isPremium ? '✦ Unlimited messages' : !canChat ? 'Free messages used · subscribe for unlimited' : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
