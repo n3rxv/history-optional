@@ -501,7 +501,8 @@ ${ragContext}`
             const reader = groqRes.body!.getReader();
             const dec = new TextDecoder();
             let buf = '';
-            let inThink = false;
+            let accumulated = '';
+            let thinkDone = false;
             while (true) {
               const { done, value } = await reader.read();
               if (done) break;
@@ -515,7 +516,15 @@ ${ragContext}`
                 try {
                   const delta = JSON.parse(data).choices?.[0]?.delta?.content ?? '';
                   if (!delta) continue;
-                  send(delta.replace(/<think>[\s\S]*?<\/think>/g, ''));
+                  if (thinkDone) { send(delta); continue; }
+                  accumulated += delta;
+                  // Check if think block is complete
+                  const endIdx = accumulated.indexOf('</think>');
+                  if (endIdx !== -1) {
+                    thinkDone = true;
+                    const after = accumulated.slice(endIdx + 8);
+                    if (after) send(after);
+                  }
                 } catch { /* skip malformed */ }
               }
             }
