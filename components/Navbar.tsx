@@ -184,17 +184,20 @@ function ExtendModal({
         body: JSON.stringify({ plan: selectedPlan }),
       });
       const order = await orderRes.json();
-      if (!order.id) throw new Error('Order creation failed');
+      const orderId = order.id ?? order.orderId;
+      if (!orderId) throw new Error('Order creation failed');
 
       // 2. Open Razorpay
       const Razorpay = (window as any).Razorpay;
+      const rzpKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+      if (!rzpKey) throw new Error('Razorpay key not set — check NEXT_PUBLIC_RAZORPAY_KEY_ID in .env.local');
       const rzp = new Razorpay({
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key: rzpKey,
         amount: order.amount,
         currency: 'INR',
         name: 'History Optional',
         description: `${cur.label} Plan`,
-        order_id: order.id,
+        order_id: orderId,
         prefill: { email: user.email ?? '' },
         theme: { color: '#6366f1' },
         handler: async (resp: any) => {
