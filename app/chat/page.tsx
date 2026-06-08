@@ -469,10 +469,44 @@ Every response must:
           bookTitle: bookTitle === 'all' ? undefined : bookTitle,
         }),
       });
-      const data = await response.json();
       if (!response.ok) { setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]); setLoading(false); return; }
-      const reply = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
-      setMessages(prev => [...prev, { role: 'assistant', content: reply, sources: data.sources ?? [] }]);
+
+      // Streaming read
+      const reader = response.body!.getReader();
+      const dec = new TextDecoder();
+      let full = '';
+      let sources: { book_title: string; content: string }[] = [];
+
+      // Add empty assistant message to fill in
+      setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = dec.decode(value, { stream: true });
+        full += chunk;
+
+        // Check if sources marker arrived
+        const srcIdx = full.indexOf('\n__SOURCES__');
+        if (srcIdx !== -1) {
+          try { sources = JSON.parse(full.slice(srcIdx + 13)); } catch { /* ignore */ }
+          full = full.slice(0, srcIdx);
+        }
+
+        const display = full;
+        setMessages(prev => {
+          const updated = [...prev];
+          updated[updated.length - 1] = { role: 'assistant', content: display, sources };
+          return updated;
+        });
+      }
+
+      // Final update with sources
+      setMessages(prev => {
+        const updated = [...prev];
+        updated[updated.length - 1] = { role: 'assistant', content: full, sources };
+        return updated;
+      });
       incrementChat();
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);

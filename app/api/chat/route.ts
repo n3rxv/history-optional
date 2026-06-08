@@ -445,44 +445,100 @@ ${ragContext}`
     // Routing:
     // bookMode ON  → Sonnet 4.6 (Anthropic — RAG quality)
     // bookMode OFF → Groq Qwen3-32B (subscription — MCQ + normal chat)
-    let text: string;
-
-    if (bookMode) {
-      // Book mode → Anthropic Sonnet 4.6
-      const anthropicResponse = await anthropicCall('claude-haiku-4-5-20251001', ragSystem);
-      const raw = anthropicResponse.content?.[0]?.type === 'text'
-        ? anthropicResponse.content[0].text
-        : 'No response';
-      text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-    } else if (pdf_base64) {
-      // PDF chat → Anthropic Haiku (stable, reliable)
-      const pdfResponse = await anthropicCall('claude-haiku-4-5-20251001', system, true);
-      const pdfRaw = pdfResponse.content?.[0]?.type === 'text'
-        ? pdfResponse.content[0].text
-        : 'No response';
-      text = pdfRaw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-    } else {
-      // Normal chat + MCQ → Groq Qwen3
-      const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'qwen/qwen3-32b',
-          messages: [
-            ...(ragSystem ? [{ role: 'system', content: ragSystem }] : []),
-            ...messages,
-          ],
-          max_tokens: 4000,
-        }),
-      });
-      const groqData = await groqRes.json();
-      const groqRaw = groqData.choices?.[0]?.message?.content || 'No response';
-      text = groqRaw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-    }
-    return NextResponse.json({ content: [{ text }], sources: ragSources });
+    // ── Streaming response ──────────────────────────────────────────
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const send = (chunk: string) => controller.enqueue(encoder.encode(chunk));
+        try {
+          if (bookMode || pdf_base64) {
+            // Anthropic streaming
+            const Anthropic = (await import('@anthropic-ai/sdk')).default;
+            const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+            let builtMessages: any[];
+            if (pdf_base64) {
+              const msgsCopy = messages.map((m: any) => ({ role: m.role, content: m.content }));
+              const firstUserIdx = msgsCopy.findIndex((m: any) => m.role === 'user');
+              if (firstUserIdx !== -1) {
+                msgsCopy[firstUserIdx] = {
+                  role: 'user',
+                  content: [
+                    { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: pdf_base64 }, title: pdf_name ?? 'Uploaded PDF', cache_control: { type: 'ephemeral' } },
+                    { type: 'text', text: typeof messages[firstUserIdx].content === 'string' ? messages[firstUserIdx].content : 'Please analyze this PDF.' },
+                  ],
+                };
+              }
+              builtMessages = msgsCopy;
+            } else {
+              builtMessages = messages.map((m: any) => ({ role: m.role, content: m.content }));
+            }
+            const anthropicStream = anthropic.messages.stream({
+              model: 'claude-haiku-4-5-20251001',
+              max_tokens: 3500,
+              system: bookMode ? ragSystem : (system ?? ''),
+              messages: builtMessages,
+            });
+            for await (const chunk of anthropicStream) {
+              if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+                send(chunk.delta.text);
+              }
+            }
+          } else {
+            // Groq streaming
+            const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.GROQ_API_KEY}` },
+              body: JSON.stringify({
+                model: 'qwen/qwen3-32b',
+                stream: true,
+                messages: [
+                  ...(ragSystem ? [{ role: 'system', content: ragSystem }] : []),
+                  ...messages,
+                ],
+                max_tokens: 4000,
+              }),
+            });
+            const reader = groqRes.body!.getReader();
+            const dec = new TextDecoder();
+            let buf = '';
+            let inThink = false;
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              buf += dec.decode(value, { stream: true });
+              const lines = buf.split('\n');
+              buf = lines.pop() ?? '';
+              for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                const data = line.slice(6).trim();
+                if (data === '[DONE]') continue;
+                try {
+                  const delta = JSON.parse(data).choices?.[0]?.delta?.content ?? '';
+                  if (!delta) continue;
+                  let out = '';
+                  for (const ch of delta) {
+                    if (inThink) { if (out.endsWith('</think>')) inThink = false; continue; }
+                    if (ch === '<') { inThink = true; continue; }
+                    if (!inThink) out += ch;
+                  }
+                  if (out) send(out);
+                } catch { /* skip malformed */ }
+              }
+            }
+          }
+          send('\n__SOURCES__' + JSON.stringify(ragSources));
+        } catch (err) {
+          const errMsg = err instanceof Error ? err.message : String(err);
+          let userMsg = 'Something went wrong. Please try again.';
+          if (errMsg.includes('503') || errMsg.includes('high demand')) userMsg = 'AI is experiencing high demand. Please try again in a moment.';
+          else if (errMsg.includes('429') || errMsg.includes('quota')) userMsg = 'Too many requests. Please wait a moment and try again.';
+          send(userMsg);
+        } finally {
+          controller.close();
+        }
+      }
+    });
+    return new Response(stream, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'X-Accel-Buffering': 'no' } });
   } catch (err) {
     console.error('Chat API error:', err);
     const errMsg = err instanceof Error ? err.message : String(err);
