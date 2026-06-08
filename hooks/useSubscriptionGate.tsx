@@ -143,7 +143,7 @@ function LimitModal({
           <>
             {/* Header */}
             <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#f87171', marginBottom:12 }}>
-              Free limit reached
+              
             </div>
             <div style={{ fontFamily:'var(--font-display)', fontSize:'1.35rem', fontWeight:700, color:'#f0f0f0', marginBottom:8 }}>
               Unlock Unlimited Access
