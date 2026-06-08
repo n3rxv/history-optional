@@ -369,12 +369,14 @@ function ChatContent() {
 
   useEffect(() => {
     const last = messages[messages.length - 1];
-    if (last?.role === 'assistant' && messages.length > 1) {
+    if (loading && last?.role === 'assistant') {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    } else if (last?.role === 'assistant' && messages.length > 1) {
       setTimeout(() => lastAiRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     } else {
       bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages]);
+  }, [messages, loading]);
 
   const handlePdfUpload = useCallback((file: File) => {
     if (!file || file.type !== 'application/pdf') { alert('Please upload a valid PDF file.'); return; }
