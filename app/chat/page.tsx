@@ -1103,38 +1103,44 @@ Every response must:
           )}
           <div className="chat-input-inner">
             {/* Mode toggles */}
-            <div style={{ display:'flex', gap:'0.5rem', marginBottom:'0.6rem', alignItems:'center' }}>
+            <div style={{ display:'flex', gap:'0.5rem', marginBottom:'0.7rem', alignItems:'center' }}>
+              {/* PDF Upload Button */}
               <button
                 onClick={() => { if (!usage?.isPremium) { showChatLimitModal(); return; } fileInputRef.current?.click(); }}
                 title={usage?.isPremium ? "Upload PDF to discuss or get model answers" : "Premium feature — subscribe to upload PDFs"}
                 style={{
-                  display:'inline-flex', alignItems:'center', gap:'5px',
-                  padding:'0.28rem 0.7rem', borderRadius:6, fontSize:'0.68rem',
-                  fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.15s',
-                  background: pdfFile ? 'rgba(99,102,241,0.12)' : 'transparent',
-                  border: pdfFile ? '1px solid rgba(99,102,241,0.4)' : '1px solid rgba(255,255,255,0.08)',
-                  color: pdfFile ? 'rgba(139,143,255,0.9)' : 'rgba(255,255,255,0.35)',
+                  display:'inline-flex', alignItems:'center', gap:'6px',
+                  padding:'0.38rem 0.85rem', borderRadius:8, fontSize:'0.75rem',
+                  fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.18s',
+                  background: pdfFile ? 'rgba(99,102,241,0.18)' : 'rgba(255,255,255,0.04)',
+                  border: pdfFile ? '1px solid rgba(99,102,241,0.6)' : '1px solid rgba(255,255,255,0.14)',
+                  color: pdfFile ? 'rgba(160,163,255,1)' : 'rgba(255,255,255,0.55)',
+                  fontWeight: 500,
+                  boxShadow: pdfFile ? '0 0 10px rgba(99,102,241,0.2)' : 'none',
                 }}
               >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 {pdfFile ? (
-                  <>{pdfName} <span onClick={e => { e.stopPropagation(); setPdfFile(null); setPdfBase64(null); setPdfName(null); }} style={{ marginLeft:'4px', opacity:0.5, fontWeight:'bold', cursor:'pointer' }}>✕</span></>
-                ) : <>Upload PDF{!usage?.isPremium && ' ✦'}</>}
+                  <>{pdfName} <span onClick={e => { e.stopPropagation(); setPdfFile(null); setPdfBase64(null); setPdfName(null); }} style={{ marginLeft:'4px', opacity:0.6, fontWeight:'bold', cursor:'pointer' }}>✕</span></>
+                ) : <>Upload PDF{!usage?.isPremium && <span style={{ color:'rgba(251,191,36,0.8)', marginLeft:3 }}>✦</span>}</>}
               </button>
+              {/* Brainstorm Button */}
               <button
                 onClick={() => { if (!usage?.isPremium) { showChatLimitModal(); return; } setBrainstormMode(b => !b); }}
                 title={usage?.isPremium ? "Brainstorm mode — get essay plans & argument maps" : "Premium feature — subscribe to use Brainstorm"}
                 style={{
-                  display:'inline-flex', alignItems:'center', gap:'5px',
-                  padding:'0.28rem 0.7rem', borderRadius:6, fontSize:'0.68rem',
-                  fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.15s',
-                  background: brainstormMode ? 'rgba(251,191,36,0.1)' : 'transparent',
-                  border: brainstormMode ? '1px solid rgba(251,191,36,0.4)' : '1px solid rgba(255,255,255,0.08)',
-                  color: brainstormMode ? 'rgba(251,191,36,0.95)' : 'rgba(255,255,255,0.35)',
+                  display:'inline-flex', alignItems:'center', gap:'6px',
+                  padding:'0.38rem 0.85rem', borderRadius:8, fontSize:'0.75rem',
+                  fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.18s',
+                  background: brainstormMode ? 'rgba(251,191,36,0.15)' : 'rgba(255,255,255,0.04)',
+                  border: brainstormMode ? '1px solid rgba(251,191,36,0.6)' : '1px solid rgba(255,255,255,0.14)',
+                  color: brainstormMode ? 'rgba(251,191,36,1)' : 'rgba(255,255,255,0.55)',
+                  fontWeight: 500,
+                  boxShadow: brainstormMode ? '0 0 10px rgba(251,191,36,0.15)' : 'none',
                 }}
               >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                Brainstorm{!usage?.isPremium && ' ✦'}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                Brainstorm{!usage?.isPremium && <span style={{ color:'rgba(251,191,36,0.8)', marginLeft:3 }}>✦</span>}
               </button>
             </div>
 
