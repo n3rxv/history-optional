@@ -162,6 +162,17 @@ function ExtendModal({
   const handlePay = async () => {
     setLoading(true);
     try {
+      // 0. Ensure Razorpay script is loaded
+      if (!(window as any).Razorpay) {
+        await new Promise<void>((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+          s.onload = () => resolve();
+          s.onerror = () => reject(new Error('Razorpay script failed to load'));
+          document.head.appendChild(s);
+        });
+      }
+
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error('Not signed in');
       const token = session.access_token;
@@ -591,6 +602,7 @@ export default function Navbar() {
                         </button>
                       </div>
                     ) : (
+                      <div>
                       <div style={{ padding: '0.7rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px' }}>
                         {[
                           { label: 'Age', val: aspirantAge, icon: '🎂' },
@@ -607,6 +619,23 @@ export default function Navbar() {
                           <div style={{ fontSize: '0.72rem', color: subData ? '#e8b84b' : 'rgba(255,255,255,0.2)', fontWeight: 600 }}>{subData ? subData.plan.charAt(0).toUpperCase() + subData.plan.slice(1) : 'Free'}</div>
                         </div>
                       </div>
+                      {aspirantYear.trim() === '2026' && (() => {
+                        const days = Math.max(0, Math.ceil((new Date('2026-08-21T00:00:00').getTime() - Date.now()) / 86400000));
+                        const urgent = days <= 30; const soon = days <= 60;
+                        return (<div style={{ margin: '6px 0 2px', padding: '0.65rem 0.75rem', background: urgent ? 'linear-gradient(135deg,rgba(248,113,113,0.08),rgba(239,68,68,0.05))' : 'linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.05))', border: '1px solid ' + (urgent ? 'rgba(248,113,113,0.25)' : 'rgba(99,102,241,0.2)'), borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <div><div style={{ fontSize: '0.58rem', color: urgent ? 'rgba(248,113,113,0.7)' : 'rgba(99,102,241,0.8)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{urgent ? '🔥' : '⚔️'} Mains 2026</div><div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)' }}>21 Aug 2026</div></div>
+                          <div style={{ textAlign: 'right' }}><div style={{ fontSize: '1.4rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: urgent ? '#f87171' : soon ? '#fbbf24' : '#a5b4fc' }}>{days}</div><div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>days left</div></div>
+                        </div>);
+                      })()}
+                      {aspirantYear.trim() === '2027' && (() => {
+                        const daysP = Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - Date.now()) / 86400000));
+                        const urgentP = daysP <= 30; const soonP = daysP <= 60;
+                        return (<div style={{ margin: '6px 0 2px', padding: '0.65rem 0.75rem', background: urgentP ? 'linear-gradient(135deg,rgba(248,113,113,0.08),rgba(239,68,68,0.05))' : 'linear-gradient(135deg,rgba(232,184,75,0.08),rgba(245,215,110,0.04))', border: '1px solid ' + (urgentP ? 'rgba(248,113,113,0.25)' : 'rgba(232,184,75,0.22)'), borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <div><div style={{ fontSize: '0.58rem', color: urgentP ? 'rgba(248,113,113,0.7)' : 'rgba(232,184,75,0.85)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{urgentP ? '🔥' : '📋'} Prelims 2027</div><div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)' }}>23 May 2027</div></div>
+                          <div style={{ textAlign: 'right' }}><div style={{ fontSize: '1.4rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: urgentP ? '#f87171' : soonP ? '#fbbf24' : '#e8b84b' }}>{daysP}</div><div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>days left</div></div>
+                        </div>);
+                      })()}
+                    </div>
                     )}
 
                     {/* Plan section */}
