@@ -863,6 +863,10 @@ Every response must:
                 <div className={msg.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'}>
                   {msg.role === 'user' ? (
                     <span>{msg.content}</span>
+                  ) : msg.content === '' ? (
+                    <span style={{ opacity: 0.4, fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>●●●</span>
+                  ) : (loading && i === messages.length - 1) ? (
+                    <span style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-body)', fontSize: '0.9rem', lineHeight: 1.6 }}>{msg.content}</span>
                   ) : (
                     <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content)) }} />
                   )}
