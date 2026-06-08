@@ -515,13 +515,7 @@ ${ragContext}`
                 try {
                   const delta = JSON.parse(data).choices?.[0]?.delta?.content ?? '';
                   if (!delta) continue;
-                  let out = '';
-                  for (const ch of delta) {
-                    if (inThink) { if (out.endsWith('</think>')) inThink = false; continue; }
-                    if (ch === '<') { inThink = true; continue; }
-                    if (!inThink) out += ch;
-                  }
-                  if (out) send(out);
+                  send(delta.replace(/<think>[\s\S]*?<\/think>/g, ''));
                 } catch { /* skip malformed */ }
               }
             }
