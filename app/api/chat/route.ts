@@ -458,7 +458,7 @@ ${ragContext}`
       // PDF chat → Gemini 2.5 Flash (cheap, large context, native PDF support)
       const { GoogleGenerativeAI } = await import('@google/generative-ai');
       const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-      const geminiModel = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-preview-05-20' });
+      const geminiModel = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-preview-04-17' });
       const lastUserMsg = messages[messages.length - 1]?.content ?? '';
       const geminiFull = system ? `${system}\n\n---\n\n${lastUserMsg}` : lastUserMsg;
       const geminiResult = await geminiModel.generateContent({
