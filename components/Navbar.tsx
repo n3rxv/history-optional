@@ -32,6 +32,8 @@ const FEATURES = [
   { name: 'Chat with Books',             free: '—',        premium: '✓'          },
   { name: 'Map evaluation',              free: '—',        premium: 'Unlimited'  },
   { name: 'FLT / Full paper eval',       free: '—',        premium: 'Unlimited'  },
+  { name: 'PDF upload & chat',           free: '—',        premium: '✓'          },
+  { name: 'Brainstorm mode',             free: '—',        premium: '✓'          },
 ];
 
 function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound?: boolean }) {
