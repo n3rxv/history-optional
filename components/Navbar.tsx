@@ -278,6 +278,11 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [profileEdit, setProfileEdit] = useState(false);
+  const [aspirantName, setAspirantName] = useState('');
+  const [aspirantAge, setAspirantAge] = useState('');
+  const [aspirantAttempt, setAspirantAttempt] = useState('');
+  const [aspirantYear, setAspirantYear] = useState('');
   const [subData, setSubData] = useState<{ plan: string; expires_at: string } | null>(null);
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
@@ -349,6 +354,8 @@ export default function Navbar() {
         else setSubData(null);
       } catch { setSubData(null); }
     };
+    const saved = localStorage.getItem('ho_aspirant_profile');
+    if (saved) { try { const p = JSON.parse(saved); setAspirantName(p.name||''); setAspirantAge(p.age||''); setAspirantAttempt(p.attempt||''); setAspirantYear(p.year||''); } catch {} }
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.access_token) fetchSub(session.access_token);
@@ -529,56 +536,117 @@ export default function Navbar() {
                   <SnooAvatar email={user.email ?? ''} size={28} />
                 </button>
                 {userMenuOpen && (
-                  <div style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, background: 'linear-gradient(145deg, #0f0f0f 0%, #141414 100%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: 0, width: 260, boxShadow: '0 20px 60px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.03)', zIndex: 1000, overflow: 'hidden' }}>
-                    {/* Header strip */}
-                    <div style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(212,168,67,0.08) 100%)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '1rem 1rem 0.85rem' }}>
+                  <div style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, width: 290, borderRadius: 18, padding: 0, zIndex: 1000, overflow: 'hidden', background: 'linear-gradient(160deg, #0d0d12 0%, #111118 60%, #0d0d0f 100%)', boxShadow: '0 0 0 1px rgba(99,102,241,0.18), 0 0 0 2px rgba(99,102,241,0.06), 0 28px 80px rgba(0,0,0,0.95), 0 0 60px rgba(99,102,241,0.08)' }}>
+                    {/* Top glow bar */}
+                    <div style={{ height: 2, background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.8), rgba(212,168,67,0.6), transparent)' }} />
+                    {/* Header — avatar + email + edit toggle */}
+                    <div style={{ padding: '1rem 1rem 0.75rem', background: 'linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(212,168,67,0.05) 100%)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div style={{ flexShrink: 0 }}><SnooAvatar email={user.email ?? ''} size={36} /></div>
-                        <div style={{ minWidth: 0 }}>
-                          <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 2 }}>Signed in as</div>
-                          <div style={{ fontSize: '0.8rem', color: '#fff', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.email}</div>
+                        <div style={{ position: 'relative', flexShrink: 0 }}>
+                          <SnooAvatar email={user.email ?? ''} size={40} />
+                          <div style={{ position: 'absolute', bottom: -2, right: -2, width: 14, height: 14, borderRadius: '50%', background: '#51cf66', border: '2px solid #0d0d12', boxShadow: '0 0 6px rgba(81,207,102,0.6)' }} />
                         </div>
+                        <div style={{ minWidth: 0, flex: 1 }}>
+                          <div style={{ fontSize: '0.85rem', color: '#fff', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}>
+                            {aspirantName || 'UPSC Aspirant'}
+                          </div>
+                          <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{user.email}</div>
+                        </div>
+                        <button onClick={() => setProfileEdit(e => !e)}
+                          style={{ flexShrink: 0, background: profileEdit ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)', border: `1px solid ${profileEdit ? 'rgba(99,102,241,0.5)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 7, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? '#a5b4fc' : 'rgba(255,255,255,0.4)' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        </button>
                       </div>
                     </div>
-                    {/* Plan badge */}
-                    <div style={{ padding: '0.85rem 1rem 0' }}>
+
+                    {/* Aspirant profile fields */}
+                    {profileEdit ? (
+                      <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                        <div style={{ fontSize: '0.58rem', color: 'rgba(99,102,241,0.8)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Your Profile</div>
+                        {[
+                          { label: 'Full Name', val: aspirantName, set: setAspirantName, placeholder: 'e.g. Rahul Sharma', key: 'name' },
+                          { label: 'Age', val: aspirantAge, set: setAspirantAge, placeholder: 'e.g. 24', key: 'age' },
+                          { label: 'Attempt No.', val: aspirantAttempt, set: setAspirantAttempt, placeholder: 'e.g. 1st', key: 'attempt' },
+                          { label: 'Target Year', val: aspirantYear, set: setAspirantYear, placeholder: 'e.g. 2026', key: 'year' },
+                        ].map(({ label, val, set, placeholder, key }) => (
+                          <div key={key} style={{ marginBottom: 8 }}>
+                            <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.06em', marginBottom: 3 }}>{label}</div>
+                            <input
+                              value={val}
+                              onChange={e => {
+                                set(e.target.value);
+                                const cur = { name: aspirantName, age: aspirantAge, attempt: aspirantAttempt, year: aspirantYear, [key]: e.target.value };
+                                localStorage.setItem('ho_aspirant_profile', JSON.stringify(cur));
+                              }}
+                              placeholder={placeholder}
+                              style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 7, padding: '0.35rem 0.6rem', fontSize: '0.73rem', color: '#fff', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-ui)', transition: 'border-color 0.15s' }}
+                              onFocus={e => (e.target.style.borderColor = 'rgba(99,102,241,0.5)')}
+                              onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.08)')}
+                            />
+                          </div>
+                        ))}
+                        <button onClick={() => setProfileEdit(false)}
+                          style={{ width: '100%', marginTop: 4, background: 'linear-gradient(90deg, rgba(99,102,241,0.2), rgba(99,102,241,0.1))', border: '1px solid rgba(99,102,241,0.35)', borderRadius: 7, padding: '0.35rem', fontSize: '0.7rem', color: '#a5b4fc', fontWeight: 600, cursor: 'pointer', letterSpacing: '0.03em' }}>
+                          ✓ Save Profile
+                        </button>
+                      </div>
+                    ) : (
+                      <div style={{ padding: '0.7rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px' }}>
+                        {[
+                          { label: 'Age', val: aspirantAge, icon: '🎂' },
+                          { label: 'Attempt', val: aspirantAttempt, icon: '��' },
+                          { label: 'Target', val: aspirantYear, icon: '📅' },
+                        ].map(({ label, val, icon }) => (
+                          <div key={label} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '0.4rem 0.6rem' }}>
+                            <div style={{ fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.05em', marginBottom: 2 }}>{icon} {label}</div>
+                            <div style={{ fontSize: '0.72rem', color: val ? '#e2e8f0' : 'rgba(255,255,255,0.2)', fontWeight: val ? 600 : 400 }}>{val || '—'}</div>
+                          </div>
+                        ))}
+                        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '0.4rem 0.6rem' }}>
+                          <div style={{ fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.05em', marginBottom: 2 }}>✦ Plan</div>
+                          <div style={{ fontSize: '0.72rem', color: subData ? '#e8b84b' : 'rgba(255,255,255,0.2)', fontWeight: 600 }}>{subData ? subData.plan.charAt(0).toUpperCase() + subData.plan.slice(1) : 'Free'}</div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Plan section */}
+                    <div style={{ padding: '0.75rem 1rem 0' }}>
                       {subData ? (
                         <>
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                              <span style={{ fontSize: '0.62rem', background: 'linear-gradient(90deg,#e8b84b,#f5c842)', color: '#000', fontWeight: 800, letterSpacing: '0.08em', padding: '2px 7px', borderRadius: 20, textTransform: 'uppercase' }}>✦ {subData.plan}</span>
-                              <span style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.04em' }}>plan active</span>
-                            </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                            <span style={{ fontSize: '0.6rem', background: 'linear-gradient(90deg,#e8b84b,#f5d76e)', color: '#000', fontWeight: 800, letterSpacing: '0.08em', padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase' }}>✦ {subData.plan}</span>
+                            <span style={{ fontSize: '0.62rem', color: (() => { const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000); return days <= 3 ? '#f87171' : days <= 7 ? '#fbbf24' : '#51cf66'; })() }}>
+                              {(() => { const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000); return days <= 0 ? 'Expired' : `${days}d left`; })()}
+                            </span>
                           </div>
-                          <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.4)', marginBottom: 10 }}>
-                            Expires <span style={{ color: (() => { const d = new Date(subData.expires_at); const days = Math.ceil((d.getTime() - Date.now()) / 86400000); return days <= 3 ? '#f87171' : days <= 7 ? '#fbbf24' : '#51cf66'; })() }}>{(() => { const d = new Date(subData.expires_at); const days = Math.ceil((d.getTime() - Date.now()) / 86400000); return days <= 0 ? 'today' : `${d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} (${days}d left)`; })()}</span>
+                          <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.3)', marginBottom: 10 }}>
+                            Expires {new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                           </div>
                           <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
-                            style={{ width: '100%', background: 'linear-gradient(90deg, rgba(99,102,241,0.15), rgba(212,168,67,0.12))', border: '1px solid rgba(99,102,241,0.3)', color: '#a5b4fc', cursor: 'pointer', padding: '0.45rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 600, letterSpacing: '0.03em', marginBottom: 10, transition: 'all 0.15s' }}
-                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(99,102,241,0.28), rgba(212,168,67,0.2))'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.6)'; }}
-                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(99,102,241,0.15), rgba(212,168,67,0.12))'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.3)'; }}>
-                            ⚡ Extend Plan
+                            style={{ width: '100%', background: 'linear-gradient(90deg, rgba(99,102,241,0.18), rgba(212,168,67,0.1))', border: '1px solid rgba(99,102,241,0.35)', color: '#a5b4fc', cursor: 'pointer', padding: '0.45rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 600, letterSpacing: '0.03em', marginBottom: 10, transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(99,102,241,0.32), rgba(212,168,67,0.18))'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.65)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(99,102,241,0.25)'; }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(99,102,241,0.18), rgba(212,168,67,0.1))'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.35)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            Extend Plan
                           </button>
                         </>
                       ) : (
-                        <div style={{ marginBottom: 10 }}>
-                          <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)', marginBottom: 8 }}>No active subscription</div>
-                          <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
-                            style={{ width: '100%', background: 'linear-gradient(90deg, rgba(212,168,67,0.15), rgba(212,168,67,0.08))', border: '1px solid rgba(212,168,67,0.4)', color: '#e8b84b', cursor: 'pointer', padding: '0.45rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 700, letterSpacing: '0.03em', marginBottom: 4, transition: 'all 0.15s' }}
-                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.25)'; }}
-                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(212,168,67,0.15), rgba(212,168,67,0.08))'; }}>
-                            ✦ Get Premium
-                          </button>
-                        </div>
+                        <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
+                          style={{ width: '100%', background: 'linear-gradient(90deg, rgba(212,168,67,0.15), rgba(212,168,67,0.07))', border: '1px solid rgba(212,168,67,0.4)', color: '#e8b84b', cursor: 'pointer', padding: '0.45rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 700, letterSpacing: '0.03em', marginBottom: 10, transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.25)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(212,168,67,0.2)'; }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(212,168,67,0.15), rgba(212,168,67,0.07))'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}>
+                          ✦ Get Premium
+                        </button>
                       )}
                     </div>
-                    {/* Divider + sign out */}
-                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', margin: '0 1rem', paddingTop: '0.75rem', paddingBottom: '0.85rem' }}>
+
+                    {/* Sign out */}
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)', margin: '0 1rem', paddingTop: '0.7rem', paddingBottom: '0.9rem' }}>
                       <button onClick={handleSignOut}
-                        style={{ width: '100%', background: 'rgba(255,80,80,0.05)', border: '1px solid rgba(255,80,80,0.12)', color: '#f87171', cursor: 'pointer', padding: '0.4rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 500, letterSpacing: '0.02em', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,80,80,0.12)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,80,80,0.3)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 14px rgba(255,80,80,0.2)'; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,80,80,0.05)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,80,80,0.12)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        style={{ width: '100%', background: 'rgba(255,80,80,0.04)', border: '1px solid rgba(255,80,80,0.1)', color: '#f87171', cursor: 'pointer', padding: '0.4rem', borderRadius: 8, fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.02em', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,80,80,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,80,80,0.28)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 16px rgba(255,80,80,0.15)'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,80,80,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,80,80,0.1)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                         Sign out
                       </button>
                     </div>
