@@ -601,7 +601,7 @@ Every response must:
   return (
     <>
       <style>{`
-        .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 60px); background:var(--bg); }
+        .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 52px); background:var(--bg); }
 
         .chat-header {
           display:flex; align-items:center; gap:1rem;
