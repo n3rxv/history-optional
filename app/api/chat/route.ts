@@ -460,16 +460,23 @@ ${ragContext}`
       const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
       const geminiModel = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
       const lastUserMsg = messages[messages.length - 1]?.content ?? '';
-      const geminiResult = await geminiModel.generateContent([
-        {
-          inlineData: {
-            mimeType: 'application/pdf',
-            data: pdf_base64,
-          },
-        },
-        system ?? '',
-        lastUserMsg,
-      ]);
+      const geminiFull = system
+        ? `${system}\n\n---\n\n${lastUserMsg}`
+        : lastUserMsg;
+      const geminiResult = await geminiModel.generateContent({
+        contents: [{
+          role: 'user',
+          parts: [
+            {
+              inlineData: {
+                mimeType: 'application/pdf',
+                data: pdf_base64,
+              },
+            },
+            { text: geminiFull },
+          ],
+        }],
+      });
       text = geminiResult.response.text().replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     } else {
       // Normal chat + MCQ → Groq Qwen3
