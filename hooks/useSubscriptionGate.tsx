@@ -149,7 +149,7 @@ function LimitModal({
               Unlock Unlimited Access
             </div>
             <div style={{ color:'#888', fontSize:'0.85rem', lineHeight:1.65, marginBottom:20 }}>
-              You've used all your free credits. Subscribe to continue with unlimited evaluations and AI chat.
+              Subscribe to unlock unlimited access to all features.
             </div>
 
             {/* Plan selector */}
