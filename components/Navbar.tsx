@@ -338,43 +338,22 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
+    const fetchSub = async (token: string) => {
+      try {
+        const res = await fetch(`/api/sub-status?token=${token}`);
+        const d = await res.json();
+        if (d.isPremium) setSubData({ plan: d.plan, expires_at: d.expires_at });
+        else setSubData(null);
+      } catch { setSubData(null); }
+    };
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
-      if (session?.access_token) {
-        try {
-          const { createClient } = await import('@supabase/supabase-js');
-          const adminSb = createClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-          );
-          const { data: sub } = await adminSb
-            .from('subscriptions')
-            .select('plan, expires_at')
-            .eq('user_id', session.user.id)
-            .eq('status', 'active')
-            .gt('expires_at', new Date().toISOString())
-            .single();
-          if (sub) setSubData(sub);
-        } catch { /* ignore */ }
-      }
+      if (session?.access_token) fetchSub(session.access_token);
     });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_e, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
       setUser(session?.user ?? null);
-      if (session?.access_token) {
-        try {
-          const { data: sub } = await supabase
-            .from('subscriptions')
-            .select('plan, expires_at')
-            .eq('user_id', session.user.id)
-            .eq('status', 'active')
-            .gt('expires_at', new Date().toISOString())
-            .single();
-          if (sub) setSubData(sub);
-          else setSubData(null);
-        } catch { setSubData(null); }
-      } else {
-        setSubData(null);
-      }
+      if (session?.access_token) fetchSub(session.access_token);
+      else setSubData(null);
     });
     return () => subscription.unsubscribe();
   }, []);
