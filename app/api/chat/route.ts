@@ -500,7 +500,9 @@ ${ragContext}`
       text = groqRaw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     }
     return NextResponse.json({ content: [{ text }], sources: ragSources });
-  } catch {
-    return NextResponse.json({ content: [{ text: 'Something went wrong. Please try again.' }] });
+  } catch (err) {
+    console.error('Chat API error:', err);
+    const msg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ content: [{ text: `Error: ${msg}` }] });
   }
 }
