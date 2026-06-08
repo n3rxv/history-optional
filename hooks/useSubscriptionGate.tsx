@@ -210,6 +210,8 @@ function LimitModal({
                 <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Chat with Books</div>
                 <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Model answers</div>
                 <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Prelims Smart Analysis</div>
+                <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ PDF upload & chat</div>
+                <div style={{ fontSize:'0.78rem', color:'#aaa' }}>✓ Brainstorm mode</div>
               </div>
             </div>
 
