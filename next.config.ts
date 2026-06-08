@@ -20,6 +20,8 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "50mb",
     },
   },
+  // Increase body size limit for PDF upload in chat
+  serverExternalPackages: ['@google/generative-ai'],
   images: { unoptimized: true },
   async headers() {
     return [
