@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect, Suspense } from 'react';
+import { useState, useRef, useEffect, Suspense, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { supabase } from '@/lib/supabase';
@@ -347,6 +347,12 @@ function ChatContent() {
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
   const [bookMode, setBookMode] = useState(false);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [pdfBase64, setPdfBase64] = useState<string | null>(null);
+  const [pdfName, setPdfName] = useState<string | null>(null);
+  const [brainstormMode, setBrainstormMode] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragPos, setDragPos] = useState(() => ({ x: 16, y: typeof window !== "undefined" && window.innerWidth < 768 ? window.innerHeight - 220 : 180 }));
   const dragRef = useRef<{dragging:boolean, startX:number, startY:number, origX:number, origY:number}>({dragging:false,startX:0,startY:0,origX:0,origY:0});
   const [bookTitle, setBookTitle] = useState<string>('all');
@@ -369,6 +375,30 @@ function ChatContent() {
     }
   }, [messages]);
 
+  const handlePdfUpload = useCallback((file: File) => {
+    if (!file || file.type !== 'application/pdf') { alert('Please upload a valid PDF file.'); return; }
+    if (file.size > 20 * 1024 * 1024) { alert('PDF too large. Max 20MB.'); return; }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64 = (e.target?.result as string).split(',')[1];
+      setPdfBase64(base64);
+      setPdfFile(file);
+      setPdfName(file.name);
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: `PDF uploaded: **${file.name}**\n\nYou can now:\n• Ask me to explain any concept from this PDF\n• Request model answers for questions in it\n• Discuss its contents in detail`,
+      }]);
+    };
+    reader.readAsDataURL(file);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) handlePdfUpload(file);
+  }, [handlePdfUpload]);
+
   const sendMessage = async (text?: string) => {
     const q = text || input;
     if (!q.trim() || loading) return;
@@ -385,7 +415,61 @@ function ChatContent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-user-token': (await supabase.auth.getSession()).data.session?.access_token ?? usage?.fingerprint ?? '' },
         body: JSON.stringify({
-          system: `You are an expert UPSC History Optional tutor with deep knowledge of Indian history (Ancient, Medieval, Modern) and World History per the UPSC History Optional syllabus.
+          ...(pdfBase64 ? {
+            pdf_base64: pdfBase64,
+            pdf_name: pdfName,
+          } : {}),
+          system: brainstormMode
+            ? `You are an expert UPSC History Optional strategist. The user wants to brainstorm.
+
+If given a TOPIC: Generate a comprehensive brainstorm with:
+### Key Arguments & Dimensions
+- 6-8 distinct analytical angles with 2-3 sentence explanation each
+### Important Historians & Their Stands
+- 5-6 historians with their specific thesis on this topic
+### Essay Structure (UPSC Format)
+- Suggested intro hook, 4-5 body subheadings with what to cover, conclusion angle
+### Connecting Themes
+- Links to other syllabus topics, contemporary relevance
+
+If given a QUESTION: Generate a structured answer plan with:
+### Decoding the Question
+- What is being asked, keywords, approach (descriptive/argumentative)
+### Essay Blueprint
+- Intro strategy, each body para with key points, conclusion
+### Must-Include Points
+- Facts, dates, events that cannot be missed
+### Historiographical Ammunition
+- Specific historians + their arguments relevant to this question
+
+Use **bold** for key terms. Be crisp and scannable — this is a planning tool, not an essay.`
+            : `You are an expert UPSC History Optional tutor with deep knowledge of Indian history (Ancient, Medieval, Modern) and World History per the UPSC History Optional syllabus.
+
+Always use UPSC format: Introduction, Body (with subheadings), Conclusion.
+
+For descriptive questions (e.g. 'Discuss features of X'): explain clearly, focus on facts, keep historiography relevant but concise.
+For debate/argumentative questions (e.g. 'Was X really Y?'): present multiple perspectives, adopt a clear weighted stance, use heavy historiography to support each side.
+For ambiguous words like 'Discuss' or 'Comment': judge from context whether descriptive or argumentative.
+
+CRITICAL WRITING STYLE — strictly follow this:
+- Every bullet point or key term MUST be followed by a proper explanation of 2-4 sentences. Never drop a keyword or name without explaining its significance, context, and impact.
+- NEVER write a historian name or concept as a bare standalone bullet like "- Jadunath Sarkar". Always write: "**Jadunath Sarkar** argues that..." within the bullet text.
+- NEVER add a separate "Key Historians Cited" list at the end. Weave all historian references naturally into the argument body.
+- Do NOT write bare keyword lists. Each point should read: **Term/Concept** — explanation of what it is, why it matters, how it connects to the broader theme.
+- Think of each bullet as a mini-paragraph: keyword + explanation + historical significance.
+- Depth over brevity. A well-explained point is worth more than five bare keywords.
+- Avoid telegraphic one-liners. Every claim needs supporting context.
+
+Every response must:
+- Use **bold** for key terms, historian names, and pivotal events WITHIN sentences only
+- For section subheadings use ### (e.g. ### Introduction), NEVER a standalone **bold** line on its own
+- A line that is ONLY **bold text** with nothing else is forbidden — either make it a ### heading or fold it into a sentence
+- Include specific dates, names, and events for empirical weight
+- Incorporate relevant historians and their arguments with brief explanation of their thesis
+- Be accurate with historical facts
+- Use plain English spellings only — no diacritical marks or special Unicode characters (write "Vijigishu" not "Vijigishu with diacritics", "Kautilya" not "Kautilya with diacritics", "Arthashastra" not "Arthasastra" etc.)
+
+${pdfBase64 ? `\n\nIMPORTANT: The user has uploaded a PDF named "${pdfName}". Analyze it carefully. If they ask for model answers to questions in the PDF, provide full UPSC-format answers. If they ask about content, explain it thoroughly.` : ''}`, with deep knowledge of Indian history (Ancient, Medieval, Modern) and World History per the UPSC History Optional syllabus.
 
 Always use UPSC format: Introduction, Body (with subheadings), Conclusion.
 
@@ -979,16 +1063,79 @@ Every response must:
           </div>
         )}
 
-        <div className="chat-input-area">
+        <div
+          className="chat-input-area"
+          onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+          onDragLeave={e => { e.preventDefault(); setDragOver(false); }}
+          onDrop={handleDrop}
+          style={{ position: 'relative' }}
+        >
+          {dragOver && (
+            <div style={{
+              position: 'absolute', inset: 0, zIndex: 50,
+              background: 'rgba(99,102,241,0.08)',
+              border: '2px dashed rgba(99,102,241,0.4)',
+              borderRadius: 12,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              pointerEvents: 'none',
+            }}>
+              <div style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem',
+                color: 'rgba(139,143,255,0.9)', fontFamily: 'var(--font-mono)', fontSize: '0.8rem',
+              }}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                </svg>
+                Drop PDF here
+              </div>
+            </div>
+          )}
           <div className="chat-input-inner">
+            {/* PDF badge */}
+            {pdfName && (
+              <div style={{ display:'flex', alignItems:'center', gap:'0.5rem', marginBottom:'0.5rem', background:'rgba(99,102,241,0.08)', border:'1px solid rgba(99,102,241,0.2)', borderRadius:8, padding:'0.35rem 0.75rem', fontSize:'0.72rem', fontFamily:'var(--font-mono)', color:'rgba(139,143,255,0.85)', width:'fit-content' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                {pdfName}
+                <button onClick={() => { setPdfFile(null); setPdfBase64(null); setPdfName(null); }} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.3)', cursor:'pointer', padding:0, marginLeft:'0.2rem', fontSize:'0.75rem', lineHeight:1 }}>✕</button>
+              </div>
+            )}
+
+            {/* Mode toggles */}
+            <div style={{ display:'flex', gap:'0.4rem', marginBottom:'0.5rem' }}>
+              <button
+                onClick={() => setBrainstormMode(b => !b)}
+                title="Brainstorm mode — get essay plans & argument maps"
+                style={{ display:'inline-flex', alignItems:'center', gap:'5px', padding:'0.22rem 0.65rem', borderRadius:6, fontSize:'0.68rem', fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.15s', background: brainstormMode ? 'rgba(251,191,36,0.1)' : 'transparent', border: brainstormMode ? '1px solid rgba(251,191,36,0.35)' : '1px solid rgba(255,255,255,0.07)', color: brainstormMode ? 'rgba(251,191,36,0.9)' : 'rgba(255,255,255,0.3)' }}
+              >
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                Brainstorm
+              </button>
+            </div>
+
             <div className="chat-input-box">
+              {/* Hidden file input */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/pdf"
+                style={{ display:'none' }}
+                onChange={e => { const f = e.target.files?.[0]; if (f) handlePdfUpload(f); e.target.value = ''; }}
+              />
+              {/* Paperclip */}
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                title="Upload PDF"
+                style={{ background:'none', border:'none', color: pdfFile ? 'rgba(99,102,241,0.8)' : 'rgba(255,255,255,0.25)', cursor:'pointer', padding:'0.2rem', flexShrink:0, transition:'color 0.15s', display:'flex', alignItems:'center' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              </button>
               <textarea
                 ref={inputRef}
                 className="chat-textarea"
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
-                placeholder="Ask anything about History Optional…"
+                placeholder={brainstormMode ? "Enter a topic or question to brainstorm…" : pdfFile ? "Ask about the PDF, request model answers…" : "Ask anything about History Optional…"}
                 rows={1}
                 onInput={e => {
                   const t = e.currentTarget;
@@ -1004,7 +1151,7 @@ Every response must:
                 ↑
               </button>
             </div>
-            <div className="chat-hint">Enter to send · Shift+Enter for new line</div>
+            <div className="chat-hint">Enter to send · Shift+Enter for new line · Paperclip to upload PDF</div>
             {!usageLoading && (
               <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : usage?.isPremium ? '#51cf66' : '#555', letterSpacing:'0.08em' }}>
                 {usage?.isPremium ? '✦ Unlimited messages' : !canChat ? 'Free messages used · subscribe for unlimited' : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
