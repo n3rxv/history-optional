@@ -251,21 +251,52 @@ export async function POST(req: NextRequest) {
 
   // ── Call Groq ────────────────────────────────────────────────────
   try {
-    const { messages, system, bookMode, bookTitle } = await req.json();
+    const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name } = await req.json();
     const lastMsg = messages?.[messages.length - 1]?.content ?? '';
     if (typeof lastMsg === 'string' && lastMsg.length > 4000)
       return NextResponse.json({ error: 'Message too long' }, { status: 400 });
     if (!Array.isArray(messages) || messages.length > 50)
       return NextResponse.json({ error: 'Too many messages in context' }, { status: 400 });
 
-    const anthropicCall = async (model: string, systemPrompt: string | undefined) => {
+    const anthropicCall = async (model: string, systemPrompt: string | undefined, withPdf = false) => {
       const Anthropic = (await import('@anthropic-ai/sdk')).default;
       const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+      // Build messages — inject PDF as document in first user message if present
+      let builtMessages: any[];
+      if (withPdf && pdf_base64) {
+        // Find last user message index
+        const msgsCopy = messages.map((m: any) => ({ role: m.role, content: m.content }));
+        // Inject PDF document block into the FIRST user turn only
+        const firstUserIdx = msgsCopy.findIndex((m: any) => m.role === 'user');
+        if (firstUserIdx !== -1) {
+          msgsCopy[firstUserIdx] = {
+            role: 'user',
+            content: [
+              {
+                type: 'document',
+                source: {
+                  type: 'base64',
+                  media_type: 'application/pdf',
+                  data: pdf_base64,
+                },
+                title: pdf_name ?? 'Uploaded PDF',
+                cache_control: { type: 'ephemeral' },
+              },
+              { type: 'text', text: typeof messages[firstUserIdx].content === 'string' ? messages[firstUserIdx].content : 'Please analyze this PDF.' },
+            ],
+          };
+        }
+        builtMessages = msgsCopy;
+      } else {
+        builtMessages = messages.map((m: any) => ({ role: m.role, content: m.content }));
+      }
+
       return anthropic.messages.create({
         model,
         max_tokens: 3500,
         ...(systemPrompt ? { system: systemPrompt } : {}),
-        messages: messages.map((m: any) => ({ role: m.role, content: m.content })),
+        messages: builtMessages,
       });
     };
 
@@ -423,6 +454,23 @@ ${ragContext}`
         ? anthropicResponse.content[0].text
         : 'No response';
       text = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    } else if (pdf_base64) {
+      // PDF chat → Gemini Flash (free, large context, native PDF support)
+      const { GoogleGenerativeAI } = await import('@google/generative-ai');
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+      const geminiModel = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+      const lastUserMsg = messages[messages.length - 1]?.content ?? '';
+      const geminiResult = await geminiModel.generateContent([
+        {
+          inlineData: {
+            mimeType: 'application/pdf',
+            data: pdf_base64,
+          },
+        },
+        system ?? '',
+        lastUserMsg,
+      ]);
+      text = geminiResult.response.text().replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     } else {
       // Normal chat + MCQ → Groq Qwen3
       const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
