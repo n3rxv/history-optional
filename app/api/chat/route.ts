@@ -495,7 +495,15 @@ ${ragContext}`
     return NextResponse.json({ content: [{ text }], sources: ragSources });
   } catch (err) {
     console.error('Chat API error:', err);
-    const msg = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ content: [{ text: `Error: ${msg}` }] });
+    const errMsg = err instanceof Error ? err.message : String(err);
+    let userMsg = 'Something went wrong. Please try again.';
+    if (errMsg.includes('503') || errMsg.includes('Service Unavailable') || errMsg.includes('high demand')) {
+      userMsg = 'AI is experiencing high demand right now. Please try again in a moment.';
+    } else if (errMsg.includes('429') || errMsg.includes('quota') || errMsg.includes('rate limit')) {
+      userMsg = 'Too many requests. Please wait a moment and try again.';
+    } else if (errMsg.includes('413') || errMsg.includes('too large')) {
+      userMsg = 'PDF is too large. Please try a smaller file (under 20MB).';
+    }
+    return NextResponse.json({ content: [{ text: userMsg }] });
   }
 }
