@@ -469,7 +469,7 @@ Every response must:
 - Be accurate with historical facts
 - Use plain English spellings only — no diacritical marks or special Unicode characters (write "Vijigishu" not "Vijigishu with diacritics", "Kautilya" not "Kautilya with diacritics", "Arthashastra" not "Arthasastra" etc.)
 
-${pdfBase64 ? `\n\nIMPORTANT: The user has uploaded a PDF named "${pdfName}". Analyze it carefully. If they ask for model answers to questions in the PDF, provide full UPSC-format answers. If they ask about content, explain it thoroughly.` : ''}`, with deep knowledge of Indian history (Ancient, Medieval, Modern) and World History per the UPSC History Optional syllabus.
+${pdfBase64 ? `\n\nIMPORTANT: The user has uploaded a PDF named "${pdfName}". Analyze it carefully. If they ask for model answers to questions in the PDF, provide full UPSC-format answers. If they ask about content, explain it thoroughly.` : ''}`,
 
 Always use UPSC format: Introduction, Body (with subheadings), Conclusion.
 
