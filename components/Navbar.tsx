@@ -125,12 +125,158 @@ function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound
   );
 }
 
+// ── Extend Plan Modal ──────────────────────────────────────────
+function ExtendModal({
+  user, subData, onClose, onSuccess,
+}: {
+  user: { id: string; email?: string | null };
+  subData: { plan: string; expires_at: string } | null;
+  onClose: () => void;
+  onSuccess: (newExpiry: string) => void;
+}) {
+  const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('monthly');
+  const [loading, setLoading] = useState(false);
+
+  const plans = [
+    { id: 'daily',   label: 'Daily',   price: '₹49',    days: 1 },
+    { id: 'weekly',  label: 'Weekly',  price: '₹299',   days: 7 },
+    { id: 'monthly', label: 'Monthly', price: '₹999',   days: 30 },
+    { id: 'yearly',  label: 'Annual',  price: '₹5,999', days: 365 },
+  ] as const;
+
+  const computeNewExpiry = (planId: string) => {
+    const base = subData?.expires_at && new Date(subData.expires_at) > new Date()
+      ? new Date(subData.expires_at) : new Date();
+    const d = new Date(base);
+    if (planId === 'daily')   d.setDate(d.getDate() + 1);
+    else if (planId === 'weekly')  d.setDate(d.getDate() + 7);
+    else if (planId === 'monthly') d.setMonth(d.getMonth() + 1);
+    else d.setFullYear(d.getFullYear() + 1);
+    return d;
+  };
+
+  const newExpiry = computeNewExpiry(selectedPlan);
+  const cur = plans.find(p => p.id === selectedPlan)!;
+
+  const handlePay = async () => {
+    setLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error('Not signed in');
+      const token = session.access_token;
+
+      // 1. Create Razorpay order
+      const orderRes = await fetch('/api/razorpay/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token },
+        body: JSON.stringify({ plan: selectedPlan }),
+      });
+      const order = await orderRes.json();
+      if (!order.id) throw new Error('Order creation failed');
+
+      // 2. Open Razorpay
+      const Razorpay = (window as any).Razorpay;
+      const rzp = new Razorpay({
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: 'INR',
+        name: 'History Optional',
+        description: `${cur.label} Plan`,
+        order_id: order.id,
+        prefill: { email: user.email ?? '' },
+        theme: { color: '#6366f1' },
+        handler: async (resp: any) => {
+          const verifyRes = await fetch('/api/razorpay/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-user-token': token },
+            body: JSON.stringify({ ...resp, plan: selectedPlan, fingerprint: null }),
+          });
+          const v = await verifyRes.json();
+          if (v.ok) {
+            onSuccess(v.expiresAt);
+            onClose();
+          }
+        },
+      });
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
+      onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div style={{ background: 'linear-gradient(145deg, #0f0f0f, #141414)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, width: '100%', maxWidth: 380, boxShadow: '0 32px 80px rgba(0,0,0,0.9)', overflow: 'hidden' }}>
+        {/* Header */}
+        <div style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(212,168,67,0.1) 100%)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '1.2rem 1.4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.01em' }}>⚡ Extend Plan</div>
+            <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>
+              {subData ? 'Current plan extends from your existing expiry' : 'Choose a plan to get started'}
+            </div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.35)', cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1, padding: 4 }}>✕</button>
+        </div>
+
+        <div style={{ padding: '1.2rem 1.4rem' }}>
+          {/* Current expiry */}
+          {subData && (
+            <div style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.12)', borderRadius: 8, padding: '0.6rem 0.9rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.4)' }}>Current expiry</span>
+              <span style={{ fontSize: '0.72rem', color: '#a5b4fc', fontWeight: 600 }}>
+                {new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </span>
+            </div>
+          )}
+
+          {/* Plan selector */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: '1rem' }}>
+            {plans.map(p => {
+              const sel = selectedPlan === p.id;
+              return (
+                <button key={p.id} onClick={() => setSelectedPlan(p.id as any)}
+                  style={{ background: sel ? 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(212,168,67,0.15))' : 'rgba(255,255,255,0.03)', border: sel ? '1px solid rgba(99,102,241,0.55)' : '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.7rem 0.5rem', cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}>
+                  {p.id === 'yearly' && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: '0.48rem', background: '#e8b84b', color: '#000', fontWeight: 800, padding: '1px 5px', borderRadius: 20, letterSpacing: '0.05em' }}>BEST</div>}
+                  <div style={{ fontSize: '0.72rem', color: sel ? '#c7d2fe' : 'rgba(255,255,255,0.5)', fontWeight: 600, marginBottom: 4 }}>{p.label}</div>
+                  <div style={{ fontSize: '1rem', color: sel ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: 800 }}>{p.price}</div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* New expiry preview */}
+          <div style={{ background: 'linear-gradient(90deg, rgba(81,207,102,0.08), rgba(81,207,102,0.04))', border: '1px solid rgba(81,207,102,0.18)', borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 3 }}>New expiry after payment</div>
+              <div style={{ fontSize: '0.88rem', color: '#51cf66', fontWeight: 700 }}>
+                {newExpiry.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </div>
+            </div>
+            <div style={{ fontSize: '1.4rem' }}>📅</div>
+          </div>
+
+          {/* Pay button */}
+          <button onClick={handlePay} disabled={loading}
+            style={{ width: '100%', background: loading ? 'rgba(99,102,241,0.3)' : 'linear-gradient(90deg, #6366f1, #818cf8)', border: 'none', borderRadius: 10, color: '#fff', cursor: loading ? 'not-allowed' : 'pointer', padding: '0.75rem', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.03em', boxShadow: loading ? 'none' : '0 4px 20px rgba(99,102,241,0.4)', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            {loading ? 'Processing…' : `Pay ${cur.price} → Proceed`}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [subData, setSubData] = useState<{ plan: string; expires_at: string } | null>(null);
+  const [showExtendModal, setShowExtendModal] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
   const notesRef = useRef<HTMLDivElement>(null);
@@ -192,8 +338,44 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => setUser(session?.user ?? null));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => setUser(session?.user ?? null));
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      if (session?.access_token) {
+        try {
+          const { createClient } = await import('@supabase/supabase-js');
+          const adminSb = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+          );
+          const { data: sub } = await adminSb
+            .from('subscriptions')
+            .select('plan, expires_at')
+            .eq('user_id', session.user.id)
+            .eq('status', 'active')
+            .gt('expires_at', new Date().toISOString())
+            .single();
+          if (sub) setSubData(sub);
+        } catch { /* ignore */ }
+      }
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_e, session) => {
+      setUser(session?.user ?? null);
+      if (session?.access_token) {
+        try {
+          const { data: sub } = await supabase
+            .from('subscriptions')
+            .select('plan, expires_at')
+            .eq('user_id', session.user.id)
+            .eq('status', 'active')
+            .gt('expires_at', new Date().toISOString())
+            .single();
+          if (sub) setSubData(sub);
+          else setSubData(null);
+        } catch { setSubData(null); }
+      } else {
+        setSubData(null);
+      }
+    });
     return () => subscription.unsubscribe();
   }, []);
 
@@ -365,10 +547,59 @@ export default function Navbar() {
                   <SnooAvatar email={user.email ?? ''} size={28} />
                 </button>
                 {userMenuOpen && (
-                  <div style={{ position: 'absolute', top: 'calc(100% + 8px)', right: 0, background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '1rem', width: 210, boxShadow: '0 12px 40px rgba(0,0,0,0.7)', zIndex: 1000 }}>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text3)', marginBottom: 4 }}>Signed in as</div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text)', fontWeight: 600, marginBottom: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.email}</div>
-                    <button onClick={handleSignOut} style={{ width: '100%', background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
+                  <div style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, background: 'linear-gradient(145deg, #0f0f0f 0%, #141414 100%)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: 0, width: 260, boxShadow: '0 20px 60px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.03)', zIndex: 1000, overflow: 'hidden' }}>
+                    {/* Header strip */}
+                    <div style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(212,168,67,0.08) 100%)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '1rem 1rem 0.85rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ flexShrink: 0 }}><SnooAvatar email={user.email ?? ''} size={36} /></div>
+                        <div style={{ minWidth: 0 }}>
+                          <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 2 }}>Signed in as</div>
+                          <div style={{ fontSize: '0.8rem', color: '#fff', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.email}</div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Plan badge */}
+                    <div style={{ padding: '0.85rem 1rem 0' }}>
+                      {subData ? (
+                        <>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                              <span style={{ fontSize: '0.62rem', background: 'linear-gradient(90deg,#e8b84b,#f5c842)', color: '#000', fontWeight: 800, letterSpacing: '0.08em', padding: '2px 7px', borderRadius: 20, textTransform: 'uppercase' }}>✦ {subData.plan}</span>
+                              <span style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.04em' }}>plan active</span>
+                            </div>
+                          </div>
+                          <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.4)', marginBottom: 10 }}>
+                            Expires <span style={{ color: (() => { const d = new Date(subData.expires_at); const days = Math.ceil((d.getTime() - Date.now()) / 86400000); return days <= 3 ? '#f87171' : days <= 7 ? '#fbbf24' : '#51cf66'; })() }}>{(() => { const d = new Date(subData.expires_at); const days = Math.ceil((d.getTime() - Date.now()) / 86400000); return days <= 0 ? 'today' : `${d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} (${days}d left)`; })()}</span>
+                          </div>
+                          <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
+                            style={{ width: '100%', background: 'linear-gradient(90deg, rgba(99,102,241,0.15), rgba(212,168,67,0.12))', border: '1px solid rgba(99,102,241,0.3)', color: '#a5b4fc', cursor: 'pointer', padding: '0.45rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 600, letterSpacing: '0.03em', marginBottom: 10, transition: 'all 0.15s' }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(99,102,241,0.28), rgba(212,168,67,0.2))'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.6)'; }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(99,102,241,0.15), rgba(212,168,67,0.12))'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.3)'; }}>
+                            ⚡ Extend Plan
+                          </button>
+                        </>
+                      ) : (
+                        <div style={{ marginBottom: 10 }}>
+                          <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)', marginBottom: 8 }}>No active subscription</div>
+                          <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
+                            style={{ width: '100%', background: 'linear-gradient(90deg, rgba(212,168,67,0.15), rgba(212,168,67,0.08))', border: '1px solid rgba(212,168,67,0.4)', color: '#e8b84b', cursor: 'pointer', padding: '0.45rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 700, letterSpacing: '0.03em', marginBottom: 4, transition: 'all 0.15s' }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.25)'; }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(212,168,67,0.15), rgba(212,168,67,0.08))'; }}>
+                            ✦ Get Premium
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    {/* Divider + sign out */}
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', margin: '0 1rem', paddingTop: '0.75rem', paddingBottom: '0.85rem' }}>
+                      <button onClick={handleSignOut}
+                        style={{ width: '100%', background: 'rgba(255,80,80,0.05)', border: '1px solid rgba(255,80,80,0.12)', color: '#f87171', cursor: 'pointer', padding: '0.4rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 500, letterSpacing: '0.02em', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,80,80,0.12)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,80,80,0.3)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 14px rgba(255,80,80,0.2)'; }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,80,80,0.05)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,80,80,0.12)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        Sign out
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -381,7 +612,16 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile hamburger */}
+          {/* Extend Plan Modal */}
+      {showExtendModal && user && (
+        <ExtendModal
+          user={user}
+          subData={subData}
+          onClose={() => setShowExtendModal(false)}
+          onSuccess={(newExpiry) => setSubData(prev => prev ? { ...prev, expires_at: newExpiry } : { plan: 'monthly', expires_at: newExpiry })}
+        />
+      )}
+      {/* Mobile hamburger */}
           <div style={{ display:'none', alignItems:'center', gap:'0.5rem' }} className="mobile-menu-btn">
             <button onClick={() => { setBellOpen(o => !o); }} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.7)', cursor:'pointer', padding:'0.25rem', position:'relative', display:'flex', alignItems:'center' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
