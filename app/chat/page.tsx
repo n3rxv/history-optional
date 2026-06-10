@@ -853,7 +853,7 @@ Every response must:
         .chat-table tr:hover td { background:rgba(59,130,246,0.04); }
       `}</style>
 
-      <div className="chat-wrap">
+      <div className="chat-wrap" onDragOver={e => { e.preventDefault(); setDragOver(true); }} onDragLeave={e => { e.preventDefault(); setDragOver(false); }} onDrop={handleDrop}>
         <GateModals slots={slots} />
 
 
@@ -1076,9 +1076,6 @@ Every response must:
 
         <div
           className="chat-input-area"
-          onDragOver={e => { e.preventDefault(); setDragOver(true); }}
-          onDragLeave={e => { e.preventDefault(); setDragOver(false); }}
-          onDrop={handleDrop}
           style={{ position: 'relative' }}
         >
           {dragOver && (
