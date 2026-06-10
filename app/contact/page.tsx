@@ -5,13 +5,15 @@ import { useSearchParams } from 'next/navigation';
 
 function ContactForm() {
   const searchParams = useSearchParams();
-  const [tab, setTab] = useState<'contact' | 'bug'>('contact');
+  const [tab, setTab] = useState<'contact' | 'bug' | 'feature'>('contact');
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [bugForm, setBugForm] = useState({ page: '', description: '', email: '' });
+  const [featureForm, setFeatureForm] = useState({ title: '', description: '', email: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
 
   useEffect(() => {
     if (searchParams.get('tab') === 'bug') setTab('bug');
+    if (searchParams.get('tab') === 'feature') setTab('feature');
   }, [searchParams]);
 
   async function handleContact(e: React.FormEvent) {
@@ -38,6 +40,19 @@ function ContactForm() {
     if (!res.ok) { setStatus('error'); return; }
     setStatus('done');
     setBugForm({ page: '', description: '', email: '' });
+  }
+
+  async function handleFeature(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus('sending');
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'feature', title: featureForm.title, description: featureForm.description, email: featureForm.email }),
+    });
+    if (!res.ok) { setStatus('error'); return; }
+    setStatus('done');
+    setFeatureForm({ title: '', description: '', email: '' });
   }
 
   const inputStyle: React.CSSProperties = {
@@ -83,17 +98,17 @@ function ContactForm() {
           marginBottom: '6px',
           fontWeight: 400,
         }}>
-          {tab === 'contact' ? 'Contact Us' : 'Report a Bug'}
+          {tab === 'contact' ? 'Contact Us' : tab === 'bug' ? 'Report a Bug' : 'Request a Feature'}
         </h1>
         <p style={{ color: '#444', fontSize: '14px', marginBottom: '32px' }}>
           {tab === 'contact'
             ? 'Questions, feedback, or suggestions — write to us.'
-            : 'Found something broken? Tell us what happened.'}
+            : tab === 'bug' ? 'Found something broken? Tell us what happened.' : 'Have an idea? We\'d love to hear it.'}
         </p>
 
         {/* Tabs */}
         <div style={{ display: 'flex', marginBottom: '32px', borderBottom: '1px solid #1a1a1a' }}>
-          {(['contact', 'bug'] as const).map(t => (
+          {(['contact', 'bug', 'feature'] as const).map(t => (
             <button key={t} onClick={() => { setTab(t); setStatus('idle'); }} style={{
               padding: '8px 20px',
               background: 'none',
@@ -107,7 +122,7 @@ function ContactForm() {
               cursor: 'pointer',
               transition: 'all 0.15s',
             }}>
-              {t === 'contact' ? '✉ Contact' : '🐛 Bug Report'}
+              {t === 'contact' ? '✉ Contact' : t === 'bug' ? '🐛 Bug Report' : '💡 Request Feature'}
             </button>
           ))}
         </div>
@@ -163,7 +178,7 @@ function ContactForm() {
                   {status === 'sending' ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
-            ) : (
+            ) : tab === 'bug' ? (
               <form onSubmit={handleBug} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
                   <label style={labelStyle}>Which page / feature?</label>
@@ -198,8 +213,43 @@ function ContactForm() {
                 }}>
                   {status === 'sending' ? 'Submitting...' : 'Submit Report'}
                 </button>
+              </form>            ) : tab === 'feature' ? (
+              <form onSubmit={handleFeature} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div>
+                  <label style={labelStyle}>Feature Title</label>
+                  <input required style={inputStyle} value={featureForm.title}
+                    onChange={e => setFeatureForm(f => ({ ...f, title: e.target.value }))}
+                    placeholder="e.g. Download notes as PDF, Dark mode toggle" />
+                </div>
+                <div>
+                  <label style={labelStyle}>Describe the feature</label>
+                  <textarea required rows={5} style={{ ...inputStyle, resize: 'vertical' }} value={featureForm.description}
+                    onChange={e => setFeatureForm(f => ({ ...f, description: e.target.value }))}
+                    placeholder="What should it do? How would it help your preparation?" />
+                </div>
+                <div>
+                  <label style={labelStyle}>Your email <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#333' }}>(optional)</span></label>
+                  <input type="email" style={inputStyle} value={featureForm.email}
+                    onChange={e => setFeatureForm(f => ({ ...f, email: e.target.value }))}
+                    placeholder="So we can update you when it ships" />
+                </div>
+                <button type="submit" disabled={status === 'sending'} style={{
+                  padding: '10px 24px',
+                  backgroundColor: status === 'sending' ? '#1a1a1a' : 'rgba(212,168,67,0.15)',
+                  color: status === 'sending' ? '#555' : '#d4a843',
+                  border: '1px solid rgba(212,168,67,0.3)',
+                  borderRadius: '6px',
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  cursor: status === 'sending' ? 'default' : 'pointer',
+                  alignSelf: 'flex-start',
+                  marginTop: '4px',
+                }}>
+                  {status === 'sending' ? 'Submitting...' : 'Submit Request'}
+                </button>
               </form>
-            )}
+            ) : null}
             {status === 'error' && (
               <p style={{ color: '#ff8080', fontSize: '13px', marginTop: '8px' }}>
                 Something went wrong. Please try again.

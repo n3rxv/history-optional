@@ -20,6 +20,7 @@ export default function Footer() {
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
         <Link href="/contact" style={{ color: '#888', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#fff')} onMouseLeave={e => (e.currentTarget.style.color = '#888')}>Contact</Link>
         <Link href="/contact?tab=bug" style={{ color: '#888', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#fff')} onMouseLeave={e => (e.currentTarget.style.color = '#888')}>Report a Bug</Link>
+        <Link href="/contact?tab=feature" style={{ color: '#888', textDecoration: 'none' }} onMouseEnter={e => (e.currentTarget.style.color = '#fff')} onMouseLeave={e => (e.currentTarget.style.color = '#888')}>Request a Feature</Link>
         <a href="https://t.me/historyoptionalxyz" target="_blank" rel="noopener noreferrer" title="Join Telegram"
           style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '5px 10px', borderRadius: '8px', background: 'rgba(44,165,224,0.08)', border: '1px solid rgba(44,165,224,0.2)', color: '#2CA5E0', textDecoration: 'none', fontSize: '11px', fontWeight: 600, letterSpacing: '0.03em', transition: 'all 0.18s' }}
           onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(44,165,224,0.18)'; el.style.borderColor = 'rgba(44,165,224,0.6)'; }}

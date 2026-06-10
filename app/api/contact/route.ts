@@ -54,6 +54,17 @@ export async function POST(req: NextRequest) {
     });
     if (error) return NextResponse.json({ error: 'Failed to submit' }, { status: 500 });
 
+  } else if (body.type === 'feature') {
+    const title       = sanitizeText(body.title, 200);
+    const description = sanitizeText(body.description, 2000);
+    const email       = sanitizeText(body.email, 200);
+    if (!title || !description)
+      return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+    const { error } = await db.from('contact_submissions').insert({
+      type: 'feature', name: title, message: description, email: email || null,
+    });
+    if (error) return NextResponse.json({ error: 'DB error' }, { status: 500 });
+    return NextResponse.json({ ok: true });
   } else if (body.type === 'weekly_checkup') {
     const message = sanitizeText(body.message, 2000);
     if (!message) return NextResponse.json({ error: 'Missing message' }, { status: 400 });
