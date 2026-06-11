@@ -67,13 +67,11 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }
             <div style={{ fontFamily: 'var(--font-ui)', fontSize: 14, lineHeight: 1.7, color: 'var(--text2)' }}>
               <p style={{ marginBottom: 12 }}>
                 This page is your visual companion to the entire <strong style={{ color: 'var(--text)' }}>Map syllabus</strong> for
-                UPSC History Optional — <strong style={{ color: ACCENT }}>940 sites</strong> across <strong style={{ color: ACCENT }}>26 chapters</strong>,
-                organized exactly as in the Mapping book.
+                UPSC History Optional — <strong style={{ color: ACCENT }}>940 sites</strong> across <strong style={{ color: ACCENT }}>26 chapters</strong>.
               </p>
               <p style={{ marginBottom: 12 }}>
                 Each chapter below opens into an interactive map and a list of sites. Click any
-                site (on the map or in the list) to see its location and significance, and the map
-                will automatically zoom in for a closer look.
+                site (on the map or in the list) to see its location and significance.
               </p>
               <p style={{ marginBottom: 12 }}>
                 Sites with a{' '}
