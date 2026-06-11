@@ -9,10 +9,22 @@ const INDIA_BOUNDS: [[number, number], [number, number]] = [
   [38.5, 98.0],
 ];
 
-function FitBounds({ sites }: { sites: BookSite[] }) {
+function FitBounds({ sites, selectedSite }: { sites: BookSite[]; selectedSite: string | null }) {
   const map = useMap();
+
   useEffect(() => {
     const valid = sites.filter(s => s.lat != null && s.lng != null);
+
+    // If a site is selected and it's part of this chapter's sites, zoom into it
+    if (selectedSite) {
+      const target = valid.find(s => s.name === selectedSite);
+      if (target) {
+        map.flyTo([target.lat as number, target.lng as number], 8, { duration: 0.6 });
+        return;
+      }
+    }
+
+    // No selection (or selected site not in this chapter) — fit whole chapter
     if (valid.length === 0) {
       map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] });
       return;
@@ -26,7 +38,8 @@ function FitBounds({ sites }: { sites: BookSite[] }) {
       [Math.max(...valid.map(s => s.lat as number)) + 1, Math.max(...valid.map(s => s.lng as number)) + 1],
     ];
     map.fitBounds(bounds, { padding: [20, 20] });
-  }, [map, sites]);
+  }, [map, sites, selectedSite]);
+
   return null;
 }
 
@@ -60,7 +73,7 @@ export default function MappingMap({
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution="&copy; OpenStreetMap &copy; CARTO"
         />
-        <FitBounds sites={validSites} />
+        <FitBounds sites={validSites} selectedSite={selectedSite} />
 
         {validSites.map((site) => {
           const isSelected = selectedSite === site.name;
