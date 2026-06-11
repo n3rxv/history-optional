@@ -787,11 +787,11 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
       {/* Sidebar */}
       <aside style={{
         width: sidebarOpen ? 240 : 0, minWidth: sidebarOpen ? 240 : 0,
-        borderRight: '1px solid #0d0d0d',
-        background: 'linear-gradient(180deg, #06060f 0%, #070710 60%, #05050c 100%)',
+        borderRight: '1px solid var(--border)',
+        background: 'var(--bg2)',
         overflow: 'hidden', transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
         position: 'sticky', top: 52, height: 'calc(100vh - 52px)', overflowY: 'auto', flexShrink: 0,
-        boxShadow: 'inset -1px 0 0 #111116',
+        boxShadow: 'inset -1px 0 0 var(--border)',
       }}>
         <style>{`
           .sb-section-label {
