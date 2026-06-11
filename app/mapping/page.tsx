@@ -54,9 +54,11 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }
             Ch {chapter.chapter}
           </span>
           <span style={{ fontWeight: 600 }}>{chapter.topic}</span>
-          <span style={{ color: 'var(--text3)', marginLeft: 10, fontSize: 13 }}>
-            ({chapter.sites.length} sites)
-          </span>
+          {!(chapter.chapter === 0 && chapter.topic === 'Introduction & How to Use') && (
+            <span style={{ color: 'var(--text3)', marginLeft: 10, fontSize: 13 }}>
+              ({chapter.sites.length} sites)
+            </span>
+          )}
         </span>
         <span style={{ color: ACCENT, fontSize: 18 }}>{isOpen ? '−' : '+'}</span>
       </button>
@@ -99,7 +101,14 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }
                 <MappingMap
                   sites={sitesWithCoords}
                   selectedSite={selectedSite}
-                  onSiteClick={onSiteClick}
+                  onSiteClick={(name) => {
+                    onSiteClick(name);
+                    const chapterKey = `${chapter.part}-${chapter.topic}-${chapter.chapter}`;
+                    setTimeout(() => {
+                      document.getElementById(`site-${chapterKey}-${name}`)
+                        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                  }}
                 />
               </div>
               <div style={{ flex: '1 1 350px', minWidth: 280, maxHeight: 420, overflowY: 'auto' }}>
