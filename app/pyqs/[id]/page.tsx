@@ -242,7 +242,7 @@ export default function PYQDetailPage() {
             gap: '0.85rem',
           }}>
             {answers.map(ans => (
-              
+              <a
                 key={ans.id}
                 href={ans.public_url}
                 target="_blank"
