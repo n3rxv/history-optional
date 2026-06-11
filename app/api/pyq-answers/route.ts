@@ -28,9 +28,6 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const user = await getAuthUser(req);
-  if (!user) return NextResponse.json({ error: 'Login required to submit answers.' }, { status: 401 });
-
   const formData = await req.formData();
   const pyqId   = parseInt(formData.get('pyq_id') as string);
   const rawName = (formData.get('display_name') as string ?? '').trim();
@@ -46,15 +43,14 @@ export async function POST(req: NextRequest) {
   const safeName = rawName.replace(/[^a-zA-Z0-9 _-]/g, '').slice(0, 30).trim() || 'User';
   const db = createServerClient();
 
-  const { count: userCount } = await db
+  const { count: totalCount } = await db
     .from('pyq_answers')
     .select('id', { count: 'exact', head: true })
-    .eq('pyq_id', pyqId)
-    .eq('user_id', user.id);
+    .eq('pyq_id', pyqId);
 
-  const answerNumber = (userCount ?? 0) + 1;
+  const answerNumber = (totalCount ?? 0) + 1;
   const fileName    = `${safeName.replace(/ /g, '-')}-${answerNumber}.pdf`;
-  const storagePath = `pyq-${pyqId}/${user.id}/${fileName}`;
+  const storagePath = `pyq-${pyqId}/anon/${Date.now()}-${fileName}`;
 
   const arrayBuffer = await file.arrayBuffer();
   const { error: uploadErr } = await db.storage
@@ -65,7 +61,7 @@ export async function POST(req: NextRequest) {
 
   const { data: inserted, error: insertErr } = await db
     .from('pyq_answers')
-    .insert({ pyq_id: pyqId, user_id: user.id, display_name: safeName, storage_path: storagePath, answer_number: answerNumber })
+    .insert({ pyq_id: pyqId, display_name: safeName, storage_path: storagePath, answer_number: answerNumber })
     .select('id, display_name, storage_path, answer_number, created_at, user_id')
     .single();
 

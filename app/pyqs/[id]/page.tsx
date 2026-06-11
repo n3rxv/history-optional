@@ -150,14 +150,7 @@ export default function PYQDetailPage() {
           color: 'var(--accent)', marginBottom: '1.25rem',
         }}>Submit Your Answer</div>
 
-        {!user ? (
-          <p style={{ color: 'var(--text3)', fontSize: '0.88rem' }}>
-            Please{' '}
-            <Link href="/login" style={{ color: 'var(--accent)' }}>login</Link>
-            {' '}to submit your answer.
-          </p>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             <div>
               <label style={{ color: 'var(--text3)', fontSize: '0.75rem', display: 'block', marginBottom: '0.35rem' }}>
                 Your Name
@@ -204,7 +197,6 @@ export default function PYQDetailPage() {
               {uploading ? 'Uploading…' : 'Submit Answer'}
             </button>
           </div>
-        )}
       </div>
 
       {/* Answers Grid */}
