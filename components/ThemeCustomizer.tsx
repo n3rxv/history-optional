@@ -208,25 +208,17 @@ export default function ThemeCustomizer() {
         onClick={() => setOpen(o => !o)}
         title="Customize theme"
         style={{
-          display: 'flex', alignItems: 'center', gap: 7,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          width: 30, height: 30,
           background: 'var(--bg3)', border: '1px solid var(--border)',
-          borderRadius: 20, padding: '5px 12px 5px 8px',
+          borderRadius: '50%', padding: 0,
           cursor: 'pointer', color: 'var(--text2)',
           fontSize: 13, fontFamily: 'var(--font-ui)',
           fontWeight: 500, transition: 'all 0.18s',
           whiteSpace: 'nowrap', letterSpacing: '0.01em',
         }}
       >
-        <span style={{ display: 'flex', gap: 3, alignItems: 'center' }}>
-          {[tokens.accent, tokens.yellow, tokens.green].map((c, i) => (
-            <span key={i} style={{
-              width: 8, height: 8, borderRadius: '50%',
-              background: c, display: 'inline-block',
-              border: '1px solid rgba(255,255,255,0.1)',
-            }} />
-          ))}
-        </span>
-        <span style={{ fontSize: '0.75rem' }}>{currentPreset.emoji} {activePreset}</span>
+        <span style={{ fontSize: '0.85rem' }}>{currentPreset.emoji}</span>
       </button>
       {/* Icon only - tablet */}
       <button className="theme-icon-only"
