@@ -78,9 +78,11 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }
                 {chapter.sites.map((site) => {
                   const isSelected = selectedSite === site.name;
                   const hasPYQ = site.pyqYears && site.pyqYears.length > 0;
+                  const chapterKey = `${chapter.part}-${chapter.topic}-${chapter.chapter}`;
                   return (
                     <div
                       key={site.name}
+                      id={`site-${chapterKey}-${site.name}`}
                       onClick={() => onSiteClick(site.name)}
                       style={{
                         padding: '10px 12px',
@@ -172,13 +174,19 @@ export default function MappingPage() {
 
   const jumpToSite = (chapter: BookChapter, site: BookSite) => {
     const key = `${chapter.part}-${chapter.topic}-${chapter.chapter}`;
+    const siteKey = `site-${key}-${site.name}`;
     setActivePart(chapter.part);
     setOpenChapters(prev => new Set(prev).add(key));
     setSelectedSite(site.name);
     setSearch('');
     setTimeout(() => {
-      document.getElementById(key)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+      const siteEl = document.getElementById(siteKey);
+      if (siteEl) {
+        siteEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        document.getElementById(key)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 150);
   };
 
   return (
