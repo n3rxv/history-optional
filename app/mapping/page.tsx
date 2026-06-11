@@ -15,14 +15,20 @@ const PART_ORDER = [
 
 const ACCENT = '#a78bfa';
 
-function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }: {
+function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, pyqOnly, onTogglePYQOnly }: {
   chapter: BookChapter;
   isOpen: boolean;
   onToggle: () => void;
   selectedSite: string | null;
   onSiteClick: (name: string) => void;
+  pyqOnly: boolean;
+  onTogglePYQOnly: () => void;
 }) {
-  const sitesWithCoords = chapter.sites.filter(s => s.lat != null && s.lng != null);
+  const visibleSites = pyqOnly
+    ? chapter.sites.filter(s => s.pyqYears && s.pyqYears.length > 0)
+    : chapter.sites;
+  const sitesWithCoords = visibleSites.filter(s => s.lat != null && s.lng != null);
+  const chapterHasPYQ = chapter.sites.some(s => s.pyqYears && s.pyqYears.length > 0);
 
   return (
     <div style={{
@@ -60,7 +66,29 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }
             </span>
           )}
         </span>
-        <span style={{ color: ACCENT, fontSize: 18 }}>{isOpen ? '−' : '+'}</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {chapterHasPYQ && (
+            <span
+              role="button"
+              onClick={(e) => { e.stopPropagation(); onTogglePYQOnly(); }}
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                padding: '3px 10px',
+                borderRadius: 12,
+                fontFamily: 'var(--font-ui)',
+                cursor: 'pointer',
+                color: pyqOnly ? '#000' : '#eab308',
+                background: pyqOnly ? '#eab308' : 'rgba(234,179,8,0.1)',
+                border: '1px solid #eab308',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {pyqOnly ? 'PYQ Only' : 'All'}
+            </span>
+          )}
+          <span style={{ color: ACCENT, fontSize: 18 }}>{isOpen ? '−' : '+'}</span>
+        </span>
       </button>
 
       {isOpen && (
@@ -93,8 +121,10 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }
                 Historic, and Theme-Based).
               </p>
             </div>
-          ) : chapter.sites.length === 0 ? (
-            <p style={{ color: 'var(--text3)', fontSize: 14 }}>No sites in this chapter.</p>
+          ) : visibleSites.length === 0 ? (
+            <p style={{ color: 'var(--text3)', fontSize: 14 }}>
+              {pyqOnly ? 'No PYQ sites in this chapter.' : 'No sites in this chapter.'}
+            </p>
           ) : (
             <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
               <div style={{ flex: '1 1 400px', minWidth: 300 }}>
@@ -112,7 +142,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }
                 />
               </div>
               <div style={{ flex: '1 1 350px', minWidth: 280, maxHeight: 420, overflowY: 'auto' }}>
-                {chapter.sites.map((site) => {
+                {visibleSites.map((site) => {
                   const isSelected = selectedSite === site.name;
                   const hasPYQ = site.pyqYears && site.pyqYears.length > 0;
                   const chapterKey = `${chapter.part}-${chapter.topic}-${chapter.chapter}`;
@@ -189,6 +219,23 @@ export default function MappingPage() {
   const [openChapters, setOpenChapters] = useState<Set<string>>(new Set());
   const [selectedSite, setSelectedSite] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [globalPYQOnly, setGlobalPYQOnly] = useState(false);
+  const [chapterPYQOverrides, setChapterPYQOverrides] = useState<Record<string, boolean>>({});
+
+  const toggleGlobalPYQ = () => {
+    setGlobalPYQOnly(prev => {
+      const next = !prev;
+      setChapterPYQOverrides({}); // reset overrides so all chapters inherit the new global value
+      return next;
+    });
+  };
+
+  const toggleChapterPYQ = (key: string) => {
+    setChapterPYQOverrides(prev => ({
+      ...prev,
+      [key]: !(prev[key] ?? globalPYQOnly),
+    }));
+  };
 
   const chaptersByPart = useMemo(() => {
     const map: Record<string, BookChapter[]> = {};
@@ -312,6 +359,31 @@ export default function MappingPage() {
         )}
       </div>
 
+      {/* Global PYQ filter */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+        <button
+          onClick={toggleGlobalPYQ}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            padding: '8px 16px',
+            borderRadius: 8,
+            border: globalPYQOnly ? '1px solid #eab308' : '1px solid var(--border)',
+            background: globalPYQOnly ? 'rgba(234,179,8,0.12)' : 'var(--bg3)',
+            color: globalPYQOnly ? '#eab308' : 'var(--text2)',
+            fontFamily: 'var(--font-ui)',
+            fontSize: 13,
+            fontWeight: 600,
+            cursor: 'pointer',
+          }}
+        >
+          <span style={{
+            display: 'inline-block', width: 10, height: 10, borderRadius: '50%',
+            background: '#eab308', opacity: globalPYQOnly ? 1 : 0.3,
+          }} />
+          {globalPYQOnly ? 'PYQ Sites Only' : 'Show All Sites'}
+        </button>
+      </div>
+
       {/* Part tabs */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
         {PART_ORDER.map((part) => (
@@ -336,8 +408,16 @@ export default function MappingPage() {
       </div>
 
       {/* Chapters for active part */}
-      {(chaptersByPart[activePart] || []).map((chapter) => {
+      {(chaptersByPart[activePart] || [])
+        .filter((chapter) => {
+          if (!globalPYQOnly) return true;
+          // Always show the Introduction chapter regardless of PYQ filter
+          if (chapter.chapter === 0 && chapter.topic === 'Introduction & How to Use') return true;
+          return chapter.sites.some(s => s.pyqYears && s.pyqYears.length > 0);
+        })
+        .map((chapter) => {
         const key = `${chapter.part}-${chapter.topic}-${chapter.chapter}`;
+        const effectivePYQOnly = chapterPYQOverrides[key] ?? globalPYQOnly;
         return (
           <div id={key} key={key}>
             <ChapterSection
@@ -346,6 +426,8 @@ export default function MappingPage() {
               onToggle={() => toggleChapter(key)}
               selectedSite={selectedSite}
               onSiteClick={(name) => setSelectedSite(prev => prev === name ? null : name)}
+              pyqOnly={effectivePYQOnly}
+              onTogglePYQOnly={() => toggleChapterPYQ(key)}
             />
           </div>
         );
