@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { bookData, BookChapter, BookSite } from '@/lib/bookData';
 
@@ -135,6 +135,20 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }
 
 export default function MappingPage() {
   const [activePart, setActivePart] = useState(PART_ORDER[1]); // default Pre-Historic Era
+
+  useEffect(() => {
+    let prevRestoration: ScrollRestoration | undefined;
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      prevRestoration = window.history.scrollRestoration;
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+    return () => {
+      if (typeof window !== 'undefined' && 'scrollRestoration' in window.history && prevRestoration) {
+        window.history.scrollRestoration = prevRestoration;
+      }
+    };
+  }, []);
   const [openChapters, setOpenChapters] = useState<Set<string>>(new Set());
   const [selectedSite, setSelectedSite] = useState<string | null>(null);
   const [search, setSearch] = useState('');
