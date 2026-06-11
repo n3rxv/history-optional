@@ -63,7 +63,37 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick }
 
       {isOpen && (
         <div style={{ padding: 18 }}>
-          {chapter.sites.length === 0 ? (
+          {chapter.chapter === 0 && chapter.topic === 'Introduction & How to Use' ? (
+            <div style={{ fontFamily: 'var(--font-ui)', fontSize: 14, lineHeight: 1.7, color: 'var(--text2)' }}>
+              <p style={{ marginBottom: 12 }}>
+                This page is your visual companion to the entire <strong style={{ color: 'var(--text)' }}>Map syllabus</strong> for
+                UPSC History Optional — <strong style={{ color: ACCENT }}>940 sites</strong> across <strong style={{ color: ACCENT }}>26 chapters</strong>,
+                organized exactly as in the Mapping book.
+              </p>
+              <p style={{ marginBottom: 12 }}>
+                Each chapter below opens into an interactive map and a list of sites. Click any
+                site (on the map or in the list) to see its location and significance, and the map
+                will automatically zoom in for a closer look.
+              </p>
+              <p style={{ marginBottom: 12 }}>
+                Sites with a{' '}
+                <span style={{
+                  fontSize: 11, color: '#eab308', background: 'rgba(234,179,8,0.1)',
+                  padding: '2px 8px', borderRadius: 4, fontWeight: 600,
+                }}>
+                  PYQ badge
+                </span>{' '}
+                have appeared in actual UPSC Mains map questions — these deserve extra attention
+                while revising.
+              </p>
+              <p style={{ marginBottom: 0 }}>
+                Use the <strong style={{ color: 'var(--text)' }}>search bar</strong> above to jump
+                directly to any site by name or location, or browse chapter-by-chapter using the{' '}
+                <strong style={{ color: 'var(--text)' }}>Part tabs</strong> (Pre-Historic, Proto-Historic,
+                Historic, and Theme-Based).
+              </p>
+            </div>
+          ) : chapter.sites.length === 0 ? (
             <p style={{ color: 'var(--text3)', fontSize: 14 }}>No sites in this chapter.</p>
           ) : (
             <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
