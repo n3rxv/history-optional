@@ -1,6 +1,7 @@
 'use client';
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { supabase } from '@/lib/supabase';
@@ -13,7 +14,6 @@ const TABS = [
   { label: 'World',    value: 'Paper II - World History' },
 ];
 
-// ── Render markdown-style model answer ──
 function AnswerBody({ text }: { text: string }) {
   const lines = text.split('\n');
   return (
@@ -54,7 +54,6 @@ function AnswerBody({ text }: { text: string }) {
   );
 }
 
-// ── Model Answer Modal ──
 function ModelAnswerModal({
   question, marks, cacheKey, onClose,
 }: {
@@ -96,7 +95,6 @@ function ModelAnswerModal({
     setLoading(false);
   }, [question, marks, cacheKey, answer]);
 
-  // Auto-fetch on mount if no cache
   useState(() => { if (!answer) generate(); });
 
   return (
@@ -118,7 +116,6 @@ function ModelAnswerModal({
         }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', gap: '1rem' }}>
           <div>
             <div style={{
@@ -141,7 +138,7 @@ function ModelAnswerModal({
           {loading && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', padding: '3rem 0' }}>
               <div style={{ display: 'flex', gap: 6 }}>
-                {[0, 1, 2].map(i => (
+                {[0,1,2].map(i => (
                   <span key={i} style={{
                     width: 8, height: 8, borderRadius: '50%', background: 'var(--accent)',
                     animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
@@ -152,8 +149,10 @@ function ModelAnswerModal({
                 Generating model answer…
               </span>
               <style>{`
-        .shimmer-btn::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
-        .shimmer-btn:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }@keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}`}</style>
+                .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
+                .shimmer-btn:hover::before{opacity:1;animation:glass-shine 0.55s ease forwards;}
+                @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+              `}</style>
             </div>
           )}
           {error && (
@@ -184,8 +183,8 @@ function ModelAnswerModal({
   );
 }
 
-// ── Main Page ──
 export default function PYQsPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab]       = useState<string>('all');
   const [filterYear, setFilterYear]     = useState<number | 'all'>('all');
   const [filterMarks, setFilterMarks]   = useState<number | 'all'>('all');
@@ -224,6 +223,13 @@ export default function PYQsPage() {
 
   return (
     <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
+      <style>{`
+        .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
+        .shimmer-btn:hover::before{opacity:1;animation:glass-shine 0.55s ease forwards;}
+        @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+        .pyq-card{cursor:pointer;transition:background 0.15s;}
+        .pyq-card:hover{background:var(--bg3)!important;}
+      `}</style>
 
       {/* Header */}
       <div style={{ marginBottom: '1.75rem' }}>
@@ -236,7 +242,7 @@ export default function PYQsPage() {
               Previous Year Questions
             </h1>
             <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>
-              UPSC Mains 1979–2025 · {pyqs.length} questions
+              UPSC Mains 1979–2025 · {pyqs.length} questions · Click any question to view & submit answers
             </p>
           </div>
           <Link href="/test" style={{
@@ -259,7 +265,7 @@ export default function PYQsPage() {
             <button key={tab.value} onClick={() => setActiveTab(tab.value)} style={{
               padding: '0.45rem 1rem', borderRadius: 6,
               border: active ? '1px solid var(--accent)' : '1px solid var(--border)',
-              background: active ? 'rgba(180,140,60,0.12)' : 'var(--bg2)',
+              background: active ? 'rgba(59,130,246,0.1)' : 'var(--bg2)',
               color: active ? 'var(--accent)' : 'var(--text2)',
               fontFamily: 'var(--font-ui)', fontSize: '0.85rem',
               fontWeight: active ? 600 : 400, cursor: 'pointer', transition: 'all 0.15s',
@@ -268,7 +274,7 @@ export default function PYQsPage() {
               {tab.label}
               <span style={{
                 fontSize: '0.68rem',
-                background: active ? 'rgba(180,140,60,0.2)' : 'var(--bg3)',
+                background: active ? 'rgba(59,130,246,0.2)' : 'var(--bg3)',
                 color: active ? 'var(--accent)' : 'var(--text3)',
                 padding: '1px 6px', borderRadius: 10, fontFamily: 'var(--font-mono)',
               }}>{count}</span>
@@ -325,8 +331,8 @@ export default function PYQsPage() {
             if (isFirst) seenTopics.add(q.topic);
             const count = topicCounts[q.topic];
             const badgeColor = count >= 8 ? '#ef4444' : count >= 5 ? '#f97316' : count >= 3 ? '#eab308' : 'var(--text3)';
-            const badgeBg = count >= 8 ? 'rgba(239,68,68,0.08)' : count >= 5 ? 'rgba(249,115,22,0.08)' : count >= 3 ? 'rgba(234,179,8,0.08)' : 'rgba(255,255,255,0.04)';
-            const badgeBorder = count >= 8 ? 'rgba(239,68,68,0.3)' : count >= 5 ? 'rgba(249,115,22,0.3)' : count >= 3 ? 'rgba(234,179,8,0.3)' : 'var(--border)';
+            const badgeBg    = count >= 8 ? 'rgba(239,68,68,0.08)' : count >= 5 ? 'rgba(249,115,22,0.08)' : count >= 3 ? 'rgba(234,179,8,0.08)' : 'rgba(255,255,255,0.04)';
+            const badgeBorder= count >= 8 ? 'rgba(239,68,68,0.3)' : count >= 5 ? 'rgba(249,115,22,0.3)' : count >= 3 ? 'rgba(234,179,8,0.3)' : 'var(--border)';
             return (
               <div key={q.id}>
                 {isFirst && count >= 2 && (
@@ -338,90 +344,91 @@ export default function PYQsPage() {
                     <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
                   </div>
                 )}
-                <div style={{
-            background: 'var(--bg2)', border: '1px solid var(--border)',
-            borderRadius: 8, padding: '1.25rem 1.5rem',
-            borderLeft: `3px solid ${isP1(q.section) ? 'var(--accent)' : 'var(--blue, #4c8bc9)'}`,
-            transition: 'background 0.15s',
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'var(--bg3)'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'var(--bg2)'; }}
-          >
-            {/* Badges + year */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem', gap: '1rem', flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                <span style={{
-                  background: isP1(q.section) ? 'rgba(180,140,60,0.12)' : 'rgba(76,139,201,0.12)',
-                  color: isP1(q.section) ? 'var(--accent)' : 'var(--blue, #4c8bc9)',
-                  border: `1px solid ${isP1(q.section) ? 'rgba(180,140,60,0.3)' : 'rgba(76,139,201,0.3)'}`,
-                  fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
-                  padding: '2px 8px', borderRadius: 3, letterSpacing: '0.04em',
-                }}>
-                  {q.section.replace('Paper I - ', 'P1 · ').replace('Paper II - ', 'P2 · ')}
-                </span>
-                <span style={{
-                  background: 'var(--bg3)', color: 'var(--text3)',
-                  fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
-                  padding: '2px 8px', borderRadius: 3, border: '1px solid var(--border)',
-                }}>{q.marks}M</span>
-                {q.source !== 'UPSC' && (
-                  <span style={{
-                    background: 'rgba(100,180,100,0.1)', color: '#6ab46a',
-                    fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
-                    padding: '2px 8px', borderRadius: 3, border: '1px solid rgba(100,180,100,0.25)',
-                  }}>{q.source}</span>
-                )}
-              </div>
-              <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', flexShrink: 0 }}>{q.year}</span>
-            </div>
-
-            {/* Question */}
-            <p style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.65, marginBottom: '0.75rem' }}>
-              {q.question}
-            </p>
-
-            {/* Actions */}
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
-              <span style={{ color: 'var(--text3)', fontSize: '0.73rem' }}>{q.topic}</span>
-              <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-
-                {/* Model Answer button */}
-                <button
-                  onClick={e => handleModelAnswer(e, q)}
-                  className="shimmer-btn"
+                <div
+                  className="pyq-card"
+                  onClick={() => router.push(`/pyqs/${q.id}`)}
                   style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-                    color: usage.isPremium ? 'var(--accent)' : 'var(--text3)',
-                    fontSize: '0.78rem', cursor: 'pointer',
-                    background: usage.isPremium ? 'rgba(180,140,60,0.08)' : 'var(--bg3)',
-                    border: usage.isPremium ? '1px solid rgba(180,140,60,0.25)' : '1px solid var(--border)',
-                    padding: '3px 10px', borderRadius: 4,
-                    position: 'relative', overflow: 'hidden',
+                    background: 'var(--bg2)', border: '1px solid var(--border)',
+                    borderRadius: 8, padding: '1.25rem 1.5rem',
+                    borderLeft: `3px solid ${isP1(q.section) ? 'var(--accent)' : 'var(--blue, #4c8bc9)'}`,
                   }}
                 >
-                  {!usage.isPremium && (
-                    <span style={{
-                      fontSize: '0.58rem', fontFamily: 'var(--font-mono)',
-                      letterSpacing: '0.08em', color: '#f59e0b',
-                      background: 'rgba(245,158,11,0.12)',
-                      border: '1px solid rgba(245,158,11,0.3)',
-                      padding: '1px 5px', borderRadius: 3,
-                    }}>PRO</span>
-                  )}
-                  Model Answer
-                </button>
+                  {/* Badges + year */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem', gap: '1rem', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      <span style={{
+                        background: isP1(q.section) ? 'rgba(59,130,246,0.1)' : 'rgba(76,139,201,0.12)',
+                        color: isP1(q.section) ? 'var(--accent)' : 'var(--blue, #4c8bc9)',
+                        border: `1px solid ${isP1(q.section) ? 'rgba(59,130,246,0.3)' : 'rgba(76,139,201,0.3)'}`,
+                        fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                        padding: '2px 8px', borderRadius: 3, letterSpacing: '0.04em',
+                      }}>
+                        {q.section.replace('Paper I - ', 'P1 · ').replace('Paper II - ', 'P2 · ')}
+                      </span>
+                      <span style={{
+                        background: 'var(--bg3)', color: 'var(--text3)',
+                        fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                        padding: '2px 8px', borderRadius: 3, border: '1px solid var(--border)',
+                      }}>{q.marks}M</span>
+                      {q.source !== 'UPSC' && (
+                        <span style={{
+                          background: 'rgba(100,180,100,0.1)', color: '#6ab46a',
+                          fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                          padding: '2px 8px', borderRadius: 3, border: '1px solid rgba(100,180,100,0.25)',
+                        }}>{q.source}</span>
+                      )}
+                    </div>
+                    <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', flexShrink: 0 }}>{q.year}</span>
+                  </div>
 
-                {/* Ask AI */}
-                <Link href={`/chat?q=${encodeURIComponent(q.question)}`} style={{
-                  color: 'var(--accent)', fontSize: '0.78rem', textDecoration: 'none',
-                  background: 'rgba(180,140,60,0.08)',
-                  border: '1px solid rgba(180,140,60,0.25)',
-                  padding: '3px 10px', borderRadius: 4,
-                  position: 'relative', overflow: 'hidden',
-                }} className="shimmer-btn">Ask AI →</Link>
-              </div>
-            </div>
-          </div>
+                  {/* Question */}
+                  <p style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.65, marginBottom: '0.75rem' }}>
+                    {q.question}
+                  </p>
+
+                  {/* Actions */}
+                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <span style={{ color: 'var(--text3)', fontSize: '0.73rem' }}>{q.topic}</span>
+                    <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                      <button
+                        onClick={e => handleModelAnswer(e, q)}
+                        className="shimmer-btn"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                          color: usage.isPremium ? 'var(--accent)' : 'var(--text3)',
+                          fontSize: '0.78rem', cursor: 'pointer',
+                          background: usage.isPremium ? 'rgba(59,130,246,0.08)' : 'var(--bg3)',
+                          border: usage.isPremium ? '1px solid rgba(59,130,246,0.25)' : '1px solid var(--border)',
+                          padding: '3px 10px', borderRadius: 4,
+                          position: 'relative', overflow: 'hidden',
+                        }}
+                      >
+                        {!usage.isPremium && (
+                          <span style={{
+                            fontSize: '0.58rem', fontFamily: 'var(--font-mono)',
+                            letterSpacing: '0.08em', color: '#f59e0b',
+                            background: 'rgba(245,158,11,0.12)',
+                            border: '1px solid rgba(245,158,11,0.3)',
+                            padding: '1px 5px', borderRadius: 3,
+                          }}>PRO</span>
+                        )}
+                        Model Answer
+                      </button>
+                      <Link
+                        href={`/chat?q=${encodeURIComponent(q.question)}`}
+                        onClick={e => e.stopPropagation()}
+                        style={{
+                          color: 'var(--accent)', fontSize: '0.78rem', textDecoration: 'none',
+                          background: 'rgba(59,130,246,0.08)',
+                          border: '1px solid rgba(59,130,246,0.25)',
+                          padding: '3px 10px', borderRadius: 4,
+                          position: 'relative', overflow: 'hidden',
+                        }}
+                        className="shimmer-btn"
+                      >Ask AI →</Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             );
           });
@@ -434,10 +441,8 @@ export default function PYQsPage() {
         )}
       </div>
 
-      {/* Paywall */}
       <GateModals slots={slots} />
 
-      {/* Model Answer Modal */}
       {modelAnswerQ && (
         <ModelAnswerModal
           question={modelAnswerQ.question}

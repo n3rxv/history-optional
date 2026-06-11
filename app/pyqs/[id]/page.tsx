@@ -1,0 +1,286 @@
+'use client';
+import { useState, useEffect, useRef } from 'react';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { pyqs, type PYQ } from '@/lib/pyqData';
+import { supabase } from '@/lib/supabase';
+
+interface AnswerEntry {
+  id: string;
+  display_name: string;
+  storage_path: string;
+  answer_number: number;
+  created_at: string;
+  user_id: string;
+  public_url: string;
+}
+
+export default function PYQDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  const pyq = pyqs.find((q: PYQ) => q.id === parseInt(id));
+
+  const [answers, setAnswers]         = useState<AnswerEntry[]>([]);
+  const [loadingAnswers, setLoadingAnswers] = useState(true);
+  const [user, setUser]               = useState<any>(null);
+  const [uploading, setUploading]     = useState(false);
+  const [uploadErr, setUploadErr]     = useState<string | null>(null);
+  const [uploadOk, setUploadOk]       = useState(false);
+  const [displayName, setDisplayName] = useState('');
+  const [file, setFile]               = useState<File | null>(null);
+  const fileRef                       = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        const meta = session.user.user_metadata;
+        const fallback = (session.user.email ?? '').split('@')[0];
+        setDisplayName(meta?.full_name ?? meta?.name ?? fallback);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!pyq) return;
+    fetch(`/api/pyq-answers?pyq_id=${pyq.id}`)
+      .then(r => r.json())
+      .then(d => setAnswers(d.answers ?? []))
+      .finally(() => setLoadingAnswers(false));
+  }, [pyq?.id]);
+
+  if (!pyq) return (
+    <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text3)' }}>
+      Question not found.{' '}
+      <Link href="/pyqs" style={{ color: 'var(--accent)' }}>← Back to PYQs</Link>
+    </div>
+  );
+
+  const isP1 = pyq.section.startsWith('Paper I');
+  const accentClr = isP1 ? 'var(--accent)' : 'var(--blue, #4c8bc9)';
+
+  const handleUpload = async () => {
+    setUploadErr(null);
+    if (!user)               { setUploadErr('Please login to submit your answer.'); return; }
+    if (!file)               { setUploadErr('Please select a PDF file.'); return; }
+    if (!displayName.trim()) { setUploadErr('Please enter your name.'); return; }
+
+    setUploading(true);
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token ?? '';
+
+    const form = new FormData();
+    form.append('pyq_id', String(pyq.id));
+    form.append('display_name', displayName.trim());
+    form.append('file', file);
+
+    const res  = await fetch('/api/pyq-answers', {
+      method: 'POST',
+      headers: { authorization: `Bearer ${token}` },
+      body: form,
+    });
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      setUploadErr(data.error ?? 'Upload failed.');
+    } else {
+      setAnswers(prev => [...prev, data.answer]);
+      setFile(null);
+      if (fileRef.current) fileRef.current.value = '';
+      setUploadOk(true);
+      setTimeout(() => setUploadOk(false), 3500);
+    }
+    setUploading(false);
+  };
+
+  const inputStyle: React.CSSProperties = {
+    background: 'var(--bg3)', border: '1px solid var(--border)',
+    borderRadius: 6, padding: '0.55rem 0.85rem',
+    color: 'var(--text)', fontSize: '0.88rem',
+    fontFamily: 'var(--font-body)', outline: 'none', width: '100%', boxSizing: 'border-box',
+  };
+
+  return (
+    <div style={{ maxWidth: 900, margin: '0 auto', padding: '2.5rem 1.5rem 5rem' }}>
+      <style>{`
+        @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+        .ans-card:hover{background:var(--bg3)!important;}
+      `}</style>
+
+      {/* Back */}
+      <Link href="/pyqs" style={{
+        color: 'var(--text3)', fontSize: '0.8rem', textDecoration: 'none',
+        display: 'inline-flex', alignItems: 'center', gap: '0.3rem', marginBottom: '1.75rem',
+      }}>← Back to PYQs</Link>
+
+      {/* Question Card */}
+      <div style={{
+        background: 'var(--bg2)', border: '1px solid var(--border)',
+        borderRadius: 10, padding: '1.75rem 2rem', marginBottom: '2rem',
+        borderLeft: `4px solid ${accentClr}`,
+      }}>
+        <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+          {[
+            pyq.section.replace('Paper I - ', 'P1 · ').replace('Paper II - ', 'P2 · '),
+            `${pyq.marks}M`,
+            String(pyq.year),
+            pyq.topic,
+          ].map((badge, i) => (
+            <span key={i} style={{
+              background: i === 0 ? (isP1 ? 'rgba(59,130,246,0.1)' : 'rgba(76,139,201,0.12)') : 'var(--bg3)',
+              color: i === 0 ? accentClr : 'var(--text3)',
+              border: `1px solid ${i === 0 ? (isP1 ? 'rgba(59,130,246,0.3)' : 'rgba(76,139,201,0.3)') : 'var(--border)'}`,
+              fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+              padding: '2px 8px', borderRadius: 3,
+            }}>{badge}</span>
+          ))}
+        </div>
+        <p style={{ color: 'var(--text)', fontSize: '1rem', lineHeight: 1.75, margin: 0 }}>
+          {pyq.question}
+        </p>
+      </div>
+
+      {/* Upload Section */}
+      <div style={{
+        background: 'var(--bg2)', border: '1px solid var(--border)',
+        borderRadius: 10, padding: '1.75rem 2rem', marginBottom: '2.5rem',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.62rem',
+          letterSpacing: '0.15em', textTransform: 'uppercase',
+          color: 'var(--accent)', marginBottom: '1.25rem',
+        }}>Submit Your Answer</div>
+
+        {!user ? (
+          <p style={{ color: 'var(--text3)', fontSize: '0.88rem' }}>
+            Please{' '}
+            <Link href="/login" style={{ color: 'var(--accent)' }}>login</Link>
+            {' '}to submit your answer.
+          </p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <div>
+              <label style={{ color: 'var(--text3)', fontSize: '0.75rem', display: 'block', marginBottom: '0.35rem' }}>
+                Your Name
+              </label>
+              <input
+                value={displayName}
+                onChange={e => setDisplayName(e.target.value)}
+                placeholder="e.g. Rahul Sharma"
+                style={inputStyle}
+              />
+            </div>
+            <div>
+              <label style={{ color: 'var(--text3)', fontSize: '0.75rem', display: 'block', marginBottom: '0.35rem' }}>
+                Answer PDF <span style={{ color: 'var(--text3)' }}>(max 5 MB)</span>
+              </label>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="application/pdf"
+                onChange={e => setFile(e.target.files?.[0] ?? null)}
+                style={{ color: 'var(--text2)', fontSize: '0.85rem' }}
+              />
+            </div>
+            {uploadErr && (
+              <div style={{ color: 'var(--red)', fontSize: '0.83rem' }}>{uploadErr}</div>
+            )}
+            {uploadOk && (
+              <div style={{ color: 'var(--green)', fontSize: '0.83rem' }}>✓ Answer submitted successfully!</div>
+            )}
+            <button
+              onClick={handleUpload}
+              disabled={uploading}
+              style={{
+                alignSelf: 'flex-start',
+                background: uploading ? 'var(--bg3)' : 'var(--accent)',
+                color: uploading ? 'var(--text3)' : '#fff',
+                border: 'none', borderRadius: 6,
+                padding: '0.55rem 1.4rem', fontSize: '0.88rem',
+                fontFamily: 'var(--font-ui)', fontWeight: 600,
+                cursor: uploading ? 'not-allowed' : 'pointer',
+                transition: 'background 0.15s',
+              }}
+            >
+              {uploading ? 'Uploading…' : 'Submit Answer'}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Answers Grid */}
+      <div>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.62rem',
+          letterSpacing: '0.15em', textTransform: 'uppercase',
+          color: 'var(--text3)', marginBottom: '1rem',
+        }}>
+          Community Answers{answers.length > 0 ? ` · ${answers.length}` : ''}
+        </div>
+
+        {loadingAnswers ? (
+          <div style={{ display: 'flex', gap: 6, padding: '2rem 0' }}>
+            {[0,1,2].map(i => (
+              <span key={i} style={{
+                width: 8, height: 8, borderRadius: '50%', background: 'var(--accent)',
+                animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
+                display: 'inline-block',
+              }} />
+            ))}
+          </div>
+        ) : answers.length === 0 ? (
+          <div style={{
+            background: 'var(--bg2)', border: '1px dashed var(--border)',
+            borderRadius: 8, padding: '2.5rem', textAlign: 'center',
+            color: 'var(--text3)', fontSize: '0.88rem',
+          }}>
+            No answers yet. Be the first to submit!
+          </div>
+        ) : (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gap: '0.85rem',
+          }}>
+            {answers.map(ans => (
+              
+                key={ans.id}
+                href={ans.public_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ans-card"
+                style={{
+                  background: 'var(--bg2)', border: '1px solid var(--border)',
+                  borderRadius: 8, padding: '1.1rem 1.25rem',
+                  textDecoration: 'none', display: 'block',
+                  transition: 'background 0.15s',
+                }}
+              >
+                <div style={{
+                  fontSize: '1.4rem', marginBottom: '0.5rem',
+                  lineHeight: 1,
+                }}>📄</div>
+                <div style={{
+                  color: 'var(--text)', fontSize: '0.88rem',
+                  fontWeight: 600, marginBottom: '0.25rem',
+                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                }}>{ans.display_name}</div>
+                <div style={{
+                  color: 'var(--text3)', fontSize: '0.72rem',
+                  fontFamily: 'var(--font-mono)',
+                }}>
+                  Answer #{ans.answer_number}
+                </div>
+                <div style={{
+                  color: 'var(--text3)', fontSize: '0.68rem',
+                  marginTop: '0.4rem',
+                }}>
+                  {new Date(ans.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
