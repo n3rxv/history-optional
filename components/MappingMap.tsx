@@ -19,7 +19,7 @@ function FitBounds({ sites, selectedSite }: { sites: BookSite[]; selectedSite: s
     if (selectedSite) {
       const target = valid.find(s => s.name === selectedSite);
       if (target) {
-        map.flyTo([target.lat as number, target.lng as number], 8, { duration: 0.6 });
+        map.flyTo([target.lat as number, target.lng as number], 5, { duration: 0.6 });
         return;
       }
     }
