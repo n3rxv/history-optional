@@ -359,33 +359,9 @@ export default function MappingPage() {
         )}
       </div>
 
-      {/* Global PYQ filter */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-        <button
-          onClick={toggleGlobalPYQ}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 8,
-            padding: '8px 16px',
-            borderRadius: 8,
-            border: globalPYQOnly ? '1px solid #eab308' : '1px solid var(--border)',
-            background: globalPYQOnly ? 'rgba(234,179,8,0.12)' : 'var(--bg3)',
-            color: globalPYQOnly ? '#eab308' : 'var(--text2)',
-            fontFamily: 'var(--font-ui)',
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: 'pointer',
-          }}
-        >
-          <span style={{
-            display: 'inline-block', width: 10, height: 10, borderRadius: '50%',
-            background: '#eab308', opacity: globalPYQOnly ? 1 : 0.3,
-          }} />
-          {globalPYQOnly ? 'PYQ Sites Only' : 'Show All Sites'}
-        </button>
-      </div>
-
-      {/* Part tabs */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
+      {/* Part tabs + global PYQ toggle */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {PART_ORDER.map((part) => (
           <button
             key={part}
@@ -405,6 +381,45 @@ export default function MappingPage() {
             {part}
           </button>
         ))}
+        </div>
+
+        {/* iOS-style PYQ toggle */}
+        <div
+          role="button"
+          onClick={toggleGlobalPYQ}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            cursor: 'pointer', userSelect: 'none', flexShrink: 0,
+          }}
+        >
+          <span style={{
+            fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600,
+            color: globalPYQOnly ? '#eab308' : 'var(--text2)',
+            whiteSpace: 'nowrap',
+          }}>
+            PYQ Only
+          </span>
+          <span style={{
+            position: 'relative',
+            display: 'inline-block',
+            width: 42, height: 24,
+            borderRadius: 12,
+            background: globalPYQOnly ? '#eab308' : 'var(--border2)',
+            transition: 'background 0.2s ease',
+            flexShrink: 0,
+          }}>
+            <span style={{
+              position: 'absolute',
+              top: 2,
+              left: globalPYQOnly ? 20 : 2,
+              width: 20, height: 20,
+              borderRadius: '50%',
+              background: '#fff',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.4)',
+              transition: 'left 0.2s ease',
+            }} />
+          </span>
+        </div>
       </div>
 
       {/* Chapters for active part */}
