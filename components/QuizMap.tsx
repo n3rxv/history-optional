@@ -1,6 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { MapContainer, GeoJSON, CircleMarker, useMap } from 'react-leaflet';
+import { useEffect, useRef, useState } from 'react';
 import { BookSite } from '@/lib/bookData';
 import 'leaflet/dist/leaflet.css';
 
@@ -9,26 +8,79 @@ const INDIA_BOUNDS: [[number, number], [number, number]] = [
   [38.5, 98.0],
 ];
 
-// Module-level cache — fetched once, reused across remounts
 let geoCache: any = null;
 
-function ResetView({ siteName }: { siteName: string }) {
-  const map = useMap();
-  useEffect(() => {
-    map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] });
-  }, [siteName]);
-  return null;
-}
-
 export default function QuizMap({ site }: { site: BookSite }) {
-  const [geoData, setGeoData] = useState<any>(geoCache);
+  const mapRef = useRef<any>(null);
+  const leafletMapRef = useRef<any>(null);
+  const geoLayerRef = useRef<any>(null);
+  const markerRef = useRef<any>(null);
+  const [ready, setReady] = useState(false);
 
+  // Init map once
   useEffect(() => {
-    if (geoCache) { setGeoData(geoCache); return; }
-    fetch('/india-outline.geojson')
-      .then(r => r.json())
-      .then(data => { geoCache = data; setGeoData(data); });
+    if (typeof window === 'undefined') return;
+    if (leafletMapRef.current) return;
+
+    const L = require('leaflet');
+
+    const map = L.map(mapRef.current, {
+      zoomControl: true,
+      scrollWheelZoom: true,
+      attributionControl: false,
+    });
+
+    map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] });
+    leafletMapRef.current = map;
+
+    const loadGeo = (data: any) => {
+      geoCache = data;
+      if (geoLayerRef.current) geoLayerRef.current.remove();
+      geoLayerRef.current = L.geoJSON(data, {
+        style: {
+          fillColor: '#e8e0d8',
+          fillOpacity: 1,
+          color: '#aaa',
+          weight: 1.5,
+        },
+      }).addTo(map);
+      setReady(true);
+    };
+
+    if (geoCache) {
+      loadGeo(geoCache);
+    } else {
+      fetch('/india-outline.geojson')
+        .then(r => r.json())
+        .then(loadGeo);
+    }
+
+    return () => {
+      map.remove();
+      leafletMapRef.current = null;
+    };
   }, []);
+
+  // Update marker when site changes
+  useEffect(() => {
+    if (!leafletMapRef.current || !ready) return;
+    const L = require('leaflet');
+    const map = leafletMapRef.current;
+
+    if (markerRef.current) markerRef.current.remove();
+
+    if (site.lat != null && site.lng != null) {
+      markerRef.current = L.circleMarker([site.lat, site.lng], {
+        radius: 13,
+        fillColor: '#f59e0b',
+        fillOpacity: 1,
+        color: '#fff',
+        weight: 3,
+      }).addTo(map);
+
+      map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] });
+    }
+  }, [site.name, ready]);
 
   return (
     <div style={{
@@ -37,40 +89,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
       borderRadius: 10, overflow: 'hidden',
       background: '#c8d8e8',
     }}>
-      <MapContainer
-        bounds={INDIA_BOUNDS}
-        style={{ width: '100%', height: '100%', background: '#c8d8e8' }}
-        zoomControl={true}
-        scrollWheelZoom={true}
-        attributionControl={false}
-      >
-        <ResetView siteName={site.name} />
-        {geoData && (
-          <GeoJSON
-            key="india-outline"
-            data={geoData}
-            style={{
-              fillColor: '#e8e0d8',
-              fillOpacity: 1,
-              color: '#aaa',
-              weight: 1.5,
-            }}
-          />
-        )}
-        {site.lat != null && site.lng != null && (
-          <CircleMarker
-            key={site.name}
-            center={[site.lat, site.lng]}
-            radius={13}
-            pathOptions={{
-              fillColor: '#f59e0b',
-              fillOpacity: 1,
-              color: '#fff',
-              weight: 3,
-            }}
-          />
-        )}
-      </MapContainer>
+      <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
     </div>
   );
 }
