@@ -239,10 +239,23 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
 type QuizSubMode = 'mcq' | 'type';
 
 function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
-  const pool = useMemo(() =>
-    allSitesWithCoords.filter(s => !pyqOnly || (s.pyqYears && s.pyqYears.length > 0)),
-    [pyqOnly]
-  );
+  const [chapterFilter, setChapterFilter] = useState<string>('All');
+
+  const chapterOptions = useMemo(() => {
+    const chapters = [...new Set(bookData.map(ch => ch.topic))];
+    return ['All', ...chapters];
+  }, []);
+
+  const pool = useMemo(() => {
+    let sites = allSitesWithCoords.filter(s => !pyqOnly || (s.pyqYears && s.pyqYears.length > 0));
+    if (chapterFilter !== 'All') {
+      const chapterSiteNames = new Set(
+        bookData.filter(ch => ch.topic === chapterFilter).flatMap(ch => ch.sites.map(s => s.name))
+      );
+      sites = sites.filter(s => chapterSiteNames.has(s.name));
+    }
+    return sites;
+  }, [pyqOnly, chapterFilter]);
 
   const [subMode, setSubMode]       = useState<QuizSubMode>('mcq');
   const [site, setSite]             = useState<BookSite>(() => pickRandom(pool));
@@ -252,6 +265,14 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
   const [submitted, setSubmitted]   = useState(false);
   const [score, setScore]           = useState({ correct: 0, total: 0 });
   const [streak, setStreak]         = useState(0);
+
+  useEffect(() => {
+    if (pool.length === 0) return;
+    const next = pickRandom(pool);
+    setSite(next);
+    setOptions(buildOptions(next));
+    setChosen(null); setTyped(''); setSubmitted(false);
+  }, [chapterFilter, pyqOnly]);
 
   const buildOptions = useCallback((s: BookSite) => {
     const distractors = getDistractors(s, 3);
@@ -315,6 +336,22 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
             </button>
           ))}
         </div>
+
+        {/* Chapter filter */}
+        <select
+          value={chapterFilter}
+          onChange={e => { setChapterFilter(e.target.value); setChosen(null); setTyped(''); setSubmitted(false); }}
+          style={{
+            fontSize: 12, fontWeight: 600, padding: '6px 10px', borderRadius: 7,
+            fontFamily: 'var(--font-ui)', cursor: 'pointer',
+            background: chapterFilter !== 'All' ? `${ACCENT}22` : 'var(--bg3)',
+            color: chapterFilter !== 'All' ? ACCENT : 'var(--text2)',
+            border: `1px solid ${chapterFilter !== 'All' ? ACCENT : 'var(--border)'}`,
+            outline: 'none', maxWidth: 200,
+          }}
+        >
+          {chapterOptions.map(c => <option key={c} value={c}>{c === 'All' ? 'All Chapters' : c}</option>)}
+        </select>
 
         {/* Score + streak */}
         <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
