@@ -27,6 +27,8 @@ export async function POST(req: NextRequest) {
   if (expectedSig !== razorpay_signature)
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
 
+
+
   // Extend or start subscription
   const { data: existingSub } = await supabaseAdmin
     .from("subscriptions")
@@ -38,6 +40,31 @@ export async function POST(req: NextRequest) {
     ? new Date(existingSub.expires_at) : new Date();
   const expiresAt = new Date(base);
   const activePlan = plan || "yearly";
+
+  // Auto-capture payment
+  const captureRes = await fetch(
+    `https://api.razorpay.com/v1/payments/${razorpay_payment_id}/capture`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Basic " + Buffer.from(
+          `${process.env.RAZORPAY_KEY_ID}:${process.env.RAZORPAY_KEY_SECRET}`
+        ).toString("base64"),
+      },
+      body: JSON.stringify({
+        amount: activePlan === "daily"   ? 4900
+              : activePlan === "weekly"  ? 29900
+              : activePlan === "monthly" ? 99900
+              : 599900,
+        currency: "INR"
+      }),
+    }
+  );
+  if (!captureRes.ok) {
+    const captureErr = await captureRes.json();
+    console.error("Capture failed:", captureErr);
+  }
   if (activePlan === "daily")        expiresAt.setDate(expiresAt.getDate() + 1);
   else if (activePlan === "weekly")  expiresAt.setDate(expiresAt.getDate() + 7);
   else if (activePlan === "monthly") expiresAt.setMonth(expiresAt.getMonth() + 1);
