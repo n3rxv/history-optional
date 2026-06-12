@@ -733,7 +733,7 @@ export default function MappingPage() {
             )}
           </div>
 
-          {/* Part tabs + PYQ toggle + No Labels toggle */}
+          {/* Part tabs + PYQ toggle + No State Boundaries toggle */}
           <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {PART_ORDER.map((part) => (
@@ -752,11 +752,11 @@ export default function MappingPage() {
             </div>
 
             <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-              {/* No Labels toggle */}
+              {/* No State Boundaries toggle */}
               <div role="button" onClick={() => setNoLabels(p => !p)}
                 style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none' }}>
                 <span style={{ fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, color: noLabels ? ACCENT : 'var(--text2)', whiteSpace: 'nowrap' }}>
-                  No Labels
+                  No State Boundaries
                 </span>
                 <span style={{
                   position: 'relative', display: 'inline-block', width: 42, height: 24,
