@@ -741,6 +741,10 @@ export default function MappingPage() {
             .map((chapter) => {
               const key = `${chapter.part}-${chapter.topic}-${chapter.chapter}`;
               const effectivePYQOnly = chapterPYQOverrides[key] ?? globalPYQOnly;
+              if (globalStateFilter !== 'All') {
+                const hasSite = chapter.sites.some(s => extractState(s.location) === globalStateFilter);
+                if (!hasSite) return null;
+              }
               return (
                 <div id={key} key={key}>
                   <ChapterSection
