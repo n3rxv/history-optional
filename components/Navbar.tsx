@@ -106,7 +106,7 @@ function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound
             const { supabase } = await import('@/lib/supabase');
             await supabase.auth.signInWithOAuth({
               provider: 'google',
-              options: { redirectTo: `${window.location.origin}${window.location.pathname}` },
+              options: { redirectTo: `${window.location.origin}/auth/google-callback?next=${encodeURIComponent(window.location.pathname)}` },
             });
           }}
           style={{ width: '100%', marginTop: 10, padding: '8px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 7, color: '#e0e0e0', cursor: 'pointer', fontSize: '0.76rem', fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s ease', position: 'relative', overflow: 'hidden' }}

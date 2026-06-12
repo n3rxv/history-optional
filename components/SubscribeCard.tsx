@@ -71,7 +71,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
     setStep('signing_in');
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}${window.location.pathname}` },
+      options: { redirectTo: `${window.location.origin}/auth/google-callback?next=${encodeURIComponent(window.location.pathname)}` },
     });
   };
 
