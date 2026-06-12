@@ -14,8 +14,6 @@ function FitBounds({ sites, selectedSite }: { sites: BookSite[]; selectedSite: s
 
   useEffect(() => {
     const valid = sites.filter(s => s.lat != null && s.lng != null);
-
-    // If a site is selected and it's part of this chapter's sites, zoom into it
     if (selectedSite) {
       const target = valid.find(s => s.name === selectedSite);
       if (target) {
@@ -23,8 +21,6 @@ function FitBounds({ sites, selectedSite }: { sites: BookSite[]; selectedSite: s
         return;
       }
     }
-
-    // No selection (or selected site not in this chapter) — fit whole chapter
     if (valid.length === 0) {
       map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] });
       return;
@@ -47,12 +43,17 @@ export default function MappingMap({
   sites,
   selectedSite,
   onSiteClick,
+  noLabels = false,
 }: {
   sites: BookSite[];
   selectedSite: string | null;
   onSiteClick: (name: string) => void;
+  noLabels?: boolean;
 }) {
   const validSites = sites.filter(s => s.lat != null && s.lng != null);
+  const tileUrl = noLabels
+    ? 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png'
+    : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
   return (
     <div style={{
@@ -69,22 +70,13 @@ export default function MappingMap({
         scrollWheelZoom={true}
         attributionControl={false}
       >
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          attribution="&copy; OpenStreetMap &copy; CARTO"
-        />
+        <TileLayer url={tileUrl} attribution="&copy; OpenStreetMap &copy; CARTO" />
         <FitBounds sites={validSites} selectedSite={selectedSite} />
 
         {validSites.map((site) => {
           const isSelected = selectedSite === site.name;
           const hasPYQ = site.pyqYears && site.pyqYears.length > 0;
-
-          const fillColor = isSelected
-            ? '#ffffff'
-            : hasPYQ
-            ? '#eab308'
-            : '#a78bfa';
-
+          const fillColor = isSelected ? '#ffffff' : hasPYQ ? '#eab308' : '#a78bfa';
           const radius = isSelected ? 11 : hasPYQ ? 8 : 6;
 
           return (
@@ -98,21 +90,21 @@ export default function MappingMap({
                 color: isSelected ? '#a78bfa' : 'rgba(255,255,255,0.6)',
                 weight: isSelected ? 3 : 1.5,
               }}
-              eventHandlers={{
-                click: () => onSiteClick(site.name),
-              }}
+              eventHandlers={{ click: () => onSiteClick(site.name) }}
             >
-              <Tooltip direction="top" offset={[0, -6]} className="mapping-tooltip">
-                <div style={{ fontFamily: 'var(--font-ui)', fontSize: 12 }}>
-                  <strong>{site.name}</strong>
-                  <div style={{ color: '#aaa', fontSize: 11 }}>{site.location}</div>
-                  {hasPYQ && (
-                    <div style={{ color: '#eab308', fontSize: 10, marginTop: 2 }}>
-                      PYQ: {site.pyqYears.join(', ')}
-                    </div>
-                  )}
-                </div>
-              </Tooltip>
+              {!noLabels && (
+                <Tooltip direction="top" offset={[0, -6]} className="mapping-tooltip">
+                  <div style={{ fontFamily: 'var(--font-ui)', fontSize: 12 }}>
+                    <strong>{site.name}</strong>
+                    <div style={{ color: '#aaa', fontSize: 11 }}>{site.location}</div>
+                    {hasPYQ && (
+                      <div style={{ color: '#eab308', fontSize: 10, marginTop: 2 }}>
+                        PYQ: {site.pyqYears.join(', ')}
+                      </div>
+                    )}
+                  </div>
+                </Tooltip>
+              )}
             </CircleMarker>
           );
         })}
@@ -126,12 +118,8 @@ export default function MappingMap({
           border-radius: 6px !important;
           padding: 6px 10px !important;
         }
-        .mapping-tooltip::before {
-          border-top-color: var(--border2) !important;
-        }
-        .leaflet-container {
-          font-family: var(--font-ui) !important;
-        }
+        .mapping-tooltip::before { border-top-color: var(--border2) !important; }
+        .leaflet-container { font-family: var(--font-ui) !important; }
       `}</style>
     </div>
   );
