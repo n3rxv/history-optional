@@ -490,7 +490,6 @@ export default function MappingPage() {
   const [globalPYQOnly, setGlobalPYQOnly] = useState(false);
   const [chapterPYQOverrides, setChapterPYQOverrides] = useState<Record<string, boolean>>({});
   const [quizPYQOnly, setQuizPYQOnly] = useState(false);
-  const [globalStateFilter, setGlobalStateFilter] = useState<string>('All');
 
   useEffect(() => {
     if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
@@ -515,15 +514,6 @@ export default function MappingPage() {
     }
     return map;
   }, []);
-
-  const globalStateOptions = useMemo(() => {
-    const sites = (chaptersByPart[activePart] || []).flatMap(ch => ch.sites);
-    const states = new Set(sites.map(s => extractState(s.location)));
-    return ['All', ...Array.from(states).sort()];
-  }, [activePart, chaptersByPart]);
-
-  // Reset state filter when part changes
-  useEffect(() => { setGlobalStateFilter('All'); }, [activePart]);
 
   const searchResults = useMemo(() => {
     if (search.trim().length < 2) return [];
@@ -693,24 +683,6 @@ export default function MappingPage() {
                 </span>
               </div>
 
-              {/* Global State Filter */}
-              {globalStateOptions.length > 2 && (
-                <select
-                  value={globalStateFilter}
-                  onChange={e => setGlobalStateFilter(e.target.value)}
-                  style={{
-                    fontSize: 12, fontWeight: 600, padding: '5px 10px', borderRadius: 6,
-                    fontFamily: 'var(--font-ui)', cursor: 'pointer',
-                    background: globalStateFilter !== 'All' ? `${ACCENT}22` : 'var(--bg3)',
-                    color: globalStateFilter !== 'All' ? ACCENT : 'var(--text2)',
-                    border: `1px solid ${globalStateFilter !== 'All' ? ACCENT : 'var(--border)'}`,
-                    outline: 'none',
-                  }}
-                >
-                  {globalStateOptions.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-              )}
-
               {/* PYQ Only toggle */}
               <div role="button" onClick={toggleGlobalPYQ}
                 style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', userSelect: 'none' }}>
@@ -741,10 +713,6 @@ export default function MappingPage() {
             .map((chapter) => {
               const key = `${chapter.part}-${chapter.topic}-${chapter.chapter}`;
               const effectivePYQOnly = chapterPYQOverrides[key] ?? globalPYQOnly;
-              if (globalStateFilter !== 'All') {
-                const hasSite = chapter.sites.some(s => extractState(s.location) === globalStateFilter);
-                if (!hasSite) return null;
-              }
               return (
                 <div id={key} key={key}>
                   <ChapterSection
