@@ -18,9 +18,8 @@ const ACCENT = '#a78bfa';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-const allSitesWithCoords: BookSite[] = bookData.flatMap(ch => ch.sites).filter(
-  s => s.lat != null && s.lng != null
-);
+const _allRaw = bookData.flatMap(ch => ch.sites).filter(s => s.lat != null && s.lng != null);
+const allSitesWithCoords: BookSite[] = Array.from(new Map(_allRaw.map(s => [s.name, s])).values());
 
 function geoDistance(a: BookSite, b: BookSite) {
   const dlat = (a.lat as number) - (b.lat as number);
@@ -303,7 +302,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
       {/* MCQ Options */}
       {subMode === 'mcq' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-          {options.map(opt => {
+          {options.slice(0, 4).map(opt => {
             const isCorrect = opt.name === site.name;
             const isChosen  = opt.name === chosen;
             let bg = 'var(--bg3)';
