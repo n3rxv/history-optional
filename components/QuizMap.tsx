@@ -18,7 +18,15 @@ export default function QuizMap({ site }: { site: BookSite }) {
       map.fitBounds(INDIA_BOUNDS as any, { padding: [10, 10] });
       lMapRef.current = map;
       L.geoJSON(indiaGeoJSON as any, {
-        style: () => ({ fillColor: '#e8e0d8', fillOpacity: 1, color: '#aaa', weight: 1.5 }),
+        style: (feature: any) => {
+          const isIndia = feature?.properties?.name === 'India';
+          return {
+            fillColor: isIndia ? '#e8e0d8' : '#d4cfc8',
+            fillOpacity: 1,
+            color: '#aaa',
+            weight: isIndia ? 1.5 : 1,
+          };
+        },
       }).addTo(map);
       if (site.lat != null && site.lng != null) {
         markerRef.current = L.circleMarker([site.lat as number, site.lng as number], {

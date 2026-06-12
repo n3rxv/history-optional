@@ -76,7 +76,10 @@ export default function MappingMap({
           geoData && (
             <GeoJSON
               data={geoData as any}
-              style={{ fillColor: '#e8e0d8', fillOpacity: 1, color: '#999', weight: 1.5 }}
+              style={(feature: any) => {
+                const isIndia = feature?.properties?.name === 'India';
+                return { fillColor: isIndia ? '#e8e0d8' : '#d4cfc8', fillOpacity: 1, color: '#aaa', weight: isIndia ? 1.5 : 1 };
+              }}
             />
           )
         ) : (
