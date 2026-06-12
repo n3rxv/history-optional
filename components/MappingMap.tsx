@@ -52,7 +52,7 @@ export default function MappingMap({
 }) {
   const validSites = sites.filter(s => s.lat != null && s.lng != null);
   const tileUrl = noLabels
-    ? 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png'
+    ? 'https://tiles.stadiamaps.com/tiles/stamen_toner_background/{z}/{x}/{y}{r}.png'
     : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
   return (

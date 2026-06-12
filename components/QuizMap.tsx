@@ -37,7 +37,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
         key={site.name}
       >
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
+          url="https://tiles.stadiamaps.com/tiles/stamen_toner_background/{z}/{x}/{y}{r}.png"
           attribution="&copy; OpenStreetMap &copy; CARTO"
         />
         <FlyToSite site={site} />
