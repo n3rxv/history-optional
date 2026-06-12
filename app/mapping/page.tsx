@@ -25,6 +25,23 @@ const siteToChapter = new Map<string, string>(
   bookData.flatMap(ch => ch.sites.map(s => [s.name, ch.topic] as [string, string]))
 );
 
+function sanitizeClue(text: string, site: BookSite): string {
+  if (!text) return text;
+  let clue = text;
+  // Remove site name (case-insensitive)
+  clue = clue.replace(new RegExp(site.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '___');
+  // Remove location parts
+  if (site.location) {
+    const locParts = site.location.split(',').map(p => p.trim()).filter(p => p.length > 3);
+    for (const part of locParts) {
+      clue = clue.replace(new RegExp(part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '___');
+    }
+  }
+  // Show only first 2 sentences to avoid giving too much away
+  const sentences = clue.match(/[^.!?]+[.!?]+/g) || [clue];
+  return sentences.slice(0, 2).join(' ').trim();
+}
+
 function geoDistance(a: BookSite, b: BookSite) {
   const dlat = (a.lat as number) - (b.lat as number);
   const dlng = (a.lng as number) - (b.lng as number);
