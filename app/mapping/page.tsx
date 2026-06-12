@@ -21,6 +21,10 @@ const ACCENT = '#a78bfa';
 const _allRaw = bookData.flatMap(ch => ch.sites).filter(s => s.lat != null && s.lng != null);
 const allSitesWithCoords: BookSite[] = Array.from(new Map(_allRaw.map(s => [s.name, s])).values());
 
+const siteToChapter = new Map<string, string>(
+  bookData.flatMap(ch => ch.sites.map(s => [s.name, ch.topic] as [string, string]))
+);
+
 function geoDistance(a: BookSite, b: BookSite) {
   const dlat = (a.lat as number) - (b.lat as number);
   const dlng = (a.lng as number) - (b.lng as number);
@@ -298,6 +302,17 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
 
       {/* Map */}
       <QuizMap site={site} />
+
+      {/* Hint */}
+      <div style={{
+        textAlign: 'center', fontFamily: 'var(--font-ui)', fontSize: 12,
+        color: 'var(--text3)', letterSpacing: '0.05em',
+      }}>
+        HINT — <span style={{ color: 'var(--text2)' }}>{siteToChapter.get(site.name) ?? '—'}</span>
+        {site.pyqYears?.length > 0 && (
+          <span style={{ color: '#eab308', marginLeft: 10 }}>PYQ {site.pyqYears.join(', ')}</span>
+        )}
+      </div>
 
       {/* MCQ Options */}
       {subMode === 'mcq' && (
