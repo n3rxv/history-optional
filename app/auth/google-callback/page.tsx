@@ -22,6 +22,8 @@ function CallbackHandler() {
             user_id: session.user.id,
             session_id: session.access_token.slice(-32),
             device_info: deviceInfo,
+            user_name: session.user.user_metadata?.full_name ?? session.user.user_metadata?.name ?? null,
+            user_email: session.user.email ?? null,
           }),
         });
         const json = await res.json();

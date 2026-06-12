@@ -9,7 +9,7 @@ const supabaseAdmin = createClient(
 );
 
 export async function POST(req: NextRequest) {
-  const { user_id, session_id, device_info } = await req.json();
+  const { user_id, session_id, device_info, user_name, user_email } = await req.json();
   if (!user_id || !session_id) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
 
   // Get existing sessions oldest first
@@ -33,6 +33,8 @@ export async function POST(req: NextRequest) {
     user_id,
     session_id,
     device_info: device_info ?? 'Unknown',
+    user_name: user_name ?? null,
+    user_email: user_email ?? null,
   });
 
   return NextResponse.json({ ok: true });
