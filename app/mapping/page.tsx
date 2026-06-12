@@ -53,6 +53,18 @@ function pickRandom(sites: BookSite[]): BookSite {
 
 // ── ChapterSection (normal browse mode) ──────────────────────────────────────
 
+const INDIAN_STATES = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Delhi','Jammu','Kashmir','Ladakh','Puducherry','Andaman','Lakshadweep','Chandigarh','Harappa','Pakistan','Afghanistan','Bangladesh','Nepal','Sri Lanka','Myanmar','Iran','Uzbekistan'];
+
+function extractState(location: string): string {
+  if (!location) return 'Other';
+  const loc = location.toLowerCase();
+  for (const s of INDIAN_STATES) {
+    if (loc.includes(s.toLowerCase())) return s;
+  }
+  const parts = location.split(',');
+  return parts[parts.length - 1].trim() || 'Other';
+}
+
 function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, pyqOnly, onTogglePYQOnly, noLabels }: {
   chapter: BookChapter;
   isOpen: boolean;
@@ -63,9 +75,19 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
   onTogglePYQOnly: () => void;
   noLabels: boolean;
 }) {
-  const visibleSites = pyqOnly
+  const [stateFilter, setStateFilter] = useState<string>('All');
+  const baseSites = pyqOnly
     ? chapter.sites.filter(s => s.pyqYears && s.pyqYears.length > 0)
     : chapter.sites;
+
+  const stateOptions = useMemo(() => {
+    const states = new Set(baseSites.map(s => extractState(s.location)));
+    return ['All', ...Array.from(states).sort()];
+  }, [baseSites]);
+
+  const visibleSites = stateFilter === 'All'
+    ? baseSites
+    : baseSites.filter(s => extractState(s.location) === stateFilter);
   const sitesWithCoords = visibleSites.filter(s => s.lat != null && s.lng != null);
   const chapterHasPYQ = chapter.sites.some(s => s.pyqYears && s.pyqYears.length > 0);
 
@@ -101,6 +123,25 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
                 border: '1px solid #eab308', whiteSpace: 'nowrap',
               }}
             >{pyqOnly ? 'PYQ Only' : 'All'}</span>
+          )}
+          {isOpen && stateOptions.length > 2 && (
+            <select
+              value={stateFilter}
+              onClick={e => e.stopPropagation()}
+              onChange={e => { e.stopPropagation(); setStateFilter(e.target.value); }}
+              style={{
+                fontSize: 11, fontWeight: 600, padding: '3px 8px', borderRadius: 6,
+                fontFamily: 'var(--font-ui)', cursor: 'pointer',
+                background: stateFilter !== 'All' ? `${ACCENT}22` : 'var(--bg4)',
+                color: stateFilter !== 'All' ? ACCENT : 'var(--text3)',
+                border: `1px solid ${stateFilter !== 'All' ? ACCENT : 'var(--border)'}`,
+                outline: 'none', maxWidth: 140,
+              }}
+            >
+              {stateOptions.map(s => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
           )}
           <span style={{ color: ACCENT, fontSize: 18 }}>{isOpen ? '−' : '+'}</span>
         </span>
