@@ -69,6 +69,7 @@ export default function MappingMap({
       overflow: 'hidden',
     }}>
       <MapContainer
+        key={noLabels ? 'nolabels' : 'labels'}
         bounds={INDIA_BOUNDS}
         style={{ width: '100%', height: '100%', background: noLabels ? '#c8d8e8' : 'var(--bg2)' }}
         zoomControl={true}
