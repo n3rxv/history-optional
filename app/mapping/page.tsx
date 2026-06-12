@@ -509,7 +509,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
             {site.name}
           </strong>
           <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 6 }}>{site.location}</div>
-          <div>{site.majorAspect}</div>
+          {sanitizeClue(site.majorAspect, site)}
           {site.pyqYears?.length > 0 && (
             <div style={{ marginTop: 6, color: '#eab308', fontSize: 12 }}>
               PYQ: {site.pyqYears.join(', ')}
