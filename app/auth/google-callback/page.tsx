@@ -13,15 +13,22 @@ function CallbackHandler() {
 
     const registerDevice = async (session: any) => {
       const deviceInfo = `${navigator.platform} — ${navigator.userAgent.slice(0, 80)}`;
-      await fetch('/api/device-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: session.user.id,
-          session_id: session.access_token.slice(-32), // last 32 chars as unique ID
-          device_info: deviceInfo,
-        }),
-      });
+      console.log('[device] registering session for', session.user.id);
+      try {
+        const res = await fetch('/api/device-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: session.user.id,
+            session_id: session.access_token.slice(-32),
+            device_info: deviceInfo,
+          }),
+        });
+        const json = await res.json();
+        console.log('[device] response:', json);
+      } catch (e) {
+        console.error('[device] fetch error:', e);
+      }
     };
 
     supabase.auth.getSession().then(async ({ data: { session } }) => {
