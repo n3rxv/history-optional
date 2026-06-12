@@ -25,19 +25,33 @@ const siteToChapter = new Map<string, string>(
   bookData.flatMap(ch => ch.sites.map(s => [s.name, ch.topic] as [string, string]))
 );
 
+function escapeRegex(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function sanitizeClue(text: string, site: BookSite): string {
   if (!text) return text;
   let clue = text;
-  // Remove site name (case-insensitive)
-  clue = clue.replace(new RegExp(site.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '___');
+
+  // Split name by '/', ',', ' also known as ', ' or ' to get all variants
+  const nameVariants = site.name
+    .split(/[/,]|\salso known as\s|\sor\s/i)
+    .map(s => s.trim())
+    .filter(s => s.length > 2);
+
+  for (const variant of nameVariants) {
+    clue = clue.replace(new RegExp(escapeRegex(variant), 'gi'), '___');
+  }
+
   // Remove location parts
   if (site.location) {
     const locParts = site.location.split(',').map(p => p.trim()).filter(p => p.length > 3);
     for (const part of locParts) {
-      clue = clue.replace(new RegExp(part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '___');
+      clue = clue.replace(new RegExp(escapeRegex(part), 'gi'), '___');
     }
   }
-  // Show only first 2 sentences to avoid giving too much away
+
+  // Show only first 2 sentences
   const sentences = clue.match(/[^.!?]+[.!?]+/g) || [clue];
   return sentences.slice(0, 2).join(' ').trim();
 }
