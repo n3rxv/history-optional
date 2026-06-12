@@ -1,6 +1,7 @@
 'use client';
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from 'react-leaflet';
 import { useEffect, useState } from 'react';
+import { indiaGeoJSON } from '@/lib/indiaGeoJSON';
 import { BookSite } from '@/lib/bookData';
 import 'leaflet/dist/leaflet.css';
 
@@ -51,12 +52,7 @@ export default function MappingMap({
   noLabels?: boolean;
 }) {
   const validSites = sites.filter(s => s.lat != null && s.lng != null);
-  const [geoData, setGeoData] = useState<any>(null);
-  useEffect(() => {
-    if (noLabels && !geoData) {
-      fetch('/india-outline.geojson').then(r => r.json()).then(setGeoData);
-    }
-  }, [noLabels]);
+  const geoData = noLabels ? indiaGeoJSON : null;
 
   const tileUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
@@ -79,7 +75,7 @@ export default function MappingMap({
         {noLabels ? (
           geoData && (
             <GeoJSON
-              data={geoData}
+              data={geoData as any}
               style={{ fillColor: '#e8e0d8', fillOpacity: 1, color: '#999', weight: 1.5 }}
             />
           )
