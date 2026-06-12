@@ -1,6 +1,6 @@
 'use client';
-import { useEffect } from 'react';
-import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet';
+import { useEffect, useState } from 'react';
+import { MapContainer, GeoJSON, CircleMarker, useMap } from 'react-leaflet';
 import { BookSite } from '@/lib/bookData';
 import 'leaflet/dist/leaflet.css';
 
@@ -9,38 +9,50 @@ const INDIA_BOUNDS: [[number, number], [number, number]] = [
   [38.5, 98.0],
 ];
 
-function FlyToSite({ site }: { site: BookSite }) {
+function ResetView() {
   const map = useMap();
   useEffect(() => {
-    if (site.lat != null && site.lng != null) {
-      map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] });
-    }
-  }, [site.name]);
+    map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] });
+  }, []);
   return null;
 }
 
 export default function QuizMap({ site }: { site: BookSite }) {
+  const [geoData, setGeoData] = useState<any>(null);
+
+  useEffect(() => {
+    fetch('/india-outline.geojson')
+      .then(r => r.json())
+      .then(setGeoData);
+  }, []);
+
   return (
     <div style={{
-      width: '100%',
-      height: 440,
+      width: '100%', height: 440,
       border: '1.5px solid var(--border2)',
-      borderRadius: 10,
-      overflow: 'hidden',
+      borderRadius: 10, overflow: 'hidden',
+      background: '#c8d8e8',
     }}>
       <MapContainer
         bounds={INDIA_BOUNDS}
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: '100%', height: '100%', background: '#c8d8e8' }}
         zoomControl={true}
         scrollWheelZoom={true}
         attributionControl={false}
         key={site.name}
       >
-        <TileLayer
-          url="https://tiles.stadiamaps.com/tiles/stamen_toner_background/{z}/{x}/{y}{r}.png"
-          attribution="&copy; OpenStreetMap &copy; CARTO"
-        />
-        <FlyToSite site={site} />
+        <ResetView />
+        {geoData && (
+          <GeoJSON
+            data={geoData}
+            style={{
+              fillColor: '#e8e0d8',
+              fillOpacity: 1,
+              color: '#999',
+              weight: 1.5,
+            }}
+          />
+        )}
         {site.lat != null && site.lng != null && (
           <CircleMarker
             center={[site.lat, site.lng]}

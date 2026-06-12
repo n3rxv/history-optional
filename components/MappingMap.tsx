@@ -1,6 +1,6 @@
 'use client';
-import { useEffect } from 'react';
-import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from 'react-leaflet';
+import { useEffect, useState } from 'react';
 import { BookSite } from '@/lib/bookData';
 import 'leaflet/dist/leaflet.css';
 
@@ -51,9 +51,14 @@ export default function MappingMap({
   noLabels?: boolean;
 }) {
   const validSites = sites.filter(s => s.lat != null && s.lng != null);
-  const tileUrl = noLabels
-    ? 'https://tiles.stadiamaps.com/tiles/stamen_toner_background/{z}/{x}/{y}{r}.png'
-    : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+  const [geoData, setGeoData] = useState<any>(null);
+  useEffect(() => {
+    if (noLabels && !geoData) {
+      fetch('/india-outline.geojson').then(r => r.json()).then(setGeoData);
+    }
+  }, [noLabels]);
+
+  const tileUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
   return (
     <div style={{
@@ -65,12 +70,21 @@ export default function MappingMap({
     }}>
       <MapContainer
         bounds={INDIA_BOUNDS}
-        style={{ width: '100%', height: '100%', background: 'var(--bg2)' }}
+        style={{ width: '100%', height: '100%', background: noLabels ? '#c8d8e8' : 'var(--bg2)' }}
         zoomControl={true}
         scrollWheelZoom={true}
         attributionControl={false}
       >
-        <TileLayer url={tileUrl} attribution="&copy; OpenStreetMap &copy; CARTO" />
+        {noLabels ? (
+          geoData && (
+            <GeoJSON
+              data={geoData}
+              style={{ fillColor: '#e8e0d8', fillOpacity: 1, color: '#999', weight: 1.5 }}
+            />
+          )
+        ) : (
+          <TileLayer url={tileUrl} attribution="&copy; OpenStreetMap &copy; CARTO" />
+        )}
         <FitBounds sites={validSites} selectedSite={selectedSite} />
 
         {validSites.map((site) => {
