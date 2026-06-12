@@ -9,21 +9,25 @@ const INDIA_BOUNDS: [[number, number], [number, number]] = [
   [38.5, 98.0],
 ];
 
-function ResetView() {
+// Module-level cache — fetched once, reused across remounts
+let geoCache: any = null;
+
+function ResetView({ siteName }: { siteName: string }) {
   const map = useMap();
   useEffect(() => {
     map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] });
-  }, []);
+  }, [siteName]);
   return null;
 }
 
 export default function QuizMap({ site }: { site: BookSite }) {
-  const [geoData, setGeoData] = useState<any>(null);
+  const [geoData, setGeoData] = useState<any>(geoCache);
 
   useEffect(() => {
+    if (geoCache) { setGeoData(geoCache); return; }
     fetch('/india-outline.geojson')
       .then(r => r.json())
-      .then(setGeoData);
+      .then(data => { geoCache = data; setGeoData(data); });
   }, []);
 
   return (
@@ -39,22 +43,23 @@ export default function QuizMap({ site }: { site: BookSite }) {
         zoomControl={true}
         scrollWheelZoom={true}
         attributionControl={false}
-        key={site.name}
       >
-        <ResetView />
+        <ResetView siteName={site.name} />
         {geoData && (
           <GeoJSON
+            key="india-outline"
             data={geoData}
             style={{
               fillColor: '#e8e0d8',
               fillOpacity: 1,
-              color: '#999',
+              color: '#aaa',
               weight: 1.5,
             }}
           />
         )}
         {site.lat != null && site.lng != null && (
           <CircleMarker
+            key={site.name}
             center={[site.lat, site.lng]}
             radius={13}
             pathOptions={{
