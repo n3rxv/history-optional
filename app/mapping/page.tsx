@@ -398,15 +398,20 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
       {/* Map */}
       <QuizMap site={site} />
 
-      {/* Hint — only shown when All Chapters selected */}
-      {chapterFilter === 'All' && (
+      {/* Clue — majorAspect sanitized, only when All Chapters selected */}
+      {chapterFilter === 'All' && site.majorAspect && (
         <div style={{
-          textAlign: 'center', fontFamily: 'var(--font-ui)', fontSize: 12,
-          color: 'var(--text3)', letterSpacing: '0.05em',
+          fontFamily: 'var(--font-ui)', fontSize: 13,
+          color: 'var(--text2)', lineHeight: 1.5,
+          background: 'var(--bg4)', border: '1px solid var(--border)',
+          borderRadius: 8, padding: '10px 14px',
         }}>
-          HINT — <span style={{ color: 'var(--text2)' }}>{siteToChapter.get(site.name) ?? '—'}</span>
+          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text3)', display: 'block', marginBottom: 4 }}>CLUE</span>
+          {sanitizeClue(site.majorAspect, site)}
           {site.pyqYears?.length > 0 && (
-            <span style={{ color: '#eab308', marginLeft: 10 }}>PYQ {site.pyqYears.join(', ')}</span>
+            <span style={{ display: 'inline-block', fontSize: 10, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 6px', borderRadius: 4, marginLeft: 8 }}>
+              PYQ {site.pyqYears.join(', ')}
+            </span>
           )}
         </div>
       )}
