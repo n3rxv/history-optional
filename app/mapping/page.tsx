@@ -271,6 +271,7 @@ type QuizSubMode = 'mcq' | 'type';
 
 function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
   const [chapterFilter, setChapterFilter] = useState<string>('All');
+  const [hideClue, setHideClue] = useState(false);
 
   const chapterOptions = useMemo(() => {
     const chapters = [...new Set(bookData.map(ch => ch.topic))];
@@ -302,7 +303,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
     const next = pickRandom(pool);
     setSite(next);
     setOptions(buildOptions(next));
-    setChosen(null); setTyped(''); setSubmitted(false);
+    setChosen(null); setTyped(''); setSubmitted(false); setHideClue(false);
   }, [chapterFilter, pyqOnly]);
 
   const buildOptions = useCallback((s: BookSite) => {
@@ -412,7 +413,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
       {/* Map */}
       <QuizMap site={site} />
 
-      {/* Clue — majorAspect sanitized */}
+      {/* Clue — majorAspect sanitized, toggleable */}
       {site.majorAspect && (
         <div style={{
           fontFamily: 'var(--font-ui)', fontSize: 13,
@@ -420,12 +421,23 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
           background: 'var(--bg4)', border: '1px solid var(--border)',
           borderRadius: 8, padding: '10px 14px',
         }}>
-          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text3)', display: 'block', marginBottom: 4 }}>CLUE</span>
-          {sanitizeClue(site.majorAspect, site)}
-          {site.pyqYears?.length > 0 && (
-            <span style={{ display: 'inline-block', fontSize: 10, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 6px', borderRadius: 4, marginLeft: 8 }}>
-              PYQ {site.pyqYears.join(', ')}
-            </span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: hideClue ? 0 : 6 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text3)' }}>CLUE</span>
+            <span
+              role="button"
+              onClick={() => setHideClue(h => !h)}
+              style={{ fontSize: 10, cursor: 'pointer', color: 'var(--text3)', padding: '2px 8px', borderRadius: 4, border: '1px solid var(--border)', userSelect: 'none' }}
+            >{hideClue ? 'Show' : 'Hide'}</span>
+          </div>
+          {!hideClue && (
+            <>
+              {sanitizeClue(site.majorAspect, site)}
+              {site.pyqYears?.length > 0 && (
+                <span style={{ display: 'inline-block', fontSize: 10, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 6px', borderRadius: 4, marginLeft: 8 }}>
+                  PYQ {site.pyqYears.join(', ')}
+                </span>
+              )}
+            </>
           )}
         </div>
       )}
