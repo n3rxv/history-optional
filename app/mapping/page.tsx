@@ -412,8 +412,8 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
       {/* Map */}
       <QuizMap site={site} />
 
-      {/* Clue — majorAspect sanitized, only when All Chapters selected */}
-      {chapterFilter === 'All' && site.majorAspect && (
+      {/* Clue — majorAspect sanitized */}
+      {site.majorAspect && (
         <div style={{
           fontFamily: 'var(--font-ui)', fontSize: 13,
           color: 'var(--text2)', lineHeight: 1.5,
