@@ -116,7 +116,7 @@ export default function MappingMap({
           const isSelected = selectedSite === site.name;
           const hasPYQ = site.pyqYears && site.pyqYears.length > 0;
           const fillColor = isSelected ? '#ffffff' : hasPYQ ? '#eab308' : '#a78bfa';
-          const radius = isSelected ? 11 : hasPYQ ? 8 : 6;
+          const radius = isSelected ? 7 : hasPYQ ? 4 : 3;
 
           return (
             <CircleMarker
