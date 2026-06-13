@@ -70,6 +70,8 @@ export default function MappingMap({
       border: '1.5px solid var(--border2)',
       borderRadius: 10,
       overflow: 'hidden',
+      position: 'relative',
+      zIndex: 0,
     }}>
       <MapContainer
         key={noLabels ? 'nolabels' : 'labels'}

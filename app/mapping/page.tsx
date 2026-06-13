@@ -713,7 +713,7 @@ export default function MappingPage() {
               <div style={{
                 position: 'absolute', top: '100%', left: 0, right: 0, marginTop: 4,
                 background: 'var(--bg3)', border: `1px solid ${ACCENT}55`, borderRadius: 8,
-                maxHeight: 320, overflowY: 'auto', zIndex: 50,
+                maxHeight: 320, overflowY: 'auto', zIndex: 1000,
               }}>
                 {searchResults.map(({ site, chapter }) => (
                   <div
