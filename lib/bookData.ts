@@ -2678,6 +2678,49 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 35.1,
         "lng": 72.5
+      },
+      {
+        "name": "Pandu Rajar Dhibi",
+        "location": "Purba Bardhaman district (West Bengal), on banks of river Ajay",
+        "majorAspect": "Important Chalcolithic site in Bengal. Evidence of copper tools, handmade pottery and rice cultivation. Shows overlap of Neolithic and Chalcolithic cultures in eastern India.",
+        "pyqYears": [
+          2013,
+          2017
+        ],
+        "lat": 23.63,
+        "lng": 87.97
+      },
+      {
+        "name": "Katpalon",
+        "location": "Jalandhar district (Punjab)",
+        "majorAspect": "Late Harappan and OCP cultural remains found. Important site for understanding post-urban Harappan phase in the Punjab plains.",
+        "pyqYears": [],
+        "lat": 31.32,
+        "lng": 75.58
+      },
+      {
+        "name": "Siswal",
+        "location": "Hisar district (Haryana)",
+        "majorAspect": "Pre-Harappan site giving name to the Siswal culture (Early Harappan phase in Haryana). Yielded pottery and structural remains predating mature Harappan phase.",
+        "pyqYears": [],
+        "lat": 29.18,
+        "lng": 75.72
+      },
+      {
+        "name": "Hastinapur",
+        "location": "Meerut district (Uttar Pradesh), on banks of river Ganga",
+        "majorAspect": "Capital of Kuru kingdom (Mahabharata). Excavated by B.B. Lal (1950-52). Yields OCP, PGW and NBPW cultural sequence. Evidence of flooding corroborating Mahabharata account.",
+        "pyqYears": [],
+        "lat": 29.17,
+        "lng": 78.02
+      },
+      {
+        "name": "Saraikhola",
+        "location": "Rawalpindi district (Punjab, Pakistan)",
+        "majorAspect": "Neolithic-Chalcolithic site in the Potwar Plateau. Shows cultural continuity from Neolithic Burzhom culture. Yields handmade pottery and bone tools.",
+        "pyqYears": [],
+        "lat": 33.6,
+        "lng": 73.1
       }
     ]
   },
