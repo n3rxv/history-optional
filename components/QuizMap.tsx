@@ -30,7 +30,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
       }).addTo(map);
       if (site.lat != null && site.lng != null) {
         markerRef.current = L.circleMarker([site.lat as number, site.lng as number], {
-          radius: 13, fillColor: '#f59e0b', fillOpacity: 1, color: '#fff', weight: 3,
+          radius: 5, fillColor: '#f59e0b', fillOpacity: 1, color: '#fff', weight: 1.5,
         }).addTo(map);
       }
     });
@@ -43,7 +43,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
       if (markerRef.current) markerRef.current.remove();
       if (site.lat != null && site.lng != null) {
         markerRef.current = L.circleMarker([site.lat as number, site.lng as number], {
-          radius: 13, fillColor: '#f59e0b', fillOpacity: 1, color: '#fff', weight: 3,
+          radius: 5, fillColor: '#f59e0b', fillOpacity: 1, color: '#fff', weight: 1.5,
         }).addTo(lMapRef.current);
         lMapRef.current.fitBounds(INDIA_BOUNDS as any, { padding: [10, 10] });
       }
