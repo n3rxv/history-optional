@@ -2127,6 +2127,54 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 22.3,
         "lng": 68.9
+      },
+      {
+        "name": "Manda",
+        "location": "Jammu district (Jammu & Kashmir), on banks of river Chenab",
+        "majorAspect": "Northernmost site of the Indus Valley Civilization. Three cultural phases found: Harappan, PGW and OCP.",
+        "pyqYears": [],
+        "lat": 32.73,
+        "lng": 74.87
+      },
+      {
+        "name": "Harappa",
+        "location": "Sahiwal district (Punjab, Pakistan), on banks of river Ravi",
+        "majorAspect": "Type site of the Indus Valley Civilization. First IVC site to be excavated (1921, by Daya Ram Sahni). Evidence of granaries, working floors, and circular brick platforms.",
+        "pyqYears": [],
+        "lat": 30.63,
+        "lng": 72.86
+      },
+      {
+        "name": "Chanhudaro",
+        "location": "Nawabshah district (Sindh, Pakistan)",
+        "majorAspect": "Only IVC site without a citadel. Known for bead-making and craft production. Evidence of inkpot and toy carts found.",
+        "pyqYears": [],
+        "lat": 25.89,
+        "lng": 68.37
+      },
+      {
+        "name": "Amri",
+        "location": "Dadu district (Sindh, Pakistan), on banks of river Indus",
+        "majorAspect": "Pre-Harappan and Harappan cultural phases found. Amri-Nal culture named after this site. Evidence of rhinoceros bones found.",
+        "pyqYears": [],
+        "lat": 26.1,
+        "lng": 68.0
+      },
+      {
+        "name": "Alamgirpur",
+        "location": "Hapur district (Uttar Pradesh), on banks of river Hindon",
+        "majorAspect": "Easternmost site of the Indus Valley Civilization. Evidence of cloth imprint on a trough found. Late Harappan phase only.",
+        "pyqYears": [],
+        "lat": 28.88,
+        "lng": 77.62
+      },
+      {
+        "name": "Daimabad",
+        "location": "Ahilyanagar district (Maharashtra), on banks of river Pravara",
+        "majorAspect": "Southernmost site of the Indus Valley Civilization. Famous for bronze chariot, elephant, rhinoceros and buffalo figurines (Daimabad bronzes). Chalcolithic and Late Harappan phases.",
+        "pyqYears": [],
+        "lat": 19.52,
+        "lng": 74.78
       }
     ]
   },
