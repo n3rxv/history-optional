@@ -1201,9 +1201,21 @@ export default function TestPage() {
             </div>
           );
         })()}
-        <p style={{ color: 'var(--text2)', fontSize: '0.88rem', marginBottom: '2rem' }}>
-          Use the rubric sliders to self-evaluate. Premium users can upload answer images or PDF for AI Mentor evaluation.
-        </p>
+        {/* Scroll down hint */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, margin: '0 auto 1.5rem', cursor: 'pointer' }}
+          onClick={() => window.scrollBy({ top: 400, behavior: 'smooth' })}>
+          <p style={{ color: 'var(--text2)', fontSize: '0.88rem', margin: 0 }}>
+            Use the rubric sliders to self-evaluate. Premium users can upload answer images or PDF for AI Mentor evaluation.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, marginTop: 6 }}>
+            <span style={{ color: 'var(--text3)', fontSize: '0.75rem', letterSpacing: '0.05em' }}>scroll for results</span>
+            <style>{`@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}`}</style>
+            <svg style={{ animation: 'bounce 1.2s ease-in-out infinite', color: 'var(--text3)' }}
+              width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+        </div>
 
         {/* Score card */}
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12,
