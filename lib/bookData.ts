@@ -2852,6 +2852,14 @@ export const bookData: BookChapter[] = [
         ],
         "lat": 19.8,
         "lng": 82.6
+      },
+      {
+        "name": "Ahar",
+        "location": "Udaipur district (Rajasthan), on banks of river Ahar (Berach tributary)",
+        "majorAspect": "Type site of Ahar-Banas Chalcolithic culture. Also shows Early Iron Age deposits. Yields black-and-red ware, copper axes and evidence of rice and wheat cultivation. One of the longest occupied sites in Rajasthan.",
+        "pyqYears": [],
+        "lat": 24.58,
+        "lng": 73.74
       }
     ]
   },
