@@ -1721,8 +1721,8 @@ export const bookData: BookChapter[] = [
         "location": "Jalandhar district (Punjab)",
         "majorAspect": "Overlap between Later Harappan and PGW phases",
         "pyqYears": [],
-          "lat": 26.1223,
-          "lng": 75.6632
+          "lat": 31.32,
+          "lng": 75.58
         },
       {
         "name": "Katpalon",
@@ -3615,8 +3615,8 @@ export const bookData: BookChapter[] = [
         "location": "Tonk district (Rajasthan)",
         "majorAspect": "Its ancient name was Malaynagar and was the capital of the Malava Gana-Sangha during the post-Mauryan period. Large number of Malava Janapada coins found.",
         "pyqYears": [],
-          "lat": 26.1223,
-          "lng": 75.6632
+          "lat": 31.32,
+          "lng": 75.58
         },
       {
         "name": "Madhyamika",
