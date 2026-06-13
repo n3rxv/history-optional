@@ -888,7 +888,7 @@ function ScrollFab() {
   const [hidden, setHidden] = useState(false);
   useEffect(() => {
     const onScroll = () => {
-      const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight * 0.75;
+      const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight * 0.25;
       setHidden(atBottom);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
