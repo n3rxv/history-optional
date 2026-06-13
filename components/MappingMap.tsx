@@ -96,6 +96,7 @@ export default function MappingMap({
               <GeoJSON
                 key="states"
                 data={statesGeoJSON}
+                interactive={false}
                 style={() => ({
                   fillColor: 'transparent',
                   fillOpacity: 0,
