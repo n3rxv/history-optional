@@ -52,6 +52,13 @@ export default function MappingMap({
   noLabels?: boolean;
 }) {
   const validSites = sites.filter(s => s.lat != null && s.lng != null);
+  const [statesGeoJSON, setStatesGeoJSON] = useState<any>(null);
+  useEffect(() => {
+    fetch('/india_states.geojson')
+      .then(r => r.json())
+      .then(data => setStatesGeoJSON(data))
+      .catch(() => {});
+  }, []);
   const geoData = noLabels ? indiaGeoJSON : null;
 
   const tileUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
@@ -87,17 +94,27 @@ export default function MappingMap({
             <TileLayer url={tileUrl} attribution="&copy; OpenStreetMap &copy; CARTO" />
             <GeoJSON
               data={indiaGeoJSON as any}
-              style={(feature: any) => {
-                const isIndia = feature?.properties?.name === 'India';
-                return {
+              style={() => ({
+                fillColor: 'transparent',
+                fillOpacity: 0,
+                color: '#555',
+                weight: 2,
+                opacity: 0.9,
+              })}
+            />
+            {statesGeoJSON && (
+              <GeoJSON
+                key="states"
+                data={statesGeoJSON}
+                style={() => ({
                   fillColor: 'transparent',
                   fillOpacity: 0,
-                  color: isIndia ? '#666' : '#999',
-                  weight: isIndia ? 2 : 1.2,
-                  opacity: 0.8,
-                };
-              }}
-            />
+                  color: '#888',
+                  weight: 1,
+                  opacity: 0.7,
+                })}
+              />
+            )}
           </>
         )}
         <FitBounds sites={validSites} selectedSite={selectedSite} />
