@@ -884,6 +884,37 @@ function QGroupBlock({ group, answers, onAnswer, rubrics, onRubric, isResults, i
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
+function ScrollFab() {
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => {
+    const onScroll = () => {
+      const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 60;
+      setHidden(atBottom);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  return (
+    <button
+      className={`scroll-fab${hidden ? ' hidden' : ''}`}
+      onClick={() => window.scrollBy({ top: 500, behavior: 'smooth' })}
+      style={{
+        position: 'fixed', bottom: 28, left: '50%', transform: 'translateX(-50%)', zIndex: 50,
+        display: 'flex', alignItems: 'center', gap: 8,
+        background: 'var(--bg2)', color: '#93c5fd',
+        border: '1.5px solid rgba(59,130,246,0.6)', borderRadius: 999,
+        padding: '10px 22px', cursor: 'pointer',
+        fontFamily: 'var(--font-ui)', fontSize: '0.82rem', fontWeight: 600,
+      }}>
+      <span>Scroll for results</span>
+      <svg style={{ animation: 'bounceY 1.2s ease-in-out infinite' }}
+        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </button>
+  );
+}
+
 export default function TestPage() {
   const [phase,   setPhase]   = useState<Phase>('config');
   const [mode,    setMode]    = useState<TestMode>('sectional');
@@ -1207,26 +1238,12 @@ export default function TestPage() {
         </p>
         <style>{`
           @keyframes bounceY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
-          .scroll-fab { transition: all 0.2s; }
-          .scroll-fab:hover { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }
+          @keyframes glowPulse { 0%,100%{box-shadow:0 0 8px 2px rgba(59,130,246,0.5),0 4px 24px rgba(0,0,0,0.4)} 50%{box-shadow:0 0 18px 5px rgba(59,130,246,0.85),0 4px 24px rgba(0,0,0,0.4)} }
+          .scroll-fab { transition: opacity 0.3s, transform 0.3s; animation: glowPulse 2s ease-in-out infinite; }
+          .scroll-fab:hover { background: rgba(59,130,246,0.15) !important; color: #93c5fd !important; }
+          .scroll-fab.hidden { opacity: 0 !important; pointer-events: none !important; transform: translateX(-50%) translateY(16px) !important; }
         `}</style>
-        <button className="scroll-fab"
-          onClick={() => window.scrollBy({ top: 500, behavior: 'smooth' })}
-          style={{
-            position: 'fixed', bottom: 28, left: '50%', transform: 'translateX(-50%)', zIndex: 50,
-            display: 'flex', alignItems: 'center', gap: 8,
-            background: 'var(--bg2)', color: 'var(--text2)',
-            border: '1.5px solid var(--border2)', borderRadius: 999,
-            padding: '10px 22px', cursor: 'pointer',
-            fontFamily: 'var(--font-ui)', fontSize: '0.82rem', fontWeight: 600,
-            boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
-          }}>
-          <span>Scroll for results</span>
-          <svg style={{ animation: 'bounceY 1.2s ease-in-out infinite' }}
-            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
+        <ScrollFab />
 
         {/* Score card */}
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12,
