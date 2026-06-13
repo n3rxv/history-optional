@@ -24,12 +24,14 @@ export default function LeafletMap({
   onDotClick,
   answered,
   revealed,
+  correct = {},
 }: {
   entries: MapEntry[];
   selectedDot: number | null;
   onDotClick: (num: number) => void;
   answered: Record<number, string>;
   revealed: Record<number, boolean>;
+  correct?: Record<number, boolean>;
 }) {
   return (
     <div style={{
@@ -59,8 +61,10 @@ export default function LeafletMap({
           const isRevealed = !!revealed[entry.number];
           const isAnswered = !!answered[entry.number];
 
-          const color = isRevealed
+          const color = isRevealed && correct[entry.number] === true
             ? '#22a85a'
+            : isRevealed && correct[entry.number] === false
+            ? '#ef4444'
             : isAnswered
             ? '#b48c3c'
             : isSelected
