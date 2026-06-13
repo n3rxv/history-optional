@@ -2908,13 +2908,13 @@ export const bookData: BookChapter[] = [
       },
       {
         "name": "Nagar",
-        "location": "Tonk district (Rajasthan)",
+        "location": "Jalandhar district (Punjab)",
         "majorAspect": "Its ancient name was Malaynagar and was the capital of the Malava Gana-Sangha during the post-Mauryan period. Large number of Malava Janapada coins found.",
         "pyqYears": [
           2013
         ],
-        "lat": 26.17,
-        "lng": 75.79
+        "lat": 31.32,
+        "lng": 75.58
       },
       {
         "name": "Sanghol",
@@ -2975,14 +2975,6 @@ export const bookData: BookChapter[] = [
         "lng": 75.8
       },
       {
-        "name": "Eran",
-        "location": "Sagar district (Madhya Pradesh)",
-        "majorAspect": "Extensive mud-works (fortifications).",
-        "pyqYears": [],
-        "lat": 23.9,
-        "lng": 78.9
-      },
-      {
         "name": "Bahawalpur",
         "location": "Bahawalpur district (Punjab province, Pakistan)",
         "majorAspect": "The western most site of PGW culture.",
@@ -3005,6 +2997,96 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 29.5,
         "lng": 74.0
+      },
+      {
+        "name": "Katpalon",
+        "location": "Jalandhar district (Punjab)",
+        "majorAspect": "PGW site in Punjab plains. Shows continuity from Late Harappan to PGW cultural phase.",
+        "pyqYears": [],
+        "lat": 31.32,
+        "lng": 75.58
+      },
+      {
+        "name": "Jodhpura",
+        "location": "Kotputli-Behror district (Rajasthan)",
+        "majorAspect": "PGW site in Rajasthan. Yields Painted Grey Ware along with iron objects and animal bones.",
+        "pyqYears": [],
+        "lat": 27.68,
+        "lng": 76.18
+      },
+      {
+        "name": "Noh",
+        "location": "Bharatpur district (Rajasthan)",
+        "majorAspect": "Important PGW site in Rajasthan. Yields PGW, iron objects and evidence of horse. Shows transition from OCP to PGW culture.",
+        "pyqYears": [],
+        "lat": 27.22,
+        "lng": 77.5
+      },
+      {
+        "name": "Kampilya",
+        "location": "Farrukhabad district (Uttar Pradesh), on banks of river Ganga",
+        "majorAspect": "Ancient capital of Panchala Mahajanapada. PGW site with evidence of early urban settlement. Mentioned in Mahabharata as capital of southern Panchala.",
+        "pyqYears": [],
+        "lat": 27.64,
+        "lng": 79.97
+      },
+      {
+        "name": "Jakhera",
+        "location": "Etah district (Uttar Pradesh), on banks of river Kali Nadi",
+        "majorAspect": "Important PGW site in Ganga-Yamuna Doab. Yields iron objects, copper tools and PGW pottery. Evidence of early iron smelting.",
+        "pyqYears": [],
+        "lat": 27.55,
+        "lng": 78.6
+      },
+      {
+        "name": "Atranjikhera",
+        "location": "Etah district (Uttar Pradesh), on banks of river Kali Nadi",
+        "majorAspect": "Major PGW site excavated by R.C. Gaur. Shows OCP-PGW-NBPW cultural sequence. Earliest evidence of iron in the Ganga plains found here.",
+        "pyqYears": [],
+        "lat": 27.5,
+        "lng": 78.65
+      },
+      {
+        "name": "Shravasti",
+        "location": "Shravasti district (Uttar Pradesh)",
+        "majorAspect": "Capital of Kosala Mahajanapada. PGW site with later NBPW levels. Associated with Buddha who spent 24 rainy seasons here. Excavations reveal planned urban settlement.",
+        "pyqYears": [],
+        "lat": 27.51,
+        "lng": 82.05
+      },
+      {
+        "name": "Kaushambi",
+        "location": "Prayagraj district (Uttar Pradesh), on banks of river Yamuna",
+        "majorAspect": "Capital of Vatsa Mahajanapada. Important PGW-NBPW site. Excavated by G.R. Sharma. Yields massive fortification walls, palace complex and Buddhist monastery.",
+        "pyqYears": [],
+        "lat": 25.35,
+        "lng": 81.4
+      },
+      {
+        "name": "Puraula",
+        "location": "Uttarkashi district (Uttarakhand)",
+        "majorAspect": "PGW site in the Himalayan foothills showing spread of iron-using culture into the upper Ganga valley.",
+        "pyqYears": [],
+        "lat": 30.96,
+        "lng": 78.64
+      },
+      {
+        "name": "Thapli",
+        "location": "Tehri Garhwal district (Uttarakhand)",
+        "majorAspect": "PGW site in Uttarakhand hills. Yields Painted Grey Ware and iron objects indicating spread of Vedic culture into Himalayan foothills.",
+        "pyqYears": [
+          2018
+        ],
+        "lat": 30.38,
+        "lng": 78.48
+      },
+      {
+        "name": "Kashipur",
+        "location": "Udham Singh Nagar district (Uttarakhand)",
+        "majorAspect": "Ancient Govisana. PGW site at the Himalayan foothills. Mentioned by Chinese traveller Xuanzang. Shows PGW and early historic cultural deposits.",
+        "pyqYears": [],
+        "lat": 29.21,
+        "lng": 78.96
       }
     ]
   },
