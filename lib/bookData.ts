@@ -3328,6 +3328,51 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 25.4426,
         "lng": 92.2988
+      },
+      {
+        "name": "Dambkoh",
+        "location": "Sistan-Balochestan province (Iran)",
+        "majorAspect": "Megalithic site showing cultural connections between South Asia and the Iranian plateau. Yields megalithic burial structures and black-and-red ware pottery.",
+        "pyqYears": [],
+        "lat": 31.0,
+        "lng": 61.5
+      },
+      {
+        "name": "Nasirabad",
+        "location": "Nasirabad district (Balochistan, Pakistan)",
+        "majorAspect": "Megalithic site in Balochistan showing spread of megalithic burial tradition into the northwestern subcontinent. Stone circles and cist burials found.",
+        "pyqYears": [],
+        "lat": 28.38,
+        "lng": 67.92
+      },
+      {
+        "name": "Mughal Ghundai",
+        "location": "Zhob district (Balochistan, Pakistan)",
+        "majorAspect": "Pre-Harappan and megalithic site in the Zhob valley. Yields Zhob-Loralai culture pottery. Important for understanding cultural connections between Balochistan and the Indus plains.",
+        "pyqYears": [],
+        "lat": 31.34,
+        "lng": 69.27
+      },
+      {
+        "name": "Burzahom",
+        "location": "Srinagar district (Jammu & Kashmir)",
+        "majorAspect": "Neolithic-Megalithic site in Kashmir valley. Pit dwellings, polished stone tools and dog burials with humans found. Unique hunting scene engraved on a stone slab — earliest narrative art in South Asia. Shows cultural links with Central Asia.",
+        "pyqYears": [
+          2015,
+          2017,
+          2019,
+          2022
+        ],
+        "lat": 34.18,
+        "lng": 74.97
+      },
+      {
+        "name": "Giak and Kiari",
+        "location": "Leh district (Ladakh)",
+        "majorAspect": "Megalithic sites in Ladakh showing stone circles and burial mounds. Indicate spread of megalithic tradition into the trans-Himalayan region. Links with Central Asian steppe cultures.",
+        "pyqYears": [],
+        "lat": 34.15,
+        "lng": 77.58
       }
     ]
   },
