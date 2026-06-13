@@ -608,7 +608,7 @@ export default function MappingPage() {
     const results: { site: BookSite; chapter: BookChapter }[] = [];
     for (const ch of bookData) {
       for (const site of ch.sites) {
-        if (site.name.toLowerCase().includes(q) || site.location.toLowerCase().includes(q)) {
+        if (site.name.toLowerCase().includes(q)) {
           results.push({ site, chapter: ch });
         }
       }
