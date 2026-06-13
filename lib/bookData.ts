@@ -58,7 +58,11 @@ export const bookData: BookChapter[] = [
         "name": "Bhimbetka",
         "location": "Raisen district (Madhya Pradesh)",
         "majorAspect": "The mandible of an adult male found by V.S. Wakankar in a cave. Its age is uncertain.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014,
+          2017,
+          2023
+        ],
         "lat": 22.9,
         "lng": 77.6
       },
@@ -224,6 +228,7 @@ export const bookData: BookChapter[] = [
         "location": "Raisen district (Madhya Pradesh)",
         "majorAspect": "Ostrich eggshell beads and a circular disc made of Chalcedony found.",
         "pyqYears": [
+          2014,
           2017,
           2023
         ],
@@ -450,6 +455,7 @@ export const bookData: BookChapter[] = [
         "location": "Raisen district (Madhya Pradesh)",
         "majorAspect": "Ostrich eggshell beads and a circular disc made of Chalcedony found.",
         "pyqYears": [
+          2014,
           2017,
           2023
         ],
@@ -460,7 +466,9 @@ export const bookData: BookChapter[] = [
         "name": "Adamgarh",
         "location": "Hoshangabad district (MP)",
         "majorAspect": "There are 18 rock shelters out of which 11 shelters have visible paintings.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 22.7,
         "lng": 77.7
       },
@@ -501,6 +509,7 @@ export const bookData: BookChapter[] = [
         "location": "Singhbhum district (Jharkhand)",
         "majorAspect": "Iron Slag and Wheel made pottery in the same Neolithic level.",
         "pyqYears": [
+          2013,
           2024
         ],
         "lat": 22.8,
@@ -542,7 +551,9 @@ export const bookData: BookChapter[] = [
         "name": "Nevasa",
         "location": "Ahilyanagar district (Maharashtra)",
         "majorAspect": "Clay female figurines found",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 19.6,
         "lng": 74.7
       },
@@ -553,7 +564,8 @@ export const bookData: BookChapter[] = [
         "pyqYears": [
           2013,
           2020,
-          2021
+          2021,
+          2025
         ],
         "lat": 16.8,
         "lng": 76.6
@@ -579,7 +591,8 @@ export const bookData: BookChapter[] = [
         "location": "Chittoor district (Andhra Pradesh)",
         "majorAspect": "Renigunta, located in Chittoor district of Andhra Pradesh, is a significant historical site dating back to the 3rd century BCE to 3rd century CE, with key finds including a megalithic burial site and a Buddhist stupa. The site has yielded important archaeological discoveries, such as pottery, beads, and coins, indicating trade and cultural exchange during the Satavahana and Pallava periods. The site's importance lies in its representation of the region's rich cultural and religious heritage, particularly the coexistence of megalithic and Buddhist traditions.",
         "pyqYears": [
-          2014
+          2014,
+          2023
         ],
         "lat": 13.6,
         "lng": 79.5
@@ -673,8 +686,7 @@ export const bookData: BookChapter[] = [
         "location": "Rajkot district (Gujarat)",
         "majorAspect": "Rojdi, located in the Rajkot district of Gujarat, is a significant archaeological site dating back to the Indus Valley Civilization period, circa 2500-2000 BCE. Excavations at Rojdi have yielded key finds such as pottery, seals, and beads, which highlight the site's importance as a major urban centre of the Indus Valley Civilization. The discovery of a sophisticated drainage system and well-planned architecture at Rojdi underscores its historical significance as a well-organized and prosperous city of the ancient civilization.",
         "pyqYears": [
-          2016,
-          2025
+          2016
         ],
         "lat": 22.0,
         "lng": 70.8
@@ -715,7 +727,8 @@ export const bookData: BookChapter[] = [
         "location": "Bhilwara district (Rajasthan)",
         "majorAspect": "Evidence of house floors and outline of shelters are found.",
         "pyqYears": [
-          2013
+          2013,
+          2025
         ],
         "lat": 24.9,
         "lng": 74.6
@@ -755,7 +768,8 @@ export const bookData: BookChapter[] = [
         "pyqYears": [
           2014,
           2016,
-          2022
+          2022,
+          2025
         ],
         "lat": 25.4,
         "lng": 81.9
@@ -917,7 +931,8 @@ export const bookData: BookChapter[] = [
         "location": "Haveri district (Karnataka)",
         "majorAspect": "Hallur, located in Haveri district of Karnataka, is a significant archaeological site dating back to the Iron Age and the Megalithic period, approximately 1200 BCE to 300 BCE. Excavations at Hallur have yielded key finds such as iron tools, pottery, and megalithic structures, including dolmens and cairn circles. The site is important as it provides valuable insights into the cultural, social, and economic practices of the people living in the region during that period, highlighting the transition from the Neolithic to the Iron Age.",
         "pyqYears": [
-          2013
+          2013,
+          2017
         ],
         "lat": 14.5,
         "lng": 75.9
@@ -929,6 +944,16 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 23.7738,
         "lng": 71.6799
+      },
+      {
+        "name": "Thapli",
+        "location": "Tehri Garhwal district (Uttarakhand)",
+        "majorAspect": "Mesolithic site with microliths found in the Himalayan foothills.",
+        "pyqYears": [
+          2018
+        ],
+        "lat": 30.9636,
+        "lng": 78.6363
       }
     ]
   },
@@ -942,6 +967,7 @@ export const bookData: BookChapter[] = [
         "location": "Raisen district (Madhya Pradesh)",
         "majorAspect": "Ostrich eggshell beads and a circular disc made of Chalcedony found.",
         "pyqYears": [
+          2014,
           2017,
           2023
         ],
@@ -952,7 +978,9 @@ export const bookData: BookChapter[] = [
         "name": "Adamgarh",
         "location": "Hoshangabad district (MP)",
         "majorAspect": "There are 18 rock shelters out of which 11 shelters have visible paintings.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 22.7,
         "lng": 77.7
       },
@@ -1106,10 +1134,12 @@ export const bookData: BookChapter[] = [
         "location": "Srinagar district (J&K)",
         "majorAspect": "Burzahom, located in the Srinagar district of Jammu and Kashmir, is a significant Neolithic site dating back to around 3000-1500 BCE. The site has yielded key finds such as pit dwellings, stone tools, and ceramics, providing valuable insights into the lives of early farming communities in the region. The discovery of Burzahom has importance in understanding the Neolithic culture and settlement patterns in the Kashmir valley during that period.",
         "pyqYears": [
-          2022,
           2015,
           2017,
-          2019
+          2019,
+          2022,
+          2023,
+          2025
         ],
         "lat": 34.2,
         "lng": 74.9
@@ -1151,7 +1181,11 @@ export const bookData: BookChapter[] = [
         "location": "Balochistan",
         "majorAspect": "Mehrgarh, located in Balochistan, is a significant Neolithic site dating back to around 7000 BCE, making it one of the oldest known human settlements in South Asia. The site has yielded key finds such as ceramics, seals, and evidence of wheat and barley cultivation, showcasing the transition from a nomadic to a settled agricultural society. The discovery of Mehrgarh has been crucial in understanding the origins of the Indus Valley Civilization, highlighting the region's importance in the development of early human civilization.",
         "pyqYears": [
-          2021
+          2015,
+          2016,
+          2019,
+          2021,
+          2022
         ],
         "lat": 29.4,
         "lng": 67.6
@@ -1168,7 +1202,9 @@ export const bookData: BookChapter[] = [
         "name": "Lahuradeva",
         "location": "Sant Kabir Nagar district (Uttar Pradesh)",
         "majorAspect": "Evidence of iron from c. 1200 BCE.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 26.9,
         "lng": 83.5
       },
@@ -1188,8 +1224,7 @@ export const bookData: BookChapter[] = [
         "majorAspect": "Cattle pen with cattle hoof marks.",
         "pyqYears": [
           2018,
-          2020,
-          2025
+          2020
         ],
         "lat": 25.1,
         "lng": 81.7
@@ -1207,6 +1242,7 @@ export const bookData: BookChapter[] = [
         "location": "Saran district (Bihar)",
         "majorAspect": "Chirand, located in Saran district of Bihar, is a significant archaeological site dating back to the Neolithic period, circa 2500-1500 BCE. Excavations at Chirand have yielded key finds such as pottery, tools, and evidence of rice cultivation, highlighting the site's importance in understanding the socio-economic and cultural developments of the region during that period. The discovery of a continuous cultural sequence from the Neolithic to the medieval period makes Chirand a crucial site for studying the evolution of human settlements in the Ganga valley.",
         "pyqYears": [
+          2013,
           2022
         ],
         "lat": 25.9,
@@ -1232,7 +1268,10 @@ export const bookData: BookChapter[] = [
         "name": "Pandu Rajar Dhibi",
         "location": "Purba Bardhaman district (WB)",
         "majorAspect": "Pandu Rajar Dhibi, located in Purba Bardhaman district of West Bengal, is a significant archaeological site dating back to the 2nd millennium BCE, belonging to the Chalcolithic period. The site has yielded key finds such as pottery, tools, and other artifacts, including a distinctive type of copper axe. The discovery of these artifacts at Pandu Rajar Dhibi is important as it provides valuable insights into the cultural and technological developments of the region during that period.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013,
+          2017
+        ],
         "lat": 23.3,
         "lng": 87.9
       },
@@ -1301,7 +1340,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagarjunakonda",
         "location": "Guntur district (Andhra Pradesh)",
         "majorAspect": "A group of Buddhist sculptures were found but due to dam construction, loot and theft, they have been relocated or disappeared. Famous headless statue of Buddha with delicately carved robes and its folds is remarkable. Prominently used white or cream limestone resembling marble.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 16.5,
         "lng": 79.3
       },
@@ -1310,7 +1351,10 @@ export const bookData: BookChapter[] = [
         "location": "Raichur district (Karnataka)",
         "majorAspect": "First edict where name of Ashoka is mentioned. It also contains inscriptions of Rashtrakutas in Kannada language and Vijayanagara in Telugu.",
         "pyqYears": [
+          2016,
           2017,
+          2022,
+          2023,
           2024
         ],
         "lat": 15.9,
@@ -1321,7 +1365,8 @@ export const bookData: BookChapter[] = [
         "location": "Haveri district (Karnataka)",
         "majorAspect": "Hallur, located in Haveri district of Karnataka, is a significant archaeological site dating back to the Iron Age and the Megalithic period, approximately 1200 BCE to 300 BCE. Excavations at Hallur have yielded key finds such as iron tools, pottery, and megalithic structures, including dolmens and cairn circles. The site is important as it provides valuable insights into the cultural, social, and economic practices of the people living in the region during that period, highlighting the transition from the Neolithic to the Iron Age.",
         "pyqYears": [
-          2013
+          2013,
+          2017
         ],
         "lat": 14.5,
         "lng": 75.9
@@ -1414,7 +1459,10 @@ export const bookData: BookChapter[] = [
         "location": "Raichur district (Karnataka)",
         "majorAspect": "First edict where name of Ashoka is mentioned. It also contains inscriptions of Rashtrakutas in Kannada language and Vijayanagara in Telugu.",
         "pyqYears": [
+          2016,
           2017,
+          2022,
+          2023,
           2024
         ],
         "lat": 15.9,
@@ -1449,7 +1497,8 @@ export const bookData: BookChapter[] = [
         "location": "Haveri district (Karnataka)",
         "majorAspect": "Hallur, located in Haveri district of Karnataka, is a significant archaeological site dating back to the Iron Age and the Megalithic period, approximately 1200 BCE to 300 BCE. Excavations at Hallur have yielded key finds such as iron tools, pottery, and megalithic structures, including dolmens and cairn circles. The site is important as it provides valuable insights into the cultural, social, and economic practices of the people living in the region during that period, highlighting the transition from the Neolithic to the Iron Age.",
         "pyqYears": [
-          2013
+          2013,
+          2017
         ],
         "lat": 14.5,
         "lng": 75.9
@@ -1466,7 +1515,11 @@ export const bookData: BookChapter[] = [
         "location": "Balochistan",
         "majorAspect": "Mehrgarh, located in Balochistan, is a significant Neolithic site dating back to around 7000 BCE, making it one of the oldest known human settlements in South Asia. The site has yielded key finds such as ceramics, seals, and evidence of wheat and barley cultivation, showcasing the transition from a nomadic to a settled agricultural society. The discovery of Mehrgarh has been crucial in understanding the origins of the Indus Valley Civilization, highlighting the region's importance in the development of early human civilization.",
         "pyqYears": [
-          2021
+          2015,
+          2016,
+          2019,
+          2021,
+          2022
         ],
         "lat": 29.4,
         "lng": 67.6
@@ -1475,7 +1528,9 @@ export const bookData: BookChapter[] = [
         "name": "Nausharo/Naushahar",
         "location": "Balochistan (Pakistan)",
         "majorAspect": "According to archaeologists, Mehrgarh was abandoned in favour of Nausharo somewhere between 2600 BCE and 2000 BCE.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 28.8,
         "lng": 67.8
       },
@@ -1483,7 +1538,11 @@ export const bookData: BookChapter[] = [
         "name": "Nal",
         "location": "Khuzdar, Balochistan, (Pakistan)",
         "majorAspect": "Part of Amri-Nal Ware culture.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015,
+          2016,
+          2018
+        ],
         "lat": 27.8,
         "lng": 66.6
       },
@@ -1502,7 +1561,7 @@ export const bookData: BookChapter[] = [
         "location": "Sindh (Pakistan), on the right bank of Indus",
         "majorAspect": "Diverse wheel-made pottery with variety of painting designs",
         "pyqYears": [
-          2017
+          2013
         ],
         "lat": 26.1,
         "lng": 68.0
@@ -1527,7 +1586,9 @@ export const bookData: BookChapter[] = [
         "name": "Harappa",
         "location": "Punjab (Pakistan), on the banks of river Ravi",
         "majorAspect": "Harappa, a major urban centre of the Indus Valley Civilization, dates back to 2600-1900 BCE and is situated on the banks of the river Ravi in Punjab, Pakistan. The site has yielded significant archaeological finds, including a sophisticated drainage system, granaries, and seals with inscriptions, which highlight the advanced urban planning and writing system of the civilization. The discovery of Harappa, along with Mohenjo-Daro, has been instrumental in understanding the culture, economy, and politics of the Indus Valley Civilization, making it a crucial site in the study of South Asian history.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 30.6,
         "lng": 72.9
       },
@@ -1537,7 +1598,8 @@ export const bookData: BookChapter[] = [
         "majorAspect": "Discovery of fire-altars and ploughed fields",
         "pyqYears": [
           2015,
-          2016
+          2016,
+          2025
         ],
         "lat": 29.5,
         "lng": 74.1
@@ -1563,7 +1625,9 @@ export const bookData: BookChapter[] = [
         "location": "Fatehabad district (Haryana)",
         "majorAspect": "It was discovered by RS Bisht. A Toy Plough is found.",
         "pyqYears": [
-          2016
+          2016,
+          2017,
+          2019
         ],
         "lat": 29.6,
         "lng": 75.4
@@ -1588,7 +1652,9 @@ export const bookData: BookChapter[] = [
         "name": "Balu",
         "location": "Kaithal district (Haryana), on the banks of river Ghaggar-Hakra",
         "majorAspect": "It gives description of the plant economy of the period such as the earliest evidence of garlic cloves in South and Southeast Asia can be found",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 29.8,
         "lng": 76.4
       },
@@ -1695,6 +1761,7 @@ export const bookData: BookChapter[] = [
         "location": "Rupnagar district (Punjab)",
         "majorAspect": "Ropar, located in Rupnagar district of Punjab, is a significant archaeological site dating back to the Harappan period, circa 2600-2000 BCE. Excavations at Ropar have yielded key finds such as pottery, seals, and ornaments, which highlight the cultural and trade exchanges between the Indus Valley Civilization and other contemporary civilizations. The discovery of a planned city with advanced drainage system and other urban features at Ropar underscores its importance as a major Harappan settlement.",
         "pyqYears": [
+          2014,
           2019,
           2021
         ],
@@ -1707,7 +1774,8 @@ export const bookData: BookChapter[] = [
         "majorAspect": "Discovery of fire-altars and ploughed fields",
         "pyqYears": [
           2015,
-          2016
+          2016,
+          2025
         ],
         "lat": 29.5,
         "lng": 74.1
@@ -1717,7 +1785,9 @@ export const bookData: BookChapter[] = [
         "location": "Fatehabad district (Haryana)",
         "majorAspect": "It was discovered by RS Bisht. A Toy Plough is found.",
         "pyqYears": [
-          2016
+          2016,
+          2017,
+          2019
         ],
         "lat": 29.6,
         "lng": 75.4
@@ -1726,7 +1796,9 @@ export const bookData: BookChapter[] = [
         "name": "Balu",
         "location": "Kaithal district (Haryana), on the banks of river Ghaggar-Hakra",
         "majorAspect": "It gives description of the plant economy of the period such as the earliest evidence of garlic cloves in South and Southeast Asia can be found",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 29.8,
         "lng": 76.4
       },
@@ -1780,7 +1852,7 @@ export const bookData: BookChapter[] = [
         "location": "Sindh (Pakistan), on the right bank of Indus",
         "majorAspect": "Diverse wheel-made pottery with variety of painting designs",
         "pyqYears": [
-          2017
+          2013
         ],
         "lat": 26.1,
         "lng": 68.0
@@ -1857,7 +1929,8 @@ export const bookData: BookChapter[] = [
         "majorAspect": "Discovered by S.R. Rao, it is considered as the oldest dockyard of the world. Large collection of foreign seals, Fire altars, Rice husk, Copper artefacts.",
         "pyqYears": [
           2019,
-          2023
+          2023,
+          2025
         ],
         "lat": 22.5,
         "lng": 72.2
@@ -1867,8 +1940,7 @@ export const bookData: BookChapter[] = [
         "location": "Rajkot district (Gujarat)",
         "majorAspect": "Rojdi, located in the Rajkot district of Gujarat, is a significant archaeological site dating back to the Indus Valley Civilization period, circa 2500-2000 BCE. Excavations at Rojdi have yielded key finds such as pottery, seals, and beads, which highlight the site's importance as a major urban centre of the Indus Valley Civilization. The discovery of a sophisticated drainage system and well-planned architecture at Rojdi underscores its historical significance as a well-organized and prosperous city of the ancient civilization.",
         "pyqYears": [
-          2016,
-          2025
+          2016
         ],
         "lat": 22.0,
         "lng": 70.8
@@ -1921,7 +1993,8 @@ export const bookData: BookChapter[] = [
         "location": "Jammu district (Jammu and Kashmir)",
         "majorAspect": "Manda, located in the Jammu district of Jammu and Kashmir, is an archaeological site of great significance, dating back to the 3rd century BCE to the 5th century CE. Excavations at Manda have yielded key finds such as pottery, terracotta figurines, and coins, indicating a thriving settlement during the Kushan and Gupta periods. The site's importance lies in its being a major urban centre of the ancient period, providing valuable insights into the cultural, economic, and political landscape of the region.",
         "pyqYears": [
-          2016
+          2016,
+          2021
         ],
         "lat": 32.5,
         "lng": 75.1
@@ -1930,7 +2003,9 @@ export const bookData: BookChapter[] = [
         "name": "Harappa",
         "location": "Punjab (Pakistan), on the banks of river Ravi",
         "majorAspect": "Harappa, a major urban centre of the Indus Valley Civilization, dates back to 2600-1900 BCE and is situated on the banks of the river Ravi in Punjab, Pakistan. The site has yielded significant archaeological finds, including a sophisticated drainage system, granaries, and seals with inscriptions, which highlight the advanced urban planning and writing system of the civilization. The discovery of Harappa, along with Mohenjo-Daro, has been instrumental in understanding the culture, economy, and politics of the Indus Valley Civilization, making it a crucial site in the study of South Asian history.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 30.6,
         "lng": 72.9
       }
@@ -1969,7 +2044,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagar",
         "location": "Tonk district (Rajasthan)",
         "majorAspect": "Its ancient name was Malaynagar and was the capital of the Malava Gana-Sangha during the post-Mauryan period. Large number of Malava Janapada coins found.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 26.17,
         "lng": 75.79
       },
@@ -1985,7 +2062,9 @@ export const bookData: BookChapter[] = [
         "name": "Sanghol",
         "location": "Fatehgarh Sahib district (Punjab)",
         "majorAspect": "Sanghol, located in Fatehgarh Sahib district of Punjab, is a significant archaeological site dating back to the Indo-Greek and Kushana periods. Excavations at the site have yielded key finds such as a stupa, a Buddhist monastery, and a plethora of artifacts including coins, seals, and pottery. The discovery of these relics underscores the importance of Sanghol as a major Buddhist centre in ancient India, highlighting the region's cultural and religious significance during the 2nd century BCE to 5th century CE.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 30.6634,
         "lng": 76.3803
       },
@@ -2025,7 +2104,9 @@ export const bookData: BookChapter[] = [
         "name": "Mandi",
         "location": "Muzaffarnagar (Uttar Pradesh)",
         "majorAspect": "Mandi, located in Muzaffarnagar, Uttar Pradesh, is an archaeological site of the Painted Grey Ware (PGW) period, dating back to 1200-800 BCE. Excavations at the site have yielded key finds such as pottery, iron tools, and other artifacts, indicating a well-planned settlement of the early Iron Age. The discovery of PGW at Mandi is significant as it provides evidence of the cultural and technological developments of the region during the period, highlighting its importance in the historical narrative of the Indian subcontinent.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 29.4497,
         "lng": 77.7429
       },
@@ -2067,7 +2148,11 @@ export const bookData: BookChapter[] = [
         "location": "Balochistan",
         "majorAspect": "Mehrgarh, located in Balochistan, is a significant Neolithic site dating back to around 7000 BCE, making it one of the oldest known human settlements in South Asia. The site has yielded key finds such as ceramics, seals, and evidence of wheat and barley cultivation, showcasing the transition from a nomadic to a settled agricultural society. The discovery of Mehrgarh has been crucial in understanding the origins of the Indus Valley Civilization, highlighting the region's importance in the development of early human civilization.",
         "pyqYears": [
-          2021
+          2015,
+          2016,
+          2019,
+          2021,
+          2022
         ],
         "lat": 29.4,
         "lng": 67.6
@@ -2077,6 +2162,7 @@ export const bookData: BookChapter[] = [
         "location": "Saran district (Bihar)",
         "majorAspect": "Chirand, located in Saran district of Bihar, is a significant archaeological site dating back to the Neolithic period, circa 2500-1500 BCE. Excavations at Chirand have yielded key finds such as pottery, tools, and evidence of rice cultivation, highlighting the site's importance in understanding the socio-economic and cultural developments of the region during that period. The discovery of a continuous cultural sequence from the Neolithic to the medieval period makes Chirand a crucial site for studying the evolution of human settlements in the Ganga valley.",
         "pyqYears": [
+          2013,
           2022
         ],
         "lat": 25.9,
@@ -2102,7 +2188,10 @@ export const bookData: BookChapter[] = [
         "name": "Pandu Rajar Dhibi",
         "location": "Purba Bardhaman district (WB)",
         "majorAspect": "Pandu Rajar Dhibi, located in Purba Bardhaman district of West Bengal, is a significant archaeological site dating back to the 2nd millennium BCE, belonging to the Chalcolithic period. The site has yielded key finds such as pottery, tools, and other artifacts, including a distinctive type of copper axe. The discovery of these artifacts at Pandu Rajar Dhibi is important as it provides valuable insights into the cultural and technological developments of the region during that period.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013,
+          2017
+        ],
         "lat": 23.3,
         "lng": 87.9
       },
@@ -2127,7 +2216,10 @@ export const bookData: BookChapter[] = [
         "location": "Raichur district (Karnataka)",
         "majorAspect": "First edict where name of Ashoka is mentioned. It also contains inscriptions of Rashtrakutas in Kannada language and Vijayanagara in Telugu.",
         "pyqYears": [
+          2016,
           2017,
+          2022,
+          2023,
           2024
         ],
         "lat": 15.9,
@@ -2138,7 +2230,8 @@ export const bookData: BookChapter[] = [
         "location": "Haveri district (Karnataka)",
         "majorAspect": "Hallur, located in Haveri district of Karnataka, is a significant archaeological site dating back to the Iron Age and the Megalithic period, approximately 1200 BCE to 300 BCE. Excavations at Hallur have yielded key finds such as iron tools, pottery, and megalithic structures, including dolmens and cairn circles. The site is important as it provides valuable insights into the cultural, social, and economic practices of the people living in the region during that period, highlighting the transition from the Neolithic to the Iron Age.",
         "pyqYears": [
-          2013
+          2013,
+          2017
         ],
         "lat": 14.5,
         "lng": 75.9
@@ -2147,7 +2240,9 @@ export const bookData: BookChapter[] = [
         "name": "Brahmagiri",
         "location": "Chitradurga district (Karnataka)",
         "majorAspect": "Brahmagiri, located in Chitradurga district of Karnataka, is a significant archaeological site dating back to the Neolithic period, circa 1000 BCE. Excavations at the site have yielded key finds such as Ashokan edicts, megalithic burial sites, and ancient pottery, highlighting its importance as a major cultural and trade center. The site's significance lies in its ability to provide valuable insights into the socio-cultural and economic dynamics of the region during the Neolithic and subsequent periods.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 14.9,
         "lng": 76.8
       },
@@ -2155,7 +2250,9 @@ export const bookData: BookChapter[] = [
         "name": "Jodhpura",
         "location": "Kotputli-Behror district (Rajasthan)",
         "majorAspect": "Jodhpura, located in Kotputli-Behror district of Rajasthan, is a significant archaeological site dating back to the Pre-Harappan and Harappan periods, circa 2500-2000 BCE. Excavations at the site have yielded key finds such as pottery, seals, and beads, which provide valuable insights into the cultural and trade practices of the Indus Valley Civilization. The discovery of a unique type of pottery, known as 'Jodhpura ware', has made this site an important reference point for understanding the regional variations of the Harappan culture.",
-        "pyqYears": [],
+        "pyqYears": [
+          2024
+        ],
         "lat": 27.4,
         "lng": 75.6
       },
@@ -2188,7 +2285,9 @@ export const bookData: BookChapter[] = [
         "name": "Jodhpura",
         "location": "Kotputli-Behror district (Rajasthan)",
         "majorAspect": "Jodhpura, located in Kotputli-Behror district of Rajasthan, is a significant archaeological site dating back to the Pre-Harappan and Harappan periods, circa 2500-2000 BCE. Excavations at the site have yielded key finds such as pottery, seals, and beads, which provide valuable insights into the cultural and trade practices of the Indus Valley Civilization. The discovery of a unique type of pottery, known as 'Jodhpura ware', has made this site an important reference point for understanding the regional variations of the Harappan culture.",
-        "pyqYears": [],
+        "pyqYears": [
+          2024
+        ],
         "lat": 27.4,
         "lng": 75.6
       },
@@ -2214,7 +2313,9 @@ export const bookData: BookChapter[] = [
         "name": "Ahar",
         "location": "Udaipur district (Rajasthan)",
         "majorAspect": "Iron artefacts from Chalcolithic levels found.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 24.6,
         "lng": 73.7
       },
@@ -2299,7 +2400,9 @@ export const bookData: BookChapter[] = [
         "name": "Nevasa",
         "location": "Ahilyanagar district (Maharashtra)",
         "majorAspect": "Clay female figurines found",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 19.6,
         "lng": 74.7
       },
@@ -2375,6 +2478,7 @@ export const bookData: BookChapter[] = [
         "location": "Bulandshahar district (Uttar Pradesh)",
         "majorAspect": "Lal Qila, located in Bulandshahar district of Uttar Pradesh, is a significant archaeological site dating back to the Painted Grey Ware period, circa 1000-600 BCE. Excavations at the site have yielded key finds such as pottery, iron implements, and other artifacts, providing valuable insights into the cultural and economic practices of the region during that era. The site holds importance as it sheds light on the early Iron Age culture and urbanization in the Ganga-Yamuna doab region.",
         "pyqYears": [
+          2014,
           2025
         ],
         "lat": 28.7,
@@ -2464,7 +2568,10 @@ export const bookData: BookChapter[] = [
         "name": "Ahichchhatra",
         "location": "Bareilly district (Uttar Pradesh)",
         "majorAspect": "River Ganga divided Panchala into north and South. It was capital of northern Panchala.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013,
+          2017
+        ],
         "lat": 28.4,
         "lng": 79.1
       },
@@ -2551,7 +2658,9 @@ export const bookData: BookChapter[] = [
         "name": "Lahuradeva",
         "location": "Sant Kabir Nagar district (Uttar Pradesh)",
         "majorAspect": "Evidence of iron from c. 1200 BCE.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 26.9,
         "lng": 83.5
       },
@@ -2607,7 +2716,11 @@ export const bookData: BookChapter[] = [
         "name": "Adichanallur",
         "location": "Thoothukudi district (Tamil Nadu), Thamirabarani basin",
         "majorAspect": "Evidence of settlement c. 1000 BCE. Important findings are: Rudimentary Tamil-Brahmi script, many iron and gold objects, and skeletal DNA analysis showing only 8% were local. The rest were a mix of races from the world over, indicating frequent visits of foreigners as it is situated near Korkai.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015,
+          2016,
+          2018
+        ],
         "lat": 8.8457,
         "lng": 77.9938
       },
@@ -2633,7 +2746,9 @@ export const bookData: BookChapter[] = [
         "name": "Kilnamandi",
         "location": "Tiruvannamalai district (Tamil Nadu)",
         "majorAspect": "Around 3700 years old stone circles have been discovered.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 12.4289,
         "lng": 78.9992
       },
@@ -2659,6 +2774,7 @@ export const bookData: BookChapter[] = [
         "location": "Meerut district (UP), on Ganga River",
         "majorAspect": "As per epic-Purana tradition, Hastinapur was the capital of Kuru Mahajanapada until a flood led to it being shifted to Kaushambi. During this phase, it is marked by an element of planning, burnt-brick structures, and terracotta ring wells.",
         "pyqYears": [
+          2015,
           2018
         ],
         "lat": 29.2,
@@ -2684,7 +2800,10 @@ export const bookData: BookChapter[] = [
         "name": "Ahichchhatra",
         "location": "Bareilly district (Uttar Pradesh)",
         "majorAspect": "River Ganga divided Panchala into north and South. It was capital of northern Panchala.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013,
+          2017
+        ],
         "lat": 28.4,
         "lng": 79.1
       },
@@ -2692,7 +2811,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagar",
         "location": "Tonk district (Rajasthan)",
         "majorAspect": "Its ancient name was Malaynagar and was the capital of the Malava Gana-Sangha during the post-Mauryan period. Large number of Malava Janapada coins found.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 26.17,
         "lng": 75.79
       },
@@ -2700,7 +2821,9 @@ export const bookData: BookChapter[] = [
         "name": "Sanghol",
         "location": "Fatehgarh Sahib district (Punjab)",
         "majorAspect": "Sanghol, located in Fatehgarh Sahib district of Punjab, is a significant archaeological site dating back to the Indo-Greek and Kushana periods. Excavations at the site have yielded key finds such as a stupa, a Buddhist monastery, and a plethora of artifacts including coins, seals, and pottery. The discovery of these relics underscores the importance of Sanghol as a major Buddhist centre in ancient India, highlighting the region's cultural and religious significance during the 2nd century BCE to 5th century CE.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 30.6634,
         "lng": 76.3803
       },
@@ -2716,7 +2839,9 @@ export const bookData: BookChapter[] = [
         "name": "Mathura",
         "location": "Mathura district (Uttar Pradesh)",
         "majorAspect": "Centre of Mathura art during Kushana period. Statues, terracottas etc. belonging to Buddhism, Jainism, Hinduism and Yakshas are found. Headless statue of Kanishka is a sculptural marvel.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 27.5,
         "lng": 77.7
       },
@@ -2725,6 +2850,7 @@ export const bookData: BookChapter[] = [
         "location": "Rupnagar district (Punjab)",
         "majorAspect": "Ropar, located in Rupnagar district of Punjab, is a significant archaeological site dating back to the Harappan period, circa 2600-2000 BCE. Excavations at Ropar have yielded key finds such as pottery, seals, and ornaments, which highlight the cultural and trade exchanges between the Indus Valley Civilization and other contemporary civilizations. The discovery of a planned city with advanced drainage system and other urban features at Ropar underscores its importance as a major Harappan settlement.",
         "pyqYears": [
+          2014,
           2019,
           2021
         ],
@@ -2836,7 +2962,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagarjunakonda",
         "location": "Guntur district (Andhra Pradesh)",
         "majorAspect": "A group of Buddhist sculptures were found but due to dam construction, loot and theft, they have been relocated or disappeared. Famous headless statue of Buddha with delicately carved robes and its folds is remarkable. Prominently used white or cream limestone resembling marble.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 16.5,
         "lng": 79.3
       },
@@ -2845,7 +2973,10 @@ export const bookData: BookChapter[] = [
         "location": "Raichur district (Karnataka)",
         "majorAspect": "First edict where name of Ashoka is mentioned. It also contains inscriptions of Rashtrakutas in Kannada language and Vijayanagara in Telugu.",
         "pyqYears": [
+          2016,
           2017,
+          2022,
+          2023,
           2024
         ],
         "lat": 15.9,
@@ -2863,7 +2994,9 @@ export const bookData: BookChapter[] = [
         "name": "Brahmagiri",
         "location": "Chitradurga district (Karnataka)",
         "majorAspect": "Brahmagiri, located in Chitradurga district of Karnataka, is a significant archaeological site dating back to the Neolithic period, circa 1000 BCE. Excavations at the site have yielded key finds such as Ashokan edicts, megalithic burial sites, and ancient pottery, highlighting its importance as a major cultural and trade center. The site's significance lies in its ability to provide valuable insights into the socio-cultural and economic dynamics of the region during the Neolithic and subsequent periods.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 14.9,
         "lng": 76.8
       },
@@ -2872,7 +3005,8 @@ export const bookData: BookChapter[] = [
         "location": "Haveri district (Karnataka)",
         "majorAspect": "Hallur, located in Haveri district of Karnataka, is a significant archaeological site dating back to the Iron Age and the Megalithic period, approximately 1200 BCE to 300 BCE. Excavations at Hallur have yielded key finds such as iron tools, pottery, and megalithic structures, including dolmens and cairn circles. The site is important as it provides valuable insights into the cultural, social, and economic practices of the people living in the region during that period, highlighting the transition from the Neolithic to the Iron Age.",
         "pyqYears": [
-          2013
+          2013,
+          2017
         ],
         "lat": 14.5,
         "lng": 75.9
@@ -2941,7 +3075,10 @@ export const bookData: BookChapter[] = [
         "name": "Sittanavasal",
         "location": "Pudukottai district (Tamil Nadu)",
         "majorAspect": "The famous historical fresco paintings by the Jain saints are found inside the caves and it is the only place where we can see the Pandya paintings.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015,
+          2024
+        ],
         "lat": 10.5,
         "lng": 78.9
       },
@@ -2949,7 +3086,11 @@ export const bookData: BookChapter[] = [
         "name": "Adichanallur",
         "location": "Thoothukudi district (Tamil Nadu), Thamirabarani basin",
         "majorAspect": "Evidence of settlement c. 1000 BCE. Important findings are: Rudimentary Tamil-Brahmi script, many iron and gold objects, and skeletal DNA analysis showing only 8% were local. The rest were a mix of races from the world over, indicating frequent visits of foreigners as it is situated near Korkai.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015,
+          2016,
+          2018
+        ],
         "lat": 8.8457,
         "lng": 77.9938
       },
@@ -2993,7 +3134,9 @@ export const bookData: BookChapter[] = [
         "name": "Kilnamandi",
         "location": "Tiruvannamalai district (Tamil Nadu)",
         "majorAspect": "Around 3700 years old stone circles have been discovered.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 12.4289,
         "lng": 78.9992
       },
@@ -3024,7 +3167,9 @@ export const bookData: BookChapter[] = [
         "name": "Taxila/Takshashila",
         "location": "Rawalpindi district (Punjab, Pakistan)",
         "majorAspect": "Capital of Indo-Greeks and Kushanas who built their respective cities- Sirkap and Sirsukh.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 33.7,
         "lng": 72.8
       },
@@ -3057,6 +3202,7 @@ export const bookData: BookChapter[] = [
         "location": "Meerut district (UP), on Ganga River",
         "majorAspect": "As per epic-Purana tradition, Hastinapur was the capital of Kuru Mahajanapada until a flood led to it being shifted to Kaushambi. During this phase, it is marked by an element of planning, burnt-brick structures, and terracotta ring wells.",
         "pyqYears": [
+          2015,
           2018
         ],
         "lat": 29.2,
@@ -3066,7 +3212,9 @@ export const bookData: BookChapter[] = [
         "name": "Mathura",
         "location": "Mathura district (Uttar Pradesh)",
         "majorAspect": "Centre of Mathura art during Kushana period. Statues, terracottas etc. belonging to Buddhism, Jainism, Hinduism and Yakshas are found. Headless statue of Kanishka is a sculptural marvel.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 27.5,
         "lng": 77.7
       },
@@ -3082,7 +3230,10 @@ export const bookData: BookChapter[] = [
         "name": "Ahichchhatra",
         "location": "Bareilly district (Uttar Pradesh)",
         "majorAspect": "River Ganga divided Panchala into north and South. It was capital of northern Panchala.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013,
+          2017
+        ],
         "lat": 28.4,
         "lng": 79.1
       },
@@ -3100,7 +3251,9 @@ export const bookData: BookChapter[] = [
         "name": "Shravasti",
         "location": "Shravasti district (Uttar Pradesh)",
         "majorAspect": "Associated with Buddha's miracles. After enlightenment, Buddha spent most of his life here.",
-        "pyqYears": [],
+        "pyqYears": [
+          2024
+        ],
         "lat": 27.5,
         "lng": 82.1
       },
@@ -3108,7 +3261,9 @@ export const bookData: BookChapter[] = [
         "name": "Kapilavastu",
         "location": "Kapilavastu district (Nepal)",
         "majorAspect": "Associated with Buddha's Mahabhinishkramana i.e. Great Departure or Great Renunciation. Capital of Shakya kingdom to which Lord Buddha belongs.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 27.6,
         "lng": 83.1
       },
@@ -3116,7 +3271,9 @@ export const bookData: BookChapter[] = [
         "name": "Ayodhya/Saket",
         "location": "Ayodhya district (UP), on banks of Saryu",
         "majorAspect": "NBPW phase here dates back to c. 1000 BCE which is an exception. In Ramayana, it is described as the capital of Kosala during Rama. A major pilgrimage site.",
-        "pyqYears": [],
+        "pyqYears": [
+          2025
+        ],
         "lat": 26.8,
         "lng": 82.2
       },
@@ -3124,7 +3281,9 @@ export const bookData: BookChapter[] = [
         "name": "Kushinagar",
         "location": "Kushinagar district (Uttar Pradesh)",
         "majorAspect": "Two Buddhist Stupas are built here:- Ramabhar Stupa was built where Buddha was cremated. Later, Ashoka built a stupa where Buddha attained Parinirvana popularly known as Parinirvana/Mahaparinirvana temple.",
-        "pyqYears": [],
+        "pyqYears": [
+          2025
+        ],
         "lat": 26.7,
         "lng": 83.9
       },
@@ -3158,7 +3317,9 @@ export const bookData: BookChapter[] = [
         "name": "Vaishali",
         "location": "Vaishali district (Bihar)",
         "majorAspect": "Place of second Buddhist council. Patronised by Kalasoka and presided by Sakya bakami. Objective: To debate the 'great schism' i.e. disagreements between various Buddhist schools.",
-        "pyqYears": [],
+        "pyqYears": [
+          2018
+        ],
         "lat": 25.7,
         "lng": 85.1
       },
@@ -3166,7 +3327,9 @@ export const bookData: BookChapter[] = [
         "name": "Rajgir",
         "location": "Nalanda district (Bihar)",
         "majorAspect": "Place of first Buddhist council. Patronised by Ajatashatru and presided by Mahakassapa. Objective: To preserve Buddha's sayings and laying down rules for monastic discipline.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017
+        ],
         "lat": 25.0,
         "lng": 85.4
       },
@@ -3182,7 +3345,12 @@ export const bookData: BookChapter[] = [
         "name": "Chandraketugarh",
         "location": "24 Pargana district (West Bengal)",
         "majorAspect": "Popular terracotta site. A major trade Emporium.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016,
+          2018,
+          2021,
+          2025
+        ],
         "lat": 22.7,
         "lng": 88.6
       },
@@ -3231,6 +3399,16 @@ export const bookData: BookChapter[] = [
         ],
         "lat": 26.8,
         "lng": 83.8
+      },
+      {
+        "name": "Asmaka",
+        "location": "Nizamabad/Nanded region (Maharashtra/Telangana border)",
+        "majorAspect": "One of the 16 Mahajanapadas. Only Mahajanapada located south of Vindhyas. Capital was Potana/Paudanya.",
+        "pyqYears": [
+          2025
+        ],
+        "lat": 18.67,
+        "lng": 77.3
       }
     ]
   },
@@ -3243,7 +3421,9 @@ export const bookData: BookChapter[] = [
         "name": "Taxila/Takshashila",
         "location": "Rawalpindi district (Punjab province, Pakistan)",
         "majorAspect": "Capital of Northern Province of Mauryas. Dharmarajika Stupa was built here by Ashoka over the relics of Buddha. Ruins of Taxila: UNESCO World Heritage Site.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 33.7,
         "lng": 72.8
       },
@@ -3297,8 +3477,7 @@ export const bookData: BookChapter[] = [
         "location": "Ujjain district (Madhya Pradesh), on bank of river Shipra",
         "majorAspect": "Capital of the Western Province of Mauryas. Ashoka was the Governor of Ujjain during the reign of Bindusara.",
         "pyqYears": [
-          2019,
-          2025
+          2019
         ],
         "lat": 23.2,
         "lng": 75.8
@@ -3340,7 +3519,9 @@ export const bookData: BookChapter[] = [
         "name": "Shahbazgarhi",
         "location": "Mardan district (Khyber Pakhtunkhwa, Pakistan)",
         "majorAspect": "Major Rock Edict site. One of two northwestern edict sites in Kharoshthi script and Prakrit language.",
-        "pyqYears": [],
+        "pyqYears": [
+          2018
+        ],
         "lat": 34.4,
         "lng": 71.94
       },
@@ -3356,7 +3537,9 @@ export const bookData: BookChapter[] = [
         "name": "Kalsi",
         "location": "Dehradun district (Uttarakhand), on banks of river Yamuna",
         "majorAspect": "Major Rock Edict site. Northernmost Major Rock Edict in Brahmi-Prakrit.",
-        "pyqYears": [],
+        "pyqYears": [
+          2024
+        ],
         "lat": 30.51,
         "lng": 77.84
       },
@@ -3364,7 +3547,10 @@ export const bookData: BookChapter[] = [
         "name": "Girnar (Junagarh)",
         "location": "Junagadh district (Gujarat)",
         "majorAspect": "Major Rock Edict site. Also contains inscriptions of Rudradaman I and Skandagupta (Junagadh Rock Inscription).",
-        "pyqYears": [],
+        "pyqYears": [
+          2015,
+          2019
+        ],
         "lat": 26.17,
         "lng": 75.79
       },
@@ -3445,7 +3631,8 @@ export const bookData: BookChapter[] = [
         "location": "Kurnool district (Andhra Pradesh)",
         "majorAspect": "Minor Rock Edict.",
         "pyqYears": [
-          2016
+          2016,
+          2021
         ],
         "lat": 32.5,
         "lng": 75.1
@@ -3454,7 +3641,10 @@ export const bookData: BookChapter[] = [
         "name": "Erragudi",
         "location": "Kurnool district (Andhra Pradesh)",
         "majorAspect": "Minor Rock Edict. One of southern Minor Rock Edict sites.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023,
+          2025
+        ],
         "lat": 15.4,
         "lng": 77.68
       },
@@ -3462,7 +3652,9 @@ export const bookData: BookChapter[] = [
         "name": "Brahmagiri",
         "location": "Chitradurga district (Karnataka)",
         "majorAspect": "Minor Rock Edict. One of southern Minor Rock Edict sites.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 14.9,
         "lng": 76.8
       },
@@ -3487,7 +3679,10 @@ export const bookData: BookChapter[] = [
         "location": "Raichur district (Karnataka)",
         "majorAspect": "Minor Rock Edict. Unique — only edict where Ashoka is referred to by his personal name 'Ashoka' rather than 'Devanampiya'.",
         "pyqYears": [
+          2016,
           2017,
+          2022,
+          2023,
           2024
         ],
         "lat": 15.9,
@@ -3569,7 +3764,9 @@ export const bookData: BookChapter[] = [
         "name": "Kandahar",
         "location": "Kandahar Province (Afghanistan)",
         "majorAspect": "Bilingual inscription in Greek and Aramaic. Shows Ashoka's outreach to Hellenistic world.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 24.6,
         "lng": 73.7
       },
@@ -3601,7 +3798,9 @@ export const bookData: BookChapter[] = [
         "name": "Sasaram",
         "location": "Rohtas district (Bihar)",
         "majorAspect": "Minor Rock Edict.",
-        "pyqYears": [],
+        "pyqYears": [
+          2025
+        ],
         "lat": 24.9,
         "lng": 84.0
       },
@@ -3658,7 +3857,9 @@ export const bookData: BookChapter[] = [
         "name": "Purushpura",
         "location": "Peshawar district (Khyber Pakhtunkhwa, Pakistan)",
         "majorAspect": "Capital of Kushana empire under Kanishka.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 34.01,
         "lng": 71.58
       },
@@ -3684,7 +3885,9 @@ export const bookData: BookChapter[] = [
         "name": "Mathura",
         "location": "Mathura district (Uttar Pradesh)",
         "majorAspect": "Major centre of art (Mathura school) under Kushanas, important Buddhist, Jain and Hindu site.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 27.5,
         "lng": 77.7
       },
@@ -3708,7 +3911,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagar",
         "location": "Tonk district (Rajasthan)",
         "majorAspect": "Site of Malava janapada coins, post-Mauryan terracotta and seals.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 26.17,
         "lng": 75.79
       },
@@ -3733,7 +3938,7 @@ export const bookData: BookChapter[] = [
         "location": "Ujjain district (Madhya Pradesh)",
         "majorAspect": "Major centre, capital of Western Kshatrapas at times, important trade junction.",
         "pyqYears": [
-          2025
+          2019
         ],
         "lat": 23.2,
         "lng": 75.8
@@ -3742,7 +3947,9 @@ export const bookData: BookChapter[] = [
         "name": "Vidisha/Besnagar",
         "location": "Vidisha district (Madhya Pradesh)",
         "majorAspect": "Capital of Shunga dynasty, Heliodorus pillar found here showing Indo-Greek diplomatic links.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015
+        ],
         "lat": 26.17,
         "lng": 75.79
       },
@@ -3750,7 +3957,9 @@ export const bookData: BookChapter[] = [
         "name": "Ayodhya/Saketa",
         "location": "Ayodhya district (Uttar Pradesh)",
         "majorAspect": "Important post-Mauryan city, Ayodhya inscription of Dhanadeva mentions Pushyamitra (Shunga).",
-        "pyqYears": [],
+        "pyqYears": [
+          2025
+        ],
         "lat": 26.8,
         "lng": 82.2
       },
@@ -3758,7 +3967,11 @@ export const bookData: BookChapter[] = [
         "name": "Sisupalgarh/Kalinganagari",
         "location": "Khordha district (Odisha)",
         "majorAspect": "Ancient fortified city, capital of Kalinga, excavated megalithic and post-Mauryan layers.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017,
+          2020,
+          2025
+        ],
         "lat": 26.17,
         "lng": 75.79
       },
@@ -3777,7 +3990,9 @@ export const bookData: BookChapter[] = [
         "name": "Pratishthana/Paithan",
         "location": "Chhatrapati Sambhajinagar district (Maharashtra)",
         "majorAspect": "Capital of Satavahana dynasty on banks of river Godavari.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 19.48,
         "lng": 75.38
       },
@@ -3786,6 +4001,7 @@ export const bookData: BookChapter[] = [
         "location": "Guntur district (Andhra Pradesh)",
         "majorAspect": "Capital and major Buddhist centre of Satavahanas, famous Amaravati school of art.",
         "pyqYears": [
+          2015,
           2019
         ],
         "lat": 16.2854,
@@ -3795,7 +4011,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagarjunakonda/Vijayapuri",
         "location": "Nalgonda district (Telangana)",
         "majorAspect": "Capital of Ikshvaku dynasty, major Buddhist centre after Satavahanas.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017
+        ],
         "lat": 16.5,
         "lng": 79.3
       },
@@ -3803,7 +4021,9 @@ export const bookData: BookChapter[] = [
         "name": "Banavasi",
         "location": "Uttara Kannada district (Karnataka)",
         "majorAspect": "Capital of Chutu dynasty, important Satavahana-era city mentioned in inscriptions.",
-        "pyqYears": [],
+        "pyqYears": [
+          2019
+        ],
         "lat": 14.53,
         "lng": 75.05
       },
@@ -3827,7 +4047,9 @@ export const bookData: BookChapter[] = [
         "name": "Karur/Karuvur/Vanji",
         "location": "Karur district (Tamil Nadu)",
         "majorAspect": "Capital of early Chera kingdom during Sangam age.",
-        "pyqYears": [],
+        "pyqYears": [
+          2020
+        ],
         "lat": 10.96,
         "lng": 78.08
       },
@@ -3836,7 +4058,6 @@ export const bookData: BookChapter[] = [
         "location": "Ernakulam district (Kerala)",
         "majorAspect": "Major Indo-Roman trade port of early Cheras, mentioned in Periplus and Sangam literature.",
         "pyqYears": [
-          2015,
           2016,
           2018,
           2019
@@ -3848,7 +4069,9 @@ export const bookData: BookChapter[] = [
         "name": "Uraiyur",
         "location": "Tiruchirapalli district (Tamil Nadu)",
         "majorAspect": "Capital of early Chola kingdom during Sangam age, famous for cotton trade.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 10.81,
         "lng": 78.68
       },
@@ -3890,7 +4113,11 @@ export const bookData: BookChapter[] = [
         "name": "Adichanallur",
         "location": "Thoothukudi district (Tamil Nadu)",
         "majorAspect": "Important Iron Age and early historic megalithic urn burial site.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015,
+          2016,
+          2018
+        ],
         "lat": 8.8457,
         "lng": 77.9938
       },
@@ -3930,7 +4157,9 @@ export const bookData: BookChapter[] = [
         "name": "Sivakalai",
         "location": "Thoothukudi district (Tamil Nadu)",
         "majorAspect": "Site with early evidence of Tamil-Brahmi script, pushing back dating of Tamil writing.",
-        "pyqYears": [],
+        "pyqYears": [
+          2021
+        ],
         "lat": 8.85,
         "lng": 77.75
       },
@@ -3938,7 +4167,9 @@ export const bookData: BookChapter[] = [
         "name": "Kapatapuram",
         "location": "Off Tamil Nadu coast (submerged, legendary)",
         "majorAspect": "Legendary lost capital of first Sangam, said to have been submerged by sea.",
-        "pyqYears": [],
+        "pyqYears": [
+          2022
+        ],
         "lat": 8.5,
         "lng": 78.2
       },
@@ -3946,7 +4177,9 @@ export const bookData: BookChapter[] = [
         "name": "Cheraman Juma Mosque",
         "location": "Thrissur district (Kerala)",
         "majorAspect": "Traditionally said to be one of earliest mosques in India, associated with early Arab trade links.",
-        "pyqYears": [],
+        "pyqYears": [
+          2020
+        ],
         "lat": 10.53,
         "lng": 76.02
       },
@@ -3954,7 +4187,9 @@ export const bookData: BookChapter[] = [
         "name": "Dantapuram",
         "location": "Srikakulam district (Andhra Pradesh)",
         "majorAspect": "Ancient Kalinga port, said to have housed Buddha's tooth relic before it went to Sri Lanka.",
-        "pyqYears": [],
+        "pyqYears": [
+          2024
+        ],
         "lat": 18.3,
         "lng": 83.9
       },
@@ -4024,7 +4259,8 @@ export const bookData: BookChapter[] = [
         "pyqYears": [
           2014,
           2021,
-          2023
+          2023,
+          2024
         ],
         "lat": 21.9,
         "lng": 71.9
@@ -4049,7 +4285,9 @@ export const bookData: BookChapter[] = [
         "name": "Pundranagara/Mahasthangarh",
         "location": "Bogra district (Bangladesh)",
         "majorAspect": "Provincial capital under Gupta administration in Bengal region.",
-        "pyqYears": [],
+        "pyqYears": [
+          2019
+        ],
         "lat": 26.17,
         "lng": 75.79
       },
@@ -4153,7 +4391,9 @@ export const bookData: BookChapter[] = [
         "name": "Srinagar",
         "location": "Srinagar district (Jammu and Kashmir)",
         "majorAspect": "Capital of Karkota and later dynasties of Kashmir during post-Gupta period.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 34.0659,
         "lng": 74.8463
       },
@@ -4169,7 +4409,9 @@ export const bookData: BookChapter[] = [
         "name": "Kannauj/Kanyakubja",
         "location": "Kannauj district (Uttar Pradesh)",
         "majorAspect": "Capital of Harshavardhana, became major centre of tripartite struggle in early medieval period.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 26.9987,
         "lng": 79.6928
       },
@@ -4217,7 +4459,12 @@ export const bookData: BookChapter[] = [
         "name": "Sirpur/Shripura",
         "location": "Mahasamund district (Chhattisgarh)",
         "majorAspect": "Capital of Panduvanshi dynasty of South Kosala during post-Gupta period.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017,
+          2018,
+          2021,
+          2022
+        ],
         "lat": 21.34,
         "lng": 83.07
       },
@@ -4225,7 +4472,9 @@ export const bookData: BookChapter[] = [
         "name": "Badami/Vatapi",
         "location": "Bagalkote district (Karnataka)",
         "majorAspect": "Capital of Badami Chalukya dynasty, famous rock-cut cave temples.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015
+        ],
         "lat": 16.2904,
         "lng": 75.5916
       },
@@ -4249,7 +4498,9 @@ export const bookData: BookChapter[] = [
         "name": "Kaladi/Kalady",
         "location": "Ernakulam district (Kerala)",
         "majorAspect": "Traditional birthplace of Adi Shankaracharya, who propounded Advaita Vedanta during early medieval period.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 10.18,
         "lng": 76.43
       },
@@ -4336,7 +4587,9 @@ export const bookData: BookChapter[] = [
         "name": "Kannauj",
         "location": "Kannauj district (Uttar Pradesh), on the banks of river Ganga",
         "majorAspect": "Capital of Gurjara-Pratiharas. Focal point of tripartite struggle between Pratiharas, Palas and Rashtrakutas.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 26.9987,
         "lng": 79.6928
       },
@@ -4482,7 +4735,9 @@ export const bookData: BookChapter[] = [
         "name": "Uraiyur",
         "location": "Tiruchirapalli district (Tamil Nadu)",
         "majorAspect": "First capital of Cholas from where Vijayalaya ruled.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 10.81,
         "lng": 78.68
       },
@@ -4490,7 +4745,9 @@ export const bookData: BookChapter[] = [
         "name": "Thanjavur",
         "location": "Thanjavur district (Tamil Nadu)",
         "majorAspect": "Early capital of imperial Cholas. After the fall of the Cholas, ruled by various dynasties: Mutharaiyar, Pandyas, Vijayanagara Empire, Madurai Nayaks, Thanjavur Nayaks, Thanjavur Marathas and the British Empire.",
-        "pyqYears": [],
+        "pyqYears": [
+          2019
+        ],
         "lat": 10.8,
         "lng": 79.1
       },
@@ -4511,6 +4768,26 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 17.3888,
         "lng": 78.4611
+      },
+      {
+        "name": "Bhubaneswar",
+        "location": "Khordha district (Odisha)",
+        "majorAspect": "Temple city of India. Capital of successive dynasties including Somavamshis and Eastern Gangas. Has 500+ ancient temples.",
+        "pyqYears": [
+          2015
+        ],
+        "lat": 20.2961,
+        "lng": 85.8245
+      },
+      {
+        "name": "Sylhet",
+        "location": "Sylhet district (Bangladesh)",
+        "majorAspect": "Medieval city associated with Shah Jalal's Sufi mission (14th c). Important centre of Islamic culture in Bengal Sultanate period.",
+        "pyqYears": [
+          2020
+        ],
+        "lat": 24.9,
+        "lng": 91.87
       }
     ]
   },
@@ -4523,7 +4800,9 @@ export const bookData: BookChapter[] = [
         "name": "Kapilavastu",
         "location": "Kapilavastu district (Nepal)",
         "majorAspect": "Associated with Buddha's Mahabhinishkramana (Great Departure/Great Renunciation). Capital of Shakya kingdom to which Lord Buddha belongs.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 27.6,
         "lng": 83.1
       },
@@ -4539,7 +4818,9 @@ export const bookData: BookChapter[] = [
         "name": "Shravasti",
         "location": "Shravasti district (Uttar Pradesh)",
         "majorAspect": "Associated with Buddha's miracles. After enlightenment, Buddha spent most of his life here.",
-        "pyqYears": [],
+        "pyqYears": [
+          2024
+        ],
         "lat": 27.5,
         "lng": 82.1
       },
@@ -4573,7 +4854,9 @@ export const bookData: BookChapter[] = [
         "name": "Rajgir",
         "location": "Nalanda district (Bihar)",
         "majorAspect": "Site of First Buddhist Council (held after Buddha's Mahaparinirvana). Saptaparni Cave was venue.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017
+        ],
         "lat": 25.0,
         "lng": 85.4
       },
@@ -4581,7 +4864,9 @@ export const bookData: BookChapter[] = [
         "name": "Vaishali",
         "location": "Vaishali district (Bihar)",
         "majorAspect": "Site of Second Buddhist Council (held 100 years after first). Also birthplace of Mahavira.",
-        "pyqYears": [],
+        "pyqYears": [
+          2018
+        ],
         "lat": 25.7,
         "lng": 85.1
       },
@@ -4773,7 +5058,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagarjunakonda",
         "location": "Nalgonda district (Telangana)",
         "majorAspect": "Major Buddhist site of Ikshvaku period. Once a massive monastic university complex, now lies entirely under the lake created by the Nagarjuna Sagar Dam. Relocation done after Independence.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 16.5,
         "lng": 79.3
       },
@@ -4782,7 +5069,8 @@ export const bookData: BookChapter[] = [
         "location": "Guntur district (Andhra Pradesh), on banks of river Krishna",
         "majorAspect": "Amaravati Stupa constructed during Satavahana period. Example of Amaravati School of art and architecture. Once a Mahachaitya built in marble, looted and vandalised by the British. Located on important trade route.",
         "pyqYears": [
-          2015
+          2015,
+          2019
         ],
         "lat": 16.57,
         "lng": 80.36
@@ -4800,6 +5088,7 @@ export const bookData: BookChapter[] = [
         "location": "Kalaburagi district (Karnataka), on banks of river Bhima",
         "majorAspect": "Rich in sculptures of post-Mauryan period. Two Ashokan portraits found. Only inscribed stone portrait of Ashoka where his name 'Raya Asoko' was written in Brahmi script is sculpted on the Stupa.",
         "pyqYears": [
+          2018,
           2022
         ],
         "lat": 16.1,
@@ -4825,7 +5114,9 @@ export const bookData: BookChapter[] = [
         "name": "Alchi Monastery",
         "location": "Leh district (Ladakh)",
         "majorAspect": "Tibetan Buddhist monastery. Wall paintings prove the artistic and spiritual details of kings of Kashmir and Himachal Pradesh.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 34.3,
         "lng": 77.18
       },
@@ -4963,7 +5254,10 @@ export const bookData: BookChapter[] = [
         "location": "Bhavnagar district (Gujarat)",
         "majorAspect": "Site of two Jain Councils — Fourth Council (5th century CE, Devardhigani Kshamasramana presided). Jain canon written down here.",
         "pyqYears": [
-          2021
+          2014,
+          2021,
+          2023,
+          2024
         ],
         "lat": 21.9,
         "lng": 71.9
@@ -4980,7 +5274,9 @@ export const bookData: BookChapter[] = [
         "name": "Kankali Tila/Mathura",
         "location": "Mathura district (Uttar Pradesh)",
         "majorAspect": "Important Jain archaeological site. Large number of Jain sculptures and reliefs from Kushana and Gupta periods found.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 27.5,
         "lng": 77.7
       },
@@ -5020,7 +5316,10 @@ export const bookData: BookChapter[] = [
         "name": "Sittanavasal",
         "location": "Pudukottai district (Tamil Nadu)",
         "majorAspect": "A rock-cut Jain temple named Arivar-Koil. Famous for beautiful Jain frescoes (Panchavarnadurai paintings). Jainism flourished here under Pallava period.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015,
+          2024
+        ],
         "lat": 10.5,
         "lng": 78.9
       },
@@ -5036,7 +5335,9 @@ export const bookData: BookChapter[] = [
         "name": "Ayodhya",
         "location": "Ayodhya district (Uttar Pradesh)",
         "majorAspect": "Birthplace of Rishabhanatha (first Tirthankara) and other Tirthankaras. Many ancient Jain temples.",
-        "pyqYears": [],
+        "pyqYears": [
+          2025
+        ],
         "lat": 26.8,
         "lng": 82.2
       },
@@ -5044,7 +5345,9 @@ export const bookData: BookChapter[] = [
         "name": "Deogarh",
         "location": "Lalitpur district (Uttar Pradesh)",
         "majorAspect": "Jain temple complex with sculptures from Gupta and later periods. Also has Dashavatara Vishnu temple.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017
+        ],
         "lat": 24.53,
         "lng": 78.24
       },
@@ -5061,9 +5364,10 @@ export const bookData: BookChapter[] = [
         "location": "Mahasamund district (Chhattisgarh)",
         "majorAspect": "Surang Tila — a Jain temple with brick construction. Also has Buddhist and Hindu remains.",
         "pyqYears": [
+          2017,
+          2018,
           2021,
-          2022,
-          2024
+          2022
         ],
         "lat": 21.1923,
         "lng": 82.489
@@ -5072,7 +5376,9 @@ export const bookData: BookChapter[] = [
         "name": "Badami/Vatapi",
         "location": "Bagalkote district (Karnataka)",
         "majorAspect": "Badami Cave 4 is a Jain cave with sculptures of Mahavira and other Tirthankaras. Belongs to Chalukya period.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015
+        ],
         "lat": 16.2904,
         "lng": 75.5916
       },
@@ -5088,7 +5394,9 @@ export const bookData: BookChapter[] = [
         "name": "Halebidu",
         "location": "Hassan district (Karnataka)",
         "majorAspect": "Jain Basadis alongside Hoysaleshwara temple complex. Parsvanatha Basadi notable.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015
+        ],
         "lat": 13.0302,
         "lng": 76.1745
       },
@@ -5112,7 +5420,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagarjunakonda",
         "location": "Nalgonda district (Telangana)",
         "majorAspect": "Jain remains found alongside Buddhist sites. Ayaka pillars and Jain sculptures discovered.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 16.5,
         "lng": 79.3
       },
@@ -5183,7 +5493,9 @@ export const bookData: BookChapter[] = [
         "name": "Udaigiri",
         "location": "Vidisha district (Madhya Pradesh)",
         "majorAspect": "Gupta period rock-cut monuments. Famous for Varaha (Vishnu in Boar form) relief — largest rock-cut relief of Gupta period. Cave 5 has the famous Varaha panel. Cave 6 (Shankar) has a Shiva linga.",
-        "pyqYears": [],
+        "pyqYears": [
+          2021
+        ],
         "lat": 23.5,
         "lng": 77.8
       },
@@ -5191,7 +5503,9 @@ export const bookData: BookChapter[] = [
         "name": "Bagh",
         "location": "Dhar district (Madhya Pradesh)",
         "majorAspect": "Buddhist rock-cut caves of Gupta period. Famous for murals (Tempera technique). Nine Buddhist caves out of original many survive.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 22.3,
         "lng": 74.8
       },
@@ -5217,7 +5531,10 @@ export const bookData: BookChapter[] = [
         "name": "Ellora",
         "location": "Chhatrapati Sambhajinagar district (Maharashtra)",
         "majorAspect": "34 monasteries and temples dug in wall of basalt cliff. Caves 1-12: Buddhist, 13-29: Hindu, 30-34: Jain. Kailashnath Temple (Cave 16) is largest monolithic rock structure in world. UNESCO World Heritage Site.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017,
+          2020
+        ],
         "lat": 20.0,
         "lng": 75.2
       },
@@ -5234,8 +5551,7 @@ export const bookData: BookChapter[] = [
         "location": "Nashik district (Maharashtra)",
         "majorAspect": "24 Hinayana Buddhist caves from 1st century BCE to 3rd century CE. Important inscriptions of Satavahana period including Nashik inscription of Gautami Balashri.",
         "pyqYears": [
-          2023,
-          2024
+          2014
         ],
         "lat": 19.9,
         "lng": 73.8
@@ -5284,7 +5600,9 @@ export const bookData: BookChapter[] = [
         "name": "Bhaja Caves",
         "location": "Pune district (Maharashtra)",
         "majorAspect": "Group of 22 rock-cut Buddhist caves from 2nd century BCE. One of the earliest examples of Hinayana Buddhist art. Notable for wooden rafters still in place.",
-        "pyqYears": [],
+        "pyqYears": [
+          2022
+        ],
         "lat": 18.73,
         "lng": 73.48
       },
@@ -5292,7 +5610,9 @@ export const bookData: BookChapter[] = [
         "name": "Badami",
         "location": "Bagalkote district (Karnataka)",
         "majorAspect": "Represents Badami-Chalukya rock-cut architecture (6th century CE). Four cave temples — Cave 1 (Shiva), Cave 2 (Vishnu), Cave 3 (Vishnu, largest), Cave 4 (Jain). Cave 3 has famous Vishnu on Ananta sculpture.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015
+        ],
         "lat": 16.2904,
         "lng": 75.5916
       },
@@ -5324,7 +5644,10 @@ export const bookData: BookChapter[] = [
         "name": "Sittanavasal Caves (Arivar Koil)",
         "location": "Pudukottai district (Tamil Nadu)",
         "majorAspect": "Rock-cut Jain cave temple with 7th century CE Jain frescoes. The cave is a living temple still under worship.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015,
+          2024
+        ],
         "lat": 10.5,
         "lng": 78.9
       },
@@ -5383,6 +5706,17 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 8.18,
         "lng": 77.42
+      },
+      {
+        "name": "Masroor Rock Cut Temple",
+        "location": "Kangra district (Himachal Pradesh)",
+        "majorAspect": "Early 8th century rock-cut temple complex with Nagara-style shikhara. Depicts scenes from Ramayana and Mahabharata.",
+        "pyqYears": [
+          2017,
+          2020
+        ],
+        "lat": 32.1,
+        "lng": 76.4
       }
     ]
   },
@@ -5395,7 +5729,9 @@ export const bookData: BookChapter[] = [
         "name": "Bhitargaon",
         "location": "Kanpur district (Uttar Pradesh)",
         "majorAspect": "Earliest surviving brick temple in India (5th century CE, Gupta period). Dedicated to Vishnu. Has a tall shikhara.",
-        "pyqYears": [],
+        "pyqYears": [
+          2019
+        ],
         "lat": 26.3,
         "lng": 80.05
       },
@@ -5411,7 +5747,9 @@ export const bookData: BookChapter[] = [
         "name": "Sun Temple (Mandsaur)",
         "location": "Mandsaur district (Madhya Pradesh)",
         "majorAspect": "Gupta period Sun temple.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 24.07,
         "lng": 75.07
       },
@@ -5419,7 +5757,9 @@ export const bookData: BookChapter[] = [
         "name": "Dashavatara Temple",
         "location": "Lalitpur district (Uttar Pradesh), Deogarh",
         "majorAspect": "One of the earliest and best preserved Gupta period Panchayatana style temples. Dedicated to Vishnu. Famous for three Vaishnava panels on its walls.",
-        "pyqYears": [],
+        "pyqYears": [
+          2022
+        ],
         "lat": 24.53,
         "lng": 78.24
       },
@@ -5467,7 +5807,10 @@ export const bookData: BookChapter[] = [
         "name": "Dah Parbatiya",
         "location": "Tezpur, Sonitpur district (Assam)",
         "majorAspect": "Gupta period temple doorframe — finest example of Gupta sculptural style in Assam.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015,
+          2024
+        ],
         "lat": 26.65,
         "lng": 92.8
       },
@@ -5597,7 +5940,9 @@ export const bookData: BookChapter[] = [
         "name": "Thanjavur (Brihadisvara)",
         "location": "Thanjavur district (Tamil Nadu)",
         "majorAspect": "Brihadisvara Temple built by Raja Raja Chola I (1010 CE). First structural temple with a soaring Vimana (216 feet). UNESCO World Heritage Site (Great Living Chola Temples).",
-        "pyqYears": [],
+        "pyqYears": [
+          2019
+        ],
         "lat": 10.8,
         "lng": 79.1
       },
@@ -5656,7 +6001,9 @@ export const bookData: BookChapter[] = [
         "name": "Badami",
         "location": "Bagalkote district (Karnataka)",
         "majorAspect": "Chalukya period rock-cut and structural temples. Capital city of Badami Chalukyas.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015
+        ],
         "lat": 16.2904,
         "lng": 75.5916
       },
@@ -5672,7 +6019,9 @@ export const bookData: BookChapter[] = [
         "name": "Hampi (Virupaksha)",
         "location": "Vijayanagar district (Karnataka)",
         "majorAspect": "Vijayanagara period temples including Virupaksha temple complex, Vittala temple complex (with famous stone chariot). UNESCO World Heritage Site.",
-        "pyqYears": [],
+        "pyqYears": [
+          2018
+        ],
         "lat": 15.33,
         "lng": 76.46
       },
@@ -5747,6 +6096,36 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 15.4167,
         "lng": 75.6816
+      },
+      {
+        "name": "Ramappa Temple",
+        "location": "Mulugu district (Telangana), on banks of Ramappa lake",
+        "majorAspect": "UNESCO World Heritage Site (2021). 13th century Kakatiya dynasty temple. Unique floating bricks used in construction.",
+        "pyqYears": [
+          2020
+        ],
+        "lat": 18.26,
+        "lng": 80.02
+      },
+      {
+        "name": "Bhoramdev Temple",
+        "location": "Kabirdham district (Chhattisgarh)",
+        "majorAspect": "11th century Nagara-style temple dedicated to Shiva. Known as 'Khajuraho of Chhattisgarh' for its erotic sculptures.",
+        "pyqYears": [
+          2020
+        ],
+        "lat": 22.08,
+        "lng": 81.3
+      },
+      {
+        "name": "Shankaracharya Temple",
+        "location": "Srinagar district (Jammu & Kashmir), on Shankaracharya Hill",
+        "majorAspect": "One of the oldest temples in Kashmir, dedicated to Shiva. Associated with Adi Shankaracharya's visit.",
+        "pyqYears": [
+          2018
+        ],
+        "lat": 34.09,
+        "lng": 74.87
       }
     ]
   },
@@ -5759,7 +6138,9 @@ export const bookData: BookChapter[] = [
         "name": "Sudarshan Lake",
         "location": "Junagadh district (Gujarat)",
         "majorAspect": "Ancient artificial lake. Built by Pushyagupta (governor of Chandragupta Maurya), completed by Yavana governor Tushaspha during Ashoka. Repaired by Rudradaman I after flood (150 BCE) — recorded in Junagadh Rock Inscription. Repaired again by Skandagupta (455-56 CE).",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 21.52,
         "lng": 70.5
       },
@@ -5793,7 +6174,9 @@ export const bookData: BookChapter[] = [
         "name": "Hampi Water System",
         "location": "Vijayanagar district (Karnataka)",
         "majorAspect": "Vijayanagara Empire's elaborate canal and tank system irrigating the capital region.",
-        "pyqYears": [],
+        "pyqYears": [
+          2018
+        ],
         "lat": 15.33,
         "lng": 76.46
       },
@@ -6057,7 +6440,8 @@ export const bookData: BookChapter[] = [
         "location": "Dhar district (Madhya Pradesh)",
         "majorAspect": "Medieval fort city of Malwa Sultanate and later Mughals. Jahaz Mahal (Ship Palace), Hindola Mahal (Swinging Palace), Baz Bahadur's palace.",
         "pyqYears": [
-          2016
+          2016,
+          2021
         ],
         "lat": 32.5,
         "lng": 75.1
@@ -6149,6 +6533,16 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 27.0756,
         "lng": 77.8754
+      },
+      {
+        "name": "Basilica of Bom Jesus",
+        "location": "Old Goa district (Goa)",
+        "majorAspect": "UNESCO World Heritage Site. Houses the mortal remains of St. Francis Xavier. Built in 1605 by Portuguese.",
+        "pyqYears": [
+          2022
+        ],
+        "lat": 15.5,
+        "lng": 73.91
       }
     ]
   },
@@ -6179,7 +6573,9 @@ export const bookData: BookChapter[] = [
         "name": "Harappa",
         "location": "Sahiwal district (Punjab, Pakistan)",
         "majorAspect": "Red sandstone torso (headless male torso) — shows naturalistic treatment of body. Bronze buffalo.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 30.6,
         "lng": 72.9
       },
@@ -6187,7 +6583,9 @@ export const bookData: BookChapter[] = [
         "name": "Mathura",
         "location": "Mathura district (Uttar Pradesh)",
         "majorAspect": "Mathura School of Art — developed during Kushana period. Used local red sandstone. Indigenous Indian style. Both Buddhist and Hindu sculptures. Kankali Tila — Jain sculptures. Large number of Tirthankara sculptures.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 27.5,
         "lng": 77.7
       },
@@ -6195,7 +6593,9 @@ export const bookData: BookChapter[] = [
         "name": "Taxila/Takshashila",
         "location": "Rawalpindi district (Pakistan)",
         "majorAspect": "Gandhara School of Art — fusion of Greek and Indian styles (Greco-Buddhist). Used grey-blue phyllite/schist stone. Influenced by Hellenistic style. Realistic facial features, curly hair, drapery folds for Buddha images.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 33.7,
         "lng": 72.8
       },
@@ -6204,6 +6604,7 @@ export const bookData: BookChapter[] = [
         "location": "Guntur district (Andhra Pradesh)",
         "majorAspect": "Amaravati School — third major school of ancient Indian sculpture. Used white marble. Satavahana period (3rd century BCE - 3rd century CE). Narrative bas-reliefs on stupa railings. Dynamic and sensuous style.",
         "pyqYears": [
+          2015,
           2019
         ],
         "lat": 16.2854,
@@ -6213,7 +6614,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagarjunakonda",
         "location": "Nalgonda district (Telangana)",
         "majorAspect": "Ikshvaku period sculptures belonging to Amaravati school. Large number of Buddhist reliefs. Now in site museum.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 16.5,
         "lng": 79.3
       },
@@ -6253,7 +6656,10 @@ export const bookData: BookChapter[] = [
         "name": "Ellora",
         "location": "Chhatrapati Sambhajinagar district (Maharashtra)",
         "majorAspect": "Post-Mauryan period and later. Kailashnath Temple carvings. Large bronze sculptures belong to the Vakataka-Gupta period. Narrative art that revolves around Shaiva, Vaishnava and Jain themes.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017,
+          2020
+        ],
         "lat": 20.0,
         "lng": 75.2
       },
@@ -6309,7 +6715,9 @@ export const bookData: BookChapter[] = [
         "name": "Vijayanagara/Hampi",
         "location": "Vijayanagar district (Karnataka)",
         "majorAspect": "Vijayanagara period sculptures (14th-16th century CE). Unique iconography. Ugra Narasimha monolith (6.7m) and Ganesha of Sasivekalu — iconic sculptures.",
-        "pyqYears": [],
+        "pyqYears": [
+          2018
+        ],
         "lat": 26.17,
         "lng": 75.79
       },
@@ -6325,7 +6733,9 @@ export const bookData: BookChapter[] = [
         "name": "Thanjavur (Brihadisvara)",
         "location": "Thanjavur district (Tamil Nadu)",
         "majorAspect": "Chola period sculptures on temple walls. Bronze sculptures in the museum. Nandi monolith in front of temple.",
-        "pyqYears": [],
+        "pyqYears": [
+          2019
+        ],
         "lat": 10.8,
         "lng": 79.1
       },
@@ -6341,7 +6751,11 @@ export const bookData: BookChapter[] = [
         "name": "Nalanda",
         "location": "Nalanda district (Bihar)",
         "majorAspect": "Pala period bronze Buddhist sculptures. Many now in Nalanda Museum. Bronze Buddha, Bodhisattvas in typical Pala style.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014,
+          2019,
+          2020
+        ],
         "lat": 25.1,
         "lng": 85.4
       },
@@ -6357,7 +6771,9 @@ export const bookData: BookChapter[] = [
         "name": "Deogarh",
         "location": "Lalitpur district (Uttar Pradesh)",
         "majorAspect": "Gupta period sculptural panels on Dashavatara temple — finest Gupta sculpture. Anantasayana Vishnu panel considered masterpiece.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017
+        ],
         "lat": 24.53,
         "lng": 78.24
       },
@@ -6481,7 +6897,9 @@ export const bookData: BookChapter[] = [
         "name": "Bagh",
         "location": "Dhar district (Madhya Pradesh)",
         "majorAspect": "Use of Tempera in its murals exemplify the golden age of Indian classical art Buddhist, folk and tribal themes",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 22.3,
         "lng": 74.8
       },
@@ -6507,7 +6925,10 @@ export const bookData: BookChapter[] = [
         "name": "Ellora",
         "location": "Sambhajinagar district (Maharashtra)",
         "majorAspect": "Well-preserved in Kailasa temple Predominantly Vaishnav with few later additions of Shaiva sect",
-        "pyqYears": [],
+        "pyqYears": [
+          2017,
+          2020
+        ],
         "lat": 20.0,
         "lng": 75.2
       },
@@ -6515,7 +6936,9 @@ export const bookData: BookChapter[] = [
         "name": "Badami Caves",
         "location": "Bagalkote district (Karnataka)",
         "majorAspect": "Fully decorated with murals, many inspired from Puranas Mostly Shaivite with Nataraja, Shiva and Parvati as coiled serpent",
-        "pyqYears": [],
+        "pyqYears": [
+          2015
+        ],
         "lat": 15.9,
         "lng": 75.7
       },
@@ -6564,6 +6987,7 @@ export const bookData: BookChapter[] = [
         "location": "Pudukottai district (Tamil Nadu)",
         "majorAspect": "Jainism",
         "pyqYears": [
+          2015,
           2024
         ],
         "lat": 10.5,
@@ -6690,7 +7114,9 @@ export const bookData: BookChapter[] = [
         "name": "Mahasthangarh",
         "location": "Bogra district (Bangladesh)",
         "majorAspect": "Monastery ruins along with statues of Buddha, Bodhisattvas and Hindu gods and goddesses excavated.",
-        "pyqYears": [],
+        "pyqYears": [
+          2019
+        ],
         "lat": 24.97,
         "lng": 89.34
       },
@@ -6714,7 +7140,9 @@ export const bookData: BookChapter[] = [
         "name": "Udayagiri",
         "location": "Jajpur district (Odisha)",
         "majorAspect": "Also known as Madhavpura Mahavihara. Prominent Buddhist site between 7th and 12th centuries. Part of Buddhist Diamond Triangle of Odisha.",
-        "pyqYears": [],
+        "pyqYears": [
+          2013
+        ],
         "lat": 20.8747,
         "lng": 86.1215
       },
@@ -6731,7 +7159,10 @@ export const bookData: BookChapter[] = [
         "location": "Bhavnagar district (Gujarat)",
         "majorAspect": "A centre of Hinayana Buddhism during early medieval phase. Graduating students usually employed by kings to assist in government.",
         "pyqYears": [
-          2021
+          2014,
+          2021,
+          2023,
+          2024
         ],
         "lat": 21.9,
         "lng": 71.9
@@ -6740,7 +7171,9 @@ export const bookData: BookChapter[] = [
         "name": "Ujjayini",
         "location": "Ujjain district (Madhya Pradesh)",
         "majorAspect": "Stood out for academic achievement in astronomy, astrology and mathematics. Equipped with elaborate observatory. Stood on zero meridian of longitude.",
-        "pyqYears": [],
+        "pyqYears": [
+          2019
+        ],
         "lat": 23.2933,
         "lng": 75.6263
       },
@@ -6764,7 +7197,9 @@ export const bookData: BookChapter[] = [
         "name": "Manyakheta",
         "location": "Kalaburagi district (Karnataka)",
         "majorAspect": "Important education institute for 'Dvaita' school of thought. Important centre for Hindus, Jains and Buddhists.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014
+        ],
         "lat": 17.2409,
         "lng": 76.7697
       },
@@ -6836,8 +7271,6 @@ export const bookData: BookChapter[] = [
         "location": "Bharuch district (Gujarat)",
         "majorAspect": "An important ship building centre and seaport of ancient period connected with Silk as well as Spice route.",
         "pyqYears": [
-          2017,
-          2021,
           2022
         ],
         "lat": 21.7,
@@ -6925,7 +7358,8 @@ export const bookData: BookChapter[] = [
         "location": "Purba Medinipur district (West Bengal)",
         "majorAspect": "Connected Uttarapatha to Eastern coast. Mentioned by Greek and Chinese travellers. Roman gold coins found.",
         "pyqYears": [
-          2015
+          2015,
+          2025
         ],
         "lat": 22.4,
         "lng": 87.9
@@ -6982,7 +7416,9 @@ export const bookData: BookChapter[] = [
         "name": "Arikamedu",
         "location": "Puducherry",
         "majorAspect": "Mentioned in Sangama texts, Periplus of Erythraean Sea and Ptolemy. Indigenous settlement from early 2nd century BCE. Centre for bead-making industry.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 11.9,
         "lng": 79.8
       },
@@ -7000,7 +7436,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagapattinam",
         "location": "Nagapattinam district (Tamil Nadu)",
         "majorAspect": "Ancient port that rose to prominence during Great Cholas. Rajendra I launched SE Asian expeditions from here.",
-        "pyqYears": [],
+        "pyqYears": [
+          2025
+        ],
         "lat": 10.6026,
         "lng": 79.7619
       },
@@ -7045,6 +7483,16 @@ export const bookData: BookChapter[] = [
         "pyqYears": [],
         "lat": 12.9647,
         "lng": 79.984
+      },
+      {
+        "name": "Theemala",
+        "location": "Thiruvananthapuram district (Kerala)",
+        "majorAspect": "Ancient port site with Roman amphora and rouletted ware finds indicating Indo-Roman trade connections.",
+        "pyqYears": [
+          2025
+        ],
+        "lat": 8.55,
+        "lng": 76.93
       }
     ]
   },
@@ -7153,7 +7601,9 @@ export const bookData: BookChapter[] = [
         "name": "Kannauj",
         "location": "Kannauj district (Uttar Pradesh)",
         "majorAspect": "Battle of Kannauj/Bilgram (1540): Sher Shah Suri defeated Humayun. Humayun along with brothers fled the battlefield.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 26.9987,
         "lng": 79.6928
       },
@@ -7296,7 +7746,9 @@ export const bookData: BookChapter[] = [
         "name": "Chittorgarh Fort",
         "location": "Chittorgarh district (Rajasthan), Berach river valley",
         "majorAspect": "Capital of Sisodia Rajputs of Mewar. One of the largest forts in India spread over 280 hectares. Major buildings: Padmavati Palace, Victory Tower, Kumbha Shyam Temple. Famous for three Jauhars - of Rani Padmavati and others (1303), in 1535, and in 1568. UNESCO World Heritage site.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 24.89,
         "lng": 74.64
       },
@@ -7497,7 +7949,10 @@ export const bookData: BookChapter[] = [
         "name": "Broach",
         "location": "Bharuch district (Gujarat)",
         "majorAspect": "British factory. Significant for trade in calicoes (textiles) & spices.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017,
+          2021
+        ],
         "lat": 21.8357,
         "lng": 72.8821
       },
@@ -7689,7 +8144,9 @@ export const bookData: BookChapter[] = [
         "name": "Nagapattinam",
         "location": "Nagapattinam district (Tamil Nadu)",
         "majorAspect": "Portuguese and later Dutch factory. Later British captured it from the Dutch.",
-        "pyqYears": [],
+        "pyqYears": [
+          2025
+        ],
         "lat": 10.6026,
         "lng": 79.7619
       },
@@ -7697,7 +8154,9 @@ export const bookData: BookChapter[] = [
         "name": "Agra",
         "location": "Agra district (Uttar Pradesh)",
         "majorAspect": "Well-connected with both ports and hinterlands. Important inland trading centre of English and Dutch.",
-        "pyqYears": [],
+        "pyqYears": [
+          2021
+        ],
         "lat": 27.0756,
         "lng": 77.8754
       },
@@ -7794,7 +8253,9 @@ export const bookData: BookChapter[] = [
         "name": "Mandsaur (Sondani)",
         "location": "Mandsaur district (Madhya Pradesh)",
         "majorAspect": "Language-Script: Classic Sanskrit-Gupta Brahmi. Two inscriptions: Record of migration of silk weavers from Lata (Gujarat) to Dasapura - this guild built a Sun temple in 437 CE. A pillar inscription of Yashodharman (early 6th c) recording his victory over Huna king Mihirakula.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 24.2628,
         "lng": 75.3857
       },
@@ -7810,7 +8271,9 @@ export const bookData: BookChapter[] = [
         "name": "Besnagar/Vidisha Pillar Inscription",
         "location": "Vidisha district (Madhya Pradesh)",
         "majorAspect": "Language-Script: Prakrit (with few Sanskrit spellings)-Brahmi. Records Heliodorus' dedication of a stone pillar to God Vasudeva, one of the earliest archaeological evidences of Krishna bhakti in 150 BCE. Heliodorus was ambassador of Greek ruler Antialkidas to Shunga ruler Bhagabhadra; he had converted to Hinduism, showing cultural assimilation of Greeks into Indian culture.",
-        "pyqYears": [],
+        "pyqYears": [
+          2015
+        ],
         "lat": 23.8463,
         "lng": 77.837
       },
@@ -7884,6 +8347,7 @@ export const bookData: BookChapter[] = [
         "location": "Kalaburagi district (Karnataka), on banks of river Bhima",
         "majorAspect": "Rich in sculptures of post-Mauryan period. Two Ashokan portraits found (one with his three queens and other with son and daughter venerating Bodhi tree). Portrait of Ashoka inscribed with name 'Raya Asoko'. Sculptures of various Satavahana rulers also discovered. Buddhist Stupa of Mauryan period also found.",
         "pyqYears": [
+          2018,
           2022
         ],
         "lat": 16.1,
@@ -7983,7 +8447,9 @@ export const bookData: BookChapter[] = [
         "name": "Phanigiri",
         "location": "Suryapet district (Telangana), on left bank of Bikkeru rivulet",
         "majorAspect": "A hoard of 3,730 lead coins belonging to the Ikshvaku period found in an earthen pot.",
-        "pyqYears": [],
+        "pyqYears": [
+          2023
+        ],
         "lat": 17.1,
         "lng": 79.4
       },
@@ -8098,7 +8564,11 @@ export const bookData: BookChapter[] = [
         "name": "Archaeological Site of Nalanda Mahavihara",
         "location": "Nalanda district (Bihar)",
         "majorAspect": "Year of Inscription: 2016. Most ancient university of Indian Subcontinent. Engaged in organized transmission of knowledge for 800 years. Testifies development of Buddhism.",
-        "pyqYears": [],
+        "pyqYears": [
+          2014,
+          2019,
+          2020
+        ],
         "lat": 27.8,
         "lng": 66.6
       },
@@ -8122,7 +8592,9 @@ export const bookData: BookChapter[] = [
         "name": "Dholavira: A Harappan City",
         "location": "Kachchh district (Gujarat)",
         "majorAspect": "Year of Inscription: 2021. Southern centre of Harappan Civilization on arid island of Khadir. Occupied between ca 3000-1500 BCE. Sophisticated water management system. Large cemetery with Cenotaphs of six types.",
-        "pyqYears": [],
+        "pyqYears": [
+          2016
+        ],
         "lat": 23.9,
         "lng": 70.2
       },
@@ -8171,8 +8643,9 @@ export const bookData: BookChapter[] = [
         "location": "Raisen district (Madhya Pradesh)",
         "majorAspect": "Year of Inscription: 2003. In foothills of Vindhyan Mountains. Five clusters of natural rock shelters with paintings from Mesolithic Period through historical period.",
         "pyqYears": [
+          2014,
           2017,
-          2018
+          2023
         ],
         "lat": 22.9,
         "lng": 77.6
@@ -8199,7 +8672,10 @@ export const bookData: BookChapter[] = [
         "name": "Ellora",
         "location": "Chhatrapati Sambhajinagar district (Maharashtra)",
         "majorAspect": "Year of Inscription: 1983. 34 monasteries and temples extending over 2 km, dug in wall of basalt cliff. Monuments dating from AD 600 to 1000. Sanctuaries devoted to Buddhism, Hinduism and Jainism illustrating spirit of tolerance.",
-        "pyqYears": [],
+        "pyqYears": [
+          2017,
+          2020
+        ],
         "lat": 20.0,
         "lng": 75.2
       },
