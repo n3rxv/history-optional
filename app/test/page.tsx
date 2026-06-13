@@ -682,7 +682,8 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                       const entry = mapQ.entries.find(en => en.number === selectedDot);
                       if (entry) {
                         const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
-                        if (normalize(val) === normalize(entry.answer)) {
+                        const answerParts = entry.answer.split('/').map((p: string) => normalize(p.trim()));
+                        if (answerParts.includes(normalize(val)) || normalize(val) === normalize(entry.answer)) {
                           setMapCorrect(prev => ({ ...prev, [selectedDot]: true }));
                           setMapRevealed(prev => ({ ...prev, [selectedDot]: true }));
                         } else {
