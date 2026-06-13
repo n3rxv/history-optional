@@ -61,7 +61,7 @@ export default function MappingMap({
   }, []);
   const geoData = noLabels ? indiaGeoJSON : null;
 
-  const tileUrl = 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png';
+  const tileUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png';
 
   return (
     <div style={{
