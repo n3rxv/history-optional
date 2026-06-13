@@ -2447,8 +2447,8 @@ export const bookData: BookChapter[] = [
         "location": "Jalandhar district (Punjab)",
         "majorAspect": "Nagar, located in Jalandhar district of Punjab, is a significant archaeological site dating back to the Indus Valley Civilization period (2500-1700 BCE). Excavations at the site have yielded key finds such as pottery, seals, and other artifacts, including a unique 'plough' and a 'yoking' device. The discovery of these artifacts highlights the importance of Nagar as a major agricultural and trade center during the Indus Valley Civilization period.",
         "pyqYears": [],
-          "lat": 26.1223,
-          "lng": 75.6632
+          "lat": 31.32,
+          "lng": 75.58
         },
       {
         "name": "Dadheri",
