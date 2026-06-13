@@ -30,7 +30,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
       }).addTo(map);
       if (site.lat != null && site.lng != null) {
         markerRef.current = L.circleMarker([site.lat as number, site.lng as number], {
-          radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? '#f59e0b' : '#7c3aed', fillOpacity: 1, color: '#fff', weight: 1.5,
+          radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? '#d97706' : '#7c3aed', fillOpacity: 1, color: (site.pyqYears && site.pyqYears.length > 0) ? '#78350f' : '#3b0764', weight: 1.5,
         }).addTo(map);
       }
     });
@@ -43,7 +43,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
       if (markerRef.current) markerRef.current.remove();
       if (site.lat != null && site.lng != null) {
         markerRef.current = L.circleMarker([site.lat as number, site.lng as number], {
-          radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? '#f59e0b' : '#7c3aed', fillOpacity: 1, color: '#fff', weight: 1.5,
+          radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? '#d97706' : '#7c3aed', fillOpacity: 1, color: (site.pyqYears && site.pyqYears.length > 0) ? '#78350f' : '#3b0764', weight: 1.5,
         }).addTo(lMapRef.current);
         lMapRef.current.fitBounds(INDIA_BOUNDS as any, { padding: [10, 10] });
       }
