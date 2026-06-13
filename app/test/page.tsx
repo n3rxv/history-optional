@@ -676,13 +676,36 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                     {mapQ.entries.find(e => e.number === selectedDot)?.hint}
                   </div>
                   <input value={mapAnswers[selectedDot] ?? ''}
-                    onChange={e => setMapAnswers(prev => ({ ...prev, [selectedDot]: e.target.value }))}
+                    onChange={e => {
+                      const val = e.target.value;
+                      setMapAnswers(prev => ({ ...prev, [selectedDot]: val }));
+                      const entry = mapQ.entries.find(en => en.number === selectedDot);
+                      if (entry) {
+                        const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        if (normalize(val) === normalize(entry.answer)) {
+                          setMapCorrect(prev => ({ ...prev, [selectedDot]: true }));
+                          setMapRevealed(prev => ({ ...prev, [selectedDot]: true }));
+                        } else {
+                          setMapCorrect(prev => { const n = { ...prev }; delete n[selectedDot]; return n; });
+                        }
+                      }
+                    }}
                     placeholder="Type place name..."
                     style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
                       border: '1px solid var(--border)', borderRadius: 6, padding: '0.4rem 0.65rem',
                       color: 'var(--text)', fontSize: '0.85rem', outline: 'none' }} />
                 </div>
               )}
+              {!isResults && selectedDot !== null && mapCorrect[selectedDot] === true && (() => {
+                const entry = mapQ?.entries.find(e => e.number === selectedDot);
+                return entry ? (
+                  <div style={{ background: 'rgba(34,168,90,0.1)', border: '1px solid #22a85a60',
+                    borderRadius: 6, padding: '0.5rem 0.75rem', marginBottom: '0.5rem',
+                    fontSize: '0.78rem', color: '#22a85a' }}>
+                    ✓ Correct! <span style={{ color: 'var(--text2)', marginLeft: 4 }}>{entry.hint}</span>
+                  </div>
+                ) : null;
+              })()}
               {!isResults && selectedDot === null && (
                 <div style={{ background: 'var(--bg3)', borderRadius: 8, padding: '0.85rem', marginBottom: '0.75rem',
                   color: 'var(--text3)', fontSize: '0.82rem', textAlign: 'center' }}>← Click a dot on the map</div>
