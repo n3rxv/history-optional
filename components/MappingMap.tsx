@@ -83,7 +83,22 @@ export default function MappingMap({
             />
           )
         ) : (
-          <TileLayer url={tileUrl} attribution="&copy; OpenStreetMap &copy; CARTO" />
+          <>
+            <TileLayer url={tileUrl} attribution="&copy; OpenStreetMap &copy; CARTO" />
+            <GeoJSON
+              data={indiaGeoJSON as any}
+              style={(feature: any) => {
+                const isIndia = feature?.properties?.name === 'India';
+                return {
+                  fillColor: 'transparent',
+                  fillOpacity: 0,
+                  color: isIndia ? '#666' : '#999',
+                  weight: isIndia ? 2 : 1.2,
+                  opacity: 0.8,
+                };
+              }}
+            />
+          </>
         )}
         <FitBounds sites={validSites} selectedSite={selectedSite} />
 
