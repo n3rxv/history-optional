@@ -695,6 +695,38 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                     style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
                       border: '1px solid var(--border)', borderRadius: 6, padding: '0.4rem 0.65rem',
                       color: 'var(--text)', fontSize: '0.85rem', outline: 'none' }} />
+                  {mapAnswers[selectedDot]?.trim() && mapCorrect[selectedDot] === undefined && (() => {
+                    const entry = mapQ.entries.find(e => e.number === selectedDot);
+                    return (
+                      <button onClick={() => {
+                        if (!entry) return;
+                        const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        const answerParts = entry.answer.split('/').map((p: string) => normalize(p.trim()));
+                        const isCorrect = answerParts.includes(normalize(mapAnswers[selectedDot]));
+                        setMapCorrect(prev => ({ ...prev, [selectedDot]: isCorrect }));
+                        setMapRevealed(prev => ({ ...prev, [selectedDot]: true }));
+                      }}
+                        style={{
+                          marginTop: 6, width: '100%', padding: '0.4rem', borderRadius: 6,
+                          background: 'var(--accent)', color: '#fff', border: 'none',
+                          fontFamily: 'var(--font-ui)', fontSize: '0.82rem', fontWeight: 600,
+                          cursor: 'pointer',
+                        }}>
+                        Submit Answer
+                      </button>
+                    );
+                  })()}
+                  {mapCorrect[selectedDot] === false && mapRevealed[selectedDot] && (() => {
+                    const entry = mapQ.entries.find(e => e.number === selectedDot);
+                    return entry ? (
+                      <div style={{ marginTop: 6, background: 'rgba(239,68,68,0.1)', border: '1px solid #ef444460',
+                        borderRadius: 6, padding: '0.5rem 0.75rem', fontSize: '0.78rem' }}>
+                        <span style={{ color: '#ef4444' }}>✗ Wrong. </span>
+                        <span style={{ color: 'var(--text2)' }}>Answer: </span>
+                        <span style={{ color: '#f59e0b', fontWeight: 600 }}>{entry.answer}</span>
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
               )}
               {!isResults && selectedDot !== null && mapCorrect[selectedDot] === true && (() => {
