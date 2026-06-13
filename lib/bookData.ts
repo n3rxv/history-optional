@@ -706,8 +706,8 @@ export const bookData: BookChapter[] = [
         "location": "Ratnagiri district (Maharashtra)",
         "majorAspect": "1,500 pieces of petroglyphs called 'Katal shilpa,' spread across 70 sites. Tentative List of UNESCO World Heritage Sites.",
         "pyqYears": [],
-          "lat": 17.0,
-          "lng": 73.3
+          "lat": 20.9,
+          "lng": 86.5
         },
       {
         "name": "Usgalimal",
@@ -2363,8 +2363,8 @@ export const bookData: BookChapter[] = [
         "location": "Chandauli district (Uttar Pradesh)",
         "majorAspect": "Iron tools of c. 1800-1700 BCE.",
         "pyqYears": [],
-          "lat": 22.3,
-          "lng": 82.2
+          "lat": 25.3,
+          "lng": 83.1
         },
       {
         "name": "Raja Nal-ka-Tila",
@@ -3615,8 +3615,8 @@ export const bookData: BookChapter[] = [
         "location": "Tonk district (Rajasthan)",
         "majorAspect": "Its ancient name was Malaynagar and was the capital of the Malava Gana-Sangha during the post-Mauryan period. Large number of Malava Janapada coins found.",
         "pyqYears": [],
-          "lat": 31.32,
-          "lng": 75.58
+          "lat": 26.17,
+          "lng": 75.79
         },
       {
         "name": "Madhyamika",
@@ -6691,8 +6691,8 @@ export const bookData: BookChapter[] = [
         "location": "Jajpur district (Odisha)",
         "majorAspect": "Established by Guptas around 5th c CE. Two monasteries, one large Stupa, votive stupas, and several sculptures such as heads of Buddha are found. It is part of Buddhist Diamond Triangle of Odisha.",
         "pyqYears": [],
-          "lat": 17.0,
-          "lng": 73.3
+          "lat": 20.9,
+          "lng": 86.5
         },
       {
         "name": "Vallabhi",
