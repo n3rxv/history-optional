@@ -92,16 +92,6 @@ export default function MappingMap({
         ) : (
           <>
             <TileLayer url={tileUrl} attribution="&copy; OpenStreetMap &copy; CARTO" />
-            <GeoJSON
-              data={indiaGeoJSON as any}
-              style={() => ({
-                fillColor: 'transparent',
-                fillOpacity: 0,
-                color: '#555',
-                weight: 2,
-                opacity: 0.9,
-              })}
-            />
             {statesGeoJSON && (
               <GeoJSON
                 key="states"
