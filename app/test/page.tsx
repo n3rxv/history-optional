@@ -887,12 +887,14 @@ function QGroupBlock({ group, answers, onAnswer, rubrics, onRubric, isResults, i
 function ScrollFab() {
   const [hidden, setHidden] = useState(false);
   useEffect(() => {
-    const onScroll = () => {
-      const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight * 0.25;
-      setHidden(atBottom);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const q1 = document.getElementById('q1-block');
+    if (!q1) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setHidden(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(q1);
+    return () => observer.disconnect();
   }, []);
   return (
     <button
@@ -1161,12 +1163,12 @@ export default function TestPage() {
 
         {isFLT && <SectionDivider label="SECTION A" />}
 
-        <Q1Block qNum={1} isMap={!!mapQ1} mapQ={mapQ1} shortQs={shortQ1}
+        <div id="q1-block"><Q1Block qNum={1} isMap={!!mapQ1} mapQ={mapQ1} shortQs={shortQ1}
           selectedDot={dot1} onDotClick={setDot1}
           mapAnswers={mapAns1} setMapAnswers={setMapAns1}
           mapRevealed={mapRev1} setMapRevealed={setMapRev1}
           mapCorrect={mapCor1} setMapCorrect={setMapCor1}
-          shortAnswers={sAns1} setShortAnswers={setSAns1} isResults={false} />
+          shortAnswers={sAns1} setShortAnswers={setSAns1} isResults={false} /></div>
 
         {groupsA.map(g => (
           <QGroupBlock key={g.qNum} group={g} answers={answers}
@@ -1270,12 +1272,12 @@ export default function TestPage() {
 
         {isFLT && <SectionDivider label="SECTION A" />}
 
-        <Q1Block qNum={1} isMap={!!mapQ1} mapQ={mapQ1} shortQs={shortQ1}
+        <div id="q1-block"><Q1Block qNum={1} isMap={!!mapQ1} mapQ={mapQ1} shortQs={shortQ1}
           selectedDot={null} onDotClick={() => {}}
           mapAnswers={mapAns1} setMapAnswers={setMapAns1}
           mapRevealed={mapRev1} setMapRevealed={setMapRev1}
           mapCorrect={mapCor1} setMapCorrect={setMapCor1}
-          shortAnswers={sAns1} setShortAnswers={setSAns1} isResults={true} />
+          shortAnswers={sAns1} setShortAnswers={setSAns1} isResults={true} /></div>
 
         {groupsA.map(g => (
           <QGroupBlock key={g.qNum} group={g} answers={answers} onAnswer={() => {}}
