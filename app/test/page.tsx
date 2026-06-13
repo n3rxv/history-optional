@@ -1202,20 +1202,31 @@ export default function TestPage() {
           );
         })()}
         {/* Scroll down hint */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, margin: '0 auto 1.5rem', cursor: 'pointer' }}
-          onClick={() => window.scrollBy({ top: 400, behavior: 'smooth' })}>
-          <p style={{ color: 'var(--text2)', fontSize: '0.88rem', margin: 0 }}>
-            Use the rubric sliders to self-evaluate. Premium users can upload answer images or PDF for AI Mentor evaluation.
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, marginTop: 6 }}>
-            <span style={{ color: 'var(--text3)', fontSize: '0.75rem', letterSpacing: '0.05em' }}>scroll for results</span>
-            <style>{`@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}`}</style>
-            <svg style={{ animation: 'bounce 1.2s ease-in-out infinite', color: 'var(--text3)' }}
-              width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </div>
-        </div>
+        <p style={{ color: 'var(--text2)', fontSize: '0.88rem', marginBottom: '2rem' }}>
+          Use the rubric sliders to self-evaluate. Premium users can upload answer images or PDF for AI Mentor evaluation.
+        </p>
+        <style>{`
+          @keyframes bounceY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+          .scroll-fab { transition: all 0.2s; }
+          .scroll-fab:hover { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }
+        `}</style>
+        <button className="scroll-fab"
+          onClick={() => window.scrollBy({ top: 500, behavior: 'smooth' })}
+          style={{
+            position: 'fixed', bottom: 28, left: '50%', transform: 'translateX(-50%)', zIndex: 50,
+            display: 'flex', alignItems: 'center', gap: 8,
+            background: 'var(--bg2)', color: 'var(--text2)',
+            border: '1.5px solid var(--border2)', borderRadius: 999,
+            padding: '10px 22px', cursor: 'pointer',
+            fontFamily: 'var(--font-ui)', fontSize: '0.82rem', fontWeight: 600,
+            boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+          }}>
+          <span>Scroll for results</span>
+          <svg style={{ animation: 'bounceY 1.2s ease-in-out infinite' }}
+            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
 
         {/* Score card */}
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12,
