@@ -6,8 +6,8 @@ import { BookSite } from '@/lib/bookData';
 import 'leaflet/dist/leaflet.css';
 
 const INDIA_BOUNDS: [[number, number], [number, number]] = [
-  [7.73, 59.41],
-  [36.43, 100.50],
+  [7.067, 56.787],
+  [37.193, 102.996],
 ];
 
 function FitBounds({ sites, selectedSite }: { sites: BookSite[]; selectedSite: string | null }) {
@@ -83,7 +83,7 @@ export default function MappingMap({
         {noLabels ? (
           <ImageOverlay
             url="/map-physical.jpg"
-            bounds={[[7.73, 59.41], [36.43, 100.50]]}
+            bounds={[[7.067, 56.787], [37.193, 102.996]]}
             opacity={1}
           />
         ) : (
