@@ -1,5 +1,5 @@
 'use client';
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap, ImageOverlay } from 'react-leaflet';
 import { useEffect, useState } from 'react';
 import { indiaGeoJSON } from '@/lib/indiaGeoJSON';
 import { BookSite } from '@/lib/bookData';
@@ -59,7 +59,6 @@ export default function MappingMap({
       .then(data => setStatesGeoJSON(data))
       .catch(() => {});
   }, []);
-  const geoData = noLabels ? indiaGeoJSON : null;
 
   const tileUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png';
 
@@ -82,15 +81,11 @@ export default function MappingMap({
         attributionControl={false}
       >
         {noLabels ? (
-          geoData && (
-            <GeoJSON
-              data={geoData as any}
-              style={(feature: any) => {
-                const isIndia = feature?.properties?.name === 'India';
-                return { fillColor: isIndia ? '#e8e0d8' : '#d4cfc8', fillOpacity: 1, color: '#aaa', weight: isIndia ? 1.5 : 1 };
-              }}
-            />
-          )
+          <ImageOverlay
+            url="/map-physical.jpg"
+            bounds={[[6.5, 56.0], [38.0, 104.0]]}
+            opacity={1}
+          />
         ) : (
           <>
             <TileLayer url={tileUrl} attribution="&copy; OpenStreetMap &copy; CARTO" />
