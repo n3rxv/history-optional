@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import { BookSite } from '@/lib/bookData';
-import { indiaGeoJSON } from '@/lib/indiaGeoJSON';
 import 'leaflet/dist/leaflet.css';
 
 const INDIA_BOUNDS: [[number, number], [number, number]] = [[6.5, 66.5], [38.5, 98.0]];
@@ -17,17 +16,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
       const map = L.map(mapRef.current!, { zoomControl: true, scrollWheelZoom: true, attributionControl: false });
       map.fitBounds(INDIA_BOUNDS as any, { padding: [10, 10] });
       lMapRef.current = map;
-      L.geoJSON(indiaGeoJSON as any, {
-        style: (feature: any) => {
-          const isIndia = feature?.properties?.name === 'India';
-          return {
-            fillColor: isIndia ? '#e8e0d8' : '#d4cfc8',
-            fillOpacity: 1,
-            color: '#aaa',
-            weight: isIndia ? 1.5 : 1,
-          };
-        },
-      }).addTo(map);
+      L.imageOverlay('/map-political.jpg', [[6.5, 56.0], [38.0, 104.0]], { opacity: 1 }).addTo(map);
       if (site.lat != null && site.lng != null) {
         markerRef.current = L.circleMarker([site.lat as number, site.lng as number], {
           radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? '#d97706' : '#7c3aed', fillOpacity: 1, color: (site.pyqYears && site.pyqYears.length > 0) ? '#78350f' : '#3b0764', weight: 1.5,
