@@ -1,5 +1,5 @@
 'use client';
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap, ImageOverlay } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from 'react-leaflet';
 import { useEffect, useState } from 'react';
 import { indiaGeoJSON } from '@/lib/indiaGeoJSON';
 import { BookSite } from '@/lib/bookData';
@@ -81,10 +81,17 @@ export default function MappingMap({
         attributionControl={false}
       >
         {noLabels ? (
-          <ImageOverlay
-            url="/map-physical.jpg"
-            bounds={[[7.067, 56.787], [37.193, 102.996]]}
-            opacity={1}
+          <GeoJSON
+            data={indiaGeoJSON as any}
+            style={(feature: any) => {
+              const isIndia = feature?.properties?.name === 'India';
+              return {
+                fillColor: isIndia ? '#f5f0e8' : '#e8e3d8',
+                fillOpacity: 1,
+                color: '#222',
+                weight: isIndia ? 1.5 : 0.8,
+              };
+            }}
           />
         ) : (
           <>
