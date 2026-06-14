@@ -6,8 +6,8 @@ import { BookSite } from '@/lib/bookData';
 import 'leaflet/dist/leaflet.css';
 
 const INDIA_BOUNDS: [[number, number], [number, number]] = [
-  [6.5, 66.5],
-  [38.5, 98.0],
+  [7.73, 59.41],
+  [36.43, 100.50],
 ];
 
 function FitBounds({ sites, selectedSite }: { sites: BookSite[]; selectedSite: string | null }) {
