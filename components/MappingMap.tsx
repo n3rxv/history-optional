@@ -83,7 +83,7 @@ export default function MappingMap({
         {noLabels ? (
           <ImageOverlay
             url="/map-physical.jpg"
-            bounds={[[8.0, 60.0], [36.0, 100.0]]}
+            bounds={[[7.73, 59.41], [36.43, 100.50]]}
             opacity={1}
           />
         ) : (

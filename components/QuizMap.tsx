@@ -16,7 +16,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
       const map = L.map(mapRef.current!, { zoomControl: true, scrollWheelZoom: true, attributionControl: false });
       map.fitBounds(INDIA_BOUNDS as any, { padding: [10, 10] });
       lMapRef.current = map;
-      L.imageOverlay('/map-political.jpg', [[8.0, 56.0], [36.0, 104.0]], { opacity: 1 }).addTo(map);
+      L.imageOverlay('/map-political.jpg', [[7.49, 55.17], [36.38, 104.86]], { opacity: 1 }).addTo(map);
       if (site.lat != null && site.lng != null) {
         markerRef.current = L.circleMarker([site.lat as number, site.lng as number], {
           radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? '#d97706' : '#7c3aed', fillOpacity: 1, color: (site.pyqYears && site.pyqYears.length > 0) ? '#78350f' : '#3b0764', weight: 1.5,
