@@ -2008,6 +2008,14 @@ export const bookData: BookChapter[] = [
         ],
         "lat": 30.6,
         "lng": 72.9
+      },
+      {
+        "name": "Shortughai",
+        "location": "Darqad district (Badakhshan, Afghanistan), on banks of river Kokcha",
+        "majorAspect": "Northernmost and westernmost Harappan site. Trading colony established for lapis lazuli and tin procurement. Shows classic Mature Harappan pottery and seals.",
+        "pyqYears": [],
+        "lat": 37.1,
+        "lng": 69.5
       }
     ]
   },
