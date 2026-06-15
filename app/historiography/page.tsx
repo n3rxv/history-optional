@@ -128,7 +128,7 @@ function DebateForm({ form, setForm, topicInp, setTopicInp, onSave, onCancel, sa
           </div>
         </div>
         <div style={{ gridColumn: '1 / -1' }}>
-          <label style={labelStyle}>{langHi ? 'UPSC टिप' : 'UPSC Tip'}</label>
+          <label style={labelStyle}>UPSC Tip</label>
           <textarea style={{ ...inputStyle, minHeight: 60, resize: 'vertical' }} value={form.upsc_tip} onChange={e => setForm({ ...form, upsc_tip: e.target.value })} placeholder="Practical advice for writing answers..." />
         </div>
       </div>
@@ -402,7 +402,7 @@ export default function HistoriographyPage() {
                     {/* UPSC Tip */}
                     {debate.upsc_tip && (
                       <div className="hb-tip">
-                        <span className="hb-tip-label">{langHi ? 'UPSC टिप' : 'UPSC Tip'}</span>
+                        <span className="hb-tip-label">UPSC Tip</span>
                         <span className="hb-tip-text">{debate.upsc_tip}</span>
                       </div>
                     )}
