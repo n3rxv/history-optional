@@ -327,6 +327,18 @@ export default function PYQsPage() {
         )}
       </div>
 
+      {showTopperCopies ? (
+        <div style={{
+          background: 'var(--bg2)', border: '1px solid var(--border)',
+          borderRadius: 10, padding: '2.5rem', textAlign: 'center',
+          color: 'var(--text3)', fontSize: '0.88rem', marginTop: '1rem',
+        }}>
+          <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>📚</div>
+          <div style={{ color: 'var(--text)', fontWeight: 600, marginBottom: '0.5rem' }}>Topper Copies Coming Soon</div>
+          <div>High-scoring answers by UPSC toppers will be available here.</div>
+        </div>
+      ) : (
+      <div>
       {/* Count */}
       <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem' }}>
         Showing {filtered.length} of {pyqs.length} questions
@@ -461,6 +473,8 @@ export default function PYQsPage() {
           question={modelAnswerQ.question}
           marks={modelAnswerQ.marks}
           cacheKey={String(modelAnswerQ.id)}
+      </div>
+      )}
           onClose={() => setModelAnswerQ(null)}
         />
       )}
