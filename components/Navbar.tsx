@@ -401,12 +401,21 @@ export default function Navbar() {
   return (
     <>
       <nav style={{ position: 'fixed', top: 'var(--banner-height, 33px)', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', transition: 'all 0.3s ease' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: scrolled ? 46 : 60, transition: 'height 0.3s ease' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: scrolled ? 60 : 67, transition: 'height 0.3s ease' }}>
 
           {/* Logo */}
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0, transition: 'all 0.3s ease' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: scrolled ? '1.05rem' : '1.1rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.01em', transition: 'all 0.3s ease' }}>
-              {scrolled ? 'H.' : (<>History <span style={{ color: 'var(--accent)' }}>Optional</span></>)}
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, overflow: 'hidden' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center' }}>
+              {/* "H" always visible */}
+              <span>H</span>
+              {/* "istory " collapses on scroll */}
+              <span style={{ display: 'inline-block', maxWidth: scrolled ? 0 : '6em', overflow: 'hidden', transition: 'max-width 0.4s ease', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>istory</span>
+              {/* space between words, hidden when scrolled */}
+              <span style={{ display: 'inline-block', maxWidth: scrolled ? 0 : '0.35em', overflow: 'hidden', transition: 'max-width 0.4s ease' }}>&nbsp;</span>
+              {/* "Optional" collapses on scroll, accent coloured */}
+              <span style={{ color: 'var(--accent)', display: 'inline-block', maxWidth: scrolled ? 0 : '8em', overflow: 'hidden', transition: 'max-width 0.4s ease', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>Optional</span>
+              {/* "." appears on scroll */}
+              <span style={{ display: 'inline-block', maxWidth: scrolled ? '1em' : 0, overflow: 'hidden', transition: 'max-width 0.4s ease', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>.</span>
             </span>
           </Link>
 
@@ -459,7 +468,7 @@ export default function Navbar() {
             {[{ href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }].map(l => {
               const active = pathname.startsWith(l.href);
               return (
-                <Link key={l.href} href={l.href} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, fontSize: '0.82rem', fontFamily: 'var(--font-ui)', textDecoration: 'none', color: active ? 'var(--accent)' : 'var(--text2)', background: 'transparent', transition: 'color 0.15s' }}
+                <Link key={l.href} href={l.href} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, fontSize: '0.82rem', fontFamily: 'var(--font-ui)', textDecoration: 'none', color: active ? 'var(--accent)' : 'var(--text2)', background: 'transparent', transition: 'color 0.15s', whiteSpace: 'nowrap' }}
                   onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = '#fff'; }}
                   onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--text2)'; }}
                 >{l.label}</Link>
