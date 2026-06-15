@@ -1,4 +1,5 @@
 "use client";
+import { useLang } from '@/lib/i18n/LangContext';
 import { useState, useRef } from "react";
 import { saveToHistory } from "@/hooks/useAnswerHistory";
 
@@ -45,6 +46,7 @@ export default function MapEvaluator({
   const [file, setFile]         = useState<File | null>(null);
   const [drag, setDrag]         = useState(false);
   const [loading, setLoading]   = useState(false);
+  const { langHi } = useLang();
   const [stage, setStage]       = useState("");
   const [progress, setProgress] = useState(0);
   const [error, setError]       = useState("");
