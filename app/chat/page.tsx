@@ -352,16 +352,27 @@ function ChatContent() {
   const [messages, setMessages] = useState<Message[]>([{
     role: 'assistant',
     content: initialTopic
-      ? (langHi
-          ? `नमस्ते! आप **${initialTopic}** पढ़ रहे हैं। कुछ भी पूछें — अवधारणाएँ, उत्तर संरचना, इतिहास-लेखन, या आदर्श उत्तर।`
-          : `Hello! You're studying **${initialTopic}**. Ask me anything — concepts, answer structures, historiography, or model answers.`)
-      : (langHi
-          ? `नमस्ते! मैं आपका **History Optional AI** हूँ।\n\nमैं इनमें मदद कर सकता हूँ:\n\n• **अवधारणा स्पष्टीकरण** — किसी भी विषय की गहरी समझ\n• **उत्तर संरचना** — UPSC शैली के ढाँचे\n• **PYQ विश्लेषण** — आदर्श उत्तर और मुख्य बिंदु\n• **तुलनाएँ** — शासक, आंदोलन, काल\n• **इतिहास-लेखन** — उत्तरों में इतिहासकारों का उद्धरण\n\nआप क्या जानना चाहेंगे?`
-          : `Hello! I'm your **History Optional AI**.\n\nI can help with:\n\n• **Concept explanations** — deep dives into any topic\n• **Answer structuring** — UPSC-style frameworks\n• **PYQ analysis** — model answers and key points\n• **Comparisons** — rulers, movements, periods\n• **Historiography** — citing historians in answers\n\nWhat would you like to explore?`),
+      ? `Hello! You're studying **${initialTopic}**. Ask me anything — concepts, answer structures, historiography, or model answers.`
+      : `Hello! I'm your **History Optional AI**.\n\nI can help with:\n\n• **Concept explanations** — deep dives into any topic\n• **Answer structuring** — UPSC-style frameworks\n• **PYQ analysis** — model answers and key points\n• **Comparisons** — rulers, movements, periods\n• **Historiography** — citing historians in answers\n\nWhat would you like to explore?`,
   }]);
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
   const { langHi } = useLang();
+
+  // Update greeting when langHi changes
+  useEffect(() => {
+    setMessages(prev => {
+      if (prev.length !== 1 || prev[0].role !== 'assistant') return prev;
+      const greeting = initialTopic
+        ? (langHi
+            ? `नमस्ते! आप **${initialTopic}** पढ़ रहे हैं। कुछ भी पूछें — अवधारणाएँ, उत्तर संरचना, इतिहास-लेखन, या आदर्श उत्तर।`
+            : `Hello! You're studying **${initialTopic}**. Ask me anything — concepts, answer structures, historiography, or model answers.`)
+        : (langHi
+            ? `नमस्ते! मैं आपका **History Optional AI** हूँ।\n\nमैं इनमें मदद कर सकता हूँ:\n\n• **अवधारणा स्पष्टीकरण** — किसी भी विषय की गहरी समझ\n• **उत्तर संरचना** — UPSC शैली के ढाँचे\n• **PYQ विश्लेषण** — आदर्श उत्तर और मुख्य बिंदु\n• **तुलनाएँ** — शासक, आंदोलन, काल\n• **इतिहास-लेखन** — उत्तरों में इतिहासकारों का उद्धरण\n\nआप क्या जानना चाहेंगे?`
+            : `Hello! I'm your **History Optional AI**.\n\nI can help with:\n\n• **Concept explanations** — deep dives into any topic\n• **Answer structuring** — UPSC-style frameworks\n• **PYQ analysis** — model answers and key points\n• **Comparisons** — rulers, movements, periods\n• **Historiography** — citing historians in answers\n\nWhat would you like to explore?`);
+      return [{ role: 'assistant', content: greeting }];
+    });
+  }, [langHi]);
   const [bookMode, setBookMode] = useState(false);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfBase64, setPdfBase64] = useState<string | null>(null);
