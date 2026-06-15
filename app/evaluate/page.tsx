@@ -1,4 +1,5 @@
 "use client";
+import { useLang } from '@/lib/i18n/LangContext';
 import { saveToHistory, loadHistory, AnswerEntry } from "@/hooks/useAnswerHistory";
 import { supabase } from "@/lib/supabase";
 import { useState, useRef, useCallback, useEffect } from "react";
