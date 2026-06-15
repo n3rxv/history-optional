@@ -1,5 +1,6 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
+import { tr, t } from '@/lib/i18n/ui';
 import { useState, useRef, useEffect, Suspense, useCallback } from 'react';
 import { marked } from 'marked';
 import { useSearchParams } from 'next/navigation';
@@ -887,7 +888,7 @@ Every response must:
                       {i > 0 && <DownloadPDFButton content={msg.content} question={getPrecedingQuestion(i)} />}
                     </>
                   ) : (
-                    <span className="chat-meta-label">You</span>
+                    <span className="chat-meta-label">{tr(t.youLabel, langHi)}</span>
                   )}
                 </div>
               </div>
@@ -906,7 +907,7 @@ Every response must:
 
             {messages.length <= 1 && (
               <div style={{ marginTop: '1.5rem' }}>
-                <div className="chat-suggested-label">Suggested questions</div>
+                <div className="chat-suggested-label">{tr(t.chatSuggestedLabel, langHi)}</div>
                 <div className="chat-suggested-grid">
                   {SUGGESTED.map((q, i) => (
                     <button key={i} className="chat-suggested-btn" onClick={() => sendMessage(q)}>{q}</button>
@@ -1159,7 +1160,7 @@ Every response must:
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
-                placeholder={brainstormMode ? "Enter a topic or question to brainstorm…" : pdfFile ? "Ask about the PDF, request model answers…" : "Ask anything about History Optional…"}
+                placeholder={brainstormMode ? tr(t.chatPlaceholderBrainstorm, langHi) : pdfFile ? tr(t.chatPlaceholderPdf, langHi) : tr(t.chatPlaceholderDefault, langHi)}
                 rows={1}
                 onInput={e => {
                   const t = e.currentTarget;
@@ -1175,10 +1176,10 @@ Every response must:
                 ↑
               </button>
             </div>
-            <div className="chat-hint">Enter to send · Shift+Enter for new line · Drag and drop PDF</div>
+            <div className="chat-hint">{tr(t.chatHint, langHi)}</div>
             {!usageLoading && (
               <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : usage?.isPremium ? '#51cf66' : '#555', letterSpacing:'0.08em' }}>
-                {usage?.isPremium ? '✦ Unlimited messages' : !canChat ? 'Free messages used · subscribe for unlimited' : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
+                {usage?.isPremium ? tr(t.chatUnlimited, langHi) : !canChat ? tr(t.chatFreeUsed, langHi) : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
               </div>
             )}
           </div>

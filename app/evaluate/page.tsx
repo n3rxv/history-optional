@@ -1,5 +1,6 @@
 "use client";
 import { useLang } from '@/lib/i18n/LangContext';
+import { tr, t } from '@/lib/i18n/ui';
 import { saveToHistory, loadHistory, AnswerEntry } from "@/hooks/useAnswerHistory";
 import { supabase } from "@/lib/supabase";
 import { useState, useRef, useCallback, useEffect } from "react";
@@ -769,7 +770,7 @@ const handleOcr = useCallback(async () => {
                 {/* Demand */}
                 {openEntry.demandOfQuestion && openEntry.demandOfQuestion.length > 0 && (
                   <div style={{ marginBottom:32 }}>
-                    <div className="ev-ct">Demand of the Question</div>
+                    <div className="ev-ct">{tr(t.demandOfQuestion, langHi)}</div>
                     {openEntry.demandOfQuestion.map((d,i) => (
                       <div key={i} className="ev-demand-item"><div className="ev-demand-bullet"/><div style={{ fontSize:"0.87rem", color:"#ccc", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{d}</div></div>
                     ))}
@@ -928,28 +929,28 @@ const handleOcr = useCallback(async () => {
             Evaluate Your <span style={{ color:"#3b82f6" }}>Answer</span>
           </h1>
           <p style={{ marginTop:14, color:"#888", fontSize:"0.88rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
-            Upload your handwritten answer sheet for expert evaluation against UPSC standards.
+            {tr(t.evalHeading, langHi)}
           </p>
         </div>
 
         {/* ── OCR CONFIRMATION ── */}
         {stage === "ocr" && !evaluation && (
           <div className="ev-fade">
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:12 }}>Step 2 — Review Transcription</div>
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:12 }}>{tr(t.evalStep2, langHi)}</div>
             <p style={{ color:"#888", fontSize:"0.88rem", fontFamily:"var(--font-ui)", lineHeight:1.6, marginBottom:20 }}>
-              The model has read your handwriting. Fix any errors below, then evaluate.
+              {tr(t.evalOcrHint, langHi)}
             </p>
             {error && <div className="ev-err">{error}</div>}
             <div style={{ marginBottom:16 }}>
               <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:8 }}>
-                Question {!question && <span style={{ color:"#e53e3e" }}>— not detected, please fill manually</span>}
+                {tr(t.evalQuestionLabel, langHi)} {!question && <span style={{ color:"#e53e3e" }}>{tr(t.evalQuestionMissing, langHi)}</span>}
               </label>
               <textarea className="ev-ta" rows={2}
-                placeholder="Type or confirm the question here..."
+                placeholder={tr(t.evalQuestionPlaceholder, langHi)}
                 value={question} onChange={e => setQuestion(e.target.value)}
                 style={{ marginBottom:0, borderColor: question ? "#2a2a2a" : "#7f1d1d" }} />
             </div>
-            <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:8 }}>Transcription</label>
+            <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:8 }}>{tr(t.evalTranscription, langHi)}</label>
             <textarea
               className="ev-ta"
               style={{ minHeight:320, marginBottom:20, textAlign:"justify" }}
@@ -958,10 +959,10 @@ const handleOcr = useCallback(async () => {
             />
             <div style={{ display:"flex", gap:12 }}>
               <button className="ev-btn ev-btn-sm" onClick={() => setStage("form")} style={{ background:"transparent", color:"var(--text2)", borderColor:"#333" }}>
-                ← Re-upload
+                {tr(t.evalReupload, langHi)}
               </button>
               <button className="ev-btn" onClick={submit} disabled={loading}>
-                {loading ? "Evaluating…" : "Looks good — Evaluate →"}
+                {loading ? tr(t.evalEvaluating, langHi) : tr(t.evalLooksGood, langHi)}
               </button>
             </div>
           </div>
@@ -992,11 +993,11 @@ const handleOcr = useCallback(async () => {
                   </div>
                   <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
                     textTransform:"uppercase", color: evalMode==="single" ? "#e2e8f0" : "#666",
-                    transition:"color 0.18s", fontWeight: evalMode==="single" ? 600 : 400 }}>Single Answer</span>
+                    transition:"color 0.18s", fontWeight: evalMode==="single" ? 600 : 400 }}>{tr(t.evalSingleTitle, langHi)}</span>
                   {evalMode==="single" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"var(--accent)", boxShadow:"0 0 8px #3b82f6" }} />}
                 </div>
                 <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="single" ? "#6b8db5" : "#3a3a3a",
-                  lineHeight:1.5, transition:"color 0.18s" }}>One question, images or PDF</div>
+                  lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalSingleDesc, langHi)}</div>
               </button>
               <button onClick={() => { setEvalMode("batch"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
@@ -1016,11 +1017,11 @@ const handleOcr = useCallback(async () => {
                   </div>
                   <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
                     textTransform:"uppercase", color: evalMode==="batch" ? "#e2e8f0" : "#666",
-                    transition:"color 0.18s", fontWeight: evalMode==="batch" ? 600 : 400 }}>Full Paper / FLT</span>
+                    transition:"color 0.18s", fontWeight: evalMode==="batch" ? 600 : 400 }}>{tr(t.evalBatchTitle, langHi)}</span>
                   {evalMode==="batch" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"var(--accent)", boxShadow:"0 0 8px #3b82f6" }} />}
                 </div>
                 <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="batch" ? "#6b8db5" : "#3a3a3a",
-                  lineHeight:1.5, transition:"color 0.18s" }}>Sectional · FLT · full booklet</div>
+                  lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalBatchDesc, langHi)}</div>
               </button>
               <button onClick={() => { setEvalMode("map"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
@@ -1042,11 +1043,11 @@ const handleOcr = useCallback(async () => {
                   </div>
                   <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
                     textTransform:"uppercase", color: evalMode==="map" ? "#e2e8f0" : "#666",
-                    transition:"color 0.18s", fontWeight: evalMode==="map" ? 600 : 400 }}>Map Question — Q1</span>
+                    transition:"color 0.18s", fontWeight: evalMode==="map" ? 600 : 400 }}>{tr(t.evalMapTitle, langHi)}</span>
                   {evalMode==="map" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"#10b981", boxShadow:"0 0 8px #10b981" }} />}
                 </div>
                 <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="map" ? "#4d9e84" : "#3a3a3a",
-                  lineHeight:1.5, transition:"color 0.18s" }}>20 locations · ~30 words each · 50 marks</div>
+                  lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalMapDesc, langHi)}</div>
               </button>
             </div>
             {evalMode === "map" ? (
