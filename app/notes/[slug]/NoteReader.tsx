@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
 import { getPYQsForNote } from '@/lib/notePyqMap';
 import { getNoteContent } from '@/lib/noteContent';
+import { noteContentHi } from '@/lib/noteContentHi';
 import { supabase } from '@/lib/supabase';
 import AnnotationToggle from '@/components/AnnotationToggle';
 import TableOfContents from '@/components/TableOfContents';
@@ -564,6 +565,9 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   const [stickyText, setStickyText] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
 
+  // Language toggle
+  const [langHi, setLangHi] = useState(false);
+
 
   // Admin state
   const [isAdmin, setIsAdmin] = useState(false);
@@ -759,7 +763,9 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   };
 
   const getContent = () => {
-    let c = cloudContent ?? initialContent ?? getNoteContent(slug);
+    let c = langHi
+      ? (noteContentHi[slug] ?? getNoteContent(slug))
+      : (cloudContent ?? initialContent ?? getNoteContent(slug));
     c = injectHeadingIds(c);
     highlights.forEach(h => {
       const esc = h.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -952,6 +958,37 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           <span style={{ color: 'var(--text2)', fontSize: '0.78rem' }}>{note.title}</span>
 
           <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            {/* Language Toggle */}
+            <button
+              onClick={() => setLangHi(p => !p)}
+              title={langHi ? 'Switch to English Notes' : 'Switch to Hindi Notes'}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '0px',
+                background: 'var(--bg2)',
+                border: '1px solid var(--border)',
+                borderRadius: 6, overflow: 'hidden',
+                cursor: 'pointer', padding: 0,
+                fontSize: '0.72rem', fontWeight: 700,
+                boxShadow: langHi ? '0 0 0 1px rgba(99,102,241,0.4)' : 'none',
+                transition: 'box-shadow 0.15s',
+              }}
+            >
+              <span style={{
+                padding: '0.3rem 0.65rem',
+                background: !langHi ? 'rgba(59,130,246,0.18)' : 'transparent',
+                color: !langHi ? '#60a5fa' : 'var(--text3)',
+                borderRight: '1px solid var(--border)',
+                transition: 'all 0.15s',
+                letterSpacing: '0.03em',
+              }}>English Notes</span>
+              <span style={{
+                padding: '0.3rem 0.65rem',
+                background: langHi ? 'rgba(99,102,241,0.18)' : 'transparent',
+                color: langHi ? '#a5b4fc' : 'var(--text3)',
+                transition: 'all 0.15s',
+                letterSpacing: '0.03em',
+              }}>Hindi Notes</span>
+            </button>
             {isAdmin && !editMode && (
               <button onClick={() => { setAnnotationMode(null); setEditMode(true); }}
                 style={{ background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.35)', color: '#d4a843', cursor: 'pointer', padding: '0.3rem 0.85rem', borderRadius: 4, fontSize: '0.75rem', fontWeight: 600 }}>
