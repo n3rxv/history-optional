@@ -490,6 +490,13 @@ ${ragContext}`
             }
           } else {
             // Groq streaming
+            const groqSystemPrompt = (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word must be in Hindi.' : '');
+            const groqMessages = messages.map((m: any, i: number) => {
+              if (i === messages.length - 1 && m.role === 'user' && lang === 'hi') {
+                return { role: m.role, content: m.content + '\n\n[तुम्हें पूरा जवाब हिंदी (देवनागरी) में देना है।]' };
+              }
+              return { role: m.role, content: m.content };
+            });
             const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.GROQ_API_KEY}` },
@@ -497,10 +504,10 @@ ${ragContext}`
                 model: 'qwen/qwen3-32b',
                 stream: true,
                 messages: [
-                  ...(ragSystem ? [{ role: 'system', content: ragSystem }] : []),
-                  ...messages,
+                  ...(groqSystemPrompt ? [{ role: 'system', content: groqSystemPrompt }] : []),
+                  ...groqMessages,
                 ],
-                max_tokens: 4000,
+                max_tokens: 6000,
               }),
             });
             const reader = groqRes.body!.getReader();
