@@ -1,5 +1,6 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
+import { tr, t } from '@/lib/i18n/ui';
 import React, { useState, useEffect, useRef } from 'react';
 import { prelimsQuestions } from '@/lib/prelimsData';
 import { supabase } from '@/lib/supabase';
@@ -263,7 +264,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
           color: 'rgba(255,255,255,0.75)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 210,
         }}>
-          <option value="all">All Topics</option>
+          <option value="all">{langHi ? "सभी विषय" : "All Topics"}</option>
           {TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
         </select>
         {/* year filter */}
@@ -271,7 +272,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
           color: 'rgba(255,255,255,0.75)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 120,
         }}>
-          <option value="all">All Years</option>
+          <option value="all">{langHi ? "सभी वर्ष" : "All Years"}</option>
           {YEARS.map(y => <option key={y} value={String(y)}>{y}</option>)}
         </select>
 
@@ -297,7 +298,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             <button onClick={() => setShowResult(true)}
               onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(255,255,255,0.08)'; b.style.color = 'rgba(255,255,255,0.8)'; }}
               onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.color = 'rgba(255,255,255,0.5)'; }}
-              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>Score →</button>
+              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>{langHi ? "स्कोर →" : "Score →"}</button>
           )}
           {answered > 0 && (
             <button onClick={() => { setShowResetConfirm(true); }}
@@ -321,13 +322,13 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           <div onClick={e => e.stopPropagation()}
             style={{ background: '#111', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, padding: '2rem', maxWidth: 360, width: '90%', textAlign: 'center', boxShadow: '0 0 0 1px rgba(255,255,255,0.05), 0 24px 60px rgba(0,0,0,0.8)' }}>
             <div style={{ fontSize: '1.5rem', marginBottom: 12 }}>↺</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>Reset all attempted questions?</div>
-            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', marginBottom: 24 }}>Bookmarks and Smart Analysis for attempted questions will be kept.</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>{langHi ? "सभी प्रयासित प्रश्न रीसेट करें?" : "Reset all attempted questions?"}</div>
+            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', marginBottom: 24 }}>{langHi ? "प्रयासित प्रश्नों के बुकमार्क और विश्लेषण रखे जाएंगे।" : "Bookmarks and Smart Analysis for attempted questions will be kept."}</div>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button onClick={() => setShowResetConfirm(false)}
-                style={{ padding: '10px 24px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.85rem' }}>Cancel</button>
+                style={{ padding: '10px 24px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रद्द करें" : "Cancel"}</button>
               <button onClick={doReset}
-                style={{ padding: '10px 24px', borderRadius: 8, border: 'none', background: '#f87171', color: '#000', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}>Reset</button>
+                style={{ padding: '10px 24px', borderRadius: 8, border: 'none', background: '#f87171', color: '#000', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रीसेट करें" : "Reset"}</button>
             </div>
           </div>
         </div>
@@ -396,7 +397,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                   color: qs.selected !== null ? '#000' : 'rgba(255,255,255,0.2)',
                   fontWeight: 700, cursor: qs.selected !== null ? 'pointer' : 'not-allowed', fontSize: '0.95rem',
                   transition: 'all 0.14s',
-                }}>Submit</button>
+                }}>{tr(t.submit, langHi)}</button>
                 <button onClick={handleMark} style={{
                   padding: '0.75rem 1.1rem', borderRadius: 10,
                   border: `1px solid ${qs.marked ? 'rgba(251,191,36,0.5)' : 'rgba(255,255,255,0.1)'}`,
@@ -435,7 +436,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                 border: '1px solid rgba(255,255,255,0.09)', background: 'transparent',
                 color: current === filtered.length - 1 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.75)',
                 cursor: current === filtered.length - 1 ? 'not-allowed' : 'pointer', fontSize: '0.9rem',
-              }}>Next →</button>
+              }}>{langHi ? "अगला →" : "Next →"}</button>
             </div>
           </div>
 
@@ -455,8 +456,8 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
               {!isPremium ? (
                 <div style={{ padding: '2rem', textAlign: 'center' }}>
                   <div style={{ fontSize: '1.8rem', marginBottom: '0.75rem' }}>🔒</div>
-                  <div style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.6)', marginBottom: '0.5rem' }}>Explanations are for Premium members</div>
-                  <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.25)' }}>Step-by-step solution · Technique · Concepts · Keywords · Smart Guess</div>
+                  <div style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.6)', marginBottom: '0.5rem' }}>{langHi ? "स्पष्टीकरण प्रीमियम सदस्यों के लिए हैं" : "Explanations are for Premium members"}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.25)' }}>{langHi ? "चरण-दर-चरण हल · तकनीक · अवधारणाएँ · मुख्य शब्द · स्मार्ट अनुमान" : "Step-by-step solution · Technique · Concepts · Keywords · Smart Guess"}</div>
                 </div>
               ) : qs.aiLoading ? (
                 <div style={{ padding: '1.75rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -464,7 +465,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                     <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(255,255,255,0.25)', animation: `pulse 1.2s ease-in-out ${i*0.2}s infinite` }} />
                   ))}
                   <style>{`@keyframes pulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}`}</style>
-                  <span style={{ marginLeft: '0.5rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.3)' }}>Generating explanation…</span>
+                  <span style={{ marginLeft: '0.5rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.3)' }}>{langHi ? "स्पष्टीकरण तैयार हो रहा है…" : "Generating explanation…"}</span>
                 </div>
               ) : qs.aiResult ? (
                 <div style={{ padding: '1.25rem' }}>
