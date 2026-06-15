@@ -61,6 +61,7 @@ function setCached(qid: string, r: AIResult) {
   try { const s = localStorage.getItem(LS_KEY); const o = s ? JSON.parse(s) : {}; o[qid] = r; localStorage.setItem(LS_KEY, JSON.stringify(o)); } catch {}
 }
 export default function PrelimsPage() {
+  const { langHi } = useLang();
   const [filter, setFilter]           = useState<Filter>('all');
 const [topicFilter, setTopicFilter] = useState<string>('all');
   const [yearFilter, setYearFilter]   = useState<string>('all');
