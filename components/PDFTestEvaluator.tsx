@@ -1,4 +1,5 @@
 "use client";
+import { useLang } from '@/lib/i18n/LangContext';
 import { useRef, useState, DragEvent, ChangeEvent } from "react";
 import { saveToHistory } from "@/hooks/useAnswerHistory";
 
