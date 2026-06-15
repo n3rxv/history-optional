@@ -33,11 +33,11 @@ function sm2(card: SRData | undefined, grade: 1 | 2 | 3 | 4): SRData {
 }
 
 const TYPE_LABELS: Record<string, string> = {
-  historian: 'Historian',
-  comparison: 'Comparison',
-  'cause-effect': 'Cause & Effect',
-  quote: 'Quote',
-  concept: 'Concept',
+  historian: langHi ? 'इतिहासकार' : 'Historian',
+  comparison: langHi ? 'तुलना' : 'Comparison',
+  'cause-effect': langHi ? 'कारण-प्रभाव' : 'Cause & Effect',
+  quote: langHi ? 'उद्धरण' : 'Quote',
+  concept: langHi ? 'अवधारणा' : 'Concept',
 };
 const TYPE_COLORS: Record<string, { main: string; dim: string; glow: string }> = {
   historian:      { main: '#3b82f6', dim: 'rgba(59,130,246,0.12)',  glow: 'rgba(59,130,246,0.35)' },
@@ -49,6 +49,8 @@ const TYPE_COLORS: Record<string, { main: string; dim: string; glow: string }> =
 
 // SVG noise texture as data URI
 const NOISE = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`;
+
+
 
 export default function Flashcards() {
   const { langHi } = useLang();
@@ -102,6 +104,7 @@ export default function Flashcards() {
   }, [filterSection, filterType, filterDue, sr]);
 
   const closeModal = () => { setModalOpen(false); setFlipped(false); };
+
 
   const rate = useCallback((grade: 1 | 2 | 3 | 4) => {
     if (!queue[idx] || animating) return;
@@ -258,7 +261,7 @@ export default function Flashcards() {
                       color: 'rgba(255,255,255,0.92)', lineHeight: 1.7,
                       letterSpacing: '-0.01em',
                     }}>
-                      {currentCard.front}
+                      {langHi ? (currentCard.front_hi ?? currentCard.front) : currentCard.front}
                     </div>
                   </div>
 
@@ -270,7 +273,7 @@ export default function Flashcards() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
                     </svg>
-                    Click to reveal
+                    {langHi ? 'उत्तर देखें' : 'Click to reveal'}
                   </div>
                 </div>
 
@@ -300,7 +303,7 @@ export default function Flashcards() {
                     display: 'flex', alignItems: 'center', gap: '0.5rem',
                   }}>
                     <div style={{ width: 16, height: 1, background: tc.main, opacity: 0.5 }} />
-                    Answer
+                    {langHi ? 'उत्तर' : 'Answer'}
                     <div style={{ width: 16, height: 1, background: tc.main, opacity: 0.5 }} />
                   </div>
 
@@ -310,7 +313,7 @@ export default function Flashcards() {
                     fontFamily: 'var(--font-body)',
                     position: 'relative', zIndex: 1,
                   }}>
-                    {currentCard.back}
+                    {langHi ? (currentCard.back_hi ?? currentCard.back) : currentCard.back}
                   </div>
                 </div>
 
@@ -326,10 +329,10 @@ export default function Flashcards() {
               pointerEvents: flipped ? 'auto' : 'none',
             }}>
               {([
-                { grade: 1, label: 'Blank',  sub: 'No recall',   color: '#ef4444', dim: 'rgba(239,68,68,0.1)',   glow: 'rgba(239,68,68,0.3)' },
-                { grade: 2, label: 'Hard',   sub: 'With effort', color: '#f59e0b', dim: 'rgba(245,158,11,0.1)', glow: 'rgba(245,158,11,0.3)' },
-                { grade: 3, label: 'Good',   sub: 'Recalled',    color: '#3b82f6', dim: 'rgba(59,130,246,0.1)', glow: 'rgba(59,130,246,0.3)' },
-                { grade: 4, label: 'Easy',   sub: 'Perfect',     color: '#10b981', dim: 'rgba(16,185,129,0.1)', glow: 'rgba(16,185,129,0.3)' },
+                { grade: 1, label: langHi ? 'खाली' : 'Blank',  sub: langHi ? 'याद नहीं' : 'No recall',   color: '#ef4444', dim: 'rgba(239,68,68,0.1)',   glow: 'rgba(239,68,68,0.3)' },
+                { grade: 2, label: langHi ? 'कठिन' : 'Hard',   sub: langHi ? 'प्रयास से' : 'With effort', color: '#f59e0b', dim: 'rgba(245,158,11,0.1)', glow: 'rgba(245,158,11,0.3)' },
+                { grade: 3, label: langHi ? 'ठीक' : 'Good',   sub: langHi ? 'याद आया' : 'Recalled',    color: '#3b82f6', dim: 'rgba(59,130,246,0.1)', glow: 'rgba(59,130,246,0.3)' },
+                { grade: 4, label: langHi ? 'आसान' : 'Easy',   sub: langHi ? 'बिल्कुल सही' : 'Perfect',     color: '#10b981', dim: 'rgba(16,185,129,0.1)', glow: 'rgba(16,185,129,0.3)' },
               ] as const).map(r => (
                 <button key={r.grade} className="fc-rate-btn"
                   onClick={(e) => { e.stopPropagation(); rate(r.grade as 1|2|3|4); }}
@@ -360,10 +363,10 @@ export default function Flashcards() {
             History Optional
           </div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.4rem' }}>
-            Analytical Flashcards
+            {langHi ? 'विश्लेषणात्मक फ्लैशकार्ड' : 'Analytical Flashcards'}
           </h1>
           <p style={{ color: 'var(--text2)', fontSize: '0.88rem', maxWidth: 520, lineHeight: 1.65 }}>
-            Historian debates, cause-effect chains, comparisons, quote attributions — built for Mains-level analysis.
+            {langHi ? 'इतिहासकार बहसें, कारण-प्रभाव श्रृंखलाएँ, तुलनाएँ, उद्धरण — Mains के लिए।' : 'Historian debates, cause-effect chains, comparisons, quote attributions — built for Mains-level analysis.'}
           </p>
         </div>
 
@@ -371,10 +374,10 @@ export default function Flashcards() {
         {mounted && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.65rem', marginBottom: '1.75rem' }}>
             {[
-              { label: 'Total', value: flashcards.length, color: '#3b82f6' },
-              { label: 'Studied', value: studiedCount, color: '#8b5cf6' },
-              { label: 'Due Today', value: dueCount, color: dueCount > 0 ? '#f59e0b' : '#777' },
-              { label: 'Last Session', value: sessionDone, color: '#10b981' },
+              { label: langHi ? 'कुल' : 'Total', value: flashcards.length, color: '#3b82f6' },
+              { label: langHi ? 'पढ़े गए' : 'Studied', value: studiedCount, color: '#8b5cf6' },
+              { label: langHi ? 'आज बाकी' : 'Due Today', value: dueCount, color: dueCount > 0 ? '#f59e0b' : '#777' },
+              { label: langHi ? 'पिछला सत्र' : 'Last Session', value: sessionDone, color: '#10b981' },
             ].map(s => (
               <div key={s.label} style={{
                 background: 'linear-gradient(135deg, #0d1117 0%, #0a0a0a 100%)',
@@ -407,7 +410,7 @@ export default function Flashcards() {
           </select>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text2)', cursor: 'pointer' }}>
             <input type="checkbox" checked={filterDue} onChange={e => setFilterDue(e.target.checked)} style={{ accentColor: 'var(--accent)' }} />
-            Due only
+            {langHi ? 'केवल बाकी' : 'Due only'}
           </label>
           <div style={{ flex: 1 }} />
           <button onClick={() => buildQueue()}
@@ -429,7 +432,7 @@ export default function Flashcards() {
         {sessionDone > 0 && (
           <div style={{ background: 'rgba(59,130,246,0.06)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 10, padding: '0.9rem 1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span style={{ fontSize: '0.83rem', color: 'var(--text2)' }}>
-              Session complete — <strong style={{ color: 'var(--accent)' }}>{sessionDone} cards</strong> reviewed.
+              {langHi ? <>सत्र पूर्ण — <strong style={{ color: 'var(--accent)' }}>{sessionDone} कार्ड</strong> समीक्षित।</> : <>Session complete — <strong style={{ color: 'var(--accent)' }}>{sessionDone} cards</strong> reviewed.</>}
             </span>
             <button onClick={() => setSessionDone(0)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.73rem' }}>{langHi ? "हटाएँ" : "Dismiss"}</button>
           </div>
@@ -480,13 +483,13 @@ export default function Flashcards() {
                   display: 'block', whiteSpace: 'nowrap', flexShrink: 0, marginTop: 2,
                 }}>{TYPE_LABELS[card.type]}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '0.84rem', color: 'var(--text)', lineHeight: 1.45 }}>{card.front}</div>
+                  <div style={{ fontSize: '0.84rem', color: 'var(--text)', lineHeight: 1.45 }}>{langHi ? (card.front_hi ?? card.front) : card.front}</div>
                   <div style={{ fontSize: '0.68rem', color: 'var(--text3)', marginTop: '0.25rem' }}>{card.section}</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
                   {mounted && (
                     <span style={{ fontSize: '0.62rem', fontFamily: 'var(--font-mono)', color: isDue ? tc2.main : 'var(--text3)' }}>
-                      {isDue ? (s ? 'Due' : 'New') : `${s.interval}d`}
+                      {isDue ? (s ? (langHi ? 'बाकी' : 'Due') : (langHi ? 'नया' : 'New')) : `${s.interval}d`}
                     </span>
                   )}
                   <span className="fc-browse-arrow" style={{ color: 'var(--text3)', fontSize: '0.75rem', opacity: 0, transition: 'all 0.15s' }}>→</span>
