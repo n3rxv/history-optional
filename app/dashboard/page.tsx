@@ -1,4 +1,5 @@
 'use client';
+import { useLang } from '@/lib/i18n/LangContext';
 import Link from 'next/link';
 import { useEffect, useState, useMemo } from 'react';
 import { paper1Notes, paper2Notes, paper1Sections, paper2Sections } from '@/lib/notes';
@@ -124,6 +125,7 @@ function Heatmap({ activityMap }: { activityMap: Record<string, number> }) {
 
 export default function Dashboard() {
   const { countCompleted, mounted, progress } = useSyllabusTracker();
+  const { langHi } = useLang();
   const [streak, setStreak] = useState(0);
   const [evalHistory, setEvalHistory] = useState<AnswerEntry[]>([]);
 
@@ -219,9 +221,9 @@ export default function Dashboard() {
     <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2.5rem 1.5rem 5rem' }}>
 
       <div style={{ marginBottom: '2rem' }}>
-        <div style={{ color: 'var(--text3)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>Your Study Dashboard</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.4rem' }}>Progress Overview</h1>
-        <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>Tracking your syllabus completion across all 51 topics.</p>
+        <div style={{ color: 'var(--text3)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>{langHi ? 'आपका अध्ययन डैशबोर्ड' : 'Your Study Dashboard'}</div>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.4rem' }}>{langHi ? 'प्रगति अवलोकन' : 'Progress Overview'}</h1>
+        <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>{langHi ? 'सभी 51 विषयों में आपकी पाठ्यक्रम प्रगति ट्रैक हो रही है।' : 'Tracking your syllabus completion across all 51 topics.'}</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '1.5rem', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.5rem', marginBottom: '1.5rem', alignItems: 'center' }}>
@@ -238,29 +240,29 @@ export default function Dashboard() {
             {mounted ? `${totalDone} of ${TOTAL} topics completed` : `— of ${TOTAL} topics`}
           </div>
           <div style={{ color: 'var(--text3)', fontSize: '0.82rem', marginBottom: '0.75rem' }}>
-            {mounted && totalDone === 0 && 'Start checking off topics on the Paper I & II pages.'}
-            {mounted && totalDone > 0 && totalDone < TOTAL && `${TOTAL - totalDone} topics remaining. Keep going!`}
+            {mounted && totalDone === 0 && langHi ? 'Paper I और II पृष्ठों पर विषय चिह्नित करना शुरू करें।' : 'Start checking off topics on the Paper I & II pages.'}
+            {mounted && totalDone > 0 && totalDone < TOTAL && langHi ? `${TOTAL - totalDone} विषय शेष हैं। जारी रखें!` : `${TOTAL - totalDone} topics remaining. Keep going!`}
             {mounted && totalDone === TOTAL && "🎉 Full syllabus complete! You're ready to ace it."}
           </div>
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <Link href="/paper1" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', background: 'var(--accent-dim)', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 10px', borderRadius: 5 }}>Paper I →</Link>
-            <Link href="/paper2" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', background: 'var(--accent-dim)', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 10px', borderRadius: 5 }}>Paper II →</Link>
+            <Link href="/paper1" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', background: 'var(--accent-dim)', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 10px', borderRadius: 5 }}>{langHi ? 'पेपर I →' : 'Paper I →'}</Link>
+            <Link href="/paper2" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', background: 'var(--accent-dim)', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 10px', borderRadius: 5 }}>{langHi ? 'पेपर II →' : 'Paper II →'}</Link>
           </div>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '0.85rem', marginBottom: '1.5rem' }}>
-        <StatCard label="Paper I" value={`${p1Done}/${paper1Notes.length}`} sub={`${Math.round(pct(p1Done, paper1Notes.length) * 100)}% done`} color="var(--accent)" />
-        <StatCard label="Paper II" value={`${p2Done}/${paper2Notes.length}`} sub={`${Math.round(pct(p2Done, paper2Notes.length) * 100)}% done`} color="var(--accent)" />
-        <StatCard label="Day Streak" value={mounted ? streak : '—'} sub={streak >= 3 ? '🔥 On a roll!' : 'Complete topics to build streak'} color={streak >= 3 ? '#f59e0b' : 'var(--text)'} />
-        <StatCard label="Answers Evaluated" value={mounted ? evalHistory.length : '—'} sub={evalStats ? `avg ${evalStats.avg}%` : 'No evaluations yet'} color={evalStats ? scoreColor(evalStats.avg) : 'var(--text)'} />
+        <StatCard label={langHi ? "पेपर I" : "Paper I"} value={`${p1Done}/${paper1Notes.length}`} sub={`${Math.round(pct(p1Done, paper1Notes.length) * 100)}% done`} color="var(--accent)" />
+        <StatCard label={langHi ? "पेपर II" : "Paper II"} value={`${p2Done}/${paper2Notes.length}`} sub={`${Math.round(pct(p2Done, paper2Notes.length) * 100)}% done`} color="var(--accent)" />
+        <StatCard label={langHi ? "दिन की लकीर" : "Day Streak"} value={mounted ? streak : '—'} sub={streak >= 3 ? '🔥 जोरदार चल रहे हो!' : langHi ? 'लकीर बनाने के लिए विषय पूरे करें' : 'Complete topics to build streak'} color={streak >= 3 ? '#f59e0b' : 'var(--text)'} />
+        <StatCard label={langHi ? "मूल्यांकित उत्तर" : "Answers Evaluated"} value={mounted ? evalHistory.length : '—'} sub={evalStats ? `avg ${evalStats.avg}%` : langHi ? 'अभी तक कोई मूल्यांकन नहीं' : 'No evaluations yet'} color={evalStats ? scoreColor(evalStats.avg) : 'var(--text)'} />
       </div>
 
       {mounted && evalStats && (
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>Evaluation Performance</div>
-            <Link href="/evaluate" style={{ fontSize: '0.72rem', color: 'var(--accent)', textDecoration: 'none' }}>Evaluate →</Link>
+            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>{langHi ? 'मूल्यांकन प्रदर्शन' : 'Evaluation Performance'}</div>
+            <Link href="/evaluate" style={{ fontSize: '0.72rem', color: 'var(--accent)', textDecoration: 'none' }}>{langHi ? 'मूल्यांकन करें →' : 'Evaluate →'}</Link>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem', marginBottom: '1.25rem' }}>
             {[
@@ -276,7 +278,7 @@ export default function Dashboard() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '1.5rem', alignItems: 'start' }}>
             <div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>Section Averages</div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>{langHi ? 'अनुभाग औसत' : 'Section Averages'}</div>
               {evalStats.sectionAvgs.map(({ sec, avg }) => (
                 <div key={sec} style={{ marginBottom: 8 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
@@ -291,7 +293,7 @@ export default function Dashboard() {
             </div>
             {evalStats.recent5.length >= 2 && (
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.65rem', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>Score trend</div>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6 }}>{langHi ? 'स्कोर प्रवृत्ति' : 'Score trend'}</div>
                 <Sparkline values={evalStats.recent5} color={scoreColor(evalStats.avg)} />
                 <div style={{ fontSize: '0.62rem', color: 'var(--text3)', marginTop: 4 }}>last {evalStats.recent5.length} evals</div>
               </div>
@@ -302,8 +304,8 @@ export default function Dashboard() {
 
       {mounted && !evalStats && (
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.5rem', marginBottom: '1.5rem', textAlign: 'center' }}>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text3)', marginBottom: '0.5rem' }}>No evaluations yet</div>
-          <Link href="/evaluate" style={{ fontSize: '0.8rem', color: 'var(--accent)', textDecoration: 'none' }}>Submit your first answer →</Link>
+          <div style={{ fontSize: '0.85rem', color: 'var(--text3)', marginBottom: '0.5rem' }}>{langHi ? 'अभी तक कोई मूल्यांकन नहीं' : 'No evaluations yet'}</div>
+          <Link href="/evaluate" style={{ fontSize: '0.8rem', color: 'var(--accent)', textDecoration: 'none' }}>{langHi ? 'अपना पहला उत्तर जमा करें →' : 'Submit your first answer →'}</Link>
         </div>
       )}
 
@@ -312,7 +314,7 @@ export default function Dashboard() {
           <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
             <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.9rem' }}>⚠</div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Weak Area Detected</div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>{langHi ? 'कमज़ोर क्षेत्र मिला' : 'Weak Area Detected'}</div>
               <div style={{ fontSize: '0.82rem', color: 'var(--text2)', marginBottom: '0.75rem' }}>
                 Your <span style={{ color: '#f87171', fontWeight: 600 }}>{capLabel(evalStats.weakest.sec)}</span> averages <span style={{ color: '#f87171', fontWeight: 600 }}>{Math.round(evalStats.weakest.avg * 100)}%</span> across your evaluations.{' '}
                 {evalStats.weakest.sec === 'body' && 'Focus on using historians, addressing demand, and developing each argument fully.'}
@@ -321,7 +323,7 @@ export default function Dashboard() {
                 {evalStats.weakest.sec === 'presentation' && 'Focus on structure, word count and legibility.'}
               </div>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-                <Link href="/evaluate" style={{ fontSize: '0.75rem', color: '#f87171', textDecoration: 'none', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)', padding: '4px 10px', borderRadius: 5 }}>Practice now →</Link>
+                <Link href="/evaluate" style={{ fontSize: '0.75rem', color: '#f87171', textDecoration: 'none', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)', padding: '4px 10px', borderRadius: 5 }}>{langHi ? 'अभी अभ्यास करें →' : 'Practice now →'}</Link>
                 {evalStats.strongest && (
                   <span style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>
                     ✓ Strongest: <span style={{ color: '#4ade80' }}>{capLabel(evalStats.strongest.sec)} ({Math.round(evalStats.strongest.avg * 100)}%)</span>
@@ -336,7 +338,7 @@ export default function Dashboard() {
       {mounted && evalStats && (
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>Performance by Topic</div>
+            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>{langHi ? 'विषयानुसार प्रदर्शन' : 'Performance by Topic'}</div>
             {evalStats.topicStats.length > 0 && (
               <span style={{ fontSize: '0.7rem', color: 'var(--text3)' }}>{evalStats.topicStats.length} topic{evalStats.topicStats.length !== 1 ? 's' : ''} practised</span>
             )}
@@ -345,8 +347,8 @@ export default function Dashboard() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 8 }}>
               <span style={{ fontSize: '0.85rem' }}>📊</span>
               <div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text2)', marginBottom: 2 }}>Topic tracking starts with your next evaluation</div>
-                <div style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>New evaluations will be tagged automatically — e.g. Mauryan Empire, French Revolution.</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text2)', marginBottom: 2 }}>{langHi ? 'अगले मूल्यांकन से विषय ट्रैकिंग शुरू होगी' : 'Topic tracking starts with your next evaluation'}</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>{langHi ? 'नए मूल्यांकन स्वतः टैग होंगे — जैसे मौर्य साम्राज्य, फ्रांसीसी क्रांति।' : 'New evaluations will be tagged automatically — e.g. Mauryan Empire, French Revolution.'}</div>
               </div>
             </div>
           ) : (
@@ -378,18 +380,18 @@ export default function Dashboard() {
       )}
 
       <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
-        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)', marginBottom: '1rem' }}>Study Activity — Last 12 Weeks</div>
+        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)', marginBottom: '1rem' }}>{langHi ? 'अध्ययन गतिविधि — पिछले 12 सप्ताह' : 'Study Activity — Last 12 Weeks'}</div>
         {mounted
           ? <Heatmap activityMap={activityMap} />
-          : <div style={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)', fontSize: '0.8rem' }}>Loading…</div>
+          : <div style={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)', fontSize: '0.8rem' }}>{langHi ? 'लोड हो रहा है…' : 'Loading…'}</div>
         }
       </div>
 
       {mounted && needsRevision.length > 0 && (
         <div style={{ background: 'var(--bg2)', border: '1px solid rgba(234,179,8,0.2)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '0.85rem' }}>
-            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>Due for Revision</div>
-            <span style={{ fontSize: '0.65rem', color: '#f59e0b', background: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.2)', padding: '2px 7px', borderRadius: 10 }}>Completed 30+ days ago</span>
+            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>{langHi ? 'पुनरावृत्ति हेतु' : 'Due for Revision'}</div>
+            <span style={{ fontSize: '0.65rem', color: '#f59e0b', background: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.2)', padding: '2px 7px', borderRadius: 10 }}>{langHi ? '30+ दिन पहले पूर्ण' : 'Completed 30+ days ago'}</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {needsRevision.map(note => (
@@ -404,7 +406,7 @@ export default function Dashboard() {
                     <div style={{ fontSize: '0.83rem', color: 'var(--text)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{note.title}</div>
                     <div style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>{note.section}</div>
                   </div>
-                  <span style={{ color: 'var(--text3)', fontSize: '0.8rem', flexShrink: 0 }}>Revise →</span>
+                  <span style={{ color: 'var(--text3)', fontSize: '0.8rem', flexShrink: 0 }}>{langHi ? 'दोहराएँ →' : 'Revise →'}</span>
                 </div>
               </Link>
             ))}
@@ -413,7 +415,7 @@ export default function Dashboard() {
       )}
 
       <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
-        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)', marginBottom: '1rem' }}>Section Breakdown</div>
+        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)', marginBottom: '1rem' }}>{langHi ? 'अनुभाग विश्लेषण' : 'Section Breakdown'}</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
           {sections.map(sec => {
             const done = mounted ? countCompleted(sec.notes.map(n => n.slug)) : 0;
@@ -438,7 +440,7 @@ export default function Dashboard() {
 
       {mounted && notStarted.length > 0 && (
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
-          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)', marginBottom: '0.85rem' }}>Up Next — Continue Studying</div>
+          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)', marginBottom: '0.85rem' }}>{langHi ? 'अगला — अध्ययन जारी रखें' : 'Up Next — Continue Studying'}</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {notStarted.map(note => (
               <Link key={note.slug} href={`/notes/${note.slug}`} style={{ textDecoration: 'none' }}>
@@ -464,10 +466,10 @@ export default function Dashboard() {
       )}
 
       <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text3)', marginBottom: '0.75rem' }}>Study Tools</div>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text3)', marginBottom: '0.75rem' }}>{langHi ? 'अध्ययन उपकरण' : 'Study Tools'}</div>
         <Link href="/flashcards" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', borderRadius: 8, background: 'var(--bg3)', border: '1px solid var(--border)', textDecoration: 'none' }}>
           <div>
-            <div style={{ fontSize: '0.88rem', color: 'var(--text)', fontWeight: 500, marginBottom: '0.2rem' }}>Analytical Flashcards</div>
+            <div style={{ fontSize: '0.88rem', color: 'var(--text)', fontWeight: 500, marginBottom: '0.2rem' }}>{langHi ? 'विश्लेषणात्मक फ्लैशकार्ड' : 'Analytical Flashcards'}</div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text3)' }}>55 cards — historian arguments, comparisons, cause-effect chains</div>
           </div>
           <span style={{ color: 'var(--text3)', fontSize: '0.85rem', marginLeft: '1rem' }}>→</span>
@@ -477,11 +479,11 @@ export default function Dashboard() {
       {mounted && totalDone === TOTAL && (
         <div style={{ background: 'rgba(74,222,128,0.04)', border: '1px solid rgba(74,222,128,0.2)', borderRadius: 14, padding: '1.5rem', textAlign: 'center' }}>
           <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🎉</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#4ade80', fontWeight: 700, marginBottom: '0.4rem' }}>Full Syllabus Complete!</div>
-          <div style={{ color: 'var(--text2)', fontSize: '0.85rem' }}>You have covered all 51 topics. Time to practice answers and revise.</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#4ade80', fontWeight: 700, marginBottom: '0.4rem' }}>{langHi ? 'पूरा पाठ्यक्रम पूर्ण!' : 'Full Syllabus Complete!'}</div>
+          <div style={{ color: 'var(--text2)', fontSize: '0.85rem' }}>{langHi ? 'आपने सभी 51 विषय पूरे कर लिए हैं। अब उत्तर अभ्यास और पुनरावृत्ति का समय है।' : 'You have covered all 51 topics. Time to practice answers and revise.'}</div>
           <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', marginTop: '1rem', flexWrap: 'wrap' }}>
-            <Link href="/evaluate" style={{ fontSize: '0.82rem', color: '#4ade80', textDecoration: 'none', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.2)', padding: '6px 14px', borderRadius: 6 }}>Practice Answers →</Link>
-            <Link href="/pyqs" style={{ fontSize: '0.82rem', color: 'var(--text2)', textDecoration: 'none', background: 'var(--bg3)', border: '1px solid var(--border)', padding: '6px 14px', borderRadius: 6 }}>Browse PYQs →</Link>
+            <Link href="/evaluate" style={{ fontSize: '0.82rem', color: '#4ade80', textDecoration: 'none', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.2)', padding: '6px 14px', borderRadius: 6 }}>{langHi ? 'उत्तर अभ्यास →' : 'Practice Answers →'}</Link>
+            <Link href="/pyqs" style={{ fontSize: '0.82rem', color: 'var(--text2)', textDecoration: 'none', background: 'var(--bg3)', border: '1px solid var(--border)', padding: '6px 14px', borderRadius: 6 }}>{langHi ? 'PYQ देखें →' : 'Browse PYQs →'}</Link>
           </div>
         </div>
       )}
