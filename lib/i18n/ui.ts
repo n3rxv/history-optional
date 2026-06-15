@@ -2,7 +2,7 @@ export const t = {
   // Navbar
   notes: { en: 'Notes', hi: 'नोट्स' },
   pyqs: { en: 'PYQs', hi: 'पिछले प्रश्न' },
-  prelims: { en: 'Prelims', hi: 'प्रारंभिक' },
+  prelims: { en: 'Prelims', hi: 'प्रेलिम्स' },
   evaluate: { en: 'Evaluate', hi: 'मूल्यांकन' },
   chat: { en: 'AI Chat', hi: 'AI चैट' },
   resources: { en: 'Books', hi: 'पुस्तकें' },
