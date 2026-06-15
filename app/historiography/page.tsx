@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useLang } from '@/lib/i18n/LangContext';
 import { supabase } from '@/lib/supabase';
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -27,6 +28,9 @@ type Debate = {
 const OWNER_EMAIL = process.env.NEXT_PUBLIC_OWNER_EMAIL!;
 
 const PERIODS = ['All', 'Ancient India', 'Early Medieval', 'Medieval India', '18th Century / Early Modern', 'Modern India', 'World History'];
+const PERIODS_HI: Record<string, string> = { 'All': 'सभी', 'Ancient India': 'प्राचीन भारत', 'Early Medieval': 'प्रारंभिक मध्यकाल', 'Medieval India': 'मध्यकालीन भारत', '18th Century / Early Modern': '18वीं सदी / प्रारंभिक आधुनिक', 'Modern India': 'आधुनिक भारत', 'World History': 'विश्व इतिहास' };
+const PAPERS_HI: Record<string, string> = { 'All': 'सभी', 'Paper I': 'पेपर I', 'Paper II': 'पेपर II' };
+const TYPES_HI: Record<string, string> = { 'All': 'सभी', 'debate': 'बहस', 'topic': 'विषय' };
 const PAPERS  = ['All', 'Paper I', 'Paper II'];
 const TYPES   = ['All', 'debate', 'topic'];
 const SCHOOLS = ['Marxist', 'Nationalist', 'Revisionist', 'Subaltern', 'Cambridge School', 'Colonial', 'Postcolonial', 'Feminist', 'Liberal', 'Islamic History', 'Social History', 'Economic History', 'Cultural History', 'Dalit', 'Archaeological'];
@@ -124,7 +128,7 @@ function DebateForm({ form, setForm, topicInp, setTopicInp, onSave, onCancel, sa
           </div>
         </div>
         <div style={{ gridColumn: '1 / -1' }}>
-          <label style={labelStyle}>UPSC Tip</label>
+          <label style={labelStyle}>{langHi ? 'UPSC टिप' : 'UPSC Tip'}</label>
           <textarea style={{ ...inputStyle, minHeight: 60, resize: 'vertical' }} value={form.upsc_tip} onChange={e => setForm({ ...form, upsc_tip: e.target.value })} placeholder="Practical advice for writing answers..." />
         </div>
       </div>
@@ -166,6 +170,7 @@ function DebateForm({ form, setForm, topicInp, setTopicInp, onSave, onCancel, sa
 export default function HistoriographyPage() {
   const [debates, setDebates] = useState<Debate[]>([]);
   const [loading, setLoading] = useState(true);
+  const { langHi } = useLang();
   const [search, setSearch] = useState('');
   const [filterPeriod, setFilterPeriod] = useState('All');
   const [filterPaper, setFilterPaper]   = useState('All');
@@ -324,7 +329,7 @@ export default function HistoriographyPage() {
 
         {/* Controls */}
         <div className="hb-controls">
-          <input className="hb-search" placeholder="Search debates, historians, topics…" value={search} onChange={e => setSearch(e.target.value)} />
+          <input className="hb-search" placeholder={langHi ? "बहसें, इतिहासकार, विषय खोजें…" : "Search debates, historians, topics…"} value={search} onChange={e => setSearch(e.target.value)} />
           <select className="hb-select" value={filterType} onChange={e => setFilterType(e.target.value)}>
             <option value="All">All Types</option>
             <option value="debate">🔥 Debates</option>
@@ -397,7 +402,7 @@ export default function HistoriographyPage() {
                     {/* UPSC Tip */}
                     {debate.upsc_tip && (
                       <div className="hb-tip">
-                        <span className="hb-tip-label">UPSC Tip</span>
+                        <span className="hb-tip-label">{langHi ? 'UPSC टिप' : 'UPSC Tip'}</span>
                         <span className="hb-tip-text">{debate.upsc_tip}</span>
                       </div>
                     )}
