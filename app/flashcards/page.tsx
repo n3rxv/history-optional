@@ -33,11 +33,11 @@ function sm2(card: SRData | undefined, grade: 1 | 2 | 3 | 4): SRData {
 }
 
 const TYPE_LABELS: Record<string, string> = {
-  historian: langHi ? 'इतिहासकार' : 'Historian',
-  comparison: langHi ? 'तुलना' : 'Comparison',
-  'cause-effect': langHi ? 'कारण-प्रभाव' : 'Cause & Effect',
-  quote: langHi ? 'उद्धरण' : 'Quote',
-  concept: langHi ? 'अवधारणा' : 'Concept',
+  historian: 'Historian',
+  comparison: 'Comparison',
+  'cause-effect': 'Cause & Effect',
+  quote: 'Quote',
+  concept: 'Concept',
 };
 const TYPE_COLORS: Record<string, { main: string; dim: string; glow: string }> = {
   historian:      { main: '#3b82f6', dim: 'rgba(59,130,246,0.12)',  glow: 'rgba(59,130,246,0.35)' },
@@ -54,6 +54,14 @@ const NOISE = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http:
 
 export default function Flashcards() {
   const { langHi } = useLang();
+  const TYPE_LABELS_HI: Record<string, string> = {
+    historian: 'इतिहासकार',
+    comparison: 'तुलना',
+    'cause-effect': 'कारण-प्रभाव',
+    quote: 'उद्धरण',
+    concept: 'अवधारणा',
+  };
+  const getTypeLabel = (type: string) => langHi ? (TYPE_LABELS_HI[type] ?? TYPE_LABELS[type]) : TYPE_LABELS[type];
   const [sr, setSR] = useState<Record<string, SRData>>({});
   const [mounted, setMounted] = useState(false);
   const [filterSection, setFilterSection] = useState<string>('All');
@@ -248,7 +256,7 @@ export default function Flashcards() {
                       border: `1px solid ${tc.main}44`,
                       padding: '3px 9px', borderRadius: 4,
                       boxShadow: `0 0 12px ${tc.glow}`,
-                    }}>{TYPE_LABELS[currentCard.type]}</span>
+                    }}>{getTypeLabel(currentCard.type)}</span>
                     <span style={{
                       fontSize: '0.62rem', color: 'rgba(255,255,255,0.25)',
                       fontFamily: 'var(--font-ui)', letterSpacing: '0.04em',
@@ -406,7 +414,7 @@ export default function Flashcards() {
           <select value={filterType} onChange={e => setFilterType(e.target.value)}
             style={{ background: '#0a0a0a', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी प्रकार" : "All Types"}</option>
-            {flashcardTypes.map(t => <option key={t} value={t}>{TYPE_LABELS[t]}</option>)}
+            {flashcardTypes.map(t => <option key={t} value={t}>{getTypeLabel(t)}</option>)}
           </select>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text2)', cursor: 'pointer' }}>
             <input type="checkbox" checked={filterDue} onChange={e => setFilterDue(e.target.checked)} style={{ accentColor: 'var(--accent)' }} />
@@ -481,7 +489,7 @@ export default function Flashcards() {
                   border: `1px solid ${tc2.main}33`,
                   padding: '2px 7px', borderRadius: 4,
                   display: 'block', whiteSpace: 'nowrap', flexShrink: 0, marginTop: 2,
-                }}>{TYPE_LABELS[card.type]}</span>
+                }}>{getTypeLabel(card.type)}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: '0.84rem', color: 'var(--text)', lineHeight: 1.45 }}>{langHi ? (card.front_hi ?? card.front) : card.front}</div>
                   <div style={{ fontSize: '0.68rem', color: 'var(--text3)', marginTop: '0.25rem' }}>{card.section}</div>
