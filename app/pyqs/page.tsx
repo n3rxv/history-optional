@@ -285,9 +285,9 @@ export default function PYQsPage() {
         })}
       </div>
       <button onClick={() => setShowTopperCopies(p => !p)} style={{
-        background: showTopperCopies ? 'var(--accent)' : 'var(--bg3)',
-        color: showTopperCopies ? '#fff' : 'var(--text2)',
-        border: `1px solid ${showTopperCopies ? 'var(--accent)' : 'var(--border)'}`,
+        background: showTopperCopies ? 'var(--bg3)' : 'var(--accent)',
+        color: showTopperCopies ? 'var(--text2)' : '#fff',
+        border: `1px solid ${showTopperCopies ? 'var(--border)' : 'var(--accent)'}`,
         padding: '0.45rem 1rem', borderRadius: 6,
         fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer',
         display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
@@ -310,6 +310,7 @@ export default function PYQsPage() {
             color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.875rem', outline: 'none',
           }}
         />
+        {!showTopperCopies && <>
         <select value={filterYear} onChange={e => setFilterYear(e.target.value === 'all' ? 'all' : +e.target.value)} style={selectStyle}>
           <option value="all">All Years</option>
           {pyqYears.map(y => <option key={y} value={y}>{y}</option>)}
@@ -318,6 +319,7 @@ export default function PYQsPage() {
           <option value="all">All Marks</option>
           {markOptions.map(m => <option key={m} value={m}>{m} marks</option>)}
         </select>
+        </>}
         {hasFilters && (
           <button onClick={clearAll} style={{
             background: 'none', border: '1px solid var(--border)',
@@ -335,7 +337,16 @@ export default function PYQsPage() {
         }}>
           <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>📚</div>
           <div style={{ color: 'var(--text)', fontWeight: 600, marginBottom: '0.5rem' }}>Topper Copies Coming Soon</div>
-          <div>High-scoring answers by UPSC toppers will be available here.</div>
+          <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            {['All', 'Ancient', 'Medieval', 'Modern', 'World'].map(t => (
+              <span key={t} style={{
+                padding: '0.35rem 1rem', borderRadius: 6, fontSize: '0.8rem',
+                background: 'var(--bg3)', border: '1px solid var(--border)',
+                color: 'var(--text3)', cursor: 'default',
+              }}>{t}</span>
+            ))}
+          </div>
+          <div style={{ marginTop: '1rem', color: 'var(--text3)', fontSize: '0.75rem' }}>Filters coming soon</div>
         </div>
       ) : (
       <div>
