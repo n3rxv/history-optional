@@ -25,7 +25,8 @@ interface SubscribeCardProps {
 }
 
 export function SubscribeCard({
-  const { langHi } = useLang(); slots, fingerprint, onSuccess, onClose, standalone = false }: SubscribeCardProps) {
+  slots, fingerprint, onSuccess, onClose, standalone = false }: SubscribeCardProps) {
+  const { langHi } = useLang();
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
