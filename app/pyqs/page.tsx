@@ -452,7 +452,7 @@ export default function PYQsPage() {
           </div>
         )}
       </div>
-      </> 
+      </div>
       )}
       <GateModals slots={slots} />
 
