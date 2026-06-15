@@ -294,7 +294,7 @@ export async function POST(req: NextRequest) {
 
       return anthropic.messages.create({
         model,
-        max_tokens: 3500,
+        max_tokens: 6000,
         ...(systemPrompt ? { system: systemPrompt } : {}),
         messages: builtMessages,
       });
@@ -470,11 +470,16 @@ ${ragContext}`
               }
               builtMessages = msgsCopy;
             } else {
-              builtMessages = messages.map((m: any) => ({ role: m.role, content: m.content }));
+              builtMessages = messages.map((m: any, i: number) => {
+                if (i === messages.length - 1 && m.role === 'user' && lang === 'hi') {
+                  return { role: m.role, content: m.content + '\n\n[IMPORTANT: Respond entirely in Hindi (Devanagari script)]' };
+                }
+                return { role: m.role, content: m.content };
+              });
             }
             const anthropicStream = anthropic.messages.stream({
               model: 'claude-haiku-4-5-20251001',
-              max_tokens: 3500,
+              max_tokens: 6000,
               system: (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : ''),
               messages: builtMessages,
             });
