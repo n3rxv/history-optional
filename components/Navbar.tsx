@@ -423,7 +423,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', ...(scrollProgress >= 0.5 ? { position: 'absolute', left: '50%', transform: 'translateX(-50%)' } : {}) }} className="desktop-nav">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', position: 'relative', left: `${scrollProgress * 50}%`, transform: `translateX(-${scrollProgress * 50}%)` }} className="desktop-nav">
 
             {/* Notes dropdown */}
             <div ref={notesRef} style={{ position: 'relative' }}>
