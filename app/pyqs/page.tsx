@@ -283,14 +283,14 @@ export default function PYQsPage() {
           );
         })}
       </div>
-      <Link href="/topper-copies" style={{
+      <button onClick={() => alert('Coming soon')} style={{
         background: 'var(--bg3)', color: 'var(--text2)',
         border: '1px solid var(--border)',
         padding: '0.45rem 1rem', borderRadius: 6,
-        fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none',
+        fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer',
         display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
         flexShrink: 0, whiteSpace: 'nowrap',
-      }}>🏆 Browse Topper Copies</Link>
+      }}>Browse Topper Copies</button>
       </div>
 
       {/* Filters */}
