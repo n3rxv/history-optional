@@ -475,7 +475,7 @@ ${ragContext}`
             const anthropicStream = anthropic.messages.stream({
               model: 'claude-haiku-4-5-20251001',
               max_tokens: 3500,
-              system: (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nIMPORTANT: Respond ENTIRELY in Hindi (Devanagari script). All explanations, answers, analysis — everything in Hindi.' : ''),
+              system: (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : ''),
               messages: builtMessages,
             });
             for await (const chunk of anthropicStream) {
