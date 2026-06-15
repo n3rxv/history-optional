@@ -62,6 +62,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
 }) {
   const [tab, setTab] = useState("eval");
   const [retrying, setRetrying] = useState(false);
+  const { langHi } = useLang();
   const { question, evaluation: ev, error } = result;
   const pct      = ev ? (ev.marks / ev.marks_out_of) * 100 : 0;
   const scoreCol = pct >= 70 ? "#4ade80" : pct >= 50 ? "#3b82f6" : "#f87171";
@@ -495,6 +496,7 @@ export default function PDFTestEvaluator({
 }: PDFTestEvaluatorProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
+  const { langHi } = useLang();
   const [file, setFile] = useState<File | null>(null);
 
   // stage: "upload" | "loading" | "review" | "evaluating" | "done"
