@@ -304,7 +304,7 @@ export default function Navbar() {
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const notesRef = useRef<HTMLDivElement>(null);
   const pyqsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -319,7 +319,10 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const p = Math.min(window.scrollY / 80, 1);
+      setScrollProgress(p);
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -400,8 +403,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav style={{ position: 'fixed', top: 'var(--banner-height, 33px)', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', transition: 'all 0.3s ease' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: scrolled ? 60 : 67, transition: 'height 0.3s ease' }}>
+      <nav style={{ position: 'fixed', top: 'var(--banner-height, 33px)', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 67 - 7 * scrollProgress }}>
 
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, overflow: 'hidden' }}>
@@ -409,18 +412,18 @@ export default function Navbar() {
               {/* "H" always visible */}
               <span>H</span>
               {/* "istory " collapses on scroll */}
-              <span style={{ display: 'inline-block', maxWidth: scrolled ? 0 : '6em', overflow: 'hidden', transition: 'max-width 0.4s ease', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>istory</span>
+              <span style={{ display: 'inline-block', maxWidth: `${6 * (1 - scrollProgress)}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>istory</span>
               {/* space between words, hidden when scrolled */}
-              <span style={{ display: 'inline-block', maxWidth: scrolled ? 0 : '0.35em', overflow: 'hidden', transition: 'max-width 0.4s ease' }}>&nbsp;</span>
+              <span style={{ display: 'inline-block', maxWidth: `${0.35 * (1 - scrollProgress)}em`, overflow: 'hidden' }}>&nbsp;</span>
               {/* "Optional" collapses on scroll, accent coloured */}
-              <span style={{ color: 'var(--accent)', display: 'inline-block', maxWidth: scrolled ? 0 : '8em', overflow: 'hidden', transition: 'max-width 0.4s ease', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>Optional</span>
+              <span style={{ color: 'var(--accent)', display: 'inline-block', maxWidth: `${8 * (1 - scrollProgress)}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>Optional</span>
               {/* "." appears on scroll */}
-              <span style={{ display: 'inline-block', maxWidth: scrolled ? '1em' : 0, overflow: 'hidden', transition: 'max-width 0.4s ease', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>.</span>
+              <span style={{ display: 'inline-block', maxWidth: `${scrollProgress}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>.</span>
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', ...(scrolled ? { position: 'absolute', left: '50%', transform: 'translateX(-50%)' } : {}) }} className="desktop-nav">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', ...(scrollProgress >= 0.5 ? { position: 'absolute', left: '50%', transform: 'translateX(-50%)' } : {}) }} className="desktop-nav">
 
             {/* Notes dropdown */}
             <div ref={notesRef} style={{ position: 'relative' }}>
