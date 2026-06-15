@@ -304,6 +304,7 @@ export default function Navbar() {
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const notesRef = useRef<HTMLDivElement>(null);
   const pyqsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -315,6 +316,12 @@ export default function Navbar() {
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
     return () => { document.removeEventListener('mousedown', handler); document.removeEventListener('touchstart', handler); };
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [noSubFound, setNoSubFound] = useState(false);
@@ -393,18 +400,18 @@ export default function Navbar() {
 
   return (
     <>
-      <nav style={{ position: 'fixed', top: 'var(--banner-height, 33px)', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
+      <nav style={{ position: 'fixed', top: 'var(--banner-height, 33px)', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', transition: 'all 0.3s ease' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: scrolled ? 46 : 60, transition: 'height 0.3s ease' }}>
 
           {/* Logo */}
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.01em' }}>
-              History <span style={{ color: 'var(--accent)' }}>Optional</span>
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0, transition: 'all 0.3s ease' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: scrolled ? '1.05rem' : '1.1rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.01em', transition: 'all 0.3s ease' }}>
+              {scrolled ? 'H.' : (<>History <span style={{ color: 'var(--accent)' }}>Optional</span></>)}
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }} className="desktop-nav">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', ...(scrolled ? { position: 'absolute', left: '50%', transform: 'translateX(-50%)' } : {}) }} className="desktop-nav">
 
             {/* Notes dropdown */}
             <div ref={notesRef} style={{ position: 'relative' }}>
