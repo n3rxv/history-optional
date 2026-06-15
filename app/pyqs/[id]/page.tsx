@@ -100,7 +100,9 @@ export default function PYQDetailPage() {
   };
 
   return (
-    <div style={{ maxWidth: 900, margin: '0 auto', padding: '2.5rem 1.5rem 5rem' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2.5rem 1.5rem 5rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '2rem', alignItems: 'start' }}>
+    <div>
       <style>{`
         @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
         .ans-card:hover{background:var(--bg3)!important;}
@@ -273,6 +275,39 @@ export default function PYQDetailPage() {
           </div>
         )}
       </div>
+    </div>{/* left col */}
+
+    {/* RIGHT SIDEBAR — Topper Copies */}
+    <div style={{ position: 'sticky', top: '5rem' }}>
+      <div style={{
+        background: 'var(--bg2)', border: '1px solid var(--border)',
+        borderRadius: 10, padding: '1.5rem',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '0.62rem',
+          letterSpacing: '0.15em', textTransform: 'uppercase',
+          color: 'var(--accent)', marginBottom: '1.25rem',
+          display: 'flex', alignItems: 'center', gap: '0.5rem',
+        }}>
+          🏆 Topper Copies
+        </div>
+        <div style={{
+          color: 'var(--text3)', fontSize: '0.8rem', lineHeight: 1.6,
+          marginBottom: '1rem',
+        }}>
+          High-scoring answers by UPSC toppers for this question.
+        </div>
+        <div style={{
+          background: 'var(--bg3)', border: '1px dashed var(--border)',
+          borderRadius: 8, padding: '2rem 1rem', textAlign: 'center',
+          color: 'var(--text3)', fontSize: '0.8rem',
+        }}>
+          Coming soon
+        </div>
+      </div>
+    </div>
+
+    </div>{/* grid */}
     </div>
   );
 }
