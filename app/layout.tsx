@@ -14,7 +14,6 @@ import Footer from "@/components/Footer";
 import WeeklyCheckup from "@/components/WeeklyCheckup";
 import VisitorTracker from "@/components/VisitorTracker";
 import { LangProvider } from "@/lib/i18n/LangContext";
-import { LangProvider } from "@/lib/i18n/LangContext";
 
 export const metadata: Metadata = {
   icons: { icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }, { url: '/favicon.png', type: 'image/png', sizes: '32x32' }], shortcut: '/favicon.png', apple: '/favicon.png' },
@@ -69,7 +68,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             "description": "Free comprehensive notes, PYQs, historiography and AI answer evaluation for UPSC History Optional",
           }) }}
         />
-        <LangProvider>
         <LangProvider>
         <WeeklyCheckup />
         <VisitorTracker />
