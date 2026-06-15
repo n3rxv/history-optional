@@ -320,7 +320,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => {
-      const p = Math.min(window.scrollY / 80, 1);
+      const p = Math.min(window.scrollY / 300, 1);
       setScrollProgress(p);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
