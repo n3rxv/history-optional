@@ -473,8 +473,6 @@ export default function PYQsPage() {
           question={modelAnswerQ.question}
           marks={modelAnswerQ.marks}
           cacheKey={String(modelAnswerQ.id)}
-      </div>
-      )}
           onClose={() => setModelAnswerQ(null)}
         />
       )}
