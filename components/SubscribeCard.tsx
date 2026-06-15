@@ -1,4 +1,5 @@
 'use client';
+import { useLang } from '@/lib/i18n/LangContext';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
@@ -23,7 +24,8 @@ interface SubscribeCardProps {
   standalone?: boolean;
 }
 
-export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalone = false }: SubscribeCardProps) {
+export function SubscribeCard({
+  const { langHi } = useLang(); slots, fingerprint, onSuccess, onClose, standalone = false }: SubscribeCardProps) {
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
@@ -259,7 +261,7 @@ export function SubscribeCard({ slots, fingerprint, onSuccess, onClose, standalo
                   color: '#000', fontSize: '0.45rem', fontWeight: 800,
                   padding: '2px 7px', borderRadius: 20, letterSpacing: '0.08em',
                   whiteSpace: 'nowrap', textTransform: 'uppercase',
-                }}>BEST VALUE</div>
+                }}>{langHi ? "सर्वोत्तम मूल्य" : "BEST VALUE"}</div>
               )}
               <div style={{ fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 5, color: isSelected ? '#f0c040' : '#444' }}>{p.label}</div>
               <div style={{ fontSize: '1.15rem', fontWeight: 900, lineHeight: 1, fontFamily: 'var(--font-mono)', color: isSelected ? '#ffe066' : '#666', textShadow: isSelected ? '0 0 20px rgba(255,220,80,0.4)' : 'none' }}>{p.price}</div>

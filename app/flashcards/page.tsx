@@ -1,4 +1,5 @@
 'use client';
+import { useLang } from '@/lib/i18n/LangContext';
 import { useState, useEffect, useCallback } from 'react';
 import { flashcards, flashcardSections, flashcardTypes } from '@/lib/flashcards';
 import type { FlashCard } from '@/lib/flashcards';
@@ -50,6 +51,7 @@ const TYPE_COLORS: Record<string, { main: string; dim: string; glow: string }> =
 const NOISE = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`;
 
 export default function Flashcards() {
+  const { langHi } = useLang();
   const [sr, setSR] = useState<Record<string, SRData>>({});
   const [mounted, setMounted] = useState(false);
   const [filterSection, setFilterSection] = useState<string>('All');
@@ -201,7 +203,7 @@ export default function Flashcards() {
                 color: 'rgba(255,255,255,0.4)', borderRadius: 6, padding: '0.28rem 0.6rem',
                 cursor: 'pointer', fontSize: '0.7rem', fontFamily: 'var(--font-mono)',
                 flexShrink: 0, transition: 'all 0.15s',
-              }}>ESC</button>
+              }}>{langHi ? "बंद करें" : "ESC"}</button>
             </div>
 
             {/* Flip card */}
@@ -395,12 +397,12 @@ export default function Flashcards() {
         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.75rem', alignItems: 'center' }}>
           <select value={filterSection} onChange={e => setFilterSection(e.target.value)}
             style={{ background: '#0a0a0a', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
-            <option value="All">All Sections</option>
+            <option value="All">{langHi ? "सभी अनुभाग" : "All Sections"}</option>
             {flashcardSections.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
           <select value={filterType} onChange={e => setFilterType(e.target.value)}
             style={{ background: '#0a0a0a', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
-            <option value="All">All Types</option>
+            <option value="All">{langHi ? "सभी प्रकार" : "All Types"}</option>
             {flashcardTypes.map(t => <option key={t} value={t}>{TYPE_LABELS[t]}</option>)}
           </select>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text2)', cursor: 'pointer' }}>
@@ -429,7 +431,7 @@ export default function Flashcards() {
             <span style={{ fontSize: '0.83rem', color: 'var(--text2)' }}>
               Session complete — <strong style={{ color: 'var(--accent)' }}>{sessionDone} cards</strong> reviewed.
             </span>
-            <button onClick={() => setSessionDone(0)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.73rem' }}>Dismiss</button>
+            <button onClick={() => setSessionDone(0)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.73rem' }}>{langHi ? "हटाएँ" : "Dismiss"}</button>
           </div>
         )}
 
