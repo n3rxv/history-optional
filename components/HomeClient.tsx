@@ -67,6 +67,7 @@ export function AnimatedStats() {
 }
 
 export function PYQCarousel() {
+  const { langHi } = useLang();
   const [pyqIdx, setPyqIdx] = useState(0);
   const [pyqFade, setPyqFade] = useState(true);
   useEffect(() => {
