@@ -256,8 +256,9 @@ export default function PYQsPage() {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+      {/* Tabs + Topper Copies toggle */}
+      <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
         {TABS.map(tab => {
           const count = tab.value === 'all' ? pyqs.length : pyqs.filter((q: PYQ) => q.section === tab.value).length;
           const active = activeTab === tab.value;
@@ -281,6 +282,15 @@ export default function PYQsPage() {
             </button>
           );
         })}
+      </div>
+      <Link href="/topper-copies" style={{
+        background: 'var(--bg3)', color: 'var(--text2)',
+        border: '1px solid var(--border)',
+        padding: '0.45rem 1rem', borderRadius: 6,
+        fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none',
+        display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+        flexShrink: 0, whiteSpace: 'nowrap',
+      }}>🏆 Browse Topper Copies</Link>
       </div>
 
       {/* Filters */}
