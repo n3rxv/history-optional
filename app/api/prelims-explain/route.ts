@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const { question, options, correct, topic } = await req.json();
+    const { question, options, correct, topic, lang } = await req.json();
     const correctOption = options[correct];
     const optionsFormatted = options.map((o: string, i: number) => `(${String.fromCharCode(65+i)}) ${o}`).join('\n');
 
@@ -95,7 +95,7 @@ Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use 
         max_tokens: 2500,
         temperature: 0.2,
         messages: [
-          { role: 'system', content: systemPrompt },
+          { role: 'system', content: systemPrompt + (lang === 'hi' ? '\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All explanations, reasoning, smart_guess — everything in Hindi.' : '') },
           { role: 'user', content: userPrompt },
         ],
       }),

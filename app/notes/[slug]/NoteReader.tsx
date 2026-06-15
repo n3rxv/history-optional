@@ -5,6 +5,7 @@ import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
 import { getPYQsForNote } from '@/lib/notePyqMap';
 import { getNoteContent } from '@/lib/noteContent';
 import { noteContentHi } from '@/lib/noteContentHi';
+import { useLang } from '@/lib/i18n/LangContext';
 import { supabase } from '@/lib/supabase';
 import AnnotationToggle from '@/components/AnnotationToggle';
 import TableOfContents from '@/components/TableOfContents';
@@ -565,8 +566,8 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   const [stickyText, setStickyText] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
 
-  // Language toggle
-  const [langHi, setLangHi] = useState(false);
+  // Language toggle — synced with global LangContext
+  const { langHi, toggleLang } = useLang();
 
 
   // Admin state
@@ -960,7 +961,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
             {/* Language Toggle */}
             <button
-              onClick={() => setLangHi(p => !p)}
+              onClick={toggleLang}
               title={langHi ? 'Switch to English Notes' : 'Switch to Hindi Notes'}
               style={{
                 display: 'flex', alignItems: 'center', gap: '0px',

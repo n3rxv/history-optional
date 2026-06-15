@@ -251,7 +251,7 @@ export async function POST(req: NextRequest) {
 
   // ── Call Groq ────────────────────────────────────────────────────
   try {
-    const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name } = await req.json();
+    const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name, lang } = await req.json();
     const lastMsg = messages?.[messages.length - 1]?.content ?? '';
     if (typeof lastMsg === 'string' && lastMsg.length > 4000)
       return NextResponse.json({ error: 'Message too long' }, { status: 400 });
@@ -475,7 +475,7 @@ ${ragContext}`
             const anthropicStream = anthropic.messages.stream({
               model: 'claude-haiku-4-5-20251001',
               max_tokens: 3500,
-              system: bookMode ? ragSystem : (system ?? ''),
+              system: (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nIMPORTANT: Respond ENTIRELY in Hindi (Devanagari script). All explanations, answers, analysis — everything in Hindi.' : ''),
               messages: builtMessages,
             });
             for await (const chunk of anthropicStream) {

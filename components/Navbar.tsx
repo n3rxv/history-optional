@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import ThemeCustomizer from './ThemeCustomizer';
+import { useLang } from '@/lib/i18n/LangContext';
 import SearchModal from './SearchModal';
 import { supabase } from '@/lib/supabase';
 import { SubscribeCard } from '@/components/SubscribeCard';
@@ -292,6 +293,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const { langHi, toggleLang } = useLang();
   const [profileEdit, setProfileEdit] = useState(false);
   const [aspirantName, setAspirantName] = useState('');
   const [aspirantAge, setAspirantAge] = useState('');
@@ -540,6 +542,39 @@ export default function Navbar() {
               )}
             </div>
 
+          {/* Global Lang Toggle */}
+          <button
+            onClick={toggleLang}
+            title={langHi ? 'Switch to English' : 'Switch to Hindi'}
+            className="hide-md"
+            style={{
+              display: 'flex', alignItems: 'center', gap: 0,
+              background: 'var(--bg2)',
+              border: '1px solid var(--border)',
+              borderRadius: 6, overflow: 'hidden',
+              cursor: 'pointer', padding: 0,
+              fontSize: '0.7rem', fontWeight: 700,
+              boxShadow: langHi ? '0 0 0 1px rgba(99,102,241,0.45)' : 'none',
+              transition: 'box-shadow 0.15s',
+              marginRight: '0.1rem',
+            }}
+          >
+            <span style={{
+              padding: '0.28rem 0.6rem',
+              background: !langHi ? 'rgba(59,130,246,0.18)' : 'transparent',
+              color: !langHi ? '#60a5fa' : 'var(--text3)',
+              borderRight: '1px solid var(--border)',
+              transition: 'all 0.15s',
+              letterSpacing: '0.04em',
+            }}>EN</span>
+            <span style={{
+              padding: '0.28rem 0.6rem',
+              background: langHi ? 'rgba(99,102,241,0.18)' : 'transparent',
+              color: langHi ? '#a5b4fc' : 'var(--text3)',
+              transition: 'all 0.15s',
+              letterSpacing: '0.04em',
+            }}>हि</span>
+          </button>
           <span className="hide-md"><ThemeCustomizer /></span>
 
             {/* Auth / Premium */}

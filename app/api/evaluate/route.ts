@@ -446,6 +446,7 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData();
     const files = formData.getAll("files") as File[];
     const question = formData.get("question") as string;
+    const lang = (formData.get("lang") as string) || "en";
     const marks = formData.get("marks") as string;
     const extractedText = (formData.get("extractedText") as string) || "";
 
@@ -540,7 +541,7 @@ export async function POST(req: NextRequest) {
       const refRes = await callWithFallback({
         model: "qwen/qwen3-32b",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
           {
             role: "user",
             content: `Generate a strong internal reference answer for this UPSC History Optional question. This will be used only to calibrate evaluation — it will NOT be shown to the student.
@@ -765,7 +766,7 @@ INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
     const cotRes = await callWithFallback({
         model: "meta-llama/llama-4-scout-17b-16e-instruct",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
           {
             role: "user",
             content: finalTranscript
@@ -808,7 +809,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
     const response = await callWithFallback({
         model: "qwen/qwen3-32b",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
           { role: "user", content: cotPrompt },
           { role: "assistant", content: cotReasoning },
           { role: "user", content: jsonPrompt },
@@ -934,7 +935,7 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
       const pass3Res = await callWithFallback({
         model: "qwen/qwen3-32b",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
           { role: "user", content: pass3Prompt },
         ],
         temperature: 0.2,
@@ -983,7 +984,7 @@ RULES:
           const pass4Res = await callWithFallback({
             model: "qwen/qwen3-32b",
             messages: [
-              { role: "system", content: SYSTEM_PROMPT },
+              { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
               { role: "user", content: pass4Prompt },
             ],
             temperature: 0.3,

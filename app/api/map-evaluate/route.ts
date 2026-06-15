@@ -30,7 +30,7 @@ const callWithFallback = async (body: object) => {
 
 export async function POST(req: NextRequest) {
   try {
-    const { files, year } = await req.json();
+    const { files, year, lang } = await req.json();
 
     if (!files?.length) return NextResponse.json({ error: "No files provided" }, { status: 400 });
     if (!year) return NextResponse.json({ error: "Year required" }, { status: 400 });
@@ -141,7 +141,7 @@ Respond ONLY with valid JSON, no markdown, no preamble:
     const groqRes = await callWithFallback({
       model: "meta-llama/llama-4-scout-17b-16e-instruct",
       messages: [
-        { role: "system", content: systemPrompt },
+        { role: "system", content: systemPrompt + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script)." : "") },
         { role: "user", content: userContent },
       ],
       temperature: 0.1,

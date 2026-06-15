@@ -1,4 +1,5 @@
 'use client';
+import { useLang } from '@/lib/i18n/LangContext';
 import React, { useState, useEffect, useRef } from 'react';
 import { prelimsQuestions } from '@/lib/prelimsData';
 import { supabase } from '@/lib/supabase';
@@ -129,7 +130,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ question: q.question, options: q.options, correct: q.correct, topic: q.topic }),
+        body: JSON.stringify({ question: q.question, options: q.options, correct: q.correct, topic: q.topic, lang: langHi ? 'hi' : 'en' }),
       });
       if (res.ok) {
         const data = await res.json();

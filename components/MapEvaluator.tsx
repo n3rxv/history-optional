@@ -79,7 +79,7 @@ export default function MapEvaluator({
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ pdfBase64 }),
+        body: JSON.stringify({ pdfBase64, lang: langHi ? 'hi' : 'en' }),
       });
 
       setProgress(90); setStage("Processing results…");

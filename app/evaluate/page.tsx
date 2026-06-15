@@ -425,6 +425,7 @@ const handleOcr = useCallback(async () => {
   const { UsagePill, GateModals, handleEvaluate, usage, increment, slots, showChatLimitModal: showEvalLimitModal } = useSubscriptionGate(handleOcr);
   // showEvalLimitModal re-used here as the paywall trigger for PDF evaluator
   const tokenRef = useRef<string | null>(null);
+  const { langHi } = useLang();
   useEffect(() => {
     // Get actual Supabase session token for owner bypass
     supabase.auth.getSession().then(({ data }) => {
@@ -457,6 +458,7 @@ const handleOcr = useCallback(async () => {
     fd.append("extractedText", extractedText);
     const evalFiles = processedImageFiles.length > 0 ? processedImageFiles : (files ? [...files] : []);
     if (evalFiles.length > 0) { const compEval = await Promise.all(evalFiles.map(f => compressImage(f))); compEval.forEach(f => fd.append("files", f)); }
+    fd.append("lang", langHi ? "hi" : "en");
     try {
       const res  = await fetch("/api/evaluate", { method: "POST", headers: { "x-user-token": tokenRef.current ?? "" }, body: fd });
       const rawText = await res.text();

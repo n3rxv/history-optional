@@ -1,4 +1,5 @@
 'use client';
+import { useLang } from '@/lib/i18n/LangContext';
 import { useState, useRef, useEffect, Suspense, useCallback } from 'react';
 import { marked } from 'marked';
 import { useSearchParams } from 'next/navigation';
@@ -347,6 +348,7 @@ function ChatContent() {
   }]);
   const [input, setInput] = useState(initialQ);
   const [loading, setLoading] = useState(false);
+  const { langHi } = useLang();
   const [bookMode, setBookMode] = useState(false);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfBase64, setPdfBase64] = useState<string | null>(null);
@@ -468,6 +470,7 @@ Every response must:
 - Be accurate with historical facts
 - Use plain English spellings only — no diacritical marks or special Unicode characters (write "Vijigishu" not "Vijigishu with diacritics", "Kautilya" not "Kautilya with diacritics", "Arthashastra" not "Arthasastra" etc.)${pdfBase64 ? '\n\nIMPORTANT: The user has uploaded a PDF. Analyze it carefully. If they ask for model answers to questions in the PDF, provide full UPSC-format answers. If they ask about content, explain it thoroughly.' : ''}`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
+          lang: langHi ? 'hi' : 'en',
           bookMode,
           bookTitle: bookTitle === 'all' ? undefined : bookTitle,
         }),
