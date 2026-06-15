@@ -642,6 +642,7 @@ export default function PDFTestEvaluator({
           evalFd.append("marks", String(q.marks));
           evalFd.append("extractedText", seg.answerText || transcript);
           cachedImages.forEach(img => evalFd.append("files", img));
+          evalFd.append("lang", langHi ? "hi" : "en");
 
           const evalRes = await fetch("/api/evaluate", {
             method: "POST", headers: { "x-user-token": token ?? "" }, body: evalFd,
@@ -1044,7 +1045,7 @@ export default function PDFTestEvaluator({
                   const evalRes = await fetch("/api/evaluate", {
                     method: "POST",
                     headers: { "x-user-token": token ?? "", "x-internal": "1" },
-                    body: (() => { const fd = new FormData(); fd.append("question", seg.questionText || `Question ${seg.questionNumber}`); fd.append("marks", String(seg.marks)); fd.append("extractedText", seg.answerText); return fd; })(),
+                    body: (() => { const fd = new FormData(); fd.append("question", seg.questionText || `Question ${seg.questionNumber}`); fd.append("marks", String(seg.marks)); fd.append("extractedText", seg.answerText); fd.append("lang", langHi ? "hi" : "en"); return fd; })(),
                   });
                   const evalData = await evalRes.json();
                   if (!evalRes.ok) throw new Error(evalData.error ?? "Evaluation failed");

@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import ThemeCustomizer from './ThemeCustomizer';
 import { useLang } from '@/lib/i18n/LangContext';
+import { tr, t } from '@/lib/i18n/ui';
 import SearchModal from './SearchModal';
 import { supabase } from '@/lib/supabase';
 import { SubscribeCard } from '@/components/SubscribeCard';
@@ -408,7 +409,7 @@ export default function Navbar() {
             {/* Notes dropdown */}
             <div ref={notesRef} style={{ position: 'relative' }}>
               <button onClick={() => setNotesMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }} onMouseEnter={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = '#fff'; }} onMouseLeave={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = 'var(--text2)'; }}>
-                Notes
+                {tr(t.notes, langHi)}
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
                   <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -448,7 +449,7 @@ export default function Navbar() {
             </div>
 
             {/* Flat links */}
-            {[{ href: '/chat', label: 'AI Chat' }, { href: '/evaluate', label: 'Evaluate' }, { href: '/resources', label: 'Books' }, { href: '/mapping', label: 'Mapping' }, { href: '/prelims', label: 'Prelims' }].map(l => {
+            {[{ href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }].map(l => {
               const active = pathname.startsWith(l.href);
               return (
                 <Link key={l.href} href={l.href} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, fontSize: '0.82rem', fontFamily: 'var(--font-ui)', textDecoration: 'none', color: active ? 'var(--accent)' : 'var(--text2)', background: 'transparent', transition: 'color 0.15s' }}
@@ -806,11 +807,27 @@ export default function Navbar() {
         {/* Mobile menu */}
         {open && (
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '0.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.1rem', background: '#0a0a0a' }}>
-            {[{ href: '/paper1', label: 'Paper I' }, { href: '/paper2', label: 'Paper II' }, { href: '/timeline', label: 'Timeline' }, { href: '/historiography', label: 'Historiography' }, { href: '/flashcards', label: 'Flashcards' }, { href: '/pyqs', label: 'PYQs' }, { href: '/test', label: 'Start Test' }, { href: '/chat', label: 'AI Chat' }, { href: '/evaluate', label: 'Evaluate' }, { href: '/resources', label: 'Books' }, { href: '/mapping', label: 'Mapping' }, { href: '/prelims', label: 'Prelims' }, { href: '/dashboard', label: 'My Progress' }].map(l => (
+            {[{ href: '/paper1', label: 'Paper I' }, { href: '/paper2', label: 'Paper II' }, { href: '/timeline', label: 'Timeline' }, { href: '/historiography', label: 'Historiography' }, { href: '/flashcards', label: 'Flashcards' }, { href: '/pyqs', label: 'PYQs' }, { href: '/test', label: 'Start Test' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }].map(l => (
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ padding: '0.6rem 0.5rem', borderRadius: 5, fontSize: '0.88rem', textDecoration: 'none', color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)' }}>{l.label}</Link>
             ))}
             <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
               <SearchModal />
+              {/* Mobile Lang Toggle */}
+              <button
+                onClick={toggleLang}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 0,
+                  background: 'var(--bg2)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 6, overflow: 'hidden',
+                  cursor: 'pointer', padding: 0,
+                  fontSize: '0.7rem', fontWeight: 700,
+                  boxShadow: langHi ? '0 0 0 1px rgba(99,102,241,0.45)' : 'none',
+                }}
+              >
+                <span style={{ padding: '0.3rem 0.6rem', background: !langHi ? 'rgba(59,130,246,0.18)' : 'transparent', color: !langHi ? '#60a5fa' : 'var(--text3)', borderRight: '1px solid var(--border)' }}>EN</span>
+                <span style={{ padding: '0.3rem 0.6rem', background: langHi ? 'rgba(99,102,241,0.18)' : 'transparent', color: langHi ? '#a5b4fc' : 'var(--text3)' }}>हि</span>
+              </button>
               <ThemeCustomizer />
               {user ? (
                 <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
