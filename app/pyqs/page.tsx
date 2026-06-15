@@ -190,6 +190,7 @@ export default function PYQsPage() {
   const [filterMarks, setFilterMarks]   = useState<number | 'all'>('all');
   const [search, setSearch]             = useState('');
   const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
+  const [showTopperCopies, setShowTopperCopies] = useState(false);
 
   const { GateModals, usage, slots, showChatLimitModal } = useSubscriptionGate(() => {});
 
@@ -283,14 +284,15 @@ export default function PYQsPage() {
           );
         })}
       </div>
-      <button onClick={() => alert('Coming soon')} style={{
-        background: 'var(--bg3)', color: 'var(--text2)',
-        border: '1px solid var(--border)',
+      <button onClick={() => setShowTopperCopies(p => !p)} style={{
+        background: showTopperCopies ? 'var(--accent)' : 'var(--bg3)',
+        color: showTopperCopies ? '#fff' : 'var(--text2)',
+        border: `1px solid ${showTopperCopies ? 'var(--accent)' : 'var(--border)'}`,
         padding: '0.45rem 1rem', borderRadius: 6,
         fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer',
         display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-        flexShrink: 0, whiteSpace: 'nowrap',
-      }}>Browse Topper Copies</button>
+        flexShrink: 0, whiteSpace: 'nowrap', transition: 'all 0.15s',
+      }}>{showTopperCopies ? 'Browse PYQs' : 'Browse Topper Copies'}</button>
       </div>
 
       {/* Filters */}
@@ -450,6 +452,8 @@ export default function PYQsPage() {
           </div>
         )}
       </div>
+      </>
+      )}
 
       <GateModals slots={slots} />
 
