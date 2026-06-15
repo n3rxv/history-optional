@@ -13,13 +13,21 @@ type Message = {
   sources?: { book_title: string; content: string }[];
 };
 
-const SUGGESTED = [
+const SUGGESTED_EN = [
   "Ashoka's Dhamma vs Buddhism — how different were they?",
   'Permanent Settlement vs Ryotwari — compare revenue systems.',
   'Causes and consequences of the Revolt of 1857.',
   'Explain the Mandala theory from the Arthashastra.',
   'French Revolution and the rise of nationalism in Europe.',
   'Mughal state under Aurangzeb — a critical analysis.',
+];
+const SUGGESTED_HI = [
+  'अशोक का धम्म बनाम बौद्ध धर्म — दोनों में क्या अंतर था?',
+  'स्थायी बंदोबस्त बनाम रैयतवारी — राजस्व प्रणालियों की तुलना करें।',
+  '1857 के विद्रोह के कारण और परिणाम।',
+  'अर्थशास्त्र से मंडल सिद्धांत की व्याख्या करें।',
+  'फ्रांसीसी क्रांति और यूरोप में राष्ट्रवाद का उदय।',
+  'औरंगज़ेब के अधीन मुगल राज्य — एक आलोचनात्मक विश्लेषण।',
 ];
 
 function cleanChunk(text: string): string {
@@ -909,7 +917,7 @@ Every response must:
               <div style={{ marginTop: '1.5rem' }}>
                 <div className="chat-suggested-label">{tr(t.chatSuggestedLabel, langHi)}</div>
                 <div className="chat-suggested-grid">
-                  {SUGGESTED.map((q, i) => (
+                  {(langHi ? SUGGESTED_HI : SUGGESTED_EN).map((q, i) => (
                     <button key={i} className="chat-suggested-btn" onClick={() => sendMessage(q)}>{q}</button>
                   ))}
                 </div>
