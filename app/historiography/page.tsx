@@ -11,6 +11,9 @@ type Position = {
   stance: string;
   key_work: string;
   argument: string;
+  argument_hi?: string;
+  stance_hi?: string;
+  key_work_hi?: string;
   school: string;
 };
 
@@ -22,6 +25,8 @@ type Debate = {
   topics: string[];
   type: 'debate' | 'topic';
   upsc_tip: string;
+  upsc_tip_hi?: string;
+  title_hi?: string;
   positions: Position[];
 };
 
@@ -360,7 +365,7 @@ export default function HistoriographyPage() {
         {/* Loading */}
         {loading && (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', letterSpacing: '0.1em' }}>
-            Loading…
+            {langHi ? 'लोड हो रहा है…' : 'Loading…'}
           </div>
         )}
 
@@ -380,13 +385,13 @@ export default function HistoriographyPage() {
                   <div className="hb-card-left">
                     <div className="hb-card-badges">
                       <TypeBadge type={debate.type} />
-                      <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', letterSpacing: '0.06em', padding: '2px 8px', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 20 }}>{debate.paper}</span>
+                      <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', letterSpacing: '0.06em', padding: '2px 8px', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 20 }}>{langHi ? (PAPERS_HI[debate.paper] ?? debate.paper) : debate.paper}</span>
                     </div>
-                    <div className="hb-card-title">{debate.title}</div>
+                    <div className="hb-card-title">{langHi && debate.title_hi ? debate.title_hi : debate.title}</div>
                     <div className="hb-card-meta">
-                      <span className="hb-meta-pill">{debate.period}</span>
+                      <span className="hb-meta-pill">{langHi ? (PERIODS_HI[debate.period] ?? debate.period) : debate.period}</span>
                       <span className="hb-meta-dot">·</span>
-                      <span className="hb-meta-pill">{debate.positions.length} position{debate.positions.length !== 1 ? 's' : ''}</span>
+                      <span className="hb-meta-pill">{debate.positions.length} {langHi ? 'मत' : (debate.positions.length !== 1 ? 'positions' : 'position')}</span>
                       {debate.topics.slice(0, 3).map(t => (
                         <span key={t} className="hb-topic-tag">{t}</span>
                       ))}
@@ -402,8 +407,8 @@ export default function HistoriographyPage() {
                     {/* UPSC Tip */}
                     {debate.upsc_tip && (
                       <div className="hb-tip">
-                        <span className="hb-tip-label">UPSC Tip</span>
-                        <span className="hb-tip-text">{debate.upsc_tip}</span>
+                        <span className="hb-tip-label">{langHi ? 'UPSC टिप' : 'UPSC Tip'}</span>
+                        <span className="hb-tip-text">{langHi && debate.upsc_tip_hi ? debate.upsc_tip_hi : debate.upsc_tip}</span>
                       </div>
                     )}
 
@@ -414,14 +419,14 @@ export default function HistoriographyPage() {
                           <div className="hb-pos-top">
                             <div>
                               <div className="hb-pos-name">{pos.historian_name}</div>
-                              <div className="hb-pos-stance">"{pos.stance}"</div>
+                              <div className="hb-pos-stance">"{langHi && pos.stance_hi ? pos.stance_hi : pos.stance}"</div>
                             </div>
                             {pos.school && <SchoolBadge school={pos.school} />}
                           </div>
                           {pos.key_work && (
-                            <div className="hb-pos-work">Key Work: <span>{pos.key_work}</span></div>
+                            <div className="hb-pos-work">{langHi ? 'मुख्य कृति' : 'Key Work'}: <span>{langHi && pos.key_work_hi ? pos.key_work_hi : pos.key_work}</span></div>
                           )}
-                          <div className="hb-pos-arg">{pos.argument}</div>
+                          <div className="hb-pos-arg">{langHi && pos.argument_hi ? pos.argument_hi : pos.argument}</div>
                         </div>
                       ))}
                     </div>
@@ -449,7 +454,7 @@ export default function HistoriographyPage() {
 
         {!loading && filtered.length === 0 && (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', letterSpacing: '0.1em' }}>
-            No entries found
+            {langHi ? 'कोई प्रविष्टि नहीं मिली' : 'No entries found'}
           </div>
         )}
       </div>
