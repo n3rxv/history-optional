@@ -480,7 +480,7 @@ ${ragContext}`
             const anthropicStream = anthropic.messages.stream({
               model: 'claude-haiku-4-5-20251001',
               max_tokens: 6000,
-              system: (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : ''),
+              system: (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.'),
               messages: builtMessages,
             });
             for await (const chunk of anthropicStream) {
@@ -490,10 +490,11 @@ ${ragContext}`
             }
           } else {
             // Groq streaming
-            const groqSystemPrompt = (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word must be in Hindi.' : '');
+            const groqSystemPrompt = (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word must be in Hindi.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question. Every single word must be in English.');
             const groqMessages = messages.map((m: any, i: number) => {
-              if (i === messages.length - 1 && m.role === 'user' && lang === 'hi') {
-                return { role: m.role, content: m.content + '\n\n[तुम्हें पूरा जवाब हिंदी (देवनागरी) में देना है।]' };
+              if (i === messages.length - 1 && m.role === 'user') {
+                if (lang === 'hi') return { role: m.role, content: m.content + '\n\n[तुम्हें पूरा जवाब हिंदी (देवनागरी) में देना है।]' };
+                return { role: m.role, content: m.content + '\n\n[IMPORTANT: Respond entirely in English only.]' };
               }
               return { role: m.role, content: m.content };
             });
