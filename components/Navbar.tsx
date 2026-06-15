@@ -416,7 +416,7 @@ export default function Navbar() {
               </button>
               {notesMenuOpen && (
                 <div style={{ position: 'absolute', top: '100%', left: 0, background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 150, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
-                  {[{ href: '/paper1', label: 'Paper I' }, { href: '/paper2', label: 'Paper II' }, { href: '/timeline', label: 'Timeline' }, { href: '/historiography', label: 'Historiography' }, { href: '/flashcards', label: 'Flashcards' }, { href: '/#daily-answer', label: 'Daily Answer Writing' }].map(item => (
+                  {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/#daily-answer', label: langHi ? 'दैनिक उत्तर लेखन' : 'Daily Answer Writing' }].map(item => (
                     <Link key={item.href} href={item.href} onClick={() => setNotesMenuOpen(false)}
                       style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)', background: pathname.startsWith(item.href) ? 'rgba(59,130,246,0.08)' : 'transparent', transition: 'all 0.12s' }}
                       onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
@@ -437,7 +437,7 @@ export default function Navbar() {
               </button>
               {pyqsMenuOpen && (
                 <div style={{ position: 'absolute', top: '100%', left: 0, background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 140, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
-                  {[{ href: '/pyqs', label: 'Browse PYQs' }, { href: '/test', label: 'Start Test' }].map(item => (
+                  {[{ href: '/pyqs', label: langHi ? 'PYQs देखें' : 'Browse PYQs' }, { href: '/test', label: langHi ? 'टेस्ट शुरू करें' : 'Start Test' }].map(item => (
                     <Link key={item.href} href={item.href} onClick={() => setPyqsMenuOpen(false)}
                       style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: pathname === item.href ? 'var(--accent)' : 'var(--text2)', background: pathname === item.href ? 'rgba(59,130,246,0.08)' : 'transparent', transition: 'all 0.12s' }}
                       onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
@@ -807,7 +807,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         {open && (
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '0.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.1rem', background: '#0a0a0a' }}>
-            {[{ href: '/paper1', label: 'Paper I' }, { href: '/paper2', label: 'Paper II' }, { href: '/timeline', label: 'Timeline' }, { href: '/historiography', label: 'Historiography' }, { href: '/flashcards', label: 'Flashcards' }, { href: '/pyqs', label: 'PYQs' }, { href: '/test', label: 'Start Test' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }].map(l => (
+            {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/pyqs', label: langHi ? 'PYQs देखें' : 'PYQs' }, { href: '/test', label: langHi ? 'टेस्ट शुरू करें' : 'Start Test' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }].map(l => (
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ padding: '0.6rem 0.5rem', borderRadius: 5, fontSize: '0.88rem', textDecoration: 'none', color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)' }}>{l.label}</Link>
             ))}
             <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
