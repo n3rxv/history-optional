@@ -300,26 +300,30 @@ export async function POST(req: NextRequest) {
       });
     };
 
-    // ── RAG: inject book context if bookMode ────────────────────────
+    // ── RAG: inject book context for bookMode AND normal chat ────────
     let ragContext = '';
     let ragSources: { book_title: string; content: string }[] = [];
-    if (bookMode) {
-      const lastQ = typeof messages?.[messages.length - 1]?.content === 'string'
-        ? messages[messages.length - 1].content
-        : '';
-      try {
+    const lastQ = typeof messages?.[messages.length - 1]?.content === 'string'
+      ? messages[messages.length - 1].content
+      : '';
+    try {
+      if (bookMode) {
+        // Book-specific RAG (existing behaviour)
         ragContext = await getBookContext(lastQ, bookTitle);
-        // Parse sources from formatted ragContext for UI display
-        ragSources = ragContext
-          .split('\n\n---\n\n')
-          .map(block => {
-            const match = block.match(/^\[Source \d+ — (.+?)\]\n([\s\S]+)$/);
-            if (match) return { book_title: match[1], content: match[2] };
-            return null;
-          })
-          .filter(Boolean) as { book_title: string; content: string }[];
-      } catch(e) { console.error('RAG error:', e); }
-    }
+      } else {
+        // Normal chat — search across all books, no filter
+        ragContext = await getBookContext(lastQ);
+      }
+      // Parse sources for UI display
+      ragSources = ragContext
+        .split('\n\n---\n\n')
+        .map(block => {
+          const match = block.match(/^\[Source \d+ — (.+?)\]\n([\s\S]+)$/);
+          if (match) return { book_title: match[1], content: match[2] };
+          return null;
+        })
+        .filter(Boolean) as { book_title: string; content: string }[];
+    } catch(e) { console.error('RAG error:', e); }
 
     const ragSystem = ragContext
       ? `${system ?? ''}
@@ -520,6 +524,11 @@ The examiner's first instinct when they see a wrong citation is to distrust the 
 BOOK PASSAGES from "${bookTitle && bookTitle !== "all" ? bookTitle : "reference books"}" (cite passages as [${bookTitle && bookTitle !== "all" ? bookTitle : "Book Title"}]):
 IMPORTANT: The user has specifically selected "${bookTitle && bookTitle !== "all" ? bookTitle : "All Books"}" — prioritise answering from these passages above all else. Do not genericise the answer; ground it specifically in what this book covers.
 Your answer must reflect THIS BOOK'S specific arguments, framework, and perspective — not a generic textbook answer. If the book has a distinct historiographical stance (e.g. Sekhar Bandyopadhyay's subaltern/social history lens, Romila Thapar's early India framework, Satish Chandra's medieval synthesis), use that lens explicitly in your answer.
+${ragContext}`
+      : ragContext
+      ? `${system ?? ''}
+
+RELEVANT BOOK PASSAGES (use these to ground your answer, cite as [Book Title]):
 ${ragContext}`
       : system;
 
