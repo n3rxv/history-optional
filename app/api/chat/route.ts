@@ -327,7 +327,7 @@ export async function POST(req: NextRequest) {
 
     const ragSystem = ragContext
       ? `${system ?? ''}
-You are a UPSC History Optional expert. You MUST always give a complete, well-structured answer — NEVER refuse, NEVER say the book does not cover a topic. Always answer from your expert knowledge, using the passages below as supplementary evidence where relevant.
+You are a UPSC History Optional expert. You MUST always give a complete, well-structured answer covering the topic — do not abandon the question or leave it unanswered. Use the passages below as supplementary evidence where relevant, but follow the epistemic rules below even if that means hedging or omitting a specific name/claim — a hedge is NOT a refusal.
 Do NOT use markdown headings (###, ##, #) in your response. Use bold text (**text**) for section titles instead.
 You have a maximum of 45 seconds to respond. Write a complete, well-structured answer — do NOT stop mid-sentence or leave any part unanswered. If the question has multiple parts or theories, cover each one with adequate depth. Finish the full answer within the token limit — a complete answer is always better than a detailed but cut-off one.
 
@@ -491,6 +491,21 @@ MEDIEVAL INDIA — FOREIGN ACCOUNTS & COURT CHRONICLES:
 RULE: When a student's answer would benefit from a contemporary source, cite WHAT the source RECORDS, not analytical conclusions the source never drew.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 3C — RAG PASSAGE VERIFICATION GATE (applies whenever passages are provided below)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The passages under "BOOK PASSAGES" below are real excerpts from real books. They are evidence, not proof of any specific historian's name unless that name is written in the passage text itself.
+
+Before naming ANY historian in your answer, run this check:
+1. Is this name in the KNOWN SAFE HISTORIAN-ARGUMENT PAIRS list above? → If yes, only use the argument/topic listed next to them.
+2. Is this name written verbatim inside the passages below, attached to the specific claim you want to make? → If yes, you may cite it.
+3. If NEITHER (a) nor (b) is true for this specific name+claim combination → DO NOT invent a name. Use unattributed phrasing instead: "historians have noted...", "a common critique is...", "scholarship on this period suggests...".
+
+This rule exists because plausible-sounding names (a surname that sounds like a known scholar, a name that "feels" academic) are NOT a substitute for a verified source. A name must come from the whitelist or from the passage text — never from pattern-matching on what an authoritative-sounding name "should" be.
+
+If the passages below do not support a historian-specific claim you want to make, that is normal — most passages are general historical content, not historiographical debate. In that case, just make the point itself without attaching a historian's name to it.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STEP 4 — SHOW YOUR UNCERTAINTY, DON'T HIDE IT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -521,14 +536,13 @@ A shorter, factually honest answer scores higher than a long, confident, halluci
 The examiner's first instinct when they see a wrong citation is to distrust the entire answer.
 
 
-BOOK PASSAGES from "${bookTitle && bookTitle !== "all" ? bookTitle : "reference books"}" (cite passages as [${bookTitle && bookTitle !== "all" ? bookTitle : "Book Title"}]):
-IMPORTANT: The user has specifically selected "${bookTitle && bookTitle !== "all" ? bookTitle : "All Books"}" — prioritise answering from these passages above all else. Do not genericise the answer; ground it specifically in what this book covers.
-Your answer must reflect THIS BOOK'S specific arguments, framework, and perspective — not a generic textbook answer. If the book has a distinct historiographical stance (e.g. Sekhar Bandyopadhyay's subaltern/social history lens, Romila Thapar's early India framework, Satish Chandra's medieval synthesis), use that lens explicitly in your answer.
-${ragContext}`
-      : ragContext
-      ? `${system ?? ''}
-
-RELEVANT BOOK PASSAGES (use these to ground your answer, cite as [Book Title]):
+${bookTitle && bookTitle !== "all"
+  ? `BOOK PASSAGES from "${bookTitle}" (cite passages as [${bookTitle}]):
+IMPORTANT: The user has specifically selected "${bookTitle}" — prioritise answering from these passages above all else. Do not genericise the answer; ground it specifically in what this book covers.
+Your answer must reflect THIS BOOK'S specific arguments, framework, and perspective — not a generic textbook answer. If the book has a distinct historiographical stance (e.g. Sekhar Bandyopadhyay's subaltern/social history lens, Romila Thapar's early India framework, Satish Chandra's medieval synthesis), use that lens explicitly in your answer.`
+  : `RELEVANT BOOK PASSAGES (multiple books, top matches — cite each as [Book Title] shown in the source label):
+Use these as supporting evidence where they are genuinely relevant to the question. They are a sample of nearby content, not a complete coverage of the topic — treat gaps in the passages as normal, not as license to invent specifics to fill them.`
+}
 ${ragContext}`
       : system;
 
@@ -580,7 +594,7 @@ ${ragContext}`
             const anthropicStream = anthropic.messages.stream({
               model: 'claude-haiku-4-5-20251001',
               max_tokens: 6000,
-              system: (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.'),
+              system: ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.'),
               messages: builtMessages,
             });
             for await (const chunk of anthropicStream) {
@@ -590,7 +604,7 @@ ${ragContext}`
             }
           } else {
             // Groq streaming
-            const groqSystemPrompt = (bookMode ? ragSystem : (system ?? '')) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word must be in Hindi.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question. Every single word must be in English.');
+            const groqSystemPrompt = ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word must be in Hindi.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question. Every single word must be in English.');
             const groqMessages = messages.map((m: any, i: number) => {
               if (i === messages.length - 1 && m.role === 'user') {
                 if (lang === 'hi') return { role: m.role, content: m.content + '\n\n[तुम्हें पूरा जवाब हिंदी (देवनागरी) में देना है।]' };
