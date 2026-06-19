@@ -518,9 +518,10 @@ Every response must:
         full += chunk;
 
         // Check if sources marker arrived
-        const srcIdx = full.indexOf('\n__SOURCES__');
+        const SOURCES_MARKER = '\n__SOURCES__';
+        const srcIdx = full.indexOf(SOURCES_MARKER);
         if (srcIdx !== -1) {
-          try { sources = JSON.parse(full.slice(srcIdx + 13)); } catch { /* ignore */ }
+          try { sources = JSON.parse(full.slice(srcIdx + SOURCES_MARKER.length)); } catch { /* ignore */ }
           full = full.slice(0, srcIdx);
         }
 
