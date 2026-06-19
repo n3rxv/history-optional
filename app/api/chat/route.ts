@@ -666,15 +666,25 @@ ${ragContext}`
                 try {
                   const delta = JSON.parse(data).choices?.[0]?.delta?.content ?? '';
                   if (!delta) continue;
-                  if (thinkDone) { send(delta); continue; }
-                  accumulated += delta;
-                  // Check if think block is complete
-                  const endIdx = accumulated.indexOf('</think>');
-                  if (endIdx !== -1) {
-                    thinkDone = true;
-                    const after = accumulated.slice(endIdx + 8);
-                    if (after) send(after);
+                  // gpt-oss models on Groq send reasoning in a separate
+                  // `delta.reasoning` field, not inline <think> tags in
+                  // `content` (that was a Qwen3-specific quirk). So any
+                  // text that lands in `content` here is already the
+                  // real answer — forward it straight through.
+                  if (delta.includes('<think>') || delta.includes('</think>')) {
+                    // Defensive fallback in case a model DOES emit think tags
+                    // inline (e.g. if you switch models again later).
+                    if (thinkDone) { send(delta.replace(/<\/?think>/g, '')); continue; }
+                    accumulated += delta;
+                    const endIdx = accumulated.indexOf('</think>');
+                    if (endIdx !== -1) {
+                      thinkDone = true;
+                      const after = accumulated.slice(endIdx + 8);
+                      if (after) send(after);
+                    }
+                    continue;
                   }
+                  send(delta);
                 } catch { /* skip malformed */ }
               }
             }
