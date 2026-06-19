@@ -384,6 +384,7 @@ function ChatContent() {
   const dragRef = useRef<{dragging:boolean, startX:number, startY:number, origX:number, origY:number}>({dragging:false,startX:0,startY:0,origX:0,origY:0});
   const [bookTitle, setBookTitle] = useState<string>('all');
   const [showBookPaywall, setShowBookPaywall] = useState(false);
+  const [citationModal, setCitationModal] = useState<{ book_title: string; content: string }[] | null>(null);
   const { usage, canChat, incrementChat, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
   const usageLoading = usage?.loading ?? true;
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -580,7 +581,20 @@ Every response must:
     return result;
   };
 
-  const formatMessage = (text: string) => {
+  function linkifyCitations(html: string, sourcesCount: number): string {
+    if (!sourcesCount) return html;
+    return html.replace(
+      /\b(Sources?)\s*#?\s*(\d+(?:\s*(?:,|and|&)\s*\d+)*)\b/gi,
+      (match: string, _label: string, numList: string) => {
+        const nums = Array.from(numList.matchAll(/\d+/g)).map((m: any) => parseInt(m[0], 10));
+        const valid = nums.filter(n => n >= 1 && n <= sourcesCount);
+        if (valid.length === 0) return match; // out-of-range reference — leave as plain text
+        return `<span class="chat-citation" data-citation="${valid.join(',')}">${match}</span>`;
+      }
+    );
+  }
+
+  const formatMessage = (text: string, sourcesCount: number = 0) => {
     text = formatTable(text);
     // Step 1: Protect --- from bullet matching
     text = text.replace(/^-{3,}$/gm, '___HR___');
@@ -615,6 +629,8 @@ Every response must:
     text = text.replace(/<\/div><div class="chat-para-gap"><\/div><div class="chat-bullet">/g, '</div><div class="chat-bullet">');
     // Remove para-gap between subheading and first bullet
     text = text.replace(/(<div class="chat-msg-h[123]">[^<]+<\/div>)<div class="chat-para-gap"><\/div>(<div class="chat-bullet">)/g, '$1$2');
+    // Step 8: Make "Source N" mentions clickable — must run last, on final HTML
+    text = linkifyCitations(text, sourcesCount);
     return text;
   };
 
@@ -878,6 +894,8 @@ Every response must:
         .chat-table th { background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.2); padding:8px 12px; text-align:left; color:#f1f5f9; font-weight:600; }
         .chat-table td { border:1px solid rgba(255,255,255,0.07); padding:7px 12px; color:#c8d3e0; vertical-align:top; }
         .chat-table tr:hover td { background:rgba(59,130,246,0.04); }
+        .chat-citation { color:#818cf8; cursor:pointer; text-decoration:underline; text-decoration-style:dotted; text-decoration-color:rgba(129,140,248,0.5); text-underline-offset:2px; transition:color 0.15s; }
+        .chat-citation:hover { color:#a5b4fc; }
       `}</style>
 
       <div className="chat-wrap" onDragOver={e => { e.preventDefault(); setDragOver(true); }} onDragLeave={e => { e.preventDefault(); setDragOver(false); }} onDrop={handleDrop}>
@@ -898,7 +916,17 @@ Every response must:
                   ) : (loading && i === messages.length - 1) ? (
                     <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(msg.content, { breaks: true }) as string) }} />
                   ) : (
-                    <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content)) }} />
+                    <div
+                      onClick={(e) => {
+                        const target = (e.target as HTMLElement).closest('[data-citation]') as HTMLElement | null;
+                        if (target && msg.sources) {
+                          const indices = target.getAttribute('data-citation')!.split(',').map(Number);
+                          const picked = indices.map(n => msg.sources![n - 1]).filter(Boolean);
+                          if (picked.length) setCitationModal(picked);
+                        }
+                      }}
+                      dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content, msg.sources?.length ?? 0)) }}
+                    />
                   )}
                 </div>
                 {msg.sources && msg.sources.length > 0 && (
@@ -1097,6 +1125,36 @@ Every response must:
                 style={{ marginTop:'0.75rem', background:'none', border:'none', color:'var(--text3)', fontSize:'0.8rem', cursor:'pointer' }}>
                 Maybe later
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* Citation source modal — opens when a "Source N" mention in the answer is clicked */}
+        {citationModal && (
+          <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
+            onClick={() => setCitationModal(null)}>
+            <div style={{ background:'#0f0f1a', border:'1px solid rgba(99,102,241,0.4)', borderRadius:16, padding:'1.25rem', maxWidth:480, width:'100%', maxHeight:'75vh', overflowY:'auto' }}
+              onClick={e => e.stopPropagation()}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.9rem' }}>
+                <span style={{ fontSize:'0.7rem', fontFamily:'var(--font-mono)', color:'#818cf8', letterSpacing:'0.1em', textTransform:'uppercase' }}>
+                  📖 Cited Passage{citationModal.length > 1 ? 's' : ''}
+                </span>
+                <button onClick={() => setCitationModal(null)}
+                  style={{ background:'none', border:'none', color:'var(--text3)', fontSize:'1.1rem', cursor:'pointer', lineHeight:1 }}>✕</button>
+              </div>
+              {citationModal.map((s, si) => {
+                const cleaned = cleanChunk(s.content);
+                return (
+                  <div key={si} style={{ marginBottom: si < citationModal.length - 1 ? '1rem' : 0, paddingBottom: si < citationModal.length - 1 ? '1rem' : 0, borderBottom: si < citationModal.length - 1 ? '1px solid rgba(99,102,241,0.12)' : 'none' }}>
+                    <div style={{ display:'inline-block', fontSize:'0.6rem', fontFamily:'var(--font-mono)', color:'#a5b4fc', background:'rgba(99,102,241,0.15)', borderRadius:4, padding:'0.15rem 0.5rem', marginBottom:'0.5rem', letterSpacing:'0.08em' }}>
+                      {s.book_title}
+                    </div>
+                    <div style={{ fontSize:'0.82rem', color:'var(--text2)', lineHeight:1.75 }}>
+                      {cleaned || 'Passage text unavailable.'}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
