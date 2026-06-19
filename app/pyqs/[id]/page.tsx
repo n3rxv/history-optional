@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { pyqs, type PYQ } from '@/lib/pyqData';
-import { supabase } from '@/lib/supabase';
 
 interface AnswerEntry {
   id: string;
@@ -21,24 +20,12 @@ export default function PYQDetailPage() {
 
   const [answers, setAnswers]         = useState<AnswerEntry[]>([]);
   const [loadingAnswers, setLoadingAnswers] = useState(true);
-  const [user, setUser]               = useState<any>(null);
   const [uploading, setUploading]     = useState(false);
   const [uploadErr, setUploadErr]     = useState<string | null>(null);
   const [uploadOk, setUploadOk]       = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [file, setFile]               = useState<File | null>(null);
   const fileRef                       = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        const meta = session.user.user_metadata;
-        const fallback = (session.user.email ?? '').split('@')[0];
-        setDisplayName(meta?.full_name ?? meta?.name ?? fallback);
-      }
-    });
-  }, []);
 
   useEffect(() => {
     if (!pyq) return;
@@ -60,13 +47,10 @@ export default function PYQDetailPage() {
 
   const handleUpload = async () => {
     setUploadErr(null);
-    if (!user)               { setUploadErr('Please login to submit your answer.'); return; }
     if (!file)               { setUploadErr('Please select a PDF file.'); return; }
     if (!displayName.trim()) { setUploadErr('Please enter your name.'); return; }
 
     setUploading(true);
-    const { data: { session } } = await supabase.auth.getSession();
-    const token = session?.access_token ?? '';
 
     const form = new FormData();
     form.append('pyq_id', String(pyq.id));
@@ -75,7 +59,6 @@ export default function PYQDetailPage() {
 
     const res  = await fetch('/api/pyq-answers', {
       method: 'POST',
-      headers: { authorization: `Bearer ${token}` },
       body: form,
     });
     const data = await res.json();
