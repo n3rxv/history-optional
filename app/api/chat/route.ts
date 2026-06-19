@@ -639,7 +639,7 @@ ${ragContext}`
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.GROQ_API_KEY}` },
               body: JSON.stringify({
-                model: 'qwen/qwen3-32b',
+                model: 'qwen/qwen3.6-27b',
                 stream: true,
                 messages: [
                   ...(groqSystemPrompt ? [{ role: 'system', content: groqSystemPrompt }] : []),
