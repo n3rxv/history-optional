@@ -224,7 +224,7 @@ Write the full model answer now:`;
         }),
       });
 
-    let res = await callGroq('qwen/qwen3-32b');
+    let res = await callGroq('openai/gpt-oss-120b');
     if (res.status === 429 || res.status === 503) {
       res = await callGroq('llama-3.3-70b-versatile');
     }
