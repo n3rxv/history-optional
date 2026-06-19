@@ -539,7 +539,7 @@ export async function POST(req: NextRequest) {
     try {
       const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
       const refRes = await callWithFallback({
-        model: "qwen/qwen3.6-27b",
+        model: "qwen/qwen3-32b",
         messages: [
           { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
           {
@@ -807,7 +807,7 @@ Do not re-evaluate. Faithfully convert your reasoning into JSON.
 Return ONLY the JSON object, no preamble, no markdown fences.`;
 
     const response = await callWithFallback({
-        model: "qwen/qwen3.6-27b",
+        model: "qwen/qwen3-32b",
         messages: [
           { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
           { role: "user", content: cotPrompt },
@@ -933,7 +933,7 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
 
     try {
       const pass3Res = await callWithFallback({
-        model: "qwen/qwen3.6-27b",
+        model: "qwen/qwen3-32b",
         messages: [
           { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
           { role: "user", content: pass3Prompt },
@@ -982,7 +982,7 @@ RULES:
 
         try {
           const pass4Res = await callWithFallback({
-            model: "qwen/qwen3.6-27b",
+            model: "qwen/qwen3-32b",
             messages: [
               { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
               { role: "user", content: pass4Prompt },
