@@ -714,7 +714,8 @@ ${referenceAnswer}
 Work through this RIGID RUBRIC — check each box YES or NO and assign marks exactly as the band says. Do not deviate from the bands.
 
 == STEP 1: READING ==
-Write one sentence each for: intro, each body point (list historian named + argument if any), conclusion.
+First, identify the EXACT boundary of each section by quoting where it starts: where does the introduction end and the body begin, where does the body end and the conclusion begin? A historian or claim that appears in the conclusion's text belongs ONLY to the conclusion's evaluation — never copy it into the introduction's evaluation, even if it would have made the introduction stronger. Same rule for body vs intro/conclusion.
+Write one sentence each for: intro (quote its actual opening text), each body point (list historian named + argument if any, quoting the body text), conclusion (quote its actual closing text). Double-check: does the historian/claim you attributed to "intro" actually appear in the intro's quoted text, not in the body or conclusion? If a historian only appears in the conclusion, do NOT mention them when evaluating the introduction.
 
 == STEP 1B: FACTUAL VERIFICATION ==
 List every specific factual claim the student makes — this includes dates/years/centuries/named events/movements (e.g. "Shramana movements, 400-500 BC") AND substantive historical claims about what a person, group, or institution actually did or believed (e.g. "Buddha abolished the caste system", "Akbar banned Sati", "the Mauryas controlled all of South India"). For each one, check it against what you actually know:
@@ -781,6 +782,7 @@ INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
 == STEP 8: SELF-AUDIT — re-examine your own STEP 3-7 decisions before finalizing ==
 Go back through what you just wrote above and check each box honestly:
 [ ] For every name I counted as STRONG or WEAK in body/intro/conclusion, is it an actual modern historian (a real person who writes history/historiography) — NOT a religious/philosophical concept, NOT a primary source, NOT a king/emperor/ruler, NOT a text/book title misread as a person?
+[ ] For every historian I credited to the introduction's evaluation, do they actually appear in the introduction's own text (not the body or conclusion)? Same check for body and conclusion — a historian named only in the conclusion must NOT be credited when scoring the introduction, and vice versa. If I cross-attributed a historian to the wrong section, fix that section's band now.
 [ ] Did I quote the exact historian name next to every STRONG/WEAK tag, as instructed? If any tag has no quoted name, change it to NONE now.
 [ ] Does my STRONG+WEAK tally actually match the count of distinct historian names I quoted? If not, recount and fix the tally now.
 [ ] Did I pick a band that is NOT in the allowed list for this section? If so, snap to the nearest allowed band — never award an in-between value.
