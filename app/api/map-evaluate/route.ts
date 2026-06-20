@@ -13,21 +13,6 @@ function toRoman(n: number): string {
   return map.find(([v]) => v === n)?.[1] ?? String(n);
 }
 
-const groqFetch = (body: object, key: string) =>
-  fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-
-const callWithFallback = async (body: object) => {
-  let res = await groqFetch(body, process.env.GROQ_API_KEY!);
-  if (res.status === 429 && process.env.GROQ_API_KEY_2) {
-    res = await groqFetch(body, process.env.GROQ_API_KEY_2);
-  }
-  return res;
-};
-
 export async function POST(req: NextRequest) {
   try {
     const { files, year, lang } = await req.json();
@@ -111,52 +96,54 @@ Respond ONLY with valid JSON, no markdown, no preamble:
         transcript = geminiData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
         console.log("Map OCR transcript:\n", transcript.slice(0, 400));
       } else {
-        console.log("Gemini OCR failed — will pass images directly to Groq");
+        console.log("Gemini OCR failed — will pass images directly to Haiku");
       }
     } catch (ocrErr) {
       console.log("OCR error (non-fatal):", ocrErr);
     }
 
-    // ── Step 2: Evaluate via Groq ────────────────────────────────────────────
-    // Build image blocks for Groq (images only — PDFs fallback to transcript)
-    const imageBlocks: { type: "image_url"; image_url: { url: string } }[] = [];
-    for (const f of files as { data: string; type: string }[]) {
-      if (f.type?.startsWith("image/")) {
-        imageBlocks.push({
-          type: "image_url",
-          image_url: { url: `data:${f.type};base64,${f.data}` },
-        });
-      }
-    }
+    // ── Step 2: Evaluate via Claude Haiku 4.5 ───────────────────────────────
+    const { default: Anthropic } = await import("@anthropic-ai/sdk");
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-    const userContent: object[] = [];
-    if (imageBlocks.length > 0) userContent.push(...imageBlocks);
-    userContent.push({
-      type: "text",
-      text: transcript
-        ? `${userText}\n\nOCR TRANSCRIPT (use this as primary source):\n${transcript}`
-        : userText,
-    });
+    // Convert base64 images to Anthropic format
+    type AnthropicImageBlock = {
+      type: "image";
+      source: { type: "base64"; media_type: "image/jpeg" | "image/png" | "image/gif" | "image/webp"; data: string };
+    };
+    const imageBlocks: AnthropicImageBlock[] = (files as { data: string; type: string }[])
+      .filter((f) => f.type?.startsWith("image/"))
+      .map((f) => ({
+        type: "image" as const,
+        source: {
+          type: "base64" as const,
+          media_type: (f.type || "image/jpeg") as "image/jpeg" | "image/png" | "image/gif" | "image/webp",
+          data: f.data,
+        },
+      }));
 
-    const groqRes = await callWithFallback({
-      model: "meta-llama/llama-4-scout-17b-16e-instruct",
-      messages: [
-        { role: "system", content: systemPrompt + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script)." : "") },
-        { role: "user", content: userContent },
-      ],
-      temperature: 0.1,
+    const userContent: Anthropic.MessageParam["content"] = [
+      ...imageBlocks,
+      {
+        type: "text" as const,
+        text: transcript
+          ? `${userText}\n\nOCR TRANSCRIPT (use this as primary source):\n${transcript}`
+          : userText,
+      },
+    ];
+
+    const haikuRes = await anthropic.messages.create({
+      model: "claude-haiku-4-5-20251001",
       max_tokens: 4000,
-      response_format: { type: "json_object" },
+      system: systemPrompt + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script)." : ""),
+      messages: [{ role: "user", content: userContent }],
     });
 
-    if (!groqRes.ok) {
-      const err = await groqRes.text();
-      console.error("Groq map-evaluate error:", err);
-      return NextResponse.json({ error: `AI error: ${groqRes.status}` }, { status: 500 });
-    }
+    const raw = haikuRes.content
+      .filter((b) => b.type === "text")
+      .map((b) => (b as { type: "text"; text: string }).text)
+      .join("");
 
-    const data = await groqRes.json();
-    const raw = data.choices?.[0]?.message?.content || "";
     const clean = raw.replace(/```json|```/g, "").trim();
     const parsed = JSON.parse(clean);
 
