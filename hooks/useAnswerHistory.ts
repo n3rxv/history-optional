@@ -27,9 +27,9 @@ export interface AnswerEntry {
     presentation: SectionMark;
   };
   demandOfQuestion?: string[];
-  introduction?: { what_was_written?: string; strengths?: string[]; analysis?: string; suggestions?: string[] };
+  introduction?: { what_was_written?: string; strengths?: string[]; weaknesses?: string[]; analysis?: string; suggestions?: string[] };
   body?: { strengths?: string[]; weaknesses?: string[]; suggestions?: string[] };
-  conclusion?: { what_was_written?: string; strengths?: string[]; analysis?: string; suggestions?: string[] };
+  conclusion?: { what_was_written?: string; strengths?: string[]; weaknesses?: string[]; analysis?: string; suggestions?: string[] };
   historiansToCite?: { name: string; work?: string; argument: string }[];
   modelAnswer?: { introduction: string; body: string | string[]; conclusion: string };
   type?: "single" | "batch" | "map";

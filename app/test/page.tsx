@@ -240,6 +240,35 @@ async function ocrViaServer(files: File[], token: string, onProgress: (msg: stri
   return (data.text as string) ?? '';
 }
 
+// Bold known historian names inside feedback strings (suggestions, weaknesses, etc.)
+const HISTORIAN_NAMES = [
+  "Vincent Smith","D.D. Kosambi","Kosambi","Romila Thapar","R.S. Sharma","R.C. Majumdar",
+  "Upinder Singh","Irfan Habib","Satish Chandra","B.D. Chattopadhyaya","Hermann Kulke",
+  "Burton Stein","Nicholas Dirks","Sumit Sarkar","Bipan Chandra","K.A. Nilakanta Sastri",
+  "A.L. Basham","John Marshall","Niharranjan Ray","Eric Hobsbawm","Ranajit Guha",
+  "Sheldon Pollock","Richard Eaton","David Ludden","Susan Bayly","Christopher Bayly",
+  "Jadunath Sarkar","Tapan Raychaudhuri","Dietmar Rothermund","Percival Spear",
+  "Stanley Wolpert","Sudipta Kaviraj","Partha Chatterjee","Gyan Prakash","Dipesh Chakrabarty",
+  "Tanika Sarkar","Sumit Guha","Muzaffar Alam","Sanjay Subrahmanyam","Velcheru Narayana Rao",
+  "Daud Ali","Cynthia Talbot","Phillip Wagoner","George Michell","Vasundhara Filliozat",
+];
+function boldHistorians(text: string): React.ReactNode[] {
+  if (!text) return [text];
+  const pattern = new RegExp(`(${HISTORIAN_NAMES.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
+  const parts = text.split(pattern);
+  return parts.map((part, i) =>
+    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "#f0f0f0" }}>{part}</strong> : part
+  );
+}
+
+// Mood emoji + color for a marks gauge, based on % scored
+function gaugeMood(pct: number): { emoji: string; color: string; label: string } {
+  if (pct >= 75) return { emoji: "😄", color: "#34d399", label: "Strong answer — keep this up!" };
+  if (pct >= 50) return { emoji: "🙂", color: "#818cf8", label: "Decent attempt — a few gaps to close." };
+  if (pct >= 30) return { emoji: "😕", color: "#f59e0b", label: "Learn from your mistakes — keep going!" };
+  return { emoji: "😟", color: "#f87171", label: "Needs significant work — review the feedback below." };
+}
+
 // ─── AI Mentor Panel ──────────────────────────────────────────────────────────
 
 function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
@@ -458,6 +487,37 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
                   </div>
               </div>
 
+              {/* Marks gauge */}
+              {(() => {
+                const fPct = (d.marks / d.marks_out_of) * 100;
+                const g = gaugeMood(fPct);
+                return (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem',
+                    background: 'var(--bg3)', borderRadius: 6, padding: '0.75rem 1rem', marginBottom: '0.75rem' }}>
+                    <div style={{ fontSize: '1.6rem', lineHeight: 1, flexShrink: 0 }}>{g.emoji}</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', marginBottom: '0.4rem', flexWrap: 'wrap' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.92rem', fontWeight: 700, color: g.color }}>
+                          Marks scored: {d.marks}
+                        </span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text3)' }}>/{d.marks_out_of}</span>
+                        <span style={{ fontSize: '0.74rem', color: 'var(--text2)', marginLeft: '0.2rem' }}>{g.label}</span>
+                      </div>
+                      <div style={{ position: 'relative', height: 7, borderRadius: 4,
+                        background: 'linear-gradient(90deg,#f87171,#f59e0b,#34d399)' }}>
+                        <div style={{ position: 'absolute', top: -8, left: `${fPct}%`, width: 0, height: 0,
+                          borderLeft: '5px solid transparent', borderRight: '5px solid transparent',
+                          borderTop: '6px solid #f0f0f0', transform: 'translateX(-50%)' }} />
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.25rem',
+                        fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)' }}>
+                        <span>0</span><span>{Math.round(d.marks_out_of / 2)}</span><span>{d.marks_out_of}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
               {/* Score disclaimer warning */}
               <div style={{
                 display: 'flex', gap: '0.6rem', alignItems: 'flex-start',
@@ -488,22 +548,26 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
               )}
               {d.body && (
                 <div style={{ marginBottom: '1rem' }}>
-                  {d.body.strengths?.length > 0 && (
-                    <div style={{ marginBottom: '0.5rem' }}>
-                      <div style={{ color: '#34d399', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>Strengths</div>
-                      {d.body.strengths.map((s: string, i: number) => (
-                        <div key={i} style={{ color: 'var(--text2)', paddingLeft: '0.75rem', borderLeft: '2px solid #34d39940', marginBottom: '0.2rem' }}>✓ {s}</div>
-                      ))}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                    <div style={{ background: 'rgba(52,211,153,0.04)', border: '1px solid rgba(52,211,153,0.14)',
+                      borderRadius: 6, padding: '0.6rem 0.75rem' }}>
+                      <div style={{ color: '#34d399', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>✓ Strengths</div>
+                      {d.body.strengths?.length > 0
+                        ? d.body.strengths.map((s: string, i: number) => (
+                          <div key={i} style={{ color: 'var(--text2)', marginBottom: '0.3rem', fontSize: '0.82rem', lineHeight: 1.55 }}>{boldHistorians(s)}</div>
+                        ))
+                        : <div style={{ color: 'var(--text3)', fontSize: '0.78rem', fontStyle: 'italic' }}>Nothing stood out here.</div>}
                     </div>
-                  )}
-                  {d.body.weaknesses?.length > 0 && (
-                    <div>
-                      <div style={{ color: '#f87171', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.25rem' }}>Areas to Improve</div>
-                      {d.body.weaknesses.map((w: string, i: number) => (
-                        <div key={i} style={{ color: 'var(--text2)', paddingLeft: '0.75rem', borderLeft: '2px solid #f8717140', marginBottom: '0.2rem' }}>{w}</div>
-                      ))}
+                    <div style={{ background: 'rgba(248,113,113,0.04)', border: '1px solid rgba(248,113,113,0.14)',
+                      borderRadius: 6, padding: '0.6rem 0.75rem' }}>
+                      <div style={{ color: '#f87171', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>✗ Weaknesses</div>
+                      {d.body.weaknesses?.length > 0
+                        ? d.body.weaknesses.map((w: string, i: number) => (
+                          <div key={i} style={{ color: 'var(--text2)', marginBottom: '0.3rem', fontSize: '0.82rem', lineHeight: 1.55 }}>{boldHistorians(w)}</div>
+                        ))
+                        : <div style={{ color: 'var(--text3)', fontSize: '0.78rem', fontStyle: 'italic' }}>No major issues found.</div>}
                     </div>
-                  )}
+                  </div>
                 </div>
               )}
               {d.historians_to_cite?.length > 0 && (

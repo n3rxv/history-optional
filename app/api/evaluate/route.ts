@@ -277,6 +277,9 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     "strengths": [
       "One sentence on what genuinely worked in the introduction — quote the student's exact words and say precisely why it earns credit. If nothing genuinely worked, return empty array."
     ],
+    "weaknesses": [
+      "One sentence per genuine weakness prefixed with [DEMAND GAP], [DESCRIPTIVE NOT ANALYTICAL], [HISTORIAN MISSING], [FACTUAL ERROR], or [STRUCTURE ISSUE] — only use a tag if that problem genuinely exists. Quote the student's exact words. If the introduction is strong, return empty array."
+    ],
     "analysis": "2-3 sentences maximum. Did it open with a historiographical debate or a definition? Did it name a historian with their specific thesis or just their name? Was the analytical frame clear? Quote the student's exact words in your judgement.",
     "suggestions": [
       "Write the exact opening sentence this introduction should have had — name the debate, the two positions, the historians on each side.",
@@ -299,6 +302,9 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     "what_was_written": "Quote the exact conclusion the student wrote.",
     "strengths": [
       "One sentence on what genuinely worked — quote the student's exact words. If nothing worked, return empty array."
+    ],
+    "weaknesses": [
+      "One sentence per genuine weakness prefixed with [DEMAND GAP], [DESCRIPTIVE NOT ANALYTICAL], [HISTORIAN MISSING], [FACTUAL ERROR], or [STRUCTURE ISSUE] — only use a tag if that problem genuinely exists. Quote the student's exact words. If the conclusion is strong, return empty array."
     ],
     "analysis": "2-3 sentences maximum. Did it synthesise or just repeat? Did it take a clear historiographical position? Did it resolve the tension from the introduction? Quote the student's exact words in your judgement.",
     "suggestions": [

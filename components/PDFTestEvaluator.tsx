@@ -36,6 +36,35 @@ function bodyParas(body: any): string[] {
   return [];
 }
 
+// Bold known historian names inside feedback strings (suggestions, weaknesses, etc.)
+const HISTORIAN_NAMES = [
+  "Vincent Smith","D.D. Kosambi","Kosambi","Romila Thapar","R.S. Sharma","R.C. Majumdar",
+  "Upinder Singh","Irfan Habib","Satish Chandra","B.D. Chattopadhyaya","Hermann Kulke",
+  "Burton Stein","Nicholas Dirks","Sumit Sarkar","Bipan Chandra","K.A. Nilakanta Sastri",
+  "A.L. Basham","John Marshall","Niharranjan Ray","Eric Hobsbawm","Ranajit Guha",
+  "Sheldon Pollock","Richard Eaton","David Ludden","Susan Bayly","Christopher Bayly",
+  "Jadunath Sarkar","Tapan Raychaudhuri","Dietmar Rothermund","Percival Spear",
+  "Stanley Wolpert","Sudipta Kaviraj","Partha Chatterjee","Gyan Prakash","Dipesh Chakrabarty",
+  "Tanika Sarkar","Sumit Guha","Muzaffar Alam","Sanjay Subrahmanyam","Velcheru Narayana Rao",
+  "Daud Ali","Cynthia Talbot","Phillip Wagoner","George Michell","Vasundhara Filliozat",
+];
+function boldHistorians(text: string): React.ReactNode[] {
+  if (!text) return [text];
+  const pattern = new RegExp(`(${HISTORIAN_NAMES.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
+  const parts = text.split(pattern);
+  return parts.map((part, i) =>
+    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "#f0f0f0" }}>{part}</strong> : part
+  );
+}
+
+// Mood emoji + color for a marks gauge, based on % scored
+function gaugeMood(pct: number): { emoji: string; color: string; label: string } {
+  if (pct >= 75) return { emoji: "😄", color: "#4ade80", label: "Strong answer — keep this up!" };
+  if (pct >= 50) return { emoji: "🙂", color: "#3b82f6", label: "Decent attempt — a few gaps to close." };
+  if (pct >= 30) return { emoji: "😕", color: "#f59e0b", label: "Learn from your mistakes — keep going!" };
+  return { emoji: "😟", color: "#f87171", label: "Needs significant work — review the feedback below." };
+}
+
 async function pdfToImages(file: File): Promise<File[]> {
   const pdfjs = await import("pdfjs-dist");
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -140,6 +169,28 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
               </div>
             </div>
 
+            {(() => {
+              const g = gaugeMood(pct);
+              return (
+                <div className="pdf-ev-gauge">
+                  <div className="pdf-ev-gauge-emoji">{g.emoji}</div>
+                  <div className="pdf-ev-gauge-body">
+                    <div className="pdf-ev-gauge-top">
+                      <span className="pdf-ev-gauge-score" style={{ color: g.color }}>Marks scored: {ev.marks}</span>
+                      <span className="pdf-ev-gauge-outof">/{ev.marks_out_of}</span>
+                      <span className="pdf-ev-gauge-label">{g.label}</span>
+                    </div>
+                    <div className="pdf-ev-gauge-track">
+                      <div className="pdf-ev-gauge-arrow" style={{ left: `${pct}%` }} />
+                    </div>
+                    <div className="pdf-ev-gauge-scale">
+                      <span>0</span><span>{Math.round(ev.marks_out_of / 2)}</span><span>{ev.marks_out_of}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
             <div style={{ display: "flex", gap: 12, padding: "14px 18px", background: "rgba(255,255,255,0.02)",
               border: "1px solid rgba(255,255,255,0.05)", borderRadius: 6, marginBottom: 32 }}>
               <span style={{ color: "#555", flexShrink: 0, fontSize: "0.8rem" }}>ℹ</span>
@@ -211,15 +262,26 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                       <div style={{ fontSize: "0.9rem", color: "#aaa", lineHeight: 1.7, fontStyle: "italic",
                         fontFamily: "var(--font-body)" }}>{ev.introduction.what_was_written}</div>
                     </div>
-                    {toArray(ev.introduction.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).length > 0 && (
-                      <ul className="pdf-ev-list" style={{ marginBottom: 14 }}>
-                        {toArray(ev.introduction.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).map((s: string, i: number) => (
-                          <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                            <span style={{ color: "#4ade80", flexShrink: 0, marginTop: 3 }}>✓</span>{s}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    {(() => {
+                      const strengths = toArray(ev.introduction.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
+                      const weaknesses = toArray(ev.introduction.weaknesses).filter((w: string) => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
+                      return (
+                        <div className="pdf-ev-sw-grid">
+                          <div className="pdf-ev-sw-col pdf-ev-sw-col-s">
+                            <div className="pdf-ev-sw-head pdf-ev-sw-head-s">✓ Strengths</div>
+                            {strengths.length > 0 ? strengths.map((s: string, i: number) => (
+                              <div key={i} className="pdf-ev-sw-item">{s}</div>
+                            )) : <div className="pdf-ev-sw-empty">Nothing stood out here.</div>}
+                          </div>
+                          <div className="pdf-ev-sw-col pdf-ev-sw-col-w">
+                            <div className="pdf-ev-sw-head pdf-ev-sw-head-w">✗ Weaknesses</div>
+                            {weaknesses.length > 0 ? weaknesses.map((w: string, i: number) => (
+                              <div key={i} className="pdf-ev-sw-item">{w}</div>
+                            )) : <div className="pdf-ev-sw-empty">No major issues found.</div>}
+                          </div>
+                        </div>
+                      );
+                    })()}
                     <div style={{ fontSize: "0.88rem", color: "#b0b0b0", lineHeight: 1.75,
                       fontFamily: "var(--font-body)", marginBottom: 14 }}>
                       {ev.introduction.analysis}
@@ -231,7 +293,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                         <ul className="pdf-ev-list">
                           {toArray(ev.introduction.suggestions).map((s: string, i: number) => (
                             <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>{s}
+                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
                             </li>
                           ))}
                         </ul>
@@ -257,56 +319,50 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                         </span>
                       )}
                     </div>
-                    {toArray(ev.body.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use [")).length > 0 && (
-                      <div style={{ marginBottom: 16 }}>
-                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
-                          textTransform: "uppercase", color: "#4ade80", marginBottom: 8, opacity: 0.7 }}>What worked</div>
-                        <ul className="pdf-ev-list">
-                          {toArray(ev.body.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use [")).map((s: string, i: number) => {
+                    <div className="pdf-ev-sw-grid">
+                      <div className="pdf-ev-sw-col pdf-ev-sw-col-s">
+                        <div className="pdf-ev-sw-head pdf-ev-sw-head-s">✓ Strengths</div>
+                        {(() => {
+                          const strengths = toArray(ev.body.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use ["));
+                          if (strengths.length === 0) return <div className="pdf-ev-sw-empty">Nothing stood out here.</div>;
+                          return strengths.map((s: string, i: number) => {
                             const tagMatch = s.match(/^\[([^\]]+)\]:\s*/);
                             const tag = tagMatch ? tagMatch[1] : null;
                             const text = tagMatch ? s.slice(tagMatch[0].length) : s;
                             return (
-                              <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                                <span style={{ color: "#4ade80", flexShrink: 0, marginTop: 3 }}>✓</span>
-                                <span>
-                                  {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
-                                    background: "rgba(74,222,128,0.1)", color: "#4ade80", borderRadius: 3,
-                                    padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
-                                  {text}
-                                </span>
-                              </li>
+                              <div key={i} className="pdf-ev-sw-item">
+                                {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
+                                  background: "rgba(74,222,128,0.1)", color: "#4ade80", borderRadius: 3,
+                                  padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
+                                {text}
+                              </div>
                             );
-                          })}
-                        </ul>
+                          });
+                        })()}
                       </div>
-                    )}
-                    {toArray(ev.body.weaknesses).filter((w: string) => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use [")).length > 0 && (
-                      <div style={{ marginBottom: 16 }}>
-                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
-                          textTransform: "uppercase", color: "#f87171", marginBottom: 8, opacity: 0.7 }}>What fell short</div>
-                        <ul className="pdf-ev-list">
-                          {toArray(ev.body.weaknesses).filter((w: string) => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use [")).map((w: string, i: number) => {
+                      <div className="pdf-ev-sw-col pdf-ev-sw-col-w">
+                        <div className="pdf-ev-sw-head pdf-ev-sw-head-w">✗ Weaknesses</div>
+                        {(() => {
+                          const weaknesses = toArray(ev.body.weaknesses).filter((w: string) => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use ["));
+                          if (weaknesses.length === 0) return <div className="pdf-ev-sw-empty">No major issues found.</div>;
+                          const tagColors: Record<string, string> = { "missed demand": "#fbbf24", "needs historian": "#f87171", "too descriptive": "#a78bfa", "check this": "#f87171", "structure": "#818cf8" };
+                          return weaknesses.map((w: string, i: number) => {
                             const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
                             const tag = tagMatch ? tagMatch[1].toLowerCase() : null;
                             const text = tagMatch ? w.slice(tagMatch[0].length) : w;
-                            const tagColors: Record<string, string> = { "missed demand": "#fbbf24", "needs historian": "#f87171", "too descriptive": "#a78bfa", "check this": "#f87171", "structure": "#818cf8" };
                             const dotColor = tag && tagColors[tag] ? tagColors[tag] : "#f87171";
                             return (
-                              <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                                <span style={{ color: dotColor, flexShrink: 0, marginTop: 3 }}>✗</span>
-                                <span>
-                                  {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
-                                    background: `${dotColor}18`, color: dotColor, borderRadius: 3,
-                                    padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
-                                  {text}
-                                </span>
-                              </li>
+                              <div key={i} className="pdf-ev-sw-item">
+                                {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
+                                  background: `${dotColor}18`, color: dotColor, borderRadius: 3,
+                                  padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
+                                {text}
+                              </div>
                             );
-                          })}
-                        </ul>
+                          });
+                        })()}
                       </div>
-                    )}
+                    </div>
                     {toArray(ev.body.suggestions).filter((s: string) => s).length > 0 && (
                       <div>
                         <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
@@ -314,7 +370,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                         <ul className="pdf-ev-list">
                           {toArray(ev.body.suggestions).map((s: string, i: number) => (
                             <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>{s}
+                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
                             </li>
                           ))}
                         </ul>
@@ -339,15 +395,26 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                       <div style={{ fontSize: "0.9rem", color: "#aaa", lineHeight: 1.7, fontStyle: "italic",
                         fontFamily: "var(--font-body)" }}>{ev.conclusion.what_was_written}</div>
                     </div>
-                    {toArray(ev.conclusion.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).length > 0 && (
-                      <ul className="pdf-ev-list" style={{ marginBottom: 14 }}>
-                        {toArray(ev.conclusion.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).map((s: string, i: number) => (
-                          <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                            <span style={{ color: "#4ade80", flexShrink: 0, marginTop: 3 }}>✓</span>{s}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    {(() => {
+                      const strengths = toArray(ev.conclusion.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
+                      const weaknesses = toArray(ev.conclusion.weaknesses).filter((w: string) => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
+                      return (
+                        <div className="pdf-ev-sw-grid">
+                          <div className="pdf-ev-sw-col pdf-ev-sw-col-s">
+                            <div className="pdf-ev-sw-head pdf-ev-sw-head-s">✓ Strengths</div>
+                            {strengths.length > 0 ? strengths.map((s: string, i: number) => (
+                              <div key={i} className="pdf-ev-sw-item">{s}</div>
+                            )) : <div className="pdf-ev-sw-empty">Nothing stood out here.</div>}
+                          </div>
+                          <div className="pdf-ev-sw-col pdf-ev-sw-col-w">
+                            <div className="pdf-ev-sw-head pdf-ev-sw-head-w">✗ Weaknesses</div>
+                            {weaknesses.length > 0 ? weaknesses.map((w: string, i: number) => (
+                              <div key={i} className="pdf-ev-sw-item">{w}</div>
+                            )) : <div className="pdf-ev-sw-empty">No major issues found.</div>}
+                          </div>
+                        </div>
+                      );
+                    })()}
                     <div style={{ fontSize: "0.88rem", color: "#b0b0b0", lineHeight: 1.75,
                       fontFamily: "var(--font-body)", marginBottom: 14 }}>
                       {ev.conclusion.analysis}
@@ -359,7 +426,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                         <ul className="pdf-ev-list">
                           {toArray(ev.conclusion.suggestions).map((s: string, i: number) => (
                             <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>{s}
+                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
                             </li>
                           ))}
                         </ul>
@@ -440,6 +507,36 @@ const SHARED_CSS = `
   .pdf-ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(234,179,8,0.4),transparent); }
   .pdf-ev-card-green { border-color:rgba(74,222,128,0.12); background:linear-gradient(135deg,#101610,#111); }
   .pdf-ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(74,222,128,0.35),transparent); }
+  /* ── MARKS GAUGE ── */
+  .pdf-ev-gauge { display:flex; align-items:center; gap:18px; background:linear-gradient(135deg,#161616,#111);
+    border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
+  .pdf-ev-gauge-emoji { font-size:2.4rem; line-height:1; flex-shrink:0; }
+  .pdf-ev-gauge-body { flex:1; min-width:0; }
+  .pdf-ev-gauge-top { display:flex; align-items:baseline; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+  .pdf-ev-gauge-score { font-family:var(--font-mono); font-size:1.3rem; font-weight:700; }
+  .pdf-ev-gauge-outof { font-family:var(--font-mono); font-size:0.85rem; color:#555; }
+  .pdf-ev-gauge-label { font-family:var(--font-ui); font-size:0.8rem; color:#999; margin-left:4px; }
+  .pdf-ev-gauge-track { position:relative; height:8px; border-radius:4px;
+    background:linear-gradient(90deg,#f87171,#f59e0b,#4ade80); margin-top:4px; }
+  .pdf-ev-gauge-arrow { position:absolute; top:-9px; width:0; height:0;
+    border-left:6px solid transparent; border-right:6px solid transparent;
+    border-top:7px solid #f0f0f0; transform:translateX(-50%); transition:left 1.2s cubic-bezier(.16,1,.3,1); }
+  .pdf-ev-gauge-scale { display:flex; justify-content:space-between; margin-top:4px;
+    font-family:var(--font-mono); font-size:0.62rem; color:#555; }
+  /* ── STRENGTHS / WEAKNESSES 2-COL ── */
+  .pdf-ev-sw-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:14px 0; }
+  @media (max-width:640px) { .pdf-ev-sw-grid { grid-template-columns:1fr; } }
+  .pdf-ev-sw-col { border-radius:8px; padding:14px 16px; }
+  .pdf-ev-sw-col-s { background:rgba(74,222,128,0.04); border:1px solid rgba(74,222,128,0.14); }
+  .pdf-ev-sw-col-w { background:rgba(248,113,113,0.04); border:1px solid rgba(248,113,113,0.14); }
+  .pdf-ev-sw-head { display:flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:0.62rem;
+    letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }
+  .pdf-ev-sw-head-s { color:#4ade80; }
+  .pdf-ev-sw-head-w { color:#f87171; }
+  .pdf-ev-sw-item { display:flex; gap:9px; align-items:flex-start; margin-bottom:9px; font-size:0.86rem;
+    line-height:1.65; color:#c0c0c0; font-family:var(--font-body); }
+  .pdf-ev-sw-item:last-child { margin-bottom:0; }
+  .pdf-ev-sw-empty { font-size:0.82rem; color:#555; font-style:italic; }
   .pdf-ev-ct { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.32em; text-transform:uppercase; color:#3b82f6; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
   .pdf-ev-ct::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,rgba(59,130,246,0.25),transparent); }
   .pdf-ev-qbox { background:linear-gradient(135deg,#0d1b3e,#091530); border:1px solid rgba(59,130,246,0.2); border-radius:10px; padding:20px 24px; margin-bottom:20px; }
@@ -1007,6 +1104,28 @@ export default function PDFTestEvaluator({
               ↩ Evaluate Another
             </button>
           </div>
+
+          {(() => {
+            const g = gaugeMood(overallPct);
+            return (
+              <div className="pdf-ev-gauge">
+                <div className="pdf-ev-gauge-emoji">{g.emoji}</div>
+                <div className="pdf-ev-gauge-body">
+                  <div className="pdf-ev-gauge-top">
+                    <span className="pdf-ev-gauge-score" style={{ color: g.color }}>Marks scored: {totalAwarded}</span>
+                    <span className="pdf-ev-gauge-outof">/{totalMax}</span>
+                    <span className="pdf-ev-gauge-label">{g.label}</span>
+                  </div>
+                  <div className="pdf-ev-gauge-track">
+                    <div className="pdf-ev-gauge-arrow" style={{ left: `${overallPct}%` }} />
+                  </div>
+                  <div className="pdf-ev-gauge-scale">
+                    <span>0</span><span>{Math.round(totalMax / 2)}</span><span>{totalMax}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
 
           {transcript && (
             <div style={{ marginBottom: 20 }}>

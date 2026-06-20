@@ -59,6 +59,35 @@ function toArray(val: unknown): string[] {
   return [];
 }
 
+// Bold known historian names inside feedback strings (suggestions, weaknesses, etc.)
+const HISTORIAN_NAMES = [
+  "Vincent Smith","D.D. Kosambi","Kosambi","Romila Thapar","R.S. Sharma","R.C. Majumdar",
+  "Upinder Singh","Irfan Habib","Satish Chandra","B.D. Chattopadhyaya","Hermann Kulke",
+  "Burton Stein","Nicholas Dirks","Sumit Sarkar","Bipan Chandra","K.A. Nilakanta Sastri",
+  "A.L. Basham","John Marshall","Niharranjan Ray","Eric Hobsbawm","Ranajit Guha",
+  "Sheldon Pollock","Richard Eaton","David Ludden","Susan Bayly","Christopher Bayly",
+  "Jadunath Sarkar","Tapan Raychaudhuri","Dietmar Rothermund","Percival Spear",
+  "Stanley Wolpert","Sudipta Kaviraj","Partha Chatterjee","Gyan Prakash","Dipesh Chakrabarty",
+  "Tanika Sarkar","Sumit Guha","Muzaffar Alam","Sanjay Subrahmanyam","Velcheru Narayana Rao",
+  "Daud Ali","Cynthia Talbot","Phillip Wagoner","George Michell","Vasundhara Filliozat",
+];
+function boldHistorians(text: string): React.ReactNode[] {
+  if (!text) return [text];
+  const pattern = new RegExp(`(${HISTORIAN_NAMES.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
+  const parts = text.split(pattern);
+  return parts.map((part, i) =>
+    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "#f0f0f0" }}>{part}</strong> : part
+  );
+}
+
+// Mood emoji + color for a marks gauge, based on % scored
+function gaugeMood(pct: number): { emoji: string; color: string; label: string } {
+  if (pct >= 75) return { emoji: "😄", color: "var(--green)", label: "Strong answer — keep this up!" };
+  if (pct >= 50) return { emoji: "🙂", color: "#3b82f6", label: "Decent attempt — a few gaps to close." };
+  if (pct >= 30) return { emoji: "😕", color: "#f59e0b", label: "Learn from your mistakes — keep going!" };
+  return { emoji: "😟", color: "var(--red)", label: "Needs significant work — review the feedback below." };
+}
+
 
 
 async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promise<File> {
@@ -544,6 +573,22 @@ const handleOcr = useCallback(async () => {
         .ev-score-denom { font-family:var(--font-mono); font-size:1.8rem; color:#444; }
         .ev-bar-bg { background:var(--bg4); border-radius:2px; height:4px; overflow:hidden; margin-top:14px; width:260px; }
         .ev-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
+        /* ── MARKS GAUGE ── */
+        .ev-gauge { display:flex; align-items:center; gap:18px; background:linear-gradient(135deg,#161616,#111);
+          border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
+        .ev-gauge-emoji { font-size:2.4rem; line-height:1; flex-shrink:0; }
+        .ev-gauge-body { flex:1; min-width:0; }
+        .ev-gauge-top { display:flex; align-items:baseline; gap:8px; margin-bottom:8px; }
+        .ev-gauge-score { font-family:var(--font-mono); font-size:1.3rem; font-weight:700; }
+        .ev-gauge-outof { font-family:var(--font-mono); font-size:0.85rem; color:var(--text3); }
+        .ev-gauge-label { font-family:var(--font-ui); font-size:0.8rem; color:var(--text2); margin-left:4px; }
+        .ev-gauge-track { position:relative; height:8px; border-radius:4px;
+          background:linear-gradient(90deg,var(--red),#f59e0b,var(--green)); margin-top:4px; }
+        .ev-gauge-arrow { position:absolute; top:-9px; width:0; height:0;
+          border-left:6px solid transparent; border-right:6px solid transparent;
+          border-top:7px solid #f0f0f0; transform:translateX(-50%); transition:left 1.2s cubic-bezier(.16,1,.3,1); }
+        .ev-gauge-scale { display:flex; justify-content:space-between; margin-top:4px;
+          font-family:var(--font-mono); font-size:0.62rem; color:var(--text3); }
         .ev-wc { font-family:var(--font-mono); font-size:2.8rem; font-weight:700; color:var(--text); line-height:1; }
         .ev-pill { display:inline-block; padding:3px 12px; border-radius:3px;
           font-family:var(--font-mono); font-size:0.64rem; letter-spacing:0.12em;
@@ -564,6 +609,20 @@ const handleOcr = useCallback(async () => {
         .ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(234,179,8,0.4),transparent); }
         .ev-card-green { border-color:rgba(74,222,128,0.12); background:linear-gradient(135deg,#101610,#111); }
         .ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(74,222,128,0.35),transparent); }
+        /* ── STRENGTHS / WEAKNESSES 2-COL ── */
+        .ev-sw-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:14px 0; }
+        @media (max-width:640px) { .ev-sw-grid { grid-template-columns:1fr; } }
+        .ev-sw-col { border-radius:8px; padding:14px 16px; }
+        .ev-sw-col-s { background:rgba(74,222,128,0.04); border:1px solid rgba(74,222,128,0.14); }
+        .ev-sw-col-w { background:rgba(248,113,113,0.04); border:1px solid rgba(248,113,113,0.14); }
+        .ev-sw-head { display:flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:0.62rem;
+          letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }
+        .ev-sw-head-s { color:var(--green); }
+        .ev-sw-head-w { color:var(--red); }
+        .ev-sw-item { display:flex; gap:9px; align-items:flex-start; margin-bottom:9px; font-size:0.86rem;
+          line-height:1.65; color:#c0c0c0; font-family:var(--font-body); }
+        .ev-sw-item:last-child { margin-bottom:0; }
+        .ev-sw-empty { font-size:0.82rem; color:var(--text3); font-style:italic; }
 
         /* ── SECTION TITLE ── */
         .ev-ct { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
@@ -738,6 +797,30 @@ const handleOcr = useCallback(async () => {
               </div>
             </div>
 
+            {/* Marks gauge */}
+            {(() => {
+              const ePct = (openEntry.marks / openEntry.marksOutOf) * 100;
+              const g = gaugeMood(ePct);
+              return (
+                <div className="ev-gauge">
+                  <div className="ev-gauge-emoji">{g.emoji}</div>
+                  <div className="ev-gauge-body">
+                    <div className="ev-gauge-top">
+                      <span className="ev-gauge-score" style={{ color:g.color }}>Marks scored: {openEntry.marks}</span>
+                      <span className="ev-gauge-outof">/{openEntry.marksOutOf}</span>
+                      <span className="ev-gauge-label">{g.label}</span>
+                    </div>
+                    <div className="ev-gauge-track">
+                      <div className="ev-gauge-arrow" style={{ left:`${ePct}%` }} />
+                    </div>
+                    <div className="ev-gauge-scale">
+                      <span>0</span><span>{Math.round(openEntry.marksOutOf/2)}</span><span>{openEntry.marksOutOf}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Section marks grid */}
             <div className="ev-sec-grid">
               {(["introduction","body","conclusion","presentation"] as const).map(sec => {
@@ -782,8 +865,21 @@ const handleOcr = useCallback(async () => {
                   <div style={{ marginBottom:32 }}>
                     <div className="ev-ct">Introduction</div>
                     {openEntry.introduction.what_was_written && <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginBottom:12 }}>{openEntry.introduction.what_was_written}</div>}
-                    {openEntry.introduction.strengths?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"var(--green)" }}>✓ {s}</div>)}
-                    {openEntry.introduction.suggestions?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"var(--yellow)" }}>→ {s}</div>)}
+                    <div className="ev-sw-grid">
+                      <div className="ev-sw-col ev-sw-col-s">
+                        <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
+                        {(openEntry.introduction.strengths?.filter(s => s).length ?? 0) > 0
+                          ? openEntry.introduction.strengths!.filter(s => s).map((s,i) => <div key={i} className="ev-sw-item">{s}</div>)
+                          : <div className="ev-sw-empty">Nothing stood out here.</div>}
+                      </div>
+                      <div className="ev-sw-col ev-sw-col-w">
+                        <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
+                        {(openEntry.introduction.weaknesses?.filter(w => w).length ?? 0) > 0
+                          ? openEntry.introduction.weaknesses!.filter(w => w).map((w,i) => <div key={i} className="ev-sw-item">{w}</div>)
+                          : <div className="ev-sw-empty">No major issues found.</div>}
+                      </div>
+                    </div>
+                    {openEntry.introduction.suggestions?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"var(--yellow)" }}>→ {boldHistorians(s)}</div>)}
                     {openEntry.modelAnswer?.introduction && (
                       <><div className="ev-ml">Model Introduction</div><p className="ev-mp">{openEntry.modelAnswer.introduction}</p></>
                     )}
@@ -801,35 +897,29 @@ const handleOcr = useCallback(async () => {
                         </span>
                       )}
                     </div>
-                    {(openEntry.body.strengths || []).filter(s => s).length > 0 && (
-                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
-                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--green)", textTransform:"uppercase", marginBottom:8 }}>What worked</div>
-                        {(openEntry.body.strengths || []).filter(s => s).map((s,i) => (
-                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
-                            <div style={{ width:5, height:5, borderRadius:"50%", background:"var(--green)", marginTop:7, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
-                          </div>
-                        ))}
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                      <div className="ev-sw-grid">
+                        <div className="ev-sw-col ev-sw-col-s">
+                          <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
+                          {(openEntry.body.strengths || []).filter(s => s).length > 0
+                            ? (openEntry.body.strengths || []).filter(s => s).map((s,i) => <div key={i} className="ev-sw-item">{s}</div>)
+                            : <div className="ev-sw-empty">Nothing stood out here.</div>}
+                        </div>
+                        <div className="ev-sw-col ev-sw-col-w">
+                          <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
+                          {(openEntry.body.weaknesses || []).filter(w => w).length > 0
+                            ? (openEntry.body.weaknesses || []).filter(w => w).map((w,i) => <div key={i} className="ev-sw-item">{w}</div>)
+                            : <div className="ev-sw-empty">No major issues found.</div>}
+                        </div>
                       </div>
-                    )}
-                    {(openEntry.body.weaknesses || []).filter(w => w).length > 0 && (
-                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
-                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--red)", textTransform:"uppercase", marginBottom:8 }}>What fell short</div>
-                        {(openEntry.body.weaknesses || []).filter(w => w).map((w,i) => (
-                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
-                            <div style={{ width:5, height:5, borderRadius:"50%", background:"var(--red)", marginTop:7, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{w}</div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                    </div>
                     {(openEntry.body.suggestions || []).filter(s => s).length > 0 && (
                       <div style={{ padding:"12px 20px" }}>
                         <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
                         {(openEntry.body.suggestions || []).map((s,i) => (
                           <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:10 }}>
                             <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                            <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                           </div>
                         ))}
                       </div>
@@ -854,23 +944,29 @@ const handleOcr = useCallback(async () => {
                         <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{openEntry.conclusion.what_was_written}</div>
                       </div>
                     )}
-                    {(openEntry.conclusion.strengths || []).filter(s => s).length > 0 && (
-                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
-                        {(openEntry.conclusion.strengths || []).filter(s => s).map((s,i) => (
-                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
-                            <div style={{ width:5, height:5, borderRadius:"50%", background:"var(--green)", marginTop:7, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
-                          </div>
-                        ))}
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                      <div className="ev-sw-grid">
+                        <div className="ev-sw-col ev-sw-col-s">
+                          <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
+                          {(openEntry.conclusion.strengths || []).filter(s => s).length > 0
+                            ? (openEntry.conclusion.strengths || []).filter(s => s).map((s,i) => <div key={i} className="ev-sw-item">{s}</div>)
+                            : <div className="ev-sw-empty">Nothing stood out here.</div>}
+                        </div>
+                        <div className="ev-sw-col ev-sw-col-w">
+                          <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
+                          {(openEntry.conclusion.weaknesses || []).filter(w => w).length > 0
+                            ? (openEntry.conclusion.weaknesses || []).filter(w => w).map((w,i) => <div key={i} className="ev-sw-item">{w}</div>)
+                            : <div className="ev-sw-empty">No major issues found.</div>}
+                        </div>
                       </div>
-                    )}
+                    </div>
                     {(openEntry.conclusion.suggestions || []).filter(s => s).length > 0 && (
                       <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
                         <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
                         {(openEntry.conclusion.suggestions || []).map((s,i) => (
                           <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
                             <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                            <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                           </div>
                         ))}
                       </div>
@@ -1267,7 +1363,30 @@ const handleOcr = useCallback(async () => {
               </div>
             </div>
 
-            {/* Disclaimer note */}
+            {/* Marks gauge */}
+            {(() => {
+              const g = gaugeMood(pct);
+              return (
+                <div className="ev-gauge">
+                  <div className="ev-gauge-emoji">{g.emoji}</div>
+                  <div className="ev-gauge-body">
+                    <div className="ev-gauge-top">
+                      <span className="ev-gauge-score" style={{ color:g.color }}>Marks scored: {evaluation.marks}</span>
+                      <span className="ev-gauge-outof">/{evaluation.marks_out_of}</span>
+                      <span className="ev-gauge-label">{g.label}</span>
+                    </div>
+                    <div className="ev-gauge-track">
+                      <div className="ev-gauge-arrow" style={{ left:`${pct}%` }} />
+                    </div>
+                    <div className="ev-gauge-scale">
+                      <span>0</span><span>{Math.round(evaluation.marks_out_of/2)}</span><span>{evaluation.marks_out_of}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+
             <div style={{
               background: "rgba(59,130,246,0.06)",
               border: "1px solid rgba(59,130,246,0.2)",
@@ -1346,18 +1465,28 @@ const handleOcr = useCallback(async () => {
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
                     <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction.what_was_written}</div>
                   </div>
-                  {toArray(evaluation.introduction.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).length > 0 && (
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
-                      {toArray(evaluation.introduction.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).map((s,i) => (
-                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.introduction.strengths).length - 1 ? 6 : 0 }}>
-                          <div style={{ width:5, height:5, borderRadius:"50%", background:"var(--green)", marginTop:7, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    {(() => {
+                      const strengths = toArray(evaluation.introduction.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
+                      const weaknesses = toArray((evaluation.introduction as any).weaknesses).filter(w => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
+                      return (
+                        <div className="ev-sw-grid">
+                          <div className="ev-sw-col ev-sw-col-s">
+                            <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
+                            {strengths.length > 0 ? strengths.map((s,i) => (
+                              <div key={i} className="ev-sw-item">{s}</div>
+                            )) : <div className="ev-sw-empty">Nothing stood out here.</div>}
+                          </div>
+                          <div className="ev-sw-col ev-sw-col-w">
+                            <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
+                            {weaknesses.length > 0 ? weaknesses.map((w,i) => (
+                              <div key={i} className="ev-sw-item">{w}</div>
+                            )) : <div className="ev-sw-empty">No major issues found.</div>}
+                          </div>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                  <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
-                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction.analysis}</div>
+                      );
+                    })()}
+                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.introduction.analysis}</div>
                   </div>
                   {toArray(evaluation.introduction.suggestions).filter(s => s).length > 0 && (
                     <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
@@ -1365,7 +1494,7 @@ const handleOcr = useCallback(async () => {
                       {toArray(evaluation.introduction.suggestions).map((s,i) => (
                         <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.introduction.suggestions).length - 1 ? 8 : 0 }}>
                           <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                         </div>
                       ))}
                     </div>
@@ -1386,59 +1515,61 @@ const handleOcr = useCallback(async () => {
                       </span>
                     )}
                   </div>
-                  {toArray(evaluation.body.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use [")).length > 0 && (
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
-                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--green)", textTransform:"uppercase", marginBottom:8 }}>What worked</div>
-                      {toArray(evaluation.body.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use [")).map((s,i) => {
-                        const tagMatch = s.match(/^\[([^\]]+)\]:\s*/);
-                        const tag = tagMatch ? tagMatch[1] : null;
-                        const text = tagMatch ? s.slice(tagMatch[0].length) : s;
-                        return (
-                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
-                            <div style={{ width:5, height:5, borderRadius:"50%", background:"var(--green)", marginTop:7, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>
-                              {tag && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", letterSpacing:"0.12em", color:"var(--green)", textTransform:"uppercase", background:"rgba(74,222,128,0.08)", border:"1px solid rgba(74,222,128,0.2)", borderRadius:4, padding:"2px 6px", marginRight:8, display:"inline-block", verticalAlign:"middle" }}>{tag}</span>}
-                              {text}
-                            </div>
-                          </div>
-                        );
-                      })}
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    <div className="ev-sw-grid">
+                      <div className="ev-sw-col ev-sw-col-s">
+                        <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
+                        {(() => {
+                          const strengths = toArray(evaluation.body.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use ["));
+                          if (strengths.length === 0) return <div className="ev-sw-empty">Nothing stood out here.</div>;
+                          return strengths.map((s,i) => {
+                            const tagMatch = s.match(/^\[([^\]]+)\]:\s*/);
+                            const tag = tagMatch ? tagMatch[1] : null;
+                            const text = tagMatch ? s.slice(tagMatch[0].length) : s;
+                            return (
+                              <div key={i} className="ev-sw-item">
+                                {tag && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", letterSpacing:"0.12em", color:"var(--green)", textTransform:"uppercase", background:"rgba(74,222,128,0.08)", border:"1px solid rgba(74,222,128,0.2)", borderRadius:4, padding:"2px 6px", marginRight:6, display:"inline-block", verticalAlign:"middle" }}>{tag}</span>}
+                                {text}
+                              </div>
+                            );
+                          });
+                        })()}
+                      </div>
+                      <div className="ev-sw-col ev-sw-col-w">
+                        <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
+                        {(() => {
+                          const weaknesses = toArray(evaluation.body.weaknesses).filter(w => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use ["));
+                          if (weaknesses.length === 0) return <div className="ev-sw-empty">No major issues found.</div>;
+                          const tagColors: Record<string,string> = {
+                            "missed demand": "#fbbf24",
+                            "needs historian": "var(--red)",
+                            "too descriptive": "#a78bfa",
+                            "check this": "var(--red)",
+                            "structure": "#818cf8",
+                          };
+                          return weaknesses.map((w,i) => {
+                            const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
+                            const tag = tagMatch ? tagMatch[1] : null;
+                            const text = tagMatch ? w.slice(tagMatch[0].length) : w;
+                            const dotColor = tag && tagColors[tag] ? tagColors[tag] : "var(--red)";
+                            return (
+                              <div key={i} className="ev-sw-item">
+                                {tag && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", letterSpacing:"0.12em", color:dotColor, textTransform:"uppercase", background:`rgba(${dotColor === "#fbbf24" ? "251,191,36" : dotColor === "#a78bfa" ? "167,139,250" : dotColor === "#818cf8" ? "99,102,241" : "248,113,113"},0.08)`, border:`1px solid ${dotColor}33`, borderRadius:4, padding:"2px 6px", marginRight:6, display:"inline-block", verticalAlign:"middle" }}>{tag}</span>}
+                                {text}
+                              </div>
+                            );
+                          });
+                        })()}
+                      </div>
                     </div>
-                  )}
-                  {toArray(evaluation.body.weaknesses).filter(w => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use [")).length > 0 && (
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
-                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--red)", textTransform:"uppercase", marginBottom:8 }}>What fell short</div>
-                      {toArray(evaluation.body.weaknesses).filter(w => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use [")).map((w,i) => {
-                        const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
-                        const tag = tagMatch ? tagMatch[1] : null;
-                        const text = tagMatch ? w.slice(tagMatch[0].length) : w;
-                        const tagColors: Record<string,string> = {
-                          "missed demand": "#fbbf24",
-                          "needs historian": "var(--red)",
-                          "too descriptive": "#a78bfa",
-                          "check this": "var(--red)",
-                          "structure": "#818cf8",
-                        };
-                        const dotColor = tag && tagColors[tag] ? tagColors[tag] : "var(--red)";
-                        return (
-                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
-                            <div style={{ width:5, height:5, borderRadius:"50%", background:dotColor, marginTop:7, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>
-                              {tag && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", letterSpacing:"0.12em", color:dotColor, textTransform:"uppercase", background:`rgba(${dotColor === "#fbbf24" ? "251,191,36" : dotColor === "#a78bfa" ? "167,139,250" : dotColor === "#818cf8" ? "99,102,241" : "248,113,113"},0.08)`, border:`1px solid ${dotColor}33`, borderRadius:4, padding:"2px 6px", marginRight:8, display:"inline-block", verticalAlign:"middle" }}>{tag}</span>}
-                              {text}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                  </div>
                   {toArray(evaluation.body.suggestions).filter(s => s).length > 0 && (
                     <div style={{ padding:"12px 20px" }}>
                       <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
                       {toArray(evaluation.body.suggestions).map((s,i) => (
                         <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.body.suggestions).length - 1 ? 10 : 0 }}>
                           <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                         </div>
                       ))}
                     </div>
@@ -1459,18 +1590,28 @@ const handleOcr = useCallback(async () => {
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
                     <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion.what_was_written}</div>
                   </div>
-                  {toArray(evaluation.conclusion.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).length > 0 && (
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
-                      {toArray(evaluation.conclusion.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT")).map((s,i) => (
-                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
-                          <div style={{ width:5, height:5, borderRadius:"50%", background:"var(--green)", marginTop:7, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    {(() => {
+                      const strengths = toArray(evaluation.conclusion.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
+                      const weaknesses = toArray((evaluation.conclusion as any).weaknesses).filter(w => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
+                      return (
+                        <div className="ev-sw-grid">
+                          <div className="ev-sw-col ev-sw-col-s">
+                            <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
+                            {strengths.length > 0 ? strengths.map((s,i) => (
+                              <div key={i} className="ev-sw-item">{s}</div>
+                            )) : <div className="ev-sw-empty">Nothing stood out here.</div>}
+                          </div>
+                          <div className="ev-sw-col ev-sw-col-w">
+                            <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
+                            {weaknesses.length > 0 ? weaknesses.map((w,i) => (
+                              <div key={i} className="ev-sw-item">{w}</div>
+                            )) : <div className="ev-sw-empty">No major issues found.</div>}
+                          </div>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                  <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
-                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion.analysis}</div>
+                      );
+                    })()}
+                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.conclusion.analysis}</div>
                   </div>
                   {toArray(evaluation.conclusion.suggestions).filter(s => s).length > 0 && (
                     <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
@@ -1478,7 +1619,7 @@ const handleOcr = useCallback(async () => {
                       {toArray(evaluation.conclusion.suggestions).map((s,i) => (
                         <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.conclusion.suggestions).length - 1 ? 8 : 0 }}>
                           <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{s}</div>
+                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                         </div>
                       ))}
                     </div>
