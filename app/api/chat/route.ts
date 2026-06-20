@@ -41,7 +41,7 @@ async function jinaEmbedBatch(texts: string[]): Promise<number[][]> {
   return data.data.map((d: any) => d.embedding);
 }
 
-async function jinaRerank(query: string, chunks: {id: any, content: string, book_title: string}[]): Promise<{id: any, content: string, book_title: string, score: number}[]> {
+async function jinaRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]): Promise<{id: any, content: string, book_title: string, author: string, score: number}[]> {
   try {
     const res = await fetch('https://api.jina.ai/v1/rerank', {
       method: 'POST',
@@ -137,12 +137,12 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
 
     // Step 4: Merge + deduplicate by id
     const seen = new Set<any>();
-    const allChunks: {id: any, content: string, book_title: string}[] = [];
+    const allChunks: {id: any, content: string, book_title: string, author: string}[] = [];
     for (const result of results) {
       for (const chunk of (result.data ?? [])) {
         if (!seen.has(chunk.id)) {
           seen.add(chunk.id);
-          allChunks.push({ id: chunk.id, content: chunk.content, book_title: chunk.book_title });
+          allChunks.push({ id: chunk.id, content: chunk.content, book_title: chunk.book_title, author: chunk.author });
         }
       }
     }
@@ -181,7 +181,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
 
     // Step 7: Return chunks with source labels
     return finalChunks
-      .map((c, i) => `[Source ${i + 1} — ${c.book_title}]\n${c.content}`)
+      .map((c, i) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]\n${c.content}`)
       .join('\n\n---\n\n');
 
   } catch (e) {
@@ -302,7 +302,7 @@ export async function POST(req: NextRequest) {
 
     // ── RAG: inject book context for bookMode AND normal chat ────────
     let ragContext = '';
-    let ragSources: { book_title: string; content: string }[] = [];
+    let ragSources: { book_title: string; author: string; content: string }[] = [];
     const lastQ = typeof messages?.[messages.length - 1]?.content === 'string'
       ? messages[messages.length - 1].content
       : '';
@@ -318,12 +318,13 @@ export async function POST(req: NextRequest) {
       ragSources = ragContext
         .split('\n\n---\n\n')
         .map(block => {
-          const match = block.match(/^\[Source \d+ — (.+?)\]\n([\s\S]+)$/);
-          if (match) return { book_title: match[1], content: match[2] };
+          const match = block.match(/^\[Source \d+ — (.+?) \| Author: (.+?)\]\n([\s\S]+)$/);
+          if (match) return { book_title: match[1], author: match[2], content: match[3] };
           return null;
         })
-        .filter(Boolean) as { book_title: string; content: string }[];
+        .filter(Boolean) as { book_title: string; author: string; content: string }[];
     } catch(e) { console.error('RAG error:', e); }
+
 
     const ragSystem = ragContext
       ? `${system ?? ''}
@@ -502,7 +503,7 @@ PATH A — WHITELIST CITATION (no passage needed):
 Use the historian's name only for the broad topic/argument listed next to them in KNOWN SAFE HISTORIAN-ARGUMENT PAIRS, with NO specific quote, NO specific wording, NO invented sentence attributed to them. Example: "Sastri's work on South Indian history situates this within the broader Shaiva-Islamic political contest of the period" — broad, no quote, matches his listed topic exactly.
 
 PATH B — PASSAGE CITATION (quote or specific claim):
-Any time you attach a SPECIFIC sentence, quote, or precise claim to a historian's name, that exact sentence must appear in the passage block tagged with THAT historian's name — i.e. under the SAME [Source N — book_title] label. Before writing the citation, locate the sentence in the passages, check which [Source N — book_title] heading it physically sits under, and use that book/author. Do NOT swap in a different historian's name just because they are topically whitelisted for this subject — topical whitelisting (Path A) does not carry over to specific-claim citation (Path B). A name being whitelisted for "South Indian history" does not clear a quote that actually sits under a different source's heading.
+Any time you attach a SPECIFIC sentence, quote, or precise claim to a historian's name, that exact sentence must appear in the passage block tagged with THAT historian's name — i.e. under the SAME [Source N — book_title | Author: X] label. Before writing the citation, locate the sentence in the passages, check which [Source N — book_title | Author: X] heading it physically sits under, and use that exact author name. Do NOT swap in a different historian's name just because they are topically whitelisted for this subject — topical whitelisting (Path A) does not carry over to specific-claim citation (Path B). A name being whitelisted for "South Indian history" does not clear a quote that actually sits under a different source's heading.
 
 If you cannot find the specific sentence under that historian's own source heading → you cannot use Path B. Fall back to Path A (broad, unquoted) or to unattributed phrasing: "historians have noted...", "scholarship on this period suggests...".
 
@@ -697,37 +698,59 @@ ${ragContext}`
               }
             }
           }
-          // ── Post-generation citation verification ─────────────────
+          // ── Post-generation citation verification (optimized) ──────
           // Runs regardless of which branch (Haiku/bookMode or Groq) generated
-          // the answer — both are subject to the same RAG passages and the
-          // same citation-attribution risk. Only fires if the answer actually
-          // contains a parenthetical-style citation, e.g. "(Sastri, A History
-          // of South India)". Nothing is sent to the client until this is
-          // done — any unverifiable citation is silently stripped from
-          // fullAnswer (not flagged) before the single send below.
+          // the answer. Two optimizations vs. sending everything:
+          // 1. Only the sentences containing a citation are sent, not the
+          //    whole essay — citations cluster in a handful of sentences.
+          // 2. Only source chunks whose author was actually cited are sent
+          //    — book_chunks now has a real `author` column (backfilled
+          //    2026-06-20), so this is an exact match, not a guess against
+          //    book_title text.
           try {
             const citationPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
-            const hasCitation = citationPattern.test(fullAnswer);
-            if (hasCitation && ragSources.length > 0) {
+            const citationMatches = fullAnswer.match(citationPattern);
+            if (citationMatches && citationMatches.length > 0 && ragSources.length > 0) {
+              // Extract the sentence each citation sits in (not the whole
+              // answer) — split on sentence boundaries, keep only sentences
+              // that contain a citation.
+              const sentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
+              const citedSentences = sentences.filter(s => citationPattern.test(s));
+              citationPattern.lastIndex = 0; // reset regex state after .test() in loop
+              const citedSnippetBlock = citedSentences.join('\n');
+
+              // Only include source chunks whose author was actually cited.
+              const citedAuthorNames = new Set(
+                citationMatches.map(c => c.replace(/[()]/g, '').split(',')[0].trim().toLowerCase())
+              );
+              const relevantSources = ragSources.filter(s =>
+                [...citedAuthorNames].some(name => s.author.toLowerCase().includes(name) || name.includes(s.author.toLowerCase()))
+              );
+              // Fallback: if exact author matching somehow comes up empty
+              // (e.g. model paraphrased the author name slightly), fall back
+              // to the full source set rather than verifying against nothing.
+              const sourcesToSend = relevantSources.length > 0 ? relevantSources : ragSources;
+
+              const sourceBlock = sourcesToSend
+                .map((s, i) => `[Source ${i + 1} — ${s.book_title} | Author: ${s.author}]\n${s.content}`)
+                .join('\n\n---\n\n');
+
               const Anthropic = (await import('@anthropic-ai/sdk')).default;
               const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-              const sourceBlock = ragSources
-                .map((s, i) => `[Source ${i + 1} — ${s.book_title}]\n${s.content}`)
-                .join('\n\n---\n\n');
               const verifyRes = await anthropic.messages.create({
                 model: 'claude-haiku-4-5-20251001',
                 max_tokens: 500,
-                system: `You are a strict citation auditor. You will be given (1) a set of source passages, each tagged with its book/author, and (2) a generated answer that cites some of those authors with specific claims or quotes.
+                system: `You are a strict citation auditor. You will be given (1) a set of source passages, each tagged with its book title and author, and (2) a list of sentences from a generated answer, each containing a parenthetical citation.
 
-For EACH parenthetical citation in the answer (format: "claim text (Author, Book Title)"), check: does that specific claim/quote actually appear in the passage tagged with THAT author's name? Not just "is this author topically relevant" — the literal sentence must be under that author's own [Source N] heading.
+For EACH citation, check: does that specific claim/quote actually appear in the passage tagged with THAT author's name? Not just "is this author topically relevant" — the literal sentence must be under that author's own [Source N] heading.
 
 Respond ONLY with valid JSON, no markdown, no preamble:
 {"bad_citations": ["(Author, Book Title)", "(Other Author, Other Title)"]}
 
-Each string in "bad_citations" must be copied EXACTLY character-for-character as it appears in the GENERATED ANSWER (including the parentheses), so it can be located and removed. If all citations check out, respond: {"bad_citations": []}`,
+Each string in "bad_citations" must be copied EXACTLY character-for-character as it appears in the CITED SENTENCES (including the parentheses), so it can be located and removed. If all citations check out, respond: {"bad_citations": []}`,
                 messages: [{
                   role: 'user',
-                  content: `SOURCE PASSAGES:\n${sourceBlock}\n\n---\n\nGENERATED ANSWER:\n${fullAnswer}`,
+                  content: `SOURCE PASSAGES:\n${sourceBlock}\n\n---\n\nCITED SENTENCES:\n${citedSnippetBlock}`,
                 }],
               });
               const verifyText = verifyRes.content
@@ -751,6 +774,7 @@ Each string in "bad_citations" must be copied EXACTLY character-for-character as
             // response entirely.
             console.error('Citation verification failed:', verifyErr);
           }
+
 
           send(fullAnswer);
 
