@@ -717,9 +717,9 @@ Work through this RIGID RUBRIC — check each box YES or NO and assign marks exa
 Write one sentence each for: intro, each body point (list historian named + argument if any), conclusion.
 
 == STEP 1B: FACTUAL VERIFICATION ==
-List every specific date, year, century, named event, or named movement the student states (e.g. "Shramana movements, 400-500 BC"). For each one, check it against what you actually know:
-- If the date/fact is correct → write "VERIFIED: [claim]"
-- If the date/fact is wrong → write "FACTUAL ERROR: student wrote '[claim]', correct is '[correction]'" — this will be flagged as [FACTUAL ERROR] in the relevant section's weaknesses, even if it doesn't change the band.
+List every specific factual claim the student makes — this includes dates/years/centuries/named events/movements (e.g. "Shramana movements, 400-500 BC") AND substantive historical claims about what a person, group, or institution actually did or believed (e.g. "Buddha abolished the caste system", "Akbar banned Sati", "the Mauryas controlled all of South India"). For each one, check it against what you actually know:
+- If the claim is correct → write "VERIFIED: [claim]"
+- If the claim is wrong, overstated, or conflates two different things → write "FACTUAL ERROR: student wrote '[claim]', correct is '[correction]'" — this will be flagged as [FACTUAL ERROR] in the relevant section's weaknesses, even if it doesn't change the band. Common overstatement pattern: student says a figure "abolished/ended/destroyed" something when historians agree they only "challenged/critiqued/undermined" it without changing the underlying social reality — this counts as a factual error, not just a nuance gap.
 - If you are not fully certain either way → write "UNCERTAIN: do not flag" — never invent a correction you are not sure of.
 Separately, note if the student presents a one-sided historiographical claim (e.g. "the Upanishads were a complete break from X") without acknowledging that serious historians dispute or qualify it (e.g. continuity-vs-rupture, evolution-vs-revolution debates). If so, note it as a missed nuance — this belongs in suggestions, not as a factual error.
 
