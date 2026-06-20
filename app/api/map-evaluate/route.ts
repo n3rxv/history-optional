@@ -122,7 +122,7 @@ Respond ONLY with valid JSON, no markdown, no preamble:
         },
       }));
 
-    const userContent: Anthropic.MessageParam["content"] = [
+    const userContent: (AnthropicImageBlock | { type: "text"; text: string })[] = [
       ...imageBlocks,
       {
         type: "text" as const,
