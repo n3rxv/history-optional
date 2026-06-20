@@ -10,10 +10,14 @@ const INDIA_BOUNDS: [[number, number], [number, number]] = [
   [37.193, 102.996],
 ];
 
-function FitBounds({ sites, selectedSite }: { sites: BookSite[]; selectedSite: string | null }) {
+function FitBounds({ sites, selectedSite, disableAutoZoom }: { sites: BookSite[]; selectedSite: string | null; disableAutoZoom?: boolean }) {
   const map = useMap();
 
   useEffect(() => {
+    if (disableAutoZoom) {
+      map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] });
+      return;
+    }
     const valid = sites.filter(s => s.lat != null && s.lng != null);
     if (selectedSite) {
       const target = valid.find(s => s.name === selectedSite);
@@ -35,7 +39,7 @@ function FitBounds({ sites, selectedSite }: { sites: BookSite[]; selectedSite: s
       [Math.max(...valid.map(s => s.lat as number)) + 1, Math.max(...valid.map(s => s.lng as number)) + 1],
     ];
     map.fitBounds(bounds, { padding: [20, 20] });
-  }, [map, sites, selectedSite]);
+  }, [map, sites, selectedSite, disableAutoZoom]);
 
   return null;
 }
@@ -45,11 +49,13 @@ export default function MappingMap({
   selectedSite,
   onSiteClick,
   noLabels = false,
+  disableAutoZoom = false,
 }: {
   sites: BookSite[];
   selectedSite: string | null;
   onSiteClick: (name: string) => void;
   noLabels?: boolean;
+  disableAutoZoom?: boolean;
 }) {
   const validSites = sites.filter(s => s.lat != null && s.lng != null);
   const [statesGeoJSON, setStatesGeoJSON] = useState<any>(null);
@@ -112,7 +118,7 @@ export default function MappingMap({
             )}
           </>
         )}
-        <FitBounds sites={validSites} selectedSite={selectedSite} />
+        <FitBounds sites={validSites} selectedSite={selectedSite} disableAutoZoom={disableAutoZoom} />
 
         {validSites.map((site) => {
           const isSelected = selectedSite === site.name;

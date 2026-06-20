@@ -435,6 +435,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
         selectedSite={chosen || submitted ? site.name : null}
         onSiteClick={() => {}}
         noLabels={true}
+        disableAutoZoom={true}
       />
 
       {/* Clue — majorAspect sanitized, toggleable */}
