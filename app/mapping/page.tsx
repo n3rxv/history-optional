@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import { bookData, BookChapter, BookSite } from '@/lib/bookData';
 
 const MappingMap = dynamic(() => import('@/components/MappingMap'), { ssr: false });
-const QuizMap   = dynamic(() => import('@/components/QuizMap'),    { ssr: false });
 
 const PART_ORDER = [
   'Reference',
@@ -62,11 +61,31 @@ function geoDistance(a: BookSite, b: BookSite) {
   return Math.sqrt(dlat * dlat + dlng * dlng);
 }
 
+const SAME_SITE_MIN_DISTANCE = 0.05; // ~5km in lat/lng degrees — treat closer sites as the same place (aliases)
+
 function getDistractors(correct: BookSite, count = 3): BookSite[] {
-  return [...allSitesWithCoords]
-    .filter(s => s.name !== correct.name)
-    .sort((a, b) => geoDistance(correct, a) - geoDistance(correct, b))
-    .slice(0, count);
+  const seenNames = new Set<string>([correct.name.toLowerCase()]);
+  const candidates: BookSite[] = [];
+
+  for (const s of allSitesWithCoords) {
+    const lowerName = s.name.toLowerCase();
+    if (seenNames.has(lowerName)) continue;
+    // Skip sites that are essentially the same physical location (aliases like
+    // "Nagarjunakonda" vs "Nagarjunakonda/Vijayapuri") so they never appear
+    // as a "wrong" option for themselves.
+    if (geoDistance(correct, s) < SAME_SITE_MIN_DISTANCE) continue;
+    candidates.push(s);
+    seenNames.add(lowerName);
+  }
+
+  // De-dupe distractors against each other too (in case two distractors are aliases of one another)
+  const result: BookSite[] = [];
+  for (const c of candidates.sort((a, b) => geoDistance(correct, a) - geoDistance(correct, b))) {
+    if (result.some(r => geoDistance(r, c) < SAME_SITE_MIN_DISTANCE)) continue;
+    result.push(c);
+    if (result.length === count) break;
+  }
+  return result;
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -411,7 +430,12 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
       </div>
 
       {/* Map */}
-      <QuizMap site={site} />
+      <MappingMap
+        sites={[site]}
+        selectedSite={chosen || submitted ? site.name : null}
+        onSiteClick={() => {}}
+        noLabels={true}
+      />
 
       {/* Clue — majorAspect sanitized, toggleable */}
       {site.majorAspect && (
