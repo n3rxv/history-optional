@@ -727,6 +727,7 @@ Separately, note if the student presents a one-sided historiographical claim (e.
 Skip question text at top. Count answer body words only. Write the exact number.
 
 == STEP 3: INTRODUCTION (max ${introMax}M) — pick EXACTLY ONE band, no decimals allowed ==
+Reminder: religious/philosophical concepts (Madhyamika Marg, Ashtangika Marg, Nirvana, Dharma, Karma, Moksha, Atman, Brahman, Varna, etc.) are NOT historians — using these terms alone does not satisfy "names a historian."
 BAND 0M (ONLY): definition opener, no intro, only generic context, no historian at all — award exactly 0
 BAND ${marks === "10" ? "0.5" : "1"}M (ONLY): mentions historical context OR names a primary source (Kautilya, Ashoka, Megasthenes) but NO modern historian named — OR names a modern historian but gives NO specific thesis/argument — award exactly ${marks === "10" ? "0.5" : "1"}
 BAND ${introMax}M (ONLY): names a MODERN historian (Romila Thapar / R.S. Sharma / Irfan Habib / U.N. Ghoshal / Kosambi / B.D. Chattopadhyaya etc.) AND states their SPECIFIC thesis AND frames a historiographical debate AND previews the argument — ALL FOUR required — award exactly ${introMax}
@@ -738,10 +739,10 @@ RULE: You MUST pick one of the three values above.
 DEFINITIONS — be extremely strict:
 - STRONG: modern historian named (Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, Kosambi, B.D. Chattopadhyaya, Satish Chandra etc.) WITH their specific argument clearly stated. "R.S. Sharma argues..." counts. "R.S. Sharma has written about this" does NOT count.
 - WEAK: modern historian named but their argument is vague, absent, or just their name dropped without context.
-- NONE: no modern historian. Primary sources (Kautilya, Arthashastra, Megasthenes, Ashoka's edicts, Ain-i-Akbari) do NOT count as modern historians — they are evidence, not historiography.
+- NONE: no modern historian. Primary sources (Kautilya, Arthashastra, Megasthenes, Ashoka's edicts, Ain-i-Akbari) do NOT count as modern historians — they are evidence, not historiography. Buddhist/religious/philosophical CONCEPTS (Madhyamika Marg, Ashtangika Marg, Nirvana, Dharma, Karma, Moksha, Atman, Brahman) are NOT historians and do NOT count as STRONG or WEAK — a body point using only these concepts with no historian's name attached is NONE.
 
-For each body point write: STRONG / WEAK / NONE with one-line justification.
-Tally: STRONG=__ WEAK=__ NONE=__
+For each body point write: STRONG / WEAK / NONE — and if you mark WEAK or STRONG, you MUST quote the exact historian's name from the text right next to your tag (e.g. "WEAK — historian named: 'Romila Thapar'"). If you cannot quote a specific historian's name for a point, it is NONE, not WEAK.
+Tally: STRONG=__ WEAK=__ NONE=__ — sanity check: STRONG+WEAK count must equal the number of distinct historian names you actually quoted above. If it doesn't match, recount.
 
 ${marks === "10" ? `BAND 1M (ONLY): 0 strong, 0 weak — purely narrative, no historians at all — award exactly 1
 BAND 2M (ONLY): 0 strong, 1-2 weak — historian names dropped without arguments — award exactly 2
