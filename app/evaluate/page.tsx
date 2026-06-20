@@ -864,7 +864,7 @@ const handleOcr = useCallback(async () => {
                 {openEntry.introduction && (
                   <div style={{ marginBottom:32 }}>
                     <div className="ev-ct">Introduction</div>
-                    {openEntry.introduction.what_was_written && <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginBottom:12 }}>{openEntry.introduction.what_was_written}</div>}
+                    {openEntry.introduction?.what_was_written && <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginBottom:12 }}>{openEntry.introduction?.what_was_written}</div>}
                     <div className="ev-sw-grid">
                       <div className="ev-sw-col ev-sw-col-s">
                         <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
@@ -938,10 +938,10 @@ const handleOcr = useCallback(async () => {
                         </span>
                       )}
                     </div>
-                    {openEntry.conclusion.what_was_written && (
+                    {openEntry.conclusion?.what_was_written && (
                       <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)", background:"rgba(255,255,255,0.015)" }}>
                         <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
-                        <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{openEntry.conclusion.what_was_written}</div>
+                        <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{openEntry.conclusion?.what_was_written}</div>
                       </div>
                     )}
                     <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
@@ -1463,7 +1463,7 @@ const handleOcr = useCallback(async () => {
                   </div>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)", background:"rgba(255,255,255,0.015)" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
-                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction.what_was_written}</div>
+                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction?.what_was_written}</div>
                   </div>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
                     {(() => {
@@ -1588,7 +1588,7 @@ const handleOcr = useCallback(async () => {
                   </div>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)", background:"rgba(255,255,255,0.015)" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
-                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion.what_was_written}</div>
+                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion?.what_was_written}</div>
                   </div>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
                     {(() => {
