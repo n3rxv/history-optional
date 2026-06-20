@@ -763,32 +763,43 @@ Each YES = ${presMax === "1.5" ? "0.5" : "1"}M. Total checked = PRESENTATION MAR
 INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
 → TOTAL: [write number] out of ${marks}`;
 
-    const cotRes = await callWithFallback({
-        model: "meta-llama/llama-4-scout-17b-16e-instruct",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
-          {
-            role: "user",
-            content: finalTranscript
-              ? cotPrompt
-              : [
-                  ...imageContents,
-                  { type: "text" as const, text: cotPrompt },
-                ],
-          },
-        ],
-        temperature: 0.1,
-        max_tokens: 2000,
+    // ── Pass 1: Claude Haiku 4.5 (vision + strict rubric following) ──
+    const { default: Anthropic } = await import("@anthropic-ai/sdk");
+    const anthropicClient = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+    // Convert Groq image_url format → Anthropic base64 format
+    type AnthropicImageBlock = { type: "image"; source: { type: "base64"; media_type: "image/jpeg" | "image/png" | "image/gif" | "image/webp"; data: string } };
+    const anthropicImageBlocks: AnthropicImageBlock[] = imageContents.map((img) => {
+      const dataUri = img.image_url.url;
+      const [meta, data] = dataUri.split(",");
+      const mediaType = (meta.match(/data:([^;]+);/) ?? [])[1] as "image/jpeg" | "image/png" | "image/gif" | "image/webp";
+      return {
+        type: "image" as const,
+        source: { type: "base64" as const, media_type: mediaType || "image/jpeg", data },
+      };
     });
 
-    if (!cotRes.ok) {
-      const err = await cotRes.text();
-      console.error("Groq CoT error:", err);
-      return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
-    }
+    const cotHaikuRes = await anthropicClient.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 2000,
+      system: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : ""),
+      messages: [
+        {
+          role: "user",
+          content: finalTranscript
+            ? cotPrompt
+            : [
+                ...anthropicImageBlocks,
+                { type: "text" as const, text: cotPrompt },
+              ],
+        },
+      ],
+    });
 
-    const cotData = await cotRes.json();
-    const cotReasoning = cotData.choices[0].message.content;
+    const cotReasoning = cotHaikuRes.content
+      .filter((b) => b.type === "text")
+      .map((b) => (b as { type: "text"; text: string }).text)
+      .join("");
     console.log("CoT reasoning:\n", cotReasoning);
 
     // Wait between passes to avoid TPM rate limiting
