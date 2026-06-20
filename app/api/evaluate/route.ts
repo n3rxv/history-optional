@@ -272,6 +272,16 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     "What historical content must appear — name the exact themes, events, regions, processes the question targets.",
     "What historiographical depth is expected — which specific debates and historians are non-negotiable for this question."
   ],
+  "section_marks": {
+    "introduction": { "awarded": 1.5, "out_of": 2, "reasoning": "One sentence explaining this section's score" },
+    "body":         { "awarded": 4.5, "out_of": 8, "reasoning": "One sentence explaining this section's score" },
+    "conclusion":   { "awarded": 1.0, "out_of": 2, "reasoning": "One sentence explaining this section's score" },
+    "presentation": { "awarded": 2.0, "out_of": 3, "reasoning": "One sentence explaining this section's score" }
+  },
+  "marks": 9.0,
+  "marks_out_of": 15,
+  "word_count": 220,
+  "word_count_rating": "GOOD",
   "introduction": {
     "what_was_written": "Quote the exact opening sentence(s) the student wrote.",
     "strengths": [
@@ -327,20 +337,10 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     ],
     "conclusion": "2-3 sentence synthesis. Takes a clear position, connects to intro frame. No new material."
   },
-  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. NEVER mention marks, numbers, scores, bands, or any suggestion of what score a change would produce.",
-  "section_marks": {
-    "introduction": { "awarded": 1.5, "out_of": 2, "reasoning": "One sentence explaining this section's score" },
-    "body":         { "awarded": 4.5, "out_of": 8, "reasoning": "One sentence explaining this section's score" },
-    "conclusion":   { "awarded": 1.0, "out_of": 2, "reasoning": "One sentence explaining this section's score" },
-    "presentation": { "awarded": 2.0, "out_of": 3, "reasoning": "One sentence explaining this section's score" }
-  },
-  "marks": 9.0,
-  "marks_out_of": 15,
-  "word_count": 220,
-  "word_count_rating": "GOOD"
+  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. NEVER mention marks, numbers, scores, bands, or any suggestion of what score a change would produce."
 }
 
-IMPORTANT: marks must equal the exact sum of all four section_marks awarded values.
+IMPORTANT: marks must equal the exact sum of all four section_marks awarded values. section_marks/marks/marks_out_of/word_count fields above MUST be the first fields you write after demand_of_question, in that exact order — write them immediately, before introduction/body/conclusion/historians_to_cite/model_answer, so they are never lost to truncation.
 
 WORD COUNT INSTRUCTIONS — READ CAREFULLY:
 The student writes the question at the top of their answer sheet before writing the answer.
@@ -848,9 +848,11 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
       const data = await response.json();
       let content = data.choices[0].message.content;
       content = content.replace(/```json|```/g, "").trim();
+      console.log("Pass 2 raw content length:", content.length, "| finish_reason:", data.choices[0].finish_reason);
       try {
         evaluation = JSON.parse(content);
       } catch {
+        console.error("Pass 2 JSON.parse failed — finish_reason:", data.choices[0].finish_reason, "| last 300 chars:", content.slice(-300));
         // JSON truncated — try extracting largest valid object
         const match = content.match(/\{[\s\S]*/);
         if (match) {
@@ -864,6 +866,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
           }
         }
         if (!evaluation) throw new Error("Could not parse model response");
+        console.warn("Pass 2 recovered via brace-closing fallback — evaluation may be missing trailing fields.");
       }
     }
 
@@ -872,6 +875,9 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
       return NextResponse.json({ error: "Evaluation failed to produce a result. Please try again." }, { status: 500 });
     }
     const eval_ = evaluation as any;
+    if (!eval_.section_marks || typeof eval_.section_marks !== "object") {
+      console.error("Pass 2 returned without valid section_marks. Keys present:", Object.keys(eval_), "| raw section_marks value:", JSON.stringify(eval_.section_marks));
+    }
 
     // ── SECTION MARKS GUARD ───────────────────────────────────────
     // Reconstruct correct out_of values based on marks if missing or malformed
