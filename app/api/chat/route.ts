@@ -592,6 +592,8 @@ ${ragContext}`
     const stream = new ReadableStream({
       async start(controller) {
         const send = (chunk: string) => controller.enqueue(encoder.encode(chunk));
+        const collect = (chunk: string) => { fullAnswer += chunk; };
+        let fullAnswer = '';
         try {
           if (bookMode || pdf_base64) {
             // Anthropic streaming
@@ -627,7 +629,7 @@ ${ragContext}`
             });
             for await (const chunk of anthropicStream) {
               if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-                send(chunk.delta.text);
+                collect(chunk.delta.text);
               }
             }
           } else {
@@ -658,6 +660,7 @@ ${ragContext}`
             let buf = '';
             let accumulated = '';
             let thinkDone = false;
+            const send = (chunk: string) => { fullAnswer += chunk; };
             while (true) {
               const { done, value } = await reader.read();
               if (done) break;
@@ -694,6 +697,63 @@ ${ragContext}`
               }
             }
           }
+          // ── Post-generation citation verification ─────────────────
+          // Runs regardless of which branch (Haiku/bookMode or Groq) generated
+          // the answer — both are subject to the same RAG passages and the
+          // same citation-attribution risk. Only fires if the answer actually
+          // contains a parenthetical-style citation, e.g. "(Sastri, A History
+          // of South India)". Nothing is sent to the client until this is
+          // done — any unverifiable citation is silently stripped from
+          // fullAnswer (not flagged) before the single send below.
+          try {
+            const citationPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
+            const hasCitation = citationPattern.test(fullAnswer);
+            if (hasCitation && ragSources.length > 0) {
+              const Anthropic = (await import('@anthropic-ai/sdk')).default;
+              const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+              const sourceBlock = ragSources
+                .map((s, i) => `[Source ${i + 1} — ${s.book_title}]\n${s.content}`)
+                .join('\n\n---\n\n');
+              const verifyRes = await anthropic.messages.create({
+                model: 'claude-haiku-4-5-20251001',
+                max_tokens: 500,
+                system: `You are a strict citation auditor. You will be given (1) a set of source passages, each tagged with its book/author, and (2) a generated answer that cites some of those authors with specific claims or quotes.
+
+For EACH parenthetical citation in the answer (format: "claim text (Author, Book Title)"), check: does that specific claim/quote actually appear in the passage tagged with THAT author's name? Not just "is this author topically relevant" — the literal sentence must be under that author's own [Source N] heading.
+
+Respond ONLY with valid JSON, no markdown, no preamble:
+{"bad_citations": ["(Author, Book Title)", "(Other Author, Other Title)"]}
+
+Each string in "bad_citations" must be copied EXACTLY character-for-character as it appears in the GENERATED ANSWER (including the parentheses), so it can be located and removed. If all citations check out, respond: {"bad_citations": []}`,
+                messages: [{
+                  role: 'user',
+                  content: `SOURCE PASSAGES:\n${sourceBlock}\n\n---\n\nGENERATED ANSWER:\n${fullAnswer}`,
+                }],
+              });
+              const verifyText = verifyRes.content
+                .map(b => b.type === 'text' ? b.text : '')
+                .join('')
+                .trim();
+              const cleaned = verifyText.replace(/^```json\s*|```\s*$/g, '').trim();
+              const parsed = JSON.parse(cleaned) as { bad_citations: string[] };
+              for (const bad of parsed.bad_citations ?? []) {
+                if (fullAnswer.includes(bad)) {
+                  // Remove the bad parenthetical citation; keep the underlying
+                  // claim text intact (it may still be true, just unattributed).
+                  // Also clean up a leftover trailing space before punctuation.
+                  fullAnswer = fullAnswer.split(bad).join('').replace(/\s+([.,;])/g, '$1');
+                }
+              }
+            }
+          } catch (verifyErr) {
+            // Verification is best-effort — if it fails, fall back to
+            // sending the unverified answer rather than blocking the
+            // response entirely.
+            console.error('Citation verification failed:', verifyErr);
+          }
+
+          send(fullAnswer);
+
           send('\n__SOURCES__' + JSON.stringify(ragSources));
         } catch (err) {
           const errMsg = err instanceof Error ? err.message : String(err);
