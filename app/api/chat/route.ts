@@ -3,6 +3,24 @@ import { createClient } from "@supabase/supabase-js";
 
 const chatLimits = new Map<string, { count: number; ts: number }>();
 
+// Surnames pulled from the KNOWN SAFE HISTORIAN-ARGUMENT PAIRS whitelist in
+// the system prompt below. Used by the post-generation citation verifier to
+// catch attribution in PROSE form ("Bipan Chandra draws a parallel...") —
+// not just bracket-style "(Author, Title)" citations. A model can fabricate
+// an argument and attribute it to a real, whitelisted historian without
+// ever using parentheses, which a bracket-only regex would miss entirely.
+const WHITELISTED_HISTORIAN_SURNAMES = [
+  'Thapar', 'Sharma', 'Kosambi', 'Sastri', 'Raychaudhuri', 'Basham',
+  'Upinder Singh', 'Ratnagar', 'Chattopadhyaya', 'Allchin',
+  'Habib', 'Satish Chandra', 'Muzaffar Alam', 'Richards', 'Ashraf',
+  'Mukhia', 'Eaton', 'Digby', 'Wink', 'Hardy', 'Vaudeville',
+  'Bipan Chandra', 'Sumit Sarkar', 'Guha', 'Chatterjee', 'Pandey',
+  'Bandyopadhyay', 'Bayly', 'Judith Brown', 'Robinson', 'Anil Seal',
+  'Stokes', 'Washbrook', 'Tomlinson',
+  'Bloch', 'Braudel', 'Carr', 'Hobsbawm', 'Thompson', 'Anderson',
+  'Wallerstein', 'Toynbee',
+];
+
 async function jinaEmbed(text: string): Promise<number[]> {
   const res = await fetch('https://api.jina.ai/v1/embeddings', {
     method: 'POST',
@@ -64,35 +82,6 @@ async function jinaRerank(query: string, chunks: {id: any, content: string, book
     }));
   } catch {
     return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
-  }
-}
-
-async function expandQuery(query: string): Promise<string[]> {
-  try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
-        max_tokens: 150,
-        temperature: 0.3,
-        messages: [{
-          role: 'user',
-          content: `You are a UPSC History expert. Given this question, generate 3 short search queries that capture different aspects of it. Return ONLY a JSON array of 3 strings, nothing else.\nQuestion: "${query}"\nExample output: ["query 1", "query 2", "query 3"]`,
-        }],
-      }),
-    });
-    const data = await res.json();
-    const text = data.choices?.[0]?.message?.content?.trim() ?? '[]';
-    const clean = text.replace(/\`\`\`json|\`\`\`/g, '').trim();
-    const arr = JSON.parse(clean);
-    if (Array.isArray(arr) && arr.length > 0) return [query, ...arr.slice(0, 3)];
-    return [query];
-  } catch {
-    return [query];
   }
 }
 
@@ -249,7 +238,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // ── Call Groq ────────────────────────────────────────────────────
+  // ── Main request handler ────────────────────────────────────────
   try {
     const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name, lang } = await req.json();
     const lastMsg = messages?.[messages.length - 1]?.content ?? '';
@@ -586,8 +575,8 @@ ${ragContext}`
     );
 
     // Routing:
-    // bookMode ON  → Sonnet 4.6 (Anthropic — RAG quality)
-    // bookMode OFF → Groq Qwen3-32B (subscription — MCQ + normal chat)
+    // ALL responses → Claude Haiku 4.5 (Anthropic) — Groq removed in favour
+    // of consistent citation/RAG quality across both bookMode and normal chat.
     // ── Streaming response ──────────────────────────────────────────
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
@@ -596,142 +585,73 @@ ${ragContext}`
         const collect = (chunk: string) => { fullAnswer += chunk; };
         let fullAnswer = '';
         try {
-          if (bookMode || pdf_base64) {
-            // Anthropic streaming
-            const Anthropic = (await import('@anthropic-ai/sdk')).default;
-            const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-            let builtMessages: any[];
-            if (pdf_base64) {
-              const msgsCopy = messages.map((m: any) => ({ role: m.role, content: m.content }));
-              const firstUserIdx = msgsCopy.findIndex((m: any) => m.role === 'user');
-              if (firstUserIdx !== -1) {
-                msgsCopy[firstUserIdx] = {
-                  role: 'user',
-                  content: [
-                    { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: pdf_base64 }, title: pdf_name ?? 'Uploaded PDF', cache_control: { type: 'ephemeral' } },
-                    { type: 'text', text: typeof messages[firstUserIdx].content === 'string' ? messages[firstUserIdx].content : 'Please analyze this PDF.' },
-                  ],
-                };
-              }
-              builtMessages = msgsCopy;
-            } else {
-              builtMessages = messages.map((m: any, i: number) => {
-                if (i === messages.length - 1 && m.role === 'user' && lang === 'hi') {
-                  return { role: m.role, content: m.content + '\n\n[IMPORTANT: Respond entirely in Hindi (Devanagari script)]' };
-                }
-                return { role: m.role, content: m.content };
-              });
+          const Anthropic = (await import('@anthropic-ai/sdk')).default;
+          const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+          let builtMessages: any[];
+          if (pdf_base64) {
+            const msgsCopy = messages.map((m: any) => ({ role: m.role, content: m.content }));
+            const firstUserIdx = msgsCopy.findIndex((m: any) => m.role === 'user');
+            if (firstUserIdx !== -1) {
+              msgsCopy[firstUserIdx] = {
+                role: 'user',
+                content: [
+                  { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: pdf_base64 }, title: pdf_name ?? 'Uploaded PDF', cache_control: { type: 'ephemeral' } },
+                  { type: 'text', text: typeof messages[firstUserIdx].content === 'string' ? messages[firstUserIdx].content : 'Please analyze this PDF.' },
+                ],
+              };
             }
-            const anthropicStream = anthropic.messages.stream({
-              model: 'claude-haiku-4-5-20251001',
-              max_tokens: 6000,
-              system: ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.'),
-              messages: builtMessages,
-            });
-            for await (const chunk of anthropicStream) {
-              if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-                collect(chunk.delta.text);
-              }
-            }
+            builtMessages = msgsCopy;
           } else {
-            // Groq streaming
-            const groqSystemPrompt = ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word must be in Hindi.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question. Every single word must be in English.');
-            const groqMessages = messages.map((m: any, i: number) => {
-              if (i === messages.length - 1 && m.role === 'user') {
-                if (lang === 'hi') return { role: m.role, content: m.content + '\n\n[तुम्हें पूरा जवाब हिंदी (देवनागरी) में देना है।]' };
-                return { role: m.role, content: m.content + '\n\n[IMPORTANT: Respond entirely in English only.]' };
+            builtMessages = messages.map((m: any, i: number) => {
+              if (i === messages.length - 1 && m.role === 'user' && lang === 'hi') {
+                return { role: m.role, content: m.content + '\n\n[IMPORTANT: Respond entirely in Hindi (Devanagari script)]' };
               }
               return { role: m.role, content: m.content };
             });
-            const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.GROQ_API_KEY}` },
-              body: JSON.stringify({
-                model: 'openai/gpt-oss-120b',
-                stream: true,
-                messages: [
-                  ...(groqSystemPrompt ? [{ role: 'system', content: groqSystemPrompt }] : []),
-                  ...groqMessages,
-                ],
-                max_tokens: 6000,
-              }),
-            });
-            const reader = groqRes.body!.getReader();
-            const dec = new TextDecoder();
-            let buf = '';
-            let accumulated = '';
-            let thinkDone = false;
-            const send = (chunk: string) => { fullAnswer += chunk; };
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
-              buf += dec.decode(value, { stream: true });
-              const lines = buf.split('\n');
-              buf = lines.pop() ?? '';
-              for (const line of lines) {
-                if (!line.startsWith('data: ')) continue;
-                const data = line.slice(6).trim();
-                if (data === '[DONE]') continue;
-                try {
-                  const delta = JSON.parse(data).choices?.[0]?.delta?.content ?? '';
-                  if (!delta) continue;
-                  // gpt-oss models on Groq send reasoning in a separate
-                  // `delta.reasoning` field, not inline <think> tags in
-                  // `content` (that was a Qwen3-specific quirk). So any
-                  // text that lands in `content` here is already the
-                  // real answer — forward it straight through.
-                  if (delta.includes('<think>') || delta.includes('</think>')) {
-                    // Defensive fallback in case a model DOES emit think tags
-                    // inline (e.g. if you switch models again later).
-                    if (thinkDone) { send(delta.replace(/<\/?think>/g, '')); continue; }
-                    accumulated += delta;
-                    const endIdx = accumulated.indexOf('</think>');
-                    if (endIdx !== -1) {
-                      thinkDone = true;
-                      const after = accumulated.slice(endIdx + 8);
-                      if (after) send(after);
-                    }
-                    continue;
-                  }
-                  send(delta);
-                } catch { /* skip malformed */ }
-              }
+          }
+          const anthropicStream = anthropic.messages.stream({
+            model: 'claude-haiku-4-5-20251001',
+            max_tokens: 6000,
+            system: ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.'),
+            messages: builtMessages,
+          });
+          for await (const chunk of anthropicStream) {
+            if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+              collect(chunk.delta.text);
             }
           }
           // ── Post-generation citation verification (optimized) ──────
-          // Runs regardless of which branch (Haiku/bookMode or Groq) generated
-          // the answer. Two optimizations vs. sending everything:
-          // 1. Only the sentences containing a citation are sent, not the
-          //    whole essay — citations cluster in a handful of sentences.
-          // 2. Only source chunks whose author was actually cited are sent
-          //    — book_chunks now has a real `author` column (backfilled
-          //    2026-06-20), so this is an exact match, not a guess against
-          //    book_title text.
+          // Runs after every response (Groq removed — Haiku now generates
+          // all answers). Catches two attribution patterns:
+          //    the bracket is stripped if wrong (claim text is kept, since
+          //    it may be true even if misattributed).
+          // 2. Prose-style: "Author argues/notes/draws a parallel that..."
+          //    with no brackets at all — detected by scanning for any
+          //    whitelisted historian surname appearing in the answer text.
+          //    These are riskier: the ENTIRE sentence is removed if
+          //    unverified, because unlike a misattributed real quote, a
+          //    fabricated prose claim has no underlying fact to preserve —
+          //    the argument itself was invented, not just mis-sourced.
           try {
-            const citationPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
-            const citationMatches = fullAnswer.match(citationPattern);
-            if (citationMatches && citationMatches.length > 0 && ragSources.length > 0) {
-              // Extract the sentence each citation sits in (not the whole
-              // answer) — split on sentence boundaries, keep only sentences
-              // that contain a citation.
-              const sentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
-              const citedSentences = sentences.filter(s => citationPattern.test(s));
-              citationPattern.lastIndex = 0; // reset regex state after .test() in loop
-              const citedSnippetBlock = citedSentences.join('\n');
+            const bracketPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
+            const sentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
 
-              // Only include source chunks whose author was actually cited.
-              const citedAuthorNames = new Set(
-                citationMatches.map(c => c.replace(/[()]/g, '').split(',')[0].trim().toLowerCase())
-              );
-              const relevantSources = ragSources.filter(s =>
-                [...citedAuthorNames].some(name => s.author.toLowerCase().includes(name) || name.includes(s.author.toLowerCase()))
-              );
-              // Fallback: if exact author matching somehow comes up empty
-              // (e.g. model paraphrased the author name slightly), fall back
-              // to the full source set rather than verifying against nothing.
-              const sourcesToSend = relevantSources.length > 0 ? relevantSources : ragSources;
+            const sentencesWithBracket = sentences.filter(s => {
+              bracketPattern.lastIndex = 0;
+              return bracketPattern.test(s);
+            });
+            const sentencesWithSurname = sentences.filter(s =>
+              WHITELISTED_HISTORIAN_SURNAMES.some(name => s.includes(name))
+            );
+            // Union of both, de-duplicated, preserving answer order.
+            const flaggedSentences = sentences.filter(s =>
+              sentencesWithBracket.includes(s) || sentencesWithSurname.includes(s)
+            );
 
-              const sourceBlock = sourcesToSend
+            if (flaggedSentences.length > 0 && ragSources.length > 0) {
+              const citedSnippetBlock = flaggedSentences.join('\n');
+
+              const sourceBlock = ragSources
                 .map((s, i) => `[Source ${i + 1} — ${s.book_title} | Author: ${s.author}]\n${s.content}`)
                 .join('\n\n---\n\n');
 
@@ -739,18 +659,22 @@ ${ragContext}`
               const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
               const verifyRes = await anthropic.messages.create({
                 model: 'claude-haiku-4-5-20251001',
-                max_tokens: 500,
-                system: `You are a strict citation auditor. You will be given (1) a set of source passages, each tagged with its book title and author, and (2) a list of sentences from a generated answer, each containing a parenthetical citation.
+                max_tokens: 600,
+                system: `You are a strict citation auditor. You will be given (1) a set of source passages, each tagged with its book title and author, and (2) sentences from a generated answer that name a historian — either as a bracket citation "(Author, Title)" or as prose attribution ("Author argues/notes/draws a parallel that...").
 
-For EACH citation, check: does that specific claim/quote actually appear in the passage tagged with THAT author's name? Not just "is this author topically relevant" — the literal sentence must be under that author's own [Source N] heading.
+For EACH sentence, check whether the specific claim attributed to that historian actually appears in the passage tagged with THAT author's name. Being topically associated with the right era/subject is NOT enough — the literal claim must be traceable to that author's own [Source N] passage.
+
+Classify each flagged sentence into exactly one of two buckets:
+- "bad_brackets": the sentence has a "(Author, Title)" bracket whose specific quote/claim is NOT in that author's passage. Return ONLY the bracket text itself, e.g. "(Sastri, A History of South India)", copied exactly.
+- "bad_prose_sentences": the sentence attributes an argument/claim to a historian in prose (no bracket, or bracket present but the whole sentence's claim is unsupported) and that author's passages do NOT contain this claim or anything close to it — meaning the argument was likely invented and merely attached to a real name. Return the FULL sentence exactly as it appears.
 
 Respond ONLY with valid JSON, no markdown, no preamble:
-{"bad_citations": ["(Author, Book Title)", "(Other Author, Other Title)"]}
+{"bad_brackets": ["(Author, Title)"], "bad_prose_sentences": ["Full sentence here."]}
 
-Each string in "bad_citations" must be copied EXACTLY character-for-character as it appears in the CITED SENTENCES (including the parentheses), so it can be located and removed. If all citations check out, respond: {"bad_citations": []}`,
+If everything checks out, respond: {"bad_brackets": [], "bad_prose_sentences": []}`,
                 messages: [{
                   role: 'user',
-                  content: `SOURCE PASSAGES:\n${sourceBlock}\n\n---\n\nCITED SENTENCES:\n${citedSnippetBlock}`,
+                  content: `SOURCE PASSAGES:\n${sourceBlock}\n\n---\n\nFLAGGED SENTENCES:\n${citedSnippetBlock}`,
                 }],
               });
               const verifyText = verifyRes.content
@@ -758,13 +682,19 @@ Each string in "bad_citations" must be copied EXACTLY character-for-character as
                 .join('')
                 .trim();
               const cleaned = verifyText.replace(/^```json\s*|```\s*$/g, '').trim();
-              const parsed = JSON.parse(cleaned) as { bad_citations: string[] };
-              for (const bad of parsed.bad_citations ?? []) {
+              const parsed = JSON.parse(cleaned) as { bad_brackets: string[]; bad_prose_sentences: string[] };
+
+              // Bracket fix: strip only the parenthetical, keep the claim.
+              for (const bad of parsed.bad_brackets ?? []) {
                 if (fullAnswer.includes(bad)) {
-                  // Remove the bad parenthetical citation; keep the underlying
-                  // claim text intact (it may still be true, just unattributed).
-                  // Also clean up a leftover trailing space before punctuation.
                   fullAnswer = fullAnswer.split(bad).join('').replace(/\s+([.,;])/g, '$1');
+                }
+              }
+              // Prose fix: remove the whole sentence — the claim itself was
+              // fabricated, not just mis-sourced, so nothing safe remains.
+              for (const bad of parsed.bad_prose_sentences ?? []) {
+                if (fullAnswer.includes(bad)) {
+                  fullAnswer = fullAnswer.split(bad).join('').replace(/[ \t]{2,}/g, ' ');
                 }
               }
             }
