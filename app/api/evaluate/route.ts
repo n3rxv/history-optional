@@ -622,6 +622,7 @@ RULE 7 — PRESERVE ALL STRUCTURE EXACTLY.
 - Numbered point → keep the number
 - The question written at top → [QUESTION: text]
 - Page break → --- PAGE BREAK ---
+- Diagram, flowchart, map sketch, or labelled box/arrow drawing → [DRAWING: brief description of what it shows, e.g. "box labelled 'Vedic Corpus' with arrows to four sub-boxes: Samhita, Brahmana, Aranyaka, Upanishad"]. Transcribe any text written inside or alongside the drawing as part of the description. Do not skip drawings — they can earn presentation/structure credit.
 
 RULE 8 — DO NOT EVALUATE, INTERPRET, OR COMMENT.
 You are a transcription machine. Do not add "[good point]" or "[historian cited correctly]" or any commentary whatsoever. Pure text output only.
@@ -715,6 +716,13 @@ Work through this RIGID RUBRIC — check each box YES or NO and assign marks exa
 == STEP 1: READING ==
 Write one sentence each for: intro, each body point (list historian named + argument if any), conclusion.
 
+== STEP 1B: FACTUAL VERIFICATION ==
+List every specific date, year, century, named event, or named movement the student states (e.g. "Shramana movements, 400-500 BC"). For each one, check it against what you actually know:
+- If the date/fact is correct → write "VERIFIED: [claim]"
+- If the date/fact is wrong → write "FACTUAL ERROR: student wrote '[claim]', correct is '[correction]'" — this will be flagged as [FACTUAL ERROR] in the relevant section's weaknesses, even if it doesn't change the band.
+- If you are not fully certain either way → write "UNCERTAIN: do not flag" — never invent a correction you are not sure of.
+Separately, note if the student presents a one-sided historiographical claim (e.g. "the Upanishads were a complete break from X") without acknowledging that serious historians dispute or qualify it (e.g. continuity-vs-rupture, evolution-vs-revolution debates). If so, note it as a missed nuance — this belongs in suggestions, not as a factual error.
+
 == STEP 2: WORD COUNT ==
 Skip question text at top. Count answer body words only. Write the exact number.
 
@@ -760,8 +768,8 @@ RULE: You MUST pick one of the three values above. No marks between bands allowe
 
 == STEP 6: PRESENTATION (max ${presMax}M) — judge from BOTH the image pages AND the transcribed text ==
 [ ] Handwriting is legible and neat — not scratchy or cramped (YES/NO) [judge from images]
-[ ] Answer uses headings, underlining, or numbered points for structure (YES/NO) [judge from images]
-[ ] No significant factual errors in the answer (YES/NO) [judge from transcribed text]
+[ ] Answer uses headings, underlining, numbered points, or labelled diagrams/flowcharts ([DRAWING: ...] markers) for structure (YES/NO) [judge from images and transcript]
+[ ] No significant factual errors found in STEP 1B (YES/NO) [use your STEP 1B findings — any FACTUAL ERROR means NO]
 Each YES = ${presMax === "1.5" ? "0.5" : "1"}M. Total checked = PRESENTATION MARK.
 → PRESENTATION MARK: [write mark]
 
@@ -820,6 +828,7 @@ ${cotReasoning}
 
 Now convert this into the exact JSON format from your system prompt.
 The section marks and total in the JSON MUST match what you concluded above — do not change them.
+If your reasoning's STEP 1B found any "FACTUAL ERROR" entries, make sure each one appears as a [FACTUAL ERROR] weakness in the section it belongs to (introduction/body/conclusion) — do not drop them.
 Do not re-evaluate. Faithfully convert your reasoning into JSON.
 Return ONLY the JSON object, no preamble, no markdown fences.`;
 
