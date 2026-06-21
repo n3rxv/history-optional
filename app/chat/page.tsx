@@ -13,6 +13,43 @@ type Message = {
   sources?: { book_title: string; content: string }[];
 };
 
+type ChatHistoryEntry = {
+  id: string;
+  title: string;
+  messages: Message[];
+  updatedAt: number;
+};
+
+const CHAT_HISTORY_KEY = 'ho_chat_history_v1';
+const CHAT_HISTORY_MAX = 50;
+
+function loadChatHistory(): ChatHistoryEntry[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(CHAT_HISTORY_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveChatHistoryList(list: ChatHistoryEntry[]) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(list.slice(0, CHAT_HISTORY_MAX)));
+  } catch {
+    // localStorage full or unavailable — fail silently, chat still works without history
+  }
+}
+
+function makeChatTitle(messages: Message[]): string {
+  const firstUser = messages.find(m => m.role === 'user');
+  const base = (firstUser?.content || 'New chat').trim().replace(/\s+/g, ' ');
+  return base.length > 60 ? base.slice(0, 60) + '…' : base;
+}
+
 const SUGGESTED_EN = [
   "Ashoka's Dhamma vs Buddhism — how different were they?",
   'Permanent Settlement vs Ryotwari — compare revenue systems.',
@@ -385,6 +422,10 @@ function ChatContent() {
   const [bookTitle, setBookTitle] = useState<string>('all');
   const [showBookPaywall, setShowBookPaywall] = useState(false);
   const [citationModal, setCitationModal] = useState<{ book_title: string; content: string }[] | null>(null);
+  const [chatId, setChatId] = useState<string>(() => (typeof crypto !== 'undefined' ? crypto.randomUUID() : String(Date.now())));
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyList, setHistoryList] = useState<ChatHistoryEntry[]>([]);
+  const hasUserMessageRef = useRef(false);
   const { usage, canChat, incrementChat, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
   const usageLoading = usage?.loading ?? true;
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -404,6 +445,35 @@ function ChatContent() {
       bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, loading]);
+
+  // Load saved chat history list once on mount
+  useEffect(() => {
+    setHistoryList(loadChatHistory());
+  }, []);
+
+  // Persist the current session to localStorage whenever messages change,
+  // but only once the user has actually sent something (skip the bare greeting).
+  useEffect(() => {
+    if (loading) return; // wait until a response finishes streaming before saving
+    if (messages.some(m => m.role === 'user')) {
+      hasUserMessageRef.current = true;
+    }
+    if (!hasUserMessageRef.current) return;
+
+    const entry: ChatHistoryEntry = {
+      id: chatId,
+      title: makeChatTitle(messages),
+      messages,
+      updatedAt: Date.now(),
+    };
+
+    setHistoryList(prev => {
+      const withoutCurrent = prev.filter(c => c.id !== chatId);
+      const updated = [entry, ...withoutCurrent].slice(0, CHAT_HISTORY_MAX);
+      saveChatHistoryList(updated);
+      return updated;
+    });
+  }, [messages, loading, chatId]);
 
   const handlePdfUpload = useCallback((file: File) => {
     if (!file || file.type !== 'application/pdf') { alert('Please upload a valid PDF file.'); return; }
@@ -428,6 +498,49 @@ function ChatContent() {
     const file = e.dataTransfer.files?.[0];
     if (file) handlePdfUpload(file);
   }, [handlePdfUpload]);
+
+  const greetingMessage = (): Message => ({
+    role: 'assistant',
+    content: initialTopic
+      ? (langHi
+          ? `नमस्ते! आप **${initialTopic}** पढ़ रहे हैं। कुछ भी पूछें — अवधारणाएँ, उत्तर संरचना, इतिहास-लेखन, या आदर्श उत्तर।`
+          : `Hello! You're studying **${initialTopic}**. Ask me anything — concepts, answer structures, historiography, or model answers.`)
+      : (langHi
+          ? `नमस्ते! मैं आपका **History Optional AI** हूँ।\n\nमैं इनमें मदद कर सकता हूँ:\n\n• **अवधारणा स्पष्टीकरण** — किसी भी विषय की गहरी समझ\n• **उत्तर संरचना** — UPSC शैली के ढाँचे\n• **PYQ विश्लेषण** — आदर्श उत्तर और मुख्य बिंदु\n• **तुलनाएँ** — शासक, आंदोलन, काल\n• **इतिहास-लेखन** — उत्तरों में इतिहासकारों का उद्धरण\n\nआप क्या जानना चाहेंगे?`
+          : `Hello! I'm your **History Optional AI**.\n\nI can help with:\n\n• **Concept explanations** — deep dives into any topic\n• **Answer structuring** — UPSC-style frameworks\n• **PYQ analysis** — model answers and key points\n• **Comparisons** — rulers, movements, periods\n• **Historiography** — citing historians in answers\n\nWhat would you like to explore?`),
+  });
+
+  const startNewChat = useCallback(() => {
+    setChatId(typeof crypto !== 'undefined' ? crypto.randomUUID() : String(Date.now()));
+    hasUserMessageRef.current = false;
+    setMessages([greetingMessage()]);
+    setInput('');
+    setPdfFile(null);
+    setPdfBase64(null);
+    setPdfName(null);
+    setBrainstormMode(false);
+    setHistoryOpen(false);
+  }, [langHi, initialTopic]);
+
+  const loadHistoryEntry = useCallback((entry: ChatHistoryEntry) => {
+    setChatId(entry.id);
+    hasUserMessageRef.current = entry.messages.some(m => m.role === 'user');
+    setMessages(entry.messages);
+    setInput('');
+    setHistoryOpen(false);
+  }, []);
+
+  const deleteHistoryEntry = useCallback((id: string, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setHistoryList(prev => {
+      const updated = prev.filter(c => c.id !== id);
+      saveChatHistoryList(updated);
+      return updated;
+    });
+    if (id === chatId) {
+      startNewChat();
+    }
+  }, [chatId, startNewChat]);
 
   const sendMessage = async (text?: string) => {
     const q = text || input;
@@ -897,12 +1010,122 @@ Every response must:
         .chat-table tr:hover td { background:rgba(59,130,246,0.04); }
         .chat-citation { color:#818cf8; cursor:pointer; text-decoration:underline; text-decoration-style:dotted; text-decoration-color:rgba(129,140,248,0.5); text-underline-offset:2px; transition:color 0.15s; }
         .chat-citation:hover { color:#a5b4fc; }
+
+        /* ── History header bar ── */
+        .chat-history-btn {
+          display:inline-flex; align-items:center; gap:6px;
+          background:transparent; border:1px solid var(--border2);
+          color:var(--text3); cursor:pointer; padding:0.32rem 0.75rem;
+          border-radius:7px; font-size:0.72rem; font-family:var(--font-mono);
+          transition:all 0.15s; letter-spacing:0.04em;
+        }
+        .chat-history-btn:hover { border-color:rgba(59,130,246,0.4); color:var(--text2); background:rgba(59,130,246,0.06); }
+
+        /* ── History sidebar ── */
+        .chat-history-overlay {
+          position:fixed; inset:0; background:rgba(0,0,0,0.55);
+          z-index:998; backdrop-filter:blur(2px);
+        }
+        .chat-history-panel {
+          position:fixed; top:0; left:0; bottom:0; width:300px; max-width:85vw;
+          background:#0c0c10; border-right:1px solid var(--border2);
+          z-index:999; display:flex; flex-direction:column;
+          box-shadow:8px 0 40px rgba(0,0,0,0.5);
+        }
+        .chat-history-panel-head {
+          display:flex; align-items:center; justify-content:space-between;
+          padding:1rem 1.1rem; border-bottom:1px solid var(--border);
+        }
+        .chat-history-panel-title {
+          font-family:var(--font-display); font-size:0.85rem; font-weight:600; color:var(--text);
+        }
+        .chat-history-close {
+          background:none; border:none; color:var(--text3); font-size:1.1rem; cursor:pointer; line-height:1;
+        }
+        .chat-history-new {
+          margin:0.85rem 1.1rem 0.5rem;
+          display:flex; align-items:center; justify-content:center; gap:6px;
+          background:linear-gradient(135deg, rgba(29,78,216,0.25), rgba(59,130,246,0.12));
+          border:1px solid rgba(59,130,246,0.35); color:#dbe6ff;
+          padding:0.55rem 0.8rem; border-radius:9px; cursor:pointer;
+          font-size:0.78rem; font-family:var(--font-body); font-weight:500;
+        }
+        .chat-history-new:hover { border-color:rgba(59,130,246,0.6); background:linear-gradient(135deg, rgba(29,78,216,0.35), rgba(59,130,246,0.18)); }
+        .chat-history-list { flex:1; overflow-y:auto; padding:0.4rem 0.6rem 1rem; }
+        .chat-history-empty { color:var(--text3); font-size:0.78rem; text-align:center; padding:2rem 1rem; line-height:1.6; }
+        .chat-history-item {
+          display:flex; align-items:flex-start; justify-content:space-between; gap:8px;
+          padding:0.65rem 0.7rem; border-radius:9px; cursor:pointer;
+          margin-bottom:3px; transition:background 0.15s;
+        }
+        .chat-history-item:hover { background:rgba(59,130,246,0.08); }
+        .chat-history-item.active { background:rgba(59,130,246,0.14); border:1px solid rgba(59,130,246,0.3); }
+        .chat-history-item-text { flex:1; min-width:0; }
+        .chat-history-item-title {
+          font-size:0.79rem; color:var(--text2); line-height:1.4;
+          overflow:hidden; text-overflow:ellipsis; display:-webkit-box;
+          -webkit-line-clamp:2; -webkit-box-orient:vertical;
+        }
+        .chat-history-item-date { font-size:0.62rem; color:var(--text3); margin-top:3px; font-family:var(--font-mono); }
+        .chat-history-item-del {
+          background:none; border:none; color:var(--text3); cursor:pointer;
+          font-size:0.85rem; flex-shrink:0; padding:2px 4px; line-height:1; opacity:0.6;
+        }
+        .chat-history-item-del:hover { opacity:1; color:#f87171; }
       `}</style>
 
       <div className="chat-wrap" onDragOver={e => { e.preventDefault(); setDragOver(true); }} onDragLeave={e => { e.preventDefault(); setDragOver(false); }} onDrop={handleDrop}>
         <GateModals slots={slots} />
 
+        <div className="chat-header">
+          <button className="chat-history-btn" onClick={() => setHistoryOpen(true)}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+            History
+          </button>
+          <button className="chat-new-btn" onClick={startNewChat}>+ New Chat</button>
+        </div>
 
+        {historyOpen && (
+          <>
+            <div className="chat-history-overlay" onClick={() => setHistoryOpen(false)} />
+            <div className="chat-history-panel">
+              <div className="chat-history-panel-head">
+                <span className="chat-history-panel-title">Chat History</span>
+                <button className="chat-history-close" onClick={() => setHistoryOpen(false)}>✕</button>
+              </div>
+              <button className="chat-history-new" onClick={startNewChat}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                New Chat
+              </button>
+              <div className="chat-history-list">
+                {historyList.length === 0 ? (
+                  <div className="chat-history-empty">No saved chats yet.<br />Start a conversation and it'll show up here.</div>
+                ) : (
+                  historyList
+                    .slice()
+                    .sort((a, b) => b.updatedAt - a.updatedAt)
+                    .map(entry => (
+                      <div
+                        key={entry.id}
+                        className={`chat-history-item ${entry.id === chatId ? 'active' : ''}`}
+                        onClick={() => loadHistoryEntry(entry)}
+                      >
+                        <div className="chat-history-item-text">
+                          <div className="chat-history-item-title">{entry.title}</div>
+                          <div className="chat-history-item-date">
+                            {new Date(entry.updatedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
+                            {' · '}
+                            {new Date(entry.updatedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
+                          </div>
+                        </div>
+                        <button className="chat-history-item-del" onClick={(e) => deleteHistoryEntry(entry.id, e)} title="Delete chat">✕</button>
+                      </div>
+                    ))
+                )}
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="chat-msgs">
           <div className="chat-msgs-inner">
