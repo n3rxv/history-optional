@@ -417,8 +417,7 @@ function ChatContent() {
   const [brainstormMode, setBrainstormMode] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [dragPos, setDragPos] = useState(() => ({ x: 16, y: typeof window !== "undefined" && window.innerWidth < 768 ? window.innerHeight - 220 : 180 }));
-  const dragRef = useRef<{dragging:boolean, startX:number, startY:number, origX:number, origY:number}>({dragging:false,startX:0,startY:0,origX:0,origY:0});
+  const [booksPopoverOpen, setBooksPopoverOpen] = useState(false);
   const [bookTitle, setBookTitle] = useState<string>('all');
   const [showBookPaywall, setShowBookPaywall] = useState(false);
   const [citationModal, setCitationModal] = useState<{ book_title: string; content: string }[] | null>(null);
@@ -758,36 +757,36 @@ Every response must:
   return (
     <>
       <style>{`
-        .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 52px); background:var(--bg); }
+        .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 52px); background:var(--bg); position:relative; }
 
-        .chat-header {
-          display:flex; align-items:center; gap:1rem;
-          padding:0.9rem 1.5rem;
-          border-bottom:1px solid var(--border);
-          background:linear-gradient(180deg, rgba(17,17,17,0.98) 0%, rgba(12,12,12,0.95) 100%);
-          backdrop-filter:blur(12px);
-          position:sticky; top:0; z-index:10;
-        }
-        .chat-header-icon {
-          width:36px; height:36px; border-radius:10px;
-          background:linear-gradient(135deg, rgba(29,78,216,0.35), rgba(59,130,246,0.15));
-          border:1px solid rgba(59,130,246,0.25);
-          display:flex; align-items:center; justify-content:center;
-          font-size:16px; flex-shrink:0;
-        }
-        .chat-header-title { font-family:var(--font-display); font-size:1rem; font-weight:600; color:var(--text); }
-        .chat-header-sub { color:var(--text3); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; margin-top:1px; }
-        .chat-new-btn {
-          margin-left:auto;
-          background:transparent; border:1px solid var(--border2);
-          color:var(--text3); cursor:pointer; padding:0.3rem 0.8rem;
-          border-radius:6px; font-size:0.72rem; font-family:var(--font-body);
-          transition:all 0.15s; letter-spacing:0.04em;
-        }
-        .chat-new-btn:hover { border-color:var(--accent2); color:var(--text2); background:rgba(59,130,246,0.06); }
-
-        .chat-msgs { flex:1; overflow-y:auto; padding:2.5rem 1.5rem 1rem; }
+        .chat-msgs { flex:1; overflow-y:auto; padding:1rem 1.5rem 0.5rem; }
         .chat-msgs-inner { max-width:800px; margin:0 auto; }
+
+        /* ── Compact unified toolbar (history, new chat, pdf, brainstorm, books) ── */
+        .chat-toolbar {
+          display:flex; align-items:center; gap:0.4rem;
+          max-width:800px; margin:0 auto 0.5rem;
+          flex-wrap:wrap;
+        }
+        .chat-tool-btn {
+          display:inline-flex; align-items:center; gap:5px;
+          background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+          color:rgba(255,255,255,0.55); cursor:pointer;
+          padding:0.36rem 0.7rem; border-radius:8px;
+          font-size:0.72rem; font-family:var(--font-mono); font-weight:500;
+          transition:all 0.15s; white-space:nowrap; position:relative;
+        }
+        .chat-tool-btn:hover { border-color:rgba(59,130,246,0.4); color:var(--text2); background:rgba(59,130,246,0.07); }
+        .chat-tool-btn.active {
+          background:rgba(99,102,241,0.18); border-color:rgba(99,102,241,0.6); color:#a5b4fc;
+          box-shadow:0 0 10px rgba(99,102,241,0.2);
+        }
+        .chat-tool-btn.gold-active {
+          background:rgba(251,191,36,0.15); border-color:rgba(251,191,36,0.6); color:#fbbf24;
+        }
+        .chat-tool-divider { width:1px; height:18px; background:var(--border2); margin:0 0.15rem; flex-shrink:0; }
+        .chat-tool-spacer { flex:1; }
+        .chat-tool-badge { color:rgba(251,191,36,0.8); margin-left:2px; }
 
         .chat-msg-row { margin-bottom:2rem; display:flex; flex-direction:column; }
         .chat-msg-row.user { align-items:flex-end; }
@@ -955,7 +954,7 @@ Every response must:
         /* ── Input area ── */
         .chat-input-area {
           border-top:1px solid var(--border);
-          padding:1rem 1.5rem 1.3rem;
+          padding:0.65rem 1.5rem 0.85rem;
           background:linear-gradient(0deg, rgba(8,8,10,0.99) 0%, rgba(12,12,14,0.97) 100%);
         }
         .chat-input-inner { max-width:800px; margin:0 auto; }
@@ -1011,15 +1010,33 @@ Every response must:
         .chat-citation { color:#818cf8; cursor:pointer; text-decoration:underline; text-decoration-style:dotted; text-decoration-color:rgba(129,140,248,0.5); text-underline-offset:2px; transition:color 0.15s; }
         .chat-citation:hover { color:#a5b4fc; }
 
-        /* ── History header bar ── */
-        .chat-history-btn {
-          display:inline-flex; align-items:center; gap:6px;
-          background:transparent; border:1px solid var(--border2);
-          color:var(--text3); cursor:pointer; padding:0.32rem 0.75rem;
-          border-radius:7px; font-size:0.72rem; font-family:var(--font-mono);
-          transition:all 0.15s; letter-spacing:0.04em;
+        /* ── Books popover (replaces old floating draggable widget) ── */
+        .chat-books-popover {
+          position:absolute; bottom:calc(100% + 8px); left:0;
+          width:260px; max-width:80vw;
+          background:linear-gradient(135deg, rgba(20,18,40,0.98), rgba(24,18,48,0.98));
+          border:1px solid rgba(139,92,246,0.4); border-radius:14px;
+          padding:0.75rem; box-shadow:0 12px 40px rgba(0,0,0,0.55);
+          backdrop-filter:blur(16px); z-index:60;
         }
-        .chat-history-btn:hover { border-color:rgba(59,130,246,0.4); color:var(--text2); background:rgba(59,130,246,0.06); }
+        .chat-books-popover-row { display:flex; align-items:center; gap:0.55rem; margin-bottom:0.1rem; }
+        .chat-books-popover-label {
+          font-size:0.7rem; font-family:var(--font-mono); letterSpacing:0.07em;
+          color:#a5b4fc; font-weight:600; text-transform:uppercase; flex:1;
+        }
+        .chat-books-toggle {
+          width:38px; height:22px; border-radius:11px; border:none; cursor:pointer;
+          position:relative; transition:all 0.25s; flex-shrink:0;
+        }
+        .chat-books-toggle.on { background:linear-gradient(90deg, #6366f1, #8b5cf6); box-shadow:0 0 10px rgba(99,102,241,0.6); }
+        .chat-books-toggle.off { background:rgba(99,102,241,0.2); }
+        .chat-books-toggle-dot { position:absolute; top:3px; width:16px; height:16px; border-radius:50%; background:#fff; transition:left 0.25s; box-shadow:0 1px 4px rgba(0,0,0,0.4); }
+        .chat-books-select {
+          margin-top:0.55rem; font-size:0.68rem; background:rgba(10,8,25,0.9); color:var(--text1);
+          border:1px solid rgba(99,102,241,0.3); border-radius:6px;
+          padding:0.3rem 0.4rem; width:100%; cursor:pointer;
+          outline:none; font-family:var(--font-mono);
+        }
 
         /* ── History sidebar ── */
         .chat-history-overlay {
@@ -1076,14 +1093,6 @@ Every response must:
 
       <div className="chat-wrap" onDragOver={e => { e.preventDefault(); setDragOver(true); }} onDragLeave={e => { e.preventDefault(); setDragOver(false); }} onDrop={handleDrop}>
         <GateModals slots={slots} />
-
-        <div className="chat-header">
-          <button className="chat-history-btn" onClick={() => setHistoryOpen(true)}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-            History
-          </button>
-          <button className="chat-new-btn" onClick={startNewChat}>+ New Chat</button>
-        </div>
 
         {historyOpen && (
           <>
@@ -1195,139 +1204,6 @@ Every response must:
           </div>
         </div>
 
-        {/* Books toggle — draggable floating */}
-        <div
-          onMouseDown={e => {
-            dragRef.current = { dragging: true, startX: e.clientX, startY: e.clientY, origX: dragPos.x, origY: dragPos.y };
-            const onMove = (ev: MouseEvent) => {
-              if (!dragRef.current.dragging) return;
-              setDragPos({
-                x: Math.max(0, Math.min(window.innerWidth - 60, dragRef.current.origX + ev.clientX - dragRef.current.startX)),
-                y: Math.max(0, Math.min(window.innerHeight - 60, dragRef.current.origY + ev.clientY - dragRef.current.startY)),
-              });
-            };
-            const onUp = () => { dragRef.current.dragging = false; window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); };
-            window.addEventListener('mousemove', onMove);
-            window.addEventListener('mouseup', onUp);
-          }}
-          onTouchStart={e => {
-            const t = e.touches[0];
-            dragRef.current = { dragging: true, startX: t.clientX, startY: t.clientY, origX: dragPos.x, origY: dragPos.y };
-            const onMove = (ev: TouchEvent) => {
-              const touch = ev.touches[0];
-              setDragPos({
-                x: Math.max(0, Math.min(window.innerWidth - 60, dragRef.current.origX + touch.clientX - dragRef.current.startX)),
-                y: Math.max(0, Math.min(window.innerHeight - 60, dragRef.current.origY + touch.clientY - dragRef.current.startY)),
-              });
-            };
-            const onUp = () => { dragRef.current.dragging = false; window.removeEventListener('touchmove', onMove as any); window.removeEventListener('touchend', onUp); };
-            window.addEventListener('touchmove', onMove as any, { passive: true });
-            window.addEventListener('touchend', onUp);
-          }}
-          style={{
-            position:'fixed', left: dragPos.x, top: dragPos.y, zIndex:1000,
-            cursor:'grab', userSelect:'none', touchAction:'none',
-          }}
-        >
-          <div style={{
-            display:'inline-flex', flexDirection:'column', alignItems:'stretch', gap:'0.5rem',
-            background: bookMode && usage?.isPremium
-              ? 'linear-gradient(135deg, rgba(20,18,40,0.97), rgba(30,20,60,0.97))'
-              : 'rgba(15,13,30,0.92)',
-            border: bookMode && usage?.isPremium
-              ? '1px solid rgba(139,92,246,0.55)'
-              : '1px solid rgba(99,102,241,0.22)',
-            borderRadius:16, padding:'0.55rem 0.9rem',
-            boxShadow: bookMode && usage?.isPremium
-              ? '0 0 24px rgba(99,102,241,0.25), 0 8px 32px rgba(0,0,0,0.5)'
-              : '0 8px 24px rgba(0,0,0,0.4)',
-            backdropFilter:'blur(16px)',
-            transition:'border 0.3s, box-shadow 0.3s',
-            width: 220,
-          }}>
-            {/* Drag handle bar */}
-            <div style={{ display:'flex', justifyContent:'center', marginBottom:'0.1rem' }}>
-              <div style={{ width:28, height:3, borderRadius:2, background:'rgba(99,102,241,0.3)' }} />
-            </div>
-            {/* Row: icon + label + toggle */}
-            <div style={{ display:'flex', alignItems:'center', gap:'0.55rem' }}>
-              <span style={{ fontSize:'0.9rem', filter: bookMode && usage?.isPremium ? 'drop-shadow(0 0 6px #818cf8)' : 'none', transition:'filter 0.3s' }}>📚</span>
-              <span style={{ fontSize:'0.7rem', fontFamily:'var(--font-mono)', letterSpacing:'0.07em', color: bookMode && usage?.isPremium ? '#a5b4fc' : 'var(--text2)', fontWeight:600, textTransform:'uppercase', whiteSpace:'nowrap', flex:1 }}>
-                Chat with Books
-              </span>
-              <button
-                onClick={e => {
-                  e.stopPropagation();
-                  if (usageLoading) return;
-                  if (!usage?.isPremium) { setShowBookPaywall(true); return; }
-                  setBookMode(b => !b);
-                }}
-                style={{
-                  width:42, height:24, borderRadius:12, border:'none', cursor:'pointer',
-                  position:'relative', transition:'all 0.25s', flexShrink:0,
-                  background: bookMode && usage?.isPremium
-                    ? 'linear-gradient(90deg, #6366f1, #8b5cf6)'
-                    : 'rgba(99,102,241,0.2)',
-                  boxShadow: bookMode && usage?.isPremium ? '0 0 12px rgba(99,102,241,0.6)' : 'none',
-                }}
-              >
-                <span style={{
-                  position:'absolute', top:4, left: bookMode && usage?.isPremium ? 20 : 4,
-                  width:16, height:16, borderRadius:'50%',
-                  background:'#fff', transition:'left 0.25s', display:'block',
-                  boxShadow:'0 1px 4px rgba(0,0,0,0.4)',
-                }} />
-              </button>
-            </div>
-            {/* Book selector */}
-            {bookMode && usage?.isPremium && (
-              <select
-                value={bookTitle}
-                onChange={e => setBookTitle(e.target.value)}
-                onClick={e => e.stopPropagation()}
-                style={{
-                  fontSize:'0.68rem', background:'rgba(10,8,25,0.9)', color:'var(--text1)',
-                  border:'1px solid rgba(99,102,241,0.3)', borderRadius:6,
-                  padding:'0.25rem 0.4rem', width:'100%', cursor:'pointer',
-                  outline:'none', fontFamily:'var(--font-mono)',
-                  maxWidth: 196,
-                }}
-              >
-                <option value="all">📖 All Books</option>
-                <option disabled style={{color:'#555'}}>── Ancient ──</option>
-                <option value="Ajeet Jha — A History of Ancient India">Ajeet Jha — A History of Ancient India</option>
-                <option value="Upinder Singh - Ancient & Early Medieval India">Upinder Singh - Ancient & Early Medieval India</option>
-                <option value="RS Sharma — Ancient India (Old NCERT)">RS Sharma — Ancient India (Old NCERT)</option>
-                <option value="Romila Thapar — Early India">Romila Thapar — Early India</option>
-                <option value="Ranbir Chakravarti — Exploring Early India">Ranbir Chakravarti — Exploring Early India</option>
-                <option value="RC Majumdar — Ancient India">RC Majumdar — Ancient India</option>
-                <option value="DN Jha — Ancient India in Historical Outline">DN Jha — Ancient India in Historical Outline</option>
-                <option value="KA Nilakanta Sastri — A History of South India">KA Nilakanta Sastri — A History of South India</option>
-                <option value="AL Basham - The Wonder That Was India">AL Basham - The Wonder That Was India</option>
-                <option disabled style={{color:'#555'}}>── Medieval ──</option>
-                <option value="Mughals IGNOU">Mughals IGNOU</option>
-                <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
-                <option value="Satish Chandra - Medieval India (800-1700)">Satish Chandra - Medieval India (800-1700)</option>
-                <option value="Satish Chandra - Medieval India Part 2 (1526-1748)">Satish Chandra - Medieval India Part 2 (1526-1748)</option>
-                <option value="Vipul Singh — Interpreting Medieval India">Vipul Singh — Interpreting Medieval India</option>
-                <option disabled style={{color:'#555'}}>── Modern ──</option>
-                <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
-                <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
-                <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
-                <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
-                <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
-                <option disabled style={{color:'#555'}}>── World ──</option>
-                <option value="Norman Lowe - Mastering Modern World History">Norman Lowe - Mastering Modern World History</option>
-                <option value="Eric Hobsbawm - Age of Revolution">Eric Hobsbawm - Age of Revolution (1789-1848)</option>
-                <option value="Eric Hobsbawm - Age of Capital">Eric Hobsbawm - Age of Capital (1848-1875)</option>
-                <option value="Eric Hobsbawm - Age of Empire">Eric Hobsbawm - Age of Empire (1875-1914)</option>
-                <option value="Eric Hobsbawm - Age of Extremes">Eric Hobsbawm - Age of Extremes (1914-1991)</option>
-                <option value="David Thomson — Europe Since Napoleon">David Thomson — Europe Since Napoleon</option>
-              </select>
-            )}
-          </div>
-        </div>
-
         {/* Book paywall card */}
         {showBookPaywall && !usageLoading && (
           <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center' }}
@@ -1408,46 +1284,108 @@ Every response must:
             </div>
           )}
           <div className="chat-input-inner">
-            {/* Mode toggles */}
-            <div style={{ display:'flex', gap:'0.5rem', marginBottom:'0.7rem', alignItems:'center' }}>
-              {/* PDF Upload Button */}
+            {/* Unified toolbar — history, new chat, pdf, brainstorm, books, all in one slim row */}
+            <div className="chat-toolbar">
+              <button className="chat-tool-btn" onClick={() => setHistoryOpen(true)} title="Chat history">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+                History
+              </button>
+              <button className="chat-tool-btn" onClick={startNewChat} title="Start a new chat">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                New
+              </button>
+
+              <div className="chat-tool-divider" />
+
               <button
+                className={`chat-tool-btn ${pdfFile ? 'active' : ''}`}
                 onClick={() => { if (!usage?.isPremium) { showChatLimitModal(); return; } fileInputRef.current?.click(); }}
                 title={usage?.isPremium ? "Upload PDF to discuss or get model answers" : "Premium feature — subscribe to upload PDFs"}
-                style={{
-                  display:'inline-flex', alignItems:'center', gap:'6px',
-                  padding:'0.38rem 0.85rem', borderRadius:8, fontSize:'0.75rem',
-                  fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.18s',
-                  background: pdfFile ? 'rgba(99,102,241,0.18)' : 'rgba(255,255,255,0.04)',
-                  border: pdfFile ? '1px solid rgba(99,102,241,0.6)' : '1px solid rgba(255,255,255,0.14)',
-                  color: pdfFile ? 'rgba(160,163,255,1)' : 'rgba(255,255,255,0.55)',
-                  fontWeight: 500,
-                  boxShadow: pdfFile ? '0 0 10px rgba(99,102,241,0.2)' : 'none',
-                }}
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 {pdfFile ? (
                   <>{pdfName} <span onClick={e => { e.stopPropagation(); setPdfFile(null); setPdfBase64(null); setPdfName(null); }} style={{ marginLeft:'4px', opacity:0.6, fontWeight:'bold', cursor:'pointer' }}>✕</span></>
-                ) : <>Upload PDF{!usage?.isPremium && <span style={{ color:'rgba(251,191,36,0.8)', marginLeft:3 }}>✦</span>}</>}
+                ) : <>PDF{!usage?.isPremium && <span className="chat-tool-badge">✦</span>}</>}
               </button>
-              {/* Brainstorm Button */}
+
               <button
+                className={`chat-tool-btn ${brainstormMode ? 'gold-active' : ''}`}
                 onClick={() => { if (!usage?.isPremium) { showChatLimitModal(); return; } setBrainstormMode(b => !b); }}
                 title={usage?.isPremium ? "Brainstorm mode — get essay plans & argument maps" : "Premium feature — subscribe to use Brainstorm"}
-                style={{
-                  display:'inline-flex', alignItems:'center', gap:'6px',
-                  padding:'0.38rem 0.85rem', borderRadius:8, fontSize:'0.75rem',
-                  fontFamily:'var(--font-mono)', cursor:'pointer', transition:'all 0.18s',
-                  background: brainstormMode ? 'rgba(251,191,36,0.15)' : 'rgba(255,255,255,0.04)',
-                  border: brainstormMode ? '1px solid rgba(251,191,36,0.6)' : '1px solid rgba(255,255,255,0.14)',
-                  color: brainstormMode ? 'rgba(251,191,36,1)' : 'rgba(255,255,255,0.55)',
-                  fontWeight: 500,
-                  boxShadow: brainstormMode ? '0 0 10px rgba(251,191,36,0.15)' : 'none',
-                }}
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                Brainstorm{!usage?.isPremium && <span style={{ color:'rgba(251,191,36,0.8)', marginLeft:3 }}>✦</span>}
+                Brainstorm{!usage?.isPremium && <span className="chat-tool-badge">✦</span>}
               </button>
+
+              <div style={{ position:'relative' }}>
+                <button
+                  className={`chat-tool-btn ${bookMode && usage?.isPremium ? 'active' : ''}`}
+                  onClick={() => {
+                    if (usageLoading) return;
+                    if (!usage?.isPremium) { setShowBookPaywall(true); return; }
+                    setBooksPopoverOpen(o => !o);
+                  }}
+                  title="Chat with Books — ground answers in reference texts"
+                >
+                  <span style={{ fontSize:'0.85rem' }}>📚</span>
+                  Books{!usage?.isPremium && <span className="chat-tool-badge">✦</span>}
+                </button>
+
+                {booksPopoverOpen && usage?.isPremium && (
+                  <>
+                    <div style={{ position:'fixed', inset:0, zIndex:55 }} onClick={() => setBooksPopoverOpen(false)} />
+                    <div className="chat-books-popover" onClick={e => e.stopPropagation()}>
+                      <div className="chat-books-popover-row">
+                        <span className="chat-books-popover-label">Chat with Books</span>
+                        <button
+                          className={`chat-books-toggle ${bookMode ? 'on' : 'off'}`}
+                          onClick={() => setBookMode(b => !b)}
+                        >
+                          <span className="chat-books-toggle-dot" style={{ left: bookMode ? 20 : 4 }} />
+                        </button>
+                      </div>
+                      {bookMode && (
+                        <select
+                          value={bookTitle}
+                          onChange={e => setBookTitle(e.target.value)}
+                          className="chat-books-select"
+                        >
+                          <option value="all">📖 All Books</option>
+                          <option disabled style={{color:'#555'}}>── Ancient ──</option>
+                          <option value="Ajeet Jha — A History of Ancient India">Ajeet Jha — A History of Ancient India</option>
+                          <option value="Upinder Singh - Ancient & Early Medieval India">Upinder Singh - Ancient & Early Medieval India</option>
+                          <option value="RS Sharma — Ancient India (Old NCERT)">RS Sharma — Ancient India (Old NCERT)</option>
+                          <option value="Romila Thapar — Early India">Romila Thapar — Early India</option>
+                          <option value="Ranbir Chakravarti — Exploring Early India">Ranbir Chakravarti — Exploring Early India</option>
+                          <option value="RC Majumdar — Ancient India">RC Majumdar — Ancient India</option>
+                          <option value="DN Jha — Ancient India in Historical Outline">DN Jha — Ancient India in Historical Outline</option>
+                          <option value="KA Nilakanta Sastri — A History of South India">KA Nilakanta Sastri — A History of South India</option>
+                          <option value="AL Basham - The Wonder That Was India">AL Basham - The Wonder That Was India</option>
+                          <option disabled style={{color:'#555'}}>── Medieval ──</option>
+                          <option value="Mughals IGNOU">Mughals IGNOU</option>
+                          <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
+                          <option value="Satish Chandra - Medieval India (800-1700)">Satish Chandra - Medieval India (800-1700)</option>
+                          <option value="Satish Chandra - Medieval India Part 2 (1526-1748)">Satish Chandra - Medieval India Part 2 (1526-1748)</option>
+                          <option value="Vipul Singh — Interpreting Medieval India">Vipul Singh — Interpreting Medieval India</option>
+                          <option disabled style={{color:'#555'}}>── Modern ──</option>
+                          <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
+                          <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
+                          <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
+                          <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
+                          <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
+                          <option disabled style={{color:'#555'}}>── World ──</option>
+                          <option value="Norman Lowe - Mastering Modern World History">Norman Lowe - Mastering Modern World History</option>
+                          <option value="Eric Hobsbawm - Age of Revolution">Eric Hobsbawm - Age of Revolution (1789-1848)</option>
+                          <option value="Eric Hobsbawm - Age of Capital">Eric Hobsbawm - Age of Capital (1848-1875)</option>
+                          <option value="Eric Hobsbawm - Age of Empire">Eric Hobsbawm - Age of Empire (1875-1914)</option>
+                          <option value="Eric Hobsbawm - Age of Extremes">Eric Hobsbawm - Age of Extremes (1914-1991)</option>
+                          <option value="David Thomson — Europe Since Napoleon">David Thomson — Europe Since Napoleon</option>
+                        </select>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
             <div className="chat-input-box">
