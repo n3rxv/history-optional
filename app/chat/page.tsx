@@ -759,21 +759,21 @@ Every response must:
       <style>{`
         .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 52px); background:var(--bg); position:relative; }
 
-        .chat-msgs { flex:1; overflow-y:auto; padding:1rem 1.5rem 0.5rem; }
+        .chat-msgs { flex:1; overflow-y:auto; padding:1rem 1.5rem 13rem; }
         .chat-msgs-inner { max-width:800px; margin:0 auto; }
 
         /* ── Compact unified toolbar (history, new chat, pdf, brainstorm, books) ── */
         .chat-toolbar {
-          display:flex; align-items:center; gap:0.4rem;
-          max-width:800px; margin:0 auto 0.5rem;
+          display:flex; align-items:center; gap:0.32rem;
+          margin-bottom:0.5rem;
           flex-wrap:wrap;
         }
         .chat-tool-btn {
-          display:inline-flex; align-items:center; gap:5px;
+          display:inline-flex; align-items:center; gap:4px;
           background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
           color:rgba(255,255,255,0.55); cursor:pointer;
-          padding:0.36rem 0.7rem; border-radius:8px;
-          font-size:0.72rem; font-family:var(--font-mono); font-weight:500;
+          padding:0.32rem 0.55rem; border-radius:7px;
+          font-size:0.66rem; font-family:var(--font-mono); font-weight:500;
           transition:all 0.15s; white-space:nowrap; position:relative;
         }
         .chat-tool-btn:hover { border-color:rgba(59,130,246,0.4); color:var(--text2); background:rgba(59,130,246,0.07); }
@@ -784,7 +784,7 @@ Every response must:
         .chat-tool-btn.gold-active {
           background:rgba(251,191,36,0.15); border-color:rgba(251,191,36,0.6); color:#fbbf24;
         }
-        .chat-tool-divider { width:1px; height:18px; background:var(--border2); margin:0 0.15rem; flex-shrink:0; }
+        .chat-tool-divider { width:1px; height:16px; background:var(--border2); margin:0 0.1rem; flex-shrink:0; }
         .chat-tool-spacer { flex:1; }
         .chat-tool-badge { color:rgba(251,191,36,0.8); margin-left:2px; }
 
@@ -951,34 +951,40 @@ Every response must:
           box-shadow:0 4px 16px rgba(0,0,0,0.3);
         }
 
-        /* ── Input area ── */
+        /* ── Input area — compact floating panel, bottom-left ── */
         .chat-input-area {
-          border-top:1px solid var(--border);
-          padding:0.65rem 1.5rem 0.85rem;
-          background:linear-gradient(0deg, rgba(8,8,10,0.99) 0%, rgba(12,12,14,0.97) 100%);
+          position:fixed; left:1.25rem; bottom:1.25rem;
+          width:440px; max-width:calc(100vw - 2.5rem);
+          background:linear-gradient(160deg, rgba(14,14,18,0.97), rgba(10,10,13,0.97));
+          border:1px solid rgba(255,255,255,0.09);
+          border-radius:16px;
+          padding:0.6rem 0.7rem 0.7rem;
+          box-shadow:0 12px 40px rgba(0,0,0,0.55);
+          backdrop-filter:blur(16px);
+          z-index:40;
         }
-        .chat-input-inner { max-width:800px; margin:0 auto; }
+        .chat-input-inner { width:100%; }
         .chat-input-box {
-          display:flex; gap:0.6rem; align-items:flex-end;
-          background:rgba(20,20,24,0.95);
+          display:flex; gap:0.5rem; align-items:flex-end;
+          background:rgba(255,255,255,0.04);
           border:1px solid rgba(255,255,255,0.08);
-          border-radius:14px; padding:0.65rem 0.65rem 0.65rem 1.1rem;
+          border-radius:12px; padding:0.55rem 0.55rem 0.55rem 0.9rem;
           transition:border-color 0.18s, box-shadow 0.18s;
         }
         .chat-input-box:focus-within {
           border-color:rgba(59,130,246,0.32);
-          box-shadow:0 0 0 3px rgba(59,130,246,0.07), 0 6px 24px rgba(0,0,0,0.45);
+          box-shadow:0 0 0 3px rgba(59,130,246,0.07);
         }
         .chat-textarea {
           flex:1; background:transparent; border:none; outline:none; resize:none;
-          color:var(--text); font-family:var(--font-body); font-size:0.9rem;
-          line-height:1.6; padding:0.2rem 0; min-height:22px; max-height:180px;
+          color:var(--text); font-family:var(--font-body); font-size:0.86rem;
+          line-height:1.55; padding:0.15rem 0; min-height:20px; max-height:140px;
         }
         .chat-textarea::placeholder { color:var(--text3); }
         .chat-send-btn {
-          width:36px; height:36px; border-radius:9px; border:none; cursor:pointer;
+          width:32px; height:32px; border-radius:8px; border:none; cursor:pointer;
           display:flex; align-items:center; justify-content:center; flex-shrink:0;
-          transition:all 0.18s; font-size:15px;
+          transition:all 0.18s; font-size:14px;
         }
         .chat-send-btn.active {
           background:linear-gradient(135deg, #1d4ed8, #3b82f6);
@@ -987,7 +993,10 @@ Every response must:
         .chat-send-btn.inactive { background:rgba(28,28,32,0.9); color:var(--text3); cursor:not-allowed; }
         .chat-send-btn.active::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
         .chat-send-btn.active:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }
-        .chat-hint { font-size:0.63rem; color:var(--text3); text-align:center; margin-top:0.55rem; letter-spacing:0.04em; }
+        .chat-hint { font-size:0.58rem; color:var(--text3); text-align:center; margin-top:0.45rem; letter-spacing:0.03em; }
+        @media(max-width:560px) {
+          .chat-input-area { left:0.6rem; right:0.6rem; bottom:0.6rem; width:auto; max-width:none; }
+        }
 
         /* ── PDF button ── */
         .chat-pdf-btn {
@@ -1259,10 +1268,7 @@ Every response must:
           </div>
         )}
 
-        <div
-          className="chat-input-area"
-          style={{ position: 'relative' }}
-        >
+        <div className="chat-input-area">
           {dragOver && (
             <div style={{
               position: 'absolute', inset: 0, zIndex: 50,
