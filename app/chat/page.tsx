@@ -760,7 +760,7 @@ Every response must:
         .chat-wrap { display:flex; flex-direction:row; height:calc(100vh - 52px); background:var(--bg); position:relative; }
 
         .chat-msgs { flex:1; min-width:0; overflow-y:auto; padding:1rem 1.5rem 2rem; }
-        .chat-msgs-inner { max-width:760px; margin:0 auto 0 1.5rem; }
+        .chat-msgs-inner { max-width:760px; margin:0 auto; }
 
         /* ── Right control rail: dedicated column for toolbar + input ── */
         .chat-control-rail {
