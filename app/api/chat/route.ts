@@ -99,20 +99,15 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     // Step 2: Search
     let results;
     if (!filter) {
-      // All Books mode: get top 3 per book to ensure diversity
-      const { data: bookList } = await supabase
-        .from('book_chunks')
-        .select('book_title')
-        .limit(1000);
-      const books = [...new Set((bookList ?? []).map((r: any) => r.book_title))];
-      const perBookPromises = books.map(book =>
-        supabase.rpc('match_book_chunks', {
+      // All Books mode: single DB round-trip using match_book_chunks_diverse,
+      // which does the per-book top-3 ranking INSIDE Postgres (via a window
+      // function) instead of 25 separate network round-trips from here.
+      results = await Promise.all([
+        supabase.rpc('match_book_chunks_diverse', {
           query_embedding: singleEmbedding,
-          match_count: 3,
-          filter_book: book,
+          per_book_count: 3,
         })
-      );
-      results = await Promise.all(perBookPromises);
+      ]);
     } else {
       // Single book mode
       results = await Promise.all([
@@ -126,12 +121,12 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
 
     // Step 4: Merge + deduplicate by id
     const seen = new Set<any>();
-    const allChunks: {id: any, content: string, book_title: string, author: string}[] = [];
+    const allChunks: {id: any, content: string, book_title: string, author: string, similarity: number}[] = [];
     for (const result of results) {
       for (const chunk of (result.data ?? [])) {
         if (!seen.has(chunk.id)) {
           seen.add(chunk.id);
-          allChunks.push({ id: chunk.id, content: chunk.content, book_title: chunk.book_title, author: chunk.author });
+          allChunks.push({ id: chunk.id, content: chunk.content, book_title: chunk.book_title, author: chunk.author, similarity: chunk.similarity });
         }
       }
     }
@@ -139,8 +134,8 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     if (allChunks.length === 0) return '';
 
     // Step 4b: Filter low-similarity chunks before reranking
-    // (similarity < 0.5 means book likely doesn't cover this topic)
-    const filtered = allChunks.filter((c: any) => (c.similarity ?? 1) > 0.45);
+    // (similarity < 0.45 means book likely doesn't cover this topic)
+    const filtered = allChunks.filter((c) => (c.similarity ?? 1) > 0.45);
     const chunksToRerank = (filtered.length >= 3 ? filtered : allChunks).slice(0, 12);
     console.log(`Chunks before filter: ${allChunks.length}, after: ${chunksToRerank.length}`);
 
