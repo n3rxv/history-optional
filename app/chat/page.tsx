@@ -757,10 +757,27 @@ Every response must:
   return (
     <>
       <style>{`
-        .chat-wrap { display:flex; flex-direction:column; height:calc(100vh - 52px); background:var(--bg); position:relative; }
+        .chat-wrap { display:flex; flex-direction:row; height:calc(100vh - 52px); background:var(--bg); position:relative; }
 
-        .chat-msgs { flex:1; overflow-y:auto; padding:1rem 1.5rem 13rem; }
-        .chat-msgs-inner { max-width:800px; margin:0 auto; }
+        .chat-msgs { flex:1; min-width:0; overflow-y:auto; padding:1rem 1.5rem 2rem; }
+        .chat-msgs-inner { max-width:760px; margin:0 auto 0 1.5rem; }
+
+        /* ── Right control rail: dedicated column for toolbar + input ── */
+        .chat-control-rail {
+          width:380px; flex-shrink:0;
+          display:flex; flex-direction:column; justify-content:flex-end;
+          padding:1.25rem 1.25rem 1.25rem 0.75rem;
+          border-left:1px solid var(--border);
+          background:linear-gradient(180deg, rgba(10,10,13,0.4), rgba(8,8,10,0.6));
+        }
+        @media(max-width:900px) {
+          .chat-wrap { flex-direction:column; }
+          .chat-control-rail {
+            width:auto; border-left:none; border-top:1px solid var(--border);
+            padding:0.75rem 1rem;
+          }
+          .chat-msgs-inner { margin:0 auto; }
+        }
 
         /* ── Compact unified toolbar (history, new chat, pdf, brainstorm, books) ── */
         .chat-toolbar {
@@ -951,24 +968,21 @@ Every response must:
           box-shadow:0 4px 16px rgba(0,0,0,0.3);
         }
 
-        /* ── Input area — compact floating panel, bottom-left ── */
+        /* ── Input area — sits naturally inside the right control rail ── */
         .chat-input-area {
-          position:fixed; left:1.25rem; bottom:1.25rem;
-          width:440px; max-width:calc(100vw - 2.5rem);
-          background:linear-gradient(160deg, rgba(14,14,18,0.97), rgba(10,10,13,0.97));
+          width:100%;
+          background:linear-gradient(160deg, rgba(18,18,24,0.9), rgba(12,12,16,0.9));
           border:1px solid rgba(255,255,255,0.09);
           border-radius:16px;
-          padding:0.6rem 0.7rem 0.7rem;
-          box-shadow:0 12px 40px rgba(0,0,0,0.55);
-          backdrop-filter:blur(16px);
-          z-index:40;
+          padding:0.7rem 0.75rem 0.8rem;
+          box-shadow:0 8px 28px rgba(0,0,0,0.4);
         }
         .chat-input-inner { width:100%; }
         .chat-input-box {
           display:flex; gap:0.5rem; align-items:flex-end;
           background:rgba(255,255,255,0.04);
           border:1px solid rgba(255,255,255,0.08);
-          border-radius:12px; padding:0.55rem 0.55rem 0.55rem 0.9rem;
+          border-radius:12px; padding:0.6rem 0.6rem 0.6rem 0.9rem;
           transition:border-color 0.18s, box-shadow 0.18s;
         }
         .chat-input-box:focus-within {
@@ -977,12 +991,12 @@ Every response must:
         }
         .chat-textarea {
           flex:1; background:transparent; border:none; outline:none; resize:none;
-          color:var(--text); font-family:var(--font-body); font-size:0.86rem;
-          line-height:1.55; padding:0.15rem 0; min-height:20px; max-height:140px;
+          color:var(--text); font-family:var(--font-body); font-size:0.88rem;
+          line-height:1.6; padding:0.15rem 0; min-height:44px; max-height:240px;
         }
         .chat-textarea::placeholder { color:var(--text3); }
         .chat-send-btn {
-          width:32px; height:32px; border-radius:8px; border:none; cursor:pointer;
+          width:34px; height:34px; border-radius:8px; border:none; cursor:pointer;
           display:flex; align-items:center; justify-content:center; flex-shrink:0;
           transition:all 0.18s; font-size:14px;
         }
@@ -994,9 +1008,6 @@ Every response must:
         .chat-send-btn.active::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
         .chat-send-btn.active:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }
         .chat-hint { font-size:0.58rem; color:var(--text3); text-align:center; margin-top:0.45rem; letter-spacing:0.03em; }
-        @media(max-width:560px) {
-          .chat-input-area { left:0.6rem; right:0.6rem; bottom:0.6rem; width:auto; max-width:none; }
-        }
 
         /* ── PDF button ── */
         .chat-pdf-btn {
@@ -1268,6 +1279,7 @@ Every response must:
           </div>
         )}
 
+        <div className="chat-control-rail">
         <div className="chat-input-area">
           {dragOver && (
             <div style={{
@@ -1432,6 +1444,7 @@ Every response must:
               </div>
             )}
           </div>
+        </div>
         </div>
       </div>
     </>
