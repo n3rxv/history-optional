@@ -1205,7 +1205,7 @@ Every response must:
                   <div className="chat-typing-dot" />
                   <div className="chat-typing-dot" />
                 </div>
-                <span className="chat-typing-text">"Thinking…"</span>
+                <span className="chat-typing-text">"Thinking… (approx. 1 min for answer generation)"</span>
               </div>
             )}
 
