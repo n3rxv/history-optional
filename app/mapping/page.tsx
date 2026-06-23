@@ -2,6 +2,7 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { bookData, BookChapter, BookSite } from '@/lib/bookData';
+import { useLang } from '@/lib/i18n/LangContext';
 
 const MappingMap = dynamic(() => import('@/components/MappingMap'), { ssr: false });
 
@@ -12,6 +13,14 @@ const PART_ORDER = [
   'Historic Era',
   'Theme-Based Sites',
 ];
+
+const PARTS_HI: Record<string, string> = {
+  'Reference': 'संदर्भ',
+  'Pre-Historic Era': 'प्रागैतिहासिक काल',
+  'Proto-Historic Era': 'आद्य-ऐतिहासिक काल',
+  'Historic Era': 'ऐतिहासिक काल',
+  'Theme-Based Sites': 'विषय-आधारित स्थल',
+};
 
 const ACCENT = '#a78bfa';
 
@@ -28,13 +37,16 @@ function escapeRegex(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function sanitizeClue(text: string, site: BookSite): string {
+function sanitizeClue(text: string, site: BookSite, langHi: boolean = false): string {
   if (!text) return text;
   let clue = text;
 
+  const nameSource = langHi && site.name_hi ? site.name_hi : site.name;
+  const locationSource = langHi && site.location_hi ? site.location_hi : site.location;
+
   // Split name by '/', ',', ' also known as ', ' or ' to get all variants
-  const nameVariants = site.name
-    .split(/[/,]|\salso known as\s|\sor\s/i)
+  const nameVariants = nameSource
+    .split(/[/,]|\salso known as\s|\sया\s|\sor\s/i)
     .map(s => s.trim())
     .filter(s => s.length > 2);
 
@@ -43,15 +55,15 @@ function sanitizeClue(text: string, site: BookSite): string {
   }
 
   // Remove location parts
-  if (site.location) {
-    const locParts = site.location.split(',').map(p => p.trim()).filter(p => p.length > 3);
+  if (locationSource) {
+    const locParts = locationSource.split(',').map(p => p.trim()).filter(p => p.length > 3);
     for (const part of locParts) {
       clue = clue.replace(new RegExp(escapeRegex(part), 'gi'), '___');
     }
   }
 
   // Show only first 2 sentences
-  const sentences = clue.match(/[^.!?]+[.!?]+/g) || [clue];
+  const sentences = clue.match(/[^.!?।]+[.!?।]+/g) || [clue];
   return sentences.slice(0, 2).join(' ').trim();
 }
 
@@ -115,7 +127,7 @@ function extractState(location: string): string {
   return parts[parts.length - 1].trim() || 'Other';
 }
 
-function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, pyqOnly, onTogglePYQOnly, noLabels }: {
+function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, pyqOnly, onTogglePYQOnly, noLabels, langHi }: {
   chapter: BookChapter;
   isOpen: boolean;
   onToggle: () => void;
@@ -124,6 +136,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
   pyqOnly: boolean;
   onTogglePYQOnly: () => void;
   noLabels: boolean;
+  langHi: boolean;
 }) {
   const [stateFilter, setStateFilter] = useState<string>('All');
   const baseSites = pyqOnly
@@ -154,10 +167,10 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
         }}
       >
         <span>
-          <span style={{ color: ACCENT, fontWeight: 600, marginRight: 10 }}>Ch {chapter.chapter}</span>
-          <span style={{ fontWeight: 600 }}>{chapter.topic}</span>
+          <span style={{ color: ACCENT, fontWeight: 600, marginRight: 10 }}>{langHi ? 'अध्याय' : 'Ch'} {chapter.chapter}</span>
+          <span style={{ fontWeight: 600 }}>{langHi && chapter.topic_hi ? chapter.topic_hi : chapter.topic}</span>
           {!(chapter.chapter === 0 && chapter.topic === 'Introduction & How to Use') && (
-            <span style={{ color: 'var(--text3)', marginLeft: 10, fontSize: 13 }}>({chapter.sites.length} sites)</span>
+            <span style={{ color: 'var(--text3)', marginLeft: 10, fontSize: 13 }}>({chapter.sites.length} {langHi ? 'स्थल' : 'sites'})</span>
           )}
         </span>
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -172,7 +185,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
                 background: pyqOnly ? '#eab308' : 'rgba(234,179,8,0.1)',
                 border: '1px solid #eab308', whiteSpace: 'nowrap',
               }}
-            >{pyqOnly ? 'PYQ Only' : 'All'}</span>
+            >{pyqOnly ? (langHi ? 'केवल PYQ' : 'PYQ Only') : (langHi ? 'सभी' : 'All')}</span>
           )}
           {isOpen && stateOptions.length > 2 && (
             <select
@@ -201,30 +214,58 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
         <div style={{ padding: 18 }}>
           {chapter.chapter === 0 && chapter.topic === 'Introduction & How to Use' ? (
             <div style={{ fontFamily: 'var(--font-ui)', fontSize: 14, lineHeight: 1.7, color: 'var(--text2)' }}>
-              <p style={{ marginBottom: 12 }}>
-                This page is your visual companion to the entire <strong style={{ color: 'var(--text)' }}>Map syllabus</strong> for
-                UPSC History Optional — <strong style={{ color: ACCENT }}>963 sites</strong> across <strong style={{ color: ACCENT }}>37 chapters</strong>.
-              </p>
-              <p style={{ marginBottom: 12 }}>
-                Each chapter below opens into an interactive map and a list of sites. Click any
-                site (on the map or in the list) to see its location and significance.
-              </p>
-              <p style={{ marginBottom: 12 }}>
-                Sites with a{' '}
-                <span style={{ fontSize: 11, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
-                  PYQ badge
-                </span>{' '}
-                have appeared in actual UPSC Mains map questions — these deserve extra attention while revising.
-              </p>
-              <p style={{ marginBottom: 0 }}>
-                Use the <strong style={{ color: 'var(--text)' }}>search bar</strong> above to jump
-                directly to any site by name or location, or browse chapter-by-chapter using the{' '}
-                <strong style={{ color: 'var(--text)' }}>Part tabs</strong>.
-              </p>
+              {langHi ? (
+                <>
+                  <p style={{ marginBottom: 12 }}>
+                    यह पेज UPSC History Optional के संपूर्ण <strong style={{ color: 'var(--text)' }}>मैप सिलेबस</strong> का
+                    आपका विज़ुअल साथी है — <strong style={{ color: ACCENT }}>963 स्थल</strong>, <strong style={{ color: ACCENT }}>37 अध्यायों</strong> में।
+                  </p>
+                  <p style={{ marginBottom: 12 }}>
+                    नीचे हर अध्याय खोलने पर एक इंटरैक्टिव मैप और स्थलों की सूची दिखाई देगी। किसी भी
+                    स्थल (मैप पर या सूची में) पर क्लिक करें ताकि उसका स्थान और महत्व देख सकें।
+                  </p>
+                  <p style={{ marginBottom: 12 }}>
+                    जिन स्थलों पर{' '}
+                    <span style={{ fontSize: 11, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
+                      PYQ बैज
+                    </span>{' '}
+                    है, वे वास्तविक UPSC Mains मैप प्रश्नों में आ चुके हैं — रिवीज़न करते समय इन पर अतिरिक्त ध्यान दें।
+                  </p>
+                  <p style={{ marginBottom: 0 }}>
+                    किसी भी स्थल को नाम या स्थान से सीधे खोजने के लिए ऊपर दिए गए <strong style={{ color: 'var(--text)' }}>सर्च बार</strong> का
+                    उपयोग करें, या <strong style={{ color: 'var(--text)' }}>भाग टैब्स</strong> से अध्याय-दर-अध्याय ब्राउज़ करें।
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p style={{ marginBottom: 12 }}>
+                    This page is your visual companion to the entire <strong style={{ color: 'var(--text)' }}>Map syllabus</strong> for
+                    UPSC History Optional — <strong style={{ color: ACCENT }}>963 sites</strong> across <strong style={{ color: ACCENT }}>37 chapters</strong>.
+                  </p>
+                  <p style={{ marginBottom: 12 }}>
+                    Each chapter below opens into an interactive map and a list of sites. Click any
+                    site (on the map or in the list) to see its location and significance.
+                  </p>
+                  <p style={{ marginBottom: 12 }}>
+                    Sites with a{' '}
+                    <span style={{ fontSize: 11, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
+                      PYQ badge
+                    </span>{' '}
+                    have appeared in actual UPSC Mains map questions — these deserve extra attention while revising.
+                  </p>
+                  <p style={{ marginBottom: 0 }}>
+                    Use the <strong style={{ color: 'var(--text)' }}>search bar</strong> above to jump
+                    directly to any site by name or location, or browse chapter-by-chapter using the{' '}
+                    <strong style={{ color: 'var(--text)' }}>Part tabs</strong>.
+                  </p>
+                </>
+              )}
             </div>
           ) : visibleSites.length === 0 ? (
             <p style={{ color: 'var(--text3)', fontSize: 14 }}>
-              {pyqOnly ? 'No PYQ sites in this chapter.' : 'No sites in this chapter.'}
+              {pyqOnly
+                ? (langHi ? 'इस अध्याय में कोई PYQ स्थल नहीं है।' : 'No PYQ sites in this chapter.')
+                : (langHi ? 'इस अध्याय में कोई स्थल नहीं है।' : 'No sites in this chapter.')}
             </p>
           ) : (
             <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
@@ -261,16 +302,16 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                        <strong style={{ color: 'var(--text)', fontFamily: 'var(--font-ui)', fontSize: 14 }}>{site.name}</strong>
+                        <strong style={{ color: 'var(--text)', fontFamily: 'var(--font-ui)', fontSize: 14 }}>{langHi && site.name_hi ? site.name_hi : site.name}</strong>
                         {hasPYQ && (
                           <span style={{ fontSize: 10, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 6px', borderRadius: 4, fontFamily: 'var(--font-ui)', whiteSpace: 'nowrap', marginLeft: 8 }}>
                             PYQ {site.pyqYears.join(', ')}
                           </span>
                         )}
                       </div>
-                      <div style={{ color: 'var(--text2)', fontSize: 12, marginTop: 2 }}>{site.location}</div>
+                      <div style={{ color: 'var(--text2)', fontSize: 12, marginTop: 2 }}>{langHi && site.location_hi ? site.location_hi : site.location}</div>
                       {isSelected && (
-                        <div style={{ color: 'var(--text2)', fontSize: 13, marginTop: 6, lineHeight: 1.5 }}>{site.majorAspect}</div>
+                        <div style={{ color: 'var(--text2)', fontSize: 13, marginTop: 6, lineHeight: 1.5 }}>{langHi && site.majorAspect_hi ? site.majorAspect_hi : site.majorAspect}</div>
                       )}
                     </div>
                   );
@@ -288,13 +329,18 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
 
 type QuizSubMode = 'mcq' | 'type';
 
-function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
+function QuizPanel({ pyqOnly, langHi }: { pyqOnly: boolean; langHi: boolean }) {
   const [chapterFilter, setChapterFilter] = useState<string>('All');
   const [hideClue, setHideClue] = useState(false);
 
   const chapterOptions = useMemo(() => {
-    const chapters = [...new Set(bookData.map(ch => ch.topic))];
-    return ['All', ...chapters];
+    const chapters = bookData.map(ch => ({ topic: ch.topic, topic_hi: ch.topic_hi }));
+    const seen = new Set<string>();
+    const unique: { topic: string; topic_hi?: string }[] = [];
+    for (const c of chapters) {
+      if (!seen.has(c.topic)) { seen.add(c.topic); unique.push(c); }
+    }
+    return [{ topic: 'All', topic_hi: 'सभी' }, ...unique];
   }, []);
 
   const pool = useMemo(() => {
@@ -356,12 +402,13 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
   const handleType = () => {
     if (submitted) return;
     setSubmitted(true);
-    const correct = typed.trim().toLowerCase() === site.name.toLowerCase();
+    const target = (langHi && site.name_hi ? site.name_hi : site.name).toLowerCase();
+    const correct = typed.trim().toLowerCase() === target;
     setScore(prev => ({ correct: prev.correct + (correct ? 1 : 0), total: prev.total + 1 }));
     setStreak(prev => correct ? prev + 1 : 0);
   };
 
-  const isCorrectType = typed.trim().toLowerCase() === site.name.toLowerCase();
+  const isCorrectType = typed.trim().toLowerCase() === (langHi && site.name_hi ? site.name_hi : site.name).toLowerCase();
   const accuracy = score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0;
 
   return (
@@ -383,7 +430,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
                 transition: 'background 0.15s',
               }}
             >
-              {m === 'mcq' ? '4 Options' : 'Type Name'}
+              {m === 'mcq' ? (langHi ? '4 विकल्प' : '4 Options') : (langHi ? 'नाम टाइप करें' : 'Type Name')}
             </button>
           ))}
         </div>
@@ -401,7 +448,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
             outline: 'none', maxWidth: 200,
           }}
         >
-          {chapterOptions.map(c => <option key={c} value={c}>{c === 'All' ? 'All Chapters' : c}</option>)}
+          {chapterOptions.map(c => <option key={c.topic} value={c.topic}>{c.topic === 'All' ? (langHi ? 'सभी अध्याय' : 'All Chapters') : (langHi && c.topic_hi ? c.topic_hi : c.topic)}</option>)}
         </select>
 
         {/* Score + streak */}
@@ -425,7 +472,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
               background: 'none', border: '1px solid var(--border)', borderRadius: 6,
               color: 'var(--text3)', fontSize: 12, padding: '4px 10px', cursor: 'pointer',
             }}
-          >Reset</button>
+          >{langHi ? 'रीसेट' : 'Reset'}</button>
         </div>
       </div>
 
@@ -447,16 +494,16 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
           borderRadius: 8, padding: '10px 14px',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: hideClue ? 0 : 6 }}>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text3)' }}>CLUE</span>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text3)' }}>{langHi ? 'संकेत' : 'CLUE'}</span>
             <span
               role="button"
               onClick={() => setHideClue(h => !h)}
               style={{ fontSize: 10, cursor: 'pointer', color: 'var(--text3)', padding: '2px 8px', borderRadius: 4, border: '1px solid var(--border)', userSelect: 'none' }}
-            >{hideClue ? 'Show' : 'Hide'}</span>
+            >{hideClue ? (langHi ? 'दिखाएं' : 'Show') : (langHi ? 'छिपाएं' : 'Hide')}</span>
           </div>
           {!hideClue && (
             <>
-              {sanitizeClue(site.majorAspect, site)}
+              {sanitizeClue(langHi && site.majorAspect_hi ? site.majorAspect_hi : site.majorAspect, site, langHi)}
               {site.pyqYears?.length > 0 && (
                 <span style={{ display: 'inline-block', fontSize: 10, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 6px', borderRadius: 4, marginLeft: 8 }}>
                   PYQ {site.pyqYears.join(', ')}
@@ -492,9 +539,9 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
                   display: 'flex', flexDirection: 'column', gap: 3,
                 }}
               >
-                <span>{opt.name}</span>
+                <span>{langHi && opt.name_hi ? opt.name_hi : opt.name}</span>
                 {chosen && (
-                  <span style={{ fontSize: 11, opacity: 0.7 }}>{opt.location}</span>
+                  <span style={{ fontSize: 11, opacity: 0.7 }}>{langHi && opt.location_hi ? opt.location_hi : opt.location}</span>
                 )}
               </button>
             );
@@ -511,7 +558,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
               onChange={e => setTyped(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !submitted && handleType()}
               disabled={submitted}
-              placeholder="Type the site name..."
+              placeholder={langHi ? 'स्थल का नाम टाइप करें...' : 'Type the site name...'}
               style={{
                 flex: 1, padding: '12px 14px', borderRadius: 8,
                 border: submitted
@@ -531,7 +578,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
                 fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: 14,
                 cursor: submitted || !typed.trim() ? 'not-allowed' : 'pointer',
               }}
-            >Submit</button>
+            >{langHi ? 'सबमिट करें' : 'Submit'}</button>
           </div>
 
           {submitted && (
@@ -542,11 +589,11 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
               fontFamily: 'var(--font-ui)', fontSize: 14,
             }}>
               {isCorrectType ? (
-                <span style={{ color: '#4ade80' }}>✓ Correct!</span>
+                <span style={{ color: '#4ade80' }}>{langHi ? '✓ सही!' : '✓ Correct!'}</span>
               ) : (
                 <span style={{ color: '#f87171' }}>
-                  ✗ Answer: <strong style={{ color: 'var(--text)' }}>{site.name}</strong>
-                  <span style={{ color: 'var(--text3)', marginLeft: 8, fontSize: 12 }}>{site.location}</span>
+                  {langHi ? '✗ उत्तर: ' : '✗ Answer: '}<strong style={{ color: 'var(--text)' }}>{langHi && site.name_hi ? site.name_hi : site.name}</strong>
+                  <span style={{ color: 'var(--text3)', marginLeft: 8, fontSize: 12 }}>{langHi && site.location_hi ? site.location_hi : site.location}</span>
                 </span>
               )}
             </div>
@@ -562,10 +609,10 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
           fontFamily: 'var(--font-ui)', fontSize: 13, color: 'var(--text2)', lineHeight: 1.6,
         }}>
           <strong style={{ color: 'var(--text)', display: 'block', marginBottom: 4 }}>
-            {site.name}
+            {langHi && site.name_hi ? site.name_hi : site.name}
           </strong>
-          <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 6 }}>{site.location}</div>
-          {site.majorAspect}
+          <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 6 }}>{langHi && site.location_hi ? site.location_hi : site.location}</div>
+          {langHi && site.majorAspect_hi ? site.majorAspect_hi : site.majorAspect}
           {site.pyqYears?.length > 0 && (
             <div style={{ marginTop: 6, color: '#eab308', fontSize: 12 }}>
               PYQ: {site.pyqYears.join(', ')}
@@ -584,7 +631,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
             fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: 14,
             cursor: 'pointer',
           }}
-        >Next →</button>
+        >{langHi ? 'आगे →' : 'Next →'}</button>
       )}
     </div>
   );
@@ -593,6 +640,7 @@ function QuizPanel({ pyqOnly }: { pyqOnly: boolean }) {
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function MappingPage() {
+  const { langHi } = useLang();
   const [activePart, setActivePart]   = useState(PART_ORDER[1]);
   const [quizMode, setQuizMode]       = useState(false);
   const [noLabels, setNoLabels]       = useState(false);
@@ -633,7 +681,9 @@ export default function MappingPage() {
     const results: { site: BookSite; chapter: BookChapter }[] = [];
     for (const ch of bookData) {
       for (const site of ch.sites) {
-        if (site.name.toLowerCase().includes(q)) {
+        const matchesEn = site.name.toLowerCase().includes(q);
+        const matchesHi = site.name_hi ? site.name_hi.toLowerCase().includes(q) : false;
+        if (matchesEn || matchesHi) {
           results.push({ site, chapter: ch });
         }
       }
@@ -669,12 +719,14 @@ export default function MappingPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 8 }}>
         <div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, marginBottom: 8, color: 'var(--text)' }}>
-            {quizMode ? 'Map Quiz' : 'Map Reference — All Sites'}
+            {quizMode ? (langHi ? 'मैप क्विज़' : 'Map Quiz') : (langHi ? 'मैप संदर्भ — सभी स्थल' : 'Map Reference — All Sites')}
           </h1>
           <p style={{ color: 'var(--text2)', fontSize: 15 }}>
             {quizMode
-              ? 'Identify the marked site on the map.'
-              : <>Browse all 963 archaeological & historical sites. <span style={{ color: '#eab308' }}>Yellow</span> markers = UPSC PYQs.</>
+              ? (langHi ? 'मैप पर चिह्नित स्थल की पहचान करें।' : 'Identify the marked site on the map.')
+              : langHi
+                ? <>सभी 963 पुरातात्विक एवं ऐतिहासिक स्थल देखें। <span style={{ color: '#eab308' }}>पीले</span> मार्कर = UPSC PYQs।</>
+                : <>Browse all 963 archaeological & historical sites. <span style={{ color: '#eab308' }}>Yellow</span> markers = UPSC PYQs.</>
             }
           </p>
         </div>
@@ -690,7 +742,7 @@ export default function MappingPage() {
             display: 'flex', alignItems: 'center', gap: 8,
           }}
         >
-          <span>🧠</span> {quizMode ? 'Exit Quiz' : 'Quiz Mode'}
+          <span>🧠</span> {quizMode ? (langHi ? 'क्विज़ से बाहर' : 'Exit Quiz') : (langHi ? 'क्विज़ मोड' : 'Quiz Mode')}
         </button>
       </div>
 
@@ -699,7 +751,7 @@ export default function MappingPage() {
         <div>
           {/* PYQ only toggle for quiz */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-            <span style={{ fontFamily: 'var(--font-ui)', fontSize: 13, color: quizPYQOnly ? '#eab308' : 'var(--text3)' }}>PYQ Sites Only</span>
+            <span style={{ fontFamily: 'var(--font-ui)', fontSize: 13, color: quizPYQOnly ? '#eab308' : 'var(--text3)' }}>{langHi ? 'केवल PYQ स्थल' : 'PYQ Sites Only'}</span>
             <div
               role="button"
               onClick={() => setQuizPYQOnly(p => !p)}
@@ -716,7 +768,7 @@ export default function MappingPage() {
               }} />
             </div>
           </div>
-          <QuizPanel pyqOnly={quizPYQOnly} />
+          <QuizPanel pyqOnly={quizPYQOnly} langHi={langHi} />
         </div>
       )}
 
@@ -727,7 +779,7 @@ export default function MappingPage() {
           <div style={{ position: 'relative', marginBottom: 24, marginTop: 16 }}>
             <input
               type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search any site by name or location..."
+              placeholder={langHi ? 'किसी भी स्थल को नाम या स्थान से खोजें...' : 'Search any site by name or location...'}
               style={{
                 width: '100%', padding: '12px 16px', borderRadius: 8,
                 border: `1px solid ${ACCENT}55`, background: 'var(--bg3)',
@@ -748,9 +800,9 @@ export default function MappingPage() {
                     onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(167,139,250,0.1)'}
                     onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                   >
-                    <strong style={{ color: 'var(--text)', fontSize: 14 }}>{site.name}</strong>
+                    <strong style={{ color: 'var(--text)', fontSize: 14 }}>{langHi && site.name_hi ? site.name_hi : site.name}</strong>
                     <span style={{ color: 'var(--text3)', fontSize: 12, marginLeft: 8 }}>
-                      {chapter.topic} · {site.location}
+                      {langHi && chapter.topic_hi ? chapter.topic_hi : chapter.topic} · {langHi && site.location_hi ? site.location_hi : site.location}
                     </span>
                   </div>
                 ))}
@@ -772,7 +824,7 @@ export default function MappingPage() {
                     color: activePart === part ? ACCENT : 'var(--text2)',
                     fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, cursor: 'pointer',
                   }}
-                >{part}</button>
+                >{langHi ? (PARTS_HI[part] ?? part) : part}</button>
               ))}
             </div>
 
@@ -781,7 +833,7 @@ export default function MappingPage() {
               <div role="button" onClick={() => setNoLabels(p => !p)}
                 style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none' }}>
                 <span style={{ fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, color: noLabels ? ACCENT : 'var(--text2)', whiteSpace: 'nowrap' }}>
-                  No State Boundaries
+                  {langHi ? 'राज्य सीमा रहित' : 'No State Boundaries'}
                 </span>
                 <span style={{
                   position: 'relative', display: 'inline-block', width: 42, height: 24,
@@ -799,7 +851,7 @@ export default function MappingPage() {
               <div role="button" onClick={toggleGlobalPYQ}
                 style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', userSelect: 'none' }}>
                 <span style={{ fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, color: globalPYQOnly ? '#eab308' : 'var(--text2)', whiteSpace: 'nowrap' }}>
-                  PYQ Only
+                  {langHi ? 'केवल PYQ' : 'PYQ Only'}
                 </span>
                 <span style={{
                   position: 'relative', display: 'inline-block', width: 42, height: 24,
@@ -836,6 +888,7 @@ export default function MappingPage() {
                     pyqOnly={effectivePYQOnly}
                     onTogglePYQOnly={() => toggleChapterPYQ(key)}
                     noLabels={noLabels}
+                    langHi={langHi}
                   />
                 </div>
               );

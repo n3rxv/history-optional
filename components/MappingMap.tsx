@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from 
 import { useEffect, useState } from 'react';
 import { indiaGeoJSON } from '@/lib/indiaGeoJSON';
 import { BookSite } from '@/lib/bookData';
+import { useLang } from '@/lib/i18n/LangContext';
 import 'leaflet/dist/leaflet.css';
 
 const INDIA_BOUNDS: [[number, number], [number, number]] = [
@@ -59,6 +60,7 @@ export default function MappingMap({
 }) {
   const validSites = sites.filter(s => s.lat != null && s.lng != null);
   const [statesGeoJSON, setStatesGeoJSON] = useState<any>(null);
+  const { langHi } = useLang();
   useEffect(() => {
     fetch('/india_states.geojson')
       .then(r => r.json())
@@ -142,8 +144,8 @@ export default function MappingMap({
               {!noLabels && (
                 <Tooltip direction="top" offset={[0, -6]} className="mapping-tooltip">
                   <div style={{ fontFamily: 'var(--font-ui)', fontSize: 12 }}>
-                    <strong>{site.name}</strong>
-                    <div style={{ color: '#aaa', fontSize: 11 }}>{site.location}</div>
+                    <strong>{langHi && site.name_hi ? site.name_hi : site.name}</strong>
+                    <div style={{ color: '#aaa', fontSize: 11 }}>{langHi && site.location_hi ? site.location_hi : site.location}</div>
                     {hasPYQ && (
                       <div style={{ color: '#eab308', fontSize: 10, marginTop: 2 }}>
                         PYQ: {site.pyqYears.join(', ')}
