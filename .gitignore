@@ -52,3 +52,7 @@ historiography_page.tsx
 .env*.local
 books/
 *.epub
+.backup-*
+.theme-backup-*
+lib/*.bak
+lib/*.bak2
