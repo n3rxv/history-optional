@@ -3,8 +3,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { PhoneModal } from '@/components/PhoneModal';
+import { SubscribeCard } from '@/components/SubscribeCard';
 
-const FREE_LIMIT = 1; // 1 per week
+const FREE_LIMIT = 1;
 
 interface UsageState {
   loading:    boolean;
@@ -17,288 +18,78 @@ interface UsageState {
   token:      string | null;
 }
 
-// ── Paywall / sign-in modal ───────────────────────────────────────────────────
 function PaywallModal({
-  token, mode, limit, onClose, onSuccess,
+  token, mode, limit, slots, onClose, onSuccess,
 }: {
   token:     string | null;
   mode:      'unauthenticated' | 'limit_reached';
   limit:     number;
+  slots:     number;
   onClose:   () => void;
   onSuccess: () => void;
 }) {
-  const [payLoading,  setPayLoading]  = useState(false);
-  const [paySuccess,  setPaySuccess]  = useState(false);
-  const [signingIn,   setSigningIn]   = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('yearly');
-  const [slots, setSlots] = useState(45);
-
-  const plans = [
-    { id: 'daily',   label: 'Daily',   price: '₹49',   sub: 'per day' },
-    { id: 'weekly',  label: 'Weekly',  price: '₹299',  sub: 'per week' },
-    { id: 'monthly', label: 'Monthly', price: '₹999',  sub: 'per month' },
-    { id: 'yearly',  label: 'Annual',  price: slots > 0 ? '₹2,999' : '₹9,999', sub: 'per year' },
-  ] as const;
-  const currentPlan = plans.find(p => p.id === selectedPlan)!;
-
-  useEffect(() => {
-    if (document.getElementById('rzp-script')) return;
-    const s = document.createElement('script');
-    s.id = 'rzp-script'; s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    document.head.appendChild(s);
-  }, []);
-
-  useEffect(() => {
-    fetch('/api/razorpay/order', { method: 'GET' }).catch(() => {});
-    fetch('/api/subscription-slots').then(r => r.json()).then(d => { if (d.remaining !== undefined) setSlots(d.remaining); }).catch(() => {});
-  }, []);
-
-  const handleSignIn = async () => {
-    setSigningIn(true);
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/google-callback?next=/evaluate` },
-    });
-  };
-
-  const handlePay = async () => {
-    if (!token) return;
-    setPayLoading(true);
-    try {
-      const orderRes  = await fetch('/api/razorpay/order', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-user-token': token }, body: JSON.stringify({ plan: selectedPlan }) });
-      const orderData = await orderRes.json();
-      if (!orderData.orderId) throw new Error('Order failed');
-
-      const { data: { user } } = await supabase.auth.getUser();
-      const rzp = new (window as any).Razorpay({
-        key:         process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount:      orderData.amount,
-        currency:    orderData.currency,
-        order_id:    orderData.orderId,
-        name:        'History Optional',
-        description: 'Unlimited Evaluations · 1 Year',
-        image:       '/favicon.svg',
-        prefill:     { email: user?.email ?? '' },
-        theme:       { color: '#3b82f6' },
-        handler: async (resp: any) => {
-          const vRes  = await fetch('/api/razorpay/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-            body: JSON.stringify({ ...resp, plan: selectedPlan }),
-          });
-          if ((await vRes.json()).ok) setPaySuccess(true);
-        },
-      });
-      rzp.on('payment.failed', () => setPayLoading(false));
-      rzp.open();
-    } catch { setPayLoading(false); }
-  };
-
   return (
     <div
-      style={{
-        position: 'fixed', inset: 0, zIndex: 1000,
-        background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
-      }}
-      onClick={() => { if (!payLoading) onClose(); }}
+      style={{ position:'fixed', inset:0, zIndex:1000, background:'rgba(0,0,0,0.85)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
+      onClick={onClose}
     >
-      <div style={{
-        background: '#111', border: '1px solid #2a2a2a', borderRadius: 16,
-        padding: '2rem', maxWidth: 420, width: '100%',
-        boxShadow: '0 40px 80px rgba(0,0,0,0.8)',
-      }} onClick={e => e.stopPropagation()}>
-
-        {paySuccess ? (
-          <>
-            <div style={{ textAlign: 'center', marginBottom: 24 }}>
-              <div style={{ fontSize: '3rem', marginBottom: 12 }}>🎉</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>
-                Subscription Active!
+      <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:420, width:'100%', boxShadow:'0 40px 80px rgba(0,0,0,0.8)' }}
+        onClick={e => e.stopPropagation()}>
+        <div style={{ marginBottom:20 }}>
+          {mode === 'unauthenticated' ? (
+            <>
+              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#3b82f6', marginBottom:10 }}>Sign in required</div>
+              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.4rem', fontWeight:700, color:'#f0f0f0', marginBottom:8 }}>Evaluate Your Answers</div>
+              <div style={{ color:'#888', fontSize:'0.88rem', lineHeight:1.65 }}>
+                Sign in with Google to evaluate up to <span style={{ color:'#f0f0f0' }}>{limit} answer/week</span> for free, or subscribe for unlimited access.
               </div>
-              <div style={{ color: '#888', fontSize: '0.88rem', lineHeight: 1.6 }}>
-                Unlimited evaluations for 1 year. Go ace those answers.
+            </>
+          ) : (
+            <>
+              <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#f87171', marginBottom:10 }}>Weekly limit reached</div>
+              <div style={{ fontFamily:'var(--font-display)', fontSize:'1.5rem', fontWeight:700, color:'#f0f0f0', marginBottom:8 }}>Unlock Unlimited Evaluations</div>
+              <div style={{ color:'#888', fontSize:'0.88rem', lineHeight:1.65 }}>
+                You've used all <span style={{ color:'#f0f0f0' }}>{limit} free evaluations</span> this week. Resets every Monday.
               </div>
-            </div>
-            <button
-              style={{
-                width: '100%', padding: '14px', borderRadius: 8, border: 'none',
-                background: '#4ade80', color: '#000', fontWeight: 700,
-                fontSize: '0.9rem', cursor: 'pointer', fontFamily: 'var(--font-mono)',
-              }}
-              onClick={() => { onClose(); onSuccess(); }}
-            >
-              Evaluate Now →
-            </button>
-          </>
-
-        ) : mode === 'unauthenticated' ? (
-          <>
-            <div style={{ marginBottom: 24 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#3b82f6', marginBottom: 12 }}>
-                Sign in required
-              </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 700, color: '#f0f0f0', marginBottom: 10 }}>
-                Evaluate Your Answers
-              </div>
-              <div style={{ color: '#888', fontSize: '0.88rem', lineHeight: 1.65 }}>
-                Sign in with Google to evaluate up to <span style={{ color: '#f0f0f0' }}>{limit} answer/week</span> for free.
-                Upgrade for <span style={{ color: '#3b82f6' }}>unlimited evaluations</span> at ₹999/year.
-              </div>
-            </div>
-            <button
-              disabled={signingIn}
-              style={{
-                width: '100%', padding: '14px', borderRadius: 8,
-                border: '1px solid #3b82f6', background: 'rgba(59,130,246,0.1)',
-                color: '#3b82f6', fontWeight: 600, fontSize: '0.9rem',
-                cursor: signingIn ? 'not-allowed' : 'pointer',
-                fontFamily: 'var(--font-ui)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-                opacity: signingIn ? 0.6 : 1,
-              }}
-              onClick={handleSignIn}
-            >
-              <GoogleIcon />
-              {signingIn ? 'Redirecting…' : 'Continue with Google'}
-            </button>
-          </>
-
-        ) : (
-          <>
-            <div style={{ marginBottom: 24 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#f87171', marginBottom: 12 }}>
-                Weekly limit reached
-              </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 700, color: '#f0f0f0', marginBottom: 10 }}>
-                Unlock Unlimited Evaluations
-              </div>
-              <div style={{ color: '#888', fontSize: '0.88rem', lineHeight: 1.65 }}>
-                You've used all <span style={{ color: '#f0f0f0' }}>{limit} free evaluations</span> this week. Resets every Monday.
-              </div>
-            </div>
-
-            {/* Plan selector */}
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:6, marginBottom:16 }}>
-              {plans.map(p => {
-                const isSelected = selectedPlan === p.id;
-                const isPopular = p.id === 'yearly';
-                return (
-                  <button key={p.id} onClick={() => setSelectedPlan(p.id)}
-                    style={{
-                      padding:'10px 4px 8px', borderRadius:10, cursor:'pointer', position:'relative',
-                      border: isSelected ? '2px solid #d4a843' : '1px solid rgba(255,255,255,0.08)',
-                      background: isSelected
-                        ? 'linear-gradient(160deg, rgba(212,168,67,0.18), rgba(212,168,67,0.06))'
-                        : 'rgba(255,255,255,0.02)',
-                      transition:'all 0.2s', textAlign:'center',
-                      boxShadow: isSelected
-                        ? '0 0 24px rgba(212,168,67,0.25), inset 0 1px 0 rgba(255,255,255,0.08)'
-                        : 'none',
-                      transform: isSelected ? 'translateY(-2px)' : 'none',
-                    }}>
-                    {isPopular && (
-                      <div style={{
-                        position:'absolute', top:-8, left:'50%', transform:'translateX(-50%)',
-                        background:'linear-gradient(90deg,#d4a843,#f0e68c)',
-                        color:'#000', fontSize:'0.45rem', fontWeight:800,
-                        padding:'2px 7px', borderRadius:20, letterSpacing:'0.08em',
-                        whiteSpace:'nowrap', textTransform:'uppercase',
-                      }}>BEST VALUE</div>
-                    )}
-                    <div style={{
-                      fontSize:'0.58rem', fontWeight:700, letterSpacing:'0.08em',
-                      textTransform:'uppercase', marginBottom:5,
-                      color: isSelected ? '#f0c040' : '#444',
-                    }}>{p.label}</div>
-                    <div style={{
-                      fontSize:'1.15rem', fontWeight:900, lineHeight:1,
-                      fontFamily:'var(--font-mono)',
-                      color: isSelected ? '#ffe066' : '#666',
-                      textShadow: isSelected ? '0 0 20px rgba(255,220,80,0.4)' : 'none',
-                    }}>{p.price}</div>
-                    <div style={{
-                      fontSize:'0.55rem', marginTop:4,
-                      color: isSelected ? '#a07830' : '#2a2a2a',
-                    }}>{p.sub}</div>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Features */}
-            <div style={{ marginBottom: 16 }}>
-              {[
-                '✓  Unlimited evaluations — every day',
-                '✓  All marking schemes & model answers',
-                '✓  Prelims Smart Analysis included',
-                '✓  Priority access to new features',
-              ].map((f, i) => (
-                <div key={i} style={{ fontSize: '0.82rem', color: '#aaa', marginBottom: 7, lineHeight: 1.4 }}>{f}</div>
-              ))}
-            </div>
-
-            <button
-              disabled={payLoading}
-              style={{
-                width: '100%', padding: '15px', borderRadius: 8, border: 'none',
-                background: payLoading ? 'rgba(212,168,67,0.2)' : 'linear-gradient(135deg, #d4a843, #e8b84b)',
-                color: '#000', fontWeight: 700, fontSize: '0.95rem',
-                cursor: payLoading ? 'not-allowed' : 'pointer',
-                fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
-                boxShadow: payLoading ? 'none' : '0 0 30px rgba(212,168,67,0.3)',
-                marginBottom: 10,
-              }}
-              onClick={handlePay}
-            >
-              {payLoading ? 'Opening payment…' : `Subscribe — ${currentPlan.price}/${currentPlan.sub.split(' ')[1]} →`}
-            </button>
-            <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: '#444', letterSpacing: '0.1em' }}>
-              SECURE · RAZORPAY · {selectedPlan === 'yearly' ? 'RENEWS ANNUALLY' : selectedPlan === 'monthly' ? 'RENEWS MONTHLY' : selectedPlan === 'weekly' ? 'RENEWS WEEKLY' : 'RENEWS DAILY'}
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
+        <div style={{ height:1, background:'rgba(255,255,255,0.05)', marginBottom:20 }} />
+        <SubscribeCard
+          slots={slots}
+          fingerprint={null}
+          onSuccess={() => { onClose(); onSuccess(); }}
+          onClose={onClose}
+        />
       </div>
     </div>
   );
 }
 
-function GoogleIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-      <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
-      <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
-      <path d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/>
-      <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
-    </svg>
-  );
-}
-
-// ── Main hook — use this in EvaluatePage ─────────────────────────────────────
 export function useSubscriptionGate(onAllowed: () => void) {
   const onAllowedRef = useRef(onAllowed);
   useEffect(() => { onAllowedRef.current = onAllowed; }, [onAllowed]);
   const [state, setState] = useState<UsageState>({
-    loading: true, allowed: false, used: 0,
-    limit: FREE_LIMIT, subscribed: false, owner: false, noPhone: false, token: null,
+    loading:true, allowed:false, used:0, limit:FREE_LIMIT, subscribed:false, owner:false, noPhone:false, token:null,
   });
-  const [modal, setModal] = useState<'none' | 'phone' | 'unauthenticated' | 'limit_reached'>('none');
+  const [modal, setModal] = useState<'none'|'phone'|'unauthenticated'|'limit_reached'>('none');
+  const [slots, setSlots] = useState(45);
+
+  useEffect(() => {
+    fetch('/api/slots').then(r => r.json()).then(d => setSlots(d.slots ?? 45)).catch(() => {});
+  }, []);
 
   const refresh = useCallback(async () => {
-    setState(s => ({ ...s, loading: true }));
+    setState(s => ({ ...s, loading:true }));
     const { data: { session } } = await supabase.auth.getSession();
     const token = session?.access_token ?? null;
-    if (!token) {
-      setState({ loading: false, allowed: false, used: 0, limit: FREE_LIMIT, subscribed: false, owner: false, noPhone: false, token: null });
-      return;
-    }
+    if (!token) { setState({ loading:false, allowed:false, used:0, limit:FREE_LIMIT, subscribed:false, owner:false, noPhone:false, token:null }); return; }
     const res  = await fetch('/api/eval-usage', { headers: { 'x-user-token': token } });
     const data = await res.json();
     setState({
-      loading:    false,
-      token,
-      allowed:    data.allowed ?? false,
-      used:       data.used    ?? 0,
+      loading:false, token,
+      allowed:    data.allowed    ?? false,
+      used:       data.used       ?? 0,
       limit:      data.limit === Infinity ? Infinity : (data.limit ?? FREE_LIMIT),
       subscribed: data.subscribed ?? false,
       owner:      data.owner      ?? false,
@@ -309,36 +100,31 @@ export function useSubscriptionGate(onAllowed: () => void) {
   useEffect(() => { refresh(); }, [refresh]);
 
   const increment = useCallback(async (token: string) => {
-    await fetch('/api/eval-usage', { method: 'POST', headers: { 'x-user-token': token } });
+    await fetch('/api/eval-usage', { method:'POST', headers: { 'x-user-token': token } });
     refresh();
   }, [refresh]);
 
   const handleEvaluate = useCallback(() => {
     if (state.loading) return;
-    if (!state.token)  { setModal('unauthenticated'); return; }
-    if (state.noPhone) { setModal('phone'); return; }
-    if (!state.allowed){ setModal('limit_reached');   return; }
+    if (!state.token)   { setModal('unauthenticated'); return; }
+    if (state.noPhone)  { setModal('phone');           return; }
+    if (!state.allowed) { setModal('limit_reached');   return; }
     onAllowedRef.current();
   }, [state, onAllowed]);
 
   const UsagePill = () => {
     if (state.loading || state.owner || state.subscribed || !state.token) return null;
     const remaining = Math.max(0, state.limit - state.used);
-    const color     = remaining === 0 ? '#f87171' : remaining <= 1 ? '#fbbf24' : '#4ade80';
+    const color = remaining === 0 ? '#f87171' : remaining <= 1 ? '#fbbf24' : '#4ade80';
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 12 }}>
-        <div style={{ display: 'flex', gap: 4 }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:8, marginBottom:12 }}>
+        <div style={{ display:'flex', gap:4 }}>
           {Array.from({ length: state.limit }).map((_, i) => (
-            <div key={i} style={{
-              width: 8, height: 8, borderRadius: '50%',
-              background: i < state.used ? '#222' : color,
-              border: `1px solid ${i < state.used ? '#2a2a2a' : color + '66'}`,
-              transition: 'all 0.3s',
-            }} />
+            <div key={i} style={{ width:8, height:8, borderRadius:'50%', background: i < state.used ? '#222' : color, border:`1px solid ${i < state.used ? '#2a2a2a' : color+'66'}`, transition:'all 0.3s' }} />
           ))}
         </div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: remaining === 0 ? '#f87171' : '#666', letterSpacing: '0.08em' }}>
-          {remaining === 0 ? 'Weekly limit reached' : `${remaining} evaluation${remaining === 1 ? '' : 's'} left this week`}
+        <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.65rem', color: remaining === 0 ? '#f87171' : '#666', letterSpacing:'0.08em' }}>
+          {remaining === 0 ? 'Weekly limit reached' : \`\${remaining} evaluation\${remaining === 1 ? '' : 's'} left this week\`}
         </span>
       </div>
     );
@@ -354,6 +140,7 @@ export function useSubscriptionGate(onAllowed: () => void) {
           token={state.token}
           mode={modal}
           limit={state.limit === Infinity ? FREE_LIMIT : state.limit}
+          slots={slots}
           onClose={() => setModal('none')}
           onSuccess={onAllowed}
         />
@@ -361,5 +148,5 @@ export function useSubscriptionGate(onAllowed: () => void) {
     </>
   );
 
-  return { UsagePill, GateModals, handleEvaluate, usage: state, increment };
+  return { UsagePill, GateModals, handleEvaluate, usage:state, increment };
 }
