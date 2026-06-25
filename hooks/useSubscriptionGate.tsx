@@ -36,7 +36,7 @@ function LimitModal({
   useEffect(() => { if (slots === 0) setSelectedPlan('yearly'); }, [slots]);
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
   const price = currentPlan.price;
-  const priceNum = slots > 0 ? 599900 : 599900;
+  const priceNum = slots > 0 ? 599900 : 1499900; // matches server planAmounts
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;

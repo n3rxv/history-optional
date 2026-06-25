@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     daily:   4900,
     weekly:  29900,
     monthly: 99900,
-    yearly:  599900,
+    yearly:  remaining > 0 ? 599900 : 1499900,
   };
   const amount = planAmounts[plan] ?? 299900;
 
