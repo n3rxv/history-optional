@@ -1,0 +1,15 @@
+{
+  "fixed": [
+    "megalithic-cultures",
+    "megalithic-cultures",
+    "megalithic-cultures",
+    "sources-ancient-india"
+  ],
+  "skipped_no_gap": [],
+  "errors": {
+    "megalithic-cultures": "post-patch mismatch EN=26 HI=25",
+    "prehistory-protohistory": "post-patch mismatch EN=54 HI=46",
+    "indus-valley-civilization": "post-patch mismatch EN=43 HI=29",
+    "aryans-vedic-period": "post-patch mismatch EN=17 HI=16"
+  }
+}
