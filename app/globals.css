@@ -23,7 +23,7 @@
   --red-dim:      rgba(239,68,68,0.1);
   --green:        #22c55e;
   --green-dim:    rgba(34,197,94,0.1);
-  --font-display: 'Geist', system-ui, sans-serif;
+  --font-display: 'Libre Baskerville', 'Palatino Linotype', Palatino, serif;
   --font-ui:      'Geist', system-ui, sans-serif;
   --font-body:    'Libre Baskerville', 'Palatino Linotype', Palatino, serif;
   --font-mono:    'Geist Mono', 'Consolas', monospace;
@@ -34,7 +34,7 @@ html { scroll-behavior: smooth; transition: background-color 0.2s ease, color 0.
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   font-size: 18px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
