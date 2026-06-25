@@ -11,7 +11,9 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
     "@fingerprintjs/fingerprintjs": "^5.2.0",
+    "@fontsource/inter": "^5.2.8",
     "@fontsource/libre-baskerville": "^5.2.10",
+    "@fontsource/lora": "^5.2.8",
     "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.99.1",
     "@types/dompurify": "^3.0.5",
@@ -22,7 +24,6 @@
     "dompurify": "^3.3.3",
     "dotenv": "^17.4.2",
     "fuse.js": "^7.1.0",
-    "geist": "^1.7.2",
     "gray-matter": "^4.0.3",
     "groq-sdk": "^1.2.1",
     "html2pdf.js": "^0.14.0",
