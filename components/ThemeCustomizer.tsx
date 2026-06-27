@@ -130,6 +130,11 @@ function applyTheme(tokens: ThemeTokens) {
   r.setProperty('--strong-color', tokens.text);
   // Fix navbar hardcoded rgba
   document.documentElement.setAttribute('data-theme', 'custom');
+  // Keep PWA status bar / theme-color in sync with the active background
+  try {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', tokens.bg);
+  } catch {}
 }
 
 function saveTheme(name: string, tokens: ThemeTokens) {

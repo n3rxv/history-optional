@@ -1,0 +1,55 @@
+{
+  "name": "History Optional — UPSC Notes, PYQs & AI Eval",
+  "short_name": "History Optional",
+  "description": "Free notes, PYQs, historiography & AI answer evaluation for UPSC History Optional.",
+  "start_url": "/?source=pwa",
+  "id": "/?source=pwa",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "scope": "/",
+  "lang": "en-IN",
+  "categories": ["education", "reference"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ask AI",
+      "short_name": "Chat",
+      "url": "/chat?source=pwa_shortcut",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Evaluate Answer",
+      "short_name": "Evaluate",
+      "url": "/evaluate?source=pwa_shortcut",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "PYQs",
+      "short_name": "PYQs",
+      "url": "/pyqs?source=pwa_shortcut",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

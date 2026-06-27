@@ -4,7 +4,7 @@ import '@fontsource/libre-baskerville/400-italic.css';
 import '@fontsource/libre-baskerville/700.css';
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/600.css';
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -13,10 +13,35 @@ import AnnouncementBanner from "@/components/AnnouncementBanner";
 import Footer from "@/components/Footer";
 import WeeklyCheckup from "@/components/WeeklyCheckup";
 import VisitorTracker from "@/components/VisitorTracker";
+import BottomNav from "@/components/BottomNav";
+import PWARegister from "@/components/PWARegister";
 import { LangProvider } from "@/lib/i18n/LangContext";
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#000000',
+};
+
 export const metadata: Metadata = {
-  icons: { icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }, { url: '/favicon.png', type: 'image/png', sizes: '32x32' }], shortcut: '/favicon.png', apple: '/favicon.png' },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'History Optional',
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
+    ],
+    shortcut: '/favicon.png',
+    apple: '/apple-touch-icon.png',
+  },
   title: {
     default: "History Optional — UPSC Notes, PYQs & AI Eval",
     template: "%s | History Optional",
@@ -71,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LangProvider>
         <WeeklyCheckup />
         <VisitorTracker />
+        <PWARegister />
         <AnnouncementBanner />
         <Navbar />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZF23N3PZC" strategy="afterInteractive" />
@@ -80,8 +106,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('js', new Date());
           gtag('config', 'G-7ZF23N3PZC');
         `}</Script>
-          <main style={{ minHeight: '100vh', paddingTop: 90 }}>{children}</main>
+          <main style={{ minHeight: '100vh', paddingTop: 90 }} className="ho-main">{children}</main>
         <Footer />
+        <BottomNav />
         <Analytics />
         <SpeedInsights />
         </LangProvider>
