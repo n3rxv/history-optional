@@ -92,12 +92,12 @@ export function PYQCarousel() {
           <p style={{ fontSize: '0.875rem', color: 'var(--text2)', lineHeight: 1.65, margin: 0, fontFamily: 'var(--font-body)' }}>{pyqSlides[pyqIdx].q}</p>
         </div>
       </div>
-      <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: 5, alignItems: 'center', flexWrap: 'wrap' }}>
         {pyqSlides.map((_, i) => (
           <button key={i} className={`pyq-dot ${i === pyqIdx ? 'active' : ''}`}
             onClick={() => { setPyqFade(false); setTimeout(() => { setPyqIdx(i); setPyqFade(true); }, 300); }} />
         ))}
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem' }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Link href="/pyqs" style={{ background: 'var(--red)', color: '#fff', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "PYQ देखें" : "Browse PYQs"}</Link>
           <Link href="/chat" style={{ background: 'transparent', color: 'var(--accent)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 500, fontSize: '0.82rem', border: '1px solid rgba(59,130,246,0.3)', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "AI से पूछें →" : "Ask AI →"}</Link>
         </div>

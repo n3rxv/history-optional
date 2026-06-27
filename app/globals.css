@@ -68,7 +68,8 @@ body {
 .note-content blockquote { border-left: 3px solid var(--yellow); padding: 0.85rem 1.25rem; margin: 1.5rem 0; background: var(--yellow-dim); border-radius: 0 8px 8px 0; font-style: italic; color: var(--text2); position: relative; }
 .note-content blockquote::before { content: "“"; position: absolute; top: -0.25rem; left: 0.85rem; font-size: 2.5rem; color: var(--yellow); opacity: 0.4; font-family: Georgia, serif; line-height: 1; }
 .note-content blockquote em { color: var(--text); font-weight: 500; }
-.note-content table { width: 100%; border-collapse: collapse; margin: 1.75rem 0; font-size: 0.875rem; border-radius: 6px; overflow: hidden; border: 1px solid var(--border2); }
+.note-content table { display: block; width: 100%; max-width: 100%; border-collapse: collapse; margin: 1.75rem 0; font-size: 0.875rem; border-radius: 6px; border: 1px solid var(--border2); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.note-content table > * { display: table; width: 100%; }
 .note-content th { background: var(--bg4); color: var(--yellow); padding: 0.7rem 1rem; text-align: left; font-family: var(--font-ui); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--border2); }
 .note-content td { padding: 0.6rem 1rem; border: 1px solid var(--border); color: var(--text); vertical-align: top; line-height: 1.65; }
 .note-content tr:nth-child(even) td { background: var(--bg2); }
@@ -266,4 +267,19 @@ body {
 .g-paper-view-link:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+/* ── Mobile fixes ── */
+html, body { overflow-x: hidden; max-width: 100%; }
+
+@media (max-width: 768px) {
+  .g-stat-block { padding: 1rem 0.75rem; }
+  .g-feature-tile { padding: 1.1rem 0.9rem; }
+  .note-content table { font-size: 0.8rem; }
+  .note-content th, .note-content td { padding: 0.5rem 0.65rem; }
+}
+
+@media (max-width: 480px) {
+  .g-stat-block div:first-child { font-size: 1.6rem !important; }
+  .g-feature-tile { padding: 1rem; }
 }

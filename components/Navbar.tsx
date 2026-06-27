@@ -605,7 +605,7 @@ export default function Navbar() {
                   <SnooAvatar email={user.email ?? ''} size={28} />
                 </button>
                 {userMenuOpen && (
-                  <div style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, width: 290, borderRadius: 18, padding: 0, zIndex: 1000, overflow: 'hidden', background: 'linear-gradient(160deg, #0d0d12 0%, #111118 60%, #0d0d0f 100%)', boxShadow: '0 0 0 1px rgba(99,102,241,0.18), 0 0 0 2px rgba(99,102,241,0.06), 0 28px 80px rgba(0,0,0,0.95), 0 0 60px rgba(99,102,241,0.08)' }}>
+                  <div className="user-account-dropdown" style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, width: 290, borderRadius: 18, padding: 0, zIndex: 1000, overflow: 'hidden', background: 'linear-gradient(160deg, #0d0d12 0%, #111118 60%, #0d0d0f 100%)', boxShadow: '0 0 0 1px rgba(99,102,241,0.18), 0 0 0 2px rgba(99,102,241,0.06), 0 28px 80px rgba(0,0,0,0.95), 0 0 60px rgba(99,102,241,0.08)' }}>
                     {/* Top glow bar */}
                     <div style={{ height: 2, background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.8), rgba(212,168,67,0.6), transparent)' }} />
                     {/* Header — avatar + email + edit toggle */}
@@ -869,6 +869,15 @@ export default function Navbar() {
             .desktop-nav { display: none !important; }
             .mobile-menu-btn { display: flex !important; }
             .mobile-bell-dropdown { display: block !important; }
+          }
+          @media (max-width: 480px) {
+            .user-account-dropdown {
+              position: fixed !important;
+              top: 70px !important;
+              right: 12px !important;
+              left: 12px !important;
+              width: auto !important;
+            }
           }
           @media (min-width: 901px) {
             .mobile-bell-dropdown { display: none !important; }
