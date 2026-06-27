@@ -390,21 +390,22 @@ function FeaturedCard({ post, onClick, authed, index }: { post: Post; onClick: (
 
   return (
     <article onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+      className="featured-card" data-has-image={post.cover_image ? 'true' : 'false'}
       style={{ cursor: 'pointer', display: 'grid', gridTemplateColumns: post.cover_image ? '48px 180px 1fr' : '48px 1fr', gap: '0 1.5rem', padding: '1.5rem 0', borderBottom: '1px solid var(--border)', position: 'relative', transition: 'opacity 0.15s', opacity: hovered ? 0.85 : 1 }}>
       {authed && !post.published && (
         <div style={{ position: 'absolute', top: 16, right: 0, padding: '2px 8px', borderRadius: 3, fontSize: '0.58rem', background: 'rgba(255,80,80,0.08)', border: '1px solid rgba(255,80,80,0.2)', color: '#f87171', fontWeight: 700, letterSpacing: '0.06em' }}>DRAFT</div>
       )}
       {/* Issue number */}
-      <div style={{ paddingTop: 4 }}>
+      <div className="featured-card-num" style={{ paddingTop: 4 }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.6rem', fontWeight: 700, color: 'var(--border2)', lineHeight: 1, display: 'block' }}>{num}</span>
       </div>
       {post.cover_image && (
-        <div style={{ width: 180, height: 120, borderRadius: 6, overflow: 'hidden', alignSelf: 'center', flexShrink: 0 }}>
+        <div className="featured-card-img" style={{ width: 180, height: 120, borderRadius: 6, overflow: 'hidden', alignSelf: 'center', flexShrink: 0 }}>
           <img src={post.cover_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       )}
       {!post.cover_image && <div />}
-      <div>
+      <div className="featured-card-body">
         {post.tags?.length > 0 && (
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8, alignItems: 'center' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c9993a' }}>

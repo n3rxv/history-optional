@@ -388,6 +388,29 @@ html, body { overflow-x: hidden; max-width: 100%; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Featured/dispatch card (current affairs) — mobile restructure ── */
+@media (max-width: 640px) {
+  .featured-card {
+    grid-template-columns: 1fr !important;
+    row-gap: 0.85rem !important;
+  }
+  .featured-card-num {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .featured-card-img {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100% !important;
+    height: 180px !important;
+    max-width: 100%;
+  }
+  .featured-card-body {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
+
 /* ── Mobile fixes ── */
 html, body { overflow-x: hidden; max-width: 100%; }
 

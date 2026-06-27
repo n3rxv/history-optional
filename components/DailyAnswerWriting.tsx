@@ -145,12 +145,12 @@ export default function DailyAnswerWriting() {
             const color = sectionColors[q.section] || 'var(--accent)';
             const href = `/evaluate?q=${encodeURIComponent(q.question)}&marks=${q.marks}`;
             return (
-              <div key={q.id} style={{
+              <div key={q.id} className="daw-row" style={{
                 display: 'flex', alignItems: 'flex-start', gap: 12,
                 padding: '1rem 0',
                 borderBottom: i < 4 ? '1px solid var(--border, rgba(255,255,255,0.06))' : 'none',
               }}>
-                <div style={{
+                <div className="daw-num" style={{
                   width: 24, height: 24, borderRadius: '50%',
                   background: 'rgba(255,255,255,0.05)',
                   border: '1px solid var(--border, rgba(255,255,255,0.1))',
@@ -159,7 +159,7 @@ export default function DailyAnswerWriting() {
                   flexShrink: 0, marginTop: 1,
                 }}>{i + 1}</div>
 
-                <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="daw-body" style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 5, alignItems: 'center' }}>
                     <span style={{
                       fontSize: 11, padding: '2px 8px', borderRadius: 20,
@@ -179,6 +179,7 @@ export default function DailyAnswerWriting() {
 
                 <a
                   href={href}
+                  className="daw-submit"
                   style={{
                     flexShrink: 0, fontSize: 12, padding: '0.3rem 0.75rem',
                     border: '1px solid var(--border, rgba(255,255,255,0.12))',
@@ -211,7 +212,19 @@ export default function DailyAnswerWriting() {
           </span>
         </div>
       </div>
-      <style>{`@keyframes dawPulse{0%,100%{opacity:1}50%{opacity:0.35}}`}</style>
+      <style>{`
+        @keyframes dawPulse{0%,100%{opacity:1}50%{opacity:0.35}}
+        @media (max-width: 640px) {
+          .daw-row { flex-wrap: wrap; }
+          .daw-body { flex-basis: calc(100% - 36px); }
+          .daw-submit {
+            margin-left: 36px; margin-top: 10px;
+            width: calc(100% - 36px);
+            text-align: center;
+            padding: 0.55rem 0.75rem !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
