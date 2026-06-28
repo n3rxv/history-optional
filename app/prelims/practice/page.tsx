@@ -510,12 +510,14 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
         {/* ── Navigator sidebar ── */}
         {showNav && (
-          <div style={{
-            width: 260, flexShrink: 0,
-            position: 'sticky', top: 130,
-            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 16, boxShadow: '0 0 0 1px rgba(59,130,246,0.08), 0 8px 32px rgba(0,0,0,0.4)', padding: '1.1rem', maxHeight: 'calc(100vh - 170px)', overflowY: 'auto',
-          }}>
+          <>
+            <div className="prelims-nav-backdrop" onClick={() => setShowNav(false)} />
+            <div className="prelims-nav-sidebar" style={{
+              width: 260, flexShrink: 0,
+              position: 'sticky', top: 130,
+              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 16, boxShadow: '0 0 0 1px rgba(59,130,246,0.08), 0 8px 32px rgba(0,0,0,0.4)', padding: '1.1rem', maxHeight: 'calc(100vh - 170px)', overflowY: 'auto',
+            }}>
             <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700, color: 'var(--accent)', marginBottom: '0.9rem' }}>
               Navigator
             </div>
@@ -572,6 +574,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
               ))}
             </div>
           </div>
+          </>
         )}
       </div>
     </div>

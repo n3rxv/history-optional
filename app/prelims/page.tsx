@@ -69,7 +69,7 @@ export default function PrelimsLanding() {
         </p>
 
         {/* Feature grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginBottom: '2rem', textAlign: 'left' }}>
+        <div className="prelims-feature-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginBottom: '2rem', textAlign: 'left' }}>
           {features.map(f => (
             <div key={f.label} style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.75rem 0.9rem', display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
               <span style={{ fontSize: '1.1rem', marginTop: 1 }}>{f.icon}</span>
@@ -98,6 +98,9 @@ export default function PrelimsLanding() {
         }
         .prelims-cta-btn:hover::before {
           opacity: 1; animation: glass-shine 0.55s ease forwards;
+        }
+        @media (max-width: 480px) {
+          .prelims-feature-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
       {/* CTA */}
