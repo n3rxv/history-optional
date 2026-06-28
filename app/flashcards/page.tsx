@@ -166,6 +166,10 @@ export default function Flashcards() {
           display:flex; flex-direction:column;
         }
         .flip-back { transform:rotateY(180deg); }
+        @media (max-width: 480px) {
+          .fc-rate-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .fc-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
       `}</style>
 
       {/* ── MODAL OVERLAY ── */}
@@ -329,7 +333,7 @@ export default function Flashcards() {
             </div>
 
             {/* Rating buttons */}
-            <div style={{
+            <div className="fc-rate-grid" style={{
               display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.55rem',
               opacity: flipped ? 1 : 0,
               transform: flipped ? 'translateY(0)' : 'translateY(10px)',
@@ -380,7 +384,7 @@ export default function Flashcards() {
 
         {/* Stats */}
         {mounted && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.65rem', marginBottom: '1.75rem' }}>
+          <div className="fc-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.65rem', marginBottom: '1.75rem' }}>
             {[
               { label: langHi ? 'कुल' : 'Total', value: flashcards.length, color: '#3b82f6' },
               { label: langHi ? 'पढ़े गए' : 'Studied', value: studiedCount, color: '#8b5cf6' },

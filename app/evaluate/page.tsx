@@ -708,10 +708,26 @@ const handleOcr = useCallback(async () => {
 
       `}</style>
 
-      <div style={{ display:"flex", minHeight:"calc(100vh - 60px)", background:"#111" }}>
+      <div className="ev-layout" style={{ display:"flex", minHeight:"calc(100vh - 60px)", background:"#111" }}>
+
+        {/* Mobile-only floating trigger to reopen history drawer */}
+        {!sidebarOpen && (
+          <button
+            className="ev-sidebar-trigger"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open past evaluations"
+          >
+            <span style={{ fontSize:"0.95rem" }}>▸</span>
+          </button>
+        )}
+
+        {/* Mobile backdrop — only visible+clickable when sidebar open on mobile */}
+        {sidebarOpen && (
+          <div className="ev-sidebar-backdrop" onClick={() => setSidebarOpen(false)} />
+        )}
 
         {/* ── History Sidebar ── */}
-        <div style={{
+        <div className="ev-sidebar" data-open={sidebarOpen ? 'true' : 'false'} style={{
           width: sidebarOpen ? 280 : 40, minWidth: sidebarOpen ? 280 : 40,
           borderRight:"1px solid #1e1e1e", background:"#0d0d0d",
           transition:"all 0.25s ease", overflow:"hidden", flexShrink:0,

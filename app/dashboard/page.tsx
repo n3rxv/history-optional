@@ -264,7 +264,7 @@ export default function Dashboard() {
             <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>{langHi ? 'मूल्यांकन प्रदर्शन' : 'Evaluation Performance'}</div>
             <Link href="/evaluate" style={{ fontSize: '0.72rem', color: 'var(--accent)', textDecoration: 'none' }}>{langHi ? 'मूल्यांकन करें →' : 'Evaluate →'}</Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem', marginBottom: '1.25rem' }}>
+          <div className="dash-eval-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem', marginBottom: '1.25rem' }}>
             {[
               { label: 'Avg Score', value: `${evalStats.avg}%`, color: scoreColor(evalStats.avg) },
               { label: 'Best Score', value: `${evalStats.best}%`, color: scoreColor(evalStats.best) },
@@ -276,7 +276,7 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '1.5rem', alignItems: 'start' }}>
+          <div className="dash-section-trend-grid" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '1.5rem', alignItems: 'start' }}>
             <div>
               <div style={{ fontSize: '0.7rem', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.6rem' }}>{langHi ? 'अनुभाग औसत' : 'Section Averages'}</div>
               {evalStats.sectionAvgs.map(({ sec, avg }) => (

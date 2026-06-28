@@ -411,6 +411,69 @@ html, body { overflow-x: hidden; max-width: 100%; }
   }
 }
 
+/* ── Evaluate page sidebar — mobile drawer instead of squeeze ── */
+@media (max-width: 768px) {
+  .ev-sidebar {
+    position: fixed !important;
+    top: 0; bottom: 0; left: 0;
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 85vw;
+    z-index: 1200;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 8px 0 40px rgba(0,0,0,0.5);
+  }
+  .ev-sidebar[data-open="true"] {
+    transform: translateX(0);
+  }
+  .ev-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(2px);
+    z-index: 1199;
+  }
+  .ev-wrap {
+    padding: 24px 16px 96px !important;
+    max-width: 100% !important;
+  }
+  .ev-sidebar-trigger {
+    display: flex !important;
+  }
+}
+
+/* ── Dashboard — mobile grid fixes ── */
+@media (max-width: 640px) {
+  .dash-eval-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .dash-section-trend-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .dash-section-trend-grid > div:last-child {
+    text-align: left !important;
+  }
+}
+
+.ev-sidebar-trigger {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1100;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  color: var(--text3);
+  padding: 10px 6px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 /* ── Mobile fixes ── */
 html, body { overflow-x: hidden; max-width: 100%; }
 
