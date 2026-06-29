@@ -49,7 +49,7 @@ export default function RefundPage() {
           </li>
           <li>
             <strong>Extended service outage</strong> — if premium features were inaccessible
-            for more than 48 consecutive hours due to our platform failure
+            for more than 5 consecutive days due to our platform failure
           </li>
         </ul>
         <p>
