@@ -75,7 +75,7 @@ export default function RefundPage() {
         <p>
           For refund-related queries, reach us at:<br />
           <strong>History Optional Team</strong><br />
-          Email: <a href="mailto:support@historyoptional.xyz">support@historyoptional.xyz</a><br />
+          Email: <a href="mailto:historyoptional.xyz@gmail.com">historyoptional.xyz@gmail.com</a><br />
           Response time: within 5 business days
         </p>
       </div>

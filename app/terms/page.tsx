@@ -106,7 +106,7 @@ export default function TermsPage() {
         <p>
           Questions about these terms? Contact us at:<br />
           <strong>History Optional Team</strong><br />
-          Email: <a href="mailto:support@historyoptional.xyz">support@historyoptional.xyz</a>
+          Email: <a href="mailto:historyoptional.xyz@gmail.com">historyoptional.xyz@gmail.com</a>
         </p>
       </div>
     </main>

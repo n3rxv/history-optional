@@ -85,7 +85,7 @@ export default function PrivacyPage() {
         <p>
           For privacy-related queries or to exercise your data rights, contact us at:<br />
           <strong>History Optional Team</strong><br />
-          Email: <a href="mailto:support@historyoptional.xyz">support@historyoptional.xyz</a>
+          Email: <a href="mailto:historyoptional.xyz@gmail.com">historyoptional.xyz@gmail.com</a>
         </p>
 
         <h2>9. Changes to This Policy</h2>
