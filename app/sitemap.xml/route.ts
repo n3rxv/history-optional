@@ -16,6 +16,19 @@ export async function GET() {
     { url: `${base}/chat`, priority: '0.7', changefreq: 'monthly' },
     { url: `${base}/test`, priority: '0.6', changefreq: 'monthly' },
     { url: `${base}/contact`, priority: '0.4', changefreq: 'yearly' },
+    { url: `${base}/privacy`, priority: '0.3', changefreq: 'yearly' },
+    { url: `${base}/terms`, priority: '0.3', changefreq: 'yearly' },
+    { url: `${base}/refund`, priority: '0.3', changefreq: 'yearly' },
+    { url: `${base}/notes`, priority: '0.9', changefreq: 'weekly' },
+    { url: `${base}/notes/ancient-india`, priority: '0.8', changefreq: 'weekly' },
+    { url: `${base}/notes/medieval-india`, priority: '0.8', changefreq: 'weekly' },
+    { url: `${base}/notes/modern-india`, priority: '0.8', changefreq: 'weekly' },
+    { url: `${base}/notes/world-history`, priority: '0.8', changefreq: 'weekly' },
+    { url: `${base}/pyqs/ancient-india`, priority: '0.8', changefreq: 'monthly' },
+    { url: `${base}/pyqs/early-medieval`, priority: '0.8', changefreq: 'monthly' },
+    { url: `${base}/pyqs/medieval-india`, priority: '0.8', changefreq: 'monthly' },
+    { url: `${base}/pyqs/modern-india`, priority: '0.8', changefreq: 'monthly' },
+    { url: `${base}/pyqs/world-history`, priority: '0.8', changefreq: 'monthly' },
   ];
 
   const notesSlugs = [
