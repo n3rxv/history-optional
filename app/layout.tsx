@@ -56,6 +56,7 @@ export const metadata: Metadata = {
   authors: [{ name: "History Optional" }],
   creator: "History Optional",
   metadataBase: new URL("https://historyoptional.xyz"),
+  alternates: { canonical: "https://historyoptional.xyz" },
   verification: { other: { "msvalidate.01": "7B3A67FCFC8829FB6FEB73998D1E0342" } },
   openGraph: {
     type: "website",
