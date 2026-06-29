@@ -232,6 +232,24 @@ export default function PYQsPage() {
         .pyq-card:hover{background:var(--bg3)!important;}
       `}</style>
 
+      {/* SEO Topic Links */}
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+        {[
+          { label: 'Ancient India', href: '/pyqs/ancient-india' },
+          { label: 'Early Medieval', href: '/pyqs/early-medieval' },
+          { label: 'Medieval India', href: '/pyqs/medieval-india' },
+          { label: 'Modern India', href: '/pyqs/modern-india' },
+          { label: 'World History', href: '/pyqs/world-history' },
+        ].map(({ label, href }) => (
+          <a key={href} href={href} style={{
+            padding: '0.35rem 0.9rem', borderRadius: 6,
+            border: '1px solid var(--border)', background: 'var(--bg2)',
+            color: 'var(--text2)', fontSize: '0.8rem', textDecoration: 'none',
+            fontFamily: 'var(--font-ui)',
+          }}>{label} PYQs →</a>
+        ))}
+      </div>
+
       {/* Header */}
       <div style={{ marginBottom: '1.75rem' }}>
         <div style={{ color: 'var(--text3)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
