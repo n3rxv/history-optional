@@ -90,7 +90,7 @@ export default function TermsPage() {
 
         <h2>9. Limitation of Liability</h2>
         <p>
-          To the maximum extent permitted by law, History Optional shall not be liable for
+          To the maximum extent permitted by law, historyoptional.xyz shall not be liable for
           any indirect, incidental, or consequential damages arising from your use of the
           platform. Our total liability shall not exceed the amount you paid in the 30 days
           preceding the claim.
