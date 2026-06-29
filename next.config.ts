@@ -32,7 +32,6 @@ const nextConfig: NextConfig = {
           { key: 'Content-Type', value: 'text/xml; charset=utf-8' },
           { key: 'Cache-Control', value: 'public, max-age=3600' },
           { key: 'Vary', value: '' },
-          { key: 'X-Robots-Tag', value: 'noindex' },
           { key: 'Content-Disposition', value: '' },
         ],
       },

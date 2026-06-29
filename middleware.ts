@@ -29,6 +29,13 @@ const AI_BOTS = [
 export function middleware(req: NextRequest) {
   const ua = (req.headers.get('user-agent') ?? '').toLowerCase();
   const pathname = req.nextUrl.pathname; 
+
+  // Always allow real search engine crawlers
+  const isSearchBot = ua.includes('googlebot') || ua.includes('bingbot') || ua.includes('slurp') || ua.includes('duckduckbot') || ua.includes('baiduspider');
+  if (isSearchBot) {
+    return NextResponse.next();
+  }
+
   if (pathname === '/sitemap.xml' || pathname === '/robots.txt') {
     return NextResponse.next();
   }
