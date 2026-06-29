@@ -33,5 +33,32 @@ export default async function HistoriographyPage() {
     console.error('Historiography SSR fetch failed:', e);
   }
 
-  return <HistoriographyClient initialDebates={initialDebates} />;
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://historyoptional.xyz/historiography#webpage",
+        "url": "https://historyoptional.xyz/historiography",
+        "name": "Historiography Bank — UPSC History Optional",
+        "description": "Historiographical debates, contested interpretations and schools of thought for UPSC History Optional.",
+        "isPartOf": { "@id": "https://historyoptional.xyz/#website" },
+        "inLanguage": "en-IN",
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://historyoptional.xyz" },
+          { "@type": "ListItem", "position": 2, "name": "Historiography", "item": "https://historyoptional.xyz/historiography" }
+        ]
+      }
+    ]
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <HistoriographyClient initialDebates={initialDebates} />
+    </>
+  );
 }
