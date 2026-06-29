@@ -35,7 +35,6 @@ export default function Footer() {
         <Link href="/privacy" style={linkStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>Privacy Policy</Link>
         <Link href="/terms" style={linkStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>Terms</Link>
         <Link href="/refund" style={linkStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>Refund Policy</Link>
-        <a href="mailto:historyoptional.xyz@gmail.com" style={linkStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>Contact Us</a>
         <a
           href="https://t.me/historyoptionalxyz"
           target="_blank"
