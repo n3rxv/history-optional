@@ -59,6 +59,17 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
         "inLanguage": "en-IN",
         "educationalLevel": "competitive-exam",
         "learningResourceType": "study notes",
+        "author": {
+          "@type": "Organization",
+          "name": "historyoptional.xyz",
+          "url": "https://historyoptional.xyz"
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://historyoptional.xyz/og-image.png",
+          "width": 1200,
+          "height": 630
+        },
       },
       {
         "@type": "BreadcrumbList",
