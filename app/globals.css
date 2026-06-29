@@ -499,17 +499,30 @@ html, body { overflow-x: hidden; max-width: 100%; }
   }
 }
 
-/* ── Mobile fixes ── */
-html, body { overflow-x: hidden; max-width: 100%; }
-
-@media (max-width: 768px) {
-  .g-stat-block { padding: 1rem 0.75rem; }
-  .g-feature-tile { padding: 1.1rem 0.9rem; }
-  .note-content table { font-size: 0.8rem; }
-  .note-content th, .note-content td { padding: 0.5rem 0.65rem; }
+/* ── Test page — strengths/weaknesses grid mobile stack ── */
+@media (max-width: 600px) {
+  .test-sw-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-@media (max-width: 480px) {
-  .g-stat-block div:first-child { font-size: 1.6rem !important; }
-  .g-feature-tile { padding: 1rem; }
+/* ── Timeline — zig-zag to single-column on mobile ── */
+@media (max-width: 640px) {
+  .timeline-center-line {
+    left: 14px !important;
+    transform: none !important;
+  }
+  .timeline-row {
+    justify-content: flex-start !important;
+    padding-left: 32px;
+  }
+  .timeline-dot {
+    left: 14px !important;
+    transform: none !important;
+  }
+  .timeline-card {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }

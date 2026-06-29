@@ -232,9 +232,9 @@ export default function TimelinePage() {
       </div>
 
       {/* Timeline */}
-      <div style={{ position: 'relative' }}>
+      <div className="timeline-track" style={{ position: 'relative' }}>
         {/* Center line */}
-        <div style={{
+        <div className="timeline-center-line" style={{
           position: 'absolute',
           left: '50%',
           top: 0, bottom: 0,
@@ -245,13 +245,13 @@ export default function TimelinePage() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           {filtered.map((event, i) => (
-            <div key={i} style={{
+            <div key={i} className="timeline-row" style={{
               display: 'flex',
               justifyContent: i % 2 === 0 ? 'flex-start' : 'flex-end',
               position: 'relative',
             }}>
               {/* Year label on center */}
-              <div style={{
+              <div className="timeline-dot" style={{
                 position: 'absolute',
                 left: '50%', transform: 'translateX(-50%)',
                 top: '50%', marginTop: -12,
@@ -269,7 +269,7 @@ export default function TimelinePage() {
               />
 
               {/* Card */}
-              <div style={{
+              <div className="timeline-card" style={{
                 width: 'calc(50% - 2rem)',
                 marginLeft: i % 2 === 0 ? 0 : 'auto',
                 marginRight: i % 2 !== 0 ? 0 : 'auto',

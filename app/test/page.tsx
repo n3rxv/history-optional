@@ -548,7 +548,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
               )}
               {d.body && (
                 <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                  <div className="test-sw-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                     <div style={{ background: 'rgba(52,211,153,0.04)', border: '1px solid rgba(52,211,153,0.14)',
                       borderRadius: 6, padding: '0.6rem 0.75rem' }}>
                       <div style={{ color: '#34d399', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>✓ Strengths</div>
@@ -705,7 +705,7 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
     return (
       <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, marginBottom: '1.25rem', overflow: 'hidden' }}>
         <div style={{ padding: '0.75rem 1.25rem', borderBottom: '1px solid var(--border)',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)' }}>
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)', flexWrap: 'wrap', gap: '0.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text)' }}>Q.{qNum}</span>
             <span style={{ fontSize: '0.7rem', color: 'var(--accent)', background: 'rgba(59,130,246,0.1)',
@@ -882,7 +882,7 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
   return (
     <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, marginBottom: '1.25rem', overflow: 'hidden' }}>
       <div style={{ padding: '0.75rem 1.25rem', borderBottom: '1px solid var(--border)',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)' }}>
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)', flexWrap: 'wrap', gap: '0.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text)' }}>Q.{qNum}</span>
           <span style={{ fontSize: '0.7rem', color: 'var(--accent)', background: 'rgba(59,130,246,0.1)',
@@ -946,7 +946,7 @@ function QGroupBlock({ group, answers, onAnswer, rubrics, onRubric, isResults, i
     <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, marginBottom: '1.25rem', overflow: 'hidden' }}>
       {/* Q header */}
       <div style={{ padding: '0.75rem 1.25rem', borderBottom: '1px solid var(--border)',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)' }}>
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)', flexWrap: 'wrap', gap: '0.5rem' }}>
         <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text)' }}>Q.{group.qNum}</span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text3)' }}>{totalM} Marks</span>
       </div>
