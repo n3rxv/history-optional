@@ -68,7 +68,7 @@ export default function TermsPage() {
         <h2>6. Intellectual Property</h2>
         <p>
           All content on this site — including notes, question banks, AI-generated evaluations,
-          and design — is owned by History Optional or its licensors. You may not copy,
+          and design — is owned by historyoptional.xyz or its licensors. You may not copy,
           redistribute, or sell any content without written permission.
         </p>
 
