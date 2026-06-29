@@ -87,10 +87,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "History Optional",
-            "url": "https://historyoptional.xyz",
-            "description": "Free comprehensive notes, PYQs, historiography and AI answer evaluation for UPSC History Optional",
+            "@graph": [
+              {
+                "@type": "WebSite",
+                "@id": "https://historyoptional.xyz/#website",
+                "name": "History Optional",
+                "url": "https://historyoptional.xyz",
+                "description": "Free comprehensive notes, PYQs, historiography and AI answer evaluation for UPSC History Optional",
+                "inLanguage": "en-IN",
+              },
+              {
+                "@type": "Organization",
+                "@id": "https://historyoptional.xyz/#organization",
+                "name": "historyoptional.xyz",
+                "url": "https://historyoptional.xyz",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://historyoptional.xyz/icon-512.png",
+                  "width": 512,
+                  "height": 512
+                },
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "email": "historyoptional.xyz@gmail.com",
+                  "contactType": "customer support"
+                },
+                "sameAs": [
+                  "https://t.me/historyoptionalxyz"
+                ]
+              }
+            ]
           }) }}
         />
         <LangProvider>
