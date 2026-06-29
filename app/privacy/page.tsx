@@ -51,8 +51,6 @@ export default function PrivacyPage() {
         <p>We do not sell your personal data. We share data only with:</p>
         <ul>
           <li><strong>Razorpay</strong> — payment processing</li>
-          <li><strong>Supabase</strong> — database and authentication</li>
-          <li><strong>Vercel</strong> — hosting infrastructure</li>
           <li><strong>Google</strong> — OAuth sign-in</li>
           <li>Law enforcement, if required by applicable Indian law</li>
         </ul>
