@@ -30,7 +30,6 @@ export default function PrivacyPage() {
         <ul>
           <li>Usage data: pages visited, features used, session duration</li>
           <li>Device and browser information</li>
-          <li>IP address and approximate location</li>
         </ul>
 
         <h2>2. How We Use Your Information</h2>
