@@ -42,7 +42,7 @@ export default function PrivacyPage() {
 
         <h2>3. Data Storage</h2>
         <p>
-          Your data is stored securely using Supabase (PostgreSQL). We retain your account data
+          Your data is stored securely. We retain your account data
           for as long as your account is active. You may request deletion at any time by contacting
           us at the address below.
         </p>
