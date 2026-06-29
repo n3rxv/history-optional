@@ -57,12 +57,6 @@ export default function RefundPage() {
           by contacting us at the address below. We will respond within 5 business days.
         </p>
 
-        <h2>4. Cancellation</h2>
-        <p>
-          You may cancel your subscription at any time. Cancellation stops future billing
-          but does not entitle you to a refund for the current billing period. Access to
-          premium features continues until the end of the paid period.
-        </p>
 
         <h2>5. Payment Disputes</h2>
         <p>
