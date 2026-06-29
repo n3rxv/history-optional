@@ -58,14 +58,14 @@ export default function RefundPage() {
         </p>
 
 
-        <h2>5. Payment Disputes</h2>
+        <h2>4. Payment Disputes</h2>
         <p>
           If you believe an unauthorised charge has been made, please contact us before
           raising a dispute with your bank or card issuer. We will resolve legitimate issues
           promptly.
         </p>
 
-        <h2>6. Contact</h2>
+        <h2>5. Contact</h2>
         <p>
           For refund-related queries, reach us at:<br />
           <strong>History Optional Team</strong><br />
