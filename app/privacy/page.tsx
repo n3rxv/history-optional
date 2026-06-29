@@ -66,11 +66,6 @@ export default function PrivacyPage() {
         </ul>
         <p>To exercise these rights, contact us at the address in Section 8.</p>
 
-        <h2>6. Cookies</h2>
-        <p>
-          We use essential cookies for authentication and session management. No third-party
-          advertising cookies are used.
-        </p>
 
         <h2>7. Children&apos;s Privacy</h2>
         <p>
