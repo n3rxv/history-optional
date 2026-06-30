@@ -45,19 +45,6 @@ const marqueeItems = [
   { text: 'Mohammad Habib', sub: 'Khalji Revolution' },
 ];
 
-// Floating background topics
-const floatingTopics = [
-  'Mauryan Empire', 'French Revolution', 'Akbar', 'Indus Valley',
-  'Bhakti Movement', 'Russian Revolution', 'Chola Administration',
-  'Delhi Sultanate', 'Industrial Revolution', 'Gandhian Nationalism',
-  'Gupta Period', 'World War II', 'Vijayanagara', 'Non-Cooperation',
-  'Mughal Decline', 'Imperialism', 'Vedic Period', 'Partition of India',
-];
-
-// PYQ carousel questions
-
-
-
 export default function Home() {
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem 4rem', position: 'relative' }}>
@@ -70,21 +57,6 @@ export default function Home() {
         .marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
         .marquee-track:hover { animation-play-state: paused; }
         .marquee-wrap { overflow: hidden; mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent); }
-
-        /* Floating topics */
-        @keyframes floatUp {
-          0%   { opacity: 0; transform: translateY(0) translateX(0); }
-          10%  { opacity: 0.07; }
-          80%  { opacity: 0.05; }
-          100% { opacity: 0; transform: translateY(-420px) translateX(var(--drift)); }
-        }
-        .float-topic {
-          position: absolute; pointer-events: none; white-space: nowrap;
-          font-family: var(--font-display); font-size: 0.75rem; font-style: italic;
-          color: var(--text3); letter-spacing: 0.04em;
-          animation: floatUp var(--dur) ease-in var(--delay) infinite;
-          opacity: 0;
-        }
 
         /* PYQ slide */
         .pyq-slide { transition: opacity 0.3s ease, transform 0.3s ease; }
@@ -100,19 +72,6 @@ export default function Home() {
           .grid-4col { grid-template-columns: repeat(2,1fr) !important; }
         }
       `}</style>
-
-      {/* ── Floating background topics ── */}
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
-        {floatingTopics.map((t, i) => (
-          <span key={t} className="float-topic" style={{
-            left: `${(i * 37 + 11) % 90}%`,
-            top: `${40 + (i * 13) % 40}%`,
-            ['--dur' as any]: `${16 + (i % 5) * 3}s`,
-            ['--delay' as any]: `${(i * 1.7) % 14}s`,
-            ['--drift' as any]: `${((i % 3) - 1) * 40}px`,
-          }}>{t}</span>
-        ))}
-      </div>
 
       {/* ── Hero ── */}
       <section style={{ padding: '5rem 0 3.5rem', textAlign: 'center', position: 'relative', zIndex: 1 }}>
