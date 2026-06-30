@@ -184,12 +184,8 @@ export default function Home() {
         </div>
       </section>
 
-      <EvaluateDemo />
-      <div id="daily-answer"><DailyAnswerWriting /></div>
-      <CurrentAffairsSection />
-
       {/* ── PYQ Carousel + Test banner ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', position: 'relative', zIndex: 1 }} className="grid-2col">
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', position: 'relative', zIndex: 1, marginBottom: '3rem' }} className="grid-2col">
 
         <PYQCarousel />
 
@@ -202,6 +198,11 @@ export default function Home() {
           <Link href="/test" style={{ background: 'var(--accent)', color: '#000', padding: '0.65rem 1.5rem', borderRadius: 6, textDecoration: 'none', fontWeight: 700, fontSize: '0.875rem', display: 'inline-block', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">Start Test →</Link>
         </div>
       </div>
+
+      {/* ── Explore further: interactive demos & extras ── */}
+      <EvaluateDemo />
+      <div id="daily-answer"><DailyAnswerWriting /></div>
+      <CurrentAffairsSection />
 
     </div>
   );
