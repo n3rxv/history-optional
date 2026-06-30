@@ -2,6 +2,7 @@ import CurrentAffairsSection from '@/components/CurrentAffairsSection';
 import EvaluateDemo from '@/components/EvaluateDemo';
 import DailyAnswerWriting from '@/components/DailyAnswerWriting';
 import Link from 'next/link';
+import Button from '@/components/ui/Button';
 import { AnimatedStats, PYQCarousel } from '@/components/HomeClient';
 import { paper1Notes, paper2Notes } from '@/lib/notes';
 
@@ -103,9 +104,9 @@ export default function Home() {
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/paper1" style={{ background: 'var(--accent)', color: '#000', padding: '0.8rem 2.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.02em' }}>Paper I →</Link>
-          <Link href="/paper2" style={{ background: 'transparent', color: 'var(--text)', padding: '0.8rem 2.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 500, fontSize: '0.9rem', border: '1px solid var(--border3)' }}>Paper II →</Link>
-          <Link href="/chat"   style={{ background: 'rgba(234,179,8,0.1)', color: 'var(--yellow)', padding: '0.8rem 2.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 500, fontSize: '0.9rem', border: '1px solid rgba(234,179,8,0.25)' }}>Ask AI →</Link>
+          <Button href="/paper1" size="lg">Paper I →</Button>
+          <Button href="/paper2" size="lg" variant="outline">Paper II →</Button>
+          <Button href="/chat" size="lg" variant="tinted" color="yellow">Ask AI →</Button>
         </div>
       </section>
 
