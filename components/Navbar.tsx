@@ -77,7 +77,7 @@ function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound
         )}
 
         {/* Feature table — compact */}
-        <div style={{ marginBottom: 16, borderRadius: 8, overflow: 'hidden', border: '1px solid #1a1a1a' }}>
+        <div style={{ marginBottom: 16, borderRadius: 8, overflow: 'hidden', border: '1px solid #1a1a1a', maxHeight: 160, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#d4a843 #1a1a1a' }}>
           {/* Table header */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', background: '#111', padding: '6px 10px', borderBottom: '1px solid #1a1a1a' }}>
             <span style={{ fontSize: '0.62rem', color: '#333', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Feature</span>
