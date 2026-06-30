@@ -27,6 +27,25 @@
   --font-ui:      'Inter', system-ui, sans-serif;
   --font-body:    'Libre Baskerville', 'Palatino Linotype', Palatino, serif;
   --font-mono:    'Fira Code', 'Consolas', monospace;
+
+  /* Radius scale — use these for all NEW components. Don't retrofit old inline styles. */
+  --radius-xs:    4px;   /* badges, tags, tiny chips */
+  --radius-sm:    6px;   /* buttons, inputs, small controls */
+  --radius-md:    8px;   /* cards, dropdowns, panels */
+  --radius-lg:    10px;  /* large cards, sections */
+  --radius-xl:    14px;  /* modals, prominent containers */
+  --radius-pill:  20px;  /* pills, fully-rounded badges */
+
+  /* Spacing scale — 4px base unit. Use for new gap/padding/margin decisions. */
+  --space-1:      4px;
+  --space-2:      8px;
+  --space-3:      12px;
+  --space-4:      16px;
+  --space-5:      20px;
+  --space-6:      24px;
+  --space-8:      32px;
+  --space-10:     40px;
+  --space-12:     48px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
