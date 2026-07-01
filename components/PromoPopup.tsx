@@ -715,29 +715,76 @@ function MobileSlide({ index }: { index: number }) {
         </div>
       )}
 
-      {isPricing && (
-        <div style={{ textAlign: 'center' }}>
-          <p style={{
-            fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.25)',
-            letterSpacing: '0.09em', textTransform: 'uppercase', margin: '0 0 1.1rem',
-          }}>Simple pricing</p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}>
-            <div>
-              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', margin: '0 0 4px' }}>Starting at</p>
-              <p style={{ fontSize: 28, fontWeight: 700, color: '#f0f0f0', margin: 0 }}>
-                {"\u20B949"} <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>/day</span>
-              </p>
+      {isPricing && (() => {
+        const now = new Date();
+        const isJulyOffer = now.getFullYear() === 2026 && now.getMonth() === 6;
+        return isJulyOffer ? (
+          <div style={{ textAlign: 'center', padding: '0 0.25rem' }}>
+            {/* July offer badge */}
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              background: 'rgba(251,191,36,0.1)', border: '0.5px solid rgba(251,191,36,0.35)',
+              borderRadius: 20, padding: '3px 10px', marginBottom: '0.7rem',
+            }}>
+              <span style={{ fontSize: 9, fontWeight: 700, color: '#fbbf24', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                🎉 July Offer — Ends Jul 31
+              </span>
             </div>
-            <div style={{ width: 1, background: '#1f1f1f' }} />
-            <div>
-              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', margin: '0 0 4px' }}>Best value</p>
-              <p style={{ fontSize: 28, fontWeight: 700, color: '#f0f0f0', margin: 0 }}>
-                {"\u20B95,999"} <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>/year</span>
-              </p>
+
+            {/* Price */}
+            <div style={{ marginBottom: '0.55rem' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 7 }}>
+                <span style={{
+                  fontSize: 38, fontWeight: 800, color: '#fbbf24', lineHeight: 1,
+                  textShadow: '0 0 28px rgba(251,191,36,0.45)',
+                }}>₹2,999</span>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>/year</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 5 }}>
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', textDecoration: 'line-through' }}>₹5,999</span>
+                <span style={{
+                  fontSize: 9.5, fontWeight: 700, color: '#4ade80',
+                  background: 'rgba(74,222,128,0.1)', border: '0.5px solid rgba(74,222,128,0.25)',
+                  borderRadius: 10, padding: '1px 6px',
+                }}>50% OFF</span>
+              </div>
+            </div>
+
+            {/* Feature pills */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 4 }}>
+              {['Unlimited evals', 'AI Chat 24/7', 'Map eval', 'Model answers'].map(f => (
+                <span key={f} style={{
+                  fontSize: 10, color: 'rgba(255,255,255,0.4)',
+                  background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.09)',
+                  borderRadius: 10, padding: '2px 7px',
+                }}>{f}</span>
+              ))}
             </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div style={{ textAlign: 'center' }}>
+            <p style={{
+              fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.25)',
+              letterSpacing: '0.09em', textTransform: 'uppercase', margin: '0 0 1.1rem',
+            }}>Simple pricing</p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}>
+              <div>
+                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', margin: '0 0 4px' }}>Starting at</p>
+                <p style={{ fontSize: 28, fontWeight: 700, color: '#f0f0f0', margin: 0 }}>
+                  {"\u20B9299"} <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>/week</span>
+                </p>
+              </div>
+              <div style={{ width: 1, background: '#1f1f1f' }} />
+              <div>
+                <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', margin: '0 0 4px' }}>Best value</p>
+                <p style={{ fontSize: 28, fontWeight: 700, color: '#f0f0f0', margin: 0 }}>
+                  {"\u20B95,999"} <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>/year</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
