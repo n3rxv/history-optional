@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     daily:   4900,
     weekly:  29900,
     monthly: 99900,
-    yearly:  remaining > 0 ? 599900 : 1499900,
+    yearly:  (() => { const now = new Date(); const isJuly = now.getFullYear() === 2026 && now.getMonth() === 6; return isJuly ? 299900 : (remaining > 0 ? 599900 : 1499900); })(),
   };
   const amount = planAmounts[plan] ?? 299900;
 
