@@ -426,23 +426,14 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (!sub) {
-      // Check weekly eval usage via usage_tracking
-      const currentWeek = (() => {
-        const now = new Date();
-        const day = now.getUTCDay();
-        const diff = day === 0 ? -6 : 1 - day;
-        const monday = new Date(now);
-        monday.setUTCDate(now.getUTCDate() + diff);
-        return monday.toISOString().slice(0, 10);
-      })();
-
+      // Check lifetime eval usage via usage_tracking (no weekly reset)
       const { data: usage } = await supabase
         .from("usage_tracking")
-        .select("eval_count, eval_week")
+        .select("eval_count")
         .eq("fingerprint", token)
         .single();
 
-      const used = (usage?.eval_week === currentWeek) ? (usage?.eval_count ?? 0) : 0;
+      const used = usage?.eval_count ?? 0;
       if (used >= 1)
         return NextResponse.json({ error: "limit_reached" }, { status: 403 });
     }

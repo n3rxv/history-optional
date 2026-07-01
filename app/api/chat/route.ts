@@ -174,7 +174,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
   }
 }
 const RATE_LIMIT = 20; // max 20 messages per 10 minutes per IP
-const CHAT_FREE_LIMIT = 3; // per month
+const CHAT_FREE_LIMIT = 3; // lifetime (no reset)
 const OWNER_EMAIL = process.env.OWNER_EMAIL!;
 
 export async function POST(req: NextRequest) {
@@ -219,15 +219,14 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (!sub) {
-      // Check monthly chat usage via usage_tracking
-      const currentMonth = new Date().toISOString().slice(0, 7);
+      // Check lifetime chat usage via usage_tracking (no monthly reset)
       const { data: usage } = await supabase
         .from('usage_tracking')
-        .select('chat_count, chat_month')
+        .select('chat_count')
         .eq('fingerprint', fingerprint)
         .single();
 
-      const used = (usage?.chat_month === currentMonth) ? (usage?.chat_count ?? 0) : 0;
+      const used = usage?.chat_count ?? 0;
       if (used >= CHAT_FREE_LIMIT)
         return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
     }
