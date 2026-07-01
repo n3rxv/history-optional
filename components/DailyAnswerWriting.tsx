@@ -62,7 +62,10 @@ export default function DailyAnswerWriting() {
   const pct = ((totalSecs - secsLeft) / totalSecs) * 100;
   const isLow = secsLeft < 120 && started;
   const timeStr = finished ? 'Time up' : `${pad(Math.floor(secsLeft / 60))}:${pad(secsLeft % 60)}`;
-  const dateStr = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const _now = new Date();
+  const dateStr = `${WEEKDAYS[_now.getDay()]}, ${_now.getDate()} ${MONTHS[_now.getMonth()]} ${_now.getFullYear()}`;
   const p1count = questions.filter(q => q.section.startsWith('Paper I -')).length;
   const p2count = 5 - p1count;
 

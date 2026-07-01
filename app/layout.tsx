@@ -15,6 +15,7 @@ import WeeklyCheckup from "@/components/WeeklyCheckup";
 import VisitorTracker from "@/components/VisitorTracker";
 import BottomNav from "@/components/BottomNav";
 import PWARegister from "@/components/PWARegister";
+import PromoPopup from "@/components/PromoPopup";
 import { LangProvider } from "@/lib/i18n/LangContext";
 
 export const viewport: Viewport = {
@@ -123,6 +124,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <WeeklyCheckup />
         <VisitorTracker />
         <PWARegister />
+        <PromoPopup />
         <AnnouncementBanner />
         <Navbar />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZF23N3PZC" strategy="afterInteractive" />
