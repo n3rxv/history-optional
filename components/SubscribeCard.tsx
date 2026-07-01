@@ -205,10 +205,6 @@ export function SubscribeCard({
   return (
     <>
       <style>{`
-        @keyframes shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
         @keyframes pulseSlot {
           0%, 100% { opacity: 1; }
           50%       { opacity: 0.6; }
@@ -282,11 +278,9 @@ export function SubscribeCard({
                 fontFamily: 'var(--font-mono)', fontSize: '1.9rem', fontWeight: 700,
                 color: '#f0f0f0', lineHeight: 1,
                 background: 'linear-gradient(135deg, #f0e68c, #d4a843, #f0e68c)',
-                backgroundSize: '200% auto',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                animation: 'shimmer 3s linear infinite',
               }}>{price}</span>
               <span style={{ color: '#444', fontSize: '0.75rem' }}>/{currentPlan.sub.split(' ')[1]}</span>
               {originalPrice && (
@@ -392,15 +386,6 @@ export function SubscribeCard({
             letterSpacing: '0.02em',
             position: 'relative', overflow: 'hidden',
           }}>
-          {/* Shimmer overlay */}
-          {step !== 'paying' && (
-            <div style={{
-              position: 'absolute', inset: 0, pointerEvents: 'none',
-              background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%)',
-              backgroundSize: '200% 100%',
-              animation: 'shimmer 2.5s linear infinite',
-            }} />
-          )}
           {step === 'paying'
             ? 'Opening payment…'
             : !token
