@@ -49,7 +49,7 @@ function PaywallModal({
               <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', letterSpacing:'0.25em', textTransform:'uppercase', color:'#f87171', marginBottom:10 }}>Free limit reached</div>
               <div style={{ fontFamily:'var(--font-display)', fontSize:'1.5rem', fontWeight:700, color:'#f0f0f0', marginBottom:8 }}>Unlock Unlimited Evaluations</div>
               <div style={{ color:'#888', fontSize:'0.88rem', lineHeight:1.65 }}>
-                You've used your <span style={{ color:'#f0f0f0' }}>{limit} free evaluation</span>. Subscribe to evaluate unlimited answers.
+                You've used your <span style={{ color:'#f0f0f0' }}>{limit} free evaluation</span>. Subscribe to unlock unlimited evaluations.
               </div>
             </>
           )}
