@@ -51,6 +51,8 @@ export function SubscribeCard({
     ? (isJulyOffer ? '₹5,999' : (slots > 0 ? '₹14,999' : null))
     : null;
 
+  const showJulyBadge = isJulyOffer && selectedPlan === 'yearly';
+
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
     const s = document.createElement('script');
@@ -148,10 +150,6 @@ export function SubscribeCard({
             60%  { transform: scale(1.08); opacity: 1; }
             100% { transform: scale(1); opacity: 1; }
           }
-          @keyframes confettiRain {
-            0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(60px) rotate(360deg); opacity: 0; }
-          }
           @keyframes successGlow {
             0%, 100% { box-shadow: 0 0 20px rgba(74,222,128,0.2); }
             50%       { box-shadow: 0 0 40px rgba(74,222,128,0.5); }
@@ -224,21 +222,40 @@ export function SubscribeCard({
           0%, 100% { box-shadow: 0 0 20px rgba(212,168,67,0.3), 0 4px 15px rgba(0,0,0,0.4); }
           50%       { box-shadow: 0 0 35px rgba(212,168,67,0.55), 0 4px 20px rgba(0,0,0,0.5); }
         }
-        .subscribe-cta:hover {
-          filter: brightness(1.1);
-          
+        @keyframes julyPulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+          50%       { box-shadow: 0 0 10px 2px rgba(251,191,36,0.18); }
         }
-        .subscribe-cta:active {
-          
-        }
-        .subscribe-cta {
-          transition: all 0.18s ease;
-        }
+        .subscribe-cta { transition: all 0.18s ease; }
+        .subscribe-cta:hover { filter: brightness(1.1); }
       `}</style>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, position: 'relative' }}>
 
-        {/* Plan selector — card style */}
+        {/* July offer banner — only when annual selected in July */}
+        {showJulyBadge && (
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            background: 'rgba(251,191,36,0.07)',
+            border: '0.5px solid rgba(251,191,36,0.3)',
+            borderRadius: 8, padding: '6px 10px',
+            animation: 'julyPulse 2.5s ease infinite',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: '0.75rem' }}>🎉</span>
+              <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#fbbf24', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                July Offer — Ends Jul 31
+              </span>
+            </div>
+            <span style={{
+              fontSize: '0.6rem', fontWeight: 800, color: '#4ade80',
+              background: 'rgba(74,222,128,0.1)', border: '0.5px solid rgba(74,222,128,0.25)',
+              borderRadius: 8, padding: '2px 7px', letterSpacing: '0.04em',
+            }}>50% OFF</span>
+          </div>
+        )}
+
+        {/* Plan selector */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 8 }}>
           {plans.map(p => {
             const isSelected = selectedPlan === p.id;
@@ -274,10 +291,8 @@ export function SubscribeCard({
           })}
         </div>
 
-        {/* Decorative top graphic — coin/seal */}
+        {/* Price block + seal */}
         <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-
-          {/* Price block */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 7 }}>
               <span style={{
@@ -295,26 +310,35 @@ export function SubscribeCard({
                 </span>
               )}
             </div>
-            {slots > 0 && (
+            {slots > 0 && !showJulyBadge && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                 <span style={{
                   width: 5, height: 5, borderRadius: '50%',
-                  background: '#f87171',
-                  boxShadow: '0 0 6px #f87171',
+                  background: '#f87171', boxShadow: '0 0 6px #f87171',
                   display: 'inline-block', flexShrink: 0,
                   animation: 'pulseSlot 1.5s ease infinite',
                 }} />
-                <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '0.58rem',
-                  color: '#f87171', letterSpacing: '0.04em',
-                }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: '#f87171', letterSpacing: '0.04em' }}>
                   {slots} early-bird slots left
+                </span>
+              </div>
+            )}
+            {showJulyBadge && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 1 }}>
+                <span style={{
+                  width: 5, height: 5, borderRadius: '50%',
+                  background: '#fbbf24', boxShadow: '0 0 6px rgba(251,191,36,0.6)',
+                  display: 'inline-block', flexShrink: 0,
+                  animation: 'pulseSlot 1.5s ease infinite',
+                }} />
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: '#fbbf24', letterSpacing: '0.04em' }}>
+                  Limited time · saves ₹3,000
                 </span>
               </div>
             )}
           </div>
 
-          {/* Gold seal graphic */}
+          {/* Gold seal */}
           <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style={{ flexShrink: 0, opacity: 0.9 }}>
             <defs>
               <radialGradient id="sealGrad" cx="50%" cy="35%" r="60%">
@@ -327,7 +351,6 @@ export function SubscribeCard({
                 <stop offset="100%" stopColor="#d4a843"/>
               </radialGradient>
             </defs>
-            {/* Starburst rays */}
             {Array.from({ length: 16 }).map((_, i) => {
               const angle = (i * 360) / 16;
               const rad = (angle * Math.PI) / 180;
@@ -339,13 +362,12 @@ export function SubscribeCard({
             })}
             <circle cx="26" cy="26" r="18" fill="url(#sealGrad)"/>
             <circle cx="26" cy="26" r="14" fill="url(#sealInner)" opacity="0.4"/>
-            {/* Crown icon */}
             <path d="M17 31 L19 23 L23 27 L26 21 L29 27 L33 23 L35 31 Z" fill="#7a4f0a" opacity="0.85" strokeLinejoin="round"/>
             <rect x="17" y="31" width="18" height="2.5" rx="1" fill="#7a4f0a" opacity="0.85"/>
           </svg>
         </div>
 
-        {/* Feature pills row */}
+        {/* Feature pills */}
         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
           {[
             { label: 'Unlimited evals', icon: '◎' },
@@ -373,7 +395,7 @@ export function SubscribeCard({
           margin: '0 0 2px',
         }} />
 
-        {/* CTA Button */}
+        {/* CTA */}
         <button
           className="subscribe-cta"
           onClick={handlePay}
@@ -399,10 +421,9 @@ export function SubscribeCard({
               : `Subscribe — ${price}/${currentPlan.sub.split(' ')[1]} →`}
         </button>
 
-        {/* Footer row */}
+        {/* Footer */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: -2 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            {/* Lock icon */}
             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#2a2a2a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
