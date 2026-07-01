@@ -27,7 +27,7 @@ export default function RefundPage() {
         <p>
           We strongly recommend using the <strong>free plan</strong> to evaluate the platform
           before subscribing. The free plan includes access to Notes (Paper I &amp; II),
-          PYQ bank, Timeline &amp; Historiography, and 1 answer evaluation per week.
+          PYQ bank, Timeline &amp; Historiography, 3 AI chat messages, and 1 answer evaluation — all lifetime (no resets).
         </p>
 
         <h2>2. Subscription Plans</h2>

@@ -208,7 +208,7 @@ export default function EvaluateDemo() {
         <div style={{ borderTop:'1px solid var(--border)', padding:'12px 1.5rem', display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1rem', flexWrap:'wrap' }}>
           <div style={{ display:'flex', gap:'0.75rem', alignItems:'center', flexWrap:'wrap' }}>
             <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.65rem', color:'var(--red)', background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', padding:'3px 10px', borderRadius:20 }}>
-              1 free eval / week
+              1 free eval lifetime
             </span>
             <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.65rem', color:'var(--text3)' }}>
               Works for 10M, 15M &amp; 20M questions
