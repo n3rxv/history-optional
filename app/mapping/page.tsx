@@ -86,6 +86,10 @@ function getDistractors(correct: BookSite, count = 3): BookSite[] {
     // "Nagarjunakonda" vs "Nagarjunakonda/Vijayapuri") so they never appear
     // as a "wrong" option for themselves.
     if (geoDistance(correct, s) < SAME_SITE_MIN_DISTANCE) continue;
+    // Skip name-based aliases e.g. "Bombay-Sopara" when correct is "Sopara/Nala Sopara"
+    const correctTokens = correct.name.toLowerCase().split(/[\/\-,\s]+/).filter(t => t.length > 3);
+    const sTokens = lowerName.split(/[\/\-,\s]+/).filter(t => t.length > 3);
+    if (correctTokens.some(t => sTokens.includes(t))) continue;
     candidates.push(s);
     seenNames.add(lowerName);
   }
