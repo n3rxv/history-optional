@@ -5998,8 +5998,8 @@ export const bookData: BookChapter[] = [
         "pyqYears": [
           2019
         ],
-        "lat": 26.17,
-        "lng": 75.79,
+        "lat": 24.97,
+        "lng": 89.37,
         "name_hi": "पुन्द्रनगर/महास्थनगढ़",
         "location_hi": "बोगरा जिला (बांग्लादेश)",
         "majorAspect_hi": "बंगाल क्षेत्र में गुप्त प्रशासन के तहत प्रांतीय राजधानी।"
