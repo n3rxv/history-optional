@@ -555,7 +555,7 @@ function ChatContent() {
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-token': (await supabase.auth.getSession()).data.session?.access_token ?? usage?.fingerprint ?? '' },
+        headers: { 'Content-Type': 'application/json', 'x-user-token': (await supabase.auth.getSession()).data.session?.access_token ?? usage?.fingerprint ?? document.cookie.match(/fp=([^;]+)/)?.[1] ?? localStorage.getItem('fp') ?? '' },
         body: JSON.stringify({
           ...(pdfBase64 ? {
             pdf_base64: pdfBase64,
