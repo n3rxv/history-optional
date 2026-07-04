@@ -1389,6 +1389,8 @@ Every response must:
                           <option value="Satish Chandra - Medieval India (800-1700)">Satish Chandra - Medieval India (800-1700)</option>
                           <option value="Satish Chandra - Medieval India Part 2 (1526-1748)">Satish Chandra - Medieval India Part 2 (1526-1748)</option>
                           <option value="Vipul Singh — Interpreting Medieval India">Vipul Singh — Interpreting Medieval India</option>
+                          <option value="India in the Persianate Age">Richard Eaton — India in the Persianate Age</option>
+                          <option value="The Rise of Islam and the Bengal Frontier">Richard Eaton — The Rise of Islam and the Bengal Frontier</option>
                           <option disabled style={{color:'#555'}}>── Modern ──</option>
                           <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
                           <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
