@@ -741,13 +741,13 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <div style={{ position: 'relative', marginLeft: '0.25rem' }}>
-                <button onClick={() => setShowPremiumModal(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.03em', whiteSpace: 'nowrap', transition: 'all 0.15s' }}
+              <div style={{ position: 'relative', marginLeft: '0.25rem', display: 'inline-flex' }}>
+                <button onClick={() => setShowPremiumModal(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.03em', whiteSpace: 'nowrap', transition: 'all 0.15s', position: 'relative', zIndex: 1 }}
                   onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.2)'; el.style.borderColor = 'rgba(212,168,67,0.8)'; el.style.color = '#ffd700'; }}
                   onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.12)'; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#e8b84b'; }}>
                   ✦ Premium
                 </button>
-                <span style={{ position: 'absolute', top: -8, right: -8, fontSize: '0.5rem', fontWeight: 800, background: '#e03131', color: '#fff', borderRadius: 20, padding: '2px 5px', lineHeight: 1.3, letterSpacing: '0.02em', whiteSpace: 'nowrap', pointerEvents: 'none' }}>50% OFF</span>
+                <span style={{ position: 'absolute', top: -8, right: -10, fontSize: '0.5rem', fontWeight: 800, background: '#e03131', color: '#fff', borderRadius: 20, padding: '2px 5px', lineHeight: 1.3, letterSpacing: '0.02em', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 2 }}>50% OFF</span>
               </div>
             )}
           </div>
@@ -854,8 +854,10 @@ export default function Navbar() {
               {user ? (
                 <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
               ) : (
-                <button onClick={() => setShowPremiumModal(true)} style={{ background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700 }}>✦ Premium</button>
-                <span style={{ position: 'absolute', top: -8, right: -8, fontSize: '0.5rem', fontWeight: 800, background: '#e03131', color: '#fff', borderRadius: 20, padding: '2px 5px', lineHeight: 1.3, whiteSpace: 'nowrap', pointerEvents: 'none' }}>50% OFF</span>
+                <div style={{ position: 'relative', display: 'inline-flex' }}>
+                  <button onClick={() => setShowPremiumModal(true)} style={{ background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, position: 'relative', zIndex: 1 }}>✦ Premium</button>
+                  <span style={{ position: 'absolute', top: -8, right: -10, fontSize: '0.5rem', fontWeight: 800, background: '#e03131', color: '#fff', borderRadius: 20, padding: '2px 5px', lineHeight: 1.3, whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 2 }}>50% OFF</span>
+                </div>
               )}
             </div>
           </div>
