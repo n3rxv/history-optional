@@ -816,78 +816,79 @@ export default function MappingPage() {
             )}
           </div>
 
-          {/* Part tabs + PYQ toggle + No State Boundaries toggle */}
-          <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {PART_ORDER.map((part) => (
-                <button
-                  key={part}
-                  onClick={() => setActivePart(part)}
-                  style={{
-                    padding: '8px 16px', borderRadius: 8,
-                    border: activePart === part ? `1px solid ${ACCENT}` : '1px solid var(--border)',
-                    background: activePart === part ? 'rgba(167,139,250,0.12)' : 'var(--bg3)',
-                    color: activePart === part ? ACCENT : 'var(--text2)',
-                    fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                  }}
-                >{langHi ? (PARTS_HI[part] ?? part) : part}</button>
-              ))}
+          {/* Part tabs + all toggles — single scrollable row */}
+          <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center' }}>
+            {/* Era tabs */}
+            {PART_ORDER.map((part) => (
+              <button
+                key={part}
+                onClick={() => setActivePart(part)}
+                style={{
+                  padding: '7px 14px', borderRadius: 8,
+                  border: activePart === part ? `1px solid ${ACCENT}` : '1px solid var(--border)',
+                  background: activePart === part ? 'rgba(167,139,250,0.12)' : 'var(--bg3)',
+                  color: activePart === part ? ACCENT : 'var(--text2)',
+                  fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >{langHi ? (PARTS_HI[part] ?? part) : part}</button>
+            ))}
+
+            {/* Divider */}
+            <span style={{ width: 1, height: 22, background: 'var(--border)', margin: '0 4px', flexShrink: 0 }} />
+
+            {/* No State Boundaries toggle */}
+            <div role="button" onClick={() => setNoLabels(p => !p)}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', userSelect: 'none', flexShrink: 0 }}>
+              <span style={{ fontFamily: 'var(--font-ui)', fontSize: 12, fontWeight: 600, color: noLabels ? ACCENT : 'var(--text2)', whiteSpace: 'nowrap' }}>
+                {langHi ? 'सीमा रहित' : 'No Boundaries'}
+              </span>
+              <span style={{
+                position: 'relative', display: 'inline-block', width: 36, height: 20,
+                borderRadius: 10, background: noLabels ? ACCENT : 'var(--border2)', transition: 'background 0.2s', flexShrink: 0,
+              }}>
+                <span style={{
+                  position: 'absolute', top: 2, left: noLabels ? 17 : 2,
+                  width: 16, height: 16, borderRadius: '50%', background: '#fff',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.4)', transition: 'left 0.2s',
+                }} />
+              </span>
             </div>
 
-            <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-              {/* No State Boundaries toggle */}
-              <div role="button" onClick={() => setNoLabels(p => !p)}
-                style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none' }}>
-                <span style={{ fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, color: noLabels ? ACCENT : 'var(--text2)', whiteSpace: 'nowrap' }}>
-                  {langHi ? 'राज्य सीमा रहित' : 'No State Boundaries'}
-                </span>
+            {/* PYQ Only toggle */}
+            <div role="button" onClick={toggleGlobalPYQ}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', userSelect: 'none', flexShrink: 0 }}>
+              <span style={{ fontFamily: 'var(--font-ui)', fontSize: 12, fontWeight: 600, color: globalPYQOnly ? '#eab308' : 'var(--text2)', whiteSpace: 'nowrap' }}>
+                {langHi ? 'PYQ' : 'PYQ Only'}
+              </span>
+              <span style={{
+                position: 'relative', display: 'inline-block', width: 36, height: 20,
+                borderRadius: 10, background: globalPYQOnly ? '#eab308' : 'var(--border2)', transition: 'background 0.2s', flexShrink: 0,
+              }}>
                 <span style={{
-                  position: 'relative', display: 'inline-block', width: 42, height: 24,
-                  borderRadius: 12, background: noLabels ? ACCENT : 'var(--border2)', transition: 'background 0.2s',
-                }}>
-                  <span style={{
-                    position: 'absolute', top: 2, left: noLabels ? 20 : 2,
-                    width: 20, height: 20, borderRadius: '50%', background: '#fff',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.4)', transition: 'left 0.2s',
-                  }} />
-                </span>
-              </div>
+                  position: 'absolute', top: 2, left: globalPYQOnly ? 17 : 2,
+                  width: 16, height: 16, borderRadius: '50%', background: '#fff',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.4)', transition: 'left 0.2s',
+                }} />
+              </span>
+            </div>
 
-              {/* PYQ Only toggle */}
-              <div role="button" onClick={toggleGlobalPYQ}
-                style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', userSelect: 'none' }}>
-                <span style={{ fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, color: globalPYQOnly ? '#eab308' : 'var(--text2)', whiteSpace: 'nowrap' }}>
-                  {langHi ? 'केवल PYQ' : 'PYQ Only'}
-                </span>
+            {/* Grid toggle */}
+            <div role="button" onClick={() => setShowGrid(p => !p)}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', userSelect: 'none', flexShrink: 0 }}>
+              <span style={{ fontFamily: 'var(--font-ui)', fontSize: 12, fontWeight: 600, color: showGrid ? '#60a5fa' : 'var(--text2)', whiteSpace: 'nowrap' }}>
+                {langHi ? 'ग्रिड' : 'Grid'}
+              </span>
+              <span style={{
+                position: 'relative', display: 'inline-block', width: 36, height: 20,
+                borderRadius: 10, background: showGrid ? '#3b82f6' : 'var(--border2)', transition: 'background 0.2s', flexShrink: 0,
+              }}>
                 <span style={{
-                  position: 'relative', display: 'inline-block', width: 42, height: 24,
-                  borderRadius: 12, background: globalPYQOnly ? '#eab308' : 'var(--border2)', transition: 'background 0.2s ease',
-                }}>
-                  <span style={{
-                    position: 'absolute', top: 2, left: globalPYQOnly ? 20 : 2,
-                    width: 20, height: 20, borderRadius: '50%', background: '#fff',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.4)', transition: 'left 0.2s ease',
-                  }} />
-                </span>
-              </div>
-
-              {/* Lat/Lng Grid toggle */}
-              <div role="button" onClick={() => setShowGrid(p => !p)}
-                style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none' }}>
-                <span style={{ fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, color: showGrid ? '#60a5fa' : 'var(--text2)', whiteSpace: 'nowrap' }}>
-                  {langHi ? 'ग्रिड' : 'Grid'}
-                </span>
-                <span style={{
-                  position: 'relative', display: 'inline-block', width: 42, height: 24,
-                  borderRadius: 12, background: showGrid ? '#3b82f6' : 'var(--border2)', transition: 'background 0.2s',
-                }}>
-                  <span style={{
-                    position: 'absolute', top: 2, left: showGrid ? 20 : 2,
-                    width: 20, height: 20, borderRadius: '50%', background: '#fff',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.4)', transition: 'left 0.2s',
-                  }} />
-                </span>
-              </div>
+                  position: 'absolute', top: 2, left: showGrid ? 17 : 2,
+                  width: 16, height: 16, borderRadius: '50%', background: '#fff',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.4)', transition: 'left 0.2s',
+                }} />
+              </span>
             </div>
           </div>
 
