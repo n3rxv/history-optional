@@ -745,6 +745,7 @@ export default function Navbar() {
                 onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.2)'; el.style.borderColor = 'rgba(212,168,67,0.8)'; el.style.color = '#ffd700'; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.12)'; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#e8b84b'; }}>
                 ✦ Premium
+                <span style={{ fontSize: '0.58rem', fontWeight: 800, background: '#e03131', color: '#fff', borderRadius: 4, padding: '1px 5px', lineHeight: 1.4, letterSpacing: '0.02em' }}>50% OFF</span>
               </button>
             )}
           </div>
@@ -851,7 +852,7 @@ export default function Navbar() {
               {user ? (
                 <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
               ) : (
-                <button onClick={() => setShowPremiumModal(true)} style={{ background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700 }}>✦ Premium</button>
+                <button onClick={() => setShowPremiumModal(true)} style={{ background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700 }}>✦ Premium <span style={{ fontSize: '0.55rem', fontWeight: 800, background: '#e03131', color: '#fff', borderRadius: 4, padding: '1px 4px', lineHeight: 1.4 }}>50% OFF</span></button>
               )}
             </div>
           </div>
