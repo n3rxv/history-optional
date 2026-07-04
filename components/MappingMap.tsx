@@ -50,8 +50,8 @@ function GraticuleGrid() {
     if (!ctx) return;
     ctx.clearRect(0, 0, w, h);
 
-    const LINE_COLOR = 'rgba(0,0,0,0.55)';
-    const LABEL_COLOR = 'rgba(30,30,30,0.9)';
+    const LINE_COLOR = 'rgba(0,0,0,0.85)';
+    const LABEL_COLOR = 'rgba(0,0,0,1)';
     const FONT = 'bold 8px monospace';
 
     for (let lat = LAT_MIN; lat <= LAT_MAX; lat += INTERVAL) {
