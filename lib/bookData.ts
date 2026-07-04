@@ -5132,8 +5132,8 @@ export const bookData: BookChapter[] = [
           2016,
           2021
         ],
-        "lat": 32.5,
-        "lng": 75.1,
+        "lat": 15.57,
+        "lng": 78.51,
         "name_hi": "राजुला‑मंदागिरी",
         "location_hi": "कुर्नूल जिला (आंध्र प्रदेश)",
         "majorAspect_hi": "लघु शिलालेख।"
@@ -5310,8 +5310,8 @@ export const bookData: BookChapter[] = [
         "pyqYears": [
           2023
         ],
-        "lat": 24.6,
-        "lng": 73.7,
+        "lat": 31.61,
+        "lng": 65.71,
         "name_hi": "कंधार",
         "location_hi": "कंधार प्रांत (अफ़गानिस्तान)",
         "majorAspect_hi": "ग्रीक और अरामाइक में द्विभाषी शिलालेख। यह अशोक की हेलेनिस्टिक दुनिया तक पहुँच को दर्शाता है।"
@@ -6918,8 +6918,8 @@ export const bookData: BookChapter[] = [
         "location": "Nawalpur district (Nepal)",
         "majorAspect": "Only undisturbed original stupa of the eight built over Buddha's relics by eight kings. Said to have been preserved by Nagas. Ashoka could not dismantle it.",
         "pyqYears": [],
-        "lat": 27.0756,
-        "lng": 77.8754,
+        "lat": 27.6,
+        "lng": 83.85,
         "name_hi": "रामग्रामा स्तूप",
         "location_hi": "नवपालपुर जिला (नेपाल)",
         "majorAspect_hi": "आठ राजाओं द्वारा बुद्ध के अवशेषों पर निर्मित आठ मूल स्तूपों में से केवल एक अपरिवर्तित मूल स्तूप। कहा जाता है कि नागों ने इसे संरक्षित किया। अशोक इसे ध्वस्त नहीं कर सके।"
@@ -8890,8 +8890,8 @@ export const bookData: BookChapter[] = [
           2016,
           2021
         ],
-        "lat": 32.5,
-        "lng": 75.1,
+        "lat": 22.37,
+        "lng": 75.39,
         "name_hi": "मंदु (मंदवगढ़)",
         "location_hi": "धार जिला (मध्य प्रदेश)",
         "majorAspect_hi": "मालवा सल्तनत और बाद में मुगलों का मध्यकालीन किला शहर। जहाज़ महल, हिंडोला महल, बाज़ बहादुर का महल।"
@@ -10851,8 +10851,8 @@ export const bookData: BookChapter[] = [
         "location": "Sindhudurg district (Maharashtra)",
         "majorAspect": "Shivaji won it from Adil Shahis, used to check foreign invasions from the Arabian Sea. A water fort.",
         "pyqYears": [],
-        "lat": 16.1357,
-        "lng": 73.6522,
+        "lat": 16.5603,
+        "lng": 73.3321,
         "name_hi": "विजयदुर्ग",
         "location_hi": "सिंधुदुर्ग जिला (महाराष्ट्र)",
         "majorAspect_hi": "शिवाजी ने इसे आदिल शाही से जीत लिया, विदेशी समुद्री आक्रमणों को अरब सागर से रोकने के लिये उपयोग किया। एक जल दुर्ग।"
@@ -10972,8 +10972,8 @@ export const bookData: BookChapter[] = [
         "location": "Sindhudurg district (Maharashtra)",
         "majorAspect": "Dutch factory. Became a bone of contention between Dutch and Portuguese.",
         "pyqYears": [],
-        "lat": 16.1357,
-        "lng": 73.6522,
+        "lat": 15.8648,
+        "lng": 73.6329,
         "name_hi": "वेंगुर्ला",
         "location_hi": "सिंधुदुर्ग जिला (महाराष्ट्र)",
         "majorAspect_hi": "डच फ़ैक्ट्री। डच और पुर्तगालियों के बीच विवाद का कारण बना।"
