@@ -279,6 +279,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
                   sites={sitesWithCoords}
                   selectedSite={selectedSite}
                   noLabels={noLabels}
+                  showGrid={showGrid}
                   onSiteClick={(name) => {
                     onSiteClick(name);
                     const chapterKey = `${chapter.part}-${chapter.topic}-${chapter.chapter}`;
