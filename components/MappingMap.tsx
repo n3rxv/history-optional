@@ -33,71 +33,88 @@ function FitBounds({ sites, selectedSite, disableAutoZoom }: { sites: BookSite[]
 
 function GraticuleGrid() {
   const map = useMap();
-  const svgRef = useRef<SVGSVGElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const INTERVAL = 4;
   const LAT_MIN = 8, LAT_MAX = 36, LNG_MIN = 60, LNG_MAX = 104;
 
   const redraw = useCallback(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-    const size = map.getSize();
-    svg.setAttribute('width', String(size.x));
-    svg.setAttribute('height', String(size.y));
-    svg.setAttribute('viewBox', `0 0 ${size.x} ${size.y}`);
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-    const ns = 'http://www.w3.org/2000/svg';
-
-    const mkLine = (x1: number, y1: number, x2: number, y2: number, stroke: string) => {
-      const el = document.createElementNS(ns, 'line');
-      el.setAttribute('x1', String(x1)); el.setAttribute('y1', String(y1));
-      el.setAttribute('x2', String(x2)); el.setAttribute('y2', String(y2));
-      el.setAttribute('stroke', stroke); el.setAttribute('stroke-width', '0.9');
-      el.setAttribute('stroke-dasharray', '5 3');
-      svg.appendChild(el);
-    };
-
-    const mkText = (x: number, y: number, text: string, anchor: string, fill: string) => {
-      const el = document.createElementNS(ns, 'text');
-      el.setAttribute('x', String(x)); el.setAttribute('y', String(y));
-      el.setAttribute('font-size', '9'); el.setAttribute('font-family', 'monospace');
-      el.setAttribute('text-anchor', anchor); el.setAttribute('fill', fill);
-      el.setAttribute('stroke', 'rgba(0,0,0,0.8)'); el.setAttribute('stroke-width', '2');
-      el.setAttribute('paint-order', 'stroke');
-      el.textContent = text;
-      svg.appendChild(el);
-    };
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const mapContainer = map.getContainer();
+    const w = mapContainer.clientWidth;
+    const h = mapContainer.clientHeight;
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, w, h);
 
     for (let lat = LAT_MIN; lat <= LAT_MAX; lat += INTERVAL) {
       const p1 = map.latLngToContainerPoint([lat, LNG_MIN]);
       const p2 = map.latLngToContainerPoint([lat, LNG_MAX]);
-      mkLine(p1.x, p1.y, p2.x, p2.y, 'rgba(120,180,255,0.75)');
-      mkText(5, p1.y - 2, `${lat}\u00b0N`, 'start', 'rgba(180,220,255,0.95)');
-      mkText(size.x - 5, p1.y - 2, `${lat}\u00b0N`, 'end', 'rgba(180,220,255,0.95)');
+      ctx.beginPath();
+      ctx.setLineDash([5, 3]);
+      ctx.strokeStyle = 'rgba(120,180,255,0.75)';
+      ctx.lineWidth = 0.9;
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.font = '9px monospace';
+      ctx.textBaseline = 'bottom';
+      const labelN = `${lat}\u00b0N`;
+      ctx.strokeStyle = 'rgba(0,0,0,0.8)';
+      ctx.lineWidth = 2.5;
+      ctx.textAlign = 'left';
+      ctx.strokeText(labelN, 4, p1.y - 1);
+      ctx.fillStyle = 'rgba(180,220,255,0.95)';
+      ctx.fillText(labelN, 4, p1.y - 1);
+      ctx.textAlign = 'right';
+      ctx.strokeText(labelN, w - 4, p1.y - 1);
+      ctx.fillText(labelN, w - 4, p1.y - 1);
     }
 
     for (let lng = LNG_MIN; lng <= LNG_MAX; lng += INTERVAL) {
       const p1 = map.latLngToContainerPoint([LAT_MAX, lng]);
       const p2 = map.latLngToContainerPoint([LAT_MIN, lng]);
-      mkLine(p1.x, p1.y, p2.x, p2.y, 'rgba(255,160,100,0.75)');
-      mkText(p1.x, 11, `${lng}\u00b0E`, 'middle', 'rgba(255,210,170,0.95)');
-      mkText(p2.x, size.y - 3, `${lng}\u00b0E`, 'middle', 'rgba(255,210,170,0.95)');
+      ctx.beginPath();
+      ctx.setLineDash([5, 3]);
+      ctx.strokeStyle = 'rgba(255,160,100,0.75)';
+      ctx.lineWidth = 0.9;
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.font = '9px monospace';
+      ctx.textAlign = 'center';
+      const labelE = `${lng}\u00b0E`;
+      ctx.strokeStyle = 'rgba(0,0,0,0.8)';
+      ctx.lineWidth = 2.5;
+      ctx.textBaseline = 'top';
+      ctx.strokeText(labelE, p1.x, 2);
+      ctx.fillStyle = 'rgba(255,210,170,0.95)';
+      ctx.fillText(labelE, p1.x, 2);
+      ctx.textBaseline = 'bottom';
+      ctx.strokeText(labelE, p2.x, h - 2);
+      ctx.fillText(labelE, p2.x, h - 2);
     }
   }, [map]);
 
   useEffect(() => {
-    const pane = map.getPane('overlayPane');
-    if (!pane) return;
-    const ns = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(ns, 'svg') as unknown as SVGSVGElement;
-    svg.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;z-index:500;';
-    pane.appendChild(svg);
-    svgRef.current = svg;
+    const mapContainer = map.getContainer();
+    const div = document.createElement('div');
+    div.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:450;';
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;top:0;left:0;';
+    div.appendChild(canvas);
+    mapContainer.appendChild(div);
+    canvasRef.current = canvas;
     redraw();
-    map.on('moveend zoomend resize move', redraw);
+    map.on('move zoom moveend zoomend resize', redraw);
     return () => {
-      map.off('moveend zoomend resize move', redraw);
-      if (pane.contains(svg)) pane.removeChild(svg);
-      svgRef.current = null;
+      map.off('move zoom moveend zoomend resize', redraw);
+      if (mapContainer.contains(div)) mapContainer.removeChild(div);
+      canvasRef.current = null;
     };
   }, [map, redraw]);
 
@@ -113,6 +130,7 @@ export default function MappingMap({
   const validSites = sites.filter(s => s.lat != null && s.lng != null);
   const [statesGeoJSON, setStatesGeoJSON] = useState<any>(null);
   const { langHi } = useLang();
+
   useEffect(() => {
     fetch('/india_states.geojson').then(r => r.json()).then(data => setStatesGeoJSON(data)).catch(() => {});
   }, []);
