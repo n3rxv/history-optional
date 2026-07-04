@@ -10,7 +10,7 @@ export type UsageData = {
 };
 
 const FREE_EVAL_LIMIT = 1;
-const FREE_CHAT_LIMIT = 5;
+const FREE_CHAT_LIMIT = 3;
 
 export function useUsageTracker() {
   const [usage, setUsage] = useState<UsageData | null>(null);
