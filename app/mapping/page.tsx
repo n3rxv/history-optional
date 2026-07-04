@@ -131,7 +131,7 @@ function extractState(location: string): string {
   return parts[parts.length - 1].trim() || 'Other';
 }
 
-function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, pyqOnly, onTogglePYQOnly, noLabels, langHi }: {
+function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, pyqOnly, onTogglePYQOnly, noLabels, showGrid, langHi }: {
   chapter: BookChapter;
   isOpen: boolean;
   onToggle: () => void;
@@ -140,6 +140,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
   pyqOnly: boolean;
   onTogglePYQOnly: () => void;
   noLabels: boolean;
+  showGrid: boolean;
   langHi: boolean;
 }) {
   const [stateFilter, setStateFilter] = useState<string>('All');
@@ -648,6 +649,7 @@ export default function MappingPage() {
   const [activePart, setActivePart]   = useState(PART_ORDER[1]);
   const [quizMode, setQuizMode]       = useState(false);
   const [noLabels, setNoLabels]       = useState(false);
+  const [showGrid, setShowGrid]         = useState(false);
   const [openChapters, setOpenChapters] = useState<Set<string>>(new Set());
   const [selectedSite, setSelectedSite] = useState<string | null>(null);
   const [search, setSearch]           = useState('');
@@ -868,6 +870,24 @@ export default function MappingPage() {
                   }} />
                 </span>
               </div>
+
+              {/* Lat/Lng Grid toggle */}
+              <div role="button" onClick={() => setShowGrid(p => !p)}
+                style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none' }}>
+                <span style={{ fontFamily: 'var(--font-ui)', fontSize: 13, fontWeight: 600, color: showGrid ? '#60a5fa' : 'var(--text2)', whiteSpace: 'nowrap' }}>
+                  {langHi ? 'ग्रिड' : 'Grid'}
+                </span>
+                <span style={{
+                  position: 'relative', display: 'inline-block', width: 42, height: 24,
+                  borderRadius: 12, background: showGrid ? '#3b82f6' : 'var(--border2)', transition: 'background 0.2s',
+                }}>
+                  <span style={{
+                    position: 'absolute', top: 2, left: showGrid ? 20 : 2,
+                    width: 20, height: 20, borderRadius: '50%', background: '#fff',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.4)', transition: 'left 0.2s',
+                  }} />
+                </span>
+              </div>
             </div>
           </div>
 
@@ -892,6 +912,7 @@ export default function MappingPage() {
                     pyqOnly={effectivePYQOnly}
                     onTogglePYQOnly={() => toggleChapterPYQ(key)}
                     noLabels={noLabels}
+                    showGrid={showGrid}
                     langHi={langHi}
                   />
                 </div>

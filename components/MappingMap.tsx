@@ -1,6 +1,6 @@
 'use client';
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from 'react-leaflet';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { indiaGeoJSON } from '@/lib/indiaGeoJSON';
 import { BookSite } from '@/lib/bookData';
 import { useLang } from '@/lib/i18n/LangContext';
@@ -45,18 +45,99 @@ function FitBounds({ sites, selectedSite, disableAutoZoom }: { sites: BookSite[]
   return null;
 }
 
+function GraticuleGrid() {
+  const map = useMap();
+  const [paths, setPaths] = useState<{ d: string; isLat: boolean }[]>([]);
+  const [labels, setLabels] = useState<{ x: number; y: number; text: string; anchor: string }[]>([]);
+  const [size, setSize] = useState({ x: 800, y: 420 });
+
+  const INTERVAL = 4;
+  const LAT_MIN = 8, LAT_MAX = 36;
+  const LNG_MIN = 60, LNG_MAX = 104;
+
+  const redraw = useCallback(() => {
+    const mapSize = map.getSize();
+    setSize(mapSize);
+    const newPaths: { d: string; isLat: boolean }[] = [];
+    const newLabels: { x: number; y: number; text: string; anchor: string }[] = [];
+
+    for (let lat = LAT_MIN; lat <= LAT_MAX; lat += INTERVAL) {
+      const p1 = map.latLngToContainerPoint([lat, LNG_MIN]);
+      const p2 = map.latLngToContainerPoint([lat, LNG_MAX]);
+      newPaths.push({ d: `M${p1.x},${p1.y} L${p2.x},${p2.y}`, isLat: true });
+      newLabels.push({ x: 4, y: p1.y + 4, text: `${lat}\u00b0N`, anchor: 'start' });
+      newLabels.push({ x: mapSize.x - 4, y: p1.y + 4, text: `${lat}\u00b0N`, anchor: 'end' });
+    }
+
+    for (let lng = LNG_MIN; lng <= LNG_MAX; lng += INTERVAL) {
+      const p1 = map.latLngToContainerPoint([LAT_MAX, lng]);
+      const p2 = map.latLngToContainerPoint([LAT_MIN, lng]);
+      newPaths.push({ d: `M${p1.x},${p1.y} L${p2.x},${p2.y}`, isLat: false });
+      newLabels.push({ x: p1.x, y: 12, text: `${lng}\u00b0E`, anchor: 'middle' });
+      newLabels.push({ x: p2.x, y: mapSize.y - 4, text: `${lng}\u00b0E`, anchor: 'middle' });
+    }
+
+    setPaths(newPaths);
+    setLabels(newLabels);
+  }, [map]);
+
+  useEffect(() => {
+    redraw();
+    map.on('moveend zoomend resize', redraw);
+    return () => { map.off('moveend zoomend resize', redraw); };
+  }, [map, redraw]);
+
+  return (
+    <svg
+      style={{
+        position: 'absolute', top: 0, left: 0,
+        width: size.x, height: size.y,
+        pointerEvents: 'none', zIndex: 400,
+      }}
+      viewBox={`0 0 ${size.x} ${size.y}`}
+    >
+      {paths.map((p, i) => (
+        <path
+          key={i}
+          d={p.d}
+          stroke={p.isLat ? 'rgba(100,150,255,0.55)' : 'rgba(255,100,100,0.55)'}
+          strokeWidth={0.8}
+          strokeDasharray="4 3"
+          fill="none"
+        />
+      ))}
+      {labels.map((l, i) => (
+        <text
+          key={i}
+          x={l.x}
+          y={l.y}
+          textAnchor={l.anchor as any}
+          fontSize={9}
+          fontFamily="monospace"
+          fill="rgba(255,255,255,0.9)"
+          stroke="rgba(0,0,0,0.6)"
+          strokeWidth={2}
+          paintOrder="stroke"
+        >{l.text}</text>
+      ))}
+    </svg>
+  );
+}
+
 export default function MappingMap({
   sites,
   selectedSite,
   onSiteClick,
   noLabels = false,
   disableAutoZoom = false,
+  showGrid = false,
 }: {
   sites: BookSite[];
   selectedSite: string | null;
   onSiteClick: (name: string) => void;
   noLabels?: boolean;
   disableAutoZoom?: boolean;
+  showGrid?: boolean;
 }) {
   const validSites = sites.filter(s => s.lat != null && s.lng != null);
   const [statesGeoJSON, setStatesGeoJSON] = useState<any>(null);
@@ -121,6 +202,8 @@ export default function MappingMap({
           </>
         )}
         <FitBounds sites={validSites} selectedSite={selectedSite} disableAutoZoom={disableAutoZoom} />
+
+        {showGrid && <GraticuleGrid />}
 
         {validSites.map((site) => {
           const isSelected = selectedSite === site.name;
