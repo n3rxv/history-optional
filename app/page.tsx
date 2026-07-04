@@ -16,8 +16,8 @@ const stats = [
 const features = [
   { icon: '✍️', title: 'Smart Annotations',               color: 'var(--yellow)', desc: 'Handwritten annotations support — write with your digital pen directly on the notes. Annotate, highlight and mark directly on the content as you study.',             href: '/paper1'   },
   { icon: '📖', title: 'Comprehensive & Exhaustive Notes', color: 'var(--accent)', desc: 'Complete unabridged notes with embedded historiography, structured by syllabus. Completely free.',                                                                   href: '/paper1'   },
-  { icon: '📝', title: 'Answer Evaluation',                color: 'var(--red)',    desc: 'Get your UPSC answers evaluated instantly — detailed feedback on structure, content & scoring. Tailored specifically for History Optional. 1 evaluation/week for free.', href: '/evaluate' },
-  { icon: '🤖', title: 'Personalized AI Assistant',        color: 'var(--green)',  desc: 'An AI that knows your syllabus — ask any History Optional question and get structured, exam-ready answers with historiography. 3 queries/month for free.',            href: '/chat'     },
+  { icon: '📝', title: 'Answer Evaluation',                color: 'var(--red)',    desc: 'Get your UPSC answers evaluated instantly — detailed feedback on structure, content & scoring. Tailored specifically for History Optional. 1 evaluation on free tier. Unlimited on Premium.', href: '/evaluate' },
+  { icon: '🤖', title: 'Personalized AI Assistant',        color: 'var(--green)',  desc: 'An AI that knows your syllabus — ask any History Optional question and get structured, exam-ready answers with historiography. 3 queries on free tier. Unlimited on Premium.',            href: '/chat'     },
 ];
 
 const p1Sections = ['Ancient India', 'Medieval India'];
