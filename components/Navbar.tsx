@@ -144,7 +144,7 @@ function ExtendModal({
     { id: 'daily',   label: 'Daily',   price: '₹49',    days: 1 },
     { id: 'weekly',  label: 'Weekly',  price: '₹299',   days: 7 },
     { id: 'monthly', label: 'Monthly', price: '₹999',   days: 30 },
-    { id: 'yearly',  label: 'Annual',  price: '₹5,999', days: 365 },
+    { id: 'yearly',  label: 'Annual',  price: '₹2,999', days: 365 },
   ] as const;
 
   const computeNewExpiry = (planId: string) => {
@@ -257,9 +257,9 @@ function ExtendModal({
               return (
                 <button key={p.id} onClick={() => setSelectedPlan(p.id as any)}
                   style={{ background: sel ? 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(212,168,67,0.15))' : 'rgba(255,255,255,0.03)', border: sel ? '1px solid rgba(99,102,241,0.55)' : '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.7rem 0.5rem', cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}>
-                  {p.id === 'yearly' && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: '0.48rem', background: '#e8b84b', color: '#000', fontWeight: 800, padding: '1px 5px', borderRadius: 20, letterSpacing: '0.05em' }}>BEST</div>}
+                  {p.id === 'yearly' && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: '0.48rem', background: '#e03131', color: '#fff', fontWeight: 800, padding: '1px 5px', borderRadius: 20, letterSpacing: '0.05em' }}>50% OFF</div>}
                   <div style={{ fontSize: '0.72rem', color: sel ? '#c7d2fe' : 'rgba(255,255,255,0.5)', fontWeight: 600, marginBottom: 4 }}>{p.label}</div>
-                  <div style={{ fontSize: '1rem', color: sel ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: 800 }}>{p.price}</div>
+                  <div style={{ fontSize: '1rem', color: sel ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: 800 }}>{p.price}{p.id === 'yearly' && <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)', fontWeight: 400, textDecoration: 'line-through', marginLeft: 4 }}>₹5,999</span>}</div>
                 </button>
               );
             })}
