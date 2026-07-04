@@ -67,7 +67,7 @@ export function middleware(req: NextRequest) {
   if (pathname === '/admin' || pathname.startsWith('/admin/')) {
     const adminToken = req.cookies.get('admin_token')?.value;
     const secretKey = req.nextUrl.searchParams.get('key');
-    if (!adminToken && secretKey !== 'h1km4tgh4l16') {
+    if (!adminToken && secretKey !== process.env.ADMIN_SECRET_KEY) {
       return new NextResponse(null, { status: 404 });
     }
   }
