@@ -42,12 +42,13 @@ export async function GET(req: NextRequest) {
       .insert({ fingerprint: fp, eval_count: 0, chat_count: 0 })
       .select()
       .single();
-    return NextResponse.json(newData);
+    return NextResponse.json({ ...newData, fingerprint: fp });
   }
 
   // Cumulative lifetime counts — no resets
   return NextResponse.json({
     ...data,
+    fingerprint: fp,
     eval_count: data.eval_count ?? 0,
     chat_count: data.chat_count ?? 0,
   });
