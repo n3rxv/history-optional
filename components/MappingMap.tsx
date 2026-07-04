@@ -36,6 +36,7 @@ function GraticuleGrid() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const INTERVAL = 4;
   const LAT_MIN = 8, LAT_MAX = 36, LNG_MIN = 60, LNG_MAX = 104;
+  const TROPIC = 23.5;
 
   const redraw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -49,55 +50,63 @@ function GraticuleGrid() {
     if (!ctx) return;
     ctx.clearRect(0, 0, w, h);
 
+    const LINE_COLOR = 'rgba(0,0,0,0.55)';
+    const LABEL_COLOR = 'rgba(30,30,30,0.9)';
+    const FONT = 'bold 8px monospace';
+
     for (let lat = LAT_MIN; lat <= LAT_MAX; lat += INTERVAL) {
       const p1 = map.latLngToContainerPoint([lat, LNG_MIN]);
       const p2 = map.latLngToContainerPoint([lat, LNG_MAX]);
       ctx.beginPath();
-      ctx.setLineDash([5, 3]);
-      ctx.strokeStyle = 'rgba(120,180,255,0.75)';
-      ctx.lineWidth = 0.9;
+      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = LINE_COLOR;
+      ctx.setLineDash([]);
       ctx.moveTo(p1.x, p1.y);
       ctx.lineTo(p2.x, p2.y);
       ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.font = '9px monospace';
-      ctx.textBaseline = 'bottom';
-      const labelN = `${lat}\u00b0N`;
-      ctx.strokeStyle = 'rgba(0,0,0,0.8)';
-      ctx.lineWidth = 2.5;
+      ctx.font = FONT;
+      ctx.fillStyle = LABEL_COLOR;
+      ctx.textBaseline = 'middle';
       ctx.textAlign = 'left';
-      ctx.strokeText(labelN, 4, p1.y - 1);
-      ctx.fillStyle = 'rgba(180,220,255,0.95)';
-      ctx.fillText(labelN, 4, p1.y - 1);
+      ctx.fillText(`${lat}°N`, 3, p1.y);
       ctx.textAlign = 'right';
-      ctx.strokeText(labelN, w - 4, p1.y - 1);
-      ctx.fillText(labelN, w - 4, p1.y - 1);
+      ctx.fillText(`${lat}°N`, w - 3, p1.y);
     }
 
     for (let lng = LNG_MIN; lng <= LNG_MAX; lng += INTERVAL) {
       const p1 = map.latLngToContainerPoint([LAT_MAX, lng]);
       const p2 = map.latLngToContainerPoint([LAT_MIN, lng]);
       ctx.beginPath();
-      ctx.setLineDash([5, 3]);
-      ctx.strokeStyle = 'rgba(255,160,100,0.75)';
-      ctx.lineWidth = 0.9;
+      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = LINE_COLOR;
+      ctx.setLineDash([]);
       ctx.moveTo(p1.x, p1.y);
       ctx.lineTo(p2.x, p2.y);
       ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.font = '9px monospace';
+      ctx.font = FONT;
+      ctx.fillStyle = LABEL_COLOR;
       ctx.textAlign = 'center';
-      const labelE = `${lng}\u00b0E`;
-      ctx.strokeStyle = 'rgba(0,0,0,0.8)';
-      ctx.lineWidth = 2.5;
       ctx.textBaseline = 'top';
-      ctx.strokeText(labelE, p1.x, 2);
-      ctx.fillStyle = 'rgba(255,210,170,0.95)';
-      ctx.fillText(labelE, p1.x, 2);
+      ctx.fillText(`${lng}°E`, p1.x, 2);
       ctx.textBaseline = 'bottom';
-      ctx.strokeText(labelE, p2.x, h - 2);
-      ctx.fillText(labelE, p2.x, h - 2);
+      ctx.fillText(`${lng}°E`, p2.x, h - 2);
     }
+
+    const tc1 = map.latLngToContainerPoint([TROPIC, LNG_MIN]);
+    const tc2 = map.latLngToContainerPoint([TROPIC, LNG_MAX]);
+    ctx.beginPath();
+    ctx.setLineDash([8, 4]);
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = 'rgba(0,0,0,0.7)';
+    ctx.moveTo(tc1.x, tc1.y);
+    ctx.lineTo(tc2.x, tc2.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font = 'bold 7px monospace';
+    ctx.fillStyle = 'rgba(0,0,0,0.75)';
+    ctx.textBaseline = 'bottom';
+    ctx.textAlign = 'left';
+    ctx.fillText('Tropic of Cancer (23½°N)', tc1.x + 4, tc1.y - 2);
   }, [map]);
 
   useEffect(() => {
