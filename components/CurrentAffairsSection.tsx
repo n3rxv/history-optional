@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 interface Post {
   id: string;
+  slug?: string;
   type: 'current-affairs' | 'new-note';
   title: string;
   excerpt: string;
@@ -513,7 +514,7 @@ export default function CurrentAffairsSection() {
       ) : (
         <div>
           {visiblePosts.map((post, i) => (
-            <FeaturedCard key={post.id} post={post} index={i} onClick={() => router.push(`/posts/${post.id}`)} authed={authed} />
+            <FeaturedCard key={post.id} post={post} index={i} onClick={() => router.push(`/posts/${post.slug || post.id}`)} authed={authed} />
           ))}
           {visiblePosts.length >= 4 && (
             <div style={{ paddingTop: '1.25rem', textAlign: 'right' }}>

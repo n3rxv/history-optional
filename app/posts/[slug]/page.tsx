@@ -18,7 +18,7 @@ interface Post {
 const SESSION_KEY = 'histopt_admin_v2';
 
 export default function PostPage() {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
@@ -34,6 +34,8 @@ export default function PostPage() {
   const [editPublished, setEditPublished] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   useEffect(() => {
     const stored = sessionStorage.getItem(SESSION_KEY);
     if (stored) {
@@ -45,7 +47,7 @@ export default function PostPage() {
     const headers: Record<string, string> = {};
     if (stored) headers['x-admin-token'] = stored;
 
-    fetch(`/api/admin/blog-posts/${id}`, { headers })
+    fetch(`/api/admin/blog-posts/slug/${slug}`, { headers })
       .then(r => r.ok ? r.json() : Promise.reject())
       .then(({ data }) => {
         if (data) {
@@ -58,7 +60,7 @@ export default function PostPage() {
       })
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [slug]);
 
   const startEdit = () => {
     setEditing(true);
