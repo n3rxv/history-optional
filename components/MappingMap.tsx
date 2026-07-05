@@ -175,6 +175,7 @@ export default function MappingMap({
           const isSelected = selectedSite === site.name;
           const hasPYQ = site.pyqYears && site.pyqYears.length > 0;
           return (
+            <>
             <CircleMarker
               key={`${site.name}_hit`}
               center={[site.lat as number, site.lng as number]}
@@ -204,6 +205,7 @@ export default function MappingMap({
                 </Tooltip>
               )}
             </CircleMarker>
+            </>
           );
         })}
       </MapContainer>
