@@ -3,7 +3,14 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 async function getVisitorId(): Promise<{ visitor_id: string; old_fp: string | null }> {
-  const cached = localStorage.getItem('fp');
+  const fromLS = localStorage.getItem('fp');
+  const fromCookie = document.cookie.match(/fp=([^;]+)/)?.[1] ?? null;
+  const cached = fromLS || fromCookie;
+  if (cached) {
+    // Sync both storages
+    localStorage.setItem('fp', cached);
+    document.cookie = `fp=${cached};max-age=31536000;path=/`;
+  }
   const old_fp = localStorage.getItem('ho_visitor_id');
   if (cached) return { visitor_id: cached, old_fp: null };
   const FP = await (await import('@fingerprintjs/fingerprintjs')).default.load();
