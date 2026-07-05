@@ -9,7 +9,7 @@ async function getVisitorId(): Promise<{ visitor_id: string; old_fp: string | nu
   if (cached) {
     // Sync both storages
     localStorage.setItem('fp', cached);
-    document.cookie = `fp=${cached};max-age=31536000;path=/`;
+    document.cookie = `fp=${cached};max-age=315360000;path=/`;
   }
   const old_fp = localStorage.getItem('ho_visitor_id');
   if (cached) return { visitor_id: cached, old_fp: null };

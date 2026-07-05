@@ -24,7 +24,7 @@ export function useUsageTracker() {
       const fingerprint = result.visitorId;
 
       // Store in cookie as backup
-      document.cookie = `fp=${fingerprint};max-age=31536000;path=/`;
+      document.cookie = `fp=${fingerprint};max-age=315360000;path=/`;
       localStorage.setItem('fp', fingerprint);
 
       // Fetch usage from DB
