@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
     const ua = req.headers.get('user-agent') || '';
     if (BOT_UA.test(ua)) return NextResponse.json({ ok: false, reason: 'bot' });
 
-    const { visitor_id, page, referrer, device, os, browser, is_first_visit } = await req.json();
+    const { visitor_id, old_fp, page, referrer, device, os, browser, is_first_visit } = await req.json();
     if (!visitor_id) return NextResponse.json({ ok: false, reason: 'no visitor_id' });
 
     // Rate limit check
@@ -75,6 +75,21 @@ export async function POST(req: NextRequest) {
     const supabase = createClient(url, key);
     const { country, city } = parseCountry(req);
     const now = new Date().toISOString();
+
+    // Merge old custom-hash record into new FingerprintJS ID
+    if (old_fp) {
+      const { data: oldRecord } = await supabase
+        .from('user_sessions')
+        .select('id')
+        .eq('visitor_id', old_fp)
+        .single();
+      if (oldRecord) {
+        await supabase
+          .from('user_sessions')
+          .update({ visitor_id })
+          .eq('visitor_id', old_fp);
+      }
+    }
 
     const { data: existing, error: selectError } = await supabase
       .from('user_sessions')

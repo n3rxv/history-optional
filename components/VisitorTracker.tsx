@@ -2,13 +2,14 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
-async function getVisitorId(): Promise<string> {
+async function getVisitorId(): Promise<{ visitor_id: string; old_fp: string | null }> {
   const cached = localStorage.getItem('fp');
-  if (cached) return cached;
+  const old_fp = localStorage.getItem('ho_visitor_id');
+  if (cached) return { visitor_id: cached, old_fp: null };
   const FP = await (await import('@fingerprintjs/fingerprintjs')).default.load();
   const { visitorId } = await FP.get();
   localStorage.setItem('fp', visitorId);
-  return visitorId;
+  return { visitor_id: visitorId, old_fp };
 }
 
 function getDeviceInfo() {
@@ -45,7 +46,7 @@ export default function VisitorTracker() {
   useEffect(() => {
     (async () => {
       try {
-        const visitor_id = await getVisitorId();
+        const { visitor_id, old_fp } = await getVisitorId();
         const isFirstVisit = !localStorage.getItem('ho_visited');
         const referrer = isFirstVisit ? (document.referrer || 'direct') : undefined;
         if (isFirstVisit) localStorage.setItem('ho_visited', '1');
@@ -53,7 +54,7 @@ export default function VisitorTracker() {
         fetch('/api/track-visit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ visitor_id, page: pathname, referrer, device, os, browser, is_first_visit: isFirstVisit }),
+          body: JSON.stringify({ visitor_id, old_fp, page: pathname, referrer, device, os, browser, is_first_visit: isFirstVisit }),
         }).catch(() => {});
       } catch {}
     })();
@@ -63,7 +64,7 @@ export default function VisitorTracker() {
     let interval: ReturnType<typeof setInterval>;
     (async () => {
       try {
-        const visitor_id = await getVisitorId();
+        const { visitor_id } = await getVisitorId();
         sendHeartbeat(visitor_id);
         interval = setInterval(() => sendHeartbeat(visitor_id), 30000);
         const onVisibility = () => sendHeartbeat(visitor_id);
