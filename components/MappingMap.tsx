@@ -176,7 +176,7 @@ export default function MappingMap({
           const hasPYQ = site.pyqYears && site.pyqYears.length > 0;
           return (
             <CircleMarker
-              key={site.name + '_hit'}
+              key={`${site.name}_hit`}
               center={[site.lat as number, site.lng as number]}
               radius={18}
               pathOptions={{ fillColor: 'transparent', fillOpacity: 0, color: 'transparent', weight: 0 }}
