@@ -310,19 +310,7 @@ export function SubscribeCard({
                 </span>
               )}
             </div>
-            {slots > 0 && !showJulyBadge && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                <span style={{
-                  width: 5, height: 5, borderRadius: '50%',
-                  background: '#f87171', boxShadow: '0 0 6px #f87171',
-                  display: 'inline-block', flexShrink: 0,
-                  animation: 'pulseSlot 1.5s ease infinite',
-                }} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: '#f87171', letterSpacing: '0.04em' }}>
-                  {slots} early-bird slots left
-                </span>
-              </div>
-            )}
+            
             {showJulyBadge && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 1 }}>
                 <span style={{
