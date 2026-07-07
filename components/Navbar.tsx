@@ -326,6 +326,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
+
+  // Auto-close premium modal when subscription is confirmed
+  useEffect(() => {
+    if (subData) {
+      setShowPremiumModal(false);
+      setNoSubFound(false);
+    }
+  }, [subData]);
   const [noSubFound, setNoSubFound] = useState(false);
   const [notifications, setNotifications] = useState<{id:string,title:string,link:string,type:string,created_at:string}[]>([]);
   const [bellOpen, setBellOpen] = useState(false);
