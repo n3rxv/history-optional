@@ -618,7 +618,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
     if (authLoading) return;
     if (user) {
       // Load from Supabase
-      fetch(`/api/user-annotations?user_id=${user.id}&slug=${slug}`)
+      fetch(`/api/user-annotations?user_id=${user.uid}&slug=${slug}`)
         .then(r => r.json())
         .then(({ data }) => {
           if (data && data.length > 0 && data[0].data) {
@@ -636,7 +636,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
               setStickyNotes(localStickies);
               // Auto-migrate if there's something local worth saving
               if (localHighlights.length > 0 || localStickies.length > 0) {
-                saveAnnotationsToCloud(user.id, localHighlights, localStickies);
+                saveAnnotationsToCloud(user.uid, localHighlights, localStickies);
               }
             } catch {}
           }
@@ -688,7 +688,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
     if (user) {
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
       saveTimerRef.current = setTimeout(() => {
-        saveAnnotationsToCloud(user.id, highlights, stickyNotes);
+        saveAnnotationsToCloud(user.uid, highlights, stickyNotes);
       }, 1200);
     }
     return () => { if (saveTimerRef.current) clearTimeout(saveTimerRef.current); };

@@ -599,7 +599,7 @@ export default function Navbar() {
             {/* Auth / Premium */}
             {user ? (
               <div style={{ position: 'relative', marginLeft: '0.25rem' }}>
-                <button onClick={() => setUserMenuOpen(o => !o)} title={user.email}
+                <button onClick={() => setUserMenuOpen(o => !o)} title={user.email ?? undefined}
                   style={{ width: 45, height: 45, borderRadius: 0, background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, overflow: 'visible', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'none' }}>
                   <SnooAvatar email={user.email ?? ''} size={28} />
                 </button>
@@ -754,7 +754,7 @@ export default function Navbar() {
           {/* Extend Plan Modal */}
       {showExtendModal && user && (
         <ExtendModal
-          user={user}
+          user={{ id: user.uid, email: user.email ?? null }}
           subData={subData}
           onClose={() => setShowExtendModal(false)}
           onSuccess={(newExpiry) => setSubData(prev => prev ? { ...prev, expires_at: newExpiry } : { plan: 'monthly', expires_at: newExpiry })}
