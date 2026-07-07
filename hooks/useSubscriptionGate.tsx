@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useUsageTracker } from './useUsageTracker';
-import { supabase } from '@/lib/supabase';
 import { SubscribeCard } from '@/components/SubscribeCard';
 
 function LimitModal({
@@ -49,6 +48,14 @@ export function useSubscriptionGate(onEvaluate: () => void) {
   useEffect(() => {
     fetch('/api/slots').then(r => r.json()).then(d => setSlots(d.slots ?? 45)).catch(() => {});
   }, []);
+
+  // Auto-close modals when user becomes premium (after sign in / payment)
+  useEffect(() => {
+    if (usage?.isPremium) {
+      setShowEvalLimit(false);
+      setShowChatLimit(false);
+    }
+  }, [usage?.isPremium]);
 
   const handleEvaluate = useCallback(() => {
     if (loading) { onEvaluateRef.current(); return; }
