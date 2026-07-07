@@ -1051,6 +1051,40 @@ RULES:
       console.log("Pass 3 error (non-fatal):", p3err);
     }
 
+    // Increment eval_count for free users after successful evaluation
+    if (!isOwner) {
+      try {
+        const { createClient: createClientInc } = await import("@supabase/supabase-js");
+        const supabaseInc = createClientInc(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.SUPABASE_SECRET_KEY!
+        );
+        const nowISO2 = new Date().toISOString();
+        const { data: subCheck } = await supabaseInc
+          .from("subscriptions")
+          .select("status")
+          .eq("user_id", token)
+          .eq("status", "active")
+          .gt("expires_at", nowISO2)
+          .single();
+
+        if (!subCheck) {
+          const { data: existingUsage } = await supabaseInc
+            .from("usage_tracking")
+            .select("eval_count")
+            .eq("fingerprint", token)
+            .single();
+
+          const newCount = (existingUsage?.eval_count ?? 0) + 1;
+          await supabaseInc
+            .from("usage_tracking")
+            .upsert({ fingerprint: token, eval_count: newCount }, { onConflict: "fingerprint" });
+        }
+      } catch (incErr) {
+        console.log("eval_count increment failed", incErr);
+      }
+    }
+
     return NextResponse.json(evaluation);
 
   } catch (err) {
