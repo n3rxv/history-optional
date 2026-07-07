@@ -8,9 +8,10 @@ import ThemeCustomizer from './ThemeCustomizer';
 import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
 import SearchModal from './SearchModal';
+import { auth, googleProvider } from '@/lib/firebase';
+import { onAuthStateChanged, signInWithPopup, signOut as firebaseSignOut, User } from 'firebase/auth';
 import { supabase } from '@/lib/supabase';
 import { SubscribeCard } from '@/components/SubscribeCard';
-import type { User } from '@supabase/supabase-js';
 
 function snooColor(email: string): string {
   const palette = ['#ff4500','#51cf66','#339af0','#cc5de8','#f59f00','#20c997','#ff6b6b','#74c0fc','#a9e34b','#ffa94d'];
@@ -105,11 +106,9 @@ function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound
         <button
           onClick={async () => {
             sessionStorage.setItem('ho_verify_sub', '1');
-            const { supabase } = await import('@/lib/supabase');
-            await supabase.auth.signInWithOAuth({
-              provider: 'google',
-              options: { redirectTo: `${window.location.origin}/auth/google-callback?next=${encodeURIComponent(window.location.pathname)}` },
-            });
+            const { auth, googleProvider } = await import('@/lib/firebase');
+            const { signInWithPopup } = await import('firebase/auth');
+            await signInWithPopup(auth, googleProvider);
           }}
           style={{ width: '100%', marginTop: 10, padding: '8px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 7, color: '#e0e0e0', cursor: 'pointer', fontSize: '0.76rem', fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s ease', position: 'relative', overflow: 'hidden' }}
           onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.4)'; el.style.color = '#fff'; el.style.background = 'rgba(255,255,255,0.1)'; }}
@@ -175,9 +174,9 @@ function ExtendModal({
         });
       }
 
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) throw new Error('Not signed in');
-      const token = session.access_token;
+      const currentUser = auth.currentUser;
+      if (!currentUser) throw new Error('Not signed in');
+      const token = await currentUser.getIdToken();
 
       // 1. Create Razorpay order
       const orderRes = await fetch('/api/razorpay/order', {
@@ -339,13 +338,13 @@ export default function Navbar() {
       if (sessionStorage.getItem('ho_verify_sub') === '1') {
         sessionStorage.removeItem('ho_verify_sub');
         (async () => {
-          const { supabase } = await import('@/lib/supabase');
-          const { data: { session } } = await supabase.auth.getSession();
-          if (session?.access_token) {
-            const res = await fetch(`/api/usage?fp=check&checkSub=1&token=${session.access_token}`);
+          const currentUser = auth.currentUser;
+          if (currentUser) {
+            const token = await currentUser.getIdToken();
+            const res = await fetch(`/api/usage?fp=check&checkSub=1&token=${token}`);
             const data = await res.json();
             if (!data.isPremium) {
-              await supabase.auth.signOut();
+              await firebaseSignOut(auth);
               setNoSubFound(true);
               setShowPremiumModal(true);
             }
@@ -383,20 +382,20 @@ export default function Navbar() {
     };
     const saved = localStorage.getItem('ho_aspirant_profile');
     if (saved) { try { const p = JSON.parse(saved); setAspirantName(p.name||''); setAspirantAge(p.age||''); setAspirantAttempt(p.attempt||''); setAspirantYear(p.year||''); } catch {} }
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (session?.access_token) fetchSub(session.access_token);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setUser(firebaseUser as any);
+      if (firebaseUser) {
+        const token = await firebaseUser.getIdToken();
+        fetchSub(token);
+      } else {
+        setSubData(null);
+      }
     });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
-      setUser(session?.user ?? null);
-      if (session?.access_token) fetchSub(session.access_token);
-      else setSubData(null);
-    });
-    return () => subscription.unsubscribe();
+    return () => unsubscribe();
   }, []);
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    await firebaseSignOut(auth);
     setUserMenuOpen(false);
     router.refresh();
   };

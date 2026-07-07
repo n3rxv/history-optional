@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import { auth } from '@/lib/firebase';
 
 export type UsageData = {
   fingerprint: string;
@@ -18,32 +19,31 @@ export function useUsageTracker() {
 
   useEffect(() => {
     async function init() {
-      // Get fingerprint
       const fp = await FingerprintJS.load();
       const result = await fp.get();
       const fingerprint = result.visitorId;
 
-      // Store in cookie as backup
       document.cookie = `fp=${fingerprint};max-age=315360000;path=/`;
       localStorage.setItem('fp', fingerprint);
 
-      // Fetch usage from DB
       const res = await fetch(`/api/usage?fp=${fingerprint}`);
       const data = await res.json();
+
       let isPremium = false;
       try {
-        const { supabase } = await import('@/lib/supabase');
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.access_token) {
-          if (session.user?.email === process.env.NEXT_PUBLIC_OWNER_EMAIL) {
+        const user = auth.currentUser;
+        if (user) {
+          if (user.email === process.env.NEXT_PUBLIC_OWNER_EMAIL) {
             isPremium = true;
           } else {
-            const subRes = await fetch(`/api/usage?fp=${fingerprint}&checkSub=1&token=${session.access_token}`);
+            const token = await user.getIdToken();
+            const subRes = await fetch(`/api/usage?fp=${fingerprint}&checkSub=1&token=${token}`);
             const subData = await subRes.json();
             isPremium = subData.isPremium ?? false;
           }
         }
       } catch {}
+
       setUsage({ ...data, isPremium });
       setLoading(false);
     }

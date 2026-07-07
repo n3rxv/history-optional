@@ -193,43 +193,44 @@ export async function POST(req: NextRequest) {
   );
 
   const token = req.headers.get('x-user-token') ?? '';
+  const fingerprint = req.headers.get('x-fingerprint') ?? '';
 
-  // ── Owner bypass — check if token is a real auth token ──────────
+  // Firebase auth check
   let isOwner = false;
-  try {
-    const { createServerClient } = await import('@/lib/supabase');
-    const db = createServerClient();
-    const { data: { user } } = await db.auth.getUser(token);
-    if (user?.email === OWNER_EMAIL) isOwner = true;
-  } catch {}
+  let isPremium = false;
 
-  // ── Fingerprint-based usage check ───────────────────────────────
-  if (!isOwner) {
-    const fingerprint = token; // frontend sends fingerprint as x-user-token
+  if (token) {
+    try {
+      const { adminAuth } = await import('@/lib/firebaseAdmin');
+      const decoded = await adminAuth.verifyIdToken(token);
+      if (decoded.email === OWNER_EMAIL) isOwner = true;
+      if (!isOwner) {
+        const nowISO = new Date().toISOString();
+        const { data: sub } = await supabase
+          .from('subscriptions')
+          .select('status')
+          .eq('user_id', decoded.uid)
+          .eq('status', 'active')
+          .gt('expires_at', nowISO)
+          .single();
+        if (sub) isPremium = true;
+      }
+    } catch {}
+  }
+
+  // Fingerprint-based usage check
+  if (!isOwner && !isPremium) {
     if (!fingerprint) return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
 
-    // Check subscription
-    const nowISO = new Date().toISOString();
-    const { data: sub } = await supabase
-      .from('subscriptions')
-      .select('status')
-      .eq('user_id', fingerprint)
-      .eq('status', 'active')
-      .gt('expires_at', nowISO)
+    const { data: usage } = await supabase
+      .from('usage_tracking')
+      .select('chat_count')
+      .eq('fingerprint', fingerprint)
       .single();
 
-    if (!sub) {
-      // Check lifetime chat usage via usage_tracking (no monthly reset)
-      const { data: usage } = await supabase
-        .from('usage_tracking')
-        .select('chat_count')
-        .eq('fingerprint', fingerprint)
-        .single();
-
-      const used = usage?.chat_count ?? 0;
-      if (used >= CHAT_FREE_LIMIT)
-        return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
-    }
+    const used = usage?.chat_count ?? 0;
+    if (used >= CHAT_FREE_LIMIT)
+      return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
   }
 
   // ── Main request handler ────────────────────────────────────────

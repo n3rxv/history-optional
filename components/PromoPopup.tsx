@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { SubscribeCard } from '@/components/SubscribeCard';
-import { supabase } from '@/lib/supabase';
+import { auth } from '@/lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const SESSION_KEY = 'promo_popup_shown';
 
@@ -112,18 +113,16 @@ export default function PromoPopup() {
 
     // Only logged-out visitors can see this — on this site, being logged in
     // means being subscribed, so any active session hides the popup entirely.
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) return; // logged in → subscribed → never show
+    const currentUser = auth.currentUser;
+    if (currentUser) return; // logged in → never show
 
-      if (sessionStorage.getItem(SESSION_KEY)) return;
+    if (!sessionStorage.getItem(SESSION_KEY)) {
       sessionStorage.setItem(SESSION_KEY, '1');
       timer = setTimeout(() => setVisible(true), 1200);
-    });
+    }
 
-    // If someone logs in while the popup is already showing (or about to),
-    // close it immediately rather than leaving it up for a now-subscribed user.
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
         if (timer) clearTimeout(timer);
         setVisible(false);
       }
@@ -131,7 +130,7 @@ export default function PromoPopup() {
 
     return () => {
       if (timer) clearTimeout(timer);
-      authListener.subscription.unsubscribe();
+      unsubscribe();
     };
   }, []);
 

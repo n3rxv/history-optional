@@ -1,7 +1,8 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { auth, googleProvider } from '@/lib/firebase';
+import { signInWithPopup, signOut as firebaseSignOut } from 'firebase/auth';
 
 function GoogleIcon() {
   return (
@@ -62,28 +63,37 @@ export function SubscribeCard({
   }, []);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.access_token) {
-        setToken(session.access_token);
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      if (firebaseUser) {
+        const idToken = await firebaseUser.getIdToken();
+        setToken(idToken);
         if (sessionStorage.getItem('ho_pending_payment') === '1') {
           const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || 'yearly';
           sessionStorage.removeItem('ho_pending_payment');
           sessionStorage.removeItem('ho_pending_plan');
           setSelectedPlan(savedPlan);
-          openRazorpay(session.access_token, session.user?.email ?? '', savedPlan);
+          openRazorpay(idToken, firebaseUser.email ?? '', savedPlan);
         }
       }
     });
+    return () => unsubscribe();
   }, []);
 
   const handleSignIn = async () => {
     sessionStorage.setItem('ho_pending_payment', '1');
     sessionStorage.setItem('ho_pending_plan', selectedPlan);
     setStep('signing_in');
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/google-callback?next=${encodeURIComponent(window.location.pathname)}` },
-    });
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const idToken = await result.user.getIdToken();
+      setToken(idToken);
+      const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || selectedPlan;
+      sessionStorage.removeItem('ho_pending_payment');
+      sessionStorage.removeItem('ho_pending_plan');
+      openRazorpay(idToken, result.user.email ?? '', savedPlan);
+    } catch {
+      setStep('idle');
+    }
   };
 
   const openRazorpay = async (authToken: string, email: string, planOverride?: 'daily'|'weekly'|'monthly'|'yearly') => {
@@ -108,7 +118,7 @@ export function SubscribeCard({
         theme: { color: '#d4a843' },
         modal: {
           ondismiss: async () => {
-            await supabase.auth.signOut();
+            await firebaseSignOut(auth);
             setToken(null);
             setStep('idle');
             onClose?.();
@@ -124,7 +134,7 @@ export function SubscribeCard({
         },
       });
       rzp.on('payment.failed', async () => {
-        await supabase.auth.signOut();
+        await firebaseSignOut(auth);
         setToken(null);
         setStep('idle');
         onClose?.();
@@ -137,8 +147,8 @@ export function SubscribeCard({
 
   const handlePay = async () => {
     if (!token) { handleSignIn(); return; }
-    const { data: { user } } = await supabase.auth.getUser();
-    openRazorpay(token, user?.email ?? '');
+    const currentUser = auth.currentUser;
+    openRazorpay(token, currentUser?.email ?? '');
   };
 
   if (step === 'success') {

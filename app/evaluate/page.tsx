@@ -458,10 +458,15 @@ const handleOcr = useCallback(async () => {
   const tokenRef = useRef<string | null>(null);
   const { langHi } = useLang();
   useEffect(() => {
-    // Get actual Supabase session token for owner bypass
-    supabase.auth.getSession().then(({ data }) => {
-      tokenRef.current = data.session?.access_token ?? usage.token ?? null;
-    });
+    // Get Firebase token for owner bypass
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      currentUser.getIdToken().then(token => {
+        tokenRef.current = token ?? usage.token ?? null;
+      });
+    } else {
+      tokenRef.current = usage.token ?? null;
+    }
   }, [usage.token]);
 
   const submit = async () => {

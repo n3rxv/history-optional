@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { adminAuth } from '@/lib/firebaseAdmin';
 
 export async function GET(req: NextRequest) {
   const supabase = createClient(
@@ -9,23 +10,24 @@ export async function GET(req: NextRequest) {
   const fp = req.nextUrl.searchParams.get('fp');
   if (!fp) return NextResponse.json({ error: 'No fingerprint' }, { status: 400 });
 
-  // Optional subscription check
+  // Subscription check via Firebase ID token
   const checkSub = req.nextUrl.searchParams.get('checkSub');
-  const authToken = req.nextUrl.searchParams.get('token');
-  if (checkSub && authToken) {
-    const { createServerClient } = await import('@/lib/supabase');
-    const db = createServerClient();
-    const { data: { user } } = await db.auth.getUser(authToken);
-    if (user) {
+  const token = req.nextUrl.searchParams.get('token');
+  if (checkSub && token) {
+    try {
+      const decoded = await adminAuth.verifyIdToken(token);
+      const uid = decoded.uid;
       const nowISO = new Date().toISOString();
       const { data: sub } = await supabase
         .from('subscriptions')
-        .select('status')
-        .eq('user_id', user.id)
+        .select('status, expires_at, plan')
+        .eq('user_id', uid)
         .eq('status', 'active')
         .gt('expires_at', nowISO)
         .single();
-      if (sub) return NextResponse.json({ isPremium: true });
+      if (sub) return NextResponse.json({ isPremium: true, plan: sub.plan, expires_at: sub.expires_at });
+    } catch {
+      // invalid token
     }
     return NextResponse.json({ isPremium: false });
   }
@@ -45,7 +47,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ...newData, fingerprint: fp });
   }
 
-  // Cumulative lifetime counts — no resets
   return NextResponse.json({
     ...data,
     fingerprint: fp,

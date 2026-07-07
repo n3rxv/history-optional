@@ -3,7 +3,7 @@ import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
 import React, { useState, useEffect, useRef } from 'react';
 import { prelimsQuestions } from '@/lib/prelimsData';
-import { supabase } from '@/lib/supabase';
+import { auth } from '@/lib/firebase';
 
 type Filter = 'all' | 'pyq' | 'practice' | 'bookmarked';
 type NavStatus = 'unattempted' | 'answered' | 'wrong' | 'marked' | 'answered-marked';
@@ -82,10 +82,11 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
   useEffect(() => {
     (async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session?.access_token) return;
-        setToken(session.access_token);
-        const res = await fetch(`/api/usage?fp=premcheck&checkSub=1&token=${session.access_token}`);
+        const currentUser = auth.currentUser;
+        if (!currentUser) return;
+        const idToken = await currentUser.getIdToken();
+        setToken(idToken);
+        const res = await fetch(`/api/usage?fp=premcheck&checkSub=1&token=${idToken}`);
         const data = await res.json();
         setIsPremium(!!data.isPremium);
       } catch {}

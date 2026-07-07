@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { supabase } from '@/lib/supabase';
+import { auth } from '@/lib/firebase';
 import { PhoneModal } from '@/components/PhoneModal';
 import { SubscribeCard } from '@/components/SubscribeCard';
 
@@ -81,8 +81,8 @@ export function useSubscriptionGate(onAllowed: () => void) {
 
   const refresh = useCallback(async () => {
     setState(s => ({ ...s, loading:true }));
-    const { data: { session } } = await supabase.auth.getSession();
-    const token = session?.access_token ?? null;
+    const currentUser = auth.currentUser;
+    const token = currentUser ? await currentUser.getIdToken() : null;
     if (!token) { setState({ loading:false, allowed:false, used:0, limit:FREE_LIMIT, subscribed:false, owner:false, noPhone:false, token:null }); return; }
     const res  = await fetch('/api/eval-usage', { headers: { 'x-user-token': token } });
     const data = await res.json();

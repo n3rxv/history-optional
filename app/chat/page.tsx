@@ -5,7 +5,7 @@ import { useState, useRef, useEffect, Suspense, useCallback } from 'react';
 import { marked } from 'marked';
 import { useSearchParams } from 'next/navigation';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
-import { supabase } from '@/lib/supabase';
+import { auth } from '@/lib/firebase';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -555,7 +555,7 @@ function ChatContent() {
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-token': (await supabase.auth.getSession()).data.session?.access_token ?? usage?.fingerprint ?? document.cookie.match(/fp=([^;]+)/)?.[1] ?? localStorage.getItem('fp') ?? '' },
+        headers: { 'Content-Type': 'application/json', 'x-user-token': (auth.currentUser ? await auth.currentUser.getIdToken() : null) ?? usage?.fingerprint ?? document.cookie.match(/fp=([^;]+)/)?.[1] ?? localStorage.getItem('fp') ?? '' },
         body: JSON.stringify({
           ...(pdfBase64 ? {
             pdf_base64: pdfBase64,

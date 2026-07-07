@@ -6,10 +6,11 @@ import { getPYQsForNote } from '@/lib/notePyqMap';
 import { getNoteContent } from '@/lib/noteContent';
 import { noteContentHi } from '@/lib/noteContentHi';
 import { useLang } from '@/lib/i18n/LangContext';
-import { supabase } from '@/lib/supabase';
+import { auth, googleProvider } from '@/lib/firebase';
+import { onAuthStateChanged, signInWithPopup, signOut as firebaseSignOut } from 'firebase/auth';
 import AnnotationToggle from '@/components/AnnotationToggle';
 import TableOfContents from '@/components/TableOfContents';
-import type { User } from '@supabase/supabase-js';
+import type { User } from 'firebase/auth';
 import { useNoteSearch } from '@/hooks/useNoteSearch';
 
 function injectHeadingIds(html: string): string {
@@ -586,31 +587,23 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
 
   // ── AUTH: listen to session changes ──
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
       setAuthLoading(false);
     });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => subscription.unsubscribe();
+    return () => unsubscribe();
   }, []);
 
-  const handleSignIn = () => {
-    supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/google-callback?next=${encodeURIComponent(window.location.pathname)}`,
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-        },
-      },
-    });
+  const handleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err) {
+      console.error('Sign in error:', err);
+    }
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    await firebaseSignOut(auth);
     // Fall back to localStorage
     try {
       const h = localStorage.getItem(`hl-${slug}`);

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
-import { supabase } from '@/lib/supabase';
+import { auth } from '@/lib/firebase';
 
 const TABS = [
   { label: 'All',      value: 'all' },
@@ -73,8 +73,8 @@ function ModelAnswerModal({
     setLoading(true);
     setError(null);
 
-    const { data: { session } } = await supabase.auth.getSession();
-    const token = session?.access_token ?? null;
+    const currentUser = auth.currentUser;
+    const token = currentUser ? await currentUser.getIdToken() : null;
 
     try {
       const res = await fetch('/api/model-answer', {

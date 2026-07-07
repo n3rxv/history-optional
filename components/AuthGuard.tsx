@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
-import type { User } from '@supabase/supabase-js';
+import { auth, googleProvider } from '@/lib/firebase';
+import { onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -24,56 +24,44 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     pathname.startsWith('/test') ||
     pathname.startsWith('/dashboard') ||
     pathname.startsWith('/contact') ||
-    pathname.startsWith('/contact?tab=bug') ||
     pathname.startsWith('/flashcards') ||
     pathname.startsWith('/resources') ||
     pathname.startsWith('/prelims');
-    
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setUser(firebaseUser);
       setLoading(false);
-      if (session?.access_token) {
+      if (firebaseUser) {
+        const idToken = await firebaseUser.getIdToken();
         fetch('/api/ping', {
           method: 'POST',
-          headers: { 'x-user-token': session.access_token },
+          headers: { 'x-user-token': idToken },
         }).catch(() => {});
       }
     });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-    return () => subscription.unsubscribe();
+    return () => unsubscribe();
   }, []);
 
   const handleSignIn = async () => {
     setSigningIn(true);
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/google-callback?next=${encodeURIComponent(pathname)}`,
-        queryParams: { access_type: 'offline', prompt: 'consent' },
-      },
-    });
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err) {
+      console.error('Sign in error:', err);
+      setSigningIn(false);
+    }
   };
 
-  // Always render children on home or when signed in
   if (isPublic || user) return <>{children}</>;
-
-  // Still checking session — render children silently (avoids flash)
   if (loading) return <>{children}</>;
 
-  // Not signed in, not on home — show modal overlay
   return (
     <>
-      {/* Blurred page content underneath */}
       <div style={{ filter: 'blur(6px)', pointerEvents: 'none', userSelect: 'none', opacity: 0.35 }}>
         {children}
       </div>
 
-      {/* Modal backdrop */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 999,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -82,7 +70,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         backdropFilter: 'blur(4px)',
         WebkitBackdropFilter: 'blur(4px)',
       }}>
-        {/* Modal card */}
         <div style={{
           background: 'var(--bg2)',
           border: '1px solid var(--border2)',
@@ -99,7 +86,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
           animation: 'authModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
         }}>
 
-          {/* Logo mark */}
           <div style={{
             width: 52, height: 52, borderRadius: 14,
             background: 'rgba(59,130,246,0.08)',
@@ -110,7 +96,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
             📜
           </div>
 
-          {/* Heading */}
           <div>
             <h2 style={{
               fontFamily: 'var(--font-display)',
@@ -130,10 +115,8 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
             </p>
           </div>
 
-          {/* Divider */}
           <div style={{ width: '100%', height: 1, background: 'var(--border)' }} />
 
-          {/* Google sign in button */}
           <button
             onClick={handleSignIn}
             disabled={signingIn}
@@ -162,7 +145,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                   display: 'inline-block',
                   animation: 'spin 0.7s linear infinite',
                 }} />
-                Redirecting…
+                Signing in…
               </>
             ) : (
               <>
@@ -177,7 +160,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
             )}
           </button>
 
-          {/* Back to home */}
           <a
             href="/"
             style={{
