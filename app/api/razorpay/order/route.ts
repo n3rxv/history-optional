@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase";
 import { createClient } from "@supabase/supabase-js";
+import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 import Razorpay from "razorpay";
 
 export async function POST(req: NextRequest) {
@@ -12,15 +12,14 @@ export async function POST(req: NextRequest) {
   const token = req.headers.get("x-user-token");
   if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  const user = await verifyFirebaseToken(token);
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SECRET_KEY!
   );
-  const db = createServerClient();
-  const { data: { user }, error } = await db.auth.getUser(token);
-  if (error || !user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  // Get slot count to determine price
   const { data: slotData } = await supabaseAdmin
     .from("subscription_slots")
     .select("subscribers, max_slots")
@@ -30,19 +29,20 @@ export async function POST(req: NextRequest) {
   const remaining = slotData ? Math.max(0, slotData.max_slots - slotData.subscribers) : 45;
   const reqBody = await req.json().catch(() => ({}));
   const plan = reqBody.plan || "yearly";
+
   const planAmounts: Record<string, number> = {
     daily:   4900,
     weekly:  29900,
     monthly: 99900,
     yearly:  (() => { const now = new Date(); const isJuly = now.getFullYear() === 2026 && now.getMonth() === 6; return isJuly ? 299900 : (remaining > 0 ? 599900 : 1499900); })(),
   };
-  const amount = planAmounts[plan] ?? 299900;
 
+  const amount = planAmounts[plan] ?? 299900;
   const order = await razorpay.orders.create({
     amount,
     currency: "INR",
-    receipt:  `ho_${user.id.slice(0, 8)}_${Date.now()}`,
-    notes: { user_id: user.id, email: user.email ?? "", plan },
+    receipt:  `ho_${user.uid.slice(0, 8)}_${Date.now()}`,
+    notes: { user_id: user.uid, email: user.email ?? "", plan },
   });
 
   return NextResponse.json({ orderId: order.id, amount: order.amount, currency: order.currency, slots: remaining });

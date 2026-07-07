@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
       const { data: sub } = await supabase
         .from('subscriptions')
         .select('status, expires_at, plan')
-        .eq('user_id', uid)
+        .eq('firebase_uid', uid)
         .eq('status', 'active')
         .gt('expires_at', nowISO)
         .single();

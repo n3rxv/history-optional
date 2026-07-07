@@ -209,7 +209,7 @@ export async function POST(req: NextRequest) {
         const { data: sub } = await supabase
           .from('subscriptions')
           .select('status')
-          .eq('user_id', decoded.uid)
+          .eq('firebase_uid', decoded.uid)
           .eq('status', 'active')
           .gt('expires_at', nowISO)
           .single();

@@ -1,41 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
+import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 
 const OWNER_EMAIL  = process.env.OWNER_EMAIL!;
-const OWNER_PHONE  = process.env.OWNER_PHONE!;
-const FREE_LIMIT   = 1; // 1 lifetime (no reset)
+const FREE_LIMIT   = 1;
 
 export async function GET(req: NextRequest) {
-  const db = createServerClient();
-
   const token = req.headers.get("x-user-token");
-  if (!token) return NextResponse.json({ allowed: false, reason: "unauthenticated" });
+  const user = await verifyFirebaseToken(token ?? null);
+  if (!user) return NextResponse.json({ allowed: false, reason: "unauthenticated" });
 
-  const { data: { user }, error } = await db.auth.getUser(token);
-  if (error || !user) return NextResponse.json({ allowed: false, reason: "unauthenticated" });
+  const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 
-  const email = user.email ?? "";
-
-  const { data: profile } = await db
-    .from("user_profiles")
-    .select("phone")
-    .eq("user_id", user.id)
-    .single();
-
-  const phone = profile?.phone ?? "";
-
-  if (email === OWNER_EMAIL && phone === OWNER_PHONE) {
+  if (user.email === OWNER_EMAIL) {
     return NextResponse.json({ allowed: true, owner: true, used: 0, limit: Infinity });
-  }
-
-  if (!phone) {
-    return NextResponse.json({ allowed: false, reason: "no_phone", used: 0, limit: FREE_LIMIT });
   }
 
   const { data: sub } = await db
     .from("subscriptions")
     .select("expires_at")
-    .eq("user_id", user.id)
+    .eq("firebase_uid", user.uid)
     .eq("status", "active")
     .single();
 
@@ -43,54 +27,22 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ allowed: true, subscribed: true, used: 0, limit: Infinity });
   }
 
-  // Lifetime: sum all rows for this phone regardless of date
-  const { data: rows } = await db
-    .from("eval_usage")
-    .select("count")
-    .eq("phone", phone);
+  const { data: usage } = await db
+    .from("usage_tracking")
+    .select("eval_count")
+    .eq("fingerprint", req.nextUrl.searchParams.get("fp") ?? "")
+    .single();
 
-  const used = (rows ?? []).reduce((sum, r) => sum + (r.count ?? 0), 0);
-  const allowed = used < FREE_LIMIT;
-
-  return NextResponse.json({ allowed, used, limit: FREE_LIMIT, subscribed: false });
+  const used = usage?.eval_count ?? 0;
+  return NextResponse.json({ allowed: used < FREE_LIMIT, used, limit: FREE_LIMIT, subscribed: false });
 }
 
 export async function POST(req: NextRequest) {
-  const db = createServerClient();
-
   const token = req.headers.get("x-user-token");
-  if (!token) return NextResponse.json({ ok: false });
+  const user = await verifyFirebaseToken(token ?? null);
+  if (!user) return NextResponse.json({ ok: false });
 
-  const { data: { user }, error } = await db.auth.getUser(token);
-  if (error || !user) return NextResponse.json({ ok: false });
-
-  const email = user.email ?? "";
-
-  const { data: profile } = await db
-    .from("user_profiles")
-    .select("phone")
-    .eq("user_id", user.id)
-    .single();
-
-  const phone = profile?.phone ?? "";
-
-  if (email === OWNER_EMAIL && phone === OWNER_PHONE) return NextResponse.json({ ok: true });
-  if (!phone) return NextResponse.json({ ok: false, reason: "no_phone" });
-
-  const today = new Date().toISOString().slice(0, 10);
-
-  const { data: existing } = await db
-    .from("eval_usage")
-    .select("id, count")
-    .eq("phone", phone)
-    .eq("date", today)
-    .single();
-
-  if (existing) {
-    await db.from("eval_usage").update({ count: existing.count + 1 }).eq("id", existing.id);
-  } else {
-    await db.from("eval_usage").insert({ user_id: user.id, phone, date: today, count: 1 });
-  }
+  if (user.email === OWNER_EMAIL) return NextResponse.json({ ok: true });
 
   return NextResponse.json({ ok: true });
 }

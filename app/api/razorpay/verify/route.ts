@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase";
 import { createClient } from "@supabase/supabase-js";
+import { adminAuth } from "@/lib/firebaseAdmin";
 import crypto from "crypto";
 
 export async function POST(req: NextRequest) {
@@ -11,9 +11,15 @@ export async function POST(req: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SECRET_KEY!
   );
-  const db = createServerClient();
-  const { data: { user }, error } = await db.auth.getUser(token);
-  if (error || !user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  // Verify Firebase token
+  let firebaseUser: { uid: string; email?: string };
+  try {
+    const decoded = await adminAuth.verifyIdToken(token);
+    firebaseUser = { uid: decoded.uid, email: decoded.email };
+  } catch {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, fingerprint, plan } = await req.json();
 
@@ -23,17 +29,14 @@ export async function POST(req: NextRequest) {
     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
     .update(body)
     .digest("hex");
-
   if (expectedSig !== razorpay_signature)
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-
-
 
   // Extend or start subscription
   const { data: existingSub } = await supabaseAdmin
     .from("subscriptions")
     .select("expires_at")
-    .eq("user_id", user.id)
+    .eq("firebase_uid", firebaseUser.uid)
     .single();
 
   const base = existingSub?.expires_at && new Date(existingSub.expires_at) > new Date()
@@ -65,6 +68,7 @@ export async function POST(req: NextRequest) {
     const captureErr = await captureRes.json();
     console.error("Capture failed:", captureErr);
   }
+
   if (activePlan === "daily")        expiresAt.setDate(expiresAt.getDate() + 1);
   else if (activePlan === "weekly")  expiresAt.setDate(expiresAt.getDate() + 7);
   else if (activePlan === "monthly") expiresAt.setMonth(expiresAt.getMonth() + 1);
@@ -73,16 +77,18 @@ export async function POST(req: NextRequest) {
   const { error: upsertErr } = await supabaseAdmin
     .from("subscriptions")
     .upsert({
-      user_id: user.id, email: user.email,
+      firebase_uid: firebaseUser.uid,
+      email: firebaseUser.email,
       status: "active", plan: activePlan,
       razorpay_order_id, razorpay_payment_id,
       expires_at: expiresAt.toISOString(),
       created_at: new Date().toISOString(),
-    }, { onConflict: "user_id" });
+    }, { onConflict: "firebase_uid" });
 
-  if (upsertErr) return NextResponse.json({ error: "DB error" }, { status: 500 });
-
-
+  if (upsertErr) {
+    console.error("Upsert error:", upsertErr);
+    return NextResponse.json({ error: "DB error" }, { status: 500 });
+  }
 
   // Reset fingerprint usage limits if provided
   if (fingerprint) {

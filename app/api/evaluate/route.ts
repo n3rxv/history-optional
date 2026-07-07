@@ -398,45 +398,50 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'i
 
 export async function POST(req: NextRequest) {
   const token = req.headers.get("x-user-token") ?? "";
+  const fingerprint = req.headers.get("x-fingerprint") ?? "";
 
-  // Owner bypass — check if real auth token
+  // Firebase auth check
   let isOwner = false;
-  try {
-    const db = createServerClient();
-    const { data: { user } } = await db.auth.getUser(token);
-    if (user?.email === process.env.OWNER_EMAIL) isOwner = true;
-  } catch {}
+  let isPremium = false;
 
-  // Fingerprint-based usage check
-  if (!isOwner) {
+  if (token) {
+    try {
+      const { verifyFirebaseToken } = await import("@/lib/verifyFirebaseToken");
+      const user = await verifyFirebaseToken(token);
+      if (user?.email === process.env.OWNER_EMAIL) isOwner = true;
+      if (!isOwner && user) {
+        const { createClient } = await import("@supabase/supabase-js");
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.SUPABASE_SECRET_KEY!
+        );
+        const nowISO = new Date().toISOString();
+        const { data: sub } = await supabase
+          .from("subscriptions")
+          .select("status")
+          .eq("firebase_uid", user.uid)
+          .eq("status", "active")
+          .gt("expires_at", nowISO)
+          .single();
+        if (sub) isPremium = true;
+      }
+    } catch {}
+  }
+
+  if (!isOwner && !isPremium) {
     const { createClient } = await import("@supabase/supabase-js");
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
     );
-
-    // Check subscription first
-    const nowISO = new Date().toISOString();
-    const { data: sub } = await supabase
-      .from("subscriptions")
-      .select("status")
-      .eq("user_id", token)
-      .eq("status", "active")
-      .gt("expires_at", nowISO)
+    const { data: usage } = await supabase
+      .from("usage_tracking")
+      .select("eval_count")
+      .eq("fingerprint", fingerprint)
       .single();
-
-    if (!sub) {
-      // Check lifetime eval usage via usage_tracking (no weekly reset)
-      const { data: usage } = await supabase
-        .from("usage_tracking")
-        .select("eval_count")
-        .eq("fingerprint", token)
-        .single();
-
-      const used = usage?.eval_count ?? 0;
-      if (used >= 1)
-        return NextResponse.json({ error: "limit_reached" }, { status: 403 });
-    }
+    const used = usage?.eval_count ?? 0;
+    if (used >= 1)
+      return NextResponse.json({ error: "limit_reached" }, { status: 403 });
   }
 
   try {
@@ -1052,34 +1057,23 @@ RULES:
     }
 
     // Increment eval_count for free users after successful evaluation
-    if (!isOwner) {
+    // Increment eval_count for free users after successful evaluation
+    if (!isOwner && !isPremium) {
       try {
         const { createClient: createClientInc } = await import("@supabase/supabase-js");
         const supabaseInc = createClientInc(
           process.env.NEXT_PUBLIC_SUPABASE_URL!,
           process.env.SUPABASE_SECRET_KEY!
         );
-        const nowISO2 = new Date().toISOString();
-        const { data: subCheck } = await supabaseInc
-          .from("subscriptions")
-          .select("status")
-          .eq("user_id", token)
-          .eq("status", "active")
-          .gt("expires_at", nowISO2)
+        const { data: existingUsage } = await supabaseInc
+          .from("usage_tracking")
+          .select("eval_count")
+          .eq("fingerprint", fingerprint)
           .single();
-
-        if (!subCheck) {
-          const { data: existingUsage } = await supabaseInc
-            .from("usage_tracking")
-            .select("eval_count")
-            .eq("fingerprint", token)
-            .single();
-
-          const newCount = (existingUsage?.eval_count ?? 0) + 1;
-          await supabaseInc
-            .from("usage_tracking")
-            .upsert({ fingerprint: token, eval_count: newCount }, { onConflict: "fingerprint" });
-        }
+        const newCount = (existingUsage?.eval_count ?? 0) + 1;
+        await supabaseInc
+          .from("usage_tracking")
+          .upsert({ fingerprint, eval_count: newCount }, { onConflict: "fingerprint" });
       } catch (incErr) {
         console.log("eval_count increment failed", incErr);
       }
