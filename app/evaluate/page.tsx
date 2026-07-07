@@ -3,6 +3,7 @@ import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
 import { saveToHistory, loadHistory, AnswerEntry } from "@/hooks/useAnswerHistory";
 import { supabase } from "@/lib/supabase";
+import { auth } from '@/lib/firebase';
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
 import PDFTestEvaluator from '@/components/PDFTestEvaluator';
