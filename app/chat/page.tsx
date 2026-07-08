@@ -1321,39 +1321,39 @@ Every response must:
 
               <button
                 className={`chat-tool-btn ${pdfFile ? 'active' : ''}`}
-                onClick={() => { if (!usage?.isPremium) { showChatLimitModal(); return; } fileInputRef.current?.click(); }}
-                title={usage?.isPremium ? "Upload PDF to discuss or get model answers" : "Premium feature — subscribe to upload PDFs"}
+                onClick={() => { if (!usage?.subscribed) { showChatLimitModal(); return; } fileInputRef.current?.click(); }}
+                title={usage?.subscribed ? "Upload PDF to discuss or get model answers" : "Premium feature — subscribe to upload PDFs"}
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 {pdfFile ? (
                   <>{pdfName} <span onClick={e => { e.stopPropagation(); setPdfFile(null); setPdfBase64(null); setPdfName(null); }} style={{ marginLeft:'4px', opacity:0.6, fontWeight:'bold', cursor:'pointer' }}>✕</span></>
-                ) : <>PDF{!usage?.isPremium && <span className="chat-tool-badge">✦</span>}</>}
+                ) : <>PDF{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}</>}
               </button>
 
               <button
                 className={`chat-tool-btn ${brainstormMode ? 'gold-active' : ''}`}
-                onClick={() => { if (!usage?.isPremium) { showChatLimitModal(); return; } setBrainstormMode(b => !b); }}
-                title={usage?.isPremium ? "Brainstorm mode — get essay plans & argument maps" : "Premium feature — subscribe to use Brainstorm"}
+                onClick={() => { if (!usage?.subscribed) { showChatLimitModal(); return; } setBrainstormMode(b => !b); }}
+                title={usage?.subscribed ? "Brainstorm mode — get essay plans & argument maps" : "Premium feature — subscribe to use Brainstorm"}
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                Brainstorm{!usage?.isPremium && <span className="chat-tool-badge">✦</span>}
+                Brainstorm{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
               </button>
 
               <div style={{ position:'relative' }}>
                 <button
-                  className={`chat-tool-btn ${bookMode && usage?.isPremium ? 'active' : ''}`}
+                  className={`chat-tool-btn ${bookMode && usage?.subscribed ? 'active' : ''}`}
                   onClick={() => {
                     if (usageLoading) return;
-                    if (!usage?.isPremium) { setShowBookPaywall(true); return; }
+                    if (!usage?.subscribed) { setShowBookPaywall(true); return; }
                     setBooksPopoverOpen(o => !o);
                   }}
                   title="Chat with Books — ground answers in reference texts"
                 >
                   <span style={{ fontSize:'0.85rem' }}>📚</span>
-                  Books{!usage?.isPremium && <span className="chat-tool-badge">✦</span>}
+                  Books{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
                 </button>
 
-                {booksPopoverOpen && usage?.isPremium && (
+                {booksPopoverOpen && usage?.subscribed && (
                   <>
                     <div style={{ position:'fixed', inset:0, zIndex:55 }} onClick={() => setBooksPopoverOpen(false)} />
                     <div className="chat-books-popover" onClick={e => e.stopPropagation()}>
@@ -1445,8 +1445,8 @@ Every response must:
             </div>
             <div className="chat-hint">{tr(t.chatHint, langHi)}</div>
             {!usageLoading && (
-              <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : usage?.isPremium ? '#51cf66' : '#555', letterSpacing:'0.08em' }}>
-                {usage?.isPremium ? tr(t.chatUnlimited, langHi) : !canChat ? tr(t.chatFreeUsed, langHi) : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
+              <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : usage?.subscribed ? '#51cf66' : '#555', letterSpacing:'0.08em' }}>
+                {usage?.subscribed ? tr(t.chatUnlimited, langHi) : !canChat ? tr(t.chatFreeUsed, langHi) : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
               </div>
             )}
           </div>
