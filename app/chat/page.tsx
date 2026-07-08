@@ -555,7 +555,7 @@ function ChatContent() {
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-token': (auth.currentUser ? await auth.currentUser.getIdToken() : null) ?? usage?.fingerprint ?? document.cookie.match(/fp=([^;]+)/)?.[1] ?? localStorage.getItem('fp') ?? '' },
+        headers: { 'Content-Type': 'application/json', 'x-user-token': (auth.currentUser ? await auth.currentUser.getIdToken() : null) ?? document.cookie.match(/fp=([^;]+)/)?.[1] ?? localStorage.getItem('fp') ?? '' },
         body: JSON.stringify({
           ...(pdfBase64 ? {
             pdf_base64: pdfBase64,
