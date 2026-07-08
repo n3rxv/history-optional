@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useLang } from '@/lib/i18n/LangContext';
 import { supabase } from '@/lib/supabase';
 import { auth } from '@/lib/firebase';
-import { auth } from '@/lib/firebase';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 type Position = {
