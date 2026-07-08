@@ -10,7 +10,7 @@ interface AnswerEntry {
   storage_path: string;
   answer_number: number;
   created_at: string;
-  user_id: string;
+  firebase_uid: string;
   public_url: string;
 }
 

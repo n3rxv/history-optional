@@ -618,7 +618,9 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
     if (authLoading) return;
     if (user) {
       // Load from Supabase
-      fetch(`/api/user-annotations?user_id=${user.uid}&slug=${slug}`)
+      user.getIdToken().then(token => fetch(`/api/user-annotations?firebase_uid=${user.uid}&slug=${slug}`, {
+        headers: { authorization: `Bearer ${token}` }
+      }))
         .then(r => r.json())
         .then(({ data }) => {
           if (data && data.length > 0 && data[0].data) {
@@ -666,8 +668,8 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
     try {
       const res = await fetch('/api/user-annotations', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId, note_slug: slug, data: { highlights: h, stickyNotes: s } }),
+        headers: { 'Content-Type': 'application/json', authorization: `Bearer ${await user?.getIdToken()}` },
+        body: JSON.stringify({ firebase_uid: userId, note_slug: slug, data: { highlights: h, stickyNotes: s } }),
       });
       const result = await res.json();
       setSyncStatus(result.ok ? 'saved' : 'error');
