@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useLang } from '@/lib/i18n/LangContext';
 import { supabase } from '@/lib/supabase';
 import { auth } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 type Position = {
@@ -195,8 +196,8 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
 
   useEffect(() => {
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user?.email === OWNER_EMAIL) setIsOwner(true);
+      const currentUser = auth.currentUser;
+      if (currentUser?.email === OWNER_EMAIL) setIsOwner(true);
       await loadDebates();
     })();
   }, []);
