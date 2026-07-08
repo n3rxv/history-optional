@@ -14,7 +14,8 @@ async function isPremiumUser(token: string): Promise<boolean> {
       process.env.SUPABASE_SECRET_KEY!
     );
     const db = createServerClient();
-    const { data: { user } } = await db.auth.getUser(token);
+    const { verifyFirebaseToken } = await import("@/lib/verifyFirebaseToken");
+    const user = await verifyFirebaseToken(token);
     if (!user) return false;
     if (user.email === process.env.OWNER_EMAIL) return true;
  
@@ -22,7 +23,7 @@ async function isPremiumUser(token: string): Promise<boolean> {
     const { data: sub } = await supabase
       .from("subscriptions")
       .select("status")
-      .eq("user_id", user.id)
+      .eq("firebase_uid", user.uid)
       .eq("status", "active")
       .gt("expires_at", nowISO)
       .single();

@@ -1,24 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
+import { verifyFirebaseToken } from '@/lib/verifyFirebaseToken';
 
-async function getAuthUser(req: NextRequest) {
+async function getFirebaseUid(req: NextRequest): Promise<string | null> {
   const auth = req.headers.get('authorization');
   if (!auth) return null;
-  const db = createServerClient();
-  const { data: { user } } = await db.auth.getUser(auth.replace('Bearer ', ''));
-  return user ?? null;
+  const user = await verifyFirebaseToken(auth.replace('Bearer ', ''));
+  return user?.uid ?? null;
 }
 
 export async function GET(req: NextRequest) {
   const pyqId = req.nextUrl.searchParams.get('pyq_id');
   if (!pyqId) return NextResponse.json({ error: 'Missing pyq_id' }, { status: 400 });
-  const db = createServerClient();
+
+  const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
   const { data, error } = await db
     .from('pyq_answers')
-    .select('id, display_name, storage_path, answer_number, created_at, user_id')
+    .select('id, display_name, storage_path, answer_number, created_at, firebase_uid')
     .eq('pyq_id', parseInt(pyqId))
     .order('created_at', { ascending: true });
+
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const answers = (data ?? []).map((row: any) => ({
     ...row,
@@ -28,10 +31,10 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const formData = await req.formData();
-  const pyqId   = parseInt(formData.get('pyq_id') as string);
-  const rawName = (formData.get('display_name') as string ?? '').trim();
-  const file    = formData.get('file') as File | null;
+  const formData  = await req.formData();
+  const pyqId     = parseInt(formData.get('pyq_id') as string);
+  const rawName   = (formData.get('display_name') as string ?? '').trim();
+  const file      = formData.get('file') as File | null;
 
   if (!pyqId || !rawName || !file)
     return NextResponse.json({ error: 'Missing fields.' }, { status: 400 });
@@ -40,8 +43,11 @@ export async function POST(req: NextRequest) {
   if (file.size > 5 * 1024 * 1024)
     return NextResponse.json({ error: 'File too large (max 5 MB).' }, { status: 400 });
 
+  // Optional auth — logged in users get firebase_uid attached
+  const firebase_uid = await getFirebaseUid(req);
+
   const safeName = rawName.replace(/[^a-zA-Z0-9 _-]/g, '').slice(0, 30).trim() || 'User';
-  const db = createServerClient();
+  const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 
   const { count: totalCount } = await db
     .from('pyq_answers')
@@ -49,20 +55,28 @@ export async function POST(req: NextRequest) {
     .eq('pyq_id', pyqId);
 
   const answerNumber = (totalCount ?? 0) + 1;
-  const fileName    = `${safeName.replace(/ /g, '-')}-${answerNumber}.pdf`;
-  const storagePath = `pyq-${pyqId}/anon/${Date.now()}-${fileName}`;
+  const fileName     = `${safeName.replace(/ /g, '-')}-${answerNumber}.pdf`;
+  const storagePath  = `pyq-${pyqId}/anon/${Date.now()}-${fileName}`;
+  const arrayBuffer  = await file.arrayBuffer();
 
-  const arrayBuffer = await file.arrayBuffer();
   const { error: uploadErr } = await db.storage
     .from('pyq-answers')
     .upload(storagePath, arrayBuffer, { contentType: 'application/pdf', upsert: false });
 
   if (uploadErr) return NextResponse.json({ error: uploadErr.message }, { status: 500 });
 
+  const insertData: any = {
+    pyq_id: pyqId,
+    display_name: safeName,
+    storage_path: storagePath,
+    answer_number: answerNumber,
+  };
+  if (firebase_uid) insertData.firebase_uid = firebase_uid;
+
   const { data: inserted, error: insertErr } = await db
     .from('pyq_answers')
-    .insert({ pyq_id: pyqId, display_name: safeName, storage_path: storagePath, answer_number: answerNumber })
-    .select('id, display_name, storage_path, answer_number, created_at, user_id')
+    .insert(insertData)
+    .select('id, display_name, storage_path, answer_number, created_at, firebase_uid')
     .single();
 
   if (insertErr) {

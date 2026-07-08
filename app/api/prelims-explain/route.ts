@@ -9,13 +9,14 @@ async function checkPremium(authHeader: string | null): Promise<boolean> {
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
     );
-    const { data: { user } } = await supabase.auth.getUser(token);
+    const { verifyFirebaseToken } = await import("@/lib/verifyFirebaseToken");
+    const user = await verifyFirebaseToken(token);
     if (!user) return false;
     const nowISO = new Date().toISOString();
     const { data: sub } = await supabase
       .from('subscriptions')
       .select('status')
-      .eq('user_id', user.id)
+      .eq('firebase_uid', user.uid)
       .eq('status', 'active')
       .gt('expires_at', nowISO)
       .single();

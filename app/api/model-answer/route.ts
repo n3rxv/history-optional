@@ -169,7 +169,9 @@ export async function POST(req: NextRequest) {
     let isPremium = false;
     try {
       // token is a real Supabase access_token from the frontend session
-      const { data: { user }, error } = await supabase.auth.getUser(token);
+      const { verifyFirebaseToken } = await import("@/lib/verifyFirebaseToken");
+      const user = await verifyFirebaseToken(token);
+      const error = !user;
       if (error || !user) {
         return NextResponse.json({ error: 'premium_required' }, { status: 403 });
       }
@@ -181,7 +183,7 @@ export async function POST(req: NextRequest) {
         const { data: sub } = await supabase
           .from('subscriptions')
           .select('status')
-          .eq('user_id', user.id)   // ← use user.id, NOT the raw token
+          .eq('firebase_uid', user.uid)
           .eq('status', 'active')
           .gt('expires_at', nowISO)
           .maybeSingle();
