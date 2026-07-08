@@ -1064,7 +1064,7 @@ export default function TestPage() {
   const [timerOn,   setTimerOn]   = useState(false);
 
   const { usage, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
-  const isPremium = usage?.isPremium ?? false;
+  const isPremium = usage?.subscribed ?? false;
   const [navH, setNavH] = useState(56);
   useEffect(() => {
     const nav = document.querySelector('nav, header, [role="navigation"]') as HTMLElement | null;
@@ -1234,7 +1234,7 @@ export default function TestPage() {
             </p>
           </div>
           <PDFTestEvaluator
-            isPremium={!!usage.isPremium}
+            isPremium={!!usage.subscribed}
             onPaywall={showChatLimitModal}
             token={usage.token ?? null}
             variant="test"
@@ -1345,7 +1345,7 @@ export default function TestPage() {
           return (
             <div style={{ marginBottom:28 }}>
               <PDFTestEvaluator
-                isPremium={!!usage.isPremium}
+                isPremium={!!usage.subscribed}
                 onPaywall={showChatLimitModal}
                 token={usage.token ?? null}
                 paperQuestions={pdfQs}

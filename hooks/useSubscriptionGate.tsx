@@ -51,11 +51,11 @@ export function useSubscriptionGate(onEvaluate: () => void) {
 
   // Auto-close modals when user becomes premium (after sign in / payment)
   useEffect(() => {
-    if (usage?.isPremium) {
+    if (usage?.subscribed) {
       setShowEvalLimit(false);
       setShowChatLimit(false);
     }
-  }, [usage?.isPremium]);
+  }, [usage?.subscribed]);
 
   const handleEvaluate = useCallback(() => {
     if (loading) { onEvaluateRef.current(); return; }
@@ -74,7 +74,7 @@ export function useSubscriptionGate(onEvaluate: () => void) {
 
   const UsagePill = () => {
     if (loading) return null;
-    if (usage?.isPremium) return (
+    if (usage?.subscribed) return (
       <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.62rem', color:'#51cf66', letterSpacing:'0.08em', marginBottom:12 }}>
         ✦ Unlimited access
       </div>

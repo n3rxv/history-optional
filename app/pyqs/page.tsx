@@ -196,7 +196,7 @@ export default function PYQsPage() {
 
   const handleModelAnswer = (e: React.MouseEvent, q: PYQ) => {
     e.stopPropagation();
-    if (!usage.isPremium) { showChatLimitModal(); return; }
+    if (!usage.subscribed) { showChatLimitModal(); return; }
     setModelAnswerQ(q);
   };
 
@@ -448,15 +448,15 @@ export default function PYQsPage() {
                         className="shimmer-btn"
                         style={{
                           display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-                          color: usage.isPremium ? 'var(--accent)' : 'var(--text3)',
+                          color: usage.subscribed ? 'var(--accent)' : 'var(--text3)',
                           fontSize: '0.78rem', cursor: 'pointer',
-                          background: usage.isPremium ? 'rgba(59,130,246,0.08)' : 'var(--bg3)',
-                          border: usage.isPremium ? '1px solid rgba(59,130,246,0.25)' : '1px solid var(--border)',
+                          background: usage.subscribed ? 'rgba(59,130,246,0.08)' : 'var(--bg3)',
+                          border: usage.subscribed ? '1px solid rgba(59,130,246,0.25)' : '1px solid var(--border)',
                           padding: '3px 10px', borderRadius: 4,
                           position: 'relative', overflow: 'hidden',
                         }}
                       >
-                        {!usage.isPremium && (
+                        {!usage.subscribed && (
                           <span style={{
                             fontSize: '0.58rem', fontFamily: 'var(--font-mono)',
                             letterSpacing: '0.08em', color: '#f59e0b',

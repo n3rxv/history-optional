@@ -1148,13 +1148,13 @@ const handleOcr = useCallback(async () => {
             </div>
             {evalMode === "map" ? (
               <MapEvaluator
-                isPremium={!!usage.isPremium}
+                isPremium={!!usage.subscribed}
                 onPaywall={showEvalLimitModal}
                 token={tokenRef.current}
               />
             ) : evalMode === "batch" ? (
               <PDFTestEvaluator
-                isPremium={!!usage.isPremium}
+                isPremium={!!usage.subscribed}
                 onPaywall={showEvalLimitModal}
                 token={tokenRef.current}
                 variant="evaluate"
