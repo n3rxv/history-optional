@@ -64,7 +64,7 @@ export default function AnnouncementBanner() {
           borderRadius: '4px',
           letterSpacing: '0.05em',
         }}>LIVE</span>
-        <span>UPSC Prelims 2026 — History Questions Decoded</span>
+        <span>UPSC Prelims 2026 — History Questions Decoded</span> &nbsp;·&nbsp; 🔐 We've upgraded our login system — please sign in again with Google to continue.
         <Link
           href="/prelims-2026"
           style={{
