@@ -20,9 +20,11 @@ export async function GET(req: NextRequest) {
   }
 
   let uid: string;
+  let email: string | null = null;
   try {
     const decoded = await adminAuth.verifyIdToken(token);
     uid = decoded.uid;
+    email = decoded.email ?? null;
   } catch {
     return NextResponse.json({ allowed: false, reason: 'unauthenticated' });
   }
@@ -46,6 +48,32 @@ export async function GET(req: NextRequest) {
     });
   }
 
+  // ── 2b. Email se existing subscription dhundo (purane users migration) ──
+  if (email) {
+    const { data: subByEmail } = await supabase
+      .from('subscriptions')
+      .select('id, status, expires_at, plan')
+      .eq('email', email)
+      .eq('status', 'active')
+      .gt('expires_at', new Date().toISOString())
+      .is('firebase_uid', null)
+      .single();
+
+    if (subByEmail) {
+      await supabase
+        .from('subscriptions')
+        .update({ firebase_uid: uid })
+        .eq('id', subByEmail.id);
+
+      return NextResponse.json({
+        allowed: true,
+        subscribed: true,
+        limit: Infinity,
+        used: 0,
+        plan: subByEmail.plan,
+      });
+    }
+  }
   // ── 3. Fingerprint required ───────────────────────────────────────
   if (!fp) {
     return NextResponse.json({ allowed: false, reason: 'no_fp' });
