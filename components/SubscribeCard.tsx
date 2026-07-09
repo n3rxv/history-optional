@@ -118,8 +118,6 @@ export function SubscribeCard({
         theme: { color: '#d4a843' },
         modal: {
           ondismiss: async () => {
-            await firebaseSignOut(auth);
-            setToken(null);
             setStep('idle');
             onClose?.();
           },
@@ -135,8 +133,6 @@ export function SubscribeCard({
         },
       });
       rzp.on('payment.failed', async () => {
-        await firebaseSignOut(auth);
-        setToken(null);
         setStep('idle');
         onClose?.();
       });
