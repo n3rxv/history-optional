@@ -449,7 +449,6 @@ export async function POST(req: NextRequest) {
     if (used >= 1)
       return NextResponse.json({ error: "limit_reached" }, { status: 403 });
   }
-  }
   try {
     const formData = await req.formData();
     const files = formData.getAll("files") as File[];
