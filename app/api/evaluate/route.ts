@@ -429,39 +429,27 @@ export async function POST(req: NextRequest) {
   }
 
   if (!isOwner && !isPremium) {
-    const { createClient } = await import("@supabase/supabase-js");
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
+    const { createClient: cc } = await import("@supabase/supabase-js");
+    const sb = cc(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
     let used = 0;
     if (token) {
       try {
         const { verifyFirebaseToken: vft } = await import("@/lib/verifyFirebaseToken");
         const u = await vft(token);
         if (u) {
-          const { data: byUid } = await supabase
-            .from("usage_tracking")
-            .select("eval_count")
-            .eq("firebase_uid", u.uid)
-            .single();
+          const { data: byUid } = await sb.from("usage_tracking").select("eval_count").eq("firebase_uid", u.uid).single();
           used = Math.max(used, byUid?.eval_count ?? 0);
         }
       } catch {}
     }
     if (fingerprint) {
-      const { data: byFp } = await supabase
-        .from("usage_tracking")
-        .select("eval_count")
-        .eq("fingerprint", fingerprint)
-        .single();
+      const { data: byFp } = await sb.from("usage_tracking").select("eval_count").eq("fingerprint", fingerprint).single();
       used = Math.max(used, byFp?.eval_count ?? 0);
     }
     if (used >= 1)
       return NextResponse.json({ error: "limit_reached" }, { status: 403 });
   }
   }
-
   try {
     const formData = await req.formData();
     const files = formData.getAll("files") as File[];

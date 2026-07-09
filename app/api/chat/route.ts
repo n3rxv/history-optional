@@ -244,10 +244,7 @@ export async function POST(req: NextRequest) {
     if (used >= CHAT_FREE_LIMIT)
       return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
   }
-    if (used >= CHAT_FREE_LIMIT)
-      return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
-  }
-
+  
   // ── Main request handler ────────────────────────────────────────
   try {
     const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name, lang } = await req.json();
