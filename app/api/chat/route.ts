@@ -218,17 +218,32 @@ export async function POST(req: NextRequest) {
     } catch {}
   }
 
-  // Fingerprint-based usage check
+  // Fingerprint + firebase_uid based usage check
   if (!isOwner && !isPremium) {
-    if (!fingerprint) return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
-
-    const { data: usage } = await supabase
-      .from('usage_tracking')
-      .select('chat_count')
-      .eq('fingerprint', fingerprint)
-      .single();
-
-    const used = usage?.chat_count ?? 0;
+    let used = 0;
+    if (token) {
+      try {
+        const { adminAuth: auth2 } = await import('@/lib/firebaseAdmin');
+        const dec = await auth2.verifyIdToken(token);
+        const { data: byUid } = await supabase
+          .from('usage_tracking')
+          .select('chat_count')
+          .eq('firebase_uid', dec.uid)
+          .single();
+        used = Math.max(used, byUid?.chat_count ?? 0);
+      } catch {}
+    }
+    if (fingerprint) {
+      const { data: byFp } = await supabase
+        .from('usage_tracking')
+        .select('chat_count')
+        .eq('fingerprint', fingerprint)
+        .single();
+      used = Math.max(used, byFp?.chat_count ?? 0);
+    }
+    if (used >= CHAT_FREE_LIMIT)
+      return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
+  }
     if (used >= CHAT_FREE_LIMIT)
       return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
   }

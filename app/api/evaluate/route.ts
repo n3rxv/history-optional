@@ -434,14 +434,32 @@ export async function POST(req: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
     );
-    const { data: usage } = await supabase
-      .from("usage_tracking")
-      .select("eval_count")
-      .eq("fingerprint", fingerprint)
-      .single();
-    const used = usage?.eval_count ?? 0;
+    let used = 0;
+    if (token) {
+      try {
+        const { verifyFirebaseToken: vft } = await import("@/lib/verifyFirebaseToken");
+        const u = await vft(token);
+        if (u) {
+          const { data: byUid } = await supabase
+            .from("usage_tracking")
+            .select("eval_count")
+            .eq("firebase_uid", u.uid)
+            .single();
+          used = Math.max(used, byUid?.eval_count ?? 0);
+        }
+      } catch {}
+    }
+    if (fingerprint) {
+      const { data: byFp } = await supabase
+        .from("usage_tracking")
+        .select("eval_count")
+        .eq("fingerprint", fingerprint)
+        .single();
+      used = Math.max(used, byFp?.eval_count ?? 0);
+    }
     if (used >= 1)
       return NextResponse.json({ error: "limit_reached" }, { status: 403 });
+  }
   }
 
   try {
