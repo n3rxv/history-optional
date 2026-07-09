@@ -157,6 +157,7 @@ export function useSubscriptionGate(onEvaluate: () => void) {
     increment, incrementChat,
     canEval, canChat, slots,
     showChatLimitModal: () => setShowChatLimit(true),
+    showLoginModal: () => setShowLoginModal(true),
     FREE_EVAL_LIMIT, FREE_CHAT_LIMIT,
   };
 }

@@ -425,7 +425,7 @@ function ChatContent() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyList, setHistoryList] = useState<ChatHistoryEntry[]>([]);
   const hasUserMessageRef = useRef(false);
-  const { usage, canChat, incrementChat, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
+  const { usage, canChat, incrementChat, GateModals, showChatLimitModal, showLoginModal, slots } = useSubscriptionGate(() => {});
   const usageLoading = usage?.loading ?? true;
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -546,6 +546,7 @@ function ChatContent() {
     if (!q.trim() || loading) return;
     if (q.length > 2000) { alert('Message too long. Max 2000 characters.'); return; }
 
+    if (!usage || !usage.fingerprint) { showLoginModal(); return; }
     if (!canChat) { showChatLimitModal(); return; }
 
     const userMsg: Message = { role: 'user', content: q };
