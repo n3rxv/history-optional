@@ -40,7 +40,7 @@ const FEATURES = [
   { name: 'Brainstorm mode',             free: '—',        premium: '✓'          },
 ];
 
-function PremiumModal({ onClose, noSubFound, isLoggedIn }: { onClose: () => void; noSubFound?: boolean; isLoggedIn?: boolean }) {
+function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { onClose: () => void; noSubFound?: boolean; isLoggedIn?: boolean; onPaymentSuccess?: () => void }) {
   const [slots, setSlots] = React.useState(45);
   const [fingerprint, setFingerprint] = React.useState<string | null>(null);
 
@@ -99,7 +99,7 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn }: { onClose: () => void
           slots={slots}
           fingerprint={fingerprint}
           onClose={onClose}
-          onSuccess={onClose}
+          onSuccess={() => { onPaymentSuccess?.(); onClose(); }}
         />
 
         {!isLoggedIn && <button
@@ -378,15 +378,24 @@ export default function Navbar() {
     });
   };
 
+  const fetchSub = React.useCallback(async (token: string) => {
+    try {
+      const res = await fetch(`/api/sub-status?token=${token}`);
+      const d = await res.json();
+      if (d.isPremium) setSubData({ plan: d.plan, expires_at: d.expires_at });
+      else setSubData(null);
+    } catch { setSubData(null); }
+  }, []);
+
+  const refreshSub = React.useCallback(async () => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      const token = await currentUser.getIdToken(true);
+      await fetchSub(token);
+    }
+  }, [fetchSub]);
+
   useEffect(() => {
-    const fetchSub = async (token: string) => {
-      try {
-        const res = await fetch(`/api/sub-status?token=${token}`);
-        const d = await res.json();
-        if (d.isPremium) setSubData({ plan: d.plan, expires_at: d.expires_at });
-        else setSubData(null);
-      } catch { setSubData(null); }
-    };
     const saved = localStorage.getItem('ho_aspirant_profile');
     if (saved) { try { const p = JSON.parse(saved); setAspirantName(p.name||''); setAspirantAge(p.age||''); setAspirantAttempt(p.attempt||''); setAspirantYear(p.year||''); } catch {} }
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -919,6 +928,7 @@ export default function Navbar() {
           onClose={() => { setShowPremiumModal(false); setNoSubFound(false); }}
           noSubFound={noSubFound}
           isLoggedIn={!!user}
+          onPaymentSuccess={refreshSub}
         />
       )}
     </>
