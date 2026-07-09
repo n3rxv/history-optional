@@ -40,7 +40,7 @@ const FEATURES = [
   { name: 'Brainstorm mode',             free: '—',        premium: '✓'          },
 ];
 
-function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound?: boolean }) {
+function PremiumModal({ onClose, noSubFound, isLoggedIn }: { onClose: () => void; noSubFound?: boolean; isLoggedIn?: boolean }) {
   const [slots, setSlots] = React.useState(45);
   const [fingerprint, setFingerprint] = React.useState<string | null>(null);
 
@@ -102,8 +102,7 @@ function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound
           onSuccess={onClose}
         />
 
-        {/* Already subscribed */}
-        <button
+        {!isLoggedIn && <button
           onClick={async () => {
             sessionStorage.setItem('ho_verify_sub', '1');
             const { auth, googleProvider } = await import('@/lib/firebase');
@@ -121,7 +120,7 @@ function PremiumModal({ onClose, noSubFound }: { onClose: () => void; noSubFound
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
           </svg>
           Already subscribed? Sign in
-        </button>
+        </button>}
       </div>
     </div>
   );
@@ -908,6 +907,7 @@ export default function Navbar() {
         <PremiumModal
           onClose={() => { setShowPremiumModal(false); setNoSubFound(false); }}
           noSubFound={noSubFound}
+          isLoggedIn={!!user}
         />
       )}
     </>
