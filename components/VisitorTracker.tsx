@@ -41,6 +41,14 @@ function getDeviceInfo() {
 async function getFirebaseUid(): Promise<string | null> {
   try {
     const { auth } = await import('@/lib/firebase');
+    // Wait for auth to initialize (max 2s)
+    if (!auth.currentUser) {
+      await new Promise<void>(resolve => {
+        const { onAuthStateChanged } = require('firebase/auth');
+        const unsub = onAuthStateChanged(auth, () => { unsub(); resolve(); });
+        setTimeout(resolve, 2000);
+      });
+    }
     return auth.currentUser?.uid ?? null;
   } catch { return null; }
 }
