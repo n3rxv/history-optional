@@ -606,7 +606,13 @@ export default function Navbar() {
 
             {/* Auth / Premium */}
             {user ? (
-              <div style={{ position: 'relative', marginLeft: '0.25rem' }}>
+              <div style={{ position: "relative", marginLeft: "0.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                {!subData && (
+                  <button onClick={() => setShowPremiumModal(true)}
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.06em', padding: '4px 10px', borderRadius: 20, background: 'linear-gradient(90deg,#e8b84b,#f5d76e)', color: '#000', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                    ✦ Upgrade
+                  </button>
+                )}
                 <button onClick={() => setUserMenuOpen(o => !o)} title={user.email ?? undefined}
                   style={{ width: 45, height: 45, borderRadius: 0, background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, overflow: 'visible', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'none' }}>
                   <SnooAvatar email={user.email ?? ''} size={28} />
