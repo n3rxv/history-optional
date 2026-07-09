@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
     const ua = req.headers.get('user-agent') || '';
     if (BOT_UA.test(ua)) return NextResponse.json({ ok: false, reason: 'bot' });
 
-    const { visitor_id, old_fp, page, referrer, device, os, browser, is_first_visit } = await req.json();
+    const { visitor_id, old_fp, page, referrer, device, os, browser, is_first_visit, firebase_uid } = await req.json();
     if (!visitor_id) return NextResponse.json({ ok: false, reason: 'no visitor_id' });
 
     // Rate limit check
