@@ -130,7 +130,8 @@ export function SubscribeCard({
             headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
             body: JSON.stringify({ ...resp, fingerprint, plan: planOverride ?? selectedPlan, amount: orderData.amount }),
           });
-          if ((await vRes.json()).ok) setStep('success');
+          const vData = await vRes.json();
+          if (vData.ok) { setStep('success'); setTimeout(() => { onSuccess?.(); }, 1500); }
         },
       });
       rzp.on('payment.failed', async () => {
