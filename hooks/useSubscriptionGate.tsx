@@ -3,6 +3,39 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useUsageTracker } from './useUsageTracker';
 import { SubscribeCard } from '@/components/SubscribeCard';
 
+function LoginModal({ onClose }: { onClose: () => void }) {
+  const [signingIn, setSigningIn] = useState(false);
+  return (
+    <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
+      onClick={onClose}>
+      <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%', boxShadow:'0 40px 80px rgba(0,0,0,0.8)' }}
+        onClick={e => e.stopPropagation()}>
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8 }}>
+          <div style={{ fontFamily:'var(--font-display)', fontSize:'1.25rem', fontWeight:700, color:'#f0f0f0' }}>Sign in to continue</div>
+          <button onClick={onClose} style={{ background:'none', border:'none', color:'#555', cursor:'pointer', fontSize:'1.1rem' }}>✕</button>
+        </div>
+        <p style={{ color:'#666', fontSize:'0.85rem', marginBottom:20 }}>
+          Sign in with Google to get 1 free evaluation and 3 free chats, or subscribe for unlimited access.
+        </p>
+        <button
+          onClick={async () => {
+            setSigningIn(true);
+            try {
+              const { auth } = await import('@/lib/firebase');
+              const { GoogleAuthProvider, signInWithPopup } = await import('firebase/auth');
+              await signInWithPopup(auth, new GoogleAuthProvider());
+              onClose();
+            } catch(e) { console.error(e); } finally { setSigningIn(false); }
+          }}
+          disabled={signingIn}
+          style={{ width:'100%', padding:'12px', borderRadius:8, background:'#fff', color:'#111', border:'none', fontWeight:600, fontSize:15, cursor:'pointer' }}>
+          {signingIn ? 'Signing in...' : 'Continue with Google'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function LimitModal({
   slots, onClose, onSuccess, fingerprint,
 }: {
@@ -41,6 +74,7 @@ export function useSubscriptionGate(onEvaluate: () => void) {
   const { usage, loading, canEval, canChat, incrementEval, incrementChat, FREE_EVAL_LIMIT, FREE_CHAT_LIMIT } = useUsageTracker();
   const [showEvalLimit, setShowEvalLimit] = useState(false);
   const [showChatLimit, setShowChatLimit] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [slots, setSlots] = useState(45);
   const onEvaluateRef = useRef(onEvaluate);
   useEffect(() => { onEvaluateRef.current = onEvaluate; }, [onEvaluate]);
@@ -58,15 +92,17 @@ export function useSubscriptionGate(onEvaluate: () => void) {
   }, [usage?.subscribed]);
 
   const handleEvaluate = useCallback(() => {
-    if (loading) { onEvaluateRef.current(); return; }
+    if (loading) return;
+    if (!usage) { setShowLoginModal(true); return; }
     if (!canEval) { setShowEvalLimit(true); return; }
     onEvaluateRef.current();
-  }, [loading, canEval]);
+  }, [loading, usage, canEval]);
 
   const handleChat = useCallback(() => {
+    if (!usage) { setShowLoginModal(true); return false; }
     if (!canChat) { setShowChatLimit(true); return false; }
     return true;
-  }, [canChat]);
+  }, [usage, canChat]);
 
   const increment = useCallback(async (_fp: string) => {
     await incrementEval();
@@ -92,6 +128,9 @@ export function useSubscriptionGate(onEvaluate: () => void) {
     const s = slotsProp ?? slots;
     return (
       <>
+        {showLoginModal && (
+          <LoginModal onClose={() => setShowLoginModal(false)} />
+        )}
         {showEvalLimit && (
           <LimitModal
             slots={s}
