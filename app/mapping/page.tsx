@@ -925,7 +925,7 @@ export default function MappingPage() {
             })}
         </>
       )}
-    </div>
     <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
+    </div>
   );
 }

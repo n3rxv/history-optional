@@ -310,7 +310,7 @@ export default function TimelinePage() {
           ))}
         </div>
       </div>
-    </div>
     <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
+    </div>
   );
 }

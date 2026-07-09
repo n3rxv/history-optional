@@ -7,8 +7,6 @@ import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
-import { useLoginPrompt } from '@/hooks/useLoginPrompt';
-import LoginPromptModal from '@/components/LoginPromptModal';
 
 const TABS = [
   { label: 'All',      value: 'all' },
@@ -197,7 +195,6 @@ export default function PYQsPage() {
   const [showTopperCopies, setShowTopperCopies] = useState(false);
 
   const { GateModals, usage, slots, showChatLimitModal } = useSubscriptionGate(() => {});
-  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
 
   const handleModelAnswer = (e: React.MouseEvent, q: PYQ) => {

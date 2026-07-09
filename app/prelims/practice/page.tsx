@@ -581,7 +581,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           </>
         )}
       </div>
-    </div>
     <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
+    </div>
   );
 }
