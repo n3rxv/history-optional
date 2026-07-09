@@ -7,7 +7,6 @@ async function getVisitorId(): Promise<{ visitor_id: string; old_fp: string | nu
   const fromCookie = document.cookie.match(/fp=([^;]+)/)?.[1] ?? null;
   const cached = fromLS || fromCookie;
   if (cached) {
-    // Sync both storages
     localStorage.setItem('fp', cached);
     document.cookie = `fp=${cached};max-age=315360000;path=/`;
   }
@@ -39,6 +38,13 @@ function getDeviceInfo() {
   return { device, os, browser };
 }
 
+async function getFirebaseUid(): Promise<string | null> {
+  try {
+    const { auth } = await import('@/lib/firebase');
+    return auth.currentUser?.uid ?? null;
+  } catch { return null; }
+}
+
 async function sendHeartbeat(visitor_id: string) {
   await fetch('/api/track-visit', {
     method: 'PATCH',
@@ -58,10 +64,11 @@ export default function VisitorTracker() {
         const referrer = isFirstVisit ? (document.referrer || 'direct') : undefined;
         if (isFirstVisit) localStorage.setItem('ho_visited', '1');
         const { device, os, browser } = getDeviceInfo();
+        const firebase_uid = await getFirebaseUid();
         fetch('/api/track-visit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ visitor_id, old_fp, page: pathname, referrer, device, os, browser, is_first_visit: isFirstVisit }),
+          body: JSON.stringify({ visitor_id, old_fp, page: pathname, referrer, device, os, browser, is_first_visit: isFirstVisit, firebase_uid }),
         }).catch(() => {});
       } catch {}
     })();
