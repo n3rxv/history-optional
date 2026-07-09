@@ -128,7 +128,7 @@ export function SubscribeCard({
           const vRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-user-token': authToken },
-            body: JSON.stringify({ ...resp, fingerprint, plan: planOverride ?? selectedPlan }),
+            body: JSON.stringify({ ...resp, fingerprint, plan: planOverride ?? selectedPlan, amount: orderData.amount }),
           });
           if ((await vRes.json()).ok) setStep('success');
         },

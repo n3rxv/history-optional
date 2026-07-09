@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, fingerprint, plan } = await req.json();
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, fingerprint, plan, amount } = await req.json();
 
   // Verify signature
   const body        = razorpay_order_id + "|" + razorpay_payment_id;
@@ -56,10 +56,7 @@ export async function POST(req: NextRequest) {
         ).toString("base64"),
       },
       body: JSON.stringify({
-        amount: activePlan === "daily"   ? 4900
-              : activePlan === "weekly"  ? 29900
-              : activePlan === "monthly" ? 99900
-              : 599900,
+        amount: amount,
         currency: "INR"
       }),
     }
