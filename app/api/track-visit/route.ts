@@ -117,6 +117,7 @@ export async function POST(req: NextRequest) {
           pages_visited: pages,
           session_duration_secs: duration,
           is_bounce: pages.length <= 1,
+          ...(firebase_uid && { firebase_uid }),
           ...(device && { device }),
           ...(os && { os }),
           ...(browser && { browser }),
@@ -145,6 +146,7 @@ export async function POST(req: NextRequest) {
           country,
           city,
           is_bounce: true,
+          ...(firebase_uid && { firebase_uid }),
         });
       if (insertError) return NextResponse.json({ ok: false, reason: 'insert error', error: insertError.message });
     }
