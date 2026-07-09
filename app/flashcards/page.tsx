@@ -1,6 +1,8 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useState, useEffect, useCallback } from 'react';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
 import { flashcards, flashcardSections, flashcardTypes } from '@/lib/flashcards';
 import type { FlashCard } from '@/lib/flashcards';
 
@@ -54,6 +56,7 @@ const NOISE = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http:
 
 export default function Flashcards() {
   const { langHi } = useLang();
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const TYPE_LABELS_HI: Record<string, string> = {
     historian: 'इतिहासकार',
     comparison: 'तुलना',
@@ -425,7 +428,7 @@ export default function Flashcards() {
             {langHi ? 'केवल बाकी' : 'Due only'}
           </label>
           <div style={{ flex: 1 }} />
-          <button onClick={() => buildQueue()}
+          <button onClick={() => { if (requireLogin('Sign in free to start your flashcard session.')) buildQueue(); }}
             style={{
               background: 'linear-gradient(135deg, #1d4ed8, #3b82f6)',
               color: '#fff', border: 'none',
@@ -461,7 +464,7 @@ export default function Flashcards() {
             const tc2 = TYPE_COLORS[card.type];
             return (
               <div key={card.id} className="fc-browse-row"
-                onClick={() => buildQueue(card)}
+                onClick={() => { if (requireLogin('Sign in free to study flashcards.')) buildQueue(card); }}
                 style={{
                   background: 'linear-gradient(135deg, #0a0a0a 0%, #070d15 100%)',
                   border: `1px solid ${isDue && mounted ? tc2.main + '33' : 'var(--border)'}`,
@@ -511,6 +514,7 @@ export default function Flashcards() {
           })}
         </div>
       </div>
+      <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
     </>
   );
 }

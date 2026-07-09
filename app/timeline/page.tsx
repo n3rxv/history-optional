@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
 
 type Event = {
   year: number;
@@ -189,6 +191,7 @@ export default function TimelinePage() {
   const [filterSection, setFilterSection] = useState<string>('all');
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [selected, setSelected] = useState<Event | null>(null);
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
 
   const filtered = events
     .filter(e => filterSection === 'all' || e.section === filterSection)
@@ -263,7 +266,7 @@ export default function TimelinePage() {
                 cursor: 'pointer',
                 transition: 'transform 0.15s',
               }}
-              onClick={() => setSelected(selected?.title === event.title ? null : event)}
+              onClick={() => { if (requireLogin('Sign in free to explore the UPSC History timeline.')) setSelected(selected?.title === event.title ? null : event); }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateX(-50%) scale(1.5)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateX(-50%) scale(1)'; }}
               />
@@ -280,7 +283,7 @@ export default function TimelinePage() {
                 cursor: 'pointer',
                 transition: 'all 0.15s',
               }}
-              onClick={() => setSelected(selected?.title === event.title ? null : event)}
+              onClick={() => { if (requireLogin('Sign in free to explore the UPSC History timeline.')) setSelected(selected?.title === event.title ? null : event); }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = CATEGORY_COLORS[event.category] || 'var(--accent)'; }}
               onMouseLeave={e => { if (selected?.title !== event.title) (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; }}
               >
@@ -308,5 +311,6 @@ export default function TimelinePage() {
         </div>
       </div>
     </div>
+    <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
   );
 }

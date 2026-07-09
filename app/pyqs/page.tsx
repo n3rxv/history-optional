@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { auth } from '@/lib/firebase';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
 
 const TABS = [
   { label: 'All',      value: 'all' },
@@ -193,6 +197,8 @@ export default function PYQsPage() {
   const [showTopperCopies, setShowTopperCopies] = useState(false);
 
   const { GateModals, usage, slots, showChatLimitModal } = useSubscriptionGate(() => {});
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
 
   const handleModelAnswer = (e: React.MouseEvent, q: PYQ) => {
     e.stopPropagation();
@@ -399,7 +405,7 @@ export default function PYQsPage() {
                 )}
                 <div
                   className="pyq-card"
-                  onClick={() => router.push(`/pyqs/${q.id}`)}
+                  onClick={() => { if (requireLogin('Sign in free to view PYQs and AI-generated model answers.')) router.push(`/pyqs/${q.id}`); }}
                   style={{
                     background: 'var(--bg2)', border: '1px solid var(--border)',
                     borderRadius: 8, padding: '1.25rem 1.5rem',
@@ -496,6 +502,7 @@ export default function PYQsPage() {
       </div>
       )}
       <GateModals slots={slots} />
+      <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
 
       {modelAnswerQ && (
         <ModelAnswerModal

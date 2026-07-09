@@ -5,6 +5,8 @@ import { mapData, MapEntry } from '@/lib/mapData';
 import dynamic from 'next/dynamic';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import PDFTestEvaluator from '@/components/PDFTestEvaluator';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
 
 const LeafletMap = dynamic(() => import('@/components/LeafletMap'), { ssr: false });
 
@@ -1064,6 +1066,7 @@ export default function TestPage() {
   const [timerOn,   setTimerOn]   = useState(false);
 
   const { usage, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const isPremium = usage?.subscribed ?? false;
   const [navH, setNavH] = useState(56);
   useEffect(() => {
@@ -1214,7 +1217,7 @@ export default function TestPage() {
           <span>Ancient India sections include an interactive <strong>Map Question (50M)</strong>. Other sections get 5 short-answer questions (10M each) instead.</span>
         </div>
 
-        <button onClick={startTest} disabled={!canStart} className="shimmer-btn" style={{
+        <button onClick={() => { if (requireLogin('Sign in free to generate a test paper.')) startTest(); }} disabled={!canStart} className="shimmer-btn" style={{
           background: canStart ? 'var(--accent)' : 'var(--bg3)',
           color: canStart ? '#fff' : 'var(--text3)',
           border: 'none', borderRadius: 8, padding: '0.85rem 2.5rem',
@@ -1434,6 +1437,7 @@ export default function TestPage() {
         </div>
 
         <GateModals slots={slots} />
+        <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
       </div>
     );
   }

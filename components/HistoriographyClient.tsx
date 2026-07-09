@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useLang } from '@/lib/i18n/LangContext';
 import { supabase } from '@/lib/supabase';
 import { auth } from '@/lib/firebase';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 type Position = {
@@ -182,6 +184,7 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
   const [filterPaper, setFilterPaper]   = useState('All');
   const [filterType, setFilterType]     = useState('All');
   const [expanded, setExpanded]         = useState<string | null>(null);
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const [isOwner, setIsOwner]           = useState(false);
 
   // Admin state
@@ -382,7 +385,7 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
             ) : (
               <>
                 {/* Card header (clickable) */}
-                <div className="hb-card-header" onClick={() => setExpanded(expanded === debate.id ? null : debate.id)}>
+                <div className="hb-card-header" onClick={() => { if (requireLogin('Sign in free to explore historiographical debates.')) setExpanded(expanded === debate.id ? null : debate.id); }}>
                   <div className="hb-card-left">
                     <div className="hb-card-badges">
                       <TypeBadge type={debate.type} />
@@ -459,6 +462,7 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
           </div>
         )}
       </div>
+      <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
     </>
   );
 }

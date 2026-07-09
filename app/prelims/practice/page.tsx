@@ -4,6 +4,8 @@ import { tr, t } from '@/lib/i18n/ui';
 import React, { useState, useEffect, useRef } from 'react';
 import { prelimsQuestions } from '@/lib/prelimsData';
 import { auth } from '@/lib/firebase';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
 
 type Filter = 'all' | 'pyq' | 'practice' | 'bookmarked';
 type NavStatus = 'unattempted' | 'answered' | 'wrong' | 'marked' | 'answered-marked';
@@ -63,6 +65,7 @@ function setCached(qid: string, r: AIResult) {
 }
 export default function PrelimsPage() {
   const { langHi } = useLang();
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const [filter, setFilter]           = useState<Filter>('all');
 const [topicFilter, setTopicFilter] = useState<string>('all');
   const [yearFilter, setYearFilter]   = useState<string>('all');
@@ -372,7 +375,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                 else if (qs.selected === i) { bg = 'rgba(248,113,113,0.1)'; border = 'rgba(248,113,113,0.5)'; color = '#fca5a5'; icon = '✗'; }
               }
               return (
-                <button key={i} onClick={() => handleSelect(i)} style={{
+                <button key={i} onClick={() => { if (requireLogin('Sign in free to attempt Prelims practice questions.')) handleSelect(i); }} style={{
                   display: 'flex', alignItems: 'flex-start', gap: '1rem',
                   padding: '1rem 1.25rem', borderRadius: 12,
                   background: bg, border: `1px solid ${border}`, color,
@@ -579,5 +582,6 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
         )}
       </div>
     </div>
+    <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
   );
 }

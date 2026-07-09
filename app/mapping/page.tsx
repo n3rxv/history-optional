@@ -3,6 +3,8 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { bookData, BookChapter, BookSite } from '@/lib/bookData';
 import { useLang } from '@/lib/i18n/LangContext';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
 
 const MappingMap = dynamic(() => import('@/components/MappingMap'), { ssr: false });
 
@@ -649,6 +651,7 @@ export default function MappingPage() {
   const { langHi } = useLang();
   const [activePart, setActivePart]   = useState(PART_ORDER[1]);
   const [quizMode, setQuizMode]       = useState(false);
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const [noLabels, setNoLabels]       = useState(false);
   const [showGrid, setShowGrid]         = useState(false);
   const [openChapters, setOpenChapters] = useState<Set<string>>(new Set());
@@ -740,7 +743,7 @@ export default function MappingPage() {
 
         {/* Quiz Mode toggle */}
         <button
-          onClick={() => setQuizMode(prev => !prev)}
+          onClick={() => { if (!quizMode && !requireLogin('Sign in free to access Map Quiz mode.')) return; setQuizMode(prev => !prev); }}
           style={{
             padding: '9px 20px', borderRadius: 8, border: `1.5px solid ${quizMode ? ACCENT : 'var(--border)'}`,
             background: quizMode ? `${ACCENT}22` : 'var(--bg3)',
@@ -923,5 +926,6 @@ export default function MappingPage() {
         </>
       )}
     </div>
+    <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
   );
 }
