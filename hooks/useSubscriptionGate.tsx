@@ -104,9 +104,9 @@ export function useSubscriptionGate(onEvaluate: () => void) {
     return true;
   }, [usage, canChat]);
 
-  const increment = useCallback(async (_fp: string) => {
-    await incrementEval();
-  }, [incrementEval]);
+  // eval_count is now tracked server-side in /api/evaluate for all users
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const increment = useCallback(async (_fp: string) => {}, []);
 
   const UsagePill = () => {
     if (loading) return null;

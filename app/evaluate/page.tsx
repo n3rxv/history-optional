@@ -534,7 +534,7 @@ const handleOcr = useCallback(async () => {
       setTimeout(() => setEvaluation(data), 500);
       setStage("result");
       setTab("eval");
-      if (usage.token) increment(usage.token);
+      // eval_count tracked server-side in /api/evaluate
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Something went wrong.");
     } finally { setLoading(false); }

@@ -1061,24 +1061,27 @@ RULES:
       console.log("Pass 3 error (non-fatal):", p3err);
     }
 
-    // Increment eval_count for free users after successful evaluation
-    // Increment eval_count for free users after successful evaluation
-    if (!isOwner && !isPremium) {
+    // Increment eval_count for all users (except owner) after successful evaluation
+    if (!isOwner && token) {
       try {
-        const { createClient: createClientInc } = await import("@supabase/supabase-js");
-        const supabaseInc = createClientInc(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SECRET_KEY!
-        );
-        const { data: existingUsage } = await supabaseInc
-          .from("usage_tracking")
-          .select("eval_count")
-          .eq("fingerprint", fingerprint)
-          .single();
-        const newCount = (existingUsage?.eval_count ?? 0) + 1;
-        await supabaseInc
-          .from("usage_tracking")
-          .upsert({ fingerprint, eval_count: newCount }, { onConflict: "fingerprint" });
+        const { verifyFirebaseToken: vftInc } = await import("@/lib/verifyFirebaseToken");
+        const userInc = await vftInc(token);
+        if (userInc) {
+          const { createClient: createClientInc } = await import("@supabase/supabase-js");
+          const supabaseInc = createClientInc(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.SUPABASE_SECRET_KEY!
+          );
+          const { data: existingUsage } = await supabaseInc
+            .from("usage_tracking")
+            .select("eval_count")
+            .eq("firebase_uid", userInc.uid)
+            .single();
+          const newCount = (existingUsage?.eval_count ?? 0) + 1;
+          await supabaseInc
+            .from("usage_tracking")
+            .upsert({ firebase_uid: userInc.uid, fingerprint, eval_count: newCount }, { onConflict: "firebase_uid" });
+        }
       } catch (incErr) {
         console.log("eval_count increment failed", incErr);
       }
