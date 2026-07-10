@@ -1277,7 +1277,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                     ref={noteContentRef}
                     className="note-content"
                     dangerouslySetInnerHTML={{ __html: processedContent }}
-                    style={!user && !authLoading ? { maxHeight: '28vh', overflow: 'hidden', pointerEvents: 'none', userSelect: 'none' } : undefined}
+                    style={!user && !authLoading ? { maxHeight: '70vh', overflow: 'hidden', pointerEvents: 'none', userSelect: 'none' } : undefined}
                   />
                   {!user && !authLoading && (
                     <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: '2.5rem', paddingTop: '6rem', background: 'linear-gradient(to bottom, transparent 0%, var(--bg) 38%)' }}>
