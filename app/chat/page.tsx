@@ -793,7 +793,7 @@ Every response must:
         .chat-tool-btn {
           display:inline-flex; align-items:center; gap:4px;
           background:rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,0.08);
-          color:rgba(255,255,255,0.55); cursor:pointer;
+          color:var(--text2); cursor:pointer;
           padding:0.32rem 0.55rem; border-radius:7px;
           font-size:0.66rem; font-family:var(--font-mono); font-weight:500;
           transition:all 0.15s; white-space:nowrap; position:relative;
@@ -826,11 +826,11 @@ Every response must:
 
         .chat-bubble-ai {
           max-width:94%;
-          background:linear-gradient(160deg, #0c1018 0%, #090d14 100%);
-          border:1px solid rgba(59,130,246,0.12);
+          background:var(--bg2);
+          border:1px solid var(--border);
           border-radius:4px 18px 18px 18px;
           padding:1.5rem 1.6rem 1.25rem;
-          color:#dde3ed;
+          color:var(--text);
           font-size:0.915rem;
           line-height:1.85;
           position:relative;
@@ -933,8 +933,8 @@ Every response must:
         .chat-typing {
           display:flex; align-items:center; gap:0.65rem;
           padding:0.8rem 1.1rem; margin-bottom:1rem;
-          background:linear-gradient(135deg, rgba(12,16,24,0.95), rgba(9,13,20,0.9));
-          border:1px solid rgba(59,130,246,0.1); border-radius:4px 14px 14px 14px;
+          background:var(--bg2);
+          border:1px solid var(--border); border-radius:4px 14px 14px 14px;
           width:fit-content;
         }
         .chat-typing-dots { display:flex; gap:4px; }
@@ -1039,15 +1039,15 @@ Every response must:
         .chat-books-popover {
           position:absolute; bottom:calc(100% + 8px); left:0;
           width:260px; max-width:80vw;
-          background:linear-gradient(135deg, rgba(20,18,40,0.98), rgba(24,18,48,0.98));
+          background:var(--bg2);
           border:1px solid rgba(139,92,246,0.4); border-radius:14px;
-          padding:0.75rem; box-shadow:0 12px 40px rgba(0,0,0,0.55);
+          padding:0.75rem; box-shadow:0 12px 40px rgba(0,0,0,0.3);
           backdrop-filter:blur(16px); z-index:60;
         }
         .chat-books-popover-row { display:flex; align-items:center; gap:0.55rem; margin-bottom:0.1rem; }
         .chat-books-popover-label {
           font-size:0.7rem; font-family:var(--font-mono); letterSpacing:0.07em;
-          color:#a5b4fc; font-weight:600; text-transform:uppercase; flex:1;
+          color:var(--accent); font-weight:600; text-transform:uppercase; flex:1;
         }
         .chat-books-toggle {
           width:38px; height:22px; border-radius:11px; border:none; cursor:pointer;
@@ -1057,7 +1057,7 @@ Every response must:
         .chat-books-toggle.off { background:rgba(99,102,241,0.2); }
         .chat-books-toggle-dot { position:absolute; top:3px; width:16px; height:16px; border-radius:50%; background:#fff; transition:left 0.25s; box-shadow:0 1px 4px rgba(0,0,0,0.4); }
         .chat-books-select {
-          margin-top:0.55rem; font-size:0.68rem; background:rgba(10,8,25,0.9); color:var(--text1);
+          margin-top:0.55rem; font-size:0.68rem; background:var(--bg3); color:var(--text);
           border:1px solid rgba(99,102,241,0.3); border-radius:6px;
           padding:0.3rem 0.4rem; width:100%; cursor:pointer;
           outline:none; font-family:var(--font-mono);
@@ -1070,7 +1070,7 @@ Every response must:
         }
         .chat-history-panel {
           position:fixed; top:0; left:0; bottom:0; width:300px; max-width:85vw;
-          background:#0c0c10; border-right:1px solid var(--border2);
+          background:var(--bg2); border-right:1px solid var(--border);
           z-index:999; display:flex; flex-direction:column;
           box-shadow:8px 0 40px rgba(0,0,0,0.5);
         }

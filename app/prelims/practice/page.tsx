@@ -36,7 +36,7 @@ function getNavStatus(qs: QuestionState): NavStatus {
 }
 
 const NAV_COLORS: Record<NavStatus, { bg: string; border: string; text: string }> = {
-  unattempted:       { bg: 'rgba(0,0,0,0.04)', border: 'rgba(0,0,0,0.09)', text: 'rgba(255,255,255,0.45)' },
+  unattempted:       { bg: 'rgba(0,0,0,0.04)', border: 'rgba(0,0,0,0.09)', text: 'var(--text2)' },
   answered:          { bg: 'rgba(74,222,128,0.15)',  border: 'rgba(74,222,128,0.5)',   text: '#4ade80' },
   wrong:             { bg: 'rgba(248,113,113,0.15)',  border: 'rgba(248,113,113,0.5)',   text: '#f87171' },
   marked:            { bg: 'rgba(251,191,36,0.15)',  border: 'rgba(251,191,36,0.5)',   text: '#fbbf24' },
@@ -406,7 +406,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                   padding: '0.75rem 1.1rem', borderRadius: 10,
                   border: `1px solid ${qs.marked ? 'rgba(251,191,36,0.5)' : 'rgba(0,0,0,0.08)'}`,
                   background: qs.marked ? 'rgba(251,191,36,0.1)' : 'transparent',
-                  color: qs.marked ? '#fbbf24' : 'rgba(255,255,255,0.4)',
+                  color: qs.marked ? '#fbbf24' : 'var(--text2)',
                   cursor: 'pointer', fontSize: '0.9rem', transition: 'all 0.14s',
                 }}>{qs.marked ? '★ Bookmarked' : '☆ Bookmark'}</button>
               </>
@@ -569,10 +569,10 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                 { label: 'Correct', val: String(correct),   color: '#4ade80' },
                 { label: 'Wrong',   val: String(wrong),     color: '#f87171' },
                 { label: 'Marked',  val: String(markedCnt), color: '#fbbf24' },
-                { label: 'Left',    val: String(filtered.length - answered), color: 'rgba(255,255,255,0.28)' },
+                { label: 'Left',    val: String(filtered.length - answered), color: 'var(--text3)' },
               ].map(s => (
                 <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '0.4rem' }}>
-                  <span style={{ color: 'rgba(255,255,255,0.32)' }}>{s.label}</span>
+                  <span style={{ color: 'var(--text3)' }}>{s.label}</span>
                   <span style={{ color: s.color, fontFamily: 'var(--font-mono)', fontWeight: 700 }}>{s.val}</span>
                 </div>
               ))}

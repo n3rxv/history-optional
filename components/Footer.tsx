@@ -7,16 +7,16 @@ const linkStyle = {
 };
 
 const hoverIn = (e: React.MouseEvent<HTMLAnchorElement>) => {
-  e.currentTarget.style.color = '#fff';
+  e.currentTarget.style.color = 'var(--accent)';
 };
 const hoverOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
-  e.currentTarget.style.color = '#888';
+  e.currentTarget.style.color = 'var(--text3)';
 };
 
 export default function Footer() {
   return (
     <footer style={{
-      borderTop: '1px solid #1a1a1a',
+      borderTop: '1px solid var(--border)',
       backgroundColor: 'var(--bg)',
       padding: '20px 32px',
       display: 'flex',
