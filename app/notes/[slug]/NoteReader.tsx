@@ -1280,7 +1280,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                     style={!user && !authLoading ? { maxHeight: '140vh', overflow: 'hidden', pointerEvents: 'none', userSelect: 'none' } : undefined}
                   />
                   {!user && !authLoading && (
-                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: '2.5rem', paddingTop: '6rem', background: 'linear-gradient(to bottom, transparent 0%, var(--bg) 38%)' }}>
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: '2.5rem', paddingTop: '6rem', background: 'linear-gradient(to bottom, transparent 0%, var(--bg) 38%)', pointerEvents: 'auto' }}>
                       <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '1.5rem 2rem', textAlign: 'center', maxWidth: 360, boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
                         <div style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>🔒</div>
                         <div style={{ fontFamily: 'var(--font-ui)', fontWeight: 700, color: 'var(--text)', fontSize: '0.95rem', marginBottom: '0.4rem' }}>Sign in to continue reading</div>
