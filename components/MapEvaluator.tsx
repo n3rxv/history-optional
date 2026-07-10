@@ -288,7 +288,7 @@ export default function MapEvaluator({
       {/* Pricing badge */}
       <div style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 14px", background:"rgba(99,102,241,0.06)", border:"1px solid rgba(99,102,241,0.15)", borderRadius:8 }}>
         <span style={{ fontSize:16 }}>🗺️</span>
-        <span style={{ color:"#a5b4fc", fontSize:13 }}>₹49 per evaluation · pay after upload</span>
+        <span style={{ color:"#a5b4fc", fontSize:13 }}>₹49 per evaluation · pay after upload (not included in premium — standalone pay-per-use)</span>
       </div>
 
       <div
