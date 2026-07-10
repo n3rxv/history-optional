@@ -453,7 +453,7 @@ const handleOcr = useCallback(async () => {
   }, [files, question]);
 
   // ── Subscription gate — must come after handleOcr is defined ──────────────
-  const { UsagePill, GateModals, handleEvaluate, usage, increment, slots, showChatLimitModal: showEvalLimitModal } = useSubscriptionGate(handleOcr);
+  const { UsagePill, GateModals, handleEvaluate, usage, increment, slots, showChatLimitModal: showEvalLimitModal, showLoginModal } = useSubscriptionGate(handleOcr);
   // showEvalLimitModal re-used here as the paywall trigger for PDF evaluator
   const tokenRef = useRef<string | null>(null);
   const { langHi } = useLang();
@@ -1148,9 +1148,8 @@ const handleOcr = useCallback(async () => {
             </div>
             {evalMode === "map" ? (
               <MapEvaluator
-                isPremium={!!usage.subscribed}
-                onPaywall={showEvalLimitModal}
                 token={tokenRef.current}
+                onLoginRequired={showLoginModal}
               />
             ) : evalMode === "batch" ? (
               <PDFTestEvaluator
