@@ -1081,6 +1081,12 @@ RULES:
           await supabaseInc
             .from("usage_tracking")
             .upsert({ firebase_uid: userInc.uid, fingerprint, eval_count: newCount }, { onConflict: "firebase_uid" });
+          // Also update FP row so device-based abuse is blocked on new accounts
+          if (fingerprint) {
+            await supabaseInc
+              .from("usage_tracking")
+              .upsert({ fingerprint, eval_count: newCount }, { onConflict: "fingerprint" });
+          }
         }
       } catch (incErr) {
         console.log("eval_count increment failed", incErr);
