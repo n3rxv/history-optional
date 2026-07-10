@@ -26,26 +26,26 @@ export default function PrelimsLanding() {
 
         {/* Main heading — editorial style, smaller, tighter */}
         <div style={{ marginBottom: '1.25rem' }}>
-          <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: '0.75rem' }}>Smart MCQ Practice</div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', fontWeight: 700, color: '#fff', lineHeight: 1.25, letterSpacing: '-0.01em', margin: 0 }}>
+          <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.15)', marginBottom: '0.75rem' }}>Smart MCQ Practice</div>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.25, letterSpacing: '-0.01em', margin: 0 }}>
             Master the art of intelligent<br />
             <span style={{ color: '#3b82f6' }}>elimination & reasoning</span> —<br />
             even when you're unsure.
           </h1>
         </div>
 
-        <p style={{ color: 'rgba(255,255,255,0.38)', fontSize: '0.88rem', lineHeight: 1.8, margin: '1.25rem auto 2rem', maxWidth: 440 }}>
+        <p style={{ color: 'var(--text3)', fontSize: '0.88rem', lineHeight: 1.8, margin: '1.25rem auto 2rem', maxWidth: 440 }}>
           Every question comes with a full breakdown of how a sharp aspirant thinks through it — technique, smart guess, and concept map.
         </p>
 
         {/* Feature grid */}
         <div className="prelims-feature-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginBottom: '2rem', textAlign: 'left' }}>
           {features.map(f => (
-            <div key={f.label} style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.75rem 0.9rem', display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
+            <div key={f.label} style={{ background: 'rgba(0,0,0,0.025)', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '0.75rem 0.9rem', display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
               <span style={{ fontSize: '1.1rem', marginTop: 1 }}>{f.icon}</span>
               <div>
-                <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255,255,255,0.8)', marginBottom: '0.2rem' }}>{f.label}</div>
-                <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', lineHeight: 1.5 }}>{f.desc}</div>
+                <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)', marginBottom: '0.2rem' }}>{f.label}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text3)', lineHeight: 1.5 }}>{f.desc}</div>
               </div>
             </div>
           ))}
@@ -63,7 +63,7 @@ export default function PrelimsLanding() {
         .prelims-cta-btn::before {
           content: ''; position: absolute; top: 0; left: -75%;
           width: 50%; height: 100%;
-          background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+          background: linear-gradient(120deg, transparent 0%, rgba(0,0,0,0.12) 50%, transparent 100%);
           transform: skewX(-20deg); opacity: 0; pointer-events: none;
         }
         .prelims-cta-btn:hover::before {
@@ -82,7 +82,7 @@ export default function PrelimsLanding() {
           >
             Begin Practice →
           </button>
-          <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-mono)', margin: '1.5rem 0 0', lineHeight: 1.6 }}>
+          <p style={{ fontSize: '0.72rem', color: 'rgba(0,0,0,0.15)', fontFamily: 'var(--font-mono)', margin: '1.5rem 0 0', lineHeight: 1.6 }}>
             <span style={{ color: '#eab308' }}>Questions are free to practice · Smart dissection & analysis requires Premium</span>
           </p>
         </div>

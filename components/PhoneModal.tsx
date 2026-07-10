@@ -110,7 +110,7 @@ export function PhoneModal({
     >
       <div
         style={{
-          background: '#111', border: '1px solid #2a2a2a', borderRadius: 16,
+          background: 'var(--bg3)', border: '1px solid #2a2a2a', borderRadius: 16,
           padding: '2rem', maxWidth: 400, width: '100%',
           boxShadow: '0 40px 80px rgba(0,0,0,0.8)',
         }}
@@ -119,10 +119,10 @@ export function PhoneModal({
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#3b82f6', marginBottom: 12 }}>
           One-time setup
         </div>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 700, color: '#f0f0f0', marginBottom: 10 }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--text)', marginBottom: 10 }}>
           Add your phone number
         </div>
-        <div style={{ color: '#888', fontSize: '0.85rem', lineHeight: 1.65, marginBottom: 24 }}>
+        <div style={{ color: 'var(--text3)', fontSize: '0.85rem', lineHeight: 1.65, marginBottom: 24 }}>
           We need your phone number to complete your profile. We don't call or send any messages.
         </div>
 
@@ -134,27 +134,27 @@ export function PhoneModal({
                 onClick={() => setOpen(o => !o)}
                 style={{
                   height: '100%', minHeight: 50, padding: '0 12px',
-                  background: '#161616', border: `1.5px solid ${err ? '#f87171' : open ? '#3b82f6' : '#2a2a2a'}`,
-                  borderRadius: 8, color: '#f0f0f0', cursor: 'pointer',
+                  background: 'var(--bg3)', border: `1.5px solid ${err ? '#f87171' : open ? '#3b82f6' : 'var(--border)'}`,
+                  borderRadius: 8, color: 'var(--text)', cursor: 'pointer',
                   display: 'flex', alignItems: 'center', gap: 6,
                   fontFamily: 'var(--font-mono)', fontSize: '0.9rem',
                   whiteSpace: 'nowrap', transition: 'border-color 0.2s',
                 }}
               >
                 <span style={{ fontSize: '1.1rem' }}>{selected.flag}</span>
-                <span style={{ color: '#aaa' }}>{selected.code}</span>
-                <span style={{ color: '#555', fontSize: '0.65rem', marginLeft: 2 }}>▾</span>
+                <span style={{ color: 'var(--text2)' }}>{selected.code}</span>
+                <span style={{ color: 'var(--text3)', fontSize: '0.65rem', marginLeft: 2 }}>▾</span>
               </button>
 
               {open && (
                 <div style={{
                   position: 'absolute', top: 'calc(100% + 6px)', left: 0,
                   width: 260, maxHeight: 260, overflowY: 'auto',
-                  background: '#161616', border: '1.5px solid #2a2a2a',
+                  background: 'var(--bg3)', border: '1.5px solid #2a2a2a',
                   borderRadius: 10, zIndex: 10,
                   boxShadow: '0 20px 40px rgba(0,0,0,0.8)',
                 }}>
-                  <div style={{ padding: '8px 10px', borderBottom: '1px solid #222', position: 'sticky', top: 0, background: '#161616' }}>
+                  <div style={{ padding: '8px 10px', borderBottom: '1px solid #222', position: 'sticky', top: 0, background: 'var(--bg3)' }}>
                     <input
                       autoFocus
                       placeholder="Search country…"
@@ -163,8 +163,8 @@ export function PhoneModal({
                       onClick={e => e.stopPropagation()}
                       style={{
                         width: '100%', padding: '7px 10px',
-                        background: '#1a1a1a', border: '1px solid #2a2a2a',
-                        borderRadius: 6, color: '#f0f0f0',
+                        background: 'var(--bg4)', border: '1px solid #2a2a2a',
+                        borderRadius: 6, color: 'var(--text)',
                         fontFamily: 'var(--font-mono)', fontSize: '0.78rem',
                         outline: 'none', boxSizing: 'border-box',
                       }}
@@ -180,16 +180,16 @@ export function PhoneModal({
                         background: c.code === dialCode ? 'rgba(59,130,246,0.1)' : 'transparent',
                         transition: 'background 0.15s',
                       }}
-                      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.05)')}
                       onMouseLeave={e => (e.currentTarget.style.background = c.code === dialCode ? 'rgba(59,130,246,0.1)' : 'transparent')}
                     >
                       <span style={{ fontSize: '1rem' }}>{c.flag}</span>
-                      <span style={{ color: '#ccc', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', flex: 1 }}>{c.name}</span>
-                      <span style={{ color: '#555', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>{c.code}</span>
+                      <span style={{ color: 'var(--text2)', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', flex: 1 }}>{c.name}</span>
+                      <span style={{ color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>{c.code}</span>
                     </div>
                   ))}
                   {filtered.length === 0 && (
-                    <div style={{ padding: '14px', color: '#555', fontSize: '0.8rem', textAlign: 'center', fontFamily: 'var(--font-ui)' }}>No results</div>
+                    <div style={{ padding: '14px', color: 'var(--text3)', fontSize: '0.8rem', textAlign: 'center', fontFamily: 'var(--font-ui)' }}>No results</div>
                   )}
                 </div>
               )}
@@ -204,8 +204,8 @@ export function PhoneModal({
               onKeyDown={e => e.key === 'Enter' && submit()}
               style={{
                 flex: 1, padding: '13px 16px',
-                background: '#161616', border: `1.5px solid ${err ? '#f87171' : '#2a2a2a'}`,
-                borderRadius: 8, color: '#f0f0f0',
+                background: 'var(--bg3)', border: `1.5px solid ${err ? '#f87171' : 'var(--border)'}`,
+                borderRadius: 8, color: 'var(--text)',
                 fontFamily: 'var(--font-mono)', fontSize: '1rem',
                 outline: 'none', boxSizing: 'border-box',
               }}
@@ -220,7 +220,7 @@ export function PhoneModal({
           style={{
             width: '100%', padding: '13px', borderRadius: 8, border: 'none',
             background: loading ? '#1e3a8a' : 'linear-gradient(135deg, #2563eb, #3b82f6)',
-            color: '#fff', fontWeight: 700, fontSize: '0.9rem',
+            color: 'var(--text)', fontWeight: 700, fontSize: '0.9rem',
             cursor: loading ? 'not-allowed' : 'pointer',
             fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
           }}
@@ -234,14 +234,14 @@ export function PhoneModal({
             style={{
               width: '100%', marginTop: 10, padding: '10px',
               background: 'transparent', border: '1px solid #222',
-              borderRadius: 8, color: '#555', cursor: 'pointer', fontSize: '0.82rem',
+              borderRadius: 8, color: 'var(--text3)', cursor: 'pointer', fontSize: '0.82rem',
             }}
           >
             Cancel
           </button>
         )}
 
-        <div style={{ textAlign: 'center', marginTop: 14, fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: '#444', letterSpacing: '0.1em' }}>
+        <div style={{ textAlign: 'center', marginTop: 14, fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.1em' }}>
           Your number is stored securely and never shared
         </div>
       </div>

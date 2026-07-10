@@ -29,7 +29,7 @@ export default function AnnouncementBanner() {
           left: 0;
           width: 40%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+          background: linear-gradient(90deg, transparent, rgba(0,0,0,0.15), transparent);
           animation: shimmer 1.2s ease-in-out forwards;
         }
       `}</style>
@@ -38,7 +38,7 @@ export default function AnnouncementBanner() {
         className="banner-shimmer"
         style={{
           backgroundColor: '#c8410b',
-          color: '#fff',
+          color: 'var(--text)',
           textAlign: 'center',
           padding: '8px 16px',
           fontSize: '13px',
@@ -85,7 +85,7 @@ export default function AnnouncementBanner() {
           style={{
             background: 'none',
             border: 'none',
-            color: '#fff',
+            color: 'var(--text)',
             fontSize: '18px',
             cursor: 'pointer',
             padding: '0 4px',

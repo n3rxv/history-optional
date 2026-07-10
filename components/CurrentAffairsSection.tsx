@@ -73,10 +73,10 @@ function Toolbar({ editorRef, onImage, onVideo }: {
       {tools.map((t, i) => (
         <span key={i} style={{ display: 'inline-flex', alignItems: 'center' }}>
           {t.group && i > 0 && <span style={{ width: 1, height: 16, background: 'var(--border2)', margin: '0 3px' }} />}
-          <button onMouseDown={e => { e.preventDefault(); t.action(); }} title={t.title} style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, background: t.accent ? 'rgba(212,168,67,0.08)' : 'rgba(255,255,255,0.04)', border: t.accent ? '1px solid rgba(212,168,67,0.2)' : '1px solid var(--border)', color: t.accent ? '#d4a843' : 'var(--text2)' }}>{t.label}</button>
+          <button onMouseDown={e => { e.preventDefault(); t.action(); }} title={t.title} style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, background: t.accent ? 'rgba(212,168,67,0.08)' : 'rgba(0,0,0,0.04)', border: t.accent ? '1px solid rgba(212,168,67,0.2)' : '1px solid var(--border)', color: t.accent ? '#d4a843' : 'var(--text2)' }}>{t.label}</button>
         </span>
       ))}
-      <button onMouseDown={e => { e.preventDefault(); const url = prompt('URL:'); if (url) { document.execCommand('createLink', false, url); editorRef.current?.focus(); } }} title="Insert link" style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', color: 'var(--text2)' }}>Link</button>
+      <button onMouseDown={e => { e.preventDefault(); const url = prompt('URL:'); if (url) { document.execCommand('createLink', false, url); editorRef.current?.focus(); } }} title="Insert link" style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', color: 'var(--text2)' }}>Link</button>
     </div>
   );
 }

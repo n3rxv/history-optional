@@ -152,7 +152,7 @@ export default function Flashcards() {
         @keyframes float { 0%,100% { transform:translateY(0px) rotate(0deg); } 50% { transform:translateY(-12px) rotate(1deg); } }
         .fc-card-wrap { animation: fadeUp 0.45s cubic-bezier(0.23,1,0.32,1) both; }
         .fc-rate-btn { position:relative !important; overflow:hidden !important; }
-        .fc-rate-btn::before { content:"" !important; position:absolute !important; top:0 !important; left:-75% !important; width:50% !important; height:100% !important; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.1) 50%,transparent 100%) !important; transform:skewX(-20deg) !important; opacity:0 !important; pointer-events:none !important; z-index:1 !important; }
+        .fc-rate-btn::before { content:"" !important; position:absolute !important; top:0 !important; left:-75% !important; width:50% !important; height:100% !important; background:linear-gradient(120deg,transparent 0%,rgba(0,0,0,0.08) 50%,transparent 100%) !important; transform:skewX(-20deg) !important; opacity:0 !important; pointer-events:none !important; z-index:1 !important; }
         .fc-rate-btn:hover::before { opacity:1 !important; animation:glass-shine 0.55s ease forwards !important; }
         .fc-rate-btn:active { opacity: 0.85 !important; }
         .fc-browse-row:hover .fc-browse-arrow { opacity:1 !important; transform:translateX(3px) !important; }
@@ -203,10 +203,10 @@ export default function Flashcards() {
             {/* Top bar */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flex: 1, marginRight: '1rem' }}>
-                <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
                   {idx + 1} / {queue.length}
                 </span>
-                <div style={{ flex: 1, height: 2, background: 'rgba(255,255,255,0.08)', borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ flex: 1, height: 2, background: 'rgba(0,0,0,0.08)', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     height: '100%',
                     width: `${(idx / queue.length) * 100}%`,
@@ -217,8 +217,8 @@ export default function Flashcards() {
                 </div>
               </div>
               <button onClick={closeModal} style={{
-                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                color: 'rgba(255,255,255,0.4)', borderRadius: 6, padding: '0.28rem 0.6rem',
+                background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.08)',
+                color: 'var(--text3)', borderRadius: 6, padding: '0.28rem 0.6rem',
                 cursor: 'pointer', fontSize: '0.7rem', fontFamily: 'var(--font-mono)',
                 flexShrink: 0, transition: 'all 0.15s',
               }}>{langHi ? "बंद करें" : "ESC"}</button>
@@ -232,7 +232,7 @@ export default function Flashcards() {
                 <div className="flip-face" style={{
                   background: `linear-gradient(145deg, #0d1117 0%, #0a0f1a 50%, #06080f 100%)`,
                   border: `1px solid ${tc.main}44`,
-                  boxShadow: `0 0 0 1px ${tc.main}22, 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)`,
+                  boxShadow: `0 0 0 1px ${tc.main}22, 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(0,0,0,0.04)`,
                   padding: '2rem',
                 }}>
                   {/* Top accent bar */}
@@ -265,7 +265,7 @@ export default function Flashcards() {
                       boxShadow: `0 0 12px ${tc.glow}`,
                     }}>{getTypeLabel(currentCard.type)}</span>
                     <span style={{
-                      fontSize: '0.62rem', color: 'rgba(255,255,255,0.25)',
+                      fontSize: '0.62rem', color: 'rgba(0,0,0,0.15)',
                       fontFamily: 'var(--font-ui)', letterSpacing: '0.04em',
                     }}>{currentCard.section}</span>
                   </div>
@@ -282,7 +282,7 @@ export default function Flashcards() {
 
                   <div style={{
                     marginTop: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-                    color: 'rgba(255,255,255,0.18)', fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                    color: 'rgba(0,0,0,0.12)', fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
                     letterSpacing: '0.1em', textTransform: 'uppercase',
                   }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -414,12 +414,12 @@ export default function Flashcards() {
         {/* Filters + Start */}
         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.75rem', alignItems: 'center' }}>
           <select value={filterSection} onChange={e => setFilterSection(e.target.value)}
-            style={{ background: '#0a0a0a', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
+            style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी अनुभाग" : "All Sections"}</option>
             {flashcardSections.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
           <select value={filterType} onChange={e => setFilterType(e.target.value)}
-            style={{ background: '#0a0a0a', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
+            style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी प्रकार" : "All Types"}</option>
             {flashcardTypes.map(t => <option key={t} value={t}>{getTypeLabel(t)}</option>)}
           </select>
@@ -431,7 +431,7 @@ export default function Flashcards() {
           <button onClick={() => { if (requireLogin('Sign in free to start your flashcard session.')) buildQueue(); }}
             style={{
               background: 'linear-gradient(135deg, #1d4ed8, #3b82f6)',
-              color: '#fff', border: 'none',
+              color: 'var(--text)', border: 'none',
               borderRadius: 8, padding: '0.48rem 1.25rem', fontSize: '0.82rem',
               fontWeight: 600, cursor: 'pointer', transition: 'all 0.18s',
               boxShadow: 'none',

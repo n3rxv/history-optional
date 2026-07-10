@@ -44,7 +44,7 @@ export default function LoginPromptModal({ isOpen, onClose, message }: LoginProm
           borderRadius: 16,
           padding: '2.5rem 2.5rem 2rem',
           maxWidth: 420, width: '100%',
-          boxShadow: '0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04)',
+          boxShadow: '0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.04)',
           display: 'flex', flexDirection: 'column', alignItems: 'center',
           gap: '1.25rem', textAlign: 'center',
           animation: 'authModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1)',

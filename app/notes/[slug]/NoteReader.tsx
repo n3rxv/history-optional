@@ -137,13 +137,13 @@ function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLD
       style={{
         width: 17, height: 17, borderRadius: 4,
         background: color,
-        border: `2px solid ${ring ?? 'rgba(255,255,255,0.1)'}`,
+        border: `2px solid ${ring ?? 'rgba(0,0,0,0.08)'}`,
         cursor: 'pointer', flexShrink: 0,
         transition: 'transform 0.1s, border-color 0.1s',
         boxShadow: '0 1px 4px rgba(0,0,0,0.4)',
       }}
       onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.25)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'; }}
-      onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.borderColor = ring ?? 'rgba(255,255,255,0.1)'; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.borderColor = ring ?? 'rgba(0,0,0,0.08)'; }}
     />
   );
 
@@ -314,7 +314,7 @@ function snooColor(email: string): string {
 
 function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
   const c = snooColor(email);
-  const bg = '#0f0f1a';
+  const bg = 'var(--bg)';
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
       <circle cx="32" cy="32" r="32" fill={bg}/>
@@ -478,7 +478,7 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
           background: 'linear-gradient(160deg, #08081a 0%, #05050e 100%)',
           border: '1px solid rgba(59,130,246,0.2)',
           borderRadius: 12,
-          boxShadow: '0 8px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(59,130,246,0.08), inset 0 1px 0 rgba(255,255,255,0.04)',
+          boxShadow: '0 8px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(59,130,246,0.08), inset 0 1px 0 rgba(0,0,0,0.04)',
           overflow: 'hidden',
           animation: 'tocSlideIn 0.18s cubic-bezier(0.4,0,0.2,1)',
         }}>
@@ -503,7 +503,7 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#3b82f6', boxShadow: '0 0 8px #3b82f6' }} />
               <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(59,130,246,0.8)' }}>On this page</span>
             </div>
-            <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: '0.75rem', lineHeight: 1, padding: '2px 4px' }}>✕</button>
+            <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.75rem', lineHeight: 1, padding: '2px 4px' }}>✕</button>
           </div>
 
           {/* Progress bar */}
@@ -872,14 +872,14 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
             font-size: 0.71rem;
             color: rgba(255,255,255,0.5);
             margin-bottom: 0.25rem;
-            background: rgba(255,255,255,0.03);
+            background: rgba(0,0,0,0.03);
             border-radius: 0 4px 4px 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: background 0.12s;
           }
-          .sb-hl-chip:hover { background: rgba(255,255,255,0.06); }
+          .sb-hl-chip:hover { background: rgba(0,0,0,0.06); }
           aside::-webkit-scrollbar { width: 3px; }
           aside::-webkit-scrollbar-track { background: transparent; }
           aside::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.2); border-radius: 2px; }
@@ -901,7 +901,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           {/* Title */}
           <div style={{
             fontFamily: 'var(--font-display)', fontSize: '0.88rem',
-            color: '#ffffff', fontWeight: 700, lineHeight: 1.4,
+            color: 'var(--text)', fontWeight: 700, lineHeight: 1.4,
             marginBottom: '0.85rem',
             textShadow: '0 0 20px rgba(59,130,246,0.2)',
           }}>{note.title}</div>
@@ -922,7 +922,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
             {highlights.map(h => (
               <div key={h.id} className="sb-hl-chip" style={{ borderLeft: `2px solid ${HIGHLIGHT_COLORS.find(c=>c.id===h.color)?.color}` }}>
                 <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{h.text.slice(0,36)}{h.text.length>36?'…':''}</span>
-                <button onClick={() => setHighlights(p => p.filter(x=>x.id!==h.id))} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.25)', cursor: 'pointer', fontSize: '0.68rem', flexShrink: 0, padding: '0 2px' }}>✕</button>
+                <button onClick={() => setHighlights(p => p.filter(x=>x.id!==h.id))} style={{ background: 'none', border: 'none', color: 'rgba(0,0,0,0.15)', cursor: 'pointer', fontSize: '0.68rem', flexShrink: 0, padding: '0 2px' }}>✕</button>
               </div>
             ))}
           </>}
@@ -1028,7 +1028,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 .tb-tooltip {
                   position: absolute; bottom: calc(100% + 7px); left: 50%;
                   transform: translateX(-50%) translateY(4px);
-                  background: #0a0a12; border: 1px solid rgba(255,255,255,0.1);
+                  background: #0a0a12; border: 1px solid rgba(0,0,0,0.08);
                   color: rgba(255,255,255,0.75); font-size: 0.65rem;
                   padding: 3px 8px; border-radius: 4px; white-space: nowrap;
                   opacity: 0; transition: all 0.15s ease;
@@ -1044,7 +1044,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 .tb-swatch .tb-tooltip { bottom: calc(100% + 6px); }
                 .tb-divider {
                   width: 1px; height: 18px;
-                  background: rgba(255,255,255,0.07);
+                  background: rgba(0,0,0,0.07);
                   flex-shrink: 0;
                 }
               `}</style>
@@ -1055,7 +1055,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 className="tb-btn"
                 style={{
                   background: annotationMode==='highlight' ? 'rgba(201,168,76,0.12)' : 'transparent',
-                  border: annotationMode==='highlight' ? '1px solid rgba(201,168,76,0.35)' : '1px solid rgba(255,255,255,0.08)',
+                  border: annotationMode==='highlight' ? '1px solid rgba(201,168,76,0.35)' : '1px solid rgba(0,0,0,0.08)',
                   color: annotationMode==='highlight' ? '#c9a84c' : 'rgba(255,255,255,0.45)',
                 }}
               >
@@ -1096,7 +1096,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 className="tb-btn"
                 style={{
                   background: annotationMode==='sticky' ? 'rgba(96,165,250,0.1)' : 'transparent',
-                  border: annotationMode==='sticky' ? '1px solid rgba(96,165,250,0.3)' : '1px solid rgba(255,255,255,0.08)',
+                  border: annotationMode==='sticky' ? '1px solid rgba(96,165,250,0.3)' : '1px solid rgba(0,0,0,0.08)',
                   color: annotationMode==='sticky' ? 'rgba(96,165,250,0.9)' : 'rgba(255,255,255,0.45)',
                 }}
               >
@@ -1116,8 +1116,8 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                   className="tb-btn"
                   style={{
                     background: 'transparent',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                    color: 'rgba(255,255,255,0.3)',
+                    border: '1px solid rgba(0,0,0,0.07)',
+                    color: 'var(--text3)',
                   }}
                 >
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -1161,12 +1161,12 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           <div style={{
             position: 'fixed', left: toolbarPos.x, top: toolbarPos.y,
             transform: 'translateX(-50%)',
-            background: '#0d0d18',
-            border: '1px solid rgba(255,255,255,0.1)',
+            background: 'var(--bg)',
+            border: '1px solid rgba(0,0,0,0.08)',
             borderRadius: 10, padding: '6px 8px',
             display: 'flex', gap: '5px', alignItems: 'center',
             zIndex: 200,
-            boxShadow: '0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04)',
+            boxShadow: '0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.04)',
             backdropFilter: 'blur(12px)',
           }}>
             {HIGHLIGHT_COLORS.map(c => (
@@ -1185,19 +1185,19 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
               />
             ))}
-            <div style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.08)', margin: '0 2px' }} />
+            <div style={{ width: 1, height: 16, background: 'rgba(0,0,0,0.08)', margin: '0 2px' }} />
             <button
               onClick={() => setShowToolbar(false)}
               title="Dismiss"
               style={{
                 background: 'none', border: 'none',
-                color: 'rgba(255,255,255,0.25)', cursor: 'pointer',
+                color: 'rgba(0,0,0,0.15)', cursor: 'pointer',
                 width: 20, height: 20, borderRadius: 4,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '0.7rem', transition: 'color 0.12s',
               }}
               onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.25)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(0,0,0,0.15)')}
             >
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -1215,7 +1215,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
               <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', justifyContent: 'flex-end' }}>
                 <button onClick={() => setShowStickyForm(false)} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text2)', cursor: 'pointer', padding: '0.4rem 1rem', borderRadius: 4 }}>Cancel</button>
                 <button onClick={() => { setStickyNotes(p=>[...p,{id:Date.now().toString(),text:stickyText,x:stickyPos.x,y:stickyPos.y}]); setShowStickyForm(false); setStickyText(''); }}
-                  style={{ background: 'var(--accent)', color: '#0f0e0c', border: 'none', cursor: 'pointer', padding: '0.4rem 1rem', borderRadius: 4, fontWeight: 600 }}>Add</button>
+                  style={{ background: 'var(--accent)', color: 'var(--bg)', border: 'none', cursor: 'pointer', padding: '0.4rem 1rem', borderRadius: 4, fontWeight: 600 }}>Add</button>
               </div>
             </div>
           </div>
@@ -1285,7 +1285,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                         <div style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>🔒</div>
                         <div style={{ fontFamily: 'var(--font-ui)', fontWeight: 700, color: 'var(--text)', fontSize: '0.95rem', marginBottom: '0.4rem' }}>Sign in to continue reading</div>
                         <div style={{ color: 'var(--text3)', fontSize: '0.78rem', marginBottom: '1.1rem', lineHeight: 1.5 }}>Free account — full notes, highlights & progress tracking.</div>
-                        <button onClick={handleSignIn} style={{ background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 8, padding: '0.55rem 1.5rem', fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', width: '100%' }}>Sign in free →</button>
+                        <button onClick={handleSignIn} style={{ background: 'var(--accent)', color: 'var(--text)', border: 'none', borderRadius: 8, padding: '0.55rem 1.5rem', fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', width: '100%' }}>Sign in free →</button>
                       </div>
                     </div>
                   )}

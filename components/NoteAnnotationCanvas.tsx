@@ -12,7 +12,7 @@ interface Stroke {
 }
 
 const PEN_COLORS = [
-  { label: 'Black',  value: '#111111' },
+  { label: 'Black',  value: 'var(--bg3)' },
   { label: 'White',  value: '#f0f0f0' },
   { label: 'Gold',   value: '#d4a843' },
   { label: 'Cyan',   value: '#4ecdc4' },
@@ -180,13 +180,13 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
     setTick(t => t + 1);
   };
 
-  const sep = <div style={{ width: 1, height: 24, background: 'rgba(255,255,255,0.1)', flexShrink: 0 }} />;
+  const sep = <div style={{ width: 1, height: 24, background: 'rgba(0,0,0,0.08)', flexShrink: 0 }} />;
   const toolBtn = (t: typeof tool, icon: string, label: string) => (
     <button onClick={() => setTool(t)} title={label} style={{
       padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 15,
-      background: tool === t ? 'rgba(212,168,67,0.25)' : 'rgba(255,255,255,0.05)',
-      border: tool === t ? '1px solid rgba(212,168,67,0.7)' : '1px solid rgba(255,255,255,0.1)',
-      color: '#fff', transition: 'all 0.15s',
+      background: tool === t ? 'rgba(212,168,67,0.25)' : 'rgba(0,0,0,0.05)',
+      border: tool === t ? '1px solid rgba(212,168,67,0.7)' : '1px solid rgba(0,0,0,0.08)',
+      color: 'var(--text)', transition: 'all 0.15s',
     }}>{icon}</button>
   );
 
@@ -219,7 +219,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
           width: penWidth * 8, height: penWidth * 8,
           borderRadius: '50%',
           border: '2px solid rgba(255,255,255,0.8)',
-          background: 'rgba(255,255,255,0.08)',
+          background: 'rgba(0,0,0,0.08)',
           pointerEvents: 'none', zIndex: 200,
           boxShadow: '0 0 0 1px rgba(0,0,0,0.5)',
         }} />
@@ -229,7 +229,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
         <div style={{
           position: 'fixed', bottom: 20, left: '50%', transform: 'translateX(-50%)',
           zIndex: 200,
-          background: 'rgba(8,8,8,0.97)',
+          background: 'var(--bg2)',
           border: '1px solid rgba(255,255,255,0.14)',
           borderRadius: 14, padding: '9px 14px',
           display: 'flex', alignItems: 'center', gap: 8,
@@ -249,8 +249,8 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
                 <button key={c.value} onClick={() => setPenColor(c.value)} title={c.label} style={{
                   width: 20, height: 20, borderRadius: '50%', padding: 0, cursor: 'pointer',
                   background: c.value,
-                  border: penColor === c.value ? '2px solid #fff' : '2px solid rgba(255,255,255,0.15)',
-                  boxShadow: c.value === '#111111' ? 'inset 0 0 0 1px rgba(255,255,255,0.3)' : 'none',
+                  border: penColor === c.value ? '2px solid #fff' : '2px solid rgba(0,0,0,0.1)',
+                  boxShadow: c.value === 'var(--bg3)' ? 'inset 0 0 0 1px rgba(255,255,255,0.3)' : 'none',
                   transform: penColor === c.value ? 'scale(1.25)' : 'scale(1)',
                   transition: 'all 0.12s',
                 }} />
@@ -271,16 +271,16 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
           )}
           {sep}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 10, color: '#555' }}>Size</span>
+            <span style={{ fontSize: 10, color: 'var(--text3)' }}>Size</span>
             <input type="range" min={1} max={10} value={penWidth}
               onChange={e => setPenWidth(+e.target.value)}
               style={{ width: 65, accentColor: '#d4a843' }} />
-            <span style={{ fontSize: 10, color: '#555', minWidth: 10 }}>{penWidth}</span>
+            <span style={{ fontSize: 10, color: 'var(--text3)', minWidth: 10 }}>{penWidth}</span>
           </div>
           {sep}
           <button onClick={undo} title="Undo" style={{
             padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 14,
-            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#ccc',
+            background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', color: 'var(--text2)',
           }}>↩</button>
           <button onClick={clearAll} title="Clear all" style={{
             padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 13,

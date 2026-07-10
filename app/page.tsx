@@ -90,7 +90,7 @@ export default function Home() {
 
         <h1 style={{
           fontFamily: 'var(--font-display)', fontSize: 'clamp(2.8rem, 7vw, 4.5rem)',
-          fontWeight: 700, lineHeight: 1.1, color: '#ffffff', marginBottom: '0.75rem',
+          fontWeight: 700, lineHeight: 1.1, color: 'var(--text)', marginBottom: '0.75rem',
           letterSpacing: '-0.03em',
         }}>History Optional</h1>
 
@@ -112,7 +112,7 @@ export default function Home() {
 
       {/* ── Historian Marquee ── */}
       <div className="marquee-wrap" style={{ marginBottom: '2rem', position: 'relative', zIndex: 1 }}>
-        <div style={{ borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '10px 0', background: 'linear-gradient(90deg, rgba(10,10,10,0.8), rgba(17,17,17,0.6))' }}>
+        <div style={{ borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '10px 0', background: 'linear-gradient(90deg, var(--bg2), var(--bg2))' }}>
           <div className="marquee-track">
             {[...marqueeItems, ...marqueeItems].map((item, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0 2.5rem', flexShrink: 0 }}>
@@ -138,7 +138,7 @@ export default function Home() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
               <div>
                 <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 6, fontFamily: 'var(--font-mono)' }}>{paper.label}</div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: '#fff', fontWeight: 600 }}>{paper.title}</h2>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: 'var(--text)', fontWeight: 600 }}>{paper.title}</h2>
               </div>
               <span style={{ background: 'rgba(59,130,246,0.08)', color: 'var(--accent)', border: '1px solid rgba(59,130,246,0.2)', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', padding: '3px 10px', borderRadius: 20, whiteSpace: 'nowrap' }}>{paper.notes.length} topics</span>
             </div>
@@ -170,7 +170,7 @@ export default function Home() {
 
       {/* ── Features ── */}
       <section style={{ marginBottom: '3rem', position: 'relative', zIndex: 1 }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: '#fff', marginBottom: '1.25rem', fontWeight: 600 }}>Platform Features</h2>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: 'var(--text)', marginBottom: '1.25rem', fontWeight: 600 }}>Platform Features</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }} className="grid-4col">
           {features.map(f => (
             <Link key={f.title} href={f.href} style={{ textDecoration: 'none', display: 'flex', alignSelf: 'stretch' }}>
@@ -192,7 +192,7 @@ export default function Home() {
         {/* Test banner */}
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 10, padding: '1.75rem 2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '1rem', borderLeft: '3px solid var(--accent)' }}>
           <div>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#fff', marginBottom: '0.35rem', fontWeight: 600 }}>Attempt a Test</h3>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--text)', marginBottom: '0.35rem', fontWeight: 600 }}>Attempt a Test</h3>
             <p style={{ color: 'var(--text2)', fontSize: '0.875rem' }}>Timed sectional and full-length mock tests with instant self/AI-mentored evaluation.</p>
           </div>
           <Link href="/test" style={{ background: 'var(--accent)', color: '#000', padding: '0.65rem 1.5rem', borderRadius: 6, textDecoration: 'none', fontWeight: 700, fontSize: '0.875rem', display: 'inline-block', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">Start Test →</Link>

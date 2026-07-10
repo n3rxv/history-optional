@@ -91,7 +91,7 @@ function SourcePassages({ sources }: { sources: { book_title: string; content: s
     .filter(s => s.content.length > 80);
   if (cleaned.length === 0) return null;
   return (
-    <div style={{ margin: '0.75rem 0 0.25rem', borderRadius: 12, border: '1px solid rgba(99,102,241,0.2)', overflow: 'hidden', background: 'rgba(15,15,30,0.6)' }}>
+    <div style={{ margin: '0.75rem 0 0.25rem', borderRadius: 12, border: '1px solid rgba(99,102,241,0.2)', overflow: 'hidden', background: 'var(--bg2)' }}>
       <div
         onClick={() => setExpanded(e => !e)}
         style={{ padding: '0.5rem 0.9rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', background: 'rgba(99,102,241,0.08)', borderBottom: expanded ? '1px solid rgba(99,102,241,0.15)' : 'none' }}>
@@ -133,7 +133,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   // Register custom fonts
 
   const BLUE  = '#1a4fa0';
-  const BLACK = '#000000';
+  const BLACK = 'var(--bg)';
   const WHITE = '#ffffff';
 
   const parseInline = (t: string) =>
@@ -174,14 +174,14 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       {
         stack: [
           { text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'Roboto', color: BLACK, margin: [12, 4, 0, 2] },
-          { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: '#888888', italics: true, margin: [14, 0, 0, 0] },
+          { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: 'var(--text3)', italics: true, margin: [14, 0, 0, 0] },
         ],
         width: '*',
       },
       {
         text: dateStr,
         fontSize: 8,
-        color: '#888888',
+        color: 'var(--text3)',
         alignment: 'right',
         characterSpacing: 1,
         margin: [0, 10, 0, 0],
@@ -245,9 +245,9 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
             text: cell.replace(/\*\*(.+?)\*\*/g, '$1'),
             bold: rIdx === 0,
             fontSize: 10,
-            color: rIdx === 0 ? '#ffffff' : '#000000',
+            color: rIdx === 0 ? '#ffffff' : 'var(--bg)',
             margin: [4, 4, 4, 4],
-            fillColor: rIdx === 0 ? '#1a1a2e' : rIdx % 2 === 0 ? '#f5f7ff' : '#ffffff',
+            fillColor: rIdx === 0 ? 'var(--bg2)' : rIdx % 2 === 0 ? '#f5f7ff' : '#ffffff',
           }))
         );
         content.push({
@@ -332,7 +332,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
             {
               stack: [
                 { text: 'H.  HISTORY OPTIONAL', fontSize: 8, bold: true, color: BLACK },
-                { text: 'historyoptional.xyz', fontSize: 7, color: '#666666', margin: [0, 1, 0, 0] },
+                { text: 'historyoptional.xyz', fontSize: 7, color: 'var(--text3)', margin: [0, 1, 0, 0] },
               ],
               margin: [40, 10, 0, 0],
               width: '*',
@@ -340,7 +340,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
             {
               stack: [
                 { text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' },
-                { text: 'PAGE', fontSize: 6, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] },
+                { text: 'PAGE', fontSize: 6, color: 'var(--text3)', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] },
               ],
               margin: [0, 9, 40, 0],
               width: 'auto',
@@ -773,7 +773,7 @@ Every response must:
           display:flex; flex-direction:column; justify-content:flex-end;
           padding:1.25rem 1.25rem 1.25rem 0.75rem;
           border-left:1px solid var(--border);
-          background:linear-gradient(180deg, rgba(10,10,13,0.4), rgba(8,8,10,0.6));
+          background:linear-gradient(180deg, rgba(10,10,13,0.4), var(--bg2));
         }
         @media(max-width:900px) {
           .chat-wrap { flex-direction:column; }
@@ -792,7 +792,7 @@ Every response must:
         }
         .chat-tool-btn {
           display:inline-flex; align-items:center; gap:4px;
-          background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+          background:rgba(0,0,0,0.04); border:1px solid rgba(0,0,0,0.08);
           color:rgba(255,255,255,0.55); cursor:pointer;
           padding:0.32rem 0.55rem; border-radius:7px;
           font-size:0.66rem; font-family:var(--font-mono); font-weight:500;
@@ -960,7 +960,7 @@ Every response must:
         .chat-suggested-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; }
         @media(max-width:560px) { .chat-suggested-grid { grid-template-columns:1fr; } }
         .chat-suggested-btn {
-          background:linear-gradient(135deg, rgba(16,16,18,0.95), rgba(12,12,14,0.85));
+          background:linear-gradient(135deg, var(--bg2), var(--bg2));
           border:1px solid var(--border); border-radius:10px;
           padding:0.75rem 1rem; text-align:left;
           color:var(--text2); cursor:pointer; font-size:0.8rem;
@@ -968,7 +968,7 @@ Every response must:
         }
         .chat-suggested-btn:hover {
           border-color:rgba(59,130,246,0.32); color:var(--text);
-          background:linear-gradient(135deg, rgba(29,78,216,0.1), rgba(16,16,18,0.95));
+          background:linear-gradient(135deg, rgba(29,78,216,0.1), var(--bg2));
           
           box-shadow:0 4px 16px rgba(0,0,0,0.3);
         }
@@ -976,8 +976,8 @@ Every response must:
         /* ── Input area — sits naturally inside the right control rail ── */
         .chat-input-area {
           width:100%;
-          background:linear-gradient(160deg, rgba(18,18,24,0.9), rgba(12,12,16,0.9));
-          border:1px solid rgba(255,255,255,0.09);
+          background:linear-gradient(160deg, var(--bg2), var(--bg2));
+          border:1px solid rgba(0,0,0,0.09);
           border-radius:16px;
           padding:0.7rem 0.75rem 0.8rem;
           box-shadow:0 8px 28px rgba(0,0,0,0.4);
@@ -985,8 +985,8 @@ Every response must:
         .chat-input-inner { width:100%; }
         .chat-input-box {
           display:flex; gap:0.5rem; align-items:flex-end;
-          background:rgba(255,255,255,0.04);
-          border:1px solid rgba(255,255,255,0.08);
+          background:rgba(0,0,0,0.04);
+          border:1px solid rgba(0,0,0,0.08);
           border-radius:12px; padding:0.6rem 0.6rem 0.6rem 0.9rem;
           transition:border-color 0.18s, box-shadow 0.18s;
         }
@@ -1009,7 +1009,7 @@ Every response must:
           background:linear-gradient(135deg, #1d4ed8, #3b82f6);
           color:#fff; position:relative; overflow:hidden;
         }
-        .chat-send-btn.inactive { background:rgba(28,28,32,0.9); color:var(--text3); cursor:not-allowed; }
+        .chat-send-btn.inactive { background:var(--bg3); color:var(--text3); cursor:not-allowed; }
         .chat-send-btn.active::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
         .chat-send-btn.active:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }
         .chat-hint { font-size:0.58rem; color:var(--text3); text-align:center; margin-top:0.45rem; letter-spacing:0.03em; }
@@ -1030,7 +1030,7 @@ Every response must:
         .chat-table-wrap { overflow-x:auto; margin:1rem 0; border-radius:8px; border:1px solid rgba(59,130,246,0.15); }
         .chat-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
         .chat-table th { background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.2); padding:8px 12px; text-align:left; color:#f1f5f9; font-weight:600; }
-        .chat-table td { border:1px solid rgba(255,255,255,0.07); padding:7px 12px; color:#c8d3e0; vertical-align:top; }
+        .chat-table td { border:1px solid rgba(0,0,0,0.07); padding:7px 12px; color:#c8d3e0; vertical-align:top; }
         .chat-table tr:hover td { background:rgba(59,130,246,0.04); }
         .chat-citation { color:#818cf8; cursor:pointer; text-decoration:underline; text-decoration-style:dotted; text-decoration-color:rgba(129,140,248,0.5); text-underline-offset:2px; transition:color 0.15s; }
         .chat-citation:hover { color:#a5b4fc; }
@@ -1233,7 +1233,7 @@ Every response must:
         {showBookPaywall && !usageLoading && (
           <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center' }}
             onClick={() => setShowBookPaywall(false)}>
-            <div style={{ background:'#0f0f1a', border:'1px solid rgba(99,102,241,0.4)', borderRadius:16, padding:'2rem', maxWidth:340, width:'90%', textAlign:'center' }}
+            <div style={{ background:'var(--bg)', border:'1px solid rgba(99,102,241,0.4)', borderRadius:16, padding:'2rem', maxWidth:340, width:'90%', textAlign:'center' }}
               onClick={e => e.stopPropagation()}>
               <div style={{ fontSize:'2rem', marginBottom:'0.5rem' }}>📚</div>
               <div style={{ fontSize:'1.1rem', fontWeight:700, color:'var(--text1)', marginBottom:'0.4rem' }}>Chat with Books</div>
@@ -1258,7 +1258,7 @@ Every response must:
         {citationModal && (
           <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
             onClick={() => setCitationModal(null)}>
-            <div style={{ background:'#0f0f1a', border:'1px solid rgba(99,102,241,0.4)', borderRadius:16, padding:'1.25rem', maxWidth:480, width:'100%', maxHeight:'75vh', overflowY:'auto' }}
+            <div style={{ background:'var(--bg)', border:'1px solid rgba(99,102,241,0.4)', borderRadius:16, padding:'1.25rem', maxWidth:480, width:'100%', maxHeight:'75vh', overflowY:'auto' }}
               onClick={e => e.stopPropagation()}>
               <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.9rem' }}>
                 <span style={{ fontSize:'0.7rem', fontFamily:'var(--font-mono)', color:'#818cf8', letterSpacing:'0.1em', textTransform:'uppercase' }}>

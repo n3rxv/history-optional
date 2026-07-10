@@ -77,7 +77,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
           padding: '2.5rem 2.5rem 2rem',
           maxWidth: 420,
           width: '100%',
-          boxShadow: '0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04)',
+          boxShadow: '0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.04)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

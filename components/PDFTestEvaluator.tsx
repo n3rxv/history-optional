@@ -53,7 +53,7 @@ function boldHistorians(text: string): React.ReactNode[] {
   const pattern = new RegExp(`(${HISTORIAN_NAMES.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
   const parts = text.split(pattern);
   return parts.map((part, i) =>
-    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "#f0f0f0" }}>{part}</strong> : part
+    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "var(--text)" }}>{part}</strong> : part
   );
 }
 
@@ -99,14 +99,14 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
   return (
     <div style={{ marginBottom: 12 }}>
       <div onClick={onToggle} style={{
-        background: "#161616", border: "1px solid #2a2a2a", borderRadius: isOpen ? "8px 8px 0 0" : 8,
+        background: "var(--bg3)", border: "1px solid #2a2a2a", borderRadius: isOpen ? "8px 8px 0 0" : 8,
         padding: "14px 20px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12,
       }}>
         <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.2em",
             textTransform: "uppercase", color: "#3b82f6", flexShrink: 0 }}>{question.id}</span>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555",
-            background: "#222", borderRadius: 4, padding: "2px 7px", flexShrink: 0 }}>
+            background: "var(--bg4)", borderRadius: 4, padding: "2px 7px", flexShrink: 0 }}>
             {question.marks}M
           </span>
           <span style={{ fontSize: "0.85rem", color: "#aaa", overflow: "hidden",
@@ -125,7 +125,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
       </div>
 
       {isOpen && (
-        <div style={{ background: "#111", border: "1px solid #2a2a2a", borderTop: "none",
+        <div style={{ background: "var(--bg3)", border: "1px solid #2a2a2a", borderTop: "none",
           borderRadius: "0 0 8px 8px", padding: "28px 30px" }}>
           {error && (
             <div style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)",
@@ -191,8 +191,8 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
               );
             })()}
 
-            <div style={{ display: "flex", gap: 12, padding: "14px 18px", background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.05)", borderRadius: 6, marginBottom: 32 }}>
+            <div style={{ display: "flex", gap: 12, padding: "14px 18px", background: "rgba(0,0,0,0.02)",
+              border: "1px solid rgba(0,0,0,0.05)", borderRadius: 6, marginBottom: 32 }}>
               <span style={{ color: "#555", flexShrink: 0, fontSize: "0.8rem" }}>ℹ</span>
               <p style={{ fontSize: "0.78rem", color: "#555", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
                 These marks are indicative, not exact — expect a 1–2 mark variance from what an actual UPSC examiner may award.
@@ -251,7 +251,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                     <div className="pdf-ev-ct" style={{ justifyContent: "space-between" }}>
                       <span>Introduction</span>
                       {ev.section_marks?.introduction && (
-                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#888" }}>
+                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "var(--text3)" }}>
                           {ev.section_marks.introduction.awarded}/{ev.section_marks.introduction.out_of}
                         </span>
                       )}
@@ -314,7 +314,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                     <div className="pdf-ev-ct" style={{ justifyContent: "space-between" }}>
                       <span>Body</span>
                       {ev.section_marks?.body && (
-                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#888" }}>
+                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "var(--text3)" }}>
                           {ev.section_marks.body.awarded}/{ev.section_marks.body.out_of}
                         </span>
                       )}
@@ -384,7 +384,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                     <div className="pdf-ev-ct" style={{ justifyContent: "space-between" }}>
                       <span>Conclusion</span>
                       {ev.section_marks?.conclusion && (
-                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "#888" }}>
+                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "var(--text3)" }}>
                           {ev.section_marks.conclusion.awarded}/{ev.section_marks.conclusion.out_of}
                         </span>
                       )}
@@ -501,15 +501,15 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
 
 /* ── Shared CSS ── */
 const SHARED_CSS = `
-  .pdf-ev-card { background:linear-gradient(135deg,#161616,#111); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
-  .pdf-ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent 60%); pointer-events:none; }
+  .pdf-ev-card { background:linear-gradient(135deg,#161616,#111); border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
+  .pdf-ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,0,0,0.02),transparent 60%); pointer-events:none; }
   .pdf-ev-card-gold { border-color:rgba(234,179,8,0.18); background:linear-gradient(135deg,#161410,#111); }
   .pdf-ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(234,179,8,0.4),transparent); }
   .pdf-ev-card-green { border-color:rgba(74,222,128,0.12); background:linear-gradient(135deg,#101610,#111); }
   .pdf-ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(74,222,128,0.35),transparent); }
   /* ── MARKS GAUGE ── */
   .pdf-ev-gauge { display:flex; align-items:center; gap:18px; background:linear-gradient(135deg,#161616,#111);
-    border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
+    border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
   .pdf-ev-gauge-emoji { font-size:2.4rem; line-height:1; flex-shrink:0; }
   .pdf-ev-gauge-body { flex:1; min-width:0; }
   .pdf-ev-gauge-top { display:flex; align-items:baseline; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
@@ -556,7 +556,7 @@ const SHARED_CSS = `
   .pdf-ev-sec-bar-bg { background:#222; border-radius:2px; height:3px; overflow:hidden; margin:10px 0 8px; }
   .pdf-ev-sec-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
   .pdf-ev-sec-rsn { font-size:0.76rem; color:#666; line-height:1.5; font-family:var(--font-ui); }
-  .pdf-ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .pdf-ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(0,0,0,0.07); }
   .pdf-ev-tab { padding:13px 28px; cursor:pointer; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-family:var(--font-mono); background:none; border:none; color:#444; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
   .pdf-ev-tab.active { color:#e2e8f0; border-bottom-color:#3b82f6; }
   .pdf-ev-tab:hover:not(.active) { color:#888; }
@@ -565,8 +565,8 @@ const SHARED_CSS = `
   .pdf-ev-ml:first-of-type { margin-top:0; }
   .pdf-ev-mp { font-size:0.93rem; line-height:1.9; color:#d4d4d4; margin-bottom:0; font-family:var(--font-body); }
   ul.pdf-ev-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
-  ul.pdf-ev-list li { padding:10px 14px 10px 16px; background:rgba(255,255,255,0.02); border-radius:6px; border-left:2px solid rgba(255,255,255,0.08); font-size:0.88rem; color:#b0b0b0; line-height:1.7; font-family:var(--font-body); }
-  .pdf-ev-hist { padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.05); display:grid; gap:6px; }
+  ul.pdf-ev-list li { padding:10px 14px 10px 16px; background:rgba(0,0,0,0.02); border-radius:6px; border-left:2px solid rgba(0,0,0,0.08); font-size:0.88rem; color:#b0b0b0; line-height:1.7; font-family:var(--font-body); }
+  .pdf-ev-hist { padding:22px 0; border-bottom:1px solid rgba(0,0,0,0.05); display:grid; gap:6px; }
   .pdf-ev-hist:first-child { padding-top:0; }
   .pdf-ev-hist:last-child { border-bottom:none; padding-bottom:0; }
   .pdf-ev-hist-name { font-family:var(--font-display); font-size:1.0rem; font-weight:700; color:#60a5fa; letter-spacing:0.01em; }
@@ -822,7 +822,7 @@ export default function PDFTestEvaluator({
             background: "rgba(234,179,8,0.1)", color: "#eab308", border: "1px solid rgba(234,179,8,0.2)",
             borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
         </div>
-        <p style={{ fontSize: "0.88rem", color: "#666", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
+        <p style={{ fontSize: "0.88rem", color: "var(--text3)", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
           Upload your complete answer script as a PDF. Evaluator Model reads every page, identifies each answer,
           and gives marks + detailed feedback for the entire paper — all at once.
         </p>
@@ -834,7 +834,7 @@ export default function PDFTestEvaluator({
             { n: "02", t: "Scan to PDF",       s: "All pages in one file" },
             { n: "03", t: "Upload & evaluate", s: "AI scores instantly"   },
           ].map(x => (
-            <div key={x.n} style={{ flex: 1, background: "#161616", border: "1px solid #222",
+            <div key={x.n} style={{ flex: 1, background: "var(--bg3)", border: "1px solid #222",
               borderRadius: 8, padding: "16px 14px" }}>
               <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#3b82f6",
                 letterSpacing: "0.15em", marginBottom: 8 }}>{x.n}</div>
@@ -866,7 +866,7 @@ export default function PDFTestEvaluator({
         </span>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: "1.5rem", color: "#444" }}>%</span>
       </div>
-      <div style={{ background: "#222", borderRadius: 2, height: 3, overflow: "hidden",
+      <div style={{ background: "var(--bg4)", borderRadius: 2, height: 3, overflow: "hidden",
         maxWidth: 300, margin: "0 auto 28px" }}>
         <div style={{ height: "100%", background: "#3b82f6", borderRadius: 2,
           width: `${evalProgress}%`, transition: "width 0.8s cubic-bezier(.16,1,.3,1)" }} />
@@ -891,7 +891,7 @@ export default function PDFTestEvaluator({
         </span>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: "1.5rem", color: "#444" }}>%</span>
       </div>
-      <div style={{ background: "#222", borderRadius: 2, height: 3, overflow: "hidden",
+      <div style={{ background: "var(--bg4)", borderRadius: 2, height: 3, overflow: "hidden",
         maxWidth: 300, margin: "0 auto 28px" }}>
         <div style={{ height: "100%", background: "#3b82f6", borderRadius: 2,
           width: `${evalProgress}%`, transition: "width 0.8s cubic-bezier(.16,1,.3,1)" }} />
@@ -902,7 +902,7 @@ export default function PDFTestEvaluator({
             <div key={i} style={{
               width: evalCurrent > i ? 8 : 5, height: evalCurrent > i ? 8 : 5,
               borderRadius: "50%",
-              background: evalCurrent > i ? "#3b82f6" : "#222",
+              background: evalCurrent > i ? "#3b82f6" : "var(--bg4)",
               border: evalCurrent > i ? "none" : "1px solid #333",
               boxShadow: evalCurrent > i ? "0 0 8px #3b82f6" : "none",
               transition: "all 0.5s",
@@ -928,7 +928,7 @@ export default function PDFTestEvaluator({
           textTransform: "uppercase", color: "#555", marginBottom: 8 }}>
           Review Detected Questions
         </div>
-        <div style={{ fontSize: "0.92rem", color: "#888", lineHeight: 1.6, fontFamily: "var(--font-body)" }}>
+        <div style={{ fontSize: "0.92rem", color: "var(--text3)", lineHeight: 1.6, fontFamily: "var(--font-body)" }}>
           AI found <span style={{ color: "#e2e8f0", fontWeight: 600 }}>{segments.length} question{segments.length !== 1 ? "s" : ""}</span> in your script.
           Check the question numbers and marks — fix anything before evaluating.
         </div>
@@ -948,7 +948,7 @@ export default function PDFTestEvaluator({
             {showTranscript ? "Hide OCR Transcript" : "Show Raw OCR Transcript"}
           </button>
           {showTranscript && (
-            <div style={{ marginTop: 10, background: "#0d0d0d", border: "1px solid #1e1e1e",
+            <div style={{ marginTop: 10, background: "var(--bg2)", border: "1px solid #1e1e1e",
               borderRadius: 6, padding: "18px 20px" }}>
               <textarea
                 value={transcript}
@@ -1012,7 +1012,7 @@ export default function PDFTestEvaluator({
               <div>
                 <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.18em",
                   textTransform: "uppercase", color: "#555", marginBottom: 7 }}>
-                  Question text <span style={{ color: "#333" }}>(optional — leave blank if unknown)</span>
+                  Question text <span style={{ color: "var(--border2)" }}>(optional — leave blank if unknown)</span>
                 </div>
                 <input
                   className="pdf-ev-input"
@@ -1056,7 +1056,7 @@ export default function PDFTestEvaluator({
       <div style={{ display: "flex", gap: 10 }}>
         <button onClick={() => { setStage("upload"); setSegments([]); setTranscript(""); }}
           style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em",
-            textTransform: "uppercase", color: "#666", background: "none",
+            textTransform: "uppercase", color: "var(--text3)", background: "none",
             border: "1px solid #2a2a2a", borderRadius: 4, padding: "14px 20px", cursor: "pointer",
             whiteSpace: "nowrap" }}>
           ↩ Back
@@ -1099,7 +1099,7 @@ export default function PDFTestEvaluator({
             </div>
             <button onClick={() => { setStage("upload"); setFile(null); setResults([]); setTranscript(""); setSegments([]); }}
               style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em",
-                textTransform: "uppercase", color: "#888", background: "none",
+                textTransform: "uppercase", color: "var(--text3)", background: "none",
                 border: "1px solid #2a2a2a", borderRadius: 4, padding: "8px 16px", cursor: "pointer" }}>
               ↩ Evaluate Another
             </button>
@@ -1140,7 +1140,7 @@ export default function PDFTestEvaluator({
                 {showTranscript ? "Hide OCR Transcript" : "Show OCR Transcript"}
               </button>
               {showTranscript && (
-                <div style={{ marginTop: 10, background: "#0d0d0d", border: "1px solid #1e1e1e",
+                <div style={{ marginTop: 10, background: "var(--bg2)", border: "1px solid #1e1e1e",
                   borderRadius: 6, padding: "18px 20px" }}>
                   <textarea
                     value={transcript}
@@ -1207,7 +1207,7 @@ export default function PDFTestEvaluator({
             background: "rgba(234,179,8,0.1)", color: "#eab308", border: "1px solid rgba(234,179,8,0.2)",
             borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
         </div>
-        <p style={{ fontSize: "0.88rem", color: "#666", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
+        <p style={{ fontSize: "0.88rem", color: "var(--text3)", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
           Upload your complete answer script as a PDF. Evaluator Model reads every page, detects each question,
           and lets you review before evaluating — marks and detailed feedback for the whole paper.
         </p>
@@ -1217,8 +1217,8 @@ export default function PDFTestEvaluator({
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
           {paperQuestions.map(q => (
             <span key={q.id} style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
-              letterSpacing: "0.15em", background: "#161616", border: "1px solid #2a2a2a",
-              borderRadius: 4, padding: "4px 10px", color: "#666" }}>
+              letterSpacing: "0.15em", background: "var(--bg3)", border: "1px solid #2a2a2a",
+              borderRadius: 4, padding: "4px 10px", color: "var(--text3)" }}>
               {q.id} · {q.marks}M
             </span>
           ))}
@@ -1231,9 +1231,9 @@ export default function PDFTestEvaluator({
         onDrop={onDrop}
         onClick={() => inputRef.current?.click()}
         style={{
-          border: `1.5px dashed ${dragging ? "#3b82f6" : file ? "rgba(59,130,246,0.5)" : "#333"}`,
+          border: `1.5px dashed ${dragging ? "#3b82f6" : file ? "rgba(59,130,246,0.5)" : "var(--border2)"}`,
           borderRadius: 6, padding: "44px 24px", textAlign: "center", cursor: "pointer",
-          background: dragging ? "#0d1b3e" : file ? "rgba(59,130,246,0.04)" : "#161616",
+          background: dragging ? "var(--accent2)" : file ? "rgba(59,130,246,0.04)" : "var(--bg3)",
           transition: "all 0.2s", marginBottom: error ? 12 : 20,
         }}
       >
@@ -1249,7 +1249,7 @@ export default function PDFTestEvaluator({
           </div>
         ) : (
           <div>
-            <div style={{ fontSize: "0.9rem", color: "#888", marginBottom: 6 }}>Upload your answer script PDF</div>
+            <div style={{ fontSize: "0.9rem", color: "var(--text3)", marginBottom: 6 }}>Upload your answer script PDF</div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#444", letterSpacing: "0.1em" }}>
               Click to browse or drag and drop
             </div>

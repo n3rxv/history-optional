@@ -44,7 +44,7 @@ function GlobalStyles() {
         transition: background 0.12s, color 0.12s, border-color 0.12s;
         border: 1px solid transparent; user-select: none;
       }
-      .sn:hover { color: #777; background: rgba(255,255,255,0.025); }
+      .sn:hover { color: #777; background: rgba(0,0,0,0.025); }
       .sn.on {
         color: #e8c96a !important;
         background: rgba(212,168,67,0.09) !important;
@@ -91,7 +91,7 @@ function GlobalStyles() {
         border-left: 2px solid transparent;
         transition: background 0.1s, border-color 0.1s;
       }
-      .ni:hover { background: rgba(255,255,255,0.02); }
+      .ni:hover { background: rgba(0,0,0,0.02); }
       .ni.on {
         background: rgba(212,168,67,0.05) !important;
         border-left-color: #d4a843 !important;
@@ -241,11 +241,11 @@ function LoginScreen({ onLogin }: { onLogin: (p: string) => Promise<boolean> }) 
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#060606' }}>
-      <div style={{ background: '#0c0c0c', border: '1px solid #1e1e1e', borderRadius: 14, padding: '2.8rem 2.5rem', width: 360, textAlign: 'center', boxShadow: '0 0 60px rgba(212,168,67,0.04)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
+      <div style={{ background: 'var(--bg2)', border: '1px solid #1e1e1e', borderRadius: 14, padding: '2.8rem 2.5rem', width: 360, textAlign: 'center', boxShadow: '0 0 60px rgba(212,168,67,0.04)' }}>
         <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontSize: 20 }}>⚡</div>
         <h2 style={{ color: '#f0e8d5', fontFamily: 'Lora, serif', fontSize: '1.5rem', fontWeight: 500, marginBottom: 4 }}>Admin Panel</h2>
-        <p style={{ color: '#333', fontSize: '0.76rem', marginBottom: 28, fontFamily: 'Inter, sans-serif', letterSpacing: '0.08em', textTransform: 'uppercase' }}>History Optional</p>
+        <p style={{ color: 'var(--border2)', fontSize: '0.76rem', marginBottom: 28, fontFamily: 'Inter, sans-serif', letterSpacing: '0.08em', textTransform: 'uppercase' }}>History Optional</p>
         <input type="password" value={pass} onChange={e => setPass(e.target.value)} onKeyDown={e => e.key === 'Enter' && submit()}
           placeholder="Password" className="inp"
           style={{ marginBottom: 12, border: err ? '1px solid rgba(248,113,113,0.5)' : undefined }} />
@@ -308,14 +308,14 @@ function EditorToolbar({ editorRef, onImageInsert, onVideoInsert }: {
     };
   }, [editorRef.current]);
 
-  const sep = () => <div style={{ width: 1, height: 16, background: '#1e1e1e', margin: '0 3px', flexShrink: 0 }} />;
+  const sep = () => <div style={{ width: 1, height: 16, background: 'var(--bg4)', margin: '0 3px', flexShrink: 0 }} />;
 
   const T = ({ label, title, action, k, isAccent }: { label: string; title: string; action: () => void; k?: string; isAccent?: boolean }) => (
     <button className={`tb ${active[k || ''] ? 'lit' : ''} ${isAccent ? 'lit' : ''}`} onClick={action} title={title}>{label}</button>
   );
 
   return (
-    <div style={{ padding: '5px 12px', borderBottom: '1px solid #111', display: 'flex', gap: 3, flexWrap: 'wrap', alignItems: 'center', background: '#080808', minHeight: 38 }}
+    <div style={{ padding: '5px 12px', borderBottom: '1px solid #111', display: 'flex', gap: 3, flexWrap: 'wrap', alignItems: 'center', background: 'var(--bg)', minHeight: 38 }}
       onMouseDown={e => e.preventDefault()}>
       <T label="B" title="Bold (⌘B)" action={() => cmd('bold')} k="bold" />
       <T label="I" title="Italic (⌘I)" action={() => cmd('italic')} k="italic" />
@@ -471,7 +471,7 @@ function NoteEditor({ token }: { token: string }) {
     if (saveStatus === 'saving') return <span className="saving-anim" style={{ color: '#d4a843', fontSize: '0.72rem', fontFamily: 'JetBrains Mono, monospace' }}>↑ saving…</span>;
     if (saveStatus === 'saved') return <span style={{ color: '#4ade80', fontSize: '0.72rem', fontFamily: 'JetBrains Mono, monospace' }}>✓ saved</span>;
     if (saveStatus === 'error') return <span style={{ color: '#f87171', fontSize: '0.72rem', fontFamily: 'JetBrains Mono, monospace' }}>⚠ failed</span>;
-    return <span style={{ color: '#2a2a2a', fontSize: '0.72rem', fontFamily: 'JetBrains Mono, monospace' }}>auto-saves</span>;
+    return <span style={{ color: 'var(--border)', fontSize: '0.72rem', fontFamily: 'JetBrains Mono, monospace' }}>auto-saves</span>;
   };
 
   return (
@@ -479,11 +479,11 @@ function NoteEditor({ token }: { token: string }) {
       <input ref={imgInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onImageFile} />
 
       {/* ── NOTES SIDEBAR ── */}
-      <div style={{ width: 255, flexShrink: 0, borderRight: '1px solid #141414', display: 'flex', flexDirection: 'column', background: '#060606', overflow: 'hidden' }}>
+      <div style={{ width: 255, flexShrink: 0, borderRight: '1px solid #141414', display: 'flex', flexDirection: 'column', background: 'var(--bg)', overflow: 'hidden' }}>
         {/* Search */}
         <div style={{ padding: '10px 10px 8px', borderBottom: '1px solid #111' }}>
           <div style={{ position: 'relative' }}>
-            <span style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', color: '#2a2a2a', fontSize: '0.75rem', pointerEvents: 'none' }}>⌕</span>
+            <span style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', color: 'var(--border)', fontSize: '0.75rem', pointerEvents: 'none' }}>⌕</span>
             <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search notes..."
               className="inp" style={{ paddingLeft: 26, fontSize: '0.78rem' }} />
           </div>
@@ -496,14 +496,14 @@ function NoteEditor({ token }: { token: string }) {
             if (sectionNotes.length === 0) return null;
             return (
               <div key={section}>
-                <div style={{ padding: '10px 14px 4px', color: '#252525', fontSize: '0.62rem', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.12em', userSelect: 'none' }}>
+                <div style={{ padding: '10px 14px 4px', color: 'var(--bg4)', fontSize: '0.62rem', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.12em', userSelect: 'none' }}>
                   {section}
                 </div>
                 {sectionNotes.map(n => (
                   <div key={n.slug} onClick={() => setSelectedSlug(n.slug)}
                     className={`ni fsi ${selectedSlug === n.slug ? 'on' : ''}`}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ color: selectedSlug === n.slug ? '#e8c96a' : '#3a3a3a', fontSize: '0.8rem', flex: 1, fontFamily: 'Inter, sans-serif', fontWeight: selectedSlug === n.slug ? 500 : 400, lineHeight: 1.3 }}>
+                      <span style={{ color: selectedSlug === n.slug ? '#e8c96a' : 'var(--border2)', fontSize: '0.8rem', flex: 1, fontFamily: 'Inter, sans-serif', fontWeight: selectedSlug === n.slug ? 500 : 400, lineHeight: 1.3 }}>
                         {n.title}
                       </span>
                       {overrides[n.slug] && (
@@ -519,23 +519,23 @@ function NoteEditor({ token }: { token: string }) {
 
         {/* Footer */}
         <div style={{ padding: '8px 14px', borderTop: '1px solid #111', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ color: '#222', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>
+          <span style={{ color: 'var(--bg4)', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>
             ☁ {Object.keys(overrides).length} edits
           </span>
-          <span style={{ color: '#1e1e1e', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>
+          <span style={{ color: 'var(--bg4)', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>
             {filteredNotes.length} notes
           </span>
         </div>
       </div>
 
       {/* ── EDITOR AREA ── */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#070707' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--bg)' }}>
 
         {/* Topbar */}
-        <div style={{ padding: '0 14px', height: 44, borderBottom: '1px solid #111', display: 'flex', alignItems: 'center', gap: 10, background: '#060606', flexShrink: 0 }}>
+        <div style={{ padding: '0 14px', height: 44, borderBottom: '1px solid #111', display: 'flex', alignItems: 'center', gap: 10, background: 'var(--bg)', flexShrink: 0 }}>
           {/* Note title + cloud badge */}
           <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: '#555', fontSize: '0.82rem', fontFamily: 'Inter, sans-serif', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <span style={{ color: 'var(--text3)', fontSize: '0.82rem', fontFamily: 'Inter, sans-serif', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {selectedNote?.title || '—'}
             </span>
             {hasOverride && (
@@ -548,11 +548,11 @@ function NoteEditor({ token }: { token: string }) {
           {/* Mode toggle */}
           <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid #1e1e1e', flexShrink: 0 }}>
             <button onClick={switchToWysiwyg}
-              style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: mode === 'wysiwyg' ? '#141414' : 'transparent', color: mode === 'wysiwyg' ? '#e8c96a' : '#383838', border: 'none', fontFamily: 'Inter, sans-serif', fontWeight: 500, outline: 'none', transition: 'all 0.1s' }}>
+              style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: mode === 'wysiwyg' ? 'var(--bg3)' : 'transparent', color: mode === 'wysiwyg' ? '#e8c96a' : '#383838', border: 'none', fontFamily: 'Inter, sans-serif', fontWeight: 500, outline: 'none', transition: 'all 0.1s' }}>
               ✍ Edit
             </button>
             <button onClick={switchToHtml}
-              style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: mode === 'html' ? '#141414' : 'transparent', color: mode === 'html' ? '#e8c96a' : '#383838', border: 'none', borderLeft: '1px solid #1e1e1e', fontFamily: 'JetBrains Mono, monospace', outline: 'none', transition: 'all 0.1s' }}>
+              style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: mode === 'html' ? 'var(--bg3)' : 'transparent', color: mode === 'html' ? '#e8c96a' : '#383838', border: 'none', borderLeft: '1px solid #1e1e1e', fontFamily: 'JetBrains Mono, monospace', outline: 'none', transition: 'all 0.1s' }}>
               {'</>'}
             </button>
           </div>
@@ -585,7 +585,7 @@ function NoteEditor({ token }: { token: string }) {
               flex: 1, overflow: 'auto',
               padding: '40px 60px 80px',
               outline: 'none',
-              background: '#070707',
+              background: 'var(--bg)',
             }}
           />
         )}
@@ -598,7 +598,7 @@ function NoteEditor({ token }: { token: string }) {
             spellCheck={false}
             style={{
               flex: 1, padding: '20px 24px',
-              background: '#060606', color: '#7dd3b0',
+              background: 'var(--bg)', color: '#7dd3b0',
               fontFamily: 'JetBrains Mono, monospace', fontSize: '0.8rem', lineHeight: 1.7,
               border: 'none', outline: 'none', resize: 'none',
             }}
@@ -606,11 +606,11 @@ function NoteEditor({ token }: { token: string }) {
         )}
 
         {/* Status bar */}
-        <div style={{ height: 24, padding: '0 14px', borderTop: '1px solid #0d0d0d', background: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-          <span style={{ color: '#1e1e1e', fontSize: '0.63rem', fontFamily: 'JetBrains Mono, monospace' }}>
+        <div style={{ height: 24, padding: '0 14px', borderTop: '1px solid #0d0d0d', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+          <span style={{ color: 'var(--bg4)', fontSize: '0.63rem', fontFamily: 'JetBrains Mono, monospace' }}>
             ☁ supabase · auto-persisted
           </span>
-          <span style={{ color: '#1e1e1e', fontSize: '0.63rem', fontFamily: 'JetBrains Mono, monospace' }}>
+          <span style={{ color: 'var(--bg4)', fontSize: '0.63rem', fontFamily: 'JetBrains Mono, monospace' }}>
             {selectedNote?.section}
           </span>
         </div>
@@ -700,18 +700,18 @@ function PostsManager({ token }: { token: string }) {
     const caPost = posts.filter(p => p.type === 'current-affairs');
     const nnPost = posts.filter(p => p.type === 'new-note');
     const PostCard = ({ p }: { p: Post }) => (
-      <div className="fsi" style={{ background: '#0a0a0a', border: '1px solid #141414', borderRadius: 8, padding: '11px 14px', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 10, transition: 'border-color 0.1s' }}
-        onMouseEnter={e => (e.currentTarget.style.borderColor = '#222')} onMouseLeave={e => (e.currentTarget.style.borderColor = '#141414')}>
+      <div className="fsi" style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 8, padding: '11px 14px', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 10, transition: 'border-color 0.1s' }}
+        onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--bg4)')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--bg3)')}>
         {p.cover_image && <img src={p.cover_image} alt="" style={{ width: 52, height: 38, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }} />}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ color: '#aaa', fontSize: '0.85rem', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'Inter, sans-serif' }}>
-            {p.title || <span style={{ color: '#333' }}>Untitled</span>}
+          <div style={{ color: 'var(--text2)', fontSize: '0.85rem', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'Inter, sans-serif' }}>
+            {p.title || <span style={{ color: 'var(--border2)' }}>Untitled</span>}
           </div>
-          <div style={{ color: '#2a2a2a', fontSize: '0.68rem', marginTop: 2, fontFamily: 'JetBrains Mono, monospace' }}>
+          <div style={{ color: 'var(--border)', fontSize: '0.68rem', marginTop: 2, fontFamily: 'JetBrains Mono, monospace' }}>
             {new Date(p.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
           </div>
         </div>
-        <span style={{ padding: '2px 8px', borderRadius: 4, fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace', background: p.published ? 'rgba(74,222,128,0.08)' : 'rgba(255,255,255,0.03)', color: p.published ? '#4ade80' : '#444', border: p.published ? '1px solid rgba(74,222,128,0.2)' : '1px solid #1e1e1e', flexShrink: 0 }}>
+        <span style={{ padding: '2px 8px', borderRadius: 4, fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace', background: p.published ? 'rgba(74,222,128,0.08)' : 'rgba(0,0,0,0.03)', color: p.published ? '#4ade80' : '#444', border: p.published ? '1px solid rgba(74,222,128,0.2)' : '1px solid #1e1e1e', flexShrink: 0 }}>
           {p.published ? 'LIVE' : 'draft'}
         </span>
         <button onClick={() => togglePublish(p.id)} className="btn-ghost" style={{ padding: '3px 9px', fontSize: '0.72rem' }}>{p.published ? 'Unpublish' : 'Publish'}</button>
@@ -727,9 +727,9 @@ function PostsManager({ token }: { token: string }) {
           <button onClick={() => openEdit(newPost('new-note'))} className="btn-ghost" style={{ color: '#4ecdc4', borderColor: 'rgba(78,205,196,0.3)' }}>+ Article</button>
         </div>
         <div style={{ color: '#d4a843', fontSize: '0.68rem', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 10 }}>Current Affairs ({caPost.length})</div>
-        {caPost.length === 0 ? <div style={{ color: '#222', fontSize: '0.82rem', marginBottom: 20, fontFamily: 'Inter, sans-serif' }}>No posts yet.</div> : caPost.map(p => <PostCard key={p.id} p={p} />)}
+        {caPost.length === 0 ? <div style={{ color: 'var(--bg4)', fontSize: '0.82rem', marginBottom: 20, fontFamily: 'Inter, sans-serif' }}>No posts yet.</div> : caPost.map(p => <PostCard key={p.id} p={p} />)}
         <div style={{ color: '#4ecdc4', fontSize: '0.68rem', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '20px 0 10px' }}>Articles ({nnPost.length})</div>
-        {nnPost.length === 0 ? <div style={{ color: '#222', fontSize: '0.82rem', fontFamily: 'Inter, sans-serif' }}>No articles yet.</div> : nnPost.map(p => <PostCard key={p.id} p={p} />)}
+        {nnPost.length === 0 ? <div style={{ color: 'var(--bg4)', fontSize: '0.82rem', fontFamily: 'Inter, sans-serif' }}>No articles yet.</div> : nnPost.map(p => <PostCard key={p.id} p={p} />)}
       </div>
     );
   }
@@ -738,14 +738,14 @@ function PostsManager({ token }: { token: string }) {
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 48px)' }}>
       <input ref={imgInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onImageFile} />
       <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onCoverFile} />
-      <div style={{ padding: '0 14px', height: 44, borderBottom: '1px solid #111', display: 'flex', alignItems: 'center', gap: 10, background: '#060606', flexShrink: 0 }}>
+      <div style={{ padding: '0 14px', height: 44, borderBottom: '1px solid #111', display: 'flex', alignItems: 'center', gap: 10, background: 'var(--bg)', flexShrink: 0 }}>
         <button onClick={() => { savePost(); setMode('list'); }} className="btn-ghost" style={{ padding: '4px 10px', fontSize: '0.75rem' }}>← Back</button>
         <span style={{ padding: '2px 9px', borderRadius: 10, fontSize: '0.62rem', fontFamily: 'JetBrains Mono, monospace', background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.18)', color: '#d4a843' }}>
           {editing?.type === 'current-affairs' ? 'CURRENT AFFAIRS' : 'ARTICLE'}
         </span>
         <div style={{ flex: 1 }} />
         <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
-          <span style={{ color: '#3a3a3a', fontSize: '0.75rem', fontFamily: 'Inter, sans-serif' }}>Published</span>
+          <span style={{ color: 'var(--border2)', fontSize: '0.75rem', fontFamily: 'Inter, sans-serif' }}>Published</span>
           <input type="checkbox" checked={editing?.published || false}
             onChange={e => setEditing(prev => prev ? { ...prev, published: e.target.checked } : prev)}
             style={{ accentColor: '#4ade80' }} />
@@ -754,29 +754,29 @@ function PostsManager({ token }: { token: string }) {
           {saving ? 'Saving…' : savedMsg || 'Save'}
         </button>
       </div>
-      <div style={{ padding: '12px 20px', borderBottom: '1px solid #0d0d0d', background: '#060606', display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'flex-start', flexShrink: 0 }}>
+      <div style={{ padding: '12px 20px', borderBottom: '1px solid #0d0d0d', background: 'var(--bg)', display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'flex-start', flexShrink: 0 }}>
         <div style={{ flex: 2, minWidth: 220 }}>
           <input value={editing?.title || ''} onChange={e => setEditing(prev => prev ? { ...prev, title: e.target.value } : prev)}
             placeholder="Post title..."
             style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid #1e1e1e', color: '#e0d8c8', fontSize: '1.15rem', fontFamily: 'Lora, serif', fontWeight: 500, padding: '6px 0', outline: 'none' }} />
           <input value={editing?.excerpt || ''} onChange={e => setEditing(prev => prev ? { ...prev, excerpt: e.target.value } : prev)}
             placeholder="Short excerpt..."
-            style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid #111', color: '#555', fontSize: '0.85rem', fontFamily: 'Inter, sans-serif', padding: '6px 0', outline: 'none', marginTop: 8 }} />
+            style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid #111', color: 'var(--text3)', fontSize: '0.85rem', fontFamily: 'Inter, sans-serif', padding: '6px 0', outline: 'none', marginTop: 8 }} />
           <input value={editing?.tags.join(', ') || ''} onChange={e => setEditing(prev => prev ? { ...prev, tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean) } : prev)}
             placeholder="Tags: Mughal, British Raj..."
-            style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid #0d0d0d', color: '#444', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', padding: '6px 0', outline: 'none', marginTop: 6 }} />
+            style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid #0d0d0d', color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace', padding: '6px 0', outline: 'none', marginTop: 6 }} />
         </div>
         <div onClick={() => coverInputRef.current?.click()}
-          style={{ width: 110, height: 75, borderRadius: 7, border: '1px dashed #1e1e1e', cursor: 'pointer', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', flexShrink: 0 }}>
+          style={{ width: 110, height: 75, borderRadius: 7, border: '1px dashed #1e1e1e', cursor: 'pointer', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg2)', flexShrink: 0 }}>
           {editing?.cover_image
             ? <img src={editing.cover_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            : <span style={{ color: '#2a2a2a', fontSize: '0.68rem', textAlign: 'center', fontFamily: 'Inter, sans-serif' }}>+ cover</span>}
+            : <span style={{ color: 'var(--border)', fontSize: '0.68rem', textAlign: 'center', fontFamily: 'Inter, sans-serif' }}>+ cover</span>}
         </div>
       </div>
       <EditorToolbar editorRef={editorRef} onImageInsert={handleImageInsert} onVideoInsert={handleVideoInsert} />
       <div ref={editorRef} contentEditable suppressContentEditableWarning
         className="site-editor"
-        style={{ flex: 1, padding: '36px 52px 80px', overflow: 'auto', outline: 'none', background: '#070707' }} />
+        style={{ flex: 1, padding: '36px 52px 80px', overflow: 'auto', outline: 'none', background: 'var(--bg)' }} />
     </div>
   );
 }
@@ -806,24 +806,24 @@ function Analytics({ token }: { token: string }) {
           { v: overrideCount, l: 'Cloud Edits' },
           { v: `${postStats.published}/${postStats.total}`, l: 'Posts Live' },
         ].map(({ v, l }) => (
-          <div key={l} style={{ background: '#0a0a0a', border: '1px solid #141414', borderRadius: 10, padding: '16px 18px' }}>
+          <div key={l} style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 10, padding: '16px 18px' }}>
             <div style={{ color: '#d4a843', fontSize: '1.8rem', fontWeight: 600, fontFamily: 'Lora, serif', lineHeight: 1 }}>{v}</div>
-            <div style={{ color: '#444', fontSize: '0.75rem', marginTop: 8, fontFamily: 'Inter, sans-serif' }}>{l}</div>
+            <div style={{ color: 'var(--text3)', fontSize: '0.75rem', marginTop: 8, fontFamily: 'Inter, sans-serif' }}>{l}</div>
           </div>
         ))}
       </div>
-      <div style={{ background: '#0a0a0a', border: '1px solid #141414', borderRadius: 10, padding: '18px 20px' }}>
-        <div style={{ color: '#222', fontSize: '0.63rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 16, fontFamily: 'JetBrains Mono, monospace' }}>Notes by Section</div>
+      <div style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 10, padding: '18px 20px' }}>
+        <div style={{ color: 'var(--bg4)', fontSize: '0.63rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 16, fontFamily: 'JetBrains Mono, monospace' }}>Notes by Section</div>
         {sections.map(s => {
           const count = notes.filter(n => n.section === s).length;
           const pct = Math.round((count / totalNotes) * 100);
           return (
             <div key={s} style={{ marginBottom: 12 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-                <span style={{ color: '#555', fontSize: '0.78rem', fontFamily: 'Inter, sans-serif' }}>{s}</span>
-                <span style={{ color: '#333', fontSize: '0.68rem', fontFamily: 'JetBrains Mono, monospace' }}>{count}</span>
+                <span style={{ color: 'var(--text3)', fontSize: '0.78rem', fontFamily: 'Inter, sans-serif' }}>{s}</span>
+                <span style={{ color: 'var(--border2)', fontSize: '0.68rem', fontFamily: 'JetBrains Mono, monospace' }}>{count}</span>
               </div>
-              <div style={{ height: 3, background: '#111', borderRadius: 2 }}>
+              <div style={{ height: 3, background: 'var(--bg3)', borderRadius: 2 }}>
                 <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg, #d4a843, rgba(212,168,67,0.2))', borderRadius: 2 }} />
               </div>
             </div>
@@ -855,8 +855,8 @@ function Settings({ onLogout, token }: { onLogout: () => void; token: string }) 
   const Row = ({ label, desc, action, btnLabel, danger }: { label: string; desc: string; action: () => void; btnLabel: string; danger?: boolean }) => (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0', borderBottom: '1px solid #0d0d0d' }}>
       <div>
-        <div style={{ color: '#888', fontSize: '0.85rem', fontFamily: 'Inter, sans-serif' }}>{label}</div>
-        <div style={{ color: '#2a2a2a', fontSize: '0.72rem', marginTop: 2, fontFamily: 'JetBrains Mono, monospace' }}>{desc}</div>
+        <div style={{ color: 'var(--text3)', fontSize: '0.85rem', fontFamily: 'Inter, sans-serif' }}>{label}</div>
+        <div style={{ color: 'var(--border)', fontSize: '0.72rem', marginTop: 2, fontFamily: 'JetBrains Mono, monospace' }}>{desc}</div>
       </div>
       <button onClick={action} className={danger ? 'btn-red' : 'btn-gold'} style={{ marginLeft: 16 }}>{btnLabel}</button>
     </div>
@@ -864,14 +864,14 @@ function Settings({ onLogout, token }: { onLogout: () => void; token: string }) 
 
   return (
     <div style={{ padding: '24px 28px', maxWidth: 560 }}>
-      <div style={{ background: '#0a0a0a', border: '1px solid #141414', borderRadius: 10, padding: '0 18px', marginBottom: 14 }}>
+      <div style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 10, padding: '0 18px', marginBottom: 14 }}>
         <Row label="Export note overrides" desc="Download all cloud edits as JSON" btnLabel="Export" action={exportOverrides} />
         <Row label="Export posts" desc="Backup all articles & current affairs" btnLabel="Export" action={exportPosts} />
         <Row label="Sign out" desc="End admin session" btnLabel="Logout" action={onLogout} danger />
       </div>
-      <div style={{ background: '#0a0a0a', border: '1px solid #141414', borderRadius: 10, padding: '14px 18px' }}>
+      <div style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 10, padding: '14px 18px' }}>
         {[['☁', 'Supabase · Mumbai'], ['🔐', 'HMAC server-side auth'], ['👥', 'Google OAuth (students)']].map(([icon, val]) => (
-          <div key={val} style={{ color: '#222', fontSize: '0.72rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: 5 }}>{icon} {val}</div>
+          <div key={val} style={{ color: 'var(--bg4)', fontSize: '0.72rem', fontFamily: 'JetBrains Mono, monospace', marginBottom: 5 }}>{icon} {val}</div>
         ))}
       </div>
       {msg && <p style={{ color: '#4ade80', fontSize: '0.78rem', marginTop: 12, fontFamily: 'JetBrains Mono, monospace' }}>{msg}</p>}
@@ -897,12 +897,12 @@ function Submissions({ token }: { token: string }) {
   };
 
   const visible = rows.filter(r => filter === 'all' || r.type === filter);
-  if (loading) return <div style={{ padding: 32, color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>Loading...</div>;
+  if (loading) return <div style={{ padding: 32, color: 'var(--border2)', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>Loading...</div>;
 
   return (
     <div style={{ padding: '24px 28px', maxWidth: 860 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-        <span style={{ color: '#555', fontSize: '0.72rem', fontFamily: 'JetBrains Mono, monospace' }}>{rows.length} total</span>
+        <span style={{ color: 'var(--text3)', fontSize: '0.72rem', fontFamily: 'JetBrains Mono, monospace' }}>{rows.length} total</span>
         <div style={{ display: 'flex', gap: 4 }}>
           {(['all', 'contact', 'bug'] as const).map(f => (
             <button key={f} onClick={() => setFilter(f)}
@@ -914,21 +914,21 @@ function Submissions({ token }: { token: string }) {
         </div>
       </div>
       {visible.length === 0
-        ? <div style={{ color: '#222', fontSize: '0.85rem', padding: '32px 0', textAlign: 'center', fontFamily: 'Inter, sans-serif' }}>No submissions.</div>
+        ? <div style={{ color: 'var(--bg4)', fontSize: '0.85rem', padding: '32px 0', textAlign: 'center', fontFamily: 'Inter, sans-serif' }}>No submissions.</div>
         : visible.map(row => (
-          <div key={row.id} className="fsi" style={{ background: '#0a0a0a', border: '1px solid #141414', borderRadius: 9, padding: '13px 16px', marginBottom: 8 }}>
+          <div key={row.id} className="fsi" style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 9, padding: '13px 16px', marginBottom: 8 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <span style={{ padding: '2px 8px', borderRadius: 10, fontSize: '0.63rem', fontFamily: 'JetBrains Mono, monospace', background: row.type === 'bug' ? 'rgba(248,113,113,0.07)' : 'rgba(212,168,67,0.07)', border: row.type === 'bug' ? '1px solid rgba(248,113,113,0.2)' : '1px solid rgba(212,168,67,0.2)', color: row.type === 'bug' ? '#f87171' : '#d4a843' }}>
                 {row.type === 'bug' ? 'BUG' : 'CONTACT'}
               </span>
-              {row.name && <span style={{ color: '#ccc', fontSize: '0.85rem', fontWeight: 500, fontFamily: 'Inter, sans-serif' }}>{row.name}</span>}
-              {row.email && <span style={{ color: '#444', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace' }}>{row.email}</span>}
-              <span style={{ marginLeft: 'auto', color: '#1e1e1e', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>
+              {row.name && <span style={{ color: 'var(--text2)', fontSize: '0.85rem', fontWeight: 500, fontFamily: 'Inter, sans-serif' }}>{row.name}</span>}
+              {row.email && <span style={{ color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'JetBrains Mono, monospace' }}>{row.email}</span>}
+              <span style={{ marginLeft: 'auto', color: 'var(--bg4)', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>
                 {new Date(row.created_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
               </span>
               <button onClick={() => deleteRow(row.id)} className="btn-red" style={{ padding: '2px 8px', fontSize: '0.7rem' }}>✕</button>
             </div>
-            <p style={{ color: '#666', fontSize: '0.83rem', lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'Inter, sans-serif' }}>{row.message}</p>
+            <p style={{ color: 'var(--text3)', fontSize: '0.83rem', lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'Inter, sans-serif' }}>{row.message}</p>
           </div>
         ))}
     </div>
@@ -992,8 +992,8 @@ function NotificationsManager({ token }: { token: string }) {
   return (
     <div style={{ padding: '24px 28px', maxWidth: 680 }}>
       {/* Add form */}
-      <div style={{ background: '#0a0a0a', border: '1px solid #141414', borderRadius: 10, padding: '16px 18px', marginBottom: 22 }}>
-        <div style={{ color: '#222', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 12, fontFamily: 'JetBrains Mono, monospace' }}>New Notification</div>
+      <div style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 10, padding: '16px 18px', marginBottom: 22 }}>
+        <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 12, fontFamily: 'JetBrains Mono, monospace' }}>New Notification</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
             placeholder="Title — e.g. Bhakti Movement notes added" className="inp" />
@@ -1011,14 +1011,14 @@ function NotificationsManager({ token }: { token: string }) {
 
       {/* List */}
       {loading
-        ? <div style={{ color: '#333', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>Loading...</div>
+        ? <div style={{ color: 'var(--border2)', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>Loading...</div>
         : notifications.length === 0
-          ? <div style={{ color: '#1e1e1e', textAlign: 'center', padding: '32px 0', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>No notifications yet.</div>
+          ? <div style={{ color: 'var(--bg4)', textAlign: 'center', padding: '32px 0', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>No notifications yet.</div>
           : (
             <div>
-              <div style={{ color: '#222', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10, fontFamily: 'JetBrains Mono, monospace' }}>{notifications.length} notifications</div>
+              <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10, fontFamily: 'JetBrains Mono, monospace' }}>{notifications.length} notifications</div>
               {notifications.map(n => editingId === n.id ? (
-                <div key={n.id} className="fsi" style={{ background: '#0a0a0a', border: '1px solid #222', borderRadius: 9, padding: '12px 14px', marginBottom: 7 }}>
+                <div key={n.id} className="fsi" style={{ background: 'var(--bg2)', border: '1px solid #222', borderRadius: 9, padding: '12px 14px', marginBottom: 7 }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
                     <input value={editForm.title} onChange={e => setEditForm(f => ({ ...f, title: e.target.value }))} className="inp" autoFocus />
                     <div style={{ display: 'flex', gap: 7 }}>
@@ -1032,14 +1032,14 @@ function NotificationsManager({ token }: { token: string }) {
                   </div>
                 </div>
               ) : (
-                <div key={n.id} className="fsi" style={{ background: '#0a0a0a', border: '1px solid #141414', borderRadius: 9, padding: '11px 14px', marginBottom: 7, display: 'flex', alignItems: 'center', gap: 10 }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = '#1e1e1e')} onMouseLeave={e => (e.currentTarget.style.borderColor = '#141414')}>
+                <div key={n.id} className="fsi" style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 9, padding: '11px 14px', marginBottom: 7, display: 'flex', alignItems: 'center', gap: 10 }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--bg4)')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--bg3)')}>
                   <span style={{ width: 6, height: 6, borderRadius: '50%', background: typeColor(n.type), flexShrink: 0, boxShadow: `0 0 5px ${typeColor(n.type)}44` }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ color: '#c0b8a8', fontSize: '0.85rem', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'Inter, sans-serif' }}>{n.title}</div>
                     <div style={{ display: 'flex', gap: 8, marginTop: 2, alignItems: 'center' }}>
-                      <span style={{ color: '#252525', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>{n.link}</span>
-                      <span style={{ color: '#1e1e1e', fontSize: '0.62rem', fontFamily: 'JetBrains Mono, monospace', marginLeft: 'auto' }}>
+                      <span style={{ color: 'var(--bg4)', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>{n.link}</span>
+                      <span style={{ color: 'var(--bg4)', fontSize: '0.62rem', fontFamily: 'JetBrains Mono, monospace', marginLeft: 'auto' }}>
                         {new Date(n.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                       </span>
                     </div>
@@ -1059,7 +1059,7 @@ export default function AdminPage() {
   const { authed, checking, login, logout, token } = useAdminAuth();
   const [tab, setTab] = useState<Tab>('notes');
 
-  if (checking) return <><GlobalStyles /><div style={{ background: '#060606', minHeight: '100vh' }} /></>;
+  if (checking) return <><GlobalStyles /><div style={{ background: 'var(--bg)', minHeight: '100vh' }} /></>;
   if (!authed) return <><GlobalStyles /><LoginScreen onLogin={login} /></>;
 
   const NAV: { id: Tab; label: string; icon: string }[] = [
@@ -1074,17 +1074,17 @@ export default function AdminPage() {
   return (
     <>
       <GlobalStyles />
-      <div style={{ display: 'flex', height: '100vh', background: '#060606', color: '#fff', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', height: '100vh', background: 'var(--bg)', color: 'var(--text)', overflow: 'hidden' }}>
 
         {/* ── SIDEBAR ── */}
-        <div style={{ width: 210, flexShrink: 0, background: '#040404', borderRight: '1px solid #111', display: 'flex', flexDirection: 'column', height: '100vh' }}>
+        <div style={{ width: 210, flexShrink: 0, background: 'var(--bg)', borderRight: '1px solid #111', display: 'flex', flexDirection: 'column', height: '100vh' }}>
           {/* Logo */}
           <div style={{ padding: '16px 14px 12px', borderBottom: '1px solid #0d0d0d' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
               <div style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0 }}>⚡</div>
               <div>
                 <div style={{ color: '#d4a843', fontSize: '0.78rem', fontWeight: 600, fontFamily: 'Inter, sans-serif', letterSpacing: '0.05em' }}>HISTOPT</div>
-                <div style={{ color: '#1e1e1e', fontSize: '0.6rem', fontFamily: 'JetBrains Mono, monospace', marginTop: 1 }}>CMS v2</div>
+                <div style={{ color: 'var(--bg4)', fontSize: '0.6rem', fontFamily: 'JetBrains Mono, monospace', marginTop: 1 }}>CMS v2</div>
               </div>
             </div>
           </div>
@@ -1092,7 +1092,7 @@ export default function AdminPage() {
           {/* Live badge */}
           <div style={{ padding: '8px 14px', borderBottom: '1px solid #080808', display: 'flex', alignItems: 'center', gap: 6 }}>
             <div className="live-dot" style={{ width: 5, height: 5, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 4px rgba(74,222,128,0.5)' }} />
-            <span style={{ color: '#1e1e1e', fontSize: '0.63rem', fontFamily: 'JetBrains Mono, monospace' }}>LIVE · {new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
+            <span style={{ color: 'var(--bg4)', fontSize: '0.63rem', fontFamily: 'JetBrains Mono, monospace' }}>LIVE · {new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
           </div>
 
           {/* Nav */}
@@ -1108,9 +1108,9 @@ export default function AdminPage() {
           {/* Footer */}
           <div style={{ padding: '10px 12px', borderTop: '1px solid #0d0d0d' }}>
             <button onClick={logout}
-              style={{ width: '100%', padding: '6px', borderRadius: 6, cursor: 'pointer', background: 'transparent', border: '1px solid #141414', color: '#2a2a2a', fontSize: '0.73rem', fontFamily: 'Inter, sans-serif', transition: 'all 0.12s', outline: 'none' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#1e1e1e'; e.currentTarget.style.color = '#555'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#141414'; e.currentTarget.style.color = '#2a2a2a'; }}>
+              style={{ width: '100%', padding: '6px', borderRadius: 6, cursor: 'pointer', background: 'transparent', border: '1px solid #141414', color: 'var(--border)', fontSize: '0.73rem', fontFamily: 'Inter, sans-serif', transition: 'all 0.12s', outline: 'none' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--bg4)'; e.currentTarget.style.color = '#555'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--bg3)'; e.currentTarget.style.color = 'var(--border)'; }}>
               ⏻ Sign out
             </button>
           </div>

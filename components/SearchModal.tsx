@@ -177,23 +177,23 @@ export default function SearchModal() {
       <button className="search-full"
         onClick={() => setOpen(true)}
         title="Search (⌘K)"
-        style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, padding: '0.3rem 0.65rem', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}
-        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.2)'; el.style.color = 'var(--text2)'; }}
-        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.1)'; el.style.color = 'var(--text3)'; }}
+        style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 7, padding: '0.3rem 0.65rem', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}
+        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(0,0,0,0.12)'; el.style.color = 'var(--text2)'; }}
+        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(0,0,0,0.08)'; el.style.color = 'var(--text3)'; }}
       >
         <svg width="13" height="13" viewBox="0 0 20 20" fill="none">
           <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
           <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
         Search
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', background: 'rgba(255,255,255,0.06)', padding: '1px 5px', borderRadius: 3, border: '1px solid rgba(255,255,255,0.1)', color: 'var(--text3)' }}>⌘K</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', background: 'rgba(0,0,0,0.06)', padding: '1px 5px', borderRadius: 3, border: '1px solid rgba(0,0,0,0.08)', color: 'var(--text3)' }}>⌘K</span>
       </button>
       <button className="search-icon-only"
         onClick={() => setOpen(true)}
         title="Search (⌘K)"
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, padding: '0.35rem', color: 'var(--text3)', cursor: 'pointer', transition: 'all 0.15s' }}
-        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.2)'; el.style.color = 'var(--text2)'; }}
-        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.1)'; el.style.color = 'var(--text3)'; }}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 7, padding: '0.35rem', color: 'var(--text3)', cursor: 'pointer', transition: 'all 0.15s' }}
+        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(0,0,0,0.12)'; el.style.color = 'var(--text2)'; }}
+        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(0,0,0,0.08)'; el.style.color = 'var(--text3)'; }}
       >
         <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
           <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
@@ -209,11 +209,11 @@ export default function SearchModal() {
       onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
     >
       <div
-        style={{ width: '100%', maxWidth: 600, margin: '0 1rem', background: '#111', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 14, boxShadow: '0 32px 80px rgba(0,0,0,0.8)', overflow: 'hidden' }}
+        style={{ width: '100%', maxWidth: 600, margin: '0 1rem', background: 'var(--bg3)', border: '1px solid rgba(0,0,0,0.09)', borderRadius: 14, boxShadow: '0 32px 80px rgba(0,0,0,0.8)', overflow: 'hidden' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Input */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 16px', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" style={{ color: 'var(--text3)', flexShrink: 0 }}>
             <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
             <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -226,7 +226,7 @@ export default function SearchModal() {
             placeholder="Search notes, PYQs, flashcards, historians…"
             style={{ flex: 1, background: 'none', border: 'none', outline: 'none', color: 'var(--text)', fontSize: '0.95rem', fontFamily: 'var(--font-body)' }}
           />
-          <button onClick={() => setOpen(false)} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 5, padding: '2px 8px', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.72rem', fontFamily: 'var(--font-mono)' }}>esc</button>
+          <button onClick={() => setOpen(false)} style={{ background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 5, padding: '2px 8px', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.72rem', fontFamily: 'var(--font-mono)' }}>esc</button>
         </div>
 
         {/* Results */}
@@ -238,7 +238,7 @@ export default function SearchModal() {
                 {QUICK_JUMPS.map((j, i) => (
                   <button key={j.href} data-idx={i}
                     onClick={() => navigate(j.href)}
-                    style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 8, border: `1px solid ${selected === i ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.05)'}`, background: selected === i ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.02)', cursor: 'pointer', textAlign: 'left', transition: 'all 0.1s' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 8, border: `1px solid ${selected === i ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)'}`, background: selected === i ? 'rgba(0,0,0,0.07)' : 'rgba(0,0,0,0.02)', cursor: 'pointer', textAlign: 'left', transition: 'all 0.1s' }}
                     onMouseEnter={() => setSelected(i)}
                   >
                     <span style={{ fontSize: '1rem', flexShrink: 0 }}>{j.icon}</span>
@@ -268,7 +268,7 @@ export default function SearchModal() {
                   <button key={note.slug} data-idx={fi}
                     onClick={() => navigate(`/notes/${note.slug}`)}
                     onMouseEnter={() => setSelected(fi)}
-                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', background: isSel ? 'rgba(255,255,255,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background 0.1s' }}
+                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', background: isSel ? 'rgba(0,0,0,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background 0.1s' }}
                   >
                     <span style={{ fontSize: '0.85rem', flexShrink: 0, color: 'var(--text3)' }}>📄</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -298,7 +298,7 @@ export default function SearchModal() {
                   <button key={h.id} data-idx={fi}
                     onClick={() => navigate(`/historiography`)}
                     onMouseEnter={() => setSelected(fi)}
-                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', background: isSel ? 'rgba(255,255,255,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background 0.1s' }}
+                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', background: isSel ? 'rgba(0,0,0,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background 0.1s' }}
                   >
                     <span style={{ fontSize: '0.85rem', flexShrink: 0, color: 'var(--text3)' }}>🏛️</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -326,7 +326,7 @@ export default function SearchModal() {
                   <button key={i} data-idx={fi}
                     onClick={() => navigate(`/pyqs?q=${encodeURIComponent(pyq.topic)}`)}
                     onMouseEnter={() => setSelected(fi)}
-                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', background: isSel ? 'rgba(255,255,255,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background 0.1s' }}
+                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', background: isSel ? 'rgba(0,0,0,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background 0.1s' }}
                   >
                     <span style={{ fontSize: '0.85rem', flexShrink: 0, color: 'var(--text3)' }}>❓</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -337,7 +337,7 @@ export default function SearchModal() {
                         {pyq.marks} marks · {pyq.section}
                       </div>
                     </div>
-                    <span style={{ fontSize: '0.65rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', background: 'rgba(255,255,255,0.06)', padding: '2px 7px', borderRadius: 4, border: '1px solid rgba(255,255,255,0.08)', flexShrink: 0 }}>
+                    <span style={{ fontSize: '0.65rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', background: 'rgba(0,0,0,0.06)', padding: '2px 7px', borderRadius: 4, border: '1px solid rgba(0,0,0,0.08)', flexShrink: 0 }}>
                       {pyq.year}
                     </span>
                   </button>
@@ -348,7 +348,7 @@ export default function SearchModal() {
         </div>
 
         {/* Footer */}
-        <div style={{ padding: '8px 16px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: 16, fontSize: '0.68rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>
+        <div style={{ padding: '8px 16px', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', gap: 16, fontSize: '0.68rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>
           <span>↑↓ navigate</span>
           <span>↵ open</span>
           <span>esc close</span>

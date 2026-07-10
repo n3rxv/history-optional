@@ -35,7 +35,7 @@ function scoreColor(pct: number) {
 function dot(status: string) {
   if (status === "correct") return "#10b981";
   if (status === "partial") return "#f59e0b";
-  if (status === "blank") return "#333";
+  if (status === "blank") return "var(--border2)";
   return "#ef4444";
 }
 
@@ -176,7 +176,7 @@ export default function MapEvaluator({
       <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
 
         {/* Score header */}
-        <div style={{ background:"#0d0d0d", border:"1px solid #1a1a1a", borderRadius:12, padding:"20px 24px", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+        <div style={{ background:"var(--bg2)", border:"1px solid #1a1a1a", borderRadius:12, padding:"20px 24px", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
           <div>
             <div style={{ color:"#555", fontSize:12, marginBottom:4 }}>Total Score</div>
             <div style={{ fontSize:32, fontWeight:700, color: scoreColor(pct), fontFamily:"monospace" }}>
@@ -184,7 +184,7 @@ export default function MapEvaluator({
             </div>
             <div style={{ color:"#444", fontSize:13, marginTop:2 }}>{pct}%</div>
           </div>
-          <button onClick={reset} style={{ padding:"8px 16px", background:"#161616", border:"1px solid #222", borderRadius:8, color:"#888", fontSize:13, cursor:"pointer" }}>
+          <button onClick={reset} style={{ padding:"8px 16px", background:"var(--bg3)", border:"1px solid #222", borderRadius:8, color:"#888", fontSize:13, cursor:"pointer" }}>
             New PDF
           </button>
         </div>
@@ -194,7 +194,7 @@ export default function MapEvaluator({
           {results.results.map(r => {
             const open = expanded === r.number;
             return (
-              <div key={r.number} style={{ background:"#0d0d0d", border:`1px solid ${open ? "#2a2a2a" : "#161616"}`, borderRadius:8, overflow:"hidden" }}>
+              <div key={r.number} style={{ background:"var(--bg2)", border:`1px solid ${open ? "var(--border)" : "var(--bg3)"}`, borderRadius:8, overflow:"hidden" }}>
                 <button
                   onClick={() => setExpanded(open ? null : r.number)}
                   style={{ width:"100%", padding:"10px 14px", display:"flex", alignItems:"center", gap:10, background:"transparent", border:"none", cursor:"pointer", textAlign:"left" }}
@@ -216,21 +216,21 @@ export default function MapEvaluator({
                 {open && (
                   <div style={{ padding:"0 14px 12px", borderTop:"1px solid #1a1a1a" }}>
 
-                    <div style={{ marginTop:10, padding:"7px 10px", background:"#141414", borderRadius:6, border:"1px solid #252525" }}>
+                    <div style={{ marginTop:10, padding:"7px 10px", background:"var(--bg3)", borderRadius:6, border:"1px solid #252525" }}>
                       <span style={{ color:"#666", fontSize:11, marginRight:6 }}>Clue:</span>
                       <span style={{ color:"#bbb", fontSize:12 }}>{r.clue || "—"}</span>
                     </div>
 
                     <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:8, marginTop:8 }}>
-                      <div style={{ background:"#111", borderRadius:8, padding:"10px 12px" }}>
+                      <div style={{ background:"var(--bg3)", borderRadius:8, padding:"10px 12px" }}>
                         <div style={{ color:"#444", fontSize:11, marginBottom:4 }}>You wrote</div>
                         <div style={{ color: r.studentSite ? "#e0e0e0" : "#444", fontSize:13, fontWeight:500 }}>
                           {r.studentSite ?? "—"}
                         </div>
                       </div>
                       <div style={{
-                        background: r.status === "correct" || r.status === "partial" ? "rgba(16,185,129,0.06)" : r.status === "blank" ? "#111" : "rgba(239,68,68,0.06)",
-                        border: `1px solid ${r.status === "correct" || r.status === "partial" ? "rgba(16,185,129,0.2)" : r.status === "blank" ? "#1a1a1a" : "rgba(239,68,68,0.15)"}`,
+                        background: r.status === "correct" || r.status === "partial" ? "rgba(16,185,129,0.06)" : r.status === "blank" ? "var(--bg3)" : "rgba(239,68,68,0.06)",
+                        border: `1px solid ${r.status === "correct" || r.status === "partial" ? "rgba(16,185,129,0.2)" : r.status === "blank" ? "var(--bg4)" : "rgba(239,68,68,0.15)"}`,
                         borderRadius:8, padding:"10px 12px"
                       }}>
                         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4 }}>
@@ -248,8 +248,8 @@ export default function MapEvaluator({
                       </div>
                     </div>
 
-                    <div style={{ marginTop:8, background:"#111", border:"1px solid #252525", borderRadius:8, overflow:"hidden" }}>
-                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"8px 12px", background:"#161616", borderBottom:"1px solid #252525" }}>
+                    <div style={{ marginTop:8, background:"var(--bg3)", border:"1px solid #252525", borderRadius:8, overflow:"hidden" }}>
+                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"8px 12px", background:"var(--bg3)", borderBottom:"1px solid #252525" }}>
                         <span style={{ color:"#777", fontSize:11, textTransform:"uppercase", letterSpacing:"0.05em" }}>Your description</span>
                         {r.status !== "blank" && (
                           <span style={{
@@ -264,7 +264,7 @@ export default function MapEvaluator({
                         {r.studentDescription ?? "Nothing written"}
                       </div>
                       {r.descriptionFeedback && (
-                        <div style={{ padding:"10px 12px", borderTop:"1px solid #1e1e1e", background:"#0e0e0e", display:"flex", gap:8, alignItems:"flex-start" }}>
+                        <div style={{ padding:"10px 12px", borderTop:"1px solid #1e1e1e", background:"var(--bg2)", display:"flex", gap:8, alignItems:"flex-start" }}>
                           <span style={{ fontSize:14, flexShrink:0 }}>💬</span>
                           <span style={{ color:"#aaa", fontSize:12, lineHeight:1.7 }}>{r.descriptionFeedback}</span>
                         </div>
@@ -299,7 +299,7 @@ export default function MapEvaluator({
         style={{
           border: drag ? "1.5px dashed #6366f188" : file ? "1.5px solid #6366f144" : "1.5px dashed #1e1e1e",
           borderRadius:12, padding: file ? "16px 18px" : "32px 18px",
-          textAlign:"center", background: file ? "#6366f108" : drag ? "#6366f106" : "#080808",
+          textAlign:"center", background: file ? "#6366f108" : drag ? "#6366f106" : "var(--bg)",
           cursor:"pointer", transition:"all 0.18s",
           display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:8,
         }}
@@ -318,7 +318,7 @@ export default function MapEvaluator({
             <div style={{ fontSize:32 }}>📋</div>
             <div style={{ color:"#e0e0e0", fontSize:15, fontWeight:500 }}>Upload answer booklet PDF</div>
             <div style={{ color:"#555", fontSize:13 }}>Map + handwritten/digitally written answers in one PDF</div>
-            <div style={{ color:"#333", fontSize:12, marginTop:4 }}>PDF only</div>
+            <div style={{ color:"var(--border2)", fontSize:12, marginTop:4 }}>PDF only</div>
           </>
         )}
       </div>
@@ -335,7 +335,7 @@ export default function MapEvaluator({
             <span style={{ color:"#666", fontSize:13 }}>{stage}</span>
             <span style={{ color:"#555", fontSize:12, fontFamily:"monospace" }}>{progress}%</span>
           </div>
-          <div style={{ height:3, background:"#1a1a1a", borderRadius:2 }}>
+          <div style={{ height:3, background:"var(--bg4)", borderRadius:2 }}>
             <div style={{ height:"100%", width:`${progress}%`, background:"#6366f1", borderRadius:2, transition:"width 0.4s ease" }} />
           </div>
         </div>
@@ -346,7 +346,7 @@ export default function MapEvaluator({
         disabled={loading || !file}
         style={{
           padding:"13px 0", borderRadius:10, border:"none", cursor: loading || !file ? "not-allowed" : "pointer",
-          background: loading || !file ? "#1a1a1a" : "#6366f1",
+          background: loading || !file ? "var(--bg4)" : "#6366f1",
           color: loading || !file ? "#444" : "#fff",
           fontSize:15, fontWeight:600, transition:"all 0.2s",
         }}

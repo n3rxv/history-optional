@@ -265,13 +265,13 @@ export default function ResourcesPage() {
     <main style={{ minHeight: '100vh', background: 'var(--bg)', paddingBottom: '5rem' }}>
       <style>{`
         .bcard { transition: background 0.18s; }
-        .bcard:hover { background: var(--bg2, rgba(255,255,255,0.025)) !important; }
-        .bcard:hover .bcover { box-shadow: 5px 10px 28px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.05) !important; transform: translateY(-2px) rotate(-1deg); }
+        .bcard:hover { background: var(--bg2, rgba(0,0,0,0.025)) !important; }
+        .bcard:hover .bcover { box-shadow: 5px 10px 28px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(0,0,0,0.05) !important; transform: translateY(-2px) rotate(-1deg); }
         .bcover { transition: box-shadow 0.22s, transform 0.22s; }
         .rbtn { transition: opacity 0.12s; }
         .rbtn:hover { opacity: 0.82; }
         .bbtn { transition: background 0.12s, color 0.12s; }
-        .bbtn:hover { background: rgba(255,255,255,0.05) !important; color: var(--text2) !important; }
+        .bbtn:hover { background: rgba(0,0,0,0.05) !important; color: var(--text2) !important; }
         .ftab { transition: all 0.14s; }
       `}</style>
 
@@ -343,7 +343,7 @@ export default function ResourcesPage() {
                 padding: '0.32rem 0.9rem',
                 borderRadius: 20,
                 border: isActive ? `1px solid ${color}` : '1px solid var(--border)',
-                background: isActive ? (meta ? meta.bg : 'rgba(255,255,255,0.05)') : 'transparent',
+                background: isActive ? (meta ? meta.bg : 'rgba(0,0,0,0.05)') : 'transparent',
                 color: isActive ? color : 'var(--text3)',
                 fontSize: '0.73rem',
                 fontWeight: isActive ? 700 : 400,
@@ -387,7 +387,7 @@ export default function ResourcesPage() {
                   flexShrink: 0, width: 84, height: 120,
                   borderRadius: 5, overflow: 'hidden',
                   border: `1px solid ${meta.border}`,
-                  boxShadow: `4px 7px 20px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.04)`,
+                  boxShadow: `4px 7px 20px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0,0,0,0.04)`,
                   position: 'relative',
                 }}
               >
@@ -448,7 +448,7 @@ export default function ResourcesPage() {
                         padding: '0.3rem 0.85rem',
                         borderRadius: 4,
                         background: meta.color,
-                        color: '#0c0c0c',
+                        color: 'var(--bg2)',
                         fontSize: '0.67rem', fontWeight: 700,
                         textDecoration: 'none',
                         display: 'inline-flex', alignItems: 'center', gap: 5,
@@ -471,7 +471,7 @@ export default function ResourcesPage() {
                     style={{
                       padding: '0.3rem 0.85rem',
                       borderRadius: 4,
-                      border: '1px solid rgba(255,255,255,0.1)',
+                      border: '1px solid rgba(0,0,0,0.08)',
                       background: 'transparent',
                       color: 'var(--text3)',
                       fontSize: '0.67rem', fontWeight: 500,

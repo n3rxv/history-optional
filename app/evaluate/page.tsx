@@ -77,7 +77,7 @@ function boldHistorians(text: string): React.ReactNode[] {
   const pattern = new RegExp(`(${HISTORIAN_NAMES.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
   const parts = text.split(pattern);
   return parts.map((part, i) =>
-    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "#f0f0f0" }}>{part}</strong> : part
+    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "var(--text)" }}>{part}</strong> : part
   );
 }
 
@@ -124,7 +124,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
   if (!pdfMake.vfs) pdfMake.vfs = {};
 
   const BLUE  = '#1a4fa0';
-  const BLACK = '#000000';
+  const BLACK = 'var(--bg)';
   const WHITE = '#ffffff';
 
   const now = new Date();
@@ -179,14 +179,14 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
       {
         stack: [
           { text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'Roboto', color: BLACK, margin: [12, 4, 0, 2] },
-          { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: '#888888', italics: true, margin: [14, 0, 0, 0] },
+          { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: 'var(--text3)', italics: true, margin: [14, 0, 0, 0] },
         ],
         width: '*',
       },
       {
         text: dateStr,
         fontSize: 8,
-        color: '#888888',
+        color: 'var(--text3)',
         alignment: 'right',
         characterSpacing: 1,
         margin: [0, 10, 0, 0],
@@ -208,7 +208,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
           body: [[{
             stack: [
               { text: scoreStr, fontSize: 22, bold: true, color: BLACK, alignment: 'center', margin: [0, 8, 0, 2] },
-              { text: 'MARKS SCORED', fontSize: 7, color: '#666666', alignment: 'center', characterSpacing: 1, margin: [0, 0, 0, 6] },
+              { text: 'MARKS SCORED', fontSize: 7, color: 'var(--text3)', alignment: 'center', characterSpacing: 1, margin: [0, 0, 0, 6] },
             ],
             fillColor: '#eef3fc', border: [false, false, false, false],
           }]],
@@ -218,7 +218,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
       {
         stack: [
           { text: 'MODEL ANSWER', fontSize: 14, bold: true, color: BLACK, margin: [12, 8, 0, 4] },
-          { text: idealWC + '  ·  ' + marks + ' Marks  ·  UPSC CSM', fontSize: 8, color: '#666666', margin: [12, 0, 0, 0] },
+          { text: idealWC + '  ·  ' + marks + ' Marks  ·  UPSC CSM', fontSize: 8, color: 'var(--text3)', margin: [12, 0, 0, 0] },
         ],
         width: '*',
       },
@@ -285,7 +285,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
           {
             stack: [
               { text: h.name, fontSize: 12, bold: true, color: BLACK, margin: [0, 0, 0, 2] },
-              ...(h.work ? [{ text: h.work, fontSize: 9, color: '#666666', italics: true, margin: [0, 0, 0, 4] }] : []),
+              ...(h.work ? [{ text: h.work, fontSize: 9, color: 'var(--text3)', italics: true, margin: [0, 0, 0, 4] }] : []),
               { text: parseInline(h.argument), fontSize: 10.5, color: BLACK, lineHeight: 1.6 },
             ],
             fillColor: '#eef3fc', border: [false, false, false, false], margin: [10, 8, 10, 10],
@@ -308,14 +308,14 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
             {
               stack: [
                 { text: 'H.  HISTORY OPTIONAL', fontSize: 8, bold: true, color: BLACK },
-                { text: 'historyoptional.xyz', fontSize: 7, color: '#666666', margin: [0, 1, 0, 0] },
+                { text: 'historyoptional.xyz', fontSize: 7, color: 'var(--text3)', margin: [0, 1, 0, 0] },
               ],
               margin: [40, 10, 0, 0], width: '*',
             },
             {
               stack: [
                 { text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' },
-                { text: 'PAGE', fontSize: 6, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] },
+                { text: 'PAGE', fontSize: 6, color: 'var(--text3)', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] },
               ],
               margin: [0, 9, 40, 0], width: 'auto',
             },
@@ -565,7 +565,7 @@ const handleOcr = useCallback(async () => {
           font-family:var(--font-mono); cursor:pointer; transition:all 0.2s;
           letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; }
         .ev-btn:hover:not(:disabled) { background:rgba(59,130,246,0.18); border-color:var(--accent); }
-        .ev-btn::before { content:''; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.09) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
+        .ev-btn::before { content:''; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(0,0,0,0.09) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
         .ev-btn:hover:not(:disabled)::before { opacity:1; animation:glass-shine 0.55s ease forwards; }
         .ev-btn:disabled { opacity:0.35; cursor:not-allowed; }
         .ev-btn-sm { padding:10px 20px; width:auto; font-size:0.7rem; }
@@ -581,7 +581,7 @@ const handleOcr = useCallback(async () => {
         .ev-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
         /* ── MARKS GAUGE ── */
         .ev-gauge { display:flex; align-items:center; gap:18px; background:linear-gradient(135deg,#161616,#111);
-          border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
+          border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
         .ev-gauge-emoji { font-size:2.4rem; line-height:1; flex-shrink:0; }
         .ev-gauge-body { flex:1; min-width:0; }
         .ev-gauge-top { display:flex; align-items:baseline; gap:8px; margin-bottom:8px; }
@@ -603,14 +603,14 @@ const handleOcr = useCallback(async () => {
         .pill-r { background:rgba(248,113,113,0.1); color:#f87171; border:1px solid rgba(248,113,113,0.3); }
         .pill-y { background:rgba(59,130,246,0.1); color:var(--accent); border:1px solid rgba(59,130,246,0.3); }
         /* ── TABS ── */
-        .ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(255,255,255,0.07); }
+        .ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(0,0,0,0.07); }
         .ev-tab { padding:13px 28px; cursor:pointer; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-family:var(--font-mono); background:none; border:none; color:#444; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
         .ev-tab.active { color:#e2e8f0; border-bottom-color:var(--accent); }
         .ev-tab:hover:not(.active) { color:var(--text2); }
 
         /* ── BASE CARD ── */
-        .ev-card { background:linear-gradient(135deg,#161616,#111); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
-        .ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent 60%); pointer-events:none; }
+        .ev-card { background:linear-gradient(135deg,#161616,#111); border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
+        .ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,0,0,0.02),transparent 60%); pointer-events:none; }
         .ev-card-gold { border-color:rgba(234,179,8,0.18); background:linear-gradient(135deg,#161410,#111); }
         .ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(234,179,8,0.4),transparent); }
         .ev-card-green { border-color:rgba(74,222,128,0.12); background:linear-gradient(135deg,#101610,#111); }
@@ -635,13 +635,13 @@ const handleOcr = useCallback(async () => {
         .ev-ct::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,rgba(59,130,246,0.25),transparent); }
 
         /* ── DEMAND LIST ── */
-        .ev-demand-item { display:flex; gap:14px; padding:13px 0; border-bottom:1px solid rgba(255,255,255,0.04); align-items:flex-start; }
+        .ev-demand-item { display:flex; gap:14px; padding:13px 0; border-bottom:1px solid rgba(0,0,0,0.04); align-items:flex-start; }
         .ev-demand-item:last-child { border-bottom:none; padding-bottom:0; }
         .ev-demand-bullet { width:6px; height:6px; border-radius:50%; background:var(--accent); margin-top:7px; flex-shrink:0; box-shadow:0 0 8px rgba(59,130,246,0.5); }
         .ev-demand-txt { font-size:0.9rem; color:#c4c4c4; line-height:1.75; font-family:var(--font-body); }
 
         /* ── WHAT YOU WROTE ── */
-        .ev-wrote { background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:16px 18px; margin-bottom:18px; position:relative; }
+        .ev-wrote { background:rgba(0,0,0,0.025); border:1px solid rgba(0,0,0,0.07); border-radius:8px; padding:16px 18px; margin-bottom:18px; position:relative; }
         .ev-wrote::before { content:''; position:absolute; left:0; top:12px; bottom:12px; width:3px; background:linear-gradient(180deg,#3b82f6,rgba(59,130,246,0.2)); border-radius:0 2px 2px 0; }
         .ev-wrote-lbl { font-family:var(--font-mono); font-size:0.52rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; padding-left:14px; }
         .ev-wrote-txt { font-size:0.88rem; color:var(--text2); line-height:1.75; font-style:normal; padding-left:14px; text-align:justify; }
@@ -651,13 +651,13 @@ const handleOcr = useCallback(async () => {
 
         /* ── SUBLABELS (Strengths / Weaknesses / Suggestions) ── */
         .ev-sl { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--text3); margin:18px 0 10px; display:flex; align-items:center; gap:8px; }
-        .ev-sl::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.05); }
+        .ev-sl::after { content:''; flex:1; height:1px; background:rgba(0,0,0,0.05); }
         .ev-sl.g { color:rgba(74,222,128,0.6); }
         .ev-sl.r { color:rgba(248,113,113,0.5); }
 
         /* ── LISTS ── */
         ul.ev-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
-        ul.ev-list li { padding:10px 14px 10px 16px; background:rgba(255,255,255,0.02); border-radius:6px; border-left:2px solid rgba(255,255,255,0.08); font-size:0.88rem; color:#b0b0b0; line-height:1.7; font-family:var(--font-body); }
+        ul.ev-list li { padding:10px 14px 10px 16px; background:rgba(0,0,0,0.02); border-radius:6px; border-left:2px solid rgba(0,0,0,0.08); font-size:0.88rem; color:#b0b0b0; line-height:1.7; font-family:var(--font-body); }
         ul.ev-list li.g { border-left-color:rgba(74,222,128,0.45); color:#a7f3c0; background:rgba(74,222,128,0.04); }
         ul.ev-list li.r { border-left-color:rgba(248,113,113,0.4); color:#fecaca; background:rgba(248,113,113,0.04); }
 
@@ -673,7 +673,7 @@ const handleOcr = useCallback(async () => {
         .ev-mp { font-size:0.93rem; line-height:1.9; color:#d4d4d4; margin-bottom:0; font-family:var(--font-body); }
 
         /* ── HISTORIANS ── */
-        .ev-hist { padding:22px 0; border-bottom:1px solid rgba(255,255,255,0.05); display:grid; gap:6px; }
+        .ev-hist { padding:22px 0; border-bottom:1px solid rgba(0,0,0,0.05); display:grid; gap:6px; }
         .ev-hist:first-child { padding-top:0; }
         .ev-hist:last-child { border-bottom:none; padding-bottom:0; }
         .ev-hist-name { font-family:var(--font-display); font-size:1.0rem; font-weight:700; color:#60a5fa; letter-spacing:0.01em; }
@@ -714,7 +714,7 @@ const handleOcr = useCallback(async () => {
 
       `}</style>
 
-      <div className="ev-layout" style={{ display:"flex", minHeight:"calc(100vh - 60px)", background:"#111" }}>
+      <div className="ev-layout" style={{ display:"flex", minHeight:"calc(100vh - 60px)", background:"var(--bg3)" }}>
 
         {/* Mobile-only floating trigger to reopen history drawer */}
         {!sidebarOpen && (
@@ -735,7 +735,7 @@ const handleOcr = useCallback(async () => {
         {/* ── History Sidebar ── */}
         <div className="ev-sidebar" data-open={sidebarOpen ? 'true' : 'false'} style={{
           width: sidebarOpen ? 280 : 40, minWidth: sidebarOpen ? 280 : 40,
-          borderRight:"1px solid #1e1e1e", background:"#0d0d0d",
+          borderRight:"1px solid #1e1e1e", background:"var(--bg2)",
           transition:"all 0.25s ease", overflow:"hidden", flexShrink:0,
           display:"flex", flexDirection:"column",
         }}>
@@ -763,11 +763,11 @@ const handleOcr = useCallback(async () => {
                     key={entry.id}
                     onClick={() => setOpenEntry(isOpen ? null : entry)}
                     style={{
-                      width:"100%", padding:"12px 16px", background: isOpen ? "#161616" : "transparent",
+                      width:"100%", padding:"12px 16px", background: isOpen ? "var(--bg3)" : "transparent",
                       border:"none", borderBottom:"1px solid #1a1a1a",
                       cursor:"pointer", textAlign:"left", transition:"background 0.15s",
                     }}
-                    onMouseEnter={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "#141414"; }}
+                    onMouseEnter={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "var(--bg3)"; }}
                     onMouseLeave={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
                   >
                     <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
@@ -779,7 +779,7 @@ const handleOcr = useCallback(async () => {
                     <div style={{ fontSize:"0.75rem", color: isOpen ? "#e2e8f0" : "#888", lineHeight:1.4, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>
                       {entry.question}
                     </div>
-                    <div style={{ marginTop:6, height:2, background:"#1e1e1e", borderRadius:2, overflow:"hidden" }}>
+                    <div style={{ marginTop:6, height:2, background:"var(--bg4)", borderRadius:2, overflow:"hidden" }}>
                       <div style={{ height:"100%", width:`${pct}%`, background:color, borderRadius:2 }} />
                     </div>
                   </button>
@@ -911,7 +911,7 @@ const handleOcr = useCallback(async () => {
                 {/* Body */}
                 {openEntry.body && (
                   <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                    <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                    <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                       <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Body</span>
                       {openEntry.sectionMarks?.body && (
                         <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
@@ -919,7 +919,7 @@ const handleOcr = useCallback(async () => {
                         </span>
                       )}
                     </div>
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                       <div className="ev-sw-grid">
                         <div className="ev-sw-col ev-sw-col-s">
                           <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
@@ -952,7 +952,7 @@ const handleOcr = useCallback(async () => {
                 {/* Conclusion */}
                 {openEntry.conclusion && (
                   <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                    <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                    <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                       <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Conclusion</span>
                       {openEntry.sectionMarks?.conclusion && (
                         <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
@@ -961,12 +961,12 @@ const handleOcr = useCallback(async () => {
                       )}
                     </div>
                     {openEntry.conclusion?.what_was_written && (
-                      <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)", background:"rgba(255,255,255,0.015)" }}>
+                      <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)", background:"rgba(255,255,255,0.015)" }}>
                         <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
                         <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{openEntry.conclusion?.what_was_written}</div>
                       </div>
                     )}
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                       <div className="ev-sw-grid">
                         <div className="ev-sw-col ev-sw-col-s">
                           <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
@@ -983,7 +983,7 @@ const handleOcr = useCallback(async () => {
                       </div>
                     </div>
                     {(openEntry.conclusion.suggestions || []).filter(s => s).length > 0 && (
-                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                         <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
                         {(openEntry.conclusion.suggestions || []).map((s,i) => (
                           <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
@@ -1066,7 +1066,7 @@ const handleOcr = useCallback(async () => {
               <textarea className="ev-ta" rows={2}
                 placeholder={tr(t.evalQuestionPlaceholder, langHi)}
                 value={question} onChange={e => setQuestion(e.target.value)}
-                style={{ marginBottom:0, borderColor: question ? "#2a2a2a" : "#7f1d1d" }} />
+                style={{ marginBottom:0, borderColor: question ? "var(--border)" : "#7f1d1d" }} />
             </div>
             <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:8 }}>{tr(t.evalTranscription, langHi)}</label>
             <textarea
@@ -1076,7 +1076,7 @@ const handleOcr = useCallback(async () => {
               onChange={e => setExtractedText(e.target.value)}
             />
             <div style={{ display:"flex", gap:12 }}>
-              <button className="ev-btn ev-btn-sm" onClick={() => setStage("form")} style={{ background:"transparent", color:"var(--text2)", borderColor:"#333" }}>
+              <button className="ev-btn ev-btn-sm" onClick={() => setStage("form")} style={{ background:"transparent", color:"var(--text2)", borderColor:"var(--border2)" }}>
                 {tr(t.evalReupload, langHi)}
               </button>
               <button className="ev-btn" onClick={submit} disabled={loading}>
@@ -1093,13 +1093,13 @@ const handleOcr = useCallback(async () => {
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:32 }}>
               <button onClick={() => { setEvalMode("single"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
-                background: evalMode==="single" ? "rgba(59,130,246,0.07)" : "#0d0d0d",
+                background: evalMode==="single" ? "rgba(59,130,246,0.07)" : "var(--bg2)",
                 border: evalMode==="single" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid #222",
-                boxShadow: evalMode==="single" ? "0 0 0 3px rgba(59,130,246,0.08), inset 0 1px 0 rgba(255,255,255,0.04)" : "none",
+                boxShadow: evalMode==="single" ? "0 0 0 3px rgba(59,130,246,0.08), inset 0 1px 0 rgba(0,0,0,0.04)" : "none",
                 transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
                   <div style={{ width:28, height:28, borderRadius:6,
-                    background: evalMode==="single" ? "rgba(59,130,246,0.15)" : "#161616",
+                    background: evalMode==="single" ? "rgba(59,130,246,0.15)" : "var(--bg3)",
                     border: evalMode==="single" ? "1px solid rgba(59,130,246,0.3)" : "1px solid #2a2a2a",
                     display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="single"?"#3b82f6":"#555"} strokeWidth="1.8" strokeLinecap="round">
@@ -1114,18 +1114,18 @@ const handleOcr = useCallback(async () => {
                     transition:"color 0.18s", fontWeight: evalMode==="single" ? 600 : 400 }}>{tr(t.evalSingleTitle, langHi)}</span>
                   {evalMode==="single" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"var(--accent)", boxShadow:"0 0 8px #3b82f6" }} />}
                 </div>
-                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="single" ? "#6b8db5" : "#3a3a3a",
+                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="single" ? "#6b8db5" : "var(--border2)",
                   lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalSingleDesc, langHi)}</div>
               </button>
               <button onClick={() => { setEvalMode("batch"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
-                background: evalMode==="batch" ? "rgba(59,130,246,0.07)" : "#0d0d0d",
+                background: evalMode==="batch" ? "rgba(59,130,246,0.07)" : "var(--bg2)",
                 border: evalMode==="batch" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid #222",
-                boxShadow: evalMode==="batch" ? "0 0 0 3px rgba(59,130,246,0.08), inset 0 1px 0 rgba(255,255,255,0.04)" : "none",
+                boxShadow: evalMode==="batch" ? "0 0 0 3px rgba(59,130,246,0.08), inset 0 1px 0 rgba(0,0,0,0.04)" : "none",
                 transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
                   <div style={{ width:28, height:28, borderRadius:6,
-                    background: evalMode==="batch" ? "rgba(59,130,246,0.15)" : "#161616",
+                    background: evalMode==="batch" ? "rgba(59,130,246,0.15)" : "var(--bg3)",
                     border: evalMode==="batch" ? "1px solid rgba(59,130,246,0.3)" : "1px solid #2a2a2a",
                     display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="batch"?"#3b82f6":"#555"} strokeWidth="1.8" strokeLinecap="round">
@@ -1138,19 +1138,19 @@ const handleOcr = useCallback(async () => {
                     transition:"color 0.18s", fontWeight: evalMode==="batch" ? 600 : 400 }}>{tr(t.evalBatchTitle, langHi)}</span>
                   {evalMode==="batch" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"var(--accent)", boxShadow:"0 0 8px #3b82f6" }} />}
                 </div>
-                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="batch" ? "#6b8db5" : "#3a3a3a",
+                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="batch" ? "#6b8db5" : "var(--border2)",
                   lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalBatchDesc, langHi)}</div>
               </button>
               <button onClick={() => { setEvalMode("map"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
                 gridColumn:"1 / -1",
-                background: evalMode==="map" ? "rgba(16,185,129,0.07)" : "#0d0d0d",
+                background: evalMode==="map" ? "rgba(16,185,129,0.07)" : "var(--bg2)",
                 border: evalMode==="map" ? "1.5px solid rgba(16,185,129,0.45)" : "1.5px solid #222",
-                boxShadow: evalMode==="map" ? "0 0 0 3px rgba(16,185,129,0.08), inset 0 1px 0 rgba(255,255,255,0.04)" : "none",
+                boxShadow: evalMode==="map" ? "0 0 0 3px rgba(16,185,129,0.08), inset 0 1px 0 rgba(0,0,0,0.04)" : "none",
                 transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
                   <div style={{ width:28, height:28, borderRadius:6,
-                    background: evalMode==="map" ? "rgba(16,185,129,0.15)" : "#161616",
+                    background: evalMode==="map" ? "rgba(16,185,129,0.15)" : "var(--bg3)",
                     border: evalMode==="map" ? "1px solid rgba(16,185,129,0.3)" : "1px solid #2a2a2a",
                     display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="map"?"#10b981":"#555"} strokeWidth="1.8" strokeLinecap="round">
@@ -1164,7 +1164,7 @@ const handleOcr = useCallback(async () => {
                     transition:"color 0.18s", fontWeight: evalMode==="map" ? 600 : 400 }}>{tr(t.evalMapTitle, langHi)}</span>
                   {evalMode==="map" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"#10b981", boxShadow:"0 0 8px #10b981" }} />}
                 </div>
-                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="map" ? "#4d9e84" : "#3a3a3a",
+                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="map" ? "#4d9e84" : "var(--border2)",
                   lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalMapDesc, langHi)}</div>
               </button>
             </div>
@@ -1215,7 +1215,7 @@ const handleOcr = useCallback(async () => {
                           onPointerCancel={() => setDragIdx(null)}
                         >
                           {previews[i] === "__pdf__"
-                            ? <div style={{width:80,height:100,borderRadius:4,border:"2px solid #333",background:"#1a1a2e",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4}}>
+                            ? <div style={{width:80,height:100,borderRadius:4,border:"2px solid #333",background:"var(--bg2)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4}}>
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><text x="6" y="19" fontSize="5" fill="#22c55e" stroke="none" fontWeight="bold">PDF</text></svg>
                                 <span style={{color:"#22c55e",fontSize:"0.6rem",fontFamily:"var(--font-mono)"}}>PDF</span>
                               </div>
@@ -1313,10 +1313,10 @@ const handleOcr = useCallback(async () => {
             {/* Big progress number */}
             <div style={{ display:"flex", alignItems:"flex-end", gap:6, marginBottom:18 }}>
               <span style={{ fontFamily:"var(--font-mono)", fontSize:"4.5rem", fontWeight:700, lineHeight:1, color:"#f0f0f0", letterSpacing:"-0.04em" }}>{String(evalProgress).padStart(2,"0")}</span>
-              <span style={{ fontFamily:"var(--font-mono)", fontSize:"1.2rem", color:"#333", marginBottom:10 }}>%</span>
+              <span style={{ fontFamily:"var(--font-mono)", fontSize:"1.2rem", color:"var(--border2)", marginBottom:10 }}>%</span>
             </div>
             {/* Main bar */}
-            <div style={{ height:4, background:"#181818", borderRadius:2, overflow:"hidden", marginBottom:12 }}>
+            <div style={{ height:4, background:"var(--bg4)", borderRadius:2, overflow:"hidden", marginBottom:12 }}>
               <div style={{
                 height:"100%",
                 width:`${evalProgress}%`,
@@ -1334,7 +1334,7 @@ const handleOcr = useCallback(async () => {
                     width: evalProgress >= p ? 8 : 5,
                     height: evalProgress >= p ? 8 : 5,
                     borderRadius:"50%",
-                    background: evalProgress >= p ? "#3b82f6" : "#222",
+                    background: evalProgress >= p ? "#3b82f6" : "var(--bg4)",
                     border: evalProgress >= p ? "none" : "1px solid #333",
                     boxShadow: evalProgress >= p ? "0 0 8px #3b82f6" : "none",
                     transition:"all 0.5s"
@@ -1347,7 +1347,7 @@ const handleOcr = useCallback(async () => {
               {evalPhase}
             </div>
             {/* Thin sub-bar (flicker effect) */}
-            <div style={{ height:1, background:"#1a1a1a", borderRadius:1, overflow:"hidden", marginTop:20 }}>
+            <div style={{ height:1, background:"var(--bg4)", borderRadius:1, overflow:"hidden", marginTop:20 }}>
               <div style={{ height:"100%", width:`${evalProgress}%`, background:"rgba(147,197,253,0.15)", transition:"width 1.2s cubic-bezier(.16,1,.3,1)" }} />
             </div>
           </div>
@@ -1419,7 +1419,7 @@ const handleOcr = useCallback(async () => {
               alignItems: "flex-start",
             }}>
               <span style={{ color: "#3b82f6", fontSize: "0.85rem", marginTop: "1px", flexShrink: 0 }}>ℹ</span>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "#888", lineHeight: 1.65, margin: 0 }}>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "var(--text3)", lineHeight: 1.65, margin: 0 }}>
                 These marks are <span style={{ color: "#aaa" }}>indicative, not exact</span> — expect a 1–2 mark variance from what an actual UPSC examiner may award (usually on the lower side). Focus on the <span style={{ color: "#aaa" }}>qualitative feedback</span>: weak areas, missing historians, and the analytical depth of your answer. That is what moves the needle.
               </p>
             </div>
@@ -1474,7 +1474,7 @@ const handleOcr = useCallback(async () => {
 
                 {/* Section evaluator — Introduction */}
                 <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                     <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Introduction</span>
                     {evaluation.section_marks?.introduction && (
                       <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
@@ -1482,11 +1482,11 @@ const handleOcr = useCallback(async () => {
                       </span>
                     )}
                   </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)", background:"rgba(255,255,255,0.015)" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)", background:"rgba(255,255,255,0.015)" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
                     <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction?.what_was_written}</div>
                   </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                     {(() => {
                       const strengths = toArray(evaluation.introduction.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
                       const weaknesses = toArray((evaluation.introduction as any).weaknesses).filter(w => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
@@ -1510,7 +1510,7 @@ const handleOcr = useCallback(async () => {
                     <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.introduction.analysis}</div>
                   </div>
                   {toArray(evaluation.introduction.suggestions).filter(s => s).length > 0 && (
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                       <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
                       {toArray(evaluation.introduction.suggestions).map((s,i) => (
                         <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.introduction.suggestions).length - 1 ? 8 : 0 }}>
@@ -1528,7 +1528,7 @@ const handleOcr = useCallback(async () => {
 
                 {/* Section evaluator — Body */}
                 <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                     <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Body</span>
                     {evaluation.section_marks?.body && (
                       <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
@@ -1536,7 +1536,7 @@ const handleOcr = useCallback(async () => {
                       </span>
                     )}
                   </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                     <div className="ev-sw-grid">
                       <div className="ev-sw-col ev-sw-col-s">
                         <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
@@ -1599,7 +1599,7 @@ const handleOcr = useCallback(async () => {
 
                 {/* Section evaluator — Conclusion */}
                 <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                     <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Conclusion</span>
                     {evaluation.section_marks?.conclusion && (
                       <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
@@ -1607,11 +1607,11 @@ const handleOcr = useCallback(async () => {
                       </span>
                     )}
                   </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)", background:"rgba(255,255,255,0.015)" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)", background:"rgba(255,255,255,0.015)" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
                     <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion?.what_was_written}</div>
                   </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                     {(() => {
                       const strengths = toArray(evaluation.conclusion.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
                       const weaknesses = toArray((evaluation.conclusion as any).weaknesses).filter(w => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
@@ -1635,7 +1635,7 @@ const handleOcr = useCallback(async () => {
                     <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.conclusion.analysis}</div>
                   </div>
                   {toArray(evaluation.conclusion.suggestions).filter(s => s).length > 0 && (
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(255,255,255,0.04)" }}>
+                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                       <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
                       {toArray(evaluation.conclusion.suggestions).map((s,i) => (
                         <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.conclusion.suggestions).length - 1 ? 8 : 0 }}>
@@ -1713,7 +1713,7 @@ const handleOcr = useCallback(async () => {
               }}>
               {tab === "eval" ? "View Model Answer →" : "← View Answer Evaluation"}
             </button>
-            <button className="ev-btn" style={{ marginTop:12, background:"transparent", color:"var(--text3)", borderColor:"#2a2a2a" }}
+            <button className="ev-btn" style={{ marginTop:12, background:"transparent", color:"var(--text3)", borderColor:"var(--border)" }}
               onClick={() => { setEvaluation(null); setFiles(undefined as any); setPreviews([]); setQuestion(""); setSubmittedQ(""); setExtractedText(""); setError(""); setStage("form"); }}>
               ← Evaluate Another Answer
             </button>

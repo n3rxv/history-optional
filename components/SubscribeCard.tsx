@@ -181,7 +181,7 @@ export function SubscribeCard({
           <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: '#4ade80', marginBottom: 5 }}>
             You're Premium!
           </div>
-          <div style={{ color: '#555', fontSize: '0.8rem', marginBottom: 18, lineHeight: 1.5 }}>
+          <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: 18, lineHeight: 1.5 }}>
             Unlimited access · {currentPlan.label} plan.<br/>Go ace those answers.
           </div>
           <button onClick={() => { onClose?.(); onSuccess?.(); }}
@@ -200,7 +200,7 @@ export function SubscribeCard({
 
   if (step === 'signing_in') {
     return (
-      <div style={{ textAlign: 'center', padding: '1.5rem 0', color: '#555', fontSize: '0.84rem' }}>
+      <div style={{ textAlign: 'center', padding: '1.5rem 0', color: 'var(--text3)', fontSize: '0.84rem' }}>
         <div style={{
           width: 20, height: 20, border: '2px solid rgba(212,168,67,0.2)',
           borderTopColor: '#d4a843', borderRadius: '50%',
@@ -271,13 +271,13 @@ export function SubscribeCard({
             <button key={p.id} onClick={() => setSelectedPlan(p.id)}
               style={{
                 padding: '10px 4px 8px', borderRadius: 10, cursor: 'pointer', position: 'relative',
-                border: isSelected ? '2px solid #d4a843' : '1px solid rgba(255,255,255,0.08)',
+                border: isSelected ? '2px solid #d4a843' : '1px solid rgba(0,0,0,0.08)',
                 background: isSelected
                   ? 'linear-gradient(160deg, rgba(212,168,67,0.18), rgba(212,168,67,0.06))'
-                  : 'rgba(255,255,255,0.02)',
+                  : 'rgba(0,0,0,0.02)',
                 transition: 'all 0.2s', textAlign: 'center',
                 boxShadow: isSelected
-                  ? '0 0 24px rgba(212,168,67,0.25), inset 0 1px 0 rgba(255,255,255,0.08)'
+                  ? '0 0 24px rgba(212,168,67,0.25), inset 0 1px 0 rgba(0,0,0,0.08)'
                   : 'none',
                 transform: isSelected ? 'translateY(-2px)' : 'none',
               }}>
@@ -292,7 +292,7 @@ export function SubscribeCard({
               )}
               <div style={{ fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 5, color: isSelected ? '#f0c040' : '#444' }}>{p.label}</div>
               <div style={{ fontSize: '1.15rem', fontWeight: 900, lineHeight: 1, fontFamily: 'var(--font-mono)', color: isSelected ? '#ffe066' : '#666', textShadow: isSelected ? '0 0 20px rgba(255,220,80,0.4)' : 'none' }}>{p.price}</div>
-              <div style={{ fontSize: '0.55rem', marginTop: 4, color: isSelected ? '#a07830' : '#2a2a2a' }}>{p.sub}</div>
+              <div style={{ fontSize: '0.55rem', marginTop: 4, color: isSelected ? '#a07830' : 'var(--border)' }}>{p.sub}</div>
             </button>
             );
           })}
@@ -304,15 +304,15 @@ export function SubscribeCard({
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 7 }}>
               <span style={{
                 fontFamily: 'var(--font-mono)', fontSize: '1.9rem', fontWeight: 700,
-                color: '#f0f0f0', lineHeight: 1,
+                color: 'var(--text)', lineHeight: 1,
                 background: 'linear-gradient(135deg, #f0e68c, #d4a843, #f0e68c)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
               }}>{price}</span>
-              <span style={{ color: '#444', fontSize: '0.75rem' }}>/{currentPlan.sub.split(' ')[1]}</span>
+              <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>/{currentPlan.sub.split(' ')[1]}</span>
               {originalPrice && (
-                <span style={{ color: '#3a3a3a', fontSize: '0.72rem', textDecoration: 'line-through' }}>
+                <span style={{ color: 'var(--border2)', fontSize: '0.72rem', textDecoration: 'line-through' }}>
                   {originalPrice}
                 </span>
               )}
@@ -371,7 +371,7 @@ export function SubscribeCard({
             { label: 'Model answers', icon: '◆' },
           ].map(f => (
             <span key={f.label} style={{
-              fontSize: '0.68rem', color: '#888',
+              fontSize: '0.68rem', color: 'var(--text3)',
               background: 'rgba(212,168,67,0.04)',
               border: '1px solid rgba(212,168,67,0.12)',
               borderRadius: 20, padding: '3px 9px',
@@ -398,11 +398,11 @@ export function SubscribeCard({
           style={{
             width: '100%', padding: '13px', borderRadius: 8, border: 'none',
             background: step === 'paying'
-              ? '#111'
+              ? 'var(--bg3)'
               : 'linear-gradient(135deg, #c49a2c 0%, #e8b84b 35%, #f5cc5e 50%, #e8b84b 65%, #b8881e 100%)',
             backgroundSize: '200% 200%',
             animation: step === 'paying' ? 'none' : 'gradientShift 4s ease infinite, ctaGlow 2.5s ease infinite',
-            color: step === 'paying' ? '#444' : '#1a0e00',
+            color: step === 'paying' ? 'var(--text3)' : 'var(--text)',
             fontWeight: 800, fontSize: '0.875rem',
             cursor: step === 'paying' ? 'not-allowed' : 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -419,19 +419,19 @@ export function SubscribeCard({
         {/* Footer */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: -2 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#2a2a2a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="var(--border)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: '#2a2a2a', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--border)', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
               {selectedPlan === 'yearly' ? 'Secure · Razorpay · Renews annually' : selectedPlan === 'monthly' ? 'Secure · Razorpay · Renews monthly' : selectedPlan === 'weekly' ? 'Secure · Razorpay · Renews weekly' : 'Secure · Razorpay · Renews daily'}
             </span>
           </div>
           {onClose && (
             <button onClick={onClose}
-              style={{ background: 'none', border: 'none', color: '#2e2e2e', cursor: 'pointer', fontSize: '0.74rem', padding: 0, transition: 'color 0.15s' }}
+              style={{ background: 'none', border: 'none', color: 'var(--border)', cursor: 'pointer', fontSize: '0.74rem', padding: 0, transition: 'color 0.15s' }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#777'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#2e2e2e'; }}>
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--border)'; }}>
               Maybe later
             </button>
           )}

@@ -36,7 +36,7 @@ function getNavStatus(qs: QuestionState): NavStatus {
 }
 
 const NAV_COLORS: Record<NavStatus, { bg: string; border: string; text: string }> = {
-  unattempted:       { bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.12)', text: 'rgba(255,255,255,0.45)' },
+  unattempted:       { bg: 'rgba(0,0,0,0.04)', border: 'rgba(0,0,0,0.09)', text: 'rgba(255,255,255,0.45)' },
   answered:          { bg: 'rgba(74,222,128,0.15)',  border: 'rgba(74,222,128,0.5)',   text: '#4ade80' },
   wrong:             { bg: 'rgba(248,113,113,0.15)',  border: 'rgba(248,113,113,0.5)',   text: '#f87171' },
   marked:            { bg: 'rgba(251,191,36,0.15)',  border: 'rgba(251,191,36,0.5)',   text: '#fbbf24' },
@@ -180,7 +180,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
   if (showResult) {
     const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
     return (
-      <div style={{ minHeight: '100vh', background: '#080810', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', paddingTop: '6rem' }}>
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', paddingTop: '6rem' }}>
         <div style={{ maxWidth: 560, width: '100%', textAlign: 'center' }}>
           <div style={{ fontSize: '3.5rem', marginBottom: '1.2rem' }}>
             {score / maxScore >= 0.7 ? '🏆' : score / maxScore >= 0.5 ? '📚' : '💪'}
@@ -188,7 +188,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           <div style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', fontWeight: 700, color: score >= 0 ? '#4ade80' : '#f87171', lineHeight: 1 }}>
             {score >= 0 ? '+' : ''}{score}
           </div>
-          <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.9rem', marginBottom: '2.5rem', marginTop: '0.5rem' }}>
+          <div style={{ color: 'var(--text3)', fontSize: '0.9rem', marginBottom: '2.5rem', marginTop: '0.5rem' }}>
             out of {maxScore} &nbsp;·&nbsp; +2 correct &nbsp;−0.66 wrong
           </div>
 
@@ -196,22 +196,22 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             {[
               { label: 'Correct', val: correct, color: '#4ade80', sub: `+${(correct * 2).toFixed(2)}` },
               { label: 'Wrong',   val: wrong,   color: '#f87171', sub: `−${(wrong * 0.66).toFixed(2)}` },
-              { label: 'Skipped', val: skipped, color: 'rgba(255,255,255,0.3)', sub: '±0' },
+              { label: 'Skipped', val: skipped, color: 'var(--text3)', sub: '±0' },
             ].map(s => (
-              <div key={s.label} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '1.25rem 1rem' }}>
+              <div key={s.label} style={{ background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, padding: '1.25rem 1rem' }}>
                 <div style={{ fontSize: '2rem', fontWeight: 700, color: s.color, fontFamily: 'var(--font-mono)' }}>{s.val}</div>
                 <div style={{ fontSize: '0.75rem', color: s.color, opacity: 0.7, fontFamily: 'var(--font-mono)', marginBottom: 6 }}>{s.sub}</div>
-                <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)' }}>{s.label}</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text3)' }}>{s.label}</div>
               </div>
             ))}
           </div>
 
-          <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
-            <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', marginBottom: 10 }}>Score vs Maximum</div>
-            <div style={{ height: 10, background: 'rgba(255,255,255,0.06)', borderRadius: 5, overflow: 'hidden' }}>
+          <div style={{ background: 'rgba(0,0,0,0.04)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text3)', marginBottom: 10 }}>Score vs Maximum</div>
+            <div style={{ height: 10, background: 'rgba(0,0,0,0.06)', borderRadius: 5, overflow: 'hidden' }}>
               <div style={{ width: `${Math.max(0, pct)}%`, height: '100%', background: pct >= 70 ? '#4ade80' : pct >= 50 ? '#fbbf24' : '#f87171', borderRadius: 5, transition: 'width 0.6s ease' }} />
             </div>
-            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#fff', marginTop: 10 }}>{Math.max(0, pct)}%</div>
+            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)', marginTop: 10 }}>{Math.max(0, pct)}%</div>
           </div>
 
           <button onClick={() => setShowResult(false)} style={{
@@ -224,8 +224,8 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
   }
 
   if (!q) return (
-    <div style={{ minHeight: '100vh', background: '#080810', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ textAlign: 'center', color: 'rgba(255,255,255,0.4)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ textAlign: 'center', color: 'var(--text3)' }}>
         <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🔍</div>
         <div style={{ fontSize: '1rem' }}>No questions match this filter.</div>
       </div>
@@ -236,13 +236,13 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
   // ── Main UI ───────────────────────────────────────────────────────────────
   return (
-    <div style={{ minHeight: '100vh', background: '#080810', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column' }}>
 
       {/* sticky top bar — sits below navbar (navbar is 72px) */}
       <div style={{
         position: 'sticky', top: 72, zIndex: 40,
         background: 'rgba(8,8,16,0.97)', backdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: '1px solid rgba(0,0,0,0.07)',
         padding: '0.7rem 1.5rem',
         display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap',
       }}>
@@ -256,7 +256,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           {(['all', 'pyq', 'practice'] as Filter[]).map(f => (
             <button key={f} onClick={() => setFilter(f)} style={{
               padding: '0.28rem 0.75rem', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600,
-              background: filter === f ? 'var(--accent)' : 'rgba(255,255,255,0.06)',
+              background: filter === f ? 'var(--accent)' : 'rgba(0,0,0,0.06)',
               color: filter === f ? '#000' : 'rgba(255,255,255,0.5)',
               transition: 'all 0.15s',
             }}>{f === 'all' ? 'All' : f === 'pyq' ? 'PYQs' : 'MCQs'}</button>
@@ -265,7 +265,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
         {/* topic filter */}
         <select value={topicFilter} onChange={e => setTopicFilter(e.target.value)} style={{
-          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
+          background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8,
           color: 'rgba(255,255,255,0.75)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 210,
         }}>
           <option value="all">{langHi ? "सभी विषय" : "All Topics"}</option>
@@ -273,7 +273,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
         </select>
         {/* year filter */}
         <select value={yearFilter} onChange={e => setYearFilter(e.target.value)} style={{
-          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
+          background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8,
           color: 'rgba(255,255,255,0.75)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 120,
         }}>
           <option value="all">{langHi ? "सभी वर्ष" : "All Years"}</option>
@@ -282,10 +282,10 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
         <button onClick={() => setFilter(filter === 'bookmarked' ? 'all' : 'bookmarked' as any)}
           onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = 'rgba(251,191,36,0.2)'; (e.target as HTMLButtonElement).style.borderColor = 'rgba(251,191,36,0.7)'; (e.target as HTMLButtonElement).style.color = '#fbbf24'; }}
-          onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = filter === 'bookmarked' ? 'rgba(251,191,36,0.15)' : 'transparent'; (e.target as HTMLButtonElement).style.borderColor = filter === 'bookmarked' ? 'rgba(251,191,36,0.5)' : 'rgba(255,255,255,0.1)'; (e.target as HTMLButtonElement).style.color = filter === 'bookmarked' ? '#fbbf24' : 'rgba(255,255,255,0.5)'; }}
+          onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = filter === 'bookmarked' ? 'rgba(251,191,36,0.15)' : 'transparent'; (e.target as HTMLButtonElement).style.borderColor = filter === 'bookmarked' ? 'rgba(251,191,36,0.5)' : 'rgba(0,0,0,0.08)'; (e.target as HTMLButtonElement).style.color = filter === 'bookmarked' ? '#fbbf24' : 'rgba(255,255,255,0.5)'; }}
           style={{
             background: filter === 'bookmarked' ? 'rgba(251,191,36,0.15)' : 'transparent',
-            border: filter === 'bookmarked' ? '1px solid rgba(251,191,36,0.5)' : '1px solid rgba(255,255,255,0.1)',
+            border: filter === 'bookmarked' ? '1px solid rgba(251,191,36,0.5)' : '1px solid rgba(0,0,0,0.08)',
             color: filter === 'bookmarked' ? '#fbbf24' : 'rgba(255,255,255,0.5)',
             borderRadius: 8, padding: '0.28rem 0.75rem', cursor: 'pointer', fontSize: '0.8rem', transition: 'all 0.15s',
           }}>★ Bookmarks</button>
@@ -297,25 +297,25 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           <span style={{ color: score >= 0 ? '#4ade80' : '#f87171', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '0.9rem' }}>
             {score >= 0 ? '+' : ''}{score}
           </span>
-          <span style={{ color: 'rgba(255,255,255,0.3)' }}>{current + 1} / {filtered.length}</span>
+          <span style={{ color: 'var(--text3)' }}>{current + 1} / {filtered.length}</span>
           {answered > 0 && (
             <button onClick={() => setShowResult(true)}
-              onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(255,255,255,0.08)'; b.style.color = 'rgba(255,255,255,0.8)'; }}
+              onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(0,0,0,0.08)'; b.style.color = 'rgba(255,255,255,0.8)'; }}
               onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.color = 'rgba(255,255,255,0.5)'; }}
-              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>{langHi ? "स्कोर →" : "Score →"}</button>
+              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(0,0,0,0.09)', background: 'transparent', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>{langHi ? "स्कोर →" : "Score →"}</button>
           )}
           {answered > 0 && (
             <button onClick={() => { setShowResetConfirm(true); }}
               onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(248,113,113,0.1)'; b.style.borderColor = 'rgba(248,113,113,0.4)'; b.style.color = '#f87171'; }}
-              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.borderColor = 'rgba(255,255,255,0.12)'; b.style.color = 'rgba(255,255,255,0.5)'; }}
-              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>↺ Reset</button>
+              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.borderColor = 'rgba(0,0,0,0.09)'; b.style.color = 'rgba(255,255,255,0.5)'; }}
+              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(0,0,0,0.09)', background: 'transparent', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>↺ Reset</button>
           )}
         </div>
 
         {/* nav toggle */}
         <button onClick={() => setShowNav(v => !v)} style={{
-          padding: '0.28rem 0.65rem', borderRadius: 8, border: '1px solid rgba(255,255,255,0.09)',
-          background: 'transparent', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '0.78rem',
+          padding: '0.28rem 0.65rem', borderRadius: 8, border: '1px solid rgba(0,0,0,0.09)',
+          background: 'transparent', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem',
         }}>{showNav ? '◀ Hide' : '▶ Nav'}</button>
       </div>
 
@@ -324,13 +324,13 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           onClick={() => setShowResetConfirm(false)}>
           <div onClick={e => e.stopPropagation()}
-            style={{ background: '#111', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 12, padding: '2rem', maxWidth: 360, width: '90%', textAlign: 'center', boxShadow: '0 0 0 1px rgba(255,255,255,0.05), 0 24px 60px rgba(0,0,0,0.8)' }}>
+            style={{ background: 'var(--bg3)', border: '1px solid rgba(0,0,0,0.09)', borderRadius: 12, padding: '2rem', maxWidth: 360, width: '90%', textAlign: 'center', boxShadow: '0 0 0 1px rgba(0,0,0,0.05), 0 24px 60px rgba(0,0,0,0.8)' }}>
             <div style={{ fontSize: '1.5rem', marginBottom: 12 }}>↺</div>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>{langHi ? "सभी प्रयासित प्रश्न रीसेट करें?" : "Reset all attempted questions?"}</div>
-            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', marginBottom: 24 }}>{langHi ? "प्रयासित प्रश्नों के बुकमार्क और विश्लेषण रखे जाएंगे।" : "Bookmarks and Smart Analysis for attempted questions will be kept."}</div>
+            <div style={{ color: 'var(--text3)', fontSize: '0.85rem', marginBottom: 24 }}>{langHi ? "प्रयासित प्रश्नों के बुकमार्क और विश्लेषण रखे जाएंगे।" : "Bookmarks and Smart Analysis for attempted questions will be kept."}</div>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button onClick={() => setShowResetConfirm(false)}
-                style={{ padding: '10px 24px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रद्द करें" : "Cancel"}</button>
+                style={{ padding: '10px 24px', borderRadius: 8, border: '1px solid rgba(0,0,0,0.08)', background: 'transparent', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रद्द करें" : "Cancel"}</button>
               <button onClick={doReset}
                 style={{ padding: '10px 24px', borderRadius: 8, border: 'none', background: '#f87171', color: '#000', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रीसेट करें" : "Reset"}</button>
             </div>
@@ -346,7 +346,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
           {/* meta row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.25)', letterSpacing: '0.05em' }}>Q{current + 1}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'rgba(0,0,0,0.15)', letterSpacing: '0.05em' }}>Q{current + 1}</span>
             <span style={{
               fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: 5,
               background: q.type === 'pyq' ? 'rgba(212,168,67,0.12)' : 'rgba(96,165,250,0.1)',
@@ -356,7 +356,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             }}>
               {q.type === 'pyq' ? `PYQ ${q.year ?? ''}` : 'MCQs'}
             </span>
-            <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.6rem', borderRadius: 5 }}>{q.topic}</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text3)', background: 'rgba(0,0,0,0.05)', padding: '0.2rem 0.6rem', borderRadius: 5 }}>{q.topic}</span>
           </div>
 
           {/* question text */}
@@ -367,7 +367,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           {/* options */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
             {q.options.map((opt, i) => {
-              let bg = 'rgba(255,255,255,0.03)', border = 'rgba(255,255,255,0.09)', color = 'rgba(255,255,255,0.8)', icon = '';
+              let bg = 'rgba(0,0,0,0.03)', border = 'rgba(0,0,0,0.09)', color = 'rgba(255,255,255,0.8)', icon = '';
               if (!qs.submitted) {
                 if (qs.selected === i) { bg = 'rgba(96,165,250,0.12)'; border = 'rgba(96,165,250,0.5)'; color = '#93c5fd'; }
               } else {
@@ -397,14 +397,14 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
               <>
                 <button onClick={handleSubmit} disabled={qs.selected === null} style={{
                   padding: '0.75rem 1.75rem', borderRadius: 10, border: 'none',
-                  background: qs.selected !== null ? 'var(--accent)' : 'rgba(255,255,255,0.06)',
-                  color: qs.selected !== null ? '#000' : 'rgba(255,255,255,0.2)',
+                  background: qs.selected !== null ? 'var(--accent)' : 'rgba(0,0,0,0.06)',
+                  color: qs.selected !== null ? '#000' : 'rgba(0,0,0,0.12)',
                   fontWeight: 700, cursor: qs.selected !== null ? 'pointer' : 'not-allowed', fontSize: '0.95rem',
                   transition: 'all 0.14s',
                 }}>{tr(t.submit, langHi)}</button>
                 <button onClick={handleMark} style={{
                   padding: '0.75rem 1.1rem', borderRadius: 10,
-                  border: `1px solid ${qs.marked ? 'rgba(251,191,36,0.5)' : 'rgba(255,255,255,0.1)'}`,
+                  border: `1px solid ${qs.marked ? 'rgba(251,191,36,0.5)' : 'rgba(0,0,0,0.08)'}`,
                   background: qs.marked ? 'rgba(251,191,36,0.1)' : 'transparent',
                   color: qs.marked ? '#fbbf24' : 'rgba(255,255,255,0.4)',
                   cursor: 'pointer', fontSize: '0.9rem', transition: 'all 0.14s',
@@ -422,7 +422,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                 </div>
                 <button onClick={handleMark} style={{
                   padding: '0.75rem 1rem', borderRadius: 10,
-                  border: `1px solid ${qs.marked ? 'rgba(251,191,36,0.5)' : 'rgba(255,255,255,0.1)'}`,
+                  border: `1px solid ${qs.marked ? 'rgba(251,191,36,0.5)' : 'rgba(0,0,0,0.08)'}`,
                   background: qs.marked ? 'rgba(251,191,36,0.1)' : 'transparent',
                   color: qs.marked ? '#fbbf24' : 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: '0.9rem',
                 }}>{qs.marked ? '★' : '☆'}</button>
@@ -431,14 +431,14 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem' }}>
               <button onClick={() => goTo(current - 1)} disabled={current === 0} style={{
                 padding: '0.75rem 1.1rem', borderRadius: 10,
-                border: '1px solid rgba(255,255,255,0.09)', background: 'transparent',
-                color: current === 0 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.55)',
+                border: '1px solid rgba(0,0,0,0.09)', background: 'transparent',
+                color: current === 0 ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.55)',
                 cursor: current === 0 ? 'not-allowed' : 'pointer', fontSize: '0.9rem',
               }}>← Prev</button>
               <button onClick={() => goTo(current + 1)} disabled={current === filtered.length - 1} style={{
                 padding: '0.75rem 1.1rem', borderRadius: 10,
-                border: '1px solid rgba(255,255,255,0.09)', background: 'transparent',
-                color: current === filtered.length - 1 ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.75)',
+                border: '1px solid rgba(0,0,0,0.09)', background: 'transparent',
+                color: current === filtered.length - 1 ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.75)',
                 cursor: current === filtered.length - 1 ? 'not-allowed' : 'pointer', fontSize: '0.9rem',
               }}>{langHi ? "अगला →" : "Next →"}</button>
             </div>
@@ -446,10 +446,10 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
           {/* ── Explanation (premium only) ── */}
           {qs.submitted && (
-            <div style={{ borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)', overflow: 'hidden' }}>
-              <div style={{ padding: '0.85rem 1.25rem', borderBottom: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <div style={{ borderRadius: 16, border: '1px solid rgba(0,0,0,0.08)', background: 'rgba(0,0,0,0.02)', overflow: 'hidden' }}>
+              <div style={{ padding: '0.85rem 1.25rem', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <div style={{ width: 7, height: 7, borderRadius: '50%', background: !isPremium ? '#fbbf24' : qs.aiLoading ? '#fbbf24' : qs.aiResult ? '#4ade80' : '#f87171', flexShrink: 0 }} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text3)' }}>
                   Explanation
                 </span>
                 {isPremium && (
@@ -460,16 +460,16 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
               {!isPremium ? (
                 <div style={{ padding: '2rem', textAlign: 'center' }}>
                   <div style={{ fontSize: '1.8rem', marginBottom: '0.75rem' }}>🔒</div>
-                  <div style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.6)', marginBottom: '0.5rem' }}>{langHi ? "स्पष्टीकरण प्रीमियम सदस्यों के लिए हैं" : "Explanations are for Premium members"}</div>
-                  <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.25)' }}>{langHi ? "चरण-दर-चरण हल · तकनीक · अवधारणाएँ · मुख्य शब्द · स्मार्ट अनुमान" : "Step-by-step solution · Technique · Concepts · Keywords · Smart Guess"}</div>
+                  <div style={{ fontSize: '1rem', color: 'var(--text2)', marginBottom: '0.5rem' }}>{langHi ? "स्पष्टीकरण प्रीमियम सदस्यों के लिए हैं" : "Explanations are for Premium members"}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'rgba(0,0,0,0.15)' }}>{langHi ? "चरण-दर-चरण हल · तकनीक · अवधारणाएँ · मुख्य शब्द · स्मार्ट अनुमान" : "Step-by-step solution · Technique · Concepts · Keywords · Smart Guess"}</div>
                 </div>
               ) : qs.aiLoading ? (
                 <div style={{ padding: '1.75rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   {[0,1,2].map(i => (
-                    <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(255,255,255,0.25)', animation: `pulse 1.2s ease-in-out ${i*0.2}s infinite` }} />
+                    <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(0,0,0,0.15)', animation: `pulse 1.2s ease-in-out ${i*0.2}s infinite` }} />
                   ))}
                   <style>{`@keyframes pulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}`}</style>
-                  <span style={{ marginLeft: '0.5rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.3)' }}>{langHi ? "स्पष्टीकरण तैयार हो रहा है…" : "Generating explanation…"}</span>
+                  <span style={{ marginLeft: '0.5rem', fontSize: '0.85rem', color: 'var(--text3)' }}>{langHi ? "स्पष्टीकरण तैयार हो रहा है…" : "Generating explanation…"}</span>
                 </div>
               ) : qs.aiResult ? (
                 <div style={{ padding: '1.25rem' }}>
@@ -480,7 +480,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                     { label: 'Minimum Concepts Required',   icon: '📌', content: qs.aiResult.concepts  },
                     { label: 'Related Concepts & Keywords', icon: '🔗', content: qs.aiResult.related   },
                   ] as { label: string; icon: string; content: string }[]).map((sec, idx, arr) => (
-                    <div key={sec.label} style={{ marginBottom: idx < arr.length-1 ? '1.1rem' : 0, paddingBottom: idx < arr.length-1 ? '1.1rem' : 0, borderBottom: idx < arr.length-1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+                    <div key={sec.label} style={{ marginBottom: idx < arr.length-1 ? '1.1rem' : 0, paddingBottom: idx < arr.length-1 ? '1.1rem' : 0, borderBottom: idx < arr.length-1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.6rem' }}>
                         <span style={{ fontSize: '1.1rem' }}>{sec.icon}</span>
                         <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, background: 'linear-gradient(90deg, var(--accent), #a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{sec.label}</span>
@@ -504,7 +504,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                   ))}
                 </div>
               ) : (
-                <div style={{ padding: '1.25rem', color: 'rgba(255,255,255,0.3)', fontSize: '0.9rem' }}>
+                <div style={{ padding: '1.25rem', color: 'var(--text3)', fontSize: '0.9rem' }}>
                   Could not load explanation. Please try again.
                 </div>
               )}
@@ -519,7 +519,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             <div className="prelims-nav-sidebar" style={{
               width: 260, flexShrink: 0,
               position: 'sticky', top: 130,
-              background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)',
+              background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.08)',
               borderRadius: 16, boxShadow: '0 0 0 1px rgba(59,130,246,0.08), 0 8px 32px rgba(0,0,0,0.4)', padding: '1.1rem', maxHeight: 'calc(100vh - 170px)', overflowY: 'auto',
             }}>
             <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700, color: 'var(--accent)', marginBottom: '0.9rem' }}>
@@ -532,11 +532,11 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                 { label: 'Correct',    bg: 'rgba(74,222,128,0.15)',   border: 'rgba(74,222,128,0.5)' },
                 { label: 'Wrong',      bg: 'rgba(248,113,113,0.15)',  border: 'rgba(248,113,113,0.5)' },
                 { label: 'Bookmarked', bg: 'rgba(251,191,36,0.15)',   border: 'rgba(251,191,36,0.5)' },
-                { label: 'Unanswered', bg: 'rgba(255,255,255,0.04)',  border: 'rgba(255,255,255,0.12)' },
+                { label: 'Unanswered', bg: 'rgba(0,0,0,0.04)',  border: 'rgba(0,0,0,0.09)' },
               ].map(({ label, bg, border }) => (
                 <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.28rem' }}>
                   <div style={{ width: 9, height: 9, borderRadius: 3, background: bg, border: `1px solid ${border}` }} />
-                  <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)' }}>{label}</span>
+                  <span style={{ fontSize: '0.65rem', color: 'var(--text3)' }}>{label}</span>
                 </div>
               ))}
             </div>
@@ -563,7 +563,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             </div>
 
             {/* summary */}
-            <div style={{ marginTop: '1rem', paddingTop: '0.8rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ marginTop: '1rem', paddingTop: '0.8rem', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
               {[
                 { label: 'Score',   val: `${score >= 0 ? '+' : ''}${score}`, color: score >= 0 ? '#4ade80' : '#f87171' },
                 { label: 'Correct', val: String(correct),   color: '#4ade80' },

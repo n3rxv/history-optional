@@ -2,7 +2,7 @@
 import Link from 'next/link';
 
 const linkStyle = {
-  color: '#888',
+  color: 'var(--text3)',
   textDecoration: 'none' as const,
 };
 
@@ -17,7 +17,7 @@ export default function Footer() {
   return (
     <footer style={{
       borderTop: '1px solid #1a1a1a',
-      backgroundColor: '#050505',
+      backgroundColor: 'var(--bg)',
       padding: '20px 32px',
       display: 'flex',
       alignItems: 'center',
@@ -26,7 +26,7 @@ export default function Footer() {
       gap: '12px',
       fontFamily: 'Inter, system-ui, sans-serif',
       fontSize: '12px',
-      color: '#888',
+      color: 'var(--text3)',
     }}>
       <span>© {new Date().getFullYear()} historyoptional.xyz</span>
 

@@ -256,7 +256,7 @@ export default function PostPage() {
         {!post.published && authed && (
           <span style={{
             padding: '2px 8px', borderRadius: 4, fontSize: '0.65rem',
-            background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border2)',
+            background: 'rgba(0,0,0,0.05)', border: '1px solid var(--border2)',
             color: 'var(--text3)', fontWeight: 700,
           }}>DRAFT</span>
         )}
@@ -284,7 +284,7 @@ export default function PostPage() {
                 onMouseDown={e => { e.preventDefault(); document.execCommand(cmd, false, val); contentRef.current?.focus(); }}
                 style={{
                   padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.72rem', fontWeight: 600,
-                  background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', color: 'var(--text2)',
+                  background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', color: 'var(--text2)',
                 }}
               >{label}</button>
             ))}

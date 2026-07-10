@@ -189,7 +189,7 @@ function RubricScorer({ marks, value, onChange }: {
               width: 14, height: 14, borderRadius: '50%',
               background: '#818cf8',
               boxShadow: '0 0 6px rgba(99,102,241,0.8), 0 0 12px rgba(99,102,241,0.4)',
-              border: '2px solid rgba(255,255,255,0.2)',
+              border: '2px solid rgba(0,0,0,0.12)',
               pointerEvents: 'none', transition: 'left 0.2s',
             }} />
           </div>
@@ -259,7 +259,7 @@ function boldHistorians(text: string): React.ReactNode[] {
   const pattern = new RegExp(`(${HISTORIAN_NAMES.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
   const parts = text.split(pattern);
   return parts.map((part, i) =>
-    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "#f0f0f0" }}>{part}</strong> : part
+    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "var(--text)" }}>{part}</strong> : part
   );
 }
 
@@ -435,7 +435,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
 
               <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
                 <button onClick={runEval} style={{
-                  background: 'rgba(99,102,241,0.85)', color: '#fff',
+                  background: 'rgba(99,102,241,0.85)', color: 'var(--text)',
                   border: 'none', borderRadius: 6, padding: '0.5rem 1.25rem',
                   fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer',
                 }}>✦ Looks good, Evaluate →</button>
@@ -454,7 +454,7 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
                     style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
                       border: '1px solid var(--border)', borderRadius: 6, padding: '0.6rem 0.75rem',
                       color: 'var(--text)', fontSize: '0.84rem', resize: 'vertical', outline: 'none', fontFamily: 'inherit' }} />
-                  <button onClick={runEval} style={{ marginTop: '0.5rem', background: 'rgba(99,102,241,0.85)', color: '#fff',
+                  <button onClick={runEval} style={{ marginTop: '0.5rem', background: 'rgba(99,102,241,0.85)', color: 'var(--text)',
                     border: 'none', borderRadius: 6, padding: '0.5rem 1.25rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>
                     ✦ Evaluate →
                   </button>
@@ -774,7 +774,7 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                       }}
                         style={{
                           marginTop: 6, width: '100%', padding: '0.4rem', borderRadius: 6,
-                          background: 'var(--accent)', color: '#fff', border: 'none',
+                          background: 'var(--accent)', color: 'var(--text)', border: 'none',
                           fontFamily: 'var(--font-ui)', fontSize: '0.82rem', fontWeight: 600,
                           cursor: 'pointer',
                         }}>
@@ -1271,7 +1271,7 @@ export default function TestPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.3rem', fontWeight: 700,
                 color: urgency ? '#f87171' : 'var(--text)' }}>{display}</span>
-              <button onClick={handleSubmit} style={{ background: '#e05c2a', color: '#fff', border: 'none',
+              <button onClick={handleSubmit} style={{ background: '#e05c2a', color: 'var(--text)', border: 'none',
                 borderRadius: 6, padding: '0.4rem 1rem', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }}>Submit</button>
             </div>
           </div>
@@ -1428,7 +1428,7 @@ export default function TestPage() {
 
         <div style={{ textAlign: 'center', marginTop: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <button onClick={() => setPhase('config')} style={{
-            background: 'var(--accent)', color: '#fff', border: 'none',
+            background: 'var(--accent)', color: 'var(--text)', border: 'none',
             borderRadius: 8, padding: '0.85rem 2rem', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
           }}>Start Another Test</button>
           <button onClick={() => window.location.href = '/pyqs'} style={{

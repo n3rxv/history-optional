@@ -77,7 +77,7 @@ export default function WeeklyCheckup() {
       display:'flex', alignItems:'center', justifyContent:'center', padding:'20px',
     }}>
       <div style={{
-        background:'#111', border:'1px solid #222', borderRadius:12, padding:'32px',
+        background:'var(--bg3)', border:'1px solid #222', borderRadius:12, padding:'32px',
         maxWidth:480, width:'100%', position:'relative',
       }}>
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24 }}>
@@ -129,7 +129,7 @@ export default function WeeklyCheckup() {
             onChange={e => setDetails(e.target.value)}
             rows={3}
             style={{
-              width:'100%', background:'#161616', border:'1px solid #333', borderRadius:6,
+              width:'100%', background:'var(--bg3)', border:'1px solid #333', borderRadius:6,
               color:'#e2e8f0', padding:'12px', fontFamily:'var(--font-body)', fontSize:'0.88rem',
               lineHeight:1.6, resize:'vertical', outline:'none', marginBottom:16,
               boxSizing:'border-box',

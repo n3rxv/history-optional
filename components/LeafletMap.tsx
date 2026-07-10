@@ -69,7 +69,7 @@ export default function LeafletMap({
             ? '#b48c3c'
             : isSelected
             ? '#e05c2a'
-            : '#1a1a2e';
+            : 'var(--bg2)';
 
           const radius = isSelected ? 14 : 10;
 
@@ -97,7 +97,7 @@ export default function LeafletMap({
                 <span style={{
                   fontSize: isSelected ? 10 : 8,
                   fontWeight: 700,
-                  color: '#fff',
+                  color: 'var(--text)',
                   userSelect: 'none',
                 }}>
                   {entry.number}

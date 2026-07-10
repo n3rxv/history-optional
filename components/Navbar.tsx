@@ -59,16 +59,16 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
       onClick={onClose}
     >
       <div
-        style={{ background: '#0e0e0e', border: '1px solid #1e1e1e', borderRadius: 16, padding: '1.5rem', maxWidth: 560, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)', maxHeight: '90vh', overflowY: 'auto' }}
+        style={{ background: 'var(--bg2)', border: '1px solid #1e1e1e', borderRadius: 16, padding: '1.5rem', maxWidth: 560, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)', maxHeight: '90vh', overflowY: 'auto' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
           <div>
             <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#d4a843', marginBottom: 4 }}>Premium</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: '#f0f0f0', lineHeight: 1.2 }}>Unlock everything</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1.2 }}>Unlock everything</div>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#444', cursor: 'pointer', padding: '2px 4px', fontSize: '1rem', lineHeight: 1, marginTop: 2 }}>✕</button>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', padding: '2px 4px', fontSize: '1rem', lineHeight: 1, marginTop: 2 }}>✕</button>
         </div>
 
         {noSubFound && (
@@ -80,15 +80,15 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
         {/* Feature table — compact */}
         <div style={{ marginBottom: 16, borderRadius: 8, overflow: 'hidden', border: '1px solid #1a1a1a', maxHeight: 160, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#d4a843 #1a1a1a' }}>
           {/* Table header */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', background: '#111', padding: '6px 10px', borderBottom: '1px solid #1a1a1a' }}>
-            <span style={{ fontSize: '0.62rem', color: '#333', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Feature</span>
-            <span style={{ fontSize: '0.62rem', color: '#333', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'center' }}>Free</span>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', background: 'var(--bg3)', padding: '6px 10px', borderBottom: '1px solid #1a1a1a' }}>
+            <span style={{ fontSize: '0.62rem', color: 'var(--border2)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Feature</span>
+            <span style={{ fontSize: '0.62rem', color: 'var(--border2)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'center' }}>Free</span>
             <span style={{ fontSize: '0.62rem', color: '#d4a843', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'right' }}>Premium</span>
           </div>
           {FEATURES.map((f, i) => (
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', padding: '7px 10px', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)', borderBottom: i < FEATURES.length - 1 ? '1px solid #141414' : 'none', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.78rem', color: '#aaa' }}>{f.name}</span>
-              <span style={{ fontSize: '0.72rem', color: f.free === '✓ free' ? '#2d6a40' : '#3a3a3a', textAlign: 'center' }}>{f.free}</span>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text2)' }}>{f.name}</span>
+              <span style={{ fontSize: '0.72rem', color: f.free === '✓ free' ? '#2d6a40' : 'var(--border2)', textAlign: 'center' }}>{f.free}</span>
               <span style={{ fontSize: '0.72rem', color: '#d4a843', fontWeight: 600, textAlign: 'right' }}>{f.premium}</span>
             </div>
           ))}
@@ -109,9 +109,9 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
             const { signInWithPopup } = await import('firebase/auth');
             await signInWithPopup(auth, googleProvider);
           }}
-          style={{ width: '100%', marginTop: 10, padding: '8px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 7, color: '#e0e0e0', cursor: 'pointer', fontSize: '0.76rem', fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s ease', position: 'relative', overflow: 'hidden' }}
-          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.4)'; el.style.color = '#fff'; el.style.background = 'rgba(255,255,255,0.1)'; }}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.2)'; el.style.color = '#e0e0e0'; el.style.background = 'rgba(255,255,255,0.06)'; }}
+          style={{ width: '100%', marginTop: 10, padding: '8px', background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.12)', borderRadius: 7, color: 'var(--text)', cursor: 'pointer', fontSize: '0.76rem', fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s ease', position: 'relative', overflow: 'hidden' }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.4)'; el.style.color = '#fff'; el.style.background = 'rgba(0,0,0,0.08)'; }}
+          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(0,0,0,0.12)'; el.style.color = '#e0e0e0'; el.style.background = 'rgba(0,0,0,0.06)'; }}
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -225,23 +225,23 @@ function ExtendModal({
   return createPortal(
     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{ background: 'linear-gradient(145deg, #0f0f0f, #141414)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, width: '100%', maxWidth: 380, boxShadow: '0 32px 80px rgba(0,0,0,0.9)', overflow: 'hidden' }}>
+      <div style={{ background: 'linear-gradient(145deg, #0f0f0f, #141414)', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 18, width: '100%', maxWidth: 380, boxShadow: '0 32px 80px rgba(0,0,0,0.9)', overflow: 'hidden' }}>
         {/* Header */}
-        <div style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(212,168,67,0.1) 100%)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '1.2rem 1.4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(212,168,67,0.1) 100%)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '1.2rem 1.4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <div style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.01em' }}>⚡ Extend Plan</div>
-            <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>
+            <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em' }}>⚡ Extend Plan</div>
+            <div style={{ fontSize: '0.68rem', color: 'var(--text3)', marginTop: 2 }}>
               {subData ? 'Current plan extends from your existing expiry' : 'Choose a plan to get started'}
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.35)', cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1, padding: 4 }}>✕</button>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1, padding: 4 }}>✕</button>
         </div>
 
         <div style={{ padding: '1.2rem 1.4rem' }}>
           {/* Current expiry */}
           {subData && (
             <div style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.12)', borderRadius: 8, padding: '0.6rem 0.9rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.4)' }}>Current expiry</span>
+              <span style={{ fontSize: '0.68rem', color: 'var(--text3)' }}>Current expiry</span>
               <span style={{ fontSize: '0.72rem', color: '#a5b4fc', fontWeight: 600 }}>
                 {new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
               </span>
@@ -254,10 +254,10 @@ function ExtendModal({
               const sel = selectedPlan === p.id;
               return (
                 <button key={p.id} onClick={() => setSelectedPlan(p.id as any)}
-                  style={{ background: sel ? 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(212,168,67,0.15))' : 'rgba(255,255,255,0.03)', border: sel ? '1px solid rgba(99,102,241,0.55)' : '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '0.7rem 0.5rem', cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}>
-                  {p.id === 'yearly' && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: '0.48rem', background: '#e03131', color: '#fff', fontWeight: 800, padding: '1px 5px', borderRadius: 20, letterSpacing: '0.05em' }}>50% OFF</div>}
+                  style={{ background: sel ? 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(212,168,67,0.15))' : 'rgba(0,0,0,0.03)', border: sel ? '1px solid rgba(99,102,241,0.55)' : '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '0.7rem 0.5rem', cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}>
+                  {p.id === 'yearly' && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: '0.48rem', background: '#e03131', color: 'var(--text)', fontWeight: 800, padding: '1px 5px', borderRadius: 20, letterSpacing: '0.05em' }}>50% OFF</div>}
                   <div style={{ fontSize: '0.72rem', color: sel ? '#c7d2fe' : 'rgba(255,255,255,0.5)', fontWeight: 600, marginBottom: 4 }}>{p.label}</div>
-                  <div style={{ fontSize: '1rem', color: sel ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: 800 }}>{p.price}{p.id === 'yearly' && <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.35)', fontWeight: 400, textDecoration: 'line-through', marginLeft: 4 }}>₹5,999</span>}</div>
+                  <div style={{ fontSize: '1rem', color: sel ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: 800 }}>{p.price}{p.id === 'yearly' && <span style={{ fontSize: '0.6rem', color: 'var(--text3)', fontWeight: 400, textDecoration: 'line-through', marginLeft: 4 }}>₹5,999</span>}</div>
                 </button>
               );
             })}
@@ -266,7 +266,7 @@ function ExtendModal({
           {/* New expiry preview */}
           <div style={{ background: 'linear-gradient(90deg, rgba(81,207,102,0.08), rgba(81,207,102,0.04))', border: '1px solid rgba(81,207,102,0.18)', borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 3 }}>New expiry after payment</div>
+              <div style={{ fontSize: '0.62rem', color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 3 }}>New expiry after payment</div>
               <div style={{ fontSize: '0.88rem', color: '#51cf66', fontWeight: 700 }}>
                 {newExpiry.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
               </div>
@@ -276,7 +276,7 @@ function ExtendModal({
 
           {/* Pay button */}
           <button onClick={handlePay} disabled={loading}
-            style={{ width: '100%', background: loading ? 'rgba(99,102,241,0.3)' : 'linear-gradient(90deg, #6366f1, #818cf8)', border: 'none', borderRadius: 10, color: '#fff', cursor: loading ? 'not-allowed' : 'pointer', padding: '0.75rem', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.03em', boxShadow: loading ? 'none' : '0 4px 20px rgba(99,102,241,0.4)', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            style={{ width: '100%', background: loading ? 'rgba(99,102,241,0.3)' : 'linear-gradient(90deg, #6366f1, #818cf8)', border: 'none', borderRadius: 10, color: 'var(--text)', cursor: loading ? 'not-allowed' : 'pointer', padding: '0.75rem', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.03em', boxShadow: loading ? 'none' : '0 4px 20px rgba(99,102,241,0.4)', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
             {loading ? 'Processing…' : `Pay ${cur.price} → Proceed`}
           </button>
         </div>
@@ -425,16 +425,16 @@ export default function Navbar() {
         padding: '7px 16px',
         textAlign: 'center',
         fontSize: '0.78rem',
-        color: 'rgba(255,255,255,0.65)',
+        color: 'var(--text)',
       }}>
         🔐 We've upgraded our login system — please sign in again with Google to continue.
       </div>
-      <nav style={{ position: 'fixed', top: 'var(--banner-height, 33px)', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)', }}>
+      <nav style={{ position: 'fixed', top: 'var(--banner-height, 33px)', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(0,0,0,0.06)', }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 67 - 7 * scrollProgress }}>
 
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, overflow: 'hidden' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: '#fff', letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center' }}>
               {/* "H" always visible */}
               <span>H</span>
               {/* "istory " collapses on scroll */}
@@ -460,11 +460,11 @@ export default function Navbar() {
                 </svg>
               </button>
               {notesMenuOpen && (
-                <div style={{ position: 'absolute', top: '100%', left: 0, background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 150, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
+                <div style={{ position: 'absolute', top: '100%', left: 0, background: 'var(--bg3)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 150, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
                   {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/#daily-answer', label: langHi ? 'दैनिक उत्तर लेखन' : 'Daily Answer Writing' }].map(item => (
                     <Link key={item.href} href={item.href} onClick={() => setNotesMenuOpen(false)}
                       style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)', background: pathname.startsWith(item.href) ? 'rgba(59,130,246,0.08)' : 'transparent', transition: 'all 0.12s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.05)'; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname.startsWith(item.href) ? 'rgba(59,130,246,0.08)' : 'transparent'; }}
                     >{item.label}</Link>
                   ))}
@@ -481,11 +481,11 @@ export default function Navbar() {
                 </svg>
               </button>
               {pyqsMenuOpen && (
-                <div style={{ position: 'absolute', top: '100%', left: 0, background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 140, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
+                <div style={{ position: 'absolute', top: '100%', left: 0, background: 'var(--bg3)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 140, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
                   {[{ href: '/pyqs', label: langHi ? 'PYQs देखें' : 'Browse PYQs' }, { href: '/test', label: langHi ? 'टेस्ट शुरू करें' : 'Start Test' }].map(item => (
                     <Link key={item.href} href={item.href} onClick={() => setPyqsMenuOpen(false)}
                       style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: pathname === item.href ? 'var(--accent)' : 'var(--text2)', background: pathname === item.href ? 'rgba(59,130,246,0.08)' : 'transparent', transition: 'all 0.12s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.05)'; }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.05)'; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname === item.href ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname === item.href ? 'rgba(59,130,246,0.08)' : 'transparent'; }}
                     >{item.label}</Link>
                   ))}
@@ -504,7 +504,7 @@ export default function Navbar() {
               );
             })}
 
-            <div style={{ width: 1, height: 18, background: 'rgba(255,255,255,0.1)', margin: '0 0.25rem' }} />
+            <div style={{ width: 1, height: 18, background: 'rgba(0,0,0,0.08)', margin: '0 0.25rem' }} />
 
             {/* Dashboard */}
             <Link href="/dashboard" title="Progress Dashboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 6, textDecoration: 'none', color: pathname.startsWith('/dashboard') ? 'var(--accent)' : 'rgba(255,255,255,0.35)', transition: 'color 0.15s' }}
@@ -541,8 +541,8 @@ export default function Navbar() {
                 )}
               </button>
               {bellOpen && (
-                <div style={{ position:'absolute', top:'calc(100% + 14px)', right:-8, background:'rgba(6,6,10,0.98)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, minWidth:320, maxWidth:360, zIndex:1000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.9), 0 0 80px rgba(99,102,241,0.12), inset 0 1px 0 rgba(255,255,255,0.05)', overflow:'hidden', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
-                  <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
+                <div style={{ position:'absolute', top:'calc(100% + 14px)', right:-8, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, minWidth:320, maxWidth:360, zIndex:1000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.9), 0 0 80px rgba(99,102,241,0.12), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
+                  <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(0,0,0,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
                     <div style={{ display:'flex', alignItems:'center', gap:8 }}>
                       <div style={{ width:6, height:6, borderRadius:'50%', background:'#818cf8', boxShadow:'0 0 10px #818cf8, 0 0 20px rgba(129,140,248,0.4)' }} />
                       <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'#a5b4fc', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
@@ -561,12 +561,12 @@ export default function Navbar() {
                         const seen = seenIds.includes(n.id);
                         return (
                           <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }}
-                            style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(255,255,255,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.06)', position:'relative', transition:'background 0.15s' }}
-                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)'; }}
+                            style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(0,0,0,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.06)', position:'relative', transition:'background 0.15s' }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.06)'; }}
                             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = seen ? 'transparent' : 'rgba(99,102,241,0.06)'; }}>
                             {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'linear-gradient(180deg,#818cf8,#a78bfa)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px rgba(129,140,248,0.4)' }} />}
                             <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
-                              <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(255,255,255,0.04)' : 'linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.15))', border: seen ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(139,92,246,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px rgba(99,102,241,0.15)' }}>
+                              <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(0,0,0,0.04)' : 'linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.15))', border: seen ? '1px solid rgba(0,0,0,0.07)' : '1px solid rgba(139,92,246,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px rgba(99,102,241,0.15)' }}>
                                 {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
                               </div>
                               <div style={{ flex:1, minWidth:0 }}>
@@ -579,7 +579,7 @@ export default function Navbar() {
                       })}
                     </div>
                   )}
-                  <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(255,255,255,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
+                  <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
                     <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
                     <div style={{ fontSize:'0.52rem', color:'#4b5563', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
                     <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
@@ -641,20 +641,20 @@ export default function Navbar() {
                     {/* Top glow bar */}
                     <div style={{ height: 2, background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.8), rgba(212,168,67,0.6), transparent)' }} />
                     {/* Header — avatar + email + edit toggle */}
-                    <div style={{ padding: '1rem 1rem 0.75rem', background: 'linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(212,168,67,0.05) 100%)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                    <div style={{ padding: '1rem 1rem 0.75rem', background: 'linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(212,168,67,0.05) 100%)', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{ position: 'relative', flexShrink: 0 }}>
                           <SnooAvatar email={user.email ?? ''} size={40} />
                           <div style={{ position: 'absolute', bottom: -2, right: -2, width: 14, height: 14, borderRadius: '50%', background: '#51cf66', border: '2px solid #0d0d12', boxShadow: '0 0 6px rgba(81,207,102,0.6)' }} />
                         </div>
                         <div style={{ minWidth: 0, flex: 1 }}>
-                          <div style={{ fontSize: '0.85rem', color: '#fff', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}>
+                          <div style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}>
                             {aspirantName || 'UPSC Aspirant'}
                           </div>
-                          <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{user.email}</div>
+                          <div style={{ fontSize: '0.65rem', color: 'var(--text3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{user.email}</div>
                         </div>
                         <button onClick={() => setProfileEdit(e => !e)}
-                          style={{ flexShrink: 0, background: profileEdit ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)', border: `1px solid ${profileEdit ? 'rgba(99,102,241,0.5)' : 'rgba(255,255,255,0.08)'}`, borderRadius: 7, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? '#a5b4fc' : 'rgba(255,255,255,0.4)' }}>
+                          style={{ flexShrink: 0, background: profileEdit ? 'rgba(99,102,241,0.2)' : 'rgba(0,0,0,0.05)', border: `1px solid ${profileEdit ? 'rgba(99,102,241,0.5)' : 'rgba(0,0,0,0.08)'}`, borderRadius: 7, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? '#a5b4fc' : 'rgba(255,255,255,0.4)' }}>
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </button>
                       </div>
@@ -662,7 +662,7 @@ export default function Navbar() {
 
                     {/* Aspirant profile fields */}
                     {profileEdit ? (
-                      <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                      <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
                         <div style={{ fontSize: '0.58rem', color: 'rgba(99,102,241,0.8)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Your Profile</div>
                         {[
                           { label: 'Full Name', val: aspirantName, set: setAspirantName, placeholder: 'e.g. Rahul Sharma', key: 'name' },
@@ -671,7 +671,7 @@ export default function Navbar() {
                           { label: 'Target Year', val: aspirantYear, set: setAspirantYear, placeholder: 'e.g. 2026', key: 'year' },
                         ].map(({ label, val, set, placeholder, key }) => (
                           <div key={key} style={{ marginBottom: 8 }}>
-                            <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.06em', marginBottom: 3 }}>{label}</div>
+                            <div style={{ fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.06em', marginBottom: 3 }}>{label}</div>
                             <input
                               value={val}
                               onChange={e => {
@@ -680,9 +680,9 @@ export default function Navbar() {
                                 localStorage.setItem('ho_aspirant_profile', JSON.stringify(cur));
                               }}
                               placeholder={placeholder}
-                              style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 7, padding: '0.35rem 0.6rem', fontSize: '0.73rem', color: '#fff', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-ui)', transition: 'border-color 0.15s' }}
+                              style={{ width: '100%', background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 7, padding: '0.35rem 0.6rem', fontSize: '0.73rem', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-ui)', transition: 'border-color 0.15s' }}
                               onFocus={e => (e.target.style.borderColor = 'rgba(99,102,241,0.5)')}
-                              onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.08)')}
+                              onBlur={e => (e.target.style.borderColor = 'rgba(0,0,0,0.08)')}
                             />
                           </div>
                         ))}
@@ -693,36 +693,36 @@ export default function Navbar() {
                       </div>
                     ) : (
                       <div>
-                      <div style={{ padding: '0.7rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px' }}>
+                      <div style={{ padding: '0.7rem 1rem', borderBottom: '1px solid rgba(0,0,0,0.05)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px' }}>
                         {[
                           { label: 'Age', val: aspirantAge, icon: '🎂' },
                           { label: 'Attempt', val: aspirantAttempt, icon: '��' },
                           { label: 'Target', val: aspirantYear, icon: '📅' },
                         ].map(({ label, val, icon }) => (
-                          <div key={label} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '0.4rem 0.6rem' }}>
-                            <div style={{ fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.05em', marginBottom: 2 }}>{icon} {label}</div>
-                            <div style={{ fontSize: '0.72rem', color: val ? '#e2e8f0' : 'rgba(255,255,255,0.2)', fontWeight: val ? 600 : 400 }}>{val || '—'}</div>
+                          <div key={label} style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 8, padding: '0.4rem 0.6rem' }}>
+                            <div style={{ fontSize: '0.58rem', color: 'var(--text3)', letterSpacing: '0.05em', marginBottom: 2 }}>{icon} {label}</div>
+                            <div style={{ fontSize: '0.72rem', color: val ? '#e2e8f0' : 'rgba(0,0,0,0.12)', fontWeight: val ? 600 : 400 }}>{val || '—'}</div>
                           </div>
                         ))}
-                        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 8, padding: '0.4rem 0.6rem' }}>
-                          <div style={{ fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.05em', marginBottom: 2 }}>✦ Plan</div>
-                          <div style={{ fontSize: '0.72rem', color: subData ? '#e8b84b' : 'rgba(255,255,255,0.2)', fontWeight: 600 }}>{subData ? subData.plan.charAt(0).toUpperCase() + subData.plan.slice(1) : 'Free'}</div>
+                        <div style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 8, padding: '0.4rem 0.6rem' }}>
+                          <div style={{ fontSize: '0.58rem', color: 'var(--text3)', letterSpacing: '0.05em', marginBottom: 2 }}>✦ Plan</div>
+                          <div style={{ fontSize: '0.72rem', color: subData ? '#e8b84b' : 'rgba(0,0,0,0.12)', fontWeight: 600 }}>{subData ? subData.plan.charAt(0).toUpperCase() + subData.plan.slice(1) : 'Free'}</div>
                         </div>
                       </div>
                       {aspirantYear.trim() === '2026' && (() => {
                         const days = Math.max(0, Math.ceil((new Date('2026-08-21T00:00:00').getTime() - Date.now()) / 86400000));
                         const urgent = days <= 30; const soon = days <= 60;
                         return (<div style={{ margin: '6px 0 2px', padding: '0.65rem 0.75rem', background: urgent ? 'linear-gradient(135deg,rgba(248,113,113,0.08),rgba(239,68,68,0.05))' : 'linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.05))', border: '1px solid ' + (urgent ? 'rgba(248,113,113,0.25)' : 'rgba(99,102,241,0.2)'), borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <div><div style={{ fontSize: '0.58rem', color: urgent ? 'rgba(248,113,113,0.7)' : 'rgba(99,102,241,0.8)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{urgent ? '🔥' : '⚔️'} Mains 2026</div><div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)' }}>21 Aug 2026</div></div>
-                          <div style={{ textAlign: 'right' }}><div style={{ fontSize: '1.4rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: urgent ? '#f87171' : soon ? '#fbbf24' : '#a5b4fc' }}>{days}</div><div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>days left</div></div>
+                          <div><div style={{ fontSize: '0.58rem', color: urgent ? 'rgba(248,113,113,0.7)' : 'rgba(99,102,241,0.8)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{urgent ? '🔥' : '⚔️'} Mains 2026</div><div style={{ fontSize: '0.6rem', color: 'var(--text3)' }}>21 Aug 2026</div></div>
+                          <div style={{ textAlign: 'right' }}><div style={{ fontSize: '1.4rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: urgent ? '#f87171' : soon ? '#fbbf24' : '#a5b4fc' }}>{days}</div><div style={{ fontSize: '0.55rem', color: 'var(--text3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>days left</div></div>
                         </div>);
                       })()}
                       {aspirantYear.trim() === '2027' && (() => {
                         const daysP = Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - Date.now()) / 86400000));
                         const urgentP = daysP <= 30; const soonP = daysP <= 60;
                         return (<div style={{ margin: '6px 0 2px', padding: '0.65rem 0.75rem', background: urgentP ? 'linear-gradient(135deg,rgba(248,113,113,0.08),rgba(239,68,68,0.05))' : 'linear-gradient(135deg,rgba(232,184,75,0.08),rgba(245,215,110,0.04))', border: '1px solid ' + (urgentP ? 'rgba(248,113,113,0.25)' : 'rgba(232,184,75,0.22)'), borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <div><div style={{ fontSize: '0.58rem', color: urgentP ? 'rgba(248,113,113,0.7)' : 'rgba(232,184,75,0.85)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{urgentP ? '🔥' : '📋'} Prelims 2027</div><div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)' }}>23 May 2027</div></div>
-                          <div style={{ textAlign: 'right' }}><div style={{ fontSize: '1.4rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: urgentP ? '#f87171' : soonP ? '#fbbf24' : '#e8b84b' }}>{daysP}</div><div style={{ fontSize: '0.55rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>days left</div></div>
+                          <div><div style={{ fontSize: '0.58rem', color: urgentP ? 'rgba(248,113,113,0.7)' : 'rgba(232,184,75,0.85)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{urgentP ? '🔥' : '📋'} Prelims 2027</div><div style={{ fontSize: '0.6rem', color: 'var(--text3)' }}>23 May 2027</div></div>
+                          <div style={{ textAlign: 'right' }}><div style={{ fontSize: '1.4rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: urgentP ? '#f87171' : soonP ? '#fbbf24' : '#e8b84b' }}>{daysP}</div><div style={{ fontSize: '0.55rem', color: 'var(--text3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>days left</div></div>
                         </div>);
                       })()}
                     </div>
@@ -738,7 +738,7 @@ export default function Navbar() {
                               {(() => { const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000); return days <= 0 ? 'Expired' : `${days}d left`; })()}
                             </span>
                           </div>
-                          <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.3)', marginBottom: 10 }}>
+                          <div style={{ fontSize: '0.62rem', color: 'var(--text3)', marginBottom: 10 }}>
                             Expires {new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                           </div>
                           <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
@@ -760,7 +760,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Sign out */}
-                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)', margin: '0 1rem', paddingTop: '0.7rem', paddingBottom: '0.9rem' }}>
+                    <div style={{ borderTop: '1px solid rgba(0,0,0,0.04)', margin: '0 1rem', paddingTop: '0.7rem', paddingBottom: '0.9rem' }}>
                       <button onClick={handleSignOut}
                         style={{ width: '100%', background: 'rgba(255,80,80,0.04)', border: '1px solid rgba(255,80,80,0.1)', color: '#f87171', cursor: 'pointer', padding: '0.4rem', borderRadius: 8, fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.02em', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,80,80,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,80,80,0.28)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 16px rgba(255,80,80,0.15)'; }}
@@ -779,7 +779,7 @@ export default function Navbar() {
                   onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.12)'; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#e8b84b'; }}>
                   ✦ Premium
                 </button>
-                <span style={{ position: 'absolute', top: -8, right: -10, fontSize: '0.5rem', fontWeight: 800, background: '#e03131', color: '#fff', borderRadius: 20, padding: '2px 5px', lineHeight: 1.3, letterSpacing: '0.02em', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 2 }}>50% OFF</span>
+                <span style={{ position: 'absolute', top: -8, right: -10, fontSize: '0.5rem', fontWeight: 800, background: '#e03131', color: 'var(--text)', borderRadius: 20, padding: '2px 5px', lineHeight: 1.3, letterSpacing: '0.02em', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 2 }}>50% OFF</span>
               </div>
             )}
           </div>
@@ -826,7 +826,7 @@ export default function Navbar() {
                 <span style={{ position:'absolute', top:2, right:2, width:7, height:7, borderRadius:'50%', background:'#f87171', border:'1.5px solid #000' }} />
               )}
             </button>
-            <button onClick={() => setOpen(!open)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.7)', cursor: 'pointer', padding: '0.25rem' }}>
+            <button onClick={() => setOpen(!open)} style={{ background: 'none', border: 'none', color: 'var(--text)', cursor: 'pointer', padding: '0.25rem' }}>
               {open
                 ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -836,8 +836,8 @@ export default function Navbar() {
         </div>
         {/* Mobile bell dropdown */}
         {bellOpen && (
-          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:78, right:12, left:12, background:'rgba(6,6,10,0.98)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, zIndex:1200, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.95), 0 0 80px rgba(99,102,241,0.1), inset 0 1px 0 rgba(255,255,255,0.05)', overflow:'hidden', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
-            <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
+          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:78, right:12, left:12, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, zIndex:1200, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.95), 0 0 80px rgba(99,102,241,0.1), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
+            <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(0,0,0,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
               <div style={{ display:'flex', alignItems:'center', gap:8 }}>
                 <div style={{ width:6, height:6, borderRadius:'50%', background:'#818cf8', boxShadow:'0 0 10px #818cf8, 0 0 20px rgba(129,140,248,0.4)' }} />
                 <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'#a5b4fc', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
@@ -856,10 +856,10 @@ export default function Navbar() {
                   const seen = seenIds.includes(n.id);
                   return (
                     <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }}
-                      style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(255,255,255,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.06)', position:'relative' }}>
+                      style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(0,0,0,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.06)', position:'relative' }}>
                       {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'linear-gradient(180deg,#818cf8,#a78bfa)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px rgba(129,140,248,0.4)' }} />}
                       <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
-                        <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(255,255,255,0.04)' : 'linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.15))', border: seen ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(139,92,246,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px rgba(99,102,241,0.15)' }}>
+                        <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(0,0,0,0.04)' : 'linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.15))', border: seen ? '1px solid rgba(0,0,0,0.07)' : '1px solid rgba(139,92,246,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px rgba(99,102,241,0.15)' }}>
                           {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
                         </div>
                         <div style={{ flex:1 }}>
@@ -872,7 +872,7 @@ export default function Navbar() {
                 })}
               </div>
             )}
-            <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(255,255,255,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
+            <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
               <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
               <div style={{ fontSize:'0.52rem', color:'#4b5563', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
               <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
@@ -882,11 +882,11 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {open && (
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '0.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.1rem', background: '#0a0a0a' }}>
+          <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', padding: '0.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.1rem', background: 'var(--bg2)' }}>
             {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/pyqs', label: langHi ? 'PYQs देखें' : 'PYQs' }, { href: '/test', label: langHi ? 'टेस्ट शुरू करें' : 'Start Test' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }].map(l => (
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ padding: '0.6rem 0.5rem', borderRadius: 5, fontSize: '0.88rem', textDecoration: 'none', color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)' }}>{l.label}</Link>
             ))}
-            <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
               <SearchModal />
               {/* Mobile Lang Toggle */}
               <button

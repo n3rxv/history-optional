@@ -32,24 +32,24 @@ function Modal({ mode, limit, onClose }: {
       display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999,
     }} onClick={onClose}>
       <div style={{
-        background: '#1a1a1a', borderRadius: 16, padding: '32px 28px',
-        maxWidth: 380, width: '90%', color: '#f0f0f0',
+        background: 'var(--bg4)', borderRadius: 16, padding: '32px 28px',
+        maxWidth: 380, width: '90%', color: 'var(--text)',
       }} onClick={e => e.stopPropagation()}>
 
         {mode === 'unauthenticated' && (
           <>
             <h2 style={{ margin: '0 0 12px', fontSize: 20 }}>Sign in to continue</h2>
-            <p style={{ color: '#aaa', marginBottom: 24, fontSize: 14 }}>
+            <p style={{ color: 'var(--text2)', marginBottom: 24, fontSize: 14 }}>
               Sign in with Google to get{' '}
-              <span style={{ color: '#f0f0f0' }}>{FREE_EVAL_LIMIT} free evaluation</span> and{' '}
-              <span style={{ color: '#f0f0f0' }}>{FREE_CHAT_LIMIT} free chats</span>, or subscribe for unlimited access.
+              <span style={{ color: 'var(--text)' }}>{FREE_EVAL_LIMIT} free evaluation</span> and{' '}
+              <span style={{ color: 'var(--text)' }}>{FREE_CHAT_LIMIT} free chats</span>, or subscribe for unlimited access.
             </p>
             <button
               onClick={handleGoogleSignIn}
               disabled={signingIn}
               style={{
                 width: '100%', padding: '12px', borderRadius: 8,
-                background: '#fff', color: '#111', border: 'none',
+                background: '#fff', color: 'var(--bg3)', border: 'none',
                 fontWeight: 600, fontSize: 15, cursor: 'pointer',
               }}>
               {signingIn ? 'Signing in...' : 'Continue with Google'}
@@ -60,14 +60,14 @@ function Modal({ mode, limit, onClose }: {
         {mode === 'limit_reached' && (
           <>
             <h2 style={{ margin: '0 0 12px', fontSize: 20 }}>Free limit reached</h2>
-            <p style={{ color: '#aaa', marginBottom: 24, fontSize: 14 }}>
+            <p style={{ color: 'var(--text2)', marginBottom: 24, fontSize: 14 }}>
               You've used your free quota. Subscribe to unlock unlimited evaluations and chats.
             </p>
             <button
               onClick={() => window.location.href = '/subscribe'}
               style={{
                 width: '100%', padding: '12px', borderRadius: 8,
-                background: '#7c3aed', color: '#fff', border: 'none',
+                background: '#7c3aed', color: 'var(--text)', border: 'none',
                 fontWeight: 600, fontSize: 15, cursor: 'pointer',
               }}>
               Subscribe Now
@@ -78,14 +78,14 @@ function Modal({ mode, limit, onClose }: {
         {mode === 'device_limit' && (
           <>
             <h2 style={{ margin: '0 0 12px', fontSize: 20 }}>Device limit reached</h2>
-            <p style={{ color: '#aaa', marginBottom: 24, fontSize: 14 }}>
+            <p style={{ color: 'var(--text2)', marginBottom: 24, fontSize: 14 }}>
               This device has already used its free quota with another account. Subscribe to continue.
             </p>
             <button
               onClick={() => window.location.href = '/subscribe'}
               style={{
                 width: '100%', padding: '12px', borderRadius: 8,
-                background: '#7c3aed', color: '#fff', border: 'none',
+                background: '#7c3aed', color: 'var(--text)', border: 'none',
                 fontWeight: 600, fontSize: 15, cursor: 'pointer',
               }}>
               Subscribe Now
@@ -95,7 +95,7 @@ function Modal({ mode, limit, onClose }: {
 
         <button onClick={onClose} style={{
           marginTop: 12, width: '100%', padding: '10px', borderRadius: 8,
-          background: 'transparent', color: '#666', border: '1px solid #333',
+          background: 'transparent', color: 'var(--text3)', border: '1px solid #333',
           fontSize: 14, cursor: 'pointer',
         }}>
           Cancel

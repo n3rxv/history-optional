@@ -158,9 +158,9 @@ export default function PromoPopup() {
         @keyframes slideUpCard { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes mobileSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .promo-card { animation: slideUpCard 0.3s ease; }
-        .promo-close-btn:hover { background: rgba(255,255,255,0.12) !important; }
+        .promo-close-btn:hover { background: rgba(0,0,0,0.09) !important; }
         .promo-subscribe-btn:hover { background: #1d4ed8 !important; }
-        .promo-feature-row:hover { background: rgba(255,255,255,0.02) !important; }
+        .promo-feature-row:hover { background: rgba(0,0,0,0.02) !important; }
 
         /* Mobile-first: stacked, matches the original vertical layout */
         .promo-card {
@@ -230,7 +230,7 @@ export default function PromoPopup() {
       <div
         className="promo-card"
         style={{
-          background: '#0a0a0a',
+          background: 'var(--bg2)',
           border: '0.5px solid #1f1f1f',
           borderRadius: 18,
           width: '100%',
@@ -246,7 +246,7 @@ export default function PromoPopup() {
           style={{
             position: 'absolute', top: '1rem', right: '1rem', zIndex: 1,
             width: 28, height: 28, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.06)',
+            background: 'rgba(0,0,0,0.06)',
             border: '0.5px solid #222',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', transition: 'background 0.15s',
@@ -272,15 +272,15 @@ export default function PromoPopup() {
                 <span style={{ fontSize: 10, fontWeight: 500, color: '#60a5fa', letterSpacing: '0.07em', textTransform: 'uppercase' }}>Go Premium</span>
               </div>
 
-              <h2 style={{ fontSize: 22, fontWeight: 600, color: '#f0f0f0', margin: '0 0 0.35rem', lineHeight: 1.3 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text)', margin: '0 0 0.35rem', lineHeight: 1.3 }}>
                 Start serious.<br />Start early.
               </h2>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', margin: '0 0 1.25rem', lineHeight: 1.6 }}>
+              <p style={{ fontSize: 13, color: 'var(--text3)', margin: '0 0 1.25rem', lineHeight: 1.6 }}>
                 Every day without the right tool is a day wasted.
               </p>
 
               {/* Testimonial screenshot */}
-              <div style={{ borderRadius: 10, overflow: 'hidden', border: '0.5px solid rgba(255,255,255,0.07)', marginBottom: '1.1rem' }}>
+              <div style={{ borderRadius: 10, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.07)', marginBottom: '1.1rem' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/testimonial.png"
@@ -318,28 +318,28 @@ export default function PromoPopup() {
                       </div>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
                         <span style={{ fontSize: 22, fontWeight: 800, color: '#fbbf24', lineHeight: 1 }}>₹2,999</span>
-                        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>/year</span>
-                        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', textDecoration: 'line-through' }}>₹5,999</span>
+                        <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>/year</span>
+                        <span style={{ fontSize: 12, color: 'rgba(0,0,0,0.12)', textDecoration: 'line-through' }}>₹5,999</span>
                       </div>
-                      <p style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.25)', margin: '4px 0 0' }}>Limited time · saves ₹3,000</p>
+                      <p style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.15)', margin: '4px 0 0' }}>Limited time · saves ₹3,000</p>
                     </div>
                   ) : (
                     <div style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      background: '#111', border: '0.5px solid #1f1f1f',
+                      background: 'var(--bg3)', border: '0.5px solid #1f1f1f',
                       borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '0.9rem',
                     }}>
                       <div>
-                        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', margin: '0 0 2px' }}>Starting at</p>
-                        <p style={{ fontSize: 19, fontWeight: 600, color: '#f0f0f0', margin: 0 }}>
-                          {"\u20B9299"} <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>/week</span>
+                        <p style={{ fontSize: 11, color: 'var(--text3)', margin: '0 0 2px' }}>Starting at</p>
+                        <p style={{ fontSize: 19, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
+                          {"\u20B9299"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>/week</span>
                         </p>
                       </div>
-                      <div style={{ width: 1, height: 32, background: '#1f1f1f' }} />
+                      <div style={{ width: 1, height: 32, background: 'var(--bg4)' }} />
                       <div style={{ textAlign: 'right' }}>
-                        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', margin: '0 0 2px' }}>Best value</p>
-                        <p style={{ fontSize: 19, fontWeight: 600, color: '#f0f0f0', margin: 0 }}>
-                          {"\u20B95,999"} <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>/year</span>
+                        <p style={{ fontSize: 11, color: 'var(--text3)', margin: '0 0 2px' }}>Best value</p>
+                        <p style={{ fontSize: 19, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
+                          {"\u20B95,999"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>/year</span>
                         </p>
                       </div>
                     </div>
@@ -351,7 +351,7 @@ export default function PromoPopup() {
                     style={{
                       display: 'block', width: '100%', padding: '0.78rem',
                       background: '#2563eb', border: 'none', borderRadius: 9,
-                      fontSize: 14, fontWeight: 600, color: '#fff',
+                      fontSize: 14, fontWeight: 600, color: 'var(--text)',
                       cursor: 'pointer', textAlign: 'center',
                       transition: 'background 0.15s',
                       letterSpacing: '0.01em',
@@ -359,7 +359,7 @@ export default function PromoPopup() {
                   >
                     Subscribe now {"\u2192"}
                   </button>
-                  <p style={{ textAlign: 'center', fontSize: 11, color: 'rgba(255,255,255,0.2)', margin: '0.6rem 0 0' }}>
+                  <p style={{ textAlign: 'center', fontSize: 11, color: 'rgba(0,0,0,0.12)', margin: '0.6rem 0 0' }}>
                     Secure payment via Razorpay {"\u00B7"} Cancel anytime
                   </p>
                 </>
@@ -428,7 +428,7 @@ export default function PromoPopup() {
                   }}
                 >
                   <p style={{
-                    fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.25)',
+                    fontSize: 10, fontWeight: 500, color: 'rgba(0,0,0,0.15)',
                     letterSpacing: '0.09em', textTransform: 'uppercase', margin: '0 0 0.75rem',
                   }}>What you unlock</p>
 
@@ -448,8 +448,8 @@ export default function PromoPopup() {
                           <path d={f.icon} />
                         </svg>
                         <div>
-                          <p style={{ fontSize: 13, fontWeight: 500, color: '#e0e0e0', margin: '0 0 2px' }}>{f.label}</p>
-                          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0, lineHeight: 1.5 }}>{f.sub}</p>
+                          <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--text)', margin: '0 0 2px' }}>{f.label}</p>
+                          <p style={{ fontSize: 12, color: 'var(--text3)', margin: 0, lineHeight: 1.5 }}>{f.sub}</p>
                         </div>
                       </div>
                     ))}
@@ -466,7 +466,7 @@ export default function PromoPopup() {
                   }}
                 >
                   <p style={{
-                    fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.25)',
+                    fontSize: 10, fontWeight: 500, color: 'rgba(0,0,0,0.15)',
                     letterSpacing: '0.09em', textTransform: 'uppercase', margin: '0 0 0.75rem',
                   }}>The real comparison</p>
 
@@ -483,7 +483,7 @@ export default function PromoPopup() {
                       Coaching institutes
                     </p>
                     <p className={showComparison ? 'promo-row-anim' : ''} style={{ animationDelay: '0.05s', fontSize: 22, fontWeight: 700, color: '#f87171', margin: '0 0 0.7rem', position: 'relative' }}>
-                      <CountUp target={60000} prefix="₹" active={showComparison} durationMs={900} /> <span style={{ fontSize: 12, fontWeight: 400, color: 'rgba(255,255,255,0.4)' }}>per course</span>
+                      <CountUp target={60000} prefix="₹" active={showComparison} durationMs={900} /> <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--text3)' }}>per course</span>
                     </p>
                     {COACHING_PROBLEMS.map((row, i) => (
                       <div
@@ -498,7 +498,7 @@ export default function PromoPopup() {
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
                           <path d={row.icon} />
                         </svg>
-                        <span style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5 }}>{row.text}</span>
+                        <span style={{ fontSize: 12.5, color: 'var(--text2)', lineHeight: 1.5 }}>{row.text}</span>
                       </div>
                     ))}
                   </div>
@@ -515,7 +515,7 @@ export default function PromoPopup() {
                       History Optional
                     </p>
                     <p className={showComparison ? 'promo-row-anim' : ''} style={{ animationDelay: '0.45s', fontSize: 22, fontWeight: 700, color: '#60a5fa', margin: '0 0 0.7rem', position: 'relative' }}>
-                      <CountUp target={5999} prefix="₹" active={showComparison} durationMs={700} /> <span style={{ fontSize: 12, fontWeight: 400, color: 'rgba(255,255,255,0.5)' }}>/year — 90% cheaper</span>
+                      <CountUp target={5999} prefix="₹" active={showComparison} durationMs={700} /> <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--text2)' }}>/year — 90% cheaper</span>
                     </p>
                     {US_ADVANTAGES.map((row, i) => (
                       <div
@@ -530,7 +530,7 @@ export default function PromoPopup() {
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
                           <path d={row.icon} />
                         </svg>
-                        <span style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5 }}>{row.text}</span>
+                        <span style={{ fontSize: 12.5, color: 'var(--text)', lineHeight: 1.5 }}>{row.text}</span>
                       </div>
                     ))}
                   </div>
@@ -556,10 +556,10 @@ export default function PromoPopup() {
               <span style={{ fontSize: 10, fontWeight: 500, color: '#60a5fa', letterSpacing: '0.07em', textTransform: 'uppercase' }}>Go Premium</span>
             </div>
 
-            <h2 style={{ fontSize: 20, fontWeight: 600, color: '#f0f0f0', margin: '0 0 0.3rem', lineHeight: 1.3 }}>
+            <h2 style={{ fontSize: 20, fontWeight: 600, color: 'var(--text)', margin: '0 0 0.3rem', lineHeight: 1.3 }}>
               Start serious. Start early.
             </h2>
-            <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.35)', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontSize: 12.5, color: 'var(--text3)', margin: 0, lineHeight: 1.5 }}>
               Every day without the right tool is a day wasted.
             </p>
           </div>
@@ -603,7 +603,7 @@ export default function PromoPopup() {
                   style={{
                     display: 'block', width: '100%', padding: '0.78rem',
                     background: '#2563eb', border: 'none', borderRadius: 9,
-                    fontSize: 14, fontWeight: 600, color: '#fff',
+                    fontSize: 14, fontWeight: 600, color: 'var(--text)',
                     cursor: 'pointer', textAlign: 'center',
                     transition: 'background 0.15s',
                     letterSpacing: '0.01em',
@@ -611,7 +611,7 @@ export default function PromoPopup() {
                 >
                   Subscribe now {"\u2192"}
                 </button>
-                <p style={{ textAlign: 'center', fontSize: 10.5, color: 'rgba(255,255,255,0.2)', margin: '0.5rem 0 0' }}>
+                <p style={{ textAlign: 'center', fontSize: 10.5, color: 'rgba(0,0,0,0.12)', margin: '0.5rem 0 0' }}>
                   Secure payment via Razorpay {"\u00B7"} Cancel anytime
                 </p>
               </div>
@@ -658,14 +658,14 @@ function ComparisonCards({ active }: { active: boolean }) {
           Coaching institutes
         </p>
         <p style={{ fontSize: 20, fontWeight: 700, color: '#f87171', margin: '0 0 0.5rem', position: 'relative' }}>
-          <CountUp target={60000} prefix="₹" active={active} durationMs={900} /> <span style={{ fontSize: 11, fontWeight: 400, color: 'rgba(255,255,255,0.4)' }}>per course</span>
+          <CountUp target={60000} prefix="₹" active={active} durationMs={900} /> <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--text3)' }}>per course</span>
         </p>
         {COACHING_PROBLEMS.map((row, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, position: 'relative', marginBottom: i < COACHING_PROBLEMS.length - 1 ? 6 : 0 }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
               <path d={row.icon} />
             </svg>
-            <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.6)', lineHeight: 1.4 }}>{row.text}</span>
+            <span style={{ fontSize: 11.5, color: 'var(--text2)', lineHeight: 1.4 }}>{row.text}</span>
           </div>
         ))}
       </div>
@@ -678,14 +678,14 @@ function ComparisonCards({ active }: { active: boolean }) {
           History Optional
         </p>
         <p style={{ fontSize: 20, fontWeight: 700, color: '#60a5fa', margin: '0 0 0.5rem', position: 'relative' }}>
-          <CountUp target={5999} prefix="₹" active={active} durationMs={700} /> <span style={{ fontSize: 11, fontWeight: 400, color: 'rgba(255,255,255,0.5)' }}>/year — 90% cheaper</span>
+          <CountUp target={5999} prefix="₹" active={active} durationMs={700} /> <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--text2)' }}>/year — 90% cheaper</span>
         </p>
         {US_ADVANTAGES.map((row, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, position: 'relative', marginBottom: i < US_ADVANTAGES.length - 1 ? 6 : 0 }}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
               <path d={row.icon} />
             </svg>
-            <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.4 }}>{row.text}</span>
+            <span style={{ fontSize: 11.5, color: 'var(--text)', lineHeight: 1.4 }}>{row.text}</span>
           </div>
         ))}
       </div>
@@ -721,9 +721,9 @@ function MobileSlide({ index }: { index: number }) {
                 <path d={f.icon} />
               </svg>
             </div>
-            <p style={{ fontSize: 16, fontWeight: 600, color: '#f0f0f0', margin: '0 0 0.5rem' }}>{f.label}</p>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', margin: 0, lineHeight: 1.5 }}>{f.sub}</p>
-            <p style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.2)', margin: '1rem 0 0', letterSpacing: '0.04em' }}>
+            <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: '0 0 0.5rem' }}>{f.label}</p>
+            <p style={{ fontSize: 13, color: 'var(--text3)', margin: 0, lineHeight: 1.5 }}>{f.sub}</p>
+            <p style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.12)', margin: '1rem 0 0', letterSpacing: '0.04em' }}>
               {index + 1} / 8
             </p>
           </div>
@@ -733,7 +733,7 @@ function MobileSlide({ index }: { index: number }) {
       {isComparison && (
         <div style={{ padding: '0 0.25rem' }}>
           <p style={{
-            fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.25)',
+            fontSize: 10, fontWeight: 500, color: 'rgba(0,0,0,0.15)',
             letterSpacing: '0.09em', textTransform: 'uppercase', textAlign: 'center', margin: '0 0 0.6rem',
           }}>The real comparison</p>
 
@@ -761,17 +761,17 @@ function MobileSlide({ index }: { index: number }) {
                 fontSize: 38, fontWeight: 800, color: '#fbbf24', lineHeight: 1,
                 textShadow: '0 0 28px rgba(251,191,36,0.45)',
               }}>₹2,999</span>
-              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)', fontWeight: 400 }}>/year</span>
+              <span style={{ fontSize: 13, color: 'var(--text3)', fontWeight: 400 }}>/year</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 5 }}>
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)', textDecoration: 'line-through' }}>₹5,999</span>
+              <span style={{ fontSize: 12, color: 'rgba(0,0,0,0.12)', textDecoration: 'line-through' }}>₹5,999</span>
               <span style={{
                 fontSize: 9.5, fontWeight: 700, color: '#4ade80',
                 background: 'rgba(74,222,128,0.1)', border: '0.5px solid rgba(74,222,128,0.25)',
                 borderRadius: 10, padding: '1px 6px',
               }}>50% OFF</span>
             </div>
-            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.2)', margin: '4px 0 0', letterSpacing: '0.03em' }}>
+            <p style={{ fontSize: 10, color: 'rgba(0,0,0,0.12)', margin: '4px 0 0', letterSpacing: '0.03em' }}>
               saves ₹3,000 · limited time
             </p>
           </div>
@@ -780,8 +780,8 @@ function MobileSlide({ index }: { index: number }) {
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 4 }}>
             {['Unlimited evals', 'AI Chat 24/7', 'Model answers'].map(f => (
               <span key={f} style={{
-                fontSize: 10, color: 'rgba(255,255,255,0.4)',
-                background: 'rgba(255,255,255,0.04)', border: '0.5px solid rgba(255,255,255,0.09)',
+                fontSize: 10, color: 'var(--text3)',
+                background: 'rgba(0,0,0,0.04)', border: '0.5px solid rgba(0,0,0,0.09)',
                 borderRadius: 10, padding: '2px 7px',
               }}>{f}</span>
             ))}

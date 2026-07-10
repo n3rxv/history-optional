@@ -80,7 +80,7 @@ export function PYQCarousel() {
   return (
     <div style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 10, padding: '1.75rem 2rem', display: 'flex', flexDirection: 'column', gap: '1rem', borderLeft: '3px solid var(--red)', minHeight: 200 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#fff', fontWeight: 600 }}>{langHi ? "पिछले वर्षों के प्रश्न" : "Previous Year Questions"}</h3>
+        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--text)', fontWeight: 600 }}>{langHi ? "पिछले वर्षों के प्रश्न" : "Previous Year Questions"}</h3>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.1em' }}>1979–2025</span>
       </div>
       <div style={{ flex: 1, minHeight: 72 }}>
@@ -98,7 +98,7 @@ export function PYQCarousel() {
             onClick={() => { setPyqFade(false); setTimeout(() => { setPyqIdx(i); setPyqFade(true); }, 300); }} />
         ))}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-          <Link href="/pyqs" style={{ background: 'var(--red)', color: '#fff', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "PYQ देखें" : "Browse PYQs"}</Link>
+          <Link href="/pyqs" style={{ background: 'var(--red)', color: 'var(--text)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "PYQ देखें" : "Browse PYQs"}</Link>
           <Link href="/chat" style={{ background: 'transparent', color: 'var(--accent)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 500, fontSize: '0.82rem', border: '1px solid rgba(59,130,246,0.3)', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "AI से पूछें →" : "Ask AI →"}</Link>
         </div>
       </div>

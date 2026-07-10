@@ -14,7 +14,7 @@ function Ring({ pct, size = 80, stroke = 6, color = 'var(--accent)' }: { pct: nu
   const circ = 2 * Math.PI * r;
   return (
     <svg width={size} height={size} style={{ transform: 'rotate(-90deg)', flexShrink: 0 }}>
-      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={stroke} />
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth={stroke} />
       <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color}
         strokeWidth={stroke} strokeDasharray={`${pct * circ} ${circ}`} strokeLinecap="round"
         style={{ transition: 'stroke-dasharray 0.6s ease' }} />
@@ -88,7 +88,7 @@ function Heatmap({ activityMap }: { activityMap: Record<string, number> }) {
   const weeks: ({ dateStr: string; count: number } | null)[][] = [];
   for (let i = 0; i < padded.length; i += 7) weeks.push(padded.slice(i, i + 7));
   const color = (count: number) => {
-    if (count === 0) return 'rgba(255,255,255,0.05)';
+    if (count === 0) return 'rgba(0,0,0,0.05)';
     if (count === 1) return 'rgba(59,130,246,0.3)';
     if (count === 2) return 'rgba(59,130,246,0.55)';
     if (count === 3) return 'rgba(59,130,246,0.75)';

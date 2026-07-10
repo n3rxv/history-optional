@@ -79,7 +79,7 @@ export default function DailyAnswerWriting() {
       }}>
         <div style={{
           padding: '1.25rem 1.5rem 1rem',
-          borderBottom: '1px solid var(--border, rgba(255,255,255,0.08))',
+          borderBottom: '1px solid var(--border, rgba(0,0,0,0.08))',
           display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
           gap: '1rem', flexWrap: 'wrap',
         }}>
@@ -132,7 +132,7 @@ export default function DailyAnswerWriting() {
           </div>
         </div>
 
-        <div style={{ height: 2, background: 'var(--border, rgba(255,255,255,0.08))' }}>
+        <div style={{ height: 2, background: 'var(--border, rgba(0,0,0,0.08))' }}>
           {started && (
             <div style={{
               height: '100%', width: `${pct}%`,
@@ -151,12 +151,12 @@ export default function DailyAnswerWriting() {
               <div key={q.id} className="daw-row" style={{
                 display: 'flex', alignItems: 'flex-start', gap: 12,
                 padding: '1rem 0',
-                borderBottom: i < 4 ? '1px solid var(--border, rgba(255,255,255,0.06))' : 'none',
+                borderBottom: i < 4 ? '1px solid var(--border, rgba(0,0,0,0.06))' : 'none',
               }}>
                 <div className="daw-num" style={{
                   width: 24, height: 24, borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid var(--border, rgba(255,255,255,0.1))',
+                  background: 'rgba(0,0,0,0.05)',
+                  border: '1px solid var(--border, rgba(0,0,0,0.08))',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 11, fontWeight: 600, color: 'var(--text3)',
                   flexShrink: 0, marginTop: 1,
@@ -171,7 +171,7 @@ export default function DailyAnswerWriting() {
                     }}>{q.section}</span>
                     <span style={{
                       fontSize: 11, padding: '2px 8px', borderRadius: 20,
-                      background: 'rgba(255,255,255,0.05)', color: 'var(--text3)',
+                      background: 'rgba(0,0,0,0.05)', color: 'var(--text3)',
                       fontFamily: 'var(--font-mono)',
                     }}>{q.marks}M · {mins} min · {q.year}</span>
                   </div>
@@ -185,13 +185,13 @@ export default function DailyAnswerWriting() {
                   className="daw-submit"
                   style={{
                     flexShrink: 0, fontSize: 12, padding: '0.3rem 0.75rem',
-                    border: '1px solid var(--border, rgba(255,255,255,0.12))',
+                    border: '1px solid var(--border, rgba(0,0,0,0.09))',
                     borderRadius: 6, color: 'var(--text3)', textDecoration: 'none',
                     fontWeight: 500, whiteSpace: 'nowrap',
                     transition: 'color 0.15s, border-color 0.15s', marginTop: 1,
                   }}
                   onMouseEnter={e => { e.currentTarget.style.color = color; e.currentTarget.style.borderColor = color; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = 'var(--text3)'; e.currentTarget.style.borderColor = 'var(--border, rgba(255,255,255,0.12))'; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = 'var(--text3)'; e.currentTarget.style.borderColor = 'var(--border, rgba(0,0,0,0.09))'; }}
                 >
                   Submit Answer →
                 </a>
@@ -201,7 +201,7 @@ export default function DailyAnswerWriting() {
         </div>
 
         <div style={{
-          borderTop: '1px solid var(--border, rgba(255,255,255,0.08))',
+          borderTop: '1px solid var(--border, rgba(0,0,0,0.08))',
           padding: '0.75rem 1.5rem',
           background: 'rgba(0,0,0,0.15)',
           display: 'flex', justifyContent: 'space-between',

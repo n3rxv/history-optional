@@ -161,7 +161,7 @@ function ModelAnswerModal({
             <div style={{ textAlign: 'center', padding: '2rem 0' }}>
               <div style={{ color: '#f87171', fontSize: '0.88rem', marginBottom: '1rem' }}>{error}</div>
               <button onClick={() => generate(true)} style={{
-                background: 'var(--accent)', color: '#fff', border: 'none',
+                background: 'var(--accent)', color: 'var(--text)', border: 'none',
                 padding: '0.5rem 1.25rem', borderRadius: 6, cursor: 'pointer',
                 fontFamily: 'var(--font-mono)', fontSize: '0.8rem',
               }}>Try Again</button>
@@ -268,7 +268,7 @@ export default function PYQsPage() {
             </p>
           </div>
           <Link href="/test" style={{
-            background: 'var(--accent)', color: '#fff',
+            background: 'var(--accent)', color: 'var(--text)',
             padding: '0.55rem 1.25rem', borderRadius: 6,
             fontSize: '0.88rem', fontWeight: 600, textDecoration: 'none',
             display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
@@ -387,7 +387,7 @@ export default function PYQsPage() {
             if (isFirst) seenTopics.add(q.topic);
             const count = topicCounts[q.topic];
             const badgeColor = count >= 8 ? '#ef4444' : count >= 5 ? '#f97316' : count >= 3 ? '#eab308' : 'var(--text3)';
-            const badgeBg    = count >= 8 ? 'rgba(239,68,68,0.08)' : count >= 5 ? 'rgba(249,115,22,0.08)' : count >= 3 ? 'rgba(234,179,8,0.08)' : 'rgba(255,255,255,0.04)';
+            const badgeBg    = count >= 8 ? 'rgba(239,68,68,0.08)' : count >= 5 ? 'rgba(249,115,22,0.08)' : count >= 3 ? 'rgba(234,179,8,0.08)' : 'rgba(0,0,0,0.04)';
             const badgeBorder= count >= 8 ? 'rgba(239,68,68,0.3)' : count >= 5 ? 'rgba(249,115,22,0.3)' : count >= 3 ? 'rgba(234,179,8,0.3)' : 'var(--border)';
             return (
               <div key={q.id}>

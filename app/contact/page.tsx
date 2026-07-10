@@ -62,8 +62,8 @@ function ContactForm() {
     borderRadius: '6px',
     fontFamily: 'Inter, system-ui, sans-serif',
     fontSize: '14px',
-    color: '#e0e0e0',
-    backgroundColor: '#111',
+    color: 'var(--text)',
+    backgroundColor: 'var(--bg3)',
     outline: 'none',
     boxSizing: 'border-box',
   };
@@ -72,7 +72,7 @@ function ContactForm() {
     display: 'block',
     fontSize: '12px',
     fontWeight: 600,
-    color: '#666',
+    color: 'var(--text3)',
     marginBottom: '6px',
     fontFamily: 'Inter, system-ui, sans-serif',
     textTransform: 'uppercase',
@@ -94,13 +94,13 @@ function ContactForm() {
         <h1 style={{
           fontFamily: 'Georgia, serif',
           fontSize: '26px',
-          color: '#e0e0e0',
+          color: 'var(--text)',
           marginBottom: '6px',
           fontWeight: 400,
         }}>
           {tab === 'contact' ? 'Contact Us' : tab === 'bug' ? 'Report a Bug' : 'Request a Feature'}
         </h1>
-        <p style={{ color: '#444', fontSize: '14px', marginBottom: '32px' }}>
+        <p style={{ color: 'var(--text3)', fontSize: '14px', marginBottom: '32px' }}>
           {tab === 'contact'
             ? 'Questions, feedback, or suggestions — write to us.'
             : tab === 'bug' ? 'Found something broken? Tell us what happened.' : 'Have an idea? We\'d love to hear it.'}
@@ -164,7 +164,7 @@ function ContactForm() {
                 </div>
                 <button type="submit" disabled={status === 'sending'} style={{
                   padding: '10px 24px',
-                  backgroundColor: status === 'sending' ? '#1a1a1a' : 'rgba(212,168,67,0.15)',
+                  backgroundColor: status === 'sending' ? 'var(--bg4)' : 'rgba(212,168,67,0.15)',
                   color: status === 'sending' ? '#555' : '#d4a843',
                   border: '1px solid rgba(212,168,67,0.3)',
                   borderRadius: '6px',
@@ -193,14 +193,14 @@ function ContactForm() {
                     placeholder="What you did, what you expected, what actually happened..." />
                 </div>
                 <div>
-                  <label style={labelStyle}>Your email <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#333' }}>(optional)</span></label>
+                  <label style={labelStyle}>Your email <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: 'var(--border2)' }}>(optional)</span></label>
                   <input type="email" style={inputStyle} value={bugForm.email}
                     onChange={e => setBugForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="So we can follow up if needed" />
                 </div>
                 <button type="submit" disabled={status === 'sending'} style={{
                   padding: '10px 24px',
-                  backgroundColor: status === 'sending' ? '#1a1a1a' : 'rgba(212,168,67,0.15)',
+                  backgroundColor: status === 'sending' ? 'var(--bg4)' : 'rgba(212,168,67,0.15)',
                   color: status === 'sending' ? '#555' : '#d4a843',
                   border: '1px solid rgba(212,168,67,0.3)',
                   borderRadius: '6px',
@@ -228,14 +228,14 @@ function ContactForm() {
                     placeholder="What should it do? How would it help your preparation?" />
                 </div>
                 <div>
-                  <label style={labelStyle}>Your email <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#333' }}>(optional)</span></label>
+                  <label style={labelStyle}>Your email <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: 'var(--border2)' }}>(optional)</span></label>
                   <input type="email" style={inputStyle} value={featureForm.email}
                     onChange={e => setFeatureForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="So we can update you when it ships" />
                 </div>
                 <button type="submit" disabled={status === 'sending'} style={{
                   padding: '10px 24px',
-                  backgroundColor: status === 'sending' ? '#1a1a1a' : 'rgba(212,168,67,0.15)',
+                  backgroundColor: status === 'sending' ? 'var(--bg4)' : 'rgba(212,168,67,0.15)',
                   color: status === 'sending' ? '#555' : '#d4a843',
                   border: '1px solid rgba(212,168,67,0.3)',
                   borderRadius: '6px',

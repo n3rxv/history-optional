@@ -86,8 +86,8 @@ function TypeBadge({ type }: { type: string }) {
 }
 
 const labelStyle: React.CSSProperties = { display: 'block', fontSize: '0.65rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: 4 };
-const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.45rem 0.65rem', color: 'var(--text)', fontSize: '0.83rem', fontFamily: 'var(--font-body)', outline: 'none', boxSizing: 'border-box' };
-const smallBtnStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.3rem 0.7rem', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.72rem', fontFamily: 'var(--font-body)' };
+const inputStyle: React.CSSProperties = { width: '100%', background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.45rem 0.65rem', color: 'var(--text)', fontSize: '0.83rem', fontFamily: 'var(--font-body)', outline: 'none', boxSizing: 'border-box' };
+const smallBtnStyle: React.CSSProperties = { background: 'rgba(0,0,0,0.05)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.3rem 0.7rem', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.72rem', fontFamily: 'var(--font-body)' };
 // ── Form helpers (outside component to prevent remount on each keystroke) ──
 function updatePos(form: any, setForm: any, idx: number, field: keyof Position, val: string) {
   const positions = form.positions.map((p: any, i: number) => i === idx ? { ...p, [field]: val } : p);
@@ -146,7 +146,7 @@ function DebateForm({ form, setForm, topicInp, setTopicInp, onSave, onCancel, sa
           <button onClick={() => addPos(form, setForm)} style={smallBtnStyle}>+ Add Position</button>
         </div>
         {form.positions.map((pos: Position, idx: number) => (
-          <div key={idx} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: 8, padding: '0.75rem', marginBottom: '0.5rem' }}>
+          <div key={idx} style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border)', borderRadius: 8, padding: '0.75rem', marginBottom: '0.5rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
               <span style={{ color: 'var(--text3)', fontSize: '0.65rem', fontFamily: 'var(--font-mono)' }}>POSITION {idx + 1}</span>
               {form.positions.length > 1 && <button onClick={() => removePos(form, setForm, idx)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.72rem' }}>Remove</button>}
@@ -285,12 +285,12 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
         .hb-title span { color: #3b82f6; }
         .hb-sub { color: var(--text3); font-size: 0.82rem; margin-top: 0.4rem; font-family: var(--font-body); line-height: 1.6; }
         .hb-controls { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-bottom: 1.5rem; }
-        .hb-search { flex: 1; min-width: 200px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.9rem; color: var(--text); font-size: 0.85rem; font-family: var(--font-body); outline: none; }
+        .hb-search { flex: 1; min-width: 200px; background: rgba(0,0,0,0.04); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.9rem; color: var(--text); font-size: 0.85rem; font-family: var(--font-body); outline: none; }
         .hb-search:focus { border-color: rgba(59,130,246,0.4); }
-        .hb-select { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.75rem; color: var(--text2); font-size: 0.78rem; font-family: var(--font-body); outline: none; cursor: pointer; }
+        .hb-select { background: rgba(0,0,0,0.04); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.75rem; color: var(--text2); font-size: 0.78rem; font-family: var(--font-body); outline: none; cursor: pointer; }
         .hb-count { color: var(--text3); font-size: 0.72rem; font-family: var(--font-mono); letter-spacing: 0.08em; margin-left: auto; }
         
-        .hb-card { background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 0.75rem; overflow: hidden; transition: border-color 0.2s; }
+        .hb-card { background: linear-gradient(135deg, rgba(0,0,0,0.03), rgba(255,255,255,0.01)); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 0.75rem; overflow: hidden; transition: border-color 0.2s; }
         .hb-card:hover { border-color: rgba(59,130,246,0.25); }
         .hb-card-header { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem 1.2rem; cursor: pointer; }
         .hb-card-left { flex: 1; min-width: 0; }
@@ -308,7 +308,7 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
         .hb-tip-text { font-size: 0.8rem; color: #d4a93a; line-height: 1.6; }
         
         .hb-positions { display: flex; flex-direction: column; gap: 0.6rem; }
-        .hb-position { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem 1rem; }
+        .hb-position { background: rgba(0,0,0,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem 1rem; }
         .hb-pos-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; }
         .hb-pos-name { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--text); }
         .hb-pos-stance { font-size: 0.72rem; color: var(--text2); margin-top: 2px;  }
@@ -320,7 +320,7 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
         .hb-topic-tag { font-size: 0.6rem; padding: 2px 8px; border-radius: 20px; background: rgba(59,130,246,0.08); color: var(--text3); border: 1px solid var(--border); font-family: var(--font-mono); }
         
         .hb-admin-bar { display: flex; gap: 0.5rem; padding: 0.6rem 1.2rem; border-top: 1px solid var(--border); background: rgba(255,255,255,0.01); }
-        .hb-add-form { background: rgba(255,255,255,0.02); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+        .hb-add-form { background: rgba(0,0,0,0.02); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
         .hb-add-form-title { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: #60a5fa; margin-bottom: 1rem; }
         
         @media (max-width: 600px) { .hb-controls { flex-direction: column; } .hb-count { margin-left: 0; } }
@@ -389,7 +389,7 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
                   <div className="hb-card-left">
                     <div className="hb-card-badges">
                       <TypeBadge type={debate.type} />
-                      <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', letterSpacing: '0.06em', padding: '2px 8px', background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', borderRadius: 20 }}>{langHi ? (PAPERS_HI[debate.paper] ?? debate.paper) : debate.paper}</span>
+                      <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', letterSpacing: '0.06em', padding: '2px 8px', background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', borderRadius: 20 }}>{langHi ? (PAPERS_HI[debate.paper] ?? debate.paper) : debate.paper}</span>
                     </div>
                     <div className="hb-card-title">{langHi && debate.title_hi ? debate.title_hi : debate.title}</div>
                     <div className="hb-card-meta">

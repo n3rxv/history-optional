@@ -635,7 +635,7 @@ function QuizPanel({ pyqOnly, langHi }: { pyqOnly: boolean; langHi: boolean }) {
           onClick={nextQuestion}
           style={{
             alignSelf: 'flex-end', padding: '10px 28px', borderRadius: 8,
-            background: ACCENT, color: '#fff', border: 'none',
+            background: ACCENT, color: 'var(--text)', border: 'none',
             fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: 14,
             cursor: 'pointer',
           }}
