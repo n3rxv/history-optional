@@ -1,7 +1,11 @@
 'use client';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
 
 export default function PrelimsLanding() {
+  const router = useRouter();
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const features = [
     { icon: '💡', label: 'Solution Breakdown',   desc: 'Step-by-step reasoning for every answer'         },
     { icon: '⚙️', label: 'Technique Detection',  desc: 'LINCHPIN · ODD-ONE-OUT · PAIR ELIMINATION'       },
@@ -71,15 +75,20 @@ export default function PrelimsLanding() {
       `}</style>
       {/* CTA */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
-          <Link href="/prelims/practice" className="prelims-cta-btn">
+          <button
+            onClick={() => { if (!requireLogin('Sign in free to start Prelims practice.')) return; router.push('/prelims/practice'); }}
+            className="prelims-cta-btn"
+            style={{ background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', border: 'none', cursor: 'pointer' }}
+          >
             Begin Practice →
-          </Link>
+          </button>
           <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-mono)', margin: '1.5rem 0 0', lineHeight: 1.6 }}>
             <span style={{ color: '#eab308' }}>Questions are free to practice · Smart dissection & analysis requires Premium</span>
           </p>
         </div>
 
       </div>
+      <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
     </div>
   );
 }

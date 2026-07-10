@@ -911,7 +911,7 @@ export default function MappingPage() {
                   <ChapterSection
                     chapter={chapter}
                     isOpen={openChapters.has(key)}
-                    onToggle={() => toggleChapter(key)}
+                    onToggle={() => { if (!requireLogin('Sign in free to explore the Map Reference.')) return; toggleChapter(key); }}
                     selectedSite={selectedSite}
                     onSiteClick={(name) => setSelectedSite(prev => prev === name ? null : name)}
                     pyqOnly={effectivePYQOnly}
