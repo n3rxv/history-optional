@@ -87,11 +87,26 @@ export async function GET(req: NextRequest) {
     .single();
 
   if (byUid) {
+    // Also check FP row — take max so multi-account abuse shows correct count in UI
+    let fpEval = byUid.eval_count ?? 0;
+    let fpChat = byUid.chat_count ?? 0;
+    if (fp) {
+      const { data: byFpAlso } = await supabase
+        .from('usage_tracking')
+        .select('eval_count, chat_count')
+        .eq('fingerprint', fp)
+        .neq('firebase_uid', uid)
+        .single();
+      if (byFpAlso) {
+        fpEval = Math.max(fpEval, byFpAlso.eval_count ?? 0);
+        fpChat = Math.max(fpChat, byFpAlso.chat_count ?? 0);
+      }
+    }
     return NextResponse.json({
       allowed: true,
       subscribed: false,
-      eval_count:  byUid.eval_count  ?? 0,
-      chat_count:  byUid.chat_count  ?? 0,
+      eval_count:  fpEval,
+      chat_count:  fpChat,
       fingerprint: byUid.fingerprint,
     });
   }
