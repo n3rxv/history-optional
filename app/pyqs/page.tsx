@@ -268,7 +268,7 @@ export default function PYQsPage() {
             </p>
           </div>
           <Link href="/test" style={{
-            background: 'var(--accent)', color: 'var(--text)',
+            background: 'var(--accent)', color: '#fff',
             padding: '0.55rem 1.25rem', borderRadius: 6,
             fontSize: '0.88rem', fontWeight: 600, textDecoration: 'none',
             display: 'inline-flex', alignItems: 'center', gap: '0.4rem',

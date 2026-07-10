@@ -230,7 +230,7 @@ export default function Flashcards() {
 
                 {/* FRONT FACE */}
                 <div className="flip-face" style={{
-                  background: `linear-gradient(145deg, #0d1117 0%, #0a0f1a 50%, #06080f 100%)`,
+                  background: `linear-gradient(145deg, var(--bg2) 0%, var(--bg3) 50%, var(--bg2) 100%)` as string,
                   border: `1px solid ${tc.main}44`,
                   boxShadow: `0 0 0 1px ${tc.main}22, 0 8px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(0,0,0,0.04)`,
                   padding: '2rem',
@@ -265,7 +265,7 @@ export default function Flashcards() {
                       boxShadow: `0 0 12px ${tc.glow}`,
                     }}>{getTypeLabel(currentCard.type)}</span>
                     <span style={{
-                      fontSize: '0.62rem', color: 'rgba(0,0,0,0.15)',
+                      fontSize: '0.62rem', color: 'var(--text3)',
                       fontFamily: 'var(--font-ui)', letterSpacing: '0.04em',
                     }}>{currentCard.section}</span>
                   </div>
@@ -273,7 +273,7 @@ export default function Flashcards() {
                   <div style={{ flex: 1, display: 'flex', alignItems: 'center', paddingRight: '1rem' }}>
                     <div style={{
                       fontFamily: 'var(--font-display)', fontSize: '1.15rem',
-                      color: 'rgba(255,255,255,0.92)', lineHeight: 1.7,
+                      color: 'var(--text)', lineHeight: 1.7,
                       letterSpacing: '-0.01em',
                     }}>
                       {langHi ? (currentCard.front_hi ?? currentCard.front) : currentCard.front}

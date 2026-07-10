@@ -488,7 +488,7 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
               to   { opacity: 1; transform: translateX(0) scale(1); }
             }
             .toc-nav-item { transition: all 0.15s ease; }
-            .toc-nav-item:hover { background: rgba(59,130,246,0.1) !important; color: #fff !important; }
+            .toc-nav-item:hover { background: rgba(59,130,246,0.1) !important; color: var(--accent) !important; }
             .toc-nav-item:hover .toc-nav-arrow { opacity: 1 !important; transform: translateX(3px) !important; }
           `}</style>
 
@@ -823,7 +823,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
             gap: 7px;
             padding: 0.32rem 0.6rem;
             font-size: 0.76rem;
-            color: rgba(255,255,255,0.5);
+            color: var(--text2);
             border-left: 2px solid rgba(59,130,246,0.15);
             margin-bottom: 0.18rem;
             border-radius: 0 4px 4px 0;
@@ -833,7 +833,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           .sb-chip:hover {
             background: rgba(59,130,246,0.07);
             border-left-color: rgba(59,130,246,0.5);
-            color: rgba(255,255,255,0.85);
+            color: var(--accent);
             transform: translateX(2px);
           }
           .sb-related-link {
@@ -842,7 +842,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
             gap: 6px;
             padding: 0.38rem 0.6rem;
             font-size: 0.76rem;
-            color: rgba(255,255,255,0.45);
+            color: var(--text2);
             text-decoration: none;
             border: 1px solid rgba(59,130,246,0.08);
             border-radius: 5px;
@@ -853,7 +853,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           .sb-related-link:hover {
             background: rgba(59,130,246,0.1);
             border-color: rgba(59,130,246,0.3);
-            color: #fff;
+            color: var(--accent);
             transform: translateX(3px);
             box-shadow: 0 2px 12px rgba(59,130,246,0.12);
           }
@@ -1056,7 +1056,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 style={{
                   background: annotationMode==='highlight' ? 'rgba(201,168,76,0.12)' : 'transparent',
                   border: annotationMode==='highlight' ? '1px solid rgba(201,168,76,0.35)' : '1px solid rgba(0,0,0,0.08)',
-                  color: annotationMode==='highlight' ? '#c9a84c' : 'rgba(255,255,255,0.45)',
+                  color: annotationMode==='highlight' ? '#c9a84c' : 'var(--text2)',
                 }}
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -1097,7 +1097,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 style={{
                   background: annotationMode==='sticky' ? 'rgba(96,165,250,0.1)' : 'transparent',
                   border: annotationMode==='sticky' ? '1px solid rgba(96,165,250,0.3)' : '1px solid rgba(0,0,0,0.08)',
-                  color: annotationMode==='sticky' ? 'rgba(96,165,250,0.9)' : 'rgba(255,255,255,0.45)',
+                  color: annotationMode==='sticky' ? 'rgba(96,165,250,0.9)' : 'var(--text2)',
                 }}
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">

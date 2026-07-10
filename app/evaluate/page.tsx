@@ -1043,10 +1043,10 @@ const handleOcr = useCallback(async () => {
         {/* Hero */}
         <div style={{ paddingBottom:40, borderBottom:"1px solid var(--border)", marginBottom:44 }} className="ev-fade">
           <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.28em", textTransform:"uppercase", color:"var(--text2)", marginBottom:14 }}>History Optional · UPSC Civil Services Mains</div>
-          <h1 style={{ fontFamily:"var(--font-display)", fontSize:"2.6rem", fontWeight:700, color:"#f0f0f0", lineHeight:1.12, letterSpacing:"-0.02em" }}>
+          <h1 style={{ fontFamily:"var(--font-display)", fontSize:"2.6rem", fontWeight:700, color:"var(--text)", lineHeight:1.12, letterSpacing:"-0.02em" }}>
             Evaluate Your <span style={{ color:"#3b82f6" }}>Answer</span>
           </h1>
-          <p style={{ marginTop:14, color:"#888", fontSize:"0.88rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
+          <p style={{ marginTop:14, color:"var(--text3)", fontSize:"0.88rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
             {tr(t.evalHeading, langHi)}
           </p>
         </div>
@@ -1094,13 +1094,13 @@ const handleOcr = useCallback(async () => {
               <button onClick={() => { setEvalMode("single"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
                 background: evalMode==="single" ? "rgba(59,130,246,0.07)" : "var(--bg2)",
-                border: evalMode==="single" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid #222",
+                border: evalMode==="single" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid var(--border)",
                 boxShadow: evalMode==="single" ? "0 0 0 3px rgba(59,130,246,0.08), inset 0 1px 0 rgba(0,0,0,0.04)" : "none",
                 transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
                   <div style={{ width:28, height:28, borderRadius:6,
                     background: evalMode==="single" ? "rgba(59,130,246,0.15)" : "var(--bg3)",
-                    border: evalMode==="single" ? "1px solid rgba(59,130,246,0.3)" : "1px solid #2a2a2a",
+                    border: evalMode==="single" ? "1px solid rgba(59,130,246,0.3)" : "1px solid var(--border)",
                     display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="single"?"#3b82f6":"#555"} strokeWidth="1.8" strokeLinecap="round">
                       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -1110,23 +1110,23 @@ const handleOcr = useCallback(async () => {
                     </svg>
                   </div>
                   <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
-                    textTransform:"uppercase", color: evalMode==="single" ? "#e2e8f0" : "#666",
+                    textTransform:"uppercase", color: evalMode==="single" ? "var(--text)" : "var(--text3)",
                     transition:"color 0.18s", fontWeight: evalMode==="single" ? 600 : 400 }}>{tr(t.evalSingleTitle, langHi)}</span>
                   {evalMode==="single" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"var(--accent)", boxShadow:"0 0 8px #3b82f6" }} />}
                 </div>
-                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="single" ? "#6b8db5" : "var(--border2)",
+                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="single" ? "#6b8db5" : "var(--text3)",
                   lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalSingleDesc, langHi)}</div>
               </button>
               <button onClick={() => { setEvalMode("batch"); setOpenEntry(null); }} style={{
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
                 background: evalMode==="batch" ? "rgba(59,130,246,0.07)" : "var(--bg2)",
-                border: evalMode==="batch" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid #222",
+                border: evalMode==="batch" ? "1.5px solid rgba(59,130,246,0.5)" : "1.5px solid var(--border)",
                 boxShadow: evalMode==="batch" ? "0 0 0 3px rgba(59,130,246,0.08), inset 0 1px 0 rgba(0,0,0,0.04)" : "none",
                 transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
                   <div style={{ width:28, height:28, borderRadius:6,
                     background: evalMode==="batch" ? "rgba(59,130,246,0.15)" : "var(--bg3)",
-                    border: evalMode==="batch" ? "1px solid rgba(59,130,246,0.3)" : "1px solid #2a2a2a",
+                    border: evalMode==="batch" ? "1px solid rgba(59,130,246,0.3)" : "1px solid var(--border)",
                     display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="batch"?"#3b82f6":"#555"} strokeWidth="1.8" strokeLinecap="round">
                       <rect x="2" y="3" width="20" height="14" rx="2"/>
@@ -1134,11 +1134,11 @@ const handleOcr = useCallback(async () => {
                     </svg>
                   </div>
                   <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
-                    textTransform:"uppercase", color: evalMode==="batch" ? "#e2e8f0" : "#666",
+                    textTransform:"uppercase", color: evalMode==="batch" ? "var(--text)" : "var(--text3)",
                     transition:"color 0.18s", fontWeight: evalMode==="batch" ? 600 : 400 }}>{tr(t.evalBatchTitle, langHi)}</span>
                   {evalMode==="batch" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"var(--accent)", boxShadow:"0 0 8px #3b82f6" }} />}
                 </div>
-                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="batch" ? "#6b8db5" : "var(--border2)",
+                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="batch" ? "#6b8db5" : "var(--text3)",
                   lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalBatchDesc, langHi)}</div>
               </button>
               <button onClick={() => { setEvalMode("map"); setOpenEntry(null); }} style={{
@@ -1151,7 +1151,7 @@ const handleOcr = useCallback(async () => {
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
                   <div style={{ width:28, height:28, borderRadius:6,
                     background: evalMode==="map" ? "rgba(16,185,129,0.15)" : "var(--bg3)",
-                    border: evalMode==="map" ? "1px solid rgba(16,185,129,0.3)" : "1px solid #2a2a2a",
+                    border: evalMode==="map" ? "1px solid rgba(16,185,129,0.3)" : "1px solid var(--border)",
                     display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="map"?"#10b981":"#555"} strokeWidth="1.8" strokeLinecap="round">
                       <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
@@ -1160,7 +1160,7 @@ const handleOcr = useCallback(async () => {
                     </svg>
                   </div>
                   <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
-                    textTransform:"uppercase", color: evalMode==="map" ? "#e2e8f0" : "#666",
+                    textTransform:"uppercase", color: evalMode==="map" ? "var(--text)" : "var(--text3)",
                     transition:"color 0.18s", fontWeight: evalMode==="map" ? 600 : 400 }}>{tr(t.evalMapTitle, langHi)}</span>
                   {evalMode==="map" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"#10b981", boxShadow:"0 0 8px #10b981" }} />}
                 </div>

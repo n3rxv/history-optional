@@ -241,7 +241,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
       {/* sticky top bar — sits below navbar (navbar is 72px) */}
       <div style={{
         position: 'sticky', top: 72, zIndex: 40,
-        background: 'rgba(8,8,16,0.97)', backdropFilter: 'blur(16px)',
+        background: 'var(--bg2)', backdropFilter: 'blur(16px)',
         borderBottom: '1px solid rgba(0,0,0,0.07)',
         padding: '0.7rem 1.5rem',
         display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap',
@@ -257,7 +257,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
             <button key={f} onClick={() => setFilter(f)} style={{
               padding: '0.28rem 0.75rem', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600,
               background: filter === f ? 'var(--accent)' : 'rgba(0,0,0,0.06)',
-              color: filter === f ? '#000' : 'rgba(255,255,255,0.5)',
+              color: filter === f ? '#fff' : 'var(--text2)',
               transition: 'all 0.15s',
             }}>{f === 'all' ? 'All' : f === 'pyq' ? 'PYQs' : 'MCQs'}</button>
           ))}
@@ -266,7 +266,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
         {/* topic filter */}
         <select value={topicFilter} onChange={e => setTopicFilter(e.target.value)} style={{
           background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8,
-          color: 'rgba(255,255,255,0.75)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 210,
+          color: 'var(--text)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 210,
         }}>
           <option value="all">{langHi ? "सभी विषय" : "All Topics"}</option>
           {TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
@@ -274,7 +274,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
         {/* year filter */}
         <select value={yearFilter} onChange={e => setYearFilter(e.target.value)} style={{
           background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8,
-          color: 'rgba(255,255,255,0.75)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 120,
+          color: 'var(--text)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 120,
         }}>
           <option value="all">{langHi ? "सभी वर्ष" : "All Years"}</option>
           {YEARS.map(y => <option key={y} value={String(y)}>{y}</option>)}
@@ -282,11 +282,11 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
 
         <button onClick={() => setFilter(filter === 'bookmarked' ? 'all' : 'bookmarked' as any)}
           onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = 'rgba(251,191,36,0.2)'; (e.target as HTMLButtonElement).style.borderColor = 'rgba(251,191,36,0.7)'; (e.target as HTMLButtonElement).style.color = '#fbbf24'; }}
-          onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = filter === 'bookmarked' ? 'rgba(251,191,36,0.15)' : 'transparent'; (e.target as HTMLButtonElement).style.borderColor = filter === 'bookmarked' ? 'rgba(251,191,36,0.5)' : 'rgba(0,0,0,0.08)'; (e.target as HTMLButtonElement).style.color = filter === 'bookmarked' ? '#fbbf24' : 'rgba(255,255,255,0.5)'; }}
+          onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = filter === 'bookmarked' ? 'rgba(251,191,36,0.15)' : 'transparent'; (e.target as HTMLButtonElement).style.borderColor = filter === 'bookmarked' ? 'rgba(251,191,36,0.5)' : 'rgba(0,0,0,0.08)'; (e.target as HTMLButtonElement).style.color = filter === 'bookmarked' ? '#fbbf24' : 'var(--text2)'; }}
           style={{
             background: filter === 'bookmarked' ? 'rgba(251,191,36,0.15)' : 'transparent',
             border: filter === 'bookmarked' ? '1px solid rgba(251,191,36,0.5)' : '1px solid rgba(0,0,0,0.08)',
-            color: filter === 'bookmarked' ? '#fbbf24' : 'rgba(255,255,255,0.5)',
+            color: filter === 'bookmarked' ? '#fbbf24' : 'var(--text2)',
             borderRadius: 8, padding: '0.28rem 0.75rem', cursor: 'pointer', fontSize: '0.8rem', transition: 'all 0.15s',
           }}>★ Bookmarks</button>
 
@@ -301,13 +301,13 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           {answered > 0 && (
             <button onClick={() => setShowResult(true)}
               onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(0,0,0,0.08)'; b.style.color = 'rgba(255,255,255,0.8)'; }}
-              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.color = 'rgba(255,255,255,0.5)'; }}
+              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.color = 'var(--text2)'; }}
               style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(0,0,0,0.09)', background: 'transparent', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>{langHi ? "स्कोर →" : "Score →"}</button>
           )}
           {answered > 0 && (
             <button onClick={() => { setShowResetConfirm(true); }}
               onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(248,113,113,0.1)'; b.style.borderColor = 'rgba(248,113,113,0.4)'; b.style.color = '#f87171'; }}
-              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.borderColor = 'rgba(0,0,0,0.09)'; b.style.color = 'rgba(255,255,255,0.5)'; }}
+              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.borderColor = 'rgba(0,0,0,0.09)'; b.style.color = 'var(--text2)'; }}
               style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(0,0,0,0.09)', background: 'transparent', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>↺ Reset</button>
           )}
         </div>
@@ -360,16 +360,16 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
           </div>
 
           {/* question text */}
-          <div style={{ fontSize: '1.15rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.95)', whiteSpace: 'pre-line', marginBottom: '1.5rem', fontWeight: 500 }}>
+          <div style={{ fontSize: '1.15rem', lineHeight: 1.8, color: 'var(--text)', whiteSpace: 'pre-line', marginBottom: '1.5rem', fontWeight: 500 }}>
             {q.question}
           </div>
 
           {/* options */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
             {q.options.map((opt, i) => {
-              let bg = 'rgba(0,0,0,0.03)', border = 'rgba(0,0,0,0.09)', color = 'rgba(255,255,255,0.8)', icon = '';
+              let bg = 'rgba(0,0,0,0.03)', border = 'rgba(0,0,0,0.09)', color = 'var(--text)', icon = '';
               if (!qs.submitted) {
-                if (qs.selected === i) { bg = 'rgba(96,165,250,0.12)'; border = 'rgba(96,165,250,0.5)'; color = '#93c5fd'; }
+                if (qs.selected === i) { bg = 'rgba(96,165,250,0.12)'; border = 'rgba(96,165,250,0.5)'; color = 'var(--accent)'; }
               } else {
                 if (i === q.correct)      { bg = 'rgba(74,222,128,0.1)'; border = 'rgba(74,222,128,0.5)'; color = '#4ade80'; icon = '✓'; }
                 else if (qs.selected === i) { bg = 'rgba(248,113,113,0.1)'; border = 'rgba(248,113,113,0.5)'; color = '#fca5a5'; icon = '✗'; }
@@ -424,7 +424,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                   padding: '0.75rem 1rem', borderRadius: 10,
                   border: `1px solid ${qs.marked ? 'rgba(251,191,36,0.5)' : 'rgba(0,0,0,0.08)'}`,
                   background: qs.marked ? 'rgba(251,191,36,0.1)' : 'transparent',
-                  color: qs.marked ? '#fbbf24' : 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: '0.9rem',
+                  color: qs.marked ? '#fbbf24' : 'var(--text3)', cursor: 'pointer', fontSize: '0.9rem',
                 }}>{qs.marked ? '★' : '☆'}</button>
               </>
             )}
@@ -432,13 +432,13 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
               <button onClick={() => goTo(current - 1)} disabled={current === 0} style={{
                 padding: '0.75rem 1.1rem', borderRadius: 10,
                 border: '1px solid rgba(0,0,0,0.09)', background: 'transparent',
-                color: current === 0 ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.55)',
+                color: current === 0 ? 'var(--border2)' : 'var(--text)',
                 cursor: current === 0 ? 'not-allowed' : 'pointer', fontSize: '0.9rem',
               }}>← Prev</button>
               <button onClick={() => goTo(current + 1)} disabled={current === filtered.length - 1} style={{
                 padding: '0.75rem 1.1rem', borderRadius: 10,
                 border: '1px solid rgba(0,0,0,0.09)', background: 'transparent',
-                color: current === filtered.length - 1 ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.75)',
+                color: current === filtered.length - 1 ? 'var(--border2)' : 'var(--text)',
                 cursor: current === filtered.length - 1 ? 'not-allowed' : 'pointer', fontSize: '0.9rem',
               }}>{langHi ? "अगला →" : "Next →"}</button>
             </div>

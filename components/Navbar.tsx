@@ -453,7 +453,7 @@ export default function Navbar() {
 
             {/* Notes dropdown */}
             <div ref={notesRef} style={{ position: 'relative' }}>
-              <button onClick={() => setNotesMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }} onMouseEnter={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = '#fff'; }} onMouseLeave={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = 'var(--text2)'; }}>
+              <button onClick={() => setNotesMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }} onMouseEnter={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = 'var(--accent)'; }} onMouseLeave={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = 'var(--text2)'; }}>
                 {tr(t.notes, langHi)}
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
                   <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -464,7 +464,7 @@ export default function Navbar() {
                   {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/#daily-answer', label: langHi ? 'दैनिक उत्तर लेखन' : 'Daily Answer Writing' }].map(item => (
                     <Link key={item.href} href={item.href} onClick={() => setNotesMenuOpen(false)}
                       style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)', background: pathname.startsWith(item.href) ? 'rgba(59,130,246,0.08)' : 'transparent', transition: 'all 0.12s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.05)'; }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.06)'; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname.startsWith(item.href) ? 'rgba(59,130,246,0.08)' : 'transparent'; }}
                     >{item.label}</Link>
                   ))}
@@ -474,7 +474,7 @@ export default function Navbar() {
 
             {/* PYQs dropdown */}
             <div ref={pyqsRef} style={{ position: 'relative' }}>
-              <button onClick={() => setPyqsMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }} onMouseEnter={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = '#fff'; }} onMouseLeave={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = 'var(--text2)'; }}>
+              <button onClick={() => setPyqsMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }} onMouseEnter={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = 'var(--accent)'; }} onMouseLeave={e => { const el = e.currentTarget as HTMLElement; if (el.style.color !== 'var(--accent)') el.style.color = 'var(--text2)'; }}>
                 PYQs
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
                   <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -485,7 +485,7 @@ export default function Navbar() {
                   {[{ href: '/pyqs', label: langHi ? 'PYQs देखें' : 'Browse PYQs' }, { href: '/test', label: langHi ? 'टेस्ट शुरू करें' : 'Start Test' }].map(item => (
                     <Link key={item.href} href={item.href} onClick={() => setPyqsMenuOpen(false)}
                       style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: pathname === item.href ? 'var(--accent)' : 'var(--text2)', background: pathname === item.href ? 'rgba(59,130,246,0.08)' : 'transparent', transition: 'all 0.12s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.05)'; }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.06)'; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname === item.href ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname === item.href ? 'rgba(59,130,246,0.08)' : 'transparent'; }}
                     >{item.label}</Link>
                   ))}
@@ -498,7 +498,7 @@ export default function Navbar() {
               const active = pathname.startsWith(l.href);
               return (
                 <Link key={l.href} href={l.href} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, fontSize: '0.82rem', fontFamily: 'var(--font-ui)', textDecoration: 'none', color: active ? 'var(--accent)' : 'var(--text2)', background: 'transparent', transition: 'color 0.15s', whiteSpace: 'nowrap' }}
-                  onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                  onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
                   onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--text2)'; }}
                 >{l.label}</Link>
               );
@@ -508,8 +508,8 @@ export default function Navbar() {
 
             {/* Dashboard */}
             <Link href="/dashboard" title="Progress Dashboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 6, textDecoration: 'none', color: pathname.startsWith('/dashboard') ? 'var(--accent)' : 'rgba(255,255,255,0.35)', transition: 'color 0.15s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname.startsWith('/dashboard') ? 'var(--accent)' : 'rgba(255,255,255,0.35)'; }}>
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname.startsWith('/dashboard') ? 'var(--accent)' : 'var(--text3)'; }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
                 <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
@@ -528,7 +528,7 @@ export default function Navbar() {
                   localStorage.setItem('ho_seen_notifications', JSON.stringify(allIds));
                 }
               }} style={{ display:'flex', alignItems:'center', justifyContent:'center', width:30, height:30, borderRadius:6, background:'none', border:'none', cursor:'pointer', color:'rgba(255,255,255,0.35)', position:'relative', transition:'color 0.15s' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)'; }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>

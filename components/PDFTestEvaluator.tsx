@@ -106,7 +106,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.2em",
             textTransform: "uppercase", color: "#3b82f6", flexShrink: 0 }}>{question.id}</span>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555",
-            background: "var(--bg4)", borderRadius: 4, padding: "2px 7px", flexShrink: 0 }}>
+            background: "var(--bg3)", borderRadius: 4, padding: "2px 7px", flexShrink: 0 }}>
             {question.marks}M
           </span>
           <span style={{ fontSize: "0.85rem", color: "#aaa", overflow: "hidden",
@@ -1233,7 +1233,7 @@ export default function PDFTestEvaluator({
         style={{
           border: `1.5px dashed ${dragging ? "#3b82f6" : file ? "rgba(59,130,246,0.5)" : "var(--border2)"}`,
           borderRadius: 6, padding: "44px 24px", textAlign: "center", cursor: "pointer",
-          background: dragging ? "var(--accent2)" : file ? "rgba(59,130,246,0.04)" : "var(--bg3)",
+          background: dragging ? "rgba(59,130,246,0.1)" : file ? "rgba(59,130,246,0.04)" : "var(--bg2)",
           transition: "all 0.2s", marginBottom: error ? 12 : 20,
         }}
       >
