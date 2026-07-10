@@ -656,7 +656,7 @@ Every response must:
         updated[updated.length - 1] = { role: 'assistant', content: full, sources };
         return updated;
       });
-      incrementChat();
+      // chat_count tracked server-side in /api/chat
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
     } finally {

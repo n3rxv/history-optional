@@ -198,11 +198,13 @@ export async function POST(req: NextRequest) {
   // Firebase auth check
   let isOwner = false;
   let isPremium = false;
+  let firebaseUid = '';
 
   if (token) {
     try {
       const { adminAuth } = await import('@/lib/firebaseAdmin');
       const decoded = await adminAuth.verifyIdToken(token);
+      firebaseUid = decoded.uid;
       if (decoded.email === OWNER_EMAIL) isOwner = true;
       if (!isOwner) {
         const nowISO = new Date().toISOString();
@@ -715,6 +717,29 @@ If everything checks out, respond: {"bad_brackets": [], "bad_prose_sentences": [
 
 
           send(fullAnswer);
+
+          // Increment chat_count for all users (except owner) — analytics + abuse prevention
+          if (!isOwner && firebaseUid) {
+            try {
+              const { createClient: ccInc } = await import('@supabase/supabase-js');
+              const sbInc = ccInc(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
+              const { data: existingChat } = await sbInc
+                .from('usage_tracking')
+                .select('chat_count')
+                .eq('firebase_uid', firebaseUid)
+                .single();
+              const newChatCount = (existingChat?.chat_count ?? 0) + 1;
+              await sbInc.from('usage_tracking')
+                .upsert({ firebase_uid: firebaseUid, fingerprint, chat_count: newChatCount }, { onConflict: 'firebase_uid' });
+              // Also update FP row to block multi-account abuse
+              if (fingerprint) {
+                await sbInc.from('usage_tracking')
+                  .upsert({ fingerprint, chat_count: newChatCount }, { onConflict: 'fingerprint' });
+              }
+            } catch (incErr) {
+              console.log('chat_count increment failed', incErr);
+            }
+          }
 
           send('\n__SOURCES__' + JSON.stringify(ragSources));
         } catch (err) {
