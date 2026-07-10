@@ -124,7 +124,7 @@ export default function WeeklyCheckup() {
             ))}
           </div>
           <textarea
-            placeholder="Describe the issue (optional)..."
+            placeholder="Describe the issue (required, min 10 words)..."
             value={details}
             onChange={e => setDetails(e.target.value)}
             rows={3}
@@ -135,10 +135,13 @@ export default function WeeklyCheckup() {
               boxSizing:'border-box',
             }}
           />
-          <button onClick={submitIssues} disabled={submitting || selected.length === 0} style={{
-            width:'100%', padding:'12px', borderRadius:8, cursor: selected.length === 0 ? 'not-allowed' : 'pointer',
+          <div style={{ fontSize:'0.65rem', fontFamily:'var(--font-mono)', color: details.trim().split(/\s+/).filter(Boolean).length >= 10 ? '#4ade80' : '#555', marginTop:-10, marginBottom:12, textAlign:'right' }}>
+            {details.trim().split(/\s+/).filter(Boolean).length}/10 words minimum
+          </div>
+          <button onClick={submitIssues} disabled={submitting || selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10} style={{
+            width:'100%', padding:'12px', borderRadius:8, cursor: (selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10) ? 'not-allowed' : 'pointer',
             border:'1px solid rgba(59,130,246,0.3)', background:'rgba(59,130,246,0.1)',
-            color: selected.length === 0 ? '#444' : '#93c5fd',
+            color: (selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10) ? '#444' : '#93c5fd',
             fontFamily:'var(--font-mono)', fontSize:'0.65rem', letterSpacing:'0.1em',
           }}>{submitting ? 'Sending...' : 'Submit feedback'}</button>
         </>)}
