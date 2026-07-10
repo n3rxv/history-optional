@@ -1285,7 +1285,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                         <div style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>🔒</div>
                         <div style={{ fontFamily: 'var(--font-ui)', fontWeight: 700, color: 'var(--text)', fontSize: '0.95rem', marginBottom: '0.4rem' }}>Sign in to continue reading</div>
                         <div style={{ color: 'var(--text3)', fontSize: '0.78rem', marginBottom: '1.1rem', lineHeight: 1.5 }}>Free account — full notes, highlights & progress tracking.</div>
-                        <button onClick={() => requireLogin('Sign in free to read full notes and save your progress.')} style={{ background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 8, padding: '0.55rem 1.5rem', fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', width: '100%' }}>Sign in free →</button>
+                        <button onClick={handleSignIn} style={{ background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 8, padding: '0.55rem 1.5rem', fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', width: '100%' }}>Sign in free →</button>
                       </div>
                     </div>
                   )}

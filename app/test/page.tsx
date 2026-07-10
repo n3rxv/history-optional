@@ -1217,7 +1217,7 @@ export default function TestPage() {
           <span>Ancient India sections include an interactive <strong>Map Question (50M)</strong>. Other sections get 5 short-answer questions (10M each) instead.</span>
         </div>
 
-        <button onClick={() => { if (!requireLogin('Sign in free to generate a test paper.')) return; if (!canStart) return; startTest(); }} className="shimmer-btn" style={{
+        <button onClick={() => { if (!usage?.token) { requireLogin('Sign in free to generate a test paper.'); return; } if (!canStart) return; startTest(); }} className="shimmer-btn" style={{
           background: canStart ? 'var(--accent)' : 'var(--bg3)',
           color: canStart ? '#fff' : 'var(--text3)',
           border: 'none', borderRadius: 8, padding: '0.85rem 2.5rem',
