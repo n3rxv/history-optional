@@ -12,6 +12,8 @@ import AnnotationToggle from '@/components/AnnotationToggle';
 import TableOfContents from '@/components/TableOfContents';
 import type { User } from 'firebase/auth';
 import { useNoteSearch } from '@/hooks/useNoteSearch';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
 
 function injectHeadingIds(html: string): string {
   let h2count = 0;
@@ -554,6 +556,8 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   const noteSearch = useNoteSearch(noteContentRef);
   const editableRef = useRef<HTMLDivElement>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
+  const loginFiredRef = useRef(false);
 
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [stickyNotes, setStickyNotes] = useState<StickyNote[]>([]);
