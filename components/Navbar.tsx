@@ -795,6 +795,28 @@ export default function Navbar() {
       )}
       {/* Mobile hamburger */}
           <div style={{ display:'none', alignItems:'center', gap:'0.5rem' }} className="mobile-menu-btn">
+            {/* Mobile premium / upgrade / tag */}
+            {user ? (
+              subData ? (
+                <span style={{ display:'inline-flex', alignItems:'center', gap:3, fontSize:'0.6rem', fontFamily:'var(--font-mono)', fontWeight:700, letterSpacing:'0.06em', color:'#51cf66', background:'rgba(81,207,102,0.1)', border:'1px solid rgba(81,207,102,0.3)', borderRadius:20, padding:'3px 8px', whiteSpace:'nowrap' }}>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Premium
+                </span>
+              ) : (
+                <button onClick={() => setShowPremiumModal(true)}
+                  style={{ fontFamily:'var(--font-mono)', fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.06em', padding:'4px 9px', borderRadius:20, background:'linear-gradient(90deg,#e8b84b,#f5d76e)', color:'#000', border:'none', cursor:'pointer', whiteSpace:'nowrap' }}>
+                  ✦ Upgrade
+                </button>
+              )
+            ) : (
+              <div style={{ position:'relative', display:'inline-flex' }}>
+                <button onClick={() => setShowPremiumModal(true)}
+                  style={{ fontFamily:'var(--font-mono)', fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.06em', padding:'4px 9px', borderRadius:20, background:'rgba(212,168,67,0.12)', border:'1px solid rgba(212,168,67,0.5)', color:'#e8b84b', cursor:'pointer', whiteSpace:'nowrap' }}>
+                  ✦ Premium
+                </button>
+                <span style={{ position:'absolute', top:-7, right:-8, fontSize:'0.44rem', fontWeight:800, background:'#e03131', color:'#fff', borderRadius:20, padding:'1px 4px', lineHeight:1.3, whiteSpace:'nowrap', pointerEvents:'none' }}>50% OFF</span>
+              </div>
+            )}
             <button onClick={() => { setBellOpen(o => !o); }} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.7)', cursor:'pointer', padding:'0.25rem', position:'relative', display:'flex', alignItems:'center' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -883,13 +905,8 @@ export default function Navbar() {
                 <span style={{ padding: '0.3rem 0.6rem', background: langHi ? 'rgba(99,102,241,0.18)' : 'transparent', color: langHi ? '#a5b4fc' : 'var(--text3)' }}>हि</span>
               </button>
               <ThemeCustomizer />
-              {user ? (
+              {user && (
                 <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
-              ) : (
-                <div style={{ position: 'relative', display: 'inline-flex' }}>
-                  <button onClick={() => setShowPremiumModal(true)} style={{ background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, position: 'relative', zIndex: 1 }}>✦ Premium</button>
-                  <span style={{ position: 'absolute', top: -8, right: -10, fontSize: '0.5rem', fontWeight: 800, background: '#e03131', color: '#fff', borderRadius: 20, padding: '2px 5px', lineHeight: 1.3, whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 2 }}>50% OFF</span>
-                </div>
               )}
             </div>
           </div>
