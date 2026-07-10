@@ -1243,6 +1243,7 @@ export default function TestPage() {
             variant="test"
           />
         </div>
+        <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
       </div>
     );
   }
