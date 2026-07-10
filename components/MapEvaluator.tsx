@@ -40,9 +40,12 @@ function dot(status: string) {
 }
 
 export default function MapEvaluator({
-  isPremium, onPaywall, token,
-}: { isPremium: boolean; onPaywall: () => void; token: string | null }) {
-
+  token,
+  onLoginRequired,
+}: {
+  token: string | null;
+  onLoginRequired: () => void;
+}) {
   const [file, setFile]         = useState<File | null>(null);
   const [drag, setDrag]         = useState(false);
   const [loading, setLoading]   = useState(false);
@@ -59,55 +62,103 @@ export default function MapEvaluator({
     setFile(f); setError(""); setResults(null);
   };
 
+  // Convert PDF to base64
+  const toBase64 = (f: File): Promise<string> =>
+    new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res((r.result as string).split(",")[1]);
+      r.onerror = () => rej(new Error("Read failed"));
+      r.readAsDataURL(f);
+    });
+
   const handleSubmit = async () => {
-    if (!isPremium) { onPaywall(); return; }
+    if (!token) { onLoginRequired(); return; }
     if (!file) { setError("Upload your answer booklet PDF first."); return; }
+
     setLoading(true); setError(""); setProgress(10);
     setStage("Reading PDF…");
 
     try {
-      // Convert PDF to base64 directly — no image splitting needed
-      const arrayBuffer = await file.arrayBuffer();
-      const bytes = new Uint8Array(arrayBuffer);
-      let binary = "";
-      for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
-      const pdfBase64 = btoa(binary);
+      const pdfBase64 = await toBase64(file);
+      setProgress(20); setStage("Opening payment…");
 
-      setProgress(30); setStage("Sending to Map Evaluator…");
-
-      const resp = await fetch("/api/check-map", {
+      // Step 1: Create Razorpay order
+      const orderRes = await fetch("/api/razorpay/map-order", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({ pdfBase64, lang: langHi ? 'hi' : 'en' }),
+        headers: { "Content-Type": "application/json", "x-user-token": token },
+      });
+      const orderData = await orderRes.json();
+      if (!orderData.orderId) throw new Error(orderData.error || "Order creation failed");
+
+      setLoading(false); // pause loading while Razorpay modal is open
+
+      // Step 2: Open Razorpay checkout
+      await new Promise<void>((resolve, reject) => {
+        const rzp = new (window as any).Razorpay({
+          key:      process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+          amount:   orderData.amount,
+          currency: orderData.currency,
+          order_id: orderData.orderId,
+          name:     "History Optional",
+          description: "Map Answer Evaluation — ₹49",
+          image:    "/favicon.svg",
+          theme:    { color: "#6366f1" },
+          modal: {
+            ondismiss: () => {
+              setStage(""); setProgress(0);
+              reject(new Error("Payment cancelled"));
+            },
+          },
+          handler: async (resp: any) => {
+            // Step 3: Verify payment + run evaluation server-side
+            setLoading(true); setProgress(35); setStage("Verifying payment…");
+            try {
+              const vRes = await fetch("/api/razorpay/map-verify", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "x-user-token": token },
+                body: JSON.stringify({
+                  ...resp,
+                  pdfBase64,
+                  lang: langHi ? "hi" : "en",
+                }),
+              });
+              setProgress(90); setStage("Processing results…");
+              const data = await vRes.json();
+              if (!vRes.ok || data.error) throw new Error(data.error || "Evaluation failed");
+
+              setResults(data);
+              setProgress(100);
+              setStage("");
+
+              const correct = data.results.filter((r: CheckedResult) => r.status === "correct").length;
+              saveToHistory({
+                type: "map",
+                question: `Map Q1 — Vision Check (${data.results.length} locations)`,
+                marks: data.totalMarks,
+                marksOutOf: data.maxTotal,
+                overallFeedback: `${correct}/${data.results.length} locations correct`,
+                sectionMarks: {
+                  introduction: { awarded: correct, out_of: data.results.length },
+                  body:         { awarded: 0, out_of: 0 },
+                  conclusion:   { awarded: 0, out_of: 0 },
+                  presentation: { awarded: 0, out_of: 0 },
+                },
+              });
+              resolve();
+            } catch (e) {
+              reject(e);
+            }
+          },
+        });
+        rzp.on("payment.failed", () => {
+          setStage(""); setProgress(0);
+          reject(new Error("Payment failed"));
+        });
+        rzp.open();
       });
 
-      setProgress(90); setStage("Processing results…");
-      const data = await resp.json();
-      if (!resp.ok || data.error) throw new Error(data.error || "Evaluation failed");
-
-      setResults(data);
-      setProgress(100);
-      setStage("");
-
-      const correct = data.results.filter((r: CheckedResult) => r.status === "correct").length;
-      saveToHistory({
-        type: "map",
-        question: `Map Q1 — Vision Check (${data.results.length} locations)`,
-        marks: data.totalMarks,
-        marksOutOf: data.maxTotal,
-        overallFeedback: `${correct}/${data.results.length} locations correct`,
-        sectionMarks: {
-          introduction: { awarded: correct, out_of: data.results.length },
-          body: { awarded: 0, out_of: 0 },
-          conclusion: { awarded: 0, out_of: 0 },
-          presentation: { awarded: 0, out_of: 0 },
-        },
-      });
     } catch (e: any) {
-      setError(e.message);
+      if (e.message !== "Payment cancelled") setError(e.message);
     } finally {
       setLoading(false);
     }
@@ -234,18 +285,17 @@ export default function MapEvaluator({
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
 
-      {!isPremium && (
-        <div onClick={onPaywall} style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 14px", background:"rgba(245,158,11,0.06)", border:"1px solid rgba(245,158,11,0.15)", borderRadius:8, cursor:"pointer" }}>
-          <span style={{ fontSize:16 }}>⭐</span>
-          <span style={{ color:"#f59e0b", fontSize:13 }}>Premium feature — tap to upgrade</span>
-        </div>
-      )}
+      {/* Pricing badge */}
+      <div style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 14px", background:"rgba(99,102,241,0.06)", border:"1px solid rgba(99,102,241,0.15)", borderRadius:8 }}>
+        <span style={{ fontSize:16 }}>🗺️</span>
+        <span style={{ color:"#a5b4fc", fontSize:13 }}>₹49 per evaluation · pay after upload</span>
+      </div>
 
       <div
         onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}
         onDragOver={e => { e.preventDefault(); setDrag(true); }}
         onDragLeave={() => setDrag(false)}
-        onClick={() => { if (!isPremium) { onPaywall(); return; } inputRef.current?.click(); }}
+        onClick={() => inputRef.current?.click()}
         style={{
           border: drag ? "1.5px dashed #6366f188" : file ? "1.5px solid #6366f144" : "1.5px dashed #1e1e1e",
           borderRadius:12, padding: file ? "16px 18px" : "32px 18px",
@@ -301,7 +351,7 @@ export default function MapEvaluator({
           fontSize:15, fontWeight:600, transition:"all 0.2s",
         }}
       >
-        {loading ? stage || "Evaluating…" : file ? "Check Map Answers → (1-2 min)" : "Upload PDF to evaluate"}
+        {loading ? stage || "Evaluating…" : file ? "Pay ₹49 & Evaluate →" : "Upload PDF to evaluate"}
       </button>
     </div>
   );
