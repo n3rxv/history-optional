@@ -317,7 +317,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
     left: 0;
     right: 0;
     z-index: 1300;
-    background: rgba(8,8,8,0.96);
+    background: rgba(8,8,8,0.96); /* overridden in light mode below */
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid rgba(255,255,255,0.08);
@@ -482,8 +482,8 @@ html, body { overflow-x: hidden; max-width: 100%; }
   top: 50%;
   transform: translateY(-50%);
   z-index: 1100;
-  background: #161616;
-  border: 1px solid #2a2a2a;
+  background: var(--bg3);
+  border: 1px solid var(--border);
   border-left: none;
   border-radius: 0 8px 8px 0;
   color: var(--text3);
