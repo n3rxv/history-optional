@@ -698,9 +698,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
   --glow-neutral: 0 0 0 1px rgba(208,208,204,0.8), 0 4px 16px rgba(0,0,0,0.06);
 }
 
-/* Body */
+/* Body — transparent so LightBg fixed div shows through */
 [data-theme="light"] body {
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
 }
 
@@ -880,3 +880,5 @@ html, body { overflow-x: hidden; max-width: 100%; }
 [data-theme="light"] h3[style*="color: 'var(--text)'"] {
   color: var(--text) !important;
 }
+
+

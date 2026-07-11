@@ -16,6 +16,7 @@ import VisitorTracker from "@/components/VisitorTracker";
 import BottomNav from "@/components/BottomNav";
 import PWARegister from "@/components/PWARegister";
 import PromoPopup from "@/components/PromoPopup";
+import LightBg from "@/components/LightBg";
 import { LangProvider } from "@/lib/i18n/LangContext";
 
 export const viewport: Viewport = {
@@ -132,6 +133,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ]
           }) }}
         />
+        <LightBg />
         <LangProvider>
         <WeeklyCheckup />
         <VisitorTracker />
