@@ -7,7 +7,7 @@ const WATERMARKS: Record<string, { text: string; sub?: string }> = {
   '/':              { text: 'MMXXV',      sub: 'History Optional' },
   '/paper1':        { text: '',           sub: '' },
   '/paper2':        { text: '',           sub: '' },
-  '/notes':         { text: 'Taxila',     sub: 'Knowledge Centre' },
+  '/notes':         { text: '',           sub: '' },
   '/pyqs':          { text: 'MCMLXXIX',   sub: 'Past Year Questions' },
   '/chat':          { text: 'Nalanda',    sub: 'AI Assistant' },
   '/evaluate':      { text: 'Pataliputra',sub: 'Answer Evaluation' },
