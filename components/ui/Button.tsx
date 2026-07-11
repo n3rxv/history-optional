@@ -47,7 +47,7 @@ const SIZE_MAP: Record<ButtonSize, { padding: string; fontSize: string }> = {
 function getVariantStyle(variant: ButtonVariant, c: ReturnType<typeof getColor>): React.CSSProperties {
   switch (variant) {
     case 'primary':
-      return { background: c.solid, color: '#000', border: 'none', fontWeight: 700 };
+      return { background: c.solid, color: '#fff', border: 'none', fontWeight: 700 };
     case 'outline':
       return { background: 'transparent', color: 'var(--text)', border: '1px solid var(--border3)', fontWeight: 500 };
     case 'tinted':

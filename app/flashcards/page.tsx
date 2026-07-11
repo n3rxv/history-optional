@@ -282,7 +282,7 @@ export default function Flashcards() {
 
                   <div style={{
                     marginTop: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-                    color: 'rgba(0,0,0,0.12)', fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                    color: 'var(--text3)', fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
                     letterSpacing: '0.1em', textTransform: 'uppercase',
                   }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -294,9 +294,9 @@ export default function Flashcards() {
 
                 {/* BACK FACE */}
                 <div className="flip-face flip-back" style={{
-                  background: `linear-gradient(145deg, #060d1a 0%, #08101f 50%, #040810 100%)`,
+                  background: `var(--bg2)`,
                   border: `1px solid ${tc.main}55`,
-                  boxShadow: `0 0 0 1px ${tc.main}28, 0 8px 60px rgba(0,0,0,0.7), inset 0 1px 0 ${tc.main}18`,
+                  boxShadow: `0 0 0 1px ${tc.main}28, 0 4px 32px rgba(0,0,0,0.08), inset 0 1px 0 ${tc.main}18`,
                   padding: '2rem', overflowY: 'auto',
                 }}>
                   {/* Top accent bar — stronger on back */}
@@ -323,7 +323,7 @@ export default function Flashcards() {
                   </div>
 
                   <div style={{
-                    color: 'rgba(255,255,255,0.88)', fontSize: '0.92rem',
+                    color: 'var(--text)', fontSize: '0.92rem',
                     lineHeight: 1.85, whiteSpace: 'pre-line',
                     fontFamily: 'var(--font-body)',
                     position: 'relative', zIndex: 1,
@@ -395,7 +395,7 @@ export default function Flashcards() {
               { label: langHi ? 'पिछला सत्र' : 'Last Session', value: sessionDone, color: '#10b981' },
             ].map(s => (
               <div key={s.label} style={{
-                background: 'linear-gradient(135deg, #0d1117 0%, #0a0a0a 100%)',
+                background: 'var(--bg2)',
                 border: `1px solid ${s.color}28`,
                 borderRadius: 10, padding: '0.9rem 1rem',
                 position: 'relative', overflow: 'hidden',
@@ -466,7 +466,7 @@ export default function Flashcards() {
               <div key={card.id} className="fc-browse-row"
                 onClick={() => { if (requireLogin('Sign in free to study flashcards.')) buildQueue(card); }}
                 style={{
-                  background: 'linear-gradient(135deg, #0a0a0a 0%, #070d15 100%)',
+                  background: 'var(--bg2)',
                   border: `1px solid ${isDue && mounted ? tc2.main + '33' : 'var(--border)'}`,
                   borderRadius: 10, padding: '0.85rem 1.1rem',
                   display: 'flex', alignItems: 'flex-start', gap: '0.85rem',
@@ -476,13 +476,13 @@ export default function Flashcards() {
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLElement;
                   el.style.borderColor = tc2.main + '55';
-                  el.style.background = `linear-gradient(135deg, #0d1017 0%, ${tc2.dim} 100%)`;
+                  el.style.background = `var(--bg3)`;
                   el.style.boxShadow = `0 2px 16px ${tc2.glow}22`;
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLElement;
                   el.style.borderColor = isDue && mounted ? tc2.main + '33' : 'var(--border)';
-                  el.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #070d15 100%)';
+                  el.style.background = 'var(--bg2)';
                   el.style.boxShadow = 'none';
                 }}
               >

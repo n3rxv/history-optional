@@ -404,8 +404,8 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
       <div style={{
         position: 'fixed', right: 0, top: 60, width: 14, height: trackH,
         zIndex: 400, display: 'flex', flexDirection: 'column', alignItems: 'center',
-        background: 'linear-gradient(180deg, #050508 0%, #07070f 100%)',
-        borderLeft: '1px solid rgba(59,130,246,0.08)',
+        background: 'var(--bg2)',
+        borderLeft: '1px solid var(--border)',
       }}>
         {/* Track marks for each heading */}
         {toc.map(t => {
@@ -475,10 +475,10 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
         <div style={{
           position: 'fixed', right: 18, top: 80, zIndex: 399,
           width: 280,
-          background: 'linear-gradient(160deg, #08081a 0%, #05050e 100%)',
+          background: 'var(--bg2)',
           border: '1px solid rgba(59,130,246,0.2)',
           borderRadius: 12,
-          boxShadow: '0 8px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(59,130,246,0.08), inset 0 1px 0 rgba(0,0,0,0.04)',
+          boxShadow: '0 8px 48px rgba(0,0,0,0.15), 0 0 0 1px rgba(59,130,246,0.08)',
           overflow: 'hidden',
           animation: 'tocSlideIn 0.18s cubic-bezier(0.4,0,0.2,1)',
         }}>
@@ -497,11 +497,11 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
             padding: '0.85rem 1rem 0.75rem',
             borderBottom: '1px solid rgba(59,130,246,0.12)',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            background: 'rgba(59,130,246,0.05)',
+            background: 'rgba(59,130,246,0.04)',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#3b82f6', boxShadow: '0 0 8px #3b82f6' }} />
-              <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(59,130,246,0.8)' }}>On this page</span>
+              <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent)' }}>On this page</span>
             </div>
             <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.75rem', lineHeight: 1, padding: '2px 4px' }}>✕</button>
           </div>
@@ -524,7 +524,7 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
                   padding: t.level === 2 ? '0.55rem 1rem' : '0.42rem 1rem 0.42rem 1.75rem',
                   display: 'flex', alignItems: 'center', gap: 8,
                   borderLeft: activeId === t.id ? '2px solid #3b82f6' : '2px solid transparent',
-                  color: activeId === t.id ? '#fff' : t.level === 2 ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.45)',
+                  color: activeId === t.id ? 'var(--accent)' : t.level === 2 ? 'var(--text)' : 'var(--text2)',
                 }}
               >
                 {t.level === 2 ? (
@@ -540,7 +540,7 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
 
           {/* Footer scroll pct */}
           <div style={{ padding: '0.6rem 1rem', borderTop: '1px solid rgba(59,130,246,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'rgba(59,130,246,0.45)', letterSpacing: '0.1em' }}>READ</span>
+            <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', letterSpacing: '0.1em' }}>READ</span>
             <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: '#3b82f6', fontWeight: 600 }}>{Math.round(scrollPct * 100)}%</span>
           </div>
         </div>
@@ -870,7 +870,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           .sb-hl-chip {
             padding: 0.3rem 0.55rem;
             font-size: 0.71rem;
-            color: rgba(255,255,255,0.5);
+            color: var(--text2);
             margin-bottom: 0.25rem;
             background: rgba(0,0,0,0.03);
             border-radius: 0 4px 4px 0;
@@ -1028,8 +1028,8 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 .tb-tooltip {
                   position: absolute; bottom: calc(100% + 7px); left: 50%;
                   transform: translateX(-50%) translateY(4px);
-                  background: #0a0a12; border: 1px solid rgba(0,0,0,0.08);
-                  color: rgba(255,255,255,0.75); font-size: 0.65rem;
+                  background: var(--bg4); border: 1px solid var(--border);
+                  color: var(--text); font-size: 0.65rem;
                   padding: 3px 8px; border-radius: 4px; white-space: nowrap;
                   opacity: 0; transition: all 0.15s ease;
                   pointer-events: none; z-index: 100;
@@ -1319,8 +1319,8 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                   padding: 1rem 1.25rem;
                   border-radius: 10px;
                   text-decoration: none;
-                  background: linear-gradient(135deg, #07070f 0%, #0a0a18 100%);
-                  border: 1px solid rgba(59,130,246,0.1);
+                  background: var(--bg2);
+                  border: 1px solid var(--border);
                   flex: 1;
                   max-width: 48%;
                   transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
@@ -1341,7 +1341,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                   
                 }
                 .nav-card:hover::before { opacity: 1; }
-                .nav-card:hover .nav-title { color: #fff; }
+                .nav-card:hover .nav-title { color: var(--accent); }
                 .nav-card:hover .nav-arrow { color: #60a5fa; transform: translateX(3px); }
                 .nav-card-right { text-align: right; }
                 .nav-card-right:hover .nav-arrow { transform: translateX(-3px); }
@@ -1357,7 +1357,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 }
                 .nav-title {
                   font-size: 0.88rem;
-                  color: rgba(255,255,255,0.65);
+                  color: var(--text);
                   font-family: var(--font-display);
                   font-weight: 600;
                   line-height: 1.35;

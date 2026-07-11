@@ -816,11 +816,11 @@ Every response must:
 
         .chat-bubble-user {
           max-width:72%;
-          background:linear-gradient(135deg, rgba(29,78,216,0.25), rgba(59,130,246,0.12));
-          border:1px solid rgba(59,130,246,0.3);
+          background:linear-gradient(135deg, rgba(29,78,216,0.12), rgba(59,130,246,0.07));
+          border:1px solid rgba(59,130,246,0.2);
           border-radius:18px 18px 4px 18px;
           padding:0.9rem 1.2rem;
-          color:#f1f5f9; font-size:0.9rem; line-height:1.7;
+          color:var(--text); font-size:0.9rem; line-height:1.7;
           font-family:var(--font-body);
         }
 

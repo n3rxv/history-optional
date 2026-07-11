@@ -72,8 +72,8 @@ export default function DailyAnswerWriting() {
   return (
     <section style={{ marginBottom: '3rem' }}>
       <div style={{
-        background: 'linear-gradient(135deg, #060d1f 0%, #0d1b3e 50%, #060d1f 100%)',
-        border: '1px solid rgba(59,130,246,0.35)',
+        background: 'var(--bg2)',
+        border: '1px solid rgba(59,130,246,0.25)',
         borderRadius: 12,
         overflow: 'hidden',
       }}>

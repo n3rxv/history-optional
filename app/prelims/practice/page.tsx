@@ -485,7 +485,7 @@ const [topicFilter, setTopicFilter] = useState<string>('all');
                         <span style={{ fontSize: '1.1rem' }}>{sec.icon}</span>
                         <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, background: 'linear-gradient(90deg, var(--accent), #a78bfa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{sec.label}</span>
                       </div>
-                      <div style={{ fontSize: '0.97rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.85)' }}>
+                      <div style={{ fontSize: '0.97rem', lineHeight: 1.8, color: 'var(--text)' }}>
                         {sec.content.split('||').map((point, i) => {
                           const labeled = point.trim().replace(
                             /(LINCHPIN STATEMENT|LINCHPIN\/ANCHOR STATEMENT|PAIR ELIMINATION|ODD-ONE-OUT|EXTREME LANGUAGE TRAP|CHRONOLOGICAL ORDERING|GEOGRAPHICAL ELIMINATION|ASSERTION-REASON|MATCH-THE-FOLLOWING|NEGATIVE QUESTION|DEGREE-OF-CERTAINTY|PROCESS-OF-ELIMINATION|NCERT ANCHOR|CONTEMPORARY SOURCE|ADMINISTRATIVE\/ECONOMIC TERM)/g,

@@ -195,7 +195,7 @@ export default function Home() {
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--text)', marginBottom: '0.35rem', fontWeight: 600 }}>Attempt a Test</h3>
             <p style={{ color: 'var(--text2)', fontSize: '0.875rem' }}>Timed sectional and full-length mock tests with instant self/AI-mentored evaluation.</p>
           </div>
-          <Link href="/test" style={{ background: 'var(--accent)', color: '#000', padding: '0.65rem 1.5rem', borderRadius: 6, textDecoration: 'none', fontWeight: 700, fontSize: '0.875rem', display: 'inline-block', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">Start Test →</Link>
+          <Link href="/test" style={{ background: 'var(--accent)', color: '#fff', padding: '0.65rem 1.5rem', borderRadius: 6, textDecoration: 'none', fontWeight: 700, fontSize: '0.875rem', display: 'inline-block', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">Start Test →</Link>
         </div>
       </div>
 
