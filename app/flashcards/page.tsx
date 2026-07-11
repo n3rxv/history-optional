@@ -431,7 +431,7 @@ export default function Flashcards() {
           <button onClick={() => { if (requireLogin('Sign in free to start your flashcard session.')) buildQueue(); }}
             style={{
               background: 'linear-gradient(135deg, #1d4ed8, #3b82f6)',
-              color: 'var(--text)', border: 'none',
+              color: '#fff', border: 'none',
               borderRadius: 8, padding: '0.48rem 1.25rem', fontSize: '0.82rem',
               fontWeight: 600, cursor: 'pointer', transition: 'all 0.18s',
               boxShadow: 'none',

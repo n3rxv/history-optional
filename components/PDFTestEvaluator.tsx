@@ -804,7 +804,7 @@ export default function PDFTestEvaluator({
   /* ── PAYWALL ── */
   if (!isPremium) return (
     <div style={{ padding: "32px 0" }}>
-      <div style={{ background: "linear-gradient(135deg,#161616,#111)", border: "1px solid #2a2a2a",
+      <div style={{ background: "var(--bg2)", border: "1px solid var(--border)",
         borderRadius: 12, padding: "28px 30px", marginBottom: 20 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -813,7 +813,7 @@ export default function PDFTestEvaluator({
               <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 700, marginBottom: 4 }}>
                 Full Paper Evaluation
               </div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555", letterSpacing: "0.15em" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "var(--text3)", letterSpacing: "0.15em" }}>
                 Premium Feature
               </div>
             </div>
@@ -834,12 +834,12 @@ export default function PDFTestEvaluator({
             { n: "02", t: "Scan to PDF",       s: "All pages in one file" },
             { n: "03", t: "Upload & evaluate", s: "AI scores instantly"   },
           ].map(x => (
-            <div key={x.n} style={{ flex: 1, background: "var(--bg3)", border: "1px solid #222",
+            <div key={x.n} style={{ flex: 1, background: "var(--bg3)", border: "1px solid var(--border)",
               borderRadius: 8, padding: "16px 14px" }}>
               <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#3b82f6",
                 letterSpacing: "0.15em", marginBottom: 8 }}>{x.n}</div>
               <div style={{ fontSize: "0.82rem", fontWeight: 600, marginBottom: 4 }}>{x.t}</div>
-              <div style={{ fontSize: "0.75rem", color: "#555" }}>{x.s}</div>
+              <div style={{ fontSize: "0.75rem", color: "var(--text3)" }}>{x.s}</div>
             </div>
           ))}
         </div>
@@ -1187,7 +1187,7 @@ export default function PDFTestEvaluator({
   return (
     <div style={{ padding: "32px 0" }}>
       <style>{SHARED_CSS}</style>
-      <div style={{ background: "linear-gradient(135deg,#161616,#111)", border: "1px solid #2a2a2a",
+      <div style={{ background: "var(--bg2)", border: "1px solid var(--border)",
         borderRadius: 12, padding: "28px 30px", marginBottom: 20 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -1196,7 +1196,7 @@ export default function PDFTestEvaluator({
               <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 700, marginBottom: 4 }}>
                 Full Paper Evaluation
               </div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555", letterSpacing: "0.15em" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "var(--text3)", letterSpacing: "0.15em" }}>
                 {paperQuestions?.length
                   ? `${paperQuestions.length} question${paperQuestions.length > 1 ? "s" : ""} · Upload your script`
                   : "Upload · Review · Evaluate"}
