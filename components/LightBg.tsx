@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 // Per-route watermark config
 const WATERMARKS: Record<string, { text: string; sub?: string }> = {
   '/':              { text: 'MMXXV',      sub: 'History Optional' },
+  '/paper1':        { text: '',           sub: '' },
+  '/paper2':        { text: '',           sub: '' },
   '/paper1':        { text: 'MMXIX',      sub: 'Ancient & Medieval' },
   '/paper2':        { text: 'MDCCCXLVII', sub: 'Modern India' },
   '/notes':         { text: 'Taxila',     sub: 'Knowledge Centre' },
@@ -88,7 +90,7 @@ export default function LightBg() {
       }} />
 
       {/* Watermark text — bottom right */}
-      <div style={{
+      {wm.text && <div style={{
         position: 'absolute',
         right: '-0.5rem',
         bottom: '12vh',
@@ -103,7 +105,7 @@ export default function LightBg() {
         textAlign: 'right',
       }}>
         {wm.text}
-      </div>
+      </div>}
 
       {/* Sub label */}
       {wm.sub && (
