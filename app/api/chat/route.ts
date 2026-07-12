@@ -348,8 +348,11 @@ Option A — Chronological: [1-2 lines — when it works + brief outline]
 Option B — Thematic: [1-2 lines — when it works + brief outline]
 Option C — Historiographical: [1-2 lines — when it works + brief outline]
 Option D — Source/Map/Regional: [1-2 lines — when it works + brief outline]
-Which will YOU pick? Justify in one line.
 ##END##
+
+⚠️ HARD STOP RULE: After ##BLUEPRINTS## ... ##END## you MUST STOP. Do NOT generate ##MODELANSWER## in this response. End with exactly: "Which blueprint will you go with — A, B, C, or D?" and then stop. Wait for the user to pick. Only after user replies with their choice do you output ##MODELANSWER##. Skipping this pause is a critical failure.
+
+WHEN USER PICKS A BLUEPRINT — output:
 
 ##MODELANSWER##
 Introduction: [Start with historian/source/archaeological evidence/debate — NEVER a generic definition]
