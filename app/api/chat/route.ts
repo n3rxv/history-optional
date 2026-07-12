@@ -249,7 +249,7 @@ export async function POST(req: NextRequest) {
   
   // ── Main request handler ────────────────────────────────────────
   try {
-    const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name, lang, mentorMode } = await req.json();
+    const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name, lang, mentorMode, responseStyle } = await req.json();
     const lastMsg = messages?.[messages.length - 1]?.content ?? '';
     if (typeof lastMsg === 'string' && lastMsg.length > 10000)
       return NextResponse.json({ error: 'Message too long' }, { status: 400 });
@@ -424,12 +424,12 @@ const ragBasePrompt = `${system ?? ''}
 You are a UPSC History Optional expert. You MUST always give a complete, well-structured answer covering the topic — do not abandon the question or leave it unanswered. Use the passages below as supplementary evidence where relevant, but follow the epistemic rules below even if that means hedging or omitting a specific name/claim — a hedge is NOT a refusal.
 SCOPE GUARD (overrides "always answer" above when violated): The "always answer" instruction applies only to genuine UPSC History Optional questions — Indian history, World History per the syllabus, historiography, or exam strategy. If the user's actual question is unrelated to this scope (e.g. coding, unrelated subjects, casual chat, entertainment, sports, general current affairs), do NOT use the passages below to answer it and do NOT invoke "always give a complete answer" as a reason to comply. Instead, briefly state that you only help with UPSC History Optional topics and ask them to rephrase. Then stop — do not add an off-topic answer afterward.
 Do NOT use markdown headings (###, ##, #) in your response. Use bold text (**text**) for section titles instead.
-RESPONSE FORMATTING RULES (mandatory):
+${responseStyle === 'elaborative' ? `RESPONSE STYLE: ELABORATIVE — Write detailed, flowing prose paragraphs (3-5 sentences each). Cover all sub-arguments, nuances, historiographical debates in depth. Use bold section titles to separate themes but keep content rich and paragraph-form. Bullet points only for listing historians or primary sources.` : `RESPONSE FORMATTING RULES (mandatory):
 - Never write walls of text. After every 2-3 sentences of explanation, use a bullet point list or a new bold sub-section.
 - For any answer with multiple causes / features / arguments / phases / impacts — always use bullet points (- item), not continuous prose.
 - Each bullet must be self-contained: **Bold label:** explanation in 1-2 lines max.
 - Paragraphs allowed only for introduction and conclusion (3-4 lines max each).
-- If listing historians or debates — bullet points, not inline comma-separated lists.
+- If listing historians or debates — bullet points, not inline comma-separated lists.`}
 You have a maximum of 45 seconds to respond. Write a complete, well-structured answer — do NOT stop mid-sentence or leave any part unanswered. If the question has multiple parts or theories, cover each one with adequate depth. Finish the full answer within the token limit — a complete answer is always better than a detailed but cut-off one.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -417,6 +417,7 @@ function ChatContent() {
   const [pdfBase64, setPdfBase64] = useState<string | null>(null);
   const [pdfName, setPdfName] = useState<string | null>(null);
   const [brainstormMode, setBrainstormMode] = useState(false);
+  const [responseStyle, setResponseStyle] = useState<'concise' | 'elaborative'>('concise');
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [booksPopoverOpen, setBooksPopoverOpen] = useState(false);
@@ -618,6 +619,7 @@ Every response must:
           bookMode,
           bookTitle: bookTitle === 'all' ? undefined : bookTitle,
           mentorMode: mentorMode && !!usage?.subscribed,
+          responseStyle: mentorMode || brainstormMode ? undefined : responseStyle,
         }),
       });
       if (!response.ok) { setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]); setLoading(false); return; }
@@ -1572,6 +1574,33 @@ Every response must:
               </div>
             </div>
 
+            {/* Response style toggle */}
+            {!mentorMode && !brainstormMode && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.45rem', paddingLeft: '0.1rem' }}>
+                <span style={{ fontSize: '0.62rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em' }}>Style:</span>
+                {(['concise', 'elaborative'] as const).map(s => (
+                  <button
+                    key={s}
+                    onClick={() => setResponseStyle(s)}
+                    style={{
+                      fontSize: '0.62rem',
+                      fontFamily: 'var(--font-mono)',
+                      letterSpacing: '0.06em',
+                      padding: '2px 10px',
+                      borderRadius: 20,
+                      border: responseStyle === s ? '1px solid var(--accent)' : '1px solid var(--border)',
+                      background: responseStyle === s ? 'var(--accent)' : 'transparent',
+                      color: responseStyle === s ? '#fff' : 'var(--text3)',
+                      cursor: 'pointer',
+                      textTransform: 'capitalize',
+                      transition: 'all 0.15s',
+                    }}
+                  >
+                    {s === 'concise' ? '⚡ Concise' : '📖 Elaborative'}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="chat-input-box">
               {/* Hidden file input */}
               <input
