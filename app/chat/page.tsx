@@ -1466,15 +1466,6 @@ Every response must:
                 ↑
               </button>
             </div>
-            {mentorMode && usage?.subscribed && (
-              <div style={{ display:'flex', justifyContent:'center', marginTop:'0.3rem' }}>
-                <span style={{
-                  fontSize:'0.58rem', fontFamily:'var(--font-mono)', letterSpacing:'0.08em',
-                  color:'#d4a843', background:'rgba(212,168,67,0.1)', border:'1px solid rgba(212,168,67,0.3)',
-                  borderRadius:20, padding:'2px 10px', display:'inline-flex', alignItems:'center', gap:4,
-                }}>🎓 MENTOR MODE ACTIVE — TADA Framework · 350+ Strategy</span>
-              </div>
-            )}
             <div className="chat-hint">{tr(t.chatHint, langHi)}</div>
             {!usageLoading && (
               <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : usage?.subscribed ? '#51cf66' : '#555', letterSpacing:'0.08em' }}>
