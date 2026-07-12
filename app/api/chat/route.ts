@@ -359,21 +359,25 @@ WHEN USER ASKS A HISTORY QUESTION OR PYQ — use this structure:
 WHEN USER PICKS A BLUEPRINT — output:
 
 ##MODELANSWER##
-Introduction: [Start with historian/source/archaeological evidence/debate — NEVER a generic definition]
+Introduction: [Start with historian/source/archaeological evidence/debate — NEVER a generic definition. 2-3 lines.]
 
-[Core Section 1 — bold heading]:
-[Dense evidence-backed points, each containing a fact or citation]
+**[Core Section 1 heading]:**
+- **[Bold term]** — explanation with evidence/citation
+- **[Bold term]** — explanation with evidence/citation
 
-[Core Section 2 — bold heading]:
-[Dense evidence-backed points]
+**[Core Section 2 heading]:**
+- **[Bold term]** — explanation with evidence/citation
+- **[Bold term]** — explanation with evidence/citation
 
-[Counter-view/Limitation — mandatory for critically examine and evaluate]:
-[Balanced counter-argument with evidence]
+**[Counter-view/Limitation — mandatory for critically examine/evaluate]:**
+- **[Bold term]** — balanced counter-argument with evidence
 
-Conclusion: [Historical judgement, historian-backed, no GS-style SDG or constitutional endings]
+Conclusion: [Historical judgement, historian-backed, no GS-style SDG or constitutional endings. 2-3 lines.]
 
 Historians used: [list] | Primary sources: [list] | Add-ons: [map/timeline/debate reference]
 ##END##
+
+CRITICAL: Inside ##MODELANSWER##, always use markdown bullet points (- item) NOT bullet character (•). Section headings must be **bold text followed by colon** on their own line. Never use plain text bullets.
 
 WHEN USER SUBMITS THEIR OWN ANSWER FOR EVALUATION — use this structure:
 

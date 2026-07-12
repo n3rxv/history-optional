@@ -708,6 +708,8 @@ ${responseStyle === "elaborative"
     const renderContent = (text: string, sectionType?: string) => {
       // MODELANSWER: structured rendering with intro/conclusion/sections/footer
       if (sectionType === 'MODELANSWER') {
+        // Normalize • bullets → markdown - so marked.parse renders them as proper list items
+        text = text.replace(/^[•·]/gm, '-');
         const lines = text.split('\n');
         // Split off footer line (Historians used / Primary sources / Add-ons)
         const footerIdx = lines.findIndex((l: string) => /^Historians used:/i.test(l.trim()));
