@@ -544,7 +544,7 @@ function ChatContent() {
   const sendMessage = async (text?: string) => {
     const q = text || input;
     if (!q.trim() || loading) return;
-    if (q.length > 2000) { alert('Message too long. Max 2000 characters.'); return; }
+    if (q.length > 10000) { alert('Message too long. Max 10000 characters.'); return; }
 
     if (!usage || !usage.fingerprint) { showLoginModal(); return; }
     if (!canChat) { showChatLimitModal(); return; }
