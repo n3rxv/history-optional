@@ -708,8 +708,7 @@ Every response must:
     const renderContent = (text: string, sectionType?: string) => {
       // BLUEPRINTS: parse each option line into styled option cards
       if (sectionType === 'BLUEPRINTS') {
-        const lines = text.split('
-').filter(l => l.trim());
+        const lines = text.split('\n').filter(l => l.trim());
         const optionLines = lines.filter(l => /^\*\*[A-D]/.test(l.trim()));
         const otherLines = lines.filter(l => !/^\*\*[A-D]/.test(l.trim()));
         const optColors: Record<string, string> = { A: '#d97706', B: '#6366f1', C: '#16a34a', D: '#0891b2' };
