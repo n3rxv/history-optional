@@ -1102,6 +1102,16 @@ ${responseStyle === "elaborative"
         .chat-bubble-ai strong { color:var(--text); font-weight:700; }
         .chat-bubble-ai em { color:var(--text2); font-style:italic; }
 
+        /* ── Mentor bubble: compact overrides ── */
+        .chat-bubble-mentor { font-size:0.85rem; }
+        .chat-bubble-mentor .chat-msg-h1 { font-size:0.82rem; margin:0.7rem 0 0.3rem; padding:0.3rem 0.6rem; }
+        .chat-bubble-mentor .chat-msg-h2 { font-size:0.8rem; margin:0.6rem 0 0.25rem; }
+        .chat-bubble-mentor .chat-msg-h3 { font-size:0.78rem; margin:0.5rem 0 0.2rem; padding-left:0.4rem; color:#86efac; border-left-width:1.5px; }
+        .chat-bubble-mentor .chat-bullet { padding:0.2rem 0.4rem 0.2rem 0.3rem; font-size:0.83rem; }
+        .chat-bubble-mentor .chat-bullet-dot { width:5px; height:5px; margin-top:0.5rem; }
+        .chat-bubble-mentor .chat-para-gap { height:0.35rem; }
+        .chat-bubble-mentor strong { font-size:inherit; }
+
         /* ── Meta row ── */
         .chat-meta {
           display:flex; align-items:center; gap:0.5rem;
