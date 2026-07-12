@@ -716,8 +716,7 @@ Every response must:
         return (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {otherLines.length > 0 && (
-              <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(otherLines.join('
-'), { breaks: true }) as string) }}
+              <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(otherLines.join('\n'), { breaks: true }) as string) }}
                 style={{ lineHeight: 1.7, fontSize: '0.85rem', color: 'var(--text)', marginBottom: '0.25rem' }} />
             )}
             {optionLines.map((line, idx) => {
