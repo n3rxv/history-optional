@@ -669,199 +669,6 @@ ${responseStyle === "elaborative"
     }
   };
 
-
-  // ── Mentor Mode: parse section markers ─────────────────────────────
-  function parseMentorSections(text: string): { type: string; content: string }[] {
-    const sections: { type: string; content: string }[] = [];
-    const regex = /##([A-Z]+)##([\s\S]*?)##END##/g;
-    let match;
-    let lastIndex = 0;
-    while ((match = regex.exec(text)) !== null) {
-      // any plain text before this block
-      const before = text.slice(lastIndex, match.index).trim();
-      if (before) sections.push({ type: 'TEXT', content: before });
-      sections.push({ type: match[1], content: match[2].trim() });
-      lastIndex = match.index + match[0].length;
-    }
-    const after = text.slice(lastIndex).trim();
-    if (after) sections.push({ type: 'TEXT', content: after });
-    if (sections.length === 0) sections.push({ type: 'TEXT', content: text });
-    return sections;
-  }
-
-  function MentorBubble({ content, isStreaming }: { content: string; isStreaming?: boolean }) {
-    const sections = parseMentorSections(content);
-
-    const sectionConfig: Record<string, { label: string; icon: string; color: string; bg: string; border: string }> = {
-      DIRECTIVE:    { label: 'Directive Rule',      icon: '🔍', color: '#d97706', bg: 'rgba(217,119,6,0.07)',   border: 'rgba(217,119,6,0.25)'  },
-      DIAGNOSIS:    { label: 'Demand Diagnosis',    icon: '📋', color: '#6366f1', bg: 'rgba(99,102,241,0.07)', border: 'rgba(99,102,241,0.25)' },
-      BLUEPRINTS:   { label: 'Four Blueprints',     icon: '🗺️', color: '#0891b2', bg: 'rgba(8,145,178,0.07)',  border: 'rgba(8,145,178,0.25)'  },
-      MODELANSWER:  { label: 'Model Answer',        icon: '📝', color: '#16a34a', bg: 'rgba(22,163,74,0.07)',  border: 'rgba(22,163,74,0.25)'  },
-      EVALUATION:   { label: 'Evaluation',          icon: '⚖️', color: '#7c3aed', bg: 'rgba(124,58,237,0.07)', border: 'rgba(124,58,237,0.25)' },
-      STRENGTHS:    { label: 'Strengths',           icon: '✅', color: '#16a34a', bg: 'rgba(22,163,74,0.06)',  border: 'rgba(22,163,74,0.2)'   },
-      CORRECTIONS:  { label: 'Corrections',         icon: '🔧', color: '#dc2626', bg: 'rgba(220,38,38,0.06)',  border: 'rgba(220,38,38,0.2)'   },
-      IMPROVED:     { label: 'Improved Answer',     icon: '✨', color: '#16a34a', bg: 'rgba(22,163,74,0.07)',  border: 'rgba(22,163,74,0.25)'  },
-      MCQ:          { label: 'Question',            icon: '❓', color: '#0891b2', bg: 'rgba(8,145,178,0.07)',  border: 'rgba(8,145,178,0.25)'  },
-      MCQANSWER:    { label: 'Answer & Explanation',icon: '💡', color: '#d97706', bg: 'rgba(217,119,6,0.07)',  border: 'rgba(217,119,6,0.25)'  },
-    };
-
-    const renderContent = (text: string, sectionType?: string) => {
-      // MODELANSWER: normalize bullets then standard markdown render
-      if (sectionType === 'MODELANSWER') {
-        // Normalize • bullets → markdown - so marked.parse renders proper <ul><li>
-        const normalized = text.replace(/^[•·]\s*/gm, '- ');
-        return (
-          <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(normalized, { breaks: true }) as string) }}
-            style={{ lineHeight: 1.85, fontSize: '0.88rem', color: 'var(--text)' }} />
-        );
-      }
-      // BLUEPRINTS: parse each option line into styled option cards
-      if (sectionType === 'BLUEPRINTS') {
-        const lines = text.split('\n').filter(l => l.trim());
-        const optionLines = lines.filter(l => /^\*\*[A-D]/.test(l.trim()));
-        const otherLines = lines.filter(l => !/^\*\*[A-D]/.test(l.trim()));
-        const optColors: Record<string, string> = { A: '#d97706', B: '#6366f1', C: '#16a34a', D: '#0891b2' };
-        const optBgs: Record<string, string> = { A: 'rgba(217,119,6,0.07)', B: 'rgba(99,102,241,0.07)', C: 'rgba(22,163,74,0.07)', D: 'rgba(8,145,178,0.07)' };
-        return (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            {otherLines.length > 0 && (
-              <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(otherLines.join('\n'), { breaks: true }) as string) }}
-                style={{ lineHeight: 1.7, fontSize: '0.85rem', color: 'var(--text)', marginBottom: '0.25rem' }} />
-            )}
-            {optionLines.map((line, idx) => {
-              const letter = line.trim().replace(/^\*\*([A-D]).*/, '$1');
-              const html = sanitize(marked.parse(line.trim(), { breaks: true }) as string);
-              const col = optColors[letter] || 'var(--text2)';
-              const bg = optBgs[letter] || 'rgba(255,255,255,0.03)';
-              return (
-                <div key={idx} style={{
-                  background: bg,
-                  border: `1px solid ${col}44`,
-                  borderLeft: `3px solid ${col}`,
-                  borderRadius: 8,
-                  padding: '0.55rem 0.8rem',
-                  fontSize: '0.85rem',
-                  lineHeight: 1.65,
-                  color: 'var(--text)',
-                }}>
-                  <div dangerouslySetInnerHTML={{ __html: html }} />
-                </div>
-              );
-            })}
-          </div>
-        );
-      }
-      return (
-        <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(text, { breaks: true }) as string) }}
-          style={{ lineHeight: 1.8, fontSize: '0.88rem', color: 'var(--text)' }} />
-      );
-    };
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', width: '100%' }}>
-        {/* Mentor badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.15rem' }}>
-          <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
-            color: '#d4a843', background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.28)',
-            borderRadius: 20, padding: '2px 9px' }}>🎓 MENTOR</span>
-          {isStreaming && <span style={{ fontSize: '0.58rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>generating…</span>}
-        </div>
-
-        {sections.map((sec, i) => {
-          if (sec.type === 'TEXT') {
-            if (!sec.content) return null;
-            // Plain text from mentor (e.g. AI skipped markers) — render in chat-bubble-ai style box
-            const normalizedText = sec.content.replace(/^[•·]\s*/gm, '- ');
-            const html = sanitize(marked.parse(normalizedText, { breaks: true }) as string);
-            return (
-              <div key={i} style={{
-                background: 'var(--bg2)',
-                border: '1px solid var(--border)',
-                borderRadius: '4px 18px 18px 18px',
-                padding: '1.5rem 1.6rem 1.25rem',
-                position: 'relative',
-                boxShadow: '0 6px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(59,130,246,0.07) inset',
-              }}>
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-                  background: 'linear-gradient(90deg, #3b82f6 0%, rgba(59,130,246,0.25) 55%, transparent 100%)',
-                  borderRadius: '4px 18px 0 0',
-                }} />
-                <div className="chat-bubble-ai" style={{ background:'none', border:'none', borderRadius:0, padding:0, boxShadow:'none', position:'static' }}
-                  dangerouslySetInnerHTML={{ __html: html }} />
-              </div>
-            );
-          }
-
-          const cfg = sectionConfig[sec.type];
-          if (!cfg) return <div key={i}>{renderContent(sec.content)}</div>;
-
-          // MODELANSWER: render exactly like chat-bubble-ai (same bg, border, blue top line)
-          if (sec.type === 'MODELANSWER') {
-            return (
-              <div key={i} style={{
-                background: 'var(--bg2)',
-                border: '1px solid var(--border)',
-                borderRadius: '4px 18px 18px 18px',
-                padding: '1.5rem 1.6rem 1.25rem',
-                position: 'relative',
-                boxShadow: '0 6px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(59,130,246,0.07) inset',
-                overflow: 'hidden',
-              }}>
-                {/* Blue top accent line — same as chat-bubble-ai::before */}
-                <div style={{
-                  position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-                  background: 'linear-gradient(90deg, #3b82f6 0%, rgba(59,130,246,0.25) 55%, transparent 100%)',
-                  borderRadius: '4px 18px 0 0',
-                }} />
-                {/* Small label */}
-                <div style={{
-                  fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
-                  letterSpacing: '0.1em', textTransform: 'uppercase', color: cfg.color,
-                  marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 5,
-                }}>
-                  <span>{cfg.icon}</span><span>{cfg.label}</span>
-                </div>
-                <div className="chat-bubble-ai" style={{
-                  background: 'none', border: 'none', borderRadius: 0,
-                  padding: 0, boxShadow: 'none', position: 'static',
-                }}>
-                  {renderContent(sec.content, sec.type)}
-                </div>
-              </div>
-            );
-          }
-
-          return (
-            <div key={i} style={{
-              background: cfg.bg,
-              border: `1px solid ${cfg.border}`,
-              borderRadius: 10,
-              overflow: 'hidden',
-            }}>
-              {/* Section header */}
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 7,
-                padding: '0.5rem 0.9rem',
-                borderBottom: `1px solid ${cfg.border}`,
-              }}>
-                <span style={{ fontSize: '0.85rem' }}>{cfg.icon}</span>
-                <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
-                  letterSpacing: '0.1em', textTransform: 'uppercase', color: cfg.color }}>
-                  {cfg.label}
-                </span>
-              </div>
-              {/* Section body */}
-              <div style={{ padding: '0.8rem 0.9rem' }}>
-                {renderContent(sec.content, sec.type)}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-
   function sanitize(html: string) {
     return html
       .replace(/<script[\s\S]*?<\/script>/gi, '')
@@ -949,6 +756,192 @@ ${responseStyle === "elaborative"
     text = linkifyCitations(text, sourcesCount);
     return text;
   };
+
+
+  // ── Mentor Mode: parse section markers ─────────────────────────────
+  function parseMentorSections(text: string): { type: string; content: string }[] {
+    const sections: { type: string; content: string }[] = [];
+    const regex = /##([A-Z]+)##([\s\S]*?)##END##/g;
+    let match;
+    let lastIndex = 0;
+    while ((match = regex.exec(text)) !== null) {
+      // any plain text before this block
+      const before = text.slice(lastIndex, match.index).trim();
+      if (before) sections.push({ type: 'TEXT', content: before });
+      sections.push({ type: match[1], content: match[2].trim() });
+      lastIndex = match.index + match[0].length;
+    }
+    const after = text.slice(lastIndex).trim();
+    if (after) sections.push({ type: 'TEXT', content: after });
+    if (sections.length === 0) sections.push({ type: 'TEXT', content: text });
+    return sections;
+  }
+
+  function MentorBubble({ content, isStreaming }: { content: string; isStreaming?: boolean }) {
+    const sections = parseMentorSections(content);
+
+    const sectionConfig: Record<string, { label: string; icon: string; color: string; bg: string; border: string }> = {
+      DIRECTIVE:    { label: 'Directive Rule',      icon: '🔍', color: '#d97706', bg: 'rgba(217,119,6,0.07)',   border: 'rgba(217,119,6,0.25)'  },
+      DIAGNOSIS:    { label: 'Demand Diagnosis',    icon: '📋', color: '#6366f1', bg: 'rgba(99,102,241,0.07)', border: 'rgba(99,102,241,0.25)' },
+      BLUEPRINTS:   { label: 'Four Blueprints',     icon: '🗺️', color: '#0891b2', bg: 'rgba(8,145,178,0.07)',  border: 'rgba(8,145,178,0.25)'  },
+      MODELANSWER:  { label: 'Model Answer',        icon: '📝', color: '#16a34a', bg: 'rgba(22,163,74,0.07)',  border: 'rgba(22,163,74,0.25)'  },
+      EVALUATION:   { label: 'Evaluation',          icon: '⚖️', color: '#7c3aed', bg: 'rgba(124,58,237,0.07)', border: 'rgba(124,58,237,0.25)' },
+      STRENGTHS:    { label: 'Strengths',           icon: '✅', color: '#16a34a', bg: 'rgba(22,163,74,0.06)',  border: 'rgba(22,163,74,0.2)'   },
+      CORRECTIONS:  { label: 'Corrections',         icon: '🔧', color: '#dc2626', bg: 'rgba(220,38,38,0.06)',  border: 'rgba(220,38,38,0.2)'   },
+      IMPROVED:     { label: 'Improved Answer',     icon: '✨', color: '#16a34a', bg: 'rgba(22,163,74,0.07)',  border: 'rgba(22,163,74,0.25)'  },
+      MCQ:          { label: 'Question',            icon: '❓', color: '#0891b2', bg: 'rgba(8,145,178,0.07)',  border: 'rgba(8,145,178,0.25)'  },
+      MCQANSWER:    { label: 'Answer & Explanation',icon: '💡', color: '#d97706', bg: 'rgba(217,119,6,0.07)',  border: 'rgba(217,119,6,0.25)'  },
+    };
+
+    const renderContent = (text: string, sectionType?: string) => {
+      // MODELANSWER: use same formatMessage as normal chat for identical rendering
+      if (sectionType === 'MODELANSWER') {
+        return (
+          <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(text)) }} />
+        );
+      }
+      // BLUEPRINTS: parse each option line into styled option cards
+      if (sectionType === 'BLUEPRINTS') {
+        const lines = text.split('\n').filter(l => l.trim());
+        const optionLines = lines.filter(l => /^\*\*[A-D]/.test(l.trim()));
+        const otherLines = lines.filter(l => !/^\*\*[A-D]/.test(l.trim()));
+        const optColors: Record<string, string> = { A: '#d97706', B: '#6366f1', C: '#16a34a', D: '#0891b2' };
+        const optBgs: Record<string, string> = { A: 'rgba(217,119,6,0.07)', B: 'rgba(99,102,241,0.07)', C: 'rgba(22,163,74,0.07)', D: 'rgba(8,145,178,0.07)' };
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            {otherLines.length > 0 && (
+              <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(otherLines.join('\n'), { breaks: true }) as string) }}
+                style={{ lineHeight: 1.7, fontSize: '0.85rem', color: 'var(--text)', marginBottom: '0.25rem' }} />
+            )}
+            {optionLines.map((line, idx) => {
+              const letter = line.trim().replace(/^\*\*([A-D]).*/, '$1');
+              const html = sanitize(marked.parse(line.trim(), { breaks: true }) as string);
+              const col = optColors[letter] || 'var(--text2)';
+              const bg = optBgs[letter] || 'rgba(255,255,255,0.03)';
+              return (
+                <div key={idx} style={{
+                  background: bg,
+                  border: `1px solid ${col}44`,
+                  borderLeft: `3px solid ${col}`,
+                  borderRadius: 8,
+                  padding: '0.55rem 0.8rem',
+                  fontSize: '0.85rem',
+                  lineHeight: 1.65,
+                  color: 'var(--text)',
+                }}>
+                  <div dangerouslySetInnerHTML={{ __html: html }} />
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+      return (
+        <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(text)) }} />
+      );
+    };
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', width: '100%' }}>
+        {/* Mentor badge */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.15rem' }}>
+          <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
+            color: '#d4a843', background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.28)',
+            borderRadius: 20, padding: '2px 9px' }}>🎓 MENTOR</span>
+          {isStreaming && <span style={{ fontSize: '0.58rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>generating…</span>}
+        </div>
+
+        {sections.map((sec, i) => {
+          if (sec.type === 'TEXT') {
+            if (!sec.content) return null;
+            // Plain text from mentor (e.g. AI skipped markers) — render in chat-bubble-ai style box
+            return (
+              <div key={i} style={{
+                background: 'var(--bg2)',
+                border: '1px solid var(--border)',
+                borderRadius: '4px 18px 18px 18px',
+                padding: '1.5rem 1.6rem 1.25rem',
+                position: 'relative',
+                boxShadow: '0 6px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(59,130,246,0.07) inset',
+              }}>
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+                  background: 'linear-gradient(90deg, #3b82f6 0%, rgba(59,130,246,0.25) 55%, transparent 100%)',
+                  borderRadius: '4px 18px 0 0',
+                }} />
+                <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(sec.content)) }} />
+              </div>
+            );
+          }
+
+          const cfg = sectionConfig[sec.type];
+          if (!cfg) return <div key={i}>{renderContent(sec.content)}</div>;
+
+          // MODELANSWER: render exactly like chat-bubble-ai (same bg, border, blue top line)
+          if (sec.type === 'MODELANSWER') {
+            return (
+              <div key={i} style={{
+                background: 'var(--bg2)',
+                border: '1px solid var(--border)',
+                borderRadius: '4px 18px 18px 18px',
+                padding: '1.5rem 1.6rem 1.25rem',
+                position: 'relative',
+                boxShadow: '0 6px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(59,130,246,0.07) inset',
+                overflow: 'hidden',
+              }}>
+                {/* Blue top accent line — same as chat-bubble-ai::before */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+                  background: 'linear-gradient(90deg, #3b82f6 0%, rgba(59,130,246,0.25) 55%, transparent 100%)',
+                  borderRadius: '4px 18px 0 0',
+                }} />
+                {/* Small label */}
+                <div style={{
+                  fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
+                  letterSpacing: '0.1em', textTransform: 'uppercase', color: cfg.color,
+                  marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 5,
+                }}>
+                  <span>{cfg.icon}</span><span>{cfg.label}</span>
+                </div>
+                <div className="chat-bubble-ai" style={{
+                  background: 'none', border: 'none', borderRadius: 0,
+                  padding: 0, boxShadow: 'none', position: 'static',
+                }}>
+                  {renderContent(sec.content, sec.type)}
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div key={i} style={{
+              background: cfg.bg,
+              border: `1px solid ${cfg.border}`,
+              borderRadius: 10,
+              overflow: 'hidden',
+            }}>
+              {/* Section header */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 7,
+                padding: '0.5rem 0.9rem',
+                borderBottom: `1px solid ${cfg.border}`,
+              }}>
+                <span style={{ fontSize: '0.85rem' }}>{cfg.icon}</span>
+                <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
+                  letterSpacing: '0.1em', textTransform: 'uppercase', color: cfg.color }}>
+                  {cfg.label}
+                </span>
+              </div>
+              {/* Section body */}
+              <div style={{ padding: '0.8rem 0.9rem' }}>
+                {renderContent(sec.content, sec.type)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 
   const getPrecedingQuestion = (msgIndex: number): string | undefined => {
     for (let i = msgIndex - 1; i >= 0; i--) {
