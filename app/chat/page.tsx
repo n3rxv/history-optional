@@ -706,97 +706,15 @@ ${responseStyle === "elaborative"
     };
 
     const renderContent = (text: string, sectionType?: string) => {
-      // MODELANSWER: structured rendering with intro/conclusion/sections/footer
+      // MODELANSWER: normalize bullets then standard markdown render
       if (sectionType === 'MODELANSWER') {
-        // Normalize • bullets → markdown - so marked.parse renders them as proper list items
-        text = text.replace(/^[•·]/gm, '-');
-        const lines = text.split('\n');
-        // Split off footer line (Historians used / Primary sources / Add-ons)
-        const footerIdx = lines.findIndex((l: string) => /^Historians used:/i.test(l.trim()));
-        const bodyLines = footerIdx !== -1 ? lines.slice(0, footerIdx) : lines;
-        const footerLine = footerIdx !== -1 ? lines[footerIdx] : null;
-
-        // Group body into segments: intro, sections, conclusion
-        type Segment = { heading: string | null; lines: string[] };
-        const segments: Segment[] = [];
-        let current: Segment = { heading: null, lines: [] };
-
-        for (const line of bodyLines) {
-          const trimmed = line.trim();
-          // Detect section headings: bold line ending with colon, or "Introduction:" / "Conclusion:"
-          const isHeading = /^\*\*[^*]+:\*\*\s*$/.test(trimmed) || /^(Introduction|Conclusion):/i.test(trimmed);
-          if (isHeading) {
-            if (current.heading !== null || current.lines.some((l: string) => l.trim())) {
-              segments.push(current);
-            }
-            current = { heading: trimmed, lines: [] };
-          } else {
-            current.lines.push(line);
-          }
-        }
-        if (current.heading !== null || current.lines.some((l: string) => l.trim())) {
-          segments.push(current);
-        }
-
+        // Normalize • bullets → markdown - so marked.parse renders proper <ul><li>
+        const normalized = text.replace(/^[•·]\s*/gm, '- ');
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {segments.map((seg, i) => {
-              const isIntro = seg.heading && /^Introduction/i.test(seg.heading);
-              const isConclusion = seg.heading && /^Conclusion/i.test(seg.heading);
-              const bodyHtml = sanitize(marked.parse(seg.lines.join('\n'), { breaks: true }) as string);
-              return (
-                <div key={i}>
-                  {seg.heading && (
-                    <div style={{
-                      fontSize: '0.72rem',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 700,
-                      letterSpacing: '0.06em',
-                      textTransform: 'uppercase',
-                      color: isIntro || isConclusion ? '#16a34a' : '#94a3b8',
-                      marginBottom: '0.3rem',
-                      paddingBottom: '0.2rem',
-                      borderBottom: isIntro || isConclusion ? '1px solid rgba(22,163,74,0.25)' : '1px solid rgba(148,163,184,0.15)',
-                    }}>
-                      {seg.heading.replace(/\*\*/g, '').replace(/:$/, '')}
-                    </div>
-                  )}
-                  {seg.lines.some((l: string) => l.trim()) && (
-                    <div dangerouslySetInnerHTML={{ __html: bodyHtml }}
-                      style={{ lineHeight: 1.85, fontSize: '0.88rem', color: 'var(--text)' }} />
-                  )}
-                </div>
-              );
-            })}
-            {footerLine && (
-              <div style={{
-                marginTop: '0.5rem',
-                paddingTop: '0.6rem',
-                borderTop: '1px solid rgba(22,163,74,0.2)',
-                fontSize: '0.75rem',
-                color: 'var(--text2)',
-                lineHeight: 1.7,
-              }}>
-                {footerLine.split(' | ').map((part: string, i: number) => (
-                  <div key={i} style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.15rem' }}>
-                    <span style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 700,
-                      color: '#16a34a',
-                      fontSize: '0.68rem',
-                      whiteSpace: 'nowrap',
-                    }}>
-                      {part.split(':')[0]}:
-                    </span>
-                    <span style={{ color: 'var(--text2)' }}>{part.split(':').slice(1).join(':').trim()}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(normalized, { breaks: true }) as string) }}
+            style={{ lineHeight: 1.85, fontSize: '0.88rem', color: 'var(--text)' }} />
         );
       }
-
       // BLUEPRINTS: parse each option line into styled option cards
       if (sectionType === 'BLUEPRINTS') {
         const lines = text.split('\n').filter(l => l.trim());
