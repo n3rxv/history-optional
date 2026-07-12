@@ -1159,7 +1159,7 @@ ${responseStyle === "elaborative"
         .chat-input-area {
           width:100%;
           background:linear-gradient(160deg, var(--bg2), var(--bg2));
-          border:1px solid rgba(0,0,0,0.09);
+          border:1px solid var(--border);
           border-radius:16px;
           padding:0.7rem 0.75rem 0.8rem;
           box-shadow:0 8px 28px rgba(0,0,0,0.4);
@@ -1168,13 +1168,13 @@ ${responseStyle === "elaborative"
         .chat-input-box {
           display:flex; gap:0.5rem; align-items:flex-end;
           background:rgba(0,0,0,0.04);
-          border:1px solid rgba(0,0,0,0.08);
+          border:1px solid var(--border);
           border-radius:12px; padding:0.6rem 0.6rem 0.6rem 0.9rem;
           transition:border-color 0.18s, box-shadow 0.18s;
         }
         .chat-input-box:focus-within {
-          border-color:rgba(59,130,246,0.32);
-          box-shadow:0 0 0 3px rgba(59,130,246,0.07);
+          border-color:rgba(59,130,246,0.5);
+          box-shadow:0 0 0 3px rgba(59,130,246,0.1);
         }
         .chat-textarea {
           flex:1; background:transparent; border:none; outline:none; resize:none;
