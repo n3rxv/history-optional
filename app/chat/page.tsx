@@ -608,12 +608,15 @@ CRITICAL WRITING STYLE — strictly follow this:
 
 Every response must:
 - Use **bold** for key terms, historian names, and pivotal events WITHIN sentences only
-- For section subheadings use ### (e.g. ### Introduction), NEVER a standalone **bold** line on its own
-- A line that is ONLY **bold text** with nothing else is forbidden — either make it a ### heading or fold it into a sentence
+- Do NOT use ### headings — use **bold** for section titles only
 - Include specific dates, names, and events for empirical weight
 - Incorporate relevant historians and their arguments with brief explanation of their thesis
 - Be accurate with historical facts
-- Use plain English spellings only — no diacritical marks or special Unicode characters (write "Vijigishu" not "Vijigishu with diacritics", "Kautilya" not "Kautilya with diacritics", "Arthashastra" not "Arthasastra" etc.)${pdfBase64 ? '\n\nIMPORTANT: The user has uploaded a PDF. Analyze it carefully. If they ask for model answers to questions in the PDF, provide full UPSC-format answers. If they ask about content, explain it thoroughly.' : ''}`,
+- Use plain English spellings only — no diacritical marks or special Unicode characters
+${responseStyle === "elaborative"
+  ? "RESPONSE STYLE: Write in flowing prose paragraphs (3-5 sentences each). Cover sub-arguments and historiographical debates in depth. Bold titles to separate sections."
+  : "RESPONSE STYLE — CONCISE (mandatory): Use bullet points for all causes/features/consequences/arguments. Format: **Bold label** — 1-2 line explanation. Short intro and conclusion only (2-3 lines). No walls of text. No long paragraphs."
+}${pdfBase64 ? '\n\nIMPORTANT: The user has uploaded a PDF. Analyze it carefully. If they ask for model answers to questions in the PDF, provide full UPSC-format answers. If they ask about content, explain it thoroughly.' : ''}`,
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
           lang: langHi ? 'hi' : 'en',
           bookMode,
@@ -1574,27 +1577,37 @@ Every response must:
 
             {/* Response style toggle */}
             {!mentorMode && !brainstormMode && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.45rem', paddingLeft: '0.1rem' }}>
-                <span style={{ fontSize: '0.62rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em' }}>Style:</span>
-                {(['concise', 'elaborative'] as const).map(s => (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.5rem', paddingLeft: '0.05rem' }}>
+                <span style={{ fontSize: '0.6rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Style</span>
+                <span style={{ fontSize: '0.6rem', color: 'var(--border)', fontFamily: 'var(--font-mono)' }}>—</span>
+                {([
+                  { value: 'concise', icon: '⚡', label: 'Concise' },
+                  { value: 'elaborative', icon: '📖', label: 'Elaborative' },
+                ] as const).map(({ value: s, icon, label }) => (
                   <button
                     key={s}
                     onClick={() => setResponseStyle(s)}
                     style={{
-                      fontSize: '0.62rem',
+                      fontSize: '0.68rem',
                       fontFamily: 'var(--font-mono)',
-                      letterSpacing: '0.06em',
-                      padding: '2px 10px',
+                      letterSpacing: '0.04em',
+                      padding: '3px 12px',
                       borderRadius: 20,
-                      border: responseStyle === s ? '1px solid var(--accent)' : '1px solid var(--border)',
-                      background: responseStyle === s ? 'var(--accent)' : 'transparent',
-                      color: responseStyle === s ? '#fff' : 'var(--text3)',
+                      border: responseStyle === s
+                        ? `1px solid ${s === 'concise' ? '#3b82f6' : '#8b5cf6'}`
+                        : '1px solid var(--border)',
+                      background: responseStyle === s
+                        ? s === 'concise' ? 'rgba(59,130,246,0.15)' : 'rgba(139,92,246,0.15)'
+                        : 'transparent',
+                      color: responseStyle === s
+                        ? s === 'concise' ? '#60a5fa' : '#a78bfa'
+                        : 'var(--text3)',
                       cursor: 'pointer',
-                      textTransform: 'capitalize',
                       transition: 'all 0.15s',
+                      fontWeight: responseStyle === s ? 600 : 400,
                     }}
                   >
-                    {s === 'concise' ? '⚡ Concise' : '📖 Elaborative'}
+                    {icon} {label}
                   </button>
                 ))}
               </div>
