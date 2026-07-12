@@ -5554,8 +5554,8 @@ export const bookData: BookChapter[] = [
         "pyqYears": [
           2015
         ],
-        "lat": 26.17,
-        "lng": 75.79,
+        "lat": 23.52,
+        "lng": 77.81,
         "name_hi": "विदिशा/बेसनगर",
         "location_hi": "विदिशा जिला (मध्य प्रदेश)",
         "majorAspect_hi": "शुंग राजवंश की राजधानी, यहाँ हेलियोडोरस स्तम्भ मिला है जो इंडो‑ग्रीक कूटनीतिक संबंध दर्शाता है।"
@@ -6480,8 +6480,8 @@ export const bookData: BookChapter[] = [
         "location": "Dhar district (Madhya Pradesh)",
         "majorAspect": "Made capital of Paramara chiefs of Malwa by Vairisimha (c. 920-45 CE). Captured by Alauddin Khalji in 14th century.",
         "pyqYears": [],
-        "lat": 17.67,
-        "lng": 75.9008,
+        "lat": 22.60,
+        "lng": 75.30,
         "name_hi": "धार",
         "location_hi": "धार जिला (मध्य प्रदेश)",
         "majorAspect_hi": "वैरिसिंह (लगभग 920‑945 ईस्वी) द्वारा मालवा के परमार प्रमुखों की राजधानी बनाई गई। 14वीं शताब्दी में अलाउद्दीन खिलजी ने इसे कब्ज़ा किया।"
