@@ -770,9 +770,25 @@ ${responseStyle === "elaborative"
         {sections.map((sec, i) => {
           if (sec.type === 'TEXT') {
             if (!sec.content) return null;
+            // Plain text from mentor (e.g. AI skipped markers) — render in chat-bubble-ai style box
+            const normalizedText = sec.content.replace(/^[•·]\s*/gm, '- ');
+            const html = sanitize(marked.parse(normalizedText, { breaks: true }) as string);
             return (
-              <div key={i} style={{ color: 'var(--text)', lineHeight: 1.8, fontSize: '0.88rem' }}>
-                {renderContent(sec.content)}
+              <div key={i} style={{
+                background: 'var(--bg2)',
+                border: '1px solid var(--border)',
+                borderRadius: '4px 18px 18px 18px',
+                padding: '1.5rem 1.6rem 1.25rem',
+                position: 'relative',
+                boxShadow: '0 6px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(59,130,246,0.07) inset',
+              }}>
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+                  background: 'linear-gradient(90deg, #3b82f6 0%, rgba(59,130,246,0.25) 55%, transparent 100%)',
+                  borderRadius: '4px 18px 0 0',
+                }} />
+                <div className="chat-bubble-ai" style={{ background:'none', border:'none', borderRadius:0, padding:0, boxShadow:'none', position:'static' }}
+                  dangerouslySetInnerHTML={{ __html: html }} />
               </div>
             );
           }
