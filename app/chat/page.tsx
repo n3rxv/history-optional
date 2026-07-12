@@ -780,6 +780,42 @@ ${responseStyle === "elaborative"
           const cfg = sectionConfig[sec.type];
           if (!cfg) return <div key={i}>{renderContent(sec.content)}</div>;
 
+          // MODELANSWER: render exactly like chat-bubble-ai (same bg, border, blue top line)
+          if (sec.type === 'MODELANSWER') {
+            return (
+              <div key={i} style={{
+                background: 'var(--bg2)',
+                border: '1px solid var(--border)',
+                borderRadius: '4px 18px 18px 18px',
+                padding: '1.5rem 1.6rem 1.25rem',
+                position: 'relative',
+                boxShadow: '0 6px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(59,130,246,0.07) inset',
+                overflow: 'hidden',
+              }}>
+                {/* Blue top accent line — same as chat-bubble-ai::before */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+                  background: 'linear-gradient(90deg, #3b82f6 0%, rgba(59,130,246,0.25) 55%, transparent 100%)',
+                  borderRadius: '4px 18px 0 0',
+                }} />
+                {/* Small label */}
+                <div style={{
+                  fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
+                  letterSpacing: '0.1em', textTransform: 'uppercase', color: cfg.color,
+                  marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 5,
+                }}>
+                  <span>{cfg.icon}</span><span>{cfg.label}</span>
+                </div>
+                <div className="chat-bubble-ai" style={{
+                  background: 'none', border: 'none', borderRadius: 0,
+                  padding: 0, boxShadow: 'none', position: 'static',
+                }}>
+                  {renderContent(sec.content, sec.type)}
+                </div>
+              </div>
+            );
+          }
+
           return (
             <div key={i} style={{
               background: cfg.bg,
