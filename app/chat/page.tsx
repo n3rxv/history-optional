@@ -11,6 +11,7 @@ type Message = {
   role: 'user' | 'assistant';
   content: string;
   sources?: { book_title: string; content: string }[];
+  isMentor?: boolean;
 };
 
 type ChatHistoryEntry = {
@@ -628,7 +629,7 @@ Every response must:
       let sources: { book_title: string; content: string }[] = [];
 
       // Add empty assistant message to fill in
-      setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: '', isMentor: mentorMode && !!usage?.subscribed }]);
 
       while (true) {
         const { done, value } = await reader.read();
@@ -655,7 +656,7 @@ Every response must:
       // Final update with sources
       setMessages(prev => {
         const updated = [...prev];
-        updated[updated.length - 1] = { role: 'assistant', content: full, sources };
+        updated[updated.length - 1] = { role: 'assistant', content: full, sources, isMentor: mentorMode && !!usage?.subscribed };
         return updated;
       });
       // chat_count tracked server-side in /api/chat
@@ -665,6 +666,101 @@ Every response must:
       setLoading(false);
     }
   };
+
+
+  // ── Mentor Mode: parse section markers ─────────────────────────────
+  function parseMentorSections(text: string): { type: string; content: string }[] {
+    const sections: { type: string; content: string }[] = [];
+    const regex = /##([A-Z]+)##([\s\S]*?)##END##/g;
+    let match;
+    let lastIndex = 0;
+    while ((match = regex.exec(text)) !== null) {
+      // any plain text before this block
+      const before = text.slice(lastIndex, match.index).trim();
+      if (before) sections.push({ type: 'TEXT', content: before });
+      sections.push({ type: match[1], content: match[2].trim() });
+      lastIndex = match.index + match[0].length;
+    }
+    const after = text.slice(lastIndex).trim();
+    if (after) sections.push({ type: 'TEXT', content: after });
+    if (sections.length === 0) sections.push({ type: 'TEXT', content: text });
+    return sections;
+  }
+
+  function MentorBubble({ content, isStreaming }: { content: string; isStreaming?: boolean }) {
+    const sections = parseMentorSections(content);
+
+    const sectionConfig: Record<string, { label: string; icon: string; color: string; bg: string; border: string }> = {
+      DIRECTIVE:    { label: 'Directive Rule',      icon: '🔍', color: '#d97706', bg: 'rgba(217,119,6,0.07)',   border: 'rgba(217,119,6,0.25)'  },
+      DIAGNOSIS:    { label: 'Demand Diagnosis',    icon: '📋', color: '#6366f1', bg: 'rgba(99,102,241,0.07)', border: 'rgba(99,102,241,0.25)' },
+      BLUEPRINTS:   { label: 'Four Blueprints',     icon: '🗺️', color: '#0891b2', bg: 'rgba(8,145,178,0.07)',  border: 'rgba(8,145,178,0.25)'  },
+      MODELANSWER:  { label: 'Model Answer',        icon: '📝', color: '#16a34a', bg: 'rgba(22,163,74,0.07)',  border: 'rgba(22,163,74,0.25)'  },
+      EVALUATION:   { label: 'Evaluation',          icon: '⚖️', color: '#7c3aed', bg: 'rgba(124,58,237,0.07)', border: 'rgba(124,58,237,0.25)' },
+      STRENGTHS:    { label: 'Strengths',           icon: '✅', color: '#16a34a', bg: 'rgba(22,163,74,0.06)',  border: 'rgba(22,163,74,0.2)'   },
+      CORRECTIONS:  { label: 'Corrections',         icon: '🔧', color: '#dc2626', bg: 'rgba(220,38,38,0.06)',  border: 'rgba(220,38,38,0.2)'   },
+      IMPROVED:     { label: 'Improved Answer',     icon: '✨', color: '#16a34a', bg: 'rgba(22,163,74,0.07)',  border: 'rgba(22,163,74,0.25)'  },
+      MCQ:          { label: 'Question',            icon: '❓', color: '#0891b2', bg: 'rgba(8,145,178,0.07)',  border: 'rgba(8,145,178,0.25)'  },
+      MCQANSWER:    { label: 'Answer & Explanation',icon: '💡', color: '#d97706', bg: 'rgba(217,119,6,0.07)',  border: 'rgba(217,119,6,0.25)'  },
+    };
+
+    const renderContent = (text: string) => (
+      <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(text, { breaks: true }) as string) }}
+        style={{ lineHeight: 1.75, fontSize: '0.88rem', color: 'var(--text)' }} />
+    );
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: '100%' }}>
+        {/* Mentor badge */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.15rem' }}>
+          <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
+            color: '#d4a843', background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.28)',
+            borderRadius: 20, padding: '2px 9px' }}>🎓 MENTOR</span>
+          {isStreaming && <span style={{ fontSize: '0.58rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>generating…</span>}
+        </div>
+
+        {sections.map((sec, i) => {
+          if (sec.type === 'TEXT') {
+            if (!sec.content) return null;
+            return (
+              <div key={i} style={{ color: 'var(--text)', lineHeight: 1.75, fontSize: '0.88rem' }}>
+                {renderContent(sec.content)}
+              </div>
+            );
+          }
+
+          const cfg = sectionConfig[sec.type];
+          if (!cfg) return <div key={i}>{renderContent(sec.content)}</div>;
+
+          return (
+            <div key={i} style={{
+              background: cfg.bg,
+              border: `1px solid ${cfg.border}`,
+              borderRadius: 10,
+              overflow: 'hidden',
+            }}>
+              {/* Section header */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 7,
+                padding: '0.5rem 0.85rem',
+                borderBottom: `1px solid ${cfg.border}`,
+                background: cfg.bg,
+              }}>
+                <span style={{ fontSize: '0.85rem' }}>{cfg.icon}</span>
+                <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
+                  letterSpacing: '0.1em', textTransform: 'uppercase', color: cfg.color }}>
+                  {cfg.label}
+                </span>
+              </div>
+              {/* Section body */}
+              <div style={{ padding: '0.75rem 0.85rem' }}>
+                {renderContent(sec.content)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 
   function sanitize(html: string) {
     return html
@@ -1168,11 +1264,13 @@ Every response must:
             {messages.map((msg, i) => (
               <div key={i} className={`chat-msg-row ${msg.role}`}
                 ref={msg.role === 'assistant' && i === messages.length - 1 ? lastAiRef : null}>
-                <div className={msg.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'}>
+                <div className={msg.role === 'user' ? 'chat-bubble-user' : (msg.isMentor ? 'chat-bubble-mentor' : 'chat-bubble-ai')}>
                   {msg.role === 'user' ? (
                     <span>{msg.content}</span>
                   ) : msg.content === '' ? (
                     <span style={{ opacity: 0.4, fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>●●●</span>
+                  ) : msg.isMentor ? (
+                    <MentorBubble content={msg.content} isStreaming={loading && i === messages.length - 1} />
                   ) : (loading && i === messages.length - 1) ? (
                     <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(msg.content, { breaks: true }) as string) }} />
                   ) : (
