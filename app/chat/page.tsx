@@ -703,13 +703,53 @@ Every response must:
       MCQANSWER:    { label: 'Answer & Explanation',icon: '💡', color: '#d97706', bg: 'rgba(217,119,6,0.07)',  border: 'rgba(217,119,6,0.25)'  },
     };
 
-    const renderContent = (text: string) => (
-      <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(text, { breaks: true }) as string) }}
-        style={{ lineHeight: 1.75, fontSize: '0.88rem', color: 'var(--text)' }} />
-    );
+    const renderContent = (text: string, sectionType?: string) => {
+      // BLUEPRINTS: parse each option line into styled option cards
+      if (sectionType === 'BLUEPRINTS') {
+        const lines = text.split('
+').filter(l => l.trim());
+        const optionLines = lines.filter(l => /^\*\*[A-D]/.test(l.trim()));
+        const otherLines = lines.filter(l => !/^\*\*[A-D]/.test(l.trim()));
+        const optColors: Record<string, string> = { A: '#d97706', B: '#6366f1', C: '#16a34a', D: '#0891b2' };
+        const optBgs: Record<string, string> = { A: 'rgba(217,119,6,0.07)', B: 'rgba(99,102,241,0.07)', C: 'rgba(22,163,74,0.07)', D: 'rgba(8,145,178,0.07)' };
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            {otherLines.length > 0 && (
+              <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(otherLines.join('
+'), { breaks: true }) as string) }}
+                style={{ lineHeight: 1.7, fontSize: '0.85rem', color: 'var(--text)', marginBottom: '0.25rem' }} />
+            )}
+            {optionLines.map((line, idx) => {
+              const letter = line.trim().replace(/^\*\*([A-D]).*/, '$1');
+              const html = sanitize(marked.parse(line.trim(), { breaks: true }) as string);
+              const col = optColors[letter] || 'var(--text2)';
+              const bg = optBgs[letter] || 'rgba(255,255,255,0.03)';
+              return (
+                <div key={idx} style={{
+                  background: bg,
+                  border: `1px solid ${col}44`,
+                  borderLeft: `3px solid ${col}`,
+                  borderRadius: 8,
+                  padding: '0.55rem 0.8rem',
+                  fontSize: '0.85rem',
+                  lineHeight: 1.65,
+                  color: 'var(--text)',
+                }}>
+                  <div dangerouslySetInnerHTML={{ __html: html }} />
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+      return (
+        <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(text, { breaks: true }) as string) }}
+          style={{ lineHeight: 1.8, fontSize: '0.88rem', color: 'var(--text)' }} />
+      );
+    };
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', width: '100%' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', width: '100%' }}>
         {/* Mentor badge */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.15rem' }}>
           <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em',
@@ -722,7 +762,7 @@ Every response must:
           if (sec.type === 'TEXT') {
             if (!sec.content) return null;
             return (
-              <div key={i} style={{ color: 'var(--text)', lineHeight: 1.75, fontSize: '0.88rem' }}>
+              <div key={i} style={{ color: 'var(--text)', lineHeight: 1.8, fontSize: '0.88rem' }}>
                 {renderContent(sec.content)}
               </div>
             );
@@ -741,9 +781,8 @@ Every response must:
               {/* Section header */}
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 7,
-                padding: '0.5rem 0.85rem',
+                padding: '0.5rem 0.9rem',
                 borderBottom: `1px solid ${cfg.border}`,
-                background: cfg.bg,
               }}>
                 <span style={{ fontSize: '0.85rem' }}>{cfg.icon}</span>
                 <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 700,
@@ -752,8 +791,8 @@ Every response must:
                 </span>
               </div>
               {/* Section body */}
-              <div style={{ padding: '0.75rem 0.85rem' }}>
-                {renderContent(sec.content)}
+              <div style={{ padding: '0.8rem 0.9rem' }}>
+                {renderContent(sec.content, sec.type)}
               </div>
             </div>
           );
