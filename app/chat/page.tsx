@@ -1360,7 +1360,7 @@ Every response must:
                 className={`chat-tool-btn ${mentorMode && usage?.subscribed ? 'active' : ''}`}
                 onClick={() => {
                   if (usageLoading) return;
-                  if (!usage?.subscribed) { setShowPremiumModal(true); return; }
+                  if (!usage?.subscribed) { setShowBookPaywall(true); return; }
                   setMentorMode(m => !m);
                 }}
                 title="Mentor Mode — TADA framework, evaluator feedback, 350+ strategy (Premium)"
