@@ -411,6 +411,7 @@ function ChatContent() {
     });
   }, [langHi]);
   const [bookMode, setBookMode] = useState(false);
+  const [mentorMode, setMentorMode] = useState(false);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfBase64, setPdfBase64] = useState<string | null>(null);
   const [pdfName, setPdfName] = useState<string | null>(null);
@@ -615,6 +616,7 @@ Every response must:
           lang: langHi ? 'hi' : 'en',
           bookMode,
           bookTitle: bookTitle === 'all' ? undefined : bookTitle,
+          mentorMode: mentorMode && !!usage?.subscribed,
         }),
       });
       if (!response.ok) { setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]); setLoading(false); return; }
@@ -1354,6 +1356,26 @@ Every response must:
                   Books{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
                 </button>
 
+              <button
+                className={`chat-tool-btn ${mentorMode && usage?.subscribed ? 'active' : ''}`}
+                onClick={() => {
+                  if (usageLoading) return;
+                  if (!usage?.subscribed) { setShowPremiumModal(true); return; }
+                  setMentorMode(m => !m);
+                }}
+                title="Mentor Mode — TADA framework, evaluator feedback, 350+ strategy (Premium)"
+                style={{
+                  ...(mentorMode && usage?.subscribed ? {
+                    background: 'linear-gradient(135deg, rgba(234,179,8,0.18), rgba(212,168,67,0.1))',
+                    borderColor: 'rgba(234,179,8,0.5)',
+                    color: '#d4a843',
+                  } : {})
+                }}
+              >
+                <span style={{ fontSize:'0.85rem' }}>🎓</span>
+                Mentor{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
+              </button>
+
                 {booksPopoverOpen && usage?.subscribed && (
                   <>
                     <div style={{ position:'fixed', inset:0, zIndex:55 }} onClick={() => setBooksPopoverOpen(false)} />
@@ -1444,6 +1466,15 @@ Every response must:
                 ↑
               </button>
             </div>
+            {mentorMode && usage?.subscribed && (
+              <div style={{ display:'flex', justifyContent:'center', marginTop:'0.3rem' }}>
+                <span style={{
+                  fontSize:'0.58rem', fontFamily:'var(--font-mono)', letterSpacing:'0.08em',
+                  color:'#d4a843', background:'rgba(212,168,67,0.1)', border:'1px solid rgba(212,168,67,0.3)',
+                  borderRadius:20, padding:'2px 10px', display:'inline-flex', alignItems:'center', gap:4,
+                }}>🎓 MENTOR MODE ACTIVE — TADA Framework · 350+ Strategy</span>
+              </div>
+            )}
             <div className="chat-hint">{tr(t.chatHint, langHi)}</div>
             {!usageLoading && (
               <div style={{ textAlign:'center', marginTop:'0.4rem', fontFamily:'var(--font-mono)', fontSize:'0.62rem', color: !canChat ? '#f87171' : usage?.subscribed ? '#51cf66' : '#555', letterSpacing:'0.08em' }}>
