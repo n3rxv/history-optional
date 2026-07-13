@@ -34,7 +34,15 @@ export default function PromoPopup() {
   const [slots, setSlots] = useState(0);
   const [showComparison, setShowComparison] = useState(false);
   const [mobileSlideIndex, setMobileSlideIndex] = useState(0);
+  const [slideZoneMinHeight, setSlideZoneMinHeight] = useState(0);
   const comparisonMeasureRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (comparisonMeasureRef.current) {
+      const h = comparisonMeasureRef.current.scrollHeight;
+      if (h > 0) setSlideZoneMinHeight(h);
+    }
+  }, [visible]);
 
   // July 2026 offer — auto-expires Aug 1
   const isJulyOffer = new Date().getFullYear() === 2026 && new Date().getMonth() === 6;
@@ -603,7 +611,7 @@ export default function PromoPopup() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', flex: '1 1 auto', minHeight: comparisonMeasureRef.current?.scrollHeight ?? 0, padding: '0 1.5rem', position: 'relative' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', flex: '1 1 auto', minHeight: slideZoneMinHeight, padding: '0 1.5rem', position: 'relative' }}>
                 <MobileSlide index={mobileSlideIndex} />
               </div>
 
