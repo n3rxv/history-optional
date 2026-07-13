@@ -3,7 +3,7 @@ import { allNotes } from '@/lib/notes';
 
 export async function GET() {
   const base = 'https://historyoptional.xyz';
-  const lastMod = new Date().toISOString();
+  const lastMod = new Date().toISOString().split("T")[0];
 
   const mainPages = [
     { url: base, priority: '1.0', changefreq: 'weekly' },
