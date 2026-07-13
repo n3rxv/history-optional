@@ -102,11 +102,11 @@ export default function PromoPopup() {
     const FEATURE_SLIDE_MS = 3000;
     const COMPARISON_SLIDE_MS = 8000;
     const PRICING_SLIDE_MS = 6000;
-    const TOTAL_SLIDES = 10; // 8 features + 1 comparison + 1 pricing
+    const TOTAL_SLIDES = 9; // 7 features + 1 comparison + 1 pricing
 
     const durationFor = (index: number) => {
-      if (index === 8) return COMPARISON_SLIDE_MS;
-      if (index === 9) return PRICING_SLIDE_MS;
+      if (index === 7) return COMPARISON_SLIDE_MS;
+      if (index === 8) return PRICING_SLIDE_MS;
       return FEATURE_SLIDE_MS;
     };
 
@@ -716,9 +716,9 @@ function ComparisonCards({ active }: { active: boolean }) {
 
 function MobileSlide({ index }: { index: number }) {
   // index 0-7: one feature at a time. index 8: comparison. index 9: pricing.
-  const isFeature = index >= 0 && index <= 7;
-  const isComparison = index === 8;
-  const isPricing = index === 9;
+  const isFeature = index >= 0 && index <= 6;
+  const isComparison = index === 7;
+  const isPricing = index === 8;
 
   return (
     <div
@@ -745,7 +745,7 @@ function MobileSlide({ index }: { index: number }) {
             <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: '0 0 0.5rem' }}>{f.label}</p>
             <p style={{ fontSize: 13, color: 'var(--text3)', margin: 0, lineHeight: 1.5 }}>{f.sub}</p>
             <p style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.12)', margin: '1rem 0 0', letterSpacing: '0.04em' }}>
-              {index + 1} / 8
+              {index + 1} / 7
             </p>
           </div>
         );
