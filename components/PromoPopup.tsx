@@ -110,20 +110,16 @@ export default function PromoPopup() {
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
 
-    // Only logged-out visitors can see this — on this site, being logged in
-    // means being subscribed, so any active session hides the popup entirely.
-    const currentUser = auth.currentUser;
-    if (currentUser) return; // logged in → never show
-
-    if (!sessionStorage.getItem(SESSION_KEY)) {
-      sessionStorage.setItem(SESSION_KEY, '1');
-      timer = setTimeout(() => setVisible(true), 1200);
-    }
-
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         if (timer) clearTimeout(timer);
         setVisible(false);
+        return;
+      }
+
+      if (!localStorage.getItem(SESSION_KEY)) {
+        localStorage.setItem(SESSION_KEY, '1');
+        timer = setTimeout(() => setVisible(true), 3000);
       }
     });
 
