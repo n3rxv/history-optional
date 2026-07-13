@@ -117,8 +117,8 @@ export default function PromoPopup() {
         return;
       }
 
-      if (!localStorage.getItem(SESSION_KEY)) {
-        localStorage.setItem(SESSION_KEY, '1');
+      if (!sessionStorage.getItem(SESSION_KEY)) {
+        sessionStorage.setItem(SESSION_KEY, '1');
         timer = setTimeout(() => setVisible(true), 3000);
       }
     });
