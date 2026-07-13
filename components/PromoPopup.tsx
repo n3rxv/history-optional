@@ -97,14 +97,19 @@ export default function PromoPopup() {
       return FEATURE_SLIDE_MS;
     };
 
+    let cancelled = false;
     let slideTimer: ReturnType<typeof setTimeout>;
     const advance = (index: number) => {
+      if (cancelled) return;
       setMobileSlideIndex(index);
       slideTimer = setTimeout(() => advance((index + 1) % TOTAL_SLIDES), durationFor(index));
     };
     advance(0);
 
-    return () => clearTimeout(slideTimer);
+    return () => {
+      cancelled = true;
+      clearTimeout(slideTimer);
+    };
   }, [showSubscribe]);
 
   useEffect(() => {
