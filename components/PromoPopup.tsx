@@ -2,6 +2,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { SubscribeCard } from '@/components/SubscribeCard';
 import { auth } from '@/lib/firebase';
+import { useUsageTracker } from '@/hooks/useUsageTracker';
 import { onAuthStateChanged } from 'firebase/auth';
 
 const SESSION_KEY = 'promo_popup_shown';
@@ -29,6 +30,7 @@ const US_ADVANTAGES = [
 ];
 
 export default function PromoPopup() {
+  const { usage } = useUsageTracker();
   const [visible, setVisible] = useState(false);
   const [showSubscribe, setShowSubscribe] = useState(false);
   const [slots, setSlots] = useState(0);
@@ -108,18 +110,25 @@ export default function PromoPopup() {
   }, [showSubscribe]);
 
   useEffect(() => {
+    if (usage?.subscribed) setVisible(false);
+  }, [usage?.subscribed]);
+
+  useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
 
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        if (timer) clearTimeout(timer);
-        setVisible(false);
+      if (!firebaseUser) {
+        if (!sessionStorage.getItem(SESSION_KEY)) {
+          sessionStorage.setItem(SESSION_KEY, '1');
+          timer = setTimeout(() => setVisible(true), 3000);
+        }
         return;
       }
-
       if (!sessionStorage.getItem(SESSION_KEY)) {
         sessionStorage.setItem(SESSION_KEY, '1');
-        timer = setTimeout(() => setVisible(true), 3000);
+        timer = setTimeout(() => {
+          if (!usage?.subscribed) setVisible(true);
+        }, 3000);
       }
     });
 
