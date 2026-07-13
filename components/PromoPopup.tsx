@@ -63,8 +63,10 @@ export default function PromoPopup() {
     const FEATURES_MS = 10000;
     const COMPARISON_MS = 10000;
     let toggleTimer: ReturnType<typeof setTimeout>;
+    let cancelled = false;
 
     const cycle = (showingComparison: boolean) => {
+      if (cancelled) return;
       setShowComparison(showingComparison);
       toggleTimer = setTimeout(
         () => cycle(!showingComparison),
@@ -73,7 +75,10 @@ export default function PromoPopup() {
     };
     cycle(false);
 
-    return () => clearTimeout(toggleTimer);
+    return () => {
+      cancelled = true;
+      clearTimeout(toggleTimer);
+    };
   }, []);
 
   useEffect(() => {
