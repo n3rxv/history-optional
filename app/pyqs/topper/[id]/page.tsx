@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -22,7 +22,9 @@ export default function TopperCopyPage() {
   const [error, setError] = useState<string | null>(null);
   const [numPages, setNumPages] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(true);
+  const [scale, setScale] = useState(1.5);
   const containerRef = useRef<HTMLDivElement>(null);
+  const pdfRef = useRef<any>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -36,6 +38,28 @@ export default function TopperCopyPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
+  const renderPdf = useCallback(async (pdf: any, currentScale: number) => {
+    if (!containerRef.current) return;
+    containerRef.current.innerHTML = '';
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const viewport = page.getViewport({ scale: currentScale });
+
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      canvas.style.width = '100%';
+      canvas.style.display = 'block';
+      canvas.style.marginBottom = '4px';
+
+      containerRef.current.appendChild(canvas);
+
+      const ctx = canvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport }).promise;
+    }
+  }, []);
+
   useEffect(() => {
     if (!copy) return;
 
@@ -43,7 +67,6 @@ export default function TopperCopyPage() {
 
     const loadPdf = async () => {
       try {
-        // Load PDF.js from CDN
         if (!(window as any).pdfjsLib) {
           await new Promise<void>((resolve, reject) => {
             const script = document.createElement('script');
@@ -59,28 +82,11 @@ export default function TopperCopyPage() {
           'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+        pdfRef.current = pdf;
         setNumPages(pdf.numPages);
         setPdfLoading(false);
 
-        if (!containerRef.current) return;
-        containerRef.current.innerHTML = '';
-
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-          const page = await pdf.getPage(pageNum);
-          const viewport = page.getViewport({ scale: 1.5 });
-
-          const canvas = document.createElement('canvas');
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-          canvas.style.width = '100%';
-          canvas.style.display = 'block';
-          canvas.style.marginBottom = '4px';
-
-          containerRef.current.appendChild(canvas);
-
-          const ctx = canvas.getContext('2d');
-          await page.render({ canvasContext: ctx, viewport }).promise;
-        }
+        await renderPdf(pdf, scale);
       } catch (err) {
         console.error('PDF load error:', err);
         setPdfLoading(false);
@@ -89,6 +95,26 @@ export default function TopperCopyPage() {
 
     loadPdf();
   }, [copy]);
+
+  const handleZoom = async (newScale: number) => {
+    const clamped = Math.min(Math.max(newScale, 0.5), 3);
+    setScale(clamped);
+    if (pdfRef.current) {
+      await renderPdf(pdfRef.current, clamped);
+    }
+  };
+
+  const btnStyle = {
+    background: 'var(--bg2)',
+    border: '1px solid var(--border)',
+    color: 'var(--text2)',
+    cursor: 'pointer',
+    width: 32, height: 32,
+    borderRadius: 6,
+    fontSize: '1rem',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontFamily: 'var(--font-mono)',
+  } as React.CSSProperties;
 
   return (
     <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2rem 1.5rem 4rem' }}>
@@ -150,6 +176,7 @@ export default function TopperCopyPage() {
             border: '1px solid var(--border)', borderRadius: 10,
             overflow: 'hidden', background: 'var(--bg2)',
           }}>
+            {/* Toolbar */}
             <div style={{
               padding: '0.6rem 1rem',
               borderBottom: '1px solid var(--border)',
@@ -160,15 +187,29 @@ export default function TopperCopyPage() {
                 fontSize: '0.7rem', fontFamily: 'var(--font-mono)',
                 color: 'var(--text3)', letterSpacing: '0.08em',
               }}>HANDWRITTEN ANSWER {numPages > 0 && `· ${numPages} pages`}</span>
-              <a
-                href={`${R2_BASE}/${copy.drive_file_id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontSize: '0.75rem', color: 'var(--accent)',
-                  textDecoration: 'none', fontFamily: 'var(--font-mono)',
-                }}
-              >Open PDF &#8599;</a>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                {/* Zoom controls */}
+                {!pdfLoading && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <button style={btnStyle} onClick={() => handleZoom(scale - 0.25)} title="Zoom out">−</button>
+                    <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', minWidth: 36, textAlign: 'center' }}>
+                      {Math.round(scale / 1.5 * 100)}%
+                    </span>
+                    <button style={btnStyle} onClick={() => handleZoom(scale + 0.25)} title="Zoom in">+</button>
+                  </div>
+                )}
+
+                <a
+                  href={`${R2_BASE}/${copy.drive_file_id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontSize: '0.75rem', color: 'var(--accent)',
+                    textDecoration: 'none', fontFamily: 'var(--font-mono)',
+                  }}
+                >Open PDF &#8599;</a>
+              </div>
             </div>
 
             {pdfLoading && (
@@ -179,7 +220,7 @@ export default function TopperCopyPage() {
 
             <div
               ref={containerRef}
-              style={{ background: "#1a1a1a", padding: "8px", height: "80vh", overflowY: "auto" }}
+              style={{ background: '#1a1a1a', padding: '8px', height: '80vh', overflowY: 'auto' }}
             />
           </div>
 
