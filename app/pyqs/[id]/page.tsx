@@ -32,7 +32,7 @@ export default function PYQDetailPage() {
     if (data.allowed) {
       router.push('/pyqs/topper/' + tcId);
     } else {
-      alert('Free limit reached. Please upgrade to access Topper Copies.');
+      setShowTopperPaywall(true);
     }
   };
 
@@ -46,6 +46,7 @@ export default function PYQDetailPage() {
   const fileRef                       = useRef<HTMLInputElement>(null);
   const [topperCopies, setTopperCopies] = useState<{ id: string; question: string; note: string | null }[]>([]);
   const [topperLoading, setTopperLoading] = useState(true);
+  const [showTopperPaywall, setShowTopperPaywall] = useState(false);
 
   useEffect(() => {
     if (!pyq) return;
@@ -351,6 +352,106 @@ export default function PYQDetailPage() {
     </div>
 
     </div>{/* grid */}
+
+    {showTopperPaywall && (
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        background: 'rgba(0,0,0,0.75)',
+        backdropFilter: 'blur(6px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
+      }} onClick={() => setShowTopperPaywall(false)}>
+        <div style={{
+          background: 'var(--bg)',
+          border: '1px solid rgba(167,139,250,0.25)',
+          borderRadius: 16, padding: '2.5rem 2rem', maxWidth: 420, width: '100%',
+          textAlign: 'center',
+          boxShadow: '0 0 0 1px rgba(167,139,250,0.1), 0 24px 60px rgba(0,0,0,0.5)',
+        }} onClick={e => e.stopPropagation()}>
+          <div style={{
+            width: 56, height: 56, borderRadius: '50%',
+            background: 'rgba(167,139,250,0.12)',
+            border: '1px solid rgba(167,139,250,0.25)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '1.5rem', margin: '0 auto 1.25rem',
+          }}>📋</div>
+          <h3 style={{
+            color: 'var(--text)', fontFamily: 'var(--font-display)',
+            fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem',
+          }}>5 free previews used</h3>
+          <p style={{ color: 'var(--text3)', fontSize: '0.875rem', marginBottom: '0.75rem', lineHeight: 1.65 }}>
+            Get unlimited access to all topper copies
+          </p>
+          <div style={{
+            background: 'rgba(167,139,250,0.08)',
+            border: '1px solid rgba(167,139,250,0.2)',
+            borderRadius: 10, padding: '0.85rem 1.25rem',
+            marginBottom: '1.5rem',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+          }}>
+            <span style={{ color: '#a78bfa', fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>₹99</span>
+            <span style={{ color: 'var(--text3)', fontSize: '0.8rem' }}>/year · one-time unlock</span>
+          </div>
+          <button
+            onClick={async () => {
+              const currentUser = auth.currentUser;
+              if (!currentUser) return;
+              if (!(window as any).Razorpay) {
+                alert('Payment SDK not loaded. Please refresh and try again.');
+                return;
+              }
+              const token = await currentUser.getIdToken();
+              const res = await fetch('/api/razorpay/topper-order', {
+                method: 'POST',
+                headers: { 'x-user-token': token },
+              });
+              const order = await res.json();
+              if (!res.ok) {
+                alert('Order creation failed: ' + (order.error || 'Unknown error'));
+                return;
+              }
+              const rzp = new (window as any).Razorpay({
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                amount: order.amount,
+                currency: order.currency,
+                order_id: order.orderId,
+                name: 'History Optional',
+                description: 'Topper Copies Access — 1 Year',
+                handler: async (response: any) => {
+                  const verifyRes = await fetch('/api/razorpay/topper-verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-user-token': token },
+                    body: JSON.stringify(response),
+                  });
+                  const v = await verifyRes.json();
+                  if (v.ok) setShowTopperPaywall(false);
+                },
+              });
+              rzp.open();
+            }}
+            style={{
+              background: 'linear-gradient(135deg, #7c3aed, #a78bfa)',
+              border: 'none',
+              color: '#fff', borderRadius: 10, padding: '0.85rem 2rem',
+              fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
+              fontFamily: 'var(--font-mono)', width: '100%',
+              boxShadow: '0 4px 20px rgba(124,58,237,0.35)',
+            }}
+          >
+            🔓 Unlock for ₹99/year
+          </button>
+          <button
+            onClick={() => setShowTopperPaywall(false)}
+            style={{
+              marginTop: '0.6rem', background: 'none', border: 'none',
+              color: 'var(--text3)', fontSize: '0.78rem', cursor: 'pointer',
+            }}
+          >
+            Maybe later
+          </button>
+        </div>
+      </div>
+    )}
+
     </div>
   );
 }
