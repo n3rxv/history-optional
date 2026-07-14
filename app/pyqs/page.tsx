@@ -492,77 +492,6 @@ export default function PYQsPage() {
             );
           })()}
         </div>
-      {showTopperPaywall && (
-        <div style={{
-          position: 'fixed', inset: 0, zIndex: 9999,
-          background: 'rgba(0,0,0,0.7)', display: 'flex',
-          alignItems: 'center', justifyContent: 'center', padding: '1rem',
-        }} onClick={() => setShowTopperPaywall(false)}>
-          <div style={{
-            background: 'var(--bg)', border: '1px solid var(--border)',
-            borderRadius: 12, padding: '2rem', maxWidth: 400, width: '100%',
-            textAlign: 'center',
-          }} onClick={e => e.stopPropagation()}>
-            <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>📋</div>
-            <h3 style={{ color: 'var(--text)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>
-              5 free previews used
-            </h3>
-            <p style={{ color: 'var(--text3)', fontSize: '0.88rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-              Get unlimited access to all topper copies for ₹99/year
-            </p>
-            <button
-              onClick={async () => {
-                const currentUser = auth.currentUser;
-                if (!currentUser) return;
-                const token = await currentUser.getIdToken();
-                const res = await fetch('/api/razorpay/topper-order', {
-                  method: 'POST',
-                  headers: { 'x-user-token': token },
-                });
-                const order = await res.json();
-                const rzp = new (window as any).Razorpay({
-                  key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-                  amount: order.amount,
-                  currency: order.currency,
-                  order_id: order.orderId,
-                  name: 'History Optional',
-                  description: 'Topper Copies Access — 1 Year',
-                  handler: async (response: any) => {
-                    const verifyRes = await fetch('/api/razorpay/topper-verify', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-                      body: JSON.stringify(response),
-                    });
-                    const v = await verifyRes.json();
-                    if (v.ok) {
-                      setTopperAccess({ access: true, clicks: 0, hasTopperAccess: true });
-                      setShowTopperPaywall(false);
-                    }
-                  },
-                });
-                rzp.open();
-              }}
-              style={{
-                background: 'rgba(167,139,250,0.15)', border: '1px solid rgba(167,139,250,0.4)',
-                color: '#a78bfa', borderRadius: 8, padding: '0.75rem 2rem',
-                fontSize: '0.95rem', cursor: 'pointer', fontFamily: 'var(--font-mono)',
-                width: '100%',
-              }}
-            >
-              Unlock for ₹99/year
-            </button>
-            <button
-              onClick={() => setShowTopperPaywall(false)}
-              style={{
-                marginTop: '0.75rem', background: 'none', border: 'none',
-                color: 'var(--text3)', fontSize: '0.8rem', cursor: 'pointer',
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
       ) : (
       <div>
       {/* Count */}
@@ -693,6 +622,78 @@ export default function PYQsPage() {
       </div>
       )}
       <GateModals slots={slots} />
+      {showTopperPaywall && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 9999,
+          background: 'rgba(0,0,0,0.7)', display: 'flex',
+          alignItems: 'center', justifyContent: 'center', padding: '1rem',
+        }} onClick={() => setShowTopperPaywall(false)}>
+          <div style={{
+            background: 'var(--bg)', border: '1px solid var(--border)',
+            borderRadius: 12, padding: '2rem', maxWidth: 400, width: '100%',
+            textAlign: 'center',
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>📋</div>
+            <h3 style={{ color: 'var(--text)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>
+              5 free previews used
+            </h3>
+            <p style={{ color: 'var(--text3)', fontSize: '0.88rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+              Get unlimited access to all topper copies for ₹99/year
+            </p>
+            <button
+              onClick={async () => {
+                const currentUser = auth.currentUser;
+                if (!currentUser) return;
+                const token = await currentUser.getIdToken();
+                const res = await fetch('/api/razorpay/topper-order', {
+                  method: 'POST',
+                  headers: { 'x-user-token': token },
+                });
+                const order = await res.json();
+                const rzp = new (window as any).Razorpay({
+                  key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                  amount: order.amount,
+                  currency: order.currency,
+                  order_id: order.orderId,
+                  name: 'History Optional',
+                  description: 'Topper Copies Access — 1 Year',
+                  handler: async (response: any) => {
+                    const verifyRes = await fetch('/api/razorpay/topper-verify', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json', 'x-user-token': token },
+                      body: JSON.stringify(response),
+                    });
+                    const v = await verifyRes.json();
+                    if (v.ok) {
+                      setTopperAccess({ access: true, clicks: 0, hasTopperAccess: true });
+                      setShowTopperPaywall(false);
+                    }
+                  },
+                });
+                rzp.open();
+              }}
+              style={{
+                background: 'rgba(167,139,250,0.15)', border: '1px solid rgba(167,139,250,0.4)',
+                color: '#a78bfa', borderRadius: 8, padding: '0.75rem 2rem',
+                fontSize: '0.95rem', cursor: 'pointer', fontFamily: 'var(--font-mono)',
+                width: '100%',
+              }}
+            >
+              Unlock for ₹99/year
+            </button>
+            <button
+              onClick={() => setShowTopperPaywall(false)}
+              style={{
+                marginTop: '0.75rem', background: 'none', border: 'none',
+                color: 'var(--text3)', fontSize: '0.8rem', cursor: 'pointer',
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
 
       {modelAnswerQ && (
