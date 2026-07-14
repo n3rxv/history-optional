@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ allowed: true, clicks: 0, hasTopperAccess: true });
   }
 
-  // Free user — increment click count
+  // Free user — check first, then increment
   const { data: tracking } = await supabase
     .from("usage_tracking")
     .select("topper_clicks")
@@ -46,6 +46,11 @@ export async function POST(req: NextRequest) {
     .single();
 
   const currentClicks = tracking?.topper_clicks ?? 0;
+
+  if (currentClicks >= 5) {
+    return NextResponse.json({ allowed: false, clicks: currentClicks });
+  }
+
   const newClicks = currentClicks + 1;
 
   await supabase
@@ -53,6 +58,5 @@ export async function POST(req: NextRequest) {
     .update({ topper_clicks: newClicks })
     .eq("firebase_uid", user.uid);
 
-  const allowed = newClicks <= 5;
-  return NextResponse.json({ allowed, clicks: newClicks });
+  return NextResponse.json({ allowed: true, clicks: newClicks });
 }
