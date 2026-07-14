@@ -14,15 +14,19 @@ export async function POST(req: NextRequest) {
   const user = await verifyFirebaseToken(token);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const order = await razorpay.orders.create({
-    amount: 9900, // ₹99 in paise
-    currency: "INR",
-    receipt: `topper_${user.uid}_${Date.now()}`,
-  });
-
-  return NextResponse.json({
-    orderId: order.id,
-    amount: order.amount,
-    currency: order.currency,
-  });
+  try {
+    const order = await razorpay.orders.create({
+      amount: 9900,
+      currency: "INR",
+      receipt: `topper_${user.uid}_${Date.now()}`,
+    });
+    return NextResponse.json({
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+    });
+  } catch (err: any) {
+    console.error("Razorpay order creation failed:", err);
+    return NextResponse.json({ error: err?.message || "Order creation failed" }, { status: 500 });
+  }
 }

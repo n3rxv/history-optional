@@ -263,7 +263,7 @@ export default function PYQsPage() {
 
   return (
     <>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
       <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
       <style>{`
         .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
@@ -670,12 +670,20 @@ export default function PYQsPage() {
               onClick={async () => {
                 const currentUser = auth.currentUser;
                 if (!currentUser) return;
+                if (!(window as any).Razorpay) {
+                  alert('Payment SDK not loaded. Please refresh and try again.');
+                  return;
+                }
                 const token = await currentUser.getIdToken();
                 const res = await fetch('/api/razorpay/topper-order', {
                   method: 'POST',
                   headers: { 'x-user-token': token },
                 });
                 const order = await res.json();
+                if (!res.ok) {
+                  alert('Order creation failed: ' + (order.error || 'Unknown error'));
+                  return;
+                }
                 const rzp = new (window as any).Razorpay({
                   key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                   amount: order.amount,
