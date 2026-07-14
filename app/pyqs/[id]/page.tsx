@@ -1,8 +1,9 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { pyqs, type PYQ } from '@/lib/pyqData';
+import { auth } from '@/lib/firebase';
 
 interface AnswerEntry {
   id: string;
@@ -16,7 +17,24 @@ interface AnswerEntry {
 
 export default function PYQDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
   const pyq = pyqs.find((q: PYQ) => q.id === parseInt(id));
+
+  const handleTopperClick = async (tcId: string) => {
+    const currentUser = auth.currentUser;
+    if (!currentUser) { router.push('/pyqs/topper/' + tcId); return; }
+    const token = await currentUser.getIdToken();
+    const res = await fetch('/api/topper-click', {
+      method: 'POST',
+      headers: { 'x-user-token': token },
+    });
+    const data = await res.json();
+    if (data.allowed) {
+      router.push('/pyqs/topper/' + tcId);
+    } else {
+      alert('Free limit reached. Please upgrade to access Topper Copies.');
+    }
+  };
 
   const [answers, setAnswers]         = useState<AnswerEntry[]>([]);
   const [loadingAnswers, setLoadingAnswers] = useState(true);
@@ -324,7 +342,7 @@ export default function PYQDetailPage() {
                 <div style={{ color: 'rgba(167,139,250,0.8)', fontSize: '0.7rem', fontFamily: 'var(--font-mono)', marginTop: '0.4rem' }}>
                   View Copy →
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         )}
