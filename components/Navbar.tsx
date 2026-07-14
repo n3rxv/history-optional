@@ -422,17 +422,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Auth migration banner — remove after Aug 1 2026 */}
-      <div id="auth-migration-banner" style={{
-        background: 'linear-gradient(90deg, rgba(99,102,241,0.12), rgba(212,168,67,0.08))',
-        borderBottom: '1px solid rgba(99,102,241,0.15)',
-        padding: '7px 16px',
-        textAlign: 'center',
-        fontSize: '0.78rem',
-        color: 'var(--text)',
-      }}>
-      </div>
-      <nav style={{ position: 'fixed', top: 'var(--banner-height, 33px)', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(0,0,0,0.06)', }}>
+      <nav style={{ position: 'fixed', top: '0', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(0,0,0,0.06)', }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 67 - 7 * scrollProgress }}>
 
           {/* Logo */}
