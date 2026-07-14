@@ -45,5 +45,8 @@ export async function GET(req: NextRequest) {
     .single();
 
   const clicks = tracking?.topper_clicks ?? 0;
+  if (clicks < 5) {
+    return NextResponse.json({ access: true, clicks });
+  }
   return NextResponse.json({ access: false, clicks });
 }
