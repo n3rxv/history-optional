@@ -26,6 +26,8 @@ export default function PYQDetailPage() {
   const [displayName, setDisplayName] = useState('');
   const [file, setFile]               = useState<File | null>(null);
   const fileRef                       = useRef<HTMLInputElement>(null);
+  const [topperCopies, setTopperCopies] = useState<{ id: string; question: string; note: string | null }[]>([]);
+  const [topperLoading, setTopperLoading] = useState(true);
 
   useEffect(() => {
     if (!pyq) return;
@@ -33,6 +35,14 @@ export default function PYQDetailPage() {
       .then(r => r.json())
       .then(d => setAnswers(d.answers ?? []))
       .finally(() => setLoadingAnswers(false));
+  }, [pyq?.id]);
+
+  useEffect(() => {
+    if (!pyq) return;
+    fetch(`/api/topper-copies?pyq_id=${pyq.id}`)
+      .then(r => r.json())
+      .then(d => setTopperCopies(d.data ?? []))
+      .finally(() => setTopperLoading(false));
   }, [pyq?.id]);
 
   if (!pyq) return (
@@ -274,19 +284,50 @@ export default function PYQDetailPage() {
         }}>
           🏆 Topper Copies
         </div>
-        <div style={{
-          color: 'var(--text3)', fontSize: '0.8rem', lineHeight: 1.6,
-          marginBottom: '1rem',
-        }}>
-          High-scoring answers by UPSC toppers for this question.
-        </div>
-        <div style={{
-          background: 'var(--bg3)', border: '1px dashed var(--border)',
-          borderRadius: 8, padding: '2rem 1rem', textAlign: 'center',
-          color: 'var(--text3)', fontSize: '0.8rem',
-        }}>
-          Coming soon
-        </div>
+        {topperLoading ? (
+          <div style={{ color: 'var(--text3)', fontSize: '0.8rem', padding: '1rem 0' }}>Loading…</div>
+        ) : topperCopies.length === 0 ? (
+          <>
+            <div style={{ color: 'var(--text3)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: '1rem' }}>
+              High-scoring answers by UPSC toppers for this question.
+            </div>
+            <div style={{
+              background: 'var(--bg3)', border: '1px dashed var(--border)',
+              borderRadius: 8, padding: '2rem 1rem', textAlign: 'center',
+              color: 'var(--text3)', fontSize: '0.8rem',
+            }}>
+              Coming soon
+            </div>
+          </>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+            {topperCopies.map(tc => (
+              <a
+                key={tc.id}
+                href={`/pyqs/topper/${tc.id}`}
+                style={{
+                  display: 'block', textDecoration: 'none',
+                  background: 'var(--bg3)', border: '1px solid var(--border)',
+                  borderRadius: 8, padding: '0.85rem 1rem',
+                  borderLeft: '3px solid rgba(167,139,250,0.5)',
+                  transition: 'border-color 0.15s',
+                }}
+              >
+                <div style={{ color: 'var(--text)', fontSize: '0.82rem', lineHeight: 1.5, marginBottom: tc.note ? '0.35rem' : 0 }}>
+                  {tc.question}
+                </div>
+                {tc.note && (
+                  <div style={{ color: 'var(--text3)', fontSize: '0.72rem', fontFamily: 'var(--font-mono)' }}>
+                    📝 {tc.note}
+                  </div>
+                )}
+                <div style={{ color: 'rgba(167,139,250,0.8)', fontSize: '0.7rem', fontFamily: 'var(--font-mono)', marginTop: '0.4rem' }}>
+                  View Copy →
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </div>
 

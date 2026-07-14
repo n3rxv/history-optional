@@ -417,17 +417,22 @@ export default function PYQsPage() {
                             </p>
                           )}
                           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                            {c.pyq_ids.length > 0 && (
-                              <span style={{
-                                fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
-                                color: 'rgba(167,139,250,0.8)',
-                                background: 'rgba(167,139,250,0.08)',
-                                border: '1px solid rgba(167,139,250,0.2)',
-                                padding: '2px 8px', borderRadius: 3,
-                              }}>
-                                &#128279; {c.pyq_ids.length} related PYQ{c.pyq_ids.length > 1 ? 's' : ''}
-                              </span>
-                            )}
+                            {c.pyq_ids.map((pid: number) => (
+                              <a
+                                key={pid}
+                                href={`/pyqs/${pid}`}
+                                style={{
+                                  fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                                  color: 'rgba(167,139,250,0.8)',
+                                  background: 'rgba(167,139,250,0.08)',
+                                  border: '1px solid rgba(167,139,250,0.2)',
+                                  padding: '2px 8px', borderRadius: 3,
+                                  textDecoration: 'none', cursor: 'pointer',
+                                }}
+                              >
+                                &#128279; View PYQ &#8599;
+                              </a>
+                            ))}
                           </div>
                         </div>
                         <a
