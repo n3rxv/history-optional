@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { auth } from '@/lib/firebase';
 
 const R2_BASE = 'https://pub-163b2186589649f4a759ed969e0779e0.r2.dev';
 
@@ -20,12 +21,30 @@ export default function TopperCopyPage() {
   const [copy, setCopy] = useState<TopperCopy | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [accessAllowed, setAccessAllowed] = useState<boolean | null>(null);
   const [numPages, setNumPages] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(true);
   const [scale, setScale] = useState(1.5);
   const [rendering, setRendering] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const pdfRef = useRef<any>(null);
+
+  useEffect(() => {
+    const checkAccess = async () => {
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        setAccessAllowed(false);
+        return;
+      }
+      const token = await currentUser.getIdToken();
+      const res = await fetch('/api/topper-access', {
+        headers: { 'x-user-token': token },
+      });
+      const data = await res.json();
+      setAccessAllowed(data.access === true);
+    };
+    checkAccess();
+  }, []);
 
   useEffect(() => {
     if (!id) return;
@@ -114,6 +133,30 @@ export default function TopperCopyPage() {
     lineHeight: 1,
     opacity: rendering ? 0.5 : 1,
   };
+
+  if (accessAllowed === null) return (
+    <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text3)' }}>Loading…</div>
+  );
+
+  if (accessAllowed === false) return (
+    <div style={{ maxWidth: 600, margin: '0 auto', padding: '4rem 1.5rem', textAlign: 'center' }}>
+      <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>🔒</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', color: 'var(--text)', marginBottom: '0.75rem' }}>
+        Topper Copies are Premium
+      </div>
+      <div style={{ color: 'var(--text3)', fontSize: '0.9rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+        You've used your free previews. Upgrade to access all topper copies.
+      </div>
+      <Link href="/pyqs" style={{
+        display: 'inline-block', background: 'var(--accent)',
+        color: '#fff', padding: '0.65rem 1.75rem',
+        borderRadius: 8, textDecoration: 'none',
+        fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: '0.9rem',
+      }}>
+        Go to PYQs →
+      </Link>
+    </div>
+  );
 
   return (
     <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2rem 1.5rem 4rem' }}>
