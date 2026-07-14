@@ -117,14 +117,22 @@ export default function TopperCopyPage() {
                 }}
               >Open in Drive &#8599;</a>
             </div>
-            <iframe
-              src={`/api/drive-proxy?id=${copy.drive_file_id}`}
+            <object
+              data={`/api/drive-proxy?id=${copy.drive_file_id}`}
+              type="application/pdf"
               className="topper-iframe"
               style={{
                 width: '100%', height: '80vh',
                 border: 'none', display: 'block',
               }}
-            />
+            >
+              <p style={{ padding: '2rem', textAlign: 'center', color: 'var(--text3)' }}>
+                PDF load nahi hua —{' '}
+                <a href={`/api/drive-proxy?id=${copy.drive_file_id}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
+                  yahan click karo
+                </a>
+              </p>
+            </object>
             <div style={{
               padding: '1rem', textAlign: 'center',
               borderTop: '1px solid var(--border)',
