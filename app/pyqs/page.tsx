@@ -7,6 +7,7 @@ import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
+import Script from 'next/script';
 
 const TABS = [
   { label: 'All',      value: 'all' },
@@ -53,6 +54,7 @@ function AnswerBody({ text }: { text: string }) {
         );
       })}
     </div>
+    </>
   );
 }
 
@@ -261,7 +263,9 @@ export default function PYQsPage() {
   };
 
   return (
-    <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
+    <>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
+      <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
       <style>{`
         .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
         .shimmer-btn:hover::before{opacity:1;animation:glass-shine 0.55s ease forwards;}
