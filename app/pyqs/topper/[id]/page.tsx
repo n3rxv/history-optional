@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+const R2_BASE = 'https://pub-163b2186589649f4a759ed969e0779e0.r2.dev';
+
 interface TopperCopy {
   id: string;
   question: string;
@@ -108,31 +110,23 @@ export default function TopperCopyPage() {
                 color: 'var(--text3)', letterSpacing: '0.08em',
               }}>HANDWRITTEN ANSWER</span>
               <a
-                href={`https://drive.google.com/file/d/${copy.drive_file_id}/view`}
+                href={`${R2_BASE}/${copy.drive_file_id}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
                   fontSize: '0.75rem', color: 'var(--accent)',
                   textDecoration: 'none', fontFamily: 'var(--font-mono)',
                 }}
-              >Open in Drive &#8599;</a>
+              >Open PDF &#8599;</a>
             </div>
-            <object
-              data={`/api/drive-proxy?id=${copy.drive_file_id}`}
-              type="application/pdf"
+            <iframe
+              src={`${R2_BASE}/${copy.drive_file_id}`}
               className="topper-iframe"
               style={{
                 width: '100%', height: '80vh',
                 border: 'none', display: 'block',
               }}
-            >
-              <p style={{ padding: '2rem', textAlign: 'center', color: 'var(--text3)' }}>
-                PDF load nahi hua —{' '}
-                <a href={`/api/drive-proxy?id=${copy.drive_file_id}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
-                  yahan click karo
-                </a>
-              </p>
-            </object>
+            />
             <div style={{
               padding: '1rem', textAlign: 'center',
               borderTop: '1px solid var(--border)',
@@ -142,7 +136,7 @@ export default function TopperCopyPage() {
                 Not loading?
               </span>
               <a
-                href={`https://drive.google.com/file/d/${copy.drive_file_id}/view`}
+                href={`${R2_BASE}/${copy.drive_file_id}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -154,7 +148,7 @@ export default function TopperCopyPage() {
                   textDecoration: 'none', fontFamily: 'var(--font-mono)',
                 }}
               >
-                Open in Google Drive &#8599;
+                Open PDF &#8599;
               </a>
             </div>
           </div>
