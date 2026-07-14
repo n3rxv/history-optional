@@ -247,7 +247,7 @@ export default function PYQDetailPage() {
             gap: '0.85rem',
           }}>
             {answers.map(ans => (
-              <div
+              <a
                 key={ans.id}
                 href={ans.public_url}
                 target="_blank"
@@ -259,7 +259,6 @@ export default function PYQDetailPage() {
                   textDecoration: 'none', display: 'block',
                   transition: 'background 0.15s',
                 }}
-                onClick={() => handleTopperClick(tc.id)}
               >
                 <div style={{
                   fontSize: '1.4rem', marginBottom: '0.5rem',
