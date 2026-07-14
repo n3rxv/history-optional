@@ -2,7 +2,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import ThemeCustomizer from './ThemeCustomizer';
 import { useLang } from '@/lib/i18n/LangContext';
@@ -289,7 +289,7 @@ function ExtendModal({
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const [isTopperActive, setIsTopperActive] = useState(false);
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -306,6 +306,9 @@ export default function Navbar() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const notesRef = useRef<HTMLDivElement>(null);
   const pyqsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    setIsTopperActive(typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('topper') === '1');
+  }, [pathname]);
   useEffect(() => {
     const handler = (e: MouseEvent | TouchEvent) => {
       if (notesRef.current && !notesRef.current.contains(e.target as Node)) setNotesMenuOpen(false);
@@ -485,9 +488,9 @@ export default function Navbar() {
                 <div style={{ position: 'absolute', top: '100%', left: 0, background: 'var(--bg3)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 140, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
                   {[{ href: '/pyqs', label: langHi ? 'PYQs देखें' : 'Browse PYQs' }, { href: '/pyqs?topper=1', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट शुरू करें' : 'Start Test' }].map(item => {
                     const isActive = item.href === '/pyqs?topper=1'
-                      ? pathname === '/pyqs' && searchParams.get('topper') === '1'
+                      ? pathname === '/pyqs' && isTopperActive
                       : item.href === '/pyqs'
-                        ? pathname === '/pyqs' && searchParams.get('topper') !== '1'
+                        ? pathname === '/pyqs' && !isTopperActive
                         : pathname === item.href;
                     return (
                     <Link key={item.href} href={item.href} onClick={() => setPyqsMenuOpen(false)}
