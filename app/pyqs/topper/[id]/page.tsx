@@ -41,6 +41,14 @@ export default function TopperCopyPage() {
         headers: { 'x-user-token': token },
       });
       const data = await res.json();
+      if (data.access && !data.isPremium && !data.hasTopperAccess) {
+        // free user — increment click count
+        await fetch('/api/topper-click', {
+          method: 'POST',
+          headers: { 'x-user-token': token },
+          body: JSON.stringify({ tcId: id }),
+        });
+      }
       setAccessAllowed(data.access === true);
     });
   }, []);
