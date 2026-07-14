@@ -30,8 +30,8 @@ export default function TopperCopyPage() {
   const pdfRef = useRef<any>(null);
 
   useEffect(() => {
-    const checkAccess = async () => {
-      const currentUser = auth.currentUser;
+    const unsub = auth.onAuthStateChanged(async (currentUser) => {
+      unsub(); // only need first emission
       if (!currentUser) {
         setAccessAllowed(false);
         return;
@@ -42,8 +42,7 @@ export default function TopperCopyPage() {
       });
       const data = await res.json();
       setAccessAllowed(data.access === true);
-    };
-    checkAccess();
+    });
   }, []);
 
   useEffect(() => {
