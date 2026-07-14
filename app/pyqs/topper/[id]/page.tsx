@@ -118,7 +118,7 @@ export default function TopperCopyPage() {
               >Open in Drive &#8599;</a>
             </div>
             <iframe
-              src={`https://docs.google.com/viewer?url=https://drive.google.com/uc?id%3D${copy.drive_file_id}&embedded=true`}
+              src={`/api/drive-proxy?id=${copy.drive_file_id}`}
               className="topper-iframe"
               style={{
                 width: '100%', height: '80vh',
