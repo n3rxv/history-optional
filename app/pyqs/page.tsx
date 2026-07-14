@@ -54,7 +54,6 @@ function AnswerBody({ text }: { text: string }) {
         );
       })}
     </div>
-    </>
   );
 }
 
