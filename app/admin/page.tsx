@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { allNotes as notes } from '@/lib/notes';
+import { pyqs, type PYQ } from '@/lib/pyqData';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 type PostType = 'current-affairs' | 'new-note';
-type Tab = 'notes' | 'posts' | 'analytics' | 'submissions' | 'notifications' | 'settings';
+type Tab = 'notes' | 'posts' | 'analytics' | 'submissions' | 'notifications' | 'topper-copies' | 'settings';
 
 interface Post {
   id: string; type: PostType; title: string; excerpt: string; content: string;
@@ -1054,6 +1055,308 @@ function NotificationsManager({ token }: { token: string }) {
   );
 }
 
+
+// ─── TOPPER COPIES ────────────────────────────────────────────────────────────
+interface TopperCopy {
+  id: string;
+  question: string;
+  drive_file_id: string;
+  note: string | null;
+  created_at: string;
+  pyq_ids: number[];
+}
+
+function TopperCopiesManager({ token }: { token: string }) {
+  const [copies, setCopies] = useState<TopperCopy[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [pyqSearch, setPyqSearch] = useState('');
+  const [editPyqSearch, setEditPyqSearch] = useState('');
+
+  const emptyForm = { question: '', drive_file_id: '', note: '', pyq_ids: [] as number[] };
+  const [form, setForm] = useState(emptyForm);
+  const [editForm, setEditForm] = useState(emptyForm);
+
+  const flash = (m: string) => { setMsg(m); setTimeout(() => setMsg(''), 3000); };
+
+  const load = async () => {
+    setLoading(true);
+    const res = await fetch('/api/admin/topper-copies', { headers: { 'x-admin-token': token } });
+    const { data } = await res.json();
+    setCopies(data || []);
+    setLoading(false);
+  };
+  useEffect(() => { load(); }, []);
+
+  const filteredPyqs = (search: string) => {
+    if (!search.trim()) return [];
+    const s = search.toLowerCase();
+    return pyqs.filter((q: PYQ) =>
+      q.question.toLowerCase().includes(s) || q.topic.toLowerCase().includes(s)
+    ).slice(0, 8);
+  };
+
+  const togglePyq = (ids: number[], pid: number): number[] =>
+    ids.includes(pid) ? ids.filter(x => x !== pid) : [...ids, pid];
+
+  const add = async () => {
+    if (!form.question.trim()) { flash('⚠ Question required'); return; }
+    if (!form.drive_file_id.trim()) { flash('⚠ Drive File ID required'); return; }
+    setSaving(true);
+    const res = await fetch('/api/admin/topper-copies', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify(form),
+    });
+    const data = await res.json();
+    setSaving(false);
+    if (data.ok) { setForm(emptyForm); setPyqSearch(''); flash('✓ Added'); load(); }
+    else flash('⚠ ' + (data.error || 'Failed'));
+  };
+
+  const remove = async (id: string) => {
+    if (!confirm('Delete this topper copy?')) return;
+    await fetch('/api/admin/topper-copies', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify({ id }),
+    });
+    setCopies(c => c.filter(x => x.id !== id));
+    flash('✓ Deleted');
+  };
+
+  const startEdit = (c: TopperCopy) => {
+    setEditingId(c.id);
+    setEditForm({ question: c.question, drive_file_id: c.drive_file_id, note: c.note || '', pyq_ids: c.pyq_ids });
+    setEditPyqSearch('');
+  };
+
+  const saveEdit = async (id: string) => {
+    if (!editForm.question.trim() || !editForm.drive_file_id.trim()) { flash('⚠ Question and Drive ID required'); return; }
+    setSaving(true);
+    const res = await fetch('/api/admin/topper-copies', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify({ id, ...editForm }),
+    });
+    const data = await res.json();
+    setSaving(false);
+    if (data.ok) { setEditingId(null); flash('✓ Updated'); load(); }
+    else flash('⚠ ' + (data.error || 'Failed'));
+  };
+
+  const inp: React.CSSProperties = {
+    width: '100%', background: '#0a0a0a', border: '1px solid #1a1a1a',
+    borderRadius: 6, padding: '7px 10px', color: '#c0b8a8',
+    fontFamily: 'Inter, sans-serif', fontSize: '0.83rem', outline: 'none',
+  };
+
+  const PYQPicker = ({
+    selectedIds, onToggle, search, onSearch,
+  }: {
+    selectedIds: number[];
+    onToggle: (pid: number) => void;
+    search: string;
+    onSearch: (v: string) => void;
+  }) => {
+    const results = filteredPyqs(search);
+    const selectedPyqs = pyqs.filter((q: PYQ) => selectedIds.includes(q.id));
+    return (
+      <div>
+        {selectedIds.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 8 }}>
+            {selectedPyqs.map((q: PYQ) => (
+              <span key={q.id} style={{
+                background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.25)',
+                borderRadius: 4, padding: '2px 8px', fontSize: '0.7rem',
+                color: '#d4a843', fontFamily: 'JetBrains Mono, monospace',
+                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5,
+              }} onClick={() => onToggle(q.id)}>
+                #{q.id} {q.question.slice(0, 40)}&hellip; &times;
+              </span>
+            ))}
+          </div>
+        )}
+        <input
+          value={search}
+          onChange={e => onSearch(e.target.value)}
+          placeholder="Search PYQs to map (topic or keyword)&hellip;"
+          style={inp}
+        />
+        {results.length > 0 && (
+          <div style={{
+            background: '#0a0a0a', border: '1px solid #1a1a1a',
+            borderRadius: 6, marginTop: 4, maxHeight: 200, overflowY: 'auto',
+          }}>
+            {results.map((q: PYQ) => (
+              <div
+                key={q.id}
+                onClick={() => onToggle(q.id)}
+                style={{
+                  padding: '8px 10px', cursor: 'pointer', fontSize: '0.78rem',
+                  color: selectedIds.includes(q.id) ? '#d4a843' : '#888',
+                  background: selectedIds.includes(q.id) ? 'rgba(212,168,67,0.06)' : 'transparent',
+                  borderBottom: '1px solid #111',
+                  display: 'flex', gap: 8, alignItems: 'flex-start',
+                  fontFamily: 'Inter, sans-serif',
+                }}
+              >
+                <span style={{
+                  fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem',
+                  color: '#444', flexShrink: 0, marginTop: 2,
+                }}>#{q.id} &middot; {q.year}</span>
+                <span style={{ lineHeight: 1.4 }}>{q.question.slice(0, 90)}&hellip;</span>
+                {selectedIds.includes(q.id) && <span style={{ marginLeft: 'auto', flexShrink: 0, color: '#d4a843' }}>&#10003;</span>}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div style={{ padding: '24px 28px', maxWidth: 720 }}>
+      <div style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 10, padding: '16px 18px', marginBottom: 24 }}>
+        <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 12, fontFamily: 'JetBrains Mono, monospace' }}>
+          Add Topper Copy
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          <textarea
+            value={form.question}
+            onChange={e => setForm(f => ({ ...f, question: e.target.value }))}
+            placeholder="Test series question text&hellip;"
+            rows={3}
+            style={{ ...inp, resize: 'vertical' }}
+          />
+          <input
+            value={form.drive_file_id}
+            onChange={e => setForm(f => ({ ...f, drive_file_id: e.target.value.trim() }))}
+            placeholder="Google Drive File ID (e.g. 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms)"
+            style={inp}
+          />
+          <input
+            value={form.note}
+            onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
+            placeholder="Note (optional) — e.g. VISION IAS 2024 Test 3"
+            style={inp}
+          />
+          <div>
+            <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6, fontFamily: 'JetBrains Mono, monospace' }}>
+              Map to PYQs ({form.pyq_ids.length} selected)
+            </div>
+            <PYQPicker
+              selectedIds={form.pyq_ids}
+              onToggle={pid => setForm(f => ({ ...f, pyq_ids: togglePyq(f.pyq_ids, pid) }))}
+              search={pyqSearch}
+              onSearch={setPyqSearch}
+            />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <button onClick={add} disabled={saving} className="btn-gold">
+              {saving ? 'Adding&hellip;' : '+ Add Copy'}
+            </button>
+            {msg && <span style={{ fontSize: '0.75rem', color: msg.startsWith('✓') ? '#4ade80' : '#f87171', fontFamily: 'JetBrains Mono, monospace' }}>{msg}</span>}
+          </div>
+        </div>
+      </div>
+
+      {loading ? (
+        <div style={{ color: 'var(--border2)', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>Loading&hellip;</div>
+      ) : copies.length === 0 ? (
+        <div style={{ color: 'var(--bg4)', textAlign: 'center', padding: '32px 0', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>No topper copies yet.</div>
+      ) : (
+        <div>
+          <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10, fontFamily: 'JetBrains Mono, monospace' }}>
+            {copies.length} copies
+          </div>
+          {copies.map(c => editingId === c.id ? (
+            <div key={c.id} style={{ background: 'var(--bg2)', border: '1px solid #222', borderRadius: 9, padding: '12px 14px', marginBottom: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <textarea
+                  value={editForm.question}
+                  onChange={e => setEditForm(f => ({ ...f, question: e.target.value }))}
+                  rows={3} style={{ ...inp, resize: 'vertical' }} autoFocus
+                />
+                <input
+                  value={editForm.drive_file_id}
+                  onChange={e => setEditForm(f => ({ ...f, drive_file_id: e.target.value.trim() }))}
+                  placeholder="Drive File ID" style={inp}
+                />
+                <input
+                  value={editForm.note}
+                  onChange={e => setEditForm(f => ({ ...f, note: e.target.value }))}
+                  placeholder="Note (optional)" style={inp}
+                />
+                <div>
+                  <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6, fontFamily: 'JetBrains Mono, monospace' }}>
+                    PYQ Mappings ({editForm.pyq_ids.length} selected)
+                  </div>
+                  <PYQPicker
+                    selectedIds={editForm.pyq_ids}
+                    onToggle={pid => setEditForm(f => ({ ...f, pyq_ids: togglePyq(f.pyq_ids, pid) }))}
+                    search={editPyqSearch}
+                    onSearch={setEditPyqSearch}
+                  />
+                </div>
+                <div style={{ display: 'flex', gap: 7 }}>
+                  <button onClick={() => saveEdit(c.id)} disabled={saving} className="btn-green">{saving ? 'Saving&hellip;' : '✓ Save'}</button>
+                  <button onClick={() => setEditingId(null)} className="btn-ghost">Cancel</button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div key={c.id} style={{
+              background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 9,
+              padding: '11px 14px', marginBottom: 7,
+            }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--bg4)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = '#141414')}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ color: '#c0b8a8', fontSize: '0.84rem', fontFamily: 'Inter, sans-serif', lineHeight: 1.4, marginBottom: 4 }}>
+                    {c.question.slice(0, 100)}{c.question.length > 100 ? '\u2026' : ''}
+                  </div>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+                    <span style={{ color: 'var(--bg4)', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>
+                      {c.drive_file_id.slice(0, 20)}&hellip;
+                    </span>
+                    {c.note && (
+                      <span style={{ color: '#818cf8', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>
+                        &#128221; {c.note}
+                      </span>
+                    )}
+                    {c.pyq_ids.length > 0 && (
+                      <span style={{ color: '#d4a843', fontSize: '0.65rem', fontFamily: 'JetBrains Mono, monospace' }}>
+                        &#128279; {c.pyq_ids.length} PYQ{c.pyq_ids.length > 1 ? 's' : ''}
+                      </span>
+                    )}
+                    <span style={{ color: '#333', fontSize: '0.62rem', fontFamily: 'JetBrains Mono, monospace', marginLeft: 'auto' }}>
+                      {new Date(c.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                    </span>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                  <a
+                    href={`https://drive.google.com/file/d/${c.drive_file_id}/preview`}
+                    target="_blank" rel="noopener noreferrer"
+                    style={{ fontSize: '0.72rem', color: '#4ecdc4', fontFamily: 'JetBrains Mono, monospace', textDecoration: 'none', padding: '3px 8px', border: '1px solid rgba(78,205,196,0.2)', borderRadius: 4 }}
+                  >&#8599;</a>
+                  <button onClick={() => startEdit(c)} className="btn-ghost" style={{ padding: '3px 9px', fontSize: '0.72rem', color: '#818cf8', borderColor: 'rgba(129,140,248,0.2)' }}>&#9998;</button>
+                  <button onClick={() => remove(c.id)} className="btn-red" style={{ padding: '3px 8px', fontSize: '0.72rem' }}>&#10005;</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 export default function AdminPage() {
   const { authed, checking, login, logout, token } = useAdminAuth();
@@ -1067,6 +1370,7 @@ export default function AdminPage() {
     { id: 'posts',         label: 'Posts',          icon: '◎' },
     { id: 'notifications', label: 'Notifications',  icon: '◉' },
     { id: 'submissions',   label: 'Submissions',    icon: '◇' },
+    { id: 'topper-copies', label: 'Topper Copies',  icon: '🏆' },
     { id: 'analytics',     label: 'Analytics',      icon: '▦' },
     { id: 'settings',      label: 'Settings',       icon: '◌' },
   ];
@@ -1123,6 +1427,7 @@ export default function AdminPage() {
           {tab === 'analytics'     && <Analytics token={token} />}
           {tab === 'submissions'   && <Submissions token={token} />}
           {tab === 'notifications' && <NotificationsManager token={token} />}
+          {tab === 'topper-copies' && <TopperCopiesManager token={token} />}
           {tab === 'settings'      && <Settings onLogout={logout} token={token} />}
         </main>
       </div>

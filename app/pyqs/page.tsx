@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
@@ -193,6 +193,19 @@ export default function PYQsPage() {
   const [search, setSearch]             = useState('');
   const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
   const [showTopperCopies, setShowTopperCopies] = useState(false);
+  const [topperCopies, setTopperCopies] = useState<{ id: string; question: string; drive_file_id: string; note: string | null; pyq_ids: number[] }[]>([]);
+  const [topperLoading, setTopperLoading] = useState(false);
+  const [topperSearch, setTopperSearch] = useState('');
+
+  useEffect(() => {
+    if (!showTopperCopies || topperCopies.length > 0) return;
+    setTopperLoading(true);
+    fetch('/api/topper-copies/all')
+      .then(r => r.json())
+      .then(d => setTopperCopies(d.data || []))
+      .catch(() => {})
+      .finally(() => setTopperLoading(false));
+  }, [showTopperCopies]);
 
   const { GateModals, usage, slots, showChatLimitModal } = useSubscriptionGate(() => {});
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
@@ -323,8 +336,9 @@ export default function PYQsPage() {
         display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center',
       }}>
         <input
-          value={search} onChange={e => setSearch(e.target.value)}
-          placeholder="Search questions or topics..."
+          value={showTopperCopies ? topperSearch : search}
+          onChange={e => showTopperCopies ? setTopperSearch(e.target.value) : setSearch(e.target.value)}
+          placeholder={showTopperCopies ? 'Search topper copies…' : 'Search questions or topics...'}
           style={{
             flex: 1, minWidth: 200, background: 'var(--bg3)', border: '1px solid var(--border)',
             borderRadius: 6, padding: '0.5rem 0.85rem',
@@ -351,23 +365,85 @@ export default function PYQsPage() {
       </div>
 
       {showTopperCopies ? (
-        <div style={{
-          background: 'var(--bg2)', border: '1px solid var(--border)',
-          borderRadius: 10, padding: '2.5rem', textAlign: 'center',
-          color: 'var(--text3)', fontSize: '0.88rem', marginTop: '1rem',
-        }}>
-          <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>📚</div>
-          <div style={{ color: 'var(--text)', fontWeight: 600, marginBottom: '0.5rem' }}>Topper Copies Coming Soon</div>
-          <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            {['All', 'Ancient', 'Medieval', 'Modern', 'World'].map(t => (
-              <span key={t} style={{
-                padding: '0.35rem 1rem', borderRadius: 6, fontSize: '0.8rem',
-                background: 'var(--bg3)', border: '1px solid var(--border)',
-                color: 'var(--text3)', cursor: 'default',
-              }}>{t}</span>
-            ))}
-          </div>
-          <div style={{ marginTop: '1rem', color: 'var(--text3)', fontSize: '0.75rem' }}>Filters coming soon</div>
+        <div style={{ marginTop: '0.5rem' }}>
+          {topperLoading && (
+            <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)', fontSize: '0.85rem' }}>
+              Loading copies&#8230;
+            </div>
+          )}
+          {!topperLoading && topperCopies.length === 0 && (
+            <div style={{
+              background: 'var(--bg2)', border: '1px solid var(--border)',
+              borderRadius: 10, padding: '3rem', textAlign: 'center',
+            }}>
+              <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>📚</div>
+              <div style={{ color: 'var(--text)', fontWeight: 600, fontSize: '0.95rem' }}>No topper copies yet</div>
+              <div style={{ color: 'var(--text3)', fontSize: '0.82rem', marginTop: '0.4rem' }}>Check back soon.</div>
+            </div>
+          )}
+          {!topperLoading && topperCopies.length > 0 && (() => {
+            const filtered = topperCopies.filter(c => {
+              if (!topperSearch.trim()) return true;
+              const s = topperSearch.toLowerCase();
+              return c.question.toLowerCase().includes(s) || (c.note?.toLowerCase().includes(s) ?? false);
+            });
+            return (
+              <div>
+                <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem' }}>
+                  {filtered.length} of {topperCopies.length} copies
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {filtered.map(c => (
+                    <div key={c.id} style={{
+                      background: 'var(--bg2)', border: '1px solid var(--border)',
+                      borderRadius: 8, padding: '1.1rem 1.4rem',
+                      borderLeft: '3px solid rgba(167,139,250,0.5)',
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ color: 'var(--text)', fontSize: '0.93rem', lineHeight: 1.6, marginBottom: c.note ? '0.5rem' : '0.75rem' }}>
+                            {c.question}
+                          </p>
+                          {c.note && (
+                            <p style={{ color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', marginBottom: '0.75rem' }}>
+                              &#128221; {c.note}
+                            </p>
+                          )}
+                          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                            {c.pyq_ids.length > 0 && (
+                              <span style={{
+                                fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                                color: 'rgba(167,139,250,0.8)',
+                                background: 'rgba(167,139,250,0.08)',
+                                border: '1px solid rgba(167,139,250,0.2)',
+                                padding: '2px 8px', borderRadius: 3,
+                              }}>
+                                &#128279; {c.pyq_ids.length} related PYQ{c.pyq_ids.length > 1 ? 's' : ''}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <a
+                          href={`/pyqs/topper/${c.id}`}
+                          style={{
+                            flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
+                            background: 'rgba(167,139,250,0.1)',
+                            border: '1px solid rgba(167,139,250,0.3)',
+                            color: '#a78bfa', borderRadius: 6,
+                            padding: '0.45rem 1rem', fontSize: '0.8rem',
+                            textDecoration: 'none', fontFamily: 'var(--font-mono)',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          View Copy &#8594;
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
         </div>
       ) : (
       <div>
