@@ -629,21 +629,44 @@ export default function PYQsPage() {
       {showTopperPaywall && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 9999,
-          background: 'rgba(0,0,0,0.7)', display: 'flex',
-          alignItems: 'center', justifyContent: 'center', padding: '1rem',
+          background: 'rgba(0,0,0,0.75)',
+          backdropFilter: 'blur(6px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
         }} onClick={() => setShowTopperPaywall(false)}>
           <div style={{
-            background: 'var(--bg)', border: '1px solid var(--border)',
-            borderRadius: 12, padding: '2rem', maxWidth: 400, width: '100%',
+            background: 'var(--bg)',
+            border: '1px solid rgba(167,139,250,0.25)',
+            borderRadius: 16, padding: '2.5rem 2rem', maxWidth: 420, width: '100%',
             textAlign: 'center',
+            boxShadow: '0 0 0 1px rgba(167,139,250,0.1), 0 24px 60px rgba(0,0,0,0.5)',
           }} onClick={e => e.stopPropagation()}>
-            <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>📋</div>
-            <h3 style={{ color: 'var(--text)', fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>
+            {/* Icon */}
+            <div style={{
+              width: 56, height: 56, borderRadius: '50%',
+              background: 'rgba(167,139,250,0.12)',
+              border: '1px solid rgba(167,139,250,0.25)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '1.5rem', margin: '0 auto 1.25rem',
+            }}>📋</div>
+            <h3 style={{
+              color: 'var(--text)', fontFamily: 'var(--font-display)',
+              fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem',
+            }}>
               5 free previews used
             </h3>
-            <p style={{ color: 'var(--text3)', fontSize: '0.88rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-              Get unlimited access to all topper copies for ₹99/year
+            <p style={{ color: 'var(--text3)', fontSize: '0.875rem', marginBottom: '0.75rem', lineHeight: 1.65 }}>
+              Get unlimited access to all topper copies
             </p>
+            <div style={{
+              background: 'rgba(167,139,250,0.08)',
+              border: '1px solid rgba(167,139,250,0.2)',
+              borderRadius: 10, padding: '0.85rem 1.25rem',
+              marginBottom: '1.5rem',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+            }}>
+              <span style={{ color: '#a78bfa', fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>₹99</span>
+              <span style={{ color: 'var(--text3)', fontSize: '0.8rem' }}>/year · one-time unlock</span>
+            </div>
             <button
               onClick={async () => {
                 const currentUser = auth.currentUser;
@@ -677,22 +700,28 @@ export default function PYQsPage() {
                 rzp.open();
               }}
               style={{
-                background: 'rgba(167,139,250,0.15)', border: '1px solid rgba(167,139,250,0.4)',
-                color: '#a78bfa', borderRadius: 8, padding: '0.75rem 2rem',
-                fontSize: '0.95rem', cursor: 'pointer', fontFamily: 'var(--font-mono)',
-                width: '100%',
+                background: 'linear-gradient(135deg, #7c3aed, #a78bfa)',
+                border: 'none',
+                color: '#fff', borderRadius: 10, padding: '0.85rem 2rem',
+                fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
+                fontFamily: 'var(--font-mono)', width: '100%',
+                boxShadow: '0 4px 20px rgba(124,58,237,0.35)',
+                transition: 'opacity 0.15s',
               }}
+              onMouseOver={e => (e.currentTarget.style.opacity = '0.88')}
+              onMouseOut={e => (e.currentTarget.style.opacity = '1')}
             >
-              Unlock for ₹99/year
+              🔓 Unlock for ₹99/year
             </button>
             <button
               onClick={() => setShowTopperPaywall(false)}
               style={{
-                marginTop: '0.75rem', background: 'none', border: 'none',
-                color: 'var(--text3)', fontSize: '0.8rem', cursor: 'pointer',
+                marginTop: '0.6rem', background: 'none', border: 'none',
+                color: 'var(--text3)', fontSize: '0.78rem', cursor: 'pointer',
+                letterSpacing: '0.02em',
               }}
             >
-              Cancel
+              Maybe later
             </button>
           </div>
         </div>
