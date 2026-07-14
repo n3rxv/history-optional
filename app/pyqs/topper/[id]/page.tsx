@@ -118,14 +118,37 @@ export default function TopperCopyPage() {
               >Open in Drive &#8599;</a>
             </div>
             <iframe
-              src={`https://drive.google.com/file/d/${copy.drive_file_id}/preview`}
+              src={`https://docs.google.com/viewer?url=https://drive.google.com/uc?id%3D${copy.drive_file_id}&embedded=true`}
               className="topper-iframe"
               style={{
                 width: '100%', height: '80vh',
                 border: 'none', display: 'block',
               }}
-              allow="autoplay"
             />
+            <div style={{
+              padding: '1rem', textAlign: 'center',
+              borderTop: '1px solid var(--border)',
+              background: 'var(--bg3)',
+            }}>
+              <span style={{ color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', marginRight: '1rem' }}>
+                Not loading?
+              </span>
+              <a
+                href={`https://drive.google.com/file/d/${copy.drive_file_id}/view`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  background: 'rgba(167,139,250,0.1)',
+                  border: '1px solid rgba(167,139,250,0.3)',
+                  color: '#a78bfa', borderRadius: 6,
+                  padding: '0.4rem 1rem', fontSize: '0.8rem',
+                  textDecoration: 'none', fontFamily: 'var(--font-mono)',
+                }}
+              >
+                Open in Google Drive &#8599;
+              </a>
+            </div>
           </div>
 
           <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
