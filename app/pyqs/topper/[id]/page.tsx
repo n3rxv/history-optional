@@ -179,7 +179,7 @@ export default function TopperCopyPage() {
 
             <div
               ref={containerRef}
-              style={{ background: '#1a1a1a', padding: '8px' }}
+              style={{ background: "#1a1a1a", padding: "8px", height: "80vh", overflowY: "auto" }}
             />
           </div>
 
