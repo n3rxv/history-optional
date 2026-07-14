@@ -1,7 +1,7 @@
 'use client';
 import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { auth } from '@/lib/firebase';
@@ -192,7 +192,8 @@ export default function PYQsPage() {
   const [filterMarks, setFilterMarks]   = useState<number | 'all'>('all');
   const [search, setSearch]             = useState('');
   const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
-  const [showTopperCopies, setShowTopperCopies] = useState(false);
+  const searchParams = useSearchParams();
+  const [showTopperCopies, setShowTopperCopies] = useState(() => searchParams.get('topper') === '1');
   const [topperCopies, setTopperCopies] = useState<{ id: string; question: string; drive_file_id: string; note: string | null; pyq_ids: number[] }[]>([]);
   const [topperLoading, setTopperLoading] = useState(false);
   const [topperSearch, setTopperSearch] = useState('');

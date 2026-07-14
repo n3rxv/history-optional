@@ -184,10 +184,10 @@ export default function TopperCopyPage() {
           </div>
 
           <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-            <Link href="/pyqs" style={{
+            <Link href="/pyqs?topper=1" style={{
               color: 'var(--text3)', fontSize: '0.8rem',
               textDecoration: 'none', fontFamily: 'var(--font-mono)',
-            }}>&#8592; Back to PYQs</Link>
+            }}>&#8592; Browse Topper Copies</Link>
           </div>
         </div>
       )}
