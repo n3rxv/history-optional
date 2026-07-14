@@ -26,12 +26,10 @@ export async function GET(req: Request) {
       return new Response('Failed to fetch file from Drive', { status: 502 });
     }
 
-    const contentType = res.headers.get('content-type') || 'application/pdf';
-
     return new Response(res.body, {
       headers: {
-        'Content-Type': contentType,
-        'Content-Disposition': 'inline',
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'inline; filename="topper-copy.pdf"',
         'Cache-Control': 'public, max-age=3600',
         'X-Frame-Options': 'SAMEORIGIN',
       },
