@@ -247,7 +247,7 @@ export default function PYQDetailPage() {
             gap: '0.85rem',
           }}>
             {answers.map(ans => (
-              <a
+              <div
                 key={ans.id}
                 href={ans.public_url}
                 target="_blank"
@@ -259,6 +259,7 @@ export default function PYQDetailPage() {
                   textDecoration: 'none', display: 'block',
                   transition: 'background 0.15s',
                 }}
+                onClick={() => handleTopperClick(tc.id)}
               >
                 <div style={{
                   fontSize: '1.4rem', marginBottom: '0.5rem',
@@ -320,16 +321,17 @@ export default function PYQDetailPage() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             {topperCopies.map(tc => (
-              <a
+              <div
                 key={tc.id}
-                href={`/pyqs/topper/${tc.id}`}
+
                 style={{
-                  display: 'block', textDecoration: 'none',
+                  display: 'block', cursor: 'pointer',
                   background: 'var(--bg3)', border: '1px solid var(--border)',
                   borderRadius: 8, padding: '0.85rem 1rem',
                   borderLeft: '3px solid rgba(167,139,250,0.5)',
                   transition: 'border-color 0.15s',
                 }}
+                onClick={() => handleTopperClick(tc.id)}
               >
                 <div style={{ color: 'var(--text)', fontSize: '0.82rem', lineHeight: 1.5, marginBottom: tc.note ? '0.35rem' : 0 }}>
                   {tc.question}
