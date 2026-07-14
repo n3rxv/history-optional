@@ -1066,6 +1066,84 @@ interface TopperCopy {
   pyq_ids: number[];
 }
 
+const tcInp: React.CSSProperties = {
+  width: '100%', background: '#0a0a0a', border: '1px solid #1a1a1a',
+  borderRadius: 6, padding: '7px 10px', color: '#c0b8a8',
+  fontFamily: 'Inter, sans-serif', fontSize: '0.83rem', outline: 'none',
+};
+
+function tcFilteredPyqs(search: string) {
+  if (!search.trim()) return [];
+  const s = search.toLowerCase();
+  return pyqs.filter((q: PYQ) =>
+    q.question.toLowerCase().includes(s) || q.topic.toLowerCase().includes(s)
+  ).slice(0, 8);
+}
+
+function PYQPicker({
+  selectedIds, onToggle, search, onSearch,
+}: {
+  selectedIds: number[];
+  onToggle: (pid: number) => void;
+  search: string;
+  onSearch: (v: string) => void;
+}) {
+  const results = tcFilteredPyqs(search);
+  const selectedPyqs = pyqs.filter((q: PYQ) => selectedIds.includes(q.id));
+  return (
+    <div>
+      {selectedIds.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 8 }}>
+          {selectedPyqs.map((q: PYQ) => (
+            <span key={q.id} style={{
+              background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.25)',
+              borderRadius: 4, padding: '2px 8px', fontSize: '0.7rem',
+              color: '#d4a843', fontFamily: 'JetBrains Mono, monospace',
+              cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5,
+            }} onClick={() => onToggle(q.id)}>
+              #{q.id} {q.question.slice(0, 40)}… ×
+            </span>
+          ))}
+        </div>
+      )}
+      <input
+        value={search}
+        onChange={e => onSearch(e.target.value)}
+        placeholder="Search PYQs to map (topic or keyword)…"
+        style={tcInp}
+      />
+      {results.length > 0 && (
+        <div style={{
+          background: '#0a0a0a', border: '1px solid #1a1a1a',
+          borderRadius: 6, marginTop: 4, maxHeight: 200, overflowY: 'auto',
+        }}>
+          {results.map((q: PYQ) => (
+            <div
+              key={q.id}
+              onClick={() => onToggle(q.id)}
+              style={{
+                padding: '8px 10px', cursor: 'pointer', fontSize: '0.78rem',
+                color: selectedIds.includes(q.id) ? '#d4a843' : '#888',
+                background: selectedIds.includes(q.id) ? 'rgba(212,168,67,0.06)' : 'transparent',
+                borderBottom: '1px solid #111',
+                display: 'flex', gap: 8, alignItems: 'flex-start',
+                fontFamily: 'Inter, sans-serif',
+              }}
+            >
+              <span style={{
+                fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem',
+                color: '#444', flexShrink: 0, marginTop: 2,
+              }}>#{q.id} · {q.year}</span>
+              <span style={{ lineHeight: 1.4 }}>{q.question.slice(0, 90)}…</span>
+              {selectedIds.includes(q.id) && <span style={{ marginLeft: 'auto', flexShrink: 0, color: '#d4a843' }}>✓</span>}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function TopperCopiesManager({ token }: { token: string }) {
   const [copies, setCopies] = useState<TopperCopy[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1089,14 +1167,6 @@ function TopperCopiesManager({ token }: { token: string }) {
     setLoading(false);
   };
   useEffect(() => { load(); }, []);
-
-  const filteredPyqs = (search: string) => {
-    if (!search.trim()) return [];
-    const s = search.toLowerCase();
-    return pyqs.filter((q: PYQ) =>
-      q.question.toLowerCase().includes(s) || q.topic.toLowerCase().includes(s)
-    ).slice(0, 8);
-  };
 
   const togglePyq = (ids: number[], pid: number): number[] =>
     ids.includes(pid) ? ids.filter(x => x !== pid) : [...ids, pid];
@@ -1147,76 +1217,6 @@ function TopperCopiesManager({ token }: { token: string }) {
     else flash('⚠ ' + (data.error || 'Failed'));
   };
 
-  const inp: React.CSSProperties = {
-    width: '100%', background: '#0a0a0a', border: '1px solid #1a1a1a',
-    borderRadius: 6, padding: '7px 10px', color: '#c0b8a8',
-    fontFamily: 'Inter, sans-serif', fontSize: '0.83rem', outline: 'none',
-  };
-
-  const PYQPicker = ({
-    selectedIds, onToggle, search, onSearch,
-  }: {
-    selectedIds: number[];
-    onToggle: (pid: number) => void;
-    search: string;
-    onSearch: (v: string) => void;
-  }) => {
-    const results = filteredPyqs(search);
-    const selectedPyqs = pyqs.filter((q: PYQ) => selectedIds.includes(q.id));
-    return (
-      <div>
-        {selectedIds.length > 0 && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 8 }}>
-            {selectedPyqs.map((q: PYQ) => (
-              <span key={q.id} style={{
-                background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.25)',
-                borderRadius: 4, padding: '2px 8px', fontSize: '0.7rem',
-                color: '#d4a843', fontFamily: 'JetBrains Mono, monospace',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5,
-              }} onClick={() => onToggle(q.id)}>
-                #{q.id} {q.question.slice(0, 40)}&hellip; &times;
-              </span>
-            ))}
-          </div>
-        )}
-        <input
-          value={search}
-          onChange={e => onSearch(e.target.value)}
-          placeholder="Search PYQs to map (topic or keyword)&hellip;"
-          style={inp}
-        />
-        {results.length > 0 && (
-          <div style={{
-            background: '#0a0a0a', border: '1px solid #1a1a1a',
-            borderRadius: 6, marginTop: 4, maxHeight: 200, overflowY: 'auto',
-          }}>
-            {results.map((q: PYQ) => (
-              <div
-                key={q.id}
-                onClick={() => onToggle(q.id)}
-                style={{
-                  padding: '8px 10px', cursor: 'pointer', fontSize: '0.78rem',
-                  color: selectedIds.includes(q.id) ? '#d4a843' : '#888',
-                  background: selectedIds.includes(q.id) ? 'rgba(212,168,67,0.06)' : 'transparent',
-                  borderBottom: '1px solid #111',
-                  display: 'flex', gap: 8, alignItems: 'flex-start',
-                  fontFamily: 'Inter, sans-serif',
-                }}
-              >
-                <span style={{
-                  fontFamily: 'JetBrains Mono, monospace', fontSize: '0.65rem',
-                  color: '#444', flexShrink: 0, marginTop: 2,
-                }}>#{q.id} &middot; {q.year}</span>
-                <span style={{ lineHeight: 1.4 }}>{q.question.slice(0, 90)}&hellip;</span>
-                {selectedIds.includes(q.id) && <span style={{ marginLeft: 'auto', flexShrink: 0, color: '#d4a843' }}>&#10003;</span>}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
-
   return (
     <div style={{ padding: '24px 28px', maxWidth: 720 }}>
       <div style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 10, padding: '16px 18px', marginBottom: 24 }}>
@@ -1229,19 +1229,19 @@ function TopperCopiesManager({ token }: { token: string }) {
             onChange={e => setForm(f => ({ ...f, question: e.target.value }))}
             placeholder="Test series question text&hellip;"
             rows={3}
-            style={{ ...inp, resize: 'vertical' }}
+            style={{ ...tcInp, resize: 'vertical' }}
           />
           <input
             value={form.drive_file_id}
             onChange={e => setForm(f => ({ ...f, drive_file_id: e.target.value.trim() }))}
             placeholder="Google Drive File ID (e.g. 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms)"
-            style={inp}
+            style={tcInp}
           />
           <input
             value={form.note}
             onChange={e => setForm(f => ({ ...f, note: e.target.value }))}
             placeholder="Note (optional) — e.g. VISION IAS 2024 Test 3"
-            style={inp}
+            style={tcInp}
           />
           <div>
             <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6, fontFamily: 'JetBrains Mono, monospace' }}>
@@ -1278,17 +1278,17 @@ function TopperCopiesManager({ token }: { token: string }) {
                 <textarea
                   value={editForm.question}
                   onChange={e => setEditForm(f => ({ ...f, question: e.target.value }))}
-                  rows={3} style={{ ...inp, resize: 'vertical' }} autoFocus
+                  rows={3} style={{ ...tcInp, resize: 'vertical' }} autoFocus
                 />
                 <input
                   value={editForm.drive_file_id}
                   onChange={e => setEditForm(f => ({ ...f, drive_file_id: e.target.value.trim() }))}
-                  placeholder="Drive File ID" style={inp}
+                  placeholder="Drive File ID" style={tcInp}
                 />
                 <input
                   value={editForm.note}
                   onChange={e => setEditForm(f => ({ ...f, note: e.target.value }))}
-                  placeholder="Note (optional)" style={inp}
+                  placeholder="Note (optional)" style={tcInp}
                 />
                 <div>
                   <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 6, fontFamily: 'JetBrains Mono, monospace' }}>
