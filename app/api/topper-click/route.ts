@@ -14,37 +14,37 @@ export async function POST(req: NextRequest) {
     process.env.SUPABASE_SECRET_KEY!
   );
 
-  // Premium check
-  const { data: sub } = await supabase
-    .from("subscriptions")
-    .select("status, expires_at")
-    .eq("firebase_uid", user.uid)
-    .eq("status", "active")
-    .single();
+  // All 3 DB calls parallel
+  const [{ data: sub }, { data: topperSub }, { data: tracking }] = await Promise.all([
+    supabase
+      .from("subscriptions")
+      .select("status, expires_at")
+      .eq("firebase_uid", user.uid)
+      .eq("status", "active")
+      .single(),
+    supabase
+      .from("topper_subscriptions")
+      .select("expires_at")
+      .eq("firebase_uid", user.uid)
+      .single(),
+    supabase
+      .from("usage_tracking")
+      .select("topper_clicks")
+      .eq("firebase_uid", user.uid)
+      .single(),
+  ]);
 
-  const isPremium = sub && new Date(sub.expires_at) > new Date();
-  if (isPremium) {
+  // Premium check
+  if (sub && new Date(sub.expires_at) > new Date()) {
     return NextResponse.json({ allowed: true, clicks: 0, isPremium: true });
   }
 
   // Topper subscription check
-  const { data: topperSub } = await supabase
-    .from("topper_subscriptions")
-    .select("expires_at")
-    .eq("firebase_uid", user.uid)
-    .single();
-
   if (topperSub && new Date(topperSub.expires_at) > new Date()) {
     return NextResponse.json({ allowed: true, clicks: 0, hasTopperAccess: true });
   }
 
   // Free user — check first, then increment
-  const { data: tracking } = await supabase
-    .from("usage_tracking")
-    .select("topper_clicks")
-    .eq("firebase_uid", user.uid)
-    .single();
-
   const currentClicks = tracking?.topper_clicks ?? 0;
 
   if (currentClicks >= 5) {
