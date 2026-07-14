@@ -14,19 +14,20 @@ export async function POST(req: NextRequest) {
     process.env.SUPABASE_SECRET_KEY!
   );
 
-  // Increment click count in usage table
-  const { data: usage } = await supabase
-    .from("usage_tracking")
-    .select("topper_clicks, subscribed")
+  // Premium check
+  const { data: sub } = await supabase
+    .from("subscriptions")
+    .select("status, expires_at")
     .eq("firebase_uid", user.uid)
+    .eq("status", "active")
     .single();
 
-  // Premium users — no gate needed
-  if (usage?.subscribed) {
+  const isPremium = sub && new Date(sub.expires_at) > new Date();
+  if (isPremium) {
     return NextResponse.json({ allowed: true, clicks: 0, isPremium: true });
   }
 
-  // Check topper_subscriptions
+  // Topper subscription check
   const { data: topperSub } = await supabase
     .from("topper_subscriptions")
     .select("expires_at")
@@ -37,10 +38,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ allowed: true, clicks: 0, hasTopperAccess: true });
   }
 
-  const currentClicks = usage?.topper_clicks ?? 0;
+  // Free user — increment click count
+  const { data: tracking } = await supabase
+    .from("usage_tracking")
+    .select("topper_clicks")
+    .eq("firebase_uid", user.uid)
+    .single();
+
+  const currentClicks = tracking?.topper_clicks ?? 0;
   const newClicks = currentClicks + 1;
 
-  // Update click count
   await supabase
     .from("usage_tracking")
     .update({ topper_clicks: newClicks })

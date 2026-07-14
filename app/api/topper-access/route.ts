@@ -14,18 +14,19 @@ export async function GET(req: NextRequest) {
     process.env.SUPABASE_SECRET_KEY!
   );
 
-  // Premium users always get access
-  const { data: usage } = await supabase
-    .from("usage_tracking")
-    .select("subscribed, topper_clicks")
+  // Premium check
+  const { data: sub } = await supabase
+    .from("subscriptions")
+    .select("status, expires_at")
     .eq("firebase_uid", user.uid)
+    .eq("status", "active")
     .single();
 
-  if (usage?.subscribed) {
+  if (sub && new Date(sub.expires_at) > new Date()) {
     return NextResponse.json({ access: true, isPremium: true, clicks: 0 });
   }
 
-  // Check topper_subscriptions
+  // Topper subscription check
   const { data: topperSub } = await supabase
     .from("topper_subscriptions")
     .select("expires_at")
@@ -36,6 +37,13 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ access: true, hasTopperAccess: true, clicks: 0 });
   }
 
-  const clicks = usage?.topper_clicks ?? 0;
+  // Free user — return click count
+  const { data: tracking } = await supabase
+    .from("usage_tracking")
+    .select("topper_clicks")
+    .eq("firebase_uid", user.uid)
+    .single();
+
+  const clicks = tracking?.topper_clicks ?? 0;
   return NextResponse.json({ access: false, clicks });
 }
