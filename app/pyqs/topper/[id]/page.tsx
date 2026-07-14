@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -23,6 +23,7 @@ export default function TopperCopyPage() {
   const [numPages, setNumPages] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(true);
   const [scale, setScale] = useState(1.5);
+  const [rendering, setRendering] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const pdfRef = useRef<any>(null);
 
@@ -38,13 +39,14 @@ export default function TopperCopyPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const renderPdf = useCallback(async (pdf: any, currentScale: number) => {
+  const renderPages = async (pdf: any, s: number) => {
     if (!containerRef.current) return;
+    setRendering(true);
     containerRef.current.innerHTML = '';
 
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
       const page = await pdf.getPage(pageNum);
-      const viewport = page.getViewport({ scale: currentScale });
+      const viewport = page.getViewport({ scale: s });
 
       const canvas = document.createElement('canvas');
       canvas.width = viewport.width;
@@ -54,15 +56,14 @@ export default function TopperCopyPage() {
       canvas.style.marginBottom = '4px';
 
       containerRef.current.appendChild(canvas);
-
       const ctx = canvas.getContext('2d');
       await page.render({ canvasContext: ctx, viewport }).promise;
     }
-  }, []);
+    setRendering(false);
+  };
 
   useEffect(() => {
     if (!copy) return;
-
     const pdfUrl = `${R2_BASE}/${copy.drive_file_id}`;
 
     const loadPdf = async () => {
@@ -85,8 +86,7 @@ export default function TopperCopyPage() {
         pdfRef.current = pdf;
         setNumPages(pdf.numPages);
         setPdfLoading(false);
-
-        await renderPdf(pdf, scale);
+        await renderPages(pdf, 1.5);
       } catch (err) {
         console.error('PDF load error:', err);
         setPdfLoading(false);
@@ -96,25 +96,24 @@ export default function TopperCopyPage() {
     loadPdf();
   }, [copy]);
 
-  const handleZoom = async (newScale: number) => {
-    const clamped = Math.min(Math.max(newScale, 0.5), 3);
-    setScale(clamped);
-    if (pdfRef.current) {
-      await renderPdf(pdfRef.current, clamped);
-    }
+  const handleZoom = async (delta: number) => {
+    if (!pdfRef.current || rendering) return;
+    const newScale = Math.min(Math.max(scale + delta, 0.5), 3);
+    setScale(newScale);
+    await renderPages(pdfRef.current, newScale);
   };
 
-  const btnStyle = {
+  const btnStyle: React.CSSProperties = {
     background: 'var(--bg2)',
     border: '1px solid var(--border)',
     color: 'var(--text2)',
-    cursor: 'pointer',
-    width: 32, height: 32,
+    cursor: rendering ? 'not-allowed' : 'pointer',
+    width: 28, height: 28,
     borderRadius: 6,
     fontSize: '1rem',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontFamily: 'var(--font-mono)',
-  } as React.CSSProperties;
+    lineHeight: 1,
+    opacity: rendering ? 0.5 : 1,
+  };
 
   return (
     <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2rem 1.5rem 4rem' }}>
@@ -186,20 +185,23 @@ export default function TopperCopyPage() {
               <span style={{
                 fontSize: '0.7rem', fontFamily: 'var(--font-mono)',
                 color: 'var(--text3)', letterSpacing: '0.08em',
-              }}>HANDWRITTEN ANSWER {numPages > 0 && `· ${numPages} pages`}</span>
+              }}>
+                HANDWRITTEN ANSWER {numPages > 0 && `· ${numPages} pages`}
+              </span>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                {/* Zoom controls */}
                 {!pdfLoading && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <button style={btnStyle} onClick={() => handleZoom(scale - 0.25)} title="Zoom out">−</button>
-                    <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', minWidth: 36, textAlign: 'center' }}>
-                      {Math.round(scale / 1.5 * 100)}%
+                    <button style={btnStyle} onClick={() => handleZoom(-0.25)}>−</button>
+                    <span style={{
+                      fontSize: '0.7rem', fontFamily: 'var(--font-mono)',
+                      color: 'var(--text3)', minWidth: 38, textAlign: 'center',
+                    }}>
+                      {Math.round((scale / 1.5) * 100)}%
                     </span>
-                    <button style={btnStyle} onClick={() => handleZoom(scale + 0.25)} title="Zoom in">+</button>
+                    <button style={btnStyle} onClick={() => handleZoom(0.25)}>+</button>
                   </div>
                 )}
-
                 <a
                   href={`${R2_BASE}/${copy.drive_file_id}`}
                   target="_blank"
