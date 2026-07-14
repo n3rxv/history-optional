@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
   const token = req.headers.get("x-user-token");
   if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
