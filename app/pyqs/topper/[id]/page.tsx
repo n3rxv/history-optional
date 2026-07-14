@@ -112,7 +112,7 @@ export default function TopperCopyPage() {
     };
 
     loadPdf();
-  }, [copy]);
+  }, [copy, accessAllowed]);
 
   const handleZoom = async (delta: number) => {
     if (!pdfRef.current || rendering) return;
