@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
 
   if (sub) {
     // Upsert usage_tracking row so premium users are also tracked
-    if (fp) {
+    if (fp && fp.length > 10) {
       // Check if FP is linked to a different UID — if so, use a unique synthetic FP
       const { data: fpRow } = await supabase
         .from('usage_tracking')
@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
         .eq('id', subByEmail.id);
 
       // Upsert usage_tracking row for this migrated premium user too
-      if (fp) {
+      if (fp && fp.length > 10) {
         const { data: fpRow2 } = await supabase
           .from('usage_tracking')
           .select('firebase_uid')
@@ -126,7 +126,7 @@ export async function GET(req: NextRequest) {
     // Also check FP row — take max so multi-account abuse shows correct count in UI
     let fpEval = byUid.eval_count ?? 0;
     let fpChat = byUid.chat_count ?? 0;
-    if (fp) {
+    if (fp && fp.length > 10) {
       const { data: byFpAlso } = await supabase
         .from('usage_tracking')
         .select('eval_count, chat_count')
