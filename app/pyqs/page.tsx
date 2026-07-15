@@ -663,7 +663,7 @@ export default function PYQsPage() {
               marginBottom: '1.5rem',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
             }}>
-              <span style={{ color: '#a78bfa', fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>₹99</span>
+              <span style={{ color: '#a78bfa', fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>₹249</span>
               <span style={{ color: 'var(--text3)', fontSize: '0.8rem' }}>/year · one-time unlock</span>
             </div>
             <button
@@ -718,7 +718,7 @@ export default function PYQsPage() {
               onMouseOver={e => (e.currentTarget.style.opacity = '0.88')}
               onMouseOut={e => (e.currentTarget.style.opacity = '1')}
             >
-              🔓 Unlock for ₹99/year
+              🔓 Unlock for ₹249/year
             </button>
             <button
               onClick={() => setShowTopperPaywall(false)}
