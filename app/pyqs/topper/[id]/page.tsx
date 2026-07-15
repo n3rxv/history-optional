@@ -227,7 +227,7 @@ export default function TopperCopyPage() {
                   body: JSON.stringify(response),
                 });
                 const v = await verifyRes.json();
-                if (v.ok) setAccessAllowed(true);
+                if (v.ok) { setAccessAllowed(true); router.refresh(); }
               },
             });
             rzp.open();
