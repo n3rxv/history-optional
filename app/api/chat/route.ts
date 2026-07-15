@@ -250,6 +250,7 @@ export async function POST(req: NextRequest) {
   // ── Main request handler ────────────────────────────────────────
   try {
     const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name, lang, mentorMode, responseStyle } = await req.json();
+    const maxTokens = mentorMode ? 3500 : (responseStyle === 'elaborative' ? 3500 : 2000);
     const lastMsg = messages?.[messages.length - 1]?.content ?? '';
     if (typeof lastMsg === 'string' && lastMsg.length > 10000)
       return NextResponse.json({ error: 'Message too long' }, { status: 400 });
@@ -292,7 +293,7 @@ export async function POST(req: NextRequest) {
 
       return anthropic.messages.create({
         model,
-        max_tokens: 6000,
+        max_tokens: 3500,
         ...(systemPrompt ? { system: systemPrompt } : {}),
         messages: builtMessages,
       });
@@ -728,7 +729,7 @@ const ragSystem = ragContext
           }
           const anthropicStream = anthropic.messages.stream({
             model: 'claude-haiku-4-5-20251001',
-            max_tokens: 6000,
+            max_tokens: maxTokens,
             system: ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.'),
             messages: builtMessages,
           });
