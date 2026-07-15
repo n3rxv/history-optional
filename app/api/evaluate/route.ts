@@ -1080,7 +1080,7 @@ RULES:
           const newCount = (existingUsage?.eval_count ?? 0) + 1;
           await supabaseInc
             .from("usage_tracking")
-            .upsert({ firebase_uid: userInc.uid, fingerprint, eval_count: newCount }, { onConflict: "firebase_uid" });
+            .update({ eval_count: newCount, updated_at: new Date().toISOString() }).eq("firebase_uid", userInc.uid);
           // Also update FP row so device-based abuse is blocked on new accounts
           if (fingerprint) {
             await supabaseInc
