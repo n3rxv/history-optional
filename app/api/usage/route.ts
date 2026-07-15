@@ -39,6 +39,15 @@ export async function GET(req: NextRequest) {
     .single();
 
   if (sub) {
+    // Upsert usage_tracking row so premium users are also tracked
+    if (fp) {
+      await supabase
+        .from('usage_tracking')
+        .upsert(
+          { firebase_uid: uid, fingerprint: fp, eval_count: 0, chat_count: 0 },
+          { onConflict: 'firebase_uid', ignoreDuplicates: true }
+        );
+    }
     return NextResponse.json({
       allowed: true,
       subscribed: true,
@@ -64,6 +73,16 @@ export async function GET(req: NextRequest) {
         .from('subscriptions')
         .update({ firebase_uid: uid })
         .eq('id', subByEmail.id);
+
+      // Upsert usage_tracking row for this migrated premium user too
+      if (fp) {
+        await supabase
+          .from('usage_tracking')
+          .upsert(
+            { firebase_uid: uid, fingerprint: fp, eval_count: 0, chat_count: 0 },
+            { onConflict: 'firebase_uid', ignoreDuplicates: true }
+          );
+      }
 
       return NextResponse.json({
         allowed: true,
