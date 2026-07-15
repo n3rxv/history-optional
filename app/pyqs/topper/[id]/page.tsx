@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Script from 'next/script';
 import { auth } from '@/lib/firebase';
 
 const R2_BASE = 'https://pub-163b2186589649f4a759ed969e0779e0.r2.dev';
@@ -252,6 +253,7 @@ export default function TopperCopyPage() {
           Maybe later
         </button>
       </div>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
     </div>
   );
 
