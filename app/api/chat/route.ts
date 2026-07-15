@@ -837,7 +837,7 @@ If everything checks out, respond: {"bad_brackets": [], "bad_prose_sentences": [
                 .single();
               const newChatCount = (existingChat?.chat_count ?? 0) + 1;
               await sbInc.from('usage_tracking')
-                .upsert({ firebase_uid: firebaseUid, fingerprint, chat_count: newChatCount }, { onConflict: 'firebase_uid' });
+                .update({ chat_count: newChatCount, updated_at: new Date().toISOString() }).eq('firebase_uid', firebaseUid);
               // Also update FP row to block multi-account abuse
               if (fingerprint) {
                 await sbInc.from('usage_tracking')
