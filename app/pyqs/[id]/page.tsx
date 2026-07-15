@@ -301,7 +301,7 @@ export default function PYQDetailPage() {
           color: 'var(--accent)', marginBottom: '1.25rem',
           display: 'flex', alignItems: 'center', gap: '0.5rem',
         }}>
-          🏆 Topper Copies
+          🏆 Related Topper Copies
         </div>
         {topperLoading ? (
           <div style={{ color: 'var(--text3)', fontSize: '0.8rem', padding: '1rem 0' }}>Loading…</div>
