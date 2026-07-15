@@ -54,6 +54,18 @@ export default function TopperCopyPage() {
   }, []);
 
   useEffect(() => {
+    const checkAccess = async () => {
+      const currentUser = auth.currentUser;
+      if (!currentUser) { setAccessAllowed(false); return; }
+      const token = await currentUser.getIdToken();
+      const res = await fetch('/api/topper-access', { headers: { 'x-user-token': token } });
+      const data = await res.json();
+      setAccessAllowed(data.access === true);
+    };
+    checkAccess();
+  }, []);
+
+  useEffect(() => {
     if (!id) return;
     fetch(`/api/topper-copies/${id}`)
       .then(r => r.json())
@@ -142,26 +154,104 @@ export default function TopperCopyPage() {
   };
 
   if (accessAllowed === null) return (
-    <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text3)' }}>Loading…</div>
+    <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>
+      Checking access…
+    </div>
   );
 
   if (accessAllowed === false) return (
-    <div style={{ maxWidth: 600, margin: '0 auto', padding: '4rem 1.5rem', textAlign: 'center' }}>
-      <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>🔒</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', color: 'var(--text)', marginBottom: '0.75rem' }}>
-        Topper Copies are Premium
-      </div>
-      <div style={{ color: 'var(--text3)', fontSize: '0.9rem', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-        You've used your free previews. Upgrade to access all topper copies.
-      </div>
-      <Link href="/pyqs" style={{
-        display: 'inline-block', background: 'var(--accent)',
-        color: '#fff', padding: '0.65rem 1.75rem',
-        borderRadius: 8, textDecoration: 'none',
-        fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: '0.9rem',
+    <div style={{
+      minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
+    }}>
+      <div style={{
+        background: 'var(--bg)',
+        border: '1px solid rgba(167,139,250,0.25)',
+        borderRadius: 16, padding: '2.5rem 2rem', maxWidth: 420, width: '100%',
+        textAlign: 'center',
+        boxShadow: '0 0 0 1px rgba(167,139,250,0.1), 0 24px 60px rgba(0,0,0,0.5)',
       }}>
-        Go to PYQs →
-      </Link>
+        <div style={{
+          width: 56, height: 56, borderRadius: '50%',
+          background: 'rgba(167,139,250,0.12)',
+          border: '1px solid rgba(167,139,250,0.25)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '1.5rem', margin: '0 auto 1.25rem',
+        }}>📋</div>
+        <h3 style={{
+          color: 'var(--text)', fontFamily: 'var(--font-display)',
+          fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem',
+        }}>Topper Copies are Locked</h3>
+        <p style={{ color: 'var(--text3)', fontSize: '0.875rem', marginBottom: '0.75rem', lineHeight: 1.65 }}>
+          Get unlimited access to all topper copies
+        </p>
+        <div style={{
+          background: 'rgba(167,139,250,0.08)',
+          border: '1px solid rgba(167,139,250,0.2)',
+          borderRadius: 10, padding: '0.85rem 1.25rem',
+          marginBottom: '1.5rem',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+        }}>
+          <span style={{ color: '#a78bfa', fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>₹365</span>
+          <span style={{ color: 'var(--text3)', fontSize: '0.8rem' }}>/year · one-time unlock</span>
+        </div>
+        <button
+          onClick={async () => {
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
+            if (!(window as any).Razorpay) {
+              alert('Payment SDK not loaded. Please refresh and try again.');
+              return;
+            }
+            const token = await currentUser.getIdToken();
+            const res = await fetch('/api/razorpay/topper-order', {
+              method: 'POST',
+              headers: { 'x-user-token': token },
+            });
+            const order = await res.json();
+            if (!res.ok) {
+              alert('Order creation failed: ' + (order.error || 'Unknown error'));
+              return;
+            }
+            const rzp = new (window as any).Razorpay({
+              key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+              amount: order.amount,
+              currency: order.currency,
+              order_id: order.orderId,
+              name: 'History Optional',
+              description: 'Topper Copies Access — 1 Year',
+              handler: async (response: any) => {
+                const verifyRes = await fetch('/api/razorpay/topper-verify', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', 'x-user-token': token },
+                  body: JSON.stringify(response),
+                });
+                const v = await verifyRes.json();
+                if (v.ok) setAccessAllowed(true);
+              },
+            });
+            rzp.open();
+          }}
+          style={{
+            background: 'linear-gradient(135deg, #7c3aed, #a78bfa)',
+            border: 'none',
+            color: '#fff', borderRadius: 10, padding: '0.85rem 2rem',
+            fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
+            fontFamily: 'var(--font-mono)', width: '100%',
+            boxShadow: '0 4px 20px rgba(124,58,237,0.35)',
+          }}
+        >
+          🔓 Unlock for ₹365/year
+        </button>
+        <button
+          onClick={() => router.back()}
+          style={{
+            marginTop: '0.6rem', background: 'none', border: 'none',
+            color: 'var(--text3)', fontSize: '0.78rem', cursor: 'pointer',
+          }}
+        >
+          Maybe later
+        </button>
+      </div>
     </div>
   );
 
