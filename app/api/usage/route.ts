@@ -40,23 +40,22 @@ export async function GET(req: NextRequest) {
 
   if (sub) {
     // Upsert usage_tracking row so premium users are also tracked
-    if (fp && fp.length > 10) {
-      // Check if FP is linked to a different UID — if so, use a unique synthetic FP
-      const { data: fpRow } = await supabase
-        .from('usage_tracking')
-        .select('firebase_uid')
-        .eq('fingerprint', fp)
-        .single();
-      const safeFp = (fpRow && fpRow.firebase_uid && fpRow.firebase_uid !== uid)
-        ? `${fp}_${uid.slice(0, 8)}`  // synthetic FP to avoid UNIQUE conflict
-        : fp;
-      await supabase
-        .from('usage_tracking')
-        .upsert(
-          { firebase_uid: uid, fingerprint: safeFp, eval_count: 0, chat_count: 0 },
-          { onConflict: 'firebase_uid', ignoreDuplicates: true }
-        );
-    }
+    // effectiveFp: real FP if valid, else fallback to uid_ prefix (handles Brave/privacy browsers)
+    const effectiveFp = (fp && fp.length > 10) ? fp : `uid_${uid}`;
+    const { data: fpRow } = await supabase
+      .from('usage_tracking')
+      .select('firebase_uid')
+      .eq('fingerprint', effectiveFp)
+      .single();
+    const safeFp = (fpRow && fpRow.firebase_uid && fpRow.firebase_uid !== uid)
+      ? `${effectiveFp}_${uid.slice(0, 8)}`  // synthetic FP to avoid UNIQUE conflict
+      : effectiveFp;
+    await supabase
+      .from('usage_tracking')
+      .upsert(
+        { firebase_uid: uid, fingerprint: safeFp, eval_count: 0, chat_count: 0 },
+        { onConflict: 'firebase_uid', ignoreDuplicates: true }
+      );
     return NextResponse.json({
       allowed: true,
       subscribed: true,
@@ -83,23 +82,21 @@ export async function GET(req: NextRequest) {
         .update({ firebase_uid: uid })
         .eq('id', subByEmail.id);
 
-      // Upsert usage_tracking row for this migrated premium user too
-      if (fp && fp.length > 10) {
-        const { data: fpRow2 } = await supabase
-          .from('usage_tracking')
-          .select('firebase_uid')
-          .eq('fingerprint', fp)
-          .single();
-        const safeFp2 = (fpRow2 && fpRow2.firebase_uid && fpRow2.firebase_uid !== uid)
-          ? `${fp}_${uid.slice(0, 8)}`
-          : fp;
-        await supabase
-          .from('usage_tracking')
-          .upsert(
-            { firebase_uid: uid, fingerprint: safeFp2, eval_count: 0, chat_count: 0 },
-            { onConflict: 'firebase_uid', ignoreDuplicates: true }
-          );
-      }
+      const effectiveFp2 = (fp && fp.length > 10) ? fp : `uid_${uid}`;
+      const { data: fpRow2 } = await supabase
+        .from('usage_tracking')
+        .select('firebase_uid')
+        .eq('fingerprint', effectiveFp2)
+        .single();
+      const safeFp2 = (fpRow2 && fpRow2.firebase_uid && fpRow2.firebase_uid !== uid)
+        ? `${effectiveFp2}_${uid.slice(0, 8)}`
+        : effectiveFp2;
+      await supabase
+        .from('usage_tracking')
+        .upsert(
+          { firebase_uid: uid, fingerprint: safeFp2, eval_count: 0, chat_count: 0 },
+          { onConflict: 'firebase_uid', ignoreDuplicates: true }
+        );
 
       return NextResponse.json({
         allowed: true,
@@ -110,6 +107,7 @@ export async function GET(req: NextRequest) {
       });
     }
   }
+
   // ── 3. Fingerprint required ───────────────────────────────────────
   if (!fp) {
     return NextResponse.json({ allowed: false, reason: 'no_fp' });
@@ -126,7 +124,7 @@ export async function GET(req: NextRequest) {
     // Also check FP row — take max so multi-account abuse shows correct count in UI
     let fpEval = byUid.eval_count ?? 0;
     let fpChat = byUid.chat_count ?? 0;
-    if (fp && fp.length > 10) {
+    if (fp) {
       const { data: byFpAlso } = await supabase
         .from('usage_tracking')
         .select('eval_count, chat_count')
