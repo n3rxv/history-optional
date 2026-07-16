@@ -840,9 +840,9 @@ If everything checks out, respond: {"bad_brackets": [], "bad_prose_sentences": [
               await sbInc.from('usage_tracking')
                 .update({ chat_count: newChatCount, updated_at: new Date().toISOString() }).eq('firebase_uid', firebaseUid);
               // Also update FP row to block multi-account abuse
-              if (fingerprint) {
+              if (fingerprint && firebaseUid) {
                 await sbInc.from('usage_tracking')
-                  .upsert({ fingerprint, chat_count: newChatCount }, { onConflict: 'fingerprint' });
+                  .upsert({ fingerprint, firebase_uid: firebaseUid, chat_count: newChatCount }, { onConflict: 'fingerprint' });
               }
             } catch (incErr) {
               console.log('chat_count increment failed', incErr);
