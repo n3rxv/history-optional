@@ -149,7 +149,7 @@ function ModelAnswerModal({
                 ))}
               </div>
               <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
-                Generating model answer…
+                Generating model answer… (~1 min)
               </span>
               <style>{`
                 .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}

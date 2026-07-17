@@ -1,4 +1,4 @@
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -113,30 +113,41 @@ WORLD HISTORY: Eric Hobsbawm (Age of Revolution/Capital/Empire, nationalism), E.
 FORMAT YOUR ANSWER EXACTLY AS FOLLOWS:
 
 **INTRODUCTION**
-[2-3 sentences: Open with a historiographical debate — name at least one historian with their specific thesis. Preview argument. Never start with a definition or date.]
+2-3 sentences. Open with a historiographical debate — name at least one historian with their specific thesis. Preview argument. Never start with a definition or date.
 
 **BODY**
 
-*[Thematic Heading 1]*
-[Paragraph: Bold analytical claim + specific evidence (inscription/text/policy/date/place) + named historian with their exact argument + analytical sentence linking to question. Minimum 4-5 sentences.]
+**[Write the actual thematic heading here — e.g. "Emergence from Vedic and Bardic Traditions"]**
+- **[Bold analytical sub-point]**: specific evidence/date/text + historian argument
+- **[Bold analytical sub-point]**: specific evidence + link to question
+- **[Bold analytical sub-point]**: counter-nuance or historiographical angle
+- **[Bold analytical sub-point]**: synthesis sentence
+Minimum 4 bullet points per heading. Each bullet starts with a **bold key term or claim**, then elaborates. Do NOT write "[Thematic Heading 1]" — write the real heading title directly.
 
-*[Thematic Heading 2]*
-[Same structure — 4-5 sentences]
+**[Second thematic heading]**
+- Same bullet structure — 4 points minimum.
 
-*[Thematic Heading 3]*
-[Same structure]
+**[Third thematic heading]**
+- Same bullet structure.
 
-*[Thematic Heading 4 — for 15M/20M]*
-[Same structure]
+**[Fourth thematic heading — for 15M/20M]**
+- Same bullet structure.
 
-*[Thematic Heading 5 — for 20M only]*
-[Same structure]
+**[Fifth thematic heading — for 20M only]**
+- Same bullet structure.
 
 **CRITICAL ASSESSMENT**
-[Balance: note the historiographical debate, counter-view, limitations — 3-4 sentences. Name historians on both sides.]
+Balance: note the historiographical debate, counter-view, limitations — 3-4 sentences. Name historians on both sides.
 
 **CONCLUSION**
-[2-3 sentences: Resolve the intro tension by name — affirm, qualify or reject a historian's position. Synthesise strongest threads. Historical significance. No new material, no generic summary.]
+2-3 sentences. Resolve the intro tension by name — affirm, qualify or reject a historian's position. Synthesise strongest threads. Historical significance. No new material, no generic summary.
+
+FORMATTING RULES — STRICT:
+- Section headings use **bold** only — no --- separators between sections
+- Thematic headings use **bold** — NOT *italics with brackets* like *[Thematic Heading 1]*
+- Do NOT write placeholder text like "[Thematic Heading 1]" — always write the real title
+- No horizontal rules (---) anywhere in the answer
+- Clean flowing text between sections — just a blank line between paragraphs
 
 ---
 RULES:
