@@ -703,10 +703,12 @@ const ragSystem = ragContext
         const collect = (chunk: string) => { fullAnswer += chunk; };
         let fullAnswer = '';
         try {
-          const Anthropic = (await import('@anthropic-ai/sdk')).default;
-          const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-          let builtMessages: any[];
+          const systemPrompt = ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.');
+
           if (pdf_base64) {
+            // PDF mode — Haiku only (DeepSeek does not support document input)
+            const Anthropic = (await import('@anthropic-ai/sdk')).default;
+            const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
             const msgsCopy = messages.map((m: any) => ({ role: m.role, content: m.content }));
             const firstUserIdx = msgsCopy.findIndex((m: any) => m.role === 'user');
             if (firstUserIdx !== -1) {
@@ -718,24 +720,80 @@ const ragSystem = ragContext
                 ],
               };
             }
-            builtMessages = msgsCopy;
-          } else {
-            builtMessages = messages.map((m: any, i: number) => {
-              if (i === messages.length - 1 && m.role === 'user' && lang === 'hi') {
+            const anthropicStream = anthropic.messages.stream({
+              model: 'claude-haiku-4-5-20251001',
+              max_tokens: maxTokens,
+              system: systemPrompt,
+              messages: msgsCopy,
+            });
+            for await (const chunk of anthropicStream) {
+              if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+                collect(chunk.delta.text);
+              }
+            }
+          } else if (lang === 'hi') {
+            // Hindi mode — Haiku (DeepSeek Hindi quality weak hai)
+            const Anthropic = (await import('@anthropic-ai/sdk')).default;
+            const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+            const builtMessages = messages.map((m: any, i: number) => {
+              if (i === messages.length - 1 && m.role === 'user') {
                 return { role: m.role, content: m.content + '\n\n[IMPORTANT: Respond entirely in Hindi (Devanagari script)]' };
               }
               return { role: m.role, content: m.content };
             });
-          }
-          const anthropicStream = anthropic.messages.stream({
-            model: 'claude-haiku-4-5-20251001',
-            max_tokens: maxTokens,
-            system: ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.'),
-            messages: builtMessages,
-          });
-          for await (const chunk of anthropicStream) {
-            if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-              collect(chunk.delta.text);
+            const anthropicStream = anthropic.messages.stream({
+              model: 'claude-haiku-4-5-20251001',
+              max_tokens: maxTokens,
+              system: systemPrompt,
+              messages: builtMessages,
+            });
+            for await (const chunk of anthropicStream) {
+              if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+                collect(chunk.delta.text);
+              }
+            }
+          } else {
+            // Normal chat — DeepSeek V4 Flash (OpenAI-compatible)
+            const builtMessages = messages.map((m: any, i: number) => {
+              return { role: m.role, content: m.content };
+            });
+            const dsRes = await fetch('https://api.deepseek.com/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+              },
+              body: JSON.stringify({
+                model: 'deepseek-v4-flash',
+                max_tokens: maxTokens,
+                stream: true,
+                messages: [
+                  { role: 'system', content: systemPrompt },
+                  ...builtMessages,
+                ],
+              }),
+            });
+            if (!dsRes.ok || !dsRes.body) throw new Error(`DeepSeek API error: ${dsRes.status}`);
+            const reader = dsRes.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              buffer += decoder.decode(value, { stream: true });
+              const lines = buffer.split('\n');
+              buffer = lines.pop() ?? '';
+              for (const line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed || trimmed === 'data: [DONE]') continue;
+                if (trimmed.startsWith('data: ')) {
+                  try {
+                    const json = JSON.parse(trimmed.slice(6));
+                    const delta = json.choices?.[0]?.delta?.content;
+                    if (delta) collect(delta);
+                  } catch {}
+                }
+              }
             }
           }
           // ── Post-generation citation verification (optimized) ──────
@@ -773,12 +831,20 @@ const ragSystem = ragContext
                 .map((s, i) => `[Source ${i + 1} — ${s.book_title} | Author: ${s.author}]\n${s.content}`)
                 .join('\n\n---\n\n');
 
-              const Anthropic = (await import('@anthropic-ai/sdk')).default;
-              const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-              const verifyRes = await anthropic.messages.create({
-                model: 'claude-haiku-4-5-20251001',
-                max_tokens: 600,
-                system: `You are a strict citation auditor. You will be given (1) a set of source passages, each tagged with its book title and author, and (2) sentences from a generated answer that name a historian — either as a bracket citation "(Author, Title)" or as prose attribution ("Author argues/notes/draws a parallel that...").
+              const verifyRes = await fetch('https://api.deepseek.com/chat/completions', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+                },
+                body: JSON.stringify({
+                  model: 'deepseek-v4-flash',
+                  max_tokens: 600,
+                  stream: false,
+                  messages: [
+                    {
+                      role: 'system',
+                      content: `You are a strict citation auditor. You will be given (1) a set of source passages, each tagged with its book title and author, and (2) sentences from a generated answer that name a historian — either as a bracket citation "(Author, Title)" or as prose attribution ("Author argues/notes/draws a parallel that...").
 
 For EACH sentence, check whether the specific claim attributed to that historian actually appears in the passage tagged with THAT author's name. Being topically associated with the right era/subject is NOT enough — the literal claim must be traceable to that author's own [Source N] passage.
 
@@ -790,15 +856,16 @@ Respond ONLY with valid JSON, no markdown, no preamble:
 {"bad_brackets": ["(Author, Title)"], "bad_prose_sentences": ["Full sentence here."]}
 
 If everything checks out, respond: {"bad_brackets": [], "bad_prose_sentences": []}`,
-                messages: [{
-                  role: 'user',
-                  content: `SOURCE PASSAGES:\n${sourceBlock}\n\n---\n\nFLAGGED SENTENCES:\n${citedSnippetBlock}`,
-                }],
+                    },
+                    {
+                      role: 'user',
+                      content: `SOURCE PASSAGES:\n${sourceBlock}\n\n---\n\nFLAGGED SENTENCES:\n${citedSnippetBlock}`,
+                    },
+                  ],
+                }),
               });
-              const verifyText = verifyRes.content
-                .map(b => b.type === 'text' ? b.text : '')
-                .join('')
-                .trim();
+              const verifyJson = await verifyRes.json();
+              const verifyText = verifyJson.choices?.[0]?.message?.content?.trim() ?? '';
               const cleaned = verifyText.replace(/^```json\s*|```\s*$/g, '').trim();
               const parsed = JSON.parse(cleaned) as { bad_brackets: string[]; bad_prose_sentences: string[] };
 
@@ -852,6 +919,7 @@ If everything checks out, respond: {"bad_brackets": [], "bad_prose_sentences": [
           send('\n__SOURCES__' + JSON.stringify(ragSources));
         } catch (err) {
           const errMsg = err instanceof Error ? err.message : String(err);
+          console.error('Chat stream error:', errMsg);
           let userMsg = 'Something went wrong. Please try again.';
           if (errMsg.includes('503') || errMsg.includes('high demand')) userMsg = 'AI is experiencing high demand. Please try again in a moment.';
           else if (errMsg.includes('429') || errMsg.includes('quota')) userMsg = 'Too many requests. Please wait a moment and try again.';
