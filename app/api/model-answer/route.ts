@@ -406,8 +406,7 @@ ${ragContext}
 ---
 
 FLAGGED SENTENCES:
-${flagged.join('
-')}`,
+${flagged.join('\n')}`,
                 },
               ],
             }),
