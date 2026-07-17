@@ -361,9 +361,9 @@ Write the full model answer now:`;
       // Layer 3: API verifier — content check against RAG passages
       if (ragContext) {
         const updatedSentences = answer.match(/[^.!?]*[.!?]+/g) ?? [answer];
-        const flagged = updatedSentences.filter(s => {
+        const flagged = updatedSentences.filter((s: string) => {
           bracketPattern.lastIndex = 0;
-          return bracketPattern.test(s) || WHITELISTED_SURNAMES.some(n => s.includes(n));
+          return bracketPattern.test(s) || WHITELISTED_SURNAMES.some((n: string) => s.includes(n));
         });
 
         if (flagged.length > 0) {
