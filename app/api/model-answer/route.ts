@@ -222,13 +222,12 @@ Write the full model answer now:`;
           ],
           temperature: 0.35,
           max_tokens: marksNum >= 20 ? 6000 : marksNum >= 15 ? 4000 : 2500,
-          reasoning_effort: 'none',
         }),
       });
 
     let res = await callGroq('openai/gpt-oss-120b');
     if (res.status === 429 || res.status === 503) {
-      res = await callGroq('llama-3.3-70b-versatile');
+      res = await callGroq('openai/gpt-oss-20b');
     }
 
     const data = await res.json();
