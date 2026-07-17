@@ -269,13 +269,8 @@ export async function POST(req: NextRequest) {
 
           if (finalChunks.length > 0) {
             ragContext = finalChunks
-              .map((c: any, i: number) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]
-${c.content}`)
-              .join('
-
----
-
-');
+              .map((c: any, i: number) => `[Source ${i + 1} \u2014 ${c.book_title} | Author: ${c.author}]\n${c.content}`)
+              .join('\n\n---\n\n');
           }
         }
       }
