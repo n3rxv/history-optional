@@ -17,6 +17,124 @@ const TABS = [
   { label: 'World',    value: 'Paper II - World History' },
 ];
 
+
+async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
+  const pdfMakeModule = await import('pdfmake/build/pdfmake');
+  const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
+  const pdfMake = (pdfMakeModule as any).default || pdfMakeModule;
+  const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
+  pdfMake.vfs = pdfFonts.vfs;
+  if (!pdfMake.vfs) pdfMake.vfs = {};
+
+  const BLUE  = '#1a4fa0';
+  const BLACK = '#0a0a0a';
+  const WHITE = '#ffffff';
+
+  const parseInline = (t: string) =>
+    t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase();
+
+  const content: any[] = [];
+
+  content.push({
+    columns: [
+      {
+        table: {
+          widths: [54], heights: [54],
+          body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'Roboto', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]],
+        },
+        layout: 'noBorders', width: 66, margin: [0, 0, 0, 0],
+      },
+      {
+        stack: [
+          { text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'Roboto', color: BLACK, margin: [12, 4, 0, 2] },
+          { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: '#999999', italics: true, margin: [14, 0, 0, 0] },
+        ],
+        width: '*',
+      },
+      { text: dateStr, fontSize: 8, color: '#999999', alignment: 'right', characterSpacing: 1, margin: [0, 10, 0, 0], width: 'auto' },
+    ],
+    margin: [0, 0, 0, 10],
+  });
+
+  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 3, lineColor: BLUE }], margin: [0, 0, 0, 16] });
+
+  if (questionText) {
+    content.push({
+      table: {
+        widths: [6, '*'],
+        body: [[
+          { text: '', fillColor: BLUE, border: [false, false, false, false] },
+          {
+            stack: [
+              { columns: [
+                { text: 'QUESTION', fontSize: 7, bold: true, color: BLUE, characterSpacing: 2, width: 'auto' },
+                { canvas: [{ type: 'line', x1: 0, y1: 4, x2: 400, y2: 4, lineWidth: 0.5, lineColor: '#aaaaaa' }], width: '*', margin: [8, 0, 0, 0] },
+              ], margin: [0, 0, 0, 6] },
+              { text: questionText, fontSize: 12, bold: true, color: BLACK, lineHeight: 1.4 },
+            ],
+            fillColor: '#eef3fc', border: [false, false, false, false], margin: [12, 10, 12, 12],
+          },
+        ]],
+      },
+      layout: 'noBorders', margin: [0, 0, 0, 16],
+    });
+  }
+
+  const mdLines = markdownText.split('\n');
+
+  for (const raw of mdLines) {
+    const t = raw.trim();
+    if (!t || /^---+$/.test(t)) { content.push({ text: ' ', fontSize: 4 }); continue; }
+    if (/^\*\*(.+)\*\*$/.test(t)) {
+      const heading = parseInline(t.replace(/^\*\*|\*\*$/g, '')).toUpperCase();
+      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#bbbbbb' }], margin: [0, 8, 0, 4] });
+      content.push({ text: heading, fontSize: 11, bold: true, color: BLACK, characterSpacing: 2, margin: [0, 0, 0, 2] });
+      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 2, lineColor: BLUE }], margin: [0, 2, 0, 8] });
+    } else if (/^[-•]\s+/.test(t)) {
+      content.push({
+        columns: [
+          { canvas: [{ type: 'ellipse', x: 3, y: 6, r1: 2.5, r2: 2.5, color: BLUE }], width: 14 },
+          { text: parseInline(t.replace(/^[-•]\s+/, '')), fontSize: 11, color: BLACK, lineHeight: 1.65, width: '*' },
+        ],
+        margin: [8, 0, 0, 5],
+      });
+    } else {
+      content.push({ text: parseInline(t), fontSize: 11, color: BLACK, lineHeight: 1.7, marginBottom: 5 });
+    }
+  }
+
+  const slug = (questionText ?? markdownText).slice(0, 60)
+    .replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'model-answer';
+
+  const docDef: any = {
+    content,
+    defaultStyle: { font: 'Roboto', fontSize: 11, color: BLACK },
+    pageMargins: [40, 40, 40, 58],
+    footer: (currentPage: number, pageCount: number) => ({
+      stack: [
+        { canvas: [{ type: 'rect', x: 0, y: 0, w: 595, h: 3, color: BLUE }] },
+        {
+          columns: [
+            { stack: [
+              { text: 'H.  HISTORY OPTIONAL', fontSize: 8, bold: true, color: BLACK },
+              { text: 'historyoptional.xyz', fontSize: 7, color: '#999999', margin: [0, 1, 0, 0] },
+            ], margin: [40, 10, 0, 0], width: '*' },
+            { stack: [
+              { text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' },
+              { text: 'PAGE', fontSize: 6, color: '#999999', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] },
+            ], margin: [0, 9, 40, 0], width: 'auto' },
+          ],
+        },
+      ],
+    }),
+  };
+
+  pdfMake.createPdf(docDef).download(slug + ' (historyoptional.xyz).pdf');
+}
+
 function AnswerBody({ text }: { text: string }) {
   const lines = text.split('\n');
   return (
@@ -42,6 +160,22 @@ function AnswerBody({ text }: { text: string }) {
             }}>{sub}</div>
           );
         }
+        if (/^[-•]\s+/.test(line.trim())) {
+          const content = line.trim().replace(/^[-•]\s+/, '');
+          const parts = content.split(/(\*\*[^*]+\*\*)/g);
+          return (
+            <div key={i} style={{ display: 'flex', gap: '0.5rem', margin: '0.25rem 0 0.25rem 0.5rem' }}>
+              <span style={{ color: 'var(--accent)', fontWeight: 700, flexShrink: 0, marginTop: '0.1rem' }}>•</span>
+              <p style={{ margin: 0 }}>
+                {parts.map((part, j) =>
+                  /^\*\*(.+)\*\*$/.test(part)
+                    ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
+                    : part
+                )}
+              </p>
+            </div>
+          );
+        }
         const parts = line.split(/(\*\*[^*]+\*\*)/g);
         return (
           <p key={i} style={{ margin: '0 0 0.1rem' }}>
@@ -54,6 +188,37 @@ function AnswerBody({ text }: { text: string }) {
         );
       })}
     </div>
+  );
+}
+
+
+function SavePDFButton({ answer, question }: { answer: string; question: string }) {
+  const [saving, setSaving] = useState(false);
+  return (
+    <button
+      onClick={async () => {
+        setSaving(true);
+        try { await downloadAnswerAsPDF(answer, question); }
+        catch (e) { console.error(e); alert('PDF generation failed.'); }
+        finally { setSaving(false); }
+      }}
+      disabled={saving}
+      style={{
+        background: 'none', border: '1px solid var(--accent)',
+        color: 'var(--accent)', cursor: saving ? 'wait' : 'pointer',
+        padding: '0.4rem 1rem', borderRadius: 6, fontSize: '0.78rem',
+        display: 'flex', alignItems: 'center', gap: '0.4rem',
+        opacity: saving ? 0.6 : 1,
+      }}
+    >
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="18" x2="12" y2="12"/>
+        <polyline points="9 15 12 18 15 15"/>
+      </svg>
+      {saving ? 'Saving…' : 'Save PDF'}
+    </button>
   );
 }
 
@@ -171,7 +336,8 @@ function ModelAnswerModal({
           {answer && !loading && (
             <>
               <AnswerBody text={answer} />
-              <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
+              <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+                <SavePDFButton answer={answer} question={question} />
                 <button onClick={() => { setAnswer(null); generate(true); }} style={{
                   background: 'none', border: '1px solid var(--border)',
                   color: 'var(--text3)', cursor: 'pointer',
