@@ -3,23 +3,70 @@ import { createClient } from "@supabase/supabase-js";
 
 const chatLimits = new Map<string, { count: number; ts: number }>();
 
-// Surnames pulled from the KNOWN SAFE HISTORIAN-ARGUMENT PAIRS whitelist in
-// the system prompt below. Used by the post-generation citation verifier to
-// catch attribution in PROSE form ("Bipan Chandra draws a parallel...") —
-// not just bracket-style "(Author, Title)" citations. A model can fabricate
-// an argument and attribute it to a real, whitelisted historian without
-// ever using parentheses, which a bracket-only regex would miss entirely.
-const WHITELISTED_HISTORIAN_SURNAMES = [
-  'Thapar', 'Sharma', 'Kosambi', 'Sastri', 'Raychaudhuri', 'Basham',
-  'Upinder Singh', 'Ratnagar', 'Chattopadhyaya', 'Allchin',
-  'Habib', 'Satish Chandra', 'Muzaffar Alam', 'Richards', 'Ashraf',
-  'Mukhia', 'Eaton', 'Digby', 'Wink', 'Hardy', 'Vaudeville',
-  'Bipan Chandra', 'Sumit Sarkar', 'Guha', 'Chatterjee', 'Pandey',
-  'Bandyopadhyay', 'Bayly', 'Judith Brown', 'Robinson', 'Anil Seal',
-  'Stokes', 'Washbrook', 'Tomlinson',
-  'Bloch', 'Braudel', 'Carr', 'Hobsbawm', 'Thompson', 'Anderson',
-  'Wallerstein', 'Toynbee',
-];
+// THREE-LAYER citation verification system:
+// Layer 1 — Is the historian in the whitelist?
+// Layer 2 — Is the cited book one of their known works?
+// Layer 3 — Is the specific claim in the RAG passages?
+// Any layer failing → sentence stripped.
+
+// Map of historian surname → their verified book titles (lowercase for matching)
+const WHITELISTED_HISTORIAN_BOOKS: Record<string, string[]> = {
+  'Thapar': ['early india', 'a history of india', 'ashoka and the decline of the mauryas', 'from lineage to state', 'cultural pasts', 'the penguin history of early india', 'interpreting early india'],
+  'Sharma': ['indian feudalism', 'material culture and social formations in ancient india', 'aspects of political ideas and institutions in ancient india', 'urban decay in india', 'origin of the state in india'],
+  'Kosambi': ['an introduction to the study of indian history', 'the culture and civilisation of ancient india', 'myth and reality', 'ancient india'],
+  'Sastri': ['a history of south india', 'the colas', 'the pandya kingdom', 'foreign notices of south india', 'advanced history of india'],
+  'Raychaudhuri': ['political history of ancient india'],
+  'Basham': ['the wonder that was india'],
+  'Upinder Singh': ['a history of ancient and early medieval india', 'political violence in ancient india'],
+  'Ratnagar': ['understanding harappa', 'trading encounters', 'the end of the great harappan tradition'],
+  'Chattopadhyaya': ['the making of early medieval india', 'representing the other', 'aspects of rural settlements'],
+  'Allchin': ['the archaeology of early historic south asia', 'the birth of indian civilization'],
+  'Habib': ['the agrarian system of mughal india', 'atlas of the mughal empire', 'essays in indian history', 'medieval india'],
+  'Satish Chandra': ['medieval india', 'parties and politics at the mughal court', 'history of medieval india', 'mughal religious policies'],
+  'Muzaffar Alam': ['the crisis of empire in mughal north india', 'the languages of political islam', 'the mughal state'],
+  'Richards': ['the mughal empire', 'the new cambridge history of india'],
+  'Ashraf': ['life and conditions of the people of hindustan'],
+  'Mukhia': ['the mughals of india', 'historians and historiography during the reign of akbar'],
+  'Eaton': ['essays on islam and indian history', 'a social history of the deccan', 'the rise of islam and the bengal frontier', 'india in the persianate age'],
+  'Digby': ['war-horse and elephant in the delhi sultanate'],
+  'Wink': ['al-hind: the making of the indo-islamic world'],
+  'Hardy': ['historians of medieval india', 'the muslims of british india'],
+  'Vaudeville': ['kabir', 'a weaver named kabir'],
+  'Bipan Chandra': ['india\'s struggle for independence', 'the rise and growth of economic nationalism in india', 'nationalism and colonialism in modern india', 'communalism in modern india', 'india since independence'],
+  'Sumit Sarkar': ['modern india 1885-1947', 'the swadeshi movement in bengal', 'writing social history', 'beyond nationalist frames'],
+  'Guha': ['elementary aspects of peasant insurgency in colonial india', 'a rule of property for bengal', 'subaltern studies'],
+  'Chatterjee': ['nationalist thought and the colonial world', 'the nation and its fragments', 'a possible india'],
+  'Pandey': ['the construction of communalism in colonial north india', 'remembering partition'],
+  'Bandyopadhyay': ['plassey to partition', 'decolonization in south asia', 'caste politics and the raj'],
+  'Bayly': ['rulers, townsmen and bazaars', 'indian society and the making of the british empire', 'origins of nationality in south asia'],
+  'Judith Brown': ['gandhi: prisoner of hope', 'modern india: the origins of an asian democracy', 'gandhi and civil disobedience'],
+  'Robinson': ['separatism among indian muslims', 'islam and muslim history in south asia'],
+  'Anil Seal': ['the emergence of indian nationalism'],
+  'Stokes': ['the peasant armed', 'the english utilitarians and india', 'the peasant and the raj'],
+  'Washbrook': ['the emergence of provincial politics'],
+  'Tomlinson': ['the indian national congress and the raj', 'the economy of modern india'],
+  'Bloch': ['feudal society', 'the historian\'s craft', 'french rural history'],
+  'Braudel': ['the mediterranean and the mediterranean world', 'civilization and capitalism', 'on history'],
+  'Carr': ['what is history?', 'the russian revolution'],
+  'Hobsbawm': ['the age of revolution', 'the age of capital', 'the age of empire', 'age of extremes', 'nations and nationalism since 1780', 'bandits', 'primitive rebels'],
+  'Thompson': ['the making of the english working class', 'whigs and hunters', 'customs in common'],
+  'Anderson': ['passages from antiquity to feudalism', 'lineages of the absolutist state'],
+  'Wallerstein': ['the modern world-system', 'world-systems analysis'],
+  'Toynbee': ['a study of history'],
+  // Commonly hallucinated historians — NOT in whitelist, strip always
+  // Majumdar, Nizami, Riazul Islam, Surendra Gopal, DN Jha are NOT whitelisted
+  // for specific claims — only broad mentions allowed (handled below)
+};
+
+// Surnames for broad mention detection (prose scan)
+const WHITELISTED_HISTORIAN_SURNAMES = Object.keys(WHITELISTED_HISTORIAN_BOOKS);
+
+// Historians allowed ONLY for broad unquoted mentions — no specific claims or book titles
+// These appear in RAG chunks but we have no book title verification for them
+const BROAD_ONLY_HISTORIANS = ['Jha', 'Nizami', 'Riazul Islam', 'Surendra Gopal', 'Majumdar'];
+
+// All known historian names to detect (whitelist + broad-only)
+const ALL_KNOWN_HISTORIAN_NAMES = [...WHITELISTED_HISTORIAN_SURNAMES, ...BROAD_ONLY_HISTORIANS];
 
 async function jinaEmbed(text: string): Promise<number[]> {
   const res = await fetch('https://api.jina.ai/v1/embeddings', {
@@ -826,15 +873,65 @@ const ragSystem = ragContext
             const bracketPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
             const sentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
 
-            const sentencesWithBracket = sentences.filter(s => {
+            // ── LAYER 1+2: Pre-verifier (no API call) ─────────────────────────
+            // Strip without calling API:
+            // Rule A: BROAD_ONLY historians (Majumdar, Nizami, Jha etc.) with specific claims → strip sentence
+            // Rule B: Unknown bracket book title not in historian's verified list → strip bracket
+            const BROAD_ONLY = ['Jha', 'Nizami', 'Riazul Islam', 'Surendra Gopal', 'Majumdar', 'K.A. Nizami', 'R.C. Majumdar', 'D.N. Jha'];
+            const specificClaimPattern = /argues|notes|writes|states|claimed|asserts|observes|emphasises|emphasizes|points out|concludes|suggests|contends|maintains/;
+
+            for (const sentence of [...sentences]) {
+              let shouldStrip = false;
+
+              // Rule A: broad-only historian with specific claim or bracket
+              for (const name of BROAD_ONLY) {
+                if (sentence.includes(name)) {
+                  bracketPattern.lastIndex = 0;
+                  if (specificClaimPattern.test(sentence) || bracketPattern.test(sentence)) {
+                    shouldStrip = true;
+                    break;
+                  }
+                }
+              }
+
+              // Rule B: whitelisted historian but cited book not in their verified list
+              if (!shouldStrip) {
+                for (const [historian, books] of Object.entries(WHITELISTED_HISTORIAN_BOOKS)) {
+                  if (sentence.includes(historian)) {
+                    const bracketMatches = sentence.match(/\([^)]+\)/g) ?? [];
+                    for (const bracket of bracketMatches) {
+                      const bl = bracket.toLowerCase();
+                      // Skip pure year brackets like (1984)
+                      if (/^\(\d{4}\)$/.test(bracket.trim())) continue;
+                      // Check if it looks like a book title (has letters beyond just a year)
+                      if (/[a-zA-Z]{4,}/.test(bracket)) {
+                        const bookVerified = books.some(b => bl.includes(b.slice(0, 10).toLowerCase()));
+                        if (!bookVerified) {
+                          fullAnswer = fullAnswer.split(bracket).join('').replace(/\s+([.,;])/g, '$1');
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              if (shouldStrip && fullAnswer.includes(sentence)) {
+                fullAnswer = fullAnswer.split(sentence).join('').replace(/[ \t]{2,}/g, ' ');
+              }
+            }
+
+            // ── LAYER 3: API verifier — content check against RAG passages ────
+            const updatedSentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
+            bracketPattern.lastIndex = 0;
+
+            const sentencesWithBracket = updatedSentences.filter(s => {
               bracketPattern.lastIndex = 0;
               return bracketPattern.test(s);
             });
-            const sentencesWithSurname = sentences.filter(s =>
+            const sentencesWithSurname = updatedSentences.filter(s =>
               WHITELISTED_HISTORIAN_SURNAMES.some(name => s.includes(name))
             );
-            // Union of both, de-duplicated, preserving answer order.
-            const flaggedSentences = sentences.filter(s =>
+            const flaggedSentences = updatedSentences.filter(s =>
               sentencesWithBracket.includes(s) || sentencesWithSurname.includes(s)
             );
 
@@ -853,23 +950,30 @@ const ragSystem = ragContext
                 },
                 body: JSON.stringify({
                   model: 'deepseek-v4-flash',
-                  max_tokens: 600,
+                  max_tokens: 800,
                   stream: false,
                   messages: [
                     {
                       role: 'system',
-                      content: `You are a strict citation auditor. You will be given (1) a set of source passages, each tagged with its book title and author, and (2) sentences from a generated answer that name a historian — either as a bracket citation "(Author, Title)" or as prose attribution ("Author argues/notes/draws a parallel that...").
+                      content: `You are a strict THREE-LAYER citation auditor for UPSC History answers.
 
-For EACH sentence, check whether the specific claim attributed to that historian actually appears in the passage tagged with THAT author's name. Being topically associated with the right era/subject is NOT enough — the literal claim must be traceable to that author's own [Source N] passage.
+For each flagged sentence, verify ALL three layers:
+LAYER 1 — AUTHOR: Does this historian appear in the source passages under their own [Source N | Author: X] label?
+LAYER 2 — BOOK: If a book title is cited, does it match the actual book in the passages for that author?
+LAYER 3 — CONTENT: Does the specific claim/argument actually appear in that author's passage? Topical similarity is NOT enough.
 
-Classify each flagged sentence into exactly one of two buckets:
-- "bad_brackets": the sentence has a "(Author, Title)" bracket whose specific quote/claim is NOT in that author's passage. Return ONLY the bracket text itself, e.g. "(Sastri, A History of South India)", copied exactly.
-- "bad_prose_sentences": the sentence attributes an argument/claim to a historian in prose (no bracket, or bracket present but the whole sentence's claim is unsupported) and that author's passages do NOT contain this claim or anything close to it — meaning the argument was likely invented and merely attached to a real name. Return the FULL sentence exactly as it appears.
+If ANY layer fails → flag it.
 
-Respond ONLY with valid JSON, no markdown, no preamble:
-{"bad_brackets": ["(Author, Title)"], "bad_prose_sentences": ["Full sentence here."]}
+Classify into:
+- "bad_brackets": bracket "(Author, Title)" failing any layer. Return ONLY the bracket text exactly.
+- "bad_prose_sentences": prose attribution ("Author argues/notes/states...") failing any layer. Return FULL sentence exactly.
 
-If everything checks out, respond: {"bad_brackets": [], "bad_prose_sentences": []}`,
+A historian mentioned in passing without a specific claim does NOT need layer 3 check.
+
+Respond ONLY with valid JSON, no markdown:
+{"bad_brackets": ["(Author, Title)"], "bad_prose_sentences": ["Full sentence."]}
+
+If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
                     },
                     {
                       role: 'user',
@@ -883,14 +987,11 @@ If everything checks out, respond: {"bad_brackets": [], "bad_prose_sentences": [
               const cleaned = verifyText.replace(/^```json\s*|```\s*$/g, '').trim();
               const parsed = JSON.parse(cleaned) as { bad_brackets: string[]; bad_prose_sentences: string[] };
 
-              // Bracket fix: strip only the parenthetical, keep the claim.
               for (const bad of parsed.bad_brackets ?? []) {
                 if (fullAnswer.includes(bad)) {
                   fullAnswer = fullAnswer.split(bad).join('').replace(/\s+([.,;])/g, '$1');
                 }
               }
-              // Prose fix: remove the whole sentence — the claim itself was
-              // fabricated, not just mis-sourced, so nothing safe remains.
               for (const bad of parsed.bad_prose_sentences ?? []) {
                 if (fullAnswer.includes(bad)) {
                   fullAnswer = fullAnswer.split(bad).join('').replace(/[ \t]{2,}/g, ' ');
