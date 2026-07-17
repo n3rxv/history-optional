@@ -197,45 +197,241 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'premium_required' }, { status: 403 });
     }
 
-    // ── Generate via Groq ──
+    // ── RAG: fetch relevant book passages ──
+    let ragContext = '';
+    try {
+      const { createClient: createSupabase } = await import('@supabase/supabase-js');
+      const supabase = createSupabase(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SECRET_KEY!
+      );
+
+      // Embed the question
+      const embedRes = await fetch('https://api.jina.ai/v1/embeddings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'jina-embeddings-v3',
+          task: 'retrieval.query',
+          dimensions: 384,
+          input: [question],
+        }),
+      });
+      const embedData = await embedRes.json();
+      if (embedData.data) {
+        const embedding = embedData.data[0].embedding;
+
+        // Fetch diverse chunks from all books
+        const { data: chunks } = await supabase.rpc('match_book_chunks_diverse', {
+          query_embedding: embedding,
+          per_book_count: 3,
+        });
+
+        if (chunks && chunks.length > 0) {
+          // Filter low similarity
+          const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45).slice(0, 12);
+          const toRerank = filtered.length >= 3 ? filtered : chunks.slice(0, 12);
+
+          // Rerank
+          const rerankRes = await fetch('https://api.jina.ai/v1/rerank', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: 'jina-reranker-v2-base-multilingual',
+              query: question,
+              documents: toRerank.map((c: any) => c.content),
+              top_n: 6,
+            }),
+          });
+          const rerankData = await rerankRes.json();
+
+          let finalChunks: any[] = [];
+          if (rerankData.results) {
+            const bookCount: Record<string, number> = {};
+            for (const r of rerankData.results) {
+              const chunk = toRerank[r.index];
+              const count = bookCount[chunk.book_title] ?? 0;
+              if (count < 2) {
+                finalChunks.push({ ...chunk, score: r.relevance_score });
+                bookCount[chunk.book_title] = count + 1;
+              }
+              if (finalChunks.length >= 6) break;
+            }
+          } else {
+            finalChunks = toRerank.slice(0, 6);
+          }
+
+          if (finalChunks.length > 0) {
+            ragContext = finalChunks
+              .map((c: any, i: number) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]
+${c.content}`)
+              .join('
+
+---
+
+');
+          }
+        }
+      }
+    } catch (ragErr) {
+      console.error('RAG fetch error (non-fatal):', ragErr);
+    }
+
+    // ── Generate via DeepSeek V4 Flash ──
     const rawMarks = parseInt(marks) || 10;
-    // Normalise mark tiers: 60/30 → 20, 12.5 → 10
     const marksNum = rawMarks >= 30 ? 20 : rawMarks === 12 || rawMarks === 13 ? 10 : rawMarks;
-    const prompt = `Write a complete UPSC History Optional model answer for this ${marksNum}-mark question. Follow the format exactly.
+
+    const ragSection = ragContext
+      ? `
+
+RELEVANT BOOK PASSAGES (use ONLY these for specific historian citations — do not invent citations outside these):
+
+${ragContext}
+
+CITATION RULE: You may cite a historian ONLY if their name appears in the Source passages above. For historians NOT in these passages, use only broad safe attributions from your known pairs list.`
+      : '';
+
+    const prompt = `Write a complete UPSC History Optional model answer for this ${marksNum}-mark question. Follow the format exactly.${ragSection}
 
 QUESTION (${marksNum} marks): ${question}
 
 Write the full model answer now:`;
 
-    const callGroq = async (model: string) =>
-      fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            { role: 'user', content: prompt },
-          ],
-          temperature: 0.35,
-          max_tokens: marksNum >= 20 ? 6000 : marksNum >= 15 ? 4000 : 2500,
-        }),
-      });
+    const genRes = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'deepseek-v4-flash',
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.35,
+        max_tokens: marksNum >= 20 ? 6000 : marksNum >= 15 ? 4000 : 2500,
+        stream: false,
+      }),
+    });
 
-    let res = await callGroq('openai/gpt-oss-120b');
-    if (res.status === 429 || res.status === 503) {
-      res = await callGroq('openai/gpt-oss-20b');
-    }
-
-    const data = await res.json();
-    const raw = data.choices?.[0]?.message?.content || '';
-    // qwen3 leaks chain-of-thought inside <think>...</think> — strip it
-    const answer = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    const data = await genRes.json();
+    let answer = data.choices?.[0]?.message?.content?.trim() || '';
     if (!answer) {
       return NextResponse.json({ error: 'Failed to generate answer. Please try again.' }, { status: 500 });
+    }
+
+    // ── 3-Layer Citation Verifier ──────────────────────────────────────────
+    const BROAD_ONLY = ['Jha', 'Nizami', 'Riazul Islam', 'Surendra Gopal', 'Majumdar', 'K.A. Nizami', 'R.C. Majumdar', 'D.N. Jha'];
+    const WHITELISTED_SURNAMES = [
+      'Thapar', 'Sharma', 'Kosambi', 'Sastri', 'Raychaudhuri', 'Basham',
+      'Upinder Singh', 'Ratnagar', 'Chattopadhyaya', 'Allchin',
+      'Habib', 'Satish Chandra', 'Muzaffar Alam', 'Richards', 'Ashraf',
+      'Mukhia', 'Eaton', 'Digby', 'Wink', 'Hardy', 'Vaudeville',
+      'Bipan Chandra', 'Sumit Sarkar', 'Guha', 'Chatterjee', 'Pandey',
+      'Bandyopadhyay', 'Bayly', 'Judith Brown', 'Robinson', 'Anil Seal',
+      'Stokes', 'Washbrook', 'Tomlinson',
+      'Bloch', 'Braudel', 'Carr', 'Hobsbawm', 'Thompson', 'Anderson',
+      'Wallerstein', 'Toynbee',
+    ];
+    const specificClaimPattern = /argues|notes|writes|states|claimed|asserts|observes|emphasises|emphasizes|points out|concludes|suggests|contends|maintains/;
+    const bracketPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
+
+    try {
+      const sentences = answer.match(/[^.!?]*[.!?]+/g) ?? [answer];
+
+      // Layer 1+2: pre-verifier — no API call
+      for (const sentence of sentences) {
+        let strip = false;
+        for (const name of BROAD_ONLY) {
+          if (sentence.includes(name)) {
+            bracketPattern.lastIndex = 0;
+            if (specificClaimPattern.test(sentence) || bracketPattern.test(sentence)) {
+              strip = true;
+              break;
+            }
+          }
+        }
+        if (strip && answer.includes(sentence)) {
+          answer = answer.split(sentence).join('').replace(/[ 	]{2,}/g, ' ');
+        }
+      }
+
+      // Layer 3: API verifier — content check against RAG passages
+      if (ragContext) {
+        const updatedSentences = answer.match(/[^.!?]*[.!?]+/g) ?? [answer];
+        const flagged = updatedSentences.filter(s => {
+          bracketPattern.lastIndex = 0;
+          return bracketPattern.test(s) || WHITELISTED_SURNAMES.some(n => s.includes(n));
+        });
+
+        if (flagged.length > 0) {
+          const verifyRes = await fetch('https://api.deepseek.com/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: 'deepseek-v4-flash',
+              max_tokens: 800,
+              stream: false,
+              messages: [
+                {
+                  role: 'system',
+                  content: `You are a strict THREE-LAYER citation auditor for UPSC History answers.
+
+For each flagged sentence, verify ALL three layers:
+LAYER 1 — AUTHOR: Does this historian appear in the source passages under their own [Source N | Author: X] label?
+LAYER 2 — BOOK: If a book title is cited, does it match the actual book in the passages for that author?
+LAYER 3 — CONTENT: Does the specific claim/argument actually appear in that author's passage? Topical similarity is NOT enough.
+
+If ANY layer fails → flag it.
+
+Classify into:
+- "bad_brackets": bracket "(Author, Title)" failing any layer. Return ONLY the bracket text exactly.
+- "bad_prose_sentences": prose attribution ("Author argues/notes/states...") failing any layer. Return FULL sentence exactly.
+
+Respond ONLY with valid JSON, no markdown:
+{"bad_brackets": ["(Author, Title)"], "bad_prose_sentences": ["Full sentence."]}
+
+If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
+                },
+                {
+                  role: 'user',
+                  content: `SOURCE PASSAGES:
+${ragContext}
+
+---
+
+FLAGGED SENTENCES:
+${flagged.join('
+')}`,
+                },
+              ],
+            }),
+          });
+          const vj = await verifyRes.json();
+          const vt = vj.choices?.[0]?.message?.content?.trim() ?? '';
+          const vc = vt.replace(/^```json\s*|```\s*$/g, '').trim();
+          const vp = JSON.parse(vc) as { bad_brackets: string[]; bad_prose_sentences: string[] };
+
+          for (const bad of vp.bad_brackets ?? []) {
+            if (answer.includes(bad)) answer = answer.split(bad).join('').replace(/\s+([.,;])/g, '$1');
+          }
+          for (const bad of vp.bad_prose_sentences ?? []) {
+            if (answer.includes(bad)) answer = answer.split(bad).join('').replace(/[ 	]{2,}/g, ' ');
+          }
+        }
+      }
+    } catch (verifyErr) {
+      console.error('Verifier error (non-fatal):', verifyErr);
     }
 
     return NextResponse.json({ answer });
