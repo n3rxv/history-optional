@@ -94,7 +94,9 @@ Only historians from this list exist in the knowledge base. Do NOT cite anyone n
 STRICT PROHIBITIONS — NEVER do these:
 - NEVER cite Bipan Chandra on ancient or medieval India — modern only
 - NEVER cite RC Majumdar as celebrating Alexander — he was revisionist/critical
-- NEVER cite historians NOT in the verified roster above (e.g. Irfan Habib, Ranajit Guha, Ayesha Jalal, Anil Seal, E.P. Thompson — their books are NOT in this system)
+- NEVER cite Burton Stein on Magadha, Mauryas, or any pre-medieval topic — his "segmentary polity" thesis applies ONLY to Vijayanagara and South Indian medieval polities, NOT to Magadha or Mauryan empire. Applying it to Magadha is a factual error that misleads students.
+- NEVER cite U.N. Ghoshal — his book is NOT in this system. Do not cite him until his book is uploaded.
+- NEVER cite historians NOT in the verified roster above (e.g. Irfan Habib, Ranajit Guha, Ayesha Jalal, Anil Seal, E.P. Thompson, Burton Stein, U.N. Ghoshal — their books are NOT in this system)
 - NEVER invent a book title not listed above
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
