@@ -499,7 +499,7 @@ export async function POST(req: NextRequest) {
     const withFallbackModel = (body: object): object => {
       const b = body as Record<string, unknown>;
       if (typeof b.model === "string" && b.model.includes("kimi-k2")) {
-        return { ...b, model: "llama-3.3-70b-versatile" };
+        return { ...b, model: "openai/gpt-oss-20b" };
       }
       return body;
     };

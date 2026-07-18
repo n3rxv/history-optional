@@ -92,7 +92,7 @@ Respond ONLY with raw JSON (no markdown, no backticks, no trailing commas). Use 
         'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'openai/gpt-oss-120b',
         max_tokens: 2500,
         temperature: 0.2,
         messages: [
@@ -155,7 +155,7 @@ Respond with ONLY a raw JSON string (no markdown):
           'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
         },
         body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
+          model: 'openai/gpt-oss-120b',
           max_tokens: 1200,
           temperature: 0.3,
           messages: [
