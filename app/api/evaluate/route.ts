@@ -578,15 +578,10 @@ Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be spe
       console.log("Pass 0.5 error (non-fatal):", refErr);
     }
 
-    // Brief pause before OCR
-    await new Promise(res => setTimeout(res, 500));
-
-    // ── PASS 0: Dedicated OCR transcription ──────────────────────
-    // Only run if user hasn't already provided extracted text
+    // ── PASS 0 + RAG: Run OCR and RAG fetch in parallel ──────────
     let finalTranscript = extractedText;
 
-    if (!finalTranscript && imageContents.length > 0) {
-      const ocrPrompt = `You are the world's most precise handwriting transcription engine, built specifically for UPSC History Optional answer sheets. Your ONLY function is letter-perfect transcription. A student's evaluation depends entirely on the accuracy of your reading — a single misread word can cause wrong marks, wrong feedback, and wrong historian attribution. Errors are unacceptable.
+    const ocrPrompt = `You are the world's most precise handwriting transcription engine, built specifically for UPSC History Optional answer sheets. Your ONLY function is letter-perfect transcription. A student's evaluation depends entirely on the accuracy of your reading — a single misread word can cause wrong marks, wrong feedback, and wrong historian attribution. Errors are unacceptable.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ABSOLUTE TRANSCRIPTION RULES
@@ -639,54 +634,63 @@ NOW TRANSCRIBE: ${imageContents.length} PAGE(S)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Go page by page. Do not rush. Every word matters.`;
 
-      const geminiParts = [
-        ...imageContents.map((img: { type: string; image_url: { url: string } }) => {
-          const matches = img.image_url.url.match(/^data:([^;]+);base64,(.+)$/);
-          return matches
-            ? { inline_data: { mime_type: matches[1], data: matches[2] } }
-            : null;
-        }).filter(Boolean),
-        { text: ocrPrompt },
-      ];
+    // OCR task (only if needed)
+    const ocrTask = (!finalTranscript && imageContents.length > 0)
+      ? (async () => {
+          const geminiParts = [
+            ...imageContents.map((img: { type: string; image_url: { url: string } }) => {
+              const matches = img.image_url.url.match(/^data:([^;]+);base64,(.+)$/);
+              return matches
+                ? { inline_data: { mime_type: matches[1], data: matches[2] } }
+                : null;
+            }).filter(Boolean),
+            { text: ocrPrompt },
+          ];
+          const ocrRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contents: [{ role: "user", parts: geminiParts }],
+                generationConfig: { temperature: 0.0, maxOutputTokens: 4000 },
+              }),
+            }
+          );
+          if (ocrRes.ok) {
+            const ocrData = await ocrRes.json();
+            const transcript = ocrData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+            console.log("Pass 0 OCR transcript (Gemini):\n", transcript.slice(0, 300));
+            return transcript;
+          } else {
+            const errText = await ocrRes.text();
+            console.log("Pass 0 Gemini OCR failed:", errText, "— falling back to in-line image reading in Pass 1");
+            return "";
+          }
+        })()
+      : Promise.resolve(finalTranscript);
 
-      const ocrRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ role: "user", parts: geminiParts }],
-            generationConfig: { temperature: 0.0, maxOutputTokens: 4000 },
-          }),
-        }
-      );
-      if (ocrRes.ok) {
-        const ocrData = await ocrRes.json();
-        finalTranscript = ocrData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
-        console.log("Pass 0 OCR transcript (Gemini):\n", finalTranscript.slice(0, 300));
-      } else {
-        const errText = await ocrRes.text();
-        console.log("Pass 0 Gemini OCR failed:", errText, "— falling back to in-line image reading in Pass 1");
+    // RAG task (always runs in parallel)
+    const ragTask = (async () => {
+      try {
+        const ragRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/rag-search`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: question }),
+        });
+        const ragData = await ragRes.json();
+        const ctx = ragData.context || '';
+        if (ctx) console.log('RAG context fetched, length:', ctx.length);
+        return ctx;
+      } catch (ragErr) {
+        console.log('RAG fetch failed (non-fatal):', ragErr);
+        return '';
       }
+    })();
 
-      // Brief pause before Pass 1
-      await new Promise(res => setTimeout(res, 500));
-    }
-
-    // ── RAG: Fetch relevant book context ─────────────────────
-    let ragContext = '';
-    try {
-      const ragRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/rag-search`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: question }),
-      });
-      const ragData = await ragRes.json();
-      ragContext = ragData.context || '';
-      if (ragContext) console.log('RAG context fetched, length:', ragContext.length);
-    } catch (ragErr) {
-      console.log('RAG fetch failed (non-fatal):', ragErr);
-    }
+    // Run both in parallel — saves 3-5s
+    const [ocrResult, ragContext] = await Promise.all([ocrTask, ragTask]);
+    if (ocrResult) finalTranscript = ocrResult;
 
         // ── PASS 1: Chain-of-thought reasoning ─────────────────────
     const introMax = marks === "10" ? "1.5" : marks === "15" ? "2" : "3";
