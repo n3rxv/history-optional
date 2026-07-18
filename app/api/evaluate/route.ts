@@ -85,6 +85,9 @@ Only historians from this list exist in the knowledge base. Do NOT cite anyone n
 - BL Grover → Modern Indian history survey [book: Modern Indian History]
 - Sekhar Bandopadhyay → Social history, Partition, Bengal, caste [book: Plassey to Partition]
 - Sumit Sarkar → Modern India 1885-1947, swadeshi, nationalism [book: Modern India 1885-1947]
+- Irfan Habib → Agrarian relations, peasant revolts, zamindars, Mughal revenue system [book: Agrarian System of Mughal India]
+- Ranajit Guha → Subaltern Studies, peasant consciousness, colonial insurgency [book: Elementary Aspects of Peasant Insurgency in Colonial India]
+- DD Kosambi → Marxist historiography, social formations, material conditions in ancient India [book: An Introduction to the Study of Indian History]
 
 ── WORLD HISTORY ──
 - David Thomson → Europe, Napoleon, 19th-20th century European history [book: Europe Since Napoleon]
@@ -96,7 +99,7 @@ STRICT PROHIBITIONS — NEVER do these:
 - NEVER cite RC Majumdar as celebrating Alexander — he was revisionist/critical
 - NEVER cite Burton Stein on Magadha, Mauryas, or any pre-medieval topic — his "segmentary polity" thesis applies ONLY to Vijayanagara and South Indian medieval polities, NOT to Magadha or Mauryan empire. Applying it to Magadha is a factual error that misleads students.
 - NEVER cite U.N. Ghoshal — his book is NOT in this system. Do not cite him until his book is uploaded.
-- NEVER cite historians NOT in the verified roster above (e.g. Irfan Habib, Ranajit Guha, Ayesha Jalal, Anil Seal, E.P. Thompson, Burton Stein, U.N. Ghoshal — their books are NOT in this system)
+- NEVER cite historians NOT in the verified roster above (e.g. Ayesha Jalal, Anil Seal, E.P. Thompson, U.N. Ghoshal — their books are NOT in this system)
 - NEVER invent a book title not listed above
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

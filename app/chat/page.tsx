@@ -1614,6 +1614,9 @@ ${responseStyle === "elaborative"
                           <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
                           <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
                           <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
+                          <option value="Irfan Habib — Agrarian System of Mughal India">Irfan Habib — Agrarian System of Mughal India</option>
+                          <option value="Ranajit Guha — Elementary Aspects of Peasant Insurgency">Ranajit Guha — Elementary Aspects of Peasant Insurgency</option>
+                          <option value="DD Kosambi — An Introduction to the Study of Indian History">DD Kosambi — An Introduction to the Study of Indian History</option>
                           <option disabled style={{color:'#555'}}>── World ──</option>
                           <option value="Norman Lowe - Mastering Modern World History">Norman Lowe - Mastering Modern World History</option>
                           <option value="Eric Hobsbawm - Age of Revolution">Eric Hobsbawm - Age of Revolution (1789-1848)</option>
