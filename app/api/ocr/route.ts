@@ -42,6 +42,8 @@ export async function POST(req: NextRequest) {
 RULES:
 - Transcribe ALL words — do not skip, summarise, or compress anything
 - Join hyphenated line-breaks into one word
+- Do NOT preserve original line breaks — merge each paragraph into continuous flowing text
+- Only use a newline when a new paragraph, heading, or section begins
 - Never correct spelling silently — transcribe exactly what is written
 - Historian names are critical — transcribe letter for letter as written
 - If uncertain (70-89% confident): add (?) after the word
@@ -66,6 +68,8 @@ Output the transcription now:`
 RULES:
 - Transcribe ALL words — do not skip, summarise, or compress anything
 - Join hyphenated line-breaks into one word
+- Do NOT preserve original line breaks — merge each paragraph into continuous flowing text
+- Only use a newline when a new paragraph, heading, or section begins
 - Never correct spelling silently — transcribe exactly what is written
 - Historian names are critical — transcribe letter for letter as written
 - If uncertain (70-89% confident): add (?) after the word
