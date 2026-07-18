@@ -63,14 +63,29 @@ NEVER PERMITTED: Citing a historian for an argument outside their known area
 KNOWN SAFE HISTORIAN-ARGUMENT PAIRS (only use these with confidence):
 - Irfan Habib → Agrarian System, zabti/dahsala, peasant revolts, Mughal fiscal crisis
 - Satish Chandra → Jagirdari crisis, Mughal decline, Medieval India survey
-- Bipan Chandra → Economic nationalism, drain of wealth, Modern India
-- Romila Thapar → Early India, Ashokan policy, historiography of ancient India
-- R.S. Sharma → Material culture, feudalism debate, ancient Indian economy
-- D.D. Kosambi → Marxist interpretation, coins as historical evidence
+- Bipan Chandra → Economic nationalism, drain of wealth, Modern India, Congress politics [NOT ancient/medieval India]
+- Romila Thapar → Early India, Ashokan policy, historiography of ancient India, Alexander's limited impact on India
+- R.S. Sharma → Material culture, feudalism debate, ancient Indian economy, post-Mauryan period
+- D.D. Kosambi → Marxist interpretation, coins as historical evidence, ancient Indian social structure
+- Upinder Singh → Comprehensive ancient/early medieval India survey, Indo-Greek contacts, Mauryan period
+- W.W. Tarn → Alexander the Great's "Unity of Mankind" thesis, Hellenistic world, Greeks in Bactria and India [NOT "civiliser" — his argument was brotherhood/unity, not civilising mission]
+- R.C. Majumdar → Ancient India survey; on Alexander: argued his impact was LIMITED and exaggerated — NOT a celebratory view [common misconception: Majumdar was revisionist on Alexander, not celebratory]
+- A.L. Basham → Wonder That Was India, cultural synthesis, Hellenistic influence on Gandhara art
+- B.D. Chattopadhyaya → Early medieval India, transition debates
 - Sekhar Bandyopadhyay → Plassey to Partition, social history of Bengal
 - Eric Hobsbawm → Age of Revolution/Capital/Empire/Extremes, nationalism
 - E.P. Thompson → English working class, moral economy, food riots
 - Ranajit Guha → Subaltern studies, peasant insurgency
+- Anil Seal → Cambridge School, Indian nationalism as competition for jobs/patronage
+- Sumit Sarkar → Modern India, critique of Subaltern Studies
+- Ayesha Jalal → Partition, Jinnah, Muslim League
+- Mushirul Hasan → Communalism, partition historiography
+
+STRICT PROHIBITION — NEVER attribute these arguments to these historians:
+- NEVER say Bipan Chandra argued about Alexander, ancient India, or medieval India — his expertise is modern India only
+- NEVER say R.C. Majumdar celebrated Alexander as great — he was revisionist/critical of Alexander's impact
+- NEVER say W.W. Tarn called Alexander a "civiliser" — his actual thesis was "Unity of Mankind"
+- NEVER attribute arguments to historians outside their known period/area of expertise
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 STEP 4 — SHOW YOUR UNCERTAINTY, DON'T HIDE IT
@@ -323,11 +338,12 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     ]
   },
   "historians_to_cite": [
-    { "name": "Full Name", "work": "Book or article title", "argument": "Their specific argument for THIS question" },
+    { "name": "Full Name", "work": "Book or article title — MUST be a real published work by this historian", "argument": "Their ACTUAL argument for THIS question — only from KNOWN SAFE HISTORIAN-ARGUMENT PAIRS above. If unsure of their exact position on this topic, omit this historian entirely." },
     { "name": "Full Name", "work": "Title", "argument": "Specific argument" },
     { "name": "Full Name", "work": "Title", "argument": "Specific argument" },
     { "name": "Full Name", "work": "Title", "argument": "Specific argument" }
   ],
+  "_historians_cite_rule": "CRITICAL: Only cite historians from the KNOWN SAFE HISTORIAN-ARGUMENT PAIRS list AND only for arguments within their known area. A historian cited for a topic outside their expertise is worse than no citation — it actively misleads the student. When in doubt, omit.",
   "model_answer": {
     "introduction": "2-3 sentence flowing intro. Opens with historiographical debate, names one historian with their specific thesis, previews argument.",
     "body": [
@@ -962,7 +978,21 @@ The structured evaluation already concluded:
 - Presentation: ${eval_.section_marks?.presentation?.awarded}/${eval_.section_marks?.presentation?.out_of}
 - Total: ${eval_.marks}/${eval_.marks_out_of}
 
-Now write RICH, SPECIFIC qualitative feedback. Use your deep knowledge of UPSC History historiography.
+${ragContext ? `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VERIFIED BOOK PASSAGES (from uploaded historiography):
+${ragContext}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CRITICAL CITATION RULE — READ BEFORE GENERATING historians_to_cite:
+You may ONLY cite a historian in the historians_to_cite field if:
+1. Their name appears in the VERIFIED BOOK PASSAGES above, OR
+2. The student cited them in their answer (to give feedback on that citation).
+
+DO NOT invent historian arguments from memory. DO NOT cite historians not present in the book passages above.
+If the book passages contain no historian for this topic, return an empty historians_to_cite array — that is honest and correct.
+A fabricated historian citation is worse than no citation — it actively misleads the student.` : `NOTE: No book passages available for this question. Return empty historians_to_cite array. Do not invent historian arguments from memory.`}
+
+Now write RICH, SPECIFIC qualitative feedback grounded only in the verified book passages above.
 
 Return ONLY a JSON object with these exact fields:
 {
@@ -970,17 +1000,14 @@ Return ONLY a JSON object with these exact fields:
   "body": {
     "strengths": ["specific strength 1 referencing exactly what student wrote", "specific strength 2 if any"],
     "weaknesses": ["[missed demand]: exactly what was missed and which historian fills this gap", "[too descriptive]: where student listed facts without arguing — quote the specific part", "[needs historian]: which specific historian with which specific argument was needed here"],
-    "suggestions": ["Specific historian name + their exact argument that must appear for THIS question", "Specific structural suggestion for THIS answer"]
+    "suggestions": ["Specific historian name + their exact argument that must appear for THIS question — ONLY from verified book passages", "Specific structural suggestion for THIS answer"]
   },
   "historians_to_cite": [
-    { "name": "Full Name", "argument": "Their specific argument relevant to THIS question" },
-    { "name": "Full Name", "argument": "Specific argument" },
-    { "name": "Full Name", "argument": "Specific argument" },
-    { "name": "Full Name", "argument": "Specific argument" }
+    { "name": "Full Name — ONLY from verified book passages above", "argument": "Their EXACT argument as it appears in the book passage — quote or closely paraphrase" }
   ]
 }
 
-Be brutally specific. Name exactly which historians were missing. Quote exactly which part of the answer was weak. No generic advice like "cite more historians" — say WHICH historian and WHAT argument.`;
+Be brutally specific. Name exactly which historians were missing. Quote exactly which part of the answer was weak. No generic advice like "cite more historians" — say WHICH historian and WHAT argument. All historian citations must come from the verified book passages only.`;
 
     try {
       const pass3Res = await callWithFallback({
