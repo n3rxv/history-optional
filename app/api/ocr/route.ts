@@ -96,7 +96,7 @@ Output the transcription now:`;
         "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "meta-llama/llama-4-scout-17b-16e-instruct",
+        model: "qwen/qwen3.6-27b",
         messages,
         temperature: 0.0,
         max_tokens: 4000,
@@ -120,7 +120,7 @@ Output the transcription now:`;
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${process.env.GROQ_API_KEY}` },
           body: JSON.stringify({
-            model: "meta-llama/llama-4-scout-17b-16e-instruct",
+            model: "qwen/qwen3.6-27b",
             messages: [{
               role: "user",
               content: [
