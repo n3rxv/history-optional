@@ -89,27 +89,33 @@ Output the transcription now:`;
       },
     ];
 
-    // Convert messages to Gemini format
-    const geminiParts: any[] = [
-      ...imageContents.map((img: any) => {
-        const [meta, b64] = img.image_url.url.split(',');
-        const mimeType = meta.replace('data:', '').replace(';base64', '');
-        return { inlineData: { mimeType, data: b64 } };
-      }),
-      { text: ocrPrompt },
+    // Mistral Pixtral vision format
+    const mistralMessages = [
+      {
+        role: "user",
+        content: [
+          ...imageContents.map((img: any) => ({
+            type: "image_url",
+            image_url: img.image_url,
+          })),
+          { type: "text", text: ocrPrompt },
+        ],
+      },
     ];
 
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ role: "user", parts: geminiParts }],
-          generationConfig: { temperature: 0.0, maxOutputTokens: 4000 },
-        }),
-      }
-    );
+    const res = await fetch("https://api.mistral.ai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.MISTRAL_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "pixtral-12b-2409",
+        messages: mistralMessages,
+        temperature: 0.0,
+        max_tokens: 4000,
+      }),
+    });
 
     if (!res.ok) {
       const err = await res.text();
@@ -117,7 +123,7 @@ Output the transcription now:`;
     }
 
     const data = await res.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    const text = data.choices?.[0]?.message?.content || "";
 
     // In PDF mode the question text is embedded in the transcript as [Q]: lines.
     // In normal (single-question) mode, detect it from the first image.
@@ -125,25 +131,28 @@ Output the transcription now:`;
     if (!isPdfMode) {
       try {
         const firstImg = imageContents[0] as any;
-        const [qMeta, qB64] = firstImg.image_url.url.split(',');
-        const qMime = qMeta.replace('data:', '').replace(';base64', '');
-        const qRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [{ role: "user", parts: [
-                { inlineData: { mimeType: qMime, data: qB64 } },
-                { text: "Look at this handwritten answer sheet. Extract ONLY the question text written at the top of the page (usually underlined, in a box, or written before the answer begins). Output ONLY the question text, nothing else. If no question is visible, output empty string." }
-              ]}],
-              generationConfig: { temperature: 0.0, maxOutputTokens: 300 },
-            }),
-          }
-        );
+        const qRes = await fetch("https://api.mistral.ai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${process.env.MISTRAL_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: "pixtral-12b-2409",
+            messages: [{
+              role: "user",
+              content: [
+                { type: "image_url", image_url: firstImg.image_url },
+                { type: "text", text: "Look at this handwritten answer sheet. Extract ONLY the question text written at the top of the page (usually underlined, in a box, or written before the answer begins). Output ONLY the question text, nothing else. If no question is visible, output empty string." },
+              ],
+            }],
+            temperature: 0.0,
+            max_tokens: 300,
+          }),
+        });
         if (qRes.ok) {
           const qData = await qRes.json();
-          detectedQuestion = qData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+          detectedQuestion = qData.choices?.[0]?.message?.content?.trim() || "";
         }
       } catch { /* ignore question detection errors */ }
     }
