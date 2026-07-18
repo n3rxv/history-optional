@@ -1600,6 +1600,7 @@ ${responseStyle === "elaborative"
                           <option value="DN Jha — Ancient India in Historical Outline">DN Jha — Ancient India in Historical Outline</option>
                           <option value="KA Nilakanta Sastri — A History of South India">KA Nilakanta Sastri — A History of South India</option>
                           <option value="AL Basham - The Wonder That Was India">AL Basham - The Wonder That Was India</option>
+                          <option value="DD Kosambi — An Introduction to the Study of Indian History">DD Kosambi — An Introduction to the Study of Indian History</option>
                           <option disabled style={{color:'#555'}}>── Medieval ──</option>
                           <option value="Mughals IGNOU">Mughals IGNOU</option>
                           <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
@@ -1608,15 +1609,14 @@ ${responseStyle === "elaborative"
                           <option value="Vipul Singh — Interpreting Medieval India">Vipul Singh — Interpreting Medieval India</option>
                           <option value="India in the Persianate Age">Richard Eaton — India in the Persianate Age</option>
                           <option value="The Rise of Islam and the Bengal Frontier">Richard Eaton — The Rise of Islam and the Bengal Frontier</option>
+                          <option value="Irfan Habib — Agrarian System of Mughal India">Irfan Habib — Agrarian System of Mughal India</option>
                           <option disabled style={{color:'#555'}}>── Modern ──</option>
                           <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
                           <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
                           <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
                           <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
                           <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
-                          <option value="Irfan Habib — Agrarian System of Mughal India">Irfan Habib — Agrarian System of Mughal India</option>
                           <option value="Ranajit Guha — Elementary Aspects of Peasant Insurgency">Ranajit Guha — Elementary Aspects of Peasant Insurgency</option>
-                          <option value="DD Kosambi — An Introduction to the Study of Indian History">DD Kosambi — An Introduction to the Study of Indian History</option>
                           <option disabled style={{color:'#555'}}>── World ──</option>
                           <option value="Norman Lowe - Mastering Modern World History">Norman Lowe - Mastering Modern World History</option>
                           <option value="Eric Hobsbawm - Age of Revolution">Eric Hobsbawm - Age of Revolution (1789-1848)</option>
