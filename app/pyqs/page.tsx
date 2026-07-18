@@ -162,7 +162,7 @@ function AnswerBody({ text }: { text: string }) {
         }
         if (/^[-•]\s+/.test(line.trim())) {
           const content = line.trim().replace(/^[-•]\s+/, '');
-          const parts = content.split(/(\*\*[^*]+\*\*)/g);
+          const parts = content.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
           return (
             <div key={i} style={{ display: 'flex', gap: '0.5rem', margin: '0.25rem 0 0.25rem 0.5rem' }}>
               <span style={{ color: 'var(--accent)', fontWeight: 700, flexShrink: 0, marginTop: '0.1rem' }}>•</span>
@@ -170,18 +170,22 @@ function AnswerBody({ text }: { text: string }) {
                 {parts.map((part, j) =>
                   /^\*\*(.+)\*\*$/.test(part)
                     ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
+                    : /^\*([^*]+)\*$/.test(part)
+                    ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
                     : part
                 )}
               </p>
             </div>
           );
         }
-        const parts = line.split(/(\*\*[^*]+\*\*)/g);
+        const parts = line.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
         return (
           <p key={i} style={{ margin: '0 0 0.1rem' }}>
             {parts.map((part, j) =>
               /^\*\*(.+)\*\*$/.test(part)
                 ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
+                : /^\*([^*]+)\*$/.test(part)
+                ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
                 : part
             )}
           </p>
