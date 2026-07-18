@@ -89,19 +89,27 @@ Output the transcription now:`;
       },
     ];
 
-    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "qwen/qwen3.6-27b",
-        messages,
-        temperature: 0.0,
-        max_tokens: 4000,
+    // Convert messages to Gemini format
+    const geminiParts: any[] = [
+      ...imageContents.map((img: any) => {
+        const [meta, b64] = img.image_url.url.split(',');
+        const mimeType = meta.replace('data:', '').replace(';base64', '');
+        return { inlineData: { mimeType, data: b64 } };
       }),
-    });
+      { text: ocrPrompt },
+    ];
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: geminiParts }],
+          generationConfig: { temperature: 0.0, maxOutputTokens: 4000 },
+        }),
+      }
+    );
 
     if (!res.ok) {
       const err = await res.text();
@@ -109,32 +117,33 @@ Output the transcription now:`;
     }
 
     const data = await res.json();
-    const text = data.choices?.[0]?.message?.content || "";
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
     // In PDF mode the question text is embedded in the transcript as [Q]: lines.
     // In normal (single-question) mode, detect it from the first image.
     let detectedQuestion = "";
     if (!isPdfMode) {
       try {
-        const qRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${process.env.GROQ_API_KEY}` },
-          body: JSON.stringify({
-            model: "qwen/qwen3.6-27b",
-            messages: [{
-              role: "user",
-              content: [
-                imageContents[0],
-                { type: "text", text: `Look at this handwritten answer sheet. Extract ONLY the question text written at the top of the page (usually underlined, in a box, or written before the answer begins). Output ONLY the question text, nothing else. If no question is visible, output empty string.` }
-              ]
-            }],
-            temperature: 0.0,
-            max_tokens: 300,
-          }),
-        });
+        const firstImg = imageContents[0] as any;
+        const [qMeta, qB64] = firstImg.image_url.url.split(',');
+        const qMime = qMeta.replace('data:', '').replace(';base64', '');
+        const qRes = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ role: "user", parts: [
+                { inlineData: { mimeType: qMime, data: qB64 } },
+                { text: "Look at this handwritten answer sheet. Extract ONLY the question text written at the top of the page (usually underlined, in a box, or written before the answer begins). Output ONLY the question text, nothing else. If no question is visible, output empty string." }
+              ]}],
+              generationConfig: { temperature: 0.0, maxOutputTokens: 300 },
+            }),
+          }
+        );
         if (qRes.ok) {
           const qData = await qRes.json();
-          detectedQuestion = qData.choices?.[0]?.message?.content?.trim() || "";
+          detectedQuestion = qData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
         }
       } catch { /* ignore question detection errors */ }
     }
