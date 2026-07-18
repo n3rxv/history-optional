@@ -550,9 +550,9 @@ const handleOcr = useCallback(async () => {
         .ev-upload { border: 1.5px dashed #333; border-radius:6px; padding:44px 24px;
           text-align:center; cursor:pointer; background:var(--bg4); transition:all 0.2s; }
         .ev-upload:hover, .ev-upload.has { border-color:var(--accent); background:var(--accent-dim); }
-        .ev-ta { width:100%; background:var(--bg4); border:1.5px solid var(--border2); border-radius:6px;
+        .ev-ta { width:100%; box-sizing:border-box; background:var(--bg4); border:1.5px solid var(--border2); border-radius:6px;
           color:var(--text); padding:14px 16px; font-family:var(--font-body); font-size:0.95rem;
-          resize:vertical; line-height:1.75; transition:border-color 0.2s; outline:none; text-align:justify; }
+          resize:vertical; line-height:1.75; transition:border-color 0.2s; outline:none; text-align:left; white-space:pre-wrap; }
         .ev-ta:focus { border-color:var(--accent); }
         .ev-ta::placeholder { color:var(--text3); }
         .ev-mchip { padding:9px 26px; border-radius:4px; cursor:pointer;
