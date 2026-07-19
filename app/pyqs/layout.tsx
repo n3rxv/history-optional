@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Previous Year Questions — UPSC History Optional",
   description: "Topic-wise previous year questions for UPSC History Optional Mains. Organised by syllabus section to help you identify patterns and prepare strategically.",
-  alternates: { canonical: "/pyqs" },
+  alternates: { canonical: "https://historyoptional.xyz/pyqs" },
   openGraph: {
     title: "Previous Year Questions — UPSC History Optional",
     description: "Topic-wise previous year questions for UPSC History Optional Mains. Organised by syllabus section to help you identify patterns and prepare strategically.",

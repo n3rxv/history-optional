@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import CurrentAffairsSection from '@/components/CurrentAffairsSection';
 import EvaluateDemo from '@/components/EvaluateDemo';
 import DailyAnswerWriting from '@/components/DailyAnswerWriting';
@@ -207,3 +208,15 @@ export default function Home() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'History Optional — AI-Powered UPSC Prep',
+  description: 'AI chat, answer evaluation, PYQs, and historian-cited model answers for UPSC History Optional aspirants.',
+  alternates: { canonical: 'https://historyoptional.xyz' },
+  openGraph: {
+    title: 'History Optional — AI-Powered UPSC Prep',
+    description: 'AI chat, answer evaluation, PYQs, and historian-cited model answers for UPSC History Optional aspirants.',
+    url: 'https://historyoptional.xyz',
+    type: 'website',
+  },
+};
