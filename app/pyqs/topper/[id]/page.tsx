@@ -54,17 +54,8 @@ export default function TopperCopyPage() {
     });
   }, []);
 
-  useEffect(() => {
-    const checkAccess = async () => {
-      const currentUser = auth.currentUser;
-      if (!currentUser) { setAccessAllowed(false); return; }
-      const token = await currentUser.getIdToken();
-      const res = await fetch('/api/topper-access', { headers: { 'x-user-token': token } });
-      const data = await res.json();
-      setAccessAllowed(data.access === true);
-    };
-    checkAccess();
-  }, []);
+  // Access check is handled by the onAuthStateChanged effect above.
+  // (Removed duplicate effect that raced with Firebase init and caused ₹365 paywall flash)
 
   useEffect(() => {
     if (!id) return;
