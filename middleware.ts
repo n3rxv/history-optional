@@ -28,7 +28,12 @@ const AI_BOTS = [
 
 export function middleware(req: NextRequest) {
   const ua = (req.headers.get('user-agent') ?? '').toLowerCase();
-  const pathname = req.nextUrl.pathname; 
+  const pathname = req.nextUrl.pathname;
+
+  // Always allow HEAD requests — Googlebot uses HEAD to check pages before full crawl
+  if (req.method === 'HEAD') {
+    return NextResponse.next();
+  }
 
   // Always allow real search engine crawlers
   const isSearchBot = ua.includes('googlebot') || ua.includes('bingbot') || ua.includes('slurp') || ua.includes('duckduckbot') || ua.includes('baiduspider');
