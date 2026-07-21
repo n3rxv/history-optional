@@ -271,10 +271,10 @@ export function SubscribeCard({
             <button key={p.id} onClick={() => setSelectedPlan(p.id)}
               style={{
                 padding: '10px 4px 8px', borderRadius: 10, cursor: 'pointer', position: 'relative',
-                border: isSelected ? '2px solid #d4a843' : '1px solid rgba(0,0,0,0.08)',
+                border: isSelected ? '2px solid #d4a843' : '1px solid var(--border)',
                 background: isSelected
                   ? 'linear-gradient(160deg, rgba(212,168,67,0.18), rgba(212,168,67,0.06))'
-                  : 'rgba(0,0,0,0.02)',
+                  : 'var(--bg3)',
                 transition: 'all 0.2s', textAlign: 'center',
                 boxShadow: isSelected
                   ? '0 0 24px rgba(212,168,67,0.25), inset 0 1px 0 rgba(0,0,0,0.08)'
