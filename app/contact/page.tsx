@@ -18,6 +18,11 @@ function ContactForm() {
 
   async function handleContact(e: React.FormEvent) {
     e.preventDefault();
+    const wordCount = form.message.trim().split(/\s+/).filter(Boolean).length;
+    if (wordCount < 5) {
+      alert('Please write your message in at least 5 words.');
+      return;
+    }
     setStatus('sending');
     const res = await fetch('/api/contact', {
       method: 'POST',
@@ -31,6 +36,11 @@ function ContactForm() {
 
   async function handleBug(e: React.FormEvent) {
     e.preventDefault();
+    const wordCount = bugForm.description.trim().split(/\s+/).filter(Boolean).length;
+    if (wordCount < 5) {
+      alert('Please describe the bug in at least 5 words.');
+      return;
+    }
     setStatus('sending');
     const res = await fetch('/api/contact', {
       method: 'POST',
@@ -44,6 +54,11 @@ function ContactForm() {
 
   async function handleFeature(e: React.FormEvent) {
     e.preventDefault();
+    const wordCount = featureForm.description.trim().split(/\s+/).filter(Boolean).length;
+    if (wordCount < 5) {
+      alert('Please describe the feature in at least 5 words.');
+      return;
+    }
     setStatus('sending');
     const res = await fetch('/api/contact', {
       method: 'POST',
@@ -193,8 +208,8 @@ function ContactForm() {
                     placeholder="What you did, what you expected, what actually happened..." />
                 </div>
                 <div>
-                  <label style={labelStyle}>Your email <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: 'var(--border2)' }}>(optional)</span></label>
-                  <input type="email" style={inputStyle} value={bugForm.email}
+                  <label style={labelStyle}>Your email</label>
+                  <input required type="email" style={inputStyle} value={bugForm.email}
                     onChange={e => setBugForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="So we can follow up if needed" />
                 </div>
@@ -228,8 +243,8 @@ function ContactForm() {
                     placeholder="What should it do? How would it help your preparation?" />
                 </div>
                 <div>
-                  <label style={labelStyle}>Your email <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: 'var(--border2)' }}>(optional)</span></label>
-                  <input type="email" style={inputStyle} value={featureForm.email}
+                  <label style={labelStyle}>Your email</label>
+                  <input required type="email" style={inputStyle} value={featureForm.email}
                     onChange={e => setFeatureForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="So we can update you when it ships" />
                 </div>
