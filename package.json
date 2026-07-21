@@ -15,7 +15,7 @@
     "@fontsource/libre-baskerville": "^5.2.10",
     "@fontsource/lora": "^5.2.8",
     "@google/generative-ai": "^0.24.1",
-    "@supabase/supabase-js": "^2.99.1",
+    "@supabase/supabase-js": "^2.109.0",
     "@types/dompurify": "^3.0.5",
     "@types/pdf-parse": "^1.1.5",
     "@vercel/analytics": "^2.0.1",
@@ -23,6 +23,8 @@
     "d3-geo": "^3.1.1",
     "dompurify": "^3.3.3",
     "dotenv": "^17.4.2",
+    "firebase": "^10.12.0",
+    "firebase-admin": "^12.0.0",
     "fuse.js": "^7.1.0",
     "gray-matter": "^4.0.3",
     "groq-sdk": "^1.2.1",
@@ -41,8 +43,7 @@
     "react-dom": "19.2.3",
     "react-leaflet": "^5.0.0",
     "topojson-client": "^3.1.0",
-    "firebase": "^10.12.0",
-    "firebase-admin": "^12.0.0"
+    "ws": "^8.21.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

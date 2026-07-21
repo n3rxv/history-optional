@@ -377,7 +377,7 @@ export default function PYQDetailPage() {
           <h3 style={{
             color: 'var(--text)', fontFamily: 'var(--font-display)',
             fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem',
-          }}>5 free previews used</h3>
+          }}>Topper Copies are Locked</h3>
           <p style={{ color: 'var(--text3)', fontSize: '0.875rem', marginBottom: '0.75rem', lineHeight: 1.65 }}>
             Get unlimited access to all topper copies
           </p>

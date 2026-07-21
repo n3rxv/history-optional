@@ -1,27 +1,17 @@
-import { createClient } from '@supabase/supabase-js';
-import * as fs from 'fs';
-async function pdfParse(buffer: Buffer): Promise<{ text: string }> {
-  const fs = require('fs');
-  const { execFileSync } = require('child_process');
-  const tmp = '/tmp/book_upload_input.pdf';
-  fs.writeFileSync(tmp, buffer);
-  try {
-    const result = execFileSync('python3', ['scripts/extract_pdf.py', tmp], {
-      maxBuffer: 200 * 1024 * 1024
-    });
-    return { text: result.toString() };
-  } catch(e: any) {
-    console.error('PDF extraction error:', e.message);
-    return { text: '' };
-  }
-}
+/* eslint-disable @typescript-eslint/no-var-requires */
+// @ts-nocheck
+const { createClient } = require('@supabase/supabase-js');
+const fs = require('fs');
+const { execFileSync } = require('child_process');
+const path = require('path');
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SECRET_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SECRET_KEY,
+  { realtime: { transport: 'websocket', params: {} }, global: { fetch } }
 );
 
-async function jinaEmbed(texts: string[], retries = 5): Promise<number[][]> {
+async function jinaEmbed(texts, retries = 5) {
   for (let attempt = 0; attempt < retries; attempt++) {
     const res = await fetch('https://api.jina.ai/v1/embeddings', {
       method: 'POST',
@@ -37,7 +27,7 @@ async function jinaEmbed(texts: string[], retries = 5): Promise<number[][]> {
       }),
     });
     const data = await res.json();
-    if (data.data) return data.data.map((d: any) => d.embedding);
+    if (data.data) return data.data.map((d) => d.embedding);
     console.error(`Jina error (attempt ${attempt + 1}):`, JSON.stringify(data));
     const wait = (attempt + 1) * 5000;
     console.log(`Retrying in ${wait / 1000}s...`);
@@ -46,9 +36,9 @@ async function jinaEmbed(texts: string[], retries = 5): Promise<number[][]> {
   throw new Error('jinaEmbed failed after retries');
 }
 
-function chunkText(text: string, chunkSize = 250, overlap = 50): string[] {
+function chunkText(text, chunkSize = 250, overlap = 50) {
   const words = text.split(/\s+/);
-  const chunks: string[] = [];
+  const chunks = [];
   let i = 0;
   while (i < words.length) {
     const chunk = words.slice(i, i + chunkSize).join(' ');
@@ -56,6 +46,49 @@ function chunkText(text: string, chunkSize = 250, overlap = 50): string[] {
     i += chunkSize - overlap;
   }
   return chunks;
+}
+
+function extractText(filePath) {
+  if (filePath.endsWith('.txt')) {
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    return raw
+      .replace(/\r\n/g, '\n')
+      .replace(/\f/g, '\n')
+      .replace(/^\s*\d+\s*$/gm, '')
+      .replace(/check your progress[\s\S]{0,400}/gi, '')
+      .replace(/suggested readings[\s\S]{0,400}/gi, '')
+      .replace(/https?:\/\/\S+/g, '')
+      .replace(/_{4,}/g, '')
+      .replace(/\.{4,}/g, '')
+      .replace(/-\n/g, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .replace(/ {3,}/g, ' ')
+      .trim();
+  } else {
+    const result = execFileSync('python3', ['scripts/extract_pdf.py', filePath], {
+      maxBuffer: 200 * 1024 * 1024
+    });
+    return result.toString();
+  }
+}
+
+async function uploadBook(filePath, bookTitle) {
+  console.log(`Reading: ${bookTitle}`);
+  const extractedText = extractText(filePath);
+  const chunks = chunkText(extractedText);
+  console.log(`Total chunks: ${chunks.length}`);
+  const BATCH = 10;
+  let uploaded = 0;
+  for (let i = 0; i < chunks.length; i += BATCH) {
+    const batch = chunks.slice(i, i + BATCH);
+    const embeddings = await jinaEmbed(batch);
+    const rows = batch.map((content, j) => ({ content, embedding: embeddings[j], book_title: bookTitle }));
+    await supabase.from('book_chunks').insert(rows);
+    uploaded += batch.length;
+    console.log(`  ${Math.min(uploaded, chunks.length)}/${chunks.length} done`);
+    await new Promise(r => setTimeout(r, 200));
+  }
+  console.log(`Done: ${bookTitle}`);
 }
 
 async function reEmbedExisting() {
@@ -77,56 +110,6 @@ async function reEmbedExisting() {
     await new Promise(r => setTimeout(r, 200));
   }
   console.log('Re-embedding done!');
-}
-
-async function uploadBook(filePath: string, bookTitle: string) {
-  console.log(`Reading: ${bookTitle}`);
-  let extractedText: string;
-  if (filePath.endsWith('.txt')) {
-    const raw = require('fs').readFileSync(filePath, 'utf-8');
-    extractedText = raw
-      .replace(/\r\n/g, '\n')
-      .replace(/\f/g, '\n')
-      .replace(/^\s*\d+\s*$/gm, '')
-      .replace(/check your progress[\s\S]{0,400}/gi, '')
-      .replace(/suggested readings[\s\S]{0,400}/gi, '')
-      .replace(/https?:\/\/\S+/g, '')
-      .replace(/_{4,}/g, '')
-      .replace(/\.{4,}/g, '')
-      .replace(/-\n/g, '')
-      .replace(/\n{3,}/g, '\n\n')
-      .replace(/ {3,}/g, ' ')
-      .trim();
-  } else if (filePath.endsWith('.epub')) {
-    const { execFileSync } = require('child_process');
-    try {
-      const result = execFileSync('python3', ['scripts/extract_pdf.py', filePath], {
-        maxBuffer: 200 * 1024 * 1024
-      });
-      extractedText = result.toString();
-    } catch(e: any) {
-      console.error('EPUB extraction error:', e.message);
-      extractedText = '';
-    }
-  } else {
-    const buffer = fs.readFileSync(filePath);
-    const parsed = await pdfParse(buffer);
-    extractedText = parsed.text;
-  }
-  const chunks = chunkText(extractedText);
-  console.log(`Total chunks: ${chunks.length}`);
-  const BATCH = 10;
-  let uploaded = 0;
-  for (let i = 0; i < chunks.length; i += BATCH) {
-    const batch = chunks.slice(i, i + BATCH);
-    const embeddings = await jinaEmbed(batch);
-    const rows = batch.map((content, j) => ({ content, embedding: embeddings[j], book_title: bookTitle }));
-    await supabase.from('book_chunks').insert(rows);
-    uploaded += batch.length;
-    console.log(`  ${Math.min(uploaded, chunks.length)}/${chunks.length} done`);
-    await new Promise(r => setTimeout(r, 200));
-  }
-  console.log(`Done: ${bookTitle}`);
 }
 
 const args = process.argv.slice(2);
