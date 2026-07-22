@@ -833,7 +833,7 @@ const ragSystem = ragContext
                 'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
               },
               body: JSON.stringify({
-                model: 'deepseek-v4-flash',
+                model: 'deepseek-chat',
                 max_tokens: maxTokens,
                 stream: true,
                 messages: [
@@ -957,7 +957,7 @@ const ragSystem = ragContext
                   'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
                 },
                 body: JSON.stringify({
-                  model: 'deepseek-v4-flash',
+                  model: 'deepseek-chat',
                   max_tokens: 800,
                   stream: false,
                   messages: [
