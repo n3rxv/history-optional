@@ -112,7 +112,7 @@ export default function PYQDetailPage() {
   };
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2.5rem 1.5rem 5rem' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2.5rem 1rem 5rem', overflowX: 'hidden' }}>
     <div className="pyq-detail-grid">
     <div>
       <style>{`
@@ -123,6 +123,9 @@ export default function PYQDetailPage() {
           .pyq-detail-grid{grid-template-columns:1fr;}
           .pyq-sidebar{position:static!important;top:auto!important;}
         }
+        *{box-sizing:border-box;}
+        body{overflow-x:hidden;}
+        .pyq-detail-grid > *{min-width:0;max-width:100%;}
       `}</style>
 
       {/* Back */}
