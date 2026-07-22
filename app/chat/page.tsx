@@ -902,7 +902,7 @@ function ChatContent() {
 
         /* ── Books bottom sheet ── */
         .chat-books-sheet-overlay {
-          position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 800;
+          position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 899;
           backdrop-filter: blur(2px);
         }
         .chat-books-sheet {
@@ -911,8 +911,10 @@ function ChatContent() {
           border-radius: 20px 20px 0 0;
           padding: 1rem 1rem 1.5rem;
           padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
-          z-index: 801;
-          max-height: 70vh; overflow-y: auto;
+          z-index: 900;
+          max-height: 60vh; overflow-y: auto;
+          margin-bottom: 120px;
+          border-radius: 20px;
         }
         .chat-books-sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 1rem; }
         .chat-books-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
