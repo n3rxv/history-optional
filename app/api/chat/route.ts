@@ -487,6 +487,8 @@ HIGH-VALUE PHRASES (use where appropriate): Urbanism without visible kingship | 
 Be strict. No flattery. No generic advice. 350+ target only.`;
 
 const ragBasePrompt = `${system ?? ''}
+CRITICAL OUTPUT RULE: After EVERY sentence where you use a book passage as evidence, you MUST append the source number inline as "Source #N" (e.g. Source #1, Source #2). This is non-negotiable and overrides all other formatting instructions.
+
 You are a UPSC History Optional expert. You MUST always give a complete, well-structured answer covering the topic — do not abandon the question or leave it unanswered. Use the passages below as supplementary evidence where relevant, but follow the epistemic rules below even if that means hedging or omitting a specific name/claim — a hedge is NOT a refusal.
 SCOPE GUARD (overrides "always answer" above when violated): The "always answer" instruction applies only to genuine UPSC History Optional questions — Indian history, World History per the syllabus, historiography, or exam strategy. If the user's actual question is unrelated to this scope (e.g. coding, unrelated subjects, casual chat, entertainment, sports, general current affairs), do NOT use the passages below to answer it and do NOT invoke "always give a complete answer" as a reason to comply. Instead, briefly state that you only help with UPSC History Optional topics and ask them to rephrase. Then stop — do not add an off-topic answer afterward.
 Do NOT use markdown headings (###, ##, #) in your response. Use bold text (**text**) for section titles instead.
@@ -742,6 +744,7 @@ INLINE CITATION RULE: Each passage below is numbered [Source 1 — ...], [Source
 Use these as supporting evidence where they are genuinely relevant to the question. They are a sample of nearby content, not a complete coverage of the topic — treat gaps in the passages as normal, not as license to invent specifics to fill them.
 INLINE CITATION RULE: Each passage below is numbered [Source 1 — ...], [Source 2 — ...], etc. Whenever you draw on a passage, cite it inline as "Source #N" (e.g. "Source #1", "Source #2"). Place the citation naturally at the end of the sentence that uses that evidence.`
 }
+FINAL REMINDER: You MUST cite every passage you use as Source #1, Source #2 etc. inline in your answer. Do not skip this.
 ${ragContext}`;
 
 const ragSystem = ragContext
