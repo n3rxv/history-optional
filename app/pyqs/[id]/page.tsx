@@ -113,11 +113,16 @@ export default function PYQDetailPage() {
 
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2.5rem 1.5rem 5rem' }}>
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: '2rem', alignItems: 'start' }}>
+    <div className="pyq-detail-grid">
     <div>
       <style>{`
         @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
         .ans-card:hover{background:var(--bg3)!important;}
+        .pyq-detail-grid{display:grid;grid-template-columns:1fr 320px;gap:2rem;align-items:start;}
+        @media(max-width:768px){
+          .pyq-detail-grid{grid-template-columns:1fr;}
+          .pyq-sidebar{position:static!important;top:auto!important;}
+        }
       `}</style>
 
       {/* Back */}
@@ -290,7 +295,7 @@ export default function PYQDetailPage() {
     </div>{/* left col */}
 
     {/* RIGHT SIDEBAR — Topper Copies */}
-    <div style={{ position: 'sticky', top: '5rem' }}>
+    <div className="pyq-sidebar" style={{ position: 'sticky', top: '5rem' }}>
       <div style={{
         background: 'var(--bg2)', border: '1px solid var(--border)',
         borderRadius: 10, padding: '1.5rem',
