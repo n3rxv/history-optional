@@ -999,6 +999,10 @@ function ChatContent() {
           pointer-events: none;
         }
 
+        /* ── Desktop toolbar (hidden on mobile, shown on desktop) ── */
+        .chat-toolbar { display: none; }
+        .chat-style-toggle { display: none; }
+
         /* ── Desktop: side rail layout (≥900px) ── */
         @media (min-width: 900px) {
           .chat-wrap {
@@ -1006,22 +1010,110 @@ function ChatContent() {
           }
           .chat-msgs {
             flex: 1;
-            padding: 1.5rem 2rem 1rem;
+            min-width: 0;
+            overflow-y: auto;
+            padding: 1rem 1.5rem 2rem;
           }
+          .chat-msgs-inner { max-width: 760px; margin: 0 auto; }
           .chat-footer {
-            width: 360px;
+            width: 380px;
             flex-shrink: 0;
             border-top: none;
             border-left: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 1.25rem 1.1rem 1.25rem 0.9rem;
+            padding: 1.25rem 1.25rem 1.25rem 0.75rem;
             background: linear-gradient(180deg, rgba(10,10,13,0.4), var(--bg2));
           }
-          .chat-input-row { border-radius: 14px; }
-          .chat-suggested-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+          .chat-mode-strip { display: none; }
+          .chat-usage-line { display: none; }
+          .chat-input-row {
+            border-radius: 0;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.6rem 0.6rem 0.6rem 0.9rem;
+          }
+          .chat-textarea { min-height: 44px; max-height: 240px; }
+          .chat-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 0.32rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+          }
+          .chat-style-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-bottom: 0.5rem;
+            padding-left: 0.05rem;
+          }
+          .chat-input-area-wrap {
+            background: linear-gradient(160deg, var(--bg2), var(--bg2));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 0.7rem 0.75rem 0.8rem;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+            position: relative;
+          }
+          .chat-hint-desktop {
+            display: block;
+            font-size: 0.58rem;
+            color: var(--text3);
+            text-align: center;
+            margin-top: 0.45rem;
+            letter-spacing: 0.03em;
+          }
+          .chat-usage-desktop {
+            display: block;
+            text-align: center;
+            margin-top: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+          }
+          .chat-suggested-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
         }
+        .chat-hint-desktop { display: none; }
+        .chat-usage-desktop { display: none; }
+        .chat-input-area-wrap { background: transparent; border: none; padding: 0; box-shadow: none; }
+
+        /* ── Books popover (desktop) ── */
+        .chat-books-popover {
+          position: absolute; bottom: calc(100% + 8px); left: 0;
+          width: 260px; max-width: 80vw;
+          background: var(--bg2);
+          border: 1px solid rgba(139,92,246,0.4); border-radius: 14px;
+          padding: 0.75rem; box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+          backdrop-filter: blur(16px); z-index: 60;
+        }
+        .chat-books-popover-row { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.1rem; }
+        .chat-books-popover-label {
+          font-size: 0.7rem; font-family: var(--font-mono); letter-spacing: 0.07em;
+          color: var(--accent); font-weight: 600; text-transform: uppercase; flex: 1;
+        }
+
+        /* ── Desktop toolbar button styles ── */
+        .chat-tool-btn {
+          display: inline-flex; align-items: center; gap: 4px;
+          background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.08);
+          color: var(--text2); cursor: pointer;
+          padding: 0.32rem 0.55rem; border-radius: 7px;
+          font-size: 0.66rem; font-family: var(--font-mono); font-weight: 500;
+          transition: all 0.15s; white-space: nowrap; position: relative;
+        }
+        .chat-tool-btn:hover { border-color: rgba(59,130,246,0.4); color: var(--text2); background: rgba(59,130,246,0.07); }
+        .chat-tool-btn.active {
+          background: rgba(99,102,241,0.18); border-color: rgba(99,102,241,0.6); color: #a5b4fc;
+          box-shadow: 0 0 10px rgba(99,102,241,0.2);
+        }
+        .chat-tool-btn.gold-active {
+          background: rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.6); color: #fbbf24;
+        }
+        .chat-tool-divider { width: 1px; height: 16px; background: var(--border2); margin: 0 0.1rem; flex-shrink: 0; }
+        .chat-tool-badge { color: rgba(251,191,36,0.8); margin-left: 2px; }
       `}</style>
 
       <div
@@ -1293,6 +1385,129 @@ function ChatContent() {
             PINNED INPUT FOOTER
         ════════════════════════════════════════ */}
         <div className="chat-footer">
+          {/* ── Desktop-only toolbar ── */}
+          <div className="chat-input-area-wrap">
+          <div className="chat-toolbar">
+            <button className="chat-tool-btn" onClick={() => setHistoryOpen(true)} title="Chat history">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+              History
+            </button>
+            <button className="chat-tool-btn" onClick={startNewChat} title="Start a new chat">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New
+            </button>
+            <div className="chat-tool-divider" />
+            <button
+              className={`chat-tool-btn ${pdfFile ? 'active' : ''}`}
+              onClick={() => { if (!usage?.subscribed) { showChatLimitModal(); return; } fileInputRef.current?.click(); }}
+              title={usage?.subscribed ? "Upload PDF to discuss or get model answers" : "Premium feature — subscribe to upload PDFs"}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              {pdfFile ? (
+                <>{pdfName} <span onClick={e => { e.stopPropagation(); setPdfFile(null); setPdfBase64(null); setPdfName(null); }} style={{ marginLeft:'4px', opacity:0.6, fontWeight:'bold', cursor:'pointer' }}>✕</span></>
+              ) : <>PDF{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}</>}
+            </button>
+            <button
+              className={`chat-tool-btn ${brainstormMode ? 'gold-active' : ''}`}
+              onClick={() => { if (!usage?.subscribed) { showChatLimitModal(); return; } setBrainstormMode(b => !b); }}
+              title={usage?.subscribed ? "Brainstorm mode — get essay plans & argument maps" : "Premium feature — subscribe to use Brainstorm"}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              Brainstorm{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
+            </button>
+            <div style={{ position:'relative' }}>
+              <button
+                className={`chat-tool-btn ${bookMode && usage?.subscribed ? 'active' : ''}`}
+                onClick={() => { if (usageLoading) return; if (!usage?.subscribed) { setShowBookPaywall(true); return; } setBooksPopoverOpen(o => !o); }}
+                title="Chat with Books — ground answers in reference texts"
+              >
+                <span style={{ fontSize:'0.85rem' }}>📚</span>
+                Books{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
+              </button>
+              <button
+                className={`chat-tool-btn ${mentorMode && usage?.subscribed ? 'active' : ''}`}
+                onClick={() => { if (usageLoading) return; if (!usage?.subscribed) { setShowBookPaywall(true); return; } setMentorMode(m => !m); }}
+                title="Mentor Mode — TADA framework, evaluator feedback, 350+ strategy (Premium)"
+                style={{ ...(mentorMode && usage?.subscribed ? { background:'linear-gradient(135deg, rgba(234,179,8,0.18), rgba(212,168,67,0.1))', borderColor:'rgba(234,179,8,0.5)', color:'#d4a843' } : {}) }}
+              >
+                <span style={{ fontSize:'0.85rem' }}>🎓</span>
+                Mentor{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
+              </button>
+              {booksPopoverOpen && usage?.subscribed && (
+                <>
+                  <div style={{ position:'fixed', inset:0, zIndex:55 }} onClick={() => setBooksPopoverOpen(false)} />
+                  <div className="chat-books-popover" onClick={e => e.stopPropagation()}>
+                    <div className="chat-books-popover-row">
+                      <span className="chat-books-popover-label">Chat with Books</span>
+                      <button className={`chat-books-toggle ${bookMode ? 'on' : 'off'}`} onClick={() => setBookMode(b => !b)}>
+                        <span className="chat-books-toggle-dot" style={{ left: bookMode ? 20 : 4 }} />
+                      </button>
+                    </div>
+                    {bookMode && (
+                      <select value={bookTitle} onChange={e => setBookTitle(e.target.value)} className="chat-books-select">
+                        <option value="all">📖 All Books</option>
+                        <option disabled style={{color:'#555'}}>── Ancient ──</option>
+                        <option value="Ajeet Jha — A History of Ancient India">Ajeet Jha — A History of Ancient India</option>
+                        <option value="Upinder Singh - Ancient & Early Medieval India">Upinder Singh - Ancient & Early Medieval India</option>
+                        <option value="RS Sharma — Ancient India (Old NCERT)">RS Sharma — Ancient India (Old NCERT)</option>
+                        <option value="Romila Thapar — Early India">Romila Thapar — Early India</option>
+                        <option value="Ranbir Chakravarti — Exploring Early India">Ranbir Chakravarti — Exploring Early India</option>
+                        <option value="RC Majumdar — Ancient India">RC Majumdar — Ancient India</option>
+                        <option value="DN Jha — Ancient India in Historical Outline">DN Jha — Ancient India in Historical Outline</option>
+                        <option value="KA Nilakanta Sastri — A History of South India">KA Nilakanta Sastri — A History of South India</option>
+                        <option value="AL Basham - The Wonder That Was India">AL Basham - The Wonder That Was India</option>
+                        <option value="DD Kosambi — An Introduction to the Study of Indian History">DD Kosambi — An Introduction to the Study of Indian History</option>
+                        <option disabled style={{color:'#555'}}>── Medieval ──</option>
+                        <option value="Mughals IGNOU">Mughals IGNOU</option>
+                        <option value="Delhi Sultanate IGNOU">Delhi Sultanate IGNOU</option>
+                        <option value="Satish Chandra - Medieval India (800-1700)">Satish Chandra - Medieval India (800-1700)</option>
+                        <option value="Satish Chandra - Medieval India Part 2 (1526-1748)">Satish Chandra - Medieval India Part 2 (1526-1748)</option>
+                        <option value="Vipul Singh — Interpreting Medieval India">Vipul Singh — Interpreting Medieval India</option>
+                        <option value="India in the Persianate Age">Richard Eaton — India in the Persianate Age</option>
+                        <option value="The Rise of Islam and the Bengal Frontier">Richard Eaton — The Rise of Islam and the Bengal Frontier</option>
+                        <option value="Irfan Habib — Agrarian System of Mughal India">Irfan Habib — Agrarian System of Mughal India</option>
+                        <option disabled style={{color:'#555'}}>── Modern ──</option>
+                        <option value="Bipan Chandra - History of Modern India">Bipan Chandra - History of Modern India</option>
+                        <option value="Bipan Chandra — India's Struggle for Independence">Bipan Chandra — India's Struggle for Independence</option>
+                        <option value="Sekhar Bandopadhyay - Plassey to Partition">Sekhar Bandopadhyay - Plassey to Partition</option>
+                        <option value="Sumit Sarkar — Modern India (1885-1947)">Sumit Sarkar — Modern India (1885-1947)</option>
+                        <option value="BL Grover - Modern Indian History">BL Grover - Modern Indian History</option>
+                        <option value="Ranajit Guha — Elementary Aspects of Peasant Insurgency">Ranajit Guha — Elementary Aspects of Peasant Insurgency</option>
+                        <option disabled style={{color:'#555'}}>── World ──</option>
+                        <option value="Norman Lowe - Mastering Modern World History">Norman Lowe - Mastering Modern World History</option>
+                        <option value="Eric Hobsbawm - Age of Revolution">Eric Hobsbawm - Age of Revolution (1789-1848)</option>
+                        <option value="Eric Hobsbawm - Age of Capital">Eric Hobsbawm - Age of Capital (1848-1875)</option>
+                        <option value="Eric Hobsbawm - Age of Empire">Eric Hobsbawm - Age of Empire (1875-1914)</option>
+                        <option value="Eric Hobsbawm - Age of Extremes">Eric Hobsbawm - Age of Extremes (1914-1991)</option>
+                        <option value="David Thomson — Europe Since Napoleon">David Thomson — Europe Since Napoleon</option>
+                      </select>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Response style toggle — desktop only */}
+          {!mentorMode && !brainstormMode && (
+            <div className="chat-style-toggle">
+              <span style={{ fontSize:'0.6rem', color:'var(--text3)', fontFamily:'var(--font-mono)', letterSpacing:'0.08em', textTransform:'uppercase' }}>Style</span>
+              <span style={{ fontSize:'0.6rem', color:'var(--border)', fontFamily:'var(--font-mono)' }}>—</span>
+              {(['concise', 'elaborative'] as const).map(s => (
+                <button key={s} onClick={() => setResponseStyle(s)} style={{
+                  fontSize:'0.68rem', fontFamily:'var(--font-mono)', letterSpacing:'0.04em',
+                  padding:'3px 12px', borderRadius:20,
+                  border: responseStyle === s ? `1px solid ${s === 'concise' ? '#3b82f6' : '#8b5cf6'}` : '1px solid var(--border)',
+                  background: responseStyle === s ? (s === 'concise' ? 'rgba(59,130,246,0.15)' : 'rgba(139,92,246,0.15)') : 'transparent',
+                  color: responseStyle === s ? (s === 'concise' ? '#60a5fa' : '#a78bfa') : 'var(--text3)',
+                  cursor:'pointer', transition:'all 0.15s', fontWeight: responseStyle === s ? 600 : 400,
+                }}>
+                  {s === 'concise' ? '⚡' : '📖'} {s.charAt(0).toUpperCase() + s.slice(1)}
+                </button>
+              ))}
+            </div>
+          )}
+
           {/* Active PDF strip */}
           {pdfFile && (
             <div className="chat-pdf-strip">
@@ -1380,12 +1595,21 @@ function ChatContent() {
             </button>
           </div>
 
-          {/* Usage line */}
+          {/* Usage line — mobile */}
           {!usageLoading && (
             <div className="chat-usage-line" style={{ color: !canChat ? '#f87171' : usage?.subscribed ? '#51cf66' : 'var(--text3)' }}>
               {usage?.subscribed ? tr(t.chatUnlimited, langHi) : !canChat ? tr(t.chatFreeUsed, langHi) : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
             </div>
           )}
+
+          {/* Desktop hint + usage */}
+          <div className="chat-hint-desktop">{tr(t.chatHint, langHi)}</div>
+          {!usageLoading && (
+            <div className="chat-usage-desktop" style={{ color: !canChat ? '#f87171' : usage?.subscribed ? '#51cf66' : '#555' }}>
+              {usage?.subscribed ? tr(t.chatUnlimited, langHi) : !canChat ? tr(t.chatFreeUsed, langHi) : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
+            </div>
+          )}
+          </div>{/* end chat-input-area-wrap */}
         </div>
       </div>
     </>
