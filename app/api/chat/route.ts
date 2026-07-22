@@ -733,9 +733,11 @@ The examiner's first instinct when they see a wrong citation is to distrust the 
 ${bookTitle && bookTitle !== "all"
   ? `BOOK PASSAGES from "${bookTitle}" (cite passages as [${bookTitle}]):
 IMPORTANT: The user has specifically selected "${bookTitle}" — prioritise answering from these passages above all else. Do not genericise the answer; ground it specifically in what this book covers.
-Your answer must reflect THIS BOOK'S specific arguments, framework, and perspective — not a generic textbook answer. If the book has a distinct historiographical stance (e.g. Sekhar Bandyopadhyay's subaltern/social history lens, Romila Thapar's early India framework, Satish Chandra's medieval synthesis), use that lens explicitly in your answer.`
+Your answer must reflect THIS BOOK'S specific arguments, framework, and perspective — not a generic textbook answer. If the book has a distinct historiographical stance (e.g. Sekhar Bandyopadhyay's subaltern/social history lens, Romila Thapar's early India framework, Satish Chandra's medieval synthesis), use that lens explicitly in your answer.
+INLINE CITATION RULE: Each passage below is numbered [Source 1 — ...], [Source 2 — ...], etc. Whenever you draw on a passage, cite it inline as "Source #N" (e.g. "Source #1", "Source #2"). Place the citation naturally at the end of the sentence that uses that evidence.`
   : `RELEVANT BOOK PASSAGES (multiple books, top matches — cite each as [Book Title] shown in the source label):
-Use these as supporting evidence where they are genuinely relevant to the question. They are a sample of nearby content, not a complete coverage of the topic — treat gaps in the passages as normal, not as license to invent specifics to fill them.`
+Use these as supporting evidence where they are genuinely relevant to the question. They are a sample of nearby content, not a complete coverage of the topic — treat gaps in the passages as normal, not as license to invent specifics to fill them.
+INLINE CITATION RULE: Each passage below is numbered [Source 1 — ...], [Source 2 — ...], etc. Whenever you draw on a passage, cite it inline as "Source #N" (e.g. "Source #1", "Source #2"). Place the citation naturally at the end of the sentence that uses that evidence.`
 }
 ${ragContext}`;
 
