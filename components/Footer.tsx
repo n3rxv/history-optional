@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const linkStyle = {
   color: 'var(--text3)',
@@ -14,20 +15,26 @@ const hoverOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
 };
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isChat = pathname === '/chat';
+
   return (
-    <footer style={{
-      borderTop: '1px solid var(--border)',
-      backgroundColor: 'var(--bg)',
-      padding: '20px 32px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      flexWrap: 'wrap',
-      gap: '12px',
-      fontFamily: 'Inter, system-ui, sans-serif',
-      fontSize: '12px',
-      color: 'var(--text3)',
-    }}>
+    <footer
+      className={isChat ? 'site-footer site-footer--chat' : 'site-footer'}
+      style={{
+        borderTop: '1px solid var(--border)',
+        backgroundColor: 'var(--bg)',
+        padding: '20px 32px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '12px',
+        fontFamily: 'Inter, system-ui, sans-serif',
+        fontSize: '12px',
+        color: 'var(--text3)',
+      }}
+    >
       <span>© {new Date().getFullYear()} historyoptional.xyz</span>
 
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
