@@ -172,18 +172,16 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     // Step 4b: Filter low-similarity chunks before reranking
     // (similarity < 0.45 means book likely doesn't cover this topic)
     const filtered = allChunks.filter((c) => (c.similarity ?? 1) > 0.45);
-    const chunksToRerank = (filtered.length >= 3 ? filtered : allChunks).slice(0, 6);
-    console.log(`Chunks before filter: ${allChunks.length}, after: ${chunksToRerank.length}`);
+    // Rerank removed — similarity sort is sufficient, Render free tier too slow
+    const topChunks = (filtered.length >= 3 ? filtered : allChunks).slice(0, 6);
+    console.log(`Chunks before filter: ${allChunks.length}, after: ${topChunks.length}`);
 
-    // Step 5: Rerank by true relevance
-    const reranked = await localRerank(query, chunksToRerank);
-
-    // Step 6: Ensure diversity - max 2 chunks per book, then fill remaining slots
-    const finalChunks: typeof reranked = [];
+    // Ensure diversity - max 2 chunks per book
+    const finalChunks: typeof topChunks = [];
     const bookCount: Record<string, number> = {};
-    const overflow: typeof reranked = [];
+    const overflow: typeof topChunks = [];
 
-    for (const chunk of reranked) {
+    for (const chunk of topChunks) {
       const count = bookCount[chunk.book_title] ?? 0;
       if (count < 2) {
         finalChunks.push(chunk);
@@ -191,11 +189,10 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
       } else {
         overflow.push(chunk);
       }
-      if (finalChunks.length >= 8) break;
+      if (finalChunks.length >= 6) break;
     }
-    // Fill up to 8 if needed
     for (const chunk of overflow) {
-      if (finalChunks.length >= 8) break;
+      if (finalChunks.length >= 6) break;
       finalChunks.push(chunk);
     }
 
