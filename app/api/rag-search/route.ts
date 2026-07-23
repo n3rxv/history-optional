@@ -1,35 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-async function jinaEmbed(text: string): Promise<number[]> {
-  const res = await fetch('https://api.jina.ai/v1/embeddings', {
+const EMBED_SERVICE_URL = process.env.EMBED_SERVICE_URL || 'https://rag-embed-rerank.onrender.com';
+
+async function localEmbed(text: string): Promise<number[]> {
+  const res = await fetch(`${EMBED_SERVICE_URL}/embed`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: 'jina-embeddings-v3',
-      task: 'retrieval.query',
-      dimensions: 384,
-      input: [text],
-    }),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ texts: [text] }),
   });
   const data = await res.json();
-  if (!data.data) throw new Error('Jina embed failed: ' + JSON.stringify(data));
-  return data.data[0].embedding;
+  if (!data.embeddings) throw new Error('Local embed failed: ' + JSON.stringify(data));
+  return data.embeddings[0];
 }
 
-async function jinaRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]) {
+async function localRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]) {
   try {
-    const res = await fetch('https://api.jina.ai/v1/rerank', {
+    const res = await fetch(`${EMBED_SERVICE_URL}/rerank`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'jina-reranker-v2-base-multilingual',
         query,
         documents: chunks.map(c => c.content),
         top_n: 6,
@@ -37,7 +27,7 @@ async function jinaRerank(query: string, chunks: {id: any, content: string, book
     });
     const data = await res.json();
     if (!data.results) return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
-    return data.results.map((r: any) => ({ ...chunks[r.index], score: r.relevance_score }));
+    return data.results.map((r: any) => ({ ...chunks[r.index], score: r.score }));
   } catch {
     return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
   }
@@ -53,8 +43,8 @@ export async function POST(req: NextRequest) {
       process.env.SUPABASE_SECRET_KEY!
     );
 
-    // Embed query
-    const embedding = await jinaEmbed(query);
+    // Embed query via local service
+    const embedding = await localEmbed(query);
 
     // Fetch diverse chunks
     const { data: chunks } = await supabase.rpc('match_book_chunks_diverse', {
@@ -68,8 +58,8 @@ export async function POST(req: NextRequest) {
     const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45);
     const toRerank = (filtered.length >= 3 ? filtered : chunks).slice(0, 12);
 
-    // Rerank
-    const reranked = await jinaRerank(query, toRerank);
+    // Rerank via local service
+    const reranked = await localRerank(query, toRerank);
 
     // Diversity — max 2 per book
     const finalChunks: typeof reranked = [];
