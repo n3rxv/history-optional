@@ -68,54 +68,27 @@ const BROAD_ONLY_HISTORIANS = ['Jha', 'Nizami', 'Riazul Islam', 'Surendra Gopal'
 // All known historian names to detect (whitelist + broad-only)
 const ALL_KNOWN_HISTORIAN_NAMES = [...WHITELISTED_HISTORIAN_SURNAMES, ...BROAD_ONLY_HISTORIANS];
 
-async function jinaEmbed(text: string): Promise<number[]> {
-  const res = await fetch('https://api.jina.ai/v1/embeddings', {
+// Self-hosted embedding + rerank service (Render, all-MiniLM-L6-v2 + ms-marco-MiniLM-L-6-v2).
+// Replaces Jina — no per-call billing, no balance dependency.
+const EMBED_SERVICE_URL = process.env.EMBED_SERVICE_URL || 'https://rag-embed-rerank.onrender.com';
+
+async function localEmbedBatch(texts: string[]): Promise<number[][]> {
+  const res = await fetch(`${EMBED_SERVICE_URL}/embed`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: 'jina-embeddings-v3',
-      task: 'retrieval.query',
-      dimensions: 384,
-      input: [text],
-    }),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ texts }),
   });
   const data = await res.json();
-  if (!data.data) throw new Error('Jina embed failed: ' + JSON.stringify(data));
-  return data.data[0].embedding;
+  if (!data.embeddings) throw new Error('Local embed failed: ' + JSON.stringify(data));
+  return data.embeddings;
 }
 
-async function jinaEmbedBatch(texts: string[]): Promise<number[][]> {
-  const res = await fetch('https://api.jina.ai/v1/embeddings', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: 'jina-embeddings-v3',
-      task: 'retrieval.query',
-      dimensions: 384,
-      input: texts,
-    }),
-  });
-  const data = await res.json();
-  if (!data.data) throw new Error('Jina batch embed failed');
-  return data.data.map((d: any) => d.embedding);
-}
-
-async function jinaRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]): Promise<{id: any, content: string, book_title: string, author: string, score: number}[]> {
+async function localRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]): Promise<{id: any, content: string, book_title: string, author: string, score: number}[]> {
   try {
-    const res = await fetch('https://api.jina.ai/v1/rerank', {
+    const res = await fetch(`${EMBED_SERVICE_URL}/rerank`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'jina-reranker-v2-base-multilingual',
         query,
         documents: chunks.map(c => c.content),
         top_n: 6,
@@ -125,9 +98,10 @@ async function jinaRerank(query: string, chunks: {id: any, content: string, book
     if (!data.results) return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
     return data.results.map((r: any) => ({
       ...chunks[r.index],
-      score: r.relevance_score,
+      score: r.score,
     }));
-  } catch {
+  } catch (e) {
+    console.error('Local rerank failed:', e);
     return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
   }
 }
@@ -141,7 +115,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     const filter = (bookTitle && bookTitle !== "all") ? bookTitle : null;
 
     // Step 1 (optimized): Single embedding, no query expansion
-    const [singleEmbedding] = await jinaEmbedBatch([query]);
+    const [singleEmbedding] = await localEmbedBatch([query]);
 
     // Step 2: Search
     let results;
@@ -170,6 +144,9 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     const seen = new Set<any>();
     const allChunks: {id: any, content: string, book_title: string, author: string, similarity: number}[] = [];
     for (const result of results) {
+      if (result.error) {
+        console.error('Supabase RPC error:', result.error);
+      }
       for (const chunk of (result.data ?? [])) {
         if (!seen.has(chunk.id)) {
           seen.add(chunk.id);
@@ -187,7 +164,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     console.log(`Chunks before filter: ${allChunks.length}, after: ${chunksToRerank.length}`);
 
     // Step 5: Rerank by true relevance
-    const reranked = await jinaRerank(query, chunksToRerank);
+    const reranked = await localRerank(query, chunksToRerank);
 
     // Step 6: Ensure diversity - max 2 chunks per book, then fill remaining slots
     const finalChunks: typeof reranked = [];
