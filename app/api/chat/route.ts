@@ -95,7 +95,7 @@ async function localEmbedBatch(texts: string[]): Promise<number[][]> {
 async function localRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]): Promise<{id: any, content: string, book_title: string, author: string, score: number}[]> {
   try {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 8000);
+    const timer = setTimeout(() => controller.abort(), 15000);
     const res = await fetch(`${EMBED_SERVICE_URL}/rerank`, {
       signal: controller.signal,
       method: 'POST',
