@@ -104,14 +104,14 @@ async function localRerank(query: string, chunks: {id: any, content: string, boo
       }),
     });
     const data = await res.json();
-    if (!data.results) return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
+    if (!data.results) return chunks.slice(0, 3).map(c => ({ ...c, score: 0 }));
     return data.results.map((r: any) => ({
       ...chunks[r.index],
       score: r.score,
     }));
   } catch (e) {
     console.error('Local rerank failed:', e);
-    return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
+    return chunks.slice(0, 3).map(c => ({ ...c, score: 0 }));
   }
 }
 
@@ -169,7 +169,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     // Step 4b: Filter low-similarity chunks before reranking
     // (similarity < 0.45 means book likely doesn't cover this topic)
     const filtered = allChunks.filter((c) => (c.similarity ?? 1) > 0.45);
-    const chunksToRerank = (filtered.length >= 3 ? filtered : allChunks).slice(0, 6);
+    const chunksToRerank = (filtered.length >= 3 ? filtered : allChunks).slice(0, 3);
     console.log(`Chunks before filter: ${allChunks.length}, after: ${chunksToRerank.length}`);
 
     // Step 5: Rerank by true relevance
