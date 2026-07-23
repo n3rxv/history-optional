@@ -14,6 +14,8 @@ const ContentSecurityPolicy = [
   "form-action 'self' https://*.razorpay.com",
   "upgrade-insecure-requests",
 ].join('; ');
+export const maxDuration = 30;
+
 const nextConfig: NextConfig = {
   experimental: {
     serverActions: {

@@ -4,14 +4,22 @@ import { createClient } from '@supabase/supabase-js';
 const EMBED_SERVICE_URL = process.env.EMBED_SERVICE_URL || 'https://rag-embed-rerank.onrender.com';
 
 async function localEmbed(text: string): Promise<number[]> {
-  const res = await fetch(`${EMBED_SERVICE_URL}/embed`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ texts: [text] }),
-  });
-  const data = await res.json();
-  if (!data.embeddings) throw new Error('Local embed failed: ' + JSON.stringify(data));
-  return data.embeddings[0];
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await fetch(`${EMBED_SERVICE_URL}/embed`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texts: [text] }),
+        signal: AbortSignal.timeout(12000),
+      });
+      const data = await res.json();
+      if (data.embeddings) return data.embeddings[0];
+    } catch (e) {
+      if (attempt === 1) throw e;
+      console.warn('localEmbed attempt 1 failed, retrying...');
+    }
+  }
+  throw new Error('Embed failed after 2 attempts');
 }
 
 async function localRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]) {
