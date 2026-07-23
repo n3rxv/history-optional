@@ -88,7 +88,7 @@ export default function VisitorTracker() {
       try {
         const { visitor_id } = await getVisitorId();
         sendHeartbeat(visitor_id);
-        interval = setInterval(() => sendHeartbeat(visitor_id), 30000);
+        interval = setInterval(() => sendHeartbeat(visitor_id), 5 * 60 * 1000);
         const onVisibility = () => sendHeartbeat(visitor_id);
         document.addEventListener('visibilitychange', onVisibility);
         const onUnload = () => sendHeartbeat(visitor_id);
