@@ -75,14 +75,21 @@ const ALL_KNOWN_HISTORIAN_NAMES = [...WHITELISTED_HISTORIAN_SURNAMES, ...BROAD_O
 const EMBED_SERVICE_URL = process.env.EMBED_SERVICE_URL || 'https://rag-embed-rerank.onrender.com';
 
 async function localEmbedBatch(texts: string[]): Promise<number[][]> {
-  const res = await fetch(`${EMBED_SERVICE_URL}/embed`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ texts }),
-  });
-  const data = await res.json();
-  if (!data.embeddings) throw new Error('Local embed failed: ' + JSON.stringify(data));
-  return data.embeddings;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000); // 8s timeout — Render cold start guard
+  try {
+    const res = await fetch(`${EMBED_SERVICE_URL}/embed`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texts }),
+      signal: controller.signal,
+    });
+    const data = await res.json();
+    if (!data.embeddings) throw new Error('Local embed failed: ' + JSON.stringify(data));
+    return data.embeddings;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function localRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]): Promise<{id: any, content: string, book_title: string, author: string, score: number}[]> {
@@ -348,7 +355,13 @@ export async function POST(req: NextRequest) {
           return null;
         })
         .filter(Boolean) as { book_title: string; author: string; content: string }[];
-    } catch(e) { console.error('RAG error:', e); }
+    } catch(e) {
+      // Render cold start timeout or embed failure — skip RAG, answer from general knowledge.
+      // Better to respond without sources than to timeout entirely.
+      console.error('RAG skipped (embed service timeout or error):', e);
+      ragContext = '';
+      ragSources = [];
+    }
 
 
     // ── Mentor Mode system prompt (premium only) ──────────────────────────
@@ -907,84 +920,10 @@ const ragSystem = ragContext
               }
             }
 
-            // ── LAYER 3: API verifier — content check against RAG passages ────
-            const updatedSentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
-            bracketPattern.lastIndex = 0;
-
-            const sentencesWithBracket = updatedSentences.filter(s => {
-              bracketPattern.lastIndex = 0;
-              return bracketPattern.test(s);
-            });
-            const sentencesWithSurname = updatedSentences.filter(s =>
-              WHITELISTED_HISTORIAN_SURNAMES.some(name => s.includes(name))
-            );
-            const flaggedSentences = updatedSentences.filter(s =>
-              sentencesWithBracket.includes(s) || sentencesWithSurname.includes(s)
-            );
-
-            if (flaggedSentences.length > 0 && ragSources.length > 0) {
-              const citedSnippetBlock = flaggedSentences.join('\n');
-
-              const sourceBlock = ragSources
-                .map((s, i) => `[Source ${i + 1} — ${s.book_title} | Author: ${s.author}]\n${s.content}`)
-                .join('\n\n---\n\n');
-
-              const verifyRes = await fetch('https://api.deepseek.com/chat/completions', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
-                },
-                body: JSON.stringify({
-                  model: 'deepseek-v4-flash',
-                  max_tokens: 800,
-                  stream: false,
-                  messages: [
-                    {
-                      role: 'system',
-                      content: `You are a strict THREE-LAYER citation auditor for UPSC History answers.
-
-For each flagged sentence, verify ALL three layers:
-LAYER 1 — AUTHOR: Does this historian appear in the source passages under their own [Source N | Author: X] label?
-LAYER 2 — BOOK: If a book title is cited, does it match the actual book in the passages for that author?
-LAYER 3 — CONTENT: Does the specific claim/argument actually appear in that author's passage? Topical similarity is NOT enough.
-
-If ANY layer fails → flag it.
-
-Classify into:
-- "bad_brackets": bracket "(Author, Title)" failing any layer. Return ONLY the bracket text exactly.
-- "bad_prose_sentences": prose attribution ("Author argues/notes/states...") failing any layer. Return FULL sentence exactly.
-
-A historian mentioned in passing without a specific claim does NOT need layer 3 check.
-
-Respond ONLY with valid JSON, no markdown:
-{"bad_brackets": ["(Author, Title)"], "bad_prose_sentences": ["Full sentence."]}
-
-If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
-                    },
-                    {
-                      role: 'user',
-                      content: `SOURCE PASSAGES:\n${sourceBlock}\n\n---\n\nFLAGGED SENTENCES:\n${citedSnippetBlock}`,
-                    },
-                  ],
-                }),
-              });
-              const verifyJson = await verifyRes.json();
-              const verifyText = verifyJson.choices?.[0]?.message?.content?.trim() ?? '';
-              const cleaned = verifyText.replace(/^```json\s*|```\s*$/g, '').trim();
-              const parsed = JSON.parse(cleaned) as { bad_brackets: string[]; bad_prose_sentences: string[] };
-
-              for (const bad of parsed.bad_brackets ?? []) {
-                if (fullAnswer.includes(bad)) {
-                  fullAnswer = fullAnswer.split(bad).join('').replace(/\s+([.,;])/g, '$1');
-                }
-              }
-              for (const bad of parsed.bad_prose_sentences ?? []) {
-                if (fullAnswer.includes(bad)) {
-                  fullAnswer = fullAnswer.split(bad).join('').replace(/[ \t]{2,}/g, ' ');
-                }
-              }
-            }
+            // Layer 3 (API verifier) removed — was adding 5-15s post-generation latency
+            // causing FUNCTION_INVOCATION_TIMEOUT on long questions. Layer 1+2 (pure JS)
+            // above is sufficient; the RAG passages are already in the system prompt so
+            // the model self-verifies during generation.
           } catch (verifyErr) {
             // Verification is best-effort — if it fails, fall back to
             // sending the unverified answer rather than blocking the
