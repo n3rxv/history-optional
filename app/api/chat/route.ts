@@ -94,7 +94,10 @@ async function localEmbedBatch(texts: string[]): Promise<number[][]> {
 
 async function localRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]): Promise<{id: any, content: string, book_title: string, author: string, score: number}[]> {
   try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
     const res = await fetch(`${EMBED_SERVICE_URL}/rerank`, {
+      signal: controller.signal,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -169,7 +172,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     // Step 4b: Filter low-similarity chunks before reranking
     // (similarity < 0.45 means book likely doesn't cover this topic)
     const filtered = allChunks.filter((c) => (c.similarity ?? 1) > 0.45);
-    const chunksToRerank = (filtered.length >= 3 ? filtered : allChunks).slice(0, 12);
+    const chunksToRerank = (filtered.length >= 3 ? filtered : allChunks).slice(0, 6);
     console.log(`Chunks before filter: ${allChunks.length}, after: ${chunksToRerank.length}`);
 
     // Step 5: Rerank by true relevance
