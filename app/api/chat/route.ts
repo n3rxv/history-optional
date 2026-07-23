@@ -982,7 +982,10 @@ If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
               });
               const verifyJson = await verifyRes.json();
               const verifyText = verifyJson.choices?.[0]?.message?.content?.trim() ?? '';
-              const cleaned = verifyText.replace(/^```json\s*|```\s*$/g, '').trim();
+              // Extract first valid JSON object — Groq sometimes appends extra text
+              const jsonMatch = verifyText.match(/\{[\s\S]*?\}/);
+              if (!jsonMatch) throw new Error('No JSON found in verify response');
+              const cleaned = jsonMatch[0];
               const parsed = JSON.parse(cleaned) as { bad_brackets: string[]; bad_prose_sentences: string[] };
 
               for (const bad of parsed.bad_brackets ?? []) {
