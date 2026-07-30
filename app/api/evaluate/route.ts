@@ -63,6 +63,62 @@ CALIBRATION:
   20M: no historian = 6-8/20 | 1-2 strong = 9-11/20 | 5+ strong = 15-16/20 (18+ does not exist)
 DO NOT inflate. "The student tried hard" is NOT a marking criterion.`;
 
+// ── PASS 2 ONLY: Slim system prompt — JSON converter only ──
+const PASS2_SYSTEM_PROMPT = `You are a JSON formatter. Convert the provided reasoning into the exact JSON schema below. Do not re-evaluate. Faithfully extract values from the reasoning.
+
+RULES:
+- Use CORRECTED values from STEP 8 self-audit if any corrections were made
+- Include any FACTUAL ERROR entries from STEP 1B as [FACTUAL ERROR] weaknesses in the relevant section
+- Return ONLY valid JSON, no preamble, no markdown fences
+- marks must equal exact sum of all four section_marks awarded values
+
+JSON SCHEMA:
+{
+  "demand_of_question": ["directive word requirement", "historical content required", "historiographical depth expected"],
+  "section_marks": {
+    "introduction": { "awarded": 1.5, "out_of": 2, "reasoning": "one sentence" },
+    "body":         { "awarded": 4.5, "out_of": 8, "reasoning": "one sentence" },
+    "conclusion":   { "awarded": 1.0, "out_of": 2, "reasoning": "one sentence" },
+    "presentation": { "awarded": 2.0, "out_of": 3, "reasoning": "one sentence" }
+  },
+  "marks": 9.0,
+  "marks_out_of": 15,
+  "word_count": 220,
+  "word_count_rating": "GOOD",
+  "introduction": {
+    "what_was_written": "exact opening sentence(s) student wrote",
+    "strengths": ["what genuinely worked — quote student's exact words"],
+    "weaknesses": ["[TAG]: weakness — quote student's exact words"],
+    "analysis": "2-3 sentences on intro quality",
+    "suggestions": ["exact opening sentence it should have had", "missing conceptual frame"]
+  },
+  "body": {
+    "strengths": ["genuine strength — quote student's exact phrase"],
+    "weaknesses": ["[TAG]: weakness — quote student's exact words"],
+    "suggestions": ["complete model body point", "historian whose argument was essential"]
+  },
+  "conclusion": {
+    "what_was_written": "exact conclusion student wrote",
+    "strengths": ["what genuinely worked"],
+    "weaknesses": ["[TAG]: weakness"],
+    "analysis": "2-3 sentences on conclusion quality",
+    "suggestions": ["what this conclusion should have argued", "historiographical debate that needed adjudicating"]
+  },
+  "historians_to_cite": [
+    { "name": "Full Name", "work": "Book title", "argument": "specific argument for this question" }
+  ],
+  "_historians_cite_rule": "Only cite historians explicitly mentioned in the reasoning's book passages or student answer",
+  "model_answer": {
+    "introduction": "2-3 sentence intro opening with historiographical debate",
+    "body": ["bullet 1", "bullet 2", "bullet 3"],
+    "conclusion": "2-3 sentence synthesis"
+  },
+  "overall_feedback": "3-4 sentences: (1) one thing student got right with exact quote, (2) most important gap with specific historian, (3) one concrete action for next time. No marks/scores/bands mentioned."
+}
+
+Tags for weaknesses: [DEMAND GAP] [DESCRIPTIVE NOT ANALYTICAL] [HISTORIAN MISSING] [FACTUAL ERROR] [STRUCTURE ISSUE]
+word_count_rating: 10M: <150=LOW, 150-200=GOOD, >200=HIGH | 15M: <200=LOW, 200-250=GOOD, >250=HIGH | 20M: <250=LOW, 250-300=GOOD, >300=HIGH`;
+
 // ── PASS 2-4: Full system prompt with knowledge base + output format ──
 const SYSTEM_PROMPT = `You are a UPSC History Optional evaluator with deep knowledge of historiography, argument structure, evidence, and exam craft. Read the answer as it actually is.
 
@@ -894,9 +950,6 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
       .join("");
     console.log("CoT reasoning:\n", cotReasoning);
 
-    // Wait between passes to avoid TPM rate limiting
-    await new Promise(res => setTimeout(res, 1000));
-
     // ── PASS 2: Convert reasoning to JSON ────────────────────────
     const jsonPrompt = `You already reasoned through this answer. Your reasoning:
 
@@ -913,9 +966,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
     const response = await callWithFallback({
         model: "openai/gpt-oss-120b",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
-          { role: "user", content: cotPrompt },
-          { role: "assistant", content: cotReasoning },
+          { role: "system", content: PASS2_SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
           { role: "user", content: jsonPrompt },
         ],
         temperature: 0.1,
