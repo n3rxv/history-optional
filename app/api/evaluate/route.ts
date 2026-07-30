@@ -899,17 +899,7 @@ Each YES = ${presMax === "1.5" ? "0.5" : "1"}M. Total checked = PRESENTATION MAR
 INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
 → TOTAL: [write number] out of ${marks}
 
-== STEP 8: SELF-AUDIT — re-examine your own STEP 3-7 decisions before finalizing ==
-Go back through what you just wrote above and check each box honestly:
-[ ] For every name I counted as STRONG or WEAK in body/intro/conclusion, is it an actual modern historian (a real person who writes history/historiography) — NOT a religious/philosophical concept, NOT a primary source, NOT a king/emperor/ruler, NOT a text/book title misread as a person?
-[ ] For every historian I credited to the introduction's evaluation, do they actually appear in the introduction's own text (not the body or conclusion)? Same check for body and conclusion — a historian named only in the conclusion must NOT be credited when scoring the introduction, and vice versa. If I cross-attributed a historian to the wrong section, fix that section's band now.
-[ ] Did I quote the exact historian name next to every STRONG/WEAK tag, as instructed? If any tag has no quoted name, change it to NONE now.
-[ ] Does my STRONG+WEAK tally actually match the count of distinct historian names I quoted? If not, recount and fix the tally now.
-[ ] Did I pick a band that is NOT in the allowed list for this section? If so, snap to the nearest allowed band — never award an in-between value.
-[ ] Did my STEP 1B factual-error findings actually get reflected in the presentation factual-error checkbox? If STEP 1B found any FACTUAL ERROR, the presentation checkbox for "no significant factual errors" must be NO.
-[ ] Is my final TOTAL exactly equal to INTRO + BODY + CONCLUSION + PRESENTATION as I scored them above? Recompute it now to be sure.
-If any check above failed, write "CORRECTION:" followed by the fixed band/tally/total. Otherwise write "AUDIT PASSED — no corrections needed."
-→ FINAL TOTAL (after audit): [write number] out of ${marks}`;
+Be concise in all steps above. Short answers only — no tables, no markdown headers, no long explanations. Just the required values and brief reasoning.`;
 
     // ── Pass 1: Claude Haiku 4.5 (vision + strict rubric following) ──
     const { default: Anthropic } = await import("@anthropic-ai/sdk");
@@ -929,7 +919,7 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
 
     const cotHaikuRes = await anthropicClient.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 2400,
+      max_tokens: 1200,
       system: PASS1_SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : ""),
       messages: [
         {
@@ -958,13 +948,12 @@ ${cotReasoning}
 </reasoning>
 
 Now convert this into the exact JSON format from your system prompt.
-If your reasoning's STEP 8 self-audit made any CORRECTION to a band, tally, or total, use the CORRECTED values in the JSON — not the original STEP 3-7 values that were corrected. Use the "FINAL TOTAL (after audit)" as the marks total, and the post-correction section bands as section_marks.
-If your reasoning's STEP 1B found any "FACTUAL ERROR" entries, make sure each one appears as a [FACTUAL ERROR] weakness in the section it belongs to (introduction/body/conclusion) — do not drop them.
-Do not re-evaluate beyond what STEP 8 already corrected. Faithfully convert your reasoning into JSON.
+If your reasoning found any "FACTUAL ERROR" entries in STEP 1B, include each one as a [FACTUAL ERROR] weakness in the relevant section.
+Use the TOTAL from STEP 7 as the marks value. Faithfully convert — do not re-evaluate.
 Return ONLY the JSON object, no preamble, no markdown fences.`;
 
     const response = await callWithFallback({
-        model: "openai/gpt-oss-120b",
+        model: "llama-3.3-70b-versatile",
         messages: [
           { role: "system", content: PASS2_SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
           { role: "user", content: jsonPrompt },
