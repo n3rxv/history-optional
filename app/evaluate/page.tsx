@@ -719,7 +719,7 @@ const handleOcr = useCallback(async () => {
 
       `}</style>
 
-      <div className="ev-layout" style={{ display:"flex", minHeight:"calc(100vh - 60px)", background:"var(--bg3)" }}>
+      <div className="ev-layout" style={{ display:"flex", height:"calc(100vh - 60px)", background:"var(--bg3)", overflow:"hidden" }}>
 
         {/* Mobile-only floating trigger to reopen history drawer */}
         {!sidebarOpen && (
