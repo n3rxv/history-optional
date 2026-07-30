@@ -845,7 +845,7 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
 
     const cotHaikuRes = await anthropicClient.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 2400,
+      max_tokens: 1200,
       system: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : ""),
       messages: [
         {
@@ -891,7 +891,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
           { role: "user", content: jsonPrompt },
         ],
         temperature: 0.1,
-        max_tokens: 2500,
+        max_tokens: 6000,
         response_format: { type: "json_object" },
     });
 
