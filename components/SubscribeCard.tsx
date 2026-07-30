@@ -129,7 +129,7 @@ export function SubscribeCard({
             body: JSON.stringify({ ...resp, fingerprint, plan: planOverride ?? selectedPlan, amount: orderData.amount }),
           });
           const vData = await vRes.json();
-          if (vData.ok) { setStep('success'); setTimeout(() => { onSuccess?.(); window.location.href = '/subscribe/success'; }, 1500); }
+          if (vData.ok) { setStep('success'); setTimeout(() => { onSuccess?.(); window.location.href = `/subscribe/success?plan=${planOverride ?? selectedPlan}&amount=${orderData.amount}&txn=${resp.razorpay_payment_id}`; }, 1500); }
         },
       });
       rzp.on('payment.failed', async () => {

@@ -1,2 +1,12 @@
 export { metadata } from './metadata';
-export { default } from './SuccessPage';
+
+import { Suspense } from 'react';
+import SuccessPage from './SuccessPage';
+
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <SuccessPage />
+    </Suspense>
+  );
+}

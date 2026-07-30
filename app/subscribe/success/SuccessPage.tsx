@@ -1,13 +1,32 @@
 'use client';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 export default function SubscribeSuccessPage() {
+  const searchParams = useSearchParams();
+
   useEffect(() => {
+    const plan = searchParams.get('plan') || 'yearly';
+    const amountPaise = parseInt(searchParams.get('amount') || '0', 10);
+    const amountINR = amountPaise / 100;
+    const txn = searchParams.get('txn') || '';
+
     if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'conversion_event_purchase');
+      // GA4 purchase event — picked up by Google Ads conversion tracking
+      (window as any).gtag('event', 'purchase', {
+        transaction_id: txn,
+        value: amountINR,
+        currency: 'INR',
+        items: [{
+          item_id: plan,
+          item_name: `History Optional – ${plan} plan`,
+          price: amountINR,
+          quantity: 1,
+        }],
+      });
     }
-  }, []);
+  }, [searchParams]);
 
   return (
     <div style={{
