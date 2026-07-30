@@ -1114,57 +1114,7 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
         if (pass3.historians_to_cite?.length) evaluation.historians_to_cite = pass3.historians_to_cite;
         console.log("Pass 3 feedback merged successfully");
 
-        // ── PASS 4: Rich model answer ─────────────────────────────
-        const bulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
-        const pass4Prompt = `Write a model answer for this UPSC History Optional question.
-
-Question: ${question} (${marks} marks)
-
-Return ONLY a JSON object:
-{
-  "model_answer": {
-    "introduction": "2-3 sentences. MUST open with a historiographical debate — name at least one historian with their specific thesis. Preview the argument. Never start with a definition or date.",
-    "body": [
-      "Bullet 1: Bold theme heading — specific evidence (inscription/text/policy) — named historian + their exact argument — analytical sentence linking to the question. Minimum 4 sentences.",
-      "Bullet 2: same structure",
-      "... ${bulletCount} bullets total"
-    ],
-    "conclusion": "2-3 sentences that: (1) resolve the specific historiographical tension from the intro by name — affirm, qualify or reject a named historian's position based on the evidence presented in the body, (2) synthesise the 2-3 strongest body threads into one overarching argument, (3) end with a statement of historical significance tied to THIS question specifically. No new material, no generic summary."
-  }
-}
-
-RULES:
-- Every bullet MUST name a specific modern historian (Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, Kosambi, Upinder Singh, etc.) with their specific argument
-- Every bullet MUST cite specific evidence: name the text, inscription, policy, or event
-- No bullet under 4 sentences. Write as much as needed — do not cut short for word count.
-- Use your full historiographical knowledge from your training`;
-
-        try {
-          const pass4Res = await callWithFallback({
-            model: "openai/gpt-oss-120b",
-            messages: [
-              { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
-              { role: "user", content: pass4Prompt },
-            ],
-            temperature: 0.3,
-            max_tokens: 4500,
-              });
-
-          if (pass4Res.ok) {
-            const pass4Data = await pass4Res.json();
-            let pass4Content = pass4Data.choices[0].message.content;
-            pass4Content = pass4Content.replace(/```json|```/g, "").trim();
-            const pass4 = JSON.parse(pass4Content);
-            if (pass4.model_answer) {
-              evaluation.model_answer = pass4.model_answer;
-              console.log("Pass 4 model answer merged successfully");
-            }
-          } else {
-            console.log("Pass 4 skipped (rate limited) — using Pass 2 model answer");
-          }
-        } catch (p4err) {
-          console.log("Pass 4 error (non-fatal):", p4err);
-        }
+        // Pass 4 removed — model answer from Pass 2 is used directly
       } else {
         console.log("Pass 3 skipped (rate limited or failed) — using Pass 2 feedback");
       }
