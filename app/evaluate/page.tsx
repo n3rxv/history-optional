@@ -501,7 +501,12 @@ const handleOcr = useCallback(async () => {
       const rawText = await res.text();
       console.log("Evaluate raw response:", rawText.slice(0, 500));
       if (!rawText) throw new Error("Empty response from server");
-      const data = JSON.parse(rawText);
+      let data: any;
+      try {
+        data = JSON.parse(rawText);
+      } catch {
+        throw new Error(res.ok ? "Unexpected response from server. Please try again." : `Server error (${res.status}). Please try again.`);
+      }
       if (!res.ok) throw new Error(data.error || "Evaluation failed");
       setEvalProgress(100);
       setEvalPhase("Complete.");

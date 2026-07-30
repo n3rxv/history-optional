@@ -892,7 +892,6 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
         ],
         temperature: 0.1,
         max_tokens: 2500,
-        response_format: { type: "json_object" },
     });
 
     let evaluation: Record<string, unknown> | null = null;
@@ -1033,7 +1032,6 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
         ],
         temperature: 0.2,
         max_tokens: 2000,
-        response_format: { type: "json_object" },
       });
 
       if (pass3Res.ok) {
@@ -1082,8 +1080,7 @@ RULES:
             ],
             temperature: 0.3,
             max_tokens: 4500,
-            response_format: { type: "json_object" },
-          });
+              });
 
           if (pass4Res.ok) {
             const pass4Data = await pass4Res.json();
