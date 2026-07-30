@@ -570,46 +570,6 @@ export async function POST(req: NextRequest) {
       return res;
     };
 
-    // ── PASS 0.5: Generate reference answer (internal, never shown to user) ──
-    // Runs in parallel with OCR+RAG so it doesn't add to total latency.
-    const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
-    const refTask = (async () => {
-      try {
-      const refRes = await callWithFallback({
-        model: "openai/gpt-oss-20b",
-        messages: [
-          { role: "system", content: "You are a UPSC History Optional expert. Generate concise internal reference answers for calibration only." + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script)." : "") },
-          {
-            role: "user",
-            content: `Generate a strong internal reference answer for this UPSC History Optional question. This will be used only to calibrate evaluation — it will NOT be shown to the student.
-
-Question: ${question} (${marks} marks)
-
-Write a complete model answer as flowing prose:
-- Introduction (2-3 sentences): Opens with a historiographical debate, names at least one modern historian with their specific thesis, previews the argument.
-- Body (${refBulletCount} points): Each point must have a named modern historian + their specific argument + specific evidence (inscription/text/policy/date) + analytical link to the question.
-- Conclusion (2-3 sentences): Takes a clear historiographical position, resolves the intro tension, no new material.
-
-Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be specific — name real historians with real arguments. No generic statements.`,
-          },
-        ],
-        temperature: 0.3,
-        max_tokens: 1500,
-      });
-
-      if (refRes.ok) {
-        const refData = await refRes.json();
-        const ref = refData.choices?.[0]?.message?.content?.trim() || "";
-        console.log("Pass 0.5 reference answer generated:", ref.slice(0, 200));
-        return ref;
-      }
-      return "";
-    } catch (refErr) {
-      console.log("Pass 0.5 error (non-fatal):", refErr);
-      return "";
-    }
-    })();
-
     // ── PASS 0 + RAG: Run OCR and RAG fetch in parallel ──────────
     let finalTranscript = extractedText;
 
@@ -720,8 +680,9 @@ Go page by page. Do not rush. Every word matters.`;
       }
     })();
 
-    // Run all three in parallel — Pass 0.5 + OCR + RAG
-    const [ocrResult, ragContext, referenceAnswer] = await Promise.all([ocrTask, ragTask, refTask]);
+    // Run OCR + RAG in parallel
+    const [ocrResult, ragContext] = await Promise.all([ocrTask, ragTask]);
+    const referenceAnswer = "";
     if (ocrResult) finalTranscript = ocrResult;
 
         // ── PASS 1: Chain-of-thought reasoning ─────────────────────
@@ -747,7 +708,13 @@ The following is what a strong answer to this question looks like. Use it to cal
 
 ${referenceAnswer}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━` : ""}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━` : `== STEP 0: INTERNAL BENCHMARK ==
+Before reading the student's answer, mentally construct what a STRONG answer to this question would look like:
+- Which 2-3 modern historians are most relevant? What are their specific arguments?
+- What key evidence/inscriptions/texts/policies should appear?
+- What historiographical debate should be engaged?
+Use this internal benchmark to calibrate your evaluation in the steps below.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`}
 Work through this RIGID RUBRIC — check each box YES or NO and assign marks exactly as the band says. Do not deviate from the bands.
 
 == STEP 1: READING ==
