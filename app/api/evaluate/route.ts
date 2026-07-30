@@ -577,9 +577,9 @@ export async function POST(req: NextRequest) {
     try {
       const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
       const refRes = await callWithFallback({
-        model: "openai/gpt-oss-120b",
+        model: "openai/gpt-oss-20b",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
+          { role: "system", content: "You are a UPSC History Optional expert. Generate concise internal reference answers for calibration only." + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script)." : "") },
           {
             role: "user",
             content: `Generate a strong internal reference answer for this UPSC History Optional question. This will be used only to calibrate evaluation — it will NOT be shown to the student.
