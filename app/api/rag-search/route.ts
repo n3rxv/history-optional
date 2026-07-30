@@ -24,25 +24,6 @@ async function localEmbed(text: string): Promise<number[]> {
   throw new Error('Embed failed after 2 attempts');
 }
 
-async function localRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]) {
-  try {
-    const res = await fetch(`${EMBED_SERVICE_URL}/rerank`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query,
-        documents: chunks.map(c => c.content),
-        top_n: 6,
-      }),
-    });
-    const data = await res.json();
-    if (!data.results) return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
-    return data.results.map((r: any) => ({ ...chunks[r.index], score: r.score }));
-  } catch {
-    return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
-  }
-}
-
 export async function POST(req: NextRequest) {
   try {
     const { query } = await req.json();
@@ -53,10 +34,10 @@ export async function POST(req: NextRequest) {
       process.env.SUPABASE_SECRET_KEY!
     );
 
-    // Embed query via local service
+    // Embed query via Render service
     const embedding = await localEmbed(query);
 
-    // Fetch diverse chunks
+    // Fetch diverse chunks from Supabase
     const { data: chunks } = await supabase.rpc('match_book_chunks_diverse', {
       query_embedding: embedding,
       per_book_count: 3,
@@ -64,17 +45,11 @@ export async function POST(req: NextRequest) {
 
     if (!chunks || chunks.length === 0) return NextResponse.json({ context: '' });
 
-    // Filter low similarity
-    const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45);
-    const toRerank = (filtered.length >= 3 ? filtered : chunks).slice(0, 12);
-
-    // Rerank via local service
-    const reranked = await localRerank(query, toRerank);
-
-    // Diversity — max 2 per book
-    const finalChunks: typeof reranked = [];
+    // Filter by similarity + diversity (max 2 per book) + top 6 — no rerank
+    const finalChunks: typeof chunks = [];
     const bookCount: Record<string, number> = {};
-    for (const chunk of reranked) {
+    for (const chunk of chunks) {
+      if ((chunk.similarity ?? 1) <= 0.45) continue;
       const count = bookCount[chunk.book_title] ?? 0;
       if (count < 2) {
         finalChunks.push(chunk);
