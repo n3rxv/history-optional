@@ -571,11 +571,10 @@ export async function POST(req: NextRequest) {
     };
 
     // ── PASS 0.5: Generate reference answer (internal, never shown to user) ──
-    // Runs before evaluation so Pass 1 can judge the student's answer
-    // against what a strong answer actually looks like.
-    let referenceAnswer = "";
-    try {
-      const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
+    // Runs in parallel with OCR+RAG so it doesn't add to total latency.
+    const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
+    const refTask = (async () => {
+      try {
       const refRes = await callWithFallback({
         model: "openai/gpt-oss-20b",
         messages: [
@@ -600,14 +599,16 @@ Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be spe
 
       if (refRes.ok) {
         const refData = await refRes.json();
-        referenceAnswer = refData.choices?.[0]?.message?.content?.trim() || "";
-        console.log("Pass 0.5 reference answer generated:", referenceAnswer.slice(0, 200));
-      } else {
-        console.log("Pass 0.5 skipped (rate limited or failed) — evaluating without reference");
+        const ref = refData.choices?.[0]?.message?.content?.trim() || "";
+        console.log("Pass 0.5 reference answer generated:", ref.slice(0, 200));
+        return ref;
       }
+      return "";
     } catch (refErr) {
       console.log("Pass 0.5 error (non-fatal):", refErr);
+      return "";
     }
+    })();
 
     // ── PASS 0 + RAG: Run OCR and RAG fetch in parallel ──────────
     let finalTranscript = extractedText;
@@ -719,8 +720,8 @@ Go page by page. Do not rush. Every word matters.`;
       }
     })();
 
-    // Run both in parallel — saves 3-5s
-    const [ocrResult, ragContext] = await Promise.all([ocrTask, ragTask]);
+    // Run all three in parallel — Pass 0.5 + OCR + RAG
+    const [ocrResult, ragContext, referenceAnswer] = await Promise.all([ocrTask, ragTask, refTask]);
     if (ocrResult) finalTranscript = ocrResult;
 
         // ── PASS 1: Chain-of-thought reasoning ─────────────────────
