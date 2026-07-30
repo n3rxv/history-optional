@@ -4,122 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase";
 
 
-// ── PASS 1 ONLY: Slim system prompt for Haiku — rubric + historian rules only ──
-const PASS1_SYSTEM_PROMPT = `You are a strict UPSC History Optional answer evaluator. Your job is to read the student's answer and reason through the marking rubric step by step.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-HISTORIAN CITATION RULES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-A STRONG historian point = modern historian named (e.g. Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, Kosambi, B.D. Chattopadhyaya, Satish Chandra, Upinder Singh, Irfan Habib, Richard Eaton, Bipan Chandra, Ranajit Guha, Sumit Sarkar, Eric Hobsbawm, etc.) WITH their specific argument clearly stated.
-A WEAK point = historian named but argument vague or absent.
-NONE = no modern historian. Primary sources (Kautilya, Arthashastra, Megasthenes, Ashoka's edicts, Ain-i-Akbari), religious/philosophical concepts (Nirvana, Dharma, Karma, Moksha, Atman, Brahman, Madhyamika Marg), kings/emperors/rulers — these are NOT modern historians.
-
-STRICT PROHIBITIONS:
-- NEVER cite Bipan Chandra on ancient or medieval India — modern only
-- NEVER cite Burton Stein on Magadha or Mauryan topics — his segmentary polity thesis applies ONLY to Vijayanagara
-- NEVER invent historian arguments or book titles
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FACTUAL VERIFICATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-For every specific factual claim the student makes (dates, named events, movements, claims about what a person/group did):
-- VERIFIED: [claim] — if correct
-- FACTUAL ERROR: student wrote '[claim]', correct is '[correction]' — if wrong or overstated
-- UNCERTAIN: do not flag — if you are not fully sure
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-MARKING RUBRIC — APPLY STRICTLY
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-SECTION WEIGHTS:
-  10M → Introduction 1.5 + Body 5.5 + Conclusion 1.5 + Presentation 1.5 = 10
-  15M → Introduction 2   + Body 8   + Conclusion 2   + Presentation 3   = 15
-  20M → Introduction 3   + Body 11  + Conclusion 3   + Presentation 3   = 20
-
-INTRODUCTION BANDS (pick exactly one):
-  0M   — definition opener, no intro, no historian at all
-  Half — historical context OR primary source cited OR historian named without their thesis
-  Full — modern historian named + their specific thesis + historiographical debate framed + argument previewed (ALL FOUR required)
-
-BODY BANDS (10M): 1M=0 historians | 2M=1-2 weak | 3M=1 strong | 4M=2 strong | 5.5M=3+ strong all dimensions
-BODY BANDS (15M): 2M=0 historians | 3.5M=1-3 weak | 5M=1 strong | 6.5M=2 strong | 8M=3+ strong multi-dimensional
-BODY BANDS (20M): 3M=0 historians | 5M=1-3 weak | 7M=1 strong | 8.5M=2 strong | 9.5M=3-4 strong | 11M=5+ strong all dimensions
-
-CONCLUSION BANDS (pick exactly one):
-  0M   — no conclusion or just restates intro
-  Half — summarises body but takes NO clear position
-  Full — takes clear position AND links back to intro debate
-
-PRESENTATION: each YES = 0.5M (10M) or 1M (15M/20M)
-  [ ] Handwriting legible and neat
-  [ ] Uses headings/underlining/structure
-  [ ] No significant factual errors (any FACTUAL ERROR from above = NO)
-
-CALIBRATION:
-  10M: no historian = 3-4/10 | 1 strong = 5-6/10 | 3+ strong + good intro + synthesis = 8-9/10
-  15M: no historian = 4-5/15 | 1 strong = 6-7/15 | 3+ strong = 10-11/15 (12+ is exceptional)
-  20M: no historian = 6-8/20 | 1-2 strong = 9-11/20 | 5+ strong = 15-16/20 (18+ does not exist)
-DO NOT inflate. "The student tried hard" is NOT a marking criterion.`;
-
-// ── PASS 2 ONLY: Slim system prompt — JSON converter only ──
-const PASS2_SYSTEM_PROMPT = `You are a JSON formatter. Convert the provided reasoning into the exact JSON schema below. Do not re-evaluate. Faithfully extract values from the reasoning.
-
-RULES:
-- Use CORRECTED values from STEP 8 self-audit if any corrections were made
-- Include any FACTUAL ERROR entries from STEP 1B as [FACTUAL ERROR] weaknesses in the relevant section
-- Return ONLY valid JSON, no preamble, no markdown fences
-- marks must equal exact sum of all four section_marks awarded values
-
-JSON SCHEMA:
-{
-  "demand_of_question": ["directive word requirement", "historical content required", "historiographical depth expected"],
-  "section_marks": {
-    "introduction": { "awarded": 1.5, "out_of": 2, "reasoning": "one sentence" },
-    "body":         { "awarded": 4.5, "out_of": 8, "reasoning": "one sentence" },
-    "conclusion":   { "awarded": 1.0, "out_of": 2, "reasoning": "one sentence" },
-    "presentation": { "awarded": 2.0, "out_of": 3, "reasoning": "one sentence" }
-  },
-  "marks": 9.0,
-  "marks_out_of": 15,
-  "word_count": 220,
-  "word_count_rating": "GOOD",
-  "introduction": {
-    "what_was_written": "exact opening sentence(s) student wrote",
-    "strengths": ["what genuinely worked — quote student's exact words"],
-    "weaknesses": ["[TAG]: weakness — quote student's exact words"],
-    "analysis": "2-3 sentences on intro quality",
-    "suggestions": ["exact opening sentence it should have had", "missing conceptual frame"]
-  },
-  "body": {
-    "strengths": ["genuine strength — quote student's exact phrase"],
-    "weaknesses": ["[TAG]: weakness — quote student's exact words"],
-    "suggestions": ["complete model body point", "historian whose argument was essential"]
-  },
-  "conclusion": {
-    "what_was_written": "exact conclusion student wrote",
-    "strengths": ["what genuinely worked"],
-    "weaknesses": ["[TAG]: weakness"],
-    "analysis": "2-3 sentences on conclusion quality",
-    "suggestions": ["what this conclusion should have argued", "historiographical debate that needed adjudicating"]
-  },
-  "historians_to_cite": [
-    { "name": "Full Name", "work": "Book title", "argument": "specific argument for this question" }
-  ],
-  "_historians_cite_rule": "Only cite historians explicitly mentioned in the reasoning's book passages or student answer",
-  "model_answer": {
-    "introduction": "2-3 sentence intro opening with historiographical debate",
-    "body": ["bullet 1", "bullet 2", "bullet 3"],
-    "conclusion": "2-3 sentence synthesis"
-  },
-  "overall_feedback": "3-4 sentences: (1) one thing student got right with exact quote, (2) most important gap with specific historian, (3) one concrete action for next time. No marks/scores/bands mentioned."
-}
-
-Tags for weaknesses: [DEMAND GAP] [DESCRIPTIVE NOT ANALYTICAL] [HISTORIAN MISSING] [FACTUAL ERROR] [STRUCTURE ISSUE]
-word_count_rating: 10M: <150=LOW, 150-200=GOOD, >200=HIGH | 15M: <200=LOW, 200-250=GOOD, >250=HIGH | 20M: <250=LOW, 250-300=GOOD, >300=HIGH`;
-
-// ── PASS 2-4: Full system prompt with knowledge base + output format ──
 const SYSTEM_PROMPT = `You are a UPSC History Optional evaluator with deep knowledge of historiography, argument structure, evidence, and exam craft. Read the answer as it actually is.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -686,6 +570,45 @@ export async function POST(req: NextRequest) {
       return res;
     };
 
+    // ── PASS 0.5: Generate reference answer (internal, never shown to user) ──
+    // Runs before evaluation so Pass 1 can judge the student's answer
+    // against what a strong answer actually looks like.
+    let referenceAnswer = "";
+    try {
+      const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
+      const refRes = await callWithFallback({
+        model: "openai/gpt-oss-120b",
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
+          {
+            role: "user",
+            content: `Generate a strong internal reference answer for this UPSC History Optional question. This will be used only to calibrate evaluation — it will NOT be shown to the student.
+
+Question: ${question} (${marks} marks)
+
+Write a complete model answer as flowing prose:
+- Introduction (2-3 sentences): Opens with a historiographical debate, names at least one modern historian with their specific thesis, previews the argument.
+- Body (${refBulletCount} points): Each point must have a named modern historian + their specific argument + specific evidence (inscription/text/policy/date) + analytical link to the question.
+- Conclusion (2-3 sentences): Takes a clear historiographical position, resolves the intro tension, no new material.
+
+Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be specific — name real historians with real arguments. No generic statements.`,
+          },
+        ],
+        temperature: 0.3,
+        max_tokens: 1500,
+      });
+
+      if (refRes.ok) {
+        const refData = await refRes.json();
+        referenceAnswer = refData.choices?.[0]?.message?.content?.trim() || "";
+        console.log("Pass 0.5 reference answer generated:", referenceAnswer.slice(0, 200));
+      } else {
+        console.log("Pass 0.5 skipped (rate limited or failed) — evaluating without reference");
+      }
+    } catch (refErr) {
+      console.log("Pass 0.5 error (non-fatal):", refErr);
+    }
+
     // ── PASS 0 + RAG: Run OCR and RAG fetch in parallel ──────────
     let finalTranscript = extractedText;
 
@@ -796,9 +719,8 @@ Go page by page. Do not rush. Every word matters.`;
       }
     })();
 
-    // Run OCR + RAG in parallel
+    // Run both in parallel — saves 3-5s
     const [ocrResult, ragContext] = await Promise.all([ocrTask, ragTask]);
-    const referenceAnswer = "";
     if (ocrResult) finalTranscript = ocrResult;
 
         // ── PASS 1: Chain-of-thought reasoning ─────────────────────
@@ -824,13 +746,7 @@ The following is what a strong answer to this question looks like. Use it to cal
 
 ${referenceAnswer}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━` : `== STEP 0: INTERNAL BENCHMARK ==
-Before reading the student's answer, mentally construct what a STRONG answer to this question would look like:
-- Which 2-3 modern historians are most relevant? What are their specific arguments?
-- What key evidence/inscriptions/texts/policies should appear?
-- What historiographical debate should be engaged?
-Use this internal benchmark to calibrate your evaluation in the steps below.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━` : ""}
 Work through this RIGID RUBRIC — check each box YES or NO and assign marks exactly as the band says. Do not deviate from the bands.
 
 == STEP 1: READING ==
@@ -899,7 +815,17 @@ Each YES = ${presMax === "1.5" ? "0.5" : "1"}M. Total checked = PRESENTATION MAR
 INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
 → TOTAL: [write number] out of ${marks}
 
-Be concise in all steps above. Short answers only — no tables, no markdown headers, no long explanations. Just the required values and brief reasoning.`;
+== STEP 8: SELF-AUDIT — re-examine your own STEP 3-7 decisions before finalizing ==
+Go back through what you just wrote above and check each box honestly:
+[ ] For every name I counted as STRONG or WEAK in body/intro/conclusion, is it an actual modern historian (a real person who writes history/historiography) — NOT a religious/philosophical concept, NOT a primary source, NOT a king/emperor/ruler, NOT a text/book title misread as a person?
+[ ] For every historian I credited to the introduction's evaluation, do they actually appear in the introduction's own text (not the body or conclusion)? Same check for body and conclusion — a historian named only in the conclusion must NOT be credited when scoring the introduction, and vice versa. If I cross-attributed a historian to the wrong section, fix that section's band now.
+[ ] Did I quote the exact historian name next to every STRONG/WEAK tag, as instructed? If any tag has no quoted name, change it to NONE now.
+[ ] Does my STRONG+WEAK tally actually match the count of distinct historian names I quoted? If not, recount and fix the tally now.
+[ ] Did I pick a band that is NOT in the allowed list for this section? If so, snap to the nearest allowed band — never award an in-between value.
+[ ] Did my STEP 1B factual-error findings actually get reflected in the presentation factual-error checkbox? If STEP 1B found any FACTUAL ERROR, the presentation checkbox for "no significant factual errors" must be NO.
+[ ] Is my final TOTAL exactly equal to INTRO + BODY + CONCLUSION + PRESENTATION as I scored them above? Recompute it now to be sure.
+If any check above failed, write "CORRECTION:" followed by the fixed band/tally/total. Otherwise write "AUDIT PASSED — no corrections needed."
+→ FINAL TOTAL (after audit): [write number] out of ${marks}`;
 
     // ── Pass 1: Claude Haiku 4.5 (vision + strict rubric following) ──
     const { default: Anthropic } = await import("@anthropic-ai/sdk");
@@ -919,8 +845,8 @@ Be concise in all steps above. Short answers only — no tables, no markdown hea
 
     const cotHaikuRes = await anthropicClient.messages.create({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 1200,
-      system: PASS1_SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : ""),
+      max_tokens: 2400,
+      system: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : ""),
       messages: [
         {
           role: "user",
@@ -940,6 +866,9 @@ Be concise in all steps above. Short answers only — no tables, no markdown hea
       .join("");
     console.log("CoT reasoning:\n", cotReasoning);
 
+    // Wait between passes to avoid TPM rate limiting
+    await new Promise(res => setTimeout(res, 1000));
+
     // ── PASS 2: Convert reasoning to JSON ────────────────────────
     const jsonPrompt = `You already reasoned through this answer. Your reasoning:
 
@@ -948,18 +877,22 @@ ${cotReasoning}
 </reasoning>
 
 Now convert this into the exact JSON format from your system prompt.
-If your reasoning found any "FACTUAL ERROR" entries in STEP 1B, include each one as a [FACTUAL ERROR] weakness in the relevant section.
-Use the TOTAL from STEP 7 as the marks value. Faithfully convert — do not re-evaluate.
+If your reasoning's STEP 8 self-audit made any CORRECTION to a band, tally, or total, use the CORRECTED values in the JSON — not the original STEP 3-7 values that were corrected. Use the "FINAL TOTAL (after audit)" as the marks total, and the post-correction section bands as section_marks.
+If your reasoning's STEP 1B found any "FACTUAL ERROR" entries, make sure each one appears as a [FACTUAL ERROR] weakness in the section it belongs to (introduction/body/conclusion) — do not drop them.
+Do not re-evaluate beyond what STEP 8 already corrected. Faithfully convert your reasoning into JSON.
 Return ONLY the JSON object, no preamble, no markdown fences.`;
 
     const response = await callWithFallback({
-        model: "llama-3.3-70b-versatile",
+        model: "openai/gpt-oss-120b",
         messages: [
-          { role: "system", content: PASS2_SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
+          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
+          { role: "user", content: cotPrompt },
+          { role: "assistant", content: cotReasoning },
           { role: "user", content: jsonPrompt },
         ],
         temperature: 0.1,
-        max_tokens: 4000,
+        max_tokens: 2500,
+        response_format: { type: "json_object" },
     });
 
     let evaluation: Record<string, unknown> | null = null;
@@ -1100,6 +1033,7 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
         ],
         temperature: 0.2,
         max_tokens: 2000,
+        response_format: { type: "json_object" },
       });
 
       if (pass3Res.ok) {
@@ -1114,7 +1048,58 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
         if (pass3.historians_to_cite?.length) evaluation.historians_to_cite = pass3.historians_to_cite;
         console.log("Pass 3 feedback merged successfully");
 
-        // Pass 4 removed — model answer from Pass 2 is used directly
+        // ── PASS 4: Rich model answer ─────────────────────────────
+        const bulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
+        const pass4Prompt = `Write a model answer for this UPSC History Optional question.
+
+Question: ${question} (${marks} marks)
+
+Return ONLY a JSON object:
+{
+  "model_answer": {
+    "introduction": "2-3 sentences. MUST open with a historiographical debate — name at least one historian with their specific thesis. Preview the argument. Never start with a definition or date.",
+    "body": [
+      "Bullet 1: Bold theme heading — specific evidence (inscription/text/policy) — named historian + their exact argument — analytical sentence linking to the question. Minimum 4 sentences.",
+      "Bullet 2: same structure",
+      "... ${bulletCount} bullets total"
+    ],
+    "conclusion": "2-3 sentences that: (1) resolve the specific historiographical tension from the intro by name — affirm, qualify or reject a named historian's position based on the evidence presented in the body, (2) synthesise the 2-3 strongest body threads into one overarching argument, (3) end with a statement of historical significance tied to THIS question specifically. No new material, no generic summary."
+  }
+}
+
+RULES:
+- Every bullet MUST name a specific modern historian (Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, Kosambi, Upinder Singh, etc.) with their specific argument
+- Every bullet MUST cite specific evidence: name the text, inscription, policy, or event
+- No bullet under 4 sentences. Write as much as needed — do not cut short for word count.
+- Use your full historiographical knowledge from your training`;
+
+        try {
+          const pass4Res = await callWithFallback({
+            model: "openai/gpt-oss-120b",
+            messages: [
+              { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
+              { role: "user", content: pass4Prompt },
+            ],
+            temperature: 0.3,
+            max_tokens: 4500,
+            response_format: { type: "json_object" },
+          });
+
+          if (pass4Res.ok) {
+            const pass4Data = await pass4Res.json();
+            let pass4Content = pass4Data.choices[0].message.content;
+            pass4Content = pass4Content.replace(/```json|```/g, "").trim();
+            const pass4 = JSON.parse(pass4Content);
+            if (pass4.model_answer) {
+              evaluation.model_answer = pass4.model_answer;
+              console.log("Pass 4 model answer merged successfully");
+            }
+          } else {
+            console.log("Pass 4 skipped (rate limited) — using Pass 2 model answer");
+          }
+        } catch (p4err) {
+          console.log("Pass 4 error (non-fatal):", p4err);
+        }
       } else {
         console.log("Pass 3 skipped (rate limited or failed) — using Pass 2 feedback");
       }

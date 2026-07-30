@@ -34,10 +34,10 @@ export async function POST(req: NextRequest) {
       process.env.SUPABASE_SECRET_KEY!
     );
 
-    // Embed query via Render service
+    // Embed query via local service
     const embedding = await localEmbed(query);
 
-    // Fetch diverse chunks from Supabase
+    // Fetch diverse chunks
     const { data: chunks } = await supabase.rpc('match_book_chunks_diverse', {
       query_embedding: embedding,
       per_book_count: 3,
@@ -45,11 +45,13 @@ export async function POST(req: NextRequest) {
 
     if (!chunks || chunks.length === 0) return NextResponse.json({ context: '' });
 
-    // Filter by similarity + diversity (max 2 per book) + top 6 — no rerank
-    const finalChunks: typeof chunks = [];
+    // Filter low similarity, diversity max 2 per book, top 6 — rerank removed (saves Render round-trip)
+    const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45);
+    const toSelect = (filtered.length >= 3 ? filtered : chunks).slice(0, 12);
+
+    const finalChunks: typeof toSelect = [];
     const bookCount: Record<string, number> = {};
-    for (const chunk of chunks) {
-      if ((chunk.similarity ?? 1) <= 0.45) continue;
+    for (const chunk of toSelect) {
       const count = bookCount[chunk.book_title] ?? 0;
       if (count < 2) {
         finalChunks.push(chunk);
