@@ -162,13 +162,15 @@ function AnswerBody({ text }: { text: string }) {
         }
         if (/^[-•]\s+/.test(line.trim())) {
           const content = line.trim().replace(/^[-•]\s+/, '');
-          const parts = content.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+          const parts = content.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
           return (
             <div key={i} style={{ display: 'flex', gap: '0.5rem', margin: '0.25rem 0 0.25rem 0.5rem' }}>
               <span style={{ color: 'var(--accent)', fontWeight: 700, flexShrink: 0, marginTop: '0.1rem' }}>•</span>
               <p style={{ margin: 0 }}>
                 {parts.map((part, j) =>
-                  /^\*\*(.+)\*\*$/.test(part)
+                  /^\*\*\*(.+)\*\*\*$/.test(part)
+                    ? <strong key={j}><em>{part.replace(/^\*\*\*|\*\*\*$/g, '')}</em></strong>
+                    : /^\*\*(.+)\*\*$/.test(part)
                     ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
                     : /^\*([^*]+)\*$/.test(part)
                     ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
@@ -178,11 +180,13 @@ function AnswerBody({ text }: { text: string }) {
             </div>
           );
         }
-        const parts = line.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+        const parts = line.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
         return (
           <p key={i} style={{ margin: '0 0 0.1rem' }}>
             {parts.map((part, j) =>
-              /^\*\*(.+)\*\*$/.test(part)
+              /^\*\*\*(.+)\*\*\*$/.test(part)
+                ? <strong key={j}><em>{part.replace(/^\*\*\*|\*\*\*$/g, '')}</em></strong>
+                : /^\*\*(.+)\*\*$/.test(part)
                 ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
                 : /^\*([^*]+)\*$/.test(part)
                 ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
@@ -242,6 +246,7 @@ function ModelAnswerModal({
 
   const generate = useCallback(async (forceRegen = false) => {
     if (!forceRegen && answer) return;
+    if (forceRegen) { try { localStorage.removeItem(`model-answer:${cacheKey}`); } catch {} }
     setLoading(true);
     setError(null);
 
