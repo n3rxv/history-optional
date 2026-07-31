@@ -268,8 +268,45 @@ export async function POST(req: NextRequest) {
   
   // ── Main request handler ────────────────────────────────────────
   try {
-    const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name, lang, mentorMode, responseStyle } = await req.json();
+    const { messages, bookMode, bookTitle, pdf_base64, pdf_name, lang, mentorMode, responseStyle, brainstormMode } = await req.json();
     const maxTokens = mentorMode ? 3500 : (responseStyle === 'elaborative' ? 2500 : 1800);
+
+    // ── Build system prompt server-side (never from client) ──────────
+    const SCOPE_GUARD = `SCOPE GUARD: You only help with UPSC History Optional preparation — Indian history, World History per the UPSC syllabus, historiography, exam strategy, and answer writing. If the user's message is off-topic, briefly say so and ask them to rephrase.`;
+
+    const WRITING_RULES = `WRITING RULES:
+- NEVER write a historian name as a bare bullet — always "**Name** argues that..." within the bullet.
+- NEVER add a separate "Key Historians Cited" list. Weave references into the body.
+- Use **bold** for key terms, historian names, pivotal events — within sentences only.
+- Do NOT use ### headings — use **bold** for section titles only.
+- Include specific dates, names, events for empirical weight.
+- Use plain English spellings only — no diacritical marks.`;
+
+    const STYLE_RULE = responseStyle === 'elaborative'
+      ? `RESPONSE STYLE — ELABORATIVE: Flowing prose paragraphs (3-5 sentences each). Cover sub-arguments and historiographical debates in depth.`
+      : `RESPONSE STYLE — CONCISE: Bullet points only. Format: **Bold label** — 1 crisp line max. Intro: 1-2 lines. Conclusion: 1-2 lines. No walls of text.`;
+
+    const system = brainstormMode
+      ? `You are an expert UPSC History Optional strategist helping the user brainstorm.
+
+${SCOPE_GUARD}
+
+If given a TOPIC: Key Arguments & Dimensions (6-8 angles), Important Historians & Their Stands (5-6), Connecting Themes.
+If given a QUESTION: Decoding the Question, Must-Include Points, Historiographical Ammunition.
+Use **bold** for key terms. Be crisp — this is a planning tool.`
+      : `You are an expert UPSC History Optional tutor.
+
+${SCOPE_GUARD}
+
+Always use UPSC format: Introduction, Body (subheadings), Conclusion.
+For descriptive questions: explain clearly, facts first, historiography concise.
+For argumentative questions: multiple perspectives, clear weighted stance, use historiography.
+
+${WRITING_RULES}
+
+${STYLE_RULE}${pdf_base64 ? '
+
+The user has uploaded a PDF. Analyze it carefully and answer questions about it.' : ''}`;
     const lastMsg = messages?.[messages.length - 1]?.content ?? '';
     if (typeof lastMsg === 'string' && lastMsg.length > 10000)
       return NextResponse.json({ error: 'Message too long' }, { status: 400 });
