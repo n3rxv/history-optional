@@ -328,9 +328,12 @@ Write the full model answer now:`;
     });
 
     const data = await genRes.json();
+    console.error('[model-answer] DeepSeek raw response:', JSON.stringify(data).slice(0, 500));
     let answer = data.choices?.[0]?.message?.content?.trim() || '';
     if (!answer) {
-      return NextResponse.json({ error: 'Failed to generate answer. Please try again.' }, { status: 500 });
+      const dsError = data.error?.message || data.error || 'empty choices';
+      console.error('[model-answer] DeepSeek failed:', dsError);
+      return NextResponse.json({ error: `Failed to generate answer. Please try again. (${dsError})` }, { status: 500 });
     }
 
     // ── 3-Layer Citation Verifier ──────────────────────────────────────────
@@ -441,8 +444,9 @@ ${flagged.join('\n')}`,
 
     return NextResponse.json({ answer });
 
-  } catch (err) {
-    console.error('model-answer error:', err);
-    return NextResponse.json({ error: 'Failed to generate answer. Please try again.' }, { status: 500 });
+  } catch (err: any) {
+    console.error('[model-answer] OUTER CATCH:', err?.message ?? err);
+    console.error('[model-answer] stack:', err?.stack?.slice(0, 500));
+    return NextResponse.json({ error: `Failed to generate answer. (${err?.message ?? 'unknown'})` }, { status: 500 });
   }
 }
