@@ -269,7 +269,7 @@ export async function POST(req: NextRequest) {
   // ── Main request handler ────────────────────────────────────────
   try {
     const { messages, system, bookMode, bookTitle, pdf_base64, pdf_name, lang, mentorMode, responseStyle } = await req.json();
-    const maxTokens = mentorMode ? 3500 : (responseStyle === 'elaborative' ? 3500 : 2000);
+    const maxTokens = mentorMode ? 4000 : (responseStyle === 'elaborative' ? 4000 : 3000);
     const lastMsg = messages?.[messages.length - 1]?.content ?? '';
     if (typeof lastMsg === 'string' && lastMsg.length > 10000)
       return NextResponse.json({ error: 'Message too long' }, { status: 400 });
