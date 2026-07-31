@@ -304,9 +304,7 @@ For argumentative questions: multiple perspectives, clear weighted stance, use h
 
 ${WRITING_RULES}
 
-${STYLE_RULE}${pdf_base64 ? '
-
-The user has uploaded a PDF. Analyze it carefully and answer questions about it.' : ''}`;
+${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it carefully and answer questions about it." : ""}`;
     const lastMsg = messages?.[messages.length - 1]?.content ?? '';
     if (typeof lastMsg === 'string' && lastMsg.length > 10000)
       return NextResponse.json({ error: 'Message too long' }, { status: 400 });
