@@ -212,7 +212,7 @@ export async function POST(req: NextRequest) {
   // ── Main request handler ────────────────────────────────────────
   try {
     const { messages, bookMode, bookTitle, pdf_base64, pdf_name, lang, mentorMode, responseStyle, brainstormMode } = await req.json();
-    const maxTokens = mentorMode ? 3500 : (responseStyle === 'elaborative' ? 2500 : 1800);
+    const maxTokens = mentorMode ? 3500 : (responseStyle === 'elaborative' ? 3500 : 1800);
 
     // ── Build system prompt server-side (never from client) ──────────
     const SCOPE_GUARD = `SCOPE GUARD: You only help with UPSC History Optional preparation — Indian history, World History per the UPSC syllabus, historiography, exam strategy, and answer writing. If the user's message is off-topic, briefly say so and ask them to rephrase.`;
@@ -413,7 +413,7 @@ const ragSystem = ragContext
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
               },
-              signal: AbortSignal.timeout(30000),
+              signal: AbortSignal.timeout(45000),
               body: JSON.stringify({
                 model: 'deepseek-v4-flash',
                 max_tokens: maxTokens,
@@ -610,6 +610,18 @@ If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
           }
 
 
+          // Strip incomplete trailing sentence (stream cut mid-sentence)
+          const endsClean = /[.!?]["'»]?\s*$/.test(fullAnswer.trimEnd());
+          if (!endsClean) {
+            const lastClean = fullAnswer.trimEnd().lastIndexOf('.');
+            const lastQ = fullAnswer.trimEnd().lastIndexOf('?');
+            const lastE = fullAnswer.trimEnd().lastIndexOf('!');
+            const lastPunct = Math.max(lastClean, lastQ, lastE);
+            if (lastPunct > fullAnswer.length * 0.5) {
+              fullAnswer = fullAnswer.slice(0, lastPunct + 1).trimEnd();
+            }
+          }
+          if (!fullAnswer.trim()) fullAnswer = 'Something went wrong. Please try again.';
           send(fullAnswer);
 
           // Increment chat_count for all users (except owner) — analytics + abuse prevention
