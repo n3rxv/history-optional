@@ -854,11 +854,16 @@ const ragSystem = ragContext
           //    fabricated prose claim has no underlying fact to preserve —
           //    the argument itself was invented, not just mis-sourced.
           try {
+            // Debug logging
+            console.log('[VERIFIER] fullAnswer length:', fullAnswer.length);
+            console.log('[VERIFIER] fullAnswer preview:', fullAnswer.slice(0, 200));
             // Skip verifier if answer uses Source #N style citations (Voyage RAG)
             // — these are already grounded in passages, no bracket/prose misattribution risk
             const hasSourceCitations = /Source #\d+/.test(fullAnswer);
+            console.log('[VERIFIER] hasSourceCitations:', hasSourceCitations);
             if (hasSourceCitations) {
               // No stripping needed — citations are inline Source #N references
+              console.log('[VERIFIER] skipping — Source #N citations detected');
             } else {
             const bracketPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
             const sentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
