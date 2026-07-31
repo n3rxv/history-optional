@@ -318,7 +318,7 @@ export async function POST(req: NextRequest) {
       });
     };
 
-    // ── RAG: inject book context for bookMode AND normal chat ────────
+    // ── RAG: inject book context for bookMode only ────────
     let ragContext = '';
     let ragSources: { book_title: string; author: string; content: string }[] = [];
     const lastQ = typeof messages?.[messages.length - 1]?.content === 'string'
@@ -326,21 +326,18 @@ export async function POST(req: NextRequest) {
       : '';
     try {
       if (bookMode) {
-        // Book-specific RAG (existing behaviour)
+        // Book-specific RAG only — normal chat has no RAG (system prompt too large)
         ragContext = await getBookContext(lastQ, bookTitle);
-      } else {
-        // Normal chat — search across all books, no filter
-        ragContext = await getBookContext(lastQ);
+        // Parse sources for UI display
+        ragSources = ragContext
+          .split('\n\n---\n\n')
+          .map(block => {
+            const match = block.match(/^\[Source \d+ — (.+?) \| Author: (.+?)\]\n([\s\S]+)$/);
+            if (match) return { book_title: match[1], author: match[2], content: match[3] };
+            return null;
+          })
+          .filter(Boolean) as { book_title: string; author: string; content: string }[];
       }
-      // Parse sources for UI display
-      ragSources = ragContext
-        .split('\n\n---\n\n')
-        .map(block => {
-          const match = block.match(/^\[Source \d+ — (.+?) \| Author: (.+?)\]\n([\s\S]+)$/);
-          if (match) return { book_title: match[1], author: match[2], content: match[3] };
-          return null;
-        })
-        .filter(Boolean) as { book_title: string; author: string; content: string }[];
     } catch(e) {
       console.error('RAG skipped (embed service timeout or error):', e);
       ragContext = '';
