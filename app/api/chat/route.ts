@@ -915,7 +915,8 @@ const ragSystem = ragContext
               }
             }
 
-            // ── LAYER 3: API verifier — content check against RAG passages ────
+            // ── LAYER 3: API verifier — DISABLED (Groq hangs, RAG already grounds answers) ────
+            if (false) {
             const updatedSentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
             bracketPattern.lastIndex = 0;
 
@@ -943,6 +944,7 @@ const ragSystem = ragContext
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
                 },
+                signal: AbortSignal.timeout(8000),
                 body: JSON.stringify({
                   model: 'llama-3.3-70b-versatile',
                   max_tokens: 800,
@@ -996,6 +998,7 @@ If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
                 }
               }
             }
+            } // end if(false) layer 3
             } // end else (non-Source#N citations)
           } catch (verifyErr) {
             // Verification is best-effort — if it fails, fall back to
