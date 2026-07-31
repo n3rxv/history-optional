@@ -159,7 +159,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     // (similarity < 0.45 means book likely doesn't cover this topic)
     const filtered = allChunks.filter((c) => (c.similarity ?? 1) > 0.45);
     // Rerank removed — similarity sort is sufficient, Render free tier too slow
-    const topChunks = (filtered.length >= 3 ? filtered : allChunks).slice(0, 6);
+    const topChunks = (filtered.length >= 3 ? filtered : allChunks).slice(0, 4);
     console.log(`Chunks before filter: ${allChunks.length}, after: ${topChunks.length}`);
 
     // Ensure diversity - max 2 chunks per book
@@ -184,7 +184,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
 
     // Step 7: Return chunks with source labels
     return finalChunks
-      .map((c, i) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]\n${c.content.slice(0, 800)}`)
+      .map((c, i) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]\n${c.content.slice(0, 600)}`)
       .join('\n\n---\n\n');
 
   } catch (e) {
@@ -831,8 +831,6 @@ const ragSystem = ragContext
             }
           } else {
             // Normal chat — DeepSeek V4 Flash (OpenAI-compatible)
-            console.log('[DEEPSEEK] systemPrompt length:', systemPrompt.length, 'chars');
-            console.log('[DEEPSEEK] messages count:', messages.length);
             const builtMessages = messages.map((m: any, i: number) => {
               return { role: m.role, content: m.content };
             });
@@ -890,15 +888,11 @@ const ragSystem = ragContext
           //    the argument itself was invented, not just mis-sourced.
           try {
             // Debug logging
-            console.log('[VERIFIER] fullAnswer length:', fullAnswer.length);
-            console.log('[VERIFIER] fullAnswer preview:', fullAnswer.slice(0, 200));
             // Skip verifier if answer uses Source #N style citations (Voyage RAG)
             // — these are already grounded in passages, no bracket/prose misattribution risk
             const hasSourceCitations = /Source #\d+/.test(fullAnswer);
-            console.log('[VERIFIER] hasSourceCitations:', hasSourceCitations);
             if (hasSourceCitations) {
               // No stripping needed — citations are inline Source #N references
-              console.log('[VERIFIER] skipping — Source #N citations detected');
             } else {
             const bracketPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
             const sentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
