@@ -242,41 +242,9 @@ export async function POST(req: NextRequest) {
         });
 
         if (chunks && chunks.length > 0) {
-          // Filter low similarity
-          const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45).slice(0, 12);
-          const toRerank = filtered.length >= 3 ? filtered : chunks.slice(0, 12);
-
-          // Rerank
-          const rerankRes = await fetch('https://api.jina.ai/v1/rerank', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
-            },
-            body: JSON.stringify({
-              model: 'jina-reranker-v2-base-multilingual',
-              query: question,
-              documents: toRerank.map((c: any) => c.content),
-              top_n: 6,
-            }),
-          });
-          const rerankData = await rerankRes.json();
-
-          let finalChunks: any[] = [];
-          if (rerankData.results) {
-            const bookCount: Record<string, number> = {};
-            for (const r of rerankData.results) {
-              const chunk = toRerank[r.index];
-              const count = bookCount[chunk.book_title] ?? 0;
-              if (count < 2) {
-                finalChunks.push({ ...chunk, score: r.relevance_score });
-                bookCount[chunk.book_title] = count + 1;
-              }
-              if (finalChunks.length >= 6) break;
-            }
-          } else {
-            finalChunks = toRerank.slice(0, 6);
-          }
+          // Filter low similarity, take top 6
+          const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45).slice(0, 6);
+          const finalChunks = filtered.length >= 3 ? filtered : chunks.slice(0, 6);
 
           if (finalChunks.length > 0) {
             ragContext = finalChunks
