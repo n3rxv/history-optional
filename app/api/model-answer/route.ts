@@ -359,20 +359,28 @@ Write the full model answer now:`;
         });
 
         if (flagged.length > 0) {
-          const anthropicV = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-          const verifyMsg = await anthropicV.messages.create({
-            model: 'claude-haiku-4-5-20251001',
-            max_tokens: 800,
-            system: `You are a strict citation auditor. For each flagged sentence, check if the historian name and claim actually appear in the SOURCE PASSAGES. Respond ONLY with valid JSON: {"bad_brackets": ["..."], "bad_prose_sentences": ["..."]}. If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
-            messages: [{ role: 'user', content: `SOURCE PASSAGES:
+          const vRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.GROQ_API_KEY}` },
+            signal: AbortSignal.timeout(8000),
+            body: JSON.stringify({
+              model: 'openai/gpt-oss-120b',
+              max_tokens: 800,
+              stream: false,
+              messages: [
+                { role: 'system', content: `You are a strict citation auditor. For each flagged sentence, check if the historian name and claim actually appear in the SOURCE PASSAGES. Respond ONLY with valid JSON: {"bad_brackets": ["..."], "bad_prose_sentences": ["..."]}. If all pass: {"bad_brackets": [], "bad_prose_sentences": []}` },
+                { role: 'user', content: `SOURCE PASSAGES:
 ${ragContext}
 
 ---
 
 FLAGGED SENTENCES:
-${flagged.join('\n')}` }],
+${flagged.join('\n')}` },
+              ],
+            }),
           });
-          const vt = verifyMsg.content[0]?.type === 'text' ? verifyMsg.content[0].text.trim() : '';
+          const vj = await vRes.json();
+          const vt = vj.choices?.[0]?.message?.content?.trim() ?? '';
           const vc = vt.replace(/^```json\s*|```\s*$/g, '').trim();
           const vp = JSON.parse(vc) as { bad_brackets: string[]; bad_prose_sentences: string[] };
 

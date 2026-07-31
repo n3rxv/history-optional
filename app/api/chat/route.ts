@@ -403,19 +403,17 @@ const ragSystem = ragContext
               }
             }
           } else {
-            // Normal chat — DeepSeek V4 Flash (OpenAI-compatible)
-            const builtMessages = messages.map((m: any, i: number) => {
-              return { role: m.role, content: m.content };
-            });
-            const dsRes = await fetch('https://api.deepseek.com/chat/completions', {
+            // Normal chat — Groq GPT-OSS-120B (on_demand)
+            const builtMessages = messages.map((m: any) => ({ role: m.role, content: m.content }));
+            const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+                'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
               },
               signal: AbortSignal.timeout(45000),
               body: JSON.stringify({
-                model: 'deepseek-v4-flash',
+                model: 'openai/gpt-oss-120b',
                 max_tokens: maxTokens,
                 stream: true,
                 messages: [
@@ -424,8 +422,8 @@ const ragSystem = ragContext
                 ],
               }),
             });
-            if (!dsRes.ok || !dsRes.body) throw new Error(`DeepSeek API error: ${dsRes.status}`);
-            const reader = dsRes.body.getReader();
+            if (!groqRes.ok || !groqRes.body) throw new Error(`Groq API error: ${groqRes.status}`);
+            const reader = groqRes.body.getReader();
             const decoder = new TextDecoder();
             let buffer = '';
             while (true) {
