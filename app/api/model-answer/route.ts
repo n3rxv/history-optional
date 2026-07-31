@@ -209,6 +209,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── RAG: fetch relevant book passages ──
+    const EMBED_SERVICE_URL = process.env.EMBED_SERVICE_URL || 'https://rag-embed-rerank.onrender.com';
     let ragContext = '';
     try {
       const { createClient: createSupabase } = await import('@supabase/supabase-js');
@@ -217,24 +218,24 @@ export async function POST(req: NextRequest) {
         process.env.SUPABASE_SECRET_KEY!
       );
 
-      // Embed the question
-      const embedRes = await fetch('https://api.jina.ai/v1/embeddings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.JINA_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: 'jina-embeddings-v3',
-          task: 'retrieval.query',
-          dimensions: 384,
-          input: [question],
-        }),
-      });
-      const embedData = await embedRes.json();
-      if (embedData.data) {
-        const embedding = embedData.data[0].embedding;
+      // Embed the question via self-hosted Render service
+      const embedController = new AbortController();
+      const embedTimer = setTimeout(() => embedController.abort(), 8000);
+      let embedding: number[] | null = null;
+      try {
+        const embedRes = await fetch(`${EMBED_SERVICE_URL}/embed`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ texts: [question] }),
+          signal: embedController.signal,
+        });
+        const embedData = await embedRes.json();
+        if (embedData.embeddings?.[0]) embedding = embedData.embeddings[0];
+      } finally {
+        clearTimeout(embedTimer);
+      }
 
+      if (embedding) {
         // Fetch diverse chunks from all books
         const { data: chunks } = await supabase.rpc('match_book_chunks_diverse', {
           query_embedding: embedding,
@@ -242,9 +243,31 @@ export async function POST(req: NextRequest) {
         });
 
         if (chunks && chunks.length > 0) {
-          // Filter low similarity, take top 6
-          const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45).slice(0, 6);
-          const finalChunks = filtered.length >= 3 ? filtered : chunks.slice(0, 6);
+          // Filter low similarity
+          const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45).slice(0, 12);
+          const toRerank = filtered.length >= 3 ? filtered : chunks.slice(0, 12);
+
+          // Rerank via self-hosted Render service
+          let finalChunks: any[] = [];
+          try {
+            const rerankController = new AbortController();
+            const rerankTimer = setTimeout(() => rerankController.abort(), 15000);
+            const rerankRes = await fetch(`${EMBED_SERVICE_URL}/rerank`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ query: question, documents: toRerank.map((c: any) => c.content), top_n: 6 }),
+              signal: rerankController.signal,
+            });
+            clearTimeout(rerankTimer);
+            const rerankData = await rerankRes.json();
+            if (rerankData.results) {
+              finalChunks = rerankData.results.map((r: any) => ({ ...toRerank[r.index], score: r.score }));
+            } else {
+              finalChunks = toRerank.slice(0, 6);
+            }
+          } catch {
+            finalChunks = toRerank.slice(0, 6);
+          }
 
           if (finalChunks.length > 0) {
             ragContext = finalChunks
