@@ -272,7 +272,7 @@ export async function POST(req: NextRequest) {
       console.error('RAG fetch error (non-fatal):', ragErr);
     }
 
-    // ── Generate via DeepSeek V4 Flash ──
+    // ── Generate via Anthropic Haiku ──
     const rawMarks = parseInt(marks) || 10;
     const marksNum = rawMarks >= 30 ? 20 : rawMarks === 12 || rawMarks === 13 ? 10 : rawMarks;
 
@@ -292,57 +292,25 @@ QUESTION (${marksNum} marks): ${question}
 
 Write the full model answer now:`;
 
-    const genRes = await fetch('https://api.deepseek.com/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
-      },
-      signal: AbortSignal.timeout(50000),
-      body: JSON.stringify({
-        model: 'deepseek-v4-flash',
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: prompt },
-        ],
-        temperature: 0.35,
-        max_tokens: marksNum >= 20 ? 6000 : marksNum >= 15 ? 4000 : 2500,
-        stream: true,
-      }),
-    });
+    const Anthropic = (await import('@anthropic-ai/sdk')).default;
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-    if (!genRes.ok || !genRes.body) {
-      const errText = await genRes.text().catch(() => 'no body');
-      console.error('[model-answer] DeepSeek HTTP error:', genRes.status, errText.slice(0, 300));
-      return NextResponse.json({ error: `Failed to generate answer. Please try again. (HTTP ${genRes.status})` }, { status: 500 });
-    }
-
-    // Collect streaming response
     let answer = '';
-    const reader = genRes.body.getReader();
-    const dec = new TextDecoder();
-    let buf = '';
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buf += dec.decode(value, { stream: true });
-      const lines = buf.split('\n');
-      buf = lines.pop() ?? '';
-      for (const line of lines) {
-        const t = line.trim();
-        if (!t || t === 'data: [DONE]') continue;
-        if (t.startsWith('data: ')) {
-          try {
-            const delta = JSON.parse(t.slice(6))?.choices?.[0]?.delta?.content;
-            if (delta) answer += delta;
-          } catch {}
-        }
+    const anthropicStream = anthropic.messages.stream({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: marksNum >= 20 ? 6000 : marksNum >= 15 ? 4000 : 2500,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: prompt }],
+    });
+    for await (const chunk of anthropicStream) {
+      if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+        answer += chunk.delta.text;
       }
     }
     answer = answer.trim();
 
     if (!answer) {
-      console.error('[model-answer] DeepSeek returned empty answer after stream');
+      console.error('[model-answer] Haiku returned empty answer');
       return NextResponse.json({ error: 'Failed to generate answer. Please try again. (empty response)' }, { status: 500 });
     }
 
@@ -391,52 +359,20 @@ Write the full model answer now:`;
         });
 
         if (flagged.length > 0) {
-          const verifyRes = await fetch('https://api.deepseek.com/chat/completions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
-            },
-            body: JSON.stringify({
-              model: 'deepseek-v4-flash',
-              max_tokens: 800,
-              stream: false,
-              messages: [
-                {
-                  role: 'system',
-                  content: `You are a strict THREE-LAYER citation auditor for UPSC History answers.
-
-For each flagged sentence, verify ALL three layers:
-LAYER 1 — AUTHOR: Does this historian appear in the source passages under their own [Source N | Author: X] label?
-LAYER 2 — BOOK: If a book title is cited, does it match the actual book in the passages for that author?
-LAYER 3 — CONTENT: Does the specific claim/argument actually appear in that author's passage? Topical similarity is NOT enough.
-
-If ANY layer fails → flag it.
-
-Classify into:
-- "bad_brackets": bracket "(Author, Title)" failing any layer. Return ONLY the bracket text exactly.
-- "bad_prose_sentences": prose attribution ("Author argues/notes/states...") failing any layer. Return FULL sentence exactly.
-
-Respond ONLY with valid JSON, no markdown:
-{"bad_brackets": ["(Author, Title)"], "bad_prose_sentences": ["Full sentence."]}
-
-If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
-                },
-                {
-                  role: 'user',
-                  content: `SOURCE PASSAGES:
+          const anthropicV = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+          const verifyMsg = await anthropicV.messages.create({
+            model: 'claude-haiku-4-5-20251001',
+            max_tokens: 800,
+            system: `You are a strict citation auditor. For each flagged sentence, check if the historian name and claim actually appear in the SOURCE PASSAGES. Respond ONLY with valid JSON: {"bad_brackets": ["..."], "bad_prose_sentences": ["..."]}. If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
+            messages: [{ role: 'user', content: `SOURCE PASSAGES:
 ${ragContext}
 
 ---
 
 FLAGGED SENTENCES:
-${flagged.join('\n')}`,
-                },
-              ],
-            }),
+${flagged.join('\n')}` }],
           });
-          const vj = await verifyRes.json();
-          const vt = vj.choices?.[0]?.message?.content?.trim() ?? '';
+          const vt = verifyMsg.content[0]?.type === 'text' ? verifyMsg.content[0].text.trim() : '';
           const vc = vt.replace(/^```json\s*|```\s*$/g, '').trim();
           const vp = JSON.parse(vc) as { bad_brackets: string[]; bad_prose_sentences: string[] };
 
