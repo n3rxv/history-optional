@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const EMBED_SERVICE_URL = process.env.EMBED_SERVICE_URL || 'https://rag-embed-rerank.onrender.com';
-
 export async function GET() {
   const results: Record<string, string> = {};
 
@@ -17,15 +15,8 @@ export async function GET() {
     results.db = 'error';
   }
 
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 10000);
-    const res = await fetch(`${EMBED_SERVICE_URL}/warmup`, { signal: controller.signal });
-    clearTimeout(timer);
-    results.render = res.ok ? 'ok' : `error:${res.status}`;
-  } catch {
-    results.render = 'timeout_or_error';
-  }
+  // Voyage AI has no warmup needed — no cold start
+  results.embed = 'voyage-ai';
 
   const allOk = results.db === 'ok';
   return NextResponse.json({ ok: allOk, ts: new Date().toISOString(), ...results });

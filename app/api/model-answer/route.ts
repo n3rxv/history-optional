@@ -208,8 +208,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'premium_required' }, { status: 403 });
     }
 
-    // ── RAG: fetch relevant book passages ──
-    const EMBED_SERVICE_URL = process.env.EMBED_SERVICE_URL || 'https://rag-embed-rerank.onrender.com';
+    // ── RAG: fetch relevant book passages via Voyage AI ──
     let ragContext = '';
     try {
       const { createClient: createSupabase } = await import('@supabase/supabase-js');
@@ -218,50 +217,42 @@ export async function POST(req: NextRequest) {
         process.env.SUPABASE_SECRET_KEY!
       );
 
-      // Embed the question via self-hosted Render service
-      const embedController = new AbortController();
-      const embedTimer = setTimeout(() => embedController.abort(), 8000);
-      let embedding: number[] | null = null;
-      try {
-        const embedRes = await fetch(`${EMBED_SERVICE_URL}/embed`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ texts: [question] }),
-          signal: embedController.signal,
-        });
-        const embedData = await embedRes.json();
-        if (embedData.embeddings?.[0]) embedding = embedData.embeddings[0];
-      } finally {
-        clearTimeout(embedTimer);
-      }
+      // Embed via Voyage AI
+      const embedRes = await fetch('https://api.voyageai.com/v1/embeddings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
+        },
+        body: JSON.stringify({ model: 'voyage-4-lite', input: [question], input_type: 'query' }),
+      });
+      const embedData = await embedRes.json();
+      const embedding = embedData.data?.[0]?.embedding;
 
       if (embedding) {
-        // Fetch diverse chunks from all books
         const { data: chunks } = await supabase.rpc('match_book_chunks_diverse', {
           query_embedding: embedding,
           per_book_count: 3,
         });
 
         if (chunks && chunks.length > 0) {
-          // Filter low similarity
           const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45).slice(0, 12);
           const toRerank = filtered.length >= 3 ? filtered : chunks.slice(0, 12);
 
-          // Rerank via self-hosted Render service
+          // Rerank via Voyage AI
           let finalChunks: any[] = [];
           try {
-            const rerankController = new AbortController();
-            const rerankTimer = setTimeout(() => rerankController.abort(), 15000);
-            const rerankRes = await fetch(`${EMBED_SERVICE_URL}/rerank`, {
+            const rerankRes = await fetch('https://api.voyageai.com/v1/rerank', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ query: question, documents: toRerank.map((c: any) => c.content), top_n: 6 }),
-              signal: rerankController.signal,
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
+              },
+              body: JSON.stringify({ model: 'rerank-2-lite', query: question, documents: toRerank.map((c: any) => c.content), top_k: 6 }),
             });
-            clearTimeout(rerankTimer);
             const rerankData = await rerankRes.json();
-            if (rerankData.results) {
-              finalChunks = rerankData.results.map((r: any) => ({ ...toRerank[r.index], score: r.score }));
+            if (rerankData.data) {
+              finalChunks = rerankData.data.map((r: any) => ({ ...toRerank[r.index], score: r.relevance_score }));
             } else {
               finalChunks = toRerank.slice(0, 6);
             }

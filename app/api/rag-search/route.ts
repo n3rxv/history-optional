@@ -3,25 +3,18 @@ import { NextRequest, NextResponse } from 'next/server';
 export const maxDuration = 60;
 import { createClient } from '@supabase/supabase-js';
 
-const EMBED_SERVICE_URL = process.env.EMBED_SERVICE_URL || 'https://rag-embed-rerank.onrender.com';
-
-async function localEmbed(text: string): Promise<number[]> {
-  for (let attempt = 0; attempt < 2; attempt++) {
-    try {
-      const res = await fetch(`${EMBED_SERVICE_URL}/embed`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ texts: [text] }),
-        signal: AbortSignal.timeout(12000),
-      });
-      const data = await res.json();
-      if (data.embeddings) return data.embeddings[0];
-    } catch (e) {
-      if (attempt === 1) throw e;
-      console.warn('localEmbed attempt 1 failed, retrying...');
-    }
-  }
-  throw new Error('Embed failed after 2 attempts');
+async function voyageEmbed(text: string): Promise<number[]> {
+  const res = await fetch('https://api.voyageai.com/v1/embeddings', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
+    },
+    body: JSON.stringify({ model: 'voyage-4-lite', input: [text], input_type: 'query' }),
+  });
+  const data = await res.json();
+  if (!data.data?.[0]?.embedding) throw new Error('Voyage embed failed: ' + JSON.stringify(data));
+  return data.data[0].embedding;
 }
 
 export async function POST(req: NextRequest) {
@@ -34,10 +27,8 @@ export async function POST(req: NextRequest) {
       process.env.SUPABASE_SECRET_KEY!
     );
 
-    // Embed query via local service
-    const embedding = await localEmbed(query);
+    const embedding = await voyageEmbed(query);
 
-    // Fetch diverse chunks
     const { data: chunks } = await supabase.rpc('match_book_chunks_diverse', {
       query_embedding: embedding,
       per_book_count: 3,
@@ -45,7 +36,6 @@ export async function POST(req: NextRequest) {
 
     if (!chunks || chunks.length === 0) return NextResponse.json({ context: '' });
 
-    // Filter low similarity, diversity max 2 per book, top 6 — rerank removed (saves Render round-trip)
     const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45);
     const toSelect = (filtered.length >= 3 ? filtered : chunks).slice(0, 12);
 

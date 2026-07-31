@@ -70,50 +70,36 @@ const BROAD_ONLY_HISTORIANS = ['Jha', 'Nizami', 'Riazul Islam', 'Surendra Gopal'
 // All known historian names to detect (whitelist + broad-only)
 const ALL_KNOWN_HISTORIAN_NAMES = [...WHITELISTED_HISTORIAN_SURNAMES, ...BROAD_ONLY_HISTORIANS];
 
-// Self-hosted embedding + rerank service (Render, all-MiniLM-L6-v2 + ms-marco-MiniLM-L-6-v2).
-// Replaces Jina — no per-call billing, no balance dependency.
-const EMBED_SERVICE_URL = process.env.EMBED_SERVICE_URL || 'https://rag-embed-rerank.onrender.com';
-
+// Voyage AI — embed + rerank (voyage-4-lite, rerank-2-lite)
 async function localEmbedBatch(texts: string[]): Promise<number[][]> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000); // 8s timeout — Render cold start guard
-  try {
-    const res = await fetch(`${EMBED_SERVICE_URL}/embed`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ texts }),
-      signal: controller.signal,
-    });
-    const data = await res.json();
-    if (!data.embeddings) throw new Error('Local embed failed: ' + JSON.stringify(data));
-    return data.embeddings;
-  } finally {
-    clearTimeout(timer);
-  }
+  const res = await fetch('https://api.voyageai.com/v1/embeddings', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
+    },
+    body: JSON.stringify({ model: 'voyage-4-lite', input: texts, input_type: 'query' }),
+  });
+  const data = await res.json();
+  if (!data.data) throw new Error('Voyage embed failed: ' + JSON.stringify(data));
+  return data.data.map((item: any) => item.embedding);
 }
 
 async function localRerank(query: string, chunks: {id: any, content: string, book_title: string, author: string}[]): Promise<{id: any, content: string, book_title: string, author: string, score: number}[]> {
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 15000);
-    const res = await fetch(`${EMBED_SERVICE_URL}/rerank`, {
-      signal: controller.signal,
+    const res = await fetch('https://api.voyageai.com/v1/rerank', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query,
-        documents: chunks.map(c => c.content),
-        top_n: 6,
-      }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
+      },
+      body: JSON.stringify({ model: 'rerank-2-lite', query, documents: chunks.map(c => c.content), top_k: 6 }),
     });
     const data = await res.json();
-    if (!data.results) return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
-    return data.results.map((r: any) => ({
-      ...chunks[r.index],
-      score: r.score,
-    }));
+    if (!data.data) return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
+    return data.data.map((r: any) => ({ ...chunks[r.index], score: r.relevance_score }));
   } catch (e) {
-    console.error('Local rerank failed:', e);
+    console.error('Voyage rerank failed:', e);
     return chunks.slice(0, 6).map(c => ({ ...c, score: 0 }));
   }
 }
