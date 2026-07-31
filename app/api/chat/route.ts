@@ -326,10 +326,10 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
 
 
     
-const ragBasePrompt = buildRagBasePrompt({ system: system ?? '', responseStyle, bookTitle, ragContext });
+const ragBasePrompt = buildRagBasePrompt({ responseStyle, bookTitle, ragContext });
 
 const ragSystem = ragContext
-  ? (mentorMode && isPremium ? MENTOR_SYSTEM + '\n\n' : '') + ragBasePrompt
+  ? (mentorMode && isPremium ? MENTOR_SYSTEM + '\n\n' : system + '\n\n') + ragBasePrompt
   : system;
 
 

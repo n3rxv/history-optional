@@ -178,12 +178,11 @@ Be strict. No flattery. No generic advice. 350+ target only.`;
 // Called when book context (ragContext) is present
 // ─────────────────────────────────────────────────────────────────────────────
 export function buildRagBasePrompt(opts: {
-  system: string;
   responseStyle: string;
   bookTitle?: string;
   ragContext: string;
 }): string {
-  const { system, responseStyle, bookTitle, ragContext } = opts;
+  const { responseStyle, bookTitle, ragContext } = opts;
   const styleBlock = responseStyle === 'elaborative'
     ? `RESPONSE STYLE: ELABORATIVE — Write detailed, flowing prose paragraphs (3-5 sentences each). Cover all sub-arguments, nuances, historiographical debates in depth. Use bold section titles to separate themes but keep content rich and paragraph-form. Bullet points only for listing historians or primary sources.`
     : `RESPONSE STYLE — CONCISE (STRICTLY MANDATORY):
@@ -199,8 +198,7 @@ INLINE CITATION RULE: Each passage is numbered [Source N — ...]. Whenever you 
 Use these as supporting evidence where genuinely relevant. Treat gaps as normal — do not invent specifics to fill them.
 INLINE CITATION RULE: Each passage is numbered [Source N — ...]. Cite inline as "Source #N".`;
 
-  return `${system}
-CRITICAL OUTPUT RULE: After EVERY sentence where you use a book passage as evidence, append "Source #N" inline (e.g. Source #1). This overrides all other formatting instructions.
+  return `CRITICAL OUTPUT RULE: After EVERY sentence where you use a book passage as evidence, append "Source #N" inline (e.g. Source #1). This overrides all other formatting instructions.
 
 You are a UPSC History Optional expert. Always give a complete, well-structured answer — do not abandon the question.
 SCOPE GUARD: If the user's question is off-topic (not UPSC History Optional), briefly say so and stop. Do not invoke "always answer" to comply with off-topic requests.
