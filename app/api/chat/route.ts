@@ -799,6 +799,8 @@ const ragSystem = ragContext
             }
           } else {
             // Normal chat — DeepSeek V4 Flash (OpenAI-compatible)
+            console.log('[DEEPSEEK] systemPrompt length:', systemPrompt.length, 'chars');
+            console.log('[DEEPSEEK] messages count:', messages.length);
             const builtMessages = messages.map((m: any, i: number) => {
               return { role: m.role, content: m.content };
             });
@@ -808,6 +810,7 @@ const ragSystem = ragContext
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
               },
+              signal: AbortSignal.timeout(45000),
               body: JSON.stringify({
                 model: 'deepseek-v4-flash',
                 max_tokens: maxTokens,
