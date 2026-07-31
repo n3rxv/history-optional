@@ -184,7 +184,7 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
 
     // Step 7: Return chunks with source labels
     return finalChunks
-      .map((c, i) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]\n${c.content}`)
+      .map((c, i) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]\n${c.content.slice(0, 800)}`)
       .join('\n\n---\n\n');
 
   } catch (e) {
