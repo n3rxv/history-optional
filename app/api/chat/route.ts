@@ -296,17 +296,16 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
       });
     };
 
-    // ── RAG: inject book context for bookMode only ────────
+    // ── RAG: always inject book context (normal chat + bookMode) ────────
     let ragContext = '';
     let ragSources: { book_title: string; author: string; content: string }[] = [];
     const lastQ = typeof messages?.[messages.length - 1]?.content === 'string'
       ? messages[messages.length - 1].content
       : '';
-    try {
-      if (bookMode) {
-        // Book-specific RAG only — normal chat has no RAG (system prompt too large)
-        ragContext = await getBookContext(lastQ, bookTitle);
-        // Parse sources for UI display
+    if (!pdf_base64 && lastQ.length > 3) {
+      try {
+        // bookMode passes bookTitle filter; normal chat uses "all" (diverse across books)
+        ragContext = await getBookContext(lastQ, bookMode ? bookTitle : 'all');
         ragSources = ragContext
           .split('\n\n---\n\n')
           .map(block => {
@@ -315,11 +314,11 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
             return null;
           })
           .filter(Boolean) as { book_title: string; author: string; content: string }[];
+      } catch(e) {
+        console.error('RAG skipped (embed service timeout or error):', e);
+        ragContext = '';
+        ragSources = [];
       }
-    } catch(e) {
-      console.error('RAG skipped (embed service timeout or error):', e);
-      ragContext = '';
-      ragSources = [];
     }
 
 
