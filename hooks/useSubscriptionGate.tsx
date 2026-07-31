@@ -71,7 +71,7 @@ function LimitModal({
 }
 
 export function useSubscriptionGate(onEvaluate: () => void) {
-  const { usage, loading, canEval, canChat, incrementEval, incrementChat, FREE_EVAL_LIMIT, FREE_CHAT_LIMIT } = useUsageTracker();
+  const { usage, loading, canEval, canChat, incrementEval, incrementChat, refetchUsage, FREE_EVAL_LIMIT, FREE_CHAT_LIMIT } = useUsageTracker();
   const [showEvalLimit, setShowEvalLimit] = useState(false);
   const [showChatLimit, setShowChatLimit] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -136,7 +136,7 @@ export function useSubscriptionGate(onEvaluate: () => void) {
             slots={s}
             fingerprint={usage?.fingerprint ?? null}
             onClose={() => setShowEvalLimit(false)}
-            onSuccess={() => { setShowEvalLimit(false); onEvaluateRef.current(); }}
+            onSuccess={() => { refetchUsage(); setShowEvalLimit(false); onEvaluateRef.current(); }}
           />
         )}
         {showChatLimit && (
@@ -144,7 +144,7 @@ export function useSubscriptionGate(onEvaluate: () => void) {
             slots={s}
             fingerprint={usage?.fingerprint ?? null}
             onClose={() => setShowChatLimit(false)}
-            onSuccess={() => setShowChatLimit(false)}
+            onSuccess={() => { refetchUsage(); setShowChatLimit(false); }}
           />
         )}
       </>

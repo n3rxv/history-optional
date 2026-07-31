@@ -50,7 +50,7 @@ export function useUsageTracker() {
           return;
         }
 
-        const token = await user.getIdToken();
+        const token = await user.getIdToken(true);
         const data  = await fetchUsage(fingerprint, token);
 
         setUsage({
@@ -72,6 +72,21 @@ export function useUsageTracker() {
   const isSubscribed = usage?.subscribed ?? false;
   const canEval = isSubscribed || (usage?.eval_count ?? 0) < FREE_EVAL_LIMIT;
   const canChat = isSubscribed || (usage?.chat_count ?? 0) < FREE_CHAT_LIMIT;
+
+  const refetchUsage = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const fp = localStorage.getItem('fp') ?? document.cookie.match(/fp=([^;]+)/)?.[1] ?? '';
+    const token = await user.getIdToken(true);
+    const res = await fetch(`/api/usage?fp=${fp}&token=${token}`);
+    const data = await res.json();
+    setUsage(prev => prev ? {
+      ...prev,
+      eval_count:  data.eval_count  ?? prev.eval_count,
+      chat_count:  data.chat_count  ?? prev.chat_count,
+      subscribed:  data.subscribed  ?? prev.subscribed,
+    } : prev);
+  };
 
   const incrementEval = async () => {
     if (!usage) return;
@@ -109,6 +124,7 @@ export function useUsageTracker() {
     canChat,
     incrementEval,
     incrementChat,
+    refetchUsage,
     FREE_EVAL_LIMIT,
     FREE_CHAT_LIMIT,
   };
