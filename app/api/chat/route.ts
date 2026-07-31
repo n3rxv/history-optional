@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const maxDuration = 60;
+export const maxDuration = 90;
 import { createClient } from "@supabase/supabase-js";
 import {
   WHITELISTED_HISTORIAN_BOOKS,
@@ -305,7 +305,10 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
     if (!pdf_base64 && lastQ.length > 3) {
       try {
         // bookMode passes bookTitle filter; normal chat uses "all" (diverse across books)
-        ragContext = await getBookContext(lastQ, bookMode ? bookTitle : 'all');
+        ragContext = await Promise.race([
+          getBookContext(lastQ, bookMode ? bookTitle : 'all'),
+          new Promise<string>((_, reject) => setTimeout(() => reject(new Error('RAG timeout')), 10000)),
+        ]);
         ragSources = ragContext
           .split('\n\n---\n\n')
           .map(block => {
@@ -410,7 +413,7 @@ const ragSystem = ragContext
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
               },
-              signal: AbortSignal.timeout(45000),
+              signal: AbortSignal.timeout(30000),
               body: JSON.stringify({
                 model: 'deepseek-v4-flash',
                 max_tokens: maxTokens,
