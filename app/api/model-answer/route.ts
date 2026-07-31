@@ -224,6 +224,7 @@ export async function POST(req: NextRequest) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
         },
+        signal: AbortSignal.timeout(8000),
         body: JSON.stringify({ model: 'voyage-4-lite', input: [question], input_type: 'query' }),
       });
       const embedData = await embedRes.json();
@@ -297,6 +298,7 @@ Write the full model answer now:`;
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
       },
+      signal: AbortSignal.timeout(50000),
       body: JSON.stringify({
         model: 'deepseek-v4-flash',
         messages: [
@@ -305,17 +307,43 @@ Write the full model answer now:`;
         ],
         temperature: 0.35,
         max_tokens: marksNum >= 20 ? 6000 : marksNum >= 15 ? 4000 : 2500,
-        stream: false,
+        stream: true,
       }),
     });
 
-    const data = await genRes.json();
-    console.error('[model-answer] DeepSeek raw response:', JSON.stringify(data).slice(0, 500));
-    let answer = data.choices?.[0]?.message?.content?.trim() || '';
+    if (!genRes.ok || !genRes.body) {
+      const errText = await genRes.text().catch(() => 'no body');
+      console.error('[model-answer] DeepSeek HTTP error:', genRes.status, errText.slice(0, 300));
+      return NextResponse.json({ error: `Failed to generate answer. Please try again. (HTTP ${genRes.status})` }, { status: 500 });
+    }
+
+    // Collect streaming response
+    let answer = '';
+    const reader = genRes.body.getReader();
+    const dec = new TextDecoder();
+    let buf = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop() ?? '';
+      for (const line of lines) {
+        const t = line.trim();
+        if (!t || t === 'data: [DONE]') continue;
+        if (t.startsWith('data: ')) {
+          try {
+            const delta = JSON.parse(t.slice(6))?.choices?.[0]?.delta?.content;
+            if (delta) answer += delta;
+          } catch {}
+        }
+      }
+    }
+    answer = answer.trim();
+
     if (!answer) {
-      const dsError = data.error?.message || data.error || 'empty choices';
-      console.error('[model-answer] DeepSeek failed:', dsError);
-      return NextResponse.json({ error: `Failed to generate answer. Please try again. (${dsError})` }, { status: 500 });
+      console.error('[model-answer] DeepSeek returned empty answer after stream');
+      return NextResponse.json({ error: 'Failed to generate answer. Please try again. (empty response)' }, { status: 500 });
     }
 
     // ── 3-Layer Citation Verifier ──────────────────────────────────────────
