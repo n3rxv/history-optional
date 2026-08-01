@@ -42,10 +42,10 @@ export default function TermsPage() {
         <h2>4. Subscription &amp; Payments</h2>
         <p>Premium subscription plans and their prices are:</p>
         <ul>
-          <li>Daily — ₹49 per day</li>
-          <li>Weekly — ₹299 per week</li>
-          <li>Monthly — ₹999 per month</li>
-          <li>Annual — ₹5,999 per year</li>
+          <li>Daily — ₹49 (1 day access)</li>
+          <li>Weekly — ₹299 (1 week access)</li>
+          <li>Monthly — ₹999 (1 month access)</li>
+          <li>Annual — ₹5,999 (1 year access)</li>
         </ul>
         <p>
           All payments are processed securely by Razorpay. Prices are in Indian Rupees (INR)

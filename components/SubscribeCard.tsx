@@ -34,10 +34,10 @@ export function SubscribeCard({
   const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('yearly');
 
   const allPlans = [
-    { id: 'daily',   label: 'Daily',   price: '₹49',    sub: 'per day' },
-    { id: 'weekly',  label: 'Weekly',  price: '₹299',   sub: 'per week' },
-    { id: 'monthly', label: 'Monthly', price: '₹999',   sub: 'per month' },
-    { id: 'yearly',  label: 'Annual',  price: '₹5,999', sub: 'per year' },
+    { id: 'daily',   label: 'Daily',   price: '₹49',    sub: '1 day' },
+    { id: 'weekly',  label: 'Weekly',  price: '₹299',   sub: '1 week' },
+    { id: 'monthly', label: 'Monthly', price: '₹999',   sub: '1 month' },
+    { id: 'yearly',  label: 'Annual',  price: '₹5,999', sub: '1 year' },
   ] as const;
   const plans = slots > 0 ? allPlans : allPlans.filter(p => p.id === 'yearly');
   useEffect(() => { if (slots === 0) setSelectedPlan('yearly'); }, [slots]);
@@ -420,7 +420,7 @@ export function SubscribeCard({
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--border)', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
-              {selectedPlan === 'yearly' ? 'Secure · Razorpay · Renews annually' : selectedPlan === 'monthly' ? 'Secure · Razorpay · Renews monthly' : selectedPlan === 'weekly' ? 'Secure · Razorpay · Renews weekly' : 'Secure · Razorpay · Renews daily'}
+              {'Secure · Razorpay · One-time payment'}
             </span>
           </div>
           {onClose && (

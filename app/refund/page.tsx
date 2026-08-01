@@ -32,10 +32,10 @@ export default function RefundPage() {
 
         <h2>2. Subscription Plans</h2>
         <ul>
-          <li><strong>Daily</strong> — ₹49/day</li>
-          <li><strong>Weekly</strong> — ₹299/week</li>
-          <li><strong>Monthly</strong> — ₹999/month</li>
-          <li><strong>Annual</strong> — ₹5,999/year</li>
+          <li><strong>Daily</strong> — ₹49 (1 day access)</li>
+          <li><strong>Weekly</strong> — ₹299 (1 week access)</li>
+          <li><strong>Monthly</strong> — ₹999 (1 month access)</li>
+          <li><strong>Annual</strong> — ₹5,999 (1 year access)</li>
         </ul>
 
         <h2>3. Exceptions</h2>
