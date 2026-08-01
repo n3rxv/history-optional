@@ -44,8 +44,7 @@ export default function PromoPopup() {
     }
   }, [visible]);
 
-  // July 2026 offer — auto-expires Aug 1
-  const isJulyOffer = new Date().getFullYear() === 2026 && new Date().getMonth() === 6;
+
 
   useEffect(() => {
     // Fetch real early-bird slot count so SubscribeCard shows the correct
@@ -321,50 +320,25 @@ export default function PromoPopup() {
                 />
               ) : (
                 <>
-                  {isJulyOffer ? (
-                    /* July offer block */
-                    <div style={{
-                      background: 'rgba(251,191,36,0.06)', border: '0.5px solid rgba(251,191,36,0.28)',
-                      borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '0.9rem',
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
-                        <span style={{ fontSize: 10, fontWeight: 700, color: '#fbbf24', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                          🎉 July Offer — Ends Jul 31
-                        </span>
-                        <span style={{
-                          fontSize: 9.5, fontWeight: 800, color: '#4ade80',
-                          background: 'rgba(74,222,128,0.1)', border: '0.5px solid rgba(74,222,128,0.25)',
-                          borderRadius: 8, padding: '2px 7px',
-                        }}>50% OFF</span>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                        <span style={{ fontSize: 22, fontWeight: 800, color: '#fbbf24', lineHeight: 1 }}>₹2,999</span>
-                        <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>/year</span>
-                        <span style={{ fontSize: 12, color: 'rgba(0,0,0,0.12)', textDecoration: 'line-through' }}>₹5,999</span>
-                      </div>
-                      <p style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.15)', margin: '4px 0 0' }}>Limited time · saves ₹3,000</p>
+                  <div style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    background: 'var(--bg3)', border: '0.5px solid #1f1f1f',
+                    borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '0.9rem',
+                  }}>
+                    <div>
+                      <p style={{ fontSize: 11, color: 'var(--text3)', margin: '0 0 2px' }}>Starting at</p>
+                      <p style={{ fontSize: 19, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
+                        {"\u20B9299"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>/week</span>
+                      </p>
                     </div>
-                  ) : (
-                    <div style={{
-                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      background: 'var(--bg3)', border: '0.5px solid #1f1f1f',
-                      borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '0.9rem',
-                    }}>
-                      <div>
-                        <p style={{ fontSize: 11, color: 'var(--text3)', margin: '0 0 2px' }}>Starting at</p>
-                        <p style={{ fontSize: 19, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
-                          {"\u20B9299"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>/week</span>
-                        </p>
-                      </div>
-                      <div style={{ width: 1, height: 32, background: 'var(--bg4)' }} />
-                      <div style={{ textAlign: 'right' }}>
-                        <p style={{ fontSize: 11, color: 'var(--text3)', margin: '0 0 2px' }}>Best value</p>
-                        <p style={{ fontSize: 19, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
-                          {"\u20B95,999"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>/year</span>
-                        </p>
-                      </div>
+                    <div style={{ width: 1, height: 32, background: 'var(--bg4)' }} />
+                    <div style={{ textAlign: 'right' }}>
+                      <p style={{ fontSize: 11, color: 'var(--text3)', margin: '0 0 2px' }}>Best value</p>
+                      <p style={{ fontSize: 19, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
+                        {"\u20B95,999"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>/year</span>
+                      </p>
                     </div>
-                  )}
+                  </div>
 
                   <button
                     onClick={() => setShowSubscribe(true)}
@@ -764,37 +738,15 @@ function MobileSlide({ index }: { index: number }) {
 
       {isPricing && (
         <div style={{ textAlign: 'center', padding: '0 0.25rem' }}>
-          {/* July offer badge */}
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 5,
-            background: 'rgba(251,191,36,0.1)', border: '0.5px solid rgba(251,191,36,0.35)',
-            borderRadius: 20, padding: '3px 10px', marginBottom: '0.7rem',
-          }}>
-            <span style={{ fontSize: 9, fontWeight: 700, color: '#fbbf24', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-              🎉 July Offer — Ends Jul 31
-            </span>
-          </div>
-
           {/* Price */}
           <div style={{ marginBottom: '0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 7 }}>
               <span style={{
                 fontSize: 38, fontWeight: 800, color: '#fbbf24', lineHeight: 1,
                 textShadow: '0 0 28px rgba(251,191,36,0.45)',
-              }}>₹2,999</span>
+              }}>₹5,999</span>
               <span style={{ fontSize: 13, color: 'var(--text3)', fontWeight: 400 }}>/year</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 5 }}>
-              <span style={{ fontSize: 12, color: 'rgba(0,0,0,0.12)', textDecoration: 'line-through' }}>₹5,999</span>
-              <span style={{
-                fontSize: 9.5, fontWeight: 700, color: '#4ade80',
-                background: 'rgba(74,222,128,0.1)', border: '0.5px solid rgba(74,222,128,0.25)',
-                borderRadius: 10, padding: '1px 6px',
-              }}>50% OFF</span>
-            </div>
-            <p style={{ fontSize: 10, color: 'rgba(0,0,0,0.12)', margin: '4px 0 0', letterSpacing: '0.03em' }}>
-              saves ₹3,000 · limited time
-            </p>
           </div>
 
           {/* Feature pills */}

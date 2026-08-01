@@ -142,7 +142,7 @@ function ExtendModal({
     { id: 'daily',   label: 'Daily',   price: '₹49',    days: 1 },
     { id: 'weekly',  label: 'Weekly',  price: '₹299',   days: 7 },
     { id: 'monthly', label: 'Monthly', price: '₹999',   days: 30 },
-    { id: 'yearly',  label: 'Annual',  price: '₹2,999', days: 365 },
+    { id: 'yearly',  label: 'Annual',  price: '₹5,999', days: 365 },
   ] as const;
 
   const computeNewExpiry = (planId: string) => {
@@ -255,9 +255,8 @@ function ExtendModal({
               return (
                 <button key={p.id} onClick={() => setSelectedPlan(p.id as any)}
                   style={{ background: sel ? 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(212,168,67,0.15))' : 'rgba(0,0,0,0.03)', border: sel ? '1px solid rgba(99,102,241,0.55)' : '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '0.7rem 0.5rem', cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}>
-                  {p.id === 'yearly' && <div style={{ position: 'absolute', top: 4, right: 4, fontSize: '0.48rem', background: '#e03131', color: 'var(--text)', fontWeight: 800, padding: '1px 5px', borderRadius: 20, letterSpacing: '0.05em' }}>50% OFF</div>}
                   <div style={{ fontSize: '0.72rem', color: sel ? '#c7d2fe' : 'rgba(255,255,255,0.5)', fontWeight: 600, marginBottom: 4 }}>{p.label}</div>
-                  <div style={{ fontSize: '1rem', color: sel ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: 800 }}>{p.price}{p.id === 'yearly' && <span style={{ fontSize: '0.6rem', color: 'var(--text3)', fontWeight: 400, textDecoration: 'line-through', marginLeft: 4 }}>₹5,999</span>}</div>
+                  <div style={{ fontSize: '1rem', color: sel ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: 800 }}>{p.price}</div>
                 </button>
               );
             })}
@@ -779,7 +778,7 @@ export default function Navbar() {
                   onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.12)'; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#e8b84b'; }}>
                   ✦ Premium
                 </button>
-                <span style={{ position: 'absolute', top: -8, right: -10, fontSize: '0.5rem', fontWeight: 800, background: '#e03131', color: 'var(--text)', borderRadius: 20, padding: '2px 5px', lineHeight: 1.3, letterSpacing: '0.02em', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 2 }}>50% OFF</span>
+
               </div>
             )}
           </div>
@@ -814,7 +813,7 @@ export default function Navbar() {
                   style={{ fontFamily:'var(--font-mono)', fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.06em', padding:'4px 9px', borderRadius:20, background:'rgba(212,168,67,0.12)', border:'1px solid rgba(212,168,67,0.5)', color:'#e8b84b', cursor:'pointer', whiteSpace:'nowrap' }}>
                   ✦ Premium
                 </button>
-                <span style={{ position:'absolute', top:-7, right:-8, fontSize:'0.44rem', fontWeight:800, background:'#e03131', color:'#fff', borderRadius:20, padding:'1px 4px', lineHeight:1.3, whiteSpace:'nowrap', pointerEvents:'none' }}>50% OFF</span>
+
               </div>
             )}
             <button onClick={() => { setBellOpen(o => !o); }} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.7)', cursor:'pointer', padding:'0.25rem', position:'relative', display:'flex', alignItems:'center' }}>

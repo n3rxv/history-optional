@@ -33,15 +33,11 @@ export function SubscribeCard({
   const [hovered, setHovered] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('yearly');
 
-  // July 2026 offer — ₹2,999 annual (instead of ₹5,999). Auto-expires Aug 1.
-  const now = new Date();
-  const isJulyOffer = now.getFullYear() === 2026 && now.getMonth() === 6; // month 6 = July
-
   const allPlans = [
     { id: 'daily',   label: 'Daily',   price: '₹49',    sub: 'per day' },
     { id: 'weekly',  label: 'Weekly',  price: '₹299',   sub: 'per week' },
     { id: 'monthly', label: 'Monthly', price: '₹999',   sub: 'per month' },
-    { id: 'yearly',  label: 'Annual',  price: isJulyOffer ? '₹2,999' : '₹5,999', sub: 'per year' },
+    { id: 'yearly',  label: 'Annual',  price: '₹5,999', sub: 'per year' },
   ] as const;
   const plans = slots > 0 ? allPlans : allPlans.filter(p => p.id === 'yearly');
   useEffect(() => { if (slots === 0) setSelectedPlan('yearly'); }, [slots]);
@@ -49,10 +45,10 @@ export function SubscribeCard({
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
   const price = currentPlan.price;
   const originalPrice = selectedPlan === 'yearly'
-    ? (isJulyOffer ? '₹5,999' : (slots > 0 ? '₹14,999' : null))
+    ? (slots > 0 ? '₹14,999' : null)
     : null;
 
-  const showJulyBadge = isJulyOffer && selectedPlan === 'yearly';
+  const showJulyBadge = false;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
@@ -402,7 +398,7 @@ export function SubscribeCard({
               : 'linear-gradient(135deg, #c49a2c 0%, #e8b84b 35%, #f5cc5e 50%, #e8b84b 65%, #b8881e 100%)',
             backgroundSize: '200% 200%',
             animation: step === 'paying' ? 'none' : 'gradientShift 4s ease infinite, ctaGlow 2.5s ease infinite',
-            color: step === 'paying' ? 'var(--text3)' : 'var(--text)',
+            color: step === 'paying' ? 'var(--text3)' : '#000',
             fontWeight: 800, fontSize: '0.875rem',
             cursor: step === 'paying' ? 'not-allowed' : 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
