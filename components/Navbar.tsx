@@ -834,8 +834,8 @@ export default function Navbar() {
           </div>
         </div>
         {/* Mobile bell dropdown */}
-        {bellOpen && (
-          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:78, right:12, left:12, bottom:16, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, zIndex:1200, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.95), 0 0 80px rgba(99,102,241,0.1), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', display:'flex', flexDirection:'column', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
+        {bellOpen && createPortal(
+          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:78, right:12, left:12, bottom:16, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, zIndex:10000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.95), 0 0 80px rgba(99,102,241,0.1), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', display:'flex', flexDirection:'column', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
             <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(0,0,0,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
               <div style={{ display:'flex', alignItems:'center', gap:8 }}>
                 <div style={{ width:6, height:6, borderRadius:'50%', background:'#818cf8', boxShadow:'0 0 10px #818cf8, 0 0 20px rgba(129,140,248,0.4)' }} />
@@ -876,11 +876,12 @@ export default function Navbar() {
               <div style={{ fontSize:'0.52rem', color:'#4b5563', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
               <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
             </div>
-          </div>
+          </div>,
+          document.body
         )}
 
         {/* Mobile menu */}
-        {open && (
+        {open && createPortal(
           <div style={{ position:'fixed', top:60, left:0, right:0, bottom:0, borderTop: '1px solid rgba(0,0,0,0.06)', padding: '0.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.1rem', background: 'var(--bg2)', overflowY:'auto', zIndex:9999 }}>
             {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/pyqs', label: langHi ? 'PYQs देखें' : 'PYQs' }, { href: '/pyqs?topper=1', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट शुरू करें' : 'Start Test' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }].map(l => (
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ padding: '0.6rem 0.5rem', borderRadius: 5, fontSize: '0.88rem', textDecoration: 'none', color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)' }}>{l.label}</Link>
@@ -908,7 +909,8 @@ export default function Navbar() {
                 <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
               )}
             </div>
-          </div>
+          </div>,
+          document.body
         )}
 
         <style>{`
