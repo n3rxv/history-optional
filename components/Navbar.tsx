@@ -309,14 +309,26 @@ export default function Navbar() {
     setIsTopperActive(typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('topper') === '1');
   }, [pathname]);
   useEffect(() => {
+    let touchMoved = false;
+    const onTouchMove = () => { touchMoved = true; };
     const handler = (e: MouseEvent | TouchEvent) => {
+      if (e.type === 'touchstart') { touchMoved = false; }
+      if (e.type === 'touchend' && touchMoved) return; // was a scroll, not a tap
       if (notesRef.current && !notesRef.current.contains(e.target as Node)) setNotesMenuOpen(false);
       if (pyqsRef.current && !pyqsRef.current.contains(e.target as Node)) setPyqsMenuOpen(false);
-      if (bellRef.current && !bellRef.current.contains(e.target as Node)) setBellOpen(false);
+      if (bellRef.current && !bellRef.current.contains(e.target as Node) &&
+          mobileBellRef.current && !mobileBellRef.current.contains(e.target as Node)) setBellOpen(false);
     };
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
-    return () => { document.removeEventListener('mousedown', handler); document.removeEventListener('touchstart', handler); };
+    document.addEventListener('touchmove', onTouchMove, { passive: true });
+    document.addEventListener('touchend', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('touchstart', handler);
+      document.removeEventListener('touchmove', onTouchMove);
+      document.removeEventListener('touchend', handler);
+    };
   }, []);
 
   useEffect(() => {
@@ -341,6 +353,7 @@ export default function Navbar() {
   const [bellOpen, setBellOpen] = useState(false);
   const [seenIds, setSeenIds] = useState<string[]>([]);
   const bellRef = useRef<HTMLDivElement>(null);
+  const mobileBellRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof sessionStorage !== 'undefined') {
@@ -835,7 +848,7 @@ export default function Navbar() {
         </div>
         {/* Mobile bell dropdown */}
         {bellOpen && createPortal(
-          <div className="mobile-bell-dropdown" style={{ position:'fixed', top:78, right:12, left:12, bottom:16, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, zIndex:10000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.95), 0 0 80px rgba(99,102,241,0.1), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', display:'flex', flexDirection:'column', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
+          <div ref={mobileBellRef} className="mobile-bell-dropdown" style={{ position:'fixed', top:78, right:12, left:12, bottom:16, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, zIndex:10000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.95), 0 0 80px rgba(99,102,241,0.1), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', display:'flex', flexDirection:'column', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
             <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(0,0,0,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
               <div style={{ display:'flex', alignItems:'center', gap:8 }}>
                 <div style={{ width:6, height:6, borderRadius:'50%', background:'#818cf8', boxShadow:'0 0 10px #818cf8, 0 0 20px rgba(129,140,248,0.4)' }} />
