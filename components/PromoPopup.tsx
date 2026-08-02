@@ -131,7 +131,7 @@ export default function PromoPopup() {
       if (!firebaseUser) {
         if (!sessionStorage.getItem(SESSION_KEY)) {
           sessionStorage.setItem(SESSION_KEY, '1');
-          timer = setTimeout(() => setVisible(true), 3000);
+          timer = setTimeout(() => setVisible(true), 300000);
         }
         return;
       }
@@ -143,7 +143,7 @@ export default function PromoPopup() {
       } catch { /* ignore */ }
       if (!sessionStorage.getItem(SESSION_KEY)) {
         sessionStorage.setItem(SESSION_KEY, '1');
-        timer = setTimeout(() => setVisible(true), 3000);
+        timer = setTimeout(() => setVisible(true), 300000);
       }
     });
 
