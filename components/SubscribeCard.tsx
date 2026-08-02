@@ -45,7 +45,7 @@ export function SubscribeCard({
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
   const price = currentPlan.price;
   const originalPrice = selectedPlan === 'yearly'
-    ? (slots > 0 ? '₹11,988' : null)
+    ? (slots > 0 ? '₹11,999' : null)
     : null;
 
   const showJulyBadge = false;
