@@ -303,7 +303,7 @@ export function SubscribeCard({
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
               }}>{price}</span>
-              <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>/{currentPlan.sub.split(' ')[1]}</span>
+              <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>/{currentPlan.sub}</span>
               {originalPrice && (
                 <span style={{ color: 'var(--border2)', fontSize: '0.72rem', textDecoration: 'line-through' }}>
                   {originalPrice}
@@ -406,7 +406,7 @@ export function SubscribeCard({
             ? 'Opening payment…'
             : !token
               ? <><GoogleIcon /> Sign in &amp; Subscribe — {price}/{currentPlan.sub.split(' ')[1]}</>
-              : `Subscribe — ${price}/${currentPlan.sub.split(' ')[1]} →`}
+              : `Subscribe — ${price}/${currentPlan.sub} →`}
         </button>
 
         {/* Footer */}
