@@ -328,7 +328,7 @@ export default function PromoPopup() {
                     <div>
                       <p style={{ fontSize: 11, color: 'var(--text3)', margin: '0 0 2px' }}>Starting at</p>
                       <p style={{ fontSize: 19, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
-                        {"\u20B9299"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>· 1 week</span>
+                        {"\u20B949"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>· 1 day</span>
                       </p>
                     </div>
                     <div style={{ width: 1, height: 32, background: 'var(--bg4)' }} />
