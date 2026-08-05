@@ -66,10 +66,9 @@ export async function POST(req: NextRequest) {
     console.error("Capture failed:", captureErr);
   }
 
-  if (activePlan === "daily")        expiresAt.setDate(expiresAt.getDate() + 1);
-  else if (activePlan === "weekly")  expiresAt.setDate(expiresAt.getDate() + 7);
-  else if (activePlan === "monthly") expiresAt.setMonth(expiresAt.getMonth() + 1);
-  else                               expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+  if (activePlan === "daily")          expiresAt.setDate(expiresAt.getDate() + 1);
+  else if (activePlan === "sixmonths") expiresAt.setMonth(expiresAt.getMonth() + 6);
+  else                                 expiresAt.setFullYear(expiresAt.getFullYear() + 1);
 
   const { error: upsertErr } = await supabaseAdmin
     .from("subscriptions")

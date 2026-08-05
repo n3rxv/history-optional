@@ -31,22 +31,19 @@ export function SubscribeCard({
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('yearly');
+  const [selectedPlan, setSelectedPlan] = useState<'daily'|'sixmonths'|'yearly'>('yearly');
 
   const allPlans = [
-    { id: 'daily',   label: 'Daily',   price: '₹49',    sub: '1 day' },
-    { id: 'weekly',  label: 'Weekly',  price: '₹299',   sub: '1 week' },
-    { id: 'monthly', label: 'Monthly', price: '₹999',   sub: '1 month' },
-    { id: 'yearly',  label: 'Annual',  price: '₹5,999', sub: '1 year' },
+    { id: 'daily',      label: 'Daily',     price: '₹49',    sub: '1 day' },
+    { id: 'sixmonths',  label: '6 Months',  price: '₹3,999', sub: '6 months' },
+    { id: 'yearly',     label: 'Annual',    price: '₹5,999', sub: '1 year' },
   ] as const;
   const plans = slots > 0 ? allPlans : allPlans.filter(p => p.id === 'yearly');
   useEffect(() => { if (slots === 0) setSelectedPlan('yearly'); }, [slots]);
 
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
   const price = currentPlan.price;
-  const originalPrice = selectedPlan === 'yearly'
-    ? (slots > 0 ? '₹11,999' : null)
-    : null;
+  const originalPrice = null;
 
   const showJulyBadge = false;
 
@@ -64,7 +61,7 @@ export function SubscribeCard({
         const idToken = await firebaseUser.getIdToken();
         setToken(idToken);
         if (sessionStorage.getItem('ho_pending_payment') === '1') {
-          const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || 'yearly';
+          const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'sixmonths'|'yearly' || 'yearly';
           sessionStorage.removeItem('ho_pending_payment');
           sessionStorage.removeItem('ho_pending_plan');
           setSelectedPlan(savedPlan);
@@ -83,7 +80,7 @@ export function SubscribeCard({
       const result = await signInWithPopup(auth, googleProvider);
       const idToken = await result.user.getIdToken();
       setToken(idToken);
-      const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'weekly'|'monthly'|'yearly' || selectedPlan;
+      const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'sixmonths'|'yearly' || selectedPlan;
       sessionStorage.removeItem('ho_pending_payment');
       sessionStorage.removeItem('ho_pending_plan');
       openRazorpay(idToken, result.user.email ?? '', savedPlan);
@@ -92,7 +89,7 @@ export function SubscribeCard({
     }
   };
 
-  const openRazorpay = async (authToken: string, email: string, planOverride?: 'daily'|'weekly'|'monthly'|'yearly') => {
+  const openRazorpay = async (authToken: string, email: string, planOverride?: 'daily'|'sixmonths'|'yearly') => {
     setStep('paying');
     try {
       const orderRes = await fetch('/api/razorpay/order', {
@@ -259,7 +256,7 @@ export function SubscribeCard({
         )}
 
         {/* Plan selector */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, marginBottom: 8 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 8 }}>
           {plans.map(p => {
             const isSelected = selectedPlan === p.id;
             const isPopular = p.id === 'yearly';

@@ -31,10 +31,9 @@ export async function POST(req: NextRequest) {
   const plan = reqBody.plan || "yearly";
 
   const planAmounts: Record<string, number> = {
-    daily:   4900,
-    weekly:  29900,
-    monthly: 99900,
-    yearly:  remaining > 0 ? 599900 : 1199900,
+    daily:      4900,
+    sixmonths:  399900,
+    yearly:     599900,
   };
 
   const amount = planAmounts[plan] ?? 599900;
