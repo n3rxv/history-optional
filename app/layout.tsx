@@ -17,7 +17,6 @@ import PWARegister from "@/components/PWARegister";
 import PromoPopup from "@/components/PromoPopup";
 import LightBg from "@/components/LightBg";
 import { LangProvider } from "@/lib/i18n/LangContext";
-import TelegramFloat from "@/components/TelegramFloat";
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -150,7 +149,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main style={{ minHeight: '100vh', paddingTop: 90 }} className="ho-main">{children}</main>
         <Footer />
         <BottomNav />
-        <TelegramFloat />
         <Analytics />
         <SpeedInsights />
         </LangProvider>

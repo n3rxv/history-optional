@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import TelegramFloat from '@/components/TelegramFloat';
 import CurrentAffairsSection from '@/components/CurrentAffairsSection';
 import HomeFAQ from '@/components/HomeFAQ';
 import EvaluateDemo from '@/components/EvaluateDemo';
@@ -207,6 +208,7 @@ export default function Home() {
       <HomeFAQ />
       <CurrentAffairsSection />
 
+      <TelegramFloat />
     </div>
   );
 }
