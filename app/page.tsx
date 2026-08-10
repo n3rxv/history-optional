@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import CurrentAffairsSection from '@/components/CurrentAffairsSection';
+import HomeFAQ from '@/components/HomeFAQ';
 import EvaluateDemo from '@/components/EvaluateDemo';
 import DailyAnswerWriting from '@/components/DailyAnswerWriting';
 import Link from 'next/link';
@@ -203,6 +204,7 @@ export default function Home() {
       {/* ── Explore further: interactive demos & extras ── */}
       <EvaluateDemo />
       <div id="daily-answer"><DailyAnswerWriting /></div>
+      <HomeFAQ />
       <CurrentAffairsSection />
 
     </div>
