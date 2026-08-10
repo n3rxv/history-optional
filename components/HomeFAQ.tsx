@@ -17,15 +17,23 @@ const faqs = [
   },
   {
     q: 'Do I need to make an account to use the platform?',
-    a: 'Yes, login (Goggle sign-in) is required.',
+    a: 'Yes, login (Google sign-in) is required.',
   },
   {
     q: 'How are the notes structured?',
     a: 'Notes follow the official UPSC History Optional syllabus — Paper I covers Ancient and Medieval India, Paper II covers Modern India and World History. Each topic includes embedded historiography, key arguments, and is cross-referenced with frequent PYQs.',
   },
   {
-    q: 'What is Mentor Mode?',
-    a: 'Mentor Mode is a premium AI chat mode that goes deeper — it uses the TADA framework (Theme, Argument, Data, Analysis) to structure responses, gives color-coded concept breakdowns, and pushes you to think like an examiner rather than just recall facts.',
+    q: 'What is Mentor Mode? Where can I access it?',
+    a: 'Mentor Mode is a premium AI chat mode that goes deeper — it uses the TADA framework (Theme, Argument, Data, Analysis) to structure responses, gives color-coded concept breakdowns, and pushes you to think like an examiner rather than just recall facts. You can access it on "AI Chat" page.',
+  },
+  {
+    q: 'What is Brainstorm Mode? Where can I access it?',
+    a: 'Brainstorm Mode is also a premium AI chat mode that Brainstorms on the prompted topic by running semantic search through our standard History books database and then generates an analytical response grounded on those standard books. You can access it on "AI Chat" page.',
+  },
+  {
+    q: 'What is Chat with Books?',
+    a: 'Chat with Books is a carefully engineered mode wherein the aspirant can chat with any of the 25+ standard History books. He can ask his question and the Chat engine responds with an answer grounded on the passages fetched from the respective book(s)',
   },
   {
     q: 'How often is the content updated?',
@@ -33,7 +41,7 @@ const faqs = [
   },
   {
     q: 'What are the premium subscription plans?',
-    a: 'Plans are available daily, half-yearly, and yearly. The only subscription you would need for History Optional preparation is ours. Spending 60,000 to 1,00,000 Rupees is not worth when you are getting everything at just Rs. 5,999 (90-95% more affordable price)',
+    a: 'Availaible plans are : daily, half-yearly, and yearly. The only subscription you would need for History Optional preparation is ours. Spending 60,000 to 1,00,000 Rupees is not worth when you are getting everything at just Rs. 5,999 (90-95% more affordable price)',
     link: { href: '/subscribe', label: 'View plans →' },
   },
 ];
