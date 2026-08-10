@@ -205,7 +205,7 @@ export default function Home() {
       {/* ── Explore further: interactive demos & extras ── */}
       <EvaluateDemo />
       <div id="daily-answer"><DailyAnswerWriting /></div>
-      <HomeFAQ />
+      <div id="faq"><HomeFAQ /></div>
       <CurrentAffairsSection />
 
       <TelegramFloat />
