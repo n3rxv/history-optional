@@ -3,16 +3,26 @@ import { useState } from 'react';
 import { auth } from '@/lib/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useUsageTracker } from '@/hooks/useUsageTracker';
+import { SubscribeCard } from '@/components/SubscribeCard';
 
 const FREE_EVAL_LIMIT = 1;
 const FREE_CHAT_LIMIT = 3;
 
-function Modal({ mode, limit, onClose }: {
+function getDaysToMains(): number {
+  const mains = new Date('2027-08-20');
+  const now = new Date();
+  const diff = Math.ceil((mains.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  return diff > 0 ? diff : 0;
+}
+
+function Modal({ mode, type, fingerprint, onClose }: {
   mode: 'unauthenticated' | 'limit_reached' | 'device_limit';
-  limit: number;
+  type: 'eval' | 'chat';
+  fingerprint: string | null;
   onClose: () => void;
 }) {
   const [signingIn, setSigningIn] = useState(false);
+  const daysLeft = getDaysToMains();
 
   async function handleGoogleSignIn() {
     setSigningIn(true);
@@ -28,78 +38,77 @@ function Modal({ mode, limit, onClose }: {
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)',
+      position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
       display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999,
+      backdropFilter: 'blur(4px)',
     }} onClick={onClose}>
       <div style={{
-        background: 'var(--bg4)', borderRadius: 16, padding: '32px 28px',
-        maxWidth: 380, width: '90%', color: 'var(--text)',
+        background: 'var(--bg2)', borderRadius: 16, padding: '28px 24px',
+        maxWidth: 420, width: '92%', color: 'var(--text)',
+        border: '1px solid rgba(212,168,67,0.15)',
+        boxShadow: '0 0 60px rgba(0,0,0,0.6)',
       }} onClick={e => e.stopPropagation()}>
 
         {mode === 'unauthenticated' && (
           <>
-            <h2 style={{ margin: '0 0 12px', fontSize: 20 }}>Sign in to continue</h2>
-            <p style={{ color: 'var(--text2)', marginBottom: 24, fontSize: 14 }}>
-              Sign in with Google to get{' '}
-              <span style={{ color: 'var(--text)' }}>{FREE_EVAL_LIMIT} free evaluation</span> and{' '}
-              <span style={{ color: 'var(--text)' }}>{FREE_CHAT_LIMIT} free chats</span>, or subscribe for unlimited access.
-            </p>
+            <div style={{ marginBottom: 20 }}>
+              <h2 style={{ margin: '0 0 8px', fontSize: 18, fontWeight: 700 }}>
+                Sign in to continue
+              </h2>
+              <p style={{ color: 'var(--text2)', margin: 0, fontSize: 13, lineHeight: 1.5 }}>
+                Get <strong style={{ color: 'var(--text)' }}>{FREE_EVAL_LIMIT} free evaluation</strong> and{' '}
+                <strong style={{ color: 'var(--text)' }}>{FREE_CHAT_LIMIT} free chats</strong> — or subscribe for unlimited access.
+              </p>
+            </div>
             <button
               onClick={handleGoogleSignIn}
               disabled={signingIn}
               style={{
                 width: '100%', padding: '12px', borderRadius: 8,
-                background: '#fff', color: 'var(--bg3)', border: 'none',
-                fontWeight: 600, fontSize: 15, cursor: 'pointer',
+                background: '#fff', color: '#111', border: 'none',
+                fontWeight: 600, fontSize: 14, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               }}>
-              {signingIn ? 'Signing in...' : 'Continue with Google'}
+              {signingIn ? 'Signing in…' : 'Continue with Google'}
+            </button>
+            <button onClick={onClose} style={{
+              marginTop: 10, width: '100%', padding: '10px', borderRadius: 8,
+              background: 'transparent', color: 'var(--text3)', border: '1px solid #333',
+              fontSize: 13, cursor: 'pointer',
+            }}>
+              Cancel
             </button>
           </>
         )}
 
-        {mode === 'limit_reached' && (
+        {(mode === 'limit_reached' || mode === 'device_limit') && (
           <>
-            <h2 style={{ margin: '0 0 12px', fontSize: 20 }}>Free limit reached</h2>
-            <p style={{ color: 'var(--text2)', marginBottom: 24, fontSize: 14 }}>
-              You've used your free quota. Subscribe to unlock unlimited evaluations and chats.
-            </p>
-            <button
-              onClick={() => window.location.href = '/subscribe'}
-              style={{
-                width: '100%', padding: '12px', borderRadius: 8,
-                background: '#7c3aed', color: 'var(--text)', border: 'none',
-                fontWeight: 600, fontSize: 15, cursor: 'pointer',
-              }}>
-              Subscribe Now
-            </button>
+            <div style={{
+              background: 'rgba(212,168,67,0.06)',
+              border: '1px solid rgba(212,168,67,0.2)',
+              borderRadius: 10, padding: '12px 14px', marginBottom: 20,
+            }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#d4a843', marginBottom: 6 }}>
+                {daysLeft > 0
+                  ? `${daysLeft} days to Mains. Your free quota is done.`
+                  : 'Mains is here. Your free quota is done.'}
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--text3)', lineHeight: 1.55 }}>
+                {type === 'eval'
+                  ? "Toppers evaluate 5\u201310 answers daily. You\u2019ve used your 1 free evaluation. Without feedback on your writing, you\u2019re guessing what the examiner wants."
+                  : "You\u2019ve used your 3 free chats. Serious aspirants are getting instant clarity on sources, historiography, and answer structure \u2014 right now."}
+              </div>
+            </div>
+
+            <SubscribeCard
+              slots={1}
+              fingerprint={fingerprint}
+              onSuccess={onClose}
+              onClose={onClose}
+              standalone={false}
+            />
           </>
         )}
-
-        {mode === 'device_limit' && (
-          <>
-            <h2 style={{ margin: '0 0 12px', fontSize: 20 }}>Device limit reached</h2>
-            <p style={{ color: 'var(--text2)', marginBottom: 24, fontSize: 14 }}>
-              This device has already used its free quota with another account. Subscribe to continue.
-            </p>
-            <button
-              onClick={() => window.location.href = '/subscribe'}
-              style={{
-                width: '100%', padding: '12px', borderRadius: 8,
-                background: '#7c3aed', color: 'var(--text)', border: 'none',
-                fontWeight: 600, fontSize: 15, cursor: 'pointer',
-              }}>
-              Subscribe Now
-            </button>
-          </>
-        )}
-
-        <button onClick={onClose} style={{
-          marginTop: 12, width: '100%', padding: '10px', borderRadius: 8,
-          background: 'transparent', color: 'var(--text3)', border: '1px solid #333',
-          fontSize: 14, cursor: 'pointer',
-        }}>
-          Cancel
-        </button>
       </div>
     </div>
   );
@@ -107,7 +116,7 @@ function Modal({ mode, limit, onClose }: {
 
 export function SubscriptionGate({ type, children }: {
   type: 'eval' | 'chat';
-  children: (props: { onAction: () => Promise<boolean> }) => React.ReactNode;
+  children: (props: { onAction: () => Promise<boolean> }) => JSX.Element | null;
 }) {
   const { usage, loading, authReady, canEval, canChat, incrementEval, incrementChat } = useUsageTracker();
   const [modal, setModal] = useState<'none' | 'unauthenticated' | 'limit_reached' | 'device_limit'>('none');
@@ -115,25 +124,21 @@ export function SubscriptionGate({ type, children }: {
   const canDo = type === 'eval' ? canEval : canChat;
   const increment = type === 'eval' ? incrementEval : incrementChat;
 
+  const fingerprint = usage?.fingerprint ?? null;
+
   async function onAction(): Promise<boolean> {
-    // Login nahi hai
     if (!usage) {
       setModal('unauthenticated');
       return false;
     }
-
-    // Premium hai — allow
     if (usage.subscribed) {
       await increment();
       return true;
     }
-
-    // Free limit check
     if (!canDo) {
       setModal('limit_reached');
       return false;
     }
-
     await increment();
     return true;
   }
@@ -146,7 +151,8 @@ export function SubscriptionGate({ type, children }: {
       {modal !== 'none' && (
         <Modal
           mode={modal}
-          limit={type === 'eval' ? FREE_EVAL_LIMIT : FREE_CHAT_LIMIT}
+          type={type}
+          fingerprint={fingerprint}
           onClose={() => setModal('none')}
         />
       )}
