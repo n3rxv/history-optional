@@ -4,20 +4,20 @@ import { useState } from 'react';
 
 const faqs = [
   {
-    q: 'Is this platform completely free?',
-    a: 'Notes, PYQ bank, flashcards, interactive timeline, and the map tool are completely free — no account needed. A premium subscription unlocks unlimited AI chat, unlimited answer evaluations, PDF test upload, and the full Model Answer Bank.',
+    q: 'Is this platform completely reliable?',
+    a: 'We are a true one stop solution for History Optional. We cover Notes, PYQ bank, flashcards, interactive timeline, mapping, AI chat engine with multiple modes, unlimited answer evaluations, test series taker and evaluator, and the full Model Answer Bank. Basically everything History Optional',
   },
   {
     q: 'What does the AI answer evaluator actually check?',
-    a: 'It evaluates your answer against UPSC History Optional rubrics — introduction quality, argument structure, use of historians and historiography, factual accuracy, and conclusion. You get a score breakdown and specific feedback, not just a generic grade.',
+    a: 'It evaluates your answer against UPSC History Optional rubrics — introduction quality, argument structure, use of historians and historiography, factual accuracy, and conclusion. You get a score breakdown, detailed analysis of your answer, separate historiography card to site historians, and a detailed model answer which would yield complete marks against UPSC rubric.',
   },
   {
-    q: 'How is the AI different from just asking ChatGPT?',
-    a: 'The AI here is fine-tuned on UPSC History Optional syllabus and source material. It cites relevant historians (Romila Thapar, Irfan Habib, Bipin Chandra, etc.), structures answers in the UPSC format, and understands the difference between what Paper I and Paper II demand.',
+    q: 'How is the AI Chat different from just asking ChatGPT?',
+    a: 'The AI here is fine-tuned on UPSC History Optional syllabus and source material inclusive of 25+ standard recommended History optional books, our notes and multiple topper copies across years. It cites relevant historiography, structures answers in the UPSC format, and understands the in-depth demand of the two papers.',
   },
   {
     q: 'Do I need to make an account to use the platform?',
-    a: 'No — you can read all notes, browse PYQs, and use flashcards without signing up. Login (Google sign-in) is required to use AI chat, answer evaluation, and to save your annotations and progress.',
+    a: 'Yes, login (Goggle sign-in) is required.',
   },
   {
     q: 'How are the notes structured?',
@@ -33,7 +33,7 @@ const faqs = [
   },
   {
     q: 'What are the premium subscription plans?',
-    a: 'Plans are available daily, weekly, monthly, and yearly. The yearly plan has early-bird pricing for the first 45 slots. You can see live slot availability and current pricing on the Subscribe page.',
+    a: 'Plans are available daily, half-yearly, and yearly. The only subscription you would need for History Optional preparation is ours. Spending 60,000 to 1,00,000 Rupees is not worth when you are getting everything at just Rs. 5,999 (90-95% more affordable price)',
     link: { href: '/subscribe', label: 'View plans →' },
   },
 ];
