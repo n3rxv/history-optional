@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { auth } from '@/lib/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useUsageTracker } from '@/hooks/useUsageTracker';
@@ -95,8 +95,8 @@ function Modal({ mode, type, fingerprint, onClose }: {
               </div>
               <div style={{ fontSize: 12, color: 'var(--text3)', lineHeight: 1.55 }}>
                 {type === 'eval'
-                  ? "Toppers evaluate 5\u201310 answers daily. You\u2019ve used your 1 free evaluation. Without feedback on your writing, you\u2019re guessing what the examiner wants."
-                  : "You\u2019ve used your 3 free chats. Serious aspirants are getting instant clarity on sources, historiography, and answer structure \u2014 right now."}
+                  ? "Toppers evaluate 5–10 answers daily. You've used your 1 free evaluation. Without feedback on your writing, you're guessing what the examiner wants."
+                  : "You've used your 3 free chats. Serious aspirants are getting instant clarity on sources, historiography, and answer structure — right now."}
               </div>
             </div>
 
@@ -116,7 +116,7 @@ function Modal({ mode, type, fingerprint, onClose }: {
 
 export function SubscriptionGate({ type, children }: {
   type: 'eval' | 'chat';
-  children: (props: { onAction: () => Promise<boolean> }) => JSX.Element | null;
+  children: (props: { onAction: () => Promise<boolean> }) => React.ReactElement | null;
 }) {
   const { usage, loading, authReady, canEval, canChat, incrementEval, incrementChat } = useUsageTracker();
   const [modal, setModal] = useState<'none' | 'unauthenticated' | 'limit_reached' | 'device_limit'>('none');
