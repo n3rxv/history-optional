@@ -348,6 +348,13 @@ export default function Navbar() {
       setNoSubFound(false);
     }
   }, [subData]);
+
+  // Allow any component to open premium modal via custom event
+  useEffect(() => {
+    const handler = () => setShowPremiumModal(true);
+    window.addEventListener('open-premium-modal', handler);
+    return () => window.removeEventListener('open-premium-modal', handler);
+  }, []);
   const [noSubFound, setNoSubFound] = useState(false);
   const [notifications, setNotifications] = useState<{id:string,title:string,link:string,type:string,created_at:string}[]>([]);
   const [bellOpen, setBellOpen] = useState(false);

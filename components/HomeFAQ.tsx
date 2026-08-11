@@ -5,7 +5,7 @@ import { useState } from 'react';
 const faqs = [
   {
     q: 'Is this platform completely reliable?',
-    a: 'We are a true one stop solution for History Optional. We cover Notes, PYQ bank, flashcards, interactive timeline, mapping, AI chat engine with multiple modes, unlimited answer evaluations, test series taker and evaluator, and the full Model Answer Bank. Basically everything History Optional',
+    a: 'We are a true one stop solution for History Optional. We cover Notes, PYQ bank, flashcards, interactive timeline, mapping, AI chat engine with multiple modes, unlimited answer evaluations, individual Topper Answers (extracted from topper copies) mapped with PYQs, test series taker and evaluator, and the full Model Answer Bank. Basically everything History Optional',
   },
   {
     q: 'What does the AI answer evaluator actually check?',
@@ -42,7 +42,7 @@ const faqs = [
   {
     q: 'What are the premium subscription plans?',
     a: 'Availaible plans are : daily, half-yearly, and yearly. The only subscription you would need for History Optional preparation is ours. Spending 60,000 to 1,00,000 Rupees is not worth when you are getting everything at just Rs. 5,999 (90-95% more affordable price)',
-    link: { href: '/subscribe', label: 'View plans →' },
+    action: { label: 'View plans →' },
   },
 ];
 
@@ -133,21 +133,25 @@ export default function HomeFAQ() {
                   fontFamily: 'var(--font-body)',
                 }}>
                   {faq.a}
-                  {faq.link && (
+                  {faq.action && (
                     <>
                       {' '}
-                      <a
-                        href={faq.link.href}
+                      <button
+                        onClick={() => window.dispatchEvent(new CustomEvent('open-premium-modal'))}
                         style={{
                           color: 'var(--accent)',
-                          textDecoration: 'none',
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: 0,
                           fontFamily: 'var(--font-ui)',
                           fontSize: '0.82rem',
                           fontWeight: 600,
+                          textDecoration: 'underline',
                         }}
                       >
-                        {faq.link.label}
-                      </a>
+                        {faq.action.label}
+                      </button>
                     </>
                   )}
                 </div>
