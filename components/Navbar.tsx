@@ -140,9 +140,9 @@ function ExtendModal({
 
   const plans = [
     { id: 'daily',   label: 'Daily',   price: '₹49',    days: 1 },
-    { id: 'weekly',  label: 'Weekly',  price: '₹3,999',   days: 7 },
-    { id: 'monthly', label: 'Monthly', price: '₹3,999',   days: 30 },
-    { id: 'yearly',  label: 'Annual',  price: '₹5,999', days: 365 },
+    { id: 'weekly',  label: 'Weekly',  price: '₹1,999',   days: 7 },
+    { id: 'monthly', label: 'Monthly', price: '₹1,999',   days: 30 },
+    { id: 'yearly',  label: 'Annual',  price: '₹2,999', days: 365 },
   ] as const;
 
   const computeNewExpiry = (planId: string) => {

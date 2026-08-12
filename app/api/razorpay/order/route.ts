@@ -32,11 +32,11 @@ export async function POST(req: NextRequest) {
 
   const planAmounts: Record<string, number> = {
     daily:      4900,
-    sixmonths:  399900,
-    yearly:     599900,
+    sixmonths:  199900,
+    yearly:     299900,
   };
 
-  const amount = planAmounts[plan] ?? 599900;
+  const amount = planAmounts[plan] ?? 299900;
   const order = await razorpay.orders.create({
     amount,
     currency: "INR",

@@ -35,8 +35,8 @@ export function SubscribeCard({
 
   const allPlans = [
     { id: 'daily',      label: 'Daily',     price: '₹49',    sub: '1 day' },
-    { id: 'sixmonths',  label: '6 Months',  price: '₹3,999', sub: '6 months' },
-    { id: 'yearly',     label: 'Annual',    price: '₹5,999', sub: '1 year' },
+    { id: 'sixmonths',  label: '6 Months',  price: '₹1,999', sub: '6 months' },
+    { id: 'yearly',     label: 'Annual',    price: '₹2,999', sub: '1 year' },
   ] as const;
   const plans = slots > 0 ? allPlans : allPlans.filter(p => p.id === 'yearly');
   useEffect(() => { if (slots === 0) setSelectedPlan('yearly'); }, [slots]);

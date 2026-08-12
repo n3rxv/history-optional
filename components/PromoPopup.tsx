@@ -335,7 +335,7 @@ export default function PromoPopup() {
                     <div style={{ textAlign: 'right' }}>
                       <p style={{ fontSize: 11, color: 'var(--text3)', margin: '0 0 2px' }}>Best value</p>
                       <p style={{ fontSize: 19, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
-                        {"\u20B95,999"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>· 1 year</span>
+                        {"\u20B92,999"} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 400 }}>· 1 year</span>
                       </p>
                     </div>
                   </div>
@@ -510,7 +510,7 @@ export default function PromoPopup() {
                       History Optional
                     </p>
                     <p className={showComparison ? 'promo-row-anim' : ''} style={{ animationDelay: '0.45s', fontSize: 22, fontWeight: 700, color: '#60a5fa', margin: '0 0 0.7rem', position: 'relative' }}>
-                      <CountUp target={5999} prefix="₹" active={showComparison} durationMs={700} /> <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--text2)' }}>· 1 year — 90% cheaper</span>
+                      <CountUp target={2999} prefix="₹" active={showComparison} durationMs={700} /> <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--text2)' }}>· 1 year — 90% cheaper</span>
                     </p>
                     {US_ADVANTAGES.map((row, i) => (
                       <div
@@ -673,7 +673,7 @@ function ComparisonCards({ active }: { active: boolean }) {
           History Optional
         </p>
         <p style={{ fontSize: 20, fontWeight: 700, color: '#60a5fa', margin: '0 0 0.5rem', position: 'relative' }}>
-          <CountUp target={5999} prefix="₹" active={active} durationMs={700} /> <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--text2)' }}>· 1 year — 90% cheaper</span>
+          <CountUp target={2999} prefix="₹" active={active} durationMs={700} /> <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--text2)' }}>· 1 year — 90% cheaper</span>
         </p>
         {US_ADVANTAGES.map((row, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, position: 'relative', marginBottom: i < US_ADVANTAGES.length - 1 ? 6 : 0 }}>
@@ -744,7 +744,7 @@ function MobileSlide({ index }: { index: number }) {
               <span style={{
                 fontSize: 38, fontWeight: 800, color: '#fbbf24', lineHeight: 1,
                 textShadow: '0 0 28px rgba(251,191,36,0.45)',
-              }}>₹5,999</span>
+              }}>₹2,999</span>
               <span style={{ fontSize: 13, color: 'var(--text3)', fontWeight: 400 }}>· 1 year</span>
             </div>
           </div>

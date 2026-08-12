@@ -33,8 +33,8 @@ export default function RefundPage() {
         <h2>2. Subscription Plans</h2>
         <ul>
           <li><strong>Daily</strong> — ₹49 (1 day access)</li>
-          <li><strong>Half-Yearly</strong> — ₹3,999 (6 months access)</li>
-          <li><strong>Annual</strong> — ₹5,999 (1 year access)</li>
+          <li><strong>Half-Yearly</strong> — ₹1,999 (6 months access)</li>
+          <li><strong>Annual</strong> — ₹2,999 (1 year access)</li>
         </ul>
 
         <h2>3. Exceptions</h2>

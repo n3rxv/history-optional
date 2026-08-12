@@ -41,7 +41,7 @@ const faqs = [
   },
   {
     q: 'What are the premium subscription plans?',
-    a: 'Availaible plans are : daily, half-yearly, and yearly. The only subscription you would need for History Optional preparation is ours. Spending 60,000 to 1,00,000 Rupees is not worth when you are getting everything at just Rs. 5,999 (90-95% more affordable price)',
+    a: 'Availaible plans are : daily, half-yearly, and yearly. The only subscription you would need for History Optional preparation is ours. Spending 60,000 to 1,00,000 Rupees is not worth when you are getting everything at just Rs. 2,999 (90-95% more affordable price)',
     action: { label: 'View plans →' },
   },
 ];
