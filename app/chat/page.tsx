@@ -153,7 +153,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   };
 
 const BLUE  = '#1a4fa0';
-  const BLACK = 'var(--bg)';
+  const BLACK = '#1a1a1a';
   const WHITE = '#ffffff';
   const parseInline = (t: string) =>
     t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
@@ -163,8 +163,8 @@ const BLUE  = '#1a4fa0';
   content.push({
     columns: [
       { table: { widths: [54], heights: [54], body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'NotoSans', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]] }, layout: 'noBorders', width: 66, margin: [0, 0, 0, 0] },
-      { stack: [{ text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'NotoSans', color: BLACK, margin: [12, 4, 0, 2] }, { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: 'var(--text3)', italics: true, margin: [14, 0, 0, 0] }], width: '*' },
-      { text: dateStr, fontSize: 8, color: 'var(--text3)', alignment: 'right', characterSpacing: 1, margin: [0, 10, 0, 0], width: 'auto' },
+      { stack: [{ text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'NotoSans', color: BLACK, margin: [12, 4, 0, 2] }, { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: '#888888', italics: true, margin: [14, 0, 0, 0] }], width: '*' },
+      { text: dateStr, fontSize: 8, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 10, 0, 0], width: 'auto' },
     ],
     margin: [0, 0, 0, 10],
   });
@@ -183,7 +183,7 @@ const BLUE  = '#1a4fa0';
       const rows = tableLines.filter((l: string) => !/^\|[-| :]+\|$/.test(l));
       const parsedRows = rows.map((r: string) => r.split('|').filter((_: string, idx: number, arr: string[]) => idx > 0 && idx < arr.length - 1).map((c: string) => c.trim()));
       if (parsedRows.length > 0) {
-        const tableBody = parsedRows.map((row: string[], rIdx: number) => row.map((cell: string) => ({ text: cell.replace(/\*\*(.+?)\*\*/g, '$1'), bold: rIdx === 0, fontSize: 10, color: rIdx === 0 ? '#ffffff' : 'var(--bg)', margin: [4, 4, 4, 4], fillColor: rIdx === 0 ? 'var(--bg2)' : rIdx % 2 === 0 ? '#f5f7ff' : '#ffffff' })));
+        const tableBody = parsedRows.map((row: string[], rIdx: number) => row.map((cell: string) => ({ text: cell.replace(/\*\*(.+?)\*\*/g, '$1'), bold: rIdx === 0, fontSize: 10, color: rIdx === 0 ? '#ffffff' : '#1a1a1a', margin: [4, 4, 4, 4], fillColor: rIdx === 0 ? '#2a2a2a' : rIdx % 2 === 0 ? '#f5f7ff' : '#ffffff' })));
         content.push({ table: { widths: Array(parsedRows[0].length).fill('*'), body: tableBody }, layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#cccccc', vLineColor: () => '#cccccc' }, margin: [0, 8, 0, 8] });
       }
       processedLines.push('__TABLE_DONE__');
@@ -222,7 +222,7 @@ const BLUE  = '#1a4fa0';
     footer: (currentPage: number, pageCount: number) => ({
       stack: [
         { canvas: [{ type: 'rect', x: 0, y: 0, w: 595, h: 3, color: BLUE }] },
-        { columns: [{ stack: [{ text: 'H.  HISTORY OPTIONAL', fontSize: 8, bold: true, color: BLACK }, { text: 'historyoptional.xyz', fontSize: 7, color: 'var(--text3)', margin: [0, 1, 0, 0] }], margin: [40, 10, 0, 0], width: '*' }, { stack: [{ text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' }, { text: 'PAGE', fontSize: 6, color: 'var(--text3)', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] }], margin: [0, 9, 40, 0], width: 'auto' }] },
+        { columns: [{ stack: [{ text: 'H.  HISTORY OPTIONAL', fontSize: 8, bold: true, color: BLACK }, { text: 'historyoptional.xyz', fontSize: 7, color: '#888888', margin: [0, 1, 0, 0] }], margin: [40, 10, 0, 0], width: '*' }, { stack: [{ text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' }, { text: 'PAGE', fontSize: 6, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] }], margin: [0, 9, 40, 0], width: 'auto' }] },
       ],
     }),
   };
@@ -562,7 +562,7 @@ function ChatContent() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', width: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.15rem' }}>
           <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', color: '#d4a843', background: 'rgba(212,168,67,0.1)', border: '1px solid rgba(212,168,67,0.28)', borderRadius: 20, padding: '2px 9px' }}>🎓 MENTOR</span>
-          {isStreaming && <span style={{ fontSize: '0.58rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>generating…</span>}
+          {isStreaming && <span style={{ fontSize: '0.58rem', color: '#888888', fontFamily: 'var(--font-mono)' }}>generating…</span>}
         </div>
         {sections.map((sec, i) => {
           if (sec.type === 'TEXT') {
@@ -1251,7 +1251,7 @@ function ChatContent() {
             <div className="chat-mode-sheet-overlay" onClick={() => setModeSheetOpen(false)} />
             <div className="chat-mode-sheet">
               <div className="chat-mode-sheet-handle" />
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text3)', marginBottom: '0.75rem' }}>Select Mode</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#888888', marginBottom: '0.75rem' }}>Select Mode</div>
               <div className="chat-mode-sheet-grid">
                 {/* Concise */}
                 <button className={`chat-mode-sheet-btn ${responseStyle === 'concise' && !mentorMode && !brainstormMode ? 'active' : ''}`}
@@ -1305,7 +1305,7 @@ function ChatContent() {
                 <span style={{ color: '#818cf8' }}>✦ Premium feature</span>
               </div>
               <button onClick={() => { setShowBookPaywall(false); showChatLimitModal(); }} style={{ width: '100%', padding: '0.75rem', background: 'linear-gradient(135deg,#6366f1,#818cf8)', color: '#fff', border: 'none', borderRadius: 10, fontWeight: 600, fontSize: '0.95rem', cursor: 'pointer' }}>Unlock Premium</button>
-              <button onClick={() => setShowBookPaywall(false)} style={{ marginTop: '0.75rem', background: 'none', border: 'none', color: 'var(--text3)', fontSize: '0.8rem', cursor: 'pointer' }}>Maybe later</button>
+              <button onClick={() => setShowBookPaywall(false)} style={{ marginTop: '0.75rem', background: 'none', border: 'none', color: '#888888', fontSize: '0.8rem', cursor: 'pointer' }}>Maybe later</button>
             </div>
           </div>
         )}
@@ -1316,7 +1316,7 @@ function ChatContent() {
             <div style={{ background: 'var(--bg)', border: '1px solid rgba(99,102,241,0.4)', borderRadius: 16, padding: '1.25rem', maxWidth: 480, width: '100%', maxHeight: '75vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.9rem' }}>
                 <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: '#818cf8', letterSpacing: '0.1em', textTransform: 'uppercase' }}>📖 Cited Passage{citationModal.length > 1 ? 's' : ''}</span>
-                <button onClick={() => setCitationModal(null)} style={{ background: 'none', border: 'none', color: 'var(--text3)', fontSize: '1.1rem', cursor: 'pointer', lineHeight: 1 }}>✕</button>
+                <button onClick={() => setCitationModal(null)} style={{ background: 'none', border: 'none', color: '#888888', fontSize: '1.1rem', cursor: 'pointer', lineHeight: 1 }}>✕</button>
               </div>
               {citationModal.map((s, si) => {
                 const cleaned = cleanChunk(s.content);
