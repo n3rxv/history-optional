@@ -126,8 +126,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
   const pdfMake = (pdfMakeModule as any).default || pdfMakeModule;
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
-  pdfMake.vfs = pdfFonts.vfs;
-  if (!pdfMake.vfs) pdfMake.vfs = {};
+  pdfMake.vfs = { ...(pdfFonts.vfs || {}) };
 
   // Load LibreBaskerville fonts (support diacritics like ā, ī, ṭ)
   const fetchFont = async (url: string) => {
