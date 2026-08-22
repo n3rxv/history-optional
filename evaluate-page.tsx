@@ -131,7 +131,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     return btoa(binary);
   };
   const [regular, bold] = await Promise.all([
-    fetchFont('/LibreBaskerville-Regular.ttf'),
+    fetchFont('/LB-Regular.ttf'),
     fetchFont('/LB-Bold.ttf'),
   ]);
   pdfMake.vfs['LibreBaskerville-Regular.ttf'] = regular;

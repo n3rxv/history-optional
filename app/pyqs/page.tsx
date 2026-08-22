@@ -35,7 +35,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     return btoa(binary);
   };
   const [regular, bold] = await Promise.all([
-    fetchFont('/LibreBaskerville-Regular.ttf'),
+    fetchFont('/LB-Regular.ttf'),
     fetchFont('/LB-Bold.ttf'),
   ]);
   pdfMake.vfs['LibreBaskerville-Regular.ttf'] = regular;
