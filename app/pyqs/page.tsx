@@ -30,8 +30,11 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
     const bytes = new Uint8Array(buf);
+    const chunkSize = 8192;
     let binary = '';
-    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+    for (let i = 0; i < bytes.byteLength; i += chunkSize) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    }
     return btoa(binary);
   };
   const [regular, bold] = await Promise.all([
