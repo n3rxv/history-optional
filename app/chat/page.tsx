@@ -132,12 +132,12 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 const BLUE  = '#1a4fa0';
   const BLACK = '#1a1a1a';
   const WHITE = '#ffffff';
-  const stripDiacritics = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\u0100-\u024f]/g, c => {
+  const stripDiacritics = (s: string) => s.replace(/[\u2013\u2014]/g, '-').replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\u0100-\u024f]/g, c => {
     const map: Record<string, string> = {ā:'a',Ā:'A',ī:'i',Ī:'I',ū:'u',Ū:'U',ṭ:'t',Ṭ:'T',ḍ:'d',Ḍ:'D',ṇ:'n',Ṇ:'N',ṣ:'s',Ṣ:'S',ṛ:'r',Ṛ:'R',ṃ:'m',ḥ:'h',ṅ:'n',ñ:'n',ś:'s',Ś:'S'};
     return map[c] ?? c;
   });
   const parseInline = (t: string) =>
-    stripDiacritics(t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1'));
+    stripDiacritics(t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1').replace(/([a-zA-Z])\.([A-Z])/g, '$1. $2'));
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase();
   const content: any[] = [];
