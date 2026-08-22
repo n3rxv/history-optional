@@ -128,41 +128,23 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
   pdfMake.vfs = { ...(pdfFonts.vfs || {}) };
 
-  const loadFont = async (url: string, key: string) => {
-    const res = await fetch(url);
-    const buf = await res.arrayBuffer();
-    const bytes = new Uint8Array(buf);
-    const chunkSize = 0x8000;
-    let binary = '';
-    for (let i = 0; i < bytes.length; i += chunkSize) {
-      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize) as unknown as number[]);
-    }
-    pdfMake.vfs[key] = btoa(binary);
-  };
-  await Promise.all([
-    loadFont('/NotoSans-Regular.ttf', 'NotoSans-Regular.ttf'),
-    loadFont('/NotoSans-Bold.ttf', 'NotoSans-Bold.ttf'),
-  ]);
-  pdfMake.fonts = pdfMake.fonts || {};
-  pdfMake.fonts['NotoSans'] = {
-    normal: 'NotoSans-Regular.ttf',
-    bold: 'NotoSans-Bold.ttf',
-    italics: 'NotoSans-Regular.ttf',
-    bolditalics: 'NotoSans-Bold.ttf',
-  };
 
 const BLUE  = '#1a4fa0';
   const BLACK = '#1a1a1a';
   const WHITE = '#ffffff';
+  const stripDiacritics = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\u0100-\u024f]/g, c => {
+    const map: Record<string, string> = {ā:'a',Ā:'A',ī:'i',Ī:'I',ū:'u',Ū:'U',ṭ:'t',Ṭ:'T',ḍ:'d',Ḍ:'D',ṇ:'n',Ṇ:'N',ṣ:'s',Ṣ:'S',ṛ:'r',Ṛ:'R',ṃ:'m',ḥ:'h',ṅ:'n',ñ:'n',ś:'s',Ś:'S'};
+    return map[c] ?? c;
+  });
   const parseInline = (t: string) =>
-    t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
+    stripDiacritics(t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1'));
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase();
   const content: any[] = [];
   content.push({
     columns: [
-      { table: { widths: [54], heights: [54], body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'NotoSans', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]] }, layout: 'noBorders', width: 66, margin: [0, 0, 0, 0] },
-      { stack: [{ text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'NotoSans', color: BLACK, margin: [12, 4, 0, 2] }, { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: '#888888', italics: true, margin: [14, 0, 0, 0] }], width: '*' },
+      { table: { widths: [54], heights: [54], body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'Roboto', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]] }, layout: 'noBorders', width: 66, margin: [0, 0, 0, 0] },
+      { stack: [{ text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'Roboto', color: BLACK, margin: [12, 4, 0, 2] }, { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: '#888888', italics: true, margin: [14, 0, 0, 0] }], width: '*' },
       { text: dateStr, fontSize: 8, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 10, 0, 0], width: 'auto' },
     ],
     margin: [0, 0, 0, 10],
@@ -216,7 +198,7 @@ const BLUE  = '#1a4fa0';
   const slug = (questionText ?? markdownText).slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
   const docDef: any = {
     content,
-    defaultStyle: { font: 'NotoSans', fontSize: 11, color: BLACK },
+    defaultStyle: { font: 'Roboto', fontSize: 11, color: BLACK },
     pageMargins: [40, 40, 40, 58],
     footer: (currentPage: number, pageCount: number) => ({
       stack: [
