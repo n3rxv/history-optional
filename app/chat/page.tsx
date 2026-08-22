@@ -128,6 +128,33 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
   pdfMake.vfs = pdfFonts.vfs;
   if (!pdfMake.vfs) pdfMake.vfs = {};
+
+  // Load LibreBaskerville fonts (support diacritics like ā, ī, ṭ)
+  const fetchFont = async (url: string) => {
+    const res = await fetch(url);
+    const buf = await res.arrayBuffer();
+    const bytes = new Uint8Array(buf);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+    return btoa(binary);
+  };
+  const [regular, bold, italic] = await Promise.all([
+    fetchFont('/LibreBaskerville-Regular.ttf'),
+    fetchFont('/LibreBaskerville-Bold.ttf'),
+    fetchFont('/LibreBaskerville-Italic.ttf'),
+  ]);
+  pdfMake.vfs['LibreBaskerville-Regular.ttf'] = regular;
+  pdfMake.vfs['LibreBaskerville-Bold.ttf'] = bold;
+  pdfMake.vfs['LibreBaskerville-Italic.ttf'] = italic;
+  pdfMake.fonts = {
+    ...((pdfMake.fonts) || {}),
+    LibreBaskerville: {
+      normal: 'LibreBaskerville-Regular.ttf',
+      bold: 'LibreBaskerville-Bold.ttf',
+      italics: 'LibreBaskerville-Italic.ttf',
+      bolditalics: 'LibreBaskerville-Bold.ttf',
+    },
+  };
   const BLUE  = '#1a4fa0';
   const BLACK = 'var(--bg)';
   const WHITE = '#ffffff';
@@ -193,7 +220,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const slug = (questionText ?? markdownText).slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
   const docDef: any = {
     content,
-    defaultStyle: { font: 'Roboto', fontSize: 11, color: BLACK },
+    defaultStyle: { font: 'LibreBaskerville', fontSize: 11, color: BLACK },
     pageMargins: [40, 40, 40, 58],
     footer: (currentPage: number, pageCount: number) => ({
       stack: [

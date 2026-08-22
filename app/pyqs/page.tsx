@@ -25,6 +25,32 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
   pdfMake.vfs = pdfFonts.vfs;
   if (!pdfMake.vfs) pdfMake.vfs = {};
+  // Load LibreBaskerville fonts (support diacritics like ā, ī, ṭ)
+  const fetchFont = async (url: string) => {
+    const res = await fetch(url);
+    const buf = await res.arrayBuffer();
+    const bytes = new Uint8Array(buf);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+    return btoa(binary);
+  };
+  const [regular, bold, italic] = await Promise.all([
+    fetchFont('/LibreBaskerville-Regular.ttf'),
+    fetchFont('/LibreBaskerville-Bold.ttf'),
+    fetchFont('/LibreBaskerville-Italic.ttf'),
+  ]);
+  pdfMake.vfs['LibreBaskerville-Regular.ttf'] = regular;
+  pdfMake.vfs['LibreBaskerville-Bold.ttf'] = bold;
+  pdfMake.vfs['LibreBaskerville-Italic.ttf'] = italic;
+  pdfMake.fonts = {
+    ...((pdfMake.fonts) || {}),
+    LibreBaskerville: {
+      normal: 'LibreBaskerville-Regular.ttf',
+      bold: 'LibreBaskerville-Bold.ttf',
+      italics: 'LibreBaskerville-Italic.ttf',
+      bolditalics: 'LibreBaskerville-Bold.ttf',
+    },
+  };
 
   const BLUE  = '#1a4fa0';
   const BLACK = '#0a0a0a';
@@ -43,13 +69,13 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
       {
         table: {
           widths: [54], heights: [54],
-          body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'Roboto', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]],
+          body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'LibreBaskerville', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]],
         },
         layout: 'noBorders', width: 66, margin: [0, 0, 0, 0],
       },
       {
         stack: [
-          { text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'Roboto', color: BLACK, margin: [12, 4, 0, 2] },
+          { text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'LibreBaskerville', color: BLACK, margin: [12, 4, 0, 2] },
           { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: '#999999', italics: true, margin: [14, 0, 0, 0] },
         ],
         width: '*',
@@ -111,7 +137,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
 
   const docDef: any = {
     content,
-    defaultStyle: { font: 'Roboto', fontSize: 11, color: BLACK },
+    defaultStyle: { font: 'LibreBaskerville', fontSize: 11, color: BLACK },
     pageMargins: [40, 40, 40, 58],
     footer: (currentPage: number, pageCount: number) => ({
       stack: [
