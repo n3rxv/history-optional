@@ -127,7 +127,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const pdfMake = (pdfMakeModule as any).default || pdfMakeModule;
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
   pdfMake.vfs = { ...(pdfFonts.vfs || {}) };
-  (window as any).pdfMake = pdfMake;
 
   const loadFont = async (url: string, key: string) => {
     const res = await fetch(url);
@@ -226,7 +225,10 @@ const BLUE  = '#1a4fa0';
       ],
     }),
   };
-  pdfMake.createPdf(docDef).download(slug + ' (historyoptional.xyz).pdf');
+  // Ensure vfs is set on the exact instance used by createPdf
+  pdfMake.vfs = pdfMake.vfs || {};
+  Object.keys(pdfMake.vfs).length === 0 && Object.assign(pdfMake.vfs, pdfFonts.vfs || {});
+  pdfMake.createPdf(docDef, undefined, pdfMake.fonts, pdfMake.vfs).download(slug + ' (historyoptional.xyz).pdf');
 }
 
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
