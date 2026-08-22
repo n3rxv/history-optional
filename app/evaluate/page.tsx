@@ -122,34 +122,30 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
   pdfMake.vfs = pdfFonts.vfs;
   if (!pdfMake.vfs) pdfMake.vfs = {};
-  // Load LibreBaskerville fonts (support diacritics like ā, ī, ṭ)
-  const fetchFont = async (url: string) => {
+
+  const loadFont = async (url: string, key: string) => {
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
     const bytes = new Uint8Array(buf);
-    const chunkSize = 8192;
+    const chunkSize = 0x8000;
     let binary = '';
-    for (let i = 0; i < bytes.byteLength; i += chunkSize) {
-      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize) as unknown as number[]);
     }
-    return btoa(binary);
+    pdfMake.vfs[key] = btoa(binary);
   };
-  const [regular, bold] = await Promise.all([
-    fetchFont('/LB-Regular.ttf'),
-    fetchFont('/LB-Bold.ttf'),
+  await Promise.all([
+    loadFont('/NotoSans-Regular.ttf', 'NotoSans-Regular.ttf'),
+    loadFont('/NotoSans-Bold.ttf', 'NotoSans-Bold.ttf'),
   ]);
-  pdfMake.vfs = { ...(pdfFonts.vfs || {}), 'LB-Regular.ttf': regular, 'LB-Bold.ttf': bold };
-  pdfMake.fonts = {
-    Roboto: (pdfMake.fonts || {}).Roboto,
-    LibreBaskerville: {
-      normal: 'LB-Regular.ttf',
-      bold: 'LB-Bold.ttf',
-      italics: 'LB-Regular.ttf',
-      bolditalics: 'LB-Bold.ttf',
-    },
+  pdfMake.fonts = pdfMake.fonts || {};
+  pdfMake.fonts['NotoSans'] = {
+    normal: 'NotoSans-Regular.ttf',
+    bold: 'NotoSans-Bold.ttf',
+    italics: 'NotoSans-Regular.ttf',
+    bolditalics: 'NotoSans-Bold.ttf',
   };
-
-  const BLUE  = '#1a4fa0';
+const BLUE  = '#1a4fa0';
   const BLACK = 'var(--bg)';
   const WHITE = '#ffffff';
 
@@ -195,7 +191,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
         table: {
           widths: [54], heights: [54],
           body: [[{
-            text: 'H.', fontSize: 30, bold: true, font: 'LibreBaskerville',
+            text: 'H.', fontSize: 30, bold: true, font: 'NotoSans',
             color: WHITE, fillColor: BLACK, alignment: 'center',
             margin: [0, 8, 0, 0], border: [false, false, false, false],
           }]],
@@ -204,7 +200,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
       },
       {
         stack: [
-          { text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'LibreBaskerville', color: BLACK, margin: [12, 4, 0, 2] },
+          { text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'NotoSans', color: BLACK, margin: [12, 4, 0, 2] },
           { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: 'var(--text3)', italics: true, margin: [14, 0, 0, 0] },
         ],
         width: '*',
@@ -324,7 +320,7 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
 
   const docDef: any = {
     content,
-    defaultStyle: { font: 'LibreBaskerville', fontSize: 11, color: BLACK },
+    defaultStyle: { font: 'NotoSans', fontSize: 11, color: BLACK },
     pageMargins: [40, 40, 40, 58],
     footer: (currentPage: number, pageCount: number) => ({
       stack: [

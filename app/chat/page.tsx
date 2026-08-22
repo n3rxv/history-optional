@@ -128,7 +128,6 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
   pdfMake.vfs = { ...(pdfFonts.vfs || {}) };
 
-  // Load LB fonts with Uint8Array approach
   const loadFont = async (url: string, key: string) => {
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
@@ -141,15 +140,15 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     pdfMake.vfs[key] = btoa(binary);
   };
   await Promise.all([
-    loadFont('/LB-Regular.ttf', 'LB-Regular.ttf'),
-    loadFont('/LB-Bold.ttf', 'LB-Bold.ttf'),
+    loadFont('/NotoSans-Regular.ttf', 'NotoSans-Regular.ttf'),
+    loadFont('/NotoSans-Bold.ttf', 'NotoSans-Bold.ttf'),
   ]);
   pdfMake.fonts = pdfMake.fonts || {};
-  pdfMake.fonts['LibreBaskerville'] = {
-    normal: 'LB-Regular.ttf',
-    bold: 'LB-Bold.ttf',
-    italics: 'LB-Regular.ttf',
-    bolditalics: 'LB-Bold.ttf',
+  pdfMake.fonts['NotoSans'] = {
+    normal: 'NotoSans-Regular.ttf',
+    bold: 'NotoSans-Bold.ttf',
+    italics: 'NotoSans-Regular.ttf',
+    bolditalics: 'NotoSans-Bold.ttf',
   };
 
 const BLUE  = '#1a4fa0';
@@ -162,8 +161,8 @@ const BLUE  = '#1a4fa0';
   const content: any[] = [];
   content.push({
     columns: [
-      { table: { widths: [54], heights: [54], body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'LibreBaskerville', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]] }, layout: 'noBorders', width: 66, margin: [0, 0, 0, 0] },
-      { stack: [{ text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'LibreBaskerville', color: BLACK, margin: [12, 4, 0, 2] }, { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: 'var(--text3)', italics: true, margin: [14, 0, 0, 0] }], width: '*' },
+      { table: { widths: [54], heights: [54], body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'NotoSans', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]] }, layout: 'noBorders', width: 66, margin: [0, 0, 0, 0] },
+      { stack: [{ text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'NotoSans', color: BLACK, margin: [12, 4, 0, 2] }, { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: 'var(--text3)', italics: true, margin: [14, 0, 0, 0] }], width: '*' },
       { text: dateStr, fontSize: 8, color: 'var(--text3)', alignment: 'right', characterSpacing: 1, margin: [0, 10, 0, 0], width: 'auto' },
     ],
     margin: [0, 0, 0, 10],
@@ -217,7 +216,7 @@ const BLUE  = '#1a4fa0';
   const slug = (questionText ?? markdownText).slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
   const docDef: any = {
     content,
-    defaultStyle: { font: 'LibreBaskerville', fontSize: 11, color: BLACK },
+    defaultStyle: { font: 'NotoSans', fontSize: 11, color: BLACK },
     pageMargins: [40, 40, 40, 58],
     footer: (currentPage: number, pageCount: number) => ({
       stack: [
