@@ -142,14 +142,14 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
     fetchFont('/LB-Regular.ttf'),
     fetchFont('/LB-Bold.ttf'),
   ]);
-  pdfMake.vfs['LibreBaskerville-Regular.ttf'] = regular;
+  pdfMake.vfs['LB-Regular.ttf'] = regular;
   pdfMake.vfs['LB-Bold.ttf'] = bold;
   pdfMake.fonts = {
     ...((pdfMake.fonts) || {}),
     LibreBaskerville: {
-      normal: 'LibreBaskerville-Regular.ttf',
+      normal: 'LB-Regular.ttf',
       bold: 'LB-Bold.ttf',
-      italics: 'LibreBaskerville-Regular.ttf',
+      italics: 'LB-Regular.ttf',
       bolditalics: 'LB-Bold.ttf',
     },
   };
@@ -163,8 +163,8 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const content: any[] = [];
   content.push({
     columns: [
-      { table: { widths: [54], heights: [54], body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'Roboto', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]] }, layout: 'noBorders', width: 66, margin: [0, 0, 0, 0] },
-      { stack: [{ text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'Roboto', color: BLACK, margin: [12, 4, 0, 2] }, { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: 'var(--text3)', italics: true, margin: [14, 0, 0, 0] }], width: '*' },
+      { table: { widths: [54], heights: [54], body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'LibreBaskerville', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]] }, layout: 'noBorders', width: 66, margin: [0, 0, 0, 0] },
+      { stack: [{ text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'LibreBaskerville', color: BLACK, margin: [12, 4, 0, 2] }, { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: 'var(--text3)', italics: true, margin: [14, 0, 0, 0] }], width: '*' },
       { text: dateStr, fontSize: 8, color: 'var(--text3)', alignment: 'right', characterSpacing: 1, margin: [0, 10, 0, 0], width: 'auto' },
     ],
     margin: [0, 0, 0, 10],

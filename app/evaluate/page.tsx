@@ -135,14 +135,14 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     fetchFont('/LB-Regular.ttf'),
     fetchFont('/LB-Bold.ttf'),
   ]);
-  pdfMake.vfs['LibreBaskerville-Regular.ttf'] = regular;
+  pdfMake.vfs['LB-Regular.ttf'] = regular;
   pdfMake.vfs['LB-Bold.ttf'] = bold;
   pdfMake.fonts = {
     ...((pdfMake.fonts) || {}),
     LibreBaskerville: {
-      normal: 'LibreBaskerville-Regular.ttf',
+      normal: 'LB-Regular.ttf',
       bold: 'LB-Bold.ttf',
-      italics: 'LibreBaskerville-Regular.ttf',
+      italics: 'LB-Regular.ttf',
       bolditalics: 'LB-Bold.ttf',
     },
   };
