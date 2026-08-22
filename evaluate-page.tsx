@@ -134,10 +134,10 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     fetchFont('/LB-Regular.ttf'),
     fetchFont('/LB-Bold.ttf'),
   ]);
+  pdfMake.vfs = pdfMake.vfs || {};
   pdfMake.vfs['LB-Regular.ttf'] = regular;
   pdfMake.vfs['LB-Bold.ttf'] = bold;
   pdfMake.fonts = {
-    ...((pdfMake.fonts) || {}),
     LibreBaskerville: {
       normal: 'LB-Regular.ttf',
       bold: 'LB-Bold.ttf',
