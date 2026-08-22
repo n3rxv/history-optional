@@ -130,21 +130,19 @@ async function downloadModelAnswerPDF(question: string, marks: number, evaluatio
     for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
     return btoa(binary);
   };
-  const [regular, bold, italic] = await Promise.all([
+  const [regular, bold] = await Promise.all([
     fetchFont('/LibreBaskerville-Regular.ttf'),
-    fetchFont('/LibreBaskerville-Bold.ttf'),
-    fetchFont('/LibreBaskerville-Italic.ttf'),
+    fetchFont('/LB-Bold.ttf'),
   ]);
   pdfMake.vfs['LibreBaskerville-Regular.ttf'] = regular;
-  pdfMake.vfs['LibreBaskerville-Bold.ttf'] = bold;
-  pdfMake.vfs['LibreBaskerville-Italic.ttf'] = italic;
+  pdfMake.vfs['LB-Bold.ttf'] = bold;
   pdfMake.fonts = {
     ...((pdfMake.fonts) || {}),
     LibreBaskerville: {
       normal: 'LibreBaskerville-Regular.ttf',
-      bold: 'LibreBaskerville-Bold.ttf',
-      italics: 'LibreBaskerville-Italic.ttf',
-      bolditalics: 'LibreBaskerville-Bold.ttf',
+      bold: 'LB-Bold.ttf',
+      italics: 'LibreBaskerville-Regular.ttf',
+      bolditalics: 'LB-Bold.ttf',
     },
   };
 
