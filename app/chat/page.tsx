@@ -128,33 +128,31 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
   pdfMake.vfs = { ...(pdfFonts.vfs || {}) };
 
-  // Load LibreBaskerville fonts (support diacritics like ā, ī, ṭ)
-  const fetchFont = async (url: string) => {
+  // Load LB fonts with Uint8Array approach
+  const loadFont = async (url: string, key: string) => {
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
     const bytes = new Uint8Array(buf);
-    const chunkSize = 8192;
+    const chunkSize = 0x8000;
     let binary = '';
-    for (let i = 0; i < bytes.byteLength; i += chunkSize) {
-      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize) as unknown as number[]);
     }
-    return btoa(binary);
+    pdfMake.vfs[key] = btoa(binary);
   };
-  const [regular, bold] = await Promise.all([
-    fetchFont('/LB-Regular.ttf'),
-    fetchFont('/LB-Bold.ttf'),
+  await Promise.all([
+    loadFont('/LB-Regular.ttf', 'LB-Regular.ttf'),
+    loadFont('/LB-Bold.ttf', 'LB-Bold.ttf'),
   ]);
-  pdfMake.vfs = { ...(pdfFonts.vfs || {}), 'LB-Regular.ttf': regular, 'LB-Bold.ttf': bold };
-  pdfMake.fonts = {
-    Roboto: (pdfMake.fonts || {}).Roboto,
-    LibreBaskerville: {
-      normal: 'LB-Regular.ttf',
-      bold: 'LB-Bold.ttf',
-      italics: 'LB-Regular.ttf',
-      bolditalics: 'LB-Bold.ttf',
-    },
+  pdfMake.fonts = pdfMake.fonts || {};
+  pdfMake.fonts['LibreBaskerville'] = {
+    normal: 'LB-Regular.ttf',
+    bold: 'LB-Bold.ttf',
+    italics: 'LB-Regular.ttf',
+    bolditalics: 'LB-Bold.ttf',
   };
-  const BLUE  = '#1a4fa0';
+
+const BLUE  = '#1a4fa0';
   const BLACK = 'var(--bg)';
   const WHITE = '#ffffff';
   const parseInline = (t: string) =>
