@@ -127,6 +127,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   const pdfMake = (pdfMakeModule as any).default || pdfMakeModule;
   const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
   pdfMake.vfs = { ...(pdfFonts.vfs || {}) };
+  (window as any).pdfMake = pdfMake;
 
   const loadFont = async (url: string, key: string) => {
     const res = await fetch(url);
