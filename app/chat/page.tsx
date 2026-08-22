@@ -137,7 +137,7 @@ const BLUE  = '#1a4fa0';
     return map[c] ?? c;
   });
   const parseInline = (t: string) =>
-    stripDiacritics(t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1').replace(/([a-zA-Z])\.([A-Z])/g, '$1. $2'));
+    stripDiacritics(t.replace(/\*\*(.+?)\*\*/g, '$1 ').replace(/\*(.+?)\*/g, '$1 ').replace(/`(.+?)`/g, '$1').replace(/  +/g, ' ').trim());
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase();
   const content: any[] = [];
