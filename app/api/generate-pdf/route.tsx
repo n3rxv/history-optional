@@ -3,6 +3,7 @@ export const maxDuration = 30;
 import { NextRequest, NextResponse } from "next/server";
 import { renderToBuffer, Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
 import path from "path";
+import fs from "fs";
 
 const fontDir = path.join(process.cwd(), "public");
 const notoRegularB64 = "data:font/truetype;base64," + fs.readFileSync(path.join(fontDir, "NotoSans-Regular.ttf")).toString("base64");
