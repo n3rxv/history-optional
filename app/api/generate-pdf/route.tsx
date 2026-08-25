@@ -5,11 +5,13 @@ import { renderToBuffer, Document, Page, Text, View, StyleSheet, Font } from "@r
 import path from "path";
 
 const fontDir = path.join(process.cwd(), "public");
+const notoRegularB64 = "data:font/truetype;base64," + fs.readFileSync(path.join(fontDir, "NotoSans-Regular.ttf")).toString("base64");
+const notoBoldB64 = "data:font/truetype;base64," + fs.readFileSync(path.join(fontDir, "NotoSans-Bold.ttf")).toString("base64");
 Font.register({
   family: "NotoSans",
   fonts: [
-    { src: path.join(fontDir, "NotoSans-Regular.ttf"), fontWeight: "normal" },
-    { src: path.join(fontDir, "NotoSans-Bold.ttf"), fontWeight: "bold" },
+    { src: notoRegularB64, fontWeight: "normal" },
+    { src: notoBoldB64, fontWeight: "bold" },
   ],
 });
 
