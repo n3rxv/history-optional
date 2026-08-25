@@ -3,14 +3,14 @@ export const maxDuration = 30;
 import { NextRequest, NextResponse } from "next/server";
 import { renderToBuffer, Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
 import path from "path";
+import fs from "fs";
 
-import { NOTO_REGULAR_B64, NOTO_BOLD_B64 } from "./fonts";
-
+const fontDir = path.join(process.cwd(), "public");
 Font.register({
   family: "NotoSans",
   fonts: [
-    { src: NOTO_REGULAR_B64, fontWeight: "normal" },
-    { src: NOTO_BOLD_B64, fontWeight: "bold" },
+    { src: path.join(fontDir, "NotoSans-Regular.ttf"), fontWeight: "normal" },
+    { src: path.join(fontDir, "NotoSans-Bold.ttf"), fontWeight: "bold" },
   ],
 });
 
