@@ -21,10 +21,10 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: "50mb",
     },
-    serverComponentsExternalPackages: ['@google/generative-ai'],
+    serverComponentsExternalPackages: ['@google/generative-ai', '@react-pdf/renderer'],
   },
   // Increase body size limit for PDF upload in chat
-  serverExternalPackages: ['@google/generative-ai'],
+  serverExternalPackages: ['@google/generative-ai', '@react-pdf/renderer'],
   images: { unoptimized: true },
   async headers() {
     return [
