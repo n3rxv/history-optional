@@ -122,96 +122,22 @@ function SourcePassages({ sources }: { sources: { book_title: string; content: s
 }
 
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
-  const pdfMakeModule = await import('pdfmake/build/pdfmake');
-  const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
-  const pdfMake = (pdfMakeModule as any).default || pdfMakeModule;
-  const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
-  pdfMake.vfs = { ...(pdfFonts.vfs || {}) };
-
-
-const BLUE  = '#1a4fa0';
-  const BLACK = '#1a1a1a';
-  const WHITE = '#ffffff';
-  const stripDiacritics = (s: string) => s.replace(/[\u00a0\u202f\u2009]/g, ' ').replace(/[\u2013\u2014]/g, '-').replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[\u0100-\u024f]/g, c => {
-    const map: Record<string, string> = {ā:'a',Ā:'A',ī:'i',Ī:'I',ū:'u',Ū:'U',ṭ:'t',Ṭ:'T',ḍ:'d',Ḍ:'D',ṇ:'n',Ṇ:'N',ṣ:'s',Ṣ:'S',ṛ:'r',Ṛ:'R',ṃ:'m',ḥ:'h',ṅ:'n',ñ:'n',ś:'s',Ś:'S'};
-    return map[c] ?? c;
-  });
-  const parseInline = (t: string) =>
-    stripDiacritics(t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1'));
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase();
-  const content: any[] = [];
-  content.push({
-    columns: [
-      { table: { widths: [54], heights: [54], body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'Roboto', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]] }, layout: 'noBorders', width: 66, margin: [0, 0, 0, 0] },
-      { stack: [{ text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'Roboto', color: BLACK, margin: [12, 4, 0, 2] }, { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: '#888888', italics: true, margin: [14, 0, 0, 0] }], width: '*' },
-      { text: dateStr, fontSize: 8, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 10, 0, 0], width: 'auto' },
-    ],
-    margin: [0, 0, 0, 10],
-  });
-  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 3, lineColor: BLUE }], margin: [0, 0, 0, 16] });
-  if (questionText) {
-    content.push({ table: { widths: [6, '*'], body: [[{ text: '', fillColor: BLUE, border: [false, false, false, false] }, { stack: [{ columns: [{ text: 'QUESTION', fontSize: 7, bold: true, color: BLUE, characterSpacing: 2, width: 'auto' }, { canvas: [{ type: 'line', x1: 0, y1: 4, x2: 400, y2: 4, lineWidth: 0.5, lineColor: '#aaaaaa' }], width: '*', margin: [8, 0, 0, 0] }], margin: [0, 0, 0, 6] }, { text: questionText, fontSize: 12, bold: true, color: BLACK, lineHeight: 1.4 }], fillColor: '#eef3fc', border: [false, false, false, false], margin: [12, 10, 12, 12] }]] }, layout: 'noBorders', margin: [0, 0, 0, 16] });
-  }
-  const rawLines = markdownText.split('\n');
-  const processedLines: string[] = [];
-  let i = 0;
-  while (i < rawLines.length) {
-    const line = rawLines[i].trim();
-    if (line.startsWith('|') && line.endsWith('|')) {
-      const tableLines: string[] = [];
-      while (i < rawLines.length && rawLines[i].trim().startsWith('|')) { tableLines.push(rawLines[i].trim()); i++; }
-      const rows = tableLines.filter((l: string) => !/^\|[-| :]+\|$/.test(l));
-      const parsedRows = rows.map((r: string) => r.split('|').filter((_: string, idx: number, arr: string[]) => idx > 0 && idx < arr.length - 1).map((c: string) => c.trim()));
-      if (parsedRows.length > 0) {
-        const tableBody = parsedRows.map((row: string[], rIdx: number) => row.map((cell: string) => ({ text: cell.replace(/\*\*(.+?)\*\*/g, '$1'), bold: rIdx === 0, fontSize: 10, color: rIdx === 0 ? '#ffffff' : '#1a1a1a', margin: [4, 4, 4, 4], fillColor: rIdx === 0 ? '#2a2a2a' : rIdx % 2 === 0 ? '#f5f7ff' : '#ffffff' })));
-        content.push({ table: { widths: Array(parsedRows[0].length).fill('*'), body: tableBody }, layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#cccccc', vLineColor: () => '#cccccc' }, margin: [0, 8, 0, 8] });
-      }
-      processedLines.push('__TABLE_DONE__');
-      continue;
-    }
-    processedLines.push(rawLines[i]);
-    i++;
-  }
-  const mdLines = processedLines;
-  let sectionNum = 0;
-  for (const raw of mdLines) {
-    const t = raw.trim();
-    if (t === '__TABLE_DONE__') continue;
-    if (!t || /^---+$/.test(t)) { content.push({ text: ' ', fontSize: 4 }); continue; }
-    if (/^# /.test(t)) {
-      sectionNum++;
-      const heading = parseInline(t.replace(/^# /, '')).toUpperCase();
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#bbbbbb' }], margin: [0, 8, 0, 4] });
-      content.push({ columns: [{ text: String(sectionNum).padStart(2, '0'), fontSize: 28, bold: true, color: '#e8e8e8', width: 36, margin: [0, -6, 0, 0] }, { text: heading, fontSize: 13, bold: true, color: BLACK, characterSpacing: 2, width: '*', margin: [4, 2, 0, 0] }], margin: [0, 0, 0, 2] });
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 2, lineColor: BLUE }], margin: [0, 2, 0, 8] });
-    } else if (/^## /.test(t)) {
-      content.push({ columns: [{ canvas: [{ type: 'rect', x: 0, y: 2, w: 4, h: 12, color: BLUE }], width: 10 }, { text: parseInline(t.replace(/^## /, '')), fontSize: 12, bold: true, color: BLACK, width: '*' }], margin: [0, 10, 0, 3] });
-    } else if (/^#{3,6} /.test(t)) {
-      content.push({ columns: [{ canvas: [{ type: 'rect', x: 0, y: 3, w: 3, h: 9, color: BLUE }], width: 10 }, { text: parseInline(t.replace(/^#{3,6} /, '')), fontSize: 11, bold: true, color: BLACK, width: '*' }], margin: [0, 7, 0, 3] });
-    } else if (/^[•\-\*] /.test(t)) {
-      content.push({ columns: [{ canvas: [{ type: 'ellipse', x: 3, y: 6, r1: 2.5, r2: 2.5, color: BLUE }], width: 14 }, { text: parseInline(t.replace(/^[•\-\*] /, '')), fontSize: 11, color: BLACK, lineHeight: 1.65, width: '*' }], margin: [8, 0, 0, 5] });
-    } else {
-      content.push({ text: parseInline(t), fontSize: 11, color: BLACK, lineHeight: 1.7, marginBottom: 5 });
-    }
-  }
   const slug = (questionText ?? markdownText).slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
-  const docDef: any = {
-    content,
-    defaultStyle: { font: 'Roboto', fontSize: 11, color: BLACK },
-    pageMargins: [40, 40, 40, 58],
-    footer: (currentPage: number, pageCount: number) => ({
-      stack: [
-        { canvas: [{ type: 'rect', x: 0, y: 0, w: 595, h: 3, color: BLUE }] },
-        { columns: [{ stack: [{ text: 'H.  HISTORY OPTIONAL', fontSize: 8, bold: true, color: BLACK }, { text: 'historyoptional.xyz', fontSize: 7, color: '#888888', margin: [0, 1, 0, 0] }], margin: [40, 10, 0, 0], width: '*' }, { stack: [{ text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' }, { text: 'PAGE', fontSize: 6, color: '#888888', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] }], margin: [0, 9, 40, 0], width: 'auto' }] },
-      ],
-    }),
-  };
-  // Ensure vfs is set on the exact instance used by createPdf
-  pdfMake.vfs = pdfMake.vfs || {};
-  Object.keys(pdfMake.vfs).length === 0 && Object.assign(pdfMake.vfs, pdfFonts.vfs || {});
-  pdfMake.createPdf(docDef, undefined, pdfMake.fonts, pdfMake.vfs).download(slug + ' (historyoptional.xyz).pdf');
+  const res = await fetch('/api/generate-pdf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ markdownText, questionText }),
+  });
+  if (!res.ok) throw new Error('PDF generation failed');
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = slug + ' (historyoptional.xyz).pdf';
+  a.click();
+  URL.revokeObjectURL(url);
 }
+
 
 function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
   const [downloading, setDownloading] = useState(false);

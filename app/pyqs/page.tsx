@@ -19,142 +19,20 @@ const TABS = [
 
 
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
-  const pdfMakeModule = await import('pdfmake/build/pdfmake');
-  const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
-  const pdfMake = (pdfMakeModule as any).default || pdfMakeModule;
-  const pdfFonts = (pdfFontsModule as any).default || pdfFontsModule;
-  pdfMake.vfs = pdfFonts.vfs;
-  if (!pdfMake.vfs) pdfMake.vfs = {};
-
-  const loadFont = async (url: string, key: string) => {
-    const res = await fetch(url);
-    const buf = await res.arrayBuffer();
-    const bytes = new Uint8Array(buf);
-    const chunkSize = 0x8000;
-    let binary = '';
-    for (let i = 0; i < bytes.length; i += chunkSize) {
-      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize) as unknown as number[]);
-    }
-    pdfMake.vfs[key] = btoa(binary);
-  };
-  await Promise.all([
-    loadFont('/NotoSans-Regular.ttf', 'NotoSans-Regular.ttf'),
-    loadFont('/NotoSans-Bold.ttf', 'NotoSans-Bold.ttf'),
-  ]);
-  pdfMake.fonts = pdfMake.fonts || {};
-  pdfMake.fonts['NotoSans'] = {
-    normal: 'NotoSans-Regular.ttf',
-    bold: 'NotoSans-Bold.ttf',
-    italics: 'NotoSans-Regular.ttf',
-    bolditalics: 'NotoSans-Bold.ttf',
-  };
-const BLUE  = '#1a4fa0';
-  const BLACK = '#0a0a0a';
-  const WHITE = '#ffffff';
-
-  const parseInline = (t: string) =>
-    t.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1');
-
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' }).toUpperCase();
-
-  const content: any[] = [];
-
-  content.push({
-    columns: [
-      {
-        table: {
-          widths: [54], heights: [54],
-          body: [[{ text: 'H.', fontSize: 30, bold: true, font: 'NotoSans', color: WHITE, fillColor: BLACK, alignment: 'center', margin: [0, 8, 0, 0], border: [false, false, false, false] }]],
-        },
-        layout: 'noBorders', width: 66, margin: [0, 0, 0, 0],
-      },
-      {
-        stack: [
-          { text: 'historyoptional.xyz', fontSize: 36, bold: true, font: 'NotoSans', color: BLACK, margin: [12, 4, 0, 2] },
-          { text: 'one-stop solution for everything history optional', fontSize: 7.5, color: '#999999', italics: true, margin: [14, 0, 0, 0] },
-        ],
-        width: '*',
-      },
-      { text: dateStr, fontSize: 8, color: '#999999', alignment: 'right', characterSpacing: 1, margin: [0, 10, 0, 0], width: 'auto' },
-    ],
-    margin: [0, 0, 0, 10],
+  const slug = (questionText ?? markdownText).slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
+  const res = await fetch('/api/generate-pdf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ markdownText, questionText }),
   });
-
-  content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 3, lineColor: BLUE }], margin: [0, 0, 0, 16] });
-
-  if (questionText) {
-    content.push({
-      table: {
-        widths: [6, '*'],
-        body: [[
-          { text: '', fillColor: BLUE, border: [false, false, false, false] },
-          {
-            stack: [
-              { columns: [
-                { text: 'QUESTION', fontSize: 7, bold: true, color: BLUE, characterSpacing: 2, width: 'auto' },
-                { canvas: [{ type: 'line', x1: 0, y1: 4, x2: 400, y2: 4, lineWidth: 0.5, lineColor: '#aaaaaa' }], width: '*', margin: [8, 0, 0, 0] },
-              ], margin: [0, 0, 0, 6] },
-              { text: questionText, fontSize: 12, bold: true, color: BLACK, lineHeight: 1.4 },
-            ],
-            fillColor: '#eef3fc', border: [false, false, false, false], margin: [12, 10, 12, 12],
-          },
-        ]],
-      },
-      layout: 'noBorders', margin: [0, 0, 0, 16],
-    });
-  }
-
-  const mdLines = markdownText.split('\n');
-
-  for (const raw of mdLines) {
-    const t = raw.trim();
-    if (!t || /^---+$/.test(t)) { content.push({ text: ' ', fontSize: 4 }); continue; }
-    if (/^\*\*(.+)\*\*$/.test(t)) {
-      const heading = parseInline(t.replace(/^\*\*|\*\*$/g, '')).toUpperCase();
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#bbbbbb' }], margin: [0, 8, 0, 4] });
-      content.push({ text: heading, fontSize: 11, bold: true, color: BLACK, characterSpacing: 2, margin: [0, 0, 0, 2] });
-      content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 2, lineColor: BLUE }], margin: [0, 2, 0, 8] });
-    } else if (/^[-•]\s+/.test(t)) {
-      content.push({
-        columns: [
-          { canvas: [{ type: 'ellipse', x: 3, y: 6, r1: 2.5, r2: 2.5, color: BLUE }], width: 14 },
-          { text: parseInline(t.replace(/^[-•]\s+/, '')), fontSize: 11, color: BLACK, lineHeight: 1.65, width: '*' },
-        ],
-        margin: [8, 0, 0, 5],
-      });
-    } else {
-      content.push({ text: parseInline(t), fontSize: 11, color: BLACK, lineHeight: 1.7, marginBottom: 5 });
-    }
-  }
-
-  const slug = (questionText ?? markdownText).slice(0, 60)
-    .replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'model-answer';
-
-  const docDef: any = {
-    content,
-    defaultStyle: { font: 'NotoSans', fontSize: 11, color: BLACK },
-    pageMargins: [40, 40, 40, 58],
-    footer: (currentPage: number, pageCount: number) => ({
-      stack: [
-        { canvas: [{ type: 'rect', x: 0, y: 0, w: 595, h: 3, color: BLUE }] },
-        {
-          columns: [
-            { stack: [
-              { text: 'H.  HISTORY OPTIONAL', fontSize: 8, bold: true, color: BLACK },
-              { text: 'historyoptional.xyz', fontSize: 7, color: '#999999', margin: [0, 1, 0, 0] },
-            ], margin: [40, 10, 0, 0], width: '*' },
-            { stack: [
-              { text: currentPage + ' / ' + pageCount, fontSize: 11, bold: true, color: BLACK, alignment: 'right' },
-              { text: 'PAGE', fontSize: 6, color: '#999999', alignment: 'right', characterSpacing: 1, margin: [0, 1, 0, 0] },
-            ], margin: [0, 9, 40, 0], width: 'auto' },
-          ],
-        },
-      ],
-    }),
-  };
-
-  pdfMake.createPdf(docDef).download(slug + ' (historyoptional.xyz).pdf');
+  if (!res.ok) throw new Error('PDF generation failed');
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = slug + ' (historyoptional.xyz).pdf';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function AnswerBody({ text }: { text: string }) {
