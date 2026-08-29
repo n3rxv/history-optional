@@ -6,8 +6,8 @@ import { getPYQsForNote } from '@/lib/notePyqMap';
 import { getNoteContent } from '@/lib/noteContent';
 import { noteContentHi } from '@/lib/noteContentHi';
 import { useLang } from '@/lib/i18n/LangContext';
-import { auth, googleProvider } from '@/lib/firebase';
-import { onAuthStateChanged, signInWithPopup, signOut as firebaseSignOut } from 'firebase/auth';
+import { auth, signInWithGoogle } from '@/lib/firebase';
+import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
 import AnnotationToggle from '@/components/AnnotationToggle';
 import TableOfContents from '@/components/TableOfContents';
 import type { User } from 'firebase/auth';
@@ -600,7 +600,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
 
   const handleSignIn = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      await signInWithGoogle();
     } catch (err) {
       console.error('Sign in error:', err);
     }

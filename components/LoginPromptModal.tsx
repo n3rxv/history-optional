@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { auth, googleProvider } from '@/lib/firebase';
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithGoogle } from '@/lib/firebase';
 
 interface LoginPromptModalProps {
   isOpen: boolean;
@@ -17,7 +16,9 @@ export default function LoginPromptModal({ isOpen, onClose, message }: LoginProm
   const handleSignIn = async () => {
     setSigningIn(true);
     try {
-      await signInWithPopup(auth, googleProvider);
+      const method = await signInWithGoogle();
+      // A redirect unloads this page; the modal is gone when we come back.
+      if (method === 'redirect') return;
       onClose();
     } catch (err) {
       console.error('Sign in error:', err);

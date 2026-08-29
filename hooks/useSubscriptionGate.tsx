@@ -21,11 +21,13 @@ function LoginModal({ onClose }: { onClose: () => void }) {
           onClick={async () => {
             setSigningIn(true);
             try {
-              const { auth } = await import('@/lib/firebase');
-              const { GoogleAuthProvider, signInWithPopup } = await import('firebase/auth');
-              await signInWithPopup(auth, new GoogleAuthProvider());
+              const { signInWithGoogle } = await import('@/lib/firebase');
+              const method = await signInWithGoogle();
+              // A redirect unloads this page — don't touch state on the way out.
+              if (method === 'redirect') return;
               onClose();
-            } catch(e) { console.error(e); } finally { setSigningIn(false); }
+              setSigningIn(false);
+            } catch(e) { console.error(e); setSigningIn(false); }
           }}
           disabled={signingIn}
           style={{ width:'100%', padding:'12px', borderRadius:8, background:'#fff', color:'#111', border:'none', fontWeight:600, fontSize:15, cursor:'pointer' }}>

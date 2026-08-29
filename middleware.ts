@@ -103,6 +103,6 @@ export const config = {
   matcher: [
     '/notes/:path*',
     '/api/:path*',
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|__/|favicon.ico).*)',
   ],
 };

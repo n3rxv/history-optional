@@ -1,8 +1,8 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useState, useEffect } from 'react';
-import { auth, googleProvider } from '@/lib/firebase';
-import { signInWithPopup, signOut as firebaseSignOut } from 'firebase/auth';
+import { auth, signInWithGoogle } from '@/lib/firebase';
+import { signOut as firebaseSignOut } from 'firebase/auth';
 
 function GoogleIcon() {
   return (
@@ -77,14 +77,13 @@ export function SubscribeCard({
     sessionStorage.setItem('ho_pending_plan', selectedPlan);
     setStep('signing_in');
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const idToken = await result.user.getIdToken();
-      setToken(idToken);
-      const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'sixmonths'|'yearly' || selectedPlan;
+      // Both popup and redirect resume through the onAuthStateChanged effect
+      // above, which reads the pending keys back — on redirect this page is
+      // already gone by the time sign-in completes.
+      await signInWithGoogle();
+    } catch {
       sessionStorage.removeItem('ho_pending_payment');
       sessionStorage.removeItem('ho_pending_plan');
-      openRazorpay(idToken, result.user.email ?? '', savedPlan);
-    } catch {
       setStep('idle');
     }
   };

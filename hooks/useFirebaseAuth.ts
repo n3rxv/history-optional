@@ -1,12 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import {
-  signInWithPopup,
   signOut,
   onAuthStateChanged,
   User,
 } from 'firebase/auth';
-import { auth, googleProvider } from '@/lib/firebase';
+import { auth, signInWithGoogle as googleSignIn } from '@/lib/firebase';
 
 export function useFirebaseAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -22,7 +21,7 @@ export function useFirebaseAuth() {
 
   const signInWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      await googleSignIn();
     } catch (err) {
       console.error('[firebase-auth] sign in error:', err);
     }

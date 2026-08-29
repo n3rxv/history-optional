@@ -8,8 +8,8 @@ import ThemeCustomizer from './ThemeCustomizer';
 import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
 import SearchModal from './SearchModal';
-import { auth, googleProvider } from '@/lib/firebase';
-import { onAuthStateChanged, signInWithPopup, signOut as firebaseSignOut, User } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { onAuthStateChanged, signOut as firebaseSignOut, User } from 'firebase/auth';
 import { supabase } from '@/lib/supabase';
 import { SubscribeCard } from '@/components/SubscribeCard';
 
@@ -105,9 +105,8 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
         {!isLoggedIn && <button
           onClick={async () => {
             sessionStorage.setItem('ho_verify_sub', '1');
-            const { auth, googleProvider } = await import('@/lib/firebase');
-            const { signInWithPopup } = await import('firebase/auth');
-            await signInWithPopup(auth, googleProvider);
+            const { signInWithGoogle } = await import('@/lib/firebase');
+            await signInWithGoogle();
           }}
           style={{ width: '100%', marginTop: 10, padding: '8px', background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.12)', borderRadius: 7, color: 'var(--text)', cursor: 'pointer', fontSize: '0.76rem', fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s ease', position: 'relative', overflow: 'hidden' }}
           onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.4)'; el.style.color = '#fff'; el.style.background = 'rgba(0,0,0,0.08)'; }}

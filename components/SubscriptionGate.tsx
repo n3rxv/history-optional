@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { auth } from '@/lib/firebase';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth, signInWithGoogle } from '@/lib/firebase';
 import { useUsageTracker } from '@/hooks/useUsageTracker';
 import { SubscribeCard } from '@/components/SubscribeCard';
 
@@ -27,11 +26,13 @@ function Modal({ mode, type, fingerprint, onClose }: {
   async function handleGoogleSignIn() {
     setSigningIn(true);
     try {
-      await signInWithPopup(auth, new GoogleAuthProvider());
+      const method = await signInWithGoogle();
+      // A redirect unloads this page — don't touch state on the way out.
+      if (method === 'redirect') return;
       onClose();
+      setSigningIn(false);
     } catch (e) {
       console.error(e);
-    } finally {
       setSigningIn(false);
     }
   }

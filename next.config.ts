@@ -7,14 +7,20 @@ const ContentSecurityPolicy = [
   "img-src 'self' data: blob: https:",
   "media-src 'self'",
   "connect-src 'self' blob: https://*.supabase.co wss://*.supabase.co https://api.groq.com https://api.jina.ai https://checkout.razorpay.com https://lumberjack.razorpay.com https://api.razorpay.com https://*.razorpay.com https://*.googleapis.com https://*.firebaseapp.com https://*.firebase.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://pub-163b2186589649f4a759ed969e0779e0.r2.dev https://cdnjs.cloudflare.com",
-  "frame-src https://checkout.razorpay.com https://*.razorpay.com https://*.firebaseapp.com https://accounts.google.com",
+  "frame-src 'self' https://checkout.razorpay.com https://*.razorpay.com https://*.firebaseapp.com https://accounts.google.com",
   "worker-src 'self' blob: https://checkout.razorpay.com https://cdnjs.cloudflare.com",
   "object-src 'none'",
   "base-uri 'self'",
-  "form-action 'self' https://*.razorpay.com",
+  "form-action 'self' https://*.razorpay.com https://*.firebaseapp.com https://accounts.google.com",
   "upgrade-insecure-requests",
 ].join('; ');
 export const maxDuration = 30;
+
+// Firebase always serves the real auth handler from <project>.firebaseapp.com.
+// Proxying it under our own origin makes the sign-in handshake first-party, so
+// the consent screen shows historyoptional.xyz instead of the firebaseapp.com
+// project host. Inert until NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN points at our domain.
+const FIREBASE_AUTH_UPSTREAM = `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseapp.com`;
 
 const nextConfig: NextConfig = {
   experimental: {
@@ -26,6 +32,18 @@ const nextConfig: NextConfig = {
   // Increase body size limit for PDF upload in chat
   serverExternalPackages: ['@google/generative-ai', '@react-pdf/renderer'],
   images: { unoptimized: true },
+  async rewrites() {
+    return [
+      {
+        source: '/__/auth/:path*',
+        destination: `https://${FIREBASE_AUTH_UPSTREAM}/__/auth/:path*`,
+      },
+      {
+        source: '/__/firebase/:path*',
+        destination: `https://${FIREBASE_AUTH_UPSTREAM}/__/firebase/:path*`,
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -44,7 +62,8 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: '/((?!sitemap.xml|robots.txt).*)',
+        // The proxied auth handler is Google's own page — our CSP and X-Frame-Options would break it.
+        source: '/((?!sitemap.xml|robots.txt|__/).*)',
         headers: [
           { key: 'X-Frame-Options',           value: 'DENY' },
           { key: 'Cross-Origin-Opener-Policy',  value: 'same-origin-allow-popups' },
