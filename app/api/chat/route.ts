@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { fixSentenceSpacing } from '@/lib/textSpacing';
 
 export const maxDuration = 90;
 import { createClient } from "@supabase/supabase-js";
@@ -619,6 +620,9 @@ If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
               fullAnswer = fullAnswer.slice(0, lastPunct + 1).trimEnd();
             }
           }
+          // Model sometimes drops the space after a full stop — normalise here so
+          // the saved history and the PDF export get the fix too, not just the view.
+          fullAnswer = fixSentenceSpacing(fullAnswer);
           if (!fullAnswer.trim()) fullAnswer = 'Something went wrong. Please try again.';
           send(fullAnswer);
 

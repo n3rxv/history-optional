@@ -6,6 +6,7 @@ import { marked } from 'marked';
 import { useSearchParams } from 'next/navigation';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { auth } from '@/lib/firebase';
+import { fixSentenceSpacing } from '@/lib/textSpacing';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -391,6 +392,9 @@ function ChatContent() {
   }
 
   const formatMessage = (text: string, sourcesCount: number = 0) => {
+    // Also applied server-side; repeated here so answers already saved in
+    // history render correctly without a re-generation.
+    text = fixSentenceSpacing(text);
     text = formatTable(text);
     text = text.replace(/^-{3,}$/gm, '___HR___');
     text = text.replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `___H1___${t}___END___`);
