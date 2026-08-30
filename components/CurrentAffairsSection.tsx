@@ -431,7 +431,7 @@ function FeaturedCard({ post, onClick, authed, index }: { post: Post; onClick: (
 }
 
 // ─── Main Section ──────────────────────────────────────────────────────────────
-export default function CurrentAffairsSection() {
+export default function CurrentAffairsSection({ hideWhenEmpty = true }: { hideWhenEmpty?: boolean } = {}) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'current-affairs' | 'new-note'>('current-affairs');
@@ -473,7 +473,7 @@ export default function CurrentAffairsSection() {
   }, []);
 
   const hasAny = caCount + nnCount > 0 || authed || cuttings.length > 0;
-  if (!hasAny && !loading) return null;
+  if (!hasAny && !loading && hideWhenEmpty) return null;
 
   return (
     <section style={{ marginBottom: '4rem' }}>

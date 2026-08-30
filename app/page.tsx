@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import TelegramFloat from '@/components/TelegramFloat';
-import CurrentAffairsSection from '@/components/CurrentAffairsSection';
 import HomeFAQ from '@/components/HomeFAQ';
 import EvaluateDemo from '@/components/EvaluateDemo';
 import DailyAnswerWriting from '@/components/DailyAnswerWriting';
@@ -206,7 +205,6 @@ export default function Home() {
       <EvaluateDemo />
       <div id="daily-answer"><DailyAnswerWriting /></div>
       <div id="faq"><HomeFAQ /></div>
-      <CurrentAffairsSection />
 
       <TelegramFloat />
     </div>
