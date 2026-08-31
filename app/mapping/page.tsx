@@ -225,7 +225,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
                 <>
                   <p style={{ marginBottom: 12 }}>
                     यह पेज UPSC History Optional के संपूर्ण <strong style={{ color: 'var(--text)' }}>मैप सिलेबस</strong> का
-                    आपका विज़ुअल साथी है — <strong style={{ color: ACCENT }}>963 स्थल</strong>, <strong style={{ color: ACCENT }}>37 अध्यायों</strong> में।
+                    आपका विज़ुअल साथी है — <strong style={{ color: ACCENT }}>992 स्थल</strong>, <strong style={{ color: ACCENT }}>37 अध्यायों</strong> में।
                   </p>
                   <p style={{ marginBottom: 12 }}>
                     नीचे हर अध्याय खोलने पर एक इंटरैक्टिव मैप और स्थलों की सूची दिखाई देगी। किसी भी
@@ -247,7 +247,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
                 <>
                   <p style={{ marginBottom: 12 }}>
                     This page is your visual companion to the entire <strong style={{ color: 'var(--text)' }}>Map syllabus</strong> for
-                    UPSC History Optional — <strong style={{ color: ACCENT }}>963 sites</strong> across <strong style={{ color: ACCENT }}>37 chapters</strong>.
+                    UPSC History Optional — <strong style={{ color: ACCENT }}>992 sites</strong> across <strong style={{ color: ACCENT }}>37 chapters</strong>.
                   </p>
                   <p style={{ marginBottom: 12 }}>
                     Each chapter below opens into an interactive map and a list of sites. Click any
@@ -735,8 +735,8 @@ export default function MappingPage() {
             {quizMode
               ? (langHi ? 'मैप पर चिह्नित स्थल की पहचान करें।' : 'Identify the marked site on the map.')
               : langHi
-                ? <>सभी 963 पुरातात्विक एवं ऐतिहासिक स्थल देखें। <span style={{ color: '#eab308' }}>पीले</span> मार्कर = UPSC PYQs।</>
-                : <>Browse all 963 archaeological & historical sites. <span style={{ color: '#eab308' }}>Yellow</span> markers = UPSC PYQs.</>
+                ? <>सभी 992 पुरातात्विक एवं ऐतिहासिक स्थल देखें। <span style={{ color: '#eab308' }}>पीले</span> मार्कर = UPSC PYQs।</>
+                : <>Browse all 992 archaeological & historical sites. <span style={{ color: '#eab308' }}>Yellow</span> markers = UPSC PYQs.</>
             }
           </p>
         </div>
