@@ -4,7 +4,7 @@ import { pyqs } from '@/lib/pyqData';
 
 export const metadata: Metadata = {
   title: 'World History PYQs — UPSC History Optional Previous Year Questions',
-  description: 'All UPSC History Optional Previous Year Questions on World History (Paper II) from 1979–2025.',
+  description: 'All UPSC History Optional Previous Year Questions on World History (Paper II) from 1979–2026.',
   alternates: { canonical: 'https://historyoptional.xyz/pyqs/world-history' },
 };
 
@@ -45,7 +45,7 @@ export default function PYQPage() {
           World History — Previous Year Questions
         </h1>
         <p style={{ color: 'var(--text2)', fontSize: '0.9rem', marginBottom: '2rem' }}>
-          UPSC History Optional Paper II · {questions.length} questions · 1979–2025
+          UPSC History Optional Paper II · {questions.length} questions · 1979–2026
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {questions.map(q => (

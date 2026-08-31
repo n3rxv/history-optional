@@ -1,5 +1,5 @@
-// AUTO-GENERATED: UPSC History Optional Map Questions 2013–2025
-// Total entries: 260 (13 years × 20 questions)
+// AUTO-GENERATED: UPSC History Optional Map Questions 2013–2026
+// Total entries: 280 (14 years × 20 questions)
 
 export interface MapEntry {
   year: number;
@@ -296,6 +296,28 @@ export const mapData: MapEntry[] = [
   { year: 2025, number: 18, hint: "Site of post-Mauryan burnt brick house",         answer: "Sisupalgarh",               lat: 20.2,  lng: 85.9  },
   { year: 2025, number: 19, hint: "Terracotta craft centre of post-Mauryan period", answer: "Chandraketugarh",           lat: 22.7,  lng: 88.6  },
   { year: 2025, number: 20, hint: "Important port of the Pallava period",           answer: "Nagapattinam",              lat: 10.8,  lng: 79.8  },
+
+  // ── 2026 ──────────────────────────────────────────────────────────────────
+  { year: 2026, number: 1,   hint: "Harappan burial site",                                                  answer: "Juna Khatiya",            lat: 23.4,  lng: 68.9  },
+  { year: 2026, number: 2,   hint: "Harappan site with radial town planning",                               answer: "Banawali",                lat: 29.6,  lng: 75.4  },
+  { year: 2026, number: 3,   hint: "Jain cave painting",                                                    answer: "Sittanavasal",            lat: 10.5,  lng: 78.7  },
+  { year: 2026, number: 4,   hint: "Large Megalithic dolmen complexes",                                     answer: "Hire Benakal",            lat: 15.4,  lng: 76.3  },
+  { year: 2026, number: 5,   hint: "Ancient port",                                                          answer: "Korkai",                  lat: 8.6,   lng: 78.1  },
+  { year: 2026, number: 6,   hint: "Ancient capital",                                                       answer: "Karur/Uraiyur",           lat: 11.0,  lng: 78.1  },
+  { year: 2026, number: 7,   hint: "Meso-Chalcolithic site",                                                answer: "Mahisadal",               lat: 22.2,  lng: 88.0  },
+  { year: 2026, number: 8,   hint: "Group of early medieval temples",                                       answer: "Bateshwar (Morena)",      lat: 26.4,  lng: 78.2  },
+  { year: 2026, number: 9,   hint: "Ancient capital",                                                       answer: "Ujjain",                  lat: 23.2,  lng: 75.8  },
+  { year: 2026, number: 10,  hint: "Megalithic site",                                                       answer: "Junapani",                lat: 21.2,  lng: 79.0  },
+  { year: 2026, number: 11,  hint: "Neolithic site",                                                        answer: "Lahuradeva",              lat: 26.8,  lng: 83.1  },
+  { year: 2026, number: 12,  hint: "Terra-cotta ring wells",                                                answer: "Araria",                  lat: 26.2,  lng: 87.5  },
+  { year: 2026, number: 13,  hint: "Mauryan fort",                                                          answer: "Sisupalgarh (Tosali)",    lat: 20.2,  lng: 85.9  },
+  { year: 2026, number: 14,  hint: "Ancient Buddhist site",                                                 answer: "Nagarjunakonda",          lat: 16.5,  lng: 79.2  },
+  { year: 2026, number: 15,  hint: "Mesolithic site",                                                       answer: "Birbhanpur",              lat: 23.4,  lng: 87.3  },
+  { year: 2026, number: 16,  hint: "Megalithic burial site",                                                answer: "Paiyampalli",             lat: 12.6,  lng: 78.6  },
+  { year: 2026, number: 17,  hint: "Neolithic ash mound site",                                              answer: "Brahmagiri",              lat: 14.8,  lng: 76.7  },
+  { year: 2026, number: 18,  hint: "Site with evidence of monastery, Stupa and Shiva temple",               answer: "Sirpur",                  lat: 21.3,  lng: 82.2  },
+  { year: 2026, number: 19,  hint: "Chalcolithic and early historic site with five occupational phases",    answer: "Noh",                     lat: 27.2,  lng: 77.5  },
+  { year: 2026, number: 20,  hint: "Buddhist site",                                                         answer: "Tawang",                  lat: 27.6,  lng: 91.9  },
 ];
 
 export const mapYears = [...new Set(mapData.map(e => e.year))].sort();

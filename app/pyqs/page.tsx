@@ -377,7 +377,7 @@ export default function PYQsPage() {
               Previous Year Questions
             </h1>
             <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>
-              UPSC Mains 1979–2025 · {pyqs.length} questions · Click any question to view & submit answers
+              UPSC Mains 1979–2026 · {pyqs.length} questions · Click any question to view & submit answers
             </p>
           </div>
           <Link href="/test" style={{

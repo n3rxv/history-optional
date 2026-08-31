@@ -81,7 +81,7 @@ export function PYQCarousel() {
     <div style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 10, padding: '1.75rem 2rem', display: 'flex', flexDirection: 'column', gap: '1rem', borderLeft: '3px solid var(--red)', minHeight: 200 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--text)', fontWeight: 600 }}>{langHi ? "पिछले वर्षों के प्रश्न" : "Previous Year Questions"}</h3>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.1em' }}>1979–2025</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.1em' }}>1979–2026</span>
       </div>
       <div style={{ flex: 1, minHeight: 72 }}>
         <div className={`pyq-slide ${pyqFade ? 'pyq-in' : 'pyq-out'}`}>

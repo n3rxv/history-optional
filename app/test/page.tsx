@@ -1122,7 +1122,7 @@ export default function TestPage() {
       <div style={{ maxWidth: 660, margin: '0 auto', padding: '2.5rem 1.5rem 6rem' }}>
         <div style={{ color: 'var(--text3)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.5rem' }}>History Optional · Practice</div>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.3rem', lineHeight: 1.2 }}>Start a Test</h1>
-        <p style={{ color: 'var(--text2)', fontSize: '0.9rem', marginBottom: '2.5rem' }}>Questions drawn from the full PYQ bank (1979–2025). Papers follow the exact UPSC format.</p>
+        <p style={{ color: 'var(--text2)', fontSize: '0.9rem', marginBottom: '2.5rem' }}>Questions drawn from the full PYQ bank (1979–2026). Papers follow the exact UPSC format.</p>
 
         <div style={{ marginBottom: '2rem' }}>
           <div style={{ color: 'var(--text3)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>Test Format</div>
