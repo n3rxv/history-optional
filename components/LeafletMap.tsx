@@ -51,8 +51,10 @@ export default function LeafletMap({
       >
         {/* Clean light tile layer */}
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          attribution="&copy; OpenStreetMap &copy; CARTO"
+          url="https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+          maxNativeZoom={16}
+          maxZoom={19}
+          attribution="&copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors"
         />
         <FitBounds />
 

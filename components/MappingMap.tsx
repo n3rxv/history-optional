@@ -144,7 +144,7 @@ export default function MappingMap({
     fetch('/india_states.geojson').then(r => r.json()).then(data => setStatesGeoJSON(data)).catch(() => {});
   }, []);
 
-  const tileUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png';
+  const tileUrl = 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
 
   return (
     <div style={{ width: '100%', height: 420, border: '1.5px solid var(--border2)', borderRadius: 10, overflow: 'hidden', position: 'relative', zIndex: 0 }}>
@@ -161,7 +161,7 @@ export default function MappingMap({
           }} />
         ) : (
           <>
-            <TileLayer url={tileUrl} attribution="&copy; OpenStreetMap &copy; CARTO" />
+            <TileLayer url={tileUrl} maxNativeZoom={16} maxZoom={19} attribution="&copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors" />
             {statesGeoJSON && (
               <GeoJSON key="states" data={statesGeoJSON} interactive={false}
                 style={() => ({ fillColor: 'transparent', fillOpacity: 0, color: '#888', weight: 1, opacity: 0.7 })}
