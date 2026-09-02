@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from 'react-leaflet';
 import { MapEntry } from '@/lib/mapData';
+import { quizBasemap } from '@/lib/basemap';
 import 'leaflet/dist/leaflet.css';
 
 // India bounds for fitBounds
@@ -47,14 +48,14 @@ export default function LeafletMap({
         style={{ width: '100%', height: '100%' }}
         zoomControl={true}
         scrollWheelZoom={false}
-        attributionControl={false}
+        attributionControl={quizBasemap.requireVisibleAttribution}
       >
         {/* Clean light tile layer */}
         <TileLayer
-          url="https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-          maxNativeZoom={16}
+          url={quizBasemap.url}
+          maxNativeZoom={quizBasemap.maxNativeZoom}
           maxZoom={19}
-          attribution="&copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors"
+          attribution={quizBasemap.attribution}
         />
         <FitBounds />
 

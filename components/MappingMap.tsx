@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { indiaGeoJSON } from '@/lib/indiaGeoJSON';
 import { BookSite } from '@/lib/bookData';
 import { useLang } from '@/lib/i18n/LangContext';
+import { bookBasemap } from '@/lib/basemap';
 import 'leaflet/dist/leaflet.css';
 
 const INDIA_BOUNDS: [[number, number], [number, number]] = [
@@ -144,15 +145,13 @@ export default function MappingMap({
     fetch('/india_states.geojson').then(r => r.json()).then(data => setStatesGeoJSON(data)).catch(() => {});
   }, []);
 
-  const tileUrl = 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
-
   return (
     <div style={{ width: '100%', height: 420, border: '1.5px solid var(--border2)', borderRadius: 10, overflow: 'hidden', position: 'relative', zIndex: 0 }}>
       <MapContainer
         key={noLabels ? 'nolabels' : 'labels'}
         bounds={INDIA_BOUNDS}
         style={{ width: '100%', height: '100%', background: noLabels ? '#c8d8e8' : 'var(--bg2)' }}
-        zoomControl={true} scrollWheelZoom={true} attributionControl={false}
+        zoomControl={true} scrollWheelZoom={true} attributionControl={bookBasemap.requireVisibleAttribution}
       >
         {noLabels ? (
           <GeoJSON data={indiaGeoJSON as any} style={(feature: any) => {
@@ -161,7 +160,7 @@ export default function MappingMap({
           }} />
         ) : (
           <>
-            <TileLayer url={tileUrl} maxNativeZoom={16} maxZoom={19} attribution="&copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors" />
+            <TileLayer url={bookBasemap.url} maxNativeZoom={bookBasemap.maxNativeZoom} maxZoom={19} attribution={bookBasemap.attribution} />
             {statesGeoJSON && (
               <GeoJSON key="states" data={statesGeoJSON} interactive={false}
                 style={() => ({ fillColor: 'transparent', fillOpacity: 0, color: '#888', weight: 1, opacity: 0.7 })}
