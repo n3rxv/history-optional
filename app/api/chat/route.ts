@@ -99,32 +99,17 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
 
     if (allChunks.length === 0) return '';
 
-    // Step 4b: Filter low-similarity chunks before reranking
+    // Step 4b: Filter low-similarity chunks
     // (similarity < 0.45 means book likely doesn't cover this topic)
     const filtered = allChunks.filter((c) => (c.similarity ?? 1) > 0.45);
-    // Rerank removed — similarity sort is sufficient, Render free tier too slow
-    const topChunks = (filtered.length >= 3 ? filtered : allChunks).slice(0, 4);
-    console.log(`Chunks before filter: ${allChunks.length}, after: ${topChunks.length}`);
-
-    // Ensure diversity - max 2 chunks per book
-    const finalChunks: typeof topChunks = [];
-    const bookCount: Record<string, number> = {};
-    const overflow: typeof topChunks = [];
-
-    for (const chunk of topChunks) {
-      const count = bookCount[chunk.book_title] ?? 0;
-      if (count < 2) {
-        finalChunks.push(chunk);
-        bookCount[chunk.book_title] = count + 1;
-      } else {
-        overflow.push(chunk);
-      }
-      if (finalChunks.length >= 6) break;
-    }
-    for (const chunk of overflow) {
-      if (finalChunks.length >= 6) break;
-      finalChunks.push(chunk);
-    }
+    // Per-book diversity is enforced inside match_book_chunks_diverse now. The
+    // capping that used to sit here ran after slice(0, 4), so with a cap of two
+    // per book it could never spread beyond two books — and its overflow loop
+    // added the excluded chunks straight back.
+    // 8f13ae1 cut this 6 -> 4 for prompt size; 6 is affordable again now that
+    // the chunks come from different books instead of repeating one.
+    const finalChunks = (filtered.length >= 3 ? filtered : allChunks).slice(0, 6);
+    console.log(`Chunks retrieved: ${allChunks.length}, used: ${finalChunks.length}`);
 
     // Step 7: Return chunks with source labels
     return finalChunks

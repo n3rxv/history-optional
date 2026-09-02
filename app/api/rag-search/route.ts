@@ -37,18 +37,8 @@ export async function POST(req: NextRequest) {
     if (!chunks || chunks.length === 0) return NextResponse.json({ context: '' });
 
     const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45);
-    const toSelect = (filtered.length >= 3 ? filtered : chunks).slice(0, 12);
-
-    const finalChunks: typeof toSelect = [];
-    const bookCount: Record<string, number> = {};
-    for (const chunk of toSelect) {
-      const count = bookCount[chunk.book_title] ?? 0;
-      if (count < 2) {
-        finalChunks.push(chunk);
-        bookCount[chunk.book_title] = count + 1;
-      }
-      if (finalChunks.length >= 6) break;
-    }
+    // Per-book diversity now comes from match_book_chunks_diverse.
+    const finalChunks = (filtered.length >= 3 ? filtered : chunks).slice(0, 6);
 
     const context = finalChunks
       .map((c: any, i: number) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]\n${c.content}`)
