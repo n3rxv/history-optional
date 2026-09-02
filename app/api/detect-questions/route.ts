@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { resolveEvalAccess, evalAccessDenied } from "@/lib/evalAccess";
 export const maxDuration = 60;
 
 const MARKS_RE = /\((\d+)\s*(?:marks?|m)\)/i;
@@ -280,6 +281,9 @@ async function segmentViaGroq(transcript: string): Promise<any[]> {
 
 // ── Main handler ──────────────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
+  const access = await resolveEvalAccess(req);
+  if (!access.allowed) return evalAccessDenied(access.reason);
+
   try {
     const { transcript } = await req.json();
     if (!transcript?.trim())

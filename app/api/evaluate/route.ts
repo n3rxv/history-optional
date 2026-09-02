@@ -460,6 +460,11 @@ export async function POST(req: NextRequest) {
   }
 
   if (!isOwner && !isPremium) {
+    // Free-tier usage has to be attributable: a caller sending neither header
+    // would otherwise pass the quota check simply by omitting both.
+    if (!token && !fingerprint)
+      return NextResponse.json({ error: "limit_reached" }, { status: 403 });
+
     const { createClient: cc } = await import("@supabase/supabase-js");
     const sb = cc(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
     let used = 0;

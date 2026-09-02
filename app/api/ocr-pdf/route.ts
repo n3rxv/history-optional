@@ -1,24 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { resolveEvalAccess, evalAccessDenied } from "@/lib/evalAccess";
 
 export const maxDuration = 120;
 export const dynamic = "force-dynamic";
 
 const client = new Anthropic();
 
+// The client sends one batch of rendered PDF pages per request (8 at present).
+const MAX_FILES = 10;
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_TOTAL_SIZE = 20 * 1024 * 1024;
+type MediaType = "image/jpeg" | "image/png" | "image/webp" | "image/gif";
+const ALLOWED_TYPES: MediaType[] = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
 export async function POST(req: NextRequest) {
+  const access = await resolveEvalAccess(req);
+  if (!access.allowed) return evalAccessDenied(access.reason);
+
   try {
     const formData = await req.formData();
     const files = formData.getAll("files") as File[];
     if (!files || files.length === 0)
       return NextResponse.json({ error: "No images provided" }, { status: 400 });
+    if (files.length > MAX_FILES)
+      return NextResponse.json({ error: `Too many images (max ${MAX_FILES})` }, { status: 400 });
+
+    let totalBytes = 0;
+    for (const file of files) {
+      if (file.size > MAX_FILE_SIZE)
+        return NextResponse.json({ error: "An image exceeds the 5MB limit" }, { status: 400 });
+      totalBytes += file.size;
+    }
+    if (totalBytes > MAX_TOTAL_SIZE)
+      return NextResponse.json({ error: "Batch exceeds the 20MB limit" }, { status: 400 });
 
     const imageContents = await Promise.all(files.map(async (file) => {
+      const mediaType = (ALLOWED_TYPES as string[]).includes(file.type)
+        ? (file.type as MediaType)
+        : "image/jpeg";
       const buffer = Buffer.from(await file.arrayBuffer());
       const base64 = buffer.toString("base64");
       return {
         type: "image" as const,
-        source: { type: "base64" as const, media_type: "image/jpeg" as const, data: base64 },
+        source: { type: "base64" as const, media_type: mediaType, data: base64 },
       };
     }));
 

@@ -2,6 +2,7 @@
 import { useLang } from '@/lib/i18n/LangContext';
 import { useRef, useState, DragEvent, ChangeEvent } from "react";
 import { saveToHistory } from "@/hooks/useAnswerHistory";
+import { getFingerprint } from '@/lib/fingerprint';
 
 interface PaperQuestion { id: string; marks: number; text: string; }
 interface QuestionResult {
@@ -664,7 +665,7 @@ export default function PDFTestEvaluator({
         }
         const bRes = await fetch("/api/ocr-pdf", {
           method: "POST",
-          headers: { "x-user-token": token ?? "" },
+          headers: { "x-user-token": token ?? "", "x-fingerprint": await getFingerprint() },
           body: fd,
         });
         if (!bRes.ok) {
@@ -695,7 +696,7 @@ export default function PDFTestEvaluator({
       } else {
         const detRes = await fetch("/api/detect-questions", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-user-token": token ?? "" },
+          headers: { "Content-Type": "application/json", "x-user-token": token ?? "", "x-fingerprint": await getFingerprint() },
           body: JSON.stringify({ transcript: ocrText }),
         });
         const detData = await detRes.json();
@@ -745,7 +746,7 @@ export default function PDFTestEvaluator({
           evalFd.append("lang", langHi ? "hi" : "en");
 
           const evalRes = await fetch("/api/evaluate", {
-            method: "POST", headers: { "x-user-token": token ?? "" }, body: evalFd,
+            method: "POST", headers: { "x-user-token": token ?? "", "x-fingerprint": await getFingerprint() }, body: evalFd,
           });
           const evalData = await evalRes.json();
           if (!evalRes.ok) throw new Error(evalData.error ?? "Evaluation failed");
@@ -1166,7 +1167,7 @@ export default function PDFTestEvaluator({
                 try {
                   const evalRes = await fetch("/api/evaluate", {
                     method: "POST",
-                    headers: { "x-user-token": token ?? "", "x-internal": "1" },
+                    headers: { "x-user-token": token ?? "", "x-internal": "1", "x-fingerprint": await getFingerprint() },
                     body: (() => { const fd = new FormData(); fd.append("question", seg.questionText || `Question ${seg.questionNumber}`); fd.append("marks", String(seg.marks)); fd.append("extractedText", seg.answerText); fd.append("lang", langHi ? "hi" : "en"); return fd; })(),
                   });
                   const evalData = await evalRes.json();
