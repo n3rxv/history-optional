@@ -1,15 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/supabase';
-
-const contactLimits = new Map<string, number[]>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (contactLimits.get(ip) ?? []).filter(t => now - t < 60_000);
-  if (recent.length >= 3) return true;
-  contactLimits.set(ip, [...recent, now]);
-  return false;
-}
+import { checkRateLimit, clientIp } from '@/lib/rateLimit';
 
 function sanitizeText(val: unknown, maxLen: number): string {
   if (typeof val !== 'string') return '';
@@ -17,9 +8,11 @@ function sanitizeText(val: unknown, maxLen: number): string {
 }
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown';
-
-  if (isRateLimited(ip)) {
+  const { allowed } = await checkRateLimit(`contact:${clientIp(req)}`, {
+    limit: 3,
+    windowSeconds: 60,
+  });
+  if (!allowed) {
     return NextResponse.json({ error: 'Too many submissions. Please wait a moment.' }, { status: 429 });
   }
 

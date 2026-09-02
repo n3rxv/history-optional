@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { generateAdminToken } from '@/lib/admin-auth';
-
-const attempts = new Map<string, { count: number; ts: number }>();
+import { checkRateLimit, resetRateLimit, clientIp } from '@/lib/rateLimit';
 
 function timingSafeCompare(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
@@ -14,14 +13,16 @@ function timingSafeCompare(a: string, b: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown';
-  const now = Date.now();
+  const key = `admin-login:${clientIp(req)}`;
 
-  const entry = attempts.get(ip);
-  if (entry && now - entry.ts > 15 * 60 * 1000) attempts.delete(ip);
-
-  const current = attempts.get(ip);
-  if (current && current.count >= 5) {
+  // failClosed: this is the only brute-force protection on the admin
+  // password, so a database outage must not hand out unlimited guesses.
+  const { allowed } = await checkRateLimit(key, {
+    limit: 5,
+    windowSeconds: 15 * 60,
+    failClosed: true,
+  });
+  if (!allowed) {
     return NextResponse.json({ error: 'Too many attempts. Try again in 15 minutes.' }, { status: 429 });
   }
 
@@ -33,11 +34,11 @@ export async function POST(req: NextRequest) {
   }
 
   if (timingSafeCompare(password, process.env.ADMIN_PASSWORD)) {
-    attempts.delete(ip);
+    // A correct password forgives earlier failed attempts, as before.
+    await resetRateLimit(key);
     const token = generateAdminToken();
     return NextResponse.json({ ok: true, token });
   }
 
-  attempts.set(ip, { count: (current?.count ?? 0) + 1, ts: current?.ts ?? now });
   return NextResponse.json({ ok: false }, { status: 401 });
 }

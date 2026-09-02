@@ -3,7 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BOT_UA = /bot|crawler|spider|crawling|googlebot|bingbot|ahrefsbot|semrushbot|mj12bot|dotbot|rogerbot|facebookexternalhit|python|curl|wget|axios|node-fetch|go-http-client|java|ruby|scrapy/i;
 
-// In-memory rate limit store
+// Deliberately in-memory, unlike the other routes (see lib/rateLimit.ts).
+// This only suppresses duplicate analytics pings, and it runs on the highest
+// traffic endpoint in the app, so a database round-trip per page view would
+// cost more than the noise it prevents. Per-instance dedup is adequate here.
 const rateLimitStore = new Map<string, number[]>();
 const RATE_LIMIT_WINDOW = 10000; // 10 seconds
 const RATE_LIMIT_MAX = 3; // max 3 requests per 10 seconds

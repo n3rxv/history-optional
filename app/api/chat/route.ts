@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fixSentenceSpacing } from '@/lib/textSpacing';
+import { checkRateLimit, clientIp, tooManyRequests } from '@/lib/rateLimit';
 
 export const maxDuration = 90;
 import { createClient } from "@supabase/supabase-js";
@@ -12,7 +13,6 @@ import {
   buildRagBasePrompt,
 } from '@/lib/prompts';
 
-const chatLimits = new Map<string, { count: number; ts: number }>();
 
 // Voyage AI — embed + rerank (voyage-4-lite, rerank-2-lite)
 async function localEmbedBatch(texts: string[]): Promise<number[][]> {
@@ -142,13 +142,11 @@ const OWNER_EMAIL = process.env.OWNER_EMAIL!;
 
 export async function POST(req: NextRequest) {
   // ── IP rate limit ────────────────────────────────────────────────
-  const ip = req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown';
-  const now = Date.now();
-  if (chatLimits.get(ip) && now - chatLimits.get(ip)!.ts > 10 * 60 * 1000) chatLimits.delete(ip);
-  const current = chatLimits.get(ip);
-  if (current && current.count >= RATE_LIMIT)
-    return NextResponse.json({ error: 'too_many_requests' }, { status: 429 });
-  chatLimits.set(ip, { count: (current?.count ?? 0) + 1, ts: current?.ts ?? now });
+  const { allowed: withinRate } = await checkRateLimit(`chat:${clientIp(req)}`, {
+    limit: RATE_LIMIT,
+    windowSeconds: 10 * 60,
+  });
+  if (!withinRate) return tooManyRequests();
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
