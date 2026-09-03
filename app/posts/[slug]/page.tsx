@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { sanitizeHtml } from '@/lib/sanitizeHtml';
 import { useParams, useRouter } from 'next/navigation';
 
 interface Post {
@@ -293,7 +294,7 @@ export default function PostPage() {
             ref={contentRef}
             contentEditable
             suppressContentEditableWarning
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
             style={{
               minHeight: 400, padding: '20px 24px', outline: 'none',
               color: 'var(--text)', fontSize: '1.05rem', lineHeight: 1.85,
@@ -307,7 +308,7 @@ export default function PostPage() {
       {!editing && (
         <div
           className="note-content article-body"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
           style={{ color: 'var(--text)', fontSize: '1.05rem', lineHeight: 1.85 }}
         />
       )}

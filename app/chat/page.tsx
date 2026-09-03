@@ -1,4 +1,5 @@
 'use client';
+import { sanitizeHtml as sanitize } from '@/lib/sanitizeHtml';
 import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
 import { useState, useRef, useEffect, Suspense, useCallback } from 'react';
@@ -350,9 +351,6 @@ function ChatContent() {
     }
   };
 
-  function sanitize(html: string) {
-    return html.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/on\w+="[^"]*"/gi, '').replace(/on\w+='[^']*'/gi, '').replace(/javascript:/gi, '');
-  }
 
   const formatTable = (text: string): string => {
     const lines = text.split('\n');
