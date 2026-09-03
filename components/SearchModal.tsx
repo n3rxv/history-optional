@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { allNotes } from '@/lib/notes';
-import { noteContent } from '@/lib/noteContent';
 import { supabase } from '@/lib/supabase';
 import { pyqs } from '@/lib/pyqs';
 
@@ -32,10 +31,6 @@ function highlight(text: string, query: string) {
   );
 }
 
-function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-}
-
 function matchScore(text: string, q: string): number {
   const t = text.toLowerCase();
   const s = q.toLowerCase();
@@ -52,14 +47,46 @@ export default function SearchModal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const [historians, setHistorians] = useState<Array<{ id: string; title: string; period: string; positions: Array<{ historian_name: string; school: string }> }>>([]);
+  // Body-text matches from /api/search, keyed by slug. Titles and subtopics
+  // match locally; only body search needs the server.
+  const [bodyHits, setBodyHits] = useState<Record<string, string>>({});
 
-  // Fetch historiography once on mount
+  // Historiography is only needed once the modal is open. This used to fire on
+  // mount — and Navbar renders SearchModal on every page, so it was a Supabase
+  // round-trip on every page load whether or not anyone searched.
   useEffect(() => {
+    if (!open || historians.length > 0) return;
+    let cancelled = false;
     supabase
       .from('debates')
       .select('id, title, period, positions(historian_name, school)')
-      .then(({ data }) => { if (data) setHistorians(data as any); });
-  }, []);
+      .then(({ data }) => { if (data && !cancelled) setHistorians(data as any); });
+    return () => { cancelled = true; };
+  }, [open, historians.length]);
+
+  // Debounced body search. Superseded responses are dropped so a slow reply
+  // for an earlier query cannot overwrite results for the current one.
+  useEffect(() => {
+    const q = query.trim();
+    if (q.length < 2) { setBodyHits({}); return; }
+
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled) return;
+        const next: Record<string, string> = {};
+        for (const hit of data.notes ?? []) next[hit.slug] = hit.snippet;
+        setBodyHits(next);
+      } catch {
+        // Body matches are an enhancement; title matches already rendered.
+      }
+    }, 200);
+
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [query]);
 
   // Cmd+K / Ctrl+K to open
   useEffect(() => {
@@ -89,18 +116,12 @@ export default function SearchModal() {
 
     const notes = allNotes
       .map(n => {
-        const bodyText = stripHtml(noteContent[n.slug] || '');
-        const bodyScore = matchScore(bodyText, q);
-        const snippet = bodyScore > 0 ? (() => {
-          const idx = bodyText.toLowerCase().indexOf(q.toLowerCase());
-          if (idx === -1) return '';
-          return '…' + bodyText.slice(Math.max(0, idx - 40), idx + 80) + '…';
-        })() : '';
+        const snippet = bodyHits[n.slug] ?? '';
         const score = Math.max(
           matchScore(n.title, q) * 3,
           matchScore(n.description, q) * 2,
           ...(n.subtopics || []).map(s => matchScore(s, q)),
-          bodyScore > 0 ? 1 : 0,
+          snippet ? 1 : 0,
         );
         return { ...n, score, snippet };
       })
@@ -134,7 +155,10 @@ export default function SearchModal() {
       .slice(0, 4);
 
     return { notes, pyqs: pyqResults, historians: historianResults };
-  }, [query]);
+    // bodyHits and historians both arrive after the first render. Leaving them
+    // out of the deps meant this closure kept the empty versions, so async
+    // results never appeared until the query changed again.
+  }, [query, bodyHits, historians]);
 
   const { notes, pyqs: pyqResults, historians: historianResults } = results();
   const hasResults = notes.length > 0 || pyqResults.length > 0 || (historianResults?.length ?? 0) > 0;
