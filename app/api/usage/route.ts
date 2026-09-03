@@ -12,7 +12,10 @@ function makeSupabase() {
 export async function GET(req: NextRequest) {
   const supabase = makeSupabase();
   const fp    = req.nextUrl.searchParams.get('fp');
-  const token = req.nextUrl.searchParams.get('token');
+  // Header first. The query-string form is still read so clients cached from
+  // before this change keep working, but it should not be used: a token in a
+  // URL is recorded by every log and proxy on the path.
+  const token = req.headers.get('x-user-token') ?? req.nextUrl.searchParams.get('token');
 
   // ── 1. Token verify karo ──────────────────────────────────────────
   if (!token) {
@@ -194,30 +197,19 @@ export async function GET(req: NextRequest) {
   });
 }
 
-export async function POST(req: NextRequest) {
-  const supabase = makeSupabase();
-  const { fingerprint, firebase_uid, type } = await req.json();
-
-  if (!type || (!fingerprint && !firebase_uid)) {
-    return NextResponse.json({ error: 'Invalid' }, { status: 400 });
-  }
-
-  const field = type === 'eval' ? 'eval_count' : 'chat_count';
-
-  // UID se prefer karo, fallback FP
-  const query = firebase_uid
-    ? supabase.from('usage_tracking').select('eval_count, chat_count').eq('firebase_uid', firebase_uid).single()
-    : supabase.from('usage_tracking').select('eval_count, chat_count').eq('fingerprint', fingerprint).single();
-
-  const { data } = await query;
-  if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-
-  const currentVal = type === 'eval' ? (data.eval_count ?? 0) : (data.chat_count ?? 0);
-
-  const updateQuery = firebase_uid
-    ? supabase.from('usage_tracking').update({ [field]: currentVal + 1, updated_at: new Date().toISOString() }).eq('firebase_uid', firebase_uid)
-    : supabase.from('usage_tracking').update({ [field]: currentVal + 1, updated_at: new Date().toISOString() }).eq('fingerprint', fingerprint);
-
-  await updateQuery;
-  return NextResponse.json({ success: true });
+/**
+ * Retired.
+ *
+ * This took firebase_uid and fingerprint from the request body and incremented
+ * whichever it was given — so any caller could inflate someone else's counter
+ * by naming them, and the read-modify-write meant parallel calls all wrote the
+ * same value anyway.
+ *
+ * Metering now happens server-side inside the routes that spend the money
+ * (/api/evaluate, /api/chat, /api/topper-click) via lib/usageQuota, which is
+ * the only place that can know whether the work was actually done. The client
+ * hook no longer calls this.
+ */
+export async function POST() {
+  return NextResponse.json({ error: 'gone' }, { status: 410 });
 }

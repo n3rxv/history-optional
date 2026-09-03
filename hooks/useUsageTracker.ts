@@ -32,8 +32,13 @@ export function useUsageTracker() {
       return fp;
     }
 
+    // The token goes in a header, not the query string. As a URL parameter it
+    // landed in Vercel access logs, browser history and any proxy in between —
+    // a live credential written to places that outlive it.
     async function fetchUsage(fingerprint: string, token: string) {
-      const res  = await fetch(`/api/usage?fp=${fingerprint}&token=${token}`);
+      const res  = await fetch(`/api/usage?fp=${encodeURIComponent(fingerprint)}`, {
+        headers: { 'x-user-token': token },
+      });
       const data = await res.json();
       return data;
     }
@@ -50,7 +55,9 @@ export function useUsageTracker() {
           return;
         }
 
-        const token = await user.getIdToken(true);
+        // Cached; the SDK refreshes on its own. Forcing it made every
+        // usage read a round-trip to Google.
+        const token = await user.getIdToken();
         const data  = await fetchUsage(fingerprint, token);
 
         setUsage({
@@ -77,8 +84,10 @@ export function useUsageTracker() {
     const user = auth.currentUser;
     if (!user) return;
     const fp = localStorage.getItem('fp') ?? document.cookie.match(/fp=([^;]+)/)?.[1] ?? '';
-    const token = await user.getIdToken(true);
-    const res = await fetch(`/api/usage?fp=${fp}&token=${token}`);
+    const token = await user.getIdToken();
+    const res = await fetch(`/api/usage?fp=${encodeURIComponent(fp)}`, {
+      headers: { 'x-user-token': token },
+    });
     const data = await res.json();
     setUsage(prev => prev ? {
       ...prev,
@@ -88,31 +97,14 @@ export function useUsageTracker() {
     } : prev);
   };
 
+  // Counters are incremented server-side by the routes that spend the money.
+  // These used to POST to /api/usage, which trusted the identity in the body
+  // and did a read-modify-write. They now only refresh the local view.
   const incrementEval = async () => {
-    if (!usage) return;
-    await fetch('/api/usage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        fingerprint:  usage.fingerprint,
-        firebase_uid: usage.firebase_uid,
-        type: 'eval',
-      }),
-    });
     setUsage(prev => prev ? { ...prev, eval_count: prev.eval_count + 1 } : prev);
   };
 
   const incrementChat = async () => {
-    if (!usage) return;
-    await fetch('/api/usage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        fingerprint:  usage.fingerprint,
-        firebase_uid: usage.firebase_uid,
-        type: 'chat',
-      }),
-    });
     setUsage(prev => prev ? { ...prev, chat_count: prev.chat_count + 1 } : prev);
   };
 

@@ -3,6 +3,8 @@ export const maxDuration = 60;
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase";
 import { getBookContext } from "@/lib/ragSearch";
+import { consumeUsage, releaseUsage } from "@/lib/usageQuota";
+import { FREE_EVAL_LIMIT } from "@/lib/evalAccess";
 
 
 const SYSTEM_PROMPT = `You are a UPSC History Optional evaluator with deep knowledge of historiography, argument structure, evidence, and exam craft. Read the answer as it actually is.
@@ -432,60 +434,54 @@ export async function POST(req: NextRequest) {
   const token = req.headers.get("x-user-token") ?? "";
   const fingerprint = req.headers.get("x-fingerprint") ?? "";
 
-  // Firebase auth check
-  let isOwner = false;
-  let isPremium = false;
+  // One token verification for the whole request. This used to run three
+  // times against Google -- once for the owner check, once for the quota
+  // read, once for the increment.
+  const { verifyFirebaseToken } = await import("@/lib/verifyFirebaseToken");
+  const user = token ? await verifyFirebaseToken(token) : null;
+  const uid = user?.uid ?? null;
 
-  if (token) {
+  const isOwner = !!user?.email && user.email === process.env.OWNER_EMAIL;
+
+  let isPremium = false;
+  if (!isOwner && uid) {
     try {
-      const { verifyFirebaseToken } = await import("@/lib/verifyFirebaseToken");
-      const user = await verifyFirebaseToken(token);
-      if (user?.email === process.env.OWNER_EMAIL) isOwner = true;
-      if (!isOwner && user) {
-        const { createClient } = await import("@supabase/supabase-js");
-        const supabase = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SECRET_KEY!
-        );
-        const nowISO = new Date().toISOString();
-        const { data: sub } = await supabase
-          .from("subscriptions")
-          .select("status")
-          .eq("firebase_uid", user.uid)
-          .eq("status", "active")
-          .gt("expires_at", nowISO)
-          .single();
-        if (sub) isPremium = true;
-      }
+      const { createClient } = await import("@supabase/supabase-js");
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SECRET_KEY!
+      );
+      const { data: sub } = await supabase
+        .from("subscriptions")
+        .select("status")
+        .eq("firebase_uid", uid)
+        .eq("status", "active")
+        .gt("expires_at", new Date().toISOString())
+        .maybeSingle();
+      if (sub) isPremium = true;
     } catch {}
   }
 
-  if (!isOwner && !isPremium) {
-    // Free-tier usage has to be attributable: a caller sending neither header
-    // would otherwise pass the quota check simply by omitting both.
-    if (!token && !fingerprint)
-      return NextResponse.json({ error: "limit_reached" }, { status: 403 });
-
-    const { createClient: cc } = await import("@supabase/supabase-js");
-    const sb = cc(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
-    let used = 0;
-    if (token) {
-      try {
-        const { verifyFirebaseToken: vft } = await import("@/lib/verifyFirebaseToken");
-        const u = await vft(token);
-        if (u) {
-          const { data: byUid } = await sb.from("usage_tracking").select("eval_count").eq("firebase_uid", u.uid).single();
-          used = Math.max(used, byUid?.eval_count ?? 0);
-        }
-      } catch {}
-    }
-    if (fingerprint) {
-      const { data: byFp } = await sb.from("usage_tracking").select("eval_count").eq("fingerprint", fingerprint).single();
-      used = Math.max(used, byFp?.eval_count ?? 0);
-    }
-    if (used >= 1)
-      return NextResponse.json({ error: "limit_reached" }, { status: 403 });
+  // Free evaluations require an account. Metering an anonymous caller is not
+  // possible: the fingerprint is a request header they choose, so a new one
+  // each time bought unlimited evaluations.
+  const metered = !isOwner && !isPremium;
+  if (metered && !uid) {
+    return NextResponse.json({ error: "login_required" }, { status: 401 });
   }
+
+  // Claimed BEFORE the work. Checking first and incrementing afterwards is
+  // what let ten parallel requests all read a count of zero and all pass.
+  if (metered) {
+    const { allowed } = await consumeUsage(uid, fingerprint || null, "eval_count", FREE_EVAL_LIMIT);
+    if (!allowed) return NextResponse.json({ error: "limit_reached" }, { status: 403 });
+  }
+
+  // Gives the claimed evaluation back when we fail to deliver one.
+  const refund = async () => {
+    if (metered) await releaseUsage(uid, fingerprint || null, "eval_count");
+  };
+
   try {
     const formData = await req.formData();
     const files = formData.getAll("files") as File[];
@@ -494,22 +490,33 @@ export async function POST(req: NextRequest) {
     const marks = formData.get("marks") as string;
     const extractedText = (formData.get("extractedText") as string) || "";
 
+    // Every rejection below happens after the free evaluation was claimed, so
+    // each one has to give it back.
+    const reject = async (error: string, status = 400) => {
+      await refund();
+      return NextResponse.json({ error }, { status });
+    };
+
     if (!question || !marks) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return await reject("Missing required fields");
     }
 
     // Input length limits
-    if (question.length > 600)
-      return NextResponse.json({ error: "Question too long (max 600 chars)" }, { status: 400 });
+    if (question.length > 600) {
+      return await reject("Question too long (max 600 chars)");
+    }
 
     // File validation
-    if (files.length > MAX_FILES)
-      return NextResponse.json({ error: `Too many files (max ${MAX_FILES})` }, { status: 400 });
+    if (files.length > MAX_FILES) {
+      return await reject(`Too many files (max ${MAX_FILES})`);
+    }
     for (const file of files) {
-      if (file.size > MAX_FILE_SIZE)
-        return NextResponse.json({ error: "File too large (max 5MB each)" }, { status: 400 });
-      if (!ALLOWED_TYPES.includes(file.type))
-        return NextResponse.json({ error: `Invalid file type: ${file.type}` }, { status: 400 });
+      if (file.size > MAX_FILE_SIZE) {
+        return await reject("File too large (max 5MB each)");
+      }
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        return await reject(`Invalid file type: ${file.type}`);
+      }
     }
 
     // Build image contents directly from uploaded files
@@ -521,7 +528,7 @@ export async function POST(req: NextRequest) {
       imageContents.push({ type: "image_url" as const, image_url: { url: `data:${mime};base64,${base64}` } });
     }
     if (imageContents.length === 0 && !extractedText) {
-      return NextResponse.json({ error: "No images provided" }, { status: 400 });
+      return await reject("No images provided");
     }
 
     // ── Helper: Groq fetch with fallback key ─────────────────────
@@ -895,6 +902,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
     if (!response.ok) {
       const err = await response.text();
       console.error("Groq Pass 2 error:", response.status, err);
+      await refund();
       return NextResponse.json({ error: "Evaluation service is busy. Please try again in a moment." }, { status: 500 });
     }
 
@@ -926,6 +934,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
 
     // ── NULL GUARD ────────────────────────────────────────────────
     if (!evaluation) {
+      await refund();
       return NextResponse.json({ error: "Evaluation failed to produce a result. Please try again." }, { status: 500 });
     }
     const eval_ = evaluation as any;
@@ -1051,42 +1060,11 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
       console.log("Pass 3 error (non-fatal):", p3err);
     }
 
-    // Increment eval_count for all users (except owner) after successful evaluation
-    if (!isOwner && token) {
-      try {
-        const { verifyFirebaseToken: vftInc } = await import("@/lib/verifyFirebaseToken");
-        const userInc = await vftInc(token);
-        if (userInc) {
-          const { createClient: createClientInc } = await import("@supabase/supabase-js");
-          const supabaseInc = createClientInc(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.SUPABASE_SECRET_KEY!
-          );
-          const { data: existingUsage } = await supabaseInc
-            .from("usage_tracking")
-            .select("eval_count")
-            .eq("firebase_uid", userInc.uid)
-            .single();
-          const newCount = (existingUsage?.eval_count ?? 0) + 1;
-          await supabaseInc
-            .from("usage_tracking")
-            .update({ eval_count: newCount, updated_at: new Date().toISOString() }).eq("firebase_uid", userInc.uid);
-          // Also update FP row so device-based abuse is blocked on new accounts
-          if (fingerprint) {
-            await supabaseInc
-              .from("usage_tracking")
-              .upsert({ fingerprint, eval_count: newCount }, { onConflict: "fingerprint" });
-          }
-        }
-      } catch (incErr) {
-        console.log("eval_count increment failed", incErr);
-      }
-    }
-
     return NextResponse.json(evaluation);
 
   } catch (err) {
     console.error("Evaluation error:", err);
+    await refund();
     return NextResponse.json({ error: "Failed to evaluate answer. Please try again." }, { status: 500 });
   }
 }

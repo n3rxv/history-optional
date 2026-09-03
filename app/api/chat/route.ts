@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fixSentenceSpacing } from '@/lib/textSpacing';
 import { checkRateLimit, clientIp, tooManyRequests } from '@/lib/rateLimit';
+import { consumeUsage, releaseUsage } from '@/lib/usageQuota';
 
 export const maxDuration = 90;
 import { createClient } from "@supabase/supabase-js";
@@ -141,7 +142,8 @@ export async function POST(req: NextRequest) {
   const token = req.headers.get('x-user-token') ?? '';
   const fingerprint = req.headers.get('x-fingerprint') ?? '';
 
-  // Firebase auth check
+  // One token verification for the request. This ran twice against Google
+  // before: once for the owner/premium check and again for the quota read.
   let isOwner = false;
   let isPremium = false;
   let firebaseUid = '';
@@ -153,45 +155,37 @@ export async function POST(req: NextRequest) {
       firebaseUid = decoded.uid;
       if (decoded.email === OWNER_EMAIL) isOwner = true;
       if (!isOwner) {
-        const nowISO = new Date().toISOString();
         const { data: sub } = await supabase
           .from('subscriptions')
           .select('status')
           .eq('firebase_uid', decoded.uid)
           .eq('status', 'active')
-          .gt('expires_at', nowISO)
-          .single();
+          .gt('expires_at', new Date().toISOString())
+          .maybeSingle();
         if (sub) isPremium = true;
       }
     } catch {}
   }
 
-  // Fingerprint + firebase_uid based usage check
-  if (!isOwner && !isPremium) {
-    let used = 0;
-    if (token) {
-      try {
-        const { adminAuth: auth2 } = await import('@/lib/firebaseAdmin');
-        const dec = await auth2.verifyIdToken(token);
-        const { data: byUid } = await supabase
-          .from('usage_tracking')
-          .select('chat_count')
-          .eq('firebase_uid', dec.uid)
-          .single();
-        used = Math.max(used, byUid?.chat_count ?? 0);
-      } catch {}
-    }
-    if (fingerprint) {
-      const { data: byFp } = await supabase
-        .from('usage_tracking')
-        .select('chat_count')
-        .eq('fingerprint', fingerprint)
-        .single();
-      used = Math.max(used, byFp?.chat_count ?? 0);
-    }
-    if (used >= CHAT_FREE_LIMIT)
-      return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
+  // Free chats require an account, for the same reason evaluations do: an
+  // anonymous caller is metered only by a request header they control.
+  const metered = !isOwner && !isPremium;
+  if (metered && !firebaseUid) {
+    return NextResponse.json({ error: 'login_required' }, { status: 401 });
   }
+
+  // Claimed before the model call, not after it. The old order read the count,
+  // streamed the answer, then wrote count+1, so parallel requests all saw the
+  // same starting value. The increment also only ran when a token was present,
+  // which made anonymous chat unlimited outright.
+  if (metered) {
+    const { allowed } = await consumeUsage(firebaseUid, fingerprint || null, 'chat_count', CHAT_FREE_LIMIT);
+    if (!allowed) return NextResponse.json({ error: 'limit_reached' }, { status: 403 });
+  }
+
+  const refundChat = async () => {
+    if (metered) await releaseUsage(firebaseUid, fingerprint || null, 'chat_count');
+  };
   
   // ── Main request handler ────────────────────────────────────────
   try {
@@ -623,31 +617,10 @@ If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
           if (!fullAnswer.trim()) fullAnswer = 'Something went wrong. Please try again.';
           send(fullAnswer);
 
-          // Increment chat_count for all users (except owner) — analytics + abuse prevention
-          if (!isOwner && firebaseUid) {
-            try {
-              const { createClient: ccInc } = await import('@supabase/supabase-js');
-              const sbInc = ccInc(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
-              const { data: existingChat } = await sbInc
-                .from('usage_tracking')
-                .select('chat_count')
-                .eq('firebase_uid', firebaseUid)
-                .single();
-              const newChatCount = (existingChat?.chat_count ?? 0) + 1;
-              await sbInc.from('usage_tracking')
-                .update({ chat_count: newChatCount, updated_at: new Date().toISOString() }).eq('firebase_uid', firebaseUid);
-              // Also update FP row to block multi-account abuse
-              if (fingerprint && firebaseUid) {
-                await sbInc.from('usage_tracking')
-                  .upsert({ fingerprint, firebase_uid: firebaseUid, chat_count: newChatCount }, { onConflict: 'fingerprint' });
-              }
-            } catch (incErr) {
-              console.log('chat_count increment failed', incErr);
-            }
-          }
-
           send('\n__SOURCES__' + JSON.stringify(ragSources));
         } catch (err) {
+          // The chat was claimed before the model call; nothing was delivered.
+          await refundChat();
           const errMsg = err instanceof Error ? err.message : String(err);
           console.error('Chat stream error:', errMsg);
           let userMsg = 'Something went wrong. Please try again.';
