@@ -57,3 +57,7 @@ books/
 lib/*.bak
 lib/*.bak2
 .aider*
+
+# The example file carries no secrets and is the only env reference a new
+# checkout gets. The blanket .env* rule above was hiding it from git.
+!.env.example
