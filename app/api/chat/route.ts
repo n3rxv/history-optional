@@ -1,18 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fixSentenceSpacing } from '@/lib/textSpacing';
 import { checkRateLimit, clientIp, tooManyRequests } from '@/lib/rateLimit';
 import { consumeUsage, releaseUsage } from '@/lib/usageQuota';
+import { createSentenceGate } from '@/lib/citationGate';
 
 export const maxDuration = 90;
 import { createClient } from "@supabase/supabase-js";
-import {
-  WHITELISTED_HISTORIAN_BOOKS,
-  WHITELISTED_HISTORIAN_SURNAMES,
-  BROAD_ONLY_HISTORIANS,
-  ALL_KNOWN_HISTORIAN_NAMES,
-  MENTOR_SYSTEM,
-  buildRagBasePrompt,
-} from '@/lib/prompts';
+import { MENTOR_SYSTEM, buildRagBasePrompt } from '@/lib/prompts';
 
 
 // Voyage AI — embed + rerank (voyage-4-lite, rerank-2-lite)
@@ -342,8 +335,12 @@ const ragSystem = ragContext
     const stream = new ReadableStream({
       async start(controller) {
         const send = (chunk: string) => controller.enqueue(encoder.encode(chunk));
-        const collect = (chunk: string) => { fullAnswer += chunk; };
-        let fullAnswer = '';
+        // Sentences are released as soon as they are complete and audited,
+        // rather than the whole answer being held back for a post-pass. See
+        // lib/citationGate.ts for why the buffer existed and why it no longer
+        // has to.
+        const gate = createSentenceGate(send);
+        const collect = (chunk: string) => gate.push(chunk);
         try {
           const systemPrompt = ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.');
 
@@ -437,185 +434,8 @@ const ragSystem = ragContext
               }
             }
           }
-          // ── Post-generation citation verification (optimized) ──────
-          // Runs after every response (Groq removed — Haiku now generates
-          // all answers). Catches two attribution patterns:
-          //    the bracket is stripped if wrong (claim text is kept, since
-          //    it may be true even if misattributed).
-          // 2. Prose-style: "Author argues/notes/draws a parallel that..."
-          //    with no brackets at all — detected by scanning for any
-          //    whitelisted historian surname appearing in the answer text.
-          //    These are riskier: the ENTIRE sentence is removed if
-          //    unverified, because unlike a misattributed real quote, a
-          //    fabricated prose claim has no underlying fact to preserve —
-          //    the argument itself was invented, not just mis-sourced.
-          try {
-            // Debug logging
-            // Skip verifier if answer uses Source #N style citations (Voyage RAG)
-            // — these are already grounded in passages, no bracket/prose misattribution risk
-            const hasSourceCitations = /Source #\d+/.test(fullAnswer);
-            if (hasSourceCitations) {
-              // No stripping needed — citations are inline Source #N references
-            } else {
-            const bracketPattern = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/g;
-            const sentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
-
-            // ── LAYER 1+2: Pre-verifier (no API call) ─────────────────────────
-            // Strip without calling API:
-            // Rule A: BROAD_ONLY historians (Majumdar, Nizami, Jha etc.) with specific claims → strip sentence
-            // Rule B: Unknown bracket book title not in historian's verified list → strip bracket
-            const BROAD_ONLY = ['Jha', 'Nizami', 'Riazul Islam', 'Surendra Gopal', 'Majumdar', 'K.A. Nizami', 'R.C. Majumdar', 'D.N. Jha'];
-            const specificClaimPattern = /argues|notes|writes|states|claimed|asserts|observes|emphasises|emphasizes|points out|concludes|suggests|contends|maintains/;
-
-            for (const sentence of [...sentences]) {
-              let shouldStrip = false;
-
-              // Rule A: broad-only historian with specific claim or bracket
-              for (const name of BROAD_ONLY) {
-                if (sentence.includes(name)) {
-                  bracketPattern.lastIndex = 0;
-                  if (specificClaimPattern.test(sentence) || bracketPattern.test(sentence)) {
-                    shouldStrip = true;
-                    break;
-                  }
-                }
-              }
-
-              // Rule B: whitelisted historian but cited book not in their verified list
-              if (!shouldStrip) {
-                for (const [historian, books] of Object.entries(WHITELISTED_HISTORIAN_BOOKS)) {
-                  if (sentence.includes(historian)) {
-                    const bracketMatches = sentence.match(/\([^)]+\)/g) ?? [];
-                    for (const bracket of bracketMatches) {
-                      const bl = bracket.toLowerCase();
-                      // Skip pure year brackets like (1984)
-                      if (/^\(\d{4}\)$/.test(bracket.trim())) continue;
-                      // Check if it looks like a book title (has letters beyond just a year)
-                      if (/[a-zA-Z]{4,}/.test(bracket)) {
-                        const bookVerified = books.some(b => bl.includes(b.slice(0, 10).toLowerCase()));
-                        if (!bookVerified) {
-                          fullAnswer = fullAnswer.split(bracket).join('').replace(/\s+([.,;])/g, '$1');
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-
-              if (shouldStrip && fullAnswer.includes(sentence)) {
-                fullAnswer = fullAnswer.split(sentence).join('').replace(/[ \t]{2,}/g, ' ');
-              }
-            }
-
-            // ── LAYER 3: API verifier — DISABLED (Groq hangs, RAG already grounds answers) ────
-            if (false) {
-            const updatedSentences = fullAnswer.match(/[^.!?]*[.!?]+/g) ?? [fullAnswer];
-            bracketPattern.lastIndex = 0;
-
-            const sentencesWithBracket = updatedSentences.filter(s => {
-              bracketPattern.lastIndex = 0;
-              return bracketPattern.test(s);
-            });
-            const sentencesWithSurname = updatedSentences.filter(s =>
-              WHITELISTED_HISTORIAN_SURNAMES.some(name => s.includes(name))
-            );
-            const flaggedSentences = updatedSentences.filter(s =>
-              sentencesWithBracket.includes(s) || sentencesWithSurname.includes(s)
-            );
-
-            if (flaggedSentences.length > 0 && ragSources.length > 0) {
-              const citedSnippetBlock = flaggedSentences.join('\n');
-
-              const sourceBlock = ragSources
-                .map((s, i) => `[Source ${i + 1} — ${s.book_title} | Author: ${s.author}]\n${s.content}`)
-                .join('\n\n---\n\n');
-
-              const verifyRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-                },
-                signal: AbortSignal.timeout(8000),
-                body: JSON.stringify({
-                  model: 'llama-3.3-70b-versatile',
-                  max_tokens: 800,
-                  stream: false,
-                  messages: [
-                    {
-                      role: 'system',
-                      content: `You are a strict THREE-LAYER citation auditor for UPSC History answers.
-
-For each flagged sentence, verify ALL three layers:
-LAYER 1 — AUTHOR: Does this historian appear in the source passages under their own [Source N | Author: X] label?
-LAYER 2 — BOOK: If a book title is cited, does it match the actual book in the passages for that author?
-LAYER 3 — CONTENT: Does the specific claim/argument actually appear in that author's passage? Topical similarity is NOT enough.
-
-If ANY layer fails → flag it.
-
-Classify into:
-- "bad_brackets": bracket "(Author, Title)" failing any layer. Return ONLY the bracket text exactly.
-- "bad_prose_sentences": prose attribution ("Author argues/notes/states...") failing any layer. Return FULL sentence exactly.
-
-A historian mentioned in passing without a specific claim does NOT need layer 3 check.
-
-Respond ONLY with valid JSON, no markdown:
-{"bad_brackets": ["(Author, Title)"], "bad_prose_sentences": ["Full sentence."]}
-
-If all pass: {"bad_brackets": [], "bad_prose_sentences": []}`,
-                    },
-                    {
-                      role: 'user',
-                      content: `SOURCE PASSAGES:\n${sourceBlock}\n\n---\n\nFLAGGED SENTENCES:\n${citedSnippetBlock}`,
-                    },
-                  ],
-                }),
-              });
-              const verifyJson = await verifyRes.json();
-              const verifyText = verifyJson.choices?.[0]?.message?.content?.trim() ?? '';
-              // Extract first valid JSON object — Groq sometimes appends extra text
-              const jsonMatch = verifyText.match(/\{[\s\S]*?\}/);
-              if (!jsonMatch) throw new Error('No JSON found in verify response');
-              const cleaned = jsonMatch[0];
-              const parsed = JSON.parse(cleaned) as { bad_brackets: string[]; bad_prose_sentences: string[] };
-
-              for (const bad of parsed.bad_brackets ?? []) {
-                if (fullAnswer.includes(bad)) {
-                  fullAnswer = fullAnswer.split(bad).join('').replace(/\s+([.,;])/g, '$1');
-                }
-              }
-              for (const bad of parsed.bad_prose_sentences ?? []) {
-                if (fullAnswer.includes(bad)) {
-                  fullAnswer = fullAnswer.split(bad).join('').replace(/[ \t]{2,}/g, ' ');
-                }
-              }
-            }
-            } // end if(false) layer 3
-            } // end else (non-Source#N citations)
-          } catch (verifyErr) {
-            // Verification is best-effort — if it fails, fall back to
-            // sending the unverified answer rather than blocking the
-            // response entirely.
-            console.error('Citation verification failed:', verifyErr);
-          }
-
-
-          // Strip incomplete trailing sentence (stream cut mid-sentence)
-          const endsClean = /[.!?]["'»]?\s*$/.test(fullAnswer.trimEnd());
-          if (!endsClean) {
-            const lastClean = fullAnswer.trimEnd().lastIndexOf('.');
-            const lastQ = fullAnswer.trimEnd().lastIndexOf('?');
-            const lastE = fullAnswer.trimEnd().lastIndexOf('!');
-            const lastPunct = Math.max(lastClean, lastQ, lastE);
-            if (lastPunct > fullAnswer.length * 0.5) {
-              fullAnswer = fullAnswer.slice(0, lastPunct + 1).trimEnd();
-            }
-          }
-          // Model sometimes drops the space after a full stop — normalise here so
-          // the saved history and the PDF export get the fix too, not just the view.
-          fullAnswer = fixSentenceSpacing(fullAnswer);
-          if (!fullAnswer.trim()) fullAnswer = 'Something went wrong. Please try again.';
-          send(fullAnswer);
+          gate.flush();
+          if (gate.emitted() === 0) send('Something went wrong. Please try again.');
 
           send('\n__SOURCES__' + JSON.stringify(ragSources));
         } catch (err) {
