@@ -7,6 +7,8 @@ const sb = createClient(
 );
 
 // GET /api/topper-copies?pyq_id=123
+// Listing only. drive_file_id is withheld here for the same reason as in
+// ./all/route.ts — see the note there.
 export async function GET(req: NextRequest) {
   const pyq_id = req.nextUrl.searchParams.get('pyq_id');
   if (!pyq_id) return NextResponse.json({ error: 'pyq_id required' }, { status: 400 });
@@ -23,7 +25,7 @@ export async function GET(req: NextRequest) {
 
   const { data: copies, error } = await sb
     .from('topper_copies')
-    .select('id, question, drive_file_id, note, created_at')
+    .select('id, question, note, created_at')
     .in('id', ids)
     .order('created_at', { ascending: false });
 

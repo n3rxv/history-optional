@@ -1,10 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
+import { resolveEvalAccess, evalAccessDenied } from "@/lib/evalAccess";
+import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rateLimit";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const MAX_FILES = 10;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
 
 export async function POST(req: NextRequest) {
+  // Every call here is an LLM transcription we pay for. This was the last step
+  // of the evaluation flow still reachable without an account — lib/evalAccess
+  // was written to close exactly this and was applied to /api/ocr-pdf and
+  // /api/detect-questions but never to /api/ocr.
+  const access = await resolveEvalAccess(req);
+  if (!access.allowed) return evalAccessDenied(access.reason);
+
+  // A subscription is unlimited, not infinite-rate: without a ceiling one
+  // account can still drive the OCR bill on its own.
+  const { allowed: withinRate } = await checkRateLimit(
+    `ocr:${access.uid ?? clientIp(req)}`,
+    { limit: 30, windowSeconds: 10 * 60 }
+  );
+  if (!withinRate) return tooManyRequests();
+
   try {
     const url = new URL(req.url);
     const isPdfMode = url.searchParams.get("mode") === "pdf";

@@ -57,17 +57,29 @@ export default function TopperCopyPage() {
   // Access check is handled by the onAuthStateChanged effect above.
   // (Removed duplicate effect that raced with Firebase init and caused ₹365 paywall flash)
 
+  // Waits for the access check above, because the detail endpoint now returns
+  // drive_file_id only to entitled callers and needs the token to decide.
   useEffect(() => {
-    if (!id) return;
-    fetch(`/api/topper-copies/${id}`)
-      .then(r => r.json())
-      .then(d => {
+    if (!id || accessAllowed !== true) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const token = (await auth.currentUser?.getIdToken()) ?? '';
+        const r = await fetch(`/api/topper-copies/${id}`, {
+          headers: { 'x-user-token': token },
+        });
+        const d = await r.json();
+        if (cancelled) return;
         if (d.error || !d.data) setError('Copy not found.');
         else setCopy(d.data);
-      })
-      .catch(() => setError('Failed to load.'))
-      .finally(() => setLoading(false));
-  }, [id]);
+      } catch {
+        if (!cancelled) setError('Failed to load.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [id, accessAllowed]);
 
   const renderPages = async (pdf: any, s: number) => {
     if (!containerRef.current) return;

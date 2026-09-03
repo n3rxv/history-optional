@@ -2,6 +2,7 @@ export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase";
+import { getBookContext } from "@/lib/ragSearch";
 
 
 const SYSTEM_PROMPT = `You are a UPSC History Optional evaluator with deep knowledge of historiography, argument structure, evidence, and exam craft. Read the answer as it actually is.
@@ -706,23 +707,12 @@ Go page by page. Do not rush. Every word matters.`;
         })()
       : Promise.resolve(finalTranscript);
 
-    // RAG task (always runs in parallel)
-    const ragTask = (async () => {
-      try {
-        const ragRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/rag-search`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: question }),
-        });
-        const ragData = await ragRes.json();
-        const ctx = ragData.context || '';
-        if (ctx) console.log('RAG context fetched, length:', ctx.length);
-        return ctx;
-      } catch (ragErr) {
-        console.log('RAG fetch failed (non-fatal):', ragErr);
-        return '';
-      }
-    })();
+    // RAG task (always runs in parallel).
+    // In-process: this used to POST to our own /api/rag-search, which spent a
+    // second lambda invocation per evaluation and returned nothing whenever
+    // NEXT_PUBLIC_SITE_URL was unset, because the fallback pointed at
+    // localhost. getBookContext swallows its own failures.
+    const ragTask = getBookContext(question);
 
     // Run both in parallel — saves 3-5s
     const [ocrResult, ragContext] = await Promise.all([ocrTask, ragTask]);

@@ -1,6 +1,7 @@
 export const maxDuration = 30;
 
 import { NextRequest, NextResponse } from "next/server";
+import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rateLimit";
 import { renderToBuffer, Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
 import path from "path";
 import fs from "fs";
@@ -299,10 +300,32 @@ function EvalPDF({ question, marks, evaluation, dateStr }: { question: string; m
 }
 
 // ── Route Handler ──
+// renderToBuffer is CPU-bound and runs in-process, so a burst of requests
+// saturates the function rather than queuing cheaply. None of the three
+// callers is behind a login, so the gate is per-IP rather than per-account.
+const MAX_TEXT_CHARS = 100_000;
+
 export async function POST(req: NextRequest) {
+  const { allowed } = await checkRateLimit(`generate-pdf:${clientIp(req)}`, {
+    limit: 20,
+    windowSeconds: 10 * 60,
+  });
+  if (!allowed) return tooManyRequests();
+
   try {
     const body = await req.json();
     const { type = "chat", markdownText, questionText, question, marks, evaluation } = body;
+
+    // Bounds the render: without them a single request can pin a lambda for
+    // the full 30s budget on an arbitrarily long document.
+    const oversized =
+      (typeof markdownText === "string" && markdownText.length > MAX_TEXT_CHARS) ||
+      (typeof questionText === "string" && questionText.length > 2_000) ||
+      (typeof question === "string" && question.length > 2_000) ||
+      (evaluation !== undefined && JSON.stringify(evaluation).length > MAX_TEXT_CHARS);
+    if (oversized) {
+      return NextResponse.json({ error: "Content too long for PDF export" }, { status: 413 });
+    }
 
     const now = new Date();
     const dateStr = now.toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" }).toUpperCase();

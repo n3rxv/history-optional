@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { verifyFirebaseToken } from '@/lib/verifyFirebaseToken';
+import { checkRateLimit, clientIp } from '@/lib/rateLimit';
 
 async function getFirebaseUid(req: NextRequest): Promise<string | null> {
   const auth = req.headers.get('authorization');
@@ -16,7 +17,7 @@ export async function GET(req: NextRequest) {
   const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
   const { data, error } = await db
     .from('pyq_answers')
-    .select('id, display_name, storage_path, answer_number, created_at, firebase_uid')
+    .select('id, display_name, storage_path, answer_number, created_at')
     .eq('pyq_id', parseInt(pyqId))
     .order('created_at', { ascending: true });
 
@@ -31,6 +32,21 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  // Uploads land in Supabase Storage and are served publicly. Anonymous
+  // posting is deliberate (answers are shared under a display name, not an
+  // account), so the ceiling is per-IP rather than per-user. Without it this
+  // is an open 5MB-per-request write endpoint into paid storage.
+  const { allowed } = await checkRateLimit(`pyq-upload:${clientIp(req)}`, {
+    limit: 5,
+    windowSeconds: 60 * 60,
+  });
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many uploads. Please try again later." },
+      { status: 429 }
+    );
+  }
+
   const formData  = await req.formData();
   const pyqId     = parseInt(formData.get('pyq_id') as string);
   const rawName   = (formData.get('display_name') as string ?? '').trim();
@@ -76,7 +92,7 @@ export async function POST(req: NextRequest) {
   const { data: inserted, error: insertErr } = await db
     .from('pyq_answers')
     .insert(insertData)
-    .select('id, display_name, storage_path, answer_number, created_at, firebase_uid')
+    .select('id, display_name, storage_path, answer_number, created_at')
     .single();
 
   if (insertErr) {

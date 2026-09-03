@@ -1,16 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { createClient } from "@supabase/supabase-js";
+import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
+import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rateLimit";
 
 export const maxDuration = 120;
 export const dynamic = "force-dynamic";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+// A base64 PDF this size is already ~15MB of file. Beyond that the request is
+// not a map answer sheet, and decoding it costs us memory before Claude ever
+// sees it.
+const MAX_PDF_BASE64_CHARS = 20 * 1024 * 1024;
+
+/** Owner, or an active subscription. Map evaluation is a paid feature. */
+async function hasMapAccess(token: string | null): Promise<{ ok: boolean; uid: string | null }> {
+  if (!token) return { ok: false, uid: null };
+  const user = await verifyFirebaseToken(token);
+  if (!user) return { ok: false, uid: null };
+  if (user.email && user.email === process.env.OWNER_EMAIL) return { ok: true, uid: user.uid };
+
+  const db = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SECRET_KEY!,
+    { auth: { persistSession: false } }
+  );
+  const { data: sub } = await db
+    .from("subscriptions")
+    .select("status")
+    .eq("firebase_uid", user.uid)
+    .eq("status", "active")
+    .gt("expires_at", new Date().toISOString())
+    .maybeSingle();
+
+  return { ok: !!sub, uid: user.uid };
+}
+
 export async function POST(req: NextRequest) {
+  // This route runs Claude Sonnet over a whole PDF on a 120s budget. It was
+  // reachable by anyone, which also made it a free substitute for the ₹49
+  // paid flow in /api/razorpay/map-verify.
+  const { ok, uid } = await hasMapAccess(req.headers.get("x-user-token"));
+  if (!ok) {
+    return NextResponse.json({ error: "Subscription required" }, { status: 403 });
+  }
+
+  const { allowed } = await checkRateLimit(`check-map:${uid ?? clientIp(req)}`, {
+    limit: 10,
+    windowSeconds: 60 * 60,
+  });
+  if (!allowed) return tooManyRequests();
+
   try {
     const { pdfBase64 } = await req.json();
-    if (!pdfBase64) {
+    if (!pdfBase64 || typeof pdfBase64 !== "string") {
       return NextResponse.json({ error: "No PDF provided" }, { status: 400 });
+    }
+    if (pdfBase64.length > MAX_PDF_BASE64_CHARS) {
+      return NextResponse.json({ error: "PDF too large (max ~15MB)" }, { status: 413 });
     }
 
     const prompt = `You are a strict UPSC History Optional map question examiner.
