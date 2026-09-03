@@ -56,3 +56,4 @@ books/
 .theme-backup-*
 lib/*.bak
 lib/*.bak2
+.aider*

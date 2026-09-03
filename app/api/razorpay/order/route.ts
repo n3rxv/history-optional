@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 import Razorpay from "razorpay";
+import { planAmountPaise, toPlanId } from "@/lib/plans";
 
 export async function POST(req: NextRequest) {
   const razorpay = new Razorpay({
@@ -24,19 +25,20 @@ export async function POST(req: NextRequest) {
     .from("subscription_slots")
     .select("subscribers, max_slots")
     .eq("id", 1)
-    .single();
+    .maybeSingle();
 
   const remaining = slotData ? Math.max(0, slotData.max_slots - slotData.subscribers) : 45;
   const reqBody = await req.json().catch(() => ({}));
-  const plan = reqBody.plan || "yearly";
 
-  const planAmounts: Record<string, number> = {
-    daily:      4900,
-    sixmonths:  199900,
-    yearly:     299900,
-  };
+  // An unrecognised plan falls back to the most expensive one rather than the
+  // cheapest, so a malformed request can never underbill.
+  const plan = toPlanId(reqBody.plan);
+  const amount = planAmountPaise(plan);
 
-  const amount = planAmounts[plan] ?? 299900;
+  // These notes are the only trustworthy record of who this order is for and
+  // what they selected — /api/razorpay/verify reads the plan back from here
+  // rather than from the browser. They are written under our own key and are
+  // not client-reachable.
   const order = await razorpay.orders.create({
     amount,
     currency: "INR",

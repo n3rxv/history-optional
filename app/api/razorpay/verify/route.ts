@@ -1,98 +1,79 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { adminAuth } from "@/lib/firebaseAdmin";
 import crypto from "crypto";
+import { applySubscriptionPayment } from "@/lib/subscriptionGrant";
+
+/**
+ * The browser reporting a payment it just completed.
+ *
+ * This is the fast path only. /api/razorpay/webhook grants the same payment
+ * independently, so a user who closes the tab before this fires still gets
+ * what they paid for. Both funnel into applySubscriptionPayment, and the
+ * payment_events ledger makes whichever arrives second a no-op.
+ */
+
+function signatureMatches(orderId: string, paymentId: string, signature: string): boolean {
+  const expected = crypto
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+    .update(`${orderId}|${paymentId}`)
+    .digest("hex");
+  if (expected.length !== signature.length) return false;
+  try {
+    return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
+  } catch {
+    return false;
+  }
+}
 
 export async function POST(req: NextRequest) {
   const token = req.headers.get("x-user-token");
   if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SECRET_KEY!
-  );
-
-  // Verify Firebase token
-  let firebaseUser: { uid: string; email?: string };
+  let uid: string;
   try {
     const decoded = await adminAuth.verifyIdToken(token);
-    firebaseUser = { uid: decoded.uid, email: decoded.email };
+    uid = decoded.uid;
   } catch {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, fingerprint, plan, amount } = await req.json();
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature, fingerprint } =
+    await req.json().catch(() => ({}));
 
-  // Verify signature
-  const body        = razorpay_order_id + "|" + razorpay_payment_id;
-  const expectedSig = crypto
-    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
-    .update(body)
-    .digest("hex");
-  if (expectedSig !== razorpay_signature)
+  if (
+    typeof razorpay_order_id !== "string" ||
+    typeof razorpay_payment_id !== "string" ||
+    typeof razorpay_signature !== "string"
+  ) {
+    return NextResponse.json({ error: "Missing payment fields" }, { status: 400 });
+  }
+
+  // Proves the order/payment pair came from Razorpay. It says nothing about
+  // what was bought — applySubscriptionPayment reads that from the order.
+  if (!signatureMatches(razorpay_order_id, razorpay_payment_id, razorpay_signature)) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-
-  // Extend or start subscription
-  const { data: existingSub } = await supabaseAdmin
-    .from("subscriptions")
-    .select("expires_at")
-    .eq("firebase_uid", firebaseUser.uid)
-    .single();
-
-  const base = existingSub?.expires_at && new Date(existingSub.expires_at) > new Date()
-    ? new Date(existingSub.expires_at) : new Date();
-  const expiresAt = new Date(base);
-  const activePlan = plan || "yearly";
-
-  // Auto-capture payment
-  const captureRes = await fetch(
-    `https://api.razorpay.com/v1/payments/${razorpay_payment_id}/capture`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Basic " + Buffer.from(
-          `${process.env.RAZORPAY_KEY_ID}:${process.env.RAZORPAY_KEY_SECRET}`
-        ).toString("base64"),
-      },
-      body: JSON.stringify({
-        amount: amount,
-        currency: "INR"
-      }),
-    }
-  );
-  if (!captureRes.ok) {
-    const captureErr = await captureRes.json();
-    console.error("Capture failed:", captureErr);
   }
 
-  if (activePlan === "daily")          expiresAt.setDate(expiresAt.getDate() + 1);
-  else if (activePlan === "sixmonths") expiresAt.setMonth(expiresAt.getMonth() + 6);
-  else                                 expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+  const result = await applySubscriptionPayment({
+    orderId: razorpay_order_id,
+    paymentId: razorpay_payment_id,
+    expectedUid: uid,
+    fingerprint: typeof fingerprint === "string" ? fingerprint : null,
+    source: "verify",
+  });
 
-  const { error: upsertErr } = await supabaseAdmin
-    .from("subscriptions")
-    .upsert({
-      firebase_uid: firebaseUser.uid,
-      email: firebaseUser.email,
-      status: "active", plan: activePlan,
-      razorpay_order_id, razorpay_payment_id,
-      expires_at: expiresAt.toISOString(),
-      created_at: new Date().toISOString(),
-    }, { onConflict: "firebase_uid" });
-
-  if (upsertErr) {
-    console.error("Upsert error:", upsertErr);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: result.status });
   }
 
-  // Reset fingerprint usage limits if provided
-  if (fingerprint) {
-    await supabaseAdmin
-      .from("usage_tracking")
-      .update({ eval_count: 0, chat_count: 0 })
-      .eq("fingerprint", fingerprint);
+  if (result.status === "ignored") {
+    return NextResponse.json({ error: "Not a subscription order" }, { status: 400 });
   }
 
-  return NextResponse.json({ ok: true, expiresAt: expiresAt.toISOString() });
+  return NextResponse.json({
+    ok: true,
+    plan: result.plan,
+    expiresAt: result.expiresAt,
+    ...(result.status === "already_applied" ? { alreadyProcessed: true } : {}),
+  });
 }

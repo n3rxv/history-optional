@@ -203,7 +203,8 @@ function ExtendModal({
           const verifyRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-            body: JSON.stringify({ ...resp, plan: selectedPlan, fingerprint: null }),
+            // plan is read server-side from the Razorpay order, not from here.
+            body: JSON.stringify({ ...resp, fingerprint: null }),
           });
           const v = await verifyRes.json();
           if (v.ok) {
