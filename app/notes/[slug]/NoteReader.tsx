@@ -3,8 +3,6 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
 import { getPYQsForNote } from '@/lib/notePyqMap';
-import { getNoteContent } from '@/lib/noteContent';
-import { noteContentHi } from '@/lib/noteContentHi';
 import { useLang } from '@/lib/i18n/LangContext';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
@@ -579,6 +577,9 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   const [isAdmin, setIsAdmin] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [cloudContent, setCloudContent] = useState<string | null>(null);
+  // Only meaningful for Hindi, which has nothing server-rendered to show while
+  // the fetch is in flight.
+  const [contentLoading, setContentLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState('');
   const [adminPassword, setAdminPassword] = useState<string|null>(null);
@@ -707,17 +708,24 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
 
 
 
-  // Load cloud note override
+  // Note body, resolved server-side: admin override if one exists, otherwise
+  // the shipped content for this language. Replaces importing both corpora
+  // into the client bundle, and makes admin edits visible without a redeploy.
   useEffect(() => {
-    fetch(`/api/admin/note-content?slug=${slug}`)
+    let cancelled = false;
+    setCloudContent(null);
+    setContentLoading(true);
+    fetch(`/api/note-content?slug=${slug}&lang=${langHi ? 'hi' : 'en'}`)
       .then(r => r.json())
-      .then(({ data }) => { if (data && data.length > 0) setCloudContent(data[0].content); })
-      .catch(() => {});
-  }, [slug]);
+      .then(({ content }) => { if (!cancelled && content) setCloudContent(content); })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setContentLoading(false); });
+    return () => { cancelled = true; };
+  }, [slug, langHi]);
 
   useEffect(() => {
     if (editMode && editableRef.current) {
-      editableRef.current.innerHTML = cloudContent ?? getNoteContent(slug);
+      editableRef.current.innerHTML = cloudContent ?? initialContent;
       editableRef.current.focus({ preventScroll: true });
     }
   }, [editMode]);
@@ -763,9 +771,12 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   };
 
   const getContent = () => {
+    // English renders initialContent immediately -- it is already in the
+    // server payload -- and swaps to the fetched copy when it lands. Hindi has
+    // no server-rendered copy, so it waits rather than flashing English first.
     let c = langHi
-      ? (noteContentHi[slug] ?? getNoteContent(slug))
-      : (cloudContent ?? initialContent ?? getNoteContent(slug));
+      ? (cloudContent ?? '')
+      : (cloudContent ?? initialContent ?? '');
     c = injectHeadingIds(c);
     highlights.forEach(h => {
       const esc = h.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1273,6 +1284,11 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
               <>
                 <TableOfContents contentHtml={processedContent} />
                 <div style={{ position: 'relative' }}>
+                  {contentLoading && !processedContent.trim() && (
+                    <div style={{ padding: '3rem 0', textAlign: 'center', color: 'var(--text3)', fontSize: '0.85rem' }}>
+                      {langHi ? 'नोट्स लोड हो रहे हैं…' : 'Loading notes…'}
+                    </div>
+                  )}
                   <div
                     ref={noteContentRef}
                     className="note-content"
