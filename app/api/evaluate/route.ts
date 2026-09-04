@@ -482,6 +482,13 @@ export async function POST(req: NextRequest) {
     if (metered) await releaseUsage(uid, fingerprint || null, "eval_count");
   };
 
+  // Per-stage timings, emitted as one structured line at the end. The 60s
+  // ceiling on Hobby makes "how long does this take" a live question, and
+  // "which stage" is the only version of it worth acting on.
+  const t0 = Date.now();
+  const timings: Record<string, number> = {};
+  const mark = (stage: string, from: number) => { timings[stage] = Date.now() - from; };
+
   try {
     const formData = await req.formData();
     const files = formData.getAll("files") as File[];
@@ -755,11 +762,13 @@ Go page by page. Do not rush. Every word matters.`;
     // All three run concurrently. Pass 0.5 was previously awaited before this
     // point, so its latency was added to the request rather than hidden behind
     // OCR — the commit that first parallelised it measured 25-30s.
+    const tParallel = Date.now();
     const [ocrResult, ragContext, referenceAnswer] = await Promise.all([
       ocrTask,
       ragTask,
       referenceAnswerTask,
     ]);
+    mark("ocr_rag_ref_parallel", tParallel);
     if (ocrResult) finalTranscript = ocrResult;
 
         // ── PASS 1: Chain-of-thought reasoning ─────────────────────
@@ -870,6 +879,7 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
     const { default: Anthropic } = await import("@anthropic-ai/sdk");
     const anthropicClient = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+    const tPass1 = Date.now();
     const cotHaikuRes = await anthropicClient.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 1200,
@@ -902,6 +912,7 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
       ],
     });
 
+    mark("pass1_haiku_cot", tPass1);
     const cotReasoning = cotHaikuRes.content
       .filter((b) => b.type === "text")
       .map((b) => (b as { type: "text"; text: string }).text)
@@ -927,6 +938,7 @@ If your reasoning's STEP 1B found any "FACTUAL ERROR" entries, make sure each on
 Do not re-evaluate beyond what STEP 8 already corrected. Faithfully convert your reasoning into JSON.
 Return ONLY the JSON object, no preamble, no markdown fences.`;
 
+    const tPass2 = Date.now();
     const response = await callWithFallback({
         model: "openai/gpt-oss-120b",
         messages: [
@@ -940,6 +952,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
         response_format: { type: "json_object" },
     });
 
+    mark("pass2_json", tPass2);
     let evaluation: Record<string, unknown> | null = null;
 
     if (!response.ok) {
@@ -1072,6 +1085,7 @@ Return ONLY a JSON object with these exact fields:
 Be brutally specific. Name exactly which historians were missing. Quote exactly which part of the answer was weak. No generic advice like "cite more historians" — say WHICH historian and WHAT argument. All historian citations must come from the verified book passages only.`;
 
     try {
+      const tPass3 = Date.now();
       const pass3Res = await callWithFallback({
         model: "openai/gpt-oss-120b",
         messages: [
@@ -1083,6 +1097,7 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
         response_format: { type: "json_object" },
       });
 
+      mark("pass3_feedback", tPass3);
       if (pass3Res.ok) {
         const pass3Data = await pass3Res.json();
         let pass3Content = pass3Data.choices[0].message.content;
@@ -1102,6 +1117,11 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
     } catch (p3err) {
       console.log("Pass 3 error (non-fatal):", p3err);
     }
+
+    // One line per evaluation. Durations only — never the question, the
+    // transcript or the feedback, all of which are the student's.
+    timings.total = Date.now() - t0;
+    console.log(`[evaluate:timing] ${JSON.stringify({ ...timings, pages: files.length, marks })}`);
 
     return NextResponse.json(evaluation);
 
