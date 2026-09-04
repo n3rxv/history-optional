@@ -11,7 +11,20 @@ type SRData = {
   easeFactor: number;
   nextDue: string;
   reps: number;
+  /**
+   * How the card was last graded. SM-2 only needs the grade to compute the
+   * next interval and threw it away, so there was no way to ask "show me
+   * everything I drew a blank on". Optional: entries saved before this exists
+   * simply have no grade yet.
+   */
+  lastGrade?: 1 | 2 | 3 | 4;
 };
+
+const GRADE_LABELS: Record<number, string> = { 1: 'Blank', 2: 'Hard', 3: 'Good', 4: 'Easy' };
+const GRADE_LABELS_HI: Record<number, string> = { 1: 'खाली', 2: 'कठिन', 3: 'अच्छा', 4: 'आसान' };
+// Same colours as the Blank/Hard/Good/Easy buttons, so the badge reads as the
+// button that produced it.
+const GRADE_COLORS: Record<number, string> = { 1: '#ef4444', 2: '#eab308', 3: '#60a5fa', 4: '#4ade80' };
 
 const STORAGE_KEY = 'ho_flashcards_v1';
 function loadSR(): Record<string, SRData> {
@@ -31,7 +44,7 @@ function sm2(card: SRData | undefined, grade: 1 | 2 | 3 | 4): SRData {
   else if (reps === 1) { interval = 6; }
   else { interval = Math.round((card?.interval ?? 1) * newEF); }
   const nextDue = new Date(Date.now() + interval * 86400000).toISOString();
-  return { interval, easeFactor: newEF, nextDue, reps: grade >= 2 ? reps + 1 : 0 };
+  return { interval, easeFactor: newEF, nextDue, reps: grade >= 2 ? reps + 1 : 0, lastGrade: grade };
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -69,6 +82,7 @@ export default function Flashcards() {
   const [mounted, setMounted] = useState(false);
   const [filterSection, setFilterSection] = useState<string>('All');
   const [filterType, setFilterType] = useState<string>('All');
+  const [filterGrade, setFilterGrade] = useState<string>('All');
   const [filterDue, setFilterDue] = useState<boolean>(false);
   const [queue, setQueue] = useState<FlashCard[]>([]);
   const [idx, setIdx] = useState(0);
@@ -102,6 +116,7 @@ export default function Flashcards() {
     let cards = flashcards.filter(c => {
       if (filterSection !== 'All' && c.section !== filterSection) return false;
       if (filterType !== 'All' && c.type !== filterType) return false;
+      if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
       if (filterDue) { const s = sr[c.id]; if (s && s.nextDue > today) return false; }
       return true;
     });
@@ -112,7 +127,7 @@ export default function Flashcards() {
       return (sa?.easeFactor ?? 2.5) - (sb?.easeFactor ?? 2.5);
     });
     setQueue(cards); setIdx(0); setFlipped(false); setSessionDone(0); setModalOpen(true);
-  }, [filterSection, filterType, filterDue, sr]);
+  }, [filterSection, filterType, filterGrade, filterDue, sr]);
 
   const closeModal = () => { setModalOpen(false); setFlipped(false); };
 
@@ -138,6 +153,7 @@ export default function Flashcards() {
   const filtered = flashcards.filter(c => {
     if (filterSection !== 'All' && c.section !== filterSection) return false;
     if (filterType !== 'All' && c.type !== filterType) return false;
+    if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
     return true;
   });
   const filteredDue = filtered.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; });
