@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { allNotes } from '@/lib/notes';
 import { supabase } from '@/lib/supabase';
@@ -107,6 +108,15 @@ export default function SearchModal() {
       setSelected(0);
       setTimeout(() => inputRef.current?.focus(), 50);
     }
+  }, [open]);
+
+  // The overlay covers the viewport, so the page scrolling behind it is only a
+  // distraction — and on iOS it drags the overlay along with it.
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = previous; };
   }, [open]);
 
   // Search results
@@ -233,13 +243,20 @@ export default function SearchModal() {
     </>
   );
 
-  return (
+  // Rendered into document.body rather than in place. Navbar's desktop wrapper
+  // carries a transform that tracks scroll position, and a transform creates a
+  // containing block for fixed descendants — so this panel was positioned
+  // against the navbar instead of the viewport, which is why it sat off-centre
+  // and drifted as the page scrolled.
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <div
-      style={{ position: 'fixed', top: 57, left: 0, right: 0, bottom: 0, zIndex: 999, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '6vh' }}
+      style={{ position: 'fixed', inset: 0, zIndex: 10001, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
       onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
     >
       <div
-        style={{ width: '100%', maxWidth: 600, margin: '0 1rem', background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 14, boxShadow: '0 32px 80px rgba(0,0,0,0.8)', overflow: 'hidden' }}
+        style={{ width: '100%', maxWidth: 600, maxHeight: '85vh', display: 'flex', flexDirection: 'column', background: 'var(--bg3)', border: '1px solid var(--border2)', borderRadius: 14, boxShadow: '0 32px 80px rgba(0,0,0,0.8)', overflow: 'hidden' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Input */}
@@ -384,6 +401,7 @@ export default function SearchModal() {
           <span>esc close</span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
