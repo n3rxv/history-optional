@@ -1,58 +1,79 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 
-const BOT_UA = /bot|crawler|spider|crawling|googlebot|bingbot|ahrefsbot|semrushbot|mj12bot|dotbot|rogerbot|facebookexternalhit|python|curl|wget|axios|node-fetch|go-http-client|java|ruby|scrapy/i;
+/**
+ * Analytics pings. The highest-traffic endpoint in the app, so it does exactly
+ * one database round trip and nothing else.
+ *
+ * It used to run a SELECT, mutate the row in JavaScript, then write the whole
+ * row back — two round trips per pageview, three when merging an old
+ * fingerprint. That also raced: concurrent pageviews both read "no row" and
+ * both inserted, which is how one visitor ended up holding two rows with their
+ * visits split between them. All the logic now lives in record_visit; see
+ * supabase/track_visit.sql.
+ */
 
-// Deliberately in-memory, unlike the other routes (see lib/rateLimit.ts).
-// This only suppresses duplicate analytics pings, and it runs on the highest
-// traffic endpoint in the app, so a database round-trip per page view would
-// cost more than the noise it prevents. Per-instance dedup is adequate here.
-const rateLimitStore = new Map<string, number[]>();
-const RATE_LIMIT_WINDOW = 10000; // 10 seconds
-const RATE_LIMIT_MAX = 3; // max 3 requests per 10 seconds
+const BOT_UA =
+  /bot|crawler|spider|crawling|googlebot|bingbot|ahrefsbot|semrushbot|mj12bot|dotbot|rogerbot|facebookexternalhit|python|curl|wget|axios|node-fetch|go-http-client|java|ruby|scrapy/i;
 
-function isRateLimited(visitor_id: string): boolean {
+// Deliberately in-memory rather than the durable limiter in lib/rateLimit.
+// This only suppresses duplicate pings, and a database round trip to decide
+// whether to skip a single-statement write would cost more than it saves.
+// Per-instance dedup is adequate for that.
+const RATE_LIMIT_WINDOW = 10_000;
+const RATE_LIMIT_MAX = 3;
+const RATE_LIMIT_MAX_KEYS = 10_000;
+const recentPings = new Map<string, number[]>();
+
+function isRateLimited(visitorId: string): boolean {
   const now = Date.now();
-  const timestamps = rateLimitStore.get(visitor_id) || [];
-  const recent = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW);
-  if (recent.length >= RATE_LIMIT_MAX) return true;
+  const recent = (recentPings.get(visitorId) ?? []).filter((t) => now - t < RATE_LIMIT_WINDOW);
+  if (recent.length >= RATE_LIMIT_MAX) {
+    recentPings.set(visitorId, recent);
+    return true;
+  }
   recent.push(now);
-  rateLimitStore.set(visitor_id, recent);
-  // Cleanup old entries
-  if (rateLimitStore.size > 10000) {
-    const oldestKey = rateLimitStore.keys().next().value as string;
-    rateLimitStore.delete(oldestKey);
+  recentPings.set(visitorId, recent);
+
+  // Map iteration order is insertion order, so the oldest keys go first. The
+  // previous version deleted a single key per request once over the cap, which
+  // could not keep up with a burst.
+  if (recentPings.size > RATE_LIMIT_MAX_KEYS) {
+    let toDrop = recentPings.size - RATE_LIMIT_MAX_KEYS;
+    for (const key of recentPings.keys()) {
+      recentPings.delete(key);
+      if (--toDrop <= 0) break;
+    }
   }
   return false;
 }
 
-function parseCountry(req: NextRequest): { country: string; city: string } {
-  const country = req.headers.get('x-vercel-ip-country') || 'unknown';
-  const city = decodeURIComponent(req.headers.get('x-vercel-ip-city') || 'unknown');
-  return { country, city };
+function db() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SECRET_KEY!,
+    { auth: { persistSession: false } }
+  );
 }
 
+/** Caps anything the browser supplies before it reaches a row. */
+function field(value: unknown, maxLength: number): string | null {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim().slice(0, maxLength);
+  return trimmed || null;
+}
+
+/** Heartbeat: refresh last_active and recompute the session duration. */
 export async function PATCH(req: NextRequest) {
   try {
-    const ua = req.headers.get('user-agent') || '';
-    if (BOT_UA.test(ua)) return NextResponse.json({ ok: false, reason: 'bot' });
-
+    if (BOT_UA.test(req.headers.get('user-agent') ?? '')) {
+      return NextResponse.json({ ok: false, reason: 'bot' });
+    }
     const { visitor_id } = await req.json();
-    if (!visitor_id) return NextResponse.json({ ok: false });
-    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
-    const { data: existing } = await supabase
-      .from('user_sessions')
-      .select('id, session_start, last_active')
-      .eq('visitor_id', visitor_id)
-      .single();
-    if (!existing) return NextResponse.json({ ok: false });
-    const now = new Date();
-    const start = existing.session_start ? new Date(existing.session_start) : now;
-    const duration = Math.floor((now.getTime() - start.getTime()) / 1000);
-    await supabase
-      .from('user_sessions')
-      .update({ last_active: now.toISOString(), session_duration_secs: duration })
-      .eq('id', existing.id);
+    const visitorId = field(visitor_id, 128);
+    if (!visitorId) return NextResponse.json({ ok: false });
+
+    await db().rpc('touch_visit', { p_visitor_id: visitorId });
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ ok: false });
@@ -61,100 +82,50 @@ export async function PATCH(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const ua = req.headers.get('user-agent') || '';
-    if (BOT_UA.test(ua)) return NextResponse.json({ ok: false, reason: 'bot' });
+    if (BOT_UA.test(req.headers.get('user-agent') ?? '')) {
+      return NextResponse.json({ ok: false, reason: 'bot' });
+    }
 
-    const { visitor_id, old_fp, page, referrer, device, os, browser, is_first_visit, firebase_uid } = await req.json();
-    if (!visitor_id) return NextResponse.json({ ok: false, reason: 'no visitor_id' });
+    const body = await req.json();
+    const visitorId = field(body.visitor_id, 128);
+    if (!visitorId) return NextResponse.json({ ok: false, reason: 'no visitor_id' });
 
-    // Rate limit check
-    if (isRateLimited(visitor_id)) {
+    if (isRateLimited(visitorId)) {
       return NextResponse.json({ ok: false, reason: 'rate_limited' });
     }
 
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.SUPABASE_SECRET_KEY;
-    if (!url || !key) return NextResponse.json({ ok: false, reason: 'missing env' });
-    const supabase = createClient(url, key);
-    const { country, city } = parseCountry(req);
-    const now = new Date().toISOString();
-
-    // Merge old custom-hash record into new FingerprintJS ID
-    if (old_fp) {
-      const { data: oldRecord } = await supabase
-        .from('user_sessions')
-        .select('id')
-        .eq('visitor_id', old_fp)
-        .single();
-      if (oldRecord) {
-        await supabase
-          .from('user_sessions')
-          .update({ visitor_id })
-          .eq('visitor_id', old_fp);
-      }
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SECRET_KEY) {
+      return NextResponse.json({ ok: false, reason: 'missing env' });
     }
 
-    const { data: existing, error: selectError } = await supabase
-      .from('user_sessions')
-      .select('id, visit_count, pages_visited, session_start')
-      .eq('visitor_id', visitor_id)
-      .single();
+    const supabase = db();
 
-    if (selectError && selectError.code !== 'PGRST116') {
-      return NextResponse.json({ ok: false, reason: 'select error', error: selectError.message });
+    // One-off, only sent while a visitor is still carrying a pre-FingerprintJS
+    // id. Runs before the visit so the merged row is the one recorded against.
+    const oldFp = field(body.old_fp, 128);
+    if (oldFp) {
+      await supabase.rpc('merge_visitor', { p_old_id: oldFp, p_new_id: visitorId });
     }
 
-    if (existing) {
-      const pages = existing.pages_visited || [];
-      if (!pages.includes(page)) pages.push(page);
-      const start = existing.session_start ? new Date(existing.session_start) : new Date();
-      const duration = Math.floor((new Date().getTime() - start.getTime()) / 1000);
-      const { error: updateError } = await supabase
-        .from('user_sessions')
-        .update({
-          visit_count: (existing.visit_count || 1) + 1,
-          visited_at: now,
-          last_active: now,
-          last_page: page,
-          exit_page: page,
-          pages_visited: pages,
-          session_duration_secs: duration,
-          is_bounce: pages.length <= 1,
-          ...(firebase_uid && { firebase_uid }),
-          ...(device && { device }),
-          ...(os && { os }),
-          ...(browser && { browser }),
-          ...(country && { country }),
-          ...(city && { city }),
-        })
-        .eq('id', existing.id);
-      if (updateError) return NextResponse.json({ ok: false, reason: 'update error', error: updateError.message });
-    } else {
-      const { error: insertError } = await supabase
-        .from('user_sessions')
-        .insert({
-          visitor_id,
-          visit_count: 1,
-          visited_at: now,
-          last_active: now,
-          session_start: now,
-          last_page: page,
-          entry_page: page,
-          exit_page: page,
-          pages_visited: [page],
-          referrer: referrer || 'direct',
-          device: device || 'unknown',
-          os: os || 'unknown',
-          browser: browser || 'unknown',
-          country,
-          city,
-          is_bounce: true,
-          ...(firebase_uid && { firebase_uid }),
-        });
-      if (insertError) return NextResponse.json({ ok: false, reason: 'insert error', error: insertError.message });
+    const { error } = await supabase.rpc('record_visit', {
+      p_visitor_id: visitorId,
+      p_page: field(body.page, 512),
+      p_referrer: field(body.referrer, 512),
+      p_device: field(body.device, 32),
+      p_os: field(body.os, 32),
+      p_browser: field(body.browser, 32),
+      p_country: req.headers.get('x-vercel-ip-country') || null,
+      p_city: decodeURIComponent(req.headers.get('x-vercel-ip-city') || '') || null,
+      p_firebase_uid: field(body.firebase_uid, 128),
+    });
+
+    if (error) {
+      // Most likely cause is supabase/track_visit.sql never having been run.
+      console.error('[track-visit] record_visit failed:', error.message);
+      return NextResponse.json({ ok: false, reason: 'rpc error' });
     }
     return NextResponse.json({ ok: true });
-  } catch (e: any) {
-    return NextResponse.json({ ok: false, reason: 'exception', error: e.message });
+  } catch (e) {
+    return NextResponse.json({ ok: false, reason: 'exception', error: (e as Error).message });
   }
 }
