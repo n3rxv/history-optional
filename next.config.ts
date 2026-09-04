@@ -1,27 +1,27 @@
 import type { NextConfig } from "next";
 /**
- * Both policies are built from one list so they cannot drift apart.
+ * Content Security Policy.
  *
- * SCRIPT_SRC_BASE is everything the page legitimately loads. The enforcing
- * policy adds 'unsafe-eval'; the Report-Only policy does not, so browsers
- * report anything that would break if it were removed, while the page keeps
- * working. Nothing else differs between them, which means every report is
- * unambiguously about eval.
+ * 'unsafe-eval' was removed after auditing every script the page loads and
+ * then confirming it against real traffic with a Report-Only pass, which
+ * produced no eval violations:
  *
- * The audit of what actually needs it:
- *   checkout.js       new Function("return this") behind a globalThis check
- *                     that short-circuits first, inside a try/catch
- *   pdf.js            a try/catch probe (isEvalSupported), plus two call sites
- *                     gated on that probe with interpreted fallbacks
- *   pdf.js            eval("require") guarded by an isNodeJS check
- *   gtag.js           none
+ *   our bundles   no eval( or new Function( in any client chunk
+ *   gtag.js       none
+ *   checkout.js   new Function("return this") in webpack's global shim,
+ *                 behind a globalThis check that short-circuits first,
+ *                 inside a try/catch falling back to window
+ *   pdf.js        isEvalSupported() is a try/catch probe returning false
+ *                 under CSP; the glyph and PostScript compilers are gated
+ *                 on it and fall back to interpreted paths. eval("require")
+ *                 is guarded by isNodeJS and unreachable in a browser
  *
- * All degrade rather than fail, so this is expected to report nothing. Promote
- * it to enforcing once real traffic through checkout, the topper PDF viewer
- * and the maps has produced no [csp] lines in the logs.
+ * 'unsafe-inline' is still here. Removing it needs either nonces -- which
+ * would force all 26 prerendered pages to render per request -- or hashes for
+ * the three inline scripts in app/layout.tsx. That is a separate change.
  */
 const SCRIPT_SRC_BASE =
-  "'self' 'unsafe-inline' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://apis.google.com https://www.gstatic.com https://cdnjs.cloudflare.com";
+  "'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://apis.google.com https://www.gstatic.com https://cdnjs.cloudflare.com";
 
 const cspDirectives = (scriptSrc: string) => [
   "default-src 'self'",
@@ -39,11 +39,15 @@ const cspDirectives = (scriptSrc: string) => [
   "upgrade-insecure-requests",
 ];
 
-// Unchanged from before: still permits eval, so nothing can break today.
-const ContentSecurityPolicy = cspDirectives(`${SCRIPT_SRC_BASE} 'unsafe-eval'`).join('; ');
-
-// The candidate. Violations are reported, never enforced.
-const ContentSecurityPolicyReportOnly = [
+// 'unsafe-eval' is gone. A report-only pass over real traffic -- checkout,
+// the topper PDF viewer, the maps, chat -- produced no eval violations,
+// matching the audit above.
+//
+// report-uri stays on the enforcing policy from here on. Without it a blocked
+// resource fails silently: cdn.razorpay.com had been blocked on every checkout
+// for as long as this policy has existed, and nothing surfaced it until the
+// report-only pass went in.
+const ContentSecurityPolicy = [
   ...cspDirectives(SCRIPT_SRC_BASE),
   "report-uri /api/csp-report",
 ].join('; ');
@@ -107,9 +111,6 @@ const nextConfig: NextConfig = {
           { key: 'X-XSS-Protection',           value: '1; mode=block' },
           { key: 'Strict-Transport-Security',  value: 'max-age=63072000; includeSubDomains; preload' },
           { key: 'Content-Security-Policy',    value: ContentSecurityPolicy },
-          // Sends violations for the stricter policy without enforcing it.
-          // Remove once 'unsafe-eval' is dropped from the line above.
-          { key: 'Content-Security-Policy-Report-Only', value: ContentSecurityPolicyReportOnly },
         ],
       },
     ];
