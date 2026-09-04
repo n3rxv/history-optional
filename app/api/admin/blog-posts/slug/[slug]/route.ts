@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAdminAuthed } from '@/lib/admin-auth';
 import { createServerClient } from '@/lib/supabase';
+import { cachePublic, noStore } from '@/lib/cacheHeaders';
 
 export async function GET(
   req: NextRequest,
@@ -17,5 +18,9 @@ export async function GET(
   const { data, error } = await query;
 
   if (error) return NextResponse.json({ error: error.message }, { status: 404 });
-  return NextResponse.json({ data });
+
+  // Worse than the listing route: admin and public share the exact same URL
+  // and differ only by header, so caching the admin response would publish an
+  // unpublished draft at the address readers already use.
+  return NextResponse.json({ data }, { headers: isAdmin ? noStore : cachePublic(120) });
 }

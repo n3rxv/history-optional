@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { cachePublic } from '@/lib/cacheHeaders';
 
 export async function GET() {
   const supabase = createClient(
@@ -25,5 +26,11 @@ export async function GET() {
 
   const activeCount = count ?? 0;
   const remaining = Math.max(0, slotData.max_slots - activeCount);
-  return NextResponse.json({ slots: remaining, subscribers: activeCount });
+  // useSubscriptionGate fetches this on every mount, and it runs an exact
+  // count over subscriptions each time. The number only moves when somebody
+  // subscribes, so a minute of staleness costs nothing.
+  return NextResponse.json(
+    { slots: remaining, subscribers: activeCount },
+    { headers: cachePublic(60) }
+  );
 }

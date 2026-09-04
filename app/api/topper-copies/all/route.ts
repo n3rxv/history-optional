@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { cachePublic } from '@/lib/cacheHeaders';
 
 const sb = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -33,5 +34,7 @@ export async function GET() {
     pyq_ids: mapByCard[c.id] || [],
   }));
 
-  return NextResponse.json({ data: result });
+  // Changes only when an admin adds or edits a copy. Object keys are no
+  // longer in this payload, so there is nothing here worth protecting.
+  return NextResponse.json({ data: result }, { headers: cachePublic(300) });
 }

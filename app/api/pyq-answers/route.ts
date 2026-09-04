@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { verifyFirebaseToken } from '@/lib/verifyFirebaseToken';
 import { checkRateLimit, clientIp } from '@/lib/rateLimit';
+import { cachePublic } from '@/lib/cacheHeaders';
 
 async function getFirebaseUid(req: NextRequest): Promise<string | null> {
   const auth = req.headers.get('authorization');
@@ -28,7 +29,9 @@ export async function GET(req: NextRequest) {
     ...row,
     public_url: `${supabaseUrl}/storage/v1/object/public/pyq-answers/${row.storage_path}`,
   }));
-  return NextResponse.json({ answers });
+  // Short: an upload should show up for other readers quickly. The uploader
+  // sees theirs immediately because the client appends it optimistically.
+  return NextResponse.json({ answers }, { headers: cachePublic(30) });
 }
 
 export async function POST(req: NextRequest) {

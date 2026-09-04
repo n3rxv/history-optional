@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAdminAuthed } from '@/lib/admin-auth';
 import { createServerClient } from '@/lib/supabase';
+import { cachePublic, noStore } from '@/lib/cacheHeaders';
 
 function isAdmin(req: NextRequest) {
   return isAdminAuthed(req);
@@ -11,13 +12,21 @@ export async function GET(req: NextRequest) {
   const all = searchParams.get('all') === 'true';
   const db = createServerClient();
 
-  const query = all && isAdmin(req)
+  // Two different result sets from one route: admins additionally get
+  // unpublished drafts.
+  const asAdmin = all && isAdmin(req);
+
+  const query = asAdmin
     ? db.from('posts').select('*').order('published_at', { ascending: false })
     : db.from('posts').select('*').eq('published', true).order('published_at', { ascending: false });
 
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ data });
+
+  // The admin variant must never be cached. The CDN keys on the URL, not on
+  // x-admin-token, so a cached admin response would be served to the next
+  // caller of ?all=true — handing unpublished drafts to anyone who asks.
+  return NextResponse.json({ data }, { headers: asAdmin ? noStore : cachePublic(120) });
 }
 
 export async function POST(req: NextRequest) {
