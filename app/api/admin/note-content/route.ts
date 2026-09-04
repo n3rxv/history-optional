@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAdminAuthed } from '@/lib/admin-auth';
 import { createServerClient } from '@/lib/supabase';
+import { sanitizeNoteHtml } from '@/lib/sanitizeNoteHtml';
 
 // GET is public — anyone can read note overrides (students need cloud content too)
 export async function GET(req: NextRequest) {
@@ -26,10 +27,17 @@ export async function POST(req: NextRequest) {
   if (!slug || content === undefined) {
     return NextResponse.json({ error: 'Missing slug or content' }, { status: 400 });
   }
+  // Sanitized before storage, so a leaked admin token cannot plant markup
+  // that every reader of this note would then execute. isAdminAuthed is an
+  // HMAC of an expiry with no subject and no revocation, so a leaked token
+  // stays valid for its full window.
   const db = createServerClient();
   const { error } = await db
     .from('note_overrides')
-    .upsert({ slug, content, updated_at: new Date().toISOString() }, { onConflict: 'slug' });
+    .upsert(
+      { slug, content: sanitizeNoteHtml(content), updated_at: new Date().toISOString() },
+      { onConflict: 'slug' }
+    );
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

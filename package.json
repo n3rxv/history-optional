@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx tests/citationGate.test.mts && tsx tests/sanitizeHtml.test.mts"
+    "test": "tsx tests/citationGate.test.mts && tsx tests/sanitizeHtml.test.mts && tsx tests/sanitizeNoteHtml.test.mts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
@@ -45,6 +45,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-leaflet": "^5.0.0",
+    "sanitize-html": "^2.17.7",
     "topojson-client": "^3.1.0",
     "ws": "^8.21.1"
   },
@@ -57,6 +58,7 @@
     "@types/pdfmake": "^0.3.3",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sanitize-html": "^2.16.1",
     "@types/topojson-client": "^3.1.5",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",

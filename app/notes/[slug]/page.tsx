@@ -1,6 +1,7 @@
 import { allNotes } from '@/lib/notes';
 import NoteReader from './NoteReader';
 import type { Metadata } from 'next';
+import { sanitizeNoteHtml } from '@/lib/sanitizeNoteHtml';
 
 export function generateStaticParams() {
   return allNotes.map(n => ({ slug: n.slug }));
@@ -27,7 +28,9 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
     const db = createServerClient();
     const { data } = await db.from('note_overrides').select('content').eq('slug', slug).single();
     if (data?.content) {
-      initialContent = data.content;
+      // Same reasoning as /api/note-content: admin-authored HTML is sanitized,
+      // the shipped corpus is trusted as source.
+      initialContent = sanitizeNoteHtml(data.content);
     } else {
       const mod = await import('@/lib/noteContent');
       const noteContent = mod.noteContent as Record<string, string>;

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/supabase';
+import { sanitizeNoteHtml } from '@/lib/sanitizeNoteHtml';
 
 /**
  * Note body HTML for one slug, in one language.
@@ -37,7 +38,11 @@ export async function GET(req: NextRequest) {
       .select('content')
       .eq('slug', slug)
       .maybeSingle();
-    if (data?.content) content = data.content;
+    // Also sanitized on read, so rows written before sanitizing-on-write
+    // existed are covered without a migration. The shipped corpus below is
+    // not sanitized: it is version-controlled source, so anyone who could
+    // alter it already has repository access.
+    if (data?.content) content = sanitizeNoteHtml(data.content);
   } catch {
     // Overrides are optional; fall through to the shipped content.
   }
