@@ -15,12 +15,15 @@ const pyqSlides = [
 // pyqCount is passed in rather than counted here: lib/pyqData is 403KB, and
 // this is a client component, so importing it would put the whole PYQ bank in
 // every homepage visitor's bundle to render a four-digit number.
-function buildStats(pyqCount: number) {
+export type HomeStatCounts = { topics: number; pyqs: number; flashcards: number };
+
+function buildStats({ topics, pyqs, flashcards }: HomeStatCounts) {
   return [
-    { value: 51,       label: 'Topics',     color: 'var(--accent)',  suffix: '', href: '/paper1'     },
-    { value: 2,        label: 'Papers',     color: 'var(--yellow)',  suffix: '', href: '/paper2'     },
-    { value: pyqCount, label: 'PYQs',       color: 'var(--red)',     suffix: '', href: '/pyqs'       },
-    { value: 55,       label: 'Flashcards', color: 'var(--green)',   suffix: '', href: '/flashcards' },
+    { value: topics,     label: 'Topics',     color: 'var(--accent)',  suffix: '', href: '/paper1'     },
+    // Papers is a fact about the exam, not a count of anything we store.
+    { value: 2,          label: 'Papers',     color: 'var(--yellow)',  suffix: '', href: '/paper2'     },
+    { value: pyqs,       label: 'PYQs',       color: 'var(--red)',     suffix: '', href: '/pyqs'       },
+    { value: flashcards, label: 'Flashcards', color: 'var(--green)',   suffix: '', href: '/flashcards' },
   ];
 }
 
@@ -63,8 +66,8 @@ function AnimatedStat({ value, label, color, suffix, href }: { value: number; la
   );
 }
 
-export function AnimatedStats({ pyqCount }: { pyqCount: number }) {
-  const stats = buildStats(pyqCount);
+export function AnimatedStats({ counts }: { counts: HomeStatCounts }) {
+  const stats = buildStats(counts);
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1px', background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden', marginBottom: '3rem', position: 'relative', zIndex: 1 }} className="grid-4col">
       {stats.map(s => <AnimatedStat key={s.label} {...s} />)}

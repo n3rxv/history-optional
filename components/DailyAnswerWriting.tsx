@@ -1,30 +1,10 @@
 'use client';
 import { useMemo, useState, useEffect, useRef } from 'react';
-import { pyqs as pyqData } from '@/lib/pyqData';
+import type { DailyQuestion } from '@/lib/dailyQuestions';
 
-function getDailyQuestions() {
-  const today = new Date();
-  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-  let s = seed;
-  const rand = () => {
-    s = (s * 1664525 + 1013904223) & 0xffffffff;
-    return (s >>> 0) / 0xffffffff;
-  };
-  const p1 = pyqData.filter(q => q.section.includes('Ancient') || q.section.includes('Medieval'));
-  const p2 = pyqData.filter(q => q.section.includes('Modern') || q.section.includes('World'));
-  const picked: typeof pyqData = [];
-  const used = new Set<number>();
-  const pools = [p1, p2, p1, p2, p1.concat(p2)];
-  for (let i = 0; i < 5; i++) {
-    const pool = pools[i].filter(q => !used.has(q.id));
-    if (!pool.length) continue;
-    const idx = Math.floor(rand() * pool.length);
-    picked.push(pool[idx]);
-    used.add(pool[idx].id);
-  }
-  return picked;
-}
-
+// Selection moved to lib/dailyQuestions and runs on the server. Doing it here
+// meant importing the whole 403KB question bank into every homepage visitor's
+// bundle to choose five items from it.
 function calcTotalMins(questions: { marks: number }[]) {
   return questions.reduce((acc, q) => acc + (q.marks <= 10 ? 7 : q.marks <= 15 ? 11 : 14), 0);
 }
@@ -38,8 +18,7 @@ const sectionColors: Record<string, string> = {
   'World History':  'var(--green, #22c55e)',
 };
 
-export default function DailyAnswerWriting() {
-  const questions = useMemo(() => getDailyQuestions(), []);
+export default function DailyAnswerWriting({ questions }: { questions: DailyQuestion[] }) {
   const totalMins = useMemo(() => calcTotalMins(questions), [questions]);
   const totalSecs = totalMins * 60;
 

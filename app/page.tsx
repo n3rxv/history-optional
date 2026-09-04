@@ -7,6 +7,15 @@ import Button from '@/components/ui/Button';
 import { AnimatedStats, PYQCarousel } from '@/components/HomeClient';
 import { paper1Notes, paper2Notes } from '@/lib/notes';
 import { pyqs } from '@/lib/pyqData';
+import { allNotes } from '@/lib/notes';
+import { flashcards } from '@/lib/flashcards';
+import { getDailyQuestions } from '@/lib/dailyQuestions';
+
+// The daily questions change at midnight IST, and this page is statically
+// generated — without a revalidate window they would be frozen at whatever the
+// build date was until the next deploy. Hourly keeps the rollover tight while
+// still serving almost every visitor a cached page.
+export const revalidate = 3600;
 
 const features = [
   { icon: '✍️', title: 'Smart Annotations',               color: 'var(--yellow)', desc: 'Handwritten annotations support — write with your digital pen directly on the notes. Annotate, highlight and mark directly on the content as you study.',             href: '/paper1'   },
@@ -121,7 +130,7 @@ export default function Home() {
       </div>
 
       {/* ── Animated Stats ── */}
-      <AnimatedStats pyqCount={pyqs.length} />
+      <AnimatedStats counts={{ topics: allNotes.length, pyqs: pyqs.length, flashcards: flashcards.length }} />
 
       {/* ── Paper cards ── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '3rem', position: 'relative', zIndex: 1 }} className="grid-2col">
@@ -196,7 +205,7 @@ export default function Home() {
 
       {/* ── Explore further: interactive demos & extras ── */}
       <EvaluateDemo />
-      <div id="daily-answer"><DailyAnswerWriting /></div>
+      <div id="daily-answer"><DailyAnswerWriting questions={getDailyQuestions()} /></div>
       <div id="faq"><HomeFAQ /></div>
     </div>
   );
