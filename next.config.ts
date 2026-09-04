@@ -1,7 +1,31 @@
 import type { NextConfig } from "next";
-const ContentSecurityPolicy = [
+/**
+ * Both policies are built from one list so they cannot drift apart.
+ *
+ * SCRIPT_SRC_BASE is everything the page legitimately loads. The enforcing
+ * policy adds 'unsafe-eval'; the Report-Only policy does not, so browsers
+ * report anything that would break if it were removed, while the page keeps
+ * working. Nothing else differs between them, which means every report is
+ * unambiguously about eval.
+ *
+ * The audit of what actually needs it:
+ *   checkout.js       new Function("return this") behind a globalThis check
+ *                     that short-circuits first, inside a try/catch
+ *   pdf.js            a try/catch probe (isEvalSupported), plus two call sites
+ *                     gated on that probe with interpreted fallbacks
+ *   pdf.js            eval("require") guarded by an isNodeJS check
+ *   gtag.js           none
+ *
+ * All degrade rather than fail, so this is expected to report nothing. Promote
+ * it to enforcing once real traffic through checkout, the topper PDF viewer
+ * and the maps has produced no [csp] lines in the logs.
+ */
+const SCRIPT_SRC_BASE =
+  "'self' 'unsafe-inline' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://apis.google.com https://www.gstatic.com https://cdnjs.cloudflare.com";
+
+const cspDirectives = (scriptSrc: string) => [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://apis.google.com https://www.gstatic.com https://cdnjs.cloudflare.com",
+  `script-src ${scriptSrc}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https:",
@@ -13,6 +37,15 @@ const ContentSecurityPolicy = [
   "base-uri 'self'",
   "form-action 'self' https://*.razorpay.com https://*.firebaseapp.com https://accounts.google.com",
   "upgrade-insecure-requests",
+];
+
+// Unchanged from before: still permits eval, so nothing can break today.
+const ContentSecurityPolicy = cspDirectives(`${SCRIPT_SRC_BASE} 'unsafe-eval'`).join('; ');
+
+// The candidate. Violations are reported, never enforced.
+const ContentSecurityPolicyReportOnly = [
+  ...cspDirectives(SCRIPT_SRC_BASE),
+  "report-uri /api/csp-report",
 ].join('; ');
 export const maxDuration = 30;
 
@@ -74,6 +107,9 @@ const nextConfig: NextConfig = {
           { key: 'X-XSS-Protection',           value: '1; mode=block' },
           { key: 'Strict-Transport-Security',  value: 'max-age=63072000; includeSubDomains; preload' },
           { key: 'Content-Security-Policy',    value: ContentSecurityPolicy },
+          // Sends violations for the stricter policy without enforcing it.
+          // Remove once 'unsafe-eval' is dropped from the line above.
+          { key: 'Content-Security-Policy-Report-Only', value: ContentSecurityPolicyReportOnly },
         ],
       },
     ];
