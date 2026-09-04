@@ -6,7 +6,7 @@ const ContentSecurityPolicy = [
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https:",
   "media-src 'self'",
-  "connect-src 'self' blob: https://*.supabase.co wss://*.supabase.co https://api.groq.com https://api.jina.ai https://checkout.razorpay.com https://lumberjack.razorpay.com https://api.razorpay.com https://*.razorpay.com https://*.googleapis.com https://*.firebaseapp.com https://*.firebase.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://pub-163b2186589649f4a759ed969e0779e0.r2.dev https://cdnjs.cloudflare.com",
+  "connect-src 'self' blob: https://*.supabase.co wss://*.supabase.co https://api.groq.com https://api.jina.ai https://checkout.razorpay.com https://lumberjack.razorpay.com https://api.razorpay.com https://*.razorpay.com https://*.googleapis.com https://*.firebaseapp.com https://*.firebase.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://pub-163b2186589649f4a759ed969e0779e0.r2.dev https://*.r2.cloudflarestorage.com https://cdnjs.cloudflare.com",
   "frame-src 'self' https://checkout.razorpay.com https://*.razorpay.com https://*.firebaseapp.com https://accounts.google.com",
   "worker-src 'self' blob: https://checkout.razorpay.com https://cdnjs.cloudflare.com",
   "object-src 'none'",

@@ -6,12 +6,11 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { auth } from '@/lib/firebase';
 
-const R2_BASE = 'https://pub-163b2186589649f4a759ed969e0779e0.r2.dev';
 
 interface TopperCopy {
   id: string;
   question: string;
-  drive_file_id: string;
+  pdf_url: string;
   note: string | null;
   created_at: string;
 }
@@ -57,8 +56,8 @@ export default function TopperCopyPage() {
   // Access check is handled by the onAuthStateChanged effect above.
   // (Removed duplicate effect that raced with Firebase init and caused ₹365 paywall flash)
 
-  // Waits for the access check above, because the detail endpoint now returns
-  // drive_file_id only to entitled callers and needs the token to decide.
+  // Waits for the access check above: the detail endpoint issues the signed
+  // PDF URL only to entitled callers, and needs the token to decide.
   useEffect(() => {
     if (!id || accessAllowed !== true) return;
     let cancelled = false;
@@ -106,7 +105,8 @@ export default function TopperCopyPage() {
 
   useEffect(() => {
     if (!copy) return;
-    const pdfUrl = `${R2_BASE}/${copy.drive_file_id}`;
+    // Signed server-side and short-lived — see lib/r2.ts.
+    const pdfUrl = copy.pdf_url;
 
     const loadPdf = async () => {
       try {
@@ -348,7 +348,7 @@ export default function TopperCopyPage() {
                   </div>
                 )}
                 <a
-                  href={`${R2_BASE}/${copy.drive_file_id}`}
+                  href={copy.pdf_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{

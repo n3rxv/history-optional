@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { verifyFirebaseToken } from '@/lib/verifyFirebaseToken';
+import { signedPdfUrl } from '@/lib/r2';
 
 /**
- * The only endpoint that returns drive_file_id — the R2 object key for a
- * topper copy PDF.
+ * The only endpoint that hands out a URL for a topper copy PDF, and it hands
+ * out a signed one that expires in five minutes rather than the object key.
  *
  * The list endpoints used to return it too, which meant the entitlement check
  * on /pyqs/topper/[id] was decoration: two unauthenticated GETs against
@@ -77,5 +78,15 @@ export async function GET(
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   if (!data) return NextResponse.json({ error: 'not_found' }, { status: 404 });
 
-  return NextResponse.json({ data });
+  // The raw object key never leaves the server. The client gets a URL that
+  // stops working in five minutes, so a copied link is not a permanent grant.
+  const { drive_file_id, ...rest } = data;
+  const pdf_url = await signedPdfUrl(drive_file_id);
+
+  return NextResponse.json(
+    { data: { ...rest, pdf_url } },
+    // Signed URLs are per-viewer and short-lived; caching one would hand it to
+    // the next reader and outlive its own expiry.
+    { headers: { 'Cache-Control': 'private, no-store' } }
+  );
 }
