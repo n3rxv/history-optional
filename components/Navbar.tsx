@@ -403,7 +403,7 @@ export default function Navbar() {
 
   const fetchSub = React.useCallback(async (token: string) => {
     try {
-      const res = await fetch(`/api/sub-status?token=${token}`);
+      const res = await fetch('/api/sub-status', { headers: { 'x-user-token': token } });
       const d = await res.json();
       if (d.isPremium) setSubData({ plan: d.plan, expires_at: d.expires_at });
       else setSubData(null);

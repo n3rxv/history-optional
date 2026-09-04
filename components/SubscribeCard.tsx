@@ -32,6 +32,10 @@ export function SubscribeCard({
   const [token, setToken] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<'daily'|'sixmonths'|'yearly'>('yearly');
+  // Set when sign-in resumes for someone who is already subscribed. The
+  // success screen otherwise names the plan tile they happened to have
+  // selected, which is not the plan they own.
+  const [existingPlan, setExistingPlan] = useState<string | null>(null);
 
   const allPlans = [
     { id: 'daily',      label: 'Daily',     price: '₹49',    sub: '1 day' },
@@ -65,6 +69,29 @@ export function SubscribeCard({
           sessionStorage.removeItem('ho_pending_payment');
           sessionStorage.removeItem('ho_pending_plan');
           setSelectedPlan(savedPlan);
+
+          // "Sign in & Subscribe" and "Already subscribed? Sign in" both resume
+          // here, and the two sit next to each other. Going straight into
+          // checkout meant an existing subscriber who picked the wrong one was
+          // shown a payment sheet for something they already own. Check first,
+          // and if they are covered, just let them in.
+          let alreadyPremium = false;
+          try {
+            const res = await fetch('/api/sub-status', { headers: { 'x-user-token': idToken } });
+            const status = await res.json();
+            alreadyPremium = status?.isPremium === true;
+            if (alreadyPremium && typeof status?.plan === 'string') setExistingPlan(status.plan);
+          } catch {
+            // If the check itself fails, fall through to checkout rather than
+            // stranding someone who genuinely wants to pay.
+          }
+
+          if (alreadyPremium) {
+            setStep('success');
+            onSuccess?.();
+            return;
+          }
+
           openRazorpay(idToken, firebaseUser.email ?? '', savedPlan);
         }
       }
@@ -176,7 +203,9 @@ export function SubscribeCard({
             You're Premium!
           </div>
           <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: 18, lineHeight: 1.5 }}>
-            Unlimited access · {currentPlan.label} plan.<br/>Go ace those answers.
+            {existingPlan
+              ? <>You already have an active subscription.<br/>Go ace those answers.</>
+              : <>Unlimited access · {currentPlan.label} plan.<br/>Go ace those answers.</>}
           </div>
           <button onClick={() => { onClose?.(); onSuccess?.(); }}
             style={{

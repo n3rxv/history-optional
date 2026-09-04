@@ -3,7 +3,10 @@ import { createClient } from '@supabase/supabase-js';
 import { verifyFirebaseToken } from '@/lib/verifyFirebaseToken';
 
 export async function GET(req: NextRequest) {
-  const token = req.nextUrl.searchParams.get('token');
+  // Header first. As a query parameter the token is written into Vercel
+  // access logs, browser history and any proxy on the path; the query form is
+  // still read so clients cached from before this change keep working.
+  const token = req.headers.get('x-user-token') ?? req.nextUrl.searchParams.get('token');
   if (!token) return NextResponse.json({ isPremium: false });
 
   const user = await verifyFirebaseToken(token);
