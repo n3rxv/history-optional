@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
 import { getPYQsForNote } from '@/lib/notePyqMap';
@@ -366,7 +366,10 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
   const [open, setOpen] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
   const [activeId, setActiveId] = useState('');
-  const toc = extractToc(contentHtml);
+  // Parsed once per content change. This component re-renders on every scroll
+  // event, and re-parsing ~100KB of HTML each time is what made scrolling a
+  // long note expensive.
+  const toc = useMemo(() => extractToc(contentHtml), [contentHtml]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -773,7 +776,12 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
     window.getSelection()?.removeAllRanges();
   };
 
-  const getContent = () => {
+  // Memoised. This ran on every render, and every run meant two global regexes
+  // over ~100KB plus a fresh RegExp per highlight — then handed a new string
+  // identity to TableOfContents and ScrollbarTOC, each of which parses the
+  // whole document when it changes. Any state change on the page (auth
+  // resolving, annotations loading, a scroll tick) paid for all of it.
+  const processedContent = useMemo(() => {
     // English renders initialContent immediately -- it is already in the
     // server payload -- and swaps to the fetched copy when it lands. Hindi has
     // no server-rendered copy, so it waits rather than flashing English first.
@@ -786,9 +794,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
       c = c.replace(new RegExp(`(${esc})`, 'g'), `<mark class="hl-${h.color}">$1</mark>`);
     });
     return c;
-  };
-
-  const processedContent = getContent();
+  }, [langHi, cloudContent, initialContent, highlights]);
 
   // Arriving from the site search with ?q=: open the in-note finder on that
   // term so the reader lands on the word they searched for instead of at the
@@ -811,7 +817,10 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
     openedFromUrl.current = true;
     noteSearch.setOpen(true);
     noteSearch.setQuery(incomingQuery);
-  }, [contentLoading, processedContent, noteSearch]);
+    // noteSearch is deliberately not a dependency: useNoteSearch returns a new
+    // object every render, so listing it would re-run this on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contentLoading, processedContent]);
   const list = note?.paper === 1 ? paper1Notes : paper2Notes;
   const idx = list.findIndex(n => n.slug === slug);
   const prev = idx > 0 ? list[idx-1] : null;
