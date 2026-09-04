@@ -168,7 +168,13 @@ export default function SearchModal() {
   if (!query.trim()) {
     QUICK_JUMPS.forEach((j, i) => flatItems.push({ type: 'jump', href: j.href, idx: i }));
   } else {
-    notes.forEach((n, i) => flatItems.push({ type: 'note', href: `/notes/${n.slug}`, idx: i }));
+    // Carry the query so the note opens scrolled to the match rather than at
+    // the top — the reader searched for a word, not for a document.
+    notes.forEach((n, i) => flatItems.push({
+      type: 'note',
+      href: `/notes/${n.slug}?q=${encodeURIComponent(query.trim())}`,
+      idx: i,
+    }));
     pyqResults.forEach((p, i) => flatItems.push({ type: 'pyq', href: `/pyqs?q=${encodeURIComponent(p.topic)}`, idx: i }));
     (historianResults || []).forEach((h, i) => flatItems.push({ type: 'historian' as any, href: `/historiography?q=${encodeURIComponent(h.title)}`, idx: i }));
   }
@@ -290,7 +296,7 @@ export default function SearchModal() {
                 const isSel = selected === fi;
                 return (
                   <button key={note.slug} data-idx={fi}
-                    onClick={() => navigate(`/notes/${note.slug}`)}
+                    onClick={() => navigate(`/notes/${note.slug}?q=${encodeURIComponent(query.trim())}`)}
                     onMouseEnter={() => setSelected(fi)}
                     style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '10px 16px', background: isSel ? 'rgba(0,0,0,0.06)' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background 0.1s' }}
                   >

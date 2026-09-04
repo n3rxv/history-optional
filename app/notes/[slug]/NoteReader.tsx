@@ -552,6 +552,9 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   const contentRef = useRef<HTMLDivElement>(null);
   const noteContentRef = useRef<HTMLDivElement>(null);
   const noteSearch = useNoteSearch(noteContentRef);
+
+  const openedFromUrl = useRef(false);
+
   const editableRef = useRef<HTMLDivElement>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
@@ -786,6 +789,29 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   };
 
   const processedContent = getContent();
+
+  // Arriving from the site search with ?q=: open the in-note finder on that
+  // term so the reader lands on the word they searched for instead of at the
+  // top of a long note. Everything needed already exists in useNoteSearch —
+  // this only supplies the query it would otherwise wait for Cmd-F to collect.
+  useEffect(() => {
+    if (openedFromUrl.current) return;
+
+    // Read from location rather than useSearchParams(): that hook forces a
+    // Suspense boundary and opts the subtree out of prerendering, which would
+    // undo the static generation of all 51 note pages. This only ever runs in
+    // the browser, so there is nothing useSearchParams would add.
+    const incomingQuery = new URLSearchParams(window.location.search).get('q') ?? '';
+    if (incomingQuery.length < 2) return;
+    // useNoteSearch clones the rendered content to mark matches in, so it has
+    // to wait until that content is actually on the page. Opening earlier
+    // would clone an empty node and find nothing.
+    if (contentLoading || !processedContent.trim()) return;
+
+    openedFromUrl.current = true;
+    noteSearch.setOpen(true);
+    noteSearch.setQuery(incomingQuery);
+  }, [contentLoading, processedContent, noteSearch]);
   const list = note?.paper === 1 ? paper1Notes : paper2Notes;
   const idx = list.findIndex(n => n.slug === slug);
   const prev = idx > 0 ? list[idx-1] : null;
