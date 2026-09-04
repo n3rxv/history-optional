@@ -61,13 +61,16 @@ const FIREBASE_AUTH_UPSTREAM = `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.f
 
 const nextConfig: NextConfig = {
   experimental: {
+    // Body limit for PDF upload in chat.
     serverActions: {
       bodySizeLimit: "50mb",
     },
-    serverComponentsExternalPackages: ['@google/generative-ai', '@react-pdf/renderer'],
   },
-  // Increase body size limit for PDF upload in chat
-  serverExternalPackages: ['@google/generative-ai', '@react-pdf/renderer'],
+  // serverComponentsExternalPackages was the experimental name for this and
+  // was set to the same value alongside it; Next 16 warns and ignores the old
+  // key. @google/generative-ai is gone from the list because nothing imports
+  // it — the Gemini call in /api/evaluate uses fetch directly.
+  serverExternalPackages: ['@react-pdf/renderer'],
   images: { unoptimized: true },
   async rewrites() {
     return [
