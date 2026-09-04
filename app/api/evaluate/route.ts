@@ -519,13 +519,35 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Build image contents directly from uploaded files
+    // Decoded once. Both providers want the same bytes in different wrappers,
+    // and building the second shape by re-parsing the first held every page in
+    // memory twice — at the 10 x 5MB ceiling that is ~130MB resident for one
+    // request before either model has been called.
+    type AnthropicMedia = "image/jpeg" | "image/png" | "image/gif" | "image/webp";
+    const ANTHROPIC_MEDIA: readonly string[] = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+
     const imageContents: { type: "image_url"; image_url: { url: string } }[] = [];
+    const anthropicImageBlocks: {
+      type: "image";
+      source: { type: "base64"; media_type: AnthropicMedia; data: string };
+    }[] = [];
+
     for (const imgFile of files) {
-      const buffer = Buffer.from(await imgFile.arrayBuffer());
-      const base64 = buffer.toString("base64");
+      const base64 = Buffer.from(await imgFile.arrayBuffer()).toString("base64");
       const mime = imgFile.type || "image/jpeg";
-      imageContents.push({ type: "image_url" as const, image_url: { url: `data:${mime};base64,${base64}` } });
+      imageContents.push({
+        type: "image_url" as const,
+        image_url: { url: `data:${mime};base64,${base64}` },
+      });
+      // Anthropic accepts a narrower set than the upload filter allows, so
+      // heic/heif fall back to jpeg exactly as the old regex path did.
+      const mediaType: AnthropicMedia = ANTHROPIC_MEDIA.includes(mime)
+        ? (mime as AnthropicMedia)
+        : "image/jpeg";
+      anthropicImageBlocks.push({
+        type: "image" as const,
+        source: { type: "base64" as const, media_type: mediaType, data: base64 },
+      });
     }
     if (imageContents.length === 0 && !extractedText) {
       return await reject("No images provided");
@@ -584,9 +606,15 @@ export async function POST(req: NextRequest) {
     };
 
     // ── PASS 0.5: Generate reference answer (internal, never shown to user) ──
-    // Runs before evaluation so Pass 1 can judge the student's answer
-    // against what a strong answer actually looks like.
-    let referenceAnswer = "";
+    // Gives Pass 1 a standard to judge the student's answer against rather
+    // than marking in a vacuum, which is why 9edbe975's replacement of it with
+    // an inline self-benchmark was reverted. The pass itself is untouched.
+    //
+    // It reads only `question` and `marks`, both known before any upstream
+    // call, so it has no reason to wait for OCR or retrieval. Starting it here
+    // and joining below restores the concurrency from 9edbe975, which was
+    // swept up in the wholesale revert of e611e0f despite changing no prompt.
+    const referenceAnswerTask = (async (): Promise<string> => {
     try {
       const refBulletCount = marks === "10" ? "4-5" : marks === "15" ? "6-8" : "9-12";
       const refRes = await callWithFallback({
@@ -613,14 +641,17 @@ Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be spe
 
       if (refRes.ok) {
         const refData = await refRes.json();
-        referenceAnswer = refData.choices?.[0]?.message?.content?.trim() || "";
-        console.log("Pass 0.5 reference answer generated:", referenceAnswer.slice(0, 200));
+        const ref = refData.choices?.[0]?.message?.content?.trim() || "";
+        console.log("Pass 0.5 reference answer generated:", ref.slice(0, 200));
+        return ref;
       } else {
         console.log("Pass 0.5 skipped (rate limited or failed) — evaluating without reference");
       }
     } catch (refErr) {
       console.log("Pass 0.5 error (non-fatal):", refErr);
     }
+    return "";
+    })();
 
     // ── PASS 0 + RAG: Run OCR and RAG fetch in parallel ──────────
     let finalTranscript = extractedText;
@@ -721,8 +752,14 @@ Go page by page. Do not rush. Every word matters.`;
     // localhost. getBookContext swallows its own failures.
     const ragTask = getBookContext(question);
 
-    // Run both in parallel — saves 3-5s
-    const [ocrResult, ragContext] = await Promise.all([ocrTask, ragTask]);
+    // All three run concurrently. Pass 0.5 was previously awaited before this
+    // point, so its latency was added to the request rather than hidden behind
+    // OCR — the commit that first parallelised it measured 25-30s.
+    const [ocrResult, ragContext, referenceAnswer] = await Promise.all([
+      ocrTask,
+      ragTask,
+      referenceAnswerTask,
+    ]);
     if (ocrResult) finalTranscript = ocrResult;
 
         // ── PASS 1: Chain-of-thought reasoning ─────────────────────
@@ -833,22 +870,25 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
     const { default: Anthropic } = await import("@anthropic-ai/sdk");
     const anthropicClient = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-    // Convert Groq image_url format → Anthropic base64 format
-    type AnthropicImageBlock = { type: "image"; source: { type: "base64"; media_type: "image/jpeg" | "image/png" | "image/gif" | "image/webp"; data: string } };
-    const anthropicImageBlocks: AnthropicImageBlock[] = imageContents.map((img) => {
-      const dataUri = img.image_url.url;
-      const [meta, data] = dataUri.split(",");
-      const mediaType = (meta.match(/data:([^;]+);/) ?? [])[1] as "image/jpeg" | "image/png" | "image/gif" | "image/webp";
-      return {
-        type: "image" as const,
-        source: { type: "base64" as const, media_type: mediaType || "image/jpeg", data },
-      };
-    });
-
     const cotHaikuRes = await anthropicClient.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 1200,
-      system: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : ""),
+      // The system prompt is ~8k tokens of rubric, historian roster and
+      // epistemic protocol, identical on every request and re-processed every
+      // time. Marking it cacheable changes none of its content -- the model
+      // sees exactly the same prompt -- but a hit skips reprocessing it and
+      // bills the cached portion at a fraction of the rate. The language note
+      // is a separate block so the English and Hindi variants share the cache
+      // of the part they have in common.
+      system: [
+        { type: "text" as const, text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" as const } },
+        ...(lang === "hi"
+          ? [{
+              type: "text" as const,
+              text: "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi.",
+            }]
+          : []),
+      ],
       messages: [
         {
           role: "user",
@@ -868,8 +908,11 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
       .join("");
     console.log("CoT reasoning:\n", cotReasoning);
 
-    // Wait between passes to avoid TPM rate limiting
-    await new Promise(res => setTimeout(res, 1000));
+    // No delay here. The comment this replaces said it avoided TPM rate
+    // limiting, but Pass 1 is Anthropic and Pass 2 is Groq, so pausing between
+    // them protects neither vendor's budget. The Groq calls are Pass 0.5 ->
+    // Pass 2 -> Pass 3, and 0.5 to 2 is already separated by OCR, retrieval
+    // and the whole of Pass 1.
 
     // ── PASS 2: Convert reasoning to JSON ────────────────────────
     const jsonPrompt = `You already reasoned through this answer. Your reasoning:
