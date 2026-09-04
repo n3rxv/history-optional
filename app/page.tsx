@@ -6,13 +6,7 @@ import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { AnimatedStats, PYQCarousel } from '@/components/HomeClient';
 import { paper1Notes, paper2Notes } from '@/lib/notes';
-
-const stats = [
-  { value: 51,   label: 'Topics',    color: 'var(--accent)',  suffix: '', href: '/paper1'     },
-  { value: 2,    label: 'Papers',    color: 'var(--yellow)',  suffix: '', href: '/paper2'     },
-  { value: 1533, label: 'PYQs',      color: 'var(--red)',     suffix: '', href: '/pyqs'       },
-  { value: 55,   label: 'Flashcards',color: 'var(--green)',   suffix: '', href: '/flashcards' },
-];
+import { pyqs } from '@/lib/pyqData';
 
 const features = [
   { icon: '✍️', title: 'Smart Annotations',               color: 'var(--yellow)', desc: 'Handwritten annotations support — write with your digital pen directly on the notes. Annotate, highlight and mark directly on the content as you study.',             href: '/paper1'   },
@@ -127,7 +121,7 @@ export default function Home() {
       </div>
 
       {/* ── Animated Stats ── */}
-      <AnimatedStats />
+      <AnimatedStats pyqCount={pyqs.length} />
 
       {/* ── Paper cards ── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '3rem', position: 'relative', zIndex: 1 }} className="grid-2col">
