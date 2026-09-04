@@ -440,6 +440,14 @@ export default function Flashcards() {
             {flashcardTypes.map(t => <option key={t} value={t}>{getTypeLabel(t)}</option>)}
           </select>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text2)', cursor: 'pointer' }}>
+          <select value={filterGrade} onChange={e => setFilterGrade(e.target.value)}
+            style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
+            <option value="All">{langHi ? "सभी रेटिंग" : "All Ratings"}</option>
+            <option value="1">{langHi ? 'खाली' : 'Blank'}</option>
+            <option value="2">{langHi ? 'कठिन' : 'Hard'}</option>
+            <option value="3">{langHi ? 'अच्छा' : 'Good'}</option>
+            <option value="4">{langHi ? 'आसान' : 'Easy'}</option>
+          </select>
             <input type="checkbox" checked={filterDue} onChange={e => setFilterDue(e.target.checked)} style={{ accentColor: 'var(--accent)' }} />
             {langHi ? 'केवल बाकी' : 'Due only'}
           </label>
@@ -518,6 +526,20 @@ export default function Flashcards() {
                   <div style={{ fontSize: '0.68rem', color: 'var(--text3)', marginTop: '0.25rem' }}>{card.section}</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+                  {/* How it was last graded. Without it the rating filter is
+                      the only way to find out, and the answer is invisible on
+                      the card itself. */}
+                  {mounted && s?.lastGrade && (
+                    <span style={{
+                      fontSize: '0.58rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
+                      textTransform: 'uppercase', color: GRADE_COLORS[s.lastGrade],
+                      border: `1px solid ${GRADE_COLORS[s.lastGrade]}44`,
+                      background: `${GRADE_COLORS[s.lastGrade]}14`,
+                      borderRadius: 4, padding: '1px 6px', whiteSpace: 'nowrap',
+                    }}>
+                      {langHi ? GRADE_LABELS_HI[s.lastGrade] : GRADE_LABELS[s.lastGrade]}
+                    </span>
+                  )}
                   {mounted && (
                     <span style={{ fontSize: '0.62rem', fontFamily: 'var(--font-mono)', color: isDue ? tc2.main : 'var(--text3)' }}>
                       {isDue ? (s ? (langHi ? 'बाकी' : 'Due') : (langHi ? 'नया' : 'New')) : `${s.interval}d`}
