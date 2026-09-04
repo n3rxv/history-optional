@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { allNotes } from '@/lib/notes';
 import { supabase } from '@/lib/supabase';
-import { pyqs } from '@/lib/pyqs';
+import type { PyqHit } from '@/app/api/search/route';
 
 const QUICK_JUMPS = [
   { label: 'Paper I Notes',    sub: 'Sources to 1707',        href: '/paper1',        icon: '📄' },
@@ -51,6 +51,11 @@ export default function SearchModal() {
   // Body-text matches from /api/search, keyed by slug. Titles and subtopics
   // match locally; only body search needs the server.
   const [bodyHits, setBodyHits] = useState<Record<string, string>>({});
+  // PYQ matches come from the server too. Matching them here would mean
+  // importing the 1584-question bank into every page's bundle; the small
+  // lib/pyqs.ts that used to be searched held 20 of them, so site search was
+  // missing almost the entire bank.
+  const [pyqHits, setPyqHits] = useState<PyqHit[]>([]);
 
   // Historiography is only needed once the modal is open. This used to fire on
   // mount — and Navbar renders SearchModal on every page, so it was a Supabase
@@ -69,7 +74,7 @@ export default function SearchModal() {
   // for an earlier query cannot overwrite results for the current one.
   useEffect(() => {
     const q = query.trim();
-    if (q.length < 2) { setBodyHits({}); return; }
+    if (q.length < 2) { setBodyHits({}); setPyqHits([]); return; }
 
     let cancelled = false;
     const timer = setTimeout(async () => {
@@ -81,6 +86,7 @@ export default function SearchModal() {
         const next: Record<string, string> = {};
         for (const hit of data.notes ?? []) next[hit.slug] = hit.snippet;
         setBodyHits(next);
+        setPyqHits(data.pyqs ?? []);
       } catch {
         // Body matches are an enhancement; title matches already rendered.
       }
@@ -139,18 +145,8 @@ export default function SearchModal() {
       .sort((a, b) => b.score - a.score)
       .slice(0, 5);
 
-    const pyqResults = pyqs
-      .map(p => {
-        const score = Math.max(
-          matchScore(p.question, q) * 2,
-          matchScore(p.topic, q),
-          matchScore(p.section, q),
-        );
-        return { ...p, score };
-      })
-      .filter(p => p.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 4);
+    // Already scored and ordered by /api/search.
+    const pyqResults = pyqHits;
 
     const historianResults = historians
       .map(h => {
@@ -168,7 +164,7 @@ export default function SearchModal() {
     // bodyHits and historians both arrive after the first render. Leaving them
     // out of the deps meant this closure kept the empty versions, so async
     // results never appeared until the query changed again.
-  }, [query, bodyHits, historians]);
+  }, [query, bodyHits, pyqHits, historians]);
 
   const { notes, pyqs: pyqResults, historians: historianResults } = results();
   const hasResults = notes.length > 0 || pyqResults.length > 0 || (historianResults?.length ?? 0) > 0;

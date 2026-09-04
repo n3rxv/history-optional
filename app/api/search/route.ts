@@ -13,6 +13,12 @@ import { checkRateLimit, clientIp, tooManyRequests } from '@/lib/rateLimit';
  *
  * Note titles, descriptions and subtopics still match client-side from
  * lib/notes, which is small. Only body matching comes here.
+ *
+ * PYQs are searched here for the same reason. SearchModal used to match them
+ * against lib/pyqs.ts, a 20-question file, while every PYQ page renders
+ * lib/pyqData.ts with 1584 — so site search silently missed 99% of the bank.
+ * Importing the real one into the client would have put 403KB back into every
+ * page, which 63c6d2b had just removed.
  */
 
 const MIN_QUERY = 2;
@@ -22,7 +28,18 @@ const SNIPPET_AFTER = 80;
 
 type IndexEntry = { slug: string; text: string; lower: string };
 
+/** Only the fields the result row renders. */
+export type PyqHit = {
+  id: number;
+  question: string;
+  topic: string;
+  section: string;
+  marks: number;
+  year: number;
+};
+
 let indexPromise: Promise<IndexEntry[]> | null = null;
+let pyqPromise: Promise<PyqHit[]> | null = null;
 
 /**
  * Built once per lambda instance, not per request. Stripping tags across the
@@ -43,9 +60,35 @@ function getIndex(): Promise<IndexEntry[]> {
   return indexPromise;
 }
 
+/** Built once per lambda, like the note index. */
+function getPyqs(): Promise<PyqHit[]> {
+  pyqPromise ??= import('@/lib/pyqData').then(({ pyqs }) =>
+    pyqs.map((p) => ({
+      id: p.id,
+      question: p.question,
+      topic: p.topic,
+      section: p.section,
+      marks: p.marks,
+      year: p.year,
+    }))
+  );
+  return pyqPromise;
+}
+
+/** Mirrors the client's scoring so ordering is unchanged. */
+function scorePyq(p: PyqHit, needle: string): number {
+  const at = (text: string) => {
+    const t = text.toLowerCase();
+    if (t.startsWith(needle)) return 3;
+    if (t.includes(needle)) return 2;
+    return 0;
+  };
+  return Math.max(at(p.question) * 2, at(p.topic), at(p.section));
+}
+
 export async function GET(req: NextRequest) {
   const q = (req.nextUrl.searchParams.get('q') ?? '').trim();
-  if (q.length < MIN_QUERY) return NextResponse.json({ notes: [] });
+  if (q.length < MIN_QUERY) return NextResponse.json({ notes: [], pyqs: [] });
 
   // Generous: a debounced search box issues a handful of requests per session,
   // but the corpus scan is real CPU and should not be free to hammer.
@@ -56,7 +99,7 @@ export async function GET(req: NextRequest) {
   if (!allowed) return tooManyRequests();
 
   const needle = q.toLowerCase();
-  const index = await getIndex();
+  const [index, allPyqs] = await Promise.all([getIndex(), getPyqs()]);
 
   const hits: { slug: string; snippet: string }[] = [];
   for (const entry of index) {
@@ -72,8 +115,15 @@ export async function GET(req: NextRequest) {
     if (hits.length >= MAX_RESULTS) break;
   }
 
+  const pyqHits = allPyqs
+    .map((p) => ({ p, score: scorePyq(p, needle) }))
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, MAX_RESULTS)
+    .map((x) => x.p);
+
   return NextResponse.json(
-    { notes: hits },
+    { notes: hits, pyqs: pyqHits },
     // Identical queries are common (users retype, reopen the modal). Cheap to
     // serve from the edge; the corpus only changes on deploy.
     { headers: { 'Cache-Control': 'public, max-age=60, s-maxage=300' } }
