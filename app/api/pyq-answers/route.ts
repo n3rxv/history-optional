@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { verifyFirebaseToken } from '@/lib/verifyFirebaseToken';
 import { checkRateLimit, clientIp } from '@/lib/rateLimit';
 import { cachePublic } from '@/lib/cacheHeaders';
+import { isPdf } from '@/lib/fileSignature';
 
 async function getFirebaseUid(req: NextRequest): Promise<string | null> {
   const auth = req.headers.get('authorization');
@@ -39,9 +40,12 @@ export async function POST(req: NextRequest) {
   // posting is deliberate (answers are shared under a display name, not an
   // account), so the ceiling is per-IP rather than per-user. Without it this
   // is an open 5MB-per-request write endpoint into paid storage.
+  // failClosed: the limiter is the only ceiling on an endpoint that writes
+  // into paid storage, so a database outage must not turn it into an open one.
   const { allowed } = await checkRateLimit(`pyq-upload:${clientIp(req)}`, {
     limit: 5,
     windowSeconds: 60 * 60,
+    failClosed: true,
   });
   if (!allowed) {
     return NextResponse.json(
@@ -62,6 +66,14 @@ export async function POST(req: NextRequest) {
   if (file.size > 5 * 1024 * 1024)
     return NextResponse.json({ error: 'File too large (max 5 MB).' }, { status: 400 });
 
+  // file.type is the Content-Type the caller wrote into the multipart part —
+  // their claim about the file, not a fact about it. These bytes are then
+  // served publicly, so anything could have been hosted here under a PDF
+  // label. Check the actual signature.
+  const arrayBuffer = await file.arrayBuffer();
+  if (!isPdf(arrayBuffer))
+    return NextResponse.json({ error: 'That file is not a PDF.' }, { status: 400 });
+
   // Optional auth — logged in users get firebase_uid attached
   const firebase_uid = await getFirebaseUid(req);
 
@@ -76,7 +88,6 @@ export async function POST(req: NextRequest) {
   const answerNumber = (totalCount ?? 0) + 1;
   const fileName     = `${safeName.replace(/ /g, '-')}-${answerNumber}.pdf`;
   const storagePath  = `pyq-${pyqId}/anon/${Date.now()}-${fileName}`;
-  const arrayBuffer  = await file.arrayBuffer();
 
   const { error: uploadErr } = await db.storage
     .from('pyq-answers')
