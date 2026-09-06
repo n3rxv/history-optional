@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { pyqs, type PYQ } from '@/lib/pyqData';
 import { auth } from '@/lib/firebase';
+import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 
 interface AnswerEntry {
   id: string;
@@ -18,6 +19,7 @@ interface AnswerEntry {
 export default function PYQDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const { isAttempted, toggle: toggleAttempted, ready: attemptedReady } = useAttemptedPyqs();
   const pyq = pyqs.find((q: PYQ) => q.id === parseInt(id));
 
   const handleTopperClick = async (tcId: string) => {
@@ -146,6 +148,7 @@ export default function PYQDetailPage() {
             `${pyq.marks}M`,
             String(pyq.year),
             pyq.topic,
+            ...(pyq.subtopic ? [pyq.subtopic] : []),
           ].map((badge, i) => (
             <span key={i} style={{
               background: i === 0 ? (isP1 ? 'rgba(59,130,246,0.1)' : 'rgba(76,139,201,0.12)') : 'var(--bg3)',
@@ -159,6 +162,30 @@ export default function PYQDetailPage() {
         <p style={{ color: 'var(--text)', fontSize: '1rem', lineHeight: 1.75, margin: 0 }}>
           {pyq.question}
         </p>
+        {/* The same tick as the list. This is where a reader actually finishes
+            a question, so making them go back to mark it would be the wrong
+            way round. attemptedReady gates it because localStorage cannot be
+            read during prerender. */}
+        {attemptedReady && (
+          <button
+            onClick={() => toggleAttempted(pyq.id)}
+            aria-pressed={isAttempted(pyq.id)}
+            style={{
+              marginTop: '1.25rem',
+              display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
+              background: isAttempted(pyq.id) ? 'rgba(100,180,100,0.12)' : 'transparent',
+              border: `1px solid ${isAttempted(pyq.id) ? 'rgba(100,180,100,0.45)' : 'var(--border)'}`,
+              color: isAttempted(pyq.id) ? '#6ab46a' : 'var(--text2)',
+              borderRadius: 6, padding: '0.45rem 0.9rem', cursor: 'pointer',
+              fontSize: '0.82rem', fontFamily: 'var(--font-ui)', transition: 'all 0.12s',
+            }}
+          >
+            <span style={{ fontSize: '0.95rem', lineHeight: 1 }}>
+              {isAttempted(pyq.id) ? '\u2713' : '\u25a2'}
+            </span>
+            {isAttempted(pyq.id) ? 'Attempted' : 'Mark as attempted'}
+          </button>
+        )}
       </div>
 
       {/* Upload Section */}

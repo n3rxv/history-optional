@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import Script from 'next/script';
 
@@ -275,6 +276,7 @@ export default function PYQsPage() {
   const [filterYear, setFilterYear]     = useState<number | 'all'>('all');
   const [filterMarks, setFilterMarks]   = useState<number | 'all'>('all');
   const [filterTopic, setFilterTopic]   = useState<string>('all');
+  const [filterDone, setFilterDone]     = useState<'all' | 'done' | 'todo'>('all');
   const [search, setSearch]             = useState('');
   const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
   const [showTopperCopies, setShowTopperCopies] = useState(false);
@@ -314,6 +316,7 @@ export default function PYQsPage() {
       .finally(() => setTopperLoading(false));
   }, [showTopperCopies]);
 
+  const { attempted, ready: attemptedReady, isAttempted, count: attemptedCount, toggle: toggleAttempted } = useAttemptedPyqs();
   const { GateModals, usage, slots, showChatLimitModal } = useSubscriptionGate(() => {});
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
 
@@ -326,6 +329,10 @@ export default function PYQsPage() {
   const filtered = pyqs.filter((q: PYQ) => {
     if (activeTab !== 'all' && q.section !== activeTab) return false;
     if (filterTopic !== 'all' && q.topic !== filterTopic) return false;
+    if (filterDone !== 'all') {
+      const done = attempted[q.id] !== undefined;
+      if (filterDone === 'done' ? !done : done) return false;
+    }
     if (filterYear !== 'all' && q.year !== filterYear) return false;
     if (filterMarks !== 'all' && q.marks !== filterMarks) return false;
     if (search) {
@@ -339,13 +346,33 @@ export default function PYQsPage() {
     return true;
   });
 
-  // Topics offered are those of the section in view, so the list stays short
-  // enough to scan; "All" would otherwise offer all 74 at once.
-  const topicOptions = useMemo(() => {
-    const pool = activeTab === 'all' ? pyqs : pyqs.filter((q: PYQ) => q.section === activeTab);
-    return [...new Set(pool.map((q: PYQ) => q.topic))]
-      .sort((a, b) => a.localeCompare(b));
+  /**
+   * Topics for the dropdown, grouped by section.
+   *
+   * A flat alphabetical list was unreadable under "All": every section
+   * numbers its topics from 01, so five different "01." entries from five
+   * different sections sat next to each other with nothing saying which was
+   * which. Grouping restores the book's order — sections in paper order,
+   * topics numbered within them.
+   */
+  const topicGroups = useMemo(() => {
+    const sections = activeTab === 'all' ? SECTION_ORDER : [activeTab];
+    return sections.map(section => ({
+      section,
+      label: (TABS.find(t => t.value === section)?.label ?? section),
+      topics: [...new Set(pyqs.filter((q: PYQ) => q.section === section).map((q: PYQ) => q.topic))]
+        .sort((a, b) => a.localeCompare(b))
+        .map(topic => ({
+          topic,
+          count: pyqs.filter((q: PYQ) => q.section === section && q.topic === topic).length,
+        })),
+    })).filter(g => g.topics.length > 0);
   }, [activeTab]);
+
+  const topicCount = useMemo(
+    () => topicGroups.reduce((n, g) => n + g.topics.length, 0),
+    [topicGroups]
+  );
 
   // A topic chosen under one section is meaningless under another.
   useEffect(() => { setFilterTopic('all'); }, [activeTab]);
@@ -385,8 +412,8 @@ export default function PYQsPage() {
 
   const isP1 = (section: string) => section.startsWith('Paper I');
   const markOptions = [10, 15, 20, 25, 30, 60];
-  const clearAll = () => { setActiveTab('all'); setFilterTopic('all'); setFilterYear('all'); setFilterMarks('all'); setSearch(''); };
-  const hasFilters = activeTab !== 'all' || filterTopic !== 'all' || filterYear !== 'all' || filterMarks !== 'all' || search;
+  const clearAll = () => { setActiveTab('all'); setFilterTopic('all'); setFilterDone('all'); setFilterYear('all'); setFilterMarks('all'); setSearch(''); };
+  const hasFilters = activeTab !== 'all' || filterTopic !== 'all' || filterDone !== 'all' || filterYear !== 'all' || filterMarks !== 'all' || search;
 
   const selectStyle: React.CSSProperties = {
     background: 'var(--bg3)', border: '1px solid var(--border)',
@@ -494,11 +521,13 @@ export default function PYQsPage() {
         <select value={filterTopic} onChange={e => setFilterTopic(e.target.value)}
           style={{ ...selectStyle, maxWidth: 260 }}
           title={activeTab === 'all' ? 'All topics across every section' : `Topics in ${activeTab}`}>
-          <option value="all">All Topics ({topicOptions.length})</option>
-          {topicOptions.map(t => (
-            <option key={t} value={t}>
-              {t} ({pyqs.filter((q: PYQ) => q.topic === t && (activeTab === 'all' || q.section === activeTab)).length})
-            </option>
+          <option value="all">All Topics ({topicCount})</option>
+          {topicGroups.map(g => (
+            <optgroup key={g.section} label={g.label}>
+              {g.topics.map(({ topic, count }) => (
+                <option key={g.section + topic} value={topic}>{topic} ({count})</option>
+              ))}
+            </optgroup>
           ))}
         </select>
         <select value={filterYear} onChange={e => setFilterYear(e.target.value === 'all' ? 'all' : +e.target.value)} style={selectStyle}>
@@ -508,6 +537,13 @@ export default function PYQsPage() {
         <select value={filterMarks} onChange={e => setFilterMarks(e.target.value === 'all' ? 'all' : +e.target.value)} style={selectStyle}>
           <option value="all">All Marks</option>
           {markOptions.map(m => <option key={m} value={m}>{m} marks</option>)}
+        </select>
+        {/* Marking without filtering would be half a feature: the point of
+            ticking questions off is being able to see what is left. */}
+        <select value={filterDone} onChange={e => setFilterDone(e.target.value as 'all' | 'done' | 'todo')} style={selectStyle}>
+          <option value="all">All Questions</option>
+          <option value="todo">Not attempted</option>
+          <option value="done">Attempted</option>
         </select>
         </>}
         {hasFilters && (
@@ -628,8 +664,19 @@ export default function PYQsPage() {
       ) : (
       <div>
       {/* Count */}
-      <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem' }}>
-        Showing {filtered.length} of {pyqs.length} questions
+      <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem', display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+        <span>Showing {filtered.length} of {pyqs.length} questions</span>
+        {/* attemptedReady gates this: localStorage is unreadable during
+            prerender, so rendering a count before the first read would flash
+            "0 attempted" at someone who has marked hundreds. */}
+        {attemptedReady && attemptedCount > 0 && (
+          <span style={{ color: '#6ab46a', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
+            &#10003; {attemptedCount} attempted
+            <span style={{ color: 'var(--text3)' }}>
+              {' '}({Math.round((attemptedCount / pyqs.length) * 100)}%)
+            </span>
+          </span>
+        )}
       </div>
 
       {/* Questions, grouped topic -> sub-topic */}
@@ -725,7 +772,30 @@ export default function PYQsPage() {
                         }}>{q.source}</span>
                       )}
                     </div>
-                    <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', flexShrink: 0 }}>{q.year}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexShrink: 0 }}>
+                      <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>{q.year}</span>
+                      {/* stopPropagation: the whole card is a link to the
+                          question, and ticking one off is not asking to open it. */}
+                      <button
+                        onClick={e => { e.stopPropagation(); toggleAttempted(q.id); }}
+                        title={isAttempted(q.id) ? 'Marked attempted — click to undo' : 'Mark as attempted'}
+                        aria-pressed={isAttempted(q.id)}
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                          background: isAttempted(q.id) ? 'rgba(100,180,100,0.12)' : 'transparent',
+                          border: `1px solid ${isAttempted(q.id) ? 'rgba(100,180,100,0.45)' : 'var(--border)'}`,
+                          color: isAttempted(q.id) ? '#6ab46a' : 'var(--text3)',
+                          borderRadius: 4, padding: '2px 8px', cursor: 'pointer',
+                          fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                          transition: 'all 0.12s', whiteSpace: 'nowrap',
+                        }}
+                      >
+                        <span style={{ fontSize: '0.8rem', lineHeight: 1 }}>
+                          {isAttempted(q.id) ? '\u2713' : '\u25a2'}
+                        </span>
+                        {isAttempted(q.id) ? 'Done' : 'Mark'}
+                      </button>
+                    </div>
                   </div>
 
                   {/* Question */}
