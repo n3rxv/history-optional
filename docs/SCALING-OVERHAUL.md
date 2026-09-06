@@ -550,6 +550,33 @@ configuration.
 The same migration drops `increment_eval_count` and `increment_chat_count`,
 which were properly atomic and had never been called.
 
+## 24. The Firebase service-account key was rejected, invisibly
+**2026-09-06 · `2036975`**
+
+`admin.auth().listUsers(1)` failed with `app/invalid-credential`. The PEM in
+`.env.local` was well-formed and `crypto.createPrivateKey()` parsed it, so it
+was not an escaping bug — Google was rejecting the credential, meaning the key
+had been deleted or rotated in GCP.
+
+**Nothing in production depended on it.** Every route calls `verifyIdToken`,
+which validates against Google's *public* certs and needs no private key, so a
+dead key looked exactly like a healthy one. The only route that needed a live
+key was `/api/cancel-user`, deleted as dead code in §8. That invisibility is
+why it survived.
+
+Fixed by generating a new key — copying the local one to Vercel would have
+propagated the broken credential, or overwritten a working one. Vercel stores
+secrets write-only, so the two sides could not be compared; rotating both
+settled it.
+
+`/api/ping?check=firebase` now reports `firebaseAdmin: ok` or the error code,
+so this state is observable rather than latent. Opt-in, because `AuthGuard`
+pings on page load and a Google API call per pageview would be a poor trade for
+a value that changes only on rotation.
+
+> Same shape as §11 and §14: **the bug was not the failure, it was that nothing
+> was listening.**
+
 ## Still open
 
 - **Answer history lives only in `localStorage`** (`hooks/useAnswerHistory.ts`),
@@ -557,11 +584,6 @@ which were properly atomic and had never been called.
   results table would fix this *and* be the prerequisite for background
   evaluation. Decide after reading the `[evaluate:timing]` lines.
 - **`unsafe-inline` in the CSP** — needs hashes, not nonces (see §11).
-- **The Firebase service-account key in use is rejected** with
-  `app/invalid-credential`. No production impact today, because `verifyIdToken`
-  validates against Google's *public* certs — but the next admin operation
-  anyone adds will fail confusingly. Regenerate in Firebase Console → Project
-  Settings → Service Accounts.
 - **Two PYQ sources still exist in spirit**: `lib/pyqData.ts` is now the only
   one, but `SearchModal` searching a different file to the one every page
   rendered went unnoticed for a long time. Watch for duplicated data.
@@ -569,7 +591,8 @@ which were properly atomic and had never been called.
   answer history. Clearing the browser resets all 55 cards.
 
 *(Resolved since first writing: the two dead increment functions and the
-diverging `subscription_slots.subscribers` counter — see §23.)*
+diverging `subscription_slots.subscribers` counter — see §23 — and the rejected
+Firebase service-account key, see §24.)*
 
 ## Conventions this established
 
