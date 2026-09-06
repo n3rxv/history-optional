@@ -579,20 +579,108 @@ a value that changes only on rotation.
 
 ## Still open
 
-- **Answer history lives only in `localStorage`** (`hooks/useAnswerHistory.ts`),
-  capped at 50 entries. Clear the cache or switch device and it is gone. A
-  results table would fix this *and* be the prerequisite for background
-  evaluation. Decide after reading the `[evaluate:timing]` lines.
-- **`unsafe-inline` in the CSP** — needs hashes, not nonces (see §11).
-- **Two PYQ sources still exist in spirit**: `lib/pyqData.ts` is now the only
-  one, but `SearchModal` searching a different file to the one every page
-  rendered went unnoticed for a long time. Watch for duplicated data.
-- **Flashcard progress is `localStorage` only** (`ho_flashcards_v1`), like
-  answer history. Clearing the browser resets all 55 cards.
+Verified against the code on 2026-09-06, not written from memory. Ordered by
+what would hurt first.
+
+### Money and access
+
+**`topper-verify` and `map-verify` still have the replay hole §2 closed.**
+Neither touches `payment_events`, so the same signature can be presented
+repeatedly: `topper-verify` re-upserts a fresh one-year expiry each time, and
+`map-verify` re-runs a Claude Sonnet call on every replay. `topper-order` also
+writes no `notes`, so there is no `user_id` or plan to validate against — fixing
+these means changing the order routes too, then routing both through
+`applySubscriptionPayment` or an equivalent.
+
+**`/api/migrate-user` reassigns a subscription by email match**, with no check
+that the email is verified. Anyone able to create a Firebase account with a
+subscriber's address inherits their subscription. It has no callers, so
+deleting it is the cheap fix.
+
+**The admin token carries no identity and cannot be revoked.**
+`lib/admin-auth.ts` issues `${exp}.${hmac(exp)}` — no subject, no nonce, no
+revocation list, 8-hour TTL. A leaked token is valid until it expires and the
+only remedy is rotating `ADMIN_PASSWORD`. It gates note overrides, blog posts,
+topper copies and notifications.
+
+### Privacy
+
+**Students' answers are written to the logs.** `/api/evaluate` logs the OCR
+transcript (line ~745) and the full chain-of-thought reasoning (~920), both of
+which contain the student's handwritten answer. Convention 6 says log durations,
+never student content; these two predate it and were missed.
+
+**All user progress is `localStorage` only.** Answer history
+(`ho_answer_history_v1`, capped at 50), flashcard progress (`ho_flashcards_v1`),
+syllabus tracking, chat history, prelims state and canvas annotations. Clearing
+the browser or switching device loses everything, on a product whose value is
+tracking improvement over months. One durable store fixes all of them and is the
+prerequisite for background evaluation.
+
+### CSP `unsafe-inline`
+
+Removing it needs every inline script individually authorised, and the two
+mechanisms differ sharply in cost here:
+
+| | How | Cost |
+|---|---|---|
+| Nonces | Random value per request | Requires per-request rendering — **would make all 90 prerendered pages dynamic**, undoing §7 |
+| Hashes | SHA-256 of exact bytes, listed in the policy | Works with static pages, but only for content that never varies |
+
+So hashes are the only viable route. `app/layout.tsx` has three inline blocks;
+the theme-init script and the GA snippet are fixed strings and hash cleanly.
+The problem is **13 files emitting per-page JSON-LD** — different title,
+description and breadcrumbs each — which a byte-exact hash cannot cover, and
+static pages cannot carry a per-page policy because the CSP is a header in
+`next.config.ts`.
+
+> **The open question was never answered, and §11 implies otherwise.** Whether
+> `<script type="application/ld+json">` is subject to `script-src` at all is
+> browser-inconsistent, since it is not executed. §11 says the Report-Only pass
+> would settle it. It did not: that policy still contained `unsafe-inline` —
+> only `unsafe-eval` was removed from it. Inline was never exercised.
+
+Next step is therefore a **second Report-Only pass** with `unsafe-inline`
+removed and hashes added for the two fixed scripts. Only its reports reveal
+whether this is "add two hashes" or "restructure JSON-LD across 13 files".
+
+Worth weighing before spending the time: this is defence-in-depth against a
+*future* injection bug. The actual XSS holes are closed (§10) — DOMPurify on
+model output, `sanitize-html` on admin note overrides, `post.content` sanitised.
+
+### Correctness and cost
+
+**`/api/evaluate` is four sequential LLM calls inside a 60s cap.** The Vercel
+plan is Hobby, so 60s is hard. §14 bought headroom without touching a prompt,
+but the ceiling stands. `[evaluate:timing]` lines from 8-10 real evaluations
+decide whether this needs a background job — and if the parallel stage
+dominates, more trimming will not help.
+
+**`revalidate` is set on `app/page.tsx` alone.** Every other server-rendered
+page re-renders per request or is frozen at build time. §19 shows the failure
+mode: statically generated content that silently never updates.
+
+**~30 `.single()` calls remain across `app/api`.** `.single()` errors with
+`PGRST116` when no row matches. Because results are destructured as
+`const { data } = ...` with the error discarded, this mostly works by accident
+while generating constant Postgres error noise — and hides real failures in the
+same silence. `.maybeSingle()` is the correct call.
+
+**Two Firebase admin modules exist** — `lib/firebaseAdmin.ts` and
+`lib/firebase-admin.ts` — both initialising the SDK, both imported in different
+places.
+
+**`/api/pyq-answers` accepts anonymous 5MB uploads** into paid storage. Rate
+limited per IP in §5, but still unauthenticated by design. Requiring sign-in is
+a product decision.
+
+**26 npm advisories remain**, all transitive under `next`, `firebase` or
+`razorpay`. Individually assessed in `SECURITY-NOTES.md`, which also records
+that `npm audit fix` breaks the build.
 
 *(Resolved since first writing: the two dead increment functions and the
-diverging `subscription_slots.subscribers` counter — see §23 — and the rejected
-Firebase service-account key, see §24.)*
+diverging `subscription_slots.subscribers` counter — §23 — and the rejected
+Firebase service-account key — §24.)*
 
 ## Conventions this established
 
