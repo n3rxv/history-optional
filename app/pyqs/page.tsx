@@ -369,6 +369,33 @@ export default function PYQsPage() {
     })).filter(g => g.topics.length > 0);
   }, [activeTab]);
 
+  /**
+   * Progress for whatever the reader is looking at.
+   *
+   * Scoped to the section tab rather than always the whole 1,584: someone
+   * working through Modern India wants to see 40/422, not 40/1584, which would
+   * make steady work look like no progress at all.
+   *
+   * Year, marks and the attempted filter itself are deliberately NOT applied —
+   * the denominator has to stay still, or selecting "Not attempted" would
+   * redefine the total and pin the bar to 0%.
+   */
+  const progress = useMemo(() => {
+    const pool = activeTab === 'all'
+      ? pyqs
+      : pyqs.filter((q: PYQ) => q.section === activeTab);
+    const scoped = filterTopic === 'all' ? pool : pool.filter((q: PYQ) => q.topic === filterTopic);
+    const done = scoped.filter((q: PYQ) => attempted[q.id] !== undefined).length;
+    return {
+      done,
+      total: scoped.length,
+      pct: scoped.length ? Math.round((done / scoped.length) * 100) : 0,
+      label: filterTopic !== 'all' ? filterTopic
+           : activeTab === 'all' ? 'All questions'
+           : (TABS.find(t => t.value === activeTab)?.label ?? activeTab),
+    };
+  }, [activeTab, filterTopic, attempted]);
+
   const topicCount = useMemo(
     () => topicGroups.reduce((n, g) => n + g.topics.length, 0),
     [topicGroups]
@@ -405,10 +432,11 @@ export default function PYQsPage() {
           bySub.get(q.subtopic)!.push(q);
         }
         return { section, topic, count: qs.length,
+                 done: qs.filter(q => attempted[q.id] !== undefined).length,
                  syllabus: qs[0].syllabus,
                  subs: [...bySub.entries()] };
       });
-  }, [filtered]);
+  }, [filtered, attempted]);
 
   const isP1 = (section: string) => section.startsWith('Paper I');
   const markOptions = [10, 15, 20, 25, 30, 60];
@@ -664,19 +692,57 @@ export default function PYQsPage() {
       ) : (
       <div>
       {/* Count */}
-      <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem', display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
-        <span>Showing {filtered.length} of {pyqs.length} questions</span>
-        {/* attemptedReady gates this: localStorage is unreadable during
-            prerender, so rendering a count before the first read would flash
-            "0 attempted" at someone who has marked hundreds. */}
-        {attemptedReady && attemptedCount > 0 && (
-          <span style={{ color: '#6ab46a', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
-            &#10003; {attemptedCount} attempted
-            <span style={{ color: 'var(--text3)' }}>
-              {' '}({Math.round((attemptedCount / pyqs.length) * 100)}%)
+      {/* Progress. attemptedReady gates the whole block: localStorage cannot
+          be read during prerender, so drawing a bar before the first read
+          would show 0% to someone who has marked hundreds. Nothing is shown
+          until the reader has marked something — an empty bar on a first
+          visit is just noise. */}
+      {attemptedReady && attemptedCount > 0 && (
+        <div style={{
+          background: 'var(--bg2)', border: '1px solid var(--border)',
+          borderRadius: 8, padding: '0.85rem 1.1rem', marginBottom: '1rem',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '1rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+            <span style={{ color: 'var(--text2)', fontSize: '0.82rem' }}>
+              {progress.label}
             </span>
-          </span>
-        )}
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text3)' }}>
+              <span style={{ color: '#6ab46a' }}>{progress.done}</span>
+              {' / '}{progress.total} attempted
+              <span style={{ marginLeft: '0.5rem', color: progress.pct >= 100 ? '#6ab46a' : 'var(--text3)' }}>
+                {progress.pct}%
+              </span>
+            </span>
+          </div>
+          <div
+            role="progressbar"
+            aria-valuenow={progress.done}
+            aria-valuemin={0}
+            aria-valuemax={progress.total}
+            aria-label={`${progress.label} attempted`}
+            style={{ height: 6, borderRadius: 3, background: 'var(--bg3)', overflow: 'hidden' }}
+          >
+            <div style={{
+              width: `${progress.pct}%`, height: '100%',
+              background: progress.pct >= 100
+                ? '#6ab46a'
+                : 'linear-gradient(90deg, #6ab46a 0%, #7cc47c 100%)',
+              borderRadius: 3, transition: 'width 0.3s ease',
+            }} />
+          </div>
+          {/* Whole-bank figure when the bar is showing a slice, so the overall
+              number never disappears just because a filter is on. */}
+          {(activeTab !== 'all' || filterTopic !== 'all') && (
+            <div style={{ marginTop: '0.5rem', fontSize: '0.72rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>
+              {attemptedCount} of {pyqs.length} across the whole bank
+              {' '}({Math.round((attemptedCount / pyqs.length) * 100)}%)
+            </div>
+          )}
+        </div>
+      )}
+
+      <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem' }}>
+        Showing {filtered.length} of {pyqs.length} questions
       </div>
 
       {/* Questions, grouped topic -> sub-topic */}
@@ -703,6 +769,17 @@ export default function PYQsPage() {
                     background: badgeBg, border: `1px solid ${badgeBorder}`,
                     padding: '2px 10px', borderRadius: 20, whiteSpace: 'nowrap',
                   }}>asked {group.count}&times;</span>
+                  {attemptedReady && group.done > 0 && (
+                    <span style={{
+                      fontSize: '0.63rem', fontFamily: 'var(--font-mono)',
+                      color: group.done === group.count ? '#6ab46a' : 'var(--text3)',
+                      background: group.done === group.count ? 'rgba(100,180,100,0.12)' : 'transparent',
+                      border: `1px solid ${group.done === group.count ? 'rgba(100,180,100,0.35)' : 'var(--border)'}`,
+                      padding: '2px 8px', borderRadius: 20, whiteSpace: 'nowrap',
+                    }}>
+                      {group.done === group.count ? '\u2713 all done' : `${group.done}/${group.count} done`}
+                    </span>
+                  )}
                   {activeTab === 'all' && (
                     <span style={{ fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)' }}>
                       {group.section.replace('Paper I - ', 'P1 · ').replace('Paper II - ', 'P2 · ')}
