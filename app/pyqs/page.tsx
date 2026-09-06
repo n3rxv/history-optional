@@ -406,25 +406,6 @@ export default function PYQsPage() {
         .pyq-card:hover{background:var(--bg3)!important;}
       `}</style>
 
-      {/* SEO Topic Links */}
-      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-        {[
-          { label: 'Ancient India', href: '/pyqs/ancient-india' },
-          { label: 'Early Medieval', href: '/pyqs/early-medieval' },
-          { label: 'Medieval India', href: '/pyqs/medieval-india' },
-          { label: 'Modern India', href: '/pyqs/modern-india' },
-          { label: 'Since 1947', href: '/pyqs/india-since-independence' },
-          { label: 'World History', href: '/pyqs/world-history' },
-        ].map(({ label, href }) => (
-          <a key={href} href={href} style={{
-            padding: '0.35rem 0.9rem', borderRadius: 6,
-            border: '1px solid var(--border)', background: 'var(--bg2)',
-            color: 'var(--text2)', fontSize: '0.8rem', textDecoration: 'none',
-            fontFamily: 'var(--font-ui)',
-          }}>{label} PYQs →</a>
-        ))}
-      </div>
-
       {/* Header */}
       <div style={{ marginBottom: '1.75rem' }}>
         <div style={{ color: 'var(--text3)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
@@ -439,25 +420,34 @@ export default function PYQsPage() {
               UPSC Mains 1979–2026 · {pyqs.length} questions · Click any question to view & submit answers
             </p>
           </div>
-          <Link href="/test" style={{
-            background: 'var(--accent)', color: '#fff',
-            padding: '0.55rem 1.25rem', borderRadius: 6,
-            fontSize: '0.88rem', fontWeight: 600, textDecoration: 'none',
-            display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-            flexShrink: 0, marginTop: '0.25rem',
-            position: 'relative', overflow: 'hidden',
-          }} className="shimmer-btn">Start Test →</Link>
+          {/* Both are page-level actions, so they sit together. Topper Copies
+              used to live down in the tab row, where it read as an eighth tab
+              and then wrapped onto a line of its own. */}
+          <div style={{ display: 'flex', gap: '0.6rem', flexShrink: 0, marginTop: '0.25rem', flexWrap: 'wrap' }}>
+            <button onClick={() => setShowTopperCopies(p => !p)} style={{
+              background: 'transparent',
+              color: showTopperCopies ? 'var(--accent)' : 'var(--text2)',
+              border: `1px solid ${showTopperCopies ? 'var(--accent)' : 'var(--border)'}`,
+              padding: '0.55rem 1.1rem', borderRadius: 6,
+              fontSize: '0.88rem', fontWeight: 500, cursor: 'pointer',
+              whiteSpace: 'nowrap', transition: 'all 0.15s',
+            }}>{showTopperCopies ? '← Back to PYQs' : 'Topper Copies'}</button>
+            <Link href="/test" style={{
+              background: 'var(--accent)', color: '#fff',
+              padding: '0.55rem 1.25rem', borderRadius: 6,
+              fontSize: '0.88rem', fontWeight: 600, textDecoration: 'none',
+              display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+              whiteSpace: 'nowrap',
+              position: 'relative', overflow: 'hidden',
+            }} className="shimmer-btn">Start Test →</Link>
+          </div>
         </div>
       </div>
 
-      {/* Tabs + Topper Copies toggle */}
-      {/* Seven tabs wrap on most widths. With space-between, a wrapped button
-          is the only item on its row and gets pushed to the LEFT edge, landing
-          directly under the first tab. marginLeft:auto keeps it right whether
-          it shares the row or not, and the row gap stops the two lines from
-          reading as one cluster. */}
-      <div style={{ display: 'flex', gap: '0.85rem 0.4rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
-      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', flex: '1 1 auto', minWidth: 0 }}>
+      {/* Sections. Hidden in Topper Copies mode, which is a different corpus —
+          the tabs filtered nothing there and only invited a dead click. */}
+      {!showTopperCopies && (
+      <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
         {TABS.map(tab => {
           const count = tab.value === 'all' ? pyqs.length : pyqs.filter((q: PYQ) => q.section === tab.value).length;
           const active = activeTab === tab.value;
@@ -482,17 +472,7 @@ export default function PYQsPage() {
           );
         })}
       </div>
-      <button onClick={() => setShowTopperCopies(p => !p)} style={{
-        marginLeft: 'auto',
-        background: showTopperCopies ? 'var(--bg3)' : 'var(--accent)',
-        color: showTopperCopies ? 'var(--text2)' : '#fff',
-        border: `1px solid ${showTopperCopies ? 'var(--border)' : 'var(--accent)'}`,
-        padding: '0.45rem 1rem', borderRadius: 6,
-        fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer',
-        display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-        flexShrink: 0, whiteSpace: 'nowrap', transition: 'all 0.15s',
-      }}>{showTopperCopies ? 'Browse PYQs' : 'Browse Topper Copies'}</button>
-      </div>
+      )}
 
       {/* Filters */}
       <div style={{
@@ -810,6 +790,33 @@ export default function PYQsPage() {
             No questions match your filters.
           </div>
         )}
+      </div>
+
+      {/* Section pages. These are real links, so they are what a crawler
+          follows to reach /pyqs/<section>; the tabs above are client-side
+          filters and lead nowhere. They used to sit above the <h1>, which put
+          six links before the page had said what it was. */}
+      <div style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+        <div style={{ color: 'var(--text3)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+          Browse by section
+        </div>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          {[
+            { label: 'Ancient India', href: '/pyqs/ancient-india' },
+            { label: 'Early Medieval', href: '/pyqs/early-medieval' },
+            { label: 'Medieval India', href: '/pyqs/medieval-india' },
+            { label: 'Modern India', href: '/pyqs/modern-india' },
+            { label: 'Since 1947', href: '/pyqs/india-since-independence' },
+            { label: 'World History', href: '/pyqs/world-history' },
+          ].map(({ label, href }) => (
+            <a key={href} href={href} style={{
+              padding: '0.35rem 0.9rem', borderRadius: 6,
+              border: '1px solid var(--border)', background: 'var(--bg2)',
+              color: 'var(--text2)', fontSize: '0.8rem', textDecoration: 'none',
+              fontFamily: 'var(--font-ui)',
+            }}>{label} PYQs →</a>
+          ))}
+        </div>
       </div>
       </div>
       )}
