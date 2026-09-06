@@ -3,7 +3,16 @@
 A record of what was wrong, why it was wrong, and what replaced it. Written for
 whoever touches this code next, including future-us.
 
-Two things to take from it beyond the fixes themselves:
+**Sections 1–15** — 2–4 September: payments, authentication, rate limiting, the
+sanitizer, caching, the schema.
+**Sections 16–24** — 5–6 September: search, page weight, note latency, the
+subscription counter, the Firebase key.
+**Sections 25–26** — 6 September: students' answers and the evaluation timings,
+both of which existed only in the server log until they were given a home.
+**The open list** — every item outstanding at the start of 6 September, with
+what happened to each, including the two closed as *won't fix* and *deferred*.
+
+Four things to take from it beyond the fixes themselves:
 
 - **Several of these were deliberate decisions whose reason had expired.** The
   chat buffering and the evaluate pipeline were both built the way they were on
@@ -12,6 +21,13 @@ Two things to take from it beyond the fixes themselves:
 - **Two bugs were found by things that were listening, not by reading code.**
   A Razorpay script had been blocked on every checkout for months, silently.
   Prefer changes that make failures visible over changes that assume success.
+- **A leak is often the only copy.** Three times in one day the thing being
+  logged, replayed, or thrown away was the only record anyone had. Deleting the
+  leak would have been correct and destructive. See convention 10.
+- **The notes in this document drift; the codebase does not.** Several counts
+  here were wrong when re-measured — a "13 file" problem was a 1,756 file
+  problem, a "1 of 90" problem was 2 of 90. Regenerate a count before acting on
+  it. See convention 11.
 
 Dates are commit dates. Prior work on **2026-09-02** (`abccd55`, `3875bdf`,
 `5fce3be`) is included because it is the same effort.
@@ -577,10 +593,90 @@ a value that changes only on rotation.
 > Same shape as §11 and §14: **the bug was not the failure, it was that nothing
 > was listening.**
 
-## Still open
+## 25. Students' answers lived in the server log, and nowhere else
 
-Verified against the code on 2026-09-06, not written from memory. Ordered by
-what would hurt first.
+`/api/evaluate` printed the OCR transcript (~line 745) and the model's
+chain-of-thought (~920) to the console. Both quote the student's handwritten
+answer verbatim, so readers' work went into Vercel's log stream: readable by
+anyone with project access, retained on their schedule, unsearchable, and
+impossible to delete for one person who asks. Convention 6 already forbade
+this; these two predate it and were missed.
+
+Deleting the two lines would have fixed the privacy problem and lost something
+real, **because the log was also the only copy**. The answer, the question and
+the marking existed nowhere else — once the response rendered, they were gone.
+
+So they are stored deliberately now, in `answer_evaluations`, and read in a new
+**Evaluations** tab in `/admin`: who submitted it, the question, what they
+wrote, the marks by section, and the feedback given. The list query does not
+select `answer_text` or `evaluation`; opening a row fetches those for that row
+alone, so browsing a hundred submissions does not pull a hundred essays.
+
+```ts
+// Never fatal — a reader has paid for this evaluation and is owed it
+// whether or not the record saved.
+try {
+  await createServerClient().from("answer_evaluations").insert({ ... });
+} catch (saveErr) {
+  console.error("[evaluate] could not record evaluation:", saveErr);
+}
+```
+
+RLS is on with no policies: only the service-role key behind an admin session
+reaches it. The two log lines now print lengths, which is the part that is ours.
+
+> **The leak was load-bearing.** This is the third instance of the same shape in
+> one day — see §26 and the `map-verify` result in *Money and access*. When a
+> thing exists only in something transient, removing the leak also removes the
+> only access anyone had. Store it deliberately and both problems close.
+
+## 26. The timing numbers rolled over before they could be read
+
+§14 added `[evaluate:timing]`, one structured line per evaluation. Nothing kept
+it. Answering "how close are we to the 60s Vercel Hobby ceiling?" therefore
+meant running eight or ten evaluations by hand and reading them out of the log
+stream before it rolled over — which is why that question stayed unanswered
+through two sessions.
+
+`duration_ms` and `timings` are stored on the evaluation row now, so the sample
+grows on its own from real usage and the question is a query:
+
+```sql
+select count(*) as runs,
+       round(avg(duration_ms)/1000.0, 1)          as avg_s,
+       round(max(duration_ms)/1000.0, 1)          as worst_s,
+       count(*) filter (where duration_ms > 45000) as over_45s,
+       count(*) filter (where duration_ms > 54000) as near_ceiling
+  from answer_evaluations;
+```
+
+The Evaluations tab shows the total on every row and the per-stage breakdown
+when a row is opened, slowest stage first. Durations are **coloured against the
+ceiling** — amber past 45s, red past 54s — because the number that matters is
+not how long a run took but how much headroom was left. Four sequential model
+calls inside a 60s budget is exactly the shape that passes every manual test and
+fails under load.
+
+## The open list, and what happened to it
+
+Verified against the code on 2026-09-06, not written from memory. Everything
+below was open at the start of that day. It is kept in the original priority
+order, with each item's outcome, because *why* something was closed — or
+deliberately was not — is the part worth reading.
+
+| | Item | Outcome |
+|---|---|---|
+| 1 | Replay hole on the two one-off payment routes | Fixed — `d11b571` |
+| 2 | `/api/migrate-user` subscription takeover | Deleted — `bc048a2` |
+| 3 | Admin token: no identity, no revocation | Fixed, plus a fail-open — `37ce5a2` |
+| 4 | Student answers in the logs | Fixed, and became a feature — §25 |
+| 5 | All user progress in `localStorage` | **Deferred by the owner** |
+| 6 | CSP `unsafe-inline` | **Won't fix** — hashes cannot express it |
+| 7 | 32 `.single()` calls | Fixed — `19d7caa` |
+| 8 | `revalidate` on 1 of 90 pages | Fixed — 2 pages, not 89 — `ee532f5` |
+| 9 | Anonymous `pyq-answers` uploads | Fixed, and it was worse than described — `2cfdd8c` |
+| 10 | 26 npm advisories | 33 measured → 19 — `f32dde0`, `0601646`, `586a651` |
+| 11 | Evaluate: 4 sequential LLM calls in a 60s cap | Now measurable — §26 |
 
 ### Money and access
 
@@ -665,7 +761,7 @@ comparing `x-admin-token` against `ADMIN_SECRET`, an env var set nowhere; it
 failed closed, which is why nobody noticed, but it was not the check it appeared
 to be.
 
-### Privacy
+### Privacy — one fixed (§25), one deferred
 
 **Students' answers are written to the logs.** `/api/evaluate` logs the OCR
 transcript (line ~745) and the full chain-of-thought reasoning (~920), both of
@@ -796,3 +892,67 @@ defensible stopping point, not zero.
 > month (§24). The v14 bump was checked by calling `listUsers` against the real
 > credential locally.
 
+
+---
+
+## What is genuinely still open
+
+Two items, both by decision rather than oversight.
+
+**User progress is `localStorage` only.** Deferred by the owner on 2026-09-06.
+Answer history (`ho_answer_history_v1`, capped at 50), flashcard progress,
+syllabus tracking, chat history, prelims state and canvas annotations. Clearing
+the browser or switching device loses everything, on a product whose value is
+tracking improvement over months. Nothing is currently breaking for readers,
+and the work is large. One durable store fixes all of them and is the
+prerequisite for background evaluation — revisit before that becomes the
+blocker.
+
+**Evaluate makes four sequential model calls inside a 60s ceiling.** No longer
+unmeasurable (§26), but not yet measured: the table needs real rows. Once there
+are 20–30, the query in §26 says whether the pipeline needs restructuring and
+which stage to attack. Restructuring it before that is guessing.
+
+Two smaller things, recorded so they are not rediscovered from scratch:
+
+- `lib/subscriptionGrant.ts` still carries its own copy of the claim logic that
+  `lib/paymentClaim.ts` now generalises. It is verified against a real payment
+  in production, which is why it was left alone rather than refactored in the
+  same change.
+- `/api/ocr`, `/api/ocr-pdf`, `/api/evaluate` and `/api/pdf-evaluate` trust
+  `file.type` the way `/api/pyq-answers` did. `lib/fileSignature` applies
+  directly; their risk is lower because those bytes go to a model and are
+  discarded rather than stored and served.
+
+---
+
+## Conventions this established
+
+1. **Meter before the work, refund on failure.**
+2. **Never trust the client for anything that decides money or access.** Read it
+   from the payment provider, the order notes, or the database.
+3. **Make failures visible.** `report-uri` on the enforcing CSP, `[csp]` and
+   `[evaluate:timing]` log lines. Two bugs here survived months of silence.
+4. **Check `git log` before "fixing" something odd.** The chat buffer and the
+   evaluate pipeline were both deliberate.
+5. **Regenerate and commit `supabase/schema.sql` after any schema change.**
+6. **Log durations, never student content.**
+7. **Measure the layer before optimising it.** §20 looked like a network problem
+   and was a render problem.
+8. **Verify an edit landed, in the built output.** §19 and §22 both shipped
+   changes to code that nothing rendered.
+9. **Fail closed on anything that gates money, access, or a paid resource.**
+   Three separate fail-*open* defaults were found in one day: `admin-auth` with
+   no `ADMIN_PASSWORD`, the `pyq-answers` limiter during a database outage, and
+   a promise in `if (!check(req))`, which is always falsy and typechecks. An
+   absent guard and a passing guard must never look the same.
+10. **A leak is often load-bearing.** Three times in one day — the `map-verify`
+    result, students' answers, the timing line — the thing being logged or
+    replayed was the *only* copy. Deleting the leak alone would have been
+    correct and would have destroyed something. Store it deliberately instead.
+11. **Measure the codebase before believing the note about it.** "1 of 90 pages"
+    was 2 pages. "13 JSON-LD files block the CSP" was 1,756 RSC scripts.
+    "26 advisories" was 33. Counts written from memory drift; regenerate them.
+12. **A passing build is not a passing dependency.** `verifyIdToken` validates
+    against Google's *public* certs, so a dead service-account credential looks
+    exactly like a healthy one (§24). Exercise the credential itself.
