@@ -383,6 +383,173 @@ npm test
 
 ---
 
+---
+
+# Follow-on work — 5–6 September 2026
+
+Sections 1–15 above were the audit. What follows came out of using the site
+afterwards, which found things no audit did: two of these were bugs the earlier
+work created, and two had been silently wrong for months.
+
+## 16. Site search opened notes at the top, not at the word
+**2026-09-05 · `6465e07`**
+
+Searching "aurangzeb" and clicking a note result opened that note at the top,
+leaving the reader to find the word in a page of tens of thousands of words.
+
+Everything needed already existed: `useNoteSearch` clones the rendered content,
+marks every match, scrolls to the first and steps between them — it was simply
+bound to Cmd-F with no way to be handed a query. Site search now carries the
+term in the URL and `NoteReader` opens the finder on it.
+
+> Read the query from `window.location.search`, **not** `useSearchParams()`.
+> That hook requires a Suspense boundary and opts the subtree out of
+> prerendering — it failed the build on every note page and would have undone
+> §7. This only runs in the browser, so the hook adds nothing.
+
+The finder waits for content to be on the page: it clones the container to mark
+inside, so firing earlier clones an empty node. That matters most for Hindi,
+where nothing is server-rendered.
+
+## 17. The search panel was anchored to the navbar
+**2026-09-05 · `186ddaa`, `11b12cb`**
+
+The overlay was already `position: fixed`, but it rendered inside `Navbar`,
+whose desktop wrapper carries:
+
+```js
+left: `${scrollProgress * 50}%`,
+transform: `translateX(-${scrollProgress * 50}%)`
+```
+
+A `transform` creates a containing block for fixed descendants, so "fixed"
+resolved against that div rather than the viewport. One cause, two symptoms:
+the panel sat off-centre, and it drifted as the page scrolled because the
+transform it was anchored to tracks scroll position. Navbar's own
+`backdrop-filter` would have done the same independently.
+
+It renders into `document.body` through a portal now. Capped at `85vh` with a
+column layout, since vertical centring can otherwise push a long result list
+off both ends of a short screen, and background scroll is locked — which the
+old `top: 57` overlay could not do because it never covered the viewport.
+
+## 18. Site search missed 99% of the PYQ bank
+**2026-09-05 · `ee1fa2d`**
+
+Two PYQ sources existed. Every PYQ page rendered `lib/pyqData.ts` with 1584
+questions; `SearchModal` searched `lib/pyqs.ts`, a separate file holding 20. A
+query matching a real question returned nothing under PYQs, silently.
+
+Importing the real file into the client would have put 403KB back into every
+page. PYQ matching moved to `/api/search` alongside note body search, with the
+scoring copied verbatim so ordering is unchanged. `lib/pyqs.ts` is deleted — it
+had one importer, and that importer was the bug.
+
+Verified in production: `mansabdari` now returns questions from 2002 and 2022,
+`Vijayanagara` from 1980 — years the 20-question file did not cover at all.
+
+## 19. The homepage shipped the question bank to render five questions
+**2026-09-05 · `7920774`, `63c6d2b`**
+
+`DailyAnswerWriting` imported `lib/pyqData` to choose five questions, so every
+visitor downloaded 1584 of them — about a quarter of the page's JavaScript. The
+selection is deterministic on the date, so `lib/dailyQuestions.ts` does it
+server-side.
+
+| | Before | After |
+|---|---|---|
+| Homepage JS | 1,536 KB | **1,167 KB** |
+| PYQ records shipped | 1,584 | **26** |
+
+Two traps worth knowing:
+
+**The page is statically generated**, so computing the questions at build time
+would have frozen them until the next deploy — the same trap that made admin
+note overrides invisible before §7. `app/page.tsx` sets `revalidate = 3600`.
+
+**"Today" was the visitor's local date**, so two people practising at the same
+moment in different timezones got different questions. It is `Asia/Kolkata` for
+everyone now.
+
+The stat tiles were hardcoded: PYQs read 1533 against 1584 actual. All three now
+derive from `allNotes.length`, `pyqs.length` and `flashcards.length`, passed
+from the server so the client never imports the data. `Papers` stays 2 — that is
+a fact about the exam, not a count.
+
+> `app/page.tsx` also had a **dead `stats` array**. `AnimatedStats` took no props
+> and read a second copy inside `components/HomeClient.tsx`. Editing the visible
+> one changed nothing, which is what happened on the first attempt.
+
+## 20. Opening a note took 5–10 seconds
+**2026-09-05 · `0d475c6`**
+
+Network was not the cause — the page is prerendered and served from cache in
+0.3s, the RSC payload in 0.4s, `/api/note-content` in 0.3s warm. **Measure the
+network before optimising the render.** All of it was client-side work repeated
+on every render:
+
+| Work | Where |
+|---|---|
+| Two global regexes over ~100KB plus a `RegExp` per highlight | `getContent()`, unmemoised, returning a new string identity |
+| Full `DOMParser.parseFromString` of the note | `TableOfContents`, keyed on that string |
+| `extractToc(contentHtml)` inline during render | `ScrollbarTOC`, which re-renders on every scroll event |
+| The `?q=` effect refiring | listed `noteSearch`, which `useNoteSearch` rebuilds every render |
+
+Any state change — auth resolving, annotations loading, a scroll tick — paid for
+all of it. Most predates §7, but §7 added render passes and §16 added an effect
+that fired every render, so earlier work made a latent problem worse.
+
+**Moving data out of a bundle can trade a download cost for a render cost.**
+
+## 21. Checkout opened for people who had already paid
+**2026-09-05 · `ed4364a`**
+
+"Sign in & Subscribe" and "Already subscribed? Sign in" sit next to each other
+and both resume through the same `onAuthStateChanged` handler, which went
+straight into `openRazorpay`. An existing subscriber who clicked the first was
+shown a payment sheet for something they already own, with nothing in between
+asking them to confirm.
+
+Resume now checks `/api/sub-status` first, and falls through to checkout if the
+check itself fails rather than stranding someone who wants to pay. The success
+screen no longer names the selected plan tile, which is not the plan they own.
+
+`/api/sub-status` also took the Firebase token as a **query parameter** — the
+same leak fixed for `/api/usage` in §6. It reads the header now.
+
+## 22. Flashcard ratings were recorded nowhere
+**2026-09-05 · `a4c6358`, `655bae0`**
+
+Grading a card Blank/Hard/Good/Easy fed SM-2 and was then discarded: `SRData`
+kept `interval`, `easeFactor`, `nextDue`, `reps`, none of which say what was
+pressed. `sm2()` records `lastGrade` now, each row shows a badge in the
+grading button's colour, and a Ratings filter applies to both the browse list
+and the session queue.
+
+> `a4c6358` shipped the state, the logic and the colour constants but **neither
+> piece of UI** — two string replacements did not match the file's indentation
+> and I had only asserted on some of them, so they no-opped silently and the
+> build passed. `GRADE_COLORS` defined-but-unused was the tell. **Assert on every
+> replacement, and verify in the built output rather than trusting a script's
+> success message.**
+
+## 23. One count of remaining subscription slots
+**2026-09-06 · `4fbfc00`, `555c8a6` · `supabase/slots_cleanup.sql`**
+
+`/api/slots` counted the subscriptions table; `/api/razorpay/order` read
+`subscription_slots.subscribers`. This was not two counts drifting — **nothing
+in the codebase had ever written that column.** It sat at 1 with seven active
+subscriptions, so the two routes advertised 38 and 44 slots left on the same
+page.
+
+`lib/slots.ts` is the single definition. The column is dropped rather than
+backfilled: a total kept in step with a table it duplicates drifts the moment
+someone forgets, which is what happened. `max_slots` stays — that is
+configuration.
+
+The same migration drops `increment_eval_count` and `increment_chat_count`,
+which were properly atomic and had never been called.
+
 ## Still open
 
 - **Answer history lives only in `localStorage`** (`hooks/useAnswerHistory.ts`),
@@ -395,9 +562,14 @@ npm test
   validates against Google's *public* certs — but the next admin operation
   anyone adds will fail confusingly. Regenerate in Firebase Console → Project
   Settings → Service Accounts.
-- **`increment_eval_count` / `increment_chat_count`** are dead and can be dropped.
-- **`subscription_slots.subscribers` and `/api/slots`' count** are two sources
-  of truth that will drift.
+- **Two PYQ sources still exist in spirit**: `lib/pyqData.ts` is now the only
+  one, but `SearchModal` searching a different file to the one every page
+  rendered went unnoticed for a long time. Watch for duplicated data.
+- **Flashcard progress is `localStorage` only** (`ho_flashcards_v1`), like
+  answer history. Clearing the browser resets all 55 cards.
+
+*(Resolved since first writing: the two dead increment functions and the
+diverging `subscription_slots.subscribers` counter — see §23.)*
 
 ## Conventions this established
 
@@ -410,3 +582,7 @@ npm test
    evaluate pipeline were both deliberate.
 5. **Regenerate and commit `supabase/schema.sql` after any schema change.**
 6. **Log durations, never student content.**
+7. **Measure the layer before optimising it.** §20 looked like a network problem
+   and was a render problem.
+8. **Verify an edit landed, in the built output.** §19 and §22 both shipped
+   changes to code that nothing rendered.
