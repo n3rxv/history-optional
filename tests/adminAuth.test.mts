@@ -36,7 +36,7 @@ delete process.env.ADMIN_PASSWORD;
 process.env.NEXT_PUBLIC_SUPABASE_URL ??= 'https://unreachable.invalid';
 process.env.SUPABASE_SECRET_KEY ??= 'not-a-key';
 
-const { isAdminAuthed, generateAdminToken } = await import('../lib/admin-auth.ts');
+const { isAdminAuthed, generateAdminToken } = await import('../lib/admin-auth');
 
 eq('a token forged with the empty key is rejected',
   await isAdminAuthed(reqWith(mint(''))), false);

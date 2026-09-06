@@ -742,7 +742,10 @@ Go page by page. Do not rush. Every word matters.`;
           if (ocrRes.ok) {
             const ocrData = await ocrRes.json();
             const transcript = ocrData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
-            console.log("Pass 0 OCR transcript (Gemini):\n", transcript.slice(0, 300));
+            // The transcript is the student's handwriting, word for word. It used
+            // to be printed here; it is stored against the evaluation instead and
+            // read in the admin panel. Length is the part that is ours.
+            console.log(`Pass 0 OCR transcript (Gemini): ${transcript.length} chars`);
             return transcript;
           } else {
             const errText = await ocrRes.text();
@@ -917,7 +920,8 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
       .filter((b) => b.type === "text")
       .map((b) => (b as { type: "text"; text: string }).text)
       .join("");
-    console.log("CoT reasoning:\n", cotReasoning);
+    // Reasoning quotes the answer back at length; same rule as the transcript.
+    console.log(`CoT reasoning: ${cotReasoning.length} chars`);
 
     // No delay here. The comment this replaces said it avoided TPM rate
     // limiting, but Pass 1 is Anthropic and Pass 2 is Groq, so pausing between
@@ -1122,6 +1126,27 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
     // transcript or the feedback, all of which are the student's.
     timings.total = Date.now() - t0;
     console.log(`[evaluate:timing] ${JSON.stringify({ ...timings, pages: files.length, marks })}`);
+
+    // The answer, the question and the marking used to exist only in the
+    // response body: once the page rendered, nothing held them. Keep them, so
+    // the admin panel can show who wrote what and how it was marked.
+    // Never fatal — a reader has paid for this evaluation and is owed it
+    // whether or not the record saved.
+    try {
+      await createServerClient().from("answer_evaluations").insert({
+        firebase_uid: user?.uid ?? null,
+        email: user?.email ?? null,
+        question,
+        marks_out_of: marks,
+        marks_awarded: typeof evaluation.marks === "number" ? evaluation.marks : null,
+        answer_text: finalTranscript || null,
+        evaluation,
+        pages: files.length,
+        lang,
+      });
+    } catch (saveErr) {
+      console.error("[evaluate] could not record evaluation:", saveErr);
+    }
 
     return NextResponse.json(evaluation);
 

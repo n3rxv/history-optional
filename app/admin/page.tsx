@@ -6,7 +6,7 @@ import { pyqs, type PYQ } from '@/lib/pyqData';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 type PostType = 'current-affairs' | 'new-note';
-type Tab = 'notes' | 'posts' | 'analytics' | 'submissions' | 'notifications' | 'topper-copies' | 'settings';
+type Tab = 'notes' | 'posts' | 'analytics' | 'evaluations' | 'submissions' | 'notifications' | 'topper-copies' | 'settings';
 
 interface Post {
   id: string; type: PostType; title: string; excerpt: string; content: string;
@@ -892,6 +892,192 @@ function Settings({ onLogout, token }: { onLogout: () => void; token: string }) 
 }
 
 // ─── SUBMISSIONS ──────────────────────────────────────────────────────────────
+/**
+ * What readers submitted for evaluation: the question, what they wrote, and
+ * how it was marked.
+ *
+ * /api/evaluate used to print the OCR transcript and the model's reasoning to
+ * the server log, which is where students' answers ended up — unsearchable,
+ * undeletable per person, and gone on the log provider's schedule. They are
+ * stored against the evaluation now and read here instead.
+ *
+ * The list omits the answer and the marking; opening a row fetches those, so
+ * browsing a hundred submissions does not pull a hundred essays.
+ */
+function Evaluations({ token }: { token: string }) {
+  const [rows, setRows]       = useState<any[]>([]);
+  const [count, setCount]     = useState(0);
+  const [page, setPage]       = useState(0);
+  const [q, setQ]             = useState('');
+  const [search, setSearch]   = useState('');
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen]       = useState<any>(null);
+  const [openLoading, setOpenLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const url = `/api/admin/evaluations?page=${page}${search ? `&q=${encodeURIComponent(search)}` : ''}`;
+    fetch(url, { headers: { 'x-admin-token': token } })
+      .then(r => r.json())
+      .then(({ data, count }) => { setRows(data || []); setCount(count || 0); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, [token, page, search]);
+
+  const openRow = async (id: string) => {
+    setOpenLoading(true);
+    setOpen({ id });
+    const r = await fetch(`/api/admin/evaluations?id=${id}`, { headers: { 'x-admin-token': token } });
+    const { data } = await r.json();
+    setOpen(data ?? null);
+    setOpenLoading(false);
+  };
+
+  const deleteRow = async (id: string) => {
+    if (!confirm('Delete this evaluation record? The student keeps their result; this only removes your copy.')) return;
+    await fetch('/api/admin/evaluations', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      body: JSON.stringify({ id }),
+    });
+    setRows(r => r.filter(x => x.id !== id));
+    setCount(c => Math.max(0, c - 1));
+    setOpen(null);
+  };
+
+  const mono = 'JetBrains Mono, monospace';
+  const sans = 'Inter, sans-serif';
+  const pages = Math.ceil(count / 30);
+
+  // ── Detail view ─────────────────────────────────────────────────────────
+  if (open) {
+    const ev = open.evaluation || {};
+    return (
+      <div style={{ padding: '24px 28px', maxWidth: 860 }}>
+        <button onClick={() => setOpen(null)} className="btn-ghost"
+          style={{ padding: '4px 12px', fontSize: '0.75rem', marginBottom: 18 }}>← Back</button>
+
+        {openLoading || !open.question
+          ? <div style={{ padding: 32, color: 'var(--border2)', fontFamily: sans, fontSize: '0.85rem' }}>Loading…</div>
+          : <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+              <span style={{ color: 'var(--text2)', fontSize: '0.85rem', fontFamily: mono }}>{open.email || 'signed out'}</span>
+              <span style={{ color: 'var(--bg4)', fontSize: '0.7rem', fontFamily: mono }}>
+                {new Date(open.created_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+              </span>
+              {open.marks_awarded != null && (
+                <span style={{ padding: '2px 9px', borderRadius: 10, fontSize: '0.7rem', fontFamily: mono, background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.2)', color: '#d4a843' }}>
+                  {open.marks_awarded}/{open.marks_out_of}
+                </span>
+              )}
+              <button onClick={() => deleteRow(open.id)} className="btn-red"
+                style={{ marginLeft: 'auto', padding: '2px 8px', fontSize: '0.7rem' }}>Delete</button>
+            </div>
+
+            <Section title="Question">
+              <p style={{ color: 'var(--text2)', fontSize: '0.9rem', lineHeight: 1.7, margin: 0, fontFamily: sans }}>{open.question}</p>
+            </Section>
+
+            <Section title={`What they wrote${open.pages ? ` · ${open.pages} page${open.pages === 1 ? '' : 's'}` : ''}`}>
+              {open.answer_text
+                ? <p style={{ color: 'var(--text3)', fontSize: '0.86rem', lineHeight: 1.75, margin: 0, whiteSpace: 'pre-wrap', fontFamily: sans }}>{open.answer_text}</p>
+                : <p style={{ color: 'var(--bg4)', fontSize: '0.83rem', margin: 0, fontFamily: sans }}>
+                    No transcript stored — the answer was read straight from the images.
+                  </p>}
+            </Section>
+
+            {ev.overall_feedback && (
+              <Section title="Feedback given">
+                <p style={{ color: 'var(--text3)', fontSize: '0.86rem', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap', fontFamily: sans }}>{ev.overall_feedback}</p>
+              </Section>
+            )}
+
+            {Array.isArray(ev.section_marks) && ev.section_marks.length > 0 && (
+              <Section title="Marking">
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: mono, fontSize: '0.76rem' }}>
+                  <tbody>
+                    {ev.section_marks.map((sm: any, i: number) => (
+                      <tr key={i} style={{ borderBottom: '1px solid #141414' }}>
+                        <td style={{ padding: '6px 0', color: 'var(--text3)' }}>{sm.section ?? sm.name ?? `Section ${i + 1}`}</td>
+                        <td style={{ padding: '6px 0', color: '#d4a843', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
+                          {sm.awarded ?? sm.marks}{sm.out_of != null ? `/${sm.out_of}` : ''}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Section>
+            )}
+          </>}
+      </div>
+    );
+  }
+
+  // ── List view ───────────────────────────────────────────────────────────
+  return (
+    <div style={{ padding: '24px 28px', maxWidth: 860 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+        <span style={{ color: 'var(--text3)', fontSize: '0.72rem', fontFamily: mono }}>{count} total</span>
+        <input
+          value={q}
+          onChange={e => setQ(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter') { setPage(0); setSearch(q); } }}
+          placeholder="Search email or question, then Enter"
+          style={{ marginLeft: 'auto', width: 280, padding: '5px 10px', borderRadius: 6, background: 'var(--bg2)', border: '1px solid #141414', color: 'var(--text2)', fontSize: '0.78rem', fontFamily: sans, outline: 'none' }}
+        />
+        {search && (
+          <button onClick={() => { setQ(''); setSearch(''); setPage(0); }} className="btn-ghost"
+            style={{ padding: '4px 10px', fontSize: '0.72rem' }}>Clear</button>
+        )}
+      </div>
+
+      {loading
+        ? <div style={{ padding: 32, color: 'var(--border2)', fontFamily: sans, fontSize: '0.85rem' }}>Loading…</div>
+        : rows.length === 0
+          ? <div style={{ color: 'var(--bg4)', fontSize: '0.85rem', padding: '32px 0', textAlign: 'center', fontFamily: sans }}>
+              {search ? 'Nothing matches that.' : 'No evaluations yet.'}
+            </div>
+          : rows.map(row => (
+            <div key={row.id} className="fsi" onClick={() => openRow(row.id)}
+              style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 9, padding: '13px 16px', marginBottom: 8, cursor: 'pointer' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 7, flexWrap: 'wrap' }}>
+                <span style={{ color: 'var(--text2)', fontSize: '0.78rem', fontFamily: mono }}>{row.email || 'signed out'}</span>
+                {row.marks_awarded != null && (
+                  <span style={{ padding: '2px 8px', borderRadius: 10, fontSize: '0.63rem', fontFamily: mono, background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.2)', color: '#d4a843' }}>
+                    {row.marks_awarded}/{row.marks_out_of}
+                  </span>
+                )}
+                <span style={{ marginLeft: 'auto', color: 'var(--bg4)', fontSize: '0.65rem', fontFamily: mono }}>
+                  {new Date(row.created_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </div>
+              <p style={{ color: 'var(--text3)', fontSize: '0.83rem', lineHeight: 1.6, margin: 0, fontFamily: sans, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                {row.question}
+              </p>
+            </div>
+          ))}
+
+      {pages > 1 && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 18 }}>
+          <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}
+            className="btn-ghost" style={{ padding: '4px 12px', fontSize: '0.75rem', opacity: page === 0 ? 0.4 : 1 }}>← Prev</button>
+          <span style={{ color: 'var(--bg4)', fontSize: '0.7rem', fontFamily: mono }}>{page + 1} / {pages}</span>
+          <button onClick={() => setPage(p => Math.min(pages - 1, p + 1))} disabled={page >= pages - 1}
+            className="btn-ghost" style={{ padding: '4px 12px', fontSize: '0.75rem', opacity: page >= pages - 1 ? 0.4 : 1 }}>Next →</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div style={{ marginBottom: 22 }}>
+      <div style={{ color: 'var(--bg4)', fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'JetBrains Mono, monospace', marginBottom: 8 }}>{title}</div>
+      <div style={{ background: 'var(--bg2)', border: '1px solid #141414', borderRadius: 9, padding: '14px 16px' }}>{children}</div>
+    </div>
+  );
+}
+
 function Submissions({ token }: { token: string }) {
   const [rows, setRows] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1380,6 +1566,7 @@ export default function AdminPage() {
     { id: 'notes',         label: 'Note Editor',    icon: '✦' },
     { id: 'posts',         label: 'Posts',          icon: '◎' },
     { id: 'notifications', label: 'Notifications',  icon: '◉' },
+    { id: 'evaluations',   label: 'Evaluations',    icon: '✍' },
     { id: 'submissions',   label: 'Submissions',    icon: '◇' },
     { id: 'topper-copies', label: 'Topper Copies',  icon: '🏆' },
     { id: 'analytics',     label: 'Analytics',      icon: '▦' },
@@ -1436,6 +1623,7 @@ export default function AdminPage() {
           {tab === 'notes'         && <NoteEditor token={token} />}
           {tab === 'posts'         && <PostsManager token={token} />}
           {tab === 'analytics'     && <Analytics token={token} />}
+          {tab === 'evaluations'   && <Evaluations token={token} />}
           {tab === 'submissions'   && <Submissions token={token} />}
           {tab === 'notifications' && <NotificationsManager token={token} />}
           {tab === 'topper-copies' && <TopperCopiesManager token={token} />}

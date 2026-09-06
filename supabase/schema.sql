@@ -3,7 +3,7 @@
 -- Captures public-schema tables, constraints, indexes, functions,
 -- row-level security and triggers. Data is never included.
 --
--- Dumped: 2026-09-06T06:13:22Z
+-- Dumped: 2026-09-06T06:24:46Z
 
 -- ── Extensions ─────────────────────────────────────────────────────────
 create extension if not exists pg_cron;
@@ -31,6 +31,20 @@ create table if not exists annotations (
   data jsonb not null,
   updated_at timestamp with time zone default now(),
   firebase_uid text
+);
+
+create table if not exists answer_evaluations (
+  id uuid default gen_random_uuid() not null,
+  firebase_uid text,
+  email text,
+  question text not null,
+  marks_out_of text,
+  marks_awarded numeric,
+  answer_text text,
+  evaluation jsonb,
+  pages integer,
+  lang text,
+  created_at timestamp with time zone default now() not null
 );
 
 create table if not exists book_chunks (
@@ -298,6 +312,7 @@ create table if not exists writing_pads (
 alter table admin_sessions add constraint admin_sessions_pkey PRIMARY KEY (sid);
 alter table annotations add constraint annotations_pkey PRIMARY KEY (id);
 alter table annotations add constraint annotations_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
+alter table answer_evaluations add constraint answer_evaluations_pkey PRIMARY KEY (id);
 alter table book_chunks add constraint book_chunks_pkey PRIMARY KEY (id);
 alter table canvas_annotations add constraint canvas_annotations_note_slug_user_id_key UNIQUE (note_slug, user_id);
 alter table canvas_annotations add constraint canvas_annotations_pkey PRIMARY KEY (id);
@@ -350,6 +365,9 @@ CREATE INDEX admin_sessions_expiry_idx ON public.admin_sessions USING btree (exp
 CREATE INDEX admin_sessions_live_idx ON public.admin_sessions USING btree (sid) WHERE (revoked_at IS NULL);
 CREATE UNIQUE INDEX annotations_firebase_note_idx ON public.annotations USING btree (firebase_uid, note_slug);
 CREATE UNIQUE INDEX annotations_note_slug_user_id_idx ON public.annotations USING btree (note_slug, user_id);
+CREATE INDEX answer_evaluations_email_idx ON public.answer_evaluations USING btree (lower(email));
+CREATE INDEX answer_evaluations_recent_idx ON public.answer_evaluations USING btree (created_at DESC);
+CREATE INDEX answer_evaluations_uid_idx ON public.answer_evaluations USING btree (firebase_uid, created_at DESC);
 CREATE INDEX book_chunks_embedding_idx ON public.book_chunks USING hnsw (embedding vector_cosine_ops) WITH (m='16', ef_construction='64');
 CREATE UNIQUE INDEX canvas_annotations_firebase_note_idx ON public.canvas_annotations USING btree (firebase_uid, note_slug);
 CREATE INDEX device_sessions_user_id_idx ON public.device_sessions USING btree (user_id);
@@ -665,6 +683,7 @@ $function$
 -- ── Row-level security ─────────────────────────────────────────────────
 alter table admin_sessions enable row level security;
 alter table annotations enable row level security;
+alter table answer_evaluations enable row level security;
 alter table book_chunks enable row level security;
 alter table canvas_annotations enable row level security;
 alter table chat_usage enable row level security;
