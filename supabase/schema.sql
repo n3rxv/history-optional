@@ -3,7 +3,7 @@
 -- Captures public-schema tables, constraints, indexes, functions,
 -- row-level security and triggers. Data is never included.
 --
--- Dumped: 2026-09-06T06:01:32Z
+-- Dumped: 2026-09-06T06:13:22Z
 
 -- ── Extensions ─────────────────────────────────────────────────────────
 create extension if not exists pg_cron;
@@ -14,6 +14,16 @@ create extension if not exists "uuid-ossp";
 create extension if not exists vector;
 
 -- ── Tables ─────────────────────────────────────────────────────────────
+create table if not exists admin_sessions (
+  sid text not null,
+  issued_at timestamp with time zone default now() not null,
+  expires_at timestamp with time zone not null,
+  revoked_at timestamp with time zone,
+  last_seen timestamp with time zone,
+  ip text,
+  user_agent text
+);
+
 create table if not exists annotations (
   id uuid default gen_random_uuid() not null,
   note_slug text not null,
@@ -285,6 +295,7 @@ create table if not exists writing_pads (
 -- ── Constraints ────────────────────────────────────────────────────────
 -- Primary keys, uniques, foreign keys and checks. The unique columns
 -- here are what upsert onConflict targets rely on.
+alter table admin_sessions add constraint admin_sessions_pkey PRIMARY KEY (sid);
 alter table annotations add constraint annotations_pkey PRIMARY KEY (id);
 alter table annotations add constraint annotations_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
 alter table book_chunks add constraint book_chunks_pkey PRIMARY KEY (id);
@@ -335,6 +346,8 @@ alter table writing_pads add constraint writing_pads_pkey PRIMARY KEY (id);
 alter table writing_pads add constraint writing_pads_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id);
 
 -- ── Indexes ────────────────────────────────────────────────────────────
+CREATE INDEX admin_sessions_expiry_idx ON public.admin_sessions USING btree (expires_at);
+CREATE INDEX admin_sessions_live_idx ON public.admin_sessions USING btree (sid) WHERE (revoked_at IS NULL);
 CREATE UNIQUE INDEX annotations_firebase_note_idx ON public.annotations USING btree (firebase_uid, note_slug);
 CREATE UNIQUE INDEX annotations_note_slug_user_id_idx ON public.annotations USING btree (note_slug, user_id);
 CREATE INDEX book_chunks_embedding_idx ON public.book_chunks USING hnsw (embedding vector_cosine_ops) WITH (m='16', ef_construction='64');
@@ -457,6 +470,18 @@ END;
 $function$
 ;
 
+CREATE OR REPLACE FUNCTION public.match_book_chunks(query_embedding vector, match_count integer DEFAULT 5)
+ RETURNS TABLE(content text, book_title text, author text, similarity double precision)
+ LANGUAGE sql
+ STABLE
+AS $function$
+  select content, book_title, author, 1 - (embedding <=> query_embedding) as similarity
+  from book_chunks
+  order by embedding <=> query_embedding
+  limit match_count;
+$function$
+;
+
 CREATE OR REPLACE FUNCTION public.match_book_chunks(query_embedding vector, match_count integer DEFAULT 10, filter_book text DEFAULT NULL::text)
  RETURNS TABLE(id bigint, content text, book_title text, author text, similarity double precision)
  LANGUAGE plpgsql
@@ -476,18 +501,6 @@ BEGIN
   ORDER BY bc.embedding <=> query_embedding
   LIMIT match_count;
 END;
-$function$
-;
-
-CREATE OR REPLACE FUNCTION public.match_book_chunks(query_embedding vector, match_count integer DEFAULT 5)
- RETURNS TABLE(content text, book_title text, author text, similarity double precision)
- LANGUAGE sql
- STABLE
-AS $function$
-  select content, book_title, author, 1 - (embedding <=> query_embedding) as similarity
-  from book_chunks
-  order by embedding <=> query_embedding
-  limit match_count;
 $function$
 ;
 
@@ -619,6 +632,20 @@ end;
 $function$
 ;
 
+CREATE OR REPLACE FUNCTION public.revoke_all_admin_sessions()
+ RETURNS integer
+ LANGUAGE sql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+  with x as (
+    update admin_sessions set revoked_at = now()
+     where revoked_at is null and expires_at > now()
+     returning 1
+  ) select count(*)::int from x;
+$function$
+;
+
 CREATE OR REPLACE FUNCTION public.touch_visit(p_visitor_id text)
  RETURNS void
  LANGUAGE sql
@@ -636,6 +663,7 @@ $function$
 
 
 -- ── Row-level security ─────────────────────────────────────────────────
+alter table admin_sessions enable row level security;
 alter table annotations enable row level security;
 alter table book_chunks enable row level security;
 alter table canvas_annotations enable row level security;

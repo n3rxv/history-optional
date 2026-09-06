@@ -36,7 +36,13 @@ export async function POST(req: NextRequest) {
   if (timingSafeCompare(password, process.env.ADMIN_PASSWORD)) {
     // A correct password forgives earlier failed attempts, as before.
     await resetRateLimit(key);
-    const token = generateAdminToken();
+    const token = await generateAdminToken(req);
+    // No token means no ADMIN_PASSWORD or no session row; either way there is
+    // nothing to hand back, and pretending otherwise gives a token that every
+    // subsequent request would reject.
+    if (!token) {
+      return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 });
+    }
     return NextResponse.json({ ok: true, token });
   }
 

@@ -7,12 +7,8 @@ const sb = createClient(
   process.env.SUPABASE_SECRET_KEY!
 );
 
-function checkAuth(req: NextRequest) {
-  return isAdminAuthed(req);
-}
-
 export async function GET(req: NextRequest) {
-  if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!(await isAdminAuthed(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { data, error } = await sb
     .from('contact_submissions')
     .select('*')
@@ -22,7 +18,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!checkAuth(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!(await isAdminAuthed(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await req.json();
   const { error } = await sb.from('contact_submissions').delete().eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

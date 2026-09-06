@@ -3,10 +3,6 @@ import { isAdminAuthed } from '@/lib/admin-auth';
 import { createServerClient } from '@/lib/supabase';
 import { cachePublic, noStore } from '@/lib/cacheHeaders';
 
-function isAdmin(req: NextRequest) {
-  return isAdminAuthed(req);
-}
-
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const all = searchParams.get('all') === 'true';
@@ -14,7 +10,7 @@ export async function GET(req: NextRequest) {
 
   // Two different result sets from one route: admins additionally get
   // unpublished drafts.
-  const asAdmin = all && isAdmin(req);
+  const asAdmin = all && (await isAdminAuthed(req));
 
   const query = asAdmin
     ? db.from('posts').select('*').order('published_at', { ascending: false })
@@ -30,7 +26,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!(await isAdminAuthed(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const post = await req.json();
   const db = createServerClient();
   const { error } = await db
@@ -41,7 +37,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!(await isAdminAuthed(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const { id } = await req.json();
   const db = createServerClient();
   const { error } = await db.from('posts').delete().eq('id', id);

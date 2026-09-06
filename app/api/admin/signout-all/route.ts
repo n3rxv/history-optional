@@ -1,16 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthed } from "@/lib/admin-auth";
-import { createServerClient } from "@/lib/supabase";
 import { createClient } from "@supabase/supabase-js";
 
-// Owner-only endpoint — signs out every user by revoking all refresh tokens
-// Call once from your terminal:
-//   curl -X POST https://your-domain.com/api/admin/signout-all \
-//        -H "x-admin-secret: YOUR_ADMIN_SECRET"
-
+/**
+ * Owner-only: signs out every reader by revoking their refresh tokens.
+ *
+ * This imported isAdminAuthed and then never called it, comparing the
+ * x-admin-token header against ADMIN_SECRET instead — an env var that is set
+ * nowhere. So the admin UI's token could never open this door, and no other
+ * token existed to open it with. It failed closed, which is why nobody
+ * noticed, but it was not the check it appeared to be.
+ *
+ * Call it from the admin page's session, or with a token from
+ * /api/admin/verify-password.
+ */
 export async function POST(req: NextRequest) {
-  const secret = req.headers.get("x-admin-token");
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+  if (!(await isAdminAuthed(req))) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

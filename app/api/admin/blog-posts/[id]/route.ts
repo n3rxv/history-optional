@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const { id } = await params;
   const db = createServerClient();
-  const isAdmin = isAdminAuthed(req);
+  const isAdmin = await isAdminAuthed(req);
 
   const query = isAdmin
     ? db.from('posts').select('*').eq('id', id).single()

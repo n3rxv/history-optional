@@ -224,7 +224,18 @@ function useAdminAuth() {
     if (result.ok) { sessionStorage.setItem(SESSION_KEY, result.token); setAuthed(true); setToken(result.token); return true; }
     return false;
   };
-  const logout = () => { sessionStorage.removeItem(SESSION_KEY); setAuthed(false); setToken(''); };
+  const logout = () => {
+    // Revoke server-side too; clearing sessionStorage alone left the token
+    // usable for the rest of its eight hours.
+    const stored = sessionStorage.getItem(SESSION_KEY);
+    if (stored) {
+      fetch('/api/admin/logout', { method: 'POST', headers: { 'x-admin-token': stored } })
+        .catch(() => {});
+    }
+    sessionStorage.removeItem(SESSION_KEY);
+    setAuthed(false);
+    setToken('');
+  };
   return { authed, checking, login, logout, token };
 }
 
