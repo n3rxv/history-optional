@@ -12,8 +12,8 @@ export async function GET(
   const isAdmin = await isAdminAuthed(req);
 
   const query = isAdmin
-    ? db.from('posts').select('*').eq('slug', slug).single()
-    : db.from('posts').select('*').eq('slug', slug).eq('published', true).single();
+    ? db.from('posts').select('*').eq('slug', slug).maybeSingle()
+    : db.from('posts').select('*').eq('slug', slug).eq('published', true).maybeSingle();
 
   const { data, error } = await query;
 

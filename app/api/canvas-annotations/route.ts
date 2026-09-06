@@ -26,10 +26,11 @@ export async function GET(req: NextRequest) {
     .select('strokes')
     .eq('firebase_uid', firebase_uid)
     .eq('note_slug', slug)
-    .single();
+    .maybeSingle();
 
-  if (error && error.code !== 'PGRST116')
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  // A note with no annotations yet is not an error. This used to special-case
+  // PGRST116 by hand, which is the workaround maybeSingle exists to remove.
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ strokes: data?.strokes ?? [] });
 }
 

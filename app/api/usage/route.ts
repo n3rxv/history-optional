@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
     .eq('firebase_uid', uid)
     .eq('status', 'active')
     .gt('expires_at', new Date().toISOString())
-    .single();
+    .maybeSingle();
 
   if (sub) {
     // Upsert usage_tracking row so premium users are also tracked
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
       .from('usage_tracking')
       .select('firebase_uid')
       .eq('fingerprint', effectiveFp)
-      .single();
+      .maybeSingle();
     const safeFp = (fpRow && fpRow.firebase_uid && fpRow.firebase_uid !== uid)
       ? `${effectiveFp}_${uid.slice(0, 8)}`  // synthetic FP to avoid UNIQUE conflict
       : effectiveFp;
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
       .eq('status', 'active')
       .gt('expires_at', new Date().toISOString())
       .is('firebase_uid', null)
-      .single();
+      .maybeSingle();
 
     if (subByEmail) {
       await supabase
@@ -90,7 +90,7 @@ export async function GET(req: NextRequest) {
         .from('usage_tracking')
         .select('firebase_uid')
         .eq('fingerprint', effectiveFp2)
-        .single();
+        .maybeSingle();
       const safeFp2 = (fpRow2 && fpRow2.firebase_uid && fpRow2.firebase_uid !== uid)
         ? `${effectiveFp2}_${uid.slice(0, 8)}`
         : effectiveFp2;
@@ -121,7 +121,7 @@ export async function GET(req: NextRequest) {
     .from('usage_tracking')
     .select('eval_count, chat_count, fingerprint')
     .eq('firebase_uid', uid)
-    .single();
+    .maybeSingle();
 
   if (byUid) {
     // Also check FP row — take max so multi-account abuse shows correct count in UI
@@ -133,7 +133,7 @@ export async function GET(req: NextRequest) {
         .select('eval_count, chat_count')
         .eq('fingerprint', fp)
         .neq('firebase_uid', uid)
-        .single();
+        .maybeSingle();
       if (byFpAlso) {
         fpEval = Math.max(fpEval, byFpAlso.eval_count ?? 0);
         fpChat = Math.max(fpChat, byFpAlso.chat_count ?? 0);
@@ -153,7 +153,7 @@ export async function GET(req: NextRequest) {
     .from('usage_tracking')
     .select('eval_count, chat_count, firebase_uid')
     .eq('fingerprint', fp)
-    .single();
+    .maybeSingle();
 
   if (byFp) {
     // Agar FP row mein koi aur UID linked hai → same device, naya account → block

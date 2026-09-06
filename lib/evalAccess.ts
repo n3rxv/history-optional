@@ -52,7 +52,7 @@ export async function resolveEvalAccess(req: NextRequest): Promise<EvalAccess> {
       .eq('firebase_uid', uid)
       .eq('status', 'active')
       .gt('expires_at', new Date().toISOString())
-      .single();
+      .maybeSingle();
     if (sub) return { allowed: true, uid, isOwner: false, isPremium: true };
   }
 
@@ -67,7 +67,7 @@ export async function resolveEvalAccess(req: NextRequest): Promise<EvalAccess> {
       .from('usage_tracking')
       .select('eval_count')
       .eq('firebase_uid', uid)
-      .single();
+      .maybeSingle();
     used = Math.max(used, data?.eval_count ?? 0);
   }
   if (fingerprint) {
@@ -75,7 +75,7 @@ export async function resolveEvalAccess(req: NextRequest): Promise<EvalAccess> {
       .from('usage_tracking')
       .select('eval_count')
       .eq('fingerprint', fingerprint)
-      .single();
+      .maybeSingle();
     used = Math.max(used, data?.eval_count ?? 0);
   }
 

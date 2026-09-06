@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     .eq('firebase_uid', user.uid)
     .eq('status', 'active')
     .gt('expires_at', new Date().toISOString())
-    .single();
+    .maybeSingle();
 
   if (!sub) return NextResponse.json({ isPremium: false });
   return NextResponse.json({ isPremium: true, plan: sub.plan, expires_at: sub.expires_at });

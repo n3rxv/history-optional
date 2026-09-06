@@ -19,7 +19,7 @@ async function checkPremium(authHeader: string | null): Promise<boolean> {
       .eq('firebase_uid', user.uid)
       .eq('status', 'active')
       .gt('expires_at', nowISO)
-      .single();
+      .maybeSingle();
     return !!sub;
   } catch {
     return false;

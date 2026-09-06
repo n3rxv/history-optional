@@ -13,7 +13,7 @@ export async function GET() {
       .from('site_config')
       .select('value')
       .eq('key', 'newspaper_cuttings')
-      .single();
+      .maybeSingle();
     if (error || !data) return NextResponse.json({ cuttings: [] });
     return NextResponse.json({ cuttings: JSON.parse(data.value) });
   } catch {

@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     .select("firebase_uid")
     .eq("phone", phone)
     .neq("firebase_uid", user.uid)
-    .single();
+    .maybeSingle();
 
   if (existing) return NextResponse.json({ error: "This phone number is already linked to another account." }, { status: 409 });
 
@@ -55,7 +55,7 @@ export async function GET(req: NextRequest) {
     .from("user_profiles")
     .select("phone")
     .eq("firebase_uid", user.uid)
-    .single();
+    .maybeSingle();
 
   return NextResponse.json({ phone: profile?.phone ?? null });
 }

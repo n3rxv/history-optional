@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     .select("expires_at")
     .eq("firebase_uid", user.uid)
     .eq("status", "active")
-    .single();
+    .maybeSingle();
 
   if (sub && new Date(sub.expires_at) > new Date()) {
     return NextResponse.json({ allowed: true, subscribed: true, used: 0, limit: Infinity });
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     .from("usage_tracking")
     .select("eval_count")
     .eq("fingerprint", req.nextUrl.searchParams.get("fp") ?? "")
-    .single();
+    .maybeSingle();
 
   const used = usage?.eval_count ?? 0;
   return NextResponse.json({ allowed: used < FREE_LIMIT, used, limit: FREE_LIMIT, subscribed: false });

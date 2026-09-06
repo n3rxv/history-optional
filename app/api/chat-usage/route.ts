@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 
   const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 
-  const { data: profile } = await db.from("user_profiles").select("phone").eq("firebase_uid", user.uid).single();
+  const { data: profile } = await db.from("user_profiles").select("phone").eq("firebase_uid", user.uid).maybeSingle();
   const phone = profile?.phone ?? "";
   if (!phone) return NextResponse.json({ allowed: false, reason: "no_phone" });
 
@@ -31,13 +31,13 @@ export async function GET(req: NextRequest) {
   const { data: sub } = await db
     .from("subscriptions").select("status, expires_at")
     .eq("firebase_uid", user.uid).eq("status", "active").gt("expires_at", now)
-    .single();
+    .maybeSingle();
 
   if (sub) return NextResponse.json({ allowed: true, used: 0, limit: Infinity, subscribed: true });
 
   const today = new Date().toISOString().split("T")[0];
   const { data: usage } = await db
-    .from("chat_usage").select("count").eq("phone", phone).eq("date", today).single();
+    .from("chat_usage").select("count").eq("phone", phone).eq("date", today).maybeSingle();
 
   const used    = usage?.count ?? 0;
   const allowed = used < CHAT_FREE_LIMIT;
@@ -55,13 +55,13 @@ export async function POST(req: NextRequest) {
 
   const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 
-  const { data: profile } = await db.from("user_profiles").select("phone").eq("firebase_uid", user.uid).single();
+  const { data: profile } = await db.from("user_profiles").select("phone").eq("firebase_uid", user.uid).maybeSingle();
   const phone = profile?.phone ?? "";
   if (!phone || phone === OWNER_PHONE) return NextResponse.json({ ok: true });
 
   const today = new Date().toISOString().split("T")[0];
   const { data: existing } = await db
-    .from("chat_usage").select("count").eq("phone", phone).eq("date", today).single();
+    .from("chat_usage").select("count").eq("phone", phone).eq("date", today).maybeSingle();
 
   if (existing) {
     await db.from("chat_usage")

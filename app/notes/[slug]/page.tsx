@@ -26,7 +26,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
   try {
     const { createServerClient } = await import('@/lib/supabase');
     const db = createServerClient();
-    const { data } = await db.from('note_overrides').select('content').eq('slug', slug).single();
+    const { data } = await db.from('note_overrides').select('content').eq('slug', slug).maybeSingle();
     if (data?.content) {
       // Same reasoning as /api/note-content: admin-authored HTML is sanitized,
       // the shipped corpus is trusted as source.

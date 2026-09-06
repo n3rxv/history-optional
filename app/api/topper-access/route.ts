@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     .select("status, expires_at")
     .eq("firebase_uid", user.uid)
     .eq("status", "active")
-    .single();
+    .maybeSingle();
 
   if (sub && new Date(sub.expires_at) > new Date()) {
     return NextResponse.json({ access: true, isPremium: true, clicks: 0 });
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     .from("topper_subscriptions")
     .select("expires_at")
     .eq("firebase_uid", user.uid)
-    .single();
+    .maybeSingle();
 
   if (topperSub && new Date(topperSub.expires_at) > new Date()) {
     return NextResponse.json({ access: true, hasTopperAccess: true, clicks: 0 });
@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
     .from("usage_tracking")
     .select("topper_clicks")
     .eq("firebase_uid", user.uid)
-    .single();
+    .maybeSingle();
 
   const clicks = tracking?.topper_clicks ?? 0;
   if (clicks < 5) {
