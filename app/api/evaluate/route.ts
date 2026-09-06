@@ -1143,6 +1143,11 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
         evaluation,
         pages: files.length,
         lang,
+        // Same numbers as the [evaluate:timing] line. Kept because the log
+        // line rolls over and the 60s Hobby ceiling is a live question: this
+        // makes the sample grow on its own instead of needing hand-run tests.
+        duration_ms: timings.total,
+        timings,
       });
     } catch (saveErr) {
       console.error("[evaluate] could not record evaluation:", saveErr);

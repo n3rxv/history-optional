@@ -3,7 +3,7 @@
 -- Captures public-schema tables, constraints, indexes, functions,
 -- row-level security and triggers. Data is never included.
 --
--- Dumped: 2026-09-06T06:24:46Z
+-- Dumped: 2026-09-06T06:45:32Z
 
 -- ── Extensions ─────────────────────────────────────────────────────────
 create extension if not exists pg_cron;
@@ -44,7 +44,9 @@ create table if not exists answer_evaluations (
   evaluation jsonb,
   pages integer,
   lang text,
-  created_at timestamp with time zone default now() not null
+  created_at timestamp with time zone default now() not null,
+  duration_ms integer,
+  timings jsonb
 );
 
 create table if not exists book_chunks (
@@ -365,6 +367,7 @@ CREATE INDEX admin_sessions_expiry_idx ON public.admin_sessions USING btree (exp
 CREATE INDEX admin_sessions_live_idx ON public.admin_sessions USING btree (sid) WHERE (revoked_at IS NULL);
 CREATE UNIQUE INDEX annotations_firebase_note_idx ON public.annotations USING btree (firebase_uid, note_slug);
 CREATE UNIQUE INDEX annotations_note_slug_user_id_idx ON public.annotations USING btree (note_slug, user_id);
+CREATE INDEX answer_evaluations_duration_idx ON public.answer_evaluations USING btree (duration_ms DESC NULLS LAST);
 CREATE INDEX answer_evaluations_email_idx ON public.answer_evaluations USING btree (lower(email));
 CREATE INDEX answer_evaluations_recent_idx ON public.answer_evaluations USING btree (created_at DESC);
 CREATE INDEX answer_evaluations_uid_idx ON public.answer_evaluations USING btree (firebase_uid, created_at DESC);

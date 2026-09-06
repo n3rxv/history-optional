@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 
   let query = db
     .from('answer_evaluations')
-    .select('id, email, firebase_uid, question, marks_out_of, marks_awarded, pages, lang, created_at',
+    .select('id, email, firebase_uid, question, marks_out_of, marks_awarded, pages, lang, duration_ms, created_at',
             { count: 'exact' })
     .order('created_at', { ascending: false })
     .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);

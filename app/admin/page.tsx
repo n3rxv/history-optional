@@ -904,6 +904,27 @@ function Settings({ onLogout, token }: { onLogout: () => void; token: string }) 
  * The list omits the answer and the marking; opening a row fetches those, so
  * browsing a hundred submissions does not pull a hundred essays.
  */
+/**
+ * Vercel Hobby kills a function at 60s. /api/evaluate makes four sequential
+ * model calls inside that budget, so how close a run came to the ceiling is
+ * the number worth seeing, not just how long it took.
+ */
+const EVAL_CEILING_MS = 60_000;
+
+function Duration({ ms, big = false }: { ms: number | null; big?: boolean }) {
+  if (ms == null) return null;
+  const ratio = ms / EVAL_CEILING_MS;
+  const colour = ratio >= 0.9 ? '#f87171' : ratio >= 0.75 ? '#d4a843' : 'var(--text3)';
+  const border = ratio >= 0.9 ? 'rgba(248,113,113,0.2)' : ratio >= 0.75 ? 'rgba(212,168,67,0.2)' : '#141414';
+  const bg     = ratio >= 0.9 ? 'rgba(248,113,113,0.07)' : ratio >= 0.75 ? 'rgba(212,168,67,0.07)' : 'transparent';
+  return (
+    <span title={`${(ms / 1000).toFixed(1)}s of the ${EVAL_CEILING_MS / 1000}s function limit`}
+      style={{ padding: '2px 8px', borderRadius: 10, fontSize: big ? '0.7rem' : '0.63rem', fontFamily: 'JetBrains Mono, monospace', background: bg, border: `1px solid ${border}`, color: colour, fontVariantNumeric: 'tabular-nums' }}>
+      {(ms / 1000).toFixed(1)}s
+    </span>
+  );
+}
+
 function Evaluations({ token }: { token: string }) {
   const [rows, setRows]       = useState<any[]>([]);
   const [count, setCount]     = useState(0);
@@ -969,6 +990,7 @@ function Evaluations({ token }: { token: string }) {
                   {open.marks_awarded}/{open.marks_out_of}
                 </span>
               )}
+              <Duration ms={open.duration_ms} />
               <button onClick={() => deleteRow(open.id)} className="btn-red"
                 style={{ marginLeft: 'auto', padding: '2px 8px', fontSize: '0.7rem' }}>Delete</button>
             </div>
@@ -988,6 +1010,30 @@ function Evaluations({ token }: { token: string }) {
             {ev.overall_feedback && (
               <Section title="Feedback given">
                 <p style={{ color: 'var(--text3)', fontSize: '0.86rem', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap', fontFamily: sans }}>{ev.overall_feedback}</p>
+              </Section>
+            )}
+
+            {open.timings && Object.keys(open.timings).length > 0 && (
+              <Section title="Time taken">
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: mono, fontSize: '0.76rem' }}>
+                  <tbody>
+                    {Object.entries(open.timings as Record<string, number>)
+                      .filter(([k]) => k !== 'total')
+                      .sort((a, b) => b[1] - a[1])
+                      .map(([stage, msec]) => (
+                        <tr key={stage} style={{ borderBottom: '1px solid #141414' }}>
+                          <td style={{ padding: '6px 0', color: 'var(--text3)' }}>{stage.replace(/_/g, ' ')}</td>
+                          <td style={{ padding: '6px 0', color: 'var(--bg4)', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
+                            {(msec / 1000).toFixed(1)}s
+                          </td>
+                        </tr>
+                      ))}
+                    <tr>
+                      <td style={{ padding: '8px 0 0', color: 'var(--text2)' }}>total</td>
+                      <td style={{ padding: '8px 0 0', textAlign: 'right' }}><Duration ms={open.duration_ms} big /></td>
+                    </tr>
+                  </tbody>
+                </table>
               </Section>
             )}
 
@@ -1046,6 +1092,7 @@ function Evaluations({ token }: { token: string }) {
                     {row.marks_awarded}/{row.marks_out_of}
                   </span>
                 )}
+                <Duration ms={row.duration_ms} />
                 <span style={{ marginLeft: 'auto', color: 'var(--bg4)', fontSize: '0.65rem', fontFamily: mono }}>
                   {new Date(row.created_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                 </span>

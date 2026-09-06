@@ -40,3 +40,20 @@ create index if not exists answer_evaluations_email_idx
 -- Service-role only. RLS on with no policies denies every other client, which
 -- matters more here than elsewhere: these rows are readers' own writing.
 alter table answer_evaluations enable row level security;
+
+-- ── Added 2026-09-06 ──────────────────────────────────────────────────────
+-- How long the evaluation took, alongside what it produced.
+--
+-- The per-stage durations were emitted as one `[evaluate:timing]` log line and
+-- nothing kept them, so answering "are we close to the 60s Vercel Hobby
+-- ceiling?" meant running evaluations by hand and reading them out of the log
+-- stream before it rolled over. Stored here, that question is a query, and the
+-- sample grows on its own as readers use the product.
+
+alter table answer_evaluations
+  add column if not exists duration_ms integer,
+  add column if not exists timings     jsonb;
+
+-- "Which evaluations came closest to the ceiling" — the query that matters.
+create index if not exists answer_evaluations_duration_idx
+  on answer_evaluations (duration_ms desc nulls last);
