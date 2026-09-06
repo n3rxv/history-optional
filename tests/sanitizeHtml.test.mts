@@ -76,5 +76,27 @@ const relOk = relOut.includes('rel="noopener noreferrer"');
 if (!relOk) fails++;
 console.log(`  ${relOk ? 'PASS' : 'FAIL'}  target=_blank gets rel=noopener`);
 
+// The citation control.
+// ALLOW_DATA_ATTR:false once stripped data-citation, which left the "Source #N"
+// span looking like a link while the click did nothing. The class survived, so
+// nothing on the page suggested a fault. These pin the one attribute the chat
+// UI reads, and pin that nothing else was re-admitted alongside it.
+console.log('\ncitation references');
+
+const citeOut = sanitizeHtml('<span class="chat-citation" data-citation="1,2">Source #1</span>');
+const citeOk = citeOut.includes('data-citation="1,2"') && citeOut.includes('chat-citation');
+if (!citeOk) fails++;
+console.log(`  ${citeOk ? 'PASS' : 'FAIL'}  data-citation survives, so the passage can be opened`);
+
+const otherData = sanitizeHtml('<span data-foo="x" data-whatever="y">t</span>');
+const otherOk = !/data-/.test(otherData);
+if (!otherOk) fails++;
+console.log(`  ${otherOk ? 'PASS' : 'FAIL'}  other data-* attributes are still stripped`);
+
+const citeEvil = sanitizeHtml('<span data-citation="1" onclick="alert(1)">x</span>');
+const citeEvilOk = !/onclick/i.test(citeEvil);
+if (!citeEvilOk) fails++;
+console.log(`  ${citeEvilOk ? 'PASS' : 'FAIL'}  an event handler beside it is still removed`);
+
 console.log(`\n${fails === 0 ? 'ALL PASS' : fails + ' FAILED'}`);
 process.exit(fails === 0 ? 0 : 1);

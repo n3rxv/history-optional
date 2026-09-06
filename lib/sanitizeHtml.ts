@@ -26,7 +26,13 @@ import DOMPurify from 'dompurify';
 // throughout the note corpus for list indentation. DOMPurify sanitizes CSS
 // values rather than trusting them.
 const CONFIG: Parameters<typeof DOMPurify.sanitize>[1] = {
-  ADD_ATTR: ['target'],
+  // `data-citation` carries the source indices for a "Source #N" reference in
+  // chat. app/chat/page.tsx finds it with closest('[data-citation]') to open
+  // the cited passage. Blanket ALLOW_DATA_ATTR:false stripped it, so the span
+  // still rendered and still looked like a link while the click did nothing:
+  // a dead control rather than a visible failure. Named here so the one
+  // attribute the UI depends on survives without re-admitting the rest.
+  ADD_ATTR: ['target', 'data-citation'],
   // `href` on an anchor is still filtered by DOMPurify's own URI policy, which
   // rejects javascript: and data: regardless of what appears here.
   ALLOW_DATA_ATTR: false,
