@@ -728,9 +728,10 @@ mode: statically generated content that silently never updates.
 while generating constant Postgres error noise — and hides real failures in the
 same silence. `.maybeSingle()` is the correct call.
 
-**Two Firebase admin modules exist** — `lib/firebaseAdmin.ts` and
-`lib/firebase-admin.ts` — both initialising the SDK, both imported in different
-places.
+**~~Two Firebase admin modules exist~~** — settled in `bc048a2`.
+`lib/firebase-admin.ts` was the namespaced-SDK duplicate and `/api/migrate-user`
+was its only importer, so deleting that route removed the module with it. Every
+caller now goes through `lib/firebaseAdmin.ts`.
 
 **`/api/pyq-answers` accepts anonymous 5MB uploads** into paid storage. Rate
 limited per IP in §5, but still unauthenticated by design. Requiring sign-in is
