@@ -724,51 +724,75 @@ per page. Classify on the `self.__next_f` prefix instead.
 
 ### Correctness and cost
 
-**`/api/evaluate` is four sequential LLM calls inside a 60s cap.** The Vercel
-plan is Hobby, so 60s is hard. §14 bought headroom without touching a prompt,
-but the ceiling stands. `[evaluate:timing]` lines from 8-10 real evaluations
-decide whether this needs a background job — and if the parallel stage
-dominates, more trimming will not help.
+*Worked through 2026-09-06 — `19d7caa`, `ee532f5`, `2cfdd8c`, `f32dde0`,
+`0601646`, `586a651`. Two of the four turned out to be smaller than the
+original note claimed, and one turned out to be reachable after all.*
 
-**`revalidate` is set on `app/page.tsx` alone.** Every other server-rendered
-page re-renders per request or is frozen at build time. §19 shows the failure
-mode: statically generated content that silently never updates.
+**~~32 `.single()` calls~~.** On no rows `.single()` returns a PGRST116 error
+rather than null, so every one treated "this reader has no row yet" as a
+failure. Most got away with it by discarding the error. 32 plain selects are
+`.maybeSingle()` now; 4 follow `.insert(...).select()`, where a successful
+insert does guarantee one row, and correctly keep `.single()`. The split was
+made by walking back from each call to the start of its statement and testing
+for `.insert(`/`.upsert(`, not by eye. `/api/canvas-annotations` was the only
+place the error was actually inspected, and it special-cased
+`error.code !== 'PGRST116'` by hand — the exact workaround `.maybeSingle()`
+removes.
 
-**~30 `.single()` calls remain across `app/api`.** `.single()` errors with
-`PGRST116` when no row matches. Because results are destructured as
-`const { data } = ...` with the error discarded, this mostly works by accident
-while generating constant Postgres error noise — and hides real failures in the
-same silence. `.maybeSingle()` is the correct call.
+**~~`revalidate` on only 1 of 90 pages~~ — the framing was wrong.** 88 of those
+pages render content that ships in the repo, so a deploy is precisely the right
+invalidation and `revalidate` would buy them nothing. Exactly two read the
+database in a server component: the note body from `note_overrides` and the
+historiography debates. Both were frozen at build time. *Readers* never saw it,
+because both refetch on mount — but search engines only ever see the
+prerendered HTML, so they indexed whatever the database held on build day.
+Both are now `revalidate = 3600`, still static, so §20's instant note open is
+unaffected.
 
-**~~Two Firebase admin modules exist~~** — settled in `bc048a2`.
-`lib/firebase-admin.ts` was the namespaced-SDK duplicate and `/api/migrate-user`
-was its only importer, so deleting that route removed the module with it. Every
-caller now goes through `lib/firebaseAdmin.ts`.
+**~~Anonymous `pyq-answers` uploads~~ — worse than "unauthenticated by
+design".** The route accepted anything whose multipart `Content-Type` claimed
+`application/pdf`. That header is the caller's claim, not a fact, and these
+uploads are **stored in public storage and served back** — so any bytes at all
+could be hosted there behind a PDF label. `lib/fileSignature` checks the real
+signature (18 tests: a PNG, an ELF binary, an HTML page and a ZIP all arriving
+labelled as PDFs). The per-IP limiter from §5 was also failing *open*, so a
+database outage turned the only ceiling on a paid-storage write endpoint into
+no ceiling; it fails closed now.
 
-**`/api/pyq-answers` accepts anonymous 5MB uploads** into paid storage. Rate
-limited per IP in §5, but still unauthenticated by design. Requiring sign-in is
-a product decision.
+> `/api/ocr`, `/api/ocr-pdf`, `/api/evaluate` and `/api/pdf-evaluate` trust
+> `file.type` the same way. Their risk is materially lower — the bytes go to a
+> model and are discarded, never stored or served — so the failure is a wasted
+> model call, not hosting someone's payload. Same helper applies; different
+> change.
 
-**26 npm advisories remain**, all transitive under `next`, `firebase` or
-`razorpay`. Individually assessed in `SECURITY-NOTES.md`, which also records
-that `npm audit fix` breaks the build.
+**~~26 npm advisories~~ — 33 measured, now 19, and the blocker was illusory.**
+`npm audit fix` was abandoned because it pulls next 16.3.x, where Turbopack
+cannot resolve `@tailwindcss/postcss` and the build compiles clean while
+emitting no styles. But every one of the nine Next CVEs is fixed in `<16.2.11`,
+so **16.2.11 clears them all as a patch inside 16.2.x and never reaches the
+breaking version** — including `GHSA-6gpp-xcg3-4w24`, a middleware/proxy bypass
+specific to App Router apps on Turbopack, which is exactly this app.
 
-*(Resolved since first writing: the two dead increment functions and the
-diverging `subscription_slots.subscribers` counter — §23 — and the rejected
-Firebase service-account key — §24.)*
+Pinned exact, not `^`: a caret would resolve to 16.3.x on any future install,
+and that failure looks like a successful build.
 
-## Conventions this established
+With next pinned, `npm audit fix` became safe and took 27 to 19. `razorpay`
+2.9.8 cleared axios; `firebase-admin` 12→14 removed the Firestore and Cloud
+Storage trees this app never calls.
 
-1. **Meter before the work, refund on failure.**
-2. **Never trust the client for anything that decides money or access.** Read it
-   from the payment provider, the order notes, or the database.
-3. **Make failures visible.** `report-uri` on the enforcing CSP, `[csp]` and
-   `[evaluate:timing]` log lines. Two bugs here survived months of silence.
-4. **Check `git log` before "fixing" something odd.** The chat buffer and the
-   evaluate pipeline were both deliberate.
-5. **Regenerate and commit `supabase/schema.sql` after any schema change.**
-6. **Log durations, never student content.**
-7. **Measure the layer before optimising it.** §20 looked like a network problem
-   and was a render problem.
-8. **Verify an edit landed, in the built output.** §19 and §22 both shipped
-   changes to code that nothing rendered.
+| Remaining | Why it stays |
+|---|---|
+| `next`, `postcss`, `sharp` | Top-level postcss is already patched — the flagged copy is Next's own build-time bundle. `sharp` never runs: `images: { unoptimized: true }` and zero `next/image` imports. |
+| `undici` + 8 `@firebase/*` | Node-only path inside a browser-only SDK. Verified: every importer of `lib/firebase.ts` is a client component and undici appears in no client bundle. Fixing it means firebase 10→12, two majors on the SDK gating every sign-in and subscription, to patch code that does not execute. |
+| `@google-cloud/storage`, `gaxios`, `retry-request`, `teeny-request`, `uuid` | firebase-admin's Firestore/Storage dependencies. The entire admin surface here is `verifyIdToken` plus one `listUsers`. |
+
+**Nothing in the remaining 19 executes in this application.** That is the
+defensible stopping point, not zero.
+
+> A note on verification, because this dependency in particular punishes
+> assumption: a passing build proves nothing about firebase-admin, since
+> `verifyIdToken` validates against Google's *public* certs — a dead credential
+> looks identical to a healthy one, which is how the key stayed rejected for a
+> month (§24). The v14 bump was checked by calling `listUsers` against the real
+> credential locally.
+
