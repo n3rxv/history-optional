@@ -584,24 +584,86 @@ what would hurt first.
 
 ### Money and access
 
-**`topper-verify` and `map-verify` still have the replay hole §2 closed.**
-Neither touches `payment_events`, so the same signature can be presented
-repeatedly: `topper-verify` re-upserts a fresh one-year expiry each time, and
-`map-verify` re-runs a Claude Sonnet call on every replay. `topper-order` also
-writes no `notes`, so there is no `user_id` or plan to validate against — fixing
-these means changing the order routes too, then routing both through
-`applySubscriptionPayment` or an equivalent.
+*Cleared 2026-09-06 — `d11b571`, `bc048a2`, `37ce5a2`. Kept here as the record
+of what was wrong, since all three were latent rather than reported.*
 
-**`/api/migrate-user` reassigns a subscription by email match**, with no check
-that the email is verified. Anyone able to create a Firebase account with a
-subscriber's address inherits their subscription. It has no callers, so
-deleting it is the cheap fix.
+**~~`topper-verify` and `map-verify` had the replay hole §2 closed.~~** Neither
+touched `payment_events`, so the same signature — a static value the browser
+already holds — could be presented repeatedly: `topper-verify` re-upserted a
+fresh one-year expiry each time, `map-verify` re-ran a Claude Sonnet call over a
+whole PDF at cost. Neither checked the order belonged to the caller or that the
+right amount was paid, and `topper-order` wrote no `notes`, so there was nothing
+to check against.
 
-**The admin token carries no identity and cannot be revoked.**
-`lib/admin-auth.ts` issues `${exp}.${hmac(exp)}` — no subject, no nonce, no
-revocation list, 8-hour TTL. A leaked token is valid until it expires and the
-only remedy is rotating `ADMIN_PASSWORD`. It gates note overrides, blog posts,
-topper copies and notifications.
+`lib/paymentClaim.ts` is the one-off equivalent of `applySubscriptionPayment`:
+read what was bought from the *order*, claim in `payment_events` before any
+work, release if the work then fails.
+
+```ts
+const claim = await claimPayment({
+  orderId: razorpay_order_id, paymentId: razorpay_payment_id,
+  expectedUid: user.uid, kind: 'topper',
+  expectedAmountPaise: TOPPER_AMOUNT_PAISE,
+});
+if (!claim.ok) return NextResponse.json({ error: claim.error }, { status: claim.status });
+if (claim.status === 'already_applied') return NextResponse.json({ ok: true, alreadyProcessed: true });
+```
+
+`map-verify` had a second problem that made the first one *load-bearing*: the
+evaluation existed only in the HTTP response. A reader who closed the tab had
+paid ₹49 for something unreachable, and re-submitting was the only recovery —
+which re-ran the model. `map_evaluations.result` stores it now, a replay returns
+it, and every failure path calls `claim.release()` so someone who paid can retry.
+
+> The recurring shape: **a hole stays open when closing it would break the only
+> path a user has.** Fix the missing feature and the hole closes with it.
+
+`lib/subscriptionGrant.ts` still carries its own copy of this logic. It is
+verified against a real payment in production, so it was left alone rather than
+refactored in the same change; migrating it onto `claimPayment` is the remaining
+half, and the note is in the file.
+
+**~~`/api/migrate-user` reassigned a subscription by email match.~~** It read the
+email out of a Firebase token and gave any subscription carrying that email to
+the caller. Firebase will issue a token for an *unverified* address, so
+registering with a subscriber's email was enough to take their subscription. It
+arrived in `3b5142d` and never had a caller — no client fetch, no script — so it
+was deleted rather than fixed. `lib/firebase-admin.ts` went with it: it was the
+second Firebase admin module (namespaced SDK against `firebaseAdmin.ts`'s
+modular one) and this route was its only importer, so the duplicate disappeared
+instead of needing reconciliation.
+
+**~~The admin token carried no identity and could not be revoked.~~** Three
+faults, one of them serious:
+
+```ts
+const SECRET = process.env.ADMIN_PASSWORD ?? '';   // ← the serious one
+```
+
+HMAC-SHA256 under an empty key is something anyone can compute. A deployment
+missing that variable would have accepted forged tokens across the whole admin
+surface — note HTML, blog posts, topper copies, submissions, notifications —
+while looking completely healthy. `verify-password` refused to run without the
+variable; the check that actually guards the routes did not. Production has it
+set, so this was latent, not open.
+
+The payload was `{exp}` and nothing else: no session to name in a log, and the
+only way to invalidate a token was to rotate `ADMIN_PASSWORD` — making "revoke
+the token someone stole" and "change the password I type" the same action.
+Tokens now carry a random session id inside the signature and a row in
+`admin_sessions`; `revoke_all_admin_sessions()` ends every live session without
+touching the login, and `last_seen` records that the admin surface was used at
+all. Signing out revokes server-side, where before it cleared `sessionStorage`
+and left the token valid for the rest of its eight hours.
+
+Making `isAdminAuthed` async exposed a fourth: two routes wrapped it in a sync
+helper, and a wrapper returning a promise into `if (!check(req))` is **always
+falsy** — an auth bypass that typechecks. The wrappers are gone; every route
+calls the one name, and `grep` for an unawaited call site is now a meaningful
+check. `/api/admin/signout-all` imported the guard and never called it,
+comparing `x-admin-token` against `ADMIN_SECRET`, an env var set nowhere; it
+failed closed, which is why nobody noticed, but it was not the check it appeared
+to be.
 
 ### Privacy
 
