@@ -672,43 +672,55 @@ transcript (line ~745) and the full chain-of-thought reasoning (~920), both of
 which contain the student's handwritten answer. Convention 6 says log durations,
 never student content; these two predate it and were missed.
 
-**All user progress is `localStorage` only.** Answer history
+**All user progress is `localStorage` only.** *Deferred on 2026-09-06 — a
+deliberate call by the owner, not an oversight: the work is large and nothing
+is currently breaking for readers. Revisit before it becomes the blocker for
+background evaluation.* Answer history
 (`ho_answer_history_v1`, capped at 50), flashcard progress (`ho_flashcards_v1`),
 syllabus tracking, chat history, prelims state and canvas annotations. Clearing
 the browser or switching device loses everything, on a product whose value is
 tracking improvement over months. One durable store fixes all of them and is the
 prerequisite for background evaluation.
 
-### CSP `unsafe-inline`
+### CSP `unsafe-inline` — closed, won't fix
 
-Removing it needs every inline script individually authorised, and the two
-mechanisms differ sharply in cost here:
+*Settled 2026-09-06 by counting, not by a traffic pass. The earlier plan here
+called for a second Report-Only deploy to find out whether the 13 JSON-LD files
+were the obstacle. They were not, and the real obstacle makes the question moot.*
 
-| | How | Cost |
+Inline `<script>` elements in the built output, all 90 prerendered pages:
+
+| What | Count | Hashable? |
 |---|---|---|
-| Nonces | Random value per request | Requires per-request rendering — **would make all 90 prerendered pages dynamic**, undoing §7 |
-| Hashes | SHA-256 of exact bytes, listed in the policy | Works with static pages, but only for content that never varies |
+| Theme-init script in `app/layout.tsx` | 1, one stable hash | Yes |
+| JSON-LD blocks | 150 | Data — never executed |
+| **Next.js RSC payload scripts** (`self.__next_f.push`) | **1,756**, up to 272 on one page | **No** |
 
-So hashes are the only viable route. `app/layout.tsx` has three inline blocks;
-the theme-init script and the GA snippet are fixed strings and hash cleanly.
-The problem is **13 files emitting per-page JSON-LD** — different title,
-description and breadcrumbs each — which a byte-exact hash cannot cover, and
-static pages cannot carry a per-page policy because the CSP is a header in
-`next.config.ts`.
+The last row is the blocker, and it was not in the earlier analysis at all.
+Those scripts are how streaming SSR ships the component tree to the client:
+their contents differ per page *and* per build, and Next provides no mechanism
+to hash them. Hashes cannot express this policy at any amount of effort — the
+header would need 1,756 entries and would be wrong again on the next deploy.
 
-> **The open question was never answered, and §11 implies otherwise.** Whether
-> `<script type="application/ld+json">` is subject to `script-src` at all is
-> browser-inconsistent, since it is not executed. §11 says the Report-Only pass
-> would settle it. It did not: that policy still contained `unsafe-inline` —
-> only `unsafe-eval` was removed from it. Inline was never exercised.
+The JSON-LD question turned out not to matter either way. So did the assumption
+that `layout.tsx` has three inline blocks; it has two, one of which is JSON-LD.
 
-Next step is therefore a **second Report-Only pass** with `unsafe-inline`
-removed and hashes added for the two fixed scripts. Only its reports reveal
-whether this is "add two hashes" or "restructure JSON-LD across 13 files".
+That leaves nonces, which must be minted per response and read through
+`headers()` — opting every route into dynamic rendering. That trades static
+prerendering on all 90 pages, and the note-open latency work in §20, for
+defence-in-depth against a *future* injection bug, when the actual injection
+surface is already sanitized twice (§10: DOMPurify on model output,
+`sanitize-html` on admin note HTML, `post.content` sanitised).
 
-Worth weighing before spending the time: this is defence-in-depth against a
-*future* injection bug. The actual XSS holes are closed (§10) — DOMPurify on
-model output, `sanitize-html` on admin note overrides, `post.content` sanitised.
+**Verdict: keep `unsafe-inline`.** The directives that carry real weight without
+that cost are all already set — `object-src 'none'`, `base-uri 'self'`,
+`form-action`, and the `report-uri` that makes blocks visible at all (§11).
+
+Reproduce the count by scanning `.next/server/app/**/*.html` for inline
+`<script>` after a build. One trap if you do: the RSC payload embeds the
+theme-init source *verbatim*, because JSON does not escape single quotes — so
+classifying by "does the body contain `ho-theme`" misattributes one RSC chunk
+per page. Classify on the `self.__next_f` prefix instead.
 
 ### Correctness and cost
 

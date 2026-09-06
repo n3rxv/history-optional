@@ -16,9 +16,30 @@ import type { NextConfig } from "next";
  *                 on it and fall back to interpreted paths. eval("require")
  *                 is guarded by isNodeJS and unreachable in a browser
  *
- * 'unsafe-inline' is still here. Removing it needs either nonces -- which
- * would force all 26 prerendered pages to render per request -- or hashes for
- * the three inline scripts in app/layout.tsx. That is a separate change.
+ * 'unsafe-inline' stays, and this is now a settled decision rather than a
+ * postponed one. Counted against the built output on 2026-09-06:
+ *
+ *   1      theme-init script in app/layout.tsx -- one stable hash
+ *   150    JSON-LD blocks -- data, never executed
+ *   1756   Next.js RSC payload scripts (self.__next_f.push), up to 272 on a
+ *          single page, content different per page AND per build
+ *
+ * The last row is the blocker. Those scripts are how streaming SSR ships the
+ * component tree, their contents change whenever the page's data changes, and
+ * Next has no mechanism to hash them. So hashes cannot express this policy at
+ * any effort. The only alternative is a nonce, which must be minted per
+ * response and read via headers() -- that opts every route into dynamic
+ * rendering, giving up static prerendering on all 90 pages to close a hole
+ * whose actual injection surface (admin-authored note HTML) is already
+ * sanitized twice, server and client.
+ *
+ * Not worth it. The directives that carry real weight without that cost --
+ * object-src 'none', base-uri 'self', form-action, and a report-uri that makes
+ * blocks visible -- are all set below.
+ *
+ * If this is revisited: the theme-init hash is
+ * sha256-Q6fewthwZb9fwmZHokySLOvfyM6u+WOZ7KsPge1K2z8=, and the count above is
+ * reproducible by scanning .next/server/app/**\/*.html for inline <script>.
  */
 const SCRIPT_SRC_BASE =
   "'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://apis.google.com https://www.gstatic.com https://cdnjs.cloudflare.com";
