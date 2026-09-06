@@ -451,8 +451,13 @@ export default function PYQsPage() {
       </div>
 
       {/* Tabs + Topper Copies toggle */}
-      <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+      {/* Seven tabs wrap on most widths. With space-between, a wrapped button
+          is the only item on its row and gets pushed to the LEFT edge, landing
+          directly under the first tab. marginLeft:auto keeps it right whether
+          it shares the row or not, and the row gap stops the two lines from
+          reading as one cluster. */}
+      <div style={{ display: 'flex', gap: '0.85rem 0.4rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', flex: '1 1 auto', minWidth: 0 }}>
         {TABS.map(tab => {
           const count = tab.value === 'all' ? pyqs.length : pyqs.filter((q: PYQ) => q.section === tab.value).length;
           const active = activeTab === tab.value;
@@ -478,6 +483,7 @@ export default function PYQsPage() {
         })}
       </div>
       <button onClick={() => setShowTopperCopies(p => !p)} style={{
+        marginLeft: 'auto',
         background: showTopperCopies ? 'var(--bg3)' : 'var(--accent)',
         color: showTopperCopies ? 'var(--text2)' : '#fff',
         border: `1px solid ${showTopperCopies ? 'var(--border)' : 'var(--accent)'}`,
