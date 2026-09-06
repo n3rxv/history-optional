@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
+import { MAP_AMOUNT_PAISE } from "@/lib/paymentClaim";
 import Razorpay from "razorpay";
 
 export async function POST(req: NextRequest) {
@@ -15,10 +16,10 @@ export async function POST(req: NextRequest) {
   });
 
   const order = await razorpay.orders.create({
-    amount:   4900, // ₹49 in paise
+    amount:   MAP_AMOUNT_PAISE,
     currency: "INR",
     receipt:  `map_${user.uid.slice(0, 8)}_${Date.now()}`,
-    notes:    { user_id: user.uid, email: user.email ?? "", type: "map_eval" },
+    notes:    { user_id: user.uid, email: user.email ?? "", kind: "map" },
   });
 
   return NextResponse.json({ orderId: order.id, amount: order.amount, currency: order.currency });

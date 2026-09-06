@@ -3,7 +3,20 @@ import { createClient } from "@supabase/supabase-js";
 import { adminAuth } from "@/lib/firebaseAdmin";
 import crypto from "crypto";
 import Anthropic from "@anthropic-ai/sdk";
+import { claimPayment, MAP_AMOUNT_PAISE } from "@/lib/paymentClaim";
 
+/**
+ * Evaluates a map answer sheet for a completed ₹49 payment.
+ *
+ * This granted on a valid signature alone, so replaying the same request
+ * re-ran a Claude Sonnet call over a whole PDF — real money per replay. It
+ * also never checked the order belonged to the caller or that ₹49 was paid.
+ *
+ * The result is stored now. Previously it existed only in the HTTP response,
+ * so a reader who lost it had paid for nothing and re-submitting was the only
+ * recovery — which is what made the replay hole load-bearing. A replay returns
+ * the stored evaluation instead of buying another one.
+ */
 export const maxDuration = 120;
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -21,9 +34,17 @@ export async function POST(req: NextRequest) {
   }
 
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature, pdfBase64, lang } =
-    await req.json();
+    await req.json().catch(() => ({}));
 
-  // Verify Razorpay signature
+  if (
+    typeof razorpay_order_id !== "string" ||
+    typeof razorpay_payment_id !== "string" ||
+    typeof razorpay_signature !== "string"
+  ) {
+    return NextResponse.json({ error: "Missing payment fields" }, { status: 400 });
+  }
+
+  // Proves the pair came from Razorpay; says nothing about who bought it.
   const body        = razorpay_order_id + "|" + razorpay_payment_id;
   const expectedSig = crypto
     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
@@ -32,40 +53,47 @@ export async function POST(req: NextRequest) {
   if (expectedSig !== razorpay_signature)
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
 
-  // Capture payment
-  const captureRes = await fetch(
-    `https://api.razorpay.com/v1/payments/${razorpay_payment_id}/capture`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Basic " +
-          Buffer.from(`${process.env.RAZORPAY_KEY_ID}:${process.env.RAZORPAY_KEY_SECRET}`).toString("base64"),
-      },
-      body: JSON.stringify({ amount: 4900, currency: "INR" }),
-    }
-  );
-  if (!captureRes.ok) {
-    const err = await captureRes.json();
-    console.error("[map-verify] capture failed:", err);
-    // Don't block — payment may already be auto-captured
-  }
-
-  // Save to DB
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SECRET_KEY!
+    process.env.SUPABASE_SECRET_KEY!,
+    { auth: { persistSession: false } }
   );
-  const { error: dbErr } = await supabase.from("map_evaluations").insert({
-    firebase_uid:       firebaseUser.uid,
-    razorpay_payment_id,
-    razorpay_order_id,
-  });
-  if (dbErr) console.error("[map-verify] DB insert error:", dbErr);
 
-  // Run check-map evaluation
-  if (!pdfBase64) return NextResponse.json({ error: "No PDF provided" }, { status: 400 });
+  const claim = await claimPayment({
+    orderId: razorpay_order_id,
+    paymentId: razorpay_payment_id,
+    expectedUid: firebaseUser.uid,
+    kind: "map",
+    expectedAmountPaise: MAP_AMOUNT_PAISE,
+  });
+
+  if (!claim.ok) {
+    return NextResponse.json({ error: claim.error }, { status: claim.status });
+  }
+
+  // Already paid for and already evaluated: hand back what was produced rather
+  // than spending another model call on the same PDF.
+  if (claim.status === "already_applied") {
+    const { data: prior } = await supabase
+      .from("map_evaluations")
+      .select("result")
+      .eq("razorpay_payment_id", razorpay_payment_id)
+      .maybeSingle();
+    if (prior?.result) return NextResponse.json(prior.result);
+    // Claimed but never stored — the earlier attempt failed after claiming.
+    // Fall through and evaluate, so the reader is not left with nothing.
+  }
+
+  // Every exit from here must release the claim, or a reader who paid cannot
+  // retry after a failure.
+  const releaseClaim = async () => {
+    if (claim.status === "claimed") await claim.release();
+  };
+
+  if (!pdfBase64 || typeof pdfBase64 !== "string") {
+    await releaseClaim();
+    return NextResponse.json({ error: "No PDF provided" }, { status: 400 });
+  }
 
   const prompt = `You are a strict UPSC History Optional map question examiner.
 
@@ -149,8 +177,32 @@ Evaluate all 20 questions now.${lang === "hi" ? "\n\nIMPORTANT: Write descriptio
   const cleaned = raw.replace(/```json|```/g, "").trim();
   const jsonStart = cleaned.indexOf("{");
   const jsonEnd   = cleaned.lastIndexOf("}");
-  if (jsonStart === -1 || jsonEnd === -1) throw new Error("Claude did not return valid JSON");
+  if (jsonStart === -1 || jsonEnd === -1) {
+    // The reader paid and got nothing usable; let them try again.
+    await releaseClaim();
+    return NextResponse.json({ error: "Evaluation failed. Please try again." }, { status: 502 });
+  }
 
-  const parsed = JSON.parse(cleaned.slice(jsonStart, jsonEnd + 1));
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(cleaned.slice(jsonStart, jsonEnd + 1));
+  } catch {
+    await releaseClaim();
+    return NextResponse.json({ error: "Evaluation failed. Please try again." }, { status: 502 });
+  }
+
+  // Stored so it survives a closed tab, and so a replay costs nothing.
+  const { error: saveErr } = await supabase.from("map_evaluations").upsert(
+    {
+      firebase_uid: firebaseUser.uid,
+      razorpay_payment_id,
+      razorpay_order_id,
+      result: parsed,
+    },
+    { onConflict: "razorpay_payment_id" }
+  );
+  // A save failure is not worth withholding the result the reader paid for.
+  if (saveErr) console.error("[map-verify] result save failed:", saveErr);
+
   return NextResponse.json(parsed);
 }

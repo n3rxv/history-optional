@@ -3,7 +3,7 @@
 -- Captures public-schema tables, constraints, indexes, functions,
 -- row-level security and triggers. Data is never included.
 --
--- Dumped: 2026-09-06T05:15:34Z
+-- Dumped: 2026-09-06T06:01:32Z
 
 -- ── Extensions ─────────────────────────────────────────────────────────
 create extension if not exists pg_cron;
@@ -97,7 +97,8 @@ create table if not exists map_evaluations (
   firebase_uid text not null,
   razorpay_payment_id text,
   razorpay_order_id text,
-  created_at timestamp with time zone default now()
+  created_at timestamp with time zone default now(),
+  result jsonb
 );
 
 create table if not exists note_overrides (
@@ -339,6 +340,8 @@ CREATE UNIQUE INDEX annotations_note_slug_user_id_idx ON public.annotations USIN
 CREATE INDEX book_chunks_embedding_idx ON public.book_chunks USING hnsw (embedding vector_cosine_ops) WITH (m='16', ef_construction='64');
 CREATE UNIQUE INDEX canvas_annotations_firebase_note_idx ON public.canvas_annotations USING btree (firebase_uid, note_slug);
 CREATE INDEX device_sessions_user_id_idx ON public.device_sessions USING btree (user_id);
+CREATE UNIQUE INDEX map_evaluations_payment_id_key ON public.map_evaluations USING btree (razorpay_payment_id) WHERE (razorpay_payment_id IS NOT NULL);
+CREATE INDEX map_evaluations_uid_idx ON public.map_evaluations USING btree (firebase_uid, created_at DESC);
 CREATE INDEX idx_notifications_created_at ON public.notifications USING btree (created_at DESC);
 CREATE INDEX payment_events_order_idx ON public.payment_events USING btree (order_id);
 CREATE INDEX payment_events_uid_idx ON public.payment_events USING btree (firebase_uid, applied_at DESC);
