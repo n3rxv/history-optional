@@ -3,7 +3,7 @@
 -- Captures public-schema tables, constraints, indexes, functions,
 -- row-level security and triggers. Data is never included.
 --
--- Dumped: 2026-09-03T14:09:41Z
+-- Dumped: 2026-09-06T05:15:34Z
 
 -- ── Extensions ─────────────────────────────────────────────────────────
 create extension if not exists pg_cron;
@@ -189,7 +189,6 @@ create table if not exists site_config (
 
 create table if not exists subscription_slots (
   id integer default 1 not null,
-  subscribers integer default 0,
   max_slots integer default 45
 );
 
@@ -352,6 +351,7 @@ CREATE INDEX topper_copy_pyq_map_pyq_id_idx ON public.topper_copy_pyq_map USING 
 CREATE UNIQUE INDEX usage_tracking_fingerprint_idx ON public.usage_tracking USING btree (fingerprint);
 CREATE INDEX usage_tracking_firebase_uid_idx ON public.usage_tracking USING btree (firebase_uid);
 CREATE UNIQUE INDEX user_profiles_firebase_uid_idx ON public.user_profiles USING btree (firebase_uid);
+CREATE UNIQUE INDEX user_sessions_visitor_id_key ON public.user_sessions USING btree (visitor_id) WHERE (visitor_id IS NOT NULL);
 CREATE INDEX writing_pads_updated_at_idx ON public.writing_pads USING btree (updated_at DESC);
 
 -- ── Functions ──────────────────────────────────────────────────────────
@@ -454,44 +454,6 @@ END;
 $function$
 ;
 
-CREATE OR REPLACE FUNCTION public.increment_chat_count(fp text)
- RETURNS void
- LANGUAGE plpgsql
-AS $function$
-BEGIN
-  INSERT INTO usage_tracking (fingerprint, chat_count, updated_at)
-  VALUES (fp, 1, now())
-  ON CONFLICT (fingerprint)
-  DO UPDATE SET chat_count = usage_tracking.chat_count + 1, updated_at = now();
-END;
-$function$
-;
-
-CREATE OR REPLACE FUNCTION public.increment_eval_count(fp text)
- RETURNS void
- LANGUAGE plpgsql
-AS $function$
-BEGIN
-  INSERT INTO usage_tracking (fingerprint, eval_count, updated_at)
-  VALUES (fp, 1, now())
-  ON CONFLICT (fingerprint)
-  DO UPDATE SET eval_count = usage_tracking.eval_count + 1, updated_at = now();
-END;
-$function$
-;
-
-CREATE OR REPLACE FUNCTION public.match_book_chunks(query_embedding vector, match_count integer DEFAULT 5)
- RETURNS TABLE(content text, book_title text, author text, similarity double precision)
- LANGUAGE sql
- STABLE
-AS $function$
-  select content, book_title, author, 1 - (embedding <=> query_embedding) as similarity
-  from book_chunks
-  order by embedding <=> query_embedding
-  limit match_count;
-$function$
-;
-
 CREATE OR REPLACE FUNCTION public.match_book_chunks(query_embedding vector, match_count integer DEFAULT 10, filter_book text DEFAULT NULL::text)
  RETURNS TABLE(id bigint, content text, book_title text, author text, similarity double precision)
  LANGUAGE plpgsql
@@ -511,6 +473,18 @@ BEGIN
   ORDER BY bc.embedding <=> query_embedding
   LIMIT match_count;
 END;
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.match_book_chunks(query_embedding vector, match_count integer DEFAULT 5)
+ RETURNS TABLE(content text, book_title text, author text, similarity double precision)
+ LANGUAGE sql
+ STABLE
+AS $function$
+  select content, book_title, author, 1 - (embedding <=> query_embedding) as similarity
+  from book_chunks
+  order by embedding <=> query_embedding
+  limit match_count;
 $function$
 ;
 
@@ -534,6 +508,98 @@ END;
 $function$
 ;
 
+CREATE OR REPLACE FUNCTION public.merge_visitor(p_old_id text, p_new_id text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+begin
+  if coalesce(p_old_id, '') = '' or coalesce(p_new_id, '') = '' or p_old_id = p_new_id then
+    return;
+  end if;
+  if exists (select 1 from user_sessions where visitor_id = p_new_id) then
+    return;
+  end if;
+  update user_sessions set visitor_id = p_new_id where visitor_id = p_old_id;
+end;
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.record_visit(p_visitor_id text, p_page text, p_referrer text DEFAULT NULL::text, p_device text DEFAULT NULL::text, p_os text DEFAULT NULL::text, p_browser text DEFAULT NULL::text, p_country text DEFAULT NULL::text, p_city text DEFAULT NULL::text, p_firebase_uid text DEFAULT NULL::text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+declare
+  -- Distinct pages only, and capped. The page name arrives from the browser,
+  -- so without a ceiling a caller could grow one row without limit by sending
+  -- a fresh path each time.
+  k_max_pages constant integer := 200;
+begin
+  if coalesce(p_visitor_id, '') = '' then
+    return;
+  end if;
+
+  insert into user_sessions (
+    visitor_id, visit_count, visited_at, last_active, session_start,
+    last_page, entry_page, exit_page, pages_visited, referrer,
+    device, os, browser, country, city, is_bounce, firebase_uid,
+    session_duration_secs
+  )
+  values (
+    p_visitor_id, 1, now(), now(), now(),
+    p_page, p_page, p_page,
+    case when coalesce(p_page, '') = '' then '{}'::text[] else array[p_page] end,
+    coalesce(nullif(p_referrer, ''), 'direct'),
+    coalesce(nullif(p_device, ''), 'unknown'),
+    coalesce(nullif(p_os, ''), 'unknown'),
+    coalesce(nullif(p_browser, ''), 'unknown'),
+    nullif(p_country, ''), nullif(p_city, ''),
+    true, nullif(p_firebase_uid, ''), 0
+  )
+  on conflict (visitor_id) where visitor_id is not null do update set
+    visit_count = user_sessions.visit_count + 1,
+    visited_at  = now(),
+    last_active = now(),
+    last_page   = coalesce(nullif(p_page, ''), user_sessions.last_page),
+    exit_page   = coalesce(nullif(p_page, ''), user_sessions.exit_page),
+
+    pages_visited = case
+      when coalesce(p_page, '') = ''                          then user_sessions.pages_visited
+      when p_page = any(user_sessions.pages_visited)          then user_sessions.pages_visited
+      when cardinality(user_sessions.pages_visited) >= k_max_pages
+                                                              then user_sessions.pages_visited
+      else user_sessions.pages_visited || p_page
+    end,
+
+    -- A visitor who has seen more than one distinct page did not bounce.
+    is_bounce = cardinality(case
+      when coalesce(p_page, '') = ''                          then user_sessions.pages_visited
+      when p_page = any(user_sessions.pages_visited)          then user_sessions.pages_visited
+      when cardinality(user_sessions.pages_visited) >= k_max_pages
+                                                              then user_sessions.pages_visited
+      else user_sessions.pages_visited || p_page
+    end) <= 1,
+
+    session_duration_secs = greatest(
+      0,
+      extract(epoch from now() - coalesce(user_sessions.session_start, now()))::integer
+    ),
+
+    -- Later requests may know things the first did not, but must never
+    -- overwrite a known value with 'unknown'.
+    device       = coalesce(nullif(p_device, ''),  user_sessions.device),
+    os           = coalesce(nullif(p_os, ''),      user_sessions.os),
+    browser      = coalesce(nullif(p_browser, ''), user_sessions.browser),
+    country      = coalesce(nullif(p_country, ''), user_sessions.country),
+    city         = coalesce(nullif(p_city, ''),    user_sessions.city),
+    firebase_uid = coalesce(nullif(p_firebase_uid, ''), user_sessions.firebase_uid);
+end;
+$function$
+;
+
 CREATE OR REPLACE FUNCTION public.release_usage(p_uid text, p_fp text, p_field text)
  RETURNS void
  LANGUAGE plpgsql
@@ -547,6 +613,21 @@ begin
   execute format('update usage_tracking set %I = greatest(coalesce(%I,0) - 1, 0), updated_at = now() where (nullif($1,'''') is not null and firebase_uid = $1) or (nullif($2,'''') is not null and fingerprint = $2)', p_field, p_field)
     using coalesce(p_uid,''), coalesce(p_fp,'');
 end;
+$function$
+;
+
+CREATE OR REPLACE FUNCTION public.touch_visit(p_visitor_id text)
+ RETURNS void
+ LANGUAGE sql
+ SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
+  update user_sessions
+     set last_active = now(),
+         session_duration_secs = greatest(
+           0, extract(epoch from now() - coalesce(session_start, now()))::integer
+         )
+   where visitor_id = p_visitor_id;
 $function$
 ;
 
