@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
+import { getSlotInfo } from "@/lib/slots";
 import Razorpay from "razorpay";
 import { planAmountPaise, toPlanId } from "@/lib/plans";
 
@@ -16,18 +16,10 @@ export async function POST(req: NextRequest) {
   const user = await verifyFirebaseToken(token);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SECRET_KEY!
-  );
-
-  const { data: slotData } = await supabaseAdmin
-    .from("subscription_slots")
-    .select("subscribers, max_slots")
-    .eq("id", 1)
-    .maybeSingle();
-
-  const remaining = slotData ? Math.max(0, slotData.max_slots - slotData.subscribers) : 45;
+  // Same source as /api/slots. This used to read
+  // subscription_slots.subscribers, a stored counter nothing ever wrote, so
+  // the two routes reported different numbers of remaining slots.
+  const { slots: remaining } = await getSlotInfo();
   const reqBody = await req.json().catch(() => ({}));
 
   // An unrecognised plan falls back to the most expensive one rather than the
