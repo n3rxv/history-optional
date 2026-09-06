@@ -29,6 +29,7 @@ export async function GET() {
     { url: `${base}/pyqs/early-medieval`, priority: '0.8', changefreq: 'monthly' },
     { url: `${base}/pyqs/medieval-india`, priority: '0.8', changefreq: 'monthly' },
     { url: `${base}/pyqs/modern-india`, priority: '0.8', changefreq: 'monthly' },
+    { url: `${base}/pyqs/india-since-independence`, priority: '0.8', changefreq: 'monthly' },
     { url: `${base}/pyqs/world-history`, priority: '0.8', changefreq: 'monthly' },
   ];
 

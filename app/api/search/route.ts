@@ -33,6 +33,7 @@ export type PyqHit = {
   id: number;
   question: string;
   topic: string;
+  subtopic: string;
   section: string;
   marks: number;
   year: number;
@@ -67,6 +68,7 @@ function getPyqs(): Promise<PyqHit[]> {
       id: p.id,
       question: p.question,
       topic: p.topic,
+      subtopic: p.subtopic,
       section: p.section,
       marks: p.marks,
       year: p.year,
@@ -83,7 +85,10 @@ function scorePyq(p: PyqHit, needle: string): number {
     if (t.includes(needle)) return 2;
     return 0;
   };
-  return Math.max(at(p.question) * 2, at(p.topic), at(p.section));
+  // Sub-topic is the finest label the bank carries — "Kalhana", "Feudalism
+  // Debate" — and is often exactly what a reader types. Scored above topic,
+  // below the question text itself.
+  return Math.max(at(p.question) * 2, at(p.subtopic) * 1.5, at(p.topic), at(p.section));
 }
 
 export async function GET(req: NextRequest) {

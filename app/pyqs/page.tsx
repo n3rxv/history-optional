@@ -3,19 +3,27 @@ import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
+import { useMemo } from 'react';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import Script from 'next/script';
 
+// Early Medieval had no tab at all: 99 questions reachable only through "All"
+// or the /pyqs/early-medieval page. India Since Independence is newly split out
+// of Modern India, which had been carrying it as an unmarked 47-question block.
 const TABS = [
-  { label: 'All',      value: 'all' },
-  { label: 'Ancient',  value: 'Paper I - Ancient India' },
-  { label: 'Medieval', value: 'Paper I - Medieval India' },
-  { label: 'Modern',   value: 'Paper II - Modern India' },
-  { label: 'World',    value: 'Paper II - World History' },
+  { label: 'All',            value: 'all' },
+  { label: 'Ancient',        value: 'Paper I - Ancient India' },
+  { label: 'Early Medieval', value: 'Paper I - Early Medieval' },
+  { label: 'Medieval',       value: 'Paper I - Medieval India' },
+  { label: 'Modern',         value: 'Paper II - Modern India' },
+  { label: 'Since 1947',     value: 'Paper II - India Since Independence' },
+  { label: 'World',          value: 'Paper II - World History' },
 ];
+
+const SECTION_ORDER = TABS.filter(t => t.value !== 'all').map(t => t.value);
 
 
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
@@ -266,6 +274,7 @@ export default function PYQsPage() {
   const [activeTab, setActiveTab]       = useState<string>('all');
   const [filterYear, setFilterYear]     = useState<number | 'all'>('all');
   const [filterMarks, setFilterMarks]   = useState<number | 'all'>('all');
+  const [filterTopic, setFilterTopic]   = useState<string>('all');
   const [search, setSearch]             = useState('');
   const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
   const [showTopperCopies, setShowTopperCopies] = useState(false);
@@ -316,19 +325,68 @@ export default function PYQsPage() {
 
   const filtered = pyqs.filter((q: PYQ) => {
     if (activeTab !== 'all' && q.section !== activeTab) return false;
+    if (filterTopic !== 'all' && q.topic !== filterTopic) return false;
     if (filterYear !== 'all' && q.year !== filterYear) return false;
     if (filterMarks !== 'all' && q.marks !== filterMarks) return false;
     if (search) {
       const s = search.toLowerCase();
-      if (!q.question.toLowerCase().includes(s) && !q.topic.toLowerCase().includes(s)) return false;
+      // Sub-topic too: it is the finest label a reader can name, e.g. "Kalhana"
+      // or "Feudalism Debate", and searching for one should find the cluster.
+      if (!q.question.toLowerCase().includes(s)
+          && !q.topic.toLowerCase().includes(s)
+          && !q.subtopic.toLowerCase().includes(s)) return false;
     }
     return true;
   });
 
+  // Topics offered are those of the section in view, so the list stays short
+  // enough to scan; "All" would otherwise offer all 74 at once.
+  const topicOptions = useMemo(() => {
+    const pool = activeTab === 'all' ? pyqs : pyqs.filter((q: PYQ) => q.section === activeTab);
+    return [...new Set(pool.map((q: PYQ) => q.topic))]
+      .sort((a, b) => a.localeCompare(b));
+  }, [activeTab]);
+
+  // A topic chosen under one section is meaningless under another.
+  useEffect(() => { setFilterTopic('all'); }, [activeTab]);
+
+  /**
+   * Grouped for display: section -> topic -> sub-topic.
+   *
+   * Question ids follow the original ordering, and topics are not contiguous
+   * in it — 61 topics reappear after another topic — so grouping has to be
+   * explicit rather than relying on adjacency the way the old topic divider did.
+   */
+  const grouped = useMemo(() => {
+    const byTopic = new Map<string, PYQ[]>();
+    for (const q of filtered) {
+      const key = `${q.section}||${q.topic}`;
+      if (!byTopic.has(key)) byTopic.set(key, []);
+      byTopic.get(key)!.push(q);
+    }
+    return [...byTopic.entries()]
+      .sort(([a], [b]) => {
+        const [secA, topA] = a.split('||'); const [secB, topB] = b.split('||');
+        const d = SECTION_ORDER.indexOf(secA) - SECTION_ORDER.indexOf(secB);
+        return d !== 0 ? d : topA.localeCompare(topB);   // "01." … "28." sorts naturally
+      })
+      .map(([key, qs]) => {
+        const [section, topic] = key.split('||');
+        const bySub = new Map<string, PYQ[]>();
+        for (const q of qs) {
+          if (!bySub.has(q.subtopic)) bySub.set(q.subtopic, []);
+          bySub.get(q.subtopic)!.push(q);
+        }
+        return { section, topic, count: qs.length,
+                 syllabus: qs[0].syllabus,
+                 subs: [...bySub.entries()] };
+      });
+  }, [filtered]);
+
   const isP1 = (section: string) => section.startsWith('Paper I');
   const markOptions = [10, 15, 20, 25, 30, 60];
-  const clearAll = () => { setActiveTab('all'); setFilterYear('all'); setFilterMarks('all'); setSearch(''); };
-  const hasFilters = activeTab !== 'all' || filterYear !== 'all' || filterMarks !== 'all' || search;
+  const clearAll = () => { setActiveTab('all'); setFilterTopic('all'); setFilterYear('all'); setFilterMarks('all'); setSearch(''); };
+  const hasFilters = activeTab !== 'all' || filterTopic !== 'all' || filterYear !== 'all' || filterMarks !== 'all' || search;
 
   const selectStyle: React.CSSProperties = {
     background: 'var(--bg3)', border: '1px solid var(--border)',
@@ -355,6 +413,7 @@ export default function PYQsPage() {
           { label: 'Early Medieval', href: '/pyqs/early-medieval' },
           { label: 'Medieval India', href: '/pyqs/medieval-india' },
           { label: 'Modern India', href: '/pyqs/modern-india' },
+          { label: 'Since 1947', href: '/pyqs/india-since-independence' },
           { label: 'World History', href: '/pyqs/world-history' },
         ].map(({ label, href }) => (
           <a key={href} href={href} style={{
@@ -446,6 +505,16 @@ export default function PYQsPage() {
           }}
         />
         {!showTopperCopies && <>
+        <select value={filterTopic} onChange={e => setFilterTopic(e.target.value)}
+          style={{ ...selectStyle, maxWidth: 260 }}
+          title={activeTab === 'all' ? 'All topics across every section' : `Topics in ${activeTab}`}>
+          <option value="all">All Topics ({topicOptions.length})</option>
+          {topicOptions.map(t => (
+            <option key={t} value={t}>
+              {t} ({pyqs.filter((q: PYQ) => q.topic === t && (activeTab === 'all' || q.section === activeTab)).length})
+            </option>
+          ))}
+        </select>
         <select value={filterYear} onChange={e => setFilterYear(e.target.value === 'all' ? 'all' : +e.target.value)} style={selectStyle}>
           <option value="all">All Years</option>
           {pyqYears.map(y => <option key={y} value={y}>{y}</option>)}
@@ -577,30 +646,65 @@ export default function PYQsPage() {
         Showing {filtered.length} of {pyqs.length} questions
       </div>
 
-      {/* Questions */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-        {(() => {
-          const topicCounts: Record<string, number> = {};
-          filtered.forEach((q: PYQ) => { topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1; });
-          const seenTopics = new Set<string>();
-          return filtered.map((q: PYQ, idx: number) => {
-            const isFirst = !seenTopics.has(q.topic);
-            if (isFirst) seenTopics.add(q.topic);
-            const count = topicCounts[q.topic];
-            const badgeColor = count >= 8 ? '#ef4444' : count >= 5 ? '#f97316' : count >= 3 ? '#eab308' : 'var(--text3)';
-            const badgeBg    = count >= 8 ? 'rgba(239,68,68,0.08)' : count >= 5 ? 'rgba(249,115,22,0.08)' : count >= 3 ? 'rgba(234,179,8,0.08)' : 'rgba(0,0,0,0.04)';
-            const badgeBorder= count >= 8 ? 'rgba(239,68,68,0.3)' : count >= 5 ? 'rgba(249,115,22,0.3)' : count >= 3 ? 'rgba(234,179,8,0.3)' : 'var(--border)';
-            return (
-              <div key={q.id}>
-                {isFirst && count >= 2 && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: `${idx > 0 ? '1.25rem' : '0'} 0 0.5rem` }}>
-                    <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
-                    <span style={{ fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: badgeColor, background: badgeBg, border: `1px solid ${badgeBorder}`, padding: '2px 10px', borderRadius: 20, whiteSpace: 'nowrap' }}>
-                      {q.topic} · asked {count}×
+      {/* Questions, grouped topic -> sub-topic */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+        {grouped.map(group => {
+          // The colour says how heavily UPSC has mined this topic. It was
+          // already here, applied to a "topic" that was really the section, so
+          // every question in a paper carried the same badge.
+          const c = group.count;
+          const badgeColor  = c >= 8 ? '#ef4444' : c >= 5 ? '#f97316' : c >= 3 ? '#eab308' : 'var(--text3)';
+          const badgeBg     = c >= 8 ? 'rgba(239,68,68,0.08)' : c >= 5 ? 'rgba(249,115,22,0.08)' : c >= 3 ? 'rgba(234,179,8,0.08)' : 'rgba(0,0,0,0.04)';
+          const badgeBorder = c >= 8 ? 'rgba(239,68,68,0.3)'  : c >= 5 ? 'rgba(249,115,22,0.3)'  : c >= 3 ? 'rgba(234,179,8,0.3)'  : 'var(--border)';
+          return (
+            <div key={group.section + group.topic}>
+              {/* Topic header */}
+              <div style={{ marginBottom: '0.85rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+                  <h2 style={{
+                    fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 600,
+                    color: 'var(--text)', margin: 0,
+                  }}>{group.topic}</h2>
+                  <span style={{
+                    fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: badgeColor,
+                    background: badgeBg, border: `1px solid ${badgeBorder}`,
+                    padding: '2px 10px', borderRadius: 20, whiteSpace: 'nowrap',
+                  }}>asked {group.count}&times;</span>
+                  {activeTab === 'all' && (
+                    <span style={{ fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)' }}>
+                      {group.section.replace('Paper I - ', 'P1 · ').replace('Paper II - ', 'P2 · ')}
                     </span>
-                    <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+                  )}
+                </div>
+                {/* The official syllabus item this topic answers to. The book
+                    groups pedagogically; UPSC's own wording is what the exam
+                    is set from, so both are shown. */}
+                {group.syllabus.length > 0 && (
+                  <div style={{ marginTop: '0.35rem', display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                    {group.syllabus.map(sy => (
+                      <span key={sy} style={{
+                        fontSize: '0.65rem', fontFamily: 'var(--font-mono)',
+                        color: 'var(--text3)', background: 'var(--bg3)',
+                        border: '1px solid var(--border)', padding: '2px 8px', borderRadius: 3,
+                      }}>Syllabus &middot; {sy}</span>
+                    ))}
                   </div>
                 )}
+                <div style={{ height: 1, background: 'var(--border)', marginTop: '0.7rem' }} />
+              </div>
+
+              {group.subs.map(([sub, qs]) => (
+                <div key={sub || '_none'} style={{ marginBottom: '1rem' }}>
+                  {sub && (
+                    <div style={{
+                      fontSize: '0.72rem', fontFamily: 'var(--font-mono)',
+                      color: 'var(--text2)', letterSpacing: '0.03em',
+                      margin: '0 0 0.5rem', paddingLeft: '0.1rem',
+                    }}>{sub} <span style={{ color: 'var(--text3)' }}>&middot; {qs.length}</span></div>
+                  )}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                    {qs.map((q: PYQ) => (
+                      <div key={q.id}>
                 <div
                   className="pyq-card"
                   onClick={() => { if (requireLogin('Sign in free to view PYQs and AI-generated model answers.')) router.push(`/pyqs/${q.id}`); }}
@@ -686,10 +790,14 @@ export default function PYQsPage() {
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          });
-        })()}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        })}
 
         {filtered.length === 0 && (
           <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)' }}>
