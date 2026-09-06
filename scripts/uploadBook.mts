@@ -21,9 +21,11 @@ import { createRequire } from 'node:module';
 import { createClient } from '@supabase/supabase-js';
 
 const require = createRequire(import.meta.url);
-// pdf-parse v2 exports a PDFParse class. The old script called it as a
-// function, which is the v1 API — one more reason it could not have run.
-const { PDFParse } = require('pdf-parse');
+// pdf-parse pulls in the whole of pdf.js and allocates heavily on load, enough
+// to exhaust the default heap before any work starts. Loaded only when the
+// input is actually a PDF; OCR sidecars never need it.
+// (v2 exports a PDFParse class — the old script called it as a function, which
+// is the v1 API, one more reason it could not have run.)
 
 for (const line of fs.readFileSync('.env.local', 'utf8').split('\n')) {
   const m = line.match(/^([A-Z0-9_]+)=(.*)$/);
@@ -58,8 +60,13 @@ function chunkText(text: string, size = 1500, overlap = 200): string[] {
     }
     const chunk = clean.slice(i, end).trim();
     if (chunk.length > 120) out.push(chunk);
-    i = end - overlap;
-    if (i <= 0) break;
+    // The tail must terminate. Without this, the last window sets end to the
+    // string length, i becomes length - overlap, and the loop re-emits the
+    // same final chunk forever until the heap dies.
+    if (end >= clean.length) break;
+    const next = end - overlap;
+    if (next <= i) break;          // no forward progress; refuse to spin
+    i = next;
   }
   return out;
 }
@@ -87,10 +94,8 @@ async function embedBatch(texts: string[], attempt = 1): Promise<number[][]> {
 async function main() {
   const { count: already } = await db
     .from('book_chunks').select('id', { count: 'exact', head: true }).eq('book_title', bookTitle);
-  if (already && already > 0) {
-    console.error(`  "${bookTitle}" already has ${already} chunks. Delete them first to re-upload.`);
-    process.exit(1);
-  }
+  const resumeFrom = already ?? 0;
+  if (resumeFrom > 0) console.log(`  resuming — ${resumeFrom} chunks already stored`);
 
   console.log(`  reading ${filePath}`);
   let raw: string;
@@ -106,6 +111,7 @@ async function main() {
       .replace(/CC-0 Agamnigam Digital Preservation Foundation[^\n]*/g, '')
       .replace(/Gandhi Memorial College Of Education Bantalab Jammu/g, '');
   } else {
+    const { PDFParse } = require('pdf-parse');
     const parser = new PDFParse({ data: new Uint8Array(fs.readFileSync(filePath)) });
     const parsed = await parser.getText();
     await parser.destroy();
@@ -127,14 +133,29 @@ async function main() {
   }
 
   const BATCH = 64;
-  let done = 0;
-  for (let i = 0; i < chunks.length; i += BATCH) {
+  let done = resumeFrom;
+  for (let i = resumeFrom; i < chunks.length; i += BATCH) {
     const slice = chunks.slice(i, i + BATCH);
     const vectors = await embedBatch(slice);
-    const { error } = await db.from('book_chunks').insert(
-      slice.map((content, k) => ({ content, embedding: vectors[k], book_title: bookTitle, author }))
-    );
-    if (error) throw new Error(`insert failed at chunk ${i}: ${error.message}`);
+    // Embed in large batches, write in small ones. 64 rows of 1024-dim vectors
+    // in a single INSERT exceeds the statement timeout on this database.
+    const WRITE = 8;
+    for (let j = 0; j < slice.length; j += WRITE) {
+      const rows = slice.slice(j, j + WRITE).map((content, k) => ({
+        content, embedding: vectors[j + k], book_title: bookTitle, author,
+      }));
+      let lastErr = '';
+      let ok = false;
+      for (let attempt = 1; attempt <= 4 && !ok; attempt++) {
+        const { error } = await db.from('book_chunks').insert(rows);
+        if (!error) { ok = true; break; }
+        lastErr = error.message;
+        // Transient: a dropped connection or a timeout mid-book should cost a
+        // pause, not the whole upload.
+        await new Promise(r => setTimeout(r, attempt * 2000));
+      }
+      if (!ok) throw new Error(`insert failed at chunk ${i + j} after 4 tries: ${lastErr}`);
+    }
     done += slice.length;
     process.stdout.write(`\r  uploaded ${done}/${chunks.length}`);
   }
