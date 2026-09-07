@@ -67,7 +67,14 @@ export default function PrelimsPage() {
   const { langHi } = useLang();
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const [filter, setFilter]           = useState<Filter>('all');
-const [topicFilter, setTopicFilter] = useState<string>('all');
+  // Seeded from ?topic= so a Prelims note can link straight into its own
+  // drill set. Read once on mount rather than with useSearchParams, which
+  // needs a Suspense boundary and opts the page out of prerendering.
+  const [topicFilter, setTopicFilter] = useState<string>('all');
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('topic');
+    if (t && TOPICS.includes(t)) setTopicFilter(t);
+  }, []);
   const [yearFilter, setYearFilter]   = useState<string>('all');
   const [showNav, setShowNav]         = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
   const [current, setCurrent]         = useState(0);
