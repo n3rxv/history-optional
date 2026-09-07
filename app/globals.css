@@ -890,3 +890,20 @@ html, body { overflow-x: hidden; max-width: 100%; }
     display: none !important;
   }
 }
+
+
+/* ── Profile modal placeholders ──
+   The phone input renders its value in mono at 1rem, which is right for
+   digits and too wide for a sentence: "Your 10-digit phone number" clips at
+   the field width the modal allows. The placeholder alone drops to the UI
+   face so the hint fits; the typed number stays monospaced. */
+#ho-phone::placeholder {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  letter-spacing: 0;
+}
+#ho-first-name::placeholder,
+#ho-last-name::placeholder {
+  color: var(--text3);
+  opacity: 0.7;
+}

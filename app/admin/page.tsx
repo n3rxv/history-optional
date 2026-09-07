@@ -6,7 +6,7 @@ import { pyqs, type PYQ } from '@/lib/pyqData';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 type PostType = 'current-affairs' | 'new-note';
-type Tab = 'notes' | 'posts' | 'analytics' | 'evaluations' | 'submissions' | 'notifications' | 'topper-copies' | 'settings';
+type Tab = 'notes' | 'posts' | 'analytics' | 'evaluations' | 'submissions' | 'phones' | 'notifications' | 'topper-copies' | 'settings';
 
 interface Post {
   id: string; type: PostType; title: string; excerpt: string; content: string;
@@ -1125,6 +1125,125 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
+/**
+ * The collected phone numbers.
+ *
+ * `identities` is how many rows share a number, not an error: the same person
+ * on two devices is two rows, and a shared family number is one number across
+ * two people. The write path deliberately allows both rather than trapping a
+ * real visitor behind a modal that will not accept their number.
+ */
+function Phones({ token }: { token: string }) {
+  const [rows, setRows]       = useState<any[]>([]);
+  const [total, setTotal]     = useState(0);
+  const [stats, setStats]     = useState<any>(null);
+  const [page, setPage]       = useState(0);
+  const [q, setQ]             = useState('');
+  const [loading, setLoading] = useState(true);
+  const mono = 'JetBrains Mono, monospace';
+
+  useEffect(() => {
+    setLoading(true);
+    const url = `/api/admin/phones?page=${page}${q ? `&q=${encodeURIComponent(q)}` : ''}`;
+    fetch(url, { headers: { 'x-admin-token': token } })
+      .then(r => r.json())
+      .then(d => { setRows(d.data || []); setTotal(d.total || 0); setStats(d.stats ?? null); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, [token, page, q]);
+
+  const exportCsv = async () => {
+    const r = await fetch('/api/admin/phones?format=csv', { headers: { 'x-admin-token': token } });
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'phone-numbers.csv'; a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const pages = Math.ceil(total / 50);
+
+  return (
+    <div style={{ padding: '24px 28px', maxWidth: 900 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+        {/* A row is not a person: the same number can sit on two devices, and
+            a shared family number on two people. Both figures, so the row
+            count is not mistaken for a headcount. */}
+        <span style={{ color: 'var(--text3)', fontSize: '0.72rem', fontFamily: mono }}>
+          {stats
+            ? <>
+                <strong style={{ color: '#d4a843' }}>{stats.people_total}</strong> numbers
+                <span style={{ color: 'var(--bg4)' }}> · {stats.rows_total} rows · {stats.awaiting_phone} awaiting a number</span>
+              </>
+            : `${total} rows`}
+        </span>
+        <input
+          placeholder="Search name or number…"
+          value={q}
+          onChange={e => { setPage(0); setQ(e.target.value); }}
+          style={{ flex: 1, maxWidth: 240, padding: '5px 10px', background: 'var(--bg2)', border: '1px solid #1a1a1a', borderRadius: 6, color: 'var(--text)', fontFamily: mono, fontSize: '0.75rem', outline: 'none' }}
+        />
+        <button onClick={exportCsv} className="btn-ghost" style={{ padding: '4px 12px', fontSize: '0.75rem', marginLeft: 'auto' }}>
+          ↓ Export CSV
+        </button>
+      </div>
+
+      {loading
+        ? <div style={{ padding: 32, color: 'var(--border2)', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>Loading…</div>
+        : rows.length === 0
+        ? <div style={{ color: 'var(--bg4)', fontSize: '0.85rem', padding: '32px 0', textAlign: 'center', fontFamily: 'Inter, sans-serif' }}>
+            {q ? 'Nothing matches that.' : 'No numbers collected yet.'}
+          </div>
+        : (
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: mono, fontSize: '0.76rem' }}>
+            <thead>
+              <tr style={{ color: 'var(--bg4)', fontSize: '0.62rem', letterSpacing: '0.08em', textAlign: 'left' }}>
+                <th style={{ padding: '6px 8px 6px 0', fontWeight: 400 }}>NAME</th>
+                <th style={{ padding: '6px 8px', fontWeight: 400 }}>NUMBER</th>
+                <th style={{ padding: '6px 8px', fontWeight: 400 }}>SOURCE</th>
+                <th style={{ padding: '6px 8px', fontWeight: 400 }}>IDENTITY</th>
+                <th style={{ padding: '6px 0 6px 8px', fontWeight: 400, textAlign: 'right' }}>ADDED</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r, i) => (
+                <tr key={`${r.phone}-${i}`} style={{ borderTop: '1px solid #111' }}>
+                  <td style={{ padding: '8px 8px 8px 0', color: 'var(--text2)', fontFamily: 'Inter, sans-serif' }}>
+                    {[r.first_name, r.last_name].filter(Boolean).join(' ') || <span style={{ color: 'var(--bg4)' }}>—</span>}
+                  </td>
+                  <td style={{ padding: '8px', color: 'var(--text2)' }}>{r.phone}</td>
+                  <td style={{ padding: '8px' }}>
+                    <span style={{ padding: '2px 8px', borderRadius: 10, fontSize: '0.63rem',
+                      background: r.source === 'authed' ? 'rgba(212,168,67,0.07)' : 'rgba(120,120,120,0.07)',
+                      border: r.source === 'authed' ? '1px solid rgba(212,168,67,0.2)' : '1px solid #222',
+                      color: r.source === 'authed' ? '#d4a843' : 'var(--text3)' }}>
+                      {r.source === 'authed' ? 'SIGNED IN' : 'ANON'}
+                    </span>
+                  </td>
+                  <td style={{ padding: '8px', color: 'var(--bg4)', fontSize: '0.68rem' }}>
+                    {(r.firebase_uid ?? r.visitor_id ?? '').slice(0, 16)}…
+                  </td>
+                  <td style={{ padding: '8px 0 8px 8px', color: 'var(--bg4)', fontSize: '0.68rem', textAlign: 'right' }}>
+                    {r.created_at || r.updated_at
+                      ? new Date(r.created_at ?? r.updated_at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+                      : '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+      {pages > 1 && (
+        <div style={{ display: 'flex', gap: 6, marginTop: 16, alignItems: 'center' }}>
+          <button disabled={page === 0} onClick={() => setPage(p => p - 1)} className="btn-ghost" style={{ padding: '4px 10px', fontSize: '0.72rem' }}>← Prev</button>
+          <span style={{ color: 'var(--bg4)', fontSize: '0.7rem', fontFamily: mono }}>{page + 1} / {pages}</span>
+          <button disabled={page + 1 >= pages} onClick={() => setPage(p => p + 1)} className="btn-ghost" style={{ padding: '4px 10px', fontSize: '0.72rem' }}>Next →</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Submissions({ token }: { token: string }) {
   const [rows, setRows] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1615,6 +1734,7 @@ export default function AdminPage() {
     { id: 'notifications', label: 'Notifications',  icon: '◉' },
     { id: 'evaluations',   label: 'Evaluations',    icon: '✍' },
     { id: 'submissions',   label: 'Submissions',    icon: '◇' },
+    { id: 'phones',        label: 'Phone Numbers',  icon: '☎' },
     { id: 'topper-copies', label: 'Topper Copies',  icon: '🏆' },
     { id: 'analytics',     label: 'Analytics',      icon: '▦' },
     { id: 'settings',      label: 'Settings',       icon: '◌' },
@@ -1672,6 +1792,7 @@ export default function AdminPage() {
           {tab === 'analytics'     && <Analytics token={token} />}
           {tab === 'evaluations'   && <Evaluations token={token} />}
           {tab === 'submissions'   && <Submissions token={token} />}
+          {tab === 'phones'        && <Phones token={token} />}
           {tab === 'notifications' && <NotificationsManager token={token} />}
           {tab === 'topper-copies' && <TopperCopiesManager token={token} />}
           {tab === 'settings'      && <Settings onLogout={logout} token={token} />}

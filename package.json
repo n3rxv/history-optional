@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx tests/citationGate.test.mts && tsx tests/sanitizeHtml.test.mts && tsx tests/sanitizeNoteHtml.test.mts && tsx tests/adminAuth.test.mts && tsx tests/fileSignature.test.mts"
+    "test": "tsx tests/citationGate.test.mts && tsx tests/sanitizeHtml.test.mts && tsx tests/sanitizeNoteHtml.test.mts && tsx tests/adminAuth.test.mts && tsx tests/fileSignature.test.mts && tsx tests/phone.test.mts && tsx tests/name.test.mts && tsx tests/csv.test.mts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

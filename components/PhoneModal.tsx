@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const COUNTRIES = [
   { code: '+91',  flag: '🇮🇳', name: 'India' },
@@ -64,21 +64,132 @@ export const COUNTRIES = [
   { code: '+233', flag: '🇬🇭', name: 'Ghana' },
 ];
 
+const LABEL: React.CSSProperties = {
+  display: 'block',
+  fontFamily: 'var(--font-mono)',
+  fontSize: '0.62rem',
+  letterSpacing: '0.12em',
+  textTransform: 'uppercase',
+  color: 'var(--text3)',
+  marginBottom: 6,
+  fontWeight: 600,
+};
+
+/** One definition for all three inputs; `bad` reddens only the field at fault. */
+const FIELD = (bad: boolean): React.CSSProperties => ({
+  width: '100%',
+  padding: '12px 14px',
+  background: 'var(--bg3)',
+  border: `1.5px solid ${bad ? '#f87171' : 'var(--border)'}`,
+  borderRadius: 8,
+  color: 'var(--text)',
+  fontFamily: 'var(--font-ui)',
+  fontSize: '0.92rem',
+  outline: 'none',
+  boxSizing: 'border-box',
+});
+
 export function PhoneModal({
-  token,
+  getToken,
+  visitorId,
+  initialFirstName,
+  initialLastName,
   onDone,
   onCancel,
 }: {
-  token: string;
+  /**
+   * Returns a fresh Firebase ID token, or null for anonymous browsers.
+   *
+   * A function rather than a string: ID tokens expire after an hour, and this
+   * modal can sit open far longer than that. A token captured at mount would
+   * be rejected on submit, and the save would silently land as an anonymous
+   * row instead of on the account.
+   */
+  getToken?: () => Promise<string | null>;
+  /** The FingerprintJS id, sent when there is no token. */
+  visitorId?: string | null;
+  /**
+   * What is already on file. Google gives a display name at sign-up, so most
+   * signed-in readers have a name stored before they ever see this and only
+   * need to add the number.
+   */
+  initialFirstName?: string | null;
+  initialLastName?: string | null;
   onDone: () => void;
+  /** Omitted for signed-in users: for them the gate has no way past. */
   onCancel?: () => void;
 }) {
+  // Drives the fade. CSS keyframes cannot animate an unmount, so both
+  // directions run off this rather than a class.
+  const [shown, setShown] = useState(false);
+  const [reduce, setReduce] = useState(false);
+
+  const [firstName, setFirstName] = useState(initialFirstName ?? '');
+  const [lastName,  setLastName]  = useState(initialLastName ?? '');
   const [dialCode, setDialCode] = useState('+91');
   const [phone,    setPhone]    = useState('');
+  // Which field the server rejected, so the border marks the right input.
+  const [errField, setErrField] = useState<'first_name' | 'last_name' | 'phone' | null>(null);
   const [loading,  setLoading]  = useState(false);
   const [err,      setErr]      = useState('');
   const [open,     setOpen]     = useState(false);
   const [search,   setSearch]   = useState('');
+
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * While the modal is up the page behind it must not scroll, and Tab must not
+   * walk out of it. The mandatory gate has no close button, so focus landing
+   * on the page underneath leaves a keyboard user stranded with no way back.
+   */
+  useEffect(() => {
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const onKey = (e: KeyboardEvent) => {
+      // Escape only where there is something to escape to. On the mandatory
+      // gate it does nothing, which is the honest behaviour.
+      if (e.key === 'Escape' && onCancel) { e.preventDefault(); close(onCancel); return; }
+      if (e.key !== 'Tab' || !cardRef.current) return;
+
+      const focusable = cardRef.current.querySelectorAll<HTMLElement>(
+        'input, button, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey && active === first)      { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+      else if (active && !cardRef.current.contains(active)) { e.preventDefault(); first.focus(); }
+    };
+
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+    // close/onCancel are stable for the life of the modal.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onCancel]);
+
+  useEffect(() => {
+    setReduce(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
+    // Next frame, so the browser paints the hidden state first and has
+    // something to transition from.
+    const id = requestAnimationFrame(() => setShown(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const MS = reduce ? 0 : 200;
+
+  /** Fades out, then hands over. Without this the modal vanishes mid-fade. */
+  const close = (after?: () => void) => {
+    if (!after) return;
+    setShown(false);
+    setTimeout(after, MS);
+  };
 
   const filtered = COUNTRIES.filter(c =>
     c.name.toLowerCase().includes(search.toLowerCase()) || c.code.includes(search)
@@ -86,33 +197,96 @@ export function PhoneModal({
   const selected = COUNTRIES.find(c => c.code === dialCode) ?? COUNTRIES[0];
 
   const submit = async () => {
-    if (!phone.trim()) { setErr('Please enter your phone number.'); return; }
-    const full = dialCode + phone.replace(/\D/g, '');
-    setLoading(true); setErr('');
-    const res  = await fetch('/api/profile', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-      body: JSON.stringify({ phone: full }),
-    });
-    const data = await res.json();
-    if (!res.ok) { setErr(data.error ?? 'Something went wrong.'); setLoading(false); return; }
-    onDone();
+    // The Enter handlers call this directly, so the disabled button is not
+    // enough to stop a second submit.
+    if (loading) return;
+
+    // Checked in the same order the server checks them, so the reader is sent
+    // to the first empty field rather than the last.
+    if (!firstName.trim()) { setErr('Please enter your first name.'); setErrField('first_name'); return; }
+    if (!phone.trim())     { setErr('Please enter your phone number.'); setErrField('phone'); return; }
+
+    const digits = phone.replace(/\D/g, '');
+
+    // Caught here rather than at the server because the country is chosen in
+    // this component: someone who picks +91 and then types their number with
+    // the country code again would otherwise send a 14-digit number that
+    // passes the generic international check and is not dialable.
+    if (dialCode === '+91' && digits.length !== 10) {
+      setErr(digits.length > 10
+        ? 'Enter the 10 digits only, without +91.'
+        : 'An Indian mobile number is 10 digits.');
+      setErrField('phone');
+      return;
+    }
+
+    setLoading(true); setErr(''); setErrField(null);
+
+    try {
+      const token = getToken ? await getToken() : null;
+      const res = await fetch('/api/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'x-user-token': token } : {}),
+        },
+        body: JSON.stringify({
+          phone: dialCode + digits,
+          first_name: firstName,
+          last_name: lastName,
+          visitor_id: visitorId ?? null,
+        }),
+      });
+
+      // A proxy or an outage can answer with HTML, and .json() throws on it.
+      const data = await res.json().catch(() => ({} as { error?: string; field?: string }));
+
+      if (!res.ok) {
+        setErr(data.error ?? 'Something went wrong. Please try again.');
+        setErrField((data.field as typeof errField) ?? null);
+        setLoading(false);
+        return;
+      }
+      close(onDone);
+    } catch {
+      // Offline, or the request was cut off. Without this the button sits on
+      // "Saving..." for good, and on the mandatory gate that is a dead end
+      // with no way out of the page.
+      setErr('Could not reach the server. Check your connection and try again.');
+      setErrField(null);
+      setLoading(false);
+    }
   };
 
   return (
     <div
       style={{
         position: 'fixed', inset: 0, zIndex: 1001,
-        background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(8px)',
+        background: 'rgba(0,0,0,0.88)',
+        // Blur is animated with the fade: snapping straight to 8px is the
+        // part that reads as abrupt, more than the opacity does.
+        backdropFilter: `blur(${shown ? 8 : 0}px)`,
+        WebkitBackdropFilter: `blur(${shown ? 8 : 0}px)`,
+        opacity: shown ? 1 : 0,
+        transition: `opacity ${MS}ms ease, backdrop-filter ${MS}ms ease`,
         display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
       }}
       onClick={() => setOpen(false)}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Complete your profile"
     >
       <div
+        ref={cardRef}
         style={{
           background: 'var(--bg3)', border: '1px solid #2a2a2a', borderRadius: 16,
           padding: '2rem', maxWidth: 400, width: '100%',
           boxShadow: '0 40px 80px rgba(0,0,0,0.8)',
+          opacity: shown ? 1 : 0,
+          transform: shown ? 'translateY(0) scale(1)' : 'translateY(10px) scale(0.97)',
+          // Slightly longer than the backdrop, and eased out, so the card
+          // arrives just after the ground darkens instead of with it.
+          transition: `opacity ${MS}ms ease, transform ${Math.round(MS * 1.2)}ms cubic-bezier(0.16, 1, 0.3, 1)`,
         }}
         onClick={e => e.stopPropagation()}
       >
@@ -120,13 +294,48 @@ export function PhoneModal({
           One-time setup
         </div>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--text)', marginBottom: 10 }}>
-          Add your phone number
+          Complete your profile
         </div>
         <div style={{ color: 'var(--text3)', fontSize: '0.85rem', lineHeight: 1.65, marginBottom: 24 }}>
-          We need your phone number to complete your profile. We don't call or send any messages.
+          Your name and number, so we can reach you about your account and important updates to the platform.
+        </div>
+
+        <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+          <div style={{ flex: 1 }}>
+            <label htmlFor="ho-first-name" style={LABEL}>
+              First name <span style={{ color: '#f87171' }}>*</span>
+            </label>
+            <input
+              id="ho-first-name"
+              autoFocus={!initialFirstName}
+              autoComplete="given-name"
+              placeholder="Rahul"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && submit()}
+              style={FIELD(errField === 'first_name')}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label htmlFor="ho-last-name" style={LABEL}>
+              Last name <span style={{ color: 'var(--text3)', fontWeight: 400 }}>(optional)</span>
+            </label>
+            <input
+              id="ho-last-name"
+              autoComplete="family-name"
+              placeholder="Sharma"
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && submit()}
+              style={FIELD(errField === 'last_name')}
+            />
+          </div>
         </div>
 
         <div style={{ marginBottom: 12 }}>
+          <label htmlFor="ho-phone" style={LABEL}>
+            Phone number <span style={{ color: '#f87171' }}>*</span>
+          </label>
           <div style={{ display: 'flex', gap: 8, position: 'relative' }}>
             {/* Country selector */}
             <div style={{ position: 'relative', flexShrink: 0 }}>
@@ -134,7 +343,7 @@ export function PhoneModal({
                 onClick={() => setOpen(o => !o)}
                 style={{
                   height: '100%', minHeight: 50, padding: '0 12px',
-                  background: 'var(--bg3)', border: `1.5px solid ${err ? '#f87171' : open ? '#3b82f6' : 'var(--border)'}`,
+                  background: 'var(--bg3)', border: `1.5px solid ${errField === 'phone' ? '#f87171' : open ? '#3b82f6' : 'var(--border)'}`,
                   borderRadius: 8, color: 'var(--text)', cursor: 'pointer',
                   display: 'flex', alignItems: 'center', gap: 6,
                   fontFamily: 'var(--font-mono)', fontSize: '0.9rem',
@@ -197,18 +406,15 @@ export function PhoneModal({
 
             {/* Number input */}
             <input
+              id="ho-phone"
+              autoFocus={!!initialFirstName}
               type="tel"
-              placeholder="98765 43210"
+              autoComplete="tel-national"
+              placeholder="Your 10-digit phone number"
               value={phone}
               onChange={e => setPhone(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && submit()}
-              style={{
-                flex: 1, padding: '13px 16px',
-                background: 'var(--bg3)', border: `1.5px solid ${err ? '#f87171' : 'var(--border)'}`,
-                borderRadius: 8, color: 'var(--text)',
-                fontFamily: 'var(--font-mono)', fontSize: '1rem',
-                outline: 'none', boxSizing: 'border-box',
-              }}
+              style={{ ...FIELD(errField === 'phone'), flex: 1, fontFamily: 'var(--font-mono)', fontSize: '1rem' }}
             />
           </div>
           {err && <div style={{ color: '#f87171', fontSize: '0.78rem', marginTop: 8, fontFamily: 'var(--font-ui)' }}>{err}</div>}
@@ -230,7 +436,7 @@ export function PhoneModal({
 
         {onCancel && (
           <button
-            onClick={onCancel}
+            onClick={() => close(onCancel)}
             style={{
               width: '100%', marginTop: 10, padding: '10px',
               background: 'transparent', border: '1px solid #222',
@@ -242,7 +448,7 @@ export function PhoneModal({
         )}
 
         <div style={{ textAlign: 'center', marginTop: 14, fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.1em' }}>
-          Your number is stored securely and never shared
+          Stored securely. Never shared with anyone else.
         </div>
       </div>
     </div>
