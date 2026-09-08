@@ -23,8 +23,22 @@ import { PLANS } from '@/lib/plans';
 export const AUTOPAY_PLAN_ID = 'weekly' as const;
 export const AUTOPAY_AMOUNT_PAISE = PLANS.weekly.amountPaise;
 
-/** How many cycles to authorise. Razorpay requires a finite count. */
-const TOTAL_COUNT = 156;          // three years of weeks; effectively "until cancelled"
+/**
+ * How many weekly cycles the mandate authorises. Razorpay has no "until
+ * cancelled" — a finite count is required — and it shows the resulting end
+ * date on its own checkout sheet.
+ *
+ * This was 156, meaning three years, on the reasoning that a longer mandate
+ * is fewer re-authorisations. But Razorpay renders that as "will charge Rs 99
+ * every week until 1 Sep 2029", which reads as a three-year, Rs 15,444
+ * commitment at the exact moment someone is deciding whether to spend Rs 99.
+ *
+ * 52 ends a week after the Mains it is bought for, so the sheet reads as one
+ * exam cycle. Anyone still subscribed when it completes is handled: the
+ * subscription.completed webhook clears auto_renew and they keep the days
+ * already paid for, then re-subscribe.
+ */
+const TOTAL_COUNT = 52;
 
 export function razorpayPlanId(): string {
   const id = process.env.RAZORPAY_WEEKLY_PLAN_ID;
