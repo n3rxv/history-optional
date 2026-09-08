@@ -21,6 +21,8 @@ const RESUME_KEY = 'ho_pending_autopay';
 export default function AutopaySheet({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState<'idle' | 'signing_in' | 'opening' | 'authorised' | 'already' | 'error'>('idle');
   const [already, setAlready] = useState<{ expiresAt: string; autoRenew: boolean } | null>(null);
+  const [liveUntil, setLiveUntil] = useState<string | null>(null);
+  const [gaveUp, setGaveUp] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -76,6 +78,38 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
     }
   }
 
+  /**
+   * Waits for the first charge to land.
+   *
+   * Razorpay debits the mandate on authorisation and fires
+   * subscription.charged straight away, so this is usually one or two
+   * iterations. The page had no way of noticing, though: nothing re-read
+   * sub-status after the sheet closed, so someone sat looking at a stale
+   * "being collected" message until they happened to refresh.
+   */
+  async function waitForAccess() {
+    const started = Date.now();
+    while (Date.now() - started < 45_000) {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const token = await user.getIdToken();
+          const res = await fetch('/api/sub-status', {
+            headers: { 'x-user-token': token }, cache: 'no-store',
+          });
+          const s = await res.json();
+          if (s?.isPremium) { setLiveUntil(s.expires_at ?? null); return; }
+        }
+      } catch {
+        // A blip mid-poll is not a failure; the next tick tries again.
+      }
+      await new Promise(r => setTimeout(r, 2000));
+    }
+    // The charge can still land after this; the webhook is what grants, not
+    // this loop. Say so rather than implying something went wrong.
+    setGaveUp(true);
+  }
+
   async function openCheckout(user: NonNullable<typeof auth.currentUser>) {
     setStep('opening');
     setMessage(null);
@@ -107,8 +141,10 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
         modal: { ondismiss: () => setStep('idle') },
         handler: () => {
           // Authorised, not yet charged. Razorpay debits and then calls the
-          // webhook; that is what grants access.
+          // webhook; that is what grants access. Poll until it lands so the
+          // reader is told rather than left guessing.
           setStep('authorised');
+          void waitForAccess();
         },
       });
       rzp.on('payment.failed', () => {
@@ -161,18 +197,38 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
         ) : step === 'authorised' ? (
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>
-              Mandate authorised
+              {liveUntil ? "You're in" : gaveUp ? 'Mandate authorised' : 'Mandate authorised'}
             </div>
-            <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 18px' }}>
-              The first ₹99 is being collected now. Access opens the moment it clears,
-              usually within a minute. You can close this.
-            </p>
-            <button onClick={onClose}
+            {liveUntil ? (
+              <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 18px' }}>
+                &#8377;99 collected. Everything is unlocked, and the next charge is{' '}
+                {new Date(liveUntil).toLocaleDateString('en-IN',
+                  { day: 'numeric', month: 'long' })}.
+              </p>
+            ) : gaveUp ? (
+              <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 18px' }}>
+                The charge is taking longer than usual to confirm. Nothing is wrong and
+                nothing is lost. Refresh in a minute, or write to us if it has not opened.
+              </p>
+            ) : (
+              <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 18px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9 }}>
+                <span style={{
+                  width: 13, height: 13, flexShrink: 0, borderRadius: '50%',
+                  border: '2px solid rgba(74,222,128,0.25)', borderTopColor: '#4ade80',
+                  animation: 'autopaySpin 0.7s linear infinite',
+                }} />
+                Collecting the first &#8377;99&hellip;
+              </p>
+            )}
+            <style>{`@keyframes autopaySpin { to { transform: rotate(360deg); } }`}</style>
+            <button
+              onClick={() => { if (liveUntil) window.location.reload(); else onClose(); }}
               style={{
                 width: '100%', padding: '12px', borderRadius: 8, border: 'none',
                 background: 'linear-gradient(135deg, #4ade80, #22c55e)',
                 color: '#000', fontWeight: 800, fontSize: '0.86rem', cursor: 'pointer',
-              }}>Done</button>
+              }}>{liveUntil ? 'Start using it' : 'Done'}</button>
           </div>
         ) : (
           <>
