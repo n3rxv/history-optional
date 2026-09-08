@@ -25,18 +25,30 @@ export async function POST(req: NextRequest) {
 
   const db = supabaseAdminClient();
 
-  // Someone already on a mandate must not be able to start a second one and
-  // be debited twice a week.
+  // Anyone with access already must not be sold a mandate.
+  //
+  // This used to filter on auto_renew, which only caught people already on a
+  // weekly. Someone holding a one-time plan has auto_renew false, so they went
+  // straight through and were put on Rs 99 a week on top of a year they had
+  // already paid for — and because each charge extends expires_at by seven
+  // days from whatever is later, they would have been paying weekly to add a
+  // week to a subscription that already ran into 2027.
   const { data: existing } = await db
     .from('subscriptions')
-    .select('razorpay_subscription_id, auto_renew, expires_at')
+    .select('auto_renew, expires_at, plan')
     .eq('firebase_uid', user.uid)
-    .eq('auto_renew', true)
+    .eq('status', 'active')
+    .gt('expires_at', new Date().toISOString())
     .maybeSingle();
 
-  if (existing?.auto_renew) {
+  if (existing) {
     return NextResponse.json(
-      { error: 'already_subscribed', expiresAt: existing.expires_at },
+      {
+        error: 'already_subscribed',
+        expiresAt: existing.expires_at,
+        plan: existing.plan,
+        autoRenew: existing.auto_renew === true,
+      },
       { status: 409 }
     );
   }

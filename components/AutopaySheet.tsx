@@ -19,7 +19,8 @@ const GOLD = '#d4a843';
 const RESUME_KEY = 'ho_pending_autopay';
 
 export default function AutopaySheet({ onClose }: { onClose: () => void }) {
-  const [step, setStep] = useState<'idle' | 'signing_in' | 'opening' | 'authorised' | 'error'>('idle');
+  const [step, setStep] = useState<'idle' | 'signing_in' | 'opening' | 'authorised' | 'already' | 'error'>('idle');
+  const [already, setAlready] = useState<{ expiresAt: string; autoRenew: boolean } | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -87,8 +88,10 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
       const data = await res.json();
 
       if (res.status === 409) {
-        setStep('error');
-        setMessage('You already have weekly autopay running.');
+        // Already covered. Show what they have rather than an error: they did
+        // not do anything wrong, and the useful information is the end date.
+        setAlready({ expiresAt: data.expiresAt, autoRenew: !!data.autoRenew });
+        setStep('already');
         return;
       }
       if (!data.subscriptionId) throw new Error(data.error ?? 'Could not start the subscription');
@@ -132,7 +135,30 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
         width: '100%', maxWidth: 400, background: 'var(--bg2)', border: '1px solid var(--border)',
         borderRadius: 16, padding: 'clamp(1rem, 4vw, 1.4rem)', boxShadow: '0 32px 80px rgba(0,0,0,0.9)',
       }}>
-        {step === 'authorised' ? (
+        {step === 'already' && already ? (
+          <div>
+            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>
+              You already have access
+            </div>
+            <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 6px' }}>
+              {already.autoRenew
+                ? 'Your weekly subscription is already running, so nothing was charged.'
+                : 'Nothing was charged. You are on a plan you have already paid for.'}
+            </p>
+            <p style={{ color: 'var(--text3)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 18px' }}>
+              {already.autoRenew ? 'Next renewal' : 'Access runs to'}{' '}
+              {new Date(already.expiresAt).toLocaleDateString('en-IN',
+                { day: 'numeric', month: 'long', year: 'numeric' })}
+              {already.autoRenew ? '.' : '. Come back after that if you want the weekly instead.'}
+            </p>
+            <button onClick={onClose}
+              style={{
+                width: '100%', padding: '12px', borderRadius: 8, border: 'none',
+                background: 'linear-gradient(135deg, #4ade80, #22c55e)',
+                color: '#000', fontWeight: 800, fontSize: '0.86rem', cursor: 'pointer',
+              }}>Got it</button>
+          </div>
+        ) : step === 'authorised' ? (
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>
               Mandate authorised

@@ -204,8 +204,10 @@ export default function PricingClient() {
           <div className="pr-auto-line">{planValueLine(AUTOPAY_PLAN)}</div>
         </div>
         <div className="pr-auto-right">
-          <button className="pr-buy" data-best="1" onClick={() => setAutopayOpen(true)}>
-            {status?.isPremium ? 'Switch to weekly' : 'Subscribe \u2192'}
+          <button className="pr-buy" data-best="1" onClick={() => setAutopayOpen(true)}
+            disabled={!!status?.isPremium}
+            style={status?.isPremium ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}>
+            {status?.isPremium ? 'You already have access' : 'Subscribe \u2192'}
           </button>
           <div className="pr-auto-fine">
             Renews every 7 days until you stop it. Cancel in one click from your
