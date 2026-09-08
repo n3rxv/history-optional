@@ -19,12 +19,18 @@ export async function GET(req: NextRequest) {
 
   const { data: sub } = await db
     .from('subscriptions')
-    .select('plan, expires_at')
+    .select('plan, expires_at, auto_renew')
     .eq('firebase_uid', user.uid)
     .eq('status', 'active')
     .gt('expires_at', new Date().toISOString())
     .maybeSingle();
 
   if (!sub) return NextResponse.json({ isPremium: false });
-  return NextResponse.json({ isPremium: true, plan: sub.plan, expires_at: sub.expires_at });
+  return NextResponse.json({
+    isPremium: true,
+    plan: sub.plan,
+    expires_at: sub.expires_at,
+    // Drives the cancel control: only a live mandate can be cancelled.
+    autoRenew: sub.auto_renew === true,
+  });
 }

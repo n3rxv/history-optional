@@ -293,8 +293,25 @@ export default function Navbar() {
   const [aspirantAge, setAspirantAge] = useState('');
   const [aspirantAttempt, setAspirantAttempt] = useState('');
   const [aspirantYear, setAspirantYear] = useState('');
-  const [subData, setSubData] = useState<{ plan: string; expires_at: string } | null>(null);
+  const [subData, setSubData] = useState<{ plan: string; expires_at: string; autoRenew?: boolean } | null>(null);
   const [showExtendModal, setShowExtendModal] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
+
+  /** Stops future weekly debits. Access already paid for is untouched. */
+  async function handleCancelAutopay() {
+    if (!auth.currentUser) return;
+    if (!window.confirm('Stop the weekly renewal? You keep the days you have already paid for.')) return;
+    setCancelling(true);
+    try {
+      const token = await auth.currentUser.getIdToken();
+      const res = await fetch('/api/razorpay/subscription/cancel', {
+        method: 'POST', headers: { 'x-user-token': token },
+      });
+      if (res.ok) setSubData(prev => (prev ? { ...prev, autoRenew: false } : prev));
+    } finally {
+      setCancelling(false);
+    }
+  }
   const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
   const [notesMenuOpen, setNotesMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -400,7 +417,7 @@ export default function Navbar() {
     try {
       const res = await fetch('/api/sub-status', { headers: { 'x-user-token': token } });
       const d = await res.json();
-      if (d.isPremium) setSubData({ plan: d.plan, expires_at: d.expires_at });
+      if (d.isPremium) setSubData({ plan: d.plan, expires_at: d.expires_at, autoRenew: !!d.autoRenew });
       else setSubData(null);
     } catch { setSubData(null); }
   }, []);
@@ -762,6 +779,20 @@ export default function Navbar() {
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                             Extend Plan
                           </button>
+                          {subData.autoRenew && (
+                            <div style={{ marginBottom: 10 }}>
+                              <div style={{ fontSize: '0.62rem', color: '#51cf66', marginBottom: 6 }}>
+                                Renews automatically every 7 days
+                              </div>
+                              <button onClick={handleCancelAutopay} disabled={cancelling}
+                                style={{ width: '100%', background: 'none', border: '1px solid var(--border)', color: 'var(--text3)', cursor: cancelling ? 'wait' : 'pointer', padding: '0.4rem', borderRadius: 8, fontSize: '0.7rem', fontWeight: 600 }}>
+                                {cancelling ? 'Cancelling…' : 'Cancel auto-renewal'}
+                              </button>
+                              <div style={{ fontSize: '0.58rem', color: 'var(--text3)', marginTop: 5, lineHeight: 1.5 }}>
+                                Stops future charges. You keep access until {new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}.
+                              </div>
+                            </div>
+                          )}
                         </>
                       ) : (
                         <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}

@@ -79,11 +79,16 @@ export function planValueLine(plan: PlanId): string {
   if (plan === 'daily') return 'a single day, to try it properly';
   const rupees = PLANS[plan].amountPaise / 100;
   if (plan === 'weekly') {
-    return '₹' + Math.round(rupees / PLAN_DAYS[plan]) + ' a day, cancel by simply not renewing';
+    return '₹' + Math.round(rupees / PLAN_DAYS[plan]) + ' a day, cancel any time';
   }
   const perMonth = Math.round(rupees / (PLAN_DAYS[plan] / 30.44));
   return 'works out to ₹' + perMonth.toLocaleString('en-IN') + '/month';
 }
 
 /** Ordered cheapest to dearest, which is the order they are shown in. */
-export const PLAN_ORDER: PlanId[] = ['daily', 'weekly', 'sixmonths', 'yearly'];
+/** The plans bought outright, cheapest first. Weekly is not here: it is sold
+ *  as a recurring mandate, and lives in AUTOPAY_PLAN. */
+export const PLAN_ORDER: PlanId[] = ['daily', 'sixmonths', 'yearly'];
+
+/** The one plan billed on a Razorpay mandate rather than a one-off order. */
+export const AUTOPAY_PLAN: PlanId = 'weekly';

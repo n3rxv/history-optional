@@ -3,14 +3,14 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createPortal } from 'react-dom';
-import { auth } from '@/lib/firebase';
+import { auth, signInWithGoogle } from '@/lib/firebase';
 import { useLang } from '@/lib/i18n/LangContext';
 import { SubscribeCard } from '@/components/SubscribeCard';
 import { FEATURES, ONE_OFF } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
 import {
   PLANS, PLAN_ORDER, PLAN_DURATION,
-  planPriceLabel, planValueLine, type PlanId,
+  planPriceLabel, planValueLine, AUTOPAY_PLAN, type PlanId,
 } from '@/lib/plans';
 
 const GOLD = '#d4a843';
@@ -23,7 +23,8 @@ export default function PricingClient() {
   const { langHi } = useLang();
   const [fingerprint, setFingerprint] = useState<string | null>(null);
   const [checkoutPlan, setCheckoutPlan] = useState<PlanId | null>(null);
-  const [status, setStatus] = useState<{ isPremium: boolean; plan?: string; expires_at?: string } | null>(null);
+  const [autopayOpen, setAutopayOpen] = useState(false);
+  const [status, setStatus] = useState<{ isPremium: boolean; plan?: string; expires_at?: string; autoRenew?: boolean } | null>(null);
   // Computed after mount: rendering Date.now() on the server and again on the
   // client is a hydration mismatch waiting for midnight.
   const [days, setDays] = useState<number | null>(null);
@@ -90,7 +91,31 @@ export default function PricingClient() {
            names or hides the descriptions, and the descriptions are the part
            that actually sells. So below 560px each row becomes a block: name,
            description, then the two values as labelled chips. */
+        .pr-auto { display: flex; flex-wrap: wrap; gap: 20px; align-items: center;
+          justify-content: space-between; border: 1px solid rgba(212,168,67,0.45); border-radius: 16px;
+          padding: 22px 24px; background: linear-gradient(150deg, rgba(212,168,67,0.09), var(--bg2) 65%); }
+        .pr-auto-left { display: flex; flex-direction: column; gap: 6px; }
+        .pr-auto-right { display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
+          max-width: 340px; }
+        .pr-auto-right .pr-buy { width: auto; align-self: flex-start; padding: 11px 26px; margin-top: 0; }
+        .pr-auto-tag { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em;
+          text-transform: uppercase; color: #d4a843; }
+        .pr-auto-price { display: flex; align-items: baseline; gap: 7px;
+          font-family: var(--font-mono, ui-monospace, monospace); }
+        .pr-auto-price > span:first-child { font-size: 2.3rem; font-weight: 700; line-height: 1; color: var(--text); }
+        .pr-auto-per { color: var(--text3); font-size: 0.85rem; }
+        .pr-auto-line { color: var(--text3); font-size: 0.82rem; }
+        .pr-auto-fine { color: var(--text3); font-size: 0.72rem; line-height: 1.5; }
+        .pr-or { display: flex; align-items: center; gap: 16px; margin: 26px 0 22px; }
+        .pr-or::before, .pr-or::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+        .pr-or span { color: var(--text3); font-size: 0.78rem; letter-spacing: 0.14em;
+          text-transform: uppercase; }
+        .pr-once { color: var(--text3); font-size: 0.74rem; letter-spacing: 0.1em;
+          text-transform: uppercase; margin: 0 0 12px; text-align: center; }
         @media (max-width: 560px) {
+          .pr-auto { padding: 18px; }
+          .pr-auto-right { max-width: none; width: 100%; }
+          .pr-auto-right .pr-buy { width: 100%; }
           .pr-h1 { font-size: clamp(1.6rem, 7.5vw, 2.1rem); }
           .pr-sub { font-size: 0.95rem; }
           .pr-tbl, .pr-tbl tbody, .pr-tbl tr, .pr-tbl td { display: block; width: auto; }
@@ -137,20 +162,62 @@ export default function PricingClient() {
             <strong style={{ color: '#4ade80' }}>You are on Premium.</strong>{' '}
             {status.expires_at && (
               <span style={{ color: 'var(--text2)' }}>
-                Access runs to {new Date(status.expires_at).toLocaleDateString('en-IN',
+                {status.autoRenew ? 'Renews' : 'Access runs to'}{' '}
+                {new Date(status.expires_at).toLocaleDateString('en-IN',
                   { day: 'numeric', month: 'long', year: 'numeric' })}.
               </span>
             )}
           </div>
-          <Link href="/evaluate" style={{ color: GOLD, fontSize: '0.86rem', fontWeight: 600 }}>
-            Go and use it &rarr;
-          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {status.autoRenew && (
+              <button onClick={async () => {
+                if (!auth.currentUser) return;
+                if (!window.confirm('Stop the weekly renewal? You keep the days you have already paid for.')) return;
+                const token = await auth.currentUser.getIdToken();
+                const res = await fetch('/api/razorpay/subscription/cancel', {
+                  method: 'POST', headers: { 'x-user-token': token },
+                });
+                if (res.ok) setStatus(s => (s ? { ...s, autoRenew: false } : s));
+              }}
+                style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 7,
+                  color: 'var(--text3)', fontSize: '0.78rem', padding: '5px 12px', cursor: 'pointer' }}>
+                Cancel auto-renewal
+              </button>
+            )}
+            <Link href="/evaluate" style={{ color: GOLD, fontSize: '0.86rem', fontWeight: 600 }}>
+              Go and use it &rarr;
+            </Link>
+          </div>
         </div>
       )}
 
 
-      {/* ── Plans ─────────────────────────────────────────────── */}
-      <section aria-label="Subscription plans" className="pr-grid">
+      {/* ── Weekly autopay, the entry commitment ───────────────── */}
+      <section aria-label="Weekly subscription" className="pr-auto">
+        <div className="pr-auto-left">
+          <div className="pr-auto-tag">Weekly subscription &middot; renews weekly</div>
+          <div className="pr-auto-price">
+            <span>{planPriceLabel(AUTOPAY_PLAN)}</span>
+            <span className="pr-auto-per">/week</span>
+          </div>
+          <div className="pr-auto-line">{planValueLine(AUTOPAY_PLAN)}</div>
+        </div>
+        <div className="pr-auto-right">
+          <button className="pr-buy" data-best="1" onClick={() => setAutopayOpen(true)}>
+            {status?.isPremium ? 'Switch to weekly' : 'Subscribe \u2192'}
+          </button>
+          <div className="pr-auto-fine">
+            Renews every 7 days until you stop it. Cancel in one click; the days
+            you have paid for stay yours.
+          </div>
+        </div>
+      </section>
+
+      <div className="pr-or"><span>or</span></div>
+
+      {/* ── Pay once ──────────────────────────────────────────── */}
+      <p className="pr-once">Pay once, no renewal</p>
+      <section aria-label="One-time plans" className="pr-grid">
         {PLAN_ORDER.map(id => {
           const best = id === 'yearly';
           return (
@@ -195,7 +262,7 @@ export default function PricingClient() {
         textAlign: 'center', color: 'var(--text3)', fontSize: '0.76rem', marginTop: 18,
         fontFamily: 'var(--font-mono, ui-monospace, monospace)', letterSpacing: '0.04em',
       }}>
-        Secure &middot; Razorpay &middot; one-time payment, no auto-renewal
+        Secure &middot; Razorpay &middot; these three are one-time payments
       </p>
 
       {/* ── Comparison ────────────────────────────────────────── */}
@@ -303,6 +370,8 @@ export default function PricingClient() {
         </div>
       </section>
 
+      {autopayOpen && <AutopaySheet onClose={() => setAutopayOpen(false)} />}
+
       {checkoutPlan && <CheckoutModal
         plan={checkoutPlan}
         fingerprint={fingerprint}
@@ -344,6 +413,154 @@ function CheckoutModal({ plan, fingerprint, onClose }: {
           initialPlan={plan}
           onClose={onClose}
         />
+      </div>
+    </div>,
+    document.body
+  );
+}
+
+/**
+ * Weekly autopay checkout.
+ *
+ * Razorpay Checkout takes a `subscription_id` here rather than an
+ * `order_id`: the customer is authorising a mandate, not paying once. No
+ * access is granted on the handler firing — a mandate can be authorised and
+ * still fail to debit — so the page waits for the first charge, which the
+ * webhook records.
+ */
+function AutopaySheet({ onClose }: { onClose: () => void }) {
+  const [step, setStep] = useState<'idle' | 'signing_in' | 'opening' | 'authorised' | 'error'>('idle');
+  const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (document.getElementById('rzp-script')) return;
+    const s = document.createElement('script');
+    s.id = 'rzp-script';
+    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    document.head.appendChild(s);
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, [onClose]);
+
+  async function start() {
+    const user = auth.currentUser;
+    if (!user) {
+      setStep('signing_in');
+      try {
+        await signInWithGoogle();
+      } catch {
+        setStep('idle');
+      }
+      return;   // a redirect unloads the page; a popup lands back here signed in
+    }
+
+    setStep('opening');
+    setMessage(null);
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch('/api/razorpay/subscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-user-token': token },
+      });
+      const data = await res.json();
+
+      if (res.status === 409) {
+        setStep('error');
+        setMessage('You already have weekly autopay running.');
+        return;
+      }
+      if (!data.subscriptionId) throw new Error(data.error ?? 'Could not start the subscription');
+
+      const rzp = new (window as unknown as { Razorpay: new (o: unknown) => { open: () => void; on: (e: string, cb: () => void) => void } }).Razorpay({
+        key: data.keyId,
+        subscription_id: data.subscriptionId,
+        name: 'History Optional',
+        description: 'Weekly \u00b7 renews every 7 days',
+        image: '/favicon.svg',
+        prefill: { email: user.email ?? '' },
+        theme: { color: GOLD },
+        modal: { ondismiss: () => setStep('idle') },
+        handler: () => {
+          // Authorised, not yet charged. Razorpay debits and then calls the
+          // webhook; that is what grants access.
+          setStep('authorised');
+        },
+      });
+      rzp.on('payment.failed', () => {
+        setStep('error');
+        setMessage('That payment method could not be authorised. Try another.');
+      });
+      rzp.open();
+    } catch (e) {
+      setStep('error');
+      setMessage(e instanceof Error ? e.message : 'Something went wrong.');
+    }
+  }
+
+  if (typeof document === 'undefined') return null;
+  return createPortal(
+    <div role="dialog" aria-modal="true" aria-label="Weekly autopay"
+      onClick={e => { if (e.target === e.currentTarget) onClose(); }}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 99999, padding: '1rem',
+        background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+      <div style={{
+        width: '100%', maxWidth: 400, background: 'var(--bg2)', border: '1px solid var(--border)',
+        borderRadius: 16, padding: 'clamp(1rem, 4vw, 1.4rem)', boxShadow: '0 32px 80px rgba(0,0,0,0.9)',
+      }}>
+        {step === 'authorised' ? (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>
+              Mandate authorised
+            </div>
+            <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 18px' }}>
+              The first ₹99 is being collected now. Access opens the moment it clears,
+              usually within a minute. You can close this.
+            </p>
+            <button className="pr-buy" data-best="1" onClick={onClose}>Done</button>
+          </div>
+        ) : (
+          <>
+            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}>
+              Weekly autopay &middot; {planPriceLabel(AUTOPAY_PLAN)}
+            </div>
+            <p style={{ color: 'var(--text3)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 16px' }}>
+              You authorise a mandate once. Razorpay then collects ₹99 every 7 days
+              until you cancel. Razorpay notifies you before each debit.
+            </p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 18px', display: 'grid', gap: 7 }}>
+              {['Everything premium unlocks, from the first charge',
+                'Cancel in one click, no email, no notice period',
+                'Days already paid for stay yours after cancelling'].map(s => (
+                <li key={s} style={{ color: 'var(--text2)', fontSize: '0.82rem', display: 'flex', gap: 8 }}>
+                  <span style={{ color: GOLD }}>&#9702;</span>{s}
+                </li>
+              ))}
+            </ul>
+            {message && (
+              <p style={{ color: '#f87171', fontSize: '0.8rem', margin: '0 0 12px' }}>{message}</p>
+            )}
+            <button className="pr-buy" data-best="1" onClick={start}
+              disabled={step === 'opening' || step === 'signing_in'}>
+              {step === 'opening' ? 'Opening\u2026'
+                : step === 'signing_in' ? 'Signing in\u2026'
+                : 'Authorise \u20b999/week \u2192'}
+            </button>
+            <button onClick={onClose}
+              style={{ width: '100%', marginTop: 10, background: 'none', border: 'none',
+                color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem' }}>
+              Maybe later
+            </button>
+          </>
+        )}
       </div>
     </div>,
     document.body

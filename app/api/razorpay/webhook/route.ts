@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
-import { applySubscriptionPayment } from "@/lib/subscriptionGrant";
+import { applySubscriptionPayment, supabaseAdminClient } from "@/lib/subscriptionGrant";
+import { addPlanDuration } from "@/lib/plans";
 
 export const maxDuration = 30;
 // The signature covers the exact bytes Razorpay sent. Anything that re-encodes
@@ -25,11 +26,23 @@ export const dynamic = "force-dynamic";
  *
  * Setup: Razorpay Dashboard → Settings → Webhooks → add
  *   URL:    https://historyoptional.xyz/api/razorpay/webhook
- *   Events: payment.captured
+ *   Events: payment.captured, subscription.charged, subscription.cancelled,
+ *           subscription.halted, subscription.completed
  *   Secret: must equal RAZORPAY_WEBHOOK_SECRET
+ *
+ * The subscription events are not optional the way payment.captured is. A
+ * one-time payment is also confirmed by /api/razorpay/verify with the buyer
+ * sitting there; a weekly autopay debit happens with nobody present, so if
+ * this endpoint stops working people are charged and get nothing.
  */
 
-const HANDLED_EVENTS = new Set(["payment.captured"]);
+const PAYMENT_EVENTS = new Set(["payment.captured"]);
+const SUBSCRIPTION_EVENTS = new Set([
+  "subscription.charged",    // money moved: extend access
+  "subscription.cancelled",  // stop future debits
+  "subscription.halted",     // retries exhausted; stop future debits
+  "subscription.completed",  // ran to total_count; stop future debits
+]);
 
 function signatureMatches(rawBody: string, signature: string, secret: string): boolean {
   const expected = crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
@@ -39,6 +52,98 @@ function signatureMatches(rawBody: string, signature: string, secret: string): b
   } catch {
     return false;
   }
+}
+
+type RazorpayEvent = {
+  event?: string;
+  payload?: {
+    payment?: { entity?: { id?: string; order_id?: string } };
+    subscription?: {
+      entity?: {
+        id?: string;
+        status?: string;
+        current_end?: number;
+        notes?: { firebase_uid?: string; email?: string };
+      };
+    };
+  };
+};
+
+/**
+ * A weekly autopay event.
+ *
+ * `subscription.charged` is the one that grants: it means Razorpay actually
+ * debited the mandate. Access is extended by pushing `expires_at` seven days
+ * past whichever is later, now or the current expiry, so a charge that
+ * arrives early never shortens access and one that arrives late never
+ * silently swallows the gap.
+ *
+ * The other three all mean the same thing operationally: no more money is
+ * coming, so stop promising more time. None of them revoke the days already
+ * paid for.
+ */
+async function handleSubscriptionEvent(eventName: string, event: RazorpayEvent) {
+  const entity = event.payload?.subscription?.entity;
+  const subscriptionId = entity?.id;
+  const uid = entity?.notes?.firebase_uid;
+
+  if (!subscriptionId || !uid) {
+    // Not one of ours: every subscription we create carries firebase_uid in
+    // notes, written under our own key.
+    return NextResponse.json({ ok: true, ignored: "subscription without owner" });
+  }
+
+  const db = supabaseAdminClient();
+
+  if (eventName !== "subscription.charged") {
+    const { error } = await db
+      .from("subscriptions")
+      .update({ auto_renew: false, cancelled_at: new Date().toISOString() })
+      .eq("razorpay_subscription_id", subscriptionId);
+    if (error) {
+      console.error(`[razorpay/webhook] ${eventName} update failed:`, error.message);
+      return NextResponse.json({ error: error.message }, { status: 503 });
+    }
+    console.log(`[razorpay/webhook] ${eventName}: autopay stopped for ${uid}`);
+    return NextResponse.json({ ok: true, status: eventName });
+  }
+
+  const { data: existing } = await db
+    .from("subscriptions")
+    .select("expires_at")
+    .eq("firebase_uid", uid)
+    .maybeSingle();
+
+  const now = new Date();
+  const base =
+    existing?.expires_at && new Date(existing.expires_at) > now
+      ? new Date(existing.expires_at)
+      : now;
+  const expiresAt = addPlanDuration(base, "weekly");
+
+  const { error } = await db.from("subscriptions").upsert(
+    {
+      firebase_uid: uid,
+      email: entity?.notes?.email ?? null,
+      plan: "weekly",
+      status: "active",
+      auto_renew: true,
+      cancelled_at: null,
+      razorpay_subscription_id: subscriptionId,
+      expires_at: expiresAt.toISOString(),
+    },
+    { onConflict: "firebase_uid" }
+  );
+
+  if (error) {
+    // 5xx asks Razorpay to retry. Money has already moved, so failing to
+    // record it is the one case that must not be acknowledged.
+    console.error("[razorpay/webhook] subscription.charged upsert failed:", error.message);
+    return NextResponse.json({ error: error.message }, { status: 503 });
+  }
+
+  console.log(`[razorpay/webhook] weekly charge granted to ${uid} until ${expiresAt.toISOString()}`);
+  return NextResponse.json({ ok: true, status: "charged", expiresAt: expiresAt.toISOString() });
 }
 
 export async function POST(req: NextRequest) {
@@ -63,10 +168,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 
-  let event: {
-    event?: string;
-    payload?: { payment?: { entity?: { id?: string; order_id?: string } } };
-  };
+  let event: RazorpayEvent;
   try {
     event = JSON.parse(rawBody);
   } catch {
@@ -76,7 +178,12 @@ export async function POST(req: NextRequest) {
   }
 
   const eventName = event.event ?? "";
-  if (!HANDLED_EVENTS.has(eventName)) {
+
+  if (SUBSCRIPTION_EVENTS.has(eventName)) {
+    return handleSubscriptionEvent(eventName, event);
+  }
+
+  if (!PAYMENT_EVENTS.has(eventName)) {
     // Acknowledged so Razorpay stops retrying an event we have no use for.
     return NextResponse.json({ ok: true, ignored: eventName || "unnamed" });
   }
