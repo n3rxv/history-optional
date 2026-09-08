@@ -67,7 +67,7 @@ export default function PricingClient() {
   const visiblePlans: PlanId[] = soldOut ? ['yearly'] : PLAN_ORDER;
 
   return (
-    <main style={{ maxWidth: 1040, margin: '0 auto', padding: '3.5rem 1.25rem 6rem' }}>
+    <main style={{ maxWidth: 1040, margin: '0 auto', padding: 'clamp(2rem, 6vw, 3.5rem) 1.25rem 5rem' }}>
       <style>{`
         .pr-h1 { font-family: var(--font-display, Georgia, serif); font-size: clamp(1.9rem, 5vw, 2.7rem);
           line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.6rem; text-wrap: balance; }
@@ -96,7 +96,26 @@ export default function PricingClient() {
         .pr-q { font-weight: 600; color: var(--text); margin: 0 0 0.35rem; }
         .pr-a { color: var(--text2); font-size: 0.9rem; line-height: 1.65; margin: 0; }
         .pr-a a { color: var(--accent); }
-        @media (max-width: 560px) { .pr-tbl td.c { width: 62px; font-size: 0.74rem; } .pr-detail { display: none; } }
+
+        /* Phones get the same words, laid out differently.
+           A three-column table squeezed into 335px either clips the feature
+           names or hides the descriptions, and the descriptions are the part
+           that actually sells. So below 560px each row becomes a block: name,
+           description, then the two values as labelled chips. */
+        @media (max-width: 560px) {
+          .pr-h1 { font-size: clamp(1.6rem, 7.5vw, 2.1rem); }
+          .pr-sub { font-size: 0.95rem; }
+          .pr-tbl, .pr-tbl tbody, .pr-tbl tr, .pr-tbl td { display: block; width: auto; }
+          .pr-tbl thead { display: none; }
+          .pr-tbl tr { padding: 14px 0; border-bottom: 1px solid var(--bg3); }
+          .pr-tbl td { border: none; padding: 0; }
+          .pr-tbl td.c { display: inline-flex; align-items: baseline; gap: 6px;
+            width: auto; text-align: left; margin: 9px 16px 0 0; font-size: 0.8rem; }
+          .pr-tbl td.c::before { content: attr(data-label); font-family: var(--font-ui, inherit);
+            font-size: 0.58rem; font-weight: 600; letter-spacing: 0.09em;
+            text-transform: uppercase; color: var(--text3); }
+          .pr-detail { font-size: 0.82rem; margin-top: 5px; }
+        }
       `}</style>
 
       <header style={{ textAlign: 'center' }}>
@@ -225,8 +244,9 @@ export default function PricingClient() {
                   <span style={{ color: 'var(--text)' }}>{f.name}</span>
                   {f.detail && <span className="pr-detail">{f.detail}</span>}
                 </td>
-                <td className="c" style={{ color: f.free === '—' ? 'var(--border2)' : 'var(--text2)' }}>{f.free}</td>
-                <td className="c" style={{ color: GOLD }}>{f.premium}</td>
+                <td className="c" data-label="Without"
+                    style={{ color: f.free === '—' ? 'var(--border2)' : 'var(--text2)' }}>{f.free}</td>
+                <td className="c" data-label="Premium" style={{ color: GOLD }}>{f.premium}</td>
               </tr>
             ))}
           </tbody>
@@ -343,7 +363,7 @@ function CheckoutModal({ plan, slots, fingerprint, onClose }: {
       }}>
       <div style={{
         width: '100%', maxWidth: 400, background: 'var(--bg2)',
-        border: '1px solid var(--border)', borderRadius: 16, padding: '1.4rem',
+        border: '1px solid var(--border)', borderRadius: 16, padding: 'clamp(1rem, 4vw, 1.4rem)',
         boxShadow: '0 32px 80px rgba(0,0,0,0.9)', maxHeight: '92vh', overflowY: 'auto',
       }}>
         <SubscribeCard
