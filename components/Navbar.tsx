@@ -244,7 +244,7 @@ function ExtendModal({
           )}
 
           {/* Plan selector */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, marginBottom: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${plans.length}, 1fr)`, gap: 8, marginBottom: '1rem' }}>
             {plans.map(p => {
               const sel = selectedPlan === p.id;
               return (
@@ -300,7 +300,7 @@ export default function Navbar() {
   /** Stops future weekly debits. Access already paid for is untouched. */
   async function handleCancelAutopay() {
     if (!auth.currentUser) return;
-    if (!window.confirm('Stop the weekly renewal? You keep the days you have already paid for.')) return;
+    if (!window.confirm('Stop the weekly renewal? You keep access for the remaining days you\u2019ve already paid for.')) return;
     setCancelling(true);
     try {
       const token = await auth.currentUser.getIdToken();

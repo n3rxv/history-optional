@@ -1,6 +1,7 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
 import { PLANS, PLAN_ORDER, PLAN_DURATION, DEFAULT_PLAN, planPriceLabel, type PlanId } from '@/lib/plans';
+import AutopaySheet from '@/components/AutopaySheet';
 import { useState, useEffect } from 'react';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { signOut as firebaseSignOut } from 'firebase/auth';
@@ -23,6 +24,8 @@ interface SubscribeCardProps {
   onSuccess?: () => void;
   onClose?: () => void;
   standalone?: boolean;
+  /** Opens the weekly mandate flow. Omitted where no such flow is wired up. */
+  onWeekly?: () => void;
   /**
    * Which tile is selected when the card opens. The pricing page shows its own
    * plan cards and then opens this one, so the plan the person clicked has to
@@ -33,11 +36,12 @@ interface SubscribeCardProps {
 
 export function SubscribeCard({
   fingerprint, onSuccess, onClose, standalone = false,
-  initialPlan = 'yearly' }: SubscribeCardProps) {
+  onWeekly, initialPlan = 'yearly' }: SubscribeCardProps) {
   const { langHi } = useLang();
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
+  const [weeklyOpen, setWeeklyOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<PlanId>(initialPlan);
   // Set when sign-in resumes for someone who is already subscribed. The
   // success screen otherwise names the plan tile they happened to have
@@ -51,6 +55,9 @@ export function SubscribeCard({
   const plans = allPlans;
 
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
+  // Shown unless a caller explicitly opts out by passing onWeekly={undefined}
+  // and handling it themselves; by default the sheet opens in place.
+  const showWeekly = true;
   const price = currentPlan.price;
   const originalPrice = null;
 
@@ -243,6 +250,7 @@ export function SubscribeCard({
 
   return (
     <>
+      {weeklyOpen && <AutopaySheet onClose={() => setWeeklyOpen(false)} />}
       <style>{`
         @keyframes pulseSlot {
           0%, 100% { opacity: 1; }
@@ -263,6 +271,8 @@ export function SubscribeCard({
         }
         .subscribe-cta { transition: all 0.18s ease; }
         .subscribe-cta:hover { filter: brightness(1.1); }
+        .weekly-cta { transition: filter 0.15s; }
+        .weekly-cta:hover { filter: brightness(1.1); }
       `}</style>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, position: 'relative' }}>
@@ -290,8 +300,50 @@ export function SubscribeCard({
           </div>
         )}
 
+        {/* Weekly subscription, above the one-time plans */}
+        {showWeekly && (
+          <>
+            {/* The band is a div, not a button: the CTA inside it is the
+                button, and a button inside a button is invalid markup. */}
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+              width: '100%', padding: '12px 14px', borderRadius: 10,
+              border: '1px solid rgba(212,168,67,0.45)',
+              background: 'linear-gradient(150deg, rgba(212,168,67,0.13), var(--bg3) 70%)',
+            }}>
+              <div>
+                <div style={{ fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: '#f0c040', marginBottom: 3 }}>
+                  Weekly subscription &middot; renews weekly
+                </div>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.15rem', fontWeight: 900, color: '#ffe066' }}>
+                  {planPriceLabel('weekly')}
+                </span>
+                <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}> /week</span>
+              </div>
+              <button onClick={() => (onWeekly ? onWeekly() : setWeeklyOpen(true))}
+                className="weekly-cta"
+                style={{
+                  flexShrink: 0, padding: '9px 18px', borderRadius: 7, border: 'none',
+                  background: 'linear-gradient(135deg, #c49a2c 0%, #e8b84b 40%, #f5cc5e 55%, #b8881e 100%)',
+                  color: '#000', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer',
+                  whiteSpace: 'nowrap', letterSpacing: '0.02em',
+                }}>
+                Subscribe &rarr;
+              </button>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '2px 0' }}>
+              <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+              <span style={{ color: 'var(--text3)', fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>or</span>
+              <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+            </div>
+            <div style={{ color: 'var(--text3)', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginBottom: 2 }}>
+              Pay once, no renewal
+            </div>
+          </>
+        )}
+
         {/* Plan selector */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 6, marginBottom: 8 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${plans.length}, 1fr)`, gap: 6, marginBottom: 8 }}>
           {plans.map(p => {
             const isSelected = selectedPlan === p.id;
             const isPopular = p.id === 'yearly';

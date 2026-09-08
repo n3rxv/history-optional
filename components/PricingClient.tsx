@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { useLang } from '@/lib/i18n/LangContext';
 import { SubscribeCard } from '@/components/SubscribeCard';
+import AutopaySheet from '@/components/AutopaySheet';
 import { FEATURES, ONE_OFF } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
 import {
@@ -172,7 +173,7 @@ export default function PricingClient() {
             {status.autoRenew && (
               <button onClick={async () => {
                 if (!auth.currentUser) return;
-                if (!window.confirm('Stop the weekly renewal? You keep the days you have already paid for.')) return;
+                if (!window.confirm('Stop the weekly renewal? You keep access for the remaining days you\u2019ve already paid for.')) return;
                 const token = await auth.currentUser.getIdToken();
                 const res = await fetch('/api/razorpay/subscription/cancel', {
                   method: 'POST', headers: { 'x-user-token': token },
@@ -207,8 +208,8 @@ export default function PricingClient() {
             {status?.isPremium ? 'Switch to weekly' : 'Subscribe \u2192'}
           </button>
           <div className="pr-auto-fine">
-            Renews every 7 days until you stop it. Cancel in one click; the days
-            you have paid for stay yours.
+            Renews every 7 days until you stop it. Cancel in one click from your
+            profile menu; you keep access for the remaining days you&rsquo;ve paid for.
           </div>
         </div>
       </section>
@@ -428,141 +429,3 @@ function CheckoutModal({ plan, fingerprint, onClose }: {
  * still fail to debit — so the page waits for the first charge, which the
  * webhook records.
  */
-function AutopaySheet({ onClose }: { onClose: () => void }) {
-  const [step, setStep] = useState<'idle' | 'signing_in' | 'opening' | 'authorised' | 'error'>('idle');
-  const [message, setMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (document.getElementById('rzp-script')) return;
-    const s = document.createElement('script');
-    s.id = 'rzp-script';
-    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    document.head.appendChild(s);
-  }, []);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
-  }, [onClose]);
-
-  async function start() {
-    const user = auth.currentUser;
-    if (!user) {
-      setStep('signing_in');
-      try {
-        await signInWithGoogle();
-      } catch {
-        setStep('idle');
-      }
-      return;   // a redirect unloads the page; a popup lands back here signed in
-    }
-
-    setStep('opening');
-    setMessage(null);
-    try {
-      const token = await user.getIdToken();
-      const res = await fetch('/api/razorpay/subscription', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-      });
-      const data = await res.json();
-
-      if (res.status === 409) {
-        setStep('error');
-        setMessage('You already have weekly autopay running.');
-        return;
-      }
-      if (!data.subscriptionId) throw new Error(data.error ?? 'Could not start the subscription');
-
-      const rzp = new (window as unknown as { Razorpay: new (o: unknown) => { open: () => void; on: (e: string, cb: () => void) => void } }).Razorpay({
-        key: data.keyId,
-        subscription_id: data.subscriptionId,
-        name: 'History Optional',
-        description: 'Weekly \u00b7 renews every 7 days',
-        image: '/favicon.svg',
-        prefill: { email: user.email ?? '' },
-        theme: { color: GOLD },
-        modal: { ondismiss: () => setStep('idle') },
-        handler: () => {
-          // Authorised, not yet charged. Razorpay debits and then calls the
-          // webhook; that is what grants access.
-          setStep('authorised');
-        },
-      });
-      rzp.on('payment.failed', () => {
-        setStep('error');
-        setMessage('That payment method could not be authorised. Try another.');
-      });
-      rzp.open();
-    } catch (e) {
-      setStep('error');
-      setMessage(e instanceof Error ? e.message : 'Something went wrong.');
-    }
-  }
-
-  if (typeof document === 'undefined') return null;
-  return createPortal(
-    <div role="dialog" aria-modal="true" aria-label="Weekly autopay"
-      onClick={e => { if (e.target === e.currentTarget) onClose(); }}
-      style={{
-        position: 'fixed', inset: 0, zIndex: 99999, padding: '1rem',
-        background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-      <div style={{
-        width: '100%', maxWidth: 400, background: 'var(--bg2)', border: '1px solid var(--border)',
-        borderRadius: 16, padding: 'clamp(1rem, 4vw, 1.4rem)', boxShadow: '0 32px 80px rgba(0,0,0,0.9)',
-      }}>
-        {step === 'authorised' ? (
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>
-              Mandate authorised
-            </div>
-            <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 18px' }}>
-              The first ₹99 is being collected now. Access opens the moment it clears,
-              usually within a minute. You can close this.
-            </p>
-            <button className="pr-buy" data-best="1" onClick={onClose}>Done</button>
-          </div>
-        ) : (
-          <>
-            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)', marginBottom: 4 }}>
-              Weekly autopay &middot; {planPriceLabel(AUTOPAY_PLAN)}
-            </div>
-            <p style={{ color: 'var(--text3)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 16px' }}>
-              You authorise a mandate once. Razorpay then collects ₹99 every 7 days
-              until you cancel. Razorpay notifies you before each debit.
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 18px', display: 'grid', gap: 7 }}>
-              {['Everything premium unlocks, from the first charge',
-                'Cancel in one click, no email, no notice period',
-                'Days already paid for stay yours after cancelling'].map(s => (
-                <li key={s} style={{ color: 'var(--text2)', fontSize: '0.82rem', display: 'flex', gap: 8 }}>
-                  <span style={{ color: GOLD }}>&#9702;</span>{s}
-                </li>
-              ))}
-            </ul>
-            {message && (
-              <p style={{ color: '#f87171', fontSize: '0.8rem', margin: '0 0 12px' }}>{message}</p>
-            )}
-            <button className="pr-buy" data-best="1" onClick={start}
-              disabled={step === 'opening' || step === 'signing_in'}>
-              {step === 'opening' ? 'Opening\u2026'
-                : step === 'signing_in' ? 'Signing in\u2026'
-                : 'Authorise \u20b999/week \u2192'}
-            </button>
-            <button onClick={onClose}
-              style={{ width: '100%', marginTop: 10, background: 'none', border: 'none',
-                color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem' }}>
-              Maybe later
-            </button>
-          </>
-        )}
-      </div>
-    </div>,
-    document.body
-  );
-}

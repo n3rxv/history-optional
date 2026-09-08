@@ -8,9 +8,9 @@
   --border:       #2a2a2a;
   --border2:      #383838;
   --border3:      #444444;
-  --text:         #f0f0f0;
-  --text2:        #aaaaaa;
-  --text3:        #777777;
+  --text:         #ffffff;   /* 21.0:1 on --bg */
+  --text2:        #e4e4e4;   /* 16.4:1 — running prose, was #aaaaaa at 8.9:1 */
+  --text3:        #b9b9b9;   /* 10.1:1 — captions and meta, was #777777 at 4.4:1 */
   --accent:       #3b82f6;
   --accent2:      #1d4ed8;
   --accent-dim:   rgba(59,130,246,0.1);
@@ -665,9 +665,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
   --border2:      #bcbcb8;
   --border3:      #a8a8a4;
   /* Text */
-  --text:         #181816;
-  --text2:        #44444e;
-  --text3:        #78787a;
+  --text:         #101010;
+  --text2:        #33333c;
+  --text3:        #55555a;   /* was #78787a, which was thin on --bg */
   /* Accent blue — darker for readability on white */
   --accent:       #1d4ed8;
   --accent2:      #1e40af;
