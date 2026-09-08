@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import PricingClient from '@/components/PricingClient';
-import { PLANS, planPriceLabel } from '@/lib/plans';
+import { PLANS, PLAN_ORDER, planPriceLabel } from '@/lib/plans';
 
 export const metadata: Metadata = {
   title: 'Pricing — History Optional',
@@ -30,7 +30,7 @@ const offers = {
   description:
     'Unlimited answer evaluation, model answers, map evaluation and AI chat for UPSC History Optional.',
   brand: { '@type': 'Brand', name: 'History Optional' },
-  offers: (['daily', 'sixmonths', 'yearly'] as const).map(id => ({
+  offers: PLAN_ORDER.map(id => ({
     '@type': 'Offer',
     name: PLANS[id].label,
     price: (PLANS[id].amountPaise / 100).toString(),

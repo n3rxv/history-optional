@@ -244,7 +244,7 @@ function ExtendModal({
           )}
 
           {/* Plan selector */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, marginBottom: '1rem' }}>
             {plans.map(p => {
               const sel = selectedPlan === p.id;
               return (

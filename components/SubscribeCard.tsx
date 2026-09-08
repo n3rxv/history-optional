@@ -1,5 +1,6 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
+import { PLANS, PLAN_ORDER, PLAN_DURATION, DEFAULT_PLAN, planPriceLabel, type PlanId } from '@/lib/plans';
 import { useState, useEffect } from 'react';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { signOut as firebaseSignOut } from 'firebase/auth';
@@ -27,7 +28,7 @@ interface SubscribeCardProps {
    * plan cards and then opens this one, so the plan the person clicked has to
    * survive the transition; without it they would land back on Annual.
    */
-  initialPlan?: 'daily' | 'sixmonths' | 'yearly';
+  initialPlan?: PlanId;
 }
 
 export function SubscribeCard({
@@ -37,17 +38,16 @@ export function SubscribeCard({
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'daily'|'sixmonths'|'yearly'>(initialPlan);
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>(initialPlan);
   // Set when sign-in resumes for someone who is already subscribed. The
   // success screen otherwise names the plan tile they happened to have
   // selected, which is not the plan they own.
   const [existingPlan, setExistingPlan] = useState<string | null>(null);
 
-  const allPlans = [
-    { id: 'daily',      label: 'Daily',     price: '₹49',    sub: '1 day' },
-    { id: 'sixmonths',  label: '6 Months',  price: '₹1,999', sub: '6 months' },
-    { id: 'yearly',     label: 'Annual',    price: '₹2,999', sub: '1 year' },
-  ] as const;
+  // Prices come from lib/plans.ts, which is what /api/razorpay/order bills.
+  const allPlans = PLAN_ORDER.map(id => ({
+    id, label: PLANS[id].label, price: planPriceLabel(id), sub: PLAN_DURATION[id],
+  }));
   const plans = allPlans;
 
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
@@ -70,7 +70,7 @@ export function SubscribeCard({
         const idToken = await firebaseUser.getIdToken();
         setToken(idToken);
         if (sessionStorage.getItem('ho_pending_payment') === '1') {
-          const savedPlan = sessionStorage.getItem('ho_pending_plan') as 'daily'|'sixmonths'|'yearly' || 'yearly';
+          const savedPlan = sessionStorage.getItem('ho_pending_plan') as PlanId || DEFAULT_PLAN;
           sessionStorage.removeItem('ho_pending_payment');
           sessionStorage.removeItem('ho_pending_plan');
           setSelectedPlan(savedPlan);
@@ -120,7 +120,7 @@ export function SubscribeCard({
     }
   };
 
-  const openRazorpay = async (authToken: string, email: string, planOverride?: 'daily'|'sixmonths'|'yearly') => {
+  const openRazorpay = async (authToken: string, email: string, planOverride?: PlanId) => {
     setStep('paying');
     try {
       const orderRes = await fetch('/api/razorpay/order', {
@@ -291,7 +291,7 @@ export function SubscribeCard({
         )}
 
         {/* Plan selector */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 8 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 6, marginBottom: 8 }}>
           {plans.map(p => {
             const isSelected = selectedPlan === p.id;
             const isPopular = p.id === 'yearly';

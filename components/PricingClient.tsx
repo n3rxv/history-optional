@@ -10,7 +10,7 @@ import { FEATURES, ONE_OFF } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
 import {
   PLANS, PLAN_ORDER, PLAN_DURATION,
-  planPriceLabel, planPerMonthLabel, type PlanId,
+  planPriceLabel, planValueLine, type PlanId,
 } from '@/lib/plans';
 
 const GOLD = '#d4a843';
@@ -153,7 +153,6 @@ export default function PricingClient() {
       <section aria-label="Subscription plans" className="pr-grid">
         {PLAN_ORDER.map(id => {
           const best = id === 'yearly';
-          const perMonth = planPerMonthLabel(id);
           return (
             <div key={id} className="pr-card" data-best={best ? '1' : '0'}>
               {best && (
@@ -177,7 +176,7 @@ export default function PricingClient() {
               </div>
 
               <div style={{ fontSize: '0.78rem', color: 'var(--text3)', minHeight: '1.2em' }}>
-                {perMonth ? `works out to ${perMonth}` : 'a single day, to try it properly'}
+                {planValueLine(id)}
               </div>
 
               <button className="pr-buy" data-best={best ? '1' : '0'}

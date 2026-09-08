@@ -9,10 +9,11 @@
  * the Razorpay order itself rather than from the client.
  */
 
-export type PlanId = 'daily' | 'sixmonths' | 'yearly';
+export type PlanId = 'daily' | 'weekly' | 'sixmonths' | 'yearly';
 
 export const PLANS: Record<PlanId, { amountPaise: number; label: string }> = {
   daily:     { amountPaise:   4900, label: 'Daily'    },
+  weekly:    { amountPaise:   9900, label: 'Weekly'   },
   sixmonths: { amountPaise: 199900, label: '6 Months' },
   yearly:    { amountPaise: 299900, label: 'Annual'   },
 };
@@ -36,6 +37,7 @@ export function planAmountPaise(plan: PlanId): number {
 export function addPlanDuration(from: Date, plan: PlanId): Date {
   const next = new Date(from.getTime());
   if (plan === 'daily') next.setDate(next.getDate() + 1);
+  else if (plan === 'weekly') next.setDate(next.getDate() + 7);
   else if (plan === 'sixmonths') next.setMonth(next.getMonth() + 6);
   else next.setFullYear(next.getFullYear() + 1);
   return next;
@@ -59,23 +61,29 @@ export function planPriceLabel(plan: PlanId): string {
 /** How long the plan lasts, for use after a slash: "₹49/day". */
 export const PLAN_DURATION: Record<PlanId, string> = {
   daily:     'day',
+  weekly:    'week',
   sixmonths: '6 months',
   yearly:    'year',
 };
 
 /** Days each plan is worth, used only for the per-month comparison. */
-const PLAN_DAYS: Record<PlanId, number> = { daily: 1, sixmonths: 182, yearly: 365 };
+const PLAN_DAYS: Record<PlanId, number> = { daily: 1, weekly: 7, sixmonths: 182, yearly: 365 };
 
 /**
- * Effective monthly cost, for comparing a six-month plan against an annual
- * one. Returns null for `daily`, where a monthly figure would be misleading
- * rather than helpful.
+ * The line under the price, in whatever unit that plan is actually reasoned
+ * in. A six-month plan is compared against an annual one per month; a weekly
+ * plan is compared against nothing, because what a buyer wants to know is
+ * what a day of it costs.
  */
-export function planPerMonthLabel(plan: PlanId): string | null {
-  if (plan === 'daily') return null;
-  const perMonth = (PLANS[plan].amountPaise / 100) / (PLAN_DAYS[plan] / 30.44);
-  return '₹' + Math.round(perMonth).toLocaleString('en-IN') + '/month';
+export function planValueLine(plan: PlanId): string {
+  if (plan === 'daily') return 'a single day, to try it properly';
+  const rupees = PLANS[plan].amountPaise / 100;
+  if (plan === 'weekly') {
+    return '₹' + Math.round(rupees / PLAN_DAYS[plan]) + ' a day, cancel by simply not renewing';
+  }
+  const perMonth = Math.round(rupees / (PLAN_DAYS[plan] / 30.44));
+  return 'works out to ₹' + perMonth.toLocaleString('en-IN') + '/month';
 }
 
 /** Ordered cheapest to dearest, which is the order they are shown in. */
-export const PLAN_ORDER: PlanId[] = ['daily', 'sixmonths', 'yearly'];
+export const PLAN_ORDER: PlanId[] = ['daily', 'weekly', 'sixmonths', 'yearly'];

@@ -43,6 +43,7 @@ export default function TermsPage() {
         <p>Premium subscription plans and their prices are:</p>
         <ul>
           <li>Daily — ₹49 (1 day access)</li>
+          <li>Weekly — ₹99 (7 days access)</li>
           <li>Half-Yearly — ₹1,999 (6 months access)</li>
           <li>Annual — ₹2,999 (1 year access)</li>
         </ul>
