@@ -70,7 +70,62 @@ export async function createAutopaySubscription(opts: {
     notes: { firebase_uid: opts.uid, email: opts.email ?? '', plan: AUTOPAY_PLAN_ID },
   } as Parameters<Razorpay['subscriptions']['create']>[0]);
 
+  // Recorded before anything can go wrong with it. Someone who opens the
+  // sheet and never authorises leaves no trace in Razorpay's order list, and
+  // this is the row that says who they were.
+  await supabaseAdminClient().from('autopay_attempts').upsert(
+    {
+      razorpay_subscription_id: sub.id,
+      firebase_uid: opts.uid,
+      email: opts.email,
+      status: 'started',
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'razorpay_subscription_id' }
+  );
+
   return { subscriptionId: sub.id, shortUrl: (sub as { short_url?: string }).short_url ?? null };
+}
+
+/**
+ * Moves an attempt to its next state. Never throws: this is a record of what
+ * happened, and losing it must not fail the webhook that grants access.
+ */
+export async function recordAttempt(
+  subscriptionId: string,
+  status: 'active' | 'failed' | 'cancelled' | 'completed',
+  opts: { uid?: string; email?: string | null; charged?: boolean } = {}
+): Promise<void> {
+  try {
+    const db = supabaseAdminClient();
+    const now = new Date().toISOString();
+
+    const patch: Record<string, unknown> = { status, updated_at: now };
+    if (opts.charged) {
+      const { data: prior } = await db
+        .from('autopay_attempts')
+        .select('charge_count, first_charged_at')
+        .eq('razorpay_subscription_id', subscriptionId)
+        .maybeSingle();
+      patch.last_charged_at = now;
+      patch.first_charged_at = prior?.first_charged_at ?? now;
+      patch.charge_count = (prior?.charge_count ?? 0) + 1;
+    }
+
+    // Upsert rather than update: a subscription authorised before this table
+    // existed, or one whose create-time write failed, still gets recorded.
+    await db.from('autopay_attempts').upsert(
+      {
+        razorpay_subscription_id: subscriptionId,
+        firebase_uid: opts.uid ?? 'unknown',
+        email: opts.email ?? null,
+        ...patch,
+      },
+      { onConflict: 'razorpay_subscription_id' }
+    );
+  } catch (e) {
+    console.warn('[autopay] could not record attempt:', (e as Error).message);
+  }
 }
 
 /**

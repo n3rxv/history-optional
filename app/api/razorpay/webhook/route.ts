@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { applySubscriptionPayment, supabaseAdminClient } from "@/lib/subscriptionGrant";
 import { addPlanDuration } from "@/lib/plans";
+import { recordAttempt } from "@/lib/autopay";
 
 export const maxDuration = 30;
 // The signature covers the exact bytes Razorpay sent. Anything that re-encodes
@@ -96,6 +97,17 @@ async function handleSubscriptionEvent(eventName: string, event: RazorpayEvent) 
   const db = supabaseAdminClient();
 
   if (eventName !== "subscription.charged") {
+    // halted means Razorpay gave up retrying the mandate: that is a failure,
+    // not a cancellation, and the two need telling apart when someone asks
+    // why a subscriber stopped.
+    await recordAttempt(
+      subscriptionId,
+      eventName === "subscription.halted" ? "failed"
+        : eventName === "subscription.completed" ? "completed"
+        : "cancelled",
+      { uid, email: entity?.notes?.email ?? null }
+    );
+
     const { error } = await db
       .from("subscriptions")
       .update({ auto_renew: false, cancelled_at: new Date().toISOString() })
@@ -141,6 +153,10 @@ async function handleSubscriptionEvent(eventName: string, event: RazorpayEvent) 
     console.error("[razorpay/webhook] subscription.charged upsert failed:", error.message);
     return NextResponse.json({ error: error.message }, { status: 503 });
   }
+
+  await recordAttempt(subscriptionId, "active", {
+    uid, email: entity?.notes?.email ?? null, charged: true,
+  });
 
   console.log(`[razorpay/webhook] weekly charge granted to ${uid} until ${expiresAt.toISOString()}`);
   return NextResponse.json({ ok: true, status: "charged", expiresAt: expiresAt.toISOString() });
