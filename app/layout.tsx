@@ -1,9 +1,22 @@
-import '@fontsource/libre-baskerville/400.css';
-import Script from 'next/script';
+// Every family named in globals.css is loaded here. Playfair Display and Fira
+// Code were declared as --font-display and --font-mono but never fetched, so
+// every heading on the site was rendering in the Georgia fallback and every
+// price and figure in Consolas.
+import '@fontsource/libre-baskerville/400.css';        // --font-body
 import '@fontsource/libre-baskerville/400-italic.css';
 import '@fontsource/libre-baskerville/700.css';
-import '@fontsource/inter/400.css';
+import '@fontsource/inter/400.css';                    // --font-ui
+import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/inter/800.css';
+import '@fontsource/playfair-display/500.css';         // --font-display
+import '@fontsource/playfair-display/600.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource/fira-code/400.css';                // --font-mono
+import '@fontsource/fira-code/500.css';
+import '@fontsource/fira-code/700.css';
+import Script from 'next/script';
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
