@@ -23,15 +23,22 @@ interface SubscribeCardProps {
   onSuccess?: () => void;
   onClose?: () => void;
   standalone?: boolean;
+  /**
+   * Which tile is selected when the card opens. The pricing page shows its own
+   * plan cards and then opens this one, so the plan the person clicked has to
+   * survive the transition; without it they would land back on Annual.
+   */
+  initialPlan?: 'daily' | 'sixmonths' | 'yearly';
 }
 
 export function SubscribeCard({
-  slots, fingerprint, onSuccess, onClose, standalone = false }: SubscribeCardProps) {
+  slots, fingerprint, onSuccess, onClose, standalone = false,
+  initialPlan = 'yearly' }: SubscribeCardProps) {
   const { langHi } = useLang();
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'daily'|'sixmonths'|'yearly'>('yearly');
+  const [selectedPlan, setSelectedPlan] = useState<'daily'|'sixmonths'|'yearly'>(initialPlan);
   // Set when sign-in resumes for someone who is already subscribed. The
   // success screen otherwise names the plan tile they happened to have
   // selected, which is not the plan they own.

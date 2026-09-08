@@ -12,6 +12,8 @@ import { auth } from '@/lib/firebase';
 import { onAuthStateChanged, signOut as firebaseSignOut, User } from 'firebase/auth';
 import { supabase } from '@/lib/supabase';
 import { SubscribeCard } from '@/components/SubscribeCard';
+import { FEATURES } from '@/lib/features';
+import { daysToMains } from '@/lib/examDates';
 
 function snooColor(email: string): string {
   const palette = ['#ff4500','#51cf66','#339af0','#cc5de8','#f59f00','#20c997','#ff6b6b','#74c0fc','#a9e34b','#ffa94d'];
@@ -26,19 +28,7 @@ function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
   );
 }
 
-const FEATURES = [
-  { name: 'Notes (Paper I & II)',        free: '✓ free',   premium: '✓'          },
-  { name: 'PYQ bank',                    free: '✓ free',   premium: '✓'          },
-  { name: 'Timeline & Historiography',   free: '✓ free',   premium: '✓'          },
-  { name: 'Answer evaluation',           free: '1 total',   premium: 'Unlimited'  },
-  { name: 'AI Chat',                     free: '3 total',  premium: 'Unlimited'  },
-  { name: 'Model answers',               free: '—',        premium: '✓'          },
-  { name: 'Chat with Books',             free: '—',        premium: '✓'          },
-  { name: 'Map evaluation',              free: '—',        premium: 'Unlimited'  },
-  { name: 'FLT / Full paper eval',       free: '—',        premium: 'Unlimited'  },
-  { name: 'PDF upload & chat',           free: '—',        premium: '✓'          },
-  { name: 'Brainstorm mode',             free: '—',        premium: '✓'          },
-];
+// FEATURES now lives in lib/features.ts so the pricing page cannot drift from it.
 
 function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { onClose: () => void; noSubFound?: boolean; isLoggedIn?: boolean; onPaymentSuccess?: () => void }) {
   const [slots, setSlots] = React.useState(45);
@@ -513,7 +503,7 @@ export default function Navbar() {
             </div>
 
             {/* Flat links */}
-            {[{ href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }].map(l => {
+            {[{ href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/pricing', label: langHi ? 'मूल्य' : 'Pricing' }].map(l => {
               const active = pathname.startsWith(l.href);
               return (
                 <Link key={l.href} href={l.href} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, fontSize: '0.82rem', fontFamily: 'var(--font-ui)', textDecoration: 'none', color: active ? 'var(--accent)' : 'var(--text2)', background: 'transparent', transition: 'color 0.15s', whiteSpace: 'nowrap' }}
@@ -729,7 +719,7 @@ export default function Navbar() {
                         </div>
                       </div>
                       {aspirantYear.trim() === '2026' && (() => {
-                        const days = Math.max(0, Math.ceil((new Date('2026-08-21T00:00:00').getTime() - Date.now()) / 86400000));
+                        const days = daysToMains();
                         const urgent = days <= 30; const soon = days <= 60;
                         return (<div style={{ margin: '6px 0 2px', padding: '0.65rem 0.75rem', background: urgent ? 'linear-gradient(135deg,rgba(248,113,113,0.08),rgba(239,68,68,0.05))' : 'linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.05))', border: '1px solid ' + (urgent ? 'rgba(248,113,113,0.25)' : 'rgba(99,102,241,0.2)'), borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           <div><div style={{ fontSize: '0.58rem', color: urgent ? 'rgba(248,113,113,0.7)' : 'rgba(99,102,241,0.8)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{urgent ? '🔥' : '⚔️'} Mains 2026</div><div style={{ fontSize: '0.6rem', color: 'var(--text3)' }}>21 Aug 2026</div></div>
@@ -903,7 +893,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         {open && createPortal(
           <div style={{ position:'fixed', top:60, left:0, right:0, bottom:0, borderTop: '1px solid rgba(0,0,0,0.06)', padding: '0.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.1rem', background: 'var(--bg2)', overflowY:'auto', zIndex:9999 }}>
-            {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/current-affairs', label: langHi ? 'समसामयिकी' : 'Current Affairs' }, { href: '/pyqs', label: langHi ? 'PYQs देखें' : 'PYQs' }, { href: '/pyqs?topper=1', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test Series' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }].map(l => (
+            {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/current-affairs', label: langHi ? 'समसामयिकी' : 'Current Affairs' }, { href: '/pyqs', label: langHi ? 'PYQs देखें' : 'PYQs' }, { href: '/pyqs?topper=1', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test Series' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }, { href: '/pricing', label: langHi ? 'मूल्य' : 'Pricing' }].map(l => (
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ padding: '0.6rem 0.5rem', borderRadius: 5, fontSize: '0.88rem', textDecoration: 'none', color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)' }}>{l.label}</Link>
             ))}
             <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>

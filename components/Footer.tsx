@@ -38,6 +38,7 @@ export default function Footer() {
       <span>© {new Date().getFullYear()} historyoptional.xyz</span>
 
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Link href="/pricing" style={linkStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>Pricing</Link>
         <Link href="/contact" style={linkStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>Contact</Link>
         <Link href="/privacy" style={linkStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>Privacy Policy</Link>
         <Link href="/terms" style={linkStyle} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>Terms</Link>

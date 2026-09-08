@@ -40,3 +40,42 @@ export function addPlanDuration(from: Date, plan: PlanId): Date {
   else next.setFullYear(next.getFullYear() + 1);
   return next;
 }
+
+/**
+ * Display helpers.
+ *
+ * The pricing page, the subscribe card and the navbar each used to carry their
+ * own hand-typed price strings. One of those copies drifted: the navbar's
+ * extend-plan modal still offers "Weekly" and "Monthly" at ₹1,999, neither of
+ * which is a plan the server recognises. Anything that shows a price to a
+ * person should format it from PLANS rather than retyping it.
+ */
+
+/** "₹2,999" — Indian digit grouping, no decimals. */
+export function planPriceLabel(plan: PlanId): string {
+  return '₹' + (PLANS[plan].amountPaise / 100).toLocaleString('en-IN');
+}
+
+/** How long the plan lasts, for use after a slash: "₹49/day". */
+export const PLAN_DURATION: Record<PlanId, string> = {
+  daily:     'day',
+  sixmonths: '6 months',
+  yearly:    'year',
+};
+
+/** Days each plan is worth, used only for the per-month comparison. */
+const PLAN_DAYS: Record<PlanId, number> = { daily: 1, sixmonths: 182, yearly: 365 };
+
+/**
+ * Effective monthly cost, for comparing a six-month plan against an annual
+ * one. Returns null for `daily`, where a monthly figure would be misleading
+ * rather than helpful.
+ */
+export function planPerMonthLabel(plan: PlanId): string | null {
+  if (plan === 'daily') return null;
+  const perMonth = (PLANS[plan].amountPaise / 100) / (PLAN_DAYS[plan] / 30.44);
+  return '₹' + Math.round(perMonth).toLocaleString('en-IN') + '/month';
+}
+
+/** Ordered cheapest to dearest, which is the order they are shown in. */
+export const PLAN_ORDER: PlanId[] = ['daily', 'sixmonths', 'yearly'];

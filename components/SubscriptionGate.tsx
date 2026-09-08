@@ -3,16 +3,12 @@ import React, { useState } from 'react';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { useUsageTracker } from '@/hooks/useUsageTracker';
 import { SubscribeCard } from '@/components/SubscribeCard';
+import { daysToMains } from '@/lib/examDates';
 
 const FREE_EVAL_LIMIT = 1;
 const FREE_CHAT_LIMIT = 3;
 
-function getDaysToMains(): number {
-  const mains = new Date('2027-08-20');
-  const now = new Date();
-  const diff = Math.ceil((mains.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-  return diff > 0 ? diff : 0;
-}
+// The date lives in lib/examDates.ts so the navbar and this gate agree.
 
 function Modal({ mode, type, fingerprint, onClose }: {
   mode: 'unauthenticated' | 'limit_reached' | 'device_limit';
@@ -21,7 +17,7 @@ function Modal({ mode, type, fingerprint, onClose }: {
   onClose: () => void;
 }) {
   const [signingIn, setSigningIn] = useState(false);
-  const daysLeft = getDaysToMains();
+  const daysLeft = daysToMains();
 
   async function handleGoogleSignIn() {
     setSigningIn(true);

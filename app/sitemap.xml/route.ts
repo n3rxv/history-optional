@@ -16,6 +16,7 @@ export async function GET() {
     { url: `${base}/evaluate`, priority: '0.7', changefreq: 'monthly' },
     { url: `${base}/chat`, priority: '0.7', changefreq: 'monthly' },
     { url: `${base}/test`, priority: '0.6', changefreq: 'monthly' },
+    { url: `${base}/pricing`, priority: '0.8', changefreq: 'monthly' },
     { url: `${base}/contact`, priority: '0.4', changefreq: 'yearly' },
     { url: `${base}/privacy`, priority: '0.3', changefreq: 'yearly' },
     { url: `${base}/terms`, priority: '0.3', changefreq: 'yearly' },
