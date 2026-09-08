@@ -1065,7 +1065,7 @@ export default function TestPage() {
   const [sAns5,     setSAns5]     = useState<Record<number, string>>({});
   const [timerOn,   setTimerOn]   = useState(false);
 
-  const { usage, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
+  const { usage, GateModals, showChatLimitModal } = useSubscriptionGate(() => {});
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const isPremium = usage?.subscribed ?? false;
   const [navH, setNavH] = useState(56);
@@ -1437,7 +1437,7 @@ export default function TestPage() {
           }}>Browse PYQs</button>
         </div>
 
-        <GateModals slots={slots} />
+        <GateModals />
         <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
       </div>
     );

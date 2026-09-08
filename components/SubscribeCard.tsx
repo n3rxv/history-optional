@@ -18,7 +18,6 @@ function GoogleIcon() {
 export type SubscribeStep = 'idle' | 'signing_in' | 'paying' | 'success';
 
 interface SubscribeCardProps {
-  slots: number;
   fingerprint: string | null;
   onSuccess?: () => void;
   onClose?: () => void;
@@ -32,7 +31,7 @@ interface SubscribeCardProps {
 }
 
 export function SubscribeCard({
-  slots, fingerprint, onSuccess, onClose, standalone = false,
+  fingerprint, onSuccess, onClose, standalone = false,
   initialPlan = 'yearly' }: SubscribeCardProps) {
   const { langHi } = useLang();
   const [step, setStep] = useState<SubscribeStep>('idle');
@@ -49,8 +48,7 @@ export function SubscribeCard({
     { id: 'sixmonths',  label: '6 Months',  price: '₹1,999', sub: '6 months' },
     { id: 'yearly',     label: 'Annual',    price: '₹2,999', sub: '1 year' },
   ] as const;
-  const plans = slots > 0 ? allPlans : allPlans.filter(p => p.id === 'yearly');
-  useEffect(() => { if (slots === 0) setSelectedPlan('yearly'); }, [slots]);
+  const plans = allPlans;
 
   const currentPlan = plans.find(p => p.id === selectedPlan)!;
   const price = currentPlan.price;

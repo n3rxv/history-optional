@@ -21,7 +21,6 @@ const GOLD = '#d4a843';
  */
 export default function PricingClient() {
   const { langHi } = useLang();
-  const [slots, setSlots] = useState<number | null>(null);
   const [fingerprint, setFingerprint] = useState<string | null>(null);
   const [checkoutPlan, setCheckoutPlan] = useState<PlanId | null>(null);
   const [status, setStatus] = useState<{ isPremium: boolean; plan?: string; expires_at?: string } | null>(null);
@@ -30,15 +29,6 @@ export default function PricingClient() {
   const [days, setDays] = useState<number | null>(null);
   useEffect(() => { setDays(daysToMains()); }, []);
 
-  // Slot count decides which plans are offered at all: when the early-bird
-  // slots are gone, SubscribeCard sells only the annual plan, so the cards
-  // here have to agree with it.
-  useEffect(() => {
-    fetch('/api/slots')
-      .then(r => r.json())
-      .then(d => { if (typeof d.slots === 'number') setSlots(d.slots); })
-      .catch(() => setSlots(0));   // sold out is the safe assumption, not a guessed number
-  }, []);
 
   useEffect(() => {
     (async () => {
@@ -63,8 +53,6 @@ export default function PricingClient() {
     return () => unsub();
   }, []);
 
-  const soldOut = slots === 0;
-  const visiblePlans: PlanId[] = soldOut ? ['yearly'] : PLAN_ORDER;
 
   return (
     <main style={{ maxWidth: 1040, margin: '0 auto', padding: 'clamp(2rem, 6vw, 3.5rem) 1.25rem 5rem' }}>
@@ -160,18 +148,10 @@ export default function PricingClient() {
         </div>
       )}
 
-      {!status?.isPremium && slots !== null && slots > 0 && slots <= 15 && (
-        <p style={{
-          textAlign: 'center', fontFamily: 'var(--font-mono, ui-monospace, monospace)',
-          fontSize: '0.74rem', color: GOLD, marginBottom: '1.6rem', letterSpacing: '0.04em',
-        }}>
-          {slots} early-bird {slots === 1 ? 'slot' : 'slots'} left at these prices
-        </p>
-      )}
 
       {/* ── Plans ─────────────────────────────────────────────── */}
       <section aria-label="Subscription plans" className="pr-grid">
-        {visiblePlans.map(id => {
+        {PLAN_ORDER.map(id => {
           const best = id === 'yearly';
           const perMonth = planPerMonthLabel(id);
           return (
@@ -211,11 +191,6 @@ export default function PricingClient() {
         })}
       </section>
 
-      {soldOut && (
-        <p style={{ color: 'var(--text3)', fontSize: '0.82rem', marginTop: 14, textAlign: 'center' }}>
-          The daily and six-month plans were early-bird slots and are now taken. The annual plan stays open.
-        </p>
-      )}
 
       <p style={{
         textAlign: 'center', color: 'var(--text3)', fontSize: '0.76rem', marginTop: 18,
@@ -331,7 +306,6 @@ export default function PricingClient() {
 
       {checkoutPlan && <CheckoutModal
         plan={checkoutPlan}
-        slots={slots ?? 0}
         fingerprint={fingerprint}
         onClose={() => setCheckoutPlan(null)}
       />}
@@ -340,8 +314,8 @@ export default function PricingClient() {
 }
 
 /** Thin wrapper so checkout stays in SubscribeCard rather than being forked here. */
-function CheckoutModal({ plan, slots, fingerprint, onClose }: {
-  plan: PlanId; slots: number; fingerprint: string | null; onClose: () => void;
+function CheckoutModal({ plan, fingerprint, onClose }: {
+  plan: PlanId; fingerprint: string | null; onClose: () => void;
 }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -367,7 +341,6 @@ function CheckoutModal({ plan, slots, fingerprint, onClose }: {
         boxShadow: '0 32px 80px rgba(0,0,0,0.9)', maxHeight: '92vh', overflowY: 'auto',
       }}>
         <SubscribeCard
-          slots={slots}
           fingerprint={fingerprint}
           initialPlan={plan}
           onClose={onClose}

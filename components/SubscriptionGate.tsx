@@ -98,7 +98,6 @@ function Modal({ mode, type, fingerprint, onClose }: {
             </div>
 
             <SubscribeCard
-              slots={1}
               fingerprint={fingerprint}
               onSuccess={onClose}
               onClose={onClose}

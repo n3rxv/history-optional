@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
     );
-    await supabase.from('subscription_slots').select('id').limit(1);
+    await supabase.from('subscriptions').select('id').limit(1);
     results.db = 'ok';
   } catch {
     results.db = 'error';

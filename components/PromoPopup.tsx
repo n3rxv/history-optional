@@ -31,7 +31,6 @@ const US_ADVANTAGES = [
 export default function PromoPopup() {
   const [visible, setVisible] = useState(false);
   const [showSubscribe, setShowSubscribe] = useState(false);
-  const [slots, setSlots] = useState(0);
   const [showComparison, setShowComparison] = useState(false);
   const [mobileSlideIndex, setMobileSlideIndex] = useState(0);
   const [slideZoneMinHeight, setSlideZoneMinHeight] = useState(0);
@@ -48,17 +47,6 @@ export default function PromoPopup() {
 
   useEffect(() => {
     // Fetch real early-bird slot count so SubscribeCard shows the correct
-    // plans (all four when slots > 0, yearly-only when sold out) and the
-    // correct "X slots left" badge — not a guessed number.
-    fetch('/api/slots')
-      .then(res => res.json())
-      .then(data => {
-        if (typeof data.slots === 'number') setSlots(data.slots);
-      })
-      .catch(() => {
-        // Leave slots at 0 (yearly-only) rather than guessing a number
-        // that might overstate availability.
-      });
   }, []);
 
   useEffect(() => {
@@ -313,7 +301,6 @@ export default function PromoPopup() {
               {/* Pricing + CTA, or the actual subscribe flow once triggered */}
               {showSubscribe ? (
                 <SubscribeCard
-                  slots={slots}
                   fingerprint={null}
                   onSuccess={close}
                   onClose={() => setShowSubscribe(false)}
@@ -562,7 +549,6 @@ export default function PromoPopup() {
           {showSubscribe ? (
             <div style={{ padding: '0 1.5rem 1.5rem', overflowY: 'auto', flex: '1 1 auto' }}>
               <SubscribeCard
-                slots={slots}
                 fingerprint={null}
                 onSuccess={close}
                 onClose={() => setShowSubscribe(false)}

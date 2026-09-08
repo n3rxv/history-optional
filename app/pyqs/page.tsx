@@ -317,7 +317,7 @@ export default function PYQsPage() {
   }, [showTopperCopies]);
 
   const { attempted, ready: attemptedReady, isAttempted, count: attemptedCount, toggle: toggleAttempted } = useAttemptedPyqs();
-  const { GateModals, usage, slots, showChatLimitModal } = useSubscriptionGate(() => {});
+  const { GateModals, usage, showChatLimitModal } = useSubscriptionGate(() => {});
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
 
   const handleModelAnswer = (e: React.MouseEvent, q: PYQ) => {
@@ -967,7 +967,7 @@ export default function PYQsPage() {
       </div>
       </div>
       )}
-      <GateModals slots={slots} />
+      <GateModals />
       {showTopperPaywall && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 9999,

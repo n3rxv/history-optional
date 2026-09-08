@@ -1063,7 +1063,7 @@ export default function TestPage() {
   const [sAns5,     setSAns5]     = useState<Record<number, string>>({});
   const [timerOn,   setTimerOn]   = useState(false);
 
-  const { usage, GateModals, showChatLimitModal, slots } = useSubscriptionGate(() => {});
+  const { usage, GateModals, showChatLimitModal } = useSubscriptionGate(() => {});
   const isPremium = usage?.subscribed ?? false;
   const [navH, setNavH] = useState(56);
   useEffect(() => {
@@ -1433,7 +1433,7 @@ export default function TestPage() {
           }}>Browse PYQs</button>
         </div>
 
-        <GateModals slots={slots} />
+        <GateModals />
       </div>
     );
   }

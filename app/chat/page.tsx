@@ -208,7 +208,7 @@ function ChatContent() {
   const [historyList, setHistoryList] = useState<ChatHistoryEntry[]>([]);
   const [modeSheetOpen, setModeSheetOpen] = useState(false);
   const hasUserMessageRef = useRef(false);
-  const { usage, canChat, incrementChat, GateModals, showChatLimitModal, showLoginModal, slots } = useSubscriptionGate(() => {});
+  const { usage, canChat, incrementChat, GateModals, showChatLimitModal, showLoginModal } = useSubscriptionGate(() => {});
   const usageLoading = usage?.loading ?? true;
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -1056,7 +1056,7 @@ function ChatContent() {
         onDragLeave={e => { e.preventDefault(); setDragOver(false); }}
         onDrop={handleDrop}
       >
-        <GateModals slots={slots} />
+        <GateModals />
 
         {dragOver && (
           <div className="chat-drag-overlay">

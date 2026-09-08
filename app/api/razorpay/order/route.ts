@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
-import { getSlotInfo } from "@/lib/slots";
 import Razorpay from "razorpay";
 import { planAmountPaise, toPlanId } from "@/lib/plans";
 
@@ -16,10 +15,6 @@ export async function POST(req: NextRequest) {
   const user = await verifyFirebaseToken(token);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  // Same source as /api/slots. This used to read
-  // subscription_slots.subscribers, a stored counter nothing ever wrote, so
-  // the two routes reported different numbers of remaining slots.
-  const { slots: remaining } = await getSlotInfo();
   const reqBody = await req.json().catch(() => ({}));
 
   // An unrecognised plan falls back to the most expensive one rather than the
@@ -38,5 +33,5 @@ export async function POST(req: NextRequest) {
     notes: { user_id: user.uid, email: user.email ?? "", plan },
   });
 
-  return NextResponse.json({ orderId: order.id, amount: order.amount, currency: order.currency, slots: remaining });
+  return NextResponse.json({ orderId: order.id, amount: order.amount, currency: order.currency });
 }

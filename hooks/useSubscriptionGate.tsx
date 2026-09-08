@@ -39,9 +39,8 @@ function LoginModal({ onClose }: { onClose: () => void }) {
 }
 
 function LimitModal({
-  slots, onClose, onSuccess, fingerprint,
+  onClose, onSuccess, fingerprint,
 }: {
-  slots: number;
   onClose: () => void;
   onSuccess: () => void;
   fingerprint: string | null;
@@ -62,7 +61,6 @@ function LimitModal({
         </div>
         <div style={{ height:1, background:'rgba(255,255,255,0.05)', marginBottom:20 }} />
         <SubscribeCard
-          slots={slots}
           fingerprint={fingerprint}
           onSuccess={() => { onClose(); onSuccess(); }}
           onClose={onClose}
@@ -77,13 +75,8 @@ export function useSubscriptionGate(onEvaluate: () => void) {
   const [showEvalLimit, setShowEvalLimit] = useState(false);
   const [showChatLimit, setShowChatLimit] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [slots, setSlots] = useState(45);
   const onEvaluateRef = useRef(onEvaluate);
   useEffect(() => { onEvaluateRef.current = onEvaluate; }, [onEvaluate]);
-
-  useEffect(() => {
-    fetch('/api/slots').then(r => r.json()).then(d => setSlots(d.slots ?? 45)).catch(() => {});
-  }, []);
 
   // Auto-close modals when user becomes premium (after sign in / payment)
   useEffect(() => {
@@ -126,8 +119,7 @@ export function useSubscriptionGate(onEvaluate: () => void) {
     );
   };
 
-  const GateModals = ({ slots: slotsProp }: { slots?: number } = {}) => {
-    const s = slotsProp ?? slots;
+  const GateModals = () => {
     return (
       <>
         {showLoginModal && (
@@ -135,7 +127,6 @@ export function useSubscriptionGate(onEvaluate: () => void) {
         )}
         {showEvalLimit && (
           <LimitModal
-            slots={s}
             fingerprint={usage?.fingerprint ?? null}
             onClose={() => setShowEvalLimit(false)}
             onSuccess={() => { refetchUsage(); setShowEvalLimit(false); onEvaluateRef.current(); }}
@@ -143,7 +134,6 @@ export function useSubscriptionGate(onEvaluate: () => void) {
         )}
         {showChatLimit && (
           <LimitModal
-            slots={s}
             fingerprint={usage?.fingerprint ?? null}
             onClose={() => setShowChatLimit(false)}
             onSuccess={() => { refetchUsage(); setShowChatLimit(false); }}
@@ -157,7 +147,7 @@ export function useSubscriptionGate(onEvaluate: () => void) {
     UsagePill, GateModals, handleEvaluate, handleChat,
     usage: { ...usage, token: usage?.fingerprint ?? null, loading },
     increment, incrementChat,
-    canEval, canChat, slots,
+    canEval, canChat,
     showChatLimitModal: () => setShowChatLimit(true),
     showLoginModal: () => setShowLoginModal(true),
     FREE_EVAL_LIMIT, FREE_CHAT_LIMIT,

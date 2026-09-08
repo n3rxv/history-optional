@@ -38,11 +38,9 @@ function planLabel(plan: string): string {
 }
 
 function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { onClose: () => void; noSubFound?: boolean; isLoggedIn?: boolean; onPaymentSuccess?: () => void }) {
-  const [slots, setSlots] = React.useState(45);
   const [fingerprint, setFingerprint] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    fetch('/api/slots').then(r => r.json()).then(d => setSlots(d.slots ?? 45)).catch(() => {});
     (async () => {
       const FP = await (await import('@fingerprintjs/fingerprintjs')).default.load();
       const { visitorId } = await FP.get();
@@ -93,7 +91,6 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
 
         {/* Subscribe card — compact version handles price + CTA */}
         <SubscribeCard
-          slots={slots}
           fingerprint={fingerprint}
           onClose={onClose}
           onSuccess={() => { onPaymentSuccess?.(); onClose(); }}

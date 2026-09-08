@@ -214,10 +214,6 @@ create table if not exists site_config (
   updated_at timestamp without time zone default now()
 );
 
-create table if not exists subscription_slots (
-  id integer default 1 not null,
-  max_slots integer default 45
-);
 
 create table if not exists subscriptions (
   id bigint default nextval('subscriptions_id_seq'::regclass) not null,
@@ -340,8 +336,6 @@ alter table pyq_answers add constraint pyq_answers_pkey PRIMARY KEY (id);
 alter table pyq_comments add constraint pyq_comments_pkey PRIMARY KEY (id);
 alter table rate_limits add constraint rate_limits_pkey PRIMARY KEY (key);
 alter table site_config add constraint site_config_pkey PRIMARY KEY (key);
-alter table subscription_slots add constraint subscription_slots_pkey PRIMARY KEY (id);
-alter table subscription_slots add constraint subscription_slots_id_check CHECK ((id = 1));
 alter table subscriptions add constraint subscriptions_firebase_uid_key UNIQUE (firebase_uid);
 alter table subscriptions add constraint subscriptions_user_id_key UNIQUE (user_id);
 alter table subscriptions add constraint subscriptions_pkey PRIMARY KEY (id);
@@ -704,7 +698,6 @@ alter table pyq_answers enable row level security;
 alter table pyq_comments enable row level security;
 alter table rate_limits enable row level security;
 alter table site_config enable row level security;
-alter table subscription_slots enable row level security;
 alter table subscriptions enable row level security;
 alter table topper_copies enable row level security;
 alter table topper_copy_pyq_map enable row level security;
@@ -734,7 +727,6 @@ create policy "Public read" on pyq_answers as PERMISSIVE for SELECT to public us
 create policy "anyone can insert" on pyq_comments as PERMISSIVE for INSERT to public with check (true);
 create policy "anyone can read" on pyq_comments as PERMISSIVE for SELECT to public using (true);
 create policy "anyone can upvote" on pyq_comments as PERMISSIVE for UPDATE to public using (true);
-create policy "Allow read only" on subscription_slots as PERMISSIVE for SELECT to public using (true);
 create policy "Users read own subscription" on subscriptions as PERMISSIVE for SELECT to public using ((auth.uid() = user_id));
 create policy "Public can read topper_copies" on topper_copies as PERMISSIVE for SELECT to public using (true);
 create policy "Public can read topper_copy_pyq_map" on topper_copy_pyq_map as PERMISSIVE for SELECT to public using (true);
