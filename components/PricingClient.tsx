@@ -69,7 +69,7 @@ export default function PricingClient() {
   return (
     <main style={{ maxWidth: 1040, margin: '0 auto', padding: 'clamp(2rem, 6vw, 3.5rem) 1.25rem 5rem' }}>
       <style>{`
-        .pr-h1 { font-family: var(--font-display, Georgia, serif); font-size: clamp(1.9rem, 5vw, 2.7rem);
+        .pr-h1 { font-size: clamp(1.9rem, 5vw, 2.7rem);
           line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.6rem; text-wrap: balance; }
         .pr-sub { color: var(--text2); font-size: 1.02rem; line-height: 1.6; max-width: 46ch; margin: 0 auto 2.4rem; text-wrap: balance; }
         .pr-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
@@ -226,7 +226,7 @@ export default function PricingClient() {
 
       {/* ── Comparison ────────────────────────────────────────── */}
       <section style={{ marginTop: '4rem' }}>
-        <h2 style={{ fontFamily: 'var(--font-display, Georgia, serif)', fontSize: '1.35rem', margin: '0 0 0.5rem', color: 'var(--text)' }}>
+        <h2 style={{ fontSize: '1.35rem', margin: '0 0 0.5rem', color: 'var(--text)' }}>
           What you are working without
         </h2>
         <p style={{ color: 'var(--text2)', fontSize: '0.9rem', margin: '0 0 1.4rem', maxWidth: '62ch', lineHeight: 1.65 }}>
@@ -255,7 +255,7 @@ export default function PricingClient() {
 
       {/* ── One-off purchases ─────────────────────────────────── */}
       <section style={{ marginTop: '3.5rem' }}>
-        <h2 style={{ fontFamily: 'var(--font-display, Georgia, serif)', fontSize: '1.35rem', margin: '0 0 0.5rem', color: 'var(--text)' }}>
+        <h2 style={{ fontSize: '1.35rem', margin: '0 0 0.5rem', color: 'var(--text)' }}>
           Bought separately
         </h2>
         <p style={{ color: 'var(--text2)', fontSize: '0.9rem', margin: '0 0 1.2rem', maxWidth: '62ch', lineHeight: 1.65 }}>
@@ -288,7 +288,7 @@ export default function PricingClient() {
 
       {/* ── FAQ ───────────────────────────────────────────────── */}
       <section style={{ marginTop: '3.5rem' }}>
-        <h2 style={{ fontFamily: 'var(--font-display, Georgia, serif)', fontSize: '1.35rem', margin: '0 0 1.2rem', color: 'var(--text)' }}>
+        <h2 style={{ fontSize: '1.35rem', margin: '0 0 1.2rem', color: 'var(--text)' }}>
           Before you pay
         </h2>
         <div style={{ display: 'grid', gap: '1.4rem', maxWidth: '68ch' }}>
