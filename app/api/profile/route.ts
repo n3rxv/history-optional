@@ -176,11 +176,29 @@ export async function POST(req: NextRequest) {
   }
 
   const onConflict = identity.source === "authed" ? "firebase_uid" : "visitor_id";
+
+  // visitor_id is unique across the table, and a browser is not exclusive to
+  // one account: a shared machine, or one person with a study address and a
+  // personal one, produces two firebase_uids behind a single fingerprint.
+  // Writing the browser id alongside the account id then collides with
+  // whichever account claimed the browser first, and the second person could
+  // never save a number at all — they just saw "could not save, try again"
+  // however many times they retried.
+  //
+  // The account row does not need it. firebase_uid identifies the account;
+  // visitor_id only exists to tie an anonymous row to an account later, which
+  // claimAnonProfile above does in the correct order. So write the profile
+  // without it and attach the browser separately, best effort.
+  const { visitor_id: browserId, ...rowIdentity } = identity as {
+    firebase_uid: string | null; visitor_id: string | null; source: string;
+  };
+  const row = identity.source === "authed" ? rowIdentity : identity;
+
   const { error } = await db()
     .from("user_profiles")
     .upsert(
       {
-        ...identity,
+        ...row,
         phone: result.phone,
         first_name: first.name,
         last_name: last.name,
@@ -192,6 +210,24 @@ export async function POST(req: NextRequest) {
   if (error) {
     console.error("[profile] upsert failed:", error);
     return NextResponse.json({ error: "Could not save your number. Please try again." }, { status: 500 });
+  }
+
+  // Claim the browser for this account only if no other row holds it. A
+  // failure here is not the reader's problem: their number is already saved.
+  if (identity.source === "authed" && browserId) {
+    const { data: heldBy } = await db()
+      .from("user_profiles")
+      .select("firebase_uid")
+      .eq("visitor_id", browserId)
+      .maybeSingle();
+
+    if (!heldBy) {
+      const { error: attachErr } = await db()
+        .from("user_profiles")
+        .update({ visitor_id: browserId })
+        .eq("firebase_uid", identity.firebase_uid);
+      if (attachErr) console.warn("[profile] could not attach browser:", attachErr.message);
+    }
   }
 
   return NextResponse.json({ ok: true, phone: result.phone });
