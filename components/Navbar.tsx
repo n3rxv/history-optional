@@ -14,6 +14,7 @@ import { supabase } from '@/lib/supabase';
 import { SubscribeCard } from '@/components/SubscribeCard';
 import { FEATURES } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
+import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPriceLabel, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
 
 function snooColor(email: string): string {
   const palette = ['#ff4500','#51cf66','#339af0','#cc5de8','#f59f00','#20c997','#ff6b6b','#74c0fc','#a9e34b','#ffa94d'];
@@ -29,6 +30,12 @@ function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
 }
 
 // FEATURES now lives in lib/features.ts so the pricing page cannot drift from it.
+
+/** A stored plan id shown to the reader. Falls back to the raw value for
+ *  rows written before the id set settled. */
+function planLabel(plan: string): string {
+  return isPlanId(plan) ? PLANS[plan].label : plan;
+}
 
 function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { onClose: () => void; noSubFound?: boolean; isLoggedIn?: boolean; onPaymentSuccess?: () => void }) {
   const [slots, setSlots] = React.useState(45);
@@ -122,27 +129,26 @@ function ExtendModal({
   user: { id: string; email?: string | null };
   subData: { plan: string; expires_at: string } | null;
   onClose: () => void;
-  onSuccess: (newExpiry: string) => void;
+  onSuccess: (newExpiry: string, plan: PlanId) => void;
 }) {
-  const [selectedPlan, setSelectedPlan] = useState<'daily'|'weekly'|'monthly'|'yearly'>('monthly');
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>(DEFAULT_PLAN);
   const [loading, setLoading] = useState(false);
 
-  const plans = [
-    { id: 'daily',   label: 'Daily',   price: '₹49',    days: 1 },
-    { id: 'weekly',  label: 'Weekly',  price: '₹1,999',   days: 7 },
-    { id: 'monthly', label: 'Monthly', price: '₹1,999',   days: 30 },
-    { id: 'yearly',  label: 'Annual',  price: '₹2,999', days: 365 },
-  ] as const;
+  // Built from lib/plans.ts, which is what /api/razorpay/order bills from.
+  // This list used to be typed by hand and carried a Weekly and a Monthly
+  // tile at ₹1,999. Neither is a plan id the server knows, so toPlanId()
+  // fell back to yearly: the button said ₹1,999, Razorpay charged ₹2,999,
+  // and the reader was granted a year instead of the week or month shown.
+  const plans = PLAN_ORDER.map(id => ({
+    id, label: PLANS[id].label, price: planPriceLabel(id),
+  }));
 
-  const computeNewExpiry = (planId: string) => {
+  // addPlanDuration is the same function /api/razorpay/verify uses to set
+  // expires_at, so the date previewed here is the date actually granted.
+  const computeNewExpiry = (planId: PlanId) => {
     const base = subData?.expires_at && new Date(subData.expires_at) > new Date()
       ? new Date(subData.expires_at) : new Date();
-    const d = new Date(base);
-    if (planId === 'daily')   d.setDate(d.getDate() + 1);
-    else if (planId === 'weekly')  d.setDate(d.getDate() + 7);
-    else if (planId === 'monthly') d.setMonth(d.getMonth() + 1);
-    else d.setFullYear(d.getFullYear() + 1);
-    return d;
+    return addPlanDuration(base, planId);
   };
 
   const newExpiry = computeNewExpiry(selectedPlan);
@@ -198,7 +204,9 @@ function ExtendModal({
           });
           const v = await verifyRes.json();
           if (v.ok) {
-            onSuccess(v.expiresAt);
+            // The plan comes back from verify, which reads it off the Razorpay
+            // order rather than trusting the browser.
+            onSuccess(v.expiresAt, (v.plan as PlanId) ?? selectedPlan);
             onClose();
           }
         },
@@ -239,11 +247,11 @@ function ExtendModal({
           )}
 
           {/* Plan selector */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: '1rem' }}>
             {plans.map(p => {
               const sel = selectedPlan === p.id;
               return (
-                <button key={p.id} onClick={() => setSelectedPlan(p.id as any)}
+                <button key={p.id} onClick={() => setSelectedPlan(p.id)}
                   style={{ background: sel ? 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(212,168,67,0.15))' : 'rgba(0,0,0,0.03)', border: sel ? '1px solid rgba(99,102,241,0.55)' : '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '0.7rem 0.5rem', cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ fontSize: '0.72rem', color: sel ? '#c7d2fe' : 'rgba(255,255,255,0.5)', fontWeight: 600, marginBottom: 4 }}>{p.label}</div>
                   <div style={{ fontSize: '1rem', color: sel ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: 800 }}>{p.price}</div>
@@ -715,7 +723,7 @@ export default function Navbar() {
                         ))}
                         <div style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 8, padding: '0.4rem 0.6rem' }}>
                           <div style={{ fontSize: '0.58rem', color: 'var(--text3)', letterSpacing: '0.05em', marginBottom: 2 }}>✦ Plan</div>
-                          <div style={{ fontSize: '0.72rem', color: subData ? '#e8b84b' : 'rgba(0,0,0,0.12)', fontWeight: 600 }}>{subData ? subData.plan.charAt(0).toUpperCase() + subData.plan.slice(1) : 'Free'}</div>
+                          <div style={{ fontSize: '0.72rem', color: subData ? '#e8b84b' : 'rgba(0,0,0,0.12)', fontWeight: 600 }}>{subData ? planLabel(subData.plan) : 'Free'}</div>
                         </div>
                       </div>
                       {aspirantYear.trim() === '2026' && (() => {
@@ -742,7 +750,7 @@ export default function Navbar() {
                       {subData ? (
                         <>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                            <span style={{ fontSize: '0.6rem', background: 'linear-gradient(90deg,#e8b84b,#f5d76e)', color: '#000', fontWeight: 800, letterSpacing: '0.08em', padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase' }}>✦ {subData.plan}</span>
+                            <span style={{ fontSize: '0.6rem', background: 'linear-gradient(90deg,#e8b84b,#f5d76e)', color: '#000', fontWeight: 800, letterSpacing: '0.08em', padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase' }}>✦ {planLabel(subData.plan)}</span>
                             <span style={{ fontSize: '0.62rem', color: (() => { const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000); return days <= 3 ? '#f87171' : days <= 7 ? '#fbbf24' : '#51cf66'; })() }}>
                               {(() => { const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000); return days <= 0 ? 'Expired' : `${days}d left`; })()}
                             </span>
@@ -799,7 +807,7 @@ export default function Navbar() {
           user={{ id: user.uid, email: user.email ?? null }}
           subData={subData}
           onClose={() => setShowExtendModal(false)}
-          onSuccess={(newExpiry) => setSubData(prev => prev ? { ...prev, expires_at: newExpiry } : { plan: 'monthly', expires_at: newExpiry })}
+          onSuccess={(newExpiry, plan) => setSubData(prev => prev ? { ...prev, plan, expires_at: newExpiry } : { plan, expires_at: newExpiry })}
         />
       )}
       {/* Mobile hamburger */}
