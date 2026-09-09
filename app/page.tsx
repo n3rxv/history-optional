@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import HomeFAQ from '@/components/HomeFAQ';
 import EvaluateDemo from '@/components/EvaluateDemo';
+import SampleEvaluations from '@/components/SampleEvaluations';
 import DailyAnswerWriting from '@/components/DailyAnswerWriting';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
@@ -204,7 +205,7 @@ export default function Home() {
       </div>
 
       {/* ── Explore further: interactive demos & extras ── */}
-      <EvaluateDemo />
+      <SampleEvaluations fallback={<EvaluateDemo />} />
       <div id="daily-answer"><DailyAnswerWriting questions={getDailyQuestions()} /></div>
       <div id="faq"><HomeFAQ /></div>
     </div>

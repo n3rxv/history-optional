@@ -1007,9 +1007,115 @@ function Evaluations({ token }: { token: string }) {
                   </p>}
             </Section>
 
+            {/* The evaluation is thirteen keys deep and this view rendered
+                three of them, so most of what the model produced was invisible
+                here even though it had been stored all along. section_marks in
+                particular was guarded by Array.isArray and is an object, so the
+                marking table never appeared at all. */}
+
+            {Array.isArray(ev.demand_of_question) && ev.demand_of_question.length > 0 && (
+              <Section title="Demand of the question">
+                {ev.demand_of_question.map((d: string, i: number) => (
+                  <p key={i} style={{ color: 'var(--text3)', fontSize: '0.85rem', lineHeight: 1.7, margin: i ? '10px 0 0' : 0, fontFamily: sans }}>{d}</p>
+                ))}
+              </Section>
+            )}
+
+            {ev.section_marks && typeof ev.section_marks === 'object' && (
+              <Section title="Marking">
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: sans, fontSize: '0.82rem' }}>
+                  <tbody>
+                    {Object.entries(ev.section_marks as Record<string, { awarded?: number; out_of?: number; reasoning?: string }>).map(([name, sm]) => (
+                      <tr key={name} style={{ borderBottom: '1px solid #141414', verticalAlign: 'top' }}>
+                        <td style={{ padding: '9px 12px 9px 0', color: 'var(--text2)', textTransform: 'capitalize', whiteSpace: 'nowrap' }}>{name.replace(/_/g, ' ')}</td>
+                        <td style={{ padding: '9px 0', color: 'var(--text3)', lineHeight: 1.65 }}>{sm.reasoning}</td>
+                        <td style={{ padding: '9px 0 9px 12px', color: '#d4a843', textAlign: 'right', fontFamily: mono, fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>
+                          {sm.awarded}{sm.out_of != null ? `/${sm.out_of}` : ''}
+                        </td>
+                      </tr>
+                    ))}
+                    {open.marks_awarded != null && (
+                      <tr>
+                        <td style={{ padding: '10px 0 0', color: 'var(--text2)', fontWeight: 600 }}>Total</td>
+                        <td />
+                        <td style={{ padding: '10px 0 0', textAlign: 'right', color: '#d4a843', fontFamily: mono, fontWeight: 700 }}>
+                          {open.marks_awarded}/{open.marks_out_of}
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </Section>
+            )}
+
+            {(['introduction', 'body', 'conclusion'] as const).map(part => {
+              const s = ev[part] as {
+                analysis?: string; what_was_written?: string;
+                strengths?: string[]; weaknesses?: string[]; suggestions?: string[];
+              } | undefined;
+              if (!s) return null;
+              const rows: Array<[string, string, string[] | undefined]> = [
+                ['+', '#4ade80', s.strengths],
+                ['\u2212', '#f87171', s.weaknesses],
+                ['\u2192', '#7ab3f5', s.suggestions],
+              ];
+              return (
+                <Section key={part} title={part[0].toUpperCase() + part.slice(1)}>
+                  {s.what_was_written && (
+                    <p style={{ color: 'var(--bg4)', fontSize: '0.8rem', lineHeight: 1.65, margin: '0 0 10px', fontStyle: 'italic', fontFamily: sans }}>
+                      &ldquo;{s.what_was_written}&rdquo;
+                    </p>
+                  )}
+                  {s.analysis && (
+                    <p style={{ color: 'var(--text3)', fontSize: '0.85rem', lineHeight: 1.7, margin: '0 0 12px', fontFamily: sans }}>{s.analysis}</p>
+                  )}
+                  {rows.map(([glyph, colour, items]) =>
+                    (items ?? []).map((x, i) => (
+                      <div key={glyph + i} style={{ display: 'flex', gap: 9, marginBottom: 8, fontFamily: sans, fontSize: '0.84rem', lineHeight: 1.65 }}>
+                        <span style={{ color: colour, flexShrink: 0, fontWeight: 700, width: 12 }}>{glyph}</span>
+                        <span style={{ color: 'var(--text3)' }}>{x}</span>
+                      </div>
+                    ))
+                  )}
+                </Section>
+              );
+            })}
+
+            {Array.isArray(ev.historians_to_cite) && ev.historians_to_cite.length > 0 && (
+              <Section title="Historians they should have cited">
+                {(ev.historians_to_cite as Array<{ name?: string; argument?: string }>).map((h, i) => (
+                  <div key={i} style={{ marginBottom: 10, fontFamily: sans, fontSize: '0.84rem', lineHeight: 1.65 }}>
+                    <span style={{ color: 'var(--text2)', fontWeight: 600 }}>{h.name}</span>
+                    {h.argument && <span style={{ color: 'var(--text3)' }}> &mdash; {h.argument}</span>}
+                  </div>
+                ))}
+              </Section>
+            )}
+
+            {ev.model_answer && (
+              <Section title="Model answer">
+                {(() => {
+                  const m = ev.model_answer as { introduction?: string; body?: string[]; conclusion?: string };
+                  const para = { color: 'var(--text3)', fontSize: '0.85rem', lineHeight: 1.75, margin: '0 0 12px', fontFamily: sans } as const;
+                  return (
+                    <>
+                      {m.introduction && <p style={para}>{m.introduction}</p>}
+                      {(m.body ?? []).map((b, i) => <p key={i} style={para}>{b}</p>)}
+                      {m.conclusion && <p style={{ ...para, marginBottom: 0 }}>{m.conclusion}</p>}
+                    </>
+                  );
+                })()}
+              </Section>
+            )}
+
             {ev.overall_feedback && (
-              <Section title="Feedback given">
+              <Section title="Overall feedback">
                 <p style={{ color: 'var(--text3)', fontSize: '0.86rem', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap', fontFamily: sans }}>{ev.overall_feedback}</p>
+                {ev.word_count != null && (
+                  <p style={{ color: 'var(--bg4)', fontSize: '0.78rem', margin: '10px 0 0', fontFamily: mono }}>
+                    {ev.word_count} words{ev.word_count_rating ? ` \u00b7 ${ev.word_count_rating}` : ''}
+                  </p>
+                )}
               </Section>
             )}
 
@@ -1037,22 +1143,6 @@ function Evaluations({ token }: { token: string }) {
               </Section>
             )}
 
-            {Array.isArray(ev.section_marks) && ev.section_marks.length > 0 && (
-              <Section title="Marking">
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: mono, fontSize: '0.76rem' }}>
-                  <tbody>
-                    {ev.section_marks.map((sm: any, i: number) => (
-                      <tr key={i} style={{ borderBottom: '1px solid #141414' }}>
-                        <td style={{ padding: '6px 0', color: 'var(--text3)' }}>{sm.section ?? sm.name ?? `Section ${i + 1}`}</td>
-                        <td style={{ padding: '6px 0', color: '#d4a843', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
-                          {sm.awarded ?? sm.marks}{sm.out_of != null ? `/${sm.out_of}` : ''}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </Section>
-            )}
           </>}
       </div>
     );
