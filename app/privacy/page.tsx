@@ -24,7 +24,20 @@ export default function PrivacyPage() {
         <ul>
           <li>Email address and name (when you sign in via Google OAuth)</li>
           <li>Answer scripts and evaluation content you upload</li>
-          <li>Payment information — processed by Razorpay; we do not store card details</li>
+          <li>
+            Name and phone number — asked for once, so we can reach you about your
+            account. Stored by us; never sold or shared for marketing.
+          </li>
+          <li>
+            Payment information — processed by Razorpay. We never see or store your card,
+            UPI or bank details.
+          </li>
+          <li>
+            For the recurring weekly plan, Razorpay stores a payment mandate on your
+            instruction so it can collect ₹99 every 7 days. We store only a reference to
+            that mandate and its status, never the instrument itself. Cancelling from your
+            profile menu revokes the mandate.
+          </li>
         </ul>
         <h3>Information collected automatically</h3>
         <ul>
@@ -43,7 +56,9 @@ export default function PrivacyPage() {
         <h2>3. Data Storage</h2>
         <p>
           Your data is stored securely. We retain your account data
-          for as long as your account is active. You may request deletion at any time by contacting
+          for as long as your account is active. If you are on the recurring weekly plan,
+          cancel it from your profile menu before requesting deletion, so no further
+          payment is collected. You may request deletion at any time by contacting
           us at the address below.
         </p>
 

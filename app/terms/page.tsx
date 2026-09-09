@@ -40,13 +40,42 @@ export default function TermsPage() {
         </ul>
 
         <h2>4. Subscription &amp; Payments</h2>
-        <p>Premium subscription plans and their prices are:</p>
+        <p>
+          We sell two different things, and the difference matters: one plan renews
+          itself, the other three do not.
+        </p>
+
+        <h3>Recurring plan</h3>
+        <ul>
+          <li>
+            <strong>Weekly — ₹99 every 7 days.</strong> This is a{" "}
+            <strong>subscription</strong>. You authorise a payment mandate once (UPI
+            Autopay, card e-mandate or e-NACH) and Razorpay collects ₹99 automatically
+            every 7 days until you cancel. Razorpay notifies you before each debit. The
+            mandate is authorised for a maximum of 52 collections; after that it ends and
+            you would need to start a new one.
+          </li>
+        </ul>
+        <p>
+          <strong>Cancelling.</strong> You can cancel at any time from the profile menu on
+          the site, in one click. Cancelling stops all future charges immediately. It does
+          not end access you have already paid for: you keep the platform until the end of
+          the period the last charge covered. Cancelling does not refund a charge already
+          taken.
+        </p>
+
+        <h3>One-time plans</h3>
         <ul>
           <li>Daily — ₹49 (1 day access)</li>
-          <li>Weekly — ₹99 (7 days access)</li>
           <li>Half-Yearly — ₹1,999 (6 months access)</li>
           <li>Annual — ₹2,999 (1 year access)</li>
         </ul>
+        <p>
+          These are <strong>single payments</strong>. They do not renew, nothing is stored
+          to charge you again, and access simply ends on the expiry date unless you choose
+          to buy again. Buying again while a plan is still running adds the new period to
+          the end of the current one.
+        </p>
         <p>
           All payments are processed securely by Razorpay. Prices are in Indian Rupees (INR)
           and inclusive of applicable taxes. We reserve the right to change pricing with
@@ -56,8 +85,10 @@ export default function TermsPage() {
         <h2>5. Refund Policy</h2>
         <p>
           All purchases are final. We do not offer refunds, exchanges, or credits for any
-          subscription plan once payment has been processed. Please review the features
-          available on the free plan before subscribing.
+          plan once payment has been processed. On the recurring weekly plan this applies
+          to each individual collection: cancelling stops the next charge, it does not
+          reverse the last one, so cancel before a debit rather than after it. Please
+          review the features available on the free plan before subscribing.
         </p>
         <p>
           In the event of a demonstrable technical failure on our part that prevents access
