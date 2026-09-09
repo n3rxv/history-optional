@@ -668,15 +668,13 @@ export default function Navbar() {
                   <SnooAvatar email={user.email ?? ''} size={28} />
                 </button>
                 {userMenuOpen && (
-                  <div className="user-account-dropdown" style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, width: 290, borderRadius: 18, padding: 0, zIndex: 1000, overflow: 'hidden', background: 'linear-gradient(160deg, #0d0d12 0%, #111118 60%, #0d0d0f 100%)', boxShadow: '0 0 0 1px rgba(99,102,241,0.18), 0 0 0 2px rgba(99,102,241,0.06), 0 28px 80px rgba(0,0,0,0.95), 0 0 60px rgba(99,102,241,0.08)' }}>
-                    {/* Top glow bar */}
-                    <div style={{ height: 2, background: 'linear-gradient(90deg, transparent, rgba(99,102,241,0.8), rgba(212,168,67,0.6), transparent)' }} />
+                  <div className="user-account-dropdown" style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, width: 296, borderRadius: 14, padding: 0, zIndex: 1000, overflow: 'hidden', background: '#000', border: '1px solid #232323', boxShadow: '0 24px 70px rgba(0,0,0,0.9)' }}>
                     {/* Header — avatar + email + edit toggle */}
-                    <div style={{ padding: '1rem 1rem 0.75rem', background: 'linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(212,168,67,0.05) 100%)', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+                    <div style={{ padding: '0.95rem 1rem 0.85rem', borderBottom: '1px solid #1a1a1a' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{ position: 'relative', flexShrink: 0 }}>
                           <SnooAvatar email={user.email ?? ''} size={40} />
-                          <div style={{ position: 'absolute', bottom: -2, right: -2, width: 14, height: 14, borderRadius: '50%', background: '#51cf66', border: '2px solid #0d0d12', boxShadow: '0 0 6px rgba(81,207,102,0.6)' }} />
+                          <div style={{ position: 'absolute', bottom: -1, right: -1, width: 10, height: 10, borderRadius: '50%', background: '#fff', border: '2px solid #000' }} />
                         </div>
                         <div style={{ minWidth: 0, flex: 1 }}>
                           <div style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}>
@@ -685,7 +683,7 @@ export default function Navbar() {
                           <div style={{ fontSize: '0.65rem', color: 'var(--text3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{user.email}</div>
                         </div>
                         <button onClick={() => setProfileEdit(e => !e)}
-                          style={{ flexShrink: 0, background: profileEdit ? 'rgba(99,102,241,0.2)' : 'rgba(0,0,0,0.05)', border: `1px solid ${profileEdit ? 'rgba(99,102,241,0.5)' : 'rgba(0,0,0,0.08)'}`, borderRadius: 7, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? '#a5b4fc' : 'rgba(255,255,255,0.4)' }}>
+                          style={{ flexShrink: 0, background: profileEdit ? '#fff' : 'transparent', border: `1px solid ${profileEdit ? '#fff' : '#2a2a2a'}`, borderRadius: 6, width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? '#000' : '#888' }}>
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </button>
                       </div>
@@ -694,7 +692,7 @@ export default function Navbar() {
                     {/* Aspirant profile fields */}
                     {profileEdit ? (
                       <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-                        <div style={{ fontSize: '0.58rem', color: 'rgba(99,102,241,0.8)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Your Profile</div>
+                        <div style={{ fontSize: '0.58rem', color: '#ffffff', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Your Profile</div>
                         {[
                           { label: 'Full Name', val: aspirantName, set: setAspirantName, placeholder: 'e.g. Rahul Sharma', key: 'name' },
                           { label: 'Age', val: aspirantAge, set: setAspirantAge, placeholder: 'e.g. 24', key: 'age' },
@@ -712,105 +710,120 @@ export default function Navbar() {
                               }}
                               placeholder={placeholder}
                               style={{ width: '100%', background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 7, padding: '0.35rem 0.6rem', fontSize: '0.73rem', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-ui)', transition: 'border-color 0.15s' }}
-                              onFocus={e => (e.target.style.borderColor = 'rgba(99,102,241,0.5)')}
+                              onFocus={e => (e.target.style.borderColor = '#2a2a2a')}
                               onBlur={e => (e.target.style.borderColor = 'rgba(0,0,0,0.08)')}
                             />
                           </div>
                         ))}
                         <button onClick={() => setProfileEdit(false)}
-                          style={{ width: '100%', marginTop: 4, background: 'linear-gradient(90deg, rgba(99,102,241,0.2), rgba(99,102,241,0.1))', border: '1px solid rgba(99,102,241,0.35)', borderRadius: 7, padding: '0.35rem', fontSize: '0.7rem', color: '#a5b4fc', fontWeight: 600, cursor: 'pointer', letterSpacing: '0.03em' }}>
-                          ✓ Save Profile
+                          style={{ width: '100%', marginTop: 4, background: '#ffffff', border: 'none', borderRadius: 7, padding: '0.4rem', fontSize: '0.72rem', color: '#000000', fontWeight: 700, cursor: 'pointer', letterSpacing: '0.03em' }}>
+                          Save Profile
                         </button>
                       </div>
                     ) : (
                       <div>
-                      <div style={{ padding: '0.7rem 1rem', borderBottom: '1px solid rgba(0,0,0,0.05)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px' }}>
+                      <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid #1a1a1a', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 12px' }}>
+                        {/* Emoji removed: one of them had decayed to two
+                            replacement characters, and small pictograms next
+                            to two-word labels were noise either way. */}
                         {[
-                          { label: 'Age', val: aspirantAge, icon: '🎂' },
-                          { label: 'Attempt', val: aspirantAttempt, icon: '��' },
-                          { label: 'Target', val: aspirantYear, icon: '📅' },
-                        ].map(({ label, val, icon }) => (
-                          <div key={label} style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 8, padding: '0.4rem 0.6rem' }}>
-                            <div style={{ fontSize: '0.58rem', color: 'var(--text3)', letterSpacing: '0.05em', marginBottom: 2 }}>{icon} {label}</div>
-                            <div style={{ fontSize: '0.72rem', color: val ? '#e2e8f0' : 'rgba(0,0,0,0.12)', fontWeight: val ? 600 : 400 }}>{val || '—'}</div>
+                          { label: 'Age', val: aspirantAge },
+                          { label: 'Attempt', val: aspirantAttempt },
+                          { label: 'Target', val: aspirantYear },
+                          { label: 'Plan', val: subData ? planLabel(subData.plan) : 'Free' },
+                        ].map(({ label, val }) => (
+                          <div key={label}>
+                            <div style={{ fontSize: '0.55rem', color: '#ffffff', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>{label}</div>
+                            <div style={{ fontSize: '0.8rem', color: val ? '#fff' : '#787878', fontWeight: 500 }}>{val || '—'}</div>
                           </div>
                         ))}
-                        <div style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.06)', borderRadius: 8, padding: '0.4rem 0.6rem' }}>
-                          <div style={{ fontSize: '0.58rem', color: 'var(--text3)', letterSpacing: '0.05em', marginBottom: 2 }}>✦ Plan</div>
-                          <div style={{ fontSize: '0.72rem', color: subData ? '#e8b84b' : 'rgba(0,0,0,0.12)', fontWeight: 600 }}>{subData ? planLabel(subData.plan) : 'Free'}</div>
-                        </div>
                       </div>
-                      {aspirantYear.trim() === '2026' && (() => {
-                        const days = daysToMains();
-                        const urgent = days <= 30; const soon = days <= 60;
-                        return (<div style={{ margin: '6px 0 2px', padding: '0.65rem 0.75rem', background: urgent ? 'linear-gradient(135deg,rgba(248,113,113,0.08),rgba(239,68,68,0.05))' : 'linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.05))', border: '1px solid ' + (urgent ? 'rgba(248,113,113,0.25)' : 'rgba(99,102,241,0.2)'), borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <div><div style={{ fontSize: '0.58rem', color: urgent ? 'rgba(248,113,113,0.7)' : 'rgba(99,102,241,0.8)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{urgent ? '🔥' : '⚔️'} Mains 2026</div><div style={{ fontSize: '0.6rem', color: 'var(--text3)' }}>21 Aug 2026</div></div>
-                          <div style={{ textAlign: 'right' }}><div style={{ fontSize: '1.4rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: urgent ? '#f87171' : soon ? '#fbbf24' : '#a5b4fc' }}>{days}</div><div style={{ fontSize: '0.55rem', color: 'var(--text3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>days left</div></div>
-                        </div>);
-                      })()}
-                      {aspirantYear.trim() === '2027' && (() => {
-                        const daysP = Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - Date.now()) / 86400000));
-                        const urgentP = daysP <= 30; const soonP = daysP <= 60;
-                        return (<div style={{ margin: '6px 0 2px', padding: '0.65rem 0.75rem', background: urgentP ? 'linear-gradient(135deg,rgba(248,113,113,0.08),rgba(239,68,68,0.05))' : 'linear-gradient(135deg,rgba(232,184,75,0.08),rgba(245,215,110,0.04))', border: '1px solid ' + (urgentP ? 'rgba(248,113,113,0.25)' : 'rgba(232,184,75,0.22)'), borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <div><div style={{ fontSize: '0.58rem', color: urgentP ? 'rgba(248,113,113,0.7)' : 'rgba(232,184,75,0.85)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 3 }}>{urgentP ? '🔥' : '📋'} Prelims 2027</div><div style={{ fontSize: '0.6rem', color: 'var(--text3)' }}>23 May 2027</div></div>
-                          <div style={{ textAlign: 'right' }}><div style={{ fontSize: '1.4rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.03em', color: urgentP ? '#f87171' : soonP ? '#fbbf24' : '#e8b84b' }}>{daysP}</div><div style={{ fontSize: '0.55rem', color: 'var(--text3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>days left</div></div>
-                        </div>);
+                      {(() => {
+                        // One renderer for both years. The colour coding was
+                        // three shades of urgency; on a black card the number
+                        // itself carries that, and a single rule keeps the two
+                        // blocks from drifting apart as they had.
+                        const target = aspirantYear.trim();
+                        const exam = target === '2026'
+                          ? { label: 'Mains 2026', when: '21 Aug 2026', days: daysToMains() }
+                          : target === '2027'
+                            ? { label: 'Prelims 2027', when: '23 May 2027',
+                                days: Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - Date.now()) / 86400000)) }
+                            : null;
+                        if (!exam) return null;
+                        return (
+                          <div style={{ margin: '0 1rem 0.9rem', padding: '0.7rem 0.85rem', border: '1px solid #232323', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                            <div>
+                              <div style={{ fontSize: '0.55rem', color: '#ffffff', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>{exam.label}</div>
+                              <div style={{ fontSize: '0.68rem', color: '#ffffff' }}>{exam.when}</div>
+                            </div>
+                            <div style={{ textAlign: 'right' }}>
+                              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.03em', color: '#fff' }}>{exam.days}</div>
+                              <div style={{ fontSize: '0.5rem', color: '#ffffff', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 2 }}>days left</div>
+                            </div>
+                          </div>
+                        );
                       })()}
                     </div>
                     )}
 
                     {/* Plan section */}
-                    <div style={{ padding: '0.75rem 1rem 0' }}>
-                      {subData ? (
-                        <>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                            <span style={{ fontSize: '0.6rem', background: 'linear-gradient(90deg,#e8b84b,#f5d76e)', color: '#000', fontWeight: 800, letterSpacing: '0.08em', padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase' }}>✦ {planLabel(subData.plan)}</span>
-                            <span style={{ fontSize: '0.62rem', color: (() => { const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000); return days <= 3 ? '#f87171' : days <= 7 ? '#fbbf24' : '#51cf66'; })() }}>
-                              {(() => { const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000); return days <= 0 ? 'Expired' : `${days}d left`; })()}
-                            </span>
-                          </div>
-                          <div style={{ fontSize: '0.62rem', color: 'var(--text3)', marginBottom: 10 }}>
-                            Expires {new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                          </div>
-                          <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
-                            style={{ width: '100%', background: 'linear-gradient(90deg, rgba(99,102,241,0.18), rgba(212,168,67,0.1))', border: '1px solid rgba(99,102,241,0.35)', color: '#a5b4fc', cursor: 'pointer', padding: '0.45rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 600, letterSpacing: '0.03em', marginBottom: 10, transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
-                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(99,102,241,0.32), rgba(212,168,67,0.18))'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.65)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(99,102,241,0.25)'; }}
-                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(99,102,241,0.18), rgba(212,168,67,0.1))'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(99,102,241,0.35)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                            Extend Plan
-                          </button>
-                          {subData.autoRenew && (
-                            <div style={{ marginBottom: 10 }}>
-                              <div style={{ fontSize: '0.62rem', color: '#51cf66', marginBottom: 6 }}>
-                                Renews automatically every 7 days
-                              </div>
-                              <button onClick={handleCancelAutopay} disabled={cancelling}
-                                style={{ width: '100%', background: 'none', border: '1px solid var(--border)', color: 'var(--text3)', cursor: cancelling ? 'wait' : 'pointer', padding: '0.4rem', borderRadius: 8, fontSize: '0.7rem', fontWeight: 600 }}>
-                                {cancelling ? 'Cancelling…' : 'Cancel auto-renewal'}
-                              </button>
-                              <div style={{ fontSize: '0.58rem', color: 'var(--text3)', marginTop: 5, lineHeight: 1.5 }}>
-                                Stops future charges. You keep access until {new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}.
-                              </div>
+                    <div style={{ padding: '0 1rem 0.9rem' }}>
+                      {subData ? (() => {
+                        const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000);
+                        const on = new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                        return (
+                          <>
+                            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+                              <span style={{ fontSize: '0.55rem', color: '#ffffff', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
+                                {planLabel(subData.plan)}
+                                {subData.autoRenew && ' · renewing'}
+                              </span>
+                              <span style={{ fontSize: '0.66rem', color: days <= 3 ? '#fff' : '#ffffff', fontFamily: 'var(--font-mono)' }}>
+                                {days <= 0 ? 'Expired' : `${days}d left`}
+                              </span>
                             </div>
-                          )}
-                        </>
-                      ) : (
+                            <div style={{ fontSize: '0.66rem', color: '#ffffff', marginBottom: 10 }}>
+                              {subData.autoRenew ? 'Renews' : 'Expires'} {on}
+                            </div>
+
+                            {/* Extending a running mandate would stack one-time
+                                days onto a subscription that already renews on
+                                its own, so it is offered only to one-time plans. */}
+                            {!subData.autoRenew && (
+                              <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
+                                style={{ width: '100%', background: '#fff', border: 'none', color: '#000', cursor: 'pointer', padding: '0.5rem', borderRadius: 7, fontSize: '0.74rem', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 10 }}>
+                                Extend plan
+                              </button>
+                            )}
+
+                            {subData.autoRenew && (
+                              <>
+                                <button onClick={handleCancelAutopay} disabled={cancelling}
+                                  style={{ width: '100%', background: 'transparent', border: '1px solid #2a2a2a', color: '#ffffff', cursor: cancelling ? 'wait' : 'pointer', padding: '0.5rem', borderRadius: 7, fontSize: '0.74rem', fontWeight: 600 }}>
+                                  {cancelling ? 'Cancelling…' : 'Cancel renewal'}
+                                </button>
+                                <div style={{ fontSize: '0.58rem', color: '#ffffff', marginTop: 6, lineHeight: 1.5 }}>
+                                  Stops future charges. Access stays until {on}.
+                                </div>
+                              </>
+                            )}
+                          </>
+                        );
+                      })() : (
                         <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
-                          style={{ width: '100%', background: 'linear-gradient(90deg, rgba(212,168,67,0.15), rgba(212,168,67,0.07))', border: '1px solid rgba(212,168,67,0.4)', color: '#e8b84b', cursor: 'pointer', padding: '0.45rem', borderRadius: 8, fontSize: '0.73rem', fontWeight: 700, letterSpacing: '0.03em', marginBottom: 10, transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
-                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.25)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(212,168,67,0.2)'; }}
-                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'linear-gradient(90deg, rgba(212,168,67,0.15), rgba(212,168,67,0.07))'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}>
-                          ✦ Get Premium
+                          style={{ width: '100%', background: '#fff', border: 'none', color: '#000', cursor: 'pointer', padding: '0.55rem', borderRadius: 7, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.02em' }}>
+                          Get Premium
                         </button>
                       )}
                     </div>
 
                     {/* Sign out */}
-                    <div style={{ borderTop: '1px solid rgba(0,0,0,0.04)', margin: '0 1rem', paddingTop: '0.7rem', paddingBottom: '0.9rem' }}>
+                    <div style={{ borderTop: '1px solid #1a1a1a' }}>
                       <button onClick={handleSignOut}
-                        style={{ width: '100%', background: 'rgba(255,80,80,0.04)', border: '1px solid rgba(255,80,80,0.1)', color: '#f87171', cursor: 'pointer', padding: '0.4rem', borderRadius: 8, fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.02em', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,80,80,0.1)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,80,80,0.28)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 16px rgba(255,80,80,0.15)'; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,80,80,0.04)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,80,80,0.1)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none'; }}>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        style={{ width: '100%', background: 'transparent', border: 'none', color: '#ffffff', cursor: 'pointer', padding: '0.7rem', fontSize: '0.74rem', fontWeight: 500, transition: 'color 0.15s, background 0.15s' }}
+                        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = '#fff'; el.style.background = '#0d0d0d'; }}
+                        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = '#ffffff'; el.style.background = 'transparent'; }}>
                         Sign out
                       </button>
                     </div>
@@ -819,9 +832,9 @@ export default function Navbar() {
               </div>
             ) : (
               <div style={{ position: 'relative', marginLeft: '0.25rem', display: 'inline-flex' }}>
-                <button onClick={() => setShowPremiumModal(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.03em', whiteSpace: 'nowrap', transition: 'all 0.15s', position: 'relative', zIndex: 1 }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.2)'; el.style.borderColor = 'rgba(212,168,67,0.8)'; el.style.color = '#ffd700'; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.12)'; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#e8b84b'; }}>
+                <button onClick={() => setShowPremiumModal(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', border: '1px solid #2a2a2a', color: '#ffffff', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.03em', whiteSpace: 'nowrap', transition: 'all 0.15s', position: 'relative', zIndex: 1 }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#0d0d0d'; el.style.borderColor = '#3a3a3a'; el.style.color = '#ffffff'; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'transparent'; el.style.borderColor = '#2a2a2a'; el.style.color = '#ffffff'; }}>
                   ✦ Premium
                 </button>
 
