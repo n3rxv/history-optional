@@ -832,9 +832,9 @@ export default function Navbar() {
               </div>
             ) : (
               <div style={{ position: 'relative', marginLeft: '0.25rem', display: 'inline-flex' }}>
-                <button onClick={() => setShowPremiumModal(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', border: '1px solid #2a2a2a', color: '#ffffff', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.03em', whiteSpace: 'nowrap', transition: 'all 0.15s', position: 'relative', zIndex: 1 }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#0d0d0d'; el.style.borderColor = '#3a3a3a'; el.style.color = '#ffffff'; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'transparent'; el.style.borderColor = '#2a2a2a'; el.style.color = '#ffffff'; }}>
+                <button onClick={() => setShowPremiumModal(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.03em', whiteSpace: 'nowrap', transition: 'all 0.15s', position: 'relative', zIndex: 1 }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.2)'; el.style.borderColor = 'rgba(212,168,67,0.8)'; el.style.color = '#ffd700'; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.12)'; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#e8b84b'; }}>
                   ✦ Premium
                 </button>
 

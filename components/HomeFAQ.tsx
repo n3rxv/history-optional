@@ -41,7 +41,7 @@ const faqs = [
   },
   {
     q: 'What are the premium subscription plans?',
-    a: 'Availaible plans are : daily, half-yearly, and yearly. The only subscription you would need for History Optional preparation is ours. Spending 60,000 to 1,00,000 Rupees is not worth when you are getting everything at just Rs. 2,999 (90-95% more affordable price)',
+    a: 'Two kinds. Weekly at Rs. 99 is a subscription: it renews every 7 days on autopay until you cancel, one click, and you keep the days you have paid for. Daily at Rs. 49, half-yearly at Rs. 1,999 and annual at Rs. 2,999 are one-time payments that never renew. The only subscription you would need for History Optional preparation is ours. Spending 60,000 to 1,00,000 Rupees is not worth it when you are getting everything at Rs. 2,999 for the year, or Rs. 99 a week if you would rather not commit.',
     action: { label: 'View plans →' },
   },
 ];
