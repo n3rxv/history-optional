@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 
 const faqs = [
@@ -136,14 +137,13 @@ export default function HomeFAQ() {
                   {faq.action && (
                     <>
                       {' '}
-                      <button
-                        onClick={() => window.dispatchEvent(new CustomEvent('open-premium-modal'))}
+                      {/* A link, not a modal trigger: "View plans" reads as
+                          navigation, and the pricing page is where the plans,
+                          the weekly/one-time split and the comparison live. */}
+                      <Link
+                        href="/pricing"
                         style={{
                           color: 'var(--accent)',
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          padding: 0,
                           fontFamily: 'var(--font-ui)',
                           fontSize: '0.82rem',
                           fontWeight: 600,
@@ -151,7 +151,7 @@ export default function HomeFAQ() {
                         }}
                       >
                         {faq.action.label}
-                      </button>
+                      </Link>
                     </>
                   )}
                 </div>
