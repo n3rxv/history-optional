@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 import Razorpay from "razorpay";
 import { planAmountPaise, toPlanId } from "@/lib/plans";
+import { supabaseAdminClient } from "@/lib/subscriptionGrant";
 
 export async function POST(req: NextRequest) {
   const razorpay = new Razorpay({
@@ -14,6 +15,32 @@ export async function POST(req: NextRequest) {
 
   const user = await verifyFirebaseToken(token);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  // A one-time plan bought on top of a live weekly mandate pushes expires_at
+  // months out while the mandate carries on debiting Rs 99 every seven days,
+  // and the charge webhook then extends from that far-future date. Cancel
+  // first. The pricing page disables these buttons for the same reason; this
+  // is the half that actually enforces it.
+  const db = supabaseAdminClient();
+  const { data: mandate } = await db
+    .from("subscriptions")
+    .select("expires_at")
+    .eq("firebase_uid", user.uid)
+    .eq("status", "active")
+    .eq("auto_renew", true)
+    .gt("expires_at", new Date().toISOString())
+    .maybeSingle();
+
+  if (mandate) {
+    return NextResponse.json(
+      {
+        error: "autopay_active",
+        message:
+          "You are on the weekly subscription. Cancel it from your profile menu, and one-time plans open up once your paid days run out.",
+      },
+      { status: 409 }
+    );
+  }
 
   const reqBody = await req.json().catch(() => ({}));
 

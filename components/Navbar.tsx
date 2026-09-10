@@ -177,7 +177,7 @@ function ExtendModal({
       });
       const order = await orderRes.json();
       const orderId = order.id ?? order.orderId;
-      if (!orderId) throw new Error('Order creation failed');
+      if (!orderId) throw new Error(order.message ?? 'Order creation failed');
 
       // 2. Open Razorpay
       const Razorpay = (window as any).Razorpay;

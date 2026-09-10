@@ -136,7 +136,9 @@ export function SubscribeCard({
         body: JSON.stringify({ plan: planOverride ?? selectedPlan }),
       });
       const orderData = await orderRes.json();
-      if (!orderData.orderId) throw new Error('Order failed');
+      // The order route refuses a one-time plan while a weekly mandate is
+      // live, and says why. Show its words rather than a generic failure.
+      if (!orderData.orderId) throw new Error(orderData.message ?? 'Order failed');
       const rzp = new (window as any).Razorpay({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: orderData.amount,

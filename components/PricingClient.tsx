@@ -55,6 +55,9 @@ export default function PricingClient() {
     return () => unsub();
   }, []);
 
+  /** A live weekly mandate. Not the same as premium: someone who paid once
+   *  outright has no mandate, and extending that is perfectly sensible. */
+  const onAutopay = !!status?.autoRenew;
 
   return (
     <main style={{ maxWidth: 1040, margin: '0 auto', padding: 'clamp(2rem, 6vw, 3.5rem) 1.25rem 5rem' }}>
@@ -249,11 +252,19 @@ export default function PricingClient() {
                 {planValueLine(id)}
               </div>
 
+              {/* A one-time purchase on top of a live mandate would push
+                  expires_at out while the weekly kept debiting, so someone on
+                  autopay buys nothing here until they cancel. The server
+                  refuses the order too; this only saves them the trip. */}
               <button className="pr-buy" data-best={best ? '1' : '0'}
-                onClick={() => setCheckoutPlan(id)}>
-                {status?.isPremium
-                  ? `Extend by ${PLAN_DURATION[id]}`
-                  : `Get ${PLANS[id].label} →`}
+                onClick={() => setCheckoutPlan(id)}
+                disabled={onAutopay}
+                style={onAutopay ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}>
+                {onAutopay
+                  ? 'You already have access'
+                  : status?.isPremium
+                    ? `Extend by ${PLAN_DURATION[id]}`
+                    : `Get ${PLANS[id].label} →`}
               </button>
             </div>
           );
@@ -267,6 +278,16 @@ export default function PricingClient() {
       }}>
         Secure &middot; Razorpay &middot; these three are one-time payments
       </p>
+
+      {onAutopay && (
+        <p style={{
+          textAlign: 'center', color: 'var(--text3)', fontSize: '0.8rem', marginTop: 10,
+          maxWidth: '58ch', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6,
+        }}>
+          You are on the weekly subscription, so these are switched off. Cancel it from
+          your profile menu and they open up once your paid days run out.
+        </p>
+      )}
 
       {/* ── Comparison ────────────────────────────────────────── */}
       <section style={{ marginTop: '4rem' }}>
