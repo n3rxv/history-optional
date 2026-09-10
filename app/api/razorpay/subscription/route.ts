@@ -35,13 +35,32 @@ export async function POST(req: NextRequest) {
   // week to a subscription that already ran into 2027.
   const { data: existing } = await db
     .from('subscriptions')
-    .select('auto_renew, expires_at, plan')
+    .select('auto_renew, expires_at, plan, cancelled_at')
     .eq('firebase_uid', user.uid)
     .eq('status', 'active')
     .gt('expires_at', new Date().toISOString())
     .maybeSingle();
 
-  if (existing) {
+  // One exception: a weekly whose mandate is already dead.
+  //
+  // Cancelling leaves expires_at where it is, so someone who cancels with four
+  // paid days left still matches the query above. Blocking them made the site
+  // refuse a customer who had just changed their mind, and told them to come
+  // back on Thursday. There is no live mandate to double up on, so they may
+  // start a new one; the first charge extends from whichever date is later, so
+  // the days they already paid for are not taken away.
+  //
+  // The test is narrow on purpose. It needs the plan to be weekly and
+  // cancelled_at to be set, which only the cancel route and the
+  // cancelled/halted webhooks write. A one-time plan never satisfies it, so
+  // the hole this guard was widened to close in the first place stays closed.
+  const deadMandate =
+    existing != null &&
+    existing.plan === 'weekly' &&
+    existing.auto_renew !== true &&
+    existing.cancelled_at != null;
+
+  if (existing && !deadMandate) {
     return NextResponse.json(
       {
         error: 'already_subscribed',

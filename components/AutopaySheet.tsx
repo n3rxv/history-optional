@@ -98,7 +98,14 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
             headers: { 'x-user-token': token }, cache: 'no-store',
           });
           const s = await res.json();
-          if (s?.isPremium) { setLiveUntil(s.expires_at ?? null); return; }
+          // isPremium alone is the wrong test for someone restarting a
+          // cancelled weekly: they are already premium on the days they paid
+          // for, so this would report success the instant it first polled,
+          // whether or not the new mandate ever debited. auto_renew is only
+          // set back to true by the subscription.charged webhook, which is
+          // exactly the event being waited on, and it becomes true at the
+          // same moment for a first-time subscriber.
+          if (s?.isPremium && s?.autoRenew) { setLiveUntil(s.expires_at ?? null); return; }
         }
       } catch {
         // A blip mid-poll is not a failure; the next tick tries again.

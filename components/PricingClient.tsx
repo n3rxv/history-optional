@@ -25,7 +25,7 @@ export default function PricingClient() {
   const [fingerprint, setFingerprint] = useState<string | null>(null);
   const [checkoutPlan, setCheckoutPlan] = useState<PlanId | null>(null);
   const [autopayOpen, setAutopayOpen] = useState(false);
-  const [status, setStatus] = useState<{ isPremium: boolean; plan?: string; expires_at?: string; autoRenew?: boolean } | null>(null);
+  const [status, setStatus] = useState<{ isPremium: boolean; plan?: string; expires_at?: string; autoRenew?: boolean; canResubscribe?: boolean } | null>(null);
   // Computed after mount: rendering Date.now() on the server and again on the
   // client is a hydration mismatch waiting for midnight.
   const [days, setDays] = useState<number | null>(null);
@@ -58,6 +58,10 @@ export default function PricingClient() {
   /** A live weekly mandate. Not the same as premium: someone who paid once
    *  outright has no mandate, and extending that is perfectly sensible. */
   const onAutopay = !!status?.autoRenew;
+
+  /** Cancelled the weekly and still inside the days they paid for. Premium,
+   *  but with no mandate, so starting a new one is allowed. */
+  const canResubscribe = !!status?.canResubscribe;
 
   return (
     <main style={{ maxWidth: 1040, margin: '0 auto', padding: 'clamp(2rem, 6vw, 3.5rem) 1.25rem 5rem' }}>
@@ -207,14 +211,21 @@ export default function PricingClient() {
           <div className="pr-auto-line">{planValueLine(AUTOPAY_PLAN)}</div>
         </div>
         <div className="pr-auto-right">
+          {/* Premium blocks this, except for someone who cancelled and is
+              living out their paid days: there is no mandate to double up on,
+              and the server accepts them. */}
           <button className="pr-buy" data-best="1" onClick={() => setAutopayOpen(true)}
-            disabled={!!status?.isPremium}
-            style={status?.isPremium ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}>
-            {status?.isPremium ? 'You already have access' : 'Subscribe \u2192'}
+            disabled={!!status?.isPremium && !canResubscribe}
+            style={status?.isPremium && !canResubscribe ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}>
+            {canResubscribe
+              ? 'Start it again \u2192'
+              : status?.isPremium ? 'You already have access' : 'Subscribe \u2192'}
           </button>
           <div className="pr-auto-fine">
-            Renews every 7 days until you stop it. Cancel in one click from your
-            profile menu; you keep access for the remaining days you&rsquo;ve paid for.
+            {canResubscribe
+              ? 'You cancelled this. Your paid days are still running, and starting again picks up from the end of them, not from today.'
+              : <>Renews every 7 days until you stop it. Cancel in one click from your
+                profile menu; you keep access for the remaining days you&rsquo;ve paid for.</>}
           </div>
         </div>
       </section>
