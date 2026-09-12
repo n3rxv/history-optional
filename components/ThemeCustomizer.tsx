@@ -3,34 +3,26 @@
 import { useEffect, useState } from 'react';
 
 export default function ThemeCustomizer() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  // The bootstrap in app/layout.tsx has already resolved the theme and stamped
+  // data-theme before paint, so read that rather than working it out again.
+  // Deriving it a second time is how the two can disagree.
   useEffect(() => {
     setMounted(true);
-    try {
-      const saved = localStorage.getItem('ho-theme');
-      const dark = saved !== 'light';
-      setIsDark(dark);
-      if (!dark) {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
-    } catch {}
+    setIsDark(document.documentElement.getAttribute('data-theme') === 'dark');
   }, []);
 
+  // Always writes an explicit choice, in both directions. A toggle that only
+  // stores one of the two leaves a reader on a dark OS unable to pick paper.
   const toggle = () => {
     const next = !isDark;
     setIsDark(next);
+    const theme = next ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
     try {
-      if (next) {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('ho-theme', 'dark');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('ho-theme', 'light');
-      }
+      localStorage.setItem('ho-theme', theme);
     } catch {}
   };
 

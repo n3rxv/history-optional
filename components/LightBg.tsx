@@ -38,6 +38,9 @@ export default function LightBg() {
   const rafRef = useRef<number>(0);
 
   useEffect(() => {
+    // data-theme is always stamped by the bootstrap in app/layout.tsx, so an
+    // equality check is enough. Before the ground was inverted, light was the
+    // only state that carried the attribute at all; now both do.
     const check = () => {
       setIsLight(document.documentElement.getAttribute('data-theme') === 'light');
     };
@@ -60,7 +63,7 @@ export default function LightBg() {
         zIndex: -1,
         pointerEvents: 'none',
         overflow: 'hidden',
-        background: '#fafaf8',
+        background: 'var(--bg)',
       }}
     >
       {/* Subtle 64px grid */}

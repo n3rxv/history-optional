@@ -1,51 +1,280 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOKENS
+
+   Two layers. Primitives hold raw values, one full ramp per hue. Semantics
+   name roles. A component may only ever name a semantic token: if it names a
+   primitive it cannot follow the theme, which is how a primary button ended up
+   at 2.36:1 on the dark ground during design.
+
+   Paper is the default ground and lives in :root. Dark is an override, not a
+   parallel system, so there is one source of truth for every role.
+
+   The old names are all still defined and still mean what they meant. Around
+   2,900 call sites read --bg2, --text3 and friends, so the definitions move
+   and the call sites do not.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 :root {
-  --bg:           #000000;
-  --bg2:          #0a0a0a;
-  --bg3:          #111111;
-  --bg4:          #181818;
-  --border:       #2a2a2a;
-  --border2:      #383838;
-  --border3:      #444444;
-  --text:         #ffffff;   /* 21.0:1 on --bg */
-  --text2:        #e4e4e4;   /* 16.4:1 — running prose, was #aaaaaa at 8.9:1 */
-  --text3:        #b9b9b9;   /* 10.1:1 — captions and meta, was #777777 at 4.4:1 */
-  --accent:       #3b82f6;
-  --accent2:      #1d4ed8;
-  --accent-dim:   rgba(59,130,246,0.1);
-  --accent-glow:  rgba(59,130,246,0.2);
-  --yellow:       #eab308;
-  --yellow2:      #a16207;
-  --yellow-dim:   rgba(234,179,8,0.1);
-  --red:          #ef4444;
-  --red2:         #991b1b;
-  --red-dim:      rgba(239,68,68,0.1);
-  --green:        #22c55e;
-  --green-dim:    rgba(34,197,94,0.1);
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-ui:      'Inter', system-ui, sans-serif;
-  --font-body:    'Libre Baskerville', 'Palatino Linotype', Palatino, serif;
-  --font-mono:    'Fira Code', 'Consolas', monospace;
+  /* ── PRIMITIVES: paper ─────────────────────────────────────────────────── */
+  --paper-50:   #fdfcf9;   /* raised, cards that sit above the page */
+  --paper-100:  #faf7f0;   /* the ground */
+  --paper-150:  #f7f3ea;
+  --paper-200:  #f2ede2;
+  --paper-300:  #e8e1d3;
+  --paper-400:  #d8cfbf;
+  --paper-500:  #c4b9a6;
 
-  /* Radius scale — use these for all NEW components. Don't retrofit old inline styles. */
-  --radius-xs:    4px;   /* badges, tags, tiny chips */
-  --radius-sm:    6px;   /* buttons, inputs, small controls */
-  --radius-md:    8px;   /* cards, dropdowns, panels */
-  --radius-lg:    10px;  /* large cards, sections */
-  --radius-xl:    14px;  /* modals, prominent containers */
-  --radius-pill:  20px;  /* pills, fully-rounded badges */
+  /* ink on paper, measured against --paper-100 */
+  --ink-900: #1c1917;   /* 16.35:1 */
+  --ink-700: #403a33;   /* 10.49:1 */
+  --ink-600: #544d44;   /*  7.78:1 */
+  --ink-500: #6b645a;   /*  5.46:1 */
+  --ink-400: #8a8277;   /*  3.54:1  large text and placeholders only */
 
-  /* Spacing scale — 4px base unit. Use for new gap/padding/margin decisions. */
-  --space-1:      4px;
-  --space-2:      8px;
-  --space-3:      12px;
-  --space-4:      16px;
-  --space-5:      20px;
-  --space-6:      24px;
-  --space-8:      32px;
-  --space-10:     40px;
-  --space-12:     48px;
+  /* ── PRIMITIVES: dark ──────────────────────────────────────────────────── */
+  --dark-900: #14120f;   /* the ground */
+  --dark-800: #1b1815;   /* raised */
+  --dark-700: #211d19;
+  --dark-600: #282420;
+  --dark-500: #332e27;
+  --dark-400: #443d34;
+  --dark-300: #574e43;
+
+  /* ink on dark, measured against --dark-900 */
+  --dink-50:  #f4efe6;   /* 16.33:1 */
+  --dink-200: #d3cbbb;   /* 11.60:1 */
+  --dink-300: #b5ac9b;   /*  8.31:1 */
+  --dink-400: #9a9083;   /*  5.96:1 */
+  --dink-500: #7d7468;   /*  4.07:1  large text and placeholders only */
+
+  /* ── PRIMITIVES: accent, one hue per ground ────────────────────────────── */
+  --oxblood-600: #9e2b25;  /* 6.95:1 on paper */
+  --oxblood-700: #872420;  /* 8.52:1 on paper, use for accent TEXT */
+  --gold-500:    #c9a227;  /* 7.73:1 on dark */
+  --gold-400:    #d9b544;  /* 9.48:1 on dark */
+
+  /* ── PRIMITIVES: semantic hues ─────────────────────────────────────────────
+     Solved, not picked. Each text value sits at 4.9:1 against its own WASH,
+     which is the surface it actually sits on. Solving against the ground
+     instead put all eight dark roles at 4.05-4.11:1 on their washes, under the
+     floor, while looking fine on paper. A dark wash has to sit brighter than
+     its ground to be visible, and that brightness is what eats the headroom. */
+  --success-text-p: #247248;  --success-wash-p: #d4f1e2;
+  --success-text-d: #37ae6f;  --success-wash-d: #133322;
+  --warning-text-p: #8b5a11;  --warning-wash-p: #f4e9d9;
+  --warning-text-d: #d4891a;  --warning-wash-d: #382a15;
+  --danger-text-p:  #b5382a;  --danger-wash-p:  #f7e7e5;
+  --danger-text-d:  #df8075;  --danger-wash-d:  #4a211c;
+  --info-text-p:    #2d66a7;  --info-wash-p:    #e2ecf7;
+  --info-text-d:    #6b9dd8;  --info-wash-d:    #1a2e44;
+
+  /* ── PRIMITIVES: categorical, the four syllabus sections ───────────────────
+     Deliberately less saturated than the semantic set and respaced off its
+     hues. SECTION_COLOR in app/test used amber for Ancient, green for Modern
+     and blue for World, which are the hues the score bands use for warning,
+     success and info, so a section chip read as a state. */
+  --ancient-text-p:  #516d31; --ancient-wash-p:  #e4eed8;
+  --ancient-text-d:  #7ba64a; --ancient-wash-d:  #243016;
+  --medieval-text-p: #7052b5; --medieval-wash-p: #ede9f5;
+  --medieval-text-d: #a390cf; --medieval-wash-d: #322454;
+  --modern-text-p:   #2f6e6c; --modern-wash-p:   #d9efee;
+  --modern-text-d:   #48a8a5; --modern-wash-d:   #153130;
+  --world-text-p:    #99487b; --world-wash-p:    #f4e7ef;
+  --world-text-d:    #c686ae; --world-wash-d:    #452037;
+
+  /* ── ELEVATION ─────────────────────────────────────────────────────────────
+     Only for things that actually float. Anything in the page flow gets a
+     rule, not a shadow.
+
+     Paper tints the shadow with the ink rather than using pure black. On dark
+     a shadow is nearly invisible against #14120f, so each step also carries a
+     hairline of ink to define its edge. */
+  --elev-1-p: 0 1px 2px rgba(28,25,23,0.05), 0 2px 6px rgba(28,25,23,0.07);
+  --elev-2-p: 0 2px 4px rgba(28,25,23,0.06), 0 8px 24px rgba(28,25,23,0.10);
+  --elev-3-p: 0 4px 8px rgba(28,25,23,0.07), 0 16px 48px rgba(28,25,23,0.14);
+  --elev-1-d: 0 0 0 1px rgba(244,239,230,0.06), 0 2px 8px rgba(0,0,0,0.50);
+  --elev-2-d: 0 0 0 1px rgba(244,239,230,0.08), 0 8px 28px rgba(0,0,0,0.60);
+  --elev-3-d: 0 0 0 1px rgba(244,239,230,0.10), 0 16px 52px rgba(0,0,0,0.70);
+
+  /* ── TYPE ──────────────────────────────────────────────────────────────────
+     One serif carries display and body. Libre Baskerville has no optical-size
+     axis, so a title is the same drawing at a larger size: --track-display is
+     the compensation, and it is the only place tracking goes negative.
+
+     The italic comes from a different family on purpose. Measured at the same
+     em size, Libre Baskerville roman has an x-height of 106 and Roboto italic
+     211 against the roman's 212, the closest of fourteen candidates tested,
+     with all 8 test glyphs redrawn rather than sheared. */
+  --font-display: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  --font-body:    'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  --font-italic:  'Roboto', system-ui, -apple-system, sans-serif;
+  --font-ui:      'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+
+  --text-xs:   0.75rem;     /* mono eyebrows, marks tags */
+  --text-sm:   0.8125rem;   /* meta, captions */
+  --text-ui:   1rem;        /* controls, labels, buttons */
+  --text-body: 1.0625rem;   /* 17px, prose */
+  --text-lead: 1.1875rem;
+  --text-h3:   1.375rem;
+  --text-h2:   1.6875rem;
+  --text-h1:   2.125rem;
+  --text-hero: 2.75rem;
+
+  --leading-tight: 1.16;
+  --leading-snug:  1.34;
+  --leading-body:  1.78;
+  --leading-ui:    1.5;
+
+  --track-display: -0.022em;
+  --measure-prose: 62ch;
+  --measure-card:  52ch;
+
+  /* ── SPACING ───────────────────────────────────────────────────────────────
+     Twelve steps, not nine. The old scale started at 4 and jumped to 8 then
+     12, while real usage is dense between 1 and 10: 2 appeared 217 times, 6
+     appeared 120, 10 appeared 147. Only 30% of 1,628 real values landed on
+     the scale. With 2, 6 and 10 added it is 60% exact and 94% within a pixel. */
+  --space-0-5:  2px;
+  --space-1:    4px;
+  --space-1-5:  6px;
+  --space-2:    8px;
+  --space-2-5: 10px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+
+  /* ── RADIUS ────────────────────────────────────────────────────────────────
+     The old six steps already covered 66% of use. These three close the gap:
+     3px appeared 58 times, 12px 25 times, and 50% for circles 56 times, which
+     is a shape rather than a radius. */
+  --radius-hair:    3px;   /* thinnest chip corner */
+  --radius-xs:      4px;   /* badges, tags, tiny chips */
+  --radius-sm:      6px;   /* buttons, inputs, small controls */
+  --radius-md:      8px;   /* cards, dropdowns, panels */
+  --radius-lg:     10px;   /* large cards, sections */
+  --radius-2xl:    12px;
+  --radius-xl:     14px;   /* modals, prominent containers */
+  --radius-pill:   20px;   /* pills, fully-rounded badges */
+  --radius-full: 9999px;   /* the pill idiom, previously typed as 999 */
+  --radius-circle:  50%;   /* avatars */
+
+  /* ── SEMANTIC: paper, the default ground ───────────────────────────────── */
+  --bg:            var(--paper-100);
+  --bg-raised:     var(--paper-50);
+  --bg-sunken:     var(--paper-200);
+  --bg2:           var(--paper-150);
+  --bg3:           var(--paper-200);
+  --bg4:           var(--paper-300);
+  --border-subtle: var(--paper-300);
+  --border:        var(--paper-300);
+  --border2:       var(--paper-400);
+  --border3:       var(--paper-500);
+  --text:          var(--ink-900);
+  --text2:         var(--ink-700);
+  --text3:         var(--ink-500);
+  --text-faint:    var(--ink-400);
+
+  --accent:        var(--oxblood-600);
+  --accent2:       var(--oxblood-700);
+  --accent-text:   var(--oxblood-700);
+  --accent-on:     var(--paper-50);     /* what sits ON the accent */
+  --accent-dim:    rgba(158,43,37,0.07);
+  --accent-glow:   rgba(158,43,37,0.14);
+
+  --success-text: var(--success-text-p); --success-wash: var(--success-wash-p);
+  --warning-text: var(--warning-text-p); --warning-wash: var(--warning-wash-p);
+  --danger-text:  var(--danger-text-p);  --danger-wash:  var(--danger-wash-p);
+  --info-text:    var(--info-text-p);    --info-wash:    var(--info-wash-p);
+  --ancient-text: var(--ancient-text-p); --ancient-wash: var(--ancient-wash-p);
+  --medieval-text:var(--medieval-text-p);--medieval-wash:var(--medieval-wash-p);
+  --modern-text:  var(--modern-text-p);  --modern-wash:  var(--modern-wash-p);
+  --world-text:   var(--world-text-p);   --world-wash:   var(--world-wash-p);
+
+  /* legacy hue names, now pointing at the semantic set */
+  --yellow:     var(--warning-text);
+  --yellow2:    var(--warning-text);
+  --yellow-dim: var(--warning-wash);
+  --red:        var(--danger-text);
+  --red2:       var(--danger-text);
+  --red-dim:    var(--danger-wash);
+  --green:      var(--success-text);
+  --green-dim:  var(--success-wash);
+
+  --elev-1: var(--elev-1-p);
+  --elev-2: var(--elev-2-p);
+  --elev-3: var(--elev-3-p);
+
+  /* The g-card vocabulary. Gradients and coloured glows were a dark-ground
+     device: every --grad-* faded to rgba(17,17,17,0), which on paper fades to
+     near-black. They resolve to washes and real elevation now. */
+  --grad-neutral: var(--bg-raised);
+  --grad-blue:    var(--info-wash);
+  --grad-gold:    var(--warning-wash);
+  --grad-red:     var(--danger-wash);
+  --grad-green:   var(--success-wash);
+  --glow-neutral: var(--elev-1);
+  --glow-blue:    var(--elev-1);
+  --glow-gold:    var(--elev-1);
+  --glow-red:     var(--elev-1);
+  --glow-green:   var(--elev-1);
+}
+
+/* ── SEMANTIC: dark ─────────────────────────────────────────────────────────
+   Applied twice on purpose. The media query catches readers who have made no
+   choice and whose OS prefers dark, guarded with :not([data-theme="light"])
+   so an explicit light choice still wins. The attribute selector catches an
+   explicit dark choice and must come after, because the two have equal
+   specificity and source order decides.
+
+   A toggle that can only override in one direction leaves readers on a dark
+   OS unable to choose paper. */
+/* There is no prefers-color-scheme block here on purpose. The bootstrap in
+   app/layout.tsx resolves the reader's preference once, before paint, and
+   always stamps data-theme. That keeps CSS down to two states instead of
+   three, which matters because 45 [data-theme="light"] rules further down
+   this file patch inline styles by substring and would otherwise have to
+   grow a second selector each. */
+
+
+:root[data-theme="dark"] {
+  --bg:            var(--dark-900);
+  --bg-raised:     var(--dark-800);
+  --bg-sunken:     var(--dark-700);
+  --bg2:           var(--dark-800);
+  --bg3:           var(--dark-700);
+  --bg4:           var(--dark-600);
+  --border-subtle: var(--dark-600);
+  --border:        var(--dark-500);
+  --border2:       var(--dark-400);
+  --border3:       var(--dark-300);
+  --text:          var(--dink-50);
+  --text2:         var(--dink-200);
+  --text3:         var(--dink-400);
+  --text-faint:    var(--dink-500);
+  --accent:        var(--gold-500);
+  --accent2:       var(--gold-400);
+  --accent-text:   var(--gold-400);
+  --accent-on:     var(--dark-900);
+  --accent-dim:    rgba(201,162,39,0.10);
+  --accent-glow:   rgba(201,162,39,0.18);
+  --success-text: var(--success-text-d); --success-wash: var(--success-wash-d);
+  --warning-text: var(--warning-text-d); --warning-wash: var(--warning-wash-d);
+  --danger-text:  var(--danger-text-d);  --danger-wash:  var(--danger-wash-d);
+  --info-text:    var(--info-text-d);    --info-wash:    var(--info-wash-d);
+  --ancient-text: var(--ancient-text-d); --ancient-wash: var(--ancient-wash-d);
+  --medieval-text:var(--medieval-text-d);--medieval-wash:var(--medieval-wash-d);
+  --modern-text:  var(--modern-text-d);  --modern-wash:  var(--modern-wash-d);
+  --world-text:   var(--world-text-d);   --world-wash:   var(--world-wash-d);
+  --elev-1: var(--elev-1-d);
+  --elev-2: var(--elev-2-d);
+  --elev-3: var(--elev-3-d);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,17 +288,42 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── ITALIC, FROM A DIFFERENT FAMILY ────────────────────────────────────────
+   Roman and italic were cut by different hands for most of the history of
+   type, so this is a revival rather than a novelty. The one thing that has to
+   hold is the x-height: measured at the same em size, Libre Baskerville roman
+   is 212 and Roboto italic is 211, the closest of fourteen candidates tested,
+   with all 8 test glyphs redrawn rather than mechanically sheared. Alegreya
+   has the finer italic and sits 9.9% short, which shows as italic words
+   shrinking mid-sentence.
+
+   Declared once here, so all 638 <em> in the note content pick it up with no
+   markup change anywhere.
+
+   Blockquotes and headings keep the serif. 31 blockquotes run as whole italic
+   paragraphs, and a sans paragraph inside serif prose is a different voice
+   rather than an inflection of the same one. */
+em, i, cite, dfn {
+  font-family: var(--font-italic);
+  font-style: italic;
+}
+h1 em, h2 em, h3 em, h4 em, h5 em, h6 em,
+h1 i,  h2 i,  h3 i,  h4 i,  h5 i,  h6 i,
+blockquote, blockquote em, blockquote i {
+  font-family: var(--font-body);
+}
+
 /* Native scrollbar hidden — replaced by custom ScrollbarTOC component on note pages */
 ::-webkit-scrollbar { width: 0px; height: 0px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: transparent; }
 ::-webkit-scrollbar-corner { background: var(--bg); }
-::selection { background: rgba(59,130,246,0.25); color: var(--text); }
+::selection { background: color-mix(in srgb, var(--accent) 25%, transparent); color: var(--text); }
 
-.hl-yellow { background: rgba(234,179,8,0.3);  border-radius: 2px; cursor: pointer; padding: 0 2px; }
-.hl-green  { background: rgba(34,197,94,0.25); border-radius: 2px; cursor: pointer; padding: 0 2px; }
-.hl-red    { background: rgba(239,68,68,0.3);  border-radius: 2px; cursor: pointer; padding: 0 2px; }
-.hl-blue   { background: rgba(59,130,246,0.3); border-radius: 2px; cursor: pointer; padding: 0 2px; }
+.hl-yellow { background: color-mix(in srgb, var(--warning-text) 30%, transparent);  border-radius: 2px; cursor: pointer; padding: 0 2px; }
+.hl-green  { background: color-mix(in srgb, var(--success-text) 25%, transparent); border-radius: 2px; cursor: pointer; padding: 0 2px; }
+.hl-red    { background: color-mix(in srgb, var(--danger-text) 30%, transparent);  border-radius: 2px; cursor: pointer; padding: 0 2px; }
+.hl-blue   { background: color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 2px; cursor: pointer; padding: 0 2px; }
 
 .note-content h1 { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--text); margin: 2rem 0 1rem; line-height: 1.3; letter-spacing: -0.02em; border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem; }
 .note-content h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; color: var(--yellow); margin: 2.5rem 0 0.75rem; position: relative; padding-left: 0.85rem; border-left: 3px solid var(--yellow); border-bottom: none; }
@@ -108,18 +362,11 @@ body {
    GRADIENT CARD SYSTEM — applied site-wide
    ═══════════════════════════════════════════════════════════ */
 
-:root {
-  --grad-blue:    linear-gradient(135deg, rgba(29,78,216,0.14) 0%, rgba(59,130,246,0.06) 60%, rgba(17,17,17,0) 100%);
-  --grad-gold:    linear-gradient(135deg, rgba(161,98,7,0.16)  0%, rgba(234,179,8,0.07)  60%, rgba(17,17,17,0) 100%);
-  --grad-red:     linear-gradient(135deg, rgba(153,27,27,0.16) 0%, rgba(239,68,68,0.07)  60%, rgba(17,17,17,0) 100%);
-  --grad-green:   linear-gradient(135deg, rgba(20,83,45,0.16)  0%, rgba(34,197,94,0.07)  60%, rgba(17,17,17,0) 100%);
-  --grad-neutral: linear-gradient(135deg, rgba(30,30,30,0.9)   0%, rgba(18,18,18,0.7)    100%);
-  --glow-blue:    0 0 0 1px rgba(59,130,246,0.18),  0 4px 28px rgba(59,130,246,0.09);
-  --glow-gold:    0 0 0 1px rgba(234,179,8,0.18),   0 4px 28px rgba(234,179,8,0.09);
-  --glow-red:     0 0 0 1px rgba(239,68,68,0.18),   0 4px 28px rgba(239,68,68,0.09);
-  --glow-green:   0 0 0 1px rgba(34,197,94,0.18),   0 4px 28px rgba(34,197,94,0.09);
-  --glow-neutral: 0 0 0 1px rgba(56,56,56,0.7),     0 4px 16px rgba(0,0,0,0.35);
-}
+/* The --grad-* and --glow-* definitions that used to sit here are gone. Every
+   one of them faded to rgba(17,17,17,0), the old dark ground, so on paper they
+   faded to near-black. They are defined once at the top of this file now, as
+   washes and real elevation, and they follow the theme. */
+
 
 /* ── Base card ── */
 .g-card {
@@ -131,14 +378,14 @@ body {
 }
 .g-card:hover { box-shadow: var(--glow-neutral);  }
 
-.g-card-blue  { background: var(--grad-blue);  border-color: rgba(59,130,246,0.2); }
-.g-card-blue:hover  { box-shadow: var(--glow-blue);  border-color: rgba(59,130,246,0.35); }
-.g-card-gold  { background: var(--grad-gold);  border-color: rgba(234,179,8,0.2); }
-.g-card-gold:hover  { box-shadow: var(--glow-gold);  border-color: rgba(234,179,8,0.35); }
-.g-card-red   { background: var(--grad-red);   border-color: rgba(239,68,68,0.2); }
-.g-card-red:hover   { box-shadow: var(--glow-red);   border-color: rgba(239,68,68,0.35); }
-.g-card-green { background: var(--grad-green); border-color: rgba(34,197,94,0.2); }
-.g-card-green:hover { box-shadow: var(--glow-green); border-color: rgba(34,197,94,0.35); }
+.g-card-blue  { background: var(--grad-blue);  border-color: color-mix(in srgb, var(--accent) 20%, transparent); }
+.g-card-blue:hover  { box-shadow: var(--glow-blue);  border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+.g-card-gold  { background: var(--grad-gold);  border-color: color-mix(in srgb, var(--warning-text) 20%, transparent); }
+.g-card-gold:hover  { box-shadow: var(--glow-gold);  border-color: color-mix(in srgb, var(--warning-text) 35%, transparent); }
+.g-card-red   { background: var(--grad-red);   border-color: color-mix(in srgb, var(--danger-text) 20%, transparent); }
+.g-card-red:hover   { box-shadow: var(--glow-red);   border-color: color-mix(in srgb, var(--danger-text) 35%, transparent); }
+.g-card-green { background: var(--grad-green); border-color: color-mix(in srgb, var(--success-text) 20%, transparent); }
+.g-card-green:hover { box-shadow: var(--glow-green); border-color: color-mix(in srgb, var(--success-text) 35%, transparent); }
 
 
 /* ── Glass shine effect ── */
@@ -155,7 +402,8 @@ body {
   position: absolute;
   top: 0; left: -75%;
   width: 50%; height: 100%;
-  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.07) 50%, transparent 100%);
+  background: linear-gradient(120deg, transparent 0%,
+    color-mix(in srgb, var(--text) 8%, transparent) 50%, transparent 100%);
   transform: skewX(-20deg);
   opacity: 0;
   pointer-events: none;
@@ -180,20 +428,20 @@ body {
   letter-spacing: 0.26em; text-transform: uppercase;
   color: var(--accent); margin-bottom: 14px;
 }
-.g-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(59,130,246,0.3), transparent); }
+.g-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 30%, transparent), transparent); }
 .g-label-gold  { color: var(--yellow); }
-.g-label-gold::after  { background: linear-gradient(90deg, rgba(234,179,8,0.3), transparent); }
+.g-label-gold::after  { background: linear-gradient(90deg, color-mix(in srgb, var(--warning-text) 30%, transparent), transparent); }
 .g-label-red   { color: var(--red); }
-.g-label-red::after   { background: linear-gradient(90deg, rgba(239,68,68,0.3), transparent); }
+.g-label-red::after   { background: linear-gradient(90deg, color-mix(in srgb, var(--danger-text) 30%, transparent), transparent); }
 .g-label-green { color: var(--green); }
-.g-label-green::after { background: linear-gradient(90deg, rgba(34,197,94,0.3), transparent); }
+.g-label-green::after { background: linear-gradient(90deg, color-mix(in srgb, var(--success-text) 30%, transparent), transparent); }
 
 /* ── Stat block ── */
 .g-stat-block {
   background: var(--grad-neutral); border: 1px solid var(--border);
   padding: 1.5rem; text-align: center; transition: background 0.22s, border-color 0.22s;
 }
-.g-stat-block:hover { background: var(--grad-blue); border-color: rgba(59,130,246,0.25); }
+.g-stat-block:hover { background: var(--grad-blue); border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
 
 /* ── Feature tile ── */
 .g-feature-tile {
@@ -201,7 +449,7 @@ body {
   padding: 1.5rem; transition: background 0.25s, box-shadow 0.25s, border-color 0.25s;
 }
 .g-feature-tile:hover {
-  background: var(--grad-blue); border-color: rgba(59,130,246,0.25); box-shadow: var(--glow-blue);
+  background: var(--grad-blue); border-color: color-mix(in srgb, var(--accent) 25%, transparent); box-shadow: var(--glow-blue);
 }
 
 /* ── Paper card ── */
@@ -217,11 +465,11 @@ body {
   font-size: 0.76rem; color: var(--text2);
   padding: 4px 12px; border-radius: 20px;
   border: 1px solid var(--border);
-  background: linear-gradient(135deg, rgba(26,26,26,0.9), rgba(18,18,18,0.7));
+  background: var(--bg-raised);
   text-decoration: none; transition: all 0.18s ease; display: inline-block;
 }
 .g-topic-pill:hover {
-  background: var(--grad-blue); border-color: rgba(59,130,246,0.35);
+  background: var(--grad-blue); border-color: color-mix(in srgb, var(--accent) 35%, transparent);
   color: var(--accent); 
 }
 
@@ -235,7 +483,7 @@ body {
 .note-content h1 {
   color: var(--accent) !important;
   -webkit-text-fill-color: var(--accent) !important;
-  border-bottom: 1px solid rgba(59,130,246,0.2);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
 }
 .note-content h2 {
   color: var(--yellow) !important;
@@ -253,22 +501,22 @@ body {
   font-size: 0.82rem !important;
 }
 .note-content blockquote {
-  background: linear-gradient(135deg, rgba(161,98,7,0.1), rgba(234,179,8,0.04));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--warning-text) 10%, transparent), color-mix(in srgb, var(--warning-text) 4%, transparent));
 }
 .note-content th {
   background: var(--bg4);
 }
 .note-content tr:nth-child(even) td {
-  background: linear-gradient(135deg, rgba(18,18,18,0.95), rgba(10,10,10,0.7));
+  background: var(--bg-sunken);
 }
 .note-content tr:hover td {
-  background: linear-gradient(135deg, rgba(29,78,216,0.07), rgba(18,18,18,0.8));
+  background: color-mix(in srgb, var(--accent) 7%, var(--bg-raised));
 }
 
 /* ── TOC box ── */
 .toc-box {
-  background: linear-gradient(135deg, rgba(29,78,216,0.08), rgba(10,10,10,0.6));
-  border: 1px solid rgba(59,130,246,0.15); border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-raised));
+  border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent); border-left: 3px solid var(--accent);
 }
 
 .g-paper-view-link {
@@ -317,7 +565,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
     left: 0;
     right: 0;
     z-index: 1300;
-    background: rgba(8,8,8,0.96); /* overridden in light mode below */
+    background: color-mix(in srgb, var(--bg) 96%, transparent);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid rgba(255,255,255,0.08);
@@ -371,8 +619,8 @@ html, body { overflow-x: hidden; max-width: 100%; }
     right: 10px;
     bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 10px);
     z-index: 1250;
-    background: linear-gradient(160deg, #14141a 0%, #0d0d10 100%);
-    border: 1px solid rgba(99,102,241,0.25);
+    background: var(--bg-raised);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
     border-radius: 14px;
     padding: 10px 10px 10px 12px;
     box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
@@ -390,7 +638,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
   }
   .ho-pwa-banner-cta {
     flex-shrink: 0;
-    background: var(--accent); color: #000;
+    background: var(--accent); color: var(--accent-on);
     border: none; border-radius: 8px;
     padding: 7px 14px; font-size: 0.74rem; font-weight: 700;
     font-family: var(--font-ui); cursor: pointer;
@@ -649,54 +897,10 @@ html, body { overflow-x: hidden; max-width: 100%; }
 }
 
 
-/* ═══════════════════════════════════════════════════════════
-   LIGHT MODE — [data-theme="light"] on <html>
-   All vars override the dark defaults in :root
-   ═══════════════════════════════════════════════════════════ */
+/* The old [data-theme="light"] override block is gone. Paper is :root now, so
+   a second definition of the same names would only fight it. Dark lives in the
+   two blocks at the top of this file. */
 
-[data-theme="light"] {
-  /* Core surfaces */
-  --bg:           #fafaf8;
-  --bg2:          #f2f2ef;
-  --bg3:          #e8e8e4;
-  --bg4:          #dcdcd8;
-  /* Borders */
-  --border:       #d0d0cc;
-  --border2:      #bcbcb8;
-  --border3:      #a8a8a4;
-  /* Text */
-  --text:         #101010;
-  --text2:        #33333c;
-  --text3:        #55555a;   /* was #78787a, which was thin on --bg */
-  /* Accent blue — darker for readability on white */
-  --accent:       #1d4ed8;
-  --accent2:      #1e40af;
-  --accent-dim:   rgba(29,78,216,0.08);
-  --accent-glow:  rgba(29,78,216,0.14);
-  /* Yellow/gold — darker for contrast */
-  --yellow:       #92400e;
-  --yellow2:      #78350f;
-  --yellow-dim:   rgba(146,64,14,0.08);
-  /* Red */
-  --red:          #b91c1c;
-  --red2:         #991b1b;
-  --red-dim:      rgba(185,28,28,0.08);
-  /* Green */
-  --green:        #15803d;
-  --green-dim:    rgba(21,128,61,0.08);
-
-  /* Gradient overrides */
-  --grad-blue:    linear-gradient(135deg, rgba(29,78,216,0.06) 0%, rgba(59,130,246,0.02) 60%, transparent 100%);
-  --grad-gold:    linear-gradient(135deg, rgba(146,64,14,0.06) 0%, rgba(234,179,8,0.02) 60%, transparent 100%);
-  --grad-red:     linear-gradient(135deg, rgba(185,28,28,0.06) 0%, rgba(239,68,68,0.02) 60%, transparent 100%);
-  --grad-green:   linear-gradient(135deg, rgba(21,128,61,0.06) 0%, rgba(34,197,94,0.02) 60%, transparent 100%);
-  --grad-neutral: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(242,242,239,0.7) 100%);
-  --glow-blue:    0 0 0 1px rgba(29,78,216,0.12), 0 4px 28px rgba(29,78,216,0.06);
-  --glow-gold:    0 0 0 1px rgba(146,64,14,0.12), 0 4px 28px rgba(146,64,14,0.06);
-  --glow-red:     0 0 0 1px rgba(185,28,28,0.12), 0 4px 28px rgba(185,28,28,0.06);
-  --glow-green:   0 0 0 1px rgba(21,128,61,0.12), 0 4px 28px rgba(21,128,61,0.06);
-  --glow-neutral: 0 0 0 1px rgba(208,208,204,0.8), 0 4px 16px rgba(0,0,0,0.06);
-}
 
 /* Body — transparent so LightBg fixed div shows through */
 [data-theme="light"] body {
@@ -706,7 +910,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
 /* Selection */
 [data-theme="light"] ::selection {
-  background: rgba(29,78,216,0.12);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
   color: var(--text);
 }
 
@@ -714,19 +918,19 @@ html, body { overflow-x: hidden; max-width: 100%; }
 [data-theme="light"] ::-webkit-scrollbar-corner { background: var(--bg); }
 
 /* Highlight chips */
-[data-theme="light"] .hl-yellow { background: rgba(146,64,14,0.12); }
-[data-theme="light"] .hl-green  { background: rgba(21,128,61,0.10); }
-[data-theme="light"] .hl-red    { background: rgba(185,28,28,0.10); }
-[data-theme="light"] .hl-blue   { background: rgba(29,78,216,0.10); }
+[data-theme="light"] .hl-yellow { background: color-mix(in srgb, var(--warning-text) 12%, transparent); }
+[data-theme="light"] .hl-green  { background: color-mix(in srgb, var(--success-text) 10%, transparent); }
+[data-theme="light"] .hl-red    { background: color-mix(in srgb, var(--danger-text) 10%, transparent); }
+[data-theme="light"] .hl-blue   { background: color-mix(in srgb, var(--accent) 10%, transparent); }
 
 /* Note content */
-[data-theme="light"] .note-content blockquote { background: rgba(146,64,14,0.05); }
-[data-theme="light"] .note-content tr:nth-child(even) td { background: rgba(242,242,239,0.7); }
-[data-theme="light"] .note-content tr:hover td { background: rgba(29,78,216,0.03); }
+[data-theme="light"] .note-content blockquote { background: color-mix(in srgb, var(--warning-text) 5%, transparent); }
+/* the zebra row follows --bg-sunken now, so no light override is needed */
+[data-theme="light"] .note-content tr:hover td { background: color-mix(in srgb, var(--accent) 3%, transparent); }
 [data-theme="light"] .note-content th { background: var(--bg4); }
 [data-theme="light"] .toc-box {
-  background: rgba(29,78,216,0.03);
-  border-color: rgba(29,78,216,0.12);
+  background: color-mix(in srgb, var(--accent) 3%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 /* Glass shine - lighter */
@@ -737,15 +941,12 @@ html, body { overflow-x: hidden; max-width: 100%; }
 }
 
 /* Bottom nav */
-[data-theme="light"] .ho-bottom-nav {
-  background: rgba(250,250,248,0.97);
-  border-top-color: rgba(0,0,0,0.07);
-}
+/* .ho-bottom-nav reads --bg and --border-subtle now, so it needs no override */
 
 /* PWA banner */
 [data-theme="light"] .ho-pwa-banner {
-  background: linear-gradient(160deg, #fff 0%, #f2f2ef 100%);
-  border-color: rgba(29,78,216,0.18);
+  background: var(--bg-raised);
+  border-color: color-mix(in srgb, var(--accent) 18%, transparent);
   box-shadow: 0 12px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.04);
 }
 
@@ -758,20 +959,20 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
 /* ── Navbar overrides (hardcoded inline styles still remaining) ── */
 [data-theme="light"] nav[style] {
-  background: rgba(250,250,248,0.96) !important;
-  border-bottom-color: rgba(0,0,0,0.07) !important;
+  background: color-mix(in srgb, var(--bg) 96%, transparent) !important;
+  border-bottom-color: var(--border-subtle) !important;
 }
 /* auth banner */
 [data-theme="light"] #auth-migration-banner {
-  background: linear-gradient(90deg, rgba(29,78,216,0.05), rgba(146,64,14,0.03)) !important;
-  border-bottom-color: rgba(29,78,216,0.08) !important;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 5%, transparent), color-mix(in srgb, var(--warning-text) 3%, transparent)) !important;
+  border-bottom-color: color-mix(in srgb, var(--accent) 8%, transparent) !important;
   color: rgba(0,0,0,0.55) !important;
 }
 /* Navbar dropdowns with background #111 */
 [data-theme="light"] nav > div > div > div[style*="position: 'absolute'"],
 [data-theme="light"] nav div[style*="background: 'var(--bg3)'"],
 [data-theme="light"] nav div[style*="background:'var(--bg3)'"] {
-  background: #ffffff !important;
+  background: var(--bg-raised) !important;
 }
 
 /* ── Modals / overlays ──
@@ -781,26 +982,26 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
 /* SearchModal */
 [data-theme="light"] div[style*="position: 'fixed'"][style*="background: 'var(--bg3)'"] {
-  background: #ffffff !important;
+  background: var(--bg-raised) !important;
 }
 
 /* Premium modal - background already uses var(--bg2) after replacements */
 
 /* ── Topic pills on homepage (g-topic-pill) ── */
 [data-theme="light"] .g-topic-pill {
-  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(242,242,239,0.7));
+  background: var(--bg-raised);
   border-color: var(--border);
   color: var(--text2);
 }
 [data-theme="light"] .g-topic-pill:hover {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(29,78,216,0.04);
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
 }
 
 /* ── Marquee strip ── */
 [data-theme="light"] .marquee-wrap > div {
-  background: linear-gradient(90deg, rgba(242,242,239,0.9), rgba(232,232,228,0.7)) !important;
+  background: var(--bg-raised) !important;
   border-color: var(--border) !important;
 }
 
@@ -827,7 +1028,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
 /* ── User account dropdown ── */
 [data-theme="light"] .user-account-dropdown {
-  background: linear-gradient(160deg, #fff 0%, #f8f8f5 60%, #f2f2ef 100%) !important;
+  background: var(--bg-raised) !important;
   box-shadow: 0 0 0 1px rgba(0,0,0,0.07), 0 28px 80px rgba(0,0,0,0.12) !important;
 }
 
@@ -858,11 +1059,11 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
 /* ── g-label gradient line in light ── */
 [data-theme="light"] .g-label::after {
-  background: linear-gradient(90deg, rgba(29,78,216,0.25), transparent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 25%, transparent), transparent);
 }
-[data-theme="light"] .g-label-gold::after  { background: linear-gradient(90deg, rgba(146,64,14,0.25), transparent); }
-[data-theme="light"] .g-label-red::after   { background: linear-gradient(90deg, rgba(185,28,28,0.25), transparent); }
-[data-theme="light"] .g-label-green::after { background: linear-gradient(90deg, rgba(21,128,61,0.25), transparent); }
+[data-theme="light"] .g-label-gold::after  { background: linear-gradient(90deg, color-mix(in srgb, var(--warning-text) 25%, transparent), transparent); }
+[data-theme="light"] .g-label-red::after   { background: linear-gradient(90deg, color-mix(in srgb, var(--danger-text) 25%, transparent), transparent); }
+[data-theme="light"] .g-label-green::after { background: linear-gradient(90deg, color-mix(in srgb, var(--success-text) 25%, transparent), transparent); }
 
 /* ── Prelims page ── */
 [data-theme="light"] div[style*="rgba(0,0,0,0.025)"] {

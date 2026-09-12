@@ -1,9 +1,12 @@
-import '@fontsource/libre-baskerville/400.css';
+// Variable builds: one file per family instead of one per weight.
+import '@fontsource-variable/libre-baskerville';                 // roman, 400-700
+import '@fontsource-variable/libre-baskerville/wght-italic.css'; // 31 blockquotes are italic at element level
+import '@fontsource-variable/inter';                             // UI, 400-700
+import '@fontsource/roboto/400-italic.css';                      // inline <em>, see globals.css
+import '@fontsource/roboto/700-italic.css';                      // 7 spans nest <strong> inside <em>
+import '@fontsource/ibm-plex-mono/400.css';                      // eyebrows, marks tags, figures
+import '@fontsource/ibm-plex-mono/500.css';
 import Script from 'next/script';
-import '@fontsource/libre-baskerville/400-italic.css';
-import '@fontsource/libre-baskerville/700.css';
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/600.css';
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
@@ -86,14 +89,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        {/* Theme init — runs before paint to prevent FOUC */}
+        {/*
+          Theme init, before paint, so there is no flash of the wrong ground.
+
+          This always stamps data-theme, even when the reader has expressed no
+          preference, resolving prefers-color-scheme here rather than in CSS.
+          That keeps the stylesheet down to two states: 45 [data-theme="light"]
+          rules in globals.css patch inline styles by substring, and a third
+          state would mean a second selector on every one of them.
+
+          Paper is the default, so an absent stored value follows the OS and
+          falls back to light.
+        */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
             try {
               var t = localStorage.getItem('ho-theme');
-              if (t === 'light') document.documentElement.setAttribute('data-theme','light');
-              else document.documentElement.removeAttribute('data-theme');
-            } catch(e) {}
+              if (t !== 'light' && t !== 'dark') {
+                t = window.matchMedia('(prefers-color-scheme: dark)').matches
+                  ? 'dark' : 'light';
+              }
+              document.documentElement.setAttribute('data-theme', t);
+            } catch(e) {
+              document.documentElement.setAttribute('data-theme', 'light');
+            }
           })();
         `}} />
       </head>
