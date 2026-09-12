@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/design-lint.mjs && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx tests/citationGate.test.mts && tsx tests/sanitizeHtml.test.mts && tsx tests/sanitizeNoteHtml.test.mts && tsx tests/adminAuth.test.mts && tsx tests/fileSignature.test.mts && tsx tests/phone.test.mts && tsx tests/name.test.mts && tsx tests/csv.test.mts"
+    "test": "tsx tests/citationGate.test.mts && tsx tests/sanitizeHtml.test.mts && tsx tests/sanitizeNoteHtml.test.mts && tsx tests/adminAuth.test.mts && tsx tests/fileSignature.test.mts && tsx tests/phone.test.mts && tsx tests/name.test.mts && tsx tests/csv.test.mts",
+    "design-lint": "node scripts/design-lint.mjs",
+    "design-lint:report": "node scripts/design-lint.mjs --report"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
