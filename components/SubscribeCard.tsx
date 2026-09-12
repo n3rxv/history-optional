@@ -148,7 +148,7 @@ export function SubscribeCard({
         description: `Unlimited Access · ${currentPlan.label}`,
         image: '/favicon.svg',
         prefill: { email },
-        theme: { color: '#d4a843' },
+        theme: { color: 'var(--premium-text)' },
         modal: {
           ondismiss: async () => {
             setStep('idle');
@@ -193,8 +193,8 @@ export function SubscribeCard({
             100% { transform: scale(1); opacity: 1; }
           }
           @keyframes successGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(74,222,128,0.2); }
-            50%       { box-shadow: 0 0 40px rgba(74,222,128,0.5); }
+            0%, 100% { box-shadow: 0 0 20px color-mix(in srgb, var(--success-text) 20%, transparent); }
+            50%       { box-shadow: 0 0 40px color-mix(in srgb, var(--success-text) 50%, transparent); }
           }
         `}</style>
         <div style={{
@@ -203,17 +203,17 @@ export function SubscribeCard({
         }}>
           <div style={{
             width: 56, height: 56, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(74,222,128,0.15) 0%, transparent 70%)',
-            border: '1px solid rgba(74,222,128,0.3)',
+            background: 'radial-gradient(circle, color-mix(in srgb, var(--success-text) 15%, transparent) 0%, transparent 70%)',
+            border: '1px solid color-mix(in srgb, var(--success-text) 30%, transparent)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             margin: '0 auto 12px',
             animation: 'successGlow 2s ease infinite',
           }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success-text)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: '#4ade80', marginBottom: 5 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--success-text)', marginBottom: 5 }}>
             You're Premium!
           </div>
           <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: 18, lineHeight: 1.5 }}>
@@ -224,8 +224,8 @@ export function SubscribeCard({
           <button onClick={() => { onClose?.(); onSuccess?.(); }}
             style={{
               width: '100%', padding: '11px', borderRadius: 7, border: 'none',
-              background: 'linear-gradient(135deg, #4ade80, #22c55e)',
-              color: '#000', fontWeight: 700, fontSize: '0.86rem', cursor: 'pointer',
+              background: 'var(--success-text)',
+              color: 'var(--premium-on)', fontWeight: 700, fontSize: '0.86rem', cursor: 'pointer',
               letterSpacing: '0.02em',
             }}>
             Let's go →
@@ -239,8 +239,8 @@ export function SubscribeCard({
     return (
       <div style={{ textAlign: 'center', padding: '1.5rem 0', color: 'var(--text3)', fontSize: '0.84rem' }}>
         <div style={{
-          width: 20, height: 20, border: '2px solid rgba(212,168,67,0.2)',
-          borderTopColor: '#d4a843', borderRadius: '50%',
+          width: 20, height: 20, border: '2px solid color-mix(in srgb, var(--premium-text) 20%, transparent)',
+          borderTopColor: 'var(--premium-text)', borderRadius: '50%',
           margin: '0 auto 10px',
           animation: 'spin 0.7s linear infinite',
         }} />
@@ -264,12 +264,12 @@ export function SubscribeCard({
           100% { background-position: 0% 50%; }
         }
         @keyframes ctaGlow {
-          0%, 100% { box-shadow: 0 0 20px rgba(212,168,67,0.3), 0 4px 15px rgba(0,0,0,0.4); }
-          50%       { box-shadow: 0 0 35px rgba(212,168,67,0.55), 0 4px 20px rgba(0,0,0,0.5); }
+          0%, 100% { box-shadow: 0 0 20px color-mix(in srgb, var(--premium-text) 30%, transparent), 0 4px 15px rgba(0,0,0,0.4); }
+          50%       { box-shadow: 0 0 35px color-mix(in srgb, var(--premium-text) 55%, transparent), 0 4px 20px rgba(0,0,0,0.5); }
         }
         @keyframes julyPulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
-          50%       { box-shadow: 0 0 10px 2px rgba(251,191,36,0.18); }
+          0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--premium-text) 0%, transparent); }
+          50%       { box-shadow: 0 0 10px 2px color-mix(in srgb, var(--premium-text) 18%, transparent); }
         }
         .subscribe-cta { transition: all 0.18s ease; }
         .subscribe-cta:hover { filter: brightness(1.1); }
@@ -283,20 +283,20 @@ export function SubscribeCard({
         {showJulyBadge && (
           <div style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            background: 'rgba(251,191,36,0.07)',
-            border: '0.5px solid rgba(251,191,36,0.3)',
+            background: 'color-mix(in srgb, var(--premium-text) 7%, transparent)',
+            border: '0.5px solid color-mix(in srgb, var(--premium-text) 30%, transparent)',
             borderRadius: 8, padding: '6px 10px',
             animation: 'julyPulse 2.5s ease infinite',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{ fontSize: '0.75rem' }}>🎉</span>
-              <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#fbbf24', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--premium-text)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
                 July Offer — Ends Jul 31
               </span>
             </div>
             <span style={{
-              fontSize: '0.6rem', fontWeight: 800, color: '#4ade80',
-              background: 'rgba(74,222,128,0.1)', border: '0.5px solid rgba(74,222,128,0.25)',
+              fontSize: '0.6rem', fontWeight: 800, color: 'var(--success-text)',
+              background: 'color-mix(in srgb, var(--success-text) 10%, transparent)', border: '0.5px solid color-mix(in srgb, var(--success-text) 25%, transparent)',
               borderRadius: 8, padding: '2px 7px', letterSpacing: '0.04em',
             }}>50% OFF</span>
           </div>
@@ -310,14 +310,14 @@ export function SubscribeCard({
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
               width: '100%', padding: '12px 14px', borderRadius: 10,
-              border: '1px solid rgba(212,168,67,0.45)',
-              background: 'linear-gradient(150deg, rgba(212,168,67,0.13), var(--bg3) 70%)',
+              border: '1px solid color-mix(in srgb, var(--premium-text) 45%, transparent)',
+              background: 'linear-gradient(150deg, color-mix(in srgb, var(--premium-text) 13%, transparent), var(--bg3) 70%)',
             }}>
               <div>
-                <div style={{ fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: '#f0c040', marginBottom: 3 }}>
+                <div style={{ fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--premium-text)', marginBottom: 3 }}>
                   Weekly subscription &middot; renews weekly
                 </div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.15rem', fontWeight: 900, color: '#ffe066' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.15rem', fontWeight: 900, color: 'var(--premium-text)' }}>
                   {planPriceLabel('weekly')}
                 </span>
                 <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}> /week</span>
@@ -326,8 +326,8 @@ export function SubscribeCard({
                 className="weekly-cta"
                 style={{
                   flexShrink: 0, padding: '9px 18px', borderRadius: 7, border: 'none',
-                  background: 'linear-gradient(135deg, #c49a2c 0%, #e8b84b 40%, #f5cc5e 55%, #b8881e 100%)',
-                  color: '#000', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer',
+                  background: 'var(--premium-fill)',
+                  color: 'var(--premium-on)', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer',
                   whiteSpace: 'nowrap', letterSpacing: '0.02em',
                 }}>
                 Subscribe &rarr;
@@ -353,28 +353,28 @@ export function SubscribeCard({
             <button key={p.id} onClick={() => setSelectedPlan(p.id)}
               style={{
                 padding: '10px 4px 8px', borderRadius: 10, cursor: 'pointer', position: 'relative',
-                border: isSelected ? '2px solid #d4a843' : '1px solid var(--border)',
+                border: isSelected ? '2px solid var(--premium-text)' : '1px solid var(--border)',
                 background: isSelected
-                  ? 'linear-gradient(160deg, rgba(212,168,67,0.18), rgba(212,168,67,0.06))'
+                  ? 'linear-gradient(160deg, color-mix(in srgb, var(--premium-text) 18%, transparent), color-mix(in srgb, var(--premium-text) 6%, transparent))'
                   : 'var(--bg3)',
                 transition: 'all 0.2s', textAlign: 'center',
                 boxShadow: isSelected
-                  ? '0 0 24px rgba(212,168,67,0.25), inset 0 1px 0 rgba(0,0,0,0.08)'
+                  ? '0 0 24px color-mix(in srgb, var(--premium-text) 25%, transparent), inset 0 1px 0 rgba(0,0,0,0.08)'
                   : 'none',
                 transform: isSelected ? 'translateY(-2px)' : 'none',
               }}>
               {isPopular && (
                 <div style={{
                   position: 'absolute', top: -8, left: '50%', transform: 'translateX(-50%)',
-                  background: 'linear-gradient(90deg,#d4a843,#f0e68c)',
-                  color: '#000', fontSize: '0.45rem', fontWeight: 800,
+                  background: 'var(--premium-fill)',
+                  color: 'var(--premium-on)', fontSize: '0.45rem', fontWeight: 800,
                   padding: '2px 7px', borderRadius: 20, letterSpacing: '0.08em',
                   whiteSpace: 'nowrap', textTransform: 'uppercase',
                 }}>{langHi ? "सर्वोत्तम मूल्य" : "BEST VALUE"}</div>
               )}
-              <div style={{ fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 5, color: isSelected ? '#f0c040' : '#444' }}>{p.label}</div>
-              <div style={{ fontSize: '1.15rem', fontWeight: 900, lineHeight: 1, fontFamily: 'var(--font-mono)', color: isSelected ? '#ffe066' : '#666', textShadow: isSelected ? '0 0 20px rgba(255,220,80,0.4)' : 'none' }}>{p.price}</div>
-              <div style={{ fontSize: '0.55rem', marginTop: 4, color: isSelected ? '#a07830' : 'var(--border)' }}>{p.sub}</div>
+              <div style={{ fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 5, color: isSelected ? 'var(--premium-text)' : 'var(--text-faint)' }}>{p.label}</div>
+              <div style={{ fontSize: '1.15rem', fontWeight: 900, lineHeight: 1, fontFamily: 'var(--font-mono)', color: isSelected ? 'var(--premium-text)' : 'var(--text3)', textShadow: isSelected ? '0 0 20px color-mix(in srgb, var(--premium-text) 40%, transparent)' : 'none' }}>{p.price}</div>
+              <div style={{ fontSize: '0.55rem', marginTop: 4, color: isSelected ? 'var(--premium-text)' : 'var(--text-faint)' }}>{p.sub}</div>
             </button>
             );
           })}
@@ -387,7 +387,7 @@ export function SubscribeCard({
               <span style={{
                 fontFamily: 'var(--font-mono)', fontSize: '1.9rem', fontWeight: 700,
                 color: 'var(--text)', lineHeight: 1,
-                background: 'linear-gradient(135deg, #f0e68c, #d4a843, #f0e68c)',
+                background: 'var(--premium-fill)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -404,11 +404,11 @@ export function SubscribeCard({
               <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 1 }}>
                 <span style={{
                   width: 5, height: 5, borderRadius: '50%',
-                  background: '#fbbf24', boxShadow: '0 0 6px rgba(251,191,36,0.6)',
+                  background: 'var(--premium-text)', boxShadow: '0 0 6px color-mix(in srgb, var(--premium-text) 60%, transparent)',
                   display: 'inline-block', flexShrink: 0,
                   animation: 'pulseSlot 1.5s ease infinite',
                 }} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: '#fbbf24', letterSpacing: '0.04em' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--premium-text)', letterSpacing: '0.04em' }}>
                   Limited time · saves ₹3,000
                 </span>
               </div>
@@ -419,13 +419,13 @@ export function SubscribeCard({
           <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style={{ flexShrink: 0, opacity: 0.9 }}>
             <defs>
               <radialGradient id="sealGrad" cx="50%" cy="35%" r="60%">
-                <stop offset="0%" stopColor="#f9e07a"/>
-                <stop offset="50%" stopColor="#d4a843"/>
-                <stop offset="100%" stopColor="#9a6f1e"/>
+                <stop offset="0%" stopColor="var(--premium-text)"/>
+                <stop offset="50%" stopColor="var(--premium-text)"/>
+                <stop offset="100%" stopColor="var(--premium-text)"/>
               </radialGradient>
               <radialGradient id="sealInner" cx="50%" cy="40%" r="55%">
-                <stop offset="0%" stopColor="#fef3c7"/>
-                <stop offset="100%" stopColor="#d4a843"/>
+                <stop offset="0%" stopColor="var(--premium-wash)"/>
+                <stop offset="100%" stopColor="var(--premium-text)"/>
               </radialGradient>
             </defs>
             {Array.from({ length: 16 }).map((_, i) => {
@@ -435,12 +435,12 @@ export function SubscribeCard({
               const y1 = 26 + Math.sin(rad) * 19;
               const x2 = 26 + Math.cos(rad) * 24;
               const y2 = 26 + Math.sin(rad) * 24;
-              return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#d4a843" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>;
+              return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--premium-text)" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>;
             })}
             <circle cx="26" cy="26" r="18" fill="url(#sealGrad)"/>
             <circle cx="26" cy="26" r="14" fill="url(#sealInner)" opacity="0.4"/>
-            <path d="M17 31 L19 23 L23 27 L26 21 L29 27 L33 23 L35 31 Z" fill="#7a4f0a" opacity="0.85" strokeLinejoin="round"/>
-            <rect x="17" y="31" width="18" height="2.5" rx="1" fill="#7a4f0a" opacity="0.85"/>
+            <path d="M17 31 L19 23 L23 27 L26 21 L29 27 L33 23 L35 31 Z" fill="var(--premium-on)" opacity="0.85" strokeLinejoin="round"/>
+            <rect x="17" y="31" width="18" height="2.5" rx="1" fill="var(--premium-on)" opacity="0.85"/>
           </svg>
         </div>
 
@@ -454,12 +454,12 @@ export function SubscribeCard({
           ].map(f => (
             <span key={f.label} style={{
               fontSize: '0.68rem', color: 'var(--text3)',
-              background: 'rgba(212,168,67,0.04)',
-              border: '1px solid rgba(212,168,67,0.12)',
+              background: 'color-mix(in srgb, var(--premium-text) 4%, transparent)',
+              border: '1px solid color-mix(in srgb, var(--premium-text) 12%, transparent)',
               borderRadius: 20, padding: '3px 9px',
               display: 'flex', alignItems: 'center', gap: 4,
             }}>
-              <span style={{ color: '#d4a843', fontSize: '0.6rem' }}>{f.icon}</span>
+              <span style={{ color: 'var(--premium-text)', fontSize: '0.6rem' }}>{f.icon}</span>
               {f.label}
             </span>
           ))}
@@ -468,7 +468,7 @@ export function SubscribeCard({
         {/* Glowing divider */}
         <div style={{
           height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(212,168,67,0.25), rgba(212,168,67,0.5), rgba(212,168,67,0.25), transparent)',
+          background: 'linear-gradient(90deg, transparent, color-mix(in srgb, var(--premium-text) 25%, transparent), color-mix(in srgb, var(--premium-text) 50%, transparent), color-mix(in srgb, var(--premium-text) 25%, transparent), transparent)',
           margin: '0 0 2px',
         }} />
 
@@ -481,10 +481,10 @@ export function SubscribeCard({
             width: '100%', padding: '13px', borderRadius: 8, border: 'none',
             background: step === 'paying'
               ? 'var(--bg3)'
-              : 'linear-gradient(135deg, #c49a2c 0%, #e8b84b 35%, #f5cc5e 50%, #e8b84b 65%, #b8881e 100%)',
+              : 'var(--premium-fill)',
             backgroundSize: '200% 200%',
             animation: step === 'paying' ? 'none' : 'gradientShift 4s ease infinite, ctaGlow 2.5s ease infinite',
-            color: step === 'paying' ? 'var(--text3)' : '#000',
+            color: step === 'paying' ? 'var(--text3)' : 'var(--premium-on)',
             fontWeight: 800, fontSize: '0.875rem',
             cursor: step === 'paying' ? 'not-allowed' : 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -512,7 +512,7 @@ export function SubscribeCard({
           {onClose && (
             <button onClick={onClose}
               style={{ background: 'none', border: 'none', color: 'var(--border)', cursor: 'pointer', fontSize: '0.74rem', padding: 0, transition: 'color 0.15s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#777'; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text3)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--border)'; }}>
               Maybe later
             </button>

@@ -1,6 +1,8 @@
 // Variable builds: one file per family instead of one per weight.
 import '@fontsource-variable/libre-baskerville';                 // roman, 400-700
 import '@fontsource-variable/libre-baskerville/wght-italic.css'; // 31 blockquotes are italic at element level
+import '@fontsource/gelasio/400.css';                            // display fallback for Android
+import '@fontsource/gelasio/700.css';                            // Georgia is not on Android
 import '@fontsource-variable/inter';                             // UI, 400-700
 import '@fontsource/roboto/400-italic.css';                      // inline <em>, see globals.css
 import '@fontsource/roboto/700-italic.css';                      // 7 spans nest <strong> inside <em>

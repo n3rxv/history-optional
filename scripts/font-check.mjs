@@ -24,9 +24,20 @@ const LAYOUT = 'app/layout.tsx';
 const css = fs.readFileSync(CSS, 'utf8');
 const layout = fs.readFileSync(LAYOUT, 'utf8');
 
-// families the tokens ask for, first entry of each stack
-const wanted = [...css.matchAll(/--font-([a-z]+):\s*'([^']+)'/g)]
-  .map((m) => ({ token: `--font-${m[1]}`, family: m[2] }));
+// Fonts that ship with the OS and are never loaded by us. Georgia is on macOS
+// and Windows but NOT on Android, so naming it is only safe with a web font
+// behind it; this check enforces that rather than waving it through.
+const SYSTEM = new Set(['Georgia', 'Times New Roman', 'Arial', 'Helvetica',
+  'system-ui', '-apple-system', 'ui-monospace', 'SF Mono', 'Consolas',
+  'serif', 'sans-serif', 'monospace']);
+
+// families the tokens ask for, in stack order. The first entry was matched
+// quoted only at first, which meant a stack starting with an unquoted Georgia
+// silently dropped out of this check entirely.
+const wanted = [...css.matchAll(/--font-([a-z]+):\s*([^;]+);/g)].map((m) => {
+  const stack = m[2].split(',').map((x) => x.trim().replace(/^'|'$/g, ''));
+  return { token: `--font-${m[1]}`, stack };
+});
 
 // families the imported fontsource css actually declares
 const served = new Set();
@@ -42,12 +53,25 @@ for (const m of layout.matchAll(/from\s+'(@fontsource[^']+)'|import\s+'(@fontsou
 }
 
 let bad = 0;
-console.log('token            family requested                        loaded?');
-console.log('-'.repeat(72));
-for (const { token, family } of wanted) {
-  const ok = served.has(family);
+console.log('token            first family                   status');
+console.log('-'.repeat(78));
+for (const { token, stack } of wanted) {
+  const first = stack[0];
+  if (SYSTEM.has(first)) {
+    // A system font is fine only if something we actually load sits behind it,
+    // otherwise a platform without it falls through to a generic.
+    const backup = stack.slice(1).find((f) => served.has(f));
+    if (backup) {
+      console.log(`${token.padEnd(16)} ${first.padEnd(30)} system font, backed by ${backup}`);
+    } else {
+      bad++;
+      console.log(`${token.padEnd(16)} ${first.padEnd(30)} NO WEB FONT BEHIND IT  <-- breaks where the OS lacks it`);
+    }
+    continue;
+  }
+  const ok = served.has(first);
   if (!ok) bad++;
-  console.log(`${token.padEnd(16)} ${family.padEnd(38)} ${ok ? 'yes' : 'NO  <-- falls back silently'}`);
+  console.log(`${token.padEnd(16)} ${first.padEnd(30)} ${ok ? 'loaded' : 'NO  <-- falls back silently'}`);
 }
 console.log(`\n${served.size} families loaded: ${[...served].sort().join(', ')}`);
 

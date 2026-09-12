@@ -117,6 +117,16 @@
   --premium-text-p: #80651e;  --premium-wash-p: #f6f1e2;
   --premium-text-d: #ae8829;  --premium-wash-d: #27200f;
 
+  /* The metallic fill has to invert between grounds, not just shift. The
+     original gradient runs #c49a2c -> #f5cc5e, which is 8:1 to 13.7:1 on black
+     and 1.5:1 to 2.6:1 on white, so on a light page the button vanished. The
+     light version uses darker golds and carries white text; the dark version
+     keeps the bright metal and carries black. */
+  --premium-fill-d: linear-gradient(135deg, #c49a2c 0%, #e8b84b 40%, #f5cc5e 55%, #b8881e 100%);
+  --premium-fill-p: linear-gradient(135deg, #6f5518 0%, #80651e 40%, #8a6a1c 55%, #6f5518 100%);
+  --premium-on-d:   #000000;   /* 11.39:1 on the bright metal */
+  --premium-on-p:   #ffffff;   /*  5.53:1 on the dark metal   */
+
   /* ── ELEVATION ─────────────────────────────────────────────────────────────
      Only for things that actually float. Anything in the page flow gets a
      rule, not a shadow.
@@ -147,8 +157,18 @@
      it is the same class of failure as Playfair Display: a font named in a
      token, never loaded, and nothing to tell you. The plain name is kept after
      it so a static install would also resolve. */
-  --font-display: 'Libre Baskerville Variable', 'Libre Baskerville', Georgia, 'Times New Roman', serif;
-  --font-body:    'Libre Baskerville Variable', 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  /* Display is Georgia, with Gelasio behind it because Georgia does not ship on
+     Android and most of this audience is on Android. Gelasio is a metric clone:
+     measured at the same em size both have an x-height of 194 and a cap of 277,
+     and "History Optional" sets to 3456 against 3458 units. So the two render
+     interchangeably and nothing reflows between platforms.
+
+     Body stays Libre Baskerville, which is 9% larger in the x-height and 3%
+     wider than Georgia. The two are different enough to read as a deliberate
+     pairing: Georgia's bold is assertive for a title, Libre Baskerville's
+     regular is the calmer face for forty minutes of prose. */
+  --font-display: Georgia, 'Gelasio', 'Times New Roman', serif;
+  --font-body:    'Libre Baskerville Variable', 'Libre Baskerville', Georgia, serif;
   --font-italic:  'Roboto', system-ui, -apple-system, sans-serif;
   --font-ui:      'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
@@ -244,6 +264,7 @@
   --modern-text:  var(--modern-text-d);  --modern-wash:  var(--modern-wash-d);
   --world-text:   var(--world-text-d);   --world-wash:   var(--world-wash-d);
   --premium-text: var(--premium-text-d); --premium-wash: var(--premium-wash-d);
+  --premium-fill: var(--premium-fill-d); --premium-on:   var(--premium-on-d);
   --elev-1: var(--elev-1-d);
   --elev-2: var(--elev-2-d);
   --elev-3: var(--elev-3-d);
@@ -265,6 +286,39 @@
    this file patch inline styles by substring and would otherwise have to
    grow a second selector each. */
 
+
+/* ── GROUND-INDEPENDENT ALIASES ─────────────────────────────────────────────
+   These are pure indirection: every one points at a semantic token that is
+   itself redefined per ground. Custom-property references resolve lazily at
+   use time, so defining them once here means --yellow picks up whichever
+   --warning-text is current.
+
+   They were briefly defined inside the light block only, which left them
+   undefined in dark: color:var(--yellow) became invalid and the text fell
+   back to inherited white. That is why the feature card headings and the
+   stat numbers lost their colour on the dark ground but kept it on light.
+   Anything that is the same on both grounds does not belong in either
+   theme block. */
+:root {
+  --yellow:     var(--warning-text);
+  --yellow2:    var(--warning-text);
+  --yellow-dim: var(--warning-wash);
+  --red:        var(--danger-text);
+  --red2:       var(--danger-text);
+  --red-dim:    var(--danger-wash);
+  --green:      var(--success-text);
+  --green-dim:  var(--success-wash);
+  --grad-neutral: var(--bg-raised);
+  --grad-blue:    var(--info-wash);
+  --grad-gold:    var(--warning-wash);
+  --grad-red:     var(--danger-wash);
+  --grad-green:   var(--success-wash);
+  --glow-neutral: var(--elev-1);
+  --glow-blue:    var(--elev-1);
+  --glow-gold:    var(--elev-1);
+  --glow-red:     var(--elev-1);
+  --glow-green:   var(--elev-1);
+}
 
 :root[data-theme="light"] {
   /* Paper. Finished as a token set, waiting on the components. */
@@ -300,34 +354,13 @@
   --modern-text:  var(--modern-text-p);  --modern-wash:  var(--modern-wash-p);
   --world-text:   var(--world-text-p);   --world-wash:   var(--world-wash-p);
   --premium-text: var(--premium-text-p); --premium-wash: var(--premium-wash-p);
+  --premium-fill: var(--premium-fill-p); --premium-on:   var(--premium-on-p);
 
   /* legacy hue names, now pointing at the semantic set */
-  --yellow:     var(--warning-text);
-  --yellow2:    var(--warning-text);
-  --yellow-dim: var(--warning-wash);
-  --red:        var(--danger-text);
-  --red2:       var(--danger-text);
-  --red-dim:    var(--danger-wash);
-  --green:      var(--success-text);
-  --green-dim:  var(--success-wash);
 
   --elev-1: var(--elev-1-p);
   --elev-2: var(--elev-2-p);
   --elev-3: var(--elev-3-p);
-
-  /* The g-card vocabulary. Gradients and coloured glows were a dark-ground
-     device: every --grad-* faded to rgba(17,17,17,0), which on paper fades to
-     near-black. They resolve to washes and real elevation now. */
-  --grad-neutral: var(--bg-raised);
-  --grad-blue:    var(--info-wash);
-  --grad-gold:    var(--warning-wash);
-  --grad-red:     var(--danger-wash);
-  --grad-green:   var(--success-wash);
-  --glow-neutral: var(--elev-1);
-  --glow-blue:    var(--elev-1);
-  --glow-gold:    var(--elev-1);
-  --glow-red:     var(--elev-1);
-  --glow-green:   var(--elev-1);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
