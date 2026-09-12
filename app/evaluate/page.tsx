@@ -499,7 +499,7 @@ const handleOcr = useCallback(async () => {
         .ev-dl-btn:hover { background:rgba(74,222,128,0.12); border-color:rgba(74,222,128,0.5); }
         .ev-sec-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:32px; }
         @media(max-width:620px){ .ev-sec-grid { grid-template-columns:repeat(2,1fr); } }
-        .ev-sec-card { background:var(--bg4); border:1px solid #2a2a2a; border-radius:6px; padding:16px 14px; }
+        .ev-sec-card { background:var(--bg4); border:1px solid var(--border); border-radius:6px; padding:16px 14px; }
         .ev-sec-lbl { font-family:var(--font-mono); font-size:0.52rem; letter-spacing:0.22em;
           text-transform:uppercase; color:var(--text3); margin-bottom:10px; }
         .ev-sec-num { font-family:var(--font-mono); font-size:1.85rem; font-weight:700; line-height:1; }
@@ -520,7 +520,7 @@ const handleOcr = useCallback(async () => {
 
       `}</style>
 
-      <div className="ev-layout" style={{ display:"flex", height:"calc(100vh - 60px)", background:"var(--bg3)", overflow:"hidden" }}>
+      <div className="ev-layout" style={{ display:"flex", height:"calc(100vh - 60px)", background:"var(--bg)", overflow:"hidden" }}>
 
         {/* Mobile-only floating trigger to reopen history drawer */}
         {!sidebarOpen && (
@@ -541,14 +541,14 @@ const handleOcr = useCallback(async () => {
         {/* ── History Sidebar ── */}
         <div className="ev-sidebar" data-open={sidebarOpen ? 'true' : 'false'} style={{
           width: sidebarOpen ? 280 : 40, minWidth: sidebarOpen ? 280 : 40,
-          borderRight:"1px solid #1e1e1e", background:"var(--bg2)",
+          borderRight:"1px solid var(--border-subtle)", background:"var(--bg-raised)",
           transition:"all 0.25s ease", overflow:"hidden", flexShrink:0,
           display:"flex", flexDirection:"column",
         }}>
           {/* Sidebar toggle */}
           <button
             onClick={() => setSidebarOpen(o => !o)}
-            style={{ padding:"14px", background:"transparent", border:"none", borderBottom:"1px solid #1e1e1e", color:"var(--text3)", cursor:"pointer", fontSize:"0.75rem", textAlign:"left", display:"flex", alignItems:"center", gap:"8px", flexShrink:0 }}
+            style={{ padding:"14px", background:"transparent", border:"none", borderBottom:"1px solid var(--border-subtle)", color:"var(--text3)", cursor:"pointer", fontSize:"0.75rem", textAlign:"left", display:"flex", alignItems:"center", gap:"8px", flexShrink:0 }}
           >
             <span style={{ fontSize:"1rem" }}>{sidebarOpen ? "◂" : "▸"}</span>
             {sidebarOpen && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)", whiteSpace:"nowrap" }}>Past Evaluations</span>}
@@ -1079,13 +1079,15 @@ const handleOcr = useCallback(async () => {
                 <textarea className="ev-ta" rows={3} placeholder="Write the exact question here..."
                   value={question} onChange={e => setQuestion(e.target.value)} />
               ) : (
-                <div style={{ padding:"16px 18px", border:"1px solid #1e3a5f", borderRadius:8, background:"linear-gradient(135deg,#0a1628,#0d1f3c)", display:"flex", alignItems:"flex-start", gap:12 }}>
+                // An info notice, so it uses the info role rather than a navy
+                // gradient that was only ever legible on a dark page.
+                <div style={{ padding:"16px 18px", border:"1px solid color-mix(in srgb, var(--info-text) 30%, transparent)", borderRadius:8, background:"var(--info-wash)", display:"flex", alignItems:"flex-start", gap:12 }}>
                   <span style={{ fontSize:"1.1rem", marginTop:1 }}>🔍</span>
                   <div>
-                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"#60a5fa", marginBottom:5, fontWeight:600 }}>
+                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"var(--info-text)", marginBottom:5, fontWeight:600 }}>
                       Question will be auto-extracted from your answer script
                     </div>
-                    <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"#94a3b8", lineHeight:1.5 }}>
+                    <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"var(--text2)", lineHeight:1.5 }}>
                       Upload your sheet above — the system will detect and fill the question automatically. You can edit it afterwards.
                     </div>
                   </div>

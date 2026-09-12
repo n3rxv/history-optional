@@ -958,7 +958,7 @@ function ChatContent() {
             flex-direction: column;
             justify-content: flex-end;
             padding: 1.25rem 1.25rem 1.25rem 0.75rem;
-            background: linear-gradient(180deg, rgba(10,10,13,0.4), var(--bg2));
+            background: var(--bg);
           }
           .chat-mode-strip { display: none; }
           .chat-usage-line { display: none; }
@@ -985,11 +985,11 @@ function ChatContent() {
             padding-left: 0.05rem;
           }
           .chat-input-area-wrap {
-            background: linear-gradient(160deg, var(--bg2), var(--bg2));
+            background: var(--bg-raised);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 0.7rem 0.75rem 0.8rem;
-            box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+            box-shadow: var(--elev-1);
             position: relative;
           }
           .chat-hint-desktop {
