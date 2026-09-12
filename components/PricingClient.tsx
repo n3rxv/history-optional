@@ -383,7 +383,7 @@ export default function PricingClient() {
             <p className="pr-q">Is map evaluation included?</p>
             <p className="pr-a">No. Maps are charged at <strong>₹49 each</strong>, whether or not you
               subscribe. Topper copies are the other way round: they come with every plan, and can
-              also be bought on their own for ₹365.</p>
+              also be bought on their own for ₹799.</p>
           </div>
           <div>
             <p className="pr-q">What happens if I buy again while a plan is still running?</p>

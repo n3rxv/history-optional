@@ -48,7 +48,7 @@ export const FEATURES: Feature[] = [
   { name: 'Mentor mode',               free: '—', premium: '✓',
     detail: 'The TADA framework applied to your question, and a 350-word plan to write to.' },
   { name: 'Topper copies',             free: '—', premium: '✓',
-    detail: 'Full scanned answer copies with the marks awarded. Included in every plan, or ₹365 on its own.' },
+    detail: 'Full scanned answer copies with the marks awarded. Included in every plan, or ₹799 on its own.' },
 ];
 
 /**
@@ -56,7 +56,7 @@ export const FEATURES: Feature[] = [
  * lib/paymentClaim.ts, which is what the server verifies against.
  */
 export const ONE_OFF = [
-  { name: 'Topper copies',  pricePaise: 36500, inPremium: true,
+  { name: 'Topper copies',  pricePaise: 79900, inPremium: true,
     blurb: 'Full scanned answer copies with the marks awarded. Already included in every subscription — this is for buying them on their own.' },
   { name: 'Map evaluation', pricePaise:  4900, inPremium: false,
     blurb: 'Charged per map, for subscribers and non-subscribers alike. It is not part of any plan.' },

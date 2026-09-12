@@ -5,13 +5,13 @@ import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 import { claimPayment, TOPPER_AMOUNT_PAISE } from "@/lib/paymentClaim";
 
 /**
- * Grants a year of topper-copy access for a completed ₹365 payment.
+ * Grants a year of topper-copy access for a completed ₹799 payment.
  *
  * This previously granted on a valid signature alone. A signature is a static
  * value the browser already holds, so replaying the same request re-upserted a
  * fresh one-year expiry every time — the same hole 10327ad closed for
  * subscriptions, left open here. It also never checked that the order belonged
- * to the caller or that ₹365 had actually been paid.
+ * to the caller or that the right amount had actually been paid.
  */
 
 function signatureMatches(orderId: string, paymentId: string, signature: string): boolean {

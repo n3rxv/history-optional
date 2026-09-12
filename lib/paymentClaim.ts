@@ -19,7 +19,7 @@ import Razorpay from 'razorpay';
  * remaining half of the job.
  */
 
-export const TOPPER_AMOUNT_PAISE = 36500;
+export const TOPPER_AMOUNT_PAISE = 79900;
 export const MAP_AMOUNT_PAISE = 4900;
 
 export type ClaimResult =

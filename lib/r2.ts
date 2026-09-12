@@ -3,7 +3,7 @@ import { AwsClient } from 'aws4fetch';
 /**
  * Short-lived signed URLs for topper copy PDFs.
  *
- * These are the ₹365 product, and they sit in an R2 bucket served through its
+ * These are the one-off topper-copy product, and they sit in an R2 bucket served through its
  * public development URL — pub-<hash>.r2.dev — which performs no access check
  * of its own. Until the list endpoints stopped returning drive_file_id, two
  * unauthenticated GETs enumerated every object key in the library, and a key
