@@ -331,7 +331,7 @@ export default function PromoPopup() {
                     style={{
                       display: 'block', width: '100%', padding: '0.78rem',
                       background: 'var(--accent)', border: 'none', borderRadius: 9,
-                      fontSize: 14, fontWeight: 600, color: 'var(--text)',
+                      fontSize: 14, fontWeight: 600, color: 'var(--on-fill)',
                       cursor: 'pointer', textAlign: 'center',
                       transition: 'background 0.15s',
                       letterSpacing: '0.01em',
@@ -582,7 +582,7 @@ export default function PromoPopup() {
                   style={{
                     display: 'block', width: '100%', padding: '0.78rem',
                     background: 'var(--accent)', border: 'none', borderRadius: 9,
-                    fontSize: 14, fontWeight: 600, color: 'var(--text)',
+                    fontSize: 14, fontWeight: 600, color: 'var(--on-fill)',
                     cursor: 'pointer', textAlign: 'center',
                     transition: 'background 0.15s',
                     letterSpacing: '0.01em',

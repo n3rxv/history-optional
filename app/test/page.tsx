@@ -774,7 +774,7 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                       }}
                         style={{
                           marginTop: 6, width: '100%', padding: '0.4rem', borderRadius: 6,
-                          background: 'var(--accent)', color: 'var(--text)', border: 'none',
+                          background: 'var(--accent)', color: 'var(--on-fill)', border: 'none',
                           fontFamily: 'var(--font-ui)', fontSize: '0.82rem', fontWeight: 600,
                           cursor: 'pointer',
                         }}>
@@ -1428,7 +1428,7 @@ export default function TestPage() {
 
         <div style={{ textAlign: 'center', marginTop: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <button onClick={() => setPhase('config')} style={{
-            background: 'var(--accent)', color: 'var(--text)', border: 'none',
+            background: 'var(--accent)', color: 'var(--on-fill)', border: 'none',
             borderRadius: 8, padding: '0.85rem 2rem', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
           }}>Start Another Test</button>
           <button onClick={() => window.location.href = '/pyqs'} style={{

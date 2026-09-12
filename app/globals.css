@@ -252,7 +252,13 @@
   --accent:        var(--lapis-500);
   --accent2:       var(--lapis-400);
   --accent-text:   var(--lapis-400);
-  --accent-on:     var(--black-900);   /* 4.62:1 on --lapis-500 */
+  /* What sits ON any saturated fill. Every role lands on the same answer,
+     because the light values of a role are dark and its dark values are light:
+     white reads on the first, black on the second, 5.5:1 and 6.3:1.
+     --text was being used here, which is 3.24:1 on the light danger fill and
+     2.83:1 on the dark one, so both grounds were wrong. */
+  --on-fill:       var(--black-900);
+  --accent-on:     var(--on-fill);     /* 4.62:1 on --lapis-500 */
   --accent-dim:    color-mix(in srgb, var(--lapis-500) 10%, transparent);
   --accent-glow:   color-mix(in srgb, var(--lapis-500) 18%, transparent);
   --success-text: var(--success-text-d); --success-wash: var(--success-wash-d);
@@ -363,7 +369,8 @@
   --accent:        var(--lapis-600);
   --accent2:       var(--lapis-700);
   --accent-text:   var(--lapis-700);
-  --accent-on:     var(--white-50);     /* 4.70:1 on --lapis-600 */
+  --on-fill:       var(--white-50);
+  --accent-on:     var(--on-fill);     /* 4.70:1 on --lapis-600 */
   --accent-dim:    color-mix(in srgb, var(--lapis-600) 7%, transparent);
   --accent-glow:   color-mix(in srgb, var(--lapis-600) 14%, transparent);
 

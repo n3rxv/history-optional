@@ -245,7 +245,7 @@ function ModelAnswerModal({
             <div style={{ textAlign: 'center', padding: '2rem 0' }}>
               <div style={{ color: '#f87171', fontSize: '0.88rem', marginBottom: '1rem' }}>{error}</div>
               <button onClick={() => generate(true)} style={{
-                background: 'var(--accent)', color: 'var(--text)', border: 'none',
+                background: 'var(--accent)', color: 'var(--on-fill)', border: 'none',
                 padding: '0.5rem 1.25rem', borderRadius: 6, cursor: 'pointer',
                 fontFamily: 'var(--font-mono)', fontSize: '0.8rem',
               }}>Try Again</button>

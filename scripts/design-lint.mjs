@@ -70,6 +70,20 @@ const RULES = [
     )],
   },
   {
+    id: 'text-on-role-fill',
+    why: 'a saturated fill takes its foreground from --on-fill, not --text',
+    // --text is near-white on the dark ground and near-black on light, so it
+    // can never be correct on top of a saturated fill: over the danger colour
+    // it measured 2.83:1 on dark and 3.24:1 on light. --on-fill resolves to
+    // white or black per ground and lands at 5.5:1 and 6.3:1.
+    find: (t) => [...t.matchAll(/style=\{\{([^}]*(?:\{[^}]*\}[^}]*)*)\}\}/g)]
+      .filter((m) => {
+        const b = m[1];
+        return /background(?:Color)?:\s*'var\(--(?:red|green|yellow|accent|danger-text|success-text|warning-text|info-text|premium-text)\)'/.test(b)
+          && /color:\s*'var\(--(?:text|text2|text3)\)'/.test(b);
+      }),
+  },
+  {
     id: 'primitive-in-component',
     why: 'components name semantic tokens, never primitives',
     find: (t) => [...t.matchAll(

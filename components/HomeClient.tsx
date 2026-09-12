@@ -107,7 +107,7 @@ export function PYQCarousel() {
             onClick={() => { setPyqFade(false); setTimeout(() => { setPyqIdx(i); setPyqFade(true); }, 300); }} />
         ))}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-          <Link href="/pyqs" style={{ background: 'var(--red)', color: 'var(--text)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "PYQ देखें" : "Browse PYQs"}</Link>
+          <Link href="/pyqs" style={{ background: 'var(--red)', color: 'var(--on-fill)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "PYQ देखें" : "Browse PYQs"}</Link>
           <Link href="/chat" style={{ background: 'transparent', color: 'var(--accent)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 500, fontSize: '0.82rem', border: '1px solid rgba(59,130,246,0.3)', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "AI से पूछें →" : "Ask AI →"}</Link>
         </div>
       </div>

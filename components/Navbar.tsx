@@ -627,7 +627,7 @@ export default function Navbar() {
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                 </svg>
                 {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                  <span style={{ position:'absolute', top:-4, right:-4, minWidth:16, height:16, borderRadius:8, background:'var(--danger-text)', border:'1.5px solid var(--bg)', fontSize:'0.6rem', fontWeight:700, color:'var(--text)', display:'flex', alignItems:'center', justifyContent:'center', padding:'0 4px', fontFamily:'var(--font-mono)' }}>
+                  <span style={{ position:'absolute', top:-4, right:-4, minWidth:16, height:16, borderRadius:8, background:'var(--danger-text)', border:'1.5px solid var(--bg)', fontSize:'0.6rem', fontWeight:700, color: 'var(--on-fill)', display:'flex', alignItems:'center', justifyContent:'center', padding:'0 4px', fontFamily:'var(--font-mono)' }}>
                     {notifications.filter(n => !seenIds.includes(n.id)).length > 9 ? '9+' : notifications.filter(n => !seenIds.includes(n.id)).length}
                   </span>
                 )}
