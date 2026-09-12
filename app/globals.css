@@ -184,6 +184,68 @@
   --radius-full: 9999px;   /* the pill idiom, previously typed as 999 */
   --radius-circle:  50%;   /* avatars */
 
+  /* ── SEMANTIC: dark, the default ground ────────────────────────────────────
+     Dark is the default while the components are converted. 675 dark-ground
+     assumptions still sit in inline styles no token can reach: 315
+     rgba(0,0,0,...) overlays, 178 hardcoded golds, 88 dark surface literals.
+     Inverting the ground made all of them visible at once, so paper waits
+     until the worst files are done. Every value below is the finished design;
+     only which block sits in :root is temporary.
+
+     :root carries dark so a JS failure lands somewhere coherent rather than on
+     half-converted paper. */
+  --bg:            var(--dark-900);
+  --bg-raised:     var(--dark-800);
+  --bg-sunken:     var(--dark-700);
+  --bg2:           var(--dark-800);
+  --bg3:           var(--dark-700);
+  --bg4:           var(--dark-600);
+  --border-subtle: var(--dark-600);
+  --border:        var(--dark-500);
+  --border2:       var(--dark-400);
+  --border3:       var(--dark-300);
+  --text:          var(--dink-50);
+  --text2:         var(--dink-200);
+  --text3:         var(--dink-400);
+  --text-faint:    var(--dink-500);
+  --accent:        var(--lapis-500);
+  --accent2:       var(--lapis-400);
+  --accent-text:   var(--lapis-400);
+  --accent-on:     var(--dark-900);   /* 4.59:1 on --lapis-500 */
+  --accent-dim:    color-mix(in srgb, var(--lapis-500) 10%, transparent);
+  --accent-glow:   color-mix(in srgb, var(--lapis-500) 18%, transparent);
+  --success-text: var(--success-text-d); --success-wash: var(--success-wash-d);
+  --warning-text: var(--warning-text-d); --warning-wash: var(--warning-wash-d);
+  --danger-text:  var(--danger-text-d);  --danger-wash:  var(--danger-wash-d);
+  --info-text:    var(--info-text-d);    --info-wash:    var(--info-wash-d);
+  --ancient-text: var(--ancient-text-d); --ancient-wash: var(--ancient-wash-d);
+  --medieval-text:var(--medieval-text-d);--medieval-wash:var(--medieval-wash-d);
+  --modern-text:  var(--modern-text-d);  --modern-wash:  var(--modern-wash-d);
+  --world-text:   var(--world-text-d);   --world-wash:   var(--world-wash-d);
+  --elev-1: var(--elev-1-d);
+  --elev-2: var(--elev-2-d);
+  --elev-3: var(--elev-3-d);
+}
+
+/* ── SEMANTIC: dark ─────────────────────────────────────────────────────────
+   Applied twice on purpose. The media query catches readers who have made no
+   choice and whose OS prefers dark, guarded with :not([data-theme="light"])
+   so an explicit light choice still wins. The attribute selector catches an
+   explicit dark choice and must come after, because the two have equal
+   specificity and source order decides.
+
+   A toggle that can only override in one direction leaves readers on a dark
+   OS unable to choose paper. */
+/* There is no prefers-color-scheme block here on purpose. The bootstrap in
+   app/layout.tsx resolves the reader's preference once, before paint, and
+   always stamps data-theme. That keeps CSS down to two states instead of
+   three, which matters because 45 [data-theme="light"] rules further down
+   this file patch inline styles by substring and would otherwise have to
+   grow a second selector each. */
+
+
+:root[data-theme="light"] {
+  /* Paper. Finished as a token set, waiting on the components. */
   /* ── SEMANTIC: paper, the default ground ───────────────────────────────── */
   --bg:            var(--paper-100);
   --bg-raised:     var(--paper-50);
@@ -243,57 +305,6 @@
   --glow-gold:    var(--elev-1);
   --glow-red:     var(--elev-1);
   --glow-green:   var(--elev-1);
-}
-
-/* ── SEMANTIC: dark ─────────────────────────────────────────────────────────
-   Applied twice on purpose. The media query catches readers who have made no
-   choice and whose OS prefers dark, guarded with :not([data-theme="light"])
-   so an explicit light choice still wins. The attribute selector catches an
-   explicit dark choice and must come after, because the two have equal
-   specificity and source order decides.
-
-   A toggle that can only override in one direction leaves readers on a dark
-   OS unable to choose paper. */
-/* There is no prefers-color-scheme block here on purpose. The bootstrap in
-   app/layout.tsx resolves the reader's preference once, before paint, and
-   always stamps data-theme. That keeps CSS down to two states instead of
-   three, which matters because 45 [data-theme="light"] rules further down
-   this file patch inline styles by substring and would otherwise have to
-   grow a second selector each. */
-
-
-:root[data-theme="dark"] {
-  --bg:            var(--dark-900);
-  --bg-raised:     var(--dark-800);
-  --bg-sunken:     var(--dark-700);
-  --bg2:           var(--dark-800);
-  --bg3:           var(--dark-700);
-  --bg4:           var(--dark-600);
-  --border-subtle: var(--dark-600);
-  --border:        var(--dark-500);
-  --border2:       var(--dark-400);
-  --border3:       var(--dark-300);
-  --text:          var(--dink-50);
-  --text2:         var(--dink-200);
-  --text3:         var(--dink-400);
-  --text-faint:    var(--dink-500);
-  --accent:        var(--lapis-500);
-  --accent2:       var(--lapis-400);
-  --accent-text:   var(--lapis-400);
-  --accent-on:     var(--dark-900);   /* 4.59:1 on --lapis-500 */
-  --accent-dim:    color-mix(in srgb, var(--lapis-500) 10%, transparent);
-  --accent-glow:   color-mix(in srgb, var(--lapis-500) 18%, transparent);
-  --success-text: var(--success-text-d); --success-wash: var(--success-wash-d);
-  --warning-text: var(--warning-text-d); --warning-wash: var(--warning-wash-d);
-  --danger-text:  var(--danger-text-d);  --danger-wash:  var(--danger-wash-d);
-  --info-text:    var(--info-text-d);    --info-wash:    var(--info-wash-d);
-  --ancient-text: var(--ancient-text-d); --ancient-wash: var(--ancient-wash-d);
-  --medieval-text:var(--medieval-text-d);--medieval-wash:var(--medieval-wash-d);
-  --modern-text:  var(--modern-text-d);  --modern-wash:  var(--modern-wash-d);
-  --world-text:   var(--world-text-d);   --world-wash:   var(--world-wash-d);
-  --elev-1: var(--elev-1-d);
-  --elev-2: var(--elev-2-d);
-  --elev-3: var(--elev-3-d);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

@@ -98,17 +98,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rules in globals.css patch inline styles by substring, and a third
           state would mean a second selector on every one of them.
 
-          Paper is the default, so an absent stored value follows the OS and
-          falls back to light.
+          Dark is the default while the components are converted: 675 inline
+          dark-ground assumptions are still in place, so paper is opt-in until
+          the worst files are done. prefers-color-scheme is deliberately not
+          consulted yet, because following a light OS preference would hand a
+          reader the half-converted ground.
         */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
             try {
               var t = localStorage.getItem('ho-theme');
-              if (t !== 'light' && t !== 'dark') {
-                t = window.matchMedia('(prefers-color-scheme: dark)').matches
-                  ? 'dark' : 'light';
-              }
+              if (t !== 'light' && t !== 'dark') t = 'dark';
               document.documentElement.setAttribute('data-theme', t);
             } catch(e) {
               document.documentElement.setAttribute('data-theme', 'light');
