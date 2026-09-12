@@ -54,37 +54,37 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
       onClick={onClose}
     >
       <div
-        style={{ background: 'var(--bg2)', border: '1px solid #1e1e1e', borderRadius: 16, padding: '1.5rem', maxWidth: 560, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)', maxHeight: '90vh', overflowY: 'auto' }}
+        style={{ background: 'var(--bg2)', border: '1px solid var(--border-subtle)', borderRadius: 16, padding: '1.5rem', maxWidth: 560, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)', maxHeight: '90vh', overflowY: 'auto' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
           <div>
-            <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#d4a843', marginBottom: 4 }}>Premium</div>
+            <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--premium-text)', marginBottom: 4 }}>Premium</div>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1.2 }}>Unlock everything</div>
           </div>
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', padding: '2px 4px', fontSize: '1rem', lineHeight: 1, marginTop: 2 }}>✕</button>
         </div>
 
         {noSubFound && (
-          <div style={{ background: 'rgba(248,113,113,0.06)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 6, padding: '8px 12px', marginBottom: 14, fontSize: '0.76rem', color: '#f87171', textAlign: 'center' }}>
+          <div style={{ background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)', borderRadius: 6, padding: '8px 12px', marginBottom: 14, fontSize: '0.76rem', color: 'var(--danger-text)', textAlign: 'center' }}>
             No active subscription found for this account.
           </div>
         )}
 
         {/* Feature table — compact */}
-        <div style={{ marginBottom: 16, borderRadius: 8, overflow: 'hidden', border: '1px solid #1a1a1a', maxHeight: 160, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#d4a843 #1a1a1a' }}>
+        <div style={{ marginBottom: 16, borderRadius: 8, overflow: 'hidden', border: '1px solid var(--border-subtle)', maxHeight: 160, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'var(--premium-text) var(--bg3)' }}>
           {/* Table header */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', background: 'var(--bg3)', padding: '6px 10px', borderBottom: '1px solid #1a1a1a' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', background: 'var(--bg3)', padding: '6px 10px', borderBottom: '1px solid var(--border-subtle)' }}>
             <span style={{ fontSize: '0.62rem', color: 'var(--border2)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Feature</span>
             <span style={{ fontSize: '0.62rem', color: 'var(--border2)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'center' }}>Free</span>
-            <span style={{ fontSize: '0.62rem', color: '#d4a843', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'right' }}>Premium</span>
+            <span style={{ fontSize: '0.62rem', color: 'var(--premium-text)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'right' }}>Premium</span>
           </div>
           {FEATURES.map((f, i) => (
-            <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', padding: '7px 10px', background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)', borderBottom: i < FEATURES.length - 1 ? '1px solid #141414' : 'none', alignItems: 'center' }}>
+            <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', padding: '7px 10px', background: i % 2 === 0 ? 'transparent' : 'color-mix(in srgb, var(--text) 1%, transparent)', borderBottom: i < FEATURES.length - 1 ? '1px solid var(--border-subtle)' : 'none', alignItems: 'center' }}>
               <span style={{ fontSize: '0.78rem', color: 'var(--text2)' }}>{f.name}</span>
-              <span style={{ fontSize: '0.72rem', color: f.free === '✓ free' ? '#2d6a40' : 'var(--border2)', textAlign: 'center' }}>{f.free}</span>
-              <span style={{ fontSize: '0.72rem', color: '#d4a843', fontWeight: 600, textAlign: 'right' }}>{f.premium}</span>
+              <span style={{ fontSize: '0.72rem', color: f.free === '✓ free' ? 'var(--success-text)' : 'var(--border2)', textAlign: 'center' }}>{f.free}</span>
+              <span style={{ fontSize: '0.72rem', color: 'var(--premium-text)', fontWeight: 600, textAlign: 'right' }}>{f.premium}</span>
             </div>
           ))}
         </div>
@@ -103,8 +103,8 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
             await signInWithGoogle();
           }}
           style={{ width: '100%', marginTop: 10, padding: '8px', background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.12)', borderRadius: 7, color: 'var(--text)', cursor: 'pointer', fontSize: '0.76rem', fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s ease', position: 'relative', overflow: 'hidden' }}
-          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(255,255,255,0.4)'; el.style.color = '#fff'; el.style.background = 'rgba(0,0,0,0.08)'; }}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(0,0,0,0.12)'; el.style.color = '#e0e0e0'; el.style.background = 'rgba(0,0,0,0.06)'; }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'color-mix(in srgb, var(--text) 40%, transparent)'; el.style.color = 'var(--text)'; el.style.background = 'rgba(0,0,0,0.08)'; }}
+          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(0,0,0,0.12)'; el.style.color = 'var(--text2)'; el.style.background = 'rgba(0,0,0,0.06)'; }}
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -191,7 +191,7 @@ function ExtendModal({
         description: `${cur.label} Plan`,
         order_id: orderId,
         prefill: { email: user.email ?? '' },
-        theme: { color: '#6366f1' },
+        theme: { color: 'var(--accent)' },
         handler: async (resp: any) => {
           const verifyRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
@@ -220,7 +220,7 @@ function ExtendModal({
   return createPortal(
     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{ background: 'linear-gradient(145deg, #0f0f0f, #141414)', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 18, width: '100%', maxWidth: 380, boxShadow: '0 32px 80px rgba(0,0,0,0.9)', overflow: 'hidden' }}>
+      <div style={{ background: 'var(--bg2)', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 18, width: '100%', maxWidth: 380, boxShadow: '0 32px 80px rgba(0,0,0,0.9)', overflow: 'hidden' }}>
         {/* Header */}
         <div style={{ background: 'linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(212,168,67,0.1) 100%)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '1.2rem 1.4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
@@ -237,7 +237,7 @@ function ExtendModal({
           {subData && (
             <div style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.12)', borderRadius: 8, padding: '0.6rem 0.9rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ fontSize: '0.68rem', color: 'var(--text3)' }}>Current expiry</span>
-              <span style={{ fontSize: '0.72rem', color: '#a5b4fc', fontWeight: 600 }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--accent-text)', fontWeight: 600 }}>
                 {new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
               </span>
             </div>
@@ -250,8 +250,8 @@ function ExtendModal({
               return (
                 <button key={p.id} onClick={() => setSelectedPlan(p.id)}
                   style={{ background: sel ? 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(212,168,67,0.15))' : 'rgba(0,0,0,0.03)', border: sel ? '1px solid rgba(99,102,241,0.55)' : '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '0.7rem 0.5rem', cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}>
-                  <div style={{ fontSize: '0.72rem', color: sel ? '#c7d2fe' : 'rgba(255,255,255,0.5)', fontWeight: 600, marginBottom: 4 }}>{p.label}</div>
-                  <div style={{ fontSize: '1rem', color: sel ? '#fff' : 'rgba(255,255,255,0.7)', fontWeight: 800 }}>{p.price}</div>
+                  <div style={{ fontSize: '0.72rem', color: sel ? 'var(--accent-text)' : 'color-mix(in srgb, var(--text) 50%, transparent)', fontWeight: 600, marginBottom: 4 }}>{p.label}</div>
+                  <div style={{ fontSize: '1rem', color: sel ? 'var(--text)' : 'color-mix(in srgb, var(--text) 70%, transparent)', fontWeight: 800 }}>{p.price}</div>
                 </button>
               );
             })}
@@ -261,7 +261,7 @@ function ExtendModal({
           <div style={{ background: 'linear-gradient(90deg, rgba(81,207,102,0.08), rgba(81,207,102,0.04))', border: '1px solid rgba(81,207,102,0.18)', borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
               <div style={{ fontSize: '0.62rem', color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 3 }}>New expiry after payment</div>
-              <div style={{ fontSize: '0.88rem', color: '#51cf66', fontWeight: 700 }}>
+              <div style={{ fontSize: '0.88rem', color: 'var(--success-text)', fontWeight: 700 }}>
                 {newExpiry.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
               </div>
             </div>
@@ -270,7 +270,7 @@ function ExtendModal({
 
           {/* Pay button */}
           <button onClick={handlePay} disabled={loading}
-            style={{ width: '100%', background: loading ? 'rgba(99,102,241,0.3)' : 'linear-gradient(90deg, #6366f1, #818cf8)', border: 'none', borderRadius: 10, color: 'var(--text)', cursor: loading ? 'not-allowed' : 'pointer', padding: '0.75rem', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.03em', boxShadow: loading ? 'none' : '0 4px 20px rgba(99,102,241,0.4)', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            style={{ width: '100%', background: loading ? 'color-mix(in srgb, var(--accent) 30%, transparent)' : 'var(--accent)', border: 'none', borderRadius: 10, color: 'var(--text)', cursor: loading ? 'not-allowed' : 'pointer', padding: '0.75rem', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.03em', boxShadow: loading ? 'none' : '0 4px 20px rgba(99,102,241,0.4)', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
             {loading ? 'Processing…' : `Pay ${cur.price} → Proceed`}
           </button>
         </div>
@@ -538,7 +538,7 @@ export default function Navbar() {
             <div style={{ width: 1, height: 18, background: 'rgba(0,0,0,0.08)', margin: '0 0.25rem' }} />
 
             {/* Dashboard */}
-            <Link href="/dashboard" title="Progress Dashboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 6, textDecoration: 'none', color: pathname.startsWith('/dashboard') ? 'var(--accent)' : 'rgba(255,255,255,0.35)', transition: 'color 0.15s' }}
+            <Link href="/dashboard" title="Progress Dashboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 6, textDecoration: 'none', color: pathname.startsWith('/dashboard') ? 'var(--accent)' : 'color-mix(in srgb, var(--text) 35%, transparent)', transition: 'color 0.15s' }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname.startsWith('/dashboard') ? 'var(--accent)' : 'var(--text3)'; }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -558,15 +558,15 @@ export default function Navbar() {
                   setSeenIds(allIds);
                   localStorage.setItem('ho_seen_notifications', JSON.stringify(allIds));
                 }
-              }} style={{ display:'flex', alignItems:'center', justifyContent:'center', width:30, height:30, borderRadius:6, background:'none', border:'none', cursor:'pointer', color:'rgba(255,255,255,0.35)', position:'relative', transition:'color 0.15s' }}
+              }} style={{ display:'flex', alignItems:'center', justifyContent:'center', width:30, height:30, borderRadius:6, background:'none', border:'none', cursor:'pointer', color:'color-mix(in srgb, var(--text) 35%, transparent)', position:'relative', transition:'color 0.15s' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)'; }}>
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'color-mix(in srgb, var(--text) 35%, transparent)'; }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                 </svg>
                 {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                  <span style={{ position:'absolute', top:-4, right:-4, minWidth:16, height:16, borderRadius:8, background:'#f87171', border:'1.5px solid #000', fontSize:'0.6rem', fontWeight:700, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', padding:'0 4px', fontFamily:'var(--font-mono)' }}>
+                  <span style={{ position:'absolute', top:-4, right:-4, minWidth:16, height:16, borderRadius:8, background:'var(--danger-text)', border:'1.5px solid var(--bg)', fontSize:'0.6rem', fontWeight:700, color:'var(--text)', display:'flex', alignItems:'center', justifyContent:'center', padding:'0 4px', fontFamily:'var(--font-mono)' }}>
                     {notifications.filter(n => !seenIds.includes(n.id)).length > 9 ? '9+' : notifications.filter(n => !seenIds.includes(n.id)).length}
                   </span>
                 )}
@@ -575,17 +575,17 @@ export default function Navbar() {
                 <div style={{ position:'absolute', top:'calc(100% + 14px)', right:-8, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, minWidth:320, maxWidth:360, zIndex:1000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.9), 0 0 80px rgba(99,102,241,0.12), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
                   <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(0,0,0,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
                     <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                      <div style={{ width:6, height:6, borderRadius:'50%', background:'#818cf8', boxShadow:'0 0 10px #818cf8, 0 0 20px rgba(129,140,248,0.4)' }} />
-                      <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'#a5b4fc', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
+                      <div style={{ width:6, height:6, borderRadius:'50%', background:'var(--accent)', boxShadow:'0 0 10px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent)' }} />
+                      <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'var(--accent-text)', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
                     </div>
                     {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                      <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', color:'#fff', letterSpacing:'0.08em', background:'rgba(248,113,113,0.2)', border:'1px solid rgba(248,113,113,0.35)', borderRadius:20, padding:'2px 8px', fontWeight:600 }}>
+                      <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', color:'var(--text)', letterSpacing:'0.08em', background:'var(--danger-wash)', border:'1px solid rgba(248,113,113,0.35)', borderRadius:20, padding:'2px 8px', fontWeight:600 }}>
                         {notifications.filter(n => !seenIds.includes(n.id)).length} NEW
                       </span>
                     )}
                   </div>
                   {notifications.length === 0 ? (
-                    <div style={{ padding:'32px 18px', fontSize:'0.82rem', color:'#444', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>— no notifications —</div>
+                    <div style={{ padding:'32px 18px', fontSize:'0.82rem', color:'var(--text-faint)', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>— no notifications —</div>
                   ) : (
                     <div style={{ maxHeight:400, overflowY:'auto' }}>
                       {notifications.map(n => {
@@ -595,14 +595,14 @@ export default function Navbar() {
                             style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(0,0,0,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.06)', position:'relative', transition:'background 0.15s' }}
                             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.06)'; }}
                             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = seen ? 'transparent' : 'rgba(99,102,241,0.06)'; }}>
-                            {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'linear-gradient(180deg,#818cf8,#a78bfa)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px rgba(129,140,248,0.4)' }} />}
+                            {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'var(--accent)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px color-mix(in srgb, var(--accent) 40%, transparent)' }} />}
                             <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
                               <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(0,0,0,0.04)' : 'linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.15))', border: seen ? '1px solid rgba(0,0,0,0.07)' : '1px solid rgba(139,92,246,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px rgba(99,102,241,0.15)' }}>
                                 {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
                               </div>
                               <div style={{ flex:1, minWidth:0 }}>
-                                <div style={{ fontSize:'0.85rem', color: seen ? '#6b7280' : '#ffffff', lineHeight:1.5, fontWeight: seen ? 400 : 500, letterSpacing:'-0.01em' }}>{n.title}</div>
-                                <div style={{ fontSize:'0.65rem', color: seen ? '#374151' : '#818cf8', marginTop:4, fontFamily:'var(--font-mono)', letterSpacing:'0.05em', fontWeight:500 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
+                                <div style={{ fontSize:'0.85rem', color: seen ? 'var(--text3)' : 'var(--text)', lineHeight:1.5, fontWeight: seen ? 400 : 500, letterSpacing:'-0.01em' }}>{n.title}</div>
+                                <div style={{ fontSize:'0.65rem', color: seen ? 'var(--text-faint)' : 'var(--accent)', marginTop:4, fontFamily:'var(--font-mono)', letterSpacing:'0.05em', fontWeight:500 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
                               </div>
                             </div>
                           </a>
@@ -611,9 +611,9 @@ export default function Navbar() {
                     </div>
                   )}
                   <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
-                    <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
-                    <div style={{ fontSize:'0.52rem', color:'#4b5563', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
-                    <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
+                    <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
+                    <div style={{ fontSize:'0.52rem', color:'var(--text-faint)', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
+                    <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
                   </div>
                 </div>
               )}
@@ -638,16 +638,16 @@ export default function Navbar() {
           >
             <span style={{
               padding: '0.28rem 0.6rem',
-              background: !langHi ? 'rgba(59,130,246,0.18)' : 'transparent',
-              color: !langHi ? '#60a5fa' : 'var(--text3)',
+              background: !langHi ? 'var(--accent-dim)' : 'transparent',
+              color: !langHi ? 'var(--accent-text)' : 'var(--text3)',
               borderRight: '1px solid var(--border)',
               transition: 'all 0.15s',
               letterSpacing: '0.04em',
             }}>EN</span>
             <span style={{
               padding: '0.28rem 0.6rem',
-              background: langHi ? 'rgba(99,102,241,0.18)' : 'transparent',
-              color: langHi ? '#a5b4fc' : 'var(--text3)',
+              background: langHi ? 'var(--accent-dim)' : 'transparent',
+              color: langHi ? 'var(--accent-text)' : 'var(--text3)',
               transition: 'all 0.15s',
               letterSpacing: '0.04em',
             }}>हि</span>
@@ -659,7 +659,7 @@ export default function Navbar() {
               <div style={{ position: "relative", marginLeft: "0.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 {!subData && (
                   <button onClick={() => setShowPremiumModal(true)}
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.06em', padding: '4px 10px', borderRadius: 20, background: 'linear-gradient(90deg,#e8b84b,#f5d76e)', color: '#000', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.06em', padding: '4px 10px', borderRadius: 20, background: 'var(--premium-text)', color: 'var(--bg)', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>
                     ✦ Upgrade
                   </button>
                 )}
@@ -668,13 +668,13 @@ export default function Navbar() {
                   <SnooAvatar email={user.email ?? ''} size={28} />
                 </button>
                 {userMenuOpen && (
-                  <div className="user-account-dropdown" style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, width: 296, borderRadius: 14, padding: 0, zIndex: 1000, overflow: 'hidden', background: '#000', border: '1px solid #232323', boxShadow: '0 24px 70px rgba(0,0,0,0.9)' }}>
+                  <div className="user-account-dropdown" style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, width: 296, borderRadius: 14, padding: 0, zIndex: 1000, overflow: 'hidden', background: 'var(--bg-raised)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--elev-2)' }}>
                     {/* Header — avatar + email + edit toggle */}
-                    <div style={{ padding: '0.95rem 1rem 0.85rem', borderBottom: '1px solid #1a1a1a' }}>
+                    <div style={{ padding: '0.95rem 1rem 0.85rem', borderBottom: '1px solid var(--border-subtle)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{ position: 'relative', flexShrink: 0 }}>
                           <SnooAvatar email={user.email ?? ''} size={40} />
-                          <div style={{ position: 'absolute', bottom: -1, right: -1, width: 10, height: 10, borderRadius: '50%', background: '#fff', border: '2px solid #000' }} />
+                          <div style={{ position: 'absolute', bottom: -1, right: -1, width: 10, height: 10, borderRadius: '50%', background: 'var(--text)', border: '2px solid var(--bg)' }} />
                         </div>
                         <div style={{ minWidth: 0, flex: 1 }}>
                           <div style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}>
@@ -683,7 +683,7 @@ export default function Navbar() {
                           <div style={{ fontSize: '0.65rem', color: 'var(--text3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{user.email}</div>
                         </div>
                         <button onClick={() => setProfileEdit(e => !e)}
-                          style={{ flexShrink: 0, background: profileEdit ? '#fff' : 'transparent', border: `1px solid ${profileEdit ? '#fff' : '#2a2a2a'}`, borderRadius: 6, width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? '#000' : '#888' }}>
+                          style={{ flexShrink: 0, background: profileEdit ? 'var(--text)' : 'transparent', border: `1px solid ${profileEdit ? 'var(--text)' : 'var(--border)'}`, borderRadius: 6, width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? '#000' : 'var(--text3)' }}>
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </button>
                       </div>
@@ -692,7 +692,7 @@ export default function Navbar() {
                     {/* Aspirant profile fields */}
                     {profileEdit ? (
                       <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-                        <div style={{ fontSize: '0.58rem', color: '#ffffff', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Your Profile</div>
+                        <div style={{ fontSize: '0.58rem', color: 'var(--text)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Your Profile</div>
                         {[
                           { label: 'Full Name', val: aspirantName, set: setAspirantName, placeholder: 'e.g. Rahul Sharma', key: 'name' },
                           { label: 'Age', val: aspirantAge, set: setAspirantAge, placeholder: 'e.g. 24', key: 'age' },
@@ -710,19 +710,19 @@ export default function Navbar() {
                               }}
                               placeholder={placeholder}
                               style={{ width: '100%', background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 7, padding: '0.35rem 0.6rem', fontSize: '0.73rem', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-ui)', transition: 'border-color 0.15s' }}
-                              onFocus={e => (e.target.style.borderColor = '#2a2a2a')}
+                              onFocus={e => (e.target.style.borderColor = 'var(--border)')}
                               onBlur={e => (e.target.style.borderColor = 'rgba(0,0,0,0.08)')}
                             />
                           </div>
                         ))}
                         <button onClick={() => setProfileEdit(false)}
-                          style={{ width: '100%', marginTop: 4, background: '#ffffff', border: 'none', borderRadius: 7, padding: '0.4rem', fontSize: '0.72rem', color: '#000000', fontWeight: 700, cursor: 'pointer', letterSpacing: '0.03em' }}>
+                          style={{ width: '100%', marginTop: 4, background: 'var(--text)', border: 'none', borderRadius: 7, padding: '0.4rem', fontSize: '0.72rem', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', letterSpacing: '0.03em' }}>
                           Save Profile
                         </button>
                       </div>
                     ) : (
                       <div>
-                      <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid #1a1a1a', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 12px' }}>
+                      <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid var(--border-subtle)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 12px' }}>
                         {/* Emoji removed: one of them had decayed to two
                             replacement characters, and small pictograms next
                             to two-word labels were noise either way. */}
@@ -733,8 +733,8 @@ export default function Navbar() {
                           { label: 'Plan', val: subData ? planLabel(subData.plan) : 'Free' },
                         ].map(({ label, val }) => (
                           <div key={label}>
-                            <div style={{ fontSize: '0.55rem', color: '#ffffff', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>{label}</div>
-                            <div style={{ fontSize: '0.8rem', color: val ? '#fff' : '#787878', fontWeight: 500 }}>{val || '—'}</div>
+                            <div style={{ fontSize: '0.55rem', color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>{label}</div>
+                            <div style={{ fontSize: '0.8rem', color: val ? 'var(--text)' : 'var(--text-faint)', fontWeight: 500 }}>{val || '—'}</div>
                           </div>
                         ))}
                       </div>
@@ -752,14 +752,14 @@ export default function Navbar() {
                             : null;
                         if (!exam) return null;
                         return (
-                          <div style={{ margin: '0 1rem 0.9rem', padding: '0.7rem 0.85rem', border: '1px solid #232323', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                          <div style={{ margin: '0 1rem 0.9rem', padding: '0.7rem 0.85rem', border: '1px solid var(--border-subtle)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                             <div>
-                              <div style={{ fontSize: '0.55rem', color: '#ffffff', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>{exam.label}</div>
-                              <div style={{ fontSize: '0.68rem', color: '#ffffff' }}>{exam.when}</div>
+                              <div style={{ fontSize: '0.55rem', color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>{exam.label}</div>
+                              <div style={{ fontSize: '0.68rem', color: 'var(--text)' }}>{exam.when}</div>
                             </div>
                             <div style={{ textAlign: 'right' }}>
-                              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.03em', color: '#fff' }}>{exam.days}</div>
-                              <div style={{ fontSize: '0.5rem', color: '#ffffff', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 2 }}>days left</div>
+                              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.03em', color: 'var(--text)' }}>{exam.days}</div>
+                              <div style={{ fontSize: '0.5rem', color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 2 }}>days left</div>
                             </div>
                           </div>
                         );
@@ -775,15 +775,15 @@ export default function Navbar() {
                         return (
                           <>
                             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
-                              <span style={{ fontSize: '0.55rem', color: '#ffffff', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
+                              <span style={{ fontSize: '0.55rem', color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
                                 {planLabel(subData.plan)}
                                 {subData.autoRenew && ' · renewing'}
                               </span>
-                              <span style={{ fontSize: '0.66rem', color: days <= 3 ? '#fff' : '#ffffff', fontFamily: 'var(--font-mono)' }}>
+                              <span style={{ fontSize: '0.66rem', color: days <= 3 ? 'var(--text)' : 'var(--text)', fontFamily: 'var(--font-mono)' }}>
                                 {days <= 0 ? 'Expired' : `${days}d left`}
                               </span>
                             </div>
-                            <div style={{ fontSize: '0.66rem', color: '#ffffff', marginBottom: 10 }}>
+                            <div style={{ fontSize: '0.66rem', color: 'var(--text)', marginBottom: 10 }}>
                               {subData.autoRenew ? 'Renews' : 'Expires'} {on}
                             </div>
 
@@ -792,7 +792,7 @@ export default function Navbar() {
                                 its own, so it is offered only to one-time plans. */}
                             {!subData.autoRenew && (
                               <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
-                                style={{ width: '100%', background: '#fff', border: 'none', color: '#000', cursor: 'pointer', padding: '0.5rem', borderRadius: 7, fontSize: '0.74rem', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 10 }}>
+                                style={{ width: '100%', background: 'var(--text)', border: 'none', color: 'var(--bg)', cursor: 'pointer', padding: '0.5rem', borderRadius: 7, fontSize: '0.74rem', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 10 }}>
                                 Extend plan
                               </button>
                             )}
@@ -800,10 +800,10 @@ export default function Navbar() {
                             {subData.autoRenew && (
                               <>
                                 <button onClick={handleCancelAutopay} disabled={cancelling}
-                                  style={{ width: '100%', background: 'transparent', border: '1px solid #2a2a2a', color: '#ffffff', cursor: cancelling ? 'wait' : 'pointer', padding: '0.5rem', borderRadius: 7, fontSize: '0.74rem', fontWeight: 600 }}>
+                                  style={{ width: '100%', background: 'transparent', border: '1px solid var(--border)', color: 'var(--text)', cursor: cancelling ? 'wait' : 'pointer', padding: '0.5rem', borderRadius: 7, fontSize: '0.74rem', fontWeight: 600 }}>
                                   {cancelling ? 'Cancelling…' : 'Cancel renewal'}
                                 </button>
-                                <div style={{ fontSize: '0.58rem', color: '#ffffff', marginTop: 6, lineHeight: 1.5 }}>
+                                <div style={{ fontSize: '0.58rem', color: 'var(--text)', marginTop: 6, lineHeight: 1.5 }}>
                                   Stops future charges. Access stays until {on}.
                                 </div>
                               </>
@@ -812,18 +812,18 @@ export default function Navbar() {
                         );
                       })() : (
                         <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
-                          style={{ width: '100%', background: '#fff', border: 'none', color: '#000', cursor: 'pointer', padding: '0.55rem', borderRadius: 7, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.02em' }}>
+                          style={{ width: '100%', background: 'var(--text)', border: 'none', color: 'var(--bg)', cursor: 'pointer', padding: '0.55rem', borderRadius: 7, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.02em' }}>
                           Get Premium
                         </button>
                       )}
                     </div>
 
                     {/* Sign out */}
-                    <div style={{ borderTop: '1px solid #1a1a1a' }}>
+                    <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
                       <button onClick={handleSignOut}
-                        style={{ width: '100%', background: 'transparent', border: 'none', color: '#ffffff', cursor: 'pointer', padding: '0.7rem', fontSize: '0.74rem', fontWeight: 500, transition: 'color 0.15s, background 0.15s' }}
-                        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = '#fff'; el.style.background = '#0d0d0d'; }}
-                        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = '#ffffff'; el.style.background = 'transparent'; }}>
+                        style={{ width: '100%', background: 'transparent', border: 'none', color: 'var(--text)', cursor: 'pointer', padding: '0.7rem', fontSize: '0.74rem', fontWeight: 500, transition: 'color 0.15s, background 0.15s' }}
+                        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--text)'; el.style.background = 'var(--bg3)'; }}
+                        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--text)'; el.style.background = 'transparent'; }}>
                         Sign out
                       </button>
                     </div>
@@ -832,9 +832,9 @@ export default function Navbar() {
               </div>
             ) : (
               <div style={{ position: 'relative', marginLeft: '0.25rem', display: 'inline-flex' }}>
-                <button onClick={() => setShowPremiumModal(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.5)', color: '#e8b84b', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.03em', whiteSpace: 'nowrap', transition: 'all 0.15s', position: 'relative', zIndex: 1 }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.2)'; el.style.borderColor = 'rgba(212,168,67,0.8)'; el.style.color = '#ffd700'; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(212,168,67,0.12)'; el.style.borderColor = 'rgba(212,168,67,0.5)'; el.style.color = '#e8b84b'; }}>
+                <button onClick={() => setShowPremiumModal(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'var(--premium-wash)', border: '1px solid rgba(212,168,67,0.5)', color: 'var(--premium-text)', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.03em', whiteSpace: 'nowrap', transition: 'all 0.15s', position: 'relative', zIndex: 1 }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'color-mix(in srgb, var(--premium-text) 18%, transparent)'; el.style.borderColor = 'var(--premium-text)'; el.style.color = 'var(--premium-text)'; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'var(--premium-wash)'; el.style.borderColor = 'color-mix(in srgb, var(--premium-text) 50%, transparent)'; el.style.color = 'var(--premium-text)'; }}>
                   ✦ Premium
                 </button>
 
@@ -856,32 +856,32 @@ export default function Navbar() {
             {/* Mobile premium / upgrade / tag */}
             {user ? (
               subData ? (
-                <span style={{ display:'inline-flex', alignItems:'center', gap:3, fontSize:'0.6rem', fontFamily:'var(--font-mono)', fontWeight:700, letterSpacing:'0.06em', color:'#51cf66', background:'rgba(81,207,102,0.1)', border:'1px solid rgba(81,207,102,0.3)', borderRadius:20, padding:'3px 8px', whiteSpace:'nowrap' }}>
+                <span style={{ display:'inline-flex', alignItems:'center', gap:3, fontSize:'0.6rem', fontFamily:'var(--font-mono)', fontWeight:700, letterSpacing:'0.06em', color:'var(--success-text)', background:'var(--success-wash)', border:'1px solid rgba(81,207,102,0.3)', borderRadius:20, padding:'3px 8px', whiteSpace:'nowrap' }}>
                   <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                   Premium
                 </span>
               ) : (
                 <button onClick={() => setShowPremiumModal(true)}
-                  style={{ fontFamily:'var(--font-mono)', fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.06em', padding:'4px 9px', borderRadius:20, background:'linear-gradient(90deg,#e8b84b,#f5d76e)', color:'#000', border:'none', cursor:'pointer', whiteSpace:'nowrap' }}>
+                  style={{ fontFamily:'var(--font-mono)', fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.06em', padding:'4px 9px', borderRadius:20, background:'var(--premium-text)', color:'var(--bg)', border:'none', cursor:'pointer', whiteSpace:'nowrap' }}>
                   ✦ Upgrade
                 </button>
               )
             ) : (
               <div style={{ position:'relative', display:'inline-flex' }}>
                 <button onClick={() => setShowPremiumModal(true)}
-                  style={{ fontFamily:'var(--font-mono)', fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.06em', padding:'4px 9px', borderRadius:20, background:'rgba(212,168,67,0.12)', border:'1px solid rgba(212,168,67,0.5)', color:'#e8b84b', cursor:'pointer', whiteSpace:'nowrap' }}>
+                  style={{ fontFamily:'var(--font-mono)', fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.06em', padding:'4px 9px', borderRadius:20, background:'var(--premium-wash)', border:'1px solid rgba(212,168,67,0.5)', color:'var(--premium-text)', cursor:'pointer', whiteSpace:'nowrap' }}>
                   ✦ Premium
                 </button>
 
               </div>
             )}
-            <button onClick={() => { setBellOpen(o => !o); }} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.7)', cursor:'pointer', padding:'0.25rem', position:'relative', display:'flex', alignItems:'center' }}>
+            <button onClick={() => { setBellOpen(o => !o); }} style={{ background:'none', border:'none', color:'color-mix(in srgb, var(--text) 70%, transparent)', cursor:'pointer', padding:'0.25rem', position:'relative', display:'flex', alignItems:'center' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                 <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
               </svg>
               {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                <span style={{ position:'absolute', top:2, right:2, width:7, height:7, borderRadius:'50%', background:'#f87171', border:'1.5px solid #000' }} />
+                <span style={{ position:'absolute', top:2, right:2, width:7, height:7, borderRadius:'50%', background:'var(--danger-text)', border:'1.5px solid var(--bg)' }} />
               )}
             </button>
             <button onClick={() => setOpen(!open)} style={{ background: 'none', border: 'none', color: 'var(--text)', cursor: 'pointer', padding: '0.25rem' }}>
@@ -897,17 +897,17 @@ export default function Navbar() {
           <div ref={mobileBellRef} className="mobile-bell-dropdown" style={{ position:'fixed', top:78, right:12, left:12, bottom:16, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid rgba(139,92,246,0.25)', borderRadius:18, zIndex:10000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.95), 0 0 80px rgba(99,102,241,0.1), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', display:'flex', flexDirection:'column', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
             <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(0,0,0,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(99,102,241,0.04)' }}>
               <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                <div style={{ width:6, height:6, borderRadius:'50%', background:'#818cf8', boxShadow:'0 0 10px #818cf8, 0 0 20px rgba(129,140,248,0.4)' }} />
-                <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'#a5b4fc', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
+                <div style={{ width:6, height:6, borderRadius:'50%', background:'var(--accent)', boxShadow:'0 0 10px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent)' }} />
+                <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'var(--accent-text)', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
               </div>
               {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', color:'#fff', letterSpacing:'0.08em', background:'rgba(248,113,113,0.2)', border:'1px solid rgba(248,113,113,0.35)', borderRadius:20, padding:'2px 8px', fontWeight:600 }}>
+                <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', color:'var(--text)', letterSpacing:'0.08em', background:'var(--danger-wash)', border:'1px solid rgba(248,113,113,0.35)', borderRadius:20, padding:'2px 8px', fontWeight:600 }}>
                   {notifications.filter(n => !seenIds.includes(n.id)).length} NEW
                 </span>
               )}
             </div>
             {notifications.length === 0 ? (
-              <div style={{ padding:'32px 18px', fontSize:'0.82rem', color:'#444', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>— no notifications —</div>
+              <div style={{ padding:'32px 18px', fontSize:'0.82rem', color:'var(--text-faint)', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>— no notifications —</div>
             ) : (
               <div style={{ flex:1, overflowY:'auto' }}>
                 {notifications.map(n => {
@@ -915,14 +915,14 @@ export default function Navbar() {
                   return (
                     <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }}
                       style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(0,0,0,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'rgba(99,102,241,0.06)', position:'relative' }}>
-                      {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'linear-gradient(180deg,#818cf8,#a78bfa)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px rgba(129,140,248,0.4)' }} />}
+                      {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'var(--accent)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px color-mix(in srgb, var(--accent) 40%, transparent)' }} />}
                       <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
                         <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(0,0,0,0.04)' : 'linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.15))', border: seen ? '1px solid rgba(0,0,0,0.07)' : '1px solid rgba(139,92,246,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px rgba(99,102,241,0.15)' }}>
                           {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
                         </div>
                         <div style={{ flex:1 }}>
-                          <div style={{ fontSize:'0.88rem', color: seen ? '#6b7280' : '#ffffff', lineHeight:1.5, fontWeight: seen ? 400 : 500, letterSpacing:'-0.01em' }}>{n.title}</div>
-                          <div style={{ fontSize:'0.68rem', color: seen ? '#374151' : '#818cf8', marginTop:4, fontFamily:'var(--font-mono)', letterSpacing:'0.05em', fontWeight:500 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
+                          <div style={{ fontSize:'0.88rem', color: seen ? 'var(--text3)' : 'var(--text)', lineHeight:1.5, fontWeight: seen ? 400 : 500, letterSpacing:'-0.01em' }}>{n.title}</div>
+                          <div style={{ fontSize:'0.68rem', color: seen ? 'var(--text-faint)' : 'var(--accent)', marginTop:4, fontFamily:'var(--font-mono)', letterSpacing:'0.05em', fontWeight:500 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
                         </div>
                       </div>
                     </a>
@@ -931,9 +931,9 @@ export default function Navbar() {
               </div>
             )}
             <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
-              <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
-              <div style={{ fontSize:'0.52rem', color:'#4b5563', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
-              <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(129,140,248,0.4)' }} />
+              <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
+              <div style={{ fontSize:'0.52rem', color:'var(--text-faint)', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
+              <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
             </div>
           </div>,
           document.body
@@ -960,12 +960,12 @@ export default function Navbar() {
                   boxShadow: langHi ? '0 0 0 1px rgba(99,102,241,0.45)' : 'none',
                 }}
               >
-                <span style={{ padding: '0.3rem 0.6rem', background: !langHi ? 'rgba(59,130,246,0.18)' : 'transparent', color: !langHi ? '#60a5fa' : 'var(--text3)', borderRight: '1px solid var(--border)' }}>EN</span>
-                <span style={{ padding: '0.3rem 0.6rem', background: langHi ? 'rgba(99,102,241,0.18)' : 'transparent', color: langHi ? '#a5b4fc' : 'var(--text3)' }}>हि</span>
+                <span style={{ padding: '0.3rem 0.6rem', background: !langHi ? 'var(--accent-dim)' : 'transparent', color: !langHi ? 'var(--accent-text)' : 'var(--text3)', borderRight: '1px solid var(--border)' }}>EN</span>
+                <span style={{ padding: '0.3rem 0.6rem', background: langHi ? 'var(--accent-dim)' : 'transparent', color: langHi ? 'var(--accent-text)' : 'var(--text3)' }}>हि</span>
               </button>
               <ThemeCustomizer />
               {user && (
-                <button onClick={handleSignOut} style={{ background: 'rgba(255,80,80,0.06)', border: '1px solid rgba(255,80,80,0.15)', color: '#ff8080', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
+                <button onClick={handleSignOut} style={{ background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)', color: 'var(--danger-text)', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px rgba(255,80,80,0.45), inset 0 0 8px rgba(255,80,80,0.08)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
               )}
             </div>
           </div>,

@@ -17,41 +17,52 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── PRIMITIVES: paper ─────────────────────────────────────────────────── */
-  --paper-50:   #fdfcf9;   /* raised, cards that sit above the page */
-  --paper-100:  #faf7f0;   /* the ground */
-  --paper-150:  #f7f3ea;
-  --paper-200:  #f2ede2;
-  --paper-300:  #e8e1d3;
-  --paper-400:  #d8cfbf;
-  --paper-500:  #c4b9a6;
+  /* ── PRIMITIVES: light, neutral near-white ─────────────────────────────────
+     Neutral rather than cream. The ground is a hair off pure white so a full
+     screen of it does not glare, and the raised surface is pure white, which
+     puts cards slightly above the page instead of below it. */
+  --white-50:   #ffffff;   /* raised, cards above the page */
+  --white-100:  #fcfcfc;   /* the ground */
+  --white-150:  #f7f7f7;
+  --white-200:  #f1f1f1;
+  --white-300:  #e4e4e4;
+  --white-400:  #d1d1d1;
+  --white-500:  #b6b6b6;
 
-  /* ink on paper, measured against --paper-100 */
-  --ink-900: #1c1917;   /* 16.35:1 */
-  --ink-700: #403a33;   /* 10.49:1 */
-  --ink-600: #544d44;   /*  7.78:1 */
-  --ink-500: #6b645a;   /*  5.46:1 */
-  --ink-400: #8a8277;   /*  3.54:1  large text and placeholders only */
+  /* ink on light, measured against --white-100 */
+  --bink-900: #171717;   /* 17.47:1 */
+  --bink-700: #3d3d3d;   /* 10.59:1 */
+  --bink-600: #525252;   /*  7.62:1 */
+  --bink-500: #6b6b6b;   /*  5.19:1 */
+  --bink-400: #8a8a8a;   /*  3.36:1  large text and placeholders only */
 
-  /* ── PRIMITIVES: dark ──────────────────────────────────────────────────── */
-  --dark-900: #14120f;   /* the ground */
-  --dark-800: #1b1815;   /* raised */
-  --dark-700: #211d19;
-  --dark-600: #282420;
-  --dark-500: #332e27;
-  --dark-400: #443d34;
-  --dark-300: #574e43;
+  /* ── PRIMITIVES: dark, AMOLED ──────────────────────────────────────────────
+     The ground is true #000000. On an OLED panel those pixels are physically
+     off, which is why it reads deeper than any near-black and costs less
+     battery, and most of this audience is on Android phones with OLED.
 
-  /* ink on dark, measured against --dark-900 */
-  --dink-50:  #f4efe6;   /* 16.33:1 */
-  --dink-200: #d3cbbb;   /* 11.60:1 */
-  --dink-300: #b5ac9b;   /*  8.31:1 */
-  --dink-400: #9a9083;   /*  5.96:1 */
-  --dink-500: #7d7468;   /*  4.07:1  large text and placeholders only */
+     The ink is deliberately NOT pure white. #ffffff on #000000 is 21:1 and
+     causes visible halation on OLED during long reading; #ededed is 17.94:1,
+     which is still far above any requirement and much calmer. */
+  --black-900: #000000;   /* the ground, pixels off */
+  --black-800: #0a0a0a;   /* raised */
+  --black-700: #101010;
+  --black-600: #171717;
+  --black-500: #242424;
+  --black-400: #333333;
+  --black-300: #454545;
+
+  /* ink on black, measured against --black-900 */
+  --wink-50:  #ededed;   /* 17.94:1 */
+  --wink-200: #c4c4c4;   /* 12.04:1 */
+  --wink-300: #a3a3a3;   /*  8.33:1 */
+  --wink-400: #858585;   /*  5.69:1 */
+  --wink-500: #6b6b6b;   /*  3.94:1  large text and placeholders only */
 
   /* ── PRIMITIVES: accent ────────────────────────────────────────────────────
      Lapis lazuli, ground for the richest blues in Mughal painting, and one of
-     the documented pigments of the manuscripts this syllabus covers.
+     the documented pigments of the manuscripts this syllabus covers. Re-solved
+     against the neutral grounds: #000000 and #fcfcfc, not the earlier cream.
 
      One hue serves both grounds. An earlier draft paired maroon on paper with
      gold on dark, but that was solving a problem of its own making: the dark
@@ -62,10 +73,10 @@
      Each value is solved to what its role requires, not picked:
        -600 / -500   fills, rules, borders    4.6:1 on its ground
        -700 / -400   accent TEXT              7.0 on paper, 6.5 on dark */
-  --lapis-700: #2244cf;  /* 7.02:1 on paper, accent text */
-  --lapis-600: #4766e1;  /* 4.61:1 on paper, fills and rules */
-  --lapis-500: #5b76e4;  /* 4.59:1 on dark,  fills and rules */
-  --lapis-400: #7e94ea;  /* 6.51:1 on dark,  accent text */
+  --lapis-700: #2346d5;  /* 7.04:1 on light, accent text */
+  --lapis-600: #4c6ae2;  /* 4.58:1 on light, fills and rules */
+  --lapis-500: #4f6de2;  /* 4.62:1 on black, fills and rules */
+  --lapis-400: #728ae8;  /* 6.52:1 on black, accent text */
 
   /* ── PRIMITIVES: semantic hues ─────────────────────────────────────────────
      Solved, not picked. Each text value sits at 4.9:1 against its own WASH,
@@ -73,10 +84,10 @@
      instead put all eight dark roles at 4.05-4.11:1 on their washes, under the
      floor, while looking fine on paper. A dark wash has to sit brighter than
      its ground to be visible, and that brightness is what eats the headroom. */
-  --success-text-p: #247248;  --success-wash-p: #d4f1e2;
-  --success-text-d: #37ae6f;  --success-wash-d: #133322;
-  --warning-text-p: #8b5a11;  --warning-wash-p: #f4e9d9;
-  --warning-text-d: #d4891a;  --warning-wash-d: #382a15;
+  --success-text-p: #25774b;  --success-wash-p: #e2f6eb;
+  --success-text-d: #33a066;  --success-wash-d: #0e2519;
+  --warning-text-p: #905e12;  --warning-wash-p: #f8f0e6;
+  --warning-text-d: #c37f18;  --warning-wash-d: #2a1f10;
   --danger-text-p:  #b5382a;  --danger-wash-p:  #f7e7e5;
   --danger-text-d:  #df8075;  --danger-wash-d:  #4a211c;
   --info-text-p:    #2d66a7;  --info-wash-p:    #e2ecf7;
@@ -89,12 +100,22 @@
      success and info, so a section chip read as a state. */
   --ancient-text-p:  #516d31; --ancient-wash-p:  #e4eed8;
   --ancient-text-d:  #7ba64a; --ancient-wash-d:  #243016;
-  --medieval-text-p: #7052b5; --medieval-wash-p: #ede9f5;
-  --medieval-text-d: #a390cf; --medieval-wash-d: #322454;
+  --medieval-text-p: #7457b7; --medieval-wash-p: #f2f0f8;
+  --medieval-text-d: #9782c9; --medieval-wash-d: #251a3e;
   --modern-text-p:   #2f6e6c; --modern-wash-p:   #d9efee;
   --modern-text-d:   #48a8a5; --modern-wash-d:   #153130;
   --world-text-p:    #99487b; --world-wash-p:    #f4e7ef;
   --world-text-d:    #c686ae; --world-wash-d:    #452037;
+
+  /* ── PRIMITIVES: premium ───────────────────────────────────────────────────
+     Gold is a brand signal for the paid tier, not a semantic state, so it gets
+     its own pair rather than being folded into warning.
+
+     The old value was #e8b84b: 10.14:1 on the dark ground and 1.72:1 on paper,
+     which is why the Premium pill was unreadable the moment the ground moved.
+     Same hue, solved per ground against its own wash. */
+  --premium-text-p: #80651e;  --premium-wash-p: #f6f1e2;
+  --premium-text-d: #ae8829;  --premium-wash-d: #27200f;
 
   /* ── ELEVATION ─────────────────────────────────────────────────────────────
      Only for things that actually float. Anything in the page flow gets a
@@ -103,12 +124,12 @@
      Paper tints the shadow with the ink rather than using pure black. On dark
      a shadow is nearly invisible against #14120f, so each step also carries a
      hairline of ink to define its edge. */
-  --elev-1-p: 0 1px 2px rgba(28,25,23,0.05), 0 2px 6px rgba(28,25,23,0.07);
-  --elev-2-p: 0 2px 4px rgba(28,25,23,0.06), 0 8px 24px rgba(28,25,23,0.10);
-  --elev-3-p: 0 4px 8px rgba(28,25,23,0.07), 0 16px 48px rgba(28,25,23,0.14);
-  --elev-1-d: 0 0 0 1px rgba(244,239,230,0.06), 0 2px 8px rgba(0,0,0,0.50);
-  --elev-2-d: 0 0 0 1px rgba(244,239,230,0.08), 0 8px 28px rgba(0,0,0,0.60);
-  --elev-3-d: 0 0 0 1px rgba(244,239,230,0.10), 0 16px 52px rgba(0,0,0,0.70);
+  --elev-1-p: 0 1px 2px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.07);
+  --elev-2-p: 0 2px 4px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.10);
+  --elev-3-p: 0 4px 8px rgba(0,0,0,0.07), 0 16px 48px rgba(0,0,0,0.14);
+  --elev-1-d: 0 0 0 1px rgba(255,255,255,0.06), 0 2px 8px rgba(0,0,0,0.50);
+  --elev-2-d: 0 0 0 1px rgba(255,255,255,0.08), 0 8px 28px rgba(0,0,0,0.60);
+  --elev-3-d: 0 0 0 1px rgba(255,255,255,0.10), 0 16px 52px rgba(0,0,0,0.70);
 
   /* ── TYPE ──────────────────────────────────────────────────────────────────
      One serif carries display and body. Libre Baskerville has no optical-size
@@ -185,7 +206,7 @@
   --radius-circle:  50%;   /* avatars */
 
   /* ── SEMANTIC: dark, the default ground ────────────────────────────────────
-     Dark is the default while the components are converted. 675 dark-ground
+     AMOLED black is the default while the components are converted. 675 dark-ground
      assumptions still sit in inline styles no token can reach: 315
      rgba(0,0,0,...) overlays, 178 hardcoded golds, 88 dark surface literals.
      Inverting the ground made all of them visible at once, so paper waits
@@ -194,24 +215,24 @@
 
      :root carries dark so a JS failure lands somewhere coherent rather than on
      half-converted paper. */
-  --bg:            var(--dark-900);
-  --bg-raised:     var(--dark-800);
-  --bg-sunken:     var(--dark-700);
-  --bg2:           var(--dark-800);
-  --bg3:           var(--dark-700);
-  --bg4:           var(--dark-600);
-  --border-subtle: var(--dark-600);
-  --border:        var(--dark-500);
-  --border2:       var(--dark-400);
-  --border3:       var(--dark-300);
-  --text:          var(--dink-50);
-  --text2:         var(--dink-200);
-  --text3:         var(--dink-400);
-  --text-faint:    var(--dink-500);
+  --bg:            var(--black-900);
+  --bg-raised:     var(--black-800);
+  --bg-sunken:     var(--black-700);
+  --bg2:           var(--black-800);
+  --bg3:           var(--black-700);
+  --bg4:           var(--black-600);
+  --border-subtle: var(--black-600);
+  --border:        var(--black-500);
+  --border2:       var(--black-400);
+  --border3:       var(--black-300);
+  --text:          var(--wink-50);
+  --text2:         var(--wink-200);
+  --text3:         var(--wink-400);
+  --text-faint:    var(--wink-500);
   --accent:        var(--lapis-500);
   --accent2:       var(--lapis-400);
   --accent-text:   var(--lapis-400);
-  --accent-on:     var(--dark-900);   /* 4.59:1 on --lapis-500 */
+  --accent-on:     var(--black-900);   /* 4.62:1 on --lapis-500 */
   --accent-dim:    color-mix(in srgb, var(--lapis-500) 10%, transparent);
   --accent-glow:   color-mix(in srgb, var(--lapis-500) 18%, transparent);
   --success-text: var(--success-text-d); --success-wash: var(--success-wash-d);
@@ -222,6 +243,7 @@
   --medieval-text:var(--medieval-text-d);--medieval-wash:var(--medieval-wash-d);
   --modern-text:  var(--modern-text-d);  --modern-wash:  var(--modern-wash-d);
   --world-text:   var(--world-text-d);   --world-wash:   var(--world-wash-d);
+  --premium-text: var(--premium-text-d); --premium-wash: var(--premium-wash-d);
   --elev-1: var(--elev-1-d);
   --elev-2: var(--elev-2-d);
   --elev-3: var(--elev-3-d);
@@ -247,25 +269,25 @@
 :root[data-theme="light"] {
   /* Paper. Finished as a token set, waiting on the components. */
   /* ── SEMANTIC: paper, the default ground ───────────────────────────────── */
-  --bg:            var(--paper-100);
-  --bg-raised:     var(--paper-50);
-  --bg-sunken:     var(--paper-200);
-  --bg2:           var(--paper-150);
-  --bg3:           var(--paper-200);
-  --bg4:           var(--paper-300);
-  --border-subtle: var(--paper-300);
-  --border:        var(--paper-300);
-  --border2:       var(--paper-400);
-  --border3:       var(--paper-500);
-  --text:          var(--ink-900);
-  --text2:         var(--ink-700);
-  --text3:         var(--ink-500);
-  --text-faint:    var(--ink-400);
+  --bg:            var(--white-100);
+  --bg-raised:     var(--white-50);
+  --bg-sunken:     var(--white-200);
+  --bg2:           var(--white-150);
+  --bg3:           var(--white-200);
+  --bg4:           var(--white-300);
+  --border-subtle: var(--white-300);
+  --border:        var(--white-300);
+  --border2:       var(--white-400);
+  --border3:       var(--white-500);
+  --text:          var(--bink-900);
+  --text2:         var(--bink-700);
+  --text3:         var(--bink-500);
+  --text-faint:    var(--bink-400);
 
   --accent:        var(--lapis-600);
   --accent2:       var(--lapis-700);
   --accent-text:   var(--lapis-700);
-  --accent-on:     var(--paper-50);     /* 4.80:1 on --lapis-600 */
+  --accent-on:     var(--white-50);     /* 4.70:1 on --lapis-600 */
   --accent-dim:    color-mix(in srgb, var(--lapis-600) 7%, transparent);
   --accent-glow:   color-mix(in srgb, var(--lapis-600) 14%, transparent);
 
@@ -277,6 +299,7 @@
   --medieval-text:var(--medieval-text-p);--medieval-wash:var(--medieval-wash-p);
   --modern-text:  var(--modern-text-p);  --modern-wash:  var(--modern-wash-p);
   --world-text:   var(--world-text-p);   --world-wash:   var(--world-wash-p);
+  --premium-text: var(--premium-text-p); --premium-wash: var(--premium-wash-p);
 
   /* legacy hue names, now pointing at the semantic set */
   --yellow:     var(--warning-text);
