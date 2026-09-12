@@ -223,7 +223,7 @@ export default function PrelimsPage() {
 
           <button onClick={() => setShowResult(false)} style={{
             width: '100%', padding: '1rem', borderRadius: 12, border: 'none',
-            background: 'var(--accent)', color: '#000', fontWeight: 700, cursor: 'pointer', fontSize: '1rem',
+            background: 'var(--accent)', color: 'var(--accent-on)', fontWeight: 700, cursor: 'pointer', fontSize: '1rem',
           }}>← Back to Questions</button>
         </div>
       </div>
@@ -264,7 +264,7 @@ export default function PrelimsPage() {
             <button key={f} onClick={() => setFilter(f)} style={{
               padding: '0.28rem 0.75rem', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600,
               background: filter === f ? 'var(--accent)' : 'rgba(0,0,0,0.06)',
-              color: filter === f ? '#fff' : 'var(--text2)',
+              color: filter === f ? 'var(--accent-on)' : 'var(--text2)',
               transition: 'all 0.15s',
             }}>{f === 'all' ? 'All' : f === 'pyq' ? 'PYQs' : 'MCQs'}</button>
           ))}
@@ -339,7 +339,7 @@ export default function PrelimsPage() {
               <button onClick={() => setShowResetConfirm(false)}
                 style={{ padding: '10px 24px', borderRadius: 8, border: '1px solid rgba(0,0,0,0.08)', background: 'transparent', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रद्द करें" : "Cancel"}</button>
               <button onClick={doReset}
-                style={{ padding: '10px 24px', borderRadius: 8, border: 'none', background: '#f87171', color: '#000', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रीसेट करें" : "Reset"}</button>
+                style={{ padding: '10px 24px', borderRadius: 8, border: 'none', background: '#f87171', color: 'var(--accent-on)', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रीसेट करें" : "Reset"}</button>
             </div>
           </div>
         </div>
@@ -404,8 +404,8 @@ export default function PrelimsPage() {
               <>
                 <button onClick={handleSubmit} disabled={qs.selected === null} style={{
                   padding: '0.75rem 1.75rem', borderRadius: 10, border: 'none',
-                  background: qs.selected !== null ? 'var(--accent)' : 'rgba(0,0,0,0.06)',
-                  color: qs.selected !== null ? '#000' : 'rgba(0,0,0,0.12)',
+                  background: qs.selected !== null ? 'var(--accent)' : 'var(--bg3)',
+                  color: qs.selected !== null ? 'var(--accent-on)' : 'var(--text-faint)',
                   fontWeight: 700, cursor: qs.selected !== null ? 'pointer' : 'not-allowed', fontSize: '0.95rem',
                   transition: 'all 0.14s',
                 }}>{tr(t.submit, langHi)}</button>

@@ -233,7 +233,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
                   </p>
                   <p style={{ marginBottom: 12 }}>
                     जिन स्थलों पर{' '}
-                    <span style={{ fontSize: 11, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
+                    <span style={{ fontSize: 11, color: 'var(--warning-text)', background: 'var(--warning-wash)', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
                       PYQ बैज
                     </span>{' '}
                     है, वे वास्तविक UPSC Mains मैप प्रश्नों में आ चुके हैं — रिवीज़न करते समय इन पर अतिरिक्त ध्यान दें।
@@ -255,7 +255,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
                   </p>
                   <p style={{ marginBottom: 12 }}>
                     Sites with a{' '}
-                    <span style={{ fontSize: 11, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
+                    <span style={{ fontSize: 11, color: 'var(--warning-text)', background: 'var(--warning-wash)', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>
                       PYQ badge
                     </span>{' '}
                     have appeared in actual UPSC Mains map questions — these deserve extra attention while revising.
@@ -312,7 +312,7 @@ function ChapterSection({ chapter, isOpen, onToggle, selectedSite, onSiteClick, 
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                         <strong style={{ color: 'var(--text)', fontFamily: 'var(--font-ui)', fontSize: 14 }}>{langHi && site.name_hi ? site.name_hi : site.name}</strong>
                         {hasPYQ && (
-                          <span style={{ fontSize: 10, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 6px', borderRadius: 4, fontFamily: 'var(--font-ui)', whiteSpace: 'nowrap', marginLeft: 8 }}>
+                          <span style={{ fontSize: 10, color: 'var(--warning-text)', background: 'var(--warning-wash)', padding: '2px 6px', borderRadius: 4, fontFamily: 'var(--font-ui)', whiteSpace: 'nowrap', marginLeft: 8 }}>
                             PYQ {site.pyqYears.join(', ')}
                           </span>
                         )}
@@ -513,7 +513,7 @@ function QuizPanel({ pyqOnly, langHi }: { pyqOnly: boolean; langHi: boolean }) {
             <>
               {sanitizeClue(langHi && site.majorAspect_hi ? site.majorAspect_hi : site.majorAspect, site, langHi)}
               {site.pyqYears?.length > 0 && (
-                <span style={{ display: 'inline-block', fontSize: 10, color: '#eab308', background: 'rgba(234,179,8,0.1)', padding: '2px 6px', borderRadius: 4, marginLeft: 8 }}>
+                <span style={{ display: 'inline-block', fontSize: 10, color: 'var(--warning-text)', background: 'var(--warning-wash)', padding: '2px 6px', borderRadius: 4, marginLeft: 8 }}>
                   PYQ {site.pyqYears.join(', ')}
                 </span>
               )}

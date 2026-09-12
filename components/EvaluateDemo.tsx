@@ -215,7 +215,7 @@ export default function EvaluateDemo() {
             </span>
           </div>
           <Link href="/evaluate" className="ev-cta"
-            style={{ background:'var(--red)', color:'#fff', padding:'7px 20px', borderRadius:6, textDecoration:'none', fontWeight:700, fontSize:'0.82rem', transition:'opacity 0.2s', whiteSpace:'nowrap' }}>
+            style={{ background:'var(--red)', color:'var(--on-fill)', padding:'7px 20px', borderRadius:6, textDecoration:'none', fontWeight:700, fontSize:'0.82rem', transition:'opacity 0.2s', whiteSpace:'nowrap' }}>
             Evaluate my answer →
           </Link>
         </div>

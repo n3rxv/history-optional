@@ -66,7 +66,7 @@ export default function SubscribeSuccessPage() {
         <Link href="/evaluate" style={{
           display: 'inline-block',
           background: 'var(--accent)',
-          color: '#fff',
+          color: 'var(--accent-on)',
           padding: '0.75rem 2rem',
           borderRadius: 8,
           fontFamily: 'var(--font-ui)',

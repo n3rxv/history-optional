@@ -297,7 +297,7 @@ function Sheet({ s, onClose }: { s: Sample; onClose: () => void }) {
 
         <Link href="/evaluate" onClick={onClose}
           style={{ display: 'block', textAlign: 'center', marginTop: 28, padding: '12px',
-            borderRadius: 8, background: 'var(--accent)', color: '#fff', fontWeight: 700, fontSize: '0.88rem' }}>
+            borderRadius: 8, background: 'var(--accent)', color: 'var(--accent-on)', fontWeight: 700, fontSize: '0.88rem' }}>
           Get your answer marked like this &rarr;
         </Link>
       </div>

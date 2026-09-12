@@ -823,7 +823,7 @@ function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
                           : mapCorrect[e.number] === false ? '#ef4444'
                           : mapRevealed[e.number] ? '#f59e0b'
                           : mapAnswers[e.number] ? 'var(--accent)' : 'var(--bg3)',
-                        color: (mapRevealed[e.number] || mapAnswers[e.number]) ? '#fff' : 'var(--text3)',
+                        color: (mapRevealed[e.number] || mapAnswers[e.number]) ? 'var(--accent-on)' : 'var(--text3)',
                         border: '1px solid var(--border)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: '0.58rem', fontWeight: 700 }}>{e.number}</span>
@@ -1219,7 +1219,7 @@ export default function TestPage() {
 
         <button onClick={() => { if (!usage?.firebase_uid) { requireLogin('Sign in free to generate a test paper.'); return; } if (!canStart) return; startTest(); }} className="shimmer-btn" style={{
           background: canStart ? 'var(--accent)' : 'var(--bg3)',
-          color: canStart ? '#fff' : 'var(--text3)',
+          color: canStart ? 'var(--accent-on)' : 'var(--text3)',
           border: 'none', borderRadius: 8, padding: '0.85rem 2.5rem',
           fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
           position: 'relative', overflow: 'hidden',

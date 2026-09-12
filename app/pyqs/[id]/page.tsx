@@ -235,7 +235,7 @@ export default function PYQDetailPage() {
               style={{
                 alignSelf: 'flex-start',
                 background: uploading ? 'var(--bg3)' : 'var(--accent)',
-                color: uploading ? 'var(--text3)' : '#fff',
+                color: uploading ? 'var(--text3)' : 'var(--accent-on)',
                 border: 'none', borderRadius: 6,
                 padding: '0.55rem 1.4rem', fontSize: '0.88rem',
                 fontFamily: 'var(--font-ui)', fontWeight: 600,

@@ -131,7 +131,7 @@ export default function DiscussionThread({ pyqId }: { pyqId: number }) {
             <button
               onClick={handleSubmit}
               disabled={submitting || !body.trim() || !name.trim()}
-              style={{ alignSelf: 'flex-end', background: body.trim() && name.trim() ? 'var(--accent)' : 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, padding: '5px 14px', color: body.trim() && name.trim() ? '#fff' : 'var(--text3)', cursor: body.trim() && name.trim() ? 'pointer' : 'not-allowed', fontSize: '0.78rem', fontWeight: 600 }}
+              style={{ alignSelf: 'flex-end', background: body.trim() && name.trim() ? 'var(--accent)' : 'var(--bg)', border: '1px solid var(--border)', borderRadius: 6, padding: '5px 14px', color: body.trim() && name.trim() ? 'var(--accent-on)' : 'var(--text3)', cursor: body.trim() && name.trim() ? 'pointer' : 'not-allowed', fontSize: '0.78rem', fontWeight: 600 }}
             >
               {submitting ? 'Posting…' : 'Post'}
             </button>

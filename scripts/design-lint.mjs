@@ -76,11 +76,21 @@ const RULES = [
     // can never be correct on top of a saturated fill: over the danger colour
     // it measured 2.83:1 on dark and 3.24:1 on light. --on-fill resolves to
     // white or black per ground and lands at 5.5:1 and 6.3:1.
+    //
+    // A literal counts too. The prelims Submit button used color:'#000' rather
+    // than var(--text), so the first version of this rule waved it through:
+    // black on the lapis fill measured 4.47:1 and read as a mistake besides.
+    // Anything that is not --on-fill or currentColor is wrong here.
     find: (t) => [...t.matchAll(/style=\{\{([^}]*(?:\{[^}]*\}[^}]*)*)\}\}/g)]
       .filter((m) => {
         const b = m[1];
-        return /background(?:Color)?:\s*'var\(--(?:red|green|yellow|accent|danger-text|success-text|warning-text|info-text|premium-text)\)'/.test(b)
-          && /color:\s*'var\(--(?:text|text2|text3)\)'/.test(b);
+        const onRoleFill = /background(?:Color)?:[^,]*var\(--(?:red|green|yellow|accent|accent2|danger-text|success-text|warning-text|info-text|premium-text)\)/.test(b);
+        if (!onRoleFill) return false;
+        const fg = b.match(/\bcolor:\s*([^,}]+)/);
+        if (!fg) return false;
+        const v = fg[1];
+        if (/--on-fill|--accent-on|--premium-on|currentColor/.test(v)) return false;
+        return /var\(--(?:text|text2|text3)\)|#[0-9a-fA-F]{3,8}/.test(v);
       }),
   },
   {

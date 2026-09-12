@@ -488,7 +488,7 @@ export default function PYQsPage() {
               whiteSpace: 'nowrap', transition: 'all 0.15s',
             }}>{showTopperCopies ? '← Back to PYQs' : 'Topper Copies'}</button>
             <Link href="/test" style={{
-              background: 'var(--accent)', color: '#fff',
+              background: 'var(--accent)', color: 'var(--accent-on)',
               padding: '0.55rem 1.25rem', borderRadius: 6,
               fontSize: '0.88rem', fontWeight: 600, textDecoration: 'none',
               display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
@@ -1052,7 +1052,7 @@ export default function PYQsPage() {
               style={{
                 background: 'linear-gradient(135deg, #7c3aed, #a78bfa)',
                 border: 'none',
-                color: '#fff', borderRadius: 10, padding: '0.85rem 2rem',
+                color: 'var(--accent-on)', borderRadius: 10, padding: '0.85rem 2rem',
                 fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
                 fontFamily: 'var(--font-mono)', width: '100%',
                 boxShadow: '0 4px 20px rgba(124,58,237,0.35)',
