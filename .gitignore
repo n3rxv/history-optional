@@ -61,3 +61,7 @@ lib/*.bak2
 # The example file carries no secrets and is the only env reference a new
 # checkout gets. The blanket .env* rule above was hiding it from git.
 !.env.example
+
+# python
+__pycache__/
+*.pyc

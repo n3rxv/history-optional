@@ -13,7 +13,17 @@ export async function GET(req: NextRequest) {
   const { data: copies, error } = await sb
     .from('topper_copies')
     .select('*')
-    .order('created_at', { ascending: false });
+    // created_at ke baad id se tie todna zaroori hai.
+    //
+    // Bulk insert me ek hi transaction ki saari rows ka created_at bilkul same
+    // hota hai, aur yahan aise 100-100 ke paanch group hain. Sirf created_at se
+    // order karne par tie ka kram Postgres ki heap par chhod diya jata hai, aur
+    // update row ko heap ke ant me likh deta hai. Nateeja: jis row ko edit kiya
+    // wo list me 78 jagah khisak gayi aur 271 rows ka kram badal gaya, matlab
+    // admin ko lagta hai question gayab ho gaya aur uska PYQ tag bhi nahi laga.
+    // Dono shikayatein ek hi wajah se thi, aur DB me dono cheezein bach gayi thi.
+    .order('created_at', { ascending: false })
+    .order('id', { ascending: true });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
@@ -51,12 +61,16 @@ export async function POST(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
+  // Mapping ki error bhi batani hai. Pehle ise chup-chap gira diya jata tha,
+  // to tag na lagne par admin ke paas jaanne ka koi zariya nahi tha ki card
+  // bana aur mapping reh gayi.
   if (pyq_ids?.length) {
     const rows = pyq_ids.map((pid: number) => ({ topper_copy_id: copy.id, pyq_id: pid }));
-    await sb.from('topper_copy_pyq_map').insert(rows);
+    const { error: mapErr } = await sb.from('topper_copy_pyq_map').insert(rows);
+    if (mapErr) return NextResponse.json({ error: `card bana, PYQ mapping nahi: ${mapErr.message}` }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true, data: copy });
+  return NextResponse.json({ ok: true, data: copy, pyq_count: pyq_ids?.length || 0 });
 }
 
 export async function PATCH(req: NextRequest) {
@@ -76,13 +90,18 @@ export async function PATCH(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  await sb.from('topper_copy_pyq_map').delete().eq('topper_copy_id', id);
+  const { error: delErr } = await sb.from('topper_copy_pyq_map').delete().eq('topper_copy_id', id);
+  if (delErr) return NextResponse.json({ error: delErr.message }, { status: 500 });
+
   if (pyq_ids?.length) {
     const rows = pyq_ids.map((pid: number) => ({ topper_copy_id: id, pyq_id: pid }));
-    await sb.from('topper_copy_pyq_map').insert(rows);
+    const { error: mapErr } = await sb.from('topper_copy_pyq_map').insert(rows);
+    if (mapErr) return NextResponse.json({ error: mapErr.message }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true });
+  // Count wapas bhejo, taaki admin panel bata sake kitne tag lage. Purane
+  // '✓ Updated' se ye pata hi nahi chalta tha ki mapping gayi ya nahi.
+  return NextResponse.json({ ok: true, pyq_count: pyq_ids?.length || 0 });
 }
 
 export async function DELETE(req: NextRequest) {

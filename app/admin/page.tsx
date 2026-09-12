@@ -1597,6 +1597,15 @@ function PYQPicker({
   );
 }
 
+// Save ke baad mapping ka count bhi batao.
+//
+// Sirf '✓ Updated' dikhane se admin ko ye pata nahi chalta tha ki PYQ tag
+// sach me laga ya nahi, aur list ka kram badalne par use lagta tha ki nahi laga.
+function savedMsg(what: string, n?: number): string {
+  if (!n) return `✓ ${what}`;
+  return `✓ ${what} · ${n} PYQ${n > 1 ? 's' : ''} mapped`;
+}
+
 function TopperCopiesManager({ token }: { token: string }) {
   const [copies, setCopies] = useState<TopperCopy[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1635,7 +1644,7 @@ function TopperCopiesManager({ token }: { token: string }) {
     });
     const data = await res.json();
     setSaving(false);
-    if (data.ok) { setForm(emptyForm); setPyqSearch(''); flash('✓ Added'); load(); }
+    if (data.ok) { setForm(emptyForm); setPyqSearch(''); flash(savedMsg('Added', data.pyq_count)); load(); }
     else flash('⚠ ' + (data.error || 'Failed'));
   };
 
@@ -1666,7 +1675,7 @@ function TopperCopiesManager({ token }: { token: string }) {
     });
     const data = await res.json();
     setSaving(false);
-    if (data.ok) { setEditingId(null); flash('✓ Updated'); load(); }
+    if (data.ok) { setEditingId(null); flash(savedMsg('Updated', data.pyq_count)); load(); }
     else flash('⚠ ' + (data.error || 'Failed'));
   };
 
