@@ -71,7 +71,7 @@ export async function GET(
 
   const { data, error } = await db()
     .from('topper_copies')
-    .select('id, question, drive_file_id, note, created_at')
+    .select('id, question, drive_file_id, note, created_at, start_page')
     .eq('id', id)
     .maybeSingle();
 
