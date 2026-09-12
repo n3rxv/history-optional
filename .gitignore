@@ -43,6 +43,9 @@ history-optional.tar.gz
 *.tar.gz
 *.html
 *.py
+# The topper pipeline is deliberate tooling, not one of the ad-hoc patch_*.py
+# scripts the rule above is here to keep out.
+!scripts/topper/*.py
 *.html
 *.pdf
 *.zip

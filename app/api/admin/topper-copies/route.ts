@@ -13,15 +13,15 @@ export async function GET(req: NextRequest) {
   const { data: copies, error } = await sb
     .from('topper_copies')
     .select('*')
-    // created_at ke baad id se tie todna zaroori hai.
+    // Break the created_at tie on id, or the list will not hold still.
     //
-    // Bulk insert me ek hi transaction ki saari rows ka created_at bilkul same
-    // hota hai, aur yahan aise 100-100 ke paanch group hain. Sirf created_at se
-    // order karne par tie ka kram Postgres ki heap par chhod diya jata hai, aur
-    // update row ko heap ke ant me likh deta hai. Nateeja: jis row ko edit kiya
-    // wo list me 78 jagah khisak gayi aur 271 rows ka kram badal gaya, matlab
-    // admin ko lagta hai question gayab ho gaya aur uska PYQ tag bhi nahi laga.
-    // Dono shikayatein ek hi wajah se thi, aur DB me dono cheezein bach gayi thi.
+    // A bulk insert gives every row in one transaction the same created_at,
+    // and there are five groups of a hundred such rows here. Ordering on
+    // created_at alone leaves the tie to the heap, and an update rewrites the
+    // row at the end of it, so editing a card moved it 78 places and shifted
+    // 271 rows around it. To the admin that reads as the question vanishing
+    // and its PYQ tag not saving. Both complaints were this one bug, and both
+    // edits were in the database the whole time.
     .order('created_at', { ascending: false })
     .order('id', { ascending: true });
 
@@ -61,13 +61,13 @@ export async function POST(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  // Mapping ki error bhi batani hai. Pehle ise chup-chap gira diya jata tha,
-  // to tag na lagne par admin ke paas jaanne ka koi zariya nahi tha ki card
-  // bana aur mapping reh gayi.
+  // Report a failed mapping. This error used to be dropped on the floor, so
+  // when a tag did not stick there was no way to tell that the card had been
+  // created and the mapping had not.
   if (pyq_ids?.length) {
     const rows = pyq_ids.map((pid: number) => ({ topper_copy_id: copy.id, pyq_id: pid }));
     const { error: mapErr } = await sb.from('topper_copy_pyq_map').insert(rows);
-    if (mapErr) return NextResponse.json({ error: `card bana, PYQ mapping nahi: ${mapErr.message}` }, { status: 500 });
+    if (mapErr) return NextResponse.json({ error: `Card created, PYQ mapping failed: ${mapErr.message}` }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true, data: copy, pyq_count: pyq_ids?.length || 0 });
@@ -99,8 +99,8 @@ export async function PATCH(req: NextRequest) {
     if (mapErr) return NextResponse.json({ error: mapErr.message }, { status: 500 });
   }
 
-  // Count wapas bhejo, taaki admin panel bata sake kitne tag lage. Purane
-  // '✓ Updated' se ye pata hi nahi chalta tha ki mapping gayi ya nahi.
+  // Send the count back so the admin panel can say how many tags were
+  // written. A bare '✓ Updated' never showed whether the mapping landed.
   return NextResponse.json({ ok: true, pyq_count: pyq_ids?.length || 0 });
 }
 

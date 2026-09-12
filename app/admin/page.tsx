@@ -1597,10 +1597,10 @@ function PYQPicker({
   );
 }
 
-// Save ke baad mapping ka count bhi batao.
+// Report the mapping count alongside the save.
 //
-// Sirf '✓ Updated' dikhane se admin ko ye pata nahi chalta tha ki PYQ tag
-// sach me laga ya nahi, aur list ka kram badalne par use lagta tha ki nahi laga.
+// A bare '✓ Updated' never showed whether the PYQ tag actually landed, and
+// once the list reordered it looked as though it had not.
 function savedMsg(what: string, n?: number): string {
   if (!n) return `✓ ${what}`;
   return `✓ ${what} · ${n} PYQ${n > 1 ? 's' : ''} mapped`;

@@ -1,19 +1,20 @@
--- Ek PDF me kai questions ho sakte hain, to card ko batana hoga ki kahan se kholna hai.
+-- One PDF can hold several questions, so a card has to say where to open it.
 --
--- GS Score ki booklets me ek page par teen questions chhape hote hain, 3.(a),
--- 3.(b), 3.(c), aur unke answers usi booklet me ek ke baad ek likhe hote hain.
--- Pages kaat kar alag karna khatarnak hai, kyunki answers page ke beech me shuru
--- hote hain aur galat cut se reader ka answer PDF me bachega hi nahi.
+-- GS Score booklets print three questions on one page, 3.(a), 3.(b), 3.(c),
+-- and the candidate answers all three in the same booklet, one after another.
+-- Cutting those pages into separate PDFs is risky, because an answer can begin
+-- partway down a page and a cut in the wrong place leaves the reader without
+-- the answer they paid for.
 --
--- Isliye teeno questions ek hi PDF point karte hain, aur ye column batata hai ki
--- us question ka answer kis page se shuru hota hai. Viewer wahin scroll kar deta
--- hai. Agar page number thoda galat bhi ho, to nuksaan nahi: answer PDF me hai,
--- reader bas thoda upar neeche kar lega.
+-- So all three questions point at the same PDF, and this column records the
+-- page that question's answer starts on. The viewer scrolls there on open.
+-- A page number that is slightly off does no harm: the answer is still in the
+-- PDF and the reader scrolls a little either way.
 --
--- NULL ya 1 ka matlab shuru se kholo, jo har purane row ke liye sahi hai.
+-- NULL or 1 means open at the beginning, which is correct for every older row.
 
 alter table topper_copies
   add column if not exists start_page integer;
 
 comment on column topper_copies.start_page is
-  'Is question ka answer PDF ke kis page se shuru hota hai. NULL = pehla page.';
+  'Page of the PDF where this question''s answer begins. NULL = first page.';

@@ -13,8 +13,8 @@ interface TopperCopy {
   pdf_url: string;
   note: string | null;
   created_at: string;
-  /** Is question ka answer kis page se shuru hota hai. Ek booklet me kai
-   *  questions ho sakte hain, isliye har card apni jagah par khulta hai. */
+  /** The page this question's answer starts on. One booklet can hold several
+   *  questions, so each card opens at its own place in the PDF. */
   start_page?: number | null;
 }
 
@@ -144,14 +144,14 @@ export default function TopperCopyPage() {
   }, [copy, accessAllowed]);
 
   /**
-   * Jis page se is question ka answer shuru hota hai, wahan le jao.
+   * Jump to the page this question's answer begins on.
    *
-   * Ek booklet me kai questions ho sakte hain: GS Score ke paper me ek page par
-   * teen questions chhape hote hain aur teeno ke answers usi booklet me ek ke
-   * baad ek likhe hote hain. Teeno cards wahi PDF kholte hain, isliye (b) wala
-   * card kholne par reader ko (a) ka answer nahi, apna answer dikhna chahiye.
+   * One booklet can hold several questions. A GS Score paper prints three
+   * together, and the candidate answers all three in the same booklet, one
+   * after another. All three cards open the same PDF, so opening the card for
+   * (b) has to land on (b)'s answer rather than on (a)'s.
    *
-   * Pehla page ho to kuch mat karo, warna reader har baar ek jhatka dekhega.
+   * Do nothing for page one, or the reader sees a jolt every time.
    */
   const scrollToStart = () => {
     const page = copy?.start_page;
@@ -160,18 +160,18 @@ export default function TopperCopyPage() {
       `canvas[data-page="${page}"]`
     );
     if (!canvas) return;
-    // 'auto', 'smooth' nahi: page abhi abhi khula hai, isme animation ka koi
-    // matlab nahi aur wo dheema lagta hai.
+    // 'auto', not 'smooth': the page has only just opened, so there is
+    // nothing to animate from and the scroll only reads as slow.
     canvas.scrollIntoView({ behavior: 'auto', block: 'start' });
   };
 
-  /** Abhi screen ke top par kaunsa page hai. */
+  /** Which page is currently at the top of the screen. */
   const visiblePage = (): number => {
     const el = containerRef.current;
     if (!el) return 1;
     const canvases = Array.from(el.querySelectorAll<HTMLCanvasElement>('canvas[data-page]'));
     for (const c of canvases) {
-      // Pehla page jiska neeche ka kinara abhi tak screen se upar nahi gaya.
+      // First page whose bottom edge has not yet scrolled off the top.
       if (c.getBoundingClientRect().bottom > 80) return Number(c.dataset.page);
     }
     return canvases.length ? Number(canvases[canvases.length - 1].dataset.page) : 1;
@@ -180,10 +180,10 @@ export default function TopperCopyPage() {
   const handleZoom = async (delta: number) => {
     if (!pdfRef.current || rendering) return;
     const newScale = Math.min(Math.max(scale + delta, 0.5), 3);
-    // renderPages poora container khali karke dobara banata hai, isliye zoom ke
-    // baad reader hamesha page ek par pahunch jata tha. Ek lambi booklet me
-    // aath page neeche padhte hue zoom karna matlab dobara wahan tak scroll
-    // karna. Page yaad rakh lo aur wahin wapas le jao.
+    // renderPages empties the container and rebuilds it, which used to drop
+    // the reader back on page one after every zoom. Eight pages into a long
+    // booklet that means scrolling all the way down again. Remember the page
+    // and return to it.
     const was = visiblePage();
     setScale(newScale);
     await renderPages(pdfRef.current, newScale);

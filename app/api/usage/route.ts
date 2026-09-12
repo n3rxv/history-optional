@@ -156,7 +156,7 @@ export async function GET(req: NextRequest) {
     .maybeSingle();
 
   if (byFp) {
-    // Agar FP row mein koi aur UID linked hai → same device, naya account → block
+    // Fingerprint row already linked to a different UID: same device, new account, block
     if (byFp.firebase_uid && byFp.firebase_uid !== uid) {
       return NextResponse.json({
         allowed: false,
