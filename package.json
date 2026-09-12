@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/design-lint.mjs && next build",
+    "build": "node scripts/design-lint.mjs && node scripts/font-check.mjs && next build",
     "start": "next start",
     "lint": "eslint",
     "test": "tsx tests/citationGate.test.mts && tsx tests/sanitizeHtml.test.mts && tsx tests/sanitizeNoteHtml.test.mts && tsx tests/adminAuth.test.mts && tsx tests/fileSignature.test.mts && tsx tests/phone.test.mts && tsx tests/name.test.mts && tsx tests/csv.test.mts",
     "design-lint": "node scripts/design-lint.mjs",
-    "design-lint:report": "node scripts/design-lint.mjs --report"
+    "design-lint:report": "node scripts/design-lint.mjs --report",
+    "font-check": "node scripts/font-check.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

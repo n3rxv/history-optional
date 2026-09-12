@@ -49,11 +49,23 @@
   --dink-400: #9a9083;   /*  5.96:1 */
   --dink-500: #7d7468;   /*  4.07:1  large text and placeholders only */
 
-  /* ── PRIMITIVES: accent, one hue per ground ────────────────────────────── */
-  --oxblood-600: #9e2b25;  /* 6.95:1 on paper */
-  --oxblood-700: #872420;  /* 8.52:1 on paper, use for accent TEXT */
-  --gold-500:    #c9a227;  /* 7.73:1 on dark */
-  --gold-400:    #d9b544;  /* 9.48:1 on dark */
+  /* ── PRIMITIVES: accent ────────────────────────────────────────────────────
+     Lapis lazuli, ground for the richest blues in Mughal painting, and one of
+     the documented pigments of the manuscripts this syllabus covers.
+
+     One hue serves both grounds. An earlier draft paired maroon on paper with
+     gold on dark, but that was solving a problem of its own making: the dark
+     value had been targeted at 7.5:1, which drains the chroma out of any hue
+     and turns a red into salmon. Solved to each role's actual floor instead,
+     lapis keeps its saturation on both.
+
+     Each value is solved to what its role requires, not picked:
+       -600 / -500   fills, rules, borders    4.6:1 on its ground
+       -700 / -400   accent TEXT              7.0 on paper, 6.5 on dark */
+  --lapis-700: #2244cf;  /* 7.02:1 on paper, accent text */
+  --lapis-600: #4766e1;  /* 4.61:1 on paper, fills and rules */
+  --lapis-500: #5b76e4;  /* 4.59:1 on dark,  fills and rules */
+  --lapis-400: #7e94ea;  /* 6.51:1 on dark,  accent text */
 
   /* ── PRIMITIVES: semantic hues ─────────────────────────────────────────────
      Solved, not picked. Each text value sits at 4.9:1 against its own WASH,
@@ -107,16 +119,23 @@
      em size, Libre Baskerville roman has an x-height of 106 and Roboto italic
      211 against the roman's 212, the closest of fourteen candidates tested,
      with all 8 test glyphs redrawn rather than sheared. */
-  --font-display: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
-  --font-body:    'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  /* The Variable name comes first and is not optional. @fontsource-variable
+     registers 'Libre Baskerville Variable' and 'Inter Variable', not the plain
+     names, so a stack asking only for 'Libre Baskerville' matches nothing and
+     silently falls through to Georgia. That is exactly what happened here, and
+     it is the same class of failure as Playfair Display: a font named in a
+     token, never loaded, and nothing to tell you. The plain name is kept after
+     it so a static install would also resolve. */
+  --font-display: 'Libre Baskerville Variable', 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  --font-body:    'Libre Baskerville Variable', 'Libre Baskerville', Georgia, 'Times New Roman', serif;
   --font-italic:  'Roboto', system-ui, -apple-system, sans-serif;
-  --font-ui:      'Inter', system-ui, -apple-system, sans-serif;
+  --font-ui:      'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', Consolas, monospace;
 
   --text-xs:   0.75rem;     /* mono eyebrows, marks tags */
   --text-sm:   0.8125rem;   /* meta, captions */
   --text-ui:   1rem;        /* controls, labels, buttons */
-  --text-body: 1.0625rem;   /* 17px, prose */
+  --text-body: 1.125rem;    /* 18px, matching the live body rule below */
   --text-lead: 1.1875rem;
   --text-h3:   1.375rem;
   --text-h2:   1.6875rem;
@@ -181,12 +200,12 @@
   --text3:         var(--ink-500);
   --text-faint:    var(--ink-400);
 
-  --accent:        var(--oxblood-600);
-  --accent2:       var(--oxblood-700);
-  --accent-text:   var(--oxblood-700);
-  --accent-on:     var(--paper-50);     /* what sits ON the accent */
-  --accent-dim:    rgba(158,43,37,0.07);
-  --accent-glow:   rgba(158,43,37,0.14);
+  --accent:        var(--lapis-600);
+  --accent2:       var(--lapis-700);
+  --accent-text:   var(--lapis-700);
+  --accent-on:     var(--paper-50);     /* 4.80:1 on --lapis-600 */
+  --accent-dim:    color-mix(in srgb, var(--lapis-600) 7%, transparent);
+  --accent-glow:   color-mix(in srgb, var(--lapis-600) 14%, transparent);
 
   --success-text: var(--success-text-p); --success-wash: var(--success-wash-p);
   --warning-text: var(--warning-text-p); --warning-wash: var(--warning-wash-p);
@@ -258,12 +277,12 @@
   --text2:         var(--dink-200);
   --text3:         var(--dink-400);
   --text-faint:    var(--dink-500);
-  --accent:        var(--gold-500);
-  --accent2:       var(--gold-400);
-  --accent-text:   var(--gold-400);
-  --accent-on:     var(--dark-900);
-  --accent-dim:    rgba(201,162,39,0.10);
-  --accent-glow:   rgba(201,162,39,0.18);
+  --accent:        var(--lapis-500);
+  --accent2:       var(--lapis-400);
+  --accent-text:   var(--lapis-400);
+  --accent-on:     var(--dark-900);   /* 4.59:1 on --lapis-500 */
+  --accent-dim:    color-mix(in srgb, var(--lapis-500) 10%, transparent);
+  --accent-glow:   color-mix(in srgb, var(--lapis-500) 18%, transparent);
   --success-text: var(--success-text-d); --success-wash: var(--success-wash-d);
   --warning-text: var(--warning-text-d); --warning-wash: var(--warning-wash-d);
   --danger-text:  var(--danger-text-d);  --danger-wash:  var(--danger-wash-d);
