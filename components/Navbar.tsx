@@ -23,9 +23,53 @@ function snooColor(email: string): string {
   return palette[hash % palette.length];
 }
 
-function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
+/**
+ * The reader's Google profile picture, falling back to their initial.
+ *
+ * Firebase hands this over as user.photoURL from the Google provider. It is
+ * null for anyone who signed in without a picture, so the initial is a real
+ * path rather than a safety net, and onError covers a URL that 404s later,
+ * which Google's lh3 links do once a photo is removed.
+ *
+ * The disc stays dark on both grounds: a picture with a light background
+ * needs an edge to sit against on a light page, and the initial needs a
+ * ground of its own.
+ */
+function UserAvatar({ email, name, photoURL, size = 34 }: {
+  email: string; name?: string; photoURL?: string | null; size?: number;
+}) {
+  const [failed, setFailed] = useState(false);
+  const initial = (name?.trim() || email || '?').charAt(0).toUpperCase();
+  const showImage = Boolean(photoURL) && !failed;
+
   return (
-    <img src="/avatar.png" alt="avatar" width={size * 2.5} height={size * 2.5} style={{ objectFit: 'contain' }} />
+    <span
+      style={{
+        width: size, height: size, flexShrink: 0,
+        borderRadius: '50%',
+        background: 'var(--avatar-bg)',
+        color: 'var(--wink-50)',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        overflow: 'hidden',
+        fontFamily: 'var(--font-ui)',
+        fontSize: Math.round(size * 0.42),
+        fontWeight: 600,
+        lineHeight: 1,
+        userSelect: 'none',
+      }}
+    >
+      {showImage ? (
+        <img
+          src={photoURL as string}
+          alt=""
+          width={size}
+          height={size}
+          referrerPolicy="no-referrer"
+          onError={() => setFailed(true)}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      ) : initial}
+    </span>
   );
 }
 
@@ -54,9 +98,11 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
       onClick={onClose}
     >
       <div
-        style={{ background: 'var(--bg2)', border: '1px solid var(--border-subtle)', borderRadius: 16, padding: '1.5rem', maxWidth: 560, width: '100%', boxShadow: '0 40px 80px rgba(0,0,0,0.8)', maxHeight: '90vh', overflowY: 'auto' }}
+        className="sheet"
+        style={{ background: 'var(--bg2)', border: '1px solid var(--border-subtle)', borderRadius: 16, maxWidth: 560, width: '100%', boxShadow: 'var(--elev-3)', maxHeight: '90vh' }}
         onClick={e => e.stopPropagation()}
       >
+       <div className="sheet-scroll" style={{ padding: '1.5rem' }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
           <div>
@@ -73,7 +119,7 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
         )}
 
         {/* Feature table — compact */}
-        <div style={{ marginBottom: 16, borderRadius: 8, overflow: 'hidden', border: '1px solid var(--border-subtle)', maxHeight: 160, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: 'var(--premium-text) var(--bg3)' }}>
+        <div className="scroll-y" style={{ marginBottom: 16, borderRadius: 8, border: '1px solid var(--border-subtle)', maxHeight: 160 }}>
           {/* Table header */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', background: 'var(--bg3)', padding: '6px 10px', borderBottom: '1px solid var(--border-subtle)' }}>
             <span style={{ fontSize: '0.62rem', color: 'var(--border2)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Feature</span>
@@ -114,6 +160,7 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
           </svg>
           Already subscribed? Sign in
         </button>}
+       </div>
       </div>
     </div>
   );
@@ -665,7 +712,7 @@ export default function Navbar() {
                 )}
                 <button onClick={() => setUserMenuOpen(o => !o)} title={user.email ?? undefined}
                   style={{ width: 45, height: 45, borderRadius: 0, background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, overflow: 'visible', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'none' }}>
-                  <SnooAvatar email={user.email ?? ''} size={28} />
+                  <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={34} />
                 </button>
                 {userMenuOpen && (
                   <div className="user-account-dropdown" style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, width: 296, borderRadius: 14, padding: 0, zIndex: 1000, overflow: 'hidden', background: 'var(--bg-raised)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--elev-2)' }}>
@@ -673,7 +720,7 @@ export default function Navbar() {
                     <div style={{ padding: '0.95rem 1rem 0.85rem', borderBottom: '1px solid var(--border-subtle)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{ position: 'relative', flexShrink: 0 }}>
-                          <SnooAvatar email={user.email ?? ''} size={40} />
+                          <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={44} />
                           <div style={{ position: 'absolute', bottom: -1, right: -1, width: 10, height: 10, borderRadius: '50%', background: 'var(--text)', border: '2px solid var(--bg)' }} />
                         </div>
                         <div style={{ minWidth: 0, flex: 1 }}>
@@ -683,7 +730,7 @@ export default function Navbar() {
                           <div style={{ fontSize: '0.65rem', color: 'var(--text3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{user.email}</div>
                         </div>
                         <button onClick={() => setProfileEdit(e => !e)}
-                          style={{ flexShrink: 0, background: profileEdit ? 'var(--text)' : 'transparent', border: `1px solid ${profileEdit ? 'var(--text)' : 'var(--border)'}`, borderRadius: 6, width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? '#000' : 'var(--text3)' }}>
+                          style={{ flexShrink: 0, background: profileEdit ? 'var(--text)' : 'transparent', border: `1px solid ${profileEdit ? 'var(--text)' : 'var(--border)'}`, borderRadius: 6, width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? 'var(--bg)' : 'var(--text3)' }}>
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </button>
                       </div>

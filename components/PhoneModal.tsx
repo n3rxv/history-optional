@@ -356,9 +356,9 @@ export function PhoneModal({
               </button>
 
               {open && (
-                <div style={{
+                <div className="scroll-y" style={{
                   position: 'absolute', top: 'calc(100% + 6px)', left: 0,
-                  width: 260, maxHeight: 260, overflowY: 'auto',
+                  width: 260, maxHeight: 260,
                   background: 'var(--bg3)', border: '1.5px solid #2a2a2a',
                   borderRadius: 10, zIndex: 10,
                   boxShadow: '0 20px 40px rgba(0,0,0,0.8)',

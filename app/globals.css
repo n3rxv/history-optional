@@ -287,6 +287,14 @@
    grow a second selector each. */
 
 
+/* The avatar artwork is a transparent PNG drawn for a dark ground: its light
+   areas, the skin, glasses and shoes, have no outline and disappear against a
+   light page. So it always sits on a dark disc, on both grounds. This is one
+   of the few values that is deliberately NOT theme-aware. */
+:root {
+  --avatar-bg: var(--black-900);
+}
+
 /* ── GROUND-INDEPENDENT ALIASES ─────────────────────────────────────────────
    These are pure indirection: every one points at a semantic token that is
    itself redefined per ground. Custom-property references resolve lazily at
@@ -362,6 +370,47 @@
   --elev-2: var(--elev-2-p);
   --elev-3: var(--elev-3-p);
 }
+
+/* ── MODAL SHELL ────────────────────────────────────────────────────────────
+   Two responsibilities that must not sit on the same element: the card clips,
+   an inner wrapper scrolls.
+
+   Putting border-radius and overflow-y on one element looks fine until macOS
+   draws an overlay scrollbar, which is painted over the element rather than
+   inside it and is therefore not clipped by the radius. The square gutter then
+   sits across the rounded corner. Moving the scroll inside a square child
+   makes the card's own overflow:hidden clip everything.
+
+   scrollbar-width is Chromium 121+ and Firefox only, so the webkit
+   pseudo-element is the portable half of the pair. Several modals in this repo
+   relied on scrollbar-width alone. */
+.sheet {
+  overflow: hidden;              /* so border-radius clips the child's gutter */
+  display: flex;
+  flex-direction: column;
+}
+/* Any scrollable panel: dropdowns, inline lists, sticky sidebars. No flex
+   assumptions, so it is safe to drop onto an existing element. */
+.scroll-y {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior: contain;  /* stop the page behind it scrolling at the ends */
+}
+.scroll-y::-webkit-scrollbar { width: 0; height: 0; }
+
+/* The scrolling child of a .sheet. Adds the flex sizing a modal body needs. */
+.sheet-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1 1 auto;
+  min-height: 0;                 /* or flex refuses to let it shrink and scroll */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior: contain;
+}
+.sheet-scroll::-webkit-scrollbar { width: 0; height: 0; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; transition: background-color 0.2s ease, color 0.2s ease; }

@@ -53,7 +53,10 @@ const RULES = [
   {
     id: 'off-scale-radius',
     why: 'radius comes from --radius-*',
-    find: (t) => [...t.matchAll(/borderRadius:\s*'?(\d+)(?:px)?'?/g)]
+    // The (?!%) matters: borderRadius: '50%' is a shape, not a step on the
+    // scale, and --radius-circle exists for exactly that. Without it the regex
+    // matched the 50 and flagged every circle in the app.
+    find: (t) => [...t.matchAll(/borderRadius:\s*'?(\d+)(?![\d%])(?:px)?/g)]
       .filter((m) => {
         const v = +m[1];
         return v !== 0 && v < 100 && !RADIUS.has(v);

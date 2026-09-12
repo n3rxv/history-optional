@@ -243,9 +243,9 @@ function Sheet({ s, onClose }: { s: Sample; onClose: () => void }) {
         </>)}
 
         <div className="sv-h2">What was written</div>
-        <div style={{
+        <div className="scroll-y" style={{
           border: '1px solid var(--border)', borderRadius: 4, padding: '1rem', maxHeight: 300,
-          overflowY: 'auto', color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.75, whiteSpace: 'pre-wrap',
+          color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.75, whiteSpace: 'pre-wrap',
         }}>{s.answer}</div>
 
         {s.sectionMarks && (<>

@@ -166,9 +166,10 @@ export default function PromoPopup() {
         @keyframes slideUpCard { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes mobileSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .promo-card { animation: slideUpCard 0.3s ease; }
-        .promo-close-btn:hover { background: rgba(0,0,0,0.09) !important; }
-        .promo-subscribe-btn:hover { background: #1d4ed8 !important; }
-        .promo-feature-row:hover { background: rgba(0,0,0,0.02) !important; }
+
+        .promo-close-btn:hover { background: color-mix(in srgb, var(--text) 9%, transparent) !important; }
+        .promo-subscribe-btn:hover { background: var(--accent2) !important; }
+        .promo-feature-row:hover { background: color-mix(in srgb, var(--text) 2%, transparent) !important; }
 
         /* Mobile-first: stacked, matches the original vertical layout */
         .promo-card {
@@ -186,7 +187,7 @@ export default function PromoPopup() {
         }
         .promo-divider {
           height: 1px;
-          background: #161616;
+          background: var(--border-subtle);
           margin: 0 1.75rem;
         }
 
@@ -220,13 +221,11 @@ export default function PromoPopup() {
           }
           .promo-col-left {
             flex: 0 0 340px;
-            border-right: 0.5px solid #161616;
+            border-right: 0.5px solid var(--border-subtle);
           }
           .promo-col-right {
             flex: 1 1 auto;
             min-width: 0;
-            overflow-y: auto;
-            scrollbar-width: none;
             max-height: 88vh;
           }
           .promo-divider {
@@ -236,15 +235,14 @@ export default function PromoPopup() {
       `}</style>
 
       <div
-        className="promo-card"
+        className="promo-card scroll-y"
         style={{
           background: 'var(--bg2)',
-          border: '0.5px solid #1f1f1f',
+          border: '0.5px solid var(--border-subtle)',
           borderRadius: 18,
           width: '100%',
           maxHeight: '92vh',
-          overflowY: 'auto',
-          scrollbarWidth: 'none',
+          overflowX: 'hidden',   /* so border-radius clips whatever a child draws */
           position: 'relative',
         }}
       >
@@ -254,15 +252,15 @@ export default function PromoPopup() {
           style={{
             position: 'absolute', top: '1rem', right: '1rem', zIndex: 1,
             width: 28, height: 28, borderRadius: '50%',
-            background: 'rgba(0,0,0,0.06)',
-            border: '0.5px solid #222',
+            background: 'color-mix(in srgb, var(--text) 6%, transparent)',
+            border: '0.5px solid var(--border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', transition: 'background 0.15s',
           }}
           aria-label="Close"
         >
           <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-            <path d="M1 1l9 9M10 1l-9 9" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M1 1l9 9M10 1l-9 9" stroke="color-mix(in srgb, var(--text) 40%, transparent)" strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
         </button>
 
@@ -272,12 +270,12 @@ export default function PromoPopup() {
             <div style={{ padding: '1.75rem 1.75rem 1.4rem' }}>
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                background: 'rgba(59,130,246,0.12)',
-                border: '0.5px solid rgba(59,130,246,0.25)',
+                background: 'color-mix(in srgb, var(--accent) 12%, transparent)',
+                border: '0.5px solid color-mix(in srgb, var(--accent) 25%, transparent)',
                 borderRadius: 20, padding: '3px 12px', marginBottom: '0.9rem',
               }}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="#60a5fa"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                <span style={{ fontSize: 10, fontWeight: 500, color: '#60a5fa', letterSpacing: '0.07em', textTransform: 'uppercase' }}>Go Premium</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent-text)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--accent-text)', letterSpacing: '0.07em', textTransform: 'uppercase' }}>Go Premium</span>
               </div>
 
               <h2 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text)', margin: '0 0 0.35rem', lineHeight: 1.3 }}>
@@ -288,7 +286,7 @@ export default function PromoPopup() {
               </p>
 
               {/* Testimonial screenshot */}
-              <div style={{ borderRadius: 10, overflow: 'hidden', border: '0.5px solid rgba(0,0,0,0.07)', marginBottom: '1.1rem' }}>
+              <div style={{ borderRadius: 10, overflow: 'hidden', border: '0.5px solid color-mix(in srgb, var(--text) 7%, transparent)', marginBottom: '1.1rem' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/testimonial.png"
@@ -309,7 +307,7 @@ export default function PromoPopup() {
                 <>
                   <div style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    background: 'var(--bg3)', border: '0.5px solid #1f1f1f',
+                    background: 'var(--bg3)', border: '0.5px solid var(--border-subtle)',
                     borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '0.9rem',
                   }}>
                     <div>
@@ -332,7 +330,7 @@ export default function PromoPopup() {
                     className="promo-subscribe-btn"
                     style={{
                       display: 'block', width: '100%', padding: '0.78rem',
-                      background: '#2563eb', border: 'none', borderRadius: 9,
+                      background: 'var(--accent)', border: 'none', borderRadius: 9,
                       fontSize: 14, fontWeight: 600, color: 'var(--text)',
                       cursor: 'pointer', textAlign: 'center',
                       transition: 'background 0.15s',
@@ -341,7 +339,7 @@ export default function PromoPopup() {
                   >
                     Subscribe now {"\u2192"}
                   </button>
-                  <p style={{ textAlign: 'center', fontSize: 11, color: 'rgba(0,0,0,0.12)', margin: '0.6rem 0 0' }}>
+                  <p style={{ textAlign: 'center', fontSize: 11, color: 'color-mix(in srgb, var(--text) 12%, transparent)', margin: '0.6rem 0 0' }}>
                     Secure payment via Razorpay {"\u00B7"} Cancel anytime
                   </p>
                 </>
@@ -352,7 +350,7 @@ export default function PromoPopup() {
           <div className="promo-divider" />
 
           {/* Right column — features, looping with an animated coaching-cost comparison */}
-          <div className="promo-col-right">
+          <div className="promo-col-right scroll-y">
             <div style={{ padding: '1.1rem 1.75rem 0' }}>
               <style>{`
                 @keyframes glowDrift {
@@ -381,12 +379,12 @@ export default function PromoPopup() {
                   to   { opacity: 1; transform: scale(1); filter: blur(0px); }
                 }
                 .promo-glow-red {
-                  background: radial-gradient(circle at center, rgba(248,113,113,0.22), transparent 65%);
+                  background: radial-gradient(circle at center, color-mix(in srgb, var(--danger-text) 22%, transparent), transparent 65%);
                   background-size: 180% 180%;
                   animation: glowDrift 6s ease-in-out infinite;
                 }
                 .promo-glow-blue {
-                  background: radial-gradient(circle at center, rgba(59,130,246,0.24), transparent 65%);
+                  background: radial-gradient(circle at center, color-mix(in srgb, var(--accent) 24%, transparent), transparent 65%);
                   background-size: 180% 180%;
                   animation: glowDrift 7s ease-in-out infinite;
                 }
@@ -410,11 +408,11 @@ export default function PromoPopup() {
                   }}
                 >
                   <p style={{
-                    fontSize: 10, fontWeight: 500, color: 'rgba(0,0,0,0.15)',
+                    fontSize: 10, fontWeight: 500, color: 'color-mix(in srgb, var(--text) 15%, transparent)',
                     letterSpacing: '0.09em', textTransform: 'uppercase', margin: '0 0 0.75rem',
                   }}>What you unlock</p>
 
-                  <div style={{ border: '0.5px solid #1f1f1f', borderRadius: 10, overflow: 'hidden' }}>
+                  <div style={{ border: '0.5px solid var(--border-subtle)', borderRadius: 10, overflow: 'hidden' }}>
                     {FEATURES.map((f, i, arr) => (
                       <div
                         key={i}
@@ -422,11 +420,11 @@ export default function PromoPopup() {
                         style={{
                           display: 'flex', alignItems: 'flex-start', gap: 12,
                           padding: '0.75rem 1rem',
-                          borderBottom: i < arr.length - 1 ? '0.5px solid #1a1a1a' : 'none',
+                          borderBottom: i < arr.length - 1 ? '0.5px solid var(--border-subtle)' : 'none',
                           transition: 'background 0.12s',
                         }}
                       >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}>
                           <path d={f.icon} />
                         </svg>
                         <div>
@@ -448,7 +446,7 @@ export default function PromoPopup() {
                   }}
                 >
                   <p style={{
-                    fontSize: 10, fontWeight: 500, color: 'rgba(0,0,0,0.15)',
+                    fontSize: 10, fontWeight: 500, color: 'color-mix(in srgb, var(--text) 15%, transparent)',
                     letterSpacing: '0.09em', textTransform: 'uppercase', margin: '0 0 0.75rem',
                   }}>The real comparison</p>
 
@@ -456,15 +454,15 @@ export default function PromoPopup() {
                   <div
                     className="promo-glow-red"
                     style={{
-                      position: 'relative', border: '0.5px solid rgba(248,113,113,0.3)',
+                      position: 'relative', border: '0.5px solid color-mix(in srgb, var(--danger-text) 30%, transparent)',
                       borderRadius: 12, padding: '1.1rem', marginBottom: '0.85rem',
                       overflow: 'hidden',
                     }}
                   >
-                    <p style={{ fontSize: 11, fontWeight: 600, color: '#f87171', letterSpacing: '0.04em', textTransform: 'uppercase', margin: '0 0 0.7rem', position: 'relative' }}>
+                    <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--danger-text)', letterSpacing: '0.04em', textTransform: 'uppercase', margin: '0 0 0.7rem', position: 'relative' }}>
                       Coaching institutes
                     </p>
-                    <p className={showComparison ? 'promo-row-anim' : ''} style={{ animationDelay: '0.05s', fontSize: 22, fontWeight: 700, color: '#f87171', margin: '0 0 0.7rem', position: 'relative' }}>
+                    <p className={showComparison ? 'promo-row-anim' : ''} style={{ animationDelay: '0.05s', fontSize: 22, fontWeight: 700, color: 'var(--danger-text)', margin: '0 0 0.7rem', position: 'relative' }}>
                       <CountUp target={60000} prefix="₹" active={showComparison} durationMs={900} /> <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--text3)' }}>per course</span>
                     </p>
                     {COACHING_PROBLEMS.map((row, i) => (
@@ -477,7 +475,7 @@ export default function PromoPopup() {
                           animationDelay: showComparison ? `${0.15 + i * 0.09}s` : undefined,
                         }}
                       >
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--danger-text)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
                           <path d={row.icon} />
                         </svg>
                         <span style={{ fontSize: 12.5, color: 'var(--text2)', lineHeight: 1.5 }}>{row.text}</span>
@@ -489,14 +487,14 @@ export default function PromoPopup() {
                   <div
                     className="promo-glow-blue"
                     style={{
-                      position: 'relative', border: '0.5px solid rgba(59,130,246,0.4)',
+                      position: 'relative', border: '0.5px solid color-mix(in srgb, var(--accent) 40%, transparent)',
                       borderRadius: 12, padding: '1.1rem', overflow: 'hidden',
                     }}
                   >
-                    <p style={{ fontSize: 11, fontWeight: 600, color: '#60a5fa', letterSpacing: '0.04em', textTransform: 'uppercase', margin: '0 0 0.7rem', position: 'relative' }}>
+                    <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--accent-text)', letterSpacing: '0.04em', textTransform: 'uppercase', margin: '0 0 0.7rem', position: 'relative' }}>
                       History Optional
                     </p>
-                    <p className={showComparison ? 'promo-row-anim' : ''} style={{ animationDelay: '0.45s', fontSize: 22, fontWeight: 700, color: '#60a5fa', margin: '0 0 0.7rem', position: 'relative' }}>
+                    <p className={showComparison ? 'promo-row-anim' : ''} style={{ animationDelay: '0.45s', fontSize: 22, fontWeight: 700, color: 'var(--accent-text)', margin: '0 0 0.7rem', position: 'relative' }}>
                       <CountUp target={2999} prefix="₹" active={showComparison} durationMs={700} /> <span style={{ fontSize: 12, fontWeight: 400, color: 'var(--text2)' }}>· 1 year — 90% cheaper</span>
                     </p>
                     {US_ADVANTAGES.map((row, i) => (
@@ -509,7 +507,7 @@ export default function PromoPopup() {
                           animationDelay: showComparison ? `${0.55 + i * 0.09}s` : undefined,
                         }}
                       >
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
                           <path d={row.icon} />
                         </svg>
                         <span style={{ fontSize: 12.5, color: 'var(--text)', lineHeight: 1.5 }}>{row.text}</span>
@@ -530,12 +528,12 @@ export default function PromoPopup() {
           <div style={{ padding: '1.5rem 1.5rem 0.9rem', flexShrink: 0 }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: 'rgba(59,130,246,0.12)',
-              border: '0.5px solid rgba(59,130,246,0.25)',
+              background: 'color-mix(in srgb, var(--accent) 12%, transparent)',
+              border: '0.5px solid color-mix(in srgb, var(--accent) 25%, transparent)',
               borderRadius: 20, padding: '3px 12px', marginBottom: '0.8rem',
             }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="#60a5fa"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              <span style={{ fontSize: 10, fontWeight: 500, color: '#60a5fa', letterSpacing: '0.07em', textTransform: 'uppercase' }}>Go Premium</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent-text)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--accent-text)', letterSpacing: '0.07em', textTransform: 'uppercase' }}>Go Premium</span>
             </div>
 
             <h2 style={{ fontSize: 20, fontWeight: 600, color: 'var(--text)', margin: '0 0 0.3rem', lineHeight: 1.3 }}>
@@ -547,7 +545,7 @@ export default function PromoPopup() {
           </div>
 
           {showSubscribe ? (
-            <div style={{ padding: '0 1.5rem 1.5rem', overflowY: 'auto', flex: '1 1 auto' }}>
+            <div className="scroll-y" style={{ padding: '0 1.5rem 1.5rem', flex: '1 1 auto' }}>
               <SubscribeCard
                 fingerprint={null}
                 onSuccess={close}
@@ -583,7 +581,7 @@ export default function PromoPopup() {
                   className="promo-subscribe-btn"
                   style={{
                     display: 'block', width: '100%', padding: '0.78rem',
-                    background: '#2563eb', border: 'none', borderRadius: 9,
+                    background: 'var(--accent)', border: 'none', borderRadius: 9,
                     fontSize: 14, fontWeight: 600, color: 'var(--text)',
                     cursor: 'pointer', textAlign: 'center',
                     transition: 'background 0.15s',
@@ -592,7 +590,7 @@ export default function PromoPopup() {
                 >
                   Subscribe now {"\u2192"}
                 </button>
-                <p style={{ textAlign: 'center', fontSize: 10.5, color: 'rgba(0,0,0,0.12)', margin: '0.5rem 0 0' }}>
+                <p style={{ textAlign: 'center', fontSize: 10.5, color: 'color-mix(in srgb, var(--text) 12%, transparent)', margin: '0.5rem 0 0' }}>
                   Secure payment via Razorpay {"\u00B7"} Cancel anytime
                 </p>
               </div>
@@ -632,18 +630,18 @@ function ComparisonCards({ active }: { active: boolean }) {
   return (
     <>
       <div className="promo-glow-red" style={{
-        position: 'relative', border: '0.5px solid rgba(248,113,113,0.3)',
+        position: 'relative', border: '0.5px solid color-mix(in srgb, var(--danger-text) 30%, transparent)',
         borderRadius: 12, padding: '0.7rem 0.8rem', marginBottom: '0.5rem', overflow: 'hidden',
       }}>
-        <p style={{ fontSize: 10.5, fontWeight: 600, color: '#f87171', letterSpacing: '0.04em', textTransform: 'uppercase', margin: '0 0 0.5rem', position: 'relative' }}>
+        <p style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--danger-text)', letterSpacing: '0.04em', textTransform: 'uppercase', margin: '0 0 0.5rem', position: 'relative' }}>
           Coaching institutes
         </p>
-        <p style={{ fontSize: 20, fontWeight: 700, color: '#f87171', margin: '0 0 0.5rem', position: 'relative' }}>
+        <p style={{ fontSize: 20, fontWeight: 700, color: 'var(--danger-text)', margin: '0 0 0.5rem', position: 'relative' }}>
           <CountUp target={60000} prefix="₹" active={active} durationMs={900} /> <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--text3)' }}>per course</span>
         </p>
         {COACHING_PROBLEMS.map((row, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, position: 'relative', marginBottom: i < COACHING_PROBLEMS.length - 1 ? 6 : 0 }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--danger-text)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
               <path d={row.icon} />
             </svg>
             <span style={{ fontSize: 11.5, color: 'var(--text2)', lineHeight: 1.4 }}>{row.text}</span>
@@ -652,18 +650,18 @@ function ComparisonCards({ active }: { active: boolean }) {
       </div>
 
       <div className="promo-glow-blue" style={{
-        position: 'relative', border: '0.5px solid rgba(59,130,246,0.4)',
+        position: 'relative', border: '0.5px solid color-mix(in srgb, var(--accent) 40%, transparent)',
         borderRadius: 12, padding: '0.7rem 0.8rem', overflow: 'hidden',
       }}>
-        <p style={{ fontSize: 10.5, fontWeight: 600, color: '#60a5fa', letterSpacing: '0.04em', textTransform: 'uppercase', margin: '0 0 0.5rem', position: 'relative' }}>
+        <p style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--accent-text)', letterSpacing: '0.04em', textTransform: 'uppercase', margin: '0 0 0.5rem', position: 'relative' }}>
           History Optional
         </p>
-        <p style={{ fontSize: 20, fontWeight: 700, color: '#60a5fa', margin: '0 0 0.5rem', position: 'relative' }}>
+        <p style={{ fontSize: 20, fontWeight: 700, color: 'var(--accent-text)', margin: '0 0 0.5rem', position: 'relative' }}>
           <CountUp target={2999} prefix="₹" active={active} durationMs={700} /> <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--text2)' }}>· 1 year — 90% cheaper</span>
         </p>
         {US_ADVANTAGES.map((row, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, position: 'relative', marginBottom: i < US_ADVANTAGES.length - 1 ? 6 : 0 }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
               <path d={row.icon} />
             </svg>
             <span style={{ fontSize: 11.5, color: 'var(--text)', lineHeight: 1.4 }}>{row.text}</span>
@@ -695,16 +693,16 @@ function MobileSlide({ index }: { index: number }) {
           <div style={{ textAlign: 'center', padding: '0 0.5rem' }}>
             <div style={{
               width: 52, height: 52, borderRadius: 14, margin: '0 auto 1rem',
-              background: 'rgba(59,130,246,0.12)', border: '0.5px solid rgba(59,130,246,0.25)',
+              background: 'color-mix(in srgb, var(--accent) 12%, transparent)', border: '0.5px solid color-mix(in srgb, var(--accent) 25%, transparent)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--accent-text)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                 <path d={f.icon} />
               </svg>
             </div>
             <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: '0 0 0.5rem' }}>{f.label}</p>
             <p style={{ fontSize: 13, color: 'var(--text3)', margin: 0, lineHeight: 1.5 }}>{f.sub}</p>
-            <p style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.12)', margin: '1rem 0 0', letterSpacing: '0.04em' }}>
+            <p style={{ fontSize: 10.5, color: 'color-mix(in srgb, var(--text) 12%, transparent)', margin: '1rem 0 0', letterSpacing: '0.04em' }}>
               {index + 1} / 7
             </p>
           </div>
@@ -714,7 +712,7 @@ function MobileSlide({ index }: { index: number }) {
       {isComparison && (
         <div style={{ padding: '0 0.25rem' }}>
           <p style={{
-            fontSize: 10, fontWeight: 500, color: 'rgba(0,0,0,0.15)',
+            fontSize: 10, fontWeight: 500, color: 'color-mix(in srgb, var(--text) 15%, transparent)',
             letterSpacing: '0.09em', textTransform: 'uppercase', textAlign: 'center', margin: '0 0 0.6rem',
           }}>The real comparison</p>
 
@@ -728,8 +726,8 @@ function MobileSlide({ index }: { index: number }) {
           <div style={{ marginBottom: '0.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 7 }}>
               <span style={{
-                fontSize: 38, fontWeight: 800, color: '#fbbf24', lineHeight: 1,
-                textShadow: '0 0 28px rgba(251,191,36,0.45)',
+                fontSize: 38, fontWeight: 800, color: 'var(--premium-text)', lineHeight: 1,
+                textShadow: '0 0 28px color-mix(in srgb, var(--premium-text) 45%, transparent)',
               }}>₹2,999</span>
               <span style={{ fontSize: 13, color: 'var(--text3)', fontWeight: 400 }}>· 1 year</span>
             </div>
@@ -740,7 +738,7 @@ function MobileSlide({ index }: { index: number }) {
             {['Unlimited evals', 'AI Chat 24/7', 'Model answers'].map(f => (
               <span key={f} style={{
                 fontSize: 10, color: 'var(--text3)',
-                background: 'rgba(0,0,0,0.04)', border: '0.5px solid rgba(0,0,0,0.09)',
+                background: 'color-mix(in srgb, var(--text) 4%, transparent)', border: '0.5px solid color-mix(in srgb, var(--text) 9%, transparent)',
                 borderRadius: 10, padding: '2px 7px',
               }}>{f}</span>
             ))}
