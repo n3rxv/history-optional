@@ -42,33 +42,47 @@ function UserAvatar({ email, name, photoURL, size = 34 }: {
   const initial = (name?.trim() || email || '?').charAt(0).toUpperCase();
   const showImage = Boolean(photoURL) && !failed;
 
+  // `size` stays the outer diameter so the ring costs no layout: the wrapper
+  // is padded by the ring width and the disc fills what is left.
+  const ring = size >= 40 ? 2 : 1.5;
+
   return (
     <span
       style={{
-        width: size, height: size, flexShrink: 0,
+        width: size, height: size, flexShrink: 0, boxSizing: 'border-box',
         borderRadius: '50%',
-        background: 'var(--avatar-bg)',
-        color: 'var(--wink-50)',
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        overflow: 'hidden',
-        fontFamily: 'var(--font-ui)',
-        fontSize: Math.round(size * 0.42),
-        fontWeight: 600,
-        lineHeight: 1,
-        userSelect: 'none',
+        padding: ring,
+        background: 'var(--avatar-ring)',
+        display: 'inline-flex',
       }}
     >
-      {showImage ? (
-        <img
-          src={photoURL as string}
-          alt=""
-          width={size}
-          height={size}
-          referrerPolicy="no-referrer"
-          onError={() => setFailed(true)}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        />
-      ) : initial}
+      <span
+        style={{
+          width: '100%', height: '100%',
+          borderRadius: '50%',
+          background: 'var(--avatar-bg)',
+          color: 'var(--wink-50)',
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          overflow: 'hidden',
+          fontFamily: 'var(--font-ui)',
+          fontSize: Math.round(size * 0.4),
+          fontWeight: 600,
+          lineHeight: 1,
+          userSelect: 'none',
+        }}
+      >
+        {showImage ? (
+          <img
+            src={photoURL as string}
+            alt=""
+            width={size}
+            height={size}
+            referrerPolicy="no-referrer"
+            onError={() => setFailed(true)}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        ) : initial}
+      </span>
     </span>
   );
 }
@@ -719,10 +733,7 @@ export default function Navbar() {
                     {/* Header — avatar + email + edit toggle */}
                     <div style={{ padding: '0.95rem 1rem 0.85rem', borderBottom: '1px solid var(--border-subtle)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div style={{ position: 'relative', flexShrink: 0 }}>
-                          <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={44} />
-                          <div style={{ position: 'absolute', bottom: -1, right: -1, width: 10, height: 10, borderRadius: '50%', background: 'var(--text)', border: '2px solid var(--bg)' }} />
-                        </div>
+                        <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={44} />
                         <div style={{ minWidth: 0, flex: 1 }}>
                           <div style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}>
                             {aspirantName || 'UPSC Aspirant'}

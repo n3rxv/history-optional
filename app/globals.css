@@ -293,6 +293,20 @@
    of the few values that is deliberately NOT theme-aware. */
 :root {
   --avatar-bg: var(--black-900);
+
+  /* A gradient ring around the photo. border cannot take a gradient, so this
+     is the background of a padded wrapper with the disc sitting inside it.
+     The sweep is off-centre on purpose so it reads as a highlight catching one
+     edge rather than a flat outline.
+
+     It has to be ground-dependent even though the disc is not: white on the
+     near-white page would be an invisible ring around a dark disc, so the light
+     theme sweeps the ink instead and keeps the same shape. */
+  --avatar-ring: conic-gradient(from 200deg,
+    rgba(255,255,255,0.95) 0%,
+    rgba(255,255,255,0.22) 35%,
+    rgba(255,255,255,0.85) 62%,
+    rgba(255,255,255,0.28) 100%);
 }
 
 /* ── GROUND-INDEPENDENT ALIASES ─────────────────────────────────────────────
@@ -363,6 +377,11 @@
   --world-text:   var(--world-text-p);   --world-wash:   var(--world-wash-p);
   --premium-text: var(--premium-text-p); --premium-wash: var(--premium-wash-p);
   --premium-fill: var(--premium-fill-p); --premium-on:   var(--premium-on-p);
+  --avatar-ring: conic-gradient(from 200deg,
+    rgba(23,23,23,0.55) 0%,
+    rgba(23,23,23,0.10) 35%,
+    rgba(23,23,23,0.42) 62%,
+    rgba(23,23,23,0.12) 100%);
 
   /* legacy hue names, now pointing at the semantic set */
 
