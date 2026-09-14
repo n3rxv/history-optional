@@ -494,12 +494,36 @@ routes are gated by the old admin token, which a Payload session does not carry.
 Payload's own auth already gates everything under `/cms`, so the service client
 is the right level. `views/data.ts` is `server-only` and contains no writes.
 
-**They are styled with Payload's own theme variables**, not ours:
-`--theme-elevation-*`, `--theme-border-color`, `--theme-success/error/warning-*`
-and `--base`. So they follow Payload's light and dark modes with no work, and
-sit flush with the collections beside them. This is the one place in the repo
-that deliberately does not use our design tokens, because it is inside someone
-else's design system.
+**They are built on Untitled UI** (MIT), not on our design tokens and not on a
+local imitation of a kit. `Badge`, `Button`, `Input`, `TextArea`, `Label`,
+`HintText`, `Tooltip` and `DotIcon` are Untitled UI's own source, vendored into
+`app/(payload)/uui/` along with its theme and typography.
+
+The one thing that makes this safe is what is *not* imported. Tailwind 4 ships
+its entry points separately, so `uui.css` imports `theme.css` and
+`utilities.css` and never `preflight.css`, which is the global reset that would
+have restyled Payload's own h1-h6, a, button, table and input. Verified in the
+served bundle: zero preflight signatures, Untitled UI tokens present, Payload's
+own styles intact. Everything renders inside a `.uui` wrapper carrying the few
+base styles preflight would have supplied, scoped.
+
+Untitled UI's theme declares zero variables colliding with Payload's
+`--theme-*` or `--color-base-*` namespaces. Its dark token block was removed
+and the panel is pinned to light, so there is one theme, not two switches to
+keep in sync.
+
+`NavLinks` is the deliberate exception: it renders inside Payload's own
+sidebar, so it keeps Payload's variables (`nav.css`) and sits flush with the
+collection links.
+
+Vendored UI is excluded from `design-lint`. It carries Untitled UI's tokens
+rather than ours, so linting it reports a deficit we will never close, and any
+edit would be undone on the next upstream update.
+
+An earlier attempt to restyle Payload's chrome directly, by redefining its
+`--color-base-*` ramp, made every screen unreadable: Payload inverts that ramp
+in dark mode and the assignment went the wrong way. That is the difference
+between adding to Payload through its extension points and repainting it.
 
 Registration is `admin.components.views` plus `afterNavLinks` in
 `payload.config.ts`, resolved through the import map. Adding another view is a
