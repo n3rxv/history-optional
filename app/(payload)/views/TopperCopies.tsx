@@ -46,7 +46,11 @@ export default async function TopperCopiesView() {
 
   return (
     <Shell title="Topper Copies" count={`${rows.length} questions`} error={copies.error}>
-      {maps.error ? <div className="ops-error">PYQ mappings could not load: {maps.error}</div> : null}
+      {maps.error ? (
+        <div className="uui mb-4 rounded-xl border border-error_subtle bg-error-primary px-4 py-3 text-sm text-error-primary">
+          PYQ mappings could not load: {maps.error}
+        </div>
+      ) : null}
       <TopperEditor rows={rows} pyqs={lite} />
     </Shell>
   );

@@ -26,7 +26,11 @@ const BASELINE = 'scripts/design-lint-baseline.json';
 
 // Data files are content, not design. lib/indiaGeoJSON.ts alone carries
 // thousands of coordinate pairs that look like nothing but are not colours.
-const SKIP = /indiaGeoJSON|noteContent|noteContentHi|bookData|prelimsData|pyqData|\.bak$/;
+// Generated data, backups, and vendored third-party UI. app/(payload)/uui is
+// Untitled UI's own source, which carries its own design tokens; linting it
+// against ours would report a permanent deficit we are never going to fix,
+// and editing it would be undone the next time it is updated upstream.
+const SKIP = /indiaGeoJSON|noteContent|noteContentHi|bookData|prelimsData|pyqData|\.bak$|[\\/]\(payload\)[\\/]uui[\\/]/;
 
 const SPACE = new Set([2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48]);
 const RADIUS = new Set([3, 4, 6, 8, 10, 12, 14, 20]);

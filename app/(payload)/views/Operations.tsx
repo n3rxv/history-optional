@@ -2,16 +2,14 @@ import React from 'react';
 import { Shell } from './Shell';
 import { ExportButtons } from './ExportButtons';
 
-/**
- * Backups. Exports are built client-side from a live fetch so a backup is
- * always of what is actually stored, never of a cached copy.
- */
 export default async function OperationsView() {
   return (
     <Shell title="Operations">
-      <div className="ops-card">
-        <h2>Backups</h2>
-        <ExportButtons />
+      <div className="rounded-xl border border-secondary bg-primary p-4">
+        <h2 className="text-xs font-medium uppercase tracking-wide text-tertiary">Backups</h2>
+        <div className="mt-2">
+          <ExportButtons />
+        </div>
       </div>
     </Shell>
   );

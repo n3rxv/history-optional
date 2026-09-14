@@ -1,21 +1,21 @@
 import React from 'react';
-import { Shell, Stats, Pill, Empty } from './Shell';
+import { Shell, Stats, TableFrame, Row, Cell } from './Shell';
+import { Badge } from '../uui/base/badges';
 import { readTable, relative, truncate, since } from './data';
 
 type Evaluation = {
   id?: string | number;
   created_at: string;
   email?: string | null;
-  firebase_uid?: string | null;
   question?: string | null;
   duration_ms?: number | null;
   marks_awarded?: number | null;
   marks_out_of?: number | null;
   pages?: number | null;
-  lang?: string | null;
   evaluation?: unknown;
 };
 
+/** Anything at or past this took long enough to be worth noticing. */
 const SLOW_MS = 8_000;
 
 export default async function EvaluationsView() {
@@ -28,37 +28,43 @@ export default async function EvaluationsView() {
   return (
     <Shell title="Evaluations" count={`${rows.length} on record`} error={error}>
       <Stats items={[
-        { label: 'total', value: rows.length },
-        { label: 'last 24h', value: since(rows, 86_400_000) },
-        { label: 'median time', value: median ? `${(median / 1000).toFixed(1)}s` : '—' },
-        { label: 'no result', value: rows.filter(r => !r.evaluation).length },
+        { label: 'Total', value: rows.length },
+        { label: 'Last 24h', value: since(rows, 86_400_000) },
+        { label: 'Median time', value: median ? `${(median / 1000).toFixed(1)}s` : '—' },
+        { label: 'No result', value: rows.filter(r => !r.evaluation).length },
       ]} />
-      {rows.length === 0 ? <Empty /> : (
-        <table className="ops-table">
-          <thead><tr>
-            <th>When</th><th>User</th><th>Question</th>
-            <th className="ops-num">Pages</th><th className="ops-num">Marks</th>
-            <th className="ops-num">Time</th><th className="ops-num">State</th>
-          </tr></thead>
-          <tbody>
-            {rows.map((r, i) => (
-              <tr key={r.id ?? i}>
-                <td className="ops-dim">{relative(r.created_at)}</td>
-                <td>{r.email ?? '—'}</td>
-                <td className="ops-wrap">{truncate(r.question, 90)}</td>
-                <td className="ops-num">{r.pages ?? '—'}</td>
-                <td className="ops-num">{r.marks_awarded != null ? `${r.marks_awarded}/${r.marks_out_of ?? '—'}` : '—'}</td>
-                <td className="ops-num">{r.duration_ms ? `${(r.duration_ms / 1000).toFixed(1)}s` : '—'}</td>
-                <td className="ops-num">
-                  {!r.evaluation ? <Pill tone="error">no result</Pill>
-                    : (r.duration_ms ?? 0) >= SLOW_MS ? <Pill tone="warning">slow</Pill>
-                    : <Pill tone="success">done</Pill>}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+
+      <TableFrame
+        min={820}
+        empty={rows.length === 0}
+        head={[
+          { label: 'When' }, { label: 'User' }, { label: 'Question' },
+          { label: 'Pages', align: 'right' }, { label: 'Marks', align: 'right' },
+          { label: 'Time', align: 'right' }, { label: 'State', align: 'right' },
+        ]}
+      >
+        {rows.map((r, i) => (
+          <Row key={r.id ?? i}>
+            <Cell dim>{relative(r.created_at)}</Cell>
+            <Cell strong>{r.email ?? '—'}</Cell>
+            <Cell wrap>{truncate(r.question, 90)}</Cell>
+            <Cell align="right" mono dim>{r.pages ?? '—'}</Cell>
+            <Cell align="right" mono>
+              {r.marks_awarded != null ? `${r.marks_awarded}/${r.marks_out_of ?? '—'}` : '—'}
+            </Cell>
+            <Cell align="right" mono dim>
+              {r.duration_ms ? `${(r.duration_ms / 1000).toFixed(1)}s` : '—'}
+            </Cell>
+            <Cell align="right">
+              {!r.evaluation
+                ? <Badge type="pill-color" size="sm" color="error">No result</Badge>
+                : (r.duration_ms ?? 0) >= SLOW_MS
+                  ? <Badge type="pill-color" size="sm" color="warning">Slow</Badge>
+                  : <Badge type="pill-color" size="sm" color="success">Done</Badge>}
+            </Cell>
+          </Row>
+        ))}
+      </TableFrame>
     </Shell>
   );
 }

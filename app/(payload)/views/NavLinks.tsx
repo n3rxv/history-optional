@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import './ops.css';
+import './nav.css';
 
 /**
  * Rendered after Payload's own collection links. These six screens read tables
