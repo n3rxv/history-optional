@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Badge } from '../uui/base/badges';
 import { Button } from '../uui/base/button';
 import { Input } from '../uui/base/input';
@@ -32,8 +33,15 @@ const FACETS: Facet<Row>[] = [
 ];
 
 export function TopperEditor({ rows, pyqs }: { rows: Row[]; pyqs: PyqLite[] }) {
+  const router = useRouter();
   const [openId, setOpenId] = useState<string | number | null>(null);
   const [items, setItems] = useState(rows);
+
+  // The server render is what a later visit reads, and Next caches that RSC
+  // payload client-side. Without this, saving a mapping updated the row in
+  // front of you but navigating away and back showed the pre-save state, so a
+  // question could look mapped here and unmapped everywhere else.
+  React.useEffect(() => { setItems(rows); }, [rows]);
   const [filter, setFilter] = useState('');
   const [facet, setFacet] = useState('all');
 
@@ -114,8 +122,12 @@ export function TopperEditor({ rows, pyqs }: { rows: Row[]; pyqs: PyqLite[] }) {
                     <td colSpan={6} className="bg-secondary px-4 py-4">
                       <EditForm
                         row={r} pyqs={pyqs}
-                        onSaved={next => patch(r.id, next)}
-                        onDeleted={() => { setItems(l => l.filter(x => x.id !== r.id)); setOpenId(null); }}
+                        onSaved={next => { patch(r.id, next); router.refresh(); }}
+                        onDeleted={() => {
+                          setItems(l => l.filter(x => x.id !== r.id));
+                          setOpenId(null);
+                          router.refresh();
+                        }}
                         onClose={() => setOpenId(null)}
                       />
                     </td>
