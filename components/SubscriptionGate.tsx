@@ -42,7 +42,7 @@ function Modal({ mode, type, fingerprint, onClose }: {
       <div style={{
         background: 'var(--bg2)', borderRadius: 16, padding: '28px 24px',
         maxWidth: 420, width: '92%', color: 'var(--text)',
-        border: '1px solid rgba(212,168,67,0.15)',
+        border: '1px solid color-mix(in srgb, var(--warning-text) 15%, transparent)',
         boxShadow: '0 0 60px rgba(0,0,0,0.6)',
       }} onClick={e => e.stopPropagation()}>
 
@@ -81,11 +81,11 @@ function Modal({ mode, type, fingerprint, onClose }: {
         {(mode === 'limit_reached' || mode === 'device_limit') && (
           <>
             <div style={{
-              background: 'rgba(212,168,67,0.06)',
-              border: '1px solid rgba(212,168,67,0.2)',
+              background: 'var(--warning-wash)',
+              border: '1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)',
               borderRadius: 10, padding: '12px 14px', marginBottom: 20,
             }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#d4a843', marginBottom: 6 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--warning-text)', marginBottom: 6 }}>
                 {daysLeft > 0
                   ? `${daysLeft} days to Mains. Your free quota is done.`
                   : 'Mains is here. Your free quota is done.'}

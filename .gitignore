@@ -68,3 +68,6 @@ lib/*.bak2
 # python
 __pycache__/
 *.pyc
+
+# Local design scratch: mockups and screenshots, never shipped
+design/

@@ -60,10 +60,10 @@ function boldHistorians(text: string): React.ReactNode[] {
 
 // Mood emoji + color for a marks gauge, based on % scored
 function gaugeMood(pct: number): { emoji: string; color: string; label: string } {
-  if (pct >= 75) return { emoji: "😄", color: "#4ade80", label: "Strong answer — keep this up!" };
-  if (pct >= 50) return { emoji: "🙂", color: "#3b82f6", label: "Decent attempt — a few gaps to close." };
-  if (pct >= 30) return { emoji: "😕", color: "#f59e0b", label: "Learn from your mistakes — keep going!" };
-  return { emoji: "😟", color: "#f87171", label: "Needs significant work — review the feedback below." };
+  if (pct >= 75) return { emoji: "😄", color: "var(--success-text)", label: "Strong answer — keep this up!" };
+  if (pct >= 50) return { emoji: "🙂", color: "var(--accent)", label: "Decent attempt — a few gaps to close." };
+  if (pct >= 30) return { emoji: "😕", color: "var(--warning-text)", label: "Learn from your mistakes — keep going!" };
+  return { emoji: "😟", color: "var(--danger-text)", label: "Needs significant work — review the feedback below." };
 }
 
 async function pdfToImages(file: File): Promise<File[]> {
@@ -95,7 +95,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
   const { langHi } = useLang();
   const { question, evaluation: ev, error } = result;
   const pct      = ev ? (ev.marks / ev.marks_out_of) * 100 : 0;
-  const scoreCol = pct >= 70 ? "#4ade80" : pct >= 50 ? "#3b82f6" : "#f87171";
+  const scoreCol = pct >= 70 ? "var(--success-text)" : pct >= 50 ? "var(--accent)" : "var(--danger-text)";
 
   return (
     <div style={{ marginBottom: 12 }}>
@@ -105,7 +105,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
       }}>
         <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.2em",
-            textTransform: "uppercase", color: "#3b82f6", flexShrink: 0 }}>{question.id}</span>
+            textTransform: "uppercase", color: "var(--accent)", flexShrink: 0 }}>{question.id}</span>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555",
             background: "var(--bg3)", borderRadius: 4, padding: "2px 7px", flexShrink: 0 }}>
             {question.marks}M
@@ -119,7 +119,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
               {ev.marks}/{ev.marks_out_of}
             </span>
           )}
-          {error && <span style={{ fontSize: "0.7rem", color: "#f87171" }}>Error</span>}
+          {error && <span style={{ fontSize: "0.7rem", color: "var(--danger-text)" }}>Error</span>}
           <span style={{ color: "#444", fontSize: "0.8rem", transform: isOpen ? "rotate(180deg)" : "none",
             transition: "transform 0.2s" }}>▾</span>
         </div>
@@ -129,11 +129,11 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
         <div style={{ background: "var(--bg3)", border: "1px solid #2a2a2a", borderTop: "none",
           borderRadius: "0 0 8px 8px", padding: "28px 30px" }}>
           {error && (
-            <div style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)",
-              borderRadius: 6, padding: "14px 18px", color: "#f87171", fontSize: "0.85rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ background: "var(--danger-wash)", border: "1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)",
+              borderRadius: 6, padding: "14px 18px", color: "var(--danger-text)", fontSize: "0.85rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span>{error}</span>
               {onRetry && (
-                <button onClick={async () => { setRetrying(true); await onRetry(); setRetrying(false); }} disabled={retrying} style={{ marginLeft: 12, padding: "4px 12px", background: "rgba(248,113,113,0.15)", border: "1px solid rgba(248,113,113,0.3)", borderRadius: 4, color: "#f87171", fontSize: "0.75rem", cursor: retrying ? "not-allowed" : "pointer", opacity: retrying ? 0.6 : 1 }}>
+                <button onClick={async () => { setRetrying(true); await onRetry(); setRetrying(false); }} disabled={retrying} style={{ marginLeft: 12, padding: "4px 12px", background: "var(--danger-wash)", border: "1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)", borderRadius: 4, color: "var(--danger-text)", fontSize: "0.75rem", cursor: retrying ? "not-allowed" : "pointer", opacity: retrying ? 0.6 : 1 }}>
                   {retrying ? "Retrying…" : "Retry"}
                 </button>
               )}
@@ -206,7 +206,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                   const s = ev.section_marks[sec];
                   if (!s) return null;
                   const sp = Math.round((s.awarded / s.out_of) * 100);
-                  const sc = sp >= 75 ? "#4ade80" : sp >= 50 ? "#3b82f6" : "#f87171";
+                  const sc = sp >= 75 ? "var(--success-text)" : sp >= 50 ? "var(--accent)" : "var(--danger-text)";
                   return (
                     <div key={sec} className="pdf-ev-sec-card">
                       <div className="pdf-ev-sec-lbl">{sec}</div>
@@ -240,7 +240,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                     <ul className="pdf-ev-list">
                       {toArray(ev.demand_of_question).map((d: string, i: number) => (
                         <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                          <span style={{ color: "#3b82f6", flexShrink: 0, marginTop: 3 }}>◆</span>{d}
+                          <span style={{ color: "var(--accent)", flexShrink: 0, marginTop: 3 }}>◆</span>{d}
                         </li>
                       ))}
                     </ul>
@@ -294,7 +294,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                         <ul className="pdf-ev-list">
                           {toArray(ev.introduction.suggestions).map((s: string, i: number) => (
                             <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
+                              <span style={{ color: "var(--warning-text)", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
                             </li>
                           ))}
                         </ul>
@@ -302,7 +302,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                     )}
                     {ev.model_answer?.introduction && (
                       <div style={{ marginTop: 16, padding: "14px 18px",
-                        background: "rgba(74,222,128,0.04)", border: "1px solid rgba(74,222,128,0.08)", borderRadius: 6 }}>
+                        background: "var(--success-wash)", border: "1px solid color-mix(in srgb, var(--success-text) 8%, transparent)", borderRadius: 6 }}>
                         <div className="pdf-ev-ml">Model introduction</div>
                         <div className="pdf-ev-mp">{ev.model_answer.introduction}</div>
                       </div>
@@ -333,7 +333,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                             return (
                               <div key={i} className="pdf-ev-sw-item">
                                 {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
-                                  background: "rgba(74,222,128,0.1)", color: "#4ade80", borderRadius: 3,
+                                  background: "var(--success-wash)", color: "var(--success-text)", borderRadius: 3,
                                   padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
                                 {text}
                               </div>
@@ -346,16 +346,16 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                         {(() => {
                           const weaknesses = toArray(ev.body.weaknesses).filter((w: string) => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use ["));
                           if (weaknesses.length === 0) return <div className="pdf-ev-sw-empty">No major issues found.</div>;
-                          const tagColors: Record<string, string> = { "missed demand": "#fbbf24", "needs historian": "#f87171", "too descriptive": "#a78bfa", "check this": "#f87171", "structure": "#818cf8" };
+                          const tagColors: Record<string, string> = { "missed demand": "var(--warning-text)", "needs historian": "var(--danger-text)", "too descriptive": "var(--accent)", "check this": "var(--danger-text)", "structure": "var(--accent)" };
                           return weaknesses.map((w: string, i: number) => {
                             const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
                             const tag = tagMatch ? tagMatch[1].toLowerCase() : null;
                             const text = tagMatch ? w.slice(tagMatch[0].length) : w;
-                            const dotColor = tag && tagColors[tag] ? tagColors[tag] : "#f87171";
+                            const dotColor = tag && tagColors[tag] ? tagColors[tag] : "var(--danger-text)";
                             return (
                               <div key={i} className="pdf-ev-sw-item">
                                 {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
-                                  background: `${dotColor}18`, color: dotColor, borderRadius: 3,
+                                  background: `color-mix(in srgb, ${dotColor} 9%, transparent)`, color: dotColor, borderRadius: 3,
                                   padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
                                 {text}
                               </div>
@@ -371,7 +371,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                         <ul className="pdf-ev-list">
                           {toArray(ev.body.suggestions).map((s: string, i: number) => (
                             <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
+                              <span style={{ color: "var(--warning-text)", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
                             </li>
                           ))}
                         </ul>
@@ -427,7 +427,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                         <ul className="pdf-ev-list">
                           {toArray(ev.conclusion.suggestions).map((s: string, i: number) => (
                             <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                              <span style={{ color: "#f59e0b", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
+                              <span style={{ color: "var(--warning-text)", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
                             </li>
                           ))}
                         </ul>
@@ -435,7 +435,7 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
                     )}
                     {ev.model_answer?.conclusion && (
                       <div style={{ marginTop: 16, padding: "14px 18px",
-                        background: "rgba(74,222,128,0.04)", border: "1px solid rgba(74,222,128,0.08)", borderRadius: 6 }}>
+                        background: "var(--success-wash)", border: "1px solid color-mix(in srgb, var(--success-text) 8%, transparent)", borderRadius: 6 }}>
                         <div className="pdf-ev-ml">Model conclusion</div>
                         <div className="pdf-ev-mp">{ev.model_answer.conclusion}</div>
                       </div>
@@ -504,10 +504,10 @@ function EvalCard({ result, isOpen, onToggle, onRetry }: {
 const SHARED_CSS = `
   .pdf-ev-card { background:linear-gradient(135deg,#161616,#111); border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
   .pdf-ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,0,0,0.02),transparent 60%); pointer-events:none; }
-  .pdf-ev-card-gold { border-color:rgba(234,179,8,0.18); background:linear-gradient(135deg,#161410,#111); }
-  .pdf-ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(234,179,8,0.4),transparent); }
-  .pdf-ev-card-green { border-color:rgba(74,222,128,0.12); background:linear-gradient(135deg,#101610,#111); }
-  .pdf-ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(74,222,128,0.35),transparent); }
+  .pdf-ev-card-gold { border-color:color-mix(in srgb, var(--warning-text) 18%, transparent); background:linear-gradient(135deg,#161410,#111); }
+  .pdf-ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--warning-text) 40%, transparent),transparent); }
+  .pdf-ev-card-green { border-color:color-mix(in srgb, var(--success-text) 12%, transparent); background:linear-gradient(135deg,#101610,#111); }
+  .pdf-ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--success-text) 35%, transparent),transparent); }
   /* ── MARKS GAUGE ── */
   .pdf-ev-gauge { display:flex; align-items:center; gap:18px; background:linear-gradient(135deg,#161616,#111);
     border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
@@ -518,7 +518,7 @@ const SHARED_CSS = `
   .pdf-ev-gauge-outof { font-family:var(--font-mono); font-size:0.85rem; color:#555; }
   .pdf-ev-gauge-label { font-family:var(--font-ui); font-size:0.8rem; color:#999; margin-left:4px; }
   .pdf-ev-gauge-track { position:relative; height:8px; border-radius:4px;
-    background:linear-gradient(90deg,#f87171,#f59e0b,#4ade80); margin-top:4px; }
+    background:linear-gradient(90deg,var(--danger-text),var(--warning-text),var(--success-text)); margin-top:4px; }
   .pdf-ev-gauge-arrow { position:absolute; top:-9px; width:0; height:0;
     border-left:6px solid transparent; border-right:6px solid transparent;
     border-top:7px solid #f0f0f0; transform:translateX(-50%); transition:left 1.2s cubic-bezier(.16,1,.3,1); }
@@ -528,21 +528,21 @@ const SHARED_CSS = `
   .pdf-ev-sw-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:14px 0; }
   @media (max-width:640px) { .pdf-ev-sw-grid { grid-template-columns:1fr; } }
   .pdf-ev-sw-col { border-radius:8px; padding:14px 16px; }
-  .pdf-ev-sw-col-s { background:rgba(74,222,128,0.04); border:1px solid rgba(74,222,128,0.14); }
-  .pdf-ev-sw-col-w { background:rgba(248,113,113,0.04); border:1px solid rgba(248,113,113,0.14); }
+  .pdf-ev-sw-col-s { background:var(--success-wash); border:1px solid color-mix(in srgb, var(--success-text) 14%, transparent); }
+  .pdf-ev-sw-col-w { background:var(--danger-wash); border:1px solid color-mix(in srgb, var(--danger-text) 14%, transparent); }
   .pdf-ev-sw-head { display:flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:0.62rem;
     letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }
-  .pdf-ev-sw-head-s { color:#4ade80; }
-  .pdf-ev-sw-head-w { color:#f87171; }
+  .pdf-ev-sw-head-s { color:var(--success-text); }
+  .pdf-ev-sw-head-w { color:var(--danger-text); }
   .pdf-ev-sw-item { display:flex; gap:9px; align-items:flex-start; margin-bottom:9px; font-size:0.86rem;
     line-height:1.65; color:#c0c0c0; font-family:var(--font-body); }
   .pdf-ev-sw-item:last-child { margin-bottom:0; }
   .pdf-ev-sw-empty { font-size:0.82rem; color:#555; font-style:italic; }
-  .pdf-ev-ct { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.32em; text-transform:uppercase; color:#3b82f6; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
-  .pdf-ev-ct::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,rgba(59,130,246,0.25),transparent); }
-  .pdf-ev-qbox { background:linear-gradient(135deg,#0d1b3e,#091530); border:1px solid rgba(59,130,246,0.2); border-radius:10px; padding:20px 24px; margin-bottom:20px; }
-  .pdf-ev-qlabel { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:#3b82f6; margin-bottom:10px; }
-  .pdf-ev-qtext { font-size:1.05rem; color:#e2e8f0; line-height:1.65; font-family:var(--font-body); }
+  .pdf-ev-ct { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+  .pdf-ev-ct::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,color-mix(in srgb, var(--accent) 25%, transparent),transparent); }
+  .pdf-ev-qbox { background:linear-gradient(135deg, var(--bg2), var(--bg3)); border:1px solid color-mix(in srgb, var(--accent) 20%, transparent); border-radius:10px; padding:20px 24px; margin-bottom:20px; }
+  .pdf-ev-qlabel { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+  .pdf-ev-qtext { font-size:1.05rem; color:var(--text); line-height:1.65; font-family:var(--font-body); }
   .pdf-ev-score-row { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:36px; border-bottom:1px solid #2e2e2e; margin-bottom:32px; }
   .pdf-ev-score-num { font-family:var(--font-mono); font-size:5.5rem; font-weight:700; line-height:1; }
   .pdf-ev-score-denom { font-family:var(--font-mono); font-size:1.8rem; color:#444; }
@@ -559,10 +559,10 @@ const SHARED_CSS = `
   .pdf-ev-sec-rsn { font-size:0.76rem; color:#666; line-height:1.5; font-family:var(--font-ui); }
   .pdf-ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(0,0,0,0.07); }
   .pdf-ev-tab { padding:13px 28px; cursor:pointer; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-family:var(--font-mono); background:none; border:none; color:#444; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
-  .pdf-ev-tab.active { color:#e2e8f0; border-bottom-color:#3b82f6; }
+  .pdf-ev-tab.active { color:var(--text); border-bottom-color:var(--accent); }
   .pdf-ev-tab:hover:not(.active) { color:#888; }
-  .pdf-ev-ml { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:rgba(74,222,128,0.55); margin:22px 0 12px; display:flex; align-items:center; gap:8px; }
-  .pdf-ev-ml::after { content:''; flex:1; height:1px; background:rgba(74,222,128,0.08); }
+  .pdf-ev-ml { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:color-mix(in srgb, var(--success-text) 55%, transparent); margin:22px 0 12px; display:flex; align-items:center; gap:8px; }
+  .pdf-ev-ml::after { content:''; flex:1; height:1px; background:var(--success-wash); }
   .pdf-ev-ml:first-of-type { margin-top:0; }
   .pdf-ev-mp { font-size:0.93rem; line-height:1.9; color:#d4d4d4; margin-bottom:0; font-family:var(--font-body); }
   ul.pdf-ev-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
@@ -570,19 +570,19 @@ const SHARED_CSS = `
   .pdf-ev-hist { padding:22px 0; border-bottom:1px solid rgba(0,0,0,0.05); display:grid; gap:6px; }
   .pdf-ev-hist:first-child { padding-top:0; }
   .pdf-ev-hist:last-child { border-bottom:none; padding-bottom:0; }
-  .pdf-ev-hist-name { font-family:var(--font-display); font-size:1.0rem; font-weight:700; color:#60a5fa; letter-spacing:0.01em; }
+  .pdf-ev-hist-name { font-family:var(--font-display); font-size:1.0rem; font-weight:700; color:var(--accent); letter-spacing:0.01em; }
   .pdf-ev-hist-work { font-family:var(--font-mono); font-size:0.68rem; color:#555; letter-spacing:0.05em; }
   .pdf-ev-hist-arg { font-size:0.88rem; color:#aaa; line-height:1.75; font-family:var(--font-body); }
-  .pdf-ev-btn { width:100%; padding:16px; border:1.5px solid rgba(59,130,246,0.5); background:rgba(59,130,246,0.1); color:#3b82f6; font-size:0.78rem; font-family:var(--font-mono); cursor:pointer; transition:all 0.2s; letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; }
-  .pdf-ev-btn:hover { background:rgba(59,130,246,0.18); border-color:#3b82f6; }
+  .pdf-ev-btn { width:100%; padding:16px; border:1.5px solid color-mix(in srgb, var(--accent) 50%, transparent); background:var(--accent-dim); color:var(--accent); font-size:0.78rem; font-family:var(--font-mono); cursor:pointer; transition:all 0.2s; letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; }
+  .pdf-ev-btn:hover { background:var(--accent-dim); border-color:var(--accent); }
   .pdf-ev-btn:disabled { opacity:0.4; cursor:not-allowed; }
   .pdf-ev-fade { animation:pdf-ev-fi 0.4s ease; }
   @keyframes pdf-ev-fi { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-  .pdf-ev-input { width:100%; background:#0d0d0d; border:1px solid #2a2a2a; border-radius:4px; padding:10px 14px; color:#e2e8f0; font-size:0.88rem; font-family:var(--font-body); outline:none; box-sizing:border-box; transition:border-color 0.2s; }
-  .pdf-ev-input:focus { border-color:rgba(59,130,246,0.5); }
+  .pdf-ev-input { width:100%; background:#0d0d0d; border:1px solid #2a2a2a; border-radius:4px; padding:10px 14px; color:var(--text); font-size:0.88rem; font-family:var(--font-body); outline:none; box-sizing:border-box; transition:border-color 0.2s; }
+  .pdf-ev-input:focus { border-color:color-mix(in srgb, var(--accent) 50%, transparent); }
   .pdf-ev-input::placeholder { color:#444; }
   .pdf-ev-marks-btn { padding:7px 14px; border:1px solid #2a2a2a; background:#161616; color:#666; font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.12em; cursor:pointer; transition:all 0.15s; border-radius:3px; }
-  .pdf-ev-marks-btn.sel { border-color:rgba(59,130,246,0.6); background:rgba(59,130,246,0.12); color:#3b82f6; }
+  .pdf-ev-marks-btn.sel { border-color:color-mix(in srgb, var(--accent) 60%, transparent); background:var(--accent-dim); color:var(--accent); }
   .pdf-ev-seg-card { background:#161616; border:1px solid #2a2a2a; border-radius:8px; overflow:hidden; margin-bottom:10px; }
   .pdf-ev-seg-head { display:flex; align-items:center; gap:12px; padding:14px 18px; }
   .pdf-ev-seg-body { border-top:1px solid #222; padding:16px 18px; display:flex; flex-direction:column; gap:12px; }
@@ -820,7 +820,7 @@ export default function PDFTestEvaluator({
             </div>
           </div>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.5rem", letterSpacing: "0.2em",
-            background: "rgba(234,179,8,0.1)", color: "#eab308", border: "1px solid rgba(234,179,8,0.2)",
+            background: "var(--warning-wash)", color: "var(--warning-text)", border: "1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)",
             borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
         </div>
         <p style={{ fontSize: "0.88rem", color: "var(--text3)", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
@@ -837,7 +837,7 @@ export default function PDFTestEvaluator({
           ].map(x => (
             <div key={x.n} style={{ flex: 1, background: "var(--bg3)", border: "1px solid var(--border)",
               borderRadius: 8, padding: "16px 14px" }}>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#3b82f6",
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "var(--accent)",
                 letterSpacing: "0.15em", marginBottom: 8 }}>{x.n}</div>
               <div style={{ fontSize: "0.82rem", fontWeight: 600, marginBottom: 4 }}>{x.t}</div>
               <div style={{ fontSize: "0.75rem", color: "var(--text3)" }}>{x.s}</div>
@@ -845,7 +845,7 @@ export default function PDFTestEvaluator({
           ))}
         </div>
         <button onClick={onPaywall} style={{ marginTop: 16, width: "100%", padding: "16px",
-          border: "1.5px solid rgba(234,179,8,0.4)", background: "rgba(234,179,8,0.08)", color: "#eab308",
+          border: "1.5px solid color-mix(in srgb, var(--warning-text) 40%, transparent)", background: "var(--warning-wash)", color: "var(--warning-text)",
           fontSize: "0.78rem", fontFamily: "var(--font-mono)", cursor: "pointer", letterSpacing: "0.2em",
           textTransform: "uppercase", borderRadius: 4 }}>
           🔒 &nbsp;Unlock with Premium →
@@ -862,14 +862,14 @@ export default function PDFTestEvaluator({
         Reading Paper
       </div>
       <div style={{ marginBottom: 24 }}>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "4rem", fontWeight: 700, color: "#3b82f6" }}>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "4rem", fontWeight: 700, color: "var(--accent)" }}>
           {String(evalProgress).padStart(2, "0")}
         </span>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: "1.5rem", color: "#444" }}>%</span>
       </div>
       <div style={{ background: "var(--bg4)", borderRadius: 2, height: 3, overflow: "hidden",
         maxWidth: 300, margin: "0 auto 28px" }}>
-        <div style={{ height: "100%", background: "#3b82f6", borderRadius: 2,
+        <div style={{ height: "100%", background: "var(--accent)", borderRadius: 2,
           width: `${evalProgress}%`, transition: "width 0.8s cubic-bezier(.16,1,.3,1)" }} />
       </div>
       <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.58rem", letterSpacing: "0.15em",
@@ -887,14 +887,14 @@ export default function PDFTestEvaluator({
         Evaluating Paper
       </div>
       <div style={{ marginBottom: 24 }}>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "4rem", fontWeight: 700, color: "#3b82f6" }}>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: "4rem", fontWeight: 700, color: "var(--accent)" }}>
           {String(evalProgress).padStart(2, "0")}
         </span>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: "1.5rem", color: "#444" }}>%</span>
       </div>
       <div style={{ background: "var(--bg4)", borderRadius: 2, height: 3, overflow: "hidden",
         maxWidth: 300, margin: "0 auto 28px" }}>
-        <div style={{ height: "100%", background: "#3b82f6", borderRadius: 2,
+        <div style={{ height: "100%", background: "var(--accent)", borderRadius: 2,
           width: `${evalProgress}%`, transition: "width 0.8s cubic-bezier(.16,1,.3,1)" }} />
       </div>
       {evalTotal > 0 && (
@@ -903,9 +903,9 @@ export default function PDFTestEvaluator({
             <div key={i} style={{
               width: evalCurrent > i ? 8 : 5, height: evalCurrent > i ? 8 : 5,
               borderRadius: "50%",
-              background: evalCurrent > i ? "#3b82f6" : "var(--bg4)",
+              background: evalCurrent > i ? "var(--accent)" : "var(--bg4)",
               border: evalCurrent > i ? "none" : "1px solid #333",
-              boxShadow: evalCurrent > i ? "0 0 8px #3b82f6" : "none",
+              boxShadow: evalCurrent > i ? "0 0 8px var(--accent)" : "none",
               transition: "all 0.5s",
             }} />
           ))}
@@ -930,7 +930,7 @@ export default function PDFTestEvaluator({
           Review Detected Questions
         </div>
         <div style={{ fontSize: "0.92rem", color: "var(--text3)", lineHeight: 1.6, fontFamily: "var(--font-body)" }}>
-          AI found <span style={{ color: "#e2e8f0", fontWeight: 600 }}>{segments.length} question{segments.length !== 1 ? "s" : ""}</span> in your script.
+          AI found <span style={{ color: "var(--text)", fontWeight: 600 }}>{segments.length} question{segments.length !== 1 ? "s" : ""}</span> in your script.
           Check the question numbers and marks — fix anything before evaluating.
         </div>
       </div>
@@ -971,7 +971,7 @@ export default function PDFTestEvaluator({
             {/* Card header row */}
             <div className="pdf-ev-seg-head">
               <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.2em",
-                textTransform: "uppercase", color: "#3b82f6", minWidth: 32 }}>
+                textTransform: "uppercase", color: "var(--accent)", minWidth: 32 }}>
                 {seg.questionNumber}
               </span>
 
@@ -1000,7 +1000,7 @@ export default function PDFTestEvaluator({
               {/* Remove */}
               {segments.length > 1 && (
                 <button onClick={() => removeSegment(idx)}
-                  style={{ color: "#f87171", background: "none", border: "none",
+                  style={{ color: "var(--danger-text)", background: "none", border: "none",
                     cursor: "pointer", fontSize: "0.85rem", padding: "2px 6px", opacity: 0.6 }}
                   title="Remove this question">
                   ✕
@@ -1046,8 +1046,8 @@ export default function PDFTestEvaluator({
       </div>
 
       {error && (
-        <div style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)",
-          borderRadius: 6, padding: "12px 16px", color: "#f87171", fontSize: "0.82rem",
+        <div style={{ background: "var(--danger-wash)", border: "1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)",
+          borderRadius: 6, padding: "12px 16px", color: "var(--danger-text)", fontSize: "0.82rem",
           marginBottom: 16, fontFamily: "var(--font-body)" }}>
           {error}
         </div>
@@ -1076,7 +1076,7 @@ export default function PDFTestEvaluator({
     const totalAwarded = results.reduce((s, r) => s + (r.evaluation?.marks ?? 0), 0);
     const totalMax     = results.reduce((s, r) => s + (r.evaluation?.marks_out_of ?? r.question.marks), 0);
     const overallPct   = totalMax > 0 ? (totalAwarded / totalMax) * 100 : 0;
-    const overallCol   = overallPct >= 70 ? "#4ade80" : overallPct >= 50 ? "#3b82f6" : "#f87171";
+    const overallCol   = overallPct >= 70 ? "var(--success-text)" : overallPct >= 50 ? "var(--accent)" : "var(--danger-text)";
 
     return (
       <div>
@@ -1205,7 +1205,7 @@ export default function PDFTestEvaluator({
             </div>
           </div>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.5rem", letterSpacing: "0.2em",
-            background: "rgba(234,179,8,0.1)", color: "#eab308", border: "1px solid rgba(234,179,8,0.2)",
+            background: "var(--warning-wash)", color: "var(--warning-text)", border: "1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)",
             borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
         </div>
         <p style={{ fontSize: "0.88rem", color: "var(--text3)", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
@@ -1232,9 +1232,9 @@ export default function PDFTestEvaluator({
         onDrop={onDrop}
         onClick={() => inputRef.current?.click()}
         style={{
-          border: `1.5px dashed ${dragging ? "#3b82f6" : file ? "rgba(59,130,246,0.5)" : "var(--border2)"}`,
+          border: `1.5px dashed ${dragging ? "var(--accent)" : file ? "color-mix(in srgb, var(--accent) 50%, transparent)" : "var(--border2)"}`,
           borderRadius: 6, padding: "44px 24px", textAlign: "center", cursor: "pointer",
-          background: dragging ? "rgba(59,130,246,0.1)" : file ? "rgba(59,130,246,0.04)" : "var(--bg2)",
+          background: dragging ? "var(--accent-dim)" : file ? "color-mix(in srgb, var(--accent) 4%, transparent)" : "var(--bg2)",
           transition: "all 0.2s", marginBottom: error ? 12 : 20,
         }}
       >
@@ -1259,8 +1259,8 @@ export default function PDFTestEvaluator({
       </div>
 
       {error && (
-        <div style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.2)",
-          borderRadius: 6, padding: "12px 16px", color: "#f87171", fontSize: "0.82rem",
+        <div style={{ background: "var(--danger-wash)", border: "1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)",
+          borderRadius: 6, padding: "12px 16px", color: "var(--danger-text)", fontSize: "0.82rem",
           marginBottom: 16, fontFamily: "var(--font-body)" }}>
           {error}
         </div>

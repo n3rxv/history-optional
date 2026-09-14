@@ -34,9 +34,9 @@ type Sample = {
   introduction: Part; body: Part; conclusion: Part;
 };
 
-const GREEN = '#4ade80';
-const RED = '#f87171';
-const BLUE = '#7ab3f5';
+const GREEN = 'var(--success-text)';
+const RED = 'var(--danger-text)';
+const BLUE = 'var(--accent)';
 
 export default function SampleEvaluations({ fallback }: { fallback: React.ReactNode }) {
   const [samples, setSamples] = useState<Sample[] | null>(null);
@@ -114,8 +114,8 @@ export default function SampleEvaluations({ fallback }: { fallback: React.ReactN
 
         /* The examiner's mark, in red, at the corner where it always goes. */
         .sv-stamp { position: absolute; top: clamp(13px, 4%, 26px); right: clamp(13px, 4%, 26px);
-          transform: rotate(-9deg); padding: 3px 8px; border: 2px solid #c0392b; border-radius: 3px;
-          color: #c0392b; font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; }
+          transform: rotate(-9deg); padding: 3px 8px; border: 2px solid var(--danger-text); border-radius: 3px;
+          color: var(--danger-text); font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; }
 
         .sv-open { position: absolute; left: 0; right: 0; bottom: 0; padding: 9px 14px;
           background: #141414; color: #fff; font-family: var(--font-ui); font-size: 0.6rem;

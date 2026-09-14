@@ -95,7 +95,7 @@ export default function EvaluateDemo() {
           Answer Evaluation — Crafted for History Optional
         </h2>
         <Link href="/evaluate"
-          style={{ fontFamily:'var(--font-mono)', fontSize:'0.72rem', color:'var(--red)', letterSpacing:'0.06em', textDecoration:'none', border:'1px solid rgba(239,68,68,0.3)', padding:'4px 14px', borderRadius:20, transition:'all 0.2s ease', position:'relative', overflow:'hidden' }}
+          style={{ fontFamily:'var(--font-mono)', fontSize:'0.72rem', color:'var(--red)', letterSpacing:'0.06em', textDecoration:'none', border:'1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)', padding:'4px 14px', borderRadius:20, transition:'all 0.2s ease', position:'relative', overflow:'hidden' }}
           onMouseEnter={e => { const t = e.currentTarget; t.style.background='var(--red)'; t.style.color='#fff'; }}
           onMouseLeave={e => { const t = e.currentTarget; t.style.background='transparent'; t.style.color='var(--red)'; }}>
           Try it free →
@@ -113,7 +113,7 @@ export default function EvaluateDemo() {
             </div>
 
             {/* Question badge */}
-            <div style={{ background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.18)', borderRadius:6, padding:'8px 12px', marginBottom:'1rem' }}>
+            <div style={{ background:'var(--danger-wash)', border:'1px solid color-mix(in srgb, var(--danger-text) 18%, transparent)', borderRadius:6, padding:'8px 12px', marginBottom:'1rem' }}>
               <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.58rem', color:'var(--red)', letterSpacing:'0.08em', marginBottom:3 }}>P2 · 2021 · 10M</div>
               <div style={{ fontSize:'0.78rem', color:'var(--text2)', lineHeight:1.55 }}>
                 Trace the causes of the rise of nationalist movement in India.
@@ -207,7 +207,7 @@ export default function EvaluateDemo() {
         {/* Bottom strip */}
         <div style={{ borderTop:'1px solid var(--border)', padding:'12px 1.5rem', display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1rem', flexWrap:'wrap' }}>
           <div style={{ display:'flex', gap:'0.75rem', alignItems:'center', flexWrap:'wrap' }}>
-            <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.65rem', color:'var(--red)', background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', padding:'3px 10px', borderRadius:20 }}>
+            <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.65rem', color:'var(--red)', background:'var(--danger-wash)', border:'1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)', padding:'3px 10px', borderRadius:20 }}>
               1 free eval included
             </span>
             <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.65rem', color:'var(--text3)' }}>

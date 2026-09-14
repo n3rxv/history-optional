@@ -149,7 +149,7 @@ export default function DiscussionThread({ pyqId }: { pyqId: number }) {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text)' }}>{c.display_name}</span>
-                      {c.fingerprint === fp && <span style={{ fontSize: '0.6rem', color: 'var(--accent)', background: 'var(--accent-dim)', padding: '1px 5px', borderRadius: 3, border: '1px solid rgba(59,130,246,0.2)' }}>you</span>}
+                      {c.fingerprint === fp && <span style={{ fontSize: '0.6rem', color: 'var(--accent)', background: 'var(--accent-dim)', padding: '1px 5px', borderRadius: 3, border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)' }}>you</span>}
                     </div>
                     <span style={{ fontSize: '0.68rem', color: 'var(--text3)' }}>{timeAgo(c.created_at)}</span>
                   </div>

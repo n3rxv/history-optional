@@ -27,16 +27,16 @@ interface MapCheckResponse {
 }
 
 function scoreColor(pct: number) {
-  if (pct >= 80) return "#10b981";
-  if (pct >= 55) return "#f59e0b";
-  return "#ef4444";
+  if (pct >= 80) return "var(--success-text)";
+  if (pct >= 55) return "var(--warning-text)";
+  return "var(--danger-text)";
 }
 
 function dot(status: string) {
-  if (status === "correct") return "#10b981";
-  if (status === "partial") return "#f59e0b";
+  if (status === "correct") return "var(--success-text)";
+  if (status === "partial") return "var(--warning-text)";
   if (status === "blank") return "var(--border2)";
-  return "#ef4444";
+  return "var(--danger-text)";
 }
 
 export default function MapEvaluator({
@@ -102,7 +102,7 @@ export default function MapEvaluator({
           name:     "History Optional",
           description: "Map Answer Evaluation — ₹49",
           image:    "/favicon.svg",
-          theme:    { color: "#6366f1" },
+          theme:    { color: "var(--accent)" },
           modal: {
             ondismiss: () => {
               setStage(""); setProgress(0);
@@ -205,7 +205,7 @@ export default function MapEvaluator({
                     {r.studentSite ?? "—"}
                   </span>
                   <span style={{
-                    color: r.status === "correct" ? "#10b981" : r.status === "partial" ? "#f59e0b" : r.status === "blank" ? "#444" : "#ef4444",
+                    color: r.status === "correct" ? "var(--success-text)" : r.status === "partial" ? "var(--warning-text)" : r.status === "blank" ? "#444" : "var(--danger-text)",
                     fontSize:13, fontFamily:"monospace", minWidth:44, textAlign:"right"
                   }}>
                     {r.status === "blank" ? "—" : `${r.marks}/${r.maxMarks}`}
@@ -229,17 +229,17 @@ export default function MapEvaluator({
                         </div>
                       </div>
                       <div style={{
-                        background: r.status === "correct" || r.status === "partial" ? "rgba(16,185,129,0.06)" : r.status === "blank" ? "var(--bg3)" : "rgba(239,68,68,0.06)",
-                        border: `1px solid ${r.status === "correct" || r.status === "partial" ? "rgba(16,185,129,0.2)" : r.status === "blank" ? "var(--bg4)" : "rgba(239,68,68,0.15)"}`,
+                        background: r.status === "correct" || r.status === "partial" ? "var(--success-wash)" : r.status === "blank" ? "var(--bg3)" : "color-mix(in srgb, var(--danger-text) 6%, transparent)",
+                        border: `1px solid ${r.status === "correct" || r.status === "partial" ? "color-mix(in srgb, var(--success-text) 20%, transparent)" : r.status === "blank" ? "var(--bg4)" : "color-mix(in srgb, var(--danger-text) 15%, transparent)"}`,
                         borderRadius:8, padding:"10px 12px"
                       }}>
                         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4 }}>
                           <span style={{ color:"#444", fontSize:11 }}>Correct answer</span>
-                          <span style={{ fontSize:11, fontFamily:"monospace", color: r.status === "correct" || r.status === "partial" ? "#10b981" : "#ef4444" }}>
+                          <span style={{ fontSize:11, fontFamily:"monospace", color: r.status === "correct" || r.status === "partial" ? "var(--success-text)" : "var(--danger-text)" }}>
                             {r.status !== "blank" ? (r.siteMarks > 0 ? `✓ ${r.siteMarks} pts` : "✗ 0 pts") : ""}
                           </span>
                         </div>
-                        <div style={{ color: r.status === "correct" || r.status === "partial" ? "#10b981" : "#ef4444", fontSize:13, fontWeight:500 }}>
+                        <div style={{ color: r.status === "correct" || r.status === "partial" ? "var(--success-text)" : "var(--danger-text)", fontSize:13, fontWeight:500 }}>
                           {r.correctSite ?? "—"}
                         </div>
                         {r.correctLocation && (
@@ -254,7 +254,7 @@ export default function MapEvaluator({
                         {r.status !== "blank" && (
                           <span style={{
                             fontSize:11, fontFamily:"monospace",
-                            color: r.descriptionScore >= 1 ? "#10b981" : r.descriptionScore > 0 ? "#f59e0b" : "#ef4444"
+                            color: r.descriptionScore >= 1 ? "var(--success-text)" : r.descriptionScore > 0 ? "var(--warning-text)" : "var(--danger-text)"
                           }}>
                             {r.descriptionScore}/1 pts
                           </span>
@@ -286,9 +286,9 @@ export default function MapEvaluator({
     <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
 
       {/* Pricing badge */}
-      <div style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 14px", background:"rgba(99,102,241,0.06)", border:"1px solid rgba(99,102,241,0.15)", borderRadius:8 }}>
+      <div style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 14px", background:"var(--accent-dim)", border:"1px solid color-mix(in srgb, var(--accent) 15%, transparent)", borderRadius:8 }}>
         <span style={{ fontSize:16 }}>🗺️</span>
-        <span style={{ color:"#a5b4fc", fontSize:13 }}>₹49 per evaluation · pay after upload (not included in premium — standalone pay-per-use)</span>
+        <span style={{ color:"var(--accent)", fontSize:13 }}>₹49 per evaluation · pay after upload (not included in premium — standalone pay-per-use)</span>
       </div>
 
       <div
@@ -297,9 +297,9 @@ export default function MapEvaluator({
         onDragLeave={() => setDrag(false)}
         onClick={() => inputRef.current?.click()}
         style={{
-          border: drag ? "1.5px dashed #6366f188" : file ? "1.5px solid #6366f144" : "1.5px dashed #1e1e1e",
+          border: drag ? "1.5px dashed color-mix(in srgb, #6366f1 53%, transparent)" : file ? "1.5px solid color-mix(in srgb, #6366f1 27%, transparent)" : "1.5px dashed #1e1e1e",
           borderRadius:12, padding: file ? "16px 18px" : "32px 18px",
-          textAlign:"center", background: file ? "#6366f108" : drag ? "#6366f106" : "var(--bg)",
+          textAlign:"center", background: file ? "color-mix(in srgb, #6366f1 3%, transparent)" : drag ? "color-mix(in srgb, #6366f1 2%, transparent)" : "var(--bg)",
           cursor:"pointer", transition:"all 0.18s",
           display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:8,
         }}
@@ -324,7 +324,7 @@ export default function MapEvaluator({
       </div>
 
       {error && (
-        <div style={{ padding:"10px 14px", background:"rgba(239,68,68,0.06)", border:"1px solid rgba(239,68,68,0.2)", borderRadius:8, color:"#ef4444", fontSize:13 }}>
+        <div style={{ padding:"10px 14px", background:"var(--danger-wash)", border:"1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)", borderRadius:8, color:"var(--danger-text)", fontSize:13 }}>
           {error}
         </div>
       )}
@@ -336,7 +336,7 @@ export default function MapEvaluator({
             <span style={{ color:"#555", fontSize:12, fontFamily:"monospace" }}>{progress}%</span>
           </div>
           <div style={{ height:3, background:"var(--bg4)", borderRadius:2 }}>
-            <div style={{ height:"100%", width:`${progress}%`, background:"#6366f1", borderRadius:2, transition:"width 0.4s ease" }} />
+            <div style={{ height:"100%", width:`${progress}%`, background:"var(--accent)", borderRadius:2, transition:"width 0.4s ease" }} />
           </div>
         </div>
       )}
@@ -346,8 +346,8 @@ export default function MapEvaluator({
         disabled={loading || !file}
         style={{
           padding:"13px 0", borderRadius:10, border:"none", cursor: loading || !file ? "not-allowed" : "pointer",
-          background: loading || !file ? "var(--bg4)" : "#6366f1",
-          color: loading || !file ? "#444" : "#fff",
+          background: loading || !file ? "var(--bg4)" : "var(--accent)",
+          color: loading || !file ? "var(--text-faint)" : "var(--accent-on)",
           fontSize:15, fontWeight:600, transition:"all 0.2s",
         }}
       >

@@ -73,7 +73,7 @@ function Toolbar({ editorRef, onImage, onVideo }: {
       {tools.map((t, i) => (
         <span key={i} style={{ display: 'inline-flex', alignItems: 'center' }}>
           {t.group && i > 0 && <span style={{ width: 1, height: 16, background: 'var(--border2)', margin: '0 3px' }} />}
-          <button onMouseDown={e => { e.preventDefault(); t.action(); }} title={t.title} style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, background: t.accent ? 'rgba(212,168,67,0.08)' : 'rgba(0,0,0,0.04)', border: t.accent ? '1px solid rgba(212,168,67,0.2)' : '1px solid var(--border)', color: t.accent ? '#d4a843' : 'var(--text2)' }}>{t.label}</button>
+          <button onMouseDown={e => { e.preventDefault(); t.action(); }} title={t.title} style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, background: t.accent ? 'var(--warning-wash)' : 'rgba(0,0,0,0.04)', border: t.accent ? '1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)' : '1px solid var(--border)', color: t.accent ? 'var(--warning-text)' : 'var(--text2)' }}>{t.label}</button>
         </span>
       ))}
       <button onMouseDown={e => { e.preventDefault(); const url = prompt('URL:'); if (url) { document.execCommand('createLink', false, url); editorRef.current?.focus(); } }} title="Insert link" style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', color: 'var(--text2)' }}>Link</button>
@@ -143,7 +143,7 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
   };
 
   if (!open) return (
-    <button onClick={() => setOpen(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 8, cursor: 'pointer', background: 'rgba(212,168,67,0.08)', border: '1px dashed rgba(212,168,67,0.35)', color: '#d4a843', fontSize: '0.85rem', fontWeight: 600, marginBottom: '2rem', width: '100%', justifyContent: 'center', transition: 'all 0.2s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.14)'; }} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(212,168,67,0.08)'; }}>+ New Post</button>
+    <button onClick={() => setOpen(true)} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 8, cursor: 'pointer', background: 'var(--warning-wash)', border: '1px dashed color-mix(in srgb, var(--warning-text) 35%, transparent)', color: 'var(--warning-text)', fontSize: '0.85rem', fontWeight: 600, marginBottom: '2rem', width: '100%', justifyContent: 'center', transition: 'all 0.2s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'color-mix(in srgb, var(--warning-text) 14%, transparent)'; }} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'color-mix(in srgb, var(--warning-text) 8%, transparent)'; }}>+ New Post</button>
   );
 
   return (
@@ -151,26 +151,26 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', padding: '10px 16px', background: 'var(--bg3)', borderBottom: '1px solid var(--border)' }}>
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--border)' }}>
           {(['current-affairs', 'new-note'] as const).map(t => (
-            <button key={t} onClick={() => setType(t)} style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: type === t ? 'rgba(212,168,67,0.12)' : 'transparent', border: 'none', color: type === t ? '#d4a843' : 'var(--text3)', fontWeight: type === t ? 700 : 400 }}>{t === 'current-affairs' ? 'Current Affairs' : 'New Note'}</button>
+            <button key={t} onClick={() => setType(t)} style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: type === t ? 'var(--warning-wash)' : 'transparent', border: 'none', color: type === t ? 'var(--warning-text)' : 'var(--text3)', fontWeight: type === t ? 700 : 400 }}>{t === 'current-affairs' ? 'Current Affairs' : 'New Note'}</button>
           ))}
         </div>
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--border)', marginLeft: 4 }}>
           {(['write', 'preview'] as const).map(p => (
-            <button key={p} onClick={() => setActivePanel(p)} style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: activePanel === p ? 'rgba(59,130,246,0.1)' : 'transparent', border: 'none', color: activePanel === p ? 'var(--accent)' : 'var(--text3)', fontWeight: activePanel === p ? 600 : 400 }}>{p === 'write' ? 'Write' : 'Preview'}</button>
+            <button key={p} onClick={() => setActivePanel(p)} style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: activePanel === p ? 'var(--accent-dim)' : 'transparent', border: 'none', color: activePanel === p ? 'var(--accent)' : 'var(--text3)', fontWeight: activePanel === p ? 600 : 400 }}>{p === 'write' ? 'Write' : 'Preview'}</button>
           ))}
         </div>
         <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', marginLeft: 'auto' }}>
           <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>Published</span>
-          <input type="checkbox" checked={published} onChange={e => setPublished(e.target.checked)} style={{ accentColor: '#51cf66', width: 14, height: 14 }} />
+          <input type="checkbox" checked={published} onChange={e => setPublished(e.target.checked)} style={{ accentColor: 'var(--success-text)', width: 14, height: 14 }} />
         </label>
-        <button onClick={save} disabled={saving} style={{ padding: '5px 16px', borderRadius: 6, cursor: saving ? 'default' : 'pointer', fontSize: '0.82rem', fontWeight: 700, background: savedMsg === 'Saved!' ? 'rgba(81,207,102,0.15)' : 'rgba(212,168,67,0.15)', border: savedMsg === 'Saved!' ? '1px solid rgba(81,207,102,0.4)' : '1px solid rgba(212,168,67,0.4)', color: savedMsg === 'Saved!' ? '#51cf66' : '#d4a843', opacity: saving ? 0.7 : 1 }}>{saving ? 'Saving...' : savedMsg || 'Save'}</button>
+        <button onClick={save} disabled={saving} style={{ padding: '5px 16px', borderRadius: 6, cursor: saving ? 'default' : 'pointer', fontSize: '0.82rem', fontWeight: 700, background: savedMsg === 'Saved!' ? 'var(--success-wash)' : 'color-mix(in srgb, var(--warning-text) 15%, transparent)', border: savedMsg === 'Saved!' ? '1px solid color-mix(in srgb, var(--success-text) 40%, transparent)' : '1px solid color-mix(in srgb, var(--warning-text) 40%, transparent)', color: savedMsg === 'Saved!' ? 'var(--success-text)' : 'var(--warning-text)', opacity: saving ? 0.7 : 1 }}>{saving ? 'Saving...' : savedMsg || 'Save'}</button>
         <button onClick={() => { setOpen(false); reset(); }} style={{ padding: '5px 10px', borderRadius: 6, cursor: 'pointer', fontSize: '0.8rem', background: 'transparent', border: '1px solid var(--border)', color: 'var(--text3)' }}>X</button>
       </div>
       {activePanel === 'write' && (
         <>
           <div style={{ padding: '14px 20px 0', display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'flex-start' }}>
             <div style={{ flex: 2, minWidth: 220 }}>
-              <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Post title..." style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '2px solid var(--border2)', color: 'var(--text)', fontSize: '1.3rem', fontWeight: 700, fontFamily: 'var(--font-display)', padding: '4px 0', outline: 'none', boxSizing: 'border-box', caretColor: '#d4a843' }} onFocus={e => (e.currentTarget.style.borderBottomColor = '#d4a843')} onBlur={e => (e.currentTarget.style.borderBottomColor = 'var(--border2)')} />
+              <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Post title..." style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '2px solid var(--border2)', color: 'var(--text)', fontSize: '1.3rem', fontWeight: 700, fontFamily: 'var(--font-display)', padding: '4px 0', outline: 'none', boxSizing: 'border-box', caretColor: 'var(--warning-text)' }} onFocus={e => (e.currentTarget.style.borderBottomColor = 'var(--warning-text)')} onBlur={e => (e.currentTarget.style.borderBottomColor = 'var(--border2)')} />
               <input value={excerpt} onChange={e => setExcerpt(e.target.value)} placeholder="Short excerpt shown on homepage..." style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text2)', fontSize: '0.88rem', padding: '6px 0', outline: 'none', marginTop: 8, boxSizing: 'border-box' }} />
               <input value={tags} onChange={e => setTags(e.target.value)} placeholder="Tags: Mughal, British Raj... (comma separated)" style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text3)', fontSize: '0.78rem', padding: '6px 0', outline: 'none', marginTop: 6, boxSizing: 'border-box' }} />
             </div>
@@ -178,16 +178,16 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
               <div onClick={() => coverInputRef.current?.click()} style={{ width: 130, height: 88, borderRadius: 7, border: '1px dashed var(--border2)', cursor: 'pointer', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)' }}>
                 {coverImg ? <img src={coverImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: 'var(--text3)', fontSize: '0.7rem', textAlign: 'center', lineHeight: 1.4, padding: '0 8px' }}>Cover image</span>}
               </div>
-              {coverImg && <button onClick={() => setCoverImg(undefined)} style={{ marginTop: 4, background: 'none', border: 'none', color: '#f55', cursor: 'pointer', fontSize: '0.7rem' }}>Remove</button>}
+              {coverImg && <button onClick={() => setCoverImg(undefined)} style={{ marginTop: 4, background: 'none', border: 'none', color: 'var(--danger-text)', cursor: 'pointer', fontSize: '0.7rem' }}>Remove</button>}
             </div>
           </div>
           <input ref={imgInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onImageFile} />
           <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onCoverFile} />
           <div style={{ marginTop: 12 }}><Toolbar editorRef={editorRef} onImage={handleImageInsert} onVideo={handleVideoInsert} /></div>
-          <div ref={editorRef} contentEditable suppressContentEditableWarning style={{ minHeight: 260, padding: '20px 24px', outline: 'none', color: 'var(--text)', fontFamily: 'Georgia, serif', fontSize: '1rem', lineHeight: 1.8, caretColor: '#d4a843', background: 'var(--bg)' }} onFocus={() => { if (editorRef.current?.innerHTML === '<p>Start writing your post here...</p>') editorRef.current.innerHTML = ''; }} />
+          <div ref={editorRef} contentEditable suppressContentEditableWarning style={{ minHeight: 260, padding: '20px 24px', outline: 'none', color: 'var(--text)', fontFamily: 'Georgia, serif', fontSize: '1rem', lineHeight: 1.8, caretColor: 'var(--warning-text)', background: 'var(--bg)' }} onFocus={() => { if (editorRef.current?.innerHTML === '<p>Start writing your post here...</p>') editorRef.current.innerHTML = ''; }} />
           <div style={{ padding: '6px 20px', background: 'var(--bg3)', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>Rich text editor</span>
-            <span style={{ color: '#d4a843', fontSize: '0.7rem', opacity: 0.6 }}>{published ? 'Will publish immediately' : 'Draft - hidden from homepage'}</span>
+            <span style={{ color: 'var(--warning-text)', fontSize: '0.7rem', opacity: 0.6 }}>{published ? 'Will publish immediately' : 'Draft - hidden from homepage'}</span>
           </div>
         </>
       )}
@@ -279,12 +279,12 @@ function CuttingSlider({ cuttings, authed, token, onUpdate }: {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div style={{ width: 3, height: 18, background: '#c9993a' }} />
+          <div style={{ width: 3, height: 18, background: 'var(--warning-text)' }} />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text3)' }}>Press Clippings</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {authed && (
-            <button onClick={() => setAdding(a => !a)} style={{ padding: '3px 10px', borderRadius: 5, cursor: 'pointer', fontSize: '0.7rem', background: adding ? 'rgba(201,153,58,0.15)' : 'transparent', border: '1px solid rgba(201,153,58,0.3)', color: '#c9993a', fontWeight: 600 }}>
+            <button onClick={() => setAdding(a => !a)} style={{ padding: '3px 10px', borderRadius: 5, cursor: 'pointer', fontSize: '0.7rem', background: adding ? 'var(--warning-wash)' : 'transparent', border: '1px solid color-mix(in srgb, var(--warning-text) 30%, transparent)', color: 'var(--warning-text)', fontWeight: 600 }}>
               {adding ? 'Cancel' : '+ Add'}
             </button>
           )}
@@ -300,8 +300,8 @@ function CuttingSlider({ cuttings, authed, token, onUpdate }: {
 
       {/* Add form */}
       {authed && adding && (
-        <div style={{ background: 'var(--bg2)', border: '1px solid rgba(201,153,58,0.25)', borderRadius: 10, padding: '1rem', marginBottom: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <div onClick={() => imgRef.current?.click()} style={{ width: 120, height: 90, borderRadius: 6, border: '1px dashed rgba(201,153,58,0.4)', cursor: 'pointer', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)', flexShrink: 0 }}>
+        <div style={{ background: 'var(--bg2)', border: '1px solid color-mix(in srgb, var(--warning-text) 25%, transparent)', borderRadius: 10, padding: '1rem', marginBottom: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <div onClick={() => imgRef.current?.click()} style={{ width: 120, height: 90, borderRadius: 6, border: '1px dashed color-mix(in srgb, var(--warning-text) 40%, transparent)', cursor: 'pointer', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)', flexShrink: 0 }}>
             {imgData ? <img src={imgData} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: 'var(--text3)', fontSize: '0.68rem', textAlign: 'center' }}>Click to upload<br/>screenshot</span>}
           </div>
           <input ref={imgRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onImg} />
@@ -312,7 +312,7 @@ function CuttingSlider({ cuttings, authed, token, onUpdate }: {
               <input value={form.tag} onChange={e => setForm(f => ({ ...f, tag: e.target.value }))} placeholder="Tag (e.g. Mughals)" style={{ background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text2)', fontSize: '0.75rem', padding: '3px 0', outline: 'none', width: '50%' }} />
             </div>
             <input value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} placeholder="Date (e.g. 30 Apr 2026)" style={{ background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)', color: 'var(--text3)', fontSize: '0.72rem', padding: '3px 0', outline: 'none', width: '100%' }} />
-            <button onClick={saveCutting} disabled={saving} style={{ alignSelf: 'flex-start', marginTop: 4, padding: '5px 16px', borderRadius: 5, cursor: saving ? 'default' : 'pointer', fontSize: '0.78rem', fontWeight: 700, background: 'rgba(201,153,58,0.15)', border: '1px solid rgba(201,153,58,0.4)', color: '#c9993a' }}>{saving ? 'Saving...' : 'Save Cutting'}</button>
+            <button onClick={saveCutting} disabled={saving} style={{ alignSelf: 'flex-start', marginTop: 4, padding: '5px 16px', borderRadius: 5, cursor: saving ? 'default' : 'pointer', fontSize: '0.78rem', fontWeight: 700, background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 40%, transparent)', color: 'var(--warning-text)' }}>{saving ? 'Saving...' : 'Save Cutting'}</button>
           </div>
         </div>
       )}
@@ -324,31 +324,31 @@ function CuttingSlider({ cuttings, authed, token, onUpdate }: {
             {cuttings.map((c, i) => (
               <div key={c.id} style={{ minWidth: '100%', padding: '0 2px' }}>
                 <div style={{
-                  background: '#f5f0e8',
+                  background: 'var(--bg-raised)',
                   borderRadius: 4,
                   overflow: 'hidden',
                   boxShadow: '0 4px 20px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3)',
-                  transform: `rotate(${i % 2 === 0 ? -0.3 : 0.2}deg)`,
+                  transform: `rotate(color-mix(in srgb, ${i % 2 === 0 ? -0.3 : 0.2} 87%, transparent)g)`,
                   position: 'relative',
                   cursor: 'zoom-in',
                 }} onClick={() => setLightbox(c)}>
                   {/* Torn edge top */}
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 6, background: '#f5f0e8', zIndex: 2, clipPath: 'polygon(0 0,2% 100%,4% 20%,6% 90%,8% 10%,10% 80%,12% 5%,14% 95%,16% 15%,18% 85%,20% 0,22% 90%,24% 10%,26% 80%,28% 5%,30% 95%,32% 20%,34% 85%,36% 10%,38% 90%,40% 0,42% 80%,44% 15%,46% 90%,48% 5%,50% 85%,52% 10%,54% 95%,56% 20%,58% 80%,60% 0,62% 90%,64% 15%,66% 85%,68% 5%,70% 95%,72% 10%,74% 80%,76% 20%,78% 90%,80% 0,82% 85%,84% 15%,86% 95%,88% 5%,90% 80%,92% 10%,94% 90%,96% 20%,98% 85%,100% 0,100% 0,0 0)' }} />
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 6, background: 'var(--bg-raised)', zIndex: 2, clipPath: 'polygon(0 0,2% 100%,4% 20%,6% 90%,8% 10%,10% 80%,12% 5%,14% 95%,16% 15%,18% 85%,20% 0,22% 90%,24% 10%,26% 80%,28% 5%,30% 95%,32% 20%,34% 85%,36% 10%,38% 90%,40% 0,42% 80%,44% 15%,46% 90%,48% 5%,50% 85%,52% 10%,54% 95%,56% 20%,58% 80%,60% 0,62% 90%,64% 15%,66% 85%,68% 5%,70% 95%,72% 10%,74% 80%,76% 20%,78% 90%,80% 0,82% 85%,84% 15%,86% 95%,88% 5%,90% 80%,92% 10%,94% 90%,96% 20%,98% 85%,100% 0,100% 0,0 0)' }} />
                   
                   {/* Full width image */}
-                  <img src={c.image} alt={c.headline} style={{ width: '100%', display: 'block', maxHeight: 420, objectFit: 'contain', background: '#f5f0e8' }} />
+                  <img src={c.image} alt={c.headline} style={{ width: '100%', display: 'block', maxHeight: 420, objectFit: 'contain', background: 'var(--bg-raised)' }} />
 
                   {/* Bottom overlay */}
-                  <div style={{ padding: '0.75rem 1rem', background: '#f5f0e8', borderTop: '2px solid #2c1810', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
+                  <div style={{ padding: '0.75rem 1rem', background: 'var(--bg-raised)', borderTop: '2px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      {c.tag && <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8B4513' }}>{c.tag}</span>}
-                      <h3 style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '0.88rem', fontWeight: 700, color: '#1a0f0a', margin: 0, lineHeight: 1.3 }}>{c.headline}</h3>
+                      {c.tag && <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--warning-text)' }}>{c.tag}</span>}
+                      <h3 style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '0.88rem', fontWeight: 700, color: 'var(--text)', margin: 0, lineHeight: 1.3 }}>{c.headline}</h3>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-                      <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.6rem', color: '#5c4a32', fontStyle: 'italic' }}>{c.source}</span>
-                      <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', color: '#8b7355' }}>{c.date}</span>
+                      <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.6rem', color: 'var(--text2)', fontStyle: 'italic' }}>{c.source}</span>
+                      <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.58rem', color: 'var(--text3)' }}>{c.date}</span>
                       {authed && (
-                        <button onClick={(e) => { e.stopPropagation(); deleteCutting(c.id); }} style={{ width: 18, height: 18, borderRadius: 3, cursor: 'pointer', background: 'rgba(255,80,80,0.1)', border: '1px solid rgba(255,80,80,0.3)', color: '#f87171', fontSize: '0.6rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+                        <button onClick={(e) => { e.stopPropagation(); deleteCutting(c.id); }} style={{ width: 18, height: 18, borderRadius: 3, cursor: 'pointer', background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)', color: 'var(--danger-text)', fontSize: '0.6rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
                       )}
                     </div>
                   </div>
@@ -362,14 +362,14 @@ function CuttingSlider({ cuttings, authed, token, onUpdate }: {
       {/* Lightbox */}
       {lightbox && (
         <div onClick={() => setLightbox(null)} style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.92)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out', padding: '1rem' }}>
-          <div onClick={e => e.stopPropagation()} style={{ maxWidth: '90vw', maxHeight: '90vh', display: 'flex', flexDirection: 'column', background: '#f5f0e8', borderRadius: 4, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.8)' }}>
+          <div onClick={e => e.stopPropagation()} style={{ maxWidth: '90vw', maxHeight: '90vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-raised)', borderRadius: 4, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.8)' }}>
             <img src={lightbox.image} alt={lightbox.headline} style={{ maxWidth: '90vw', maxHeight: '80vh', objectFit: 'contain', display: 'block' }} />
-            <div style={{ padding: '0.75rem 1rem', borderTop: '2px solid #2c1810', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '0.9rem', fontWeight: 700, color: '#1a0f0a', margin: 0 }}>{lightbox.headline}</h3>
+            <div style={{ padding: '0.75rem 1rem', borderTop: '2px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '0.9rem', fontWeight: 700, color: 'var(--text)', margin: 0 }}>{lightbox.headline}</h3>
               <div style={{ display: 'flex', gap: 12, flexShrink: 0 }}>
-                <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.65rem', color: '#5c4a32', fontStyle: 'italic' }}>{lightbox.source}</span>
-                <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.62rem', color: '#8b7355' }}>{lightbox.date}</span>
-                <button onClick={() => setLightbox(null)} style={{ background: 'transparent', border: 'none', color: '#5c4a32', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}>✕</button>
+                <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.65rem', color: 'var(--text2)', fontStyle: 'italic' }}>{lightbox.source}</span>
+                <span style={{ fontFamily: 'Georgia, serif', fontSize: '0.62rem', color: 'var(--text3)' }}>{lightbox.date}</span>
+                <button onClick={() => setLightbox(null)} style={{ background: 'transparent', border: 'none', color: 'var(--text2)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}>✕</button>
               </div>
             </div>
           </div>
@@ -394,7 +394,7 @@ function FeaturedCard({ post, onClick, authed, index }: { post: Post; onClick: (
       className="featured-card" data-has-image={post.cover_image ? 'true' : 'false'}
       style={{ cursor: 'pointer', display: 'grid', gridTemplateColumns: post.cover_image ? '48px 180px 1fr' : '48px 1fr', gap: '0 1.5rem', padding: '1.5rem 0', borderBottom: '1px solid var(--border)', position: 'relative', transition: 'opacity 0.15s', opacity: hovered ? 0.85 : 1 }}>
       {authed && !post.published && (
-        <div style={{ position: 'absolute', top: 16, right: 0, padding: '2px 8px', borderRadius: 3, fontSize: '0.58rem', background: 'rgba(255,80,80,0.08)', border: '1px solid rgba(255,80,80,0.2)', color: '#f87171', fontWeight: 700, letterSpacing: '0.06em' }}>DRAFT</div>
+        <div style={{ position: 'absolute', top: 16, right: 0, padding: '2px 8px', borderRadius: 3, fontSize: '0.58rem', background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)', color: 'var(--danger-text)', fontWeight: 700, letterSpacing: '0.06em' }}>DRAFT</div>
       )}
       {/* Issue number */}
       <div className="featured-card-num" style={{ paddingTop: 4 }}>
@@ -409,7 +409,7 @@ function FeaturedCard({ post, onClick, authed, index }: { post: Post; onClick: (
       <div className="featured-card-body">
         {post.tags?.length > 0 && (
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8, alignItems: 'center' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c9993a' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--warning-text)' }}>
               {post.tags[0]}
             </span>
             {post.tags.slice(1, 3).map(tag => (
@@ -423,7 +423,7 @@ function FeaturedCard({ post, onClick, authed, index }: { post: Post; onClick: (
         )}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text3)', letterSpacing: '0.04em' }}>{date}</span>
-          <span style={{ color: hovered ? '#d4a843' : 'var(--text3)', fontSize: '0.72rem', fontWeight: 600, transition: 'color 0.15s', fontFamily: 'var(--font-mono)' }}>Read →</span>
+          <span style={{ color: hovered ? 'var(--warning-text)' : 'var(--text3)', fontSize: '0.72rem', fontWeight: 600, transition: 'color 0.15s', fontFamily: 'var(--font-mono)' }}>Read →</span>
         </div>
       </div>
     </article>

@@ -51,21 +51,21 @@ export default function Footer() {
           style={{
             display: 'flex', alignItems: 'center', gap: '6px',
             padding: '5px 10px', borderRadius: '8px',
-            background: 'rgba(44,165,224,0.08)',
-            border: '1px solid rgba(44,165,224,0.2)',
-            color: '#2CA5E0', textDecoration: 'none',
+            background: 'var(--info-wash)',
+            border: '1px solid color-mix(in srgb, var(--info-text) 20%, transparent)',
+            color: 'var(--info-text)', textDecoration: 'none',
             fontSize: '11px', fontWeight: 600,
             letterSpacing: '0.03em', transition: 'all 0.18s',
           }}
           onMouseEnter={e => {
             const el = e.currentTarget as HTMLElement;
-            el.style.background = 'rgba(44,165,224,0.18)';
-            el.style.borderColor = 'rgba(44,165,224,0.6)';
+            el.style.background = 'color-mix(in srgb, var(--info-text) 18%, transparent)';
+            el.style.borderColor = 'color-mix(in srgb, var(--info-text) 60%, transparent)';
           }}
           onMouseLeave={e => {
             const el = e.currentTarget as HTMLElement;
-            el.style.background = 'rgba(44,165,224,0.08)';
-            el.style.borderColor = 'rgba(44,165,224,0.2)';
+            el.style.background = 'color-mix(in srgb, var(--info-text) 8%, transparent)';
+            el.style.borderColor = 'color-mix(in srgb, var(--info-text) 20%, transparent)';
           }}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">

@@ -19,7 +19,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
       L.imageOverlay('/map-political.jpg', [[7.449, 55.145], [37.764, 104.894]], { opacity: 1 }).addTo(map);
       if (site.lat != null && site.lng != null) {
         markerRef.current = L.circleMarker([site.lat as number, site.lng as number], {
-          radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? '#d97706' : '#7c3aed', fillOpacity: 1, color: (site.pyqYears && site.pyqYears.length > 0) ? '#78350f' : '#3b0764', weight: 1.5,
+          radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? 'var(--warning-text)' : 'var(--accent)', fillOpacity: 1, color: (site.pyqYears && site.pyqYears.length > 0) ? 'var(--warning-text)' : 'var(--accent)', weight: 1.5,
         }).addTo(map);
       }
     });
@@ -32,7 +32,7 @@ export default function QuizMap({ site }: { site: BookSite }) {
       if (markerRef.current) markerRef.current.remove();
       if (site.lat != null && site.lng != null) {
         markerRef.current = L.circleMarker([site.lat as number, site.lng as number], {
-          radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? '#d97706' : '#7c3aed', fillOpacity: 1, color: (site.pyqYears && site.pyqYears.length > 0) ? '#78350f' : '#3b0764', weight: 1.5,
+          radius: 5, fillColor: (site.pyqYears && site.pyqYears.length > 0) ? 'var(--warning-text)' : 'var(--accent)', fillOpacity: 1, color: (site.pyqYears && site.pyqYears.length > 0) ? 'var(--warning-text)' : 'var(--accent)', weight: 1.5,
         }).addTo(lMapRef.current);
         lMapRef.current.fitBounds(INDIA_BOUNDS as any, { padding: [10, 10] });
       }
@@ -40,8 +40,8 @@ export default function QuizMap({ site }: { site: BookSite }) {
   }, [site.name]);
 
   return (
-    <div style={{ width: '100%', height: 440, border: '1.5px solid var(--border2)', borderRadius: 10, overflow: 'hidden', background: '#c8d8e8' }}>
-      <div ref={mapRef} style={{ width: '100%', height: '100%', background: '#c8d8e8' }} />
+    <div style={{ width: '100%', height: 440, border: '1.5px solid var(--border2)', borderRadius: 10, overflow: 'hidden', background: 'var(--accent)' }}>
+      <div ref={mapRef} style={{ width: '100%', height: '100%', background: 'var(--accent)' }} />
     </div>
   );
 }

@@ -1,0 +1,594 @@
+'use client';
+import { useLang } from '@/lib/i18n/LangContext';
+import { tr, t } from '@/lib/i18n/ui';
+import React, { useState, useEffect, useRef } from 'react';
+import { prelimsQuestions } from '@/lib/prelimsData';
+import { auth } from '@/lib/firebase';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
+
+type Filter = 'all' | 'pyq' | 'practice' | 'bookmarked';
+type NavStatus = 'unattempted' | 'answered' | 'wrong' | 'marked' | 'answered-marked';
+
+interface AIResult {
+  solution: string;
+  technique: string;
+  concepts: string;
+  related: string;
+  smart_guess: string;
+}
+
+interface QuestionState {
+  selected: number | null;
+  submitted: boolean;
+  marked: boolean;
+  aiResult: AIResult | null;
+  aiLoading: boolean;
+}
+
+const TOPICS = Array.from(new Set(prelimsQuestions.map(q => q.topic)));
+const YEARS = Array.from(new Set(prelimsQuestions.filter(q => q.year).map(q => q.year!))).sort((a,b) => b-a);
+
+function getNavStatus(qs: QuestionState): NavStatus {
+  if (qs.marked) return 'marked';
+  if (qs.submitted) return qs.selected === null ? 'answered' : (qs as any).isCorrect ? 'answered' : 'wrong';
+  return 'unattempted';
+}
+
+const NAV_COLORS: Record<NavStatus, { bg: string; border: string; text: string }> = {
+  unattempted:       { bg: 'rgba(0,0,0,0.04)', border: 'rgba(0,0,0,0.09)', text: 'var(--text2)' },
+  answered:          { bg: 'color-mix(in srgb, var(--success-text) 15%, transparent)',  border: 'color-mix(in srgb, var(--success-text) 50%, transparent)',   text: 'var(--success-text)' },
+  wrong:             { bg: 'color-mix(in srgb, var(--danger-text) 15%, transparent)',  border: 'color-mix(in srgb, var(--danger-text) 50%, transparent)',   text: 'var(--danger-text)' },
+  marked:            { bg: 'color-mix(in srgb, var(--warning-text) 15%, transparent)',  border: 'color-mix(in srgb, var(--warning-text) 50%, transparent)',   text: 'var(--warning-text)' },
+  'answered-marked': { bg: 'color-mix(in srgb, var(--accent) 15%, transparent)',  border: 'color-mix(in srgb, var(--accent) 50%, transparent)',   text: 'var(--accent)' },
+};
+
+function calcScore(questions: typeof prelimsQuestions, states: Record<string, QuestionState>) {
+  let score = 0, correct = 0, wrong = 0, skipped = 0;
+  for (const q of questions) {
+    const qs = states[q.id];
+    if (!qs?.submitted) { skipped++; continue; }
+    if (qs.selected === q.correct) { score += 2; correct++; }
+    else if (qs.selected !== null) { score -= 0.66; wrong++; }
+    else { skipped++; }
+  }
+  return { score: Math.round(score * 100) / 100, correct, wrong, skipped };
+}
+
+
+const LS_KEY = 'prelims_explanations_v2';
+function getCached(qid: string): AIResult | null {
+  try { const s = localStorage.getItem(LS_KEY); if (!s) return null; return JSON.parse(s)[qid] ?? null; } catch { return null; }
+}
+function setCached(qid: string, r: AIResult) {
+  try { const s = localStorage.getItem(LS_KEY); const o = s ? JSON.parse(s) : {}; o[qid] = r; localStorage.setItem(LS_KEY, JSON.stringify(o)); } catch {}
+}
+export default function PrelimsPage() {
+  const { langHi } = useLang();
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
+  const [filter, setFilter]           = useState<Filter>('all');
+  // Seeded from ?topic= so a Prelims note can link straight into its own
+  // drill set. Read once on mount rather than with useSearchParams, which
+  // needs a Suspense boundary and opts the page out of prerendering.
+  const [topicFilter, setTopicFilter] = useState<string>('all');
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('topic');
+    if (t && TOPICS.includes(t)) setTopicFilter(t);
+  }, []);
+  const [yearFilter, setYearFilter]   = useState<string>('all');
+  const [showNav, setShowNav]         = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
+  const [current, setCurrent]         = useState(0);
+  const [states, setStates] = useState<Record<string, QuestionState>>(() => {
+    try {
+      const saved = localStorage.getItem('ho_prelims_states');
+      return saved ? JSON.parse(saved) : {};
+    } catch { return {}; }
+  });
+  const [showResult, setShowResult]   = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [isPremium, setIsPremium]     = useState(false);
+  const [token, setToken]             = useState<string | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const currentUser = auth.currentUser;
+        if (!currentUser) return;
+        const idToken = await currentUser.getIdToken();
+        setToken(idToken);
+        const res = await fetch(`/api/usage?fp=premcheck&checkSub=1&token=${idToken}`);
+        const data = await res.json();
+        setIsPremium(!!data.isPremium);
+      } catch {}
+    })();
+  }, []);
+
+  const filtered = prelimsQuestions.filter(q => {
+    if (filter === 'bookmarked') return !!states[q.id]?.marked;
+    if (filter !== 'all' && q.type !== filter) return false;
+    if (topicFilter !== 'all' && q.topic !== topicFilter) return false;
+    if (yearFilter !== 'all' && String(q.year) !== yearFilter) return false;
+    return true;
+  });
+
+  const q = filtered[current];
+  const emptyQS: QuestionState = { selected: null, submitted: false, marked: false, aiResult: null, aiLoading: false };
+  const qs: QuestionState = q ? (states[q.id] ?? emptyQS) : emptyQS;
+
+  useEffect(() => { setCurrent(0); setShowResult(false); }, [filter, topicFilter, yearFilter]);
+
+  const updateState = (id: string, patch: Partial<QuestionState>) =>
+    setStates(prev => {
+      const next = { ...prev, [id]: { ...(prev[id] ?? emptyQS), ...patch } };
+      try { localStorage.setItem('ho_prelims_states', JSON.stringify(next)); } catch {}
+      return next;
+    });
+
+  const handleSelect = (idx: number) => {
+    if (!q || qs.submitted) return;
+    updateState(q.id, { selected: idx });
+  };
+
+  const handleSubmit = async () => {
+    if (!q || qs.selected === null || qs.submitted) return;
+    updateState(q.id, { submitted: true, isCorrect: qs.selected === q.correct } as any);
+    if (!isPremium || !token) return;
+    const cached = getCached(q.id);
+    if (cached) { updateState(q.id, { aiResult: cached, aiLoading: false }); return; }
+    updateState(q.id, { submitted: true, isCorrect: qs.selected === q.correct, aiLoading: true } as any);
+    try {
+      const res = await fetch('/api/prelims-explain', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ question: q.question, options: q.options, correct: q.correct, topic: q.topic, lang: langHi ? 'hi' : 'en' }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCached(q.id, data);
+        updateState(q.id, { aiResult: data, aiLoading: false });
+      } else {
+        updateState(q.id, { aiLoading: false });
+      }
+    } catch {
+      updateState(q.id, { aiLoading: false });
+    }
+  };
+
+  const handleMark = () => { if (q) updateState(q.id, { marked: !qs.marked }); };
+
+  const goTo = (idx: number) => {
+    setCurrent(idx);
+    setShowResult(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const { score, correct, wrong, skipped } = calcScore(filtered, states);
+  const answered  = correct + wrong;
+  const markedCnt = filtered.filter(q => states[q.id]?.marked).length;
+  const maxScore  = filtered.length * 2;
+
+  const doReset = () => {
+    setStates(prev => {
+      const next: Record<string, any> = {};
+      Object.entries(prev).forEach(([id, s]) => {
+        if ((s as any).marked) next[id] = { selected: null, submitted: false, marked: true, aiResult: (s as any).aiResult, aiLoading: false };
+      });
+      try { localStorage.setItem('ho_prelims_states', JSON.stringify(next)); } catch {}
+      return next;
+    });
+    setCurrent(0);
+    setShowResetConfirm(false);
+  };
+
+  // ── Score screen ──────────────────────────────────────────────────────────
+  if (showResult) {
+    const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', paddingTop: '6rem' }}>
+        <div style={{ maxWidth: 560, width: '100%', textAlign: 'center' }}>
+          <div style={{ fontSize: '3.5rem', marginBottom: '1.2rem' }}>
+            {score / maxScore >= 0.7 ? '🏆' : score / maxScore >= 0.5 ? '📚' : '💪'}
+          </div>
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', fontWeight: 700, color: score >= 0 ? 'var(--success-text)' : 'var(--danger-text)', lineHeight: 1 }}>
+            {score >= 0 ? '+' : ''}{score}
+          </div>
+          <div style={{ color: 'var(--text3)', fontSize: '0.9rem', marginBottom: '2.5rem', marginTop: '0.5rem' }}>
+            out of {maxScore} &nbsp;·&nbsp; +2 correct &nbsp;−0.66 wrong
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
+            {[
+              { label: 'Correct', val: correct, color: 'var(--success-text)', sub: `+${(correct * 2).toFixed(2)}` },
+              { label: 'Wrong',   val: wrong,   color: 'var(--danger-text)', sub: `−${(wrong * 0.66).toFixed(2)}` },
+              { label: 'Skipped', val: skipped, color: 'var(--text3)', sub: '±0' },
+            ].map(s => (
+              <div key={s.label} style={{ background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, padding: '1.25rem 1rem' }}>
+                <div style={{ fontSize: '2rem', fontWeight: 700, color: s.color, fontFamily: 'var(--font-mono)' }}>{s.val}</div>
+                <div style={{ fontSize: '0.75rem', color: s.color, opacity: 0.7, fontFamily: 'var(--font-mono)', marginBottom: 6 }}>{s.sub}</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text3)' }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ background: 'rgba(0,0,0,0.04)', borderRadius: 14, padding: '1.25rem', marginBottom: '1.5rem' }}>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text3)', marginBottom: 10 }}>Score vs Maximum</div>
+            <div style={{ height: 10, background: 'rgba(0,0,0,0.06)', borderRadius: 5, overflow: 'hidden' }}>
+              <div style={{ width: `${Math.max(0, pct)}%`, height: '100%', background: pct >= 70 ? 'var(--success-text)' : pct >= 50 ? 'var(--warning-text)' : 'var(--danger-text)', borderRadius: 5, transition: 'width 0.6s ease' }} />
+            </div>
+            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text)', marginTop: 10 }}>{Math.max(0, pct)}%</div>
+          </div>
+
+          <button onClick={() => setShowResult(false)} style={{
+            width: '100%', padding: '1rem', borderRadius: 12, border: 'none',
+            background: 'var(--accent)', color: 'var(--accent-on)', fontWeight: 700, cursor: 'pointer', fontSize: '1rem',
+          }}>← Back to Questions</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!q) return (
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ textAlign: 'center', color: 'var(--text3)' }}>
+        <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🔍</div>
+        <div style={{ fontSize: '1rem' }}>No questions match this filter.</div>
+      </div>
+    </div>
+  );
+
+  const isCorrect = qs.submitted && qs.selected === q.correct;
+
+  // ── Main UI ───────────────────────────────────────────────────────────────
+  return (
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column' }}>
+
+      {/* sticky top bar — sits below navbar (navbar is 72px) */}
+      <div style={{
+        position: 'sticky', top: 72, zIndex: 40,
+        background: 'var(--bg2)', backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(0,0,0,0.07)',
+        padding: '0.7rem 1.5rem',
+        display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap',
+      }}>
+        {/* badge */}
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent)', background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', borderRadius: 6, padding: '0.25rem 0.65rem', flexShrink: 0 }}>
+          AMAC & Modern
+        </div>
+
+        {/* type pills */}
+        <div style={{ display: 'flex', gap: '0.4rem' }}>
+          {(['all', 'pyq', 'practice'] as Filter[]).map(f => (
+            <button key={f} onClick={() => setFilter(f)} style={{
+              padding: '0.28rem 0.75rem', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600,
+              background: filter === f ? 'var(--accent)' : 'rgba(0,0,0,0.06)',
+              color: filter === f ? 'var(--accent-on)' : 'var(--text2)',
+              transition: 'all 0.15s',
+            }}>{f === 'all' ? 'All' : f === 'pyq' ? 'PYQs' : 'MCQs'}</button>
+          ))}
+        </div>
+
+        {/* topic filter */}
+        <select value={topicFilter} onChange={e => setTopicFilter(e.target.value)} style={{
+          background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8,
+          color: 'var(--text)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 210,
+        }}>
+          <option value="all">{langHi ? "सभी विषय" : "All Topics"}</option>
+          {TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
+        {/* year filter */}
+        <select value={yearFilter} onChange={e => setYearFilter(e.target.value)} style={{
+          background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8,
+          color: 'var(--text)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 120,
+        }}>
+          <option value="all">{langHi ? "सभी वर्ष" : "All Years"}</option>
+          {YEARS.map(y => <option key={y} value={String(y)}>{y}</option>)}
+        </select>
+
+        <button onClick={() => setFilter(filter === 'bookmarked' ? 'all' : 'bookmarked' as any)}
+          onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = 'color-mix(in srgb, var(--warning-text) 20%, transparent)'; (e.target as HTMLButtonElement).style.borderColor = 'color-mix(in srgb, var(--warning-text) 70%, transparent)'; (e.target as HTMLButtonElement).style.color = 'var(--warning-text)'; }}
+          onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = filter === 'bookmarked' ? 'color-mix(in srgb, var(--warning-text) 15%, transparent)' : 'transparent'; (e.target as HTMLButtonElement).style.borderColor = filter === 'bookmarked' ? 'color-mix(in srgb, var(--warning-text) 50%, transparent)' : 'rgba(0,0,0,0.08)'; (e.target as HTMLButtonElement).style.color = filter === 'bookmarked' ? 'var(--warning-text)' : 'var(--text2)'; }}
+          style={{
+            background: filter === 'bookmarked' ? 'var(--warning-wash)' : 'transparent',
+            border: filter === 'bookmarked' ? '1px solid color-mix(in srgb, var(--warning-text) 50%, transparent)' : '1px solid rgba(0,0,0,0.08)',
+            color: filter === 'bookmarked' ? 'var(--warning-text)' : 'var(--text2)',
+            borderRadius: 8, padding: '0.28rem 0.75rem', cursor: 'pointer', fontSize: '0.8rem', transition: 'all 0.15s',
+          }}>★ Bookmarks</button>
+
+        <div style={{ flex: 1 }} />
+
+        {/* live score + counter */}
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', fontSize: '0.82rem' }}>
+          <span style={{ color: score >= 0 ? 'var(--success-text)' : 'var(--danger-text)', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '0.9rem' }}>
+            {score >= 0 ? '+' : ''}{score}
+          </span>
+          <span style={{ color: 'var(--text3)' }}>{current + 1} / {filtered.length}</span>
+          {answered > 0 && (
+            <button onClick={() => setShowResult(true)}
+              onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'rgba(0,0,0,0.08)'; b.style.color = 'rgba(255,255,255,0.8)'; }}
+              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.color = 'var(--text2)'; }}
+              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(0,0,0,0.09)', background: 'transparent', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>{langHi ? "स्कोर →" : "Score →"}</button>
+          )}
+          {answered > 0 && (
+            <button onClick={() => { setShowResetConfirm(true); }}
+              onMouseEnter={e => { const b = e.target as HTMLButtonElement; b.style.background = 'color-mix(in srgb, var(--danger-text) 10%, transparent)'; b.style.borderColor = 'color-mix(in srgb, var(--danger-text) 40%, transparent)'; b.style.color = 'var(--danger-text)'; }}
+              onMouseLeave={e => { const b = e.target as HTMLButtonElement; b.style.background = 'transparent'; b.style.borderColor = 'rgba(0,0,0,0.09)'; b.style.color = 'var(--text2)'; }}
+              style={{ padding: '0.28rem 0.75rem', borderRadius: 8, border: '1px solid rgba(0,0,0,0.09)', background: 'transparent', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}>↺ Reset</button>
+          )}
+        </div>
+
+        {/* nav toggle */}
+        <button onClick={() => setShowNav(v => !v)} style={{
+          padding: '0.28rem 0.65rem', borderRadius: 8, border: '1px solid rgba(0,0,0,0.09)',
+          background: 'transparent', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem',
+        }}>{showNav ? '◀ Hide' : '▶ Nav'}</button>
+      </div>
+
+      {/* Reset Confirm Modal */}
+      {showResetConfirm && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          onClick={() => setShowResetConfirm(false)}>
+          <div onClick={e => e.stopPropagation()}
+            style={{ background: 'var(--bg3)', border: '1px solid rgba(0,0,0,0.09)', borderRadius: 12, padding: '2rem', maxWidth: 360, width: '90%', textAlign: 'center', boxShadow: '0 0 0 1px rgba(0,0,0,0.05), 0 24px 60px rgba(0,0,0,0.8)' }}>
+            <div style={{ fontSize: '1.5rem', marginBottom: 12 }}>↺</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>{langHi ? "सभी प्रयासित प्रश्न रीसेट करें?" : "Reset all attempted questions?"}</div>
+            <div style={{ color: 'var(--text3)', fontSize: '0.85rem', marginBottom: 24 }}>{langHi ? "प्रयासित प्रश्नों के बुकमार्क और विश्लेषण रखे जाएंगे।" : "Bookmarks and Smart Analysis for attempted questions will be kept."}</div>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+              <button onClick={() => setShowResetConfirm(false)}
+                style={{ padding: '10px 24px', borderRadius: 8, border: '1px solid rgba(0,0,0,0.08)', background: 'transparent', color: 'var(--text2)', cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रद्द करें" : "Cancel"}</button>
+              <button onClick={doReset}
+                style={{ padding: '10px 24px', borderRadius: 8, border: 'none', background: 'var(--danger-text)', color: 'var(--accent-on)', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}>{langHi ? "रीसेट करें" : "Reset"}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* body */}
+      <div style={{ display: 'flex', flex: 1, maxWidth: 1280, margin: '0 auto', width: '100%', padding: '2rem 1.5rem', gap: '2rem', alignItems: 'flex-start' }}>
+
+        {/* ── Question panel ── */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+
+          {/* meta row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'rgba(0,0,0,0.15)', letterSpacing: '0.05em' }}>Q{current + 1}</span>
+            <span style={{
+              fontSize: '0.75rem', padding: '0.2rem 0.6rem', borderRadius: 5,
+              background: q.type === 'pyq' ? 'var(--warning-wash)' : 'color-mix(in srgb, var(--accent) 10%, transparent)',
+              color: q.type === 'pyq' ? 'var(--warning-text)' : 'var(--accent)',
+              border: `1px solid ${q.type === 'pyq' ? 'color-mix(in srgb, var(--warning-text) 30%, transparent)' : 'color-mix(in srgb, var(--accent) 20%, transparent)'}`,
+              fontWeight: 600,
+            }}>
+              {q.type === 'pyq' ? `PYQ ${q.year ?? ''}` : 'MCQs'}
+            </span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text3)', background: 'rgba(0,0,0,0.05)', padding: '0.2rem 0.6rem', borderRadius: 5 }}>{q.topic}</span>
+          </div>
+
+          {/* question text */}
+          <div style={{ fontSize: '1.15rem', lineHeight: 1.8, color: 'var(--text)', whiteSpace: 'pre-line', marginBottom: '1.5rem', fontWeight: 500 }}>
+            {q.question}
+          </div>
+
+          {/* options */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
+            {q.options.map((opt, i) => {
+              let bg = 'rgba(0,0,0,0.03)', border = 'rgba(0,0,0,0.09)', color = 'var(--text)', icon = '';
+              if (!qs.submitted) {
+                if (qs.selected === i) { bg = 'color-mix(in srgb, var(--accent) 12%, transparent)'; border = 'color-mix(in srgb, var(--accent) 50%, transparent)'; color = 'var(--accent)'; }
+              } else {
+                if (i === q.correct)      { bg = 'color-mix(in srgb, var(--success-text) 10%, transparent)'; border = 'color-mix(in srgb, var(--success-text) 50%, transparent)'; color = 'var(--success-text)'; icon = '✓'; }
+                else if (qs.selected === i) { bg = 'color-mix(in srgb, var(--danger-text) 10%, transparent)'; border = 'color-mix(in srgb, var(--danger-text) 50%, transparent)'; color = 'var(--danger-text)'; icon = '✗'; }
+              }
+              return (
+                <button key={i} onClick={() => { if (requireLogin('Sign in free to attempt Prelims practice questions.')) handleSelect(i); }} style={{
+                  display: 'flex', alignItems: 'flex-start', gap: '1rem',
+                  padding: '1rem 1.25rem', borderRadius: 12,
+                  background: bg, border: `1px solid ${border}`, color,
+                  textAlign: 'left', cursor: qs.submitted ? 'default' : 'pointer',
+                  transition: 'all 0.15s', fontSize: '1rem', lineHeight: 1.6, width: '100%',
+                }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', opacity: 0.7, marginTop: 3, flexShrink: 0, minWidth: 18, fontWeight: 700 }}>
+                    {icon || String.fromCharCode(65 + i)}
+                  </span>
+                  <span>{opt}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* action row */}
+          <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', marginBottom: '2rem', alignItems: 'center' }}>
+            {!qs.submitted ? (
+              <>
+                <button onClick={handleSubmit} disabled={qs.selected === null} style={{
+                  padding: '0.75rem 1.75rem', borderRadius: 10, border: 'none',
+                  background: qs.selected !== null ? 'var(--accent)' : 'var(--bg3)',
+                  color: qs.selected !== null ? 'var(--accent-on)' : 'var(--text-faint)',
+                  fontWeight: 700, cursor: qs.selected !== null ? 'pointer' : 'not-allowed', fontSize: '0.95rem',
+                  transition: 'all 0.14s',
+                }}>{tr(t.submit, langHi)}</button>
+                <button onClick={handleMark} style={{
+                  padding: '0.75rem 1.1rem', borderRadius: 10,
+                  border: `1px solid ${qs.marked ? 'color-mix(in srgb, var(--warning-text) 50%, transparent)' : 'rgba(0,0,0,0.08)'}`,
+                  background: qs.marked ? 'var(--warning-wash)' : 'transparent',
+                  color: qs.marked ? 'var(--warning-text)' : 'var(--text2)',
+                  cursor: 'pointer', fontSize: '0.9rem', transition: 'all 0.14s',
+                }}>{qs.marked ? '★ Bookmarked' : '☆ Bookmark'}</button>
+              </>
+            ) : (
+              <>
+                <div style={{
+                  padding: '0.75rem 1.25rem', borderRadius: 10, fontSize: '0.95rem', fontWeight: 700,
+                  background: isCorrect ? 'var(--success-wash)' : 'color-mix(in srgb, var(--danger-text) 10%, transparent)',
+                  border: `1px solid ${isCorrect ? 'color-mix(in srgb, var(--success-text) 40%, transparent)' : 'color-mix(in srgb, var(--danger-text) 40%, transparent)'}`,
+                  color: isCorrect ? 'var(--success-text)' : 'var(--danger-text)',
+                }}>
+                  {isCorrect ? '✓ Correct  +2' : `✗ Wrong  −0.66 · Ans: (${String.fromCharCode(65 + q.correct)})`}
+                </div>
+                <button onClick={handleMark} style={{
+                  padding: '0.75rem 1rem', borderRadius: 10,
+                  border: `1px solid ${qs.marked ? 'color-mix(in srgb, var(--warning-text) 50%, transparent)' : 'rgba(0,0,0,0.08)'}`,
+                  background: qs.marked ? 'var(--warning-wash)' : 'transparent',
+                  color: qs.marked ? 'var(--warning-text)' : 'var(--text3)', cursor: 'pointer', fontSize: '0.9rem',
+                }}>{qs.marked ? '★' : '☆'}</button>
+              </>
+            )}
+            <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem' }}>
+              <button onClick={() => goTo(current - 1)} disabled={current === 0} style={{
+                padding: '0.75rem 1.1rem', borderRadius: 10,
+                border: '1px solid rgba(0,0,0,0.09)', background: 'transparent',
+                color: current === 0 ? 'var(--border2)' : 'var(--text)',
+                cursor: current === 0 ? 'not-allowed' : 'pointer', fontSize: '0.9rem',
+              }}>← Prev</button>
+              <button onClick={() => goTo(current + 1)} disabled={current === filtered.length - 1} style={{
+                padding: '0.75rem 1.1rem', borderRadius: 10,
+                border: '1px solid rgba(0,0,0,0.09)', background: 'transparent',
+                color: current === filtered.length - 1 ? 'var(--border2)' : 'var(--text)',
+                cursor: current === filtered.length - 1 ? 'not-allowed' : 'pointer', fontSize: '0.9rem',
+              }}>{langHi ? "अगला →" : "Next →"}</button>
+            </div>
+          </div>
+
+          {/* ── Explanation (premium only) ── */}
+          {qs.submitted && (
+            <div style={{ borderRadius: 16, border: '1px solid rgba(0,0,0,0.08)', background: 'rgba(0,0,0,0.02)', overflow: 'hidden' }}>
+              <div style={{ padding: '0.85rem 1.25rem', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <div style={{ width: 7, height: 7, borderRadius: '50%', background: !isPremium ? 'var(--warning-text)' : qs.aiLoading ? 'var(--warning-text)' : qs.aiResult ? 'var(--success-text)' : 'var(--danger-text)', flexShrink: 0 }} />
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text3)' }}>
+                  Explanation
+                </span>
+                {isPremium && (
+                  <span style={{ marginLeft: 'auto', fontSize: '0.68rem', color: 'var(--warning-text)', background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 25%, transparent)', borderRadius: 4, padding: '0.12rem 0.5rem' }}>✦ Premium</span>
+                )}
+              </div>
+
+              {!isPremium ? (
+                <div style={{ padding: '2rem', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.8rem', marginBottom: '0.75rem' }}>🔒</div>
+                  <div style={{ fontSize: '1rem', color: 'var(--text2)', marginBottom: '0.5rem' }}>{langHi ? "स्पष्टीकरण प्रीमियम सदस्यों के लिए हैं" : "Explanations are for Premium members"}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'rgba(0,0,0,0.15)' }}>{langHi ? "चरण-दर-चरण हल · तकनीक · अवधारणाएँ · मुख्य शब्द · स्मार्ट अनुमान" : "Step-by-step solution · Technique · Concepts · Keywords · Smart Guess"}</div>
+                </div>
+              ) : qs.aiLoading ? (
+                <div style={{ padding: '1.75rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  {[0,1,2].map(i => (
+                    <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(0,0,0,0.15)', animation: `pulse 1.2s ease-in-out ${i*0.2}s infinite` }} />
+                  ))}
+                  <style>{`@keyframes pulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}`}</style>
+                  <span style={{ marginLeft: '0.5rem', fontSize: '0.85rem', color: 'var(--text3)' }}>{langHi ? "स्पष्टीकरण तैयार हो रहा है…" : "Generating explanation…"}</span>
+                </div>
+              ) : qs.aiResult ? (
+                <div style={{ padding: '1.25rem' }}>
+                  {([
+                    { label: 'Solution',                    icon: '💡', content: qs.aiResult.solution  },
+                    { label: 'Problem-Solving Technique',   icon: '⚙️', content: qs.aiResult.technique },
+                    ...(qs.aiResult.smart_guess ? [{ label: 'How to Smart Guess', icon: '🧠', content: qs.aiResult.smart_guess }] : []),
+                    { label: 'Minimum Concepts Required',   icon: '📌', content: qs.aiResult.concepts  },
+                    { label: 'Related Concepts & Keywords', icon: '🔗', content: qs.aiResult.related   },
+                  ] as { label: string; icon: string; content: string }[]).map((sec, idx, arr) => (
+                    <div key={sec.label} style={{ marginBottom: idx < arr.length-1 ? '1.1rem' : 0, paddingBottom: idx < arr.length-1 ? '1.1rem' : 0, borderBottom: idx < arr.length-1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.6rem' }}>
+                        <span style={{ fontSize: '1.1rem' }}>{sec.icon}</span>
+                        <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, background: 'linear-gradient(90deg, var(--accent), var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{sec.label}</span>
+                      </div>
+                      <div style={{ fontSize: '0.97rem', lineHeight: 1.8, color: 'var(--text)' }}>
+                        {sec.content.split('||').map((point, i) => {
+                          const labeled = point.trim().replace(
+                            /(LINCHPIN STATEMENT|LINCHPIN\/ANCHOR STATEMENT|PAIR ELIMINATION|ODD-ONE-OUT|EXTREME LANGUAGE TRAP|CHRONOLOGICAL ORDERING|GEOGRAPHICAL ELIMINATION|ASSERTION-REASON|MATCH-THE-FOLLOWING|NEGATIVE QUESTION|DEGREE-OF-CERTAINTY|PROCESS-OF-ELIMINATION|NCERT ANCHOR|CONTEMPORARY SOURCE|ADMINISTRATIVE\/ECONOMIC TERM)/g,
+                            '|||LABEL|||$1|||ENDLABEL|||'
+                          );
+                          const parts = labeled.split('|||');
+                          return (
+                            <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '6px' }}>
+                              <span style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '2px' }}>•</span>
+                              <span>{parts.map((p, j) => p === 'LABEL' ? null : p === 'ENDLABEL' ? null : parts[j-1] === 'LABEL' ? <span key={j} style={{ display:'inline-flex',alignItems:'center',padding:'1px 7px',borderRadius:'5px',background:'var(--accent-dim)',border:'1px solid color-mix(in srgb, var(--accent) 30%, transparent)',color:'var(--accent)',fontSize:'0.72rem',fontWeight:700,letterSpacing:'0.04em',verticalAlign:'middle',margin:'0 2px' }}>{p}</span> : <span key={j}>{p}</span>)}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ padding: '1.25rem', color: 'var(--text3)', fontSize: '0.9rem' }}>
+                  Could not load explanation. Please try again.
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* ── Navigator sidebar ── */}
+        {showNav && (
+          <>
+            <div className="prelims-nav-backdrop" onClick={() => setShowNav(false)} />
+            <div className="prelims-nav-sidebar" style={{
+              width: 260, flexShrink: 0,
+              position: 'sticky', top: 130,
+              background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.08)',
+              borderRadius: 16, boxShadow: '0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent), 0 8px 32px rgba(0,0,0,0.4)', padding: '1.1rem', maxHeight: 'calc(100vh - 170px)', overflowY: 'auto',
+            }}>
+            <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700, color: 'var(--accent)', marginBottom: '0.9rem' }}>
+              Navigator
+            </div>
+
+            {/* legend */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.9rem' }}>
+              {[
+                { label: 'Correct',    bg: 'color-mix(in srgb, var(--success-text) 15%, transparent)',   border: 'color-mix(in srgb, var(--success-text) 50%, transparent)' },
+                { label: 'Wrong',      bg: 'color-mix(in srgb, var(--danger-text) 15%, transparent)',  border: 'color-mix(in srgb, var(--danger-text) 50%, transparent)' },
+                { label: 'Bookmarked', bg: 'color-mix(in srgb, var(--warning-text) 15%, transparent)',   border: 'color-mix(in srgb, var(--warning-text) 50%, transparent)' },
+                { label: 'Unanswered', bg: 'rgba(0,0,0,0.04)',  border: 'rgba(0,0,0,0.09)' },
+              ].map(({ label, bg, border }) => (
+                <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.28rem' }}>
+                  <div style={{ width: 9, height: 9, borderRadius: 3, background: bg, border: `1px solid ${border}` }} />
+                  <span style={{ fontSize: '0.65rem', color: 'var(--text3)' }}>{label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.42rem' }}>
+              {filtered.map((fq, idx) => {
+                const fqs = states[fq.id] ?? emptyQS;
+                const status = getNavStatus(fqs);
+                const c = NAV_COLORS[status];
+                const isActive = idx === current;
+
+  return (
+                  <button key={fq.id} onClick={() => goTo(idx)} style={{
+                    width: '100%', aspectRatio: '1', borderRadius: 7,
+                    border: `1px solid ${isActive ? 'var(--accent)' : c.border}`,
+                    background: isActive ? 'var(--accent-dim)' : c.bg,
+                    color: isActive ? 'var(--accent)' : c.text,
+                    fontSize: '0.78rem', fontWeight: isActive ? 700 : 500, cursor: 'pointer',
+                    transition: 'all 0.12s', letterSpacing: '0.01em',
+                  }}>{idx + 1}</button>
+                );
+              })}
+            </div>
+
+            {/* summary */}
+            <div style={{ marginTop: '1rem', paddingTop: '0.8rem', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+              {[
+                { label: 'Score',   val: `${score >= 0 ? '+' : ''}${score}`, color: score >= 0 ? 'var(--success-text)' : 'var(--danger-text)' },
+                { label: 'Correct', val: String(correct),   color: 'var(--success-text)' },
+                { label: 'Wrong',   val: String(wrong),     color: 'var(--danger-text)' },
+                { label: 'Marked',  val: String(markedCnt), color: 'var(--warning-text)' },
+                { label: 'Left',    val: String(filtered.length - answered), color: 'var(--text3)' },
+              ].map(s => (
+                <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '0.4rem' }}>
+                  <span style={{ color: 'var(--text3)' }}>{s.label}</span>
+                  <span style={{ color: s.color, fontFamily: 'var(--font-mono)', fontWeight: 700 }}>{s.val}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          </>
+        )}
+      </div>
+    <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
+    </div>
+  );
+}

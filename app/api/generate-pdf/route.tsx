@@ -15,7 +15,7 @@ Font.register({
   ],
 });
 
-const BLUE = "#1a4fa0";
+const BLUE = "var(--accent)";
 const BLACK = "#1a1a1a";
 const WHITE = "#ffffff";
 const GRAY = "#888888";

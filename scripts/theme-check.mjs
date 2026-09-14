@@ -18,7 +18,15 @@
  */
 import fs from 'node:fs';
 
-const CSS = 'app/globals.css';
+// The stylesheet moved under the (frontend) root group when Payload was
+// added, because two root layouts cannot share one app/layout.tsx.
+// Resolved rather than hardcoded, so a future move does not break the check.
+const CSS = ['app/(frontend)/globals.css', 'app/globals.css']
+  .find((p) => fs.existsSync(p));
+if (!CSS) {
+  console.error('globals.css not found in any known location');
+  process.exit(2);
+}
 const src = fs.readFileSync(CSS, 'utf8');
 
 // strip comments so a token named inside prose is not counted as defined

@@ -80,7 +80,7 @@ const FIELD = (bad: boolean): React.CSSProperties => ({
   width: '100%',
   padding: '12px 14px',
   background: 'var(--bg3)',
-  border: `1.5px solid ${bad ? '#f87171' : 'var(--border)'}`,
+  border: `1.5px solid ${bad ? 'var(--danger-text)' : 'var(--border)'}`,
   borderRadius: 8,
   color: 'var(--text)',
   fontFamily: 'var(--font-ui)',
@@ -290,7 +290,7 @@ export function PhoneModal({
         }}
         onClick={e => e.stopPropagation()}
       >
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#3b82f6', marginBottom: 12 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 12 }}>
           One-time setup
         </div>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--text)', marginBottom: 10 }}>
@@ -303,7 +303,7 @@ export function PhoneModal({
         <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
           <div style={{ flex: 1 }}>
             <label htmlFor="ho-first-name" style={LABEL}>
-              First name <span style={{ color: '#f87171' }}>*</span>
+              First name <span style={{ color: 'var(--danger-text)' }}>*</span>
             </label>
             <input
               id="ho-first-name"
@@ -334,7 +334,7 @@ export function PhoneModal({
 
         <div style={{ marginBottom: 12 }}>
           <label htmlFor="ho-phone" style={LABEL}>
-            Phone number <span style={{ color: '#f87171' }}>*</span>
+            Phone number <span style={{ color: 'var(--danger-text)' }}>*</span>
           </label>
           <div style={{ display: 'flex', gap: 8, position: 'relative' }}>
             {/* Country selector */}
@@ -343,7 +343,7 @@ export function PhoneModal({
                 onClick={() => setOpen(o => !o)}
                 style={{
                   height: '100%', minHeight: 50, padding: '0 12px',
-                  background: 'var(--bg3)', border: `1.5px solid ${errField === 'phone' ? '#f87171' : open ? '#3b82f6' : 'var(--border)'}`,
+                  background: 'var(--bg3)', border: `1.5px solid ${errField === 'phone' ? 'var(--danger-text)' : open ? 'var(--accent)' : 'var(--border)'}`,
                   borderRadius: 8, color: 'var(--text)', cursor: 'pointer',
                   display: 'flex', alignItems: 'center', gap: 6,
                   fontFamily: 'var(--font-mono)', fontSize: '0.9rem',
@@ -386,11 +386,11 @@ export function PhoneModal({
                       style={{
                         padding: '9px 14px', cursor: 'pointer',
                         display: 'flex', alignItems: 'center', gap: 10,
-                        background: c.code === dialCode ? 'rgba(59,130,246,0.1)' : 'transparent',
+                        background: c.code === dialCode ? 'var(--accent-dim)' : 'transparent',
                         transition: 'background 0.15s',
                       }}
                       onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.05)')}
-                      onMouseLeave={e => (e.currentTarget.style.background = c.code === dialCode ? 'rgba(59,130,246,0.1)' : 'transparent')}
+                      onMouseLeave={e => (e.currentTarget.style.background = c.code === dialCode ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'transparent')}
                     >
                       <span style={{ fontSize: '1rem' }}>{c.flag}</span>
                       <span style={{ color: 'var(--text2)', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', flex: 1 }}>{c.name}</span>
@@ -417,7 +417,7 @@ export function PhoneModal({
               style={{ ...FIELD(errField === 'phone'), flex: 1, fontFamily: 'var(--font-mono)', fontSize: '1rem' }}
             />
           </div>
-          {err && <div style={{ color: '#f87171', fontSize: '0.78rem', marginTop: 8, fontFamily: 'var(--font-ui)' }}>{err}</div>}
+          {err && <div style={{ color: 'var(--danger-text)', fontSize: '0.78rem', marginTop: 8, fontFamily: 'var(--font-ui)' }}>{err}</div>}
         </div>
 
         <button
@@ -425,8 +425,8 @@ export function PhoneModal({
           onClick={submit}
           style={{
             width: '100%', padding: '13px', borderRadius: 8, border: 'none',
-            background: loading ? '#1e3a8a' : 'linear-gradient(135deg, #2563eb, #3b82f6)',
-            color: 'var(--text)', fontWeight: 700, fontSize: '0.9rem',
+            background: 'var(--accent)',
+            color: 'var(--accent-on)', fontWeight: 700, fontSize: '0.9rem',
             cursor: loading ? 'not-allowed' : 'pointer',
             fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
           }}

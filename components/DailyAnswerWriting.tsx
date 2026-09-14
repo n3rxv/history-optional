@@ -12,10 +12,10 @@ function calcTotalMins(questions: { marks: number }[]) {
 function pad(n: number) { return String(n).padStart(2, '0'); }
 
 const sectionColors: Record<string, string> = {
-  'Ancient India':  'var(--yellow, #eab308)',
-  'Medieval India': 'var(--red, #ef4444)',
-  'Modern India':   'var(--accent, #3b82f6)',
-  'World History':  'var(--green, #22c55e)',
+  'Ancient India':  'var(--yellow, var(--warning-text))',
+  'Medieval India': 'var(--red, var(--danger-text))',
+  'Modern India':   'var(--accent, var(--accent))',
+  'World History':  'var(--green, var(--success-text))',
 };
 
 export default function DailyAnswerWriting({ questions }: { questions: DailyQuestion[] }) {
@@ -52,7 +52,7 @@ export default function DailyAnswerWriting({ questions }: { questions: DailyQues
     <section style={{ marginBottom: '3rem' }}>
       <div style={{
         background: 'var(--bg2)',
-        border: '1px solid rgba(59,130,246,0.25)',
+        border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
         borderRadius: 12,
         overflow: 'hidden',
       }}>
@@ -65,12 +65,12 @@ export default function DailyAnswerWriting({ questions }: { questions: DailyQues
           <div>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: 'rgba(34,197,94,0.1)', color: 'var(--green, #22c55e)',
+              background: 'var(--success-wash)', color: 'var(--green, var(--success-text))',
               fontSize: 11, padding: '3px 9px', borderRadius: 20, fontWeight: 600,
               marginBottom: 4, letterSpacing: '0.05em', textTransform: 'uppercase',
             }}>
               <span style={{
-                width: 6, height: 6, borderRadius: '50%', background: 'var(--green, #22c55e)',
+                width: 6, height: 6, borderRadius: '50%', background: 'var(--green, var(--success-text))',
                 display: 'inline-block', animation: 'dawPulse 1.8s ease-in-out infinite',
               }} />
               Live today
@@ -85,7 +85,7 @@ export default function DailyAnswerWriting({ questions }: { questions: DailyQues
             {started ? (
               <div style={{
                 fontFamily: 'var(--font-mono)', fontSize: 26, fontWeight: 700,
-                color: isLow ? 'var(--red, #ef4444)' : 'var(--text)',
+                color: isLow ? 'var(--red, var(--danger-text))' : 'var(--text)',
                 letterSpacing: '0.02em', lineHeight: 1, transition: 'color 0.3s',
               }}>{timeStr}</div>
             ) : (
@@ -115,7 +115,7 @@ export default function DailyAnswerWriting({ questions }: { questions: DailyQues
           {started && (
             <div style={{
               height: '100%', width: `${pct}%`,
-              background: isLow ? 'var(--red, #ef4444)' : 'var(--accent, #3b82f6)',
+              background: isLow ? 'var(--red, var(--danger-text))' : 'var(--accent, var(--accent))',
               transition: 'width 1s linear, background 0.3s',
             }} />
           )}

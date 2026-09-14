@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withPayload } from "@payloadcms/next/withPayload";
 /**
  * Content Security Policy.
  *
@@ -140,4 +141,6 @@ const nextConfig: NextConfig = {
     ];
   },
 };
-export default nextConfig;
+// Payload needs to inject its own webpack/turbopack handling and its admin
+// route group. The app config above is unchanged and passes through.
+export default withPayload(nextConfig);

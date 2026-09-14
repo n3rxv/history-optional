@@ -65,13 +65,13 @@ export default function LeafletMap({
           const isAnswered = !!answered[entry.number];
 
           const color = isRevealed && correct[entry.number] === true
-            ? '#22a85a'
+            ? 'var(--success-text)'
             : isRevealed && correct[entry.number] === false
-            ? '#ef4444'
+            ? 'var(--danger-text)'
             : isAnswered
-            ? '#b48c3c'
+            ? 'var(--warning-text)'
             : isSelected
-            ? '#e05c2a'
+            ? 'var(--danger-text)'
             : 'var(--bg2)';
 
           const radius = isSelected ? 14 : 10;

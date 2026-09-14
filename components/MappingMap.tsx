@@ -150,7 +150,7 @@ export default function MappingMap({
       <MapContainer
         key={noLabels ? 'nolabels' : 'labels'}
         bounds={INDIA_BOUNDS}
-        style={{ width: '100%', height: '100%', background: noLabels ? '#c8d8e8' : 'var(--bg2)' }}
+        style={{ width: '100%', height: '100%', background: noLabels ? 'var(--accent)' : 'var(--bg2)' }}
         zoomControl={true} scrollWheelZoom={true} attributionControl={bookBasemap.requireVisibleAttribution}
       >
         {noLabels ? (
@@ -187,9 +187,9 @@ export default function MappingMap({
               center={[site.lat as number, site.lng as number]}
               radius={isSelected ? 8 : 4}
               pathOptions={{
-                fillColor: isSelected ? '#ffffff' : hasPYQ ? '#f59e0b' : '#7c3aed',
+                fillColor: isSelected ? '#ffffff' : hasPYQ ? 'var(--warning-text)' : 'var(--accent)',
                 fillOpacity: 1,
-                color: isSelected ? '#a78bfa' : 'rgba(255,255,255,0.6)',
+                color: isSelected ? 'var(--accent)' : 'rgba(255,255,255,0.6)',
                 weight: isSelected ? 3 : 1.5,
               }}
               eventHandlers={{ click: () => onSiteClick(site.name) }}
@@ -199,7 +199,7 @@ export default function MappingMap({
                   <div style={{ fontFamily: 'var(--font-ui)', fontSize: 12 }}>
                     <strong>{langHi && site.name_hi ? site.name_hi : site.name}</strong>
                     <div style={{ color: '#aaa', fontSize: 11 }}>{langHi && site.location_hi ? site.location_hi : site.location}</div>
-                    {hasPYQ && <div style={{ color: '#eab308', fontSize: 10, marginTop: 2 }}>PYQ: {site.pyqYears.join(', ')}</div>}
+                    {hasPYQ && <div style={{ color: 'var(--warning-text)', fontSize: 10, marginTop: 2 }}>PYQ: {site.pyqYears.join(', ')}</div>}
                   </div>
                 </Tooltip>
               )}

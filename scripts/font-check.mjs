@@ -18,8 +18,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const CSS = 'app/globals.css';
-const LAYOUT = 'app/layout.tsx';
+// The stylesheet moved under the (frontend) root group when Payload was
+// added, because two root layouts cannot share one app/layout.tsx.
+// Resolved rather than hardcoded, so a future move does not break the check.
+const CSS = ['app/(frontend)/globals.css', 'app/globals.css']
+  .find((p) => fs.existsSync(p));
+if (!CSS) {
+  console.error('globals.css not found in any known location');
+  process.exit(2);
+}
+const LAYOUT = ['app/(frontend)/layout.tsx', 'app/layout.tsx']
+  .find((p) => fs.existsSync(p));
+if (!LAYOUT) {
+  console.error('root layout not found in any known location');
+  process.exit(2);
+}
 
 const css = fs.readFileSync(CSS, 'utf8');
 const layout = fs.readFileSync(LAYOUT, 'utf8');

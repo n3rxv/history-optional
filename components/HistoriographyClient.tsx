@@ -51,19 +51,19 @@ const BLANK_DEBATE: Omit<Debate, 'id' | 'positions'> & { positions: Position[] }
 // ── Helpers ────────────────────────────────────────────────────────────────
 function SchoolBadge({ school }: { school: string }) {
   const colors: Record<string, string> = {
-    'Marxist': '#ef4444', 'Nationalist': '#f59e0b', 'Revisionist': '#8b5cf6',
-    'Subaltern': '#06b6d4', 'Cambridge School': '#64748b', 'Colonial': '#6b7280',
-    'Postcolonial': '#ec4899', 'Feminist': '#f472b6', 'Liberal': '#22c55e',
-    'Islamic History': '#10b981', 'Social History': '#3b82f6', 'Economic History': '#f97316',
-    'Cultural History': '#a78bfa', 'Dalit': '#0ea5e9', 'Archaeological': '#84cc16',
+    'Marxist': 'var(--danger-text)', 'Nationalist': 'var(--warning-text)', 'Revisionist': 'var(--accent)',
+    'Subaltern': 'var(--info-text)', 'Cambridge School': '#64748b', 'Colonial': '#6b7280',
+    'Postcolonial': 'var(--accent)', 'Feminist': 'var(--accent)', 'Liberal': 'var(--success-text)',
+    'Islamic History': 'var(--success-text)', 'Social History': 'var(--accent)', 'Economic History': 'var(--warning-text)',
+    'Cultural History': 'var(--accent)', 'Dalit': 'var(--info-text)', 'Archaeological': 'var(--success-text)',
   };
   const c = colors[school] || '#6b7280';
   return (
     <span style={{
       display: 'inline-block', padding: '1px 8px', borderRadius: 20,
       fontSize: '0.6rem', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)',
-      textTransform: 'uppercase', background: `${c}18`, color: c,
-      border: `1px solid ${c}40`,
+      textTransform: 'uppercase', background: `color-mix(in srgb, ${c} 9%, transparent)`, color: c,
+      border: `1px solid color-mix(in srgb, ${c} 70%, transparent)`,
     }}>{school}</span>
   );
 }
@@ -75,11 +75,11 @@ function TypeBadge({ type }: { type: string }) {
       padding: '2px 10px', borderRadius: 20,
       fontSize: '0.6rem', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)',
       textTransform: 'uppercase',
-      background: type === 'debate' ? 'rgba(239,68,68,0.12)' : 'rgba(59,130,246,0.12)',
-      color: type === 'debate' ? '#ef4444' : '#3b82f6',
-      border: `1px solid ${type === 'debate' ? '#ef444430' : '#3b82f630'}`,
+      background: type === 'debate' ? 'var(--danger-wash)' : 'color-mix(in srgb, var(--accent) 12%, transparent)',
+      color: type === 'debate' ? 'var(--danger-text)' : 'var(--accent)',
+      border: `1px solid ${type === 'debate' ? 'color-mix(in srgb, #ef4444 19%, transparent)' : 'color-mix(in srgb, #3b82f6 19%, transparent)'}`,
     }}>
-      <span style={{ width: 5, height: 5, borderRadius: '50%', background: type === 'debate' ? '#ef4444' : '#3b82f6', display: 'inline-block' }} />
+      <span style={{ width: 5, height: 5, borderRadius: '50%', background: type === 'debate' ? 'var(--danger-text)' : 'var(--accent)', display: 'inline-block' }} />
       {type === 'debate' ? 'Contested Debate' : 'Contextual Historiography'}
     </span>
   );
@@ -131,7 +131,7 @@ function DebateForm({ form, setForm, topicInp, setTopicInp, onSave, onCancel, sa
           <input style={inputStyle} value={topicInp} placeholder="Add tag..." onKeyDown={e => { if (e.key === 'Enter' && topicInp.trim()) { setForm({ ...form, topics: [...form.topics, topicInp.trim()] }); setTopicInp(''); }}} onChange={e => setTopicInp(e.target.value)} />
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
             {form.topics.map((t: string, i: number) => (
-              <span key={i} onClick={() => setForm({ ...form, topics: form.topics.filter((_: any, j: number) => j !== i) })} style={{ fontSize: '0.65rem', padding: '2px 8px', borderRadius: 20, background: 'rgba(59,130,246,0.12)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.3)', cursor: 'pointer' }}>{t} ×</span>
+              <span key={i} onClick={() => setForm({ ...form, topics: form.topics.filter((_: any, j: number) => j !== i) })} style={{ fontSize: '0.65rem', padding: '2px 8px', borderRadius: 20, background: 'var(--accent-dim)', color: 'var(--accent)', border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)', cursor: 'pointer' }}>{t} ×</span>
             ))}
           </div>
         </div>
@@ -149,7 +149,7 @@ function DebateForm({ form, setForm, topicInp, setTopicInp, onSave, onCancel, sa
           <div key={idx} style={{ background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border)', borderRadius: 8, padding: '0.75rem', marginBottom: '0.5rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
               <span style={{ color: 'var(--text3)', fontSize: '0.65rem', fontFamily: 'var(--font-mono)' }}>POSITION {idx + 1}</span>
-              {form.positions.length > 1 && <button onClick={() => removePos(form, setForm, idx)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.72rem' }}>Remove</button>}
+              {form.positions.length > 1 && <button onClick={() => removePos(form, setForm, idx)} style={{ background: 'none', border: 'none', color: 'var(--danger-text)', cursor: 'pointer', fontSize: '0.72rem' }}>Remove</button>}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
               <input style={inputStyle} value={pos.historian_name} onChange={e => updatePos(form, setForm, idx, 'historian_name', e.target.value)} placeholder="Historian Name" />
@@ -166,7 +166,7 @@ function DebateForm({ form, setForm, topicInp, setTopicInp, onSave, onCancel, sa
       </div>
       <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
         <button onClick={onCancel} style={{ ...smallBtnStyle, background: 'transparent', color: 'var(--text3)' }}>Cancel</button>
-        <button onClick={onSave} disabled={saving} style={{ ...smallBtnStyle, background: 'rgba(59,130,246,0.15)', color: '#60a5fa', border: '1px solid rgba(59,130,246,0.3)' }}>
+        <button onClick={onSave} disabled={saving} style={{ ...smallBtnStyle, background: 'var(--accent-dim)', color: 'var(--accent)', border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)' }}>
           {saving ? 'Saving…' : 'Save'}
         </button>
       </div>
@@ -282,16 +282,16 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
         .hb-wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
         .hb-header { margin-bottom: 2.5rem; }
         .hb-title { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
-        .hb-title span { color: #3b82f6; }
+        .hb-title span { color: var(--accent); }
         .hb-sub { color: var(--text3); font-size: 0.82rem; margin-top: 0.4rem; font-family: var(--font-body); line-height: 1.6; }
         .hb-controls { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-bottom: 1.5rem; }
         .hb-search { flex: 1; min-width: 200px; background: rgba(0,0,0,0.04); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 0.9rem; color: var(--text); font-size: 0.85rem; font-family: var(--font-body); outline: none; }
-        .hb-search:focus { border-color: rgba(59,130,246,0.4); }
+        .hb-search:focus { border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
         .hb-select { background: rgba(0,0,0,0.04); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.75rem; color: var(--text2); font-size: 0.78rem; font-family: var(--font-body); outline: none; cursor: pointer; }
         .hb-count { color: var(--text3); font-size: 0.72rem; font-family: var(--font-mono); letter-spacing: 0.08em; margin-left: auto; }
         
         .hb-card { background: linear-gradient(135deg, rgba(0,0,0,0.03), rgba(255,255,255,0.01)); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 0.75rem; overflow: hidden; transition: border-color 0.2s; }
-        .hb-card:hover { border-color: rgba(59,130,246,0.25); }
+        .hb-card:hover { border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
         .hb-card-header { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem 1.2rem; cursor: pointer; }
         .hb-card-left { flex: 1; min-width: 0; }
         .hb-card-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; align-items: center; }
@@ -303,9 +303,9 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
         .hb-card-chevron.open { transform: rotate(180deg); }
         
         .hb-card-body { border-top: 1px solid var(--border); padding: 1rem 1.2rem; }
-        .hb-tip { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 8px; padding: 0.65rem 0.9rem; margin-bottom: 1rem; display: flex; gap: 0.6rem; align-items: flex-start; }
-        .hb-tip-label { font-size: 0.58rem; font-family: var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: #f59e0b; flex-shrink: 0; margin-top: 1px; }
-        .hb-tip-text { font-size: 0.8rem; color: #d4a93a; line-height: 1.6; }
+        .hb-tip { background: var(--warning-wash); border: 1px solid color-mix(in srgb, var(--warning-text) 20%, transparent); border-radius: 8px; padding: 0.65rem 0.9rem; margin-bottom: 1rem; display: flex; gap: 0.6rem; align-items: flex-start; }
+        .hb-tip-label { font-size: 0.58rem; font-family: var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--warning-text); flex-shrink: 0; margin-top: 1px; }
+        .hb-tip-text { font-size: 0.8rem; color: var(--warning-text); line-height: 1.6; }
         
         .hb-positions { display: flex; flex-direction: column; gap: 0.6rem; }
         .hb-position { background: rgba(0,0,0,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem 1rem; }
@@ -313,15 +313,15 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
         .hb-pos-name { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--text); }
         .hb-pos-stance { font-size: 0.72rem; color: var(--text2); margin-top: 2px;  }
         .hb-pos-work { font-size: 0.68rem; font-family: var(--font-mono); color: var(--text3); margin-bottom: 0.5rem; }
-        .hb-pos-work span { color: #60a5fa; }
+        .hb-pos-work span { color: var(--accent); }
         .hb-pos-arg { font-size: 0.8rem; color: var(--text2); line-height: 1.65; }
         
         .hb-topics { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
-        .hb-topic-tag { font-size: 0.6rem; padding: 2px 8px; border-radius: 20px; background: rgba(59,130,246,0.08); color: var(--text3); border: 1px solid var(--border); font-family: var(--font-mono); }
+        .hb-topic-tag { font-size: 0.6rem; padding: 2px 8px; border-radius: 20px; background: var(--accent-dim); color: var(--text3); border: 1px solid var(--border); font-family: var(--font-mono); }
         
         .hb-admin-bar { display: flex; gap: 0.5rem; padding: 0.6rem 1.2rem; border-top: 1px solid var(--border); background: rgba(255,255,255,0.01); }
-        .hb-add-form { background: rgba(0,0,0,0.02); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
-        .hb-add-form-title { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: #60a5fa; margin-bottom: 1rem; }
+        .hb-add-form { background: rgba(0,0,0,0.02); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+        .hb-add-form-title { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
         
         @media (max-width: 600px) { .hb-controls { flex-direction: column; } .hb-count { margin-left: 0; } }
       `}</style>
@@ -352,7 +352,7 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
           </select>
           <span className="hb-count">{filtered.length} entries</span>
           {isOwner && (
-            <button onClick={() => setAddingNew(true)} style={{ background: 'rgba(59,130,246,0.12)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 8, padding: '0.5rem 0.9rem', color: '#60a5fa', cursor: 'pointer', fontSize: '0.78rem', fontFamily: 'var(--font-body)' }}>
+            <button onClick={() => setAddingNew(true)} style={{ background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)', borderRadius: 8, padding: '0.5rem 0.9rem', color: 'var(--accent)', cursor: 'pointer', fontSize: '0.78rem', fontFamily: 'var(--font-body)' }}>
               + Add Entry
             </button>
           )}
@@ -448,7 +448,7 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
                 {isOwner && (
                   <div className="hb-admin-bar">
                     <button onClick={() => { setEditingId(debate.id); setEditForm({ title: debate.title, period: debate.period, paper: debate.paper, topics: debate.topics, type: debate.type, upsc_tip: debate.upsc_tip, positions: debate.positions.map(p => ({ ...p })) }); setTopicInput(''); }} style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, padding: '0.25rem 0.6rem', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.68rem', fontFamily: 'var(--font-mono)' }}>Edit</button>
-                    <button onClick={() => deleteDebate(debate.id)} style={{ background: 'none', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 6, padding: '0.25rem 0.6rem', color: '#f87171', cursor: 'pointer', fontSize: '0.68rem', fontFamily: 'var(--font-mono)' }}>Delete</button>
+                    <button onClick={() => deleteDebate(debate.id)} style={{ background: 'none', border: '1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)', borderRadius: 6, padding: '0.25rem 0.6rem', color: 'var(--danger-text)', cursor: 'pointer', fontSize: '0.68rem', fontFamily: 'var(--font-mono)' }}>Delete</button>
                   </div>
                 )}
               </>

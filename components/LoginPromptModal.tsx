@@ -53,8 +53,8 @@ export default function LoginPromptModal({ isOpen, onClose, message }: LoginProm
         }}>
           <div style={{
             width: 52, height: 52, borderRadius: 14,
-            background: 'rgba(59,130,246,0.08)',
-            border: '1px solid rgba(59,130,246,0.2)',
+            background: 'var(--accent-dim)',
+            border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '1.5rem',
           }}>📜</div>
@@ -77,22 +77,22 @@ export default function LoginPromptModal({ isOpen, onClose, message }: LoginProm
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
               width: '100%',
-              background: signingIn ? 'rgba(59,130,246,0.04)' : 'rgba(59,130,246,0.08)',
-              border: '1px solid rgba(59,130,246,0.3)',
+              background: signingIn ? 'var(--accent-dim)' : 'color-mix(in srgb, var(--accent) 8%, transparent)',
+              border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
               color: signingIn ? 'var(--text3)' : 'var(--accent)',
               cursor: signingIn ? 'not-allowed' : 'pointer',
               padding: '0.75rem 1.25rem', borderRadius: 10,
               fontSize: '0.9rem', fontWeight: 600, letterSpacing: '-0.01em',
               transition: 'all 0.15s',
             }}
-            onMouseEnter={e => { if (!signingIn) (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.14)'; }}
-            onMouseLeave={e => { if (!signingIn) (e.currentTarget as HTMLElement).style.background = 'rgba(59,130,246,0.08)'; }}
+            onMouseEnter={e => { if (!signingIn) (e.currentTarget as HTMLElement).style.background = 'color-mix(in srgb, var(--accent) 14%, transparent)'; }}
+            onMouseLeave={e => { if (!signingIn) (e.currentTarget as HTMLElement).style.background = 'color-mix(in srgb, var(--accent) 8%, transparent)'; }}
           >
             {signingIn ? (
               <>
                 <span style={{
                   width: 16, height: 16, borderRadius: '50%',
-                  border: '2px solid rgba(59,130,246,0.3)',
+                  border: '2px solid color-mix(in srgb, var(--accent) 30%, transparent)',
                   borderTopColor: 'var(--accent)', display: 'inline-block',
                   animation: 'spin 0.7s linear infinite',
                 }} />

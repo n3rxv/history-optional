@@ -1,0 +1,94 @@
+'use client';
+import { useRouter } from 'next/navigation';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import LoginPromptModal from '@/components/LoginPromptModal';
+
+export default function PrelimsLanding() {
+  const router = useRouter();
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
+  const features = [
+    { icon: '💡', label: 'Solution Breakdown',   desc: 'Step-by-step reasoning for every answer'         },
+    { icon: '⚙️', label: 'Technique Detection',  desc: 'LINCHPIN · ODD-ONE-OUT · PAIR ELIMINATION'       },
+    { icon: '🧠', label: 'Smart Guess Strategy', desc: "Reason your way when you don't know the answer"  },
+    { icon: '📌', label: 'Concept Mapping',      desc: 'Minimum knowledge needed — nothing more'          },
+  ];
+
+  return (
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: 620, width: '100%', textAlign: 'center' }}>
+
+        {/* Eyebrow */}
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', borderRadius: 100, padding: '0.35rem 1rem', marginBottom: '2rem' }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', boxShadow: '0 0 8px var(--accent)' }} />
+          <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--accent)' }}>AMAC & Modern · Prelims</span>
+        </div>
+
+        {/* Main heading — editorial style, smaller, tighter */}
+        <div style={{ marginBottom: '1.25rem' }}>
+          <div style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.15)', marginBottom: '0.75rem' }}>Smart MCQ Practice</div>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.25, letterSpacing: '-0.01em', margin: 0 }}>
+            Master the art of intelligent<br />
+            <span style={{ color: 'var(--accent)' }}>elimination & reasoning</span> —<br />
+            even when you're unsure.
+          </h1>
+        </div>
+
+        <p style={{ color: 'var(--text3)', fontSize: '0.88rem', lineHeight: 1.8, margin: '1.25rem auto 2rem', maxWidth: 440 }}>
+          Every question comes with a full breakdown of how a sharp aspirant thinks through it — technique, smart guess, and concept map.
+        </p>
+
+        {/* Feature grid */}
+        <div className="prelims-feature-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem', marginBottom: '2rem', textAlign: 'left' }}>
+          {features.map(f => (
+            <div key={f.label} style={{ background: 'rgba(0,0,0,0.025)', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '0.75rem 0.9rem', display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
+              <span style={{ fontSize: '1.1rem', marginTop: 1 }}>{f.icon}</span>
+              <div>
+                <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)', marginBottom: '0.2rem' }}>{f.label}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text3)', lineHeight: 1.5 }}>{f.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <style>{`
+        .prelims-cta-btn {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          background: linear-gradient(135deg, var(--accent), var(--accent));
+          color: #fff; padding: 0.85rem 2.25rem; border-radius: 9px;
+          text-decoration: none; font-weight: 700; font-size: 0.88rem;
+          letter-spacing: 0.02em; transition: opacity 0.2s ease;
+          position: relative; overflow: hidden;
+        }
+        .prelims-cta-btn::before {
+          content: ''; position: absolute; top: 0; left: -75%;
+          width: 50%; height: 100%;
+          background: linear-gradient(120deg, transparent 0%, rgba(0,0,0,0.12) 50%, transparent 100%);
+          transform: skewX(-20deg); opacity: 0; pointer-events: none;
+        }
+        .prelims-cta-btn:hover::before {
+          opacity: 1; animation: glass-shine 0.55s ease forwards;
+        }
+        @media (max-width: 480px) {
+          .prelims-feature-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+      {/* CTA */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
+          <button
+            onClick={() => { if (!requireLogin('Sign in free to start Prelims practice.')) return; router.push('/prelims/practice'); }}
+            className="prelims-cta-btn"
+            style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent))', border: 'none', cursor: 'pointer' }}
+          >
+            Begin Practice →
+          </button>
+          <p style={{ fontSize: '0.72rem', color: 'rgba(0,0,0,0.15)', fontFamily: 'var(--font-mono)', margin: '1.5rem 0 0', lineHeight: 1.6 }}>
+            <span style={{ color: 'var(--warning-text)' }}>Questions are free to practice · Smart dissection & analysis requires Premium</span>
+          </p>
+        </div>
+
+      </div>
+      <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
+    </div>
+  );
+}

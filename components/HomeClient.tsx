@@ -95,7 +95,7 @@ export function PYQCarousel() {
       <div style={{ flex: 1, minHeight: 72 }}>
         <div className={`pyq-slide ${pyqFade ? 'pyq-in' : 'pyq-out'}`}>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--red)', background: 'var(--red-dim)', border: '1px solid rgba(239,68,68,0.2)', padding: '2px 8px', borderRadius: 3 }}>{pyqSlides[pyqIdx].paper}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--red)', background: 'var(--red-dim)', border: '1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)', padding: '2px 8px', borderRadius: 3 }}>{pyqSlides[pyqIdx].paper}</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--text3)' }}>{pyqSlides[pyqIdx].year} · {pyqSlides[pyqIdx].marks}M</span>
           </div>
           <p style={{ fontSize: '0.875rem', color: 'var(--text2)', lineHeight: 1.65, margin: 0, fontFamily: 'var(--font-body)' }}>{pyqSlides[pyqIdx].q}</p>
@@ -108,7 +108,7 @@ export function PYQCarousel() {
         ))}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Link href="/pyqs" style={{ background: 'var(--red)', color: 'var(--on-fill)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: '0.82rem', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "PYQ देखें" : "Browse PYQs"}</Link>
-          <Link href="/chat" style={{ background: 'transparent', color: 'var(--accent)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 500, fontSize: '0.82rem', border: '1px solid rgba(59,130,246,0.3)', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "AI से पूछें →" : "Ask AI →"}</Link>
+          <Link href="/chat" style={{ background: 'transparent', color: 'var(--accent)', padding: '0.55rem 1.25rem', borderRadius: 6, textDecoration: 'none', fontWeight: 500, fontSize: '0.82rem', border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)', position: 'relative', overflow: 'hidden' }} className="shimmer-btn">{langHi ? "AI से पूछें →" : "Ask AI →"}</Link>
         </div>
       </div>
     </div>

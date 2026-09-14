@@ -14,7 +14,7 @@ import { createPortal } from 'react-dom';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { planPriceLabel, AUTOPAY_PLAN } from '@/lib/plans';
 
-const GOLD = '#d4a843';
+const GOLD = 'var(--warning-text)';
 
 const RESUME_KEY = 'ho_pending_autopay';
 
@@ -180,7 +180,7 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
       }}>
         {step === 'already' && already ? (
           <div>
-            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>
+            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--success-text)', marginBottom: 8 }}>
               You already have access
             </div>
             <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 6px' }}>
@@ -197,13 +197,13 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
             <button onClick={onClose}
               style={{
                 width: '100%', padding: '12px', borderRadius: 8, border: 'none',
-                background: 'linear-gradient(135deg, #4ade80, #22c55e)',
+                background: 'linear-gradient(135deg, var(--success-text), var(--success-text))',
                 color: '#000', fontWeight: 800, fontSize: '0.86rem', cursor: 'pointer',
               }}>Got it</button>
           </div>
         ) : step === 'authorised' ? (
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#4ade80', marginBottom: 8 }}>
+            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--success-text)', marginBottom: 8 }}>
               {liveUntil ? "You're in" : gaveUp ? 'Mandate authorised' : 'Mandate authorised'}
             </div>
             {liveUntil ? (
@@ -222,7 +222,7 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9 }}>
                 <span style={{
                   width: 13, height: 13, flexShrink: 0, borderRadius: '50%',
-                  border: '2px solid rgba(74,222,128,0.25)', borderTopColor: '#4ade80',
+                  border: '2px solid color-mix(in srgb, var(--success-text) 25%, transparent)', borderTopColor: 'var(--success-text)',
                   animation: 'autopaySpin 0.7s linear infinite',
                 }} />
                 Collecting the first &#8377;99&hellip;
@@ -233,7 +233,7 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
               onClick={() => { if (liveUntil) window.location.reload(); else onClose(); }}
               style={{
                 width: '100%', padding: '12px', borderRadius: 8, border: 'none',
-                background: 'linear-gradient(135deg, #4ade80, #22c55e)',
+                background: 'linear-gradient(135deg, var(--success-text), var(--success-text))',
                 color: '#000', fontWeight: 800, fontSize: '0.86rem', cursor: 'pointer',
               }}>{liveUntil ? 'Start using it' : 'Done'}</button>
           </div>
@@ -271,14 +271,14 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
             </dl>
 
             {message && (
-              <p style={{ color: '#f87171', fontSize: '0.8rem', margin: '0 0 12px' }}>{message}</p>
+              <p style={{ color: 'var(--danger-text)', fontSize: '0.8rem', margin: '0 0 12px' }}>{message}</p>
             )}
             <button onClick={start}
               disabled={step === 'opening' || step === 'signing_in'}
               style={{
                 width: '100%', padding: '12px', borderRadius: 8, border: 'none',
                 background: step === 'idle' || step === 'error'
-                  ? 'linear-gradient(135deg, #c49a2c 0%, #e8b84b 40%, #f5cc5e 55%, #b8881e 100%)'
+                  ? 'linear-gradient(135deg, var(--warning-text) 0%, var(--warning-text) 40%, var(--warning-text) 55%, var(--warning-text) 100%)'
                   : 'var(--bg3)',
                 color: step === 'idle' || step === 'error' ? '#000' : 'var(--text3)',
                 fontWeight: 800, fontSize: '0.86rem', letterSpacing: '0.02em',

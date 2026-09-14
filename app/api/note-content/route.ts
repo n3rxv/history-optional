@@ -30,9 +30,19 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'bad lang' }, { status: 400 });
   }
 
-  // An admin override wins over the shipped content, in either language.
+  // Payload first, in the requested language. It falls back to English itself
+  // when a topic has no Hindi body, which is what the shipped corpus did.
   let content = '';
   try {
+    const { getNoteHtmlFromPayload } = await import('@/lib/payloadNotes');
+    const fromPayload = await getNoteHtmlFromPayload(slug, lang === 'hi' ? 'hi' : 'en');
+    if (fromPayload) content = sanitizeNoteHtml(fromPayload);
+  } catch {
+    // Fall through to the original path below.
+  }
+
+  // An admin override wins over the shipped content, in either language.
+  if (!content) try {
     const { data } = await createServerClient()
       .from('note_overrides')
       .select('content')

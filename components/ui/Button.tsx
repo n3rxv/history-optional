@@ -32,10 +32,10 @@ interface ClickButtonProps extends BaseProps {
 type ButtonProps = LinkButtonProps | ClickButtonProps;
 
 const COLOR_MAP: Record<AccentColor, { solid: string; dim: string; border: string; text: string }> = {
-  accent: { solid: 'var(--accent)', dim: 'var(--accent-dim)',  border: 'rgba(59,130,246,0.25)',  text: 'var(--accent)' },
-  yellow: { solid: 'var(--yellow)', dim: 'var(--yellow-dim)',  border: 'rgba(234,179,8,0.25)',   text: 'var(--yellow)' },
-  red:    { solid: 'var(--red)',    dim: 'var(--red-dim)',     border: 'rgba(239,68,68,0.25)',   text: 'var(--red)' },
-  green:  { solid: 'var(--green)',  dim: 'var(--green-dim)',   border: 'rgba(34,197,94,0.25)',   text: 'var(--green)' },
+  accent: { solid: 'var(--accent)', dim: 'var(--accent-dim)',  border: 'color-mix(in srgb, var(--accent) 25%, transparent)',  text: 'var(--accent)' },
+  yellow: { solid: 'var(--yellow)', dim: 'var(--yellow-dim)',  border: 'color-mix(in srgb, var(--warning-text) 25%, transparent)',   text: 'var(--yellow)' },
+  red:    { solid: 'var(--red)',    dim: 'var(--red-dim)',     border: 'color-mix(in srgb, var(--danger-text) 25%, transparent)',   text: 'var(--red)' },
+  green:  { solid: 'var(--green)',  dim: 'var(--green-dim)',   border: 'color-mix(in srgb, var(--success-text) 25%, transparent)',   text: 'var(--green)' },
 };
 
 const SIZE_MAP: Record<ButtonSize, { padding: string; fontSize: string }> = {

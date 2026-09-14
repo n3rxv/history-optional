@@ -1,0 +1,1093 @@
+'use client';
+import { useState, useCallback, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
+import { useMemo } from 'react';
+import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
+import { auth } from '@/lib/firebase';
+import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
+import LoginPromptModal from '@/components/LoginPromptModal';
+import Script from 'next/script';
+
+// Early Medieval had no tab at all: 99 questions reachable only through "All"
+// or the /pyqs/early-medieval page. India Since Independence is newly split out
+// of Modern India, which had been carrying it as an unmarked 47-question block.
+const TABS = [
+  { label: 'All',            value: 'all' },
+  { label: 'Ancient',        value: 'Paper I - Ancient India' },
+  { label: 'Early Medieval', value: 'Paper I - Early Medieval' },
+  { label: 'Medieval',       value: 'Paper I - Medieval India' },
+  { label: 'Modern',         value: 'Paper II - Modern India' },
+  { label: 'Since 1947',     value: 'Paper II - India Since Independence' },
+  { label: 'World',          value: 'Paper II - World History' },
+];
+
+const SECTION_ORDER = TABS.filter(t => t.value !== 'all').map(t => t.value);
+
+
+async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
+  const slug = (questionText ?? markdownText).slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
+  const res = await fetch('/api/generate-pdf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ markdownText, questionText }),
+  });
+  if (!res.ok) throw new Error('PDF generation failed');
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = slug + ' (historyoptional.xyz).pdf';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function AnswerBody({ text }: { text: string }) {
+  const lines = text.split('\n');
+  return (
+    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', lineHeight: 1.8, color: 'var(--text)' }}>
+      {lines.map((line, i) => {
+        if (!line.trim()) return <div key={i} style={{ height: '0.6rem' }} />;
+        if (/^\*\*(.+)\*\*$/.test(line.trim())) {
+          const heading = line.trim().replace(/^\*\*|\*\*$/g, '');
+          return (
+            <div key={i} style={{
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.88rem',
+              letterSpacing: '0.05em', color: 'var(--accent)', textTransform: 'uppercase',
+              marginTop: '1.2rem', marginBottom: '0.4rem',
+            }}>{heading}</div>
+          );
+        }
+        if (/^\*(.+)\*$/.test(line.trim())) {
+          const sub = line.trim().replace(/^\*|\*$/g, '');
+          return (
+            <div key={i} style={{
+              fontWeight: 600, fontStyle: 'italic',
+              color: 'var(--text2)', marginTop: '0.8rem', marginBottom: '0.2rem',
+            }}>{sub}</div>
+          );
+        }
+        if (/^[-•]\s+/.test(line.trim())) {
+          const content = line.trim().replace(/^[-•]\s+/, '');
+          const parts = content.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
+          return (
+            <div key={i} style={{ display: 'flex', gap: '0.5rem', margin: '0.25rem 0 0.25rem 0.5rem' }}>
+              <span style={{ color: 'var(--accent)', fontWeight: 700, flexShrink: 0, marginTop: '0.1rem' }}>•</span>
+              <p style={{ margin: 0 }}>
+                {parts.map((part, j) =>
+                  /^\*\*\*(.+)\*\*\*$/.test(part)
+                    ? <strong key={j}><em>{part.replace(/^\*\*\*|\*\*\*$/g, '')}</em></strong>
+                    : /^\*\*(.+)\*\*$/.test(part)
+                    ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
+                    : /^\*([^*]+)\*$/.test(part)
+                    ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
+                    : part
+                )}
+              </p>
+            </div>
+          );
+        }
+        const parts = line.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
+        return (
+          <p key={i} style={{ margin: '0 0 0.1rem' }}>
+            {parts.map((part, j) =>
+              /^\*\*\*(.+)\*\*\*$/.test(part)
+                ? <strong key={j}><em>{part.replace(/^\*\*\*|\*\*\*$/g, '')}</em></strong>
+                : /^\*\*(.+)\*\*$/.test(part)
+                ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
+                : /^\*([^*]+)\*$/.test(part)
+                ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
+                : part
+            )}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+
+function SavePDFButton({ answer, question }: { answer: string; question: string }) {
+  const [saving, setSaving] = useState(false);
+  return (
+    <button
+      onClick={async () => {
+        setSaving(true);
+        try { await downloadAnswerAsPDF(answer, question); }
+        catch (e) { console.error(e); alert('PDF generation failed.'); }
+        finally { setSaving(false); }
+      }}
+      disabled={saving}
+      style={{
+        background: 'none', border: '1px solid var(--accent)',
+        color: 'var(--accent)', cursor: saving ? 'wait' : 'pointer',
+        padding: '0.4rem 1rem', borderRadius: 6, fontSize: '0.78rem',
+        display: 'flex', alignItems: 'center', gap: '0.4rem',
+        opacity: saving ? 0.6 : 1,
+      }}
+    >
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="18" x2="12" y2="12"/>
+        <polyline points="9 15 12 18 15 15"/>
+      </svg>
+      {saving ? 'Saving…' : 'Save PDF'}
+    </button>
+  );
+}
+
+function ModelAnswerModal({
+  question, marks, cacheKey, onClose,
+}: {
+  question: string;
+  marks: number;
+  cacheKey: string;
+  onClose: () => void;
+}) {
+  const [answer, setAnswer] = useState<string | null>(() => {
+    try { return localStorage.getItem(`model-answer:${cacheKey}`); } catch { return null; }
+  });
+  const [loading, setLoading] = useState(!answer);
+  const [error, setError] = useState<string | null>(null);
+
+  const generate = useCallback(async (forceRegen = false) => {
+    if (!forceRegen && answer) return;
+    if (forceRegen) { try { localStorage.removeItem(`model-answer:${cacheKey}`); } catch {} }
+    setLoading(true);
+    setError(null);
+
+    const currentUser = auth.currentUser;
+    const token = currentUser ? await currentUser.getIdToken() : null;
+
+    try {
+      const res = await fetch('/api/model-answer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, marks, token }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setError(data.error || 'Failed to generate. Please try again.');
+      } else {
+        setAnswer(data.answer);
+        try { localStorage.setItem(`model-answer:${cacheKey}`, data.answer); } catch {}
+      }
+    } catch {
+      setError('Network error. Please try again.');
+    }
+    setLoading(false);
+  }, [question, marks, cacheKey, answer]);
+
+  useState(() => { if (!answer) generate(); });
+
+  return (
+    <div
+      style={{
+        position: 'fixed', inset: 0, zIndex: 1002,
+        background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(6px)',
+        display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+        padding: '2rem 1rem', overflowY: 'auto',
+      }}
+      onClick={onClose}
+    >
+      <div
+        style={{
+          background: 'var(--bg)', border: '1px solid var(--border)',
+          borderRadius: 12, width: '100%', maxWidth: 720,
+          padding: '2rem', position: 'relative',
+          boxShadow: '0 40px 80px rgba(0,0,0,0.6)', marginBottom: '2rem',
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', gap: '1rem' }}>
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: '0.6rem',
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+              color: 'var(--accent)', marginBottom: '0.4rem',
+            }}>Model Answer · {marks}M</div>
+            <p style={{ color: 'var(--text2)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0 }}>
+              {question.length > 120 ? question.slice(0, 120) + '…' : question}
+            </p>
+          </div>
+          <button onClick={onClose} style={{
+            background: 'none', border: '1px solid var(--border)',
+            color: 'var(--text3)', cursor: 'pointer',
+            padding: '4px 10px', borderRadius: 6, fontSize: '0.8rem', flexShrink: 0,
+          }}>✕</button>
+        </div>
+
+        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.25rem' }}>
+          {loading && (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', padding: '3rem 0' }}>
+              <div style={{ display: 'flex', gap: 6 }}>
+                {[0,1,2].map(i => (
+                  <span key={i} style={{
+                    width: 8, height: 8, borderRadius: '50%', background: 'var(--accent)',
+                    animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
+                  }} />
+                ))}
+              </div>
+              <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
+                Generating model answer… (~1 min)
+              </span>
+              <style>{`
+                .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
+                .shimmer-btn:hover::before{opacity:1;animation:glass-shine 0.55s ease forwards;}
+                @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+              `}</style>
+            </div>
+          )}
+          {error && (
+            <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+              <div style={{ color: 'var(--danger-text)', fontSize: '0.88rem', marginBottom: '1rem' }}>{error}</div>
+              <button onClick={() => generate(true)} style={{
+                background: 'var(--accent)', color: 'var(--on-fill)', border: 'none',
+                padding: '0.5rem 1.25rem', borderRadius: 6, cursor: 'pointer',
+                fontFamily: 'var(--font-mono)', fontSize: '0.8rem',
+              }}>Try Again</button>
+            </div>
+          )}
+          {answer && !loading && (
+            <>
+              <AnswerBody text={answer} />
+              <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+                <SavePDFButton answer={answer} question={question} />
+                <button onClick={() => { setAnswer(null); generate(true); }} style={{
+                  background: 'none', border: '1px solid var(--border)',
+                  color: 'var(--text3)', cursor: 'pointer',
+                  padding: '0.4rem 1rem', borderRadius: 6, fontSize: '0.78rem',
+                }}>Regenerate</button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function PYQsPage() {
+  const router = useRouter();
+  const [activeTab, setActiveTab]       = useState<string>('all');
+  const [filterYear, setFilterYear]     = useState<number | 'all'>('all');
+  const [filterMarks, setFilterMarks]   = useState<number | 'all'>('all');
+  const [filterTopic, setFilterTopic]   = useState<string>('all');
+  const [filterDone, setFilterDone]     = useState<'all' | 'done' | 'todo'>('all');
+  const [search, setSearch]             = useState('');
+  const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
+  const [showTopperCopies, setShowTopperCopies] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('topper') === '1') setShowTopperCopies(true);
+    }
+  }, []);
+  const [topperCopies, setTopperCopies] = useState<{ id: string; question: string; drive_file_id: string; note: string | null; pyq_ids: number[] }[]>([]);
+  const [topperLoading, setTopperLoading] = useState(false);
+  const [topperSearch, setTopperSearch] = useState('');
+  const [topperAccess, setTopperAccess] = useState<{ access: boolean; clicks: number; isPremium?: boolean; hasTopperAccess?: boolean } | null>(null);
+  const [showTopperPaywall, setShowTopperPaywall] = useState(false);
+
+  // Fetch topper access status on mount
+  useEffect(() => {
+    const checkAccess = async () => {
+      const currentUser = auth.currentUser;
+      if (!currentUser) { setTopperAccess({ access: false, clicks: 0 }); return; }
+      const token = await currentUser.getIdToken();
+      const res = await fetch('/api/topper-access', { headers: { 'x-user-token': token } });
+      const data = await res.json();
+      setTopperAccess(data);
+    };
+    checkAccess();
+  }, []);
+
+  useEffect(() => {
+    if (!showTopperCopies || topperCopies.length > 0) return;
+    setTopperLoading(true);
+    fetch('/api/topper-copies/all')
+      .then(r => r.json())
+      .then(d => setTopperCopies(d.data || []))
+      .catch(() => {})
+      .finally(() => setTopperLoading(false));
+  }, [showTopperCopies]);
+
+  const { attempted, ready: attemptedReady, isAttempted, count: attemptedCount, toggle: toggleAttempted } = useAttemptedPyqs();
+  const { GateModals, usage, showChatLimitModal } = useSubscriptionGate(() => {});
+  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
+
+  const handleModelAnswer = (e: React.MouseEvent, q: PYQ) => {
+    e.stopPropagation();
+    if (!usage.subscribed) { showChatLimitModal(); return; }
+    setModelAnswerQ(q);
+  };
+
+  const filtered = pyqs.filter((q: PYQ) => {
+    if (activeTab !== 'all' && q.section !== activeTab) return false;
+    if (filterTopic !== 'all' && q.topic !== filterTopic) return false;
+    if (filterDone !== 'all') {
+      const done = attempted[q.id] !== undefined;
+      if (filterDone === 'done' ? !done : done) return false;
+    }
+    if (filterYear !== 'all' && q.year !== filterYear) return false;
+    if (filterMarks !== 'all' && q.marks !== filterMarks) return false;
+    if (search) {
+      const s = search.toLowerCase();
+      // Sub-topic too: it is the finest label a reader can name, e.g. "Kalhana"
+      // or "Feudalism Debate", and searching for one should find the cluster.
+      if (!q.question.toLowerCase().includes(s)
+          && !q.topic.toLowerCase().includes(s)
+          && !q.subtopic.toLowerCase().includes(s)) return false;
+    }
+    return true;
+  });
+
+  /**
+   * Topics for the dropdown, grouped by section.
+   *
+   * A flat alphabetical list was unreadable under "All": every section
+   * numbers its topics from 01, so five different "01." entries from five
+   * different sections sat next to each other with nothing saying which was
+   * which. Grouping restores the book's order — sections in paper order,
+   * topics numbered within them.
+   */
+  const topicGroups = useMemo(() => {
+    const sections = activeTab === 'all' ? SECTION_ORDER : [activeTab];
+    return sections.map(section => ({
+      section,
+      label: (TABS.find(t => t.value === section)?.label ?? section),
+      topics: [...new Set(pyqs.filter((q: PYQ) => q.section === section).map((q: PYQ) => q.topic))]
+        .sort((a, b) => a.localeCompare(b))
+        .map(topic => ({
+          topic,
+          count: pyqs.filter((q: PYQ) => q.section === section && q.topic === topic).length,
+        })),
+    })).filter(g => g.topics.length > 0);
+  }, [activeTab]);
+
+  /**
+   * Progress for whatever the reader is looking at.
+   *
+   * Scoped to the section tab rather than always the whole 1,584: someone
+   * working through Modern India wants to see 40/422, not 40/1584, which would
+   * make steady work look like no progress at all.
+   *
+   * Year, marks and the attempted filter itself are deliberately NOT applied —
+   * the denominator has to stay still, or selecting "Not attempted" would
+   * redefine the total and pin the bar to 0%.
+   */
+  const progress = useMemo(() => {
+    const pool = activeTab === 'all'
+      ? pyqs
+      : pyqs.filter((q: PYQ) => q.section === activeTab);
+    const scoped = filterTopic === 'all' ? pool : pool.filter((q: PYQ) => q.topic === filterTopic);
+    const done = scoped.filter((q: PYQ) => attempted[q.id] !== undefined).length;
+    return {
+      done,
+      total: scoped.length,
+      pct: scoped.length ? Math.round((done / scoped.length) * 100) : 0,
+      label: filterTopic !== 'all' ? filterTopic
+           : activeTab === 'all' ? 'All questions'
+           : (TABS.find(t => t.value === activeTab)?.label ?? activeTab),
+    };
+  }, [activeTab, filterTopic, attempted]);
+
+  const topicCount = useMemo(
+    () => topicGroups.reduce((n, g) => n + g.topics.length, 0),
+    [topicGroups]
+  );
+
+  // A topic chosen under one section is meaningless under another.
+  useEffect(() => { setFilterTopic('all'); }, [activeTab]);
+
+  /**
+   * Grouped for display: section -> topic -> sub-topic.
+   *
+   * Question ids follow the original ordering, and topics are not contiguous
+   * in it — 61 topics reappear after another topic — so grouping has to be
+   * explicit rather than relying on adjacency the way the old topic divider did.
+   */
+  const grouped = useMemo(() => {
+    const byTopic = new Map<string, PYQ[]>();
+    for (const q of filtered) {
+      const key = `${q.section}||${q.topic}`;
+      if (!byTopic.has(key)) byTopic.set(key, []);
+      byTopic.get(key)!.push(q);
+    }
+    return [...byTopic.entries()]
+      .sort(([a], [b]) => {
+        const [secA, topA] = a.split('||'); const [secB, topB] = b.split('||');
+        const d = SECTION_ORDER.indexOf(secA) - SECTION_ORDER.indexOf(secB);
+        return d !== 0 ? d : topA.localeCompare(topB);   // "01." … "28." sorts naturally
+      })
+      .map(([key, qs]) => {
+        const [section, topic] = key.split('||');
+        const bySub = new Map<string, PYQ[]>();
+        for (const q of qs) {
+          if (!bySub.has(q.subtopic)) bySub.set(q.subtopic, []);
+          bySub.get(q.subtopic)!.push(q);
+        }
+        return { section, topic, count: qs.length,
+                 done: qs.filter(q => attempted[q.id] !== undefined).length,
+                 syllabus: qs[0].syllabus,
+                 subs: [...bySub.entries()] };
+      });
+  }, [filtered, attempted]);
+
+  const isP1 = (section: string) => section.startsWith('Paper I');
+  const markOptions = [10, 15, 20, 25, 30, 60];
+  const clearAll = () => { setActiveTab('all'); setFilterTopic('all'); setFilterDone('all'); setFilterYear('all'); setFilterMarks('all'); setSearch(''); };
+  const hasFilters = activeTab !== 'all' || filterTopic !== 'all' || filterDone !== 'all' || filterYear !== 'all' || filterMarks !== 'all' || search;
+
+  const selectStyle: React.CSSProperties = {
+    background: 'var(--bg3)', border: '1px solid var(--border)',
+    borderRadius: 6, padding: '0.5rem 0.75rem',
+    color: 'var(--text)', fontSize: '0.875rem', cursor: 'pointer',
+  };
+
+  return (
+    <>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
+      <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
+      <style>{`
+        .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
+        .shimmer-btn:hover::before{opacity:1;animation:glass-shine 0.55s ease forwards;}
+        @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+        .pyq-card{cursor:pointer;transition:background 0.15s;}
+        .pyq-card:hover{background:var(--bg3)!important;}
+      `}</style>
+
+      {/* Header */}
+      <div style={{ marginBottom: '1.75rem' }}>
+        <div style={{ color: 'var(--text3)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
+          History Optional
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.5rem' }}>
+              Previous Year Questions
+            </h1>
+            <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>
+              UPSC Mains 1979–2026 · {pyqs.length} questions · Click any question to view & submit answers
+            </p>
+          </div>
+          {/* Both are page-level actions, so they sit together. Topper Copies
+              used to live down in the tab row, where it read as an eighth tab
+              and then wrapped onto a line of its own. */}
+          <div style={{ display: 'flex', gap: '0.6rem', flexShrink: 0, marginTop: '0.25rem', flexWrap: 'wrap' }}>
+            <button onClick={() => setShowTopperCopies(p => !p)} style={{
+              background: 'transparent',
+              color: showTopperCopies ? 'var(--accent)' : 'var(--text2)',
+              border: `1px solid ${showTopperCopies ? 'var(--accent)' : 'var(--border)'}`,
+              padding: '0.55rem 1.1rem', borderRadius: 6,
+              fontSize: '0.88rem', fontWeight: 500, cursor: 'pointer',
+              whiteSpace: 'nowrap', transition: 'all 0.15s',
+            }}>{showTopperCopies ? '← Back to PYQs' : 'Topper Copies'}</button>
+            <Link href="/test" style={{
+              background: 'var(--accent)', color: 'var(--accent-on)',
+              padding: '0.55rem 1.25rem', borderRadius: 6,
+              fontSize: '0.88rem', fontWeight: 600, textDecoration: 'none',
+              display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+              whiteSpace: 'nowrap',
+              position: 'relative', overflow: 'hidden',
+            }} className="shimmer-btn">Start Test →</Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Sections. Hidden in Topper Copies mode, which is a different corpus —
+          the tabs filtered nothing there and only invited a dead click. */}
+      {!showTopperCopies && (
+      <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
+        {TABS.map(tab => {
+          const count = tab.value === 'all' ? pyqs.length : pyqs.filter((q: PYQ) => q.section === tab.value).length;
+          const active = activeTab === tab.value;
+          return (
+            <button key={tab.value} onClick={() => setActiveTab(tab.value)} style={{
+              padding: '0.45rem 1rem', borderRadius: 6,
+              border: active ? '1px solid var(--accent)' : '1px solid var(--border)',
+              background: active ? 'var(--accent-dim)' : 'var(--bg2)',
+              color: active ? 'var(--accent)' : 'var(--text2)',
+              fontFamily: 'var(--font-ui)', fontSize: '0.85rem',
+              fontWeight: active ? 600 : 400, cursor: 'pointer', transition: 'all 0.15s',
+              display: 'flex', alignItems: 'center', gap: '0.4rem',
+            }}>
+              {tab.label}
+              <span style={{
+                fontSize: '0.68rem',
+                background: active ? 'var(--accent-dim)' : 'var(--bg3)',
+                color: active ? 'var(--accent)' : 'var(--text3)',
+                padding: '1px 6px', borderRadius: 10, fontFamily: 'var(--font-mono)',
+              }}>{count}</span>
+            </button>
+          );
+        })}
+      </div>
+      )}
+
+      {/* Filters */}
+      <div style={{
+        background: 'var(--bg2)', border: '1px solid var(--border)',
+        borderRadius: 8, padding: '1rem 1.25rem', marginBottom: '1.25rem',
+        display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center',
+      }}>
+        <input
+          value={showTopperCopies ? topperSearch : search}
+          onChange={e => showTopperCopies ? setTopperSearch(e.target.value) : setSearch(e.target.value)}
+          placeholder={showTopperCopies ? 'Search topper copies…' : 'Search questions or topics...'}
+          style={{
+            flex: 1, minWidth: 200, background: 'var(--bg3)', border: '1px solid var(--border)',
+            borderRadius: 6, padding: '0.5rem 0.85rem',
+            color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.875rem', outline: 'none',
+          }}
+        />
+        {!showTopperCopies && <>
+        <select value={filterTopic} onChange={e => setFilterTopic(e.target.value)}
+          style={{ ...selectStyle, maxWidth: 260 }}
+          title={activeTab === 'all' ? 'All topics across every section' : `Topics in ${activeTab}`}>
+          <option value="all">All Topics ({topicCount})</option>
+          {topicGroups.map(g => (
+            <optgroup key={g.section} label={g.label}>
+              {g.topics.map(({ topic, count }) => (
+                <option key={g.section + topic} value={topic}>{topic} ({count})</option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+        <select value={filterYear} onChange={e => setFilterYear(e.target.value === 'all' ? 'all' : +e.target.value)} style={selectStyle}>
+          <option value="all">All Years</option>
+          {pyqYears.map(y => <option key={y} value={y}>{y}</option>)}
+        </select>
+        <select value={filterMarks} onChange={e => setFilterMarks(e.target.value === 'all' ? 'all' : +e.target.value)} style={selectStyle}>
+          <option value="all">All Marks</option>
+          {markOptions.map(m => <option key={m} value={m}>{m} marks</option>)}
+        </select>
+        {/* Marking without filtering would be half a feature: the point of
+            ticking questions off is being able to see what is left. */}
+        <select value={filterDone} onChange={e => setFilterDone(e.target.value as 'all' | 'done' | 'todo')} style={selectStyle}>
+          <option value="all">All Questions</option>
+          <option value="todo">Not attempted</option>
+          <option value="done">Attempted</option>
+        </select>
+        </>}
+        {hasFilters && (
+          <button onClick={clearAll} style={{
+            background: 'none', border: '1px solid var(--border)',
+            color: 'var(--text3)', cursor: 'pointer',
+            padding: '0.5rem 0.75rem', borderRadius: 6, fontSize: '0.8rem',
+          }}>Clear ✕</button>
+        )}
+      </div>
+
+      {showTopperCopies ? (
+        <div style={{ marginTop: '0.5rem' }}>
+          {topperLoading && (
+            <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)', fontSize: '0.85rem' }}>
+              Loading copies&#8230;
+            </div>
+          )}
+          {!topperLoading && topperCopies.length === 0 && (
+            <div style={{
+              background: 'var(--bg2)', border: '1px solid var(--border)',
+              borderRadius: 10, padding: '3rem', textAlign: 'center',
+            }}>
+              <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>📚</div>
+              <div style={{ color: 'var(--text)', fontWeight: 600, fontSize: '0.95rem' }}>No topper copies yet</div>
+              <div style={{ color: 'var(--text3)', fontSize: '0.82rem', marginTop: '0.4rem' }}>Check back soon.</div>
+            </div>
+          )}
+          {!topperLoading && topperCopies.length > 0 && (() => {
+            const filtered = topperCopies.filter(c => {
+              if (!topperSearch.trim()) return true;
+              const s = topperSearch.toLowerCase();
+              return c.question.toLowerCase().includes(s) || (c.note?.toLowerCase().includes(s) ?? false);
+            });
+            return (
+              <div>
+                <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem' }}>
+                  {filtered.length} of {topperCopies.length} copies
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {filtered.map(c => (
+                    <div key={c.id} style={{
+                      background: 'var(--bg2)', border: '1px solid var(--border)',
+                      borderRadius: 8, padding: '1.1rem 1.4rem',
+                      borderLeft: '3px solid color-mix(in srgb, var(--accent) 50%, transparent)',
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ color: 'var(--text)', fontSize: '0.93rem', lineHeight: 1.6, marginBottom: c.note ? '0.5rem' : '0.75rem' }}>
+                            {c.question}
+                          </p>
+                          {c.note && (
+                            <p style={{ color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', marginBottom: '0.75rem' }}>
+                              &#128221; {c.note}
+                            </p>
+                          )}
+                          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                            {c.pyq_ids.map((pid: number) => (
+                              <a
+                                key={pid}
+                                href={`/pyqs/${pid}`}
+                                style={{
+                                  fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                                  color: 'color-mix(in srgb, var(--accent) 80%, transparent)',
+                                  background: 'var(--accent-dim)',
+                                  border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
+                                  padding: '2px 8px', borderRadius: 3,
+                                  textDecoration: 'none', cursor: 'pointer',
+                                }}
+                              >
+                                &#128279; View PYQ &#8599;
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                        <button
+                          onClick={async () => {
+                            const currentUser = auth.currentUser;
+                            if (!currentUser) { requireLogin('Login to view topper copies'); return; }
+                            // If already confirmed access, navigate directly
+                            if (topperAccess?.access) {
+                              window.location.href = `/pyqs/topper/${c.id}`;
+                              return;
+                            }
+                            const token = await currentUser.getIdToken();
+                            const res = await fetch('/api/topper-click', {
+                              method: 'POST',
+                              headers: { 'x-user-token': token },
+                            });
+                            const data = await res.json();
+                            if (data.allowed) {
+                              setTopperAccess(prev => ({ ...prev!, clicks: data.clicks }));
+                              window.location.href = `/pyqs/topper/${c.id}`;
+                            } else {
+                              setShowTopperPaywall(true);
+                            }
+                          }}
+                          style={{
+                            flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
+                            background: 'var(--accent-dim)',
+                            border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
+                            color: 'var(--accent)', borderRadius: 6,
+                            padding: '0.45rem 1rem', fontSize: '0.8rem',
+                            cursor: 'pointer', fontFamily: 'var(--font-mono)',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          View Copy &#8594;
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      ) : (
+      <div>
+      {/* Count */}
+      {/* Progress. attemptedReady gates the whole block: localStorage cannot
+          be read during prerender, so drawing a bar before the first read
+          would show 0% to someone who has marked hundreds. Nothing is shown
+          until the reader has marked something — an empty bar on a first
+          visit is just noise. */}
+      {attemptedReady && attemptedCount > 0 && (
+        <div style={{
+          background: 'var(--bg2)', border: '1px solid var(--border)',
+          borderRadius: 8, padding: '0.85rem 1.1rem', marginBottom: '1rem',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '1rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+            <span style={{ color: 'var(--text2)', fontSize: '0.82rem' }}>
+              {progress.label}
+            </span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text3)' }}>
+              <span style={{ color: 'var(--success-text)' }}>{progress.done}</span>
+              {' / '}{progress.total} attempted
+              <span style={{ marginLeft: '0.5rem', color: progress.pct >= 100 ? 'var(--success-text)' : 'var(--text3)' }}>
+                {progress.pct}%
+              </span>
+            </span>
+          </div>
+          <div
+            role="progressbar"
+            aria-valuenow={progress.done}
+            aria-valuemin={0}
+            aria-valuemax={progress.total}
+            aria-label={`${progress.label} attempted`}
+            style={{ height: 6, borderRadius: 3, background: 'var(--bg3)', overflow: 'hidden' }}
+          >
+            <div style={{
+              width: `${progress.pct}%`, height: '100%',
+              background: progress.pct >= 100
+                ? 'var(--success-text)'
+                : 'linear-gradient(90deg, var(--success-text) 0%, var(--success-text) 100%)',
+              borderRadius: 3, transition: 'width 0.3s ease',
+            }} />
+          </div>
+          {/* Whole-bank figure when the bar is showing a slice, so the overall
+              number never disappears just because a filter is on. */}
+          {(activeTab !== 'all' || filterTopic !== 'all') && (
+            <div style={{ marginTop: '0.5rem', fontSize: '0.72rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>
+              {attemptedCount} of {pyqs.length} across the whole bank
+              {' '}({Math.round((attemptedCount / pyqs.length) * 100)}%)
+            </div>
+          )}
+        </div>
+      )}
+
+      <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem' }}>
+        Showing {filtered.length} of {pyqs.length} questions
+      </div>
+
+      {/* Questions, grouped topic -> sub-topic */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+        {grouped.map(group => {
+          // The colour says how heavily UPSC has mined this topic. It was
+          // already here, applied to a "topic" that was really the section, so
+          // every question in a paper carried the same badge.
+          const c = group.count;
+          const badgeColor  = c >= 8 ? 'var(--danger-text)' : c >= 5 ? 'var(--warning-text)' : c >= 3 ? 'var(--warning-text)' : 'var(--text3)';
+          const badgeBg     = c >= 8 ? 'color-mix(in srgb, var(--danger-text) 8%, transparent)' : c >= 5 ? 'color-mix(in srgb, var(--warning-text) 8%, transparent)' : c >= 3 ? 'color-mix(in srgb, var(--warning-text) 8%, transparent)' : 'rgba(0,0,0,0.04)';
+          const badgeBorder = c >= 8 ? 'color-mix(in srgb, var(--danger-text) 30%, transparent)'  : c >= 5 ? 'color-mix(in srgb, var(--warning-text) 30%, transparent)'  : c >= 3 ? 'color-mix(in srgb, var(--warning-text) 30%, transparent)'  : 'var(--border)';
+          return (
+            <div key={group.section + group.topic}>
+              {/* Topic header */}
+              <div style={{ marginBottom: '0.85rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+                  <h2 style={{
+                    fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 600,
+                    color: 'var(--text)', margin: 0,
+                  }}>{group.topic}</h2>
+                  <span style={{
+                    fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: badgeColor,
+                    background: badgeBg, border: `1px solid ${badgeBorder}`,
+                    padding: '2px 10px', borderRadius: 20, whiteSpace: 'nowrap',
+                  }}>asked {group.count}&times;</span>
+                  {attemptedReady && group.done > 0 && (
+                    <span style={{
+                      fontSize: '0.63rem', fontFamily: 'var(--font-mono)',
+                      color: group.done === group.count ? 'var(--success-text)' : 'var(--text3)',
+                      background: group.done === group.count ? 'var(--success-wash)' : 'transparent',
+                      border: `1px solid ${group.done === group.count ? 'color-mix(in srgb, var(--success-text) 35%, transparent)' : 'var(--border)'}`,
+                      padding: '2px 8px', borderRadius: 20, whiteSpace: 'nowrap',
+                    }}>
+                      {group.done === group.count ? '\u2713 all done' : `${group.done}/${group.count} done`}
+                    </span>
+                  )}
+                  {activeTab === 'all' && (
+                    <span style={{ fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)' }}>
+                      {group.section.replace('Paper I - ', 'P1 · ').replace('Paper II - ', 'P2 · ')}
+                    </span>
+                  )}
+                </div>
+                {/* The official syllabus item this topic answers to. The book
+                    groups pedagogically; UPSC's own wording is what the exam
+                    is set from, so both are shown. */}
+                {group.syllabus.length > 0 && (
+                  <div style={{ marginTop: '0.35rem', display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                    {group.syllabus.map(sy => (
+                      <span key={sy} style={{
+                        fontSize: '0.65rem', fontFamily: 'var(--font-mono)',
+                        color: 'var(--text3)', background: 'var(--bg3)',
+                        border: '1px solid var(--border)', padding: '2px 8px', borderRadius: 3,
+                      }}>Syllabus &middot; {sy}</span>
+                    ))}
+                  </div>
+                )}
+                <div style={{ height: 1, background: 'var(--border)', marginTop: '0.7rem' }} />
+              </div>
+
+              {group.subs.map(([sub, qs]) => (
+                <div key={sub || '_none'} style={{ marginBottom: '1rem' }}>
+                  {sub && (
+                    <div style={{
+                      fontSize: '0.72rem', fontFamily: 'var(--font-mono)',
+                      color: 'var(--text2)', letterSpacing: '0.03em',
+                      margin: '0 0 0.5rem', paddingLeft: '0.1rem',
+                    }}>{sub} <span style={{ color: 'var(--text3)' }}>&middot; {qs.length}</span></div>
+                  )}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                    {qs.map((q: PYQ) => (
+                      <div key={q.id}>
+                <div
+                  className="pyq-card"
+                  onClick={() => { if (requireLogin('Sign in free to view PYQs and AI-generated model answers.')) router.push(`/pyqs/${q.id}`); }}
+                  style={{
+                    background: 'var(--bg2)', border: '1px solid var(--border)',
+                    borderRadius: 8, padding: '1.25rem 1.5rem',
+                    borderLeft: `3px solid ${isP1(q.section) ? 'var(--accent)' : 'var(--blue, var(--accent))'}`,
+                  }}
+                >
+                  {/* Badges + year */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem', gap: '1rem', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      <span style={{
+                        background: isP1(q.section) ? 'var(--accent-dim)' : 'color-mix(in srgb, var(--accent) 12%, transparent)',
+                        color: isP1(q.section) ? 'var(--accent)' : 'var(--blue, var(--accent))',
+                        border: `1px solid ${isP1(q.section) ? 'color-mix(in srgb, var(--accent) 30%, transparent)' : 'color-mix(in srgb, var(--accent) 30%, transparent)'}`,
+                        fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                        padding: '2px 8px', borderRadius: 3, letterSpacing: '0.04em',
+                      }}>
+                        {q.section.replace('Paper I - ', 'P1 · ').replace('Paper II - ', 'P2 · ')}
+                      </span>
+                      <span style={{
+                        background: 'var(--bg3)', color: 'var(--text3)',
+                        fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                        padding: '2px 8px', borderRadius: 3, border: '1px solid var(--border)',
+                      }}>{q.marks}M</span>
+                      {q.source !== 'UPSC' && (
+                        <span style={{
+                          background: 'var(--success-wash)', color: 'var(--success-text)',
+                          fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                          padding: '2px 8px', borderRadius: 3, border: '1px solid color-mix(in srgb, var(--success-text) 25%, transparent)',
+                        }}>{q.source}</span>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexShrink: 0 }}>
+                      <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>{q.year}</span>
+                      {/* stopPropagation: the whole card is a link to the
+                          question, and ticking one off is not asking to open it. */}
+                      <button
+                        onClick={e => { e.stopPropagation(); toggleAttempted(q.id); }}
+                        title={isAttempted(q.id) ? 'Marked attempted — click to undo' : 'Mark as attempted'}
+                        aria-pressed={isAttempted(q.id)}
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                          background: isAttempted(q.id) ? 'var(--success-wash)' : 'transparent',
+                          border: `1px solid ${isAttempted(q.id) ? 'color-mix(in srgb, var(--success-text) 45%, transparent)' : 'var(--border)'}`,
+                          color: isAttempted(q.id) ? 'var(--success-text)' : 'var(--text3)',
+                          borderRadius: 4, padding: '2px 8px', cursor: 'pointer',
+                          fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                          transition: 'all 0.12s', whiteSpace: 'nowrap',
+                        }}
+                      >
+                        <span style={{ fontSize: '0.8rem', lineHeight: 1 }}>
+                          {isAttempted(q.id) ? '\u2713' : '\u25a2'}
+                        </span>
+                        {isAttempted(q.id) ? 'Done' : 'Mark'}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Question */}
+                  <p style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.65, marginBottom: '0.75rem' }}>
+                    {q.question}
+                  </p>
+
+                  {/* Actions */}
+                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <span style={{ color: 'var(--text3)', fontSize: '0.73rem' }}>{q.topic}</span>
+                    <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                      <button
+                        onClick={e => handleModelAnswer(e, q)}
+                        className="shimmer-btn"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                          color: usage.subscribed ? 'var(--accent)' : 'var(--text3)',
+                          fontSize: '0.78rem', cursor: 'pointer',
+                          background: usage.subscribed ? 'var(--accent-dim)' : 'var(--bg3)',
+                          border: usage.subscribed ? '1px solid color-mix(in srgb, var(--accent) 25%, transparent)' : '1px solid var(--border)',
+                          padding: '3px 10px', borderRadius: 4,
+                          position: 'relative', overflow: 'hidden',
+                        }}
+                      >
+                        {!usage.subscribed && (
+                          <span style={{
+                            fontSize: '0.58rem', fontFamily: 'var(--font-mono)',
+                            letterSpacing: '0.08em', color: 'var(--warning-text)',
+                            background: 'var(--warning-wash)',
+                            border: '1px solid color-mix(in srgb, var(--warning-text) 30%, transparent)',
+                            padding: '1px 5px', borderRadius: 3,
+                          }}>PRO</span>
+                        )}
+                        Model Answer
+                      </button>
+                      <Link
+                        href={`/chat?q=${encodeURIComponent(q.question)}`}
+                        onClick={e => e.stopPropagation()}
+                        style={{
+                          color: 'var(--accent)', fontSize: '0.78rem', textDecoration: 'none',
+                          background: 'var(--accent-dim)',
+                          border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
+                          padding: '3px 10px', borderRadius: 4,
+                          position: 'relative', overflow: 'hidden',
+                        }}
+                        className="shimmer-btn"
+                      >Ask AI →</Link>
+                    </div>
+                  </div>
+                </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        })}
+
+        {filtered.length === 0 && (
+          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)' }}>
+            No questions match your filters.
+          </div>
+        )}
+      </div>
+
+      {/* Section pages. These are real links, so they are what a crawler
+          follows to reach /pyqs/<section>; the tabs above are client-side
+          filters and lead nowhere. They used to sit above the <h1>, which put
+          six links before the page had said what it was. */}
+      <div style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+        <div style={{ color: 'var(--text3)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+          Browse by section
+        </div>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          {[
+            { label: 'Ancient India', href: '/pyqs/ancient-india' },
+            { label: 'Early Medieval', href: '/pyqs/early-medieval' },
+            { label: 'Medieval India', href: '/pyqs/medieval-india' },
+            { label: 'Modern India', href: '/pyqs/modern-india' },
+            { label: 'Since 1947', href: '/pyqs/india-since-independence' },
+            { label: 'World History', href: '/pyqs/world-history' },
+          ].map(({ label, href }) => (
+            <a key={href} href={href} style={{
+              padding: '0.35rem 0.9rem', borderRadius: 6,
+              border: '1px solid var(--border)', background: 'var(--bg2)',
+              color: 'var(--text2)', fontSize: '0.8rem', textDecoration: 'none',
+              fontFamily: 'var(--font-ui)',
+            }}>{label} PYQs →</a>
+          ))}
+        </div>
+      </div>
+      </div>
+      )}
+      <GateModals />
+      {showTopperPaywall && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 9999,
+          background: 'rgba(0,0,0,0.75)',
+          backdropFilter: 'blur(6px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
+        }} onClick={() => setShowTopperPaywall(false)}>
+          <div style={{
+            background: 'var(--bg)',
+            border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
+            borderRadius: 16, padding: '2.5rem 2rem', maxWidth: 420, width: '100%',
+            textAlign: 'center',
+            boxShadow: '0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent), 0 24px 60px rgba(0,0,0,0.5)',
+          }} onClick={e => e.stopPropagation()}>
+            {/* Icon */}
+            <div style={{
+              width: 56, height: 56, borderRadius: '50%',
+              background: 'var(--accent-dim)',
+              border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '1.5rem', margin: '0 auto 1.25rem',
+            }}>📋</div>
+            <h3 style={{
+              color: 'var(--text)', fontFamily: 'var(--font-display)',
+              fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem',
+            }}>
+              5 free previews used
+            </h3>
+            <p style={{ color: 'var(--text3)', fontSize: '0.875rem', marginBottom: '0.75rem', lineHeight: 1.65 }}>
+              Get unlimited access to all topper copies
+            </p>
+            <div style={{
+              background: 'var(--accent-dim)',
+              border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
+              borderRadius: 10, padding: '0.85rem 1.25rem',
+              marginBottom: '1.5rem',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+            }}>
+              <span style={{ color: 'var(--accent)', fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>₹799</span>
+              <span style={{ color: 'var(--text3)', fontSize: '0.8rem' }}>/year · one-time unlock</span>
+            </div>
+            <button
+              onClick={async () => {
+                const currentUser = auth.currentUser;
+                if (!currentUser) return;
+                if (!(window as any).Razorpay) {
+                  alert('Payment SDK not loaded. Please refresh and try again.');
+                  return;
+                }
+                const token = await currentUser.getIdToken();
+                const res = await fetch('/api/razorpay/topper-order', {
+                  method: 'POST',
+                  headers: { 'x-user-token': token },
+                });
+                const order = await res.json();
+                if (!res.ok) {
+                  alert('Order creation failed: ' + (order.error || 'Unknown error'));
+                  return;
+                }
+                const rzp = new (window as any).Razorpay({
+                  key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                  amount: order.amount,
+                  currency: order.currency,
+                  order_id: order.orderId,
+                  name: 'History Optional',
+                  description: 'Topper Copies Access — 1 Year',
+                  handler: async (response: any) => {
+                    const verifyRes = await fetch('/api/razorpay/topper-verify', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json', 'x-user-token': token },
+                      body: JSON.stringify(response),
+                    });
+                    const v = await verifyRes.json();
+                    if (v.ok) {
+                      setTopperAccess({ access: true, clicks: 0, hasTopperAccess: true });
+                      setShowTopperPaywall(false);
+                    }
+                  },
+                });
+                rzp.open();
+              }}
+              style={{
+                background: 'linear-gradient(135deg, var(--accent), var(--accent))',
+                border: 'none',
+                color: 'var(--accent-on)', borderRadius: 10, padding: '0.85rem 2rem',
+                fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
+                fontFamily: 'var(--font-mono)', width: '100%',
+                boxShadow: '0 4px 20px color-mix(in srgb, var(--accent) 35%, transparent)',
+                transition: 'opacity 0.15s',
+              }}
+              onMouseOver={e => (e.currentTarget.style.opacity = '0.88')}
+              onMouseOut={e => (e.currentTarget.style.opacity = '1')}
+            >
+              🔓 Unlock for ₹799/year
+            </button>
+            <button
+              onClick={() => setShowTopperPaywall(false)}
+              style={{
+                marginTop: '0.6rem', background: 'none', border: 'none',
+                color: 'var(--text3)', fontSize: '0.78rem', cursor: 'pointer',
+                letterSpacing: '0.02em',
+              }}
+            >
+              Maybe later
+            </button>
+          </div>
+        </div>
+      )}
+
+      <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
+
+      {modelAnswerQ && (
+        <ModelAnswerModal
+          question={modelAnswerQ.question}
+          marks={modelAnswerQ.marks}
+          cacheKey={String(modelAnswerQ.id)}
+          onClose={() => setModelAnswerQ(null)}
+        />
+      )}
+    </div>
+    </>
+  );
+}

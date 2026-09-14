@@ -36,7 +36,9 @@ const RULES = [
     id: 'raw-color',
     why: 'colours come from tokens, so they can follow the theme',
     find: (t) => [
-      ...t.matchAll(/#[0-9a-fA-F]{3,8}\b/g),
+      // (?<!&) keeps a numeric HTML entity out of the count: the digits of
+      // &#128221; are all valid hex, so #128221 otherwise reads as a colour.
+      ...t.matchAll(/(?<!&)#[0-9a-fA-F]{3,8}\b/g),
       ...t.matchAll(/\brgba?\(\s*\d+\s*,/g),
     ],
   },
@@ -146,6 +148,34 @@ if (arg === '--update') {
   console.log('baseline written');
   for (const rule of RULES) console.log(`  ${rule.id.padEnd(24)} ${total(rule.id)}`);
   process.exit(0);
+}
+
+// ── ZERO TOLERANCE ────────────────────────────────────────────────────────────
+// A numeric HTML entity of three or six digits is also a syntactically valid
+// hex colour (&#128221; contains #128221), so a colour-rewriting pass can eat
+// one and leave &var(--success-text); behind. That destroyed six emoji before
+// this guard existed. It is always a bug, so it never ratchets.
+{
+  const broken = [];
+  const walk = (d) => {
+    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+      const full = path.join(d, e.name);
+      if (e.isDirectory()) { if (!/^(node_modules|\.next|\.git)$/.test(e.name)) walk(full); continue; }
+      if (!/\.(tsx?|css)$/.test(e.name)) continue;
+      const src = fs.readFileSync(full, 'utf8');
+      src.split('\n').forEach((line, i) => {
+        if (/&(?:var\(--[a-z0-9-]+\)|color-mix\([^)]*\));/.test(line))
+          broken.push(`${full}:${i + 1}  ${line.trim().slice(0, 90)}`);
+      });
+    }
+  };
+  for (const root of ['app', 'components', 'lib']) if (fs.existsSync(root)) walk(root);
+  if (broken.length) {
+    console.error('\nDestroyed HTML entities (a token sits where &#NNN; or &#NNNNNN; was):\n');
+    for (const b of broken) console.error('  ' + b);
+    console.error('\nRestore the entity from git history. This rule never ratchets.\n');
+    process.exit(1);
+  }
 }
 
 if (!fs.existsSync(BASELINE)) {

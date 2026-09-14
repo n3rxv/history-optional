@@ -81,23 +81,23 @@ export default function WeeklyCheckup() {
         maxWidth:480, width:'100%', position:'relative',
       }}>
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24 }}>
-          <div style={{ width:6, height:6, borderRadius:'50%', background:'#3b82f6', boxShadow:'0 0 8px #3b82f6' }} />
-          <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.55rem', letterSpacing:'0.2em', color:'#3b82f6', textTransform:'uppercase' }}>Weekly Web-Checkup</span>
+          <div style={{ width:6, height:6, borderRadius:'50%', background:'var(--accent)', boxShadow:'0 0 8px var(--accent)' }} />
+          <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.55rem', letterSpacing:'0.2em', color:'var(--accent)', textTransform:'uppercase' }}>Weekly Web-Checkup</span>
         </div>
 
         {step === 'ask' && (<>
-          <p style={{ fontSize:'1rem', color:'#e2e8f0', fontFamily:'var(--font-body)', lineHeight:1.7, marginBottom:28 }}>
+          <p style={{ fontSize:'1rem', color:'var(--text)', fontFamily:'var(--font-body)', lineHeight:1.7, marginBottom:28 }}>
             Is everything working fine for you this week?
           </p>
           <div style={{ display:'flex', gap:12 }}>
             <button onClick={allGood} style={{
-              flex:1, padding:'12px', borderRadius:8, border:'1px solid rgba(74,222,128,0.3)',
-              background:'rgba(74,222,128,0.08)', color:'#4ade80', cursor:'pointer',
+              flex:1, padding:'12px', borderRadius:8, border:'1px solid color-mix(in srgb, var(--success-text) 30%, transparent)',
+              background:'var(--success-wash)', color:'var(--success-text)', cursor:'pointer',
               fontFamily:'var(--font-mono)', fontSize:'0.65rem', letterSpacing:'0.1em',
             }}>Yes, all good ✓</button>
             <button onClick={() => setStep('issues')} style={{
-              flex:1, padding:'12px', borderRadius:8, border:'1px solid rgba(248,113,113,0.3)',
-              background:'rgba(248,113,113,0.08)', color:'#f87171', cursor:'pointer',
+              flex:1, padding:'12px', borderRadius:8, border:'1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)',
+              background:'var(--danger-wash)', color:'var(--danger-text)', cursor:'pointer',
               fontFamily:'var(--font-mono)', fontSize:'0.65rem', letterSpacing:'0.1em',
             }}>Something's off</button>
           </div>
@@ -123,9 +123,9 @@ export default function WeeklyCheckup() {
               <button key={f} onClick={() => toggle(f)} style={{
                 padding:'10px 14px', borderRadius:6, cursor:'pointer', textAlign:'left',
                 fontFamily:'var(--font-body)', fontSize:'0.88rem',
-                border: selected.includes(f) ? '1px solid rgba(59,130,246,0.5)' : '1px solid #222',
-                background: selected.includes(f) ? 'rgba(59,130,246,0.08)' : 'transparent',
-                color: selected.includes(f) ? '#93c5fd' : '#888',
+                border: selected.includes(f) ? '1px solid color-mix(in srgb, var(--accent) 50%, transparent)' : '1px solid #222',
+                background: selected.includes(f) ? 'var(--accent-dim)' : 'transparent',
+                color: selected.includes(f) ? 'var(--accent)' : '#888',
               }}>{f}</button>
             ))}
           </div>
@@ -136,18 +136,18 @@ export default function WeeklyCheckup() {
             rows={3}
             style={{
               width:'100%', background:'var(--bg3)', border:'1px solid #333', borderRadius:6,
-              color:'#e2e8f0', padding:'12px', fontFamily:'var(--font-body)', fontSize:'0.88rem',
+              color:'var(--text)', padding:'12px', fontFamily:'var(--font-body)', fontSize:'0.88rem',
               lineHeight:1.6, resize:'vertical', outline:'none', marginBottom:16,
               boxSizing:'border-box',
             }}
           />
-          <div style={{ fontSize:'0.65rem', fontFamily:'var(--font-mono)', color: details.trim().split(/\s+/).filter(Boolean).length >= 10 ? '#4ade80' : '#555', marginTop:-10, marginBottom:12, textAlign:'right' }}>
+          <div style={{ fontSize:'0.65rem', fontFamily:'var(--font-mono)', color: details.trim().split(/\s+/).filter(Boolean).length >= 10 ? 'var(--success-text)' : '#555', marginTop:-10, marginBottom:12, textAlign:'right' }}>
             {details.trim().split(/\s+/).filter(Boolean).length}/10 words minimum
           </div>
           <button onClick={submitIssues} disabled={submitting || selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10} style={{
             width:'100%', padding:'12px', borderRadius:8, cursor: (selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10) ? 'not-allowed' : 'pointer',
-            border:'1px solid rgba(59,130,246,0.3)', background:'rgba(59,130,246,0.1)',
-            color: (selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10) ? '#444' : '#93c5fd',
+            border:'1px solid color-mix(in srgb, var(--accent) 30%, transparent)', background:'var(--accent-dim)',
+            color: (selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10) ? '#444' : 'var(--accent)',
             fontFamily:'var(--font-mono)', fontSize:'0.65rem', letterSpacing:'0.1em',
           }}>{submitting ? 'Sending...' : 'Submit feedback'}</button>
         </>)}
@@ -155,7 +155,7 @@ export default function WeeklyCheckup() {
         {step === 'done' && (
           <div style={{ textAlign:'center', padding:'20px 0' }}>
             <div style={{ fontSize:'2rem', marginBottom:12 }}>✓</div>
-            <p style={{ color:'#4ade80', fontFamily:'var(--font-mono)', fontSize:'0.7rem', letterSpacing:'0.15em' }}>
+            <p style={{ color:'var(--success-text)', fontFamily:'var(--font-mono)', fontSize:'0.7rem', letterSpacing:'0.15em' }}>
               THANKS FOR THE CHECKUP
             </p>
           </div>

@@ -14,16 +14,16 @@ interface Stroke {
 const PEN_COLORS = [
   { label: 'Black',  value: 'var(--bg3)' },
   { label: 'White',  value: '#f0f0f0' },
-  { label: 'Gold',   value: '#d4a843' },
-  { label: 'Cyan',   value: '#4ecdc4' },
-  { label: 'Pink',   value: '#ff6b9d' },
-  { label: 'Green',  value: '#51cf66' },
+  { label: 'Gold',   value: 'var(--warning-text)' },
+  { label: 'Cyan',   value: 'var(--info-text)' },
+  { label: 'Pink',   value: 'var(--accent)' },
+  { label: 'Green',  value: 'var(--success-text)' },
 ];
 const HL_COLORS = [
-  { label: 'Yellow', value: 'rgba(255,235,0,0.4)'    },
-  { label: 'Cyan',   value: 'rgba(0,220,220,0.35)'   },
-  { label: 'Pink',   value: 'rgba(255,100,160,0.35)' },
-  { label: 'Green',  value: 'rgba(80,220,100,0.35)'  },
+  { label: 'Yellow', value: 'color-mix(in srgb, var(--warning-text) 40%, transparent)'    },
+  { label: 'Cyan',   value: 'color-mix(in srgb, var(--info-text) 35%, transparent)'   },
+  { label: 'Pink',   value: 'color-mix(in srgb, var(--accent) 35%, transparent)' },
+  { label: 'Green',  value: 'color-mix(in srgb, var(--success-text) 35%, transparent)'  },
 ];
 
 interface Props {
@@ -41,7 +41,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
 
   const [tool,      setTool]      = useState<'pen' | 'highlighter' | 'eraser'>('pen');
   const [penColor,  setPenColor]  = useState('#f0f0f0');
-  const [hlColor,   setHlColor]   = useState('rgba(255,235,0,0.4)');
+  const [hlColor,   setHlColor]   = useState('color-mix(in srgb, var(--warning-text) 40%, transparent)');
   const [penWidth,  setPenWidth]  = useState(2);
   const [tick,      setTick]      = useState(0);
   const [eraserPos, setEraserPos] = useState<{ x: number; y: number } | null>(null);
@@ -184,8 +184,8 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
   const toolBtn = (t: typeof tool, icon: string, label: string) => (
     <button onClick={() => setTool(t)} title={label} style={{
       padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 15,
-      background: tool === t ? 'rgba(212,168,67,0.25)' : 'rgba(0,0,0,0.05)',
-      border: tool === t ? '1px solid rgba(212,168,67,0.7)' : '1px solid rgba(0,0,0,0.08)',
+      background: tool === t ? 'color-mix(in srgb, var(--warning-text) 25%, transparent)' : 'rgba(0,0,0,0.05)',
+      border: tool === t ? '1px solid color-mix(in srgb, var(--warning-text) 70%, transparent)' : '1px solid rgba(0,0,0,0.08)',
       color: 'var(--text)', transition: 'all 0.15s',
     }}>{icon}</button>
   );
@@ -274,7 +274,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
             <span style={{ fontSize: 10, color: 'var(--text3)' }}>Size</span>
             <input type="range" min={1} max={10} value={penWidth}
               onChange={e => setPenWidth(+e.target.value)}
-              style={{ width: 65, accentColor: '#d4a843' }} />
+              style={{ width: 65, accentColor: 'var(--warning-text)' }} />
             <span style={{ fontSize: 10, color: 'var(--text3)', minWidth: 10 }}>{penWidth}</span>
           </div>
           {sep}
@@ -284,11 +284,11 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
           }}>↩</button>
           <button onClick={clearAll} title="Clear all" style={{
             padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 13,
-            background: 'rgba(255,60,60,0.08)', border: '1px solid rgba(255,60,60,0.2)', color: '#ff8080',
+            background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)', color: 'var(--danger-text)',
           }}>🗑</button>
           <button onClick={onToggle} style={{
             padding: '5px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 12, fontWeight: 600,
-            background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.45)', color: '#d4a843',
+            background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 45%, transparent)', color: 'var(--warning-text)',
           }}>Done</button>
         </div>
       )}

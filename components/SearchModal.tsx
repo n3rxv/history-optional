@@ -24,7 +24,7 @@ function highlight(text: string, query: string) {
   return (
     <>
       {text.slice(0, idx)}
-      <mark style={{ background: 'rgba(212,168,67,0.35)', color: 'inherit', borderRadius: 2, padding: '0 1px' }}>
+      <mark style={{ background: 'color-mix(in srgb, var(--warning-text) 35%, transparent)', color: 'inherit', borderRadius: 2, padding: '0 1px' }}>
         {text.slice(idx, idx + query.length)}
       </mark>
       {text.slice(idx + query.length)}
@@ -322,7 +322,7 @@ export default function SearchModal() {
                         {(note as any).snippet || note.subtopics?.slice(0,4).join(', ')}
                       </div>
                     </div>
-                    <span style={{ fontSize: '0.65rem', background: note.paper === 1 ? 'rgba(59,130,246,0.15)' : 'rgba(139,92,246,0.15)', color: note.paper === 1 ? '#93c5fd' : '#c4b5fd', border: `1px solid ${note.paper === 1 ? 'rgba(59,130,246,0.3)' : 'rgba(139,92,246,0.3)'}`, padding: '2px 7px', borderRadius: 4, fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
+                    <span style={{ fontSize: '0.65rem', background: note.paper === 1 ? 'var(--accent-dim)' : 'color-mix(in srgb, var(--accent) 15%, transparent)', color: note.paper === 1 ? 'var(--accent)' : 'var(--accent)', border: `1px solid ${note.paper === 1 ? 'color-mix(in srgb, var(--accent) 30%, transparent)' : 'color-mix(in srgb, var(--accent) 30%, transparent)'}`, padding: '2px 7px', borderRadius: 4, fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
                       Paper {note.paper}
                     </span>
                   </button>
@@ -352,7 +352,7 @@ export default function SearchModal() {
                         {h.matchedHistorians.length > 0 ? h.matchedHistorians.join(', ') : h.period}
                       </div>
                     </div>
-                    <span style={{ fontSize: '0.65rem', color: '#a78bfa', background: 'rgba(139,92,246,0.12)', border: '1px solid rgba(139,92,246,0.25)', padding: '2px 7px', borderRadius: 4, fontFamily: 'var(--font-mono)', flexShrink: 0 }}>Debate</span>
+                    <span style={{ fontSize: '0.65rem', color: 'var(--accent)', background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)', padding: '2px 7px', borderRadius: 4, fontFamily: 'var(--font-mono)', flexShrink: 0 }}>Debate</span>
                   </button>
                 );
               })}

@@ -14,7 +14,7 @@ import {
   planPriceLabel, planValueLine, AUTOPAY_PLAN, type PlanId,
 } from '@/lib/plans';
 
-const GOLD = '#d4a843';
+const GOLD = 'var(--warning-text)';
 
 /**
  * Every price on this page is formatted from lib/plans.ts, which is the same
@@ -74,15 +74,15 @@ export default function PricingClient() {
           border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px 20px;
           background: var(--bg2); transition: border-color .18s, transform .18s; }
         .pr-card:hover { border-color: var(--border2); transform: translateY(-2px); }
-        .pr-card[data-best="1"] { border-color: rgba(212,168,67,0.45);
-          background: linear-gradient(165deg, rgba(212,168,67,0.07), var(--bg2) 62%); }
+        .pr-card[data-best="1"] { border-color: color-mix(in srgb, var(--warning-text) 45%, transparent);
+          background: linear-gradient(165deg, color-mix(in srgb, var(--warning-text) 7%, transparent), var(--bg2) 62%); }
         .pr-buy { margin-top: auto; width: 100%; padding: 11px; border-radius: 8px; cursor: pointer;
           font-weight: 700; font-size: 0.86rem; font-family: var(--font-ui, inherit);
           border: 1px solid var(--border2); background: var(--bg3); color: var(--text);
           transition: filter .15s, background .15s; }
         .pr-buy:hover { filter: brightness(1.18); }
         .pr-buy[data-best="1"] { border: none; color: #000;
-          background: linear-gradient(135deg, #c49a2c, #e8b84b 45%, #f5cc5e 55%, #b8881e); }
+          background: linear-gradient(135deg, var(--warning-text), var(--warning-text) 45%, var(--warning-text) 55%, var(--warning-text)); }
         .pr-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         .pr-tbl th { text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
           color: var(--text3); font-weight: 600; padding: 0 10px 10px 0; border-bottom: 1px solid var(--border); }
@@ -100,14 +100,14 @@ export default function PricingClient() {
            that actually sells. So below 560px each row becomes a block: name,
            description, then the two values as labelled chips. */
         .pr-auto { display: flex; flex-wrap: wrap; gap: 20px; align-items: center;
-          justify-content: space-between; border: 1px solid rgba(212,168,67,0.45); border-radius: 16px;
-          padding: 22px 24px; background: linear-gradient(150deg, rgba(212,168,67,0.09), var(--bg2) 65%); }
+          justify-content: space-between; border: 1px solid color-mix(in srgb, var(--warning-text) 45%, transparent); border-radius: 16px;
+          padding: 22px 24px; background: linear-gradient(150deg, color-mix(in srgb, var(--warning-text) 9%, transparent), var(--bg2) 65%); }
         .pr-auto-left { display: flex; flex-direction: column; gap: 6px; }
         .pr-auto-right { display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
           max-width: 340px; }
         .pr-auto-right .pr-buy { width: auto; align-self: flex-start; padding: 11px 26px; margin-top: 0; }
         .pr-auto-tag { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em;
-          text-transform: uppercase; color: #d4a843; }
+          text-transform: uppercase; color: var(--warning-text); }
         .pr-auto-price { display: flex; align-items: baseline; gap: 7px;
           font-family: var(--font-mono, ui-monospace, monospace); }
         .pr-auto-price > span:first-child { font-size: 2.3rem; font-weight: 700; line-height: 1; color: var(--text); }
@@ -162,12 +162,12 @@ export default function PricingClient() {
 
       {status?.isPremium && (
         <div style={{
-          border: '1px solid rgba(74,222,128,0.3)', background: 'rgba(74,222,128,0.06)',
+          border: '1px solid color-mix(in srgb, var(--success-text) 30%, transparent)', background: 'var(--success-wash)',
           borderRadius: 12, padding: '14px 18px', marginBottom: '2rem',
           display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', justifyContent: 'space-between',
         }}>
           <div style={{ fontSize: '0.9rem', color: 'var(--text)' }}>
-            <strong style={{ color: '#4ade80' }}>You are on Premium.</strong>{' '}
+            <strong style={{ color: 'var(--success-text)' }}>You are on Premium.</strong>{' '}
             {status.expires_at && (
               <span style={{ color: 'var(--text2)' }}>
                 {status.autoRenew ? 'Renews' : 'Access runs to'}{' '}
@@ -241,7 +241,7 @@ export default function PricingClient() {
             <div key={id} className="pr-card" data-best={best ? '1' : '0'}>
               {best && (
                 <span style={{
-                  position: 'absolute', top: -9, left: 20, background: `linear-gradient(90deg, ${GOLD}, #f0e68c)`,
+                  position: 'absolute', top: -9, left: 20, background: `linear-gradient(90deg, ${GOLD}, var(--warning-text))`,
                   color: '#000', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em',
                   textTransform: 'uppercase', padding: '3px 9px', borderRadius: 20,
                 }}>{langHi ? 'सर्वोत्तम मूल्य' : 'Best value'}</span>
@@ -348,9 +348,9 @@ export default function PricingClient() {
                 <span style={{
                   fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
                   padding: '2px 7px', borderRadius: 20,
-                  color: o.inPremium ? '#4ade80' : GOLD,
-                  background: o.inPremium ? 'rgba(74,222,128,0.1)' : 'rgba(212,168,67,0.08)',
-                  border: `1px solid ${o.inPremium ? 'rgba(74,222,128,0.28)' : 'rgba(212,168,67,0.28)'}`,
+                  color: o.inPremium ? 'var(--success-text)' : GOLD,
+                  background: o.inPremium ? 'var(--success-wash)' : 'color-mix(in srgb, var(--warning-text) 8%, transparent)',
+                  border: `1px solid ${o.inPremium ? 'color-mix(in srgb, var(--success-text) 28%, transparent)' : 'color-mix(in srgb, var(--warning-text) 28%, transparent)'}`,
                 }}>{o.inPremium ? 'in premium' : 'pay per use'}</span>
               </div>
               <div style={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1 }}>
