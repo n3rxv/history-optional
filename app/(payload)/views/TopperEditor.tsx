@@ -4,6 +4,7 @@ import { Badge } from '../uui/base/badges';
 import { Button } from '../uui/base/button';
 import { Input } from '../uui/base/input';
 import { TextArea } from '../uui/base/textarea';
+import { Checkbox } from '../uui/base/checkbox';
 import { Facets, type Facet } from './Facets';
 import { truncate } from './format';
 
@@ -151,15 +152,16 @@ function EditForm({ row, pyqs, onSaved, onDeleted, onClose }: {
   const [state, setState] = useState<'idle' | 'saving' | 'saved'>('idle');
   const [problem, setProblem] = useState<string | null>(null);
 
-  // Searching 1,584 questions per keystroke is cheap; rendering them is not, so
-  // the list is capped and the current selection is always shown first.
+  // Searching 1,584 questions per keystroke is cheap; rendering them all is not,
+  // so results are capped. The selected ones render separately and always, so
+  // unmapping never depends on finding the row through search again.
   const s = search.trim().toLowerCase();
-  const matches = useMemo(() => {
-    const chosen = pyqs.filter(p => ids.includes(String(p.id)));
-    if (!s) return chosen.slice(0, 40);
-    const hits = pyqs.filter(p => p.question.toLowerCase().includes(s) || String(p.year).includes(s));
-    return [...chosen, ...hits.filter(h => !ids.includes(String(h.id)))].slice(0, 40);
-  }, [pyqs, ids, s]);
+  const results = useMemo(() => {
+    if (!s) return [] as PyqLite[];
+    return pyqs
+      .filter(p => p.question.toLowerCase().includes(s) || String(p.year).includes(s))
+      .slice(0, 60);
+  }, [pyqs, s]);
 
   const toggle = (id: number) =>
     setIds(cur => (cur.includes(String(id)) ? cur.filter(x => x !== String(id)) : [...cur, String(id)]));
@@ -193,10 +195,12 @@ function EditForm({ row, pyqs, onSaved, onDeleted, onClose }: {
     if (await send('DELETE')) onDeleted();
   };
 
+  const chosen = pyqs.filter(p => ids.includes(String(p.id)));
+
   return (
-    <div className="rounded-xl border border-secondary bg-primary p-4">
+    <div className="rounded-xl border border-secondary bg-primary p-5 shadow-sm">
       {problem ? (
-        <div className="mb-3 rounded-lg border border-error_subtle bg-error-primary px-3 py-2 text-sm text-error-primary">
+        <div className="mb-4 rounded-lg border border-error_subtle bg-error-primary px-3 py-2 text-sm text-error-primary">
           {problem}
         </div>
       ) : null}
@@ -215,47 +219,109 @@ function EditForm({ row, pyqs, onSaved, onDeleted, onClose }: {
         </div>
       </div>
 
-      <div className="mt-4">
-        <Input
-          label={`Mapped PYQs · ${ids.length}`}
-          placeholder="Search 1,584 questions by text or year"
-          value={search}
-          onChange={setSearch}
-        />
-        <div className="mt-2 max-h-56 overflow-y-auto rounded-lg border border-secondary p-2">
-          <div className="flex flex-wrap gap-2">
-            {matches.map(p => {
-              const on = ids.includes(String(p.id));
-              return (
-                <button
-                  key={p.id}
-                  type="button"
-                  title={p.question}
-                  onClick={() => toggle(p.id)}
-                  className={[
-                    'rounded-full border px-3 py-1 text-xs transition',
-                    on
-                      ? 'border-success-600 bg-success-primary text-success-primary'
-                      : 'border-secondary bg-primary text-secondary hover:bg-secondary',
-                  ].join(' ')}
-                >
-                  {p.year} · {p.question.slice(0, 56)}{p.question.length > 56 ? '…' : ''}
-                </button>
-              );
-            })}
-            {matches.length === 0 ? <span className="text-sm text-tertiary">No match.</span> : null}
-          </div>
+      <div className="mt-5 rounded-lg border border-secondary">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-secondary bg-secondary px-3 py-2">
+          <span className="text-sm font-medium text-primary">
+            Mapped PYQs
+            <span className="ml-2 rounded-full bg-brand-primary px-2 py-0.5 text-xs font-semibold text-brand-secondary">
+              {ids.length}
+            </span>
+          </span>
+          {ids.length ? (
+            <button
+              type="button"
+              onClick={() => setIds([])}
+              className="text-xs font-medium text-tertiary underline-offset-2 hover:text-primary hover:underline"
+            >
+              Clear all
+            </button>
+          ) : null}
         </div>
+
+        {/* Selected first and always visible, so unmapping never means hunting
+            for the row again through the search box. */}
+        {chosen.length ? (
+          <ul className="divide-y divide-secondary border-b border-secondary">
+            {chosen.map(p => (
+              <PyqRow key={p.id} pyq={p} selected onToggle={() => toggle(p.id)} />
+            ))}
+          </ul>
+        ) : null}
+
+        <div className="p-3">
+          <Input
+            aria-label="Search PYQs"
+            placeholder="Search 1,584 questions by text or year"
+            value={search}
+            onChange={setSearch}
+          />
+        </div>
+
+        {search.trim() ? (
+          <ul className="max-h-72 divide-y divide-secondary overflow-y-auto border-t border-secondary">
+            {results.length ? results.map(p => (
+              <PyqRow
+                key={p.id}
+                pyq={p}
+                selected={ids.includes(String(p.id))}
+                onToggle={() => toggle(p.id)}
+              />
+            )) : (
+              <li className="px-3 py-6 text-center text-sm text-tertiary">
+                No question matches &ldquo;{search.trim()}&rdquo;.
+              </li>
+            )}
+          </ul>
+        ) : (
+          <p className="border-t border-secondary px-3 py-4 text-center text-sm text-tertiary">
+            Type above to find a question to map.
+          </p>
+        )}
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-2">
+      <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-secondary pt-4">
         <Button onClick={save} isDisabled={state === 'saving'}>
-          {state === 'saving' ? 'Saving…' : 'Save'}
+          {state === 'saving' ? 'Saving\u2026' : 'Save changes'}
         </Button>
         <Button color="secondary" onClick={onClose}>Cancel</Button>
-        <Button color="primary-destructive" onClick={destroy}>Delete</Button>
-        {state === 'saved' ? <span className="text-sm text-success-primary">Saved</span> : null}
+        <div className="flex-1" />
+        <Button color="secondary-destructive" onClick={destroy}>Delete copy</Button>
+        {state === 'saved' ? (
+          <span className="w-full text-sm font-medium text-success-primary sm:w-auto">Saved</span>
+        ) : null}
       </div>
     </div>
+  );
+}
+
+/** One searchable question. The checkbox is the control; the whole row is the
+    hit area, because a 16px target in a long list is a bad way to unmap. */
+function PyqRow({ pyq, selected, onToggle }: {
+  pyq: PyqLite;
+  selected: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <li>
+      <label
+        className={[
+          'flex cursor-pointer items-start gap-3 px-3 py-2.5 transition',
+          selected ? 'bg-brand-primary' : 'hover:bg-secondary',
+        ].join(' ')}
+      >
+        <span className="pt-0.5">
+          <Checkbox isSelected={selected} onChange={onToggle} aria-label={pyq.question} />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="flex flex-wrap items-center gap-2">
+            <span className="rounded bg-secondary px-1.5 py-0.5 text-xs font-medium tabular-nums text-tertiary">
+              {pyq.year}
+            </span>
+            <span className="text-xs text-quaternary">{pyq.marks} marks</span>
+          </span>
+          <span className="mt-1 block text-sm text-secondary">{pyq.question}</span>
+        </span>
+      </label>
+    </li>
   );
 }

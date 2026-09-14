@@ -21,6 +21,13 @@
    is touched.
    ───────────────────────────────────────────────────────────────────────────── */
 
+/* Importing utilities.css directly skips Tailwind's automatic source
+   detection, which only runs for the full `@import "tailwindcss"`. Without
+   these, Tailwind never scans our components and generates none of the classes
+   they use: the buttons rendered completely unstyled in production. */
+@source "../views";
+@source "../uui";
+
 @import "tailwindcss/theme.css";
 @import "../uui/theme.css";
 @import "../uui/typography.css";
