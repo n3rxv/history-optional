@@ -88,6 +88,13 @@
   --success-text-d: #33a066;  --success-wash-d: #0e2519;
   --warning-text-p: #905e12;  --warning-wash-p: #f8f0e6;
   --warning-text-d: #c37f18;  --warning-wash-d: #2a1f10;
+  /* Gold, for the paid-plan call to action and the best-value chip. It is a
+     fill carrying black text, never text itself, so the two grounds pull in
+     opposite directions: on paper it has to stay dark enough to read as a
+     button against white (3.17:1), and on the dark ground it can be as bright
+     as gold actually looks. Black on both ends clears 4.5:1. */
+  --gold-p:         #b8860b;  --gold-deep-p:    #9a6f08;
+  --gold-d:         #e8c15c;  --gold-deep-d:    #c9a23c;
   --danger-text-p:  #b5382a;  --danger-wash-p:  #f7e7e5;
   --danger-text-d:  #df8075;  --danger-wash-d:  #4a211c;
   --info-text-p:    #2d66a7;  --info-wash-p:    #e2ecf7;
@@ -270,6 +277,7 @@
   --accent-glow:   color-mix(in srgb, var(--lapis-500) 18%, transparent);
   --success-text: var(--success-text-d); --success-wash: var(--success-wash-d);
   --warning-text: var(--warning-text-d); --warning-wash: var(--warning-wash-d);
+  --gold: var(--gold-d); --gold-deep: var(--gold-deep-d);
   --danger-text:  var(--danger-text-d);  --danger-wash:  var(--danger-wash-d);
   --info-text:    var(--info-text-d);    --info-wash:    var(--info-wash-d);
   --accent-wash:  var(--accent-wash-d);
@@ -384,6 +392,7 @@
 
   --success-text: var(--success-text-p); --success-wash: var(--success-wash-p);
   --warning-text: var(--warning-text-p); --warning-wash: var(--warning-wash-p);
+  --gold: var(--gold-p); --gold-deep: var(--gold-deep-p);
   --danger-text:  var(--danger-text-p);  --danger-wash:  var(--danger-wash-p);
   --info-text:    var(--info-text-p);    --info-wash:    var(--info-wash-p);
   --accent-wash:  var(--accent-wash-p);

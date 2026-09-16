@@ -24,6 +24,11 @@ export default function PricingClient() {
   const { langHi } = useLang();
   const [fingerprint, setFingerprint] = useState<string | null>(null);
   const [checkoutPlan, setCheckoutPlan] = useState<PlanId | null>(null);
+  // Topper copies are the one thing on this page that can be bought outright,
+  // so the card needs to know whether this reader already has them. Premium
+  // includes them, hence the endpoint reports both routes to access.
+  const [topperOwned, setTopperOwned] = useState<boolean | null>(null);
+  const [topperBusy, setTopperBusy] = useState(false);
   const [autopayOpen, setAutopayOpen] = useState(false);
   const [status, setStatus] = useState<{ isPremium: boolean; plan?: string; expires_at?: string; autoRenew?: boolean; canResubscribe?: boolean } | null>(null);
   // Computed after mount: rendering Date.now() on the server and again on the
@@ -57,6 +62,73 @@ export default function PricingClient() {
 
   /** A live weekly mandate. Not the same as premium: someone who paid once
    *  outright has no mandate, and extending that is perfectly sensible. */
+  useEffect(() => {
+    if (!document.getElementById('rzp-script')) {
+      const s = document.createElement('script');
+      s.id = 'rzp-script';
+      s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      document.head.appendChild(s);
+    }
+  }, []);
+
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged(async user => {
+      if (!user) { setTopperOwned(false); return; }
+      try {
+        const token = await user.getIdToken();
+        const res = await fetch('/api/topper-access', { headers: { 'x-user-token': token } });
+        const d = await res.json();
+        setTopperOwned(Boolean(d.isPremium || d.hasTopperAccess));
+      } catch { setTopperOwned(false); }
+    });
+    return () => unsub();
+  }, []);
+
+  /**
+   * The same order-then-verify pair the PYQ paywall uses, so there is one
+   * purchase path for topper copies rather than a second one that could drift.
+   */
+  const buyTopper = async () => {
+    const user = auth.currentUser;
+    if (!user) { await signInWithGoogle(); return; }
+    if (!(window as { Razorpay?: unknown }).Razorpay) {
+      alert('Payment is still loading. Give it a moment and try again.');
+      return;
+    }
+    setTopperBusy(true);
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch('/api/razorpay/topper-order', {
+        method: 'POST', headers: { 'x-user-token': token },
+      });
+      const order = await res.json();
+      if (!res.ok) { alert(order.error || 'Could not start the payment.'); setTopperBusy(false); return; }
+
+      const RZP = (window as unknown as { Razorpay: new (o: unknown) => { open: () => void } }).Razorpay;
+      new RZP({
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.orderId,
+        name: 'History Optional',
+        description: 'Topper Copies Access \u2014 1 Year',
+        handler: async (response: unknown) => {
+          const v = await fetch('/api/razorpay/topper-verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'x-user-token': token },
+            body: JSON.stringify(response),
+          }).then(r => r.json()).catch(() => null);
+          if (v?.ok) setTopperOwned(true);
+          setTopperBusy(false);
+        },
+        modal: { ondismiss: () => setTopperBusy(false) },
+      }).open();
+    } catch {
+      alert('Could not start the payment.');
+      setTopperBusy(false);
+    }
+  };
+
   const onAutopay = !!status?.autoRenew;
 
   /** Cancelled the weekly and still inside the days they paid for. Premium,
@@ -81,8 +153,10 @@ export default function PricingClient() {
           border: 1px solid var(--border2); background: var(--bg3); color: var(--text);
           transition: filter .15s, background .15s; }
         .pr-buy:hover { filter: brightness(1.18); }
+        /* Both paid call-to-actions: the weekly one always carries
+           data-best, the annual card carries it when it is the best value. */
         .pr-buy[data-best="1"] { border: none; color: #000;
-          background: linear-gradient(135deg, var(--warning-text), var(--warning-text) 45%, var(--warning-text) 55%, var(--warning-text)); }
+          background: linear-gradient(135deg, var(--gold), var(--gold-deep)); }
         .pr-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         .pr-tbl th { text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
           color: var(--text3); font-weight: 600; padding: 0 10px 10px 0; border-bottom: 1px solid var(--border); }
@@ -241,7 +315,8 @@ export default function PricingClient() {
             <div key={id} className="pr-card" data-best={best ? '1' : '0'}>
               {best && (
                 <span style={{
-                  position: 'absolute', top: -9, left: 20, background: `linear-gradient(90deg, ${GOLD}, var(--warning-text))`,
+                  position: 'absolute', top: -9, left: 20,
+                  background: 'linear-gradient(90deg, var(--gold), var(--gold-deep))',
                   color: '#000', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em',
                   textTransform: 'uppercase', padding: '3px 9px', borderRadius: 20,
                 }}>{langHi ? 'सर्वोत्तम मूल्य' : 'Best value'}</span>
@@ -357,6 +432,32 @@ export default function PricingClient() {
                 {`₹${(o.pricePaise / 100).toLocaleString('en-IN')}`}
               </div>
               <p style={{ color: 'var(--text3)', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{o.blurb}</p>
+
+              {/* Topper copies can be bought outright, so this card buys them.
+                  Map evaluation cannot: the ₹49 is charged against a specific
+                  uploaded map and /api/razorpay/map-verify reads that file, so
+                  a purchase made here would take the money and have nothing to
+                  evaluate. That card sends the reader to where the map goes. */}
+              {o.name === 'Topper copies' ? (
+                <button
+                  className="pr-buy"
+                  data-best="1"
+                  onClick={buyTopper}
+                  disabled={topperOwned === true || topperBusy}
+                  style={topperOwned === true || topperBusy
+                    ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
+                >
+                  {topperOwned === true
+                    ? 'You already have these'
+                    : topperBusy
+                      ? 'Opening payment\u2026'
+                      : `Buy for \u20B9${(o.pricePaise / 100).toLocaleString('en-IN')} \u2192`}
+                </button>
+              ) : (
+                <Link href="/mapping" className="pr-buy" style={{ textAlign: 'center', textDecoration: 'none' }}>
+                  Evaluate a map &rarr;
+                </Link>
+              )}
             </div>
           ))}
         </div>
@@ -370,8 +471,11 @@ export default function PricingClient() {
         <div style={{ display: 'grid', gap: '1.4rem', maxWidth: '68ch' }}>
           <div>
             <p className="pr-q">Does it renew automatically?</p>
-            <p className="pr-a">No. Every plan is a one-time payment. When it runs out, access simply stops
-              until you choose to buy again. Nothing is charged to your card in the background.</p>
+            <p className="pr-a">The weekly plan does. It is a mandate: &#8377;99 is taken every 7 days until you
+              stop it, and you can stop it in one click from your profile menu, keeping the days you
+              have already paid for. The daily, 6-month and annual plans do not renew. Each is a
+              one-time payment, and when it runs out access simply stops until you choose to buy
+              again.</p>
           </div>
           <div>
             <p className="pr-q">Can I see the marking before I pay?</p>
