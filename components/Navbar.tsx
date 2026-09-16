@@ -331,7 +331,7 @@ function ExtendModal({
 
           {/* Pay button */}
           <button onClick={handlePay} disabled={loading}
-            style={{ width: '100%', background: loading ? 'color-mix(in srgb, var(--accent) 30%, transparent)' : 'var(--accent)', border: 'none', borderRadius: 10, color: 'var(--text)', cursor: loading ? 'not-allowed' : 'pointer', padding: '0.75rem', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.03em', boxShadow: loading ? 'none' : '0 4px 20px color-mix(in srgb, var(--accent) 40%, transparent)', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            style={{ width: '100%', background: loading ? 'color-mix(in srgb, var(--accent) 30%, transparent)' : 'var(--accent)', border: 'none', borderRadius: 10, color: 'var(--accent-on)', cursor: loading ? 'not-allowed' : 'pointer', padding: '0.75rem', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.03em', boxShadow: loading ? 'none' : '0 4px 20px color-mix(in srgb, var(--accent) 40%, transparent)', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
             {loading ? 'Processing…' : `Pay ${cur.price} → Proceed`}
           </button>
         </div>
@@ -810,7 +810,7 @@ export default function Navbar() {
                             : null;
                         if (!exam) return null;
                         return (
-                          <div style={{ margin: '0 1rem 0.9rem', padding: '0.7rem 0.85rem', border: '1px solid var(--border-subtle)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                          <div style={{ margin: '0.9rem 1rem', padding: '0.7rem 0.85rem', border: '1px solid var(--border-subtle)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                             <div>
                               <div style={{ fontSize: '0.55rem', color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>{exam.label}</div>
                               <div style={{ fontSize: '0.68rem', color: 'var(--text)' }}>{exam.when}</div>
