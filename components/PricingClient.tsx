@@ -155,7 +155,9 @@ export default function PricingClient() {
         .pr-buy:hover { filter: brightness(1.18); }
         /* Both paid call-to-actions: the weekly one always carries
            data-best, the annual card carries it when it is the best value. */
-        .pr-buy[data-best="1"] { border: none; color: #000;
+        /* Pure gold has almost no edge against a white page, so the border
+           carries the boundary instead of the fill being darkened. */
+        .pr-buy[data-best="1"] { border: 1px solid var(--gold-edge); color: #000;
           background: linear-gradient(135deg, var(--gold), var(--gold-deep)); }
         .pr-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         .pr-tbl th { text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
@@ -317,6 +319,7 @@ export default function PricingClient() {
                 <span style={{
                   position: 'absolute', top: -9, left: 20,
                   background: 'linear-gradient(90deg, var(--gold), var(--gold-deep))',
+                  border: '1px solid var(--gold-edge)',
                   color: '#000', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em',
                   textTransform: 'uppercase', padding: '3px 9px', borderRadius: 20,
                 }}>{langHi ? 'सर्वोत्तम मूल्य' : 'Best value'}</span>
