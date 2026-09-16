@@ -454,7 +454,7 @@ export default function PricingClient() {
                       : `Buy for \u20B9${(o.pricePaise / 100).toLocaleString('en-IN')} \u2192`}
                 </button>
               ) : (
-                <Link href="/mapping" className="pr-buy" style={{ textAlign: 'center', textDecoration: 'none' }}>
+                <Link href="/evaluate?mode=map" className="pr-buy" style={{ textAlign: 'center', textDecoration: 'none' }}>
                   Evaluate a map &rarr;
                 </Link>
               )}

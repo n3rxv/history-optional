@@ -174,6 +174,16 @@ export default function EvaluatePage() {
     setSidebarOpen(window.innerWidth > 768);
   }, []);
 
+  // Lets another page open this one on a particular mode, which is how the
+  // pricing card reaches map evaluation: the map flow lives here behind this
+  // selector, not on /mapping, which is the revision tool.
+  // Read from the URL rather than useSearchParams so the page does not need a
+  // Suspense boundary for a parameter that is usually absent.
+  useEffect(() => {
+    const mode = new URLSearchParams(window.location.search).get('mode');
+    if (mode === 'map' || mode === 'batch' || mode === 'single') setEvalMode(mode);
+  }, []);
+
   useEffect(() => {
     setHistory(loadHistory());
   }, [stage]); // reload whenever stage changes (new eval saved)
