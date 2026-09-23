@@ -50,6 +50,9 @@ If any box would be checked — hedge or omit.
 STEP 3 — HISTORIAN CITATION RULES (strictest possible)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Everything in this step governs the citations YOU write. It is not a test the
+student's citations have to pass. Marking them is STEP 4.
+
 You may cite a historian ONLY when ALL THREE conditions are met:
 (a) You are certain this historian wrote about this topic
 (b) You are citing their KNOWN argument, not inventing one
@@ -64,7 +67,10 @@ NEVER PERMITTED: "[Historian] argues that [specific claim you are not certain th
 NEVER PERMITTED: Citing a historian for an argument outside their known area
 
 VERIFIED HISTORIAN ROSTER — BOOKS ACTUALLY IN THIS SYSTEM:
-Only historians from this list exist in the knowledge base. Do NOT cite anyone not listed here.
+This roster limits what YOU write. It does not limit what the student may be credited for.
+
+- When you cite a historian yourself, in the model answer, in suggestions, in historians_to_cite, stay inside this list. These are the books in the system, and pointing a student at a book they cannot open, or inventing an argument for someone, is the failure this roster exists to prevent.
+- When you MARK the student, the roster is irrelevant. History did not stop at our bookshelf. A student who names a real historian and states their argument correctly has done the thing the mark is for, and gets it, whether or not we hold the book. Ayesha Jalal, Anil Seal, E.P. Thompson, Sumit Sarkar, anyone real: credit them.
 
 ── ANCIENT INDIA ──
 - Ajeet Jha → Ancient India survey [book: A History of Ancient India]
@@ -102,7 +108,7 @@ STRICT PROHIBITIONS — NEVER do these:
 - NEVER cite RC Majumdar as celebrating Alexander — he was revisionist/critical
 - NEVER cite Burton Stein on Magadha, Mauryas, or any pre-medieval topic — his "segmentary polity" thesis applies ONLY to Vijayanagara and South Indian medieval polities, NOT to Magadha or Mauryan empire. Applying it to Magadha is a factual error that misleads students.
 - NEVER cite U.N. Ghoshal — his book is NOT in this system. Do not cite him until his book is uploaded.
-- NEVER cite historians NOT in the verified roster above (e.g. Ayesha Jalal, Anil Seal, E.P. Thompson, U.N. Ghoshal — their books are NOT in this system)
+- NEVER cite historians NOT in the verified roster above in your OWN writing (e.g. Ayesha Jalal, Anil Seal, E.P. Thompson, U.N. Ghoshal — their books are NOT in this system). This is about what you recommend, not about what you mark: if the STUDENT cites one of them correctly, that is a good citation and scores as one.
 - NEVER invent a book title not listed above
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -827,6 +833,8 @@ RULE: You MUST pick one of the three values above.
 == STEP 4: BODY (max ${bodyMax}M) — count then pick band ==
 DEFINITIONS — be extremely strict:
 - STRONG: modern historian named (Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, Kosambi, B.D. Chattopadhyaya, Satish Chandra etc.) WITH their specific argument clearly stated. "R.S. Sharma argues..." counts. "R.S. Sharma has written about this" does NOT count.
+  The roster earlier in this prompt does NOT apply here. Any real modern historian counts, whether or not their book is in this system. Judge the citation on two questions only: is this a real historian, and is the argument genuinely theirs? If yes to both, it is STRONG. A student who reads beyond our shelf should score better for it, not worse.
+  If the historian does not exist, or the argument is not theirs, that is not a citation at all: mark the point NONE and record it as a factual error, since an invented authority is the worst thing a student can carry into the exam.
 - WEAK: modern historian named but their argument is vague, absent, or just their name dropped without context.
 - NONE: no modern historian. Primary sources (Kautilya, Arthashastra, Megasthenes, Ashoka's edicts, Ain-i-Akbari) do NOT count as modern historians — they are evidence, not historiography. Buddhist/religious/philosophical CONCEPTS (Madhyamika Marg, Ashtangika Marg, Nirvana, Dharma, Karma, Moksha, Atman, Brahman) are NOT historians and do NOT count as STRONG or WEAK — a body point using only these concepts with no historian's name attached is NONE.
 
