@@ -466,8 +466,11 @@ const handleOcr = useCallback(async () => {
         .ev-analysis { font-size:0.92rem; color:var(--text); line-height:1.85; margin-bottom:18px; font-family:var(--font-body); }
 
         /* ── SUBLABELS (Strengths / Weaknesses / Suggestions) ── */
-        .ev-sl { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--text3); margin:18px 0 10px; display:flex; align-items:center; gap:8px; }
-        .ev-sl::after { content:''; flex:1; height:1px; background:rgba(0,0,0,0.05); }
+        /* These are full sentences of advice, not a section label. They were
+           set in the label style: mono, 0.55rem, 0.22em tracking and
+           uppercased, which is unreadable at sentence length. Body face,
+           sentence case, normal tracking. */
+        .ev-sl { font-family:var(--font-body); font-size:0.92rem; line-height:1.75; letter-spacing:normal; text-transform:none; color:var(--text2); margin:14px 0 10px; display:flex; align-items:flex-start; gap:8px; }
         .ev-sl.g { color:color-mix(in srgb, var(--success-text) 60%, transparent); }
         .ev-sl.r { color:color-mix(in srgb, var(--danger-text) 50%, transparent); }
 

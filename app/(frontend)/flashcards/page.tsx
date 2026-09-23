@@ -34,6 +34,23 @@ function loadSR(): Record<string, SRData> {
 function saveSR(data: Record<string, SRData>) {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
 }
+
+/**
+ * The Last Session tile used to hold a count and nothing else, so clicking it
+ * had nothing to show. The ids are kept so the tile can list the cards it
+ * counted, and they outlive a reload the way the review state does.
+ */
+const SESSION_KEY = 'ho_flashcards_last_session_v1';
+function loadSession(): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const v = JSON.parse(localStorage.getItem(SESSION_KEY) ?? '[]');
+    return Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [];
+  } catch { return []; }
+}
+function saveSession(ids: string[]) {
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify(ids)); } catch {}
+}
 function sm2(card: SRData | undefined, grade: 1 | 2 | 3 | 4): SRData {
   const ef = card?.easeFactor ?? 2.5;
   const reps = card?.reps ?? 0;
@@ -88,10 +105,14 @@ export default function Flashcards() {
   const [idx, setIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [sessionDone, setSessionDone] = useState(0);
+  // Which tile is active. Each narrows the list below to exactly what its
+  // number counted; clicking the active one again goes back to everything.
+  const [view, setView] = useState<'all' | 'studied' | 'due' | 'session'>('all');
+  const [lastSessionIds, setLastSessionIds] = useState<string[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [animating, setAnimating] = useState(false);
 
-  useEffect(() => { setSR(loadSR()); setMounted(true); }, []);
+  useEffect(() => { setSR(loadSR()); setLastSessionIds(loadSession()); setMounted(true); }, []);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -126,7 +147,9 @@ export default function Flashcards() {
       if (aDue && !bDue) return -1; if (!aDue && bDue) return 1;
       return (sa?.easeFactor ?? 2.5) - (sb?.easeFactor ?? 2.5);
     });
-    setQueue(cards); setIdx(0); setFlipped(false); setSessionDone(0); setModalOpen(true);
+    setQueue(cards); setIdx(0); setFlipped(false); setSessionDone(0);
+    setLastSessionIds([]); saveSession([]);
+    setModalOpen(true);
   }, [filterSection, filterType, filterGrade, filterDue, sr]);
 
   const closeModal = () => { setModalOpen(false); setFlipped(false); };
@@ -140,6 +163,11 @@ export default function Flashcards() {
     setAnimating(true);
     setTimeout(() => {
       setSessionDone(s => s + 1);
+      setLastSessionIds(prev => {
+        const next = prev.includes(card.id) ? prev : [...prev, card.id];
+        saveSession(next);
+        return next;
+      });
       if (idx + 1 >= queue.length) { closeModal(); }
       else { setIdx(i => i + 1); setFlipped(false); }
       setAnimating(false);
@@ -154,6 +182,11 @@ export default function Flashcards() {
     if (filterSection !== 'All' && c.section !== filterSection) return false;
     if (filterType !== 'All' && c.type !== filterType) return false;
     if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
+    // The tiles narrow the same list the dropdowns do, so the two compose
+    // rather than fight: Studied inside Ancient India stays possible.
+    if (view === 'studied' && !sr[c.id]) return false;
+    if (view === 'due') { const s = sr[c.id]; if (s && s.nextDue > today) return false; }
+    if (view === 'session' && !lastSessionIds.includes(c.id)) return false;
     return true;
   });
   const filteredDue = filtered.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; });
@@ -400,17 +433,34 @@ export default function Flashcards() {
         {/* Stats */}
         {mounted && (
           <div className="fc-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.65rem', marginBottom: '1.75rem' }}>
-            {[
-              { label: langHi ? 'कुल' : 'Total', value: flashcards.length, color: 'var(--accent)' },
-              { label: langHi ? 'पढ़े गए' : 'Studied', value: studiedCount, color: 'var(--accent)' },
-              { label: langHi ? 'आज बाकी' : 'Due Today', value: dueCount, color: dueCount > 0 ? 'var(--warning-text)' : '#777' },
-              { label: langHi ? 'पिछला सत्र' : 'Last Session', value: sessionDone, color: 'var(--success-text)' },
-            ].map(s => (
-              <div key={s.label} style={{
-                background: 'var(--bg2)',
-                border: `1px solid color-mix(in srgb, ${s.color} 16%, transparent)`,
+            {([
+              { key: 'all',     label: langHi ? 'कुल' : 'Total',              value: flashcards.length, color: 'var(--accent)' },
+              { key: 'studied', label: langHi ? 'पढ़े गए' : 'Studied',        value: studiedCount,      color: 'var(--accent)' },
+              { key: 'due',     label: langHi ? 'आज बाकी' : 'Due Today',      value: dueCount,          color: dueCount > 0 ? 'var(--warning-text)' : 'var(--text3)' },
+              { key: 'session', label: langHi ? 'पिछला सत्र' : 'Last Session', value: lastSessionIds.length, color: 'var(--success-text)' },
+            ] as const).map(s => {
+              const active = view === s.key;
+              // Nothing to show means nothing to click into.
+              const enabled = s.key === 'all' || s.value > 0;
+              return (
+              <button
+                key={s.label}
+                type="button"
+                onClick={() => enabled && setView(active ? 'all' : s.key)}
+                disabled={!enabled}
+                aria-pressed={active}
+                title={enabled
+                  ? (active ? (langHi ? 'सभी दिखाएँ' : 'Show all') : (langHi ? 'ये कार्ड दिखाएँ' : 'Show these cards'))
+                  : (langHi ? 'कोई कार्ड नहीं' : 'No cards yet')}
+                style={{
+                background: active ? `color-mix(in srgb, ${s.color} 10%, var(--bg2))` : 'var(--bg2)',
+                border: `1px solid color-mix(in srgb, ${s.color} ${active ? '55%' : '16%'}, transparent)`,
                 borderRadius: 10, padding: '0.9rem 1rem',
                 position: 'relative', overflow: 'hidden',
+                textAlign: 'left', font: 'inherit',
+                cursor: enabled ? 'pointer' : 'default',
+                opacity: enabled ? 1 : 0.55,
+                transition: 'background 0.15s, border-color 0.15s',
               }}>
                 <div style={{
                   position: 'absolute', top: 0, left: 0, right: 0, height: 1,
@@ -418,8 +468,8 @@ export default function Flashcards() {
                 }} />
                 <div style={{ fontSize: '0.6rem', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem', fontFamily: 'var(--font-mono)' }}>{s.label}</div>
                 <div style={{ fontSize: '1.65rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: s.color, lineHeight: 1 }}>{s.value}</div>
-              </div>
-            ))}
+              </button>
+            );})}
           </div>
         )}
 
