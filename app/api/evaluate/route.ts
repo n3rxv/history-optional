@@ -807,7 +807,8 @@ Write one sentence each for: intro (quote its actual opening text), each body po
 == STEP 1B: FACTUAL VERIFICATION ==
 List every specific factual claim the student makes — this includes dates/years/centuries/named events/movements (e.g. "Shramana movements, 400-500 BC") AND substantive historical claims about what a person, group, or institution actually did or believed (e.g. "Buddha abolished the caste system", "Akbar banned Sati", "the Mauryas controlled all of South India"). For each one, check it against what you actually know:
 - If the claim is correct → write "VERIFIED: [claim]"
-- If the claim is wrong, overstated, or conflates two different things → write "FACTUAL ERROR: student wrote '[claim]', correct is '[correction]'" — this will be flagged as [FACTUAL ERROR] in the relevant section's weaknesses, even if it doesn't change the band. Common overstatement pattern: student says a figure "abolished/ended/destroyed" something when historians agree they only "challenged/critiqued/undermined" it without changing the underlying social reality — this counts as a factual error, not just a nuance gap.
+- If the claim is wrong, overstated, or conflates two different things → write "FACTUAL ERROR [SIGNIFICANT]: student wrote '[claim]', correct is '[correction]'" — this will be flagged as [FACTUAL ERROR] in the relevant section's weaknesses, even if it doesn't change the band. Common overstatement pattern: student says a figure "abolished/ended/destroyed" something when historians agree they only "challenged/critiqued/undermined" it without changing the underlying social reality — this counts as a factual error, not just a nuance gap.
+- If the substance is right and only the wording is imprecise → write "FACTUAL ERROR [MINOR]: student wrote '[claim]', more precisely '[correction]'". A shorthand a specialist would read as correct belongs here, not above. Test it by asking what the student is actually claiming, not how tidily they said it: "the secret Treaty of Tilsit" is loose, because Tilsit was concluded openly and it was its articles that were secret, but the thing being referred to — Russia agreeing to the Continental System — genuinely sat in those secret articles, so the student knows the material and phrased it carelessly. A misspelled historian's name is MINOR. A date out by a year or two is MINOR; a date out by a century is SIGNIFICANT. Attributing an act to the wrong ruler, or inverting cause and effect, is SIGNIFICANT.
 - If you are not fully certain either way → write "UNCERTAIN: do not flag" — never invent a correction you are not sure of.
 Separately, note if the student presents a one-sided historiographical claim (e.g. "the Upanishads were a complete break from X") without acknowledging that serious historians dispute or qualify it (e.g. continuity-vs-rupture, evolution-vs-revolution debates). If so, note it as a missed nuance — this belongs in suggestions, not as a factual error.
 
@@ -858,7 +859,7 @@ RULE: You MUST pick one of the three values above. No marks between bands allowe
 == STEP 6: PRESENTATION (max ${presMax}M) — judge from BOTH the image pages AND the transcribed text ==
 [ ] Handwriting is legible and neat — not scratchy or cramped (YES/NO) [judge from images]
 [ ] Answer uses headings, underlining, numbered points, or labelled diagrams/flowcharts ([DRAWING: ...] markers) for structure (YES/NO) [judge from images and transcript]
-[ ] No significant factual errors found in STEP 1B (YES/NO) [use your STEP 1B findings — any FACTUAL ERROR means NO]
+[ ] No significant factual errors found in STEP 1B (YES/NO) [use your STEP 1B findings — only a [SIGNIFICANT] entry makes this NO. A [MINOR] one does not: it still appears as a weakness so the student sees it, but losing a presentation mark for imprecise phrasing over a claim they got right is a harsher penalty than the mistake deserves.]
 Each YES = ${presMax === "1.5" ? "0.5" : "1"}M. Total checked = PRESENTATION MARK.
 → PRESENTATION MARK: [write mark]
 
@@ -873,7 +874,7 @@ Go back through what you just wrote above and check each box honestly:
 [ ] Did I quote the exact historian name next to every STRONG/WEAK tag, as instructed? If any tag has no quoted name, change it to NONE now.
 [ ] Does my STRONG+WEAK tally actually match the count of distinct historian names I quoted? If not, recount and fix the tally now.
 [ ] Did I pick a band that is NOT in the allowed list for this section? If so, snap to the nearest allowed band — never award an in-between value.
-[ ] Did my STEP 1B factual-error findings actually get reflected in the presentation factual-error checkbox? If STEP 1B found any FACTUAL ERROR, the presentation checkbox for "no significant factual errors" must be NO.
+[ ] Did my STEP 1B factual-error findings actually get reflected in the presentation factual-error checkbox? If STEP 1B found a FACTUAL ERROR [SIGNIFICANT], the presentation checkbox for "no significant factual errors" must be NO. A [MINOR] one on its own leaves it YES.
 [ ] Is my final TOTAL exactly equal to INTRO + BODY + CONCLUSION + PRESENTATION as I scored them above? Recompute it now to be sure.
 If any check above failed, write "CORRECTION:" followed by the fixed band/tally/total. Otherwise write "AUDIT PASSED — no corrections needed."
 → FINAL TOTAL (after audit): [write number] out of ${marks}`;
