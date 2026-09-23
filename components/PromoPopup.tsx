@@ -339,8 +339,8 @@ export default function PromoPopup() {
                   >
                     Subscribe now {"\u2192"}
                   </button>
-                  <p style={{ textAlign: 'center', fontSize: 11, color: 'color-mix(in srgb, var(--text) 12%, transparent)', margin: '0.6rem 0 0' }}>
-                    Secure payment via Razorpay {"\u00B7"} Cancel anytime
+                  <p style={{ textAlign: 'center', fontSize: 11, color: 'var(--text)', margin: '0.6rem 0 0' }}>
+                    Secure payment via Razorpay
                   </p>
                 </>
               )}
@@ -407,8 +407,10 @@ export default function PromoPopup() {
                     pointerEvents: showComparison ? 'none' : 'auto',
                   }}
                 >
+                  {/* Was --text at 15% alpha, which composites against this
+                      card to 1.41:1, a heading nobody could read. */}
                   <p style={{
-                    fontSize: 10, fontWeight: 500, color: 'color-mix(in srgb, var(--text) 15%, transparent)',
+                    fontSize: 10, fontWeight: 600, color: 'var(--text)',
                     letterSpacing: '0.09em', textTransform: 'uppercase', margin: '0 0 0.75rem',
                   }}>What you unlock</p>
 
@@ -446,7 +448,7 @@ export default function PromoPopup() {
                   }}
                 >
                   <p style={{
-                    fontSize: 10, fontWeight: 500, color: 'color-mix(in srgb, var(--text) 15%, transparent)',
+                    fontSize: 10, fontWeight: 600, color: 'var(--text)',
                     letterSpacing: '0.09em', textTransform: 'uppercase', margin: '0 0 0.75rem',
                   }}>The real comparison</p>
 
@@ -590,8 +592,8 @@ export default function PromoPopup() {
                 >
                   Subscribe now {"\u2192"}
                 </button>
-                <p style={{ textAlign: 'center', fontSize: 10.5, color: 'color-mix(in srgb, var(--text) 12%, transparent)', margin: '0.5rem 0 0' }}>
-                  Secure payment via Razorpay {"\u00B7"} Cancel anytime
+                <p style={{ textAlign: 'center', fontSize: 10.5, color: 'var(--text)', margin: '0.5rem 0 0' }}>
+                  Secure payment via Razorpay
                 </p>
               </div>
             </>
@@ -702,7 +704,7 @@ function MobileSlide({ index }: { index: number }) {
             </div>
             <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: '0 0 0.5rem' }}>{f.label}</p>
             <p style={{ fontSize: 13, color: 'var(--text3)', margin: 0, lineHeight: 1.5 }}>{f.sub}</p>
-            <p style={{ fontSize: 10.5, color: 'color-mix(in srgb, var(--text) 12%, transparent)', margin: '1rem 0 0', letterSpacing: '0.04em' }}>
+            <p style={{ fontSize: 10.5, color: 'var(--text)', margin: '1rem 0 0', letterSpacing: '0.04em' }}>
               {index + 1} / 7
             </p>
           </div>
@@ -712,7 +714,7 @@ function MobileSlide({ index }: { index: number }) {
       {isComparison && (
         <div style={{ padding: '0 0.25rem' }}>
           <p style={{
-            fontSize: 10, fontWeight: 500, color: 'color-mix(in srgb, var(--text) 15%, transparent)',
+            fontSize: 10, fontWeight: 600, color: 'var(--text)',
             letterSpacing: '0.09em', textTransform: 'uppercase', textAlign: 'center', margin: '0 0 0.6rem',
           }}>The real comparison</p>
 
