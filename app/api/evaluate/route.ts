@@ -327,7 +327,7 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
       "One sentence on what genuinely worked in the introduction — quote the student's exact words and say precisely why it earns credit. If nothing genuinely worked, return empty array."
     ],
     "weaknesses": [
-      "One sentence per genuine weakness prefixed with [DEMAND GAP], [DESCRIPTIVE NOT ANALYTICAL], [HISTORIAN MISSING], [FACTUAL ERROR], or [STRUCTURE ISSUE] — only use a tag if that problem genuinely exists. Quote the student's exact words. If the introduction is strong, return empty array."
+      "One sentence per genuine weakness prefixed with [DEMAND GAP], [DESCRIPTIVE NOT ANALYTICAL], [HISTORIAN MISSING], [FACTUAL ERROR], or [STRUCTURE ISSUE]. Those five are the whole set. Never invent a tag and never reword one, and only use a tag if that problem genuinely exists. Quote the student's exact words. If the introduction is strong, return empty array."
     ],
     "analysis": "2-3 sentences maximum. Did it open with a historiographical debate or a definition? Did it name a historian with their specific thesis or just their name? Was the analytical frame clear? Quote the student's exact words in your judgement.",
     "suggestions": [
@@ -340,7 +340,7 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
       "One sentence per genuine strength — quote the student's exact phrase and say precisely why it earns credit. Only include what genuinely exists. If nothing worked, return empty array."
     ],
     "weaknesses": [
-      "One sentence per genuine weakness prefixed with [DEMAND GAP], [DESCRIPTIVE NOT ANALYTICAL], [HISTORIAN MISSING], [FACTUAL ERROR], or [STRUCTURE ISSUE] — only use a tag if that problem genuinely exists. Quote the student's exact words. If the answer is strong, return empty array or just one entry."
+      "One sentence per genuine weakness prefixed with [DEMAND GAP], [DESCRIPTIVE NOT ANALYTICAL], [HISTORIAN MISSING], [FACTUAL ERROR], or [STRUCTURE ISSUE]. Those five are the whole set. Never invent a tag and never reword one, and only use a tag if that problem genuinely exists. Quote the student's exact words. If the answer is strong, return empty array or just one entry."
     ],
     "suggestions": [
       "Write one complete model body point — analytical claim + specific evidence + named historian + their exact argument + link to the question. 2-3 sentences.",
@@ -353,7 +353,7 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
       "One sentence on what genuinely worked — quote the student's exact words. If nothing worked, return empty array."
     ],
     "weaknesses": [
-      "One sentence per genuine weakness prefixed with [DEMAND GAP], [DESCRIPTIVE NOT ANALYTICAL], [HISTORIAN MISSING], [FACTUAL ERROR], or [STRUCTURE ISSUE] — only use a tag if that problem genuinely exists. Quote the student's exact words. If the conclusion is strong, return empty array."
+      "One sentence per genuine weakness prefixed with [DEMAND GAP], [DESCRIPTIVE NOT ANALYTICAL], [HISTORIAN MISSING], [FACTUAL ERROR], or [STRUCTURE ISSUE]. Those five are the whole set. Never invent a tag and never reword one, and only use a tag if that problem genuinely exists. Quote the student's exact words. If the conclusion is strong, return empty array."
     ],
     "analysis": "2-3 sentences maximum. Did it synthesise or just repeat? Did it take a clear historiographical position? Did it resolve the tension from the introduction? Quote the student's exact words in your judgement.",
     "suggestions": [
