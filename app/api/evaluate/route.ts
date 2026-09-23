@@ -279,18 +279,18 @@ CALIBRATION — READ THIS BEFORE MARKING:
 ─────────────────────────────────
 UPSC reality check — real examiner benchmarks:
 10M answers:
-- No modern historian at all = 3–4/10
+- No historian at all = 3–4/10
 - 1 strong historian point = 5–6/10
 - 3+ strong points + good intro + synthesis = 8–9/10. This is rare.
 
 15M answers:
-- No modern historian at all = 4–5/15
+- No historian at all = 4–5/15
 - 1 strong historian point = 6–7/15
 - 3+ strong points + good intro + synthesis = 10–11/15. Rare.
 - 12+/15 is exceptional. 13+/15 essentially does not exist.
 
 20M answers:
-- No modern historian at all = 6–8/20
+- No historian at all = 6–8/20
 - 1-2 strong historian points = 9–11/20
 - 5+ strong points + strong intro + synthesis = 15–16/20. Very rare.
 - 18+/20 essentially does not exist.
@@ -641,8 +641,8 @@ export async function POST(req: NextRequest) {
 Question: ${question} (${marks} marks)
 
 Write a complete model answer as flowing prose:
-- Introduction (2-3 sentences): Opens with a historiographical debate, names at least one modern historian with their specific thesis, previews the argument.
-- Body (${refBulletCount} points): Each point must have a named modern historian + their specific argument + specific evidence (inscription/text/policy/date) + analytical link to the question.
+- Introduction (2-3 sentences): Opens with a historiographical debate, names at least one historian with their specific thesis, previews the argument.
+- Body (${refBulletCount} points): Each point must have a named historian + their specific argument + specific evidence (inscription/text/policy/date) + analytical link to the question.
 - Conclusion (2-3 sentences): Takes a clear historiographical position, resolves the intro tension, no new material.
 
 Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be specific — name real historians with real arguments. No generic statements.`,
@@ -824,7 +824,7 @@ Skip question text at top. Count answer body words only. Write the exact number.
 == STEP 3: INTRODUCTION (max ${introMax}M) — pick EXACTLY ONE band, no decimals allowed ==
 Reminder: religious/philosophical concepts (Madhyamika Marg, Ashtangika Marg, Nirvana, Dharma, Karma, Moksha, Atman, Brahman, Varna, etc.) are NOT historians — using these terms alone does not satisfy "names a historian."
 BAND 0M (ONLY): definition opener, no intro, only generic context, no historian at all — award exactly 0
-BAND ${marks === "10" ? "0.5" : "1"}M (ONLY): mentions historical context OR names a primary source (Kautilya, Ashoka, Megasthenes) but NO modern historian named — OR names a modern historian but gives NO specific thesis/argument — award exactly ${marks === "10" ? "0.5" : "1"}
+BAND ${marks === "10" ? "0.5" : "1"}M (ONLY): mentions historical context OR names a primary source (Kautilya, Ashoka, Megasthenes) but NO historian named — OR names a historian but gives NO specific thesis/argument — award exactly ${marks === "10" ? "0.5" : "1"}
 BAND ${introMax}M (ONLY): names a MODERN historian (Romila Thapar / R.S. Sharma / Irfan Habib / U.N. Ghoshal / Kosambi / B.D. Chattopadhyaya etc.) AND states their SPECIFIC thesis AND frames a historiographical debate AND previews the argument — ALL FOUR required — award exactly ${introMax}
 IMPORTANT: Simply naming a historian without their specific thesis = BAND 1M only, NOT full marks.
 RULE: You MUST pick one of the three values above.
@@ -832,11 +832,12 @@ RULE: You MUST pick one of the three values above.
 
 == STEP 4: BODY (max ${bodyMax}M) — count then pick band ==
 DEFINITIONS — be extremely strict:
-- STRONG: modern historian named (Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, Kosambi, B.D. Chattopadhyaya, Satish Chandra etc.) WITH their specific argument clearly stated. "R.S. Sharma argues..." counts. "R.S. Sharma has written about this" does NOT count.
-  The roster earlier in this prompt does NOT apply here. Any real modern historian counts, whether or not their book is in this system. A student who reads beyond our shelf should score better for it, not worse.
+- STRONG: historian named (Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, Kosambi, B.D. Chattopadhyaya, Satish Chandra etc.) WITH their specific argument clearly stated. "R.S. Sharma argues..." counts. "R.S. Sharma has written about this" does NOT count.
+  The roster earlier in this prompt does NOT apply here. Any real historian counts, whether or not their book is in this system. A student who reads beyond our shelf should score better for it, not worse.
 
   CITATION REALITY TEST — run it on every historian the student names, in this order:
-  (1) Is this a real modern historian? Not a primary source, not a chronicler, not a politician or freedom fighter, not a philosopher or religious figure, not a contemporary of the events. Megasthenes, Al-Biruni, Kautilya, Ibn Battuta, Nehru and Ambedkar are not historiography, whatever the student calls them.
+  (1) Is this a real historian, meaning someone who studied the period rather than lived in it? The line is scholarship against evidence, not recent against old. Anyone writing history as history counts, whatever their date or discipline: James Mill and Vincent Smith for the imperialist reading, Jadunath Sarkar and K.P. Jayaswal for the nationalist one, Marshall, Wheeler and B.B. Lal on the Indus Valley, Kosambi, Thapar, Habib, Stein, Guha. The paper asks about these schools by name, so a student who cites their founders is doing exactly what the question wants.
+      What fails is the other side of the line: a witness offered as an interpreter. Megasthenes, Al-Biruni, Kautilya, Ibn Battuta, Kalhana and Abul Fazl are sources to be read, not scholarship to be cited, and Nehru or Ambedkar quoted as authority on ancient India is a political voice, not a historiographical one.
   (2) Is the argument actually theirs? The commonest fabrication is not an invented name, it is a real historian attached to somebody else's thesis, or to one that merely sounds like something they might have said. Segmentary state belongs to Burton Stein, not to Romila Thapar. Ask whether you can place this argument in this person's actual work, not whether it sounds plausible in their mouth.
   (3) Are they writing in their own field and period? A medievalist cited on the Indus Valley fails this even when both halves are real.
 
@@ -846,8 +847,8 @@ DEFINITIONS — be extremely strict:
   - You genuinely cannot tell → STRONG, plus one line in suggestions asking them to double-check that citation before using it again. Your not recognising a historian is not evidence the student invented one, and they must not lose a mark for the limits of your reading. Never invent a correction to justify refusing the mark: if you cannot say what the right attribution is, you do not know that it is wrong.
 
   Hold the same standard whichever way it cuts. Wanting to be generous is no reason to wave through a name you know is wrong, and not recognising a name is no reason to refuse one.
-- WEAK: modern historian named but their argument is vague, absent, or just their name dropped without context.
-- NONE: no modern historian. Primary sources (Kautilya, Arthashastra, Megasthenes, Ashoka's edicts, Ain-i-Akbari) do NOT count as modern historians — they are evidence, not historiography. Buddhist/religious/philosophical CONCEPTS (Madhyamika Marg, Ashtangika Marg, Nirvana, Dharma, Karma, Moksha, Atman, Brahman) are NOT historians and do NOT count as STRONG or WEAK — a body point using only these concepts with no historian's name attached is NONE.
+- WEAK: historian named but their argument is vague, absent, or just their name dropped without context.
+- NONE: no historian. Primary sources (Kautilya, Arthashastra, Megasthenes, Ashoka's edicts, Ain-i-Akbari) do NOT count as historians — they are evidence, not historiography. Buddhist/religious/philosophical CONCEPTS (Madhyamika Marg, Ashtangika Marg, Nirvana, Dharma, Karma, Moksha, Atman, Brahman) are NOT historians and do NOT count as STRONG or WEAK — a body point using only these concepts with no historian's name attached is NONE.
 
 For each body point write: STRONG / WEAK / NONE — and if you mark WEAK or STRONG, you MUST quote the exact historian's name from the text right next to your tag (e.g. "WEAK — historian named: 'Romila Thapar'"). If you cannot quote a specific historian's name for a point, it is NONE, not WEAK.
 Tally: STRONG=__ WEAK=__ NONE=__ — sanity check: STRONG+WEAK count must equal the number of distinct historian names you actually quoted above, not counting any name the reality test rejected. A rejected citation is NONE and its name does not enter this tally; do not promote one to WEAK to make the arithmetic come out. If it doesn't match, recount.
@@ -888,7 +889,7 @@ INTRO + BODY + CONCLUSION + PRESENTATION = TOTAL
 
 == STEP 8: SELF-AUDIT — re-examine your own STEP 3-7 decisions before finalizing ==
 Go back through what you just wrote above and check each box honestly:
-[ ] For every name I counted as STRONG or WEAK in body/intro/conclusion, is it an actual modern historian (a real person who writes history/historiography) — NOT a religious/philosophical concept, NOT a primary source, NOT a king/emperor/ruler, NOT a text/book title misread as a person?
+[ ] For every name I counted as STRONG or WEAK in body/intro/conclusion, is it an actual historian (a real person who writes history/historiography) — NOT a religious/philosophical concept, NOT a primary source, NOT a king/emperor/ruler, NOT a text/book title misread as a person?
 [ ] For every historian I credited to the introduction's evaluation, do they actually appear in the introduction's own text (not the body or conclusion)? Same check for body and conclusion — a historian named only in the conclusion must NOT be credited when scoring the introduction, and vice versa. If I cross-attributed a historian to the wrong section, fix that section's band now.
 [ ] Did I quote the exact historian name next to every STRONG/WEAK tag, as instructed? If any tag has no quoted name, change it to NONE now.
 [ ] Does my STRONG+WEAK tally actually match the count of distinct historian names I quoted? If not, recount and fix the tally now.
