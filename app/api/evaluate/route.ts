@@ -833,13 +833,24 @@ RULE: You MUST pick one of the three values above.
 == STEP 4: BODY (max ${bodyMax}M) — count then pick band ==
 DEFINITIONS — be extremely strict:
 - STRONG: modern historian named (Romila Thapar, R.S. Sharma, Irfan Habib, U.N. Ghoshal, Burton Stein, Kosambi, B.D. Chattopadhyaya, Satish Chandra etc.) WITH their specific argument clearly stated. "R.S. Sharma argues..." counts. "R.S. Sharma has written about this" does NOT count.
-  The roster earlier in this prompt does NOT apply here. Any real modern historian counts, whether or not their book is in this system. Judge the citation on two questions only: is this a real historian, and is the argument genuinely theirs? If yes to both, it is STRONG. A student who reads beyond our shelf should score better for it, not worse.
-  If the historian does not exist, or the argument is not theirs, that is not a citation at all: mark the point NONE and record it as a factual error, since an invented authority is the worst thing a student can carry into the exam.
+  The roster earlier in this prompt does NOT apply here. Any real modern historian counts, whether or not their book is in this system. A student who reads beyond our shelf should score better for it, not worse.
+
+  CITATION REALITY TEST — run it on every historian the student names, in this order:
+  (1) Is this a real modern historian? Not a primary source, not a chronicler, not a politician or freedom fighter, not a philosopher or religious figure, not a contemporary of the events. Megasthenes, Al-Biruni, Kautilya, Ibn Battuta, Nehru and Ambedkar are not historiography, whatever the student calls them.
+  (2) Is the argument actually theirs? The commonest fabrication is not an invented name, it is a real historian attached to somebody else's thesis, or to one that merely sounds like something they might have said. Segmentary state belongs to Burton Stein, not to Romila Thapar. Ask whether you can place this argument in this person's actual work, not whether it sounds plausible in their mouth.
+  (3) Are they writing in their own field and period? A medievalist cited on the Indus Valley fails this even when both halves are real.
+
+  Then award on what you found, using these three outcomes and no others:
+  - All three YES and you are confident → STRONG. Give the mark without hesitation.
+  - Any one clearly NO → NONE, recorded as a [FACTUAL ERROR] naming what is wrong: not a historian, or the argument is not theirs, or outside their field. Do not part-credit it as WEAK. An invented or misattributed authority is the worst thing a student can carry into the exam hall, because a real examiner will catch it and they will never learn why they were marked down.
+  - You genuinely cannot tell → STRONG, plus one line in suggestions asking them to double-check that citation before using it again. Your not recognising a historian is not evidence the student invented one, and they must not lose a mark for the limits of your reading. Never invent a correction to justify refusing the mark: if you cannot say what the right attribution is, you do not know that it is wrong.
+
+  Hold the same standard whichever way it cuts. Wanting to be generous is no reason to wave through a name you know is wrong, and not recognising a name is no reason to refuse one.
 - WEAK: modern historian named but their argument is vague, absent, or just their name dropped without context.
 - NONE: no modern historian. Primary sources (Kautilya, Arthashastra, Megasthenes, Ashoka's edicts, Ain-i-Akbari) do NOT count as modern historians — they are evidence, not historiography. Buddhist/religious/philosophical CONCEPTS (Madhyamika Marg, Ashtangika Marg, Nirvana, Dharma, Karma, Moksha, Atman, Brahman) are NOT historians and do NOT count as STRONG or WEAK — a body point using only these concepts with no historian's name attached is NONE.
 
 For each body point write: STRONG / WEAK / NONE — and if you mark WEAK or STRONG, you MUST quote the exact historian's name from the text right next to your tag (e.g. "WEAK — historian named: 'Romila Thapar'"). If you cannot quote a specific historian's name for a point, it is NONE, not WEAK.
-Tally: STRONG=__ WEAK=__ NONE=__ — sanity check: STRONG+WEAK count must equal the number of distinct historian names you actually quoted above. If it doesn't match, recount.
+Tally: STRONG=__ WEAK=__ NONE=__ — sanity check: STRONG+WEAK count must equal the number of distinct historian names you actually quoted above, not counting any name the reality test rejected. A rejected citation is NONE and its name does not enter this tally; do not promote one to WEAK to make the arithmetic come out. If it doesn't match, recount.
 
 ${marks === "10" ? `BAND 1M (ONLY): 0 strong, 0 weak — purely narrative, no historians at all — award exactly 1
 BAND 2M (ONLY): 0 strong, 1-2 weak — historian names dropped without arguments — award exactly 2
