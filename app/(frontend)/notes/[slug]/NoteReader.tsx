@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import SidebarNotes from '@/components/SidebarNotes';
 import Link from 'next/link';
 import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
 import { getPYQsForNote } from '@/lib/notePyqMap';
@@ -837,14 +838,19 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   return (
     <div style={{ display: 'flex', minHeight: 'calc(100vh - 60px)' }}>
       {/* Sidebar */}
+      {/* The aside stretches to the page so its background and border run the
+          whole way down; the sticky, scrolling part is the wrapper inside.
+          Previously the aside was itself a fixed 100vh box in a taller row,
+          which is why the sidebar stopped partway and left white beneath it. */}
       <aside style={{
         width: sidebarOpen ? 240 : 0, minWidth: sidebarOpen ? 240 : 0,
         borderRight: '1px solid var(--border)',
         background: 'var(--bg2)',
         overflow: 'hidden', transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
-        position: 'sticky', top: 52, height: 'calc(100vh - 52px)', overflowY: 'auto', flexShrink: 0,
+        flexShrink: 0, alignSelf: 'stretch',
         boxShadow: 'inset -1px 0 0 var(--border)',
       }}>
+      <div style={{ position: 'sticky', top: 52, maxHeight: 'calc(100vh - 52px)', overflowY: 'auto' }}>
         <style>{`
           .sb-section-label {
             font-size: 0.6rem;
@@ -863,6 +869,40 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
             height: 1px;
             background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 20%, transparent), transparent);
           }
+          .sb-note-add {
+            width: 100%; text-align: left; background: none;
+            border: 1px dashed color-mix(in srgb, var(--accent) 28%, transparent);
+            border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.74rem;
+            font-family: inherit; color: var(--accent); cursor: pointer;
+            margin-bottom: 0.5rem; transition: background 0.15s, border-color 0.15s;
+          }
+          .sb-note-add:hover { background: var(--accent-dim); border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
+          .sb-note {
+            border: 1px solid var(--border);
+            border-left: 2px solid color-mix(in srgb, var(--warning-text) 45%, transparent);
+            border-radius: 0 6px 6px 0; padding: 0.45rem 0.55rem;
+            margin-bottom: 0.45rem; background: var(--bg);
+          }
+          .sb-note-title, .sb-note-body {
+            width: 100%; background: none; border: none; outline: none;
+            color: var(--text); font-family: inherit; padding: 0; resize: none;
+          }
+          .sb-note-title { font-size: 0.78rem; font-weight: 600; margin-bottom: 0.2rem; }
+          .sb-note-body { font-size: 0.76rem; line-height: 1.55; }
+          .sb-note-title::placeholder, .sb-note-body::placeholder { color: var(--text3); }
+          .sb-note-foot {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 6px; margin-top: 0.3rem; font-family: var(--font-mono);
+            font-size: 0.58rem; color: var(--text3);
+          }
+          .sb-note-foot button {
+            background: none; border: none; padding: 0; font-family: inherit;
+            font-size: inherit; color: var(--text3); cursor: pointer;
+          }
+          .sb-note-foot button:hover { color: var(--danger-text); }
+          .sb-note-confirm { display: flex; gap: 8px; }
+          .sb-note-confirm button:first-child { color: var(--danger-text); font-weight: 700; }
+          .sb-note-scope { font-size: 0.6rem; line-height: 1.5; color: var(--text3); margin: 0.5rem 0 0; }
           .sb-chip {
             display: flex;
             align-items: center;
@@ -982,7 +1022,10 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
               </Link>
             ))}
           </>}
+
+          <SidebarNotes slug={slug} langHi={langHi} />
         </div>
+      </div>
       </aside>
 
       {/* Main */}

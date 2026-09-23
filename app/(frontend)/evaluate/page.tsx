@@ -470,7 +470,11 @@ const handleOcr = useCallback(async () => {
            set in the label style: mono, 0.55rem, 0.22em tracking and
            uppercased, which is unreadable at sentence length. Body face,
            sentence case, normal tracking. */
-        .ev-sl { font-family:var(--font-body); font-size:0.92rem; line-height:1.75; letter-spacing:normal; text-transform:none; color:var(--text2); margin:14px 0 10px; display:flex; align-items:flex-start; gap:8px; }
+        /* Not flex. The line is built from text fragments with <strong> around
+           each historian's name, and a flex container turns every one of those
+           into a column, which is what broke the sentence into vertical
+           strips. A paragraph is a paragraph. */
+        .ev-sl { font-family:var(--font-body); font-size:0.92rem; line-height:1.75; letter-spacing:normal; text-transform:none; color:var(--text2); margin:14px 0 10px; }
         .ev-sl.g { color:color-mix(in srgb, var(--success-text) 60%, transparent); }
         .ev-sl.r { color:color-mix(in srgb, var(--danger-text) 50%, transparent); }
 
