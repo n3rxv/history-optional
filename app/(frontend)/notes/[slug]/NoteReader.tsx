@@ -846,11 +846,19 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
         width: sidebarOpen ? 240 : 0, minWidth: sidebarOpen ? 240 : 0,
         borderRight: '1px solid var(--border)',
         background: 'var(--bg2)',
-        overflow: 'hidden', transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
+        overflowX: 'hidden', transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
         flexShrink: 0, alignSelf: 'stretch',
         boxShadow: 'inset -1px 0 0 var(--border)',
       }}>
-      <div style={{ position: 'sticky', top: 52, maxHeight: 'calc(100vh - 52px)', overflowY: 'auto' }}>
+      {/* The scroller stays. It now ends with room to spare instead of
+          slicing the last note at the viewport edge, and the aside above
+          it no longer clips vertically. */}
+      <div style={{
+        position: 'sticky', top: 52,
+        maxHeight: 'calc(100vh - 52px)', overflowY: 'auto',
+        paddingBottom: 'var(--space-6)',
+        overscrollBehavior: 'contain',
+      }}>
         <style>{`
           .sb-section-label {
             font-size: 0.6rem;
