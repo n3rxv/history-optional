@@ -870,39 +870,75 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
             background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 20%, transparent), transparent);
           }
           .sb-note-add {
-            width: 100%; text-align: left; background: none;
-            border: 1px dashed color-mix(in srgb, var(--accent) 28%, transparent);
-            border-radius: 6px; padding: 0.4rem 0.6rem; font-size: 0.74rem;
+            width: 100%; display: flex; align-items: center; gap: var(--space-1);
+            background: none;
+            border: 1px dashed color-mix(in srgb, var(--accent) 30%, transparent);
+            border-radius: 8px; padding: var(--space-2); font-size: 0.74rem;
             font-family: inherit; color: var(--accent); cursor: pointer;
-            margin-bottom: 0.5rem; transition: background 0.15s, border-color 0.15s;
+            margin-bottom: var(--space-2); transition: background 0.15s, border-color 0.15s;
           }
-          .sb-note-add:hover { background: var(--accent-dim); border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
+          .sb-note-add:hover {
+            background: var(--accent-dim);
+            border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+            border-style: solid;
+          }
+
+          /* A warm tint and a soft edge, so a note reads as something the
+             reader put there rather than as another panel of the interface.
+             The tint comes from the same token as the left rule, which is why
+             the two agree on both grounds. */
           .sb-note {
-            border: 1px solid var(--border);
-            border-left: 2px solid color-mix(in srgb, var(--warning-text) 45%, transparent);
-            border-radius: 0 6px 6px 0; padding: 0.45rem 0.55rem;
-            margin-bottom: 0.45rem; background: var(--bg);
+            background: color-mix(in srgb, var(--warning-text) 7%, var(--bg2));
+            border: 1px solid color-mix(in srgb, var(--warning-text) 22%, transparent);
+            border-radius: 8px;
+            padding: var(--space-2);
+            margin-bottom: var(--space-2);
+            transition: border-color 0.15s, box-shadow 0.15s;
           }
+          .sb-note:focus-within {
+            border-color: color-mix(in srgb, var(--warning-text) 50%, transparent);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--warning-text) 12%, transparent);
+          }
+
           .sb-note-title, .sb-note-body {
             width: 100%; background: none; border: none; outline: none;
             color: var(--text); font-family: inherit; padding: 0; resize: none;
           }
-          .sb-note-title { font-size: 0.78rem; font-weight: 600; margin-bottom: 0.2rem; }
-          .sb-note-body { font-size: 0.76rem; line-height: 1.55; }
-          .sb-note-title::placeholder, .sb-note-body::placeholder { color: var(--text3); }
+          .sb-note-title {
+            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.01em;
+            padding-bottom: var(--space-1); margin-bottom: var(--space-1);
+            border-bottom: 1px solid color-mix(in srgb, var(--warning-text) 15%, transparent);
+          }
+          .sb-note-body { font-size: 0.76rem; line-height: 1.6; min-height: 2.8em; }
+          .sb-note-title::placeholder, .sb-note-body::placeholder {
+            color: var(--text3); font-weight: 400;
+          }
+
+          /* The footer is housekeeping, so it stays out of the way until the
+             note is hovered or focused. */
           .sb-note-foot {
             display: flex; align-items: center; justify-content: space-between;
-            gap: 6px; margin-top: 0.3rem; font-family: var(--font-mono);
-            font-size: 0.58rem; color: var(--text3);
+            gap: var(--space-1); margin-top: var(--space-1);
+            font-family: var(--font-mono); font-size: 0.56rem;
+            color: var(--text3);
+            opacity: 0; transition: opacity 0.15s;
           }
+          .sb-note:hover .sb-note-foot,
+          .sb-note:focus-within .sb-note-foot { opacity: 1; }
           .sb-note-foot button {
             background: none; border: none; padding: 0; font-family: inherit;
             font-size: inherit; color: var(--text3); cursor: pointer;
+            text-transform: uppercase; letter-spacing: 0.08em;
           }
           .sb-note-foot button:hover { color: var(--danger-text); }
-          .sb-note-confirm { display: flex; gap: 8px; }
+          .sb-note-confirm { display: flex; gap: var(--space-2); }
           .sb-note-confirm button:first-child { color: var(--danger-text); font-weight: 700; }
-          .sb-note-scope { font-size: 0.6rem; line-height: 1.5; color: var(--text3); margin: 0.5rem 0 0; }
+
+          .sb-note-scope {
+            font-size: 0.56rem; font-family: var(--font-mono);
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--text3); margin: var(--space-1) 0 0; text-align: right;
+          }
           .sb-chip {
             display: flex;
             align-items: center;

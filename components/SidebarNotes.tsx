@@ -139,9 +139,7 @@ export default function SidebarNotes({ slug, langHi = false }: { slug: string; l
 
       {notes.length > 0 && (
         <p className="sb-note-scope">
-          {langHi
-            ? 'ये नोट्स केवल इसी ब्राउज़र में सहेजे जाते हैं।'
-            : 'Saved in this browser only, on this page.'}
+          {langHi ? 'सहेजा गया' : 'Saved'}
         </p>
       )}
     </>
