@@ -106,6 +106,25 @@ export default function EvaluationRows({ rows }: { rows: EvaluationRow[] }) {
                       <div>
                         <Field label="Question">{r.question ?? '—'}</Field>
 
+                        {/* What the reader actually wrote, as transcribed from
+                            their sheet. Averages around 1,900 characters and
+                            runs past 4,000, so it scrolls in its own box rather
+                            than pushing the marking off the screen. pre-wrap
+                            keeps the paragraph breaks the transcription made. */}
+                        {r.answer_text ? (
+                          <Field label={`Their answer · ${r.answer_text.trim().split(/\s+/).length} words`}>
+                            <div className="max-h-80 overflow-y-auto rounded-lg border border-secondary bg-secondary px-3 py-2">
+                              <p className="whitespace-pre-wrap text-sm leading-relaxed text-secondary">
+                                {r.answer_text}
+                              </p>
+                            </div>
+                          </Field>
+                        ) : (
+                          <Field label="Their answer">
+                            <span className="text-tertiary">Not stored for this one.</span>
+                          </Field>
+                        )}
+
                         {Object.keys(marks).length > 0 && (
                           <Field label="Marks by section">
                             <div className="flex flex-col gap-2">
