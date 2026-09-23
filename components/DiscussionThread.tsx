@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
+import LoadingDots from '@/components/LoadingDots';
 import { supabase } from '@/lib/supabase';
 
 interface Comment {
@@ -139,7 +140,7 @@ export default function DiscussionThread({ pyqId }: { pyqId: number }) {
 
           {/* Comments list */}
           {loading ? (
-            <div style={{ color: 'var(--text3)', fontSize: '0.8rem', textAlign: 'center', padding: '0.5rem' }}>Loading…</div>
+            <LoadingDots label="Loading" style={{ color: 'var(--text3)', fontSize: '0.8rem', textAlign: 'center', padding: '0.5rem' }} />
           ) : comments.length === 0 ? (
             <div style={{ color: 'var(--text3)', fontSize: '0.8rem', textAlign: 'center', padding: '0.5rem' }}>No comments yet. Be the first!</div>
           ) : (

@@ -429,7 +429,9 @@ export default function PricingClient() {
                   color: o.inPremium ? 'var(--success-text)' : GOLD,
                   background: o.inPremium ? 'var(--success-wash)' : 'color-mix(in srgb, var(--warning-text) 8%, transparent)',
                   border: `1px solid ${o.inPremium ? 'color-mix(in srgb, var(--success-text) 28%, transparent)' : 'color-mix(in srgb, var(--warning-text) 28%, transparent)'}`,
-                }}>{o.inPremium ? 'in premium' : 'pay per use'}</span>
+                  // Both routes to it, since the description no longer says
+                  // so and the badge is the compact place for it.
+                }}>{o.inPremium ? 'in premium / standalone' : 'pay per use'}</span>
               </div>
               <div style={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1 }}>
                 {`₹${(o.pricePaise / 100).toLocaleString('en-IN')}`}
@@ -483,8 +485,7 @@ export default function PricingClient() {
           <div>
             <p className="pr-q">Can I see the marking before I pay?</p>
             <p className="pr-a">Yes. Signing in gives you <strong>one evaluation</strong> and{' '}
-              <strong>three questions</strong> — enough to judge whether the feedback is worth having,
-              and not enough to prepare on.</p>
+              <strong>three questions</strong>, enough to judge whether the feedback is worth having.</p>
           </div>
           <div>
             <p className="pr-q">Is map evaluation included?</p>
@@ -505,7 +506,7 @@ export default function PricingClient() {
               <Link href="/terms">Terms</Link> cover the rest.</p>
           </div>
           <div>
-            <p className="pr-q">Something went wrong with a payment.</p>
+            <p className="pr-q">Something went wrong with a payment?</p>
             <p className="pr-a">Write to us from the <Link href="/contact">contact page</Link> with the Razorpay
               payment id and it will be sorted out.</p>
           </div>

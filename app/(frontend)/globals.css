@@ -262,10 +262,13 @@
   --border:        var(--black-500);
   --border2:       var(--black-400);
   --border3:       var(--black-300);
-  --text:          var(--wink-50);
+  --text:          var(--white-50);   /* pure white on the dark ground */
   --text2:         var(--wink-200);
   --text3:         var(--wink-400);
-  --text-faint:    var(--wink-500);
+  /* Was --wink-500, 3.94:1 on the dark ground. Text that has to be read
+     cannot sit below 4.5:1, and this token is used for real content, so it
+     now matches --text3 rather than pretending to be a dimmer step. */
+  --text-faint:    var(--wink-400);
   --accent:        var(--lapis-500);
   --accent2:       var(--lapis-400);
   --accent-text:   var(--lapis-400);
@@ -379,10 +382,11 @@
   --border:        var(--white-300);
   --border2:       var(--white-400);
   --border3:       var(--white-500);
-  --text:          var(--bink-900);
+  --text:          var(--black-900);  /* pure black on paper */
   --text2:         var(--bink-700);
   --text3:         var(--bink-500);
-  --text-faint:    var(--bink-400);
+  /* Was --bink-400, 3.36:1 on paper. Same reasoning as the dark ground. */
+  --text-faint:    var(--bink-500);
 
   --accent:        var(--lapis-600);
   --accent2:       var(--lapis-700);
@@ -1287,4 +1291,21 @@ html, body { overflow-x: hidden; max-width: 100%; }
 #ho-last-name::placeholder {
   color: var(--text3);
   opacity: 0.7;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Animated ellipsis for loading labels.
+
+   Each dot brightens in turn, so a wait reads as progress rather than as a
+   frozen string. The dots are decoration: the label beside them carries the
+   meaning, which is why they are aria-hidden at the call site.
+   ───────────────────────────────────────────────────────────────────────── */
+@keyframes loading-dot { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
+.loading-dots > span { animation: loading-dot 1.4s ease-in-out infinite; }
+.loading-dots > span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots > span:nth-child(3) { animation-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-dots > span { animation: none; opacity: 1; }
 }

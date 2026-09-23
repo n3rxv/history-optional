@@ -363,7 +363,7 @@ const handleOcr = useCallback(async () => {
     <>
       <style>{`
         .ev-wrap * { box-sizing: border-box; }
-        .ev-upload { border: 1.5px dashed #333; border-radius:6px; padding:44px 24px;
+        .ev-upload { border: 1.5px dashed var(--border2); border-radius:6px; padding:44px 24px;
           text-align:center; cursor:pointer; background:var(--bg4); transition:all 0.2s; }
         .ev-upload:hover, .ev-upload.has { border-color:var(--accent); background:var(--accent-dim); }
         .ev-ta { width:100%; box-sizing:border-box; background:var(--bg4); border:1.5px solid var(--border2); border-radius:6px;
@@ -390,13 +390,13 @@ const handleOcr = useCallback(async () => {
           font-size:0.85rem; margin-bottom:20px; font-family:var(--font-ui); }
         .ev-score-row { display:flex; justify-content:space-between;
           align-items:flex-end; padding-bottom:36px;
-          border-bottom:1px solid #2e2e2e; margin-bottom:32px; }
+          border-bottom:1px solid var(--border); margin-bottom:32px; }
         .ev-score-num { font-family:var(--font-mono); font-size:5.5rem; font-weight:700; line-height:1; }
-        .ev-score-denom { font-family:var(--font-mono); font-size:1.8rem; color:#444; }
+        .ev-score-denom { font-family:var(--font-mono); font-size:1.8rem; color:var(--text3); }
         .ev-bar-bg { background:var(--bg4); border-radius:2px; height:4px; overflow:hidden; margin-top:14px; width:260px; }
         .ev-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
         /* ── MARKS GAUGE ── */
-        .ev-gauge { display:flex; align-items:center; gap:18px; background:linear-gradient(135deg,#161616,#111);
+        .ev-gauge { display:flex; align-items:center; gap:18px; background:var(--bg2);
           border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
         .ev-gauge-emoji { font-size:2.4rem; line-height:1; flex-shrink:0; }
         .ev-gauge-body { flex:1; min-width:0; }
@@ -408,7 +408,7 @@ const handleOcr = useCallback(async () => {
           background:linear-gradient(90deg,var(--red),var(--warning-text),var(--green)); margin-top:4px; }
         .ev-gauge-arrow { position:absolute; top:-9px; width:0; height:0;
           border-left:6px solid transparent; border-right:6px solid transparent;
-          border-top:7px solid #f0f0f0; transform:translateX(-50%); transition:left 1.2s cubic-bezier(.16,1,.3,1); }
+          border-top:7px solid var(--text); transform:translateX(-50%); transition:left 1.2s cubic-bezier(.16,1,.3,1); }
         .ev-gauge-scale { display:flex; justify-content:space-between; margin-top:4px;
           font-family:var(--font-mono); font-size:0.62rem; color:var(--text3); }
         .ev-wc { font-family:var(--font-mono); font-size:2.8rem; font-weight:700; color:var(--text); line-height:1; }
@@ -420,16 +420,16 @@ const handleOcr = useCallback(async () => {
         .pill-y { background:var(--accent-dim); color:var(--accent); border:1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
         /* ── TABS ── */
         .ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(0,0,0,0.07); }
-        .ev-tab { padding:13px 28px; cursor:pointer; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-family:var(--font-mono); background:none; border:none; color:#444; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
+        .ev-tab { padding:13px 28px; cursor:pointer; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-family:var(--font-mono); background:none; border:none; color:var(--text3); border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
         .ev-tab.active { color:var(--text); border-bottom-color:var(--accent); }
         .ev-tab:hover:not(.active) { color:var(--text2); }
 
         /* ── BASE CARD ── */
-        .ev-card { background:linear-gradient(135deg,#161616,#111); border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
+        .ev-card { background:var(--bg2); border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
         .ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,0,0,0.02),transparent 60%); pointer-events:none; }
-        .ev-card-gold { border-color:color-mix(in srgb, var(--warning-text) 18%, transparent); background:linear-gradient(135deg,#161410,#111); }
+        .ev-card-gold { border-color:color-mix(in srgb, var(--warning-text) 18%, transparent); background:linear-gradient(135deg, color-mix(in srgb, var(--warning-text) 6%, var(--bg2)), var(--bg2)); }
         .ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--warning-text) 40%, transparent),transparent); }
-        .ev-card-green { border-color:color-mix(in srgb, var(--success-text) 12%, transparent); background:linear-gradient(135deg,#101610,#111); }
+        .ev-card-green { border-color:color-mix(in srgb, var(--success-text) 12%, transparent); background:linear-gradient(135deg, color-mix(in srgb, var(--success-text) 6%, var(--bg2)), var(--bg2)); }
         .ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--success-text) 35%, transparent),transparent); }
         /* ── STRENGTHS / WEAKNESSES 2-COL ── */
         .ev-sw-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:14px 0; }
@@ -442,7 +442,7 @@ const handleOcr = useCallback(async () => {
         .ev-sw-head-s { color:var(--green); }
         .ev-sw-head-w { color:var(--red); }
         .ev-sw-item { display:flex; gap:9px; align-items:flex-start; margin-bottom:9px; font-size:0.86rem;
-          line-height:1.65; color:#c0c0c0; font-family:var(--font-body); }
+          line-height:1.65; color:var(--text); font-family:var(--font-body); }
         .ev-sw-item:last-child { margin-bottom:0; }
         .ev-sw-empty { font-size:0.82rem; color:var(--text3); font-style:italic; }
 
@@ -454,7 +454,7 @@ const handleOcr = useCallback(async () => {
         .ev-demand-item { display:flex; gap:14px; padding:13px 0; border-bottom:1px solid rgba(0,0,0,0.04); align-items:flex-start; }
         .ev-demand-item:last-child { border-bottom:none; padding-bottom:0; }
         .ev-demand-bullet { width:6px; height:6px; border-radius:50%; background:var(--accent); margin-top:7px; flex-shrink:0; box-shadow:0 0 8px color-mix(in srgb, var(--accent) 50%, transparent); }
-        .ev-demand-txt { font-size:0.9rem; color:#c4c4c4; line-height:1.75; font-family:var(--font-body); }
+        .ev-demand-txt { font-size:0.9rem; color:var(--text); line-height:1.75; font-family:var(--font-body); }
 
         /* ── WHAT YOU WROTE ── */
         .ev-wrote { background:rgba(0,0,0,0.025); border:1px solid rgba(0,0,0,0.07); border-radius:8px; padding:16px 18px; margin-bottom:18px; position:relative; }
@@ -463,7 +463,7 @@ const handleOcr = useCallback(async () => {
         .ev-wrote-txt { font-size:0.88rem; color:var(--text2); line-height:1.75; font-style:normal; padding-left:14px; text-align:justify; }
 
         /* ── ANALYSIS TEXT ── */
-        .ev-analysis { font-size:0.92rem; color:#c8c8c8; line-height:1.85; margin-bottom:18px; font-family:var(--font-body); }
+        .ev-analysis { font-size:0.92rem; color:var(--text); line-height:1.85; margin-bottom:18px; font-family:var(--font-body); }
 
         /* ── SUBLABELS (Strengths / Weaknesses / Suggestions) ── */
         .ev-sl { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--text3); margin:18px 0 10px; display:flex; align-items:center; gap:8px; }
@@ -473,7 +473,7 @@ const handleOcr = useCallback(async () => {
 
         /* ── LISTS ── */
         ul.ev-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
-        ul.ev-list li { padding:10px 14px 10px 16px; background:rgba(0,0,0,0.02); border-radius:6px; border-left:2px solid rgba(0,0,0,0.08); font-size:0.88rem; color:#b0b0b0; line-height:1.7; font-family:var(--font-body); }
+        ul.ev-list li { padding:10px 14px 10px 16px; background:rgba(0,0,0,0.02); border-radius:6px; border-left:2px solid rgba(0,0,0,0.08); font-size:0.88rem; color:var(--text2); line-height:1.7; font-family:var(--font-body); }
         ul.ev-list li.g { border-left-color:color-mix(in srgb, var(--success-text) 45%, transparent); color:var(--success-text); background:var(--success-wash); }
         ul.ev-list li.r { border-left-color:color-mix(in srgb, var(--danger-text) 40%, transparent); color:var(--danger-text); background:var(--danger-wash); }
 
@@ -486,7 +486,7 @@ const handleOcr = useCallback(async () => {
         .ev-ml { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:color-mix(in srgb, var(--success-text) 55%, transparent); margin:22px 0 12px; display:flex; align-items:center; gap:8px; }
         .ev-ml::after { content:''; flex:1; height:1px; background:var(--success-wash); }
         .ev-ml:first-of-type { margin-top:0; }
-        .ev-mp { font-size:0.93rem; line-height:1.9; color:#d4d4d4; margin-bottom:0; font-family:var(--font-body); }
+        .ev-mp { font-size:0.93rem; line-height:1.9; color:var(--text); margin-bottom:0; font-family:var(--font-body); }
 
         /* ── HISTORIANS ── */
         .ev-hist { padding:22px 0; border-bottom:1px solid rgba(0,0,0,0.05); display:grid; gap:6px; }
@@ -494,10 +494,10 @@ const handleOcr = useCallback(async () => {
         .ev-hist:last-child { border-bottom:none; padding-bottom:0; }
         .ev-hist-name { font-family:var(--font-display); font-size:1.0rem; font-weight:700; color:var(--accent); letter-spacing:0.01em; }
         .ev-hist-work { font-family:var(--font-mono); font-size:0.68rem; color:var(--text3); letter-spacing:0.05em; }
-        .ev-hist-arg { font-size:0.88rem; color:#aaa; line-height:1.75; font-family:var(--font-body); }
+        .ev-hist-arg { font-size:0.88rem; color:var(--text2); line-height:1.75; font-family:var(--font-body); }
 
         /* ── OVERALL FEEDBACK ── */
-        .ev-overall-txt { font-size:0.93rem; line-height:1.9; color:#d4d4d4; font-family:var(--font-body); }
+        .ev-overall-txt { font-size:0.93rem; line-height:1.9; color:var(--text); font-family:var(--font-body); }
 
         .ev-fade { animation:ev-fi 0.4s ease; }
         @keyframes ev-fi { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
@@ -513,18 +513,18 @@ const handleOcr = useCallback(async () => {
         .ev-sec-lbl { font-family:var(--font-mono); font-size:0.52rem; letter-spacing:0.22em;
           text-transform:uppercase; color:var(--text3); margin-bottom:10px; }
         .ev-sec-num { font-family:var(--font-mono); font-size:1.85rem; font-weight:700; line-height:1; }
-        .ev-sec-den { font-size:0.9rem; color:#444; }
+        .ev-sec-den { font-size:0.9rem; color:var(--text3); }
         .ev-sec-bar-bg { background:var(--bg4); border-radius:2px; height:3px; overflow:hidden; margin:10px 0 8px; }
         .ev-sec-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
-        .ev-sec-rsn { font-size:0.76rem; color:#666; line-height:1.5; font-family:var(--font-ui); }
+        .ev-sec-rsn { font-size:0.76rem; color:var(--text3); line-height:1.5; font-family:var(--font-ui); }
         .ev-pages { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
         .ev-page-item { position:relative; width:80px; user-select:none; -webkit-user-select:none; }
         .ev-page-arrows { display:flex; justify-content:center; gap:4px; margin-top:5px; }
-        .ev-page-item img { width:80px; height:100px; object-fit:cover; border-radius:4px; border:2px solid #333; display:block; transition:border-color 0.15s; }
-        .ev-page-arrow { background:var(--bg4); border:1px solid #333; color:#aaa; border-radius:3px; width:34px; height:22px; font-size:0.75rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
-        .ev-page-arrow:hover { background:#333; color:#fff; border-color:var(--text3); } .ev-page-arrow:disabled { opacity:0.2; cursor:default; }
-        .ev-page-num { position:absolute; top:4px; left:4px; background:rgba(0,0,0,0.75); color:#fff; font-family:var(--font-mono); font-size:0.6rem; padding:2px 6px; border-radius:3px; }
-        .ev-page-del { position:absolute; top:4px; right:4px; background:color-mix(in srgb, var(--danger-text) 85%, transparent); color:#fff; font-size:0.65rem; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; line-height:1; }
+        .ev-page-item img { width:80px; height:100px; object-fit:cover; border-radius:4px; border:2px solid var(--border2); display:block; transition:border-color 0.15s; }
+        .ev-page-arrow { background:var(--bg4); border:1px solid var(--border2); color:var(--text2); border-radius:3px; width:34px; height:22px; font-size:0.75rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
+        .ev-page-arrow:hover { background:var(--border2); color:var(--white-50); border-color:var(--text3); } .ev-page-arrow:disabled { opacity:0.2; cursor:default; }
+        .ev-page-num { position:absolute; top:4px; left:4px; background:rgba(0,0,0,0.75); color:var(--white-50); font-family:var(--font-mono); font-size:0.6rem; padding:2px 6px; border-radius:3px; }
+        .ev-page-del { position:absolute; top:4px; right:4px; background:color-mix(in srgb, var(--danger-text) 85%, transparent); color:var(--white-50); font-size:0.65rem; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; line-height:1; }
         .ev-page-add { width:80px; height:100px; border:1.5px dashed var(--border2); border-radius:4px; background:var(--bg4); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; color:var(--text3); font-size:1.4rem; transition:all 0.15s; }
         .ev-page-add:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-dim); }
 
@@ -567,7 +567,7 @@ const handleOcr = useCallback(async () => {
           {sidebarOpen && (
             <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
               {history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? e.type === "map" : !e.type || e.type === "single").length === 0 ? (
-                <div style={{ padding:"24px 16px", color:"#444", fontSize:"0.78rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
+                <div style={{ padding:"24px 16px", color:"var(--text3)", fontSize:"0.78rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
                   {evalMode === "map" ? "No map evaluations yet. Evaluate Q1 Map first." : evalMode === "batch" ? "No batch evaluations yet. Evaluate a Full Paper / FLT first." : "No evaluations yet. Submit your first answer above."}
                 </div>
               ) : history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? e.type === "map" : !e.type || e.type === "single").map(entry => {
@@ -580,7 +580,7 @@ const handleOcr = useCallback(async () => {
                     onClick={() => setOpenEntry(isOpen ? null : entry)}
                     style={{
                       width:"100%", padding:"12px 16px", background: isOpen ? "var(--bg3)" : "transparent",
-                      border:"none", borderBottom:"1px solid #1a1a1a",
+                      border:"none", borderBottom:"1px solid var(--border)",
                       cursor:"pointer", textAlign:"left", transition:"background 0.15s",
                     }}
                     onMouseEnter={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "var(--bg3)"; }}
@@ -588,11 +588,11 @@ const handleOcr = useCallback(async () => {
                   >
                     <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
                       <span style={{ fontSize:"0.65rem", fontFamily:"var(--font-mono)", color, fontWeight:700 }}>{pct}%</span>
-                      <span style={{ fontSize:"0.6rem", color:"#444", fontFamily:"var(--font-mono)" }}>
+                      <span style={{ fontSize:"0.6rem", color:"var(--text3)", fontFamily:"var(--font-mono)" }}>
                         {new Date(entry.date).toLocaleDateString("en-IN", { day:"numeric", month:"short" })}
                       </span>
                     </div>
-                    <div style={{ fontSize:"0.75rem", color: isOpen ? "var(--text)" : "#888", lineHeight:1.4, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>
+                    <div style={{ fontSize:"0.75rem", color: isOpen ? "var(--text)" : "var(--text3)", lineHeight:1.4, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>
                       {entry.question}
                     </div>
                     <div style={{ marginTop:6, height:2, background:"var(--bg4)", borderRadius:2, overflow:"hidden" }}>
@@ -693,7 +693,7 @@ const handleOcr = useCallback(async () => {
                   <div style={{ marginBottom:32 }}>
                     <div className="ev-ct">{tr(t.demandOfQuestion, langHi)}</div>
                     {openEntry.demandOfQuestion.map((d,i) => (
-                      <div key={i} className="ev-demand-item"><div className="ev-demand-bullet"/><div style={{ fontSize:"0.87rem", color:"#ccc", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{d}</div></div>
+                      <div key={i} className="ev-demand-item"><div className="ev-demand-bullet"/><div style={{ fontSize:"0.87rem", color:"var(--text)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{d}</div></div>
                     ))}
                   </div>
                 )}
@@ -702,7 +702,7 @@ const handleOcr = useCallback(async () => {
                 {openEntry.introduction && (
                   <div style={{ marginBottom:32 }}>
                     <div className="ev-ct">Introduction</div>
-                    {openEntry.introduction?.what_was_written && <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginBottom:12 }}>{openEntry.introduction?.what_was_written}</div>}
+                    {openEntry.introduction?.what_was_written && <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)", marginBottom:12 }}>{openEntry.introduction?.what_was_written}</div>}
                     <div className="ev-sw-grid">
                       <div className="ev-sw-col ev-sw-col-s">
                         <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
@@ -728,9 +728,9 @@ const handleOcr = useCallback(async () => {
                 {openEntry.body && (
                   <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
                     <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Body</span>
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Body</span>
                       {openEntry.sectionMarks?.body && (
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
                           {openEntry.sectionMarks.body.awarded}<span style={{ color:"var(--text3)" }}>/{openEntry.sectionMarks.body.out_of}</span>
                         </span>
                       )}
@@ -757,7 +757,7 @@ const handleOcr = useCallback(async () => {
                         {(openEntry.body.suggestions || []).map((s,i) => (
                           <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:10 }}>
                             <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
+                            <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                           </div>
                         ))}
                       </div>
@@ -769,9 +769,9 @@ const handleOcr = useCallback(async () => {
                 {openEntry.conclusion && (
                   <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
                     <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Conclusion</span>
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Conclusion</span>
                       {openEntry.sectionMarks?.conclusion && (
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
                           {openEntry.sectionMarks.conclusion.awarded}<span style={{ color:"var(--text3)" }}>/{openEntry.sectionMarks.conclusion.out_of}</span>
                         </span>
                       )}
@@ -779,7 +779,7 @@ const handleOcr = useCallback(async () => {
                     {openEntry.conclusion?.what_was_written && (
                       <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)", background:"rgba(255,255,255,0.015)" }}>
                         <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
-                        <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{openEntry.conclusion?.what_was_written}</div>
+                        <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{openEntry.conclusion?.what_was_written}</div>
                       </div>
                     )}
                     <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
@@ -804,7 +804,7 @@ const handleOcr = useCallback(async () => {
                         {(openEntry.conclusion.suggestions || []).map((s,i) => (
                           <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
                             <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
+                            <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                           </div>
                         ))}
                       </div>
@@ -812,7 +812,7 @@ const handleOcr = useCallback(async () => {
                     {openEntry.modelAnswer?.conclusion && (
                       <div style={{ padding:"12px 20px", background:"var(--success-wash)" }}>
                         <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"color-mix(in srgb, var(--success-text) 50%, transparent)", textTransform:"uppercase", marginBottom:8 }}>Model conclusion</div>
-                        <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{openEntry.modelAnswer.conclusion}</div>
+                        <div style={{ fontSize:"0.87rem", color:"var(--text)", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{openEntry.modelAnswer.conclusion}</div>
                       </div>
                     )}
                   </div>
@@ -844,7 +844,7 @@ const handleOcr = useCallback(async () => {
                   <div className="ev-ml">Body</div>
                   <ul className="ev-list" style={{ marginBottom:16 }}>
                     {bodyParas(openEntry.modelAnswer.body).map((p,i) => (
-                      <li key={i} style={{ color:"#ccc", fontSize:"0.93rem", lineHeight:1.75, marginBottom:8 }}>{p}</li>
+                      <li key={i} style={{ color:"var(--text)", fontSize:"0.93rem", lineHeight:1.75, marginBottom:8 }}>{p}</li>
                     ))}
                   </ul>
                   <div className="ev-ml">Conclusion</div>
@@ -871,7 +871,7 @@ const handleOcr = useCallback(async () => {
         {stage === "ocr" && !evaluation && (
           <div className="ev-fade">
             <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:12 }}>{tr(t.evalStep2, langHi)}</div>
-            <p style={{ color:"#888", fontSize:"0.88rem", fontFamily:"var(--font-ui)", lineHeight:1.6, marginBottom:20 }}>
+            <p style={{ color:"var(--text3)", fontSize:"0.88rem", fontFamily:"var(--font-ui)", lineHeight:1.6, marginBottom:20 }}>
               {tr(t.evalOcrHint, langHi)}
             </p>
             {error && <div className="ev-err">{error}</div>}
@@ -918,7 +918,7 @@ const handleOcr = useCallback(async () => {
                     background: evalMode==="single" ? "var(--accent-dim)" : "var(--bg3)",
                     border: evalMode==="single" ? "1px solid color-mix(in srgb, var(--accent) 30%, transparent)" : "1px solid var(--border)",
                     display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="single"?"var(--accent)":"#555"} strokeWidth="1.8" strokeLinecap="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="single"?"var(--accent)":"var(--text3)"} strokeWidth="1.8" strokeLinecap="round">
                       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                       <polyline points="14 2 14 8 20 8"/>
                       <line x1="16" y1="13" x2="8" y2="13"/>
@@ -944,7 +944,7 @@ const handleOcr = useCallback(async () => {
                     background: evalMode==="batch" ? "var(--accent-dim)" : "var(--bg3)",
                     border: evalMode==="batch" ? "1px solid color-mix(in srgb, var(--accent) 30%, transparent)" : "1px solid var(--border)",
                     display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="batch"?"var(--accent)":"#555"} strokeWidth="1.8" strokeLinecap="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="batch"?"var(--accent)":"var(--text3)"} strokeWidth="1.8" strokeLinecap="round">
                       <rect x="2" y="3" width="20" height="14" rx="2"/>
                       <path d="M8 21h8M12 17v4"/>
                     </svg>
@@ -961,7 +961,7 @@ const handleOcr = useCallback(async () => {
                 padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
                 gridColumn:"1 / -1",
                 background: evalMode==="map" ? "var(--success-wash)" : "var(--bg2)",
-                border: evalMode==="map" ? "1.5px solid color-mix(in srgb, var(--success-text) 45%, transparent)" : "1.5px solid #222",
+                border: evalMode==="map" ? "1.5px solid color-mix(in srgb, var(--success-text) 45%, transparent)" : "1.5px solid var(--border2)",
                 boxShadow: evalMode==="map" ? "0 0 0 3px color-mix(in srgb, var(--success-text) 8%, transparent), inset 0 1px 0 rgba(0,0,0,0.04)" : "none",
                 transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
@@ -969,7 +969,7 @@ const handleOcr = useCallback(async () => {
                     background: evalMode==="map" ? "var(--success-wash)" : "var(--bg3)",
                     border: evalMode==="map" ? "1px solid color-mix(in srgb, var(--success-text) 30%, transparent)" : "1px solid var(--border)",
                     display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="map"?"var(--success-text)":"#555"} strokeWidth="1.8" strokeLinecap="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="map"?"var(--success-text)":"var(--text3)"} strokeWidth="1.8" strokeLinecap="round">
                       <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
                       <line x1="9" y1="3" x2="9" y2="18"/>
                       <line x1="15" y1="6" x2="15" y2="21"/>
@@ -1031,7 +1031,7 @@ const handleOcr = useCallback(async () => {
                           onPointerCancel={() => setDragIdx(null)}
                         >
                           {previews[i] === "__pdf__"
-                            ? <div style={{width:80,height:100,borderRadius:4,border:"2px solid #333",background:"var(--bg2)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4}}>
+                            ? <div style={{width:80,height:100,borderRadius:4,border:"2px solid var(--border2)",background:"var(--bg2)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4}}>
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success-text)" strokeWidth="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><text x="6" y="19" fontSize="5" fill="var(--success-text)" stroke="none" fontWeight="bold">PDF</text></svg>
                                 <span style={{color:"var(--success-text)",fontSize:"0.6rem",fontFamily:"var(--font-mono)"}}>PDF</span>
                               </div>
@@ -1076,7 +1076,7 @@ const handleOcr = useCallback(async () => {
                 ) : (
                   <>
                     <div style={{ fontSize:"2rem", marginBottom:12, opacity:0.35 }}>⬆</div>
-                    <div style={{ color:"#888", fontSize:"0.95rem" }}>Upload photos or PDF of your answer sheet</div>
+                    <div style={{ color:"var(--text3)", fontSize:"0.95rem" }}>Upload photos or PDF of your answer sheet</div>
                     <div style={{ color:"var(--text3)", fontSize:"0.78rem", marginTop:6, fontFamily:"var(--font-mono)" }}>JPG · PNG · PDF · Multiple pages supported</div>
                   </>
                 )}
@@ -1125,12 +1125,12 @@ const handleOcr = useCallback(async () => {
         {loading && (
           <div style={{ padding:"80px 0 60px", maxWidth:520, margin:"0 auto" }}>
             {/* Title */}
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.3em", textTransform:"uppercase", color:"#444", marginBottom:32, textAlign:"center" }}>
+            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.3em", textTransform:"uppercase", color:"var(--text3)", marginBottom:32, textAlign:"center" }}>
               Evaluating Answer
             </div>
             {/* Big progress number */}
             <div style={{ display:"flex", alignItems:"flex-end", gap:6, marginBottom:18 }}>
-              <span style={{ fontFamily:"var(--font-mono)", fontSize:"4.5rem", fontWeight:700, lineHeight:1, color:"#f0f0f0", letterSpacing:"-0.04em" }}>{String(evalProgress).padStart(2,"0")}</span>
+              <span style={{ fontFamily:"var(--font-mono)", fontSize:"4.5rem", fontWeight:700, lineHeight:1, color:"var(--text)", letterSpacing:"-0.04em" }}>{String(evalProgress).padStart(2,"0")}</span>
               <span style={{ fontFamily:"var(--font-mono)", fontSize:"1.2rem", color:"var(--border2)", marginBottom:10 }}>%</span>
             </div>
             {/* Main bar */}
@@ -1153,7 +1153,7 @@ const handleOcr = useCallback(async () => {
                     height: evalProgress >= p ? 8 : 5,
                     borderRadius:"50%",
                     background: evalProgress >= p ? "var(--accent)" : "var(--bg4)",
-                    border: evalProgress >= p ? "none" : "1px solid #333",
+                    border: evalProgress >= p ? "none" : "1px solid var(--border2)",
                     boxShadow: evalProgress >= p ? "0 0 8px var(--accent)" : "none",
                     transition:"all 0.5s"
                   }} />
@@ -1195,7 +1195,7 @@ const handleOcr = useCallback(async () => {
               </div>
               <div style={{ textAlign:"right" }}>
                 <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:10 }}>Ideal Word Count</div>
-                <div style={{ fontFamily:"var(--font-mono)", fontSize:"2.2rem", fontWeight:700, color:"#f0f0f0", lineHeight:1 }}>
+                <div style={{ fontFamily:"var(--font-mono)", fontSize:"2.2rem", fontWeight:700, color:"var(--text)", lineHeight:1 }}>
                   {submittedM === 10 ? "150" : submittedM === 15 ? "200" : "250"}
                 </div>
                 <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.7rem", color:"var(--text3)", marginTop:4 }}>words</div>
@@ -1238,7 +1238,7 @@ const handleOcr = useCallback(async () => {
             }}>
               <span style={{ color: "var(--accent)", fontSize: "0.85rem", marginTop: "1px", flexShrink: 0 }}>ℹ</span>
               <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "var(--text3)", lineHeight: 1.65, margin: 0 }}>
-                These marks are <span style={{ color: "#aaa" }}>indicative, not exact</span> — expect a 1–2 mark variance from what an actual UPSC examiner may award (usually on the lower side). Focus on the <span style={{ color: "#aaa" }}>qualitative feedback</span>: weak areas, missing historians, and the analytical depth of your answer. That is what moves the needle.
+                These marks are <span style={{ color: "var(--text2)" }}>indicative, not exact</span> — expect a 1–2 mark variance from what an actual UPSC examiner may award (usually on the lower side). Focus on the <span style={{ color: "var(--text2)" }}>qualitative feedback</span>: weak areas, missing historians, and the analytical depth of your answer. That is what moves the needle.
               </p>
             </div>
 
@@ -1283,8 +1283,8 @@ const handleOcr = useCallback(async () => {
                   <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
                     {toArray(evaluation.demand_of_question).map((d,i) => (
                       <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
-                        <div style={{ width:4, height:4, borderRadius:"50%", background:"#555", marginTop:8, flexShrink:0 }} />
-                        <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{d}</div>
+                        <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--text3)", marginTop:8, flexShrink:0 }} />
+                        <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{d}</div>
                       </div>
                     ))}
                   </div>
@@ -1293,16 +1293,16 @@ const handleOcr = useCallback(async () => {
                 {/* Section evaluator — Introduction */}
                 <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Introduction</span>
+                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Introduction</span>
                     {evaluation.section_marks?.introduction && (
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
                         {evaluation.section_marks.introduction.awarded}<span style={{ color:"var(--text3)" }}>/{evaluation.section_marks.introduction.out_of}</span>
                       </span>
                     )}
                   </div>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)", background:"rgba(255,255,255,0.015)" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
-                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction?.what_was_written}</div>
+                    <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction?.what_was_written}</div>
                   </div>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                     {(() => {
@@ -1325,7 +1325,7 @@ const handleOcr = useCallback(async () => {
                         </div>
                       );
                     })()}
-                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.introduction.analysis}</div>
+                    <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.introduction.analysis}</div>
                   </div>
                   {toArray(evaluation.introduction.suggestions).filter(s => s).length > 0 && (
                     <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
@@ -1333,23 +1333,23 @@ const handleOcr = useCallback(async () => {
                       {toArray(evaluation.introduction.suggestions).map((s,i) => (
                         <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.introduction.suggestions).length - 1 ? 8 : 0 }}>
                           <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
+                          <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                         </div>
                       ))}
                     </div>
                   )}
                   <div style={{ padding:"12px 20px", background:"var(--accent-dim)" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--accent)", textTransform:"uppercase", marginBottom:8 }}>Model introduction</div>
-                    <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{evaluation.model_answer.introduction}</div>
+                    <div style={{ fontSize:"0.87rem", color:"var(--text)", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{evaluation.model_answer.introduction}</div>
                   </div>
                 </div>
 
                 {/* Section evaluator — Body */}
                 <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Body</span>
+                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Body</span>
                     {evaluation.section_marks?.body && (
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
                         {evaluation.section_marks.body.awarded}<span style={{ color:"var(--text3)" }}>/{evaluation.section_marks.body.out_of}</span>
                       </span>
                     )}
@@ -1408,7 +1408,7 @@ const handleOcr = useCallback(async () => {
                       {toArray(evaluation.body.suggestions).map((s,i) => (
                         <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.body.suggestions).length - 1 ? 10 : 0 }}>
                           <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
+                          <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                         </div>
                       ))}
                     </div>
@@ -1418,16 +1418,16 @@ const handleOcr = useCallback(async () => {
                 {/* Section evaluator — Conclusion */}
                 <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"#888" }}>Conclusion</span>
+                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Conclusion</span>
                     {evaluation.section_marks?.conclusion && (
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"#e0e0e0" }}>
+                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
                         {evaluation.section_marks.conclusion.awarded}<span style={{ color:"var(--text3)" }}>/{evaluation.section_marks.conclusion.out_of}</span>
                       </span>
                     )}
                   </div>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)", background:"rgba(255,255,255,0.015)" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
-                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion?.what_was_written}</div>
+                    <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion?.what_was_written}</div>
                   </div>
                   <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
                     {(() => {
@@ -1450,7 +1450,7 @@ const handleOcr = useCallback(async () => {
                         </div>
                       );
                     })()}
-                    <div style={{ fontSize:"0.87rem", color:"#999", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.conclusion.analysis}</div>
+                    <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.conclusion.analysis}</div>
                   </div>
                   {toArray(evaluation.conclusion.suggestions).filter(s => s).length > 0 && (
                     <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
@@ -1458,14 +1458,14 @@ const handleOcr = useCallback(async () => {
                       {toArray(evaluation.conclusion.suggestions).map((s,i) => (
                         <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.conclusion.suggestions).length - 1 ? 8 : 0 }}>
                           <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"#b0b0b0", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
+                          <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
                         </div>
                       ))}
                     </div>
                   )}
                   <div style={{ padding:"12px 20px", background:"var(--success-wash)" }}>
                     <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"color-mix(in srgb, var(--success-text) 50%, transparent)", textTransform:"uppercase", marginBottom:8 }}>Model conclusion</div>
-                    <div style={{ fontSize:"0.87rem", color:"#c0c0c0", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{evaluation.model_answer.conclusion}</div>
+                    <div style={{ fontSize:"0.87rem", color:"var(--text)", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{evaluation.model_answer.conclusion}</div>
                   </div>
                 </div>
 
@@ -1498,7 +1498,7 @@ const handleOcr = useCallback(async () => {
                   <div className="ev-ml">Body</div>
                   <ul className="ev-list" style={{ marginBottom:16 }}>
                     {bodyParas(evaluation.model_answer.body).map((p,i) => (
-                      <li key={i} style={{ color:'#ccc', fontSize:'0.93rem', lineHeight:1.75, marginBottom:8 }}>{p}</li>
+                      <li key={i} style={{ color:'var(--text)', fontSize:'0.93rem', lineHeight:1.75, marginBottom:8 }}>{p}</li>
                     ))}
                   </ul>
                   <div className="ev-ml">Conclusion</div>

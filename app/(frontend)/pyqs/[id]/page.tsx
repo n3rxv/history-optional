@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import LoadingDots from '@/components/LoadingDots';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { pyqs, type PYQ } from '@/lib/pyqData';
@@ -339,7 +340,7 @@ export default function PYQDetailPage() {
           🏆 Related Topper Copies
         </div>
         {topperLoading ? (
-          <div style={{ color: 'var(--text3)', fontSize: '0.8rem', padding: '1rem 0' }}>Loading…</div>
+          <LoadingDots label="Loading" style={{ color: 'var(--text3)', fontSize: '0.8rem', padding: '1rem 0' }} />
         ) : topperCopies.length === 0 ? (
           <>
             <div style={{ color: 'var(--text3)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: '1rem' }}>

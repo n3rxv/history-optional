@@ -48,7 +48,7 @@ export const FEATURES: Feature[] = [
   { name: 'Mentor mode',               free: '—', premium: '✓',
     detail: 'The TADA framework applied to your question, and a 350-word plan to write to.' },
   { name: 'Topper copies',             free: '—', premium: '✓',
-    detail: 'Full scanned answer copies with the marks awarded. Included in every plan, or ₹799 on its own.' },
+    detail: 'Individual answers scanned from toppers’ answer copies, question by question.' },
 ];
 
 /**
@@ -57,7 +57,7 @@ export const FEATURES: Feature[] = [
  */
 export const ONE_OFF = [
   { name: 'Topper copies',  pricePaise: 79900, inPremium: true,
-    blurb: 'Full scanned answer copies with the marks awarded. Already included in every subscription — this is for buying them on their own.' },
+    blurb: 'Individual answers scanned from toppers’ answer copies, question by question.' },
   { name: 'Map evaluation', pricePaise:  4900, inPremium: false,
     blurb: 'Charged per map, for subscribers and non-subscribers alike. It is not part of any plan.' },
 ] as const;

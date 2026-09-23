@@ -111,9 +111,12 @@ export function useSubscriptionGate(onEvaluate: () => void) {
       </div>
     );
     const remaining = FREE_EVAL_LIMIT - (usage?.eval_count ?? 0);
-    const color = remaining <= 0 ? '#f87171' : remaining === 1 ? '#fbbf24' : '#555';
+    // The amber read as pale yellow on paper and was the hardest line on the
+    // page to see. A warning tone is not worth an unreadable one, so the
+    // normal case is just body text.
+    const color = remaining <= 0 ? 'var(--danger-text)' : 'var(--text)';
     return (
-      <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.62rem', color, letterSpacing:'0.08em', marginBottom:12 }}>
+      <div style={{ fontFamily:'var(--font-mono)', fontSize:'0.68rem', fontWeight:600, color, letterSpacing:'0.08em', marginBottom:12 }}>
         {remaining <= 0 ? 'Free evaluations used · subscribe for unlimited' : `${remaining} of ${FREE_EVAL_LIMIT} free evaluations remaining`}
       </div>
     );

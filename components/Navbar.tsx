@@ -671,9 +671,9 @@ export default function Navbar() {
                       })}
                     </div>
                   )}
-                  <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
+                  <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'var(--black-900)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
                     <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
-                    <div style={{ fontSize:'0.52rem', color:'var(--text-faint)', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
+                    <div style={{ fontSize:'0.52rem', color:'var(--white-50)', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
                     <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
                   </div>
                 </div>
@@ -988,9 +988,9 @@ export default function Navbar() {
                 })}
               </div>
             )}
-            <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'rgba(0,0,0,0.4)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
+            <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'var(--black-900)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
               <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
-              <div style={{ fontSize:'0.52rem', color:'var(--text-faint)', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
+              <div style={{ fontSize:'0.52rem', color:'var(--white-50)', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
               <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
             </div>
           </div>,

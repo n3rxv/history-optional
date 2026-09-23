@@ -1243,6 +1243,10 @@ export default function TestPage() {
             variant="test"
           />
         </div>
+        {/* This branch returns early, so the gate modals have to be mounted
+            here too. Without them the Unlock with Premium button below set
+            its state and nothing appeared. */}
+        <GateModals />
         <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
       </div>
     );

@@ -310,11 +310,11 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
         .hb-positions { display: flex; flex-direction: column; gap: 0.6rem; }
         .hb-position { background: rgba(0,0,0,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem 1rem; }
         .hb-pos-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.5rem; }
-        .hb-pos-name { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--text); }
-        .hb-pos-stance { font-size: 0.72rem; color: var(--text2); margin-top: 2px;  }
-        .hb-pos-work { font-size: 0.68rem; font-family: var(--font-mono); color: var(--text3); margin-bottom: 0.5rem; }
+        .hb-pos-name { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--text); }
+        .hb-pos-stance { font-size: 0.9rem; color: var(--text); margin-top: 3px; }
+        .hb-pos-work { font-size: 0.76rem; font-family: var(--font-mono); color: var(--text2); margin-bottom: 0.55rem; }
         .hb-pos-work span { color: var(--accent); }
-        .hb-pos-arg { font-size: 0.8rem; color: var(--text2); line-height: 1.65; }
+        .hb-pos-arg { font-size: 0.95rem; color: var(--text); line-height: 1.7; }
         
         .hb-topics { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.6rem; }
         .hb-topic-tag { font-size: 0.6rem; padding: 2px 8px; border-radius: 20px; background: var(--accent-dim); color: var(--text3); border: 1px solid var(--border); font-family: var(--font-mono); }
@@ -341,8 +341,8 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
           <input className="hb-search" placeholder={langHi ? "बहसें, इतिहासकार, विषय खोजें…" : "Search debates, historians, topics…"} value={search} onChange={e => setSearch(e.target.value)} />
           <select className="hb-select" value={filterType} onChange={e => setFilterType(e.target.value)}>
             <option value="All">All Types</option>
-            <option value="debate">🔥 Debates</option>
-            <option value="topic">📚 Topics</option>
+            <option value="debate">Debates</option>
+            <option value="topic">Topics</option>
           </select>
           <select className="hb-select" value={filterPaper} onChange={e => setFilterPaper(e.target.value)}>
             {PAPERS.map(p => <option key={p}>{p}</option>)}
