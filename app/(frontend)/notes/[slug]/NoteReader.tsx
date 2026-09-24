@@ -842,20 +842,24 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           whole way down; the sticky, scrolling part is the wrapper inside.
           Previously the aside was itself a fixed 100vh box in a taller row,
           which is why the sidebar stopped partway and left white beneath it. */}
+      {/* Held against the window rather than carried by the page: the
+          aside is the sticky box, a viewport tall, and the column inside
+          does its own scrolling. It used to stretch to the full page
+          height with the inner column sticky inside it, which let the
+          sidebar ride up with the page before it caught. */}
       <aside style={{
         width: sidebarOpen ? 240 : 0, minWidth: sidebarOpen ? 240 : 0,
         borderRight: '1px solid var(--border)',
         background: 'var(--bg2)',
         overflowX: 'hidden', transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
-        flexShrink: 0, alignSelf: 'stretch',
+        flexShrink: 0,
+        position: 'sticky', top: 52, height: 'calc(100vh - 52px)',
         boxShadow: 'inset -1px 0 0 var(--border)',
       }}>
-      {/* The scroller stays. It now ends with room to spare instead of
-          slicing the last note at the viewport edge, and the aside above
-          it no longer clips vertically. */}
+      {/* The scroller. It fills the aside and ends with room to spare, so
+          the last note is not sliced at the foot of the window. */}
       <div style={{
-        position: 'sticky', top: 52,
-        maxHeight: 'calc(100vh - 52px)', overflowY: 'auto',
+        height: '100%', overflowY: 'auto',
         paddingBottom: 'var(--space-6)',
         overscrollBehavior: 'contain',
       }}>
