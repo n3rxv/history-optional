@@ -17,12 +17,18 @@ carrying a ~350 MB vector index on a 500 MB box.
 
 ## Why
 
-`book_chunks` held ~100k rows of `vector(1024)` embeddings behind an HNSW
-index. The embeddings were roughly 410 MB, the index a comparable amount, and
-the TOASTed `content` another 150–250 MB — call it 1–1.5 GB of hot data on a
-`t4g.nano` with about 0.5 GB of RAM.
+`book_chunks` held 30,305 rows of `vector(1024)` embeddings behind an HNSW
+index: about 124 MB of vectors, a comparable amount again for the index, and
+~25 MB of `content` — call it 300–350 MB of hot data on a `t4g.nano` with
+about 0.5 GB of RAM, of which `shared_buffers` gets a fraction.
 
-Under a fifth of that working set could ever be cached, so every retrieval
+(The first estimates made during the incident put this at 1–1.5 GB, scaled
+from the 736 MB of source books rather than measured. The real figure came out
+3–4× smaller once the export ran. It made no difference to the conclusion —
+350 MB still cannot be cached on this box — but the margin was narrower than
+claimed at the time.)
+
+Well under half that working set could ever be cached, so every retrieval
 read from disk. That drained the project's disk IO budget, and once the budget
 was gone throughput fell to the 5 MB/s baseline and the database stopped
 answering anything: 183 of 192 gateway requests failing, Supabase's own Table
@@ -166,3 +172,9 @@ the guard on all of this. It stayed at the 6.00 ceiling throughout.
   tab, each one WAL plus a dirtied page. Worth cutting on a free-tier box.
 - **`components/AuthGuard.tsx:37` POSTs to `/api/ping`**, which only exports
   `GET`. It 405s every sign-in and the health probe never runs.
+
+Resolved 25 Sep: the per-minute `expire-subscriptions` cron. It is legitimate
+billing bookkeeping, not dead work — it had genuinely expired subscriptions
+twice — so it was slowed to daily rather than stopped. See
+`supabase/cron_jobs.sql`. Its run log had quietly become the largest table on
+the instance at 3.6 MB.
