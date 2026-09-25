@@ -6,6 +6,7 @@ import { createSentenceGate } from '@/lib/citationGate';
 export const maxDuration = 90;
 import { createClient } from "@supabase/supabase-js";
 import { MENTOR_SYSTEM, buildRagBasePrompt } from '@/lib/prompts';
+import { searchDiverse, searchBook, type BookChunk } from '@/lib/vectorStore';
 
 
 // Voyage AI — embed + rerank (voyage-4-lite, rerank-2-lite)
@@ -44,50 +45,29 @@ async function localRerank(query: string, chunks: {id: any, content: string, boo
 
 async function getBookContext(query: string, bookTitle?: string): Promise<string> {
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
     const filter = (bookTitle && bookTitle !== "all") ? bookTitle : null;
 
     // Step 1 (optimized): Single embedding, no query expansion
     const [singleEmbedding] = await localEmbedBatch([query]);
 
-    // Step 2: Search
-    let results;
-    if (!filter) {
-      // All Books mode: single DB round-trip using match_book_chunks_diverse,
-      // which does the per-book top-3 ranking INSIDE Postgres (via a window
-      // function) instead of 25 separate network round-trips from here.
-      results = await Promise.all([
-        supabase.rpc('match_book_chunks_diverse', {
-          query_embedding: singleEmbedding,
-          per_book_count: 3,
-        })
-      ]);
-    } else {
-      // Single book mode
-      results = await Promise.all([
-        supabase.rpc('match_book_chunks', {
-          query_embedding: singleEmbedding,
-          match_count: 12,
-          filter_book: filter,
-        })
-      ]);
-    }
+    // Step 2: Search. Both modes are one round-trip to Qdrant; the per-book
+    // ranking that used to run as a window function in Postgres is now
+    // Qdrant's grouped query, over its own candidate set rather than a
+    // top-150 that a third book might never have reached.
+    const found = filter
+      ? await searchBook(singleEmbedding, filter, { limit: 12 })
+      // Step 4b below slices to 6; 8 leaves a margin for the similarity floor
+      // to discard one or two first.
+      : await searchDiverse(singleEmbedding, { perBook: 3, maxResults: 8 });
 
-    // Step 4: Merge + deduplicate by id
-    const seen = new Set<any>();
-    const allChunks: {id: any, content: string, book_title: string, author: string, similarity: number}[] = [];
-    for (const result of results) {
-      if (result.error) {
-        console.error('Supabase RPC error:', result.error);
-      }
-      for (const chunk of (result.data ?? [])) {
-        if (!seen.has(chunk.id)) {
-          seen.add(chunk.id);
-          allChunks.push({ id: chunk.id, content: chunk.content, book_title: chunk.book_title, author: chunk.author, similarity: chunk.similarity });
-        }
+    // Step 4: Deduplicate by id. Grouped results cannot repeat a point, but
+    // the dedup is cheap and keeps this honest if the retrieval shape changes.
+    const seen = new Set<BookChunk['id']>();
+    const allChunks: BookChunk[] = [];
+    for (const chunk of found) {
+      if (!seen.has(chunk.id)) {
+        seen.add(chunk.id);
+        allChunks.push(chunk);
       }
     }
 
@@ -96,10 +76,10 @@ async function getBookContext(query: string, bookTitle?: string): Promise<string
     // Step 4b: Filter low-similarity chunks
     // (similarity < 0.45 means book likely doesn't cover this topic)
     const filtered = allChunks.filter((c) => (c.similarity ?? 1) > 0.45);
-    // Per-book diversity is enforced inside match_book_chunks_diverse now. The
-    // capping that used to sit here ran after slice(0, 4), so with a cap of two
-    // per book it could never spread beyond two books — and its overflow loop
-    // added the excluded chunks straight back.
+    // Per-book diversity is enforced by the grouped query in lib/vectorStore.
+    // The capping that used to sit here ran after slice(0, 4), so with a cap of
+    // two per book it could never spread beyond two books — and its overflow
+    // loop added the excluded chunks straight back.
     // 8f13ae1 cut this 6 -> 4 for prompt size; 6 is affordable again now that
     // the chunks come from different books instead of repeating one.
     const finalChunks = (filtered.length >= 3 ? filtered : allChunks).slice(0, 6);

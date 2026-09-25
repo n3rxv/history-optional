@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { searchDiverse } from '@/lib/vectorStore';
 
 /**
  * Book-passage retrieval for the evaluation flow.
@@ -34,12 +34,6 @@ async function voyageEmbed(text: string, signal: AbortSignal): Promise<number[]>
   return data.data[0].embedding;
 }
 
-type Chunk = {
-  content: string;
-  book_title: string;
-  author: string;
-  similarity?: number;
-};
 
 /**
  * Returns source-labelled passages for `query`, or '' when nothing is
@@ -54,25 +48,24 @@ export async function getBookContext(query: string): Promise<string> {
   const timer = setTimeout(() => controller.abort(), EMBED_TIMEOUT_MS);
 
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!,
-      { auth: { persistSession: false } }
-    );
-
     const embedding = await voyageEmbed(query, controller.signal);
 
-    const { data: chunks } = await supabase.rpc('match_book_chunks_diverse', {
-      query_embedding: embedding,
-      per_book_count: 3,
+    // The same deadline covers retrieval, so a slow vector store cannot eat
+    // the caller's budget either.
+    const chunks = await searchDiverse(embedding, {
+      perBook: 3,
+      // MAX_CHUNKS is 6; 8 leaves a margin for the similarity floor below to
+      // discard one or two without dropping under six passages.
+      maxResults: 8,
+      signal: controller.signal,
     });
 
-    if (!chunks || chunks.length === 0) return '';
+    if (chunks.length === 0) return '';
 
     // Below the floor the books simply do not cover this topic. Keep the
     // unfiltered set when filtering leaves too little to be useful.
-    const filtered = (chunks as Chunk[]).filter((c) => (c.similarity ?? 1) > SIMILARITY_FLOOR);
-    const finalChunks = (filtered.length >= 3 ? filtered : (chunks as Chunk[])).slice(0, MAX_CHUNKS);
+    const filtered = chunks.filter((c) => (c.similarity ?? 1) > SIMILARITY_FLOOR);
+    const finalChunks = (filtered.length >= 3 ? filtered : chunks).slice(0, MAX_CHUNKS);
 
     return finalChunks
       .map((c, i) => `[Source ${i + 1} — ${c.book_title} | Author: ${c.author}]\n${c.content}`)

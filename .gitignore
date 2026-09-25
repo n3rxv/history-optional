@@ -71,3 +71,8 @@ __pycache__/
 
 # Local design scratch: mockups and screenshots, never shipped
 design/
+
+# Database rescue dumps. data/appdata/*.jsonl holds real user emails, Firebase
+# UIDs and Razorpay payment identifiers, and data/book_chunks.jsonl is ~1 GB.
+# Neither belongs in git.
+/data/

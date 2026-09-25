@@ -1,6 +1,7 @@
 export const maxDuration = 120;
 
 import { NextRequest, NextResponse } from 'next/server';
+import { searchDiverse } from '@/lib/vectorStore';
 
 const SYSTEM_PROMPT = `You are an expert UPSC History Optional examiner and answer writer with deep mastery of Indian and World History. You write model answers that consistently score 130+/150.
 
@@ -231,10 +232,7 @@ export async function POST(req: NextRequest) {
       const embedding = embedData.data?.[0]?.embedding;
 
       if (embedding) {
-        const { data: chunks } = await supabase.rpc('match_book_chunks_diverse', {
-          query_embedding: embedding,
-          per_book_count: 3,
-        });
+        const chunks = await searchDiverse(embedding, { perBook: 3 });
 
         if (chunks && chunks.length > 0) {
           const filtered = chunks.filter((c: any) => (c.similarity ?? 1) > 0.45).slice(0, 12);

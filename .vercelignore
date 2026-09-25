@@ -5,3 +5,17 @@
 slug_texts/
 out/
 handout*.html
+
+# Vercel reads this file, not .gitignore, so these need excluding separately.
+#
+# data/appdata/*.jsonl holds real user emails, Firebase UIDs and Razorpay
+# payment identifiers, and data/book_chunks.jsonl is a 417 MB export. Neither
+# has any business in a deployment bundle.
+/data/
+*.jsonl
+
+# The book corpus is only used by the offline embedding pipeline; retrieval
+# now goes to Qdrant. No runtime code reads books/.
+/books/
+/rag-embed-rerank/
+.aider*
