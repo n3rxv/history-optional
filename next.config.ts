@@ -82,6 +82,15 @@ export const maxDuration = 30;
 const FIREBASE_AUTH_UPSTREAM = `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseapp.com`;
 
 const nextConfig: NextConfig = {
+  // There is a stray package-lock.json in the home directory, and with more
+  // than one lockfile in the tree Turbopack picks an ancestor as the
+  // workspace root -- it chose ~, so `next dev` served nothing and every
+  // route, including existing ones, returned 404. Pinning the root to this
+  // directory makes local dev independent of what else is lying around above
+  // it. Production builds were unaffected; Vercel only ever sees this repo.
+  turbopack: {
+    root: import.meta.dirname,
+  },
   experimental: {
     // Body limit for PDF upload in chat.
     serverActions: {
