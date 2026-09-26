@@ -9,7 +9,7 @@ import { AnimatedStats, PYQCarousel } from '@/components/HomeClient';
 import { paper1Notes, paper2Notes } from '@/lib/notes';
 import { pyqs } from '@/lib/pyqData';
 import { allNotes } from '@/lib/notes';
-import { flashcards } from '@/lib/flashcards';
+import { countPublished } from '@/lib/flashcardStore';
 import { getDailyQuestions } from '@/lib/dailyQuestions';
 
 // The daily questions change at midnight IST, and this page is statically
@@ -51,7 +51,11 @@ const marqueeItems = [
   { text: 'Mohammad Habib', sub: 'Khalji Revolution' },
 ];
 
-export default function Home() {
+export default async function Home() {
+  // From the database, not lib/flashcards.ts, so the figure stays true as
+  // cards are added without a deploy. Falls back to the seeded count rather
+  // than rendering zero if the query fails.
+  const flashcardCount = (await countPublished()) ?? 55;
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem 4rem', position: 'relative' }}>
 
@@ -131,7 +135,7 @@ export default function Home() {
       </div>
 
       {/* ── Animated Stats ── */}
-      <AnimatedStats counts={{ topics: allNotes.length, pyqs: pyqs.length, flashcards: flashcards.length }} />
+      <AnimatedStats counts={{ topics: allNotes.length, pyqs: pyqs.length, flashcards: flashcardCount }} />
 
       {/* ── Paper cards ── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '3rem', position: 'relative', zIndex: 1 }} className="grid-2col">

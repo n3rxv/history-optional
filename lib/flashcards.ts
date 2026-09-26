@@ -382,4 +382,7 @@ export const flashcards: FlashCard[] = [
 
 export const flashcardTopics = [...new Set(flashcards.map(f => f.topic))];
 export const flashcardSections = [...new Set(flashcards.map(f => f.section))];
-export const flashcardTypes = ['historian', 'comparison', 'cause-effect', 'quote', 'concept'] as const;
+// Re-exported from lib/flashcardMeta so there is one list, but the client
+// imports it from there: anything imported from this module drags the whole
+// card array into the browser bundle along with it.
+export { FLASHCARD_TYPES as flashcardTypes } from './flashcardMeta';

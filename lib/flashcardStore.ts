@@ -85,6 +85,25 @@ export async function listCards(opts: {
   return { cards: (data ?? []) as StoredFlashCard[], total: count ?? 0 };
 }
 
+/**
+ * How many cards are published. Its own query rather than `listIndex().length`
+ * so a page that only wants the number does not transfer the whole index.
+ *
+ * Returns null rather than 0 on failure: a homepage stat reading "0
+ * flashcards" during a database wobble is worse than showing nothing.
+ */
+export async function countPublished(): Promise<number | null> {
+  const { count, error } = await client()
+    .from('flashcards')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'published');
+  if (error) {
+    console.error('[flashcardStore] count failed:', error.message);
+    return null;
+  }
+  return count ?? 0;
+}
+
 /** Distinct sections and types actually present, for the filter controls. */
 export async function listFacets(): Promise<{ sections: string[]; types: string[] }> {
   const index = await listIndex();

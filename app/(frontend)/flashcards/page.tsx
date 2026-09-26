@@ -1,10 +1,15 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
-import { flashcards, flashcardSections, flashcardTypes } from '@/lib/flashcards';
-import type { FlashCard } from '@/lib/flashcards';
+import { useFlashcardDeck } from '@/hooks/useFlashcardDeck';
+import { FLASHCARD_TYPES } from '@/lib/flashcardMeta';
+// Type-only, so it is erased at compile time and pulls nothing into the
+// bundle. The cards themselves now come from /api/flashcards.
+import type { StoredFlashCard } from '@/lib/flashcardStore';
+
+type FlashCard = StoredFlashCard;
 
 type SRData = {
   interval: number;
@@ -101,7 +106,14 @@ export default function Flashcards() {
   const [filterType, setFilterType] = useState<string>('All');
   const [filterGrade, setFilterGrade] = useState<string>('All');
   const [filterDue, setFilterDue] = useState<boolean>(false);
-  const [queue, setQueue] = useState<FlashCard[]>([]);
+  const { index, indexLoading, error: deckError, getCard, isReady, prefetch, keepAhead } =
+    useFlashcardDeck();
+  // The queue is ids, not cards. Ordering only needs the index; the text is
+  // fetched into the deck cache ahead of the reader.
+  const [queueIds, setQueueIds] = useState<string[]>([]);
+  // The browse list renders each card's front, so it pages rather than
+  // loading every card. One page covers the whole deck at today's size.
+  const [browseLimit, setBrowseLimit] = useState(60);
   const [idx, setIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [sessionDone, setSessionDone] = useState(0);
@@ -131,33 +143,45 @@ export default function Flashcards() {
 
   const buildQueue = useCallback((singleCard?: FlashCard) => {
     if (singleCard) {
-      setQueue([singleCard]); setIdx(0); setFlipped(false); setModalOpen(true); return;
+      setQueueIds([singleCard.id]); setIdx(0); setFlipped(false); setModalOpen(true); return;
     }
     const today = new Date().toISOString();
-    let cards = flashcards.filter(c => {
-      if (filterSection !== 'All' && c.section !== filterSection) return false;
-      if (filterType !== 'All' && c.type !== filterType) return false;
-      if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
-      if (filterDue) { const s = sr[c.id]; if (s && s.nextDue > today) return false; }
-      return true;
-    });
-    cards = cards.sort((a, b) => {
-      const sa = sr[a.id], sb = sr[b.id];
-      const aDue = !sa || sa.nextDue <= today, bDue = !sb || sb.nextDue <= today;
-      if (aDue && !bDue) return -1; if (!aDue && bDue) return 1;
-      return (sa?.easeFactor ?? 2.5) - (sb?.easeFactor ?? 2.5);
-    });
-    setQueue(cards); setIdx(0); setFlipped(false); setSessionDone(0);
+    const ordered = index
+      .filter(c => {
+        if (filterSection !== 'All' && c.section !== filterSection) return false;
+        if (filterType !== 'All' && c.type !== filterType) return false;
+        if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
+        if (filterDue) { const s = sr[c.id]; if (s && s.nextDue > today) return false; }
+        return true;
+      })
+      .sort((a, b) => {
+        const sa = sr[a.id], sb = sr[b.id];
+        const aDue = !sa || sa.nextDue <= today, bDue = !sb || sb.nextDue <= today;
+        if (aDue && !bDue) return -1; if (!aDue && bDue) return 1;
+        return (sa?.easeFactor ?? 2.5) - (sb?.easeFactor ?? 2.5);
+      })
+      .map(c => c.id);
+
+    // Warm the front of the queue before the modal opens, so the first card
+    // is already there rather than arriving a moment later.
+    keepAhead(ordered, 0);
+    setQueueIds(ordered); setIdx(0); setFlipped(false); setSessionDone(0);
     setLastSessionIds([]); saveSession([]);
     setModalOpen(true);
-  }, [filterSection, filterType, filterGrade, filterDue, sr]);
+  }, [index, filterSection, filterType, filterGrade, filterDue, sr, keepAhead]);
+
+  // Keep the window full as the reader advances. Running on idx means the
+  // refill is triggered by movement, well before the cache runs dry.
+  useEffect(() => {
+    if (modalOpen && queueIds.length) keepAhead(queueIds, idx);
+  }, [modalOpen, queueIds, idx, keepAhead]);
 
   const closeModal = () => { setModalOpen(false); setFlipped(false); };
 
 
   const rate = useCallback((grade: 1 | 2 | 3 | 4) => {
-    if (!queue[idx] || animating) return;
-    const card = queue[idx];
+    const card = getCard(queueIds[idx]);
+    if (!card || animating) return;
     const updated = { ...sr, [card.id]: sm2(sr[card.id], grade) };
     setSR(updated); saveSR(updated);
     setAnimating(true);
@@ -168,17 +192,19 @@ export default function Flashcards() {
         saveSession(next);
         return next;
       });
-      if (idx + 1 >= queue.length) { closeModal(); }
+      if (idx + 1 >= queueIds.length) { closeModal(); }
       else { setIdx(i => i + 1); setFlipped(false); }
       setAnimating(false);
     }, 200);
-  }, [queue, idx, sr, animating]);
+  }, [queueIds, idx, sr, animating, getCard]);
 
-  const currentCard = queue[idx];
+  const currentCard = getCard(queueIds[idx]);
   const today = new Date().toISOString();
-  const dueCount = flashcards.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; }).length;
+  const dueCount = index.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; }).length;
   const studiedCount = Object.keys(sr).length;
-  const filtered = flashcards.filter(c => {
+  // Filtering happens over the index — every card is represented, but only
+  // the ones actually rendered below have their text fetched.
+  const filteredIndex = index.filter(c => {
     if (filterSection !== 'All' && c.section !== filterSection) return false;
     if (filterType !== 'All' && c.type !== filterType) return false;
     if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
@@ -189,7 +215,23 @@ export default function Flashcards() {
     if (view === 'session' && !lastSessionIds.includes(c.id)) return false;
     return true;
   });
-  const filteredDue = filtered.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; });
+  const filteredDue = filteredIndex.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; });
+
+  // The browse list shows a page at a time, and fetches the text for exactly
+  // that page. At today's deck size one page is the whole thing.
+  const visibleIds = useMemo(
+    () => filteredIndex.slice(0, browseLimit).map(c => c.id),
+    [filteredIndex, browseLimit],
+  );
+  useEffect(() => { if (visibleIds.length) prefetch(visibleIds); }, [visibleIds, prefetch]);
+
+  // Changing a filter starts the list again from the top.
+  useEffect(() => { setBrowseLimit(60); }, [filterSection, filterType, filterGrade, view]);
+
+  // Sections come from the index, so the filter only offers sections that
+  // actually have cards. Index order is card-id order, which is syllabus
+  // order — Ancient, Medieval, Modern, World.
+  const sections = useMemo(() => [...new Set(index.map(c => c.section))], [index]);
   const tc = currentCard ? TYPE_COLORS[currentCard.type] : TYPE_COLORS.concept;
 
   return (
@@ -253,12 +295,12 @@ export default function Flashcards() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flex: 1, marginRight: '1rem' }}>
                 <span style={{ fontSize: '0.7rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', flexShrink: 0 }}>
-                  {idx + 1} / {queue.length}
+                  {idx + 1} / {queueIds.length}
                 </span>
                 <div style={{ flex: 1, height: 2, background: 'rgba(0,0,0,0.08)', borderRadius: 4, overflow: 'hidden' }}>
                   <div style={{
                     height: '100%',
-                    width: `${(idx / queue.length) * 100}%`,
+                    width: `${(idx / queueIds.length) * 100}%`,
                     background: `linear-gradient(90deg, ${tc.main}, color-mix(in srgb, ${tc.main} 80%, transparent))`,
                     borderRadius: 4, transition: 'width 0.4s ease',
                     boxShadow: `0 0 8px ${tc.glow}`,
@@ -434,7 +476,7 @@ export default function Flashcards() {
         {mounted && (
           <div className="fc-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.65rem', marginBottom: '1.75rem' }}>
             {([
-              { key: 'all',     label: langHi ? 'कुल' : 'Total',              value: flashcards.length, color: 'var(--accent)' },
+              { key: 'all',     label: langHi ? 'कुल' : 'Total',              value: index.length, color: 'var(--accent)' },
               { key: 'studied', label: langHi ? 'पढ़े गए' : 'Studied',        value: studiedCount,      color: 'var(--accent)' },
               { key: 'due',     label: langHi ? 'आज बाकी' : 'Due Today',      value: dueCount,          color: dueCount > 0 ? 'var(--warning-text)' : 'var(--text3)' },
               { key: 'session', label: langHi ? 'पिछला सत्र' : 'Last Session', value: lastSessionIds.length, color: 'var(--success-text)' },
@@ -478,12 +520,12 @@ export default function Flashcards() {
           <select value={filterSection} onChange={e => setFilterSection(e.target.value)}
             style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी अनुभाग" : "All Sections"}</option>
-            {flashcardSections.map(s => <option key={s} value={s}>{s}</option>)}
+            {sections.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
           <select value={filterType} onChange={e => setFilterType(e.target.value)}
             style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी प्रकार" : "All Types"}</option>
-            {flashcardTypes.map(t => <option key={t} value={t}>{getTypeLabel(t)}</option>)}
+            {FLASHCARD_TYPES.map(t => <option key={t} value={t}>{getTypeLabel(t)}</option>)}
           </select>
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text2)', cursor: 'pointer' }}>
           <select value={filterGrade} onChange={e => setFilterGrade(e.target.value)}
@@ -509,7 +551,7 @@ export default function Flashcards() {
             }}
             onMouseEnter={e => {}}
             onMouseLeave={e => {}}>
-            Start {filteredDue.length > 0 ? `(${filteredDue.length} due)` : `(${filtered.length})`}
+            Start {filteredDue.length > 0 ? `(${filteredDue.length} due)` : `(${filteredIndex.length})`}
           </button>
         </div>
 
@@ -526,9 +568,9 @@ export default function Flashcards() {
         {/* Browse list */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <div style={{ fontSize: '0.7rem', color: 'var(--text3)', marginBottom: '0.15rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em' }}>
-            {filtered.length} cards
+            {filteredIndex.length} cards
           </div>
-          {filtered.map(card => {
+          {visibleIds.map(id => getCard(id)).filter((c): c is FlashCard => !!c).map(card => {
             const s = sr[card.id];
             const isDue = !s || s.nextDue <= today;
             const tc2 = TYPE_COLORS[card.type];
@@ -596,6 +638,34 @@ export default function Flashcards() {
               </div>
             );
           })}
+
+          {/* A failed fetch and an empty deck look identical if both render
+              nothing, and the second is a lie during an outage. */}
+          {deckError && (
+            <div style={{ fontSize: '0.8rem', color: 'var(--danger-text)', padding: '16px 0' }}>
+              {langHi ? 'फ्लैशकार्ड लोड नहीं हो सके।' : deckError}
+            </div>
+          )}
+          {indexLoading && !deckError && (
+            <div style={{ fontSize: '0.8rem', color: 'var(--text3)', padding: '16px 0', fontFamily: 'var(--font-mono)' }}>
+              {langHi ? 'लोड हो रहा है…' : 'Loading…'}
+            </div>
+          )}
+          {!indexLoading && !deckError && filteredIndex.length > browseLimit && (
+            <button
+              onClick={() => setBrowseLimit(n => n + 60)}
+              style={{
+                marginTop: '0.35rem', padding: '0.7rem', borderRadius: 10,
+                background: 'var(--bg2)', border: '1px solid var(--border)',
+                color: 'var(--text2)', cursor: 'pointer',
+                fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.06em',
+              }}
+            >
+              {langHi
+                ? `और दिखाएँ (${filteredIndex.length - browseLimit} बाकी)`
+                : `Show more (${filteredIndex.length - browseLimit} more)`}
+            </button>
+          )}
         </div>
       </div>
       <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
