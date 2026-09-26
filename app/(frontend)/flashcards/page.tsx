@@ -141,11 +141,34 @@ export default function Flashcards() {
     return () => { document.body.style.overflow = ''; };
   }, [modalOpen]);
 
+  const today = new Date().toISOString();
+  // Computed before buildQueue so a queue can be built from the list on
+  // screen, in the order shown.
+  const filteredIndex = index.filter(c => {
+    if (filterSection !== 'All' && c.section !== filterSection) return false;
+    if (filterType !== 'All' && c.type !== filterType) return false;
+    if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
+    // The tiles narrow the same list the dropdowns do, so the two compose
+    // rather than fight: Studied inside Ancient India stays possible.
+    if (view === 'studied' && !sr[c.id]) return false;
+    if (view === 'due') { const s = sr[c.id]; if (s && s.nextDue > today) return false; }
+    if (view === 'session' && !lastSessionIds.includes(c.id)) return false;
+    return true;
+  });
+
   const buildQueue = useCallback((singleCard?: FlashCard) => {
     if (singleCard) {
-      setQueueIds([singleCard.id]); setIdx(0); setFlipped(false); setModalOpen(true); return;
+      // Continue through the list on screen from the card that was clicked,
+      // rather than ending the session after one card. Reviewing is a
+      // rhythm, and stopping to click the next card breaks it.
+      const ids = filteredIndex.map(c => c.id);
+      const start = Math.max(0, ids.indexOf(singleCard.id));
+      keepAhead(ids, start);
+      setQueueIds(ids); setIdx(start); setFlipped(false); setSessionDone(0);
+      setLastSessionIds([]); saveSession([]);
+      setModalOpen(true);
+      return;
     }
-    const today = new Date().toISOString();
     const ordered = index
       .filter(c => {
         if (filterSection !== 'All' && c.section !== filterSection) return false;
@@ -168,7 +191,7 @@ export default function Flashcards() {
     setQueueIds(ordered); setIdx(0); setFlipped(false); setSessionDone(0);
     setLastSessionIds([]); saveSession([]);
     setModalOpen(true);
-  }, [index, filterSection, filterType, filterGrade, filterDue, sr, keepAhead]);
+  }, [index, filteredIndex, filterSection, filterType, filterGrade, filterDue, sr, keepAhead]);
 
   // Keep the window full as the reader advances. Running on idx means the
   // refill is triggered by movement, well before the cache runs dry.
@@ -199,22 +222,8 @@ export default function Flashcards() {
   }, [queueIds, idx, sr, animating, getCard]);
 
   const currentCard = getCard(queueIds[idx]);
-  const today = new Date().toISOString();
   const dueCount = index.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; }).length;
   const studiedCount = Object.keys(sr).length;
-  // Filtering happens over the index — every card is represented, but only
-  // the ones actually rendered below have their text fetched.
-  const filteredIndex = index.filter(c => {
-    if (filterSection !== 'All' && c.section !== filterSection) return false;
-    if (filterType !== 'All' && c.type !== filterType) return false;
-    if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
-    // The tiles narrow the same list the dropdowns do, so the two compose
-    // rather than fight: Studied inside Ancient India stays possible.
-    if (view === 'studied' && !sr[c.id]) return false;
-    if (view === 'due') { const s = sr[c.id]; if (s && s.nextDue > today) return false; }
-    if (view === 'session' && !lastSessionIds.includes(c.id)) return false;
-    return true;
-  });
   const filteredDue = filteredIndex.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; });
 
   // The browse list shows a page at a time, and fetches the text for exactly
