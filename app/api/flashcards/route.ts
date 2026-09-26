@@ -28,10 +28,13 @@ export async function GET(req: NextRequest) {
       const index = await listIndex();
       return NextResponse.json(
         { cards: index, total: index.length },
-        // Cards change when someone edits or publishes one, which is rare.
-        // Ten minutes at the edge with a long stale window means the database
-        // sees almost none of this traffic.
-        { headers: cachePublic(600) },
+        // A minute, not ten. Ten was chosen on the reasoning that cards change
+        // rarely, which is true in steady state and wrong on the day you
+        // publish a batch -- 190 cards went live and the site kept serving 55
+        // from the edge for the rest of the window. The index is ~14 KB at 245
+        // cards, so the extra origin traffic from a shorter life is nothing
+        // against being able to see an edit land.
+        { headers: cachePublic(60) },
       );
     }
 
@@ -53,7 +56,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       { cards, total, limit, offset },
-      { headers: cachePublic(600) },
+      { headers: cachePublic(60) },
     );
   } catch (e) {
     // Distinguishable from an empty deck on purpose: a client that reads a
