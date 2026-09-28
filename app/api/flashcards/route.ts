@@ -11,12 +11,17 @@ import { cachePublic } from '@/lib/cacheHeaders';
  *     it stays small as the deck grows.
  *
  *   GET /api/flashcards?section=&type=&ids=&limit=&offset=
- *     Full card text, for the cards actually being studied.
+ *     Card text WITHOUT the answer, for the cards actually being studied.
  *
- * The response is identical for every visitor -- spaced-repetition state
- * lives in the browser's localStorage, never here -- so it is safe to cache
- * publicly at the edge. That is the condition lib/cacheHeaders.ts warns
- * about: a route whose body varies by caller must not use a public policy.
+ * The answer side is not here. It is metered -- a reader gets a hundred free
+ * answers and then needs a subscription -- so it depends on who is asking, and
+ * this route's response is cached publicly at the edge, where it is served to
+ * whoever asks next regardless of what they have paid. Those two facts cannot
+ * both be true of one route, which is exactly the trap lib/cacheHeaders.ts
+ * describes. Answers come from POST /api/flashcards/reveal instead.
+ *
+ * What remains here is identical for every visitor -- spaced-repetition state
+ * lives in the browser's localStorage, never here -- so it is safe to cache.
  */
 const MAX_LIMIT = 200;
 

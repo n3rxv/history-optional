@@ -89,6 +89,34 @@ const NOISE = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http:
 
 
 
+/**
+ * What stands in for the answer once the free allowance is gone.
+ *
+ * Shown in place of the text rather than as a modal over it: the reader asked
+ * for this card, and covering the screen would lose their place in the queue.
+ */
+function AnswerLocked({ langHi }: { langHi: boolean }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem', alignItems: 'flex-start' }}>
+      <div style={{ fontSize: '0.92rem', lineHeight: 1.8, color: 'var(--text)' }}>
+        {langHi
+          ? 'आपके 100 निःशुल्क उत्तर पूरे हो गए। प्रश्न पढ़ते रहना निःशुल्क है — उत्तर देखने के लिए सदस्यता लें।'
+          : 'That was your 100th free answer. Questions stay free to browse — subscribe to keep opening answers.'}
+      </div>
+      <a
+        href="/pricing"
+        style={{
+          display: 'inline-block', padding: '0.6rem 1.1rem', borderRadius: 8,
+          background: 'var(--accent)', color: 'var(--bg)', fontWeight: 600,
+          fontSize: '0.82rem', textDecoration: 'none',
+        }}
+      >
+        {langHi ? 'सदस्यता लें' : 'Subscribe'}
+      </a>
+    </div>
+  );
+}
+
 export default function Flashcards() {
   const { langHi } = useLang();
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
@@ -106,8 +134,14 @@ export default function Flashcards() {
   const [filterType, setFilterType] = useState<string>('All');
   const [filterGrade, setFilterGrade] = useState<string>('All');
   const [filterDue, setFilterDue] = useState<boolean>(false);
-  const { index, indexLoading, error: deckError, getCard, isReady, prefetch, keepAhead } =
+  const { index, indexLoading, error: deckError, getCard, isReady, getBack, reveal, allowance, prefetch, keepAhead } =
     useFlashcardDeck();
+  /**
+   * What happened the last time this reader tried to open an answer. Answers
+   * are metered — a hundred free, then a subscription — so a flip can end in a
+   * paywall instead of text, and the card has to say which.
+   */
+  const [revealState, setRevealState] = useState<'idle' | 'loading' | 'locked' | 'error'>('idle');
   // The queue is ids, not cards. Ordering only needs the index; the text is
   // fetched into the deck cache ahead of the reader.
   const [queueIds, setQueueIds] = useState<string[]>([]);
@@ -125,16 +159,6 @@ export default function Flashcards() {
   const [animating, setAnimating] = useState(false);
 
   useEffect(() => { setSR(loadSR()); setLastSessionIds(loadSession()); setMounted(true); }, []);
-
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeModal();
-      if (e.key === ' ' && modalOpen) { e.preventDefault(); setFlipped(f => !f); }
-      if (e.key === 'ArrowRight' && modalOpen && flipped) rate(3);
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [modalOpen, flipped]);
 
   useEffect(() => {
     document.body.style.overflow = modalOpen ? 'hidden' : '';
@@ -164,7 +188,7 @@ export default function Flashcards() {
       const ids = filteredIndex.map(c => c.id);
       const start = Math.max(0, ids.indexOf(singleCard.id));
       keepAhead(ids, start);
-      setQueueIds(ids); setIdx(start); setFlipped(false); setSessionDone(0);
+      setQueueIds(ids); setIdx(start); setFlipped(false); setRevealState('idle'); setSessionDone(0);
       setLastSessionIds([]); saveSession([]);
       setModalOpen(true);
       return;
@@ -188,7 +212,7 @@ export default function Flashcards() {
     // Warm the front of the queue before the modal opens, so the first card
     // is already there rather than arriving a moment later.
     keepAhead(ordered, 0);
-    setQueueIds(ordered); setIdx(0); setFlipped(false); setSessionDone(0);
+    setQueueIds(ordered); setIdx(0); setFlipped(false); setRevealState('idle'); setSessionDone(0);
     setLastSessionIds([]); saveSession([]);
     setModalOpen(true);
   }, [index, filteredIndex, filterSection, filterType, filterGrade, filterDue, sr, keepAhead]);
@@ -199,7 +223,27 @@ export default function Flashcards() {
     if (modalOpen && queueIds.length) keepAhead(queueIds, idx);
   }, [modalOpen, queueIds, idx, keepAhead]);
 
-  const closeModal = () => { setModalOpen(false); setFlipped(false); };
+  const closeModal = () => { setModalOpen(false); setFlipped(false); setRevealState('idle'); };
+
+  /**
+   * Turn the card over.
+   *
+   * Flipping back is free and instant. Flipping to the answer is the moment
+   * the allowance is spent, so it goes to the server first and only shows the
+   * answer face once the server has granted it — otherwise a reader at their
+   * limit would see an empty card with no explanation.
+   */
+  const flipCard = useCallback(async () => {
+    const id = queueIds[idx];
+    if (!id) return;
+    if (flipped) { setFlipped(false); return; }
+    if (getBack(id)) { setRevealState('idle'); setFlipped(true); return; }
+
+    setRevealState('loading');
+    setFlipped(true);
+    const outcome = await reveal(id);
+    setRevealState(outcome === 'granted' ? 'idle' : outcome);
+  }, [queueIds, idx, flipped, getBack, reveal]);
 
 
   const rate = useCallback((grade: 1 | 2 | 3 | 4) => {
@@ -216,12 +260,26 @@ export default function Flashcards() {
         return next;
       });
       if (idx + 1 >= queueIds.length) { closeModal(); }
-      else { setIdx(i => i + 1); setFlipped(false); }
+      else { setIdx(i => i + 1); setFlipped(false); setRevealState('idle'); }
       setAnimating(false);
     }, 200);
   }, [queueIds, idx, sr, animating, getCard]);
 
   const currentCard = getCard(queueIds[idx]);
+  // Whether the answer is actually on screen, as opposed to the card merely
+  // being turned over. A locked card is flipped and shows a paywall.
+  const answerVisible = currentCard ? getBack(currentCard.id) !== undefined : false;
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal();
+      if (e.key === ' ' && modalOpen) { e.preventDefault(); void flipCard(); }
+      if (e.key === 'ArrowRight' && modalOpen && flipped && answerVisible) rate(3);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [modalOpen, flipped, answerVisible, flipCard, rate]);
+
   const dueCount = index.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; }).length;
   const studiedCount = Object.keys(sr).length;
   const filteredDue = filteredIndex.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; });
@@ -325,7 +383,7 @@ export default function Flashcards() {
             </div>
 
             {/* Flip card */}
-            <div style={{ perspective: '1400px', cursor: 'pointer' }} onClick={() => setFlipped(f => !f)}>
+            <div style={{ perspective: '1400px', cursor: 'pointer' }} onClick={() => flipCard()}>
               <div className={`flip-inner${flipped ? ' flipped' : ''}`}>
 
                 {/* FRONT FACE */}
@@ -421,7 +479,25 @@ export default function Flashcards() {
                     fontFamily: 'var(--font-body)',
                     position: 'relative', zIndex: 1,
                   }}>
-                    {langHi ? (currentCard.back_hi ?? currentCard.back) : currentCard.back}
+                    {(() => {
+                      const answer = getBack(currentCard.id);
+                      if (answer) return langHi ? (answer.back_hi ?? answer.back) : answer.back;
+                      if (revealState === 'locked') return <AnswerLocked langHi={langHi} />;
+                      if (revealState === 'error') {
+                        return (
+                          <span style={{ color: 'var(--danger-text)' }}>
+                            {langHi
+                              ? 'उत्तर लोड नहीं हो सका। एक बार फिर पलटें।'
+                              : 'Could not load the answer. Flip again to retry.'}
+                          </span>
+                        );
+                      }
+                      return (
+                        <span style={{ color: 'var(--text-dim)' }}>
+                          {langHi ? 'उत्तर आ रहा है…' : 'Revealing…'}
+                        </span>
+                      );
+                    })()}
                   </div>
                 </div>
 
@@ -431,10 +507,12 @@ export default function Flashcards() {
             {/* Rating buttons */}
             <div className="fc-rate-grid" style={{
               display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.55rem',
-              opacity: flipped ? 1 : 0,
-              transform: flipped ? 'translateY(0)' : 'translateY(10px)',
+              // Grading a card you were never shown the answer to would write
+              // a review interval for something you did not review.
+              opacity: flipped && answerVisible ? 1 : 0,
+              transform: flipped && answerVisible ? 'translateY(0)' : 'translateY(10px)',
               transition: 'opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s',
-              pointerEvents: flipped ? 'auto' : 'none',
+              pointerEvents: flipped && answerVisible ? 'auto' : 'none',
             }}>
               {([
                 { grade: 1, label: langHi ? 'खाली' : 'Blank',  sub: langHi ? 'याद नहीं' : 'No recall',   color: 'var(--danger-text)', dim: 'var(--danger-wash)',   glow: 'color-mix(in srgb, var(--danger-text) 30%, transparent)' },
@@ -479,6 +557,23 @@ export default function Flashcards() {
           <p style={{ color: 'var(--text2)', fontSize: '0.88rem', maxWidth: 520, lineHeight: 1.65 }}>
             {langHi ? 'इतिहासकार बहसें, कारण-प्रभाव श्रृंखलाएँ, तुलनाएँ, उद्धरण — Mains के लिए।' : 'Historian debates, cause-effect chains, comparisons, quote attributions — built for Mains-level analysis.'}
           </p>
+          {/* How much of the free allowance is left. Questions are free to
+              browse; the count is about answers, and says so. */}
+          {allowance && !allowance.unlimited && (
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 600,
+              letterSpacing: '0.08em', marginTop: '0.75rem',
+              color: allowance.used >= allowance.limit ? 'var(--danger-text)' : 'var(--text2)',
+            }}>
+              {allowance.used >= allowance.limit
+                ? (langHi
+                    ? `${allowance.limit} निःशुल्क उत्तर पूरे · सदस्यता लें`
+                    : `${allowance.limit} free answers used · subscribe for the rest`)
+                : (langHi
+                    ? `${allowance.limit - allowance.used} / ${allowance.limit} निःशुल्क उत्तर शेष`
+                    : `${allowance.limit - allowance.used} of ${allowance.limit} free answers left`)}
+            </div>
+          )}
         </div>
 
         {/* Stats */}
