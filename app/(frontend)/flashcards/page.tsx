@@ -31,6 +31,9 @@ const GRADE_LABELS_HI: Record<number, string> = { 1: 'खाली', 2: 'कठ�
 // button that produced it.
 const GRADE_COLORS: Record<number, string> = { 1: 'var(--danger-text)', 2: 'var(--warning-text)', 3: 'var(--accent)', 4: 'var(--success-text)' };
 
+/** Mirrors FREE_FLASHCARD_LIMIT, for the copy shown before an allowance exists. */
+const FREE_ANSWER_LIMIT = 100;
+
 const STORAGE_KEY = 'ho_flashcards_v1';
 function loadSR(): Record<string, SRData> {
   if (typeof window === 'undefined') return {};
@@ -141,7 +144,7 @@ export default function Flashcards() {
    * are metered — a hundred free, then a subscription — so a flip can end in a
    * paywall instead of text, and the card has to say which.
    */
-  const [revealState, setRevealState] = useState<'idle' | 'loading' | 'locked' | 'error'>('idle');
+  const [revealState, setRevealState] = useState<'idle' | 'loading' | 'locked' | 'login' | 'error'>('idle');
   // The queue is ids, not cards. Ordering only needs the index; the text is
   // fetched into the deck cache ahead of the reader.
   const [queueIds, setQueueIds] = useState<string[]>([]);
@@ -239,11 +242,15 @@ export default function Flashcards() {
     if (flipped) { setFlipped(false); return; }
     if (getBack(id)) { setRevealState('idle'); setFlipped(true); return; }
 
+    // Answers need an account. Asking here as well as on the server saves a
+    // round trip and reuses the prompt the rest of the page already shows.
+    if (!requireLogin(langHi ? 'उत्तर देखने के लिए निःशुल्क साइन इन करें।' : 'Sign in free to see answers.')) return;
+
     setRevealState('loading');
     setFlipped(true);
     const outcome = await reveal(id);
     setRevealState(outcome === 'granted' ? 'idle' : outcome);
-  }, [queueIds, idx, flipped, getBack, reveal]);
+  }, [queueIds, idx, flipped, getBack, reveal, requireLogin, langHi]);
 
 
   const rate = useCallback((grade: 1 | 2 | 3 | 4) => {
@@ -483,6 +490,15 @@ export default function Flashcards() {
                       const answer = getBack(currentCard.id);
                       if (answer) return langHi ? (answer.back_hi ?? answer.back) : answer.back;
                       if (revealState === 'locked') return <AnswerLocked langHi={langHi} />;
+                      if (revealState === 'login') {
+                        return (
+                          <span style={{ color: 'var(--text2)' }}>
+                            {langHi
+                              ? 'उत्तर देखने के लिए निःशुल्क साइन इन करें।'
+                              : 'Sign in free to see answers.'}
+                          </span>
+                        );
+                      }
                       if (revealState === 'error') {
                         return (
                           <span style={{ color: 'var(--danger-text)' }}>
@@ -563,9 +579,14 @@ export default function Flashcards() {
             <div style={{
               fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 600,
               letterSpacing: '0.08em', marginTop: '0.75rem',
-              color: allowance.used >= allowance.limit ? 'var(--danger-text)' : 'var(--text2)',
+              color: !allowance.requiresLogin && allowance.used >= allowance.limit
+                ? 'var(--danger-text)' : 'var(--text2)',
             }}>
-              {allowance.used >= allowance.limit
+              {allowance.requiresLogin
+                ? (langHi
+                    ? `प्रश्न निःशुल्क · ${FREE_ANSWER_LIMIT} निःशुल्क उत्तरों के लिए साइन इन करें`
+                    : `Questions are free · sign in for ${FREE_ANSWER_LIMIT} free answers`)
+                : allowance.used >= allowance.limit
                 ? (langHi
                     ? `${allowance.limit} निःशुल्क उत्तर पूरे · सदस्यता लें`
                     : `${allowance.limit} free answers used · subscribe for the rest`)

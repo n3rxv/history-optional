@@ -33,6 +33,10 @@ import {
  * A client that lied and sent `spend: true` for forty ids could only burn its
  * own allowance, which is why the cap below is a guard against a bug rather
  * than against an attacker.
+ *
+ * An account is required either way. The study page will not open a card
+ * without one, but that check lives in the browser, and this route was serving
+ * answers to a request carrying nothing but a fingerprint.
  */
 
 /** Ids per request. Matches the deck hook's prefetch batch. */
@@ -68,6 +72,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { cards, locked: [], used: 0, limit: FREE_FLASHCARD_LIMIT, unlimited: true },
         { headers: noStore },
+      );
+    }
+
+    // 401 rather than an empty grant: the caller is not being refused a card,
+    // they are being told the request cannot be attributed to anyone yet. The
+    // body carries the reason so the page can offer sign-in instead of
+    // reporting a spent allowance the reader never had.
+    if (!reader.signedIn) {
+      return NextResponse.json(
+        {
+          error: 'login_required',
+          requiresLogin: true,
+          cards: [],
+          locked: ids,
+          used: 0,
+          limit: FREE_FLASHCARD_LIMIT,
+          unlimited: false,
+        },
+        { status: 401, headers: noStore },
       );
     }
 
@@ -117,6 +140,15 @@ export async function GET(req: NextRequest) {
     if (reader.unlimited) {
       return NextResponse.json(
         { used: 0, limit: FREE_FLASHCARD_LIMIT, unlimited: true },
+        { headers: noStore },
+      );
+    }
+    // Reported rather than refused: the page shows this before the reader has
+    // asked for anything, and a signed-out visitor browsing questions is not
+    // doing anything wrong.
+    if (!reader.signedIn) {
+      return NextResponse.json(
+        { used: 0, limit: FREE_FLASHCARD_LIMIT, unlimited: false, requiresLogin: true },
         { headers: noStore },
       );
     }

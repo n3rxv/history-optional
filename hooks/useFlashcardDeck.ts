@@ -41,8 +41,16 @@ const REFILL_AT = 20;
 /** Ids per request. Small enough to return fast, large enough to be few. */
 const BATCH = 40;
 
-/** What the reader has left. `unlimited` covers subscribers and the owner. */
-export type Allowance = { used: number; limit: number; unlimited: boolean };
+/**
+ * What the reader has left. `unlimited` covers subscribers and the owner;
+ * `requiresLogin` means no account yet, so the allowance has not started.
+ */
+export type Allowance = {
+  used: number;
+  limit: number;
+  unlimited: boolean;
+  requiresLogin?: boolean;
+};
 
 /** The answer to one card, once the reader is entitled to it. */
 export type CardBack = { back: string; back_hi: string | null };
@@ -61,7 +69,7 @@ type Deck = {
    * already unlocked. Resolves to what happened, so the caller can show a
    * paywall rather than an empty card.
    */
-  reveal: (id: string) => Promise<'granted' | 'locked' | 'error'>;
+  reveal: (id: string) => Promise<'granted' | 'locked' | 'login' | 'error'>;
   allowance: Allowance | null;
   /** Pull these ids into the cache in the background. Safe to call often. */
   prefetch: (ids: string[]) => void;
@@ -211,7 +219,7 @@ export function useFlashcardDeck(): Deck {
    * Open one answer. This is the call that can cost the reader a unit, so it
    * is made from the flip and from nowhere else.
    */
-  const reveal = useCallback(async (id: string): Promise<'granted' | 'locked' | 'error'> => {
+  const reveal = useCallback(async (id: string): Promise<'granted' | 'locked' | 'login' | 'error'> => {
     if (backs.current.has(id)) return 'granted';
     try {
       const res = await fetch('/api/flashcards/reveal', {
@@ -219,10 +227,21 @@ export function useFlashcardDeck(): Deck {
         headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
         body: JSON.stringify({ ids: [id], spend: true }),
       });
+      // 401 is not a failure to answer: it means no account yet, and the body
+      // says so, so read it rather than treating the status as an outage.
+      if (res.status === 401) {
+        setAllowance({ used: 0, limit: 0, unlimited: false, requiresLogin: true });
+        return 'login';
+      }
       if (!res.ok) return 'error';
       const data = await res.json();
       const card = (data.cards ?? [])[0] as { back: string; back_hi: string | null } | undefined;
-      setAllowance({ used: data.used ?? 0, limit: data.limit ?? 0, unlimited: data.unlimited === true });
+      setAllowance({
+        used: data.used ?? 0,
+        limit: data.limit ?? 0,
+        unlimited: data.unlimited === true,
+        requiresLogin: data.requiresLogin === true,
+      });
       if (!card) return 'locked';
       backs.current.set(id, { back: card.back, back_hi: card.back_hi });
       bump((n) => n + 1);

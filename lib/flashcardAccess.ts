@@ -10,9 +10,16 @@ import { createClient } from '@supabase/supabase-js';
  * you have already unlocked is free forever -- see supabase/flashcard_unlocks.sql
  * for why that distinction matters to spaced repetition.
  *
- * Identity resolution matches lib/evalAccess.ts: the Firebase token if there
- * is one, the device fingerprint if there is not, and both when both are
- * known, so the two cannot be played against each other for two allowances.
+ * An account is required before any answer is served. The study page already
+ * asks for one before it will open a card, but that is a client-side check and
+ * the route has to hold the same line on its own -- a request with a
+ * fingerprint and no token was being served answers.
+ *
+ * The fingerprint is still metered alongside the account, which is what stops
+ * the obvious way round the wall: signing up again on the same device finds
+ * the allowance already spent, because a reader is whoever matches either
+ * identity and the count is over the union of both. That is the same rule
+ * usage_tracking uses everywhere else in the app.
  */
 
 export const FREE_FLASHCARD_LIMIT = 100;
@@ -22,6 +29,8 @@ export type FlashcardReader = {
   fingerprint: string | null;
   /** Owner or active subscriber: no metering at all. */
   unlimited: boolean;
+  /** A verified account. Without one, no answer is served at any price. */
+  signedIn: boolean;
 };
 
 function db() {
@@ -52,7 +61,7 @@ export async function resolveReader(req: NextRequest): Promise<FlashcardReader> 
     }
   }
 
-  if (isOwner) return { uid, fingerprint, unlimited: true };
+  if (isOwner) return { uid, fingerprint, unlimited: true, signedIn: true };
 
   if (uid) {
     const { data: sub } = await db()
@@ -62,10 +71,10 @@ export async function resolveReader(req: NextRequest): Promise<FlashcardReader> 
       .eq('status', 'active')
       .gt('expires_at', new Date().toISOString())
       .maybeSingle();
-    if (sub) return { uid, fingerprint, unlimited: true };
+    if (sub) return { uid, fingerprint, unlimited: true, signedIn: true };
   }
 
-  return { uid, fingerprint, unlimited: false };
+  return { uid, fingerprint, unlimited: false, signedIn: uid !== null };
 }
 
 export type UnlockOutcome = {
