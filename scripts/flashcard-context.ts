@@ -32,7 +32,17 @@ const PASSAGES = Number(process.argv[3]) || 12;
 
 if (!slug || slug === '--list') {
   const counts = new Map<string, number>();
-  for (const r of (await (await fetch(`${REST}/flashcards?select=topic`, { headers: sb })).json()) as { topic: string }[]) {
+  // PostgREST truncates an unbounded select at 1000 rows, so page through it
+  // or the topics that sort last silently report zero cards.
+  const rows: { topic: string }[] = [];
+  for (let offset = 0; ; offset += 1000) {
+    const page = (await (
+      await fetch(`${REST}/flashcards?select=topic&order=id&offset=${offset}&limit=1000`, { headers: sb })
+    ).json()) as { topic: string }[];
+    rows.push(...page);
+    if (page.length < 1000) break;
+  }
+  for (const r of rows) {
     counts.set(r.topic, (counts.get(r.topic) ?? 0) + 1);
   }
   console.log('slug                                  cards  pyqs  section');

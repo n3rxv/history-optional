@@ -46,17 +46,32 @@ function client() {
   );
 }
 
-export async function listIndex(): Promise<FlashCardIndexEntry[]> {
-  const { data, error } = await client()
-    .from('flashcards')
-    .select('id,section,type')
-    .eq('status', 'published')
-    .order('id');
+/**
+ * PostgREST caps an unbounded select at its max-rows setting, which is 1000 on
+ * Supabase, and it truncates silently. The deck passed that mark, so the index
+ * is read in pages: anything less than a full page means we have the tail.
+ */
+const INDEX_PAGE = 1000;
 
-  // An empty deck and a failed query are not the same thing, and a caller
-  // that cannot tell them apart will render "0 cards" during an outage.
-  if (error) throw new Error(`flashcard index: ${error.message}`);
-  return (data ?? []) as FlashCardIndexEntry[];
+export async function listIndex(): Promise<FlashCardIndexEntry[]> {
+  const all: FlashCardIndexEntry[] = [];
+
+  for (let offset = 0; ; offset += INDEX_PAGE) {
+    const { data, error } = await client()
+      .from('flashcards')
+      .select('id,section,type')
+      .eq('status', 'published')
+      .order('id')
+      .range(offset, offset + INDEX_PAGE - 1);
+
+    // An empty deck and a failed query are not the same thing, and a caller
+    // that cannot tell them apart will render "0 cards" during an outage.
+    if (error) throw new Error(`flashcard index: ${error.message}`);
+
+    const page = (data ?? []) as FlashCardIndexEntry[];
+    all.push(...page);
+    if (page.length < INDEX_PAGE) return all;
+  }
 }
 
 export async function listCards(opts: {
