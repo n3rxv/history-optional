@@ -31,9 +31,6 @@ const GRADE_LABELS_HI: Record<number, string> = { 1: 'खाली', 2: 'कठ�
 // button that produced it.
 const GRADE_COLORS: Record<number, string> = { 1: 'var(--danger-text)', 2: 'var(--warning-text)', 3: 'var(--accent)', 4: 'var(--success-text)' };
 
-/** Mirrors FREE_FLASHCARD_LIMIT, for the copy shown before an allowance exists. */
-const FREE_ANSWER_LIMIT = 100;
-
 const STORAGE_KEY = 'ho_flashcards_v1';
 function loadSR(): Record<string, SRData> {
   if (typeof window === 'undefined') return {};
@@ -577,18 +574,16 @@ export default function Flashcards() {
           </p>
           {/* How much of the free allowance is left. Questions are free to
               browse; the count is about answers, and says so. */}
-          {allowance && !allowance.unlimited && (
+          {/* Only once there is an allowance to report. A signed-out visitor is
+              told nothing here: they are browsing questions, which are free,
+              and the prompt to sign in already arrives when they open a card. */}
+          {allowance && !allowance.unlimited && !allowance.requiresLogin && (
             <div style={{
               fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 600,
               letterSpacing: '0.08em', marginTop: '0.75rem',
-              color: !allowance.requiresLogin && allowance.used >= allowance.limit
-                ? 'var(--danger-text)' : 'var(--text2)',
+              color: allowance.used >= allowance.limit ? 'var(--danger-text)' : 'var(--text2)',
             }}>
-              {allowance.requiresLogin
-                ? (langHi
-                    ? `प्रश्न निःशुल्क · ${FREE_ANSWER_LIMIT} निःशुल्क उत्तरों के लिए साइन इन करें`
-                    : `Questions are free · sign in for ${FREE_ANSWER_LIMIT} free answers`)
-                : allowance.used >= allowance.limit
+              {allowance.used >= allowance.limit
                 ? (langHi
                     ? `${allowance.limit} निःशुल्क उत्तर पूरे · सदस्यता लें`
                     : `${allowance.limit} free answers used · subscribe for the rest`)
