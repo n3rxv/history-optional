@@ -818,7 +818,7 @@ export default function PYQsPage() {
                       <div key={q.id}>
                 <div
                   className="pyq-card"
-                  onClick={() => { if (requireLogin('Sign in free to view PYQs and AI-generated model answers.')) router.push(`/pyqs/${q.id}`); }}
+                  onClick={() => { if (requireLogin('Sign in free to view PYQs and model answers.')) router.push(`/pyqs/${q.id}`); }}
                   style={{
                     background: 'var(--bg2)', border: '1px solid var(--border)',
                     borderRadius: 8, padding: '1.25rem 1.5rem',
