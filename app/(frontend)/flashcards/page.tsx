@@ -3,6 +3,7 @@ import { useLang } from '@/lib/i18n/LangContext';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
+import SessionComplete from '@/components/SessionComplete';
 import { useFlashcardDeck } from '@/hooks/useFlashcardDeck';
 import { FLASHCARD_TYPES } from '@/lib/flashcardMeta';
 // Type-only, so it is erased at compile time and pulls nothing into the
@@ -153,6 +154,10 @@ export default function Flashcards() {
   const [idx, setIdx] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [sessionDone, setSessionDone] = useState(0);
+  // Whether the last session ran to its end, and how many cards in it were
+  // graded Good or Easy; finishing gets the owl, stopping early does not.
+  const [sessionFinished, setSessionFinished] = useState(false);
+  const [sessionRecalled, setSessionRecalled] = useState(0);
   // Which tile is active. Each narrows the list below to exactly what its
   // number counted; clicking the active one again goes back to everything.
   const [view, setView] = useState<'all' | 'studied' | 'due' | 'session'>('all');
@@ -196,7 +201,7 @@ export default function Flashcards() {
       const ids = filteredIndex.map(c => c.id);
       const start = Math.max(0, ids.indexOf(singleCard.id));
       keepAhead(ids, start);
-      setQueueIds(ids); setIdx(start); setFlipped(false); setRevealState('idle'); setSessionDone(0);
+      setQueueIds(ids); setIdx(start); setFlipped(false); setRevealState('idle'); setSessionDone(0); setSessionFinished(false); setSessionRecalled(0);
       setLastSessionIds([]); saveSession([]);
       setModalOpen(true);
       return;
@@ -220,7 +225,7 @@ export default function Flashcards() {
     // Warm the front of the queue before the modal opens, so the first card
     // is already there rather than arriving a moment later.
     keepAhead(ordered, 0);
-    setQueueIds(ordered); setIdx(0); setFlipped(false); setRevealState('idle'); setSessionDone(0);
+    setQueueIds(ordered); setIdx(0); setFlipped(false); setRevealState('idle'); setSessionDone(0); setSessionFinished(false); setSessionRecalled(0);
     setLastSessionIds([]); saveSession([]);
     setModalOpen(true);
   }, [index, filteredIndex, filterSection, filterType, filterGrade, filterDue, sr, keepAhead]);
@@ -266,12 +271,13 @@ export default function Flashcards() {
     setAnimating(true);
     setTimeout(() => {
       setSessionDone(s => s + 1);
+      if (grade >= 3) setSessionRecalled(r => r + 1);
       setLastSessionIds(prev => {
         const next = prev.includes(card.id) ? prev : [...prev, card.id];
         saveSession(next);
         return next;
       });
-      if (idx + 1 >= queueIds.length) { closeModal(); }
+      if (idx + 1 >= queueIds.length) { setSessionFinished(true); closeModal(); }
       else { setIdx(i => i + 1); setFlipped(false); setRevealState('idle'); }
       setAnimating(false);
     }, 200);
@@ -684,7 +690,17 @@ export default function Flashcards() {
         </div>
 
         {/* Session complete */}
-        {sessionDone > 0 && (
+        {sessionDone > 0 && sessionFinished && (
+          <SessionComplete
+            reviewed={sessionDone}
+            recalled={sessionRecalled}
+            dueLeft={filteredDue.length}
+            langHi={langHi}
+            onNext={() => buildQueue()}
+            onDone={() => { setSessionDone(0); setSessionFinished(false); }}
+          />
+        )}
+        {sessionDone > 0 && !sessionFinished && (
           <div style={{ background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', borderRadius: 10, padding: '0.9rem 1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span style={{ fontSize: '0.83rem', color: 'var(--text2)' }}>
               {langHi ? <>सत्र पूर्ण — <strong style={{ color: 'var(--accent)' }}>{sessionDone} कार्ड</strong> समीक्षित।</> : <>Session complete — <strong style={{ color: 'var(--accent)' }}>{sessionDone} cards</strong> reviewed.</>}

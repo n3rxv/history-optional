@@ -3,8 +3,9 @@ import Image from 'next/image';
 /**
  * The site's mascot: the owl, in the poses drawn so far.
  *
- *   peek     through a magnifying glass; the "what are we looking for" pose
- *   reading  over an open book; for waiting and working states
+ *   peek       through a magnifying glass; the "what are we looking for" pose
+ *   reading    over an open book; for waiting and working states
+ *   celebrate  wings out, confetti; for finishing something worth marking
  *
  * The artwork is static SVG in public/mascot with its own fixed colours: the
  * white sticker edge is what lets it sit on the dark ground and on paper
@@ -12,11 +13,12 @@ import Image from 'next/image';
  * eyes following a line of text) live inside the SVG and respect
  * prefers-reduced-motion there.
  */
-export type MascotPose = 'peek' | 'reading';
+export type MascotPose = 'peek' | 'reading' | 'celebrate';
 
 const ART: Record<MascotPose, { src: string; w: number; h: number }> = {
   peek:    { src: '/mascot/owl.svg',         w: 180, h: 170 },
   reading: { src: '/mascot/owl-reading.svg', w: 150, h: 130 },
+  celebrate: { src: '/mascot/owl-celebrate.svg', w: 200, h: 196 },
 };
 
 export default function Mascot({
