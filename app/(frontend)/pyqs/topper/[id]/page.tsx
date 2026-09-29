@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Script from 'next/script';
 import { auth } from '@/lib/firebase';
+import OwlLoader from '@/components/OwlLoader';
 
 
 interface TopperCopy {
@@ -323,9 +324,7 @@ export default function TopperCopyPage() {
       </div>
 
       {loading && (
-        <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text3)' }}>
-          Loading&#8230;
-        </div>
+        <OwlLoader size="page" label="Loading the topper copy" />
       )}
 
       {error && (
@@ -408,9 +407,7 @@ export default function TopperCopyPage() {
             </div>
 
             {pdfLoading && (
-              <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
-                Loading PDF&#8230;
-              </div>
+              <OwlLoader label="Loading the PDF" />
             )}
 
             <div

@@ -7,6 +7,7 @@ import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import EmptyState from '@/components/EmptyState';
+import OwlLoader from '@/components/OwlLoader';
 import Link from 'next/link';
 
 type Filter = 'all' | 'pyq' | 'practice' | 'bookmarked';
@@ -475,13 +476,7 @@ export default function PrelimsPage() {
                   <div style={{ fontSize: '0.85rem', color: 'rgba(0,0,0,0.15)' }}>{langHi ? "चरण-दर-चरण हल · तकनीक · अवधारणाएँ · मुख्य शब्द · स्मार्ट अनुमान" : "Step-by-step solution · Technique · Concepts · Keywords · Smart Guess"}</div>
                 </div>
               ) : qs.aiLoading ? (
-                <div style={{ padding: '1.75rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                  {[0,1,2].map(i => (
-                    <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(0,0,0,0.15)', animation: `pulse 1.2s ease-in-out ${i*0.2}s infinite` }} />
-                  ))}
-                  <style>{`@keyframes pulse{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}`}</style>
-                  <span style={{ marginLeft: '0.5rem', fontSize: '0.85rem', color: 'var(--text3)' }}>{langHi ? "स्पष्टीकरण तैयार हो रहा है…" : "Generating explanation…"}</span>
-                </div>
+                <OwlLoader size="small" caption={langHi ? "स्पष्टीकरण तैयार हो रहा है" : "Writing the explanation"} />
               ) : qs.aiResult ? (
                 <div style={{ padding: '1.25rem' }}>
                   {([

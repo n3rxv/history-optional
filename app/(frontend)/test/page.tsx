@@ -7,6 +7,7 @@ import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import PDFTestEvaluator from '@/components/PDFTestEvaluator';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
+import OwlLoader from '@/components/OwlLoader';
 
 const LeafletMap = dynamic(() => import('@/components/LeafletMap'), { ssr: false });
 
@@ -387,19 +388,12 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
 
           {/* OCR in progress */}
           {step === 'ocr' && (
-            <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-              <div style={{ width: '28px', height: '28px', border: '3px solid color-mix(in srgb, var(--accent) 20%, transparent)', borderTop: '3px solid var(--accent)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 0.5rem' }}></div>
-              <div style={{ color: 'var(--accent)', fontSize: '0.85rem' }}>Reading your handwriting…</div>
-            </div>
+            <OwlLoader size="small" caption="Reading your handwriting" />
           )}
 
           {/* Evaluating */}
           {step === 'evaluating' && (
-            <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-              <div style={{ width: '28px', height: '28px', border: '3px solid color-mix(in srgb, var(--accent) 20%, transparent)', borderTop: '3px solid var(--accent)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 0.5rem' }}></div>
-              <div style={{ color: 'var(--accent)', fontSize: '0.85rem', marginBottom: '0.3rem' }}>✦ Evaluating your answer…</div>
-              <div style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>Multi-pass AI evaluation · ~30 seconds</div>
-            </div>
+            <OwlLoader size="small" caption="Marking your answer, which takes about 30 seconds" />
           )}
 
           {/* Transcript editor */}

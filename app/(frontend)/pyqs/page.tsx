@@ -11,6 +11,7 @@ import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import Script from 'next/script';
 import EmptyState from '@/components/EmptyState';
+import OwlLoader from '@/components/OwlLoader';
 
 // Early Medieval had no tab at all: 99 questions reachable only through "All"
 // or the /pyqs/early-medieval page. India Since Independence is newly split out
@@ -224,17 +225,7 @@ function ModelAnswerModal({
         <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.25rem' }}>
           {loading && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', padding: '3rem 0' }}>
-              <div style={{ display: 'flex', gap: 6 }}>
-                {[0,1,2].map(i => (
-                  <span key={i} style={{
-                    width: 8, height: 8, borderRadius: '50%', background: 'var(--accent)',
-                    animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
-                  }} />
-                ))}
-              </div>
-              <span style={{ color: 'var(--text3)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
-                Generating model answer… (~1 min)
-              </span>
+              <OwlLoader size="small" caption="Writing a model answer, which takes about a minute" />
               <style>{`
                 .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
                 .shimmer-btn:hover::before{opacity:1;animation:glass-shine 0.55s ease forwards;}
@@ -587,9 +578,7 @@ export default function PYQsPage() {
       {showTopperCopies ? (
         <div style={{ marginTop: '0.5rem' }}>
           {topperLoading && (
-            <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)', fontSize: '0.85rem' }}>
-              Loading copies&#8230;
-            </div>
+            <OwlLoader label="Loading topper copies" />
           )}
           {!topperLoading && topperCopies.length === 0 && (
             <div style={{

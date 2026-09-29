@@ -260,15 +260,7 @@ export default function PYQDetailPage() {
         </div>
 
         {loadingAnswers ? (
-          <div style={{ display: 'flex', gap: 6, padding: '2rem 0' }}>
-            {[0,1,2].map(i => (
-              <span key={i} style={{
-                width: 8, height: 8, borderRadius: '50%', background: 'var(--accent)',
-                animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
-                display: 'inline-block',
-              }} />
-            ))}
-          </div>
+          <OwlLoader size="small" label="Loading community answers" />
         ) : answers.length === 0 ? (
           <div style={{
             background: 'var(--bg2)', border: '1px dashed var(--border)',
