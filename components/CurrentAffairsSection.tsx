@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState, useRef, useCallback } from 'react';
-import LoadingDots from '@/components/LoadingDots';
 import { useRouter } from 'next/navigation';
+import OwlLoader from '@/components/OwlLoader';
 
 interface Post {
   id: string;
@@ -507,7 +507,7 @@ export default function CurrentAffairsSection({ hideWhenEmpty = true }: { hideWh
       {authed && <PostCreator token={token} onSaved={onPostSaved} />}
 
       {loading ? (
-        <LoadingDots label="Loading dispatches" style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '24px 0', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }} />
+        <OwlLoader label="Loading dispatches" />
       ) : visiblePosts.length === 0 ? (
         <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '24px 0', fontFamily: 'var(--font-mono)' }}>
           {authed ? 'No posts yet — create one above.' : 'No dispatches yet.'}

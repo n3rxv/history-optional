@@ -9,6 +9,7 @@ import { FLASHCARD_TYPES } from '@/lib/flashcardMeta';
 // Type-only, so it is erased at compile time and pulls nothing into the
 // bundle. The cards themselves now come from /api/flashcards.
 import type { StoredFlashCard } from '@/lib/flashcardStore';
+import OwlLoader from '@/components/OwlLoader';
 
 type FlashCard = StoredFlashCard;
 
@@ -791,9 +792,7 @@ export default function Flashcards() {
             </div>
           )}
           {indexLoading && !deckError && (
-            <div style={{ fontSize: '0.8rem', color: 'var(--text3)', padding: '16px 0', fontFamily: 'var(--font-mono)' }}>
-              {langHi ? 'लोड हो रहा है…' : 'Loading…'}
-            </div>
+            <OwlLoader label={langHi ? 'फ्लैशकार्ड लोड हो रहे हैं' : 'Loading flashcards'} />
           )}
           {!indexLoading && !deckError && filteredIndex.length > browseLimit && (
             <button

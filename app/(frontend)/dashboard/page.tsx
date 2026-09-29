@@ -9,6 +9,7 @@ import { loadHistory, AnswerEntry } from '@/hooks/useAnswerHistory';
 // text and this page needs to know which section an id falls in, nothing more.
 import { PYQ_SECTION_TOTALS, PYQ_TOTAL, sectionForPyq } from '@/lib/pyqSectionRanges';
 import EmptyState from '@/components/EmptyState';
+import OwlLoader from '@/components/OwlLoader';
 
 const ALL_NOTES = [...paper1Notes, ...paper2Notes];
 const TOTAL = ALL_NOTES.length;
@@ -746,7 +747,7 @@ export default function Dashboard() {
         <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)', marginBottom: '1rem' }}>{langHi ? 'अध्ययन गतिविधि — पिछले 12 सप्ताह' : 'Study Activity — Last 12 Weeks'}</div>
         {mounted
           ? <Heatmap activityMap={activityMap} />
-          : <div style={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)', fontSize: '0.8rem' }}>{langHi ? 'लोड हो रहा है…' : 'Loading…'}</div>
+          : <OwlLoader size="small" label={langHi ? 'गतिविधि लोड हो रही है' : 'Loading your activity'} />
         }
       </div>
 

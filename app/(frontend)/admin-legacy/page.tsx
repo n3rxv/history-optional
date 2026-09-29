@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { allNotes as notes } from '@/lib/notes';
 import { pyqs, type PYQ } from '@/lib/pyqData';
+import OwlLoader from '@/components/OwlLoader';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 type PostType = 'current-affairs' | 'new-note';
@@ -1014,7 +1015,7 @@ function Evaluations({ token }: { token: string }) {
           style={{ padding: '4px 12px', fontSize: '0.75rem', marginBottom: 18 }}>← Back</button>
 
         {openLoading || !open.question
-          ? <div style={{ padding: 32, color: 'var(--border2)', fontFamily: sans, fontSize: '0.85rem' }}>Loading…</div>
+          ? <OwlLoader />
           : <>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
               <span style={{ color: 'var(--text2)', fontSize: '0.85rem', fontFamily: mono }}>{open.email || 'signed out'}</span>
@@ -1203,7 +1204,7 @@ function Evaluations({ token }: { token: string }) {
       </div>
 
       {loading
-        ? <div style={{ padding: 32, color: 'var(--border2)', fontFamily: sans, fontSize: '0.85rem' }}>Loading…</div>
+        ? <OwlLoader />
         : rows.length === 0
           ? <div style={{ color: 'var(--bg4)', fontSize: '0.85rem', padding: '32px 0', textAlign: 'center', fontFamily: sans }}>
               {search ? 'Nothing matches that.' : 'No evaluations yet.'}
@@ -1314,7 +1315,7 @@ function Phones({ token }: { token: string }) {
       </div>
 
       {loading
-        ? <div style={{ padding: 32, color: 'var(--border2)', fontFamily: 'var(--font-ui)', fontSize: '0.85rem' }}>Loading…</div>
+        ? <OwlLoader />
         : rows.length === 0
         ? <div style={{ color: 'var(--bg4)', fontSize: '0.85rem', padding: '32px 0', textAlign: 'center', fontFamily: 'var(--font-ui)' }}>
             {q ? 'Nothing matches that.' : 'No numbers collected yet.'}
@@ -1387,7 +1388,7 @@ function Submissions({ token }: { token: string }) {
   };
 
   const visible = rows.filter(r => filter === 'all' || r.type === filter);
-  if (loading) return <div style={{ padding: 32, color: 'var(--border2)', fontFamily: 'var(--font-ui)', fontSize: '0.85rem' }}>Loading...</div>;
+  if (loading) return <OwlLoader />;
 
   return (
     <div style={{ padding: '24px 28px', maxWidth: 860 }}>
@@ -1501,7 +1502,7 @@ function NotificationsManager({ token }: { token: string }) {
 
       {/* List */}
       {loading
-        ? <div style={{ color: 'var(--border2)', fontFamily: 'var(--font-ui)', fontSize: '0.85rem' }}>Loading...</div>
+        ? <OwlLoader />
         : notifications.length === 0
           ? <div style={{ color: 'var(--bg4)', textAlign: 'center', padding: '32px 0', fontFamily: 'var(--font-ui)', fontSize: '0.85rem' }}>No notifications yet.</div>
           : (
@@ -1762,7 +1763,7 @@ function TopperCopiesManager({ token }: { token: string }) {
       </div>
 
       {loading ? (
-        <div style={{ color: 'var(--border2)', fontFamily: 'var(--font-ui)', fontSize: '0.85rem' }}>Loading&hellip;</div>
+        <OwlLoader />
       ) : copies.length === 0 ? (
         <div style={{ color: 'var(--bg4)', textAlign: 'center', padding: '32px 0', fontFamily: 'var(--font-ui)', fontSize: '0.85rem' }}>No topper copies yet.</div>
       ) : (

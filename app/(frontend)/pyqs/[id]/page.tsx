@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import LoadingDots from '@/components/LoadingDots';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { pyqs, type PYQ } from '@/lib/pyqData';
 import { auth } from '@/lib/firebase';
 import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
+import OwlLoader from '@/components/OwlLoader';
 
 interface AnswerEntry {
   id: string;
@@ -340,7 +340,7 @@ export default function PYQDetailPage() {
           🏆 Related Topper Copies
         </div>
         {topperLoading ? (
-          <LoadingDots label="Loading" style={{ color: 'var(--text3)', fontSize: '0.8rem', padding: '1rem 0' }} />
+          <OwlLoader size="small" label="Loading topper copies" />
         ) : topperCopies.length === 0 ? (
           <>
             <div style={{ color: 'var(--text3)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: '1rem' }}>

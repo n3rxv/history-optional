@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { sanitizeHtml } from '@/lib/sanitizeHtml';
 import { useParams, useRouter } from 'next/navigation';
+import OwlLoader from '@/components/OwlLoader';
 
 interface Post {
   id: string;
@@ -109,11 +110,7 @@ export default function PostPage() {
     if (contentRef.current && post) contentRef.current.innerHTML = post.content;
   };
 
-  if (loading) return (
-    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)', fontSize: '0.9rem' }}>
-      Loading…
-    </div>
-  );
+  if (loading) return <OwlLoader size="page" label="Loading the post" />;
 
   if (notFound || !post) return (
     <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>

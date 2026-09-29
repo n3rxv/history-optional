@@ -22,6 +22,7 @@ import ThinkingSteps, { NO_PROGRESS, type Progress } from '@/components/chat/Thi
 import SidePanel, { type PanelContent, type Source } from '@/components/chat/SidePanel';
 import WorthKnowing from '@/components/chat/WorthKnowing';
 import Mascot from '@/components/Mascot';
+import OwlLoader from '@/components/OwlLoader';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -1131,7 +1132,7 @@ function ChatContent() {
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={<div style={{ padding: 'var(--space-8)', color: 'var(--text2)' }}>Loading…</div>}>
+    <Suspense fallback={<OwlLoader size="page" label="Loading the chat" />}>
       <ChatContent />
     </Suspense>
   );

@@ -13,6 +13,7 @@ import type { User } from 'firebase/auth';
 import { useNoteSearch } from '@/hooks/useNoteSearch';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
+import OwlLoader from '@/components/OwlLoader';
 
 function injectHeadingIds(html: string): string {
   let h2count = 0;
@@ -1411,9 +1412,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
                 <TableOfContents contentHtml={processedContent} />
                 <div style={{ position: 'relative' }}>
                   {contentLoading && !processedContent.trim() && (
-                    <div style={{ padding: '3rem 0', textAlign: 'center', color: 'var(--text3)', fontSize: '0.85rem' }}>
-                      {langHi ? 'नोट्स लोड हो रहे हैं…' : 'Loading notes…'}
-                    </div>
+                    <OwlLoader label={langHi ? 'नोट्स लोड हो रहे हैं' : 'Loading the notes'} />
                   )}
                   <div
                     ref={noteContentRef}

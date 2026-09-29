@@ -1297,19 +1297,3 @@ html, body { overflow-x: hidden; max-width: 100%; }
   opacity: 0.7;
 }
 
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   Animated ellipsis for loading labels.
-
-   Each dot brightens in turn, so a wait reads as progress rather than as a
-   frozen string. The dots are decoration: the label beside them carries the
-   meaning, which is why they are aria-hidden at the call site.
-   ───────────────────────────────────────────────────────────────────────── */
-@keyframes loading-dot { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
-.loading-dots > span { animation: loading-dot 1.4s ease-in-out infinite; }
-.loading-dots > span:nth-child(2) { animation-delay: 0.2s; }
-.loading-dots > span:nth-child(3) { animation-delay: 0.4s; }
-
-@media (prefers-reduced-motion: reduce) {
-  .loading-dots > span { animation: none; opacity: 1; }
-}

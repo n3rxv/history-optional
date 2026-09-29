@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import LoadingDots from '@/components/LoadingDots';
 import { supabase } from '@/lib/supabase';
+import OwlLoader from '@/components/OwlLoader';
 
 interface Comment {
   id: string;
@@ -140,7 +140,7 @@ export default function DiscussionThread({ pyqId }: { pyqId: number }) {
 
           {/* Comments list */}
           {loading ? (
-            <LoadingDots label="Loading" style={{ color: 'var(--text3)', fontSize: '0.8rem', textAlign: 'center', padding: '0.5rem' }} />
+            <OwlLoader size="small" label="Loading comments" />
           ) : comments.length === 0 ? (
             <div style={{ color: 'var(--text3)', fontSize: '0.8rem', textAlign: 'center', padding: '0.5rem' }}>No comments yet. Be the first!</div>
           ) : (

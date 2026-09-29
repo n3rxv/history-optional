@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
+import OwlLoader from '@/components/OwlLoader';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 type Position = {
@@ -368,9 +369,7 @@ export default function HistoriographyClient({ initialDebates }: { initialDebate
 
         {/* Loading */}
         {loading && (
-          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', letterSpacing: '0.1em' }}>
-            {langHi ? 'लोड हो रहा है…' : 'Loading…'}
-          </div>
+          <OwlLoader label={langHi ? 'बहसें लोड हो रही हैं' : 'Loading the debates'} />
         )}
 
         {/* Cards */}
