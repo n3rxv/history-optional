@@ -3,6 +3,7 @@ import { sanitizeHtml as sanitize } from '@/lib/sanitizeHtml';
 import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
 import { Fragment, useState, useRef, useEffect, Suspense, useCallback, useMemo } from 'react';
+import { preload } from 'react-dom';
 import { marked } from 'marked';
 import { useSearchParams } from 'next/navigation';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
@@ -15,6 +16,7 @@ import { allNotes } from '@/lib/notes';
 import { detectTopic } from '@/lib/detectTopic';
 import { compose, formatFor, EMPTY_START, type StartState } from '@/lib/chatStart';
 import { takeStages, type StageEvent } from '@/lib/chatStream';
+import { suggestions, nextSuggestion, graphemes } from '@/lib/chatSuggestions';
 import ChatSidebar from '@/components/chat/ChatSidebar';
 import StartFlow, { loadRelated, type Related, type RelatedPyq } from '@/components/chat/StartFlow';
 import ThinkingSteps, { NO_PROGRESS, type Progress } from '@/components/chat/ThinkingSteps';
@@ -29,6 +31,8 @@ type Message = {
   isMentor?: boolean;
   /** Set when the answer was asked for as a Mains answer. */
   format?: 'mains';
+  /** The follow-up the server suggested after this answer. */
+  next?: string;
 };
 
 type ChatHistoryEntry = {
@@ -44,6 +48,7 @@ const CHAT_HISTORY_KEY = 'ho_chat_history_v1';
 const CHAT_HISTORY_MAX = 50;
 const FREE_CHATS = 3;
 const SOURCES_MARKER = '\n__SOURCES__';
+const NEXT_MARKER = '\n__NEXT__';
 
 function newId() {
   return typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : String(Date.now());
@@ -374,6 +379,9 @@ function ChatContent() {
     [initialTopic],
   );
   const { langHi } = useLang();
+  // The reading owl is only drawn once a question is sent; fetched then, it
+  // arrived a beat after the checklist it sits beside.
+  preload('/mascot/owl-reading.svg', { as: 'image' });
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState(initialQ);
@@ -399,6 +407,10 @@ function ChatContent() {
   const [flowOpen, setFlowOpen] = useState(true);
   const [flowKey, setFlowKey] = useState(0);
   const [flashDue, setFlashDue] = useState(0);
+  // Which suggested question the empty input shows. Drawn on the client after
+  // mount, not during render, so the server's HTML and the first client render
+  // agree; drawn again whenever the input empties.
+  const [hint, setHint] = useState(0);
 
   const hasUserMessageRef = useRef(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -438,6 +450,45 @@ function ChatContent() {
     ta.style.height = 'auto';
     ta.style.height = Math.min(ta.scrollHeight, 200) + 'px';
   }, [input]);
+
+  const hintPool = suggestions(langHi);
+  // Before the first message the input suggests an opening question from the
+  // list. After it, the suggestion is the follow-up written for the last
+  // answer; an older answer saved without one leaves a plain placeholder.
+  const lastMsg = thread[thread.length - 1];
+  const followUp = !empty && !loading && lastMsg?.role === 'assistant' ? lastMsg.next ?? null : null;
+  const suggestion = empty ? hintPool[hint % hintPool.length] : followUp ?? '';
+  const newHint = useCallback(() => setHint(h => nextSuggestion(h % hintPool.length, hintPool.length)), [hintPool.length]);
+
+  // On arrival, and when the language changes the list.
+  useEffect(() => { newHint(); }, [newHint]);
+
+  // The suggestion types itself into the placeholder. Every state update
+  // happens in a timer, and a count belonging to an earlier suggestion reads
+  // as nothing typed, so a new suggestion starts from blank without a reset.
+  const [typed, setTyped] = useState<{ text: string; n: number }>({ text: '', n: 0 });
+  useEffect(() => {
+    const chars = graphemes(suggestion);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const id = window.setTimeout(() => setTyped({ text: suggestion, n: chars.length }), 0);
+      return () => window.clearTimeout(id);
+    }
+    // At a typist's pace rather than a machine's: about 90 ms a character,
+    // uneven, with a breath after each word and a longer one after a comma.
+    let n = 0;
+    let id = 0;
+    const pause = (c: string) => 70 + Math.random() * 50 + (c === ' ' ? 60 : 0) + (/[,;:]/.test(c) ? 220 : 0);
+    const step = () => {
+      n += 1;
+      setTyped({ text: suggestion, n });
+      if (n < chars.length) id = window.setTimeout(step, pause(chars[n - 1]));
+    };
+    id = window.setTimeout(step, 500);
+    return () => window.clearTimeout(id);
+  }, [suggestion]);
+  const hintChars = graphemes(suggestion);
+  const typedHint = typed.text === suggestion ? hintChars.slice(0, typed.n).join('') : '';
+  const hintTyping = typed.text !== suggestion || typed.n < hintChars.length;
 
   useEffect(() => {
     setHistoryList(loadChatHistory());
@@ -494,6 +545,7 @@ function ChatContent() {
     hasUserMessageRef.current = false;
     setMessages([]);
     setInput('');
+    newHint();
     clearPdf();
     setBrainstormMode(false);
     setPanel(null);
@@ -553,15 +605,26 @@ function ChatContent() {
 
     const userMsg: Message = { role: 'user', content: q };
     const history = [...thread, userMsg];
-    setMessages(prev => [...prev, userMsg]);
+    // The answer's placeholder goes in with the question, so the owl and
+    // "Reading your question" appear on the tap. Added only once the response
+    // started, it left the token fetch, auth and quota check as a blank second.
+    setMessages(prev => [...prev, userMsg, { role: 'assistant', content: '', isMentor: mentor, format }]);
     setInput('');
+    newHint();
     setLoading(true);
     setProgress(NO_PROGRESS);
     setFlowOpen(false);
     setToolsOpen(false);
 
     // Refused before anything was spent: put the question back where it was.
-    const restore = () => { setMessages(prev => prev.slice(0, -1)); setInput(q); };
+    const restore = () => { setMessages(prev => prev.slice(0, -2)); setInput(q); };
+    // An error takes the placeholder's place if nothing has been written into
+    // it yet, and follows the partial answer if something has.
+    const fail = () => setMessages(prev => {
+      const last = prev[prev.length - 1];
+      const error: Message = { role: 'assistant', content: 'Something went wrong. Please try again.' };
+      return last?.role === 'assistant' && !last.content ? [...prev.slice(0, -1), error] : [...prev, error];
+    });
 
     try {
       const response = await fetch('/api/chat', {
@@ -586,13 +649,9 @@ function ChatContent() {
       });
       if (response.status === 401) { restore(); showLoginModal(); return; }
       if (response.status === 403) { restore(); showChatLimitModal(); return; }
-      if (!response.ok || !response.body) {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
-        return;
-      }
+      if (!response.ok || !response.body) { fail(); return; }
 
       setProgress({ accepted: true, writing: false });
-      setMessages(prev => [...prev, { role: 'assistant', content: '', isMentor: mentor, format }]);
 
       const apply = (e: StageEvent) => setProgress(p => {
         switch (e.id) {
@@ -608,6 +667,7 @@ function ChatContent() {
       let started = false;
       let full = '';
       let sources: Source[] = [];
+      let next: string | undefined;
       const render = () => {
         let display = full;
         const idx = full.indexOf(SOURCES_MARKER);
@@ -617,9 +677,15 @@ function ChatContent() {
           try { sources = JSON.parse(full.slice(idx + SOURCES_MARKER.length)); } catch { /* not all here yet */ }
           display = full.slice(0, idx);
         }
+        // The suggested follow-up comes just before the sources.
+        const n = display.indexOf(NEXT_MARKER);
+        if (n !== -1) {
+          try { next = JSON.parse(display.slice(n + NEXT_MARKER.length)); } catch { /* not all here yet */ }
+          display = display.slice(0, n);
+        }
         setMessages(prev => {
           const updated = [...prev];
-          updated[updated.length - 1] = { role: 'assistant', content: display, sources, isMentor: mentor, format };
+          updated[updated.length - 1] = { role: 'assistant', content: display, sources, isMentor: mentor, format, next };
           return updated;
         });
       };
@@ -646,7 +712,7 @@ function ChatContent() {
       render();
       if (!subscribed) incrementChat();
     } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
+      fail();
     } finally {
       setLoading(false);
       setProgress(NO_PROGRESS);
@@ -685,11 +751,15 @@ function ChatContent() {
     mains: langHi ? 'भूमिका, शीर्षकों में बिंदु, निष्कर्ष' : 'Intro, headed points, conclusion',
   };
 
-  const placeholder = brainstormMode
-    ? tr(t.chatPlaceholderBrainstorm, langHi)
-    : pdfName
-      ? tr(t.chatPlaceholderPdf, langHi)
-      : (langHi ? 'औरंगज़ेब के बाद मुग़ल क्यों बिखरे?' : 'Why did the Mughals decline after Aurangzeb?');
+  // With a PDF attached the input asks about the PDF, as a plain placeholder.
+  // Otherwise it suggests a question, typed out with a cursor in an overlay
+  // (a placeholder attribute cannot draw one), and Esc takes it up.
+  const showGhost = !pdfName && !input && !loading && suggestion !== '';
+  const canTakeHint = showGhost;
+  const placeholder = pdfName
+    ? tr(t.chatPlaceholderPdf, langHi)
+    : showGhost ? '' : (langHi ? 'आगे का प्रश्न पूछें…' : 'Ask a follow-up…');
+  const takeHint = () => { setInput(suggestion); inputRef.current?.focus(); };
 
   const premiumMark = !subscribed && <span className="ch-premium">✦</span>;
 
@@ -804,16 +874,43 @@ function ChatContent() {
           style={{ display: 'none' }}
           onChange={e => { const f = e.target.files?.[0]; if (f) handlePdfUpload(f); e.target.value = ''; }}
         />
+        <div className="ch-field">
+        {showGhost && (
+          <span id="ch-hint-desc" className="ch-sr">
+            {langHi ? `सुझाव: ${suggestion}। लेने के लिए Esc दबाएँ।` : `Suggestion: ${suggestion}. Press Escape to use it.`}
+          </span>
+        )}
+        {showGhost && (
+          <div className="ch-ghost" aria-hidden="true">
+            <span className="ch-ghost-text">{typedHint}</span>
+            <span className={`ch-caret${hintTyping ? ' typing' : ''}`} />
+          </div>
+        )}
         <textarea
           ref={inputRef}
-          className="ch-textarea"
+          className={`ch-textarea${showGhost ? ' ghosted' : ''}`}
           value={input}
           onChange={e => setInput(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+          onKeyDown={e => {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); return; }
+            if (e.key === 'Escape') {
+              if (toolsOpen) { e.stopPropagation(); setToolsOpen(false); return; }
+              // Kept from the side panel's Escape handler, which would
+              // otherwise close the panel on the same key press.
+              if (canTakeHint) { e.preventDefault(); e.stopPropagation(); takeHint(); }
+            }
+          }}
           placeholder={placeholder}
           aria-label={langHi ? 'अपना प्रश्न लिखें' : 'Your question'}
+          aria-describedby={showGhost ? 'ch-hint-desc' : undefined}
           rows={1}
         />
+        </div>
+        {canTakeHint && (
+          <button className="ch-esc" onClick={takeHint} title={langHi ? 'यह सुझाव लें (Esc)' : 'Use this suggestion (Esc)'} tabIndex={-1}>
+            esc
+          </button>
+        )}
         <div className="ch-tools">
           <button
             className={`ch-icon-btn${toolsOpen ? ' on' : ''}`}
@@ -900,7 +997,7 @@ function ChatContent() {
           <div className="ch-scroll" ref={scrollRef}>
             {empty ? (
               <div className="ch-start">
-                <Mascot pose="peek" width={160} className="ch-start-owl" priority />
+                <Mascot pose="peek" width={160} className="ch-start-owl" preload />
                 <h1>{langHi ? 'आज हम क्या पढ़ रहे हैं?' : 'What are we studying today?'}</h1>
                 <p>
                   {topicNote
@@ -1048,8 +1145,8 @@ export default function ChatPage() {
 // ── Styles ────────────────────────────────────────────────────────────────────
 //
 // Every colour is a theme token, so the page follows the site's dark and light
-// setting. The ground is the page background tinted a little toward the
-// premium wash: cream on paper, a warm near-black on the AMOLED ground.
+// setting, in the site's own vocabulary: the neutral ground, lapis for what is
+// primary, selected or a link, and gold only where something is premium.
 
 const CHAT_CSS = `
 /* The chat is a full-screen app. With the footer below it the window could
@@ -1062,7 +1159,7 @@ const CHAT_CSS = `
 .ho-main { min-height: 0 !important; }
 
 .ch-wrap {
-  --ch-ground: color-mix(in srgb, var(--premium-wash) 45%, var(--bg));
+  --ch-ground: var(--bg);
   --ch-card: var(--bg-raised);
   --ch-soft: color-mix(in srgb, var(--text) 3%, var(--bg-raised));
   display: flex;
@@ -1089,24 +1186,25 @@ const CHAT_CSS = `
   transition: background 0.15s, border-color 0.15s, color 0.15s;
   white-space: nowrap;
 }
-.ch-btn-solid { background: var(--text); color: var(--bg); }
-.ch-btn-solid:hover { background: color-mix(in srgb, var(--text) 85%, var(--bg)); }
+.ch-btn-solid { background: var(--accent); color: var(--accent-on); }
+.ch-btn-solid:hover { background: color-mix(in srgb, var(--accent) 88%, var(--text)); }
 .ch-btn-line { background: var(--ch-card); color: var(--text); border-color: var(--border2); }
-.ch-btn-line:hover { border-color: var(--border3); }
+.ch-btn-line:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: var(--accent-text); }
 .ch-btn-line.on { border-color: var(--accent); color: var(--accent-text); background: var(--accent-dim); }
 .ch-btn-sm { min-height: 32px; padding: 0 var(--space-3); font-size: 0.8rem; font-weight: 500; }
 .ch-btn-wide { width: 100%; }
 .ch-btn:disabled { opacity: 0.5; cursor: wait; }
 .ch-link-btn {
   background: none; border: none; padding: var(--space-1) 0; cursor: pointer;
-  color: var(--text2); font-size: 0.84rem; display: inline-flex; align-items: center; gap: var(--space-2);
+  color: var(--accent-text); font-size: 0.84rem; display: inline-flex; align-items: center; gap: var(--space-2);
 }
-.ch-link-btn:hover { color: var(--text); }
+.ch-link-btn:hover { color: var(--accent-text); }
 .ch-icon-btn {
   width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
   border-radius: var(--radius-sm); border: none; background: none; color: var(--text3); cursor: pointer;
 }
-.ch-icon-btn:hover, .ch-icon-btn.on { color: var(--text); background: var(--ch-soft); }
+.ch-icon-btn:hover { color: var(--text); background: var(--ch-soft); }
+.ch-icon-btn.on { color: var(--accent-text); background: var(--accent-dim); }
 .ch-premium { color: var(--premium-text); margin-left: var(--space-1); font-size: 0.8em; }
 
 /* ── Sidebar ── */
@@ -1120,7 +1218,7 @@ const CHAT_CSS = `
 }
 .ch-side-search input { flex: 1; min-width: 0; border: none; background: none; outline: none; color: var(--text); font-size: 0.88rem; }
 .ch-side-search input::placeholder { color: var(--text3); }
-.ch-side-search:focus-within { border-color: var(--border3); }
+.ch-side-search:focus-within { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
 .ch-side-actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
 .ch-side-actions .ch-btn { padding: 0 var(--space-2); font-size: 0.82rem; }
 .ch-side-rule { border-top: 1px dashed var(--border2); }
@@ -1145,7 +1243,7 @@ const CHAT_CSS = `
   border-radius: var(--radius-md); border: 1px solid transparent; cursor: pointer;
 }
 .ch-side-chat:hover { background: var(--ch-soft); }
-.ch-side-chat.active { background: var(--ch-card); border-color: var(--border); }
+.ch-side-chat.active { background: var(--accent-dim); border-color: color-mix(in srgb, var(--accent) 28%, transparent); }
 .ch-side-chat-title { font-size: 0.82rem; line-height: 1.45; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .ch-side-chat-date { font-size: 0.72rem; color: var(--text3); margin-top: var(--space-1); }
 .ch-side-chat-del {
@@ -1166,22 +1264,22 @@ const CHAT_CSS = `
 .ch-side-badge {
   margin-left: auto; min-width: 22px; height: 22px; padding: 0 var(--space-1);
   display: inline-flex; align-items: center; justify-content: center;
-  border: 1px solid var(--border2); border-radius: var(--radius-sm); background: var(--ch-card);
-  font-size: 0.74rem; color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius: var(--radius-sm); background: var(--accent-dim);
+  font-size: 0.74rem; color: var(--accent-text);
 }
 .ch-side-card {
-  background: var(--ch-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);
+  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-2xl);
   padding: var(--space-4);
 }
 .ch-ring { position: relative; width: 64px; height: 64px; margin-bottom: var(--space-3); }
 .ch-ring span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 600; }
 .ch-side-card-title { font-size: 0.92rem; font-weight: 700; margin-bottom: var(--space-1); }
 .ch-side-card-text { font-size: 0.8rem; line-height: 1.55; color: var(--text2); }
-.ch-side-card-link { display: inline-block; margin-top: var(--space-3); font-size: 0.84rem; font-weight: 600; color: var(--text); text-decoration: none; }
+.ch-side-card-link { display: inline-block; margin-top: var(--space-3); font-size: 0.84rem; font-weight: 600; color: var(--accent-text); text-decoration: none; }
 .ch-side-card-link:hover { text-decoration: underline; }
 .ch-side-user {
   display: flex; align-items: center; gap: var(--space-3);
-  background: var(--ch-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);
+  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-2xl);
   padding: var(--space-3);
 }
 .ch-side-user-wait { height: 64px; }
@@ -1267,17 +1365,15 @@ const CHAT_CSS = `
   font-size: 0.86rem; cursor: pointer; text-align: left;
   transition: border-color 0.15s, background 0.15s;
 }
-.ch-chip:hover { border-color: var(--border3); }
-.ch-chip.on:not(.multi) { background: var(--text); color: var(--bg); border-color: var(--text); }
-.ch-chip.multi.on { border-color: var(--border3); }
+.ch-chip:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.ch-chip.on { background: var(--accent-dim); color: var(--accent-text); border-color: var(--accent); }
 .ch-chip-box {
   width: 18px; height: 18px; flex-shrink: 0;
   display: inline-flex; align-items: center; justify-content: center;
-  border: 1.5px solid var(--border3); border-radius: var(--radius-xs); color: var(--bg);
+  border: 1.5px solid var(--border3); border-radius: var(--radius-xs); color: var(--accent-on);
 }
-.ch-chip.on .ch-chip-box { background: var(--text); border-color: var(--text); }
+.ch-chip.on .ch-chip-box { background: var(--accent); border-color: var(--accent); }
 .ch-chip-premium { color: var(--premium-text); font-size: 0.8em; }
-.ch-chip.on .ch-chip-premium { color: inherit; }
 .ch-tabs { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-bottom: var(--space-3); border-bottom: 1px solid var(--border); }
 .ch-tab {
   position: relative; padding: var(--space-2) var(--space-3); margin-bottom: -1px;
@@ -1285,15 +1381,11 @@ const CHAT_CSS = `
   color: var(--text3); font-size: 0.84rem; cursor: pointer;
 }
 .ch-tab:hover { color: var(--text); }
-.ch-tab.on { color: var(--text); font-weight: 600; }
-.ch-tab.on[data-section="Ancient India"] { border-bottom-color: var(--ancient-text); }
-.ch-tab.on[data-section="Medieval India"] { border-bottom-color: var(--medieval-text); }
-.ch-tab.on[data-section="Modern India"] { border-bottom-color: var(--modern-text); }
-.ch-tab.on[data-section="World History"] { border-bottom-color: var(--world-text); }
-.ch-tab-dot { display: inline-block; width: 6px; height: 6px; border-radius: var(--radius-circle); background: var(--text); margin-left: var(--space-1); vertical-align: middle; }
+.ch-tab.on { color: var(--accent-text); font-weight: 600; border-bottom-color: var(--accent); }
+.ch-tab-dot { display: inline-block; width: 6px; height: 6px; border-radius: var(--radius-circle); background: var(--accent); margin-left: var(--space-1); vertical-align: middle; }
 .ch-flow-nav { display: flex; align-items: center; justify-content: space-between; margin-top: clamp(6px, 1.4vh, 16px); }
 .ch-prev { background: none; border: none; display: inline-flex; align-items: center; gap: var(--space-2); color: var(--text2); font-size: 0.9rem; cursor: pointer; padding: var(--space-2); }
-.ch-prev:hover { color: var(--text); }
+.ch-prev:hover { color: var(--accent-text); }
 .ch-next {
   display: inline-flex; align-items: center; gap: var(--space-2);
   min-height: 38px; padding: 0 var(--space-4);
@@ -1301,7 +1393,8 @@ const CHAT_CSS = `
   border: 1px solid var(--border2); border-radius: var(--radius-md);
   font-size: 0.9rem; font-weight: 600; cursor: pointer;
 }
-.ch-next:hover:not(:disabled) { border-color: var(--border3); }
+.ch-next:not(:disabled) { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.ch-next:hover:not(:disabled) { background: var(--accent-dim); border-color: var(--accent); }
 .ch-next:disabled { opacity: 0.45; cursor: not-allowed; }
 .ch-flow-empty { font-size: 0.88rem; color: var(--text2); line-height: 1.6; }
 .ch-pyq-list { display: flex; flex-direction: column; gap: var(--space-2); overflow-y: auto; padding-right: var(--space-1); }
@@ -1310,8 +1403,8 @@ const CHAT_CSS = `
   padding: var(--space-3); background: var(--ch-card); color: var(--text);
   border: 1px solid var(--border2); border-radius: var(--radius-md); cursor: pointer;
 }
-.ch-pyq:hover { border-color: var(--border3); }
-.ch-pyq.on { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
+.ch-pyq:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.ch-pyq.on { border-color: var(--accent); background: var(--accent-dim); box-shadow: inset 0 0 0 1px var(--accent); }
 .ch-pyq-meta { font-size: 0.74rem; color: var(--text3); }
 .ch-pyq-text { font-size: 0.86rem; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 @media (max-height: 800px) {
@@ -1327,10 +1420,10 @@ const CHAT_CSS = `
 .ch-tag {
   display: inline-flex; align-items: center; gap: var(--space-2); max-width: 100%;
   padding: var(--space-1) var(--space-2) var(--space-1) var(--space-3);
-  background: var(--ch-soft); border: 1px solid var(--border); border-radius: var(--radius-pill);
-  font-size: 0.8rem; color: var(--text);
+  background: var(--accent-dim); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius: var(--radius-pill);
+  font-size: 0.8rem; color: var(--accent-text);
 }
-.ch-tag select { border: none; background: none; color: var(--text); font-size: 0.8rem; max-width: 220px; cursor: pointer; outline: none; }
+.ch-tag select { border: none; background: none; color: var(--accent-text); font-size: 0.8rem; max-width: 220px; cursor: pointer; outline: none; }
 .ch-tag button { border: none; background: none; color: var(--text3); cursor: pointer; font-size: 0.72rem; padding: 0 var(--space-1); }
 .ch-tag button:hover { color: var(--text); }
 .ch-tag-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
@@ -1341,12 +1434,9 @@ const CHAT_CSS = `
   box-shadow: var(--elev-2);
   transition: border-color 0.2s;
 }
-.ch-input:focus-within { border-color: var(--border3); }
-.ch-input.lit {
-  border-color: transparent;
-  background:
-    linear-gradient(var(--ch-card), var(--ch-card)) padding-box,
-    linear-gradient(100deg, var(--medieval-text), var(--accent) 30%, var(--premium-text) 62%, var(--danger-text)) border-box;
+.ch-input:focus-within, .ch-input.lit {
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow: 0 0 0 4px var(--accent-glow), var(--elev-2);
 }
 .ch-input-icon { color: var(--text3); display: inline-flex; padding-bottom: var(--space-2); }
 .ch-textarea {
@@ -1355,7 +1445,40 @@ const CHAT_CSS = `
   padding: var(--space-1) 0; min-height: 36px; max-height: 200px;
 }
 .ch-textarea::placeholder { color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ch-field { position: relative; flex: 1; min-width: 0; display: flex; }
+.ch-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ch-field .ch-textarea { width: 100%; }
+/* The suggestion overlay sits exactly where typed text would, so the cursor
+   drawn after it is where the reader's own text will begin. The real caret is
+   hidden while it shows, or there would be two. */
+.ch-ghost {
+  position: absolute; inset: 0; pointer-events: none;
+  padding: var(--space-1) 0; font-size: 1rem; line-height: 1.55; color: var(--text3);
+  display: flex; align-items: flex-start; white-space: nowrap; overflow: hidden;
+}
+.ch-ghost-text { overflow: hidden; text-overflow: ellipsis; }
+.ch-caret {
+  flex-shrink: 0; width: 2px; height: 1.2em; margin: 0.18em 0 0 2px;
+  background: var(--accent); border-radius: 1px;
+  animation: chCaret 1.05s steps(1) infinite;
+}
+.ch-caret.typing { animation: none; }
+/* The drawn cursor is there to draw the eye to an idle box. Once the reader
+   is in the box it has done its job and goes, and the box's own cursor takes
+   over at the start of the line, where their typing will begin. */
+.ch-field:focus-within .ch-caret { display: none; }
+@keyframes chCaret { 50% { opacity: 0; } }
+.ch-textarea.ghosted:not(:focus) { caret-color: transparent; }
 .ch-tools { position: relative; }
+.ch-esc {
+  align-self: center; flex-shrink: 0;
+  padding: 2px var(--space-2); border-radius: var(--radius-xs);
+  border: 1px solid var(--border2); background: var(--ch-soft);
+  color: var(--text3); font-size: 0.72rem; line-height: 1.4; cursor: pointer;
+}
+.ch-esc:hover { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+/* No Escape key on a phone keyboard; the hint would only be a small button. */
+@media (hover: none) { .ch-esc { display: none; } }
 .ch-send {
   width: 36px; height: 36px; flex-shrink: 0;
   display: inline-flex; align-items: center; justify-content: center;
@@ -1363,7 +1486,7 @@ const CHAT_CSS = `
   border: 1px solid var(--border2); border-radius: var(--radius-md); cursor: not-allowed;
   transition: background 0.15s, color 0.15s;
 }
-.ch-send.ready { background: var(--text); color: var(--bg); border-color: var(--text); cursor: pointer; }
+.ch-send.ready { background: var(--accent); color: var(--accent-on); border-color: var(--accent); cursor: pointer; }
 .ch-usage { font-size: 0.78rem; color: var(--text3); margin-top: var(--space-1); }
 .ch-usage strong { color: var(--text); }
 .ch-usage-out { color: var(--danger-text); }
@@ -1394,8 +1517,9 @@ const CHAT_CSS = `
 }
 .ch-menu-radio { border-radius: var(--radius-circle); }
 .ch-menu-check { border-radius: var(--radius-xs); }
-.ch-menu-item.on .ch-menu-radio { border: 5px solid var(--text); }
-.ch-menu-item.on .ch-menu-check { background: var(--text); border-color: var(--text); box-shadow: inset 0 0 0 3px var(--ch-card); }
+.ch-menu-item.on .ch-menu-radio { border: 5px solid var(--accent); }
+.ch-menu-item.on .ch-menu-check { background: var(--accent); border-color: var(--accent); box-shadow: inset 0 0 0 3px var(--ch-card); }
+.ch-menu-item.on .ch-menu-text strong { color: var(--accent-text); }
 .ch-menu-icon { display: inline-flex; color: var(--text2); margin-top: 1px; }
 
 /* ── Conversation ── */
@@ -1404,7 +1528,10 @@ const CHAT_CSS = `
 .ch-user { display: flex; justify-content: flex-end; margin-bottom: var(--space-8); }
 .ch-user span {
   max-width: min(480px, 85%);
-  background: var(--ch-card); border: 1px solid var(--border2); border-radius: var(--radius-md);
+  /* The reader's own words sit on the accent wash, so a thread reads at a
+     glance as question, answer, question. */
+  background: var(--accent-wash); color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4); font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
 }
 .ch-ai { margin-bottom: var(--space-10); }
@@ -1452,24 +1579,24 @@ const CHAT_CSS = `
   color: var(--text); text-align: left; cursor: pointer;
   transition: border-color 0.15s;
 }
-.ch-sources-card:hover { border-color: var(--border3); }
-.ch-sources-card.on { border-color: var(--premium-text); }
+.ch-sources-card:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.ch-sources-card.on { border-color: var(--accent); background: var(--accent-dim); }
 .ch-sources-thumb { display: inline-flex; padding: var(--space-2); background: var(--ch-card); border: 1px solid var(--border); border-radius: var(--radius-md); }
 .ch-sources-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .ch-sources-text strong { font-size: 0.92rem; }
 .ch-sources-text span { font-size: 0.82rem; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ch-sources-go { width: 32px; height: 32px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--border2); border-radius: var(--radius-circle); color: var(--text2); background: var(--ch-card); }
+.ch-sources-go { width: 32px; height: 32px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: var(--radius-circle); color: var(--accent-text); background: var(--ch-card); }
 
 /* ── Worth knowing ── */
 .ch-worth {
   margin-top: var(--space-5); padding: var(--space-4);
-  background: color-mix(in srgb, var(--premium-wash) 65%, var(--ch-card));
-  border: 1px solid color-mix(in srgb, var(--premium-text) 25%, transparent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--ch-card));
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   border-radius: var(--radius-lg);
 }
 .ch-worth-head { display: flex; align-items: center; gap: var(--space-2); font-size: 0.9rem; font-weight: 700; margin-bottom: var(--space-2); }
-.ch-worth-head svg { color: var(--premium-text); }
-.ch-worth-item { padding: var(--space-3) 0; border-top: 1px dashed color-mix(in srgb, var(--premium-text) 30%, transparent); }
+.ch-worth-head svg { color: var(--accent); }
+.ch-worth-item { padding: var(--space-3) 0; border-top: 1px dashed color-mix(in srgb, var(--accent) 25%, transparent); }
 .ch-worth-item:first-of-type { border-top: none; padding-top: var(--space-1); }
 .ch-worth-item p { margin: 0 0 var(--space-2); font-size: 0.88rem; line-height: 1.6; color: var(--text); }
 
@@ -1483,7 +1610,8 @@ const CHAT_CSS = `
   font-size: 0.86rem; cursor: pointer; text-align: left;
 }
 .ch-follow-btn svg { color: var(--text3); flex-shrink: 0; }
-.ch-follow-btn:hover { border-color: var(--border3); }
+.ch-follow-btn:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: var(--accent-text); }
+.ch-follow-btn:hover svg { color: var(--accent); }
 
 /* ── Thinking ── */
 .ch-thinking { display: flex; align-items: center; gap: var(--space-5); margin-bottom: var(--space-10); }
@@ -1507,9 +1635,9 @@ const CHAT_CSS = `
 .ch-panel-sub { font-size: 0.82rem; color: var(--text2); margin-top: var(--space-1); }
 .ch-panel-body { flex: 1; min-height: 0; overflow-y: auto; padding: var(--space-4) var(--space-5) var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
 .ch-source, .ch-panel-pyq { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4); scroll-margin-top: var(--space-4); }
-.ch-source.on { border-color: var(--premium-text); background: color-mix(in srgb, var(--premium-wash) 45%, var(--ch-card)); }
+.ch-source.on { border-color: var(--accent); background: var(--accent-dim); }
 .ch-source-head { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
-.ch-source-n { font-size: 0.74rem; color: var(--text3); }
+.ch-source-n { font-size: 0.74rem; color: var(--accent-text); }
 .ch-source-book { font-size: 0.88rem; font-weight: 700; }
 .ch-source-author { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
 .ch-source p, .ch-panel-pyq p { margin: var(--space-2) 0 0; font-size: 0.86rem; line-height: 1.7; color: var(--text2); }
@@ -1610,7 +1738,7 @@ const CHAT_CSS = `
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ch-step-spin, .ch-pyq-skel { animation: none; }
+  .ch-step-spin, .ch-pyq-skel, .ch-caret { animation: none; }
   .ch-side { transition: none; }
 }
 `;

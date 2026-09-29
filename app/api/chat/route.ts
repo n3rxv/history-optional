@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit, clientIp, tooManyRequests } from '@/lib/rateLimit';
 import { consumeUsage, releaseUsage } from '@/lib/usageQuota';
 import { createSentenceGate } from '@/lib/citationGate';
+import { suggestNext } from '@/lib/chatNext';
 
 export const maxDuration = 90;
 import { createClient } from "@supabase/supabase-js";
@@ -328,7 +329,9 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
         // lib/citationGate.ts for why the buffer existed and why it no longer
         // has to.
         const gate = createSentenceGate(send);
-        const collect = (chunk: string) => gate.push(chunk);
+        // The raw answer is kept as well, for writing the follow-up suggestion.
+        let answerText = '';
+        const collect = (chunk: string) => { answerText += chunk; gate.push(chunk); };
         // Progress lines for the page's checklist, ahead of any answer text.
         // Only for a client that asked: one still running the old script
         // would print them into the answer.
@@ -441,6 +444,12 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
           }
           gate.flush();
           if (gate.emitted() === 0) send('Something went wrong. Please try again.');
+          else if (stages) {
+            // Before the sources, whose JSON runs to the end of the stream.
+            // Only for a client that asked for stages; older ones would print it.
+            const next = await suggestNext(lastQ, answerText, lang === 'hi' ? 'hi' : 'en');
+            if (next) send('\n__NEXT__' + JSON.stringify(next));
+          }
 
           send('\n__SOURCES__' + JSON.stringify(ragSources));
         } catch (err) {

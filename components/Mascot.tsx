@@ -24,7 +24,7 @@ export default function Mascot({
   width = 120,
   alt = '',
   className,
-  priority,
+  preload,
 }: {
   pose?: MascotPose;
   /** Rendered width in px; the height follows the artwork's proportions. */
@@ -32,7 +32,8 @@ export default function Mascot({
   /** Empty by default: the owl is decoration beside text that says the same. */
   alt?: string;
   className?: string;
-  priority?: boolean;
+  /** Fetch ahead of the page's other images, for an owl seen on arrival. */
+  preload?: boolean;
 }) {
   const art = ART[pose];
   return (
@@ -42,7 +43,7 @@ export default function Mascot({
       width={width}
       height={Math.round((width * art.h) / art.w)}
       className={className}
-      priority={priority}
+      preload={preload}
     />
   );
 }

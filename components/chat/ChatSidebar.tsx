@@ -193,7 +193,7 @@ export default function ChatSidebar(p: Props) {
           <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
             <circle cx="32" cy="32" r={R} fill="none" stroke="var(--border)" strokeWidth="5" />
             <circle
-              cx="32" cy="32" r={R} fill="none" stroke="var(--text)" strokeWidth="5" strokeLinecap="round"
+              cx="32" cy="32" r={R} fill="none" stroke="var(--accent)" strokeWidth="5" strokeLinecap="round"
               strokeDasharray={`${(C * pct) / 100} ${C}`} transform="rotate(-90 32 32)"
             />
           </svg>
@@ -227,7 +227,7 @@ export default function ChatSidebar(p: Props) {
           </span>
         </div>
       ) : (
-        <button className="ch-btn ch-btn-solid ch-side-signin" onClick={p.onSignIn}>
+        <button className="ch-btn ch-btn-line ch-side-signin" onClick={p.onSignIn}>
           <Image src="/icons/google-g.svg" alt="" width={18} height={18} />{L.signIn}
         </button>
       )}
