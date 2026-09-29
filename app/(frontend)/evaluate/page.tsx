@@ -348,15 +348,23 @@ const handleOcr = useCallback(async () => {
           font-family:var(--font-mono); font-size:0.82rem; letter-spacing:0.06em; transition:all 0.15s; }
         .ev-mchip.active { background:var(--accent-dim); border-color:var(--accent); color:var(--accent); }
         .ev-mchip:hover:not(.active) { border-color:var(--text3); color:var(--text2); }
-        .ev-btn { width:100%; padding:16px; border:1.5px solid color-mix(in srgb, var(--accent) 50%, transparent); overflow:hidden; position:relative;
-          background:var(--accent-dim); color:var(--accent); font-size:0.78rem;
-          font-family:var(--font-mono); cursor:pointer; transition:all 0.2s;
-          letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; }
-        .ev-btn:hover:not(:disabled) { background:var(--accent-dim); border-color:var(--accent); }
-        .ev-btn::before { content:''; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(0,0,0,0.09) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; }
-        .ev-btn:hover:not(:disabled)::before { opacity:1; animation:glass-shine 0.55s ease forwards; }
-        .ev-btn:disabled { opacity:0.35; cursor:not-allowed; }
-        .ev-btn-sm { padding:10px 20px; width:auto; font-size:0.7rem; }
+        /* The page's main action, solid in the site's lapis like every other
+           primary button. It used to be a pale outline in spaced mono capitals,
+           which read as secondary and wrapped the moment it was squeezed. */
+        .ev-btn { width:100%; min-height:52px; padding:0 var(--space-6);
+          display:inline-flex; align-items:center; justify-content:center; gap:var(--space-2);
+          background:var(--accent); color:var(--accent-on); border:1px solid var(--accent); border-radius:var(--radius-md);
+          font-family:var(--font-body); font-size:0.98rem; font-weight:600; white-space:nowrap;
+          cursor:pointer; transition:background 0.15s, border-color 0.15s, opacity 0.15s; }
+        .ev-btn:hover:not(:disabled) { background:color-mix(in srgb, var(--accent) 88%, var(--text)); }
+        .ev-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+        .ev-btn:disabled { opacity:0.5; cursor:not-allowed; }
+        /* The way back: outlined, sized to its label, and never the one that shrinks. */
+        .ev-btn-ghost { background:transparent; color:var(--text2); border-color:var(--border2); font-weight:500; }
+        .ev-btn-ghost:hover:not(:disabled) { background:var(--bg2); color:var(--text); border-color:var(--border3); }
+        .ev-btn-sm { width:auto; flex-shrink:0; }
+        .ev-actions { display:flex; gap:var(--space-3); flex-wrap:wrap; }
+        .ev-actions .ev-btn:not(.ev-btn-sm) { flex:1; min-width:220px; }
         .ev-err { background:var(--danger-wash); border:1px solid color-mix(in srgb, var(--danger-text) 30%, transparent);
           border-radius:4px; padding:12px 16px; color:var(--danger-text);
           font-size:0.85rem; margin-bottom:20px; font-family:var(--font-ui); }
@@ -870,6 +878,16 @@ const handleOcr = useCallback(async () => {
                 value={question} onChange={e => setQuestion(e.target.value)}
                 style={{ marginBottom:0, borderColor: question ? "var(--border)" : "var(--danger-text)" }} />
             </div>
+            {/* The same setting as on the upload screen, repeated here because this is where
+                the question is finally confirmed, and it decides how the answer is marked. */}
+            <div style={{ marginBottom:20 }}>
+              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:8 }}>{langHi ? 'निर्धारित अंक' : 'Marks Allotted'}</label>
+              <div style={{ display:"flex", gap:10 }}>
+                {([10,15,20] as const).map(m => (
+                  <button key={m} className={`ev-mchip ${marks===m?"active":""}`} onClick={() => setMarks(m)} aria-pressed={marks===m}>{m}M</button>
+                ))}
+              </div>
+            </div>
             <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:8 }}>{tr(t.evalTranscription, langHi)}</label>
             <textarea
               className="ev-ta"
@@ -877,8 +895,8 @@ const handleOcr = useCallback(async () => {
               value={extractedText.replace(/--- PAGE BREAK ---/g, " ")}
               onChange={e => setExtractedText(e.target.value)}
             />
-            <div style={{ display:"flex", gap:12 }}>
-              <button className="ev-btn ev-btn-sm" onClick={() => setStage("form")} style={{ background:"transparent", color:"var(--text2)", borderColor:"var(--border2)" }}>
+            <div className="ev-actions">
+              <button className="ev-btn ev-btn-ghost ev-btn-sm" onClick={() => setStage("form")}>
                 {tr(t.evalReupload, langHi)}
               </button>
               <button className="ev-btn" onClick={submit} disabled={loading}>
@@ -1092,7 +1110,7 @@ const handleOcr = useCallback(async () => {
             </div>
 
             <div style={{ marginBottom:32 }}>
-              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:10 }}>Marks Allotted</label>
+              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:10 }}>{langHi ? 'निर्धारित अंक' : 'Marks Allotted'}</label>
               <div style={{ display:"flex", gap:10 }}>
                 {([10,15,20] as const).map(m => (
                   <button key={m} className={`ev-mchip ${marks===m?"active":""}`} onClick={() => setMarks(m)}>{m}M</button>
@@ -1471,7 +1489,7 @@ const handleOcr = useCallback(async () => {
               }}>
               {tab === "eval" ? "View Model Answer →" : "← View Answer Evaluation"}
             </button>
-            <button className="ev-btn" style={{ marginTop:12, background:"transparent", color:"var(--text3)", borderColor:"var(--border)" }}
+            <button className="ev-btn ev-btn-ghost" style={{ marginTop:12 }}
               onClick={() => { setEvaluation(null); setFiles(undefined as any); setPreviews([]); setQuestion(""); setSubmittedQ(""); setExtractedText(""); setError(""); setStage("form"); }}>
               ← Evaluate Another Answer
             </button>
