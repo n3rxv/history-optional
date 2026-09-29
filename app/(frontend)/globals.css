@@ -278,7 +278,11 @@
      --text was being used here, which is 3.24:1 on the light danger fill and
      2.83:1 on the dark one, so both grounds were wrong. */
   --on-fill:       var(--black-900);
-  --accent-on:     var(--on-fill);     /* 4.62:1 on --lapis-500 */
+  /* White, not the ground's black: 4.55:1 on --lapis-500 against black's
+     4.62:1, both past AA, and white is what reads as a button's label. The
+     flashcards Start button had already gone its own way to white, so the
+     site's blue buttons disagreed with one another. */
+  --accent-on:     var(--white-50);
   --accent-dim:    color-mix(in srgb, var(--lapis-500) 10%, transparent);
   --accent-glow:   color-mix(in srgb, var(--lapis-500) 18%, transparent);
   --success-text: var(--success-text-d); --success-wash: var(--success-wash-d);
