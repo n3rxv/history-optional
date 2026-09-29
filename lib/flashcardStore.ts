@@ -178,6 +178,20 @@ export async function countPublished(): Promise<number | null> {
   return count ?? 0;
 }
 
+/** Published cards on one notes topic; null on failure, for the same reason. */
+export async function countForTopic(topic: string): Promise<number | null> {
+  const { count, error } = await client()
+    .from('flashcards')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'published')
+    .eq('topic', topic);
+  if (error) {
+    console.error('[flashcardStore] topic count failed:', error.message);
+    return null;
+  }
+  return count ?? 0;
+}
+
 /** Distinct sections and types actually present, for the filter controls. */
 export async function listFacets(): Promise<{ sections: string[]; types: string[] }> {
   const index = await listIndex();

@@ -10,7 +10,7 @@ const SECTION_MAP: Record<string, string[]> = {
 };
 
 // Keywords per slug for precise matching within a section
-const SLUG_KEYWORDS: Record<string, string[]> = {
+export const SLUG_KEYWORDS: Record<string, string[]> = {
   'sources-ancient-india':          ['source', 'inscription', 'coin', 'archaeological', 'literary', 'kalhana', 'rajtarangini', 'foreign account', 'greek', 'chinese'],
   'prehistory-protohistory':        ['neolithic', 'palaeolithic', 'mesolithic', 'chalcolithic', 'prehistoric', 'megalith'],
   'indus-valley-civilization':      ['harappan', 'indus', 'harappa', 'mohenjo', 'ias civilization', 'indus valley', 'indus-saraswati'],
@@ -95,4 +95,45 @@ export function getPYQFrequency(slug: string, section: string): { count: number;
   if (count >= 3)  return { count, label: 'Medium',    color: '#eab308' };
   if (count >= 1)  return { count, label: 'Low',       color: '#6b7280' };
   return { count: 0, label: 'Rare', color: '#374151' };
+}
+
+const SYLLABUS_ITEM = /^Paper (I|II), (\d+)\./;
+
+// Extra words for telling apart questions whose book topic serves several
+// syllabus items. Kept out of SLUG_KEYWORDS because that list also drives the
+// section-wide frequency badges, where a word as broad as "trade" would match
+// half of Paper I.
+const SHARED_TAG_KEYWORDS: Record<string, string[]> = {
+  'early-british-raj':      ['regulating', 'dual system', 'diwani', 'dual government', 'board of control'],
+  'economy-society-16-17c': ['economy', 'trade', 'agricultur', 'craft', 'merchant', 'commerce', 'peasant', 'urban'],
+};
+
+/**
+ * Every PYQ that belongs to one notes topic, newest first.
+ *
+ * getPYQsForNote matches keywords across a whole section and stops at ten,
+ * which suits a badge and not a list someone reads through. Each PYQ also
+ * carries the official syllabus items its book topic serves, and that is the
+ * better signal, with one catch: a book topic often serves several items at
+ * once ("Mughal Empire" is tagged 20, 21, 22 and 23), so the tag alone would
+ * file every Mughal question under Akbar. A question tagged with this topic
+ * and nothing else belongs to it outright; one tagged with several needs a
+ * keyword hit as well.
+ */
+export function pyqsForTopic(paper: 1 | 2, topic: number, slug: string): PYQ[] {
+  const keywords = [...(SLUG_KEYWORDS[slug] ?? []), ...(SHARED_TAG_KEYWORDS[slug] ?? [])].map((k) => k.toLowerCase());
+  const items = (q: PYQ) => q.syllabus
+    .map((s) => s.match(SYLLABUS_ITEM))
+    .filter((m): m is RegExpMatchArray => m !== null)
+    .map((m) => ({ paper: m[1] === 'I' ? 1 : 2, topic: Number(m[2]) }));
+
+  return pyqs
+    .filter((q) => {
+      const tags = items(q);
+      if (!tags.some((t) => t.paper === paper && t.topic === topic)) return false;
+      if (tags.length === 1) return true;
+      const text = q.question.toLowerCase();
+      return keywords.some((k) => text.includes(k));
+    })
+    .sort((a, b) => b.year - a.year || b.marks - a.marks);
 }
