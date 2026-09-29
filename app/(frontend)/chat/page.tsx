@@ -7,9 +7,8 @@ import { preload } from 'react-dom';
 import { marked } from 'marked';
 import { useSearchParams } from 'next/navigation';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
-import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
 import { useSyllabusTracker } from '@/hooks/useSyllabusTracker';
-import { auth, signInWithGoogle } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
 import { BOOK_CATEGORIES, booksByCategory } from '@/lib/books';
 import { fixSentenceSpacing } from '@/lib/textSpacing';
 import { allNotes } from '@/lib/notes';
@@ -421,7 +420,6 @@ function ChatContent() {
   const { usage, canChat, incrementChat, GateModals, showChatLimitModal, showLoginModal } = useSubscriptionGate(() => {});
   const usageLoading = usage?.loading ?? true;
   const subscribed = !!usage?.subscribed;
-  const { user, loading: authLoading } = useFirebaseAuth();
   const syllabus = useSyllabusTracker();
 
   const thread = useMemo(() => threadOf(messages), [messages]);
@@ -974,9 +972,6 @@ function ChatContent() {
             onNewChat={startNewChat}
             bookMode={bookMode && subscribed}
             onBooks={onBooks}
-            user={user}
-            authReady={!authLoading}
-            onSignIn={() => { signInWithGoogle().catch(e => console.error(e)); }}
             syllabusDone={syllabusDone}
             syllabusTotal={allNotes.length}
             flashDue={flashDue}
@@ -1119,8 +1114,8 @@ function ChatContent() {
               <div className="ch-modal-title">{langHi ? 'प्रीमियम सुविधा' : 'A premium feature'}</div>
               <p>
                 {langHi
-                  ? 'पुस्तकों से चैट, मेंटर मोड और PDF, सब 20 से अधिक मानक पुस्तकों और परीक्षक की नज़र पर आधारित हैं।'
-                  : 'Chat with books, Mentor mode and PDFs draw on 20+ standard History Optional books and an examiner’s eye.'}
+                  ? 'पुस्तकों से चैट, मेंटर मोड और PDF, सब 30 से अधिक मानक पुस्तकों और परीक्षक की नज़र पर आधारित हैं।'
+                  : 'Chat with books, Mentor mode and PDFs draw on 30+ standard History Optional books and an examiner’s eye.'}
               </p>
               <button className="ch-btn ch-btn-solid ch-btn-wide" onClick={() => { setShowBookPaywall(false); showChatLimitModal(); }}>
                 {langHi ? 'प्रीमियम लें' : 'Unlock Premium'}
@@ -1211,15 +1206,18 @@ const CHAT_CSS = `
 .ch-side { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; min-height: 0; }
 .ch-side-inner { display: flex; flex-direction: column; gap: var(--space-3); height: 100%; min-height: 0; padding-top: var(--space-4); overflow-y: auto; scrollbar-width: thin; }
 .ch-side-search {
-  display: flex; align-items: center; gap: var(--space-2);
-  height: 40px; padding: 0 var(--space-3);
+  display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0;
+  height: 44px; padding: 0 var(--space-3);
   background: var(--ch-card); border: 1px solid var(--border2); border-radius: var(--radius-md);
   color: var(--text3);
 }
 .ch-side-search input { flex: 1; min-width: 0; border: none; background: none; outline: none; color: var(--text); font-size: 0.88rem; }
 .ch-side-search input::placeholder { color: var(--text3); }
 .ch-side-search:focus-within { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
-.ch-side-actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.ch-side-actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); flex-shrink: 0; }
+/* Everything but the chat list keeps its full size; when the column runs
+   short, the list scrolls instead of the search box being squashed. */
+.ch-side-rule, .ch-side-label, .ch-side-nav, .ch-side-card { flex-shrink: 0; }
 .ch-side-actions .ch-btn { padding: 0 var(--space-2); font-size: 0.82rem; }
 .ch-side-rule { border-top: 1px dashed var(--border2); }
 .ch-side-chats { flex: 1 1 auto; min-height: 140px; overflow-y: auto; margin: 0 calc(-1 * var(--space-2)); padding: 0 var(--space-2); }
@@ -1277,25 +1275,6 @@ const CHAT_CSS = `
 .ch-side-card-text { font-size: 0.8rem; line-height: 1.55; color: var(--text2); }
 .ch-side-card-link { display: inline-block; margin-top: var(--space-3); font-size: 0.84rem; font-weight: 600; color: var(--accent-text); text-decoration: none; }
 .ch-side-card-link:hover { text-decoration: underline; }
-.ch-side-user {
-  display: flex; align-items: center; gap: var(--space-3);
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-2xl);
-  padding: var(--space-3);
-}
-.ch-side-user-wait { height: 64px; }
-.ch-side-avatar { position: relative; width: 40px; height: 40px; flex-shrink: 0; }
-.ch-side-avatar img, .ch-side-avatar > span {
-  width: 40px; height: 40px; border-radius: var(--radius-circle); object-fit: cover;
-  display: flex; align-items: center; justify-content: center; background: var(--ch-soft); font-weight: 700;
-}
-.ch-side-online {
-  position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; border-radius: var(--radius-circle);
-  background: var(--success-text); border: 2px solid var(--ch-card);
-}
-.ch-side-user-text { display: flex; flex-direction: column; min-width: 0; }
-.ch-side-user-text strong { font-size: 0.86rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ch-side-user-text span { font-size: 0.78rem; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ch-side-signin { min-height: 48px; width: 100%; }
 
 /* ── Main panel ── */
 .ch-main {
@@ -1733,9 +1712,7 @@ const CHAT_CSS = `
   .ch-side-card-title { margin: 0; font-size: 0.86rem; }
   .ch-side-card-text { display: none; }
   .ch-side-card-link { margin-top: 2px; font-size: 0.8rem; }
-  .ch-side-signin, .ch-side-user-wait { min-height: 44px; height: 44px; }
-  .ch-side-user { padding: var(--space-2) var(--space-3); }
-}
+  }
 
 @media (prefers-reduced-motion: reduce) {
   .ch-step-spin, .ch-pyq-skel, .ch-caret { animation: none; }

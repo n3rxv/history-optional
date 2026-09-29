@@ -1,8 +1,6 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import type { User } from 'firebase/auth';
 import { detectTopic } from '@/lib/detectTopic';
 import { getNoteBySlug } from '@/lib/notes';
 
@@ -17,9 +15,6 @@ type Props = {
   onNewChat: () => void;
   bookMode: boolean;
   onBooks: () => void;
-  user: User | null;
-  authReady: boolean;
-  onSignIn: () => void;
   syllabusDone: number;
   syllabusTotal: number;
   flashDue: number;
@@ -96,7 +91,6 @@ export default function ChatSidebar(p: Props) {
     dashboard: langHi ? 'डैशबोर्ड' : 'Dashboard',
     coverage: langHi ? 'पाठ्यक्रम कवरेज' : 'Syllabus coverage',
     update: langHi ? 'प्रगति अपडेट करें' : 'Update progress',
-    signIn: langHi ? 'Google से साइन इन करें' : 'Sign in with Google',
     del: langHi ? 'हटाएँ' : 'Delete',
   };
 
@@ -208,29 +202,6 @@ export default function ChatSidebar(p: Props) {
         <Link href="/dashboard" className="ch-side-card-link">{L.update}</Link>
       </div>
 
-      {!p.authReady ? (
-        <div className="ch-side-user ch-side-user-wait" aria-hidden="true" />
-      ) : p.user ? (
-        <div className="ch-side-user">
-          <span className="ch-side-avatar">
-            {p.user.photoURL
-              // A Google profile photo, on Google's host; next/image would need
-              // that host allow-listed for nothing, since images are unoptimised.
-              // eslint-disable-next-line @next/next/no-img-element
-              ? <img src={p.user.photoURL} alt="" referrerPolicy="no-referrer" />
-              : <span>{(p.user.displayName || p.user.email || '?').slice(0, 1).toUpperCase()}</span>}
-            <i className="ch-side-online" />
-          </span>
-          <span className="ch-side-user-text">
-            <strong>{p.user.displayName || (langHi ? 'आप' : 'You')}</strong>
-            <span>{p.user.email}</span>
-          </span>
-        </div>
-      ) : (
-        <button className="ch-btn ch-btn-line ch-side-signin" onClick={p.onSignIn}>
-          <Image src="/icons/google-g.svg" alt="" width={18} height={18} />{L.signIn}
-        </button>
-      )}
     </div>
   );
 }
