@@ -436,7 +436,50 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const MAX_FILES = 10;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
 
+type Emit = (event: Record<string, unknown>) => void;
+
+/**
+ * The evaluate page asks for progress with an x-eval-stages header and gets
+ * newline-delimited JSON: a {"type":"stage"} line as each real step finishes,
+ * then one {"type":"result"} line carrying the status and body the plain
+ * response would have had. Its waiting screen ticks those steps, instead of
+ * the timer it used to run, which announced "Evaluating conclusion…" whether
+ * or not anything had been evaluated yet.
+ *
+ * Every other caller (the test series, anything older) sends no header and
+ * gets exactly the JSON response it always did.
+ */
 export async function POST(req: NextRequest) {
+  if (req.headers.get("x-eval-stages") !== "1") return evaluate(req, () => {});
+
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      const line = (o: object) => controller.enqueue(encoder.encode(JSON.stringify(o) + "\n"));
+      let result: { status: number; body: unknown };
+      try {
+        const res = await evaluate(req, (event) => line({ type: "stage", ...event }));
+        let body: unknown = null;
+        try { body = await res.json(); } catch { /* an empty body stays null */ }
+        result = { status: res.status, body };
+      } catch (err) {
+        console.error("Evaluation error:", err);
+        result = { status: 500, body: { error: "Failed to evaluate answer. Please try again." } };
+      }
+      line({ type: "result", ...result });
+      controller.close();
+    },
+  });
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "application/x-ndjson; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      "X-Accel-Buffering": "no",
+    },
+  });
+}
+
+async function evaluate(req: NextRequest, emit: Emit): Promise<Response> {
   const token = req.headers.get("x-user-token") ?? "";
   const fingerprint = req.headers.get("x-fingerprint") ?? "";
 
@@ -565,6 +608,7 @@ export async function POST(req: NextRequest) {
     if (imageContents.length === 0 && !extractedText) {
       return await reject("No images provided");
     }
+    emit({ id: "read", pages: files.length, typed: Boolean(extractedText) });
 
     // ── Helper: Groq fetch with fallback key ─────────────────────
     const groqFetch = async (body: object, key: string) =>
@@ -664,7 +708,7 @@ Target ~${marks === "10" ? "200" : marks === "15" ? "300" : "400"} words. Be spe
       console.log("Pass 0.5 error (non-fatal):", refErr);
     }
     return "";
-    })();
+    })().then((ref) => { emit({ id: "reference", ok: Boolean(ref) }); return ref; });
 
     // ── PASS 0 + RAG: Run OCR and RAG fetch in parallel ──────────
     let finalTranscript = extractedText;
@@ -760,20 +804,30 @@ Go page by page. Do not rush. Every word matters.`;
           }
         })()
       : Promise.resolve(finalTranscript);
+    const words = (t: string) => (t.trim() ? t.trim().split(/\s+/).length : 0);
+    const ocrTracked = ocrTask.then((t) => {
+      // Zero words means the transcription failed and Pass 1 reads the pages
+      // itself, which the page says rather than claiming a word count.
+      emit({ id: "transcribed", words: words(t || "") });
+      return t;
+    });
 
     // RAG task (always runs in parallel).
     // In-process: this used to POST to our own /api/rag-search, which spent a
     // second lambda invocation per evaluation and returned nothing whenever
     // NEXT_PUBLIC_SITE_URL was unset, because the fallback pointed at
     // localhost. getBookContext swallows its own failures.
-    const ragTask = getBookContext(question);
+    const ragTask = getBookContext(question).then((ctx) => {
+      emit({ id: "books", passages: ctx ? ctx.split("\n\n---\n\n").length : 0 });
+      return ctx;
+    });
 
     // All three run concurrently. Pass 0.5 was previously awaited before this
     // point, so its latency was added to the request rather than hidden behind
     // OCR — the commit that first parallelised it measured 25-30s.
     const tParallel = Date.now();
     const [ocrResult, ragContext, referenceAnswer] = await Promise.all([
-      ocrTask,
+      ocrTracked,
       ragTask,
       referenceAnswerTask,
     ]);
@@ -904,6 +958,7 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
     const anthropicClient = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
     const tPass1 = Date.now();
+    emit({ id: "marking" });
     const cotHaikuRes = await anthropicClient.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 1200,
@@ -937,6 +992,7 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
     });
 
     mark("pass1_haiku_cot", tPass1);
+    emit({ id: "marked" });
     const cotReasoning = cotHaikuRes.content
       .filter((b) => b.type === "text")
       .map((b) => (b as { type: "text"; text: string }).text)
@@ -964,6 +1020,7 @@ Do not re-evaluate beyond what STEP 8 already corrected. Faithfully convert your
 Return ONLY the JSON object, no preamble, no markdown fences.`;
 
     const tPass2 = Date.now();
+    emit({ id: "scoring" });
     const response = await callWithFallback({
         model: "openai/gpt-oss-120b",
         messages: [
@@ -1018,6 +1075,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
       await refund();
       return NextResponse.json({ error: "Evaluation failed to produce a result. Please try again." }, { status: 500 });
     }
+    emit({ id: "scored" });
     const eval_ = evaluation as any;
     if (!eval_.section_marks || typeof eval_.section_marks !== "object") {
       console.error("Pass 2 returned without valid section_marks. Keys present:", Object.keys(eval_), "| raw section_marks value:", JSON.stringify(eval_.section_marks));
@@ -1109,6 +1167,7 @@ Return ONLY a JSON object with these exact fields:
 
 Be brutally specific. Name exactly which historians were missing. Quote exactly which part of the answer was weak. No generic advice like "cite more historians" — say WHICH historian and WHAT argument. All historian citations must come from the verified book passages only.`;
 
+    emit({ id: "feedback" });
     try {
       const tPass3 = Date.now();
       const pass3Res = await callWithFallback({
@@ -1142,6 +1201,8 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
     } catch (p3err) {
       console.log("Pass 3 error (non-fatal):", p3err);
     }
+
+    emit({ id: "feedback_done" });
 
     // One line per evaluation. Durations only — never the question, the
     // transcript or the feedback, all of which are the student's.

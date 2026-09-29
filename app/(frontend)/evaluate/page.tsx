@@ -8,6 +8,8 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
 import PDFTestEvaluator from '@/components/PDFTestEvaluator';
 import MapEvaluator from '@/components/MapEvaluator';
+import EvalProgress, { applyEvalStage, type EvalStages } from '@/components/EvalProgress';
+import EmptyState from '@/components/EmptyState';
 
 
 interface Historian {
@@ -191,8 +193,9 @@ export default function EvaluatePage() {
   const [processedImageFiles, setProcessedImageFiles] = useState<File[]>([]);
   const [ocrLoading, setOcrLoading] = useState(false);
   const [ocrProgress, setOcrProgress]   = useState(0);
-  const [evalProgress, setEvalProgress] = useState(0);
-  const [evalPhase, setEvalPhase]       = useState("");
+  // What the server has actually done, from its progress stream.
+  const [evalStages, setEvalStages]     = useState<EvalStages>({});
+  const [evalStartedAt, setEvalStartedAt] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
   const addFileRef = useRef<HTMLInputElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -282,25 +285,8 @@ const handleOcr = useCallback(async () => {
   }, [usage.token]);
 
   const submit = async () => {
-    setError(""); setLoading(true); setEvaluation(null); setEvalProgress(0); setEvalPhase("");
-    let evalTimer: ReturnType<typeof setTimeout> | undefined;
-    const evalSteps = [
-      { pct: 8,  label: "Loading answer into context…" },
-      { pct: 18, label: "Checking demand of question…" },
-      { pct: 32, label: "Evaluating introduction…" },
-      { pct: 48, label: "Analysing body paragraphs…" },
-      { pct: 62, label: "Checking historiography…" },
-      { pct: 74, label: "Evaluating conclusion…" },
-      { pct: 84, label: "Scoring against UPSC rubric…" },
-      { pct: 93, label: "Compiling feedback…" },
-    ];
-    const runEvalStep = (idx: number) => {
-      if (idx >= evalSteps.length) return;
-      setEvalProgress(evalSteps[idx].pct);
-      setEvalPhase(evalSteps[idx].label);
-      evalTimer = setTimeout(() => runEvalStep(idx + 1), 1800 + Math.random() * 1200);
-    };
-    runEvalStep(0);
+    setError(""); setLoading(true); setEvaluation(null);
+    setEvalStages({}); setEvalStartedAt(Date.now());
     const fd = new FormData();
     fd.append("question", question); fd.append("marks", marks.toString());
     fd.append("extractedText", extractedText);
@@ -308,20 +294,44 @@ const handleOcr = useCallback(async () => {
     if (evalFiles.length > 0) { const compEval = await Promise.all(evalFiles.map(f => compressImage(f))); compEval.forEach(f => fd.append("files", f)); }
     fd.append("lang", langHi ? "hi" : "en");
     try {
-      const res  = await fetch("/api/evaluate", { method: "POST", headers: { "x-user-token": tokenRef.current ?? "" }, body: fd });
-      const rawText = await res.text();
-      console.log("Evaluate raw response:", rawText.slice(0, 500));
-      if (!rawText) throw new Error("Empty response from server");
+      const res  = await fetch("/api/evaluate", {
+        method: "POST",
+        headers: { "x-user-token": tokenRef.current ?? "", "x-eval-stages": "1" },
+        body: fd,
+      });
       let data: any;
-      try {
-        data = JSON.parse(rawText);
-      } catch {
-        throw new Error(res.ok ? "Unexpected response from server. Please try again." : `Server error (${res.status}). Please try again.`);
+      let status = res.status;
+      if ((res.headers.get("content-type") ?? "").includes("ndjson") && res.body) {
+        // One JSON object per line: progress as each step finishes, then the result.
+        const reader = res.body.getReader();
+        const dec = new TextDecoder();
+        let buf = "";
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += dec.decode(value, { stream: true });
+          let nl: number;
+          while ((nl = buf.indexOf("\n")) !== -1) {
+            const line = buf.slice(0, nl).trim();
+            buf = buf.slice(nl + 1);
+            if (!line) continue;
+            let msg: { type?: string; id?: string; status?: number; body?: unknown } & Record<string, unknown>;
+            try { msg = JSON.parse(line); } catch { continue; }
+            if (msg.type === "stage") setEvalStages(prev => applyEvalStage(prev, msg));
+            else if (msg.type === "result") { status = Number(msg.status) || 500; data = msg.body; }
+          }
+        }
+        if (data === undefined) throw new Error("The connection closed before the evaluation finished. Please try again.");
+      } else {
+        const rawText = await res.text();
+        if (!rawText) throw new Error("Empty response from server");
+        try {
+          data = JSON.parse(rawText);
+        } catch {
+          throw new Error(res.ok ? "Unexpected response from server. Please try again." : `Server error (${res.status}). Please try again.`);
+        }
       }
-      if (!res.ok) throw new Error(data.error || "Evaluation failed");
-      setEvalProgress(100);
-      setEvalPhase("Complete.");
-      clearTimeout(evalTimer);
+      if (status >= 400 || !data) throw new Error(data?.error || "Evaluation failed");
       setSubmittedQ(question);
       // Save full evaluation to history
       if (data) {
@@ -574,9 +584,16 @@ const handleOcr = useCallback(async () => {
           {sidebarOpen && (
             <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
               {history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? e.type === "map" : !e.type || e.type === "single").length === 0 ? (
-                <div style={{ padding:"24px 16px", color:"var(--text3)", fontSize:"0.78rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
-                  {evalMode === "map" ? "No map evaluations yet. Evaluate Q1 Map first." : evalMode === "batch" ? "No batch evaluations yet. Evaluate a Full Paper / FLT first." : "No evaluations yet. Submit your first answer above."}
-                </div>
+                <EmptyState
+                  size="sm"
+                  title={langHi ? 'अभी कोई मूल्यांकन नहीं' : 'Nothing marked yet'}
+                >
+                  {evalMode === "map"
+                    ? (langHi ? 'मानचित्र प्रश्न जाँचें, वे यहाँ दिखेंगे।' : 'Evaluate a map question and it will appear here.')
+                    : evalMode === "batch"
+                      ? (langHi ? 'पूरा पेपर या FLT जाँचें, वह यहाँ दिखेगा।' : 'Evaluate a full paper or FLT and it will appear here.')
+                      : (langHi ? 'अपना पहला उत्तर जमा करें, उसका मूल्यांकन यहाँ रहेगा।' : 'Submit your first answer and its marking will be kept here.')}
+                </EmptyState>
               ) : history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? e.type === "map" : !e.type || e.type === "single").map(entry => {
                 const pct = Math.round((entry.marks / entry.marksOutOf) * 100);
                 const color = pct >= 70 ? "var(--green)" : pct >= 50 ? "var(--yellow)" : "var(--red)";
@@ -1129,54 +1146,7 @@ const handleOcr = useCallback(async () => {
         )}
 
         {/* ── LOADING ── */}
-        {loading && (
-          <div style={{ padding:"80px 0 60px", maxWidth:520, margin:"0 auto" }}>
-            {/* Title */}
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.58rem", letterSpacing:"0.3em", textTransform:"uppercase", color:"var(--text3)", marginBottom:32, textAlign:"center" }}>
-              Evaluating Answer
-            </div>
-            {/* Big progress number */}
-            <div style={{ display:"flex", alignItems:"flex-end", gap:6, marginBottom:18 }}>
-              <span style={{ fontFamily:"var(--font-mono)", fontSize:"4.5rem", fontWeight:700, lineHeight:1, color:"var(--text)", letterSpacing:"-0.04em" }}>{String(evalProgress).padStart(2,"0")}</span>
-              <span style={{ fontFamily:"var(--font-mono)", fontSize:"1.2rem", color:"var(--border2)", marginBottom:10 }}>%</span>
-            </div>
-            {/* Main bar */}
-            <div style={{ height:4, background:"var(--bg4)", borderRadius:2, overflow:"hidden", marginBottom:12 }}>
-              <div style={{
-                height:"100%",
-                width:`${evalProgress}%`,
-                background:"linear-gradient(90deg,var(--accent) 0%,var(--accent) 50%,var(--accent) 80%,var(--accent) 100%)",
-                borderRadius:2,
-                transition:"width 1.2s cubic-bezier(.16,1,.3,1)",
-                boxShadow:"0 0 18px color-mix(in srgb, var(--accent) 40%, transparent)"
-              }} />
-            </div>
-            {/* Checkpoint dots */}
-            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:28 }}>
-              {[8,18,32,48,62,74,84,93,100].map((p,i) => (
-                <div key={p} style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:5 }}>
-                  <div style={{
-                    width: evalProgress >= p ? 8 : 5,
-                    height: evalProgress >= p ? 8 : 5,
-                    borderRadius:"50%",
-                    background: evalProgress >= p ? "var(--accent)" : "var(--bg4)",
-                    border: evalProgress >= p ? "none" : "1px solid var(--border2)",
-                    boxShadow: evalProgress >= p ? "0 0 8px var(--accent)" : "none",
-                    transition:"all 0.5s"
-                  }} />
-                </div>
-              ))}
-            </div>
-            {/* Phase label */}
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--accent)", minHeight:20, transition:"opacity 0.4s" }}>
-              {evalPhase}
-            </div>
-            {/* Thin sub-bar (flicker effect) */}
-            <div style={{ height:1, background:"var(--bg4)", borderRadius:1, overflow:"hidden", marginTop:20 }}>
-              <div style={{ height:"100%", width:`${evalProgress}%`, background:"var(--accent-dim)", transition:"width 1.2s cubic-bezier(.16,1,.3,1)" }} />
-            </div>
-          </div>
-        )}
+        {loading && <EvalProgress stages={evalStages} startedAt={evalStartedAt} langHi={langHi} />}
 
         {/* ── RESULTS ── */}
         {evaluation && (
