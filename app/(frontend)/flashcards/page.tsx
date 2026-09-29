@@ -160,7 +160,13 @@ export default function Flashcards() {
   const [modalOpen, setModalOpen] = useState(false);
   const [animating, setAnimating] = useState(false);
 
-  useEffect(() => { setSR(loadSR()); setLastSessionIds(loadSession()); setMounted(true); }, []);
+  useEffect(() => {
+    setSR(loadSR()); setLastSessionIds(loadSession()); setMounted(true);
+    // The chat links here with ?section= to revise the cards on the topic it
+    // just answered; there is no topic filter, so the section is the nearest.
+    const section = new URLSearchParams(window.location.search).get('section');
+    if (section) setFilterSection(section);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = modalOpen ? 'hidden' : '';

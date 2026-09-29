@@ -2,19 +2,33 @@
 import { sanitizeHtml as sanitize } from '@/lib/sanitizeHtml';
 import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
-import { Fragment, useState, useRef, useEffect, Suspense, useCallback } from 'react';
+import { Fragment, useState, useRef, useEffect, Suspense, useCallback, useMemo } from 'react';
 import { marked } from 'marked';
 import { useSearchParams } from 'next/navigation';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
-import { auth } from '@/lib/firebase';
+import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
+import { useSyllabusTracker } from '@/hooks/useSyllabusTracker';
+import { auth, signInWithGoogle } from '@/lib/firebase';
 import { BOOK_CATEGORIES, booksByCategory } from '@/lib/books';
 import { fixSentenceSpacing } from '@/lib/textSpacing';
+import { allNotes } from '@/lib/notes';
+import { detectTopic } from '@/lib/detectTopic';
+import { compose, formatFor, EMPTY_START, type StartState } from '@/lib/chatStart';
+import { takeStages, type StageEvent } from '@/lib/chatStream';
+import ChatSidebar from '@/components/chat/ChatSidebar';
+import StartFlow, { loadRelated, type Related, type RelatedPyq } from '@/components/chat/StartFlow';
+import ThinkingSteps, { NO_PROGRESS, type Progress } from '@/components/chat/ThinkingSteps';
+import SidePanel, { type PanelContent, type Source } from '@/components/chat/SidePanel';
+import WorthKnowing from '@/components/chat/WorthKnowing';
+import Mascot from '@/components/Mascot';
 
 type Message = {
   role: 'user' | 'assistant';
   content: string;
-  sources?: { book_title: string; content: string }[];
+  sources?: Source[];
   isMentor?: boolean;
+  /** Set when the answer was asked for as a Mains answer. */
+  format?: 'mains';
 };
 
 type ChatHistoryEntry = {
@@ -24,8 +38,16 @@ type ChatHistoryEntry = {
   updatedAt: number;
 };
 
+type Style = 'concise' | 'elaborative' | 'mains';
+
 const CHAT_HISTORY_KEY = 'ho_chat_history_v1';
 const CHAT_HISTORY_MAX = 50;
+const FREE_CHATS = 3;
+const SOURCES_MARKER = '\n__SOURCES__';
+
+function newId() {
+  return typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : String(Date.now());
+}
 
 function loadChatHistory(): ChatHistoryEntry[] {
   if (typeof window === 'undefined') return [];
@@ -52,22 +74,15 @@ function makeChatTitle(messages: Message[]): string {
   return base.length > 60 ? base.slice(0, 60) + '…' : base;
 }
 
-const SUGGESTED_EN = [
-  "Ashoka's Dhamma vs Buddhism — how different were they?",
-  'Permanent Settlement vs Ryotwari — compare revenue systems.',
-  'Causes and consequences of the Revolt of 1857.',
-  'Explain the Mandala theory from the Arthashastra.',
-  'French Revolution and the rise of nationalism in Europe.',
-  'Mughal state under Aurangzeb — a critical analysis.',
-];
-const SUGGESTED_HI = [
-  'अशोक का धम्म बनाम बौद्ध धर्म — दोनों में क्या अंतर था?',
-  'स्थायी बंदोबस्त बनाम रैयतवारी — राजस्व प्रणालियों की तुलना करें।',
-  '1857 के विद्रोह के कारण और परिणाम।',
-  'अर्थशास्त्र से मंडल सिद्धांत की व्याख्या करें।',
-  'फ्रांसीसी क्रांति और यूरोप में राष्ट्रवाद का उदय।',
-  'औरंगज़ेब के अधीन मुगल राज्य — एक आलोचनात्मक विश्लेषण।',
-];
+/**
+ * The conversation proper starts at the first question. Chats saved before
+ * the redesign open with a greeting from the assistant, which the new start
+ * screen replaces, so it is neither shown nor sent back to the model.
+ */
+function threadOf(messages: Message[]): Message[] {
+  const first = messages.findIndex(m => m.role === 'user');
+  return first === -1 ? [] : messages.slice(first);
+}
 
 function cleanChunk(text: string): string {
   return text
@@ -84,44 +99,6 @@ function cleanChunk(text: string): string {
     .replace(/_{4,}/g, '')
     .replace(/\s{3,}/g, ' ')
     .trim();
-}
-
-function SourcePassages({ sources }: { sources: { book_title: string; content: string }[] }) {
-  const [expanded, setExpanded] = useState(false);
-  const cleaned = sources
-    .map(s => ({ ...s, content: cleanChunk(s.content) }))
-    .filter(s => s.content.length > 80);
-  if (cleaned.length === 0) return null;
-  return (
-    <div style={{ margin: '0.75rem 0 0.25rem', borderRadius: 12, border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', overflow: 'hidden', background: 'var(--bg2)' }}>
-      <div
-        onClick={() => setExpanded(e => !e)}
-        style={{ padding: '0.5rem 0.9rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', background: 'var(--accent-dim)', borderBottom: expanded ? '1px solid color-mix(in srgb, var(--accent) 15%, transparent)' : 'none' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-          <span style={{ fontSize: '0.75rem' }}>📖</span>
-          <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Source Passages · {cleaned.length} found
-          </span>
-        </div>
-        <span style={{ fontSize: '0.6rem', color: 'var(--accent)' }}>{expanded ? '▲' : '▼'}</span>
-      </div>
-      {expanded && cleaned.map((s, si) => (
-        <div key={si} style={{ padding: '0.75rem 0.9rem', borderTop: si > 0 ? '1px solid color-mix(in srgb, var(--accent) 10%, transparent)' : 'none' }}>
-          <div style={{ display: 'inline-block', fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: 'var(--accent)', background: 'var(--accent-dim)', borderRadius: 4, padding: '0.15rem 0.5rem', marginBottom: '0.5rem', letterSpacing: '0.08em' }}>
-            {s.book_title}
-          </div>
-          <div style={{ fontSize: '0.8rem', color: 'var(--text2)', lineHeight: 1.75 }}>
-            {s.content.split(/(?<=[.?!])\s+/).filter((t: string) => t.trim().length > 20).slice(0, 6).map((sentence: string, i: number) => (
-              <span key={i}>{sentence.trim()} </span>
-            ))}
-            {s.content.split(/(?<=[.?!])\s+/).length > 6 && (
-              <span style={{ color: 'var(--accent)', fontSize: '0.72rem' }}>…</span>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
 }
 
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
@@ -141,8 +118,7 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   URL.revokeObjectURL(url);
 }
 
-
-function DownloadPDFButton({ content, question }: { content: string; question?: string }) {
+function DownloadPDFButton({ content, question, langHi }: { content: string; question?: string; langHi: boolean }) {
   const [downloading, setDownloading] = useState(false);
   const handleClick = async () => {
     setDownloading(true);
@@ -151,81 +127,326 @@ function DownloadPDFButton({ content, question }: { content: string; question?: 
     finally { setDownloading(false); }
   };
   return (
-    <button onClick={handleClick} disabled={downloading} className="chat-pdf-btn">
-      {downloading ? (
-        <><span className="chat-spin">&#8635;</span> Generating...</>
-      ) : (
-        <><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg> Save PDF</>
-      )}
+    <button onClick={handleClick} disabled={downloading} className="ch-btn ch-btn-line ch-btn-sm">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
+      {downloading ? (langHi ? 'बन रहा है…' : 'Preparing…') : (langHi ? 'PDF सहेजें' : 'Save PDF')}
     </button>
   );
 }
+
+// ── Answer formatting ─────────────────────────────────────────────────────────
+
+function formatTable(text: string): string {
+  const lines = text.split('\n');
+  let result = '';
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (line.includes('|') && line.trim().startsWith('|')) {
+      const nextLine = lines[i + 1] || '';
+      if (nextLine.match(/^[|\s\-:]+$/)) {
+        const headers = line.split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
+        let rows = '';
+        i += 2;
+        while (i < lines.length && lines[i].includes('|') && lines[i].trim().startsWith('|')) {
+          const cols = lines[i].split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('');
+          rows += `<tr>${cols}</tr>`;
+          i++;
+        }
+        result += `<div class="chat-table-wrap"><table class="chat-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>\n`;
+        continue;
+      }
+    }
+    result += lines[i] + '\n';
+    i++;
+  }
+  return result;
+}
+
+function linkifyCitations(html: string, sourcesCount: number): string {
+  if (!sourcesCount) return html;
+  return html.replace(/\b(Sources?)\s*#?\s*(\d+(?:\s*(?:,|and|&)\s*\d+)*)\b/gi, (match: string, _label: string, numList: string) => {
+    const nums = Array.from(numList.matchAll(/\d+/g)).map(m => parseInt(m[0], 10));
+    const valid = nums.filter(n => n >= 1 && n <= sourcesCount);
+    if (valid.length === 0) return match;
+    return `<span class="chat-citation" data-citation="${valid.join(',')}">${match}</span>`;
+  });
+}
+
+function formatMessage(text: string, sourcesCount: number = 0) {
+  // Also applied server-side; repeated here so answers already saved in
+  // history render correctly without a re-generation.
+  text = fixSentenceSpacing(text);
+  text = formatTable(text);
+  text = text.replace(/^-{3,}$/gm, '___HR___');
+  text = text.replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `___H1___${t}___END___`);
+  text = text.replace(/^### (.+)$/gm, (_: string, t: string) => `___H2___${t}___END___`);
+  text = text.replace(/^#{4,6} (.+)$/gm, (_: string, t: string) => `___H3___${t}___END___`);
+  text = text.replace(/^ *\d+[.)]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
+  text = text.replace(/^ *[-*•–—]\s+\*\*([^*]+?)\*\*:?\s*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
+  text = text.replace(/^ *[-*•–—]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
+  text = text.replace(/^\s*\*\*([^*]+)\*\*\s*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  text = text.replace(/___HR___/g, '<div class="chat-hr"></div>');
+  text = text.replace(/___H1___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`);
+  text = text.replace(/___H2___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h2">${t.replace(/^#+\s*/, '')}</div>`);
+  text = text.replace(/___H3___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`);
+  text = text.replace(/___BULLET___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>${t}</span></div>`);
+  text = text.replace(/\n\n/g, '<div class="chat-para-gap"></div>');
+  text = text.replace(/\n/g, '<br/>');
+  text = text.replace(/<div class="chat-bullet"><span class="chat-bullet-dot"><\/span><span><strong>([^<]+)<\/strong>:?\s*<\/span><\/div>/g, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`);
+  text = text.replace(/<\/div><div class="chat-para-gap"><\/div><div class="chat-bullet">/g, '</div><div class="chat-bullet">');
+  text = text.replace(/(<div class="chat-msg-h[123]">[^<]+<\/div>)<div class="chat-para-gap"><\/div>(<div class="chat-bullet">)/g, '$1$2');
+  text = linkifyCitations(text, sourcesCount);
+  return text;
+}
+
+function parseMentorSections(text: string): { type: string; content: string }[] {
+  const sections: { type: string; content: string }[] = [];
+  const regex = /##([A-Z]+)##([\s\S]*?)##END##/g;
+  let match;
+  let lastIndex = 0;
+  while ((match = regex.exec(text)) !== null) {
+    const before = text.slice(lastIndex, match.index).trim();
+    if (before) sections.push({ type: 'TEXT', content: before });
+    sections.push({ type: match[1], content: match[2].trim() });
+    lastIndex = match.index + match[0].length;
+  }
+  const after = text.slice(lastIndex).trim();
+  if (after) sections.push({ type: 'TEXT', content: after });
+  if (sections.length === 0) sections.push({ type: 'TEXT', content: text });
+  return sections;
+}
+
+const MENTOR_SECTIONS: Record<string, { label: string; icon: string; color: string }> = {
+  DIRECTIVE:   { label: 'Directive Rule',       icon: '🔍', color: 'var(--warning-text)' },
+  DIAGNOSIS:   { label: 'Demand Diagnosis',     icon: '📋', color: 'var(--accent)' },
+  BLUEPRINTS:  { label: 'Four Blueprints',      icon: '🗺️', color: 'var(--info-text)' },
+  MODELANSWER: { label: 'Model Answer',         icon: '📝', color: 'var(--success-text)' },
+  EVALUATION:  { label: 'Evaluation',           icon: '⚖️', color: 'var(--accent)' },
+  STRENGTHS:   { label: 'Strengths',            icon: '✅', color: 'var(--success-text)' },
+  CORRECTIONS: { label: 'Corrections',          icon: '🔧', color: 'var(--danger-text)' },
+  IMPROVED:    { label: 'Improved Answer',      icon: '✨', color: 'var(--success-text)' },
+  MCQ:         { label: 'Question',             icon: '❓', color: 'var(--info-text)' },
+  MCQANSWER:   { label: 'Answer & Explanation', icon: '💡', color: 'var(--warning-text)' },
+};
+
+const BLUEPRINT_COLOR: Record<string, string> = {
+  A: 'var(--warning-text)', B: 'var(--accent)', C: 'var(--success-text)', D: 'var(--info-text)',
+};
+
+function MentorBubble({ content, isStreaming }: { content: string; isStreaming?: boolean }) {
+  const sections = parseMentorSections(content);
+  const renderContent = (text: string, sectionType?: string) => {
+    if (sectionType === 'BLUEPRINTS') {
+      const lines = text.split('\n').filter(l => l.trim());
+      const optionLines = lines.filter(l => /^\*\*[A-D]/.test(l.trim()));
+      const otherLines = lines.filter(l => !/^\*\*[A-D]/.test(l.trim()));
+      return (
+        <div className="ch-mentor-blueprints">
+          {otherLines.length > 0 && <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(otherLines.join('\n'), { breaks: true }) as string) }} />}
+          {optionLines.map((line, idx) => {
+            const letter = line.trim().replace(/^\*\*([A-D]).*/, '$1');
+            const color = BLUEPRINT_COLOR[letter] ?? 'var(--text3)';
+            return (
+              <div key={idx} className="ch-mentor-option" style={{ borderLeftColor: color, background: `color-mix(in srgb, ${color} 7%, transparent)` }}>
+                <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(line.trim(), { breaks: true }) as string) }} />
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+    return <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(text)) }} />;
+  };
+  return (
+    <div className="ch-mentor">
+      <div className="ch-mentor-tag">
+        <span>🎓 Mentor</span>
+        {isStreaming && <span className="ch-mentor-live">generating…</span>}
+      </div>
+      {sections.map((sec, i) => {
+        if (sec.type === 'TEXT') {
+          return sec.content ? <div key={i} className="ch-answer-text" dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(sec.content)) }} /> : null;
+        }
+        const cfg = MENTOR_SECTIONS[sec.type];
+        if (!cfg) return <div key={i}>{renderContent(sec.content)}</div>;
+        return (
+          <div key={i} className="ch-mentor-section" style={{ borderColor: `color-mix(in srgb, ${cfg.color} 28%, transparent)`, background: `color-mix(in srgb, ${cfg.color} 5%, transparent)` }}>
+            <div className="ch-mentor-section-head" style={{ color: cfg.color }}><span>{cfg.icon}</span>{cfg.label}</div>
+            <div className="ch-answer-text">{renderContent(sec.content, sec.type)}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Pieces under an answer ────────────────────────────────────────────────────
+
+function SourcesCard({ sources, active, langHi, onOpen }: { sources: Source[]; active: boolean; langHi: boolean; onOpen: () => void }) {
+  const books = [...new Set(sources.map(s => s.book_title))];
+  const shown = books.slice(0, 2).join(', ') + (books.length > 2 ? (langHi ? ` और ${books.length - 2} अन्य` : ` and ${books.length - 2} more`) : '');
+  return (
+    <button className={`ch-sources-card${active ? ' on' : ''}`} onClick={onOpen}>
+      <span className="ch-sources-thumb" aria-hidden="true">
+        <svg viewBox="0 0 64 48" width="64" height="48">
+          <rect x="6" y="10" width="10" height="34" rx="2" fill="var(--ancient-text)" />
+          <rect x="18" y="4" width="11" height="40" rx="2" fill="var(--accent)" />
+          <rect x="31" y="8" width="9" height="36" rx="2" fill="var(--medieval-text)" />
+          <rect x="42" y="6" width="11" height="38" rx="2" transform="rotate(8 47 25)" fill="var(--premium-text)" />
+          <rect x="2" y="44" width="60" height="2" rx="1" fill="var(--border3)" />
+        </svg>
+      </span>
+      <span className="ch-sources-text">
+        <strong>{langHi ? `${sources.length} पुस्तक अंश` : `${sources.length} book passage${sources.length === 1 ? '' : 's'}`}</strong>
+        <span>{langHi ? `${shown} से` : `from ${shown}`}</span>
+      </span>
+      <span className="ch-sources-go" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </span>
+    </button>
+  );
+}
+
+function FollowUps({ slug, asked, wasMains, langHi, onSend }: {
+  slug: string | null;
+  asked: string[];
+  wasMains: boolean;
+  langHi: boolean;
+  onSend: (text: string, format?: 'mains') => void;
+}) {
+  const [related, setRelated] = useState<Related | null>(null);
+  useEffect(() => {
+    if (!slug) return;
+    let live = true;
+    loadRelated(slug).then(r => { if (live) setRelated(r); });
+    return () => { live = false; };
+  }, [slug]);
+
+  // A real past question on the topic, one the reader has not asked yet.
+  const pyq = related?.pyqs.find(q => !asked.some(a => a.includes(q.question.slice(0, 60))));
+  const items: { key: string; label: string; go: () => void }[] = [];
+  if (!wasMains) {
+    const text = langHi ? 'इसे मुख्य परीक्षा के उत्तर में बदलें' : 'Turn this into a Mains answer';
+    items.push({ key: 'mains', label: text, go: () => onSend(text, 'mains') });
+  }
+  {
+    const label = langHi ? 'इतिहासकारों के मत जोड़ें' : 'Add what historians argue';
+    const text = langHi ? 'इस पर इतिहासकारों के मत जोड़ें, और बताएँ कौन-सा मत किसका है।' : 'Add what historians argue about this, and who holds each view.';
+    items.push({ key: 'hist', label, go: () => onSend(text) });
+  }
+  if (pyq) {
+    items.push({
+      key: 'pyq',
+      label: langHi ? `इस पर ${pyq.year} का PYQ हल करें` : `Try the ${pyq.year} PYQ on this`,
+      go: () => onSend(`Answer this PYQ (${pyq.year}, ${pyq.marks} marks): ${pyq.question}`, 'mains'),
+    });
+  } else {
+    const label = langHi ? 'इसे और सरल भाषा में समझाएँ' : 'Explain it more simply';
+    const text = langHi ? 'इसे और सरल भाषा में समझाएँ, जैसे मैं यह विषय पहली बार पढ़ रहा हूँ।' : 'Explain this more simply, as if I am meeting the topic for the first time.';
+    items.push({ key: 'simple', label, go: () => onSend(text) });
+  }
+
+  return (
+    <div className="ch-follow">
+      {items.map(it => (
+        <button key={it.key} className="ch-follow-btn" onClick={it.go}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 4v7a4 4 0 0 0 4 4h10M15 11l4 4-4 4" /></svg>
+          {it.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 function ChatContent() {
   const searchParams = useSearchParams();
   const initialQ = searchParams.get('q') || '';
   const initialTopic = searchParams.get('topic') || '';
-
-  const [messages, setMessages] = useState<Message[]>([{
-    role: 'assistant',
-    content: initialTopic
-      ? `Hello! You're studying **${initialTopic}**. Ask me anything — concepts, answer structures, historiography, or model answers.`
-      : `Hello! I'm your **History Optional AI**.\n\nI can help with:\n\n• **Concept explanations** — deep dives into any topic\n• **Answer structuring** — UPSC-style frameworks\n• **PYQ analysis** — model answers and key points\n• **Comparisons** — rulers, movements, periods\n• **Historiography** — citing historians in answers\n\nWhat would you like to explore?`,
-  }]);
-  const [input, setInput] = useState(initialQ);
-  const [loading, setLoading] = useState(false);
+  // Notes pages link here with ?topic=<note title>; a known title starts the
+  // guided flow on that topic.
+  const topicNote = useMemo(
+    () => (initialTopic ? allNotes.find(n => n.title.toLowerCase() === initialTopic.toLowerCase()) ?? null : null),
+    [initialTopic],
+  );
   const { langHi } = useLang();
 
-  useEffect(() => {
-    setMessages(prev => {
-      if (prev.length !== 1 || prev[0].role !== 'assistant') return prev;
-      const greeting = initialTopic
-        ? (langHi
-            ? `नमस्ते! आप **${initialTopic}** पढ़ रहे हैं। कुछ भी पूछें — अवधारणाएँ, उत्तर संरचना, इतिहास-लेखन, या आदर्श उत्तर।`
-            : `Hello! You're studying **${initialTopic}**. Ask me anything — concepts, answer structures, historiography, or model answers.`)
-        : (langHi
-            ? `नमस्ते! मैं आपका **History Optional AI** हूँ।\n\nमैं इनमें मदद कर सकता हूँ:\n\n• **अवधारणा स्पष्टीकरण** — किसी भी विषय की गहरी समझ\n• **उत्तर संरचना** — UPSC शैली के ढाँचे\n• **PYQ विश्लेषण** — आदर्श उत्तर और मुख्य बिंदु\n• **तुलनाएँ** — शासक, आंदोलन, काल\n• **इतिहास-लेखन** — उत्तरों में इतिहासकारों का उद्धरण\n\nआप क्या जानना चाहेंगे?`
-            : `Hello! I'm your **History Optional AI**.\n\nI can help with:\n\n• **Concept explanations** — deep dives into any topic\n• **Answer structuring** — UPSC-style frameworks\n• **PYQ analysis** — model answers and key points\n• **Comparisons** — rulers, movements, periods\n• **Historiography** — citing historians in answers\n\nWhat would you like to explore?`);
-      return [{ role: 'assistant', content: greeting }];
-    });
-  }, [langHi]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState(initialQ);
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState<Progress>(NO_PROGRESS);
 
   const [bookMode, setBookMode] = useState(false);
+  const [bookTitle, setBookTitle] = useState<string>('all');
   const [mentorMode, setMentorMode] = useState(false);
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [brainstormMode, setBrainstormMode] = useState(false);
+  const [responseStyle, setResponseStyle] = useState<Style>('concise');
   const [pdfBase64, setPdfBase64] = useState<string | null>(null);
   const [pdfName, setPdfName] = useState<string | null>(null);
-  const [brainstormMode, setBrainstormMode] = useState(false);
-  const [responseStyle, setResponseStyle] = useState<'concise' | 'elaborative'>('concise');
   const [dragOver, setDragOver] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [booksPopoverOpen, setBooksPopoverOpen] = useState(false);
-  const [bookTitle, setBookTitle] = useState<string>('all');
   const [showBookPaywall, setShowBookPaywall] = useState(false);
-  const [citationModal, setCitationModal] = useState<{ book_title: string; content: string }[] | null>(null);
-  const [chatId, setChatId] = useState<string>(() => (typeof crypto !== 'undefined' ? crypto.randomUUID() : String(Date.now())));
-  const [historyOpen, setHistoryOpen] = useState(false);
+
+  const [chatId, setChatId] = useState<string>(() => newId());
   const [historyList, setHistoryList] = useState<ChatHistoryEntry[]>([]);
-  const [modeSheetOpen, setModeSheetOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const [panel, setPanel] = useState<{ content: PanelContent; owner: number | null } | null>(null);
+  const [start, setStart] = useState<StartState>(() => (topicNote ? { ...EMPTY_START, topics: [topicNote.slug] } : EMPTY_START));
+  const [flowOpen, setFlowOpen] = useState(true);
+  const [flowKey, setFlowKey] = useState(0);
+  const [flashDue, setFlashDue] = useState(0);
+
   const hasUserMessageRef = useRef(false);
-  const { usage, canChat, incrementChat, GateModals, showChatLimitModal, showLoginModal } = useSubscriptionGate(() => {});
-  const usageLoading = usage?.loading ?? true;
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const lastAiRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const last = messages[messages.length - 1];
-    if (loading && last?.role === 'assistant') {
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-    } else if (last?.role === 'assistant' && messages.length > 1) {
-      setTimeout(() => lastAiRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-    } else {
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages, loading]);
+  const { usage, canChat, incrementChat, GateModals, showChatLimitModal, showLoginModal } = useSubscriptionGate(() => {});
+  const usageLoading = usage?.loading ?? true;
+  const subscribed = !!usage?.subscribed;
+  const { user, loading: authLoading } = useFirebaseAuth();
+  const syllabus = useSyllabusTracker();
 
-  useEffect(() => { setHistoryList(loadChatHistory()); }, []);
+  const thread = useMemo(() => threadOf(messages), [messages]);
+  const empty = thread.length === 0;
+
+  // Follow a streaming answer; once it lands, bring its first line into view.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || thread.length === 0) return;
+    const last = thread[thread.length - 1];
+    if (loading || last?.role !== 'assistant') {
+      el.scrollTop = el.scrollHeight;
+      return;
+    }
+    // Land on the question the answer is for, so both are in view.
+    const questions = el.querySelectorAll<HTMLElement>('.ch-user');
+    const target = questions[questions.length - 1] ?? lastAiRef.current;
+    if (target) el.scrollTo({ top: Math.max(0, target.offsetTop - 24), behavior: 'smooth' });
+  }, [thread, loading]);
+
+  // The flow and the follow-ups write into the input from code, which fires
+  // no input event, so the height is fitted whenever the text changes.
+  useEffect(() => {
+    const ta = inputRef.current;
+    if (!ta) return;
+    ta.style.height = 'auto';
+    ta.style.height = Math.min(ta.scrollHeight, 200) + 'px';
+  }, [input]);
+
+  useEffect(() => {
+    setHistoryList(loadChatHistory());
+    try {
+      const sr = JSON.parse(localStorage.getItem('ho_flashcards_v1') ?? '{}') as Record<string, { nextDue?: string }>;
+      const now = new Date().toISOString();
+      setFlashDue(Object.values(sr).filter(e => e?.nextDue && e.nextDue <= now).length);
+    } catch { /* the badge is a nicety */ }
+  }, []);
 
   useEffect(() => {
     if (loading) return;
@@ -240,6 +461,8 @@ function ChatContent() {
     });
   }, [messages, loading, chatId]);
 
+  const clearPdf = () => { setPdfBase64(null); setPdfName(null); };
+
   const handlePdfUpload = useCallback((file: File) => {
     if (!file || file.type !== 'application/pdf') { alert('Please upload a valid PDF file.'); return; }
     if (file.size > 20 * 1024 * 1024) { alert('PDF too large. Max 20MB.'); return; }
@@ -247,9 +470,8 @@ function ChatContent() {
     reader.onload = (e) => {
       const base64 = (e.target?.result as string).split(',')[1];
       setPdfBase64(base64);
-      setPdfFile(file);
       setPdfName(file.name);
-      setMessages(prev => [...prev, { role: 'assistant', content: `PDF uploaded: **${file.name}**\n\nYou can now:\n• Ask me to explain any concept from this PDF\n• Request model answers for questions in it\n• Discuss its contents in detail` }]);
+      inputRef.current?.focus();
     };
     reader.readAsDataURL(file);
   }, []);
@@ -261,797 +483,376 @@ function ChatContent() {
     if (file) handlePdfUpload(file);
   }, [handlePdfUpload]);
 
-  const greetingMessage = (): Message => ({
-    role: 'assistant',
-    content: initialTopic
-      ? (langHi ? `नमस्ते! आप **${initialTopic}** पढ़ रहे हैं। कुछ भी पूछें।` : `Hello! You're studying **${initialTopic}**. Ask me anything.`)
-      : (langHi ? `नमस्ते! मैं आपका **History Optional AI** हूँ।\n\nआप क्या जानना चाहेंगे?` : `Hello! I'm your **History Optional AI**.\n\nWhat would you like to explore?`),
-  });
+  const resetStart = () => {
+    setStart(EMPTY_START);
+    setFlowKey(k => k + 1);
+    setFlowOpen(true);
+  };
 
-  const startNewChat = useCallback(() => {
-    setChatId(typeof crypto !== 'undefined' ? crypto.randomUUID() : String(Date.now()));
+  const startNewChat = () => {
+    setChatId(newId());
     hasUserMessageRef.current = false;
-    setMessages([greetingMessage()]);
+    setMessages([]);
     setInput('');
-    setPdfFile(null);
-    setPdfBase64(null);
-    setPdfName(null);
+    clearPdf();
     setBrainstormMode(false);
-    setHistoryOpen(false);
-  }, [langHi, initialTopic]);
+    setPanel(null);
+    setSidebarOpen(false);
+    resetStart();
+  };
 
-  const loadHistoryEntry = useCallback((entry: ChatHistoryEntry) => {
+  const openChat = (id: string) => {
+    const entry = historyList.find(c => c.id === id);
+    if (!entry) return;
     setChatId(entry.id);
     hasUserMessageRef.current = entry.messages.some(m => m.role === 'user');
     setMessages(entry.messages);
     setInput('');
-    setHistoryOpen(false);
-  }, []);
+    setPanel(null);
+    setSidebarOpen(false);
+  };
 
-  const deleteHistoryEntry = useCallback((id: string, e?: React.MouseEvent) => {
-    e?.stopPropagation();
+  const deleteChat = (id: string) => {
     setHistoryList(prev => {
       const updated = prev.filter(c => c.id !== id);
       saveChatHistoryList(updated);
       return updated;
     });
     if (id === chatId) startNewChat();
-  }, [chatId, startNewChat]);
+  };
 
-  const sendMessage = async (text?: string) => {
-    const q = text || input;
-    if (!q.trim() || loading) return;
+  const onBooks = () => {
+    if (usageLoading) return;
+    if (!subscribed) { setShowBookPaywall(true); return; }
+    setBookMode(b => !b);
+    setSidebarOpen(false);
+  };
+
+  const onFlowChange = (next: StartState) => {
+    // The mentor path is the PYQ path answered by the mentor, so picking it
+    // switches the mode on, and leaving it switches the mode back off.
+    if (next.goal === 'mentor' && start.goal !== 'mentor') { setMentorMode(true); setBrainstormMode(false); }
+    if (next.goal !== 'mentor' && start.goal === 'mentor') setMentorMode(false);
+    setStart(next);
+    setInput(compose(next));
+  };
+
+  const sendMessage = async (text?: string, opts: { format?: 'mains' } = {}) => {
+    const q = (text ?? input).trim();
+    if (!q || loading) return;
     if (q.length > 10000) { alert('Message too long. Max 10000 characters.'); return; }
     if (!usage || !usage.fingerprint) { showLoginModal(); return; }
     if (!canChat) { showChatLimitModal(); return; }
+
+    // A question written by the start flow carries that flow's format, as long
+    // as the reader has not rewritten it since.
+    const fromFlow = text === undefined && empty && start.goal !== null && q === compose(start).trim();
+    const format = opts.format ?? (fromFlow ? formatFor(start) : undefined) ?? (responseStyle === 'mains' ? 'mains' : undefined);
+    const mentor = mentorMode && subscribed;
+    const brainstorm = brainstormMode && subscribed;
+
     const userMsg: Message = { role: 'user', content: q };
+    const history = [...thread, userMsg];
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setLoading(true);
-    if (inputRef.current) { inputRef.current.style.height = 'auto'; }
+    setProgress(NO_PROGRESS);
+    setFlowOpen(false);
+    setToolsOpen(false);
+
+    // Refused before anything was spent: put the question back where it was.
+    const restore = () => { setMessages(prev => prev.slice(0, -1)); setInput(q); };
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-token': (auth.currentUser ? await auth.currentUser.getIdToken() : null) ?? '', 'x-fingerprint': document.cookie.match(/fp=([^;]+)/)?.[1] ?? localStorage.getItem('fp') ?? '' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-user-token': (auth.currentUser ? await auth.currentUser.getIdToken() : null) ?? '',
+          'x-fingerprint': document.cookie.match(/fp=([^;]+)/)?.[1] ?? localStorage.getItem('fp') ?? '',
+        },
         body: JSON.stringify({
           ...(pdfBase64 ? { pdf_base64: pdfBase64, pdf_name: pdfName } : {}),
-          // system prompt now built server-side in route.ts
-          messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content })),
+          messages: history.map(m => ({ role: m.role, content: m.content })),
           lang: langHi ? 'hi' : 'en',
           bookMode,
           bookTitle: bookTitle === 'all' ? undefined : bookTitle,
-          mentorMode: mentorMode && !!usage?.subscribed,
-          responseStyle: mentorMode || brainstormMode ? undefined : responseStyle,
+          mentorMode: mentor,
+          brainstormMode: brainstorm,
+          responseStyle: mentor || brainstorm ? undefined : (responseStyle === 'mains' ? 'concise' : responseStyle),
+          format,
+          stages: true,
         }),
       });
-      if (!response.ok) { setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]); setLoading(false); return; }
-      const reader = response.body!.getReader();
-      const dec = new TextDecoder();
+      if (response.status === 401) { restore(); showLoginModal(); return; }
+      if (response.status === 403) { restore(); showChatLimitModal(); return; }
+      if (!response.ok || !response.body) {
+        setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
+        return;
+      }
+
+      setProgress({ accepted: true, writing: false });
+      setMessages(prev => [...prev, { role: 'assistant', content: '', isMentor: mentor, format }]);
+
+      const apply = (e: StageEvent) => setProgress(p => {
+        switch (e.id) {
+          case 'search': return { ...p, search: { book: e.book } };
+          case 'found':  return { ...p, found: { passages: e.passages, books: e.books } };
+          case 'pdf':    return { ...p, pdf: { name: e.name } };
+          case 'write':  return { ...p, writing: true };
+          default:       return p;
+        }
+      });
+
+      let head = '';
+      let started = false;
       let full = '';
-      let sources: { book_title: string; content: string }[] = [];
-      setMessages(prev => [...prev, { role: 'assistant', content: '', isMentor: mentorMode && !!usage?.subscribed }]);
+      let sources: Source[] = [];
+      const render = () => {
+        let display = full;
+        const idx = full.indexOf(SOURCES_MARKER);
+        if (idx !== -1) {
+          // The list arrives last and may be split across reads; keep the
+          // answer text clean and take the list once it parses.
+          try { sources = JSON.parse(full.slice(idx + SOURCES_MARKER.length)); } catch { /* not all here yet */ }
+          display = full.slice(0, idx);
+        }
+        setMessages(prev => {
+          const updated = [...prev];
+          updated[updated.length - 1] = { role: 'assistant', content: display, sources, isMentor: mentor, format };
+          return updated;
+        });
+      };
+
+      const reader = response.body.getReader();
+      const dec = new TextDecoder();
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         const chunk = dec.decode(value, { stream: true });
-        full += chunk;
-        const SOURCES_MARKER = '\n__SOURCES__';
-        const srcIdx = full.indexOf(SOURCES_MARKER);
-        if (srcIdx !== -1) {
-          try { sources = JSON.parse(full.slice(srcIdx + SOURCES_MARKER.length)); } catch {}
-          full = full.slice(0, srcIdx);
+        if (!started) {
+          const r = takeStages(head + chunk);
+          r.events.forEach(apply);
+          if (r.pending) { head = r.rest; continue; }
+          started = true;
+          head = '';
+          full += r.rest;
+        } else {
+          full += chunk;
         }
-        const display = full;
-        setMessages(prev => { const updated = [...prev]; updated[updated.length - 1] = { role: 'assistant', content: display, sources }; return updated; });
+        render();
       }
-      setMessages(prev => { const updated = [...prev]; updated[updated.length - 1] = { role: 'assistant', content: full, sources, isMentor: mentorMode && !!usage?.subscribed }; return updated; });
+      if (!started) full += head;
+      render();
+      if (!subscribed) incrementChat();
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.' }]);
     } finally {
       setLoading(false);
+      setProgress(NO_PROGRESS);
     }
   };
 
-
-  const formatTable = (text: string): string => {
-    const lines = text.split('\n');
-    let result = '';
-    let i = 0;
-    while (i < lines.length) {
-      const line = lines[i];
-      if (line.includes('|') && line.trim().startsWith('|')) {
-        const nextLine = lines[i + 1] || '';
-        if (nextLine.match(/^[|\s\-:]+$/)) {
-          const headers = line.split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
-          let rows = '';
-          i += 2;
-          while (i < lines.length && lines[i].includes('|') && lines[i].trim().startsWith('|')) {
-            const cols = lines[i].split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('');
-            rows += `<tr>${cols}</tr>`;
-            i++;
-          }
-          result += `<div class="chat-table-wrap"><table class="chat-table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table></div>\n`;
-          continue;
-        }
-      }
-      result += lines[i] + '\n';
-      i++;
-    }
-    return result;
-  };
-
-  function linkifyCitations(html: string, sourcesCount: number): string {
-    if (!sourcesCount) return html;
-    return html.replace(/\b(Sources?)\s*#?\s*(\d+(?:\s*(?:,|and|&)\s*\d+)*)\b/gi, (match: string, _label: string, numList: string) => {
-      const nums = Array.from(numList.matchAll(/\d+/g)).map((m: any) => parseInt(m[0], 10));
-      const valid = nums.filter(n => n >= 1 && n <= sourcesCount);
-      if (valid.length === 0) return match;
-      return `<span class="chat-citation" data-citation="${valid.join(',')}">${match}</span>`;
-    });
-  }
-
-  const formatMessage = (text: string, sourcesCount: number = 0) => {
-    // Also applied server-side; repeated here so answers already saved in
-    // history render correctly without a re-generation.
-    text = fixSentenceSpacing(text);
-    text = formatTable(text);
-    text = text.replace(/^-{3,}$/gm, '___HR___');
-    text = text.replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `___H1___${t}___END___`);
-    text = text.replace(/^### (.+)$/gm, (_: string, t: string) => `___H2___${t}___END___`);
-    text = text.replace(/^#{4,6} (.+)$/gm, (_: string, t: string) => `___H3___${t}___END___`);
-    text = text.replace(/^ *\d+[.)]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
-    text = text.replace(/^ *[-*•–—]\s+\*\*([^*]+?)\*\*:?\s*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
-    text = text.replace(/^ *[-*•–—]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
-    text = text.replace(/^\s*\*\*([^*]+)\*\*\s*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
-    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-    text = text.replace(/___HR___/g, '<div class="chat-hr"></div>');
-    text = text.replace(/___H1___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h1">${t}</div>`);
-    text = text.replace(/___H2___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h2">${t.replace(/^#+\s*/, '')}</div>`);
-    text = text.replace(/___H3___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`);
-    text = text.replace(/___BULLET___(.+?)___END___/g, (_: string, t: string) => `<div class="chat-bullet"><span class="chat-bullet-dot"></span><span>${t}</span></div>`);
-    text = text.replace(/\n\n/g, '<div class="chat-para-gap"></div>');
-    text = text.replace(/\n/g, '<br/>');
-    text = text.replace(/<div class="chat-bullet"><span class="chat-bullet-dot"><\/span><span><strong>([^<]+)<\/strong>:?\s*<\/span><\/div>/g, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`);
-    text = text.replace(/<\/div><div class="chat-para-gap"><\/div><div class="chat-bullet">/g, '</div><div class="chat-bullet">');
-    text = text.replace(/(<div class="chat-msg-h[123]">[^<]+<\/div>)<div class="chat-para-gap"><\/div>(<div class="chat-bullet">)/g, '$1$2');
-    text = linkifyCitations(text, sourcesCount);
-    return text;
-  };
-
-  function parseMentorSections(text: string): { type: string; content: string }[] {
-    const sections: { type: string; content: string }[] = [];
-    const regex = /##([A-Z]+)##([\s\S]*?)##END##/g;
-    let match;
-    let lastIndex = 0;
-    while ((match = regex.exec(text)) !== null) {
-      const before = text.slice(lastIndex, match.index).trim();
-      if (before) sections.push({ type: 'TEXT', content: before });
-      sections.push({ type: match[1], content: match[2].trim() });
-      lastIndex = match.index + match[0].length;
-    }
-    const after = text.slice(lastIndex).trim();
-    if (after) sections.push({ type: 'TEXT', content: after });
-    if (sections.length === 0) sections.push({ type: 'TEXT', content: text });
-    return sections;
-  }
-
-  function MentorBubble({ content, isStreaming }: { content: string; isStreaming?: boolean }) {
-    const sections = parseMentorSections(content);
-    const sectionConfig: Record<string, { label: string; icon: string; color: string; bg: string; border: string }> = {
-      DIRECTIVE:    { label: 'Directive Rule',       icon: '🔍', color: 'var(--warning-text)', bg: 'color-mix(in srgb, var(--warning-text) 7%, transparent)',   border: 'color-mix(in srgb, var(--warning-text) 25%, transparent)'  },
-      DIAGNOSIS:    { label: 'Demand Diagnosis',     icon: '📋', color: 'var(--accent)', bg: 'color-mix(in srgb, var(--accent) 7%, transparent)', border: 'color-mix(in srgb, var(--accent) 25%, transparent)' },
-      BLUEPRINTS:   { label: 'Four Blueprints',      icon: '🗺️', color: 'var(--info-text)', bg: 'color-mix(in srgb, var(--info-text) 7%, transparent)',  border: 'color-mix(in srgb, var(--info-text) 25%, transparent)'  },
-      MODELANSWER:  { label: 'Model Answer',         icon: '📝', color: 'var(--success-text)', bg: 'color-mix(in srgb, var(--success-text) 7%, transparent)',  border: 'color-mix(in srgb, var(--success-text) 25%, transparent)'  },
-      EVALUATION:   { label: 'Evaluation',           icon: '⚖️', color: 'var(--accent)', bg: 'color-mix(in srgb, var(--accent) 7%, transparent)', border: 'color-mix(in srgb, var(--accent) 25%, transparent)' },
-      STRENGTHS:    { label: 'Strengths',            icon: '✅', color: 'var(--success-text)', bg: 'color-mix(in srgb, var(--success-text) 6%, transparent)',  border: 'color-mix(in srgb, var(--success-text) 20%, transparent)'   },
-      CORRECTIONS:  { label: 'Corrections',          icon: '🔧', color: 'var(--danger-text)', bg: 'color-mix(in srgb, var(--danger-text) 6%, transparent)',  border: 'color-mix(in srgb, var(--danger-text) 20%, transparent)'   },
-      IMPROVED:     { label: 'Improved Answer',      icon: '✨', color: 'var(--success-text)', bg: 'color-mix(in srgb, var(--success-text) 7%, transparent)',  border: 'color-mix(in srgb, var(--success-text) 25%, transparent)'  },
-      MCQ:          { label: 'Question',             icon: '❓', color: 'var(--info-text)', bg: 'color-mix(in srgb, var(--info-text) 7%, transparent)',  border: 'color-mix(in srgb, var(--info-text) 25%, transparent)'  },
-      MCQANSWER:    { label: 'Answer & Explanation', icon: '💡', color: 'var(--warning-text)', bg: 'color-mix(in srgb, var(--warning-text) 7%, transparent)',  border: 'color-mix(in srgb, var(--warning-text) 25%, transparent)'  },
-    };
-    const renderContent = (text: string, sectionType?: string) => {
-      if (sectionType === 'MODELANSWER') return <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(text)) }} />;
-      if (sectionType === 'BLUEPRINTS') {
-        const lines = text.split('\n').filter(l => l.trim());
-        const optionLines = lines.filter(l => /^\*\*[A-D]/.test(l.trim()));
-        const otherLines = lines.filter(l => !/^\*\*[A-D]/.test(l.trim()));
-        const optColors: Record<string, string> = { A: 'var(--warning-text)', B: 'var(--accent)', C: 'var(--success-text)', D: 'var(--info-text)' };
-        const optBgs: Record<string, string> = { A: 'color-mix(in srgb, var(--warning-text) 7%, transparent)', B: 'color-mix(in srgb, var(--accent) 7%, transparent)', C: 'color-mix(in srgb, var(--success-text) 7%, transparent)', D: 'color-mix(in srgb, var(--info-text) 7%, transparent)' };
-        return (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            {otherLines.length > 0 && <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(otherLines.join('\n'), { breaks: true }) as string) }} style={{ lineHeight: 1.7, fontSize: '0.85rem', color: 'var(--text)', marginBottom: '0.25rem' }} />}
-            {optionLines.map((line, idx) => {
-              const letter = line.trim().replace(/^\*\*([A-D]).*/, '$1');
-              const html = sanitize(marked.parse(line.trim(), { breaks: true }) as string);
-              return <div key={idx} style={{ background: optBgs[letter] || 'rgba(255,255,255,0.03)', border: `1px solid color-mix(in srgb, ${(optColors[letter] || '#888')} 27%, transparent)`, borderLeft: `3px solid ${optColors[letter] || '#888'}`, borderRadius: 8, padding: '0.55rem 0.8rem', fontSize: '0.85rem', lineHeight: 1.65, color: 'var(--text)' }}><div dangerouslySetInnerHTML={{ __html: html }} /></div>;
-            })}
-          </div>
-        );
-      }
-      return <div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(text)) }} />;
-    };
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', width: '100%' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.15rem' }}>
-          <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.1em', color: 'var(--warning-text)', background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 28%, transparent)', borderRadius: 20, padding: '2px 9px' }}>🎓 MENTOR</span>
-          {isStreaming && <span style={{ fontSize: '0.58rem', color: '#888888', fontFamily: 'var(--font-mono)' }}>generating…</span>}
-        </div>
-        {sections.map((sec, i) => {
-          if (sec.type === 'TEXT') {
-            if (!sec.content) return null;
-            return <div key={i} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: '4px 18px 18px 18px', padding: '1.5rem 1.6rem 1.25rem', position: 'relative', boxShadow: '0 6px 40px rgba(0,0,0,0.5), 0 1px 0 color-mix(in srgb, var(--accent) 7%, transparent) inset' }}><div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 25%, transparent) 55%, transparent 100%)', borderRadius: '4px 18px 0 0' }} /><div dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(sec.content)) }} /></div>;
-          }
-          const cfg = sectionConfig[sec.type];
-          if (!cfg) return <div key={i}>{renderContent(sec.content)}</div>;
-          if (sec.type === 'MODELANSWER') {
-            return <div key={i} style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: '4px 18px 18px 18px', padding: '1.5rem 1.6rem 1.25rem', position: 'relative', boxShadow: '0 6px 40px rgba(0,0,0,0.5), 0 1px 0 color-mix(in srgb, var(--accent) 7%, transparent) inset', overflow: 'hidden' }}><div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 25%, transparent) 55%, transparent 100%)', borderRadius: '4px 18px 0 0' }} /><div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: cfg.color, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: 5 }}><span>{cfg.icon}</span><span>{cfg.label}</span></div><div className="chat-bubble-ai" style={{ background: 'none', border: 'none', borderRadius: 0, padding: 0, boxShadow: 'none', position: 'static' }}>{renderContent(sec.content, sec.type)}</div></div>;
-          }
-          return <div key={i} style={{ background: cfg.bg, border: `1px solid ${cfg.border}`, borderRadius: 10, overflow: 'hidden' }}><div style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '0.5rem 0.9rem', borderBottom: `1px solid ${cfg.border}` }}><span style={{ fontSize: '0.85rem' }}>{cfg.icon}</span><span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: cfg.color }}>{cfg.label}</span></div><div style={{ padding: '0.8rem 0.9rem' }}>{renderContent(sec.content, sec.type)}</div></div>;
-        })}
-      </div>
-    );
-  }
-
-  const getPrecedingQuestion = (msgIndex: number): string | undefined => {
-    for (let i = msgIndex - 1; i >= 0; i--) {
-      if (messages[i].role === 'user') return messages[i].content;
-    }
+  const getPrecedingQuestion = (idx: number): string | undefined => {
+    for (let i = idx - 1; i >= 0; i--) if (thread[i].role === 'user') return thread[i].content;
     return undefined;
   };
 
-  // active mode label for the mode pill
-  const activeModeLabel = mentorMode && usage?.subscribed ? '🎓 Mentor'
-    : brainstormMode && usage?.subscribed ? '⚡ Brainstorm'
-    : pdfFile ? '📄 PDF'
-    : bookMode && usage?.subscribed ? '📚 Books'
-    : responseStyle === 'elaborative' ? '📖 Elaborative'
-    : '⚡ Concise';
+  const openSources = (owner: number, sources: Source[], focus?: number[]) =>
+    setPanel({ owner, content: { kind: 'sources', sources, focus } });
+
+  const showPyqs = (owner: number, r: Related) =>
+    setPanel({ owner, content: { kind: 'pyqs', title: r.topic.title, pyqs: r.pyqs } });
+
+  const answerPyq = (q: RelatedPyq) => {
+    setPanel(null);
+    sendMessage(`Answer this PYQ (${q.year}, ${q.marks} marks): ${q.question}`, { format: 'mains' });
+  };
+
+  const syllabusDone = allNotes.filter(n => syllabus.progress.completed[n.slug]).length;
+  const remaining = Math.max(0, FREE_CHATS - (usage?.chat_count ?? 0));
+  const askedSoFar = thread.filter(m => m.role === 'user').map(m => m.content);
+  const lastIdx = thread.length - 1;
+
+  const styleLabel: Record<Style, string> = {
+    concise: langHi ? 'संक्षिप्त नोट्स' : 'Quick notes',
+    elaborative: langHi ? 'विस्तृत' : 'Detailed',
+    mains: langHi ? 'मुख्य परीक्षा उत्तर' : 'Mains answer',
+  };
+  const styleDesc: Record<Style, string> = {
+    concise: langHi ? 'बिंदुओं में, जल्दी' : 'Points, quickly',
+    elaborative: langHi ? 'पूरा गद्य, हर पहलू' : 'Full prose, every angle',
+    mains: langHi ? 'भूमिका, शीर्षकों में बिंदु, निष्कर्ष' : 'Intro, headed points, conclusion',
+  };
+
+  const placeholder = brainstormMode
+    ? tr(t.chatPlaceholderBrainstorm, langHi)
+    : pdfName
+      ? tr(t.chatPlaceholderPdf, langHi)
+      : (langHi ? 'औरंगज़ेब के बाद मुग़ल क्यों बिखरे?' : 'Why did the Mughals decline after Aurangzeb?');
+
+  const premiumMark = !subscribed && <span className="ch-premium">✦</span>;
+
+  const tools = toolsOpen && (
+    <>
+      <div className="ch-menu-scrim" onClick={() => setToolsOpen(false)} />
+      <div className="ch-menu" role="menu">
+        <div className="ch-menu-label">{langHi ? 'उत्तर की शैली' : 'Answer style'}</div>
+        {(['concise', 'elaborative', 'mains'] as Style[]).map(s => (
+          <button
+            key={s}
+            role="menuitemradio"
+            aria-checked={responseStyle === s}
+            className={`ch-menu-item${responseStyle === s ? ' on' : ''}`}
+            disabled={mentorMode || brainstormMode}
+            onClick={() => { setResponseStyle(s); setToolsOpen(false); }}
+          >
+            <span className="ch-menu-radio" />
+            <span className="ch-menu-text"><strong>{styleLabel[s]}</strong><span>{styleDesc[s]}</span></span>
+          </button>
+        ))}
+        {(mentorMode || brainstormMode) && (
+          <div className="ch-menu-note">{langHi ? 'मेंटर और ब्रेनस्टॉर्म अपना ढाँचा ख़ुद चुनते हैं।' : 'Mentor and Brainstorm use their own format.'}</div>
+        )}
+
+        <div className="ch-menu-label">{langHi ? 'मोड' : 'Modes'}</div>
+        <button
+          role="menuitemcheckbox"
+          aria-checked={mentorMode && subscribed}
+          className={`ch-menu-item${mentorMode && subscribed ? ' on' : ''}`}
+          onClick={() => {
+            if (usageLoading) return;
+            if (!subscribed) { setToolsOpen(false); setShowBookPaywall(true); return; }
+            setMentorMode(m => !m); setBrainstormMode(false);
+          }}
+        >
+          <span className="ch-menu-check" />
+          <span className="ch-menu-text"><strong>{langHi ? 'मेंटर' : 'Mentor'}{premiumMark}</strong><span>{langHi ? 'परीक्षक की तरह जाँच और सुधार' : 'Examiner-style diagnosis and fixes'}</span></span>
+        </button>
+        <button
+          role="menuitemcheckbox"
+          aria-checked={brainstormMode && subscribed}
+          className={`ch-menu-item${brainstormMode && subscribed ? ' on' : ''}`}
+          onClick={() => {
+            if (usageLoading) return;
+            if (!subscribed) { setToolsOpen(false); showChatLimitModal(); return; }
+            setBrainstormMode(b => !b); setMentorMode(false);
+          }}
+        >
+          <span className="ch-menu-check" />
+          <span className="ch-menu-text"><strong>{langHi ? 'ब्रेनस्टॉर्म' : 'Brainstorm'}{premiumMark}</strong><span>{langHi ? 'तर्क, कोण और इतिहासकार, योजना के लिए' : 'Angles, arguments and historians to plan with'}</span></span>
+        </button>
+
+        <div className="ch-menu-label">{langHi ? 'स्रोत' : 'Sources'}</div>
+        <button
+          role="menuitemcheckbox"
+          aria-checked={bookMode && subscribed}
+          className={`ch-menu-item${bookMode && subscribed ? ' on' : ''}`}
+          onClick={() => { setToolsOpen(false); onBooks(); }}
+        >
+          <span className="ch-menu-check" />
+          <span className="ch-menu-text"><strong>{langHi ? 'पुस्तकों से चैट' : 'Chat with books'}{premiumMark}</strong><span>{langHi ? 'मानक पुस्तकों पर आधारित उत्तर' : 'Answers grounded in the standard books'}</span></span>
+        </button>
+        <button
+          role="menuitem"
+          className={`ch-menu-item${pdfName ? ' on' : ''}`}
+          onClick={() => { setToolsOpen(false); if (!subscribed) { showChatLimitModal(); return; } fileInputRef.current?.click(); }}
+        >
+          <span className="ch-menu-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8z" /><path d="M14 3v5h5" /></svg>
+          </span>
+          <span className="ch-menu-text"><strong>{langHi ? 'PDF अपलोड करें' : 'Upload a PDF'}{premiumMark}</strong><span>{langHi ? 'या PDF को यहाँ खींचकर छोड़ें' : 'Or drop one anywhere on the page'}</span></span>
+        </button>
+      </div>
+    </>
+  );
+
+  const tags: React.ReactNode[] = [];
+  if (bookMode && subscribed) {
+    tags.push(
+      <span key="books" className="ch-tag">
+        📚
+        <select value={bookTitle} onChange={e => setBookTitle(e.target.value)} aria-label={langHi ? 'पुस्तक चुनें' : 'Choose a book'}>
+          <option value="all">{langHi ? 'सभी पुस्तकें' : 'All books'}</option>
+          {BOOK_CATEGORIES.map(cat => (
+            <Fragment key={cat}>
+              <option disabled>{`── ${cat} ──`}</option>
+              {booksByCategory(cat).map(b => <option key={b.value} value={b.value}>{b.label}</option>)}
+            </Fragment>
+          ))}
+        </select>
+        <button onClick={() => setBookMode(false)} aria-label={langHi ? 'हटाएँ' : 'Remove'}>✕</button>
+      </span>,
+    );
+  }
+  if (mentorMode && subscribed) tags.push(<span key="mentor" className="ch-tag">🎓 {langHi ? 'मेंटर' : 'Mentor'}<button onClick={() => setMentorMode(false)} aria-label="Remove">✕</button></span>);
+  if (brainstormMode && subscribed) tags.push(<span key="brain" className="ch-tag">💡 {langHi ? 'ब्रेनस्टॉर्म' : 'Brainstorm'}<button onClick={() => setBrainstormMode(false)} aria-label="Remove">✕</button></span>);
+  if (responseStyle !== 'concise' && !mentorMode && !brainstormMode) tags.push(<span key="style" className="ch-tag">{styleLabel[responseStyle]}<button onClick={() => setResponseStyle('concise')} aria-label="Remove">✕</button></span>);
+  if (pdfName) tags.push(<span key="pdf" className="ch-tag ch-tag-pdf">📄 <span className="ch-tag-name">{pdfName}</span><button onClick={clearPdf} aria-label="Remove">✕</button></span>);
+
+  const composer = (
+    <div className="ch-composer">
+      {tags.length > 0 && <div className="ch-tags">{tags}</div>}
+      <div className={`ch-input${input.trim() ? ' lit' : ''}`}>
+        <span className="ch-input-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
+        </span>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="application/pdf"
+          style={{ display: 'none' }}
+          onChange={e => { const f = e.target.files?.[0]; if (f) handlePdfUpload(f); e.target.value = ''; }}
+        />
+        <textarea
+          ref={inputRef}
+          className="ch-textarea"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+          placeholder={placeholder}
+          aria-label={langHi ? 'अपना प्रश्न लिखें' : 'Your question'}
+          rows={1}
+        />
+        <div className="ch-tools">
+          <button
+            className={`ch-icon-btn${toolsOpen ? ' on' : ''}`}
+            onClick={() => setToolsOpen(o => !o)}
+            aria-label={langHi ? 'शैली और उपकरण' : 'Answer style and tools'}
+            aria-expanded={toolsOpen}
+            aria-haspopup="menu"
+            title={langHi ? 'शैली और उपकरण' : 'Answer style and tools'}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle cx="10" cy="17" r="2" /></svg>
+          </button>
+          {tools}
+        </div>
+        <button
+          className={`ch-send${input.trim() && !loading ? ' ready' : ''}`}
+          onClick={() => sendMessage()}
+          disabled={!input.trim() || loading}
+          aria-label={langHi ? 'भेजें' : 'Send'}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
+        </button>
+      </div>
+      <div className="ch-usage" aria-live="polite">
+        {usageLoading ? ' '
+          : subscribed ? tr(t.chatUnlimited, langHi)
+          : !usage?.fingerprint ? (langHi ? 'साइन इन करें और 3 निःशुल्क संदेश पाएँ' : 'Sign in for 3 free messages')
+          : remaining === 0 ? <span className="ch-usage-out">{tr(t.chatFreeUsed, langHi)}</span>
+          : <>{langHi ? 'निःशुल्क संदेश बाकी:' : 'Free messages remaining:'} <strong>{remaining}</strong></>}
+      </div>
+    </div>
+  );
+
+  const panelOwnerSources = (i: number) => panel?.owner === i && panel.content.kind === 'sources';
 
   return (
     <>
-      <style>{`
-        /* ═══════════════════════════════════════════════
-           WHATSAPP-STYLE MOBILE CHAT LAYOUT
-           Full-height, messages scroll, input pinned bottom
-        ═══════════════════════════════════════════════ */
-
-        .chat-wrap {
-          display: flex;
-          flex-direction: column;
-          height: calc(100dvh - 52px);
-          background: var(--bg);
-          position: relative;
-          overflow: hidden;
-        }
-
-        /* ── Messages area: fills all available space, scrolls ── */
-        .chat-msgs {
-          flex: 1;
-          overflow-y: auto;
-          overflow-x: hidden;
-          overscroll-behavior: contain;
-          -webkit-overflow-scrolling: touch;
-          padding: 1rem 0.85rem 0.5rem;
-        }
-        .chat-msgs-inner {
-          max-width: 720px;
-          margin: 0 auto;
-        }
-
-        /* ── Pinned input footer ── */
-        .chat-footer {
-          flex-shrink: 0;
-          background: var(--bg);
-          border-top: 1px solid var(--border);
-          padding: 0.55rem 0.75rem 0.7rem;
-          padding-bottom: max(0.7rem, env(safe-area-inset-bottom));
-        }
-
-        /* ── Mode pill strip (scrollable horizontal) ── */
-        .chat-mode-strip {
-          display: flex;
-          align-items: center;
-          gap: 0.3rem;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-          margin-bottom: 0.45rem;
-          padding-bottom: 2px;
-        }
-        .chat-mode-strip::-webkit-scrollbar { display: none; }
-
-        .chat-mode-pill {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          flex-shrink: 0;
-          font-size: 0.65rem;
-          font-family: var(--font-mono);
-          padding: 4px 10px;
-          border-radius: 20px;
-          border: 1px solid var(--border);
-          background: transparent;
-          color: var(--text3);
-          cursor: pointer;
-          transition: all 0.15s;
-          white-space: nowrap;
-        }
-        .chat-mode-pill.active {
-          border-color: color-mix(in srgb, var(--accent) 60%, transparent);
-          background: var(--accent-dim);
-          color: var(--accent);
-        }
-        .chat-mode-pill.gold-active {
-          border-color: color-mix(in srgb, var(--warning-text) 60%, transparent);
-          background: var(--warning-wash);
-          color: var(--warning-text);
-        }
-        .chat-mode-pill.green-active {
-          border-color: color-mix(in srgb, var(--success-text) 50%, transparent);
-          background: var(--success-wash);
-          color: var(--success-text);
-        }
-        .chat-mode-pill-badge { color: color-mix(in srgb, var(--warning-text) 80%, transparent); }
-
-        /* ── Input row: textarea + action icons ── */
-        .chat-input-row {
-          display: flex;
-          align-items: flex-end;
-          gap: 0.4rem;
-          background: var(--bg2);
-          border: 1px solid var(--border);
-          border-radius: 24px;
-          padding: 0.4rem 0.45rem 0.4rem 0.9rem;
-          transition: border-color 0.18s, box-shadow 0.18s;
-        }
-        .chat-input-row:focus-within {
-          border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 8%, transparent);
-        }
-        .chat-textarea {
-          flex: 1;
-          background: transparent;
-          border: none;
-          outline: none;
-          resize: none;
-          color: var(--text);
-          font-family: var(--font-body);
-          font-size: 0.88rem;
-          line-height: 1.5;
-          padding: 0.3rem 0;
-          min-height: 36px;
-          max-height: 180px;
-        }
-        .chat-textarea::placeholder { color: var(--text3); }
-
-        /* ── Action icon buttons inside input row ── */
-        .chat-icon-btn {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          border: none;
-          background: transparent;
-          color: var(--text3);
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          transition: all 0.15s;
-          padding: 0;
-        }
-        .chat-icon-btn:hover { color: var(--text2); background: rgba(255,255,255,0.05); }
-        .chat-icon-btn.active-blue { color: var(--accent); }
-        .chat-icon-btn.active-gold { color: var(--warning-text); }
-
-        /* Send button */
-        .chat-send-btn {
-          width: 34px;
-          height: 34px;
-          border-radius: 50%;
-          border: none;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          transition: all 0.18s;
-          font-size: 15px;
-        }
-        .chat-send-btn.active {
-          background: linear-gradient(135deg, var(--accent), var(--accent));
-          color: #fff;
-        }
-        .chat-send-btn.inactive {
-          background: var(--bg3);
-          color: var(--text3);
-          cursor: not-allowed;
-        }
-
-        /* ── Usage line ── */
-        .chat-usage-line {
-          text-align: center;
-          margin-top: 0.3rem;
-          font-family: var(--font-mono);
-          font-size: 0.58rem;
-          letter-spacing: 0.07em;
-        }
-
-        /* ── Message rows ── */
-        .chat-msg-row {
-          margin-bottom: 1.1rem;
-          display: flex;
-          flex-direction: column;
-        }
-        .chat-msg-row.user { align-items: flex-end; }
-        .chat-msg-row.assistant { align-items: flex-start; }
-
-        /* ── User bubble: right-aligned, smaller max-width on mobile ── */
-        .chat-bubble-user {
-          max-width: 82%;
-          background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent), color-mix(in srgb, var(--accent) 9%, transparent));
-          border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-          border-radius: 18px 18px 4px 18px;
-          padding: 0.7rem 1rem;
-          color: var(--text);
-          font-size: 0.88rem;
-          line-height: 1.6;
-          font-family: var(--font-body);
-          word-break: break-word;
-        }
-
-        /* ── AI bubble ── */
-        .chat-bubble-ai {
-          max-width: 97%;
-          background: var(--bg2);
-          border: 1px solid var(--border);
-          border-radius: 4px 18px 18px 18px;
-          padding: 1rem 1.1rem 0.85rem;
-          color: var(--text);
-          font-size: 0.88rem;
-          line-height: 1.8;
-          position: relative;
-          box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-          font-family: var(--font-body);
-          word-break: break-word;
-        }
-        .chat-bubble-ai::before {
-          content: '';
-          position: absolute; top: 0; left: 0; right: 0; height: 2px;
-          background: linear-gradient(90deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 20%, transparent) 55%, transparent 100%);
-          border-radius: 4px 18px 0 0;
-        }
-
-        /* ── Headings ── */
-        .chat-msg-h1 {
-          font-family: var(--font-display);
-          font-size: 0.97rem; font-weight: 700; color: #ffffff;
-          margin: 1.2rem 0 0.5rem;
-          padding: 0.45rem 0.8rem 0.45rem 0.85rem;
-          background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 20%, transparent), color-mix(in srgb, var(--accent) 4%, transparent));
-          border-left: 3px solid var(--accent);
-          border-radius: 0 8px 8px 0;
-          line-height: 1.4;
-        }
-        .chat-msg-h1:first-child { margin-top: 0; }
-        .chat-msg-h2 {
-          font-family: var(--font-display);
-          font-size: 0.9rem; font-weight: 700; color: var(--warning-text);
-          margin: 1.1rem 0 0.35rem;
-          padding-left: 0.55rem;
-          border-left: 2.5px solid var(--warning-text);
-          line-height: 1.4;
-        }
-        .chat-msg-h3 {
-          font-family: var(--font-display);
-          font-size: 0.87rem; font-weight: 700; color: var(--success-text);
-          margin: 0.9rem 0 0.25rem;
-          padding-left: 0.5rem;
-          border-left: 2px solid var(--success-text);
-          line-height: 1.4;
-        }
-
-        /* ── Bullets ── */
-        .chat-bullet {
-          display: flex; align-items: flex-start; gap: 0.6rem;
-          margin: 0.1rem 0;
-          padding: 0.35rem 0.5rem 0.35rem 0.35rem;
-          border-radius: 6px;
-          color: var(--text);
-        }
-        .chat-bullet-dot {
-          width: 6px; height: 6px; border-radius: 50%;
-          background: linear-gradient(135deg, var(--accent), var(--accent));
-          box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 50%, transparent);
-          flex-shrink: 0; margin-top: 0.55rem;
-        }
-        .chat-bullet span:last-child { flex: 1; line-height: 1.72; }
-        .chat-bullet strong { color: var(--text); font-weight: 700; }
-        .chat-bubble-ai br + br { display: none; }
-        .chat-para-gap { height: 0.55rem; }
-        .chat-hr { height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 20%, transparent), color-mix(in srgb, var(--accent) 3%, transparent) 65%, transparent); margin: 0.9rem 0; }
-        .chat-bubble-ai strong { color: var(--text); font-weight: 700; }
-        .chat-bubble-ai em { color: var(--text2); font-style: italic; }
-
-        /* ── Mentor bubble ── */
-        .chat-bubble-mentor { font-size: 0.88rem; line-height: 1.8; font-family: var(--font-body); }
-
-        /* ── Meta row ── */
-        .chat-meta {
-          display: flex; align-items: center; gap: 0.4rem;
-          margin-top: 0.3rem; padding: 0 4px;
-        }
-        .chat-meta.user { flex-direction: row-reverse; }
-        .chat-meta-label { color: var(--text3); font-size: 0.62rem; letter-spacing: 0.08em; font-family: var(--font-mono); }
-        .chat-ai-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.6rem; letter-spacing: 0.1em; font-family: var(--font-mono); color: color-mix(in srgb, var(--accent) 60%, transparent); }
-        .chat-ai-dot { width: 5px; height: 5px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 60%, transparent); box-shadow: 0 0 5px color-mix(in srgb, var(--accent) 50%, transparent); }
-
-        /* ── Typing indicator ── */
-        .chat-typing {
-          display: flex; align-items: center; gap: 0.55rem;
-          padding: 0.65rem 0.9rem; margin-bottom: 0.75rem;
-          background: var(--bg2);
-          border: 1px solid var(--border); border-radius: 4px 14px 14px 14px;
-          width: fit-content;
-        }
-        .chat-typing-dots { display: flex; gap: 4px; }
-        .chat-typing-dot { width: 6px; height: 6px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 45%, transparent); animation: chatDotPulse 1.3s ease infinite; }
-        .chat-typing-dot:nth-child(2) { animation-delay: 0.16s; }
-        .chat-typing-dot:nth-child(3) { animation-delay: 0.32s; }
-        .chat-typing-text { font-size: 0.65rem; color: var(--text3); letter-spacing: 0.07em; font-family: var(--font-mono); }
-        @keyframes chatDotPulse { 0%,100% { opacity: 0.2; transform: scale(0.72); } 50% { opacity: 1; transform: scale(1.12); } }
-
-        /* ── Suggested questions ── */
-        .chat-suggested-label {
-          font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.18em;
-          text-transform: uppercase; color: var(--text3); margin-bottom: 0.7rem;
-          display: flex; align-items: center; gap: 0.5rem;
-        }
-        .chat-suggested-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
-        .chat-suggested-grid { display: flex; flex-direction: column; gap: 0.4rem; }
-        .chat-suggested-btn {
-          background: var(--bg2);
-          border: 1px solid var(--border); border-radius: 12px;
-          padding: 0.65rem 0.9rem; text-align: left;
-          color: var(--text2); cursor: pointer; font-size: 0.82rem;
-          font-family: var(--font-body); transition: all 0.18s; line-height: 1.45;
-          width: 100%;
-        }
-        .chat-suggested-btn:hover { border-color: color-mix(in srgb, var(--accent) 30%, transparent); color: var(--text); background: var(--accent-dim); }
-
-        /* ── PDF strip (active PDF indicator) ── */
-        .chat-pdf-strip {
-          display: flex; align-items: center; gap: 0.4rem;
-          font-size: 0.65rem; font-family: var(--font-mono); color: var(--accent);
-          background: var(--accent-dim); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-          border-radius: 8px; padding: 0.25rem 0.6rem;
-          margin-bottom: 0.45rem; max-width: 100%;
-        }
-        .chat-pdf-strip-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
-        .chat-pdf-strip-close { cursor: pointer; opacity: 0.6; flex-shrink: 0; font-size: 0.75rem; }
-        .chat-pdf-strip-close:hover { opacity: 1; }
-
-        /* ── Books bottom sheet ── */
-        .chat-books-sheet-overlay {
-          position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 899;
-          backdrop-filter: blur(2px);
-        }
-        .chat-books-sheet {
-          position: fixed; bottom: 0; left: 0; right: 0;
-          background: var(--bg2); border-top: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-          border-radius: 20px 20px 0 0;
-          padding: 1rem 1rem 1.5rem;
-          padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
-          z-index: 900;
-          max-height: 60vh; overflow-y: auto;
-          margin-bottom: 120px;
-          border-radius: 20px;
-        }
-        .chat-books-sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 1rem; }
-        .chat-books-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
-        .chat-books-title { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--text); }
-        .chat-books-toggle { width: 40px; height: 23px; border-radius: 12px; border: none; cursor: pointer; position: relative; transition: all 0.25s; }
-        .chat-books-toggle.on { background: linear-gradient(90deg, var(--accent), var(--accent)); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 50%, transparent); }
-        .chat-books-toggle.off { background: var(--accent-dim); }
-        .chat-books-toggle-dot { position: absolute; top: 3px; width: 17px; height: 17px; border-radius: 50%; background: #fff; transition: left 0.25s; box-shadow: 0 1px 4px rgba(0,0,0,0.4); }
-        .chat-books-select { width: 100%; font-size: 0.75rem; background: var(--bg3); color: var(--text); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 8px; padding: 0.45rem 0.6rem; cursor: pointer; outline: none; font-family: var(--font-mono); margin-top: 0.5rem; }
-
-        /* ── Mode bottom sheet ── */
-        .chat-mode-sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 800; }
-        .chat-mode-sheet {
-          position: fixed; bottom: 0; left: 0; right: 0;
-          background: var(--bg2); border-top: 1px solid var(--border);
-          border-radius: 20px 20px 0 0;
-          padding: 1rem 1rem 1.5rem;
-          padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
-          z-index: 801;
-        }
-        .chat-mode-sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 1rem; }
-        .chat-mode-sheet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
-        .chat-mode-sheet-btn {
-          display: flex; flex-direction: column; align-items: flex-start;
-          background: var(--bg3); border: 1px solid var(--border);
-          border-radius: 12px; padding: 0.75rem 0.85rem;
-          cursor: pointer; text-align: left; transition: all 0.15s;
-        }
-        .chat-mode-sheet-btn:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); background: var(--accent-dim); }
-        .chat-mode-sheet-btn.active { border-color: color-mix(in srgb, var(--accent) 55%, transparent); background: var(--accent-dim); }
-        .chat-mode-sheet-icon { font-size: 1.25rem; margin-bottom: 0.35rem; }
-        .chat-mode-sheet-label { font-size: 0.78rem; font-weight: 600; color: var(--text); font-family: var(--font-display); }
-        .chat-mode-sheet-desc { font-size: 0.65rem; color: var(--text3); margin-top: 0.15rem; line-height: 1.4; }
-        .chat-mode-sheet-premium { font-size: 0.55rem; color: color-mix(in srgb, var(--warning-text) 80%, transparent); margin-top: 0.2rem; }
-
-        /* ── PDF button (save PDF) ── */
-        .chat-pdf-btn {
-          display: inline-flex; align-items: center; gap: 5px;
-          background: linear-gradient(135deg, color-mix(in srgb, var(--warning-text) 14%, transparent), color-mix(in srgb, var(--warning-text) 7%, transparent));
-          border: 1px solid color-mix(in srgb, var(--warning-text) 28%, transparent); border-radius: 20px;
-          padding: 0.25rem 0.65rem; color: color-mix(in srgb, var(--warning-text) 80%, transparent);
-          cursor: pointer; font-size: 0.62rem; font-family: var(--font-mono);
-          letter-spacing: 0.06em; transition: all 0.18s;
-        }
-        .chat-pdf-btn:hover { border-color: color-mix(in srgb, var(--warning-text) 50%, transparent); color: var(--warning-text); }
-        .chat-pdf-btn:disabled { opacity: 0.45; cursor: wait; }
-        .chat-spin { display: inline-block; animation: chatSpin 1s linear infinite; }
-        @keyframes chatSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* ── Tables ── */
-        .chat-table-wrap { overflow-x: auto; margin: 0.8rem 0; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent); }
-        .chat-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-        .chat-table th { background: var(--accent-dim); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent); padding: 7px 10px; text-align: left; color: #f1f5f9; font-weight: 600; }
-        .chat-table td { border: 1px solid rgba(0,0,0,0.07); padding: 6px 10px; color: var(--text2); vertical-align: top; }
-
-        /* ── Citations ── */
-        .chat-citation { color: var(--accent); cursor: pointer; text-decoration: underline; text-decoration-style: dotted; text-decoration-color: color-mix(in srgb, var(--accent) 50%, transparent); text-underline-offset: 2px; }
-        .chat-citation:hover { color: var(--accent); }
-
-        /* ── History sidebar ── */
-        .chat-history-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 998; backdrop-filter: blur(2px); }
-        .chat-history-panel { position: fixed; top: 0; left: 0; bottom: 0; width: 290px; max-width: 85vw; background: var(--bg2); border-right: 1px solid var(--border); z-index: 999; display: flex; flex-direction: column; box-shadow: 8px 0 40px rgba(0,0,0,0.5); }
-        .chat-history-panel-head { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.1rem; border-bottom: 1px solid var(--border); }
-        .chat-history-panel-title { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--text); }
-        .chat-history-close { background: none; border: none; color: var(--text3); font-size: 1.1rem; cursor: pointer; line-height: 1; }
-        .chat-history-new { margin: 0.75rem 1rem 0.5rem; display: flex; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 10%, transparent)); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); color: var(--text); padding: 0.5rem; border-radius: 9px; cursor: pointer; font-size: 0.78rem; font-family: var(--font-body); font-weight: 500; }
-        .chat-history-list { flex: 1; overflow-y: auto; padding: 0.4rem 0.6rem 1rem; }
-        .chat-history-empty { color: var(--text3); font-size: 0.78rem; text-align: center; padding: 2rem 1rem; line-height: 1.6; }
-        .chat-history-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 0.6rem 0.65rem; border-radius: 9px; cursor: pointer; margin-bottom: 3px; transition: background 0.15s; }
-        .chat-history-item:hover { background: var(--accent-dim); }
-        .chat-history-item.active { background: var(--accent-dim); border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent); }
-        .chat-history-item-text { flex: 1; min-width: 0; }
-        .chat-history-item-title { font-size: 0.77rem; color: var(--text2); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        .chat-history-item-date { font-size: 0.6rem; color: var(--text3); margin-top: 3px; font-family: var(--font-mono); }
-        .chat-history-item-del { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 0.85rem; flex-shrink: 0; padding: 2px 4px; line-height: 1; opacity: 0.6; }
-        .chat-history-item-del:hover { opacity: 1; color: var(--danger-text); }
-
-        /* ── Drag overlay ── */
-        .chat-drag-overlay {
-          position: fixed; inset: 0; z-index: 900;
-          background: var(--accent-dim);
-          border: 2px dashed color-mix(in srgb, var(--accent) 40%, transparent);
-          display: flex; align-items: center; justify-content: center;
-          pointer-events: none;
-        }
-
-        /* ── Desktop toolbar (hidden on mobile, shown on desktop) ── */
-        .chat-toolbar { display: none; }
-        .chat-style-toggle { display: none; }
-
-        /* ── Desktop: side rail layout (≥900px) ── */
-        @media (min-width: 900px) {
-          .chat-wrap {
-            flex-direction: row;
-          }
-          .chat-msgs {
-            flex: 1;
-            min-width: 0;
-            overflow-y: auto;
-            padding: 1rem 1.5rem 2rem;
-          }
-          .chat-msgs-inner { max-width: 760px; margin: 0 auto; }
-          .chat-footer {
-            width: 380px;
-            flex-shrink: 0;
-            border-top: none;
-            border-left: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 1.25rem 1.25rem 1.25rem 0.75rem;
-            background: var(--bg);
-          }
-          .chat-mode-strip { display: none; }
-          .chat-usage-line { display: none; }
-          .chat-input-row {
-            border-radius: 0;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 0.6rem 0.6rem 0.6rem 0.9rem;
-          }
-          .chat-textarea { min-height: 44px; max-height: 240px; }
-          .chat-toolbar {
-            display: flex;
-            align-items: center;
-            gap: 0.32rem;
-            margin-bottom: 0.5rem;
-            flex-wrap: wrap;
-          }
-          .chat-style-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-            margin-bottom: 0.5rem;
-            padding-left: 0.05rem;
-          }
-          .chat-input-area-wrap {
-            background: var(--bg-raised);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 0.7rem 0.75rem 0.8rem;
-            box-shadow: var(--elev-1);
-            position: relative;
-          }
-          .chat-hint-desktop {
-            display: block;
-            font-size: 0.58rem;
-            color: var(--text3);
-            text-align: center;
-            margin-top: 0.45rem;
-            letter-spacing: 0.03em;
-          }
-          .chat-usage-desktop {
-            display: block;
-            text-align: center;
-            margin-top: 0.4rem;
-            font-family: var(--font-mono);
-            font-size: 0.62rem;
-            letter-spacing: 0.08em;
-          }
-          .chat-suggested-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
-        }
-        .chat-hint-desktop { display: none; }
-        .chat-usage-desktop { display: none; }
-        .chat-input-area-wrap { background: transparent; border: none; padding: 0; box-shadow: none; }
-
-        /* ── Books popover (desktop) ── */
-        .chat-books-popover {
-          position: absolute; bottom: calc(100% + 8px); left: 0;
-          width: 260px; max-width: 80vw;
-          background: var(--bg2);
-          border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius: 14px;
-          padding: 0.75rem; box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-          backdrop-filter: blur(16px); z-index: 60;
-        }
-        .chat-books-popover-row { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.1rem; }
-        .chat-books-popover-label {
-          font-size: 0.7rem; font-family: var(--font-mono); letter-spacing: 0.07em;
-          color: var(--accent); font-weight: 600; text-transform: uppercase; flex: 1;
-        }
-
-        /* ── Desktop toolbar button styles ── */
-        .chat-tool-btn {
-          display: inline-flex; align-items: center; gap: 4px;
-          background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.08);
-          color: var(--text2); cursor: pointer;
-          padding: 0.32rem 0.55rem; border-radius: 7px;
-          font-size: 0.66rem; font-family: var(--font-mono); font-weight: 500;
-          transition: all 0.15s; white-space: nowrap; position: relative;
-        }
-        .chat-tool-btn:hover { border-color: color-mix(in srgb, var(--accent) 40%, transparent); color: var(--text2); background: var(--accent-dim); }
-        .chat-tool-btn.active {
-          background: var(--accent-dim); border-color: color-mix(in srgb, var(--accent) 60%, transparent); color: var(--accent);
-          box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 20%, transparent);
-        }
-        .chat-tool-btn.gold-active {
-          background: var(--warning-wash); border-color: color-mix(in srgb, var(--warning-text) 60%, transparent); color: var(--warning-text);
-        }
-        .chat-tool-divider { width: 1px; height: 16px; background: var(--border2); margin: 0 0.1rem; flex-shrink: 0; }
-        .chat-tool-badge { color: color-mix(in srgb, var(--warning-text) 80%, transparent); margin-left: 2px; }
-      `}</style>
-
+      <style>{CHAT_CSS}</style>
       <div
-        className="chat-wrap"
+        className={`ch-wrap${panel ? ' has-panel' : ''}`}
         onDragOver={e => { e.preventDefault(); setDragOver(true); }}
         onDragLeave={e => { e.preventDefault(); setDragOver(false); }}
         onDrop={handleDrop}
@@ -1059,443 +860,178 @@ function ChatContent() {
         <GateModals />
 
         {dragOver && (
-          <div className="chat-drag-overlay">
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', color: 'color-mix(in srgb, var(--accent) 90%, transparent)', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              Drop PDF here
-            </div>
+          <div className="ch-drop">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+            {langHi ? 'PDF यहाँ छोड़ें' : 'Drop PDF here'}
           </div>
         )}
 
-        {/* ── History sidebar ── */}
-        {historyOpen && (
-          <>
-            <div className="chat-history-overlay" onClick={() => setHistoryOpen(false)} />
-            <div className="chat-history-panel">
-              <div className="chat-history-panel-head">
-                <span className="chat-history-panel-title">Chat History</span>
-                <button className="chat-history-close" onClick={() => setHistoryOpen(false)}>✕</button>
-              </div>
-              <button className="chat-history-new" onClick={startNewChat}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                New Chat
-              </button>
-              <div className="chat-history-list">
-                {historyList.length === 0 ? (
-                  <div className="chat-history-empty">No saved chats yet.<br />Start a conversation and it'll appear here.</div>
+        {sidebarOpen && <div className="ch-scrim" onClick={() => setSidebarOpen(false)} />}
+        <aside className={`ch-side${sidebarOpen ? ' open' : ''}`} aria-label={langHi ? 'चैट' : 'Chats'}>
+          <ChatSidebar
+            langHi={langHi}
+            chats={historyList.map(c => ({ id: c.id, title: c.title, updatedAt: c.updatedAt }))}
+            activeId={chatId}
+            onOpen={openChat}
+            onDelete={deleteChat}
+            onNewChat={startNewChat}
+            bookMode={bookMode && subscribed}
+            onBooks={onBooks}
+            user={user}
+            authReady={!authLoading}
+            onSignIn={() => { signInWithGoogle().catch(e => console.error(e)); }}
+            syllabusDone={syllabusDone}
+            syllabusTotal={allNotes.length}
+            flashDue={flashDue}
+          />
+        </aside>
+
+        <main className="ch-main">
+          <div className="ch-mobilebar">
+            <button className="ch-icon-btn" onClick={() => setSidebarOpen(true)} aria-label={langHi ? 'चैट खोलें' : 'Open chats'}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M4 7h16M4 12h16M4 17h10" /></svg>
+            </button>
+            <span className="ch-mobilebar-title">{langHi ? 'AI इतिहास सहायक' : 'AI History Assistant'}</span>
+            <button className="ch-icon-btn" onClick={startNewChat} aria-label={langHi ? 'नई चैट' : 'New chat'}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg>
+            </button>
+          </div>
+
+          <div className="ch-scroll" ref={scrollRef}>
+            {empty ? (
+              <div className="ch-start">
+                <Mascot pose="peek" width={160} className="ch-start-owl" priority />
+                <h1>{langHi ? 'आज हम क्या पढ़ रहे हैं?' : 'What are we studying today?'}</h1>
+                <p>
+                  {topicNote
+                    ? (langHi
+                        ? `आप ${topicNote.title} पढ़ रहे हैं। इस पर कुछ भी पूछें, या नीचे टैप करें और प्रश्न मैं लिख दूँगा।`
+                        : `You're on ${topicNote.title}. Ask anything about it, or tap below and I'll write the question for you.`)
+                    : (langHi
+                        ? 'पाठ्यक्रम से कुछ भी पूछें: कोई अवधारणा, तुलना, इतिहासकारों के मत, पिछले वर्ष का प्रश्न। या नीचे टैप करें और प्रश्न मैं लिख दूँगा।'
+                        : 'Ask anything from the syllabus: a concept, a comparison, what historians argue, a past question, or tap below and I’ll write it for you.')}
+                </p>
+                {flowOpen ? (
+                  <StartFlow
+                    key={flowKey}
+                    langHi={langHi}
+                    state={start}
+                    onChange={onFlowChange}
+                    subscribed={subscribed}
+                    onPremium={() => setShowBookPaywall(true)}
+                    onDone={() => { setFlowOpen(false); inputRef.current?.focus(); }}
+                  />
                 ) : (
-                  historyList.slice().sort((a, b) => b.updatedAt - a.updatedAt).map(entry => (
-                    <div key={entry.id} className={`chat-history-item ${entry.id === chatId ? 'active' : ''}`} onClick={() => loadHistoryEntry(entry)}>
-                      <div className="chat-history-item-text">
-                        <div className="chat-history-item-title">{entry.title}</div>
-                        <div className="chat-history-item-date">
-                          {new Date(entry.updatedAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
-                          {' · '}
-                          {new Date(entry.updatedAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
-                        </div>
-                      </div>
-                      <button className="chat-history-item-del" onClick={(e) => deleteHistoryEntry(entry.id, e)} title="Delete">✕</button>
-                    </div>
-                  ))
+                  <button className="ch-link-btn ch-restart" onClick={() => { resetStart(); setInput(''); }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
+                    {langHi ? 'टैप करके नया प्रश्न बनाएँ' : 'Build another question with taps'}
+                  </button>
                 )}
+                {composer}
               </div>
-            </div>
-          </>
-        )}
-
-        {/* ── Books bottom sheet ── */}
-        {booksPopoverOpen && usage?.subscribed && (
-          <>
-            <div className="chat-books-sheet-overlay" onClick={() => setBooksPopoverOpen(false)} />
-            <div className="chat-books-sheet">
-              <div className="chat-books-sheet-handle" />
-              <div className="chat-books-row">
-                <span className="chat-books-title">📚 Chat with Books</span>
-                <button className={`chat-books-toggle ${bookMode ? 'on' : 'off'}`} onClick={() => setBookMode(b => !b)}>
-                  <span className="chat-books-toggle-dot" style={{ left: bookMode ? 20 : 3 }} />
-                </button>
-              </div>
-              {bookMode && (
-                <select value={bookTitle} onChange={e => setBookTitle(e.target.value)} className="chat-books-select">
-                  <option value="all">📖 All Books</option>
-                  {BOOK_CATEGORIES.map(cat => (
-                    <Fragment key={cat}>
-                      <option disabled>{`\u2500\u2500 ${cat} \u2500\u2500`}</option>
-                      {booksByCategory(cat).map(b => (
-                        <option key={b.value} value={b.value}>{b.label}</option>
-                      ))}
-                    </Fragment>
-                  ))}
-                </select>
-              )}
-            </div>
-          </>
-        )}
-
-        {/* ── Mode picker bottom sheet ── */}
-        {modeSheetOpen && (
-          <>
-            <div className="chat-mode-sheet-overlay" onClick={() => setModeSheetOpen(false)} />
-            <div className="chat-mode-sheet">
-              <div className="chat-mode-sheet-handle" />
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#888888', marginBottom: '0.75rem' }}>Select Mode</div>
-              <div className="chat-mode-sheet-grid">
-                {/* Concise */}
-                <button className={`chat-mode-sheet-btn ${responseStyle === 'concise' && !mentorMode && !brainstormMode ? 'active' : ''}`}
-                  onClick={() => { setResponseStyle('concise'); setMentorMode(false); setBrainstormMode(false); setModeSheetOpen(false); }}>
-                  <span className="chat-mode-sheet-icon">⚡</span>
-                  <span className="chat-mode-sheet-label">Concise</span>
-                  <span className="chat-mode-sheet-desc">Bullet-point answers, fast</span>
-                </button>
-                {/* Elaborative */}
-                <button className={`chat-mode-sheet-btn ${responseStyle === 'elaborative' && !mentorMode && !brainstormMode ? 'active' : ''}`}
-                  onClick={() => { setResponseStyle('elaborative'); setMentorMode(false); setBrainstormMode(false); setModeSheetOpen(false); }}>
-                  <span className="chat-mode-sheet-icon">📖</span>
-                  <span className="chat-mode-sheet-label">Elaborative</span>
-                  <span className="chat-mode-sheet-desc">Deep prose, full analysis</span>
-                </button>
-                {/* Brainstorm */}
-                <button className={`chat-mode-sheet-btn ${brainstormMode ? 'active' : ''}`}
-                  onClick={() => {
-                    if (!usage?.subscribed) { setModeSheetOpen(false); showChatLimitModal(); return; }
-                    setBrainstormMode(b => !b); setMentorMode(false); setModeSheetOpen(false);
-                  }}>
-                  <span className="chat-mode-sheet-icon">💡</span>
-                  <span className="chat-mode-sheet-label">Brainstorm</span>
-                  <span className="chat-mode-sheet-desc">Essay plans & argument maps</span>
-                  {!usage?.subscribed && <span className="chat-mode-sheet-premium">✦ Premium</span>}
-                </button>
-                {/* Mentor */}
-                <button className={`chat-mode-sheet-btn ${mentorMode && usage?.subscribed ? 'active' : ''}`}
-                  onClick={() => {
-                    if (!usage?.subscribed) { setModeSheetOpen(false); showChatLimitModal(); return; }
-                    setMentorMode(m => !m); setBrainstormMode(false); setModeSheetOpen(false);
-                  }}>
-                  <span className="chat-mode-sheet-icon">🎓</span>
-                  <span className="chat-mode-sheet-label">Mentor</span>
-                  <span className="chat-mode-sheet-desc">TADA framework, 350-word strategy</span>
-                  {!usage?.subscribed && <span className="chat-mode-sheet-premium">✦ Premium</span>}
-                </button>
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* ── Book paywall modal ── */}
-        {showBookPaywall && !usageLoading && (
-          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowBookPaywall(false)}>
-            <div style={{ background: 'var(--bg)', border: '1px solid color-mix(in srgb, var(--accent) 40%, transparent)', borderRadius: 16, padding: '2rem', maxWidth: 340, width: '90%', textAlign: 'center' }} onClick={e => e.stopPropagation()}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📚</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text1)', marginBottom: '0.4rem' }}>Chat with Books</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text2)', marginBottom: '1.25rem', lineHeight: 1.5 }}>
-                Get answers grounded in 20+ standard History Optional reference books.<br/><br/>
-                <span style={{ color: 'var(--accent)' }}>✦ Premium feature</span>
-              </div>
-              <button onClick={() => { setShowBookPaywall(false); showChatLimitModal(); }} style={{ width: '100%', padding: '0.75rem', background: 'linear-gradient(135deg,var(--accent),var(--accent))', color: '#fff', border: 'none', borderRadius: 10, fontWeight: 600, fontSize: '0.95rem', cursor: 'pointer' }}>Unlock Premium</button>
-              <button onClick={() => setShowBookPaywall(false)} style={{ marginTop: '0.75rem', background: 'none', border: 'none', color: '#888888', fontSize: '0.8rem', cursor: 'pointer' }}>Maybe later</button>
-            </div>
-          </div>
-        )}
-
-        {/* ── Citation modal ── */}
-        {citationModal && (
-          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setCitationModal(null)}>
-            <div style={{ background: 'var(--bg)', border: '1px solid color-mix(in srgb, var(--accent) 40%, transparent)', borderRadius: 16, padding: '1.25rem', maxWidth: 480, width: '100%', maxHeight: '75vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.9rem' }}>
-                <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>📖 Cited Passage{citationModal.length > 1 ? 's' : ''}</span>
-                <button onClick={() => setCitationModal(null)} style={{ background: 'none', border: 'none', color: '#888888', fontSize: '1.1rem', cursor: 'pointer', lineHeight: 1 }}>✕</button>
-              </div>
-              {citationModal.map((s, si) => {
-                const cleaned = cleanChunk(s.content);
-                return (
-                  <div key={si} style={{ marginBottom: si < citationModal.length - 1 ? '1rem' : 0, paddingBottom: si < citationModal.length - 1 ? '1rem' : 0, borderBottom: si < citationModal.length - 1 ? '1px solid color-mix(in srgb, var(--accent) 12%, transparent)' : 'none' }}>
-                    <div style={{ display: 'inline-block', fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: 'var(--accent)', background: 'var(--accent-dim)', borderRadius: 4, padding: '0.15rem 0.5rem', marginBottom: '0.5rem' }}>{s.book_title}</div>
-                    <div style={{ fontSize: '0.82rem', color: 'var(--text2)', lineHeight: 1.75 }}>{cleaned || 'Passage text unavailable.'}</div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* ════════════════════════════════════════
-            MESSAGES AREA
-        ════════════════════════════════════════ */}
-        <div className="chat-msgs">
-          <div className="chat-msgs-inner">
-            {messages.map((msg, i) => (
-              <div key={i} className={`chat-msg-row ${msg.role}`}
-                ref={msg.role === 'assistant' && i === messages.length - 1 ? lastAiRef : null}>
-                <div className={msg.role === 'user' ? 'chat-bubble-user' : (msg.isMentor ? 'chat-bubble-mentor' : 'chat-bubble-ai')}>
-                  {msg.role === 'user' ? (
-                    <span>{msg.content}</span>
-                  ) : msg.content === '' ? (
-                    <span style={{ opacity: 0.4, fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>●●●</span>
-                  ) : msg.isMentor ? (
-                    <MentorBubble content={msg.content} isStreaming={loading && i === messages.length - 1} />
-                  ) : (loading && i === messages.length - 1) ? (
-                    <div dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(msg.content, { breaks: true }) as string) }} />
-                  ) : (
-                    <div
-                      onClick={(e) => {
-                        const target = (e.target as HTMLElement).closest('[data-citation]') as HTMLElement | null;
-                        if (target && msg.sources) {
-                          const indices = target.getAttribute('data-citation')!.split(',').map(Number);
-                          const picked = indices.map(n => msg.sources![n - 1]).filter(Boolean);
-                          if (picked.length) setCitationModal(picked);
-                        }
-                      }}
-                      dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content, msg.sources?.length ?? 0)) }}
-                    />
-                  )}
-                </div>
-                {msg.sources && msg.sources.length > 0 && <SourcePassages sources={msg.sources} />}
-                <div className={`chat-meta ${msg.role}`}>
-                  {msg.role === 'assistant' ? (
-                    <>
-                      <span className="chat-ai-badge"><span className="chat-ai-dot" />AI</span>
-                      {i > 0 && <DownloadPDFButton content={msg.content} question={getPrecedingQuestion(i)} />}
-                    </>
-                  ) : (
-                    <span className="chat-meta-label">{tr(t.youLabel, langHi)}</span>
-                  )}
-                </div>
-              </div>
-            ))}
-
-            {loading && (
-              <div className="chat-typing">
-                <div className="chat-typing-dots">
-                  <div className="chat-typing-dot" />
-                  <div className="chat-typing-dot" />
-                  <div className="chat-typing-dot" />
-                </div>
-                <span className="chat-typing-text">Thinking…</span>
-              </div>
-            )}
-
-            {messages.length <= 1 && (
-              <div style={{ marginTop: '1.25rem' }}>
-                <div className="chat-suggested-label">{tr(t.chatSuggestedLabel, langHi)}</div>
-                <div className="chat-suggested-grid">
-                  {(langHi ? SUGGESTED_HI : SUGGESTED_EN).map((q, i) => (
-                    <button key={i} className="chat-suggested-btn" onClick={() => sendMessage(q)}>{q}</button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div ref={bottomRef} style={{ height: 8 }} />
-          </div>
-        </div>
-
-        {/* ════════════════════════════════════════
-            PINNED INPUT FOOTER
-        ════════════════════════════════════════ */}
-        <div className="chat-footer">
-          {/* ── Desktop-only toolbar ── */}
-          <div className="chat-input-area-wrap">
-          <div className="chat-toolbar">
-            <button className="chat-tool-btn" onClick={() => setHistoryOpen(true)} title="Chat history">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-              History
-            </button>
-            <button className="chat-tool-btn" onClick={startNewChat} title="Start a new chat">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              New
-            </button>
-            <div className="chat-tool-divider" />
-            <button
-              className={`chat-tool-btn ${pdfFile ? 'active' : ''}`}
-              onClick={() => { if (!usage?.subscribed) { showChatLimitModal(); return; } fileInputRef.current?.click(); }}
-              title={usage?.subscribed ? "Upload PDF to discuss or get model answers" : "Premium feature — subscribe to upload PDFs"}
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              {pdfFile ? (
-                <>{pdfName} <span onClick={e => { e.stopPropagation(); setPdfFile(null); setPdfBase64(null); setPdfName(null); }} style={{ marginLeft:'4px', opacity:0.6, fontWeight:'bold', cursor:'pointer' }}>✕</span></>
-              ) : <>PDF{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}</>}
-            </button>
-            <button
-              className={`chat-tool-btn ${brainstormMode ? 'gold-active' : ''}`}
-              onClick={() => { if (!usage?.subscribed) { showChatLimitModal(); return; } setBrainstormMode(b => !b); }}
-              title={usage?.subscribed ? "Brainstorm mode — get essay plans & argument maps" : "Premium feature — subscribe to use Brainstorm"}
-            >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-              Brainstorm{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
-            </button>
-            {/* Wraps Books and Mentor so the Books popover has a positioning
-                context. It needs the toolbar's own gap, or the two buttons sit
-                flush against each other. */}
-            <div style={{ position:'relative', display:'flex', alignItems:'center', gap:'0.32rem' }}>
-              <button
-                className={`chat-tool-btn ${bookMode && usage?.subscribed ? 'active' : ''}`}
-                onClick={() => { if (usageLoading) return; if (!usage?.subscribed) { setShowBookPaywall(true); return; } setBooksPopoverOpen(o => !o); }}
-                title="Chat with Books — ground answers in reference texts"
-              >
-                <span style={{ fontSize:'0.85rem' }}>📚</span>
-                Books{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
-              </button>
-              <button
-                className={`chat-tool-btn ${mentorMode && usage?.subscribed ? 'active' : ''}`}
-                onClick={() => { if (usageLoading) return; if (!usage?.subscribed) { setShowBookPaywall(true); return; } setMentorMode(m => !m); }}
-                title="Mentor Mode — TADA framework, evaluator feedback, 350+ strategy (Premium)"
-                style={{ ...(mentorMode && usage?.subscribed ? { background:'linear-gradient(135deg, color-mix(in srgb, var(--warning-text) 18%, transparent), color-mix(in srgb, var(--warning-text) 10%, transparent))', borderColor:'color-mix(in srgb, var(--warning-text) 50%, transparent)', color:'var(--warning-text)' } : {}) }}
-              >
-                <span style={{ fontSize:'0.85rem' }}>🎓</span>
-                Mentor{!usage?.subscribed && <span className="chat-tool-badge">✦</span>}
-              </button>
-              {booksPopoverOpen && usage?.subscribed && (
-                <>
-                  <div style={{ position:'fixed', inset:0, zIndex:55 }} onClick={() => setBooksPopoverOpen(false)} />
-                  <div className="chat-books-popover" onClick={e => e.stopPropagation()}>
-                    <div className="chat-books-popover-row">
-                      <span className="chat-books-popover-label">Chat with Books</span>
-                      <button className={`chat-books-toggle ${bookMode ? 'on' : 'off'}`} onClick={() => setBookMode(b => !b)}>
-                        <span className="chat-books-toggle-dot" style={{ left: bookMode ? 20 : 4 }} />
-                      </button>
+            ) : (
+              <div className="ch-thread">
+                {thread.map((msg, i) => {
+                  if (msg.role === 'user') {
+                    return <div key={i} className="ch-user"><span>{msg.content}</span></div>;
+                  }
+                  const isLast = i === lastIdx;
+                  const streaming = loading && isLast;
+                  if (streaming && msg.content === '') {
+                    return <div key={i} ref={lastAiRef}><ThinkingSteps progress={progress} langHi={langHi} /></div>;
+                  }
+                  const question = getPrecedingQuestion(i);
+                  const slug = !streaming && isLast && question ? detectTopic(question)?.slug ?? null : null;
+                  const sources = msg.sources ?? [];
+                  return (
+                    <div key={i} className="ch-ai" ref={isLast ? lastAiRef : null}>
+                      {msg.isMentor ? (
+                        <MentorBubble content={msg.content} isStreaming={streaming} />
+                      ) : streaming ? (
+                        <div className="ch-answer-text" dangerouslySetInnerHTML={{ __html: sanitize(marked.parse(msg.content, { breaks: true }) as string) }} />
+                      ) : (
+                        <div
+                          className="ch-answer-text"
+                          onClick={(e) => {
+                            const target = (e.target as HTMLElement).closest('[data-citation]') as HTMLElement | null;
+                            if (target && sources.length) {
+                              const focus = target.getAttribute('data-citation')!.split(',').map(Number);
+                              openSources(i, sources, focus);
+                            }
+                          }}
+                          dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content, sources.length)) }}
+                        />
+                      )}
+                      {!streaming && (
+                        <div className="ch-ai-actions">
+                          <DownloadPDFButton content={msg.content} question={question} langHi={langHi} />
+                        </div>
+                      )}
+                      {!streaming && sources.length > 0 && (
+                        <SourcesCard sources={sources} active={panelOwnerSources(i)} langHi={langHi} onOpen={() => openSources(i, sources)} />
+                      )}
+                      {slug && (
+                        <WorthKnowing
+                          key={`worth-${slug}`}
+                          slug={slug}
+                          langHi={langHi}
+                          done={syllabus.isCompleted(slug)}
+                          onMarkDone={() => syllabus.toggle(slug)}
+                          onShowPyqs={r => showPyqs(i, r)}
+                        />
+                      )}
+                      {!streaming && isLast && (
+                        <FollowUps
+                          key={`follow-${slug ?? 'none'}`}
+                          slug={slug}
+                          asked={askedSoFar}
+                          wasMains={msg.format === 'mains'}
+                          langHi={langHi}
+                          onSend={(text, format) => sendMessage(text, { format })}
+                        />
+                      )}
                     </div>
-                    {bookMode && (
-                      <select value={bookTitle} onChange={e => setBookTitle(e.target.value)} className="chat-books-select">
-                        <option value="all">📖 All Books</option>
-                        {BOOK_CATEGORIES.map(cat => (
-                          <Fragment key={cat}>
-                            <option disabled style={{color:'#555'}}>{`\u2500\u2500 ${cat} \u2500\u2500`}</option>
-                            {booksByCategory(cat).map(b => (
-                              <option key={b.value} value={b.value}>{b.label}</option>
-                            ))}
-                          </Fragment>
-                        ))}
-                      </select>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
-          {/* Response style toggle — desktop only */}
-          {!mentorMode && !brainstormMode && (
-            <div className="chat-style-toggle">
-              <span style={{ fontSize:'0.6rem', color:'var(--text3)', fontFamily:'var(--font-mono)', letterSpacing:'0.08em', textTransform:'uppercase' }}>Style</span>
-              <span style={{ fontSize:'0.6rem', color:'var(--border)', fontFamily:'var(--font-mono)' }}>—</span>
-              {(['concise', 'elaborative'] as const).map(s => (
-                <button key={s} onClick={() => setResponseStyle(s)} style={{
-                  fontSize:'0.68rem', fontFamily:'var(--font-mono)', letterSpacing:'0.04em',
-                  padding:'3px 12px', borderRadius:20,
-                  border: responseStyle === s ? `1px solid ${s === 'concise' ? 'var(--accent)' : 'var(--accent)'}` : '1px solid var(--border)',
-                  background: responseStyle === s ? (s === 'concise' ? 'var(--accent-dim)' : 'color-mix(in srgb, var(--accent) 15%, transparent)') : 'transparent',
-                  color: responseStyle === s ? (s === 'concise' ? 'var(--accent)' : 'var(--accent)') : 'var(--text3)',
-                  cursor:'pointer', transition:'all 0.15s', fontWeight: responseStyle === s ? 600 : 400,
-                }}>
-                  {s === 'concise' ? '⚡' : '📖'} {s.charAt(0).toUpperCase() + s.slice(1)}
-                </button>
-              ))}
+          {!empty && <div className="ch-dock">{composer}</div>}
+        </main>
+
+        {panel && (
+          <>
+            <div className="ch-panel-scrim" onClick={() => setPanel(null)} />
+            <aside className="ch-panel" aria-label={langHi ? 'विवरण' : 'Details'}>
+              <SidePanel
+                content={panel.content}
+                langHi={langHi}
+                onClose={() => setPanel(null)}
+                onAnswer={answerPyq}
+                clean={cleanChunk}
+              />
+            </aside>
+          </>
+        )}
+
+        {showBookPaywall && !usageLoading && (
+          <div className="ch-modal-scrim" onClick={() => setShowBookPaywall(false)}>
+            <div className="ch-modal" onClick={e => e.stopPropagation()}>
+              <Mascot pose="peek" width={96} />
+              <div className="ch-modal-title">{langHi ? 'प्रीमियम सुविधा' : 'A premium feature'}</div>
+              <p>
+                {langHi
+                  ? 'पुस्तकों से चैट, मेंटर मोड और PDF, सब 20 से अधिक मानक पुस्तकों और परीक्षक की नज़र पर आधारित हैं।'
+                  : 'Chat with books, Mentor mode and PDFs draw on 20+ standard History Optional books and an examiner’s eye.'}
+              </p>
+              <button className="ch-btn ch-btn-solid ch-btn-wide" onClick={() => { setShowBookPaywall(false); showChatLimitModal(); }}>
+                {langHi ? 'प्रीमियम लें' : 'Unlock Premium'}
+              </button>
+              <button className="ch-link-btn" onClick={() => setShowBookPaywall(false)}>{langHi ? 'बाद में' : 'Maybe later'}</button>
             </div>
-          )}
-
-          {/* Active PDF strip */}
-          {pdfFile && (
-            <div className="chat-pdf-strip">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              <span className="chat-pdf-strip-name">{pdfName}</span>
-              <span className="chat-pdf-strip-close" onClick={() => { setPdfFile(null); setPdfBase64(null); setPdfName(null); }}>✕</span>
-            </div>
-          )}
-
-          {/* Mode pills — horizontal scroll */}
-          <div className="chat-mode-strip">
-            {/* History */}
-            <button className="chat-mode-pill" onClick={() => setHistoryOpen(true)}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-              History
-            </button>
-            {/* New chat */}
-            <button className="chat-mode-pill" onClick={startNewChat}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              New
-            </button>
-
-            <span style={{ width: 1, height: 14, background: 'var(--border)', flexShrink: 0, alignSelf: 'center' }} />
-
-            {/* Mode picker */}
-            <button
-              className={`chat-mode-pill ${mentorMode && usage?.subscribed ? 'gold-active' : brainstormMode && usage?.subscribed ? 'gold-active' : ''}`}
-              onClick={() => setModeSheetOpen(true)}
-              title="Switch mode"
-            >
-              {activeModeLabel}
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-
-            {/* Books */}
-            <button
-              className={`chat-mode-pill ${bookMode && usage?.subscribed ? 'green-active' : ''}`}
-              onClick={() => {
-                if (!usage?.subscribed) { setShowBookPaywall(true); return; }
-                setBooksPopoverOpen(o => !o);
-              }}
-            >
-              📚 Books{!usage?.subscribed && <span className="chat-mode-pill-badge">✦</span>}
-            </button>
-
-            {/* PDF upload */}
-            <button
-              className={`chat-mode-pill ${pdfFile ? 'active' : ''}`}
-              onClick={() => { if (!usage?.subscribed) { showChatLimitModal(); return; } fileInputRef.current?.click(); }}
-            >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              PDF{!usage?.subscribed && <span className="chat-mode-pill-badge">✦</span>}
-            </button>
           </div>
-
-          {/* Input row */}
-          <div className="chat-input-row">
-            <input
-              ref={fileInputRef as any}
-              type="file"
-              accept="application/pdf"
-              style={{ display: 'none' }}
-              onChange={e => { const f = e.target.files?.[0]; if (f) handlePdfUpload(f); (e.target as HTMLInputElement).value = ''; }}
-            />
-            <textarea
-              ref={inputRef}
-              className="chat-textarea"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
-              placeholder={brainstormMode ? tr(t.chatPlaceholderBrainstorm, langHi) : pdfFile ? tr(t.chatPlaceholderPdf, langHi) : tr(t.chatPlaceholderDefault, langHi)}
-              rows={1}
-              onInput={e => {
-                const ta = e.currentTarget;
-                ta.style.height = 'auto';
-                ta.style.height = Math.min(ta.scrollHeight, 180) + 'px';
-              }}
-            />
-            <button
-              className={`chat-send-btn ${input.trim() && !loading ? 'active' : 'inactive'}`}
-              onClick={() => sendMessage()}
-              disabled={!input.trim() || loading}
-            >
-              ↑
-            </button>
-          </div>
-
-          {/* Usage line — mobile */}
-          {!usageLoading && (
-            <div className="chat-usage-line" style={{ color: !canChat ? 'var(--danger-text)' : usage?.subscribed ? 'var(--success-text)' : 'var(--text3)' }}>
-              {usage?.subscribed ? tr(t.chatUnlimited, langHi) : !canChat ? tr(t.chatFreeUsed, langHi) : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
-            </div>
-          )}
-
-          {/* Desktop hint + usage */}
-          <div className="chat-hint-desktop">{tr(t.chatHint, langHi)}</div>
-          {!usageLoading && (
-            <div className="chat-usage-desktop" style={{ color: !canChat ? 'var(--danger-text)' : usage?.subscribed ? 'var(--success-text)' : '#555' }}>
-              {usage?.subscribed ? tr(t.chatUnlimited, langHi) : !canChat ? tr(t.chatFreeUsed, langHi) : `${(usage?.chat_count ?? 0)} of 3 free messages used`}
-            </div>
-          )}
-          </div>{/* end chat-input-area-wrap */}
-        </div>
+        )}
       </div>
     </>
   );
@@ -1503,8 +1039,578 @@ function ChatContent() {
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={<div style={{ padding: '2rem', color: 'var(--text2)' }}>Loading…</div>}>
+    <Suspense fallback={<div style={{ padding: 'var(--space-8)', color: 'var(--text2)' }}>Loading…</div>}>
       <ChatContent />
     </Suspense>
   );
 }
+
+// ── Styles ────────────────────────────────────────────────────────────────────
+//
+// Every colour is a theme token, so the page follows the site's dark and light
+// setting. The ground is the page background tinted a little toward the
+// premium wash: cream on paper, a warm near-black on the AMOLED ground.
+
+const CHAT_CSS = `
+/* The chat is a full-screen app. With the footer below it the window could
+   scroll, which slid the sidebar under the fixed navbar; the footer is already
+   hidden here on phones, and now on every width. */
+.site-footer--chat { display: none !important; }
+/* <main> keeps a 100vh floor for ordinary pages; under the chat it added a
+   second screen's worth of scroll on phones, where the body is also padded
+   for the bottom tab bar. This stylesheet only exists on /chat. */
+.ho-main { min-height: 0 !important; }
+
+.ch-wrap {
+  --ch-ground: color-mix(in srgb, var(--premium-wash) 45%, var(--bg));
+  --ch-card: var(--bg-raised);
+  --ch-soft: color-mix(in srgb, var(--text) 3%, var(--bg-raised));
+  display: flex;
+  gap: var(--space-4);
+  /* The layout pads <main> 90px for a navbar that is 67px tall, which left a
+     strip of plain ground above the page. Pulled up to meet the navbar. */
+  margin-top: -23px;
+  height: calc(100dvh - 67px);
+  padding: 0 var(--space-4) var(--space-4);
+  background: var(--ch-ground);
+  font-family: var(--font-body);
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+}
+.ch-wrap button, .ch-wrap input, .ch-wrap textarea, .ch-wrap select { font-family: var(--font-body); }
+
+/* ── Buttons ── */
+.ch-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-height: 40px; padding: 0 var(--space-4);
+  border-radius: var(--radius-md); border: 1px solid transparent;
+  font-size: 0.86rem; font-weight: 600; cursor: pointer; text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.ch-btn-solid { background: var(--text); color: var(--bg); }
+.ch-btn-solid:hover { background: color-mix(in srgb, var(--text) 85%, var(--bg)); }
+.ch-btn-line { background: var(--ch-card); color: var(--text); border-color: var(--border2); }
+.ch-btn-line:hover { border-color: var(--border3); }
+.ch-btn-line.on { border-color: var(--accent); color: var(--accent-text); background: var(--accent-dim); }
+.ch-btn-sm { min-height: 32px; padding: 0 var(--space-3); font-size: 0.8rem; font-weight: 500; }
+.ch-btn-wide { width: 100%; }
+.ch-btn:disabled { opacity: 0.5; cursor: wait; }
+.ch-link-btn {
+  background: none; border: none; padding: var(--space-1) 0; cursor: pointer;
+  color: var(--text2); font-size: 0.84rem; display: inline-flex; align-items: center; gap: var(--space-2);
+}
+.ch-link-btn:hover { color: var(--text); }
+.ch-icon-btn {
+  width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm); border: none; background: none; color: var(--text3); cursor: pointer;
+}
+.ch-icon-btn:hover, .ch-icon-btn.on { color: var(--text); background: var(--ch-soft); }
+.ch-premium { color: var(--premium-text); margin-left: var(--space-1); font-size: 0.8em; }
+
+/* ── Sidebar ── */
+.ch-side { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; min-height: 0; }
+.ch-side-inner { display: flex; flex-direction: column; gap: var(--space-3); height: 100%; min-height: 0; padding-top: var(--space-4); overflow-y: auto; scrollbar-width: thin; }
+.ch-side-search {
+  display: flex; align-items: center; gap: var(--space-2);
+  height: 40px; padding: 0 var(--space-3);
+  background: var(--ch-card); border: 1px solid var(--border2); border-radius: var(--radius-md);
+  color: var(--text3);
+}
+.ch-side-search input { flex: 1; min-width: 0; border: none; background: none; outline: none; color: var(--text); font-size: 0.88rem; }
+.ch-side-search input::placeholder { color: var(--text3); }
+.ch-side-search:focus-within { border-color: var(--border3); }
+.ch-side-actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.ch-side-actions .ch-btn { padding: 0 var(--space-2); font-size: 0.82rem; }
+.ch-side-rule { border-top: 1px dashed var(--border2); }
+.ch-side-chats { flex: 1 1 auto; min-height: 140px; overflow-y: auto; margin: 0 calc(-1 * var(--space-2)); padding: 0 var(--space-2); }
+.ch-side-label { font-size: 0.8rem; color: var(--text3); margin: var(--space-1) 0 var(--space-2); }
+.ch-side-empty { font-size: 0.82rem; color: var(--text3); line-height: 1.6; padding: var(--space-2) 0; }
+.ch-side-group { margin-bottom: var(--space-1); }
+.ch-side-group-head {
+  width: 100%; display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-2); border: none; background: none; border-radius: var(--radius-sm);
+  color: var(--text); cursor: pointer; text-align: left;
+}
+.ch-side-group-head:hover { background: var(--ch-soft); }
+.ch-side-group-icon { display: inline-flex; }
+.ch-side-group-title { flex: 1; min-width: 0; font-size: 0.86rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ch-side-group-count { font-size: 0.72rem; color: var(--text3); }
+.ch-side-chev { display: inline-flex; color: var(--text3); transition: transform 0.15s; }
+.ch-side-chev.open { transform: rotate(180deg); }
+.ch-side-group-items { margin: var(--space-1) 0 var(--space-2) var(--space-4); padding-left: var(--space-2); border-left: 1px dashed var(--border2); }
+.ch-side-chat {
+  position: relative; padding: var(--space-2) var(--space-6) var(--space-2) var(--space-3);
+  border-radius: var(--radius-md); border: 1px solid transparent; cursor: pointer;
+}
+.ch-side-chat:hover { background: var(--ch-soft); }
+.ch-side-chat.active { background: var(--ch-card); border-color: var(--border); }
+.ch-side-chat-title { font-size: 0.82rem; line-height: 1.45; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ch-side-chat-date { font-size: 0.72rem; color: var(--text3); margin-top: var(--space-1); }
+.ch-side-chat-del {
+  position: absolute; top: var(--space-2); right: var(--space-2);
+  width: 20px; height: 20px; display: none; align-items: center; justify-content: center;
+  border: none; background: none; color: var(--text3); cursor: pointer; border-radius: var(--radius-xs);
+}
+.ch-side-chat:hover .ch-side-chat-del, .ch-side-chat:focus-within .ch-side-chat-del { display: inline-flex; }
+.ch-side-chat-del:hover { color: var(--danger-text); background: var(--ch-soft); }
+.ch-side-nav { display: flex; flex-direction: column; }
+.ch-side-nav a {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-2); border-radius: var(--radius-sm);
+  color: var(--text); text-decoration: none; font-size: 0.9rem;
+}
+.ch-side-nav a:hover { background: var(--ch-soft); }
+.ch-side-nav a svg { color: var(--text2); }
+.ch-side-badge {
+  margin-left: auto; min-width: 22px; height: 22px; padding: 0 var(--space-1);
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border2); border-radius: var(--radius-sm); background: var(--ch-card);
+  font-size: 0.74rem; color: var(--text);
+}
+.ch-side-card {
+  background: var(--ch-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);
+  padding: var(--space-4);
+}
+.ch-ring { position: relative; width: 64px; height: 64px; margin-bottom: var(--space-3); }
+.ch-ring span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 600; }
+.ch-side-card-title { font-size: 0.92rem; font-weight: 700; margin-bottom: var(--space-1); }
+.ch-side-card-text { font-size: 0.8rem; line-height: 1.55; color: var(--text2); }
+.ch-side-card-link { display: inline-block; margin-top: var(--space-3); font-size: 0.84rem; font-weight: 600; color: var(--text); text-decoration: none; }
+.ch-side-card-link:hover { text-decoration: underline; }
+.ch-side-user {
+  display: flex; align-items: center; gap: var(--space-3);
+  background: var(--ch-card); border: 1px solid var(--border); border-radius: var(--radius-2xl);
+  padding: var(--space-3);
+}
+.ch-side-user-wait { height: 64px; }
+.ch-side-avatar { position: relative; width: 40px; height: 40px; flex-shrink: 0; }
+.ch-side-avatar img, .ch-side-avatar > span {
+  width: 40px; height: 40px; border-radius: var(--radius-circle); object-fit: cover;
+  display: flex; align-items: center; justify-content: center; background: var(--ch-soft); font-weight: 700;
+}
+.ch-side-online {
+  position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; border-radius: var(--radius-circle);
+  background: var(--success-text); border: 2px solid var(--ch-card);
+}
+.ch-side-user-text { display: flex; flex-direction: column; min-width: 0; }
+.ch-side-user-text strong { font-size: 0.86rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ch-side-user-text span { font-size: 0.78rem; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ch-side-signin { min-height: 48px; width: 100%; }
+
+/* ── Main panel ── */
+.ch-main {
+  flex: 1; min-width: 0; display: flex; flex-direction: column;
+  background: var(--ch-card); border: 1px solid var(--border); border-radius: var(--radius-xl);
+  margin-top: var(--space-4); overflow: hidden; position: relative;
+}
+.ch-mobilebar { display: none; }
+.ch-scroll { flex: 1; min-height: 0; overflow-y: auto; position: relative; overscroll-behavior: contain; }
+.ch-side-inner, .ch-panel-body, .ch-pyq-list, .ch-menu { overscroll-behavior: contain; }
+
+/* ── Start screen ── */
+.ch-start {
+  height: 100%; max-width: 760px; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center;
+  padding: clamp(12px, 3vh, 40px) var(--space-6) 0;
+  text-align: center;
+}
+/* Centred with auto margins rather than justify-content, because auto margins
+   fall back to zero when the content is taller than the panel; centring would
+   push the top of it out of reach. */
+.ch-start > :first-child { margin-top: auto; }
+.ch-start > :last-child { margin-bottom: auto; }
+/* Sized off the window height, so the whole start screen fits a laptop
+   screen on first load instead of opening half-scrolled. */
+.ch-start-owl { width: auto; height: clamp(64px, 13vh, 150px); margin-bottom: clamp(4px, 1vh, 16px); flex-shrink: 0; }
+.ch-start h1 { font-family: var(--font-body); font-size: clamp(1.45rem, 3.8vh, 2rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; margin: 0 0 clamp(4px, 1vh, 12px); color: var(--text); }
+.ch-start > p { font-size: clamp(0.88rem, 2.1vh, 1.02rem); line-height: 1.65; color: var(--text2); max-width: 620px; margin: 0 0 clamp(8px, 2.5vh, 32px); }
+.ch-restart { margin-bottom: var(--space-4); }
+/* When the screen runs short the card is what gives way: its list scrolls
+   inside it, down to one visible row, and Previous, Next and the input stay
+   on screen. */
+.ch-flow .ch-chips, .ch-flow .ch-pyq-list { flex: 0 1 auto; min-height: 42px; overflow-y: auto; overscroll-behavior: contain; }
+/* The topic list and the PYQs are the long ones; they keep at least three
+   rows of chips, or a question and a half, in view. */
+.ch-flow .ch-chips.long, .ch-flow .ch-pyq-list { min-height: 120px; }
+.ch-flow-head, .ch-tabs, .ch-flow-nav { flex-shrink: 0; }
+.ch-start > h1, .ch-start > p, .ch-start > .ch-composer, .ch-restart { flex-shrink: 0; }
+/* The owl and the introduction hold still while the flow is used; only the
+   card's list gives way on a short window. */
+.ch-start > p { flex-shrink: 0; }
+/* The flow can grow taller than the panel (a topic list, a page of PYQs);
+   the input stays pinned in reach while it scrolls. */
+.ch-start > .ch-composer {
+  position: sticky; bottom: 0; z-index: 2;
+  padding: var(--space-2) 0 clamp(8px, 2vh, 32px);
+  background: linear-gradient(to top, var(--ch-card) 85%, transparent);
+}
+
+/* ── Guided flow ── */
+.ch-flow {
+  width: 100%; text-align: left;
+  display: flex; flex-direction: column; min-height: 0;
+  background: var(--ch-soft); border: 1px solid var(--border); border-radius: var(--radius-xl);
+  padding: clamp(10px, 2vh, 20px) var(--space-5);
+  margin-bottom: var(--space-1);
+}
+.ch-flow-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: clamp(6px, 1.4vh, 16px); }
+.ch-flow-q { font-size: 0.94rem; color: var(--text); }
+.ch-flow-count { font-size: 0.76rem; color: var(--text3); }
+.ch-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.ch-chip {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-1) var(--space-3); min-height: 34px;
+  background: var(--ch-card); color: var(--text);
+  border: 1px solid var(--border2); border-radius: var(--radius-sm);
+  font-size: 0.86rem; cursor: pointer; text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ch-chip:hover { border-color: var(--border3); }
+.ch-chip.on:not(.multi) { background: var(--text); color: var(--bg); border-color: var(--text); }
+.ch-chip.multi.on { border-color: var(--border3); }
+.ch-chip-box {
+  width: 18px; height: 18px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--border3); border-radius: var(--radius-xs); color: var(--bg);
+}
+.ch-chip.on .ch-chip-box { background: var(--text); border-color: var(--text); }
+.ch-chip-premium { color: var(--premium-text); font-size: 0.8em; }
+.ch-chip.on .ch-chip-premium { color: inherit; }
+.ch-tabs { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-bottom: var(--space-3); border-bottom: 1px solid var(--border); }
+.ch-tab {
+  position: relative; padding: var(--space-2) var(--space-3); margin-bottom: -1px;
+  border: none; border-bottom: 2px solid transparent; background: none;
+  color: var(--text3); font-size: 0.84rem; cursor: pointer;
+}
+.ch-tab:hover { color: var(--text); }
+.ch-tab.on { color: var(--text); font-weight: 600; }
+.ch-tab.on[data-section="Ancient India"] { border-bottom-color: var(--ancient-text); }
+.ch-tab.on[data-section="Medieval India"] { border-bottom-color: var(--medieval-text); }
+.ch-tab.on[data-section="Modern India"] { border-bottom-color: var(--modern-text); }
+.ch-tab.on[data-section="World History"] { border-bottom-color: var(--world-text); }
+.ch-tab-dot { display: inline-block; width: 6px; height: 6px; border-radius: var(--radius-circle); background: var(--text); margin-left: var(--space-1); vertical-align: middle; }
+.ch-flow-nav { display: flex; align-items: center; justify-content: space-between; margin-top: clamp(6px, 1.4vh, 16px); }
+.ch-prev { background: none; border: none; display: inline-flex; align-items: center; gap: var(--space-2); color: var(--text2); font-size: 0.9rem; cursor: pointer; padding: var(--space-2); }
+.ch-prev:hover { color: var(--text); }
+.ch-next {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  min-height: 38px; padding: 0 var(--space-4);
+  background: var(--ch-card); color: var(--text);
+  border: 1px solid var(--border2); border-radius: var(--radius-md);
+  font-size: 0.9rem; font-weight: 600; cursor: pointer;
+}
+.ch-next:hover:not(:disabled) { border-color: var(--border3); }
+.ch-next:disabled { opacity: 0.45; cursor: not-allowed; }
+.ch-flow-empty { font-size: 0.88rem; color: var(--text2); line-height: 1.6; }
+.ch-pyq-list { display: flex; flex-direction: column; gap: var(--space-2); overflow-y: auto; padding-right: var(--space-1); }
+.ch-pyq {
+  display: flex; flex-direction: column; gap: var(--space-1); text-align: left;
+  padding: var(--space-3); background: var(--ch-card); color: var(--text);
+  border: 1px solid var(--border2); border-radius: var(--radius-md); cursor: pointer;
+}
+.ch-pyq:hover { border-color: var(--border3); }
+.ch-pyq.on { border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
+.ch-pyq-meta { font-size: 0.74rem; color: var(--text3); }
+.ch-pyq-text { font-size: 0.86rem; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+@media (max-height: 800px) {
+  .ch-pyq { padding: var(--space-2) var(--space-3); gap: 2px; }
+  .ch-pyq-text { -webkit-line-clamp: 2; }
+}
+.ch-pyq-skel { height: 64px; border-radius: var(--radius-md); background: var(--ch-card); border: 1px solid var(--border); animation: chPulse 1.2s ease-in-out infinite; }
+@keyframes chPulse { 50% { opacity: 0.55; } }
+
+/* ── Composer ── */
+.ch-composer { width: 100%; text-align: left; }
+.ch-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-2); }
+.ch-tag {
+  display: inline-flex; align-items: center; gap: var(--space-2); max-width: 100%;
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-3);
+  background: var(--ch-soft); border: 1px solid var(--border); border-radius: var(--radius-pill);
+  font-size: 0.8rem; color: var(--text);
+}
+.ch-tag select { border: none; background: none; color: var(--text); font-size: 0.8rem; max-width: 220px; cursor: pointer; outline: none; }
+.ch-tag button { border: none; background: none; color: var(--text3); cursor: pointer; font-size: 0.72rem; padding: 0 var(--space-1); }
+.ch-tag button:hover { color: var(--text); }
+.ch-tag-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
+.ch-input {
+  display: flex; align-items: flex-end; gap: var(--space-2);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  background: var(--ch-card); border: 2px solid var(--border); border-radius: var(--radius-xl);
+  box-shadow: var(--elev-2);
+  transition: border-color 0.2s;
+}
+.ch-input:focus-within { border-color: var(--border3); }
+.ch-input.lit {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--ch-card), var(--ch-card)) padding-box,
+    linear-gradient(100deg, var(--medieval-text), var(--accent) 30%, var(--premium-text) 62%, var(--danger-text)) border-box;
+}
+.ch-input-icon { color: var(--text3); display: inline-flex; padding-bottom: var(--space-2); }
+.ch-textarea {
+  flex: 1; min-width: 0; border: none; outline: none; resize: none; background: none;
+  color: var(--text); font-size: 1rem; line-height: 1.55;
+  padding: var(--space-1) 0; min-height: 36px; max-height: 200px;
+}
+.ch-textarea::placeholder { color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ch-tools { position: relative; }
+.ch-send {
+  width: 36px; height: 36px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--ch-card); color: var(--text3);
+  border: 1px solid var(--border2); border-radius: var(--radius-md); cursor: not-allowed;
+  transition: background 0.15s, color 0.15s;
+}
+.ch-send.ready { background: var(--text); color: var(--bg); border-color: var(--text); cursor: pointer; }
+.ch-usage { font-size: 0.78rem; color: var(--text3); margin-top: var(--space-1); }
+.ch-usage strong { color: var(--text); }
+.ch-usage-out { color: var(--danger-text); }
+
+/* ── Tools menu ── */
+.ch-menu-scrim { position: fixed; inset: 0; z-index: 40; }
+.ch-menu {
+  position: absolute; right: 0; bottom: calc(100% + var(--space-3)); z-index: 41;
+  width: 300px; max-height: min(520px, 70vh); overflow-y: auto;
+  background: var(--ch-card); border: 1px solid var(--border2); border-radius: var(--radius-xl);
+  box-shadow: var(--elev-3); padding: var(--space-2);
+}
+.ch-menu-label { font-size: 0.74rem; color: var(--text3); padding: var(--space-3) var(--space-2) var(--space-1); }
+.ch-menu-note { font-size: 0.74rem; color: var(--text3); padding: 0 var(--space-2) var(--space-1); }
+.ch-menu-item {
+  width: 100%; display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-2); border: none; background: none; border-radius: var(--radius-md);
+  color: var(--text); text-align: left; cursor: pointer;
+}
+.ch-menu-item:hover:not(:disabled) { background: var(--ch-soft); }
+.ch-menu-item:disabled { opacity: 0.45; cursor: not-allowed; }
+.ch-menu-text { display: flex; flex-direction: column; gap: 2px; }
+.ch-menu-text strong { font-size: 0.86rem; font-weight: 600; }
+.ch-menu-text span { font-size: 0.76rem; color: var(--text3); line-height: 1.4; }
+.ch-menu-radio, .ch-menu-check {
+  width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;
+  border: 1.5px solid var(--border3);
+}
+.ch-menu-radio { border-radius: var(--radius-circle); }
+.ch-menu-check { border-radius: var(--radius-xs); }
+.ch-menu-item.on .ch-menu-radio { border: 5px solid var(--text); }
+.ch-menu-item.on .ch-menu-check { background: var(--text); border-color: var(--text); box-shadow: inset 0 0 0 3px var(--ch-card); }
+.ch-menu-icon { display: inline-flex; color: var(--text2); margin-top: 1px; }
+
+/* ── Conversation ── */
+.ch-thread { max-width: 780px; margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-6); }
+.ch-dock { padding: var(--space-3) var(--space-6) var(--space-4); max-width: 780px; width: 100%; margin: 0 auto; }
+.ch-user { display: flex; justify-content: flex-end; margin-bottom: var(--space-8); }
+.ch-user span {
+  max-width: min(480px, 85%);
+  background: var(--ch-card); border: 1px solid var(--border2); border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4); font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+}
+.ch-ai { margin-bottom: var(--space-10); }
+.ch-answer-text { font-size: 0.98rem; line-height: 1.8; color: var(--text); word-break: break-word; }
+.ch-answer-text p { margin: 0 0 var(--space-3); }
+.ch-answer-text strong { font-weight: 700; }
+.ch-answer-text em { color: var(--text2); }
+.ch-answer-text br + br { display: none; }
+/* A <br> straight after a heading or bullet block draws an empty line. */
+.ch-answer-text div + br { display: none; }
+.chat-msg-h1 { font-size: 1.12rem; font-weight: 700; margin: var(--space-6) 0 var(--space-2); line-height: 1.4; }
+.chat-msg-h1:first-child, .chat-msg-h2:first-child, .chat-msg-h3:first-child { margin-top: 0; }
+.chat-msg-h2 { font-size: 1.04rem; font-weight: 700; margin: var(--space-5) 0 var(--space-2); line-height: 1.4; }
+.chat-msg-h3 {
+  font-size: 0.98rem; font-weight: 700; margin: var(--space-5) 0 var(--space-1); line-height: 1.45;
+  padding-left: var(--space-3); border-left: 3px solid var(--accent);
+}
+.chat-bullet { display: flex; align-items: flex-start; gap: var(--space-3); margin: var(--space-1) 0; }
+.chat-bullet-dot { width: 6px; height: 6px; border-radius: var(--radius-circle); background: var(--text3); flex-shrink: 0; margin-top: 0.72em; }
+.chat-bullet span:last-child { flex: 1; }
+.chat-para-gap { height: var(--space-3); }
+.chat-hr { height: 1px; background: var(--border); margin: var(--space-5) 0; }
+.chat-table-wrap { overflow-x: auto; margin: var(--space-4) 0; border: 1px solid var(--border); border-radius: var(--radius-md); }
+.chat-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.chat-table th { background: var(--ch-soft); padding: var(--space-2) var(--space-3); text-align: left; font-weight: 700; border-bottom: 1px solid var(--border); }
+.chat-table td { padding: var(--space-2) var(--space-3); border-top: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+.chat-citation { color: var(--accent-text); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.ch-ai-actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
+
+/* Mentor answers keep their sections, in the page's tokens. */
+.ch-mentor { display: flex; flex-direction: column; gap: var(--space-3); }
+.ch-mentor-tag { display: flex; align-items: center; gap: var(--space-2); font-size: 0.78rem; }
+.ch-mentor-tag > span:first-child { padding: 2px var(--space-2); border-radius: var(--radius-pill); background: var(--premium-wash); color: var(--premium-text); border: 1px solid color-mix(in srgb, var(--premium-text) 30%, transparent); }
+.ch-mentor-live { color: var(--text3); }
+.ch-mentor-section { border: 1px solid; border-radius: var(--radius-lg); padding: var(--space-3) var(--space-4); }
+.ch-mentor-section-head { display: flex; align-items: center; gap: var(--space-2); font-size: 0.8rem; font-weight: 700; margin-bottom: var(--space-2); }
+.ch-mentor-blueprints { display: flex; flex-direction: column; gap: var(--space-2); }
+.ch-mentor-option { border-left: 3px solid; border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); }
+
+/* ── Sources card ── */
+.ch-sources-card {
+  width: 100%; display: flex; align-items: center; gap: var(--space-4);
+  margin-top: var(--space-5); padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3);
+  background: var(--ch-soft); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  color: var(--text); text-align: left; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.ch-sources-card:hover { border-color: var(--border3); }
+.ch-sources-card.on { border-color: var(--premium-text); }
+.ch-sources-thumb { display: inline-flex; padding: var(--space-2); background: var(--ch-card); border: 1px solid var(--border); border-radius: var(--radius-md); }
+.ch-sources-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ch-sources-text strong { font-size: 0.92rem; }
+.ch-sources-text span { font-size: 0.82rem; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ch-sources-go { width: 32px; height: 32px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--border2); border-radius: var(--radius-circle); color: var(--text2); background: var(--ch-card); }
+
+/* ── Worth knowing ── */
+.ch-worth {
+  margin-top: var(--space-5); padding: var(--space-4);
+  background: color-mix(in srgb, var(--premium-wash) 65%, var(--ch-card));
+  border: 1px solid color-mix(in srgb, var(--premium-text) 25%, transparent);
+  border-radius: var(--radius-lg);
+}
+.ch-worth-head { display: flex; align-items: center; gap: var(--space-2); font-size: 0.9rem; font-weight: 700; margin-bottom: var(--space-2); }
+.ch-worth-head svg { color: var(--premium-text); }
+.ch-worth-item { padding: var(--space-3) 0; border-top: 1px dashed color-mix(in srgb, var(--premium-text) 30%, transparent); }
+.ch-worth-item:first-of-type { border-top: none; padding-top: var(--space-1); }
+.ch-worth-item p { margin: 0 0 var(--space-2); font-size: 0.88rem; line-height: 1.6; color: var(--text); }
+
+/* ── Follow-ups ── */
+.ch-follow { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); margin-top: var(--space-5); }
+.ch-follow-btn {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--ch-card); color: var(--text);
+  border: 1px solid var(--border2); border-radius: var(--radius-md);
+  font-size: 0.86rem; cursor: pointer; text-align: left;
+}
+.ch-follow-btn svg { color: var(--text3); flex-shrink: 0; }
+.ch-follow-btn:hover { border-color: var(--border3); }
+
+/* ── Thinking ── */
+.ch-thinking { display: flex; align-items: center; gap: var(--space-5); margin-bottom: var(--space-10); }
+.ch-thinking-owl { width: 72px; height: auto; flex-shrink: 0; }
+.ch-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.ch-steps li { display: flex; align-items: center; gap: var(--space-2); font-size: 0.9rem; color: var(--text2); }
+.ch-step-done { color: var(--success-text); flex-shrink: 0; }
+.ch-step-spin { color: var(--text2); flex-shrink: 0; animation: chSpin 1.1s linear infinite; }
+@keyframes chSpin { to { transform: rotate(360deg); } }
+
+/* ── Side panel ── */
+.ch-panel {
+  width: 420px; flex-shrink: 0; margin-top: var(--space-4);
+  background: var(--ch-card); border: 1px solid var(--border); border-radius: var(--radius-xl);
+  display: flex; flex-direction: column; min-height: 0; overflow: hidden;
+}
+.ch-panel-scrim { display: none; }
+.ch-panel-inner { display: flex; flex-direction: column; min-height: 0; height: 100%; }
+.ch-panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); padding: var(--space-5) var(--space-5) var(--space-4); border-bottom: 1px solid var(--border); }
+.ch-panel-title { font-size: 1.12rem; font-weight: 700; }
+.ch-panel-sub { font-size: 0.82rem; color: var(--text2); margin-top: var(--space-1); }
+.ch-panel-body { flex: 1; min-height: 0; overflow-y: auto; padding: var(--space-4) var(--space-5) var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+.ch-source, .ch-panel-pyq { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4); scroll-margin-top: var(--space-4); }
+.ch-source.on { border-color: var(--premium-text); background: color-mix(in srgb, var(--premium-wash) 45%, var(--ch-card)); }
+.ch-source-head { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
+.ch-source-n { font-size: 0.74rem; color: var(--text3); }
+.ch-source-book { font-size: 0.88rem; font-weight: 700; }
+.ch-source-author { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
+.ch-source p, .ch-panel-pyq p { margin: var(--space-2) 0 0; font-size: 0.86rem; line-height: 1.7; color: var(--text2); }
+.ch-panel-pyq p { color: var(--text); margin-bottom: var(--space-3); }
+.ch-panel-pyq-meta { display: flex; gap: var(--space-2); font-size: 0.74rem; color: var(--text3); }
+.ch-panel-pyq-meta span + span::before { content: '·'; margin-right: var(--space-2); }
+
+/* ── Overlays ── */
+.ch-drop {
+  position: absolute; inset: var(--space-4); z-index: 60;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2);
+  border: 2px dashed var(--accent); border-radius: var(--radius-xl);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-raised)); color: var(--accent-text);
+  pointer-events: none;
+}
+.ch-scrim { display: none; }
+.ch-modal-scrim { position: fixed; inset: 0; z-index: 1000; background: color-mix(in srgb, var(--bg) 70%, transparent); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: var(--space-4); }
+.ch-modal {
+  width: 100%; max-width: 360px; text-align: center;
+  background: var(--ch-card); border: 1px solid var(--border2); border-radius: var(--radius-xl);
+  box-shadow: var(--elev-3); padding: var(--space-6);
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-3);
+}
+.ch-modal-title { font-size: 1.15rem; font-weight: 700; }
+.ch-modal p { margin: 0; font-size: 0.88rem; line-height: 1.6; color: var(--text2); }
+
+/* ── Narrower desktops: the panel floats over the chat ── */
+@media (max-width: 1279px) {
+  .ch-panel {
+    position: absolute; top: 0; right: var(--space-4); bottom: var(--space-4); z-index: 50;
+    width: min(440px, calc(100% - var(--space-8)));
+    box-shadow: var(--elev-3);
+  }
+  .ch-panel-scrim { display: block; position: absolute; inset: 0; z-index: 49; background: color-mix(in srgb, var(--bg) 40%, transparent); }
+}
+
+/* ── Tablet and phone: the sidebar becomes a drawer ── */
+@media (max-width: 899px) {
+  .ch-wrap { padding: 0; gap: 0; }
+  .ch-main { margin-top: 0; border-radius: 0; border: none; border-top: 1px solid var(--border); }
+  .ch-side {
+    position: fixed; top: 0; left: 0; bottom: 0; z-index: 1350;
+    width: min(320px, 86vw); padding: 0 var(--space-4) var(--space-4);
+    background: var(--ch-ground); border-right: 1px solid var(--border);
+    transform: translateX(-100%); transition: transform 0.2s ease;
+    box-shadow: var(--elev-3);
+  }
+  .ch-side.open { transform: none; }
+  .ch-scrim { display: block; position: fixed; inset: 0; z-index: 1340; background: color-mix(in srgb, var(--bg) 55%, transparent); }
+  .ch-mobilebar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border); }
+  .ch-mobilebar-title { font-size: 0.9rem; font-weight: 600; }
+  .ch-panel { top: 0; right: 0; bottom: 0; width: 100%; margin: 0; border-radius: 0; border: none; }
+}
+
+@media (max-width: 768px) {
+  .ch-wrap { height: calc(100dvh - 67px - 64px - env(safe-area-inset-bottom, 0px)); }
+  .ch-side-chats { flex: none; min-height: 0; overflow: visible; }
+  .ch-side { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  .ch-start { justify-content: flex-start; padding: var(--space-5) var(--space-4) 0; }
+  .ch-start-owl { height: clamp(64px, 11vh, 104px); }
+  .ch-start h1 { font-size: 1.45rem; }
+  .ch-flow { padding: var(--space-4); }
+  .ch-chip { font-size: 0.82rem; min-height: 32px; padding: var(--space-1) var(--space-2); }
+  .ch-textarea { max-height: 104px; }
+  .ch-thread { padding: var(--space-5) var(--space-4); }
+  .ch-dock { padding: var(--space-2) var(--space-3) var(--space-3); }
+  .ch-menu { position: fixed; left: var(--space-3); right: var(--space-3); bottom: calc(64px + env(safe-area-inset-bottom, 0px) + var(--space-3)); width: auto; }
+  .ch-thinking { gap: var(--space-3); }
+  .ch-thinking-owl { width: 56px; }
+}
+
+/* On the start screen a long question (a picked PYQ runs to several lines)
+   scrolls inside the input instead of pushing the flow's buttons off the
+   panel; the full text is in the picker above it anyway. */
+.ch-start .ch-textarea { max-height: 104px; }
+@media (max-height: 760px) {
+  .ch-start .ch-textarea { max-height: 56px; }
+  .ch-wrap { padding-bottom: var(--space-3); }
+  .ch-main, .ch-panel { margin-top: var(--space-3); }
+  .ch-start > .ch-composer { padding-bottom: var(--space-2); }
+  .ch-flow { padding: var(--space-2-5) var(--space-4); }
+}
+
+/* Shorter windows: the syllabus card sits ring-beside-text, so the sidebar
+   fits without scrolling on a 13-inch laptop. */
+@media (max-height: 860px) and (min-width: 900px) {
+  .ch-side-inner { gap: var(--space-2); padding-top: var(--space-3); }
+  .ch-side-chats { min-height: 96px; }
+  .ch-side-nav a { padding: 6px var(--space-2); }
+  .ch-side-card { display: grid; grid-template-columns: 48px 1fr; column-gap: var(--space-3); align-items: center; padding: var(--space-3); }
+  .ch-ring { width: 48px; height: 48px; margin: 0; grid-row: span 2; }
+  .ch-ring svg { width: 48px; height: 48px; }
+  .ch-side-card-title { margin: 0; font-size: 0.86rem; }
+  .ch-side-card-text { display: none; }
+  .ch-side-card-link { margin-top: 2px; font-size: 0.8rem; }
+  .ch-side-signin, .ch-side-user-wait { min-height: 44px; height: 44px; }
+  .ch-side-user { padding: var(--space-2) var(--space-3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch-step-spin, .ch-pyq-skel { animation: none; }
+  .ch-side { transition: none; }
+}
+`;
