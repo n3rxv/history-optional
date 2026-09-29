@@ -102,9 +102,11 @@ function AnswerLocked({ langHi }: { langHi: boolean }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem', alignItems: 'flex-start' }}>
       <div style={{ fontSize: '0.92rem', lineHeight: 1.8, color: 'var(--text)' }}>
+        {/* The panel shows on the card that was refused, not on the last one
+            granted, so it must not claim this was the hundredth answer. */}
         {langHi
-          ? 'आपके 100 निःशुल्क उत्तर पूरे हो गए। प्रश्न पढ़ते रहना निःशुल्क है — उत्तर देखने के लिए सदस्यता लें।'
-          : 'That was your 100th free answer. Questions stay free to browse — subscribe to keep opening answers.'}
+          ? 'आपके 100 निःशुल्क उत्तर पूरे हो चुके हैं। प्रश्न पढ़ते रहना निःशुल्क है — उत्तर देखने के लिए सदस्यता लें।'
+          : "You've used all 100 free answers. Questions stay free to browse — subscribe to keep opening answers."}
       </div>
       <a
         href="/pricing"
