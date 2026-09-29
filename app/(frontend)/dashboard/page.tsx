@@ -5,6 +5,9 @@ import { useEffect, useState, useMemo } from 'react';
 import { paper1Notes, paper2Notes, paper1Sections, paper2Sections } from '@/lib/notes';
 import { useSyllabusTracker } from '@/hooks/useSyllabusTracker';
 import { loadHistory, AnswerEntry } from '@/hooks/useAnswerHistory';
+// Ranges, not the questions themselves: lib/pyqData.ts is 608 KB of question
+// text and this page needs to know which section an id falls in, nothing more.
+import { PYQ_SECTION_TOTALS, PYQ_TOTAL, sectionForPyq } from '@/lib/pyqSectionRanges';
 
 const ALL_NOTES = [...paper1Notes, ...paper2Notes];
 const TOTAL = ALL_NOTES.length;
@@ -70,6 +73,55 @@ function loadFlashStats(): FlashStats {
     due: entries.filter((e) => e.nextDue <= now).length,
     recall: graded.length ? Math.round((recalled / graded.length) * 100) : null,
     lastSession,
+  };
+}
+
+/**
+ * How much of the PYQ set the reader has attempted, by section.
+ *
+ * The ticks live in ho_pyq_attempted_v1 as id -> date, which says nothing
+ * about which paper a question belongs to, so ids are bucketed through the
+ * generated range table.
+ */
+type PyqCoverage = {
+  attempted: number;
+  total: number;
+  sections: { section: string; attempted: number; total: number }[];
+};
+
+function loadPyqCoverage(): PyqCoverage {
+  const sections = Object.entries(PYQ_SECTION_TOTALS).map(([section, total]) => ({
+    section, attempted: 0, total,
+  }));
+  const empty: PyqCoverage = { attempted: 0, total: PYQ_TOTAL, sections };
+  if (typeof window === 'undefined') return empty;
+
+  let raw: unknown;
+  try { raw = JSON.parse(localStorage.getItem('ho_pyq_attempted_v1') ?? '{}'); } catch { return empty; }
+
+  // The hook accepts an older array shape as well as the current map, so this
+  // reader has to take both or a long-standing reader reads as zero.
+  const ids = Array.isArray(raw)
+    ? raw.filter((v): v is number => typeof v === 'number')
+    : raw && typeof raw === 'object'
+    ? Object.keys(raw).map(Number).filter((n) => Number.isFinite(n))
+    : [];
+
+  const perSection = new Map(sections.map((s) => [s.section, 0]));
+  let attempted = 0;
+  for (const id of ids) {
+    const sec = sectionForPyq(id);
+    // An id from a question that no longer exists is not counted, so a stale
+    // tick cannot push a section above its own total.
+    if (sec === null || !perSection.has(sec)) continue;
+    perSection.set(sec, (perSection.get(sec) ?? 0) + 1);
+    attempted += 1;
+  }
+
+  return {
+    attempted,
+    total: PYQ_TOTAL,
+    sections: sections.map((s) => ({ ...s, attempted: perSection.get(s.section) ?? 0 })),
   };
 }
 
@@ -177,6 +229,7 @@ function Heatmap({ activityMap }: { activityMap: Record<string, number> }) {
 export default function Dashboard() {
   const { countCompleted, mounted, progress } = useSyllabusTracker();
   const [flash, setFlash] = useState<FlashStats | null>(null);
+  const [pyq, setPyq] = useState<PyqCoverage | null>(null);
   const { langHi } = useLang();
   const [streak, setStreak] = useState(0);
   const [evalHistory, setEvalHistory] = useState<AnswerEntry[]>([]);
@@ -185,6 +238,7 @@ export default function Dashboard() {
     if (!mounted) return;
     setEvalHistory(loadHistory());
     setFlash(loadFlashStats());
+    setPyq(loadPyqCoverage());
     const stored = localStorage.getItem('ho_streak_v1');
     const data = stored ? JSON.parse(stored) : { streak: 0, lastDate: '' };
     setStreak(data.streak);
@@ -442,6 +496,68 @@ export default function Dashboard() {
               {evalStats.topicStats[0].avg < 60 && (
                 <div style={{ marginTop: '0.85rem', fontSize: '0.75rem', color: 'var(--danger-text)', background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 15%, transparent)', borderRadius: 6, padding: '8px 12px' }}>
                   Weakest topic: <span style={{ fontWeight: 600 }}>{evalStats.topicStats[0].title}</span> — focus here next.
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
+      {/* PYQ coverage. For an optional, which past questions you have actually
+          worked through is the measure that predicts the exam; the ticks
+          existed already and nothing reported them. */}
+      {mounted && pyq && (
+        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: 'var(--space-5)', marginBottom: 'var(--space-6)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-4)' }}>
+            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>{langHi ? 'PYQ कवरेज' : 'PYQ Coverage'}</div>
+            <Link href="/pyqs" style={{ fontSize: '0.72rem', color: 'var(--accent)', textDecoration: 'none' }}>{langHi ? 'PYQ देखें →' : 'Browse PYQs →'}</Link>
+          </div>
+
+          {pyq.attempted === 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text2)' }}>
+                {langHi ? 'अभी तक कोई PYQ चिह्नित नहीं।' : 'No PYQs marked as attempted yet.'}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text3)' }}>
+                {langHi
+                  ? `${PYQ_TOTAL} प्रश्न उपलब्ध हैं — हल करने पर उन्हें चिह्नित करें, प्रगति यहाँ दिखेगी।`
+                  : `${PYQ_TOTAL} questions are indexed — tick them as you work through them and coverage shows up here.`}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+                <span style={{ fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--accent)', lineHeight: 1 }}>
+                  {pyq.attempted}
+                </span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text3)' }}>
+                  {langHi ? `/ ${pyq.total} प्रश्न हल किए` : `of ${pyq.total} questions attempted`}
+                </span>
+              </div>
+              <div>
+                {pyq.sections.map(({ section, attempted, total }) => {
+                  const p = total ? attempted / total : 0;
+                  return (
+                    <div key={section} style={{ marginBottom: 8 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text2)' }}>{section}</span>
+                        <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: attempted === 0 ? 'var(--text3)' : 'var(--text2)' }}>
+                          {attempted}/{total}
+                        </span>
+                      </div>
+                      <div style={{ height: 4, background: 'var(--border)', borderRadius: 4, overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: `${p * 100}%`, background: p === 0 ? 'var(--border)' : 'var(--accent)', borderRadius: 4, transition: 'width 0.5s ease' }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              {/* A section with nothing done is worth naming: it is the gap a
+                  percentage across the whole set hides. */}
+              {pyq.sections.some(x => x.attempted === 0) && (
+                <div style={{ fontSize: '0.75rem', color: 'var(--text3)', marginTop: 'var(--space-3)' }}>
+                  {langHi ? 'अछूता: ' : 'Untouched: '}
+                  {pyq.sections.filter(x => x.attempted === 0).map(x => x.section).join(' · ')}
                 </div>
               )}
             </>
