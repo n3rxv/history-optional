@@ -10941,8 +10941,8 @@ export const bookData: BookChapter[] = [
           "location": "Jhelum district (Punjab, Pakistan)",
           "majorAspect": "Rohtas fort constructed by Sher Shah Suri is an early example of Muslim military architecture in Central and South Asia.",
           "pyqYears": [],
-          "lat": 32.9376,
-          "lng": 73.7371,
+          "lat": 32.9631,
+          "lng": 73.5886,
           "name_hi": "रोहतास",
           "location_hi": "झेलम जिला (पंजाब, पाकिस्तान)",
           "majorAspect_hi": "शेर शाह सूरी द्वारा निर्मित रोहतास किला मध्य और दक्षिण एशिया में मुस्लिम सैन्य वास्तुकला का प्रारम्भिक उदाहरण है।"
