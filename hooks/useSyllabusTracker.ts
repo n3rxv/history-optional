@@ -43,6 +43,17 @@ export function useSyllabusTracker() {
   useEffect(() => {
     setProgress(load());
     setMounted(true);
+
+    // Re-read when the store changes underneath us. Two things do that: another
+    // tab of the same site, and components/ProgressSync writing the server's
+    // merged copy after a sign-in. Without this the page keeps rendering the
+    // ticks it loaded on mount, so a reader signing in on a second device sees
+    // their progress arrive only after a reload.
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY) setProgress(load());
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   const toggle = useCallback((slug: string) => {

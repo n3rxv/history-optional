@@ -17,6 +17,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WeeklyCheckup from "@/components/WeeklyCheckup";
 import VisitorTracker from "@/components/VisitorTracker";
+import ProgressSync from '@/components/ProgressSync';
 import PhoneGate from "@/components/PhoneGate";
 import AuthRedirectHandler from "@/components/AuthRedirectHandler";
 import BottomNav from "@/components/BottomNav";
@@ -161,6 +162,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <WeeklyCheckup />
         <AuthRedirectHandler />
         <VisitorTracker />
+        <ProgressSync />
         <PhoneGate />
         <PWARegister />
         <PromoPopup />
