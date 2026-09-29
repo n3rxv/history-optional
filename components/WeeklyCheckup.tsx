@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const FEATURES = [
   'AI Answer Evaluation',
@@ -19,6 +19,12 @@ export default function WeeklyCheckup() {
   const [selected, setSelected] = useState<string[]>([]);
   const [details, setDetails] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  /**
+   * Re-entry guard. State cannot do this job on its own: two clicks landing in
+   * the same React batch both read the old value and both pass the check, so
+   * the flag has to be one a second call sees immediately.
+   */
+  const sent = useRef(false);
 
   useEffect(() => {
     const last = localStorage.getItem('weekly_checkup_last');
@@ -38,18 +44,42 @@ export default function WeeklyCheckup() {
     setVisible(false);
   };
 
-  const allGood = async () => {
+  /**
+   * Answering "all good" used to await the POST before changing anything on
+   * screen, so for the whole round trip the dialog still asked the question
+   * and the button was still live. People tapped again, and a quarter of the
+   * rows this ever wrote were duplicates -- 65 of 262 answers arrived two,
+   * three or five times, 0.1 to 1.3 seconds apart. The sibling button never
+   * duplicated once, because it was disabled while in flight.
+   *
+   * So: refuse a second call, acknowledge immediately, and send in the
+   * background. This is one bit of telemetry, and it is not worth making
+   * somebody watch a spinner for.
+   */
+  const allGood = () => {
+    if (sent.current) return;
+    sent.current = true;
+
     localStorage.setItem('weekly_checkup_last', Date.now().toString());
-    await fetch('/api/contact', {
+    setStep('done');
+    setTimeout(() => setVisible(false), 2000);
+
+    void fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'weekly_checkup', message: 'All features working fine.', name: 'User', email: 'checkup@system' }),
+      keepalive: true,
+    }).catch(() => {
+      // Nothing to tell the reader: they answered, and the answer is a health
+      // check. Losing one is cheaper than putting an error in their way.
     });
-    setStep('done');
-    setTimeout(() => setVisible(false), 2000);
   };
 
   const submitIssues = async () => {
+    // The disabled attribute already covers this, but it is one render behind
+    // a fast second click and the report is worth more than the checkup.
+    if (sent.current || submitting) return;
+    sent.current = true;
     setSubmitting(true);
     await fetch('/api/contact', {
       method: 'POST',
