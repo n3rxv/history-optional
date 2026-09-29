@@ -239,10 +239,27 @@ export default function Dashboard() {
           <div style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text)', marginBottom: '0.3rem' }}>
             {mounted ? `${totalDone} of ${TOTAL} topics completed` : `— of ${TOTAL} topics`}
           </div>
+          {/* One line, chosen by how far along the reader is. Written as three
+              guarded expressions it read `a && b && langHi ? hi : en`, which
+              groups as `(a && b && langHi) ? hi : en` -- so an English reader
+              always fell to the else of every line and saw "Start checking off
+              topics" stacked on top of "31 topics remaining", whatever their
+              actual progress. Hindi readers saw it correctly, which is how it
+              survived. */}
           <div style={{ color: 'var(--text3)', fontSize: '0.82rem', marginBottom: '0.75rem' }}>
-            {mounted && totalDone === 0 && langHi ? 'Paper I और II पृष्ठों पर विषय चिह्नित करना शुरू करें।' : 'Start checking off topics on the Paper I & II pages.'}
-            {mounted && totalDone > 0 && totalDone < TOTAL && langHi ? `${TOTAL - totalDone} विषय शेष हैं। जारी रखें!` : `${TOTAL - totalDone} topics remaining. Keep going!`}
-            {mounted && totalDone === TOTAL && "🎉 Full syllabus complete! You're ready to ace it."}
+            {!mounted
+              ? ''
+              : totalDone === 0
+              ? (langHi
+                  ? 'Paper I और II पृष्ठों पर विषय चिह्नित करना शुरू करें।'
+                  : 'Start checking off topics on the Paper I & II pages.')
+              : totalDone < TOTAL
+              ? (langHi
+                  ? `${TOTAL - totalDone} विषय शेष हैं। जारी रखें!`
+                  : `${TOTAL - totalDone} topics remaining. Keep going!`)
+              : (langHi
+                  ? '🎉 पूरा पाठ्यक्रम पूर्ण! अब तैयारी पक्की है।'
+                  : "🎉 Full syllabus complete! You're ready to ace it.")}
           </div>
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             <Link href="/paper1" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', padding: '4px 10px', borderRadius: 5 }}>{langHi ? 'पेपर I →' : 'Paper I →'}</Link>
