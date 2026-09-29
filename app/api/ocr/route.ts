@@ -6,7 +6,47 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const MAX_FILES = 10;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
 
+type Emit = (event: Record<string, unknown>) => void;
+
+/**
+ * The evaluate page asks for progress with an x-ocr-stages header and gets
+ * newline-delimited JSON: a {"type":"stage"} line as each step finishes, then
+ * one {"type":"result"} line with the status and body the plain response
+ * would have had. Its reading screen used to advance on a timer ("Parsing
+ * text…", "Almost there…") whatever the server was doing. Callers that send no
+ * header, the test series among them, get the plain JSON response as before.
+ */
 export async function POST(req: NextRequest) {
+  if (req.headers.get("x-ocr-stages") !== "1") return ocr(req, () => {});
+
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      const line = (o: object) => controller.enqueue(encoder.encode(JSON.stringify(o) + "\n"));
+      let result: { status: number; body: unknown };
+      try {
+        const res = await ocr(req, (event) => line({ type: "stage", ...event }));
+        let body: unknown = null;
+        try { body = await res.json(); } catch { /* an empty body stays null */ }
+        result = { status: res.status, body };
+      } catch (err) {
+        console.error("OCR error:", err);
+        result = { status: 500, body: { error: "OCR failed" } };
+      }
+      line({ type: "result", ...result });
+      controller.close();
+    },
+  });
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "application/x-ndjson; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      "X-Accel-Buffering": "no",
+    },
+  });
+}
+
+async function ocr(req: NextRequest, emit: Emit): Promise<Response> {
   // Every call here is an LLM transcription we pay for. This was the last step
   // of the evaluation flow still reachable without an account — lib/evalAccess
   // was written to close exactly this and was applied to /api/ocr-pdf and
@@ -124,6 +164,7 @@ Output the transcription now:`;
       },
     ];
 
+    emit({ id: "transcribing", pages: files.length });
     const res = await fetch("https://api.mistral.ai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -145,11 +186,13 @@ Output the transcription now:`;
 
     const data = await res.json();
     const text = data.choices?.[0]?.message?.content || "";
+    emit({ id: "transcribed", words: text.trim() ? text.trim().split(/\s+/).length : 0 });
 
     // In PDF mode the question text is embedded in the transcript as [Q]: lines.
     // In normal (single-question) mode, detect it from the first image.
     let detectedQuestion = "";
     if (!isPdfMode) {
+      emit({ id: "question" });
       try {
         const firstImg = imageContents[0] as any;
         const qRes = await fetch("https://api.mistral.ai/v1/chat/completions", {
@@ -176,6 +219,7 @@ Output the transcription now:`;
           detectedQuestion = qData.choices?.[0]?.message?.content?.trim() || "";
         }
       } catch { /* ignore question detection errors */ }
+      emit({ id: "question_done", found: Boolean(detectedQuestion) });
     }
 
     return NextResponse.json({ text, detectedQuestion });

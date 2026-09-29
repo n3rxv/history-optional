@@ -8,7 +8,8 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
 import PDFTestEvaluator from '@/components/PDFTestEvaluator';
 import MapEvaluator from '@/components/MapEvaluator';
-import EvalProgress, { applyEvalStage, type EvalStages } from '@/components/EvalProgress';
+import EvalProgress, { ReadProgress, applyEvalStage, applyReadStage, type EvalStages, type ReadStages } from '@/components/EvalProgress';
+import { readProgress } from '@/lib/progressStream';
 import EmptyState from '@/components/EmptyState';
 
 
@@ -192,7 +193,9 @@ export default function EvaluatePage() {
   const [extractedText, setExtractedText] = useState("");
   const [processedImageFiles, setProcessedImageFiles] = useState<File[]>([]);
   const [ocrLoading, setOcrLoading] = useState(false);
-  const [ocrProgress, setOcrProgress]   = useState(0);
+  // Reading the sheet: the browser's own steps plus the server's, as they finish.
+  const [readStages, setReadStages]     = useState<ReadStages>({});
+  const [readStartedAt, setReadStartedAt] = useState(0);
   // What the server has actually done, from its progress stream.
   const [evalStages, setEvalStages]     = useState<EvalStages>({});
   const [evalStartedAt, setEvalStartedAt] = useState(0);
@@ -204,13 +207,14 @@ export default function EvaluatePage() {
 
 const handleOcr = useCallback(async () => {
     if (!files || files.length === 0) { setError("Please upload at least one file."); return; }
-    setError(""); setOcrLoading(true); setOcrProgress(0);
+    const hasPdf = files.some(f => f.type === 'application/pdf');
+    setError(""); setOcrLoading(true);
+    setReadStages({ preparing: { files: files.length, pdf: hasPdf }, askQuestion: !question.trim() });
+    setReadStartedAt(Date.now());
     // Check if any file is a PDF — convert to images first
     let processedFiles = [...files];
-    const hasPdf = files.some(f => f.type === 'application/pdf');
     if (hasPdf) {
       try {
-        setOcrProgress(8);
         const expanded: File[] = [];
         for (const f of files) {
           if (f.type === 'application/pdf') {
@@ -222,46 +226,33 @@ const handleOcr = useCallback(async () => {
         }
         processedFiles = expanded;
         setProcessedImageFiles(expanded);
-        setOcrProgress(20);
       } catch (e: unknown) {
         setError('PDF conversion failed: ' + (e instanceof Error ? e.message : 'Unknown error'));
         setOcrLoading(false);
         return;
       }
     }
-    // Animate OCR progress
-    let ocrTimer: ReturnType<typeof setTimeout> | undefined;
-    const ocrSteps = [
-      { pct: 12, label: "Compressing images…" },
-      { pct: 30, label: "Sending to vision model…" },
-      { pct: 55, label: "Reading handwriting…" },
-      { pct: 78, label: "Parsing text…" },
-      { pct: 92, label: "Almost there…" },
-    ];
-    const runOcrStep = (idx: number) => {
-      if (idx >= ocrSteps.length) return;
-      setOcrProgress(ocrSteps[idx].pct);
-      ocrTimer = setTimeout(() => runOcrStep(idx + 1), 900 + Math.random() * 600);
-    };
     setProcessedImageFiles(processedFiles);
-    runOcrStep(0);
     const compressed = await Promise.all(processedFiles.map(f => compressImage(f)));
+    setReadStages(prev => ({ ...prev, prepared: { pages: compressed.length } }));
     const fd = new FormData();
     fd.append("question", question);
     compressed.forEach(f => fd.append("files", f));
     try {
-      const res = await fetch("/api/ocr", { method: "POST", headers: { "x-user-token": tokenRef.current ?? "" }, body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "OCR failed");
-      setOcrProgress(100);
-      clearTimeout(ocrTimer);
-      setTimeout(() => {
-        setExtractedText(data.text);
-        if (data.detectedQuestion && !question.trim()) {
-          setQuestion(data.detectedQuestion);
-        }
-        setStage("ocr");
-      }, 400);
+      const res = await fetch("/api/ocr", {
+        method: "POST",
+        headers: { "x-user-token": tokenRef.current ?? "", "x-ocr-stages": "1" },
+        body: fd,
+      });
+      const { status, body } = await readProgress(res, e => setReadStages(prev => applyReadStage(prev, e)));
+      const data = (body ?? {}) as { text?: string; detectedQuestion?: string; error?: string };
+      if (status >= 400) throw new Error(data.error || "OCR failed");
+      // Straight on to the review step: the panel closes as the transcript opens.
+      setExtractedText(data.text ?? "");
+      if (data.detectedQuestion && !question.trim()) {
+        setQuestion(data.detectedQuestion);
+      }
+      setStage("ocr");
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "OCR failed. Please try again.");
     } finally { setOcrLoading(false); }
@@ -299,38 +290,9 @@ const handleOcr = useCallback(async () => {
         headers: { "x-user-token": tokenRef.current ?? "", "x-eval-stages": "1" },
         body: fd,
       });
-      let data: any;
-      let status = res.status;
-      if ((res.headers.get("content-type") ?? "").includes("ndjson") && res.body) {
-        // One JSON object per line: progress as each step finishes, then the result.
-        const reader = res.body.getReader();
-        const dec = new TextDecoder();
-        let buf = "";
-        for (;;) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buf += dec.decode(value, { stream: true });
-          let nl: number;
-          while ((nl = buf.indexOf("\n")) !== -1) {
-            const line = buf.slice(0, nl).trim();
-            buf = buf.slice(nl + 1);
-            if (!line) continue;
-            let msg: { type?: string; id?: string; status?: number; body?: unknown } & Record<string, unknown>;
-            try { msg = JSON.parse(line); } catch { continue; }
-            if (msg.type === "stage") setEvalStages(prev => applyEvalStage(prev, msg));
-            else if (msg.type === "result") { status = Number(msg.status) || 500; data = msg.body; }
-          }
-        }
-        if (data === undefined) throw new Error("The connection closed before the evaluation finished. Please try again.");
-      } else {
-        const rawText = await res.text();
-        if (!rawText) throw new Error("Empty response from server");
-        try {
-          data = JSON.parse(rawText);
-        } catch {
-          throw new Error(res.ok ? "Unexpected response from server. Please try again." : `Server error (${res.status}). Please try again.`);
-        }
-      }
+      const progress = await readProgress(res, e => setEvalStages(prev => applyEvalStage(prev, e)));
+      const status = progress.status;
+      const data: any = progress.body;
       if (status >= 400 || !data) throw new Error(data?.error || "Evaluation failed");
       setSubmittedQ(question);
       // Save full evaluation to history
@@ -927,7 +889,7 @@ const handleOcr = useCallback(async () => {
         )}
 
         {/* ── FORM ── */}
-        {stage === "form" && !evaluation && !loading && (
+        {stage === "form" && !evaluation && (
           <div className="ev-fade">
             {/* ── Mode Toggle ── */}
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:32 }}>
@@ -1146,6 +1108,7 @@ const handleOcr = useCallback(async () => {
         )}
 
         {/* ── LOADING ── */}
+        {ocrLoading && <ReadProgress stages={readStages} startedAt={readStartedAt} langHi={langHi} />}
         {loading && <EvalProgress stages={evalStages} startedAt={evalStartedAt} langHi={langHi} />}
 
         {/* ── RESULTS ── */}
