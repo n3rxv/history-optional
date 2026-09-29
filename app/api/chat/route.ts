@@ -5,7 +5,7 @@ import { createSentenceGate } from '@/lib/citationGate';
 
 export const maxDuration = 90;
 import { createClient } from "@supabase/supabase-js";
-import { MENTOR_SYSTEM, buildRagBasePrompt } from '@/lib/prompts';
+import { MENTOR_SYSTEM, MAINS_ANSWER_STYLE, buildRagBasePrompt } from '@/lib/prompts';
 import { searchDiverse, searchBook, type BookChunk } from '@/lib/vectorStore';
 
 
@@ -162,8 +162,14 @@ export async function POST(req: NextRequest) {
   
   // ── Main request handler ────────────────────────────────────────
   try {
-    const { messages, bookMode, bookTitle, pdf_base64, pdf_name, lang, mentorMode, responseStyle, brainstormMode } = await req.json();
-    const maxTokens = mentorMode ? 3500 : (responseStyle === 'elaborative' ? 3500 : 1800);
+    const { messages, bookMode, bookTitle, pdf_base64, pdf_name, lang, mentorMode, responseStyle, brainstormMode, format, stages } = await req.json();
+    // Brainstorm is a paid mode, and the client's say-so is not a subscription.
+    const brainstorm = Boolean(brainstormMode) && (isPremium || isOwner);
+    // One message can ask for a Mains answer whatever the chosen style is:
+    // "Turn this into a Mains answer" and a picked PYQ both do. Mentor mode
+    // has its own format and keeps it.
+    const style: string = format === 'mains' && !mentorMode ? 'mains' : responseStyle;
+    const maxTokens = mentorMode ? 3500 : (style === 'elaborative' ? 3500 : style === 'mains' ? 2500 : 1800);
 
     // ── Build system prompt server-side (never from client) ──────────
     const SCOPE_GUARD = `SCOPE GUARD: You help with UPSC History Optional preparation. The syllabus is WIDE — assume a question is in scope unless it clearly is not.
@@ -190,11 +196,13 @@ Refuse only what is genuinely unrelated to the exam — coding help, medical or 
 - Include specific dates, names, events for empirical weight.
 - Use plain English spellings only — no diacritical marks.`;
 
-    const STYLE_RULE = responseStyle === 'elaborative'
+    const STYLE_RULE = style === 'mains'
+      ? MAINS_ANSWER_STYLE
+      : style === 'elaborative'
       ? `RESPONSE STYLE — ELABORATIVE: Flowing prose paragraphs (3-5 sentences each). Cover sub-arguments and historiographical debates in depth.`
       : `RESPONSE STYLE — CONCISE: Bullet points only. Format: **Bold label** — 1 crisp line max. Intro: 1-2 lines. Conclusion: 1-2 lines. No walls of text.`;
 
-    const system = brainstormMode
+    const system = brainstorm
       ? `You are an expert UPSC History Optional strategist helping the user brainstorm.
 
 ${SCOPE_GUARD}
@@ -261,41 +269,41 @@ ${STYLE_RULE}${pdf_base64 ? "\n\nThe user has uploaded a PDF. Analyze it careful
       });
     };
 
-    // ── RAG: always inject book context (normal chat + bookMode) ────────
-    let ragContext = '';
-    let ragSources: { book_title: string; author: string; content: string }[] = [];
+    // ── RAG: book context for normal chat and bookMode ──────────────────
+    // Run inside the stream, not before it. The search takes seconds, and
+    // while it ran here the response had not started, so the page could only
+    // show a spinner; now the reader is told it is searching and what it found.
     const lastQ = typeof messages?.[messages.length - 1]?.content === 'string'
       ? messages[messages.length - 1].content
       : '';
-    if (!pdf_base64 && lastQ.length > 3) {
+    type RagSource = { book_title: string; author: string; content: string };
+    const retrieve = async (): Promise<{ ragContext: string; ragSources: RagSource[] }> => {
       try {
         // bookMode passes bookTitle filter; normal chat uses "all" (diverse across books)
-        ragContext = await Promise.race([
+        const ragContext = await Promise.race([
           getBookContext(lastQ, bookMode ? bookTitle : 'all'),
           new Promise<string>((_, reject) => setTimeout(() => reject(new Error('RAG timeout')), 10000)),
         ]);
-        ragSources = ragContext
+        const ragSources = ragContext
           .split('\n\n---\n\n')
           .map(block => {
             const match = block.match(/^\[Source \d+ — (.+?) \| Author: (.+?)\]\n([\s\S]+)$/);
             if (match) return { book_title: match[1], author: match[2], content: match[3] };
             return null;
           })
-          .filter(Boolean) as { book_title: string; author: string; content: string }[];
+          .filter(Boolean) as RagSource[];
+        return { ragContext, ragSources };
       } catch(e) {
         console.error('RAG skipped (embed service timeout or error):', e);
-        ragContext = '';
-        ragSources = [];
+        return { ragContext: '', ragSources: [] };
       }
-    }
+    };
 
-
-    
-const ragBasePrompt = buildRagBasePrompt({ responseStyle, bookTitle, ragContext });
-
-const ragSystem = ragContext
-  ? (mentorMode && isPremium ? MENTOR_SYSTEM + '\n\n' : system + '\n\n') + ragBasePrompt
-  : system;
+    const systemFor = (ragContext: string) => {
+      if (!ragContext) return system;
+      const ragBasePrompt = buildRagBasePrompt({ responseStyle: style, bookTitle, ragContext });
+      return (mentorMode && isPremium ? MENTOR_SYSTEM + '\n\n' : system + '\n\n') + ragBasePrompt;
+    };
 
 
     // Detect MCQ/Prelims question
@@ -321,8 +329,25 @@ const ragSystem = ragContext
         // has to.
         const gate = createSentenceGate(send);
         const collect = (chunk: string) => gate.push(chunk);
+        // Progress lines for the page's checklist, ahead of any answer text.
+        // Only for a client that asked: one still running the old script
+        // would print them into the answer.
+        const stage = (event: Record<string, unknown>) => {
+          if (stages) send('__STAGE__' + JSON.stringify(event) + '\n');
+        };
+        let ragSources: RagSource[] = [];
         try {
-          const systemPrompt = ragSystem + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.');
+          let ragContext = '';
+          if (!pdf_base64 && lastQ.length > 3) {
+            stage({ id: 'search', book: bookMode && bookTitle && bookTitle !== 'all' ? bookTitle : null });
+            ({ ragContext, ragSources } = await retrieve());
+            stage({ id: 'found', passages: ragSources.length, books: [...new Set(ragSources.map(r => r.book_title))] });
+          } else if (pdf_base64) {
+            stage({ id: 'pdf', name: pdf_name ?? null });
+          }
+          stage({ id: 'write' });
+
+          const systemPrompt = systemFor(ragContext) + (lang === 'hi' ? '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in Hindi (Devanagari script) regardless of the language of the question. Every single word of your response must be in Hindi. Do NOT use English even for technical terms — transliterate them. Historical names, dates, and places should use their Hindi equivalents.' : '\n\nCRITICAL INSTRUCTION: You MUST respond ENTIRELY in English regardless of the language of the question.');
 
           if (pdf_base64) {
             // PDF mode — Haiku only (DeepSeek does not support document input)

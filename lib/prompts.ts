@@ -173,6 +173,18 @@ HIGH-VALUE PHRASES (use where appropriate): Urbanism without visible kingship | 
 
 Be strict. No flattery. No generic advice. 350+ target only.`;
 
+/**
+ * The shape of a Mains answer: prose either side of a body in headed sections
+ * with points under each, which is how an examiner reads one. There is no word
+ * target on purpose. A number produces padding; the structure is the thing a
+ * candidate can carry into the hall.
+ */
+export const MAINS_ANSWER_STYLE = `RESPONSE STYLE — MAINS ANSWER (STRICTLY MANDATORY):
+- Introduction: one short paragraph of prose that sets the context and states the line of argument. No bullet points.
+- Body: 3 to 5 sections. Each opens with a **bold heading** on its own line, followed by bullet points. Each bullet is one complete point carrying specific evidence (names, dates, events) and, where genuinely known, the historian who argues it.
+- Conclusion: one short paragraph of prose that weighs the argument and closes it. No bullet points.
+- Never state, aim for or mention a word count.`;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // RAG base prompt builder — epistemic protocol + historian citation rules
 // Called when book context (ragContext) is present
@@ -183,7 +195,9 @@ export function buildRagBasePrompt(opts: {
   ragContext: string;
 }): string {
   const { responseStyle, bookTitle, ragContext } = opts;
-  const styleBlock = responseStyle === 'elaborative'
+  const styleBlock = responseStyle === 'mains'
+    ? MAINS_ANSWER_STYLE
+    : responseStyle === 'elaborative'
     ? `RESPONSE STYLE: ELABORATIVE — Write detailed, flowing prose paragraphs (3-5 sentences each). Cover all sub-arguments, nuances, historiographical debates in depth. Use bold section titles to separate themes but keep content rich and paragraph-form. Bullet points only for listing historians or primary sources.`
     : `RESPONSE STYLE — CONCISE (STRICTLY MANDATORY):
 - Bullet points for all causes/features/arguments/consequences. NO prose blocks.
