@@ -324,6 +324,83 @@ export default function Dashboard() {
   const scoreColor = (s: number) => s >= 70 ? 'var(--success-text)' : s >= 50 ? 'var(--warning-text)' : 'var(--danger-text)';
   const capLabel = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+  /**
+   * What is worth doing right now.
+   *
+   * Everything below this block reports state; a reader still has to decide
+   * what to open. These are the same numbers, turned into at most three
+   * things to click, in the order a day's study would take them: what has
+   * come round again, then what is going badly, then what has gone cold.
+   *
+   * Only real items appear. Padding the list out with generic advice when
+   * nothing is due would teach readers to stop reading it.
+   */
+  const todo = useMemo(() => {
+    if (!mounted) return [];
+    const items: { key: string; text: string; href: string; tone: string }[] = [];
+
+    if (flash && flash.due > 0) {
+      items.push({
+        key: 'cards',
+        text: langHi ? `${flash.due} फ्लैशकार्ड दोहराने हैं` : `${flash.due} flashcards due for review`,
+        href: '/flashcards',
+        tone: 'var(--warning-text)',
+      });
+    }
+
+    // A weakest section only means something once there are enough evaluations
+    // for the ranking not to be noise, and only worth flagging below par.
+    if (evalStats && evalStats.total >= 3 && evalStats.weakest && evalStats.weakest.avg < 0.6) {
+      const pctv = Math.round(evalStats.weakest.avg * 100);
+      items.push({
+        key: 'weak',
+        text: langHi
+          ? `${capLabel(evalStats.weakest.sec)} सबसे कमज़ोर है — ${pctv}%`
+          : `${capLabel(evalStats.weakest.sec)} is your weakest section — ${pctv}%`,
+        href: '/evaluate',
+        tone: 'var(--danger-text)',
+      });
+    }
+
+    if (needsRevision.length > 0) {
+      items.push({
+        key: 'revise',
+        text: langHi
+          ? `${needsRevision.length} नोट्स 30+ दिन से नहीं दोहराए`
+          : `${needsRevision.length} notes not revised in 30+ days`,
+        href: `/notes/${needsRevision[0].slug}`,
+        tone: 'var(--warning-text)',
+      });
+    }
+
+    if (pyq) {
+      const untouched = pyq.sections.filter(x => x.attempted === 0);
+      if (untouched.length > 0) {
+        items.push({
+          key: 'pyq',
+          text: langHi
+            ? `${untouched[0].section} के PYQ अभी शुरू नहीं किए`
+            : `No PYQs attempted yet in ${untouched[0].section}`,
+          href: '/pyqs',
+          tone: 'var(--text2)',
+        });
+      }
+    }
+
+    if (totalDone < TOTAL && items.length === 0) {
+      items.push({
+        key: 'syllabus',
+        text: langHi
+          ? `${TOTAL - totalDone} विषय बाकी हैं`
+          : `${TOTAL - totalDone} syllabus topics still to cover`,
+        href: '/paper1',
+        tone: 'var(--text2)',
+      });
+    }
+
+    return items.slice(0, 3);
+  }, [mounted, flash, evalStats, needsRevision, pyq, totalDone, langHi]);
+
   return (
     <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2.5rem 1.5rem 5rem' }}>
 
@@ -332,6 +409,35 @@ export default function Dashboard() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.4rem' }}>{langHi ? 'प्रगति अवलोकन' : 'Progress Overview'}</h1>
         <p style={{ color: 'var(--text2)', fontSize: '0.9rem' }}>{langHi ? 'सभी 51 विषयों में आपकी पाठ्यक्रम प्रगति ट्रैक हो रही है।' : 'Tracking your syllabus completion across all 51 topics.'}</p>
       </div>
+
+      {/* Today. Placed above the progress ring on purpose: a reader arriving
+          here wants to know what to open, and the ring answers a different
+          question. Hidden entirely when there is nothing real to show. */}
+      {mounted && todo.length > 0 && (
+        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: 'var(--space-5)', marginBottom: 'var(--space-6)' }}>
+          <div style={{ fontSize: '0.65rem', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 'var(--space-3)' }}>
+            {langHi ? 'आज' : 'Today'}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+            {todo.map(item => (
+              <Link key={item.key} href={item.href} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                  padding: 'var(--space-3) var(--space-4)', borderRadius: 8,
+                  border: '1px solid var(--border)', background: 'var(--bg3)',
+                  transition: 'border-color 0.15s',
+                }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'color-mix(in srgb, var(--accent) 30%, transparent)'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; }}>
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: item.tone, flexShrink: 0 }} />
+                  <span style={{ flex: 1, minWidth: 0, fontSize: '0.85rem', color: 'var(--text)' }}>{item.text}</span>
+                  <span style={{ color: 'var(--text3)', fontSize: '0.8rem', flexShrink: 0 }}>→</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '1.5rem', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.5rem', marginBottom: '1.5rem', alignItems: 'center' }}>
         <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
