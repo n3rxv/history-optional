@@ -59,11 +59,6 @@ export default function LoginPromptModal({ isOpen, onClose, message }: LoginProm
         <p className="lpm-msg">
           {message || (langHi ? 'इसके लिए एक निःशुल्क खाता चाहिए।' : 'This needs a free account.')}
         </p>
-        <p className="lpm-free">
-          {langHi
-            ? 'निःशुल्क खाते में: 3 AI चैट, 1 उत्तर मूल्यांकन और 100 फ्लैशकार्ड उत्तर।'
-            : 'A free account comes with 3 AI chats, 1 answer evaluation and 100 flashcard answers.'}
-        </p>
 
         <button ref={googleRef} className="lpm-google" onClick={handleSignIn} disabled={signingIn}>
           {signingIn ? (
@@ -104,12 +99,7 @@ const LPM_CSS = `
 }
 .lpm-owl { height: auto; margin-bottom: var(--space-3); }
 .lpm h2 { font-family: var(--font-body); font-size: 1.3rem; font-weight: 700; color: var(--text); margin: 0 0 var(--space-2); }
-.lpm-msg { font-size: 0.92rem; line-height: 1.6; color: var(--text2); margin: 0; }
-.lpm-free {
-  font-size: 0.8rem; line-height: 1.55; color: var(--accent-text);
-  background: var(--accent-dim); border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-  border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); margin: var(--space-4) 0 var(--space-5);
-}
+.lpm-msg { font-size: 0.92rem; line-height: 1.6; color: var(--text2); margin: 0 0 var(--space-6); }
 .lpm-google {
   width: 100%; display: flex; align-items: center; justify-content: center; gap: var(--space-3);
   padding: var(--space-3) var(--space-5); border-radius: var(--radius-md);

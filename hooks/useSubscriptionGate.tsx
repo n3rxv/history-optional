@@ -91,6 +91,7 @@ const LIM_CSS = `
 `;
 
 export function useSubscriptionGate(onEvaluate: () => void) {
+  const { langHi } = useLang();
   const { usage, loading, canEval, canChat, incrementEval, incrementChat, refetchUsage, FREE_EVAL_LIMIT, FREE_CHAT_LIMIT } = useUsageTracker();
   const [showEvalLimit, setShowEvalLimit] = useState(false);
   const [showChatLimit, setShowChatLimit] = useState(false);
@@ -145,8 +146,13 @@ export function useSubscriptionGate(onEvaluate: () => void) {
   const GateModals = () => {
     return (
       <>
-        {/* No message: the dialog's own note already says what a free account includes. */}
-        <LoginPromptModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
+        <LoginPromptModal
+          isOpen={showLoginModal}
+          onClose={() => setShowLoginModal(false)}
+          message={langHi
+            ? 'Google से साइन इन करें और 1 निःशुल्क मूल्यांकन और 3 निःशुल्क चैट पाएँ, या असीमित के लिए सदस्यता लें।'
+            : 'Sign in with Google to get 1 free evaluation and 3 free chats, or subscribe for unlimited access.'}
+        />
         {showEvalLimit && (
           <LimitModal
             kind="eval"
