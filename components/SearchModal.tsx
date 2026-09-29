@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { allNotes } from '@/lib/notes';
 import { supabase } from '@/lib/supabase';
 import type { PyqHit } from '@/app/api/search/route';
+import EmptyState from '@/components/EmptyState';
 
 const QUICK_JUMPS = [
   { label: 'Paper I Notes',    sub: 'Sources to 1707',        href: '/paper1',        icon: '📄' },
@@ -296,9 +297,9 @@ export default function SearchModal() {
           )}
 
           {query.trim() && !hasResults && (
-            <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text3)', fontSize: '0.85rem' }}>
-              No results for <strong style={{ color: 'var(--text2)' }}>"{query}"</strong>
-            </div>
+            <EmptyState size="sm" title={`No results for "${query.trim()}"`}>
+              Try a shorter word, or the name of a ruler, dynasty, movement or historian.
+            </EmptyState>
           )}
 
           {notes.length > 0 && (

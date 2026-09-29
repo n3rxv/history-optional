@@ -6,6 +6,8 @@ import { prelimsQuestions } from '@/lib/prelimsData';
 import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
+import EmptyState from '@/components/EmptyState';
+import Link from 'next/link';
 
 type Filter = 'all' | 'pyq' | 'practice' | 'bookmarked';
 type NavStatus = 'unattempted' | 'answered' | 'wrong' | 'marked' | 'answered-marked';
@@ -232,10 +234,12 @@ export default function PrelimsPage() {
 
   if (!q) return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ textAlign: 'center', color: 'var(--text3)' }}>
-        <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🔍</div>
-        <div style={{ fontSize: '1rem' }}>No questions match this filter.</div>
-      </div>
+      <EmptyState
+        title="No questions match this filter"
+        action={<Link href="/prelims">Choose another set</Link>}
+      >
+        Go back and pick a different subject or year.
+      </EmptyState>
     </div>
   );
 

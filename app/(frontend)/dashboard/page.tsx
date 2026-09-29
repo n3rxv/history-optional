@@ -8,6 +8,7 @@ import { loadHistory, AnswerEntry } from '@/hooks/useAnswerHistory';
 // Ranges, not the questions themselves: lib/pyqData.ts is 608 KB of question
 // text and this page needs to know which section an id falls in, nothing more.
 import { PYQ_SECTION_TOTALS, PYQ_TOTAL, sectionForPyq } from '@/lib/pyqSectionRanges';
+import EmptyState from '@/components/EmptyState';
 
 const ALL_NOTES = [...paper1Notes, ...paper2Notes];
 const TOTAL = ALL_NOTES.length;
@@ -533,9 +534,15 @@ export default function Dashboard() {
       )}
 
       {mounted && !evalStats && (
-        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: '1.5rem', marginBottom: '1.5rem', textAlign: 'center' }}>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text3)', marginBottom: '0.5rem' }}>{langHi ? 'अभी तक कोई मूल्यांकन नहीं' : 'No evaluations yet'}</div>
-          <Link href="/evaluate" style={{ fontSize: '0.8rem', color: 'var(--accent)', textDecoration: 'none' }}>{langHi ? 'अपना पहला उत्तर जमा करें →' : 'Submit your first answer →'}</Link>
+        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, marginBottom: 'var(--space-6)' }}>
+          <EmptyState
+            title={langHi ? 'अभी तक कोई मूल्यांकन नहीं' : 'No answers evaluated yet'}
+            action={<Link href="/evaluate">{langHi ? 'अपना पहला उत्तर जमा करें →' : 'Submit your first answer →'}</Link>}
+          >
+            {langHi
+              ? 'एक उत्तर जाँचें और यहाँ आपके अंक, कमज़ोर भाग और सुधार दिखने लगेंगे।'
+              : 'Evaluate one answer and your marks, weakest sections and progress will start to show here.'}
+          </EmptyState>
         </div>
       )}
 

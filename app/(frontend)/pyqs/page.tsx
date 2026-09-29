@@ -10,6 +10,7 @@ import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import Script from 'next/script';
+import EmptyState from '@/components/EmptyState';
 
 // Early Medieval had no tab at all: 99 questions reachable only through "All"
 // or the /pyqs/early-medieval page. India Since Independence is newly split out
@@ -933,9 +934,16 @@ export default function PYQsPage() {
         })}
 
         {filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text3)' }}>
-            No questions match your filters.
-          </div>
+          <EmptyState
+            title="No questions match these filters"
+            action={
+              <button onClick={() => { setFilterYear('all'); setFilterMarks('all'); setFilterTopic('all'); setFilterDone('all'); setSearch(''); }}>
+                Clear the filters
+              </button>
+            }
+          >
+            Nothing UPSC has asked fits this search and these filters. Try fewer words, or widen the year, marks or topic.
+          </EmptyState>
         )}
       </div>
 
