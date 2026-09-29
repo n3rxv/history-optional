@@ -2,64 +2,55 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useUsageTracker } from './useUsageTracker';
 import { SubscribeCard } from '@/components/SubscribeCard';
+import LoginPromptModal from '@/components/LoginPromptModal';
+import Mascot from '@/components/Mascot';
+import { useLang } from '@/lib/i18n/LangContext';
 
-function LoginModal({ onClose }: { onClose: () => void }) {
-  const [signingIn, setSigningIn] = useState(false);
-  return (
-    <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
-      onClick={onClose}>
-      <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:380, width:'100%', boxShadow:'0 40px 80px rgba(0,0,0,0.8)' }}
-        onClick={e => e.stopPropagation()}>
-        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8 }}>
-          <div style={{ fontFamily:'var(--font-display)', fontSize:'1.25rem', fontWeight:700, color:'#f0f0f0' }}>Sign in to continue</div>
-          <button onClick={onClose} style={{ background:'none', border:'none', color:'#555', cursor:'pointer', fontSize:'1.1rem' }}>✕</button>
-        </div>
-        <p style={{ color:'#666', fontSize:'0.85rem', marginBottom:20 }}>
-          Sign in with Google to get 1 free evaluation and 3 free chats, or subscribe for unlimited access.
-        </p>
-        <button
-          onClick={async () => {
-            setSigningIn(true);
-            try {
-              const { signInWithGoogle } = await import('@/lib/firebase');
-              const method = await signInWithGoogle();
-              // A redirect unloads this page — don't touch state on the way out.
-              if (method === 'redirect') return;
-              onClose();
-              setSigningIn(false);
-            } catch(e) { console.error(e); setSigningIn(false); }
-          }}
-          disabled={signingIn}
-          style={{ width:'100%', padding:'12px', borderRadius:8, background:'#fff', color:'#111', border:'none', fontWeight:600, fontSize:15, cursor:'pointer' }}>
-          {signingIn ? 'Signing in...' : 'Continue with Google'}
-        </button>
-      </div>
-    </div>
-  );
-}
-
+/**
+ * What a free reader has run out of, or that a paid feature was asked for.
+ * The chat page opens the chat variant for Premium features too (PDFs,
+ * Brainstorm, books), so the title only says the free chats are used up when
+ * they are.
+ */
 function LimitModal({
-  onClose, onSuccess, fingerprint,
+  kind, exhausted, onClose, onSuccess, fingerprint,
 }: {
+  kind: 'chat' | 'eval';
+  exhausted: boolean;
   onClose: () => void;
   onSuccess: () => void;
   fingerprint: string | null;
 }) {
+  const { langHi } = useLang();
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  const title = !exhausted
+    ? (langHi ? 'प्रीमियम के साथ सब कुछ खोलें' : 'Unlock everything with Premium')
+    : kind === 'chat'
+      ? (langHi ? 'आपकी 3 निःशुल्क चैट पूरी हो गईं' : "You've used your 3 free chats")
+      : (langHi ? 'आपका निःशुल्क मूल्यांकन पूरा हो गया' : "You've used your free evaluation");
+  const sub = langHi
+    ? 'असीमित चैट और मूल्यांकन, मेंटर मोड, पुस्तकों से चैट और PDF।'
+    : 'Unlimited chats and evaluations, Mentor mode, Chat with books and PDFs.';
+
   return (
-    <div style={{ position:'fixed', inset:0, zIndex:1001, background:'rgba(0,0,0,0.88)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
-      onClick={onClose}>
-      <div style={{ background:'#111', border:'1px solid #2a2a2a', borderRadius:16, padding:'2rem', maxWidth:400, width:'100%', boxShadow:'0 40px 80px rgba(0,0,0,0.8)' }}
-        onClick={e => e.stopPropagation()}>
-        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:6 }}>
-          <div style={{ fontFamily:'var(--font-display)', fontSize:'1.25rem', fontWeight:700, color:'#f0f0f0' }}>
-            ⚡ Unlock Unlimited Access
+    <div className="lim-scrim" onClick={onClose}>
+      <style>{LIM_CSS}</style>
+      <div className="lim" role="dialog" aria-modal="true" aria-labelledby="lim-title" onClick={e => e.stopPropagation()}>
+        <button className="lim-close" onClick={onClose} aria-label={langHi ? 'बंद करें' : 'Close'}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+        <div className="lim-head">
+          <Mascot pose="peek" width={80} className="lim-owl" />
+          <div>
+            <h2 id="lim-title">{title}</h2>
+            <p>{sub}</p>
           </div>
-          <button onClick={onClose} style={{ background:'none', border:'none', color:'#555', cursor:'pointer', fontSize:'1.1rem', padding:'0 2px', lineHeight:1 }}>✕</button>
         </div>
-        <div style={{ color:'#666', fontSize:'0.82rem', marginBottom:20 }}>
-          Subscribe for unlimited access to all features.
-        </div>
-        <div style={{ height:1, background:'rgba(255,255,255,0.05)', marginBottom:20 }} />
         <SubscribeCard
           fingerprint={fingerprint}
           onSuccess={() => { onClose(); onSuccess(); }}
@@ -69,6 +60,35 @@ function LimitModal({
     </div>
   );
 }
+
+const LIM_CSS = `
+.lim-scrim {
+  position: fixed; inset: 0; z-index: 1001; overflow-y: auto;
+  display: flex; align-items: center; justify-content: center; padding: var(--space-4);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.lim {
+  position: relative; width: 100%; max-width: 440px; margin: auto;
+  padding: var(--space-6); font-family: var(--font-body);
+  background: var(--bg-raised); border: 1px solid var(--border2); border-radius: var(--radius-xl);
+  box-shadow: var(--elev-3);
+}
+.lim-close {
+  position: absolute; top: var(--space-3); right: var(--space-3);
+  width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+  border: none; border-radius: var(--radius-sm); background: none; color: var(--text3); cursor: pointer;
+}
+.lim-close:hover { color: var(--text); background: var(--bg2); }
+.lim-head { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-5); padding-right: var(--space-6); }
+.lim-owl { height: auto; flex-shrink: 0; }
+.lim-head h2 { font-family: var(--font-body); font-size: 1.15rem; font-weight: 700; line-height: 1.3; color: var(--text); margin: 0 0 var(--space-1); }
+.lim-head p { font-size: 0.85rem; line-height: 1.55; color: var(--text2); margin: 0; }
+@media (max-width: 480px) {
+  .lim { padding: var(--space-5) var(--space-4); }
+  .lim-owl { width: 64px; }
+}
+`;
 
 export function useSubscriptionGate(onEvaluate: () => void) {
   const { usage, loading, canEval, canChat, incrementEval, incrementChat, refetchUsage, FREE_EVAL_LIMIT, FREE_CHAT_LIMIT } = useUsageTracker();
@@ -125,11 +145,12 @@ export function useSubscriptionGate(onEvaluate: () => void) {
   const GateModals = () => {
     return (
       <>
-        {showLoginModal && (
-          <LoginModal onClose={() => setShowLoginModal(false)} />
-        )}
+        {/* No message: the dialog's own note already says what a free account includes. */}
+        <LoginPromptModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
         {showEvalLimit && (
           <LimitModal
+            kind="eval"
+            exhausted={!canEval}
             fingerprint={usage?.fingerprint ?? null}
             onClose={() => setShowEvalLimit(false)}
             onSuccess={() => { refetchUsage(); setShowEvalLimit(false); onEvaluateRef.current(); }}
@@ -137,6 +158,8 @@ export function useSubscriptionGate(onEvaluate: () => void) {
         )}
         {showChatLimit && (
           <LimitModal
+            kind="chat"
+            exhausted={!canChat}
             fingerprint={usage?.fingerprint ?? null}
             onClose={() => setShowChatLimit(false)}
             onSuccess={() => { refetchUsage(); setShowChatLimit(false); }}

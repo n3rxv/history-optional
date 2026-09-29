@@ -494,7 +494,7 @@ export function SubscribeCard({
           {step === 'paying'
             ? 'Opening payment…'
             : !token
-              ? <><GoogleIcon /> Sign in &amp; Subscribe — {price}/{currentPlan.sub.split(' ')[1]}</>
+              ? <><GoogleIcon /> Sign in &amp; Subscribe — {price}/{currentPlan.sub}</>
               : `Subscribe — ${price}/${currentPlan.sub} →`}
         </button>
 
