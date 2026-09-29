@@ -22,6 +22,57 @@ function Ring({ pct, size = 80, stroke = 6, color = 'var(--accent)' }: { pct: nu
   );
 }
 
+/**
+ * The flashcard review state, read from where the study page keeps it.
+ *
+ * Same store, same shape -- app/(frontend)/flashcards/page.tsx owns the
+ * writing, this only reads. Duplicated rather than imported because that page
+ * is a heavy client component and the dashboard needs four numbers from it,
+ * not its bundle.
+ */
+type FlashSR = { nextDue: string; reps: number; lastGrade?: 1 | 2 | 3 | 4 };
+
+type FlashStats = {
+  /** Distinct cards this reader has graded at least once. */
+  reviewed: number;
+  /** Of those, how many have come round again. */
+  due: number;
+  /** Cards whose most recent grade was Good or Easy, as a percentage. */
+  recall: number | null;
+  /** Cards in the last session, for a nudge back into it. */
+  lastSession: number;
+};
+
+function loadFlashStats(): FlashStats {
+  const empty: FlashStats = { reviewed: 0, due: 0, recall: null, lastSession: 0 };
+  if (typeof window === 'undefined') return empty;
+
+  let sr: Record<string, FlashSR> = {};
+  try { sr = JSON.parse(localStorage.getItem('ho_flashcards_v1') ?? '{}'); } catch { return empty; }
+
+  const entries = Object.values(sr);
+  if (!entries.length) return empty;
+
+  const now = new Date().toISOString();
+  // Cards carrying a grade. Entries saved before lastGrade existed have none,
+  // so they are left out of the percentage rather than counted as failures.
+  const graded = entries.filter((e) => e.lastGrade != null);
+  const recalled = graded.filter((e) => (e.lastGrade ?? 0) >= 3).length;
+
+  let lastSession = 0;
+  try {
+    const v = JSON.parse(localStorage.getItem('ho_flashcards_last_session_v1') ?? '[]');
+    if (Array.isArray(v)) lastSession = v.length;
+  } catch { /* the count is a nicety; its absence is not an error */ }
+
+  return {
+    reviewed: entries.length,
+    due: entries.filter((e) => e.nextDue <= now).length,
+    recall: graded.length ? Math.round((recalled / graded.length) * 100) : null,
+    lastSession,
+  };
+}
+
 function StatCard({ label, value, sub, color = 'var(--text)' }: { label: string; value: string | number; sub?: string; color?: string }) {
   return (
     <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem 1.25rem' }}>
@@ -125,6 +176,7 @@ function Heatmap({ activityMap }: { activityMap: Record<string, number> }) {
 
 export default function Dashboard() {
   const { countCompleted, mounted, progress } = useSyllabusTracker();
+  const [flash, setFlash] = useState<FlashStats | null>(null);
   const { langHi } = useLang();
   const [streak, setStreak] = useState(0);
   const [evalHistory, setEvalHistory] = useState<AnswerEntry[]>([]);
@@ -132,6 +184,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (!mounted) return;
     setEvalHistory(loadHistory());
+    setFlash(loadFlashStats());
     const stored = localStorage.getItem('ho_streak_v1');
     const data = stored ? JSON.parse(stored) : { streak: 0, lastDate: '' };
     setStreak(data.streak);
@@ -389,6 +442,70 @@ export default function Dashboard() {
               {evalStats.topicStats[0].avg < 60 && (
                 <div style={{ marginTop: '0.85rem', fontSize: '0.75rem', color: 'var(--danger-text)', background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 15%, transparent)', borderRadius: 6, padding: '8px 12px' }}>
                   Weakest topic: <span style={{ fontWeight: 600 }}>{evalStats.topicStats[0].title}</span> — focus here next.
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
+      {/* Flashcards. The deck is the one part of the site with a schedule of
+          its own, so the dashboard's job here is to say what has come round
+          again -- a number nobody will find by opening the page and counting. */}
+      {mounted && flash && (
+        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 14, padding: 'var(--space-5)', marginBottom: 'var(--space-6)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-4)' }}>
+            <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text)' }}>{langHi ? 'फ्लैशकार्ड पुनरावृत्ति' : 'Flashcard Revision'}</div>
+            <Link href="/flashcards" style={{ fontSize: '0.72rem', color: 'var(--accent)', textDecoration: 'none' }}>
+              {flash.due > 0 ? (langHi ? 'अभी दोहराएँ →' : 'Review now →') : (langHi ? 'फ्लैशकार्ड →' : 'Flashcards →')}
+            </Link>
+          </div>
+
+          {flash.reviewed === 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text2)' }}>
+                {langHi ? 'अभी तक कोई कार्ड नहीं दोहराया।' : 'No cards reviewed yet.'}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text3)' }}>
+                {langHi
+                  ? 'डेक में 1,200 विश्लेषणात्मक कार्ड हैं — इतिहासकार बहसें, कारण-प्रभाव, तुलनाएँ।'
+                  : '1,200 analytical cards are waiting — historian debates, cause and effect, comparisons.'}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="dash-eval-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-3)' }}>
+                {[
+                  {
+                    label: langHi ? 'दोहराने हेतु' : 'Due for review',
+                    value: flash.due,
+                    color: flash.due > 0 ? 'var(--warning-text)' : 'var(--success-text)',
+                  },
+                  {
+                    label: langHi ? 'कार्ड दोहराए' : 'Cards reviewed',
+                    value: flash.reviewed,
+                    color: 'var(--text)',
+                  },
+                  {
+                    // Last grade only, not every review the card has ever had,
+                    // so this is "how many cards do I currently know" rather
+                    // than a lifetime accuracy figure.
+                    label: langHi ? 'याद रहे' : 'Recall rate',
+                    value: flash.recall === null ? '—' : `${flash.recall}%`,
+                    color: flash.recall === null ? 'var(--text3)' : scoreColor(flash.recall),
+                  },
+                ].map(st => (
+                  <div key={st.label} style={{ background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 8, padding: 'var(--space-3) var(--space-4)' }}>
+                    <div style={{ fontSize: '0.65rem', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>{st.label}</div>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: st.color, lineHeight: 1 }}>{st.value}</div>
+                  </div>
+                ))}
+              </div>
+              {flash.due === 0 && flash.lastSession > 0 && (
+                <div style={{ fontSize: '0.75rem', color: 'var(--text3)', marginTop: 'var(--space-3)' }}>
+                  {langHi
+                    ? `पिछले सत्र में ${flash.lastSession} कार्ड — फिलहाल कुछ बाकी नहीं।`
+                    : `${flash.lastSession} cards in your last session — nothing due right now.`}
                 </div>
               )}
             </>
