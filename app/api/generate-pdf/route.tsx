@@ -27,7 +27,7 @@ const LIGHT_BLUE = "#eef3fc";
 const RULE = "#bbbbbb";
 
 const s = StyleSheet.create({
-  page: { fontFamily: "NotoSans", fontSize: 11, color: BLACK, paddingTop: 40, paddingBottom: 70, paddingLeft: 40, paddingRight: 40 },
+  page: { fontFamily: "NotoSans", fontSize: 11, color: BLACK, paddingTop: 36, paddingBottom: 78, paddingLeft: 40, paddingRight: 40 },
   // header
   headerRow: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
   headerOwl: { width: 64, height: 64 * OWL_PEEK_RATIO, marginRight: 12 },
@@ -86,14 +86,15 @@ const s = StyleSheet.create({
   evalSecAccent: { width: 4, height: 14, backgroundColor: BLUE, marginRight: 6 },
   evalSecTitle: { fontSize: 11, fontWeight: "bold", color: BLACK, letterSpacing: 2, flex: 1 },
   evalSecBlue: { height: 2, backgroundColor: BLUE, marginBottom: 8 },
-  // footer
+  // footer. It had no margin below it, so it sat on the paper's edge (where
+  // many printers cannot print) with a wide gap above. paddingBottom on the
+  // page is the footer's height, about 52, plus a 26pt gap to the text.
   footer: { position: "absolute", bottom: 0, left: 0, right: 0 },
   footerBar: { height: 3, backgroundColor: BLUE },
-  footerRow: { flexDirection: "row", alignItems: "center", paddingLeft: 40, paddingRight: 40, paddingTop: 8 },
+  footerRow: { flexDirection: "row", alignItems: "center", paddingLeft: 40, paddingRight: 40, paddingTop: 8, paddingBottom: 20 },
   footerOwl: { width: 24, height: 24 * OWL_READING_RATIO, marginRight: 8 },
   footerLeft: { flex: 1 },
-  footerSiteLabel: { fontSize: 8, fontWeight: "bold", color: BLACK },
-  footerSiteUrl: { fontSize: 7, color: GRAY, marginTop: 1 },
+  footerSiteLabel: { fontSize: 9, fontWeight: "bold", color: BLACK },
   footerRight: { alignItems: "flex-end" },
   footerPage: { fontSize: 11, fontWeight: "bold", color: BLACK },
   footerPageLabel: { fontSize: 6, color: GRAY, letterSpacing: 1, marginTop: 1 },
@@ -123,8 +124,8 @@ function Header({ dateStr }: { dateStr: string }) {
       <View style={s.headerRow}>
         <PdfImage src={OWL_PEEK} style={s.headerOwl} />
         <View style={s.headerMid}>
-          <Text style={s.headerTitle}>History <Text style={{ color: BLUE }}>Optional</Text></Text>
-          <Text style={s.headerSub}>historyoptional.xyz  ·  one-stop solution for everything history optional</Text>
+          <Text style={s.headerTitle}>History<Text style={{ color: BLUE }}>Optional</Text>.xyz</Text>
+          <Text style={s.headerSub}>one-stop solution for everything history optional</Text>
         </View>
         <Text style={s.headerDate}>{dateStr}</Text>
       </View>
@@ -140,8 +141,7 @@ function Footer() {
       <View style={s.footerRow}>
         <PdfImage src={OWL_READING} style={s.footerOwl} />
         <View style={s.footerLeft}>
-          <Text style={s.footerSiteLabel}>HISTORY OPTIONAL</Text>
-          <Text style={s.footerSiteUrl}>historyoptional.xyz</Text>
+          <Text style={s.footerSiteLabel}>History<Text style={{ color: BLUE }}>Optional</Text>.xyz</Text>
         </View>
         <View style={s.footerRight}>
           <Text style={s.footerPage} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
