@@ -124,7 +124,7 @@ function Header({ dateStr }: { dateStr: string }) {
       <View style={s.headerRow}>
         <PdfImage src={OWL_PEEK} style={s.headerOwl} />
         <View style={s.headerMid}>
-          <Text style={s.headerTitle}>History<Text style={{ color: BLUE }}>Optional</Text>.xyz</Text>
+          <Text style={s.headerTitle}>HistoryOptional.xyz</Text>
           <Text style={s.headerSub}>one-stop solution for everything history optional</Text>
         </View>
         <Text style={s.headerDate}>{dateStr}</Text>
@@ -141,7 +141,7 @@ function Footer() {
       <View style={s.footerRow}>
         <PdfImage src={OWL_READING} style={s.footerOwl} />
         <View style={s.footerLeft}>
-          <Text style={s.footerSiteLabel}>History<Text style={{ color: BLUE }}>Optional</Text>.xyz</Text>
+          <Text style={s.footerSiteLabel}>HistoryOptional.xyz</Text>
         </View>
         <View style={s.footerRight}>
           <Text style={s.footerPage} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
