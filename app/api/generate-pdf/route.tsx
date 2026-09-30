@@ -2,7 +2,8 @@ export const maxDuration = 30;
 
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit, clientIp, tooManyRequests } from "@/lib/rateLimit";
-import { renderToBuffer, Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
+import { renderToBuffer, Document, Page, Text, View, Image as PdfImage, StyleSheet, Font } from "@react-pdf/renderer";
+import { OWL_PEEK, OWL_PEEK_RATIO, OWL_READING, OWL_READING_RATIO } from "@/lib/pdfMascot";
 import path from "path";
 import fs from "fs";
 
@@ -15,21 +16,24 @@ Font.register({
   ],
 });
 
-const BLUE = "var(--accent)";
+// --lapis-600, the light theme's accent. A PDF has no stylesheet, so the
+// token cannot be used here: var(--accent) reached react-pdf as an unknown
+// colour and every rule and bar printed black.
+const BLUE = "#4c6ae2";
 const BLACK = "#1a1a1a";
 const WHITE = "#ffffff";
 const GRAY = "#888888";
 const LIGHT_BLUE = "#eef3fc";
+const RULE = "#bbbbbb";
 
 const s = StyleSheet.create({
   page: { fontFamily: "NotoSans", fontSize: 11, color: BLACK, paddingTop: 40, paddingBottom: 70, paddingLeft: 40, paddingRight: 40 },
   // header
   headerRow: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
-  headerBox: { width: 54, height: 54, backgroundColor: BLACK, alignItems: "center", justifyContent: "center", marginRight: 12 },
-  headerBoxText: { color: WHITE, fontSize: 28, fontWeight: "bold" },
+  headerOwl: { width: 64, height: 64 * OWL_PEEK_RATIO, marginRight: 12 },
   headerMid: { flex: 1 },
-  headerTitle: { fontSize: 30, fontWeight: "bold", color: BLACK },
-  headerSub: { fontSize: 7.5, color: GRAY },
+  headerTitle: { fontSize: 26, fontWeight: "bold", color: BLACK },
+  headerSub: { fontSize: 8, color: GRAY, marginTop: 2 },
   headerDate: { fontSize: 8, color: GRAY, textAlign: "right", letterSpacing: 1 },
   headerDivider: { height: 3, backgroundColor: BLUE, marginBottom: 16 },
   // question
@@ -39,7 +43,7 @@ const s = StyleSheet.create({
   qLabel: { fontSize: 7, fontWeight: "bold", color: BLUE, letterSpacing: 2, marginBottom: 6 },
   qText: { fontSize: 12, fontWeight: "bold", color: BLACK, lineHeight: 1.4 },
   // section
-  sectionThin: { height: 0.5, backgroundColor: "#bbbbbb", marginTop: 10, marginBottom: 4 },
+  sectionThin: { height: 0.5, backgroundColor: RULE, marginTop: 10, marginBottom: 4 },
   sectionRow: { flexDirection: "row", alignItems: "flex-end", marginBottom: 2 },
   sectionNum: { fontSize: 28, fontWeight: "bold", color: "#e8e8e8", width: 36 },
   sectionTitle: { fontSize: 13, fontWeight: "bold", color: BLACK, letterSpacing: 2, flex: 1 },
@@ -77,7 +81,7 @@ const s = StyleSheet.create({
   hWork: { fontSize: 9, color: GRAY, marginBottom: 4 },
   hArg: { fontSize: 10.5, color: BLACK, lineHeight: 1.6 },
   // section header (evaluate style)
-  evalSecThin: { height: 0.5, backgroundColor: "#bbbbbb", marginTop: 10, marginBottom: 4 },
+  evalSecThin: { height: 0.5, backgroundColor: RULE, marginTop: 10, marginBottom: 4 },
   evalSecRow: { flexDirection: "row", alignItems: "center", marginBottom: 2 },
   evalSecAccent: { width: 4, height: 14, backgroundColor: BLUE, marginRight: 6 },
   evalSecTitle: { fontSize: 11, fontWeight: "bold", color: BLACK, letterSpacing: 2, flex: 1 },
@@ -85,7 +89,8 @@ const s = StyleSheet.create({
   // footer
   footer: { position: "absolute", bottom: 0, left: 0, right: 0 },
   footerBar: { height: 3, backgroundColor: BLUE },
-  footerRow: { flexDirection: "row", paddingLeft: 40, paddingRight: 40, paddingTop: 10 },
+  footerRow: { flexDirection: "row", alignItems: "center", paddingLeft: 40, paddingRight: 40, paddingTop: 8 },
+  footerOwl: { width: 24, height: 24 * OWL_READING_RATIO, marginRight: 8 },
   footerLeft: { flex: 1 },
   footerSiteLabel: { fontSize: 8, fontWeight: "bold", color: BLACK },
   footerSiteUrl: { fontSize: 7, color: GRAY, marginTop: 1 },
@@ -116,10 +121,10 @@ function Header({ dateStr }: { dateStr: string }) {
   return (
     <>
       <View style={s.headerRow}>
-        <View style={s.headerBox}><Text style={s.headerBoxText}>H.</Text></View>
+        <PdfImage src={OWL_PEEK} style={s.headerOwl} />
         <View style={s.headerMid}>
-          <Text style={s.headerTitle}>historyoptional.xyz</Text>
-          <Text style={s.headerSub}>one-stop solution for everything history optional</Text>
+          <Text style={s.headerTitle}>History <Text style={{ color: BLUE }}>Optional</Text></Text>
+          <Text style={s.headerSub}>historyoptional.xyz  ·  one-stop solution for everything history optional</Text>
         </View>
         <Text style={s.headerDate}>{dateStr}</Text>
       </View>
@@ -133,8 +138,9 @@ function Footer() {
     <View style={s.footer} fixed>
       <View style={s.footerBar} />
       <View style={s.footerRow}>
+        <PdfImage src={OWL_READING} style={s.footerOwl} />
         <View style={s.footerLeft}>
-          <Text style={s.footerSiteLabel}>H.  HISTORY OPTIONAL</Text>
+          <Text style={s.footerSiteLabel}>HISTORY OPTIONAL</Text>
           <Text style={s.footerSiteUrl}>historyoptional.xyz</Text>
         </View>
         <View style={s.footerRight}>
@@ -238,7 +244,6 @@ function ChatPDF({ markdownText, questionText, dateStr }: { markdownText: string
 
 // ── Evaluate/Model Answer PDF ──
 function EvalPDF({ question, marks, evaluation, dateStr }: { question: string; marks: number; evaluation: any; dateStr: string }) {
-  const idealWC = marks === 10 ? "150 words" : marks === 15 ? "200 words" : "250 words";
   const scoreStr = `${evaluation.marks} / ${evaluation.marks_out_of}`;
   const bodyParas: string[] = Array.isArray(evaluation.model_answer.body)
     ? evaluation.model_answer.body
@@ -256,7 +261,7 @@ function EvalPDF({ question, marks, evaluation, dateStr }: { question: string; m
           </View>
           <View style={s.scoreMeta}>
             <Text style={s.scoreTitle}>MODEL ANSWER</Text>
-            <Text style={s.scoreSubtitle}>{idealWC}  ·  {marks} Marks  ·  UPSC CSM</Text>
+            <Text style={s.scoreSubtitle}>{marks} Marks  ·  UPSC CSM</Text>
           </View>
         </View>
         {/* Question */}
