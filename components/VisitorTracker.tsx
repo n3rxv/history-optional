@@ -18,6 +18,17 @@ import { usePathname } from 'next/navigation';
 
 const HEARTBEAT_MS = 5 * 60 * 1000;
 
+/**
+ * Local dev writes to the production database, and an automated browser
+ * (puppeteer, Playwright: navigator.webdriver is set) gets a fresh
+ * fingerprint on every launch, so each test run left a new visitor row.
+ * Neither is a reader.
+ */
+function shouldTrack(): boolean {
+  if (navigator.webdriver) return false;
+  return !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+}
+
 let visitorIdPromise: Promise<{ visitor_id: string; old_fp: string | null }> | null = null;
 
 /** Memoised so concurrent callers share one FingerprintJS load. */
@@ -103,6 +114,7 @@ export default function VisitorTracker() {
   const firstVisitReported = useRef(false);
 
   useEffect(() => {
+    if (!shouldTrack()) return;
     let cancelled = false;
     (async () => {
       try {
@@ -138,6 +150,7 @@ export default function VisitorTracker() {
   }, [pathname]);
 
   useEffect(() => {
+    if (!shouldTrack()) return;
     let interval: ReturnType<typeof setInterval> | undefined;
     let onVisibility: (() => void) | undefined;
     let onUnload: (() => void) | undefined;

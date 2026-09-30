@@ -14,7 +14,7 @@ import { NextRequest, NextResponse } from 'next/server';
  */
 
 const BOT_UA =
-  /bot|crawler|spider|crawling|googlebot|bingbot|ahrefsbot|semrushbot|mj12bot|dotbot|rogerbot|facebookexternalhit|python|curl|wget|axios|node-fetch|go-http-client|java|ruby|scrapy/i;
+  /bot|crawler|spider|crawling|headlesschrome|googlebot|bingbot|ahrefsbot|semrushbot|mj12bot|dotbot|rogerbot|facebookexternalhit|python|curl|wget|axios|node-fetch|go-http-client|java|ruby|scrapy/i;
 
 // Deliberately in-memory rather than the durable limiter in lib/rateLimit.
 // This only suppresses duplicate pings, and a database round trip to decide
