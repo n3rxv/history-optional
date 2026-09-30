@@ -23,6 +23,7 @@ import SidePanel, { type PanelContent, type Source } from '@/components/chat/Sid
 import WorthKnowing from '@/components/chat/WorthKnowing';
 import Mascot from '@/components/Mascot';
 import OwlLoader from '@/components/OwlLoader';
+import { parseMentorSections } from '@/lib/chatMentor';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -184,13 +185,18 @@ function formatMessage(text: string, sourcesCount: number = 0) {
   text = fixSentenceSpacing(text);
   text = formatTable(text);
   text = text.replace(/^-{3,}$/gm, '___HR___');
+  // A line of bare asterisks is bold the model opened and never closed.
+  text = text.replace(/^[ \t]*\*{1,2}[ \t]*$/gm, '').replace(/\n{3,}/g, '\n\n');
   text = text.replace(/^#{1,2} (.+)$/gm, (_: string, t: string) => `___H1___${t}___END___`);
   text = text.replace(/^### (.+)$/gm, (_: string, t: string) => `___H2___${t}___END___`);
   text = text.replace(/^#{4,6} (.+)$/gm, (_: string, t: string) => `___H3___${t}___END___`);
   text = text.replace(/^ *\d+[.)]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
-  text = text.replace(/^ *[-*•–—]\s+\*\*([^*]+?)\*\*:?\s*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
+  text = text.replace(/^ *[-*•–—]\s+\*\*([^*\n]+?)\*\*:?[ \t]*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
   text = text.replace(/^ *[-*•–—]\s+(.+)$/gm, (_: string, t: string) => `___BULLET___${t}___END___`);
-  text = text.replace(/^\s*\*\*([^*]+)\*\*\s*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
+  // [^*\n], not [^*]: a heading is one line. Across lines, `**`, blank line,
+  // `**` matched with the blank line as the title, and the markers it left
+  // could not be closed by the single-line replacements below.
+  text = text.replace(/^[ \t]*\*\*([^*\n]+)\*\*[ \t]*$/gm, (_: string, t: string) => `___H3___${t}___END___`);
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
   text = text.replace(/___HR___/g, '<div class="chat-hr"></div>');
@@ -205,23 +211,6 @@ function formatMessage(text: string, sourcesCount: number = 0) {
   text = text.replace(/(<div class="chat-msg-h[123]">[^<]+<\/div>)<div class="chat-para-gap"><\/div>(<div class="chat-bullet">)/g, '$1$2');
   text = linkifyCitations(text, sourcesCount);
   return text;
-}
-
-function parseMentorSections(text: string): { type: string; content: string }[] {
-  const sections: { type: string; content: string }[] = [];
-  const regex = /##([A-Z]+)##([\s\S]*?)##END##/g;
-  let match;
-  let lastIndex = 0;
-  while ((match = regex.exec(text)) !== null) {
-    const before = text.slice(lastIndex, match.index).trim();
-    if (before) sections.push({ type: 'TEXT', content: before });
-    sections.push({ type: match[1], content: match[2].trim() });
-    lastIndex = match.index + match[0].length;
-  }
-  const after = text.slice(lastIndex).trim();
-  if (after) sections.push({ type: 'TEXT', content: after });
-  if (sections.length === 0) sections.push({ type: 'TEXT', content: text });
-  return sections;
 }
 
 const MENTOR_SECTIONS: Record<string, { label: string; icon: string; color: string }> = {
