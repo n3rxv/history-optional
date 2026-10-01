@@ -52,6 +52,8 @@ const CHAT_HISTORY_MAX = 50;
 const CHAT_PARAM = 'c';
 // Where the reader was in that conversation, for the same return trip.
 const CHAT_SCROLL_KEY = 'ho_chat_scroll';
+// The past-questions panel, when a question in it was opened, to reopen on Back.
+const CHAT_PANEL_KEY = 'ho_chat_panel';
 const FREE_CHATS = 3;
 const SOURCES_MARKER = '\n__SOURCES__';
 const NEXT_MARKER = '\n__NEXT__';
@@ -414,6 +416,9 @@ function ChatContent() {
   // Set when a conversation is reopened from the URL; the thread effect
   // returns to this scroll position instead of jumping to the last question.
   const restoreScrollRef = useRef<number | null>(null);
+  // The panel list's scroll position, handed to SidePanel once on Back.
+  const panelTopRef = useRef<number | null>(null);
+  const takePanelTop = useCallback(() => { const top = panelTopRef.current; panelTopRef.current = null; return top; }, []);
   // Until the mount has read ?c=, the URL is not ours to rewrite.
   const [chatRestored, setChatRestored] = useState(false);
 
@@ -509,7 +514,17 @@ function ChatContent() {
         const saved = JSON.parse(sessionStorage.getItem(CHAT_SCROLL_KEY) ?? 'null') as { id?: string; top?: number } | null;
         if (saved?.id === entry.id && typeof saved.top === 'number') restoreScrollRef.current = saved.top;
       } catch { /* landing on the last question is the fallback */ }
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(CHAT_PANEL_KEY) ?? 'null') as
+          { id?: string; panel?: { content: PanelContent; owner: number | null }; top?: number } | null;
+        if (saved?.id === entry.id && saved.panel?.content.kind === 'pyqs') {
+          setPanel(saved.panel);
+          panelTopRef.current = typeof saved.top === 'number' ? saved.top : null;
+        }
+      } catch { /* the panel stays shut */ }
     }
+    // One trip only: a later Back from somewhere else should not reopen it.
+    try { sessionStorage.removeItem(CHAT_PANEL_KEY); } catch { /* private mode */ }
     setChatRestored(true);
     try {
       const sr = JSON.parse(localStorage.getItem('ho_flashcards_v1') ?? '{}') as Record<string, { nextDue?: string }>;
@@ -1156,6 +1171,10 @@ function ChatContent() {
                 onClose={() => setPanel(null)}
                 onAnswer={answerPyq}
                 clean={cleanChunk}
+                onOpenPyq={(top) => {
+                  try { sessionStorage.setItem(CHAT_PANEL_KEY, JSON.stringify({ id: chatId, panel, top: Math.round(top) })); } catch { /* private mode */ }
+                }}
+                takeRestoreTop={takePanelTop}
               />
             </aside>
           </>
@@ -1675,7 +1694,16 @@ const CHAT_CSS = `
 .ch-source-author { font-size: 0.78rem; color: var(--text2); margin-top: 2px; }
 .ch-source p, .ch-panel-pyq p { margin: var(--space-2) 0 0; font-size: 0.86rem; line-height: 1.7; color: var(--text2); }
 .ch-panel-pyq p { color: var(--text); margin-bottom: var(--space-3); }
-.ch-panel-pyq-meta { display: flex; gap: var(--space-2); font-size: 0.74rem; color: var(--text3); }
+.ch-panel-pyq { position: relative; transition: border-color 0.15s, background 0.15s; }
+.ch-panel-pyq:hover { border-color: var(--accent); background: var(--accent-dim); }
+.ch-panel-pyq-link { display: block; color: inherit; text-decoration: none; }
+.ch-panel-pyq-link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.ch-panel-pyq-link:focus-visible { outline: none; }
+.ch-panel-pyq-link:focus-visible::after { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ch-panel-pyq .ch-btn { position: relative; z-index: 1; }
+.ch-panel-pyq-meta { display: flex; align-items: center; gap: var(--space-2); font-size: 0.74rem; color: var(--text3); }
+.ch-panel-pyq-go { margin-left: auto; color: var(--accent-text); flex-shrink: 0; transition: transform 0.15s; }
+.ch-panel-pyq:hover .ch-panel-pyq-go { transform: translateX(2px); }
 .ch-panel-pyq-meta span + span::before { content: '·'; margin-right: var(--space-2); }
 
 /* ── Overlays ── */
