@@ -1,7 +1,7 @@
 import React from 'react';
 import { pyqs } from '@/lib/pyqData';
 import { Shell } from './Shell';
-import { readTable, relative } from './data';
+import { readAll, relative } from './data';
 import { TopperEditor, type Row, type PyqLite } from './TopperEditor';
 
 type Copy = {
@@ -16,8 +16,8 @@ type Mapping = { topper_copy_id: string | number; pyq_id: string };
 
 export default async function TopperCopiesView() {
   const [copies, maps] = await Promise.all([
-    readTable<Copy>('topper_copies', '*', { column: 'created_at' }, 1000),
-    readTable<Mapping>('topper_copy_pyq_map', '*', undefined, 5000),
+    readAll<Copy>('topper_copies', '*', [{ column: 'created_at', ascending: false }, { column: 'id' }]),
+    readAll<Mapping>('topper_copy_pyq_map', '*', [{ column: 'topper_copy_id' }, { column: 'pyq_id' }]),
   ]);
 
   // The join table is the only record of which questions map to a PYQ.

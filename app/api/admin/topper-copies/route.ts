@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAdminAuthed } from '@/lib/admin-auth';
 import { createClient } from '@supabase/supabase-js';
+import { selectAll } from '@/lib/selectAll';
 
 const sb = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -10,36 +11,49 @@ const sb = createClient(
 export async function GET(req: NextRequest) {
   if (!await isAdminAuthed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: copies, error } = await sb
-    .from('topper_copies')
-    .select('*')
-    // Break the created_at tie on id, or the list will not hold still.
-    //
-    // A bulk insert gives every row in one transaction the same created_at,
-    // and there are five groups of a hundred such rows here. Ordering on
-    // created_at alone leaves the tie to the heap, and an update rewrites the
-    // row at the end of it, so editing a card moved it 78 places and shifted
-    // 271 rows around it. To the admin that reads as the question vanishing
-    // and its PYQ tag not saving. Both complaints were this one bug, and both
-    // edits were in the database the whole time.
-    .order('created_at', { ascending: false })
-    .order('id', { ascending: true });
+  let copies: Record<string, unknown>[];
+  try {
+    copies = await selectAll((from, to) => sb
+      .from('topper_copies')
+      .select('*')
+      // Break the created_at tie on id, or the list will not hold still.
+      //
+      // A bulk insert gives every row in one transaction the same created_at,
+      // and there are five groups of a hundred such rows here. Ordering on
+      // created_at alone leaves the tie to the heap, and an update rewrites the
+      // row at the end of it, so editing a card moved it 78 places and shifted
+      // 271 rows around it. To the admin that reads as the question vanishing
+      // and its PYQ tag not saving. Both complaints were this one bug, and both
+      // edits were in the database the whole time.
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: true })
+      .range(from, to));
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: 500 });
+  }
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-  const { data: maps } = await sb
-    .from('topper_copy_pyq_map')
-    .select('topper_copy_id, pyq_id');
+  // Paged: the link table is past the API's 1,000-row cap (lib/selectAll.ts).
+  let maps: { topper_copy_id: string; pyq_id: number }[];
+  try {
+    maps = await selectAll((from, to) => sb
+      .from('topper_copy_pyq_map')
+      .select('topper_copy_id, pyq_id')
+      .order('topper_copy_id')
+      .order('pyq_id')
+      .range(from, to));
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: 500 });
+  }
 
   const mapByCard: Record<string, number[]> = {};
-  (maps || []).forEach(m => {
+  maps.forEach(m => {
     if (!mapByCard[m.topper_copy_id]) mapByCard[m.topper_copy_id] = [];
     mapByCard[m.topper_copy_id].push(m.pyq_id);
   });
 
-  const result = (copies || []).map(c => ({
+  const result = copies.map(c => ({
     ...c,
-    pyq_ids: mapByCard[c.id] || [],
+    pyq_ids: mapByCard[c.id as string] || [],
   }));
 
   return NextResponse.json({ data: result });

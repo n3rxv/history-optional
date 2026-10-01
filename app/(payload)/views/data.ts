@@ -1,5 +1,6 @@
 import 'server-only';
 import { createServerClient } from '@/lib/supabase';
+import { selectAll } from '@/lib/selectAll';
 
 export { relative, truncate } from './format';
 
@@ -30,7 +31,28 @@ export async function readTable<T>(
   }
 }
 
-
+/**
+ * Every row, however many. readTable's limit cannot get past the API's
+ * 1,000-row cap (see lib/selectAll.ts). `order` sets the page order and must
+ * end on a unique column, or rows repeat or go missing between pages.
+ */
+export async function readAll<T>(
+  table: string,
+  columns: string,
+  order: { column: string; ascending?: boolean }[],
+): Promise<Loaded<T>> {
+  try {
+    const db = createServerClient();
+    const rows = await selectAll<T>((from, to) => {
+      let q = db.from(table).select(columns);
+      for (const o of order) q = q.order(o.column, { ascending: o.ascending ?? true });
+      return q.range(from, to) as unknown as PromiseLike<{ data: T[] | null; error: { message: string } | null }>;
+    });
+    return { rows, error: null };
+  } catch (e) {
+    return { rows: [], error: e instanceof Error ? e.message : 'unknown error' };
+  }
+}
 
 export const since = (rows: { created_at?: string | null }[], ms: number) =>
   rows.filter(r => r.created_at && Date.parse(r.created_at) > Date.now() - ms).length;
