@@ -11,6 +11,7 @@ import { FLASHCARD_TYPES } from '@/lib/flashcardMeta';
 import type { StoredFlashCard } from '@/lib/flashcardStore';
 import OwlLoader from '@/components/OwlLoader';
 import { allNotes } from '@/lib/notes';
+import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 
 type FlashCard = StoredFlashCard;
 
@@ -249,6 +250,24 @@ export default function Flashcards() {
   }, [modalOpen, queueIds, idx, keepAhead]);
 
   const closeModal = () => { setModalOpen(false); setFlipped(false); setRevealState('idle'); };
+
+  // A refresh mid-review used to close the session and lose the place in it.
+  // The queue, the card reached and the session's tally are kept for the tab,
+  // and the session reopens on that card, front up: flipping it again costs
+  // nothing if its answer was already unlocked, and nothing is spent unseen.
+  useRefreshSafe(
+    'ho_flashcards_session_v1',
+    { modalOpen, queueIds, idx, sessionDone, sessionRecalled, sessionFinished },
+    (saved) => {
+      if (!saved.modalOpen || saved.queueIds.length === 0) return;
+      setQueueIds(saved.queueIds);
+      setIdx(Math.min(saved.idx, saved.queueIds.length - 1));
+      setSessionDone(saved.sessionDone);
+      setSessionRecalled(saved.sessionRecalled);
+      setSessionFinished(saved.sessionFinished);
+      setModalOpen(true);
+    },
+  );
 
   /**
    * Turn the card over.

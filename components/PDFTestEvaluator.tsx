@@ -3,6 +3,7 @@ import { useLang } from '@/lib/i18n/LangContext';
 import { useRef, useState, DragEvent, ChangeEvent } from "react";
 import { saveToHistory } from "@/hooks/useAnswerHistory";
 import { getFingerprint } from '@/lib/fingerprint';
+import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 
 interface PaperQuestion { id: string; marks: number; text: string; }
 interface QuestionResult {
@@ -590,7 +591,7 @@ const SHARED_CSS = `
 `;
 
 export default function PDFTestEvaluator({
-  isPremium, onPaywall, token, paperQuestions,
+  isPremium, onPaywall, token, paperQuestions, variant,
 }: PDFTestEvaluatorProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
@@ -613,6 +614,24 @@ export default function PDFTestEvaluator({
   const [error, setError] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [showTranscript, setShowTranscript] = useState(false);
+
+  // A refresh used to discard the transcript and detected questions (one
+  // paid read of the whole booklet) or the results of every evaluation.
+  // They are kept for the tab; the PDF is not, which is fine past upload,
+  // since each question is evaluated from its transcribed answer. A step in
+  // flight falls back to the one before it. Keyed by where this evaluator
+  // sits, so a new test paper does not reopen the last one's results.
+  useRefreshSafe(
+    `ho_pdf_eval_v1:${variant ?? 'test'}:${(paperQuestions ?? []).map(q => q.id).join('.').slice(0, 200)}`,
+    {
+      stage: stage === 'evaluating' ? 'review' : stage === 'loading' ? 'upload' : stage,
+      transcript, segments, results, expanded, showTranscript,
+    },
+    (saved) => {
+      setStage(saved.stage); setTranscript(saved.transcript); setSegments(saved.segments);
+      setResults(saved.results); setExpanded(saved.expanded); setShowTranscript(saved.showTranscript);
+    },
+  );
 
   function handleFile(f: File) {
     if (!f.type.includes("pdf")) { setError("Please upload a PDF file."); return; }

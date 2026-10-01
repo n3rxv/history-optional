@@ -2,6 +2,7 @@
 import { useLang } from '@/lib/i18n/LangContext';
 import { useState, useRef } from "react";
 import { saveToHistory } from "@/hooks/useAnswerHistory";
+import { useRefreshSafe } from "@/hooks/useRefreshSafe";
 
 interface CheckedResult {
   number: string;
@@ -56,6 +57,11 @@ export default function MapEvaluator({
   const [results, setResults]   = useState<MapCheckResponse | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
   const inputRef                = useRef<HTMLInputElement>(null);
+
+  // A map evaluation is paid for; a refresh should not throw its results away.
+  useRefreshSafe('ho_map_eval_v1', { results, expanded }, (saved) => {
+    setResults(saved.results); setExpanded(saved.expanded);
+  });
 
   const handleFile = (f: File) => {
     if (!f.name.endsWith(".pdf")) { setError("Please upload a PDF file."); return; }
