@@ -7,6 +7,7 @@ import { auth } from '@/lib/firebase';
 import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 import OwlLoader from '@/components/OwlLoader';
 import ModelAnswerModal from '@/components/ModelAnswerModal';
+import CompareIcon from '@/components/CompareIcon';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 
 interface AnswerEntry {
@@ -132,6 +133,15 @@ export default function PYQDetailPage() {
         *{box-sizing:border-box;}
         body{overflow-x:hidden;}
         .pyq-detail-grid > *{min-width:0;max-width:100%;}
+        .cmp-cta{
+          display:flex;align-items:center;gap:var(--space-3);width:100%;text-align:left;cursor:pointer;
+          margin-bottom:var(--space-4);padding:var(--space-3);border-radius:var(--radius-lg);
+          background:var(--bg);border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+          box-shadow:var(--elev-1);transition:border-color 0.15s, background 0.15s;
+        }
+        .cmp-cta:hover{border-color:var(--accent);background:var(--accent-dim);}
+        .cmp-cta-arrow{margin-left:auto;color:var(--accent);transition:transform 0.15s;}
+        .cmp-cta:hover .cmp-cta-arrow{transform:translateX(3px);}
       `}</style>
 
       {/* Back */}
@@ -357,20 +367,38 @@ export default function PYQDetailPage() {
           display: 'flex', alignItems: 'center', gap: '0.5rem',
         }}>
           🏆 Related Topper Copies
-          {topperCopies.length >= 2 && (
-            <button
-              onClick={() => openTopperCopy(`/pyqs/${pyq.id}/compare`)}
-              style={{
-                marginLeft: 'auto', background: 'var(--accent-dim)',
-                border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
-                color: 'var(--accent)', borderRadius: 'var(--radius-sm)',
-                padding: 'var(--space-1) var(--space-2)', cursor: 'pointer',
-                fontFamily: 'var(--font-mono)', fontSize: '0.62rem', letterSpacing: '0.08em',
-                textTransform: 'uppercase', whiteSpace: 'nowrap',
-              }}
-            >Compare &#8644;</button>
+          {topperCopies.length > 0 && (
+            <span style={{
+              marginLeft: 'auto', color: 'var(--text3)', border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-pill)', padding: '2px var(--space-2)', letterSpacing: '0.04em',
+            }}>{topperCopies.length}</span>
           )}
         </div>
+        {/* Up top, where it is seen before the list, and saying what it does:
+            a bare "Compare" chip meant nothing to readers who had never seen
+            the page it opens. */}
+        {topperCopies.length >= 2 && (() => {
+          const toppers = new Set(topperCopies.map(tc => (tc.note ?? '').split(',')[0].trim())).size;
+          return (
+            <button className="cmp-cta" onClick={() => openTopperCopy(`/pyqs/${pyq.id}/compare`)}>
+              <span style={{
+                width: 36, height: 36, flexShrink: 0, borderRadius: 'var(--radius-md)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'var(--accent-dim)', color: 'var(--accent)',
+                border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
+              }}><CompareIcon size={18} /></span>
+              <span style={{ minWidth: 0 }}>
+                <span style={{ display: 'block', color: 'var(--text)', fontSize: '0.85rem', fontWeight: 600, lineHeight: 1.35 }}>
+                  Compare answers side by side
+                </span>
+                <span style={{ display: 'block', color: 'var(--text3)', fontSize: '0.72rem', marginTop: 2 }}>
+                  {toppers >= 2 ? `See how ${toppers} toppers wrote this answer` : `Read ${topperCopies.length} copies next to each other`}
+                </span>
+              </span>
+              <span className="cmp-cta-arrow" aria-hidden="true">&rarr;</span>
+            </button>
+          );
+        })()}
         {topperLoading ? (
           <OwlLoader size="small" label="Loading topper copies" />
         ) : topperCopies.length === 0 ? (

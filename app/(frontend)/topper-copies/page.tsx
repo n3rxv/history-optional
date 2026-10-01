@@ -9,6 +9,7 @@ import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import OwlLoader from '@/components/OwlLoader';
 import TopperLocked from '@/components/TopperLocked';
+import CompareIcon from '@/components/CompareIcon';
 
 type Copy = { id: string; question: string; note: string | null; pyq_ids: number[]; topics: string[] };
 type Access = { access: boolean; clicks: number; isPremium?: boolean; hasTopperAccess?: boolean };
@@ -110,7 +111,7 @@ export default function TopperCopiesPage() {
       .catch(() => setCopies([]));
   }, []);
 
-  // Kept subscribed: logging in from this page should update the notice.
+  // Kept subscribed, so a login from this page is picked up.
   useEffect(() => auth.onAuthStateChanged(async user => {
     if (!user) { setAccess('signed-out'); return; }
     const token = await user.getIdToken();
@@ -149,11 +150,14 @@ export default function TopperCopiesPage() {
     if (next !== `${window.location.pathname}${window.location.search}`) window.history.replaceState(null, '', next);
   }, [restored, section, topic, who, search]);
 
-  /** How many copies answer each PYQ, for the Compare link. */
-  const perPyq = useMemo(() => {
-    const n = new Map<number, number>();
-    for (const c of copies ?? []) for (const id of c.pyq_ids) n.set(id, (n.get(id) ?? 0) + 1);
-    return n;
+  /** Who has a copy answering each PYQ, for the side-by-side link. */
+  const toppersByPyq = useMemo(() => {
+    const m = new Map<number, Set<string>>();
+    for (const c of copies ?? []) for (const id of c.pyq_ids) {
+      if (!m.has(id)) m.set(id, new Set());
+      m.get(id)!.add(topperOf(c));
+    }
+    return m;
   }, [copies]);
 
   // Topper and text narrow everything below them, the tab counts and the
@@ -230,9 +234,6 @@ export default function TopperCopiesPage() {
     if (a.access) router.push(href); else setPaywall(true);
   };
 
-  const free = access && access !== 'signed-out' && !access.isPremium && !access.hasTopperAccess ? access : null;
-  const freeLeft = free ? Math.max(0, FREE_VIEWS - (free.clicks ?? 0)) : 0;
-
   const field: React.CSSProperties = {
     background: 'var(--bg3)', border: '1px solid var(--border)',
     borderRadius: 'var(--radius-sm)', padding: 'var(--space-2) var(--space-3)',
@@ -249,6 +250,20 @@ export default function TopperCopiesPage() {
         .tc-card{transition:border-color 0.15s;}
         .tc-card:hover{border-color:color-mix(in srgb, var(--accent) 35%, var(--border))!important;}
         .tc-actions{display:flex;flex-direction:column;gap:var(--space-2);flex-shrink:0;}
+        .tc-compare{
+          display:flex;align-items:center;gap:var(--space-3);width:100%;
+          margin-top:var(--space-4);padding:var(--space-3) 0 0;
+          border:none;border-top:1px solid var(--border);background:none;
+          color:var(--accent);font-family:var(--font-ui);font-size:0.85rem;text-align:left;cursor:pointer;
+        }
+        .tc-compare-icon{
+          display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;
+          border-radius:var(--radius-sm);background:var(--accent-dim);
+          border:1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+        }
+        .tc-compare-arrow{margin-left:auto;transition:transform 0.15s;}
+        .tc-compare:hover .tc-compare-label{text-decoration:underline;text-underline-offset:3px;}
+        .tc-compare:hover .tc-compare-arrow{transform:translateX(3px);}
         /* On a phone the buttons go under the question, side by side, rather
            than squeezing it into a column a few words wide. */
         @media (max-width:600px){
@@ -282,36 +297,6 @@ export default function TopperCopiesPage() {
           }}>Browse PYQs &rarr;</Link>
         </div>
       </div>
-
-      {/* Where the reader stands. Nothing for unlimited access: there is
-          nothing to tell them. */}
-      {(access === 'signed-out' || free) && (
-        <div style={{
-          background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)',
-          padding: 'var(--space-2) var(--space-4)', marginBottom: 'var(--space-5)',
-          color: 'var(--text2)', fontSize: '0.82rem', lineHeight: 1.6,
-        }}>
-          {access === 'signed-out' ? (
-            <>
-              <button onClick={() => requireLogin('Log in to view topper copies')} style={{
-                background: 'none', border: 'none', padding: 0, color: 'var(--accent)',
-                cursor: 'pointer', fontSize: 'inherit', fontWeight: 600,
-              }}>Log in</button>
-              {' '}to open copies. Your first {FREE_VIEWS} are free.
-            </>
-          ) : freeLeft > 0 ? (
-            <>Free preview: <strong>{freeLeft} of {FREE_VIEWS}</strong> copy views left. Unlimited access is ₹799/year.</>
-          ) : (
-            <>
-              Your {FREE_VIEWS} free copy views are used.{' '}
-              <button onClick={() => setPaywall(true)} style={{
-                background: 'none', border: 'none', padding: 0, color: 'var(--accent)',
-                cursor: 'pointer', fontSize: 'inherit', fontWeight: 600,
-              }}>Unlock every copy for ₹799/year</button>
-            </>
-          )}
-        </div>
-      )}
 
       {/* Sections. A topic chosen under one section is meaningless under
           another, so a tab resets it. */}
@@ -419,10 +404,12 @@ export default function TopperCopiesPage() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
                   {g.copies.map(c => {
-                    // The PYQ with the most other copies, if any has one.
-                    const cmp = c.pyq_ids
-                      .filter(id => (perPyq.get(id) ?? 0) >= 2)
-                      .sort((x, y) => (perPyq.get(y) ?? 0) - (perPyq.get(x) ?? 0))[0];
+                    // The PYQ answered by the most other toppers, if any is:
+                    // the one to set this copy beside. A topper's second copy
+                    // of the same question is not worth a comparison.
+                    const othersOn = (id: number) => [...(toppersByPyq.get(id) ?? [])].filter(n => n !== topperOf(c)).length;
+                    const cmp = [...c.pyq_ids].sort((x, y) => othersOn(y) - othersOn(x))[0];
+                    const others = cmp === undefined ? 0 : othersOn(cmp);
                     return (
                       <div key={c.id} className="tc-card" style={{
                         background: 'var(--bg2)', border: '1px solid var(--border)',
@@ -468,19 +455,19 @@ export default function TopperCopiesPage() {
                               padding: 'var(--space-2) var(--space-4)', fontSize: '0.8rem',
                               cursor: 'pointer', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap',
                             }}>View Copy &#8594;</button>
-                            {cmp !== undefined && (
-                              <button
-                                onClick={() => open(`/pyqs/${cmp}/compare?a=${c.id}`)}
-                                title={`Side by side with the other copies of this PYQ (${perPyq.get(cmp)} in all)`}
-                                style={{
-                                  background: 'none', border: '1px solid var(--border)', color: 'var(--text2)',
-                                  borderRadius: 'var(--radius-sm)', padding: 'var(--space-1) var(--space-4)',
-                                  fontSize: '0.75rem', cursor: 'pointer', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap',
-                                }}
-                              >Compare ({perPyq.get(cmp)})</button>
-                            )}
                           </div>
                         </div>
+                        {/* Says what it does: "Compare" on its own meant nothing
+                            to readers who had never seen the page it opens. */}
+                        {others > 0 && (
+                          <button className="tc-compare" onClick={() => open(`/pyqs/${cmp}/compare?a=${c.id}`)}>
+                            <span className="tc-compare-icon"><CompareIcon size={15} /></span>
+                            <span className="tc-compare-label">
+                              See how {others} other {others === 1 ? 'topper' : 'toppers'} answered this question, side by side
+                            </span>
+                            <span className="tc-compare-arrow" aria-hidden="true">&rarr;</span>
+                          </button>
+                        )}
                       </div>
                     );
                   })}

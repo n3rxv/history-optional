@@ -65,7 +65,9 @@ async function drawPages(el: HTMLDivElement, pdf: PdfDoc, scale: number) {
     canvas.height = viewport.height;
     canvas.style.width = '100%';
     canvas.style.display = 'block';
-    canvas.style.marginBottom = '4px';
+    canvas.style.marginBottom = '12px';
+    canvas.style.borderRadius = '3px';
+    canvas.style.boxShadow = 'var(--elev-1)';
     el.appendChild(canvas);
     await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
   }
@@ -97,6 +99,9 @@ type Props = {
   onLoad?: (copy: TopperCopyDetail) => void;
   /** The caller may not open this copy: no access, or the free views are used. */
   onDenied?: () => void;
+  /** Drawn inside a card the caller owns, as on Compare: no border of its own,
+   *  and a toolbar that does not repeat what the card's header says. */
+  embedded?: boolean;
 };
 
 /**
@@ -106,7 +111,7 @@ type Props = {
  * Give it a `key` of the copy id: a new copy is a new instance, which keeps
  * the one-request rule below simple.
  */
-export default function TopperPdf({ copyId, height, onLoad, onDenied }: Props) {
+export default function TopperPdf({ copyId, height, onLoad, onDenied, embedded = false }: Props) {
   const [copy, setCopy] = useState<TopperCopyDetail | null>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'denied' | 'error'>('loading');
   const [error, setError] = useState('');
@@ -121,20 +126,26 @@ export default function TopperPdf({ copyId, height, onLoad, onDenied }: Props) {
 
   // One request per copy, even when React runs this effect twice in
   // development: for a free reader, each request spends one of their free
-  // views, so a second request would charge them twice.
-  const request = useRef<{ id: string; p: Promise<Fetched> } | null>(null);
+  // views, so a second request would charge them twice. And the caller hears
+  // about each request once: Compare counts the free views a reader has left
+  // from onLoad, and a re-run of this effect over a request already answered
+  // (moving the pane with Swap did it) counted a view nobody was charged.
+  const request = useRef<{ id: string; p: Promise<Fetched>; told: boolean } | null>(null);
   useEffect(() => {
     let cancelled = false;
-    if (request.current?.id !== copyId) request.current = { id: copyId, p: fetchCopy(copyId) };
-    request.current.p.then(res => {
+    if (request.current?.id !== copyId) request.current = { id: copyId, p: fetchCopy(copyId), told: false };
+    const req = request.current;
+    req.p.then(res => {
       if (cancelled) return;
+      const first = !req.told;
+      req.told = true;
       if ('copy' in res) {
         setCopy(res.copy);
         setStatus('ready');
-        callbacks.current.onLoad?.(res.copy);
+        if (first) callbacks.current.onLoad?.(res.copy);
       } else if ('denied' in res) {
         setStatus('denied');
-        callbacks.current.onDenied?.();
+        if (first) callbacks.current.onDenied?.();
       } else {
         setError(res.error);
         setStatus('error');
@@ -189,26 +200,31 @@ export default function TopperPdf({ copyId, height, onLoad, onDenied }: Props) {
   if (status === 'loading') return <OwlLoader label="Loading the topper copy" />;
 
   const btn: React.CSSProperties = {
-    background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text2)',
-    cursor: rendering ? 'not-allowed' : 'pointer', width: 28, height: 28,
-    borderRadius: 'var(--radius-sm)', fontSize: '1rem', lineHeight: 1, opacity: rendering ? 0.5 : 1,
+    background: 'none', border: 'none', color: 'var(--text2)',
+    cursor: rendering ? 'not-allowed' : 'pointer', width: 28, height: 26,
+    fontSize: '1rem', lineHeight: 1, opacity: rendering ? 0.5 : 1,
   };
 
   return (
-    <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: 'var(--bg2)' }}>
+    <div style={embedded
+      ? { background: 'var(--bg2)' }
+      : { border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: 'var(--bg2)' }}>
       <div style={{
         padding: 'var(--space-2) var(--space-4)', borderBottom: '1px solid var(--border)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-2)',
-        background: 'var(--bg3)',
+        background: embedded ? 'var(--bg2)' : 'var(--bg3)',
       }}>
         <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', letterSpacing: '0.08em' }}>
-          HANDWRITTEN ANSWER {numPages > 0 && `· ${numPages} pages`}
+          {embedded ? (numPages > 0 ? `${numPages} PAGES` : '') : <>HANDWRITTEN ANSWER {numPages > 0 && `· ${numPages} pages`}</>}
         </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
           {!pdfLoading && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-pill)', background: 'var(--bg)', padding: '0 var(--space-1)',
+            }}>
               <button style={btn} onClick={() => zoom(-0.25)} aria-label="Zoom out">−</button>
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', minWidth: 38, textAlign: 'center' }}>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text2)', minWidth: 40, textAlign: 'center' }}>
                 {Math.round((scale / 1.5) * 100)}%
               </span>
               <button style={btn} onClick={() => zoom(0.25)} aria-label="Zoom in">+</button>
@@ -223,7 +239,7 @@ export default function TopperPdf({ copyId, height, onLoad, onDenied }: Props) {
         </div>
       </div>
       {pdfLoading && <OwlLoader label="Loading the PDF" />}
-      <div ref={boxRef} style={{ position: 'relative', background: 'var(--bg3)', padding: 'var(--space-2)', height, overflowY: 'auto' }} />
+      <div ref={boxRef} style={{ position: 'relative', background: 'var(--bg-sunken)', padding: 'var(--space-3)', height, overflowY: 'auto' }} />
     </div>
   );
 }
