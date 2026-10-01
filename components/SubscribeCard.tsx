@@ -59,9 +59,6 @@ export function SubscribeCard({
   // and handling it themselves; by default the sheet opens in place.
   const showWeekly = true;
   const price = currentPlan.price;
-  const originalPrice = null;
-
-  const showJulyBadge = false;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
@@ -254,10 +251,6 @@ export function SubscribeCard({
     <>
       {weeklyOpen && <AutopaySheet onClose={() => setWeeklyOpen(false)} />}
       <style>{`
-        @keyframes pulseSlot {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0.6; }
-        }
         @keyframes gradientShift {
           0%   { background-position: 0% 50%; }
           50%  { background-position: 100% 50%; }
@@ -267,10 +260,6 @@ export function SubscribeCard({
           0%, 100% { box-shadow: 0 0 20px color-mix(in srgb, var(--premium-text) 30%, transparent), 0 4px 15px rgba(0,0,0,0.4); }
           50%       { box-shadow: 0 0 35px color-mix(in srgb, var(--premium-text) 55%, transparent), 0 4px 20px rgba(0,0,0,0.5); }
         }
-        @keyframes julyPulse {
-          0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--premium-text) 0%, transparent); }
-          50%       { box-shadow: 0 0 10px 2px color-mix(in srgb, var(--premium-text) 18%, transparent); }
-        }
         .subscribe-cta { transition: all 0.18s ease; }
         .subscribe-cta:hover { filter: brightness(1.1); }
         .weekly-cta { transition: filter 0.15s; }
@@ -279,28 +268,6 @@ export function SubscribeCard({
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, position: 'relative' }}>
 
-        {/* July offer banner — only when annual selected in July */}
-        {showJulyBadge && (
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            background: 'color-mix(in srgb, var(--premium-text) 7%, transparent)',
-            border: '0.5px solid color-mix(in srgb, var(--premium-text) 30%, transparent)',
-            borderRadius: 8, padding: '6px 10px',
-            animation: 'julyPulse 2.5s ease infinite',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontSize: '0.75rem' }}>🎉</span>
-              <span style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--premium-text)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                July Offer — Ends Jul 31
-              </span>
-            </div>
-            <span style={{
-              fontSize: '0.6rem', fontWeight: 800, color: 'var(--success-text)',
-              background: 'color-mix(in srgb, var(--success-text) 10%, transparent)', border: '0.5px solid color-mix(in srgb, var(--success-text) 25%, transparent)',
-              borderRadius: 8, padding: '2px 7px', letterSpacing: '0.04em',
-            }}>50% OFF</span>
-          </div>
-        )}
 
         {/* Weekly subscription, above the one-time plans */}
         {showWeekly && (
@@ -393,26 +360,7 @@ export function SubscribeCard({
                 backgroundClip: 'text',
               }}>{price}</span>
               <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>/{currentPlan.sub}</span>
-              {originalPrice && (
-                <span style={{ color: 'var(--border2)', fontSize: '0.72rem', textDecoration: 'line-through' }}>
-                  {originalPrice}
-                </span>
-              )}
             </div>
-            
-            {showJulyBadge && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 1 }}>
-                <span style={{
-                  width: 5, height: 5, borderRadius: '50%',
-                  background: 'var(--premium-text)', boxShadow: '0 0 6px color-mix(in srgb, var(--premium-text) 60%, transparent)',
-                  display: 'inline-block', flexShrink: 0,
-                  animation: 'pulseSlot 1.5s ease infinite',
-                }} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', color: 'var(--premium-text)', letterSpacing: '0.04em' }}>
-                  Limited time · saves ₹3,000
-                </span>
-              </div>
-            )}
           </div>
 
           {/* Gold seal */}
