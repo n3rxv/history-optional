@@ -418,6 +418,19 @@ export default function Flashcards() {
         @media (max-width: 480px) {
           .fc-rate-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .fc-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          /* Filters in a grid rather than a ragged wrap: the topic, the
+             longest, across the top, then pairs, then Start full width. */
+          .fc-filters { display: grid !important; grid-template-columns: 1fr 1fr; }
+          .fc-filters .fc-filter { width: 100%; max-width: none !important; min-height: 40px; }
+          .fc-filters .fc-filter-wide { grid-column: 1 / -1; order: -1; }
+          .fc-filters .fc-due { min-height: 40px; }
+          .fc-filters .fc-spacer { display: none; }
+          .fc-filters .fc-start { grid-column: 1 / -1; min-height: 44px; }
+          /* The type badge beside the question left it a column a third of
+             the card wide; badge and status share a line above it instead. */
+          .fc-browse-row { flex-wrap: wrap; row-gap: var(--space-2) !important; }
+          .fc-browse-meta { margin-left: auto; }
+          .fc-browse-text { order: 1; flex-basis: 100% !important; }
         }
       `}</style>
 
@@ -720,15 +733,15 @@ export default function Flashcards() {
         )}
 
         {/* Filters + Start */}
-        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.75rem', alignItems: 'center' }}>
+        <div className="fc-filters" style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.75rem', alignItems: 'center' }}>
           {/* Picking a section is choosing a different slice; a topic left
               over from the chat would leave it empty. */}
-          <select value={filterSection} onChange={e => { setFilterSection(e.target.value); setFilterTopic(null); }}
+          <select className="fc-filter" value={filterSection} onChange={e => { setFilterSection(e.target.value); setFilterTopic(null); }}
             style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी अनुभाग" : "All Sections"}</option>
             {sections.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
-          <select value={filterTopic ?? 'All'} onChange={e => setFilterTopic(e.target.value === 'All' ? null : e.target.value)}
+          <select className="fc-filter fc-filter-wide" value={filterTopic ?? 'All'} onChange={e => setFilterTopic(e.target.value === 'All' ? null : e.target.value)}
             aria-label={langHi ? 'विषय' : 'Topic'}
             style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer', maxWidth: 280 }}>
             <option value="All">{langHi ? 'सभी विषय' : 'All Topics'}</option>
@@ -738,13 +751,12 @@ export default function Flashcards() {
               </optgroup>
             ))}
           </select>
-          <select value={filterType} onChange={e => setFilterType(e.target.value)}
+          <select className="fc-filter" value={filterType} onChange={e => setFilterType(e.target.value)}
             style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी प्रकार" : "All Types"}</option>
             {FLASHCARD_TYPES.map(t => <option key={t} value={t}>{getTypeLabel(t)}</option>)}
           </select>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text2)', cursor: 'pointer' }}>
-          <select value={filterGrade} onChange={e => setFilterGrade(e.target.value)}
+          <select className="fc-filter" value={filterGrade} onChange={e => setFilterGrade(e.target.value)}
             style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी रेटिंग" : "All Ratings"}</option>
             <option value="1">{langHi ? 'खाली' : 'Blank'}</option>
@@ -752,11 +764,15 @@ export default function Flashcards() {
             <option value="3">{langHi ? 'अच्छा' : 'Good'}</option>
             <option value="4">{langHi ? 'आसान' : 'Easy'}</option>
           </select>
+          {/* The ratings select used to sit inside this label, which made it the
+              label's control: tapping "Due only" opened the select instead of
+              ticking the box. */}
+          <label className="fc-due" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text2)', cursor: 'pointer' }}>
             <input type="checkbox" checked={filterDue} onChange={e => setFilterDue(e.target.checked)} style={{ accentColor: 'var(--accent)' }} />
             {langHi ? 'केवल बाकी' : 'Due only'}
           </label>
-          <div style={{ flex: 1 }} />
-          <button onClick={() => { if (requireLogin('Sign in free to start your flashcard session.')) buildQueue(); }}
+          <div className="fc-spacer" style={{ flex: 1 }} />
+          <button className="fc-start" onClick={() => { if (requireLogin('Sign in free to start your flashcard session.')) buildQueue(); }}
             style={{
               background: 'linear-gradient(135deg, var(--accent), var(--accent))',
               color: 'var(--accent-on)', border: 'none',
@@ -805,7 +821,7 @@ export default function Flashcards() {
                 onClick={() => { if (requireLogin('Sign in free to study flashcards.')) buildQueue(card); }}
                 style={{
                   background: 'var(--bg2)',
-                  border: `1px solid ${isDue && mounted ? `color-mix(in srgb, tc2.main 20%, transparent)` : 'var(--border)'}`,
+                  border: `1px solid ${isDue && mounted ? `color-mix(in srgb, ${tc2.main} 20%, transparent)` : 'var(--border)'}`,
                   borderRadius: 10, padding: '0.85rem 1.1rem',
                   display: 'flex', alignItems: 'flex-start', gap: '0.85rem',
                   cursor: 'pointer', transition: 'all 0.15s',
@@ -813,13 +829,13 @@ export default function Flashcards() {
                 }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = `color-mix(in srgb, tc2.main 33%, transparent)`;
+                  el.style.borderColor = `color-mix(in srgb, ${tc2.main} 33%, transparent)`;
                   el.style.background = `var(--bg3)`;
                   el.style.boxShadow = `0 2px 16px color-mix(in srgb, ${tc2.main} 13%, transparent)`;
                 }}
                 onMouseLeave={e => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = isDue && mounted ? `color-mix(in srgb, tc2.main 20%, transparent)` : 'var(--border)';
+                  el.style.borderColor = isDue && mounted ? `color-mix(in srgb, ${tc2.main} 20%, transparent)` : 'var(--border)';
                   el.style.background = 'var(--bg2)';
                   el.style.boxShadow = 'none';
                 }}
@@ -834,12 +850,12 @@ export default function Flashcards() {
                   border: `1px solid color-mix(in srgb, ${tc2.main} 20%, transparent)`,
                   padding: '2px 7px', borderRadius: 4,
                   display: 'block', whiteSpace: 'nowrap', flexShrink: 0, marginTop: 2,
-                }}>{getTypeLabel(card.type)}</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
+                }} className="fc-browse-type">{getTypeLabel(card.type)}</span>
+                <div className="fc-browse-text" style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: '0.84rem', color: 'var(--text)', lineHeight: 1.45 }}>{langHi ? (card.front_hi ?? card.front) : card.front}</div>
                   <div style={{ fontSize: '0.68rem', color: 'var(--text3)', marginTop: '0.25rem' }}>{card.section}</div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+                <div className="fc-browse-meta" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
                   {/* How it was last graded. Without it the rating filter is
                       the only way to find out, and the answer is invisible on
                       the card itself. */}

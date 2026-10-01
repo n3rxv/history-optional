@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useLang } from '@/lib/i18n/LangContext';
 
 const DISMISS_KEY = 'ho_pwa_install_dismissed_at';
@@ -32,6 +33,7 @@ function wasDismissedRecently(): boolean {
 
 export default function PWARegister() {
   const { langHi } = useLang();
+  const pathname = usePathname();
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showBanner, setShowBanner] = useState(false);
   const [showIosBanner, setShowIosBanner] = useState(false);
@@ -82,6 +84,9 @@ export default function PWARegister() {
   }
 
   if (!showBanner && !showIosBanner) return null;
+  // The chat's input sits at the foot of the screen, where this banner lands;
+  // it covered the box a reader had come to type in. Shown on other pages.
+  if (pathname?.startsWith('/chat')) return null;
 
   return (
     <div className="ho-pwa-banner" role="dialog" aria-label="Install app">

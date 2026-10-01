@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useRef, useState, useCallback, useMemo, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useIsPhone } from '@/hooks/useIsPhone';
 import SidebarNotes from '@/components/SidebarNotes';
 import Link from 'next/link';
 import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
@@ -404,7 +405,7 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
   return (
     <>
       {/* Custom scrollbar track on right edge */}
-      <div style={{
+      <div className="nr-track" style={{
         position: 'fixed', right: 0, top: 60, width: 14, height: trackH,
         zIndex: 400, display: 'flex', flexDirection: 'column', alignItems: 'center',
         background: 'var(--bg2)',
@@ -552,13 +553,6 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
   );
 }
 
-const PHONE_QUERY = '(max-width: 768px)';
-function subscribePhone(onChange: () => void) {
-  const mq = window.matchMedia(PHONE_QUERY);
-  mq.addEventListener('change', onChange);
-  return () => mq.removeEventListener('change', onChange);
-}
-
 export default function NoteReader({ slug, initialContent = '' }: { slug: string; initialContent?: string }) {
   const note = getNoteBySlug(slug);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -590,7 +584,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   // useSyncExternalStore renders the server's answer while hydrating and the
   // phone's straight after, and the CSS on the aside keeps it shut on a phone
   // before that, so it never opens and snaps shut.
-  const isPhone = useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
+  const isPhone = useIsPhone();
   const [sidebarPref, setSidebarPref] = useState<boolean | null>(null);
   const sidebarOpen = sidebarPref ?? !isPhone;
   const setSidebarOpen = (open: boolean) => setSidebarPref(open);
@@ -1037,6 +1031,15 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           aside::-webkit-scrollbar-track { background: transparent; }
           aside::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 2px; }
           @media (max-width: 768px) { aside[data-sidebar-auto] { width: 0 !important; min-width: 0 !important; } }
+          /* Phones: Find and its bar sat on the bottom tab bar, the custom
+             scroll track lay over the text's right edge (the phone has its
+             own scroll indicator), and a keyboard shortcut means nothing. */
+          @media (max-width: 768px) {
+            .nr-find, .nr-find-bar { bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 12px) !important; right: 12px !important; }
+            .nr-find-bar { left: 12px; min-width: 0 !important; }
+            .nr-track { display: none !important; }
+          }
+          @media (hover: none) { .nr-find-kbd { display: none; } }
         `}</style>
 
         <div style={{ padding: '1.25rem 1rem', opacity: sidebarOpen ? 1 : 0, transition: 'opacity 0.2s' }}>
@@ -1554,7 +1557,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
 
       {/* ── Within-note search bar ── */}
       {noteSearch.open && (
-        <div style={{
+        <div className="nr-find-bar" style={{
           position: 'fixed', bottom: 28, right: 28, zIndex: 9999,
           background: 'var(--bg-raised)',
           border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)',
@@ -1602,6 +1605,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
       {/* Search trigger button */}
       {!noteSearch.open && !editMode && (
         <button
+          className="nr-find"
           onClick={() => noteSearch.setOpen(true)}
           title="Find in note (⌘F)"
           style={{
@@ -1624,7 +1628,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
             <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
           </svg>
           Find
-          <span style={{ opacity: 0.45, fontSize: '0.62rem', background: 'var(--accent-dim)', padding: '1px 5px', borderRadius: 3, border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)' }}>⌘F</span>
+          <span className="nr-find-kbd" style={{ opacity: 0.45, fontSize: '0.62rem', background: 'var(--accent-dim)', padding: '1px 5px', borderRadius: 3, border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)' }}>⌘F</span>
         </button>
       )}
     </div>

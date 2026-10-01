@@ -12,6 +12,7 @@ import EvalProgress, { ReadProgress, applyEvalStage, applyReadStage, type EvalSt
 import { readProgress } from '@/lib/progressStream';
 import EmptyState from '@/components/EmptyState';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
+import { useIsPhone } from '@/hooks/useIsPhone';
 
 
 interface Historian {
@@ -171,12 +172,16 @@ export default function EvaluatePage() {
   const [stage, setStage]           = useState<"form"|"ocr"|"result">("form");
   const [history, setHistory]        = useState<AnswerEntry[]>([]);
   const [openEntry, setOpenEntry]    = useState<AnswerEntry | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Beside the form on a desktop, a closed drawer on a phone, until the reader
+  // toggles it. It started open and an effect shut it on a phone, so phones
+  // painted the drawer and its backdrop open for a frame first; see
+  // useIsPhone. data-open="auto" keeps the server's HTML shut on a phone.
+  const isPhone = useIsPhone();
+  const [sidebarPref, setSidebarPref] = useState<boolean | null>(null);
+  const sidebarOpen = sidebarPref ?? !isPhone;
+  const setSidebarOpen = (next: boolean | ((open: boolean) => boolean)) =>
+    setSidebarPref(typeof next === 'function' ? next(sidebarOpen) : next);
   const [evalMode, setEvalMode] = useState<"single"|"batch"|"map">("single");
-
-  useEffect(() => {
-    setSidebarOpen(window.innerWidth > 768);
-  }, []);
 
   // Lets another page open this one on a particular mode, which is how the
   // pricing card reaches map evaluation: the map flow lives here behind this
@@ -555,11 +560,11 @@ const handleOcr = useCallback(async () => {
 
         {/* Mobile backdrop — only visible+clickable when sidebar open on mobile */}
         {sidebarOpen && (
-          <div className="ev-sidebar-backdrop" onClick={() => setSidebarOpen(false)} />
+          <div className={`ev-sidebar-backdrop${sidebarPref === null ? ' ev-sidebar-auto' : ''}`} onClick={() => setSidebarOpen(false)} />
         )}
 
         {/* ── History Sidebar ── */}
-        <div className="ev-sidebar" data-open={sidebarOpen ? 'true' : 'false'} style={{
+        <div className="ev-sidebar" data-open={sidebarPref === null ? 'auto' : sidebarOpen ? 'true' : 'false'} style={{
           width: sidebarOpen ? 280 : 40, minWidth: sidebarOpen ? 280 : 40,
           borderRight:"1px solid var(--border-subtle)", background:"var(--bg-raised)",
           transition:"all 0.25s ease", overflow:"hidden", flexShrink:0,

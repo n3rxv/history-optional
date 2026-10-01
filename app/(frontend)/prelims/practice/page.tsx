@@ -1,7 +1,8 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
-import React, { useState, useEffect, useRef, useSyncExternalStore } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useIsPhone } from '@/hooks/useIsPhone';
 import { prelimsQuestions } from '@/lib/prelimsData';
 import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
@@ -67,13 +68,6 @@ function getCached(qid: string): AIResult | null {
 function setCached(qid: string, r: AIResult) {
   try { const s = localStorage.getItem(LS_KEY); const o = s ? JSON.parse(s) : {}; o[qid] = r; localStorage.setItem(LS_KEY, JSON.stringify(o)); } catch {}
 }
-const PHONE_QUERY = '(max-width: 768px)';
-function subscribePhone(onChange: () => void) {
-  const mq = window.matchMedia(PHONE_QUERY);
-  mq.addEventListener('change', onChange);
-  return () => mq.removeEventListener('change', onChange);
-}
-
 /** The questions a set of filters selects; bookmarks live in `states`. */
 function filterQuestions(filter: Filter, topic: string, year: string, states: Record<string, QuestionState>) {
   return prelimsQuestions.filter(q => {
@@ -103,7 +97,7 @@ export default function PrelimsPage() {
   // window.innerWidth inside useState made a phone's first render disagree
   // with the server's HTML; React rebuilt the page and the rebuild cleared
   // data-theme off <html>. See the same fix in NoteReader.
-  const isPhone = useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
+  const isPhone = useIsPhone();
   const [navPref, setNavPref] = useState<boolean | null>(null);
   const showNav = navPref ?? !isPhone;
   const setShowNav = (next: boolean | ((open: boolean) => boolean)) =>

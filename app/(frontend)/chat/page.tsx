@@ -1779,8 +1779,11 @@ const CHAT_CSS = `
   .ch-side-chats { flex: none; min-height: 0; overflow: visible; }
   .ch-side { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
   .ch-start { justify-content: flex-start; padding: var(--space-5) var(--space-4) 0; }
-  .ch-start-owl { height: clamp(64px, 11vh, 104px); }
+  /* The owl and subtitle took most of a phone's height, so the flow's list of
+     choices had to scroll inside its card from the first screen. */
+  .ch-start-owl { height: clamp(56px, 8vh, 80px); }
   .ch-start h1 { font-size: 1.45rem; }
+  .ch-start > p { font-size: 0.9rem; line-height: 1.5; margin-bottom: var(--space-3); }
   .ch-flow { padding: var(--space-4); }
   .ch-chip { font-size: 0.82rem; min-height: 32px; padding: var(--space-1) var(--space-2); }
   .ch-textarea { max-height: 104px; }
