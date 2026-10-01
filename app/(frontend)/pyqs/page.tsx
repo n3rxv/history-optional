@@ -12,6 +12,7 @@ import LoginPromptModal from '@/components/LoginPromptModal';
 import Script from 'next/script';
 import EmptyState from '@/components/EmptyState';
 import OwlLoader from '@/components/OwlLoader';
+import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 
 // Early Medieval had no tab at all: 99 questions reachable only through "All"
 // or the /pyqs/early-medieval page. India Since Independence is newly split out
@@ -28,6 +29,8 @@ const TABS = [
 
 const SECTION_ORDER = TABS.filter(t => t.value !== 'all').map(t => t.value);
 const MARK_OPTIONS = [10, 15, 20, 25, 30, 60];
+// Questions drawn at a time; Show more adds the next lot.
+const LIST_PAGE = 60;
 
 
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
@@ -479,6 +482,33 @@ export default function PYQsPage() {
 
   const isP1 = (section: string) => section.startsWith('Paper I');
   const clearAll = () => { setActiveTab('all'); setFilterTopic('all'); setFilterDone('all'); setFilterYear('all'); setFilterMarks('all'); setSearch(''); };
+  // The list used to draw every match at once: all 1,584 questions unfiltered,
+  // a page half a million pixels tall on a phone and 4.8 MB of HTML. It now
+  // draws LIST_PAGE at a time. The count belongs to the filters it was raised
+  // under, so changing them starts again from the top, and it is kept for the
+  // tab so Back from a question finds the list as long as it was left.
+  const listKey = [activeTab, filterTopic, filterYear, filterMarks, filterDone, search].join('|');
+  const [shown, setShown] = useState({ key: '', n: LIST_PAGE });
+  useRefreshSafe('ho_pyqs_shown_v1', shown, setShown);
+  const listLimit = shown.key === listKey ? shown.n : LIST_PAGE;
+  const visibleGroups = useMemo(() => {
+    let left = listLimit;
+    const out: typeof grouped = [];
+    for (const g of grouped) {
+      if (left <= 0) break;
+      const subs: typeof g.subs = [];
+      for (const [sub, qs] of g.subs) {
+        if (left <= 0) break;
+        const take = qs.slice(0, left);
+        subs.push([sub, take]);
+        left -= take.length;
+      }
+      out.push({ ...g, subs });
+    }
+    return out;
+  }, [grouped, listLimit]);
+  const listLeft = Math.max(0, filtered.length - listLimit);
+
   const hasFilters = activeTab !== 'all' || filterTopic !== 'all' || filterDone !== 'all' || filterYear !== 'all' || filterMarks !== 'all' || search;
 
   const selectStyle: React.CSSProperties = {
@@ -787,7 +817,7 @@ export default function PYQsPage() {
 
       {/* Questions, grouped topic -> sub-topic */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-        {grouped.map(group => {
+        {visibleGroups.map(group => {
           // The colour says how heavily UPSC has mined this topic. It was
           // already here, applied to a "topic" that was really the section, so
           // every question in a paper carried the same badge.
@@ -971,6 +1001,19 @@ export default function PYQsPage() {
             </div>
           );
         })}
+
+        {listLeft > 0 && (
+          <button
+            onClick={() => setShown({ key: listKey, n: listLimit + LIST_PAGE })}
+            style={{
+              alignSelf: 'center', padding: '0.7rem 1.4rem', borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--border2)', background: 'var(--bg2)', color: 'var(--text)',
+              fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer',
+            }}
+          >
+            Show {Math.min(LIST_PAGE, listLeft)} more · {listLeft} left
+          </button>
+        )}
 
         {filtered.length === 0 && (
           <EmptyState
