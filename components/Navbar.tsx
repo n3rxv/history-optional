@@ -518,18 +518,18 @@ export default function Navbar() {
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 67 - 7 * scrollProgress }}>
 
           {/* Logo */}
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, overflow: 'hidden' }}>
+          <Link href="/" aria-label="History Optional, home" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, overflow: 'hidden' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center' }}>
               {/* "H" always visible */}
               <span>H</span>
               {/* "istory " collapses on scroll */}
-              <span style={{ display: 'inline-block', maxWidth: `${6 * (1 - scrollProgress)}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>istory</span>
+              <span className="nav-logo-word" style={{ display: 'inline-block', maxWidth: `${6 * (1 - scrollProgress)}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>istory</span>
               {/* space between words, hidden when scrolled */}
-              <span style={{ display: 'inline-block', maxWidth: `${0.35 * (1 - scrollProgress)}em`, overflow: 'hidden' }}>&nbsp;</span>
+              <span className="nav-logo-word" style={{ display: 'inline-block', maxWidth: `${0.35 * (1 - scrollProgress)}em`, overflow: 'hidden' }}>&nbsp;</span>
               {/* "Optional" collapses on scroll, accent coloured */}
-              <span style={{ color: 'var(--accent)', display: 'inline-block', maxWidth: `${8 * (1 - scrollProgress)}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>Optional</span>
+              <span className="nav-logo-word" style={{ color: 'var(--accent)', display: 'inline-block', maxWidth: `${8 * (1 - scrollProgress)}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>Optional</span>
               {/* "." appears on scroll */}
-              <span style={{ display: 'inline-block', maxWidth: `${scrollProgress}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>.</span>
+              <span className="nav-logo-dot" style={{ display: 'inline-block', maxWidth: `${scrollProgress}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>.</span>
             </span>
           </Link>
 
@@ -1039,6 +1039,13 @@ export default function Navbar() {
           }
           @media (max-width: 1024px) {
             .hide-md { display: none !important; }
+          }
+          /* Phones show the mark alone, the H. the full name collapses to on
+             scroll, which leaves the header room for its controls. CSS rather
+             than state, so the server's HTML is already right on a phone. */
+          @media (max-width: 768px) {
+            .nav-logo-word { max-width: 0 !important; }
+            .nav-logo-dot { max-width: 1em !important; }
           }
           @media (max-width: 900px) {
             .desktop-nav { display: none !important; }
