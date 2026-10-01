@@ -65,11 +65,23 @@ async function qdrant(
   return res.json();
 }
 
+/**
+ * Each point carries the passage twice: `content` exactly as it was embedded,
+ * and `text`, the same passage cleaned of OCR debris (running headers, glued
+ * footnote numbers, split words, misread letters) and trimmed to whole
+ * sentences. The vectors were computed from `content` and stay valid, since
+ * the cleaning changes no meaning. Points that are not prose at all (index
+ * pages, bibliographies, tables of contents) carry `junk: true` and no `text`;
+ * searches leave them out.
+ */
+const PAYLOAD = ['text', 'content', 'book_title', 'author'];
+const NOT_JUNK = { must_not: [{ key: 'junk', match: { value: true } }] };
+
 function toChunk(hit: QdrantHit): BookChunk {
   const payload = hit.payload ?? {};
   return {
     id: hit.id,
-    content: String(payload.content ?? ''),
+    content: String(payload.text ?? payload.content ?? ''),
     book_title: String(payload.book_title ?? 'Unknown'),
     author: String(payload.author ?? 'Unknown'),
     // With Cosine distance Qdrant scores hits as cosine similarity, the same
@@ -108,7 +120,8 @@ export async function searchDiverse(
       // interleave below fill its quota from distinct books when the corpus
       // has that many relevant ones.
       limit: maxResults,
-      with_payload: ['content', 'book_title', 'author'],
+      filter: NOT_JUNK,
+      with_payload: PAYLOAD,
     },
     signal,
   );
@@ -144,9 +157,9 @@ export async function searchBook(
     `/collections/${COLLECTION}/points/query`,
     {
       query: embedding,
-      filter: { must: [{ key: 'book_title', match: { value: bookTitle } }] },
+      filter: { must: [{ key: 'book_title', match: { value: bookTitle } }], ...NOT_JUNK },
       limit,
-      with_payload: ['content', 'book_title', 'author'],
+      with_payload: PAYLOAD,
     },
     signal,
   );
