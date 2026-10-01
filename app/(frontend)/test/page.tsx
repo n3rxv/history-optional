@@ -8,6 +8,7 @@ import PDFTestEvaluator from '@/components/PDFTestEvaluator';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import OwlLoader from '@/components/OwlLoader';
+import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 
 const LeafletMap = dynamic(() => import('@/components/LeafletMap'), { ssr: false });
 
@@ -123,17 +124,25 @@ function isAncient(sections: Section[]) { return sections.some(s => s.includes('
 
 // ─── Timer ────────────────────────────────────────────────────────────────────
 
-function useTimer(totalSec: number, running: boolean, onEnd: () => void) {
-  const [rem, setRem] = useState(totalSec);
-  const ref = useRef<ReturnType<typeof setInterval> | null>(null);
-  useEffect(() => { setRem(totalSec); }, [totalSec]);
+/**
+ * Counts down to a fixed end time rather than ticking a number down once a
+ * second. A refresh mid-test restores the same deadline, so the clock carries
+ * on from where it was instead of restarting at the full time, and a tab the
+ * browser throttled in the background still shows the true time left.
+ * endedAt freezes it on submit, for the time-taken figure in the results.
+ */
+function useTimer(totalSec: number, deadline: number | null, endedAt: number | null, onEnd: () => void) {
+  const [now, setNow] = useState(() => Date.now());
+  const onEndRef = useRef(onEnd);
+  useEffect(() => { onEndRef.current = onEnd; });
+  const running = deadline !== null && endedAt === null;
   useEffect(() => {
     if (!running) return;
-    ref.current = setInterval(() => {
-      setRem(p => { if (p <= 1) { clearInterval(ref.current!); onEnd(); return 0; } return p - 1; });
-    }, 1000);
-    return () => clearInterval(ref.current!);
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
   }, [running]);
+  const rem = deadline === null ? totalSec : Math.max(0, Math.ceil((deadline - (endedAt ?? now)) / 1000));
+  useEffect(() => { if (running && rem === 0) onEndRef.current(); }, [running, rem]);
   const fmt = (s: number) => {
     const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
     return h > 0 ? `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}` : `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
@@ -286,6 +295,15 @@ function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
   const [evalData, setEvalData]   = useState<any>(null);
   const [error, setError]         = useState('');
   const [panelOpen, setPanelOpen] = useState(false);
+
+  // A transcript or an evaluation is a paid step; a refresh should not throw
+  // it away. Kept per question for the tab. Photos cannot be kept, so only a
+  // finished transcript or result comes back, never a half-run upload.
+  useRefreshSafe(
+    `ho_test_mentor_v1:${marks}:${question.slice(0, 120)}`,
+    { step: step === 'transcript' || step === 'done' ? step : 'idle' as OcrStep, transcript, evalData, panelOpen },
+    (m) => { setStep(m.step); setTranscript(m.transcript); setEvalData(m.evalData); setPanelOpen(m.panelOpen); },
+  );
 
   function handleUploadClick() {
     if (!isPremium) { onPaywall(); return; }
@@ -1057,7 +1075,28 @@ export default function TestPage() {
   const [dot5,      setDot5]      = useState<number | null>(null);
   const [sAns1,     setSAns1]     = useState<Record<number, string>>({});
   const [sAns5,     setSAns5]     = useState<Record<number, string>>({});
-  const [timerOn,   setTimerOn]   = useState(false);
+  // The test's end time, and when it was submitted; see useTimer.
+  const [deadline,  setDeadline]  = useState<number | null>(null);
+  const [endedAt,   setEndedAt]   = useState<number | null>(null);
+
+  // A refresh mid-test used to throw the paper away: the questions are drawn
+  // at random, so they could not even be found again, and every answer typed
+  // went with them. The whole test is kept for the tab instead, deadline
+  // included, so the clock carries on rather than starting over.
+  useRefreshSafe(
+    'ho_test_v1',
+    { phase, mode, sections, paper, groupsA, groupsB, mapQ1, mapQ5, shortQ1, shortQ5, answers, rubrics,
+      mapAns1, mapRev1, mapCor1, mapAns5, mapRev5, mapCor5, dot1, dot5, sAns1, sAns5, deadline, endedAt },
+    (t) => {
+      setPhase(t.phase); setMode(t.mode); setSections(t.sections); setPaper(t.paper);
+      setGroupsA(t.groupsA); setGroupsB(t.groupsB); setMapQ1(t.mapQ1); setMapQ5(t.mapQ5);
+      setShortQ1(t.shortQ1); setShortQ5(t.shortQ5); setAnswers(t.answers); setRubrics(t.rubrics);
+      setMapAns1(t.mapAns1); setMapRev1(t.mapRev1); setMapCor1(t.mapCor1);
+      setMapAns5(t.mapAns5); setMapRev5(t.mapRev5); setMapCor5(t.mapCor5);
+      setDot1(t.dot1); setDot5(t.dot5); setSAns1(t.sAns1); setSAns5(t.sAns5);
+      setDeadline(t.deadline); setEndedAt(t.endedAt);
+    },
+  );
 
   const { usage, GateModals, showChatLimitModal } = useSubscriptionGate(() => {});
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
@@ -1070,10 +1109,10 @@ export default function TestPage() {
 
   const totalMins = mode === 'sectional' ? 105 : 180;
   const maxMarks  = mode === 'sectional' ? 150 : 250;
-  const { rem, display } = useTimer(totalMins * 60, timerOn, handleSubmit);
+  const { rem, display } = useTimer(totalMins * 60, deadline, endedAt, handleSubmit);
   const urgency = rem < 300;
 
-  function handleSubmit() { setTimerOn(false); setPhase('results'); }
+  function handleSubmit() { setEndedAt(Date.now()); setPhase('results'); }
 
   function getEffectiveSections(): { secA: Section[]; secB: Section[] } {
     if (mode === 'sectional') return { secA: sections, secB: [] };
@@ -1098,7 +1137,7 @@ export default function TestPage() {
     setAnswers({}); setRubrics({});
     setMapAns1({}); setMapRev1({}); setMapCor1({}); setMapAns5({}); setMapRev5({}); setMapCor5({});
     setDot1(null); setDot5(null); setSAns1({}); setSAns5({});
-    setTimerOn(true);
+    setDeadline(Date.now() + totalMins * 60 * 1000); setEndedAt(null);
     setPhase('test');
   }
 

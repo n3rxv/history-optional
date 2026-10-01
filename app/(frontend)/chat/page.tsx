@@ -416,6 +416,8 @@ function ChatContent() {
   // Set when a conversation is reopened from the URL; the thread effect
   // returns to this scroll position instead of jumping to the last question.
   const restoreScrollRef = useRef<number | null>(null);
+  // Whether this turn's question has been saved while its answer streams.
+  const savedTurnRef = useRef(false);
   // The panel list's scroll position, handed to SidePanel once on Back.
   const panelTopRef = useRef<number | null>(null);
   const takePanelTop = useCallback(() => { const top = panelTopRef.current; panelTopRef.current = null; return top; }, []);
@@ -498,6 +500,19 @@ function ChatContent() {
   const typedHint = typed.text === suggestion ? hintChars.slice(0, typed.n).join('') : '';
   const hintTyping = typed.text !== suggestion || typed.n < hintChars.length;
 
+  // Opens a saved conversation. One that ends on a question was cut off
+  // mid-answer, by a refresh or a closed tab, so the question goes back in
+  // the box to send again rather than sitting there unanswered.
+  const resumeEntry = (entry: ChatHistoryEntry) => {
+    const last = entry.messages[entry.messages.length - 1];
+    const cutOff = last?.role === 'user';
+    const msgs = cutOff ? entry.messages.slice(0, -1) : entry.messages;
+    setChatId(entry.id);
+    hasUserMessageRef.current = msgs.some(m => m.role === 'user');
+    setMessages(msgs);
+    if (cutOff) setInput(last.content);
+  };
+
   useEffect(() => {
     const list = loadChatHistory();
     setHistoryList(list);
@@ -507,9 +522,7 @@ function ChatContent() {
     const openId = new URLSearchParams(window.location.search).get(CHAT_PARAM);
     const entry = openId ? list.find(c => c.id === openId) : undefined;
     if (entry) {
-      setChatId(entry.id);
-      hasUserMessageRef.current = entry.messages.some(m => m.role === 'user');
-      setMessages(entry.messages);
+      resumeEntry(entry);
       try {
         const saved = JSON.parse(sessionStorage.getItem(CHAT_SCROLL_KEY) ?? 'null') as { id?: string; top?: number } | null;
         if (saved?.id === entry.id && typeof saved.top === 'number') restoreScrollRef.current = saved.top;
@@ -533,11 +546,21 @@ function ChatContent() {
     } catch { /* the badge is a nicety */ }
   }, []);
 
+  // Saved as soon as a question is sent, not only once its answer lands: a
+  // refresh mid-answer used to lose the question as well, and the chat with
+  // it. While the answer streams, the chat is saved once, without the reply
+  // being written, rather than again on every chunk.
   useEffect(() => {
-    if (loading) return;
     if (messages.some(m => m.role === 'user')) hasUserMessageRef.current = true;
     if (!hasUserMessageRef.current) return;
-    const entry: ChatHistoryEntry = { id: chatId, title: makeChatTitle(messages), messages, updatedAt: Date.now() };
+    if (loading) {
+      if (savedTurnRef.current) return;
+      savedTurnRef.current = true;
+    } else {
+      savedTurnRef.current = false;
+    }
+    const kept = loading && messages[messages.length - 1]?.role === 'assistant' ? messages.slice(0, -1) : messages;
+    const entry: ChatHistoryEntry = { id: chatId, title: makeChatTitle(kept), messages: kept, updatedAt: Date.now() };
     setHistoryList(prev => {
       const withoutCurrent = prev.filter(c => c.id !== chatId);
       const updated = [entry, ...withoutCurrent].slice(0, CHAT_HISTORY_MAX);
@@ -623,10 +646,8 @@ function ChatContent() {
   const openChat = (id: string) => {
     const entry = historyList.find(c => c.id === id);
     if (!entry) return;
-    setChatId(entry.id);
-    hasUserMessageRef.current = entry.messages.some(m => m.role === 'user');
-    setMessages(entry.messages);
     setInput('');
+    resumeEntry(entry);
     setPanel(null);
     setSidebarOpen(false);
   };

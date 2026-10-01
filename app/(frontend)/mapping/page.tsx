@@ -5,6 +5,7 @@ import { bookData, BookChapter, BookSite } from '@/lib/bookData';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
+import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 
 const MappingMap = dynamic(() => import('@/components/MappingMap'), { ssr: false });
 
@@ -660,6 +661,19 @@ export default function MappingPage() {
   const [globalPYQOnly, setGlobalPYQOnly] = useState(false);
   const [chapterPYQOverrides, setChapterPYQOverrides] = useState<Record<string, boolean>>({});
   const [quizPYQOnly, setQuizPYQOnly] = useState(false);
+
+  // A refresh used to reset the map to its first part with every chapter shut
+  // and the toggles off. The view is kept for the tab instead.
+  useRefreshSafe(
+    'ho_mapping_v1',
+    { activePart, quizMode, noLabels, showGrid, openChapters: [...openChapters], selectedSite, search, globalPYQOnly, chapterPYQOverrides, quizPYQOnly },
+    (v) => {
+      if (PART_ORDER.includes(v.activePart)) setActivePart(v.activePart);
+      setQuizMode(v.quizMode); setNoLabels(v.noLabels); setShowGrid(v.showGrid);
+      setOpenChapters(new Set(v.openChapters)); setSelectedSite(v.selectedSite); setSearch(v.search);
+      setGlobalPYQOnly(v.globalPYQOnly); setChapterPYQOverrides(v.chapterPYQOverrides); setQuizPYQOnly(v.quizPYQOnly);
+    },
+  );
 
   useEffect(() => {
     if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {

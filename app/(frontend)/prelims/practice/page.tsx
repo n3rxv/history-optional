@@ -8,6 +8,7 @@ import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import EmptyState from '@/components/EmptyState';
 import OwlLoader from '@/components/OwlLoader';
+import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 import Link from 'next/link';
 
 type Filter = 'all' | 'pyq' | 'practice' | 'bookmarked';
@@ -66,6 +67,17 @@ function getCached(qid: string): AIResult | null {
 function setCached(qid: string, r: AIResult) {
   try { const s = localStorage.getItem(LS_KEY); const o = s ? JSON.parse(s) : {}; o[qid] = r; localStorage.setItem(LS_KEY, JSON.stringify(o)); } catch {}
 }
+/** The questions a set of filters selects; bookmarks live in `states`. */
+function filterQuestions(filter: Filter, topic: string, year: string, states: Record<string, QuestionState>) {
+  return prelimsQuestions.filter(q => {
+    if (filter === 'bookmarked') return !!states[q.id]?.marked;
+    if (filter !== 'all' && q.type !== filter) return false;
+    if (topic !== 'all' && q.topic !== topic) return false;
+    if (year !== 'all' && String(q.year) !== year) return false;
+    return true;
+  });
+}
+
 export default function PrelimsPage() {
   const { langHi } = useLang();
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
@@ -106,19 +118,36 @@ export default function PrelimsPage() {
     })();
   }, []);
 
-  const filtered = prelimsQuestions.filter(q => {
-    if (filter === 'bookmarked') return !!states[q.id]?.marked;
-    if (filter !== 'all' && q.type !== filter) return false;
-    if (topicFilter !== 'all' && q.topic !== topicFilter) return false;
-    if (yearFilter !== 'all' && String(q.year) !== yearFilter) return false;
-    return true;
-  });
+  const filtered = filterQuestions(filter, topicFilter, yearFilter, states);
 
   const q = filtered[current];
   const emptyQS: QuestionState = { selected: null, submitted: false, marked: false, aiResult: null, aiLoading: false };
   const qs: QuestionState = q ? (states[q.id] ?? emptyQS) : emptyQS;
 
-  useEffect(() => { setCurrent(0); setShowResult(false); }, [filter, topicFilter, yearFilter]);
+  // Changing a filter starts the set again from its first question. Done in
+  // the handlers rather than in an effect on the filters, which also fired
+  // when they were restored after a refresh and threw the position away.
+  const refilter = () => { setCurrent(0); setShowResult(false); };
+
+  // A refresh used to send the reader back to question 1 of the whole bank.
+  // Answers were already kept; the place in the set and its filters now are
+  // too, for the tab.
+  useRefreshSafe(
+    'ho_prelims_practice_v1',
+    { filter, topicFilter, yearFilter, current, showResult },
+    (saved) => {
+      // A link into a different topic's drill set starts that set fresh.
+      const urlTopic = new URLSearchParams(window.location.search).get('topic');
+      if (urlTopic && urlTopic !== saved.topicFilter) return;
+      setFilter(saved.filter);
+      setTopicFilter(saved.topicFilter);
+      setYearFilter(saved.yearFilter);
+      // Within the set as it is now: bookmarks may have changed since.
+      const size = filterQuestions(saved.filter, saved.topicFilter, saved.yearFilter, states).length;
+      setCurrent(Math.min(saved.current, Math.max(0, size - 1)));
+      setShowResult(saved.showResult);
+    },
+  );
 
   const updateState = (id: string, patch: Partial<QuestionState>) =>
     setStates(prev => {
@@ -266,7 +295,7 @@ export default function PrelimsPage() {
         {/* type pills */}
         <div style={{ display: 'flex', gap: '0.4rem' }}>
           {(['all', 'pyq', 'practice'] as Filter[]).map(f => (
-            <button key={f} onClick={() => setFilter(f)} style={{
+            <button key={f} onClick={() => { setFilter(f); refilter(); }} style={{
               padding: '0.28rem 0.75rem', borderRadius: 20, border: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600,
               background: filter === f ? 'var(--accent)' : 'rgba(0,0,0,0.06)',
               color: filter === f ? 'var(--accent-on)' : 'var(--text2)',
@@ -276,7 +305,7 @@ export default function PrelimsPage() {
         </div>
 
         {/* topic filter */}
-        <select value={topicFilter} onChange={e => setTopicFilter(e.target.value)} style={{
+        <select value={topicFilter} onChange={e => { setTopicFilter(e.target.value); refilter(); }} style={{
           background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8,
           color: 'var(--text)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 210,
         }}>
@@ -284,7 +313,7 @@ export default function PrelimsPage() {
           {TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
         </select>
         {/* year filter */}
-        <select value={yearFilter} onChange={e => setYearFilter(e.target.value)} style={{
+        <select value={yearFilter} onChange={e => { setYearFilter(e.target.value); refilter(); }} style={{
           background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8,
           color: 'var(--text)', fontSize: '0.8rem', padding: '0.28rem 0.6rem', cursor: 'pointer', maxWidth: 120,
         }}>
@@ -292,7 +321,7 @@ export default function PrelimsPage() {
           {YEARS.map(y => <option key={y} value={String(y)}>{y}</option>)}
         </select>
 
-        <button onClick={() => setFilter(filter === 'bookmarked' ? 'all' : 'bookmarked' as any)}
+        <button onClick={() => { setFilter(filter === 'bookmarked' ? 'all' : 'bookmarked' as any); refilter(); }}
           onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = 'color-mix(in srgb, var(--warning-text) 20%, transparent)'; (e.target as HTMLButtonElement).style.borderColor = 'color-mix(in srgb, var(--warning-text) 70%, transparent)'; (e.target as HTMLButtonElement).style.color = 'var(--warning-text)'; }}
           onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = filter === 'bookmarked' ? 'color-mix(in srgb, var(--warning-text) 15%, transparent)' : 'transparent'; (e.target as HTMLButtonElement).style.borderColor = filter === 'bookmarked' ? 'color-mix(in srgb, var(--warning-text) 50%, transparent)' : 'rgba(0,0,0,0.08)'; (e.target as HTMLButtonElement).style.color = filter === 'bookmarked' ? 'var(--warning-text)' : 'var(--text2)'; }}
           style={{

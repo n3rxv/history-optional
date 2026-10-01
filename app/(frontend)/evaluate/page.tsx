@@ -11,6 +11,7 @@ import MapEvaluator from '@/components/MapEvaluator';
 import EvalProgress, { ReadProgress, applyEvalStage, applyReadStage, type EvalStages, type ReadStages } from '@/components/EvalProgress';
 import { readProgress } from '@/lib/progressStream';
 import EmptyState from '@/components/EmptyState';
+import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 
 
 interface Historian {
@@ -204,6 +205,28 @@ export default function EvaluatePage() {
   const tabsRef = useRef<HTMLDivElement>(null);
   const [swapIdx, setDragIdx] = useState<number | null>(null);
   const [previews, setPreviews] = useState<string[]>([]);
+
+  // A refresh used to land on an empty form, losing the transcript (the slow,
+  // metered step) or the evaluation on screen. Photos cannot go in a snapshot,
+  // so a refresh on the review step keeps the transcript and evaluates from
+  // it, which /api/evaluate accepts without the images. A request in flight
+  // is lost either way; the reader returns to the step before it.
+  useRefreshSafe(
+    'ho_evaluate_v1',
+    { stage, question, marks, extractedText, evaluation, submittedQ, submittedM, tab, evalMode, openEntryId: openEntry?.id ?? null },
+    (saved) => {
+      setStage(saved.stage);
+      setQuestion(saved.question);
+      setMarks(saved.marks);
+      setExtractedText(saved.extractedText);
+      setEvaluation(saved.evaluation);
+      setSubmittedQ(saved.submittedQ);
+      setSubmittedM(saved.submittedM);
+      setTab(saved.tab);
+      setEvalMode(saved.evalMode);
+      if (saved.openEntryId) setOpenEntry(loadHistory().find(e => e.id === saved.openEntryId) ?? null);
+    },
+  );
 
 const handleOcr = useCallback(async () => {
     if (!files || files.length === 0) { setError("Please upload at least one file."); return; }
