@@ -1,0 +1,995 @@
+{
+  "about": "Corrections to PYQ question text in lib/pyqData.ts, applied by scripts/pyq/fixQuestions.mts and by regenerate.mts. The original generator OCR'd the PYQ book and left debris in the text: the next heading glued onto the end, margin digits and stray letters inside sentences, and spaces inside hyphenated words. Every entry was checked against the book's own text layer. 'from' must match the current text exactly, so an entry cannot touch a question that has since changed.",
+  "fixes": {
+    "10": {
+      "from": "Assess the importance of the accounts of the Chinese and Arab travellers in the reconstruction of the history of India. Archaeological Sources",
+      "to": "Assess the importance of the accounts of the Chinese and Arab travellers in the reconstruction of the history of India.",
+      "why": "heading/junk at end"
+    },
+    "12": {
+      "from": "Art and culture are reflected to a far greater extent than political history in the epigraphic sources. 1 Comment. g ",
+      "to": "Art and culture are reflected to a far greater extent than political history in the epigraphic sources. Comment.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "13": {
+      "from": "Do you agree that archaeological evidence often helps in the better understanding of literary sources? Comment. Historiography",
+      "to": "Do you agree that archaeological evidence often helps in the better understanding of literary sources? Comment.",
+      "why": "heading/junk at end"
+    },
+    "15": {
+      "from": "\"The current practice of categorization of 'Early Modern India' is based on a shift from the old imperialist periodization of 'Muslim India' - 'British India' to the more secularist one of 'Medieval India' - 'Modern India', which puts Indian history in a universalist chronological Structure.\" Critically evaluate. Miscellaneous Questions",
+      "to": "\"The current practice of categorization of 'Early Modern India' is based on a shift from the old imperialist periodization of 'Muslim India' - 'British India' to the more secularist one of 'Medieval India' - 'Modern India', which puts Indian history in a universalist chronological Structure.\" Critically evaluate.",
+      "why": "heading/junk at end"
+    },
+    "19": {
+      "from": "\"The Neolithic Age represents a revolution due to significant changes that took place during this period.\" Examine. Chalcolithic Cultures",
+      "to": "\"The Neolithic Age represents a revolution due to significant changes that took place during this period.\" Examine.",
+      "why": "heading/junk at end"
+    },
+    "22": {
+      "from": "\"The Chalcolithic people were experts in microliths and were also skilful workers in stone.\" Elucidate. Megalithic Cultures",
+      "to": "\"The Chalcolithic people were experts in microliths and were also skilful workers in stone.\" Elucidate.",
+      "why": "heading/junk at end"
+    },
+    "25": {
+      "from": "Will it be proper to consider the Megaliths to represent a single, homogenous or contemporaneous culture? What kind of material life and culture system is revealed in the 5 megalithic cultures? ",
+      "to": "Will it be proper to consider the Megaliths to represent a single, homogenous or contemporaneous culture? What kind of material life and culture system is revealed in the megalithic cultures?",
+      "why": "stray character mid-text"
+    },
+    "26": {
+      "from": "Discuss different types of Megalithic burial practices in India. How far does the archaeological evidence from it help us to know the religious beliefs and cultural practices? Prehistoric Arts",
+      "to": "Discuss different types of Megalithic burial practices in India. How far does the archaeological evidence from it help us to know the religious beliefs and cultural practices?",
+      "why": "heading/junk at end"
+    },
+    "33": {
+      "from": "Discuss the water management and its conservation planning in the Harappan (Indus- Saraswati) cities",
+      "to": "Discuss the water management and its conservation planning in the Harappan (Indus-Saraswati) cities",
+      "why": "space inside hyphenated word"
+    },
+    "43": {
+      "from": "Harappan art contributes to our understanding of their aesthetic sensibilities in addition to spiritual and ritualistic life. Comment. Decline of Harappa",
+      "to": "Harappan art contributes to our understanding of their aesthetic sensibilities in addition to spiritual and ritualistic life. Comment.",
+      "why": "heading/junk at end"
+    },
+    "59": {
+      "from": "How do the comparative study of languages, archaeological sources and vast corpus of Vedic literature help to determine the Aryan problem in Indian history? Discuss. Features",
+      "to": "How do the comparative study of languages, archaeological sources and vast corpus of Vedic literature help to determine the Aryan problem in Indian history? Discuss.",
+      "why": "heading/junk at end"
+    },
+    "70": {
+      "from": "In what way was the egalitarian character of the early Vedic society changed during the e later Vedic period? P ",
+      "to": "In what way was the egalitarian character of the early Vedic society changed during the later Vedic period?",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "73": {
+      "from": "Evaluate various views regarding human settlements as gleaned from the Vedic sources. Vedic Religion",
+      "to": "Evaluate various views regarding human settlements as gleaned from the Vedic sources.",
+      "why": "heading/junk at end"
+    },
+    "84": {
+      "from": "What were the main features of Vedic society and religion? Do you think some of the features are still prevailing in Indian society? Harappa-Vedic Continuity/Differences",
+      "to": "What were the main features of Vedic society and religion? Do you think some of the features are still prevailing in Indian society?",
+      "why": "heading/junk at end"
+    },
+    "85": {
+      "from": "There is no literary sources for the Harappan culture and no archaeological evidence for the 9 Vedic period. Explain the phenomenon. 1",
+      "to": "There is no literary sources for the Harappan culture and no archaeological evidence for the Vedic period. Explain the phenomenon.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "91": {
+      "from": "How far can the ancient Indian Sruti literature be used as historical sources? Features",
+      "to": "How far can the ancient Indian Sruti literature be used as historical sources?",
+      "why": "heading/junk at end"
+    },
+    "98": {
+      "from": "Write a short essay on: \"Social and economic conditions of North India during the Pre- Mauryan period (600-325 B.C.).\"",
+      "to": "Write a short essay on: \"Social and economic conditions of North India during the Pre-Mauryan period (600-325 B.C.).\"",
+      "why": "space inside hyphenated word"
+    },
+    "100": {
+      "from": "Discuss the factors that played an important role in the process of urbanisation after the 0 Later-Vedic period. ",
+      "to": "Discuss the factors that played an important role in the process of urbanisation after the Later-Vedic period.",
+      "why": "stray character mid-text"
+    },
+    "102": {
+      "from": "Evaluate the introduction of iron technology in the development of human history of ancient India. Philosophy and Religion",
+      "to": "Evaluate the introduction of iron technology in the development of human history of ancient India.",
+      "why": "heading/junk at end"
+    },
+    "109": {
+      "from": "\"The ideological challenge posed by Jainism and Buddhism was deeply rooted in the socio- economic transformations brought about by the expansion of agrarian settlements in eastern India.\" Explain",
+      "to": "\"The ideological challenge posed by Jainism and Buddhism was deeply rooted in the socio-economic transformations brought about by the expansion of agrarian settlements in eastern India.\" Explain",
+      "why": "space inside hyphenated word"
+    },
+    "116": {
+      "from": "Symbiotic relationships between Buddhist establishments, traders, artisan guilds, and royal support led to a close proximity of religion, economy, and polity in the Mauryan and 1 post-Mauryan periods. Examine the statement. 2",
+      "to": "Symbiotic relationships between Buddhist establishments, traders, artisan guilds, and royal support led to a close proximity of religion, economy, and polity in the Mauryan and post-Mauryan periods. Examine the statement.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "127": {
+      "from": "Discuss the comparative merit of the Arthasastra, the Indica and Ashokan Inscriptions as sources for the administration, socio-economic conditions and religious life in the Mauryan period. Features 2",
+      "to": "Discuss the comparative merit of the Arthasastra, the Indica and Ashokan Inscriptions as sources for the administration, socio-economic conditions and religious life in the Mauryan period.",
+      "why": "heading/junk at end"
+    },
+    "153": {
+      "from": "Delineate the nature and impact of India's contact with Western Asia and the Mediterranean world during the Mauryan period. Decline and Fall of Mauryan Empire",
+      "to": "Delineate the nature and impact of India's contact with Western Asia and the Mediterranean world during the Mauryan period.",
+      "why": "heading/junk at end"
+    },
+    "158": {
+      "from": "Examine the administrative system of the Mauryas and discuss briefly the causes of disintegration of the Mauryan Empire. Significance/Importance",
+      "to": "Examine the administrative system of the Mauryas and discuss briefly the causes of disintegration of the Mauryan Empire.",
+      "why": "heading/junk at end"
+    },
+    "162": {
+      "from": "The period of Indian History from 3rd century B.C.E. to 5th century C.E. was the period of innovation and interaction. How will you react? Regional Polities",
+      "to": "The period of Indian History from 3rd century B.C.E. to 5th century C.E. was the period of innovation and interaction. How will you react?",
+      "why": "heading/junk at end"
+    },
+    "171": {
+      "from": "Examine the nature and impact of India's contacts with Central Asia during the 1st to 3rd century CE. How did these interactions influence India's political, cultural and economic spheres? Religion and Culture",
+      "to": "Examine the nature and impact of India's contacts with Central Asia during the 1st to 3rd century CE. How did these interactions influence India's political, cultural and economic spheres?",
+      "why": "heading/junk at end"
+    },
+    "173": {
+      "from": "Brief out the salient features of the religious development in the Post-Maurya period. How 2 was contemporary art influenced by it? e g ",
+      "to": "Brief out the salient features of the religious development in the Post-Maurya period. How was contemporary art influenced by it?",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "181": {
+      "from": "Furnish a critical and comparative account of various schools of art in the Post -Mauryan period (c. 200 B.C. - c. 300 A.D.)",
+      "to": "Furnish a critical and comparative account of various schools of art in the Post-Mauryan period (c. 200 B.C. - c. 300 A.D.)",
+      "why": "space inside hyphenated word"
+    },
+    "185": {
+      "from": "Write a brief essay on: \"Buddhist writing in Sanskrit in the post-Maurya period.\" History of South India",
+      "to": "Write a brief essay on: \"Buddhist writing in Sanskrit in the post-Maurya period.\"",
+      "why": "heading/junk at end"
+    },
+    "231": {
+      "from": "\"Harshvardhan was himself great, but he has been made greater by Ban and Yuan Chiang.\" Critically examine the statement. Post-Gupta Peninsular India (Pallavas/Chalukyas)",
+      "to": "\"Harshvardhan was himself great, but he has been made greater by Ban and Yuan Chiang.\" Critically examine the statement.",
+      "why": "heading/junk at end"
+    },
+    "234": {
+      "from": "Analyse the vibrant cultural activities in peninsular India during 550-750 CE. Compare and 9 contrast it with the situation in contemporary North India",
+      "to": "Analyse the vibrant cultural activities in peninsular India during 550-750 CE. Compare and contrast it with the situation in contemporary North India",
+      "why": "stray character mid-text"
+    },
+    "251": {
+      "from": "Trace the development of urbanization from the third millennium B.C.E. to 6th century B.C.E. Society",
+      "to": "Trace the development of urbanization from the third millennium B.C.E. to 6th century B.C.E.",
+      "why": "heading/junk at end"
+    },
+    "253": {
+      "from": "What light do early inscriptions and literature throw on the status of women in politico socio- economic spheres?",
+      "to": "What light do early inscriptions and literature throw on the status of women in politico socio-economic spheres?",
+      "why": "space inside hyphenated word"
+    },
+    "256": {
+      "from": "\"The copious references to the preservation of Varnashrama system by the kings eulogized in inscriptions are mere reflection of the Smriti tradition.\" Discuss. Science and Technology",
+      "to": "\"The copious references to the preservation of Varnashrama system by the kings eulogized in inscriptions are mere reflection of the Smriti tradition.\" Discuss.",
+      "why": "heading/junk at end"
+    },
+    "260": {
+      "from": "Examine the proficiency of the ancient Indians in various crafts, science and mathematics. Education",
+      "to": "Examine the proficiency of the ancient Indians in various crafts, science and mathematics.",
+      "why": "heading/junk at end"
+    },
+    "263": {
+      "from": "Taxila university was one of the oldest universities of the world with which were associated a number of renowned learned personalities of different disciplines. Its strategic location caused its fame to flourish, but unlike Nalanda, it is not considered as a university in the modern sense. Discuss. Art and Culture",
+      "to": "Taxila university was one of the oldest universities of the world with which were associated a number of renowned learned personalities of different disciplines. Its strategic location caused its fame to flourish, but unlike Nalanda, it is not considered as a university in the modern sense. Discuss.",
+      "why": "heading/junk at end"
+    },
+    "266": {
+      "from": "Discuss the significance of lion and bull figures in Indian mythology, art and architecture.  Cultural Impact Outside India",
+      "to": "Discuss the significance of lion and bull figures in Indian mythology, art and architecture.",
+      "why": "heading/junk at end"
+    },
+    "270": {
+      "from": "Assess the contribution of the Cholas in the expansion of Indian culture outside India. Civilizational Dynamics",
+      "to": "Assess the contribution of the Cholas in the expansion of Indian culture outside India.",
+      "why": "heading/junk at end"
+    },
+    "272": {
+      "from": "The spirit of tolerance and love is not only an interesting feature of Indian society from very early times, but it is also playing an important part at the present. Elaborate. Heritage Conservation",
+      "to": "The spirit of tolerance and love is not only an interesting feature of Indian society from very early times, but it is also playing an important part at the present. Elaborate.",
+      "why": "heading/junk at end"
+    },
+    "288": {
+      "from": "Do the evidences of land ownership at our disposal support the theory of the prevalence e of feudalism in early medieval India? a P ",
+      "to": "Do the evidences of land ownership at our disposal support the theory of the prevalence of feudalism in early medieval India?",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "299": {
+      "from": "\"The inferior cavalry of the Rajputs was not the only cause of their defeat at the hands of Turko- Afghans and Mughal.\" Comment",
+      "to": "\"The inferior cavalry of the Rajputs was not the only cause of their defeat at the hands of Turko-Afghans and Mughal.\" Comment",
+      "why": "space inside hyphenated word"
+    },
+    "300": {
+      "from": "Write a short essay on: \"AI- Biruni's India\"",
+      "to": "Write a short essay on: \"Al-Biruni's India\"",
+      "why": "space inside hyphenated word"
+    },
+    "325": {
+      "from": "Evaluate the role of nadu and nagaram in the growth of urbanisation under the Cholas. 3",
+      "to": "Evaluate the role of nadu and nagaram in the growth of urbanisation under the Cholas.",
+      "why": "heading/junk at end"
+    },
+    "374": {
+      "from": "Give a critical assessment of the contributions of Amir Khusarau and Barani to Indo - Persian Literature",
+      "to": "Give a critical assessment of the contributions of Amir Khusarau and Barani to Indo-Persian Literature",
+      "why": "space inside hyphenated word"
+    },
+    "378": {
+      "from": "What is your assessment of Ibn Batutah's Rehla as an important source of Indian history. Turkish Conquest",
+      "to": "What is your assessment of Ibn Batutah's Rehla as an important source of Indian history.",
+      "why": "heading/junk at end"
+    },
+    "380": {
+      "from": "\"The inferior cavalry of the Rajputs was not the only cause of their defeat at the hands of Turko- Afghans and Mughal.\" Comment",
+      "to": "\"The inferior cavalry of the Rajputs was not the only cause of their defeat at the hands of Turko-Afghans and Mughal.\" Comment",
+      "why": "space inside hyphenated word"
+    },
+    "383": {
+      "from": "Assess the causes of the defeat of Northern Indian States against the Turkish invasion. Political History of Delhi Sultanate",
+      "to": "Assess the causes of the defeat of Northern Indian States against the Turkish invasion.",
+      "why": "heading/junk at end"
+    },
+    "431": {
+      "from": "What factors do you attribute for the decline of the Delhi Sultanate? Kingship, Polity and Administration",
+      "to": "What factors do you attribute for the decline of the Delhi Sultanate?",
+      "why": "heading/junk at end"
+    },
+    "437": {
+      "from": "Bring out the main features of the administration system under Delhi Sultanate during Turko- Afghan Period",
+      "to": "Bring out the main features of the administration system under Delhi Sultanate during Turko-Afghan Period",
+      "why": "space inside hyphenated word"
+    },
+    "441": {
+      "from": "Discuss in brief the land-revenue system and judicial administration of the Delhi Sultanate. Economy",
+      "to": "Discuss in brief the land-revenue system and judicial administration of the Delhi Sultanate.",
+      "why": "heading/junk at end"
+    },
+    "451": {
+      "from": "Examine the increasing importance of maritime trade of India during thirteenth to fifteenth centuries. Social Feature",
+      "to": "Examine the increasing importance of maritime trade of India during thirteenth to fifteenth centuries.",
+      "why": "heading/junk at end"
+    },
+    "455": {
+      "from": "Critically evaluate the educational development during Sultanate period. Cultural Developments",
+      "to": "Critically evaluate the educational development during Sultanate period.",
+      "why": "heading/junk at end"
+    },
+    "463": {
+      "from": "Evaluate Jonaraja's account of the reign of Zain-ul- Abidin",
+      "to": "Evaluate Jonaraja's account of the reign of Zain-ul-Abidin",
+      "why": "space inside hyphenated word"
+    },
+    "465": {
+      "from": "Make an estimate of Rana Kumbha as a patron of literature and art. Portuguese Colonial enterprise",
+      "to": "Make an estimate of Rana Kumbha as a patron of literature and art.",
+      "why": "heading/junk at end"
+    },
+    "485": {
+      "from": "Give an account of the polity and society of Vijayanagara empire under Krishnadevaraya. 5",
+      "to": "Give an account of the polity and society of Vijayanagara empire under Krishnadevaraya.",
+      "why": "heading/junk at end"
+    },
+    "486": {
+      "from": "Discuss the social dynamics in the Vijayanagara Empire. a",
+      "to": "Discuss the social dynamics in the Vijayanagara Empire.",
+      "why": "heading/junk at end"
+    },
+    "490": {
+      "from": "Write a short essay on: \"Architecture of the Vijayanagara Empire.\" Bahmani Kingdom",
+      "to": "Write a short essay on: \"Architecture of the Vijayanagara Empire.\"",
+      "why": "heading/junk at end"
+    },
+    "497": {
+      "from": "Trace influence of Islam on Indian culture and civilization. e",
+      "to": "Trace influence of Islam on Indian culture and civilization.",
+      "why": "heading/junk at end"
+    },
+    "512": {
+      "from": "\"Sufis and medieval mystic saints failed to modify either the religious ideas and practices or the outward structure of Islamic/Hindu societies to any appreciable extent.\" Comment for/against. +",
+      "to": "\"Sufis and medieval mystic saints failed to modify either the religious ideas and practices or the outward structure of Islamic/Hindu societies to any appreciable extent.\" Comment for/against.",
+      "why": "stray character at end"
+    },
+    "524": {
+      "from": "How does Tuzuk-i-Babri testify that Babar had been a cultured man? Early Mughals",
+      "to": "How does Tuzuk-i-Babri testify that Babar had been a cultured man?",
+      "why": "heading/junk at end"
+    },
+    "525": {
+      "from": "Examine the causes of Babur's success against the Ibrahim Lodi in the First Battle of Panipat. The Sur Empire",
+      "to": "Examine the causes of Babur's success against the Ibrahim Lodi in the First Battle of Panipat.",
+      "why": "heading/junk at end"
+    },
+    "537": {
+      "from": "In what ways were Aurangzeb's Rajput and religious policies different from those of his predecessors? What were the consequences of the changes made by him? Akbar's Religious Policy",
+      "to": "In what ways were Aurangzeb's Rajput and religious policies different from those of his predecessors? What were the consequences of the changes made by him?",
+      "why": "heading/junk at end"
+    },
+    "548": {
+      "from": "\"In medieval Indian history Akbar is unique for his religio-political ideas and policies.\" Discuss 9 the statement. (only first half provided here, thus 30m) ",
+      "to": "\"In medieval Indian history Akbar is unique for his religio-political ideas and policies.\" Discuss the statement. (only first half provided here, thus 30m)",
+      "why": "stray character mid-text"
+    },
+    "549": {
+      "from": "Analyze the religious policy of the Mughal emperors from Akbar to Aurangzeb. How did it affect the stability of the Mughal Empire? Jagir and Mansab systems",
+      "to": "Analyze the religious policy of the Mughal emperors from Akbar to Aurangzeb. How did it affect the stability of the Mughal Empire?",
+      "why": "heading/junk at end"
+    },
+    "557": {
+      "from": "Examine the Mansab and Jagir system by Akbar and its subsequent failure in the 18th century. Jahangir and Nur Jahan",
+      "to": "Examine the Mansab and Jagir system by Akbar and its subsequent failure in the 18th century.",
+      "why": "heading/junk at end"
+    },
+    "559": {
+      "from": "Discuss the role of Nur Jahan in the Mughal court politics during the reign of Jahangir. Aurangzeb and Mughal Decline",
+      "to": "Discuss the role of Nur Jahan in the Mughal court politics during the reign of Jahangir.",
+      "why": "heading/junk at end"
+    },
+    "574": {
+      "from": "It was as much the court intrigues as also the defiance of the provincial powers that hastened the decline of the Mughals in the 18th century. Comment. Mughal State and Nobility",
+      "to": "It was as much the court intrigues as also the defiance of the provincial powers that hastened the decline of the Mughals in the 18th century. Comment.",
+      "why": "heading/junk at end"
+    },
+    "582": {
+      "from": "Write a short essay on: \"Dara Shikoh\" Mughal Era Economy",
+      "to": "Write a short essay on: \"Dara Shikoh\"",
+      "why": "heading/junk at end"
+    },
+    "609": {
+      "from": "Assess the development of Science and Technology in the Mughal period. Mughal Era Society",
+      "to": "Assess the development of Science and Technology in the Mughal period.",
+      "why": "heading/junk at end"
+    },
+    "613": {
+      "from": "Assess the condition of peasantry during 13th to 17th centuries CE. Mughal Era Art and Culture",
+      "to": "Assess the condition of peasantry during 13th to 17th centuries CE.",
+      "why": "heading/junk at end"
+    },
+    "621": {
+      "from": "Explain the principal features of architecture during Akbar's rule. What changes were 4 made in them by Shahjahan? ",
+      "to": "Explain the principal features of architecture during Akbar's rule. What changes were made in them by Shahjahan?",
+      "why": "stray character mid-text"
+    },
+    "641": {
+      "from": "Discuss the transformation of Sikh community from a Nirguna Bhakti sect into a politico- military organization",
+      "to": "Discuss the transformation of Sikh community from a Nirguna Bhakti sect into a politico-military organization",
+      "why": "space inside hyphenated word"
+    },
+    "653": {
+      "from": "Shivaji was not merely a military conqueror but also was an enlightened ruler. Discuss. 6",
+      "to": "Shivaji was not merely a military conqueror but also was an enlightened ruler. Discuss.",
+      "why": "heading/junk at end"
+    },
+    "688": {
+      "from": "The Carnatic Wars, the Anglo-Mysore Wars and the Anglo-Maratha Wars had virtually eliminated the French from the contest of supremacy in South India. Discuss. Conquest of Bengal",
+      "to": "The Carnatic Wars, the Anglo-Mysore Wars and the Anglo-Maratha Wars had virtually eliminated the French from the contest of supremacy in South India. Discuss.",
+      "why": "heading/junk at end"
+    },
+    "703": {
+      "from": "'The Battle of Plassey (1757) was a skirmish while the Battle of Buxar (1764) was a real war.' Critically examine. Anglo-Mysore Wars",
+      "to": "'The Battle of Plassey (1757) was a skirmish while the Battle of Buxar (1764) was a real war.' Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "708": {
+      "from": "\"Haidar Ali was born to build an empire, and Tipu Sultan to lose one\". Comment. Anglo-Maratha Wars",
+      "to": "\"Haidar Ali was born to build an empire, and Tipu Sultan to lose one\". Comment.",
+      "why": "heading/junk at end"
+    },
+    "709": {
+      "from": "\"Anglo-Maratha War covering nearly nine years from the murder of Narayan Rao to the Treaty 6 of Salbai emphatically discloses the vitality of the Maratha nation which had not been g  exhausted either by the disaster of Panipat or the death of their great Peshwa Madhavrao.\" Comment",
+      "to": "\"Anglo-Maratha War covering nearly nine years from the murder of Narayan Rao to the Treaty of Salbai emphatically discloses the vitality of the Maratha nation which had not been exhausted either by the disaster of Panipat or the death of their great Peshwa Madhavrao.\" Comment",
+      "why": "stray character mid-text; stray character where the book has a side heading"
+    },
+    "719": {
+      "from": "\"The seeds of domestic dissensions were thickly and deeply sown in the Maratha system under the Peshwas.\" Native States: Ring Fence and Subsidiary Alliance",
+      "to": "\"The seeds of domestic dissensions were thickly and deeply sown in the Maratha system under the Peshwas.\"",
+      "why": "heading/junk at end"
+    },
+    "721": {
+      "from": "Examine the essential principles of the Subsidiary Alliance system. How far did it contribute in making the British Company the supreme sovereign authority in India? Historiography of the British Conquest",
+      "to": "Examine the essential principles of the Subsidiary Alliance system. How far did it contribute in making the British Company the supreme sovereign authority in India?",
+      "why": "heading/junk at end"
+    },
+    "728": {
+      "from": "\"By certain of his actions, Clive has marred both the glory and usefulness of his work.\" Comment. Zamindari Settlement",
+      "to": "\"By certain of his actions, Clive has marred both the glory and usefulness of his work.\" Comment.",
+      "why": "heading/junk at end"
+    },
+    "735": {
+      "from": "\"Absentee landlordism was a consequential feature of Bengal's Permanent land settlement.\" 2 Comment. ",
+      "to": "\"Absentee landlordism was a consequential feature of Bengal's Permanent land settlement.\" Comment.",
+      "why": "stray character mid-text"
+    },
+    "738": {
+      "from": "\"The passing of the land from the hands of the peasant proprietors into the hands of non- cultivating landlords brought about increasing polarization of classes in agrarian areas.\"",
+      "to": "\"The passing of the land from the hands of the peasant proprietors into the hands of non-cultivating landlords brought about increasing polarization of classes in agrarian areas.\"",
+      "why": "space inside hyphenated word"
+    },
+    "740": {
+      "from": "Do you agree that the idea of permanent fixation of land revenue of 1793 in Bengal was highly influenced by the Physiocratic school of thinking? Discuss. Ideology and Socio-cultural Policy: Orientalism",
+      "to": "Do you agree that the idea of permanent fixation of land revenue of 1793 in Bengal was highly influenced by the Physiocratic school of thinking? Discuss.",
+      "why": "heading/junk at end"
+    },
+    "742": {
+      "from": "Can you explain how, after acquiring Diwani, the government of East India Company functioned like 'an Indian ruler'? Beginning of Modernity?",
+      "to": "Can you explain how, after acquiring Diwani, the government of East India Company functioned like 'an Indian ruler'?",
+      "why": "heading/junk at end"
+    },
+    "751": {
+      "from": "\"The Sikh monarchy was Napoleonic in the suddenness of its rise, the brilliancy of its success and the completeness of its overthrow.\" Sindh",
+      "to": "\"The Sikh monarchy was Napoleonic in the suddenness of its rise, the brilliancy of its success and the completeness of its overthrow.\"",
+      "why": "heading/junk at end"
+    },
+    "755": {
+      "from": "Sir Charles Napier said, \"We have no right to seize Sind, yet we shall do so, and a very advantageous, useful, humane piece of rascality it will be.'' Comment. Native States: Paramountcy and Annexationism",
+      "to": "Sir Charles Napier said, \"We have no right to seize Sind, yet we shall do so, and a very advantageous, useful, humane piece of rascality it will be.'' Comment.",
+      "why": "heading/junk at end"
+    },
+    "763": {
+      "from": "Discuss the basic features of the judicial administration under the East India Company. Did the British introduce the modern concept of the rule of law in India? Revenue Settlement: Ryotwari Settlement 6 ",
+      "to": "Discuss the basic features of the judicial administration under the East India Company. Did the British introduce the modern concept of the rule of law in India?",
+      "why": "heading/junk at end"
+    },
+    "766": {
+      "from": "\"Ryotwari falls into three stages - early, middle and late, and the only description common to all is that it is a mode of settlement with small farmers, so small, indeed, that their average holding is, on recent figures, only about 6 ½ acres,\" Critically examine. Economy",
+      "to": "\"Ryotwari falls into three stages - early, middle and late, and the only description common to all is that it is a mode of settlement with small farmers, so small, indeed, that their average holding is, on recent figures, only about 6 ½ acres,\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "778": {
+      "from": "\"A self-sufficient village, based on agriculture carried on with the primitive plough and bullock power, and handicraft by means of simple instruments, was a basic feature of pre- British Indian economy.\" Comment",
+      "to": "\"A self-sufficient village, based on agriculture carried on with the primitive plough and bullock power, and handicraft by means of simple instruments, was a basic feature of pre-British Indian economy.\" Comment",
+      "why": "space inside hyphenated word"
+    },
+    "780": {
+      "from": "\"The British industrial policy in the nineteenth century ruined the Indian handicrafts.\" 6 Comment. g ",
+      "to": "\"The British industrial policy in the nineteenth century ruined the Indian handicrafts.\" Comment.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "789": {
+      "from": "Examine how the decline of traditional artisanal industry in colonial India crippled the rural economy. Ideology and Socio-cultural Policy",
+      "to": "Examine how the decline of traditional artisanal industry in colonial India crippled the rural economy.",
+      "why": "heading/junk at end"
+    },
+    "792": {
+      "from": "\"James Mill, the apostle of utilitarian philosophy, proposed a revolution off Indian society 6 through the 'weapon of law' solely. But in actual policy framing, other influences and considerations weighed much more than the colonial State.\" Elucidate. g a ",
+      "to": "\"James Mill, the apostle of utilitarian philosophy, proposed a revolution off Indian society through the 'weapon of law' solely. But in actual policy framing, other influences and considerations weighed much more than the colonial State.\" Elucidate.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "832": {
+      "from": "How did the Government of India implement this policy during this period?",
+      "to": "Explain the British policy of 'Subordinate union' of Indian States with British India from 1858 to 1905. How did the Government of India implement this policy during this period?",
+      "why": "first sentence missing"
+    },
+    "833": {
+      "from": "Towards the Princes, Canning adopted a policy of \"punishing resistance and rewarding obedience.\" Comment. Miscellaneous",
+      "to": "Towards the Princes, Canning adopted a policy of \"punishing resistance and rewarding obedience.\" Comment.",
+      "why": "heading/junk at end"
+    },
+    "834": {
+      "from": "In many ways, Lord Dalhousie was the founder of modern India. Elaborate. Railways",
+      "to": "In many ways, Lord Dalhousie was the founder of modern India. Elaborate.",
+      "why": "heading/junk at end"
+    },
+    "838": {
+      "from": "\"Not until independence, when economic development became a conscious and pursued policy, did the Railways begin to realize their potential for assisting in the transformation of the Indian economy.\" Critically examine. Famines",
+      "to": "\"Not until independence, when economic development became a conscious and pursued policy, did the Railways begin to realize their potential for assisting in the transformation of the Indian economy.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "845": {
+      "from": "Why was there a sudden spurt in famines in colonial India since the mid-eighteenth century? Give reasons. Indentures Labour",
+      "to": "Why was there a sudden spurt in famines in colonial India since the mid-eighteenth century? Give reasons.",
+      "why": "heading/junk at end"
+    },
+    "846": {
+      "from": "Why indentured labour was taken by the British from India to other colonies? Have they been able to preserve their cultural identity over there? Free Trade: European business enterprise and its limitations",
+      "to": "Why indentured labour was taken by the British from India to other colonies? Have they been able to preserve their cultural identity over there?",
+      "why": "heading/junk at end"
+    },
+    "848": {
+      "from": "\"Plantations and mines, jutes mills, banking, insurance, shipping and export-import concerns in 0 India were run through a system of interlocking managing agencies.\" Critically examine. a  Overall: Colonial Economy",
+      "to": "\"Plantations and mines, jutes mills, banking, insurance, shipping and export-import concerns in India were run through a system of interlocking managing agencies.\" Critically examine.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "855": {
+      "from": "Examine critically the various facets of economic policies of the British in India from mid- eighteenth century till independence. Ideology and Socio-cultural Change: Paternalistic Despotism",
+      "to": "Examine critically the various facets of economic policies of the British in India from mid-eighteenth century till independence.",
+      "why": "heading/junk at end; space inside hyphenated word"
+    },
+    "861": {
+      "from": "\"Tribal revolts were a reaction to an alien, unfeeling administration.\" Elucidate with reference to the British tribal policy in Eastern India in the nineteenth century. e",
+      "to": "\"Tribal revolts were a reaction to an alien, unfeeling administration.\" Elucidate with reference to the British tribal policy in Eastern India in the nineteenth century.",
+      "why": "heading/junk at end"
+    },
+    "874": {
+      "from": "\"The peasant movements of the second half of the nineteenth century lacked a positive conception which would unite the people in a common struggle on a wide regional and all- India plane and help develop long-term political developments.\" Critically evaluate",
+      "to": "\"The peasant movements of the second half of the nineteenth century lacked a positive conception which would unite the people in a common struggle on a wide regional and all-India plane and help develop long-term political developments.\" Critically evaluate",
+      "why": "space inside hyphenated word"
+    },
+    "876": {
+      "from": "\"The Indigo Revolt of 1859-60 holds a very significant place in our history of national liberation 7 movement. For the first time in the history of our anti-colonial struggle, its two independent g  currents-- spontaneous peasant resistance and constitutional agitation in defence of peasantry - came into mutual contact.\" Critically examine",
+      "to": "\"The Indigo Revolt of 1859-60 holds a very significant place in our history of national liberation movement. For the first time in the history of our anti-colonial struggle, its two independent currents-- spontaneous peasant resistance and constitutional agitation in defence of peasantry - came into mutual contact.\" Critically examine",
+      "why": "stray character mid-text; stray character where the book has a side heading"
+    },
+    "877": {
+      "from": "\"The root of the whole question behind the Indigo Revolt is the struggle to make the raiyats grow indigo plants without paying them the price of it\". Analyse. The peasant movements of the 1920s and 1930s Covered in later section (during Interwar Years)",
+      "to": "\"The root of the whole question behind the Indigo Revolt is the struggle to make the raiyats grow indigo plants without paying them the price of it\". Analyse.",
+      "why": "heading/junk at end"
+    },
+    "878": {
+      "from": "Examine the economic and social factors which led to the rise of Indian nationalism in the second half of the nineteenth century. The rise of press, literature and public opinion; The rise of modern vernacular literature",
+      "to": "Examine the economic and social factors which led to the rise of Indian nationalism in the second half of the nineteenth century.",
+      "why": "heading/junk at end"
+    },
+    "885": {
+      "from": "Do you agree with the view that the growth of vernacular literature in the 19th and the 20th centuries paved the way for social reform and cultural revival in India? Specific Socio-Religious Reform Movements",
+      "to": "Do you agree with the view that the growth of vernacular literature in the 19th and the 20th centuries paved the way for social reform and cultural revival in India?",
+      "why": "heading/junk at end"
+    },
+    "897": {
+      "from": "\"Though Sri Ramakrishna became the prophet of neo-Hinduism, he never claimed to have founded any new religion.\" Elaborate. Analysis of Socio-Religious Reforms",
+      "to": "\"Though Sri Ramakrishna became the prophet of neo-Hinduism, he never claimed to have founded any new religion.\" Elaborate.",
+      "why": "heading/junk at end"
+    },
+    "901": {
+      "from": "Write a critical note on: \"Impact of western contact on social changes in the first half of 7 19th century.\" g ",
+      "to": "Write a critical note on: \"Impact of western contact on social changes in the first half of 19th century.\"",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "917": {
+      "from": "Examine the linkages between 19th centuries 'Indian Renaissance' and the emergence of national identity. Women's Movement e ",
+      "to": "Examine the linkages between 19th centuries 'Indian Renaissance' and the emergence of national identity.",
+      "why": "heading/junk at end"
+    },
+    "924": {
+      "from": "How far was the widow remarriage movement effective in arousing social concern for Indian women? Caste Movements",
+      "to": "How far was the widow remarriage movement effective in arousing social concern for Indian women?",
+      "why": "heading/junk at end"
+    },
+    "931": {
+      "from": "\"Our system acts very much like a sponge, drawing up all the good things from the banks of the 6 Ganges, and squeezing them down on the banks of the Thames.\" Comment. ",
+      "to": "\"Our system acts very much like a sponge, drawing up all the good things from the banks of the Ganges, and squeezing them down on the banks of the Thames.\" Comment.",
+      "why": "stray character mid-text"
+    },
+    "943": {
+      "from": "Why has the 'safety valve theory' related to the foundation of the Indian National Congress been thoroughly discredited by recent researchers? Analyze. Early Congress, Moderates, Extremists",
+      "to": "Why has the 'safety valve theory' related to the foundation of the Indian National Congress been thoroughly discredited by recent researchers? Analyze.",
+      "why": "heading/junk at end"
+    },
+    "957": {
+      "from": "Evaluate the policies of Lord Curzon and their long-term implications on the national movement. Swadeshi Movement",
+      "to": "Evaluate the policies of Lord Curzon and their long-term implications on the national movement.",
+      "why": "heading/junk at end"
+    },
+    "967": {
+      "from": "Explain the attitude of the Indian National Congress towards the constitutional changes of 1909, 1919 and 1935. Acts",
+      "to": "Explain the attitude of the Indian National Congress towards the constitutional changes of 1909, 1919 and 1935.",
+      "why": "heading/junk at end"
+    },
+    "974": {
+      "from": "\"Dyarchy was Introduced with high hopes, and it must be said that, on a theoretical 9 analysis and if worked under ideal conditions, it is not without merits.\" Comment. a ",
+      "to": "\"Dyarchy was Introduced with high hopes, and it must be said that, on a theoretical analysis and if worked under ideal conditions, it is not without merits.\" Comment.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "992": {
+      "from": "\"This retention of Rowlatt legislation in the teeth of universal opposition is an affront to the nation. Its repeal is necessary to appease national honour.\" Critically examine. NCM-Khilafat Movement",
+      "to": "\"This retention of Rowlatt legislation in the teeth of universal opposition is an affront to the nation. Its repeal is necessary to appease national honour.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "996": {
+      "from": "Explain the circumstances leading to the alliance between the Khilafat and Non- Cooperation Movements. Was it a politically wise step on the part of the Congress?",
+      "to": "Explain the circumstances leading to the alliance between the Khilafat and Non-Cooperation Movements. Was it a politically wise step on the part of the Congress?",
+      "why": "space inside hyphenated word"
+    },
+    "1000": {
+      "from": "Was the Moplah Rebellion in Malabar an expression of anti-landlord and anti-foreign discontent? Discuss. 1",
+      "to": "Was the Moplah Rebellion in Malabar an expression of anti-landlord and anti-foreign discontent? Discuss.",
+      "why": "heading/junk at end"
+    },
+    "1007": {
+      "from": "Highlight the importance of the new objectives that got added to the vision of Indian independence since twenties of the last century. The Revolutionaries",
+      "to": "Highlight the importance of the new objectives that got added to the vision of Indian independence since twenties of the last century.",
+      "why": "heading/junk at end"
+    },
+    "1016": {
+      "from": "Analyze how the revolutionaries taught people self-confidence and widened the social base of the freedom movement. Modern Industrialization",
+      "to": "Analyze how the revolutionaries taught people self-confidence and widened the social base of the freedom movement.",
+      "why": "heading/junk at end"
+    },
+    "1019": {
+      "from": "How do you account for the rise and growth of the Business enterprise in India during the first half of the 20th century? Rise of Left",
+      "to": "How do you account for the rise and growth of the Business enterprise in India during the first half of the 20th century?",
+      "why": "heading/junk at end"
+    },
+    "1028": {
+      "from": "The emergence of left -wing group in the Congress radicalized its social economic agenda.\" Critically evaluate.",
+      "to": "The emergence of left-wing group in the Congress radicalized its social economic agenda.\" Critically evaluate.",
+      "why": "space inside hyphenated word"
+    },
+    "1029": {
+      "from": "The Congress Socialist Party agenda was not to cut-off from the Congress, but 'intended to 8 give the Congress and the national movement a socialist direction'. Analyze. g ",
+      "to": "The Congress Socialist Party agenda was not to cut-off from the Congress, but 'intended to give the Congress and the national movement a socialist direction'. Analyze.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "1034": {
+      "from": "Assess the role of Subas Chandra Bose in India's struggle for independence. The peasant movements of the 1920s and 1930s",
+      "to": "Assess the role of Subas Chandra Bose in India's struggle for independence.",
+      "why": "heading/junk at end"
+    },
+    "1042": {
+      "from": "\"In the early twentieth century, there came into existence a number of women's organisations, which operated more actively in the public arena and focused more directly on women's political and legal rights.\" Critically examine. Overall Politics",
+      "to": "\"In the early twentieth century, there came into existence a number of women's organisations, which operated more actively in the public arena and focused more directly on women's political and legal rights.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1043": {
+      "from": "\"The developments during 1937-39 greatly undermined the ability of the Indian National Congress 4 to push through the agenda of national unity.\" Comment.  Communalism",
+      "to": "\"The developments during 1937-39 greatly undermined the ability of the Indian National Congress to push through the agenda of national unity.\" Comment.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "1045": {
+      "from": "\"There is no other instance in the history of mankind of a poet and philosopher working such as a miracle in shaping the destiny of his people.\" Comment. Other Trends",
+      "to": "\"There is no other instance in the history of mankind of a poet and philosopher working such as a miracle in shaping the destiny of his people.\" Comment.",
+      "why": "heading/junk at end"
+    },
+    "1060": {
+      "from": "\"The Cripps Mission was plagued throughout, and ultimately torpedoed.\" Critically examine. QIM",
+      "to": "\"The Cripps Mission was plagued throughout, and ultimately torpedoed.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1066": {
+      "from": "Why is the Quit India Movement characterised as a 'Spontaneous Revolution'? Did it 6 accelerate the process of Indian independence? INA a ",
+      "to": "Why is the Quit India Movement characterised as a 'Spontaneous Revolution'? Did it accelerate the process of Indian independence?",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "1074": {
+      "from": "\"… instead of rejecting the plan (Cabinet Mission Plan), they (the Congress Leadership) 7 resorted to a half-baked legalistic stratagem to reserve their position on its long-term 8 arrangements and accepted its short-term provisions.\" Critically examine. g  Why Independence?",
+      "to": "\"… instead of rejecting the plan (Cabinet Mission Plan), they (the Congress Leadership) resorted to a half-baked legalistic stratagem to reserve their position on its long-term arrangements and accepted its short-term provisions.\" Critically examine.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "1075": {
+      "from": "\"Why did the British finally quit India on 15th August 1947? The Imperialist answer is that independence was simply the fulfilment of British self-appointed mission to assist the Indian people to self-government.\" Examine. Why Partition?",
+      "to": "\"Why did the British finally quit India on 15th August 1947? The Imperialist answer is that independence was simply the fulfilment of British self-appointed mission to assist the Indian people to self-government.\" Examine.",
+      "why": "heading/junk at end"
+    },
+    "1086": {
+      "from": "Discuss as to why the Congress accepted the partition of India in 1947. Miscellany",
+      "to": "Discuss as to why the Congress accepted the partition of India in 1947.",
+      "why": "heading/junk at end"
+    },
+    "1094": {
+      "from": "How were the Princely States integrated in the Indian Union after the partition? What role did Sardar Patel play in it? Linguistic reorganisation and Regionalism",
+      "to": "How were the Princely States integrated in the Indian Union after the partition? What role did Sardar Patel play in it?",
+      "why": "heading/junk at end"
+    },
+    "1101": {
+      "from": "The political and administrative reorganization of states and territories has been a continuous ongoing process since the mid-nineteenth century. Discuss with examples. (combination of modern + post-independence) Federalism",
+      "to": "The political and administrative reorganization of states and territories has been a continuous ongoing process since the mid-nineteenth century. Discuss with examples. (combination of modern + post-independence)",
+      "why": "heading at end"
+    },
+    "1102": {
+      "from": "\"India's need for a federal system was more an imperative than a political choice.\" Do you agree? Tribal Policy",
+      "to": "\"India's need for a federal system was more an imperative than a political choice.\" Do you agree?",
+      "why": "heading/junk at end"
+    },
+    "1107": {
+      "from": "\"Nehru's policy of Non-Alignment came to symbolised the struggle of India and other newly independent nations to retain and strengthen their independence from colonialism.\" Critically evaluate. India-China Relations",
+      "to": "\"Nehru's policy of Non-Alignment came to symbolised the struggle of India and other newly independent nations to retain and strengthen their independence from colonialism.\" Critically evaluate.",
+      "why": "heading/junk at end"
+    },
+    "1109": {
+      "from": "In the light of contentions over the McMohan Line, analyse the India-China relations in the 1950s and 1960s. 1965 War",
+      "to": "In the light of contentions over the McMohan Line, analyse the India-China relations in the 1950s and 1960s.",
+      "why": "heading/junk at end"
+    },
+    "1110": {
+      "from": "Analyze the circumstances that led to the Tashkent Agreement in 1966. Discuss the highlights of the Agreement. 1971 War",
+      "to": "Analyze the circumstances that led to the Tashkent Agreement in 1966. Discuss the highlights of the Agreement.",
+      "why": "heading/junk at end"
+    },
+    "1112": {
+      "from": "Planning was seen as a powerful instrument that could be used to remove regional inequality. Examine. Science and Education",
+      "to": "Planning was seen as a powerful instrument that could be used to remove regional inequality. Examine.",
+      "why": "heading/junk at end"
+    },
+    "1113": {
+      "from": "\"Nehru's 'temple of Modern India' consisted not only of steel and power plants, irrigation dams, but included institutions of higher learning, particularly in the scientific field.\" Elaborate. Rural Sector",
+      "to": "\"Nehru's 'temple of Modern India' consisted not only of steel and power plants, irrigation dams, but included institutions of higher learning, particularly in the scientific field.\" Elaborate.",
+      "why": "heading/junk at end"
+    },
+    "1119": {
+      "from": "Write a critical note on the evolution and significance of the slogan, 'Jai Jawan Jai Kisan'. (Party economics, partly security, partly foreign policy) Critical Analysis",
+      "to": "Write a critical note on the evolution and significance of the slogan, 'Jai Jawan Jai Kisan'. (Party economics, partly security, partly foreign policy)",
+      "why": "heading at end"
+    },
+    "1124": {
+      "from": "\"Notwithstanding the quest of modernity and the antagonism that guided Nehru's attitude 9 towards the inequalities inherent in the social structure in rural India, the Congress party did g  not carry out concerted campaign against discrimination based on caste. Nehru's own perception was that industrial growth was bound to break the stranglehold of this feudal remnant. This however, did not happen in India.\" Examine",
+      "to": "\"Notwithstanding the quest of modernity and the antagonism that guided Nehru's attitude towards the inequalities inherent in the social structure in rural India, the Congress party did not carry out concerted campaign against discrimination based on caste. Nehru's own perception was that industrial growth was bound to break the stranglehold of this feudal remnant. This however, did not happen in India.\" Examine",
+      "why": "stray character mid-text; stray character where the book has a side heading"
+    },
+    "1128": {
+      "from": "How did the popular movements help us to understand the nature of environmental crisis in post- colonial India? Caste related developments",
+      "to": "How did the popular movements help us to understand the nature of environmental crisis in post-colonial India?",
+      "why": "heading/junk at end; space inside hyphenated word"
+    },
+    "1135": {
+      "from": "How did the factionalised Dalit leadership in Hyderabad undergo a period of intense re - organization between 1948 and 1953?",
+      "to": "How did the factionalised Dalit leadership in Hyderabad undergo a period of intense re-organization between 1948 and 1953?",
+      "why": "space inside hyphenated word"
+    },
+    "1136": {
+      "from": "Account for the emergence of the national monarchies in Europe in the sixteenth century. Did the monarchs build the national states less by design than by chance? Renaissance (Not in the syllabus anymore)",
+      "to": "Account for the emergence of the national monarchies in Europe in the sixteenth century. Did the monarchs build the national states less by design than by chance?",
+      "why": "heading/junk at end"
+    },
+    "1156": {
+      "from": "\"Anti-clericalism of the Enlightenment echoed the sentiments of the Renaissance and the Reformation. Yet it neither endorsed the paganism of the Renaissance nor did it share the faith of Reformation.\" Discuss. Two Thinkers",
+      "to": "\"Anti-clericalism of the Enlightenment echoed the sentiments of the Renaissance and the Reformation. Yet it neither endorsed the paganism of the Renaissance nor did it share the faith of Reformation.\" Discuss.",
+      "why": "heading/junk at end"
+    },
+    "1163": {
+      "from": "\"Kant's redefinition of reason and his rehabilitation of conscience marked a high point in the intellectual reaction against dominant rationalism of the Enlightenment.\" Critically examine. Spread of Enlightenment 9 ",
+      "to": "\"Kant's redefinition of reason and his rehabilitation of conscience marked a high point in the intellectual reaction against dominant rationalism of the Enlightenment.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1164": {
+      "from": "\"…he (Voltaire) was living in the Age of Enlightenment …. The age itself was not enlightened.\" -- E. Kant. Critically evaluate. Enlightened Despots",
+      "to": "\"…he (Voltaire) was living in the Age of Enlightenment …. The age itself was not enlightened.\" -- E. Kant. Critically evaluate.",
+      "why": "heading/junk at end"
+    },
+    "1205": {
+      "from": "\"Napoleon was not a revolutionary but he solidified many of the revolutionary changes of 1789- 1791 and he himself supported most of the ideas and proposals of Enlightenment philosophers.\" Substantiate. Internal Reforms by Napoleon",
+      "to": "\"Napoleon was not a revolutionary but he solidified many of the revolutionary changes of 1789-1791 and he himself supported most of the ideas and proposals of Enlightenment philosophers.\" Substantiate.",
+      "why": "heading/junk at end; space inside hyphenated word"
+    },
+    "1207": {
+      "from": "'The codification of French Law was perhaps the most enduring of Napoleon's achievements.' Critically examine. Failure of Napoleon",
+      "to": "'The codification of French Law was perhaps the most enduring of Napoleon's achievements.' Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1208": {
+      "from": "“The Napoleonic Empire was doomed because of its inherent and self -defeating contradictions.” Elucidate.",
+      "to": "“The Napoleonic Empire was doomed because of its inherent and self-defeating contradictions.” Elucidate.",
+      "why": "space inside hyphenated word"
+    },
+    "1212": {
+      "from": "Napoleon's continental system may be reckoned as the greatest blunder and may be described as a \"monument of misdirected energy\". Critically examine. Long Term Impact of American and French Revolutions",
+      "to": "Napoleon's continental system may be reckoned as the greatest blunder and may be described as a \"monument of misdirected energy\". Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1220": {
+      "from": "The course of the English industrialization was too long drawn to be considered a revolution. - Comment. Impact of Industrial Revolution",
+      "to": "The course of the English industrialization was too long drawn to be considered a revolution. - Comment.",
+      "why": "heading/junk at end"
+    },
+    "1224": {
+      "from": "Why did the industrial revolution first occur in England? Discuss the quality of life of the people there during the industrialization. How does it compare with that in India at present? 0",
+      "to": "Why did the industrial revolution first occur in England? Discuss the quality of life of the people there during the industrialization. How does it compare with that in India at present?",
+      "why": "heading/junk at end"
+    },
+    "1229": {
+      "from": "Bring out the socio-economic effects of the introduction of railways in different countries of the world. Spread of Industrial Revolution to other countries",
+      "to": "Bring out the socio-economic effects of the introduction of railways in different countries of the world.",
+      "why": "heading/junk at end"
+    },
+    "1239": {
+      "from": "\"If we were to define our conception of the State, our answer would be that the State is the banker of the poor. The government would finance and supervise the purchase of productive e  equipment and the formation of workshops.\" In light of the above statement of Louis Blanc, throw light on the Pre-Marxist Socialist Thought in Europe",
+      "to": "\"If we were to define our conception of the State, our answer would be that the State is the banker of the poor. The government would finance and supervise the purchase of productive equipment and the formation of workshops.\" In light of the above statement of Louis Blanc, throw light on the Pre-Marxist Socialist Thought in Europe",
+      "why": "stray character where the book has a side heading"
+    },
+    "1241": {
+      "from": "\"The pre-Marxian socialist thinkers envisioned socialist societies without fully considering the practical mechanisms for achieving or maintaining them.\" Critically examine. Karl Marx",
+      "to": "\"The pre-Marxian socialist thinkers envisioned socialist societies without fully considering the practical mechanisms for achieving or maintaining them.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1245": {
+      "from": "Marxian socialism claims itself to be a scientific socialist theory capable of explaining the history of humankind. Discuss. Spread of Marxian Ideas",
+      "to": "Marxian socialism claims itself to be a scientific socialist theory capable of explaining the history of humankind. Discuss.",
+      "why": "heading/junk at end"
+    },
+    "1252": {
+      "from": "The impact of industrial revolution on the middle-class world view is reflected in the views of Adam Smith, Thomas Malthus and Jeremy Bentham. Comment. Reforms Act 1832",
+      "to": "The impact of industrial revolution on the middle-class world view is reflected in the views of Adam Smith, Thomas Malthus and Jeremy Bentham. Comment.",
+      "why": "heading/junk at end"
+    },
+    "1257": {
+      "from": "\"With the Reform Act of 1832 began an activity in reconstructing legislation to which there had been no parallel in British history.\" Critically examine. Chartist Movement",
+      "to": "\"With the Reform Act of 1832 began an activity in reconstructing legislation to which there had been no parallel in British history.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1267": {
+      "from": "\"Nationalism in the 19th century was a driving force for both integration and disintegration.\" Illustrate with examples from Europe and other parts of the world. European Revolutions",
+      "to": "\"Nationalism in the 19th century was a driving force for both integration and disintegration.\" Illustrate with examples from Europe and other parts of the world.",
+      "why": "heading/junk at end"
+    },
+    "1284": {
+      "from": "\"The unification of Italy completed…the destruction of the European order.\" Comment. German Unification",
+      "to": "\"The unification of Italy completed…the destruction of the European order.\" Comment.",
+      "why": "heading/junk at end"
+    },
+    "1297": {
+      "from": "Briefly indicate why and what types of problems were faced by the United Germany consequent on its unification. Comparative Questions",
+      "to": "Briefly indicate why and what types of problems were faced by the United Germany consequent on its unification.",
+      "why": "heading at end"
+    },
+    "1305": {
+      "from": "The American Civil War was a result of disparity of needs of industrial north and agrarian south. e a P  Consequences",
+      "to": "The American Civil War was a result of disparity of needs of industrial north and agrarian south.",
+      "why": "heading/junk at end"
+    },
+    "1308": {
+      "from": "Explain why Bolivar's efforts failed to fructify in bringing about united stand of the Latin Americans. New Imperialism (Neo-Imperialism)",
+      "to": "Explain why Bolivar's efforts failed to fructify in bringing about united stand of the Latin Americans.",
+      "why": "heading/junk at end"
+    },
+    "1318": {
+      "from": "Critically examine the socio-cultural and economic impact of migration in Europe and Asia in the 18th and 19th centuries. Neo-Imperialism in Africa",
+      "to": "Critically examine the socio-cultural and economic impact of migration in Europe and Asia in the 18th and 19th centuries.",
+      "why": "heading/junk at end"
+    },
+    "1326": {
+      "from": "\"The British imperialism in South Africa from 1867 to 1902 was influenced to a large extent by the capitalist mining of diamonds.\" Neo-Imperialism in Asia",
+      "to": "\"The British imperialism in South Africa from 1867 to 1902 was influenced to a large extent by the capitalist mining of diamonds.\"",
+      "why": "heading/junk at end"
+    },
+    "1340": {
+      "from": "At the end of the Battle of Sedan (1870), \"Europe lost a mistress and gained a master\". Critically examine. Eastern Question",
+      "to": "At the end of the Battle of Sedan (1870), \"Europe lost a mistress and gained a master\". Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1345": {
+      "from": "\"The Berlin Congress (1878) failed to unlock the Eastern Question. Though there was no longer major war in Europe for nearly three decades after the Treaty of Berlin, it contained the seeds of many future wars.\" Critically Evaluate. Japan's Foreign Policy before World War I",
+      "to": "\"The Berlin Congress (1878) failed to unlock the Eastern Question. Though there was no longer major war in Europe for nearly three decades after the Treaty of Berlin, it contained the seeds of many future wars.\" Critically Evaluate.",
+      "why": "heading/junk at end"
+    },
+    "1348": {
+      "from": "\"The Russo-Japanese War helped in the rise of Japan as a great power.\" Causes of World War 1",
+      "to": "\"The Russo-Japanese War helped in the rise of Japan as a great power.\"",
+      "why": "heading/junk at end"
+    },
+    "1355": {
+      "from": "\"The First World War did not produce just political consequences; it also had a deep impact on the ways of thinking.\" Critically examine. Paris Peace Conference",
+      "to": "\"The First World War did not produce just political consequences; it also had a deep impact on the ways of thinking.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1367": {
+      "from": "Analyze the causes of the Russian Revolutions of 1917. Why was the second Revolution Significant in more than one way? 0",
+      "to": "Analyze the causes of the Russian Revolutions of 1917. Why was the second Revolution Significant in more than one way?",
+      "why": "heading/junk at end"
+    },
+    "1371": {
+      "from": "The Russian Revolution of 1917 was a single revolution which developed two phases. Elucidate. Role of Lenin",
+      "to": "The Russian Revolution of 1917 was a single revolution which developed two phases. Elucidate.",
+      "why": "heading/junk at end"
+    },
+    "1375": {
+      "from": "How did Lenin achieve an abrupt transition from a Monarchical autocratic to a Socialist State? Success, Significance, Impact",
+      "to": "How did Lenin achieve an abrupt transition from a Monarchical autocratic to a Socialist State?",
+      "why": "heading/junk at end"
+    },
+    "1387": {
+      "from": "President Franklin Roosevelt's New Deal \"had the wit to start the political economy in a fresh, more promising direction.\" Do you agree? Political Instability in Europe",
+      "to": "President Franklin Roosevelt's New Deal \"had the wit to start the political economy in a fresh, more promising direction.\" Do you agree?",
+      "why": "heading/junk at end"
+    },
+    "1389": {
+      "from": "\"There arose a serious challenge to the Democratic State System between the two World Wars.\" Evaluate the statement. Inter-war Society",
+      "to": "\"There arose a serious challenge to the Democratic State System between the two World Wars.\" Evaluate the statement.",
+      "why": "heading/junk at end"
+    },
+    "1397": {
+      "from": "\"By the time of 1932 elections, Germany's ruling classes began to feel that the only way to escape from a deep economic crisis was to hand over political power to a totalitarian agency. Explain. Characteristic Features",
+      "to": "\"By the time of 1932 elections, Germany's ruling classes began to feel that the only way to escape from a deep economic crisis was to hand over political power to a totalitarian agency. Explain.",
+      "why": "heading/junk at end"
+    },
+    "1403": {
+      "from": "Trace the growth of militarism in Japan in the inter-war years. What international reaction did it provoke? Japan-China Relations",
+      "to": "Trace the growth of militarism in Japan in the inter-war years. What international reaction did it provoke?",
+      "why": "heading/junk at end"
+    },
+    "1421": {
+      "from": "To what extent can Germany be held responsible for causing the two World Wars? Discuss critically. American participation",
+      "to": "To what extent can Germany be held responsible for causing the two World Wars? Discuss critically.",
+      "why": "heading/junk at end"
+    },
+    "1423": {
+      "from": "\"Until December 1941, the battlefield of the Second World War was exclusively European and 1 Atlantic; thereafter it became also Asiatic and Pacific.\" Critically examine. e g  Nature of the Second World War",
+      "to": "\"Until December 1941, the battlefield of the Second World War was exclusively European and Atlantic; thereafter it became also Asiatic and Pacific.\" Critically examine.",
+      "why": "heading/junk at end; stray character mid-text"
+    },
+    "1425": {
+      "from": "In the post -Second World War scenario friends in war did not remain friends in peace. Examine the truth of this view in the period of your study",
+      "to": "In the post-Second World War scenario friends in war did not remain friends in peace. Examine the truth of this view in the period of your study",
+      "why": "space inside hyphenated word"
+    },
+    "1426": {
+      "from": "The emergence of two power blocs not only symbolized two competing ideologies but also two alternative models of economic growth. Explain. Theatres of Cold War",
+      "to": "The emergence of two power blocs not only symbolized two competing ideologies but also two alternative models of economic growth. Explain.",
+      "why": "heading/junk at end"
+    },
+    "1438": {
+      "from": "Outline the circumstances leading to détente. End of Cold War",
+      "to": "Outline the circumstances leading to détente.",
+      "why": "heading/junk at end"
+    },
+    "1441": {
+      "from": "Critically analysis the cause and the results of the Chinese revolution of 1949. Role of Mao Zedong",
+      "to": "Critically analysis the cause and the results of the Chinese revolution of 1949.",
+      "why": "heading/junk at end"
+    },
+    "1445": {
+      "from": "In the Chinese Revolution of 1949, the elements of communism and nationalism were discernible. Explain the statement in the light of Mao's strategy which was different from that of Lenin. Role of the USA",
+      "to": "In the Chinese Revolution of 1949, the elements of communism and nationalism were discernible. Explain the statement in the light of Mao's strategy which was different from that of Lenin.",
+      "why": "heading/junk at end"
+    },
+    "1447": {
+      "from": "Examine the circumstances in China in the years 1945-49. What did the United States do to resolve the conflict between the Nationalists and the Communists there? Comparison",
+      "to": "Examine the circumstances in China in the years 1945-49. What did the United States do to resolve the conflict between the Nationalists and the Communists there?",
+      "why": "heading/junk at end"
+    },
+    "1448": {
+      "from": "Revolutions, whether in Russia (1917) or in China (1949), are a disastrous way of transforming a country. Comment. Post-Revolution Developments 1 ",
+      "to": "Revolutions, whether in Russia (1917) or in China (1949), are a disastrous way of transforming a country. Comment.",
+      "why": "heading/junk at end"
+    },
+    "1454": {
+      "from": "\"By 1980s, the Communist System of Soviet Union was incapable of maintaining the country's role as a Superpower.\" Substantiate. Role of Gorbachev",
+      "to": "\"By 1980s, the Communist System of Soviet Union was incapable of maintaining the country's role as a Superpower.\" Substantiate.",
+      "why": "heading/junk at end"
+    },
+    "1466": {
+      "from": "\"The collapse of Berlin Wall on 9 November 1989 brought new meaning to the idea of cooperation in Europe.\" Critically examine. EU",
+      "to": "\"The collapse of Berlin Wall on 9 November 1989 brought new meaning to the idea of cooperation in Europe.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1470": {
+      "from": "To what extent did the concept of free trade of European Economic Community contribute to the formation of European Union? Examine. East Europe",
+      "to": "To what extent did the concept of free trade of European Economic Community contribute to the formation of European Union? Examine.",
+      "why": "heading/junk at end"
+    },
+    "1478": {
+      "from": "\"UNO was the necessity of the time when the World War II ended.\" Critically examine its achievements and shortcomings. Security Council e ",
+      "to": "\"UNO was the necessity of the time when the World War II ended.\" Critically examine its achievements and shortcomings.",
+      "why": "heading/junk at end"
+    },
+    "1482": {
+      "from": "\"The Capitalism which gave the European empires their apparent solidarity and permanence also hastened their downfall.\" Comment. Role of India",
+      "to": "\"The Capitalism which gave the European empires their apparent solidarity and permanence also hastened their downfall.\" Comment.",
+      "why": "heading/junk at end"
+    },
+    "1483": {
+      "from": "What were the major political, economic and social developments in the world which motivated the anti-colonial struggle in India? Nationalism in Asia",
+      "to": "What were the major political, economic and social developments in the world which motivated the anti-colonial struggle in India?",
+      "why": "heading/junk at end"
+    },
+    "1487": {
+      "from": "The historical causes for the rise of anti-colonial movement in South-East Asia were cultural differences, spread of western education and the emergence of Communist ideas. Discuss. Arab Nationalism",
+      "to": "The historical causes for the rise of anti-colonial movement in South-East Asia were cultural differences, spread of western education and the emergence of Communist ideas. Discuss.",
+      "why": "heading/junk at end"
+    },
+    "1503": {
+      "from": "\"The British were slated to withdraw from Palestine in May 1948, and both sides prepared for that day. Violence between Arabs and Jews, already endemic, escalated.\" Critically examine. Decolonization in South-East Asian Countries",
+      "to": "\"The British were slated to withdraw from Palestine in May 1948, and both sides prepared for that day. Violence between Arabs and Jews, already endemic, escalated.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1511": {
+      "from": "What problems were germane to the decolonization process of Malay Peninsula. Decolonization in African Countries",
+      "to": "What problems were germane to the decolonization process of Malay Peninsula.",
+      "why": "heading/junk at end"
+    },
+    "1520": {
+      "from": "\"The multiple of newly independent countries came to be known as the 'Third World', belonging neither to the First World of capitalist democracies, nor the Communist Second World.\" Critically examine. Non-Alignment",
+      "to": "\"The multiple of newly independent countries came to be known as the 'Third World', belonging neither to the First World of capitalist democracies, nor the Communist Second World.\" Critically examine.",
+      "why": "heading/junk at end"
+    },
+    "1525": {
+      "from": "The role of the Non-Alignment Movement in world affairs had suffered greatly due to the theatre of internecine conflicts among the Third World countries who spearheaded it.\" Elucidate. Post-Colonial History",
+      "to": "The role of the Non-Alignment Movement in world affairs had suffered greatly due to the theatre of internecine conflicts among the Third World countries who spearheaded it.\" Elucidate.",
+      "why": "heading/junk at end"
+    }
+  }
+}

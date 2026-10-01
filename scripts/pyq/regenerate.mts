@@ -22,6 +22,9 @@ const book: BookQ[] = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 const syllabus: Syll[] = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));
 const map = JSON.parse(fs.readFileSync('scripts/pyq/topicSyllabusMap.json', 'utf8'));
 const manual = JSON.parse(fs.readFileSync('scripts/pyq/manualAssignments.json', 'utf8'));
+// OCR debris in question text, checked against the book; see fixQuestions.mts.
+const fixes: Record<string, { from: string; to: string }> =
+  JSON.parse(fs.readFileSync('scripts/pyq/questionFixes.json', 'utf8')).fixes;
 
 // ── Repairs to the extraction ────────────────────────────────────────────
 // One 2025 GS question sits above the first heading in its section.
@@ -124,6 +127,8 @@ for (const q of pyqs) {
   // The old generator glued the next heading onto the end of a question.
   // Only trim where the book's text is a strict prefix — provably safe.
   let question = q.question;
+  const fix = fixes[String(q.id)];
+  if (fix && question === fix.from) question = fix.to;
   const bookText = b.raw.replace(/\s*[\[(][^\])]*\d{4}[^\])]*[\])]\s*$/, '').trim();
   if (question.length > bookText.length && norm(question).startsWith(norm(bookText))) {
     question = bookText; textFixed++;
@@ -173,6 +178,9 @@ const header = `// AUTO-GENERATED — do not edit by hand.
 //
 // \`syllabus\` maps each topic onto the official UPSC syllabus items it serves —
 // see scripts/pyq/topicSyllabusMap.json. A topic can serve more than one.
+//
+// Question text carries over from this file on each run. Corrections to it go
+// in scripts/pyq/questionFixes.json (npx tsx scripts/pyq/fixQuestions.mts).
 //
 // Total questions: ${out.length}
 
