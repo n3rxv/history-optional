@@ -440,9 +440,11 @@ export default function Navbar() {
           const currentUser = auth.currentUser;
           if (currentUser) {
             const token = await currentUser.getIdToken();
-            const res = await fetch(`/api/usage?fp=check&checkSub=1&token=${token}`);
+            const res = await fetch('/api/usage?fp=check', { headers: { 'x-user-token': token } });
             const data = await res.json();
-            if (!data.isPremium) {
+            // The API answers with `subscribed`. Reading `isPremium`, which it
+            // no longer sends, signed every returning subscriber straight out.
+            if (data.subscribed !== true) {
               await firebaseSignOut(auth);
               setNoSubFound(true);
               setShowPremiumModal(true);

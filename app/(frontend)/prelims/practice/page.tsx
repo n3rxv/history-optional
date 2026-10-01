@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useIsPhone } from '@/hooks/useIsPhone';
 import { prelimsQuestions } from '@/lib/prelimsData';
 import { auth } from '@/lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import EmptyState from '@/components/EmptyState';
@@ -112,21 +113,22 @@ export default function PrelimsPage() {
   const [showResult, setShowResult]   = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [isPremium, setIsPremium]     = useState(false);
-  const [token, setToken]             = useState<string | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const currentUser = auth.currentUser;
-        if (!currentUser) return;
-        const idToken = await currentUser.getIdToken();
-        setToken(idToken);
-        const res = await fetch(`/api/usage?fp=premcheck&checkSub=1&token=${idToken}`);
-        const data = await res.json();
-        setIsPremium(!!data.isPremium);
-      } catch {}
-    })();
-  }, []);
+  // Premium is read when Firebase reports who is signed in, not once on
+  // mount: on a fresh load the session is still being restored then, so
+  // auth.currentUser was null and the check never ran. /api/usage answers
+  // with `subscribed`; this page read `isPremium`, a field it stopped sending
+  // in July, so every subscriber saw the lock.
+  useEffect(() => onAuthStateChanged(auth, async (user) => {
+    if (!user) { setIsPremium(false); return; }
+    try {
+      const res = await fetch('/api/usage?fp=premcheck', { headers: { 'x-user-token': await user.getIdToken() } });
+      const data = await res.json();
+      setIsPremium(data.subscribed === true);
+    } catch {
+      setIsPremium(false);
+    }
+  }), []);
 
   const filtered = filterQuestions(filter, topicFilter, yearFilter, states);
 
@@ -171,33 +173,52 @@ export default function PrelimsPage() {
     updateState(q.id, { selected: idx });
   };
 
-  const handleSubmit = async () => {
-    if (!q || qs.selected === null || qs.submitted) return;
-    updateState(q.id, { submitted: true, isCorrect: qs.selected === q.correct } as any);
-    if (!isPremium || !token) return;
-    const cached = getCached(q.id);
-    if (cached) { updateState(q.id, { aiResult: cached, aiLoading: false }); return; }
-    updateState(q.id, { submitted: true, isCorrect: qs.selected === q.correct, aiLoading: true } as any);
+  // Questions whose explanation has been asked for in this visit, so an
+  // answered question opened again does not re-request after a failure.
+  const asked = useRef(new Set<string>());
+
+  const loadExplanation = async (item: NonNullable<typeof q>) => {
+    const user = auth.currentUser;
+    if (!user) return;
+    asked.current.add(item.id);
+    const cached = getCached(item.id);
+    if (cached) { updateState(item.id, { aiResult: cached, aiLoading: false }); return; }
+    updateState(item.id, { aiLoading: true });
     try {
       const res = await fetch('/api/prelims-explain', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          // Fresh per request: the SDK refreshes it, a stored one expires in an hour.
+          'Authorization': `Bearer ${await user.getIdToken()}`,
         },
-        body: JSON.stringify({ question: q.question, options: q.options, correct: q.correct, topic: q.topic, lang: langHi ? 'hi' : 'en' }),
+        body: JSON.stringify({ question: item.question, options: item.options, correct: item.correct, topic: item.topic, lang: langHi ? 'hi' : 'en' }),
       });
       if (res.ok) {
         const data = await res.json();
-        setCached(q.id, data);
-        updateState(q.id, { aiResult: data, aiLoading: false });
+        setCached(item.id, data);
+        updateState(item.id, { aiResult: data, aiLoading: false });
       } else {
-        updateState(q.id, { aiLoading: false });
+        updateState(item.id, { aiLoading: false });
       }
     } catch {
-      updateState(q.id, { aiLoading: false });
+      updateState(item.id, { aiLoading: false });
     }
   };
+
+  const handleSubmit = () => {
+    if (!q || qs.selected === null || qs.submitted) return;
+    updateState(q.id, { submitted: true, isCorrect: qs.selected === q.correct } as any);
+    if (isPremium) loadExplanation(q);
+  };
+
+  // An answered question without its explanation (answered before premium
+  // was confirmed, or before this fix) fetches it when opened.
+  useEffect(() => {
+    if (!isPremium || !q || !qs.submitted || qs.aiResult || asked.current.has(q.id)) return;
+    loadExplanation(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPremium, q?.id, qs.submitted, qs.aiResult]);
 
   const handleMark = () => { if (q) updateState(q.id, { marked: !qs.marked }); };
 
@@ -549,8 +570,11 @@ export default function PrelimsPage() {
                   ))}
                 </div>
               ) : (
-                <div style={{ padding: '1.25rem', color: 'var(--text3)', fontSize: '0.9rem' }}>
-                  Could not load explanation. Please try again.
+                <div style={{ padding: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)', color: 'var(--text3)', fontSize: '0.9rem' }}>
+                  {langHi ? 'स्पष्टीकरण लोड नहीं हो सका।' : 'Could not load the explanation.'}
+                  <button type="button" onClick={() => q && loadExplanation(q)} style={{ padding: 'var(--space-2) var(--space-4)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--bg-raised)', color: 'var(--text2)', fontFamily: 'var(--font-ui)', fontSize: '0.85rem', cursor: 'pointer' }}>
+                    {langHi ? 'फिर कोशिश करें' : 'Try again'}
+                  </button>
                 </div>
               )}
             </div>
