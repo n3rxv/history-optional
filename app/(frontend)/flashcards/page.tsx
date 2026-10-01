@@ -139,10 +139,9 @@ export default function Flashcards() {
   const [filterType, setFilterType] = useState<string>('All');
   const [filterGrade, setFilterGrade] = useState<string>('All');
   const [filterDue, setFilterDue] = useState<boolean>(false);
-  // A notes slug, from the chat's "Revise them": just the cards on the topic
-  // it answered. Not a dropdown, since 51 topics would not fit in one.
+  // A notes slug. Chosen from the Topic dropdown, or arriving as ?topic=
+  // from the chat's "Revise them" with the topic it just answered.
   const [filterTopic, setFilterTopic] = useState<string | null>(null);
-  const topicNote = useMemo(() => (filterTopic ? allNotes.find(n => n.slug === filterTopic) ?? null : null), [filterTopic]);
   const { index, indexLoading, error: deckError, getCard, isReady, getBack, reveal, allowance, prefetch, keepAhead } =
     useFlashcardDeck();
   /**
@@ -311,8 +310,18 @@ export default function Flashcards() {
     return () => window.removeEventListener('keydown', handler);
   }, [modalOpen, flipped, answerVisible, flipCard, rate]);
 
-  const dueCount = index.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; }).length;
-  const studiedCount = Object.keys(sr).length;
+  // The tiles count the slice chosen with Section and Topic, so a reader sent
+  // here for the 21 Harappan cards sees 21, not the whole deck. Type, rating
+  // and Due only stay refinements of the list below. Studied counts cards in
+  // the deck, not every id in localStorage, so it matches the list it opens.
+  const scope = useMemo(
+    () => index.filter(c => (!filterTopic || c.topic === filterTopic) && (filterSection === 'All' || c.section === filterSection)),
+    [index, filterTopic, filterSection],
+  );
+  const scopeIds = useMemo(() => new Set(scope.map(c => c.id)), [scope]);
+  const dueCount = scope.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; }).length;
+  const studiedCount = scope.filter(c => sr[c.id]).length;
+  const lastSessionCount = lastSessionIds.filter(id => scopeIds.has(id)).length;
   const filteredDue = filteredIndex.filter(c => { const s = sr[c.id]; return !s || s.nextDue <= today; });
 
   // The browse list shows a page at a time, and fetches the text for exactly
@@ -330,6 +339,35 @@ export default function Flashcards() {
   // actually have cards. Index order is card-id order, which is syllabus
   // order — Ancient, Medieval, Modern, World.
   const sections = useMemo(() => [...new Set(index.map(c => c.section))], [index]);
+
+  // Topics for the dropdown: only those with cards, in syllabus order, grouped
+  // by section, and only the chosen section's when one is chosen.
+  const topicGroups = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const c of index) counts.set(c.topic, (counts.get(c.topic) ?? 0) + 1);
+    return sections
+      .filter(sec => filterSection === 'All' || sec === filterSection)
+      .map(sec => ({
+        section: sec,
+        topics: allNotes
+          .filter(n => n.section === sec && counts.has(n.slug))
+          .map(n => ({ slug: n.slug, title: n.title, count: counts.get(n.slug) ?? 0 })),
+      }))
+      .filter(g => g.topics.length > 0);
+  }, [index, sections, filterSection]);
+
+  // Section and topic go in the URL as they change, so a reload or Back keeps
+  // them, as on the PYQs page.
+  useEffect(() => {
+    if (!mounted) return;
+    const url = new URL(window.location.href);
+    if (filterTopic) url.searchParams.set('topic', filterTopic); else url.searchParams.delete('topic');
+    if (filterSection !== 'All') url.searchParams.set('section', filterSection); else url.searchParams.delete('section');
+    const next = `${url.pathname}${url.search}${url.hash}`;
+    if (next !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
+      window.history.replaceState(null, '', next);
+    }
+  }, [mounted, filterTopic, filterSection]);
   const tc = currentCard ? TYPE_COLORS[currentCard.type] : TYPE_COLORS.concept;
 
   return (
@@ -623,10 +661,10 @@ export default function Flashcards() {
         {mounted && (
           <div className="fc-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.65rem', marginBottom: '1.75rem' }}>
             {([
-              { key: 'all',     label: langHi ? 'कुल' : 'Total',              value: index.length, color: 'var(--accent)' },
+              { key: 'all',     label: langHi ? 'कुल' : 'Total',              value: scope.length, color: 'var(--accent)' },
               { key: 'studied', label: langHi ? 'पढ़े गए' : 'Studied',        value: studiedCount,      color: 'var(--accent)' },
               { key: 'due',     label: langHi ? 'आज बाकी' : 'Due Today',      value: dueCount,          color: dueCount > 0 ? 'var(--warning-text)' : 'var(--text3)' },
-              { key: 'session', label: langHi ? 'पिछला सत्र' : 'Last Session', value: lastSessionIds.length, color: 'var(--success-text)' },
+              { key: 'session', label: langHi ? 'पिछला सत्र' : 'Last Session', value: lastSessionCount, color: 'var(--success-text)' },
             ] as const).map(s => {
               const active = view === s.key;
               // Nothing to show means nothing to click into.
@@ -664,28 +702,22 @@ export default function Flashcards() {
 
         {/* Filters + Start */}
         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.75rem', alignItems: 'center' }}>
-          {topicNote && (
-            <span style={{
-              display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)',
-              padding: '0.3rem 0.4rem 0.3rem 0.75rem', borderRadius: 'var(--radius-full)',
-              border: '1px solid var(--accent)', background: 'var(--accent-dim)',
-              color: 'var(--accent-text)', fontSize: '0.78rem', fontWeight: 600,
-            }}>
-              {topicNote.title}
-              <button
-                onClick={() => setFilterTopic(null)}
-                aria-label={langHi ? 'सभी कार्ड दिखाएँ' : 'Show all cards'}
-                title={langHi ? 'सभी कार्ड दिखाएँ' : 'Show all cards'}
-                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: '0.95rem', lineHeight: 1, padding: '0 var(--space-1)' }}
-              >×</button>
-            </span>
-          )}
           {/* Picking a section is choosing a different slice; a topic left
               over from the chat would leave it empty. */}
           <select value={filterSection} onChange={e => { setFilterSection(e.target.value); setFilterTopic(null); }}
             style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी अनुभाग" : "All Sections"}</option>
             {sections.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <select value={filterTopic ?? 'All'} onChange={e => setFilterTopic(e.target.value === 'All' ? null : e.target.value)}
+            aria-label={langHi ? 'विषय' : 'Topic'}
+            style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer', maxWidth: 280 }}>
+            <option value="All">{langHi ? 'सभी विषय' : 'All Topics'}</option>
+            {topicGroups.map(g => (
+              <optgroup key={g.section} label={g.section}>
+                {g.topics.map(t => <option key={t.slug} value={t.slug}>{t.title} ({t.count})</option>)}
+              </optgroup>
+            ))}
           </select>
           <select value={filterType} onChange={e => setFilterType(e.target.value)}
             style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
