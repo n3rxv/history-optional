@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { pyqs, type PYQ } from '@/lib/pyqData';
 import { auth } from '@/lib/firebase';
 import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
@@ -9,6 +8,7 @@ import OwlLoader from '@/components/OwlLoader';
 import ModelAnswerModal from '@/components/ModelAnswerModal';
 import CompareIcon from '@/components/CompareIcon';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
+import BackButton from '@/components/BackButton';
 
 interface AnswerEntry {
   id: string;
@@ -72,9 +72,9 @@ export default function PYQDetailPage() {
   }, [pyq?.id]);
 
   if (!pyq) return (
-    <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text3)' }}>
-      Question not found.{' '}
-      <Link href="/pyqs" style={{ color: 'var(--accent)' }}>← Back to PYQs</Link>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-4)', padding: '4rem', color: 'var(--text3)' }}>
+      Question not found.
+      <BackButton href="/pyqs">Back to PYQs</BackButton>
     </div>
   );
 
@@ -145,10 +145,7 @@ export default function PYQDetailPage() {
       `}</style>
 
       {/* Back */}
-      <Link href="/pyqs" style={{
-        color: 'var(--text3)', fontSize: '0.8rem', textDecoration: 'none',
-        display: 'inline-flex', alignItems: 'center', gap: '0.3rem', marginBottom: '1.75rem',
-      }}>← Back to PYQs</Link>
+      <div style={{ marginBottom: '1.75rem' }}><BackButton href="/pyqs">Back to PYQs</BackButton></div>
 
       {/* Question Card */}
       <div style={{

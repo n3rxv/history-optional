@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import BackButton from '@/components/BackButton';
 
 const FEATURES = [
   'AI Answer Evaluation',
@@ -140,10 +141,7 @@ export default function WeeklyCheckup() {
 
         {step === 'issues' && (<>
           <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16 }}>
-            <button onClick={() => { setStep('ask'); setSelected([]); setDetails(''); }} style={{
-              background:'none', border:'none', color:'#555', cursor:'pointer',
-              fontFamily:'var(--font-mono)', fontSize:'0.6rem', letterSpacing:'0.1em', padding:0,
-            }}>← back</button>
+            <BackButton size="sm" onClick={() => { setStep('ask'); setSelected([]); setDetails(''); }}>Back</BackButton>
             <p style={{ fontSize:'0.88rem', color:'#aaa', fontFamily:'var(--font-body)', margin:0 }}>
               Which features have issues?
             </p>

@@ -10,6 +10,7 @@ import TopperLocked from '@/components/TopperLocked';
 import CompareIcon from '@/components/CompareIcon';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import BackButton from '@/components/BackButton';
 
 type Copy = { id: string; question: string; note: string | null };
 type Side = 'a' | 'b';
@@ -152,8 +153,9 @@ export default function ComparePage() {
   };
 
   if (!pyq) return (
-    <div style={{ textAlign: 'center', padding: 'var(--space-12)', color: 'var(--text3)' }}>
-      Question not found. <Link href="/pyqs" style={{ color: 'var(--accent)' }}>&#8592; Back to PYQs</Link>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-4)', padding: 'var(--space-12)', color: 'var(--text3)' }}>
+      Question not found.
+      <BackButton href="/pyqs">Back to PYQs</BackButton>
     </div>
   );
 
@@ -291,8 +293,6 @@ export default function ComparePage() {
           transition: color 0.15s, border-color 0.15s, transform 0.2s;
         }
         .cmp-swap:hover { color: var(--accent); border-color: var(--accent); transform: translateX(-50%) rotate(180deg); }
-        .cmp-back { color: var(--text3); font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: var(--space-1); transition: color 0.15s; }
-        .cmp-back:hover { color: var(--accent); }
         .cmp-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-6); align-items: center; }
         @media (max-width: 768px) {
           .cmp-hero { grid-template-columns: 1fr; gap: var(--space-4); }
@@ -306,7 +306,7 @@ export default function ComparePage() {
         }
       `}</style>
 
-      <Link href={`/pyqs/${pyq.id}`} className="cmp-back">&#8592; Back to the question</Link>
+      <BackButton href={`/pyqs/${pyq.id}`}>Back to the question</BackButton>
 
       {/* The question both copies answer, and how many there are to choose from. */}
       <div className="cmp-hero" style={{

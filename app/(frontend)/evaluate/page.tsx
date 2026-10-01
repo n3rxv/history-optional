@@ -13,6 +13,7 @@ import { readProgress } from '@/lib/progressStream';
 import EmptyState from '@/components/EmptyState';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 import { useIsPhone } from '@/hooks/useIsPhone';
+import BackButton from '@/components/BackButton';
 
 
 interface Historian {
@@ -631,9 +632,9 @@ const handleOcr = useCallback(async () => {
         {openEntry ? (
           /* Past evaluation viewer — full result */
           <div className="ev-wrap" style={{ flex:1, padding:"48px 40px 96px", overflowY:"auto", maxWidth:820 }}>
-            <button onClick={() => setOpenEntry(null)} style={{ background:"transparent", border:"1px solid var(--border)", color:"var(--text2)", cursor:"pointer", padding:"6px 14px", borderRadius:4, fontSize:"0.72rem", fontFamily:"var(--font-mono)", marginBottom:32, letterSpacing:"0.1em" }}>
-              ← Back to Evaluate
-            </button>
+            <div style={{ marginBottom: 'var(--space-8)' }}>
+              <BackButton onClick={() => setOpenEntry(null)}>Back to Evaluate</BackButton>
+            </div>
 
             {/* Date + question */}
             <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text3)", marginBottom:10 }}>

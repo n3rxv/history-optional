@@ -15,6 +15,7 @@ import { useNoteSearch } from '@/hooks/useNoteSearch';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import OwlLoader from '@/components/OwlLoader';
+import BackButton from '@/components/BackButton';
 
 function injectHeadingIds(html: string): string {
   let h2count = 0;
@@ -843,8 +844,9 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   const relatedPYQs = note ? getPYQsForNote(slug, note.section) : [];
 
   if (!note) return (
-    <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--text2)' }}>
-      Topic not found. <Link href="/" style={{ color: 'var(--accent)' }}>← Home</Link>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-4)', padding: '4rem', color: 'var(--text2)' }}>
+      Topic not found.
+      <BackButton href="/">Back to home</BackButton>
     </div>
   );
 

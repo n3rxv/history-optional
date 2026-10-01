@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { auth } from '@/lib/firebase';
 import TopperPdf, { type TopperCopyDetail } from '@/components/TopperPdf';
 import TopperLocked from '@/components/TopperLocked';
+import BackButton from '@/components/BackButton';
 
 export default function TopperCopyPage() {
   const { id } = useParams<{ id: string }>();
@@ -50,15 +50,7 @@ export default function TopperCopyPage() {
   return (
     <div style={{ maxWidth: 1000, margin: '0 auto', padding: 'var(--space-8) var(--space-6) var(--space-12)' }}>
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <button
-          onClick={() => router.back()}
-          style={{
-            background: 'none', border: '1px solid var(--border)',
-            color: 'var(--text3)', cursor: 'pointer',
-            padding: 'var(--space-1) var(--space-4)', borderRadius: 'var(--radius-sm)', fontSize: '0.8rem',
-            fontFamily: 'var(--font-mono)',
-          }}
-        >&#8592; Back</button>
+        <BackButton onClick={() => router.back()}>Back</BackButton>
       </div>
 
       {copy && (
@@ -95,10 +87,7 @@ export default function TopperCopyPage() {
 
       {copy && (
         <div style={{ marginTop: 'var(--space-6)', textAlign: 'center' }}>
-          <Link href="/topper-copies" style={{
-            color: 'var(--text3)', fontSize: '0.8rem',
-            textDecoration: 'none', fontFamily: 'var(--font-mono)',
-          }}>&#8592; Browse Topper Copies</Link>
+          <BackButton href="/topper-copies">All topper copies</BackButton>
         </div>
       )}
     </div>

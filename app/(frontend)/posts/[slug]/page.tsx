@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { sanitizeHtml } from '@/lib/sanitizeHtml';
 import { useParams, useRouter } from 'next/navigation';
 import OwlLoader from '@/components/OwlLoader';
+import BackButton from '@/components/BackButton';
 
 interface Post {
   id: string;
@@ -115,7 +116,7 @@ export default function PostPage() {
   if (notFound || !post) return (
     <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
       <p style={{ color: 'var(--text3)', fontSize: '0.95rem' }}>Post not found.</p>
-      <button onClick={() => router.back()} style={backBtnStyle}>← Go back</button>
+      <BackButton onClick={() => router.back()}>Go back</BackButton>
     </div>
   );
 
@@ -124,7 +125,7 @@ export default function PostPage() {
 
       {/* Top bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-        <button onClick={() => router.back()} style={backBtnStyle}>← Back</button>
+        <BackButton onClick={() => router.back()}>Back</BackButton>
         {authed && !editing && (
           <button onClick={startEdit} style={{
             padding: '6px 16px', borderRadius: 7, cursor: 'pointer',
@@ -312,16 +313,9 @@ export default function PostPage() {
 
       {/* Bottom */}
       <div style={{ marginTop: '3rem', borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
-        <button onClick={() => router.back()} style={backBtnStyle}>← Back to Home</button>
+        <BackButton href="/">Back to home</BackButton>
       </div>
     </main>
   );
 }
 
-const backBtnStyle: React.CSSProperties = {
-  display: 'inline-flex', alignItems: 'center', gap: 6,
-  marginBottom: '1.5rem', padding: '6px 14px', borderRadius: 7,
-  cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600,
-  background: 'var(--bg2)', border: '1px solid var(--border)',
-  color: 'var(--text2)', transition: 'border-color 0.15s, color 0.15s',
-};

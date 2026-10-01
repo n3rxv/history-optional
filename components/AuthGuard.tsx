@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { auth, signInWithGoogle } from '@/lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
+import BackButton from '@/components/BackButton';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -161,19 +162,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
             )}
           </button>
 
-          <a
-            href="/"
-            style={{
-              fontSize: '0.78rem',
-              color: 'var(--text3)',
-              textDecoration: 'none',
-              transition: 'color 0.15s',
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text2)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text3)'; }}
-          >
-            ← Back to home
-          </a>
+          <BackButton href="/" size="sm">Back to home</BackButton>
         </div>
       </div>
 
