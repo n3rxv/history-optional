@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
@@ -27,6 +27,7 @@ const TABS = [
 ];
 
 const SECTION_ORDER = TABS.filter(t => t.value !== 'all').map(t => t.value);
+const MARK_OPTIONS = [10, 15, 20, 25, 30, 60];
 
 
 async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
@@ -270,6 +271,55 @@ export default function PYQsPage() {
   const [filterTopic, setFilterTopic]   = useState<string>('all');
   const [filterDone, setFilterDone]     = useState<'all' | 'done' | 'todo'>('all');
   const [search, setSearch]             = useState('');
+
+  // The filters live in the URL as well (?section=&topic=&year=&marks=
+  // &status=&q=), so Back from a question lands on the same filtered list.
+  // As state alone they were lost every time the page unmounted, and readers
+  // had to pick their theme again after each question.
+  //
+  // Read on mount rather than with useSearchParams, which needs a Suspense
+  // boundary and opts the page out of prerendering. A layout effect, so a
+  // restored list replaces the full one before the first paint instead of
+  // flashing it.
+  const [filtersRestored, setFiltersRestored] = useState(false);
+  useLayoutEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const section = p.get('section');
+    if (section && SECTION_ORDER.includes(section)) setActiveTab(section);
+    const topic = p.get('topic');
+    if (topic && pyqs.some((q: PYQ) => q.topic === topic)) setFilterTopic(topic);
+    const year = Number(p.get('year'));
+    if (pyqYears.includes(year)) setFilterYear(year);
+    const marks = Number(p.get('marks'));
+    if (MARK_OPTIONS.includes(marks)) setFilterMarks(marks);
+    const status = p.get('status');
+    if (status === 'done' || status === 'todo') setFilterDone(status);
+    const q = p.get('q');
+    if (q) setSearch(q.slice(0, 200));
+    setFiltersRestored(true);
+  }, []);
+
+  useEffect(() => {
+    // Not before the restore: the first run would write the defaults and
+    // erase the very parameters it is about to read.
+    if (!filtersRestored) return;
+    const p = new URLSearchParams(window.location.search);
+    const put = (key: string, value: string | number) => {
+      if (value === 'all' || value === '') p.delete(key); else p.set(key, String(value));
+    };
+    put('section', activeTab);
+    put('topic', filterTopic);
+    put('year', filterYear);
+    put('marks', filterMarks);
+    put('status', filterDone);
+    put('q', search.trim());
+    const qs = p.toString();
+    const next = `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash}`;
+    if (next !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
+      // Replace, not push: each filter change is not a step Back should undo.
+      window.history.replaceState(null, '', next);
+    }
+  }, [filtersRestored, activeTab, filterTopic, filterYear, filterMarks, filterDone, search]);
   const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
   const [showTopperCopies, setShowTopperCopies] = useState(false);
 
@@ -393,9 +443,6 @@ export default function PYQsPage() {
     [topicGroups]
   );
 
-  // A topic chosen under one section is meaningless under another.
-  useEffect(() => { setFilterTopic('all'); }, [activeTab]);
-
   /**
    * Grouped for display: section -> topic -> sub-topic.
    *
@@ -431,7 +478,6 @@ export default function PYQsPage() {
   }, [filtered, attempted]);
 
   const isP1 = (section: string) => section.startsWith('Paper I');
-  const markOptions = [10, 15, 20, 25, 30, 60];
   const clearAll = () => { setActiveTab('all'); setFilterTopic('all'); setFilterDone('all'); setFilterYear('all'); setFilterMarks('all'); setSearch(''); };
   const hasFilters = activeTab !== 'all' || filterTopic !== 'all' || filterDone !== 'all' || filterYear !== 'all' || filterMarks !== 'all' || search;
 
@@ -499,7 +545,11 @@ export default function PYQsPage() {
           const count = tab.value === 'all' ? pyqs.length : pyqs.filter((q: PYQ) => q.section === tab.value).length;
           const active = activeTab === tab.value;
           return (
-            <button key={tab.value} onClick={() => setActiveTab(tab.value)} style={{
+            // A topic chosen under one section is meaningless under another.
+            // Reset here rather than in an effect on activeTab, which also
+            // fired when the filters were restored from the URL and threw the
+            // restored topic away.
+            <button key={tab.value} onClick={() => { setActiveTab(tab.value); setFilterTopic('all'); }} style={{
               padding: '0.45rem 1rem', borderRadius: 6,
               border: active ? '1px solid var(--accent)' : '1px solid var(--border)',
               background: active ? 'var(--accent-dim)' : 'var(--bg2)',
@@ -556,7 +606,7 @@ export default function PYQsPage() {
         </select>
         <select value={filterMarks} onChange={e => setFilterMarks(e.target.value === 'all' ? 'all' : +e.target.value)} style={selectStyle}>
           <option value="all">All Marks</option>
-          {markOptions.map(m => <option key={m} value={m}>{m} marks</option>)}
+          {MARK_OPTIONS.map(m => <option key={m} value={m}>{m} marks</option>)}
         </select>
         {/* Marking without filtering would be half a feature: the point of
             ticking questions off is being able to see what is left. */}
