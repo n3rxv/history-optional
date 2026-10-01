@@ -206,7 +206,7 @@ export async function GET(req: NextRequest) {
  * same value anyway.
  *
  * Metering now happens server-side inside the routes that spend the money
- * (/api/evaluate, /api/chat, /api/topper-click) via lib/usageQuota, which is
+ * (/api/evaluate, /api/chat, /api/topper-copies/[id]) via lib/usageQuota, which is
  * the only place that can know whether the work was actually done. The client
  * hook no longer calls this.
  */

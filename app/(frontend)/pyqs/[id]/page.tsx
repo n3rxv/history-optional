@@ -29,20 +29,17 @@ export default function PYQDetailPage() {
   const [showModelAnswer, setShowModelAnswer] = useState(false);
   const pyq = pyqs.find((q: PYQ) => q.id === parseInt(id));
 
-  const handleTopperClick = async (tcId: string) => {
+  // Opening a copy is what spends a free view, and the copy endpoint counts
+  // it. This used to count one here as well, before the viewer counted its
+  // own, so every copy opened from this page cost a free reader two.
+  const openTopperCopy = async (href: string) => {
     const currentUser = auth.currentUser;
-    if (!currentUser) { router.push('/pyqs/topper/' + tcId); return; }
+    if (!currentUser) { router.push(href); return; }
     const token = await currentUser.getIdToken();
-    const res = await fetch('/api/topper-click', {
-      method: 'POST',
-      headers: { 'x-user-token': token },
-    });
+    const res = await fetch('/api/topper-access', { headers: { 'x-user-token': token } });
     const data = await res.json();
-    if (data.allowed) {
-      router.push('/pyqs/topper/' + tcId);
-    } else {
-      setShowTopperPaywall(true);
-    }
+    if (data.access) router.push(href);
+    else setShowTopperPaywall(true);
   };
 
   const [answers, setAnswers]         = useState<AnswerEntry[]>([]);
@@ -360,6 +357,19 @@ export default function PYQDetailPage() {
           display: 'flex', alignItems: 'center', gap: '0.5rem',
         }}>
           🏆 Related Topper Copies
+          {topperCopies.length >= 2 && (
+            <button
+              onClick={() => openTopperCopy(`/pyqs/${pyq.id}/compare`)}
+              style={{
+                marginLeft: 'auto', background: 'var(--accent-dim)',
+                border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
+                color: 'var(--accent)', borderRadius: 'var(--radius-sm)',
+                padding: 'var(--space-1) var(--space-2)', cursor: 'pointer',
+                fontFamily: 'var(--font-mono)', fontSize: '0.62rem', letterSpacing: '0.08em',
+                textTransform: 'uppercase', whiteSpace: 'nowrap',
+              }}
+            >Compare &#8644;</button>
+          )}
         </div>
         {topperLoading ? (
           <OwlLoader size="small" label="Loading topper copies" />
@@ -389,7 +399,7 @@ export default function PYQDetailPage() {
                   borderLeft: '3px solid color-mix(in srgb, var(--accent) 50%, transparent)',
                   transition: 'border-color 0.15s',
                 }}
-                onClick={() => handleTopperClick(tc.id)}
+                onClick={() => openTopperCopy(`/pyqs/topper/${tc.id}`)}
               >
                 <div style={{ color: 'var(--text)', fontSize: '0.82rem', lineHeight: 1.5, marginBottom: tc.note ? '0.35rem' : 0 }}>
                   {tc.question}

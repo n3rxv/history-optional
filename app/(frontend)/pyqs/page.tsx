@@ -610,23 +610,19 @@ export default function PYQsPage() {
                                 onClick={async () => {
                                   const currentUser = auth.currentUser;
                                   if (!currentUser) { requireLogin('Login to view topper copies'); return; }
-                                  // If already confirmed access, navigate directly
+                                  // Opening the copy is what spends a free view, and the
+                                  // copy endpoint counts it. Here only decide between the
+                                  // copy and the paywall.
                                   if (topperAccess?.access) {
                                     window.location.href = `/pyqs/topper/${c.id}`;
                                     return;
                                   }
                                   const token = await currentUser.getIdToken();
-                                  const res = await fetch('/api/topper-click', {
-                                    method: 'POST',
-                                    headers: { 'x-user-token': token },
-                                  });
+                                  const res = await fetch('/api/topper-access', { headers: { 'x-user-token': token } });
                                   const data = await res.json();
-                                  if (data.allowed) {
-                                    setTopperAccess(prev => ({ ...prev!, clicks: data.clicks }));
-                                    window.location.href = `/pyqs/topper/${c.id}`;
-                                  } else {
-                                    setShowTopperPaywall(true);
-                                  }
+                                  setTopperAccess(data);
+                                  if (data.access) window.location.href = `/pyqs/topper/${c.id}`;
+                                  else setShowTopperPaywall(true);
                                 }}
                                 style={{
                                   flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
