@@ -344,7 +344,6 @@ function ExtendModal({
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [isTopperActive, setIsTopperActive] = useState(false);
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -378,9 +377,6 @@ export default function Navbar() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const notesRef = useRef<HTMLDivElement>(null);
   const pyqsRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    setIsTopperActive(typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('topper') === '1');
-  }, [pathname]);
   useEffect(() => {
     let touchMoved = false;
     const onTouchMove = () => { touchMoved = true; };
@@ -559,7 +555,7 @@ export default function Navbar() {
 
             {/* PYQs dropdown */}
             <div ref={pyqsRef} style={{ position: 'relative' }}>
-              <button onClick={() => setPyqsMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/pyqs') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }} onMouseLeave={e => { const isActive = pathname.startsWith('/pyqs') || pathname.startsWith('/test'); (e.currentTarget as HTMLElement).style.color = isActive ? 'var(--accent)' : 'var(--text2)'; }}>
+              <button onClick={() => setPyqsMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/pyqs') || pathname.startsWith('/topper-copies') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }} onMouseLeave={e => { const isActive = pathname.startsWith('/pyqs') || pathname.startsWith('/topper-copies') || pathname.startsWith('/test'); (e.currentTarget as HTMLElement).style.color = isActive ? 'var(--accent)' : 'var(--text2)'; }}>
                 PYQs
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
                   <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -567,12 +563,8 @@ export default function Navbar() {
               </button>
               {pyqsMenuOpen && (
                 <div style={{ position: 'absolute', top: '100%', left: 0, background: 'var(--bg3)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 140, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
-                  {[{ href: '/pyqs', label: langHi ? 'PYQs देखें' : 'Browse PYQs' }, { href: '/pyqs?topper=1', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test Series' }].map(item => {
-                    const isActive = item.href === '/pyqs?topper=1'
-                      ? pathname === '/pyqs' && isTopperActive
-                      : item.href === '/pyqs'
-                        ? pathname === '/pyqs' && !isTopperActive
-                        : pathname === item.href;
+                  {[{ href: '/pyqs', label: langHi ? 'PYQs देखें' : 'Browse PYQs' }, { href: '/topper-copies', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test Series' }].map(item => {
+                    const isActive = item.href === '/topper-copies' ? pathname.startsWith(item.href) : pathname === item.href;
                     return (
                     <Link key={item.href} href={item.href} onClick={() => setPyqsMenuOpen(false)}
                       style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: isActive ? 'var(--accent)' : 'var(--text2)', background: isActive ? 'var(--accent-dim)' : 'transparent', transition: 'all 0.12s' }}
@@ -1002,7 +994,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         {open && createPortal(
           <div style={{ position:'fixed', top:60, left:0, right:0, bottom:0, borderTop: '1px solid rgba(0,0,0,0.06)', padding: '0.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.1rem', background: 'var(--bg2)', overflowY:'auto', zIndex:9999 }}>
-            {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/current-affairs', label: langHi ? 'समसामयिकी' : 'Current Affairs' }, { href: '/pyqs', label: langHi ? 'PYQs देखें' : 'PYQs' }, { href: '/pyqs?topper=1', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test Series' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }, { href: '/pricing', label: langHi ? 'मूल्य' : 'Pricing' }].map(l => (
+            {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/current-affairs', label: langHi ? 'समसामयिकी' : 'Current Affairs' }, { href: '/pyqs', label: langHi ? 'PYQs देखें' : 'PYQs' }, { href: '/topper-copies', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test Series' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }, { href: '/pricing', label: langHi ? 'मूल्य' : 'Pricing' }].map(l => (
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ padding: '0.6rem 0.5rem', borderRadius: 5, fontSize: '0.88rem', textDecoration: 'none', color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)' }}>{l.label}</Link>
             ))}
             <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>

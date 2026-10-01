@@ -3,16 +3,12 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
-import { allNotes } from '@/lib/notes';
 import { useMemo } from 'react';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
-import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 import LoginPromptModal from '@/components/LoginPromptModal';
-import Script from 'next/script';
 import EmptyState from '@/components/EmptyState';
-import OwlLoader from '@/components/OwlLoader';
 import ModelAnswerModal from '@/components/ModelAnswerModal';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 
@@ -31,23 +27,6 @@ const TABS = [
 
 const SECTION_ORDER = TABS.filter(t => t.value !== 'all').map(t => t.value);
 const MARK_OPTIONS = [10, 15, 20, 25, 30, 60];
-const PYQ_YEAR = new Map(pyqs.map(q => [q.id, q.year]));
-const NOTE_TITLE = new Map(allNotes.map(n => [n.slug, n.title]));
-const NOTE_SECTION = new Map(allNotes.map(n => [n.slug, n.section]));
-const NOTE_ORDER = new Map(allNotes.map((n, i) => [n.slug, i]));
-const noteOrder = (slug: string) => NOTE_ORDER.get(slug) ?? allNotes.length;
-// Topper copies are filed by notes topic, so their tabs are the notes' four
-// sections; a copy is in whichever sections its topics are.
-const TOPPER_TABS = [
-  { label: 'All',      value: 'all' },
-  { label: 'Ancient',  value: 'Ancient India' },
-  { label: 'Medieval', value: 'Medieval India' },
-  { label: 'Modern',   value: 'Modern India' },
-  { label: 'World',    value: 'World History' },
-];
-const inTopperSection = (c: { topics: string[] }, section: string) =>
-  section === 'all' || c.topics.some(t => NOTE_SECTION.get(t) === section);
-
 function SectionTab({ label, count, active, onClick }: { label: string; count: number; active: boolean; onClick: () => void }) {
   return (
     <button onClick={onClick} style={{
@@ -81,12 +60,6 @@ export default function PYQsPage() {
   const [filterTopic, setFilterTopic]   = useState<string>('all');
   const [filterDone, setFilterDone]     = useState<'all' | 'done' | 'todo'>('all');
   const [search, setSearch]             = useState('');
-  // Topper Copies mode and its filters ride in the URL as well (?topper=1
-  // &tsection=&ttopic=), so Back from a copy returns to the copies and not
-  // to the PYQs.
-  const [showTopperCopies, setShowTopperCopies] = useState(false);
-  const [topperSection, setTopperSection] = useState<string>('all');
-  const [topperTopic, setTopperTopic] = useState<string>('all');
 
   // The filters live in the URL as well (?section=&topic=&year=&marks=
   // &status=&q=), so Back from a question lands on the same filtered list.
@@ -112,11 +85,6 @@ export default function PYQsPage() {
     if (status === 'done' || status === 'todo') setFilterDone(status);
     const q = p.get('q');
     if (q) setSearch(q.slice(0, 200));
-    if (p.get('topper') === '1') setShowTopperCopies(true);
-    const tsection = p.get('tsection');
-    if (tsection && tsection !== 'all' && TOPPER_TABS.some(t => t.value === tsection)) setTopperSection(tsection);
-    const ttopic = p.get('ttopic');
-    if (ttopic && allNotes.some(n => n.slug === ttopic)) setTopperTopic(ttopic);
     setFiltersRestored(true);
   }, []);
 
@@ -134,61 +102,14 @@ export default function PYQsPage() {
     put('marks', filterMarks);
     put('status', filterDone);
     put('q', search.trim());
-    put('topper', showTopperCopies ? '1' : '');
-    put('tsection', showTopperCopies ? topperSection : 'all');
-    put('ttopic', showTopperCopies ? topperTopic : 'all');
     const qs = p.toString();
     const next = `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash}`;
     if (next !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
       // Replace, not push: each filter change is not a step Back should undo.
       window.history.replaceState(null, '', next);
     }
-  }, [filtersRestored, activeTab, filterTopic, filterYear, filterMarks, filterDone, search, showTopperCopies, topperSection, topperTopic]);
+  }, [filtersRestored, activeTab, filterTopic, filterYear, filterMarks, filterDone, search]);
   const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
-  const [topperCopies, setTopperCopies] = useState<{ id: string; question: string; note: string | null; pyq_ids: number[]; topics: string[] }[]>([]);
-  const [topperLoading, setTopperLoading] = useState(false);
-  const [topperSearch, setTopperSearch] = useState('');
-  const [topperAccess, setTopperAccess] = useState<{ access: boolean; clicks: number; isPremium?: boolean; hasTopperAccess?: boolean } | null>(null);
-  const [showTopperPaywall, setShowTopperPaywall] = useState(false);
-
-  // Fetch topper access status on mount
-  useEffect(() => {
-    const checkAccess = async () => {
-      const currentUser = auth.currentUser;
-      if (!currentUser) { setTopperAccess({ access: false, clicks: 0 }); return; }
-      const token = await currentUser.getIdToken();
-      const res = await fetch('/api/topper-access', { headers: { 'x-user-token': token } });
-      const data = await res.json();
-      setTopperAccess(data);
-    };
-    checkAccess();
-  }, []);
-
-  useEffect(() => {
-    if (!showTopperCopies || topperCopies.length > 0) return;
-    setTopperLoading(true);
-    fetch('/api/topper-copies/all')
-      .then(r => r.json())
-      .then(d => setTopperCopies(d.data || []))
-      .catch(() => {})
-      .finally(() => setTopperLoading(false));
-  }, [showTopperCopies]);
-
-  // The notes topics that have copies, grouped by section in syllabus order,
-  // and only the chosen section's once one is picked.
-  const topperTopicGroups = useMemo(() => {
-    const count = new Map<string, number>();
-    for (const c of topperCopies) for (const t of c.topics) count.set(t, (count.get(t) ?? 0) + 1);
-    return [...new Set(allNotes.map(n => n.section))]
-      .filter(section => topperSection === 'all' || section === topperSection)
-      .map(section => ({
-        section,
-        topics: allNotes
-          .filter(n => n.section === section && count.has(n.slug))
-          .map(n => ({ slug: n.slug, title: n.title, count: count.get(n.slug) ?? 0 })),
-      }))
-      .filter(g => g.topics.length > 0);
-  }, [topperCopies, topperSection]);
 
   const { attempted, ready: attemptedReady, isAttempted, count: attemptedCount, toggle: toggleAttempted } = useAttemptedPyqs();
   const { GateModals, usage, showChatLimitModal } = useSubscriptionGate(() => {});
@@ -348,7 +269,6 @@ export default function PYQsPage() {
 
   return (
     <>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
       <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
       <style>{`
         .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
@@ -373,17 +293,14 @@ export default function PYQsPage() {
             </p>
           </div>
           {/* Both are page-level actions, so they sit together. Topper Copies
-              used to live down in the tab row, where it read as an eighth tab
-              and then wrapped onto a line of its own. */}
+              has a page of its own now; this is the way across to it. */}
           <div style={{ display: 'flex', gap: '0.6rem', flexShrink: 0, marginTop: '0.25rem', flexWrap: 'wrap' }}>
-            <button onClick={() => setShowTopperCopies(p => !p)} style={{
-              background: 'transparent',
-              color: showTopperCopies ? 'var(--accent)' : 'var(--text2)',
-              border: `1px solid ${showTopperCopies ? 'var(--accent)' : 'var(--border)'}`,
+            <Link href="/topper-copies" style={{
+              color: 'var(--text2)', border: '1px solid var(--border)',
               padding: '0.55rem 1.1rem', borderRadius: 6,
-              fontSize: '0.88rem', fontWeight: 500, cursor: 'pointer',
-              whiteSpace: 'nowrap', transition: 'all 0.15s',
-            }}>{showTopperCopies ? '← Back to PYQs' : 'Topper Copies'}</button>
+              fontSize: '0.88rem', fontWeight: 500, textDecoration: 'none',
+              whiteSpace: 'nowrap',
+            }}>Topper Copies</Link>
             <Link href="/test" style={{
               background: 'var(--accent)', color: 'var(--accent-on)',
               padding: '0.55rem 1.25rem', borderRadius: 6,
@@ -396,25 +313,17 @@ export default function PYQsPage() {
         </div>
       </div>
 
-      {/* Sections. Topper Copies has its own: the PYQ tabs follow the book's
-          sections, which copies are not filed by. A topic chosen under one
-          section is meaningless under another, so a tab resets it — here
-          rather than in an effect on the tab, which also fired when the
-          filters were restored from the URL and threw the restored topic away. */}
+      {/* Sections. A topic chosen under one section is meaningless under
+          another, so a tab resets it — here rather than in an effect on the
+          tab, which also fired when the filters were restored from the URL
+          and threw the restored topic away. */}
       <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
-        {showTopperCopies
-          ? TOPPER_TABS.map(tab => (
-              <SectionTab key={tab.value} label={tab.label}
-                count={topperCopies.filter(c => inTopperSection(c, tab.value)).length}
-                active={topperSection === tab.value}
-                onClick={() => { setTopperSection(tab.value); setTopperTopic('all'); }} />
-            ))
-          : TABS.map(tab => (
-              <SectionTab key={tab.value} label={tab.label}
-                count={tab.value === 'all' ? pyqs.length : pyqs.filter((q: PYQ) => q.section === tab.value).length}
-                active={activeTab === tab.value}
-                onClick={() => { setActiveTab(tab.value); setFilterTopic('all'); }} />
-            ))}
+        {TABS.map(tab => (
+          <SectionTab key={tab.value} label={tab.label}
+            count={tab.value === 'all' ? pyqs.length : pyqs.filter((q: PYQ) => q.section === tab.value).length}
+            active={activeTab === tab.value}
+            onClick={() => { setActiveTab(tab.value); setFilterTopic('all'); }} />
+        ))}
       </div>
 
       {/* Filters */}
@@ -424,27 +333,15 @@ export default function PYQsPage() {
         display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center',
       }}>
         <input
-          value={showTopperCopies ? topperSearch : search}
-          onChange={e => showTopperCopies ? setTopperSearch(e.target.value) : setSearch(e.target.value)}
-          placeholder={showTopperCopies ? 'Search topper copies…' : 'Search questions or topics...'}
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Search questions or topics..."
           style={{
             flex: 1, minWidth: 200, background: 'var(--bg3)', border: '1px solid var(--border)',
             borderRadius: 6, padding: '0.5rem 0.85rem',
             color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.875rem', outline: 'none',
           }}
         />
-        {showTopperCopies && (
-          <select value={topperTopic} onChange={e => setTopperTopic(e.target.value)}
-            style={{ ...selectStyle, maxWidth: 280 }} aria-label="Filter topper copies by topic">
-            <option value="all">All Topics</option>
-            {topperTopicGroups.map(g => (
-              <optgroup key={g.section} label={g.section}>
-                {g.topics.map(t => <option key={t.slug} value={t.slug}>{t.title} ({t.count})</option>)}
-              </optgroup>
-            ))}
-          </select>
-        )}
-        {!showTopperCopies && <>
         <select value={filterTopic} onChange={e => setFilterTopic(e.target.value)}
           style={{ ...selectStyle, maxWidth: 260 }}
           title={activeTab === 'all' ? 'All topics across every section' : `Topics in ${activeTab}`}>
@@ -472,9 +369,8 @@ export default function PYQsPage() {
           <option value="todo">Not attempted</option>
           <option value="done">Attempted</option>
         </select>
-        </>}
-        {(showTopperCopies ? topperSection !== 'all' || topperTopic !== 'all' || topperSearch : hasFilters) && (
-          <button onClick={showTopperCopies ? () => { setTopperSection('all'); setTopperTopic('all'); setTopperSearch(''); } : clearAll} style={{
+        {hasFilters && (
+          <button onClick={clearAll} style={{
             background: 'none', border: '1px solid var(--border)',
             color: 'var(--text3)', cursor: 'pointer',
             padding: '0.5rem 0.75rem', borderRadius: 6, fontSize: '0.8rem',
@@ -482,172 +378,6 @@ export default function PYQsPage() {
         )}
       </div>
 
-      {showTopperCopies ? (
-        <div style={{ marginTop: '0.5rem' }}>
-          {topperLoading && (
-            <OwlLoader label="Loading topper copies" />
-          )}
-          {!topperLoading && topperCopies.length === 0 && (
-            <div style={{
-              background: 'var(--bg2)', border: '1px solid var(--border)',
-              borderRadius: 10, padding: '3rem', textAlign: 'center',
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>📚</div>
-              <div style={{ color: 'var(--text)', fontWeight: 600, fontSize: '0.95rem' }}>No topper copies yet</div>
-              <div style={{ color: 'var(--text3)', fontSize: '0.82rem', marginTop: '0.4rem' }}>Check back soon.</div>
-            </div>
-          )}
-          {!topperLoading && topperCopies.length > 0 && (() => {
-            const filtered = topperCopies.filter(c => {
-              if (!inTopperSection(c, topperSection)) return false;
-              if (topperTopic !== 'all' && !c.topics.includes(topperTopic)) return false;
-              if (!topperSearch.trim()) return true;
-              const s = topperSearch.toLowerCase();
-              return c.question.toLowerCase().includes(s) || (c.note?.toLowerCase().includes(s) ?? false);
-            });
-            // Grouped by notes topic in syllabus order, so sections follow in
-            // order too, as on the PYQ list. A copy filed under two topics shows
-            // once, under the first one the filters allow. Within a topic,
-            // copies answering the same PYQ sit together, and copies that
-            // answer none come last.
-            const fits = (t: string) =>
-              (topperSection === 'all' || NOTE_SECTION.get(t) === topperSection) && (topperTopic === 'all' || t === topperTopic);
-            const firstPyq = (c: { pyq_ids: number[] }) => (c.pyq_ids.length ? Math.min(...c.pyq_ids) : Number.MAX_SAFE_INTEGER);
-            const byTopic = new Map<string, typeof filtered>();
-            for (const c of filtered) {
-              const home = c.topics.filter(fits).sort((x, y) => noteOrder(x) - noteOrder(y))[0] ?? '';
-              byTopic.set(home, [...(byTopic.get(home) ?? []), c]);
-            }
-            const groups = [...byTopic.entries()]
-              .sort(([x], [y]) => noteOrder(x) - noteOrder(y))
-              .map(([slug, copies]) => ({
-                slug,
-                copies: copies.sort((x, y) => firstPyq(x) - firstPyq(y) || x.question.localeCompare(y.question)),
-              }));
-            return (
-              <div>
-                <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem' }}>
-                  {filtered.length} of {topperCopies.length} copies
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-                  {groups.map(g => (
-                    <div key={g.slug || '_none'}>
-                      <div style={{ marginBottom: '0.85rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
-                          <h2 style={{
-                            fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 600,
-                            color: 'var(--text)', margin: 0,
-                          }}>{g.slug ? NOTE_TITLE.get(g.slug) ?? g.slug : 'Other copies'}</h2>
-                          <span style={{
-                            fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)',
-                            border: '1px solid var(--border)', padding: '2px 10px', borderRadius: 20, whiteSpace: 'nowrap',
-                          }}>{g.copies.length} {g.copies.length === 1 ? 'copy' : 'copies'}</span>
-                          {topperSection === 'all' && g.slug && (
-                            <span style={{ fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)' }}>
-                              {NOTE_SECTION.get(g.slug)}
-                            </span>
-                          )}
-                          {g.slug && (
-                            <Link href={`/notes/${g.slug}`} style={{
-                              marginLeft: 'auto', fontSize: '0.72rem', fontFamily: 'var(--font-mono)',
-                              color: 'var(--accent)', textDecoration: 'none',
-                            }}>Notes &rarr;</Link>
-                          )}
-                        </div>
-                        <div style={{ height: 1, background: 'var(--border)', marginTop: '0.7rem' }} />
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                        {g.copies.map(c => (
-                          <div key={c.id} style={{
-                            background: 'var(--bg2)', border: '1px solid var(--border)',
-                            borderRadius: 8, padding: '1.1rem 1.4rem',
-                            borderLeft: '3px solid color-mix(in srgb, var(--accent) 50%, transparent)',
-                          }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
-                              <div style={{ flex: 1, minWidth: 0 }}>
-                                <p style={{ color: 'var(--text)', fontSize: '0.93rem', lineHeight: 1.6, marginBottom: c.note ? '0.5rem' : '0.75rem' }}>
-                                  {c.question}
-                                </p>
-                                {c.note && (
-                                  <p style={{ color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', marginBottom: '0.75rem' }}>
-                                    &#128221; {c.note}
-                                  </p>
-                                )}
-                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                                  {c.topics.filter(slug => slug !== g.slug).map(slug => (
-                                    <Link
-                                      key={slug}
-                                      href={`/notes/${slug}`}
-                                      style={{
-                                        fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
-                                        color: 'var(--text2)', background: 'var(--bg3)',
-                                        border: '1px solid var(--border)',
-                                        padding: '2px 8px', borderRadius: 3, textDecoration: 'none',
-                                      }}
-                                    >
-                                      {NOTE_TITLE.get(slug) ?? slug}
-                                    </Link>
-                                  ))}
-                                  {c.pyq_ids.map((pid: number) => (
-                                    <a
-                                      key={pid}
-                                      href={`/pyqs/${pid}`}
-                                      style={{
-                                        fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
-                                        color: 'color-mix(in srgb, var(--accent) 80%, transparent)',
-                                        background: 'var(--accent-dim)',
-                                        border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
-                                        padding: '2px 8px', borderRadius: 3,
-                                        textDecoration: 'none', cursor: 'pointer',
-                                      }}
-                                    >
-                                      &#128279; PYQ {PYQ_YEAR.get(pid) ?? ''}{' '}&#8599;
-                                    </a>
-                                  ))}
-                                </div>
-                              </div>
-                              <button
-                                onClick={async () => {
-                                  const currentUser = auth.currentUser;
-                                  if (!currentUser) { requireLogin('Login to view topper copies'); return; }
-                                  // Opening the copy is what spends a free view, and the
-                                  // copy endpoint counts it. Here only decide between the
-                                  // copy and the paywall.
-                                  if (topperAccess?.access) {
-                                    window.location.href = `/pyqs/topper/${c.id}`;
-                                    return;
-                                  }
-                                  const token = await currentUser.getIdToken();
-                                  const res = await fetch('/api/topper-access', { headers: { 'x-user-token': token } });
-                                  const data = await res.json();
-                                  setTopperAccess(data);
-                                  if (data.access) window.location.href = `/pyqs/topper/${c.id}`;
-                                  else setShowTopperPaywall(true);
-                                }}
-                                style={{
-                                  flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
-                                  background: 'var(--accent-dim)',
-                                  border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
-                                  color: 'var(--accent)', borderRadius: 6,
-                                  padding: '0.45rem 1rem', fontSize: '0.8rem',
-                                  cursor: 'pointer', fontFamily: 'var(--font-mono)',
-                                  whiteSpace: 'nowrap',
-                                }}
-                              >
-                                View Copy &#8594;
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })()}
-        </div>
-      ) : (
       <div>
       {/* Count */}
       {/* Progress. attemptedReady gates the whole block: localStorage cannot
@@ -944,117 +674,7 @@ export default function PYQsPage() {
         </div>
       </div>
       </div>
-      )}
       <GateModals />
-      {showTopperPaywall && (
-        <div style={{
-          position: 'fixed', inset: 0, zIndex: 9999,
-          background: 'rgba(0,0,0,0.75)',
-          backdropFilter: 'blur(6px)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
-        }} onClick={() => setShowTopperPaywall(false)}>
-          <div style={{
-            background: 'var(--bg)',
-            border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
-            borderRadius: 16, padding: '2.5rem 2rem', maxWidth: 420, width: '100%',
-            textAlign: 'center',
-            boxShadow: '0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent), 0 24px 60px rgba(0,0,0,0.5)',
-          }} onClick={e => e.stopPropagation()}>
-            {/* Icon */}
-            <div style={{
-              width: 56, height: 56, borderRadius: '50%',
-              background: 'var(--accent-dim)',
-              border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '1.5rem', margin: '0 auto 1.25rem',
-            }}>📋</div>
-            <h3 style={{
-              color: 'var(--text)', fontFamily: 'var(--font-display)',
-              fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem',
-            }}>
-              5 free previews used
-            </h3>
-            <p style={{ color: 'var(--text3)', fontSize: '0.875rem', marginBottom: '0.75rem', lineHeight: 1.65 }}>
-              Get unlimited access to all topper copies
-            </p>
-            <div style={{
-              background: 'var(--accent-dim)',
-              border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
-              borderRadius: 10, padding: '0.85rem 1.25rem',
-              marginBottom: '1.5rem',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-            }}>
-              <span style={{ color: 'var(--accent)', fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>₹799</span>
-              <span style={{ color: 'var(--text3)', fontSize: '0.8rem' }}>/year · one-time unlock</span>
-            </div>
-            <button
-              onClick={async () => {
-                const currentUser = auth.currentUser;
-                if (!currentUser) return;
-                if (!(window as any).Razorpay) {
-                  alert('Payment SDK not loaded. Please refresh and try again.');
-                  return;
-                }
-                const token = await currentUser.getIdToken();
-                const res = await fetch('/api/razorpay/topper-order', {
-                  method: 'POST',
-                  headers: { 'x-user-token': token },
-                });
-                const order = await res.json();
-                if (!res.ok) {
-                  alert('Order creation failed: ' + (order.error || 'Unknown error'));
-                  return;
-                }
-                const rzp = new (window as any).Razorpay({
-                  key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-                  amount: order.amount,
-                  currency: order.currency,
-                  order_id: order.orderId,
-                  name: 'History Optional',
-                  description: 'Topper Copies Access — 1 Year',
-                  handler: async (response: any) => {
-                    const verifyRes = await fetch('/api/razorpay/topper-verify', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-                      body: JSON.stringify(response),
-                    });
-                    const v = await verifyRes.json();
-                    if (v.ok) {
-                      setTopperAccess({ access: true, clicks: 0, hasTopperAccess: true });
-                      setShowTopperPaywall(false);
-                    }
-                  },
-                });
-                rzp.open();
-              }}
-              style={{
-                background: 'linear-gradient(135deg, var(--accent), var(--accent))',
-                border: 'none',
-                color: 'var(--accent-on)', borderRadius: 10, padding: '0.85rem 2rem',
-                fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
-                fontFamily: 'var(--font-mono)', width: '100%',
-                boxShadow: '0 4px 20px color-mix(in srgb, var(--accent) 35%, transparent)',
-                transition: 'opacity 0.15s',
-              }}
-              onMouseOver={e => (e.currentTarget.style.opacity = '0.88')}
-              onMouseOut={e => (e.currentTarget.style.opacity = '1')}
-            >
-              🔓 Unlock for ₹799/year
-            </button>
-            <button
-              onClick={() => setShowTopperPaywall(false)}
-              style={{
-                marginTop: '0.6rem', background: 'none', border: 'none',
-                color: 'var(--text3)', fontSize: '0.78rem', cursor: 'pointer',
-                letterSpacing: '0.02em',
-              }}
-            >
-              Maybe later
-            </button>
-          </div>
-        </div>
-      )}
-
       <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
 
       {modelAnswerQ && (

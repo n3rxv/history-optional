@@ -22,18 +22,18 @@ const topperOf = (c: Copy) => (c.note ?? '').split(',')[0].trim();
 
 /**
  * The pair to open with: whatever the URL names (?a=&b=), so a refresh or
- * Back keeps the comparison, and otherwise the first copy beside the first
- * one by a different topper. Two copies by the same person compare little.
+ * Back keeps the comparison. Without a b, the a copy (or the first) goes
+ * beside the first one by a different topper: two copies by the same person
+ * compare little. The Topper Copies page links here with only an a.
  */
 function initialPicks(copies: Copy[]): Picks {
-  const ids = new Set(copies.map(c => c.id));
+  const byId = new Map(copies.map(c => [c.id, c]));
   const p = new URLSearchParams(window.location.search);
-  const first = copies[0];
-  const other = copies.find(c => c.id !== first.id && topperOf(c) !== topperOf(first)) ?? copies[1];
-  const a = ids.has(p.get('a') ?? '') ? p.get('a')! : first.id;
-  const wantB = p.get('b') ?? '';
-  const b = ids.has(wantB) && wantB !== a ? wantB : (other.id !== a ? other.id : first.id);
-  return { a, b };
+  const a = byId.get(p.get('a') ?? '') ?? copies[0];
+  const b = byId.get(p.get('b') ?? '');
+  if (b && b.id !== a.id) return { a: a.id, b: b.id };
+  const other = copies.find(c => c.id !== a.id && topperOf(c) !== topperOf(a)) ?? copies.find(c => c.id !== a.id)!;
+  return { a: a.id, b: other.id };
 }
 
 function writeUrl(picks: Picks) {

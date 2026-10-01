@@ -399,7 +399,7 @@ export default function PYQDetailPage() {
                   borderLeft: '3px solid color-mix(in srgb, var(--accent) 50%, transparent)',
                   transition: 'border-color 0.15s',
                 }}
-                onClick={() => openTopperCopy(`/pyqs/topper/${tc.id}`)}
+                onClick={() => openTopperCopy(`/topper-copies/${tc.id}`)}
               >
                 <div style={{ color: 'var(--text)', fontSize: '0.82rem', lineHeight: 1.5, marginBottom: tc.note ? '0.35rem' : 0 }}>
                   {tc.question}

@@ -103,6 +103,14 @@ const nextConfig: NextConfig = {
   // it — the Gemini call in /api/evaluate uses fetch directly.
   serverExternalPackages: ['@react-pdf/renderer'],
   images: { unoptimized: true },
+  async redirects() {
+    return [
+      // Topper copies moved out of /pyqs to a page of their own. The query
+      // is passed through, and /topper-copies still reads the old filters.
+      { source: '/pyqs/topper/:id', destination: '/topper-copies/:id', permanent: true },
+      { source: '/pyqs', has: [{ type: 'query', key: 'topper', value: '1' }], destination: '/topper-copies', permanent: true },
+    ];
+  },
   async rewrites() {
     return [
       {
