@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import Mascot from '@/components/Mascot';
 import { list } from '@/lib/chatStart';
 
@@ -31,8 +32,10 @@ function bookList(books: string[], langHi: boolean): string {
   return `${books.slice(0, 2).join(', ')} ${langHi ? `और ${more} अन्य` : `and ${more} more`}`;
 }
 
-export default function ThinkingSteps({ progress, langHi }: { progress: Progress; langHi: boolean }) {
-  const rows: { key: string; text: string; done: boolean }[] = [];
+type Row = { key: string; text: string; done: boolean };
+
+function stepRows(progress: Progress, langHi: boolean): Row[] {
+  const rows: Row[] = [];
 
   rows.push({
     key: 'read',
@@ -71,6 +74,12 @@ export default function ThinkingSteps({ progress, langHi }: { progress: Progress
     rows.push({ key: 'write', text: langHi ? 'उत्तर लिख रहा हूँ' : 'Writing your answer', done: false });
   }
 
+  return rows;
+}
+
+export default function ThinkingSteps({ progress, langHi }: { progress: Progress; langHi: boolean }) {
+  const rows = stepRows(progress, langHi);
+
   // Only the first unfinished step spins; anything after it is not shown yet.
   const firstOpen = rows.findIndex((r) => !r.done);
   const visible = firstOpen === -1 ? rows : rows.slice(0, firstOpen + 1);
@@ -86,6 +95,34 @@ export default function ThinkingSteps({ progress, langHi }: { progress: Progress
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+/** What the server did before it started writing, and how long that took. */
+export type Trace = { progress: Progress; ms: number };
+
+/**
+ * Once the answer is on screen the working steps fold into one quiet line,
+ * "Researched 7s", that opens to show them again.
+ */
+export function ResearchTrace({ trace, langHi }: { trace: Trace; langHi: boolean }) {
+  const [open, setOpen] = useState(false);
+  const rows = stepRows({ ...trace.progress, writing: true }, langHi).filter((r) => r.key !== 'write');
+  const secs = Math.max(1, Math.round(trace.ms / 1000));
+  return (
+    <div className="ch-trace">
+      <button type="button" className="ch-trace-toggle" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+        <span>{langHi ? `${secs} सेकंड में शोध किया` : `Researched ${secs}s`}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={open ? 'ch-trace-chev open' : 'ch-trace-chev'} aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+      </button>
+      {open && (
+        <ul className="ch-steps ch-trace-steps">
+          {rows.map((r) => (
+            <li key={r.key} className="done"><Done /><span>{r.text}</span></li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

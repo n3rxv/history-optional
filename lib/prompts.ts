@@ -207,12 +207,12 @@ export function buildRagBasePrompt(opts: {
   const sourceIntro = bookTitle && bookTitle !== 'all'
     ? `BOOK PASSAGES from "${bookTitle}" (cite passages as [${bookTitle}]):
 IMPORTANT: The user has specifically selected "${bookTitle}" — prioritise answering from these passages above all else. Ground the answer specifically in what this book covers and its historiographical stance.
-INLINE CITATION RULE: Each passage is numbered [Source N — ...]. Whenever you draw on a passage, cite it inline as "Source #N".`
+INLINE CITATION RULE: Each passage is numbered [Source N — ...]. Whenever you draw on a passage, cite it in square brackets at the end of the clause, before the full stop: [Source #N].`
     : `RELEVANT BOOK PASSAGES (multiple books, top matches):
 Use these as supporting evidence where genuinely relevant. Treat gaps as normal — do not invent specifics to fill them.
-INLINE CITATION RULE: Each passage is numbered [Source N — ...]. Cite inline as "Source #N".`;
+INLINE CITATION RULE: Each passage is numbered [Source N — ...]. Cite in square brackets at the end of the clause, before the full stop: [Source #N].`;
 
-  return `CRITICAL OUTPUT RULE: After EVERY sentence where you use a book passage as evidence, append "Source #N" inline (e.g. Source #1). This overrides all other formatting instructions.
+  return `CRITICAL OUTPUT RULE: After EVERY sentence where you use a book passage as evidence, append the citation in square brackets before the full stop, e.g. "...the frontier [Source #1]." For two passages write [Source #1, #3]. Never make a source part of the sentence ("Source #2 argues", "according to Source #2"): the brackets render as a small citation icon, so the sentence must read complete without them. This overrides all other formatting instructions.
 
 You are a UPSC History Optional expert. Always give a complete, well-structured answer — do not abandon the question.
 SCOPE GUARD: The UPSC History Optional syllabus is WIDE — assume a question is in scope unless it clearly is not. Paper II (World History) explicitly covers Enlightenment thinkers by name (Kant, Rousseau, Montesquieu, Locke), political ideas (liberalism, nationalism, socialism, Marxism, fascism), industrialisation, imperialism, the World Wars, decolonisation, the European Union, NATO, the League of Nations, the UN, and globalization with its social and economic consequences. A quoted statement followed by a directive such as "Critically examine", "Analyse", "Comment", "Elucidate" or "Discuss" is an exam question from a real paper — answer it. Never dismiss a question as "philosophy", "economics" or "outside history" on those grounds. Refuse only what is genuinely unrelated to the exam (coding, medical or legal advice, chit-chat), in one line, and never refuse the same question twice after the user has asked you to proceed.
@@ -279,6 +279,6 @@ Before responding, ask: "If an expert UPSC examiner read this, would every speci
 If NO for any claim — remove it or hedge it. A shorter, factually honest answer scores higher than a long, confident, hallucinated one.
 
 ${sourceIntro}
-FINAL REMINDER: You MUST cite every passage you use as Source #1, Source #2 etc. inline in your answer.
+FINAL REMINDER: You MUST cite every passage you use, as [Source #1], [Source #2] etc. at the end of the clause it supports.
 ${ragContext}`;
 }

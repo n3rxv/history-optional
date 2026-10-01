@@ -18,7 +18,7 @@ import { takeStages, type StageEvent } from '@/lib/chatStream';
 import { suggestions, nextSuggestion, graphemes } from '@/lib/chatSuggestions';
 import ChatSidebar from '@/components/chat/ChatSidebar';
 import StartFlow, { loadRelated, type Related, type RelatedPyq } from '@/components/chat/StartFlow';
-import ThinkingSteps, { NO_PROGRESS, type Progress } from '@/components/chat/ThinkingSteps';
+import ThinkingSteps, { ResearchTrace, NO_PROGRESS, type Progress, type Trace } from '@/components/chat/ThinkingSteps';
 import SidePanel, { type PanelContent, type Source } from '@/components/chat/SidePanel';
 import WorthKnowing from '@/components/chat/WorthKnowing';
 import Mascot from '@/components/Mascot';
@@ -34,6 +34,8 @@ type Message = {
   format?: 'mains';
   /** The follow-up the server suggested after this answer. */
   next?: string;
+  /** The research steps behind this answer and how long they took. */
+  trace?: Trace;
 };
 
 type ChatHistoryEntry = {
@@ -176,17 +178,73 @@ function formatTable(text: string): string {
   return result;
 }
 
-function linkifyCitations(html: string, sourcesCount: number): string {
-  if (!sourcesCount) return html;
-  return html.replace(/\b(Sources?)\s*#?\s*(\d+(?:\s*(?:,|and|&)\s*\d+)*)\b/gi, (match: string, _label: string, numList: string) => {
-    const nums = Array.from(numList.matchAll(/\d+/g)).map(m => parseInt(m[0], 10));
-    const valid = nums.filter(n => n >= 1 && n <= sourcesCount);
-    if (valid.length === 0) return match;
-    return `<span class="chat-citation" data-citation="${valid.join(',')}">${match}</span>`;
+// "Source #2", "Sources 1 and 3", "Sources #1, #4"
+const CITE_CORE = String.raw`Sources?\s*#?\s*\d+(?:\s*(?:,|and|&)\s*#?\s*\d+)*`;
+// A citation the model set apart: 【Source 2】, [Sources #1, #3], (Source #2; Source #4)
+const CITE_GROUP = new RegExp(String.raw`\s*[【\[(（]\s*(${CITE_CORE}(?:\s*[,;]\s*(?:and\s+)?${CITE_CORE})*)\s*[】\])）]`, 'gi');
+// One closing a clause: "...the frontier, Source #2."
+const CITE_TRAILING = new RegExp(String.raw`\s*,?\s*\b(${CITE_CORE})\b(?=\s*(?:[.,;:!?]|<br|</|$))`, 'gi');
+const CITE_BARE = new RegExp(String.raw`\b${CITE_CORE}\b`, 'gi');
+// A citation that is part of the sentence ("according to Source 2") stays as
+// words; turning it into an icon would leave "according to (i)".
+const CITE_IN_PROSE = /\b(?:to|in|from|by|see|per|as|of|and|with|cf\.?)\s*$/i;
+
+/** "Satish Chandra - Medieval India Part 2" -> "Satish Chandra"; "Mughals IGNOU" stays whole. */
+function shortSource(s: Source): string {
+  const parts = s.book_title.split(/\s+[—–-]\s+/);
+  if (parts.length > 1) return parts[0];
+  if (s.author && !/^(unknown|ignou)$/i.test(s.author)) return s.author;
+  return s.book_title;
+}
+
+const escAttr = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/**
+ * Citations render as a small (i) after the claim instead of "[Source 2]" in
+ * the running text. Hovering shows the book; clicking opens the passage in the
+ * side panel, found through data-citation by the answer's click handler.
+ */
+function linkifyCitations(html: string, sources: Source[]): string {
+  if (!sources.length) return html;
+  const icons: number[][] = [];
+  const numbers = (s: string) =>
+    Array.from(s.matchAll(/\d+/g), m => parseInt(m[0], 10)).filter(n => n >= 1 && n <= sources.length);
+  const hold = (match: string, nums: number[]) => {
+    if (!nums.length) return match;
+    icons.push(nums);
+    return `\u0000${icons.length - 1}\u0000`;
+  };
+
+  html = html.replace(CITE_GROUP, (match, inner: string) => hold(match, numbers(inner)));
+  html = html.replace(CITE_TRAILING, (match, core: string, offset: number, all: string) =>
+    CITE_IN_PROSE.test(all.slice(Math.max(0, offset - 12), offset)) ? match : hold(match, numbers(core)));
+  // Mid-sentence references keep the old inline link.
+  html = html.replace(CITE_BARE, (match) => {
+    const nums = numbers(match);
+    return nums.length ? `<span class="chat-citation" data-citation="${nums.join(',')}">${match}</span>` : match;
+  });
+
+  // Back-to-back citations become one icon; an icon sits flush against the
+  // punctuation that follows it.
+  html = html.replace(/\u0000(\d+)\u0000(?:\s*\u0000(\d+)\u0000)+/g, (run) => {
+    const ids = Array.from(run.matchAll(/\u0000(\d+)\u0000/g), m => Number(m[1]));
+    icons[ids[0]] = [...new Set(ids.flatMap(id => icons[id]))].sort((a, b) => a - b);
+    return `\u0000${ids[0]}\u0000`;
+  });
+  html = html.replace(/(\u0000\d+\u0000)\s+(?=[.,;:!?])/g, '$1');
+
+  return html.replace(/\u0000(\d+)\u0000/g, (_, id: string) => {
+    const nums = icons[Number(id)];
+    const cited = nums.map(n => sources[n - 1]);
+    const names = [...new Set(cited.map(shortSource))];
+    const books = [...new Set(cited.map(s => s.book_title))].join(' · ');
+    const label = `${nums.length > 1 ? 'Sources' : 'Source'} ${nums.join(', ')}: ${books}`;
+    const more = names.length > 1 ? `<span class="chat-cite-more">+${names.length - 1}</span>` : '';
+    return `<button type="button" class="chat-cite" data-citation="${nums.join(',')}" title="${escAttr(books)}" aria-label="${escAttr(label)}"><span class="chat-cite-name">${escAttr(names[0])}</span>${more}</button>`;
   });
 }
 
-function formatMessage(text: string, sourcesCount: number = 0) {
+function formatMessage(text: string, sources: Source[] = []) {
   // Also applied server-side; repeated here so answers already saved in
   // history render correctly without a re-generation.
   text = fixSentenceSpacing(text);
@@ -216,7 +274,7 @@ function formatMessage(text: string, sourcesCount: number = 0) {
   text = text.replace(/<div class="chat-bullet"><span class="chat-bullet-dot"><\/span><span><strong>([^<]+)<\/strong>:?\s*<\/span><\/div>/g, (_: string, t: string) => `<div class="chat-msg-h3">${t}</div>`);
   text = text.replace(/<\/div><div class="chat-para-gap"><\/div><div class="chat-bullet">/g, '</div><div class="chat-bullet">');
   text = text.replace(/(<div class="chat-msg-h[123]">[^<]+<\/div>)<div class="chat-para-gap"><\/div>(<div class="chat-bullet">)/g, '$1$2');
-  text = linkifyCitations(text, sourcesCount);
+  text = linkifyCitations(text, sources);
   return text;
 }
 
@@ -701,6 +759,7 @@ function ChatContent() {
     newHint();
     setLoading(true);
     setProgress(NO_PROGRESS);
+    const askedAt = Date.now();
     setFlowOpen(false);
     setToolsOpen(false);
 
@@ -739,17 +798,21 @@ function ChatContent() {
       if (response.status === 403) { restore(); showChatLimitModal(); return; }
       if (!response.ok || !response.body) { fail(); return; }
 
-      setProgress({ accepted: true, writing: false });
+      // Kept here as well as in state: the finished answer carries the
+      // steps with it, to show as "Researched 7s" after the live list goes.
+      let prog: Progress = { accepted: true, writing: false };
+      let trace: Trace | undefined;
+      setProgress(prog);
 
-      const apply = (e: StageEvent) => setProgress(p => {
+      const apply = (e: StageEvent) => {
         switch (e.id) {
-          case 'search': return { ...p, search: { book: e.book } };
-          case 'found':  return { ...p, found: { passages: e.passages, books: e.books } };
-          case 'pdf':    return { ...p, pdf: { name: e.name } };
-          case 'write':  return { ...p, writing: true };
-          default:       return p;
+          case 'search': prog = { ...prog, search: { book: e.book } }; break;
+          case 'found':  prog = { ...prog, found: { passages: e.passages, books: e.books } }; break;
+          case 'pdf':    prog = { ...prog, pdf: { name: e.name } }; break;
+          case 'write':  prog = { ...prog, writing: true }; break;
         }
-      });
+        setProgress(prog);
+      };
 
       let head = '';
       let started = false;
@@ -773,7 +836,7 @@ function ChatContent() {
         }
         setMessages(prev => {
           const updated = [...prev];
-          updated[updated.length - 1] = { role: 'assistant', content: display, sources, isMentor: mentor, format, next };
+          updated[updated.length - 1] = { role: 'assistant', content: display, sources, isMentor: mentor, format, next, trace };
           return updated;
         });
       };
@@ -789,6 +852,7 @@ function ChatContent() {
           r.events.forEach(apply);
           if (r.pending) { head = r.rest; continue; }
           started = true;
+          trace = { progress: prog, ms: Date.now() - askedAt };
           head = '';
           full += r.rest;
         } else {
@@ -1127,6 +1191,7 @@ function ChatContent() {
                   const sources = msg.sources ?? [];
                   return (
                     <div key={i} className="ch-ai" ref={isLast ? lastAiRef : null}>
+                      {msg.trace && <ResearchTrace trace={msg.trace} langHi={langHi} />}
                       {msg.isMentor ? (
                         <MentorBubble content={msg.content} isStreaming={streaming} />
                       ) : streaming ? (
@@ -1141,7 +1206,7 @@ function ChatContent() {
                               openSources(i, sources, focus);
                             }
                           }}
-                          dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content, sources.length)) }}
+                          dangerouslySetInnerHTML={{ __html: sanitize(formatMessage(msg.content, sources)) }}
                         />
                       )}
                       {!streaming && (
@@ -1632,6 +1697,13 @@ const CHAT_CSS = `
 .chat-table th { background: var(--ch-soft); padding: var(--space-2) var(--space-3); text-align: left; font-weight: 700; border-bottom: 1px solid var(--border); }
 .chat-table td { padding: var(--space-2) var(--space-3); border-top: 1px solid var(--border); color: var(--text2); vertical-align: top; }
 .chat-citation { color: var(--accent-text); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+/* A citation: a quiet chip after the claim naming the historian, +N for more books.
+   Scoped under .ch-answer-text to outrank .ch-wrap button, which sets the body serif. */
+.ch-answer-text .chat-cite { display: inline-flex; align-items: center; gap: 0.4em; margin-left: 0.35em; padding: 0.2em 0.6em; vertical-align: 0.1em; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-sunken); color: var(--text2); font-family: var(--font-mono); font-size: 0.66em; font-weight: 500; line-height: 1.35; white-space: nowrap; cursor: pointer; transition: color 0.15s, border-color 0.15s, background 0.15s; }
+.ch-answer-text .chat-cite::before { content: ''; width: 1.05em; height: 1.05em; flex: none; background: currentColor; opacity: 0.75; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5V5a2 2 0 0 1 2-2h13v16H6.5A2.5 2.5 0 0 0 4 21.5'/%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H19'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5V5a2 2 0 0 1 2-2h13v16H6.5A2.5 2.5 0 0 0 4 21.5'/%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H19'/%3E%3C/svg%3E") center / contain no-repeat; }
+.chat-cite-more { color: var(--text3); }
+.ch-answer-text .chat-cite:hover, .ch-answer-text .chat-cite:focus-visible { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 40%, transparent); background: var(--accent-wash); outline: none; }
+.ch-answer-text .chat-cite:hover .chat-cite-more, .ch-answer-text .chat-cite:focus-visible .chat-cite-more { color: inherit; opacity: 0.7; }
 .ch-ai-actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
 
 /* Mentor answers keep their sections, in the page's tokens. */
@@ -1692,6 +1764,14 @@ const CHAT_CSS = `
 .ch-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
 .ch-steps li { display: flex; align-items: center; gap: var(--space-2); font-size: 0.9rem; color: var(--text2); }
 .ch-step-done { color: var(--success-text); flex-shrink: 0; }
+/* The steps, folded into one line above a finished answer. */
+.ch-trace { margin-bottom: var(--space-3); }
+.ch-trace .ch-trace-toggle { display: inline-flex; align-items: center; gap: var(--space-1); padding: 0; border: 0; background: none; color: var(--text3); font-family: var(--font-ui); font-size: 0.85rem; cursor: pointer; transition: color 0.15s; }
+.ch-trace .ch-trace-toggle:hover, .ch-trace .ch-trace-toggle:focus-visible { color: var(--text2); outline: none; }
+.ch-trace-chev { transition: transform 0.15s; }
+.ch-trace-chev.open { transform: rotate(90deg); }
+.ch-trace-steps { margin-top: var(--space-2); padding-left: var(--space-1); }
+.ch-trace-steps li { font-family: var(--font-ui); font-size: 0.85rem; color: var(--text3); }
 .ch-step-spin { color: var(--text2); flex-shrink: 0; animation: chSpin 1.1s linear infinite; }
 @keyframes chSpin { to { transform: rotate(360deg); } }
 
