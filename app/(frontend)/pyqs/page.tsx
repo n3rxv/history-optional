@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
@@ -13,6 +13,7 @@ import LoginPromptModal from '@/components/LoginPromptModal';
 import Script from 'next/script';
 import EmptyState from '@/components/EmptyState';
 import OwlLoader from '@/components/OwlLoader';
+import ModelAnswerModal from '@/components/ModelAnswerModal';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 
 // Early Medieval had no tab at all: 99 questions reachable only through "All"
@@ -33,6 +34,8 @@ const MARK_OPTIONS = [10, 15, 20, 25, 30, 60];
 const PYQ_YEAR = new Map(pyqs.map(q => [q.id, q.year]));
 const NOTE_TITLE = new Map(allNotes.map(n => [n.slug, n.title]));
 const NOTE_SECTION = new Map(allNotes.map(n => [n.slug, n.section]));
+const NOTE_ORDER = new Map(allNotes.map((n, i) => [n.slug, i]));
+const noteOrder = (slug: string) => NOTE_ORDER.get(slug) ?? allNotes.length;
 // Topper copies are filed by notes topic, so their tabs are the notes' four
 // sections; a copy is in whichever sections its topics are.
 const TOPPER_TABS = [
@@ -69,239 +72,6 @@ function SectionTab({ label, count, active, onClick }: { label: string; count: n
 // Questions drawn at a time; Show more adds the next lot.
 const LIST_PAGE = 60;
 
-
-async function downloadAnswerAsPDF(markdownText: string, questionText?: string) {
-  const slug = (questionText ?? markdownText).slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') || 'response';
-  const res = await fetch('/api/generate-pdf', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ markdownText, questionText }),
-  });
-  if (!res.ok) throw new Error('PDF generation failed');
-  const blob = await res.blob();
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = slug + ' (historyoptional.xyz).pdf';
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function AnswerBody({ text }: { text: string }) {
-  const lines = text.split('\n');
-  return (
-    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', lineHeight: 1.8, color: 'var(--text)' }}>
-      {lines.map((line, i) => {
-        if (!line.trim()) return <div key={i} style={{ height: '0.6rem' }} />;
-        if (/^\*\*(.+)\*\*$/.test(line.trim())) {
-          const heading = line.trim().replace(/^\*\*|\*\*$/g, '');
-          return (
-            <div key={i} style={{
-              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.88rem',
-              letterSpacing: '0.05em', color: 'var(--accent)', textTransform: 'uppercase',
-              marginTop: '1.2rem', marginBottom: '0.4rem',
-            }}>{heading}</div>
-          );
-        }
-        if (/^\*(.+)\*$/.test(line.trim())) {
-          const sub = line.trim().replace(/^\*|\*$/g, '');
-          return (
-            <div key={i} style={{
-              fontWeight: 600, fontStyle: 'italic',
-              color: 'var(--text2)', marginTop: '0.8rem', marginBottom: '0.2rem',
-            }}>{sub}</div>
-          );
-        }
-        if (/^[-•]\s+/.test(line.trim())) {
-          const content = line.trim().replace(/^[-•]\s+/, '');
-          const parts = content.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
-          return (
-            <div key={i} style={{ display: 'flex', gap: '0.5rem', margin: '0.25rem 0 0.25rem 0.5rem' }}>
-              <span style={{ color: 'var(--accent)', fontWeight: 700, flexShrink: 0, marginTop: '0.1rem' }}>•</span>
-              <p style={{ margin: 0 }}>
-                {parts.map((part, j) =>
-                  /^\*\*\*(.+)\*\*\*$/.test(part)
-                    ? <strong key={j}><em>{part.replace(/^\*\*\*|\*\*\*$/g, '')}</em></strong>
-                    : /^\*\*(.+)\*\*$/.test(part)
-                    ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
-                    : /^\*([^*]+)\*$/.test(part)
-                    ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
-                    : part
-                )}
-              </p>
-            </div>
-          );
-        }
-        const parts = line.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
-        return (
-          <p key={i} style={{ margin: '0 0 0.1rem' }}>
-            {parts.map((part, j) =>
-              /^\*\*\*(.+)\*\*\*$/.test(part)
-                ? <strong key={j}><em>{part.replace(/^\*\*\*|\*\*\*$/g, '')}</em></strong>
-                : /^\*\*(.+)\*\*$/.test(part)
-                ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
-                : /^\*([^*]+)\*$/.test(part)
-                ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
-                : part
-            )}
-          </p>
-        );
-      })}
-    </div>
-  );
-}
-
-
-function SavePDFButton({ answer, question }: { answer: string; question: string }) {
-  const [saving, setSaving] = useState(false);
-  return (
-    <button
-      onClick={async () => {
-        setSaving(true);
-        try { await downloadAnswerAsPDF(answer, question); }
-        catch (e) { console.error(e); alert('PDF generation failed.'); }
-        finally { setSaving(false); }
-      }}
-      disabled={saving}
-      style={{
-        background: 'none', border: '1px solid var(--accent)',
-        color: 'var(--accent)', cursor: saving ? 'wait' : 'pointer',
-        padding: '0.4rem 1rem', borderRadius: 6, fontSize: '0.78rem',
-        display: 'flex', alignItems: 'center', gap: '0.4rem',
-        opacity: saving ? 0.6 : 1,
-      }}
-    >
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-        <polyline points="14 2 14 8 20 8"/>
-        <line x1="12" y1="18" x2="12" y2="12"/>
-        <polyline points="9 15 12 18 15 15"/>
-      </svg>
-      {saving ? 'Saving…' : 'Save PDF'}
-    </button>
-  );
-}
-
-function ModelAnswerModal({
-  question, marks, cacheKey, onClose,
-}: {
-  question: string;
-  marks: number;
-  cacheKey: string;
-  onClose: () => void;
-}) {
-  const [answer, setAnswer] = useState<string | null>(() => {
-    try { return localStorage.getItem(`model-answer:${cacheKey}`); } catch { return null; }
-  });
-  const [loading, setLoading] = useState(!answer);
-  const [error, setError] = useState<string | null>(null);
-
-  const generate = useCallback(async (forceRegen = false) => {
-    if (!forceRegen && answer) return;
-    if (forceRegen) { try { localStorage.removeItem(`model-answer:${cacheKey}`); } catch {} }
-    setLoading(true);
-    setError(null);
-
-    const currentUser = auth.currentUser;
-    const token = currentUser ? await currentUser.getIdToken() : null;
-
-    try {
-      const res = await fetch('/api/model-answer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, marks, token }),
-      });
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        setError(data.error || 'Failed to generate. Please try again.');
-      } else {
-        setAnswer(data.answer);
-        try { localStorage.setItem(`model-answer:${cacheKey}`, data.answer); } catch {}
-      }
-    } catch {
-      setError('Network error. Please try again.');
-    }
-    setLoading(false);
-  }, [question, marks, cacheKey, answer]);
-
-  useState(() => { if (!answer) generate(); });
-
-  return (
-    <div
-      style={{
-        position: 'fixed', inset: 0, zIndex: 1002,
-        background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(6px)',
-        display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-        padding: '2rem 1rem', overflowY: 'auto',
-      }}
-      onClick={onClose}
-    >
-      <div
-        style={{
-          background: 'var(--bg)', border: '1px solid var(--border)',
-          borderRadius: 12, width: '100%', maxWidth: 720,
-          padding: '2rem', position: 'relative',
-          boxShadow: '0 40px 80px rgba(0,0,0,0.6)', marginBottom: '2rem',
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', gap: '1rem' }}>
-          <div>
-            <div style={{
-              fontFamily: 'var(--font-mono)', fontSize: '0.6rem',
-              letterSpacing: '0.2em', textTransform: 'uppercase',
-              color: 'var(--accent)', marginBottom: '0.4rem',
-            }}>Model Answer · {marks}M</div>
-            <p style={{ color: 'var(--text2)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0 }}>
-              {question.length > 120 ? question.slice(0, 120) + '…' : question}
-            </p>
-          </div>
-          <button onClick={onClose} style={{
-            background: 'none', border: '1px solid var(--border)',
-            color: 'var(--text3)', cursor: 'pointer',
-            padding: '4px 10px', borderRadius: 6, fontSize: '0.8rem', flexShrink: 0,
-          }}>✕</button>
-        </div>
-
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.25rem' }}>
-          {loading && (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', padding: '3rem 0' }}>
-              <OwlLoader size="small" caption="Writing a model answer, which takes about a minute" />
-              <style>{`
-                .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
-                .shimmer-btn:hover::before{opacity:1;animation:glass-shine 0.55s ease forwards;}
-                @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
-              `}</style>
-            </div>
-          )}
-          {error && (
-            <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-              <div style={{ color: 'var(--danger-text)', fontSize: '0.88rem', marginBottom: '1rem' }}>{error}</div>
-              <button onClick={() => generate(true)} style={{
-                background: 'var(--accent)', color: 'var(--on-fill)', border: 'none',
-                padding: '0.5rem 1.25rem', borderRadius: 6, cursor: 'pointer',
-                fontFamily: 'var(--font-mono)', fontSize: '0.8rem',
-              }}>Try Again</button>
-            </div>
-          )}
-          {answer && !loading && (
-            <>
-              <AnswerBody text={answer} />
-              <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
-                <SavePDFButton answer={answer} question={question} />
-                <button onClick={() => { setAnswer(null); generate(true); }} style={{
-                  background: 'none', border: '1px solid var(--border)',
-                  color: 'var(--text3)', cursor: 'pointer',
-                  padding: '0.4rem 1rem', borderRadius: 6, fontSize: '0.78rem',
-                }}>Regenerate</button>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function PYQsPage() {
   const router = useRouter();
@@ -735,95 +505,144 @@ export default function PYQsPage() {
               const s = topperSearch.toLowerCase();
               return c.question.toLowerCase().includes(s) || (c.note?.toLowerCase().includes(s) ?? false);
             });
+            // Grouped by notes topic in syllabus order, so sections follow in
+            // order too, as on the PYQ list. A copy filed under two topics shows
+            // once, under the first one the filters allow. Within a topic,
+            // copies answering the same PYQ sit together, and copies that
+            // answer none come last.
+            const fits = (t: string) =>
+              (topperSection === 'all' || NOTE_SECTION.get(t) === topperSection) && (topperTopic === 'all' || t === topperTopic);
+            const firstPyq = (c: { pyq_ids: number[] }) => (c.pyq_ids.length ? Math.min(...c.pyq_ids) : Number.MAX_SAFE_INTEGER);
+            const byTopic = new Map<string, typeof filtered>();
+            for (const c of filtered) {
+              const home = c.topics.filter(fits).sort((x, y) => noteOrder(x) - noteOrder(y))[0] ?? '';
+              byTopic.set(home, [...(byTopic.get(home) ?? []), c]);
+            }
+            const groups = [...byTopic.entries()]
+              .sort(([x], [y]) => noteOrder(x) - noteOrder(y))
+              .map(([slug, copies]) => ({
+                slug,
+                copies: copies.sort((x, y) => firstPyq(x) - firstPyq(y) || x.question.localeCompare(y.question)),
+              }));
             return (
               <div>
                 <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: '1rem' }}>
                   {filtered.length} of {topperCopies.length} copies
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {filtered.map(c => (
-                    <div key={c.id} style={{
-                      background: 'var(--bg2)', border: '1px solid var(--border)',
-                      borderRadius: 8, padding: '1.1rem 1.4rem',
-                      borderLeft: '3px solid color-mix(in srgb, var(--accent) 50%, transparent)',
-                    }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ color: 'var(--text)', fontSize: '0.93rem', lineHeight: 1.6, marginBottom: c.note ? '0.5rem' : '0.75rem' }}>
-                            {c.question}
-                          </p>
-                          {c.note && (
-                            <p style={{ color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', marginBottom: '0.75rem' }}>
-                              &#128221; {c.note}
-                            </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+                  {groups.map(g => (
+                    <div key={g.slug || '_none'}>
+                      <div style={{ marginBottom: '0.85rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+                          <h2 style={{
+                            fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 600,
+                            color: 'var(--text)', margin: 0,
+                          }}>{g.slug ? NOTE_TITLE.get(g.slug) ?? g.slug : 'Other copies'}</h2>
+                          <span style={{
+                            fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)',
+                            border: '1px solid var(--border)', padding: '2px 10px', borderRadius: 20, whiteSpace: 'nowrap',
+                          }}>{g.copies.length} {g.copies.length === 1 ? 'copy' : 'copies'}</span>
+                          {topperSection === 'all' && g.slug && (
+                            <span style={{ fontSize: '0.63rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)' }}>
+                              {NOTE_SECTION.get(g.slug)}
+                            </span>
                           )}
-                          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                            {c.topics.map(slug => (
-                              <Link
-                                key={slug}
-                                href={`/notes/${slug}`}
-                                style={{
-                                  fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
-                                  color: 'var(--text2)', background: 'var(--bg3)',
-                                  border: '1px solid var(--border)',
-                                  padding: '2px 8px', borderRadius: 3, textDecoration: 'none',
-                                }}
-                              >
-                                {NOTE_TITLE.get(slug) ?? slug}
-                              </Link>
-                            ))}
-                            {c.pyq_ids.map((pid: number) => (
-                              <a
-                                key={pid}
-                                href={`/pyqs/${pid}`}
-                                style={{
-                                  fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
-                                  color: 'color-mix(in srgb, var(--accent) 80%, transparent)',
-                                  background: 'var(--accent-dim)',
-                                  border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
-                                  padding: '2px 8px', borderRadius: 3,
-                                  textDecoration: 'none', cursor: 'pointer',
-                                }}
-                              >
-                                &#128279; PYQ {PYQ_YEAR.get(pid) ?? ''}{' '}&#8599;
-                              </a>
-                            ))}
-                          </div>
+                          {g.slug && (
+                            <Link href={`/notes/${g.slug}`} style={{
+                              marginLeft: 'auto', fontSize: '0.72rem', fontFamily: 'var(--font-mono)',
+                              color: 'var(--accent)', textDecoration: 'none',
+                            }}>Notes &rarr;</Link>
+                          )}
                         </div>
-                        <button
-                          onClick={async () => {
-                            const currentUser = auth.currentUser;
-                            if (!currentUser) { requireLogin('Login to view topper copies'); return; }
-                            // If already confirmed access, navigate directly
-                            if (topperAccess?.access) {
-                              window.location.href = `/pyqs/topper/${c.id}`;
-                              return;
-                            }
-                            const token = await currentUser.getIdToken();
-                            const res = await fetch('/api/topper-click', {
-                              method: 'POST',
-                              headers: { 'x-user-token': token },
-                            });
-                            const data = await res.json();
-                            if (data.allowed) {
-                              setTopperAccess(prev => ({ ...prev!, clicks: data.clicks }));
-                              window.location.href = `/pyqs/topper/${c.id}`;
-                            } else {
-                              setShowTopperPaywall(true);
-                            }
-                          }}
-                          style={{
-                            flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
-                            background: 'var(--accent-dim)',
-                            border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
-                            color: 'var(--accent)', borderRadius: 6,
-                            padding: '0.45rem 1rem', fontSize: '0.8rem',
-                            cursor: 'pointer', fontFamily: 'var(--font-mono)',
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          View Copy &#8594;
-                        </button>
+                        <div style={{ height: 1, background: 'var(--border)', marginTop: '0.7rem' }} />
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        {g.copies.map(c => (
+                          <div key={c.id} style={{
+                            background: 'var(--bg2)', border: '1px solid var(--border)',
+                            borderRadius: 8, padding: '1.1rem 1.4rem',
+                            borderLeft: '3px solid color-mix(in srgb, var(--accent) 50%, transparent)',
+                          }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}>
+                              <div style={{ flex: 1, minWidth: 0 }}>
+                                <p style={{ color: 'var(--text)', fontSize: '0.93rem', lineHeight: 1.6, marginBottom: c.note ? '0.5rem' : '0.75rem' }}>
+                                  {c.question}
+                                </p>
+                                {c.note && (
+                                  <p style={{ color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)', marginBottom: '0.75rem' }}>
+                                    &#128221; {c.note}
+                                  </p>
+                                )}
+                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                                  {c.topics.filter(slug => slug !== g.slug).map(slug => (
+                                    <Link
+                                      key={slug}
+                                      href={`/notes/${slug}`}
+                                      style={{
+                                        fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                                        color: 'var(--text2)', background: 'var(--bg3)',
+                                        border: '1px solid var(--border)',
+                                        padding: '2px 8px', borderRadius: 3, textDecoration: 'none',
+                                      }}
+                                    >
+                                      {NOTE_TITLE.get(slug) ?? slug}
+                                    </Link>
+                                  ))}
+                                  {c.pyq_ids.map((pid: number) => (
+                                    <a
+                                      key={pid}
+                                      href={`/pyqs/${pid}`}
+                                      style={{
+                                        fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                                        color: 'color-mix(in srgb, var(--accent) 80%, transparent)',
+                                        background: 'var(--accent-dim)',
+                                        border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
+                                        padding: '2px 8px', borderRadius: 3,
+                                        textDecoration: 'none', cursor: 'pointer',
+                                      }}
+                                    >
+                                      &#128279; PYQ {PYQ_YEAR.get(pid) ?? ''}{' '}&#8599;
+                                    </a>
+                                  ))}
+                                </div>
+                              </div>
+                              <button
+                                onClick={async () => {
+                                  const currentUser = auth.currentUser;
+                                  if (!currentUser) { requireLogin('Login to view topper copies'); return; }
+                                  // If already confirmed access, navigate directly
+                                  if (topperAccess?.access) {
+                                    window.location.href = `/pyqs/topper/${c.id}`;
+                                    return;
+                                  }
+                                  const token = await currentUser.getIdToken();
+                                  const res = await fetch('/api/topper-click', {
+                                    method: 'POST',
+                                    headers: { 'x-user-token': token },
+                                  });
+                                  const data = await res.json();
+                                  if (data.allowed) {
+                                    setTopperAccess(prev => ({ ...prev!, clicks: data.clicks }));
+                                    window.location.href = `/pyqs/topper/${c.id}`;
+                                  } else {
+                                    setShowTopperPaywall(true);
+                                  }
+                                }}
+                                style={{
+                                  flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
+                                  background: 'var(--accent-dim)',
+                                  border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
+                                  color: 'var(--accent)', borderRadius: 6,
+                                  padding: '0.45rem 1rem', fontSize: '0.8rem',
+                                  cursor: 'pointer', fontFamily: 'var(--font-mono)',
+                                  whiteSpace: 'nowrap',
+                                }}
+                              >
+                                View Copy &#8594;
+                              </button>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   ))}

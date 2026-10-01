@@ -6,6 +6,8 @@ import { pyqs, type PYQ } from '@/lib/pyqData';
 import { auth } from '@/lib/firebase';
 import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 import OwlLoader from '@/components/OwlLoader';
+import ModelAnswerModal from '@/components/ModelAnswerModal';
+import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 
 interface AnswerEntry {
   id: string;
@@ -21,6 +23,10 @@ export default function PYQDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { isAttempted, toggle: toggleAttempted, ready: attemptedReady } = useAttemptedPyqs();
+  // Model answers are a Premium feature here as on the list: a free reader
+  // gets the upgrade card instead of the modal.
+  const { GateModals, usage, showChatLimitModal } = useSubscriptionGate(() => {});
+  const [showModelAnswer, setShowModelAnswer] = useState(false);
   const pyq = pyqs.find((q: PYQ) => q.id === parseInt(id));
 
   const handleTopperClick = async (tcId: string) => {
@@ -167,12 +173,12 @@ export default function PYQDetailPage() {
             a question, so making them go back to mark it would be the wrong
             way round. attemptedReady gates it because localStorage cannot be
             read during prerender. */}
+        <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
         {attemptedReady && (
           <button
             onClick={() => toggleAttempted(pyq.id)}
             aria-pressed={isAttempted(pyq.id)}
             style={{
-              marginTop: '1.25rem',
               display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
               background: isAttempted(pyq.id) ? 'var(--success-wash)' : 'transparent',
               border: `1px solid ${isAttempted(pyq.id) ? 'color-mix(in srgb, var(--success-text) 45%, transparent)' : 'var(--border)'}`,
@@ -187,6 +193,30 @@ export default function PYQDetailPage() {
             {isAttempted(pyq.id) ? 'Attempted' : 'Mark as attempted'}
           </button>
         )}
+          <button
+            onClick={() => (usage.subscribed ? setShowModelAnswer(true) : showChatLimitModal())}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
+              background: usage.subscribed ? 'var(--accent-dim)' : 'var(--bg3)',
+              border: usage.subscribed ? '1px solid color-mix(in srgb, var(--accent) 25%, transparent)' : '1px solid var(--border)',
+              color: usage.subscribed ? 'var(--accent)' : 'var(--text2)',
+              borderRadius: 6, padding: '0.45rem 0.9rem', cursor: 'pointer',
+              fontSize: '0.82rem', fontFamily: 'var(--font-ui)',
+              position: 'relative', overflow: 'hidden',
+            }}
+          >
+            {!usage.subscribed && (
+              <span style={{
+                fontSize: '0.58rem', fontFamily: 'var(--font-mono)',
+                letterSpacing: '0.08em', color: 'var(--warning-text)',
+                background: 'var(--warning-wash)',
+                border: '1px solid color-mix(in srgb, var(--warning-text) 30%, transparent)',
+                padding: '1px 5px', borderRadius: 3,
+              }}>PRO</span>
+            )}
+            Model Answer
+          </button>
+        </div>
       </div>
 
       {/* Upload Section */}
@@ -480,6 +510,15 @@ export default function PYQDetailPage() {
       </div>
     )}
 
+    <GateModals />
+    {showModelAnswer && (
+      <ModelAnswerModal
+        question={pyq.question}
+        marks={pyq.marks}
+        cacheKey={String(pyq.id)}
+        onClose={() => setShowModelAnswer(false)}
+      />
+    )}
     </div>
   );
 }
