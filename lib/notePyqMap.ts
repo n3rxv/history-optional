@@ -1,4 +1,5 @@
 import { pyqs, PYQ } from './pyqData';
+import { allNotes } from './notes';
 
 // Maps each note slug to relevant PYQs by keyword matching on question text
 // Also maps section names to pyqData section strings
@@ -136,4 +137,22 @@ export function pyqsForTopic(paper: 1 | 2, topic: number, slug: string): PYQ[] {
       return keywords.some((k) => text.includes(k));
     })
     .sort((a, b) => b.year - a.year || b.marks - a.marks);
+}
+
+let slugsByPyq: Map<number, string[]> | null = null;
+
+/**
+ * The notes topics a PYQ belongs to, by pyqsForTopic: usually one, sometimes
+ * two, and none for the questions no topic claims. Built on first use, since
+ * it walks every topic over the whole PYQ set.
+ */
+export function noteSlugsForPyq(id: number): string[] {
+  if (!slugsByPyq) {
+    const map = new Map<number, string[]>();
+    for (const n of allNotes) {
+      for (const q of pyqsForTopic(n.paper, n.topic, n.slug)) map.set(q.id, [...(map.get(q.id) ?? []), n.slug]);
+    }
+    slugsByPyq = map;
+  }
+  return slugsByPyq.get(id) ?? [];
 }

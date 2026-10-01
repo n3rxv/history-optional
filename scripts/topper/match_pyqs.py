@@ -29,6 +29,11 @@ them; the misses are mostly hand links that are looser than the PYQ the
 script prefers. Copies that already have links also get a list of
 near-verbatim PYQs those links missed.
 
+A copy that ends up with no PYQ is not left out: it gets a notes topic in
+topper_copies.topic_slug (a slug from lib/notes.ts), set by whoever reviews
+it, and /api/topper-copies/all lists it under that topic. Copies whose PYQs no
+topic claims (see noteSlugsForPyq in lib/notePyqMap.ts) get one the same way.
+
 Nothing here writes to the database. Embeddings and reranks are cached, so a
 re-run only pays for copies or PYQs it has not seen.
 

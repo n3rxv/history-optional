@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { pyqs, pyqYears, type PYQ } from '@/lib/pyqData';
+import { allNotes } from '@/lib/notes';
 import { useMemo } from 'react';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
 import { auth } from '@/lib/firebase';
@@ -29,6 +30,8 @@ const TABS = [
 
 const SECTION_ORDER = TABS.filter(t => t.value !== 'all').map(t => t.value);
 const MARK_OPTIONS = [10, 15, 20, 25, 30, 60];
+const PYQ_YEAR = new Map(pyqs.map(q => [q.id, q.year]));
+const NOTE_TITLE = new Map(allNotes.map(n => [n.slug, n.title]));
 // Questions drawn at a time; Show more adds the next lot.
 const LIST_PAGE = 60;
 
@@ -274,6 +277,10 @@ export default function PYQsPage() {
   const [filterTopic, setFilterTopic]   = useState<string>('all');
   const [filterDone, setFilterDone]     = useState<'all' | 'done' | 'todo'>('all');
   const [search, setSearch]             = useState('');
+  // Topper Copies mode and its topic ride in the URL as well (?topper=1
+  // &ttopic=), so Back from a copy returns to the copies and not to the PYQs.
+  const [showTopperCopies, setShowTopperCopies] = useState(false);
+  const [topperTopic, setTopperTopic] = useState<string>('all');
 
   // The filters live in the URL as well (?section=&topic=&year=&marks=
   // &status=&q=), so Back from a question lands on the same filtered list.
@@ -299,6 +306,9 @@ export default function PYQsPage() {
     if (status === 'done' || status === 'todo') setFilterDone(status);
     const q = p.get('q');
     if (q) setSearch(q.slice(0, 200));
+    if (p.get('topper') === '1') setShowTopperCopies(true);
+    const ttopic = p.get('ttopic');
+    if (ttopic && allNotes.some(n => n.slug === ttopic)) setTopperTopic(ttopic);
     setFiltersRestored(true);
   }, []);
 
@@ -316,23 +326,17 @@ export default function PYQsPage() {
     put('marks', filterMarks);
     put('status', filterDone);
     put('q', search.trim());
+    put('topper', showTopperCopies ? '1' : '');
+    put('ttopic', showTopperCopies ? topperTopic : 'all');
     const qs = p.toString();
     const next = `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash}`;
     if (next !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
       // Replace, not push: each filter change is not a step Back should undo.
       window.history.replaceState(null, '', next);
     }
-  }, [filtersRestored, activeTab, filterTopic, filterYear, filterMarks, filterDone, search]);
+  }, [filtersRestored, activeTab, filterTopic, filterYear, filterMarks, filterDone, search, showTopperCopies, topperTopic]);
   const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
-  const [showTopperCopies, setShowTopperCopies] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('topper') === '1') setShowTopperCopies(true);
-    }
-  }, []);
-  const [topperCopies, setTopperCopies] = useState<{ id: string; question: string; drive_file_id: string; note: string | null; pyq_ids: number[] }[]>([]);
+  const [topperCopies, setTopperCopies] = useState<{ id: string; question: string; note: string | null; pyq_ids: number[]; topics: string[] }[]>([]);
   const [topperLoading, setTopperLoading] = useState(false);
   const [topperSearch, setTopperSearch] = useState('');
   const [topperAccess, setTopperAccess] = useState<{ access: boolean; clicks: number; isPremium?: boolean; hasTopperAccess?: boolean } | null>(null);
@@ -360,6 +364,20 @@ export default function PYQsPage() {
       .catch(() => {})
       .finally(() => setTopperLoading(false));
   }, [showTopperCopies]);
+
+  // The notes topics that have copies, grouped by section in syllabus order.
+  const topperTopicGroups = useMemo(() => {
+    const count = new Map<string, number>();
+    for (const c of topperCopies) for (const t of c.topics) count.set(t, (count.get(t) ?? 0) + 1);
+    return [...new Set(allNotes.map(n => n.section))]
+      .map(section => ({
+        section,
+        topics: allNotes
+          .filter(n => n.section === section && count.has(n.slug))
+          .map(n => ({ slug: n.slug, title: n.title, count: count.get(n.slug) ?? 0 })),
+      }))
+      .filter(g => g.topics.length > 0);
+  }, [topperCopies]);
 
   const { attempted, ready: attemptedReady, isAttempted, count: attemptedCount, toggle: toggleAttempted } = useAttemptedPyqs();
   const { GateModals, usage, showChatLimitModal } = useSubscriptionGate(() => {});
@@ -617,6 +635,17 @@ export default function PYQsPage() {
             color: 'var(--text)', fontFamily: 'var(--font-body)', fontSize: '0.875rem', outline: 'none',
           }}
         />
+        {showTopperCopies && (
+          <select value={topperTopic} onChange={e => setTopperTopic(e.target.value)}
+            style={{ ...selectStyle, maxWidth: 280 }} aria-label="Filter topper copies by topic">
+            <option value="all">All Topics</option>
+            {topperTopicGroups.map(g => (
+              <optgroup key={g.section} label={g.section}>
+                {g.topics.map(t => <option key={t.slug} value={t.slug}>{t.title} ({t.count})</option>)}
+              </optgroup>
+            ))}
+          </select>
+        )}
         {!showTopperCopies && <>
         <select value={filterTopic} onChange={e => setFilterTopic(e.target.value)}
           style={{ ...selectStyle, maxWidth: 260 }}
@@ -646,8 +675,8 @@ export default function PYQsPage() {
           <option value="done">Attempted</option>
         </select>
         </>}
-        {hasFilters && (
-          <button onClick={clearAll} style={{
+        {(showTopperCopies ? topperTopic !== 'all' || topperSearch : hasFilters) && (
+          <button onClick={showTopperCopies ? () => { setTopperTopic('all'); setTopperSearch(''); } : clearAll} style={{
             background: 'none', border: '1px solid var(--border)',
             color: 'var(--text3)', cursor: 'pointer',
             padding: '0.5rem 0.75rem', borderRadius: 6, fontSize: '0.8rem',
@@ -672,6 +701,7 @@ export default function PYQsPage() {
           )}
           {!topperLoading && topperCopies.length > 0 && (() => {
             const filtered = topperCopies.filter(c => {
+              if (topperTopic !== 'all' && !c.topics.includes(topperTopic)) return false;
               if (!topperSearch.trim()) return true;
               const s = topperSearch.toLowerCase();
               return c.question.toLowerCase().includes(s) || (c.note?.toLowerCase().includes(s) ?? false);
@@ -699,6 +729,20 @@ export default function PYQsPage() {
                             </p>
                           )}
                           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                            {c.topics.map(slug => (
+                              <Link
+                                key={slug}
+                                href={`/notes/${slug}`}
+                                style={{
+                                  fontSize: '0.68rem', fontFamily: 'var(--font-mono)',
+                                  color: 'var(--text2)', background: 'var(--bg3)',
+                                  border: '1px solid var(--border)',
+                                  padding: '2px 8px', borderRadius: 3, textDecoration: 'none',
+                                }}
+                              >
+                                {NOTE_TITLE.get(slug) ?? slug}
+                              </Link>
+                            ))}
                             {c.pyq_ids.map((pid: number) => (
                               <a
                                 key={pid}
@@ -712,7 +756,7 @@ export default function PYQsPage() {
                                   textDecoration: 'none', cursor: 'pointer',
                                 }}
                               >
-                                &#128279; View PYQ &#8599;
+                                &#128279; PYQ {PYQ_YEAR.get(pid) ?? ''}{' '}&#8599;
                               </a>
                             ))}
                           </div>
