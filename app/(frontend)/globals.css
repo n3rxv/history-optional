@@ -931,6 +931,9 @@ html, body { overflow-x: hidden; max-width: 100%; }
 
 /* ── Prelims practice — navigator sidebar mobile drawer ── */
 .prelims-nav-backdrop { display: none; }
+/* Before the reader has toggled it, the drawer stays shut on a phone even in
+   the server's HTML, which is rendered as if for a desktop. */
+@media (max-width: 768px) { .prelims-nav-auto { display: none !important; } }
 @media (max-width: 768px) {
   .prelims-nav-backdrop {
     display: block;

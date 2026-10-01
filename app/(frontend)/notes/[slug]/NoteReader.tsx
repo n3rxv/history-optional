@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo, useSyncExternalStore } from 'react';
 import SidebarNotes from '@/components/SidebarNotes';
 import Link from 'next/link';
 import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
@@ -552,6 +552,13 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
   );
 }
 
+const PHONE_QUERY = '(max-width: 768px)';
+function subscribePhone(onChange: () => void) {
+  const mq = window.matchMedia(PHONE_QUERY);
+  mq.addEventListener('change', onChange);
+  return () => mq.removeEventListener('change', onChange);
+}
+
 export default function NoteReader({ slug, initialContent = '' }: { slug: string; initialContent?: string }) {
   const note = getNoteBySlug(slug);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -575,7 +582,18 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
   const [showStickyForm, setShowStickyForm] = useState(false);
   const [stickyPos, setStickyPos] = useState({ x: 200, y: 200 });
   const [stickyText, setStickyText] = useState('');
-  const [sidebarOpen, setSidebarOpen] = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
+  // Open on a desktop, shut on a phone, until the reader toggles it. This was
+  // read from window.innerWidth inside useState, which the server cannot
+  // know: on a phone the first render disagreed with the server's HTML, React
+  // threw that HTML away and rebuilt the page, and the rebuild cleared
+  // data-theme off <html>, so light-mode readers got a black note page.
+  // useSyncExternalStore renders the server's answer while hydrating and the
+  // phone's straight after, and the CSS on the aside keeps it shut on a phone
+  // before that, so it never opens and snaps shut.
+  const isPhone = useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
+  const [sidebarPref, setSidebarPref] = useState<boolean | null>(null);
+  const sidebarOpen = sidebarPref ?? !isPhone;
+  const setSidebarOpen = (open: boolean) => setSidebarPref(open);
 
   // Language toggle — synced with global LangContext
   const { langHi, toggleLang } = useLang();
@@ -848,7 +866,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           does its own scrolling. It used to stretch to the full page
           height with the inner column sticky inside it, which let the
           sidebar ride up with the page before it caught. */}
-      <aside style={{
+      <aside data-sidebar-auto={sidebarPref === null ? '' : undefined} style={{
         width: sidebarOpen ? 240 : 0, minWidth: sidebarOpen ? 240 : 0,
         borderRight: '1px solid var(--border)',
         background: 'var(--bg2)',
@@ -1018,6 +1036,7 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
           aside::-webkit-scrollbar { width: 3px; }
           aside::-webkit-scrollbar-track { background: transparent; }
           aside::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 2px; }
+          @media (max-width: 768px) { aside[data-sidebar-auto] { width: 0 !important; min-width: 0 !important; } }
         `}</style>
 
         <div style={{ padding: '1.25rem 1rem', opacity: sidebarOpen ? 1 : 0, transition: 'opacity 0.2s' }}>

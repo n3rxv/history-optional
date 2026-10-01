@@ -1,7 +1,7 @@
 'use client';
 import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useSyncExternalStore } from 'react';
 import { prelimsQuestions } from '@/lib/prelimsData';
 import { auth } from '@/lib/firebase';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
@@ -67,6 +67,13 @@ function getCached(qid: string): AIResult | null {
 function setCached(qid: string, r: AIResult) {
   try { const s = localStorage.getItem(LS_KEY); const o = s ? JSON.parse(s) : {}; o[qid] = r; localStorage.setItem(LS_KEY, JSON.stringify(o)); } catch {}
 }
+const PHONE_QUERY = '(max-width: 768px)';
+function subscribePhone(onChange: () => void) {
+  const mq = window.matchMedia(PHONE_QUERY);
+  mq.addEventListener('change', onChange);
+  return () => mq.removeEventListener('change', onChange);
+}
+
 /** The questions a set of filters selects; bookmarks live in `states`. */
 function filterQuestions(filter: Filter, topic: string, year: string, states: Record<string, QuestionState>) {
   return prelimsQuestions.filter(q => {
@@ -91,7 +98,16 @@ export default function PrelimsPage() {
     if (t && TOPICS.includes(t)) setTopicFilter(t);
   }, []);
   const [yearFilter, setYearFilter]   = useState<string>('all');
-  const [showNav, setShowNav]         = useState(typeof window !== 'undefined' ? window.innerWidth > 768 : true);
+  // Open beside the question on a desktop, shut on a phone (where it is a
+  // drawer over the page), until the reader toggles it. Reading
+  // window.innerWidth inside useState made a phone's first render disagree
+  // with the server's HTML; React rebuilt the page and the rebuild cleared
+  // data-theme off <html>. See the same fix in NoteReader.
+  const isPhone = useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
+  const [navPref, setNavPref] = useState<boolean | null>(null);
+  const showNav = navPref ?? !isPhone;
+  const setShowNav = (next: boolean | ((open: boolean) => boolean)) =>
+    setNavPref(typeof next === 'function' ? next(showNav) : next);
   const [current, setCurrent]         = useState(0);
   const [states, setStates] = useState<Record<string, QuestionState>>(() => {
     try {
@@ -550,8 +566,8 @@ export default function PrelimsPage() {
         {/* ── Navigator sidebar ── */}
         {showNav && (
           <>
-            <div className="prelims-nav-backdrop" onClick={() => setShowNav(false)} />
-            <div className="prelims-nav-sidebar" style={{
+            <div className={`prelims-nav-backdrop${navPref === null ? ' prelims-nav-auto' : ''}`} onClick={() => setShowNav(false)} />
+            <div className={`prelims-nav-sidebar${navPref === null ? ' prelims-nav-auto' : ''}`} style={{
               width: 260, flexShrink: 0,
               position: 'sticky', top: 130,
               background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.08)',
