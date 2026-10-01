@@ -32,6 +32,40 @@ const SECTION_ORDER = TABS.filter(t => t.value !== 'all').map(t => t.value);
 const MARK_OPTIONS = [10, 15, 20, 25, 30, 60];
 const PYQ_YEAR = new Map(pyqs.map(q => [q.id, q.year]));
 const NOTE_TITLE = new Map(allNotes.map(n => [n.slug, n.title]));
+const NOTE_SECTION = new Map(allNotes.map(n => [n.slug, n.section]));
+// Topper copies are filed by notes topic, so their tabs are the notes' four
+// sections; a copy is in whichever sections its topics are.
+const TOPPER_TABS = [
+  { label: 'All',      value: 'all' },
+  { label: 'Ancient',  value: 'Ancient India' },
+  { label: 'Medieval', value: 'Medieval India' },
+  { label: 'Modern',   value: 'Modern India' },
+  { label: 'World',    value: 'World History' },
+];
+const inTopperSection = (c: { topics: string[] }, section: string) =>
+  section === 'all' || c.topics.some(t => NOTE_SECTION.get(t) === section);
+
+function SectionTab({ label, count, active, onClick }: { label: string; count: number; active: boolean; onClick: () => void }) {
+  return (
+    <button onClick={onClick} style={{
+      padding: '0.45rem 1rem', borderRadius: 6,
+      border: active ? '1px solid var(--accent)' : '1px solid var(--border)',
+      background: active ? 'var(--accent-dim)' : 'var(--bg2)',
+      color: active ? 'var(--accent)' : 'var(--text2)',
+      fontFamily: 'var(--font-ui)', fontSize: '0.85rem',
+      fontWeight: active ? 600 : 400, cursor: 'pointer', transition: 'all 0.15s',
+      display: 'flex', alignItems: 'center', gap: '0.4rem',
+    }}>
+      {label}
+      <span style={{
+        fontSize: '0.68rem',
+        background: active ? 'var(--accent-dim)' : 'var(--bg3)',
+        color: active ? 'var(--accent)' : 'var(--text3)',
+        padding: '1px 6px', borderRadius: 10, fontFamily: 'var(--font-mono)',
+      }}>{count}</span>
+    </button>
+  );
+}
 // Questions drawn at a time; Show more adds the next lot.
 const LIST_PAGE = 60;
 
@@ -277,9 +311,11 @@ export default function PYQsPage() {
   const [filterTopic, setFilterTopic]   = useState<string>('all');
   const [filterDone, setFilterDone]     = useState<'all' | 'done' | 'todo'>('all');
   const [search, setSearch]             = useState('');
-  // Topper Copies mode and its topic ride in the URL as well (?topper=1
-  // &ttopic=), so Back from a copy returns to the copies and not to the PYQs.
+  // Topper Copies mode and its filters ride in the URL as well (?topper=1
+  // &tsection=&ttopic=), so Back from a copy returns to the copies and not
+  // to the PYQs.
   const [showTopperCopies, setShowTopperCopies] = useState(false);
+  const [topperSection, setTopperSection] = useState<string>('all');
   const [topperTopic, setTopperTopic] = useState<string>('all');
 
   // The filters live in the URL as well (?section=&topic=&year=&marks=
@@ -307,6 +343,8 @@ export default function PYQsPage() {
     const q = p.get('q');
     if (q) setSearch(q.slice(0, 200));
     if (p.get('topper') === '1') setShowTopperCopies(true);
+    const tsection = p.get('tsection');
+    if (tsection && tsection !== 'all' && TOPPER_TABS.some(t => t.value === tsection)) setTopperSection(tsection);
     const ttopic = p.get('ttopic');
     if (ttopic && allNotes.some(n => n.slug === ttopic)) setTopperTopic(ttopic);
     setFiltersRestored(true);
@@ -327,6 +365,7 @@ export default function PYQsPage() {
     put('status', filterDone);
     put('q', search.trim());
     put('topper', showTopperCopies ? '1' : '');
+    put('tsection', showTopperCopies ? topperSection : 'all');
     put('ttopic', showTopperCopies ? topperTopic : 'all');
     const qs = p.toString();
     const next = `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash}`;
@@ -334,7 +373,7 @@ export default function PYQsPage() {
       // Replace, not push: each filter change is not a step Back should undo.
       window.history.replaceState(null, '', next);
     }
-  }, [filtersRestored, activeTab, filterTopic, filterYear, filterMarks, filterDone, search, showTopperCopies, topperTopic]);
+  }, [filtersRestored, activeTab, filterTopic, filterYear, filterMarks, filterDone, search, showTopperCopies, topperSection, topperTopic]);
   const [modelAnswerQ, setModelAnswerQ] = useState<PYQ | null>(null);
   const [topperCopies, setTopperCopies] = useState<{ id: string; question: string; note: string | null; pyq_ids: number[]; topics: string[] }[]>([]);
   const [topperLoading, setTopperLoading] = useState(false);
@@ -365,11 +404,13 @@ export default function PYQsPage() {
       .finally(() => setTopperLoading(false));
   }, [showTopperCopies]);
 
-  // The notes topics that have copies, grouped by section in syllabus order.
+  // The notes topics that have copies, grouped by section in syllabus order,
+  // and only the chosen section's once one is picked.
   const topperTopicGroups = useMemo(() => {
     const count = new Map<string, number>();
     for (const c of topperCopies) for (const t of c.topics) count.set(t, (count.get(t) ?? 0) + 1);
     return [...new Set(allNotes.map(n => n.section))]
+      .filter(section => topperSection === 'all' || section === topperSection)
       .map(section => ({
         section,
         topics: allNotes
@@ -377,7 +418,7 @@ export default function PYQsPage() {
           .map(n => ({ slug: n.slug, title: n.title, count: count.get(n.slug) ?? 0 })),
       }))
       .filter(g => g.topics.length > 0);
-  }, [topperCopies]);
+  }, [topperCopies, topperSection]);
 
   const { attempted, ready: attemptedReady, isAttempted, count: attemptedCount, toggle: toggleAttempted } = useAttemptedPyqs();
   const { GateModals, usage, showChatLimitModal } = useSubscriptionGate(() => {});
@@ -585,39 +626,26 @@ export default function PYQsPage() {
         </div>
       </div>
 
-      {/* Sections. Hidden in Topper Copies mode, which is a different corpus —
-          the tabs filtered nothing there and only invited a dead click. */}
-      {!showTopperCopies && (
+      {/* Sections. Topper Copies has its own: the PYQ tabs follow the book's
+          sections, which copies are not filed by. A topic chosen under one
+          section is meaningless under another, so a tab resets it — here
+          rather than in an effect on the tab, which also fired when the
+          filters were restored from the URL and threw the restored topic away. */}
       <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
-        {TABS.map(tab => {
-          const count = tab.value === 'all' ? pyqs.length : pyqs.filter((q: PYQ) => q.section === tab.value).length;
-          const active = activeTab === tab.value;
-          return (
-            // A topic chosen under one section is meaningless under another.
-            // Reset here rather than in an effect on activeTab, which also
-            // fired when the filters were restored from the URL and threw the
-            // restored topic away.
-            <button key={tab.value} onClick={() => { setActiveTab(tab.value); setFilterTopic('all'); }} style={{
-              padding: '0.45rem 1rem', borderRadius: 6,
-              border: active ? '1px solid var(--accent)' : '1px solid var(--border)',
-              background: active ? 'var(--accent-dim)' : 'var(--bg2)',
-              color: active ? 'var(--accent)' : 'var(--text2)',
-              fontFamily: 'var(--font-ui)', fontSize: '0.85rem',
-              fontWeight: active ? 600 : 400, cursor: 'pointer', transition: 'all 0.15s',
-              display: 'flex', alignItems: 'center', gap: '0.4rem',
-            }}>
-              {tab.label}
-              <span style={{
-                fontSize: '0.68rem',
-                background: active ? 'var(--accent-dim)' : 'var(--bg3)',
-                color: active ? 'var(--accent)' : 'var(--text3)',
-                padding: '1px 6px', borderRadius: 10, fontFamily: 'var(--font-mono)',
-              }}>{count}</span>
-            </button>
-          );
-        })}
+        {showTopperCopies
+          ? TOPPER_TABS.map(tab => (
+              <SectionTab key={tab.value} label={tab.label}
+                count={topperCopies.filter(c => inTopperSection(c, tab.value)).length}
+                active={topperSection === tab.value}
+                onClick={() => { setTopperSection(tab.value); setTopperTopic('all'); }} />
+            ))
+          : TABS.map(tab => (
+              <SectionTab key={tab.value} label={tab.label}
+                count={tab.value === 'all' ? pyqs.length : pyqs.filter((q: PYQ) => q.section === tab.value).length}
+                active={activeTab === tab.value}
+                onClick={() => { setActiveTab(tab.value); setFilterTopic('all'); }} />
+            ))}
       </div>
-      )}
 
       {/* Filters */}
       <div style={{
@@ -675,8 +703,8 @@ export default function PYQsPage() {
           <option value="done">Attempted</option>
         </select>
         </>}
-        {(showTopperCopies ? topperTopic !== 'all' || topperSearch : hasFilters) && (
-          <button onClick={showTopperCopies ? () => { setTopperTopic('all'); setTopperSearch(''); } : clearAll} style={{
+        {(showTopperCopies ? topperSection !== 'all' || topperTopic !== 'all' || topperSearch : hasFilters) && (
+          <button onClick={showTopperCopies ? () => { setTopperSection('all'); setTopperTopic('all'); setTopperSearch(''); } : clearAll} style={{
             background: 'none', border: '1px solid var(--border)',
             color: 'var(--text3)', cursor: 'pointer',
             padding: '0.5rem 0.75rem', borderRadius: 6, fontSize: '0.8rem',
@@ -701,6 +729,7 @@ export default function PYQsPage() {
           )}
           {!topperLoading && topperCopies.length > 0 && (() => {
             const filtered = topperCopies.filter(c => {
+              if (!inTopperSection(c, topperSection)) return false;
               if (topperTopic !== 'all' && !c.topics.includes(topperTopic)) return false;
               if (!topperSearch.trim()) return true;
               const s = topperSearch.toLowerCase();
