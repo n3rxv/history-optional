@@ -47,6 +47,11 @@ type Style = 'concise' | 'elaborative' | 'mains';
 
 const CHAT_HISTORY_KEY = 'ho_chat_history_v1';
 const CHAT_HISTORY_MAX = 50;
+// ?c=<chat id>: which conversation is open, so Back from a link in an answer
+// (flashcards, PYQs, notes) reopens it instead of an empty chat.
+const CHAT_PARAM = 'c';
+// Where the reader was in that conversation, for the same return trip.
+const CHAT_SCROLL_KEY = 'ho_chat_scroll';
 const FREE_CHATS = 3;
 const SOURCES_MARKER = '\n__SOURCES__';
 const NEXT_MARKER = '\n__NEXT__';
@@ -406,6 +411,11 @@ function ChatContent() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const lastAiRef = useRef<HTMLDivElement>(null);
+  // Set when a conversation is reopened from the URL; the thread effect
+  // returns to this scroll position instead of jumping to the last question.
+  const restoreScrollRef = useRef<number | null>(null);
+  // Until the mount has read ?c=, the URL is not ours to rewrite.
+  const [chatRestored, setChatRestored] = useState(false);
 
   const { usage, canChat, incrementChat, GateModals, showChatLimitModal, showLoginModal } = useSubscriptionGate(() => {});
   const usageLoading = usage?.loading ?? true;
@@ -419,6 +429,11 @@ function ChatContent() {
   useEffect(() => {
     const el = scrollRef.current;
     if (!el || thread.length === 0) return;
+    if (restoreScrollRef.current !== null) {
+      el.scrollTop = restoreScrollRef.current;
+      restoreScrollRef.current = null;
+      return;
+    }
     const last = thread[thread.length - 1];
     if (loading || last?.role !== 'assistant') {
       el.scrollTop = el.scrollHeight;
@@ -479,7 +494,23 @@ function ChatContent() {
   const hintTyping = typed.text !== suggestion || typed.n < hintChars.length;
 
   useEffect(() => {
-    setHistoryList(loadChatHistory());
+    const list = loadChatHistory();
+    setHistoryList(list);
+    // Leaving for a link in an answer unmounts this page, and Back mounts a
+    // fresh one; the open conversation lived only in state, so readers came
+    // back to an empty chat. ?c= names it, and it is reopened from history.
+    const openId = new URLSearchParams(window.location.search).get(CHAT_PARAM);
+    const entry = openId ? list.find(c => c.id === openId) : undefined;
+    if (entry) {
+      setChatId(entry.id);
+      hasUserMessageRef.current = entry.messages.some(m => m.role === 'user');
+      setMessages(entry.messages);
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(CHAT_SCROLL_KEY) ?? 'null') as { id?: string; top?: number } | null;
+        if (saved?.id === entry.id && typeof saved.top === 'number') restoreScrollRef.current = saved.top;
+      } catch { /* landing on the last question is the fallback */ }
+    }
+    setChatRestored(true);
     try {
       const sr = JSON.parse(localStorage.getItem('ho_flashcards_v1') ?? '{}') as Record<string, { nextDue?: string }>;
       const now = new Date().toISOString();
@@ -499,6 +530,39 @@ function ChatContent() {
       return updated;
     });
   }, [messages, loading, chatId]);
+
+  // Keep ?c= naming the open conversation once it has a question in it, and
+  // drop it for a fresh chat. ?q= and ?topic= only seed a new chat, so they go
+  // once it has started. Replace, not push: switching chats is not a step
+  // Back should undo.
+  const hasConversation = messages.some(m => m.role === 'user');
+  useEffect(() => {
+    if (!chatRestored) return;
+    const url = new URL(window.location.href);
+    if (hasConversation) {
+      if (url.searchParams.get(CHAT_PARAM) === chatId && !url.searchParams.has('q') && !url.searchParams.has('topic')) return;
+      url.searchParams.delete('q');
+      url.searchParams.delete('topic');
+      url.searchParams.set(CHAT_PARAM, chatId);
+    } else {
+      if (!url.searchParams.has(CHAT_PARAM)) return;
+      url.searchParams.delete(CHAT_PARAM);
+    }
+    window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+  }, [chatRestored, hasConversation, chatId]);
+
+  // Remember the thread's scroll position as the reader moves, since by the
+  // time a link click unmounts the page the element is already gone.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const save = () => {
+      if (!hasUserMessageRef.current) return;
+      try { sessionStorage.setItem(CHAT_SCROLL_KEY, JSON.stringify({ id: chatId, top: Math.round(el.scrollTop) })); } catch { /* private mode */ }
+    };
+    el.addEventListener('scroll', save, { passive: true });
+    return () => el.removeEventListener('scroll', save);
+  }, [chatId]);
 
   const clearPdf = () => { setPdfBase64(null); setPdfName(null); };
 

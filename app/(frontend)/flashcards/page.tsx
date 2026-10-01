@@ -10,6 +10,7 @@ import { FLASHCARD_TYPES } from '@/lib/flashcardMeta';
 // bundle. The cards themselves now come from /api/flashcards.
 import type { StoredFlashCard } from '@/lib/flashcardStore';
 import OwlLoader from '@/components/OwlLoader';
+import { allNotes } from '@/lib/notes';
 
 type FlashCard = StoredFlashCard;
 
@@ -138,6 +139,10 @@ export default function Flashcards() {
   const [filterType, setFilterType] = useState<string>('All');
   const [filterGrade, setFilterGrade] = useState<string>('All');
   const [filterDue, setFilterDue] = useState<boolean>(false);
+  // A notes slug, from the chat's "Revise them": just the cards on the topic
+  // it answered. Not a dropdown, since 51 topics would not fit in one.
+  const [filterTopic, setFilterTopic] = useState<string | null>(null);
+  const topicNote = useMemo(() => (filterTopic ? allNotes.find(n => n.slug === filterTopic) ?? null : null), [filterTopic]);
   const { index, indexLoading, error: deckError, getCard, isReady, getBack, reveal, allowance, prefetch, keepAhead } =
     useFlashcardDeck();
   /**
@@ -168,9 +173,14 @@ export default function Flashcards() {
 
   useEffect(() => {
     setSR(loadSR()); setLastSessionIds(loadSession()); setMounted(true);
-    // The chat links here with ?section= to revise the cards on the topic it
-    // just answered; there is no topic filter, so the section is the nearest.
-    const section = new URLSearchParams(window.location.search).get('section');
+    // The chat links here with ?topic=<notes slug> to revise the cards on the
+    // topic it just answered. It used to send ?section=, the nearest filter
+    // there was, which opened all 283 Ancient India cards for a question
+    // about the Harappans; ?section= still works for links already out there.
+    const params = new URLSearchParams(window.location.search);
+    const topic = params.get('topic');
+    if (topic && allNotes.some(n => n.slug === topic)) setFilterTopic(topic);
+    const section = params.get('section');
     if (section) setFilterSection(section);
   }, []);
 
@@ -183,6 +193,7 @@ export default function Flashcards() {
   // Computed before buildQueue so a queue can be built from the list on
   // screen, in the order shown.
   const filteredIndex = index.filter(c => {
+    if (filterTopic && c.topic !== filterTopic) return false;
     if (filterSection !== 'All' && c.section !== filterSection) return false;
     if (filterType !== 'All' && c.type !== filterType) return false;
     if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
@@ -209,6 +220,7 @@ export default function Flashcards() {
     }
     const ordered = index
       .filter(c => {
+        if (filterTopic && c.topic !== filterTopic) return false;
         if (filterSection !== 'All' && c.section !== filterSection) return false;
         if (filterType !== 'All' && c.type !== filterType) return false;
         if (filterGrade !== 'All' && String(sr[c.id]?.lastGrade ?? '') !== filterGrade) return false;
@@ -229,7 +241,7 @@ export default function Flashcards() {
     setQueueIds(ordered); setIdx(0); setFlipped(false); setRevealState('idle'); setSessionDone(0); setSessionFinished(false); setSessionRecalled(0);
     setLastSessionIds([]); saveSession([]);
     setModalOpen(true);
-  }, [index, filteredIndex, filterSection, filterType, filterGrade, filterDue, sr, keepAhead]);
+  }, [index, filteredIndex, filterTopic, filterSection, filterType, filterGrade, filterDue, sr, keepAhead]);
 
   // Keep the window full as the reader advances. Running on idx means the
   // refill is triggered by movement, well before the cache runs dry.
@@ -312,7 +324,7 @@ export default function Flashcards() {
   useEffect(() => { if (visibleIds.length) prefetch(visibleIds); }, [visibleIds, prefetch]);
 
   // Changing a filter starts the list again from the top.
-  useEffect(() => { setBrowseLimit(60); }, [filterSection, filterType, filterGrade, view]);
+  useEffect(() => { setBrowseLimit(60); }, [filterTopic, filterSection, filterType, filterGrade, view]);
 
   // Sections come from the index, so the filter only offers sections that
   // actually have cards. Index order is card-id order, which is syllabus
@@ -652,7 +664,25 @@ export default function Flashcards() {
 
         {/* Filters + Start */}
         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.75rem', alignItems: 'center' }}>
-          <select value={filterSection} onChange={e => setFilterSection(e.target.value)}
+          {topicNote && (
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)',
+              padding: '0.3rem 0.4rem 0.3rem 0.75rem', borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--accent)', background: 'var(--accent-dim)',
+              color: 'var(--accent-text)', fontSize: '0.78rem', fontWeight: 600,
+            }}>
+              {topicNote.title}
+              <button
+                onClick={() => setFilterTopic(null)}
+                aria-label={langHi ? 'सभी कार्ड दिखाएँ' : 'Show all cards'}
+                title={langHi ? 'सभी कार्ड दिखाएँ' : 'Show all cards'}
+                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: '0.95rem', lineHeight: 1, padding: '0 var(--space-1)' }}
+              >×</button>
+            </span>
+          )}
+          {/* Picking a section is choosing a different slice; a topic left
+              over from the chat would leave it empty. */}
+          <select value={filterSection} onChange={e => { setFilterSection(e.target.value); setFilterTopic(null); }}
             style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text)', borderRadius: 6, padding: '0.38rem 0.7rem', fontSize: '0.78rem', cursor: 'pointer' }}>
             <option value="All">{langHi ? "सभी अनुभाग" : "All Sections"}</option>
             {sections.map(s => <option key={s} value={s}>{s}</option>)}

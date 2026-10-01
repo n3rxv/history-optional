@@ -56,7 +56,7 @@ export default function WorthKnowing({ slug, langHi, done, onMarkDone, onShowPyq
         ? `${title} पर ${cards} फ्लैशकार्ड हैं।`
         : `${cards} flashcard${cards === 1 ? '' : 's'} cover ${title}.`,
       action: (
-        <Link className="ch-btn ch-btn-line ch-btn-sm" href={`/flashcards?section=${encodeURIComponent(note.section)}`}>
+        <Link className="ch-btn ch-btn-line ch-btn-sm" href={`/flashcards?topic=${encodeURIComponent(note.slug)}`}>
           {langHi ? 'उन्हें दोहराएँ' : 'Revise them'}
         </Link>
       ),

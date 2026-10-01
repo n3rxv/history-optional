@@ -6,9 +6,10 @@ import { cachePublic } from '@/lib/cacheHeaders';
  * Flashcards, served instead of bundled.
  *
  *   GET /api/flashcards?index=1
- *     One small record per published card: id, section, type. This is what
- *     the study page needs to count what is due and build its filters, and
- *     it stays small as the deck grows.
+ *     One small record per published card: id, section, type, topic. This
+ *     is what the study page needs to count what is due and build its
+ *     filters, and it stays small as the deck grows. topic is the notes slug,
+ *     so the chat can send a reader to the cards on the topic it answered.
  *
  *   GET /api/flashcards?section=&type=&ids=&limit=&offset=
  *     Card text WITHOUT the answer, for the cards actually being studied.

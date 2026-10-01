@@ -54,7 +54,7 @@ export type FlashCardFront = Omit<StoredFlashCard, 'back' | 'back_hi'>;
 export type FlashCardBack = Pick<StoredFlashCard, 'id' | 'back' | 'back_hi'>;
 
 /** Just enough to filter and to work out what is due. */
-export type FlashCardIndexEntry = Pick<StoredFlashCard, 'id' | 'section' | 'type'>;
+export type FlashCardIndexEntry = Pick<StoredFlashCard, 'id' | 'section' | 'type' | 'topic'>;
 
 /**
  * Everything except the answer. `back` and `back_hi` are deliberately absent:
@@ -96,7 +96,7 @@ export async function listIndex(): Promise<FlashCardIndexEntry[]> {
   for (let offset = 0; ; offset += INDEX_PAGE) {
     const { data, error } = await client()
       .from('flashcards')
-      .select('id,section,type')
+      .select('id,section,type,topic')
       .eq('status', 'published')
       .order('id')
       .range(offset, offset + INDEX_PAGE - 1);
