@@ -1254,10 +1254,8 @@ const CHAT_CSS = `
   --ch-soft: color-mix(in srgb, var(--text) 3%, var(--bg-raised));
   display: flex;
   gap: var(--space-4);
-  /* The layout pads <main> 90px for a navbar that is 67px tall, which left a
-     strip of plain ground above the page. Pulled up to meet the navbar. */
-  margin-top: -23px;
-  height: calc(100dvh - 67px);
+  /* The layout pads <main> by the navbar's 60px; the chat fills the rest. */
+  height: calc(100dvh - 60px);
   padding: 0 var(--space-4) var(--space-4);
   background: var(--ch-ground);
   font-family: var(--font-body);
@@ -1791,7 +1789,7 @@ const CHAT_CSS = `
 }
 
 @media (max-width: 768px) {
-  .ch-wrap { height: calc(100dvh - 67px - 64px - env(safe-area-inset-bottom, 0px)); }
+  .ch-wrap { height: calc(100dvh - 60px - 64px - env(safe-area-inset-bottom, 0px)); }
   .ch-side-chats { flex: none; min-height: 0; overflow: visible; }
   .ch-side { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
   .ch-start { justify-content: flex-start; padding: var(--space-5) var(--space-4) 0; }

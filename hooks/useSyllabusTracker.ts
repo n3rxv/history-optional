@@ -17,10 +17,17 @@ function load(): SyllabusProgress {
   return { completed: {} };
 }
 
+/** Fired on this page whenever the ticks change, so every component showing
+ *  them (a list and its progress ring, say) moves together. The browser's
+ *  own 'storage' event only reaches other tabs. */
+const CHANGE_EVENT = 'ho-syllabus-change';
+
 function save(data: SyllabusProgress) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch {}
+  // save() runs inside a state update; announce it once that render is done.
+  queueMicrotask(() => window.dispatchEvent(new Event(CHANGE_EVENT)));
 }
 
 export function bumpStreak() {
@@ -52,8 +59,13 @@ export function useSyllabusTracker() {
     const onStorage = (e: StorageEvent) => {
       if (e.key === STORAGE_KEY) setProgress(load());
     };
+    const onChange = () => setProgress(load());
     window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
+    window.addEventListener(CHANGE_EVENT, onChange);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener(CHANGE_EVENT, onChange);
+    };
   }, []);
 
   const toggle = useCallback((slug: string) => {

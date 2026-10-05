@@ -7,8 +7,6 @@ export async function GET() {
 
   const mainPages = [
     { url: base, priority: '1.0', changefreq: 'weekly' },
-    { url: `${base}/paper1`, priority: '0.9', changefreq: 'weekly' },
-    { url: `${base}/paper2`, priority: '0.9', changefreq: 'weekly' },
     { url: `${base}/pyqs`, priority: '0.8', changefreq: 'monthly' },
     { url: `${base}/topper-copies`, priority: '0.7', changefreq: 'weekly' },
     { url: `${base}/historiography`, priority: '0.8', changefreq: 'weekly' },

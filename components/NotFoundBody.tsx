@@ -7,7 +7,7 @@ import { useLang } from '@/lib/i18n/LangContext';
 export default function NotFoundBody() {
   const { langHi } = useLang();
   const links = [
-    { href: '/paper1', label: langHi ? 'नोट्स' : 'Notes' },
+    { href: '/notes', label: langHi ? 'नोट्स' : 'Notes' },
     { href: '/pyqs', label: 'PYQs' },
     { href: '/chat', label: langHi ? 'AI चैट' : 'AI Chat' },
     { href: '/evaluate', label: langHi ? 'उत्तर मूल्यांकन' : 'Evaluate an answer' },

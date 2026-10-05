@@ -11,6 +11,7 @@ import HomeAsk from '@/components/home/HomeAsk';
 import { HeroActions } from '@/components/home/HomeLinks';
 import HomeShowcase from '@/components/home/HomeShowcase';
 import TodayPractice from '@/components/home/TodayPractice';
+import { SECTIONS, SectionIcon } from '@/components/notes/sections';
 
 // Static: the daily questions are the build day's, and TodayPractice fetches
 // the current day's set when it differs. The page used to revalidate hourly
@@ -28,24 +29,6 @@ export const metadata: Metadata = {
     type: 'website',
   },
 };
-
-const s = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-const SECTION_ICONS: Record<string, React.ReactNode> = {
-  // A stupa, a dome and arch, a flag, a globe.
-  ancient: <svg width="22" height="22" viewBox="0 0 24 24" {...s}><path d="M4 20h16M6 20v-3h12v3M7 17a5 5 0 0 1 10 0M12 7v5M10 7h4M12 4v3" /></svg>,
-  medieval: <svg width="22" height="22" viewBox="0 0 24 24" {...s}><path d="M4 20h16M6 20V11a6 6 0 0 1 12 0v9M10 20v-5a2 2 0 0 1 4 0v5M12 3v2" /></svg>,
-  modern: <svg width="22" height="22" viewBox="0 0 24 24" {...s}><path d="M6 21V4M6 5h11l-2 3.5L17 12H6" /></svg>,
-  world: <svg width="22" height="22" viewBox="0 0 24 24" {...s}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>,
-};
-
-// Each notes section, with the PYQ bank's sections that belong to it: the
-// bank keeps Early Medieval and India Since Independence apart, the notes do not.
-const SECTIONS = [
-  { key: 'ancient', name: 'Ancient India', sub: 'Harappa to the Guptas and after', href: '/notes/ancient-india', pyq: ['Paper I - Ancient India'] },
-  { key: 'medieval', name: 'Medieval India', sub: 'The Cholas to the end of the Mughals', href: '/notes/medieval-india', pyq: ['Paper I - Early Medieval', 'Paper I - Medieval India'] },
-  { key: 'modern', name: 'Modern India', sub: 'Plassey to independence, and after', href: '/notes/modern-india', pyq: ['Paper II - Modern India', 'Paper II - India Since Independence'] },
-  { key: 'world', name: 'World History', sub: 'The Enlightenment to the Cold War', href: '/notes/world-history', pyq: ['Paper II - World History'] },
-];
 
 const PLAN_NOTE: Record<string, string> = {
   daily: 'For the last few days before the exam.',
@@ -111,7 +94,7 @@ export default async function Home() {
             <div className="hm-secs">
               {counts.map((c) => (
                 <Link key={c.key} href={c.href} className="hm-sec ds-card ds-card-link" style={{ ['--t' as string]: `var(--tint-${c.key})`, ['--w' as string]: `var(--wash-${c.key})` }}>
-                  <span className="hm-sec-icon" aria-hidden="true">{SECTION_ICONS[c.key]}</span>
+                  <span className="hm-sec-icon" aria-hidden="true"><SectionIcon id={c.key} /></span>
                   <span className="hm-sec-body">
                     <span className="hm-sec-name">{c.name}</span>
                     <span className="hm-sec-sub">{c.sub}</span>
@@ -203,7 +186,7 @@ const HOME_CSS = `
 .hm-mark path { fill: none; stroke: color-mix(in srgb, var(--accent) 45%, transparent); stroke-width: 6; stroke-linecap: round; }
 
 /* Hero */
-.hm-hero { padding: clamp(8px, 3vh, 48px) 0 clamp(48px, 8vh, 80px); }
+.hm-hero { padding: clamp(36px, 7vh, 80px) 0 clamp(48px, 8vh, 80px); }
 .hm-hero-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-4); }
 .hm-owl { width: auto; height: clamp(80px, 11vh, 106px); }
 .hm-lede { max-width: 620px; margin: 0 auto var(--space-2); }
@@ -289,7 +272,7 @@ const HOME_CSS = `
 
 /* Phone */
 @media (max-width: 640px) {
-  .hm-hero { padding-top: var(--space-2); }
+  .hm-hero { padding-top: var(--space-6); }
   .hm-hero-inner { gap: var(--space-3); }
   .hm-owl { height: 76px; }
   .hm-actions { width: 100%; flex-direction: column; }

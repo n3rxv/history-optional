@@ -395,7 +395,7 @@ export default function Dashboard() {
         text: langHi
           ? `${TOTAL - totalDone} विषय बाकी हैं`
           : `${TOTAL - totalDone} syllabus topics still to cover`,
-        href: '/paper1',
+        href: '/notes',
         tone: 'var(--text2)',
       });
     }
@@ -477,8 +477,8 @@ export default function Dashboard() {
                   : "🎉 Full syllabus complete! You're ready to ace it.")}
           </div>
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <Link href="/paper1" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', padding: '4px 10px', borderRadius: 5 }}>{langHi ? 'पेपर I →' : 'Paper I →'}</Link>
-            <Link href="/paper2" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', padding: '4px 10px', borderRadius: 5 }}>{langHi ? 'पेपर II →' : 'Paper II →'}</Link>
+            <Link href="/notes" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', padding: '4px 10px', borderRadius: 5 }}>{langHi ? 'पेपर I →' : 'Paper I →'}</Link>
+            <Link href="/notes?paper=2" style={{ fontSize: '0.78rem', color: 'var(--accent)', textDecoration: 'none', background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', padding: '4px 10px', borderRadius: 5 }}>{langHi ? 'पेपर II →' : 'Paper II →'}</Link>
           </div>
         </div>
       </div>

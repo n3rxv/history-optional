@@ -32,7 +32,7 @@ export default function BottomNav() {
 
   const tabs: Tab[] = [
     { href: '/', label: langHi ? 'होम' : 'Home', icon: Icons.home, match: (p) => p === '/' },
-    { href: '/paper1', label: tr(t.notes, langHi), icon: Icons.notes, match: (p) => p.startsWith('/paper1') || p.startsWith('/paper2') || p.startsWith('/notes') },
+    { href: '/notes', label: tr(t.notes, langHi), icon: Icons.notes, match: (p) => p.startsWith('/notes') },
     { href: '/evaluate', label: tr(t.evaluate, langHi), icon: Icons.evaluate, match: (p) => p.startsWith('/evaluate') },
     { href: '/chat', label: tr(t.chat, langHi), icon: Icons.chat, match: (p) => p.startsWith('/chat') },
     { href: '/dashboard', label: langHi ? 'प्रोफाइल' : 'Profile', icon: Icons.you, match: (p) => p.startsWith('/dashboard') },

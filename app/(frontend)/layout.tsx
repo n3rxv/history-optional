@@ -174,7 +174,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('js', new Date());
           gtag('config', 'G-7ZF23N3PZC');
         `}</Script>
-          <main style={{ minHeight: '100vh', paddingTop: 90 }} className="ho-main">{children}</main>
+          {/* Padded by the navbar's height, 60px, so pages start right under it. */}
+          <main style={{ minHeight: '100vh', paddingTop: 60 }} className="ho-main">{children}</main>
         <Footer />
         <BottomNav />
         <Analytics />

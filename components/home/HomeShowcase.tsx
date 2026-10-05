@@ -156,7 +156,7 @@ const TABS: Tab[] = [
     key: 'notes', tab: 'Notes', title: 'Notes that carry the debates.',
     text: 'All 51 topics of both papers, with the historiography built in: who argued what, and the evidence they argued from.',
     points: ['Laid out the way the syllabus is', 'Highlight and write on them, on any device', 'Ask the AI about anything you are reading'],
-    cta: 'Read the notes', href: '/paper1', wash: 'var(--wash-ancient)', preview: <NotesPreview />,
+    cta: 'Read the notes', href: '/notes', wash: 'var(--wash-ancient)', preview: <NotesPreview />,
   },
   {
     key: 'pyq', tab: 'PYQs', title: 'See what UPSC keeps asking.',

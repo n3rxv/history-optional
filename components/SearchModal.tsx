@@ -8,8 +8,8 @@ import type { PyqHit } from '@/app/api/search/route';
 import EmptyState from '@/components/EmptyState';
 
 const QUICK_JUMPS = [
-  { label: 'Paper I Notes',    sub: 'Sources to 1707',        href: '/paper1',        icon: '📄' },
-  { label: 'Paper II Notes',   sub: '1707 to Present',        href: '/paper2',        icon: '📄' },
+  { label: 'Paper I Notes',    sub: 'Sources to 1707',        href: '/notes',         icon: '📄' },
+  { label: 'Paper II Notes',   sub: '1707 to Present',        href: '/notes?paper=2', icon: '📄' },
   { label: 'PYQs',             sub: 'Previous year questions', href: '/pyqs',          icon: '❓' },
   { label: 'Historiography',   sub: 'Historians & debates',   href: '/historiography', icon: '🏛️' },
   { label: 'Timeline',         sub: 'Chronological events',   href: '/timeline',      icon: '📅' },

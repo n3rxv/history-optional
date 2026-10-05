@@ -292,7 +292,8 @@ function NavMenu({ label, items, active, pathname, open, onToggle, onClose, menu
       {open && (
         <div className="nb-drop-menu" role="menu">
           {items.map(item => {
-            const on = item.href.split('#')[0] !== '/' && pathname.startsWith(item.href);
+            // The two papers are tabs on one page, so neither is marked.
+            const on = !item.href.startsWith('/notes') && item.href.split('#')[0] !== '/' && pathname.startsWith(item.href);
             return (
               <Link key={item.href} href={item.href} role="menuitem" className={`nb-drop-item${on ? ' on' : ''}`} onClick={onClose}>
                 {item.label}
@@ -490,8 +491,8 @@ export default function Navbar() {
   };
 
   const notesItems: MenuItem[] = [
-    { href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' },
-    { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' },
+    { href: '/notes', label: langHi ? 'पेपर I' : 'Paper I' },
+    { href: '/notes?paper=2', label: langHi ? 'पेपर II' : 'Paper II' },
     { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' },
     { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' },
     { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' },
@@ -510,7 +511,7 @@ export default function Navbar() {
     { href: '/prelims', label: tr(t.prelims, langHi) },
     { href: '/chat', label: tr(t.chat, langHi), accent: true },
   ];
-  const notesActive = ['/paper', '/notes', '/timeline', '/historiography', '/current-affairs', '/flashcards', '/resources'].some(p => pathname.startsWith(p));
+  const notesActive = ['/notes', '/timeline', '/historiography', '/current-affairs', '/flashcards', '/resources'].some(p => pathname.startsWith(p));
   const pyqsActive = ['/pyqs', '/topper-copies', '/test'].some(p => pathname.startsWith(p));
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
@@ -657,7 +658,7 @@ export default function Navbar() {
             <div className="nb-sheet-grid">
               {group.items.map(l => (
                 <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
-                  className={`nb-sheet-link${l.href.split('#')[0] !== '/' && isActive(l.href) ? ' on' : ''}${l.accent ? ' accent' : ''}`}>
+                  className={`nb-sheet-link${l.href.split('#')[0] !== '/' && !l.href.startsWith('/notes') && isActive(l.href) ? ' on' : ''}${l.accent ? ' accent' : ''}`}>
                   {l.accent && Icon.chat}{l.label}
                 </Link>
               ))}

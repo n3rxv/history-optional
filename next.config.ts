@@ -118,6 +118,9 @@ const nextConfig: NextConfig = {
       // is passed through, and /topper-copies still reads the old filters.
       { source: '/pyqs/topper/:id', destination: '/topper-copies/:id', permanent: true },
       { source: '/pyqs', has: [{ type: 'query', key: 'topper', value: '1' }], destination: '/topper-copies', permanent: true },
+      // Paper I and Paper II are tabs on /notes now, which lists both.
+      { source: '/paper1', destination: '/notes', permanent: true },
+      { source: '/paper2', destination: '/notes?paper=2', permanent: true },
     ];
   },
   async rewrites() {

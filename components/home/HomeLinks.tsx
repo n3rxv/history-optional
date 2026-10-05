@@ -38,7 +38,7 @@ export function HeroActions() {
   }
   return (
     <div className="hm-actions">
-      <Link href="/paper1" className="ds-btn ds-btn-solid ds-btn-lg">Start studying, it&rsquo;s free<Arrow /></Link>
+      <Link href="/notes" className="ds-btn ds-btn-solid ds-btn-lg">Start studying, it&rsquo;s free<Arrow /></Link>
       <Link href="/evaluate" className="ds-btn ds-btn-ghost">Check an answer</Link>
     </div>
   );
