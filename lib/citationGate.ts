@@ -91,6 +91,14 @@ const ABBREVIATIONS = new Set([
 ]);
 
 /**
+ * What ends a sentence. The danda is how a Hindi answer ends almost every
+ * sentence; without it a Hindi answer never completed one, was held back
+ * whole, and was then dropped at the end as a cut-off tail, leaving the
+ * reader with "Something went wrong".
+ */
+const TERMINATORS = '.!?।';
+
+/**
  * Index just past the end of the first complete sentence in `text`, or -1.
  *
  * Splitting naively on [.!?] is wrong here in a way that defeats the audit:
@@ -104,11 +112,11 @@ const ABBREVIATIONS = new Set([
  */
 function sentenceEnd(text: string, atEnd: boolean): number {
   for (let i = 0; i < text.length; i++) {
-    if (text[i] !== '.' && text[i] !== '!' && text[i] !== '?') continue;
+    if (!TERMINATORS.includes(text[i])) continue;
 
     // Absorb repeated terminators ("?!") and any closing quote or bracket.
     let j = i;
-    while (j + 1 < text.length && '.!?'.includes(text[j + 1])) j++;
+    while (j + 1 < text.length && TERMINATORS.includes(text[j + 1])) j++;
     while (j + 1 < text.length && `"'»)]`.includes(text[j + 1])) j++;
 
     const after = j + 1;

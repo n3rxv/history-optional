@@ -85,5 +85,14 @@ console.log('\ncreateSentenceGate');
   g.flush();
   eq('emitted() reports zero when all dropped', g.emitted(), 0);
 }
+{
+  // Hindi ends its sentences with a danda, not a full stop.
+  const out: string[] = [];
+  const g = createSentenceGate(t => out.push(t));
+  'अशोक का धम्म एक आचार संहिता था। यह सहिष्णुता पर ज़ोर देता था।'.split('').forEach(c => g.push(c));
+  eq('a Hindi sentence is released at its danda', out.length, 1);
+  g.flush();
+  eq('a Hindi answer is not dropped at the end', out.join(''), 'अशोक का धम्म एक आचार संहिता था। यह सहिष्णुता पर ज़ोर देता था।');
+}
 console.log(`\n${fails === 0 ? 'ALL PASS' : fails + ' FAILED'}`);
 process.exit(fails === 0 ? 0 : 1);
