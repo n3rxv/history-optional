@@ -33,6 +33,10 @@ eq('initials do not split the name apart',
   auditSentence('R.C. Majumdar argues Alexander had no impact.'),
   null);
 
+eq('a Hindi स्रोत #N citation is exempt too',
+  auditSentence('R.C. Majumdar argues this was limited [स्रोत #2].'),
+  'R.C. Majumdar argues this was limited [स्रोत #2].');
+
 console.log('\ncreateSentenceGate');
 {
   const out: string[] = [];

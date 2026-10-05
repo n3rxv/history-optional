@@ -35,8 +35,12 @@ const CLAIM_VERB =
 
 const BRACKET = /\([A-Z][a-zA-Z.\s]+?,\s*[^)]+?\)/;
 
-/** Inline RAG citations: the claim is already tied to a retrieved passage. */
-const SOURCE_CITATION = /Source #\d+/;
+/**
+ * Inline RAG citations: the claim is already tied to a retrieved passage. The
+ * prompt asks for [Source #N]; models also write [Source N], and in a Hindi
+ * answer sometimes translate the word to स्रोत.
+ */
+const SOURCE_CITATION = /(?:\bSources?|स्रोत)\s*#?\s*[\d०-९]+/;
 
 /**
  * Audits one sentence.

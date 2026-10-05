@@ -8,7 +8,7 @@
     "build": "node scripts/design-lint.mjs && node scripts/font-check.mjs && node scripts/theme-check.mjs && node scripts/gen-pyq-ranges.mjs --check && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx tests/progressMerge.test.mts && tsx tests/chatStart.test.mts && tsx tests/chatStream.test.mts && tsx tests/chatMentor.test.mts && tsx tests/chatSuggestions.test.mts && tsx tests/citationGate.test.mts && tsx tests/sanitizeHtml.test.mts && tsx tests/sanitizeNoteHtml.test.mts && tsx tests/adminAuth.test.mts && tsx tests/fileSignature.test.mts && tsx tests/phone.test.mts && tsx tests/name.test.mts && tsx tests/csv.test.mts",
+    "test": "tsx tests/progressMerge.test.mts && tsx tests/chatStart.test.mts && tsx tests/chatStream.test.mts && tsx tests/chatMentor.test.mts && tsx tests/chatSuggestions.test.mts && tsx tests/citationGate.test.mts && tsx tests/chatCitations.test.mts && tsx tests/sanitizeHtml.test.mts && tsx tests/sanitizeNoteHtml.test.mts && tsx tests/adminAuth.test.mts && tsx tests/fileSignature.test.mts && tsx tests/phone.test.mts && tsx tests/name.test.mts && tsx tests/csv.test.mts",
     "design-lint": "node scripts/design-lint.mjs",
     "design-lint:report": "node scripts/design-lint.mjs --report",
     "font-check": "node scripts/font-check.mjs",
