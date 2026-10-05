@@ -4,18 +4,21 @@ import { usePathname } from 'next/navigation';
 import { useLang } from '@/lib/i18n/LangContext';
 
 const DISMISS_KEY = 'ho_pwa_install_dismissed_at';
+
+/** Chrome's beforeinstallprompt event, which TypeScript's DOM types omit. */
+type InstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<unknown> };
 const DISMISS_DAYS = 14;
 
 function isIos(): boolean {
   if (typeof navigator === 'undefined') return false;
-  return /iphone|ipad|ipod/i.test(navigator.userAgent) && !(window as any).MSStream;
+  return /iphone|ipad|ipod/i.test(navigator.userAgent) && !('MSStream' in window);
 }
 
 function isStandalone(): boolean {
   if (typeof window === 'undefined') return false;
   return (
     window.matchMedia('(display-mode: standalone)').matches ||
-    (navigator as any).standalone === true
+    (navigator as Navigator & { standalone?: boolean }).standalone === true
   );
 }
 
@@ -34,7 +37,7 @@ function wasDismissedRecently(): boolean {
 export default function PWARegister() {
   const { langHi } = useLang();
   const pathname = usePathname();
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<InstallPromptEvent | null>(null);
   const [showBanner, setShowBanner] = useState(false);
   const [showIosBanner, setShowIosBanner] = useState(false);
 
@@ -50,7 +53,7 @@ export default function PWARegister() {
 
     function onBeforeInstallPrompt(e: Event) {
       e.preventDefault();
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as InstallPromptEvent);
       setShowBanner(true);
     }
     window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);
@@ -89,31 +92,32 @@ export default function PWARegister() {
   if (pathname?.startsWith('/chat')) return null;
 
   return (
-    <div className="ho-pwa-banner" role="dialog" aria-label="Install app">
-      <div className="ho-pwa-banner-icon">
-        <img src="/icon-192.png" alt="" width={36} height={36} style={{ borderRadius: 9, display: 'block' }} />
-      </div>
+    <div className="ho-pwa-banner ds" role="dialog" aria-label="Install the app">
+      <span className="ho-pwa-banner-icon">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/mascot/owl.svg" alt="" width={30} height={28} />
+      </span>
       <div className="ho-pwa-banner-text">
         <div className="ho-pwa-banner-title">
-          {langHi ? 'History Optional इंस्टॉल करें' : 'Install History Optional'}
+          {langHi ? 'History Optional को ऐप की तरह रखें' : 'Keep History Optional on your home screen'}
         </div>
         <div className="ho-pwa-banner-sub">
           {showIosBanner
             ? (langHi
-                ? 'शेयर बटन दबाएं → "होम स्क्रीन पर जोड़ें"'
+                ? 'शेयर बटन दबाएं, फिर "होम स्क्रीन पर जोड़ें"'
                 : 'Tap Share, then "Add to Home Screen"')
             : (langHi
-                ? 'तेज़, फुलस्क्रीन ऐप जैसा अनुभव पाएं'
-                : 'Get the full-screen app experience')}
+                ? 'एक टैप में खुलता है, पूरी स्क्रीन पर'
+                : 'It opens in one tap, full screen')}
         </div>
       </div>
       {!showIosBanner && (
-        <button className="ho-pwa-banner-cta" onClick={handleInstall}>
-          {langHi ? 'इंस्टॉल करें' : 'Install'}
+        <button className="ds-btn ds-btn-solid ds-btn-sm" onClick={handleInstall}>
+          {langHi ? 'जोड़ें' : 'Add'}
         </button>
       )}
-      <button className="ho-pwa-banner-close" onClick={dismiss} aria-label="Dismiss">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button className="ds-x" onClick={dismiss} aria-label="Dismiss">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
       </button>
     </div>
   );

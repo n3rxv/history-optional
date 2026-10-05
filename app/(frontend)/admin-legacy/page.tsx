@@ -7,7 +7,7 @@ import OwlLoader from '@/components/OwlLoader';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 type PostType = 'current-affairs' | 'new-note';
-type Tab = 'notes' | 'posts' | 'analytics' | 'evaluations' | 'submissions' | 'phones' | 'notifications' | 'topper-copies' | 'settings';
+type Tab = 'notes' | 'posts' | 'analytics' | 'evaluations' | 'submissions' | 'phones' | 'topper-copies' | 'settings';
 
 interface Post {
   id: string; type: PostType; title: string; excerpt: string; content: string;
@@ -1427,126 +1427,6 @@ function Submissions({ token }: { token: string }) {
   );
 }
 
-// ─── NOTIFICATIONS ────────────────────────────────────────────────────────────
-function NotificationsManager({ token }: { token: string }) {
-  const [notifications, setNotifications] = useState<{id:string;title:string;link:string;type:string;created_at:string}[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ title: '', link: '', type: 'announcement' });
-  const [msg, setMsg] = useState('');
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState({ title: '', link: '', type: 'announcement' });
-  const [editSaving, setEditSaving] = useState(false);
-
-  const flash = (m: string) => { setMsg(m); setTimeout(() => setMsg(''), 3000); };
-  const load = async () => {
-    setLoading(true);
-    const res = await fetch('/api/notifications-admin', { headers: { 'x-admin-token': token } });
-    const { data } = await res.json();
-    setNotifications(data || []); setLoading(false);
-  };
-  useEffect(() => { load(); }, []);
-
-  const add = async () => {
-    if (!form.title.trim() || !form.link.trim()) { flash('Title and link required'); return; }
-    setSaving(true);
-    const res = await fetch('/api/notifications-admin', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify(form) });
-    const data = await res.json(); setSaving(false);
-    if (data.ok) { setForm({ title: '', link: '', type: 'announcement' }); flash('✓ Added'); load(); } else flash('⚠ Failed');
-  };
-
-  const remove = async (id: string) => {
-    if (!confirm('Delete?')) return;
-    await fetch('/api/notifications-admin', { method: 'DELETE', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ id }) });
-    setNotifications(n => n.filter(x => x.id !== id));
-  };
-
-  const startEdit = (n: {id:string;title:string;link:string;type:string;created_at:string}) => { setEditingId(n.id); setEditForm({ title: n.title, link: n.link, type: n.type }); };
-  const cancelEdit = () => setEditingId(null);
-  const saveEdit = async (id: string) => {
-    if (!editForm.title.trim() || !editForm.link.trim()) { flash('Title and link required'); return; }
-    setEditSaving(true);
-    const res = await fetch('/api/notifications-admin', { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'x-admin-token': token }, body: JSON.stringify({ id, ...editForm }) });
-    const data = await res.json(); setEditSaving(false);
-    if (data.ok) { setNotifications(ns => ns.map(n => n.id === id ? { ...n, ...editForm } : n)); setEditingId(null); flash('✓ Updated'); } else flash('⚠ Failed');
-  };
-
-  const typeColor = (t: string) => t === 'note' ? 'var(--info-text)' : t === 'current_affairs' ? 'var(--accent)' : 'var(--accent-text)';
-
-  const SelectType = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => (
-    <select value={value} onChange={e => onChange(e.target.value)} className="inp" style={{ width: 'auto', cursor: 'pointer' }}>
-      <option value="announcement">📢 Ann</option>
-      <option value="note">📄 Note</option>
-      <option value="current_affairs">📰 CA</option>
-    </select>
-  );
-
-  return (
-    <div style={{ padding: '24px 28px', maxWidth: 680 }}>
-      {/* Add form */}
-      <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 10, padding: '16px 18px', marginBottom: 22 }}>
-        <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 12, fontFamily: 'var(--font-mono)' }}>New Notification</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-            placeholder="Title — e.g. Bhakti Movement notes added" className="inp" />
-          <div style={{ display: 'flex', gap: 8 }}>
-            <input value={form.link} onChange={e => setForm(f => ({ ...f, link: e.target.value }))}
-              placeholder="/notes/bhakti-movement" className="inp" style={{ flex: 1 }} />
-            <SelectType value={form.type} onChange={v => setForm(f => ({ ...f, type: v }))} />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <button onClick={add} disabled={saving} className="btn-gold">{saving ? 'Adding…' : '+ Add'}</button>
-            {msg && <span style={{ fontSize: '0.75rem', color: msg.startsWith('✓') ? 'var(--success-text)' : 'var(--danger-text)', fontFamily: 'var(--font-mono)' }}>{msg}</span>}
-          </div>
-        </div>
-      </div>
-
-      {/* List */}
-      {loading
-        ? <OwlLoader />
-        : notifications.length === 0
-          ? <div style={{ color: 'var(--bg4)', textAlign: 'center', padding: '32px 0', fontFamily: 'var(--font-ui)', fontSize: '0.85rem' }}>No notifications yet.</div>
-          : (
-            <div>
-              <div style={{ color: 'var(--bg4)', fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10, fontFamily: 'var(--font-mono)' }}>{notifications.length} notifications</div>
-              {notifications.map(n => editingId === n.id ? (
-                <div key={n.id} className="fsi" style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 9, padding: '12px 14px', marginBottom: 7 }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                    <input value={editForm.title} onChange={e => setEditForm(f => ({ ...f, title: e.target.value }))} className="inp" autoFocus />
-                    <div style={{ display: 'flex', gap: 7 }}>
-                      <input value={editForm.link} onChange={e => setEditForm(f => ({ ...f, link: e.target.value }))} className="inp" style={{ flex: 1 }} />
-                      <SelectType value={editForm.type} onChange={v => setEditForm(f => ({ ...f, type: v }))} />
-                    </div>
-                    <div style={{ display: 'flex', gap: 7 }}>
-                      <button onClick={() => saveEdit(n.id)} disabled={editSaving} className="btn-green">{editSaving ? 'Saving…' : '✓ Save'}</button>
-                      <button onClick={cancelEdit} className="btn-ghost">Cancel</button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div key={n.id} className="fsi" style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 9, padding: '11px 14px', marginBottom: 7, display: 'flex', alignItems: 'center', gap: 10 }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--bg4)')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--bg3)')}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: typeColor(n.type), flexShrink: 0, boxShadow: `0 0 5px color-mix(in srgb, ${typeColor(n.type)} 27%, transparent)` }} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ color: 'var(--text2)', fontSize: '0.85rem', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'var(--font-ui)' }}>{n.title}</div>
-                    <div style={{ display: 'flex', gap: 8, marginTop: 2, alignItems: 'center' }}>
-                      <span style={{ color: 'var(--bg4)', fontSize: '0.65rem', fontFamily: 'var(--font-mono)' }}>{n.link}</span>
-                      <span style={{ color: 'var(--bg4)', fontSize: '0.62rem', fontFamily: 'var(--font-mono)', marginLeft: 'auto' }}>
-                        {new Date(n.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-                      </span>
-                    </div>
-                  </div>
-                  <button onClick={() => startEdit(n)} className="btn-ghost" style={{ padding: '3px 9px', fontSize: '0.72rem', color: 'var(--accent)', borderColor: 'color-mix(in srgb, var(--accent) 20%, transparent)' }}>✎</button>
-                  <button onClick={() => remove(n.id)} className="btn-red" style={{ padding: '3px 8px', fontSize: '0.72rem' }}>✕</button>
-                </div>
-              ))}
-            </div>
-          )}
-    </div>
-  );
-}
-
-
 // ─── TOPPER COPIES ────────────────────────────────────────────────────────────
 interface TopperCopy {
   id: string;
@@ -1868,7 +1748,6 @@ export default function AdminPage() {
   const NAV: { id: Tab; label: string; icon: string }[] = [
     { id: 'notes',         label: 'Note Editor',    icon: '✦' },
     { id: 'posts',         label: 'Posts',          icon: '◎' },
-    { id: 'notifications', label: 'Notifications',  icon: '◉' },
     { id: 'evaluations',   label: 'Evaluations',    icon: '✍' },
     { id: 'submissions',   label: 'Submissions',    icon: '◇' },
     { id: 'phones',        label: 'Phone Numbers',  icon: '☎' },
@@ -1930,7 +1809,6 @@ export default function AdminPage() {
           {tab === 'evaluations'   && <Evaluations token={token} />}
           {tab === 'submissions'   && <Submissions token={token} />}
           {tab === 'phones'        && <Phones token={token} />}
-          {tab === 'notifications' && <NotificationsManager token={token} />}
           {tab === 'topper-copies' && <TopperCopiesManager token={token} />}
           {tab === 'settings'      && <Settings onLogout={logout} token={token} />}
         </main>

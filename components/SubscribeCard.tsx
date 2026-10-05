@@ -4,7 +4,6 @@ import { PLANS, PLAN_ORDER, PLAN_DURATION, DEFAULT_PLAN, planPriceLabel, type Pl
 import AutopaySheet from '@/components/AutopaySheet';
 import { useState, useEffect } from 'react';
 import { auth, signInWithGoogle } from '@/lib/firebase';
-import { signOut as firebaseSignOut } from 'firebase/auth';
 
 function GoogleIcon() {
   return (
@@ -40,7 +39,6 @@ export function SubscribeCard({
   const { langHi } = useLang();
   const [step, setStep] = useState<SubscribeStep>('idle');
   const [token, setToken] = useState<string | null>(null);
-  const [hovered, setHovered] = useState(false);
   const [weeklyOpen, setWeeklyOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<PlanId>(initialPlan);
   // Set when sign-in resumes for someone who is already subscribed. The
@@ -52,13 +50,11 @@ export function SubscribeCard({
   const allPlans = PLAN_ORDER.map(id => ({
     id, label: PLANS[id].label, price: planPriceLabel(id), sub: PLAN_DURATION[id],
   }));
-  const plans = allPlans;
 
-  const currentPlan = plans.find(p => p.id === selectedPlan)!;
+  const currentPlan = allPlans.find(p => p.id === selectedPlan) ?? { id: selectedPlan, label: PLANS[selectedPlan].label, price: planPriceLabel(selectedPlan), sub: PLAN_DURATION[selectedPlan] };
   // Shown unless a caller explicitly opts out by passing onWeekly={undefined}
   // and handling it themselves; by default the sheet opens in place.
   const showWeekly = true;
-  const price = currentPlan.price;
 
   useEffect(() => {
     if (document.getElementById('rzp-script')) return;
@@ -136,7 +132,8 @@ export function SubscribeCard({
       // The order route refuses a one-time plan while a weekly mandate is
       // live, and says why. Show its words rather than a generic failure.
       if (!orderData.orderId) throw new Error(orderData.message ?? 'Order failed');
-      const rzp = new (window as any).Razorpay({
+      const Razorpay = (window as unknown as { Razorpay: new (opts: Record<string, unknown>) => { open: () => void; on: (ev: string, fn: () => void) => void } }).Razorpay;
+      const rzp = new Razorpay({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: orderData.amount,
         currency: orderData.currency,
@@ -152,7 +149,7 @@ export function SubscribeCard({
             onClose?.();
           },
         },
-        handler: async (resp: any) => {
+        handler: async (resp: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
           // plan and amount are deliberately not sent — the server reads both
           // from the Razorpay order, so anything we put here would be ignored.
           const vRes = await fetch('/api/razorpay/verify', {
@@ -182,291 +179,141 @@ export function SubscribeCard({
 
   if (step === 'success') {
     return (
-      <>
-        <style>{`
-          @keyframes successPop {
-            0%   { transform: scale(0.8); opacity: 0; }
-            60%  { transform: scale(1.08); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-          }
-          @keyframes successGlow {
-            0%, 100% { box-shadow: 0 0 20px color-mix(in srgb, var(--success-text) 20%, transparent); }
-            50%       { box-shadow: 0 0 40px color-mix(in srgb, var(--success-text) 50%, transparent); }
-          }
-        `}</style>
-        <div style={{
-          textAlign: 'center', padding: '1rem 0',
-          animation: 'successPop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards',
-        }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: '50%',
-            background: 'radial-gradient(circle, color-mix(in srgb, var(--success-text) 15%, transparent) 0%, transparent 70%)',
-            border: '1px solid color-mix(in srgb, var(--success-text) 30%, transparent)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            margin: '0 auto 12px',
-            animation: 'successGlow 2s ease infinite',
-          }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success-text)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-          </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--success-text)', marginBottom: 5 }}>
-            You're Premium!
-          </div>
-          <div style={{ color: 'var(--text3)', fontSize: '0.8rem', marginBottom: 18, lineHeight: 1.5 }}>
-            {existingPlan
-              ? <>You already have an active subscription.<br/>Go ace those answers.</>
-              : <>Unlimited access · {currentPlan.label} plan.<br/>Go ace those answers.</>}
-          </div>
-          <button onClick={() => { onClose?.(); onSuccess?.(); }}
-            style={{
-              width: '100%', padding: '11px', borderRadius: 7, border: 'none',
-              background: 'var(--success-text)',
-              color: 'var(--premium-on)', fontWeight: 700, fontSize: '0.86rem', cursor: 'pointer',
-              letterSpacing: '0.02em',
-            }}>
-            Let's go →
-          </button>
-        </div>
-      </>
+      <div className="sc ds sc-done">
+        <style dangerouslySetInnerHTML={{ __html: SC_CSS }} />
+        <span className="sc-done-mark" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+        </span>
+        <h3>You&rsquo;re on Premium</h3>
+        <p>
+          {existingPlan
+            ? 'Your subscription was already active, so nothing was charged.'
+            : `The ${currentPlan.label.toLowerCase()} plan is active. Everything is open to you now.`}
+        </p>
+        <button className="ds-btn ds-btn-solid ds-btn-block" onClick={() => { onClose?.(); onSuccess?.(); }}>
+          Start studying
+        </button>
+      </div>
     );
   }
 
   if (step === 'signing_in') {
     return (
-      <div style={{ textAlign: 'center', padding: '1.5rem 0', color: 'var(--text3)', fontSize: '0.84rem' }}>
-        <div style={{
-          width: 20, height: 20, border: '2px solid color-mix(in srgb, var(--premium-text) 20%, transparent)',
-          borderTopColor: 'var(--premium-text)', borderRadius: '50%',
-          margin: '0 auto 10px',
-          animation: 'spin 0.7s linear infinite',
-        }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-        Redirecting to Google…
+      <div className="sc ds sc-wait">
+        <style dangerouslySetInnerHTML={{ __html: SC_CSS }} />
+        <span className="sc-spin" aria-hidden="true" />
+        Taking you to Google…
       </div>
     );
   }
 
+  // Weekly renews through a mandate (AutopaySheet); the rest are paid once.
+  const LIST: PlanId[] = ['yearly', 'sixmonths', 'weekly', 'daily'];
+  const monthly = (id: PlanId) => {
+    const rupees = PLANS[id].amountPaise / 100;
+    if (id === 'yearly') return Math.round(rupees / 12);
+    if (id === 'sixmonths') return Math.round(rupees / 6);
+    return null;
+  };
+  const NOTE: Record<PlanId, string> = langHi
+    ? { yearly: 'पूरे साल के लिए एक बार भुगतान', sixmonths: 'छह महीने के लिए एक बार भुगतान', weekly: 'हर हफ़्ते नवीनीकरण, कभी भी रोकें', daily: 'एक दिन, सब कुछ आज़माने के लिए' }
+    : { yearly: 'Paid once for the year', sixmonths: 'Paid once for six months', weekly: 'Renews every week. Stop it anytime.', daily: 'One day, to try everything' };
+  const NAME: Record<PlanId, string> = langHi
+    ? { yearly: 'सालाना', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'एक दिन' }
+    : { yearly: 'A year', sixmonths: '6 months', weekly: 'Weekly', daily: 'A day' };
+  const isWeekly = selectedPlan === 'weekly';
+  const selPrice = planPriceLabel(selectedPlan);
+
+  const onCta = () => {
+    if (isWeekly) { if (onWeekly) onWeekly(); else setWeeklyOpen(true); return; }
+    handlePay();
+  };
+
   return (
-    <>
+    <div className={`sc ds${standalone ? ' standalone' : ''}`}>
+      <style dangerouslySetInnerHTML={{ __html: SC_CSS }} />
       {weeklyOpen && <AutopaySheet onClose={() => setWeeklyOpen(false)} />}
-      <style>{`
-        @keyframes gradientShift {
-          0%   { background-position: 0% 50%; }
-          50%  { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @keyframes ctaGlow {
-          0%, 100% { box-shadow: 0 0 20px color-mix(in srgb, var(--premium-text) 30%, transparent), 0 4px 15px rgba(0,0,0,0.4); }
-          50%       { box-shadow: 0 0 35px color-mix(in srgb, var(--premium-text) 55%, transparent), 0 4px 20px rgba(0,0,0,0.5); }
-        }
-        .subscribe-cta { transition: all 0.18s ease; }
-        .subscribe-cta:hover { filter: brightness(1.1); }
-        .weekly-cta { transition: filter 0.15s; }
-        .weekly-cta:hover { filter: brightness(1.1); }
-      `}</style>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, position: 'relative' }}>
-
-
-        {/* Weekly subscription, above the one-time plans */}
-        {showWeekly && (
-          <>
-            {/* The band is a div, not a button: the CTA inside it is the
-                button, and a button inside a button is invalid markup. */}
-            <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
-              width: '100%', padding: '12px 14px', borderRadius: 10,
-              border: '1px solid color-mix(in srgb, var(--premium-text) 45%, transparent)',
-              background: 'linear-gradient(150deg, color-mix(in srgb, var(--premium-text) 13%, transparent), var(--bg3) 70%)',
-            }}>
-              <div>
-                <div style={{ fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--premium-text)', marginBottom: 3 }}>
-                  Weekly subscription &middot; renews weekly
-                </div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.15rem', fontWeight: 900, color: 'var(--premium-text)' }}>
-                  {planPriceLabel('weekly')}
+      <div className="sc-list" role="radiogroup" aria-label={langHi ? 'प्लान चुनें' : 'Choose a plan'}>
+        {LIST.filter(id => id === 'weekly' ? showWeekly : true).map(id => {
+          const on = selectedPlan === id;
+          const pm = monthly(id);
+          return (
+            <button key={id} type="button" role="radio" aria-checked={on} className={`sc-row${on ? ' on' : ''}`} onClick={() => setSelectedPlan(id)}>
+              <span className="sc-radio" aria-hidden="true" />
+              <span className="sc-row-main">
+                <span className="sc-row-name">
+                  {NAME[id]}
+                  {id === 'yearly' && <span className="sc-chosen">{langHi ? 'सबसे ज़्यादा चुना गया' : 'Most chosen'}</span>}
                 </span>
-                <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}> /week</span>
-              </div>
-              <button onClick={() => (onWeekly ? onWeekly() : setWeeklyOpen(true))}
-                className="weekly-cta"
-                style={{
-                  flexShrink: 0, padding: '9px 18px', borderRadius: 7, border: 'none',
-                  background: 'var(--premium-fill)',
-                  color: 'var(--premium-on)', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer',
-                  whiteSpace: 'nowrap', letterSpacing: '0.02em',
-                }}>
-                Subscribe &rarr;
-              </button>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '2px 0' }}>
-              <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
-              <span style={{ color: 'var(--text3)', fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>or</span>
-              <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
-            </div>
-            <div style={{ color: 'var(--text3)', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center', marginBottom: 2 }}>
-              Pay once, no renewal
-            </div>
-          </>
-        )}
-
-        {/* Plan selector */}
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${plans.length}, 1fr)`, gap: 6, marginBottom: 8 }}>
-          {plans.map(p => {
-            const isSelected = selectedPlan === p.id;
-            const isPopular = p.id === 'yearly';
-            return (
-            <button key={p.id} onClick={() => setSelectedPlan(p.id)}
-              style={{
-                padding: '10px 4px 8px', borderRadius: 10, cursor: 'pointer', position: 'relative',
-                border: isSelected ? '2px solid var(--premium-text)' : '1px solid var(--border)',
-                background: isSelected
-                  ? 'linear-gradient(160deg, color-mix(in srgb, var(--premium-text) 18%, transparent), color-mix(in srgb, var(--premium-text) 6%, transparent))'
-                  : 'var(--bg3)',
-                transition: 'all 0.2s', textAlign: 'center',
-                boxShadow: isSelected
-                  ? '0 0 24px color-mix(in srgb, var(--premium-text) 25%, transparent), inset 0 1px 0 rgba(0,0,0,0.08)'
-                  : 'none',
-                transform: isSelected ? 'translateY(-2px)' : 'none',
-              }}>
-              {isPopular && (
-                <div style={{
-                  position: 'absolute', top: -8, left: '50%', transform: 'translateX(-50%)',
-                  background: 'var(--premium-fill)',
-                  color: 'var(--premium-on)', fontSize: '0.45rem', fontWeight: 800,
-                  padding: '2px 7px', borderRadius: 20, letterSpacing: '0.08em',
-                  whiteSpace: 'nowrap', textTransform: 'uppercase',
-                }}>{langHi ? "सर्वोत्तम मूल्य" : "BEST VALUE"}</div>
-              )}
-              <div style={{ fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 5, color: isSelected ? 'var(--premium-text)' : 'var(--text-faint)' }}>{p.label}</div>
-              <div style={{ fontSize: '1.15rem', fontWeight: 900, lineHeight: 1, fontFamily: 'var(--font-mono)', color: isSelected ? 'var(--premium-text)' : 'var(--text3)', textShadow: isSelected ? '0 0 20px color-mix(in srgb, var(--premium-text) 40%, transparent)' : 'none' }}>{p.price}</div>
-              <div style={{ fontSize: '0.55rem', marginTop: 4, color: isSelected ? 'var(--premium-text)' : 'var(--text-faint)' }}>{p.sub}</div>
+                <span className="sc-row-note">{pm ? `₹${pm.toLocaleString('en-IN')} ${langHi ? 'प्रति माह' : 'a month'} · ` : ''}{NOTE[id]}</span>
+              </span>
+              <span className="sc-row-price">
+                {planPriceLabel(id)}
+                {id === 'weekly' && <small>{langHi ? '/सप्ताह' : '/week'}</small>}
+              </span>
             </button>
-            );
-          })}
-        </div>
+          );
+        })}
+      </div>
 
-        {/* Price block + seal */}
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 7 }}>
-              <span style={{
-                fontFamily: 'var(--font-mono)', fontSize: '1.9rem', fontWeight: 700,
-                color: 'var(--text)', lineHeight: 1,
-                background: 'var(--premium-fill)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>{price}</span>
-              <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>/{currentPlan.sub}</span>
-            </div>
-          </div>
-
-          {/* Gold seal */}
-          <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style={{ flexShrink: 0, opacity: 0.9 }}>
-            <defs>
-              <radialGradient id="sealGrad" cx="50%" cy="35%" r="60%">
-                <stop offset="0%" stopColor="var(--premium-text)"/>
-                <stop offset="50%" stopColor="var(--premium-text)"/>
-                <stop offset="100%" stopColor="var(--premium-text)"/>
-              </radialGradient>
-              <radialGradient id="sealInner" cx="50%" cy="40%" r="55%">
-                <stop offset="0%" stopColor="var(--premium-wash)"/>
-                <stop offset="100%" stopColor="var(--premium-text)"/>
-              </radialGradient>
-            </defs>
-            {Array.from({ length: 16 }).map((_, i) => {
-              const angle = (i * 360) / 16;
-              const rad = (angle * Math.PI) / 180;
-              const x1 = 26 + Math.cos(rad) * 19;
-              const y1 = 26 + Math.sin(rad) * 19;
-              const x2 = 26 + Math.cos(rad) * 24;
-              const y2 = 26 + Math.sin(rad) * 24;
-              return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--premium-text)" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>;
-            })}
-            <circle cx="26" cy="26" r="18" fill="url(#sealGrad)"/>
-            <circle cx="26" cy="26" r="14" fill="url(#sealInner)" opacity="0.4"/>
-            <path d="M17 31 L19 23 L23 27 L26 21 L29 27 L33 23 L35 31 Z" fill="var(--premium-on)" opacity="0.85" strokeLinejoin="round"/>
-            <rect x="17" y="31" width="18" height="2.5" rx="1" fill="var(--premium-on)" opacity="0.85"/>
-          </svg>
-        </div>
-
-        {/* Feature pills */}
-        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-          {[
-            { label: 'Unlimited evals', icon: '◎' },
-            { label: 'Prelims Smart Analysis', icon: '◎' },
-            { label: 'Unlimited AI chat', icon: '◈' },
-            { label: 'Model answers', icon: '◆' },
-          ].map(f => (
-            <span key={f.label} style={{
-              fontSize: '0.68rem', color: 'var(--text3)',
-              background: 'color-mix(in srgb, var(--premium-text) 4%, transparent)',
-              border: '1px solid color-mix(in srgb, var(--premium-text) 12%, transparent)',
-              borderRadius: 20, padding: '3px 9px',
-              display: 'flex', alignItems: 'center', gap: 4,
-            }}>
-              <span style={{ color: 'var(--premium-text)', fontSize: '0.6rem' }}>{f.icon}</span>
-              {f.label}
-            </span>
-          ))}
-        </div>
-
-        {/* Glowing divider */}
-        <div style={{
-          height: 1,
-          background: 'linear-gradient(90deg, transparent, color-mix(in srgb, var(--premium-text) 25%, transparent), color-mix(in srgb, var(--premium-text) 50%, transparent), color-mix(in srgb, var(--premium-text) 25%, transparent), transparent)',
-          margin: '0 0 2px',
-        }} />
-
-        {/* CTA */}
-        <button
-          className="subscribe-cta"
-          onClick={handlePay}
-          disabled={step === 'paying'}
-          style={{
-            width: '100%', padding: '13px', borderRadius: 8, border: 'none',
-            background: step === 'paying'
-              ? 'var(--bg3)'
-              : 'var(--premium-fill)',
-            backgroundSize: '200% 200%',
-            animation: step === 'paying' ? 'none' : 'gradientShift 4s ease infinite, ctaGlow 2.5s ease infinite',
-            color: step === 'paying' ? 'var(--text3)' : 'var(--premium-on)',
-            fontWeight: 800, fontSize: '0.875rem',
-            cursor: step === 'paying' ? 'not-allowed' : 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-            letterSpacing: '0.02em',
-            position: 'relative', overflow: 'hidden',
-          }}>
+      <div className="sc-cta">
+        <button className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" onClick={onCta} disabled={step === 'paying'}>
           {step === 'paying'
-            ? 'Opening payment…'
-            : !token
-              ? <><GoogleIcon /> Sign in &amp; Subscribe — {price}/{currentPlan.sub}</>
-              : `Subscribe — ${price}/${currentPlan.sub} →`}
+            ? (langHi ? 'Razorpay खुल रहा है…' : 'Opening Razorpay…')
+            : isWeekly
+              ? (langHi ? 'साप्ताहिक भुगतान सेट करें' : 'Set up weekly payment')
+              : !token
+                ? <><GoogleIcon /> {langHi ? 'Google से जारी रखें' : 'Continue with Google'}</>
+                : `${langHi ? 'भुगतान करें' : 'Pay'} ${selPrice}`}
         </button>
-
-        {/* Footer */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: -2 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="var(--border)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--border)', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
-              {'Secure · Razorpay · One-time payment'}
-            </span>
-          </div>
-          {onClose && (
-            <button onClick={onClose}
-              style={{ background: 'none', border: 'none', color: 'var(--border)', cursor: 'pointer', fontSize: '0.74rem', padding: 0, transition: 'color 0.15s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text3)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--border)'; }}>
-              Maybe later
-            </button>
-          )}
+        <div className="sc-foot">
+          <span className="sc-secure">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+            {!token && !isWeekly
+              ? (langHi ? `फिर Razorpay पर ${selPrice} का भुगतान` : `Then pay ${selPrice} on Razorpay`)
+              : (langHi ? 'भुगतान Razorpay से' : 'Payments go through Razorpay')}
+          </span>
+          {onClose && <button className="sc-later" onClick={onClose}>{langHi ? 'बाद में' : 'Maybe later'}</button>}
         </div>
       </div>
-    </>
+    </div>
   );
 }
+
+const SC_CSS = `
+.sc { display: flex; flex-direction: column; gap: var(--space-4); }
+.sc-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.sc-row {
+  display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 64px;
+  padding: var(--space-3) var(--space-4); text-align: left;
+  background: var(--ds-card); border: 1.5px solid var(--border2); border-radius: var(--radius-lg);
+  cursor: pointer; transition: border-color 0.15s, background 0.15s;
+}
+.sc-row:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.sc-row.on { border-color: var(--accent); background: var(--accent-dim); }
+.sc-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sc-radio { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border3); position: relative; transition: border-color 0.15s; }
+.sc-row.on .sc-radio { border-color: var(--accent); }
+.sc-row.on .sc-radio::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--accent); }
+.sc-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.sc-row-name { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); font-size: 0.98rem; font-weight: 700; color: var(--text); }
+.sc-chosen { padding: 1px 8px; border-radius: var(--radius-full); background: var(--accent); color: var(--accent-on); font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; }
+.sc-row-note { font-family: var(--font-ui); font-size: 0.8rem; color: var(--text3); line-height: 1.4; }
+.sc-row.on .sc-row-note { color: var(--text2); }
+.sc-row-price { flex-shrink: 0; font-size: 1.12rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+.sc-row-price small { font-size: 0.78rem; font-weight: 500; color: var(--text3); letter-spacing: 0; }
+.sc-cta { display: flex; flex-direction: column; gap: var(--space-2); }
+.sc-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.sc-secure { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-ui); font-size: 0.78rem; color: var(--text3); }
+.sc-later { background: none; border: none; padding: 4px 0; color: var(--text2); font-family: var(--font-ui); font-size: 0.84rem; cursor: pointer; }
+.sc-later:hover { color: var(--accent-text); }
+.sc-done { align-items: center; text-align: center; padding: var(--space-3) 0; }
+.sc-done h3 { margin: 0; font-size: 1.2rem; font-weight: 800; }
+.sc-done p { margin: 0 0 var(--space-2); font-size: 0.9rem; color: var(--text2); line-height: 1.55; }
+.sc-done-mark { width: 52px; height: 52px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--success-wash); color: var(--success-text); }
+.sc-wait { align-items: center; padding: var(--space-6) 0; font-size: 0.9rem; color: var(--text2); }
+.sc-spin { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border2); border-top-color: var(--accent); animation: sc-spin 0.7s linear infinite; }
+@keyframes sc-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .sc-spin { animation-duration: 2s; } .sc-row { transition: none; } }
+`;

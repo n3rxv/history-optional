@@ -41,7 +41,12 @@ function matchScore(text: string, q: string): number {
   return 0;
 }
 
-export default function SearchModal() {
+/**
+ * The site search: notes, historians and PYQs. Opens on ⌘K or Ctrl+K, from
+ * its own trigger, or from anything that dispatches 'open-search' on window
+ * (the phone menu does, since the bar's trigger is hidden there).
+ */
+export default function SearchModal({ label = 'Search notes, PYQs and historians', trigger = true }: { label?: string; trigger?: boolean } = {}) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(0);
@@ -95,6 +100,12 @@ export default function SearchModal() {
 
     return () => { cancelled = true; clearTimeout(timer); };
   }, [query]);
+
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener('open-search', onOpen);
+    return () => window.removeEventListener('open-search', onOpen);
+  }, []);
 
   // Cmd+K / Ctrl+K to open
   useEffect(() => {
@@ -205,40 +216,14 @@ export default function SearchModal() {
     el?.scrollIntoView({ block: 'nearest' });
   }, [selected]);
 
-  if (!open) return (
-    <>
-      <style>{`
-        @media (max-width: 1024px) { .search-full { display: none !important; } }
-        @media (min-width: 1025px) { .search-icon-only { display: none !important; } }
-      `}</style>
-      <button className="search-full"
-        onClick={() => setOpen(true)}
-        title="Search (⌘K)"
-        style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 7, padding: '0.3rem 0.65rem', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem', transition: 'all 0.15s' }}
-        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border2)'; el.style.color = 'var(--text2)'; }}
-        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border)'; el.style.color = 'var(--text3)'; }}
-      >
-        <svg width="13" height="13" viewBox="0 0 20 20" fill="none">
-          <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
-          <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        </svg>
-        Search
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', background: 'var(--bg4)', padding: '1px 5px', borderRadius: 3, border: '1px solid var(--border)', color: 'var(--text3)' }}>⌘K</span>
-      </button>
-      <button className="search-icon-only"
-        onClick={() => setOpen(true)}
-        title="Search (⌘K)"
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 7, padding: '0.35rem', color: 'var(--text3)', cursor: 'pointer', transition: 'all 0.15s' }}
-        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border2)'; el.style.color = 'var(--text2)'; }}
-        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'var(--border)'; el.style.color = 'var(--text3)'; }}
-      >
-        <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
-          <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
-          <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        </svg>
-      </button>
-    </>
-  );
+  // The trigger is styled by the navbar (.nb-search), its only host.
+  if (!open) return trigger ? (
+    <button className="nb-search" onClick={() => setOpen(true)} aria-label="Search the site">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
+      <span className="nb-search-text">{label}</span>
+      <kbd>⌘K</kbd>
+    </button>
+  ) : null;
 
   // Rendered into document.body rather than in place. Navbar's desktop wrapper
   // carries a transform that tracks scroll position, and a transform creates a

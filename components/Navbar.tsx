@@ -1,27 +1,19 @@
 'use client';
 import React from 'react';
 import { createPortal } from 'react-dom';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
-import ThemeCustomizer from './ThemeCustomizer';
 import { useLang } from '@/lib/i18n/LangContext';
 import { tr, t } from '@/lib/i18n/ui';
 import SearchModal from './SearchModal';
 import { auth } from '@/lib/firebase';
 import { onAuthStateChanged, signOut as firebaseSignOut, User } from 'firebase/auth';
-import { supabase } from '@/lib/supabase';
 import { SubscribeCard } from '@/components/SubscribeCard';
 import { FEATURES } from '@/lib/features';
 import { daysToMains } from '@/lib/examDates';
 import { PLANS, PLAN_ORDER, DEFAULT_PLAN, planPriceLabel, addPlanDuration, isPlanId, type PlanId } from '@/lib/plans';
-
-function snooColor(email: string): string {
-  const palette = ['var(--danger-text)','var(--success-text)','var(--accent)','var(--accent)','var(--warning-text)','var(--success-text)','var(--danger-text)','var(--accent)','var(--success-text)','var(--warning-text)'];
-  let hash = 0;
-  for (let i = 0; i < email.length; i++) hash = (hash * 31 + email.charCodeAt(i)) >>> 0;
-  return palette[hash % palette.length];
-}
 
 /**
  * The reader's Google profile picture, falling back to their initial.
@@ -30,10 +22,6 @@ function snooColor(email: string): string {
  * null for anyone who signed in without a picture, so the initial is a real
  * path rather than a safety net, and onError covers a URL that 404s later,
  * which Google's lh3 links do once a photo is removed.
- *
- * The disc stays dark on both grounds: a picture with a light background
- * needs an edge to sit against on a light page, and the initial needs a
- * ground of its own.
  */
 function UserAvatar({ email, name, photoURL, size = 34 }: {
   email: string; name?: string; photoURL?: string | null; size?: number;
@@ -41,59 +29,39 @@ function UserAvatar({ email, name, photoURL, size = 34 }: {
   const [failed, setFailed] = useState(false);
   const initial = (name?.trim() || email || '?').charAt(0).toUpperCase();
   const showImage = Boolean(photoURL) && !failed;
-
-  // `size` stays the outer diameter so the ring costs no layout: the wrapper
-  // is padded by the ring width and the disc fills what is left.
-  const ring = size >= 40 ? 2 : 1.5;
-
   return (
-    <span
-      style={{
-        width: size, height: size, flexShrink: 0, boxSizing: 'border-box',
-        borderRadius: '50%',
-        padding: ring,
-        background: 'var(--avatar-ring)',
-        display: 'inline-flex',
-      }}
-    >
-      <span
-        style={{
-          width: '100%', height: '100%',
-          borderRadius: '50%',
-          background: 'var(--avatar-bg)',
-          color: 'var(--wink-50)',
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          overflow: 'hidden',
-          fontFamily: 'var(--font-ui)',
-          fontSize: Math.round(size * 0.4),
-          fontWeight: 600,
-          lineHeight: 1,
-          userSelect: 'none',
-        }}
-      >
-        {showImage ? (
-          <img
-            src={photoURL as string}
-            alt=""
-            width={size}
-            height={size}
-            referrerPolicy="no-referrer"
-            onError={() => setFailed(true)}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          />
-        ) : initial}
-      </span>
+    <span className="nb-avatar-disc" style={{ width: size, height: size, fontSize: Math.round(size * 0.4) }}>
+      {showImage ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={photoURL as string} alt="" width={size} height={size} referrerPolicy="no-referrer" onError={() => setFailed(true)} />
+      ) : initial}
     </span>
   );
 }
-
-// FEATURES now lives in lib/features.ts so the pricing page cannot drift from it.
 
 /** A stored plan id shown to the reader. Falls back to the raw value for
  *  rows written before the id set settled. */
 function planLabel(plan: string): string {
   return isPlanId(plan) ? PLANS[plan].label : plan;
 }
+
+const fmtDate = (iso: string, month: 'short' | 'long' = 'short') =>
+  new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month, year: 'numeric' });
+
+const Icon = {
+  close: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>,
+  chev: <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>,
+  chat: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>,
+  moon: <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" /></svg>,
+  sun: <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5" /><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" /></svg>,
+  search: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>,
+  edit: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" /></svg>,
+  dash: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" /></svg>,
+  plans: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" /></svg>,
+  out: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></svg>,
+  arrow: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>,
+  check: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>,
+};
 
 function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { onClose: () => void; noSubFound?: boolean; isLoggedIn?: boolean; onPaymentSuccess?: () => void }) {
   const [fingerprint, setFingerprint] = React.useState<string | null>(null);
@@ -106,81 +74,70 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
     })();
   }, []);
 
+  // The two free limits come from lib/features.ts, so this cannot drift from
+  // what the gates enforce.
+  const freeOf = (name: string) => FEATURES.find(f => f.name === name)?.free ?? '';
+  const evalFree = freeOf('Answer evaluation').replace(' total', '');
+  const chatFree = freeOf('AI Chat').replace(' total', '');
+  const gains = [
+    { title: 'Answer checking without limits', body: `Free covers ${evalFree} answer. Premium checks every answer you write, and whole test papers too.` },
+    { title: 'The AI tutor, unlimited', body: `Past the ${chatFree} free chats, with Books, PDF, Brainstorm and Mentor modes.` },
+    { title: 'Model answers for every PYQ', body: 'See how a question could be answered before you write your own.' },
+    { title: 'Topper copies', body: 'Real answer sheets from toppers, which sell for ₹799 on their own.' },
+    { title: 'Prelims analysis', body: 'Every Prelims PYQ, sorted by what keeps coming back.' },
+  ];
+
   return (
-    <div
-      style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
-      onClick={onClose}
-    >
-      <div
-        className="sheet"
-        style={{ background: 'var(--bg2)', border: '1px solid var(--border-subtle)', borderRadius: 16, maxWidth: 560, width: '100%', boxShadow: 'var(--elev-3)', maxHeight: '90vh' }}
-        onClick={e => e.stopPropagation()}
-      >
-       <div className="sheet-scroll" style={{ padding: '1.5rem' }}>
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
-          <div>
-            <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--premium-text)', marginBottom: 4 }}>Premium</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1.2 }}>Unlock everything</div>
-          </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', padding: '2px 4px', fontSize: '1rem', lineHeight: 1, marginTop: 2 }}>✕</button>
+    <div className="ds ds-overlay nb-up-overlay" onClick={onClose}>
+      <div className="nb-up" role="dialog" aria-modal="true" aria-labelledby="nb-up-title" onClick={e => e.stopPropagation()}>
+        <span className="nb-up-grab" aria-hidden="true" />
+        <button className="ds-x nb-up-x" onClick={onClose} aria-label="Close">{Icon.close}</button>
+
+        <div className="nb-up-why">
+          <Image src="/mascot/owl-celebrate.svg" alt="" width={64} height={60} className="nb-up-owl" />
+          <h2 id="nb-up-title">Go Premium</h2>
+          <p className="nb-up-lede">Notes and PYQs stay free. Premium is for the practice: your answers checked and the AI tutor, with no limits.</p>
+          <ul className="nb-up-gains">
+            {gains.map(g => (
+              <li key={g.title}>
+                <span className="nb-up-tick" aria-hidden="true">{Icon.check}</span>
+                <div><strong>{g.title}</strong><span>{g.body}</span></div>
+              </li>
+            ))}
+          </ul>
+          <Link href="/pricing" className="nb-up-more" onClick={onClose}>Compare Free and Premium in full {Icon.arrow}</Link>
         </div>
 
-        {noSubFound && (
-          <div style={{ background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)', borderRadius: 6, padding: '8px 12px', marginBottom: 14, fontSize: '0.76rem', color: 'var(--danger-text)', textAlign: 'center' }}>
-            No active subscription found for this account.
-          </div>
-        )}
-
-        {/* Feature table — compact */}
-        <div className="scroll-y" style={{ marginBottom: 16, borderRadius: 8, border: '1px solid var(--border-subtle)', maxHeight: 160 }}>
-          {/* Table header */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', background: 'var(--bg3)', padding: '6px 10px', borderBottom: '1px solid var(--border-subtle)' }}>
-            <span style={{ fontSize: '0.62rem', color: 'var(--border2)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Feature</span>
-            <span style={{ fontSize: '0.62rem', color: 'var(--border2)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'center' }}>Free</span>
-            <span style={{ fontSize: '0.62rem', color: 'var(--premium-text)', fontFamily: 'var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'right' }}>Premium</span>
-          </div>
-          {FEATURES.map((f, i) => (
-            <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 56px 72px', padding: '7px 10px', background: i % 2 === 0 ? 'transparent' : 'color-mix(in srgb, var(--text) 1%, transparent)', borderBottom: i < FEATURES.length - 1 ? '1px solid var(--border-subtle)' : 'none', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text2)' }}>{f.name}</span>
-              <span style={{ fontSize: '0.72rem', color: f.free === '✓ free' ? 'var(--success-text)' : 'var(--border2)', textAlign: 'center' }}>{f.free}</span>
-              <span style={{ fontSize: '0.72rem', color: 'var(--premium-text)', fontWeight: 600, textAlign: 'right' }}>{f.premium}</span>
-            </div>
-          ))}
+        <div className="nb-up-buy">
+          <h3>Choose how long</h3>
+          {noSubFound && <div className="nb-alert">No active subscription found for this account.</div>}
+          <SubscribeCard
+            fingerprint={fingerprint}
+            onClose={onClose}
+            onSuccess={() => { onPaymentSuccess?.(); onClose(); }}
+          />
+          {!isLoggedIn && (
+            <button
+              className="nb-up-signin"
+              onClick={async () => {
+                sessionStorage.setItem('ho_verify_sub', '1');
+                const { signInWithGoogle } = await import('@/lib/firebase');
+                await signInWithGoogle();
+              }}
+            >
+              Already on Premium? Sign in
+            </button>
+          )}
         </div>
-
-        {/* Subscribe card — compact version handles price + CTA */}
-        <SubscribeCard
-          fingerprint={fingerprint}
-          onClose={onClose}
-          onSuccess={() => { onPaymentSuccess?.(); onClose(); }}
-        />
-
-        {!isLoggedIn && <button
-          onClick={async () => {
-            sessionStorage.setItem('ho_verify_sub', '1');
-            const { signInWithGoogle } = await import('@/lib/firebase');
-            await signInWithGoogle();
-          }}
-          style={{ width: '100%', marginTop: 10, padding: '8px', background: 'rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.12)', borderRadius: 7, color: 'var(--text)', cursor: 'pointer', fontSize: '0.76rem', fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.2s ease', position: 'relative', overflow: 'hidden' }}
-          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'color-mix(in srgb, var(--text) 40%, transparent)'; el.style.color = 'var(--text)'; el.style.background = 'rgba(0,0,0,0.08)'; }}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'rgba(0,0,0,0.12)'; el.style.color = 'var(--text2)'; el.style.background = 'rgba(0,0,0,0.06)'; }}
-        >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-          </svg>
-          Already subscribed? Sign in
-        </button>}
-       </div>
       </div>
     </div>
   );
 }
 
 // ── Extend Plan Modal ──────────────────────────────────────────
+type RazorpayResponse = { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string };
+type RazorpayCtor = new (opts: Record<string, unknown> & { handler: (resp: RazorpayResponse) => void }) => { open: () => void };
+const razorpayOf = () => (window as unknown as { Razorpay?: RazorpayCtor }).Razorpay;
 function ExtendModal({
   user, subData, onClose, onSuccess,
 }: {
@@ -216,7 +173,7 @@ function ExtendModal({
     setLoading(true);
     try {
       // 0. Ensure Razorpay script is loaded
-      if (!(window as any).Razorpay) {
+      if (!razorpayOf()) {
         await new Promise<void>((resolve, reject) => {
           const s = document.createElement('script');
           s.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -241,7 +198,7 @@ function ExtendModal({
       if (!orderId) throw new Error(order.message ?? 'Order creation failed');
 
       // 2. Open Razorpay
-      const Razorpay = (window as any).Razorpay;
+      const Razorpay = razorpayOf()!;
       const rzpKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
       if (!rzpKey) throw new Error('Razorpay key not set — check NEXT_PUBLIC_RAZORPAY_KEY_ID in .env.local');
       const rzp = new Razorpay({
@@ -253,7 +210,7 @@ function ExtendModal({
         order_id: orderId,
         prefill: { email: user.email ?? '' },
         theme: { color: 'var(--accent)' },
-        handler: async (resp: any) => {
+        handler: async (resp: RazorpayResponse) => {
           const verifyRes = await fetch('/api/razorpay/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-user-token': token },
@@ -279,65 +236,72 @@ function ExtendModal({
 
   if (typeof document === 'undefined') return null;
   return createPortal(
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
-      onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{ background: 'var(--bg2)', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 18, width: '100%', maxWidth: 380, boxShadow: '0 32px 80px rgba(0,0,0,0.9)', overflow: 'hidden' }}>
-        {/* Header */}
-        <div style={{ background: 'linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent) 0%, color-mix(in srgb, var(--warning-text) 10%, transparent) 100%)', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '1.2rem 1.4rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <div className="ds ds-overlay nb-extend-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="ds-modal nb-extend" role="dialog" aria-modal="true" aria-labelledby="nb-extend-title">
+        <div className="ds-modal-head">
           <div>
-            <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em' }}>⚡ Extend Plan</div>
-            <div style={{ fontSize: '0.68rem', color: 'var(--text3)', marginTop: 2 }}>
-              {subData ? 'Current plan extends from your existing expiry' : 'Choose a plan to get started'}
-            </div>
+            <h2 id="nb-extend-title">{subData ? 'Extend your plan' : 'Choose a plan'}</h2>
+            <p>{subData ? 'The new time is added after your current plan ends.' : 'Pick how long you want Premium for.'}</p>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1, padding: 4 }}>✕</button>
+          <button className="ds-x" onClick={onClose} aria-label="Close">{Icon.close}</button>
         </div>
 
-        <div style={{ padding: '1.2rem 1.4rem' }}>
-          {/* Current expiry */}
-          {subData && (
-            <div style={{ background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 12%, transparent)', borderRadius: 8, padding: '0.6rem 0.9rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: '0.68rem', color: 'var(--text3)' }}>Current expiry</span>
-              <span style={{ fontSize: '0.72rem', color: 'var(--accent-text)', fontWeight: 600 }}>
-                {new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-              </span>
-            </div>
-          )}
-
-          {/* Plan selector */}
-          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${plans.length}, 1fr)`, gap: 8, marginBottom: '1rem' }}>
-            {plans.map(p => {
-              const sel = selectedPlan === p.id;
-              return (
-                <button key={p.id} onClick={() => setSelectedPlan(p.id)}
-                  style={{ background: sel ? 'linear-gradient(135deg, color-mix(in srgb, var(--accent) 25%, transparent), color-mix(in srgb, var(--warning-text) 15%, transparent))' : 'rgba(0,0,0,0.03)', border: sel ? '1px solid color-mix(in srgb, var(--accent) 55%, transparent)' : '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '0.7rem 0.5rem', cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', position: 'relative', overflow: 'hidden' }}>
-                  <div style={{ fontSize: '0.72rem', color: sel ? 'var(--accent-text)' : 'color-mix(in srgb, var(--text) 50%, transparent)', fontWeight: 600, marginBottom: 4 }}>{p.label}</div>
-                  <div style={{ fontSize: '1rem', color: sel ? 'var(--text)' : 'color-mix(in srgb, var(--text) 70%, transparent)', fontWeight: 800 }}>{p.price}</div>
-                </button>
-              );
-            })}
+        {subData && (
+          <div className="nb-extend-row">
+            <span>Your plan ends</span>
+            <strong>{fmtDate(subData.expires_at)}</strong>
           </div>
+        )}
 
-          {/* New expiry preview */}
-          <div style={{ background: 'linear-gradient(90deg, color-mix(in srgb, var(--success-text) 8%, transparent), color-mix(in srgb, var(--success-text) 4%, transparent))', border: '1px solid color-mix(in srgb, var(--success-text) 18%, transparent)', borderRadius: 10, padding: '0.75rem 1rem', marginBottom: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ fontSize: '0.62rem', color: 'var(--text3)', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 3 }}>New expiry after payment</div>
-              <div style={{ fontSize: '0.88rem', color: 'var(--success-text)', fontWeight: 700 }}>
-                {newExpiry.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-              </div>
-            </div>
-            <div style={{ fontSize: '1.4rem' }}>📅</div>
-          </div>
-
-          {/* Pay button */}
-          <button onClick={handlePay} disabled={loading}
-            style={{ width: '100%', background: loading ? 'color-mix(in srgb, var(--accent) 30%, transparent)' : 'var(--accent)', border: 'none', borderRadius: 10, color: 'var(--accent-on)', cursor: loading ? 'not-allowed' : 'pointer', padding: '0.75rem', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.03em', boxShadow: loading ? 'none' : '0 4px 20px color-mix(in srgb, var(--accent) 40%, transparent)', transition: 'all 0.15s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-            {loading ? 'Processing…' : `Pay ${cur.price} → Proceed`}
-          </button>
+        <div className="nb-plans" style={{ gridTemplateColumns: `repeat(${plans.length}, minmax(0, 1fr))` }}>
+          {plans.map(p => (
+            <button key={p.id} className={`nb-plan${selectedPlan === p.id ? ' on' : ''}`} onClick={() => setSelectedPlan(p.id)} aria-pressed={selectedPlan === p.id}>
+              <span>{p.label}</span>
+              <strong>{p.price}</strong>
+            </button>
+          ))}
         </div>
+
+        <div className="nb-extend-row good">
+          <span>After paying, Premium runs until</span>
+          <strong>{fmtDate(newExpiry.toISOString(), 'long')}</strong>
+        </div>
+
+        <button className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" onClick={handlePay} disabled={loading}>
+          {loading ? 'Opening Razorpay…' : `Pay ${cur.price}`}
+        </button>
       </div>
     </div>,
     document.body
+  );
+}
+
+type MenuItem = { href: string; label: string };
+
+/** A bar entry that opens a short list: Notes and PYQs. */
+function NavMenu({ label, items, active, pathname, open, onToggle, onClose, menuRef }: {
+  label: string; items: MenuItem[]; active: boolean; pathname: string;
+  open: boolean; onToggle: () => void; onClose: () => void;
+  menuRef: React.RefObject<HTMLDivElement | null>;
+}) {
+  return (
+    <div ref={menuRef} className="nb-drop">
+      <button className={`nb-link${active ? ' on' : ''}`} onClick={onToggle} aria-expanded={open} aria-haspopup="menu">
+        {label}{Icon.chev}
+      </button>
+      {open && (
+        <div className="nb-drop-menu" role="menu">
+          {items.map(item => {
+            const on = item.href.split('#')[0] !== '/' && pathname.startsWith(item.href);
+            return (
+              <Link key={item.href} href={item.href} role="menuitem" className={`nb-drop-item${on ? ' on' : ''}`} onClick={onClose}>
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -348,7 +312,8 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { langHi, toggleLang } = useLang();
-  const [profileEdit, setProfileEdit] = useState(false);
+  const [isDark, setIsDark] = useState(true);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [aspirantName, setAspirantName] = useState('');
   const [aspirantAge, setAspirantAge] = useState('');
   const [aspirantAttempt, setAspirantAttempt] = useState('');
@@ -356,11 +321,18 @@ export default function Navbar() {
   const [subData, setSubData] = useState<{ plan: string; expires_at: string; autoRenew?: boolean } | null>(null);
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [cancelling, setCancelling] = useState(false);
+  const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
+  const [notesMenuOpen, setNotesMenuOpen] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [noSubFound, setNoSubFound] = useState(false);
+  const notesRef = useRef<HTMLDivElement>(null);
+  const pyqsRef = useRef<HTMLDivElement>(null);
+  const accountRef = useRef<HTMLDivElement>(null);
 
   /** Stops future weekly debits. Access already paid for is untouched. */
   async function handleCancelAutopay() {
     if (!auth.currentUser) return;
-    if (!window.confirm('Stop the weekly renewal? You keep access for the remaining days you\u2019ve already paid for.')) return;
+    if (!window.confirm('Stop the weekly renewal? You keep access for the remaining days you’ve already paid for.')) return;
     setCancelling(true);
     try {
       const token = await auth.currentUser.getIdToken();
@@ -372,21 +344,34 @@ export default function Navbar() {
       setCancelling(false);
     }
   }
-  const [pyqsMenuOpen, setPyqsMenuOpen] = useState(false);
-  const [notesMenuOpen, setNotesMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const notesRef = useRef<HTMLDivElement>(null);
-  const pyqsRef = useRef<HTMLDivElement>(null);
+
+  // The bootstrap in app/layout.tsx stamps data-theme before paint; read it
+  // rather than working it out again.
+  useEffect(() => {
+    setIsDark(document.documentElement.getAttribute('data-theme') !== 'light');
+  }, []);
+
+  // Always writes an explicit choice, in both directions, so a reader on a
+  // dark OS can still pick paper.
+  const toggleTheme = () => {
+    const next = !isDark;
+    setIsDark(next);
+    const theme = next ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('ho-theme', theme); } catch {}
+  };
+
+  // A tap outside a menu closes it. A touch that moved was a scroll, not a tap.
   useEffect(() => {
     let touchMoved = false;
     const onTouchMove = () => { touchMoved = true; };
     const handler = (e: MouseEvent | TouchEvent) => {
       if (e.type === 'touchstart') { touchMoved = false; }
-      if (e.type === 'touchend' && touchMoved) return; // was a scroll, not a tap
-      if (notesRef.current && !notesRef.current.contains(e.target as Node)) setNotesMenuOpen(false);
-      if (pyqsRef.current && !pyqsRef.current.contains(e.target as Node)) setPyqsMenuOpen(false);
-      if (bellRef.current && !bellRef.current.contains(e.target as Node) &&
-          mobileBellRef.current && !mobileBellRef.current.contains(e.target as Node)) setBellOpen(false);
+      if (e.type === 'touchend' && touchMoved) return;
+      const target = e.target as Node;
+      if (notesRef.current && !notesRef.current.contains(target)) setNotesMenuOpen(false);
+      if (pyqsRef.current && !pyqsRef.current.contains(target)) setPyqsMenuOpen(false);
+      if (accountRef.current && !accountRef.current.contains(target)) setUserMenuOpen(false);
     };
     document.addEventListener('mousedown', handler);
     document.addEventListener('touchstart', handler);
@@ -400,15 +385,21 @@ export default function Navbar() {
     };
   }, []);
 
+  // A new page closes whatever was open.
   useEffect(() => {
-    const onScroll = () => {
-      const p = Math.min(window.scrollY / 300, 1);
-      setScrollProgress(p);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-  const [showPremiumModal, setShowPremiumModal] = useState(false);
+    setOpen(false);
+    setNotesMenuOpen(false);
+    setPyqsMenuOpen(false);
+    setUserMenuOpen(false);
+  }, [pathname]);
+
+  // The open sheet locks the page and tells fixed overlays (the install
+  // banner) to stand aside.
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    document.documentElement.classList.toggle('nb-sheet-open', open);
+    return () => { document.body.style.overflow = ''; document.documentElement.classList.remove('nb-sheet-open'); };
+  }, [open]);
 
   // Auto-close premium modal when subscription is confirmed
   useEffect(() => {
@@ -424,12 +415,6 @@ export default function Navbar() {
     window.addEventListener('open-premium-modal', handler);
     return () => window.removeEventListener('open-premium-modal', handler);
   }, []);
-  const [noSubFound, setNoSubFound] = useState(false);
-  const [notifications, setNotifications] = useState<{id:string,title:string,link:string,type:string,created_at:string}[]>([]);
-  const [bellOpen, setBellOpen] = useState(false);
-  const [seenIds, setSeenIds] = useState<string[]>([]);
-  const bellRef = useRef<HTMLDivElement>(null);
-  const mobileBellRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof sessionStorage !== 'undefined') {
@@ -455,23 +440,6 @@ export default function Navbar() {
     }
   }, []);
 
-  useEffect(() => {
-    supabase.from('notifications').select('*').order('created_at', { ascending: false }).limit(15).then(({ data }) => {
-      if (data) setNotifications(data);
-    });
-    const saved = localStorage.getItem('ho_seen_notifications');
-    if (saved) setSeenIds(JSON.parse(saved));
-  }, []);
-
-  const markSeen = (id: string) => {
-    setSeenIds(prev => {
-      if (prev.includes(id)) return prev;
-      const updated = [...prev, id];
-      localStorage.setItem('ho_seen_notifications', JSON.stringify(updated));
-      return updated;
-    });
-  };
-
   const fetchSub = React.useCallback(async (token: string) => {
     try {
       const res = await fetch('/api/sub-status', { headers: { 'x-user-token': token } });
@@ -491,9 +459,14 @@ export default function Navbar() {
 
   useEffect(() => {
     const saved = localStorage.getItem('ho_aspirant_profile');
-    if (saved) { try { const p = JSON.parse(saved); setAspirantName(p.name||''); setAspirantAge(p.age||''); setAspirantAttempt(p.attempt||''); setAspirantYear(p.year||''); } catch {} }
+    if (saved) {
+      try {
+        const p = JSON.parse(saved);
+        setAspirantName(p.name || ''); setAspirantAge(p.age || ''); setAspirantAttempt(p.attempt || ''); setAspirantYear(p.year || '');
+      } catch {}
+    }
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser as any);
+      setUser(firebaseUser);
       if (firebaseUser) {
         const token = await firebaseUser.getIdToken();
         fetchSub(token);
@@ -502,399 +475,245 @@ export default function Navbar() {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [fetchSub]);
 
   const handleSignOut = async () => {
     await firebaseSignOut(auth);
     setUserMenuOpen(false);
+    setOpen(false);
     router.refresh();
   };
 
+  const saveProfileField = (key: 'name' | 'age' | 'attempt' | 'year', value: string) => {
+    const cur = { name: aspirantName, age: aspirantAge, attempt: aspirantAttempt, year: aspirantYear, [key]: value };
+    localStorage.setItem('ho_aspirant_profile', JSON.stringify(cur));
+  };
+
+  const notesItems: MenuItem[] = [
+    { href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' },
+    { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' },
+    { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' },
+    { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' },
+    { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' },
+    { href: '/current-affairs', label: langHi ? 'समसामयिकी' : 'Current affairs' },
+    { href: '/resources', label: tr(t.resources, langHi) },
+    { href: '/#daily-answer', label: langHi ? 'दैनिक उत्तर लेखन' : 'Daily answer writing' },
+  ];
+  const pyqItems: MenuItem[] = [
+    { href: '/pyqs', label: langHi ? 'सभी PYQs' : 'All PYQs' },
+    { href: '/topper-copies', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper copies' },
+    { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test series' },
+  ];
+  const flatLinks: (MenuItem & { accent?: boolean })[] = [
+    { href: '/evaluate', label: tr(t.evaluate, langHi) },
+    { href: '/mapping', label: tr(t.mapping, langHi) },
+    { href: '/prelims', label: tr(t.prelims, langHi) },
+    { href: '/chat', label: tr(t.chat, langHi), accent: true },
+  ];
+  const notesActive = ['/paper', '/notes', '/timeline', '/historiography', '/current-affairs', '/flashcards', '/resources'].some(p => pathname.startsWith(p));
+  const pyqsActive = ['/pyqs', '/topper-copies', '/test'].some(p => pathname.startsWith(p));
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+
+  // Mains 2026 or Prelims 2027, for a reader who has set a target year.
+  const target = aspirantYear.trim();
+  const exam = target === '2026'
+    ? { label: 'Mains 2026', when: '21 Aug 2026', days: daysToMains() }
+    : target === '2027'
+      ? { label: 'Prelims 2027', when: '23 May 2027', days: Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - Date.now()) / 86400000)) }
+      : null;
+
+  const langToggle = (
+    <button className="nb-lang" onClick={toggleLang} aria-label={langHi ? 'Switch to English' : 'हिन्दी में देखें'} title={langHi ? 'Switch to English' : 'Switch to Hindi'}>
+      <span className={!langHi ? 'on' : ''}>EN</span>
+      <span className={langHi ? 'on' : ''}>हि</span>
+    </button>
+  );
+
+  const planBlock = subData ? (() => {
+    const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000);
+    const on = fmtDate(subData.expires_at);
+    return (
+      <div className="nb-plan-block">
+        <div className="nb-plan-line">
+          <strong>{planLabel(subData.plan)}{subData.autoRenew && ' · renewing'}</strong>
+          <span>{days <= 0 ? 'Expired' : `${days} day${days === 1 ? '' : 's'} left`}</span>
+        </div>
+        <p>{subData.autoRenew ? 'Renews' : 'Ends'} {on}</p>
+        {/* Extending a running mandate would stack one-time days onto a
+            subscription that already renews on its own, so it is offered
+            only to one-time plans. */}
+        {!subData.autoRenew && (
+          <button className="ds-btn ds-btn-line ds-btn-sm ds-btn-block" onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); setOpen(false); }}>
+            Extend plan
+          </button>
+        )}
+        {subData.autoRenew && (
+          <>
+            <button className="ds-btn ds-btn-line ds-btn-sm ds-btn-block" onClick={handleCancelAutopay} disabled={cancelling}>
+              {cancelling ? 'Cancelling…' : 'Cancel renewal'}
+            </button>
+            <p className="nb-fine">Stops future charges. You keep access until {on}.</p>
+          </>
+        )}
+      </div>
+    );
+  })() : (
+    <div className="nb-plan-block">
+      <div className="nb-plan-line"><strong>Free plan</strong><span>{FEATURES.find(f => f.name === 'Answer evaluation')?.free.replace(' total', '')} answer check, {FEATURES.find(f => f.name === 'AI Chat')?.free.replace(' total', '')} chats</span></div>
+      <button className="ds-btn ds-btn-solid ds-btn-sm ds-btn-block" onClick={() => { setShowPremiumModal(true); setUserMenuOpen(false); setOpen(false); }}>
+        Go Premium
+      </button>
+    </div>
+  );
+
   return (
     <>
-      <nav style={{ position: 'fixed', top: '0', left: 0, right: 0, zIndex: 1100, background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(0,0,0,0.06)', }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 67 - 7 * scrollProgress }}>
-
-          {/* Logo */}
-          <Link href="/" aria-label="History Optional, home" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, overflow: 'hidden' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em', display: 'inline-flex', alignItems: 'center' }}>
-              {/* "H" always visible */}
-              <span>H</span>
-              {/* "istory " collapses on scroll */}
-              <span className="nav-logo-word" style={{ display: 'inline-block', maxWidth: `${6 * (1 - scrollProgress)}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>istory</span>
-              {/* space between words, hidden when scrolled */}
-              <span className="nav-logo-word" style={{ display: 'inline-block', maxWidth: `${0.35 * (1 - scrollProgress)}em`, overflow: 'hidden' }}>&nbsp;</span>
-              {/* "Optional" collapses on scroll, accent coloured */}
-              <span className="nav-logo-word" style={{ color: 'var(--accent)', display: 'inline-block', maxWidth: `${8 * (1 - scrollProgress)}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>Optional</span>
-              {/* "." appears on scroll */}
-              <span className="nav-logo-dot" style={{ display: 'inline-block', maxWidth: `${scrollProgress}em`, overflow: 'hidden', whiteSpace: 'nowrap', verticalAlign: 'bottom' }}>.</span>
-            </span>
+      <style dangerouslySetInnerHTML={{ __html: NAV_CSS }} />
+      <nav className="nb ds" aria-label="Main">
+        <div className="nb-inner">
+          <Link href="/" className="nb-brand" aria-label="History Optional, home">
+            <Image src="/mascot/owl.svg" alt="" width={30} height={28} priority />
+            <span>History Optional</span>
           </Link>
 
-          {/* Desktop nav */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', position: 'relative', left: `${scrollProgress * 50}%`, transform: `translateX(-${scrollProgress * 50}%)` }} className="desktop-nav">
-
-            {/* Notes dropdown */}
-            <div ref={notesRef} style={{ position: 'relative' }}>
-              <button onClick={() => setNotesMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography') || pathname.startsWith('/current-affairs')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }} onMouseLeave={e => { const isActive = pathname.startsWith('/paper') || pathname.startsWith('/timeline') || pathname.startsWith('/historiography') || pathname.startsWith('/current-affairs'); (e.currentTarget as HTMLElement).style.color = isActive ? 'var(--accent)' : 'var(--text2)'; }}>
-                {tr(t.notes, langHi)}
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
-                  <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-              {notesMenuOpen && (
-                <div style={{ position: 'absolute', top: '100%', left: 0, background: 'var(--bg3)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 150, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
-                  {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/#daily-answer', label: langHi ? 'दैनिक उत्तर लेखन' : 'Daily Answer Writing' }, { href: '/current-affairs', label: langHi ? 'समसामयिकी' : 'Current Affairs' }].map(item => (
-                    <Link key={item.href} href={item.href} onClick={() => setNotesMenuOpen(false)}
-                      style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)', background: pathname.startsWith(item.href) ? 'var(--accent-dim)' : 'transparent', transition: 'all 0.12s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; (e.currentTarget as HTMLElement).style.background = 'color-mix(in srgb, var(--accent) 6%, transparent)'; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname.startsWith(item.href) ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = pathname.startsWith(item.href) ? 'color-mix(in srgb, var(--accent) 8%, transparent)' : 'transparent'; }}
-                    >{item.label}</Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* PYQs dropdown */}
-            <div ref={pyqsRef} style={{ position: 'relative' }}>
-              <button onClick={() => setPyqsMenuOpen(o => !o)} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, border: 'none', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', cursor: 'pointer', color: (pathname.startsWith('/pyqs') || pathname.startsWith('/topper-copies') || pathname.startsWith('/test')) ? 'var(--accent)' : 'var(--text2)', background: 'transparent', display: 'flex', alignItems: 'center', gap: '0.25rem', transition: 'color 0.15s' }} onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }} onMouseLeave={e => { const isActive = pathname.startsWith('/pyqs') || pathname.startsWith('/topper-copies') || pathname.startsWith('/test'); (e.currentTarget as HTMLElement).style.color = isActive ? 'var(--accent)' : 'var(--text2)'; }}>
-                PYQs
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity: 0.5, marginTop: 1 }}>
-                  <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-              {pyqsMenuOpen && (
-                <div style={{ position: 'absolute', top: '100%', left: 0, background: 'var(--bg3)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: '6px 0.3rem 0.3rem', minWidth: 140, zIndex: 1000, boxShadow: '0 12px 32px rgba(0,0,0,0.6)' }}>
-                  {[{ href: '/pyqs', label: langHi ? 'PYQs देखें' : 'Browse PYQs' }, { href: '/topper-copies', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test Series' }].map(item => {
-                    const isActive = item.href === '/topper-copies' ? pathname.startsWith(item.href) : pathname === item.href;
-                    return (
-                    <Link key={item.href} href={item.href} onClick={() => setPyqsMenuOpen(false)}
-                      style={{ display: 'block', padding: '0.45rem 0.7rem', borderRadius: 5, fontSize: '0.82rem', textDecoration: 'none', color: isActive ? 'var(--accent)' : 'var(--text2)', background: isActive ? 'var(--accent-dim)' : 'transparent', transition: 'all 0.12s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; (e.currentTarget as HTMLElement).style.background = 'color-mix(in srgb, var(--accent) 6%, transparent)'; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = isActive ? 'var(--accent)' : 'var(--text2)'; (e.currentTarget as HTMLElement).style.background = isActive ? 'color-mix(in srgb, var(--accent) 8%, transparent)' : 'transparent'; }}
-                    >{item.label}</Link>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
-            {/* Flat links */}
-            {[{ href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/pricing', label: langHi ? 'मूल्य' : 'Pricing' }].map(l => {
-              const active = pathname.startsWith(l.href);
-              return (
-                <Link key={l.href} href={l.href} style={{ padding: '0.35rem 0.6rem', borderRadius: 5, fontSize: '0.82rem', fontFamily: 'var(--font-ui)', textDecoration: 'none', color: active ? 'var(--accent)' : 'var(--text2)', background: 'transparent', transition: 'color 0.15s', whiteSpace: 'nowrap' }}
-                  onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
-                  onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.color = 'var(--text2)'; }}
-                >{l.label}</Link>
-              );
-            })}
-
-            <div style={{ width: 1, height: 18, background: 'rgba(0,0,0,0.08)', margin: '0 0.25rem' }} />
-
-            {/* Dashboard */}
-            <Link href="/dashboard" title="Progress Dashboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: 6, textDecoration: 'none', color: pathname.startsWith('/dashboard') ? 'var(--accent)' : 'color-mix(in srgb, var(--text) 35%, transparent)', transition: 'color 0.15s' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = pathname.startsWith('/dashboard') ? 'var(--accent)' : 'var(--text3)'; }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
-                <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
-              </svg>
-            </Link>
-
-            <SearchModal />
-
-            {/* Bell */}
-            <div ref={bellRef} style={{ position: 'relative' }}>
-              <button onClick={() => {
-                setBellOpen(o => !o);
-                if (!bellOpen) {
-                  const allIds = notifications.map(n => n.id);
-                  setSeenIds(allIds);
-                  localStorage.setItem('ho_seen_notifications', JSON.stringify(allIds));
-                }
-              }} style={{ display:'flex', alignItems:'center', justifyContent:'center', width:30, height:30, borderRadius:6, background:'none', border:'none', cursor:'pointer', color:'color-mix(in srgb, var(--text) 35%, transparent)', position:'relative', transition:'color 0.15s' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'color-mix(in srgb, var(--text) 35%, transparent)'; }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                </svg>
-                {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                  <span style={{ position:'absolute', top:-4, right:-4, minWidth:16, height:16, borderRadius:8, background:'var(--danger-text)', border:'1.5px solid var(--bg)', fontSize:'0.6rem', fontWeight:700, color: 'var(--on-fill)', display:'flex', alignItems:'center', justifyContent:'center', padding:'0 4px', fontFamily:'var(--font-mono)' }}>
-                    {notifications.filter(n => !seenIds.includes(n.id)).length > 9 ? '9+' : notifications.filter(n => !seenIds.includes(n.id)).length}
-                  </span>
-                )}
-              </button>
-              {bellOpen && (
-                <div style={{ position:'absolute', top:'calc(100% + 14px)', right:-8, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid color-mix(in srgb, var(--accent) 25%, transparent)', borderRadius:18, minWidth:320, maxWidth:360, zIndex:1000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.9), 0 0 80px color-mix(in srgb, var(--accent) 12%, transparent), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
-                  <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(0,0,0,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'var(--accent-dim)' }}>
-                    <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                      <div style={{ width:6, height:6, borderRadius:'50%', background:'var(--accent)', boxShadow:'0 0 10px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent)' }} />
-                      <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'var(--accent-text)', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
-                    </div>
-                    {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                      <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', color:'var(--text)', letterSpacing:'0.08em', background:'var(--danger-wash)', border:'1px solid color-mix(in srgb, var(--danger-text) 35%, transparent)', borderRadius:20, padding:'2px 8px', fontWeight:600 }}>
-                        {notifications.filter(n => !seenIds.includes(n.id)).length} NEW
-                      </span>
-                    )}
-                  </div>
-                  {notifications.length === 0 ? (
-                    <div style={{ padding:'32px 18px', fontSize:'0.82rem', color:'var(--text-faint)', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>— no notifications —</div>
-                  ) : (
-                    <div style={{ maxHeight:400, overflowY:'auto' }}>
-                      {notifications.map(n => {
-                        const seen = seenIds.includes(n.id);
-                        return (
-                          <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }}
-                            style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(0,0,0,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'var(--accent-dim)', position:'relative', transition:'background 0.15s' }}
-                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.06)'; }}
-                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = seen ? 'transparent' : 'color-mix(in srgb, var(--accent) 6%, transparent)'; }}>
-                            {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'var(--accent)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px color-mix(in srgb, var(--accent) 40%, transparent)' }} />}
-                            <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
-                              <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(0,0,0,0.04)' : 'linear-gradient(135deg,color-mix(in srgb, var(--accent) 20%, transparent),color-mix(in srgb, var(--accent) 15%, transparent))', border: seen ? '1px solid rgba(0,0,0,0.07)' : '1px solid color-mix(in srgb, var(--accent) 30%, transparent)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px color-mix(in srgb, var(--accent) 15%, transparent)' }}>
-                                {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
-                              </div>
-                              <div style={{ flex:1, minWidth:0 }}>
-                                <div style={{ fontSize:'0.85rem', color: seen ? 'var(--text3)' : 'var(--text)', lineHeight:1.5, fontWeight: seen ? 400 : 500, letterSpacing:'-0.01em' }}>{n.title}</div>
-                                <div style={{ fontSize:'0.65rem', color: seen ? 'var(--text-faint)' : 'var(--accent)', marginTop:4, fontFamily:'var(--font-mono)', letterSpacing:'0.05em', fontWeight:500 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
-                              </div>
-                            </div>
-                          </a>
-                        );
-                      })}
-                    </div>
-                  )}
-                  <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'var(--black-900)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
-                    <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
-                    <div style={{ fontSize:'0.52rem', color:'var(--white-50)', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
-                    <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
-                  </div>
-                </div>
-              )}
-            </div>
-
-          {/* Global Lang Toggle */}
-          <button
-            onClick={toggleLang}
-            title={langHi ? 'Switch to English' : 'Switch to Hindi'}
-            className="hide-md"
-            style={{
-              display: 'flex', alignItems: 'center', gap: 0,
-              background: 'var(--bg2)',
-              border: '1px solid var(--border)',
-              borderRadius: 6, overflow: 'hidden',
-              cursor: 'pointer', padding: 0,
-              fontSize: '0.7rem', fontWeight: 700,
-              boxShadow: langHi ? '0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent)' : 'none',
-              transition: 'box-shadow 0.15s',
-              marginRight: '0.1rem',
-            }}
-          >
-            <span style={{
-              padding: '0.28rem 0.6rem',
-              background: !langHi ? 'var(--accent-dim)' : 'transparent',
-              color: !langHi ? 'var(--accent-text)' : 'var(--text3)',
-              borderRight: '1px solid var(--border)',
-              transition: 'all 0.15s',
-              letterSpacing: '0.04em',
-            }}>EN</span>
-            <span style={{
-              padding: '0.28rem 0.6rem',
-              background: langHi ? 'var(--accent-dim)' : 'transparent',
-              color: langHi ? 'var(--accent-text)' : 'var(--text3)',
-              transition: 'all 0.15s',
-              letterSpacing: '0.04em',
-            }}>हि</span>
-          </button>
-          <span className="hide-md"><ThemeCustomizer /></span>
-
-            {/* Auth / Premium */}
-            {user ? (
-              <div style={{ position: "relative", marginLeft: "0.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                {!subData && (
-                  <button onClick={() => setShowPremiumModal(true)}
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.06em', padding: '4px 10px', borderRadius: 20, background: 'var(--premium-text)', color: 'var(--bg)', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-                    ✦ Upgrade
-                  </button>
-                )}
-                <button onClick={() => setUserMenuOpen(o => !o)} title={user.email ?? undefined}
-                  style={{ width: 45, height: 45, borderRadius: 0, background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, overflow: 'visible', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'none' }}>
-                  <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={34} />
-                </button>
-                {userMenuOpen && (
-                  <div className="user-account-dropdown" style={{ position: 'absolute', top: 'calc(100% + 10px)', right: 0, width: 296, borderRadius: 14, padding: 0, zIndex: 1000, overflow: 'hidden', background: 'var(--bg-raised)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--elev-2)' }}>
-                    {/* Header — avatar + email + edit toggle */}
-                    <div style={{ padding: '0.95rem 1rem 0.85rem', borderBottom: '1px solid var(--border-subtle)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={44} />
-                        <div style={{ minWidth: 0, flex: 1 }}>
-                          <div style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}>
-                            {aspirantName || 'UPSC Aspirant'}
-                          </div>
-                          <div style={{ fontSize: '0.65rem', color: 'var(--text3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{user.email}</div>
-                        </div>
-                        <button onClick={() => setProfileEdit(e => !e)}
-                          style={{ flexShrink: 0, background: profileEdit ? 'var(--text)' : 'transparent', border: `1px solid ${profileEdit ? 'var(--text)' : 'var(--border)'}`, borderRadius: 6, width: 26, height: 26, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.15s', color: profileEdit ? 'var(--bg)' : 'var(--text3)' }}>
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Aspirant profile fields */}
-                    {profileEdit ? (
-                      <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-                        <div style={{ fontSize: '0.58rem', color: 'var(--text)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>Your Profile</div>
-                        {[
-                          { label: 'Full Name', val: aspirantName, set: setAspirantName, placeholder: 'e.g. Rahul Sharma', key: 'name' },
-                          { label: 'Age', val: aspirantAge, set: setAspirantAge, placeholder: 'e.g. 24', key: 'age' },
-                          { label: 'Attempt No.', val: aspirantAttempt, set: setAspirantAttempt, placeholder: 'e.g. 1st', key: 'attempt' },
-                          { label: 'Target Year', val: aspirantYear, set: setAspirantYear, placeholder: 'e.g. 2026', key: 'year' },
-                        ].map(({ label, val, set, placeholder, key }) => (
-                          <div key={key} style={{ marginBottom: 8 }}>
-                            <div style={{ fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.06em', marginBottom: 3 }}>{label}</div>
-                            <input
-                              value={val}
-                              onChange={e => {
-                                set(e.target.value);
-                                const cur = { name: aspirantName, age: aspirantAge, attempt: aspirantAttempt, year: aspirantYear, [key]: e.target.value };
-                                localStorage.setItem('ho_aspirant_profile', JSON.stringify(cur));
-                              }}
-                              placeholder={placeholder}
-                              style={{ width: '100%', background: 'rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 7, padding: '0.35rem 0.6rem', fontSize: '0.73rem', color: 'var(--text)', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font-ui)', transition: 'border-color 0.15s' }}
-                              onFocus={e => (e.target.style.borderColor = 'var(--border)')}
-                              onBlur={e => (e.target.style.borderColor = 'rgba(0,0,0,0.08)')}
-                            />
-                          </div>
-                        ))}
-                        <button onClick={() => setProfileEdit(false)}
-                          style={{ width: '100%', marginTop: 4, background: 'var(--text)', border: 'none', borderRadius: 7, padding: '0.4rem', fontSize: '0.72rem', color: 'var(--bg)', fontWeight: 700, cursor: 'pointer', letterSpacing: '0.03em' }}>
-                          Save Profile
-                        </button>
-                      </div>
-                    ) : (
-                      <div>
-                      <div style={{ padding: '0.85rem 1rem', borderBottom: '1px solid var(--border-subtle)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 12px' }}>
-                        {/* Emoji removed: one of them had decayed to two
-                            replacement characters, and small pictograms next
-                            to two-word labels were noise either way. */}
-                        {[
-                          { label: 'Age', val: aspirantAge },
-                          { label: 'Attempt', val: aspirantAttempt },
-                          { label: 'Target', val: aspirantYear },
-                          { label: 'Plan', val: subData ? planLabel(subData.plan) : 'Free' },
-                        ].map(({ label, val }) => (
-                          <div key={label}>
-                            <div style={{ fontSize: '0.55rem', color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>{label}</div>
-                            <div style={{ fontSize: '0.8rem', color: val ? 'var(--text)' : 'var(--text-faint)', fontWeight: 500 }}>{val || '—'}</div>
-                          </div>
-                        ))}
-                      </div>
-                      {(() => {
-                        // One renderer for both years. The colour coding was
-                        // three shades of urgency; on a black card the number
-                        // itself carries that, and a single rule keeps the two
-                        // blocks from drifting apart as they had.
-                        const target = aspirantYear.trim();
-                        const exam = target === '2026'
-                          ? { label: 'Mains 2026', when: '21 Aug 2026', days: daysToMains() }
-                          : target === '2027'
-                            ? { label: 'Prelims 2027', when: '23 May 2027',
-                                days: Math.max(0, Math.ceil((new Date('2027-05-23T00:00:00').getTime() - Date.now()) / 86400000)) }
-                            : null;
-                        if (!exam) return null;
-                        return (
-                          <div style={{ margin: '0.9rem 1rem', padding: '0.7rem 0.85rem', border: '1px solid var(--border-subtle)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
-                            <div>
-                              <div style={{ fontSize: '0.55rem', color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>{exam.label}</div>
-                              <div style={{ fontSize: '0.68rem', color: 'var(--text)' }}>{exam.when}</div>
-                            </div>
-                            <div style={{ textAlign: 'right' }}>
-                              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.03em', color: 'var(--text)' }}>{exam.days}</div>
-                              <div style={{ fontSize: '0.5rem', color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 2 }}>days left</div>
-                            </div>
-                          </div>
-                        );
-                      })()}
-                    </div>
-                    )}
-
-                    {/* Plan section */}
-                    <div style={{ padding: '0 1rem 0.9rem' }}>
-                      {subData ? (() => {
-                        const days = Math.ceil((new Date(subData.expires_at).getTime() - Date.now()) / 86400000);
-                        const on = new Date(subData.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-                        return (
-                          <>
-                            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
-                              <span style={{ fontSize: '0.55rem', color: 'var(--text)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                                {planLabel(subData.plan)}
-                                {subData.autoRenew && ' · renewing'}
-                              </span>
-                              <span style={{ fontSize: '0.66rem', color: days <= 3 ? 'var(--text)' : 'var(--text)', fontFamily: 'var(--font-mono)' }}>
-                                {days <= 0 ? 'Expired' : `${days}d left`}
-                              </span>
-                            </div>
-                            <div style={{ fontSize: '0.66rem', color: 'var(--text)', marginBottom: 10 }}>
-                              {subData.autoRenew ? 'Renews' : 'Expires'} {on}
-                            </div>
-
-                            {/* Extending a running mandate would stack one-time
-                                days onto a subscription that already renews on
-                                its own, so it is offered only to one-time plans. */}
-                            {!subData.autoRenew && (
-                              <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
-                                style={{ width: '100%', background: 'var(--text)', border: 'none', color: 'var(--bg)', cursor: 'pointer', padding: '0.5rem', borderRadius: 7, fontSize: '0.74rem', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 10 }}>
-                                Extend plan
-                              </button>
-                            )}
-
-                            {subData.autoRenew && (
-                              <>
-                                <button onClick={handleCancelAutopay} disabled={cancelling}
-                                  style={{ width: '100%', background: 'transparent', border: '1px solid var(--border)', color: 'var(--text)', cursor: cancelling ? 'wait' : 'pointer', padding: '0.5rem', borderRadius: 7, fontSize: '0.74rem', fontWeight: 600 }}>
-                                  {cancelling ? 'Cancelling…' : 'Cancel renewal'}
-                                </button>
-                                <div style={{ fontSize: '0.58rem', color: 'var(--text)', marginTop: 6, lineHeight: 1.5 }}>
-                                  Stops future charges. Access stays until {on}.
-                                </div>
-                              </>
-                            )}
-                          </>
-                        );
-                      })() : (
-                        <button onClick={() => { setShowExtendModal(true); setUserMenuOpen(false); }}
-                          style={{ width: '100%', background: 'var(--text)', border: 'none', color: 'var(--bg)', cursor: 'pointer', padding: '0.55rem', borderRadius: 7, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.02em' }}>
-                          Get Premium
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Sign out */}
-                    <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
-                      <button onClick={handleSignOut}
-                        style={{ width: '100%', background: 'transparent', border: 'none', color: 'var(--text)', cursor: 'pointer', padding: '0.7rem', fontSize: '0.74rem', fontWeight: 500, transition: 'color 0.15s, background 0.15s' }}
-                        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--text)'; el.style.background = 'var(--bg3)'; }}
-                        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = 'var(--text)'; el.style.background = 'transparent'; }}>
-                        Sign out
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div style={{ position: 'relative', marginLeft: '0.25rem', display: 'inline-flex' }}>
-                <button onClick={() => setShowPremiumModal(true)} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'var(--premium-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 50%, transparent)', color: 'var(--premium-text)', cursor: 'pointer', padding: '0.3rem 0.65rem', borderRadius: 6, fontSize: '0.76rem', fontWeight: 700, letterSpacing: '0.03em', whiteSpace: 'nowrap', transition: 'all 0.15s', position: 'relative', zIndex: 1 }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'color-mix(in srgb, var(--premium-text) 18%, transparent)'; el.style.borderColor = 'var(--premium-text)'; el.style.color = 'var(--premium-text)'; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'var(--premium-wash)'; el.style.borderColor = 'color-mix(in srgb, var(--premium-text) 50%, transparent)'; el.style.color = 'var(--premium-text)'; }}>
-                  ✦ Premium
-                </button>
-
-              </div>
-            )}
+          <div className="nb-links">
+            <NavMenu label={tr(t.notes, langHi)} items={notesItems} active={notesActive} pathname={pathname}
+              open={notesMenuOpen} onToggle={() => { setNotesMenuOpen(o => !o); setPyqsMenuOpen(false); }} onClose={() => setNotesMenuOpen(false)} menuRef={notesRef} />
+            <NavMenu label="PYQs" items={pyqItems} active={pyqsActive} pathname={pathname}
+              open={pyqsMenuOpen} onToggle={() => { setPyqsMenuOpen(o => !o); setNotesMenuOpen(false); }} onClose={() => setPyqsMenuOpen(false)} menuRef={pyqsRef} />
+            {flatLinks.map(l => (
+              <Link key={l.href} href={l.href} className={`nb-link${l.accent ? ' accent' : ''}${isActive(l.href) ? ' on' : ''}`} aria-current={isActive(l.href) ? 'page' : undefined}>
+                {l.accent && Icon.chat}{l.label}
+              </Link>
+            ))}
           </div>
 
-          {/* Extend Plan Modal */}
+          <div className="nb-right">
+            <span className="nb-search-wrap"><SearchModal label={langHi ? 'नोट्स, PYQs, इतिहासकार खोजें' : undefined} /></span>
+            <span className="nb-wide">{langToggle}</span>
+            <button className="nb-icon nb-wide" onClick={toggleTheme} aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'} title={isDark ? 'Light mode' : 'Dark mode'}>
+              {isDark ? Icon.sun : Icon.moon}
+            </button>
+
+            {user ? (
+              <>
+                {!subData && (
+                  <button className="ds-btn ds-btn-premium ds-btn-sm nb-upgrade" onClick={() => setShowPremiumModal(true)}>Upgrade</button>
+                )}
+                {subData && <span className="nb-pro" title="Your Premium plan is active">{Icon.check}Premium</span>}
+                <div ref={accountRef} className="nb-account nb-wide">
+                  <button className="nb-avatar" onClick={() => setUserMenuOpen(o => !o)} aria-label="Your account" aria-expanded={userMenuOpen} aria-haspopup="menu" title={user.email ?? undefined}>
+                    <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={34} />
+                  </button>
+                  {userMenuOpen && (
+                    <div className="nb-menu" role="menu">
+                      <div className="nb-menu-head">
+                        <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={40} />
+                        <div className="nb-menu-who">
+                          <strong>{aspirantName || 'Your account'}</strong>
+                          <span>{user.email}</span>
+                        </div>
+                      </div>
+                      {planBlock}
+                      {exam && (
+                        <div className="nb-exam">
+                          <span><strong>{exam.label}</strong> · {exam.when}</span>
+                          <span className="nb-exam-days"><strong>{exam.days}</strong> days</span>
+                        </div>
+                      )}
+                      <div className="nb-menu-links">
+                        <Link href="/dashboard" className="nb-menu-item" role="menuitem">{Icon.dash}Dashboard</Link>
+                        <button className="nb-menu-item" role="menuitem" onClick={() => { setProfileOpen(true); setUserMenuOpen(false); }}>{Icon.edit}Your profile</button>
+                        <Link href="/pricing" className="nb-menu-item" role="menuitem">{Icon.plans}Plans</Link>
+                        <button className="nb-menu-item danger" role="menuitem" onClick={handleSignOut}>{Icon.out}Sign out</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <button className="ds-btn ds-btn-premium ds-btn-sm nb-upgrade" onClick={() => setShowPremiumModal(true)}>Premium</button>
+            )}
+
+            <button className={`nb-icon nb-burger${open ? ' open' : ''}`} onClick={() => setOpen(o => !o)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
+              <span /><span /><span />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div className={`nb-sheet ds${open ? ' open' : ''}`} aria-hidden={!open}>
+        <button className="nb-sheet-search" onClick={() => { setOpen(false); window.dispatchEvent(new Event('open-search')); }}>
+          {Icon.search}{langHi ? 'नोट्स, PYQs, इतिहासकार खोजें' : 'Search notes, PYQs and historians'}
+        </button>
+
+        {([
+          { title: tr(t.notes, langHi), items: notesItems },
+          { title: 'PYQs', items: pyqItems },
+          { title: langHi ? 'टूल्स' : 'Tools', items: [...flatLinks, { href: '/dashboard', label: tr(t.dashboard, langHi) }, { href: '/pricing', label: langHi ? 'प्लान' : 'Plans' }] },
+        ] as { title: string; items: (MenuItem & { accent?: boolean })[] }[]).map(group => (
+          <div key={group.title} className="nb-sheet-group">
+            <div className="nb-sheet-title">{group.title}</div>
+            <div className="nb-sheet-grid">
+              {group.items.map(l => (
+                <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
+                  className={`nb-sheet-link${l.href.split('#')[0] !== '/' && isActive(l.href) ? ' on' : ''}${l.accent ? ' accent' : ''}`}>
+                  {l.accent && Icon.chat}{l.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div className="nb-sheet-foot">
+          {user && (
+            <div className="nb-sheet-user">
+              <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={38} />
+              <div>
+                <strong>{aspirantName || 'UPSC aspirant'}</strong>
+                <span>{user.email}</span>
+              </div>
+            </div>
+          )}
+          {user && planBlock}
+          <div className="nb-sheet-actions">
+            {langToggle}
+            <button className="ds-btn ds-btn-line ds-btn-sm" onClick={toggleTheme}>{isDark ? Icon.sun : Icon.moon}{isDark ? 'Light' : 'Dark'}</button>
+            {user && <button className="ds-btn ds-btn-line ds-btn-sm" onClick={() => { setProfileOpen(true); setOpen(false); }}>{Icon.edit}Profile</button>}
+            {user && <button className="ds-btn ds-btn-line ds-btn-sm nb-danger" onClick={handleSignOut}>{Icon.out}Sign out</button>}
+          </div>
+        </div>
+      </div>
+
+      {profileOpen && user && (
+        <div className="ds ds-overlay" onClick={() => setProfileOpen(false)}>
+          <div className="ds-modal nb-profile" role="dialog" aria-modal="true" aria-labelledby="nb-profile-title" onClick={e => e.stopPropagation()}>
+            <div className="ds-modal-head">
+              <div>
+                <h2 id="nb-profile-title">Your profile</h2>
+                <p>Kept on this device. Your target year sets the exam countdown.</p>
+              </div>
+              <button className="ds-x" onClick={() => setProfileOpen(false)} aria-label="Close">{Icon.close}</button>
+            </div>
+            <div className="nb-profile-fields">
+              {([
+                { label: 'Name', val: aspirantName, set: setAspirantName, placeholder: 'e.g. Rahul Sharma', key: 'name', mode: 'text' },
+                { label: 'Age', val: aspirantAge, set: setAspirantAge, placeholder: 'e.g. 24', key: 'age', mode: 'numeric' },
+                { label: 'Attempt', val: aspirantAttempt, set: setAspirantAttempt, placeholder: 'e.g. 1st', key: 'attempt', mode: 'text' },
+                { label: 'Target year', val: aspirantYear, set: setAspirantYear, placeholder: 'e.g. 2026', key: 'year', mode: 'numeric' },
+              ] as const).map(({ label, val, set, placeholder, key, mode }) => (
+                <label key={key} className={`ds-field${key === 'name' ? ' wide' : ''}`}>
+                  <span>{label}</span>
+                  <input className="ds-input" value={val} placeholder={placeholder} inputMode={mode}
+                    onChange={e => { set(e.target.value); saveProfileField(key, e.target.value); }} />
+                </label>
+              ))}
+            </div>
+            <button className="ds-btn ds-btn-solid ds-btn-block" onClick={() => setProfileOpen(false)}>Done</button>
+          </div>
+        </div>
+      )}
+
       {showExtendModal && user && (
         <ExtendModal
           user={{ id: user.uid, email: user.email ?? null }}
@@ -903,163 +722,6 @@ export default function Navbar() {
           onSuccess={(newExpiry, plan) => setSubData(prev => prev ? { ...prev, plan, expires_at: newExpiry } : { plan, expires_at: newExpiry })}
         />
       )}
-      {/* Mobile hamburger */}
-          <div style={{ display:'none', alignItems:'center', gap:'0.5rem' }} className="mobile-menu-btn">
-            {/* Mobile premium / upgrade / tag */}
-            {user ? (
-              subData ? (
-                <span style={{ display:'inline-flex', alignItems:'center', gap:3, fontSize:'0.6rem', fontFamily:'var(--font-mono)', fontWeight:700, letterSpacing:'0.06em', color:'var(--success-text)', background:'var(--success-wash)', border:'1px solid color-mix(in srgb, var(--success-text) 30%, transparent)', borderRadius:20, padding:'3px 8px', whiteSpace:'nowrap' }}>
-                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  Premium
-                </span>
-              ) : (
-                <button onClick={() => setShowPremiumModal(true)}
-                  style={{ fontFamily:'var(--font-mono)', fontSize:'0.68rem', fontWeight:700, letterSpacing:'0.06em', padding:'6px 10px', borderRadius:20, background:'var(--premium-text)', color:'var(--bg)', border:'none', cursor:'pointer', whiteSpace:'nowrap' }}>
-                  ✦ Upgrade
-                </button>
-              )
-            ) : (
-              <div style={{ position:'relative', display:'inline-flex' }}>
-                <button onClick={() => setShowPremiumModal(true)}
-                  style={{ fontFamily:'var(--font-mono)', fontSize:'0.68rem', fontWeight:700, letterSpacing:'0.06em', padding:'6px 10px', borderRadius:20, background:'var(--premium-wash)', border:'1px solid color-mix(in srgb, var(--warning-text) 50%, transparent)', color:'var(--premium-text)', cursor:'pointer', whiteSpace:'nowrap' }}>
-                  ✦ Premium
-                </button>
-
-              </div>
-            )}
-            {/* 40px targets around 18-20px icons: they were 26 and 28px, under
-                what a thumb can hit reliably, and had no accessible name. */}
-            <button onClick={() => { setBellOpen(o => !o); }} aria-label="Notifications" aria-expanded={bellOpen} style={{ background:'none', border:'none', color:'color-mix(in srgb, var(--text) 70%, transparent)', cursor:'pointer', width:40, height:40, padding:0, position:'relative', display:'flex', alignItems:'center', justifyContent:'center' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-              </svg>
-              {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                <span style={{ position:'absolute', top:8, right:8, width:7, height:7, borderRadius:'50%', background:'var(--danger-text)', border:'1.5px solid var(--bg)' }} />
-              )}
-            </button>
-            <button onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Menu'} aria-expanded={open} style={{ background: 'none', border: 'none', color: 'var(--text)', cursor: 'pointer', width: 40, height: 40, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {open
-                ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-              }
-            </button>
-          </div>
-        </div>
-        {/* Mobile bell dropdown */}
-        {bellOpen && createPortal(
-          <div ref={mobileBellRef} className="mobile-bell-dropdown" style={{ position:'fixed', top:78, right:12, left:12, bottom:16, background:'var(--bg2)', backdropFilter:'blur(32px)', WebkitBackdropFilter:'blur(32px)', border:'1px solid color-mix(in srgb, var(--accent) 25%, transparent)', borderRadius:18, zIndex:10000, boxShadow:'0 0 0 1px rgba(0,0,0,0.6), 0 24px 64px rgba(0,0,0,0.95), 0 0 80px color-mix(in srgb, var(--accent) 10%, transparent), inset 0 1px 0 rgba(0,0,0,0.05)', overflow:'hidden', display:'flex', flexDirection:'column', animation:'bellDrop 0.2s cubic-bezier(0.16,1,0.3,1)' }}>
-            <div style={{ padding:'14px 18px 12px', borderBottom:'1px solid rgba(0,0,0,0.06)', display:'flex', alignItems:'center', justifyContent:'space-between', background:'var(--accent-dim)' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                <div style={{ width:6, height:6, borderRadius:'50%', background:'var(--accent)', boxShadow:'0 0 10px var(--accent), 0 0 20px color-mix(in srgb, var(--accent) 40%, transparent)' }} />
-                <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', letterSpacing:'0.22em', color:'var(--accent-text)', textTransform:'uppercase', fontWeight:600 }}>Notifications</span>
-              </div>
-              {notifications.filter(n => !seenIds.includes(n.id)).length > 0 && (
-                <span style={{ fontSize:'0.6rem', fontFamily:'var(--font-mono)', color:'var(--text)', letterSpacing:'0.08em', background:'var(--danger-wash)', border:'1px solid color-mix(in srgb, var(--danger-text) 35%, transparent)', borderRadius:20, padding:'2px 8px', fontWeight:600 }}>
-                  {notifications.filter(n => !seenIds.includes(n.id)).length} NEW
-                </span>
-              )}
-            </div>
-            {notifications.length === 0 ? (
-              <div style={{ padding:'32px 18px', fontSize:'0.82rem', color:'var(--text-faint)', textAlign:'center', fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>— no notifications —</div>
-            ) : (
-              <div style={{ flex:1, overflowY:'auto' }}>
-                {notifications.map(n => {
-                  const seen = seenIds.includes(n.id);
-                  return (
-                    <a key={n.id} href={n.link} onClick={() => { markSeen(n.id); setBellOpen(false); }}
-                      style={{ display:'block', padding:'14px 18px', borderBottom:'1px solid rgba(0,0,0,0.04)', textDecoration:'none', background: seen ? 'transparent' : 'var(--accent-dim)', position:'relative' }}>
-                      {!seen && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'var(--accent)', borderRadius:'0 3px 3px 0', boxShadow:'2px 0 12px color-mix(in srgb, var(--accent) 40%, transparent)' }} />}
-                      <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
-                        <div style={{ width:34, height:34, borderRadius:10, background: seen ? 'rgba(0,0,0,0.04)' : 'linear-gradient(135deg,color-mix(in srgb, var(--accent) 20%, transparent),color-mix(in srgb, var(--accent) 15%, transparent))', border: seen ? '1px solid rgba(0,0,0,0.07)' : '1px solid color-mix(in srgb, var(--accent) 30%, transparent)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'0.9rem', boxShadow: seen ? 'none' : '0 0 12px color-mix(in srgb, var(--accent) 15%, transparent)' }}>
-                          {n.type === 'note' ? '📄' : n.type === 'current_affairs' ? '📰' : '📢'}
-                        </div>
-                        <div style={{ flex:1 }}>
-                          <div style={{ fontSize:'0.88rem', color: seen ? 'var(--text3)' : 'var(--text)', lineHeight:1.5, fontWeight: seen ? 400 : 500, letterSpacing:'-0.01em' }}>{n.title}</div>
-                          <div style={{ fontSize:'0.68rem', color: seen ? 'var(--text-faint)' : 'var(--accent)', marginTop:4, fontFamily:'var(--font-mono)', letterSpacing:'0.05em', fontWeight:500 }}>{new Date(n.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</div>
-                        </div>
-                      </div>
-                    </a>
-                  );
-                })}
-              </div>
-            )}
-            <div style={{ padding:'10px 18px', borderTop:'1px solid rgba(0,0,0,0.05)', background:'var(--black-900)', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
-              <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
-              <div style={{ fontSize:'0.52rem', color:'var(--white-50)', fontFamily:'var(--font-mono)', letterSpacing:'0.15em', textTransform:'uppercase' }}>History Optional</div>
-              <div style={{ width:4, height:4, borderRadius:'50%', background:'color-mix(in srgb, var(--accent) 40%, transparent)' }} />
-            </div>
-          </div>,
-          document.body
-        )}
-
-        {/* Mobile menu */}
-        {open && createPortal(
-          <div style={{ position:'fixed', top:60, left:0, right:0, bottom:0, borderTop: '1px solid rgba(0,0,0,0.06)', padding: '0.5rem 1rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.1rem', background: 'var(--bg2)', overflowY:'auto', zIndex:9999 }}>
-            {[{ href: '/paper1', label: langHi ? 'पेपर I' : 'Paper I' }, { href: '/paper2', label: langHi ? 'पेपर II' : 'Paper II' }, { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' }, { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' }, { href: '/resources', label: tr(t.resources, langHi) }, { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' }, { href: '/current-affairs', label: langHi ? 'समसामयिकी' : 'Current Affairs' }, { href: '/pyqs', label: langHi ? 'PYQs देखें' : 'PYQs' }, { href: '/topper-copies', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper Copies' }, { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test Series' }, { href: '/chat', label: tr(t.chat, langHi) }, { href: '/evaluate', label: tr(t.evaluate, langHi) }, { href: '/mapping', label: tr(t.mapping, langHi) }, { href: '/prelims', label: tr(t.prelims, langHi) }, { href: '/dashboard', label: tr(t.dashboard, langHi) }, { href: '/pricing', label: langHi ? 'मूल्य' : 'Pricing' }].map(l => (
-              <Link key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ padding: '0.6rem 0.5rem', borderRadius: 5, fontSize: '0.88rem', textDecoration: 'none', color: pathname.startsWith(l.href) ? 'var(--accent)' : 'var(--text2)' }}>{l.label}</Link>
-            ))}
-            <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-              <SearchModal />
-              {/* Mobile Lang Toggle */}
-              <button
-                onClick={toggleLang}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 0,
-                  background: 'var(--bg2)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 6, overflow: 'hidden',
-                  cursor: 'pointer', padding: 0,
-                  fontSize: '0.7rem', fontWeight: 700,
-                  boxShadow: langHi ? '0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent)' : 'none',
-                }}
-              >
-                <span style={{ padding: '0.3rem 0.6rem', background: !langHi ? 'var(--accent-dim)' : 'transparent', color: !langHi ? 'var(--accent-text)' : 'var(--text3)', borderRight: '1px solid var(--border)' }}>EN</span>
-                <span style={{ padding: '0.3rem 0.6rem', background: langHi ? 'var(--accent-dim)' : 'transparent', color: langHi ? 'var(--accent-text)' : 'var(--text3)' }}>हि</span>
-              </button>
-              <ThemeCustomizer />
-              {user && (
-                <button onClick={handleSignOut} style={{ background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)', color: 'var(--danger-text)', cursor: 'pointer', padding: '0.4rem 0.8rem', borderRadius: 6, fontSize: '0.76rem', transition: 'box-shadow 0.2s ease' }} onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 0 12px color-mix(in srgb, var(--danger-text) 45%, transparent), inset 0 0 8px color-mix(in srgb, var(--danger-text) 8%, transparent)')} onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}>Sign out</button>
-              )}
-            </div>
-          </div>,
-          document.body
-        )}
-
-        <style>{`
-          @keyframes bellDrop {
-            from { opacity: 0; transform: translateY(-8px) scale(0.97); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-          }
-          @media (max-width: 1024px) {
-            .hide-md { display: none !important; }
-          }
-          /* Phones show the mark alone, the H. the full name collapses to on
-             scroll, which leaves the header room for its controls. CSS rather
-             than state, so the server's HTML is already right on a phone. */
-          @media (max-width: 768px) {
-            .nav-logo-word { max-width: 0 !important; }
-            .nav-logo-dot { max-width: 1em !important; }
-          }
-          @media (max-width: 900px) {
-            .desktop-nav { display: none !important; }
-            .mobile-menu-btn { display: flex !important; }
-            .mobile-bell-dropdown { display: block !important; }
-          }
-          @media (max-width: 480px) {
-            .user-account-dropdown {
-              position: fixed !important;
-              top: 70px !important;
-              right: 12px !important;
-              left: 12px !important;
-              width: auto !important;
-            }
-          }
-          @media (min-width: 901px) {
-            .mobile-bell-dropdown { display: none !important; }
-          }
-        `}</style>
-      </nav>
 
       {showPremiumModal && (
         <PremiumModal
@@ -1072,3 +734,238 @@ export default function Navbar() {
     </>
   );
 }
+
+const NAV_CSS = `
+.nb {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1100; height: 60px;
+  display: flex; align-items: center; padding: 0 var(--space-5);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nb-inner { width: 100%; max-width: 1240px; margin: 0 auto; display: flex; align-items: center; gap: var(--space-3); }
+.nb-brand { display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none; color: var(--text); flex-shrink: 0; }
+.nb-brand span { font-weight: 800; font-size: 1.04rem; letter-spacing: -0.015em; white-space: nowrap; }
+.nb-links { display: flex; align-items: center; gap: 2px; margin-left: var(--space-3); }
+.nb-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 11px; border: none; border-radius: var(--radius-md); background: none;
+  color: var(--text2); text-decoration: none; font-size: 0.9rem; cursor: pointer; white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+}
+.nb-link svg { opacity: 0.7; }
+.nb-link:hover { color: var(--text); background: var(--ds-soft); }
+.nb-link.on { color: var(--text); font-weight: 700; }
+.nb-link.accent { color: var(--accent-text); background: var(--accent-dim); margin-left: var(--space-1); }
+.nb-link.accent svg { opacity: 1; }
+.nb-link.accent:hover { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.nb-link.accent.on { background: var(--accent); color: var(--accent-on); }
+.nb-drop { position: relative; }
+.nb-drop-menu {
+  position: absolute; top: calc(100% + 8px); left: 0; z-index: 200; min-width: 210px;
+  display: flex; flex-direction: column; padding: var(--space-2);
+  background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-xl); box-shadow: var(--elev-3);
+}
+.nb-drop-item { padding: 8px 10px; border-radius: var(--radius-md); color: var(--text); text-decoration: none; font-size: 0.9rem; }
+.nb-drop-item:hover { background: var(--ds-soft); }
+.nb-drop-item.on { color: var(--accent-text); background: var(--accent-dim); font-weight: 600; }
+.nb-right { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; }
+.nb-search-wrap { display: inline-flex; }
+.nb-search {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  height: 38px; padding: 0 6px 0 var(--space-3); width: clamp(190px, 20vw, 290px);
+  background: var(--ds-soft); color: var(--text3);
+  border: 1px solid var(--border2); border-radius: var(--radius-full);
+  font-family: var(--font-ui); font-size: 0.86rem; cursor: pointer; transition: border-color 0.15s, color 0.15s;
+}
+.nb-search:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); color: var(--text2); }
+.nb-search-text { flex: 1; min-width: 0; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nb-search kbd {
+  font-family: var(--font-ui); font-size: 0.7rem; color: var(--text3);
+  padding: 2px 7px; border: 1px solid var(--border2); border-radius: var(--radius-full); background: var(--ds-card);
+}
+.nb-icon {
+  width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  background: none; border: 1px solid transparent; border-radius: var(--radius-md); color: var(--text2); cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.nb-icon:hover { background: var(--ds-soft); color: var(--text); }
+.nb-lang {
+  display: inline-flex; align-items: center; height: 34px; padding: 3px; gap: 2px;
+  background: var(--ds-soft); border: 1px solid var(--border2); border-radius: var(--radius-full); cursor: pointer;
+}
+.nb-lang span { min-width: 30px; height: 26px; padding: 0 8px; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-full); font-family: var(--font-ui); font-size: 0.76rem; font-weight: 700; color: var(--text3); }
+.nb-lang span.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
+.nb-upgrade { flex-shrink: 0; }
+.nb-pro {
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; flex-shrink: 0;
+  border-radius: var(--radius-full); background: var(--success-wash); color: var(--success-text);
+  font-family: var(--font-ui); font-size: 0.76rem; font-weight: 700;
+}
+.nb-account { position: relative; }
+.nb-avatar { width: 38px; height: 38px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: var(--radius-circle); background: none; cursor: pointer; }
+.nb-avatar:focus-visible, .nb-icon:focus-visible, .nb-link:focus-visible, .nb-lang:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nb-avatar-disc {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden;
+  border-radius: var(--radius-circle); border: 1px solid var(--border2);
+  background: var(--accent-dim); color: var(--accent-text); font-family: var(--font-ui); font-weight: 700; line-height: 1; user-select: none;
+}
+.nb-avatar-disc img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nb-menu {
+  position: absolute; top: calc(100% + 10px); right: 0; z-index: 200; width: 300px;
+  background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-xl);
+  box-shadow: var(--elev-3); padding: var(--space-2);
+}
+.nb-menu-head { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-2) var(--space-3); border-bottom: 1px solid var(--border); }
+.nb-menu-who { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.nb-menu-who strong { font-size: 0.92rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nb-menu-who span { font-family: var(--font-ui); font-size: 0.78rem; color: var(--text3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nb-exam { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin: 0 var(--space-2) var(--space-2); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--ds-soft); font-family: var(--font-ui); font-size: 0.8rem; color: var(--text2); }
+.nb-exam strong { color: var(--text); }
+.nb-exam-days strong { font-size: 1rem; font-weight: 800; color: var(--accent-text); }
+.nb-profile { max-width: 440px; }
+.nb-profile-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3); margin-bottom: var(--space-5); }
+.nb-profile-fields .wide { grid-column: 1 / -1; }
+.nb-plan-block { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-2); border-top: 1px solid var(--border); }
+.nb-plan-line { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
+.nb-plan-line strong { font-size: 0.9rem; }
+.nb-plan-line span { font-family: var(--font-ui); font-size: 0.78rem; color: var(--text2); }
+.nb-plan-block p { margin: 0; font-family: var(--font-ui); font-size: 0.8rem; color: var(--text3); }
+.nb-plan-block .nb-fine { font-size: 0.76rem; }
+.nb-menu-links { display: flex; flex-direction: column; padding-top: var(--space-1); border-top: 1px solid var(--border); }
+.nb-menu-item {
+  width: 100%; display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-2); border: none; background: none; border-radius: var(--radius-md);
+  color: var(--text); font-size: 0.9rem; text-decoration: none; text-align: left; cursor: pointer;
+}
+.nb-menu-item svg { color: var(--text3); }
+.nb-menu-item:hover { background: var(--ds-soft); }
+.nb-menu-item.danger, .nb-menu-item.danger svg, .nb-danger { color: var(--danger-text); }
+.nb-burger { display: none; flex-direction: column; gap: 4px; }
+.nb-burger span { display: block; width: 18px; height: 1.6px; border-radius: 2px; background: var(--text); transition: transform 0.2s, opacity 0.15s; }
+.nb-burger.open span:nth-child(1) { transform: translateY(5.6px) rotate(45deg); }
+.nb-burger.open span:nth-child(2) { opacity: 0; }
+.nb-burger.open span:nth-child(3) { transform: translateY(-5.6px) rotate(-45deg); }
+
+.nb-sheet {
+  position: fixed; inset: 60px 0 0 0; z-index: 1099;
+  background: var(--bg); display: flex; flex-direction: column; gap: var(--space-5); overflow-y: auto;
+  padding: var(--space-4) var(--space-4) calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+  opacity: 0; visibility: hidden; transform: translateY(-6px); pointer-events: none;
+  transition: opacity 0.18s, transform 0.18s, visibility 0s linear 0.18s;
+}
+.nb-sheet.open { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition: opacity 0.18s, transform 0.18s; }
+/* Clear of the bottom tab bar, which stays over the sheet on phones. */
+@media (max-width: 768px) { .nb-sheet { padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px)); } }
+.nb-sheet-search {
+  display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: 46px; padding: 0 var(--space-4); flex-shrink: 0;
+  background: var(--ds-card); color: var(--text3); border: 1px solid var(--border2); border-radius: var(--radius-lg);
+  font-size: 0.95rem; text-align: left; cursor: pointer;
+}
+.nb-sheet-title { margin-bottom: var(--space-2); font-family: var(--font-ui); font-size: 0.8rem; font-weight: 600; color: var(--text3); }
+.nb-sheet-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2); }
+.nb-sheet-link {
+  display: flex; align-items: center; gap: var(--space-2); min-height: 46px; padding: 0 var(--space-3);
+  background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  color: var(--text); text-decoration: none; font-size: 0.95rem;
+}
+.nb-sheet-link.on { border-color: color-mix(in srgb, var(--accent) 50%, transparent); color: var(--accent-text); font-weight: 600; }
+.nb-sheet-link.accent { background: var(--accent-dim); border-color: transparent; color: var(--accent-text); font-weight: 600; }
+.nb-sheet-foot { margin-top: auto; display: flex; flex-direction: column; gap: var(--space-3); }
+.nb-sheet-foot .nb-plan-block { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--ds-card); padding: var(--space-3); }
+.nb-sheet-user { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--ds-card); }
+.nb-sheet-user div { display: flex; flex-direction: column; min-width: 0; }
+.nb-sheet-user strong { font-size: 0.95rem; }
+.nb-sheet-user span { font-family: var(--font-ui); font-size: 0.78rem; color: var(--text3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nb-sheet-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.nb-sheet-actions .ds-btn { flex: 1; }
+
+.nb-alert { margin-bottom: var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--danger-wash); color: var(--danger-text); font-size: 0.86rem; text-align: center; }
+.nb-up {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); width: 100%; max-width: 900px;
+  max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain;
+  background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-xl); box-shadow: var(--elev-3);
+}
+.nb-up-grab { display: none; }
+.nb-up-x { position: absolute; top: var(--space-3); right: var(--space-3); z-index: 2; }
+.nb-up-why { padding: var(--space-8) var(--space-6) var(--space-6); background: var(--ds-soft); border-right: 1px solid var(--border); }
+.nb-up-owl { display: block; margin-bottom: var(--space-3); }
+.nb-up-why h2 { margin: 0; font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em; }
+.nb-up-lede { margin: var(--space-2) 0 var(--space-5); font-size: 0.95rem; line-height: 1.6; color: var(--text2); }
+.nb-up-gains { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.nb-up-gains li { display: flex; gap: var(--space-3); }
+.nb-up-tick { flex-shrink: 0; width: 22px; height: 22px; margin-top: 1px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--success-wash); color: var(--success-text); }
+.nb-up-gains div { display: flex; flex-direction: column; gap: 1px; }
+.nb-up-gains strong { font-size: 0.92rem; }
+.nb-up-gains span { font-size: 0.84rem; line-height: 1.5; color: var(--text3); }
+.nb-up-more { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--space-5); font-size: 0.88rem; font-weight: 600; color: var(--accent-text); text-decoration: none; }
+.nb-up-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+.nb-up-buy { padding: var(--space-8) var(--space-6) var(--space-6); display: flex; flex-direction: column; }
+.nb-up-buy h3 { margin: 0 0 var(--space-4); font-size: 1.05rem; font-weight: 700; }
+.nb-up-signin { align-self: center; margin-top: var(--space-4); background: none; border: none; padding: 6px 0; color: var(--text2); font-size: 0.88rem; cursor: pointer; text-decoration: underline; text-decoration-color: var(--border3); text-underline-offset: 3px; }
+.nb-up-signin:hover { color: var(--accent-text); }
+/* On a phone the panel is a sheet from the bottom, the plans first and the
+   pay button held within reach of a thumb. */
+@media (max-width: 760px) {
+  .nb-up-overlay { align-items: flex-end; padding: 0; }
+  .nb-up {
+    display: flex; flex-direction: column; max-height: 92dvh; border-radius: var(--radius-xl) var(--radius-xl) 0 0; border-bottom: none;
+    animation: nb-up-rise 0.24s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nb-up-grab { display: block; position: sticky; top: 0; z-index: 3; width: 100%; height: 22px; flex-shrink: 0; background: var(--ds-soft); }
+  .nb-up-grab::after { content: ''; position: absolute; left: 50%; top: 8px; width: 40px; height: 4px; margin-left: -20px; border-radius: 4px; background: var(--border3); }
+  .nb-up-x { top: 8px; right: var(--space-2); }
+  .nb-up-why { padding: var(--space-2) var(--space-4) var(--space-4); border-right: none; border-bottom: 1px solid var(--border); }
+  .nb-up-owl { display: none; }
+  .nb-up-why h2 { font-size: 1.45rem; }
+  .nb-up-lede { margin: var(--space-1) 0 var(--space-3); font-size: 0.9rem; }
+  /* Titles only: the sheet keeps the plans within the first screen. */
+  .nb-up-gains { gap: var(--space-2); }
+  .nb-up-gains div span { display: none; }
+  .nb-up-gains strong { font-size: 0.9rem; font-weight: 600; }
+  .nb-up-tick { width: 20px; height: 20px; margin-top: 0; }
+  .nb-up-more { margin-top: var(--space-3); font-size: 0.86rem; }
+  .nb-up-buy { padding: var(--space-4) var(--space-4) 0; }
+  .nb-up-buy h3 { margin-bottom: var(--space-3); }
+  .nb-up-buy .sc-cta {
+    position: sticky; bottom: 0; z-index: 2; margin: 0 calc(-1 * var(--space-4));
+    padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+    background: var(--ds-card); border-top: 1px solid var(--border);
+  }
+  .nb-up-signin { margin: 0 0 var(--space-4); }
+}
+@keyframes nb-up-rise { from { transform: translateY(24px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .nb-up { animation: none; } }
+.nb-extend-overlay { z-index: 99999; }
+.nb-extend { max-width: 420px; }
+.nb-extend-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); border: 1px solid var(--border); font-size: 0.88rem; }
+.nb-extend-row span { color: var(--text2); }
+.nb-extend-row.good { background: var(--success-wash); border-color: transparent; }
+.nb-extend-row.good strong { color: var(--success-text); }
+.nb-plans { display: grid; gap: var(--space-2); margin-bottom: var(--space-4); }
+.nb-plan {
+  display: flex; flex-direction: column; align-items: center; gap: 4px; padding: var(--space-3) var(--space-2);
+  background: var(--ds-card); border: 1.5px solid var(--border2); border-radius: var(--radius-lg); cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.nb-plan span { font-family: var(--font-ui); font-size: 0.8rem; color: var(--text2); }
+.nb-plan strong { font-size: 1.05rem; color: var(--text); }
+.nb-plan:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.nb-plan.on { border-color: var(--accent); background: var(--accent-dim); }
+.nb-plan.on span { color: var(--accent-text); }
+
+@media (max-width: 1180px) {
+  .nb-search { width: 38px; padding: 0; justify-content: center; }
+  .nb-search-text, .nb-search kbd { display: none; }
+}
+@media (max-width: 1000px) {
+  .nb-links, .nb-wide, .nb-search-wrap { display: none; }
+  .nb-burger { display: inline-flex; }
+  .nb { padding: 0 var(--space-3); }
+}
+@media (max-width: 380px) {
+  .nb-brand span { display: none; }
+}
+@media (min-width: 1001px) { .nb-sheet { display: none; } }
+@media (prefers-reduced-motion: reduce) { .nb-sheet, .nb-burger span { transition: none; } }
+`;
