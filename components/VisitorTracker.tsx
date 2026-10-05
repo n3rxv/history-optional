@@ -153,7 +153,6 @@ export default function VisitorTracker() {
     if (!shouldTrack()) return;
     let interval: ReturnType<typeof setInterval> | undefined;
     let onVisibility: (() => void) | undefined;
-    let onUnload: (() => void) | undefined;
     let cancelled = false;
 
     (async () => {
@@ -169,14 +168,12 @@ export default function VisitorTracker() {
           }).catch(() => {});
         };
 
-        beat();
+        // No beat on mount: the pageview POST already sets last_active
+        // (record_visit). And none on beforeunload: closing a tab hides it
+        // first, so that listener only ever sent a second, duplicate beat.
         interval = setInterval(beat, HEARTBEAT_MS);
-        // Only on the way out or back — firing on every visibility change sent
-        // a request each time the reader switched tabs.
         onVisibility = () => { if (document.visibilityState === 'hidden') beat(); };
-        onUnload = beat;
         document.addEventListener('visibilitychange', onVisibility);
-        window.addEventListener('beforeunload', onUnload);
       } catch {
         // As above.
       }
@@ -186,7 +183,6 @@ export default function VisitorTracker() {
       cancelled = true;
       if (interval) clearInterval(interval);
       if (onVisibility) document.removeEventListener('visibilitychange', onVisibility);
-      if (onUnload) window.removeEventListener('beforeunload', onUnload);
     };
   }, []);
 

@@ -1,6 +1,7 @@
 'use client';
 import { useMemo, useState, useEffect, useRef } from 'react';
 import type { DailyQuestion } from '@/lib/dailyQuestions';
+import { istDay } from '@/lib/istDay';
 
 // Selection moved to lib/dailyQuestions and runs on the server. Doing it here
 // meant importing the whole 403KB question bank into every homepage visitor's
@@ -18,12 +19,30 @@ const sectionColors: Record<string, string> = {
   'World History':  'var(--green, var(--success-text))',
 };
 
-export default function DailyAnswerWriting({ questions }: { questions: DailyQuestion[] }) {
+/**
+ * `questions` is the set for `day`, the date the homepage was prerendered. On
+ * any later day the panel fetches that day's set instead; the page is static
+ * and no longer re-renders itself to roll over at midnight.
+ */
+export default function DailyAnswerWriting({ questions: built, day }: { questions: DailyQuestion[]; day: string }) {
+  const [questions, setQuestions] = useState(built);
+  useEffect(() => {
+    const today = istDay();
+    if (today === day) return;
+    let cancelled = false;
+    fetch(`/api/daily-questions?day=${today}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (!cancelled && Array.isArray(d?.questions)) setQuestions(d.questions); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [day]);
   const totalMins = useMemo(() => calcTotalMins(questions), [questions]);
   const totalSecs = totalMins * 60;
 
   const [started, setStarted] = useState(false);
   const [secsLeft, setSecsLeft] = useState(totalSecs);
+  // Today's set can arrive after the first render; the timer follows it.
+  useEffect(() => { if (!started) setSecsLeft(totalSecs); }, [totalSecs, started]);
   const [finished, setFinished] = useState(false);
   const iRef = useRef<ReturnType<typeof setInterval> | null>(null);
 

@@ -287,6 +287,9 @@ means a rename can mask a real regression in the same commit.
 
 ## 10. Payload CMS
 
+> Payload was removed on 2026-10-05; see section 16. This section and the ones
+> after it are the record of how it was set up.
+
 The hand-built panel did not look good enough to keep as the editing surface, so
 editorial content moves to **Payload CMS**. This section is the record of why and
 of how it is wired.
@@ -681,3 +684,33 @@ the kill switch is on.
 `/admin-legacy` can be deleted once you are satisfied with a week of reading
 from Payload. Keeping it a little longer costs nothing and is the whole reason
 the fallback exists.
+
+## 16. Payload removed (2026-10-05)
+
+The project went over the Hobby plan's Fluid Active CPU (4h50m of 4h) and ISR
+writes (201K of 200K). Payload was part of the CPU, and by then it gave readers
+nothing: its 51 notes were the migrated corpus, none edited since the migration
+on 2026-09-13, and the site never read its articles or announcements. So it is
+gone -- the `/cms` panel, `/cms-api`, `/api/cms/*`, `payload.config.ts`, the
+`migrations/` folder, `scripts/cms/`, and the `@payloadcms/*`, `payload`,
+`graphql` and Untitled UI packages.
+
+- **Editing** is back on `/admin-legacy`, which never stopped working: notes,
+  posts, analytics, evaluations, submissions, phones, notifications, topper
+  copies and settings.
+- **Note bodies** come from `note_overrides`, then the shipped corpus, as they
+  did before Payload. Saving a note in `/admin-legacy` revalidates its page.
+- **The data** is still in the `payload` schema of the database, untouched, and
+  was also exported to JSON on the day of removal (outside the repo). Dropping
+  the schema is a separate decision.
+
+The rest of the fix was ISR. Every page that revalidated on a timer
+re-rendered on nearly every visit, because no page is read more than about once
+an hour, and each render wrote its whole HTML and RSC payload to the ISR cache
+in 8 KB units: 25-30 per note, 60 for historiography, 5 per sample-evaluations
+response every five minutes. None of them revalidates on a timer now. The
+homepage fetches the day's answer-writing set from `/api/daily-questions`
+instead of re-rendering at midnight, sample evaluations are cached by the CDN,
+and the CSP allows Google Analytics 4's endpoints, whose blocked hits had made
+`/api/csp-report` about half of all function invocations.
+

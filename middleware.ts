@@ -68,24 +68,14 @@ export function middleware(req: NextRequest) {
     return new NextResponse('Access denied', { status: 403 });
   }
 
-  // Return 404 for every admin surface unless a valid cookie or secret key is
-  // present, so the panel is not even discoverable.
-  //
-  // The list is explicit because a prefix test is easy to get wrong: an earlier
-  // version tested pathname.startsWith('/admin/'), which silently stopped
-  // covering /admin-legacy the moment the previous panel was renamed to it.
-  //
-  // The key only ever appears on the first request. Payload's own client
-  // navigations and its /cms-api fetches carry no query string, so gating on
-  // ?key= alone 404'd the CMS's internal traffic and it could never log in.
-  // Passing the gate therefore drops a short-lived cookie that later requests
-  // present instead. Payload's own auth is what actually protects the data;
-  // this gate only keeps the panel from being discoverable.
+  // Return 404 for the admin panel unless a valid cookie or secret key is
+  // present, so it is not even discoverable. Passing the gate with ?key= drops
+  // a short-lived cookie that later requests present instead, so the panel's
+  // own client navigations and fetches, which carry no query string, still get
+  // through. The panel's own login is what actually protects the data; this
+  // gate only keeps it from being discoverable.
   const GATE_COOKIE = 'admin_gate';
-  // '/admin' is gone: everything it did now lives in /cms, either as a Payload
-  // collection or as a custom view. '/admin-legacy' stays until note content
-  // is migrated into Payload, because it is still the only working editor.
-  const GATED = ['/admin-legacy', '/cms', '/cms-api', '/api/cms'];
+  const GATED = ['/admin-legacy'];
   const isGated = GATED.some(p => pathname === p || pathname.startsWith(`${p}/`));
   if (isGated) {
     const adminToken = req.cookies.get('admin_token')?.value;

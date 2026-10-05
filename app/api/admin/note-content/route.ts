@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { isAdminAuthed } from '@/lib/admin-auth';
 import { createServerClient } from '@/lib/supabase';
 import { sanitizeNoteHtml } from '@/lib/sanitizeNoteHtml';
@@ -39,6 +40,7 @@ export async function POST(req: NextRequest) {
       { onConflict: 'slug' }
     );
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  refreshNotePage(slug);
   return NextResponse.json({ ok: true });
 }
 
@@ -50,5 +52,15 @@ export async function DELETE(req: NextRequest) {
   const db = createServerClient();
   const { error } = await db.from('note_overrides').delete().eq('slug', slug);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  refreshNotePage(slug);
   return NextResponse.json({ ok: true });
+}
+
+/**
+ * Note pages are prerendered and never revalidate on a timer, so search
+ * engines would keep the old body until the next deploy. Marking the path
+ * renders it once, on its next visit.
+ */
+function refreshNotePage(slug: unknown) {
+  if (typeof slug === 'string' && /^[a-z0-9-]{1,80}$/.test(slug)) revalidatePath(`/notes/${slug}`);
 }

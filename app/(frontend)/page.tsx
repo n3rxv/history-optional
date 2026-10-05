@@ -11,12 +11,12 @@ import { pyqs } from '@/lib/pyqData';
 import { allNotes } from '@/lib/notes';
 import { countPublished } from '@/lib/flashcardStore';
 import { getDailyQuestions } from '@/lib/dailyQuestions';
+import { istDay } from '@/lib/istDay';
 
-// The daily questions change at midnight IST, and this page is statically
-// generated — without a revalidate window they would be frozen at whatever the
-// build date was until the next deploy. Hourly keeps the rollover tight while
-// still serving almost every visitor a cached page.
-export const revalidate = 3600;
+// Static: the daily questions are the build day's, and DailyAnswerWriting
+// fetches the current day's set when it differs. The page used to revalidate
+// hourly just to roll them over at midnight IST, rendering and writing itself
+// to the ISR cache 24 times a day.
 
 const features = [
   { icon: '✍️', title: 'Smart Annotations',               color: 'var(--yellow)', desc: 'Handwritten annotations support — write with your digital pen directly on the notes. Annotate, highlight and mark directly on the content as you study.',             href: '/paper1'   },
@@ -210,7 +210,7 @@ export default async function Home() {
 
       {/* ── Explore further: interactive demos & extras ── */}
       <SampleEvaluations fallback={<EvaluateDemo />} />
-      <div id="daily-answer"><DailyAnswerWriting questions={getDailyQuestions()} /></div>
+      <div id="daily-answer"><DailyAnswerWriting questions={getDailyQuestions()} day={istDay()} /></div>
       <div id="faq"><HomeFAQ /></div>
     </div>
   );

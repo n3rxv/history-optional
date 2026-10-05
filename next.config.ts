@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import { withPayload } from "@payloadcms/next/withPayload";
 /**
  * Content Security Policy.
  *
@@ -45,6 +44,16 @@ import { withPayload } from "@payloadcms/next/withPayload";
 const SCRIPT_SRC_BASE =
   "'self' 'unsafe-inline' https://checkout.razorpay.com https://cdn.razorpay.com https://www.googletagmanager.com https://www.google-analytics.com https://apis.google.com https://www.gstatic.com https://cdnjs.cloudflare.com";
 
+// Where Google Analytics 4 sends its hits. Only www.google-analytics.com was
+// allowed, so every hit to the current endpoints was blocked -- analytics went
+// unrecorded, and each block fired a CSP report: about half of all function
+// invocations were /api/csp-report. www.google.com and the Indian domain carry
+// the Google Signals audience pings; other country domains stay blocked.
+const GA_CONNECT = [
+  'https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com',
+  'https://*.g.doubleclick.net', 'https://www.google.com', 'https://www.google.co.in',
+].join(' ');
+
 const cspDirectives = (scriptSrc: string) => [
   "default-src 'self'",
   `script-src ${scriptSrc}`,
@@ -52,7 +61,7 @@ const cspDirectives = (scriptSrc: string) => [
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https:",
   "media-src 'self'",
-  "connect-src 'self' blob: https://*.supabase.co wss://*.supabase.co https://api.groq.com https://api.jina.ai https://checkout.razorpay.com https://lumberjack.razorpay.com https://api.razorpay.com https://*.razorpay.com https://*.googleapis.com https://*.firebaseapp.com https://*.firebase.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://pub-163b2186589649f4a759ed969e0779e0.r2.dev https://*.r2.cloudflarestorage.com https://cdnjs.cloudflare.com",
+  `connect-src 'self' blob: https://*.supabase.co wss://*.supabase.co https://api.groq.com https://api.jina.ai https://checkout.razorpay.com https://lumberjack.razorpay.com https://api.razorpay.com https://*.razorpay.com https://*.googleapis.com https://*.firebaseapp.com https://*.firebase.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://pub-163b2186589649f4a759ed969e0779e0.r2.dev https://*.r2.cloudflarestorage.com https://cdnjs.cloudflare.com ${GA_CONNECT}`,
   "frame-src 'self' https://checkout.razorpay.com https://*.razorpay.com https://*.firebaseapp.com https://accounts.google.com",
   "worker-src 'self' blob: https://checkout.razorpay.com https://cdnjs.cloudflare.com",
   "object-src 'none'",
@@ -158,6 +167,4 @@ const nextConfig: NextConfig = {
     ];
   },
 };
-// Payload needs to inject its own webpack/turbopack handling and its admin
-// route group. The app config above is unchanged and passes through.
-export default withPayload(nextConfig);
+export default nextConfig;

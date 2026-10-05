@@ -13,7 +13,11 @@ import { createServerClient } from '@/lib/supabase';
  * wrote it, and the Privacy Policy says their data runs the platform rather
  * than advertising it.
  */
-export const revalidate = 300;
+// Cached by the CDN for five minutes rather than by ISR: as an ISR route it
+// rendered itself again every five minutes the homepage was visited, writing
+// the six full evaluations into the ISR cache each time.
+export const dynamic = 'force-dynamic';
+const CACHE = { 'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400' };
 
 type Section = {
   analysis?: string; strengths?: string[]; weaknesses?: string[]; suggestions?: string[];
@@ -27,7 +31,7 @@ export async function GET() {
     .order('share_label', { ascending: true })
     .limit(6);
 
-  if (error) return NextResponse.json({ samples: [] }, { status: 200 });
+  if (error) return NextResponse.json({ samples: [] }, { status: 200, headers: { 'Cache-Control': 'no-store' } });
 
   const samples = (data ?? []).map(r => {
     const ev = (r.evaluation ?? {}) as Record<string, unknown> & {
@@ -62,5 +66,5 @@ export async function GET() {
     };
   });
 
-  return NextResponse.json({ samples });
+  return NextResponse.json({ samples }, { headers: CACHE });
 }

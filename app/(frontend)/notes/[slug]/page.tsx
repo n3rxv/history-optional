@@ -4,21 +4,16 @@ import type { Metadata } from 'next';
 import { sanitizeNoteHtml } from '@/lib/sanitizeNoteHtml';
 
 /**
- * The note body and the historiography debates are the only page content that
- * lives in the database rather than the repo. Without `revalidate`, the HTML
- * prerendered at build time is frozen until the next deploy.
+ * Prerendered at build and kept until something changes it: a deploy, or an
+ * admin saving the note, which revalidates this path (/api/admin/note-content).
  *
- * Readers never saw that: both pages refetch on mount, so an admin edit shows
- * up immediately in the browser. Search engines only ever see the prerendered
- * HTML, so until now they indexed whatever the database held on build day.
- * An hour is well inside how fast an edit needs to be indexed.
- *
- * The other 88 prerendered pages render content that ships in the repo. They
- * change only when the code changes, so a deploy is exactly the right
- * invalidation and adding `revalidate` to them would buy nothing.
+ * It used to revalidate hourly so search engines would see admin edits. Most
+ * notes are read less than once an hour, so nearly every visit found the page
+ * stale and rendered it again, and each render wrote 25-30 ISR units (8 KB
+ * each) -- with the other hourly pages, enough to use up the plan's ISR writes
+ * and much of its CPU. Readers never depended on it: NoteReader refetches the
+ * body on mount.
  */
-export const revalidate = 3600;
-
 export function generateStaticParams() {
   return allNotes.map(n => ({ slug: n.slug }));
 }
@@ -40,19 +35,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
 
   let initialContent = '';
 
-  // Payload is the editing surface now, so it is asked first. Everything below
-  // is the previous path, kept verbatim as the fallback: if Payload has no
-  // published document, or the conversion comes back empty, or it throws, the
-  // reader sees exactly what it saw before.
   try {
-    const { getNoteHtmlFromPayload } = await import('@/lib/payloadNotes');
-    const fromPayload = await getNoteHtmlFromPayload(slug, 'en');
-    if (fromPayload) initialContent = sanitizeNoteHtml(fromPayload);
-  } catch {
-    // Fall through to the original path below.
-  }
-
-  if (!initialContent) try {
     const { createServerClient } = await import('@/lib/supabase');
     const db = createServerClient();
     const { data } = await db.from('note_overrides').select('content').eq('slug', slug).maybeSingle();

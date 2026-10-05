@@ -1,4 +1,5 @@
 import { pyqs, type PYQ } from '@/lib/pyqData';
+import { istDay } from '@/lib/istDay';
 
 /**
  * The five questions shown by the daily answer-writing panel.
@@ -18,21 +19,6 @@ import { pyqs, type PYQ } from '@/lib/pyqData';
 /** Fields the panel actually renders. Keeps the payload to what is used. */
 export type DailyQuestion = Pick<PYQ, 'id' | 'question' | 'section' | 'marks' | 'year'>;
 
-/** Current date in Asia/Kolkata, as the seed components. */
-function istDateParts(now: Date): { y: number; m: number; d: number } {
-  // en-CA renders as YYYY-MM-DD, which splits cleanly.
-  const [y, m, d] = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Kolkata',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  })
-    .format(now)
-    .split('-')
-    .map(Number);
-  return { y, m, d };
-}
-
 /**
  * Same five questions for a given day, everywhere.
  *
@@ -40,7 +26,7 @@ function istDateParts(now: Date): { y: number; m: number; d: number } {
  * matches what the client version did, so the mix of papers is unchanged.
  */
 export function getDailyQuestions(now: Date = new Date()): DailyQuestion[] {
-  const { y, m, d } = istDateParts(now);
+  const [y, m, d] = istDay(now).split('-').map(Number);
   let s = y * 10000 + m * 100 + d;
 
   // Linear congruential generator, as before: cheap and reproducible.
@@ -71,4 +57,11 @@ export function getDailyQuestions(now: Date = new Date()): DailyQuestion[] {
   }
 
   return picked;
+}
+
+/** The set for a YYYY-MM-DD day in Asia/Kolkata, or null for a malformed day. */
+export function dailyQuestionsFor(day: string): DailyQuestion[] | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
+  const noon = new Date(`${day}T12:00:00+05:30`);
+  return Number.isNaN(noon.getTime()) || istDay(noon) !== day ? null : getDailyQuestions(noon);
 }
