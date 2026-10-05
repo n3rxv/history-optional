@@ -4,19 +4,33 @@ import { isAdminAuthed } from '@/lib/admin-auth';
 import { createServerClient } from '@/lib/supabase';
 import { sanitizeNoteHtml } from '@/lib/sanitizeNoteHtml';
 
-// GET is public — anyone can read note overrides (students need cloud content too)
+/**
+ * Admin only. This used to be public, uncached, and return every override in
+ * full, about 1.2 MB a request, so each call (the admin overview counting
+ * them, a crawler, anyone looping on it) came straight out of Supabase's
+ * egress quota. Readers get note bodies from /api/note-content, which is
+ * edge-cached and sends one note in one language.
+ *
+ *   ?slug=x   one override, with its content
+ *   ?list=1   every override's slug and date, without content
+ *   (none)    every override in full, for the editor and the backup export
+ */
 export async function GET(req: NextRequest) {
+  if (!await isAdminAuthed(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get('slug');
+  const listOnly = searchParams.get('list') === '1';
 
   const db = createServerClient();
   const query = slug
     ? db.from('note_overrides').select('slug, content, updated_at').eq('slug', slug)
-    : db.from('note_overrides').select('slug, content, updated_at');
+    : db.from('note_overrides').select(listOnly ? 'slug, updated_at' : 'slug, content, updated_at');
 
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ data });
+  return NextResponse.json({ data }, { headers: { 'Cache-Control': 'private, no-store' } });
 }
 
 // POST and DELETE require admin password

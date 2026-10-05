@@ -838,7 +838,8 @@ function Analytics({ token }: { token: string }) {
   const sections = [...new Set(notes.map(n => n.section))];
 
   useEffect(() => {
-    fetch('/api/admin/note-content', { headers: { 'x-admin-token': token } }).then(r => r.json()).then(({ data }) => setOverrideCount(data?.length || 0));
+    // Slugs only: the count does not need 1.2 MB of note HTML.
+    fetch('/api/admin/note-content?list=1', { headers: { 'x-admin-token': token } }).then(r => r.json()).then(({ data }) => setOverrideCount(data?.length || 0));
     fetch('/api/admin/blog-posts?all=true', { headers: { 'x-admin-token': token } }).then(r => r.json()).then(({ data }) => {
       if (data) setPostStats({ total: data.length, published: data.filter((p: Post) => p.published).length });
     });
