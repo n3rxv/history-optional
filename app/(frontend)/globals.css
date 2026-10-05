@@ -1285,6 +1285,21 @@ html, body { overflow-x: hidden; max-width: 100%; }
 .ds-container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 var(--space-6); }
 .ds-narrow { max-width: 780px; }
 
+/* A colour for each section of the syllabus, for its dot, rows and pages.
+   The light values hold 4.5:1 on white and the dark ones on black. */
+.ds {
+  --tint-ancient: #c9892a;  --wash-ancient: #2a1f10;
+  --tint-medieval: #df8075; --wash-medieval: #3f1d19;
+  --tint-modern: #9d9df0;   --wash-modern: #1c1c3a;
+  --tint-world: #7ba64a;    --wash-world: #213015;
+}
+[data-theme="light"] .ds {
+  --tint-ancient: #905e12;  --wash-ancient: #f8efe2;
+  --tint-medieval: #b5382a; --wash-medieval: #f7e7e5;
+  --tint-modern: #4f46c8;   --wash-modern: #eeedfb;
+  --tint-world: #516d31;    --wash-world: #e6efda;
+}
+
 /* Type */
 .ds-h1 { font-family: var(--font-body); font-weight: 800; font-size: clamp(2.2rem, 4.8vw, 3.6rem); line-height: 1.08; letter-spacing: -0.035em; color: var(--text); }
 .ds-h2 { font-family: var(--font-body); font-weight: 800; font-size: clamp(1.5rem, 2.8vw, 2.1rem); line-height: 1.2; letter-spacing: -0.025em; color: var(--text); }

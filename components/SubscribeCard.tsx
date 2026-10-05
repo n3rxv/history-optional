@@ -207,8 +207,20 @@ export function SubscribeCard({
     );
   }
 
-  // Weekly renews through a mandate (AutopaySheet); the rest are paid once.
-  const LIST: PlanId[] = ['yearly', 'sixmonths', 'weekly', 'daily'];
+  // Three kinds of plan, for three different reasons: the whole preparation,
+  // paid once; week by week, renewing through a mandate (AutopaySheet); and a
+  // single day to try it. One choice across all three, one button.
+  const GROUPS: { title: string; note: string; ids: PlanId[] }[] = langHi
+    ? [
+        { title: 'पूरी तैयारी के लिए', note: 'एकमुश्त भुगतान', ids: ['yearly', 'sixmonths'] },
+        { title: 'हफ़्ते दर हफ़्ते', note: 'एक साल तक हर हफ़्ते नवीनीकरण', ids: ['weekly'] },
+        { title: 'बस आज़माने के लिए', note: '24 घंटे, एक बार भुगतान', ids: ['daily'] },
+      ]
+    : [
+        { title: 'For your whole preparation', note: 'One-time payment', ids: ['yearly', 'sixmonths'] },
+        { title: 'Week by week', note: 'Renews every week for a year', ids: ['weekly'] },
+        { title: 'Just to try it', note: '24 hours, paid once', ids: ['daily'] },
+      ];
   const monthly = (id: PlanId) => {
     const rupees = PLANS[id].amountPaise / 100;
     if (id === 'yearly') return Math.round(rupees / 12);
@@ -216,8 +228,8 @@ export function SubscribeCard({
     return null;
   };
   const NOTE: Record<PlanId, string> = langHi
-    ? { yearly: 'पूरे साल के लिए एक बार भुगतान', sixmonths: 'छह महीने के लिए एक बार भुगतान', weekly: 'हर हफ़्ते नवीनीकरण, कभी भी रोकें', daily: 'एक दिन, सब कुछ आज़माने के लिए' }
-    : { yearly: 'Paid once for the year', sixmonths: 'Paid once for six months', weekly: 'Renews every week. Stop it anytime.', daily: 'One day, to try everything' };
+    ? { yearly: '', sixmonths: '', weekly: 'कभी भी रोकें', daily: '24 घंटे सब कुछ खुला' }
+    : { yearly: '', sixmonths: '', weekly: 'Stop it anytime', daily: 'Everything open for 24 hours' };
   const NAME: Record<PlanId, string> = langHi
     ? { yearly: 'सालाना', sixmonths: '6 महीने', weekly: 'साप्ताहिक', daily: 'एक दिन' }
     : { yearly: 'A year', sixmonths: '6 months', weekly: 'Weekly', daily: 'A day' };
@@ -235,26 +247,32 @@ export function SubscribeCard({
       {weeklyOpen && <AutopaySheet onClose={() => setWeeklyOpen(false)} />}
 
       <div className="sc-list" role="radiogroup" aria-label={langHi ? 'प्लान चुनें' : 'Choose a plan'}>
-        {LIST.filter(id => id === 'weekly' ? showWeekly : true).map(id => {
-          const on = selectedPlan === id;
-          const pm = monthly(id);
-          return (
-            <button key={id} type="button" role="radio" aria-checked={on} className={`sc-row${on ? ' on' : ''}`} onClick={() => setSelectedPlan(id)}>
-              <span className="sc-radio" aria-hidden="true" />
-              <span className="sc-row-main">
-                <span className="sc-row-name">
-                  {NAME[id]}
-                  {id === 'yearly' && <span className="sc-chosen">{langHi ? 'सबसे ज़्यादा चुना गया' : 'Most chosen'}</span>}
-                </span>
-                <span className="sc-row-note">{pm ? `₹${pm.toLocaleString('en-IN')} ${langHi ? 'प्रति माह' : 'a month'} · ` : ''}{NOTE[id]}</span>
-              </span>
-              <span className="sc-row-price">
-                {planPriceLabel(id)}
-                {id === 'weekly' && <small>{langHi ? '/सप्ताह' : '/week'}</small>}
-              </span>
-            </button>
-          );
-        })}
+        {GROUPS.filter(g => g.ids.some(id => id !== 'weekly' || showWeekly)).map(g => (
+          <div key={g.title} className="sc-group">
+            <div className="sc-group-head"><strong>{g.title}</strong><span>{g.note}</span></div>
+            {g.ids.filter(id => id !== 'weekly' || showWeekly).map(id => {
+              const on = selectedPlan === id;
+              const pm = monthly(id);
+              const note = pm ? `₹${pm.toLocaleString('en-IN')} ${langHi ? 'प्रति माह' : 'a month'}` : NOTE[id];
+              return (
+                <button key={id} type="button" role="radio" aria-checked={on} className={`sc-row${on ? ' on' : ''}`} onClick={() => setSelectedPlan(id)}>
+                  <span className="sc-radio" aria-hidden="true" />
+                  <span className="sc-row-main">
+                    <span className="sc-row-name">
+                      {NAME[id]}
+                      {id === 'yearly' && <span className="sc-chosen">{langHi ? 'सबसे ज़्यादा चुना गया' : 'Most chosen'}</span>}
+                    </span>
+                    {note && <span className="sc-row-note">{note}</span>}
+                  </span>
+                  <span className="sc-row-price">
+                    {planPriceLabel(id)}
+                    {id === 'weekly' && <small>{langHi ? '/सप्ताह' : '/week'}</small>}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ))}
       </div>
 
       <div className="sc-cta">
@@ -283,9 +301,13 @@ export function SubscribeCard({
 
 const SC_CSS = `
 .sc { display: flex; flex-direction: column; gap: var(--space-4); }
-.sc-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.sc-list { display: flex; flex-direction: column; gap: var(--space-4); }
+.sc-group { display: flex; flex-direction: column; gap: var(--space-2); }
+.sc-group-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; padding: 0 2px; }
+.sc-group-head strong { font-size: 0.86rem; font-weight: 700; color: var(--text); }
+.sc-group-head span { font-family: var(--font-ui); font-size: 0.76rem; color: var(--text3); }
 .sc-row {
-  display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 64px;
+  display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 58px;
   padding: var(--space-3) var(--space-4); text-align: left;
   background: var(--ds-card); border: 1.5px solid var(--border2); border-radius: var(--radius-lg);
   cursor: pointer; transition: border-color 0.15s, background 0.15s;

@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { rememberNote } from '@/lib/lastNote';
 import { useIsPhone } from '@/hooks/useIsPhone';
 import SidebarNotes from '@/components/SidebarNotes';
 import Link from 'next/link';
@@ -556,6 +557,11 @@ function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
 
 export default function NoteReader({ slug, initialContent = '' }: { slug: string; initialContent?: string }) {
   const note = getNoteBySlug(slug);
+
+  // The home page offers a way back to the last note opened.
+  useEffect(() => {
+    if (note) rememberNote({ slug: note.slug, title: note.title, section: note.section });
+  }, [note]);
   const contentRef = useRef<HTMLDivElement>(null);
   const noteContentRef = useRef<HTMLDivElement>(null);
   const noteSearch = useNoteSearch(noteContentRef);
