@@ -417,6 +417,13 @@ export default function Navbar() {
     return () => window.removeEventListener('open-premium-modal', handler);
   }, []);
 
+  // The dashboard's plan card opens the same Extend panel as the account menu.
+  useEffect(() => {
+    const handler = () => setShowExtendModal(true);
+    window.addEventListener('open-extend-modal', handler);
+    return () => window.removeEventListener('open-extend-modal', handler);
+  }, []);
+
   useEffect(() => {
     if (typeof sessionStorage !== 'undefined') {
       if (sessionStorage.getItem('ho_pending_payment') === '1') setShowPremiumModal(true);
