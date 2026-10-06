@@ -598,7 +598,7 @@ export default function Navbar() {
           </div>
 
           <div className="nb-right">
-            <span className="nb-search-wrap"><SearchModal label={langHi ? 'नोट्स, PYQs, इतिहासकार खोजें' : undefined} /></span>
+            <span className="nb-search-wrap"><SearchModal label={langHi ? 'खोजें' : 'Search'} /></span>
             <span className="nb-wide">{langToggle}</span>
             <button className="nb-icon nb-wide" onClick={toggleTheme} aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'} title={isDark ? 'Light mode' : 'Dark mode'}>
               {isDark ? Icon.sun : Icon.moon}
@@ -754,7 +754,7 @@ const NAV_CSS = `
 .nb-inner { width: 100%; max-width: 1240px; margin: 0 auto; display: flex; align-items: center; gap: var(--space-3); }
 .nb-brand { display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none; color: var(--text); flex-shrink: 0; }
 .nb-brand span { font-weight: 800; font-size: 1.04rem; letter-spacing: -0.015em; white-space: nowrap; }
-.nb-links { display: flex; align-items: center; gap: 2px; margin-left: clamp(var(--space-4), 2.6vw, var(--space-8)); }
+.nb-links { display: flex; align-items: center; gap: 2px; margin-left: clamp(var(--space-6), 4vw, 56px); }
 .nb-link {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 7px 11px; border: none; border-radius: var(--radius-md); background: none;
@@ -781,7 +781,7 @@ const NAV_CSS = `
 .nb-search-wrap { display: inline-flex; }
 .nb-search {
   display: inline-flex; align-items: center; gap: var(--space-2);
-  height: 38px; padding: 0 6px 0 var(--space-3); width: clamp(190px, 20vw, 290px);
+  height: 38px; padding: 0 6px 0 var(--space-3); width: clamp(150px, 13vw, 200px);
   background: var(--ds-soft); color: var(--text3);
   border: 1px solid var(--border2); border-radius: var(--radius-full);
   font-family: var(--font-ui); font-size: 0.86rem; cursor: pointer; transition: border-color 0.15s, color 0.15s;
@@ -957,7 +957,7 @@ const NAV_CSS = `
 .nb-plan.on { border-color: var(--accent); background: var(--accent-dim); }
 .nb-plan.on span { color: var(--accent-text); }
 
-@media (max-width: 1180px) {
+@media (max-width: 1240px) {
   .nb-search { width: 38px; padding: 0; justify-content: center; }
   .nb-search-text, .nb-search kbd { display: none; }
 }

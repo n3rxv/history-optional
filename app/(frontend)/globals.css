@@ -868,40 +868,6 @@ html, body { overflow-x: hidden; max-width: 100%; }
   cursor: pointer;
 }
 
-/* ── Prelims practice — navigator sidebar mobile drawer ── */
-.prelims-nav-backdrop { display: none; }
-/* Before the reader has toggled it, the drawer stays shut on a phone even in
-   the server's HTML, which is rendered as if for a desktop. */
-@media (max-width: 768px) { .prelims-nav-auto { display: none !important; } }
-@media (max-width: 768px) {
-  .prelims-nav-backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 1199;
-  }
-  .prelims-nav-sidebar {
-    position: fixed !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    right: 0 !important;
-    left: auto !important;
-    width: 280px !important;
-    max-width: 85vw;
-    max-height: 100vh !important;
-    border-radius: 0 !important;
-    z-index: 1200;
-    box-shadow: -8px 0 40px rgba(0,0,0,0.5);
-  }
-}
-
-/* ── Test page — strengths/weaknesses grid mobile stack ── */
-@media (max-width: 600px) {
-  .test-sw-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
 
 /* ── Timeline — zig-zag to single-column on mobile ── */
 @media (max-width: 640px) {
