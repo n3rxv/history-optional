@@ -9,6 +9,92 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'i
 type Emit = (event: Record<string, unknown>) => void;
 
 /**
+ * Hindi answers are read again with Mistral's OCR model. Pixtral 12B, which
+ * reads every answer first, garbles Devanagari handwriting: Marathi words in
+ * Hindi sentences, invented names ("Arthur C. Desi" for R.C. Dutt), a question
+ * nobody asked. The marker then blamed students for its mistakes, and the
+ * four Hindi answers checked in October scored 1 to 2.5 out of 10.
+ *
+ * Which reader is decided by what was written, not the site's language: an
+ * English answer from a reader browsing in Hindi stays on Pixtral.
+ */
+const mostlyDevanagari = (t: string) => {
+  const letters = (t.match(/\p{L}/gu) ?? []).length;
+  const deva = (t.match(/[\u0900-\u097F]/g) ?? []).length;
+  return letters > 40 && deva / letters > 0.5;
+};
+
+/** Mistral OCR's markdown as plain transcript text. */
+const plainText = (md: string) => md
+  .replace(/!\[[^\]]*\]\([^)]*\)/g, '')           // images it found on the page
+  .replace(/^#{1,6}\s*/gm, '')                      // headings
+  .replace(/(\*\*|__)(.*?)\1/g, '$2')                // bold
+  .replace(/\$\\(?:rightarrow|to)\$/g, '→').replace(/\$\\leftarrow\$/g, '←')
+  .replace(/\$([^$\n]{1,40})\$/g, '$1')             // short inline maths
+  .replace(/\n{3,}/g, '\n\n')
+  .trim();
+
+async function readPageHindi(image: { url: string }): Promise<string | null> {
+  try {
+    const res = await fetch('https://api.mistral.ai/v1/ocr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.MISTRAL_API_KEY}` },
+      body: JSON.stringify({ model: 'mistral-ocr-latest', document: { type: 'image_url', image_url: image.url } }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const md = (data.pages ?? []).map((p: { markdown?: string }) => p.markdown ?? '').join('\n\n');
+    return md.trim() ? plainText(md) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The OCR model reads the whole page and takes no instructions, so the
+ * question written at the top comes through with the answer. A small text
+ * model picks it out of the first page; it is then taken off the transcript,
+ * but only where it appears word for word near the start.
+ */
+async function splitQuestion(firstPage: string): Promise<string> {
+  try {
+    const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.MISTRAL_API_KEY}` },
+      body: JSON.stringify({
+        model: 'mistral-small-latest',
+        temperature: 0,
+        max_tokens: 400,
+        response_format: { type: 'json_object' },
+        messages: [{
+          role: 'user',
+          content: `Below is the text read from the first page of a handwritten UPSC answer sheet. If the page begins with the question being answered (often underlined or labelled प्रश्न, Q or Q.), return that question exactly as it appears, character for character, including any label. If the page starts directly with the answer, return an empty string.\n\nReply only with JSON: {"question": "..."}\n\nPAGE TEXT:\n${firstPage.slice(0, 2000)}`,
+        }],
+      }),
+    });
+    if (!res.ok) return '';
+    const data = await res.json();
+    const q = JSON.parse(data.choices?.[0]?.message?.content ?? '{}').question;
+    return typeof q === 'string' ? q.trim() : '';
+  } catch {
+    return '';
+  }
+}
+
+/** Every page read by Mistral OCR, and the question split off; null if any page fails, so Pixtral's reading stands. */
+async function readHindi(images: { image_url: { url: string } }[]): Promise<{ text: string; question: string } | null> {
+  const pages = await Promise.all(images.map((img) => readPageHindi(img.image_url)));
+  if (pages.some((p) => !p)) return null;
+  let text = (pages as string[]).join('\n\n');
+  const question = await splitQuestion(pages[0] as string);
+  if (question) {
+    const at = text.indexOf(question);
+    if (at !== -1 && at < 300) text = text.slice(at + question.length).replace(/^[\s:.\-–—]+/, '');
+  }
+  return { text, question: question.replace(/^(प्रश्न|प्र|Q|Ques|Question)\s*[\d.]*\s*[:.)\-–—]?\s*/i, '') };
+}
+
+/**
  * The evaluate page asks for progress with an x-ocr-stages header and gets
  * newline-delimited JSON: a {"type":"stage"} line as each step finishes, then
  * one {"type":"result"} line with the status and body the plain response
@@ -140,22 +226,12 @@ RULES:
 
 Output the transcription now:`;
 
-    const messages = [
-      {
-        role: "user",
-        content: [
-          ...imageContents,
-          { type: "text", text: ocrPrompt },
-        ],
-      },
-    ];
-
     // Mistral Pixtral vision format
     const mistralMessages = [
       {
         role: "user",
         content: [
-          ...imageContents.map((img: any) => ({
+          ...imageContents.map((img) => ({
             type: "image_url",
             image_url: img.image_url,
           })),
@@ -185,16 +261,27 @@ Output the transcription now:`;
     }
 
     const data = await res.json();
-    const text = data.choices?.[0]?.message?.content || "";
+    let text: string = data.choices?.[0]?.message?.content || "";
+
+    // A Hindi answer is read again, page by page, with Mistral OCR, which also
+    // gives the question written at the top.
+    let detectedQuestion = "";
+    let readAsHindi = false;
+    if (!isPdfMode && mostlyDevanagari(text)) {
+      const hindi = await readHindi(imageContents);
+      if (hindi) { text = hindi.text; detectedQuestion = hindi.question; readAsHindi = true; }
+    }
     emit({ id: "transcribed", words: text.trim() ? text.trim().split(/\s+/).length : 0 });
 
     // In PDF mode the question text is embedded in the transcript as [Q]: lines.
     // In normal (single-question) mode, detect it from the first image.
-    let detectedQuestion = "";
-    if (!isPdfMode) {
+    if (readAsHindi) {
+      emit({ id: "question" });
+      emit({ id: "question_done", found: Boolean(detectedQuestion) });
+    } else if (!isPdfMode) {
       emit({ id: "question" });
       try {
-        const firstImg = imageContents[0] as any;
+        const firstImg = imageContents[0];
         const qRes = await fetch("https://api.mistral.ai/v1/chat/completions", {
           method: "POST",
           headers: {

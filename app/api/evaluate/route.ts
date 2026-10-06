@@ -377,7 +377,7 @@ Respond with ONLY valid JSON. No preamble, no markdown, nothing outside the JSON
     ],
     "conclusion": "2-3 sentence synthesis. Takes a clear position, connects to intro frame. No new material."
   },
-  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. NEVER mention marks, numbers, scores, bands, or any suggestion of what score a change would produce."
+  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words, choosing a phrase that reads cleanly rather than one with garbled words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. NEVER mention marks, numbers, scores, bands, or any suggestion of what score a change would produce."
 }
 
 IMPORTANT: marks must equal the exact sum of all four section_marks awarded values. section_marks/marks/marks_out_of/word_count fields above MUST be the first fields you write after demand_of_question, in that exact order — write them immediately, before introduction/body/conclusion/historians_to_cite/model_answer, so they are never lost to truncation.
@@ -449,6 +449,29 @@ type Emit = (event: Record<string, unknown>) => void;
  * Every other caller (the test series, anything older) sends no header and
  * gets exactly the JSON response it always did.
  */
+const HINDI_NOTE = "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi.";
+
+/**
+ * Said on every pass. The October Hindi evaluations showed all three faults:
+ * students blamed for words the handwriting reader garbled ("you wrote
+ * incoherent phrases like..."), rubric notes such as "BAND 2M applies" in
+ * the reasons shown to them, and book passages cited as "Source 1", which
+ * the reader never sees.
+ */
+const STUDENT_NOTE = `
+
+WRITING FOR THE STUDENT
+- The answer was read from a photo of handwriting by a machine, so the transcript can hold reading errors: garbled words, wrong letters, words from another language, or names that look invented. Treat these as reading errors, not the student's mistakes. Never quote them back to the student or criticise them, and judge the answer on what can be understood. Call a historian misattributed or invented only when the name is clearly written and the claim attached to it is wrong.
+- Do not take marks for spelling, or for sentences that look broken or incomplete: either can be a reading error. When you quote the student, pick a phrase that reads cleanly.
+- Write every reason and every piece of feedback in plain language for the student. Never mention bands or band values (such as "BAND 2M"), tallies, STRONG/WEAK/NONE counts, step numbers, checklists, or the rubric itself.
+- The book passages you were given are for your own checking. Never refer to them as "Source 1", "स्रोत 1", "passage 2" or by any number; name the book or the historian instead.`;
+
+/** Mostly Devanagari: the answer was written in Hindi. */
+const writtenInHindi = (t: string) => {
+  const letters = (t.match(/\p{L}/gu) ?? []).length;
+  return letters > 40 && (t.match(/[\u0900-\u097F]/g) ?? []).length / letters > 0.5;
+};
+
 export async function POST(req: NextRequest) {
   if (req.headers.get("x-eval-stages") !== "1") return evaluate(req, () => {});
 
@@ -545,6 +568,10 @@ async function evaluate(req: NextRequest, emit: Emit): Promise<Response> {
     const lang = (formData.get("lang") as string) || "en";
     const marks = formData.get("marks") as string;
     const extractedText = (formData.get("extractedText") as string) || "";
+    // Feedback comes in the language the answer was written in, when there is
+    // a transcript to tell: an English answer from a reader browsing in Hindi
+    // was getting Hindi feedback. Without one, the site's language decides.
+    const outLang = extractedText.trim() ? (writtenInHindi(extractedText) ? "hi" : "en") : lang;
 
     // Every rejection below happens after the free evaluation was claimed, so
     // each one has to give it back.
@@ -677,7 +704,7 @@ async function evaluate(req: NextRequest, emit: Emit): Promise<Response> {
       const refRes = await callWithFallback({
         model: "openai/gpt-oss-120b",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
+          { role: "system", content: SYSTEM_PROMPT + STUDENT_NOTE + (outLang === "hi" ? HINDI_NOTE : "") },
           {
             role: "user",
             content: `Generate a strong internal reference answer for this UPSC History Optional question. This will be used only to calibrate evaluation — it will NOT be shown to the student.
@@ -849,7 +876,7 @@ Question: ${question}
 Marks: ${marks}
 
 ${finalTranscript
-  ? "The student's handwritten answer has been transcribed for you below. Use this transcript as the PRIMARY source — it is more reliable than reading the images yourself. The images are provided only as visual reference for presentation/handwriting quality.\n\nTRANSCRIPT:\n" + finalTranscript
+  ? "The student's handwritten answer was read from photos by a machine and is given below; you do not see the photos. Mark the answer on this transcript, remembering it can contain reading errors.\n\nTRANSCRIPT:\n" + finalTranscript
   : "The images show the student's handwritten answer sheet (" + imageContents.length + " page" + (imageContents.length > 1 ? "s" : "") + "). Read ALL pages carefully before evaluating."}
 
 ${referenceAnswer ? `REFERENCE ANSWER (for calibration only — not shown to student):
@@ -930,8 +957,8 @@ BAND ${concMax}M (ONLY): takes a clear position AND links back to intro debate �
 RULE: You MUST pick one of the three values above. No marks between bands allowed.
 → CONCLUSION BAND CHOSEN: [write mark]
 
-== STEP 6: PRESENTATION (max ${presMax}M) — judge from BOTH the image pages AND the transcribed text ==
-[ ] Handwriting is legible and neat — not scratchy or cramped (YES/NO) [judge from images]
+== STEP 6: PRESENTATION (max ${presMax}M) — ${finalTranscript ? "judge from the transcript" : "judge from BOTH the image pages AND the transcribed text"} ==
+${finalTranscript ? "[ ] Handwriting: you have only a machine reading, not the pages, so you cannot judge it, and garbled words are not the student's handwriting — mark this YES" : "[ ] Handwriting is legible and neat — not scratchy or cramped (YES/NO) [judge from images]"}
 [ ] Answer uses headings, underlining, numbered points, or labelled diagrams/flowcharts ([DRAWING: ...] markers) for structure (YES/NO) [judge from images and transcript]
 [ ] No significant factual errors found in STEP 1B (YES/NO) [use your STEP 1B findings — only a [SIGNIFICANT] entry makes this NO. A [MINOR] one does not: it still appears as a weakness so the student sees it, but losing a presentation mark for imprecise phrasing over a claim they got right is a harsher penalty than the mistake deserves.]
 Each YES = ${presMax === "1.5" ? "0.5" : "1"}M. Total checked = PRESENTATION MARK.
@@ -971,12 +998,8 @@ If any check above failed, write "CORRECTION:" followed by the fixed band/tally/
       // of the part they have in common.
       system: [
         { type: "text" as const, text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" as const } },
-        ...(lang === "hi"
-          ? [{
-              type: "text" as const,
-              text: "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi.",
-            }]
-          : []),
+        { type: "text" as const, text: STUDENT_NOTE },
+        ...(outLang === "hi" ? [{ type: "text" as const, text: HINDI_NOTE }] : []),
       ],
       messages: [
         {
@@ -1016,7 +1039,8 @@ ${cotReasoning}
 Now convert this into the exact JSON format from your system prompt.
 If your reasoning's STEP 8 self-audit made any CORRECTION to a band, tally, or total, use the CORRECTED values in the JSON — not the original STEP 3-7 values that were corrected. Use the "FINAL TOTAL (after audit)" as the marks total, and the post-correction section bands as section_marks.
 If your reasoning's STEP 1B found any "FACTUAL ERROR" entries, make sure each one appears as a [FACTUAL ERROR] weakness in the section it belongs to (introduction/body/conclusion) — do not drop them.
-Do not re-evaluate beyond what STEP 8 already corrected. Faithfully convert your reasoning into JSON.
+Do not re-evaluate beyond what STEP 8 already corrected. Faithfully convert your reasoning into JSON.${outLang === "hi" ? "\nEvery text field in the JSON must be in Hindi (Devanagari), including each section's reasoning, even where your reasoning above is in English: translate it." : ""}
+Each section's reasoning is read by the student: plain language, no bands, tallies or rubric terms.
 Return ONLY the JSON object, no preamble, no markdown fences.`;
 
     const tPass2 = Date.now();
@@ -1024,7 +1048,7 @@ Return ONLY the JSON object, no preamble, no markdown fences.`;
     const response = await callWithFallback({
         model: "openai/gpt-oss-120b",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
+          { role: "system", content: SYSTEM_PROMPT + STUDENT_NOTE + (outLang === "hi" ? HINDI_NOTE : "") },
           { role: "user", content: cotPrompt },
           { role: "assistant", content: cotReasoning },
           { role: "user", content: jsonPrompt },
@@ -1154,7 +1178,7 @@ Now write RICH, SPECIFIC qualitative feedback grounded only in the verified book
 
 Return ONLY a JSON object with these exact fields:
 {
-  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. NEVER mention marks, numbers, scores, bands, or any suggestion of what score a change would produce.",
+  "overall_feedback": "3-4 sentences only. Sentence 1: the one thing the student genuinely got right — quote their exact words, choosing a phrase that reads cleanly rather than one with garbled words. Sentence 2: the single most important gap — name the specific historian and argument that was missing and why it mattered. Sentence 3: one concrete thing to do differently next time — name the exact historian, their exact argument, and where it should appear. No generic advice. NEVER mention marks, numbers, scores, bands, or any suggestion of what score a change would produce.",
   "body": {
     "strengths": ["specific strength 1 referencing exactly what student wrote", "specific strength 2 if any"],
     "weaknesses": ["[missed demand]: exactly what was missed and which historian fills this gap", "[too descriptive]: where student listed facts without arguing — quote the specific part", "[needs historian]: which specific historian with which specific argument was needed here"],
@@ -1173,7 +1197,7 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
       const pass3Res = await callWithFallback({
         model: "openai/gpt-oss-120b",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT + (lang === "hi" ? "\n\nIMPORTANT: Write your ENTIRE response in Hindi (Devanagari script). All feedback, analysis, model answer — everything in Hindi." : "") },
+          { role: "system", content: SYSTEM_PROMPT + STUDENT_NOTE + (outLang === "hi" ? HINDI_NOTE : "") },
           { role: "user", content: pass3Prompt },
         ],
         temperature: 0.2,
@@ -1224,7 +1248,7 @@ Be brutally specific. Name exactly which historians were missing. Quote exactly 
         answer_text: finalTranscript || null,
         evaluation,
         pages: files.length,
-        lang,
+        lang: outLang,
         // Same numbers as the [evaluate:timing] line. Kept because the log
         // line rolls over and the 60s Hobby ceiling is a live question: this
         // makes the sample grow on its own instead of needing hand-run tests.
