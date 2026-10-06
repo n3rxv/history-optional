@@ -1,222 +1,118 @@
-"use client";
+'use client';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useLang } from '@/lib/i18n/LangContext';
-import { tr, t } from '@/lib/i18n/ui';
-import { saveToHistory, loadHistory, AnswerEntry } from "@/hooks/useAnswerHistory";
-import { supabase } from "@/lib/supabase";
+import { saveToHistory, loadHistory, type AnswerEntry } from '@/hooks/useAnswerHistory';
 import { auth } from '@/lib/firebase';
-import { useState, useRef, useCallback, useEffect } from "react";
-import { useSubscriptionGate } from "@/hooks/useSubscriptionGate";
+import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
+import { useRefreshSafe } from '@/hooks/useRefreshSafe';
 import PDFTestEvaluator from '@/components/PDFTestEvaluator';
 import MapEvaluator from '@/components/MapEvaluator';
 import EvalProgress, { ReadProgress, applyEvalStage, applyReadStage, type EvalStages, type ReadStages } from '@/components/EvalProgress';
 import { readProgress } from '@/lib/progressStream';
-import EmptyState from '@/components/EmptyState';
-import { useRefreshSafe } from '@/hooks/useRefreshSafe';
-import { useIsPhone } from '@/hooks/useIsPhone';
-import BackButton from '@/components/BackButton';
+import Report, { fromEntry, fromEvaluation, scoreTone, type Evaluation } from '@/components/evaluate/Report';
 
+/**
+ * Get an answer marked. One answer goes through three steps: upload the
+ * pages, check what was read off them (the text is what gets marked), and the
+ * report. A full paper and a map question have evaluators of their own,
+ * behind the switch at the top. Past evaluations are kept in this browser.
+ */
 
-interface Historian {
-  name: string;
-  work?: string;
-  argument: string;
-}
-
-interface SectionMark {
-  awarded: number;
-  out_of: number;
-  reasoning: string;
-}
-
-interface Evaluation {
-  demand_of_question: string[];
-  introduction: { what_was_written: string; strengths: string[]; analysis: string; suggestions: string[]; };
-  body: { strengths: string[]; weaknesses: string[]; suggestions: string[]; };
-  conclusion: { what_was_written: string; strengths: string[]; analysis: string; suggestions: string[]; };
-  historians_to_cite: Historian[];
-  model_answer: { introduction: string; body: string | string[]; conclusion: string; };
-  overall_feedback: string;
-  section_marks: {
-    introduction: SectionMark;
-    body: SectionMark;
-    conclusion: SectionMark;
-    presentation: SectionMark;
-  };
-  marks: number;
-  marks_out_of: number;
-  word_count: number;
-  word_count_rating: "LOW" | "GOOD" | "HIGH";
-}
-
-function bodyParas(body: string | string[]): string[] {
-  const stripMd = (t: string) => t
-    .replace(/^#{1,4}\s+/, '')
-    .replace(/\*\*(.+?)\*\*/g, '$1')
-    .replace(/\*(.+?)\*/g, '$1')
-    .replace(/^[-•*]\s+/, '')
-    .trim();
-  if (Array.isArray(body)) return body.map(stripMd).filter(Boolean);
-  return body.split(/\n\n+/).map(stripMd).filter(Boolean);
-}
-// Safely convert any AI field that should be string[] but might come back as object/string
-function toArray(val: unknown): string[] {
-  if (Array.isArray(val)) return val.map(String).filter(Boolean);
-  if (val && typeof val === 'object') return Object.values(val as object).map(String).filter(Boolean);
-  if (typeof val === 'string' && val.trim()) return [val];
-  return [];
-}
-
-// Bold known historian names inside feedback strings (suggestions, weaknesses, etc.)
-const HISTORIAN_NAMES = [
-  "Vincent Smith","D.D. Kosambi","Kosambi","Romila Thapar","R.S. Sharma","R.C. Majumdar",
-  "Upinder Singh","Irfan Habib","Satish Chandra","B.D. Chattopadhyaya","Hermann Kulke",
-  "Burton Stein","Nicholas Dirks","Sumit Sarkar","Bipan Chandra","K.A. Nilakanta Sastri",
-  "A.L. Basham","John Marshall","Niharranjan Ray","Eric Hobsbawm","Ranajit Guha",
-  "Sheldon Pollock","Richard Eaton","David Ludden","Susan Bayly","Christopher Bayly",
-  "Jadunath Sarkar","Tapan Raychaudhuri","Dietmar Rothermund","Percival Spear",
-  "Stanley Wolpert","Sudipta Kaviraj","Partha Chatterjee","Gyan Prakash","Dipesh Chakrabarty",
-  "Tanika Sarkar","Sumit Guha","Muzaffar Alam","Sanjay Subrahmanyam","Velcheru Narayana Rao",
-  "Daud Ali","Cynthia Talbot","Phillip Wagoner","George Michell","Vasundhara Filliozat",
-];
-function boldHistorians(text: string): React.ReactNode[] {
-  if (!text) return [text];
-  const pattern = new RegExp(`(${HISTORIAN_NAMES.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
-  const parts = text.split(pattern);
-  return parts.map((part, i) =>
-    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "var(--text)" }}>{part}</strong> : part
-  );
-}
-
-// Mood emoji + color for a marks gauge, based on % scored
-function gaugeMood(pct: number): { emoji: string; color: string; label: string } {
-  if (pct >= 75) return { emoji: "😄", color: "var(--green)", label: "Strong answer — keep this up!" };
-  if (pct >= 50) return { emoji: "🙂", color: "var(--accent)", label: "Decent attempt — a few gaps to close." };
-  if (pct >= 30) return { emoji: "😕", color: "var(--warning-text)", label: "Learn from your mistakes — keep going!" };
-  return { emoji: "😟", color: "var(--red)", label: "Needs significant work — review the feedback below." };
-}
-
-
+type Mode = 'single' | 'batch' | 'map';
+type Marks = 10 | 15 | 20;
 
 async function compressImage(file: File, maxWidth = 1600, quality = 0.82): Promise<File> {
-  if (file.type === 'application/pdf') return file; // skip PDFs — should not reach here
+  if (file.type === 'application/pdf') return file;
   return new Promise((resolve) => {
     const img = new Image();
     const url = URL.createObjectURL(file);
     img.onload = () => {
       URL.revokeObjectURL(url);
       const scale = Math.min(1, maxWidth / img.width);
-      const w = Math.round(img.width * scale);
-      const h = Math.round(img.height * scale);
-      const canvas = document.createElement("canvas");
-      canvas.width = w; canvas.height = h;
-      const ctx = canvas.getContext("2d")!;
-      ctx.drawImage(img, 0, 0, w, h);
-      canvas.toBlob(
-        (blob) => resolve(blob ? new File([blob], file.name, { type: "image/jpeg" }) : file),
-        "image/jpeg", quality
-      );
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale); canvas.height = Math.round(img.height * scale);
+      canvas.getContext('2d')!.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob((blob) => resolve(blob ? new File([blob], file.name, { type: 'image/jpeg' }) : file), 'image/jpeg', quality);
     };
     img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
     img.src = url;
   });
 }
 
-async function downloadModelAnswerPDF(question: string, marks: number, evaluation: Evaluation) {
-  const res = await fetch('/api/generate-pdf', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: 'eval', question, marks, evaluation }),
-  });
-  if (!res.ok) throw new Error('PDF generation failed');
-  const blob = await res.blob();
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = question.slice(0, 60).replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '_') + '-model_answer (historyoptional.xyz).pdf';
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// Convert PDF pages to image Files using pdfjs-dist (bundled)
+/** A PDF's pages as images, so the reader is sent pictures, not the file. */
 async function pdfToImages(file: File): Promise<File[]> {
   const pdfjs = await import('pdfjs-dist');
   pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.mjs', import.meta.url).toString();
-
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+  const pdf = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
   const images: File[] = [];
-
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const viewport = page.getViewport({ scale: 2.0 });
     const canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext('2d')!;
-    await page.render({ canvasContext: ctx, canvas, viewport } as any).promise;
-    const blob = await new Promise<Blob>((res) => canvas.toBlob(b => res(b!), 'image/jpeg', 0.9));
+    canvas.width = viewport.width; canvas.height = viewport.height;
+    // pdfjs's render types want a canvas field the runtime does not need.
+    await page.render({ canvasContext: canvas.getContext('2d')!, canvas, viewport } as Parameters<typeof page.render>[0]).promise;
+    const blob = await new Promise<Blob>((res) => canvas.toBlob((b) => res(b!), 'image/jpeg', 0.9));
     images.push(new File([blob], `page-${i}.jpg`, { type: 'image/jpeg' }));
   }
   return images;
 }
 
-export default function EvaluatePage() {
-  const [files, setFiles]           = useState<File[]>();
-  const [question, setQuestion]     = useState("");
-  const [marks, setMarks]           = useState<10 | 15 | 20>(15);
-  const [loading, setLoading]       = useState(false);
-  const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
-  const [submittedQ, setSubmittedQ] = useState("");
-  const [submittedM, setSubmittedM] = useState<10|15|20>(15);
-  const [error, setError]           = useState("");
-  const [tab, setTab]               = useState<"eval"|"model"|"hist">("eval");
-  const [stage, setStage]           = useState<"form"|"ocr"|"result">("form");
-  const [history, setHistory]        = useState<AnswerEntry[]>([]);
-  const [openEntry, setOpenEntry]    = useState<AnswerEntry | null>(null);
-  // Beside the form on a desktop, a closed drawer on a phone, until the reader
-  // toggles it. It started open and an effect shut it on a phone, so phones
-  // painted the drawer and its backdrop open for a frame first; see
-  // useIsPhone. data-open="auto" keeps the server's HTML shut on a phone.
-  const isPhone = useIsPhone();
-  const [sidebarPref, setSidebarPref] = useState<boolean | null>(null);
-  const sidebarOpen = sidebarPref ?? !isPhone;
-  const setSidebarOpen = (next: boolean | ((open: boolean) => boolean)) =>
-    setSidebarPref(typeof next === 'function' ? next(sidebarOpen) : next);
-  const [evalMode, setEvalMode] = useState<"single"|"batch"|"map">("single");
+const countWords = (t: string) => (t.trim() ? t.trim().split(/\s+/).length : 0);
 
-  // Lets another page open this one on a particular mode, which is how the
-  // pricing card reaches map evaluation: the map flow lives here behind this
-  // selector, not on /mapping, which is the revision tool.
-  // Read from the URL rather than useSearchParams so the page does not need a
-  // Suspense boundary for a parameter that is usually absent.
+const UploadIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5" /><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" /></svg>;
+const PdfIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /></svg>;
+const MODE_ICON: Record<Mode, React.ReactNode> = {
+  single: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M16 13H8M16 17H8" /></svg>,
+  batch: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 4h11a1 1 0 0 1 1 1v14" /><rect x="4" y="7" width="12" height="14" rx="1.5" /><path d="M7 12h6M7 16h4" /></svg>,
+  map: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z" /><path d="M9 3v15M15 6v15" /></svg>,
+};
+
+export default function EvaluatePage() {
+  const { langHi: hi } = useLang();
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  const [question, setQuestion] = useState('');
+  const [marks, setMarks] = useState<Marks>(15);
+  const [loading, setLoading] = useState(false);
+  const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
+  const [submittedQ, setSubmittedQ] = useState('');
+  const [submittedM, setSubmittedM] = useState<Marks>(15);
+  const [error, setError] = useState('');
+  const [tab, setTab] = useState<'eval' | 'model' | 'hist'>('eval');
+  const [stage, setStage] = useState<'form' | 'ocr' | 'result'>('form');
+  const [evalMode, setEvalMode] = useState<Mode>('single');
+  const [extractedText, setExtractedText] = useState('');
+  const [processedImageFiles, setProcessedImageFiles] = useState<File[]>([]);
+  const [ocrLoading, setOcrLoading] = useState(false);
+  const [readStages, setReadStages] = useState<ReadStages>({});
+  const [readStartedAt, setReadStartedAt] = useState(0);
+  const [evalStages, setEvalStages] = useState<EvalStages>({});
+  const [evalStartedAt, setEvalStartedAt] = useState(0);
+  const [drag, setDrag] = useState(false);
+
+  // ── Past evaluations, kept in this browser ──
+  const [history, setHistory] = useState<AnswerEntry[]>([]);
+  const [openEntry, setOpenEntry] = useState<AnswerEntry | null>(null);
+  const [drawer, setDrawer] = useState(false);
+  useEffect(() => {
+    // localStorage, so only in the browser.
+     
+    setHistory(loadHistory());
+  }, []);
+  const modeHistory = history.filter((e) => (evalMode === 'single' ? !e.type || e.type === 'single' : e.type === evalMode));
+  const openDrawer = () => { setHistory(loadHistory()); setDrawer(true); };
+
+  // Another page can open this one on a mode: the pricing card reaches map
+  // evaluation with ?mode=map.
   useEffect(() => {
     const mode = new URLSearchParams(window.location.search).get('mode');
+     
     if (mode === 'map' || mode === 'batch' || mode === 'single') setEvalMode(mode);
   }, []);
 
-  useEffect(() => {
-    setHistory(loadHistory());
-  }, [stage]); // reload whenever stage changes (new eval saved)
-  const [extractedText, setExtractedText] = useState("");
-  const [processedImageFiles, setProcessedImageFiles] = useState<File[]>([]);
-  const [ocrLoading, setOcrLoading] = useState(false);
-  // Reading the sheet: the browser's own steps plus the server's, as they finish.
-  const [readStages, setReadStages]     = useState<ReadStages>({});
-  const [readStartedAt, setReadStartedAt] = useState(0);
-  // What the server has actually done, from its progress stream.
-  const [evalStages, setEvalStages]     = useState<EvalStages>({});
-  const [evalStartedAt, setEvalStartedAt] = useState(0);
-  const fileRef = useRef<HTMLInputElement>(null);
-  const addFileRef = useRef<HTMLInputElement>(null);
-  const tabsRef = useRef<HTMLDivElement>(null);
-  const [swapIdx, setDragIdx] = useState<number | null>(null);
-  const [previews, setPreviews] = useState<string[]>([]);
-
-  // A refresh used to land on an empty form, losing the transcript (the slow,
-  // metered step) or the evaluation on screen. Photos cannot go in a snapshot,
-  // so a refresh on the review step keeps the transcript and evaluates from
-  // it, which /api/evaluate accepts without the images. A request in flight
-  // is lost either way; the reader returns to the step before it.
+  // A refresh keeps the step, the transcript and the report; photos cannot
+  // be kept, so a refresh on the review step marks from the transcript alone.
   useRefreshSafe(
     'ho_evaluate_v1',
     { stage, question, marks, extractedText, evaluation, submittedQ, submittedM, tab, evalMode, openEntryId: openEntry?.id ?? null },
@@ -230,1324 +126,543 @@ export default function EvaluatePage() {
       setSubmittedM(saved.submittedM);
       setTab(saved.tab);
       setEvalMode(saved.evalMode);
-      if (saved.openEntryId) setOpenEntry(loadHistory().find(e => e.id === saved.openEntryId) ?? null);
+      if (saved.openEntryId) setOpenEntry(loadHistory().find((e) => e.id === saved.openEntryId) ?? null);
     },
   );
 
-  // A question opened from the PYQs arrives as ?question=&marks=, so the
-  // reader starts writing instead of copying it across. It starts a fresh
-  // answer, over whatever this tab had open before, and leaves the address so
-  // a refresh later does not wipe what they have done since.
+  // A question opened from the PYQs arrives as ?question=&marks=. It starts a
+  // fresh answer, and leaves the address so a refresh does not wipe it later.
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
     const q = p.get('question');
     if (!q) return;
-    setEvalMode('single');
-    setStage('form');
-    setEvaluation(null);
-    setExtractedText('');
+     
+    setEvalMode('single'); setStage('form'); setEvaluation(null); setExtractedText(''); setOpenEntry(null);
     setQuestion(q.slice(0, 2000));
     const m = Number(p.get('marks'));
     if (m) setMarks(m <= 10 ? 10 : m <= 15 ? 15 : 20);
-    p.delete('question');
-    p.delete('marks');
+     
+    p.delete('question'); p.delete('marks');
     window.history.replaceState(window.history.state, '', `${window.location.pathname}${p.size ? `?${p}` : ''}`);
   }, []);
 
-const handleOcr = useCallback(async () => {
-    if (!files || files.length === 0) { setError("Please upload at least one file."); return; }
-    const hasPdf = files.some(f => f.type === 'application/pdf');
-    setError(""); setOcrLoading(true);
+  // Each new step starts at its top.
+  useEffect(() => { window.scrollTo(0, 0); }, [stage, openEntry]);
+
+  const tokenRef = useRef<string | null>(null);
+
+  const handleOcr = useCallback(async () => {
+    if (!files.length) { setError(hi ? 'कम से कम एक पेज अपलोड करें।' : 'Upload at least one page first.'); return; }
+    const hasPdf = files.some((f) => f.type === 'application/pdf');
+    setError(''); setOcrLoading(true);
     setReadStages({ preparing: { files: files.length, pdf: hasPdf }, askQuestion: !question.trim() });
     setReadStartedAt(Date.now());
-    // Check if any file is a PDF — convert to images first
-    let processedFiles = [...files];
+    let processed = [...files];
     if (hasPdf) {
       try {
         const expanded: File[] = [];
-        for (const f of files) {
-          if (f.type === 'application/pdf') {
-            const pages = await pdfToImages(f);
-            expanded.push(...pages);
-          } else {
-            expanded.push(f);
-          }
-        }
-        processedFiles = expanded;
-        setProcessedImageFiles(expanded);
-      } catch (e: unknown) {
-        setError('PDF conversion failed: ' + (e instanceof Error ? e.message : 'Unknown error'));
+        for (const f of files) expanded.push(...(f.type === 'application/pdf' ? await pdfToImages(f) : [f]));
+        processed = expanded;
+      } catch (e) {
+        setError((hi ? 'PDF नहीं खुल सका: ' : 'The PDF could not be opened: ') + (e instanceof Error ? e.message : ''));
         setOcrLoading(false);
         return;
       }
     }
-    setProcessedImageFiles(processedFiles);
-    const compressed = await Promise.all(processedFiles.map(f => compressImage(f)));
-    setReadStages(prev => ({ ...prev, prepared: { pages: compressed.length } }));
+    setProcessedImageFiles(processed);
+    const compressed = await Promise.all(processed.map((f) => compressImage(f)));
+    setReadStages((prev) => ({ ...prev, prepared: { pages: compressed.length } }));
     const fd = new FormData();
-    fd.append("question", question);
-    compressed.forEach(f => fd.append("files", f));
+    fd.append('question', question);
+    compressed.forEach((f) => fd.append('files', f));
     try {
-      const res = await fetch("/api/ocr", {
-        method: "POST",
-        headers: { "x-user-token": tokenRef.current ?? "", "x-ocr-stages": "1" },
-        body: fd,
-      });
-      const { status, body } = await readProgress(res, e => setReadStages(prev => applyReadStage(prev, e)));
+      const res = await fetch('/api/ocr', { method: 'POST', headers: { 'x-user-token': tokenRef.current ?? '', 'x-ocr-stages': '1' }, body: fd });
+      const { status, body } = await readProgress(res, (e) => setReadStages((prev) => applyReadStage(prev, e)));
       const data = (body ?? {}) as { text?: string; detectedQuestion?: string; error?: string };
-      if (status >= 400) throw new Error(data.error || "OCR failed");
-      // Straight on to the review step: the panel closes as the transcript opens.
-      setExtractedText(data.text ?? "");
+      if (status >= 400) throw new Error(data.error || (hi ? 'पढ़ा नहीं जा सका' : 'The pages could not be read'));
+      setExtractedText(data.text ?? '');
       if (data.detectedQuestion && !question.trim()) {
         setQuestion(data.detectedQuestion);
+        // A sheet headed "(15 marks)" is marked out of 15 without being told.
+        const m = data.detectedQuestion.match(/\b(10|15|20)\s*marks?\b/i);
+        if (m) setMarks(Number(m[1]) as Marks);
       }
-      setStage("ocr");
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "OCR failed. Please try again.");
+      setStage('ocr');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : (hi ? 'फिर कोशिश करें।' : 'Please try again.'));
     } finally { setOcrLoading(false); }
-  }, [files, question]);
+  }, [files, question, hi]);
 
-  // ── Subscription gate — must come after handleOcr is defined ──────────────
-  const { UsagePill, GateModals, handleEvaluate, usage, increment, showChatLimitModal: showEvalLimitModal, showLoginModal } = useSubscriptionGate(handleOcr);
-  // showEvalLimitModal re-used here as the paywall trigger for PDF evaluator
-  const tokenRef = useRef<string | null>(null);
-  const { langHi } = useLang();
+  // The free allowance and sign-in are checked before reading starts.
+  const { GateModals, handleEvaluate, usage, showChatLimitModal, showLoginModal } = useSubscriptionGate(handleOcr);
   useEffect(() => {
-    // Get Firebase token for owner bypass
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      currentUser.getIdToken().then(token => {
-        tokenRef.current = token ?? usage.token ?? null;
-      });
-    } else {
-      tokenRef.current = usage.token ?? null;
-    }
+    const u = auth.currentUser;
+    if (u) u.getIdToken().then((tk) => { tokenRef.current = tk ?? usage.token ?? null; });
+    else tokenRef.current = usage.token ?? null;
   }, [usage.token]);
 
   const submit = async () => {
-    setError(""); setLoading(true); setEvaluation(null);
+    if (!question.trim()) { setError(hi ? 'पहले प्रश्न लिखें।' : 'Add the question first.'); return; }
+    setError(''); setLoading(true); setEvaluation(null);
     setEvalStages({}); setEvalStartedAt(Date.now());
     const fd = new FormData();
-    fd.append("question", question); fd.append("marks", marks.toString());
-    fd.append("extractedText", extractedText);
-    const evalFiles = processedImageFiles.length > 0 ? processedImageFiles : (files ? [...files] : []);
-    if (evalFiles.length > 0) { const compEval = await Promise.all(evalFiles.map(f => compressImage(f))); compEval.forEach(f => fd.append("files", f)); }
-    fd.append("lang", langHi ? "hi" : "en");
+    fd.append('question', question); fd.append('marks', marks.toString());
+    fd.append('extractedText', extractedText);
+    const evalFiles = processedImageFiles.length ? processedImageFiles : files;
+    if (evalFiles.length) (await Promise.all(evalFiles.map((f) => compressImage(f)))).forEach((f) => fd.append('files', f));
+    fd.append('lang', hi ? 'hi' : 'en');
     try {
-      const res  = await fetch("/api/evaluate", {
-        method: "POST",
-        headers: { "x-user-token": tokenRef.current ?? "", "x-eval-stages": "1" },
-        body: fd,
+      const res = await fetch('/api/evaluate', { method: 'POST', headers: { 'x-user-token': tokenRef.current ?? '', 'x-eval-stages': '1' }, body: fd });
+      const { status, body } = await readProgress(res, (e) => setEvalStages((prev) => applyEvalStage(prev, e)));
+      const data = body as (Evaluation & { error?: string }) | null;
+      if (status >= 400 || !data) throw new Error(data?.error || (hi ? 'मूल्यांकन नहीं हो सका' : 'The evaluation failed'));
+      saveToHistory({
+        question, marks: data.marks, marksOutOf: data.marks_out_of, wordCount: data.word_count, wordCountRating: data.word_count_rating,
+        overallFeedback: data.overall_feedback,
+        sectionMarks: { introduction: data.section_marks.introduction, body: data.section_marks.body, conclusion: data.section_marks.conclusion, presentation: data.section_marks.presentation },
+        demandOfQuestion: data.demand_of_question,
+        introduction: data.introduction as AnswerEntry['introduction'], body: data.body as AnswerEntry['body'], conclusion: data.conclusion as AnswerEntry['conclusion'],
+        historiansToCite: data.historians_to_cite, modelAnswer: data.model_answer,
       });
-      const progress = await readProgress(res, e => setEvalStages(prev => applyEvalStage(prev, e)));
-      const status = progress.status;
-      const data: any = progress.body;
-      if (status >= 400 || !data) throw new Error(data?.error || "Evaluation failed");
-      setSubmittedQ(question);
-      // Save full evaluation to history
-      if (data) {
-        saveToHistory({
-          question,
-          marks: data.marks,
-          marksOutOf: data.marks_out_of,
-          wordCount: data.word_count,
-          wordCountRating: data.word_count_rating,
-          overallFeedback: data.overall_feedback,
-          sectionMarks: {
-            introduction: data.section_marks.introduction,
-            body: data.section_marks.body,
-            conclusion: data.section_marks.conclusion,
-            presentation: data.section_marks.presentation,
-          },
-          demandOfQuestion: data.demand_of_question,
-          introduction: data.introduction,
-          body: data.body,
-          conclusion: data.conclusion,
-          historiansToCite: data.historians_to_cite,
-          modelAnswer: data.model_answer,
-        });
-      }
-      setSubmittedM(marks);
-      setTimeout(() => setEvaluation(data), 500);
-      setStage("result");
-      setTab("eval");
-      // eval_count tracked server-side in /api/evaluate
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Something went wrong.");
+      setHistory(loadHistory());
+      setSubmittedQ(question); setSubmittedM(marks);
+      setEvaluation(data); setStage('result'); setTab('eval');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : (hi ? 'कुछ गड़बड़ हुई।' : 'Something went wrong.'));
     } finally { setLoading(false); }
   };
 
-  const pct      = evaluation ? (evaluation.marks / evaluation.marks_out_of) * 100 : 0;
-  const scoreCol = pct >= 70 ? "var(--green)" : pct >= 50 ? "var(--accent)" : "var(--red)";
+  // ── Pages ──
+  const addFiles = (added: File[]) => {
+    if (!added.length) return;
+    setFiles((f) => [...f, ...added].slice(0, 20));
+    setPreviews((p) => [...p, ...added.map((f) => (f.type === 'application/pdf' ? '__pdf__' : URL.createObjectURL(f)))].slice(0, 20));
+    setError('');
+  };
+  const removePage = (i: number) => { setFiles((f) => f.filter((_, j) => j !== i)); setPreviews((p) => p.filter((_, j) => j !== i)); };
+  const movePage = (i: number, d: -1 | 1) => {
+    const j = i + d;
+    if (j < 0 || j >= files.length) return;
+    const swap = <T,>(arr: T[]) => { const a = [...arr]; [a[i], a[j]] = [a[j], a[i]]; return a; };
+    setFiles(swap); setPreviews(swap);
+  };
+
+  const reset = () => {
+    setEvaluation(null); setFiles([]); setPreviews([]); setQuestion(''); setSubmittedQ(''); setExtractedText(''); setError('');
+    setProcessedImageFiles([]); setStage('form'); setOpenEntry(null);
+  };
+  const pickMode = (m: Mode) => { setEvalMode(m); setOpenEntry(null); if (stage === 'result') reset(); };
+
+  const signedOut = !usage.loading && !usage.fingerprint;
+  const freeLeft = usage.subscribed ? null : Math.max(0, 1 - (usage.eval_count ?? 0));
+
+  const thumbs = (editable: boolean) => previews.length > 0 && (
+    <div className="ev-thumbs">
+      {previews.map((src, i) => (
+        <div key={i} className="ev-thumb">
+          {src === '__pdf__'
+            ? <div className="ev-thumb-pdf"><PdfIcon /><span>{files[i]?.name ?? 'PDF'}</span></div>
+            // eslint-disable-next-line @next/next/no-img-element
+            : <img src={src} alt={`Page ${i + 1}`} />}
+          <span className="ev-thumb-n">{i + 1}</span>
+          {editable && (
+            <>
+              <button type="button" className="ev-thumb-rm" onClick={() => removePage(i)} aria-label={`Remove page ${i + 1}`}>×</button>
+              <span className="ev-thumb-move">
+                <button type="button" onClick={() => movePage(i, -1)} disabled={i === 0} aria-label={`Move page ${i + 1} earlier`}>‹</button>
+                <button type="button" onClick={() => movePage(i, 1)} disabled={i === files.length - 1} aria-label={`Move page ${i + 1} later`}>›</button>
+              </span>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+
+  const marksPicker = (
+    <div className="ev-marks" role="radiogroup" aria-label={hi ? 'अंक' : 'Marks'}>
+      {([10, 15, 20] as const).map((m) => (
+        <button key={m} type="button" role="radio" aria-checked={marks === m} className={`ev-mark${marks === m ? ' on' : ''}`} onClick={() => setMarks(m)}>
+          {m} {hi ? 'अंक' : 'marks'}
+        </button>
+      ))}
+    </div>
+  );
+
+  const chatHref = (q: string) => `/chat?q=${encodeURIComponent(q)}`;
 
   return (
     <>
-      <style>{`
-        .ev-wrap * { box-sizing: border-box; }
-        .ev-upload { border: 1.5px dashed var(--border2); border-radius:6px; padding:44px 24px;
-          text-align:center; cursor:pointer; background:var(--bg4); transition:all 0.2s; }
-        .ev-upload:hover, .ev-upload.has { border-color:var(--accent); background:var(--accent-dim); }
-        .ev-ta { width:100%; box-sizing:border-box; background:var(--bg4); border:1.5px solid var(--border2); border-radius:6px;
-          color:var(--text); padding:14px 16px; font-family:var(--font-body); font-size:0.95rem;
-          resize:vertical; line-height:1.75; transition:border-color 0.2s; outline:none; text-align:left; white-space:pre-wrap; }
-        .ev-ta:focus { border-color:var(--accent); }
-        .ev-ta::placeholder { color:var(--text3); }
-        .ev-mchip { padding:9px 26px; border-radius:4px; cursor:pointer;
-          border:1.5px solid var(--border2); background:var(--bg4); color:var(--text2);
-          font-family:var(--font-mono); font-size:0.82rem; letter-spacing:0.06em; transition:all 0.15s; }
-        .ev-mchip.active { background:var(--accent-dim); border-color:var(--accent); color:var(--accent); }
-        .ev-mchip:hover:not(.active) { border-color:var(--text3); color:var(--text2); }
-        /* The page's main action, solid in the site's lapis like every other
-           primary button. It used to be a pale outline in spaced mono capitals,
-           which read as secondary and wrapped the moment it was squeezed. */
-        .ev-btn { width:100%; min-height:52px; padding:0 var(--space-6);
-          display:inline-flex; align-items:center; justify-content:center; gap:var(--space-2);
-          background:var(--accent); color:var(--accent-on); border:1px solid var(--accent); border-radius:var(--radius-md);
-          font-family:var(--font-body); font-size:0.98rem; font-weight:600; white-space:nowrap;
-          cursor:pointer; transition:background 0.15s, border-color 0.15s, opacity 0.15s; }
-        .ev-btn:hover:not(:disabled) { background:color-mix(in srgb, var(--accent) 88%, var(--text)); }
-        .ev-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
-        .ev-btn:disabled { opacity:0.5; cursor:not-allowed; }
-        /* The way back: outlined, sized to its label, and never the one that shrinks. */
-        .ev-btn-ghost { background:transparent; color:var(--text2); border-color:var(--border2); font-weight:500; }
-        .ev-btn-ghost:hover:not(:disabled) { background:var(--bg2); color:var(--text); border-color:var(--border3); }
-        .ev-btn-sm { width:auto; flex-shrink:0; }
-        .ev-actions { display:flex; gap:var(--space-3); flex-wrap:wrap; }
-        .ev-actions .ev-btn:not(.ev-btn-sm) { flex:1; min-width:220px; }
-        .ev-err { background:var(--danger-wash); border:1px solid color-mix(in srgb, var(--danger-text) 30%, transparent);
-          border-radius:4px; padding:12px 16px; color:var(--danger-text);
-          font-size:0.85rem; margin-bottom:20px; font-family:var(--font-ui); }
-        .ev-score-row { display:flex; justify-content:space-between;
-          align-items:flex-end; padding-bottom:36px;
-          border-bottom:1px solid var(--border); margin-bottom:32px; }
-        .ev-score-num { font-family:var(--font-mono); font-size:5.5rem; font-weight:700; line-height:1; }
-        .ev-score-denom { font-family:var(--font-mono); font-size:1.8rem; color:var(--text3); }
-        .ev-bar-bg { background:var(--bg4); border-radius:2px; height:4px; overflow:hidden; margin-top:14px; width:260px; }
-        .ev-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
-        /* ── MARKS GAUGE ── */
-        .ev-gauge { display:flex; align-items:center; gap:18px; background:var(--bg2);
-          border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
-        .ev-gauge-emoji { font-size:2.4rem; line-height:1; flex-shrink:0; }
-        .ev-gauge-body { flex:1; min-width:0; }
-        .ev-gauge-top { display:flex; align-items:baseline; gap:8px; margin-bottom:8px; }
-        .ev-gauge-score { font-family:var(--font-mono); font-size:1.3rem; font-weight:700; }
-        .ev-gauge-outof { font-family:var(--font-mono); font-size:0.85rem; color:var(--text3); }
-        .ev-gauge-label { font-family:var(--font-ui); font-size:0.8rem; color:var(--text2); margin-left:4px; }
-        .ev-gauge-track { position:relative; height:8px; border-radius:4px;
-          background:linear-gradient(90deg,var(--red),var(--warning-text),var(--green)); margin-top:4px; }
-        .ev-gauge-arrow { position:absolute; top:-9px; width:0; height:0;
-          border-left:6px solid transparent; border-right:6px solid transparent;
-          border-top:7px solid var(--text); transform:translateX(-50%); transition:left 1.2s cubic-bezier(.16,1,.3,1); }
-        .ev-gauge-scale { display:flex; justify-content:space-between; margin-top:4px;
-          font-family:var(--font-mono); font-size:0.62rem; color:var(--text3); }
-        .ev-wc { font-family:var(--font-mono); font-size:2.8rem; font-weight:700; color:var(--text); line-height:1; }
-        .ev-pill { display:inline-block; padding:3px 12px; border-radius:3px;
-          font-family:var(--font-mono); font-size:0.64rem; letter-spacing:0.12em;
-          text-transform:uppercase; margin-top:10px; font-weight:600; }
-        .pill-g { background:var(--success-wash); color:var(--success-text); border:1px solid color-mix(in srgb, var(--success-text) 30%, transparent); }
-        .pill-r { background:var(--danger-wash); color:var(--danger-text); border:1px solid color-mix(in srgb, var(--danger-text) 30%, transparent); }
-        .pill-y { background:var(--accent-dim); color:var(--accent); border:1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
-        /* ── TABS ── */
-        .ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(0,0,0,0.07); }
-        .ev-tab { padding:13px 28px; cursor:pointer; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-family:var(--font-mono); background:none; border:none; color:var(--text3); border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
-        .ev-tab.active { color:var(--text); border-bottom-color:var(--accent); }
-        .ev-tab:hover:not(.active) { color:var(--text2); }
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
+      <div className="ev ds">
+        {ocrLoading && <ReadProgress stages={readStages} startedAt={readStartedAt} langHi={hi} />}
+        {loading && <EvalProgress stages={evalStages} startedAt={evalStartedAt} langHi={hi} />}
 
-        /* ── BASE CARD ── */
-        .ev-card { background:var(--bg2); border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
-        .ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,0,0,0.02),transparent 60%); pointer-events:none; }
-        .ev-card-gold { border-color:color-mix(in srgb, var(--warning-text) 18%, transparent); background:linear-gradient(135deg, color-mix(in srgb, var(--warning-text) 6%, var(--bg2)), var(--bg2)); }
-        .ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--warning-text) 40%, transparent),transparent); }
-        .ev-card-green { border-color:color-mix(in srgb, var(--success-text) 12%, transparent); background:linear-gradient(135deg, color-mix(in srgb, var(--success-text) 6%, var(--bg2)), var(--bg2)); }
-        .ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--success-text) 35%, transparent),transparent); }
-        /* ── STRENGTHS / WEAKNESSES 2-COL ── */
-        .ev-sw-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:14px 0; }
-        @media (max-width:640px) { .ev-sw-grid { grid-template-columns:1fr; } }
-        .ev-sw-col { border-radius:8px; padding:14px 16px; }
-        .ev-sw-col-s { background:var(--success-wash); border:1px solid color-mix(in srgb, var(--success-text) 14%, transparent); }
-        .ev-sw-col-w { background:var(--danger-wash); border:1px solid color-mix(in srgb, var(--danger-text) 14%, transparent); }
-        .ev-sw-head { display:flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:0.62rem;
-          letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }
-        .ev-sw-head-s { color:var(--green); }
-        .ev-sw-head-w { color:var(--red); }
-        .ev-sw-item { display:flex; gap:9px; align-items:flex-start; margin-bottom:9px; font-size:0.86rem;
-          line-height:1.65; color:var(--text); font-family:var(--font-body); }
-        .ev-sw-item:last-child { margin-bottom:0; }
-        .ev-sw-empty { font-size:0.82rem; color:var(--text3); font-style:italic; }
-
-        /* ── SECTION TITLE ── */
-        .ev-ct { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
-        .ev-ct::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,color-mix(in srgb, var(--accent) 25%, transparent),transparent); }
-
-        /* ── DEMAND LIST ── */
-        .ev-demand-item { display:flex; gap:14px; padding:13px 0; border-bottom:1px solid rgba(0,0,0,0.04); align-items:flex-start; }
-        .ev-demand-item:last-child { border-bottom:none; padding-bottom:0; }
-        .ev-demand-bullet { width:6px; height:6px; border-radius:50%; background:var(--accent); margin-top:7px; flex-shrink:0; box-shadow:0 0 8px color-mix(in srgb, var(--accent) 50%, transparent); }
-        .ev-demand-txt { font-size:0.9rem; color:var(--text); line-height:1.75; font-family:var(--font-body); }
-
-        /* ── WHAT YOU WROTE ── */
-        .ev-wrote { background:rgba(0,0,0,0.025); border:1px solid rgba(0,0,0,0.07); border-radius:8px; padding:16px 18px; margin-bottom:18px; position:relative; }
-        .ev-wrote::before { content:''; position:absolute; left:0; top:12px; bottom:12px; width:3px; background:linear-gradient(180deg,var(--accent),color-mix(in srgb, var(--accent) 20%, transparent)); border-radius:0 2px 2px 0; }
-        .ev-wrote-lbl { font-family:var(--font-mono); font-size:0.52rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; padding-left:14px; }
-        .ev-wrote-txt { font-size:0.88rem; color:var(--text2); line-height:1.75; font-style:normal; padding-left:14px; text-align:justify; }
-
-        /* ── ANALYSIS TEXT ── */
-        .ev-analysis { font-size:0.92rem; color:var(--text); line-height:1.85; margin-bottom:18px; font-family:var(--font-body); }
-
-        /* ── SUBLABELS (Strengths / Weaknesses / Suggestions) ── */
-        /* These are full sentences of advice, not a section label. They were
-           set in the label style: mono, 0.55rem, 0.22em tracking and
-           uppercased, which is unreadable at sentence length. Body face,
-           sentence case, normal tracking. */
-        /* Not flex. The line is built from text fragments with <strong> around
-           each historian's name, and a flex container turns every one of those
-           into a column, which is what broke the sentence into vertical
-           strips. A paragraph is a paragraph. */
-        .ev-sl { font-family:var(--font-body); font-size:0.92rem; line-height:1.75; letter-spacing:normal; text-transform:none; color:var(--text2); margin:14px 0 10px; }
-        .ev-sl.g { color:color-mix(in srgb, var(--success-text) 60%, transparent); }
-        .ev-sl.r { color:color-mix(in srgb, var(--danger-text) 50%, transparent); }
-
-        /* ── LISTS ── */
-        ul.ev-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
-        ul.ev-list li { padding:10px 14px 10px 16px; background:rgba(0,0,0,0.02); border-radius:6px; border-left:2px solid rgba(0,0,0,0.08); font-size:0.88rem; color:var(--text2); line-height:1.7; font-family:var(--font-body); }
-        ul.ev-list li.g { border-left-color:color-mix(in srgb, var(--success-text) 45%, transparent); color:var(--success-text); background:var(--success-wash); }
-        ul.ev-list li.r { border-left-color:color-mix(in srgb, var(--danger-text) 40%, transparent); color:var(--danger-text); background:var(--danger-wash); }
-
-        /* ── QUESTION BOX ── */
-        .ev-qbox { background:linear-gradient(135deg, var(--bg2), var(--bg3)); border:1px solid color-mix(in srgb, var(--accent) 20%, transparent); border-radius:10px; padding:20px 24px; margin-bottom:20px; }
-        .ev-qlabel { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
-        .ev-qtext { font-size:1.05rem; color:var(--text); line-height:1.65; font-family:var(--font-body); }
-
-        /* ── MODEL ANSWER ── */
-        .ev-ml { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:color-mix(in srgb, var(--success-text) 55%, transparent); margin:22px 0 12px; display:flex; align-items:center; gap:8px; }
-        .ev-ml::after { content:''; flex:1; height:1px; background:var(--success-wash); }
-        .ev-ml:first-of-type { margin-top:0; }
-        .ev-mp { font-size:0.93rem; line-height:1.9; color:var(--text); margin-bottom:0; font-family:var(--font-body); }
-
-        /* ── HISTORIANS ── */
-        .ev-hist { padding:22px 0; border-bottom:1px solid rgba(0,0,0,0.05); display:grid; gap:6px; }
-        .ev-hist:first-child { padding-top:0; }
-        .ev-hist:last-child { border-bottom:none; padding-bottom:0; }
-        .ev-hist-name { font-family:var(--font-display); font-size:1.0rem; font-weight:700; color:var(--accent); letter-spacing:0.01em; }
-        .ev-hist-work { font-family:var(--font-mono); font-size:0.68rem; color:var(--text3); letter-spacing:0.05em; }
-        .ev-hist-arg { font-size:0.88rem; color:var(--text2); line-height:1.75; font-family:var(--font-body); }
-
-        /* ── OVERALL FEEDBACK ── */
-        .ev-overall-txt { font-size:0.93rem; line-height:1.9; color:var(--text); font-family:var(--font-body); }
-
-        .ev-fade { animation:ev-fi 0.4s ease; }
-        @keyframes ev-fi { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-        .ev-dl-btn { display:flex; align-items:center; gap:8px; padding:10px 20px;
-          border:1.5px solid color-mix(in srgb, var(--success-text) 30%, transparent); background:var(--success-wash);
-          color:var(--success-text); font-family:var(--font-mono); font-size:0.68rem;
-          letter-spacing:0.15em; text-transform:uppercase; border-radius:4px;
-          cursor:pointer; transition:all 0.2s; }
-        .ev-dl-btn:hover { background:var(--success-wash); border-color:color-mix(in srgb, var(--success-text) 50%, transparent); }
-        .ev-sec-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:32px; }
-        @media(max-width:620px){ .ev-sec-grid { grid-template-columns:repeat(2,1fr); } }
-        .ev-sec-card { background:var(--bg4); border:1px solid var(--border); border-radius:6px; padding:16px 14px; }
-        .ev-sec-lbl { font-family:var(--font-mono); font-size:0.52rem; letter-spacing:0.22em;
-          text-transform:uppercase; color:var(--text3); margin-bottom:10px; }
-        .ev-sec-num { font-family:var(--font-mono); font-size:1.85rem; font-weight:700; line-height:1; }
-        .ev-sec-den { font-size:0.9rem; color:var(--text3); }
-        .ev-sec-bar-bg { background:var(--bg4); border-radius:2px; height:3px; overflow:hidden; margin:10px 0 8px; }
-        .ev-sec-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
-        .ev-sec-rsn { font-size:0.76rem; color:var(--text3); line-height:1.5; font-family:var(--font-ui); }
-        .ev-pages { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
-        .ev-page-item { position:relative; width:80px; user-select:none; -webkit-user-select:none; }
-        .ev-page-arrows { display:flex; justify-content:center; gap:4px; margin-top:5px; }
-        .ev-page-item img { width:80px; height:100px; object-fit:cover; border-radius:4px; border:2px solid var(--border2); display:block; transition:border-color 0.15s; }
-        .ev-page-arrow { background:var(--bg4); border:1px solid var(--border2); color:var(--text2); border-radius:3px; width:34px; height:22px; font-size:0.75rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
-        .ev-page-arrow:hover { background:var(--border2); color:var(--white-50); border-color:var(--text3); } .ev-page-arrow:disabled { opacity:0.2; cursor:default; }
-        .ev-page-num { position:absolute; top:4px; left:4px; background:rgba(0,0,0,0.75); color:var(--white-50); font-family:var(--font-mono); font-size:0.6rem; padding:2px 6px; border-radius:3px; }
-        .ev-page-del { position:absolute; top:4px; right:4px; background:color-mix(in srgb, var(--danger-text) 85%, transparent); color:var(--white-50); font-size:0.65rem; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; line-height:1; }
-        .ev-page-add { width:80px; height:100px; border:1.5px dashed var(--border2); border-radius:4px; background:var(--bg4); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; color:var(--text3); font-size:1.4rem; transition:all 0.15s; }
-        .ev-page-add:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-dim); }
-
-      `}</style>
-
-      <div className="ev-layout" style={{ display:"flex", height:"calc(100vh - 60px)", background:"var(--bg)", overflow:"hidden" }}>
-
-        {/* Mobile-only floating trigger to reopen history drawer */}
-        {!sidebarOpen && (
-          <button
-            className="ev-sidebar-trigger"
-            onClick={() => setSidebarOpen(true)}
-            aria-label="Open past evaluations"
-          >
-            <span style={{ fontSize:"0.95rem" }}>▸</span>
-          </button>
-        )}
-
-        {/* Mobile backdrop — only visible+clickable when sidebar open on mobile */}
-        {sidebarOpen && (
-          <div className={`ev-sidebar-backdrop${sidebarPref === null ? ' ev-sidebar-auto' : ''}`} onClick={() => setSidebarOpen(false)} />
-        )}
-
-        {/* ── History Sidebar ── */}
-        <div className="ev-sidebar" data-open={sidebarPref === null ? 'auto' : sidebarOpen ? 'true' : 'false'} style={{
-          width: sidebarOpen ? 280 : 40, minWidth: sidebarOpen ? 280 : 40,
-          borderRight:"1px solid var(--border-subtle)", background:"var(--bg-raised)",
-          transition:"all 0.25s ease", overflow:"hidden", flexShrink:0,
-          display:"flex", flexDirection:"column",
-        }}>
-          {/* Sidebar toggle */}
-          <button
-            onClick={() => setSidebarOpen(o => !o)}
-            style={{ padding:"14px", background:"transparent", border:"none", borderBottom:"1px solid var(--border-subtle)", color:"var(--text3)", cursor:"pointer", fontSize:"0.75rem", textAlign:"left", display:"flex", alignItems:"center", gap:"8px", flexShrink:0 }}
-          >
-            <span style={{ fontSize:"1rem" }}>{sidebarOpen ? "◂" : "▸"}</span>
-            {sidebarOpen && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)", whiteSpace:"nowrap" }}>Past Evaluations</span>}
-          </button>
-
-          {sidebarOpen && (
-            <div style={{ flex:1, overflowY:"auto", padding:"8px 0" }}>
-              {history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? e.type === "map" : !e.type || e.type === "single").length === 0 ? (
-                <EmptyState
-                  size="sm"
-                  title={langHi ? 'अभी कोई मूल्यांकन नहीं' : 'Nothing marked yet'}
-                >
-                  {evalMode === "map"
-                    ? (langHi ? 'मानचित्र प्रश्न जाँचें, वे यहाँ दिखेंगे।' : 'Evaluate a map question and it will appear here.')
-                    : evalMode === "batch"
-                      ? (langHi ? 'पूरा पेपर या FLT जाँचें, वह यहाँ दिखेगा।' : 'Evaluate a full paper or FLT and it will appear here.')
-                      : (langHi ? 'अपना पहला उत्तर जमा करें, उसका मूल्यांकन यहाँ रहेगा।' : 'Submit your first answer and its marking will be kept here.')}
-                </EmptyState>
-              ) : history.filter(e => evalMode === "batch" ? e.type === "batch" : evalMode === "map" ? e.type === "map" : !e.type || e.type === "single").map(entry => {
-                const pct = Math.round((entry.marks / entry.marksOutOf) * 100);
-                const color = pct >= 70 ? "var(--green)" : pct >= 50 ? "var(--yellow)" : "var(--red)";
-                const isOpen = openEntry?.id === entry.id;
-                return (
-                  <button
-                    key={entry.id}
-                    onClick={() => setOpenEntry(isOpen ? null : entry)}
-                    style={{
-                      width:"100%", padding:"12px 16px", background: isOpen ? "var(--bg3)" : "transparent",
-                      border:"none", borderBottom:"1px solid var(--border)",
-                      cursor:"pointer", textAlign:"left", transition:"background 0.15s",
-                    }}
-                    onMouseEnter={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "var(--bg3)"; }}
-                    onMouseLeave={e => { if (!isOpen) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
-                  >
-                    <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
-                      <span style={{ fontSize:"0.65rem", fontFamily:"var(--font-mono)", color, fontWeight:700 }}>{pct}%</span>
-                      <span style={{ fontSize:"0.6rem", color:"var(--text3)", fontFamily:"var(--font-mono)" }}>
-                        {new Date(entry.date).toLocaleDateString("en-IN", { day:"numeric", month:"short" })}
-                      </span>
-                    </div>
-                    <div style={{ fontSize:"0.75rem", color: isOpen ? "var(--text)" : "var(--text3)", lineHeight:1.4, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>
-                      {entry.question}
-                    </div>
-                    <div style={{ marginTop:6, height:2, background:"var(--bg4)", borderRadius:2, overflow:"hidden" }}>
-                      <div style={{ height:"100%", width:`${pct}%`, background:color, borderRadius:2 }} />
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* ── Main content ── */}
         {openEntry ? (
-          /* Past evaluation viewer — full result */
-          <div className="ev-wrap" style={{ flex:1, padding:"48px 40px 96px", overflowY:"auto", maxWidth:820 }}>
-            <div style={{ marginBottom: 'var(--space-8)' }}>
-              <BackButton onClick={() => setOpenEntry(null)}>Back to Evaluate</BackButton>
-            </div>
-
-            {/* Date + question */}
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text3)", marginBottom:10 }}>
-              {new Date(openEntry.date).toLocaleDateString("en-IN", { day:"numeric", month:"long", year:"numeric" })}
-            </div>
-            <div className="ev-qtext" style={{ marginBottom:32, paddingBottom:24, borderBottom:"1px solid var(--border)" }}>
-              {openEntry.question}
-            </div>
-
-            {/* Score row */}
-            <div className="ev-score-row">
-              <div>
-                {(() => { const col = (openEntry.marks/openEntry.marksOutOf) >= 0.7 ? "var(--green)" : (openEntry.marks/openEntry.marksOutOf) >= 0.5 ? "var(--yellow)" : "var(--red)"; return (
-                  <><span className="ev-score-num" style={{ color:col }}>{openEntry.marks}</span><span className="ev-score-denom"> /{openEntry.marksOutOf}</span></>
-                ); })()}
-                {openEntry.wordCount && (
-                  <div style={{ marginTop:8, fontFamily:"var(--font-mono)", fontSize:"0.65rem", color:"var(--text2)" }}>
-                    {openEntry.wordCount} words · <span style={{ color: openEntry.wordCountRating === "GOOD" ? "var(--green)" : "var(--yellow)" }}>{openEntry.wordCountRating}</span>
-                  </div>
-                )}
+          <Report data={fromEntry(openEntry)} tab={tab} setTab={setTab} onAnother={reset} onBack={() => setOpenEntry(null)} chatHref={chatHref(openEntry.question)} hi={hi} />
+        ) : evaluation && stage === 'result' ? (
+          <Report data={fromEvaluation(submittedQ, submittedM, evaluation)} tab={tab} setTab={setTab} onAnother={reset} chatHref={chatHref(submittedQ)} hi={hi} />
+        ) : stage === 'ocr' ? (
+          /* ── Check what was read ── */
+          <div className="ds-container ev-grid ev-top">
+            <section className="ev-card">
+              <div className="ev-step">{hi ? 'चरण 2 में से 2' : 'Step 2 of 2'}</div>
+              <h1 className="ev-card-title">{hi ? 'जो पढ़ा गया, उसे जाँचें' : 'Check what we read'}</h1>
+              <p className="ev-card-lede">{hi ? 'यही पाठ जाँचा जाएगा। एक बार पढ़ लें और कोई भी नाम, तारीख या शब्द ठीक कर दें।' : 'This text is what gets marked. Read it through once and fix any name, date or term the reader got wrong.'}</p>
+              {error && <div className="ev-err" role="alert">{error}</div>}
+              <label className="ev-field">
+                <span className="ev-label">{hi ? 'प्रश्न' : 'Question'}{!question.trim() && <em className="ev-missing">{hi ? ' (पढ़ा नहीं गया, लिख दें)' : ' (we could not read it; type it in)'}</em>}</span>
+                <textarea className={`ev-input${!question.trim() ? ' missing' : ''}`} value={question} onChange={(e) => setQuestion(e.target.value)} rows={3} placeholder={hi ? 'प्रश्न लिखें या चिपकाएँ' : 'Type or paste the question'} />
+              </label>
+              <div className="ev-field"><span className="ev-label">{hi ? 'अंक' : 'Marks'}</span>{marksPicker}</div>
+              <label className="ev-field">
+                <span className="ev-label-row"><span className="ev-label">{hi ? 'आपका उत्तर' : 'Your answer'}</span><span className="ev-count">{countWords(extractedText)} {hi ? 'शब्द' : 'words'}</span></span>
+                <textarea className="ev-input ev-tall" value={extractedText.replace(/--- PAGE BREAK ---/g, ' ')} onChange={(e) => setExtractedText(e.target.value)} />
+              </label>
+              <div className="ev-actions">
+                <button type="button" className="ds-btn ds-btn-line" onClick={() => setStage('form')}>{hi ? 'फिर से अपलोड करें' : 'Upload again'}</button>
+                <button type="button" className="ds-btn ds-btn-solid ev-go" onClick={submit} disabled={loading || !question.trim()}>{hi ? 'मेरा उत्तर जाँचें' : 'Mark my answer'}</button>
               </div>
-            </div>
-
-            {/* Marks gauge */}
-            {(() => {
-              const ePct = (openEntry.marks / openEntry.marksOutOf) * 100;
-              const g = gaugeMood(ePct);
-              return (
-                <div className="ev-gauge">
-                  <div className="ev-gauge-emoji">{g.emoji}</div>
-                  <div className="ev-gauge-body">
-                    <div className="ev-gauge-top">
-                      <span className="ev-gauge-score" style={{ color:g.color }}>Marks scored: {openEntry.marks}</span>
-                      <span className="ev-gauge-outof">/{openEntry.marksOutOf}</span>
-                      <span className="ev-gauge-label">{g.label}</span>
-                    </div>
-                    <div className="ev-gauge-track">
-                      <div className="ev-gauge-arrow" style={{ left:`${ePct}%` }} />
-                    </div>
-                    <div className="ev-gauge-scale">
-                      <span>0</span><span>{Math.round(openEntry.marksOutOf/2)}</span><span>{openEntry.marksOutOf}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* Section marks grid */}
-            <div className="ev-sec-grid">
-              {(["introduction","body","conclusion","presentation"] as const).map(sec => {
-                const sm = openEntry.sectionMarks?.[sec];
-                if (!sm) return null;
-                const pct = (sm.awarded / sm.out_of) * 100;
-                const col = pct >= 70 ? "var(--green)" : pct >= 50 ? "var(--yellow)" : "var(--red)";
-                return (
-                  <div key={sec} className="ev-sec-card">
-                    <div className="ev-sec-lbl">{sec}</div>
-                    <div className="ev-sec-num" style={{ color:col }}>{sm.awarded}<span className="ev-sec-den">/{sm.out_of}</span></div>
-                    <div className="ev-sec-bar-bg"><div className="ev-sec-bar-fill" style={{ width:`${pct}%`, background:col }} /></div>
-                    {sm.reasoning && <div className="ev-sec-rsn">{sm.reasoning}</div>}
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Tabs — Eval / Model Answer */}
-            <div className="ev-tabs">
-              {["eval","model"].map(t => (
-                <button key={t} className={`ev-tab${tab===t?" ev-tab-active":""}`} onClick={() => setTab(t as "eval"|"model")}>
-                  {t === "eval" ? "Evaluation" : "Model Answer"}
-                </button>
-              ))}
-            </div>
-
-            {tab === "eval" && (
-              <div className="ev-fade">
-                {/* Demand */}
-                {openEntry.demandOfQuestion && openEntry.demandOfQuestion.length > 0 && (
-                  <div style={{ marginBottom:32 }}>
-                    <div className="ev-ct">{tr(t.demandOfQuestion, langHi)}</div>
-                    {openEntry.demandOfQuestion.map((d,i) => (
-                      <div key={i} className="ev-demand-item"><div className="ev-demand-bullet"/><div style={{ fontSize:"0.87rem", color:"var(--text)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{d}</div></div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Introduction */}
-                {openEntry.introduction && (
-                  <div style={{ marginBottom:32 }}>
-                    <div className="ev-ct">Introduction</div>
-                    {openEntry.introduction?.what_was_written && <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)", marginBottom:12 }}>{openEntry.introduction?.what_was_written}</div>}
-                    <div className="ev-sw-grid">
-                      <div className="ev-sw-col ev-sw-col-s">
-                        <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
-                        {(openEntry.introduction.strengths?.filter(s => s).length ?? 0) > 0
-                          ? openEntry.introduction.strengths!.filter(s => s).map((s,i) => <div key={i} className="ev-sw-item">{s}</div>)
-                          : <div className="ev-sw-empty">Nothing stood out here.</div>}
-                      </div>
-                      <div className="ev-sw-col ev-sw-col-w">
-                        <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
-                        {(openEntry.introduction.weaknesses?.filter(w => w).length ?? 0) > 0
-                          ? openEntry.introduction.weaknesses!.filter(w => w).map((w,i) => <div key={i} className="ev-sw-item">{w}</div>)
-                          : <div className="ev-sw-empty">No major issues found.</div>}
-                      </div>
-                    </div>
-                    {openEntry.introduction.suggestions?.map((s,i) => <div key={i} className="ev-sl" style={{ color:"var(--yellow)" }}>→ {boldHistorians(s)}</div>)}
-                    {openEntry.modelAnswer?.introduction && (
-                      <><div className="ev-ml">Model Introduction</div><p className="ev-mp">{openEntry.modelAnswer.introduction}</p></>
-                    )}
-                  </div>
-                )}
-
-                {/* Body */}
-                {openEntry.body && (
-                  <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                    <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Body</span>
-                      {openEntry.sectionMarks?.body && (
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
-                          {openEntry.sectionMarks.body.awarded}<span style={{ color:"var(--text3)" }}>/{openEntry.sectionMarks.body.out_of}</span>
-                        </span>
-                      )}
-                    </div>
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
-                      <div className="ev-sw-grid">
-                        <div className="ev-sw-col ev-sw-col-s">
-                          <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
-                          {(openEntry.body.strengths || []).filter(s => s).length > 0
-                            ? (openEntry.body.strengths || []).filter(s => s).map((s,i) => <div key={i} className="ev-sw-item">{s}</div>)
-                            : <div className="ev-sw-empty">Nothing stood out here.</div>}
-                        </div>
-                        <div className="ev-sw-col ev-sw-col-w">
-                          <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
-                          {(openEntry.body.weaknesses || []).filter(w => w).length > 0
-                            ? (openEntry.body.weaknesses || []).filter(w => w).map((w,i) => <div key={i} className="ev-sw-item">{w}</div>)
-                            : <div className="ev-sw-empty">No major issues found.</div>}
-                        </div>
-                      </div>
-                    </div>
-                    {(openEntry.body.suggestions || []).filter(s => s).length > 0 && (
-                      <div style={{ padding:"12px 20px" }}>
-                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
-                        {(openEntry.body.suggestions || []).map((s,i) => (
-                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:10 }}>
-                            <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Conclusion */}
-                {openEntry.conclusion && (
-                  <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                    <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Conclusion</span>
-                      {openEntry.sectionMarks?.conclusion && (
-                        <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
-                          {openEntry.sectionMarks.conclusion.awarded}<span style={{ color:"var(--text3)" }}>/{openEntry.sectionMarks.conclusion.out_of}</span>
-                        </span>
-                      )}
-                    </div>
-                    {openEntry.conclusion?.what_was_written && (
-                      <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)", background:"rgba(255,255,255,0.015)" }}>
-                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
-                        <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{openEntry.conclusion?.what_was_written}</div>
-                      </div>
-                    )}
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
-                      <div className="ev-sw-grid">
-                        <div className="ev-sw-col ev-sw-col-s">
-                          <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
-                          {(openEntry.conclusion.strengths || []).filter(s => s).length > 0
-                            ? (openEntry.conclusion.strengths || []).filter(s => s).map((s,i) => <div key={i} className="ev-sw-item">{s}</div>)
-                            : <div className="ev-sw-empty">Nothing stood out here.</div>}
-                        </div>
-                        <div className="ev-sw-col ev-sw-col-w">
-                          <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
-                          {(openEntry.conclusion.weaknesses || []).filter(w => w).length > 0
-                            ? (openEntry.conclusion.weaknesses || []).filter(w => w).map((w,i) => <div key={i} className="ev-sw-item">{w}</div>)
-                            : <div className="ev-sw-empty">No major issues found.</div>}
-                        </div>
-                      </div>
-                    </div>
-                    {(openEntry.conclusion.suggestions || []).filter(s => s).length > 0 && (
-                      <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
-                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
-                        {(openEntry.conclusion.suggestions || []).map((s,i) => (
-                          <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom:8 }}>
-                            <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                            <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {openEntry.modelAnswer?.conclusion && (
-                      <div style={{ padding:"12px 20px", background:"var(--success-wash)" }}>
-                        <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"color-mix(in srgb, var(--success-text) 50%, transparent)", textTransform:"uppercase", marginBottom:8 }}>Model conclusion</div>
-                        <div style={{ fontSize:"0.87rem", color:"var(--text)", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{openEntry.modelAnswer.conclusion}</div>
-                      </div>
-                    )}
-                  </div>
-                )}
-                {/* Historians */}
-                {openEntry.historiansToCite && openEntry.historiansToCite.length > 0 && (
-                  <div style={{ marginBottom:32 }}>
-                    <div className="ev-ct">Historians to Cite</div>
-                    {openEntry.historiansToCite.map((h,i) => (
-                      <div key={i} className="ev-hist">
-                        <div className="ev-hist-name">{h.name}</div>
-                        {h.work && <div className="ev-hist-work">{h.work}</div>}
-                        <div className="ev-hist-arg">{h.argument}</div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="ev-card ev-card-gold" style={{ padding:"16px 20px" }}>
-                  <div className="ev-ct" style={{ marginBottom:10 }}>Overall Feedback</div>
-                  <p className="ev-overall-txt" style={{ margin:0, lineHeight:1.8 }}>{openEntry.overallFeedback}</p>
-                </div>
+            </section>
+            <aside className="ev-aside">
+              {previews.length > 0 && <div className="ev-side"><h2>{hi ? 'आपके पेज' : 'Your pages'}</h2>{thumbs(false)}</div>}
+              <div className="ev-side">
+                <h2>{hi ? 'क्या जाँचें' : 'What to check'}</h2>
+                <p>{hi ? 'हस्तलिपि पढ़ने में सबसे ज़्यादा गलती नामों में होती है, इसलिए पहले हर इतिहासकार और शासक का नाम देखें। फिर तारीखें और संख्याएँ।' : 'Names are where handwriting readers slip most, so look at every historian and ruler first. Then dates and numbers, whose digits can swap, and the terms particular to history.'}</p>
               </div>
-            )}
-            {tab === "model" && openEntry.modelAnswer && (
-              <div className="ev-fade">
-                <div className="ev-card ev-card-green">
-                  <div className="ev-ml">Introduction</div>
-                  <p className="ev-mp">{openEntry.modelAnswer.introduction}</p>
-                  <div className="ev-ml">Body</div>
-                  <ul className="ev-list" style={{ marginBottom:16 }}>
-                    {bodyParas(openEntry.modelAnswer.body).map((p,i) => (
-                      <li key={i} style={{ color:"var(--text)", fontSize:"0.93rem", lineHeight:1.75, marginBottom:8 }}>{p}</li>
-                    ))}
-                  </ul>
-                  <div className="ev-ml">Conclusion</div>
-                  <p className="ev-mp" style={{ marginBottom:0 }}>{openEntry.modelAnswer.conclusion}</p>
-                </div>
-              </div>
-            )}
+            </aside>
           </div>
         ) : (
-        <div className="ev-wrap" style={{ flex:1, padding:"48px 40px 96px", overflowY:"auto", maxWidth:820 }}>
-
-        {/* Hero */}
-        <div style={{ paddingBottom:40, borderBottom:"1px solid var(--border)", marginBottom:44 }} className="ev-fade">
-          <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.28em", textTransform:"uppercase", color:"var(--text2)", marginBottom:14 }}>History Optional · UPSC Civil Services Mains</div>
-          <h1 style={{ fontFamily:"var(--font-display)", fontSize:"2.6rem", fontWeight:700, color:"var(--text)", lineHeight:1.12, letterSpacing:"-0.02em" }}>
-            Evaluate Your <span style={{ color:"var(--accent)" }}>Answer</span>
-          </h1>
-          <p style={{ marginTop:14, color:"var(--text3)", fontSize:"0.88rem", fontFamily:"var(--font-ui)", lineHeight:1.6 }}>
-            {tr(t.evalHeading, langHi)}
-          </p>
-        </div>
-
-        {/* ── OCR CONFIRMATION ── */}
-        {stage === "ocr" && !evaluation && (
-          <div className="ev-fade">
-            <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:12 }}>{tr(t.evalStep2, langHi)}</div>
-            <p style={{ color:"var(--text3)", fontSize:"0.88rem", fontFamily:"var(--font-ui)", lineHeight:1.6, marginBottom:20 }}>
-              {tr(t.evalOcrHint, langHi)}
-            </p>
-            {error && <div className="ev-err">{error}</div>}
-            <div style={{ marginBottom:16 }}>
-              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:8 }}>
-                {tr(t.evalQuestionLabel, langHi)} {!question && <span style={{ color:"var(--danger-text)" }}>{tr(t.evalQuestionMissing, langHi)}</span>}
-              </label>
-              <textarea className="ev-ta" rows={2}
-                placeholder={tr(t.evalQuestionPlaceholder, langHi)}
-                value={question} onChange={e => setQuestion(e.target.value)}
-                style={{ marginBottom:0, borderColor: question ? "var(--border)" : "var(--danger-text)" }} />
-            </div>
-            {/* The same setting as on the upload screen, repeated here because this is where
-                the question is finally confirmed, and it decides how the answer is marked. */}
-            <div style={{ marginBottom:20 }}>
-              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:8 }}>{langHi ? 'निर्धारित अंक' : 'Marks Allotted'}</label>
-              <div style={{ display:"flex", gap:10 }}>
-                {([10,15,20] as const).map(m => (
-                  <button key={m} className={`ev-mchip ${marks===m?"active":""}`} onClick={() => setMarks(m)} aria-pressed={marks===m}>{m}M</button>
-                ))}
-              </div>
-            </div>
-            <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:8 }}>{tr(t.evalTranscription, langHi)}</label>
-            <textarea
-              className="ev-ta"
-              style={{ minHeight:320, marginBottom:20, textAlign:"justify" }}
-              value={extractedText.replace(/--- PAGE BREAK ---/g, " ")}
-              onChange={e => setExtractedText(e.target.value)}
-            />
-            <div className="ev-actions">
-              <button className="ev-btn ev-btn-ghost ev-btn-sm" onClick={() => setStage("form")}>
-                {tr(t.evalReupload, langHi)}
-              </button>
-              <button className="ev-btn" onClick={submit} disabled={loading}>
-                {loading ? tr(t.evalEvaluating, langHi) : tr(t.evalLooksGood, langHi)}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ── FORM ── */}
-        {stage === "form" && !evaluation && (
-          <div className="ev-fade">
-            {/* ── Mode Toggle ── */}
-            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:32 }}>
-              <button onClick={() => { setEvalMode("single"); setOpenEntry(null); }} style={{
-                padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
-                background: evalMode==="single" ? "var(--accent-dim)" : "var(--bg2)",
-                border: evalMode==="single" ? "1.5px solid color-mix(in srgb, var(--accent) 50%, transparent)" : "1.5px solid var(--border)",
-                boxShadow: evalMode==="single" ? "0 0 0 3px color-mix(in srgb, var(--accent) 8%, transparent), inset 0 1px 0 rgba(0,0,0,0.04)" : "none",
-                transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
-                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
-                  <div style={{ width:28, height:28, borderRadius:6,
-                    background: evalMode==="single" ? "var(--accent-dim)" : "var(--bg3)",
-                    border: evalMode==="single" ? "1px solid color-mix(in srgb, var(--accent) 30%, transparent)" : "1px solid var(--border)",
-                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="single"?"var(--accent)":"var(--text3)"} strokeWidth="1.8" strokeLinecap="round">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                      <polyline points="14 2 14 8 20 8"/>
-                      <line x1="16" y1="13" x2="8" y2="13"/>
-                      <line x1="16" y1="17" x2="8" y2="17"/>
-                    </svg>
-                  </div>
-                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
-                    textTransform:"uppercase", color: evalMode==="single" ? "var(--text)" : "var(--text3)",
-                    transition:"color 0.18s", fontWeight: evalMode==="single" ? 600 : 400 }}>{tr(t.evalSingleTitle, langHi)}</span>
-                  {evalMode==="single" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"var(--accent)", boxShadow:"0 0 8px var(--accent)" }} />}
-                </div>
-                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="single" ? "var(--accent)" : "var(--text3)",
-                  lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalSingleDesc, langHi)}</div>
-              </button>
-              <button onClick={() => { setEvalMode("batch"); setOpenEntry(null); }} style={{
-                padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
-                background: evalMode==="batch" ? "var(--accent-dim)" : "var(--bg2)",
-                border: evalMode==="batch" ? "1.5px solid color-mix(in srgb, var(--accent) 50%, transparent)" : "1.5px solid var(--border)",
-                boxShadow: evalMode==="batch" ? "0 0 0 3px color-mix(in srgb, var(--accent) 8%, transparent), inset 0 1px 0 rgba(0,0,0,0.04)" : "none",
-                transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
-                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
-                  <div style={{ width:28, height:28, borderRadius:6,
-                    background: evalMode==="batch" ? "var(--accent-dim)" : "var(--bg3)",
-                    border: evalMode==="batch" ? "1px solid color-mix(in srgb, var(--accent) 30%, transparent)" : "1px solid var(--border)",
-                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="batch"?"var(--accent)":"var(--text3)"} strokeWidth="1.8" strokeLinecap="round">
-                      <rect x="2" y="3" width="20" height="14" rx="2"/>
-                      <path d="M8 21h8M12 17v4"/>
-                    </svg>
-                  </div>
-                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
-                    textTransform:"uppercase", color: evalMode==="batch" ? "var(--text)" : "var(--text3)",
-                    transition:"color 0.18s", fontWeight: evalMode==="batch" ? 600 : 400 }}>{tr(t.evalBatchTitle, langHi)}</span>
-                  {evalMode==="batch" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"var(--accent)", boxShadow:"0 0 8px var(--accent)" }} />}
-                </div>
-                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="batch" ? "var(--accent)" : "var(--text3)",
-                  lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalBatchDesc, langHi)}</div>
-              </button>
-              <button onClick={() => { setEvalMode("map"); setOpenEntry(null); }} style={{
-                padding:"18px 20px", borderRadius:8, cursor:"pointer", textAlign:"left",
-                gridColumn:"1 / -1",
-                background: evalMode==="map" ? "var(--success-wash)" : "var(--bg2)",
-                border: evalMode==="map" ? "1.5px solid color-mix(in srgb, var(--success-text) 45%, transparent)" : "1.5px solid var(--border2)",
-                boxShadow: evalMode==="map" ? "0 0 0 3px color-mix(in srgb, var(--success-text) 8%, transparent), inset 0 1px 0 rgba(0,0,0,0.04)" : "none",
-                transition:"all 0.18s ease", position:"relative", overflow:"hidden" }}>
-                <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:7 }}>
-                  <div style={{ width:28, height:28, borderRadius:6,
-                    background: evalMode==="map" ? "var(--success-wash)" : "var(--bg3)",
-                    border: evalMode==="map" ? "1px solid color-mix(in srgb, var(--success-text) 30%, transparent)" : "1px solid var(--border)",
-                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, transition:"all 0.18s" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={evalMode==="map"?"var(--success-text)":"var(--text3)"} strokeWidth="1.8" strokeLinecap="round">
-                      <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
-                      <line x1="9" y1="3" x2="9" y2="18"/>
-                      <line x1="15" y1="6" x2="15" y2="21"/>
-                    </svg>
-                  </div>
-                  <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.65rem", letterSpacing:"0.16em",
-                    textTransform:"uppercase", color: evalMode==="map" ? "var(--text)" : "var(--text3)",
-                    transition:"color 0.18s", fontWeight: evalMode==="map" ? 600 : 400 }}>{tr(t.evalMapTitle, langHi)}</span>
-                  {evalMode==="map" && <div style={{ marginLeft:"auto", width:6, height:6, borderRadius:"50%", background:"var(--success-text)", boxShadow:"0 0 8px var(--success-text)" }} />}
-                </div>
-                <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.72rem", color: evalMode==="map" ? "var(--success-text)" : "var(--border2)",
-                  lineHeight:1.5, transition:"color 0.18s" }}>{tr(t.evalMapDesc, langHi)}</div>
-              </button>
-            </div>
-            {evalMode === "map" ? (
-              <MapEvaluator
-                token={tokenRef.current}
-                onLoginRequired={showLoginModal}
-              />
-            ) : evalMode === "batch" ? (
-              <PDFTestEvaluator
-                isPremium={!!usage.subscribed}
-                onPaywall={showEvalLimitModal}
-                token={tokenRef.current}
-                variant="evaluate"
-              />
-            ) : (<>
-            <div style={{ marginBottom:28 }}>
-              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:10 }}>Answer Images / PDF</label>
-              <div className={`ev-upload ${files && files.length > 0 ? "has" : ""}`} onClick={() => fileRef.current?.click()}>
-                <input ref={fileRef} type="file" accept="image/*,application/pdf" multiple style={{ display:"none" }}
-                  onChange={e => {
-                    const newFiles = Array.from(e.target.files || []);
-                    setFiles(newFiles);
-                    setPreviews(newFiles.map(f => f.type === "application/pdf" ? "__pdf__" : URL.createObjectURL(f)));
-                  }} />
-                {files && files.length > 0 ? (
-                  <div onClick={e => e.stopPropagation()} style={{ textAlign:"left" }}>
-                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.2em", textTransform:"uppercase", color:"var(--accent)", marginBottom:8 }}>
-                      `${files.length} page${files.length > 1 ? "s" : ""} — use arrows to reorder`
-                    </div>
-                    <div className="ev-pages">
-                      {files.map((f, i) => (
-                        <div
-                          key={i}
-                          className={`ev-page-item${swapIdx === i ? " dragging" : ""}`}
-                          onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); setDragIdx(i); }}
-                          onPointerEnter={() => {
-                            if (swapIdx === null || swapIdx === i) return;
-                            const newFiles = [...files];
-                            const newPrev = [...previews];
-                            newFiles.splice(i, 0, newFiles.splice(swapIdx, 1)[0]);
-                            newPrev.splice(i, 0, newPrev.splice(swapIdx, 1)[0]);
-                            setFiles(newFiles);
-                            setPreviews(newPrev);
-                            setDragIdx(i < swapIdx ? i : i);
-                          }}
-                          onPointerUp={() => setDragIdx(null)}
-                          onPointerCancel={() => setDragIdx(null)}
-                        >
-                          {previews[i] === "__pdf__"
-                            ? <div style={{width:80,height:100,borderRadius:4,border:"2px solid var(--border2)",background:"var(--bg2)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4}}>
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success-text)" strokeWidth="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><text x="6" y="19" fontSize="5" fill="var(--success-text)" stroke="none" fontWeight="bold">PDF</text></svg>
-                                <span style={{color:"var(--success-text)",fontSize:"0.6rem",fontFamily:"var(--font-mono)"}}>PDF</span>
-                              </div>
-                            : <img src={previews[i] || ""} alt={`page ${i+1}`} />}
-                          <div className="ev-page-num">pg {i+1}</div>
-                          <button className="ev-page-del" onPointerDown={e => e.stopPropagation()} onClick={() => {
-                            const nf = files.filter((_,j) => j !== i);
-                            const np = previews.filter((_,j) => j !== i);
-                            setFiles(nf.length ? nf : undefined as any);
-                            setPreviews(np);
-                          }}>×</button>
-                          <div className="ev-page-arrows">
-                            <button className="ev-page-arrow" disabled={i === 0} onPointerDown={e => e.stopPropagation()} onClick={() => {
-                              const nf = [...files]; const np = [...previews];
-                              [nf[i-1], nf[i]] = [nf[i], nf[i-1]];
-                              [np[i-1], np[i]] = [np[i], np[i-1]];
-                              setFiles(nf); setPreviews(np);
-                            }}>←</button>
-                            <button className="ev-page-arrow" disabled={i === files.length - 1} onPointerDown={e => e.stopPropagation()} onClick={() => {
-                              const nf = [...files]; const np = [...previews];
-                              [nf[i+1], nf[i]] = [nf[i], nf[i+1]];
-                              [np[i+1], np[i]] = [np[i], np[i+1]];
-                              setFiles(nf); setPreviews(np);
-                            }}>→</button>
-                          </div>
-                        </div>
-                      ))}
-                      <div className="ev-page-add" onClick={() => addFileRef.current?.click()}>
-                        <input ref={addFileRef} type="file" accept="image/*,application/pdf" multiple style={{ display:"none" }}
-                          onChange={e => {
-                            const added = Array.from(e.target.files || []);
-                            const nf = [...(files||[]), ...added];
-                            const np = [...previews, ...added.map(f => f.type === "application/pdf" ? "__pdf__" : URL.createObjectURL(f))];
-                            setFiles(nf);
-                            setPreviews(np);
-                          }} />
-                        <span>+</span>
-                        <span style={{ fontSize:"0.55rem", fontFamily:"var(--font-mono)", marginTop:4 }}>add</span>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div style={{ fontSize:"2rem", marginBottom:12, opacity:0.35 }}>⬆</div>
-                    <div style={{ color:"var(--text3)", fontSize:"0.95rem" }}>Upload photos or PDF of your answer sheet</div>
-                    <div style={{ color:"var(--text3)", fontSize:"0.78rem", marginTop:6, fontFamily:"var(--font-mono)" }}>JPG · PNG · PDF · Multiple pages supported</div>
-                  </>
-                )}
-              </div>
-            </div>
-
-            <div style={{ marginBottom:28 }}>
-              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:10 }}>Question</label>
-              {question ? (
-                <textarea className="ev-ta" rows={3} placeholder="Write the exact question here..."
-                  value={question} onChange={e => setQuestion(e.target.value)} />
-              ) : (
-                // An info notice, so it uses the info role rather than a navy
-                // gradient that was only ever legible on a dark page.
-                <div style={{ padding:"16px 18px", border:"1px solid color-mix(in srgb, var(--info-text) 30%, transparent)", borderRadius:8, background:"var(--info-wash)", display:"flex", alignItems:"flex-start", gap:12 }}>
-                  <span style={{ fontSize:"1.1rem", marginTop:1 }}>🔍</span>
+          /* ── Upload ── */
+          <>
+            <header className="ev-hero">
+              <div className="ds-container">
+                <div className="ev-hero-row">
                   <div>
-                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.75rem", color:"var(--info-text)", marginBottom:5, fontWeight:600 }}>
-                      Question will be auto-extracted from your answer script
-                    </div>
-                    <div style={{ fontFamily:"var(--font-ui)", fontSize:"0.78rem", color:"var(--text2)", lineHeight:1.5 }}>
-                      Upload your sheet above — the system will detect and fill the question automatically. You can edit it afterwards.
-                    </div>
+                    <h1 className="ds-h1 ev-h1">{hi ? 'अपना उत्तर जँचवाएँ' : 'Get your answer checked'}</h1>
+                    <p className="ds-lede ev-lede">
+                      {hi
+                        ? 'हस्तलिखित उत्तर की फोटो या PDF अपलोड करें। हर भाग के अंक, क्या अच्छा रहा, क्या सुधारें, उद्धृत करने लायक इतिहासकार, और एक आदर्श उत्तर मिलता है।'
+                        : 'Upload a photo or PDF of a handwritten answer. You get marks for each part, what worked, what to fix, the historians it could have cited, and a model answer.'}
+                    </p>
                   </div>
+                  <button type="button" className="ds-btn ds-btn-line ev-past-btn" onClick={openDrawer}>
+                    {hi ? 'पिछले मूल्यांकन' : 'Past evaluations'}{history.length > 0 && <span>{history.length}</span>}
+                  </button>
                 </div>
-              )}
-            </div>
-
-            <div style={{ marginBottom:32 }}>
-              <label style={{ display:"block", fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:10 }}>{langHi ? 'निर्धारित अंक' : 'Marks Allotted'}</label>
-              <div style={{ display:"flex", gap:10 }}>
-                {([10,15,20] as const).map(m => (
-                  <button key={m} className={`ev-mchip ${marks===m?"active":""}`} onClick={() => setMarks(m)}>{m}M</button>
-                ))}
+                <div className="ev-modes" role="tablist" aria-label={hi ? 'क्या जाँचना है' : 'What to mark'}>
+                  {([
+                    ['single', hi ? 'एक उत्तर' : 'One answer', hi ? 'एक प्रश्न, फोटो या PDF' : 'One question, photos or a PDF'],
+                    ['batch', hi ? 'पूरा पेपर' : 'A full paper', hi ? 'सेक्शनल, FLT या पूरी पुस्तिका' : 'A sectional, an FLT or a whole booklet'],
+                    ['map', hi ? 'मानचित्र प्रश्न' : 'The map question', hi ? '20 स्थान, लगभग 30 शब्द हर एक, 50 अंक' : '20 places, about 30 words each, 50 marks'],
+                  ] as [Mode, string, string][]).map(([m, label, sub]) => (
+                    <button key={m} type="button" role="tab" aria-selected={evalMode === m} className={`ev-mode${evalMode === m ? ' on' : ''}`} onClick={() => pickMode(m)}>
+                      <span className="ev-mode-icon">{MODE_ICON[m]}</span>
+                      <span className="ev-mode-text"><strong>{label}</strong><span>{sub}</span></span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            </header>
 
-            {error && <div className="ev-err">{error}</div>}
-            <UsagePill />
-            <button className="ev-btn" onClick={handleEvaluate} disabled={ocrLoading}>{ocrLoading ? "Reading handwriting…" : "Evaluate Answer →"}</button>
-            </>)}
-          </div>
+            {evalMode === 'map' ? (
+              <div className="ds-container ev-tool"><MapEvaluator token={tokenRef.current} onLoginRequired={showLoginModal} /></div>
+            ) : evalMode === 'batch' ? (
+              <div className="ds-container ev-tool"><PDFTestEvaluator isPremium={!!usage.subscribed} onPaywall={showChatLimitModal} token={tokenRef.current} variant="evaluate" /></div>
+            ) : (
+              <div className="ds-container ev-grid">
+                <section className="ev-card">
+                  <div className="ev-step">{hi ? 'चरण 1 में से 2' : 'Step 1 of 2'}</div>
+                  <div className="ev-field">
+                    <span className="ev-label">{hi ? 'आपका उत्तर' : 'Your answer'}</span>
+                    <label className={`ev-drop${drag ? ' drag' : ''}`} onDragOver={(e) => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)}
+                      onDrop={(e) => { e.preventDefault(); setDrag(false); addFiles(Array.from(e.dataTransfer.files).filter((f) => f.type.startsWith('image/') || f.type === 'application/pdf')); }}>
+                      <span className="ev-drop-icon"><UploadIcon /></span>
+                      <span className="ev-drop-title">{previews.length ? (hi ? 'और पेज जोड़ें' : 'Add more pages') : (hi ? <>पेज यहाँ छोड़ें, या <u>फ़ाइलें चुनें</u></> : <>Drop your pages here, or <u>choose files</u></>)}</span>
+                      <span className="ev-drop-sub">{hi ? 'फोटो या PDF, कई पेज चल सकते हैं' : 'Photos or a PDF, several pages at once'}</span>
+                      <input type="file" accept="image/*,application/pdf" multiple className="ev-drop-input" onChange={(e) => { addFiles(Array.from(e.target.files ?? [])); e.target.value = ''; }} />
+                    </label>
+                  </div>
+                  {thumbs(true)}
+                  {previews.length > 1 && <p className="ev-hint">{hi ? 'तीरों से पेजों का क्रम ठीक करें।' : 'Put the pages in order with the arrows.'}</p>}
+
+                  <label className="ev-field">
+                    <span className="ev-label">{hi ? 'प्रश्न' : 'Question'}</span>
+                    <textarea className="ev-input" value={question} onChange={(e) => setQuestion(e.target.value)} rows={3}
+                      placeholder={hi ? 'प्रश्न लिखें या चिपकाएँ। खाली छोड़ें तो हम आपके पेज के ऊपर से पढ़ लेंगे।' : "Type or paste the question. Leave it empty and we'll read it off the top of your page."} />
+                  </label>
+                  <div className="ev-field"><span className="ev-label">{hi ? 'अंक' : 'Marks'}</span>{marksPicker}</div>
+
+                  {error && <div className="ev-err" role="alert">{error}</div>}
+                  {!usage.loading && (
+                    <p className={`ev-usage${freeLeft === 0 ? ' out' : ''}`}>
+                      {usage.subscribed ? (hi ? 'असीमित मूल्यांकन, आपके Premium के साथ' : 'Unlimited evaluations with your Premium')
+                        : signedOut ? (hi ? 'पहला मूल्यांकन निःशुल्क है, साइन इन के साथ' : 'Your first evaluation is free with an account')
+                        : freeLeft ? (hi ? 'आपका एक निःशुल्क मूल्यांकन बाकी है' : 'You have one free evaluation left')
+                        : (hi ? 'निःशुल्क मूल्यांकन पूरा हुआ, आगे के लिए Premium लें' : 'Your free evaluation is used; Premium marks every answer')}
+                    </p>
+                  )}
+                  <button type="button" className="ds-btn ds-btn-solid ev-go ev-go-full" onClick={handleEvaluate} disabled={ocrLoading || !files.length}>
+                    {hi ? 'मेरा उत्तर पढ़ें' : 'Read my answer'}
+                  </button>
+                </section>
+
+                <aside className="ev-aside">
+                  <div className="ev-side">
+                    <h2>{hi ? 'यह कैसे काम करता है' : 'How it works'}</h2>
+                    <ol className="ev-how">
+                      <li><span>1</span><div><strong>{hi ? 'पेज अपलोड करें' : 'Upload your pages'}</strong><p>{hi ? 'फोटो या स्कैन किया PDF।' : 'Photos or a scanned PDF.'}</p></div></li>
+                      <li><span>2</span><div><strong>{hi ? 'जो पढ़ा गया, जाँचें' : 'Check what we read'}</strong><p>{hi ? 'हम हस्तलिपि पढ़ते हैं, आप गलतियाँ ठीक करते हैं।' : 'We transcribe the handwriting, and you fix anything it got wrong.'}</p></div></li>
+                      <li><span>3</span><div><strong>{hi ? 'अंक और प्रतिक्रिया' : 'Get it marked'}</strong><p>{hi ? 'भूमिका, मुख्य भाग, निष्कर्ष और प्रस्तुति के अंक, हर भाग पर प्रतिक्रिया, और आदर्श उत्तर।' : 'Marks for the introduction, body, conclusion and presentation, feedback on each, and a model answer.'}</p></div></li>
+                    </ol>
+                  </div>
+                  <div className="ev-side">
+                    <h2>{hi ? 'साफ़ पढ़ाई के लिए' : 'For a clean read'}</h2>
+                    <p>{hi ? 'दिन की रोशनी में, ठीक ऊपर से फोटो लें, एक फोटो में एक पेज, पूरा पेज फ्रेम में। धुंधलापन और छाया में नाम गलत पढ़े जाते हैं।' : 'Shoot in daylight from straight above, one page to a photo, with the whole page in frame. Blur and shadows are where names get misread.'}</p>
+                  </div>
+                </aside>
+              </div>
+            )}
+          </>
         )}
+      </div>
 
-        {/* ── LOADING ── */}
-        {ocrLoading && <ReadProgress stages={readStages} startedAt={readStartedAt} langHi={langHi} />}
-        {loading && <EvalProgress stages={evalStages} startedAt={evalStartedAt} langHi={langHi} />}
-
-        {/* ── RESULTS ── */}
-        {evaluation && (
-          <div className="ev-fade">
-
-            {/* Question box */}
-            <div className="ev-qbox">
-              <div className="ev-qlabel">Question · {submittedM}M</div>
-              <div className="ev-qtext">{submittedQ}</div>
+      {/* ── Past evaluations ── */}
+      {drawer && (
+        <div className="ev-drawer-scrim" onClick={() => setDrawer(false)}>
+          <aside className="ev-drawer ds" role="dialog" aria-label={hi ? 'पिछले मूल्यांकन' : 'Past evaluations'} onClick={(e) => e.stopPropagation()}>
+            <div className="ev-drawer-head">
+              <h2>{hi ? 'पिछले मूल्यांकन' : 'Past evaluations'}</h2>
+              <button type="button" className="ds-x" onClick={() => setDrawer(false)} aria-label={hi ? 'बंद करें' : 'Close'}>✕</button>
             </div>
-
-            {/* Score row */}
-            <div className="ev-score-row">
-              <div>
-                <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:10 }}>Marks Scored</div>
-                <div>
-                  <span className="ev-score-num" style={{ color:scoreCol }}>{evaluation.marks}</span>
-                  <span className="ev-score-denom"> /{evaluation.marks_out_of}</span>
-                </div>
-                <div className="ev-bar-bg">
-                  <div className="ev-bar-fill" style={{ width:`${pct}%`, background:scoreCol }} />
-                </div>
-              </div>
-              <div style={{ textAlign:"right" }}>
-                <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.62rem", letterSpacing:"0.25em", textTransform:"uppercase", color:"var(--text2)", marginBottom:10 }}>Ideal Word Count</div>
-                <div style={{ fontFamily:"var(--font-mono)", fontSize:"2.2rem", fontWeight:700, color:"var(--text)", lineHeight:1 }}>
-                  {submittedM === 10 ? "150" : submittedM === 15 ? "200" : "250"}
-                </div>
-                <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.7rem", color:"var(--text3)", marginTop:4 }}>words</div>
-              </div>
-            </div>
-
-            {/* Marks gauge */}
-            {(() => {
-              const g = gaugeMood(pct);
-              return (
-                <div className="ev-gauge">
-                  <div className="ev-gauge-emoji">{g.emoji}</div>
-                  <div className="ev-gauge-body">
-                    <div className="ev-gauge-top">
-                      <span className="ev-gauge-score" style={{ color:g.color }}>Marks scored: {evaluation.marks}</span>
-                      <span className="ev-gauge-outof">/{evaluation.marks_out_of}</span>
-                      <span className="ev-gauge-label">{g.label}</span>
-                    </div>
-                    <div className="ev-gauge-track">
-                      <div className="ev-gauge-arrow" style={{ left:`${pct}%` }} />
-                    </div>
-                    <div className="ev-gauge-scale">
-                      <span>0</span><span>{Math.round(evaluation.marks_out_of/2)}</span><span>{evaluation.marks_out_of}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-
-
-            <div style={{
-              background: "var(--accent-dim)",
-              border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)",
-              borderRadius: "6px",
-              padding: "12px 16px",
-              marginBottom: "28px",
-              display: "flex",
-              gap: "10px",
-              alignItems: "flex-start",
-            }}>
-              <span style={{ color: "var(--accent)", fontSize: "0.85rem", marginTop: "1px", flexShrink: 0 }}>ℹ</span>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: "0.78rem", color: "var(--text3)", lineHeight: 1.65, margin: 0 }}>
-                These marks are <span style={{ color: "var(--text2)" }}>indicative, not exact</span> — expect a 1–2 mark variance from what an actual UPSC examiner may award (usually on the lower side). Focus on the <span style={{ color: "var(--text2)" }}>qualitative feedback</span>: weak areas, missing historians, and the analytical depth of your answer. That is what moves the needle.
-              </p>
-            </div>
-
-            {/* Section marks grid */}
-            {evaluation.section_marks && (
-              <div className="ev-sec-grid">
-                {(["introduction","body","conclusion","presentation"] as const).map(sec => {
-                  const s = evaluation.section_marks![sec];
-                  const sp = s ? Math.round((s.awarded / s.out_of) * 100) : 0;
-                  const sc = sp >= 75 ? "var(--green)" : sp >= 50 ? "var(--accent)" : "var(--red)";
+            <p className="ev-drawer-note">
+              {evalMode === 'single' ? (hi ? 'एक-एक उत्तर' : 'Single answers') : evalMode === 'batch' ? (hi ? 'पूरे पेपर' : 'Full papers') : (hi ? 'मानचित्र प्रश्न' : 'Map questions')}
+              {hi ? ', इसी ब्राउज़र में रखे गए' : ', kept in this browser'}
+            </p>
+            {modeHistory.length === 0 ? (
+              <p className="ev-drawer-empty">{hi ? 'अभी कुछ नहीं जाँचा गया। आपका पहला मूल्यांकन यहाँ रहेगा।' : 'Nothing marked yet. Your evaluations will be kept here.'}</p>
+            ) : (
+              <div className="ev-drawer-list">
+                {modeHistory.map((e) => {
+                  const p = e.marksOutOf ? e.marks / e.marksOutOf : 0;
                   return (
-                    <div key={sec} className="ev-sec-card">
-                      <div className="ev-sec-lbl">{sec}</div>
-                      <div className="ev-sec-num" style={{ color: sc }}>
-                        {s.awarded}<span className="ev-sec-den">/{s.out_of}</span>
-                      </div>
-                      <div className="ev-sec-bar-bg">
-                        <div className="ev-sec-bar-fill" style={{ width:`${sp}%`, background: sc }} />
-                      </div>
-                      <div className="ev-sec-rsn">{s.reasoning}</div>
-                    </div>
+                    <button key={e.id} type="button" className={`ev-past${openEntry?.id === e.id ? ' on' : ''}`} onClick={() => { setOpenEntry(e); setTab('eval'); setDrawer(false); }}>
+                      <span className="ev-past-top">
+                        <strong style={{ color: scoreTone(p) }}>{e.marks} / {e.marksOutOf}</strong>
+                        <span>{new Date(e.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
+                      </span>
+                      <span className="ev-past-q">{e.question}</span>
+                      <span className="ev-past-bar"><span style={{ width: `${Math.min(100, p * 100)}%`, background: scoreTone(p) }} /></span>
+                    </button>
                   );
                 })}
               </div>
             )}
-
-            {/* Tabs */}
-            <div className="ev-tabs" ref={tabsRef}>
-              {(["eval","model","hist"] as const).map(t => (
-                <button key={t} className={`ev-tab ${tab===t?"active":""}`} onClick={() => setTab(t)}>
-                  {t==="eval"?"Evaluation":t==="model"?"Model Answer":"Historians"}
-                </button>
-              ))}
-            </div>
-
-            {/* EVALUATION TAB */}
-            {tab==="eval" && (
-              <div className="ev-fade">
-                {/* Demand of Question — minimal pill row */}
-                <div className="ev-card" style={{ padding:"16px 20px" }}>
-                  <div className="ev-ct" style={{ marginBottom:12 }}>Demand of the Question</div>
-                  <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-                    {toArray(evaluation.demand_of_question).map((d,i) => (
-                      <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
-                        <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--text3)", marginTop:8, flexShrink:0 }} />
-                        <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{d}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Section evaluator — Introduction */}
-                <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Introduction</span>
-                    {evaluation.section_marks?.introduction && (
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
-                        {evaluation.section_marks.introduction.awarded}<span style={{ color:"var(--text3)" }}>/{evaluation.section_marks.introduction.out_of}</span>
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)", background:"rgba(255,255,255,0.015)" }}>
-                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
-                    <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.introduction?.what_was_written}</div>
-                  </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
-                    {(() => {
-                      const strengths = toArray(evaluation.introduction.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
-                      const weaknesses = toArray((evaluation.introduction as any).weaknesses).filter(w => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
-                      return (
-                        <div className="ev-sw-grid">
-                          <div className="ev-sw-col ev-sw-col-s">
-                            <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
-                            {strengths.length > 0 ? strengths.map((s,i) => (
-                              <div key={i} className="ev-sw-item">{s}</div>
-                            )) : <div className="ev-sw-empty">Nothing stood out here.</div>}
-                          </div>
-                          <div className="ev-sw-col ev-sw-col-w">
-                            <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
-                            {weaknesses.length > 0 ? weaknesses.map((w,i) => (
-                              <div key={i} className="ev-sw-item">{w}</div>
-                            )) : <div className="ev-sw-empty">No major issues found.</div>}
-                          </div>
-                        </div>
-                      );
-                    })()}
-                    <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.introduction.analysis}</div>
-                  </div>
-                  {toArray(evaluation.introduction.suggestions).filter(s => s).length > 0 && (
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
-                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
-                      {toArray(evaluation.introduction.suggestions).map((s,i) => (
-                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.introduction.suggestions).length - 1 ? 8 : 0 }}>
-                          <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <div style={{ padding:"12px 20px", background:"var(--accent-dim)" }}>
-                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--accent)", textTransform:"uppercase", marginBottom:8 }}>Model introduction</div>
-                    <div style={{ fontSize:"0.87rem", color:"var(--text)", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{evaluation.model_answer.introduction}</div>
-                  </div>
-                </div>
-
-                {/* Section evaluator — Body */}
-                <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Body</span>
-                    {evaluation.section_marks?.body && (
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
-                        {evaluation.section_marks.body.awarded}<span style={{ color:"var(--text3)" }}>/{evaluation.section_marks.body.out_of}</span>
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
-                    <div className="ev-sw-grid">
-                      <div className="ev-sw-col ev-sw-col-s">
-                        <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
-                        {(() => {
-                          const strengths = toArray(evaluation.body.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use ["));
-                          if (strengths.length === 0) return <div className="ev-sw-empty">Nothing stood out here.</div>;
-                          return strengths.map((s,i) => {
-                            const tagMatch = s.match(/^\[([^\]]+)\]:\s*/);
-                            const tag = tagMatch ? tagMatch[1] : null;
-                            const text = tagMatch ? s.slice(tagMatch[0].length) : s;
-                            return (
-                              <div key={i} className="ev-sw-item">
-                                {tag && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", letterSpacing:"0.12em", color:"var(--green)", textTransform:"uppercase", background:"var(--success-wash)", border:"1px solid color-mix(in srgb, var(--success-text) 20%, transparent)", borderRadius:4, padding:"2px 6px", marginRight:6, display:"inline-block", verticalAlign:"middle" }}>{tag}</span>}
-                                {text}
-                              </div>
-                            );
-                          });
-                        })()}
-                      </div>
-                      <div className="ev-sw-col ev-sw-col-w">
-                        <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
-                        {(() => {
-                          const weaknesses = toArray(evaluation.body.weaknesses).filter(w => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use ["));
-                          if (weaknesses.length === 0) return <div className="ev-sw-empty">No major issues found.</div>;
-                          const tagColors: Record<string,string> = {
-                            "missed demand": "var(--warning-text)",
-                            "needs historian": "var(--red)",
-                            "too descriptive": "var(--accent)",
-                            "check this": "var(--red)",
-                            "structure": "var(--accent)",
-                          };
-                          return weaknesses.map((w,i) => {
-                            const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
-                            const tag = tagMatch ? tagMatch[1] : null;
-                            const text = tagMatch ? w.slice(tagMatch[0].length) : w;
-                            const dotColor = tag && tagColors[tag] ? tagColors[tag] : "var(--red)";
-                            return (
-                              <div key={i} className="ev-sw-item">
-                                {tag && <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.48rem", letterSpacing:"0.12em", color:dotColor, textTransform:"uppercase", background:`rgba(${dotColor === "var(--warning-text)" ? "251,191,36" : dotColor === "var(--accent)" ? "167,139,250" : dotColor === "var(--accent)" ? "99,102,241" : "248,113,113"},0.08)`, border:`1px solid color-mix(in srgb, ${dotColor} 20%, transparent)`, borderRadius:4, padding:"2px 6px", marginRight:6, display:"inline-block", verticalAlign:"middle" }}>{tag}</span>}
-                                {text}
-                              </div>
-                            );
-                          });
-                        })()}
-                      </div>
-                    </div>
-                  </div>
-                  {toArray(evaluation.body.suggestions).filter(s => s).length > 0 && (
-                    <div style={{ padding:"12px 20px" }}>
-                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
-                      {toArray(evaluation.body.suggestions).map((s,i) => (
-                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.body.suggestions).length - 1 ? 10 : 0 }}>
-                          <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Section evaluator — Conclusion */}
-                <div className="ev-card" style={{ padding:0, overflow:"hidden" }}>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-                    <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.6rem", letterSpacing:"0.18em", textTransform:"uppercase", color:"var(--text3)" }}>Conclusion</span>
-                    {evaluation.section_marks?.conclusion && (
-                      <span style={{ fontFamily:"var(--font-mono)", fontSize:"0.72rem", color:"var(--text)" }}>
-                        {evaluation.section_marks.conclusion.awarded}<span style={{ color:"var(--text3)" }}>/{evaluation.section_marks.conclusion.out_of}</span>
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)", background:"rgba(255,255,255,0.015)" }}>
-                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:6 }}>What you wrote</div>
-                    <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{evaluation.conclusion?.what_was_written}</div>
-                  </div>
-                  <div style={{ padding:"14px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
-                    {(() => {
-                      const strengths = toArray(evaluation.conclusion.strengths).filter(s => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
-                      const weaknesses = toArray((evaluation.conclusion as any).weaknesses).filter(w => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
-                      return (
-                        <div className="ev-sw-grid">
-                          <div className="ev-sw-col ev-sw-col-s">
-                            <div className="ev-sw-head ev-sw-head-s">✓ Strengths</div>
-                            {strengths.length > 0 ? strengths.map((s,i) => (
-                              <div key={i} className="ev-sw-item">{s}</div>
-                            )) : <div className="ev-sw-empty">Nothing stood out here.</div>}
-                          </div>
-                          <div className="ev-sw-col ev-sw-col-w">
-                            <div className="ev-sw-head ev-sw-head-w">✗ Weaknesses</div>
-                            {weaknesses.length > 0 ? weaknesses.map((w,i) => (
-                              <div key={i} className="ev-sw-item">{w}</div>
-                            )) : <div className="ev-sw-empty">No major issues found.</div>}
-                          </div>
-                        </div>
-                      );
-                    })()}
-                    <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)", marginTop:12 }}>{evaluation.conclusion.analysis}</div>
-                  </div>
-                  {toArray(evaluation.conclusion.suggestions).filter(s => s).length > 0 && (
-                    <div style={{ padding:"12px 20px", borderBottom:"1px solid rgba(0,0,0,0.04)" }}>
-                      <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"var(--text3)", textTransform:"uppercase", marginBottom:8 }}>How to improve</div>
-                      {toArray(evaluation.conclusion.suggestions).map((s,i) => (
-                        <div key={i} style={{ display:"flex", gap:10, alignItems:"flex-start", marginBottom: i < toArray(evaluation.conclusion.suggestions).length - 1 ? 8 : 0 }}>
-                          <div style={{ width:4, height:4, borderRadius:"50%", background:"var(--accent)", marginTop:8, flexShrink:0 }} />
-                          <div style={{ fontSize:"0.87rem", color:"var(--text2)", lineHeight:1.7, fontFamily:"var(--font-body)" }}>{boldHistorians(s)}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <div style={{ padding:"12px 20px", background:"var(--success-wash)" }}>
-                    <div style={{ fontFamily:"var(--font-mono)", fontSize:"0.5rem", letterSpacing:"0.15em", color:"color-mix(in srgb, var(--success-text) 50%, transparent)", textTransform:"uppercase", marginBottom:8 }}>Model conclusion</div>
-                    <div style={{ fontSize:"0.87rem", color:"var(--text)", lineHeight:1.8, fontFamily:"var(--font-body)" }}>{evaluation.model_answer.conclusion}</div>
-                  </div>
-                </div>
-
-                {/* Overall feedback */}
-                <div className="ev-card ev-card-gold" style={{ padding:"16px 20px" }}>
-                  <div className="ev-ct" style={{ marginBottom:10 }}>Overall Feedback</div>
-                  <p className="ev-overall-txt" style={{ margin:0, lineHeight:1.8 }}>{evaluation.overall_feedback}</p>
-                </div>
-              </div>
-            )}
-
-            {/* MODEL ANSWER TAB */}
-            {tab==="model" && (
-              <div className="ev-fade">
-                {/* Question reminder */}
-                <div className="ev-qbox" style={{ marginBottom:20 }}>
-                  <div className="ev-qlabel">Question · {submittedM}M</div>
-                  <div className="ev-qtext">{submittedQ}</div>
-                </div>
-
-                <div className="ev-card ev-card-green">
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
-                    <div className="ev-ct" style={{ marginBottom:0 }}>Model Answer · {evaluation.marks_out_of}M</div>
-                    <button className="ev-dl-btn" onClick={() => downloadModelAnswerPDF(submittedQ, submittedM, evaluation)}>
-                      ↓ Download PDF
-                    </button>
-                  </div>
-                  <div className="ev-ml">Introduction</div>
-                  <p className="ev-mp">{evaluation.model_answer.introduction}</p>
-                  <div className="ev-ml">Body</div>
-                  <ul className="ev-list" style={{ marginBottom:16 }}>
-                    {bodyParas(evaluation.model_answer.body).map((p,i) => (
-                      <li key={i} style={{ color:'var(--text)', fontSize:'0.93rem', lineHeight:1.75, marginBottom:8 }}>{p}</li>
-                    ))}
-                  </ul>
-                  <div className="ev-ml">Conclusion</div>
-                  <p className="ev-mp" style={{ marginBottom:0 }}>{evaluation.model_answer.conclusion}</p>
-                </div>
-              </div>
-            )}
-
-            {/* HISTORIANS TAB */}
-            {tab==="hist" && (
-              <div className="ev-fade">
-                <div className="ev-card">
-                  <div className="ev-ct">Historians to Cite for This Topic</div>
-                  {(Array.isArray(evaluation.historians_to_cite) ? evaluation.historians_to_cite : []).map((h,i) => (
-                    <div key={i} className="ev-hist">
-                      <div className="ev-hist-name">{typeof h === 'object' && h !== null ? (h as any).name : String(h)}</div>
-                      {typeof h === 'object' && h !== null && (h as any).work && <div className="ev-hist-work">{(h as any).work}</div>}
-                      <div className="ev-hist-arg">{typeof h === 'object' && h !== null ? (h as any).argument : ''}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <button className="ev-btn" style={{ marginTop:28 }}
-              onClick={() => {
-                const next = tab === "eval" ? "model" : "eval";
-                setTab(next);
-                setTimeout(() => tabsRef.current?.scrollIntoView({ behavior:"smooth", block:"start" }), 50);
-              }}>
-              {tab === "eval" ? "View Model Answer →" : "← View Answer Evaluation"}
-            </button>
-            <button className="ev-btn ev-btn-ghost" style={{ marginTop:12 }}
-              onClick={() => { setEvaluation(null); setFiles(undefined as any); setPreviews([]); setQuestion(""); setSubmittedQ(""); setExtractedText(""); setError(""); setStage("form"); }}>
-              ← Evaluate Another Answer
-            </button>
-          </div>
-        )}
+          </aside>
         </div>
-        )}
-      </div>
-    <GateModals />
+      )}
+      <GateModals />
     </>
   );
 }
+
+const CSS = `
+.ev { background: var(--bg); min-height: 70vh; padding-bottom: clamp(48px, 9vh, 96px); }
+.ev-hero { padding: clamp(24px, 4.5vh, 52px) 0 var(--space-6); background: linear-gradient(180deg, color-mix(in srgb, var(--accent-dim) 60%, var(--bg)) 0%, var(--bg) 100%); }
+.ev-hero-row { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-6); }
+.ev-h1 { font-size: clamp(2rem, 4.4vw, 3rem); margin: 0 0 var(--space-2); }
+.ev-lede { max-width: 680px; }
+.ev-past-btn { flex-shrink: 0; gap: var(--space-2); }
+.ev-past-btn span { min-width: 22px; padding: 1px 8px; border-radius: var(--radius-full); background: var(--accent-dim); color: var(--accent-text); font-size: 0.8rem; }
+.ev-modes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: var(--space-5); padding: 4px; border-radius: var(--radius-xl); background: var(--ds-soft); border: 1px solid var(--border); }
+.ev-mode { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border: none; border-radius: var(--radius-lg); background: none; color: var(--text2); font: inherit; text-align: left; cursor: pointer; transition: background 0.18s, box-shadow 0.18s; }
+.ev-mode:hover { color: var(--text); }
+.ev-mode.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
+.ev-mode-icon { width: 36px; height: 36px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; background: var(--ds-card); color: var(--text3); border: 1px solid var(--border); }
+.ev-mode.on .ev-mode-icon { background: var(--accent-dim); color: var(--accent-text); border-color: transparent; }
+.ev-mode-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.ev-mode-text strong { font-size: 0.96rem; }
+.ev-mode-text span { font-size: 0.8rem; color: var(--text3); }
+.ev-tool { padding-top: var(--space-2); }
+
+.ev-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-6); align-items: start; }
+.ev-top { padding-top: clamp(24px, 4vh, 40px); }
+.ev-card { padding: var(--space-6); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--elev-1); min-width: 0; }
+.ev-step { margin-bottom: var(--space-3); font-size: 0.84rem; font-weight: 700; color: var(--accent-text); }
+.ev-card-title { margin: 0 0 var(--space-2); font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+.ev-card-lede { margin: 0 0 var(--space-5); color: var(--text2); line-height: 1.6; }
+.ev-field { display: block; margin-bottom: var(--space-5); }
+.ev-label { display: block; margin-bottom: var(--space-2); font-size: 0.92rem; font-weight: 700; color: var(--text); }
+.ev-missing { font-style: normal; font-weight: 600; color: var(--danger-text); }
+.ev-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.ev-count { font-size: 0.84rem; color: var(--text3); font-variant-numeric: tabular-nums; }
+.ev-input { width: 100%; box-sizing: border-box; resize: vertical; padding: var(--space-3) var(--space-4); background: var(--bg); border: 1.5px solid var(--border2); border-radius: var(--radius-lg); color: var(--text); font: inherit; font-size: 0.98rem; line-height: 1.6; outline: none; transition: border-color 0.15s, box-shadow 0.15s; white-space: pre-wrap; }
+.ev-input:focus { border-color: color-mix(in srgb, var(--accent) 65%, transparent); box-shadow: 0 0 0 4px var(--accent-glow); }
+.ev-input.missing { border-color: color-mix(in srgb, var(--danger-text) 55%, transparent); }
+.ev-input::placeholder { color: var(--text3); }
+.ev-tall { min-height: 340px; }
+.ev-marks { display: inline-flex; gap: 4px; padding: 4px; border-radius: var(--radius-full); background: var(--ds-soft); border: 1px solid var(--border); }
+.ev-mark { padding: 8px 18px; border: none; border-radius: var(--radius-full); background: none; color: var(--text2); font: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; }
+.ev-mark.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
+.ev-drop { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: var(--space-8) var(--space-4); border: 1.5px dashed var(--border3); border-radius: var(--radius-xl); background: var(--bg); text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+.ev-drop:hover, .ev-drop.drag { border-color: var(--accent); background: var(--accent-dim); }
+.ev-drop:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ev-drop-icon { width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: var(--space-2); border-radius: 14px; background: var(--accent-dim); color: var(--accent-text); }
+.ev-drop-title { font-size: 1rem; font-weight: 600; color: var(--text); }
+.ev-drop-title u { color: var(--accent-text); text-underline-offset: 3px; }
+.ev-drop-sub { font-size: 0.88rem; color: var(--text3); }
+.ev-drop-input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.ev-thumbs { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: calc(-1 * var(--space-2)) 0 var(--space-3); }
+.ev-thumb { position: relative; width: 84px; height: 108px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border2); background: var(--ds-soft); }
+.ev-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ev-thumb-pdf { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 6px; color: var(--text3); }
+.ev-thumb-pdf span { max-width: 100%; font-size: 0.66rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ev-thumb-n { position: absolute; left: 5px; top: 5px; min-width: 18px; padding: 0 5px; border-radius: var(--radius-full); background: color-mix(in srgb, var(--bg) 85%, transparent); font-size: 0.7rem; font-weight: 700; text-align: center; color: var(--text); }
+.ev-thumb-rm { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 50%; background: color-mix(in srgb, var(--bg) 85%, transparent); color: var(--text); font-size: 0.95rem; line-height: 1; cursor: pointer; }
+.ev-thumb-move { position: absolute; left: 4px; right: 4px; bottom: 4px; display: flex; justify-content: space-between; }
+.ev-thumb-move button { width: 26px; height: 22px; border: none; border-radius: var(--radius-full); background: color-mix(in srgb, var(--bg) 85%, transparent); color: var(--text); font-size: 0.95rem; line-height: 1; cursor: pointer; }
+.ev-thumb-move button:disabled { opacity: 0.3; cursor: default; }
+.ev-side .ev-thumbs { margin: 0; }
+.ev-side .ev-thumb { width: 64px; height: 82px; }
+.ev-hint { margin: 0 0 var(--space-5); font-size: 0.86rem; color: var(--text3); }
+.ev-err { margin: 0 0 var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--danger-wash); border: 1px solid color-mix(in srgb, var(--danger-text) 30%, transparent); color: var(--danger-text); font-size: 0.92rem; line-height: 1.5; }
+.ev-usage { margin: 0 0 var(--space-3); font-size: 0.9rem; font-weight: 600; color: var(--text2); }
+.ev-usage.out { color: var(--danger-text); }
+.ev-go { min-height: 50px; padding: 0 var(--space-6); font-size: 1rem; justify-content: center; }
+.ev-go-full { width: 100%; }
+.ev-go:disabled { opacity: 0.5; cursor: not-allowed; }
+.ev-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.ev-actions .ds-btn-line { min-height: 50px; flex-shrink: 0; }
+.ev-actions .ev-go { flex: 1; min-width: 220px; }
+.ev-aside { display: flex; flex-direction: column; gap: var(--space-4); position: sticky; top: 84px; }
+.ev-side { padding: var(--space-5); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.ev-side h2 { margin: 0 0 var(--space-3); font-size: 1rem; font-weight: 800; }
+.ev-side p { margin: 0; font-size: 0.92rem; line-height: 1.6; color: var(--text2); }
+.ev-how { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+.ev-how li { display: flex; gap: var(--space-3); }
+.ev-how li > span { width: 26px; height: 26px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--accent-dim); color: var(--accent-text); font-size: 0.82rem; font-weight: 800; }
+.ev-how strong { display: block; font-size: 0.94rem; margin-bottom: 2px; }
+.ev-how p { font-size: 0.88rem; }
+
+/* The report (components/evaluate/Report) */
+.ev-results { padding-top: clamp(24px, 4vh, 40px); }
+.ev-results-back { margin-bottom: var(--space-4); }
+.ev-qbar { margin-bottom: var(--space-5); padding: var(--space-4) var(--space-5); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.ev-qbar span { display: block; margin-bottom: 4px; font-size: 0.84rem; font-weight: 600; color: var(--text3); }
+.ev-qbar p { margin: 0; font-size: 1.08rem; font-weight: 600; line-height: 1.55; }
+.ev-res-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-6); align-items: start; }
+.ev-score { grid-column: 2; grid-row: 1; position: sticky; top: 84px; }
+.ev-feedback { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.ev-score-card { padding: var(--space-6); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--elev-1); }
+.ev-score-num { font-size: 3.6rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.ev-score-num span { margin-left: 6px; font-size: 1.4rem; font-weight: 600; letter-spacing: 0; color: var(--text3); }
+.ev-score-pct { margin-top: var(--space-2); font-size: 0.95rem; line-height: 1.45; color: var(--text2); }
+.ev-score-bar, .ev-sec-bar { height: 6px; margin-top: var(--space-3); border-radius: var(--radius-full); background: var(--ds-soft); overflow: hidden; }
+.ev-score-bar span, .ev-sec-bar span { display: block; height: 100%; border-radius: inherit; transition: width 0.8s ease; }
+.ev-wc { display: inline-block; margin-top: var(--space-3); padding: 3px 12px; border-radius: var(--radius-full); background: var(--warning-wash); color: var(--warning-text); font-size: 0.86rem; font-weight: 600; }
+.ev-wc.good { background: var(--success-wash); color: var(--success-text); }
+.ev-sections { display: flex; flex-direction: column; gap: var(--space-4); margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--border); }
+.ev-sec-top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.ev-sec-name { font-weight: 700; text-transform: capitalize; }
+.ev-sec-score { font-weight: 700; font-variant-numeric: tabular-nums; }
+.ev-sec-bar { height: 4px; margin-top: 6px; }
+.ev-sec-why { margin: 6px 0 0; font-size: 0.84rem; line-height: 1.5; color: var(--text3); }
+.ev-score-actions { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-6); }
+.ev-score-actions .ds-btn { width: 100%; justify-content: center; min-height: 46px; }
+.ev-note { margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); font-size: 0.88rem; line-height: 1.55; color: var(--text2); }
+.ev-tabs { display: flex; gap: 4px; padding: 4px; border-radius: var(--radius-full); background: var(--ds-soft); border: 1px solid var(--border); align-self: flex-start; }
+.ev-tab { padding: 8px 18px; border: none; border-radius: var(--radius-full); background: none; color: var(--text2); font: inherit; font-size: 0.92rem; font-weight: 700; cursor: pointer; }
+.ev-tab.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
+.ev-block { padding: var(--space-5) var(--space-6); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.ev-block h2 { margin: 0 0 var(--space-3); font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; }
+.ev-block-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-3); }
+.ev-block-head h2 { margin: 0; }
+.ev-block-mark { padding: 2px 10px; border-radius: var(--radius-full); background: var(--ds-soft); font-size: 0.86rem; font-weight: 700; color: var(--text2); font-variant-numeric: tabular-nums; }
+.ev-overall p { margin: 0; font-size: 1rem; line-height: 1.75; }
+.ev-demand { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 6px; list-style: disc; }
+.ev-demand li { line-height: 1.6; color: var(--text); }
+.ev-demand li::marker { color: var(--accent); }
+.ev-wrote { margin-bottom: var(--space-4); }
+.ev-wrote span { display: block; margin-bottom: 4px; font-size: 0.82rem; font-weight: 700; color: var(--text3); }
+.ev-wrote blockquote { margin: 0; padding: var(--space-3) var(--space-4); border-left: 3px solid var(--border3); background: var(--ds-soft); border-radius: 0 var(--radius-md) var(--radius-md) 0; font-style: italic; line-height: 1.65; color: var(--text2); }
+.ev-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-5); }
+.ev-col-title { margin: 0 0 var(--space-2); font-size: 0.92rem; font-weight: 700; color: var(--text); }
+.ev-col-title.good { color: var(--success-text); }
+.ev-col-title.fix { color: var(--danger-text); }
+.ev-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.ev-points li { position: relative; padding-left: 16px; line-height: 1.6; font-size: 0.95rem; }
+.ev-points li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 50%; }
+.ev-points.good li::before { background: var(--success-text); }
+.ev-points.fix li::before { background: var(--danger-text); }
+.ev-points li.none { color: var(--text3); }
+.ev-points li.none::before { background: var(--border3); }
+.ev-tag { display: inline-block; margin-right: 6px; padding: 1px 8px; border-radius: var(--radius-full); font-size: 0.74rem; font-weight: 700; vertical-align: 1px; }
+.ev-tag.good { background: var(--success-wash); color: var(--success-text); }
+.ev-tag.fix { background: var(--danger-wash); color: var(--danger-text); }
+.ev-analysis { margin: var(--space-4) 0 0; line-height: 1.7; color: var(--text2); }
+.ev-tries { margin-top: var(--space-4); }
+.ev-try { margin: 0 0 var(--space-2); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--accent-dim); line-height: 1.6; font-size: 0.95rem; }
+.ev-model-part { margin-top: var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--success-wash); }
+.ev-model-part span { display: block; margin-bottom: 4px; font-size: 0.82rem; font-weight: 700; color: var(--success-text); }
+.ev-model-part p { margin: 0; line-height: 1.7; }
+.ev-model p { margin: 0 0 var(--space-3); line-height: 1.8; }
+.ev-model-h { margin: var(--space-4) 0 var(--space-2); font-size: 0.95rem; font-weight: 800; color: var(--accent-text); }
+.ev-model-body { margin: 0 0 var(--space-3); padding-left: 1.2rem; list-style: disc; display: flex; flex-direction: column; gap: var(--space-2); }
+.ev-model-body li { line-height: 1.75; }
+.ev-thinkers { display: flex; flex-direction: column; gap: var(--space-3); }
+.ev-thinker { padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg); }
+.ev-thinker-name { font-weight: 700; }
+.ev-thinker-work { margin-top: 2px; font-size: 0.86rem; color: var(--text3); }
+.ev-thinker p { margin: 6px 0 0; line-height: 1.6; color: var(--text2); }
+
+/* Past evaluations */
+.ev-drawer-scrim { position: fixed; inset: 0; z-index: 2000; background: color-mix(in srgb, #000 45%, transparent); }
+.ev-drawer { position: absolute; top: 0; right: 0; bottom: 0; width: min(420px, 92vw); display: flex; flex-direction: column; background: var(--bg); border-left: 1px solid var(--border); box-shadow: var(--elev-3); }
+.ev-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: var(--space-4) var(--space-5) var(--space-2); }
+.ev-drawer-head h2 { margin: 0; font-size: 1.2rem; font-weight: 800; }
+.ev-drawer-note { margin: 0; padding: 0 var(--space-5) var(--space-3); font-size: 0.86rem; color: var(--text3); border-bottom: 1px solid var(--border); }
+.ev-drawer-empty { padding: var(--space-6) var(--space-5); color: var(--text2); }
+.ev-drawer-list { flex: 1; overflow-y: auto; padding: var(--space-2) var(--space-3) calc(var(--space-6) + env(safe-area-inset-bottom, 0px)); }
+.ev-past { display: flex; flex-direction: column; gap: 4px; width: 100%; padding: var(--space-3); border: none; border-radius: var(--radius-lg); background: none; font: inherit; text-align: left; cursor: pointer; }
+.ev-past:hover, .ev-past.on { background: var(--ds-card); }
+.ev-past-top { display: flex; align-items: baseline; justify-content: space-between; font-size: 0.86rem; color: var(--text3); }
+.ev-past-top strong { font-size: 0.95rem; }
+.ev-past-q { font-size: 0.9rem; line-height: 1.45; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ev-past-bar { height: 3px; border-radius: var(--radius-full); background: var(--ds-soft); overflow: hidden; }
+.ev-past-bar span { display: block; height: 100%; }
+
+@media (max-width: 960px) {
+  .ev-grid, .ev-res-grid { grid-template-columns: minmax(0, 1fr); }
+  .ev-aside, .ev-score { position: static; }
+  .ev-score { grid-column: 1; grid-row: 1; }
+  .ev-feedback { grid-column: 1; grid-row: 2; }
+}
+/* On a phone the switch is one compact row, so the upload is on the first screen. */
+@media (max-width: 760px) {
+  .ev-hero-row { flex-direction: column; gap: var(--space-3); }
+  .ev-lede { font-size: 1rem; }
+  .ev-past-btn { min-height: 38px; padding: 0 var(--space-4); font-size: 0.9rem; }
+  .ev-modes { margin-top: var(--space-4); gap: 2px; }
+  .ev-mode { flex-direction: column; justify-content: center; gap: 6px; padding: var(--space-2) 4px; text-align: center; }
+  .ev-mode-icon { width: 30px; height: 30px; }
+  .ev-mode-text strong { font-size: 0.84rem; line-height: 1.25; }
+  .ev-mode-text span { display: none; }
+}
+@media (max-width: 640px) {
+  .ev-card { padding: var(--space-5) var(--space-4); }
+  .ev-marks { display: flex; }
+  .ev-mark { flex: 1; padding: 8px 6px; }
+  .ev-drop { padding: var(--space-6) var(--space-3); }
+  .ev-tall { min-height: 260px; }
+  .ev-actions { flex-direction: column-reverse; }
+  .ev-actions .ds-btn { width: 100%; justify-content: center; }
+  .ev-block { padding: var(--space-4); }
+  .ev-cols { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+  .ev-score-card { padding: var(--space-5) var(--space-4); }
+  .ev-score-num { font-size: 3rem; }
+  .ev-qbar p { font-size: 1rem; }
+  .ev-tabs { align-self: stretch; }
+  .ev-tab { flex: 1; padding: 8px 6px; }
+}
+@media (prefers-reduced-motion: reduce) { .ev-score-bar span, .ev-sec-bar span { transition: none; } }
+`;
