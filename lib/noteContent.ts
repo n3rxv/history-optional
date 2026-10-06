@@ -12306,8 +12306,6 @@ Huna invasion was repulsed even during the reign of Skandagupta.</p>
   <li style="padding-left:2em">&#9702; <strong>Imam-i-Adil</strong> (Leader of Justice) - The Emperor is inherently a fair and just ruler.</li>
   <li style="padding-left:2em">&#9702; Akbar Also introduced some <strong>new practices</strong> to emphasise the Emperor&#8217;s semi-divine status, such as:
     <ul>
-    <li style="padding-left:4em">&#9632; <strong>Sijda</strong> - prostration</li>
-    <li style="padding-left:4em">&#9632; <strong>Paibos</strong> - kissing the emperor&#8217;s feet</li>
     <li style="padding-left:4em">&#9632; <strong>Navroz</strong> - Festival to celebrate the Persian new year</li>
     <li style="padding-left:4em">&#9632; <strong>Tuladan</strong> - Borrowed from the Krishnite legends - on special occasions, the emperor was weighed against different things to be distributed among the poor.</li>
     <li style="padding-left:4em">&#9632; <strong>Jharoka Darshan</strong> - Borrowed from Hinduism, the king would appear in his window every morning and bless his subjects.</li>
