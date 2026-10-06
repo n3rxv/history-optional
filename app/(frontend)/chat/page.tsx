@@ -47,6 +47,8 @@ type ChatHistoryEntry = {
 };
 
 type Style = 'concise' | 'elaborative' | 'mains';
+/** Answers come in full prose unless the reader asks for quick notes or a Mains answer. */
+const DEFAULT_STYLE: Style = 'elaborative';
 
 const CHAT_HISTORY_KEY = 'ho_chat_history_v1';
 const CHAT_HISTORY_MAX = 50;
@@ -382,7 +384,7 @@ function ChatContent() {
   const [bookTitle, setBookTitle] = useState<string>('all');
   const [mentorMode, setMentorMode] = useState(false);
   const [brainstormMode, setBrainstormMode] = useState(false);
-  const [responseStyle, setResponseStyle] = useState<Style>('concise');
+  const [responseStyle, setResponseStyle] = useState<Style>(DEFAULT_STYLE);
   const [pdfBase64, setPdfBase64] = useState<string | null>(null);
   const [pdfName, setPdfName] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
@@ -841,7 +843,7 @@ function ChatContent() {
 
   // With a PDF attached the input asks about the PDF, as a plain placeholder.
   // Otherwise it suggests a question, typed out with a cursor in an overlay
-  // (a placeholder attribute cannot draw one), and Esc takes it up.
+  // (a placeholder attribute cannot draw one), and Tab takes it up.
   const showGhost = !pdfName && !input && !loading && suggestion !== '';
   const canTakeHint = showGhost;
   const placeholder = pdfName
@@ -945,7 +947,7 @@ function ChatContent() {
   }
   if (mentorMode && subscribed) tags.push(<span key="mentor" className="ch-tag">🎓 {langHi ? 'मेंटर' : 'Mentor'}<button onClick={() => setMentorMode(false)} aria-label="Remove">✕</button></span>);
   if (brainstormMode && subscribed) tags.push(<span key="brain" className="ch-tag">💡 {langHi ? 'ब्रेनस्टॉर्म' : 'Brainstorm'}<button onClick={() => setBrainstormMode(false)} aria-label="Remove">✕</button></span>);
-  if (responseStyle !== 'concise' && !mentorMode && !brainstormMode) tags.push(<span key="style" className="ch-tag">{styleLabel[responseStyle]}<button onClick={() => setResponseStyle('concise')} aria-label="Remove">✕</button></span>);
+  if (responseStyle !== DEFAULT_STYLE && !mentorMode && !brainstormMode) tags.push(<span key="style" className="ch-tag">{styleLabel[responseStyle]}<button onClick={() => setResponseStyle(DEFAULT_STYLE)} aria-label="Remove">✕</button></span>);
   if (pdfName) tags.push(<span key="pdf" className="ch-tag ch-tag-pdf">📄 <span className="ch-tag-name">{pdfName}</span><button onClick={clearPdf} aria-label="Remove">✕</button></span>);
 
   const composer = (
@@ -965,7 +967,7 @@ function ChatContent() {
         <div className="ch-field">
         {showGhost && (
           <span id="ch-hint-desc" className="ch-sr">
-            {langHi ? `सुझाव: ${suggestion}। लेने के लिए Esc दबाएँ।` : `Suggestion: ${suggestion}. Press Escape to use it.`}
+            {langHi ? `सुझाव: ${suggestion}। लेने के लिए Tab दबाएँ।` : `Suggestion: ${suggestion}. Press Tab to use it.`}
           </span>
         )}
         {showGhost && (
@@ -981,12 +983,10 @@ function ChatContent() {
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => {
             if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); return; }
-            if (e.key === 'Escape') {
-              if (toolsOpen) { e.stopPropagation(); setToolsOpen(false); return; }
-              // Kept from the side panel's Escape handler, which would
-              // otherwise close the panel on the same key press.
-              if (canTakeHint) { e.preventDefault(); e.stopPropagation(); takeHint(); }
-            }
+            if (e.key === 'Escape' && toolsOpen) { e.stopPropagation(); setToolsOpen(false); return; }
+            // Tab takes the suggested question. With no suggestion showing it
+            // moves focus as usual, so the keyboard is never trapped here.
+            if (e.key === 'Tab' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey && canTakeHint) { e.preventDefault(); takeHint(); }
           }}
           placeholder={placeholder}
           aria-label={langHi ? 'अपना प्रश्न लिखें' : 'Your question'}
@@ -995,8 +995,8 @@ function ChatContent() {
         />
         </div>
         {canTakeHint && (
-          <button className="ch-esc" onClick={takeHint} title={langHi ? 'यह सुझाव लें (Esc)' : 'Use this suggestion (Esc)'} tabIndex={-1}>
-            esc
+          <button className="ch-key" onClick={takeHint} title={langHi ? 'यह सुझाव लें (Tab)' : 'Use this suggestion (Tab)'} tabIndex={-1}>
+            tab
           </button>
         )}
         <div className="ch-tools">
@@ -1249,6 +1249,9 @@ const CHAT_CSS = `
 .ho-main { min-height: 0 !important; }
 
 .ch-wrap {
+  /* Sans-serif, like the rest of the site: everything here that asks for
+     the body font gets Inter. */
+  --font-body: var(--font-ui);
   --ch-ground: var(--bg);
   --ch-card: var(--bg-raised);
   --ch-soft: color-mix(in srgb, var(--text) 3%, var(--bg-raised));
@@ -1542,15 +1545,15 @@ const CHAT_CSS = `
 @keyframes chCaret { 50% { opacity: 0; } }
 .ch-textarea.ghosted:not(:focus) { caret-color: transparent; }
 .ch-tools { position: relative; }
-.ch-esc {
+.ch-key {
   align-self: center; flex-shrink: 0;
   padding: 2px var(--space-2); border-radius: var(--radius-xs);
   border: 1px solid var(--border2); background: var(--ch-soft);
   color: var(--text3); font-size: 0.72rem; line-height: 1.4; cursor: pointer;
 }
-.ch-esc:hover { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
-/* No Escape key on a phone keyboard; the hint would only be a small button. */
-@media (hover: none) { .ch-esc { display: none; } }
+.ch-key:hover { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+/* No Tab key on a phone keyboard; the hint would only be a small button. */
+@media (hover: none) { .ch-key { display: none; } }
 .ch-send {
   width: 36px; height: 36px; flex-shrink: 0;
   display: inline-flex; align-items: center; justify-content: center;

@@ -7,7 +7,7 @@ import { suggestions, nextSuggestion, graphemes } from '@/lib/chatSuggestions';
 /**
  * The chat's input, on the home page: type a question and it opens in the
  * AI chat, already asked. Until the reader types, it suggests one, typed out
- * the way the chat page does it; Esc or the key hint takes the suggestion.
+ * the way the chat page does it; Tab or the key hint takes the suggestion.
  * The suggestions follow the language switch.
  */
 export default function HomeAsk() {
@@ -81,14 +81,14 @@ export default function HomeAsk() {
           ref={inputRef}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Escape' && !value) { e.preventDefault(); take(); } }}
+          onKeyDown={(e) => { if (e.key === 'Tab' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey && !value && current) { e.preventDefault(); take(); } }}
           aria-label={langHi ? 'पाठ्यक्रम से कोई प्रश्न पूछें' : 'Ask the AI a question from the syllabus'}
           aria-describedby="ha-desc"
           enterKeyHint="send"
         />
-        <span id="ha-desc" className="ha-sr">{current ? `Suggestion: ${current.q}. Press Escape to use it.` : ''}</span>
+        <span id="ha-desc" className="ha-sr">{current ? `Suggestion: ${current.q}. Press Tab to use it.` : ''}</span>
       </div>
-      {!value && current && <button type="button" className="ha-esc" onClick={take} tabIndex={-1} title="Use this suggestion (Esc)">esc</button>}
+      {!value && current && <button type="button" className="ha-key" onClick={take} tabIndex={-1} title="Use this suggestion (Tab)">tab</button>}
       <button type="submit" className={`ha-send${value.trim() ? ' ready' : ''}`} aria-label="Ask" disabled={!value.trim()}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
       </button>
@@ -114,8 +114,8 @@ const HA_CSS = `
 .ha-field:focus-within .ha-caret { display: none; }
 .ha-field input:not(:focus) { caret-color: transparent; }
 @keyframes haCaret { 50% { opacity: 0; } }
-.ha-esc { flex-shrink: 0; padding: 2px var(--space-2); border-radius: var(--radius-xs); border: 1px solid var(--border2); background: var(--ds-soft); color: var(--text3); font-family: var(--font-ui); font-size: 0.72rem; cursor: pointer; }
-.ha-esc:hover { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.ha-key { flex-shrink: 0; padding: 2px var(--space-2); border-radius: var(--radius-xs); border: 1px solid var(--border2); background: var(--ds-soft); color: var(--text3); font-family: var(--font-ui); font-size: 0.72rem; cursor: pointer; }
+.ha-key:hover { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
 .ha-send {
   width: 44px; height: 44px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
   border-radius: var(--radius-lg); border: 1px solid var(--border2); background: var(--ds-card); color: var(--text3); cursor: not-allowed;
@@ -123,6 +123,6 @@ const HA_CSS = `
 }
 .ha-send.ready { background: var(--accent); border-color: var(--accent); color: var(--accent-on); cursor: pointer; }
 .ha-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (hover: none) { .ha-esc { display: none; } }
+@media (hover: none) { .ha-key { display: none; } }
 @media (prefers-reduced-motion: reduce) { .ha-caret { animation: none; } }
 `;
