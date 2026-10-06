@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 /**
@@ -178,10 +178,39 @@ const TABS: Tab[] = [
   },
 ];
 
+/** How long each tab shows before the next opens on its own. */
+const DWELL_MS = 10_000;
+
 export default function HomeShowcase() {
   const [active, setActive] = useState(0);
   const tabsRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const t = TABS[active];
+
+  // The tabs move on by themselves every ten seconds. A line under the chosen
+  // tab fills over that time and its end opens the next, so the two cannot
+  // drift. It holds while a mouse is over the showcase, while focus is in it,
+  // and while it is off screen; reduced motion turns it off (see the CSS).
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.35 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const held = hovered || focused || !inView;
+
+  // On a phone the tabs scroll sideways; keep the chosen one in sight
+  // without moving the page.
+  useEffect(() => {
+    const strip = tabsRef.current;
+    const tab = strip?.querySelectorAll<HTMLElement>('[role="tab"]')[active];
+    if (!strip || !tab || strip.scrollWidth <= strip.clientWidth) return;
+    strip.scrollTo({ left: tab.offsetLeft - (strip.clientWidth - tab.offsetWidth) / 2, behavior: 'smooth' });
+  }, [active]);
 
   const onKey = (e: React.KeyboardEvent) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
@@ -192,7 +221,11 @@ export default function HomeShowcase() {
   };
 
   return (
-    <div className="hs">
+    <div className="hs" ref={rootRef} data-held={held ? 'true' : undefined} style={{ ['--hs-dwell' as string]: `${DWELL_MS}ms` }}
+      onPointerEnter={(e) => { if (e.pointerType === 'mouse') setHovered(true); }}
+      onPointerLeave={(e) => { if (e.pointerType === 'mouse') setHovered(false); }}
+      onFocus={(e) => { if ((e.target as HTMLElement).matches(':focus-visible')) setFocused(true); }}
+      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false); }}>
       <style dangerouslySetInnerHTML={{ __html: HS_CSS }} />
       <div className="hs-tabs" role="tablist" aria-label="What is inside" ref={tabsRef} onKeyDown={onKey}>
         {TABS.map((x, i) => (
@@ -205,6 +238,7 @@ export default function HomeShowcase() {
             tabIndex={i === active ? 0 : -1}
             className={`hs-tab${i === active ? ' on' : ''}`}
             onClick={() => setActive(i)}
+            onAnimationEnd={(e) => { if (i === active && e.animationName === 'hs-dwell') setActive((active + 1) % TABS.length); }}
           >
             {x.tab}
           </button>
@@ -244,6 +278,12 @@ const HS_CSS = `
 }
 .hs-tab:hover { color: var(--text); }
 .hs-tab.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
+/* The time left on this tab, filling left to right. */
+.hs-tab { position: relative; }
+.hs-tab.on::after { content: ''; position: absolute; left: 18px; right: 18px; bottom: 4px; height: 2px; border-radius: 2px; background: var(--accent); opacity: 0.7; transform: scaleX(0); transform-origin: left; animation: hs-dwell var(--hs-dwell) linear forwards; }
+.hs[data-held] .hs-tab.on::after { animation-play-state: paused; }
+@keyframes hs-dwell { to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .hs-tab.on::after { display: none; } }
 .hs-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* The panel: words on the left, the tool on the right, rising off the bottom edge. */
@@ -349,6 +389,7 @@ const HS_CSS = `
   .hs-tabs { width: auto; margin-left: calc(-1 * var(--space-4)); margin-right: calc(-1 * var(--space-4)); border-radius: 0; border-left: none; border-right: none; background: none; border: none; padding: 0 var(--space-4); }
   .hs-tab { background: var(--ds-soft); border: 1px solid var(--border); }
   .hs-tab.on { background: var(--text); color: var(--bg); border-color: var(--text); box-shadow: none; }
+  .hs-tab.on::after { background: var(--bg); left: 14px; right: 14px; }
   .hs-panel { border-radius: 22px; padding: var(--space-6) 0 0 var(--space-5); }
   .hs-copy { padding-right: var(--space-5); gap: var(--space-3); }
   .hs-copy .ds-btn { width: calc(100% - 0px); }

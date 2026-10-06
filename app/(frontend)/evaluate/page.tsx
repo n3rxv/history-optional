@@ -106,9 +106,12 @@ export default function EvaluatePage() {
   // Another page can open this one on a mode: the pricing card reaches map
   // evaluation with ?mode=map.
   useEffect(() => {
-    const mode = new URLSearchParams(window.location.search).get('mode');
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('mode');
      
     if (mode === 'map' || mode === 'batch' || mode === 'single') setEvalMode(mode);
+    // ?past=1 opens the past evaluations; the old /history page sends readers here.
+    if (params.get('past') === '1') { setHistory(loadHistory()); setDrawer(true); }
   }, []);
 
   // A refresh keeps the step, the transcript and the report; photos cannot

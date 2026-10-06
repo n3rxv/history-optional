@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { auth } from '@/lib/firebase';
 import OwlLoader from '@/components/OwlLoader';
 
@@ -26,97 +26,53 @@ async function downloadAnswerAsPDF(markdownText: string, questionText?: string) 
   URL.revokeObjectURL(url);
 }
 
+/** **bold**, *italic* and ***both*** inside a line. */
+function Inline({ text }: { text: string }) {
+  const parts = text.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  return <>{parts.map((part, j) =>
+    /^\*\*\*(.+)\*\*\*$/.test(part) ? <strong key={j}><em>{part.replace(/^\*\*\*|\*\*\*$/g, '')}</em></strong>
+      : /^\*\*(.+)\*\*$/.test(part) ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
+      : /^\*([^*]+)\*$/.test(part) ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
+      : part)}</>;
+}
+
+/** The answer as written: **Heading** lines, *sub-heading* lines, bullets and paragraphs. */
 function AnswerBody({ text }: { text: string }) {
-  const lines = text.split('\n');
   return (
-    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', lineHeight: 1.8, color: 'var(--text)' }}>
-      {lines.map((line, i) => {
-        if (!line.trim()) return <div key={i} style={{ height: '0.6rem' }} />;
-        if (/^\*\*(.+)\*\*$/.test(line.trim())) {
-          const heading = line.trim().replace(/^\*\*|\*\*$/g, '');
-          return (
-            <div key={i} style={{
-              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.88rem',
-              letterSpacing: '0.05em', color: 'var(--accent)', textTransform: 'uppercase',
-              marginTop: '1.2rem', marginBottom: '0.4rem',
-            }}>{heading}</div>
-          );
-        }
-        if (/^\*(.+)\*$/.test(line.trim())) {
-          const sub = line.trim().replace(/^\*|\*$/g, '');
-          return (
-            <div key={i} style={{
-              fontWeight: 600, fontStyle: 'italic',
-              color: 'var(--text2)', marginTop: '0.8rem', marginBottom: '0.2rem',
-            }}>{sub}</div>
-          );
-        }
-        if (/^[-•]\s+/.test(line.trim())) {
-          const content = line.trim().replace(/^[-•]\s+/, '');
-          const parts = content.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
-          return (
-            <div key={i} style={{ display: 'flex', gap: '0.5rem', margin: '0.25rem 0 0.25rem 0.5rem' }}>
-              <span style={{ color: 'var(--accent)', fontWeight: 700, flexShrink: 0, marginTop: '0.1rem' }}>•</span>
-              <p style={{ margin: 0 }}>
-                {parts.map((part, j) =>
-                  /^\*\*\*(.+)\*\*\*$/.test(part)
-                    ? <strong key={j}><em>{part.replace(/^\*\*\*|\*\*\*$/g, '')}</em></strong>
-                    : /^\*\*(.+)\*\*$/.test(part)
-                    ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
-                    : /^\*([^*]+)\*$/.test(part)
-                    ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
-                    : part
-                )}
-              </p>
-            </div>
-          );
-        }
-        const parts = line.split(/(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*)/g);
-        return (
-          <p key={i} style={{ margin: '0 0 0.1rem' }}>
-            {parts.map((part, j) =>
-              /^\*\*\*(.+)\*\*\*$/.test(part)
-                ? <strong key={j}><em>{part.replace(/^\*\*\*|\*\*\*$/g, '')}</em></strong>
-                : /^\*\*(.+)\*\*$/.test(part)
-                ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
-                : /^\*([^*]+)\*$/.test(part)
-                ? <em key={j}>{part.replace(/^\*|\*$/g, '')}</em>
-                : part
-            )}
-          </p>
-        );
+    <div className="ma-body">
+      {text.split('\n').map((raw, i) => {
+        const line = raw.trim();
+        if (!line) return <div key={i} className="ma-gap" />;
+        if (/^\*\*(.+)\*\*$/.test(line)) return <h3 key={i} className="ma-h">{line.replace(/^\*\*|\*\*$/g, '')}</h3>;
+        if (/^\*(.+)\*$/.test(line)) return <h4 key={i} className="ma-sub">{line.replace(/^\*|\*$/g, '')}</h4>;
+        if (/^[-•]\s+/.test(line)) return <p key={i} className="ma-li"><Inline text={line.replace(/^[-•]\s+/, '')} /></p>;
+        return <p key={i} className="ma-p"><Inline text={raw} /></p>;
       })}
     </div>
   );
 }
 
-
 function SavePDFButton({ answer, question }: { answer: string; question: string }) {
   const [saving, setSaving] = useState(false);
   return (
     <button
+      type="button"
+      className="ds-btn ds-btn-line ds-btn-sm"
       onClick={async () => {
         setSaving(true);
         try { await downloadAnswerAsPDF(answer, question); }
-        catch (e) { console.error(e); alert('PDF generation failed.'); }
+        catch (e) { console.error(e); alert('The PDF could not be made. Try again in a moment.'); }
         finally { setSaving(false); }
       }}
       disabled={saving}
-      style={{
-        background: 'none', border: '1px solid var(--accent)',
-        color: 'var(--accent)', cursor: saving ? 'wait' : 'pointer',
-        padding: '0.4rem 1rem', borderRadius: 6, fontSize: '0.78rem',
-        display: 'flex', alignItems: 'center', gap: '0.4rem',
-        opacity: saving ? 0.6 : 1,
-      }}
     >
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
         <polyline points="14 2 14 8 20 8"/>
         <line x1="12" y1="18" x2="12" y2="12"/>
         <polyline points="9 15 12 18 15 15"/>
       </svg>
-      {saving ? 'Saving…' : 'Save PDF'}
+      {saving ? 'Saving…' : 'Save as PDF'}
     </button>
   );
 }
@@ -163,76 +119,49 @@ export default function ModelAnswerModal({
     setLoading(false);
   }, [question, marks, cacheKey, answer]);
 
-  useState(() => { if (!answer) generate(); });
+  // Written on first open; a saved one is shown as it is.
+  useEffect(() => {
+    if (!answer) void generate();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, [onClose]);
 
   return (
-    <div
-      style={{
-        position: 'fixed', inset: 0, zIndex: 1002,
-        background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(6px)',
-        display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-        padding: '2rem 1rem', overflowY: 'auto',
-      }}
-      onClick={onClose}
-    >
-      <div
-        style={{
-          background: 'var(--bg)', border: '1px solid var(--border)',
-          borderRadius: 12, width: '100%', maxWidth: 720,
-          padding: '2rem', position: 'relative',
-          boxShadow: '0 40px 80px rgba(0,0,0,0.6)', marginBottom: '2rem',
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', gap: '1rem' }}>
+    <div className="ds ds-overlay ma-overlay" onClick={onClose}>
+      <style dangerouslySetInnerHTML={{ __html: MA_CSS }} />
+      <div className="ds-modal ma" role="dialog" aria-modal="true" aria-labelledby="ma-title" onClick={e => e.stopPropagation()}>
+        <div className="ds-modal-head">
           <div>
-            <div style={{
-              fontFamily: 'var(--font-mono)', fontSize: '0.6rem',
-              letterSpacing: '0.2em', textTransform: 'uppercase',
-              color: 'var(--accent)', marginBottom: '0.4rem',
-            }}>Model Answer · {marks}M</div>
-            <p style={{ color: 'var(--text2)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0 }}>
-              {question.length > 120 ? question.slice(0, 120) + '…' : question}
-            </p>
+            <h2 id="ma-title">Model answer <span className="ma-marks">{marks} marks</span></h2>
+            <p>{question.length > 160 ? question.slice(0, 160) + '…' : question}</p>
           </div>
-          <button onClick={onClose} style={{
-            background: 'none', border: '1px solid var(--border)',
-            color: 'var(--text3)', cursor: 'pointer',
-            padding: '4px 10px', borderRadius: 6, fontSize: '0.8rem', flexShrink: 0,
-          }}>✕</button>
+          <button type="button" className="ds-x" onClick={onClose} aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+          </button>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.25rem' }}>
+        <div className="ma-main">
           {loading && (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', padding: '3rem 0' }}>
-              <OwlLoader size="small" caption="Writing a model answer, which takes about a minute" />
-              <style>{`
-                .shimmer-btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%);transform:skewX(-20deg);opacity:0;pointer-events:none;z-index:1;}
-                .shimmer-btn:hover::before{opacity:1;animation:glass-shine 0.55s ease forwards;}
-                @keyframes bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
-              `}</style>
-            </div>
+            <div className="ma-wait"><OwlLoader size="small" caption="Writing a model answer, which takes about a minute" /></div>
           )}
           {error && (
-            <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-              <div style={{ color: 'var(--danger-text)', fontSize: '0.88rem', marginBottom: '1rem' }}>{error}</div>
-              <button onClick={() => generate(true)} style={{
-                background: 'var(--accent)', color: 'var(--on-fill)', border: 'none',
-                padding: '0.5rem 1.25rem', borderRadius: 6, cursor: 'pointer',
-                fontFamily: 'var(--font-mono)', fontSize: '0.8rem',
-              }}>Try Again</button>
+            <div className="ma-error">
+              <p>{error}</p>
+              <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={() => generate(true)}>Try again</button>
             </div>
           )}
           {answer && !loading && (
             <>
               <AnswerBody text={answer} />
-              <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+              <div className="ma-actions">
+                <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={() => { setAnswer(null); generate(true); }}>Write it again</button>
                 <SavePDFButton answer={answer} question={question} />
-                <button onClick={() => { setAnswer(null); generate(true); }} style={{
-                  background: 'none', border: '1px solid var(--border)',
-                  color: 'var(--text3)', cursor: 'pointer',
-                  padding: '0.4rem 1rem', borderRadius: 6, fontSize: '0.78rem',
-                }}>Regenerate</button>
               </div>
             </>
           )}
@@ -241,3 +170,24 @@ export default function ModelAnswerModal({
     </div>
   );
 }
+
+const MA_CSS = `
+.ma-overlay { z-index: 1002; align-items: flex-start; overflow-y: auto; }
+.ma { max-width: 760px; max-height: none; overflow: visible; margin: clamp(8px, 4vh, 48px) 0; }
+.ma-marks { display: inline-flex; vertical-align: 3px; margin-left: 6px; padding: 2px 10px; border-radius: var(--radius-full); background: var(--accent-dim); color: var(--accent-text); font-size: 0.78rem; font-weight: 700; letter-spacing: 0; }
+.ma-main { border-top: 1px solid var(--border); padding-top: var(--space-5); }
+.ma-wait { display: flex; justify-content: center; padding: var(--space-10) 0; }
+.ma-error { text-align: center; padding: var(--space-8) 0; }
+.ma-error p { margin: 0 0 var(--space-4); color: var(--danger-text); }
+.ma-body { font-size: 1rem; line-height: 1.75; color: var(--text); }
+.ma-gap { height: 0.5rem; }
+.ma-h { margin: var(--space-5) 0 var(--space-2); font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; color: var(--text); }
+.ma-body > .ma-h:first-child { margin-top: 0; }
+.ma-sub { margin: var(--space-4) 0 var(--space-1); font-size: 0.98rem; font-weight: 700; color: var(--text2); }
+.ma-p { margin: 0 0 2px; color: var(--text2); }
+.ma-li { position: relative; margin: 4px 0; padding-left: 1.2rem; color: var(--text2); }
+.ma-li::before { content: ''; position: absolute; left: 4px; top: 0.72em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.ma-body strong { color: var(--text); }
+.ma-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--border); }
+@media (max-width: 640px) { .ma { margin: 0; } .ma-body { font-size: 0.96rem; } }
+`;

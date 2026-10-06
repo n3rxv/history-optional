@@ -95,6 +95,13 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const [debates, setDebates] = useState(initialDebates);
   const [search, setSearch] = useState('');
+  // The site search links here with ?q=, a debate's title; read once the page
+  // is in the browser, since the server draws the unfiltered bank.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('q');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (q) setSearch(q.slice(0, 200));
+  }, []);
   const [kind, setKind] = useState<'all' | 'debate' | 'topic'>('all');
   const [paper, setPaper] = useState<'all' | 'Paper I' | 'Paper II'>('all');
   const [period, setPeriod] = useState('all');

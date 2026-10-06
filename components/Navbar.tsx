@@ -306,6 +306,11 @@ function NavMenu({ label, items, active, pathname, open, onToggle, onClose, menu
   );
 }
 
+/** The phone browser's bar takes the page's ground: paper, or black in dark. */
+function paintBrowserBar(dark: boolean) {
+  document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', dark ? '#000000' : '#fcfcfc'));
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -313,7 +318,7 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { langHi, toggleLang } = useLang();
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [aspirantName, setAspirantName] = useState('');
   const [aspirantAge, setAspirantAge] = useState('');
@@ -349,7 +354,9 @@ export default function Navbar() {
   // The bootstrap in app/layout.tsx stamps data-theme before paint; read it
   // rather than working it out again.
   useEffect(() => {
-    setIsDark(document.documentElement.getAttribute('data-theme') !== 'light');
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    setIsDark(dark);
+    paintBrowserBar(dark);
   }, []);
 
   // Always writes an explicit choice, in both directions, so a reader on a
@@ -360,6 +367,7 @@ export default function Navbar() {
     const theme = next ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', theme);
     try { localStorage.setItem('ho-theme', theme); } catch {}
+    paintBrowserBar(next);
   };
 
   // A tap outside a menu closes it. A touch that moved was a scroll, not a tap.
@@ -415,6 +423,20 @@ export default function Navbar() {
     const handler = () => setShowPremiumModal(true);
     window.addEventListener('open-premium-modal', handler);
     return () => window.removeEventListener('open-premium-modal', handler);
+  }, []);
+
+  // The once-a-session nudge (components/PromoPopup) asks for the same panel,
+  // but only a reader who is not on Premium is shown it, and never on top of
+  // another dialog or on the pricing page, which says it all already.
+  const subRef = React.useRef(subData);
+  subRef.current = subData;
+  useEffect(() => {
+    const handler = () => {
+      if (subRef.current || window.location.pathname === '/pricing' || document.querySelector('[role="dialog"], [aria-modal="true"]')) return;
+      setShowPremiumModal(true);
+    };
+    window.addEventListener('promo-premium', handler);
+    return () => window.removeEventListener('promo-premium', handler);
   }, []);
 
   // The dashboard's plan card opens the same Extend panel as the account menu.

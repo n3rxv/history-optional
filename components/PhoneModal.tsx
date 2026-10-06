@@ -64,31 +64,6 @@ export const COUNTRIES = [
   { code: '+233', flag: '🇬🇭', name: 'Ghana' },
 ];
 
-const LABEL: React.CSSProperties = {
-  display: 'block',
-  fontFamily: 'var(--font-mono)',
-  fontSize: '0.62rem',
-  letterSpacing: '0.12em',
-  textTransform: 'uppercase',
-  color: 'var(--text3)',
-  marginBottom: 6,
-  fontWeight: 600,
-};
-
-/** One definition for all three inputs; `bad` reddens only the field at fault. */
-const FIELD = (bad: boolean): React.CSSProperties => ({
-  width: '100%',
-  padding: '12px 14px',
-  background: 'var(--bg3)',
-  border: `1.5px solid ${bad ? 'var(--danger-text)' : 'var(--border)'}`,
-  borderRadius: 8,
-  color: 'var(--text)',
-  fontFamily: 'var(--font-ui)',
-  fontSize: '0.92rem',
-  outline: 'none',
-  boxSizing: 'border-box',
-});
-
 export function PhoneModal({
   getToken,
   visitorId,
@@ -258,199 +233,108 @@ export function PhoneModal({
     }
   };
 
+  const bad = (f: typeof errField) => (errField === f ? ' bad' : '');
+
   return (
-    <div
-      style={{
-        position: 'fixed', inset: 0, zIndex: 1001,
-        background: 'rgba(0,0,0,0.88)',
-        // Blur is animated with the fade: snapping straight to 8px is the
-        // part that reads as abrupt, more than the opacity does.
-        backdropFilter: `blur(${shown ? 8 : 0}px)`,
-        WebkitBackdropFilter: `blur(${shown ? 8 : 0}px)`,
-        opacity: shown ? 1 : 0,
-        transition: `opacity ${MS}ms ease, backdrop-filter ${MS}ms ease`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
-      }}
-      onClick={() => setOpen(false)}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Complete your profile"
-    >
-      <div
-        ref={cardRef}
-        style={{
-          background: 'var(--bg3)', border: '1px solid #2a2a2a', borderRadius: 16,
-          padding: '2rem', maxWidth: 400, width: '100%',
-          boxShadow: '0 40px 80px rgba(0,0,0,0.8)',
-          opacity: shown ? 1 : 0,
-          transform: shown ? 'translateY(0) scale(1)' : 'translateY(10px) scale(0.97)',
-          // Slightly longer than the backdrop, and eased out, so the card
-          // arrives just after the ground darkens instead of with it.
-          transition: `opacity ${MS}ms ease, transform ${Math.round(MS * 1.2)}ms cubic-bezier(0.16, 1, 0.3, 1)`,
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 12 }}>
-          One-time setup
-        </div>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--text)', marginBottom: 10 }}>
-          Complete your profile
-        </div>
-        <div style={{ color: 'var(--text3)', fontSize: '0.85rem', lineHeight: 1.65, marginBottom: 24 }}>
-          Your name and number, so we can reach you about your account and important updates to the platform.
-        </div>
-
-        <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
-          <div style={{ flex: 1 }}>
-            <label htmlFor="ho-first-name" style={LABEL}>
-              First name <span style={{ color: 'var(--danger-text)' }}>*</span>
-            </label>
-            <input
-              id="ho-first-name"
-              autoFocus={!initialFirstName}
-              autoComplete="given-name"
-              placeholder="Rahul"
-              value={firstName}
-              onChange={e => setFirstName(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && submit()}
-              style={FIELD(errField === 'first_name')}
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <label htmlFor="ho-last-name" style={LABEL}>
-              Last name <span style={{ color: 'var(--text3)', fontWeight: 400 }}>(optional)</span>
-            </label>
-            <input
-              id="ho-last-name"
-              autoComplete="family-name"
-              placeholder="Sharma"
-              value={lastName}
-              onChange={e => setLastName(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && submit()}
-              style={FIELD(errField === 'last_name')}
-            />
+    <div className={`ds ds-overlay pm-overlay${shown ? ' shown' : ''}`} style={{ ['--pm-ms' as string]: `${MS}ms` }}
+      onClick={() => setOpen(false)} role="dialog" aria-modal="true" aria-label="Complete your profile">
+      <style dangerouslySetInnerHTML={{ __html: PM_CSS }} />
+      <div ref={cardRef} className="ds-modal pm" onClick={e => e.stopPropagation()}>
+        <div className="ds-modal-head">
+          <div>
+            <h2>Complete your profile</h2>
+            <p>Your name and number, so we can reach you about your account.</p>
           </div>
         </div>
 
-        <div style={{ marginBottom: 12 }}>
-          <label htmlFor="ho-phone" style={LABEL}>
-            Phone number <span style={{ color: 'var(--danger-text)' }}>*</span>
+        <div className="pm-row">
+          <label className="pm-field">
+            <span className="pm-label">First name</span>
+            <input id="ho-first-name" className={`pm-input${bad('first_name')}`} autoFocus={!initialFirstName} autoComplete="given-name" placeholder="Rahul"
+              value={firstName} onChange={e => setFirstName(e.target.value)} onKeyDown={e => e.key === 'Enter' && submit()} />
           </label>
-          <div style={{ display: 'flex', gap: 8, position: 'relative' }}>
-            {/* Country selector */}
-            <div style={{ position: 'relative', flexShrink: 0 }}>
-              <button
-                onClick={() => setOpen(o => !o)}
-                style={{
-                  height: '100%', minHeight: 50, padding: '0 12px',
-                  background: 'var(--bg3)', border: `1.5px solid ${errField === 'phone' ? 'var(--danger-text)' : open ? 'var(--accent)' : 'var(--border)'}`,
-                  borderRadius: 8, color: 'var(--text)', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  fontFamily: 'var(--font-mono)', fontSize: '0.9rem',
-                  whiteSpace: 'nowrap', transition: 'border-color 0.2s',
-                }}
-              >
-                <span style={{ fontSize: '1.1rem' }}>{selected.flag}</span>
-                <span style={{ color: 'var(--text2)' }}>{selected.code}</span>
-                <span style={{ color: 'var(--text3)', fontSize: '0.65rem', marginLeft: 2 }}>▾</span>
-              </button>
+          <label className="pm-field">
+            <span className="pm-label">Last name <em>optional</em></span>
+            <input id="ho-last-name" className={`pm-input${bad('last_name')}`} autoComplete="family-name" placeholder="Sharma"
+              value={lastName} onChange={e => setLastName(e.target.value)} onKeyDown={e => e.key === 'Enter' && submit()} />
+          </label>
+        </div>
 
+        <div className="pm-field">
+          <label className="pm-label" htmlFor="ho-phone">Phone number</label>
+          <div className="pm-phone">
+            <div className="pm-cc-wrap">
+              <button type="button" className={`pm-input pm-cc${bad('phone')}${open ? ' open' : ''}`} onClick={e => { e.stopPropagation(); setOpen(o => !o); }}
+                aria-haspopup="listbox" aria-expanded={open} aria-label={`Country code, ${selected.name} ${selected.code}`}>
+                <span className="pm-flag">{selected.flag}</span>{selected.code}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+              </button>
               {open && (
-                <div className="scroll-y" style={{
-                  position: 'absolute', top: 'calc(100% + 6px)', left: 0,
-                  width: 260, maxHeight: 260,
-                  background: 'var(--bg3)', border: '1.5px solid #2a2a2a',
-                  borderRadius: 10, zIndex: 10,
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.8)',
-                }}>
-                  <div style={{ padding: '8px 10px', borderBottom: '1px solid #222', position: 'sticky', top: 0, background: 'var(--bg3)' }}>
-                    <input
-                      autoFocus
-                      placeholder="Search country…"
-                      value={search}
-                      onChange={e => setSearch(e.target.value)}
-                      onClick={e => e.stopPropagation()}
-                      style={{
-                        width: '100%', padding: '7px 10px',
-                        background: 'var(--bg4)', border: '1px solid #2a2a2a',
-                        borderRadius: 6, color: 'var(--text)',
-                        fontFamily: 'var(--font-mono)', fontSize: '0.78rem',
-                        outline: 'none', boxSizing: 'border-box',
-                      }}
-                    />
+                <div className="pm-menu" onClick={e => e.stopPropagation()}>
+                  <div className="pm-menu-search">
+                    <input autoFocus className="pm-input" placeholder="Search for a country" value={search} onChange={e => setSearch(e.target.value)} aria-label="Search for a country" />
                   </div>
-                  {filtered.map(c => (
-                    <div
-                      key={c.code}
-                      onClick={() => { setDialCode(c.code); setOpen(false); setSearch(''); }}
-                      style={{
-                        padding: '9px 14px', cursor: 'pointer',
-                        display: 'flex', alignItems: 'center', gap: 10,
-                        background: c.code === dialCode ? 'var(--accent-dim)' : 'transparent',
-                        transition: 'background 0.15s',
-                      }}
-                      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.05)')}
-                      onMouseLeave={e => (e.currentTarget.style.background = c.code === dialCode ? 'color-mix(in srgb, var(--accent) 10%, transparent)' : 'transparent')}
-                    >
-                      <span style={{ fontSize: '1rem' }}>{c.flag}</span>
-                      <span style={{ color: 'var(--text2)', fontSize: '0.82rem', fontFamily: 'var(--font-ui)', flex: 1 }}>{c.name}</span>
-                      <span style={{ color: 'var(--text3)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>{c.code}</span>
-                    </div>
-                  ))}
-                  {filtered.length === 0 && (
-                    <div style={{ padding: '14px', color: 'var(--text3)', fontSize: '0.8rem', textAlign: 'center', fontFamily: 'var(--font-ui)' }}>No results</div>
-                  )}
+                  <div className="pm-menu-list" role="listbox" aria-label="Country">
+                    {filtered.map(c => (
+                      <button key={c.code + c.name} type="button" role="option" aria-selected={c.code === dialCode} className={`pm-opt${c.code === dialCode ? ' on' : ''}`}
+                        onClick={() => { setDialCode(c.code); setOpen(false); setSearch(''); }}>
+                        <span className="pm-flag">{c.flag}</span><span className="pm-opt-name">{c.name}</span><span className="pm-opt-code">{c.code}</span>
+                      </button>
+                    ))}
+                    {filtered.length === 0 && <div className="pm-none">No country matches</div>}
+                  </div>
                 </div>
               )}
             </div>
-
-            {/* Number input */}
-            <input
-              id="ho-phone"
-              autoFocus={!!initialFirstName}
-              type="tel"
-              autoComplete="tel-national"
-              placeholder="Your 10-digit phone number"
-              value={phone}
-              onChange={e => setPhone(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && submit()}
-              style={{ ...FIELD(errField === 'phone'), flex: 1, fontFamily: 'var(--font-mono)', fontSize: '1rem' }}
-            />
+            <input id="ho-phone" className={`pm-input pm-num${bad('phone')}`} autoFocus={!!initialFirstName} type="tel" autoComplete="tel-national"
+              placeholder={dialCode === '+91' ? 'Your 10-digit mobile number' : 'Your phone number'}
+              value={phone} onChange={e => setPhone(e.target.value)} onKeyDown={e => e.key === 'Enter' && submit()} />
           </div>
-          {err && <div style={{ color: 'var(--danger-text)', fontSize: '0.78rem', marginTop: 8, fontFamily: 'var(--font-ui)' }}>{err}</div>}
+          {err && <p className="pm-err" role="alert">{err}</p>}
         </div>
 
-        <button
-          disabled={loading}
-          onClick={submit}
-          style={{
-            width: '100%', padding: '13px', borderRadius: 8, border: 'none',
-            background: 'var(--accent)',
-            color: 'var(--accent-on)', fontWeight: 700, fontSize: '0.9rem',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            fontFamily: 'var(--font-mono)', letterSpacing: '0.05em',
-          }}
-        >
-          {loading ? 'Saving…' : 'Save & Continue →'}
+        <button type="button" className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" disabled={loading} onClick={submit}>
+          {loading ? 'Saving…' : 'Save and continue'}
         </button>
-
-        {onCancel && (
-          <button
-            onClick={() => close(onCancel)}
-            style={{
-              width: '100%', marginTop: 10, padding: '10px',
-              background: 'transparent', border: '1px solid #222',
-              borderRadius: 8, color: 'var(--text3)', cursor: 'pointer', fontSize: '0.82rem',
-            }}
-          >
-            Cancel
-          </button>
-        )}
-
-        <div style={{ textAlign: 'center', marginTop: 14, fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.1em' }}>
-          Stored securely. Never shared with anyone else.
-        </div>
+        {onCancel && <button type="button" className="ds-btn ds-btn-ghost ds-btn-block pm-cancel" onClick={() => close(onCancel)}>Cancel</button>}
+        <p className="pm-fine">Kept private, and never shared with anyone.</p>
       </div>
     </div>
   );
 }
+
+const PM_CSS = `
+.pm-overlay { z-index: 10050; opacity: 0; transition: opacity var(--pm-ms) ease; }
+.pm-overlay.shown { opacity: 1; }
+.pm { max-width: 440px; overflow: visible; transform: translateY(10px) scale(0.98); transition: transform calc(var(--pm-ms) * 1.2) cubic-bezier(0.16, 1, 0.3, 1); }
+.pm-overlay.shown .pm { transform: none; }
+.pm-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3); margin-bottom: var(--space-4); }
+.pm-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: var(--space-5); }
+.pm-row .pm-field { margin-bottom: 0; }
+.pm-label { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+.pm-label em { font-style: normal; font-weight: 500; color: var(--text3); }
+.pm-input { width: 100%; box-sizing: border-box; min-height: 46px; padding: 0 var(--space-4); background: var(--bg); border: 1.5px solid var(--border2); border-radius: var(--radius-lg); color: var(--text); font: inherit; font-size: 0.98rem; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+.pm-input:focus, .pm-input.open { border-color: color-mix(in srgb, var(--accent) 65%, transparent); box-shadow: 0 0 0 4px var(--accent-glow); }
+.pm-input.bad { border-color: var(--danger-text); }
+.pm-input::placeholder { color: var(--text3); }
+.pm-phone { display: flex; gap: var(--space-2); }
+.pm-cc-wrap { position: relative; flex-shrink: 0; }
+.pm-cc { width: auto; display: inline-flex; align-items: center; gap: 6px; padding: 0 var(--space-3); color: var(--text2); cursor: pointer; font-variant-numeric: tabular-nums; }
+.pm-cc svg { color: var(--text3); }
+.pm-flag { font-size: 1.05rem; line-height: 1; }
+.pm-num { flex: 1; min-width: 0; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.pm-menu { position: absolute; top: calc(100% + 6px); left: 0; z-index: 10; width: 280px; max-height: 300px; display: flex; flex-direction: column; overflow: hidden; background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-lg); box-shadow: var(--elev-3); }
+.pm-menu-search { padding: var(--space-2); border-bottom: 1px solid var(--border); }
+.pm-menu-search .pm-input { min-height: 38px; font-size: 0.9rem; }
+.pm-menu-list { overflow-y: auto; padding: 4px; overscroll-behavior: contain; }
+.pm-opt { width: 100%; display: flex; align-items: center; gap: var(--space-2); padding: 8px 10px; border: none; border-radius: var(--radius-md); background: none; color: var(--text); font: inherit; font-size: 0.9rem; text-align: left; cursor: pointer; }
+.pm-opt:hover { background: var(--ds-soft); }
+.pm-opt.on { background: var(--accent-dim); color: var(--accent-text); }
+.pm-opt-name { flex: 1; min-width: 0; }
+.pm-opt-code { color: var(--text3); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+.pm-none { padding: var(--space-3); text-align: center; font-size: 0.86rem; color: var(--text3); }
+.pm-err { margin: 4px 0 0; font-size: 0.86rem; color: var(--danger-text); }
+.pm-cancel { margin-top: var(--space-2); }
+.pm-fine { margin: var(--space-3) 0 0; text-align: center; font-size: 0.82rem; color: var(--text3); }
+@media (max-width: 480px) { .pm-row { grid-template-columns: minmax(0, 1fr); } .pm-menu { width: min(280px, calc(100vw - 64px)); } }
+`;

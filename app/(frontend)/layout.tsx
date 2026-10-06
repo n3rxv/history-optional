@@ -29,7 +29,8 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: 'var(--bg)',
+  // The browser's own bar, in the paper colour; the navbar switches it for dark.
+  themeColor: '#fcfcfc',
 };
 
 export const metadata: Metadata = {
@@ -92,7 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // The pre-paint script below stamps data-theme on this element before React
     // hydrates, so the server HTML and the live DOM differ by that one attribute.
     // suppressHydrationWarning is exactly for that case and is scoped to <html>.
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         {/*
           Theme init, before paint, so there is no flash of the wrong ground.
@@ -103,17 +104,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rules in globals.css patch inline styles by substring, and a third
           state would mean a second selector on every one of them.
 
-          Dark is the default while the components are converted: 675 inline
-          dark-ground assumptions are still in place, so paper is opt-in until
-          the worst files are done. prefers-color-scheme is deliberately not
-          consulted yet, because following a light OS preference would hand a
-          reader the half-converted ground.
+          Paper (light) is the default now that every page is in the design
+          system; a reader who chose dark keeps it. The server's HTML carries
+          light as well, so a page that loads without the script still has it.
         */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
             try {
               var t = localStorage.getItem('ho-theme');
-              if (t !== 'light' && t !== 'dark') t = 'dark';
+              if (t !== 'light' && t !== 'dark') t = 'light';
               document.documentElement.setAttribute('data-theme', t);
             } catch(e) {
               document.documentElement.setAttribute('data-theme', 'light');

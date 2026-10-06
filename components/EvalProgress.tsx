@@ -48,7 +48,7 @@ export function ProgressOverlay({ eyebrow, note, rows, startedAt, langHi }: {
       <style>{EVP_CSS}</style>
       <div className="evp" role="dialog" aria-modal="true" aria-label={eyebrow}>
         <Mascot pose="reading" width={132} className="evp-owl" preload />
-        <div className="evp-eyebrow">{eyebrow}</div>
+        <h2 className="evp-title">{eyebrow}</h2>
         <div className="evp-sub">
           {note && <span>{note}</span>}
           <span className="evp-clock" aria-hidden="true">{clock(now - startedAt)}</span>
@@ -266,12 +266,12 @@ const EVP_CSS = `
   animation: evpIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .evp-owl { display: block; width: 132px; height: auto; margin: 0 auto var(--space-4); }
-.evp-eyebrow { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent-text); margin-bottom: var(--space-2); }
+.evp-title { margin: 0 0 var(--space-2); font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
 .evp-sub { font-size: 0.92rem; color: var(--text2); display: flex; align-items: center; justify-content: center; gap: var(--space-3); margin-bottom: var(--space-5); flex-wrap: wrap; }
-.evp-clock { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text3); padding: 2px var(--space-2); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.evp-clock { font-size: 0.8rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text3); padding: 2px var(--space-2); border: 1px solid var(--border); border-radius: var(--radius-sm); }
 .evp-bar { width: 100%; display: grid; gap: var(--space-1); margin-bottom: var(--space-5); }
-.evp-bar span { height: 4px; border-radius: var(--radius-pill); background: var(--bg4); transition: background 0.4s; }
-.evp-bar span.active { background: color-mix(in srgb, var(--accent) 40%, var(--bg4)); animation: evpPulse 1.4s ease-in-out infinite; }
+.evp-bar span { height: 4px; border-radius: var(--radius-pill); background: var(--ds-soft); transition: background 0.4s; }
+.evp-bar span.active { background: color-mix(in srgb, var(--accent) 40%, var(--ds-soft)); animation: evpPulse 1.4s ease-in-out infinite; }
 .evp-bar span.done { background: var(--accent); }
 .evp-steps { width: 100%; list-style: none; margin: 0; padding: var(--space-4) var(--space-5); text-align: left;
   background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg);

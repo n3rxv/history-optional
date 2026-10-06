@@ -2,13 +2,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLang } from '@/lib/i18n/LangContext';
-import { suggestions, nextSuggestion, graphemes } from '@/lib/chatSuggestions';
+import { suggestions, graphemes } from '@/lib/chatSuggestions';
 
 /**
  * The chat's input, on the home page: type a question and it opens in the
- * AI chat, already asked. Until the reader types, it suggests one, typed out
- * the way the chat page does it; Tab or the key hint takes the suggestion.
- * The suggestions follow the language switch.
+ * AI chat, already asked. Until the reader types, it suggests one question,
+ * picked from a fixed list and typed out once; it then stays. Tab or the key
+ * hint takes it. The list follows the language switch.
  */
 export default function HomeAsk() {
   const router = useRouter();
@@ -29,14 +29,13 @@ export default function HomeAsk() {
   const current = pool[hint % pool.length];
   const suggestion = value ? '' : current?.q ?? '';
 
-  // Typed at a person's pace, then left for a few seconds before the next.
+  // Typed once at a person's pace, then left where it is.
   useEffect(() => {
     if (!suggestion) return;
     const chars = graphemes(suggestion);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const id = window.setTimeout(() => setTyped({ text: suggestion, n: chars.length }), 0);
-      const next = window.setTimeout(() => setHint((h) => nextSuggestion(h % pool.length, pool.length)), 6000);
-      return () => { window.clearTimeout(id); window.clearTimeout(next); };
+      return () => window.clearTimeout(id);
     }
     let n = 0;
     let id = 0;
@@ -45,11 +44,10 @@ export default function HomeAsk() {
       n += 1;
       setTyped({ text: suggestion, n });
       if (n < chars.length) id = window.setTimeout(step, pause(chars[n - 1]));
-      else id = window.setTimeout(() => setHint((h) => nextSuggestion(h % pool.length, pool.length)), 3800);
     };
     id = window.setTimeout(step, 400);
     return () => window.clearTimeout(id);
-  }, [suggestion, pool.length]);
+  }, [suggestion]);
 
   const chars = graphemes(suggestion);
   const ghost = typed.text === suggestion ? chars.slice(0, typed.n).join('') : '';
