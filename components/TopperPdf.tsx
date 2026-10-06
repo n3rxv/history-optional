@@ -117,6 +117,9 @@ export default function TopperPdf({ copyId, height, onLoad, onDenied, embedded =
   const [error, setError] = useState('');
   const [numPages, setNumPages] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(true);
+  // The PDF itself failed (a network error, or a browser refusing the file),
+  // as opposed to the copy record: the box would otherwise sit empty.
+  const [pdfFailed, setPdfFailed] = useState(false);
   const [scale, setScale] = useState(1.5);
   const [rendering, setRendering] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -173,7 +176,7 @@ export default function TopperPdf({ copyId, height, onLoad, onDenied, embedded =
         if (copy.start_page && copy.start_page > 1) showPage(boxRef.current, copy.start_page);
       } catch (err) {
         console.error('PDF load error:', err);
-        if (!cancelled) setPdfLoading(false);
+        if (!cancelled) { setPdfLoading(false); setPdfFailed(true); }
       }
     })();
     return () => { cancelled = true; };
@@ -194,52 +197,51 @@ export default function TopperPdf({ copyId, height, onLoad, onDenied, embedded =
   };
 
   if (status === 'denied') return null;
-  if (status === 'error') {
-    return <div style={{ textAlign: 'center', padding: 'var(--space-12)', color: 'var(--danger-text)' }}>{error}</div>;
-  }
+  if (status === 'error') return <div className="tp-msg error">{error}</div>;
   if (status === 'loading') return <OwlLoader label="Loading the topper copy" />;
 
-  const btn: React.CSSProperties = {
-    background: 'none', border: 'none', color: 'var(--text2)',
-    cursor: rendering ? 'not-allowed' : 'pointer', width: 28, height: 26,
-    fontSize: '1rem', lineHeight: 1, opacity: rendering ? 0.5 : 1,
-  };
-
   return (
-    <div style={embedded
-      ? { background: 'var(--bg2)' }
-      : { border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', background: 'var(--bg2)' }}>
-      <div style={{
-        padding: 'var(--space-2) var(--space-4)', borderBottom: '1px solid var(--border)',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-2)',
-        background: embedded ? 'var(--bg2)' : 'var(--bg3)',
-      }}>
-        <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', letterSpacing: '0.08em' }}>
-          {embedded ? (numPages > 0 ? `${numPages} PAGES` : '') : <>HANDWRITTEN ANSWER {numPages > 0 && `· ${numPages} pages`}</>}
-        </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-          {!pdfLoading && (
-            <div style={{
-              display: 'flex', alignItems: 'center', border: '1px solid var(--border)',
-              borderRadius: 'var(--radius-pill)', background: 'var(--bg)', padding: '0 var(--space-1)',
-            }}>
-              <button style={btn} onClick={() => zoom(-0.25)} aria-label="Zoom out">−</button>
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text2)', minWidth: 40, textAlign: 'center' }}>
-                {Math.round((scale / 1.5) * 100)}%
-              </span>
-              <button style={btn} onClick={() => zoom(0.25)} aria-label="Zoom in">+</button>
+    <div className={`tp ds${embedded ? ' embedded' : ''}`}>
+      <style>{TP_CSS}</style>
+      <div className="tp-bar">
+        <span className="tp-pages">{numPages > 0 ? `${numPages} ${numPages === 1 ? 'page' : 'pages'}` : ''}{!embedded && numPages > 0 ? ', handwritten' : ''}</span>
+        <div className="tp-tools">
+          {!pdfLoading && !pdfFailed && (
+            <div className="tp-zoom">
+              <button type="button" onClick={() => zoom(-0.25)} disabled={rendering} aria-label="Zoom out">−</button>
+              <span>{Math.round((scale / 1.5) * 100)}%</span>
+              <button type="button" onClick={() => zoom(0.25)} disabled={rendering} aria-label="Zoom in">+</button>
             </div>
           )}
-          {copy && (
-            <a href={copy.pdf_url} target="_blank" rel="noopener noreferrer"
-              style={{ fontSize: '0.75rem', color: 'var(--accent)', textDecoration: 'none', fontFamily: 'var(--font-mono)' }}>
-              Open PDF &#8599;
-            </a>
-          )}
+          {copy && <a className="tp-open" href={copy.pdf_url} target="_blank" rel="noopener noreferrer">Open the PDF ↗</a>}
         </div>
       </div>
       {pdfLoading && <OwlLoader label="Loading the PDF" />}
-      <div ref={boxRef} style={{ position: 'relative', background: 'var(--bg-sunken)', padding: 'var(--space-3)', height, overflowY: 'auto' }} />
+      {pdfFailed && (
+        <div className="tp-msg">
+          The pages would not load here.{' '}
+          {copy && <a href={copy.pdf_url} target="_blank" rel="noopener noreferrer">Open the PDF in a new tab</a>}
+        </div>
+      )}
+      <div ref={boxRef} className="tp-box" style={{ height: pdfFailed ? 0 : height }} />
     </div>
   );
 }
+
+const TP_CSS = `
+.tp { border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; background: var(--ds-card); }
+.tp.embedded { border: none; border-radius: 0; }
+.tp-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--border); }
+.tp-pages { font-size: 0.84rem; color: var(--text3); }
+.tp-tools { display: flex; align-items: center; gap: var(--space-3); }
+.tp-zoom { display: flex; align-items: center; border: 1px solid var(--border2); border-radius: var(--radius-full); background: var(--bg); }
+.tp-zoom button { width: 32px; height: 30px; border: none; background: none; color: var(--text2); font-size: 1rem; cursor: pointer; }
+.tp-zoom button:disabled { opacity: 0.45; cursor: default; }
+.tp-zoom span { min-width: 44px; text-align: center; font-size: 0.8rem; font-weight: 600; color: var(--text2); }
+.tp-open { font-size: 0.84rem; font-weight: 600; color: var(--accent-text); text-decoration: none; white-space: nowrap; }
+.tp-open:hover { text-decoration: underline; text-underline-offset: 3px; }
+.tp-box { position: relative; overflow-y: auto; padding: var(--space-3); background: var(--ds-soft); }
+.tp-msg { padding: var(--space-8) var(--space-5); text-align: center; font-size: 0.95rem; color: var(--text2); }
+.tp-msg a { color: var(--accent-text); font-weight: 600; }
+.tp-msg.error { color: var(--danger-text); }
+`;

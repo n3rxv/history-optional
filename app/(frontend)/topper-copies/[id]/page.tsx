@@ -1,95 +1,108 @@
 'use client';
-
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { auth } from '@/lib/firebase';
+import { auth, signInWithGoogle } from '@/lib/firebase';
 import TopperPdf, { type TopperCopyDetail } from '@/components/TopperPdf';
 import TopperLocked from '@/components/TopperLocked';
-import BackButton from '@/components/BackButton';
+import OwlLoader from '@/components/OwlLoader';
+import Mascot from '@/components/Mascot';
+import { initials, parseNote } from '@/components/topper/note';
 
+/**
+ * One topper copy. Who may open it is decided before any PDF is asked for;
+ * opening it is what spends a free view, and the server does that when
+ * TopperPdf fetches it, so nothing here counts.
+ *
+ * Signed out, this showed the ₹799 unlock card, whose button needs an
+ * account and so did nothing: a reader arriving from a link was stuck. They
+ * are asked to sign in now, which is what their five free copies need.
+ */
 export default function TopperCopyPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [copy, setCopy] = useState<TopperCopyDetail | null>(null);
-  const [accessAllowed, setAccessAllowed] = useState<boolean | null>(null);
+  const [state, setState] = useState<'checking' | 'signed-out' | 'locked' | 'open'>('checking');
 
-  // Decides between the paywall and the copy before any PDF is asked for.
-  // Opening the copy is what spends a free view, and the server does that
-  // when TopperPdf fetches it; nothing here counts.
-  useEffect(() => {
-    const unsub = auth.onAuthStateChanged(async (currentUser) => {
-      unsub(); // only need first emission
-      if (!currentUser) {
-        setAccessAllowed(false);
-        return;
-      }
-      const token = await currentUser.getIdToken();
-      const res = await fetch('/api/topper-access', {
-        headers: { 'x-user-token': token },
-      });
-      const data = await res.json();
-      setAccessAllowed(data.access === true);
-    });
-  }, []);
+  // Kept subscribed, so signing in from the card below opens the copy.
+  useEffect(() => auth.onAuthStateChanged(async (user) => {
+    if (!user) { setState('signed-out'); return; }
+    const token = await user.getIdToken();
+    const data = await fetch('/api/topper-access', { headers: { 'x-user-token': token } }).then((r) => r.json()).catch(() => ({ access: true }));
+    setState(data.access === true ? 'open' : 'locked');
+  }), []);
 
-  if (accessAllowed === null) return (
-    <div style={{ textAlign: 'center', padding: 'var(--space-12)', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>
-      Checking access…
-    </div>
-  );
-
-  if (accessAllowed === false) return (
-    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-4)' }}>
-      <TopperLocked
-        onUnlocked={() => { setAccessAllowed(true); router.refresh(); }}
-        onDismiss={() => router.back()}
-      />
-    </div>
-  );
+  const back = () => (window.history.length > 1 ? router.back() : router.push('/topper-copies'));
+  const { name, rank, year } = parseNote(copy?.note ?? null);
 
   return (
-    <div style={{ maxWidth: 1000, margin: '0 auto', padding: 'var(--space-8) var(--space-6) var(--space-12)' }}>
-      <div style={{ marginBottom: 'var(--space-6)' }}>
-        <BackButton onClick={() => router.back()}>Back</BackButton>
-      </div>
+    <div className="tv ds">
+      <style>{TV_CSS}</style>
+      <div className="tv-wrap">
+        <button type="button" className="ds-back" onClick={back}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+          Back
+        </button>
 
-      {copy && (
-        <div style={{ marginBottom: 'var(--space-6)' }}>
-          <div style={{
-            fontSize: '0.65rem', fontFamily: 'var(--font-mono)',
-            letterSpacing: '0.15em', textTransform: 'uppercase',
-            color: 'var(--accent)', marginBottom: 'var(--space-2)',
-          }}>
-            &#127942; Topper Copy
+        {state === 'checking' && <OwlLoader label="Checking your access" />}
+
+        {state === 'signed-out' && (
+          <div className="tv-gate">
+            <Mascot pose="reading" width={84} />
+            <h1>Sign in to read this copy</h1>
+            <p>A free account opens your first five topper copies, and keeps your notes and progress with you.</p>
+            <button type="button" className="ds-btn ds-btn-solid" onClick={() => signInWithGoogle().catch(() => {})}>Sign in free</button>
+            <Link href="/topper-copies" className="tv-all">See every topper copy</Link>
           </div>
-          <h1 style={{
-            fontFamily: 'var(--font-display)', fontSize: '1.4rem',
-            fontWeight: 700, color: 'var(--text)', lineHeight: 1.5,
-            marginBottom: 'var(--space-3)',
-          }}>
-            {copy.question}
-          </h1>
-          {copy.note && (
-            <div style={{
-              background: 'var(--accent-dim)',
-              border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
-              borderRadius: 'var(--radius-md)', padding: 'var(--space-2) var(--space-4)',
-              color: 'var(--text2)', fontSize: '0.85rem',
-              display: 'inline-block', marginTop: 'var(--space-1)',
-            }}>
-              &#128221; {copy.note}
-            </div>
-          )}
-        </div>
-      )}
+        )}
 
-      <TopperPdf key={id} copyId={id} height="80vh" onLoad={setCopy} onDenied={() => setAccessAllowed(false)} />
+        {state === 'locked' && (
+          <div className="tv-locked"><TopperLocked onUnlocked={() => { setState('open'); router.refresh(); }} onDismiss={back} /></div>
+        )}
 
-      {copy && (
-        <div style={{ marginTop: 'var(--space-6)', textAlign: 'center' }}>
-          <BackButton href="/topper-copies">All topper copies</BackButton>
-        </div>
-      )}
+        {state === 'open' && (
+          <>
+            {copy && (
+              <header className="tv-head">
+                <div className="tv-kicker">Topper copy</div>
+                <h1>{copy.question}</h1>
+                {copy.note && (
+                  <div className="tv-who">
+                    <span className="tv-avatar" aria-hidden="true">{initials(name)}</span>
+                    <span><strong>{name}</strong>{(rank || year) && <span>{[rank, year].filter(Boolean).join(' · ')}</span>}</span>
+                  </div>
+                )}
+              </header>
+            )}
+            <TopperPdf key={id} copyId={id} height="80vh" onLoad={setCopy} onDenied={() => setState('locked')} />
+            {copy && <div className="tv-foot"><Link href="/topper-copies" className="ds-btn ds-btn-line ds-btn-sm">All topper copies</Link></div>}
+          </>
+        )}
+      </div>
     </div>
   );
 }
+
+const TV_CSS = `
+.tv { background: var(--bg); min-height: 70vh; }
+.tv-wrap { max-width: 1000px; margin: 0 auto; padding: var(--space-6) var(--space-6) var(--space-12); }
+.tv-head { margin: var(--space-5) 0; padding: var(--space-5) var(--space-6); border: 1px solid var(--border); border-top: 3px solid var(--premium-text); border-radius: var(--radius-xl); background: var(--ds-card); box-shadow: var(--elev-1); }
+.tv-kicker { margin-bottom: var(--space-2); font-size: 0.86rem; font-weight: 700; color: var(--premium-text); }
+.tv-head h1 { margin: 0 0 var(--space-4); font-size: clamp(1.15rem, 2.2vw, 1.4rem); font-weight: 600; line-height: 1.5; letter-spacing: -0.01em; }
+.tv-who { display: flex; align-items: center; gap: var(--space-3); }
+.tv-who > span:last-child { display: flex; flex-direction: column; }
+.tv-who strong { font-size: 0.98rem; }
+.tv-who span span { font-size: 0.84rem; color: var(--text3); }
+.tv-avatar { width: 40px; height: 40px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--premium-wash); color: var(--premium-text); font-weight: 800; }
+.tv-foot { display: flex; justify-content: center; margin-top: var(--space-6); }
+.tv-gate { max-width: 440px; margin: var(--space-10) auto; padding: var(--space-8) var(--space-6); display: flex; flex-direction: column; align-items: center; gap: var(--space-2); text-align: center; border: 1px solid var(--border2); border-radius: var(--radius-xl); background: var(--ds-card); box-shadow: var(--elev-3); }
+.tv-gate h1 { margin: var(--space-2) 0 0; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; }
+.tv-gate p { margin: 0 0 var(--space-3); font-size: 0.95rem; line-height: 1.55; color: var(--text2); }
+.tv-gate .ds-btn { width: 100%; justify-content: center; }
+.tv-all { margin-top: var(--space-2); font-size: 0.9rem; font-weight: 600; color: var(--accent-text); text-decoration: none; }
+.tv-locked { margin: var(--space-10) 0; }
+@media (max-width: 640px) {
+  .tv-wrap { padding: var(--space-4) var(--space-4) var(--space-10); }
+  .tv-head { padding: var(--space-4); }
+}
+`;

@@ -9,6 +9,7 @@ import CompareIcon from '@/components/CompareIcon';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import { pyqSection, tintFor, topicName } from './sections';
+import { initials, parseNote, topperOf } from '@/components/topper/note';
 
 type Copy = { id: string; question: string; note: string | null };
 type Side = 'a' | 'b';
@@ -18,17 +19,7 @@ type Question = { id: number; question: string; year: number; marks: number; sec
 /** Matches the allowance in /api/topper-copies/[id]. */
 const FREE_VIEWS = 5;
 
-/** "Vikram Grewal, AIR-51, 2018" as its parts. */
-function parseNote(note: string | null) {
-  const parts = (note ?? '').split(',').map((s) => s.trim()).filter(Boolean);
-  return {
-    name: parts[0] || 'Topper copy',
-    rank: parts.find((p) => /^AIR/i.test(p))?.replace(/^AIR[\s-]*/i, 'AIR '),
-    year: parts.find((p) => /^\d{4}$/.test(p)),
-  };
-}
-const topperOf = (c: Copy) => parseNote(c.note).name;
-const initials = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+const topperOfCopy = (c: Copy) => topperOf(c.note);
 
 /**
  * The pair to open with: whatever the address names (?a=&b=), so a refresh or
@@ -42,7 +33,7 @@ function initialPicks(copies: Copy[]): Picks {
   const a = byId.get(p.get('a') ?? '') ?? copies[0];
   const b = byId.get(p.get('b') ?? '');
   if (b && b.id !== a.id) return { a: a.id, b: b.id };
-  const other = copies.find((c) => c.id !== a.id && topperOf(c) !== topperOf(a)) ?? copies.find((c) => c.id !== a.id)!;
+  const other = copies.find((c) => c.id !== a.id && topperOfCopy(c) !== topperOfCopy(a)) ?? copies.find((c) => c.id !== a.id)!;
   return { a: a.id, b: other.id };
 }
 
@@ -135,7 +126,7 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
 
   const list = copies ?? [];
   const byId = new Map(list.map((c) => [c.id, c]));
-  const toppers = [...new Set(list.map(topperOf))];
+  const toppers = [...new Set(list.map(topperOfCopy))];
   const sameTopper = (c: Copy) => list.filter((x) => x.note === c.note).length > 1;
   const optionLabel = (c: Copy) => {
     const { name, rank, year } = parseNote(c.note);
@@ -252,7 +243,7 @@ export default function PyqCompare({ pyq }: { pyq: Question }) {
             <div className="cmp-tabs" role="tablist">
               {(['a', 'b'] as Side[]).map((side) => {
                 const c = byId.get(picks[side]);
-                const name = c ? topperOf(c) : '';
+                const name = c ? topperOfCopy(c) : '';
                 return (
                   <button key={side} type="button" role="tab" aria-selected={active === side} className={active === side ? 'on' : ''} onClick={() => setActive(side)}>
                     <Avatar name={name} side={side} small />
