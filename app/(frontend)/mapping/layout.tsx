@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Map Practice: UPSC History Optional',
+  title: { absolute: 'Map Practice: UPSC History Optional' },
   description: 'All 992 places in the UPSC History Optional map syllabus, chapter by chapter, with the ones UPSC has asked marked. Browse them on the map or quiz yourself.',
   alternates: { canonical: 'https://historyoptional.xyz/mapping' },
   openGraph: {

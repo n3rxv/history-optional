@@ -28,7 +28,7 @@ const GIVES = [
  * Premium explanation adds. Starting needs an account, as it always has;
  * the questions themselves are free.
  */
-export default function PrelimsLanding({ topics, total, pyq, first, last }: { topics: PrelimsTopic[]; total: number; pyq: number; first: number; last: number }) {
+export default function PrelimsLanding({ topics, first }: { topics: PrelimsTopic[]; first: number }) {
   const router = useRouter();
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
   const go = (topic?: string) => {
@@ -43,7 +43,7 @@ export default function PrelimsLanding({ topics, total, pyq, first, last }: { to
         <div className="ds-container">
           <h1 className="ds-h1 pl-h1">Prelims practice</h1>
           <p className="ds-lede pl-lede">
-            {total} History questions for Prelims, topic by topic: {pyq} past questions from {first} to {last}, and {total - pyq} practice MCQs. Marked as in the exam, +2 for a right answer and −0.66 for a wrong one.
+            Prelims History, topic by topic. Past questions since {first} plus practice MCQs, marked like the real exam, so a wrong guess costs you 0.66.
           </p>
           <div className="pl-actions">
             <button type="button" className="ds-btn ds-btn-solid ds-btn-lg" onClick={() => go()}>Start practising <Arrow /></button>

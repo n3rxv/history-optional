@@ -1,8 +1,15 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+/**
+ * The owner's tools for current affairs: writing a post, the drafts, and the
+ * newspaper cuttings. Loaded only for an admin session (the page imports it
+ * lazily), so readers' phones never download the editor. Moved here from
+ * CurrentAffairsSection, whose reader half the page now renders on the server.
+ */
+
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import OwlLoader from '@/components/OwlLoader';
+import Link from 'next/link';
 
 interface Post {
   id: string;
@@ -45,14 +52,14 @@ function useAdminAuth() {
   return { authed, token };
 }
 
-function Toolbar({ editorRef, onImage, onVideo }: {
-  editorRef: React.RefObject<HTMLDivElement | null>;
+// The buttons act on mousedown with the default prevented, so the caret never
+// leaves the editor; nothing here needs to hand focus back.
+function Toolbar({ onImage, onVideo }: {
   onImage: () => void;
   onVideo: () => void;
 }) {
   const cmd = (command: string, value?: string) => {
     document.execCommand(command, false, value);
-    editorRef.current?.focus();
   };
   const tools: Array<{ label: string; action: () => void; title: string; accent?: boolean; group?: boolean }> = [
     { label: 'B',       action: () => cmd('bold'),                      title: 'Bold' },
@@ -77,7 +84,7 @@ function Toolbar({ editorRef, onImage, onVideo }: {
           <button onMouseDown={e => { e.preventDefault(); t.action(); }} title={t.title} style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, background: t.accent ? 'var(--warning-wash)' : 'rgba(0,0,0,0.04)', border: t.accent ? '1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)' : '1px solid var(--border)', color: t.accent ? 'var(--warning-text)' : 'var(--text2)' }}>{t.label}</button>
         </span>
       ))}
-      <button onMouseDown={e => { e.preventDefault(); const url = prompt('URL:'); if (url) { document.execCommand('createLink', false, url); editorRef.current?.focus(); } }} title="Insert link" style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', color: 'var(--text2)' }}>Link</button>
+      <button onMouseDown={e => { e.preventDefault(); const url = prompt('URL:'); if (url) { document.execCommand('createLink', false, url); } }} title="Insert link" style={{ padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.75rem', background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', color: 'var(--text2)' }}>Link</button>
     </div>
   );
 }
@@ -93,6 +100,10 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
   const [saving, setSaving] = useState(false);
   const [savedMsg, setSavedMsg] = useState('');
   const [activePanel, setActivePanel] = useState<'write' | 'preview'>('write');
+  // What the preview shows, taken from the editor when Preview is pressed.
+  // The editor used to be unmounted in preview, which also threw away what
+  // had been written.
+  const [previewHtml, setPreviewHtml] = useState('');
   const editorRef = useRef<HTMLDivElement>(null);
   const imgInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
@@ -157,7 +168,7 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
         </div>
         <div style={{ display: 'flex', borderRadius: 6, overflow: 'hidden', border: '1px solid var(--border)', marginLeft: 4 }}>
           {(['write', 'preview'] as const).map(p => (
-            <button key={p} onClick={() => setActivePanel(p)} style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: activePanel === p ? 'var(--accent-dim)' : 'transparent', border: 'none', color: activePanel === p ? 'var(--accent)' : 'var(--text3)', fontWeight: activePanel === p ? 600 : 400 }}>{p === 'write' ? 'Write' : 'Preview'}</button>
+            <button key={p} onClick={() => { if (p === 'preview') setPreviewHtml(editorRef.current?.innerHTML ?? ''); setActivePanel(p); }} style={{ padding: '4px 12px', cursor: 'pointer', fontSize: '0.75rem', background: activePanel === p ? 'var(--accent-dim)' : 'transparent', border: 'none', color: activePanel === p ? 'var(--accent)' : 'var(--text3)', fontWeight: activePanel === p ? 600 : 400 }}>{p === 'write' ? 'Write' : 'Preview'}</button>
           ))}
         </div>
         <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', marginLeft: 'auto' }}>
@@ -167,8 +178,8 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
         <button onClick={save} disabled={saving} style={{ padding: '5px 16px', borderRadius: 6, cursor: saving ? 'default' : 'pointer', fontSize: '0.82rem', fontWeight: 700, background: savedMsg === 'Saved!' ? 'var(--success-wash)' : 'color-mix(in srgb, var(--warning-text) 15%, transparent)', border: savedMsg === 'Saved!' ? '1px solid color-mix(in srgb, var(--success-text) 40%, transparent)' : '1px solid color-mix(in srgb, var(--warning-text) 40%, transparent)', color: savedMsg === 'Saved!' ? 'var(--success-text)' : 'var(--warning-text)', opacity: saving ? 0.7 : 1 }}>{saving ? 'Saving...' : savedMsg || 'Save'}</button>
         <button onClick={() => { setOpen(false); reset(); }} style={{ padding: '5px 10px', borderRadius: 6, cursor: 'pointer', fontSize: '0.8rem', background: 'transparent', border: '1px solid var(--border)', color: 'var(--text3)' }}>X</button>
       </div>
-      {activePanel === 'write' && (
-        <>
+      {/* Kept mounted in preview, only hidden, so nothing written is lost. */}
+      <div hidden={activePanel !== 'write'}>
           <div style={{ padding: '14px 20px 0', display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'flex-start' }}>
             <div style={{ flex: 2, minWidth: 220 }}>
               <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Post title..." style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '2px solid var(--border2)', color: 'var(--text)', fontSize: '1.3rem', fontWeight: 700, fontFamily: 'var(--font-display)', padding: '4px 0', outline: 'none', boxSizing: 'border-box', caretColor: 'var(--warning-text)' }} onFocus={e => (e.currentTarget.style.borderBottomColor = 'var(--warning-text)')} onBlur={e => (e.currentTarget.style.borderBottomColor = 'var(--border2)')} />
@@ -184,14 +195,13 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
           </div>
           <input ref={imgInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onImageFile} />
           <input ref={coverInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onCoverFile} />
-          <div style={{ marginTop: 12 }}><Toolbar editorRef={editorRef} onImage={handleImageInsert} onVideo={handleVideoInsert} /></div>
+          <div style={{ marginTop: 12 }}><Toolbar onImage={handleImageInsert} onVideo={handleVideoInsert} /></div>
           <div ref={editorRef} contentEditable suppressContentEditableWarning style={{ minHeight: 260, padding: '20px 24px', outline: 'none', color: 'var(--text)', fontFamily: 'Georgia, serif', fontSize: '1rem', lineHeight: 1.8, caretColor: 'var(--warning-text)', background: 'var(--bg)' }} onFocus={() => { if (editorRef.current?.innerHTML === '<p>Start writing your post here...</p>') editorRef.current.innerHTML = ''; }} />
           <div style={{ padding: '6px 20px', background: 'var(--bg3)', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between' }}>
             <span style={{ color: 'var(--text3)', fontSize: '0.7rem' }}>Rich text editor</span>
             <span style={{ color: 'var(--warning-text)', fontSize: '0.7rem', opacity: 0.6 }}>{published ? 'Will publish immediately' : 'Draft - hidden from homepage'}</span>
           </div>
-        </>
-      )}
+      </div>
       {activePanel === 'preview' && (
         <div style={{ padding: 24 }}>
           <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden', maxWidth: 680, margin: '0 auto' }}>
@@ -200,7 +210,7 @@ function PostCreator({ token, onSaved }: { token: string; onSaved: (post: Post) 
               {tags && <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>{tags.split(',').filter(Boolean).map(t => <span key={t} style={{ padding: '2px 8px', borderRadius: 4, fontSize: '0.68rem', background: 'var(--bg3)', color: 'var(--text3)', border: '1px solid var(--border2)' }}>{t.trim()}</span>)}</div>}
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--text)', fontWeight: 700, margin: '0 0 8px' }}>{title || <span style={{ opacity: 0.3 }}>Untitled post</span>}</h2>
               {excerpt && <p style={{ color: 'var(--text2)', fontSize: '0.88rem', lineHeight: 1.6, margin: '0 0 16px' }}>{excerpt}</p>}
-              <div className="note-content" dangerouslySetInnerHTML={{ __html: editorRef.current?.innerHTML || '<p style="opacity:0.3">Nothing written yet...</p>' }} style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.8 }} />
+              <div className="note-content" dangerouslySetInnerHTML={{ __html: previewHtml || '<p style="opacity:0.3">Nothing written yet...</p>' }} style={{ color: 'var(--text)', fontSize: '0.95rem', lineHeight: 1.8 }} />
             </div>
           </div>
         </div>
@@ -385,145 +395,31 @@ function CuttingSlider({ cuttings, authed, token, onUpdate }: {
 }
 
 // ─── Editorial Featured ────────────────────────────────────────────────────────
-function FeaturedCard({ post, onClick, authed, index }: { post: Post; onClick: () => void; authed: boolean; index: number }) {
-  const [hovered, setHovered] = useState(false);
-  const date = new Date(post.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-  const num = String(index + 1).padStart(2, '0');
 
-  return (
-    <article onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-      className="featured-card" data-has-image={post.cover_image ? 'true' : 'false'}
-      style={{ cursor: 'pointer', display: 'grid', gridTemplateColumns: post.cover_image ? '48px 180px 1fr' : '48px 1fr', gap: '0 1.5rem', padding: '1.5rem 0', borderBottom: '1px solid var(--border)', position: 'relative', transition: 'opacity 0.15s', opacity: hovered ? 0.85 : 1 }}>
-      {authed && !post.published && (
-        <div style={{ position: 'absolute', top: 16, right: 0, padding: '2px 8px', borderRadius: 3, fontSize: '0.58rem', background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)', color: 'var(--danger-text)', fontWeight: 700, letterSpacing: '0.06em' }}>DRAFT</div>
-      )}
-      {/* Issue number */}
-      <div className="featured-card-num" style={{ paddingTop: 4 }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.6rem', fontWeight: 700, color: 'var(--border2)', lineHeight: 1, display: 'block' }}>{num}</span>
-      </div>
-      {post.cover_image && (
-        <div className="featured-card-img" style={{ width: 180, height: 120, borderRadius: 6, overflow: 'hidden', alignSelf: 'center', flexShrink: 0 }}>
-          <img src={post.cover_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-      )}
-      {!post.cover_image && <div />}
-      <div className="featured-card-body">
-        {post.tags?.length > 0 && (
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8, alignItems: 'center' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--warning-text)' }}>
-              {post.tags[0]}
-            </span>
-            {post.tags.slice(1, 3).map(tag => (
-              <span key={tag} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text3)' }}>· {tag}</span>
-            ))}
-          </div>
-        )}
-        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--text)', margin: '0 0 6px', lineHeight: 1.35, letterSpacing: '-0.01em' }}>{post.title}</h3>
-        {post.excerpt && (
-          <p style={{ color: 'var(--text3)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 10px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{post.excerpt}</p>
-        )}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--text3)', letterSpacing: '0.04em' }}>{date}</span>
-          <span style={{ color: hovered ? 'var(--warning-text)' : 'var(--text3)', fontSize: '0.72rem', fontWeight: 600, transition: 'color 0.15s', fontFamily: 'var(--font-mono)' }}>Read →</span>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-// ─── Main Section ──────────────────────────────────────────────────────────────
-export default function CurrentAffairsSection({ hideWhenEmpty = true }: { hideWhenEmpty?: boolean } = {}) {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'current-affairs' | 'new-note'>('current-affairs');
-  const { authed, token } = useAdminAuth();
+/** Shown on /current-affairs only to an admin. Saves rebuild the page on the server; refresh() shows it. */
+export default function AdminTools() {
   const router = useRouter();
-
-  const fetchPosts = useCallback(async () => {
-    try {
-      const headers: Record<string, string> = {};
-      const stored = sessionStorage.getItem(SESSION_KEY);
-      if (stored) headers['x-admin-token'] = stored;
-      const url = stored ? '/api/admin/blog-posts?all=true' : '/api/admin/blog-posts';
-      const res = await fetch(url, { headers });
-      const { data } = await res.json();
-      if (data) setPosts(data);
-    } catch {}
-    setLoading(false);
-  }, []);
-
-  useEffect(() => { fetchPosts(); }, [fetchPosts]);
-
-  const onPostSaved = (post: Post) => {
-    setPosts(prev => {
-      const exists = prev.find(p => p.id === post.id);
-      return exists ? prev.map(p => p.id === post.id ? post : p) : [post, ...prev];
-    });
-  };
-
-  const visiblePosts = posts.filter(p => (authed || p.published) && p.type === activeTab);
-  const caCount = posts.filter(p => (authed || p.published) && p.type === 'current-affairs').length;
-  const nnCount = posts.filter(p => (authed || p.published) && p.type === 'new-note').length;
-
+  const { authed, token } = useAdminAuth();
+  const [drafts, setDrafts] = useState<Post[]>([]);
   const [cuttings, setCuttings] = useState<Cutting[]>([]);
-
   useEffect(() => {
-    fetch('/api/admin/cuttings').then(r => r.json()).then(d => {
-      if (d.cuttings) setCuttings(d.cuttings);
-    }).catch(() => {});
-  }, []);
-
-  const hasAny = caCount + nnCount > 0 || authed || cuttings.length > 0;
-  if (!hasAny && !loading && hideWhenEmpty) return null;
-
+    if (!authed) return;
+    fetch('/api/admin/blog-posts?all=true', { headers: { 'x-admin-token': token } }).then((r) => r.json())
+      .then((d) => setDrafts(((d.data ?? []) as Post[]).filter((p) => !p.published))).catch(() => {});
+    fetch('/api/admin/cuttings').then((r) => r.json()).then((d) => setCuttings(d.cuttings ?? [])).catch(() => {});
+  }, [authed, token]);
+  if (!authed) return null;
   return (
-    <section style={{ marginBottom: '4rem' }}>
-
-      {/* ── Masthead ── */}
-      <div style={{ borderTop: '2px solid var(--text)', borderBottom: '1px solid var(--border)', padding: '0.6rem 0', marginBottom: '0.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '1rem' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--text)', margin: 0, fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase' }}>
-            The Dispatch
-          </h2>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)', letterSpacing: '0.06em' }}>
-            History Optional · {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-          </span>
-        </div>
-        {(caCount > 0 || nnCount > 0) && (
-          <div style={{ display: 'flex', gap: 2 }}>
-            {([['current-affairs', 'Current Affairs', caCount], ['new-note', 'New Notes', nnCount]] as const).map(([id, label, count]) =>
-              count > 0 ? (
-                <button key={id} onClick={() => setActiveTab(id)} style={{ padding: '3px 12px', cursor: 'pointer', fontSize: '0.7rem', background: 'transparent', border: 'none', borderBottom: activeTab === id ? '2px solid var(--text)' : '2px solid transparent', color: activeTab === id ? 'var(--text)' : 'var(--text3)', fontWeight: activeTab === id ? 700 : 400, transition: 'all 0.15s', letterSpacing: '0.04em' }}>
-                  {label} <span style={{ opacity: 0.5 }}>({count})</span>
-                </button>
-              ) : null
-            )}
-          </div>
-        )}
-      </div>
-      <div style={{ borderBottom: '3px double var(--border)', marginBottom: '1.5rem' }} />
-
-      <CuttingSlider cuttings={cuttings} authed={authed} token={token} onUpdate={setCuttings} />
-      {authed && <PostCreator token={token} onSaved={onPostSaved} />}
-
-      {loading ? (
-        <OwlLoader label="Loading dispatches" />
-      ) : visiblePosts.length === 0 ? (
-        <div style={{ color: 'var(--text3)', fontSize: '0.82rem', padding: '24px 0', fontFamily: 'var(--font-mono)' }}>
-          {authed ? 'No posts yet — create one above.' : 'No dispatches yet.'}
-        </div>
-      ) : (
-        <div>
-          {visiblePosts.map((post, i) => (
-            <FeaturedCard key={post.id} post={post} index={i} onClick={() => router.push(`/posts/${post.slug || post.id}`)} authed={authed} />
-          ))}
-          {visiblePosts.length >= 4 && (
-            <div style={{ paddingTop: '1.25rem', textAlign: 'right' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text3)', letterSpacing: '0.06em' }}>— end of dispatches —</span>
-            </div>
-          )}
+    <section className="ca-admin" aria-label="Admin tools">
+      <h2 className="ca-admin-title">Admin</h2>
+      <PostCreator token={token} onSaved={() => router.refresh()} />
+      {drafts.length > 0 && (
+        <div className="ca-drafts">
+          <strong>Drafts, not shown to readers</strong>
+          <ul>{drafts.map((d) => <li key={d.id}><Link href={`/posts/${d.slug || d.id}`}>{d.title}</Link></li>)}</ul>
         </div>
       )}
+      <CuttingSlider cuttings={cuttings} authed token={token} onUpdate={(c) => { setCuttings(c); router.refresh(); }} />
     </section>
   );
 }

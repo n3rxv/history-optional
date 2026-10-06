@@ -142,19 +142,19 @@ type Tab = {
 const TABS: Tab[] = [
   {
     key: 'chat', tab: 'AI Chat', title: 'Stuck on a historian at 11 PM? Ask us.',
-    text: 'It answers from the standard history books, and puts a small chip next to every line it took from one, so you can open the page and check.',
+    text: 'It answers from the standard books and marks each line with the book it came from, so you can open the page and check for yourself.',
     points: ['It names the historians behind each view', 'Ask for a proper Mains answer when you want one', 'Mentor mode, for when you want to be marked hard'],
     cta: 'Open AI Chat', href: '/chat', wash: 'var(--accent-wash)', preview: <ChatPreview />,
   },
   {
     key: 'eval', tab: 'Evaluation', title: 'Write the way you would in the exam hall.',
-    text: 'Take a photo of your answer sheet and upload it. You will see the marks, the historians you should have named, and a model answer for the same question.',
-    points: ['Marks for the introduction, body and conclusion', 'A model answer to set beside yours', 'Your handwriting is fine; it reads it'],
+    text: 'Snap a photo of your answer sheet and upload it. You’ll see your marks, the historians you missed, and a model answer for the same question.',
+    points: ['Marks for the introduction, body and conclusion', 'A model answer to set beside yours', 'It reads handwriting fine'],
     cta: 'Check an answer', href: '/evaluate', wash: 'var(--success-wash)', preview: <EvalPreview />,
   },
   {
     key: 'notes', tab: 'Notes', title: 'Notes that carry the debates.',
-    text: 'All 51 topics of both papers, with the historiography built in: who argued what, and the evidence they argued from.',
+    text: 'Every topic in both papers, with who argued what worked right into the notes, so the debates are there when you need them.',
     points: ['Laid out the way the syllabus is', 'Highlight and write on them, on any device', 'Ask the AI about anything you are reading'],
     cta: 'Read the notes', href: '/notes', wash: 'var(--wash-ancient)', preview: <NotesPreview />,
   },

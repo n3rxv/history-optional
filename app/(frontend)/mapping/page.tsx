@@ -1,10 +1,10 @@
 import MapBrowser from '@/components/mapping/MapBrowser';
-import { mapChapters, mapSiteCount } from '@/lib/mapBook';
+import { mapChapters } from '@/lib/mapBook';
 
 /**
  * The map book. The chapter list is all the page itself carries; the sites
  * come from /api/map-book/[lang] when the browser asks, in one language.
  */
 export default function MappingPage() {
-  return <MapBrowser chapters={mapChapters()} total={mapSiteCount()} />;
+  return <MapBrowser chapters={mapChapters()} />;
 }

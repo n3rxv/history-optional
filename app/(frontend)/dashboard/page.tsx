@@ -4,7 +4,7 @@ import { getDailyQuestions } from '@/lib/dailyQuestions';
 import { istDay } from '@/lib/istDay';
 
 export const metadata: Metadata = {
-  title: 'Your dashboard: History Optional',
+  title: { absolute: 'Your dashboard: History Optional' },
   robots: { index: false },
 };
 

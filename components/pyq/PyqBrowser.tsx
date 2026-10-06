@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAttemptedPyqs } from '@/hooks/useAttemptedPyqs';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
@@ -20,6 +21,18 @@ const posKey = () => `ho-pyq-pos:${window.location.search}`;
 
 const PART_KEYS = SECTIONS.map((s) => s.key);
 const sectionOrder = (value: string) => PYQ_SECTIONS.findIndex((s) => s.value === value);
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+/** Where each heading sits in the page, for the jump list beside it. */
+const topicId = (section: string, topic: string) => `pq-t${sectionOrder(section)}-${slug(topic)}`;
+const subId = (section: string, topic: string, sub: string) => `pq-s${sectionOrder(section)}-${slug(topic)}-${slug(sub)}`;
+const yearId = (year: number) => `pq-y${year}`;
+type Jump = { id: string; label: string; n: number; done: number; at: number };
+/** Where the sticky filters end once stuck, so a heading is not hidden under them. */
+const filtersBottom = () => {
+  const bar = document.querySelector<HTMLElement>('.pq-bar');
+  if (!bar || getComputedStyle(bar).position !== 'sticky') return 64;
+  return (parseFloat(getComputedStyle(bar).top) || 0) + bar.offsetHeight;
+};
 
 /**
  * The filters as the address gives them. ?section= is one of the book's six
@@ -73,7 +86,10 @@ export default function PyqBrowser({ questions, syllabus }: { questions: ListPyq
   const f = own ?? fromUrl;
 
   const [shown, setShown] = useState(BATCH);
+  const router = useRouter();
   const listRef = useRef<HTMLDivElement>(null);
+  const jumpListRef = useRef<HTMLOListElement>(null);
+  const pendingJump = useRef<string | null>(null);
   const sentinel = useRef<HTMLDivElement>(null);
   const pendingScroll = useRef<number | null>(null);
   const { attempted, ready, toggle } = useAttemptedPyqs();
@@ -209,6 +225,84 @@ export default function PyqBrowser({ questions, syllabus }: { questions: ListPyq
     if (window.scrollY > top) window.scrollTo({ top, behavior: 'smooth' });
   };
 
+  // The index beside the list: the topics in view, or the years, or one
+  // topic's sub-topics, each with its count and a jump to its heading.
+  const jumps = useMemo(() => {
+    const groups: { key: string; name?: string; tint?: SectionKey; items: Jump[] }[] = [];
+    const seen = new Map<string, Jump>();
+    ordered.forEach((x, i) => {
+      let key = 'all'; let id: string; let label: string; let name: string | undefined; let tint: SectionKey | undefined;
+      if (f.view === 'year') { id = yearId(x.year); label = String(x.year); }
+      else if (f.topic) { if (!x.subtopic) return; id = subId(x.section, x.topic, x.subtopic); label = x.subtopic; }
+      else { const m = pyqSection(x.section); key = x.section; name = m?.name ?? x.section; tint = m?.key; id = topicId(x.section, x.topic); label = topicName(x.topic); }
+      let item = seen.get(id);
+      if (!item) {
+        let g = groups[groups.length - 1];
+        if (!g || g.key !== key) { g = { key, name, tint, items: [] }; groups.push(g); }
+        item = { id, label, n: 0, done: 0, at: i };
+        seen.set(id, item);
+        g.items.push(item);
+      }
+      item.n++;
+      if (ready && attempted[x.id] !== undefined) item.done++;
+    });
+    return groups;
+  }, [ordered, f.view, f.topic, ready, attempted]);
+  const jumpCount = jumps.reduce((n, g) => n + g.items.length, 0);
+
+  // A heading lands just below the sticky filters, whose height varies with
+  // the width. One further down than the cards drawn so far is drawn first.
+  const scrollToHeading = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return false;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - filtersBottom() - 12, behavior: 'smooth' });
+    return true;
+  };
+  const jumpTo = (j: Jump) => {
+    if (scrollToHeading(j.id)) return;
+    pendingJump.current = j.id;
+    setShown((s) => Math.max(s, (Math.floor(j.at / BATCH) + 2) * BATCH));
+  };
+  useEffect(() => {
+    const id = pendingJump.current;
+    if (!id) return;
+    pendingJump.current = null;
+    scrollToHeading(id);
+  }, [shown]);
+
+  // Which heading the reader is under, marked in the index, which keeps it in sight.
+  const [here, setHere] = useState('');
+  useEffect(() => {
+    if (!window.matchMedia('(min-width: 1001px)').matches) return;
+    const els = jumps.flatMap((g) => g.items).map((j) => document.getElementById(j.id)).filter((el): el is HTMLElement => el !== null);
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const line = filtersBottom() + 40;
+      let id = els[0]?.id ?? '';
+      for (const el of els) { if (el.getBoundingClientRect().top <= line) id = el.id; else break; }
+      setHere(id);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(measure); };
+    frame = requestAnimationFrame(measure);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(frame); };
+  }, [jumps, shown]);
+  useEffect(() => {
+    const list = jumpListRef.current;
+    const item = list?.querySelector<HTMLElement>(`[data-jump="${here}"]`);
+    if (!list || !item) return;
+    const top = item.getBoundingClientRect().top - list.getBoundingClientRect().top + list.scrollTop;
+    if (top < list.scrollTop || top > list.scrollTop + list.clientHeight - item.offsetHeight) list.scrollTop = top - list.clientHeight / 3;
+  }, [here]);
+
+  const untried = ready ? filtered.filter((x) => attempted[x.id] === undefined) : filtered;
+  const pickOne = () => {
+    if (!untried.length || !requireLogin('Sign in free to view PYQs and model answers.')) return;
+    rememberPlace();
+    router.push(`/pyqs/${untried[Math.floor(Math.random() * untried.length)].id}`);
+  };
+
   const card = (x: ListPyq, view: Filters['view']) => {
     const meta = pyqSection(x.section);
     const done = isDone(x);
@@ -254,7 +348,7 @@ export default function PyqBrowser({ questions, syllabus }: { questions: ListPyq
       if (!items.length) return;
       const t = totals.get(`y:${year}`);
       body.push(
-        <section key={`y${year}`} className="pq-group">
+        <section key={`y${year}`} id={yearId(year)} className="pq-group">
           <h2 className="pq-year-head">{year}<span>{plural(t?.n ?? 0, 'question')}</span></h2>
           <div className="pq-cards">{items.map((x) => card(x, 'year'))}</div>
         </section>,
@@ -276,7 +370,7 @@ export default function PyqBrowser({ questions, syllabus }: { questions: ListPyq
           const items: ListPyq[] = [];
           while (i < visible.length && visible[i].topic === topic && visible[i].subtopic === sub) items.push(visible[i++]);
           subs.push(
-            <div key={sub || '-'} className="pq-sub">
+            <div key={sub || '-'} id={sub ? subId(section, topic, sub) : undefined} className="pq-sub">
               {sub && <h4 className="pq-sub-head">{sub}</h4>}
               <div className="pq-cards">{items.map((x) => card(x, 'topic'))}</div>
             </div>,
@@ -284,7 +378,7 @@ export default function PyqBrowser({ questions, syllabus }: { questions: ListPyq
         }
         const t = totals.get(`t:${topic}`);
         topics.push(
-          <section key={topic} className="pq-topic-block">
+          <section key={topic} id={topicId(section, topic)} className="pq-topic-block">
             <div className="pq-topic-head">
               <h3>{topicName(topic)}</h3>
               <span className="pq-topic-count">
@@ -315,6 +409,7 @@ export default function PyqBrowser({ questions, syllabus }: { questions: ListPyq
 
   return (
     <div className="pq">
+      <div className="pq-main">
       <div className="pq-bar">
         <label className="pq-search">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
@@ -393,6 +488,42 @@ export default function PyqBrowser({ questions, syllabus }: { questions: ListPyq
             </div>
           )}
         </div>
+      )}
+      </div>
+
+      {filtered.length > 0 && (
+        <aside className="pq-aside" aria-label="This list at a glance">
+          <div className="pq-side">
+            <h2>{filteredAtAll ? 'In this list' : 'Your progress'}</h2>
+            <p className="pq-side-big"><strong>{doneHere.toLocaleString('en-IN')}</strong> of {plural(filtered.length, 'question')} attempted</p>
+            <div className="pq-side-bar" aria-hidden="true"><span style={{ width: `${(doneHere / filtered.length) * 100}%` }} /></div>
+            {untried.length > 0
+              ? <button type="button" className="ds-btn ds-btn-line ds-btn-sm pq-side-pick" onClick={pickOne}>Pick one I have not tried</button>
+              : <p className="pq-side-note">Every one of these attempted.</p>}
+          </div>
+          {jumpCount > 1 && (
+            <div className="pq-side pq-side-jumps">
+              <h2>{f.view === 'year' ? 'Jump to a year' : f.topic ? 'Jump to a sub-topic' : 'Jump to a topic'}</h2>
+              <ol className="pq-jump" ref={jumpListRef}>
+                {jumps.map((g) => (
+                  <li key={g.key} style={g.tint ? tintFor(g.tint) : undefined}>
+                    {g.name && jumps.length > 1 && <span className="pq-jump-sec"><i aria-hidden="true" />{g.name}</span>}
+                    <ol>
+                      {g.items.map((j) => (
+                        <li key={j.id}>
+                          <button type="button" data-jump={j.id} className={here === j.id ? 'on' : ''} aria-current={here === j.id ? 'location' : undefined} onClick={() => jumpTo(j)}>
+                            <span className="pq-jump-name">{j.label}</span>
+                            <span className={`pq-jump-n${j.done && j.done === j.n ? ' all' : ''}`}>{j.done ? `${j.done}/${j.n}` : j.n}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ol>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+        </aside>
       )}
 
       <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />

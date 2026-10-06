@@ -35,6 +35,7 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
     t.n++;
   }
   topics.sort((a, b) => a.topic.localeCompare(b.topic));
+  const idOf = (topic: string) => `t-${topic.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
   for (const t of topics) for (const s of t.subs) s.items.sort((a, b) => b.year - a.year);
 
   const schema = {
@@ -74,8 +75,8 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
                 <h1 className="ds-h1">{meta.name} PYQs</h1>
               </div>
               <p className="ds-lede pl-lede">
-                All {questions.length} questions UPSC has set on {meta.name} since {first}, Paper {meta.paper === 1 ? 'I' : 'II'}, by topic.
-                <span className="pl-more"> Open one to see how to tackle it, or write an answer and have it checked.</span>
+                Every {meta.name} question UPSC has asked since {first}, topic by topic.
+                <span className="pl-more"> Open one to see how to approach it, or write your answer and get it checked.</span>
               </p>
               <div className="pl-actions">
                 <Link href={`/pyqs?section=${encodeURIComponent(meta.value)}`} className="ds-btn ds-btn-line ds-btn-sm">Search and filter these {ARROW}</Link>
@@ -94,10 +95,10 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
 
         <section className="pl-body">
           <div className="ds-container">
-            <div className="pq">
-              <div className="pq-group">
+            <div className="pq pq-static">
+              <div className="pq-main pq-group">
                 {topics.map((t) => (
-                  <section key={t.topic} className="pq-topic-block">
+                  <section key={t.topic} id={idOf(t.topic)} className="pq-topic-block">
                     <div className="pq-topic-head">
                       <h2 className="pq-topic-title">{topicName(t.topic)}</h2>
                       <span className="pq-topic-count">{t.n} {t.n === 1 ? 'question' : 'questions'}</span>
@@ -129,6 +130,20 @@ export default function PyqSectionPage({ slug }: { slug: string }) {
                   </section>
                 ))}
               </div>
+              <aside className="pq-aside" aria-label="Topics in this section">
+                <div className="pq-side pq-side-jumps">
+                  <h2>Jump to a topic</h2>
+                  <ol className="pq-jump">
+                    <li>
+                      <ol>
+                        {topics.map((t) => (
+                          <li key={t.topic}><a href={`#${idOf(t.topic)}`}><span className="pq-jump-name">{topicName(t.topic)}</span><span className="pq-jump-n">{t.n}</span></a></li>
+                        ))}
+                      </ol>
+                    </li>
+                  </ol>
+                </div>
+              </aside>
             </div>
           </div>
         </section>

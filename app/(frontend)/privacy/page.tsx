@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — History Optional",
+  title: { absolute: "Privacy Policy: History Optional" },
   description: "Privacy Policy for historyoptional.xyz — how we collect, use, and protect your data.",
   alternates: { canonical: "https://historyoptional.xyz/privacy" },
 };

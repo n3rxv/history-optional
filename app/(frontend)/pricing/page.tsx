@@ -3,7 +3,7 @@ import PricingClient from '@/components/PricingClient';
 import { PLANS, PLAN_ORDER, planPriceLabel } from '@/lib/plans';
 
 export const metadata: Metadata = {
-  title: 'Pricing: History Optional',
+  title: { absolute: 'Pricing: History Optional' },
   description:
     'Notes, PYQs and the timeline are free. Premium removes the limits on answer evaluation, ' +
     'model answers and AI chat. ' +

@@ -1,321 +1,73 @@
-'use client';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { getPost, listPosts } from '@/lib/posts';
+import { PostAdminSlot } from '@/components/currentAffairs/AdminSlot';
+import { PO_CSS } from '@/components/currentAffairs/styles';
 
-import { useEffect, useState, useRef } from 'react';
-import { sanitizeHtml } from '@/lib/sanitizeHtml';
-import { useParams, useRouter } from 'next/navigation';
-import OwlLoader from '@/components/OwlLoader';
-import BackButton from '@/components/BackButton';
+/**
+ * A current-affairs post, rendered on the server and kept for an hour, or
+ * rebuilt at once when the owner saves it. The body is cleaned on the server
+ * (lib/posts.ts) before it is rendered. It used to be fetched in the browser,
+ * cover and all, after the page had loaded.
+ */
+export const revalidate = 3600;
+export function generateStaticParams() { return []; }
 
-interface Post {
-  id: string;
-  type: 'current-affairs' | 'new-note';
-  title: string;
-  excerpt: string;
-  content: string;
-  tags: string[];
-  cover_image?: string;
-  published_at: string;
-  published: boolean;
+const fmt = (iso: string) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' });
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const post = await getPost((await params).slug);
+  if (!post) return { title: 'Post not found' };
+  return {
+    // The site's template adds " | History Optional".
+    title: post.title,
+    description: post.excerpt || undefined,
+    alternates: { canonical: `https://historyoptional.xyz/posts/${post.slug}` },
+    openGraph: { title: post.title, description: post.excerpt || undefined, type: 'article', url: `https://historyoptional.xyz/posts/${post.slug}` },
+  };
 }
 
-const SESSION_KEY = 'histopt_admin_v2';
-
-export default function PostPage() {
-  const { slug } = useParams<{ slug: string }>();
-  const router = useRouter();
-  const [post, setPost] = useState<Post | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
-  const [authed, setAuthed] = useState(false);
-  const [token, setToken] = useState('');
-  const [editing, setEditing] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [savedMsg, setSavedMsg] = useState('');
-  const [editTitle, setEditTitle] = useState('');
-  const [editExcerpt, setEditExcerpt] = useState('');
-  const [editTags, setEditTags] = useState('');
-  const [editPublished, setEditPublished] = useState(true);
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
-  useEffect(() => {
-    const stored = sessionStorage.getItem(SESSION_KEY);
-    if (stored) {
-      fetch('/api/admin/verify-token', { headers: { 'x-admin-token': stored } }).then(r => {
-        if (r.ok) { setAuthed(true); setToken(stored); }
-      });
-    }
-
-    const headers: Record<string, string> = {};
-    if (stored) headers['x-admin-token'] = stored;
-
-    fetch(`/api/admin/blog-posts/slug/${slug}`, { headers })
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(({ data }) => {
-        if (data) {
-          setPost(data);
-          setEditTitle(data.title);
-          setEditExcerpt(data.excerpt || '');
-          setEditTags(data.tags?.join(', ') || '');
-          setEditPublished(data.published);
-        } else setNotFound(true);
-      })
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false));
-  }, [slug]);
-
-  const startEdit = () => {
-    setEditing(true);
-    setTimeout(() => {
-      if (contentRef.current) contentRef.current.focus();
-    }, 100);
-  };
-
-  const save = async () => {
-    if (!post) return;
-    setSaving(true);
-    const updatedPost = {
-      ...post,
-      title: editTitle,
-      excerpt: editExcerpt,
-      tags: editTags.split(',').map(t => t.trim()).filter(Boolean),
-      published: editPublished,
-      content: contentRef.current?.innerHTML || post.content,
-      updated_at: new Date().toISOString(),
-    };
-    const res = await fetch('/api/admin/blog-posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
-      body: JSON.stringify(updatedPost),
-    });
-    const data = await res.json();
-    setSaving(false);
-    if (data.ok) {
-      setPost(updatedPost);
-      setEditing(false);
-      setSavedMsg('Saved!');
-      setTimeout(() => setSavedMsg(''), 2000);
-    } else {
-      setSavedMsg('Save failed');
-      setTimeout(() => setSavedMsg(''), 2000);
-    }
-  };
-
-  const cancel = () => {
-    setEditing(false);
-    setEditTitle(post?.title || '');
-    setEditExcerpt(post?.excerpt || '');
-    setEditTags(post?.tags?.join(', ') || '');
-    setEditPublished(post?.published ?? true);
-    if (contentRef.current && post) contentRef.current.innerHTML = post.content;
-  };
-
-  if (loading) return <OwlLoader size="page" label="Loading the post" />;
-
-  if (notFound || !post) return (
-    <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
-      <p style={{ color: 'var(--text3)', fontSize: '0.95rem' }}>Post not found.</p>
-      <BackButton onClick={() => router.back()}>Go back</BackButton>
-    </div>
-  );
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await getPost(slug);
+  if (!post) notFound();
+  const more = (await listPosts().catch(() => [])).filter((p) => p.id !== post.id).slice(0, 3);
 
   return (
-    <main style={{ maxWidth: 740, margin: '0 auto', padding: '2rem 1.25rem 4rem' }}>
+    <div className="po ds">
+      <style dangerouslySetInnerHTML={{ __html: PO_CSS }} />
+      <article className="ds-container po-wrap">
+        <Link href="/current-affairs" className="po-back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+          Current affairs
+        </Link>
+        <PostAdminSlot slug={post.slug} />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {post.cover && <img src={post.cover} alt="" className="po-cover" />}
+        <div className="po-meta">
+          <time dateTime={post.publishedAt}>{fmt(post.publishedAt)}</time>
+          {post.tags.map((t) => <span key={t} className="po-tag">{t}</span>)}
+        </div>
+        <h1 className="po-h1">{post.title}</h1>
+        {post.excerpt && <p className="po-lede">{post.excerpt}</p>}
+        <div className="po-prose" dangerouslySetInnerHTML={{ __html: post.content }} />
 
-      {/* Top bar */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-        <BackButton onClick={() => router.back()}>Back</BackButton>
-        {authed && !editing && (
-          <button onClick={startEdit} style={{
-            padding: '6px 16px', borderRadius: 7, cursor: 'pointer',
-            fontSize: '0.82rem', fontWeight: 600,
-            background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 35%, transparent)',
-            color: 'var(--warning-text)', transition: 'all 0.15s',
-          }}>
-            ✏️ Edit
-          </button>
+        {more.length > 0 && (
+          <section className="po-more" aria-labelledby="po-more">
+            <h2 id="po-more">More current affairs</h2>
+            <div className="po-more-list">
+              {more.map((p) => (
+                <Link key={p.id} href={`/posts/${p.slug}`} className="po-more-item">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {p.cover ? <img src={p.cover} alt="" loading="lazy" /> : <span />}
+                  <span><strong>{p.title}</strong><span>{fmt(p.publishedAt)}</span></span>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
-        {authed && editing && (
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            {savedMsg && <span style={{ fontSize: '0.78rem', color: savedMsg === 'Saved!' ? 'var(--success-text)' : 'var(--danger-text)' }}>{savedMsg}</span>}
-            <label style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer' }}>
-              <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>Published</span>
-              <input type="checkbox" checked={editPublished} onChange={e => setEditPublished(e.target.checked)} style={{ accentColor: 'var(--success-text)' }} />
-            </label>
-            <button onClick={cancel} style={{
-              padding: '6px 12px', borderRadius: 7, cursor: 'pointer', fontSize: '0.82rem',
-              background: 'transparent', border: '1px solid var(--border)', color: 'var(--text3)',
-            }}>Cancel</button>
-            <button onClick={save} disabled={saving} style={{
-              padding: '6px 16px', borderRadius: 7, cursor: saving ? 'default' : 'pointer',
-              fontSize: '0.82rem', fontWeight: 600,
-              background: 'var(--success-wash)', border: '1px solid color-mix(in srgb, var(--success-text) 40%, transparent)',
-              color: 'var(--success-text)', opacity: saving ? 0.7 : 1,
-            }}>
-              {saving ? 'Saving...' : 'Save'}
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Edit mode: meta fields */}
-      {editing && (
-        <div style={{
-          background: 'var(--bg2)', border: '1px solid var(--border2)',
-          borderRadius: 10, padding: '16px 20px', marginBottom: '1.5rem',
-          display: 'flex', flexDirection: 'column', gap: 10,
-        }}>
-          <input
-            value={editTitle}
-            onChange={e => setEditTitle(e.target.value)}
-            placeholder="Title..."
-            style={{
-              background: 'transparent', border: 'none', borderBottom: '2px solid var(--accent2)',
-              color: 'var(--text)', fontSize: '1.2rem', fontWeight: 700,
-              fontFamily: 'var(--font-display)', padding: '4px 0', outline: 'none', width: '100%',
-              caretColor: 'var(--warning-text)',
-            }}
-          />
-          <input
-            value={editExcerpt}
-            onChange={e => setEditExcerpt(e.target.value)}
-            placeholder="Excerpt..."
-            style={{
-              background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)',
-              color: 'var(--text2)', fontSize: '0.9rem', padding: '4px 0', outline: 'none', width: '100%',
-            }}
-          />
-          <input
-            value={editTags}
-            onChange={e => setEditTags(e.target.value)}
-            placeholder="Tags (comma separated)..."
-            style={{
-              background: 'transparent', border: 'none', borderBottom: '1px solid var(--border)',
-              color: 'var(--text3)', fontSize: '0.78rem', padding: '4px 0', outline: 'none', width: '100%',
-            }}
-          />
-        </div>
-      )}
-
-      {/* Cover image */}
-      {post.cover_image && (
-        <div style={{ width: '100%', height: 340, borderRadius: 12, overflow: 'hidden', marginBottom: '2rem' }}>
-          <img src={post.cover_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-      )}
-
-      {/* Tags */}
-      {!editing && post.tags?.length > 0 && (
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: '1rem' }}>
-          {post.tags.map(tag => (
-            <span key={tag} style={{
-              padding: '3px 10px', borderRadius: 5, fontSize: '0.7rem',
-              background: 'var(--bg3)', color: 'var(--text3)', border: '1px solid var(--border2)',
-            }}>{tag}</span>
-          ))}
-        </div>
-      )}
-
-      {/* Title (view mode) */}
-      {!editing && (
-        <h1 style={{
-          fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
-          fontWeight: 700, color: 'var(--text)', lineHeight: 1.2, margin: '0 0 0.75rem',
-        }}>
-          {post.title}
-        </h1>
-      )}
-
-      {/* Excerpt (view mode) */}
-      {!editing && post.excerpt && (
-        <p style={{
-          fontSize: '1.05rem', color: 'var(--text2)', lineHeight: 1.6, margin: '0 0 0.75rem',
-          fontStyle: 'italic', borderLeft: '3px solid var(--accent2)', paddingLeft: '0.85rem',
-        }}>
-          {post.excerpt}
-        </p>
-      )}
-
-      {/* Date + type pill */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 10,
-        marginBottom: '2rem', paddingBottom: '1.25rem', borderBottom: '1px solid var(--border)',
-      }}>
-        <span style={{
-          padding: '2px 9px', borderRadius: 5, fontSize: '0.68rem',
-          background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 25%, transparent)',
-          color: 'var(--warning-text)', fontWeight: 600,
-        }}>
-          {post.type === 'current-affairs' ? '📰 Current Affairs' : '📄 New Note'}
-        </span>
-        <span style={{ color: 'var(--text3)', fontSize: '0.75rem' }}>
-          {new Date(post.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-        </span>
-        {!post.published && authed && (
-          <span style={{
-            padding: '2px 8px', borderRadius: 4, fontSize: '0.65rem',
-            background: 'rgba(0,0,0,0.05)', border: '1px solid var(--border2)',
-            color: 'var(--text3)', fontWeight: 700,
-          }}>DRAFT</span>
-        )}
-      </div>
-
-      {/* Article body — editable when in edit mode */}
-      {editing && (
-        <div style={{
-          background: 'var(--bg2)', border: '1px solid var(--border2)',
-          borderRadius: 8, marginBottom: 8,
-          padding: '4px 0',
-        }}>
-          {/* Inline toolbar */}
-          <div style={{
-            display: 'flex', flexWrap: 'wrap', gap: 3, padding: '8px 12px',
-            borderBottom: '1px solid var(--border)', background: 'var(--bg3)',
-          }}>
-            {[
-              ['B', 'bold'], ['I', 'italic'], ['U', 'underline'],
-              ['H1', 'formatBlock', 'h1'], ['H2', 'formatBlock', 'h2'], ['H3', 'formatBlock', 'h3'],
-              ['P', 'formatBlock', 'p'], ['• List', 'insertUnorderedList'], ['1. List', 'insertOrderedList'],
-              ['Undo', 'undo'], ['Redo', 'redo'], ['Clear', 'removeFormat'],
-            ].map(([label, cmd, val], i) => (
-              <button key={i}
-                onMouseDown={e => { e.preventDefault(); document.execCommand(cmd, false, val); contentRef.current?.focus(); }}
-                style={{
-                  padding: '3px 8px', borderRadius: 4, cursor: 'pointer', fontSize: '0.72rem', fontWeight: 600,
-                  background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', color: 'var(--text2)',
-                }}
-              >{label}</button>
-            ))}
-          </div>
-          <div
-            ref={contentRef}
-            contentEditable
-            suppressContentEditableWarning
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
-            style={{
-              minHeight: 400, padding: '20px 24px', outline: 'none',
-              color: 'var(--text)', fontSize: '1.05rem', lineHeight: 1.85,
-              fontFamily: 'Georgia, "Times New Roman", serif',
-              caretColor: 'var(--warning-text)',
-            }}
-          />
-        </div>
-      )}
-
-      {!editing && (
-        <div
-          className="note-content article-body"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
-          style={{ color: 'var(--text)', fontSize: '1.05rem', lineHeight: 1.85 }}
-        />
-      )}
-
-      {/* Bottom */}
-      <div style={{ marginTop: '3rem', borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
-        <BackButton href="/">Back to home</BackButton>
-      </div>
-    </main>
+      </article>
+    </div>
   );
 }
-

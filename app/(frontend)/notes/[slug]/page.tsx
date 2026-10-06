@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const note = allNotes.find(n => n.slug === slug);
   if (!note) return {};
   return {
-    title: `${note.title} — UPSC History Optional Notes`,
+    title: { absolute: `${note.title}: UPSC History Optional Notes` },
     description: `${note.description}. Detailed notes for UPSC History Optional ${note.section}, Paper ${note.paper}.`,
     alternates: { canonical: `https://historyoptional.xyz/notes/${slug}` },
   };
@@ -77,7 +77,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
       {
         "@type": "Article",
         "@id": `https://historyoptional.xyz/notes/${slug}#article`,
-        "headline": `${note.title} — UPSC History Optional Notes`,
+        "headline": `${note.title}: UPSC History Optional Notes`,
         "description": `${note.description}. Detailed notes for UPSC History Optional ${note.section}, Paper ${note.paper}.`,
         "url": `https://historyoptional.xyz/notes/${slug}`,
         "isPartOf": { "@id": "https://historyoptional.xyz/#website" },

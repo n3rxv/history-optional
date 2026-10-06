@@ -22,10 +22,7 @@ export default function PrelimsPage() {
   return (
     <PrelimsLanding
       topics={topics}
-      total={prelimsQuestions.length}
-      pyq={prelimsQuestions.filter((q) => q.type === 'pyq').length}
       first={Math.min(...years)}
-      last={Math.max(...years)}
     />
   );
 }

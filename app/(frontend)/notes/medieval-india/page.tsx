@@ -3,7 +3,7 @@ import { allNotes } from '@/lib/notes';
 import NotesIndex from '@/components/notes/NotesIndex';
 
 export const metadata: Metadata = {
-  title: 'Medieval India Notes — UPSC History Optional',
+  title: { absolute: 'Medieval India Notes: UPSC History Optional' },
   description: 'Topic-wise notes for Medieval India — UPSC History Optional Paper I. Covers all major topics for Mains preparation.',
   alternates: { canonical: 'https://historyoptional.xyz/notes/medieval-india' },
 };
@@ -18,7 +18,7 @@ export default function MedievalIndiaNotesPage() {
         "@type": "CollectionPage",
         "@id": "https://historyoptional.xyz/notes/medieval-india#page",
         "url": "https://historyoptional.xyz/notes/medieval-india",
-        "name": "Medieval India Notes — UPSC History Optional",
+        "name": "Medieval India Notes: UPSC History Optional",
         "description": notes.length + " topic-wise notes for Medieval India",
         "isPartOf": { "@id": "https://historyoptional.xyz/#website" },
         "inLanguage": "en-IN",

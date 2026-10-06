@@ -215,9 +215,7 @@ export default function TopperBrowser({ notes, years }: { notes: NoteMeta[]; yea
               <h1 className="ds-h1">Topper copies</h1>
             </div>
             <p className="ds-lede tc-lede">
-              {copies?.length
-                ? `${copies.length} handwritten Mains answers by ${toppers.length} UPSC toppers, filed by syllabus topic and linked to the questions they answer.`
-                : 'Handwritten Mains answers by UPSC toppers, filed by syllabus topic and linked to the questions they answer.'}
+              Real answer sheets from UPSC toppers, sorted by topic, so you can see what a high-scoring answer looks like on paper.
             </p>
           </div>
           {access !== null && (

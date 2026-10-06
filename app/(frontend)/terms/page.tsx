@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — History Optional",
+  title: { absolute: "Terms of Service: History Optional" },
   description: "Terms of Service for historyoptional.xyz — rules governing use of our UPSC History Optional platform.",
   alternates: { canonical: "https://historyoptional.xyz/terms" },
 };

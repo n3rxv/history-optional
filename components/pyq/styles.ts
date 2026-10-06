@@ -35,7 +35,33 @@ export const PYQ_HERO_CSS = `
 `;
 
 export const PYQ_LIST_CSS = `
-.pq { max-width: 920px; }
+.pq { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: var(--space-8); align-items: start; }
+.pq-main { min-width: 0; }
+/* The section pages have no sticky filters; a heading jumped to lands below the navbar. */
+.pq-static .pq-topic-block { scroll-margin-top: 84px; }
+.pq-static .pq-aside { margin-top: var(--space-6); }
+
+/* Beside the list: progress, and an index of what is in it */
+.pq-aside { position: sticky; top: 84px; display: flex; flex-direction: column; gap: var(--space-3); max-height: calc(100vh - 104px); margin-top: var(--space-3); }
+.pq-side { padding: var(--space-4); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.pq-side h2 { margin: 0 0 var(--space-2); font-size: 0.95rem; font-weight: 800; }
+.pq-side-big { margin: 0; font-size: 0.9rem; color: var(--text2); }
+.pq-side-big strong { font-size: 1.5rem; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; margin-right: 2px; }
+.pq-side-bar { height: 6px; margin: var(--space-3) 0; border-radius: 6px; background: var(--ds-soft); overflow: hidden; }
+.pq-side-bar span { display: block; height: 100%; min-width: 0; border-radius: inherit; background: var(--success-text); transition: width 0.3s; }
+.pq-side-pick { width: 100%; justify-content: center; }
+.pq-side-note { margin: 0; font-size: 0.86rem; color: var(--success-text, var(--text2)); }
+.pq-side-jumps { display: flex; flex-direction: column; min-height: 0; padding-right: var(--space-2); }
+.pq-jump { list-style: none; margin: 0 calc(-1 * var(--space-2)) 0 0; padding: 0 var(--space-2) 0 0; overflow-y: auto; min-height: 0; overscroll-behavior: contain; scrollbar-width: thin; position: relative; }
+.pq-jump ol { list-style: none; margin: 0 0 var(--space-2); padding: 0; }
+.pq-jump-sec { display: flex; align-items: center; gap: 8px; padding: var(--space-2) 8px 4px; font-size: 0.78rem; font-weight: 700; color: var(--t, var(--text3)); }
+.pq-jump-sec i { width: 8px; height: 8px; border-radius: 50%; background: var(--t); flex-shrink: 0; }
+.pq-jump button, .pq-jump a { display: flex; align-items: baseline; gap: var(--space-2); width: 100%; padding: 5px 8px; border: 0; border-radius: var(--radius-md); background: none; font: inherit; font-size: 0.86rem; line-height: 1.35; text-align: left; color: var(--text2); text-decoration: none; cursor: pointer; }
+.pq-jump button:hover, .pq-jump a:hover { background: var(--ds-soft); color: var(--text); }
+.pq-jump button.on { background: var(--w, var(--accent-dim)); color: var(--t, var(--accent-text)); font-weight: 700; }
+.pq-jump-name { flex: 1; min-width: 0; }
+.pq-jump-n { flex-shrink: 0; font-size: 0.78rem; font-weight: 500; color: var(--text3); font-variant-numeric: tabular-nums; }
+.pq-jump-n.all { color: var(--success-text, var(--text3)); font-weight: 700; }
 
 /* Search and filters */
 .pq-bar { position: sticky; top: 60px; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
@@ -127,6 +153,8 @@ export const PYQ_LIST_CSS = `
 .pq-empty-ask strong { color: var(--accent-text); }
 .pq-empty-ask span { font-size: 0.92rem; color: var(--text2); }
 
+@media (max-width: 1100px) { .pq { gap: var(--space-6); grid-template-columns: minmax(0, 1fr) 240px; } }
+@media (max-width: 1000px) { .pq { grid-template-columns: minmax(0, 1fr); } .pq-aside { display: none; } }
 @media (max-width: 900px) { .pq-bar { position: static; } }
 @media (max-width: 640px) {
   .pq-bar { gap: var(--space-2); }
@@ -143,5 +171,5 @@ export const PYQ_LIST_CSS = `
   .pq-section-head { font-size: 1.25rem; }
   .pq-only { margin-left: 0; }
 }
-@media (prefers-reduced-motion: reduce) { .pq-card, .pq-select, .pq-tab { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .pq-card, .pq-select, .pq-tab, .pq-side-bar span { transition: none; } }
 `;

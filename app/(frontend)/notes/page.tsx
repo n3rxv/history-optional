@@ -3,7 +3,7 @@ import { allNotes } from '@/lib/notes';
 import NotesIndex from '@/components/notes/NotesIndex';
 
 export const metadata: Metadata = {
-  title: 'History Optional Notes — UPSC Mains Paper I & II',
+  title: { absolute: 'History Optional Notes: UPSC Mains Paper I & II' },
   description: 'Comprehensive free notes for UPSC History Optional covering Ancient India, Medieval India, Modern India and World History. Structured topic-wise for Paper I and Paper II.',
   alternates: { canonical: 'https://historyoptional.xyz/notes' },
 };

@@ -19,7 +19,7 @@ import { SECTIONS, SectionIcon } from '@/components/notes/sections';
 // ISR cache 24 times a day.
 
 export const metadata: Metadata = {
-  title: 'History Optional · Notes, PYQs and answer checking for UPSC',
+  title: { absolute: 'History Optional · Notes, PYQs and answer checking for UPSC' },
   description: 'Notes for every topic in both papers, every History Optional PYQ since 1979, an AI tutor that reads the standard books, and answer checking for UPSC Mains.',
   alternates: { canonical: 'https://historyoptional.xyz' },
   openGraph: {
@@ -71,7 +71,7 @@ export default async function Home() {
               History Optional, <em className="hm-mark">distilled.<svg viewBox="0 0 220 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 11c34-6 70-8 108-5 30 2 63 3 106-3" /></svg></em>
             </h1>
             <p className="ds-lede hm-lede">
-              Notes for all {allNotes.length} topics, every past question since {firstYear}, and an AI that has read the standard history books and shows you the page it is quoting.
+              Read the notes, practise every PYQ since {firstYear}, and ask the AI when you get stuck. It answers from the standard books and shows you the page.
             </p>
             <HomeAsk />
             <HeroActions />
@@ -89,7 +89,7 @@ export default async function Home() {
           <div className="ds-container">
             <div className="hm-head">
               <h2 className="ds-h2">Where would you like to start?</h2>
-              <p className="ds-lede">Two papers, four parts. Each topic has its notes, the historians who argued over it, and every PYQ asked on it.</p>
+              <p className="ds-lede">Two papers, four parts. Pick one and start reading. Every topic comes with its historians and the PYQs asked on it.</p>
             </div>
             <div className="hm-secs">
               {counts.map((c) => (
@@ -116,7 +116,7 @@ export default async function Home() {
           <div className="ds-container ds-narrow">
             <div className="hm-head">
               <h2 className="ds-h2">A question a day</h2>
-              <p className="ds-lede">Five PYQs, the same for everyone today. Write one, or all five against the clock.</p>
+              <p className="ds-lede">Five questions a day, the same for everyone. Do one when you have ten minutes, or all five on the clock.</p>
             </div>
             <TodayPractice questions={getDailyQuestions()} day={istDay()} />
           </div>
@@ -145,7 +145,7 @@ export default async function Home() {
           <div className="ds-container">
             <div className="hm-head">
               <h2 className="ds-h2">Pay once, or week by week</h2>
-              <p className="ds-lede">Notes and past questions are free with an account. A plan opens unlimited answer checking, the AI tutor, model answers and topper copies.</p>
+              <p className="ds-lede">The notes and PYQs are free once you sign in. You only pay for practice, like getting answers checked and the AI tutor.</p>
             </div>
             <div className="hm-plans">
               {PLAN_ORDER.map((id) => (
@@ -168,7 +168,7 @@ export default async function Home() {
           <div className="ds-container ds-narrow hm-close-inner">
             <Image src="/mascot/owl-reading.svg" alt="" width={110} height={95} className="hm-close-owl" />
             <h2 className="ds-h2">Start with tonight&rsquo;s topic</h2>
-            <p className="ds-lede">Open the notes for whatever you are reading today and see if it helps. It is free, and there is no card to enter.</p>
+            <p className="ds-lede">Open the notes for whatever you’re reading today and see if they help. It’s free, and nobody will ask for a card.</p>
             <HeroActions />
           </div>
         </section>

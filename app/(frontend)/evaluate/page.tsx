@@ -342,8 +342,8 @@ export default function EvaluatePage() {
                     <h1 className="ds-h1 ev-h1">{hi ? 'अपना उत्तर जँचवाएँ' : 'Get your answer checked'}</h1>
                     <p className="ds-lede ev-lede">
                       {hi
-                        ? 'हस्तलिखित उत्तर की फोटो या PDF अपलोड करें। हर भाग के अंक, क्या अच्छा रहा, क्या सुधारें, उद्धृत करने लायक इतिहासकार, और एक आदर्श उत्तर मिलता है।'
-                        : 'Upload a photo or PDF of a handwritten answer. You get marks for each part, what worked, what to fix, the historians it could have cited, and a model answer.'}
+                        ? 'अपने हस्तलिखित उत्तर की फोटो या PDF अपलोड करें। आपको अंक मिलेंगे, क्या अच्छा रहा और क्या नहीं, और तुलना के लिए एक आदर्श उत्तर।'
+                        : 'Upload a photo or PDF of your handwritten answer. You’ll get marks, what worked and what didn’t, and a model answer to compare with.'}
                     </p>
                   </div>
                   <button type="button" className="ds-btn ds-btn-line ev-past-btn" onClick={openDrawer}>

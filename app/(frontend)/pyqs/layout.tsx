@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Previous Year Questions: UPSC History Optional",
+  // Its own title stands alone; each question's page below still gets " | History Optional".
+  title: { absolute: "Previous Year Questions: UPSC History Optional", template: '%s | History Optional' },
   description: "Topic-wise previous year questions for UPSC History Optional Mains. Organised by syllabus section to help you identify patterns and prepare strategically.",
   alternates: { canonical: "https://historyoptional.xyz/pyqs" },
   openGraph: {

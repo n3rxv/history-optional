@@ -256,7 +256,7 @@ export default function Dashboard({ day, question: built }: { day: string; quest
     { key: 'pyq', title: 'PYQs', count: `${pyqTotal.toLocaleString('en-IN')} ${T('questions', 'प्रश्न')}`, desc: T('By year, section and topic, each one ready to answer.', 'वर्ष, भाग और विषय के अनुसार, हर एक उत्तर के लिए तैयार।'), href: '/pyqs' },
     { key: 'chat', title: T('AI chat', 'AI चैट'), count: null, desc: T('Ask anything. It answers from the standard books and shows where.', 'कुछ भी पूछें। यह मानक पुस्तकों से उत्तर देता है और स्रोत दिखाता है।'), href: '/chat' },
     { key: 'evaluate', title: T('Evaluate', 'मूल्यांकन'), count: null, desc: T('Upload a handwritten answer and get it marked, part by part.', 'हस्तलिखित उत्तर अपलोड करें और हर भाग के अंक पाएँ।'), href: '/evaluate' },
-    { key: 'test', title: T('Tests', 'टेस्ट'), count: null, desc: T('Timed papers in the Mains format, from past questions.', 'पिछले प्रश्नों से बने, मेन्स प्रारूप में समयबद्ध पेपर।'), href: '/test' },
+    { key: 'test', title: T('Test papers', 'टेस्ट पेपर'), count: null, desc: T('Timed papers in the Mains format, from past questions.', 'पिछले प्रश्नों से बने, मेन्स प्रारूप में समयबद्ध पेपर।'), href: '/test' },
     { key: 'map', title: T('Map practice', 'मैप अभ्यास'), count: null, desc: T('All 992 places in the map syllabus, and a quiz.', 'मैप सिलेबस के सभी 992 स्थल, और एक क्विज़।'), href: '/mapping' },
   ];
 

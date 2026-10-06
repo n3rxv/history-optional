@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLang } from '@/lib/i18n/LangContext';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
 import LoginPromptModal from '@/components/LoginPromptModal';
@@ -33,6 +33,9 @@ function eraOf(year: number): string {
   return `${ordinal(c)} century${c <= 10 ? ' CE' : ''}`;
 }
 
+const idOf = (era: string) => `era-${era.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
+const PART_KEYS = ['ancient', 'medieval', 'modern', 'world'] as const;
+
 export default function Timeline() {
   const { langHi: hi } = useLang();
   const T = (en: string, h: string) => (hi ? h : en);
@@ -49,6 +52,61 @@ export default function Timeline() {
   }, [section, category, search]);
   // Where a new century begins, for its heading.
   const rows = useMemo(() => shown.map((e, i) => ({ e, head: i === 0 || eraOf(shown[i - 1].year) !== eraOf(e.year) ? eraOf(e.year) : null })), [shown]);
+  // The side index: each century in view, with how many events it holds
+  // from each part of the syllabus, under BCE or CE.
+  const eras = useMemo(() => {
+    const out: { era: string; n: number; by: Record<string, number> }[] = [];
+    for (const { e, head } of rows) {
+      if (head) out.push({ era: head, n: 0, by: {} });
+      const x = out[out.length - 1];
+      x.n += 1;
+      x.by[KEY_OF[e.section]] = (x.by[KEY_OF[e.section]] ?? 0) + 1;
+    }
+    return out;
+  }, [rows]);
+  const eraGroups = useMemo(() => {
+    const bce = eras.filter((x) => x.era.endsWith('BCE'));
+    const ce = eras.filter((x) => !x.era.endsWith('BCE'));
+    return [
+      { label: T('Before Common Era', 'ईसा पूर्व'), eras: bce, short: (era: string) => era.replace(/ BCE$/, '') },
+      { label: T('Common Era', 'ईसवी'), eras: ce, short: (era: string) => era.replace(/ CE$/, '') },
+    ].filter((g) => g.eras.length);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eras, hi]);
+  const most = Math.max(1, ...eras.map((x) => x.n));
+  const partsInView = PART_KEYS.filter((k) => eras.some((x) => x.by[k]));
+
+  // The century the reader is in, marked in the index, which keeps it in sight.
+  const asideRef = useRef<HTMLElement>(null);
+  const [here, setHere] = useState('');
+  useEffect(() => {
+    if (!window.matchMedia('(min-width: 1001px)').matches) return;
+    const els = eras.map((x) => document.getElementById(idOf(x.era)));
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      let cur = eras[0]?.era ?? '';
+      for (let i = 0; i < els.length; i++) { const el = els[i]; if (el && el.getBoundingClientRect().top <= 140) cur = eras[i].era; else if (el) break; }
+      setHere(cur);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(measure); };
+    frame = requestAnimationFrame(measure);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(frame); };
+  }, [eras]);
+  useEffect(() => {
+    const box = asideRef.current;
+    const item = box ? [...box.querySelectorAll<HTMLElement>('[data-era]')].find((el) => el.dataset.era === here) : undefined;
+    if (!box || !item || box.scrollHeight <= box.clientHeight) return;
+    const top = item.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
+    if (top < box.scrollTop || top > box.scrollTop + box.clientHeight - item.offsetHeight) box.scrollTop = top - box.clientHeight / 3;
+  }, [here]);
+  const jump = (ev: React.MouseEvent, era: string) => {
+    const el = document.getElementById(idOf(era));
+    if (!el) return;
+    ev.preventDefault();
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+  };
   const categories = section === 'all' ? CATEGORIES : [...new Set(EVENTS.filter((e) => e.section === section).map((e) => e.category))];
 
   const toggle = (e: TimelineEvent) => {
@@ -62,7 +120,7 @@ export default function Timeline() {
       <header className="tl-hero">
         <div className="ds-container">
           <h1 className="ds-h1 tl-h1">{T('Timeline', 'समयरेखा')}</h1>
-          <p className="ds-lede tl-lede">{T(`${EVENTS.length} events from 2500 BCE to 1991, Indian and world history on one line, so you can place one beside the other in an answer.`, `2500 ईसा पूर्व से 1991 तक ${EVENTS.length} घटनाएँ, भारतीय और विश्व इतिहास एक साथ, ताकि उत्तर में एक को दूसरे के साथ रख सकें।`)}</p>
+          <p className="ds-lede tl-lede">{T('Indian and world history side by side, so you can see what else was going on at the time. Handy when an answer needs context.', 'भारतीय और विश्व इतिहास साथ-साथ, ताकि दिखे कि उसी समय बाकी दुनिया में क्या चल रहा था। जब उत्तर में संदर्भ चाहिए, तब काम आता है।')}</p>
         </div>
       </header>
 
@@ -89,6 +147,8 @@ export default function Timeline() {
           </div>
         </div>
 
+        <div className="tl-layout">
+        <div className="tl-main">
         {shown.length === 0 ? (
           <div className="tl-empty"><strong>{T('No event matches', 'कोई घटना नहीं मिली')}</strong><p>{T('Try another word, or show everything.', 'कोई दूसरा शब्द आज़माएँ या सब दिखाएँ।')}</p></div>
         ) : (
@@ -97,7 +157,7 @@ export default function Timeline() {
               const isOpen = open === e.title;
               return (
                 <li key={`${e.year}-${e.title}`} className="tl-item" style={tintFor(KEY_OF[e.section])}>
-                  {head && <h2 className="tl-era">{head}</h2>}
+                  {head && <h2 className="tl-era" id={idOf(head)}>{head}</h2>}
                   <div className={`tl-event${isOpen ? ' open' : ''}`}>
                     <span className="tl-year">{e.yearLabel}</span>
                     <span className="tl-dot" aria-hidden="true" />
@@ -115,6 +175,43 @@ export default function Timeline() {
             })}
           </ol>
         )}
+        </div>
+        {shown.length > 0 && (
+          <aside className="tl-aside" ref={asideRef} aria-label={T('Jump to a century', 'सदी पर जाएँ')}>
+            <div className="tl-side">
+              <h2>{T('Jump to a century', 'सदी पर जाएँ')}</h2>
+              {eraGroups.map((g) => (
+                <div key={g.label} className="tl-rail-group">
+                  <span className="tl-rail-head">{g.label}</span>
+                  <ol className="tl-rail">
+                    {g.eras.map((x) => (
+                      <li key={x.era}>
+                        <a href={`#${idOf(x.era)}`} data-era={x.era} className={here === x.era ? 'on' : ''} aria-current={here === x.era ? 'location' : undefined}
+                          aria-label={T(`${x.era}, ${x.n} ${x.n === 1 ? 'event' : 'events'}`, `${x.era}, ${x.n} घटनाएँ`)} onClick={(ev) => jump(ev, x.era)}>
+                          <span className="tl-rail-dot" aria-hidden="true" />
+                          <span className="tl-rail-name">{g.short(x.era)}</span>
+                          {/* Square-root scale: a century with one event still shows, and the order stays true. */}
+                          <span className="tl-rail-bar" aria-hidden="true">
+                            <span style={{ width: `${Math.sqrt(x.n / most) * 100}%` }}>
+                              {PART_KEYS.filter((k) => x.by[k]).map((k) => <i key={k} style={{ ...tintFor(k), flexGrow: x.by[k] }} />)}
+                            </span>
+                          </span>
+                          <span className="tl-rail-n" aria-hidden="true">{x.n}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ))}
+              {partsInView.length > 1 && (
+                <ul className="tl-key">
+                  {partsInView.map((k) => <li key={k} style={tintFor(k)}><i aria-hidden="true" />{hi ? SECTIONS.find((s) => s.key === k)!.hi : SECTIONS.find((s) => s.key === k)!.en}</li>)}
+                </ul>
+              )}
+            </div>
+          </aside>
+        )}
+        </div>
       </div>
       <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
     </div>
@@ -140,7 +237,33 @@ const CSS = `
 .tl-select.set { border-color: color-mix(in srgb, var(--accent) 50%, transparent); background-color: var(--accent-dim); color: var(--accent-text); font-weight: 600; }
 .tl-count { font-size: 0.88rem; color: var(--text3); }
 
-.tl-list { list-style: none; margin: 0; padding: 0; max-width: 860px; position: relative; }
+.tl-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: var(--space-8); align-items: start; }
+.tl-main { min-width: 0; }
+.tl-list { list-style: none; margin: 0; padding: 0; position: relative; }
+.tl-aside { position: sticky; top: 84px; max-height: calc(100vh - 104px); overflow-y: auto; scrollbar-width: none; }
+.tl-aside::-webkit-scrollbar { display: none; }
+.tl-side { padding: var(--space-4); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.tl-side h2 { margin: 0 0 var(--space-2); font-size: 0.95rem; font-weight: 800; }
+/* The centuries on a rail like the timeline's own, each with a bar of its events by part. */
+.tl-rail-group + .tl-rail-group { margin-top: var(--space-2); }
+.tl-rail-head { display: block; padding: 6px 0 2px 20px; font-size: 0.74rem; font-weight: 700; color: var(--text3); }
+.tl-rail { list-style: none; margin: 0; padding: 0; position: relative; }
+.tl-rail::before { content: ''; position: absolute; left: 4px; top: 12px; bottom: 12px; width: 2px; border-radius: 2px; background: var(--border); }
+.tl-rail a { position: relative; display: grid; grid-template-columns: 10px minmax(0, 1fr) 54px 24px; align-items: center; gap: 0 var(--space-2); padding: 3px 6px 3px 0; border-radius: var(--radius-md); font-size: 0.84rem; line-height: 1.3; color: var(--text2); text-decoration: none; }
+.tl-rail a:hover { color: var(--text); }
+.tl-rail a:hover .tl-rail-dot { border-color: var(--accent); }
+.tl-rail-dot { position: relative; z-index: 1; width: 10px; height: 10px; border-radius: 50%; background: var(--ds-card); border: 2px solid var(--border2); box-sizing: border-box; }
+.tl-rail a.on { color: var(--text); font-weight: 700; background: linear-gradient(90deg, transparent 4px, var(--ds-soft) 4px); }
+.tl-rail a.on .tl-rail-dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.tl-rail-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tl-rail-bar { display: block; height: 6px; }
+.tl-rail-bar > span { display: flex; gap: 1px; height: 100%; min-width: 5px; }
+.tl-rail-bar i { flex-basis: 0; min-width: 2px; height: 100%; border-radius: 2px; background: var(--t); opacity: 0.85; }
+.tl-rail-n { font-size: 0.76rem; font-weight: 500; color: var(--text3); text-align: right; font-variant-numeric: tabular-nums; }
+.tl-key { list-style: none; display: flex; flex-wrap: wrap; gap: 4px var(--space-3); margin: var(--space-3) 0 0; padding: var(--space-3) 0 0; border-top: 1px solid var(--border); }
+.tl-key li { display: flex; align-items: center; gap: 6px; font-size: 0.76rem; color: var(--text3); }
+.tl-key i { width: 8px; height: 8px; border-radius: 2px; background: var(--t); }
+.tl-era { scroll-margin-top: 80px; }
 .tl-era { margin: var(--space-6) 0 var(--space-3) 132px; font-size: 0.95rem; font-weight: 800; color: var(--text); }
 .tl-item:first-child .tl-era { margin-top: 0; }
 .tl-event { position: relative; display: grid; grid-template-columns: 110px 22px minmax(0, 1fr); align-items: start; column-gap: 0; }
@@ -156,7 +279,8 @@ const CSS = `
 .tl-cat { font-size: 0.78rem; font-weight: 600; color: var(--text3); }
 .tl-title { font-size: 1rem; font-weight: 700; line-height: 1.4; }
 .tl-desc { margin-top: 4px; padding-top: var(--space-2); border-top: 1px solid var(--border); font-size: 0.93rem; line-height: 1.6; color: var(--text2); }
-.tl-empty { padding: var(--space-8) var(--space-5); border-radius: var(--radius-xl); background: var(--ds-soft); text-align: center; max-width: 860px; }
+.tl-empty { padding: var(--space-8) var(--space-5); border-radius: var(--radius-xl); background: var(--ds-soft); text-align: center; }
+@media (max-width: 1000px) { .tl-layout { grid-template-columns: minmax(0, 1fr); } .tl-aside { display: none; } }
 .tl-empty p { margin: 4px 0 0; color: var(--text2); }
 
 @media (max-width: 640px) {

@@ -36,11 +36,11 @@ export default function PyqsPage() {
                 <h1 className="ds-h1">PYQs</h1>
               </div>
               <p className="ds-lede pl-lede">
-                Every question UPSC has set in History since {first}, {questions.length.toLocaleString('en-IN')} in all, sorted by topic the way the PYQ book sorts them.
-                <span className="pl-more"> Open one to see how to tackle it, or write an answer and have it checked.</span>
+                Every History question UPSC has asked since {first}, grouped by topic the way the PYQ book does it.
+                <span className="pl-more"> Open one to see how to approach it, or write your answer and get it checked.</span>
               </p>
               <div className="pl-actions">
-                <Link href="/test" className="ds-btn ds-btn-line ds-btn-sm">Take a timed test {ARROW}</Link>
+                <Link href="/test" className="ds-btn ds-btn-line ds-btn-sm">Attempt a test paper {ARROW}</Link>
                 <Link href="/topper-copies" className="ds-btn ds-btn-ghost ds-btn-sm">Topper copies</Link>
               </div>
             </div>

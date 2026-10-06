@@ -172,7 +172,7 @@ export default function PricingClient() {
         <div className="ds-container">
           <h1 className="ds-h1 pr-h1">Plans and pricing</h1>
           <p className="ds-lede pr-lede">
-            Notes, past questions, the timeline and historiography are free with your account. Premium is for the practice: every answer checked, the AI tutor without limits, model answers and topper copies.
+            Everything you read here is free once you sign in. Premium is for practice, when you want every answer checked and the AI tutor without limits.
           </p>
           {days !== null && days > 0 && <span className="pr-chip">{days.toLocaleString('en-IN')} days to Mains {NEXT_MAINS.slice(0, 4)}</span>}
         </div>
@@ -213,7 +213,7 @@ export default function PricingClient() {
         </div>
 
         {onAutopay && <p className="pr-note">You’re on the weekly plan, so the one-time plans are switched off. Cancel the renewal and they open up once your paid days run out.</p>}
-        <p className="pr-rzp">Payments go through Razorpay: UPI, cards and net banking. The weekly plan is a mandate, debited every 7 days for up to 52 weeks until you stop it; the others are single payments.</p>
+        <p className="pr-rzp">Payments go through Razorpay: UPI, cards and net banking. The weekly plan is a mandate, debited every 7 days for up to 52 weeks, the others are single payments.</p>
 
         <section className="pr-section" aria-labelledby="pr-compare">
           <h2 id="pr-compare" className="pr-h2">Free account and Premium</h2>
@@ -235,7 +235,7 @@ export default function PricingClient() {
 
         <section className="pr-section" aria-labelledby="pr-once">
           <h2 id="pr-once" className="pr-h2">Bought on their own</h2>
-          <p className="pr-section-lede">Topper copies come with every plan and can also be bought by themselves. A map check is charged per map and is not part of any plan.</p>
+          <p className="pr-section-lede">Every plan includes topper copies, or you can buy them on their own. Map checks are paid per map and aren’t part of any plan.</p>
           <div className="pr-pair">
             {ONE_OFF.map((o) => (
               <article key={o.name} className="pr-plan pr-one">

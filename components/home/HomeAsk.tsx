@@ -58,7 +58,7 @@ export default function HomeAsk() {
   const send = (q: string) => {
     const text = q.trim();
     if (!text) return;
-    router.push(`/chat?q=${encodeURIComponent(text)}`);
+    router.push(`/chat?q=${encodeURIComponent(text)}&send=1`);
   };
 
   const take = () => { if (current) { setValue(current.q); inputRef.current?.focus(); } };

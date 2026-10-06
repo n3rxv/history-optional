@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Resources — Books & Study Material for History Optional',
-  description: 'Curated books, PDFs, and study resources for UPSC History Optional aspirants.',
+  title: { absolute: 'Books: The Reading List for History Optional' },
+  description: 'The standard books for each part of the UPSC History Optional syllabus, with free copies where they exist and where to buy them.',
   alternates: { canonical: 'https://historyoptional.xyz/resources' },
   openGraph: {
-    title: 'Resources — Books & Study Material for History Optional',
-    description: 'Curated books, PDFs, and study resources for UPSC History Optional aspirants.',
+    title: 'Books: The Reading List for History Optional',
+    description: 'The standard books for each part of the UPSC History Optional syllabus, with free copies where they exist and where to buy them.',
     url: 'https://historyoptional.xyz/resources',
     type: 'website',
   },

@@ -31,10 +31,10 @@ export default function Footer() {
     <footer className={`ft ds site-footer${isChat ? ' site-footer--chat' : ''}`} ref={ref}>
       <style dangerouslySetInnerHTML={{ __html: FOOTER_CSS }} />
       <div className="ft-inner">
-        <Link href="/" className="ft-brand">
+        <a href="https://distilledcrux.com" target="_blank" rel="noopener" className="ft-brand" aria-label="Distilled Crux, opens distilledcrux.com">
           <Image src="/mascot/owl.svg" alt="" width={26} height={25} />
-          <span>History Optional</span>
-        </Link>
+          <span>Distilled Crux</span>
+        </a>
 
         <nav className="ft-links" aria-label="Footer">
           <Link href="/pricing">Pricing</Link>

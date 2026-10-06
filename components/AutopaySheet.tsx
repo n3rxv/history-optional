@@ -166,138 +166,69 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
   }
 
   if (typeof document === 'undefined') return null;
+  const price = planPriceLabel(AUTOPAY_PLAN);
+  const Tick = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>;
   return createPortal(
-    <div role="dialog" aria-modal="true" aria-label="Weekly autopay"
-      onClick={e => { if (e.target === e.currentTarget) onClose(); }}
-      style={{
-        position: 'fixed', inset: 0, zIndex: 99999, padding: '1rem',
-        background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-      <div style={{
-        width: '100%', maxWidth: 400, background: 'var(--bg2)', border: '1px solid var(--border)',
-        borderRadius: 16, padding: 'clamp(1rem, 4vw, 1.4rem)', boxShadow: '0 32px 80px rgba(0,0,0,0.9)',
-      }}>
+    <div className="ds ds-overlay ap-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <style dangerouslySetInnerHTML={{ __html: AP_CSS }} />
+      <div className="ds-modal ap" role="dialog" aria-modal="true" aria-labelledby="ap-title">
         {step === 'already' && already ? (
-          <div>
-            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--success-text)', marginBottom: 8 }}>
-              You already have access
-            </div>
-            <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 6px' }}>
+          <div className="ap-done">
+            <span className="ap-mark">{Tick}</span>
+            <h2 id="ap-title">You already have access</h2>
+            <p>
               {already.autoRenew
-                ? 'Your weekly subscription is already running, so nothing was charged.'
+                ? 'Your weekly plan is already running, so nothing was charged.'
                 : 'Nothing was charged. You are on a plan you have already paid for.'}
             </p>
-            <p style={{ color: 'var(--text3)', fontSize: '0.82rem', lineHeight: 1.6, margin: '0 0 18px' }}>
+            <p className="ap-muted">
               {already.autoRenew ? 'Next renewal' : 'Access runs to'}{' '}
-              {new Date(already.expiresAt).toLocaleDateString('en-IN',
-                { day: 'numeric', month: 'long', year: 'numeric' })}
-              {already.autoRenew ? '.' : '. Come back after that if you want the weekly instead.'}
+              {new Date(already.expiresAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+              {already.autoRenew ? '.' : '. Come back after that if you want the weekly plan instead.'}
             </p>
-            <button onClick={onClose}
-              style={{
-                width: '100%', padding: '12px', borderRadius: 8, border: 'none',
-                background: 'linear-gradient(135deg, var(--success-text), var(--success-text))',
-                color: '#000', fontWeight: 800, fontSize: '0.86rem', cursor: 'pointer',
-              }}>Got it</button>
+            <button type="button" className="ds-btn ds-btn-solid ds-btn-block" onClick={onClose}>Got it</button>
           </div>
         ) : step === 'authorised' ? (
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--success-text)', marginBottom: 8 }}>
-              {liveUntil ? "You're in" : gaveUp ? 'Mandate authorised' : 'Mandate authorised'}
-            </div>
+          <div className="ap-done">
+            {liveUntil ? <span className="ap-mark">{Tick}</span> : !gaveUp && <span className="ap-spin" aria-hidden="true" />}
+            <h2 id="ap-title">{liveUntil ? 'You’re in' : 'Payment set up'}</h2>
             {liveUntil ? (
-              <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 18px' }}>
-                &#8377;99 collected. Everything is unlocked, and the next charge is{' '}
-                {new Date(liveUntil).toLocaleDateString('en-IN',
-                  { day: 'numeric', month: 'long' })}.
-              </p>
+              <p>{price} collected. Everything is open now, and the next charge is on {new Date(liveUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}.</p>
             ) : gaveUp ? (
-              <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 18px' }}>
-                The charge is taking longer than usual to confirm. Nothing is wrong and
-                nothing is lost. Refresh in a minute, or write to us if it has not opened.
-              </p>
+              <p>The charge is taking longer than usual to confirm. Nothing is wrong and nothing is lost. Refresh in a minute, or write to us if it still hasn’t opened.</p>
             ) : (
-              <p style={{ color: 'var(--text2)', fontSize: '0.86rem', lineHeight: 1.6, margin: '0 0 18px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9 }}>
-                <span style={{
-                  width: 13, height: 13, flexShrink: 0, borderRadius: '50%',
-                  border: '2px solid color-mix(in srgb, var(--success-text) 25%, transparent)', borderTopColor: 'var(--success-text)',
-                  animation: 'autopaySpin 0.7s linear infinite',
-                }} />
-                Collecting the first &#8377;99&hellip;
-              </p>
+              <p>Collecting the first {price}. This usually takes a few seconds.</p>
             )}
-            <style>{`@keyframes autopaySpin { to { transform: rotate(360deg); } }`}</style>
-            <button
-              onClick={() => { if (liveUntil) window.location.reload(); else onClose(); }}
-              style={{
-                width: '100%', padding: '12px', borderRadius: 8, border: 'none',
-                background: 'linear-gradient(135deg, var(--success-text), var(--success-text))',
-                color: '#000', fontWeight: 800, fontSize: '0.86rem', cursor: 'pointer',
-              }}>{liveUntil ? 'Start using it' : 'Done'}</button>
+            <button type="button" className="ds-btn ds-btn-solid ds-btn-block" onClick={() => { if (liveUntil) window.location.reload(); else onClose(); }}>
+              {liveUntil ? 'Start studying' : 'Done'}
+            </button>
           </div>
         ) : (
           <>
-            {/* This authorises a recurring debit, so it is laid out as a
-                billing summary rather than a feature pitch: what is taken
-                today, what is taken afterwards, and how to stop it. */}
-            <div style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em',
-              textTransform: 'uppercase', color: GOLD, marginBottom: 8 }}>
-              Weekly subscription
+            {/* This authorises a recurring debit, so it reads as a bill rather
+                than a pitch: what is taken today, what afterwards, and how to
+                stop it. */}
+            <div className="ds-modal-head">
+              <div>
+                <h2 id="ap-title">Weekly plan</h2>
+                <p>Everything in Premium, paid a week at a time.</p>
+              </div>
+              <button type="button" className="ds-x" onClick={onClose} aria-label="Close">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+              </button>
             </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 7, marginBottom: 18 }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '2.1rem', fontWeight: 700,
-                lineHeight: 1, color: 'var(--text)' }}>
-                {planPriceLabel(AUTOPAY_PLAN)}
-              </span>
-              <span style={{ color: 'var(--text3)', fontSize: '0.82rem' }}>/week</span>
-            </div>
-
-            <dl style={{ margin: '0 0 18px', borderTop: '1px solid var(--border)' }}>
-              {([
-                ['Charged today', planPriceLabel(AUTOPAY_PLAN)],
-                ['Then every 7 days', planPriceLabel(AUTOPAY_PLAN)],
-                ['Cancel', 'any time, one click'],
-              ] as const).map(([k, v]) => (
-                <div key={k} style={{ display: 'flex', justifyContent: 'space-between',
-                  alignItems: 'baseline', gap: 12, padding: '9px 0',
-                  borderBottom: '1px solid var(--bg3)' }}>
-                  <dt style={{ color: 'var(--text2)', fontSize: '0.84rem' }}>{k}</dt>
-                  <dd style={{ margin: 0, color: 'var(--text)', fontSize: '0.84rem',
-                    fontFamily: 'var(--font-mono)', fontVariantNumeric: 'tabular-nums' }}>{v}</dd>
-                </div>
-              ))}
+            <div className="ap-price"><strong>{price}</strong><span>a week</span></div>
+            <dl className="ap-bill">
+              <div><dt>Today</dt><dd>{price}</dd></div>
+              <div><dt>Then every 7 days</dt><dd>{price}</dd></div>
+              <div><dt>To stop it</dt><dd>One click, any time</dd></div>
             </dl>
-
-            {message && (
-              <p style={{ color: 'var(--danger-text)', fontSize: '0.8rem', margin: '0 0 12px' }}>{message}</p>
-            )}
-            <button onClick={start}
-              disabled={step === 'opening' || step === 'signing_in'}
-              style={{
-                width: '100%', padding: '12px', borderRadius: 8, border: 'none',
-                background: step === 'idle' || step === 'error'
-                  ? 'linear-gradient(135deg, var(--warning-text) 0%, var(--warning-text) 40%, var(--warning-text) 55%, var(--warning-text) 100%)'
-                  : 'var(--bg3)',
-                color: step === 'idle' || step === 'error' ? '#000' : 'var(--text3)',
-                fontWeight: 800, fontSize: '0.86rem', letterSpacing: '0.02em',
-                cursor: step === 'idle' || step === 'error' ? 'pointer' : 'wait',
-              }}>
-              {step === 'opening' ? 'Opening\u2026'
-                : step === 'signing_in' ? 'Signing in\u2026'
-                : 'Authorise \u20b999/week \u2192'}
+            {message && <p className="ap-err" role="alert">{message}</p>}
+            <button type="button" className="ds-btn ds-btn-solid ds-btn-lg ds-btn-block" onClick={start} disabled={step === 'opening' || step === 'signing_in'}>
+              {step === 'opening' ? 'Opening Razorpay…' : step === 'signing_in' ? 'Signing you in…' : `Authorise ${price} a week`}
             </button>
-            <p style={{ color: 'var(--text3)', fontSize: '0.72rem', lineHeight: 1.55,
-              margin: '10px 0 0' }}>
-              Razorpay notifies you before each debit. Cancelling stops future charges
-              and grants you access for the remaining days you&rsquo;ve already paid for.
-            </p>
-            <button onClick={onClose}
-              style={{ width: '100%', marginTop: 10, background: 'none', border: 'none',
-                color: 'var(--text3)', cursor: 'pointer', fontSize: '0.78rem' }}>
-              Maybe later
-            </button>
+            <p className="ap-fine">Razorpay tells you before each debit. If you stop it, you keep the days you’ve already paid for.</p>
+            <button type="button" className="ap-later" onClick={onClose}>Maybe later</button>
           </>
         )}
       </div>
@@ -305,3 +236,29 @@ export default function AutopaySheet({ onClose }: { onClose: () => void }) {
     document.body
   );
 }
+
+const AP_CSS = `
+.ap-overlay { z-index: 100000; }
+.ap { max-width: 420px; }
+.ap-price { display: flex; align-items: baseline; gap: 8px; margin-bottom: var(--space-4); }
+.ap-price strong { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.ap-price span { font-size: 0.95rem; color: var(--text3); }
+.ap-bill { margin: 0 0 var(--space-5); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.ap-bill div { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); padding: 11px var(--space-4); border-top: 1px solid var(--border); }
+.ap-bill div:first-child { border-top: none; }
+.ap-bill dt { font-size: 0.92rem; color: var(--text2); }
+.ap-bill dd { margin: 0; font-size: 0.92rem; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; text-align: right; }
+.ap-err { margin: 0 0 var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--danger-wash); color: var(--danger-text); font-size: 0.88rem; }
+.ap-fine { margin: var(--space-3) 0 0; font-size: 0.84rem; line-height: 1.5; color: var(--text3); }
+.ap-later { display: block; margin: var(--space-2) auto 0; padding: 6px 4px; background: none; border: none; color: var(--text2); font: inherit; font-size: 0.88rem; cursor: pointer; }
+.ap-later:hover { color: var(--accent-text); }
+.ap-done { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); text-align: center; padding: var(--space-2) 0; }
+.ap-done h2 { margin: var(--space-2) 0 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; }
+.ap-done p { margin: 0; font-size: 0.92rem; line-height: 1.55; color: var(--text2); }
+.ap-done p.ap-muted { color: var(--text3); font-size: 0.86rem; }
+.ap-done .ds-btn { margin-top: var(--space-3); }
+.ap-mark { width: 52px; height: 52px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--success-wash); color: var(--success-text); }
+.ap-spin { width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--border2); border-top-color: var(--accent); animation: ap-spin 0.7s linear infinite; }
+@keyframes ap-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .ap-spin { animation-duration: 2s; } }
+`;

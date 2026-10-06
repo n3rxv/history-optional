@@ -539,8 +539,8 @@ export default function TestPage() {
       <>
         <header className="ts-hero">
           <div className="ds-container">
-            <h1 className="ds-h1 ts-h1">Sit a practice paper</h1>
-            <p className="ds-lede ts-lede">Real past questions in the Mains format, against the clock. Write on paper, then mark yourself against the rubric, or have your answers checked.</p>
+            <h1 className="ds-h1 ts-h1">Attempt test papers</h1>
+            <p className="ds-lede ts-lede">Past Mains questions with a timer running. Write on paper the way you would in the hall, then mark it yourself or get it checked.</p>
           </div>
         </header>
         <div className="ds-container ts-grid">

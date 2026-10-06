@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact — History Optional",
+  title: { absolute: "Contact: History Optional" },
   description: "Get in touch with History Optional — feedback, suggestions or queries about the platform.",
   alternates: { canonical: "https://historyoptional.xyz/contact" },
   openGraph: {
-    title: "Contact — History Optional",
+    title: "Contact: History Optional",
     description: "Get in touch with History Optional — feedback, suggestions or queries about the platform.",
     url: "https://historyoptional.xyz/contact",
   },
   twitter: {
-    title: "Contact — History Optional",
+    title: "Contact: History Optional",
     description: "Get in touch with History Optional — feedback, suggestions or queries about the platform.",
   },
 };

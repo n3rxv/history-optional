@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { revalidatePath } from 'next/cache';
 import { isAdminAuthed } from '@/lib/admin-auth';
+import { cachePublic } from '@/lib/cacheHeaders';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,8 +16,9 @@ export async function GET() {
       .select('value')
       .eq('key', 'newspaper_cuttings')
       .maybeSingle();
-    if (error || !data) return NextResponse.json({ cuttings: [] });
-    return NextResponse.json({ cuttings: JSON.parse(data.value) });
+    // Cached at the edge: it changes only when the owner adds a cutting.
+    if (error || !data) return NextResponse.json({ cuttings: [] }, { headers: cachePublic(300) });
+    return NextResponse.json({ cuttings: JSON.parse(data.value) }, { headers: cachePublic(300) });
   } catch {
     return NextResponse.json({ cuttings: [] });
   }
@@ -31,6 +34,7 @@ export async function POST(req: NextRequest) {
       .upsert({ key: 'newspaper_cuttings', value: JSON.stringify(cuttings) }, { onConflict: 'key' });
 
     if (error) throw error;
+    revalidatePath('/current-affairs');
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error('Cuttings POST error:', e);

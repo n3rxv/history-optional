@@ -315,8 +315,8 @@ export default function Flashcards({ notes }: { notes: NoteMeta[] }) {
             </div>
             <p className="ds-lede fc-lede">
               {langHi
-                ? 'इतिहासकारों की बहसें, कारण और प्रभाव, तुलनाएँ और उद्धरण, Mains के लिए। हर कार्ड भूलने से ठीक पहले फिर आता है।'
-                : 'Historians’ arguments, causes and effects, comparisons and quotes, made for Mains. Each card comes back just before you would forget it.'}
+                ? 'उन बातों के छोटे कार्ड जो जल्दी भूल जाती हैं, जैसे किसने क्या तर्क दिया या कोई उद्धरण। हर कार्ड भूलने से ठीक पहले फिर आता है।'
+                : 'Short cards for the things that slip away, like who argued what or a quote you want to use. Each one comes back just before you’d forget it.'}
             </p>
             {/* Questions are free to read; this is about answers, and only
                 once there is an allowance to report. */}

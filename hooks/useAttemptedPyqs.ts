@@ -60,6 +60,7 @@ export function useAttemptedPyqs() {
   // Read after mount: localStorage does not exist during prerender, and
   // reading in useState would make the server and client markup disagree.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAttempted(load());
     setReady(true);
     const fn = (m: AttemptedMap) => setAttempted(m);
@@ -73,16 +74,16 @@ export function useAttemptedPyqs() {
     return () => { listeners.delete(fn); window.removeEventListener('storage', onStorage); };
   }, []);
 
+  // Worked out here rather than in a state updater: the broadcast sets state
+  // in every other component using this, which React forbids mid-render.
+  // This one hears the broadcast too.
   const toggle = useCallback((id: number) => {
-    setAttempted(prev => {
-      const next = { ...prev };
-      if (next[id] !== undefined) delete next[id];
-      else next[id] = new Date().toISOString();
-      save(next);
-      broadcast(next);
-      return next;
-    });
-  }, []);
+    const next = { ...attempted };
+    if (next[id] !== undefined) delete next[id];
+    else next[id] = new Date().toISOString();
+    save(next);
+    broadcast(next);
+  }, [attempted]);
 
   const clearAll = useCallback(() => {
     save({});

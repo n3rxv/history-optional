@@ -88,6 +88,8 @@ function Quiz({ pool, all, hi, format }: { pool: MapSite[]; all: MapSite[]; hi: 
   const [streak, setStreak] = useState(0);
   const [hideClue, setHideClue] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const quizRef = useRef<HTMLDivElement>(null);
+  const answerRef = useRef<HTMLDivElement>(null);
   const { site, options } = round;
   const answered = chosen !== null;
   const right = answered && (format === 'pick'
@@ -104,12 +106,19 @@ function Quiz({ pool, all, hi, format }: { pool: MapSite[]; all: MapSite[]; hi: 
   const next = () => {
     setRound(newRound(pool, all, site.name));
     setChosen(null); setTyped(''); setHideClue(false);
-    if (format === 'type') requestAnimationFrame(() => inputRef.current?.focus());
+    // Back up to the map if reading the answer took the reader below it.
+    const top = quizRef.current?.getBoundingClientRect().top ?? 0;
+    if (top < 64) window.scrollTo({ top: window.scrollY + top - 76, behavior: 'smooth' });
+    if (format === 'type') requestAnimationFrame(() => inputRef.current?.focus({ preventScroll: true }));
   };
+  // The verdict and the next button come into view once answered.
+  useEffect(() => {
+    if (answered) answerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [answered]);
   const accuracy = score.total ? Math.round((score.right / score.total) * 100) : 0;
 
   return (
-    <div className="mp-quiz">
+    <div className="mp-quiz" ref={quizRef}>
       <div className="mp-quiz-head">
         <span className="mp-quiz-prompt">{T('Which place is marked on the map?', 'मैप पर कौन-सा स्थल चिह्नित है?')}</span>
         <span className="mp-quiz-score">
@@ -119,7 +128,9 @@ function Quiz({ pool, all, hi, format }: { pool: MapSite[]; all: MapSite[]; hi: 
         </span>
       </div>
 
-      <MappingMap sites={[site]} selected={answered ? site.name : null} onPick={() => {}} outline fixed quiet />
+      <div className="mp-quiz-map">
+        <MappingMap sites={[site]} selected={answered ? site.name : null} onPick={() => {}} outline fixed quiet />
+      </div>
 
       {site.about && (
         <div className="mp-clue">
@@ -152,7 +163,7 @@ function Quiz({ pool, all, hi, format }: { pool: MapSite[]; all: MapSite[]; hi: 
       )}
 
       {answered && (
-        <div className={`mp-answer${right ? ' right' : ''}`}>
+        <div ref={answerRef} className={`mp-answer${right ? ' right' : ''}`}>
           <div className="mp-answer-top">
             <strong>{right ? T('Right', 'सही') : T('Not quite', 'सही नहीं')}: {site.label}</strong>
             <span>{site.place}</span>
@@ -267,7 +278,7 @@ const Switch = ({ on, onClick, children, tone }: { on: boolean; onClick: () => v
 );
 
 // ─── The page ───
-export default function MapBrowser({ chapters, total }: { chapters: MapChapter[]; total: number }) {
+export default function MapBrowser({ chapters }: { chapters: MapChapter[] }) {
   const { langHi: hi } = useLang();
   const T = (en: string, h: string) => (hi ? h : en);
   const lang = hi ? 'hi' : 'en';
@@ -363,7 +374,6 @@ export default function MapBrowser({ chapters, total }: { chapters: MapChapter[]
   }, [part, mode]);
 
   const partChapters = chapters.filter((c) => c.part === part && (!askedOnly || c.asked > 0));
-  const asked = chapters.reduce((n, c) => n + c.asked, 0);
 
   return (
     <div className="mp ds">
@@ -373,8 +383,8 @@ export default function MapBrowser({ chapters, total }: { chapters: MapChapter[]
           <h1 className="ds-h1 mp-h1">{T('Map practice', 'मैप अभ्यास')}</h1>
           <p className="ds-lede mp-lede">
             {hi
-              ? <>मैप सिलेबस के सभी {total} स्थल, {chapters.filter((c) => c.number > 0).length} अध्यायों में। जो {asked} स्थल UPSC पूछ चुका है वे <span className="mp-amber">पीले</span> हैं।</>
-              : <>All {total} places in the map syllabus, in {chapters.filter((c) => c.number > 0).length} chapters from the first fossils to the UNESCO sites. The {asked} that UPSC has already asked are marked in <span className="mp-amber">amber</span>.</>}
+              ? <>मैप सिलेबस का हर स्थल, अध्याय दर अध्याय। जो UPSC पूछ चुका है वे <span className="mp-amber">पीले</span> रंग में हैं, शुरुआत उन्हीं से करें।</>
+              : <>Every place on the map syllabus, chapter by chapter. The ones UPSC has already asked are in <span className="mp-amber">amber</span>, so start with those.</>}
           </p>
           <div className="mp-hero-row">
             <div className="mp-modes" role="tablist" aria-label={T('View', 'दृश्य')}>
@@ -573,13 +583,23 @@ const CSS = `
 .mp-type input.right { border-color: var(--success-text); }
 .mp-type input.wrong { border-color: var(--danger-text); }
 .mp-type .ds-btn { min-height: 48px; }
-.mp-answer { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); padding: var(--space-4) var(--space-5); border-radius: var(--radius-lg); background: var(--danger-wash); }
+.mp-answer { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); padding: var(--space-4) var(--space-5); border-radius: var(--radius-lg); background: var(--danger-wash); scroll-margin-bottom: 96px; }
 .mp-answer.right { background: var(--success-wash); }
 .mp-answer-top { align-self: stretch; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px var(--space-3); }
 .mp-answer-top span { font-size: 0.84rem; color: var(--text3); }
 .mp-answer p { margin: 0; line-height: 1.6; color: var(--text2); }
 .mp-answer p.mp-asked { font-size: 0.88rem; font-weight: 600; color: var(--warning-text); }
 .mp-answer .ds-btn { margin-top: var(--space-2); }
+/* On a wide screen the map takes the left and the question sits beside it. */
+@media (min-width: 1001px) {
+  .mp-quiz { --map-h: 560px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(340px, 1fr); grid-template-rows: auto auto auto auto 1fr; grid-template-areas: "map head" "map clue" "map pick" "map answer" "map ."; gap: var(--space-4) var(--space-6); align-items: start; max-width: none; }
+  .mp-quiz-map { grid-area: map; position: sticky; top: 84px; }
+  .mp-quiz-head { grid-area: head; flex-direction: column; align-items: flex-start; }
+  .mp-quiz-prompt { font-size: 1.3rem; }
+  .mp-clue { grid-area: clue; }
+  .mp-options, .mp-type { grid-area: pick; }
+  .mp-answer { grid-area: answer; }
+}
 
 @media (max-width: 900px) {
   .mp-split { grid-template-columns: minmax(0, 1fr); }

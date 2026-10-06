@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI History Assistant: UPSC History Optional",
+  title: { absolute: "AI History Assistant: UPSC History Optional" },
   description: "Ask any UPSC History Optional question and get structured, syllabus-aware answers with historian citations and relevant arguments for Mains.",
   alternates: { canonical: "/chat" },
   openGraph: {

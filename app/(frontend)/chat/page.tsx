@@ -574,9 +574,10 @@ function ChatContent() {
     if (!chatRestored) return;
     const url = new URL(window.location.href);
     if (hasConversation) {
-      if (url.searchParams.get(CHAT_PARAM) === chatId && !url.searchParams.has('q') && !url.searchParams.has('topic')) return;
+      if (url.searchParams.get(CHAT_PARAM) === chatId && !url.searchParams.has('q') && !url.searchParams.has('topic') && !url.searchParams.has('send')) return;
       url.searchParams.delete('q');
       url.searchParams.delete('topic');
+      url.searchParams.delete('send');
       url.searchParams.set(CHAT_PARAM, chatId);
     } else {
       if (!url.searchParams.has(CHAT_PARAM)) return;
@@ -808,6 +809,23 @@ function ChatContent() {
       setProgress(NO_PROGRESS);
     }
   };
+
+  // The home page's ask box sends its question on arrival (?send=1); other
+  // links only put theirs in the box, to be added to. Once, after the saved
+  // chats are read and the account is known. Signed out, the question waits
+  // in the box behind the sign-in prompt and goes once the reader signs in.
+  const autoSendRef = useRef(searchParams.get('send') === '1' && initialQ.trim() !== '');
+  const autoPromptedRef = useRef(false);
+  useEffect(() => {
+    if (!autoSendRef.current || !chatRestored || usageLoading) return;
+    if (!usage?.fingerprint) {
+      if (!autoPromptedRef.current) { autoPromptedRef.current = true; showLoginModal(); }
+      return;
+    }
+    autoSendRef.current = false;
+    void sendMessage(initialQ);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatRestored, usageLoading, usage?.fingerprint]);
 
   const getPrecedingQuestion = (idx: number): string | undefined => {
     for (let i = idx - 1; i >= 0; i--) if (thread[i].role === 'user') return thread[i].content;
@@ -1090,8 +1108,8 @@ function ChatContent() {
                         ? `आप ${topicNote.title} पढ़ रहे हैं। इस पर कुछ भी पूछें, या नीचे टैप करें और प्रश्न मैं लिख दूँगा।`
                         : `You're on ${topicNote.title}. Ask anything about it, or tap below and I'll write the question for you.`)
                     : (langHi
-                        ? 'पाठ्यक्रम से कुछ भी पूछें: कोई अवधारणा, तुलना, इतिहासकारों के मत, पिछले वर्ष का प्रश्न। या नीचे टैप करें और प्रश्न मैं लिख दूँगा।'
-                        : 'Ask anything from the syllabus: a concept, a comparison, what historians argue, a past question, or tap below and I’ll write it for you.')}
+                        ? 'पाठ्यक्रम से कुछ भी पूछें, जैसे किसी सीनियर से पूछते। या नीचे टैप करें और प्रश्न मैं लिख दूँगा।'
+                        : 'Ask anything from the syllabus, the way you’d ask a senior. Or tap below and I’ll write the question for you.')}
                 </p>
                 {flowOpen ? (
                   <StartFlow

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAdminAuthed } from '@/lib/admin-auth';
 import { createServerClient } from '@/lib/supabase';
+import { revalidatePath } from 'next/cache';
 import { cachePublic, noStore } from '@/lib/cacheHeaders';
 
 export async function GET(req: NextRequest) {
@@ -33,6 +34,9 @@ export async function POST(req: NextRequest) {
     .from('posts')
     .upsert({ ...post, updated_at: new Date().toISOString() }, { onConflict: 'id' });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  // The list and the post are rendered on the server; rebuild them now.
+  revalidatePath('/current-affairs');
+  revalidatePath(`/posts/${post.slug || post.id}`);
   return NextResponse.json({ ok: true });
 }
 
@@ -42,5 +46,7 @@ export async function DELETE(req: NextRequest) {
   const db = createServerClient();
   const { error } = await db.from('posts').delete().eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  revalidatePath('/current-affairs');
+  revalidatePath('/posts/[slug]', 'page');
   return NextResponse.json({ ok: true });
 }

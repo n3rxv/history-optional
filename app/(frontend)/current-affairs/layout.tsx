@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Current Affairs — The Dispatch | History Optional',
-  description: 'The Dispatch — current affairs and new-note updates curated for UPSC History Optional aspirants, with newspaper cuttings and analysis.',
+  title: { absolute: 'Current Affairs: History Optional' },
+  description: 'News that touches the UPSC History Optional syllabus, and what each piece means for the answers you write.',
   alternates: { canonical: 'https://historyoptional.xyz/current-affairs' },
   openGraph: {
-    title: 'Current Affairs — The Dispatch | History Optional',
-    description: 'The Dispatch — current affairs and new-note updates curated for UPSC History Optional aspirants, with newspaper cuttings and analysis.',
+    title: 'Current Affairs: History Optional',
+    description: 'News that touches the UPSC History Optional syllabus, and what each piece means for the answers you write.',
     url: 'https://historyoptional.xyz/current-affairs',
     type: 'website',
   },

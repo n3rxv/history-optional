@@ -1,18 +1,18 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import BackButton from '@/components/BackButton';
 
 const FEATURES = [
-  'AI Answer Evaluation',
-  'Handwriting Transcription',
-  'AI Chat Assistant',
-  'Notes & Historiography',
-  'PYQs & Timeline',
+  'Answer checking',
+  'Reading my handwriting',
+  'AI chat',
+  'Notes and historiography',
+  'PYQs and timeline',
   'Flashcards',
-  'Prelims Practice',
-  'Mapping Quiz',
-  'Map Evaluator',
+  'Prelims practice',
+  'Map quiz',
+  'Map answer checking',
 ];
+const MIN_WORDS = 10;
 
 export default function WeeklyCheckup() {
   const [visible, setVisible] = useState(false);
@@ -101,94 +101,82 @@ export default function WeeklyCheckup() {
   const toggle = (f: string) => setSelected(p => p.includes(f) ? p.filter(x => x !== f) : [...p, f]);
 
   if (!visible) return null;
+  const words = details.trim().split(/\s+/).filter(Boolean).length;
+  const canSend = selected.length > 0 && words >= MIN_WORDS && !submitting;
 
   return (
-    <div style={{
-      position:'fixed', inset:0, background:'rgba(0,0,0,0.7)', zIndex:9999,
-      display:'flex', alignItems:'center', justifyContent:'center', padding:'20px',
-    }}>
-      <div style={{
-        background:'var(--bg3)', border:'1px solid #222', borderRadius:12, padding:'32px',
-        maxWidth:480, width:'100%', position:'relative',
-      }}>
-        <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:24 }}>
-          <div style={{ width:6, height:6, borderRadius:'50%', background:'var(--accent)', boxShadow:'0 0 8px var(--accent)' }} />
-          <span style={{ fontFamily:'var(--font-mono)', fontSize:'0.55rem', letterSpacing:'0.2em', color:'var(--accent)', textTransform:'uppercase' }}>Weekly Web-Checkup</span>
-        </div>
-
+    <div className="ds ds-overlay wc-overlay">
+      <style dangerouslySetInnerHTML={{ __html: WC_CSS }} />
+      <div className="ds-modal wc" role="dialog" aria-modal="true" aria-labelledby="wc-title">
         {step === 'ask' && (<>
-          <p style={{ fontSize:'1rem', color:'var(--text)', fontFamily:'var(--font-body)', lineHeight:1.7, marginBottom:28 }}>
-            Is everything working fine for you this week?
-          </p>
-          <div style={{ display:'flex', gap:12 }}>
-            <button onClick={allGood} style={{
-              flex:1, padding:'12px', borderRadius:8, border:'1px solid color-mix(in srgb, var(--success-text) 30%, transparent)',
-              background:'var(--success-wash)', color:'var(--success-text)', cursor:'pointer',
-              fontFamily:'var(--font-mono)', fontSize:'0.65rem', letterSpacing:'0.1em',
-            }}>Yes, all good ✓</button>
-            <button onClick={() => setStep('issues')} style={{
-              flex:1, padding:'12px', borderRadius:8, border:'1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)',
-              background:'var(--danger-wash)', color:'var(--danger-text)', cursor:'pointer',
-              fontFamily:'var(--font-mono)', fontSize:'0.65rem', letterSpacing:'0.1em',
-            }}>Something's off</button>
+          <div className="ds-modal-head">
+            <div>
+              <h2 id="wc-title">Is everything working for you?</h2>
+              <p>We ask once a week. It helps us catch problems before they spread.</p>
+            </div>
+            <button type="button" className="ds-x" onClick={dismiss} aria-label="Ask me later">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+            </button>
           </div>
-          <button onClick={dismiss} style={{
-            marginTop:16, width:'100%', padding:'8px', background:'none', border:'none',
-            color:'#444', cursor:'pointer', fontFamily:'var(--font-mono)', fontSize:'0.55rem',
-            letterSpacing:'0.1em',
-          }}>remind me later</button>
+          <div className="wc-actions">
+            <button type="button" className="ds-btn ds-btn-solid" onClick={allGood}>Yes, all good</button>
+            <button type="button" className="ds-btn ds-btn-line" onClick={() => setStep('issues')}>Something’s not right</button>
+          </div>
+          <button type="button" className="wc-later" onClick={dismiss}>Ask me later</button>
         </>)}
 
         {step === 'issues' && (<>
-          <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16 }}>
-            <BackButton size="sm" onClick={() => { setStep('ask'); setSelected([]); setDetails(''); }}>Back</BackButton>
-            <p style={{ fontSize:'0.88rem', color:'#aaa', fontFamily:'var(--font-body)', margin:0 }}>
-              Which features have issues?
-            </p>
+          <div className="ds-modal-head">
+            <div>
+              <h2 id="wc-title">What’s not working?</h2>
+              <p>Pick the parts that gave you trouble, then tell us what happened.</p>
+            </div>
           </div>
-          <div style={{ display:'flex', flexDirection:'column', gap:8, marginBottom:20 }}>
+          <div className="wc-features" role="group" aria-label="Parts of the site">
             {FEATURES.map(f => (
-              <button key={f} onClick={() => toggle(f)} style={{
-                padding:'10px 14px', borderRadius:6, cursor:'pointer', textAlign:'left',
-                fontFamily:'var(--font-body)', fontSize:'0.88rem',
-                border: selected.includes(f) ? '1px solid color-mix(in srgb, var(--accent) 50%, transparent)' : '1px solid #222',
-                background: selected.includes(f) ? 'var(--accent-dim)' : 'transparent',
-                color: selected.includes(f) ? 'var(--accent)' : '#888',
-              }}>{f}</button>
+              <button key={f} type="button" aria-pressed={selected.includes(f)} className={`wc-feature${selected.includes(f) ? ' on' : ''}`} onClick={() => toggle(f)}>{f}</button>
             ))}
           </div>
-          <textarea
-            placeholder="Describe the issue (required, min 10 words)..."
-            value={details}
-            onChange={e => setDetails(e.target.value)}
-            rows={3}
-            style={{
-              width:'100%', background:'var(--bg3)', border:'1px solid #333', borderRadius:6,
-              color:'var(--text)', padding:'12px', fontFamily:'var(--font-body)', fontSize:'0.88rem',
-              lineHeight:1.6, resize:'vertical', outline:'none', marginBottom:16,
-              boxSizing:'border-box',
-            }}
-          />
-          <div style={{ fontSize:'0.65rem', fontFamily:'var(--font-mono)', color: details.trim().split(/\s+/).filter(Boolean).length >= 10 ? 'var(--success-text)' : '#555', marginTop:-10, marginBottom:12, textAlign:'right' }}>
-            {details.trim().split(/\s+/).filter(Boolean).length}/10 words minimum
+          <label className="wc-label" htmlFor="wc-details">What happened?</label>
+          <textarea id="wc-details" className="wc-text" placeholder="A few lines on what you saw and where." value={details} onChange={e => setDetails(e.target.value)} rows={4} />
+          <div className={`wc-count${words >= MIN_WORDS ? ' ok' : ''}`}>{words >= MIN_WORDS ? 'That’s enough to go on' : `${MIN_WORDS - words} more ${MIN_WORDS - words === 1 ? 'word' : 'words'} at least`}</div>
+          <div className="wc-actions">
+            <button type="button" className="ds-btn ds-btn-ghost" onClick={() => { setStep('ask'); setSelected([]); setDetails(''); }}>Back</button>
+            <button type="button" className="ds-btn ds-btn-solid" onClick={submitIssues} disabled={!canSend}>{submitting ? 'Sending…' : 'Send'}</button>
           </div>
-          <button onClick={submitIssues} disabled={submitting || selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10} style={{
-            width:'100%', padding:'12px', borderRadius:8, cursor: (selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10) ? 'not-allowed' : 'pointer',
-            border:'1px solid color-mix(in srgb, var(--accent) 30%, transparent)', background:'var(--accent-dim)',
-            color: (selected.length === 0 || details.trim().split(/\s+/).filter(Boolean).length < 10) ? '#444' : 'var(--accent)',
-            fontFamily:'var(--font-mono)', fontSize:'0.65rem', letterSpacing:'0.1em',
-          }}>{submitting ? 'Sending...' : 'Submit feedback'}</button>
         </>)}
 
         {step === 'done' && (
-          <div style={{ textAlign:'center', padding:'20px 0' }}>
-            <div style={{ fontSize:'2rem', marginBottom:12 }}>✓</div>
-            <p style={{ color:'var(--success-text)', fontFamily:'var(--font-mono)', fontSize:'0.7rem', letterSpacing:'0.15em' }}>
-              THANKS FOR THE CHECKUP
-            </p>
+          <div className="wc-done">
+            <span className="wc-mark" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+            </span>
+            <h2 id="wc-title">Thanks, that helps</h2>
           </div>
         )}
       </div>
     </div>
   );
 }
+
+const WC_CSS = `
+.wc-overlay { z-index: 9999; }
+.wc { max-width: 460px; }
+.wc-actions { display: flex; gap: var(--space-2); }
+.wc-actions .ds-btn { flex: 1; justify-content: center; }
+.wc-actions .ds-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.wc-later { display: block; margin: var(--space-3) auto 0; padding: 6px 4px; background: none; border: none; color: var(--text2); font: inherit; font-size: 0.88rem; cursor: pointer; }
+.wc-later:hover { color: var(--accent-text); }
+.wc-features { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
+.wc-feature { padding: 7px 14px; border: 1.5px solid var(--border2); border-radius: var(--radius-full); background: var(--ds-card); color: var(--text2); font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer; }
+.wc-feature:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.wc-feature.on { border-color: var(--accent); background: var(--accent-dim); color: var(--accent-text); }
+.wc-label { display: block; margin-bottom: 6px; font-size: 0.9rem; font-weight: 700; }
+.wc-text { width: 100%; box-sizing: border-box; padding: var(--space-3); border: 1.5px solid var(--border2); border-radius: var(--radius-lg); background: var(--ds-card); color: var(--text); font: inherit; font-size: 0.95rem; line-height: 1.55; resize: vertical; outline: none; }
+.wc-text:focus { border-color: color-mix(in srgb, var(--accent) 60%, transparent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.wc-count { margin: 6px 0 var(--space-4); font-size: 0.82rem; color: var(--text3); text-align: right; }
+.wc-count.ok { color: var(--success-text); }
+.wc-done { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-4) 0; text-align: center; }
+.wc-done h2 { margin: 0; font-size: 1.2rem; font-weight: 800; }
+.wc-mark { width: 52px; height: 52px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--success-wash); color: var(--success-text); }
+`;

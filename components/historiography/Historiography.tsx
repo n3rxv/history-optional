@@ -22,6 +22,23 @@ const PERIOD_KEY: Record<string, 'ancient' | 'medieval' | 'modern' | 'world'> = 
 const SCHOOLS = ['Marxist', 'Nationalist', 'Revisionist', 'Subaltern', 'Cambridge School', 'Colonial', 'Postcolonial', 'Feminist', 'Liberal', 'Islamic History', 'Social History', 'Economic History', 'Cultural History', 'Dalit', 'Archaeological'];
 const OWNER_EMAIL = process.env.NEXT_PUBLIC_OWNER_EMAIL;
 
+/**
+ * The schools of thought historiography courses teach, in the order they
+ * arose. The bank also tags some positions with a field or a stance
+ * (Revisionist, Social History, Liberal); those are not schools, so the side
+ * panel leaves them out.
+ */
+const SCHOOL_GUIDE: { name: string; hi: string; en: string; enHi: string; names: string }[] = [
+  { name: 'Colonial', hi: 'औपनिवेशिक', en: 'British officials and scholars, who often wrote India as unchanging until British rule.', enHi: 'ब्रिटिश अधिकारी और विद्वान, जो अक्सर भारत को ब्रिटिश शासन तक अपरिवर्तित बताते थे।', names: 'James Mill, V.A. Smith' },
+  { name: 'Nationalist', hi: 'राष्ट्रवादी', en: 'Answered the colonial accounts with India’s past achievements and the drain of wealth.', enHi: 'औपनिवेशिक विवरणों का उत्तर भारत की पुरानी उपलब्धियों और धन की निकासी से दिया।', names: 'R.C. Dutt, R.C. Majumdar' },
+  { name: 'Marxist', hi: 'मार्क्सवादी', en: 'Reads the past through class, production and material change.', enHi: 'अतीत को वर्ग, उत्पादन और भौतिक परिवर्तन के ज़रिए पढ़ता है।', names: 'D.D. Kosambi, R.S. Sharma, Irfan Habib' },
+  { name: 'Cambridge School', hi: 'कैम्ब्रिज स्कूल', en: 'Sees Indian nationalism as a contest among elites for power and patronage.', enHi: 'भारतीय राष्ट्रवाद को सत्ता और संरक्षण के लिए अभिजात वर्गों की होड़ मानता है।', names: 'Anil Seal, Judith Brown' },
+  { name: 'Subaltern', hi: 'सबाल्टर्न', en: 'History from below: peasants, tribals and workers acting for themselves.', enHi: 'नीचे से इतिहास: किसान, आदिवासी और मज़दूर अपने बल पर।', names: 'Ranajit Guha, Shahid Amin' },
+  { name: 'Postcolonial', hi: 'उत्तर-औपनिवेशिक', en: 'Asks how colonial knowledge shaped categories like caste and religion.', enHi: 'पूछता है कि औपनिवेशिक ज्ञान ने जाति और धर्म जैसी श्रेणियाँ कैसे गढ़ीं।', names: 'Edward Said, Nicholas Dirks' },
+  { name: 'Feminist', hi: 'नारीवादी', en: 'Brings women and gender, left out of older accounts, to the centre.', enHi: 'पुराने विवरणों से छूटी महिलाओं और जेंडर को केंद्र में लाता है।', names: 'Uma Chakravarti, Lata Mani' },
+  { name: 'Dalit', hi: 'दलित', en: 'Writes caste and its history from the side of those it held down.', enHi: 'जाति और उसके इतिहास को दबाए गए लोगों की ओर से लिखता है।', names: 'Jotirao Phule, B.R. Ambedkar' },
+];
+
 const BLANK_POSITION: Position = { historian_name: '', stance: '', key_work: '', argument: '', school: '' };
 const blank = (): DebateInput => ({ title: '', period: 'Ancient India', paper: 'Paper I', topics: [], type: 'debate', upsc_tip: '', positions: [{ ...BLANK_POSITION }] });
 
@@ -81,6 +98,7 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
   const [kind, setKind] = useState<'all' | 'debate' | 'topic'>('all');
   const [paper, setPaper] = useState<'all' | 'Paper I' | 'Paper II'>('all');
   const [period, setPeriod] = useState('all');
+  const [school, setSchool] = useState<string | null>(null);
   const [open, setOpen] = useState<string | null>(null);
 
   // The owner's tools appear for the owner's account; the server checks it
@@ -120,12 +138,16 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
       if (kind !== 'all' && d.type !== kind) return false;
       if (paper !== 'all' && d.paper !== paper) return false;
       if (period !== 'all' && d.period !== period) return false;
+      if (school && !d.positions.some((p) => p.school === school)) return false;
       if (!q) return true;
       return d.title.toLowerCase().includes(q) || d.topics.some((t) => t.toLowerCase().includes(q))
         || d.positions.some((p) => p.historian_name.toLowerCase().includes(q) || p.argument.toLowerCase().includes(q) || p.school.toLowerCase().includes(q));
     });
-  }, [debates, search, kind, paper, period]);
-  const historians = new Set(debates.flatMap((d) => d.positions.map((p) => p.historian_name))).size;
+  }, [debates, search, kind, paper, period, school]);
+  // The side panel: each school with the number of debates it has a voice in.
+  const schools = useMemo(() => SCHOOL_GUIDE
+    .map((g) => ({ ...g, n: debates.filter((d) => d.positions.some((p) => p.school === g.name)).length }))
+    .filter((g) => g.n > 0), [debates]);
 
   return (
     <div className="hg ds">
@@ -134,7 +156,7 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
         <div className="ds-container">
           <h1 className="ds-h1 hg-h1">{T('Historiography', 'इतिहास-लेखन')}</h1>
           <p className="ds-lede hg-lede">
-            {T(`${debates.length} debates and readings, with ${historians} historians on them: who argued what, in which book, from which school, and how to use it in an answer.`, `${debates.length} बहसें और पाठ, ${historians} इतिहासकारों के साथ: किसने क्या कहा, किस पुस्तक में, किस स्कूल से, और उत्तर में इसका उपयोग कैसे करें।`)}
+            {T('The big debates of the syllabus and who said what in them. Each one names the book to cite and how to use it in an answer.', 'पाठ्यक्रम की बड़ी बहसें और उनमें किसने क्या कहा। हर बहस में लिखा है कि कौन-सी पुस्तक उद्धृत करें और उत्तर में इसे कैसे लिखें।')}
           </p>
         </div>
       </header>
@@ -171,6 +193,7 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
           </section>
         )}
 
+        <div className="hg-layout">
         <div className="hg-list">
           {shown.map((d) => {
             const isOpen = open === d.id;
@@ -235,6 +258,29 @@ export default function Historiography({ initialDebates }: { initialDebates: Deb
             </div>
           )}
         </div>
+        {debates.length > 0 && (
+          <aside className="hg-aside" aria-label={T('Ways into the bank', 'बैंक में खोजने के रास्ते')}>
+            <div className="hg-side">
+              <div className="hg-side-head">
+                <h2>{T('Schools of thought', 'विचार-धाराएँ')}</h2>
+                {school && <button type="button" className="hg-clear" onClick={() => setSchool(null)}>{T('Show all', 'सभी दिखाएँ')}</button>}
+              </div>
+              <p className="hg-side-note">{T('Pick one to see the debates where it has a say.', 'किसी एक को चुनें और वे बहसें देखें जिनमें उसकी राय है।')}</p>
+              <ol className="hg-schools">
+                {schools.map((g) => (
+                  <li key={g.name}>
+                    <button type="button" aria-pressed={school === g.name} className={school === g.name ? 'on' : ''} onClick={() => setSchool(school === g.name ? null : g.name)}>
+                      <span className="hg-school-top"><strong>{hi ? g.hi : g.name}</strong><span>{T(`${g.n} ${g.n === 1 ? 'debate' : 'debates'}`, `${g.n} बहसें`)}</span></span>
+                      <span className="hg-school-names">{g.names}</span>
+                      {school === g.name && <span className="hg-school-about">{hi ? g.enHi : g.en}</span>}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </aside>
+        )}
+        </div>
       </div>
       <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
     </div>
@@ -258,7 +304,31 @@ const CSS = `
 .hg-select.set { border-color: color-mix(in srgb, var(--accent) 50%, transparent); background-color: var(--accent-dim); color: var(--accent-text); font-weight: 600; }
 .hg-count { margin-left: auto; font-size: 0.88rem; color: var(--text3); }
 
-.hg-list { display: flex; flex-direction: column; gap: var(--space-3); max-width: 920px; }
+.hg-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: var(--space-6); align-items: start; }
+.hg-list { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+.hg-aside { position: sticky; top: 84px; display: flex; flex-direction: column; gap: var(--space-3); max-height: calc(100vh - 104px); overflow-y: auto; scrollbar-width: none; }
+.hg-aside::-webkit-scrollbar { display: none; }
+.hg-side { padding: var(--space-4); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.hg-side h2 { margin: 0 0 var(--space-3); font-size: 0.95rem; font-weight: 800; }
+.hg-side-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
+.hg-side-head h2 { margin: 0; }
+.hg-side-note { margin: 4px 0 var(--space-3); font-size: 0.84rem; line-height: 1.45; color: var(--text3); }
+.hg-clear { padding: 0; border: none; background: none; font: inherit; font-size: 0.84rem; font-weight: 600; color: var(--accent-text); cursor: pointer; }
+/* Each school a row on a rail, in the order the schools arose. */
+.hg-schools { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; position: relative; }
+.hg-schools::before { content: ''; position: absolute; left: 4px; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: var(--border); }
+.hg-schools button { position: relative; width: 100%; display: flex; flex-direction: column; gap: 2px; padding: 7px 8px 7px 22px; border: none; border-radius: var(--radius-md); background: none; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
+.hg-schools button::before { content: ''; position: absolute; left: 0; top: 12px; width: 10px; height: 10px; border-radius: 50%; background: var(--ds-card); border: 2px solid var(--border2); box-sizing: border-box; }
+.hg-schools button:hover { background: var(--ds-soft); }
+.hg-schools button:hover::before { border-color: var(--accent); }
+.hg-schools button.on { background: var(--accent-dim); }
+.hg-schools button.on::before { background: var(--accent); border-color: var(--accent); }
+.hg-school-top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
+.hg-school-top strong { font-size: 0.9rem; font-weight: 700; }
+.hg-schools button.on .hg-school-top strong { color: var(--accent-text); }
+.hg-school-top span { flex-shrink: 0; font-size: 0.76rem; color: var(--text3); font-variant-numeric: tabular-nums; }
+.hg-school-about { margin-top: 4px; font-size: 0.82rem; line-height: 1.45; color: var(--text2); }
+.hg-school-names { font-size: 0.76rem; font-weight: 600; color: var(--text3); }
 .hg-card { background: var(--ds-card); border: 1px solid var(--border); border-left: 3px solid var(--t); border-radius: var(--radius-xl); }
 .hg-card.open { box-shadow: var(--elev-1); }
 .hg-head { width: 100%; display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-4) var(--space-5); border: none; border-radius: var(--radius-xl); background: none; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
@@ -308,6 +378,7 @@ const CSS = `
 .hg-form-err { margin: 0; color: var(--danger-text); font-size: 0.9rem; }
 .hg-form-actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
 
+@media (max-width: 1000px) { .hg-layout { grid-template-columns: minmax(0, 1fr); } .hg-aside { display: none; } }
 @media (max-width: 760px) { .hg-positions, .hg-form-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 640px) {
   .hg-filters { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: calc(-1 * var(--space-4)); padding-right: var(--space-4); }

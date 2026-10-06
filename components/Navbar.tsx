@@ -96,7 +96,7 @@ function PremiumModal({ onClose, noSubFound, isLoggedIn, onPaymentSuccess }: { o
         <div className="nb-up-why">
           <Image src="/mascot/owl-celebrate.svg" alt="" width={64} height={60} className="nb-up-owl" />
           <h2 id="nb-up-title">Go Premium</h2>
-          <p className="nb-up-lede">Notes and PYQs stay free. Premium is for the practice: your answers checked and the AI tutor, with no limits.</p>
+          <p className="nb-up-lede">Notes and PYQs stay free. Premium gets your answers checked and the AI tutor with no limits.</p>
           <ul className="nb-up-gains">
             {gains.map(g => (
               <li key={g.title}>
@@ -511,7 +511,7 @@ export default function Navbar() {
   const pyqItems: MenuItem[] = [
     { href: '/pyqs', label: langHi ? 'सभी PYQs' : 'All PYQs' },
     { href: '/topper-copies', label: langHi ? 'टॉपर कॉपियाँ' : 'Topper copies' },
-    { href: '/test', label: langHi ? 'टेस्ट सीरीज़' : 'Test series' },
+    { href: '/test', label: langHi ? 'टेस्ट पेपर' : 'Test papers' },
   ];
   const flatLinks: (MenuItem & { accent?: boolean })[] = [
     { href: '/evaluate', label: tr(t.evaluate, langHi) },
@@ -607,7 +607,7 @@ export default function Navbar() {
             {user ? (
               <>
                 {!subData && (
-                  <button className="ds-btn ds-btn-premium ds-btn-sm nb-upgrade" onClick={() => setShowPremiumModal(true)}>Upgrade</button>
+                  <button className="nb-premium" onClick={() => setShowPremiumModal(true)}><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 8.2 8 12l4-7 4 7 4.5-3.8L18.8 18H5.2L3.5 8.2Z" /><rect x="5.2" y="19.2" width="13.6" height="1.8" rx="0.9" /></svg>Upgrade</button>
                 )}
                 <div ref={accountRef} className="nb-account nb-wide">
                   <button className="nb-avatar" onClick={() => setUserMenuOpen(o => !o)} aria-label="Your account" aria-expanded={userMenuOpen} aria-haspopup="menu" title={user.email ?? undefined}>
@@ -640,7 +640,7 @@ export default function Navbar() {
                 </div>
               </>
             ) : (
-              <button className="ds-btn ds-btn-premium ds-btn-sm nb-upgrade" onClick={() => setShowPremiumModal(true)}>Premium</button>
+              <button className="nb-premium" onClick={() => setShowPremiumModal(true)}><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 8.2 8 12l4-7 4 7 4.5-3.8L18.8 18H5.2L3.5 8.2Z" /><rect x="5.2" y="19.2" width="13.6" height="1.8" rx="0.9" /></svg>Premium</button>
             )}
 
             <button className={`nb-icon nb-burger${open ? ' open' : ''}`} onClick={() => setOpen(o => !o)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
@@ -804,7 +804,13 @@ const NAV_CSS = `
 }
 .nb-lang span { min-width: 30px; height: 26px; padding: 0 8px; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-full); font-family: var(--font-ui); font-size: 0.76rem; font-weight: 700; color: var(--text3); }
 .nb-lang span.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
-.nb-upgrade { flex-shrink: 0; }
+/* The way to Premium: the gold of the plan itself, with a sheen that passes on hover. */
+.nb-premium { position: relative; isolation: isolate; overflow: hidden; flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 15px 0 12px; border: none; border-radius: var(--radius-full); background: var(--premium-fill); color: var(--premium-on); font: inherit; font-size: 0.88rem; font-weight: 800; letter-spacing: 0.01em; white-space: nowrap; cursor: pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.18), 0 3px 10px -3px color-mix(in srgb, var(--premium-text) 70%, transparent); }
+.nb-premium::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.5) 50%, transparent 65%); transform: translateX(-130%); }
+.nb-premium:hover::after { transform: translateX(130%); transition: transform 0.8s ease-out; }
+.nb-premium:focus-visible { outline: 2px solid var(--premium-text); outline-offset: 2px; }
+.nb-premium svg { flex-shrink: 0; margin-top: -1px; }
+@media (prefers-reduced-motion: reduce) { .nb-premium:hover::after { transition: none; transform: translateX(-130%); } }
 .nb-account { position: relative; }
 .nb-avatar { width: 38px; height: 38px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: var(--radius-circle); background: none; cursor: pointer; }
 .nb-avatar:focus-visible, .nb-icon:focus-visible, .nb-link:focus-visible, .nb-lang:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

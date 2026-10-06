@@ -27,10 +27,10 @@ export default function NotesIndex({ variant }: { variant: Variant }) {
     ? {
         back: { href: section.paper === 1 ? '/notes' : '/notes?paper=2', label: `Paper ${section.paper === 1 ? 'I' : 'II'}` },
         title: `${section.name} notes`,
-        lede: `${section.sub}: ${notes.filter((n) => n.section === section.name).length} topics, each with its historiography and the PYQs asked on it.`,
+        lede: `${section.sub}, in ${notes.filter((n) => n.section === section.name).length} topics. Read them in order, or jump to the one you need.`,
         icon: section.key,
       }
-    : { back: { href: '/', label: 'Home' }, title: 'Notes', lede: `All ${notes.length} topics of both papers, with the historiography built in: who argued what, and the evidence they argued from. Free with your account.`, icon: 'notes' as const };
+    : { back: { href: '/', label: 'Home' }, title: 'Notes', lede: `Every topic in both papers. The historians and their arguments are worked into each one, so you don't need a separate book for them.`, icon: 'notes' as const };
 
   const tint = section ? { ['--t' as string]: `var(--tint-${section.key})`, ['--w' as string]: `var(--wash-${section.key})` } : { ['--t' as string]: 'var(--accent-text)', ['--w' as string]: 'var(--accent-wash)' };
 

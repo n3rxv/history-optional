@@ -3,7 +3,7 @@ import { allNotes } from '@/lib/notes';
 import Flashcards from '@/components/flashcards/Flashcards';
 
 export const metadata: Metadata = {
-  title: 'Flashcards: UPSC History Optional',
+  title: { absolute: 'Flashcards: UPSC History Optional' },
   description: 'Spaced-repetition flashcards for UPSC History Optional Mains: historians’ arguments, causes and effects, comparisons and quotes, by syllabus topic.',
   alternates: { canonical: 'https://historyoptional.xyz/flashcards' },
 };

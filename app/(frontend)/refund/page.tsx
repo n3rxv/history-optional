@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Refund Policy — History Optional",
+  title: { absolute: "Refund Policy: History Optional" },
   description: "Refund Policy for historyoptional.xyz premium subscriptions.",
   alternates: { canonical: "https://historyoptional.xyz/refund" },
 };
