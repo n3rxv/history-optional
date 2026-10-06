@@ -19,12 +19,12 @@ import { SECTIONS, SectionIcon } from '@/components/notes/sections';
 // ISR cache 24 times a day.
 
 export const metadata: Metadata = {
-  title: { absolute: 'History Optional · Notes, PYQs and answer checking for UPSC' },
-  description: 'Notes for every topic in both papers, every History Optional PYQ since 1979, an AI tutor that reads the standard books, and answer checking for UPSC Mains.',
+  title: { absolute: 'History Optional · Notes, PYQs and AI-powered answer checking for UPSC' },
+  description: 'Notes for every topic in both papers, every History Optional PYQ since 1979, an AI tutor that reads the standard books, and AI-powered answer checking for UPSC Mains.',
   alternates: { canonical: 'https://historyoptional.xyz' },
   openGraph: {
-    title: 'History Optional · Notes, PYQs and answer checking for UPSC',
-    description: 'Notes for every topic in both papers, every History Optional PYQ since 1979, an AI tutor that reads the standard books, and answer checking for UPSC Mains.',
+    title: 'History Optional · Notes, PYQs and AI-powered answer checking for UPSC',
+    description: 'Notes for every topic in both papers, every History Optional PYQ since 1979, an AI tutor that reads the standard books, and AI-powered answer checking for UPSC Mains.',
     url: 'https://historyoptional.xyz',
     type: 'website',
   },
