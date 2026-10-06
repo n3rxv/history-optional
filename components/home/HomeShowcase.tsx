@@ -179,7 +179,7 @@ const TABS: Tab[] = [
 ];
 
 /** How long each tab shows before the next opens on its own. */
-const DWELL_MS = 10_000;
+const DWELL_MS = 60_000;
 
 export default function HomeShowcase() {
   const [active, setActive] = useState(0);
@@ -187,7 +187,7 @@ export default function HomeShowcase() {
   const rootRef = useRef<HTMLDivElement>(null);
   const t = TABS[active];
 
-  // The tabs move on by themselves every ten seconds. A line under the chosen
+  // The tabs move on by themselves every minute. A line under the chosen
   // tab fills over that time and its end opens the next, so the two cannot
   // drift. It holds while a mouse is over the showcase, while focus is in it,
   // and while it is off screen; reduced motion turns it off (see the CSS).
