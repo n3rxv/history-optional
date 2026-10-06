@@ -129,7 +129,8 @@ const mood = (pct: number, hi: boolean) =>
   : pct >= 0.5 ? (hi ? 'ठीक प्रयास, कुछ कमियाँ भरनी हैं।' : 'A decent attempt, with a few gaps to close.')
   : pct >= 0.3 ? (hi ? 'अभी कुछ दूरी है। नीचे की प्रतिक्रिया रास्ता दिखाती है।' : 'Some way to go. The feedback below shows where.')
   : (hi ? 'इस पर काफ़ी काम चाहिए। नीचे की प्रतिक्रिया से शुरू करें।' : 'This needs real work. Start with the feedback below.');
-const IDEAL_WORDS: Record<number, number> = { 10: 150, 15: 200, 20: 250 };
+/** About how long an answer of each size should run. The marked answer's own count is not shown: read off a photo, it was often wrong. */
+export const IDEAL_WORDS: Record<number, number> = { 10: 150, 15: 200, 20: 250 };
 
 function PartCard({ label, mark, part, model, modelLabel, hi }: { label: string; mark?: SectionMark; part?: Part; model?: string; modelLabel: string; hi: boolean }) {
   if (!part && !model) return null;
@@ -181,7 +182,6 @@ export default function Report({ data, tab, setTab, onAnother, onBack, chatHref,
 }) {
   const pct = data.marksOutOf ? data.marks / data.marksOutOf : 0;
   const ideal = IDEAL_WORDS[data.allotted];
-  const goodLength = data.wordCountRating === 'GOOD';
   return (
     <div className="ds-container ev-results">
       {onBack && (
@@ -201,11 +201,7 @@ export default function Report({ data, tab, setTab, onAnother, onBack, chatHref,
             <div className="ev-score-num" style={{ color: scoreTone(pct) }}>{data.marks}<span>/ {data.marksOutOf}</span></div>
             <div className="ev-score-pct">{mood(pct, hi)}</div>
             <div className="ev-score-bar"><span style={{ width: `${Math.min(100, pct * 100)}%`, background: scoreTone(pct) }} /></div>
-            {data.wordCount ? (
-              <div className={`ev-wc${goodLength ? ' good' : ''}`}>
-                {data.wordCount} {hi ? 'शब्द' : 'words'}{ideal ? (hi ? `, आदर्श लगभग ${ideal}` : `, about ${ideal} is ideal`) : ''}
-              </div>
-            ) : null}
+            {ideal ? <div className="ev-wc">{hi ? `आदर्श लंबाई: लगभग ${ideal} शब्द` : `Ideal length: about ${ideal} words`}</div> : null}
             {data.sectionMarks && (
               <div className="ev-sections">
                 {(['introduction', 'body', 'conclusion', 'presentation'] as const).map((k) => {
@@ -344,8 +340,7 @@ export const REPORT_CSS = `
 .ev-score-pct { margin-top: var(--space-2); font-size: 0.95rem; line-height: 1.45; color: var(--text2); }
 .ev-score-bar, .ev-sec-bar { height: 6px; margin-top: var(--space-3); border-radius: var(--radius-full); background: var(--ds-soft); overflow: hidden; }
 .ev-score-bar span, .ev-sec-bar span { display: block; height: 100%; border-radius: inherit; transition: width 0.8s ease; }
-.ev-wc { display: inline-block; margin-top: var(--space-3); padding: 3px 12px; border-radius: var(--radius-full); background: var(--warning-wash); color: var(--warning-text); font-size: 0.86rem; font-weight: 600; }
-.ev-wc.good { background: var(--success-wash); color: var(--success-text); }
+.ev-wc { display: inline-block; margin-top: var(--space-3); padding: 3px 12px; border-radius: var(--radius-full); background: var(--ds-soft); color: var(--text2); font-size: 0.86rem; font-weight: 600; }
 .ev-sections { display: flex; flex-direction: column; gap: var(--space-4); margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--border); }
 .ev-sec-top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
 .ev-sec-name { font-weight: 700; text-transform: capitalize; }

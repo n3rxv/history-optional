@@ -9,7 +9,7 @@ import PDFTestEvaluator from '@/components/PDFTestEvaluator';
 import MapEvaluator from '@/components/MapEvaluator';
 import EvalProgress, { ReadProgress, applyEvalStage, applyReadStage, type EvalStages, type ReadStages } from '@/components/EvalProgress';
 import { readProgress } from '@/lib/progressStream';
-import Report, { REPORT_CSS, fromEntry, fromEvaluation, scoreTone, type Evaluation } from '@/components/evaluate/Report';
+import Report, { REPORT_CSS, IDEAL_WORDS, fromEntry, fromEvaluation, scoreTone, type Evaluation } from '@/components/evaluate/Report';
 
 /**
  * Get an answer marked. One answer goes through three steps: upload the
@@ -58,7 +58,6 @@ async function pdfToImages(file: File): Promise<File[]> {
   return images;
 }
 
-const countWords = (t: string) => (t.trim() ? t.trim().split(/\s+/).length : 0);
 
 const UploadIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5" /><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" /></svg>;
 const PdfIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /></svg>;
@@ -319,7 +318,7 @@ export default function EvaluatePage() {
               </label>
               <div className="ev-field"><span className="ev-label">{hi ? 'अंक' : 'Marks'}</span>{marksPicker}</div>
               <label className="ev-field">
-                <span className="ev-label-row"><span className="ev-label">{hi ? 'आपका उत्तर' : 'Your answer'}</span><span className="ev-count">{countWords(extractedText)} {hi ? 'शब्द' : 'words'}</span></span>
+                <span className="ev-label-row"><span className="ev-label">{hi ? 'आपका उत्तर' : 'Your answer'}</span><span className="ev-count">{hi ? `लगभग ${IDEAL_WORDS[marks]} शब्द आदर्श हैं` : `About ${IDEAL_WORDS[marks]} words is ideal`}</span></span>
                 <textarea className="ev-input ev-tall" value={extractedText.replace(/--- PAGE BREAK ---/g, ' ')} onChange={(e) => setExtractedText(e.target.value)} />
               </label>
               <div className="ev-actions">
