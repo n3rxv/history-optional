@@ -234,6 +234,26 @@ export default function EvaluatePage() {
     },
   );
 
+  // A question opened from the PYQs arrives as ?question=&marks=, so the
+  // reader starts writing instead of copying it across. It starts a fresh
+  // answer, over whatever this tab had open before, and leaves the address so
+  // a refresh later does not wipe what they have done since.
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const q = p.get('question');
+    if (!q) return;
+    setEvalMode('single');
+    setStage('form');
+    setEvaluation(null);
+    setExtractedText('');
+    setQuestion(q.slice(0, 2000));
+    const m = Number(p.get('marks'));
+    if (m) setMarks(m <= 10 ? 10 : m <= 15 ? 15 : 20);
+    p.delete('question');
+    p.delete('marks');
+    window.history.replaceState(window.history.state, '', `${window.location.pathname}${p.size ? `?${p}` : ''}`);
+  }, []);
+
 const handleOcr = useCallback(async () => {
     if (!files || files.length === 0) { setError("Please upload at least one file."); return; }
     const hasPdf = files.some(f => f.type === 'application/pdf');

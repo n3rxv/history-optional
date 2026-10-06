@@ -32,14 +32,15 @@ export function sectionByName(name: string): SectionMeta | undefined {
 
 const s = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
 
-/** A stupa, a dome and arch, a flag, a globe. */
-export function SectionIcon({ id, size = 22 }: { id: SectionKey | 'notes'; size?: number }) {
+/** A stupa, a dome and arch, a flag, a globe; a book for the notes, a question paper for the PYQs. */
+export function SectionIcon({ id, size = 22 }: { id: SectionKey | 'notes' | 'pyqs'; size?: number }) {
   const p = { width: size, height: size, viewBox: '0 0 24 24', ...s, 'aria-hidden': true };
   switch (id) {
     case 'ancient': return <svg {...p}><path d="M4 20h16M6 20v-3h12v3M7 17a5 5 0 0 1 10 0M12 7v5M10 7h4M12 4v3" /></svg>;
     case 'medieval': return <svg {...p}><path d="M4 20h16M6 20V11a6 6 0 0 1 12 0v9M10 20v-5a2 2 0 0 1 4 0v5M12 3v2" /></svg>;
     case 'modern': return <svg {...p}><path d="M6 21V4M6 5h11l-2 3.5L17 12H6" /></svg>;
     case 'world': return <svg {...p}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>;
+    case 'pyqs': return <svg {...p}><path d="M6 3h9l4 4v14H6z" /><path d="M14 3v5h5" /><path d="M10.2 11.2a2.3 2.3 0 1 1 3.1 2.2c-.7.3-1.1.8-1.1 1.5v.3M12.2 18h.01" /></svg>;
     default: return <svg {...p}><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6.5A2.5 2.5 0 0 0 4 21.5" /><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H19M9 7h6M9 11h6" /></svg>;
   }
 }

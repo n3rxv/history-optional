@@ -55,61 +55,28 @@ export default function TopperLocked({ onUnlocked, onDismiss, message }: Props) 
   };
 
   return (
-    <div style={{
-      background: 'var(--bg)',
-      border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
-      borderRadius: 'var(--radius-xl)', padding: 'var(--space-10) var(--space-8)', maxWidth: 420, width: '100%',
-      textAlign: 'center', margin: '0 auto',
-      boxShadow: '0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent), 0 24px 60px color-mix(in srgb, var(--text) 18%, transparent)',
-    }}>
-      <div style={{
-        width: 56, height: 56, borderRadius: 'var(--radius-circle)',
-        background: 'var(--accent-dim)',
-        border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '1.5rem', margin: '0 auto var(--space-5)',
-      }}>📋</div>
-      <h3 style={{
-        color: 'var(--text)', fontFamily: 'var(--font-display)',
-        fontSize: '1.25rem', fontWeight: 700, marginBottom: 'var(--space-2)',
-      }}>Topper Copies are Locked</h3>
-      <p style={{ color: 'var(--text3)', fontSize: '0.875rem', marginBottom: 'var(--space-3)', lineHeight: 1.65 }}>
-        {message ?? 'Get unlimited access to all topper copies'}
-      </p>
-      <div style={{
-        background: 'var(--accent-dim)',
-        border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
-        borderRadius: 'var(--radius-lg)', padding: 'var(--space-3) var(--space-5)',
-        marginBottom: 'var(--space-6)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-2)',
-      }}>
-        <span style={{ color: 'var(--accent)', fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>₹799</span>
-        <span style={{ color: 'var(--text3)', fontSize: '0.8rem' }}>/year · one-time unlock</span>
-      </div>
-      <button
-        onClick={unlock}
-        style={{
-          background: 'var(--accent)', border: 'none',
-          color: 'var(--accent-on)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-3) var(--space-8)',
-          fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
-          fontFamily: 'var(--font-mono)', width: '100%',
-          boxShadow: '0 4px 20px color-mix(in srgb, var(--accent) 35%, transparent)',
-        }}
-      >
-        🔓 Unlock for ₹799/year
-      </button>
-      {onDismiss && (
-        <button
-          onClick={onDismiss}
-          style={{
-            marginTop: 'var(--space-2)', background: 'none', border: 'none',
-            color: 'var(--text3)', fontSize: '0.78rem', cursor: 'pointer',
-          }}
-        >
-          Maybe later
-        </button>
-      )}
+    <div className="tl ds">
+      <style>{TL_CSS}</style>
+      <span className="tl-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+      </span>
+      <h3 className="tl-title">Topper copies are locked</h3>
+      <p className="tl-text">{message ?? 'One payment opens every topper copy for a year, and the side-by-side comparisons.'}</p>
+      <div className="tl-price"><strong>₹799</strong><span>for a year, paid once</span></div>
+      <button type="button" className="ds-btn ds-btn-solid ds-btn-block" onClick={unlock}>Unlock for ₹799</button>
+      {onDismiss && <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm tl-later" onClick={onDismiss}>Maybe later</button>}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
     </div>
   );
 }
+
+const TL_CSS = `
+.tl { width: 100%; max-width: 420px; margin: 0 auto; padding: var(--space-8) var(--space-6); text-align: center; background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-xl); box-shadow: var(--elev-3); }
+.tl-icon { width: 52px; height: 52px; margin: 0 auto var(--space-4); display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--premium-wash); color: var(--premium-text); }
+.tl-title { margin: 0 0 var(--space-2); font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; }
+.tl-text { margin: 0 0 var(--space-4); font-size: 0.92rem; line-height: 1.55; color: var(--text2); }
+.tl-price { display: flex; align-items: baseline; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-5); padding: var(--space-3); border-radius: var(--radius-lg); background: var(--ds-soft); }
+.tl-price strong { font-size: 1.5rem; font-weight: 800; color: var(--text); }
+.tl-price span { font-size: 0.86rem; color: var(--text3); }
+.tl-later { margin-top: var(--space-2); }
+`;

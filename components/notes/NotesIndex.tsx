@@ -80,11 +80,6 @@ const NOTES_INDEX_CSS = `
 .ni-hero-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-6); }
 .ni-hero-main { min-width: 0; }
 .ni-hero-side { flex-shrink: 0; padding-bottom: var(--space-1); }
-.sr { --sr-track: color-mix(in srgb, var(--text) 9%, transparent); display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-5) var(--space-3) var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-full); background: var(--ds-card); box-shadow: var(--elev-1); }
-.sr-pct { font-family: var(--font-ui); font-size: 15px; font-weight: 800; fill: var(--text); }
-.sr-text { display: flex; flex-direction: column; gap: 1px; white-space: nowrap; }
-.sr-text strong { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.015em; }
-.sr-text span { font-family: var(--font-ui); font-size: 0.82rem; color: var(--text3); }
 .ni-siblings { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
 .ni-siblings a { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-full); background: var(--ds-card); color: var(--text2); font-size: 0.86rem; text-decoration: none; transition: border-color 0.15s, color 0.15s; }
 .ni-siblings a:hover { border-color: var(--st); color: var(--text); }

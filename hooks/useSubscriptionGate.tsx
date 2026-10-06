@@ -38,7 +38,7 @@ function LimitModal({
     : 'Unlimited chats and evaluations, Mentor mode, Chat with books and PDFs.';
 
   return (
-    <div className="lim-scrim" onClick={onClose}>
+    <div className="lim-scrim ds" onClick={onClose}>
       <style>{LIM_CSS}</style>
       <div className="lim" role="dialog" aria-modal="true" aria-labelledby="lim-title" onClick={e => e.stopPropagation()}>
         <button className="lim-close" onClick={onClose} aria-label={langHi ? 'बंद करें' : 'Close'}>
@@ -71,7 +71,7 @@ const LIM_CSS = `
 .lim {
   position: relative; width: 100%; max-width: 440px; margin: auto;
   padding: var(--space-6); font-family: var(--font-body);
-  background: var(--bg-raised); border: 1px solid var(--border2); border-radius: var(--radius-xl);
+  background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-xl);
   box-shadow: var(--elev-3);
 }
 .lim-close {
@@ -82,7 +82,7 @@ const LIM_CSS = `
 .lim-close:hover { color: var(--text); background: var(--bg2); }
 .lim-head { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-5); padding-right: var(--space-6); }
 .lim-owl { height: auto; flex-shrink: 0; }
-.lim-head h2 { font-family: var(--font-body); font-size: 1.15rem; font-weight: 700; line-height: 1.3; color: var(--text); margin: 0 0 var(--space-1); }
+.lim-head h2 { font-family: var(--font-ui); font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; color: var(--text); margin: 0 0 var(--space-1); }
 .lim-head p { font-size: 0.85rem; line-height: 1.55; color: var(--text2); margin: 0; }
 @media (max-width: 480px) {
   .lim { padding: var(--space-5) var(--space-4); }
