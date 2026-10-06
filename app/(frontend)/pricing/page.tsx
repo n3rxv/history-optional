@@ -3,15 +3,15 @@ import PricingClient from '@/components/PricingClient';
 import { PLANS, PLAN_ORDER, planPriceLabel } from '@/lib/plans';
 
 export const metadata: Metadata = {
-  title: 'Pricing — History Optional',
+  title: 'Pricing: History Optional',
   description:
     'Notes, PYQs and the timeline are free. Premium removes the limits on answer evaluation, ' +
-    'model answers, map checking and AI chat. ' +
-    `${planPriceLabel('daily')} a day, ${planPriceLabel('sixmonths')} for six months, ` +
-    `${planPriceLabel('yearly')} a year. One-time payment, no auto-renewal.`,
+    'model answers and AI chat. ' +
+    `${planPriceLabel('yearly')} a year or ${planPriceLabel('sixmonths')} for six months, paid once; ` +
+    `${planPriceLabel('weekly')} a week, renewing until stopped; or ${planPriceLabel('daily')} for a day.`,
   alternates: { canonical: 'https://historyoptional.xyz/pricing' },
   openGraph: {
-    title: 'Pricing — History Optional',
+    title: 'Pricing: History Optional',
     description: `UPSC History Optional. Free notes and PYQs. Premium from ${planPriceLabel('daily')}.`,
     url: 'https://historyoptional.xyz/pricing',
     type: 'website',

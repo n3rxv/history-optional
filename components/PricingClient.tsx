@@ -1,123 +1,118 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { createPortal } from 'react-dom';
 import { auth, signInWithGoogle } from '@/lib/firebase';
-import { useLang } from '@/lib/i18n/LangContext';
 import { SubscribeCard } from '@/components/SubscribeCard';
 import AutopaySheet from '@/components/AutopaySheet';
+import Mascot from '@/components/Mascot';
 import { FEATURES, ONE_OFF } from '@/lib/features';
-import { daysToMains } from '@/lib/examDates';
-import {
-  PLANS, PLAN_ORDER, PLAN_DURATION,
-  planPriceLabel, planValueLine, AUTOPAY_PLAN, type PlanId,
-} from '@/lib/plans';
-
-const GOLD = 'var(--warning-text)';
+import { daysToMains, NEXT_MAINS } from '@/lib/examDates';
+import { PLANS, PLAN_DURATION, planPriceLabel, type PlanId } from '@/lib/plans';
 
 /**
- * Every price on this page is formatted from lib/plans.ts, which is the same
- * table /api/razorpay/order bills from. Nothing here is typed by hand.
+ * The plans, grouped by what each is for, as in the Go Premium panel: the
+ * whole preparation paid once, week by week on a mandate, and a single day to
+ * try it. Every price is formatted from lib/plans.ts, the table the order
+ * routes bill from, and every free allowance from lib/features.ts, which the
+ * gates read. Nothing here is typed by hand.
  */
+
+type Status = { isPremium: boolean; plan?: string; expires_at?: string; autoRenew?: boolean; canResubscribe?: boolean };
+
+const rupees = (id: PlanId) => PLANS[id].amountPaise / 100;
+const PER: Record<PlanId, string> = {
+  yearly: `about ₹${Math.round(rupees('yearly') / 12)} a month`,
+  sixmonths: `about ₹${Math.round(rupees('sixmonths') / 6)} a month`,
+  weekly: `about ₹${Math.round(rupees('weekly') / 7)} a day`,
+  daily: 'for 24 hours',
+};
+const BLURB: Record<PlanId, string> = {
+  yearly: 'A full year: enough for the whole run to Mains, with time to revise.',
+  sixmonths: 'One focused run up to Mains.',
+  weekly: 'Steady practice without paying for a year up front. Stop it any time and keep the days already paid for.',
+  daily: 'Everything open for a day: for a test day, or to see the marking properly before a longer plan.',
+};
+const CTA: Record<PlanId, string> = { yearly: 'Get a year', sixmonths: 'Get 6 months', weekly: 'Subscribe weekly', daily: 'Get a day' };
+const EXTEND: Record<PlanId, string> = { yearly: 'Extend by a year', sixmonths: 'Extend by 6 months', weekly: '', daily: 'Extend by a day' };
+
+const Check = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-label="Included"><path d="M20 6 9 17l-5-5" /></svg>;
+const Arrow = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>;
+const cell = (v: string) => (v === '✓' ? <Check /> : v === '—' ? <span className="pr-none" aria-label="Not included">-</span> : v);
+const fmtLong = (iso: string) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+const noop = () => () => {};
+
 export default function PricingClient() {
-  const { langHi } = useLang();
   const [fingerprint, setFingerprint] = useState<string | null>(null);
   const [checkoutPlan, setCheckoutPlan] = useState<PlanId | null>(null);
-  // Topper copies are the one thing on this page that can be bought outright,
-  // so the card needs to know whether this reader already has them. Premium
-  // includes them, hence the endpoint reports both routes to access.
+  const [autopayOpen, setAutopayOpen] = useState(false);
+  const [status, setStatus] = useState<Status | null>(null);
+  const [signedIn, setSignedIn] = useState(false);
+  // Topper copies can be bought outright, so the card needs to know whether
+  // this reader has them already; Premium includes them.
   const [topperOwned, setTopperOwned] = useState<boolean | null>(null);
   const [topperBusy, setTopperBusy] = useState(false);
-  const [autopayOpen, setAutopayOpen] = useState(false);
-  const [status, setStatus] = useState<{ isPremium: boolean; plan?: string; expires_at?: string; autoRenew?: boolean; canResubscribe?: boolean } | null>(null);
-  // Computed after mount: rendering Date.now() on the server and again on the
-  // client is a hydration mismatch waiting for midnight.
-  const [days, setDays] = useState<number | null>(null);
-  useEffect(() => { setDays(daysToMains()); }, []);
-
+  // Read in the browser only: a count of days rendered on the server would
+  // disagree with the client's after midnight.
+  const days = useSyncExternalStore(noop, () => daysToMains(), () => null);
 
   useEffect(() => {
     (async () => {
       try {
         const FP = await (await import('@fingerprintjs/fingerprintjs')).default.load();
         setFingerprint((await FP.get()).visitorId);
-      } catch { /* fingerprint is optional; checkout works without it */ }
+      } catch { /* optional; checkout works without it */ }
     })();
   }, []);
 
-  // Someone who is already subscribed should not be sold to. Show them what
-  // they have instead of three buy buttons.
-  useEffect(() => {
-    const unsub = auth.onAuthStateChanged(async user => {
-      if (!user) { setStatus({ isPremium: false }); return; }
-      try {
-        const token = await user.getIdToken();
-        const res = await fetch('/api/sub-status', { headers: { 'x-user-token': token } });
-        setStatus(await res.json());
-      } catch { setStatus({ isPremium: false }); }
-    });
-    return () => unsub();
-  }, []);
-
-  /** A live weekly mandate. Not the same as premium: someone who paid once
-   *  outright has no mandate, and extending that is perfectly sensible. */
-  useEffect(() => {
-    if (!document.getElementById('rzp-script')) {
-      const s = document.createElement('script');
-      s.id = 'rzp-script';
-      s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      document.head.appendChild(s);
-    }
-  }, []);
+  // A subscriber is shown what they have, not three buy buttons.
+  useEffect(() => auth.onAuthStateChanged(async (user) => {
+    setSignedIn(Boolean(user));
+    if (!user) { setStatus({ isPremium: false }); setTopperOwned(false); return; }
+    try {
+      const token = await user.getIdToken();
+      const [sub, topper] = await Promise.all([
+        fetch('/api/sub-status', { headers: { 'x-user-token': token } }).then((r) => r.json()),
+        fetch('/api/topper-access', { headers: { 'x-user-token': token } }).then((r) => r.json()).catch(() => null),
+      ]);
+      setStatus(sub);
+      setTopperOwned(Boolean(topper?.isPremium || topper?.hasTopperAccess));
+    } catch { setStatus({ isPremium: false }); setTopperOwned(false); }
+  }), []);
 
   useEffect(() => {
-    const unsub = auth.onAuthStateChanged(async user => {
-      if (!user) { setTopperOwned(false); return; }
-      try {
-        const token = await user.getIdToken();
-        const res = await fetch('/api/topper-access', { headers: { 'x-user-token': token } });
-        const d = await res.json();
-        setTopperOwned(Boolean(d.isPremium || d.hasTopperAccess));
-      } catch { setTopperOwned(false); }
-    });
-    return () => unsub();
+    if (document.getElementById('rzp-script')) return;
+    const s = document.createElement('script');
+    s.id = 'rzp-script';
+    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    document.head.appendChild(s);
   }, []);
 
-  /**
-   * The same order-then-verify pair the PYQ paywall uses, so there is one
-   * purchase path for topper copies rather than a second one that could drift.
-   */
+  /** The same order-then-verify pair the PYQ paywall uses, so topper copies have one purchase path. */
   const buyTopper = async () => {
     const user = auth.currentUser;
     if (!user) { await signInWithGoogle(); return; }
-    if (!(window as { Razorpay?: unknown }).Razorpay) {
-      alert('Payment is still loading. Give it a moment and try again.');
-      return;
-    }
+    const RZP = (window as unknown as { Razorpay?: new (o: unknown) => { open: () => void } }).Razorpay;
+    if (!RZP) { alert('Payment is still loading. Give it a moment and try again.'); return; }
     setTopperBusy(true);
     try {
       const token = await user.getIdToken();
-      const res = await fetch('/api/razorpay/topper-order', {
-        method: 'POST', headers: { 'x-user-token': token },
-      });
+      const res = await fetch('/api/razorpay/topper-order', { method: 'POST', headers: { 'x-user-token': token } });
       const order = await res.json();
       if (!res.ok) { alert(order.error || 'Could not start the payment.'); setTopperBusy(false); return; }
-
-      const RZP = (window as unknown as { Razorpay: new (o: unknown) => { open: () => void } }).Razorpay;
       new RZP({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
         order_id: order.orderId,
         name: 'History Optional',
-        description: 'Topper Copies Access \u2014 1 Year',
+        description: 'Topper copies, one year',
+        theme: { color: '#4c6ae2' },
         handler: async (response: unknown) => {
           const v = await fetch('/api/razorpay/topper-verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'x-user-token': token },
-            body: JSON.stringify(response),
-          }).then(r => r.json()).catch(() => null);
+            method: 'POST', headers: { 'Content-Type': 'application/json', 'x-user-token': token }, body: JSON.stringify(response),
+          }).then((r) => r.json()).catch(() => null);
           if (v?.ok) setTopperOwned(true);
           setTopperBusy(false);
         },
@@ -129,405 +124,181 @@ export default function PricingClient() {
     }
   };
 
-  const onAutopay = !!status?.autoRenew;
+  const cancelRenewal = async () => {
+    if (!auth.currentUser) return;
+    if (!window.confirm('Stop the weekly renewal? You keep access for the days you’ve already paid for.')) return;
+    const token = await auth.currentUser.getIdToken();
+    const res = await fetch('/api/razorpay/subscription/cancel', { method: 'POST', headers: { 'x-user-token': token } });
+    if (res.ok) setStatus((s) => (s ? { ...s, autoRenew: false, canResubscribe: true } : s));
+  };
 
-  /** Cancelled the weekly and still inside the days they paid for. Premium,
-   *  but with no mandate, so starting a new one is allowed. */
-  const canResubscribe = !!status?.canResubscribe;
+  const premium = Boolean(status?.isPremium);
+  const onAutopay = Boolean(status?.autoRenew);
+  // Cancelled the weekly and still inside the paid days: Premium, but with no
+  // mandate, so starting a new one is allowed.
+  const canResubscribe = Boolean(status?.canResubscribe);
+  const free = (name: string) => FEATURES.find((f) => f.name === name)?.free.replace(' total', '') ?? '';
+  /** The number alone ("5" from "5 copies"), for sentences that name the thing themselves. */
+  const count = (name: string) => free(name).match(/\d+/)?.[0] ?? free(name);
+
+  /** A one-time plan's button. A purchase on top of a live mandate would push the end date out while the weekly kept debiting; the order route refuses it too. */
+  const oneTime = (id: PlanId, solid: boolean) => (
+    <button type="button" className={`ds-btn ${solid ? 'ds-btn-solid' : 'ds-btn-line'} pr-buy`} disabled={onAutopay} onClick={() => setCheckoutPlan(id)}>
+      {onAutopay ? 'You’re on the weekly plan' : premium ? EXTEND[id] : CTA[id]}
+    </button>
+  );
+  const plan = (id: PlanId, opts: { featured?: boolean; unit?: string } = {}) => (
+    <article className={`pr-plan${opts.featured ? ' featured' : ''}`}>
+      <div className="pr-plan-top">
+        <h3 className="pr-plan-name">{id === 'yearly' ? 'A year' : id === 'sixmonths' ? '6 months' : id === 'weekly' ? 'Weekly' : 'A day'}</h3>
+        {opts.featured && <span className="pr-tag">Most chosen</span>}
+      </div>
+      <div className="pr-price"><span className="pr-rs">₹</span>{rupees(id).toLocaleString('en-IN')}<span className="pr-unit">{opts.unit ?? ''}</span></div>
+      <div className="pr-period">{PER[id]}</div>
+      <p className="pr-blurb">{BLURB[id]}</p>
+      {id === 'weekly' ? (
+        <button type="button" className="ds-btn ds-btn-line pr-buy" disabled={premium && !canResubscribe} onClick={() => setAutopayOpen(true)}>
+          {canResubscribe ? 'Start it again' : premium ? 'You already have Premium' : CTA.weekly}
+        </button>
+      ) : oneTime(id, Boolean(opts.featured))}
+      {id === 'weekly' && canResubscribe && <p className="pr-fine">Your paid days are still running; starting again picks up from the end of them, not from today.</p>}
+    </article>
+  );
 
   return (
-    <main style={{ maxWidth: 1040, margin: '0 auto', padding: 'clamp(2rem, 6vw, 3.5rem) 1.25rem 5rem' }}>
-      <style>{`
-        .pr-h1 { font-size: clamp(1.9rem, 5vw, 2.7rem);
-          line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.6rem; text-wrap: balance; }
-        .pr-sub { color: var(--text2); font-size: 1.02rem; line-height: 1.6; max-width: 46ch; margin: 0 auto 2.4rem; text-wrap: balance; }
-        .pr-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-        .pr-card { position: relative; display: flex; flex-direction: column; gap: 10px;
-          border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px 20px;
-          background: var(--bg2); transition: border-color .18s, transform .18s; }
-        .pr-card:hover { border-color: var(--border2); transform: translateY(-2px); }
-        .pr-card[data-best="1"] { border-color: color-mix(in srgb, var(--warning-text) 45%, transparent);
-          background: linear-gradient(165deg, color-mix(in srgb, var(--warning-text) 7%, transparent), var(--bg2) 62%); }
-        .pr-buy { margin-top: auto; width: 100%; padding: 11px; border-radius: 8px; cursor: pointer;
-          font-weight: 700; font-size: 0.86rem; font-family: var(--font-ui, inherit);
-          border: 1px solid var(--border2); background: var(--bg3); color: var(--text);
-          transition: filter .15s, background .15s; }
-        .pr-buy:hover { filter: brightness(1.18); }
-        /* Both paid call-to-actions: the weekly one always carries
-           data-best, the annual card carries it when it is the best value. */
-        /* Pure gold has almost no edge against a white page, so the border
-           carries the boundary instead of the fill being darkened. */
-        .pr-buy[data-best="1"] { border: 1px solid var(--gold-edge); color: #000;
-          background: linear-gradient(135deg, var(--gold), var(--gold-deep)); }
-        .pr-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        .pr-tbl th { text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
-          color: var(--text3); font-weight: 600; padding: 0 10px 10px 0; border-bottom: 1px solid var(--border); }
-        .pr-tbl td { padding: 11px 10px 11px 0; border-bottom: 1px solid var(--bg3); vertical-align: top; }
-        .pr-tbl td.c { text-align: center; width: 88px; font-family: var(--font-mono, ui-monospace, monospace);
-          font-size: 0.8rem; padding-right: 0; }
-        .pr-detail { display: block; color: var(--text3); font-size: 0.78rem; line-height: 1.5; margin-top: 3px; }
-        .pr-q { font-weight: 600; color: var(--text); margin: 0 0 0.35rem; }
-        .pr-a { color: var(--text2); font-size: 0.9rem; line-height: 1.65; margin: 0; }
-        .pr-a a { color: var(--accent); }
-
-        /* Phones get the same words, laid out differently.
-           A three-column table squeezed into 335px either clips the feature
-           names or hides the descriptions, and the descriptions are the part
-           that actually sells. So below 560px each row becomes a block: name,
-           description, then the two values as labelled chips. */
-        .pr-auto { display: flex; flex-wrap: wrap; gap: 20px; align-items: center;
-          justify-content: space-between; border: 1px solid color-mix(in srgb, var(--warning-text) 45%, transparent); border-radius: 16px;
-          padding: 22px 24px; background: linear-gradient(150deg, color-mix(in srgb, var(--warning-text) 9%, transparent), var(--bg2) 65%); }
-        .pr-auto-left { display: flex; flex-direction: column; gap: 6px; }
-        .pr-auto-right { display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
-          max-width: 340px; }
-        .pr-auto-right .pr-buy { width: auto; align-self: flex-start; padding: 11px 26px; margin-top: 0; }
-        .pr-auto-tag { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em;
-          text-transform: uppercase; color: var(--warning-text); }
-        .pr-auto-price { display: flex; align-items: baseline; gap: 7px;
-          font-family: var(--font-mono, ui-monospace, monospace); }
-        .pr-auto-price > span:first-child { font-size: 2.3rem; font-weight: 700; line-height: 1; color: var(--text); }
-        .pr-auto-per { color: var(--text3); font-size: 0.85rem; }
-        .pr-auto-line { color: var(--text3); font-size: 0.82rem; }
-        .pr-auto-fine { color: var(--text3); font-size: 0.72rem; line-height: 1.5; }
-        .pr-or { display: flex; align-items: center; gap: 16px; margin: 26px 0 22px; }
-        .pr-or::before, .pr-or::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-        .pr-or span { color: var(--text3); font-size: 0.78rem; letter-spacing: 0.14em;
-          text-transform: uppercase; }
-        .pr-once { color: var(--text3); font-size: 0.74rem; letter-spacing: 0.1em;
-          text-transform: uppercase; margin: 0 0 12px; text-align: center; }
-        @media (max-width: 560px) {
-          .pr-auto { padding: 18px; }
-          .pr-auto-right { max-width: none; width: 100%; }
-          .pr-auto-right .pr-buy { width: 100%; }
-          .pr-h1 { font-size: clamp(1.6rem, 7.5vw, 2.1rem); }
-          .pr-sub { font-size: 0.95rem; }
-          .pr-tbl, .pr-tbl tbody, .pr-tbl tr, .pr-tbl td { display: block; width: auto; }
-          .pr-tbl thead { display: none; }
-          .pr-tbl tr { padding: 14px 0; border-bottom: 1px solid var(--bg3); }
-          .pr-tbl td { border: none; padding: 0; }
-          .pr-tbl td.c { display: inline-flex; align-items: baseline; gap: 6px;
-            width: auto; text-align: left; margin: 9px 16px 0 0; font-size: 0.8rem; }
-          .pr-tbl td.c::before { content: attr(data-label); font-family: var(--font-ui, inherit);
-            font-size: 0.58rem; font-weight: 600; letter-spacing: 0.09em;
-            text-transform: uppercase; color: var(--text3); }
-          .pr-detail { font-size: 0.82rem; margin-top: 5px; }
-        }
-      `}</style>
-
-      <header style={{ textAlign: 'center' }}>
-        <h1 className="pr-h1">
-          {langHi ? 'LBSNAA एक सपना है, इसे हकीकत बनाइए!'
-                  : 'LBSNAA is a dream, make it a reality!'}
-        </h1>
-        <p className="pr-sub">
-          {langHi
-            ? 'UPSC योजना के अनुसार असीमित मूल्यांकन। मॉडल उत्तर, मेंटर मोड और टॉपर कॉपियाँ।'
-            : 'Unlimited marking against the UPSC scheme. Model answers, mentor mode and topper copies.'}
-        </p>
-        {days !== null && days > 0 && (
-          <p style={{
-            fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '0.74rem',
-            letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text3)',
-            margin: '-1.6rem 0 2.4rem',
-          }}>
-            {days.toLocaleString('en-IN')} days to Mains
+    <div className="pr ds">
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
+      <header className="pr-hero">
+        <div className="ds-container">
+          <h1 className="ds-h1 pr-h1">Plans and pricing</h1>
+          <p className="ds-lede pr-lede">
+            Notes, past questions, the timeline and historiography are free with your account. Premium is for the practice: every answer checked, the AI tutor without limits, model answers and topper copies.
           </p>
-        )}
+          {days !== null && days > 0 && <span className="pr-chip">{days.toLocaleString('en-IN')} days to Mains {NEXT_MAINS.slice(0, 4)}</span>}
+        </div>
       </header>
 
-      {status?.isPremium && (
-        <div style={{
-          border: '1px solid color-mix(in srgb, var(--success-text) 30%, transparent)', background: 'var(--success-wash)',
-          borderRadius: 12, padding: '14px 18px', marginBottom: '2rem',
-          display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', justifyContent: 'space-between',
-        }}>
-          <div style={{ fontSize: '0.9rem', color: 'var(--text)' }}>
-            <strong style={{ color: 'var(--success-text)' }}>You are on Premium.</strong>{' '}
-            {status.expires_at && (
-              <span style={{ color: 'var(--text2)' }}>
-                {status.autoRenew ? 'Renews' : 'Access runs to'}{' '}
-                {new Date(status.expires_at).toLocaleDateString('en-IN',
-                  { day: 'numeric', month: 'long', year: 'numeric' })}.
-              </span>
-            )}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {status.autoRenew && (
-              <button onClick={async () => {
-                if (!auth.currentUser) return;
-                if (!window.confirm('Stop the weekly renewal? You keep access for the remaining days you\u2019ve already paid for.')) return;
-                const token = await auth.currentUser.getIdToken();
-                const res = await fetch('/api/razorpay/subscription/cancel', {
-                  method: 'POST', headers: { 'x-user-token': token },
-                });
-                if (res.ok) setStatus(s => (s ? { ...s, autoRenew: false } : s));
-              }}
-                style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 7,
-                  color: 'var(--text3)', fontSize: '0.78rem', padding: '5px 12px', cursor: 'pointer' }}>
-                Cancel auto-renewal
-              </button>
-            )}
-            <Link href="/evaluate" style={{ color: GOLD, fontSize: '0.86rem', fontWeight: 600 }}>
-              Go and use it &rarr;
-            </Link>
-          </div>
-        </div>
-      )}
-
-
-      {/* ── Weekly autopay, the entry commitment ───────────────── */}
-      <section aria-label="Weekly subscription" className="pr-auto">
-        <div className="pr-auto-left">
-          <div className="pr-auto-tag">Weekly subscription &middot; renews weekly</div>
-          <div className="pr-auto-price">
-            <span>{planPriceLabel(AUTOPAY_PLAN)}</span>
-            <span className="pr-auto-per">/week</span>
-          </div>
-          <div className="pr-auto-line">{planValueLine(AUTOPAY_PLAN)}</div>
-        </div>
-        <div className="pr-auto-right">
-          {/* Premium blocks this, except for someone who cancelled and is
-              living out their paid days: there is no mandate to double up on,
-              and the server accepts them. */}
-          <button className="pr-buy" data-best="1" onClick={() => setAutopayOpen(true)}
-            disabled={!!status?.isPremium && !canResubscribe}
-            style={status?.isPremium && !canResubscribe ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}>
-            {canResubscribe
-              ? 'Start it again \u2192'
-              : status?.isPremium ? 'You already have access' : 'Subscribe \u2192'}
-          </button>
-          <div className="pr-auto-fine">
-            {canResubscribe
-              ? 'You cancelled this. Your paid days are still running, and starting again picks up from the end of them, not from today.'
-              : <>Renews every 7 days until you stop it. Cancel in one click from your
-                profile menu; you keep access for the remaining days you&rsquo;ve paid for.</>}
-          </div>
-        </div>
-      </section>
-
-      <div className="pr-or"><span>or</span></div>
-
-      {/* ── Pay once ──────────────────────────────────────────── */}
-      <p className="pr-once">Pay once, no renewal</p>
-      <section aria-label="One-time plans" className="pr-grid">
-        {PLAN_ORDER.map(id => {
-          const best = id === 'yearly';
-          return (
-            <div key={id} className="pr-card" data-best={best ? '1' : '0'}>
-              {best && (
-                <span style={{
-                  position: 'absolute', top: -9, left: 20,
-                  background: 'linear-gradient(90deg, var(--gold), var(--gold-deep))',
-                  border: '1px solid var(--gold-edge)',
-                  color: '#000', fontSize: '0.55rem', fontWeight: 800, letterSpacing: '0.09em',
-                  textTransform: 'uppercase', padding: '3px 9px', borderRadius: 20,
-                }}>{langHi ? 'सर्वोत्तम मूल्य' : 'Best value'}</span>
-              )}
-              <div style={{
-                fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.09em',
-                textTransform: 'uppercase', color: best ? GOLD : 'var(--text3)',
-              }}>{PLANS[id].label}</div>
-
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                <span style={{
-                  fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '2rem',
-                  fontWeight: 700, lineHeight: 1, color: 'var(--text)',
-                }}>{planPriceLabel(id)}</span>
-                <span style={{ color: 'var(--text3)', fontSize: '0.8rem' }}>/{PLAN_DURATION[id]}</span>
-              </div>
-
-              <div style={{ fontSize: '0.78rem', color: 'var(--text3)', minHeight: '1.2em' }}>
-                {planValueLine(id)}
-              </div>
-
-              {/* A one-time purchase on top of a live mandate would push
-                  expires_at out while the weekly kept debiting, so someone on
-                  autopay buys nothing here until they cancel. The server
-                  refuses the order too; this only saves them the trip. */}
-              <button className="pr-buy" data-best={best ? '1' : '0'}
-                onClick={() => setCheckoutPlan(id)}
-                disabled={onAutopay}
-                style={onAutopay ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}>
-                {onAutopay
-                  ? 'You already have access'
-                  : status?.isPremium
-                    ? `Extend by ${PLAN_DURATION[id]}`
-                    : `Get ${PLANS[id].label} →`}
-              </button>
+      <div className="ds-container">
+        {premium && (
+          <div className="pr-have" role="status">
+            <div>
+              <strong>You’re on Premium.</strong>{' '}
+              {status?.expires_at && <span>{onAutopay ? 'It renews weekly; this week runs to' : 'It runs to'} {fmtLong(status.expires_at)}.</span>}{' '}
+              {!onAutopay && <span>Buying again adds the time on top.</span>}
             </div>
-          );
-        })}
-      </section>
+            <div className="pr-have-actions">
+              {onAutopay && <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={cancelRenewal}>Cancel the renewal</button>}
+              <Link href="/evaluate" className="ds-btn ds-btn-line ds-btn-sm">Check an answer <Arrow /></Link>
+            </div>
+          </div>
+        )}
 
+        <section className="pr-group" aria-labelledby="pr-g1">
+          <div className="pr-group-head"><h2 id="pr-g1" className="pr-h2">For your whole preparation</h2><span>Paid once, never renews</span></div>
+          <div className="pr-pair">
+            {plan('yearly', { featured: true })}
+            {plan('sixmonths')}
+          </div>
+        </section>
 
-      <p style={{
-        textAlign: 'center', color: 'var(--text3)', fontSize: '0.76rem', marginTop: 18,
-        fontFamily: 'var(--font-mono, ui-monospace, monospace)', letterSpacing: '0.04em',
-      }}>
-        Secure &middot; Razorpay &middot; these three are one-time payments
-      </p>
+        <div className="pr-pair pr-rest">
+          <section className="pr-group" aria-labelledby="pr-g2">
+            <div className="pr-group-head"><h2 id="pr-g2" className="pr-h2">Week by week</h2><span>Renews weekly, for up to a year</span></div>
+            {plan('weekly', { unit: '/week' })}
+          </section>
+          <section className="pr-group" aria-labelledby="pr-g3">
+            <div className="pr-group-head"><h2 id="pr-g3" className="pr-h2">Just to try it</h2><span>24 hours, paid once</span></div>
+            {plan('daily')}
+          </section>
+        </div>
 
-      {onAutopay && (
-        <p style={{
-          textAlign: 'center', color: 'var(--text3)', fontSize: '0.8rem', marginTop: 10,
-          maxWidth: '58ch', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6,
-        }}>
-          You are on the weekly subscription, so these are switched off. Cancel it from
-          your profile menu and they open up once your paid days run out.
-        </p>
-      )}
+        {onAutopay && <p className="pr-note">You’re on the weekly plan, so the one-time plans are switched off. Cancel the renewal and they open up once your paid days run out.</p>}
+        <p className="pr-rzp">Payments go through Razorpay: UPI, cards and net banking. The weekly plan is a mandate, debited every 7 days for up to 52 weeks until you stop it; the others are single payments.</p>
 
-      {/* ── Comparison ────────────────────────────────────────── */}
-      <section style={{ marginTop: '4rem' }}>
-        <h2 style={{ fontSize: '1.35rem', margin: '0 0 0.5rem', color: 'var(--text)' }}>
-          What you are working without
-        </h2>
-        <p style={{ color: 'var(--text2)', fontSize: '0.9rem', margin: '0 0 1.4rem', maxWidth: '62ch', lineHeight: 1.65 }}>
-          The left column is where most people stall: one evaluation, three questions, and then
-          months of writing into a void with nothing coming back.
-        </p>
-        <table className="pr-tbl">
-          <thead>
-            <tr><th>Feature</th><th style={{ textAlign: 'center' }}>Without</th><th style={{ textAlign: 'center' }}>Premium</th></tr>
-          </thead>
-          <tbody>
-            {FEATURES.map(f => (
-              <tr key={f.name}>
-                <td>
-                  <span style={{ color: 'var(--text)' }}>{f.name}</span>
-                  {f.detail && <span className="pr-detail">{f.detail}</span>}
-                </td>
-                <td className="c" data-label="Without"
-                    style={{ color: f.free === '—' ? 'var(--border2)' : 'var(--text2)' }}>{f.free}</td>
-                <td className="c" data-label="Premium" style={{ color: GOLD }}>{f.premium}</td>
-              </tr>
+        <section className="pr-section" aria-labelledby="pr-compare">
+          <h2 id="pr-compare" className="pr-h2">Free account and Premium</h2>
+          <div className="pr-compare" role="table" aria-label="Free account and Premium compared">
+            <div className="pr-row pr-row-head" role="row">
+              <span role="columnheader">What you get</span>
+              <span role="columnheader">Free</span>
+              <span role="columnheader" className="pr-col-premium">Premium</span>
+            </div>
+            {FEATURES.map((f) => (
+              <div key={f.name} className="pr-row" role="row">
+                <span role="cell" className="pr-what"><strong>{f.name}</strong>{f.detail && <small>{f.detail}</small>}</span>
+                <span role="cell" className="pr-val">{cell(f.free)}</span>
+                <span role="cell" className="pr-val pr-col-premium">{cell(f.premium)}</span>
+              </div>
             ))}
-          </tbody>
-        </table>
-      </section>
+          </div>
+        </section>
 
-      {/* ── One-off purchases ─────────────────────────────────── */}
-      <section style={{ marginTop: '3.5rem' }}>
-        <h2 style={{ fontSize: '1.35rem', margin: '0 0 0.5rem', color: 'var(--text)' }}>
-          Bought separately
-        </h2>
-        <p style={{ color: 'var(--text2)', fontSize: '0.9rem', margin: '0 0 1.2rem', maxWidth: '62ch', lineHeight: 1.65 }}>
-          Topper copies come with every subscription; they can also be bought on their own.
-          Map evaluation is charged per map and is <strong>not</strong> part of any plan.
-        </p>
-        <div className="pr-grid">
-          {ONE_OFF.map(o => (
-            <div key={o.name} className="pr-card" style={{ gap: 8 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--text3)' }}>
-                  {o.name}
-                </span>
-                <span style={{
-                  fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-                  padding: '2px 7px', borderRadius: 20,
-                  color: o.inPremium ? 'var(--success-text)' : GOLD,
-                  background: o.inPremium ? 'var(--success-wash)' : 'color-mix(in srgb, var(--warning-text) 8%, transparent)',
-                  border: `1px solid ${o.inPremium ? 'color-mix(in srgb, var(--success-text) 28%, transparent)' : 'color-mix(in srgb, var(--warning-text) 28%, transparent)'}`,
-                  // Both routes to it, since the description no longer says
-                  // so and the badge is the compact place for it.
-                }}>{o.inPremium ? 'in premium / standalone' : 'pay per use'}</span>
-              </div>
-              <div style={{ fontFamily: 'var(--font-mono, ui-monospace, monospace)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1 }}>
-                {`₹${(o.pricePaise / 100).toLocaleString('en-IN')}`}
-              </div>
-              <p style={{ color: 'var(--text3)', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{o.blurb}</p>
+        <section className="pr-section" aria-labelledby="pr-once">
+          <h2 id="pr-once" className="pr-h2">Bought on their own</h2>
+          <p className="pr-section-lede">Topper copies come with every plan and can also be bought by themselves. A map check is charged per map and is not part of any plan.</p>
+          <div className="pr-pair">
+            {ONE_OFF.map((o) => (
+              <article key={o.name} className="pr-plan pr-one">
+                <div className="pr-plan-top">
+                  <h3 className="pr-plan-name">{o.name === 'Map evaluation' ? 'A map check' : o.name}</h3>
+                  <span className={`pr-badge${o.inPremium ? ' in' : ''}`}>{o.inPremium ? 'Also in Premium' : 'Per map'}</span>
+                </div>
+                <div className="pr-price small"><span className="pr-rs">₹</span>{(o.pricePaise / 100).toLocaleString('en-IN')}<span className="pr-unit">{o.inPremium ? '/year' : ''}</span></div>
+                <p className="pr-blurb">{o.inPremium ? `Answers scanned from toppers’ copies, question by question. A free account opens ${count('Topper copies')} of them.` : 'Your filled map checked place by place: the name for 1.5 marks and your note for 1. Paid when you upload it.'}</p>
+                {/* Map checks cannot be bought here: the ₹49 is charged
+                    against an uploaded map, so this card goes to where the
+                    map is uploaded. */}
+                {o.inPremium ? (
+                  <button type="button" className="ds-btn ds-btn-line pr-buy" onClick={buyTopper} disabled={topperOwned === true || topperBusy}>
+                    {topperOwned === true ? 'You have these already' : topperBusy ? 'Opening the payment…' : `Buy for ₹${(o.pricePaise / 100).toLocaleString('en-IN')}`}
+                  </button>
+                ) : (
+                  <Link href="/evaluate?mode=map" className="ds-btn ds-btn-line pr-buy">Check a map <Arrow /></Link>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
 
-              {/* Topper copies can be bought outright, so this card buys them.
-                  Map evaluation cannot: the ₹49 is charged against a specific
-                  uploaded map and /api/razorpay/map-verify reads that file, so
-                  a purchase made here would take the money and have nothing to
-                  evaluate. That card sends the reader to where the map goes. */}
-              {o.name === 'Topper copies' ? (
-                <button
-                  className="pr-buy"
-                  data-best="1"
-                  onClick={buyTopper}
-                  disabled={topperOwned === true || topperBusy}
-                  style={topperOwned === true || topperBusy
-                    ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
-                >
-                  {topperOwned === true
-                    ? 'You already have these'
-                    : topperBusy
-                      ? 'Opening payment\u2026'
-                      : `Buy for \u20B9${(o.pricePaise / 100).toLocaleString('en-IN')} \u2192`}
-                </button>
-              ) : (
-                <Link href="/evaluate?mode=map" className="pr-buy" style={{ textAlign: 'center', textDecoration: 'none' }}>
-                  Evaluate a map &rarr;
-                </Link>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+        <section className="pr-section" aria-labelledby="pr-faq">
+          <h2 id="pr-faq" className="pr-h2">Before you pay</h2>
+          <div className="pr-faq-list">
+            {[
+              { q: 'Does it renew on its own?', a: <>Only the weekly plan. It is a mandate: {planPriceLabel('weekly')} is taken every 7 days, for up to 52 weeks, until you stop it, which takes one click from the menu under your picture. You keep the days already paid for. The day, 6-month and yearly plans are single payments; when one runs out, access simply stops until you buy again.</> },
+              { q: 'Can I see the marking before I pay?', a: <>Yes. A free account gets <strong>{free('Answer evaluation')} answer check</strong> and <strong>{free('AI Chat')} chats</strong>, enough to judge whether the feedback is worth having. A day at {planPriceLabel('daily')} opens everything for 24 hours.</> },
+              { q: 'What happens if I buy while a plan is running?', a: <>The new time is added to the end of the current plan. You don’t lose the days already paid for.</> },
+              { q: 'Is the map check included?', a: <>No. Map checks are {`₹${ONE_OFF[1].pricePaise / 100}`} each, whether or not you subscribe. Topper copies are the other way round: every plan includes them, and they can be bought on their own for {`₹${(ONE_OFF[0].pricePaise / 100).toLocaleString('en-IN')}`}.</> },
+              { q: 'Are refunds available?', a: <>Purchases are final, with two exceptions: a duplicate payment and an extended outage. The <Link href="/refund">refund policy</Link> has the details and the <Link href="/terms">terms</Link> cover the rest.</> },
+              { q: 'Something went wrong with a payment?', a: <>Write to us from the <Link href="/contact">contact page</Link> with the Razorpay payment id, and it will be sorted out.</> },
+            ].map((f) => (
+              <details key={f.q} className="pr-faq-item">
+                <summary>{f.q}</summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
 
-      {/* ── FAQ ───────────────────────────────────────────────── */}
-      <section style={{ marginTop: '3.5rem' }}>
-        <h2 style={{ fontSize: '1.35rem', margin: '0 0 1.2rem', color: 'var(--text)' }}>
-          Before you pay
-        </h2>
-        <div style={{ display: 'grid', gap: '1.4rem', maxWidth: '68ch' }}>
-          <div>
-            <p className="pr-q">Does it renew automatically?</p>
-            <p className="pr-a">The weekly plan does. It is a mandate: &#8377;99 is taken every 7 days until you
-              stop it, and you can stop it in one click from your profile menu, keeping the days you
-              have already paid for. The daily, 6-month and annual plans do not renew. Each is a
-              one-time payment, and when it runs out access simply stops until you choose to buy
-              again.</p>
+        <section className="pr-close">
+          <Mascot pose="peek" width={92} />
+          <div className="pr-close-text">
+            <h2>Not sure yet?</h2>
+            <p>Start with the free account: every note and past question, {count('AI Chat')} chats, {count('Answer evaluation')} answer check, {count('Topper copies')} topper copies and {count('Flashcards')} flashcard answers.</p>
           </div>
-          <div>
-            <p className="pr-q">Can I see the marking before I pay?</p>
-            <p className="pr-a">Yes. Signing in gives you <strong>one evaluation</strong> and{' '}
-              <strong>three questions</strong>, enough to judge whether the feedback is worth having.</p>
-          </div>
-          <div>
-            <p className="pr-q">Is map evaluation included?</p>
-            <p className="pr-a">No. Maps are charged at <strong>₹49 each</strong>, whether or not you
-              subscribe. Topper copies are the other way round: they come with every plan, and can
-              also be bought on their own for ₹799.</p>
-          </div>
-          <div>
-            <p className="pr-q">What happens if I buy again while a plan is still running?</p>
-            <p className="pr-a">The new period is added to the end of the current one. You do not lose the days
-              you have already paid for.</p>
-          </div>
-          <div>
-            <p className="pr-q">Are refunds available?</p>
-            <p className="pr-a">Purchases are final. Duplicate payments and extended outages are the two
-              exceptions. The full terms are in the{' '}
-              <Link href="/refund">Refund Policy</Link>, and the{' '}
-              <Link href="/terms">Terms</Link> cover the rest.</p>
-          </div>
-          <div>
-            <p className="pr-q">Something went wrong with a payment?</p>
-            <p className="pr-a">Write to us from the <Link href="/contact">contact page</Link> with the Razorpay
-              payment id and it will be sorted out.</p>
-          </div>
-        </div>
-      </section>
+          {signedIn
+            ? <Link href="/dashboard" className="ds-btn ds-btn-line">Go to your dashboard</Link>
+            : <button type="button" className="ds-btn ds-btn-line" onClick={() => signInWithGoogle()}>Sign in free</button>}
+        </section>
+      </div>
 
       {autopayOpen && <AutopaySheet onClose={() => setAutopayOpen(false)} />}
-
-      {checkoutPlan && <CheckoutModal
-        plan={checkoutPlan}
-        fingerprint={fingerprint}
-        onClose={() => setCheckoutPlan(null)}
-      />}
-    </main>
+      {checkoutPlan && <CheckoutModal plan={checkoutPlan} fingerprint={fingerprint} onClose={() => setCheckoutPlan(null)} />}
+    </div>
   );
 }
 
-/** Thin wrapper so checkout stays in SubscribeCard rather than being forked here. */
-function CheckoutModal({ plan, fingerprint, onClose }: {
-  plan: PlanId; fingerprint: string | null; onClose: () => void;
-}) {
+/** Checkout stays in SubscribeCard, the same card as the Go Premium panel, rather than being forked here. */
+function CheckoutModal({ plan, fingerprint, onClose }: { plan: PlanId; fingerprint: string | null; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
@@ -535,39 +306,100 @@ function CheckoutModal({ plan, fingerprint, onClose }: {
     document.body.style.overflow = 'hidden';
     return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
   }, [onClose]);
-
   if (typeof document === 'undefined') return null;
   return createPortal(
-    <div
-      role="dialog" aria-modal="true" aria-label="Checkout"
-      onClick={e => { if (e.target === e.currentTarget) onClose(); }}
-      style={{
-        position: 'fixed', inset: 0, zIndex: 99999, padding: '1rem',
-        background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-      <div style={{
-        width: '100%', maxWidth: 400, background: 'var(--bg2)',
-        border: '1px solid var(--border)', borderRadius: 16, padding: 'clamp(1rem, 4vw, 1.4rem)',
-        boxShadow: '0 32px 80px rgba(0,0,0,0.9)', maxHeight: '92vh', overflowY: 'auto',
-      }}>
-        <SubscribeCard
-          fingerprint={fingerprint}
-          initialPlan={plan}
-          onClose={onClose}
-        />
+    <div className="ds ds-overlay pr-checkout-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="ds-modal pr-checkout" role="dialog" aria-modal="true" aria-label={`Checkout, ${PLANS[plan].label} (${PLAN_DURATION[plan]})`}>
+        <SubscribeCard fingerprint={fingerprint} initialPlan={plan} onClose={onClose} />
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }
 
-/**
- * Weekly autopay checkout.
- *
- * Razorpay Checkout takes a `subscription_id` here rather than an
- * `order_id`: the customer is authorising a mandate, not paying once. No
- * access is granted on the handler firing — a mandate can be authorised and
- * still fail to debit — so the page waits for the first charge, which the
- * webhook records.
- */
+const CSS = `
+.pr { background: var(--bg); min-height: 70vh; padding-bottom: clamp(48px, 9vh, 96px); }
+.pr-hero { padding: clamp(32px, 6vh, 64px) 0 clamp(16px, 3vh, 28px); background: linear-gradient(180deg, color-mix(in srgb, var(--accent-dim) 60%, var(--bg)) 0%, var(--bg) 100%); }
+.pr-h1 { font-size: clamp(2.1rem, 4.6vw, 3.2rem); margin: 0 0 var(--space-3); }
+.pr-lede { max-width: 680px; }
+.pr-chip { display: inline-flex; margin-top: var(--space-4); padding: 5px 14px; border-radius: var(--radius-full); background: var(--ds-card); border: 1px solid var(--border); font-size: 0.88rem; font-weight: 600; color: var(--text2); }
+.pr-h2 { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; }
+
+.pr-have { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); margin: var(--space-4) 0 var(--space-2); padding: var(--space-4) var(--space-5); border-radius: var(--radius-xl); background: var(--success-wash); border: 1px solid color-mix(in srgb, var(--success-text) 30%, transparent); line-height: 1.55; }
+.pr-have strong { color: var(--success-text); }
+.pr-have span { color: var(--text2); }
+.pr-have-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.pr-group { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-6); min-width: 0; }
+.pr-group-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px var(--space-3); }
+.pr-group-head span { font-size: 0.9rem; color: var(--text3); }
+.pr-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); align-items: stretch; }
+.pr-rest > .pr-group { margin-top: var(--space-8); }
+.pr-rest .pr-plan { flex: 1; }
+.pr-plan { display: flex; flex-direction: column; min-width: 0; padding: var(--space-6); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.pr-plan.featured { border: 2px solid var(--accent); box-shadow: var(--elev-2); }
+.pr-plan-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-3); }
+.pr-plan-name { margin: 0; font-size: 1.08rem; font-weight: 800; }
+.pr-tag { padding: 3px 12px; border-radius: var(--radius-full); background: var(--accent); color: var(--accent-on, #fff); font-size: 0.8rem; font-weight: 700; }
+.pr-price { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.pr-price.small { font-size: 2.4rem; }
+.pr-rs { margin-right: 2px; font-size: 0.5em; font-weight: 700; vertical-align: 0.6em; }
+.pr-unit { margin-left: 4px; font-size: 0.32em; font-weight: 600; letter-spacing: 0; color: var(--text3); }
+.pr-period { margin-top: var(--space-2); font-size: 0.9rem; color: var(--text3); }
+.pr-blurb { flex: 1; margin: var(--space-4) 0 var(--space-5); font-size: 0.96rem; line-height: 1.6; color: var(--text2); }
+.pr-buy { width: 100%; justify-content: center; min-height: 48px; }
+.pr-buy:disabled { opacity: 0.55; cursor: not-allowed; }
+.pr-fine { margin: var(--space-2) 0 0; font-size: 0.84rem; line-height: 1.5; color: var(--text3); }
+.pr-badge { padding: 2px 10px; border-radius: var(--radius-full); background: var(--ds-soft); color: var(--text2); font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+.pr-badge.in { background: var(--success-wash); color: var(--success-text); }
+.pr-note { margin: var(--space-4) 0 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--warning-wash); font-size: 0.92rem; line-height: 1.55; }
+.pr-rzp { margin: var(--space-4) 0 0; max-width: 820px; font-size: 0.86rem; line-height: 1.55; color: var(--text3); }
+
+.pr-section { padding-top: var(--space-10); max-width: 920px; }
+.pr-section > .pr-h2 { margin-bottom: var(--space-4); }
+.pr-section-lede { margin: calc(-1 * var(--space-2)) 0 var(--space-4); color: var(--text2); line-height: 1.6; }
+.pr-compare { border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--ds-card); overflow: hidden; }
+.pr-row { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 0.8fr) minmax(0, 0.8fr); gap: var(--space-3); padding: var(--space-3) var(--space-5); border-top: 1px solid var(--border); align-items: center; font-size: 0.94rem; }
+.pr-row:first-child { border-top: none; }
+.pr-row-head { background: var(--ds-soft); font-size: 0.86rem; font-weight: 700; color: var(--text2); }
+.pr-what { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pr-what small { font-size: 0.82rem; line-height: 1.45; color: var(--text3); }
+.pr-val { display: inline-flex; align-items: center; font-weight: 600; color: var(--text2); }
+.pr-none { color: var(--text3); font-weight: 500; }
+.pr-col-premium { color: var(--accent-text); }
+
+.pr-faq-list { border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--ds-card); overflow: hidden; }
+.pr-faq-item { border-top: 1px solid var(--border); }
+.pr-faq-item:first-child { border-top: none; }
+.pr-faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-4) var(--space-5); font-weight: 700; cursor: pointer; list-style: none; }
+.pr-faq-item summary::-webkit-details-marker { display: none; }
+.pr-faq-item summary::after { content: '+'; flex-shrink: 0; font-size: 1.3rem; font-weight: 500; color: var(--text3); transition: transform 0.2s; }
+.pr-faq-item[open] summary::after { transform: rotate(45deg); }
+.pr-faq-item p { margin: 0; padding: 0 var(--space-5) var(--space-4); line-height: 1.65; color: var(--text2); }
+.pr-faq-item a { color: var(--accent-text); }
+
+.pr-close { display: flex; align-items: center; gap: var(--space-5); max-width: 920px; margin-top: var(--space-10); padding: var(--space-6); border-radius: var(--radius-xl); background: var(--ds-card); border: 1px solid var(--border); }
+.pr-close-text { flex: 1; min-width: 0; }
+.pr-close-text h2 { margin: 0 0 4px; font-size: 1.2rem; font-weight: 800; }
+.pr-close-text p { margin: 0; color: var(--text2); line-height: 1.55; }
+
+.pr-checkout-overlay { z-index: 99999; }
+.pr-checkout { width: 100%; max-width: 440px; max-height: 92vh; overflow-y: auto; }
+
+@media (max-width: 760px) {
+  .pr-pair { grid-template-columns: minmax(0, 1fr); }
+  .pr-rest > .pr-group:last-child { margin-top: var(--space-6); }
+}
+@media (max-width: 640px) {
+  .pr-plan { padding: var(--space-5) var(--space-4); }
+  .pr-price { font-size: 2.6rem; }
+  .pr-blurb { margin: var(--space-3) 0 var(--space-4); }
+  .pr-row { grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.75fr) minmax(0, 0.75fr); gap: var(--space-2); padding: var(--space-3) var(--space-4); font-size: 0.88rem; }
+  .pr-what small { display: none; }
+  .pr-have { padding: var(--space-4); }
+  .pr-have-actions, .pr-have-actions .ds-btn { width: 100%; justify-content: center; }
+  .pr-close { flex-direction: column; text-align: center; }
+  .pr-close .ds-btn { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .pr-faq-item summary::after { transition: none; } }
+`;

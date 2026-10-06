@@ -500,6 +500,7 @@ export default function Navbar() {
   const notesItems: MenuItem[] = [
     { href: '/notes', label: langHi ? 'पेपर I' : 'Paper I' },
     { href: '/notes?paper=2', label: langHi ? 'पेपर II' : 'Paper II' },
+    { href: '/prelims', label: tr(t.prelims, langHi) },
     { href: '/timeline', label: langHi ? 'समयरेखा' : 'Timeline' },
     { href: '/historiography', label: langHi ? 'इतिहास-लेखन' : 'Historiography' },
     { href: '/flashcards', label: langHi ? 'फ्लैशकार्ड' : 'Flashcards' },
@@ -515,10 +516,10 @@ export default function Navbar() {
   const flatLinks: (MenuItem & { accent?: boolean })[] = [
     { href: '/evaluate', label: tr(t.evaluate, langHi) },
     { href: '/mapping', label: tr(t.mapping, langHi) },
-    { href: '/prelims', label: tr(t.prelims, langHi) },
+    { href: '/pricing', label: langHi ? 'कीमतें' : 'Pricing' },
     { href: '/chat', label: tr(t.chat, langHi), accent: true },
   ];
-  const notesActive = ['/notes', '/timeline', '/historiography', '/current-affairs', '/flashcards', '/resources'].some(p => pathname.startsWith(p));
+  const notesActive = ['/notes', '/prelims', '/timeline', '/historiography', '/current-affairs', '/flashcards', '/resources'].some(p => pathname.startsWith(p));
   const pyqsActive = ['/pyqs', '/topper-copies', '/test'].some(p => pathname.startsWith(p));
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
@@ -657,7 +658,7 @@ export default function Navbar() {
         {([
           { title: tr(t.notes, langHi), items: notesItems },
           { title: 'PYQs', items: pyqItems },
-          { title: langHi ? 'टूल्स' : 'Tools', items: [...flatLinks, { href: '/dashboard', label: tr(t.dashboard, langHi) }, { href: '/pricing', label: langHi ? 'प्लान' : 'Plans' }] },
+          { title: langHi ? 'टूल्स' : 'Tools', items: [...flatLinks, { href: '/dashboard', label: tr(t.dashboard, langHi) }] },
         ] as { title: string; items: (MenuItem & { accent?: boolean })[] }[]).map(group => (
           <div key={group.title} className="nb-sheet-group">
             <div className="nb-sheet-title">{group.title}</div>

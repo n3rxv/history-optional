@@ -47,7 +47,9 @@ export const FEATURES: Feature[] = [
     detail: 'Work out the structure of an answer before writing it.' },
   { name: 'Mentor mode',               free: '—', premium: '✓',
     detail: 'The TADA framework applied to your question, and a 350-word plan to write to.' },
-  { name: 'Topper copies',             free: '—', premium: '✓',
+  { name: 'Flashcards',                free: '100 answers', premium: 'Unlimited',
+    detail: 'Every card’s front is open; the first hundred answers you open are free.' },
+  { name: 'Topper copies',             free: '5 copies', premium: '✓',
     detail: 'Individual answers scanned from toppers’ answer copies, question by question.' },
 ];
 
