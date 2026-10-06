@@ -366,7 +366,7 @@ export default function EvaluatePage() {
             </header>
 
             {evalMode === 'map' ? (
-              <div className="ds-container ev-tool"><MapEvaluator token={tokenRef.current} onLoginRequired={showLoginModal} /></div>
+              <div className="ds-container ev-tool"><MapEvaluator onLoginRequired={showLoginModal} /></div>
             ) : evalMode === 'batch' ? (
               <div className="ds-container ev-tool"><PDFTestEvaluator isPremium={!!usage.subscribed} onPaywall={showChatLimitModal} token={tokenRef.current} variant="evaluate" /></div>
             ) : (

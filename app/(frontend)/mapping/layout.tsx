@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Historical Map Quiz — UPSC History Optional',
-  description: 'Interactive map-based quiz for UPSC History Optional. Identify ancient, medieval, and modern historical sites of India.',
+  title: 'Map Practice: UPSC History Optional',
+  description: 'All 992 places in the UPSC History Optional map syllabus, chapter by chapter, with the ones UPSC has asked marked. Browse them on the map or quiz yourself.',
   alternates: { canonical: 'https://historyoptional.xyz/mapping' },
   openGraph: {
-    title: 'Historical Map Quiz — UPSC History Optional',
-    description: 'Interactive map-based quiz for UPSC History Optional. Identify ancient, medieval, and modern historical sites of India.',
+    title: 'Map Practice: UPSC History Optional',
+    description: 'All 992 places in the UPSC History Optional map syllabus, chapter by chapter, with the ones UPSC has asked marked. Browse them on the map or quiz yourself.',
     url: 'https://historyoptional.xyz/mapping',
     type: 'website',
   },

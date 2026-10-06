@@ -1,217 +1,183 @@
 'use client';
-import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from 'react-leaflet';
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { indiaGeoJSON } from '@/lib/indiaGeoJSON';
-import { BookSite } from '@/lib/bookData';
-import { useLang } from '@/lib/i18n/LangContext';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, Pane, useMap } from 'react-leaflet';
+import type { GeoJsonObject } from 'geojson';
+import type { MapSite } from '@/lib/mapBook';
 import { bookBasemap } from '@/lib/basemap';
 import 'leaflet/dist/leaflet.css';
 
-const INDIA_BOUNDS: [[number, number], [number, number]] = [
-  [7.067, 56.787],
-  [37.193, 102.996],
-];
+const INDIA_BOUNDS: [[number, number], [number, number]] = [[7.067, 56.787], [37.193, 102.996]];
 
-function FitBounds({ sites, selectedSite, disableAutoZoom }: { sites: BookSite[]; selectedSite: string | null; disableAutoZoom?: boolean }) {
-  const map = useMap();
+// Fetched once per visit and shared by every map on the page.
+let statesP: Promise<GeoJsonObject | null> | null = null;
+let outlineP: Promise<GeoJsonObject | null> | null = null;
+const fetchJson = (url: string) => fetch(url).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+function useGeo(kind: 'states' | 'outline', on: boolean) {
+  const [data, setData] = useState<GeoJsonObject | null>(null);
   useEffect(() => {
-    if (disableAutoZoom) { map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] }); return; }
-    const valid = sites.filter(s => s.lat != null && s.lng != null);
-    if (selectedSite) {
-      const target = valid.find(s => s.name === selectedSite);
-      if (target) { map.flyTo([target.lat as number, target.lng as number], 5, { duration: 0.6 }); return; }
-    }
-    if (valid.length === 0) { map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] }); return; }
-    if (valid.length === 1) { map.setView([valid[0].lat as number, valid[0].lng as number], 6); return; }
-    const bounds: [[number, number], [number, number]] = [
-      [Math.min(...valid.map(s => s.lat as number)) - 1, Math.min(...valid.map(s => s.lng as number)) - 1],
-      [Math.max(...valid.map(s => s.lat as number)) + 1, Math.max(...valid.map(s => s.lng as number)) + 1],
-    ];
-    map.fitBounds(bounds, { padding: [20, 20] });
-  }, [map, sites, selectedSite, disableAutoZoom]);
+    if (!on) return;
+    const p = kind === 'states' ? (statesP ??= fetchJson('/india_states.geojson')) : (outlineP ??= fetchJson('/api/map-outline'));
+    let live = true;
+    p.then((d) => { if (live) setData(d); });
+    return () => { live = false; };
+  }, [kind, on]);
+  return on ? data : null;
+}
+
+/**
+ * Frames the map: every place in view, the picked one flown to, or (for the
+ * quiz) the whole of India. Redone when the frame changes size, as it does
+ * when a phone turns or a chapter opens beside another.
+ */
+function Frame({ sites, selected, fixed }: { sites: MapSite[]; selected: string | null; fixed?: boolean }) {
+  const map = useMap();
+  const fit = useCallback(() => {
+    if (fixed || sites.length === 0) { map.fitBounds(INDIA_BOUNDS, { padding: [10, 10] }); return; }
+    if (sites.length === 1) { map.setView([sites[0].lat, sites[0].lng], 6); return; }
+    const lats = sites.map((s) => s.lat), lngs = sites.map((s) => s.lng);
+    map.fitBounds([[Math.min(...lats) - 1, Math.min(...lngs) - 1], [Math.max(...lats) + 1, Math.max(...lngs) + 1]], { padding: [20, 20] });
+  }, [map, sites, fixed]);
+  useEffect(() => {
+    const target = !fixed && selected ? sites.find((s) => s.name === selected) : undefined;
+    if (target) map.flyTo([target.lat, target.lng], Math.max(map.getZoom(), 5), { duration: 0.6 });
+    else fit();
+  }, [map, sites, selected, fixed, fit]);
+  useEffect(() => {
+    const ro = new ResizeObserver(() => map.invalidateSize());
+    ro.observe(map.getContainer());
+    return () => ro.disconnect();
+  }, [map]);
   return null;
 }
 
-function GraticuleGrid() {
+/** Lines of latitude and longitude every 4°, and the Tropic of Cancer, as on the exam's outline map. */
+function Graticule() {
   const map = useMap();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const INTERVAL = 4;
-  const LAT_MIN = 8, LAT_MAX = 36, LNG_MIN = 60, LNG_MAX = 104;
-  const TROPIC = 23.5;
-
   const redraw = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const mapContainer = map.getContainer();
-    const w = mapContainer.clientWidth;
-    const h = mapContainer.clientHeight;
-    canvas.width = w;
-    canvas.height = h;
+    const box = map.getContainer();
+    const w = box.clientWidth, h = box.clientHeight;
+    canvas.width = w; canvas.height = h;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.clearRect(0, 0, w, h);
-
-    const LINE_COLOR = 'rgba(0,0,0,0.85)';
-    const LABEL_COLOR = 'rgba(0,0,0,1)';
-    const FONT = 'bold 8px monospace';
-
-    for (let lat = LAT_MIN; lat <= LAT_MAX; lat += INTERVAL) {
-      const p1 = map.latLngToContainerPoint([lat, LNG_MIN]);
-      const p2 = map.latLngToContainerPoint([lat, LNG_MAX]);
-      ctx.beginPath();
-      ctx.lineWidth = 0.8;
-      ctx.strokeStyle = LINE_COLOR;
-      ctx.setLineDash([]);
-      ctx.moveTo(p1.x, p1.y);
-      ctx.lineTo(p2.x, p2.y);
-      ctx.stroke();
-      ctx.font = FONT;
-      ctx.fillStyle = LABEL_COLOR;
-      ctx.textBaseline = 'middle';
-      ctx.textAlign = 'left';
-      ctx.fillText(`${lat}°N`, 3, p1.y);
-      ctx.textAlign = 'right';
-      ctx.fillText(`${lat}°N`, w - 3, p1.y);
+    ctx.font = '600 9px system-ui, sans-serif';
+    ctx.fillStyle = 'rgba(0,0,0,0.8)';
+    ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+    ctx.lineWidth = 0.8;
+    for (let lat = 8; lat <= 36; lat += 4) {
+      const a = map.latLngToContainerPoint([lat, 60]), b = map.latLngToContainerPoint([lat, 104]);
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillText(`${lat}°N`, 3, a.y);
+      ctx.textAlign = 'right'; ctx.fillText(`${lat}°N`, w - 3, a.y);
     }
-
-    for (let lng = LNG_MIN; lng <= LNG_MAX; lng += INTERVAL) {
-      const p1 = map.latLngToContainerPoint([LAT_MAX, lng]);
-      const p2 = map.latLngToContainerPoint([LAT_MIN, lng]);
-      ctx.beginPath();
-      ctx.lineWidth = 0.8;
-      ctx.strokeStyle = LINE_COLOR;
-      ctx.setLineDash([]);
-      ctx.moveTo(p1.x, p1.y);
-      ctx.lineTo(p2.x, p2.y);
-      ctx.stroke();
-      ctx.font = FONT;
-      ctx.fillStyle = LABEL_COLOR;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
-      ctx.fillText(`${lng}°E`, p1.x, 2);
-      ctx.textBaseline = 'bottom';
-      ctx.fillText(`${lng}°E`, p2.x, h - 2);
+    for (let lng = 60; lng <= 104; lng += 4) {
+      const a = map.latLngToContainerPoint([36, lng]), b = map.latLngToContainerPoint([8, lng]);
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText(`${lng}°E`, a.x, 2);
+      ctx.textBaseline = 'bottom'; ctx.fillText(`${lng}°E`, b.x, h - 2);
     }
-
-    const tc1 = map.latLngToContainerPoint([TROPIC, LNG_MIN]);
-    const tc2 = map.latLngToContainerPoint([TROPIC, LNG_MAX]);
-    ctx.beginPath();
-    ctx.setLineDash([8, 4]);
-    ctx.lineWidth = 1.2;
-    ctx.strokeStyle = 'rgba(0,0,0,0.7)';
-    ctx.moveTo(tc1.x, tc1.y);
-    ctx.lineTo(tc2.x, tc2.y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.font = 'bold 7px monospace';
-    ctx.fillStyle = 'rgba(0,0,0,0.75)';
-    ctx.textBaseline = 'bottom';
-    ctx.textAlign = 'left';
-    ctx.fillText('Tropic of Cancer (23½°N)', tc1.x + 4, tc1.y - 2);
+    const t1 = map.latLngToContainerPoint([23.5, 60]), t2 = map.latLngToContainerPoint([23.5, 104]);
+    ctx.beginPath(); ctx.setLineDash([8, 4]); ctx.lineWidth = 1.2; ctx.moveTo(t1.x, t1.y); ctx.lineTo(t2.x, t2.y); ctx.stroke(); ctx.setLineDash([]);
+    ctx.textBaseline = 'bottom'; ctx.textAlign = 'left'; ctx.fillText('Tropic of Cancer (23½°N)', t1.x + 4, t1.y - 2);
   }, [map]);
-
   useEffect(() => {
-    const mapContainer = map.getContainer();
-    const div = document.createElement('div');
-    div.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:450;';
+    const box = map.getContainer();
+    const layer = document.createElement('div');
+    layer.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:450;';
     const canvas = document.createElement('canvas');
     canvas.style.cssText = 'position:absolute;top:0;left:0;';
-    div.appendChild(canvas);
-    mapContainer.appendChild(div);
-    canvasRef.current = canvas;
+    layer.appendChild(canvas); box.appendChild(layer); canvasRef.current = canvas;
     redraw();
     map.on('move zoom moveend zoomend resize', redraw);
-    return () => {
-      map.off('move zoom moveend zoomend resize', redraw);
-      if (mapContainer.contains(div)) mapContainer.removeChild(div);
-      canvasRef.current = null;
-    };
+    return () => { map.off('move zoom moveend zoomend resize', redraw); layer.remove(); canvasRef.current = null; };
   }, [map, redraw]);
-
   return null;
 }
 
-export default function MappingMap({
-  sites, selectedSite, onSiteClick, noLabels = false, disableAutoZoom = false, showGrid = false,
-}: {
-  sites: BookSite[]; selectedSite: string | null; onSiteClick: (name: string) => void;
-  noLabels?: boolean; disableAutoZoom?: boolean; showGrid?: boolean;
+/**
+ * The map book's map. Places are blue dots, the ones UPSC has asked amber,
+ * the picked one a white dot ringed in blue. "No boundaries" swaps the tiles
+ * for a plain outline of the region, as in the exam; the quiz uses it too, so
+ * a basemap label cannot give the answer away. Dot colours come from classes,
+ * since a CSS variable in an SVG attribute is not read by every browser, and
+ * each dot has a wider, invisible ring around it to be easy to tap.
+ */
+export default function MappingMap({ sites, selected, onPick, outline = false, grid = false, fixed = false, quiet = false }: {
+  sites: MapSite[];
+  selected: string | null;
+  onPick: (name: string) => void;
+  /** The plain outline map, no tiles and no state lines. */
+  outline?: boolean;
+  grid?: boolean;
+  /** Keep India in frame whatever is picked (the quiz). */
+  fixed?: boolean;
+  /** No names on hover (the quiz). */
+  quiet?: boolean;
 }) {
-  const validSites = sites.filter(s => s.lat != null && s.lng != null);
-  const [statesGeoJSON, setStatesGeoJSON] = useState<any>(null);
-  const { langHi } = useLang();
-
-  useEffect(() => {
-    fetch('/india_states.geojson').then(r => r.json()).then(data => setStatesGeoJSON(data)).catch(() => {});
-  }, []);
-
+  const states = useGeo('states', !outline);
+  const shape = useGeo('outline', outline);
   return (
-    <div style={{ width: '100%', height: 420, border: '1.5px solid var(--border2)', borderRadius: 10, overflow: 'hidden', position: 'relative', zIndex: 0 }}>
-      <MapContainer
-        key={noLabels ? 'nolabels' : 'labels'}
-        bounds={INDIA_BOUNDS}
-        style={{ width: '100%', height: '100%', background: noLabels ? 'var(--accent)' : 'var(--bg2)' }}
-        zoomControl={true} scrollWheelZoom={true} attributionControl={bookBasemap.requireVisibleAttribution}
-      >
-        {noLabels ? (
-          <GeoJSON data={indiaGeoJSON as any} style={(feature: any) => {
-            const isIndia = feature?.properties?.name === 'India';
-            return { fillColor: isIndia ? '#f5f0e8' : '#e8e3d8', fillOpacity: 1, color: '#222', weight: isIndia ? 1.5 : 0.8 };
-          }} />
-        ) : (
-          <>
-            <TileLayer url={bookBasemap.url} maxNativeZoom={bookBasemap.maxNativeZoom} maxZoom={19} attribution={bookBasemap.attribution} />
-            {statesGeoJSON && (
-              <GeoJSON key="states" data={statesGeoJSON} interactive={false}
-                style={() => ({ fillColor: 'transparent', fillOpacity: 0, color: '#888', weight: 1, opacity: 0.7 })}
-              />
-            )}
-          </>
-        )}
-        <FitBounds sites={validSites} selectedSite={selectedSite} disableAutoZoom={disableAutoZoom} />
-        {showGrid && <GraticuleGrid />}
-        {validSites.map((site) => {
-          const isSelected = selectedSite === site.name;
-          const hasPYQ = site.pyqYears && site.pyqYears.length > 0;
+    <div className={`mm${outline ? ' plain' : ''}`}>
+      <MapContainer key={outline ? 'plain' : 'tiles'} bounds={INDIA_BOUNDS} style={{ width: '100%', height: '100%' }}
+        zoomControl scrollWheelZoom={false} attributionControl={!outline && bookBasemap.requireVisibleAttribution}>
+        {/* Shapes arrive after the dots; in the dots' own layer they would be drawn over them. */}
+        <Pane name="shapes" style={{ zIndex: 350 }}>
+          {outline ? (
+            shape && <GeoJSON data={shape} interactive={false} style={(f) => {
+              const india = f?.properties?.name === 'India';
+              return { fillColor: india ? '#fbf8f2' : '#ebe7de', fillOpacity: 1, color: '#3a3a3a', weight: india ? 1.4 : 0.7 };
+            }} />
+          ) : (
+            states && <GeoJSON data={states} interactive={false} style={() => ({ fill: false, color: '#8a8a8a', weight: 1, opacity: 0.7 })} />
+          )}
+        </Pane>
+        {!outline && <TileLayer url={bookBasemap.url} maxNativeZoom={bookBasemap.maxNativeZoom} maxZoom={19} attribution={bookBasemap.attribution} />}
+        <Frame sites={sites} selected={selected} fixed={fixed} />
+        {grid && <Graticule />}
+        {sites.map((s) => {
+          const on = selected === s.name;
+          const asked = s.asked.length > 0;
           return (
-            <>
-            <CircleMarker
-              key={`${site.name}_hit`}
-              center={[site.lat as number, site.lng as number]}
-              radius={18}
-              pathOptions={{ fillColor: 'transparent', fillOpacity: 0, color: 'transparent', weight: 0 }}
-              eventHandlers={{ click: () => onSiteClick(site.name) }}
-            />
-            <CircleMarker
-              key={site.name}
-              center={[site.lat as number, site.lng as number]}
-              radius={isSelected ? 8 : 4}
-              pathOptions={{
-                fillColor: isSelected ? '#ffffff' : hasPYQ ? 'var(--warning-text)' : 'var(--accent)',
-                fillOpacity: 1,
-                color: isSelected ? 'var(--accent)' : 'rgba(255,255,255,0.6)',
-                weight: isSelected ? 3 : 1.5,
-              }}
-              eventHandlers={{ click: () => onSiteClick(site.name) }}
-            >
-              {!noLabels && (
-                <Tooltip direction="top" offset={[0, -6]} className="mapping-tooltip">
-                  <div style={{ fontFamily: 'var(--font-ui)', fontSize: 12 }}>
-                    <strong>{langHi && site.name_hi ? site.name_hi : site.name}</strong>
-                    <div style={{ color: '#aaa', fontSize: 11 }}>{langHi && site.location_hi ? site.location_hi : site.location}</div>
-                    {hasPYQ && <div style={{ color: 'var(--warning-text)', fontSize: 10, marginTop: 2 }}>PYQ: {site.pyqYears.join(', ')}</div>}
-                  </div>
-                </Tooltip>
-              )}
-            </CircleMarker>
-            </>
+            <Fragment key={s.name}>
+              <CircleMarker center={[s.lat, s.lng]} radius={16} pathOptions={{ className: 'mm-hit', weight: 0 }} eventHandlers={{ click: () => onPick(s.name) }} />
+              <CircleMarker
+                // Leaflet sets a class only when it makes the dot.
+                key={`${s.name}-${on}`}
+                center={[s.lat, s.lng]}
+                // The quiz's one place is the whole question; it is drawn larger.
+                radius={on ? 8 : quiet ? 7 : 5}
+                pathOptions={{ className: `mm-dot${asked ? ' asked' : ''}${on ? ' on' : ''}`, fillOpacity: 1, weight: on ? 3 : 1.5 }}
+                eventHandlers={{ click: () => onPick(s.name) }}
+              >
+                {!quiet && (
+                  <Tooltip direction="top" offset={[0, -6]} className="mm-tip">
+                    <strong>{s.label}</strong>
+                    <span>{s.place}</span>
+                    {asked && <em>Asked {s.asked.join(', ')}</em>}
+                  </Tooltip>
+                )}
+              </CircleMarker>
+            </Fragment>
           );
         })}
       </MapContainer>
       <style>{`
-        .mapping-tooltip { background: var(--bg3) !important; border: 1px solid var(--border2) !important; color: var(--text) !important; border-radius: 6px !important; padding: 6px 10px !important; }
-        .mapping-tooltip::before { border-top-color: var(--border2) !important; }
-        .leaflet-container { font-family: var(--font-ui) !important; }
+        .mm { position: relative; z-index: 0; isolation: isolate; width: 100%; height: var(--map-h, 440px); border: 1px solid var(--border2); border-radius: var(--radius-lg, 14px); overflow: hidden; background: #e6e6e6; }
+        .mm .leaflet-container { background: #e6e6e6; font-family: var(--font-ui); }
+        .mm.plain, .mm.plain .leaflet-container { background: #d6e4f0; }
+        /* Leaflet's plus-lighter tile blend draws pale seams at a fractional zoom. */
+        .mm .leaflet-container img.leaflet-tile { mix-blend-mode: normal; }
+        .mm-hit { fill: transparent; stroke: none; cursor: pointer; }
+        .mm-dot { fill: var(--accent); stroke: rgba(255, 255, 255, 0.85); cursor: pointer; }
+        .mm-dot.asked { fill: var(--warning-text); }
+        .mm-dot.on { fill: #fff; stroke: var(--accent); }
+        .mm-tip { display: flex; flex-direction: column; gap: 1px; padding: 6px 10px !important; background: var(--ds-card, #fff) !important; border: 1px solid var(--border2) !important; border-radius: 8px !important; box-shadow: var(--elev-2) !important; color: var(--text) !important; font-family: var(--font-ui); font-size: 12px; }
+        .mm-tip span { color: var(--text3); font-size: 11px; }
+        .mm-tip em { font-style: normal; color: var(--warning-text); font-size: 11px; font-weight: 600; }
+        .mm-tip::before { border-top-color: var(--border2) !important; }
       `}</style>
     </div>
   );
