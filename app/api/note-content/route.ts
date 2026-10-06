@@ -32,8 +32,11 @@ export async function GET(req: NextRequest) {
 
   let content = '';
 
-  // An admin override wins over the shipped content, in either language.
-  try {
+  // An admin override wins over the shipped English. Only English: overrides
+  // are stored per note, not per language, and every one is an edit of the
+  // English text, so applying them to Hindi showed 38 of the 51 notes in
+  // English to readers who had asked for Hindi.
+  if (lang === 'en') try {
     const { data } = await createServerClient()
       .from('note_overrides')
       .select('content')

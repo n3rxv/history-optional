@@ -1,7 +1,9 @@
+import { notFound } from 'next/navigation';
 import { allNotes } from '@/lib/notes';
 import NoteReader from './NoteReader';
 import type { Metadata } from 'next';
 import { sanitizeNoteHtml } from '@/lib/sanitizeNoteHtml';
+import { sectionByName } from '@/components/notes/sections';
 
 /**
  * Prerendered at build and kept until something changes it: a deploy, or an
@@ -11,8 +13,8 @@ import { sanitizeNoteHtml } from '@/lib/sanitizeNoteHtml';
  * notes are read less than once an hour, so nearly every visit found the page
  * stale and rendered it again, and each render wrote 25-30 ISR units (8 KB
  * each) -- with the other hourly pages, enough to use up the plan's ISR writes
- * and much of its CPU. Readers never depended on it: NoteReader refetches the
- * body on mount.
+ * and much of its CPU. The English body served here is therefore current, so
+ * NoteReader shows it as it is and fetches only the Hindi one.
  */
 export function generateStaticParams() {
   return allNotes.map(n => ({ slug: n.slug }));
@@ -31,7 +33,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function NotePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const note = allNotes.find(n => n.slug === slug);
+  const idx = allNotes.findIndex(n => n.slug === slug);
+  if (idx < 0) notFound();
+  const note = allNotes[idx];
+
+  // Worked out here so the browser is not sent every note's details to find
+  // the one before, the one after and the rest of the section.
+  const link = (n: (typeof allNotes)[number] | undefined) => (n ? { slug: n.slug, title: n.title } : null);
+  const prev = link(allNotes[idx - 1]);
+  const next = link(allNotes[idx + 1]);
+  const related = allNotes
+    .filter(n => n.section === note.section && n.slug !== slug)
+    .slice(0, 5)
+    .map(n => ({ slug: n.slug, title: n.title }));
+  const sectionHref = sectionByName(note.section)?.href ?? '/notes';
 
   let initialContent = '';
 
@@ -56,7 +71,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
     } catch {}
   }
 
-  const articleSchema = note ? {
+  const articleSchema = {
     "@context": "https://schema.org",
     "@graph": [
       {
@@ -100,7 +115,7 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
             "@type": "ListItem",
             "position": 2,
             "name": note.section,
-            "item": `https://historyoptional.xyz/paper${note.paper}`,
+            "item": `https://historyoptional.xyz${sectionHref}`,
           },
           {
             "@type": "ListItem",
@@ -111,17 +126,15 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
         ],
       },
     ],
-  } : null;
+  };
 
   return (
     <>
-      {articleSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-        />
-      )}
-      <NoteReader slug={slug} initialContent={initialContent} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <NoteReader note={note} initialContent={initialContent} prev={prev} next={next} related={related} />
     </>
   );
 }

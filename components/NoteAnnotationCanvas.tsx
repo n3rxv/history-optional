@@ -11,20 +11,36 @@ interface Stroke {
   scrollY: number;
 }
 
+// Real colours, not var(--token)s: a canvas cannot read CSS variables, and
+// when the site-wide light-mode change swapped these for tokens every pen but
+// white stopped drawing in colour.
 const PEN_COLORS = [
-  { label: 'Black',  value: 'var(--bg3)' },
+  { label: 'Black',  value: '#111111' },
   { label: 'White',  value: '#f0f0f0' },
-  { label: 'Gold',   value: 'var(--warning-text)' },
-  { label: 'Cyan',   value: 'var(--info-text)' },
-  { label: 'Pink',   value: 'var(--accent)' },
-  { label: 'Green',  value: 'var(--success-text)' },
+  { label: 'Gold',   value: '#d4a843' },
+  { label: 'Cyan',   value: '#4ecdc4' },
+  { label: 'Pink',   value: '#ff6b9d' },
+  { label: 'Green',  value: '#51cf66' },
 ];
 const HL_COLORS = [
-  { label: 'Yellow', value: 'color-mix(in srgb, var(--warning-text) 40%, transparent)'    },
-  { label: 'Cyan',   value: 'color-mix(in srgb, var(--info-text) 35%, transparent)'   },
-  { label: 'Pink',   value: 'color-mix(in srgb, var(--accent) 35%, transparent)' },
-  { label: 'Green',  value: 'color-mix(in srgb, var(--success-text) 35%, transparent)'  },
+  { label: 'Yellow', value: 'rgba(255,235,0,0.4)'    },
+  { label: 'Cyan',   value: 'rgba(0,220,220,0.35)'   },
+  { label: 'Pink',   value: 'rgba(255,100,160,0.35)' },
+  { label: 'Green',  value: 'rgba(80,220,100,0.35)'  },
 ];
+
+/** Strokes saved while the colours were tokens, mapped back to what they meant. */
+const TOKEN_COLORS: Record<string, string> = {
+  'var(--bg3)': '#111111',
+  'var(--warning-text)': '#d4a843',
+  'var(--info-text)': '#4ecdc4',
+  'var(--accent)': '#ff6b9d',
+  'var(--success-text)': '#51cf66',
+  'color-mix(in srgb, var(--warning-text) 40%, transparent)': 'rgba(255,235,0,0.4)',
+  'color-mix(in srgb, var(--info-text) 35%, transparent)': 'rgba(0,220,220,0.35)',
+  'color-mix(in srgb, var(--accent) 35%, transparent)': 'rgba(255,100,160,0.35)',
+  'color-mix(in srgb, var(--success-text) 35%, transparent)': 'rgba(80,220,100,0.35)',
+};
 
 interface Props {
   noteSlug: string;
@@ -40,23 +56,16 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
   const storageKey = `annotations_v3_${noteSlug}`;
 
   const [tool,      setTool]      = useState<'pen' | 'highlighter' | 'eraser'>('pen');
-  const [penColor,  setPenColor]  = useState('#f0f0f0');
-  const [hlColor,   setHlColor]   = useState('color-mix(in srgb, var(--warning-text) 40%, transparent)');
+  // Dark ink on the light theme, light ink on the dark one.
+  const [penColor,  setPenColor]  = useState(() =>
+    typeof document !== 'undefined' && document.documentElement.dataset.theme === 'light' ? '#111111' : '#f0f0f0');
+  const [hlColor,   setHlColor]   = useState('rgba(255,235,0,0.4)');
   const [penWidth,  setPenWidth]  = useState(2);
   const [tick,      setTick]      = useState(0);
   const [eraserPos, setEraserPos] = useState<{ x: number; y: number } | null>(null);
 
   const saveLocal = useCallback((strokes: Stroke[]) => {
     try { localStorage.setItem(storageKey, JSON.stringify(strokes)); } catch {}
-  }, [storageKey]);
-
-  // Load from localStorage
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(storageKey);
-      if (raw) strokesRef.current = JSON.parse(raw);
-    } catch {}
-    setTick(t => t + 1);
   }, [storageKey]);
 
   // Redraw canvas
@@ -87,6 +96,15 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
 
   useEffect(() => { redraw(); }, [tick, redraw]);
 
+  // Load from localStorage
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) strokesRef.current = (JSON.parse(raw) as Stroke[]).map(st => ({ ...st, color: TOKEN_COLORS[st.color] ?? st.color }));
+    } catch {}
+    redraw();
+  }, [storageKey, redraw]);
+
   // Resize canvas
   useEffect(() => {
     const resize = () => {
@@ -113,19 +131,24 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
+  // Rubs out any stroke passing near the point. The distance used to be
+  // worked out against the wrong y, so the eraser missed what it touched.
+  const eraseAt = (pt: Point) => {
+    const before = strokesRef.current.length;
+    strokesRef.current = strokesRef.current.filter(s => {
+      const dy = s.scrollY - window.scrollY;
+      return !s.points.some(p => Math.hypot(p.x - pt.x, p.y + dy - pt.y) < penWidth * 6);
+    });
+    if (strokesRef.current.length === before) return;
+    saveLocal(strokesRef.current);
+    setTick(t => t + 1);
+  };
+
   const onPointerDown = (e: React.PointerEvent) => {
     if (!active) return;
     isDrawing.current = true;
     const pt = getPos(e);
-    if (tool === 'eraser') {
-      strokesRef.current = strokesRef.current.filter(s => {
-        const dy = s.scrollY - window.scrollY;
-        return !s.points.some(p => Math.hypot(p.x - pt.x, p.y - (p.y + dy) + pt.y) < penWidth * 6);
-      });
-      saveLocal(strokesRef.current);
-      setTick(t => t + 1);
-      return;
-    }
+    if (tool === 'eraser') { eraseAt(pt); return; }
     currentRef.current = {
       points: [pt],
       color: tool === 'highlighter' ? hlColor : penColor,
@@ -136,6 +159,7 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
+    if (isDrawing.current && tool === 'eraser') { eraseAt(getPos(e)); return; }
     if (!isDrawing.current || !currentRef.current) return;
     const pt = getPos(e);
     const s = currentRef.current;
@@ -160,8 +184,9 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
   };
 
   const onPointerUp = () => {
-    if (!isDrawing.current || !currentRef.current) return;
+    const wasDrawing = isDrawing.current;
     isDrawing.current = false;
+    if (!wasDrawing || !currentRef.current) return;
     strokesRef.current.push(currentRef.current);
     currentRef.current = null;
     saveLocal(strokesRef.current);
@@ -180,18 +205,17 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
     setTick(t => t + 1);
   };
 
-  const sep = <div style={{ width: 1, height: 24, background: 'rgba(0,0,0,0.08)', flexShrink: 0 }} />;
-  const toolBtn = (t: typeof tool, icon: string, label: string) => (
-    <button onClick={() => setTool(t)} title={label} style={{
-      padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 15,
-      background: tool === t ? 'color-mix(in srgb, var(--warning-text) 25%, transparent)' : 'rgba(0,0,0,0.05)',
-      border: tool === t ? '1px solid color-mix(in srgb, var(--warning-text) 70%, transparent)' : '1px solid rgba(0,0,0,0.08)',
-      color: 'var(--text)', transition: 'all 0.15s',
-    }}>{icon}</button>
-  );
+  const tools: { id: typeof tool; label: string; icon: React.ReactNode }[] = [
+    { id: 'pen', label: 'Pen', icon: <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" /> },
+    { id: 'highlighter', label: 'Marker', icon: <path d="M9 11l-6 6v3h9l3-3M22 12l-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4" /> },
+    { id: 'eraser', label: 'Eraser', icon: <path d="M20 20H9L4 15a2 2 0 0 1 0-3l8-8a2 2 0 0 1 3 0l5 5a2 2 0 0 1 0 3l-7 7M6 13l6 6" /> },
+  ];
+  const colours = tool === 'pen' ? PEN_COLORS : tool === 'highlighter' ? HL_COLORS : [];
+  const current = tool === 'pen' ? penColor : hlColor;
 
   return (
     <>
+      <style>{CANVAS_CSS}</style>
       <canvas
         ref={canvasRef}
         onPointerDown={onPointerDown}
@@ -212,86 +236,70 @@ export default function NoteAnnotationCanvas({ noteSlug, active, onToggle }: Pro
       />
 
       {active && tool === 'eraser' && eraserPos && (
-        <div style={{
-          position: 'fixed',
-          left: eraserPos.x - (penWidth * 4),
-          top: eraserPos.y - (penWidth * 4),
+        <div className="nac-eraser" style={{
+          left: eraserPos.x - (penWidth * 4), top: eraserPos.y - (penWidth * 4),
           width: penWidth * 8, height: penWidth * 8,
-          borderRadius: '50%',
-          border: '2px solid rgba(255,255,255,0.8)',
-          background: 'rgba(0,0,0,0.08)',
-          pointerEvents: 'none', zIndex: 200,
-          boxShadow: '0 0 0 1px rgba(0,0,0,0.5)',
         }} />
       )}
 
       {active && (
-        <div style={{
-          position: 'fixed', bottom: 20, left: '50%', transform: 'translateX(-50%)',
-          zIndex: 200,
-          background: 'var(--bg2)',
-          border: '1px solid rgba(255,255,255,0.14)',
-          borderRadius: 14, padding: '9px 14px',
-          display: 'flex', alignItems: 'center', gap: 8,
-          backdropFilter: 'blur(24px)',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.8)',
-          flexWrap: 'wrap', maxWidth: '92vw', justifyContent: 'center',
-        }}>
-          <div style={{ display: 'flex', gap: 4 }}>
-            {toolBtn('pen',         '✏️', 'Pen')}
-            {toolBtn('highlighter', '🖊️', 'Highlighter')}
-            {toolBtn('eraser', 'E', 'Eraser')}
+        <div className="nac-bar ds" role="toolbar" aria-label="Drawing">
+          <div className="nac-tools">
+            {tools.map(t => (
+              <button key={t.id} type="button" className={tool === t.id ? 'on' : ''} onClick={() => setTool(t.id)} title={t.label} aria-label={t.label} aria-pressed={tool === t.id}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{t.icon}</svg>
+              </button>
+            ))}
           </div>
-          {sep}
-          {tool === 'pen' && (
-            <div style={{ display: 'flex', gap: 5 }}>
-              {PEN_COLORS.map(c => (
-                <button key={c.value} onClick={() => setPenColor(c.value)} title={c.label} style={{
-                  width: 20, height: 20, borderRadius: '50%', padding: 0, cursor: 'pointer',
-                  background: c.value,
-                  border: penColor === c.value ? '2px solid #fff' : '2px solid rgba(0,0,0,0.1)',
-                  boxShadow: c.value === 'var(--bg3)' ? 'inset 0 0 0 1px rgba(255,255,255,0.3)' : 'none',
-                  transform: penColor === c.value ? 'scale(1.25)' : 'scale(1)',
-                  transition: 'all 0.12s',
-                }} />
+          {colours.length > 0 && (
+            <div className="nac-colours">
+              {colours.map(c => (
+                <button key={c.value} type="button" title={c.label} aria-label={c.label} aria-pressed={current === c.value}
+                  className={`nac-swatch${current === c.value ? ' on' : ''}${tool === 'highlighter' ? ' wide' : ''}`}
+                  style={{ ['--sw' as string]: tool === 'highlighter' ? c.value.replace(/[\d.]+\)$/, '0.85)') : c.value }}
+                  onClick={() => (tool === 'pen' ? setPenColor(c.value) : setHlColor(c.value))} />
               ))}
             </div>
           )}
-          {tool === 'highlighter' && (
-            <div style={{ display: 'flex', gap: 5 }}>
-              {HL_COLORS.map(c => (
-                <button key={c.value} onClick={() => setHlColor(c.value)} title={c.label} style={{
-                  width: 22, height: 14, borderRadius: 3, padding: 0, cursor: 'pointer',
-                  background: c.value.replace(/[\d.]+\)$/, '0.85)'),
-                  border: hlColor === c.value ? '2px solid #fff' : '2px solid transparent',
-                  transition: 'all 0.12s',
-                }} />
-              ))}
-            </div>
-          )}
-          {sep}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 10, color: 'var(--text3)' }}>Size</span>
-            <input type="range" min={1} max={10} value={penWidth}
-              onChange={e => setPenWidth(+e.target.value)}
-              style={{ width: 65, accentColor: 'var(--warning-text)' }} />
-            <span style={{ fontSize: 10, color: 'var(--text3)', minWidth: 10 }}>{penWidth}</span>
+          <label className="nac-size">
+            <span>Size</span>
+            <input type="range" min={1} max={10} value={penWidth} onChange={e => setPenWidth(+e.target.value)} />
+          </label>
+          <div className="nac-actions">
+            <button type="button" className="nac-btn" onClick={undo} title="Undo" aria-label="Undo">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 7v6h6" /><path d="M21 17a9 9 0 0 0-15-6.7L3 13" /></svg>
+            </button>
+            <button type="button" className="nac-btn danger" onClick={() => { if (confirm('Rub out every drawing on this note?')) clearAll(); }} title="Clear all" aria-label="Clear all">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6" /></svg>
+            </button>
+            <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={onToggle}>Done</button>
           </div>
-          {sep}
-          <button onClick={undo} title="Undo" style={{
-            padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 14,
-            background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', color: 'var(--text2)',
-          }}>↩</button>
-          <button onClick={clearAll} title="Clear all" style={{
-            padding: '5px 9px', borderRadius: 6, cursor: 'pointer', fontSize: 13,
-            background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)', color: 'var(--danger-text)',
-          }}>🗑</button>
-          <button onClick={onToggle} style={{
-            padding: '5px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 12, fontWeight: 600,
-            background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 45%, transparent)', color: 'var(--warning-text)',
-          }}>Done</button>
         </div>
       )}
     </>
   );
 }
+
+const CANVAS_CSS = `
+.nac-eraser { position: fixed; z-index: 200; pointer-events: none; border-radius: 50%; border: 2px solid var(--text2); background: color-mix(in srgb, var(--text) 8%, transparent); }
+.nac-bar {
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 200;
+  display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 10px 14px; width: max-content; max-width: calc(100vw - 24px);
+  padding: 8px 10px; background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-xl); box-shadow: var(--elev-3);
+}
+.nac-tools { display: flex; gap: 2px; padding: 3px; border-radius: var(--radius-full); background: var(--ds-soft); }
+.nac-tools button { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 50%; background: none; color: var(--text2); cursor: pointer; }
+.nac-tools button.on { background: var(--ds-card); color: var(--premium-text); box-shadow: var(--elev-1); }
+.nac-colours { display: flex; align-items: center; gap: 6px; }
+.nac-swatch { width: 22px; height: 22px; padding: 0; border-radius: 50%; background: var(--sw); border: 1px solid var(--border2); cursor: pointer; transition: transform 0.12s; }
+.nac-swatch.wide { width: 26px; height: 16px; border-radius: 4px; }
+.nac-swatch.on { box-shadow: 0 0 0 2px var(--ds-card), 0 0 0 4px var(--text2); }
+.nac-size { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text3); }
+.nac-size input { width: 72px; accent-color: var(--premium-text); }
+.nac-actions { display: flex; align-items: center; gap: 4px; }
+.nac-btn { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 50%; background: none; color: var(--text2); cursor: pointer; }
+.nac-btn:hover { background: var(--ds-soft); color: var(--text); }
+.nac-btn.danger:hover { color: var(--danger-text); }
+/* Clear of the tab bar on a phone. */
+@media (max-width: 768px) { .nac-bar { bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 10px); } }
+`;

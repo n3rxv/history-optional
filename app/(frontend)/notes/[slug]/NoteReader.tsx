@@ -1,22 +1,99 @@
 'use client';
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { rememberNote } from '@/lib/lastNote';
-import { useIsPhone } from '@/hooks/useIsPhone';
-import SidebarNotes from '@/components/SidebarNotes';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { allNotes, getNoteBySlug, paper1Notes, paper2Notes } from '@/lib/notes';
-import { getPYQsForNote } from '@/lib/notePyqMap';
-import { useLang } from '@/lib/i18n/LangContext';
+import { onAuthStateChanged, type User } from 'firebase/auth';
 import { auth, signInWithGoogle } from '@/lib/firebase';
-import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
-import AnnotationToggle from '@/components/AnnotationToggle';
-import TableOfContents from '@/components/TableOfContents';
-import type { User } from 'firebase/auth';
+import { useLang } from '@/lib/i18n/LangContext';
+import { rememberNote } from '@/lib/lastNote';
+import { useSyllabusTracker } from '@/hooks/useSyllabusTracker';
 import { useNoteSearch } from '@/hooks/useNoteSearch';
-import { useLoginPrompt } from '@/hooks/useLoginPrompt';
-import LoginPromptModal from '@/components/LoginPromptModal';
+import SidebarNotes from '@/components/SidebarNotes';
+import NoteAnnotationCanvas from '@/components/NoteAnnotationCanvas';
 import OwlLoader from '@/components/OwlLoader';
-import BackButton from '@/components/BackButton';
+import Mascot from '@/components/Mascot';
+import { sectionByName } from '@/components/notes/sections';
+import InlineEditorToolbar from './InlineEditorToolbar';
+
+/**
+ * One note: the page most of the site's reading happens on, and most of it on
+ * a phone. Laid out like DistilledCrux's reader: a contents sidebar that sits
+ * beside the note on a desktop and slides over it on a phone, one bar of
+ * actions, the note, and a way on at the end.
+ *
+ * What the reader can do here: read it in Hindi, highlight, pin sticky notes,
+ * draw on the page, keep margin notes in the sidebar, find a word, tick the
+ * topic off. Highlights and sticky notes follow the account (/api/user-
+ * annotations); drawings and margin notes stay in this browser. An admin can
+ * edit the English body in place.
+ *
+ * The whole note needs a free account, as it always has: signed out, the
+ * first screenful shows under a sign-in card.
+ */
+
+export type ReaderNote = {
+  slug: string; title: string; paper: 1 | 2; section: string; topic: number;
+  description: string; subtopics?: string[];
+};
+type NavLink = { slug: string; title: string };
+type Color = 'yellow' | 'green' | 'red' | 'blue';
+type Highlight = { id: string; text: string; color: Color };
+type StickyNote = { id: string; text: string; x: number; y: number };
+type TocEntry = { id: string; text: string; level: 2 | 3 };
+
+const SESSION_KEY = 'histopt_admin_v2';
+
+const HIGHLIGHT_COLORS: { id: Color; label: string; color: string }[] = [
+  { id: 'yellow', label: 'Gold', color: '#c9a84c' },
+  { id: 'green', label: 'Mint', color: '#4cad7a' },
+  { id: 'red', label: 'Rose', color: '#c94c4c' },
+  { id: 'blue', label: 'Sky', color: '#4c8bc9' },
+];
+
+// Below this width the sidebar floats over the note instead of sitting beside it.
+const FLOATING_QUERY = '(max-width: 1024px)';
+const subscribeWidth = (cb: () => void) => {
+  const mq = window.matchMedia(FLOATING_QUERY);
+  mq.addEventListener('change', cb);
+  return () => mq.removeEventListener('change', cb);
+};
+const floating = () => typeof window !== 'undefined' && window.matchMedia(FLOATING_QUERY).matches;
+
+const subscribeScroll = (cb: () => void) => {
+  window.addEventListener('scroll', cb, { passive: true });
+  window.addEventListener('resize', cb);
+  return () => { window.removeEventListener('scroll', cb); window.removeEventListener('resize', cb); };
+};
+/** How far down the page, 0 to 1, rounded so a scroll of a pixel is not a re-render. */
+const readScroll = () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  return max > 0 ? Math.round(Math.min(1, Math.max(0, window.scrollY / max)) * 500) / 500 : 0;
+};
+const useScrollFraction = () => useSyncExternalStore(subscribeScroll, readScroll, () => 0);
+const useViewportHeight = () => useSyncExternalStore(subscribeScroll, () => window.innerHeight, () => 0);
+
+/** Whether the site footer is on screen, where Find would sit on its links. */
+let footerSeen = false;
+const subscribeFooter = (cb: () => void) => {
+  const el = document.querySelector('footer.ft');
+  if (!el) return () => {};
+  const io = new IntersectionObserver(([e]) => { footerSeen = e.isIntersecting; cb(); });
+  io.observe(el);
+  return () => io.disconnect();
+};
+
+const noSubscribe = () => () => {};
+const readAdminToken = () => { try { return sessionStorage.getItem(SESSION_KEY); } catch { return null; } };
+
+const scrollToId = (id: string) => {
+  const el = document.getElementById(id);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' });
+};
+
+/** Minutes to read a note at an unhurried 200 words a minute. */
+function readingMinutes(html: string): number {
+  const words = html.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
 
 function injectHeadingIds(html: string): string {
   let h2count = 0;
@@ -24,1439 +101,763 @@ function injectHeadingIds(html: string): string {
   return html
     .replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (_, attrs, inner) => {
       const text = inner.replace(/<[^>]+>/g, '').trim();
-      const id = `toc-${h2count++}-${text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`;
+      const id = `toc-h2-${h2count++}-${text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`;
       return `<h2${attrs} id="${id}">${inner}</h2>`;
     })
     .replace(/<h3([^>]*)>([\s\S]*?)<\/h3>/gi, (_, attrs, inner) => {
       const text = inner.replace(/<[^>]+>/g, '').trim();
-      const id = `toc-${h3count++}-${text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`;
+      const id = `toc-h3-${h3count++}-${text.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40)}`;
       return `<h3${attrs} id="${id}">${inner}</h3>`;
     });
 }
 
-type Highlight = { id: string; text: string; color: 'yellow' | 'green' | 'red' | 'blue' };
-type StickyNote = { id: string; text: string; x: number; y: number };
-
-const HIGHLIGHT_COLORS = [
-  { id: 'yellow', label: 'Gold',  color: 'var(--warning-text)' },
-  { id: 'green',  label: 'Mint',  color: 'var(--success-text)' },
-  { id: 'red',    label: 'Rose',  color: 'var(--danger-text)' },
-  { id: 'blue',   label: 'Sky',   color: 'var(--accent)' },
-];
-
-const SESSION_KEY = 'histopt_admin_v2';
-
-function InlineEditorToolbar({ contentRef }: { contentRef: React.RefObject<HTMLDivElement | null> }) {
-  const cmd = (command: string, value?: string) => {
-    document.execCommand(command, false, value);
-    contentRef.current?.focus();
-  };
-
-  const insertImage = () => {
-    const url = prompt('Enter image URL:');
-    if (url) cmd('insertImage', url);
-  };
-
-  const insertLink = () => {
-    const url = prompt('Enter URL:');
-    if (url) cmd('createLink', url);
-  };
-
-  const insertTable = () => {
-    const table = `<table style="border-collapse:collapse;width:100%;margin:1rem 0"><tr><td style="border:1px solid var(--warning-text);padding:8px">&nbsp;</td><td style="border:1px solid var(--warning-text);padding:8px">&nbsp;</td><td style="border:1px solid var(--warning-text);padding:8px">&nbsp;</td></tr><tr><td style="border:1px solid var(--warning-text);padding:8px">&nbsp;</td><td style="border:1px solid var(--warning-text);padding:8px">&nbsp;</td><td style="border:1px solid var(--warning-text);padding:8px">&nbsp;</td></tr></table>`;
-    document.execCommand('insertHTML', false, table);
-    contentRef.current?.focus();
-  };
-
-  const setColor = (color: string) => cmd('foreColor', color);
-  const setHighlight = (color: string) => cmd('hiliteColor', color);
-  const setFontSize = (size: string) => cmd('fontSize', size);
-
-  const IconBtn = ({ title, onClick, children, danger }: { title: string; onClick: () => void; children: React.ReactNode; danger?: boolean }) => (
-    <button
-      onMouseDown={e => { e.preventDefault(); onClick(); }}
-      title={title}
-      style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        width: 30, height: 30, borderRadius: 6, cursor: 'pointer',
-        background: 'transparent', border: '1px solid transparent',
-        color: danger ? 'var(--danger-text)' : 'var(--warning-text)',
-        fontSize: '0.85rem', fontWeight: 700,
-        transition: 'background 0.12s, border-color 0.12s, transform 0.1s',
-        flexShrink: 0,
-      }}
-      onMouseEnter={e => {
-        const el = e.currentTarget;
-        el.style.background = danger ? 'color-mix(in srgb, var(--danger-text) 12%, transparent)' : 'color-mix(in srgb, var(--warning-text) 13%, transparent)';
-        el.style.borderColor = danger ? 'color-mix(in srgb, var(--danger-text) 30%, transparent)' : 'color-mix(in srgb, var(--warning-text) 35%, transparent)';
-        el}}
-      onMouseLeave={e => {
-        const el = e.currentTarget;
-        el.style.background = 'transparent';
-        el.style.borderColor = 'transparent';
-        el.style.transform = 'none';
-      }}
-    >
-      {children}
-    </button>
-  );
-
-  const Divider = () => (
-    <div style={{
-      width: 1, height: 22, margin: '0 4px', flexShrink: 0,
-      background: 'linear-gradient(to bottom, transparent, color-mix(in srgb, var(--warning-text) 25%, transparent), transparent)',
-    }} />
-  );
-
-  const Group = ({ children }: { children: React.ReactNode }) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 1, padding: '0 2px' }}>
-      {children}
-    </div>
-  );
-
-  const StyledSelect = ({ onChange, defaultValue, children, width }: any) => (
-    <select
-      onMouseDown={e => e.stopPropagation()}
-      onChange={onChange}
-      defaultValue={defaultValue}
-      style={{
-        background: 'var(--warning-wash)',
-        border: '1px solid color-mix(in srgb, var(--warning-text) 22%, transparent)',
-        color: 'var(--warning-text)', borderRadius: 6, padding: '0 6px',
-        fontSize: '0.73rem', fontWeight: 600,
-        cursor: 'pointer', height: 30, width: width ?? 'auto',
-        outline: 'none', letterSpacing: '0.02em',
-        transition: 'border-color 0.12s',
-      }}
-    >
-      {children}
-    </select>
-  );
-
-  const ColorSwatch = ({ color, title, onClick, ring }: { color: string; title: string; onClick: () => void; ring?: string }) => (
-    <button
-      onMouseDown={e => { e.preventDefault(); onClick(); }}
-      title={title}
-      style={{
-        width: 17, height: 17, borderRadius: 4,
-        background: color,
-        border: `2px solid ${ring ?? 'rgba(0,0,0,0.08)'}`,
-        cursor: 'pointer', flexShrink: 0,
-        transition: 'transform 0.1s, border-color 0.1s',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.4)',
-      }}
-      onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.25)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'; }}
-      onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.borderColor = ring ?? 'rgba(0,0,0,0.08)'; }}
-    />
-  );
-
-  const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-    <span style={{
-      fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em',
-      color: 'color-mix(in srgb, var(--warning-text) 40%, transparent)', textTransform: 'uppercase', userSelect: 'none',
-    }}>{children}</span>
-  );
-
-  return (
-    <div style={{
-      position: 'sticky', top: 86, zIndex: 100,
-      display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center',
-      padding: '5px 10px',
-      background: 'linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%)',
-      backdropFilter: 'blur(20px)',
-      WebkitBackdropFilter: 'blur(20px)',
-      borderBottom: '1px solid color-mix(in srgb, var(--warning-text) 18%, transparent)',
-      borderRadius: '0 0 10px 10px',
-      marginBottom: '1.2rem',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 color-mix(in srgb, var(--warning-text) 10%, transparent)',
-    }}>
-      <Group>
-        <IconBtn title="Undo (Cmd+Z)" onClick={() => cmd('undo')}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
-        </IconBtn>
-        <IconBtn title="Redo (Cmd+Shift+Z)" onClick={() => cmd('redo')}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"/></svg>
-        </IconBtn>
-      </Group>
-      <Divider />
-
-      <Group>
-        <StyledSelect width={88} defaultValue="" onChange={(e: any) => { cmd('formatBlock', e.target.value); contentRef.current?.focus(); }}>
-          <option value="" disabled>Style</option>
-          <option value="h1">Heading 1</option>
-          <option value="h2">Heading 2</option>
-          <option value="h3">Heading 3</option>
-          <option value="h4">Heading 4</option>
-          <option value="p">Paragraph</option>
-          <option value="blockquote">Quote</option>
-          <option value="pre">Code</option>
-        </StyledSelect>
-        <StyledSelect width={52} defaultValue="" onChange={(e: any) => { setFontSize(e.target.value); contentRef.current?.focus(); }}>
-          <option value="" disabled>Sz</option>
-          <option value="1">10</option>
-          <option value="2">13</option>
-          <option value="3">16</option>
-          <option value="4">18</option>
-          <option value="5">24</option>
-          <option value="6">32</option>
-          <option value="7">48</option>
-        </StyledSelect>
-      </Group>
-      <Divider />
-
-      <Group>
-        <IconBtn title="Bold (Cmd+B)" onClick={() => cmd('bold')}><b style={{fontFamily:'Georgia,serif',fontSize:'0.95rem'}}>B</b></IconBtn>
-        <IconBtn title="Italic (Cmd+I)" onClick={() => cmd('italic')}><i style={{fontFamily:'Georgia,serif',fontSize:'0.95rem'}}>I</i></IconBtn>
-        <IconBtn title="Underline (Cmd+U)" onClick={() => cmd('underline')}><span style={{textDecoration:'underline',fontFamily:'Georgia,serif',fontSize:'0.9rem'}}>U</span></IconBtn>
-        <IconBtn title="Strikethrough" onClick={() => cmd('strikeThrough')}><s style={{fontFamily:'Georgia,serif',fontSize:'0.9rem'}}>S</s></IconBtn>
-        <IconBtn title="Superscript" onClick={() => cmd('superscript')}><span style={{fontSize:'0.7rem'}}>x<sup style={{fontSize:'0.6rem'}}>2</sup></span></IconBtn>
-        <IconBtn title="Subscript" onClick={() => cmd('subscript')}><span style={{fontSize:'0.7rem'}}>x<sub style={{fontSize:'0.6rem'}}>2</sub></span></IconBtn>
-      </Group>
-      <Divider />
-
-      <Group>
-        <IconBtn title="Align left" onClick={() => cmd('justifyLeft')}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="2" rx="1"/><rect x="3" y="10" width="12" height="2" rx="1"/><rect x="3" y="15" width="18" height="2" rx="1"/><rect x="3" y="20" width="10" height="2" rx="1"/></svg>
-        </IconBtn>
-        <IconBtn title="Center" onClick={() => cmd('justifyCenter')}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="2" rx="1"/><rect x="6" y="10" width="12" height="2" rx="1"/><rect x="3" y="15" width="18" height="2" rx="1"/><rect x="7" y="20" width="10" height="2" rx="1"/></svg>
-        </IconBtn>
-        <IconBtn title="Align right" onClick={() => cmd('justifyRight')}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="2" rx="1"/><rect x="9" y="10" width="12" height="2" rx="1"/><rect x="3" y="15" width="18" height="2" rx="1"/><rect x="11" y="20" width="10" height="2" rx="1"/></svg>
-        </IconBtn>
-        <IconBtn title="Justify" onClick={() => cmd('justifyFull')}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="2" rx="1"/><rect x="3" y="10" width="18" height="2" rx="1"/><rect x="3" y="15" width="18" height="2" rx="1"/><rect x="3" y="20" width="18" height="2" rx="1"/></svg>
-        </IconBtn>
-      </Group>
-      <Divider />
-
-      <Group>
-        <IconBtn title="Bullet list" onClick={() => cmd('insertUnorderedList')}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="4" cy="6" r="1.5"/><rect x="8" y="5" width="13" height="2" rx="1"/><circle cx="4" cy="12" r="1.5"/><rect x="8" y="11" width="13" height="2" rx="1"/><circle cx="4" cy="18" r="1.5"/><rect x="8" y="17" width="13" height="2" rx="1"/></svg>
-        </IconBtn>
-        <IconBtn title="Numbered list" onClick={() => cmd('insertOrderedList')}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
-        </IconBtn>
-        <IconBtn title="Indent" onClick={() => cmd('indent')}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/><polyline points="3,9 6,12 3,15"/></svg>
-        </IconBtn>
-        <IconBtn title="Outdent" onClick={() => cmd('outdent')}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/><polyline points="7,9 4,12 7,15"/></svg>
-        </IconBtn>
-      </Group>
-      <Divider />
-
-      <Group>
-        <IconBtn title="Insert link" onClick={insertLink}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-        </IconBtn>
-        <IconBtn title="Insert image" onClick={insertImage}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
-        </IconBtn>
-        <IconBtn title="Insert table" onClick={insertTable}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
-        </IconBtn>
-        <IconBtn title="Horizontal rule" onClick={() => cmd('insertHorizontalRule')}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12"/></svg>
-        </IconBtn>
-      </Group>
-      <Divider />
-
-      <Group>
-        <SectionLabel>A</SectionLabel>
-        <ColorSwatch color="var(--text)" title="Default" onClick={() => setColor('var(--text)')} />
-        <ColorSwatch color="var(--warning-text)" title="Gold" onClick={() => setColor('var(--warning-text)')} ring="color-mix(in srgb, var(--warning-text) 50%, transparent)" />
-        <ColorSwatch color="var(--accent)" title="Blue" onClick={() => setColor('var(--accent)')} />
-        <ColorSwatch color="var(--success-text)" title="Green" onClick={() => setColor('var(--success-text)')} />
-        <ColorSwatch color="var(--danger-text)" title="Red" onClick={() => setColor('var(--danger-text)')} />
-        <ColorSwatch color="var(--accent)" title="Purple" onClick={() => setColor('var(--accent)')} />
-        <ColorSwatch color="var(--warning-text)" title="Orange" onClick={() => setColor('var(--warning-text)')} />
-      </Group>
-      <Divider />
-
-      <Group>
-        <SectionLabel>H</SectionLabel>
-        <ColorSwatch color="color-mix(in srgb, var(--warning-text) 40%, transparent)" title="Gold highlight" onClick={() => setHighlight('color-mix(in srgb, var(--warning-text) 40%, transparent)')} ring="color-mix(in srgb, var(--warning-text) 50%, transparent)" />
-        <ColorSwatch color="color-mix(in srgb, var(--accent) 40%, transparent)" title="Blue highlight" onClick={() => setHighlight('color-mix(in srgb, var(--accent) 40%, transparent)')} />
-        <ColorSwatch color="color-mix(in srgb, var(--success-text) 40%, transparent)" title="Green highlight" onClick={() => setHighlight('color-mix(in srgb, var(--success-text) 40%, transparent)')} />
-        <ColorSwatch color="color-mix(in srgb, var(--danger-text) 40%, transparent)" title="Red highlight" onClick={() => setHighlight('color-mix(in srgb, var(--danger-text) 40%, transparent)')} />
-        <ColorSwatch color="color-mix(in srgb, var(--accent) 40%, transparent)" title="Purple highlight" onClick={() => setHighlight('color-mix(in srgb, var(--accent) 40%, transparent)')} />
-      </Group>
-      <Divider />
-
-      <Group>
-        <IconBtn title="Clear formatting" onClick={() => cmd('removeFormat')} danger>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19l7-7-4-4-7 7 4 4z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><line x1="2" y1="22" x2="22" y2="2"/></svg>
-        </IconBtn>
-        <IconBtn title="Remove link" onClick={() => cmd('unlink')} danger>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
-        </IconBtn>
-      </Group>
-    </div>
-  );
+/**
+ * Display-only clean-up of the note HTML (the admin editor gets it as stored).
+ *
+ * The notes were converted from documents that typed their own bullets: each
+ * item starts with "•", and a sub-point is a flat item indented by an inline
+ * padding and started with "◦". With the browser's bullet as well, every line
+ * had two. The typed ones come off; the CSS gives the indented items a
+ * sub-point's bullet and indent.
+ *
+ * A few admin edits also carry colours pasted from a dark editor (near-white
+ * text, pale backgrounds) that vanish or glare in the other theme. Literal
+ * colours go; the editor's own var(--token) colours follow the theme and stay.
+ */
+function tidyNote(html: string): string {
+  return html
+    .replace(/(<li[^>]*>(?:\s|&nbsp;|<(?:p|strong|b|em|i|span)(?:\s[^>]*)?>)*)[•◦▪●○·](?:\s|&nbsp;)*/g, '$1')
+    .replace(/\sstyle="([^"]*)"/g, (_m, css: string) => {
+      const kept = css.split(';').filter(d => !/^\s*(color|background(-color)?)\s*:\s*(#|rgb)/i.test(d)).join(';').trim();
+      return kept ? ` style="${kept}"` : '';
+    });
 }
 
-// ── SNOO AVATAR (per-account color from email hash) ──
-function snooColor(email: string): string {
-  const palette = [
-    'var(--danger-text)', // reddit orange
-    'var(--success-text)', // mint green
-    'var(--accent)', // sky blue
-    'var(--accent)', // purple
-    'var(--warning-text)', // amber
-    'var(--success-text)', // teal
-    'var(--danger-text)', // coral
-    'var(--accent)', // light blue
-    'var(--success-text)', // lime
-    'var(--warning-text)', // peach
-  ];
-  let hash = 0;
-  for (let i = 0; i < email.length; i++) hash = (hash * 31 + email.charCodeAt(i)) >>> 0;
-  return palette[hash % palette.length];
-}
+const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", nbsp: ' ' };
 
-function SnooAvatar({ email, size = 28 }: { email: string; size?: number }) {
-  const c = snooColor(email);
-  const bg = 'var(--bg)';
-  return (
-    <svg width={size} height={size} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="32" cy="32" r="32" fill={bg}/>
-      {/* Antenna ball */}
-      <circle cx="43" cy="13" r="4.5" fill={c}/>
-      {/* Antenna stick */}
-      <line x1="39.5" y1="15.5" x2="33" y2="21" stroke={c} strokeWidth="2.5" strokeLinecap="round"/>
-      {/* Head */}
-      <circle cx="32" cy="30" r="14" fill={c}/>
-      {/* Eyes white */}
-      <circle cx="27" cy="28" r="3.5" fill="white"/>
-      <circle cx="37" cy="28" r="3.5" fill="white"/>
-      {/* Pupils */}
-      <circle cx="28" cy="28.5" r="1.8" fill={bg}/>
-      <circle cx="38" cy="28.5" r="1.8" fill={bg}/>
-      {/* Smile */}
-      <path d="M27 34 Q32 38.5 37 34" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
-      {/* Ears outer */}
-      <circle cx="18" cy="29" r="4.5" fill={c}/>
-      <circle cx="46" cy="29" r="4.5" fill={c}/>
-      {/* Ears inner */}
-      <circle cx="18" cy="29" r="2.2" fill="var(--danger-text)"/>
-      <circle cx="46" cy="29" r="2.2" fill="var(--danger-text)"/>
-      {/* Body */}
-      <ellipse cx="32" cy="51" rx="10" ry="6.5" fill={c}/>
-    </svg>
-  );
-}
-
-
-
-// ── SCROLLBAR TOC NAVIGATOR ──
-type TocItem = { id: string; text: string; level: 2 | 3 };
-
-function extractToc(html: string): TocItem[] {
-  const items: TocItem[] = [];
-  const h2re = /<h2[^>]*id="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/gi;
-  const h3re = /<h3[^>]*id="([^"]+)"[^>]*>([\s\S]*?)<\/h3>/gi;
-  const all: { idx: number; item: TocItem }[] = [];
+/**
+ * The headings, in order, read straight off the HTML. Done with a regex
+ * rather than DOMParser so it runs on the server too, and the contents list
+ * is in the first paint instead of arriving after it.
+ */
+function extractToc(html: string): TocEntry[] {
+  const out: TocEntry[] = [];
+  const re = /<h([23])[^>]*\sid="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/gi;
   let m: RegExpExecArray | null;
-  while ((m = h2re.exec(html)) !== null) {
-    all.push({ idx: m.index, item: { id: m[1], text: m[2].replace(/<[^>]+>/g, '').trim(), level: 2 } });
+  while ((m = re.exec(html)) !== null) {
+    const text = m[3].replace(/<[^>]+>/g, '').replace(/&(amp|lt|gt|quot|#39|nbsp);/g, (_, e: string) => ENTITIES[e]).trim();
+    if (text) out.push({ id: m[2], text, level: m[1] === '2' ? 2 : 3 });
   }
-  while ((m = h3re.exec(html)) !== null) {
-    all.push({ idx: m.index, item: { id: m[1], text: m[2].replace(/<[^>]+>/g, '').trim(), level: 3 } });
-  }
-  return all.sort((a, b) => a.idx - b.idx).map(x => x.item);
+  return out;
 }
 
-function ScrollbarTOC({ contentHtml }: { contentHtml: string }) {
-  const [open, setOpen] = useState(false);
-  const [scrollPct, setScrollPct] = useState(0);
-  const [activeId, setActiveId] = useState('');
-  // Parsed once per content change. This component re-renders on every scroll
-  // event, and re-parsing ~100KB of HTML each time is what made scrolling a
-  // long note expensive.
-  const toc = useMemo(() => extractToc(contentHtml), [contentHtml]);
+/**
+ * Paint the stored highlights back onto the HTML. Only the text between tags
+ * is rewritten: run over the whole string, a highlight of a word like "style"
+ * rewrote a tag and broke the markup for the rest of the note.
+ */
+function applyHighlights(html: string, highlights: Highlight[]): string {
+  let result = html;
+  for (const h of highlights) {
+    const needle = new RegExp(h.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    const mark = `<mark class="pp-hl pp-hl-${h.color}">${h.text}</mark>`;
+    result = result.replace(/>([^<]+)</g, (_m, text: string) => `>${text.replace(needle, mark)}<`);
+  }
+  return result;
+}
 
-  useEffect(() => {
-    const onScroll = () => {
-      const el = document.documentElement;
-      const pct = el.scrollTop / (el.scrollHeight - el.clientHeight);
-      setScrollPct(isNaN(pct) ? 0 : pct);
-
-      // find active heading
-      const headings = toc.map(t => document.getElementById(t.id)).filter(Boolean) as HTMLElement[];
-      let active = '';
-      for (const h of headings) {
-        if (h.getBoundingClientRect().top <= 120) active = h.id;
-      }
-      setActiveId(active);
+const readLocal = (slug: string): { highlights: Highlight[]; stickies: StickyNote[] } => {
+  try {
+    return {
+      highlights: JSON.parse(localStorage.getItem(`hl-${slug}`) ?? '[]'),
+      stickies: JSON.parse(localStorage.getItem(`st-${slug}`) ?? '[]'),
     };
+  } catch {
+    return { highlights: [], stickies: [] };
+  }
+};
+
+// ── Current section ──────────────────────────────────────────
+/**
+ * The section being read: the last heading that has passed under the navbar.
+ * Looked up on each scroll, because highlighting re-renders the note and a
+ * heading held from before is detached.
+ */
+function useActiveHeading(entries: TocEntry[]) {
+  const [activeId, setActiveId] = useState('');
+  useEffect(() => {
+    if (!entries.length) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      let id = entries[0].id;
+      for (const { id: hid } of entries) {
+        const el = document.getElementById(hid);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= 130) id = hid; else break;
+      }
+      setActiveId(id);
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [toc]);
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(frame); };
+  }, [entries]);
+  return activeId;
+}
 
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setOpen(false);
-  };
+/** A thin bar under the navbar that fills as the reader goes down the note. */
+function ReadingProgress() {
+  const pct = useScrollFraction();
+  return <div className="nr-progress" aria-hidden="true"><span style={{ transform: `scaleX(${pct})` }} /></div>;
+}
 
-  if (toc.length === 0) return null;
+/** The contents as a card above the note, for when the sidebar is shut. */
+function TableOfContents({ entries }: { entries: TocEntry[] }) {
+  const [open, setOpen] = useState(false);
+  const activeId = useActiveHeading(entries);
+  if (!entries.length) return null;
+  let h2i = 0;
+  return (
+    <div className={`nr-toc${open ? ' open' : ''}`}>
+      <button type="button" className="nr-toc-toggle" onClick={() => setOpen(o => !o)} aria-expanded={open}>
+        <span>On this page</span>
+        <span className="nr-toc-count">{entries.filter(e => e.level === 2).length} sections</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="nr-toc-chev" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+      </button>
+      {open && (
+        <nav className="nr-toc-list">
+          {entries.map(entry => {
+            if (entry.level === 2) h2i++;
+            return (
+              <a key={entry.id} href={'#' + entry.id}
+                className={`nr-toc-link${entry.level === 3 ? ' sub' : ''}${activeId === entry.id ? ' on' : ''}`}
+                onClick={e => { e.preventDefault(); scrollToId(entry.id); }}>
+                {entry.level === 2 && <span className="nr-toc-n">{h2i}</span>}
+                <span>{entry.text}</span>
+              </a>
+            );
+          })}
+        </nav>
+      )}
+    </div>
+  );
+}
 
-  const trackH = typeof window !== 'undefined' ? window.innerHeight - 120 : 600;
-  const thumbTop = scrollPct * (trackH - 48);
+/** The same headings, laid out for the sidebar. */
+function SidebarTOC({ entries, onNavigate }: { entries: TocEntry[]; onNavigate?: () => void }) {
+  const activeId = useActiveHeading(entries);
 
+  // A long list runs past the bottom of the panel; keep the current section
+  // in view as the reader goes down the note.
+  const navRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const nav = navRef.current;
+    const box = nav?.closest<HTMLElement>('.nr-sidebar-inner');
+    const on = nav?.querySelector<HTMLElement>('.sb-toc-link.on');
+    if (!box || !on) return;
+    const b = on.getBoundingClientRect(), c = box.getBoundingClientRect();
+    if (b.top < c.top + 40 || b.bottom > c.bottom - 40) box.scrollTop += b.top - c.top - c.height / 3;
+  }, [activeId]);
+
+  if (!entries.length) return null;
   return (
     <>
-      {/* Custom scrollbar track on right edge */}
-      <div className="nr-track" style={{
-        position: 'fixed', right: 0, top: 60, width: 14, height: trackH,
-        zIndex: 400, display: 'flex', flexDirection: 'column', alignItems: 'center',
-        background: 'var(--bg2)',
-        borderLeft: '1px solid var(--border)',
-      }}>
-        {/* Track marks for each heading */}
-        {toc.map(t => {
-          const el = typeof window !== 'undefined' ? document.getElementById(t.id) : null;
-          const docH = typeof window !== 'undefined' ? document.documentElement.scrollHeight - window.innerHeight : 1;
-          const elTop = el ? el.offsetTop : 0;
-          const pct = docH > 0 ? elTop / docH : 0;
-          const top = pct * trackH;
-          return (
-            <div
-              key={t.id}
-              onClick={() => scrollTo(t.id)}
-              title={t.text}
-              style={{
-                position: 'absolute',
-                top,
-                width: t.level === 2 ? 8 : 5,
-                height: t.level === 2 ? 2 : 1.5,
-                left: t.level === 2 ? 3 : 4.5,
-                background: activeId === t.id
-                  ? 'var(--accent)'
-                  : t.level === 2
-                    ? 'color-mix(in srgb, var(--accent) 45%, transparent)'
-                    : 'color-mix(in srgb, var(--accent) 20%, transparent)',
-                borderRadius: 2,
-                cursor: 'pointer',
-                transition: 'background 0.2s',
-                boxShadow: activeId === t.id ? '0 0 6px var(--accent)' : 'none',
-              }}
-            />
-          );
-        })}
-
-        {/* Thumb — click to open TOC panel */}
-        <div
-          onClick={() => setOpen(o => !o)}
-          style={{
-            position: 'absolute',
-            top: thumbTop,
-            width: 8,
-            height: 48,
-            left: 3,
-            background: open
-              ? 'linear-gradient(180deg, var(--accent), var(--accent))'
-              : 'linear-gradient(180deg, var(--accent) 0%, var(--accent) 40%, var(--accent) 100%)',
-            borderRadius: 6,
-            cursor: 'pointer',
-            boxShadow: open
-              ? '0 0 16px color-mix(in srgb, var(--accent) 90%, transparent), 0 0 32px color-mix(in srgb, var(--accent) 50%, transparent)'
-              : '0 0 8px color-mix(in srgb, var(--accent) 50%, transparent), 0 0 20px color-mix(in srgb, var(--accent) 20%, transparent)',
-            border: '1px solid color-mix(in srgb, var(--accent) 40%, transparent)',
-            transition: 'box-shadow 0.2s, background 0.2s',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}
-        >
-          {/* Grip lines */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {[0,1,2].map(i => (
-              <div key={i} style={{ width: 4, height: 1, background: 'rgba(255,255,255,0.6)', borderRadius: 1 }} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* TOC Panel */}
-      {open && (
-        <div style={{
-          position: 'fixed', right: 18, top: 80, zIndex: 399,
-          width: 280,
-          background: 'var(--bg2)',
-          border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)',
-          borderRadius: 12,
-          boxShadow: '0 8px 48px rgba(0,0,0,0.15), 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent)',
-          overflow: 'hidden',
-          animation: 'tocSlideIn 0.18s cubic-bezier(0.4,0,0.2,1)',
-        }}>
-          <style>{`
-            @keyframes tocSlideIn {
-              from { opacity: 0; transform: translateX(12px) scale(0.97); }
-              to   { opacity: 1; transform: translateX(0) scale(1); }
-            }
-            .toc-nav-item { transition: all 0.15s ease; }
-            .toc-nav-item:hover { background: var(--accent-dim) !important; color: var(--accent) !important; }
-            .toc-nav-item:hover .toc-nav-arrow { opacity: 1 !important; transform: translateX(3px) !important; }
-          `}</style>
-
-          {/* Header */}
-          <div style={{
-            padding: '0.85rem 1rem 0.75rem',
-            borderBottom: '1px solid color-mix(in srgb, var(--accent) 12%, transparent)',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            background: 'var(--accent-dim)',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', boxShadow: '0 0 8px var(--accent)' }} />
-              <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--accent)' }}>On this page</span>
-            </div>
-            <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.75rem', lineHeight: 1, padding: '2px 4px' }}>✕</button>
-          </div>
-
-          {/* Progress bar */}
-          <div style={{ height: 2, background: 'var(--accent-dim)' }}>
-            <div style={{ height: '100%', width: `${scrollPct * 100}%`, background: 'linear-gradient(90deg, var(--accent), var(--accent))', transition: 'width 0.1s', boxShadow: '0 0 8px var(--accent)' }} />
-          </div>
-
-          {/* TOC items */}
-          <div style={{ maxHeight: 'calc(100vh - 180px)', overflowY: 'auto', padding: '0.5rem 0' }}>
-            {toc.map(t => (
-              <button
-                key={t.id}
-                onClick={() => scrollTo(t.id)}
-                className="toc-nav-item"
-                style={{
-                  width: '100%', background: activeId === t.id ? 'var(--accent-dim)' : 'transparent',
-                  border: 'none', cursor: 'pointer', textAlign: 'left',
-                  padding: t.level === 2 ? '0.55rem 1rem' : '0.42rem 1rem 0.42rem 1.75rem',
-                  display: 'flex', alignItems: 'center', gap: 8,
-                  borderLeft: activeId === t.id ? '2px solid var(--accent)' : '2px solid transparent',
-                  color: activeId === t.id ? 'var(--accent)' : t.level === 2 ? 'var(--text)' : 'var(--text2)',
-                }}
-              >
-                {t.level === 2 ? (
-                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: activeId === t.id ? 'var(--accent)' : 'color-mix(in srgb, var(--accent) 40%, transparent)', flexShrink: 0, boxShadow: activeId === t.id ? '0 0 6px var(--accent)' : 'none' }} />
-                ) : (
-                  <span style={{ width: 3, height: 3, borderRadius: '50%', background: 'color-mix(in srgb, var(--accent) 25%, transparent)', flexShrink: 0, marginLeft: 1 }} />
-                )}
-                <span style={{ fontSize: t.level === 2 ? '0.8rem' : '0.73rem', lineHeight: 1.4, fontFamily: 'var(--font-ui)', fontWeight: t.level === 2 ? 500 : 400, flex: 1 }}>{t.text}</span>
-                <span className="toc-nav-arrow" style={{ fontSize: '0.65rem', color: 'color-mix(in srgb, var(--accent) 50%, transparent)', opacity: 0, transition: 'all 0.15s', transform: 'translateX(0)' }}>→</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Footer scroll pct */}
-          <div style={{ padding: '0.6rem 1rem', borderTop: '1px solid color-mix(in srgb, var(--accent) 8%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'var(--text3)', letterSpacing: '0.1em' }}>READ</span>
-            <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: 'var(--accent)', fontWeight: 600 }}>{Math.round(scrollPct * 100)}%</span>
-          </div>
-        </div>
-      )}
+      <div className="sb-section-label">Contents</div>
+      <nav className="sb-toc" ref={navRef}>
+        {entries.map(t => (
+          <button key={t.id} type="button"
+            className={'sb-toc-link' + (t.level === 3 ? ' sub' : '') + (activeId === t.id ? ' on' : '')}
+            onClick={() => {
+              // On a phone the panel covers the note and locks its scrolling,
+              // so it shuts first; two frames let the unlock land.
+              onNavigate?.();
+              requestAnimationFrame(() => requestAnimationFrame(() => scrollToId(t.id)));
+            }}>
+            <span className="sb-toc-dot" />
+            <span>{t.text}</span>
+          </button>
+        ))}
+      </nav>
     </>
   );
 }
 
-export default function NoteReader({ slug, initialContent = '' }: { slug: string; initialContent?: string }) {
-  const note = getNoteBySlug(slug);
+/**
+ * A reading rail down the right edge on a desktop: a tick for each heading
+ * where it sits in the note, and a thumb for where the reader is. A tick
+ * jumps to its heading; the thumb opens the contents.
+ */
+function ScrollRail({ entries }: { entries: TocEntry[] }) {
+  const pct = useScrollFraction();
+  const vh = useViewportHeight();
+  const [open, setOpen] = useState(false);
+  const activeId = useActiveHeading(entries);
+
+  // vh is 0 on the server and while hydrating, so the ticks, which are placed
+  // from the live layout, only ever render in the browser.
+  if (!entries.length || !vh) return null;
+  const THUMB = 46;
+  const trackH = vh - 160;
+  const docH = document.documentElement.scrollHeight - vh;
+
+  return (
+    <div className="nr-rail" aria-hidden="true">
+      <div className="nr-rail-track" style={{ height: trackH }}>
+        {entries.map(t => {
+          const el = document.getElementById(t.id);
+          const y = el ? el.getBoundingClientRect().top + window.scrollY - 120 : 0;
+          const top = docH > 0 ? Math.min(1, Math.max(0, y / docH)) * (trackH - THUMB) : 0;
+          const on = activeId === t.id;
+          return (
+            <button key={t.id} type="button" tabIndex={-1} className={`nr-rail-tick${t.level === 3 ? ' sub' : ''}${on ? ' on' : ''}`}
+              onClick={() => scrollToId(t.id)} title={t.text} style={{ top }} />
+          );
+        })}
+        <button type="button" tabIndex={-1} className={`nr-rail-thumb${open ? ' open' : ''}`} onClick={() => setOpen(o => !o)} title="Contents"
+          style={{ top: pct * (trackH - THUMB), height: THUMB }}>
+          <span /><span /><span />
+        </button>
+      </div>
+
+      {open && (
+        <div className="nr-rail-panel" role="dialog" aria-label="Contents">
+          <div className="nr-rail-panel-head">
+            <span className="nr-rail-dot" />
+            <span className="nr-rail-panel-title">On this page</span>
+            <button type="button" className="nr-rail-close" onClick={() => setOpen(false)} aria-label="Close contents">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+            </button>
+          </div>
+          <div className="nr-rail-progress"><div style={{ width: `${pct * 100}%` }} /></div>
+          <nav className="nr-rail-list" aria-label="Headings">
+            {entries.map(t => (
+              <button key={t.id} type="button"
+                className={'nr-rail-link' + (t.level === 3 ? ' sub' : '') + (activeId === t.id ? ' on' : '')}
+                onClick={() => { scrollToId(t.id); setOpen(false); }}>
+                <span className="nr-rail-bullet" />
+                <span className="nr-rail-text">{t.text}</span>
+                <span className="nr-rail-arrow">→</span>
+              </button>
+            ))}
+          </nav>
+          <div className="nr-rail-foot"><span>Read</span><span>{Math.round(pct * 100)}%</span></div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const Icon = {
+  contents: <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="1.8" y="2.5" width="12.4" height="11" rx="1.6" /><line x1="6.3" y1="2.5" x2="6.3" y2="13.5" /></svg>,
+  pen: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" /></svg>,
+  sticky: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5z" /><path d="M15 3v6h6" /></svg>,
+  draw: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 17c3-3 5-9 8-9s1 8 4 8 3-4 6-5" /></svg>,
+  chat: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>,
+  edit: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z" /></svg>,
+  x: <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" /></svg>,
+};
+
+export default function NoteReader({
+  note, initialContent = '', prev, next, related,
+}: {
+  note: ReaderNote;
+  initialContent?: string;
+  prev: NavLink | null;
+  next: NavLink | null;
+  related: NavLink[];
+}) {
+  const slug = note.slug;
+  const meta = sectionByName(note.section);
+  const { langHi, toggleLang } = useLang();
+  const tracker = useSyllabusTracker();
+  const isDone = tracker.mounted && tracker.isCompleted(slug);
+
+  // ── Who is reading ──
+  const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  useEffect(() => onAuthStateChanged(auth, u => { setUser(u); setAuthLoading(false); }), []);
+  const handleSignIn = async () => {
+    try { await signInWithGoogle(); } catch (e) { console.error(e); }
+  };
+  const adminToken = useSyncExternalStore(noSubscribe, readAdminToken, () => null);
 
   // The home page offers a way back to the last note opened.
   useEffect(() => {
-    if (note) rememberNote({ slug: note.slug, title: note.title, section: note.section });
-  }, [note]);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const noteContentRef = useRef<HTMLDivElement>(null);
-  const noteSearch = useNoteSearch(noteContentRef);
+    rememberNote({ slug, title: note.title, section: note.section });
+  }, [slug, note.title, note.section]);
 
-  const openedFromUrl = useRef(false);
+  // ── Sidebar ──
+  // Open beside the note on a desktop, shut on anything narrower, until the
+  // reader picks. The server cannot know the width, so it renders neither and
+  // the CSS (.sb-auto) applies the default before any script runs.
+  const [sidebarChoice, setSidebarChoice] = useState<boolean | null>(null);
+  const wide = useSyncExternalStore(subscribeWidth, () => !floating(), () => null);
+  const sidebarOpen = sidebarChoice ?? wide;
 
-  const editableRef = useRef<HTMLDivElement>(null);
-  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
-  const loginFiredRef = useRef(false);
+  // Floating over the note, the sidebar is a modal in every way but history:
+  // Back was the instinctive way out and left the note altogether. Opening
+  // pushes an entry on the same URL; Back pops it and only shuts the panel.
+  const sidebarEntry = useRef(false);
+  const openSidebar = useCallback(() => {
+    setSidebarChoice(true);
+    if (floating() && !sidebarEntry.current) {
+      window.history.pushState({ nrSidebar: true }, '');
+      sidebarEntry.current = true;
+    }
+  }, []);
+  const closeSidebar = useCallback(() => {
+    if (sidebarEntry.current) window.history.back();
+    else setSidebarChoice(false);
+  }, []);
+  useEffect(() => {
+    const onPop = () => { if (sidebarEntry.current) { sidebarEntry.current = false; setSidebarChoice(false); } };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && floating() && sidebarEntry.current) closeSidebar(); };
+    window.addEventListener('popstate', onPop);
+    window.addEventListener('keydown', onKey);
+    return () => { window.removeEventListener('popstate', onPop); window.removeEventListener('keydown', onKey); };
+  }, [closeSidebar]);
+  // The note behind a floating sidebar should not scroll under it.
+  useEffect(() => {
+    if (!sidebarOpen || !floating()) return;
+    const was = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = was; };
+  }, [sidebarOpen]);
 
+  // ── The body ──
+  // English is in the server's HTML and current (an admin save re-renders the
+  // page). Hindi is fetched when asked for, and nothing shows until it lands
+  // rather than English flashing first.
+  const [hindi, setHindi] = useState<{ slug: string; html: string } | null>(null);
+  useEffect(() => {
+    if (!langHi || hindi?.slug === slug) return;
+    let cancelled = false;
+    fetch(`/api/note-content?slug=${slug}&lang=hi`)
+      .then(r => r.json())
+      .then(({ content }) => { if (!cancelled) setHindi({ slug, html: content || '' }); })
+      .catch(() => { if (!cancelled) setHindi({ slug, html: initialContent }); });
+    return () => { cancelled = true; };
+  }, [langHi, slug, hindi?.slug, initialContent]);
+  const [savedHtml, setSavedHtml] = useState<string | null>(null);
+  const hindiLoading = langHi && hindi?.slug !== slug;
+  const content = langHi ? (hindiLoading ? '' : hindi!.html) : (savedHtml ?? initialContent);
+
+  const processed = useMemo(() => injectHeadingIds(tidyNote(content)), [content]);
+  const toc = useMemo(() => extractToc(processed), [processed]);
+
+  // ── Highlights and sticky notes ──
+  // They follow the account. Saving waits until this account's copy has
+  // loaded, and only sends what changed: it used to post an empty list as
+  // the page opened, which wiped a reader's highlights whenever the load was
+  // slower than the save.
   const [highlights, setHighlights] = useState<Highlight[]>([]);
-  const [stickyNotes, setStickyNotes] = useState<StickyNote[]>([]);
-  const [selectedColor, setSelectedColor] = useState<'yellow'|'green'|'red'|'blue'>('yellow');
-  const [showToolbar, setShowToolbar] = useState(false);
-  const [toolbarPos, setToolbarPos] = useState({ x: 0, y: 0 });
-  const [selectedText, setSelectedText] = useState('');
-  const [annotationMode, setAnnotationMode] = useState<'highlight'|'sticky'|null>(null);
-  const [showStickyForm, setShowStickyForm] = useState(false);
-  const [stickyPos, setStickyPos] = useState({ x: 200, y: 200 });
-  const [stickyText, setStickyText] = useState('');
-  // Open on a desktop, shut on a phone, until the reader toggles it. This was
-  // read from window.innerWidth inside useState, which the server cannot
-  // know: on a phone the first render disagreed with the server's HTML, React
-  // threw that HTML away and rebuilt the page, and the rebuild cleared
-  // data-theme off <html>, so light-mode readers got a black note page.
-  // useSyncExternalStore renders the server's answer while hydrating and the
-  // phone's straight after, and the CSS on the aside keeps it shut on a phone
-  // before that, so it never opens and snaps shut.
-  const isPhone = useIsPhone();
-  const [sidebarPref, setSidebarPref] = useState<boolean | null>(null);
-  const sidebarOpen = sidebarPref ?? !isPhone;
-  const setSidebarOpen = (open: boolean) => setSidebarPref(open);
+  const [stickies, setStickies] = useState<StickyNote[]>([]);
+  const loadedFor = useRef('');
+  const lastSynced = useRef('');
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    const key = `${slug}:${user.uid}`;
+    const take = (h: Highlight[], s: StickyNote[], synced: boolean) => {
+      if (cancelled) return;
+      setHighlights(h);
+      setStickies(s);
+      lastSynced.current = synced ? JSON.stringify({ h, s }) : '';
+      loadedFor.current = key;
+    };
+    user.getIdToken()
+      .then(token => fetch(`/api/user-annotations?firebase_uid=${user.uid}&slug=${slug}`, { headers: { authorization: `Bearer ${token}` } }))
+      .then(r => r.json())
+      .then(({ data }) => {
+        const saved = data?.[0]?.data;
+        if (saved) take(saved.highlights ?? [], saved.stickyNotes ?? [], true);
+        else {
+          // Nothing in the account yet: bring this browser's copy across.
+          const local = readLocal(slug);
+          take(local.highlights, local.stickies, !local.highlights.length && !local.stickies.length);
+        }
+      })
+      .catch(() => { const local = readLocal(slug); take(local.highlights, local.stickies, true); });
+    return () => { cancelled = true; };
+  }, [user, slug]);
 
-  // Language toggle — synced with global LangContext
-  const { langHi, toggleLang } = useLang();
+  useEffect(() => {
+    if (!user || loadedFor.current !== `${slug}:${user.uid}`) return;
+    try {
+      localStorage.setItem(`hl-${slug}`, JSON.stringify(highlights));
+      localStorage.setItem(`st-${slug}`, JSON.stringify(stickies));
+    } catch { /* storage full or blocked; the account copy still saves */ }
+    const body = JSON.stringify({ h: highlights, s: stickies });
+    if (body === lastSynced.current) return;
+    const t = setTimeout(async () => {
+      try {
+        const res = await fetch('/api/user-annotations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', authorization: `Bearer ${await user.getIdToken()}` },
+          body: JSON.stringify({ firebase_uid: user.uid, note_slug: slug, data: { highlights, stickyNotes: stickies } }),
+        });
+        if (res.ok) lastSynced.current = body;
+      } catch { /* offline; the next change tries again */ }
+    }, 1200);
+    return () => clearTimeout(t);
+  }, [highlights, stickies, user, slug]);
 
+  const display = useMemo(() => applyHighlights(processed, highlights), [processed, highlights]);
 
-  // Admin state
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [cloudContent, setCloudContent] = useState<string | null>(null);
-  // Only meaningful for Hindi, which has nothing server-rendered to show while
-  // the fetch is in flight.
-  const [contentLoading, setContentLoading] = useState(false);
+  // ── Annotating ──
+  const [tool, setTool] = useState<'highlight' | 'sticky' | null>(null);
+  const [drawing, setDrawing] = useState(false);
+  const [float, setFloat] = useState<{ x: number; y: number } | null>(null);
+  const [overHighlight, setOverHighlight] = useState(false);
+  const pendingText = useRef('');
+  const noteRef = useRef<HTMLDivElement>(null);
+  const contentBoxRef = useRef<HTMLDivElement>(null);
+  const [stickyDraft, setStickyDraft] = useState<{ x: number; y: number; text: string } | null>(null);
+
+  /**
+   * Offer the colours for the current selection, if it is in the note. The
+   * words are held because picking a colour can collapse the selection
+   * before the click lands. On a touch screen the colours go under the
+   * selection, since the phone's own menu takes the space above it.
+   */
+  const offerColours = useCallback(() => {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) return false;
+    const text = sel.toString().trim();
+    const range = sel.getRangeAt(0);
+    if (text.length < 2 || !noteRef.current?.contains(range.commonAncestorContainer)) return false;
+    pendingText.current = text;
+    setOverHighlight(highlights.some(h => h.text.includes(text) || text.includes(h.text)));
+    const r = range.getBoundingClientRect();
+    const touch = window.matchMedia('(pointer: coarse)').matches;
+    const half = 120;
+    setFloat({
+      x: Math.min(Math.max(r.left + r.width / 2, half), window.innerWidth - half) + window.scrollX,
+      y: (touch ? r.bottom + 14 : r.top - 52) + window.scrollY,
+    });
+    return true;
+  }, [highlights]);
+
+  // A phone selects by a long press, which fires no mouseup.
+  useEffect(() => {
+    if (tool !== 'highlight') return;
+    let t = 0;
+    const onChange = () => { clearTimeout(t); t = window.setTimeout(offerColours, 250); };
+    document.addEventListener('selectionchange', onChange);
+    return () => { document.removeEventListener('selectionchange', onChange); clearTimeout(t); };
+  }, [tool, offerColours]);
+
+  const applyHighlight = (color: Color) => {
+    const text = pendingText.current;
+    if (!text) return;
+    setHighlights(p => [...p, { id: Date.now().toString(), text, color }]);
+    pendingText.current = '';
+    window.getSelection()?.removeAllRanges();
+    setFloat(null);
+  };
+  const removeSelectedHighlight = () => {
+    const text = pendingText.current;
+    setHighlights(p => p.filter(h => !(h.text.includes(text) || text.includes(h.text))));
+    pendingText.current = '';
+    window.getSelection()?.removeAllRanges();
+    setFloat(null);
+  };
+
+  const onContentClick = (e: React.MouseEvent) => {
+    if (tool === 'sticky') {
+      const box = contentBoxRef.current?.getBoundingClientRect();
+      if (box) setStickyDraft({ x: Math.max(0, e.clientX - box.left - 20), y: e.clientY - box.top, text: '' });
+      return;
+    }
+    if (tool !== 'highlight') return;
+    // Tapping a highlight while highlighting takes it off, which is shorter
+    // than reselecting exactly the words. Inert otherwise, so reading cannot
+    // rub one out.
+    const text = (e.target as HTMLElement).closest('mark.pp-hl')?.textContent?.trim();
+    if (text && window.getSelection()?.isCollapsed) {
+      setHighlights(p => p.filter(h => h.text !== text));
+      setFloat(null);
+    }
+  };
+  const onContentMouseUp = () => {
+    if (tool === 'highlight' && !offerColours()) setFloat(null);
+  };
+
+  const pickTool = (t: 'highlight' | 'sticky' | 'draw' | null) => {
+    setFloat(null);
+    if (t === 'draw') { setTool(null); setDrawing(true); return; }
+    setTool(t);
+  };
+
+  const jumpToHighlight = (text: string) => {
+    const mark = [...(noteRef.current?.querySelectorAll<HTMLElement>('mark.pp-hl') ?? [])].find(m => m.textContent === text);
+    if (!mark) return;
+    if (floating()) closeSidebar();
+    requestAnimationFrame(() => requestAnimationFrame(() =>
+      window.scrollTo({ top: mark.getBoundingClientRect().top + window.scrollY - 160, behavior: 'smooth' })));
+  };
+
+  // ── Admin editing ──
+  // English only: overrides are per note, not per language, so saving while
+  // reading Hindi used to put the Hindi text over the English note.
+  const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState('');
-  const [adminPassword, setAdminPassword] = useState<string|null>(null);
-  useEffect(() => { setAdminPassword(sessionStorage.getItem(SESSION_KEY)); }, []);
-
-  // Auth state
-  const [user, setUser] = useState<User | null>(null);
-  const [authLoading, setAuthLoading] = useState(true);
-  const [syncStatus, setSyncStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
-
-  // ── AUTH: listen to session changes ──
+  const editableRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-      setAuthLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const handleSignIn = async () => {
-    try {
-      await signInWithGoogle();
-    } catch (err) {
-      console.error('Sign in error:', err);
-    }
-  };
-
-  const handleSignOut = async () => {
-    await firebaseSignOut(auth);
-    // Fall back to localStorage
-    try {
-      const h = localStorage.getItem(`hl-${slug}`);
-      const s = localStorage.getItem(`st-${slug}`);
-      setHighlights(h ? JSON.parse(h) : []);
-      setStickyNotes(s ? JSON.parse(s) : []);
-    } catch {}
-  };
-
-  // ── LOAD ANNOTATIONS: Supabase if logged in, localStorage otherwise ──
-  useEffect(() => {
-    if (authLoading) return;
-    if (user) {
-      // Load from Supabase
-      user.getIdToken().then(token => fetch(`/api/user-annotations?firebase_uid=${user.uid}&slug=${slug}`, {
-        headers: { authorization: `Bearer ${token}` }
-      }))
-        .then(r => r.json())
-        .then(({ data }) => {
-          if (data && data.length > 0 && data[0].data) {
-            const ann = data[0].data;
-            setHighlights(ann.highlights ?? []);
-            setStickyNotes(ann.stickyNotes ?? []);
-          } else {
-            // No cloud annotations yet — migrate from localStorage
-            try {
-              const h = localStorage.getItem(`hl-${slug}`);
-              const s = localStorage.getItem(`st-${slug}`);
-              const localHighlights = h ? JSON.parse(h) : [];
-              const localStickies = s ? JSON.parse(s) : [];
-              setHighlights(localHighlights);
-              setStickyNotes(localStickies);
-              // Auto-migrate if there's something local worth saving
-              if (localHighlights.length > 0 || localStickies.length > 0) {
-                saveAnnotationsToCloud(user.uid, localHighlights, localStickies);
-              }
-            } catch {}
-          }
-        })
-        .catch(() => {
-          // Fallback to localStorage on error
-          try {
-            const h = localStorage.getItem(`hl-${slug}`);
-            const s = localStorage.getItem(`st-${slug}`);
-            if (h) setHighlights(JSON.parse(h));
-            if (s) setStickyNotes(JSON.parse(s));
-          } catch {}
-        });
-    } else {
-      // Not logged in — use localStorage
-      try {
-        const h = localStorage.getItem(`hl-${slug}`);
-        const s = localStorage.getItem(`st-${slug}`);
-        if (h) setHighlights(JSON.parse(h));
-        if (s) setStickyNotes(JSON.parse(s));
-      } catch {}
-    }
-  }, [user, authLoading, slug]);
-
-  const saveAnnotationsToCloud = useCallback(async (userId: string, h: Highlight[], s: StickyNote[]) => {
-    setSyncStatus('saving');
-    try {
-      const res = await fetch('/api/user-annotations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', authorization: `Bearer ${await user?.getIdToken()}` },
-        body: JSON.stringify({ firebase_uid: userId, note_slug: slug, data: { highlights: h, stickyNotes: s } }),
-      });
-      const result = await res.json();
-      setSyncStatus(result.ok ? 'saved' : 'error');
-      setTimeout(() => setSyncStatus('idle'), 2000);
-    } catch {
-      setSyncStatus('error');
-      setTimeout(() => setSyncStatus('idle'), 2000);
-    }
-  }, [slug]);
-
-  // ── SAVE ANNOTATIONS: debounced, to Supabase if logged in, localStorage always ──
-  useEffect(() => {
-    if (!slug) return;
-    // Always save to localStorage as backup
-    localStorage.setItem(`hl-${slug}`, JSON.stringify(highlights));
-    localStorage.setItem(`st-${slug}`, JSON.stringify(stickyNotes));
-    // Debounced cloud save if logged in
-    if (user) {
-      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-      saveTimerRef.current = setTimeout(() => {
-        saveAnnotationsToCloud(user.uid, highlights, stickyNotes);
-      }, 1200);
-    }
-    return () => { if (saveTimerRef.current) clearTimeout(saveTimerRef.current); };
-  }, [highlights, stickyNotes, slug, user, saveAnnotationsToCloud]);
-
-  // Admin setup
-  useEffect(() => {
-    setIsAdmin(!!sessionStorage.getItem(SESSION_KEY));
-  }, []);
-
-
-
-  // Note body, resolved server-side: admin override if one exists, otherwise
-  // the shipped content for this language. Replaces importing both corpora
-  // into the client bundle, and makes admin edits visible without a redeploy.
-  useEffect(() => {
-    let cancelled = false;
-    setCloudContent(null);
-    setContentLoading(true);
-    fetch(`/api/note-content?slug=${slug}&lang=${langHi ? 'hi' : 'en'}`)
-      .then(r => r.json())
-      .then(({ content }) => { if (!cancelled && content) setCloudContent(content); })
-      .catch(() => {})
-      .finally(() => { if (!cancelled) setContentLoading(false); });
-    return () => { cancelled = true; };
-  }, [slug, langHi]);
-
-  useEffect(() => {
-    if (editMode && editableRef.current) {
-      editableRef.current.innerHTML = cloudContent ?? initialContent;
-      editableRef.current.focus({ preventScroll: true });
-    }
-  }, [editMode]);
-
+    if (!editing || !editableRef.current) return;
+    editableRef.current.innerHTML = savedHtml ?? initialContent;
+    editableRef.current.focus({ preventScroll: true });
+    // Filled once as editing starts; later renders must not reset the typing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editing]);
+  const flash = (msg: string) => { setSaveMsg(msg); setTimeout(() => setSaveMsg(''), 3000); };
   const saveEdit = async () => {
-    if (!editableRef.current || !adminPassword) return;
+    if (!editableRef.current || !adminToken) return;
     const html = editableRef.current.innerHTML;
     setSaving(true);
-    const res = await fetch('/api/admin/note-content', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-token': adminPassword },
-      body: JSON.stringify({ slug, content: html }),
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch('/api/admin/note-content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken },
+        body: JSON.stringify({ slug, content: html }),
+      });
+      const data = await res.json();
+      if (data.ok) { setSavedHtml(html); flash('Saved'); } else flash('Could not save');
+    } catch { flash('Could not save'); }
     setSaving(false);
-    if (data.ok) {
-      setCloudContent(html);
-      setSaveMsg('✓ Saved');
-      setTimeout(() => setSaveMsg(''), 3000);
-    } else {
-      setSaveMsg('⚠ Save failed');
-      setTimeout(() => setSaveMsg(''), 3000);
-    }
   };
-
-  const handleMouseUp = useCallback(() => {
-    if (annotationMode !== 'highlight' || editMode) return;
-    const sel = window.getSelection();
-    if (!sel || sel.isCollapsed) { setShowToolbar(false); return; }
-    const text = sel.toString().trim();
-    if (!text || text.length < 2) { setShowToolbar(false); return; }
-    const rect = sel.getRangeAt(0).getBoundingClientRect();
-    setSelectedText(text);
-    setToolbarPos({ x: rect.left + rect.width / 2, y: rect.top - 50 + window.scrollY });
-    setShowToolbar(true);
-  }, [annotationMode, editMode]);
-
-  const applyHighlight = (color: 'yellow'|'green'|'red'|'blue') => {
-    if (!selectedText) return;
-    setHighlights(prev => [...prev, { id: Date.now().toString(), text: selectedText, color }]);
-    setShowToolbar(false);
-    window.getSelection()?.removeAllRanges();
-  };
-
-  // Memoised. This ran on every render, and every run meant two global regexes
-  // over ~100KB plus a fresh RegExp per highlight — then handed a new string
-  // identity to TableOfContents and ScrollbarTOC, each of which parses the
-  // whole document when it changes. Any state change on the page (auth
-  // resolving, annotations loading, a scroll tick) paid for all of it.
-  const processedContent = useMemo(() => {
-    // English renders initialContent immediately -- it is already in the
-    // server payload -- and swaps to the fetched copy when it lands. Hindi has
-    // no server-rendered copy, so it waits rather than flashing English first.
-    let c = langHi
-      ? (cloudContent ?? '')
-      : (cloudContent ?? initialContent ?? '');
-    c = injectHeadingIds(c);
-    highlights.forEach(h => {
-      const esc = h.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      c = c.replace(new RegExp(`(${esc})`, 'g'), `<mark class="hl-${h.color}">$1</mark>`);
+  const resetEdit = async () => {
+    if (!adminToken || !confirm('Throw away the edits and go back to the original note?')) return;
+    // The server reads x-admin-token; this sent x-admin-password, so every
+    // reset came back unauthorised.
+    const res = await fetch('/api/admin/note-content', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'x-admin-token': adminToken },
+      body: JSON.stringify({ slug }),
     });
-    return c;
-  }, [langHi, cloudContent, initialContent, highlights]);
+    if (res.ok) window.location.reload(); else flash('Could not reset');
+  };
 
-  // Arriving from the site search with ?q=: open the in-note finder on that
-  // term so the reader lands on the word they searched for instead of at the
-  // top of a long note. Everything needed already exists in useNoteSearch —
-  // this only supplies the query it would otherwise wait for Cmd-F to collect.
+  // ── Find in the note ──
+  const noteSearch = useNoteSearch(noteRef);
+  // Arriving from the site search with ?q=, open the finder on that word so
+  // the reader lands on it rather than at the top of a long note. Read from
+  // location, not useSearchParams, which would stop the notes prerendering.
+  const openedFromUrl = useRef(false);
   useEffect(() => {
-    if (openedFromUrl.current) return;
-
-    // Read from location rather than useSearchParams(): that hook forces a
-    // Suspense boundary and opts the subtree out of prerendering, which would
-    // undo the static generation of all 51 note pages. This only ever runs in
-    // the browser, so there is nothing useSearchParams would add.
-    const incomingQuery = new URLSearchParams(window.location.search).get('q') ?? '';
-    if (incomingQuery.length < 2) return;
-    // useNoteSearch clones the rendered content to mark matches in, so it has
-    // to wait until that content is actually on the page. Opening earlier
-    // would clone an empty node and find nothing.
-    if (contentLoading || !processedContent.trim()) return;
-
+    if (openedFromUrl.current || hindiLoading || !processed.trim()) return;
+    const q = new URLSearchParams(window.location.search).get('q') ?? '';
+    if (q.length < 2) return;
     openedFromUrl.current = true;
     noteSearch.setOpen(true);
-    noteSearch.setQuery(incomingQuery);
-    // noteSearch is deliberately not a dependency: useNoteSearch returns a new
-    // object every render, so listing it would re-run this on every render.
+    noteSearch.setQuery(q);
+    // noteSearch is a new object every render; listing it would loop.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contentLoading, processedContent]);
-  const list = note?.paper === 1 ? paper1Notes : paper2Notes;
-  const idx = list.findIndex(n => n.slug === slug);
-  const prev = idx > 0 ? list[idx-1] : null;
-  const next = idx < list.length-1 ? list[idx+1] : null;
-  const related = list.filter(n => n.section === note?.section && n.slug !== slug).slice(0, 5);
-  const relatedPYQs = note ? getPYQsForNote(slug, note.section) : [];
+  }, [hindiLoading, processed]);
 
-  if (!note) return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-4)', padding: '4rem', color: 'var(--text2)' }}>
-      Topic not found.
-      <BackButton href="/">Back to home</BackButton>
-    </div>
-  );
+  const gated = !user && !authLoading;
+  const paperLabel = note.paper === 1 ? 'I' : 'II';
+  const tint = meta ? { ['--t' as string]: `var(--tint-${meta.key})`, ['--w' as string]: `var(--wash-${meta.key})` } : undefined;
+  const notesHref = note.paper === 2 ? '/notes?paper=2' : '/notes';
+  const askHref = `/chat?topic=${encodeURIComponent(note.title)}`;
+  const showDone = tracker.mounted && !gated && !editing;
+  const footerInView = useSyncExternalStore(subscribeFooter, () => footerSeen, () => false);
 
   return (
-    <div style={{ display: 'flex', minHeight: 'calc(100vh - 60px)' }}>
-      {/* Sidebar */}
-      {/* The aside stretches to the page so its background and border run the
-          whole way down; the sticky, scrolling part is the wrapper inside.
-          Previously the aside was itself a fixed 100vh box in a taller row,
-          which is why the sidebar stopped partway and left white beneath it. */}
-      {/* Held against the window rather than carried by the page: the
-          aside is the sticky box, a viewport tall, and the column inside
-          does its own scrolling. It used to stretch to the full page
-          height with the inner column sticky inside it, which let the
-          sidebar ride up with the page before it caught. */}
-      <aside data-sidebar-auto={sidebarPref === null ? '' : undefined} style={{
-        width: sidebarOpen ? 240 : 0, minWidth: sidebarOpen ? 240 : 0,
-        borderRight: '1px solid var(--border)',
-        background: 'var(--bg2)',
-        overflowX: 'hidden', transition: 'all 0.25s cubic-bezier(0.4,0,0.2,1)',
-        flexShrink: 0,
-        position: 'sticky', top: 52, height: 'calc(100vh - 52px)',
-        boxShadow: 'inset -1px 0 0 var(--border)',
-      }}>
-      {/* The scroller. It fills the aside and ends with room to spare, so
-          the last note is not sliced at the foot of the window. */}
-      <div style={{
-        height: '100%', overflowY: 'auto',
-        paddingBottom: 'var(--space-6)',
-        overscrollBehavior: 'contain',
-      }}>
-        <style>{`
-          .sb-section-label {
-            font-size: 0.6rem;
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            color: color-mix(in srgb, var(--accent) 45%, transparent);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 1.2rem 0 0.5rem;
-          }
-          .sb-section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 20%, transparent), transparent);
-          }
-          .sb-note-add {
-            width: 100%; display: flex; align-items: center; gap: var(--space-1);
-            background: none;
-            border: 1px dashed color-mix(in srgb, var(--accent) 30%, transparent);
-            border-radius: 8px; padding: var(--space-2); font-size: 0.74rem;
-            font-family: inherit; color: var(--accent); cursor: pointer;
-            margin-bottom: var(--space-2); transition: background 0.15s, border-color 0.15s;
-          }
-          .sb-note-add:hover {
-            background: var(--accent-dim);
-            border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-            border-style: solid;
-          }
+    <div className={'nr-shell ds' + (sidebarOpen === null ? ' sb-auto' : sidebarOpen ? ' with-sidebar' : '')} style={tint}>
+      <style>{NR_CSS}</style>
+      <ReadingProgress />
 
-          /* A warm tint and a soft edge, so a note reads as something the
-             reader put there rather than as another panel of the interface.
-             The tint comes from the same token as the left rule, which is why
-             the two agree on both grounds. */
-          .sb-note {
-            background: color-mix(in srgb, var(--warning-text) 7%, var(--bg2));
-            border: 1px solid color-mix(in srgb, var(--warning-text) 22%, transparent);
-            border-radius: 8px;
-            padding: var(--space-2);
-            margin-bottom: var(--space-2);
-            transition: border-color 0.15s, box-shadow 0.15s;
-          }
-          .sb-note:focus-within {
-            border-color: color-mix(in srgb, var(--warning-text) 50%, transparent);
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--warning-text) 12%, transparent);
-          }
-
-          .sb-note-title, .sb-note-body {
-            width: 100%; background: none; border: none; outline: none;
-            color: var(--text); font-family: inherit; padding: 0; resize: none;
-          }
-          .sb-note-title {
-            font-size: 0.8rem; font-weight: 700; letter-spacing: 0.01em;
-            padding-bottom: var(--space-1); margin-bottom: var(--space-1);
-            border-bottom: 1px solid color-mix(in srgb, var(--warning-text) 15%, transparent);
-          }
-          .sb-note-body { font-size: 0.76rem; line-height: 1.6; min-height: 2.8em; }
-          .sb-note-title::placeholder, .sb-note-body::placeholder {
-            color: var(--text3); font-weight: 400;
-          }
-
-          /* The footer is housekeeping, so it stays out of the way until the
-             note is hovered or focused. */
-          .sb-note-foot {
-            display: flex; align-items: center; justify-content: space-between;
-            gap: var(--space-1); margin-top: var(--space-1);
-            font-family: var(--font-mono); font-size: 0.56rem;
-            color: var(--text3);
-            opacity: 0; transition: opacity 0.15s;
-          }
-          .sb-note:hover .sb-note-foot,
-          .sb-note:focus-within .sb-note-foot { opacity: 1; }
-          .sb-note-foot button {
-            background: none; border: none; padding: 0; font-family: inherit;
-            font-size: inherit; color: var(--text3); cursor: pointer;
-            text-transform: uppercase; letter-spacing: 0.08em;
-          }
-          .sb-note-foot button:hover { color: var(--danger-text); }
-          .sb-note-confirm { display: flex; gap: var(--space-2); }
-          .sb-note-confirm button:first-child { color: var(--danger-text); font-weight: 700; }
-
-          .sb-note-scope {
-            font-size: 0.56rem; font-family: var(--font-mono);
-            letter-spacing: 0.1em; text-transform: uppercase;
-            color: var(--text3); margin: var(--space-1) 0 0; text-align: right;
-          }
-          .sb-chip {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 0.32rem 0.6rem;
-            font-size: 0.76rem;
-            color: var(--text2);
-            border-left: 2px solid color-mix(in srgb, var(--accent) 15%, transparent);
-            margin-bottom: 0.18rem;
-            border-radius: 0 4px 4px 0;
-            transition: all 0.15s ease;
-            cursor: default;
-          }
-          .sb-chip:hover {
-            background: var(--accent-dim);
-            border-left-color: color-mix(in srgb, var(--accent) 50%, transparent);
-            color: var(--accent);
-            transform: translateX(2px);
-          }
-          .sb-related-link {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 0.38rem 0.6rem;
-            font-size: 0.76rem;
-            color: var(--text2);
-            text-decoration: none;
-            border: 1px solid color-mix(in srgb, var(--accent) 8%, transparent);
-            border-radius: 5px;
-            margin-bottom: 0.28rem;
-            background: var(--accent-dim);
-            transition: all 0.15s ease;
-          }
-          .sb-related-link:hover {
-            background: var(--accent-dim);
-            border-color: color-mix(in srgb, var(--accent) 30%, transparent);
-            color: var(--accent);
-            transform: translateX(3px);
-            box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 12%, transparent);
-          }
-          .sb-related-link .sb-arrow {
-            font-size: 0.6rem;
-            color: color-mix(in srgb, var(--accent) 40%, transparent);
-            margin-left: auto;
-            transition: transform 0.15s;
-          }
-          .sb-related-link:hover .sb-arrow {
-            transform: translateX(3px);
-            color: color-mix(in srgb, var(--accent) 80%, transparent);
-          }
-          .sb-hl-chip {
-            padding: 0.3rem 0.55rem;
-            font-size: 0.71rem;
-            color: var(--text2);
-            margin-bottom: 0.25rem;
-            background: rgba(0,0,0,0.03);
-            border-radius: 0 4px 4px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.12s;
-          }
-          .sb-hl-chip:hover { background: rgba(0,0,0,0.06); }
-          aside::-webkit-scrollbar { width: 3px; }
-          aside::-webkit-scrollbar-track { background: transparent; }
-          aside::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 2px; }
-          @media (max-width: 768px) { aside[data-sidebar-auto] { width: 0 !important; min-width: 0 !important; } }
-          /* Phones: Find and its bar sat on the bottom tab bar, the custom
-             scroll track lay over the text's right edge (the phone has its
-             own scroll indicator), and a keyboard shortcut means nothing. */
-          @media (max-width: 768px) {
-            .nr-find, .nr-find-bar { bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 12px) !important; right: 12px !important; }
-            .nr-find-bar { left: 12px; min-width: 0 !important; }
-            .nr-track { display: none !important; }
-          }
-          @media (hover: none) { .nr-find-kbd { display: none; } }
-        `}</style>
-
-        <div style={{ padding: '1.25rem 1rem', opacity: sidebarOpen ? 1 : 0, transition: 'opacity 0.2s' }}>
-
-          {/* Topic badge */}
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            padding: '0.25rem 0.65rem', marginBottom: '0.75rem',
-            background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 18%, transparent)',
-            borderRadius: 20,
-          }}>
-            <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--accent)', boxShadow: '0 0 6px var(--accent)', animation: 'pulse 2s infinite' }} />
-            <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.14em', color: 'color-mix(in srgb, var(--accent) 75%, transparent)', textTransform: 'uppercase' }}>{note.section} · Topic {note.topic}</span>
+      {/* ── Sidebar ── */}
+      <div className="nr-backdrop" onClick={closeSidebar} aria-hidden="true" />
+      <aside className="nr-sidebar" aria-label="About this note">
+        <div className="nr-sidebar-inner">
+          <button type="button" className="nr-sb-close" onClick={closeSidebar} aria-label="Close the sidebar">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"><path d="M4 4l8 8M12 4l-8 8" /></svg>
+          </button>
+          <div className="sb-head">
+            <span className="sb-chip"><span className="sb-chip-dot" />Paper {paperLabel} · Topic {note.topic}</span>
+            <h2 className="sb-title">{note.title}</h2>
+            {meta ? <Link href={meta.href} className="sb-sub">{note.section}</Link> : <p className="sb-sub">{note.section}</p>}
           </div>
 
-          {/* Title */}
-          <div style={{
-            fontFamily: 'var(--font-display)', fontSize: '0.88rem',
-            color: 'var(--text)', fontWeight: 700, lineHeight: 1.4,
-            marginBottom: '0.85rem',
-            textShadow: '0 0 20px color-mix(in srgb, var(--accent) 20%, transparent)',
-          }}>{note.title}</div>
-          <div style={{ height: 1, background: 'linear-gradient(90deg, color-mix(in srgb, var(--accent) 25%, transparent), transparent)', marginBottom: '0.2rem' }} />
+          {!editing && <SidebarTOC entries={toc} onNavigate={() => { if (floating()) closeSidebar(); }} />}
 
-          {note.subtopics && <>
-            <div className="sb-section-label">Contents</div>
-            {note.subtopics.map((s,i) => (
-              <div key={i} className="sb-chip">
-                <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'color-mix(in srgb, var(--accent) 40%, transparent)', flexShrink: 0 }} />
-                {s}
+          {highlights.length > 0 && (
+            <>
+              <div className="sb-section-label">Your highlights ({highlights.length})</div>
+              <div className="sb-hls">
+                {highlights.map(h => (
+                  <div key={h.id} className="sb-hl" style={{ ['--sw' as string]: HIGHLIGHT_COLORS.find(c => c.id === h.color)?.color }}>
+                    <button type="button" className="sb-hl-text" onClick={() => jumpToHighlight(h.text)} title="Go to it">{h.text}</button>
+                    <button type="button" className="sb-hl-x" onClick={() => setHighlights(p => p.filter(x => x.id !== h.id))} aria-label="Remove this highlight">{Icon.x}</button>
+                  </div>
+                ))}
               </div>
-            ))}
-          </>}
+            </>
+          )}
 
-          {highlights.length > 0 && <>
-            <div className="sb-section-label">Highlights ({highlights.length})</div>
-            {highlights.map(h => (
-              <div key={h.id} className="sb-hl-chip" style={{ borderLeft: `2px solid ${HIGHLIGHT_COLORS.find(c=>c.id===h.color)?.color}` }}>
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{h.text.slice(0,36)}{h.text.length>36?'…':''}</span>
-                <button onClick={() => setHighlights(p => p.filter(x=>x.id!==h.id))} style={{ background: 'none', border: 'none', color: 'rgba(0,0,0,0.15)', cursor: 'pointer', fontSize: '0.68rem', flexShrink: 0, padding: '0 2px' }}>✕</button>
-              </div>
-            ))}
-          </>}
+          {(prev || next) && (
+            <>
+              <div className="sb-section-label">Before and after</div>
+              <nav className="sb-related">
+                {prev && <Link className="sb-rel" href={`/notes/${prev.slug}`}><span className="sb-rel-dir">Previous</span><span className="sb-rel-title">{prev.title}</span></Link>}
+                {next && <Link className="sb-rel" href={`/notes/${next.slug}`}><span className="sb-rel-dir">Next</span><span className="sb-rel-title">{next.title}</span></Link>}
+              </nav>
+            </>
+          )}
 
-          {related.length > 0 && <>
-            <div className="sb-section-label">Related</div>
-            {related.map(r => (
-              <Link key={r.slug} href={`/notes/${r.slug}`} className="sb-related-link">
-                <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.title}</span>
-                <span className="sb-arrow">→</span>
-              </Link>
-            ))}
-          </>}
+          {related.length > 0 && (
+            <>
+              <div className="sb-section-label">More from {note.section}</div>
+              <nav className="sb-more">
+                {related.map(r => <Link key={r.slug} href={`/notes/${r.slug}`}>{r.title}</Link>)}
+              </nav>
+            </>
+          )}
 
           <SidebarNotes slug={slug} langHi={langHi} />
         </div>
-      </div>
       </aside>
 
-      {/* Main */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        {/* Toolbar */}
-        <div style={{ borderBottom: '1px solid var(--border)', padding: '0.85rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', background: 'var(--bg)', position: 'sticky', top: 52, zIndex: 30 }}>
-
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-            style={{ background: 'var(--bg2)', border: '1px solid var(--border)', color: 'var(--text2)', cursor: 'pointer', padding: '0.3rem 0.6rem', borderRadius: 4, fontSize: '0.8rem', lineHeight: 1, display: 'flex', alignItems: 'center' }}
-          >
-            {sidebarOpen ? '◂' : '▸'}
+      {/* ── Main column ── */}
+      <div className="nr-main">
+        <div className="nr-bar">
+          <button type="button" className={`nr-pill nr-sb-toggle${sidebarOpen ? ' on' : ''}`}
+            onClick={() => (sidebarOpen ?? !floating() ? closeSidebar() : openSidebar())}
+            aria-expanded={sidebarOpen ?? undefined} aria-label="Contents" title="Show or hide the contents">
+            {Icon.contents}<span>Contents</span>
           </button>
-          <Link href={`/paper${note.paper}`} style={{ color: 'var(--text3)', fontSize: '0.78rem', textDecoration: 'none' }}>Paper {note.paper}</Link>
-          <span style={{ color: 'var(--border2)' }}>›</span>
-          <span style={{ color: 'var(--text3)', fontSize: '0.78rem' }}>{note.section}</span>
-          <span style={{ color: 'var(--border2)' }}>›</span>
-          <span style={{ color: 'var(--text2)', fontSize: '0.78rem' }}>{note.title}</span>
 
-          <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
-            {/* Language Toggle */}
-            <button
-              onClick={toggleLang}
-              title={langHi ? 'Switch to English Notes' : 'Switch to Hindi Notes'}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0px',
-                background: 'var(--bg2)',
-                border: '1px solid var(--border)',
-                borderRadius: 6, overflow: 'hidden',
-                cursor: 'pointer', padding: 0,
-                fontSize: '0.72rem', fontWeight: 700,
-                boxShadow: langHi ? '0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent)' : 'none',
-                transition: 'box-shadow 0.15s',
-              }}
-            >
-              <span style={{
-                padding: '0.3rem 0.65rem',
-                background: !langHi ? 'var(--accent-dim)' : 'transparent',
-                color: !langHi ? 'var(--accent)' : 'var(--text3)',
-                borderRight: '1px solid var(--border)',
-                transition: 'all 0.15s',
-                letterSpacing: '0.03em',
-              }}>English Notes</span>
-              <span style={{
-                padding: '0.3rem 0.65rem',
-                background: langHi ? 'var(--accent-dim)' : 'transparent',
-                color: langHi ? 'var(--accent)' : 'var(--text3)',
-                transition: 'all 0.15s',
-                letterSpacing: '0.03em',
-              }}>Hindi Notes</span>
-            </button>
-            {isAdmin && !editMode && (
-              <button onClick={() => { setAnnotationMode(null); setEditMode(true); }}
-                style={{ background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 35%, transparent)', color: 'var(--warning-text)', cursor: 'pointer', padding: '0.3rem 0.85rem', borderRadius: 4, fontSize: '0.75rem', fontWeight: 600 }}>
-                ✏️ Edit Note
-              </button>
-            )}
-            {isAdmin && editMode && (
+          <nav className="nr-crumbs" aria-label="Breadcrumb">
+            <Link href={notesHref}>Notes</Link>
+            {meta && <><span aria-hidden="true">›</span><Link href={meta.href}>{note.section}</Link></>}
+          </nav>
+
+          <div className="nr-bar-actions">
+            {editing ? (
               <>
-                <button onClick={saveEdit} disabled={saving}
-                  style={{ background: saving ? 'var(--warning-wash)' : 'color-mix(in srgb, var(--success-text) 12%, transparent)', border: saving ? '1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)' : '1px solid color-mix(in srgb, var(--success-text) 35%, transparent)', color: saving ? 'var(--warning-text)' : 'var(--success-text)', cursor: saving ? 'default' : 'pointer', padding: '0.3rem 0.85rem', borderRadius: 4, fontSize: '0.75rem', fontWeight: 600 }}>
-                  {saving ? '↑ Saving...' : '✓ Save'}
-                </button>
-                <button onClick={() => setEditMode(false)}
-                  style={{ background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)', color: 'var(--danger-text)', cursor: 'pointer', padding: '0.3rem 0.75rem', borderRadius: 4, fontSize: '0.75rem' }}>
-                  ✕ Cancel
-                </button>
-                {saveMsg && <span style={{ fontSize: '0.75rem', color: 'var(--success-text)' }}>{saveMsg}</span>}
-              </>
-            )}
-
-            {!editMode && <>
-              <style>{`
-                .tb-btn {
-                  display: inline-flex; align-items: center; gap: 5px;
-                  padding: 0.28rem 0.7rem;
-                  border-radius: 5px;
-                  font-size: 0.72rem;
-                  font-family: var(--font-mono);
-                  letter-spacing: 0.02em;
-                  cursor: pointer;
-                  transition: all 0.15s ease;
-                  position: relative;
-                }
-                .tb-btn:hover .tb-tooltip {
-                  opacity: 1; transform: translateY(0); pointer-events: none;
-                }
-                .tb-tooltip {
-                  position: absolute; bottom: calc(100% + 7px); left: 50%;
-                  transform: translateX(-50%) translateY(4px);
-                  background: var(--bg4); border: 1px solid var(--border);
-                  color: var(--text); font-size: 0.65rem;
-                  padding: 3px 8px; border-radius: 4px; white-space: nowrap;
-                  opacity: 0; transition: all 0.15s ease;
-                  pointer-events: none; z-index: 100;
-                  font-family: var(--font-mono); letter-spacing: 0.04em;
-                }
-                .tb-swatch {
-                  width: 15px; height: 15px; border-radius: 50%;
-                  cursor: pointer; transition: all 0.15s ease;
-                  position: relative; flex-shrink: 0;
-                }
-                .tb-swatch:hover { transform: scale(1.2); }
-                .tb-swatch .tb-tooltip { bottom: calc(100% + 6px); }
-                .tb-divider {
-                  width: 1px; height: 18px;
-                  background: rgba(0,0,0,0.07);
-                  flex-shrink: 0;
-                }
-              `}</style>
-
-              {/* Highlight toggle */}
-              <button
-                onClick={() => setAnnotationMode(annotationMode==='highlight'?null:'highlight')}
-                className="tb-btn"
-                style={{
-                  background: annotationMode==='highlight' ? 'var(--warning-wash)' : 'transparent',
-                  border: annotationMode==='highlight' ? '1px solid color-mix(in srgb, var(--warning-text) 35%, transparent)' : '1px solid rgba(0,0,0,0.08)',
-                  color: annotationMode==='highlight' ? 'var(--warning-text)' : 'var(--text2)',
-                }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                </svg>
-                Highlight
-                <span className="tb-tooltip">Highlight text</span>
-              </button>
-
-              {/* Color swatches — only when highlight mode active */}
-              {annotationMode==='highlight' && (
-                <div style={{ display: 'flex', gap: '5px', alignItems: 'center', padding: '0 2px' }}>
-                  {HIGHLIGHT_COLORS.map(c => (
-                    <button
-                      key={c.id}
-                      onClick={() => setSelectedColor(c.id as any)}
-                      className="tb-swatch"
-                      style={{
-                        background: c.color,
-                        border: selectedColor===c.id ? '2px solid rgba(255,255,255,0.8)' : '2px solid transparent',
-                        outline: selectedColor===c.id ? `2px solid ${c.color}` : 'none',
-                        outlineOffset: '1px',
-                      }}
-                      title={c.label}
-                    >
-                      <span className="tb-tooltip">{c.label}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              <div className="tb-divider" />
-
-              {/* Sticky toggle */}
-              <button
-                onClick={() => setAnnotationMode(annotationMode==='sticky'?null:'sticky')}
-                className="tb-btn"
-                style={{
-                  background: annotationMode==='sticky' ? 'var(--accent-dim)' : 'transparent',
-                  border: annotationMode==='sticky' ? '1px solid color-mix(in srgb, var(--accent) 30%, transparent)' : '1px solid rgba(0,0,0,0.08)',
-                  color: annotationMode==='sticky' ? 'color-mix(in srgb, var(--accent) 90%, transparent)' : 'var(--text2)',
-                }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3z"/><path d="M15 3v6h6"/>
-                </svg>
-                Sticky
-                <span className="tb-tooltip">Add sticky note</span>
-              </button>
-
-              <div className="tb-divider" />
-
-              {/* Clear highlights */}
-              {highlights.length > 0 && (
-                <button
-                  onClick={() => { if(confirm('Clear all highlights?')) setHighlights([]); }}
-                  className="tb-btn"
-                  style={{
-                    background: 'transparent',
-                    border: '1px solid rgba(0,0,0,0.07)',
-                    color: 'var(--text3)',
-                  }}
-                >
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/>
-                  </svg>
-                  Clear
-                  <span className="tb-tooltip">Clear all highlights</span>
-                </button>
-              )}
-
-              <AnnotationToggle noteSlug={slug} />
-
-              {/* Ask AI */}
-              <Link
-                href={`/chat?topic=${encodeURIComponent(note.title)}`}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 5,
-                  background: 'var(--accent-dim)',
-                  border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
-                  color: 'color-mix(in srgb, var(--accent) 90%, transparent)',
-                  padding: '0.28rem 0.75rem',
-                  borderRadius: 5, textDecoration: 'none',
-                  fontSize: '0.72rem', fontFamily: 'var(--font-mono)',
-                  transition: 'all 0.15s ease',
-                  position: 'relative',
-                }}
-                className="tb-btn"
-              >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
-                Ask AI
-                <span className="tb-tooltip">Ask AI about this topic</span>
-              </Link>
-            </>}
-          </div>
-        </div>
-
-        {/* Float highlight toolbar */}
-        {showToolbar && !editMode && (
-          <div style={{
-            position: 'fixed', left: toolbarPos.x, top: toolbarPos.y,
-            transform: 'translateX(-50%)',
-            background: 'var(--bg)',
-            border: '1px solid rgba(0,0,0,0.08)',
-            borderRadius: 10, padding: '6px 8px',
-            display: 'flex', gap: '5px', alignItems: 'center',
-            zIndex: 200,
-            boxShadow: '0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.04)',
-            backdropFilter: 'blur(12px)',
-          }}>
-            {HIGHLIGHT_COLORS.map(c => (
-              <button
-                key={c.id}
-                onClick={() => applyHighlight(c.id as any)}
-                title={c.label}
-                style={{
-                  width: 20, height: 20, borderRadius: '50%',
-                  background: c.color,
-                  border: '2px solid transparent',
-                  cursor: 'pointer',
-                  transition: 'all 0.12s ease',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.25)')}
-                onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
-              />
-            ))}
-            <div style={{ width: 1, height: 16, background: 'rgba(0,0,0,0.08)', margin: '0 2px' }} />
-            <button
-              onClick={() => setShowToolbar(false)}
-              title="Dismiss"
-              style={{
-                background: 'none', border: 'none',
-                color: 'rgba(0,0,0,0.15)', cursor: 'pointer',
-                width: 20, height: 20, borderRadius: 4,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '0.7rem', transition: 'color 0.12s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(0,0,0,0.15)')}
-            >
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-              </svg>
-            </button>
-          </div>
-        )}
-
-        {/* Sticky form modal */}
-        {showStickyForm && (
-          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 10, padding: '1.5rem', width: 340 }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, color: 'var(--text)', marginBottom: '0.75rem' }}>Add Sticky Note</div>
-              <textarea value={stickyText} onChange={e=>setStickyText(e.target.value)} placeholder="Type your note..." autoFocus style={{ width: '100%', background: 'var(--bg3)', border: '1px solid var(--border)', borderRadius: 6, padding: '0.6rem', color: 'var(--text)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', resize: 'vertical', minHeight: 100, outline: 'none' }} />
-              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', justifyContent: 'flex-end' }}>
-                <button onClick={() => setShowStickyForm(false)} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text2)', cursor: 'pointer', padding: '0.4rem 1rem', borderRadius: 4 }}>Cancel</button>
-                <button onClick={() => { setStickyNotes(p=>[...p,{id:Date.now().toString(),text:stickyText,x:stickyPos.x,y:stickyPos.y}]); setShowStickyForm(false); setStickyText(''); }}
-                  style={{ background: 'var(--accent)', color: 'var(--bg)', border: 'none', cursor: 'pointer', padding: '0.4rem 1rem', borderRadius: 4, fontWeight: 600 }}>Add</button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Sticky notes */}
-        {stickyNotes.map(s => (
-          <div key={s.id} style={{ position: 'absolute', left: s.x, top: s.y, background: 'var(--bg3)', border: '1px solid var(--accent2)', borderRadius: 4, padding: '8px 10px', zIndex: 100, minWidth: 180, maxWidth: 240, boxShadow: '0 4px 20px rgba(0,0,0,0.5)' }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 4 }}>
-              <button onClick={() => setStickyNotes(p=>p.filter(x=>x.id!==s.id))} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: '0.75rem' }}>✕</button>
-            </div>
-            <textarea value={s.text} onChange={e=>setStickyNotes(p=>p.map(x=>x.id===s.id?{...x,text:e.target.value}:x))} style={{ background: 'transparent', border: 'none', outline: 'none', color: 'var(--accent)', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', width: '100%', resize: 'none', minHeight: 60 }} />
-          </div>
-        ))}
-
-        {/* Note content */}
-        <div ref={contentRef} style={{ padding: '2.5rem 2rem', position: 'relative' }}
-          onMouseUp={handleMouseUp}
-          onClick={e => {
-            if (annotationMode==='sticky' && !editMode) {
-              const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-              setStickyPos({ x: e.clientX - rect.left, y: e.clientY - rect.top + window.scrollY });
-              setShowStickyForm(true);
-            }
-          }}
-        >
-          {annotationMode==='sticky' && !editMode && (
-            <div style={{ position: 'sticky', top: 120, zIndex: 40, marginBottom: '1rem', background: 'var(--warning-wash)', border: '1px dashed var(--accent2)', borderRadius: 6, padding: '0.6rem 1rem', fontSize: '0.8rem', color: 'var(--accent)', textAlign: 'center' }}>
-              📌 Click anywhere to place a sticky note
-            </div>
-          )}
-
-          <div style={{ maxWidth: 760, margin: '0 auto' }}>
-            {editMode ? (
-              <>
-                <div style={{ marginBottom: '1rem', padding: '0.6rem 1rem', background: 'var(--warning-wash)', border: '1px dashed color-mix(in srgb, var(--warning-text) 30%, transparent)', borderRadius: 6, fontSize: '0.78rem', color: 'var(--warning-text)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span>✏️ Editing mode — changes save permanently to cloud</span>
-                  {cloudContent && (
-                    <button onClick={async () => {
-                      if (!confirm('Reset to original source content?')) return;
-                      const pw = sessionStorage.getItem(SESSION_KEY);
-                      await fetch('/api/admin/note-content', { method: 'DELETE', headers: { 'Content-Type': 'application/json', 'x-admin-password': pw! }, body: JSON.stringify({ slug }) });
-                      setCloudContent(null);
-                      setEditMode(false);
-                    }} style={{ marginLeft: 'auto', background: 'none', border: '1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)', color: 'var(--danger-text)', cursor: 'pointer', padding: '2px 8px', borderRadius: 4, fontSize: '0.72rem' }}>
-                      Reset to original
-                    </button>
-                  )}
-                </div>
-                <InlineEditorToolbar contentRef={editableRef} />
-                <div ref={editableRef} contentEditable suppressContentEditableWarning className="note-content"
-                  style={{ outline: 'none', minHeight: 400, padding: '1rem', borderRadius: 6, border: '1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)', background: 'var(--warning-wash)', caretColor: 'var(--warning-text)' }} />
+                {saveMsg && <span className="nr-save-msg">{saveMsg}</span>}
+                <button type="button" className="nr-pill" onClick={() => setEditing(false)}><span className="keep">Done</span></button>
+                <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={saveEdit} disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>
               </>
             ) : (
               <>
-                <TableOfContents contentHtml={processedContent} />
-                <div style={{ position: 'relative' }}>
-                  {contentLoading && !processedContent.trim() && (
-                    <OwlLoader label={langHi ? 'नोट्स लोड हो रहे हैं' : 'Loading the notes'} />
-                  )}
-                  <div
-                    ref={noteContentRef}
-                    className="note-content"
-                    dangerouslySetInnerHTML={{ __html: processedContent }}
-                    style={!user && !authLoading ? { maxHeight: '140vh', overflow: 'hidden', pointerEvents: 'none', userSelect: 'none' } : undefined}
+                <button type="button" className="nr-pill lang" onClick={toggleLang} lang={langHi ? 'en' : 'hi'}
+                  title={langHi ? 'Read this note in English' : 'इस नोट को हिंदी में पढ़ें'}>
+                  <span className="keep">{langHi ? 'English' : 'हिंदी'}</span>
+                </button>
+                {showDone && (
+                  <button type="button" className={`nr-pill${isDone ? ' on done' : ''}`} onClick={() => tracker.toggle(slug)} aria-pressed={isDone}
+                    aria-label={isDone ? 'Studied. Tap to untick' : 'Mark as studied'} title={isDone ? 'Studied. Tap to untick' : 'Mark this topic as studied'}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="9" />{isDone && <path d="M8 12.5l2.8 2.8L16.5 9.5" />}
+                    </svg>
+                    <span>{isDone ? 'Studied' : 'Mark studied'}</span>
+                  </button>
+                )}
+                {!gated && (
+                  <button type="button" className={`nr-pill${tool || drawing ? ' on gold' : ''}`} onClick={() => pickTool(tool ? null : 'highlight')}
+                    aria-pressed={!!tool} aria-label="Annotate">
+                    {Icon.pen}<span>Annotate</span>
+                  </button>
+                )}
+                {adminToken && !langHi && (
+                  <button type="button" className="nr-pill" onClick={() => { pickTool(null); setEditing(true); }} aria-label="Edit this note">
+                    {Icon.edit}<span>Edit</span>
+                  </button>
+                )}
+                <Link className="nr-pill accent" href={askHref}>{Icon.chat}<span>Ask the AI</span></Link>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* ── Annotation tools ── */}
+        {tool && (
+          <div className="nr-tools">
+            <div className="nr-tools-tabs" role="tablist" aria-label="Annotation tools">
+              <button type="button" role="tab" aria-selected={tool === 'highlight'} className={tool === 'highlight' ? 'on' : ''} onClick={() => pickTool('highlight')}>{Icon.pen}Highlight</button>
+              <button type="button" role="tab" aria-selected={tool === 'sticky'} className={tool === 'sticky' ? 'on' : ''} onClick={() => pickTool('sticky')}>{Icon.sticky}Sticky note</button>
+              <button type="button" role="tab" aria-selected={false} onClick={() => pickTool('draw')}>{Icon.draw}Draw</button>
+            </div>
+            <span className="nr-tools-hint">
+              {tool === 'highlight'
+                ? (highlights.length ? 'Select words to highlight them. Tap a highlight to take it off.' : 'Select some words, then pick a colour.')
+                : 'Tap the note where you want the sticky note.'}
+            </span>
+            {tool === 'highlight' && highlights.length > 0 && (
+              <button type="button" className="nr-tools-clear" onClick={() => { if (confirm('Remove all your highlights from this note?')) setHighlights([]); }}>Clear all</button>
+            )}
+            <button type="button" className="nr-tools-x" onClick={() => pickTool(null)} aria-label="Close the tools">{Icon.x}</button>
+          </div>
+        )}
+
+        {float && (
+          <div className="nr-float" style={{ left: float.x, top: float.y }}>
+            {HIGHLIGHT_COLORS.map(c => (
+              <button key={c.id} type="button" onMouseDown={e => e.preventDefault()} onClick={() => applyHighlight(c.id)}
+                title={c.label} aria-label={`Highlight in ${c.label}`} className="nr-float-swatch" style={{ ['--sw' as string]: c.color }} />
+            ))}
+            {overHighlight && (
+              <>
+                <span className="nr-float-rule" />
+                <button type="button" onMouseDown={e => e.preventDefault()} onClick={removeSelectedHighlight} title="Remove highlight" aria-label="Remove highlight" className="nr-float-btn">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 20H9L4 15a2 2 0 0 1 0-3l8-8a2 2 0 0 1 3 0l5 5a2 2 0 0 1 0 3l-7 7" /><path d="M6 13l6 6" /></svg>
+                </button>
+              </>
+            )}
+            <span className="nr-float-rule" />
+            <button type="button" onClick={() => setFloat(null)} className="nr-float-btn" aria-label="Close">{Icon.x}</button>
+          </div>
+        )}
+
+        {!editing && <ScrollRail entries={toc} />}
+
+        {/* ── The note ── */}
+        <div ref={contentBoxRef} className={`nr-content${tool === 'sticky' ? ' placing' : ''}`}
+          onMouseUp={onContentMouseUp} onClick={onContentClick}>
+          <article className="nr-article">
+            <header className="nr-head">
+              <div className="nr-meta">
+                <span className="nr-paper">Paper {paperLabel}</span>
+                <span>Topic {note.topic}</span>
+                {content && <span>{readingMinutes(content)} min read</span>}
+              </div>
+              <h1 className="nr-title">{note.title}</h1>
+              <p className="nr-desc">{note.description}</p>
+              {note.subtopics && note.subtopics.length > 0 && (
+                <div className="nr-subs">{note.subtopics.map(st => <span key={st}>{st}</span>)}</div>
+              )}
+            </header>
+
+            {editing ? (
+              <>
+                <div className="nr-edit-note">
+                  <span>Editing the English note. Saving publishes it for everyone.</span>
+                  <button type="button" onClick={resetEdit}>Go back to the original</button>
+                </div>
+                <InlineEditorToolbar contentRef={editableRef} />
+                <div ref={editableRef} contentEditable suppressContentEditableWarning className="note-content nr-editable" />
+              </>
+            ) : (
+              <>
+                <TableOfContents entries={toc} />
+                <div className="nr-body">
+                  {hindiLoading && <OwlLoader label="नोट्स लोड हो रहे हैं" />}
+                  <div ref={noteRef} className="note-content" lang={langHi ? 'hi' : 'en'}
+                    dangerouslySetInnerHTML={{ __html: hindiLoading ? '' : (display || '<p class="nr-empty">These notes are on their way. Check back soon.</p>') }}
+                    style={gated ? { maxHeight: '140vh', overflow: 'hidden', pointerEvents: 'none', userSelect: 'none' } : undefined}
                   />
-                  {!user && !authLoading && (
-                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: '2.5rem', paddingTop: '6rem', background: 'linear-gradient(to bottom, transparent 0%, var(--bg) 38%)', pointerEvents: 'auto' }}>
-                      <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: '1.5rem 2rem', textAlign: 'center', maxWidth: 360, boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
-                        <div style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>🔒</div>
-                        <div style={{ fontFamily: 'var(--font-ui)', fontWeight: 700, color: 'var(--text)', fontSize: '0.95rem', marginBottom: '0.4rem' }}>Sign in to continue reading</div>
-                        <div style={{ color: 'var(--text3)', fontSize: '0.78rem', marginBottom: '1.1rem', lineHeight: 1.5 }}>Free account — full notes, highlights & progress tracking.</div>
-                        <button onClick={handleSignIn} style={{ background: 'var(--accent)', color: 'var(--on-fill)', border: 'none', borderRadius: 8, padding: '0.55rem 1.5rem', fontFamily: 'var(--font-ui)', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', width: '100%' }}>Sign in free →</button>
+                  {gated && display && (
+                    <div className="nr-gate">
+                      <div className="nr-gate-card">
+                        <Mascot pose="reading" width={76} />
+                        <div className="nr-gate-title">Sign in to keep reading</div>
+                        <p>A free account opens every note, and keeps your highlights and progress with you.</p>
+                        <button type="button" onClick={handleSignIn} className="ds-btn ds-btn-solid nr-gate-btn">Sign in free</button>
                       </div>
                     </div>
                   )}
@@ -1464,181 +865,449 @@ export default function NoteReader({ slug, initialContent = '' }: { slug: string
               </>
             )}
 
-            {!editMode && related.length > 0 && (
-              <div style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
-                <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text3)', marginBottom: '0.75rem', fontFamily: 'var(--font-ui)', fontWeight: 600 }}>Related Topics</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {related.map(r => (
-                    <Link key={r.slug} href={`/notes/${r.slug}`} style={{ display: 'inline-block', padding: '0.35rem 0.85rem', fontSize: '0.78rem', color: 'var(--text2)', textDecoration: 'none', background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 20, fontFamily: 'var(--font-ui)', transition: 'all 0.15s' }}
-                      onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color='var(--accent)'; el.style.borderColor='var(--accent2)'; el.style.background='var(--accent-dim)'; }}
-                      onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color='var(--text2)'; el.style.borderColor='var(--border)'; el.style.background='var(--bg2)'; }}>
-                      → {r.title}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+            {!gated && !editing && display && (
+              <>
+                {showDone && (
+                  <div className={`nr-finish${isDone ? ' done' : ''}`}>
+                    <span className="nr-finish-text">
+                      <strong>{isDone ? 'Marked as studied' : 'Finished this topic?'}</strong>
+                      <span>{isDone ? 'It counts towards your syllabus on the notes page and your dashboard.' : 'Tick it off and it counts towards your syllabus.'}</span>
+                    </span>
+                    <button type="button" className={`ds-btn ds-btn-sm ${isDone ? 'ds-btn-ghost' : 'ds-btn-solid'}`} onClick={() => tracker.toggle(slug)}>
+                      {isDone ? 'Untick' : 'Mark as studied'}
+                    </button>
+                  </div>
+                )}
+                <Link href={askHref} className="nr-ask">
+                  <span className="nr-ask-text">
+                    <strong>Still unsure about something here?</strong>
+                    <span>Ask the AI. It answers from the standard books and shows you where.</span>
+                  </span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </Link>
+              </>
             )}
-          </div>
 
-          {!editMode && (
-            <div style={{ maxWidth: 760, margin: '3.5rem auto 0' }}>
-              <style>{`
-                .nav-card {
-                  display: flex;
-                  flex-direction: column;
-                  gap: 6px;
-                  padding: 1rem 1.25rem;
-                  border-radius: 10px;
-                  text-decoration: none;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                  flex: 1;
-                  max-width: 48%;
-                  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
-                  position: relative;
-                  overflow: hidden;
-                }
-                .nav-card::before {
-                  content: '';
-                  position: absolute;
-                  inset: 0;
-                  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent);
-                  opacity: 0;
-                  transition: opacity 0.2s;
-                }
-                .nav-card:hover {
-                  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-                  box-shadow: 0 4px 24px color-mix(in srgb, var(--accent) 12%, transparent), 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent);
-                  
-                }
-                .nav-card:hover::before { opacity: 1; }
-                .nav-card:hover .nav-title { color: var(--accent); }
-                .nav-card:hover .nav-arrow { color: var(--accent); transform: translateX(3px); }
-                .nav-card-right { text-align: right; }
-                .nav-card-right:hover .nav-arrow { transform: translateX(-3px); }
-                .nav-label {
-                  font-size: 0.58rem;
-                  font-family: var(--font-mono);
-                  text-transform: uppercase;
-                  letter-spacing: 0.16em;
-                  color: color-mix(in srgb, var(--accent) 45%, transparent);
-                  display: flex;
-                  align-items: center;
-                  gap: 5px;
-                }
-                .nav-title {
-                  font-size: 0.88rem;
-                  color: var(--text);
-                  font-family: var(--font-display);
-                  font-weight: 600;
-                  line-height: 1.35;
-                  transition: color 0.2s;
-                }
-                .nav-arrow {
-                  font-size: 0.75rem;
-                  color: color-mix(in srgb, var(--accent) 35%, transparent);
-                  transition: all 0.2s;
-                  display: inline-block;
-                }
-              `}</style>
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
+            {!editing && (prev || next) && (
+              <nav className="nr-pager" aria-label="More notes">
                 {prev ? (
-                  <Link href={`/notes/${prev.slug}`} className="nav-card">
-                    <span className="nav-label"><span className="nav-arrow" style={{ display: 'inline-block' }}>←</span> Previous</span>
-                    <span className="nav-title">{prev.title}</span>
+                  <Link href={`/notes/${prev.slug}`} className="nr-pager-link">
+                    <span className="nr-pager-dir">← Previous</span>
+                    <span className="nr-pager-title">{prev.title}</span>
                   </Link>
-                ) : <div style={{ flex: 1 }} />}
+                ) : <span />}
                 {next ? (
-                  <Link href={`/notes/${next.slug}`} className="nav-card nav-card-right" style={{ alignItems: 'flex-end' }}>
-                    <span className="nav-label">Next <span className="nav-arrow" style={{ display: 'inline-block' }}>→</span></span>
-                    <span className="nav-title">{next.title}</span>
+                  <Link href={`/notes/${next.slug}`} className="nr-pager-link next">
+                    <span className="nr-pager-dir">Next →</span>
+                    <span className="nr-pager-title">{next.title}</span>
                   </Link>
-                ) : <div style={{ flex: 1 }} />}
+                ) : <span />}
+              </nav>
+            )}
+          </article>
+
+          {/* Sticky notes, pinned where the reader tapped. */}
+          {!gated && !editing && stickies.map(s => (
+            <div key={s.id} className="nr-sticky" style={{ left: `min(${s.x}px, calc(100% - 228px))`, top: s.y }} onClick={e => e.stopPropagation()} onMouseUp={e => e.stopPropagation()}>
+              <button type="button" className="nr-sticky-x" onClick={() => setStickies(p => p.filter(x => x.id !== s.id))} aria-label="Remove this sticky note">{Icon.x}</button>
+              <textarea value={s.text} aria-label="Sticky note"
+                onChange={e => setStickies(p => p.map(x => x.id === s.id ? { ...x, text: e.target.value } : x))} />
+            </div>
+          ))}
+        </div>
+
+        {/* ── A new sticky note ── */}
+        {stickyDraft && (
+          <div className="ds-overlay" onClick={() => setStickyDraft(null)}>
+            <div className="ds-modal nr-sticky-modal" role="dialog" aria-label="New sticky note" onClick={e => e.stopPropagation()}>
+              <div className="ds-modal-head">
+                <h2>New sticky note</h2>
+                <button type="button" className="ds-x" onClick={() => setStickyDraft(null)} aria-label="Close">{Icon.x}</button>
+              </div>
+              <textarea className="ds-input nr-sticky-input" autoFocus value={stickyDraft.text} placeholder="Write your note"
+                onChange={e => setStickyDraft(d => d && { ...d, text: e.target.value })} />
+              <div className="nr-sticky-actions">
+                <button type="button" className="ds-btn ds-btn-ghost" onClick={() => setStickyDraft(null)}>Cancel</button>
+                <button type="button" className="ds-btn ds-btn-solid" disabled={!stickyDraft.text.trim()} onClick={() => {
+                  const { x, y, text } = stickyDraft;
+                  setStickies(p => [...p, { id: Date.now().toString(), text: text.trim(), x, y }]);
+                  setStickyDraft(null);
+                }}>Pin it</button>
               </div>
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Scrollbar TOC */}
-      {!editMode && <ScrollbarTOC contentHtml={processedContent} />}
-
-      {/* ── Within-note search bar ── */}
-      {noteSearch.open && (
-        <div className="nr-find-bar" style={{
-          position: 'fixed', bottom: 28, right: 28, zIndex: 9999,
-          background: 'var(--bg-raised)',
-          border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)',
-          borderRadius: 12,
-          boxShadow: '0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent), 0 12px 48px rgba(0,0,0,0.8), 0 0 24px color-mix(in srgb, var(--accent) 8%, transparent)',
-          display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px',
-          minWidth: 300, backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        }}>
-          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style={{ color: 'color-mix(in srgb, var(--accent) 70%, transparent)', flexShrink: 0 }}>
-            <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
-            <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-          <input
-            autoFocus
-            value={noteSearch.query}
-            onChange={e => noteSearch.setQuery(e.target.value)}
-            onKeyDown={e => {
-              if (e.key === 'Enter') noteSearch.jump(e.shiftKey ? -1 : 1);
-              if (e.key === 'Escape') noteSearch.close();
-            }}
-            placeholder="Find in note…"
-            style={{ flex: 1, background: 'none', border: 'none', outline: 'none', color: 'var(--text)', fontSize: '0.9rem', fontFamily: 'var(--font-body)', minWidth: 0 }}
-          />
-          {noteSearch.total > 0 && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'color-mix(in srgb, var(--accent) 80%, transparent)', whiteSpace: 'nowrap', flexShrink: 0, background: 'var(--accent-dim)', padding: '2px 8px', borderRadius: 4, border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)' }}>
-              {noteSearch.current} / {noteSearch.total}
-            </span>
-          )}
-          {noteSearch.query.length >= 2 && noteSearch.total === 0 && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--danger-text)', whiteSpace: 'nowrap', flexShrink: 0 }}>no match</span>
-          )}
-          <div style={{ display: 'flex', gap: 2, borderLeft: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', paddingLeft: 8, marginLeft: 2 }}>
-            <button onClick={() => noteSearch.jump(-1)} disabled={noteSearch.total === 0}
-              title="Previous (Shift+Enter)"
-              style={{ background: noteSearch.total > 0 ? 'var(--accent-dim)' : 'transparent', border: '1px solid ' + (noteSearch.total > 0 ? 'color-mix(in srgb, var(--accent) 25%, transparent)' : 'transparent'), borderRadius: 6, color: noteSearch.total > 0 ? 'var(--accent)' : 'var(--text3)', cursor: noteSearch.total > 0 ? 'pointer' : 'default', padding: '3px 8px', fontSize: '0.78rem', lineHeight: 1, transition: 'all 0.15s' }}>↑</button>
-            <button onClick={() => noteSearch.jump(1)} disabled={noteSearch.total === 0}
-              title="Next (Enter)"
-              style={{ background: noteSearch.total > 0 ? 'var(--accent-dim)' : 'transparent', border: '1px solid ' + (noteSearch.total > 0 ? 'color-mix(in srgb, var(--accent) 25%, transparent)' : 'transparent'), borderRadius: 6, color: noteSearch.total > 0 ? 'var(--accent)' : 'var(--text3)', cursor: noteSearch.total > 0 ? 'pointer' : 'default', padding: '3px 8px', fontSize: '0.78rem', lineHeight: 1, transition: 'all 0.15s' }}>↓</button>
           </div>
-          <button onClick={noteSearch.close}
-            style={{ background: 'var(--accent-dim)', border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', borderRadius: 6, color: 'var(--accent)', cursor: 'pointer', padding: '3px 9px', fontSize: '0.68rem', fontFamily: 'var(--font-mono)', marginLeft: 2, transition: 'all 0.15s' }}>esc</button>
-        </div>
-      )}
+        )}
 
-      {/* Search trigger button */}
-      {!noteSearch.open && !editMode && (
-        <button
-          className="nr-find"
-          onClick={() => noteSearch.setOpen(true)}
-          title="Find in note (⌘F)"
-          style={{
-            position: 'fixed', bottom: 28, right: 28, zIndex: 9998,
-            background: 'var(--bg-raised)',
-            border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
-            borderRadius: 10, padding: '9px 14px', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', gap: 7,
-            color: 'var(--accent-text)', fontSize: '0.75rem',
-            fontFamily: 'var(--font-mono)', letterSpacing: '0.04em',
-            boxShadow: 'var(--elev-2)',
-            backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-            transition: 'border-color 0.15s, box-shadow 0.15s, transform 0.15s',
-          }}
-          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'color-mix(in srgb, var(--accent) 60%, transparent)'; el.style.boxShadow = 'var(--elev-3)'; el}}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = 'color-mix(in srgb, var(--accent) 30%, transparent)'; el.style.boxShadow = 'var(--elev-2)'; el.style.transform = 'none'; }}
-        >
-          <svg width="13" height="13" viewBox="0 0 20 20" fill="none">
-            <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2"/>
-            <path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-          Find
-          <span className="nr-find-kbd" style={{ opacity: 0.45, fontSize: '0.62rem', background: 'var(--accent-dim)', padding: '1px 5px', borderRadius: 3, border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)' }}>⌘F</span>
-        </button>
-      )}
+        <NoteAnnotationCanvas noteSlug={slug} active={drawing} onToggle={() => setDrawing(false)} />
+
+        {/* ── Find in the note ── */}
+        {noteSearch.open && (
+          <div className="nr-find-panel">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true" style={{ color: 'var(--text3)', flexShrink: 0 }}>
+              <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2" /><path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            <input autoFocus value={noteSearch.query} onChange={e => noteSearch.setQuery(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') noteSearch.jump(e.shiftKey ? -1 : 1); if (e.key === 'Escape') noteSearch.close(); }}
+              placeholder="Find in this note" aria-label="Find in this note" />
+            {noteSearch.total > 0 && <span className="nr-find-count">{noteSearch.current} of {noteSearch.total}</span>}
+            {noteSearch.query.length >= 2 && noteSearch.total === 0 && <span className="nr-find-none">Not found</span>}
+            <div className="nr-find-nav">
+              <button type="button" onClick={() => noteSearch.jump(-1)} disabled={noteSearch.total === 0} title="Previous (Shift+Enter)" aria-label="Previous match" className="nr-find-step">↑</button>
+              <button type="button" onClick={() => noteSearch.jump(1)} disabled={noteSearch.total === 0} title="Next (Enter)" aria-label="Next match" className="nr-find-step">↓</button>
+            </div>
+            <button type="button" onClick={noteSearch.close} className="nr-find-esc" aria-label="Close">{Icon.x}</button>
+          </div>
+        )}
+        {!noteSearch.open && !gated && !editing && !drawing && display && (
+          <button type="button" onClick={() => noteSearch.setOpen(true)} title="Find in this note (⌘F)" className={`nr-find-fab${footerInView ? ' away' : ''}`} tabIndex={footerInView ? -1 : undefined}>
+            <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2" /><path d="M14.5 14.5L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+            <span>Find</span>
+            <kbd>⌘F</kbd>
+          </button>
+        )}
+      </div>
     </div>
   );
 }
+
+const NR_CSS = `
+/* Highlights. The user-agent style for mark sets a black text colour, so
+   colour is inherited from the prose, and each theme gets its own alpha: a
+   tint that reads as a highlight on white reads as mud on near-black. */
+.nr-shell .note-content mark.pp-hl { color: inherit; border-radius: 3px; padding: 0 1px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.nr-shell .note-content mark.pp-hl-yellow { background: rgba(201,168,76,0.30); }
+.nr-shell .note-content mark.pp-hl-green  { background: rgba(76,173,122,0.30); }
+.nr-shell .note-content mark.pp-hl-red    { background: rgba(201,76,76,0.32); }
+.nr-shell .note-content mark.pp-hl-blue   { background: rgba(76,139,201,0.32); }
+[data-theme="light"] .nr-shell .note-content mark.pp-hl-yellow { background: rgba(201,168,76,0.42); }
+[data-theme="light"] .nr-shell .note-content mark.pp-hl-green  { background: rgba(76,173,122,0.36); }
+[data-theme="light"] .nr-shell .note-content mark.pp-hl-red    { background: rgba(201,76,76,0.30); }
+[data-theme="light"] .nr-shell .note-content mark.pp-hl-blue   { background: rgba(76,139,201,0.32); }
+
+/* ── The note's own type. Scoped to the reader, which outranks the older
+   site-wide .note-content rules still used by posts and current affairs;
+   the !important ones answer theirs. ── */
+.nr-shell .note-content { font-size: 1.06rem; line-height: 1.8; color: var(--text); overflow-wrap: break-word; }
+.nr-shell .note-content h1, .nr-shell .note-content h2, .nr-shell .note-content h3, .nr-shell .note-content h4 { font-family: var(--font-ui); -webkit-text-fill-color: currentColor !important; text-transform: none; letter-spacing: -0.01em; }
+.nr-shell .note-content h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.25; margin: 2.4rem 0 1rem; padding: 0 0 0.5rem; border-bottom: 2px solid var(--t); color: var(--text) !important; }
+.nr-shell .note-content h2 { font-size: 1.42rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.3; margin: 2.8rem 0 0.9rem; padding-left: 14px; border-left: 4px solid var(--t); color: var(--text) !important; scroll-margin-top: 90px; }
+.nr-shell .note-content h3 { font-size: 1.14rem; font-weight: 700; line-height: 1.4; margin: 1.9rem 0 0.6rem; padding: 0; border: none; color: var(--t) !important; scroll-margin-top: 90px; }
+.nr-shell .note-content h4 { font-size: 1.02rem !important; font-weight: 700; line-height: 1.45; margin: 1.5rem 0 0.4rem; color: var(--text) !important; }
+.nr-shell .note-content p, .nr-shell .note-content li { font-size: inherit; line-height: inherit; color: var(--text); }
+.nr-shell .note-content p { margin: 0 0 1rem; }
+.nr-shell .note-content > :first-child { margin-top: 0; }
+.nr-shell .note-content ul, .nr-shell .note-content ol { margin: 0.4rem 0 1.1rem 1.4rem; padding: 0; }
+/* .ds clears list styles for its own lists; the note's are real lists. */
+.nr-shell .note-content ul { list-style: disc; }
+.nr-shell .note-content ol { list-style: decimal; }
+.nr-shell .note-content ul ul { list-style: circle; }
+.nr-shell .note-content li { margin-bottom: 0.45rem; }
+.nr-shell .note-content li > p { margin: 0; }
+/* A sub-point written as an indented item of the same list (see tidyNote). */
+.nr-shell .note-content li[style*="padding-left"] { padding-left: 0 !important; margin-left: 1.4em; list-style-type: circle; }
+.nr-shell .note-content li::marker, .nr-shell .note-content ul ul li::marker { color: var(--t); }
+.nr-shell .note-content ul ul, .nr-shell .note-content ol ol { margin-top: 0.3rem; margin-bottom: 0.3rem; }
+.nr-shell .note-content strong { font-weight: 700; color: var(--text); }
+.nr-shell .note-content em { color: var(--text2); }
+.nr-shell .note-content a { color: var(--accent-text); }
+.nr-shell .note-content blockquote { margin: 1.6rem 0; padding: 1rem 1.25rem; background: var(--w); border-left: 4px solid var(--t); border-radius: 0 12px 12px 0; color: var(--text); font-style: normal; }
+.nr-shell .note-content blockquote::before { content: none; }
+.nr-shell .note-content blockquote p:last-child { margin-bottom: 0; }
+.nr-shell .note-content table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 1.8rem 0; font-size: 0.92rem; border: 1px solid var(--border2); border-radius: 12px; }
+.nr-shell .note-content table > * { display: table; width: 100%; }
+.nr-shell .note-content th { background: var(--ds-soft); color: var(--text); padding: 0.7rem 1rem; text-align: left; font-family: var(--font-ui); font-size: 0.86rem; font-weight: 700; letter-spacing: 0; text-transform: none; border: none; border-bottom: 1px solid var(--border2); }
+.nr-shell .note-content td { padding: 0.65rem 1rem; border: none; border-top: 1px solid var(--border); vertical-align: top; line-height: 1.65; }
+.nr-shell .note-content tr:nth-child(even) td { background: color-mix(in srgb, var(--ds-soft) 60%, transparent); }
+.nr-shell .note-content tr:hover td { background: inherit; }
+.nr-shell .note-content hr { border: none; border-top: 1px solid var(--border2); margin: 2.5rem 0; }
+.nr-shell .note-content img { max-width: 100%; height: auto; border-radius: 12px; }
+.nr-empty { color: var(--text3); }
+
+/* ── Reading progress ── */
+.nr-progress { position: fixed; top: 60px; left: 0; right: 0; height: 3px; z-index: 101; pointer-events: none; }
+.nr-progress span { display: block; height: 100%; background: var(--t); transform-origin: left; transition: transform 0.1s linear; }
+
+/* ── Shell: a sidebar that collapses to nothing, and the note. No
+   background of its own, so drawings on the canvas behind it stay visible. ── */
+/* The room at the foot is on the column, not the shell, so the sidebar runs
+   right down to the footer instead of stopping short of it. */
+.nr-shell { display: flex; align-items: flex-start; width: 100%; }
+.nr-main { flex: 1; min-width: 0; padding-bottom: 5rem; }
+.nr-sidebar {
+  width: 0; min-width: 0; flex-shrink: 0;
+  position: sticky; top: 60px; height: calc(100vh - 60px);
+  overflow: hidden; background: var(--ds-soft); border-right: 1px solid transparent;
+  transition: width 0.25s cubic-bezier(0.4,0,0.2,1), min-width 0.25s cubic-bezier(0.4,0,0.2,1), border-color 0.25s;
+}
+.nr-shell.with-sidebar .nr-sidebar { width: 268px; min-width: 268px; border-right-color: var(--border); }
+/* Before hydration, and until the reader toggles it: open beside the note on
+   a desktop, closed on anything narrower. */
+@media (min-width: 1025px) {
+  .nr-shell.sb-auto .nr-sidebar { width: 268px; min-width: 268px; border-right-color: var(--border); }
+  .nr-shell.sb-auto .nr-sb-toggle { color: var(--t); border-color: color-mix(in srgb, var(--t) 40%, transparent); background: var(--w); }
+}
+.nr-sidebar-inner { height: 100%; overflow-y: auto; overscroll-behavior: contain; padding: var(--space-5) var(--space-4) var(--space-10); width: 268px; }
+.nr-backdrop { display: none; }
+.nr-sb-close { display: none; position: absolute; top: 0.7rem; right: 0.7rem; z-index: 2; width: 32px; height: 32px; align-items: center; justify-content: center; background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-full); color: var(--text2); cursor: pointer; }
+@media (max-width: 1024px) {
+  .nr-sidebar { position: fixed; top: 60px; left: 0; z-index: 120; height: calc(100dvh - 60px); width: 0; background: var(--bg); }
+  .nr-shell.with-sidebar .nr-sidebar { width: 300px; min-width: 300px; max-width: 86vw; box-shadow: var(--elev-3); }
+  .nr-sidebar-inner { width: 300px; max-width: 86vw; padding-top: 3rem; }
+  .nr-sb-close { display: inline-flex; }
+  .nr-shell.with-sidebar .nr-backdrop { display: block; position: fixed; inset: 0; z-index: 110; background: color-mix(in srgb, #000 45%, transparent); -webkit-tap-highlight-color: transparent; }
+}
+/* The tab bar sits over the foot of the panel on a phone. */
+@media (max-width: 768px) {
+  .nr-sidebar-inner { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px) + var(--space-8)); }
+}
+
+/* ── Sidebar contents ── */
+.sb-head { padding-bottom: var(--space-4); margin-bottom: var(--space-2); border-bottom: 1px solid var(--border); }
+.sb-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 8px; border-radius: var(--radius-full); background: var(--ds-card); border: 1px solid var(--border); font-size: 0.74rem; font-weight: 600; color: var(--text2); }
+.sb-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--t); flex-shrink: 0; }
+.sb-title { font-size: 1.02rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; margin: var(--space-3) 0 var(--space-1); }
+.sb-sub { display: inline-block; font-size: 0.82rem; color: var(--text3); margin: 0; line-height: 1.4; text-decoration: none; }
+a.sb-sub:hover { color: var(--t); }
+.sb-section-label { display: block; margin: var(--space-5) 0 var(--space-2); font-size: 0.74rem; font-weight: 700; color: var(--text3); }
+.sb-toc { display: flex; flex-direction: column; gap: 1px; }
+.sb-toc-link {
+  display: flex; align-items: flex-start; gap: 8px; width: 100%; text-align: left;
+  background: none; border: none; border-radius: var(--radius-md); cursor: pointer;
+  padding: 6px 8px; font-size: 0.85rem; line-height: 1.4; color: var(--text2);
+  transition: background 0.15s, color 0.15s;
+}
+.sb-toc-link.sub { font-size: 0.8rem; color: var(--text3); padding-left: 22px; }
+.sb-toc-link:hover { background: var(--ds-card); color: var(--text); }
+.sb-toc-link.on { background: var(--w); color: var(--t); font-weight: 600; }
+.sb-toc-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 0.5rem; background: var(--border3); }
+.sb-toc-link.sub .sb-toc-dot { width: 4px; height: 4px; }
+.sb-toc-link.on .sb-toc-dot, .sb-toc-link:hover .sb-toc-dot { background: var(--t); }
+.sb-hls { display: flex; flex-direction: column; gap: 4px; }
+.sb-hl { display: flex; align-items: center; gap: 4px; padding-left: 8px; border-left: 3px solid var(--sw); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--ds-card); }
+.sb-hl-text { flex: 1; min-width: 0; padding: 6px 0; background: none; border: none; text-align: left; font-size: 0.82rem; color: var(--text2); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sb-hl-text:hover { color: var(--text); }
+.sb-hl-x { flex-shrink: 0; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; background: none; border: none; border-radius: 50%; color: var(--text3); cursor: pointer; }
+.sb-hl-x:hover { color: var(--danger-text); }
+.sb-related { display: flex; flex-direction: column; gap: 6px; }
+.sb-rel { display: block; text-decoration: none; background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 10px; transition: border-color 0.15s; }
+.sb-rel:hover { border-color: color-mix(in srgb, var(--t) 45%, transparent); }
+.sb-rel-dir { display: block; font-size: 0.72rem; font-weight: 600; color: var(--text3); margin-bottom: 2px; }
+.sb-rel-title { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text); line-height: 1.35; }
+.sb-more { display: flex; flex-direction: column; }
+.sb-more a { padding: 6px 8px; border-radius: var(--radius-md); font-size: 0.85rem; line-height: 1.4; color: var(--text2); text-decoration: none; }
+.sb-more a:hover { background: var(--ds-card); color: var(--t); }
+
+/* ── Margin notes (components/SidebarNotes) ── */
+.sb-note-add { width: 100%; display: flex; align-items: center; gap: 6px; background: none; border: 1.5px dashed color-mix(in srgb, var(--accent) 35%, transparent); border-radius: var(--radius-md); padding: 8px 10px; font-size: 0.84rem; font-family: var(--font-ui); color: var(--accent-text); cursor: pointer; margin-bottom: var(--space-2); transition: background 0.15s, border-color 0.15s; }
+.sb-note-add:hover { background: var(--accent-dim); border-style: solid; }
+.sb-note { background: color-mix(in srgb, var(--premium-text) 6%, var(--ds-card)); border: 1px solid color-mix(in srgb, var(--premium-text) 22%, transparent); border-radius: var(--radius-md); padding: 10px; margin-bottom: var(--space-2); transition: border-color 0.15s, box-shadow 0.15s; }
+.sb-note:focus-within { border-color: color-mix(in srgb, var(--premium-text) 50%, transparent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--premium-text) 12%, transparent); }
+.sb-note-title, .sb-note-body { width: 100%; background: none; border: none; outline: none; color: var(--text); padding: 0; resize: none; font-family: var(--font-ui); }
+.sb-note-title { font-size: 0.88rem; font-weight: 700; padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid color-mix(in srgb, var(--premium-text) 15%, transparent); }
+.sb-note-body { font-size: 0.84rem; line-height: 1.6; min-height: 2.8em; }
+.sb-note-title::placeholder, .sb-note-body::placeholder { color: var(--text3); font-weight: 400; }
+.sb-note-foot { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: 6px; font-size: 0.72rem; color: var(--text3); opacity: 0; transition: opacity 0.15s; }
+.sb-note:hover .sb-note-foot, .sb-note:focus-within .sb-note-foot { opacity: 1; }
+@media (hover: none) { .sb-note-foot { opacity: 1; } }
+.sb-note-foot button { background: none; border: none; padding: 0; font: inherit; color: var(--text3); cursor: pointer; }
+.sb-note-foot button:hover { color: var(--danger-text); }
+.sb-note-confirm { display: flex; gap: 10px; }
+.sb-note-confirm button:first-child { color: var(--danger-text); font-weight: 700; }
+.sb-note-scope { margin: 0; text-align: right; font-size: 0.72rem; color: var(--text3); }
+
+/* ── Bar ── */
+.nr-bar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-3); padding: var(--space-3) var(--space-6); border-bottom: 1px solid var(--border); }
+.nr-pill {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 var(--space-3);
+  border-radius: var(--radius-full); border: 1px solid var(--border2); background: var(--ds-card);
+  color: var(--text2); font-family: var(--font-ui); font-size: 0.86rem; font-weight: 600; text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.nr-pill:hover { color: var(--text); border-color: var(--border3); }
+.nr-pill.on { color: var(--t); border-color: color-mix(in srgb, var(--t) 40%, transparent); background: var(--w); }
+.nr-pill.on.gold { color: var(--premium-text); border-color: color-mix(in srgb, var(--premium-text) 40%, transparent); background: var(--premium-wash); }
+.nr-pill.on.done { color: var(--success-text); border-color: color-mix(in srgb, var(--success-text) 40%, transparent); background: var(--success-wash); }
+.nr-pill.accent { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 35%, transparent); background: var(--accent-dim); }
+.nr-pill.lang { font-weight: 700; }
+.nr-crumbs { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 0.86rem; color: var(--text3); }
+.nr-crumbs a { color: var(--text2); text-decoration: none; white-space: nowrap; }
+.nr-crumbs a:hover { color: var(--accent-text); }
+.nr-bar-actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-2); }
+.nr-save-msg { font-size: 0.86rem; font-weight: 600; color: var(--success-text); }
+
+/* ── Annotation tools ── */
+/* Held under the navbar while a tool is on, so the way out of it is always in reach. */
+.nr-tools { position: sticky; top: 60px; z-index: 50; display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-4); padding: var(--space-2) var(--space-6); border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--premium-text) 9%, var(--bg)); font-size: 0.86rem; color: var(--text2); }
+.nr-tools-tabs { display: flex; gap: 2px; padding: 3px; border-radius: var(--radius-full); background: var(--ds-card); border: 1px solid var(--border); }
+.nr-tools-tabs button { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 12px; border: none; border-radius: var(--radius-full); background: none; color: var(--text2); font: inherit; font-weight: 600; cursor: pointer; }
+.nr-tools-tabs button:hover { color: var(--text); }
+.nr-tools-tabs button.on { background: var(--premium-wash); color: var(--premium-text); }
+.nr-tools-hint { flex: 1; min-width: 12rem; }
+.nr-tools-clear { background: none; border: 1px solid var(--border2); border-radius: var(--radius-full); padding: 3px 12px; font: inherit; font-size: 0.8rem; color: var(--text2); cursor: pointer; }
+.nr-tools-x { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 50%; background: none; color: var(--text3); cursor: pointer; }
+.nr-tools-x:hover { background: var(--ds-card); color: var(--text); }
+.nr-content.placing { cursor: copy; }
+.nr-float {
+  position: absolute; transform: translateX(-50%); z-index: 200;
+  display: flex; align-items: center; gap: 6px; padding: 6px 8px;
+  background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-full); box-shadow: var(--elev-3);
+}
+.nr-float-swatch { width: 26px; height: 26px; border-radius: 50%; background: var(--sw); border: none; cursor: pointer; transition: transform 0.12s; }
+.nr-float-swatch:hover { transform: scale(1.15); }
+.nr-float-rule { width: 1px; height: 16px; background: var(--border2); }
+.nr-float-btn { width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 50%; background: none; color: var(--text3); cursor: pointer; }
+.nr-float-btn:hover { color: var(--text); background: var(--ds-soft); }
+
+/* Sticky notes on the page */
+.nr-sticky { position: absolute; z-index: 30; width: 220px; padding: 8px 10px 10px; background: color-mix(in srgb, var(--premium-text) 12%, var(--ds-card)); border: 1px solid color-mix(in srgb, var(--premium-text) 35%, transparent); border-radius: var(--radius-md); box-shadow: var(--elev-2); cursor: auto; }
+.nr-sticky textarea { display: block; width: 100%; min-height: 64px; background: none; border: none; outline: none; resize: vertical; color: var(--text); font-family: var(--font-ui); font-size: 0.86rem; line-height: 1.5; }
+.nr-sticky-x { float: right; width: 24px; height: 24px; margin: -2px -4px 0 4px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 50%; background: none; color: var(--text3); cursor: pointer; }
+.nr-sticky-x:hover { color: var(--danger-text); }
+.nr-sticky-modal { max-width: 420px; }
+.nr-sticky-input { min-height: 120px; resize: vertical; }
+.nr-sticky-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-4); }
+
+/* ── The note ── */
+.nr-content { position: relative; padding: var(--space-8) var(--space-6) 0; }
+.nr-article { max-width: 740px; margin: 0 auto; }
+.nr-head { margin-bottom: var(--space-6); }
+.nr-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 0.86rem; color: var(--text3); margin-bottom: var(--space-3); }
+.nr-paper { padding: 2px 10px; border-radius: var(--radius-full); background: var(--w); color: var(--t); font-weight: 700; }
+.nr-title { font-size: clamp(1.9rem, 4.2vw, 2.6rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin: 0 0 var(--space-3); }
+.nr-desc { font-size: 1.08rem; line-height: 1.65; color: var(--text2); margin: 0 0 var(--space-4); }
+.nr-subs { display: flex; flex-wrap: wrap; gap: 6px; }
+.nr-subs span { padding: 3px 11px; border-radius: var(--radius-full); border: 1px solid var(--border); background: var(--ds-card); font-size: 0.8rem; color: var(--text2); }
+
+.nr-toc { margin: 0 0 var(--space-6); border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--ds-card); overflow: hidden; }
+.nr-toc-toggle { width: 100%; display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); border: none; background: none; cursor: pointer; font-family: var(--font-ui); font-size: 0.95rem; font-weight: 700; color: var(--text); text-align: left; }
+.nr-toc-count { margin-left: auto; font-size: 0.82rem; font-weight: 500; color: var(--text3); }
+.nr-toc-chev { color: var(--text3); transition: transform 0.2s; }
+.nr-toc.open .nr-toc-chev { transform: rotate(180deg); }
+.nr-toc-list { display: flex; flex-direction: column; gap: 1px; padding: var(--space-2) var(--space-2) var(--space-3); border-top: 1px solid var(--border); }
+.nr-toc-link { display: flex; align-items: baseline; gap: 10px; padding: 6px 10px; border-radius: var(--radius-md); color: var(--text2); text-decoration: none; font-size: 0.92rem; line-height: 1.45; }
+.nr-toc-link:hover { background: var(--ds-soft); color: var(--text); }
+.nr-toc-link.sub { padding-left: 38px; font-size: 0.86rem; color: var(--text3); }
+.nr-toc-link.on { color: var(--t); font-weight: 600; }
+.nr-toc-n { min-width: 18px; font-size: 0.8rem; font-weight: 700; color: var(--t); }
+/* With the sidebar open beside the note, its list already does this job. */
+@media (min-width: 1025px) { .nr-shell.with-sidebar .nr-toc, .nr-shell.sb-auto .nr-toc { display: none; } }
+
+.nr-body { position: relative; }
+.nr-gate { position: absolute; bottom: 0; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; padding: 7rem 0 2.5rem; background: linear-gradient(to bottom, transparent 0%, var(--bg) 40%); pointer-events: auto; }
+.nr-gate-card { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); max-width: 380px; margin: 0 var(--space-2); padding: var(--space-6); text-align: center; background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-xl); box-shadow: var(--elev-3); }
+.nr-gate-title { font-size: 1.15rem; font-weight: 800; }
+.nr-gate-card p { margin: 0 0 var(--space-2); font-size: 0.92rem; line-height: 1.55; color: var(--text2); }
+.nr-gate-btn { width: 100%; justify-content: center; }
+
+.nr-edit-note { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-bottom: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--warning-wash); color: var(--warning-text); font-size: 0.88rem; }
+.nr-edit-note button { margin-left: auto; background: none; border: 1px solid color-mix(in srgb, var(--danger-text) 35%, transparent); border-radius: var(--radius-full); padding: 3px 12px; font: inherit; font-size: 0.82rem; color: var(--danger-text); cursor: pointer; }
+.nr-editable { min-height: 400px; padding: var(--space-4); outline: none; border: 1px solid color-mix(in srgb, var(--warning-text) 30%, transparent); border-radius: var(--radius-lg); caret-color: var(--warning-text); }
+
+.nr-finish { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-10); padding: var(--space-4) var(--space-5); border-radius: var(--radius-xl); background: var(--ds-card); border: 1px solid var(--border); }
+.nr-finish.done { background: var(--success-wash); border-color: color-mix(in srgb, var(--success-text) 30%, transparent); }
+.nr-finish-text { display: flex; flex-direction: column; gap: 2px; }
+.nr-finish-text strong { color: var(--text); font-size: 1rem; }
+.nr-finish-text span { color: var(--text2); font-size: 0.92rem; }
+.nr-finish + .nr-ask { margin-top: var(--space-3); }
+.nr-ask { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-10); padding: var(--space-4) var(--space-5); border-radius: var(--radius-xl); background: var(--accent-dim); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent-text); text-decoration: none; transition: transform 0.15s; }
+.nr-ask:hover { transform: translateY(-1px); }
+.nr-ask svg { flex-shrink: 0; }
+.nr-ask-text { display: flex; flex-direction: column; gap: 2px; }
+.nr-ask-text strong { color: var(--text); font-size: 1rem; }
+.nr-ask-text span { color: var(--text2); font-size: 0.92rem; }
+
+.nr-pager { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-6); }
+.nr-pager-link { display: flex; flex-direction: column; gap: 4px; padding: var(--space-4) var(--space-5); border-radius: var(--radius-xl); border: 1px solid var(--border); background: var(--ds-card); text-decoration: none; transition: border-color 0.15s, box-shadow 0.15s; }
+.nr-pager-link:hover { border-color: color-mix(in srgb, var(--t) 45%, transparent); box-shadow: var(--elev-1); }
+.nr-pager-link.next { text-align: right; align-items: flex-end; }
+.nr-pager-dir { font-size: 0.82rem; font-weight: 600; color: var(--t); }
+.nr-pager-title { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.35; }
+
+/* ── Scroll rail (desktop) ── */
+.nr-rail { display: none; }
+@media (min-width: 1024px) { .nr-rail { display: block; } }
+.nr-rail-track { position: fixed; right: 0; top: 96px; width: 14px; z-index: 90; background: var(--ds-soft); border-left: 1px solid var(--border); }
+.nr-rail-tick { position: absolute; left: 2.5px; width: 9px; height: 2px; padding: 0; border: none; border-radius: 2px; cursor: pointer; background: color-mix(in srgb, var(--t) 45%, transparent); transition: background 0.2s, box-shadow 0.2s, transform 0.15s; }
+.nr-rail-tick.sub { left: 4.5px; width: 5px; height: 1.5px; background: color-mix(in srgb, var(--t) 22%, transparent); }
+.nr-rail-tick.on { background: var(--t); box-shadow: 0 0 6px var(--t); }
+.nr-rail-tick:hover { transform: scaleX(1.6); }
+.nr-rail-thumb { position: absolute; left: 3px; width: 8px; border: none; border-radius: 6px; cursor: pointer; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; background: var(--t); box-shadow: 0 0 8px color-mix(in srgb, var(--t) 45%, transparent); transition: box-shadow 0.2s; }
+.nr-rail-thumb.open { box-shadow: 0 0 16px color-mix(in srgb, var(--t) 80%, transparent); }
+.nr-rail-thumb span { width: 4px; height: 1px; background: rgba(255,255,255,0.75); border-radius: 1px; }
+@keyframes nrPanelIn { from { opacity: 0; transform: translateX(12px) scale(0.97); } to { opacity: 1; transform: none; } }
+.nr-rail-panel { position: fixed; right: 24px; top: 88px; width: 290px; z-index: 91; background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--elev-3); animation: nrPanelIn 0.18s cubic-bezier(0.4,0,0.2,1); }
+.nr-rail-panel-head { display: flex; align-items: center; gap: 8px; padding: 12px 14px 10px; border-bottom: 1px solid var(--border); }
+.nr-rail-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--t); }
+.nr-rail-panel-title { flex: 1; font-size: 0.86rem; font-weight: 700; color: var(--t); }
+.nr-rail-close { background: none; border: none; color: var(--text3); cursor: pointer; padding: 4px; display: flex; line-height: 0; border-radius: 50%; }
+.nr-rail-close:hover { color: var(--text); background: var(--ds-soft); }
+.nr-rail-progress { height: 3px; background: var(--ds-soft); }
+.nr-rail-progress div { height: 100%; background: var(--t); transition: width 0.1s; }
+.nr-rail-list { max-height: calc(100vh - 230px); overflow-y: auto; padding: 6px 0; }
+.nr-rail-link { width: 100%; display: flex; align-items: center; gap: 8px; background: none; border: none; border-left: 2px solid transparent; cursor: pointer; text-align: left; padding: 8px 14px; color: var(--text); font-family: var(--font-ui); font-size: 0.86rem; font-weight: 500; transition: background 0.15s, color 0.15s; }
+.nr-rail-link.sub { padding: 6px 14px 6px 26px; font-size: 0.8rem; font-weight: 400; color: var(--text2); }
+.nr-rail-link:hover { background: var(--ds-soft); }
+.nr-rail-link.on { background: var(--w); border-left-color: var(--t); color: var(--t); }
+.nr-rail-bullet { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; background: color-mix(in srgb, var(--t) 40%, transparent); }
+.nr-rail-link.sub .nr-rail-bullet { width: 4px; height: 4px; }
+.nr-rail-link.on .nr-rail-bullet { background: var(--t); }
+.nr-rail-text { flex: 1; line-height: 1.4; }
+.nr-rail-arrow { font-size: 0.75rem; opacity: 0; transition: opacity 0.15s, transform 0.15s; color: var(--text3); }
+.nr-rail-link:hover .nr-rail-arrow { opacity: 1; transform: translateX(3px); }
+.nr-rail-foot { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text3); }
+.nr-rail-foot span:last-child { font-weight: 700; color: var(--t); }
+
+/* ── Find in the note ── */
+.nr-find-panel {
+  position: fixed; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); right: 24px; z-index: 300;
+  display: flex; align-items: center; gap: 8px; min-width: 320px; max-width: calc(100vw - 32px);
+  padding: 8px 8px 8px 14px; background: var(--ds-card); border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: var(--radius-full); box-shadow: var(--elev-3);
+}
+.nr-find-panel input { flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--text); font-family: var(--font-ui); font-size: 0.95rem; }
+.nr-find-count { font-size: 0.8rem; font-weight: 600; white-space: nowrap; color: var(--accent-text); background: var(--accent-dim); padding: 2px 10px; border-radius: var(--radius-full); }
+.nr-find-none { font-size: 0.8rem; color: var(--danger-text); white-space: nowrap; }
+.nr-find-nav { display: flex; gap: 2px; }
+.nr-find-step, .nr-find-esc { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: 50%; background: var(--ds-soft); color: var(--text2); cursor: pointer; font-size: 0.85rem; }
+.nr-find-step:disabled { opacity: 0.4; cursor: default; }
+.nr-find-fab {
+  position: fixed; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); right: 24px; z-index: 299;
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px;
+  background: var(--ds-card); border: 1px solid var(--border2); border-radius: var(--radius-full);
+  color: var(--text2); font-family: var(--font-ui); font-size: 0.86rem; font-weight: 600; cursor: pointer; box-shadow: var(--elev-2);
+  transition: border-color 0.15s, color 0.15s, opacity 0.2s, transform 0.2s;
+}
+.nr-find-fab:hover { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.nr-find-fab.away { opacity: 0; transform: translateY(8px); pointer-events: none; }
+.nr-find-fab kbd { font-family: var(--font-ui); font-size: 0.72rem; color: var(--text3); padding: 1px 7px; border: 1px solid var(--border2); border-radius: var(--radius-full); }
+@media (min-width: 1024px) { .nr-find-fab, .nr-find-panel { right: 34px; } }
+@media (hover: none) { .nr-find-fab kbd { display: none; } }
+
+/* ── Phones ── */
+@media (max-width: 768px) {
+  .nr-find-fab, .nr-find-panel { bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 12px); right: 12px; }
+}
+@media (max-width: 640px) {
+  .nr-bar { padding: var(--space-2) var(--space-4); }
+  .nr-crumbs { display: none; }
+  .nr-pill span:not(.keep) { display: none; }
+  .nr-pill { min-width: 38px; padding: 0 10px; justify-content: center; }
+  .nr-pill.accent span { display: inline; }
+  .nr-tools { padding: var(--space-2) var(--space-4); gap: var(--space-2); }
+  .nr-tools-tabs { order: 0; }
+  .nr-tools-x { margin-left: auto; }
+  .nr-tools-hint { order: 3; flex-basis: 100%; font-size: 0.82rem; }
+  .nr-tools-clear { order: 4; }
+  .nr-content { padding: var(--space-6) var(--space-4) 0; }
+  .nr-shell .note-content { font-size: 1.02rem; }
+  .nr-shell .note-content h2 { font-size: 1.28rem; }
+  .nr-ask { padding: var(--space-4); }
+  .nr-finish { flex-direction: column; align-items: stretch; padding: var(--space-4); }
+  .nr-finish .ds-btn { justify-content: center; }
+  .nr-pager { grid-template-columns: minmax(0, 1fr); }
+  .nr-pager-link.next { text-align: left; align-items: flex-start; }
+  .nr-find-panel { left: 12px; min-width: 0; }
+  .nr-sticky { width: 190px; }
+}
+@media (prefers-reduced-motion: reduce) { .nr-sidebar, .nr-progress span, .nr-ask, .nr-rail-panel { transition: none; animation: none; } }
+`;

@@ -728,7 +728,11 @@ blockquote, blockquote em, blockquote i {
 }
 
 /* ── Mobile fixes ── */
+/* clip rather than hidden: hidden on both html and body makes body a scroll
+   container of its own, and every position: sticky inside it (the note
+   reader's sidebar, for one) then sticks to a box that never scrolls. */
 html, body { overflow-x: hidden; max-width: 100%; }
+@supports (overflow-x: clip) { html, body { overflow-x: clip; } }
 
 @media (max-width: 768px) {
   .g-stat-block { padding: 1rem 0.75rem; }
