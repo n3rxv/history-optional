@@ -70,6 +70,16 @@ console.log('token            first family                   status');
 console.log('-'.repeat(78));
 for (const { token, stack } of wanted) {
   const first = stack[0];
+  // The design system's .ds scope points tokens at one another, as in
+  // --font-body: var(--font-ui). An alias is as good as the token it names,
+  // which is checked on its own line; one that names no token is a failure.
+  const alias = first.match(/^var\((--font-[a-z]+)\)$/);
+  if (alias) {
+    const target = wanted.find((w) => w.token === alias[1] && !/^var\(/.test(w.stack[0]));
+    if (!target) bad++;
+    console.log(`${token.padEnd(16)} ${first.padEnd(30)} ${target ? `alias of ${alias[1]}` : 'NO  <-- names no font token'}`);
+    continue;
+  }
   if (SYSTEM.has(first)) {
     // A system font is fine only if something we actually load sits behind it,
     // otherwise a platform without it falls through to a generic.

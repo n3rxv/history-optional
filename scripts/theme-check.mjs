@@ -69,8 +69,13 @@ for (const t of [...light].sort()) {
   if (!shared.has(t)) problems.push(`${t} is defined for light but not for dark`);
 }
 
+// Tokens the design system defines on its own scope (.ds), built from the
+// themed ones, so they follow the theme without a block of their own.
+const scoped = new Set();
+for (const b of blocksFor('.ds')) for (const t of decls(b)) scoped.add(t);
+
 // every var() reference must resolve
-const defined = new Set([...shared, ...light]);
+const defined = new Set([...shared, ...light, ...scoped]);
 const used = new Set([...code.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1]));
 for (const t of [...used].sort()) {
   if (!defined.has(t)) problems.push(`${t} is referenced but never defined`);
