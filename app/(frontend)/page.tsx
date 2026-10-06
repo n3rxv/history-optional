@@ -71,7 +71,7 @@ export default async function Home() {
               History Optional, <em className="hm-mark">distilled.<svg viewBox="0 0 220 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 11c34-6 70-8 108-5 30 2 63 3 106-3" /></svg></em>
             </h1>
             <p className="ds-lede hm-lede">
-              Read the notes, practise every PYQ since {firstYear}, and ask the AI when you get stuck. It answers from the standard books and shows you the page.
+              Notes, every PYQ since {firstYear}, topper copies, maps, flashcards and Prelims practice, all in one place. Attempt a timed paper, get your answers checked, and use the AI as your personal tutor.
             </p>
             <HomeAsk />
             <HeroActions />
