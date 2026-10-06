@@ -1,136 +1,86 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
-import { pyqs } from '@/lib/pyqData';
-import { mapData, MapEntry } from '@/lib/mapData';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { pyqs } from '@/lib/pyqData';
+import { mapData, type MapEntry } from '@/lib/mapData';
+import { auth } from '@/lib/firebase';
 import { useSubscriptionGate } from '@/hooks/useSubscriptionGate';
-import PDFTestEvaluator from '@/components/PDFTestEvaluator';
 import { useLoginPrompt } from '@/hooks/useLoginPrompt';
+import { useRefreshSafe } from '@/hooks/useRefreshSafe';
+import { useLang } from '@/lib/i18n/LangContext';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import OwlLoader from '@/components/OwlLoader';
-import { useRefreshSafe } from '@/hooks/useRefreshSafe';
+import PDFTestEvaluator from '@/components/PDFTestEvaluator';
+import { REPORT_CSS, ReportBody, fromEvaluation, scoreTone, type Evaluation } from '@/components/evaluate/Report';
+import { SECTIONS, type SectionKey } from '@/components/notes/sections';
+import { pyqSection, tintFor } from '@/components/pyq/sections';
 
 const LeafletMap = dynamic(() => import('@/components/LeafletMap'), { ssr: false });
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+/**
+ * A practice paper in the Mains format, against the clock. The reader writes
+ * on paper, then marks each answer against the rubric, and can have answers
+ * checked: one at a time from a photo, or the whole paper from one PDF
+ * (Premium). Ancient India brings the map question as Question 1; other
+ * sections give five short notes instead.
+ */
 
-type Section = 'Paper I - Ancient India' | 'Paper I - Medieval India' | 'Paper II - Modern India' | 'Paper II - World History';
-type MapType = 'physical' | 'political';
 type TestMode = 'sectional' | 'flt_sectional' | 'flt_combined';
 type Phase = 'config' | 'test' | 'results';
+type MapType = 'physical' | 'political';
+interface TQ { id: number; section: string; topic: string; year: number; marks: number; source: string; question: string }
+interface QGroup { qNum: number; section: 'A' | 'B'; parts: TQ[] }
+interface MapQuestion { entries: MapEntry[]; year: number; mapType: MapType }
+type Rubric = { intro: number; body: number; conc: number; pres: number };
 
-interface TQ {
-  id: number; section: string; topic: string;
-  year: number; marks: number; source: string; question: string;
-}
+const PART_NAME: Record<SectionKey, string> = { ancient: 'Ancient India', medieval: 'Medieval India', modern: 'Modern India', world: 'World History' };
+const keyOf = (section: string) => pyqSection(section)?.key;
 
-interface QGroup {
-  qNum: number;
-  section: 'A' | 'B';
-  parts: TQ[];
-}
-
-interface MapQuestion {
-  entries: MapEntry[];
-  year: number;
-  mapType: MapType;
-}
-
-
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const SECTIONS: Section[] = [
-  'Paper I - Ancient India',
-  'Paper I - Medieval India',
-  'Paper II - Modern India',
-  'Paper II - World History',
-];
-
-const SECTION_SHORT: Record<string, string> = {
-  'Paper I - Ancient India':  'Ancient India',
-  'Paper I - Medieval India': 'Medieval India',
-  'Paper II - Modern India':  'Modern India',
-  'Paper II - World History': 'World History',
-};
-
-const SECTION_COLOR: Record<string, string> = {
-  'Paper I - Ancient India':   'var(--warning-text)',
-  'Paper I - Medieval India':  'var(--accent)',
-  'Paper II - Modern India':   'var(--success-text)',
-  'Paper II - World History':  'var(--accent)',
-};
-
-const TIME_PER_MARK: Record<number, number> = { 10: 7, 15: 10, 20: 14 };
-function minsFor(marks: number) { return TIME_PER_MARK[marks] ?? Math.round(marks * 0.72); }
-
-function rubricOutOf(marks: number) {
+function rubricOutOf(marks: number): Rubric {
   if (marks === 10) return { intro: 1.5, body: 5.5, conc: 1.5, pres: 1.5 };
-  if (marks === 15) return { intro: 2,   body: 8,   conc: 2,   pres: 3   };
-  return              { intro: 3,   body: 11,  conc: 3,   pres: 3   };
+  if (marks === 15) return { intro: 2, body: 8, conc: 2, pres: 3 };
+  return { intro: 3, body: 11, conc: 3, pres: 3 };
 }
-function rubricTotal(r: { intro: number; body: number; conc: number; pres: number }) {
-  return r.intro + r.body + r.conc + r.pres;
-}
+const rubricTotal = (r: Rubric) => r.intro + r.body + r.conc + r.pres;
+const idealWords = (marks: number) => (marks === 10 ? 150 : marks === 15 ? 200 : 250);
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
   return a;
 }
-function pick<T>(arr: T[], n: number): T[] { return shuffle(arr).slice(0, n); }
 
-// ─── Question generation ──────────────────────────────────────────────────────
-
+/**
+ * Questions 2 to 4 (or 6 to 8). A sectional paper's are 20 + 15 + 15 and a
+ * full-length paper's 20 + 20 + 10. Paper II has almost never set 15-mark
+ * questions, so a pool without enough of them falls back to 20 + 20 + 10, as
+ * Paper II is set. One set of used ids per section, so a question does not
+ * turn up twice.
+ */
 function buildGroups(pool: TQ[], startQ: number, isFLT: boolean, sec: 'A' | 'B'): QGroup[] {
   const used = new Set<number>();
-  function pickU(marks: number, n: number) {
-    const c = shuffle(pool.filter(q => q.marks === marks && !used.has(q.id))).slice(0, n);
-    c.forEach(q => used.add(q.id));
-    return c;
-  }
+  const take = (marks: number, n: number) => { const c = shuffle(pool.filter((q) => q.marks === marks && !used.has(q.id))).slice(0, n); c.forEach((q) => used.add(q.id)); return c; };
   const groups: QGroup[] = [];
-  if (isFLT) {
-    const twenties = pickU(20, 6);
-    const tens     = pickU(10, 3);
-    for (let i = 0; i < 3; i++) {
-      const parts = [twenties[i*2], twenties[i*2+1], tens[i]].filter(Boolean) as TQ[];
-      if (parts.length) groups.push({ qNum: startQ + i, section: sec, parts });
-    }
+  if (isFLT || pool.filter((q) => q.marks === 15).length < 6) {
+    const twenties = take(20, 6), tens = take(10, 3);
+    for (let i = 0; i < 3; i++) { const parts = [twenties[i * 2], twenties[i * 2 + 1], tens[i]].filter(Boolean); if (parts.length) groups.push({ qNum: startQ + i, section: sec, parts }); }
   } else {
-    const twenties = pickU(20, 3);
-    const fifteens = pickU(15, 6);
-    for (let i = 0; i < 3; i++) {
-      const parts = [twenties[i], fifteens[i*2], fifteens[i*2+1]].filter(Boolean) as TQ[];
-      if (parts.length) groups.push({ qNum: startQ + i, section: sec, parts });
-    }
+    const twenties = take(20, 3), fifteens = take(15, 6);
+    for (let i = 0; i < 3; i++) { const parts = [twenties[i], fifteens[i * 2], fifteens[i * 2 + 1]].filter(Boolean); if (parts.length) groups.push({ qNum: startQ + i, section: sec, parts }); }
   }
   return groups;
 }
-
 function pickMap(): MapQuestion {
-  const years = [...new Set(mapData.map(e => e.year))];
+  const years = [...new Set(mapData.map((e) => e.year))];
   const yr = years[Math.floor(Math.random() * years.length)];
-  return { entries: mapData.filter(e => e.year === yr), year: yr, mapType: Math.random() > 0.5 ? 'political' : 'physical' };
+  return { entries: mapData.filter((e) => e.year === yr), year: yr, mapType: Math.random() > 0.5 ? 'political' : 'physical' };
 }
+/** Pools follow the notes' four parts: Medieval takes in Early Medieval, Modern takes in India since Independence. */
+const poolFor = (keys: SectionKey[]): TQ[] => pyqs.filter((q) => keys.includes(keyOf(q.section) as SectionKey));
+const pickShort = (keys: SectionKey[]) => shuffle(poolFor(keys).filter((q) => q.marks === 10)).slice(0, 5);
 
-function pickShortAnswers(sections: Section[]): TQ[] {
-  return pick(pyqs.filter(q => sections.some(s => q.section === s) && q.marks === 10), 5);
-}
-
-function isAncient(sections: Section[]) { return sections.some(s => s.includes('Ancient')); }
-
-// ─── Timer ────────────────────────────────────────────────────────────────────
-
-/**
- * Counts down to a fixed end time rather than ticking a number down once a
- * second. A refresh mid-test restores the same deadline, so the clock carries
- * on from where it was instead of restarting at the full time, and a tab the
- * browser throttled in the background still shows the true time left.
- * endedAt freezes it on submit, for the time-taken figure in the results.
- */
+/** Counts down to a fixed end time, so a refresh carries on where the clock was. */
 function useTimer(totalSec: number, deadline: number | null, endedAt: number | null, onEnd: () => void) {
   const [now, setNow] = useState(() => Date.now());
   const onEndRef = useRef(onEnd);
@@ -143,1342 +93,785 @@ function useTimer(totalSec: number, deadline: number | null, endedAt: number | n
   }, [running]);
   const rem = deadline === null ? totalSec : Math.max(0, Math.ceil((deadline - (endedAt ?? now)) / 1000));
   useEffect(() => { if (running && rem === 0) onEndRef.current(); }, [running, rem]);
-  const fmt = (s: number) => {
-    const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
-    return h > 0 ? `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}` : `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-  };
-  return { rem, display: fmt(rem) };
+  const h = Math.floor(rem / 3600), m = Math.floor((rem % 3600) / 60), s = rem % 60;
+  const display = h > 0 ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  return { rem, display };
 }
 
-// ─── Rubric Scorer ────────────────────────────────────────────────────────────
-
-function RubricScorer({ marks, value, onChange }: {
-  marks: number;
-  value?: { intro: number; body: number; conc: number; pres: number };
-  onChange: (r: { intro: number; body: number; conc: number; pres: number }) => void;
-}) {
+// ─── Self-marking ───
+function RubricScorer({ marks, value, onChange }: { marks: number; value?: Rubric; onChange: (r: Rubric) => void }) {
   const out = rubricOutOf(marks);
   const cur = value ?? { intro: 0, body: 0, conc: 0, pres: 0 };
-  const total = rubricTotal(cur);
-  const pct = Math.round((total / marks) * 100);
   const criteria = [
-    { key: 'intro' as const, label: 'Introduction', desc: 'Historiographical framing, named historian', max: out.intro },
-    { key: 'body'  as const, label: 'Body',          desc: 'Arguments, evidence, historians cited',     max: out.body  },
-    { key: 'conc'  as const, label: 'Conclusion',    desc: 'Synthesis, clear position',                 max: out.conc  },
-    { key: 'pres'  as const, label: 'Presentation',  desc: 'Structure, word count, legibility',         max: out.pres  },
+    { key: 'intro' as const, label: 'Introduction', desc: 'A historiographical framing, a named historian', max: out.intro },
+    { key: 'body' as const, label: 'Body', desc: 'Arguments, evidence, historians cited', max: out.body },
+    { key: 'conc' as const, label: 'Conclusion', desc: 'A synthesis and a clear position', max: out.conc },
+    { key: 'pres' as const, label: 'Presentation', desc: 'Structure, length, legibility', max: out.pres },
   ];
   return (
-    <div style={{ background: 'var(--bg3)', borderRadius: 8, padding: '1rem', marginTop: '0.75rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-        <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text3)' }}>Self Evaluation</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: 700,
-          color: pct >= 70 ? 'var(--success-text)' : pct >= 50 ? 'var(--warning-text)' : 'var(--danger-text)' }}>{total.toFixed(1)} / {marks}</span>
-      </div>
-      {criteria.map(c => (
-        <div key={c.key} style={{ marginBottom: '0.6rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
-            <div>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text)', fontWeight: 500 }}>{c.label}</span>
-              <span style={{ fontSize: '0.68rem', color: 'var(--text3)', marginLeft: '0.4rem' }}>{c.desc}</span>
-            </div>
-            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text2)' }}>{cur[c.key].toFixed(1)}/{c.max}</span>
-          </div>
-          <div style={{ position: 'relative', height: 8, background: 'var(--bg4)', borderRadius: 4, marginTop: '0.3rem' }}>
-            <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', borderRadius: 4,
-              width: `${(cur[c.key]/c.max)*100}%`,
-              background: 'linear-gradient(90deg, var(--accent), var(--accent))',
-              boxShadow: cur[c.key] > 0 ? '0 0 8px color-mix(in srgb, var(--accent) 60%, transparent)' : 'none',
-              transition: 'width 0.2s, box-shadow 0.2s' }} />
-            <input type="range" min={0} max={c.max} step={0.5} value={cur[c.key]}
-              onChange={e => onChange({ ...cur, [c.key]: parseFloat(e.target.value) })}
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', margin: 0 }} />
-            {/* Thumb indicator */}
-            <div style={{
-              position: 'absolute', top: '50%', transform: 'translate(-50%, -50%)',
-              left: `${(cur[c.key]/c.max)*100}%`,
-              width: 14, height: 14, borderRadius: '50%',
-              background: 'var(--accent)',
-              boxShadow: '0 0 6px color-mix(in srgb, var(--accent) 80%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent)',
-              border: '2px solid rgba(0,0,0,0.12)',
-              pointerEvents: 'none', transition: 'left 0.2s',
-            }} />
-          </div>
-        </div>
+    <div className="ts-rubric">
+      <div className="ts-rubric-head"><span>Mark it yourself</span><span className="ts-rubric-total">{rubricTotal(cur).toFixed(1)} / {marks}</span></div>
+      {criteria.map((c) => (
+        <label key={c.key} className="ts-rubric-row">
+          <span className="ts-rubric-label"><strong>{c.label}</strong><span>{c.desc}</span></span>
+          <input type="range" min={0} max={c.max} step={0.5} value={cur[c.key]} onChange={(e) => onChange({ ...cur, [c.key]: parseFloat(e.target.value) })} aria-label={`${c.label}, out of ${c.max}`} />
+          <span className="ts-rubric-val">{cur[c.key].toFixed(1)} / {c.max}</span>
+        </label>
       ))}
-      <div style={{ marginTop: '0.6rem', height: 3, background: 'var(--bg4)', borderRadius: 2 }}>
-        <div style={{ height: '100%', borderRadius: 2, width: `${pct}%`,
-          background: pct >= 70 ? 'var(--success-text)' : pct >= 50 ? 'var(--warning-text)' : 'var(--danger-text)', transition: 'width 0.3s' }} />
-      </div>
     </div>
   );
 }
 
-// ─── OCR via existing /api/ocr route (Gemini 2.5 Flash — handles handwriting) ─
-
-type OcrStep = 'idle' | 'uploading' | 'ocr' | 'transcript' | 'evaluating' | 'done' | 'error';
+// ─── One answer checked from a photo (Premium) ───
+type OcrStep = 'idle' | 'ocr' | 'transcript' | 'evaluating' | 'done' | 'error';
 
 async function pdfToImages(file: File): Promise<File[]> {
   const pdfjs = await import('pdfjs-dist');
   pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.mjs', import.meta.url).toString();
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+  const pdf = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
   const images: File[] = [];
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const viewport = page.getViewport({ scale: 2 });
     const canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext('2d')!;
-    await page.render({ canvasContext: ctx, viewport, canvas }).promise;
-    const blob = await new Promise<Blob | null>(res => canvas.toBlob(res, 'image/jpeg', 0.85));
+    canvas.width = viewport.width; canvas.height = viewport.height;
+    await page.render({ canvasContext: canvas.getContext('2d')!, viewport, canvas }).promise;
+    const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.85));
     if (blob) images.push(new File([blob], `page-${i}.jpg`, { type: 'image/jpeg' }));
   }
   return images;
 }
 
-async function ocrViaServer(files: File[], token: string, onProgress: (msg: string) => void): Promise<string> {
-  onProgress(`Sending ${files.length} page${files.length > 1 ? 's' : ''} to Gemini…`);
-  const fd = new FormData();
-  files.forEach(f => fd.append('files', f));
-  const r = await fetch('/api/ocr', {
-    method: 'POST',
-    headers: { 'x-user-token': token },
-    body: fd,
-  });
-  const data = await r.json();
-  if (!r.ok || data.error) throw new Error(data.error || 'OCR failed');
-  onProgress('Transcript ready — review below');
-  return (data.text as string) ?? '';
-}
-
-// Bold known historian names inside feedback strings (suggestions, weaknesses, etc.)
-const HISTORIAN_NAMES = [
-  "Vincent Smith","D.D. Kosambi","Kosambi","Romila Thapar","R.S. Sharma","R.C. Majumdar",
-  "Upinder Singh","Irfan Habib","Satish Chandra","B.D. Chattopadhyaya","Hermann Kulke",
-  "Burton Stein","Nicholas Dirks","Sumit Sarkar","Bipan Chandra","K.A. Nilakanta Sastri",
-  "A.L. Basham","John Marshall","Niharranjan Ray","Eric Hobsbawm","Ranajit Guha",
-  "Sheldon Pollock","Richard Eaton","David Ludden","Susan Bayly","Christopher Bayly",
-  "Jadunath Sarkar","Tapan Raychaudhuri","Dietmar Rothermund","Percival Spear",
-  "Stanley Wolpert","Sudipta Kaviraj","Partha Chatterjee","Gyan Prakash","Dipesh Chakrabarty",
-  "Tanika Sarkar","Sumit Guha","Muzaffar Alam","Sanjay Subrahmanyam","Velcheru Narayana Rao",
-  "Daud Ali","Cynthia Talbot","Phillip Wagoner","George Michell","Vasundhara Filliozat",
-];
-function boldHistorians(text: string): React.ReactNode[] {
-  if (!text) return [text];
-  const pattern = new RegExp(`(${HISTORIAN_NAMES.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
-  const parts = text.split(pattern);
-  return parts.map((part, i) =>
-    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "var(--text)" }}>{part}</strong> : part
-  );
-}
-
-// Mood emoji + color for a marks gauge, based on % scored
-function gaugeMood(pct: number): { emoji: string; color: string; label: string } {
-  if (pct >= 75) return { emoji: "😄", color: "var(--success-text)", label: "Strong answer — keep this up!" };
-  if (pct >= 50) return { emoji: "🙂", color: "var(--accent)", label: "Decent attempt — a few gaps to close." };
-  if (pct >= 30) return { emoji: "😕", color: "var(--warning-text)", label: "Learn from your mistakes — keep going!" };
-  return { emoji: "😟", color: "var(--danger-text)", label: "Needs significant work — review the feedback below." };
-}
-
-// ─── AI Mentor Panel ──────────────────────────────────────────────────────────
-
-function AIMentorPanel({ question, marks, isPremium, onPaywall }: {
-  question: string; marks: number; isPremium: boolean; onPaywall: () => void;
-}) {
+function AIMentorPanel({ question, marks, isPremium, onPaywall, hi }: { question: string; marks: number; isPremium: boolean; onPaywall: () => void; hi: boolean }) {
   const fileRef = useRef<HTMLInputElement>(null);
-  const [step, setStep]           = useState<OcrStep>('idle');
-  const [ocrMsg, setOcrMsg]       = useState('');
-  const [images, setImages]       = useState<File[]>([]);
-  const [previews, setPreviews]   = useState<string[]>([]);
+  const [step, setStep] = useState<OcrStep>('idle');
+  const [images, setImages] = useState<File[]>([]);
   const [transcript, setTranscript] = useState('');
-  const [evalData, setEvalData]   = useState<any>(null);
-  const [error, setError]         = useState('');
-  const [panelOpen, setPanelOpen] = useState(false);
+  const [evalData, setEvalData] = useState<Evaluation | null>(null);
+  const [error, setError] = useState('');
+  const [tab, setTab] = useState<'eval' | 'model' | 'hist'>('eval');
 
-  // A transcript or an evaluation is a paid step; a refresh should not throw
-  // it away. Kept per question for the tab. Photos cannot be kept, so only a
-  // finished transcript or result comes back, never a half-run upload.
+  // A transcript or an evaluation is a paid step; a refresh keeps them.
   useRefreshSafe(
     `ho_test_mentor_v1:${marks}:${question.slice(0, 120)}`,
-    { step: step === 'transcript' || step === 'done' ? step : 'idle' as OcrStep, transcript, evalData, panelOpen },
-    (m) => { setStep(m.step); setTranscript(m.transcript); setEvalData(m.evalData); setPanelOpen(m.panelOpen); },
+    { step: step === 'transcript' || step === 'done' ? step : 'idle' as OcrStep, transcript, evalData },
+    (m) => { setStep(m.step); setTranscript(m.transcript); setEvalData(m.evalData); },
   );
 
-  function handleUploadClick() {
-    if (!isPremium) { onPaywall(); return; }
-    fileRef.current?.click();
-  }
+  // The site signs in with Firebase; this read a Supabase session, which is
+  // never there, so the token went empty.
+  const token = async () => (auth.currentUser ? await auth.currentUser.getIdToken().catch(() => '') : '');
 
   async function handleFiles(files: FileList | null) {
-    if (!files || files.length === 0) return;
+    if (!files?.length) return;
     let arr: File[] = [];
-    for (const f of Array.from(files)) {
-      if (f.type === 'application/pdf') {
-        const pages = await pdfToImages(f);
-        arr = arr.concat(pages);
-      } else {
-        arr.push(f);
-      }
-    }
-    setImages(arr);
-    setPreviews(arr.map(f => URL.createObjectURL(f)));
-    setPanelOpen(true);
-    setStep('ocr');
-    setError('');
-    setTranscript('');
-    setEvalData(null);
+    for (const f of Array.from(files)) arr = arr.concat(f.type === 'application/pdf' ? await pdfToImages(f) : [f]);
+    setImages(arr); setStep('ocr'); setError(''); setTranscript(''); setEvalData(null);
     try {
-        const { supabase } = await import('@/lib/supabase');
-      const { data: { session } } = await supabase.auth.getSession();
-      const text = await ocrViaServer(arr, session?.access_token ?? '', (msg) => { setOcrMsg(msg); });
-      setTranscript(text);
-      setStep('transcript');
-    } catch (e: any) {
-      setError(e?.message || 'OCR failed. Please try a clearer image.');
-      setStep('error');
-    }
+      const fd = new FormData();
+      arr.forEach((f) => fd.append('files', f));
+      const r = await fetch('/api/ocr', { method: 'POST', headers: { 'x-user-token': await token() }, body: fd });
+      const data = await r.json();
+      if (!r.ok || data.error) throw new Error(data.error || 'We could not read the page.');
+      setTranscript(data.text ?? ''); setStep('transcript');
+    } catch (e) { setError(e instanceof Error ? e.message : 'We could not read the page.'); setStep('error'); }
   }
 
   async function runEval() {
     if (!transcript.trim()) return;
-    setStep('evaluating');
-    setError('');
+    setStep('evaluating'); setError('');
     try {
       const fd = new FormData();
-      images.forEach(f => fd.append('files', f));
-      fd.append('question', question);
-      fd.append('marks', String(marks));
-      fd.append('extractedText', transcript);
-      const { supabase } = await import('@/lib/supabase');
-      const { data: { session } } = await supabase.auth.getSession();
-      const r = await fetch('/api/evaluate', {
-        method: 'POST',
-        headers: { 'x-user-token': session?.access_token ?? '' },
-        body: fd,
-      });
+      images.forEach((f) => fd.append('files', f));
+      fd.append('question', question); fd.append('marks', String(marks)); fd.append('extractedText', transcript);
+      fd.append('lang', hi ? 'hi' : 'en');
+      const r = await fetch('/api/evaluate', { method: 'POST', headers: { 'x-user-token': await token() }, body: fd });
       const data = await r.json();
-      if (!r.ok || data.error) { setError(data.error || 'Evaluation failed.'); setStep('error'); return; }
-      setEvalData(data);
-      setStep('done');
-    } catch { setError('Network error. Please try again.'); setStep('error'); }
+      if (!r.ok || data.error) { setError(data.error === 'limit_reached' ? 'Your free evaluation is used. Premium checks every answer.' : data.error || 'The evaluation failed.'); setStep('error'); return; }
+      setEvalData(data); setTab('eval'); setStep('done');
+    } catch { setError('The connection dropped. Please try again.'); setStep('error'); }
   }
 
-  const d = evalData;
+  const reset = () => { setStep('idle'); setImages([]); setTranscript(''); setEvalData(null); setError(''); if (fileRef.current) fileRef.current.value = ''; };
+  const pct = evalData && evalData.marks_out_of ? evalData.marks / evalData.marks_out_of : 0;
 
   return (
-    <div style={{ marginTop: '1rem' }}>
-      {/* Hidden file input */}
-      <input ref={fileRef} type="file" accept="image/*,application/pdf" multiple style={{ display: 'none' }}
-        onChange={e => handleFiles(e.target.files)} />
-
-      {/* Upload button */}
-      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-        <button onClick={handleUploadClick} style={{
-          display: 'flex', alignItems: 'center', gap: '0.45rem',
-          background: isPremium ? 'var(--accent-dim)' : 'color-mix(in srgb, var(--accent) 6%, transparent)',
-          border: '1px solid color-mix(in srgb, var(--accent) 35%, transparent)', borderRadius: 6,
-          padding: '0.45rem 0.9rem', color: 'var(--accent)',
-          fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
-        }}>
-          <span>✦</span>
-          <span>📷 Upload Photos or PDF & Get Evaluated{!isPremium ? ' · Premium 🔒' : ''}</span>
+    <div className="ts-mentor">
+      <input ref={fileRef} type="file" accept="image/*,application/pdf" multiple hidden onChange={(e) => { handleFiles(e.target.files); e.target.value = ''; }} />
+      {step === 'idle' && (
+        <button type="button" className="ds-btn ds-btn-sm ds-btn-line" onClick={() => (isPremium ? fileRef.current?.click() : onPaywall())}>
+          {isPremium ? 'Have this answer checked' : 'Have it checked with Premium'}
         </button>
-        {(step === 'done' || step === 'transcript' || step === 'error') && panelOpen && (
-          <button onClick={() => setPanelOpen(o => !o)} style={{
-            background: 'none', border: '1px solid var(--border)', borderRadius: 6,
-            padding: '0.35rem 0.65rem', color: 'var(--text3)', fontSize: '0.75rem', cursor: 'pointer',
-          }}>{panelOpen ? 'Hide ↑' : 'Show ↓'}</button>
-        )}
-        {step !== 'idle' && step !== 'ocr' && step !== 'evaluating' && (
-          <button onClick={() => { setStep('idle'); setImages([]); setPreviews([]); setTranscript(''); setEvalData(null); setError(''); setPanelOpen(false); if (fileRef.current) fileRef.current.value = ''; }} style={{
-            background: 'none', border: '1px solid var(--border)', borderRadius: 6,
-            padding: '0.35rem 0.65rem', color: 'var(--text3)', fontSize: '0.75rem', cursor: 'pointer',
-          }}>↺ Re-upload</button>
-        )}
-      </div>
-
-      {/* Panel */}
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } } .shimmer-btn::before { content:""; position:absolute; top:0; left:-75%; width:50%; height:100%; background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,0.13) 50%,transparent 100%); transform:skewX(-20deg); opacity:0; pointer-events:none; z-index:1; } .shimmer-btn:hover::before { opacity:1; animation:glass-shine 0.55s ease forwards; }`}</style>
-      {panelOpen && (
-        <div style={{ marginTop: '0.85rem', background: 'var(--accent-dim)',
-          border: '1px solid color-mix(in srgb, var(--accent) 20%, transparent)', borderRadius: 10, padding: '1.25rem' }}>
-
-          {/* OCR in progress */}
-          {step === 'ocr' && (
-            <OwlLoader size="small" caption="Reading your handwriting" />
-          )}
-
-          {/* Evaluating */}
-          {step === 'evaluating' && (
-            <OwlLoader size="small" caption="Marking your answer, which takes about 30 seconds" />
-          )}
-
-          {/* Transcript editor */}
-          {step === 'transcript' && (
-            <div>
-              {/* Image thumbnails */}
-              {previews.length > 0 && (
-                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.85rem', flexWrap: 'wrap' }}>
-                  {previews.map((src, i) => (
-                    <img key={i} src={src} alt={`Page ${i+1}`} style={{
-                      height: 64, width: 'auto', borderRadius: 4, border: '1px solid var(--border)',
-                      objectFit: 'cover', cursor: 'pointer',
-                    }} onClick={() => window.open(src, '_blank')} />
-                  ))}
-                </div>
-              )}
-
-              <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <div style={{ color: 'var(--text)', fontSize: '0.82rem', fontWeight: 600 }}>OCR Transcript</div>
-                  <div style={{ color: 'var(--text3)', fontSize: '0.72rem' }}>Review and fix any errors before evaluating</div>
-                </div>
-                <span style={{ background: 'var(--success-wash)', color: 'var(--success-text)', border: '1px solid color-mix(in srgb, var(--success-text) 30%, transparent)',
-                  borderRadius: 4, padding: '2px 8px', fontSize: '0.68rem', fontWeight: 600 }}>✓ OCR Done</span>
-              </div>
-
-              <textarea value={transcript} onChange={e => setTranscript(e.target.value)}
-                rows={10}
-                style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
-                  border: '1px solid var(--border)', borderRadius: 6, padding: '0.65rem 0.8rem',
-                  color: 'var(--text)', fontSize: '0.84rem', resize: 'vertical',
-                  outline: 'none', fontFamily: 'inherit', lineHeight: 1.65 }} />
-
-              <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                <button onClick={runEval} style={{
-                  background: 'color-mix(in srgb, var(--accent) 85%, transparent)', color: 'var(--text)',
-                  border: 'none', borderRadius: 6, padding: '0.5rem 1.25rem',
-                  fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer',
-                }}>✦ Looks good, Evaluate →</button>
-              </div>
-            </div>
-          )}
-
-          {/* Error */}
-          {step === 'error' && (
-            <div>
-              <div style={{ color: 'var(--danger-text)', fontSize: '0.85rem', marginBottom: '0.75rem' }}>{error}</div>
-              {transcript && (
-                <div>
-                  <div style={{ color: 'var(--text3)', fontSize: '0.75rem', marginBottom: '0.4rem' }}>You can still edit the transcript and try again:</div>
-                  <textarea value={transcript} onChange={e => setTranscript(e.target.value)} rows={8}
-                    style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
-                      border: '1px solid var(--border)', borderRadius: 6, padding: '0.6rem 0.75rem',
-                      color: 'var(--text)', fontSize: '0.84rem', resize: 'vertical', outline: 'none', fontFamily: 'inherit' }} />
-                  <button onClick={runEval} style={{ marginTop: '0.5rem', background: 'color-mix(in srgb, var(--accent) 85%, transparent)', color: 'var(--text)',
-                    border: 'none', borderRadius: 6, padding: '0.5rem 1.25rem', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>
-                    ✦ Evaluate →
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Results */}
-          {step === 'done' && d && (
-            <div style={{ fontSize: '0.85rem', lineHeight: 1.7 }}>
-              {/* Score strip */}
-              <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '0.75rem',
-                padding: '0.75rem', background: 'var(--bg3)', borderRadius: 6 }}>
-                <div>
-                  <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>AI Score</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.4rem', fontWeight: 700, color: 'var(--accent)' }}>
-                    {d.marks} <span style={{ fontSize: '0.82rem', color: 'var(--text3)' }}>/ {d.marks_out_of}</span>
-                  </div>
-                </div>
-                {d.section_marks && Object.entries(d.section_marks).map(([k, v]: [string, any]) => (
-                  <div key={k}>
-                    <div style={{ color: 'var(--text3)', fontSize: '0.65rem', textTransform: 'capitalize' }}>{k}</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>{v.awarded}/{v.out_of}</div>
-                  </div>
-                ))}
-                <div>
-                    <div style={{ color: 'var(--text3)', fontSize: '0.65rem', textTransform: 'uppercase' }}>Ideal Words</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}>
-                      {marks === 10 ? '150' : marks === 15 ? '200' : '250'}
-                    </div>
-                  </div>
-              </div>
-
-              {/* Marks gauge */}
-              {(() => {
-                const fPct = (d.marks / d.marks_out_of) * 100;
-                const g = gaugeMood(fPct);
-                return (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem',
-                    background: 'var(--bg3)', borderRadius: 6, padding: '0.75rem 1rem', marginBottom: '0.75rem' }}>
-                    <div style={{ fontSize: '1.6rem', lineHeight: 1, flexShrink: 0 }}>{g.emoji}</div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', marginBottom: '0.4rem', flexWrap: 'wrap' }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.92rem', fontWeight: 700, color: g.color }}>
-                          Marks scored: {d.marks}
-                        </span>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text3)' }}>/{d.marks_out_of}</span>
-                        <span style={{ fontSize: '0.74rem', color: 'var(--text2)', marginLeft: '0.2rem' }}>{g.label}</span>
-                      </div>
-                      <div style={{ position: 'relative', height: 7, borderRadius: 4,
-                        background: 'linear-gradient(90deg,var(--danger-text),var(--warning-text),var(--success-text))' }}>
-                        <div style={{ position: 'absolute', top: -8, left: `${fPct}%`, width: 0, height: 0,
-                          borderLeft: '5px solid transparent', borderRight: '5px solid transparent',
-                          borderTop: '6px solid #f0f0f0', transform: 'translateX(-50%)' }} />
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.25rem',
-                        fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text3)' }}>
-                        <span>0</span><span>{Math.round(d.marks_out_of / 2)}</span><span>{d.marks_out_of}</span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })()}
-
-              {/* Score disclaimer warning */}
-              <div style={{
-                display: 'flex', gap: '0.6rem', alignItems: 'flex-start',
-                background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 30%, transparent)',
-                borderRadius: 6, padding: '0.6rem 0.8rem', marginBottom: '1rem',
-              }}>
-                <span style={{ fontSize: '0.9rem', flexShrink: 0, marginTop: 1 }}>⚠️</span>
-                <div style={{ fontSize: '0.74rem', color: 'var(--text2)', lineHeight: 1.55 }}>
-                  <strong style={{ color: 'var(--warning-text)' }}>AI scores are directional, not definitive.</strong>{' '}
-                  Real UPSC examiners are significantly stricter — do not treat this number as your actual marks.
-                  Focus entirely on the <strong style={{ color: 'var(--text)' }}>qualitative feedback below</strong>:
-                  the demand gaps, missing historians, and structural suggestions are far more useful than any score.
-                </div>
-              </div>
-
-              {/* Transcript toggle */}
-              <details style={{ marginBottom: '0.75rem' }}>
-                <summary style={{ cursor: 'pointer', color: 'var(--text3)', fontSize: '0.75rem', userSelect: 'none' }}>View OCR Transcript</summary>
-                <div style={{ marginTop: '0.5rem', background: 'var(--bg3)', borderRadius: 6, padding: '0.65rem 0.8rem',
-                  fontSize: '0.8rem', color: 'var(--text2)', whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>{transcript}</div>
-              </details>
-
-              {d.overall_feedback && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ color: 'var(--accent)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>Mentor Feedback</div>
-                  <p style={{ color: 'var(--text2)', margin: 0 }}>{d.overall_feedback}</p>
-                </div>
-              )}
-              {d.body && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div className="test-sw-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-                    <div style={{ background: 'var(--success-wash)', border: '1px solid color-mix(in srgb, var(--success-text) 14%, transparent)',
-                      borderRadius: 6, padding: '0.6rem 0.75rem' }}>
-                      <div style={{ color: 'var(--success-text)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>✓ Strengths</div>
-                      {d.body.strengths?.length > 0
-                        ? d.body.strengths.map((s: string, i: number) => (
-                          <div key={i} style={{ color: 'var(--text2)', marginBottom: '0.3rem', fontSize: '0.82rem', lineHeight: 1.55 }}>{boldHistorians(s)}</div>
-                        ))
-                        : <div style={{ color: 'var(--text3)', fontSize: '0.78rem', fontStyle: 'italic' }}>Nothing stood out here.</div>}
-                    </div>
-                    <div style={{ background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, var(--danger-text) 14%, transparent)',
-                      borderRadius: 6, padding: '0.6rem 0.75rem' }}>
-                      <div style={{ color: 'var(--danger-text)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>✗ Weaknesses</div>
-                      {d.body.weaknesses?.length > 0
-                        ? d.body.weaknesses.map((w: string, i: number) => (
-                          <div key={i} style={{ color: 'var(--text2)', marginBottom: '0.3rem', fontSize: '0.82rem', lineHeight: 1.55 }}>{boldHistorians(w)}</div>
-                        ))
-                        : <div style={{ color: 'var(--text3)', fontSize: '0.78rem', fontStyle: 'italic' }}>No major issues found.</div>}
-                    </div>
-                  </div>
-                </div>
-              )}
-              {d.historians_to_cite?.length > 0 && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{ color: 'var(--warning-text)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>Historians to Cite</div>
-                  {d.historians_to_cite.map((h: any, i: number) => (
-                    <div key={i} style={{ padding: '0.4rem 0.6rem', background: 'var(--warning-wash)',
-                      borderRadius: 4, marginBottom: '0.25rem', borderLeft: '2px solid color-mix(in srgb, #f59e0b 38%, transparent)' }}>
-                      <span style={{ color: 'var(--warning-text)', fontWeight: 600 }}>{h.name}</span>
-                      {h.work && <span style={{ color: 'var(--text3)', fontStyle: 'italic' }}> · {h.work}</span>}
-                      <div style={{ color: 'var(--text2)', marginTop: '0.1rem' }}>{h.argument}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {d.model_answer && (
-                <details>
-                  <summary style={{ color: 'var(--accent)', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600 }}>View Model Answer</summary>
-                  <div style={{ marginTop: '0.75rem', padding: '0.75rem', background: 'var(--bg3)', borderRadius: 6 }}>
-                    {d.model_answer.introduction && (
-                      <div style={{ marginBottom: '0.75rem' }}>
-                        <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.2rem' }}>Introduction</div>
-                        <p style={{ color: 'var(--text2)', margin: 0 }}>{d.model_answer.introduction}</p>
-                      </div>
-                    )}
-                    {Array.isArray(d.model_answer.body) && d.model_answer.body.map((b: string, i: number) => (
-                      <div key={i} style={{ paddingLeft: '0.75rem', borderLeft: '2px solid var(--border)', marginBottom: '0.5rem', color: 'var(--text2)' }}>{b}</div>
-                    ))}
-                    {d.model_answer.conclusion && (
-                      <div style={{ marginTop: '0.5rem' }}>
-                        <div style={{ color: 'var(--text3)', fontSize: '0.68rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.2rem' }}>Conclusion</div>
-                        <p style={{ color: 'var(--text2)', margin: 0 }}>{d.model_answer.conclusion}</p>
-                      </div>
-                    )}
-                  </div>
-                </details>
-              )}
-            </div>
-          )}
+      )}
+      {(step === 'ocr' || step === 'evaluating') && (
+        <div className="ts-mentor-wait"><OwlLoader size="small" label={step === 'ocr' ? 'Reading your page' : 'Marking your answer'} /><span>{step === 'ocr' ? 'Reading your page…' : 'Marking your answer, usually under a minute…'}</span></div>
+      )}
+      {(step === 'transcript' || (step === 'error' && transcript)) && (
+        <div className="ts-mentor-card">
+          {error && <p className="ts-err">{error}</p>}
+          <div className="ts-mentor-title">Check what we read</div>
+          <p className="ts-mentor-sub">Fix any name or date the reader got wrong; this text is what gets marked.</p>
+          <textarea value={transcript} onChange={(e) => setTranscript(e.target.value)} rows={8} className="ts-textarea" />
+          <div className="ts-mentor-actions">
+            <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={reset}>Upload again</button>
+            <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={runEval}>Mark this answer</button>
+          </div>
+        </div>
+      )}
+      {step === 'error' && !transcript && (
+        <div className="ts-mentor-card"><p className="ts-err">{error}</p><button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={reset}>Try again</button></div>
+      )}
+      {step === 'done' && evalData && (
+        <div className="ts-mentor-card">
+          <div className="ts-mentor-score">
+            <span><span className="ts-score-num" style={{ color: scoreTone(pct) }}>{evalData.marks}</span><span className="ts-score-of"> / {evalData.marks_out_of}</span></span>
+            <span className="ts-mentor-note">The number is a guide; the feedback is the useful part.</span>
+          </div>
+          <div className="ts-mentor-report"><ReportBody data={fromEvaluation(question, marks, evalData)} tab={tab} setTab={setTab} hi={hi} compact /></div>
+          <button type="button" className="ds-btn ds-btn-ghost ds-btn-sm" onClick={reset}>Check a different answer</button>
         </div>
       )}
     </div>
   );
 }
 
-// ─── Instructions Header ──────────────────────────────────────────────────────
+// ─── The paper ───
+const SectionChip = ({ section }: { section: string }) => {
+  const m = pyqSection(section);
+  return <span className="ts-sec" style={tintFor(m?.key)}>{m?.short ?? section}</span>;
+};
 
-function InstructionsHeader({ mode, paper, sections, maxMarks, totalMins }: {
-  mode: TestMode; paper: 'I' | 'II'; sections: Section[]; maxMarks: number; totalMins: number;
-}) {
-  const title = mode === 'sectional'
-    ? `Sectional Test — ${sections.map(s => SECTION_SHORT[s]).join(' & ')}`
-    : mode === 'flt_sectional'
-    ? `Full-Length Sectional — ${sections.map(s => SECTION_SHORT[s]).join(' & ')}`
-    : `Paper ${paper} — ${paper === 'I' ? 'Ancient India & Medieval India' : 'Modern India & World History'}`;
+function PaperHeader({ mode, paper, keys, maxMarks, totalMins }: { mode: TestMode; paper: 'I' | 'II'; keys: SectionKey[]; maxMarks: number; totalMins: number }) {
+  const names = keys.map((k) => PART_NAME[k]).join(' and ');
+  const title = mode === 'sectional' ? `Sectional test · ${names}` : mode === 'flt_sectional' ? `Full-length sectional · ${names}` : `Paper ${paper} · ${paper === 'I' ? 'Ancient and Medieval India' : 'Modern India and World History'}`;
   const isFLT = mode !== 'sectional';
-  const hrs = Math.floor(totalMins / 60);
-  const mins = totalMins % 60;
-  const timeStr = hrs > 0 ? `${hrs} Hour${hrs > 1 ? 's' : ''}${mins > 0 ? ` ${mins} Minutes` : ''}` : `${totalMins} Minutes`;
-
+  const h = Math.floor(totalMins / 60), m = totalMins % 60;
+  const time = h > 0 ? `${h} hour${h > 1 ? 's' : ''}${m ? ` ${m} minutes` : ''}` : `${totalMins} minutes`;
   return (
-    <div style={{ border: '1px solid var(--border)', borderRadius: 8, padding: '1.5rem', marginBottom: '2rem', background: 'var(--bg2)' }}>
-      <div style={{ textAlign: 'center', borderBottom: '1px solid var(--border)', paddingBottom: '1rem', marginBottom: '1.25rem' }}>
-        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--text3)', marginBottom: '0.3rem' }}>
-          History Optional · Practice Test Series
-        </div>
-        <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.75rem' }}>{title}</div>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap' }}>
-          <div style={{ fontSize: '0.82rem', color: 'var(--text2)' }}>
-            <span style={{ color: 'var(--text3)' }}>Time Allowed: </span><strong>{timeStr}</strong>
-          </div>
-          <div style={{ fontSize: '0.82rem', color: 'var(--text2)' }}>
-            <span style={{ color: 'var(--text3)' }}>Maximum Marks: </span><strong>{maxMarks}</strong>
-          </div>
-        </div>
-      </div>
-      <div style={{ fontSize: '0.82rem', color: 'var(--text2)', lineHeight: 2 }}>
+    <div className="ts-paper">
+      <div className="ts-paper-title">{title}</div>
+      <div className="ts-paper-facts"><span>Time allowed: <strong>{time}</strong></span><span>Maximum marks: <strong>{maxMarks}</strong></span></div>
+      <ul className="ts-paper-rules">
         {isFLT ? (
           <>
-            <div>There are <strong>EIGHT questions</strong> divided in <strong>TWO SECTIONS</strong>.</div>
-            <div>Candidate has to attempt <strong>FIVE questions in all.</strong></div>
-            <div>Question Nos. <strong>1 and 5 are compulsory</strong> and out of the remaining, <strong>THREE are to be attempted choosing at least ONE question from each Section.</strong></div>
+            <li>There are <strong>eight</strong> questions in <strong>two sections</strong>. Attempt <strong>five</strong> in all.</li>
+            <li>Questions <strong>1 and 5 are compulsory</strong>. Of the rest, attempt <strong>three</strong>, at least one from each section.</li>
           </>
         ) : (
           <>
-            <div>There are <strong>FOUR questions</strong> in this paper.</div>
-            <div>Candidate has to attempt <strong>THREE questions in all.</strong></div>
-            <div>Question No. <strong>1 is compulsory</strong> and out of the remaining, <strong>TWO are to be attempted.</strong></div>
+            <li>There are <strong>four</strong> questions. Attempt <strong>three</strong> in all.</li>
+            <li>Question <strong>1 is compulsory</strong>. Of the rest, attempt <strong>two</strong>.</li>
           </>
         )}
-        <div>The number of marks carried by a question/part is indicated against it.</div>
-        <div>Word limit in questions, wherever specified, should be adhered to.</div>
-        <div style={{ color: 'var(--text3)', fontSize: '0.76rem', marginTop: '0.25rem' }}>
-          Attempts of questions shall be counted in sequential order. Unless struck off, attempt of a question shall be counted even if attempted partly. Any page or portion of the page left blank in the Answer Booklet must be clearly struck off.
-        </div>
-      </div>
+        <li>The marks for each question or part are shown against it. Keep to the word limits.</li>
+        <li className="muted">Attempts are counted in order. A question attempted in part still counts unless struck off; strike off any page left blank.</li>
+      </ul>
     </div>
   );
 }
 
-// ─── Section Divider ──────────────────────────────────────────────────────────
+const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+const matches = (entry: MapEntry, val: string) => entry.answer.split('/').map((p) => normalize(p.trim())).includes(normalize(val)) || normalize(val) === normalize(entry.answer);
 
-function SectionDivider({ label }: { label: string }) {
-  return (
-    <div style={{ textAlign: 'center', margin: '2.5rem 0 1.75rem', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 1, background: 'var(--border)' }} />
-      <span style={{ position: 'relative', background: 'var(--bg)', padding: '0 1.25rem',
-        fontSize: '0.82rem', fontWeight: 700, color: 'var(--text)', letterSpacing: '0.15em' }}>
-        {label}
-      </span>
-    </div>
-  );
-}
-
-// ─── Q1 / Q5 Block ───────────────────────────────────────────────────────────
-
-function Q1Block({ qNum, isMap, mapQ, shortQs, selectedDot, onDotClick,
-  mapAnswers, setMapAnswers, mapRevealed, setMapRevealed, mapCorrect, setMapCorrect,
-  shortAnswers, setShortAnswers, isResults }: {
-  qNum: number; isMap: boolean;
-  mapQ: MapQuestion | null; shortQs: TQ[];
-  selectedDot: number | null; onDotClick: (n: number) => void;
-  mapAnswers: Record<number, string>;
-  setMapAnswers: (fn: (p: Record<number, string>) => Record<number, string>) => void;
-  mapRevealed: Record<number, boolean>;
-  setMapRevealed: (fn: (p: Record<number, boolean>) => Record<number, boolean>) => void;
-  mapCorrect: Record<number, boolean>;
-  setMapCorrect: (fn: (p: Record<number, boolean>) => Record<number, boolean>) => void;
-  shortAnswers: Record<number, string>;
-  setShortAnswers: (fn: (p: Record<number, string>) => Record<number, string>) => void;
+type Rec<T> = Record<number, T>;
+function MapBlock({ qNum, mapQ, selectedDot, onDotClick, answers, setAnswers, revealed, setRevealed, correct, setCorrect, isResults }: {
+  qNum: number; mapQ: MapQuestion; selectedDot: number | null; onDotClick: (n: number) => void;
+  answers: Rec<string>; setAnswers: (fn: (p: Rec<string>) => Rec<string>) => void;
+  revealed: Rec<boolean>; setRevealed: (fn: (p: Rec<boolean>) => Rec<boolean>) => void;
+  correct: Rec<boolean>; setCorrect: (fn: (p: Rec<boolean>) => Rec<boolean>) => void;
   isResults: boolean;
 }) {
-  if (isMap && mapQ) {
-    const answered = Object.keys(mapAnswers).length;
-    return (
-      <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, marginBottom: '1.25rem', overflow: 'hidden' }}>
-        <div style={{ padding: '0.75rem 1.25rem', borderBottom: '1px solid var(--border)',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)', flexWrap: 'wrap', gap: '0.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text)' }}>Q.{qNum}</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--accent)', background: 'var(--accent-dim)',
-              padding: '1px 6px', borderRadius: 3, border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)' }}>COMPULSORY</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>
-              Map · {mapQ.year} · {mapQ.mapType === 'political' ? 'Political' : 'Physical'}
-            </span>
-          </div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text3)' }}>
-            {isResults ? `${Object.values(mapCorrect).filter(Boolean).length * 2.5} / 50 Marks` : `${answered}/${mapQ.entries.length} answered · 50 Marks`}
-          </span>
+  const entry = selectedDot !== null ? mapQ.entries.find((e) => e.number === selectedDot) : undefined;
+  const got = Object.values(correct).filter(Boolean).length * 2.5;
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const sideRef = useRef<HTMLDivElement>(null);
+  // On a phone the answer card sits under the map. If picking a dot leaves
+  // the card below the fold, bring the map to the top so both are in view.
+  const pick = (n: number) => {
+    onDotClick(n);
+    if (window.innerWidth > 960) return;
+    requestAnimationFrame(() => {
+      const card = sideRef.current?.querySelector('.ts-dot-card');
+      if (card && card.getBoundingClientRect().bottom > window.innerHeight - 80) canvasRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  };
+  return (
+    <section className="ts-block">
+      <div className="ts-block-head">
+        <h3>Question {qNum}</h3>
+        <span className="ts-chip">Compulsory</span>
+        <span className="ts-block-sub">Map · {mapQ.year} · {mapQ.mapType === 'political' ? 'political' : 'physical'}</span>
+        <span className="ts-block-marks">{isResults ? `${got} / ${mapQ.entries.length * 2.5}` : `${Object.keys(answers).length} of ${mapQ.entries.length} answered · ${mapQ.entries.length * 2.5} marks`}</span>
+      </div>
+      <p className="ts-block-lead">
+        Identify the places marked on the map and write a short note of about 30 words on each in your answer booklet. The hints for each place are given below, in order. ({mapQ.entries.length} × 2.5 = {mapQ.entries.length * 2.5} marks)
+      </p>
+      <div className="ts-map">
+        <div className="ts-map-canvas" ref={canvasRef}>
+          <LeafletMap entries={mapQ.entries} selectedDot={isResults ? null : selectedDot} onDotClick={isResults ? () => {} : pick} answered={answers} revealed={revealed} correct={correct} />
         </div>
-        <div style={{ padding: '1.25rem' }}>
-          <p style={{ color: 'var(--text)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '1.25rem' }}>
-            Identify the following places marked on the map and write a short note of about <strong>30 words</strong> on each of them in your Answer Booklet.
-            Locational hints for each of the places marked on the map are given below seriatim:{' '}
-            <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text3)', fontSize: '0.85rem' }}>
-              (2.5×{mapQ.entries.length} = {mapQ.entries.length * 2.5} Marks)
-            </span>
-          </p>
-          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <div style={{ flex: '1 1 300px', minWidth: 280, position: 'relative', zIndex: 0, isolation: 'isolate' }}>
-              <LeafletMap entries={mapQ.entries} selectedDot={isResults ? null : selectedDot}
-                onDotClick={isResults ? () => {} : onDotClick}
-                answered={mapAnswers} revealed={mapRevealed} correct={mapCorrect} />
+        <div className="ts-map-side" ref={sideRef}>
+          {!isResults && (entry ? (
+            <div className="ts-dot-card">
+              <div className="ts-dot-title">Place {selectedDot}</div>
+              <p>{entry.hint}</p>
+              <input className="ts-input" value={answers[entry.number] ?? ''} placeholder="Type the place's name"
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setAnswers((p) => ({ ...p, [entry.number]: val }));
+                  if (matches(entry, val)) { setCorrect((p) => ({ ...p, [entry.number]: true })); setRevealed((p) => ({ ...p, [entry.number]: true })); }
+                  else setCorrect((p) => { const n = { ...p }; delete n[entry.number]; return n; });
+                }} />
+              {answers[entry.number]?.trim() && correct[entry.number] === undefined && (
+                <button type="button" className="ds-btn ds-btn-solid ds-btn-sm ds-btn-block" onClick={() => {
+                  setCorrect((p) => ({ ...p, [entry.number]: matches(entry, answers[entry.number]) }));
+                  setRevealed((p) => ({ ...p, [entry.number]: true }));
+                }}>Check it</button>
+              )}
+              {correct[entry.number] === true && <div className="ts-dot-ok">Right. {entry.hint}</div>}
+              {correct[entry.number] === false && revealed[entry.number] && <div className="ts-dot-no">Not quite. It is <strong>{entry.answer}</strong>.</div>}
             </div>
-            <div style={{ flex: '1 1 240px', minWidth: 220 }}>
-              {!isResults && selectedDot !== null && (
-                <div style={{ background: 'var(--bg)', border: '1px solid var(--accent)', borderRadius: 8, padding: '0.85rem', marginBottom: '0.75rem' }}>
-                  <div style={{ fontWeight: 600, color: 'var(--accent)', marginBottom: '0.3rem', fontSize: '0.85rem' }}>Dot #{selectedDot}</div>
-                  <div style={{ color: 'var(--text2)', fontSize: '0.8rem', marginBottom: '0.5rem' }}>
-                    {mapQ.entries.find(e => e.number === selectedDot)?.hint}
-                  </div>
-                  <input value={mapAnswers[selectedDot] ?? ''}
-                    onChange={e => {
-                      const val = e.target.value;
-                      setMapAnswers(prev => ({ ...prev, [selectedDot]: val }));
-                      const entry = mapQ.entries.find(en => en.number === selectedDot);
-                      if (entry) {
-                        const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
-                        const answerParts = entry.answer.split('/').map((p: string) => normalize(p.trim()));
-                        if (answerParts.includes(normalize(val)) || normalize(val) === normalize(entry.answer)) {
-                          setMapCorrect(prev => ({ ...prev, [selectedDot]: true }));
-                          setMapRevealed(prev => ({ ...prev, [selectedDot]: true }));
-                        } else {
-                          setMapCorrect(prev => { const n = { ...prev }; delete n[selectedDot]; return n; });
-                        }
-                      }
-                    }}
-                    placeholder="Type place name..."
-                    style={{ width: '100%', boxSizing: 'border-box', background: 'var(--bg3)',
-                      border: '1px solid var(--border)', borderRadius: 6, padding: '0.4rem 0.65rem',
-                      color: 'var(--text)', fontSize: '0.85rem', outline: 'none' }} />
-                  {mapAnswers[selectedDot]?.trim() && mapCorrect[selectedDot] === undefined && (() => {
-                    const entry = mapQ.entries.find(e => e.number === selectedDot);
-                    return (
-                      <button onClick={() => {
-                        if (!entry) return;
-                        const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
-                        const answerParts = entry.answer.split('/').map((p: string) => normalize(p.trim()));
-                        const isCorrect = answerParts.includes(normalize(mapAnswers[selectedDot]));
-                        setMapCorrect(prev => ({ ...prev, [selectedDot]: isCorrect }));
-                        setMapRevealed(prev => ({ ...prev, [selectedDot]: true }));
-                      }}
-                        style={{
-                          marginTop: 6, width: '100%', padding: '0.4rem', borderRadius: 6,
-                          background: 'var(--accent)', color: 'var(--on-fill)', border: 'none',
-                          fontFamily: 'var(--font-ui)', fontSize: '0.82rem', fontWeight: 600,
-                          cursor: 'pointer',
-                        }}>
-                        Submit Answer
-                      </button>
-                    );
-                  })()}
-                  {mapCorrect[selectedDot] === false && mapRevealed[selectedDot] && (() => {
-                    const entry = mapQ.entries.find(e => e.number === selectedDot);
-                    return entry ? (
-                      <div style={{ marginTop: 6, background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, #ef4444 38%, transparent)',
-                        borderRadius: 6, padding: '0.5rem 0.75rem', fontSize: '0.78rem' }}>
-                        <span style={{ color: 'var(--danger-text)' }}>✗ Wrong. </span>
-                        <span style={{ color: 'var(--text2)' }}>Answer: </span>
-                        <span style={{ color: 'var(--warning-text)', fontWeight: 600 }}>{entry.answer}</span>
-                      </div>
-                    ) : null;
-                  })()}
-                </div>
-              )}
-              {!isResults && selectedDot !== null && mapCorrect[selectedDot] === true && (() => {
-                const entry = mapQ?.entries.find(e => e.number === selectedDot);
-                return entry ? (
-                  <div style={{ background: 'var(--success-wash)', border: '1px solid color-mix(in srgb, #22a85a 38%, transparent)',
-                    borderRadius: 6, padding: '0.5rem 0.75rem', marginBottom: '0.5rem',
-                    fontSize: '0.78rem', color: 'var(--success-text)' }}>
-                    ✓ Correct! <span style={{ color: 'var(--text2)', marginLeft: 4 }}>{entry.hint}</span>
-                  </div>
-                ) : null;
-              })()}
-              {!isResults && selectedDot === null && (
-                <div style={{ background: 'var(--bg3)', borderRadius: 8, padding: '0.85rem', marginBottom: '0.75rem',
-                  color: 'var(--text3)', fontSize: '0.82rem', textAlign: 'center' }}>← Click a dot on the map</div>
-              )}
-              <div style={{ maxHeight: 340, overflowY: 'auto' }}>
-                {mapQ.entries.map(e => (
-                  <div key={e.number}>
-                    <div onClick={() => !isResults && onDotClick(e.number)} style={{
-                      display: 'flex', gap: '0.4rem', alignItems: 'center',
-                      padding: '0.3rem 0.45rem', borderRadius: 4, marginBottom: 2,
-                      background: !isResults && selectedDot === e.number ? 'var(--accent-dim)' : 'transparent',
-                      cursor: isResults ? 'default' : 'pointer',
-                    }}>
-                      <span style={{ minWidth: 19, height: 19, borderRadius: '50%', flexShrink: 0,
-                        background: mapCorrect[e.number] === true ? 'var(--success-text)'
-                          : mapCorrect[e.number] === false ? 'var(--danger-text)'
-                          : mapRevealed[e.number] ? 'var(--warning-text)'
-                          : mapAnswers[e.number] ? 'var(--accent)' : 'var(--bg3)',
-                        color: (mapRevealed[e.number] || mapAnswers[e.number]) ? 'var(--accent-on)' : 'var(--text3)',
-                        border: '1px solid var(--border)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '0.58rem', fontWeight: 700 }}>{e.number}</span>
-                      <span style={{ color: 'var(--text2)', fontSize: '0.76rem', flex: 1 }}>
-                        ({String.fromCharCode(96 + e.number)}) {e.hint}
+          ) : <div className="ts-dot-empty">Tap a dot on the map to answer it.</div>)}
+          <div className="ts-dots">
+            {mapQ.entries.map((e) => {
+              const state = correct[e.number] === true ? 'ok' : correct[e.number] === false ? 'no' : revealed[e.number] ? 'shown' : answers[e.number] ? 'done' : '';
+              return (
+                <div key={e.number} className="ts-dotrow-wrap">
+                  <div className={`ts-dotrow${!isResults && selectedDot === e.number ? ' on' : ''}`} onClick={() => !isResults && pick(e.number)} role={isResults ? undefined : 'button'}>
+                    <span className={`ts-dotn ${state}`}>{e.number}</span>
+                    <span className="ts-dot-hint">({String.fromCharCode(96 + e.number)}) {e.hint}</span>
+                    {isResults && !revealed[e.number] && (answers[e.number]?.trim()
+                      ? <button type="button" className="ts-mini" onClick={() => setRevealed((p) => ({ ...p, [e.number]: true }))}>Show</button>
+                      : <span className="ts-dot-none">Not answered</span>)}
+                    {isResults && revealed[e.number] && correct[e.number] === undefined && (
+                      <span className="ts-judge">
+                        <button type="button" className="ts-mini ok" onClick={() => setCorrect((p) => ({ ...p, [e.number]: true }))} aria-label="Mark right">✓</button>
+                        <button type="button" className="ts-mini no" onClick={() => setCorrect((p) => ({ ...p, [e.number]: false }))} aria-label="Mark wrong">✕</button>
                       </span>
-                      {/* Reveal button — only when answered, not yet revealed */}
-                      {isResults && !mapRevealed[e.number] && mapAnswers[e.number]?.trim() && (
-                        <button onClick={() => setMapRevealed(prev => ({ ...prev, [e.number]: true }))}
-                          style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--text3)',
-                            borderRadius: 3, padding: '1px 5px', fontSize: '0.65rem', cursor: 'pointer' }}>Reveal</button>
-                      )}
-                      {isResults && !mapRevealed[e.number] && !mapAnswers[e.number]?.trim() && (
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text3)', fontStyle: 'italic' }}>No answer</span>
-                      )}
-                      {/* ✓/✗ buttons after reveal, before judgment */}
-                      {isResults && mapRevealed[e.number] && mapCorrect[e.number] === undefined && (
-                        <div style={{ display: 'flex', gap: '0.3rem' }}>
-                          <button onClick={() => setMapCorrect(prev => ({ ...prev, [e.number]: true }))}
-                            style={{ background: 'var(--success-wash)', border: '1px solid color-mix(in srgb, #22a85a 38%, transparent)', color: 'var(--success-text)',
-                              borderRadius: 3, padding: '1px 6px', fontSize: '0.65rem', cursor: 'pointer', fontWeight: 700 }}>✓</button>
-                          <button onClick={() => setMapCorrect(prev => ({ ...prev, [e.number]: false }))}
-                            style={{ background: 'var(--danger-wash)', border: '1px solid color-mix(in srgb, #ef4444 38%, transparent)', color: 'var(--danger-text)',
-                              borderRadius: 3, padding: '1px 6px', fontSize: '0.65rem', cursor: 'pointer', fontWeight: 700 }}>✗</button>
-                        </div>
-                      )}
-                      {/* Undo judgment */}
-                      {isResults && mapCorrect[e.number] !== undefined && (
-                        <button onClick={() => setMapCorrect(prev => { const n = { ...prev }; delete n[e.number]; return n; })}
-                          style={{ background: 'none', border: 'none', color: 'var(--text3)',
-                            fontSize: '0.6rem', cursor: 'pointer', padding: '0 2px' }}>undo</button>
-                      )}
-                    </div>
-                    {isResults && mapAnswers[e.number]?.trim() && (
-                      <div style={{ fontSize: '0.73rem', color: 'var(--text3)', paddingLeft: 26, marginBottom: 1 }}>
-                        Your: <em style={{ color: 'var(--text)' }}>{mapAnswers[e.number]}</em>
-                      </div>
                     )}
-                    {isResults && mapRevealed[e.number] && (
-                      <div style={{ fontSize: '0.73rem', paddingLeft: 26, marginBottom: 3 }}>
-                        <span style={{ color: 'var(--warning-text)' }}>Answer: {e.answer}</span>
-                        {mapCorrect[e.number] === true && <span style={{ color: 'var(--success-text)', marginLeft: 6 }}>✓ Marked correct</span>}
-                        {mapCorrect[e.number] === false && <span style={{ color: 'var(--danger-text)', marginLeft: 6 }}>✗ Marked wrong</span>}
-                        {mapCorrect[e.number] === undefined && <span style={{ color: 'var(--text3)', marginLeft: 6, fontSize: '0.65rem' }}>← mark above</span>}
-                      </div>
+                    {isResults && correct[e.number] !== undefined && (
+                      <button type="button" className="ts-undo" onClick={() => setCorrect((p) => { const n = { ...p }; delete n[e.number]; return n; })}>undo</button>
                     )}
                   </div>
-                ))}
-              </div>
-            </div>
+                  {isResults && answers[e.number]?.trim() && <div className="ts-dot-your">You wrote <em>{answers[e.number]}</em></div>}
+                  {isResults && revealed[e.number] && <div className="ts-dot-answer">The answer: <strong>{e.answer}</strong>{correct[e.number] === true ? ' · marked right' : correct[e.number] === false ? ' · marked wrong' : ''}</div>}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
-    );
-  }
-
-  // Short answers
-  return (
-    <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, marginBottom: '1.25rem', overflow: 'hidden' }}>
-      <div style={{ padding: '0.75rem 1.25rem', borderBottom: '1px solid var(--border)',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)', flexWrap: 'wrap', gap: '0.5rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text)' }}>Q.{qNum}</span>
-          <span style={{ fontSize: '0.7rem', color: 'var(--accent)', background: 'var(--accent-dim)',
-            padding: '1px 6px', borderRadius: 3, border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)' }}>COMPULSORY</span>
-        </div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text3)' }}>10×5 = 50 Marks</span>
-      </div>
-      <div style={{ padding: '1.25rem' }}>
-        <p style={{ color: 'var(--text)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '1.25rem' }}>
-          Answer the following in about <strong>150 words</strong> each:{' '}
-          <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text3)', fontSize: '0.85rem' }}>10×5=50</span>
-        </p>
-        {shortQs.map((q, i) => {
-          const label = String.fromCharCode(97 + i);
-          const color = SECTION_COLOR[q.section] ?? 'var(--accent)';
-          return (
-            <div key={q.id} style={{ borderTop: i > 0 ? '1px solid var(--border)' : 'none',
-              paddingTop: i > 0 ? '1rem' : 0, marginBottom: i < shortQs.length - 1 ? '1rem' : 0 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-                marginBottom: '0.5rem', gap: '0.5rem', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
-                  <span style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.88rem' }}>({label})</span>
-                  <span style={{ background: `color-mix(in srgb, ${color} 9%, transparent)`, color, border: `1px solid color-mix(in srgb, ${color} 70%, transparent)`,
-                    fontSize: '0.65rem', fontFamily: 'var(--font-mono)', padding: '1px 6px', borderRadius: 3 }}>
-                    {SECTION_SHORT[q.section]}
-                  </span>
-                  <span style={{ color: 'var(--text3)', fontSize: '0.7rem', fontFamily: 'var(--font-mono)' }}>{q.year}</span>
-                </div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text3)', whiteSpace: 'nowrap' }}>[10 Marks]</span>
-              </div>
-              <p style={{ color: 'var(--text)', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: '0.5rem' }}>{q.question}</p>
-              {!isResults && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem',
-                  background: 'var(--bg3)', border: '1px dashed var(--border)', borderRadius: 6,
-                  padding: '0.5rem 0.8rem', color: 'var(--text3)', fontSize: '0.78rem' }}>
-                  <span>✏️</span><span>~150 words on paper</span>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </section>
   );
 }
 
-// ─── Question Group Block (Q2, Q3, Q4 etc.) ──────────────────────────────────
-
-function QGroupBlock({ group, answers, onAnswer, rubrics, onRubric, isResults, isPremium, onPaywall }: {
-  group: QGroup;
-  answers: Record<number, string>;
-  onAnswer: (id: number, v: string) => void;
-  rubrics: Record<number, { intro: number; body: number; conc: number; pres: number }>;
-  onRubric: (id: number, r: { intro: number; body: number; conc: number; pres: number }) => void;
-  isResults: boolean;
-  isPremium?: boolean;
-  onPaywall?: () => void;
-}) {
-  const totalM = group.parts.reduce((s, p) => s + p.marks, 0);
+function ShortNotesBlock({ qNum, questions, isResults, rubrics, onRubric }: { qNum: number; questions: TQ[]; isResults: boolean; rubrics: Rec<Rubric>; onRubric: (id: number, r: Rubric) => void }) {
+  const total = questions.length * 10;
+  const got = questions.reduce((s, q) => s + (rubrics[q.id] ? rubricTotal(rubrics[q.id]) : 0), 0);
   return (
-    <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, marginBottom: '1.25rem', overflow: 'hidden' }}>
-      {/* Q header */}
-      <div style={{ padding: '0.75rem 1.25rem', borderBottom: '1px solid var(--border)',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)', flexWrap: 'wrap', gap: '0.5rem' }}>
-        <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text)' }}>Q.{group.qNum}</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text3)' }}>{totalM} Marks</span>
+    <section className="ts-block">
+      <div className="ts-block-head">
+        <h3>Question {qNum}</h3>
+        <span className="ts-chip">Compulsory</span>
+        <span className="ts-block-marks">{isResults ? `${got.toFixed(1)} / ${total}` : `${total} marks`}</span>
       </div>
-
-      {/* Sub-parts (a), (b), (c) */}
-      {group.parts.map((q, i) => {
-        const label = String.fromCharCode(97 + i);
-        const color = SECTION_COLOR[q.section] ?? 'var(--accent)';
-        return (
-          <div key={q.id} style={{
-            padding: '1.25rem',
-            borderBottom: i < group.parts.length - 1 ? '1px solid var(--border)' : 'none',
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-              marginBottom: '0.6rem', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                <span style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text)', minWidth: '1.4rem' }}>({label})</span>
-                <span style={{ background: `color-mix(in srgb, ${color} 9%, transparent)`, color, border: `1px solid color-mix(in srgb, ${color} 70%, transparent)`,
-                  fontSize: '0.65rem', fontFamily: 'var(--font-mono)', padding: '1px 6px', borderRadius: 3 }}>
-                  {SECTION_SHORT[q.section]}
-                </span>
-                <span style={{ color: 'var(--text3)', fontSize: '0.7rem', fontFamily: 'var(--font-mono)' }}>{q.year}</span>
-              </div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text3)', whiteSpace: 'nowrap' }}>
-                [{q.marks} Marks]
-              </span>
-            </div>
-
-            <p style={{ color: 'var(--text)', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: '0.75rem' }}>{q.question}</p>
-
-            {!isResults && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem',
-                background: 'var(--bg3)', border: '1px dashed var(--border)', borderRadius: 6,
-                padding: '0.6rem 0.9rem', color: 'var(--text3)', fontSize: '0.8rem' }}>
-                <span>✏️</span>
-                <span>Write your answer on paper · ~{q.marks === 10 ? '150' : q.marks === 15 ? '200' : '250'} words</span>
-              </div>
-            )}
-
-            {isResults && (
-              <>
-                <RubricScorer marks={q.marks} value={rubrics[q.id]} onChange={r => onRubric(q.id, r)} />
-                {isPremium !== undefined && onPaywall && (
-                  <AIMentorPanel question={q.question} marks={q.marks}
-                    isPremium={isPremium} onPaywall={onPaywall} />
-                )}
-              </>
-            )}
+      <p className="ts-block-lead">Write short notes on the following in about 150 words each:</p>
+      {questions.map((q, i) => (
+        <div key={q.id} className="ts-q">
+          <div className="ts-q-top">
+            <span className="ts-q-label">({String.fromCharCode(97 + i)})</span>
+            <SectionChip section={q.section} />
+            <span className="ts-q-year">{q.year}</span>
+            <span className="ts-q-marks">10 marks</span>
           </div>
-        );
-      })}
-    </div>
+          <p className="ts-q-text">{q.question}</p>
+          {!isResults && <p className="ts-q-hint">On paper, about 150 words</p>}
+          {isResults && <RubricScorer marks={10} value={rubrics[q.id]} onChange={(r) => onRubric(q.id, r)} />}
+        </div>
+      ))}
+    </section>
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
-
-function ScrollFab() {
-  const [hidden, setHidden] = useState(false);
-  useEffect(() => {
-    const q1 = document.getElementById('q1-block');
-    if (!q1) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setHidden(!entry.isIntersecting),
-      { threshold: 0 }
-    );
-    observer.observe(q1);
-    return () => observer.disconnect();
-  }, []);
+function GroupBlock({ group, isResults, rubrics, onRubric, isPremium, onPaywall, hi }: { group: QGroup; isResults: boolean; rubrics: Rec<Rubric>; onRubric: (id: number, r: Rubric) => void; isPremium: boolean; onPaywall: () => void; hi: boolean }) {
+  const total = group.parts.reduce((s, p) => s + p.marks, 0);
+  const got = group.parts.reduce((s, q) => s + (rubrics[q.id] ? rubricTotal(rubrics[q.id]) : 0), 0);
   return (
-    <button
-      className={`scroll-fab${hidden ? ' hidden' : ''}`}
-      onClick={() => window.scrollBy({ top: 500, behavior: 'smooth' })}
-      style={{
-        position: 'fixed', bottom: 28, left: '50%', transform: 'translateX(-50%)', zIndex: 50,
-        display: 'flex', alignItems: 'center', gap: 8,
-        background: 'var(--bg2)', color: 'var(--accent)',
-        border: '1.5px solid color-mix(in srgb, var(--accent) 60%, transparent)', borderRadius: 999,
-        padding: '10px 22px', cursor: 'pointer',
-        fontFamily: 'var(--font-ui)', fontSize: '0.82rem', fontWeight: 600,
-      }}>
-      <span>Scroll for results</span>
-      <svg style={{ animation: 'bounceY 1.2s ease-in-out infinite' }}
-        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="6 9 12 15 18 9" />
-      </svg>
-    </button>
+    <section className="ts-block">
+      <div className="ts-block-head">
+        <h3>Question {group.qNum}</h3>
+        <span className="ts-block-marks">{isResults ? `${got.toFixed(1)} / ${total}` : `${total} marks`}</span>
+      </div>
+      {group.parts.map((q, i) => (
+        <div key={q.id} className="ts-q">
+          <div className="ts-q-top">
+            <span className="ts-q-label">({String.fromCharCode(97 + i)})</span>
+            <SectionChip section={q.section} />
+            <span className="ts-q-year">{q.year}</span>
+            <span className="ts-q-marks">{q.marks} marks</span>
+          </div>
+          <p className="ts-q-text">{q.question}</p>
+          {!isResults && <p className="ts-q-hint">On paper, about {idealWords(q.marks)} words</p>}
+          {isResults && (
+            <>
+              <RubricScorer marks={q.marks} value={rubrics[q.id]} onChange={(r) => onRubric(q.id, r)} />
+              <AIMentorPanel question={q.question} marks={q.marks} isPremium={isPremium} onPaywall={onPaywall} hi={hi} />
+            </>
+          )}
+        </div>
+      ))}
+    </section>
   );
 }
 
+// ─── Main ───
 export default function TestPage() {
-  const [phase,   setPhase]   = useState<Phase>('config');
-  const [mode,    setMode]    = useState<TestMode>('sectional');
-  const [sections,setSections]= useState<Section[]>([]);
-  const [paper,   setPaper]   = useState<'I' | 'II'>('I');
+  const { langHi: hi } = useLang();
+  const [phase, setPhase] = useState<Phase>('config');
+  const [mode, setMode] = useState<TestMode>('sectional');
+  const [keys, setKeys] = useState<SectionKey[]>([]);
+  const [paper, setPaper] = useState<'I' | 'II'>('I');
+  const [groupsA, setGroupsA] = useState<QGroup[]>([]);
+  const [groupsB, setGroupsB] = useState<QGroup[]>([]);
+  const [mapQ1, setMapQ1] = useState<MapQuestion | null>(null);
+  const [mapQ5, setMapQ5] = useState<MapQuestion | null>(null);
+  const [shortQ1, setShortQ1] = useState<TQ[]>([]);
+  const [shortQ5, setShortQ5] = useState<TQ[]>([]);
+  const [rubrics, setRubrics] = useState<Rec<Rubric>>({});
+  const [mapAns1, setMapAns1] = useState<Rec<string>>({});
+  const [mapRev1, setMapRev1] = useState<Rec<boolean>>({});
+  const [mapCor1, setMapCor1] = useState<Rec<boolean>>({});
+  const [mapAns5, setMapAns5] = useState<Rec<string>>({});
+  const [mapRev5, setMapRev5] = useState<Rec<boolean>>({});
+  const [mapCor5, setMapCor5] = useState<Rec<boolean>>({});
+  const [dot1, setDot1] = useState<number | null>(null);
+  const [dot5, setDot5] = useState<number | null>(null);
+  const [deadline, setDeadline] = useState<number | null>(null);
+  const [endedAt, setEndedAt] = useState<number | null>(null);
+  const [wholePaper, setWholePaper] = useState(false);
 
-  const [groupsA,   setGroupsA]   = useState<QGroup[]>([]);
-  const [groupsB,   setGroupsB]   = useState<QGroup[]>([]);
-  const [mapQ1,     setMapQ1]     = useState<MapQuestion | null>(null);
-  const [mapQ5,     setMapQ5]     = useState<MapQuestion | null>(null);
-  const [shortQ1,   setShortQ1]   = useState<TQ[]>([]);
-  const [shortQ5,   setShortQ5]   = useState<TQ[]>([]);
-  const [answers,   setAnswers]   = useState<Record<number, string>>({});
-  const [rubrics,   setRubrics]   = useState<Record<number, {intro:number;body:number;conc:number;pres:number}>>({});
-  const [mapAns1,   setMapAns1]   = useState<Record<number, string>>({});
-  const [mapRev1,   setMapRev1]   = useState<Record<number, boolean>>({});
-  const [mapCor1,   setMapCor1]   = useState<Record<number, boolean>>({});
-  const [mapAns5,   setMapAns5]   = useState<Record<number, string>>({});
-  const [mapRev5,   setMapRev5]   = useState<Record<number, boolean>>({});
-  const [mapCor5,   setMapCor5]   = useState<Record<number, boolean>>({});
-  const [dot1,      setDot1]      = useState<number | null>(null);
-  const [dot5,      setDot5]      = useState<number | null>(null);
-  const [sAns1,     setSAns1]     = useState<Record<number, string>>({});
-  const [sAns5,     setSAns5]     = useState<Record<number, string>>({});
-  // The test's end time, and when it was submitted; see useTimer.
-  const [deadline,  setDeadline]  = useState<number | null>(null);
-  const [endedAt,   setEndedAt]   = useState<number | null>(null);
-
-  // A refresh mid-test used to throw the paper away: the questions are drawn
-  // at random, so they could not even be found again, and every answer typed
-  // went with them. The whole test is kept for the tab instead, deadline
-  // included, so the clock carries on rather than starting over.
+  // The whole test is kept for the tab, deadline included, so a refresh
+  // neither loses the randomly drawn paper nor restarts the clock.
   useRefreshSafe(
-    'ho_test_v1',
-    { phase, mode, sections, paper, groupsA, groupsB, mapQ1, mapQ5, shortQ1, shortQ5, answers, rubrics,
-      mapAns1, mapRev1, mapCor1, mapAns5, mapRev5, mapCor5, dot1, dot5, sAns1, sAns5, deadline, endedAt },
+    'ho_test_v2',
+    { phase, mode, keys, paper, groupsA, groupsB, mapQ1, mapQ5, shortQ1, shortQ5, rubrics, mapAns1, mapRev1, mapCor1, mapAns5, mapRev5, mapCor5, dot1, dot5, deadline, endedAt, wholePaper },
     (t) => {
-      setPhase(t.phase); setMode(t.mode); setSections(t.sections); setPaper(t.paper);
-      setGroupsA(t.groupsA); setGroupsB(t.groupsB); setMapQ1(t.mapQ1); setMapQ5(t.mapQ5);
-      setShortQ1(t.shortQ1); setShortQ5(t.shortQ5); setAnswers(t.answers); setRubrics(t.rubrics);
-      setMapAns1(t.mapAns1); setMapRev1(t.mapRev1); setMapCor1(t.mapCor1);
-      setMapAns5(t.mapAns5); setMapRev5(t.mapRev5); setMapCor5(t.mapCor5);
-      setDot1(t.dot1); setDot5(t.dot5); setSAns1(t.sAns1); setSAns5(t.sAns5);
-      setDeadline(t.deadline); setEndedAt(t.endedAt);
+      setPhase(t.phase); setMode(t.mode); setKeys(t.keys); setPaper(t.paper);
+      setGroupsA(t.groupsA); setGroupsB(t.groupsB); setMapQ1(t.mapQ1); setMapQ5(t.mapQ5); setShortQ1(t.shortQ1); setShortQ5(t.shortQ5);
+      setRubrics(t.rubrics); setMapAns1(t.mapAns1); setMapRev1(t.mapRev1); setMapCor1(t.mapCor1);
+      setMapAns5(t.mapAns5); setMapRev5(t.mapRev5); setMapCor5(t.mapCor5); setDot1(t.dot1); setDot5(t.dot5);
+      setDeadline(t.deadline); setEndedAt(t.endedAt); setWholePaper(t.wholePaper);
     },
   );
 
   const { usage, GateModals, showChatLimitModal } = useSubscriptionGate(() => {});
   const { isOpen: loginOpen, message: loginMsg, requireLogin, closeModal: closeLogin } = useLoginPrompt();
-  const isPremium = usage?.subscribed ?? false;
-  const [navH, setNavH] = useState(56);
-  useEffect(() => {
-    const nav = document.querySelector('nav, header, [role="navigation"]') as HTMLElement | null;
-    if (nav) setNavH(nav.offsetHeight);
-  }, []);
+  const isPremium = Boolean(usage?.subscribed);
 
-  const totalMins = mode === 'sectional' ? 105 : 180;
-  const maxMarks  = mode === 'sectional' ? 150 : 250;
+  const isFLT = mode !== 'sectional';
+  const totalMins = isFLT ? 180 : 105;
+  const maxMarks = isFLT ? 250 : 150;
+  const handleSubmit = useCallback(() => { setEndedAt(Date.now()); setPhase('results'); }, []);
   const { rem, display } = useTimer(totalMins * 60, deadline, endedAt, handleSubmit);
   const urgency = rem < 300;
 
-  function handleSubmit() { setEndedAt(Date.now()); setPhase('results'); }
+  useEffect(() => { window.scrollTo(0, 0); }, [phase]);
 
-  function getEffectiveSections(): { secA: Section[]; secB: Section[] } {
-    if (mode === 'sectional') return { secA: sections, secB: [] };
-    if (mode === 'flt_sectional') return { secA: [sections[0]], secB: sections.length > 1 ? [sections[1]] : [sections[0]] };
-    return paper === 'I'
-      ? { secA: ['Paper I - Ancient India'], secB: ['Paper I - Medieval India'] }
-      : { secA: ['Paper II - Modern India'], secB: ['Paper II - World History'] };
-  }
+  const effective = (): { secA: SectionKey[]; secB: SectionKey[] } => {
+    if (mode === 'sectional') return { secA: keys, secB: [] };
+    if (mode === 'flt_sectional') return { secA: [keys[0]], secB: [keys[1] ?? keys[0]] };
+    return paper === 'I' ? { secA: ['ancient'], secB: ['medieval'] } : { secA: ['modern'], secB: ['world'] };
+  };
 
   function startTest() {
-    const { secA, secB } = getEffectiveSections();
-    const isFLT = mode !== 'sectional';
-    const poolA = pyqs.filter(q => secA.some(s => q.section === s));
-    const poolB = pyqs.filter(q => secB.some(s => q.section === s));
-
-    setGroupsA(buildGroups(poolA, 2, isFLT, 'A'));
-    setGroupsB(isFLT ? buildGroups(poolB, 6, true, 'B') : []);
-    setMapQ1(isAncient(secA) ? pickMap() : null);
-    setShortQ1(!isAncient(secA) ? pickShortAnswers(secA) : []);
-    setMapQ5(isFLT && isAncient(secB) ? pickMap() : null);
-    setShortQ5(isFLT && !isAncient(secB) ? pickShortAnswers(secB) : []);
-    setAnswers({}); setRubrics({});
-    setMapAns1({}); setMapRev1({}); setMapCor1({}); setMapAns5({}); setMapRev5({}); setMapCor5({});
-    setDot1(null); setDot5(null); setSAns1({}); setSAns5({});
+    const { secA, secB } = effective();
+    setGroupsA(buildGroups(poolFor(secA), 2, isFLT, 'A'));
+    setGroupsB(isFLT ? buildGroups(poolFor(secB), 6, true, 'B') : []);
+    setMapQ1(secA.includes('ancient') ? pickMap() : null);
+    setShortQ1(!secA.includes('ancient') ? pickShort(secA) : []);
+    setMapQ5(isFLT && secB.includes('ancient') ? pickMap() : null);
+    setShortQ5(isFLT && !secB.includes('ancient') ? pickShort(secB) : []);
+    setRubrics({}); setMapAns1({}); setMapRev1({}); setMapCor1({}); setMapAns5({}); setMapRev5({}); setMapCor5({});
+    setDot1(null); setDot5(null); setWholePaper(false);
     setDeadline(Date.now() + totalMins * 60 * 1000); setEndedAt(null);
     setPhase('test');
   }
 
-  const isFLT = mode !== 'sectional';
-  const { secA: effSecA } = getEffectiveSections();
+  const onRubric = (id: number, r: Rubric) => setRubrics((p) => ({ ...p, [id]: r }));
+  const allKeys: SectionKey[] = mode === 'flt_combined' ? (paper === 'I' ? ['ancient', 'medieval'] : ['modern', 'world']) : keys;
 
-  // ── CONFIG ──────────────────────────────────────────────────────────────────
-
-  if (phase === 'config') {
-    const canStart = mode === 'flt_combined' ? true
-      : mode === 'flt_sectional' ? sections.length === 2
-      : sections.length > 0;
-
+  const renderPaper = (isResults: boolean) => {
+    const q1 = mapQ1
+      ? <MapBlock qNum={1} mapQ={mapQ1} selectedDot={isResults ? null : dot1} onDotClick={setDot1} answers={mapAns1} setAnswers={setMapAns1} revealed={mapRev1} setRevealed={setMapRev1} correct={mapCor1} setCorrect={setMapCor1} isResults={isResults} />
+      : <ShortNotesBlock qNum={1} questions={shortQ1} isResults={isResults} rubrics={rubrics} onRubric={onRubric} />;
+    const q5 = mapQ5
+      ? <MapBlock qNum={5} mapQ={mapQ5} selectedDot={isResults ? null : dot5} onDotClick={setDot5} answers={mapAns5} setAnswers={setMapAns5} revealed={mapRev5} setRevealed={setMapRev5} correct={mapCor5} setCorrect={setMapCor5} isResults={isResults} />
+      : <ShortNotesBlock qNum={5} questions={shortQ5} isResults={isResults} rubrics={rubrics} onRubric={onRubric} />;
     return (
-      <div style={{ maxWidth: 660, margin: '0 auto', padding: '2.5rem 1.5rem 6rem' }}>
-        <div style={{ color: 'var(--text3)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.5rem' }}>History Optional · Practice</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.3rem', lineHeight: 1.2 }}>Start a Test</h1>
-        <p style={{ color: 'var(--text2)', fontSize: '0.9rem', marginBottom: '2.5rem' }}>Questions drawn from the full PYQ bank (1979–2026). Papers follow the exact UPSC format.</p>
+      <>
+        {isFLT && <h2 className="ts-section first">Section A</h2>}
+        {q1}
+        {groupsA.map((g) => <GroupBlock key={g.qNum} group={g} isResults={isResults} rubrics={rubrics} onRubric={onRubric} isPremium={isPremium} onPaywall={showChatLimitModal} hi={hi} />)}
+        {isFLT && (
+          <>
+            <h2 className="ts-section">Section B</h2>
+            {q5}
+            {groupsB.map((g) => <GroupBlock key={g.qNum} group={g} isResults={isResults} rubrics={rubrics} onRubric={onRubric} isPremium={isPremium} onPaywall={showChatLimitModal} hi={hi} />)}
+          </>
+        )}
+      </>
+    );
+  };
 
-        <div style={{ marginBottom: '2rem' }}>
-          <div style={{ color: 'var(--text3)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>Test Format</div>
-          {([
-            { id: 'sectional',     title: 'Sectional Test',        sub: '105 min · 150 marks · 4 questions', desc: 'Q1 compulsory + attempt 2 of 3 remaining. Deep practice on chosen topics.' },
-            { id: 'flt_sectional', title: 'Full-Length Sectional', sub: '3 hours · 250 marks · 8 questions',  desc: 'Q1 & Q5 compulsory + 3 more (min 1 per section). Select 2 topics.' },
-            { id: 'flt_combined',  title: 'Full-Length Paper',     sub: '3 hours · 250 marks · Paper I or II', desc: 'Complete paper — Paper I (Ancient+Medieval) or Paper II (Modern+World).' },
-          ] as { id: TestMode; title: string; sub: string; desc: string }[]).map(m => (
-            <button key={m.id} onClick={() => setMode(m.id)} style={{
-              display: 'flex', alignItems: 'center', gap: '1rem', width: '100%',
-              padding: '0.85rem 1.1rem', borderRadius: 8, textAlign: 'left',
-              border: mode === m.id ? '1.5px solid var(--accent)' : '1px solid var(--border)',
-              background: mode === m.id ? 'var(--accent-dim)' : 'var(--bg2)',
-              cursor: 'pointer', marginBottom: '0.5rem', transition: 'all 0.15s',
-            }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', flexShrink: 0,
-                border: mode === m.id ? '2px solid var(--accent)' : '2px solid var(--border)',
-                background: mode === m.id ? 'var(--accent)' : 'transparent' }} />
-              <div>
-                <div style={{ fontSize: '0.9rem', fontWeight: mode === m.id ? 600 : 400, color: mode === m.id ? 'var(--text)' : 'var(--text2)' }}>
-                  {m.title}<span style={{ marginLeft: '0.5rem', fontSize: '0.72rem', color: 'var(--text3)', fontWeight: 400 }}>{m.sub}</span>
-                </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text3)', marginTop: '0.1rem' }}>{m.desc}</div>
-              </div>
-            </button>
-          ))}
-        </div>
+  const shell = (children: React.ReactNode) => (
+    <div className="ts ds">
+      <style dangerouslySetInnerHTML={{ __html: CSS + REPORT_CSS }} />
+      {children}
+      <GateModals />
+      <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
+    </div>
+  );
 
-        {mode === 'flt_combined' ? (
-          <div style={{ marginBottom: '2rem' }}>
-            <div style={{ color: 'var(--text3)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>Select Paper</div>
-            <div style={{ display: 'flex', gap: '0.75rem' }}>
-              {(['I', 'II'] as const).map(p => (
-                <button key={p} onClick={() => setPaper(p)} style={{
-                  flex: 1, padding: '0.85rem 1rem', borderRadius: 8,
-                  border: paper === p ? '1.5px solid var(--accent)' : '1px solid var(--border)',
-                  background: paper === p ? 'var(--accent-dim)' : 'var(--bg2)',
-                  color: paper === p ? 'var(--text)' : 'var(--text2)',
-                  fontWeight: paper === p ? 600 : 400, cursor: 'pointer', fontSize: '0.88rem', textAlign: 'left' as const,
-                }}>
-                  <div>Paper {p}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text3)', fontWeight: 400, marginTop: 2 }}>
-                    {p === 'I' ? 'Ancient India + Medieval India' : 'Modern India + World History'}
-                  </div>
-                </button>
-              ))}
-            </div>
+  // ── Setting up ──
+  if (phase === 'config') {
+    const canStart = mode === 'flt_combined' ? true : mode === 'flt_sectional' ? keys.length === 2 : keys.length > 0;
+    return shell(
+      <>
+        <header className="ts-hero">
+          <div className="ds-container">
+            <h1 className="ds-h1 ts-h1">Sit a practice paper</h1>
+            <p className="ds-lede ts-lede">Real past questions in the Mains format, against the clock. Write on paper, then mark yourself against the rubric, or have your answers checked.</p>
           </div>
-        ) : (
-          <div style={{ marginBottom: '2rem' }}>
-            <div style={{ color: 'var(--text3)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>Select Topics</div>
-            <p style={{ color: 'var(--text3)', fontSize: '0.75rem', marginBottom: '0.75rem' }}>
-              {mode === 'flt_sectional' ? 'Select exactly 2 — first = Section A, second = Section B.' : 'Select one or more topics.'}
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-              {SECTIONS.map(s => {
-                const active = sections.includes(s);
-                const c = SECTION_COLOR[s];
-                const disabled = mode === 'flt_sectional' && sections.length >= 2 && !active;
-                return (
-                  <button key={s} onClick={() => {
-                    if (disabled) return;
-                    if (mode === 'flt_sectional') {
-                      setSections(prev => active ? prev.filter(x => x !== s) : [...prev, s]);
-                    } else {
-                      setSections(prev => active ? prev.filter(x => x !== s) : [...prev, s]);
-                    }
-                  }} style={{
-                    padding: '0.45rem 0.9rem', borderRadius: 20,
-                    border: active ? `1.5px solid ${c}` : '1px solid var(--border)',
-                    background: active ? `color-mix(in srgb, ${c} 9%, transparent)` : 'var(--bg2)',
-                    color: active ? c : 'var(--text2)',
-                    fontSize: '0.82rem', fontWeight: active ? 600 : 400,
-                    cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.4 : 1, transition: 'all 0.15s',
-                  }}>{SECTION_SHORT[s]}</button>
-                );
-              })}
+        </header>
+        <div className="ds-container ts-grid">
+          <section className="ts-card">
+            <div className="ts-field">
+              <span className="ts-label">Format</span>
+              <div className="ts-formats" role="radiogroup" aria-label="Format">
+                {([
+                  { id: 'sectional', title: 'Sectional', facts: '1 hr 45 min · 150 marks', desc: 'Four questions, attempt three. Pick the sections to draw from.' },
+                  { id: 'flt_sectional', title: 'Full-length sectional', facts: '3 hours · 250 marks', desc: 'Two sections, eight questions, attempt five. Pick two sections.' },
+                  { id: 'flt_combined', title: 'Full paper', facts: '3 hours · 250 marks', desc: 'Paper I or Paper II, as in the exam.' },
+                ] as { id: TestMode; title: string; facts: string; desc: string }[]).map((m) => (
+                  <button key={m.id} type="button" role="radio" aria-checked={mode === m.id} className={`ts-format${mode === m.id ? ' on' : ''}`} onClick={() => setMode(m.id)}>
+                    <span className="ts-format-title">{m.title}</span>
+                    <span className="ts-format-facts">{m.facts}</span>
+                    <span className="ts-format-desc">{m.desc}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-            {mode === 'flt_sectional' && sections.length === 2 && (
-              <div style={{ marginTop: '0.65rem', fontSize: '0.75rem', color: 'var(--text3)' }}>
-                Section A: <span style={{ color: SECTION_COLOR[sections[0]] }}>{SECTION_SHORT[sections[0]]}</span>
-                {' · '}Section B: <span style={{ color: SECTION_COLOR[sections[1]] }}>{SECTION_SHORT[sections[1]]}</span>
+
+            {mode === 'flt_combined' ? (
+              <div className="ts-field">
+                <span className="ts-label">Paper</span>
+                <div className="ts-seg ts-seg-wide" role="radiogroup" aria-label="Paper">
+                  {(['I', 'II'] as const).map((p) => (
+                    <button key={p} type="button" role="radio" aria-checked={paper === p} className={`ts-seg-btn${paper === p ? ' on' : ''}`} onClick={() => setPaper(p)}>
+                      Paper {p}<span>{p === 'I' ? 'Ancient and Medieval India' : 'Modern India and World History'}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="ts-field">
+                <span className="ts-label">Sections</span>
+                <p className="ts-hint">{mode === 'flt_sectional' ? 'Pick two: the first becomes Section A, the second Section B.' : 'Pick one or more.'}</p>
+                <div className="ts-pills">
+                  {SECTIONS.map((s) => {
+                    const on = keys.includes(s.key);
+                    const disabled = mode === 'flt_sectional' && keys.length >= 2 && !on;
+                    const order = mode === 'flt_sectional' && on ? (keys.indexOf(s.key) === 0 ? 'A' : 'B') : null;
+                    return (
+                      <button key={s.key} type="button" aria-pressed={on} disabled={disabled} style={tintFor(s.key)} className={`ts-pill${on ? ' on' : ''}`}
+                        onClick={() => setKeys((p) => (on ? p.filter((x) => x !== s.key) : [...p, s.key]))}>
+                        {order && <span className="ts-pill-order">{order}</span>}{s.name}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             )}
-          </div>
-        )}
 
-        <div style={{ background: 'var(--warning-wash)', border: '1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)',
-          borderRadius: 8, padding: '0.7rem 1rem', marginBottom: '1.75rem',
-          color: 'var(--text2)', fontSize: '0.8rem', display: 'flex', gap: '0.5rem' }}>
-          <span>🗺️</span>
-          <span>Ancient India sections include an interactive <strong>Map Question (50M)</strong>. Other sections get 5 short-answer questions (10M each) instead.</span>
+            <p className="ts-note">Ancient India brings the interactive map question, 50 marks, as Question 1. The other sections give five short notes of 10 marks instead.</p>
+
+            <button type="button" className="ds-btn ds-btn-solid ts-start" disabled={!canStart}
+              onClick={() => { if (!usage?.firebase_uid) { requireLogin('Sign in free to generate a test paper.'); return; } if (canStart) startTest(); }}>
+              {canStart ? 'Start the paper' : mode === 'flt_sectional' ? 'Pick two sections to start' : 'Pick a section to start'}
+            </button>
+          </section>
+
+          <aside className="ts-aside">
+            <div className="ts-side">
+              <h2>How it works</h2>
+              <ol className="ts-how">
+                <li><span>1</span><div><strong>Write on paper</strong><p>The questions appear with a timer. Answer by hand, as in the hall.</p></div></li>
+                <li><span>2</span><div><strong>Mark it</strong><p>When time is up, or you finish, mark each answer against the rubric.</p></div></li>
+                <li><span>3</span><div><strong>Have answers checked</strong><p>Upload a photo of any answer, or the whole paper as one PDF, and the AI marks it. That part is Premium.</p></div></li>
+              </ol>
+            </div>
+          </aside>
         </div>
 
-        <button onClick={() => { if (!usage?.firebase_uid) { requireLogin('Sign in free to generate a test paper.'); return; } if (!canStart) return; startTest(); }} className="shimmer-btn" style={{
-          background: canStart ? 'var(--accent)' : 'var(--bg3)',
-          color: canStart ? 'var(--accent-on)' : 'var(--text3)',
-          border: 'none', borderRadius: 8, padding: '0.85rem 2.5rem',
-          fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
-          position: 'relative', overflow: 'hidden',
-        }}>Begin Test →</button>
-
-        {/* ─── Already have answers? Upload PDF for AI evaluation ─── */}
-        <div style={{ marginTop: 52, borderTop: "1px solid #1e1e1e", paddingTop: 36 }}>
-          <div style={{ marginBottom: 18 }}>
-            <p style={{ fontSize: "0.53rem", fontFamily: "var(--font-mono)", letterSpacing: "0.2em",
-              textTransform: "uppercase", color: "#444", margin: "0 0 8px" }}>
-              Already have a completed paper?
-            </p>
-            <p style={{ fontSize: "0.82rem", color: "#555", lineHeight: 1.65, margin: 0, maxWidth: 460 }}>
-              Skip the timer — upload your handwritten answer PDF directly and let AI evaluate it.
-            </p>
-          </div>
-          <PDFTestEvaluator
-            isPremium={!!usage.subscribed}
-            onPaywall={showChatLimitModal}
-            token={usage.token ?? null}
-            variant="test"
-          />
-        </div>
-        {/* This branch returns early, so the gate modals have to be mounted
-            here too. Without them the Unlock with Premium button below set
-            its state and nothing appeared. */}
-        <GateModals />
-        <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
-      </div>
+        <section className="ds-container ts-written">
+          <h2>Already written a paper?</h2>
+          <p>Skip the timer: upload the whole answer booklet as one PDF and have every answer marked.</p>
+          <PDFTestEvaluator isPremium={isPremium} onPaywall={showChatLimitModal} token={usage.token ?? null} variant="test" />
+        </section>
+      </>,
     );
   }
 
-  // ── TEST ─────────────────────────────────────────────────────────────────────
-
+  // ── The paper ──
   if (phase === 'test') {
     const progressPct = ((totalMins * 60 - rem) / (totalMins * 60)) * 100;
-    const allSections = mode === 'flt_combined'
-      ? (paper === 'I' ? ['Paper I - Ancient India', 'Paper I - Medieval India'] : ['Paper II - Modern India', 'Paper II - World History']) as Section[]
-      : sections;
-
-    return (
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.5rem 6rem' }}>
-        {/* Sticky timer bar */}
-        <div style={{ position: 'sticky', top: navH, zIndex: 90,
-          background: 'var(--bg)', borderBottom: '1px solid var(--border)', padding: '0.6rem 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-              <span style={{ color: 'var(--text3)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                {mode === 'sectional' ? 'Sectional' : mode === 'flt_sectional' ? 'FLT Sectional' : `Paper ${paper}`}
-              </span>
-              <span style={{ color: 'var(--text3)', fontSize: '0.72rem' }}>· {maxMarks} Marks</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.3rem', fontWeight: 700,
-                color: urgency ? 'var(--danger-text)' : 'var(--text)' }}>{display}</span>
-              <button onClick={handleSubmit} style={{ background: 'var(--danger-text)', color: 'var(--on-fill)', border: 'none',
-                borderRadius: 6, padding: '0.4rem 1rem', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }}>Submit</button>
-            </div>
+    return shell(
+      <>
+        <div className="ts-bar">
+          <div className="ds-container ts-bar-in">
+            <span className="ts-bar-what">{mode === 'sectional' ? 'Sectional' : mode === 'flt_sectional' ? 'Full-length sectional' : `Paper ${paper}`} · {maxMarks} marks</span>
+            <span className={`ts-clock${urgency ? ' late' : ''}`}>{display}</span>
+            <button type="button" className="ds-btn ds-btn-solid ds-btn-sm" onClick={handleSubmit}>I’m done</button>
           </div>
-          <div style={{ height: 2, background: 'var(--border)', marginTop: '0.5rem', borderRadius: 1 }}>
-            <div style={{ height: '100%', borderRadius: 1, width: `${progressPct}%`,
-              background: urgency ? 'var(--danger-text)' : 'var(--accent)', transition: 'width 1s linear, background 0.3s' }} />
-          </div>
+          <div className="ts-bar-progress"><span style={{ width: `${progressPct}%` }} className={urgency ? 'late' : ''} /></div>
         </div>
-
-        <div style={{ marginTop: '1.5rem' }}>
-          <InstructionsHeader mode={mode} paper={paper} sections={allSections} maxMarks={maxMarks} totalMins={totalMins} />
+        <div className="ds-container ts-paper-wrap">
+          <PaperHeader mode={mode} paper={paper} keys={allKeys} maxMarks={maxMarks} totalMins={totalMins} />
+          {renderPaper(false)}
+          <div className="ts-end"><button type="button" className="ds-btn ds-btn-solid" onClick={handleSubmit}>I’m done, mark my paper</button></div>
         </div>
-
-        {isFLT && <SectionDivider label="SECTION A" />}
-
-        <div id="q1-block"><Q1Block qNum={1} isMap={!!mapQ1} mapQ={mapQ1} shortQs={shortQ1}
-          selectedDot={dot1} onDotClick={setDot1}
-          mapAnswers={mapAns1} setMapAnswers={setMapAns1}
-          mapRevealed={mapRev1} setMapRevealed={setMapRev1}
-          mapCorrect={mapCor1} setMapCorrect={setMapCor1}
-          shortAnswers={sAns1} setShortAnswers={setSAns1} isResults={false} /></div>
-
-        {groupsA.map(g => (
-          <QGroupBlock key={g.qNum} group={g} answers={answers}
-            onAnswer={(id, v) => setAnswers(p => ({ ...p, [id]: v }))}
-            rubrics={rubrics} onRubric={() => {}} isResults={false} />
-        ))}
-
-        {isFLT && (
-          <>
-            <SectionDivider label="SECTION B" />
-            <Q1Block qNum={5} isMap={!!mapQ5} mapQ={mapQ5} shortQs={shortQ5}
-              selectedDot={dot5} onDotClick={setDot5}
-              mapAnswers={mapAns5} setMapAnswers={setMapAns5}
-              mapRevealed={mapRev5} setMapRevealed={setMapRev5}
-              mapCorrect={mapCor5} setMapCorrect={setMapCor5}
-              shortAnswers={sAns5} setShortAnswers={setSAns5} isResults={false} />
-            {groupsB.map(g => (
-              <QGroupBlock key={g.qNum} group={g} answers={answers}
-                onAnswer={(id, v) => setAnswers(p => ({ ...p, [id]: v }))}
-                rubrics={rubrics} onRubric={() => {}} isResults={false} />
-            ))}
-          </>
-        )}
-      </div>
+      </>,
     );
   }
 
-  // ── RESULTS ──────────────────────────────────────────────────────────────────
+  // ── Marking ──
+  const mapScore = (Object.values(mapCor1).filter(Boolean).length + Object.values(mapCor5).filter(Boolean).length) * 2.5;
+  const marked = [...groupsA, ...groupsB].flatMap((g) => g.parts).concat(shortQ1, shortQ5);
+  const total = mapScore + marked.reduce((s, q) => s + (rubrics[q.id] ? rubricTotal(rubrics[q.id]) : 0), 0);
+  const pct = Math.round((total / maxMarks) * 100);
+  const used = Math.floor((totalMins * 60 - rem) / 60);
+  const pdfQs = [
+    ...shortQ1.map((q, i) => ({ id: `Q1(${String.fromCharCode(97 + i)})`, marks: q.marks, text: q.question })),
+    ...groupsA.flatMap((g) => g.parts.map((q, i) => ({ id: `Q${g.qNum}(${String.fromCharCode(97 + i)})`, marks: q.marks, text: q.question }))),
+    ...shortQ5.map((q, i) => ({ id: `Q5(${String.fromCharCode(97 + i)})`, marks: q.marks, text: q.question })),
+    ...groupsB.flatMap((g) => g.parts.map((q, i) => ({ id: `Q${g.qNum}(${String.fromCharCode(97 + i)})`, marks: q.marks, text: q.question }))),
+  ];
 
-  if (phase === 'results') {
-    const mapScore = Object.values(mapCor1).filter(Boolean).length * 2.5
-                   + Object.values(mapCor5).filter(Boolean).length * 2.5;
-    const writtenScore = [...groupsA, ...groupsB].flatMap(g => g.parts).reduce((s, q) => {
-      const r = rubrics[q.id]; return s + (r ? rubricTotal(r) : 0);
-    }, 0);
-    const totalScore = mapScore + writtenScore;
-    const pct = Math.round((totalScore / maxMarks) * 100);
-    const allSections = mode === 'flt_combined'
-      ? (paper === 'I' ? ['Paper I - Ancient India', 'Paper I - Medieval India'] : ['Paper II - Modern India', 'Paper II - World History']) as Section[]
-      : sections;
+  return shell(
+    <div className="ds-container ts-paper-wrap ts-results">
+      <h1 className="ts-results-title">Mark your paper</h1>
+      <p className="ts-results-lede">Mark only the questions you attempted. Slide each part of the rubric to what your answer earned, and judge the map places you named.</p>
 
-    return (
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '2rem 1.5rem 6rem' }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.25rem' }}>Test Results</h1>
-        {/* ── PDF Full Paper Evaluation (Premium) ── */}
-        {(() => {
-          const pdfQs = [...groupsA, ...groupsB].flatMap(g =>
-            g.parts.map((q, qi) => ({
-              id: `Q${g.qNum}(${String.fromCharCode(97 + qi)})`,
-              marks: q.marks,
-              text: q.question,
-            }))
-          );
-          return (
-            <div style={{ marginBottom:28 }}>
-              <PDFTestEvaluator
-                isPremium={!!usage.subscribed}
-                onPaywall={showChatLimitModal}
-                token={usage.token ?? null}
-                paperQuestions={pdfQs}
-                variant="test"
-              />
-            </div>
-          );
-        })()}
-        {/* Scroll down hint */}
-        <p style={{ color: 'var(--text2)', fontSize: '0.88rem', marginBottom: '2rem' }}>
-          Use the rubric sliders to self-evaluate. Premium users can upload answer images or PDF for AI Mentor evaluation.
-        </p>
-        <style>{`
-          @keyframes bounceY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
-          @keyframes glowPulse { 0%,100%{box-shadow:0 0 8px 2px color-mix(in srgb, var(--accent) 50%, transparent),0 4px 24px rgba(0,0,0,0.4)} 50%{box-shadow:0 0 18px 5px color-mix(in srgb, var(--accent) 85%, transparent),0 4px 24px rgba(0,0,0,0.4)} }
-          .scroll-fab { transition: opacity 0.3s, transform 0.3s; animation: glowPulse 2s ease-in-out infinite; }
-          .scroll-fab:hover { background: var(--accent-dim) !important; color: var(--accent) !important; }
-          .scroll-fab.hidden { opacity: 0 !important; pointer-events: none !important; transform: translateX(-50%) translateY(16px) !important; }
-        `}</style>
-        <ScrollFab />
-
-        {/* Score card */}
-        <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12,
-          padding: '1.5rem', marginBottom: '2rem', display: 'flex', gap: '2.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <div>
-            <div style={{ color: 'var(--text3)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>Self Score</div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.3rem' }}>
-              <span style={{ fontSize: '2.2rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--accent)' }}>{totalScore.toFixed(1)}</span>
-              <span style={{ color: 'var(--text3)', fontSize: '0.88rem' }}>/ {maxMarks}</span>
-            </div>
-          </div>
-          <div>
-            <div style={{ color: 'var(--text3)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>Time Used</div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>{Math.floor((totalMins * 60 - rem) / 60)}m</div>
-          </div>
-          <div style={{ flex: 1, minWidth: 140 }}>
-            <div style={{ height: 8, background: 'var(--bg3)', borderRadius: 4 }}>
-              <div style={{ height: '100%', borderRadius: 4, width: `${Math.min(pct, 100)}%`,
-                background: pct >= 60 ? 'var(--success-text)' : pct >= 40 ? 'var(--warning-text)' : 'var(--danger-text)', transition: 'width 1s' }} />
-            </div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text3)', marginTop: 4 }}>{pct}% of total marks</div>
-          </div>
+      <div className="ts-summary">
+        <div><span className="ts-summary-label">Your mark</span><span className="ts-summary-num">{total.toFixed(1)}<small> / {maxMarks}</small></span></div>
+        <div><span className="ts-summary-label">Time used</span><span className="ts-summary-num">{used}<small> min</small></span></div>
+        <div className="ts-summary-bar">
+          <span className="ts-summary-label">{Math.min(pct, 100)}% of the marks</span>
+          <div className="ts-meter"><span style={{ width: `${Math.min(pct, 100)}%` }} /></div>
         </div>
-
-        {isFLT && <SectionDivider label="SECTION A" />}
-
-        <div id="q1-block"><Q1Block qNum={1} isMap={!!mapQ1} mapQ={mapQ1} shortQs={shortQ1}
-          selectedDot={null} onDotClick={() => {}}
-          mapAnswers={mapAns1} setMapAnswers={setMapAns1}
-          mapRevealed={mapRev1} setMapRevealed={setMapRev1}
-          mapCorrect={mapCor1} setMapCorrect={setMapCor1}
-          shortAnswers={sAns1} setShortAnswers={setSAns1} isResults={true} /></div>
-
-        {groupsA.map(g => (
-          <QGroupBlock key={g.qNum} group={g} answers={answers} onAnswer={() => {}}
-            rubrics={rubrics} onRubric={(id, r) => setRubrics(p => ({ ...p, [id]: r }))}
-            isResults={true} isPremium={isPremium} onPaywall={showChatLimitModal} />
-        ))}
-
-        {isFLT && (
-          <>
-            <SectionDivider label="SECTION B" />
-            <Q1Block qNum={5} isMap={!!mapQ5} mapQ={mapQ5} shortQs={shortQ5}
-              selectedDot={null} onDotClick={() => {}}
-              mapAnswers={mapAns5} setMapAnswers={setMapAns5}
-              mapRevealed={mapRev5} setMapRevealed={setMapRev5}
-              mapCorrect={mapCor5} setMapCorrect={setMapCor5}
-              shortAnswers={sAns5} setShortAnswers={setSAns5} isResults={true} />
-            {groupsB.map(g => (
-              <QGroupBlock key={g.qNum} group={g} answers={answers} onAnswer={() => {}}
-                rubrics={rubrics} onRubric={(id, r) => setRubrics(p => ({ ...p, [id]: r }))}
-                isResults={true} isPremium={isPremium} onPaywall={showChatLimitModal} />
-            ))}
-          </>
-        )}
-
-        <div style={{ textAlign: 'center', marginTop: '3rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button onClick={() => setPhase('config')} style={{
-            background: 'var(--accent)', color: 'var(--on-fill)', border: 'none',
-            borderRadius: 8, padding: '0.85rem 2rem', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer',
-          }}>Start Another Test</button>
-          <button onClick={() => window.location.href = '/pyqs'} style={{
-            background: 'var(--bg2)', color: 'var(--text)', border: '1px solid var(--border)',
-            borderRadius: 8, padding: '0.85rem 2rem', fontSize: '0.95rem', cursor: 'pointer',
-          }}>Browse PYQs</button>
-        </div>
-
-        <GateModals />
-        <LoginPromptModal isOpen={loginOpen} onClose={closeLogin} message={loginMsg} />
       </div>
-    );
-  }
 
-  return null;
+      <div className={`ts-whole${wholePaper ? ' open' : ''}`}>
+        <button type="button" className="ts-whole-head" onClick={() => setWholePaper((o) => !o)} aria-expanded={wholePaper}>
+          <span><strong>Have the whole paper marked</strong><span>Scan your answer booklet into one PDF and every answer is marked{isPremium ? '.' : ', with Premium.'}</span></span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+        </button>
+        {wholePaper && <div className="ts-whole-body"><PDFTestEvaluator isPremium={isPremium} onPaywall={showChatLimitModal} token={usage.token ?? null} paperQuestions={pdfQs} variant="test" /></div>}
+      </div>
+
+      {renderPaper(true)}
+
+      <div className="ts-end">
+        <button type="button" className="ds-btn ds-btn-solid" onClick={() => { setDeadline(null); setEndedAt(null); setPhase('config'); }}>Sit another paper</button>
+        <Link href="/pyqs" className="ds-btn ds-btn-line">Browse the PYQs</Link>
+      </div>
+    </div>,
+  );
 }
+
+const CSS = `
+.ts { background: var(--bg); min-height: 70vh; padding-bottom: clamp(48px, 9vh, 96px); }
+.ts-hero { padding: clamp(28px, 5vh, 52px) 0 clamp(16px, 3vh, 28px); background: linear-gradient(180deg, color-mix(in srgb, var(--accent-dim) 60%, var(--bg)) 0%, var(--bg) 100%); }
+.ts-h1 { font-size: clamp(2rem, 4.4vw, 3rem); margin: 0 0 var(--space-2); }
+.ts-lede { max-width: 660px; }
+.ts-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-6); align-items: start; }
+.ts-card { padding: var(--space-6); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--elev-1); min-width: 0; }
+.ts-field { margin-bottom: var(--space-5); }
+.ts-label { display: block; margin-bottom: var(--space-2); font-size: 0.92rem; font-weight: 700; }
+.ts-hint { margin: -4px 0 var(--space-2); font-size: 0.86rem; color: var(--text3); }
+.ts-formats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+.ts-format { display: flex; flex-direction: column; gap: 3px; padding: var(--space-4); border: 1.5px solid var(--border2); border-radius: var(--radius-lg); background: var(--bg); color: var(--text); font: inherit; text-align: left; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+.ts-format:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.ts-format.on { border-color: var(--accent); background: var(--accent-dim); }
+.ts-format-title { font-size: 1rem; font-weight: 800; }
+.ts-format.on .ts-format-title { color: var(--accent-text); }
+.ts-format-facts { font-size: 0.86rem; font-weight: 600; color: var(--text2); }
+.ts-format-desc { font-size: 0.84rem; color: var(--text3); line-height: 1.5; }
+.ts-seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: var(--radius-xl); background: var(--ds-soft); border: 1px solid var(--border); }
+.ts-seg-wide { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+.ts-seg-btn { display: flex; flex-direction: column; gap: 2px; padding: 10px 16px; border: none; border-radius: var(--radius-lg); background: none; color: var(--text2); font: inherit; font-size: 0.95rem; font-weight: 800; text-align: left; cursor: pointer; }
+.ts-seg-btn span { font-size: 0.82rem; font-weight: 500; color: var(--text3); }
+.ts-seg-btn.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
+.ts-pills { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.ts-pill { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 var(--space-4); border: 1.5px solid var(--border2); border-radius: var(--radius-full); background: var(--bg); color: var(--text); font: inherit; font-size: 0.92rem; font-weight: 600; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+.ts-pill:hover:not(:disabled) { border-color: color-mix(in srgb, var(--t) 50%, transparent); }
+.ts-pill.on { border-color: var(--t); background: var(--w); color: var(--t); }
+.ts-pill:disabled { opacity: 0.4; cursor: not-allowed; }
+.ts-pill-order { width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--t); color: var(--bg); font-size: 0.74rem; font-weight: 800; }
+.ts-note { margin: 0 0 var(--space-5); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); font-size: 0.88rem; line-height: 1.55; color: var(--text2); }
+.ts-start { width: 100%; justify-content: center; min-height: 50px; font-size: 1rem; }
+.ts-start:disabled { opacity: 0.55; cursor: not-allowed; }
+.ts-aside { position: sticky; top: 84px; }
+.ts-side { padding: var(--space-5); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.ts-side h2 { margin: 0 0 var(--space-3); font-size: 1rem; font-weight: 800; }
+.ts-how { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+.ts-how li { display: flex; gap: var(--space-3); }
+.ts-how li > span { width: 26px; height: 26px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--accent-dim); color: var(--accent-text); font-size: 0.82rem; font-weight: 800; }
+.ts-how strong { display: block; font-size: 0.94rem; margin-bottom: 2px; }
+.ts-how p { margin: 0; font-size: 0.88rem; line-height: 1.55; color: var(--text2); }
+.ts-written { margin-top: var(--space-10); padding-top: var(--space-8); border-top: 1px solid var(--border); }
+.ts-written > h2 { margin: 0 0 var(--space-2); font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; }
+.ts-written > p { margin: 0 0 var(--space-4); color: var(--text2); line-height: 1.6; }
+.ts-written .pe { max-width: 900px; }
+
+/* The paper */
+.ts-bar { position: sticky; top: 60px; z-index: 40; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.ts-bar-in { max-width: 920px; display: flex; align-items: center; gap: var(--space-4); padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.ts-bar-what { flex: 1; min-width: 0; font-size: 0.92rem; font-weight: 600; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ts-clock { font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.ts-clock.late { color: var(--danger-text); }
+.ts-bar-progress { height: 3px; background: var(--ds-soft); }
+.ts-bar-progress span { display: block; height: 100%; background: var(--accent); transition: width 1s linear; }
+.ts-bar-progress span.late { background: var(--danger-text); }
+.ts-paper-wrap { max-width: 920px; padding-top: var(--space-6); }
+.ts-paper { margin-bottom: var(--space-6); padding: var(--space-5) var(--space-6); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.ts-paper-title { font-size: 1.15rem; font-weight: 800; text-align: center; }
+.ts-paper-facts { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-2) var(--space-6); margin: var(--space-2) 0 var(--space-4); padding-bottom: var(--space-4); border-bottom: 1px solid var(--border); font-size: 0.92rem; color: var(--text2); }
+.ts-paper-rules { margin: 0; padding-left: 1.2rem; list-style: disc; display: flex; flex-direction: column; gap: 6px; font-size: 0.94rem; line-height: 1.6; color: var(--text2); }
+.ts-paper-rules strong { color: var(--text); }
+.ts-paper-rules .muted { font-size: 0.86rem; color: var(--text3); }
+.ts-section { margin: var(--space-8) 0 var(--space-3); font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; }
+.ts-section.first { margin-top: 0; }
+.ts-block { margin-bottom: var(--space-5); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; }
+.ts-block-head { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2); padding: var(--space-3) var(--space-5); background: var(--ds-soft); border-bottom: 1px solid var(--border); }
+.ts-block-head h3 { margin: 0; font-size: 1.02rem; font-weight: 800; }
+.ts-chip { padding: 2px 10px; border-radius: var(--radius-full); background: var(--accent-dim); color: var(--accent-text); font-size: 0.78rem; font-weight: 700; }
+.ts-block-sub { font-size: 0.84rem; color: var(--text3); }
+.ts-block-marks { margin-left: auto; font-size: 0.9rem; font-weight: 700; color: var(--text2); font-variant-numeric: tabular-nums; }
+.ts-block-lead { margin: var(--space-4) var(--space-5) var(--space-2); font-weight: 600; line-height: 1.55; }
+.ts-q { padding: var(--space-4) var(--space-5); border-top: 1px solid var(--border); }
+.ts-block-head + .ts-q, .ts-block-lead + .ts-q { border-top: none; }
+.ts-q-top { display: flex; align-items: center; flex-wrap: wrap; gap: 4px var(--space-2); margin-bottom: 6px; }
+.ts-q-label { font-weight: 800; color: var(--text); }
+.ts-sec { padding: 1px 9px; border-radius: var(--radius-full); background: var(--w); color: var(--t); font-size: 0.78rem; font-weight: 700; }
+.ts-q-year { font-size: 0.84rem; color: var(--text3); }
+.ts-q-marks { margin-left: auto; font-size: 0.86rem; font-weight: 700; color: var(--text2); white-space: nowrap; }
+.ts-q-text { margin: 0 0 var(--space-2); font-size: 1.02rem; line-height: 1.65; }
+.ts-q-hint { margin: 0; font-size: 0.86rem; color: var(--text3); }
+.ts-end { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2); margin-top: var(--space-8); }
+
+/* The map question */
+.ts-map { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: start; gap: var(--space-4); padding: var(--space-2) var(--space-5) var(--space-5); }
+.ts-map-canvas { position: relative; z-index: 0; isolation: isolate; min-width: 0; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); scroll-margin-top: 128px; }
+.ts-map-side { min-width: 0; }
+.ts-dot-card { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-3); padding: var(--space-4); border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: var(--radius-lg); background: var(--bg); }
+.ts-dot-title { font-weight: 800; color: var(--accent-text); }
+.ts-dot-card p { margin: 0; font-size: 0.9rem; line-height: 1.5; color: var(--text2); }
+.ts-input { width: 100%; box-sizing: border-box; height: 42px; padding: 0 var(--space-3); border: 1.5px solid var(--border2); border-radius: var(--radius-md); background: var(--ds-card); color: var(--text); font: inherit; outline: none; }
+.ts-input:focus { border-color: color-mix(in srgb, var(--accent) 60%, transparent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.ts-dot-ok { padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--success-wash); color: var(--success-text); font-size: 0.88rem; }
+.ts-dot-no { padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--danger-wash); color: var(--danger-text); font-size: 0.88rem; }
+.ts-dot-empty { margin-bottom: var(--space-3); padding: var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); text-align: center; font-size: 0.9rem; color: var(--text3); }
+.ts-dots { max-height: 360px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+.ts-dotrow { display: flex; align-items: center; gap: var(--space-2); padding: 6px 8px; border-radius: var(--radius-md); cursor: pointer; }
+.ts-dotrow[role="button"]:hover, .ts-dotrow.on { background: var(--accent-dim); }
+.ts-dotn { width: 22px; height: 22px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--border2); background: var(--ds-soft); color: var(--text3); font-size: 0.72rem; font-weight: 800; }
+.ts-dotn.done { background: var(--accent); border-color: var(--accent); color: #fff; }
+.ts-dotn.shown { background: var(--warning-text); border-color: var(--warning-text); color: #fff; }
+.ts-dotn.ok { background: var(--success-text); border-color: var(--success-text); color: #fff; }
+.ts-dotn.no { background: var(--danger-text); border-color: var(--danger-text); color: #fff; }
+.ts-dot-hint { flex: 1; min-width: 0; font-size: 0.86rem; line-height: 1.45; color: var(--text2); }
+.ts-dot-none { font-size: 0.78rem; color: var(--text3); }
+.ts-judge { display: inline-flex; gap: 4px; }
+.ts-mini { padding: 2px 10px; border: 1px solid var(--border2); border-radius: var(--radius-full); background: var(--ds-card); color: var(--text2); font: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+.ts-mini.ok { border-color: color-mix(in srgb, var(--success-text) 40%, transparent); color: var(--success-text); background: var(--success-wash); }
+.ts-mini.no { border-color: color-mix(in srgb, var(--danger-text) 40%, transparent); color: var(--danger-text); background: var(--danger-wash); }
+.ts-undo { padding: 0; border: none; background: none; font: inherit; font-size: 0.78rem; color: var(--text3); cursor: pointer; }
+.ts-dot-your, .ts-dot-answer { padding-left: 38px; font-size: 0.82rem; color: var(--text3); }
+.ts-dot-answer strong { color: var(--text); }
+
+/* Marking */
+.ts-results-title { margin: 0 0 var(--space-2); font-size: clamp(1.8rem, 3.6vw, 2.4rem); font-weight: 800; letter-spacing: -0.02em; }
+.ts-results-lede { margin: 0 0 var(--space-5); color: var(--text2); line-height: 1.6; max-width: 720px; }
+.ts-summary { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4) var(--space-8); margin-bottom: var(--space-4); padding: var(--space-5) var(--space-6); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--elev-1); }
+.ts-summary > div { display: flex; flex-direction: column; gap: 2px; }
+.ts-summary-label { font-size: 0.86rem; color: var(--text3); }
+.ts-summary-num { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.ts-summary-num small { font-size: 1rem; font-weight: 600; color: var(--text3); }
+.ts-summary-bar { flex: 1; min-width: 200px; }
+.ts-meter { height: 8px; border-radius: var(--radius-full); background: var(--ds-soft); overflow: hidden; }
+.ts-meter span { display: block; height: 100%; background: var(--accent); border-radius: inherit; transition: width 0.6s ease; }
+.ts-whole { margin-bottom: var(--space-6); border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--ds-card); overflow: hidden; }
+.ts-whole-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); width: 100%; padding: var(--space-4) var(--space-5); border: none; background: none; font: inherit; text-align: left; cursor: pointer; color: var(--text); }
+.ts-whole-head > span { display: flex; flex-direction: column; gap: 2px; }
+.ts-whole-head span span { font-size: 0.9rem; color: var(--text2); }
+.ts-whole-head svg { flex-shrink: 0; color: var(--text3); transition: transform 0.2s; }
+.ts-whole.open .ts-whole-head svg { transform: rotate(180deg); }
+.ts-whole-body { padding: 0 var(--space-5) var(--space-5); }
+.ts-whole-body .pe-card { box-shadow: none; background: var(--bg); }
+.ts-rubric { margin-top: var(--space-3); padding: var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); }
+.ts-rubric-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-2); font-weight: 700; font-size: 0.92rem; }
+.ts-rubric-total { font-size: 1.05rem; color: var(--accent-text); font-variant-numeric: tabular-nums; }
+.ts-rubric-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) 76px; align-items: center; gap: var(--space-3); padding: 6px 0; }
+.ts-rubric-label { display: flex; flex-direction: column; min-width: 0; }
+.ts-rubric-label strong { font-size: 0.9rem; }
+.ts-rubric-label span { font-size: 0.8rem; color: var(--text3); }
+.ts-rubric-row input { width: 100%; accent-color: var(--accent); cursor: pointer; }
+.ts-rubric-val { text-align: right; font-size: 0.86rem; font-weight: 600; color: var(--text2); font-variant-numeric: tabular-nums; }
+.ts-mentor { margin-top: var(--space-3); }
+.ts-mentor-wait { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); color: var(--text2); font-size: 0.92rem; }
+.ts-mentor-card { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-2); padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg); }
+.ts-mentor-card > .ds-btn { align-self: flex-start; }
+.ts-mentor-title { font-weight: 800; }
+.ts-mentor-sub { margin: -8px 0 0; font-size: 0.88rem; color: var(--text2); }
+.ts-textarea { width: 100%; box-sizing: border-box; resize: vertical; padding: var(--space-3); border: 1.5px solid var(--border2); border-radius: var(--radius-md); background: var(--ds-card); color: var(--text); font: inherit; font-size: 0.94rem; line-height: 1.6; outline: none; }
+.ts-textarea:focus { border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
+.ts-mentor-actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
+.ts-err { margin: 0; color: var(--danger-text); font-size: 0.9rem; }
+.ts-mentor-score { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-4); }
+.ts-score-num { font-size: 1.8rem; font-weight: 800; }
+.ts-score-of { color: var(--text3); font-weight: 600; }
+.ts-mentor-note { font-size: 0.84rem; color: var(--text3); }
+.ts-mentor-report { display: flex; flex-direction: column; gap: var(--space-3); }
+.ts-mentor-report .ev-block { padding: var(--space-4); }
+
+@media (max-width: 960px) {
+  .ts-grid { grid-template-columns: minmax(0, 1fr); }
+  .ts-aside { position: static; }
+  .ts-formats { grid-template-columns: minmax(0, 1fr); }
+  .ts-map { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .ts-card { padding: var(--space-5) var(--space-4); }
+  .ts-bar-what { display: none; }
+  .ts-bar-in { justify-content: space-between; }
+  .ts-paper { padding: var(--space-4); }
+  .ts-block-head { padding: var(--space-3) var(--space-4); }
+  .ts-block-lead { margin: var(--space-4) var(--space-4) var(--space-2); }
+  .ts-q { padding: var(--space-4); }
+  .ts-map { padding: var(--space-2) var(--space-4) var(--space-4); }
+  .ts-dots { max-height: none; overflow: visible; }
+  .ts-block-lead { font-size: 0.95rem; }
+  /* The formats as a compact list: the description only for the one picked. */
+  .ts-format { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: var(--space-2); padding: var(--space-3) var(--space-4); }
+  .ts-format-desc { display: none; flex-basis: 100%; margin-top: 2px; }
+  .ts-format.on .ts-format-desc { display: block; }
+  .ts-rubric-row { grid-template-columns: minmax(0, 1fr) 70px; }
+  .ts-rubric-row input { grid-column: 1 / -1; grid-row: 2; }
+  .ts-summary { padding: var(--space-4); gap: var(--space-4); }
+  .ts-end .ds-btn { width: 100%; justify-content: center; }
+  .ts-whole-head { padding: var(--space-4); }
+  .ts-whole-body { padding: 0 var(--space-3) var(--space-4); }
+}
+@media (prefers-reduced-motion: reduce) { .ts-bar-progress span, .ts-meter span { transition: none; } }
+`;

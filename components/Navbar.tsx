@@ -601,7 +601,6 @@ export default function Navbar() {
                 {!subData && (
                   <button className="ds-btn ds-btn-premium ds-btn-sm nb-upgrade" onClick={() => setShowPremiumModal(true)}>Upgrade</button>
                 )}
-                {subData && <span className="nb-pro" title="Your Premium plan is active">{Icon.check}Premium</span>}
                 <div ref={accountRef} className="nb-account nb-wide">
                   <button className="nb-avatar" onClick={() => setUserMenuOpen(o => !o)} aria-label="Your account" aria-expanded={userMenuOpen} aria-haspopup="menu" title={user.email ?? undefined}>
                     <UserAvatar email={user.email ?? ''} name={aspirantName} photoURL={user.photoURL} size={34} />
@@ -747,7 +746,7 @@ const NAV_CSS = `
 .nb-inner { width: 100%; max-width: 1240px; margin: 0 auto; display: flex; align-items: center; gap: var(--space-3); }
 .nb-brand { display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none; color: var(--text); flex-shrink: 0; }
 .nb-brand span { font-weight: 800; font-size: 1.04rem; letter-spacing: -0.015em; white-space: nowrap; }
-.nb-links { display: flex; align-items: center; gap: 2px; margin-left: var(--space-3); }
+.nb-links { display: flex; align-items: center; gap: 2px; margin-left: clamp(var(--space-4), 2.6vw, var(--space-8)); }
 .nb-link {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 7px 11px; border: none; border-radius: var(--radius-md); background: none;
@@ -798,11 +797,6 @@ const NAV_CSS = `
 .nb-lang span { min-width: 30px; height: 26px; padding: 0 8px; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-full); font-family: var(--font-ui); font-size: 0.76rem; font-weight: 700; color: var(--text3); }
 .nb-lang span.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
 .nb-upgrade { flex-shrink: 0; }
-.nb-pro {
-  display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; flex-shrink: 0;
-  border-radius: var(--radius-full); background: var(--success-wash); color: var(--success-text);
-  font-family: var(--font-ui); font-size: 0.76rem; font-weight: 700;
-}
 .nb-account { position: relative; }
 .nb-avatar { width: 38px; height: 38px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border: none; border-radius: var(--radius-circle); background: none; cursor: pointer; }
 .nb-avatar:focus-visible, .nb-icon:focus-visible, .nb-link:focus-visible, .nb-lang:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -959,7 +953,7 @@ const NAV_CSS = `
   .nb-search { width: 38px; padding: 0; justify-content: center; }
   .nb-search-text, .nb-search kbd { display: none; }
 }
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   .nb-links, .nb-wide, .nb-search-wrap { display: none; }
   .nb-burger { display: inline-flex; }
   .nb { padding: 0 var(--space-3); }
@@ -967,6 +961,6 @@ const NAV_CSS = `
 @media (max-width: 380px) {
   .nb-brand span { display: none; }
 }
-@media (min-width: 1001px) { .nb-sheet { display: none; } }
+@media (min-width: 1101px) { .nb-sheet { display: none; } }
 @media (prefers-reduced-motion: reduce) { .nb-sheet, .nb-burger span { transition: none; } }
 `;

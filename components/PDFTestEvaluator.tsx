@@ -1,1295 +1,508 @@
-"use client";
+'use client';
+import { useRef, useState } from 'react';
 import { useLang } from '@/lib/i18n/LangContext';
-import { useRef, useState, DragEvent, ChangeEvent } from "react";
-import { saveToHistory } from "@/hooks/useAnswerHistory";
+import { saveToHistory } from '@/hooks/useAnswerHistory';
 import { getFingerprint } from '@/lib/fingerprint';
 import { useRefreshSafe } from '@/hooks/useRefreshSafe';
+import { REPORT_CSS, ReportBody, fromEvaluation, scoreTone, type Evaluation } from '@/components/evaluate/Report';
 
-interface PaperQuestion { id: string; marks: number; text: string; }
-interface QuestionResult {
-  question: PaperQuestion;
-  evaluation: any | null;
-  error?: string;
+/**
+ * A whole answer booklet marked from one PDF: the pages are read, the answers
+ * found and numbered, the reader checks that split, and each answer is
+ * marked in turn. Premium. Used by the evaluate page's "A full paper" mode
+ * and by the test page, before a paper (one already written) and after it
+ * (the paper just sat, whose questions it is given).
+ */
+
+interface PaperQuestion { id: string; marks: number; text: string }
+interface QuestionResult { question: PaperQuestion; evaluation: Evaluation | null; error?: string }
+interface Segment { questionNumber: string; marks: number; questionText: string; answerText: string }
+type Stage = 'upload' | 'loading' | 'review' | 'evaluating' | 'done';
+
+const PdfIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M9 13h6M9 17h4" /></svg>;
+const Chevron = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>;
+
+const pageRender = (page: { render: (p: never) => { promise: Promise<void> } }, canvas: HTMLCanvasElement, viewport: unknown) =>
+  // pdfjs's render types want fields the runtime does not need.
+  page.render({ canvasContext: canvas.getContext('2d')!, canvas, viewport } as never).promise;
+
+/** One marked question of the paper, folded until opened. */
+function QuestionCard({ result, open, onToggle, onRetry, hi }: { result: QuestionResult; open: boolean; onToggle: () => void; onRetry?: () => void; hi: boolean }) {
+  const [tab, setTab] = useState<'eval' | 'model' | 'hist'>('eval');
+  const [retrying, setRetrying] = useState(false);
+  const { question, evaluation: ev, error } = result;
+  const pct = ev && ev.marks_out_of ? ev.marks / ev.marks_out_of : 0;
+  return (
+    <section className={`pe-q${open ? ' open' : ''}`}>
+      <button type="button" className="pe-q-head" onClick={onToggle} aria-expanded={open}>
+        <span className="pe-q-id">{question.id}</span>
+        <span className="pe-q-text">{question.text || (hi ? `प्रश्न ${question.id}` : `Question ${question.id}`)}</span>
+        {ev ? <span className="pe-q-score" style={{ color: scoreTone(pct) }}>{ev.marks} / {ev.marks_out_of}</span>
+          : error ? <span className="pe-q-score err">{hi ? 'नहीं हुआ' : 'Not marked'}</span>
+          : <span className="pe-q-score">…</span>}
+        <span className="pe-q-chev"><Chevron /></span>
+      </button>
+      {open && (
+        <div className="pe-q-body">
+          {error && (
+            <div className="pe-err">
+              <span>{error}</span>
+              {onRetry && (
+                <button type="button" className="ds-btn ds-btn-line ds-btn-sm" disabled={retrying}
+                  onClick={async () => { setRetrying(true); await onRetry(); setRetrying(false); }}>
+                  {retrying ? (hi ? 'फिर से हो रहा है…' : 'Trying again…') : (hi ? 'फिर कोशिश करें' : 'Try again')}
+                </button>
+              )}
+            </div>
+          )}
+          {ev && <ReportBody data={fromEvaluation(question.text, question.marks, ev)} tab={tab} setTab={setTab} hi={hi} compact />}
+        </div>
+      )}
+    </section>
+  );
 }
-interface PDFTestEvaluatorProps {
+
+export default function PDFTestEvaluator({ isPremium, onPaywall, token, paperQuestions, variant }: {
   isPremium: boolean;
   onPaywall: () => void;
   token: string | null;
   paperQuestions?: PaperQuestion[];
-  variant?: "evaluate" | "test";
-}
-interface Segment {
-  questionNumber: string;
-  marks: number;
-  questionText: string;
-  answerText: string;
-}
-
-function toArray(val: any): string[] {
-  if (!val) return [];
-  if (Array.isArray(val)) return val;
-  if (typeof val === "string") return [val];
-  return [];
-}
-function bodyParas(body: any): string[] {
-  if (!body) return [];
-  if (Array.isArray(body)) return body.filter(Boolean);
-  if (typeof body === "string") return body.split("\n").filter(Boolean);
-  return [];
-}
-
-// Bold known historian names inside feedback strings (suggestions, weaknesses, etc.)
-const HISTORIAN_NAMES = [
-  "Vincent Smith","D.D. Kosambi","Kosambi","Romila Thapar","R.S. Sharma","R.C. Majumdar",
-  "Upinder Singh","Irfan Habib","Satish Chandra","B.D. Chattopadhyaya","Hermann Kulke",
-  "Burton Stein","Nicholas Dirks","Sumit Sarkar","Bipan Chandra","K.A. Nilakanta Sastri",
-  "A.L. Basham","John Marshall","Niharranjan Ray","Eric Hobsbawm","Ranajit Guha",
-  "Sheldon Pollock","Richard Eaton","David Ludden","Susan Bayly","Christopher Bayly",
-  "Jadunath Sarkar","Tapan Raychaudhuri","Dietmar Rothermund","Percival Spear",
-  "Stanley Wolpert","Sudipta Kaviraj","Partha Chatterjee","Gyan Prakash","Dipesh Chakrabarty",
-  "Tanika Sarkar","Sumit Guha","Muzaffar Alam","Sanjay Subrahmanyam","Velcheru Narayana Rao",
-  "Daud Ali","Cynthia Talbot","Phillip Wagoner","George Michell","Vasundhara Filliozat",
-];
-function boldHistorians(text: string): React.ReactNode[] {
-  if (!text) return [text];
-  const pattern = new RegExp(`(${HISTORIAN_NAMES.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
-  const parts = text.split(pattern);
-  return parts.map((part, i) =>
-    HISTORIAN_NAMES.includes(part) ? <strong key={i} style={{ color: "var(--text)" }}>{part}</strong> : part
-  );
-}
-
-// Mood emoji + color for a marks gauge, based on % scored
-function gaugeMood(pct: number): { emoji: string; color: string; label: string } {
-  if (pct >= 75) return { emoji: "😄", color: "var(--success-text)", label: "Strong answer — keep this up!" };
-  if (pct >= 50) return { emoji: "🙂", color: "var(--accent)", label: "Decent attempt — a few gaps to close." };
-  if (pct >= 30) return { emoji: "😕", color: "var(--warning-text)", label: "Learn from your mistakes — keep going!" };
-  return { emoji: "😟", color: "var(--danger-text)", label: "Needs significant work — review the feedback below." };
-}
-
-async function pdfToImages(file: File): Promise<File[]> {
-  const pdfjs = await import("pdfjs-dist");
-  pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    "pdfjs-dist/build/pdf.worker.mjs", import.meta.url
-  ).toString();
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
-  const images: File[] = [];
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const vp = page.getViewport({ scale: 2 });
-    const canvas = document.createElement("canvas");
-    canvas.width = vp.width; canvas.height = vp.height;
-    await page.render({ canvasContext: canvas.getContext("2d")!, canvas, viewport: vp } as any).promise;
-    const blob = await new Promise<Blob>(res => canvas.toBlob(b => res(b!), "image/jpeg", 0.9));
-    images.push(new File([blob], `page-${i}.jpg`, { type: "image/jpeg" }));
-  }
-  return images;
-}
-
-/* ── Per-question result card ── */
-function EvalCard({ result, isOpen, onToggle, onRetry }: {
-  result: QuestionResult; isOpen: boolean; onToggle: () => void; onRetry?: () => void;
+  variant?: 'evaluate' | 'test';
 }) {
-  const [tab, setTab] = useState("eval");
-  const [retrying, setRetrying] = useState(false);
-  const { langHi } = useLang();
-  const { question, evaluation: ev, error } = result;
-  const pct      = ev ? (ev.marks / ev.marks_out_of) * 100 : 0;
-  const scoreCol = pct >= 70 ? "var(--success-text)" : pct >= 50 ? "var(--accent)" : "var(--danger-text)";
-
-  return (
-    <div style={{ marginBottom: 12 }}>
-      <div onClick={onToggle} style={{
-        background: "var(--bg3)", border: "1px solid #2a2a2a", borderRadius: isOpen ? "8px 8px 0 0" : 8,
-        padding: "14px 20px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12,
-      }}>
-        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.2em",
-            textTransform: "uppercase", color: "var(--accent)", flexShrink: 0 }}>{question.id}</span>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555",
-            background: "var(--bg3)", borderRadius: 4, padding: "2px 7px", flexShrink: 0 }}>
-            {question.marks}M
-          </span>
-          <span style={{ fontSize: "0.85rem", color: "#aaa", overflow: "hidden",
-            textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{question.text || `Question ${question.id}`}</span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-          {ev && (
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: scoreCol }}>
-              {ev.marks}/{ev.marks_out_of}
-            </span>
-          )}
-          {error && <span style={{ fontSize: "0.7rem", color: "var(--danger-text)" }}>Error</span>}
-          <span style={{ color: "#444", fontSize: "0.8rem", transform: isOpen ? "rotate(180deg)" : "none",
-            transition: "transform 0.2s" }}>▾</span>
-        </div>
-      </div>
-
-      {isOpen && (
-        <div style={{ background: "var(--bg3)", border: "1px solid #2a2a2a", borderTop: "none",
-          borderRadius: "0 0 8px 8px", padding: "28px 30px" }}>
-          {error && (
-            <div style={{ background: "var(--danger-wash)", border: "1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)",
-              borderRadius: 6, padding: "14px 18px", color: "var(--danger-text)", fontSize: "0.85rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span>{error}</span>
-              {onRetry && (
-                <button onClick={async () => { setRetrying(true); await onRetry(); setRetrying(false); }} disabled={retrying} style={{ marginLeft: 12, padding: "4px 12px", background: "var(--danger-wash)", border: "1px solid color-mix(in srgb, var(--danger-text) 30%, transparent)", borderRadius: 4, color: "var(--danger-text)", fontSize: "0.75rem", cursor: retrying ? "not-allowed" : "pointer", opacity: retrying ? 0.6 : 1 }}>
-                  {retrying ? "Retrying…" : "Retry"}
-                </button>
-              )}
-            </div>
-          )}
-
-          {ev && (<>
-            <div className="pdf-ev-qbox">
-              <div className="pdf-ev-qlabel">Question · {question.marks}M</div>
-              <div className="pdf-ev-qtext">{question.text || `Question ${question.id}`}</div>
-            </div>
-
-            <div className="pdf-ev-score-row">
-              <div>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.53rem", letterSpacing: "0.28em",
-                  textTransform: "uppercase", color: "#555", marginBottom: 14 }}>Marks Scored</div>
-                <div>
-                  <span className="pdf-ev-score-num" style={{ color: scoreCol }}>{ev.marks}</span>
-                  <span className="pdf-ev-score-denom"> /{ev.marks_out_of}</span>
-                </div>
-                <div className="pdf-ev-bar-bg">
-                  <div className="pdf-ev-bar-fill" style={{ width: `${pct}%`, background: scoreCol }} />
-                </div>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.53rem", letterSpacing: "0.28em",
-                  textTransform: "uppercase", color: "#555", marginBottom: 14 }}>Ideal Word Count</div>
-                <div>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "2.2rem", fontWeight: 700 }}>
-                    {question.marks === 10 ? "150" : question.marks === 15 ? "200" : "250"}
-                  </span>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.9rem", color: "#444" }}> words</span>
-                </div>
-              </div>
-            </div>
-
-            {(() => {
-              const g = gaugeMood(pct);
-              return (
-                <div className="pdf-ev-gauge">
-                  <div className="pdf-ev-gauge-emoji">{g.emoji}</div>
-                  <div className="pdf-ev-gauge-body">
-                    <div className="pdf-ev-gauge-top">
-                      <span className="pdf-ev-gauge-score" style={{ color: g.color }}>Marks scored: {ev.marks}</span>
-                      <span className="pdf-ev-gauge-outof">/{ev.marks_out_of}</span>
-                      <span className="pdf-ev-gauge-label">{g.label}</span>
-                    </div>
-                    <div className="pdf-ev-gauge-track">
-                      <div className="pdf-ev-gauge-arrow" style={{ left: `${pct}%` }} />
-                    </div>
-                    <div className="pdf-ev-gauge-scale">
-                      <span>0</span><span>{Math.round(ev.marks_out_of / 2)}</span><span>{ev.marks_out_of}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-
-            <div style={{ display: "flex", gap: 12, padding: "14px 18px", background: "rgba(0,0,0,0.02)",
-              border: "1px solid rgba(0,0,0,0.05)", borderRadius: 6, marginBottom: 32 }}>
-              <span style={{ color: "#555", flexShrink: 0, fontSize: "0.8rem" }}>ℹ</span>
-              <p style={{ fontSize: "0.78rem", color: "#555", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
-                These marks are indicative, not exact — expect a 1–2 mark variance from what an actual UPSC examiner may award.
-              </p>
-            </div>
-
-            {ev.section_marks && (
-              <div className="pdf-ev-sec-grid">
-                {(["introduction","body","conclusion","presentation"] as const).map(sec => {
-                  const s = ev.section_marks[sec];
-                  if (!s) return null;
-                  const sp = Math.round((s.awarded / s.out_of) * 100);
-                  const sc = sp >= 75 ? "var(--success-text)" : sp >= 50 ? "var(--accent)" : "var(--danger-text)";
-                  return (
-                    <div key={sec} className="pdf-ev-sec-card">
-                      <div className="pdf-ev-sec-lbl">{sec}</div>
-                      <div>
-                        <span className="pdf-ev-sec-num" style={{ color: sc }}>{s.awarded}</span>
-                        <span className="pdf-ev-sec-den">/{s.out_of}</span>
-                      </div>
-                      <div className="pdf-ev-sec-bar-bg">
-                        <div className="pdf-ev-sec-bar-fill" style={{ width: `${sp}%`, background: sc }} />
-                      </div>
-                      <div className="pdf-ev-sec-rsn">{s.reasoning}</div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-
-            <div className="pdf-ev-tabs">
-              {(["eval","model","hist"] as const).map(t => (
-                <button key={t} className={`pdf-ev-tab${tab === t ? " active" : ""}`} onClick={() => setTab(t)}>
-                  {t === "eval" ? "Evaluation" : t === "model" ? "Model Answer" : "Historians"}
-                </button>
-              ))}
-            </div>
-
-            {tab === "eval" && (
-              <div className="pdf-ev-fade">
-                {toArray(ev.demand_of_question).length > 0 && (
-                  <div className="pdf-ev-card" style={{ marginBottom: 16 }}>
-                    <div className="pdf-ev-ct">Demand of the Question</div>
-                    <ul className="pdf-ev-list">
-                      {toArray(ev.demand_of_question).map((d: string, i: number) => (
-                        <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                          <span style={{ color: "var(--accent)", flexShrink: 0, marginTop: 3 }}>◆</span>{d}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {ev.introduction && (
-                  <div className="pdf-ev-card" style={{ marginBottom: 16 }}>
-                    <div className="pdf-ev-ct" style={{ justifyContent: "space-between" }}>
-                      <span>Introduction</span>
-                      {ev.section_marks?.introduction && (
-                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "var(--text3)" }}>
-                          {ev.section_marks.introduction.awarded}/{ev.section_marks.introduction.out_of}
-                        </span>
-                      )}
-                    </div>
-                    <div style={{ marginBottom: 14 }}>
-                      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
-                        textTransform: "uppercase", color: "#555", marginBottom: 6 }}>What you wrote</div>
-                      <div style={{ fontSize: "0.9rem", color: "#aaa", lineHeight: 1.7, fontStyle: "italic",
-                        fontFamily: "var(--font-body)" }}>{ev.introduction.what_was_written}</div>
-                    </div>
-                    {(() => {
-                      const strengths = toArray(ev.introduction.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
-                      const weaknesses = toArray(ev.introduction.weaknesses).filter((w: string) => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
-                      return (
-                        <div className="pdf-ev-sw-grid">
-                          <div className="pdf-ev-sw-col pdf-ev-sw-col-s">
-                            <div className="pdf-ev-sw-head pdf-ev-sw-head-s">✓ Strengths</div>
-                            {strengths.length > 0 ? strengths.map((s: string, i: number) => (
-                              <div key={i} className="pdf-ev-sw-item">{s}</div>
-                            )) : <div className="pdf-ev-sw-empty">Nothing stood out here.</div>}
-                          </div>
-                          <div className="pdf-ev-sw-col pdf-ev-sw-col-w">
-                            <div className="pdf-ev-sw-head pdf-ev-sw-head-w">✗ Weaknesses</div>
-                            {weaknesses.length > 0 ? weaknesses.map((w: string, i: number) => (
-                              <div key={i} className="pdf-ev-sw-item">{w}</div>
-                            )) : <div className="pdf-ev-sw-empty">No major issues found.</div>}
-                          </div>
-                        </div>
-                      );
-                    })()}
-                    <div style={{ fontSize: "0.88rem", color: "#b0b0b0", lineHeight: 1.75,
-                      fontFamily: "var(--font-body)", marginBottom: 14 }}>
-                      {ev.introduction.analysis}
-                    </div>
-                    {toArray(ev.introduction.suggestions).filter((s: string) => s).length > 0 && (
-                      <div>
-                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
-                          textTransform: "uppercase", color: "#555", marginBottom: 8 }}>How to improve</div>
-                        <ul className="pdf-ev-list">
-                          {toArray(ev.introduction.suggestions).map((s: string, i: number) => (
-                            <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                              <span style={{ color: "var(--warning-text)", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    {ev.model_answer?.introduction && (
-                      <div style={{ marginTop: 16, padding: "14px 18px",
-                        background: "var(--success-wash)", border: "1px solid color-mix(in srgb, var(--success-text) 8%, transparent)", borderRadius: 6 }}>
-                        <div className="pdf-ev-ml">Model introduction</div>
-                        <div className="pdf-ev-mp">{ev.model_answer.introduction}</div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {ev.body && (
-                  <div className="pdf-ev-card" style={{ marginBottom: 16 }}>
-                    <div className="pdf-ev-ct" style={{ justifyContent: "space-between" }}>
-                      <span>Body</span>
-                      {ev.section_marks?.body && (
-                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "var(--text3)" }}>
-                          {ev.section_marks.body.awarded}/{ev.section_marks.body.out_of}
-                        </span>
-                      )}
-                    </div>
-                    <div className="pdf-ev-sw-grid">
-                      <div className="pdf-ev-sw-col pdf-ev-sw-col-s">
-                        <div className="pdf-ev-sw-head pdf-ev-sw-head-s">✓ Strengths</div>
-                        {(() => {
-                          const strengths = toArray(ev.body.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT") && !s.startsWith("Use ["));
-                          if (strengths.length === 0) return <div className="pdf-ev-sw-empty">Nothing stood out here.</div>;
-                          return strengths.map((s: string, i: number) => {
-                            const tagMatch = s.match(/^\[([^\]]+)\]:\s*/);
-                            const tag = tagMatch ? tagMatch[1] : null;
-                            const text = tagMatch ? s.slice(tagMatch[0].length) : s;
-                            return (
-                              <div key={i} className="pdf-ev-sw-item">
-                                {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
-                                  background: "var(--success-wash)", color: "var(--success-text)", borderRadius: 3,
-                                  padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
-                                {text}
-                              </div>
-                            );
-                          });
-                        })()}
-                      </div>
-                      <div className="pdf-ev-sw-col pdf-ev-sw-col-w">
-                        <div className="pdf-ev-sw-head pdf-ev-sw-head-w">✗ Weaknesses</div>
-                        {(() => {
-                          const weaknesses = toArray(ev.body.weaknesses).filter((w: string) => w && !w.startsWith("IMPORTANT") && !w.startsWith("Use ["));
-                          if (weaknesses.length === 0) return <div className="pdf-ev-sw-empty">No major issues found.</div>;
-                          const tagColors: Record<string, string> = { "missed demand": "var(--warning-text)", "needs historian": "var(--danger-text)", "too descriptive": "var(--accent)", "check this": "var(--danger-text)", "structure": "var(--accent)" };
-                          return weaknesses.map((w: string, i: number) => {
-                            const tagMatch = w.match(/^\[([^\]]+)\]:\s*/);
-                            const tag = tagMatch ? tagMatch[1].toLowerCase() : null;
-                            const text = tagMatch ? w.slice(tagMatch[0].length) : w;
-                            const dotColor = tag && tagColors[tag] ? tagColors[tag] : "var(--danger-text)";
-                            return (
-                              <div key={i} className="pdf-ev-sw-item">
-                                {tag && <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
-                                  background: `color-mix(in srgb, ${dotColor} 9%, transparent)`, color: dotColor, borderRadius: 3,
-                                  padding: "1px 6px", marginRight: 6 }}>{tag}</span>}
-                                {text}
-                              </div>
-                            );
-                          });
-                        })()}
-                      </div>
-                    </div>
-                    {toArray(ev.body.suggestions).filter((s: string) => s).length > 0 && (
-                      <div>
-                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
-                          textTransform: "uppercase", color: "#555", marginBottom: 8 }}>How to improve</div>
-                        <ul className="pdf-ev-list">
-                          {toArray(ev.body.suggestions).map((s: string, i: number) => (
-                            <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                              <span style={{ color: "var(--warning-text)", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {ev.conclusion && (
-                  <div className="pdf-ev-card" style={{ marginBottom: 16 }}>
-                    <div className="pdf-ev-ct" style={{ justifyContent: "space-between" }}>
-                      <span>Conclusion</span>
-                      {ev.section_marks?.conclusion && (
-                        <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", color: "var(--text3)" }}>
-                          {ev.section_marks.conclusion.awarded}/{ev.section_marks.conclusion.out_of}
-                        </span>
-                      )}
-                    </div>
-                    <div style={{ marginBottom: 14 }}>
-                      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
-                        textTransform: "uppercase", color: "#555", marginBottom: 6 }}>What you wrote</div>
-                      <div style={{ fontSize: "0.9rem", color: "#aaa", lineHeight: 1.7, fontStyle: "italic",
-                        fontFamily: "var(--font-body)" }}>{ev.conclusion.what_was_written}</div>
-                    </div>
-                    {(() => {
-                      const strengths = toArray(ev.conclusion.strengths).filter((s: string) => s && !s.startsWith("One sentence") && !s.startsWith("IMPORTANT"));
-                      const weaknesses = toArray(ev.conclusion.weaknesses).filter((w: string) => w && !w.startsWith("One sentence") && !w.startsWith("IMPORTANT"));
-                      return (
-                        <div className="pdf-ev-sw-grid">
-                          <div className="pdf-ev-sw-col pdf-ev-sw-col-s">
-                            <div className="pdf-ev-sw-head pdf-ev-sw-head-s">✓ Strengths</div>
-                            {strengths.length > 0 ? strengths.map((s: string, i: number) => (
-                              <div key={i} className="pdf-ev-sw-item">{s}</div>
-                            )) : <div className="pdf-ev-sw-empty">Nothing stood out here.</div>}
-                          </div>
-                          <div className="pdf-ev-sw-col pdf-ev-sw-col-w">
-                            <div className="pdf-ev-sw-head pdf-ev-sw-head-w">✗ Weaknesses</div>
-                            {weaknesses.length > 0 ? weaknesses.map((w: string, i: number) => (
-                              <div key={i} className="pdf-ev-sw-item">{w}</div>
-                            )) : <div className="pdf-ev-sw-empty">No major issues found.</div>}
-                          </div>
-                        </div>
-                      );
-                    })()}
-                    <div style={{ fontSize: "0.88rem", color: "#b0b0b0", lineHeight: 1.75,
-                      fontFamily: "var(--font-body)", marginBottom: 14 }}>
-                      {ev.conclusion.analysis}
-                    </div>
-                    {toArray(ev.conclusion.suggestions).filter((s: string) => s).length > 0 && (
-                      <div>
-                        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.2em",
-                          textTransform: "uppercase", color: "#555", marginBottom: 8 }}>How to improve</div>
-                        <ul className="pdf-ev-list">
-                          {toArray(ev.conclusion.suggestions).map((s: string, i: number) => (
-                            <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                              <span style={{ color: "var(--warning-text)", flexShrink: 0, marginTop: 3 }}>→</span>{boldHistorians(s)}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    {ev.model_answer?.conclusion && (
-                      <div style={{ marginTop: 16, padding: "14px 18px",
-                        background: "var(--success-wash)", border: "1px solid color-mix(in srgb, var(--success-text) 8%, transparent)", borderRadius: 6 }}>
-                        <div className="pdf-ev-ml">Model conclusion</div>
-                        <div className="pdf-ev-mp">{ev.model_answer.conclusion}</div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <div className="pdf-ev-card pdf-ev-card-gold" style={{ marginBottom: 16 }}>
-                  <div className="pdf-ev-ct">Overall Feedback</div>
-                  <div style={{ fontSize: "0.93rem", color: "#d4d4d4", lineHeight: 1.9, fontFamily: "var(--font-body)" }}>
-                    {ev.overall_feedback}
-                  </div>
-                </div>
-
-                <button className="pdf-ev-btn" onClick={() => setTab("model")}>
-                  View Model Answer →
-                </button>
-              </div>
-            )}
-
-            {tab === "model" && ev.model_answer && (
-              <div className="pdf-ev-fade">
-                <div className="pdf-ev-qbox">
-                  <div className="pdf-ev-qlabel">Question · {question.marks}M</div>
-                  <div className="pdf-ev-qtext">{question.text || `Question ${question.id}`}</div>
-                </div>
-                <div className="pdf-ev-card pdf-ev-card-green">
-                  <div className="pdf-ev-ct">Model Answer · {question.marks}M</div>
-                  <div className="pdf-ev-ml">Introduction</div>
-                  <div className="pdf-ev-mp">{ev.model_answer.introduction}</div>
-                  <div className="pdf-ev-ml">Body</div>
-                  <ul className="pdf-ev-list">
-                    {bodyParas(ev.model_answer.body).map((p: string, i: number) => (
-                      <li key={i}>{p}</li>
-                    ))}
-                  </ul>
-                  <div className="pdf-ev-ml">Conclusion</div>
-                  <div className="pdf-ev-mp">{ev.model_answer.conclusion}</div>
-                </div>
-                <button className="pdf-ev-btn" onClick={() => setTab("eval")}>← View Evaluation</button>
-              </div>
-            )}
-
-            {tab === "hist" && (
-              <div className="pdf-ev-fade">
-                <div className="pdf-ev-card">
-                  <div className="pdf-ev-ct">Historians to Cite for This Topic</div>
-                  {(Array.isArray(ev.historians_to_cite) ? ev.historians_to_cite : []).map((h: any, i: number) => (
-                    <div key={i} className="pdf-ev-hist">
-                      <div className="pdf-ev-hist-name">{typeof h === "object" && h !== null ? h.name : String(h)}</div>
-                      {typeof h === "object" && h !== null && h.work && <div className="pdf-ev-hist-work">{h.work}</div>}
-                      <div className="pdf-ev-hist-arg">{typeof h === "object" && h !== null ? h.argument : ""}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </>)}
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ── Shared CSS ── */
-const SHARED_CSS = `
-  .pdf-ev-card { background:linear-gradient(135deg,#161616,#111); border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:28px 30px; margin-bottom:16px; position:relative; overflow:hidden; }
-  .pdf-ev-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,0,0,0.02),transparent 60%); pointer-events:none; }
-  .pdf-ev-card-gold { border-color:color-mix(in srgb, var(--warning-text) 18%, transparent); background:linear-gradient(135deg,#161410,#111); }
-  .pdf-ev-card-gold::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--warning-text) 40%, transparent),transparent); }
-  .pdf-ev-card-green { border-color:color-mix(in srgb, var(--success-text) 12%, transparent); background:linear-gradient(135deg,#101610,#111); }
-  .pdf-ev-card-green::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,color-mix(in srgb, var(--success-text) 35%, transparent),transparent); }
-  /* ── MARKS GAUGE ── */
-  .pdf-ev-gauge { display:flex; align-items:center; gap:18px; background:linear-gradient(135deg,#161616,#111);
-    border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:18px 22px; margin-bottom:16px; }
-  .pdf-ev-gauge-emoji { font-size:2.4rem; line-height:1; flex-shrink:0; }
-  .pdf-ev-gauge-body { flex:1; min-width:0; }
-  .pdf-ev-gauge-top { display:flex; align-items:baseline; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
-  .pdf-ev-gauge-score { font-family:var(--font-mono); font-size:1.3rem; font-weight:700; }
-  .pdf-ev-gauge-outof { font-family:var(--font-mono); font-size:0.85rem; color:#555; }
-  .pdf-ev-gauge-label { font-family:var(--font-ui); font-size:0.8rem; color:#999; margin-left:4px; }
-  .pdf-ev-gauge-track { position:relative; height:8px; border-radius:4px;
-    background:linear-gradient(90deg,var(--danger-text),var(--warning-text),var(--success-text)); margin-top:4px; }
-  .pdf-ev-gauge-arrow { position:absolute; top:-9px; width:0; height:0;
-    border-left:6px solid transparent; border-right:6px solid transparent;
-    border-top:7px solid #f0f0f0; transform:translateX(-50%); transition:left 1.2s cubic-bezier(.16,1,.3,1); }
-  .pdf-ev-gauge-scale { display:flex; justify-content:space-between; margin-top:4px;
-    font-family:var(--font-mono); font-size:0.62rem; color:#555; }
-  /* ── STRENGTHS / WEAKNESSES 2-COL ── */
-  .pdf-ev-sw-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:14px 0; }
-  @media (max-width:640px) { .pdf-ev-sw-grid { grid-template-columns:1fr; } }
-  .pdf-ev-sw-col { border-radius:8px; padding:14px 16px; }
-  .pdf-ev-sw-col-s { background:var(--success-wash); border:1px solid color-mix(in srgb, var(--success-text) 14%, transparent); }
-  .pdf-ev-sw-col-w { background:var(--danger-wash); border:1px solid color-mix(in srgb, var(--danger-text) 14%, transparent); }
-  .pdf-ev-sw-head { display:flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:0.62rem;
-    letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px; }
-  .pdf-ev-sw-head-s { color:var(--success-text); }
-  .pdf-ev-sw-head-w { color:var(--danger-text); }
-  .pdf-ev-sw-item { display:flex; gap:9px; align-items:flex-start; margin-bottom:9px; font-size:0.86rem;
-    line-height:1.65; color:#c0c0c0; font-family:var(--font-body); }
-  .pdf-ev-sw-item:last-child { margin-bottom:0; }
-  .pdf-ev-sw-empty { font-size:0.82rem; color:#555; font-style:italic; }
-  .pdf-ev-ct { font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
-  .pdf-ev-ct::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,color-mix(in srgb, var(--accent) 25%, transparent),transparent); }
-  .pdf-ev-qbox { background:linear-gradient(135deg, var(--bg2), var(--bg3)); border:1px solid color-mix(in srgb, var(--accent) 20%, transparent); border-radius:10px; padding:20px 24px; margin-bottom:20px; }
-  .pdf-ev-qlabel { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
-  .pdf-ev-qtext { font-size:1.05rem; color:var(--text); line-height:1.65; font-family:var(--font-body); }
-  .pdf-ev-score-row { display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:36px; border-bottom:1px solid #2e2e2e; margin-bottom:32px; }
-  .pdf-ev-score-num { font-family:var(--font-mono); font-size:5.5rem; font-weight:700; line-height:1; }
-  .pdf-ev-score-denom { font-family:var(--font-mono); font-size:1.8rem; color:#444; }
-  .pdf-ev-bar-bg { background:#222; border-radius:2px; height:4px; overflow:hidden; margin-top:14px; width:260px; }
-  .pdf-ev-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
-  .pdf-ev-sec-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:32px; }
-  @media(max-width:620px){ .pdf-ev-sec-grid { grid-template-columns:repeat(2,1fr); } }
-  .pdf-ev-sec-card { background:#161616; border:1px solid #2a2a2a; border-radius:6px; padding:16px 14px; }
-  .pdf-ev-sec-lbl { font-family:var(--font-mono); font-size:0.52rem; letter-spacing:0.22em; text-transform:uppercase; color:#555; margin-bottom:10px; }
-  .pdf-ev-sec-num { font-family:var(--font-mono); font-size:1.85rem; font-weight:700; line-height:1; }
-  .pdf-ev-sec-den { font-size:0.9rem; color:#444; }
-  .pdf-ev-sec-bar-bg { background:#222; border-radius:2px; height:3px; overflow:hidden; margin:10px 0 8px; }
-  .pdf-ev-sec-bar-fill { height:100%; border-radius:2px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
-  .pdf-ev-sec-rsn { font-size:0.76rem; color:#666; line-height:1.5; font-family:var(--font-ui); }
-  .pdf-ev-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid rgba(0,0,0,0.07); }
-  .pdf-ev-tab { padding:13px 28px; cursor:pointer; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-family:var(--font-mono); background:none; border:none; color:#444; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
-  .pdf-ev-tab.active { color:var(--text); border-bottom-color:var(--accent); }
-  .pdf-ev-tab:hover:not(.active) { color:#888; }
-  .pdf-ev-ml { font-family:var(--font-mono); font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:color-mix(in srgb, var(--success-text) 55%, transparent); margin:22px 0 12px; display:flex; align-items:center; gap:8px; }
-  .pdf-ev-ml::after { content:''; flex:1; height:1px; background:var(--success-wash); }
-  .pdf-ev-ml:first-of-type { margin-top:0; }
-  .pdf-ev-mp { font-size:0.93rem; line-height:1.9; color:#d4d4d4; margin-bottom:0; font-family:var(--font-body); }
-  ul.pdf-ev-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
-  ul.pdf-ev-list li { padding:10px 14px 10px 16px; background:rgba(0,0,0,0.02); border-radius:6px; border-left:2px solid rgba(0,0,0,0.08); font-size:0.88rem; color:#b0b0b0; line-height:1.7; font-family:var(--font-body); }
-  .pdf-ev-hist { padding:22px 0; border-bottom:1px solid rgba(0,0,0,0.05); display:grid; gap:6px; }
-  .pdf-ev-hist:first-child { padding-top:0; }
-  .pdf-ev-hist:last-child { border-bottom:none; padding-bottom:0; }
-  .pdf-ev-hist-name { font-family:var(--font-display); font-size:1.0rem; font-weight:700; color:var(--accent); letter-spacing:0.01em; }
-  .pdf-ev-hist-work { font-family:var(--font-mono); font-size:0.68rem; color:#555; letter-spacing:0.05em; }
-  .pdf-ev-hist-arg { font-size:0.88rem; color:#aaa; line-height:1.75; font-family:var(--font-body); }
-  .pdf-ev-btn { width:100%; padding:16px; border:1.5px solid color-mix(in srgb, var(--accent) 50%, transparent); background:var(--accent-dim); color:var(--accent); font-size:0.78rem; font-family:var(--font-mono); cursor:pointer; transition:all 0.2s; letter-spacing:0.2em; text-transform:uppercase; border-radius:4px; }
-  .pdf-ev-btn:hover { background:var(--accent-dim); border-color:var(--accent); }
-  .pdf-ev-btn:disabled { opacity:0.4; cursor:not-allowed; }
-  .pdf-ev-fade { animation:pdf-ev-fi 0.4s ease; }
-  @keyframes pdf-ev-fi { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-  .pdf-ev-input { width:100%; background:#0d0d0d; border:1px solid #2a2a2a; border-radius:4px; padding:10px 14px; color:var(--text); font-size:0.88rem; font-family:var(--font-body); outline:none; box-sizing:border-box; transition:border-color 0.2s; }
-  .pdf-ev-input:focus { border-color:color-mix(in srgb, var(--accent) 50%, transparent); }
-  .pdf-ev-input::placeholder { color:#444; }
-  .pdf-ev-marks-btn { padding:7px 14px; border:1px solid #2a2a2a; background:#161616; color:#666; font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.12em; cursor:pointer; transition:all 0.15s; border-radius:3px; }
-  .pdf-ev-marks-btn.sel { border-color:color-mix(in srgb, var(--accent) 60%, transparent); background:var(--accent-dim); color:var(--accent); }
-  .pdf-ev-seg-card { background:#161616; border:1px solid #2a2a2a; border-radius:8px; overflow:hidden; margin-bottom:10px; }
-  .pdf-ev-seg-head { display:flex; align-items:center; gap:12px; padding:14px 18px; }
-  .pdf-ev-seg-body { border-top:1px solid #222; padding:16px 18px; display:flex; flex-direction:column; gap:12px; }
-  .pdf-ev-ans-preview { background:#0d0d0d; border:1px solid #1e1e1e; border-radius:4px; padding:12px 14px; font-family:var(--font-mono); font-size:0.68rem; color:#555; line-height:1.7; max-height:120px; overflow-y:auto; white-space:pre-wrap; }
-`;
-
-export default function PDFTestEvaluator({
-  isPremium, onPaywall, token, paperQuestions, variant,
-}: PDFTestEvaluatorProps) {
+  const { langHi: hi } = useLang();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
-  const { langHi } = useLang();
   const [file, setFile] = useState<File | null>(null);
-
-  // stage: "upload" | "loading" | "review" | "evaluating" | "done"
-  const [stage, setStage] = useState("upload");
-  const [stepLabel, setStepLabel] = useState("");
+  const [stage, setStage] = useState<Stage>('upload');
+  const [stepLabel, setStepLabel] = useState('');
   const [evalCurrent, setEvalCurrent] = useState(0);
   const [evalTotal, setEvalTotal] = useState(0);
-  const [evalProgress, setEvalProgress] = useState(0);
-
-  const [transcript, setTranscript] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [transcript, setTranscript] = useState('');
   const [segments, setSegments] = useState<Segment[]>([]);
-  const [cachedImages, setCachedImages] = useState<File[]>([]);
-  const [expandedAnswer, setExpandedAnswer] = useState<string | null>(null);
-
+  const [expandedAnswer, setExpandedAnswer] = useState<number | null>(null);
   const [results, setResults] = useState<QuestionResult[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [showTranscript, setShowTranscript] = useState(false);
 
-  // A refresh used to discard the transcript and detected questions (one
-  // paid read of the whole booklet) or the results of every evaluation.
-  // They are kept for the tab; the PDF is not, which is fine past upload,
-  // since each question is evaluated from its transcribed answer. A step in
-  // flight falls back to the one before it. Keyed by where this evaluator
-  // sits, so a new test paper does not reopen the last one's results.
+  // The transcript and the questions found (one paid read of the booklet)
+  // and every result are kept for the tab; a step in flight falls back to
+  // the one before it. Keyed by where this sits, so a new test paper does not
+  // reopen the last one's results.
   useRefreshSafe(
-    `ho_pdf_eval_v1:${variant ?? 'test'}:${(paperQuestions ?? []).map(q => q.id).join('.').slice(0, 200)}`,
-    {
-      stage: stage === 'evaluating' ? 'review' : stage === 'loading' ? 'upload' : stage,
-      transcript, segments, results, expanded, showTranscript,
-    },
+    `ho_pdf_eval_v1:${variant ?? 'test'}:${(paperQuestions ?? []).map((q) => q.id).join('.').slice(0, 200)}`,
+    { stage: stage === 'evaluating' ? 'review' : stage === 'loading' ? 'upload' : stage, transcript, segments, results, expanded, showTranscript: false },
     (saved) => {
-      setStage(saved.stage); setTranscript(saved.transcript); setSegments(saved.segments);
-      setResults(saved.results); setExpanded(saved.expanded); setShowTranscript(saved.showTranscript);
+      setStage(saved.stage as Stage); setTranscript(saved.transcript); setSegments(saved.segments);
+      setResults(saved.results); setExpanded(saved.expanded);
     },
   );
 
-  function handleFile(f: File) {
-    if (!f.type.includes("pdf")) { setError("Please upload a PDF file."); return; }
+  const pick = (f: File | undefined) => {
+    if (!f) return;
+    if (!f.type.includes('pdf')) { setError(hi ? 'एक PDF फ़ाइल अपलोड करें।' : 'Upload a PDF file.'); return; }
     setFile(f); setError(null);
-  }
-  function onDrop(e: React.DragEvent) {
-    e.preventDefault(); setDragging(false);
-    const f = e.dataTransfer.files[0]; if (f) handleFile(f);
-  }
+  };
+  const headers = async () => ({ 'x-user-token': token ?? '', 'x-fingerprint': await getFingerprint() });
 
-  /* ── PHASE 1: OCR + detect → review ── */
+  /** Read every page and find the answers, then stop for the reader to check. */
   async function handleDetect() {
     if (!file) return;
-    setError(null);
-    setStage("loading");
-    setEvalProgress(5);
-    setEvalTotal(0);
-
+    setError(null); setStage('loading'); setProgress(5); setEvalTotal(0);
     try {
-      setStepLabel("Reading PDF…");
-      const base64 = await new Promise<string>((res, rej) => {
-        const r = new FileReader();
-        r.onload = () => res((r.result as string).split(",")[1]);
-        r.onerror = () => rej(new Error("Failed to read file"));
-        r.readAsDataURL(file);
-      });
-      setEvalProgress(20);
-      const pdfjs2 = await import("pdfjs-dist");
-      pdfjs2.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.mjs", import.meta.url).toString();
-      const ab2 = await file.arrayBuffer();
-      const pdf2 = await pdfjs2.getDocument({ data: ab2 }).promise;
+      setStepLabel(hi ? 'PDF खुल रहा है' : 'Opening the PDF');
+      const pdfjs = await import('pdfjs-dist');
+      pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.mjs', import.meta.url).toString();
+      const pdf = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
+      setProgress(20);
       const BATCH = 8;
-      const total = pdf2.numPages;
+      const total = pdf.numPages;
       const batches = Math.ceil(total / BATCH);
-      let ocrText = "";
+      let text = '';
       for (let b = 0; b < batches; b++) {
         const start = b * BATCH + 1;
         const end = Math.min((b + 1) * BATCH, total);
-        setStepLabel(`Extracting handwriting… pages ${start}–${end} of ${total}`);
+        setStepLabel(hi ? `हस्तलिपि पढ़ी जा रही है, पेज ${start} से ${end}, कुल ${total}` : `Reading the handwriting, pages ${start} to ${end} of ${total}`);
         const fd = new FormData();
         for (let i = start; i <= end; i++) {
-          const pg = await pdf2.getPage(i);
-          const vp = pg.getViewport({ scale: 1.5 });
-          const cv = document.createElement("canvas");
-          cv.width = vp.width; cv.height = vp.height;
-          await pg.render({ canvasContext: cv.getContext("2d")!, viewport: vp } as any).promise;
-          const imgB64 = cv.toDataURL("image/jpeg", 0.85).split(",")[1];
-          const blob = new Blob([Uint8Array.from(atob(imgB64), c => c.charCodeAt(0))], { type: "image/jpeg" });
-          fd.append("files", blob, `page-${i}.jpg`);
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 1.5 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width; canvas.height = viewport.height;
+          await pageRender(page as never, canvas, viewport);
+          const blob = await new Promise<Blob>((res) => canvas.toBlob((bl) => res(bl!), 'image/jpeg', 0.85));
+          fd.append('files', blob, `page-${i}.jpg`);
         }
-        const bRes = await fetch("/api/ocr-pdf", {
-          method: "POST",
-          headers: { "x-user-token": token ?? "", "x-fingerprint": await getFingerprint() },
-          body: fd,
-        });
-        if (!bRes.ok) {
-          const e = await bRes.json().catch(() => ({}));
-          throw new Error(`OCR failed on batch ${b + 1}: ${e.error ?? bRes.status}`);
+        const res = await fetch('/api/ocr-pdf', { method: 'POST', headers: await headers(), body: fd });
+        if (!res.ok) {
+          const e = await res.json().catch(() => ({}));
+          throw new Error((hi ? `पेज ${start} से ${end} नहीं पढ़े जा सके: ` : `Pages ${start} to ${end} could not be read: `) + (e.error ?? res.status));
         }
-        const bData = await bRes.json();
-        if (bData.text) ocrText += (ocrText ? "\n\n" : "") + bData.text;
-        setEvalProgress(20 + Math.round(((b + 1) / batches) * 35));
-        if (b < batches - 1) await new Promise(r => setTimeout(r, 500));
+        const data = await res.json();
+        if (data.text) text += (text ? '\n\n' : '') + data.text;
+        setProgress(20 + Math.round(((b + 1) / batches) * 35));
+        if (b < batches - 1) await new Promise((r) => setTimeout(r, 500));
       }
-      setTranscript(ocrText);
-      setEvalProgress(55);
-            if (!ocrText.trim()) {
-        throw new Error("OCR returned no text — the PDF may be unreadable or the file quality is too low. Try re-uploading.");
-      }
+      setTranscript(text);
+      setProgress(55);
+      if (!text.trim()) throw new Error(hi ? 'पेजों से कोई पाठ नहीं मिला। PDF शायद धुंधला है; साफ़ स्कैन के साथ फिर कोशिश करें।' : 'No text came off the pages. The PDF may be too faint or blurred; try a cleaner scan.');
 
-      setStepLabel("Detecting questions from transcript…");
-      let detected: Segment[] = [];
-
-      if (paperQuestions && paperQuestions.length > 0) {
-        detected = paperQuestions.map(q => ({
-          questionNumber: q.id,
-          marks: q.marks,
-          questionText: q.text,
-          answerText: ocrText,
-        }));
+      setStepLabel(hi ? 'उत्तर अलग किए जा रहे हैं' : 'Finding each answer');
+      let found: Segment[];
+      if (paperQuestions?.length) {
+        found = paperQuestions.map((q) => ({ questionNumber: q.id, marks: q.marks, questionText: q.text, answerText: text }));
       } else {
-        const detRes = await fetch("/api/detect-questions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "x-user-token": token ?? "", "x-fingerprint": await getFingerprint() },
-          body: JSON.stringify({ transcript: ocrText }),
-        });
-        const detData = await detRes.json();
-        if (!detRes.ok) throw new Error(detData.error ?? "Question detection failed");
-        detected = detData.segments ?? [];
-        if (detected.length === 0) throw new Error("No questions detected. Try again or check the PDF quality.");
+        const res = await fetch('/api/detect-questions', { method: 'POST', headers: { 'Content-Type': 'application/json', ...(await headers()) }, body: JSON.stringify({ transcript: text }) });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error ?? (hi ? 'उत्तर अलग नहीं हो सके' : 'The answers could not be separated'));
+        found = data.segments ?? [];
+        if (!found.length) throw new Error(hi ? 'कोई उत्तर नहीं मिला। PDF की गुणवत्ता देखकर फिर कोशिश करें।' : 'No answers were found. Check the scan and try again.');
       }
-
-      setEvalProgress(100);
-      setSegments(detected);
-      setStage("review");
-    } catch (e: any) {
-      setError(e.message);
-      setStage("upload");
+      setProgress(100);
+      setSegments(found);
+      setStage('review');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+      setStage('upload');
     }
   }
 
-  /* ── PHASE 2: evaluate reviewed/edited segments ── */
+  /** Mark each checked answer in turn, and keep each in the past evaluations. */
   async function handleRunEvaluation() {
-    if (segments.length === 0) return;
-    setError(null);
-    setStage("evaluating");
-    setEvalProgress(5);
-    setEvalCurrent(0);
-    setEvalTotal(segments.length);
-
-    const questionResults: QuestionResult[] = [];
-
+    if (!segments.length) return;
+    setError(null); setStage('evaluating'); setProgress(5); setEvalCurrent(0); setEvalTotal(segments.length);
+    const out: QuestionResult[] = [];
     try {
       for (let i = 0; i < segments.length; i++) {
         const seg = segments[i];
-        const q: PaperQuestion = {
-          id: seg.questionNumber,
-          marks: seg.marks,
-          text: seg.questionText,
-        };
+        const q: PaperQuestion = { id: seg.questionNumber, marks: seg.marks, text: seg.questionText };
         setEvalCurrent(i + 1);
-        setStepLabel(`Evaluating ${seg.questionNumber} (${i + 1}/${segments.length})…`);
-        setEvalProgress(5 + Math.round(((i + 1) / segments.length) * 90));
-
+        setStepLabel(hi ? `${seg.questionNumber} जाँचा जा रहा है (${i + 1}/${segments.length})` : `Marking ${seg.questionNumber} (${i + 1} of ${segments.length})`);
+        setProgress(5 + Math.round(((i + 1) / segments.length) * 90));
         try {
-          const evalFd = new FormData();
-          evalFd.append("question", q.text || `Question ${q.id}`);
-          evalFd.append("marks", String(q.marks));
-          evalFd.append("extractedText", seg.answerText || transcript);
-          cachedImages.forEach(img => evalFd.append("files", img));
-          evalFd.append("lang", langHi ? "hi" : "en");
-
-          const evalRes = await fetch("/api/evaluate", {
-            method: "POST", headers: { "x-user-token": token ?? "", "x-fingerprint": await getFingerprint() }, body: evalFd,
-          });
-          const evalData = await evalRes.json();
-          if (!evalRes.ok) throw new Error(evalData.error ?? "Evaluation failed");
-          questionResults.push({ question: q, evaluation: evalData });
-        } catch (qErr: any) {
-          questionResults.push({ question: q, evaluation: null, error: qErr.message });
+          const fd = new FormData();
+          fd.append('question', q.text || `Question ${q.id}`);
+          fd.append('marks', String(q.marks));
+          fd.append('extractedText', seg.answerText || transcript);
+          fd.append('lang', hi ? 'hi' : 'en');
+          const res = await fetch('/api/evaluate', { method: 'POST', headers: await headers(), body: fd });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error ?? (hi ? 'मूल्यांकन नहीं हुआ' : 'The evaluation failed'));
+          out.push({ question: q, evaluation: data });
+        } catch (err) {
+          out.push({ question: q, evaluation: null, error: err instanceof Error ? err.message : String(err) });
         }
-
-        if (i < segments.length - 1) await new Promise(r => setTimeout(r, 800));
+        if (i < segments.length - 1) await new Promise((r) => setTimeout(r, 800));
       }
-
-      setEvalProgress(100);
-      setResults(questionResults);
-      setStage("done");
-      if (questionResults.length > 0) setExpanded(questionResults[0].question.id);
-
-      // ── Save each evaluated question to answer history ──
-      for (const r of questionResults) {
-        if (!r.evaluation) continue;
+      setProgress(100);
+      setResults(out);
+      setStage('done');
+      if (out.length) setExpanded(out[0].question.id);
+      for (const r of out) {
         const ev = r.evaluation;
+        if (!ev) continue;
         saveToHistory({
           question: r.question.text || `Question ${r.question.id}`,
-          marks: ev.marks ?? 0,
-          marksOutOf: ev.marks_out_of ?? r.question.marks,
-          overallFeedback: ev.overall_feedback ?? ev.feedback ?? "",
-          wordCount: ev.word_count,
-          wordCountRating: ev.word_count_rating,
+          marks: ev.marks ?? 0, marksOutOf: ev.marks_out_of ?? r.question.marks,
+          overallFeedback: ev.overall_feedback ?? '', wordCount: ev.word_count, wordCountRating: ev.word_count_rating,
           sectionMarks: {
             introduction: ev.section_marks?.introduction ?? { awarded: 0, out_of: 0 },
-            body:         ev.section_marks?.body         ?? { awarded: 0, out_of: 0 },
-            conclusion:   ev.section_marks?.conclusion   ?? { awarded: 0, out_of: 0 },
+            body: ev.section_marks?.body ?? { awarded: 0, out_of: 0 },
+            conclusion: ev.section_marks?.conclusion ?? { awarded: 0, out_of: 0 },
             presentation: ev.section_marks?.presentation ?? { awarded: 0, out_of: 0 },
           },
           demandOfQuestion: ev.demand_of_question ?? [],
-          introduction: ev.introduction,
-          body: ev.body,
-          conclusion: ev.conclusion,
-          historiansToCite: ev.historians_to_cite ?? [],
-          modelAnswer: ev.model_answer,
+          introduction: ev.introduction as never, body: ev.body as never, conclusion: ev.conclusion as never,
+          historiansToCite: ev.historians_to_cite ?? [], modelAnswer: ev.model_answer,
+          // A question marked from a full paper is filed under full papers;
+          // without this they were all listed with the single answers.
+          type: 'batch',
         });
       }
-    } catch (e: any) {
-      setError(e.message);
-      setStage("review");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+      setStage('review');
     }
   }
 
-  /* ── Segment editor helpers ── */
-  function updateSegment(idx: number, patch: Partial<Segment>) {
-    setSegments(prev => prev.map((s, i) => i === idx ? { ...s, ...patch } : s));
-  }
-  function removeSegment(idx: number) {
-    setSegments(prev => prev.filter((_, i) => i !== idx));
-  }
+  const retry = (r: QuestionResult) => async () => {
+    const seg = segments.find((s) => s.questionNumber === r.question.id);
+    if (!seg) return;
+    setResults((prev) => prev.map((x) => (x.question.id === r.question.id ? { ...x, error: undefined, evaluation: null } : x)));
+    try {
+      const fd = new FormData();
+      fd.append('question', seg.questionText || `Question ${seg.questionNumber}`);
+      fd.append('marks', String(seg.marks));
+      fd.append('extractedText', seg.answerText);
+      fd.append('lang', hi ? 'hi' : 'en');
+      const res = await fetch('/api/evaluate', { method: 'POST', headers: { ...(await headers()), 'x-internal': '1' }, body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Evaluation failed');
+      setResults((prev) => prev.map((x) => (x.question.id === r.question.id ? { ...x, evaluation: data } : x)));
+    } catch (e) {
+      setResults((prev) => prev.map((x) => (x.question.id === r.question.id ? { ...x, error: e instanceof Error ? e.message : String(e) } : x)));
+    }
+  };
 
-  /* ── PAYWALL ── */
-  if (!isPremium) return (
-    <div style={{ padding: "32px 0" }}>
-      <div style={{ background: "var(--bg2)", border: "1px solid var(--border)",
-        borderRadius: 12, padding: "28px 30px", marginBottom: 20 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ fontSize: "1.8rem" }}>📄</span>
-            <div>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 700, marginBottom: 4 }}>
-                Full Paper Evaluation
-              </div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "var(--text3)", letterSpacing: "0.15em" }}>
-                Premium Feature
-              </div>
-            </div>
-          </div>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.5rem", letterSpacing: "0.2em",
-            background: "var(--warning-wash)", color: "var(--warning-text)", border: "1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)",
-            borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
+  const updateSegment = (i: number, patch: Partial<Segment>) => setSegments((prev) => prev.map((s, j) => (j === i ? { ...s, ...patch } : s)));
+  const startOver = () => { setStage('upload'); setFile(null); setResults([]); setTranscript(''); setSegments([]); setError(null); };
+
+  const steps = [
+    [hi ? 'उत्तर लिखें' : 'Write the paper', hi ? 'कागज़ पर, जैसे परीक्षा हॉल में' : 'On paper, as in the hall'],
+    [hi ? 'एक PDF में स्कैन करें' : 'Scan it to one PDF', hi ? 'सारे पेज एक फ़ाइल में' : 'Every page in one file'],
+    [hi ? 'अपलोड करें, जँचवाएँ' : 'Upload and have it marked', hi ? 'हर उत्तर के अंक और प्रतिक्रिया' : 'Marks and feedback for each answer'],
+  ];
+
+  let content: React.ReactNode;
+
+  if (!isPremium) {
+    content = (
+      <div className="pe-card">
+        <div className="pe-head">
+          <span className="pe-icon"><PdfIcon /></span>
+          <div><h3>{hi ? 'पूरा पेपर जँचवाएँ' : 'Have a whole paper marked'}</h3><p>{hi ? 'पूरी उत्तर पुस्तिका की एक PDF: हर पेज पढ़ा जाता है, हर उत्तर अलग किया जाता है, और हर एक के अंक और प्रतिक्रिया मिलती है।' : 'One PDF of the whole answer booklet: every page is read, each answer found, and every one marked with feedback.'}</p></div>
+          <span className="pe-premium">Premium</span>
         </div>
-        <p style={{ fontSize: "0.88rem", color: "var(--text3)", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
-          Upload your complete answer script as a PDF. Evaluator Model reads every page, identifies each answer,
-          and gives marks + detailed feedback for the entire paper — all at once.
+        <ol className="pe-steps">{steps.map(([t, s], i) => <li key={t}><span>{i + 1}</span><div><strong>{t}</strong><p>{s}</p></div></li>)}</ol>
+        <button type="button" className="ds-btn ds-btn-premium ds-btn-block" onClick={onPaywall}>{hi ? 'Premium के साथ खोलें' : 'Unlock it with Premium'}</button>
+      </div>
+    );
+  } else if (stage === 'loading' || stage === 'evaluating') {
+    content = (
+      <div className="pe-card pe-wait">
+        <span className="pe-wait-label">{stage === 'loading' ? (hi ? 'पेपर पढ़ा जा रहा है' : 'Reading the paper') : (hi ? 'पेपर जाँचा जा रहा है' : 'Marking the paper')}</span>
+        <span className="pe-wait-pct">{progress}%</span>
+        <span className="pe-wait-bar"><span style={{ width: `${progress}%` }} /></span>
+        {stage === 'evaluating' && evalTotal > 0 && (
+          <span className="pe-dots">{Array.from({ length: evalTotal }, (_, i) => <span key={i} className={evalCurrent > i ? 'on' : ''} />)}</span>
+        )}
+        <span className="pe-wait-step">{stepLabel}</span>
+      </div>
+    );
+  } else if (stage === 'review') {
+    content = (
+      <div className="pe-card">
+        <h3 className="pe-title">{hi ? 'मिले हुए उत्तर जाँचें' : 'Check the answers we found'}</h3>
+        <p className="pe-sub">
+          {hi ? `आपकी पुस्तिका में ${segments.length} उत्तर मिले। जाँचने से पहले प्रश्न संख्या और अंक देख लें।` : `We found ${segments.length} ${segments.length === 1 ? 'answer' : 'answers'} in your booklet. Check each one's number and marks before it is marked.`}
         </p>
-      </div>
-      <div style={{ marginBottom: 20 }}>
-        <div style={{ display: "flex", gap: 10 }}>
-          {[
-            { n: "01", t: "Write answers",    s: "On paper or digitally" },
-            { n: "02", t: "Scan to PDF",       s: "All pages in one file" },
-            { n: "03", t: "Upload & evaluate", s: "AI scores instantly"   },
-          ].map(x => (
-            <div key={x.n} style={{ flex: 1, background: "var(--bg3)", border: "1px solid var(--border)",
-              borderRadius: 8, padding: "16px 14px" }}>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "var(--accent)",
-                letterSpacing: "0.15em", marginBottom: 8 }}>{x.n}</div>
-              <div style={{ fontSize: "0.82rem", fontWeight: 600, marginBottom: 4 }}>{x.t}</div>
-              <div style={{ fontSize: "0.75rem", color: "var(--text3)" }}>{x.s}</div>
-            </div>
-          ))}
-        </div>
-        <button onClick={onPaywall} style={{ marginTop: 16, width: "100%", padding: "16px",
-          border: "1.5px solid color-mix(in srgb, var(--warning-text) 40%, transparent)", background: "var(--warning-wash)", color: "var(--warning-text)",
-          fontSize: "0.78rem", fontFamily: "var(--font-mono)", cursor: "pointer", letterSpacing: "0.2em",
-          textTransform: "uppercase", borderRadius: 4 }}>
-          🔒 &nbsp;Unlock with Premium →
-        </button>
-      </div>
-    </div>
-  );
-
-  /* ── LOADING (OCR + detect) ── */
-  if (stage === "loading") return (
-    <div style={{ padding: "60px 20px", textAlign: "center" }}>
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", letterSpacing: "0.3em",
-        textTransform: "uppercase", color: "#555", marginBottom: 32 }}>
-        Reading Paper
-      </div>
-      <div style={{ marginBottom: 24 }}>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "4rem", fontWeight: 700, color: "var(--accent)" }}>
-          {String(evalProgress).padStart(2, "0")}
-        </span>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "1.5rem", color: "#444" }}>%</span>
-      </div>
-      <div style={{ background: "var(--bg4)", borderRadius: 2, height: 3, overflow: "hidden",
-        maxWidth: 300, margin: "0 auto 28px" }}>
-        <div style={{ height: "100%", background: "var(--accent)", borderRadius: 2,
-          width: `${evalProgress}%`, transition: "width 0.8s cubic-bezier(.16,1,.3,1)" }} />
-      </div>
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.58rem", letterSpacing: "0.15em",
-        color: "#444", textTransform: "uppercase" }}>
-        {stepLabel}
-      </div>
-    </div>
-  );
-
-  /* ── EVALUATING ── */
-  if (stage === "evaluating") return (
-    <div style={{ padding: "60px 20px", textAlign: "center" }}>
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", letterSpacing: "0.3em",
-        textTransform: "uppercase", color: "#555", marginBottom: 32 }}>
-        Evaluating Paper
-      </div>
-      <div style={{ marginBottom: 24 }}>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "4rem", fontWeight: 700, color: "var(--accent)" }}>
-          {String(evalProgress).padStart(2, "0")}
-        </span>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "1.5rem", color: "#444" }}>%</span>
-      </div>
-      <div style={{ background: "var(--bg4)", borderRadius: 2, height: 3, overflow: "hidden",
-        maxWidth: 300, margin: "0 auto 28px" }}>
-        <div style={{ height: "100%", background: "var(--accent)", borderRadius: 2,
-          width: `${evalProgress}%`, transition: "width 0.8s cubic-bezier(.16,1,.3,1)" }} />
-      </div>
-      {evalTotal > 0 && (
-        <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 24 }}>
-          {Array.from({ length: evalTotal }, (_, i) => (
-            <div key={i} style={{
-              width: evalCurrent > i ? 8 : 5, height: evalCurrent > i ? 8 : 5,
-              borderRadius: "50%",
-              background: evalCurrent > i ? "var(--accent)" : "var(--bg4)",
-              border: evalCurrent > i ? "none" : "1px solid #333",
-              boxShadow: evalCurrent > i ? "0 0 8px var(--accent)" : "none",
-              transition: "all 0.5s",
-            }} />
-          ))}
-        </div>
-      )}
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.58rem", letterSpacing: "0.15em",
-        color: "#444", textTransform: "uppercase" }}>
-        {stepLabel}
-      </div>
-    </div>
-  );
-
-  /* ── REVIEW ── */
-  if (stage === "review") return (
-    <div style={{ padding: "32px 0" }}>
-      <style>{SHARED_CSS}</style>
-
-      {/* Header */}
-      <div style={{ marginBottom: 24 }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.28em",
-          textTransform: "uppercase", color: "#555", marginBottom: 8 }}>
-          Review Detected Questions
-        </div>
-        <div style={{ fontSize: "0.92rem", color: "var(--text3)", lineHeight: 1.6, fontFamily: "var(--font-body)" }}>
-          AI found <span style={{ color: "var(--text)", fontWeight: 600 }}>{segments.length} question{segments.length !== 1 ? "s" : ""}</span> in your script.
-          Check the question numbers and marks — fix anything before evaluating.
-        </div>
-      </div>
-
-      {/* Transcript toggle */}
-      {transcript && (
-        <div style={{ marginBottom: 20 }}>
-          <button onClick={() => setShowTranscript(p => !p)} style={{
-            fontFamily: "var(--font-mono)", fontSize: "0.55rem", letterSpacing: "0.18em",
-            textTransform: "uppercase", color: "#555", background: "none",
-            border: "1px solid #222", borderRadius: 4, padding: "7px 14px", cursor: "pointer",
-            display: "flex", alignItems: "center", gap: 8,
-          }}>
-            <span style={{ fontSize: "0.6rem", transition: "transform 0.2s",
-              transform: showTranscript ? "rotate(90deg)" : "none" }}>▶</span>
-            {showTranscript ? "Hide OCR Transcript" : "Show Raw OCR Transcript"}
-          </button>
-          {showTranscript && (
-            <div style={{ marginTop: 10, background: "var(--bg2)", border: "1px solid #1e1e1e",
-              borderRadius: 6, padding: "18px 20px" }}>
-              <textarea
-                value={transcript}
-                onChange={e => setTranscript(e.target.value)}
-                style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "#999",
-                  lineHeight: 1.8, whiteSpace: "pre-wrap", margin: 0, width: "100%",
-                  background: "transparent", border: "none", outline: "none", resize: "vertical",
-                  minHeight: 180 }}
-              />
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Segment cards */}
-      <div style={{ marginBottom: 20 }}>
-        {segments.map((seg, idx) => (
-          <div key={idx} className="pdf-ev-seg-card">
-            {/* Card header row */}
-            <div className="pdf-ev-seg-head">
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.2em",
-                textTransform: "uppercase", color: "var(--accent)", minWidth: 32 }}>
-                {seg.questionNumber}
-              </span>
-
-              {/* Marks selector */}
-              <div style={{ display: "flex", gap: 4 }}>
-                {[10, 15, 20].map(m => (
-                  <button key={m}
-                    className={`pdf-ev-marks-btn${seg.marks === m ? " sel" : ""}`}
-                    onClick={() => updateSegment(idx, { marks: m })}>
-                    {m}M
-                  </button>
-                ))}
-              </div>
-
-              {/* Spacer */}
-              <div style={{ flex: 1 }} />
-
-              {/* Toggle answer preview */}
-              <button onClick={() => setExpandedAnswer(p => p === String(idx) ? null : String(idx))}
-                style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.12em",
-                  textTransform: "uppercase", color: "#444", background: "none",
-                  border: "1px solid #222", borderRadius: 3, padding: "5px 10px", cursor: "pointer" }}>
-                {expandedAnswer === String(idx) ? "Hide answer" : "Preview answer"}
-              </button>
-
-              {/* Remove */}
-              {segments.length > 1 && (
-                <button onClick={() => removeSegment(idx)}
-                  style={{ color: "var(--danger-text)", background: "none", border: "none",
-                    cursor: "pointer", fontSize: "0.85rem", padding: "2px 6px", opacity: 0.6 }}
-                  title="Remove this question">
-                  ✕
+        {transcript && (
+          <details className="pe-transcript">
+            <summary>{hi ? 'पढ़ा गया पूरा पाठ' : 'Everything we read off the pages'}</summary>
+            <textarea value={transcript} onChange={(e) => setTranscript(e.target.value)} />
+          </details>
+        )}
+        <div className="pe-segs">
+          {segments.map((seg, i) => (
+            <div key={i} className="pe-seg">
+              <div className="pe-seg-head">
+                <span className="pe-seg-id">{seg.questionNumber}</span>
+                <div className="pe-seg-marks" role="radiogroup" aria-label={hi ? 'अंक' : 'Marks'}>
+                  {[10, 15, 20].map((m) => (
+                    <button key={m} type="button" role="radio" aria-checked={seg.marks === m} className={seg.marks === m ? 'on' : ''} onClick={() => updateSegment(i, { marks: m })}>{m}</button>
+                  ))}
+                </div>
+                <button type="button" className="pe-link" onClick={() => setExpandedAnswer((p) => (p === i ? null : i))}>
+                  {expandedAnswer === i ? (hi ? 'उत्तर छिपाएँ' : 'Hide the answer') : (hi ? 'उत्तर देखें' : 'See the answer')}
                 </button>
+                {segments.length > 1 && (
+                  <button type="button" className="pe-x" onClick={() => setSegments((p) => p.filter((_, j) => j !== i))} aria-label={hi ? 'यह उत्तर हटाएँ' : 'Remove this answer'}>✕</button>
+                )}
+              </div>
+              <label className="pe-field">
+                <span>{hi ? 'प्रश्न (अगर पता हो)' : 'The question, if you know it'}</span>
+                <input value={seg.questionText} onChange={(e) => updateSegment(i, { questionText: e.target.value })}
+                  placeholder={hi ? 'जैसे: "15वीं सदी के भारत में भक्ति आंदोलन की भूमिका की समीक्षा करें।"' : 'e.g. "Examine the role of the Bhakti movement in fifteenth-century India."'} />
+              </label>
+              {expandedAnswer === i && seg.answerText && (
+                <label className="pe-field">
+                  <span>{hi ? 'इस प्रश्न का उत्तर' : 'The answer we found for it'}</span>
+                  <textarea value={seg.answerText} onChange={(e) => updateSegment(i, { answerText: e.target.value })} rows={8} />
+                </label>
               )}
             </div>
-
-            {/* Editable question text */}
-            <div className="pdf-ev-seg-body">
-              <div>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.18em",
-                  textTransform: "uppercase", color: "#555", marginBottom: 7 }}>
-                  Question text <span style={{ color: "var(--border2)" }}>(optional — leave blank if unknown)</span>
-                </div>
-                <input
-                  className="pdf-ev-input"
-                  placeholder={`e.g. "Examine the role of the Bhakti movement in 15th century India."`}
-                  value={seg.questionText}
-                  onChange={e => updateSegment(idx, { questionText: e.target.value })}
-                />
-              </div>
-
-              {/* Answer preview */}
-              {expandedAnswer === String(idx) && seg.answerText && (
-                <div>
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.18em",
-                    textTransform: "uppercase", color: "#555", marginBottom: 7 }}>
-                    Detected answer text
-                  </div>
-                  <textarea
-                    className="pdf-ev-input"
-                    value={seg.answerText}
-                    onChange={e => updateSegment(idx, { answerText: e.target.value })}
-                    rows={8}
-                    style={{ width: "100%", resize: "vertical", fontFamily: "var(--font-mono)",
-                      fontSize: "0.78rem", lineHeight: 1.8 }}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {error && (
-        <div style={{ background: "var(--danger-wash)", border: "1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)",
-          borderRadius: 6, padding: "12px 16px", color: "var(--danger-text)", fontSize: "0.82rem",
-          marginBottom: 16, fontFamily: "var(--font-body)" }}>
-          {error}
-        </div>
-      )}
-
-      {/* Action row */}
-      <div style={{ display: "flex", gap: 10 }}>
-        <button onClick={() => { setStage("upload"); setSegments([]); setTranscript(""); }}
-          style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em",
-            textTransform: "uppercase", color: "var(--text3)", background: "none",
-            border: "1px solid #2a2a2a", borderRadius: 4, padding: "14px 20px", cursor: "pointer",
-            whiteSpace: "nowrap" }}>
-          ↩ Back
-        </button>
-        <button className="pdf-ev-btn" onClick={handleRunEvaluation}
-          disabled={segments.length === 0}
-          style={{ flex: 1 }}>
-          Evaluate {segments.length} Question{segments.length !== 1 ? "s" : ""} →
-        </button>
-      </div>
-    </div>
-  );
-
-  /* ── RESULTS ── */
-  if (stage === "done") {
-    const totalAwarded = results.reduce((s, r) => s + (r.evaluation?.marks ?? 0), 0);
-    const totalMax     = results.reduce((s, r) => s + (r.evaluation?.marks_out_of ?? r.question.marks), 0);
-    const overallPct   = totalMax > 0 ? (totalAwarded / totalMax) * 100 : 0;
-    const overallCol   = overallPct >= 70 ? "var(--success-text)" : overallPct >= 50 ? "var(--accent)" : "var(--danger-text)";
-
-    return (
-      <div>
-        <style>{SHARED_CSS}</style>
-        <div style={{ padding: "0 0 40px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
-            <div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.52rem", letterSpacing: "0.28em",
-                textTransform: "uppercase", color: "#555", marginBottom: 10 }}>Paper Complete</div>
-              <div>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "3.5rem", fontWeight: 700,
-                  color: overallCol, lineHeight: 1 }}>{totalAwarded}</span>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "1.4rem", color: "#444" }}>
-                  / {totalMax}
-                </span>
-              </div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555",
-                letterSpacing: "0.15em", marginTop: 6 }}>
-                {results.length} question{results.length !== 1 ? "s" : ""} evaluated
-              </div>
-            </div>
-            <button onClick={() => { setStage("upload"); setFile(null); setResults([]); setTranscript(""); setSegments([]); }}
-              style={{ fontFamily: "var(--font-mono)", fontSize: "0.6rem", letterSpacing: "0.12em",
-                textTransform: "uppercase", color: "var(--text3)", background: "none",
-                border: "1px solid #2a2a2a", borderRadius: 4, padding: "8px 16px", cursor: "pointer" }}>
-              ↩ Evaluate Another
-            </button>
-          </div>
-
-          {(() => {
-            const g = gaugeMood(overallPct);
-            return (
-              <div className="pdf-ev-gauge">
-                <div className="pdf-ev-gauge-emoji">{g.emoji}</div>
-                <div className="pdf-ev-gauge-body">
-                  <div className="pdf-ev-gauge-top">
-                    <span className="pdf-ev-gauge-score" style={{ color: g.color }}>Marks scored: {totalAwarded}</span>
-                    <span className="pdf-ev-gauge-outof">/{totalMax}</span>
-                    <span className="pdf-ev-gauge-label">{g.label}</span>
-                  </div>
-                  <div className="pdf-ev-gauge-track">
-                    <div className="pdf-ev-gauge-arrow" style={{ left: `${overallPct}%` }} />
-                  </div>
-                  <div className="pdf-ev-gauge-scale">
-                    <span>0</span><span>{Math.round(totalMax / 2)}</span><span>{totalMax}</span>
-                  </div>
-                </div>
-              </div>
-            );
-          })()}
-
-          {transcript && (
-            <div style={{ marginBottom: 20 }}>
-              <button onClick={() => setShowTranscript(p => !p)} style={{
-                fontFamily: "var(--font-mono)", fontSize: "0.55rem", letterSpacing: "0.18em",
-                textTransform: "uppercase", color: "#555", background: "none",
-                border: "1px solid #222", borderRadius: 4, padding: "7px 14px", cursor: "pointer",
-                display: "flex", alignItems: "center", gap: 8,
-              }}>
-                <span style={{ fontSize: "0.6rem", transform: showTranscript ? "rotate(90deg)" : "none",
-                  transition: "transform 0.2s" }}>▶</span>
-                {showTranscript ? "Hide OCR Transcript" : "Show OCR Transcript"}
-              </button>
-              {showTranscript && (
-                <div style={{ marginTop: 10, background: "var(--bg2)", border: "1px solid #1e1e1e",
-                  borderRadius: 6, padding: "18px 20px" }}>
-                  <textarea
-                    value={transcript}
-                    onChange={e => setTranscript(e.target.value)}
-                    style={{ fontFamily: "var(--font-mono)", fontSize: "0.72rem", color: "#999",
-                      lineHeight: 1.8, whiteSpace: "pre-wrap", margin: 0, width: "100%",
-                      background: "transparent", border: "none", outline: "none",
-                      resize: "vertical", minHeight: 180 }}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-
-          {results.map(r => (
-            <EvalCard key={r.question.id} result={r}
-              isOpen={expanded === r.question.id}
-              onToggle={() => setExpanded(p => p === r.question.id ? null : r.question.id)}
-              onRetry={r.error ? async () => {
-                const seg = segments.find(s => s.questionNumber === r.question.id);
-                if (!seg) return;
-                setResults(prev => prev.map(x => x.question.id === r.question.id ? { ...x, error: undefined, evaluation: null } : x));
-                try {
-                  const evalRes = await fetch("/api/evaluate", {
-                    method: "POST",
-                    headers: { "x-user-token": token ?? "", "x-internal": "1", "x-fingerprint": await getFingerprint() },
-                    body: (() => { const fd = new FormData(); fd.append("question", seg.questionText || `Question ${seg.questionNumber}`); fd.append("marks", String(seg.marks)); fd.append("extractedText", seg.answerText); fd.append("lang", langHi ? "hi" : "en"); return fd; })(),
-                  });
-                  const evalData = await evalRes.json();
-                  if (!evalRes.ok) throw new Error(evalData.error ?? "Evaluation failed");
-                  setResults(prev => prev.map(x => x.question.id === r.question.id ? { ...x, evaluation: evalData } : x));
-                } catch (e: any) {
-                  setResults(prev => prev.map(x => x.question.id === r.question.id ? { ...x, error: e.message } : x));
-                }
-              } : undefined}
-            />
           ))}
         </div>
+        {error && <div className="pe-err">{error}</div>}
+        <div className="pe-actions">
+          <button type="button" className="ds-btn ds-btn-line" onClick={() => { setStage('upload'); setSegments([]); setTranscript(''); }}>{hi ? 'वापस' : 'Back'}</button>
+          <button type="button" className="ds-btn ds-btn-solid pe-go" onClick={handleRunEvaluation} disabled={!segments.length}>
+            {hi ? `${segments.length} उत्तर जाँचें` : `Mark ${segments.length} ${segments.length === 1 ? 'answer' : 'answers'}`}
+          </button>
+        </div>
+      </div>
+    );
+  } else if (stage === 'done') {
+    const got = results.reduce((s, r) => s + (r.evaluation?.marks ?? 0), 0);
+    const max = results.reduce((s, r) => s + (r.evaluation?.marks_out_of ?? r.question.marks), 0);
+    const pct = max ? got / max : 0;
+    content = (
+      <>
+        <div className="pe-card pe-summary">
+          <div>
+            <span className="pe-summary-label">{hi ? 'पूरे पेपर के अंक' : 'The whole paper'}</span>
+            <span className="pe-summary-num" style={{ color: scoreTone(pct) }}>{got}<small> / {max}</small></span>
+            <span className="pe-summary-sub">{hi ? `${results.length} उत्तर जाँचे गए` : `${results.length} ${results.length === 1 ? 'answer' : 'answers'} marked`}</span>
+          </div>
+          <span className="pe-wait-bar pe-summary-bar"><span style={{ width: `${Math.min(100, pct * 100)}%`, background: scoreTone(pct) }} /></span>
+          <button type="button" className="ds-btn ds-btn-line ds-btn-sm" onClick={startOver}>{hi ? 'दूसरा पेपर जँचवाएँ' : 'Mark another paper'}</button>
+        </div>
+        <p className="pe-note">
+          {hi ? 'ये अंक संकेत हैं: परीक्षक एक-दो अंक कम दे सकता है। हर उत्तर की प्रतिक्रिया ही असली काम की चीज़ है।' : 'These marks are indicative: an examiner may give a mark or two less. The feedback on each answer is the useful part.'}
+        </p>
+        {transcript && (
+          <details className="pe-transcript">
+            <summary>{hi ? 'पढ़ा गया पूरा पाठ' : 'Everything we read off the pages'}</summary>
+            <textarea value={transcript} readOnly />
+          </details>
+        )}
+        <div className="pe-qs">
+          {results.map((r) => (
+            <QuestionCard key={r.question.id} result={r} hi={hi} open={expanded === r.question.id}
+              onToggle={() => setExpanded((p) => (p === r.question.id ? null : r.question.id))}
+              onRetry={r.error ? retry(r) : undefined} />
+          ))}
+        </div>
+      </>
+    );
+  } else {
+    content = (
+      <div className="pe-card">
+        <div className="pe-head">
+          <span className="pe-icon"><PdfIcon /></span>
+          <div>
+            <h3>{hi ? 'पूरा पेपर जँचवाएँ' : 'Have a whole paper marked'}</h3>
+            <p>
+              {paperQuestions?.length
+                ? (hi ? `इस पेपर के ${paperQuestions.length} प्रश्नों के आपके उत्तर, एक PDF में।` : `Your answers to this paper's ${paperQuestions.length} questions, in one PDF.`)
+                : (hi ? 'पूरी उत्तर पुस्तिका की एक PDF। हर उत्तर अलग किया जाता है, आप जाँचते हैं, फिर हर एक के अंक मिलते हैं।' : 'One PDF of the whole answer booklet. Each answer is found, you check the split, then every one is marked.')}
+            </p>
+          </div>
+          <span className="pe-premium">Premium</span>
+        </div>
+        {paperQuestions && paperQuestions.length > 0 && (
+          <div className="pe-chips">{paperQuestions.map((q) => <span key={q.id}>{q.id} · {q.marks} {hi ? 'अंक' : 'marks'}</span>)}</div>
+        )}
+        <label className={`pe-drop${dragging ? ' drag' : ''}${file ? ' has' : ''}`}
+          onDragOver={(e) => { e.preventDefault(); setDragging(true); }} onDragLeave={() => setDragging(false)}
+          onDrop={(e) => { e.preventDefault(); setDragging(false); pick(e.dataTransfer.files[0]); }}>
+          <span className="pe-drop-icon"><PdfIcon /></span>
+          {file ? (
+            <><span className="pe-drop-title">{file.name}</span><span className="pe-drop-sub">{(file.size / 1024 / 1024).toFixed(1)} MB · {hi ? 'बदलने के लिए टैप करें' : 'tap to change'}</span></>
+          ) : (
+            <><span className="pe-drop-title">{hi ? <>उत्तर पुस्तिका की PDF यहाँ छोड़ें, या <u>चुनें</u></> : <>Drop the booklet&apos;s PDF here, or <u>choose it</u></>}</span><span className="pe-drop-sub">{hi ? 'एक PDF, सारे पेज' : 'One PDF with every page'}</span></>
+          )}
+          <input ref={inputRef} type="file" accept=".pdf,application/pdf" className="pe-drop-input" onChange={(e) => { pick(e.target.files?.[0]); e.target.value = ''; }} />
+        </label>
+        {error && <div className="pe-err">{error}</div>}
+        {file && <button type="button" className="ds-btn ds-btn-solid ds-btn-block pe-go" onClick={handleDetect}>{hi ? 'पेपर पढ़ें' : 'Read the paper'}</button>}
       </div>
     );
   }
 
-  /* ── UPLOAD ── */
   return (
-    <div style={{ padding: "32px 0" }}>
-      <style>{SHARED_CSS}</style>
-      <div style={{ background: "var(--bg2)", border: "1px solid var(--border)",
-        borderRadius: 12, padding: "28px 30px", marginBottom: 20 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ fontSize: "1.8rem" }}>📄</span>
-            <div>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", fontWeight: 700, marginBottom: 4 }}>
-                Full Paper Evaluation
-              </div>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "var(--text3)", letterSpacing: "0.15em" }}>
-                {paperQuestions?.length
-                  ? `${paperQuestions.length} question${paperQuestions.length > 1 ? "s" : ""} · Upload your script`
-                  : "Upload · Review · Evaluate"}
-              </div>
-            </div>
-          </div>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.5rem", letterSpacing: "0.2em",
-            background: "var(--warning-wash)", color: "var(--warning-text)", border: "1px solid color-mix(in srgb, var(--warning-text) 20%, transparent)",
-            borderRadius: 4, padding: "4px 10px" }}>PREMIUM</span>
-        </div>
-        <p style={{ fontSize: "0.88rem", color: "var(--text3)", lineHeight: 1.7, margin: 0, fontFamily: "var(--font-body)" }}>
-          Upload your complete answer script as a PDF. Evaluator Model reads every page, detects each question,
-          and lets you review before evaluating — marks and detailed feedback for the whole paper.
-        </p>
-      </div>
-
-      {paperQuestions && paperQuestions.length > 0 && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
-          {paperQuestions.map(q => (
-            <span key={q.id} style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem",
-              letterSpacing: "0.15em", background: "var(--bg3)", border: "1px solid #2a2a2a",
-              borderRadius: 4, padding: "4px 10px", color: "var(--text3)" }}>
-              {q.id} · {q.marks}M
-            </span>
-          ))}
-        </div>
-      )}
-
-      <div
-        onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={onDrop}
-        onClick={() => inputRef.current?.click()}
-        style={{
-          border: `1.5px dashed ${dragging ? "var(--accent)" : file ? "color-mix(in srgb, var(--accent) 50%, transparent)" : "var(--border2)"}`,
-          borderRadius: 6, padding: "44px 24px", textAlign: "center", cursor: "pointer",
-          background: dragging ? "var(--accent-dim)" : file ? "color-mix(in srgb, var(--accent) 4%, transparent)" : "var(--bg2)",
-          transition: "all 0.2s", marginBottom: error ? 12 : 20,
-        }}
-      >
-        <input ref={inputRef} type="file" accept=".pdf" style={{ display: "none" }}
-          onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
-        <div style={{ fontSize: "2rem", marginBottom: 12 }}>📄</div>
-        {file ? (
-          <div>
-            <div style={{ fontSize: "0.9rem", fontWeight: 600, marginBottom: 4 }}>{file.name}</div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#555", letterSpacing: "0.1em" }}>
-              {(file.size / 1024 / 1024).toFixed(1)} MB · Click to change
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div style={{ fontSize: "0.9rem", color: "var(--text3)", marginBottom: 6 }}>Upload your answer script PDF</div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.55rem", color: "#444", letterSpacing: "0.1em" }}>
-              Click to browse or drag and drop
-            </div>
-          </div>
-        )}
-      </div>
-
-      {error && (
-        <div style={{ background: "var(--danger-wash)", border: "1px solid color-mix(in srgb, var(--danger-text) 20%, transparent)",
-          borderRadius: 6, padding: "12px 16px", color: "var(--danger-text)", fontSize: "0.82rem",
-          marginBottom: 16, fontFamily: "var(--font-body)" }}>
-          {error}
-        </div>
-      )}
-
-      {file && (
-        <button className="pdf-ev-btn" onClick={handleDetect}>
-          Extract &amp; Detect Questions →
-        </button>
-      )}
+    <div className="pe ds">
+      <style>{PE_CSS + REPORT_CSS}</style>
+      {content}
     </div>
   );
 }
+
+const PE_CSS = `
+.pe-card { padding: var(--space-5) var(--space-6); background: var(--ds-card); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--elev-1); }
+.pe-head { display: flex; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-4); }
+.pe-head h3 { margin: 0 0 4px; font-size: 1.15rem; font-weight: 800; letter-spacing: -0.01em; }
+.pe-head p { margin: 0; font-size: 0.94rem; line-height: 1.55; color: var(--text2); }
+.pe-head > div { flex: 1; min-width: 0; }
+.pe-icon { width: 44px; height: 44px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: var(--accent-dim); color: var(--accent-text); }
+.pe-premium { flex-shrink: 0; padding: 2px 10px; border-radius: var(--radius-full); background: var(--premium-wash); color: var(--premium-text); font-size: 0.78rem; font-weight: 700; }
+.pe-steps { list-style: none; margin: 0 0 var(--space-5); padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+.pe-steps li { display: flex; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-lg); background: var(--ds-soft); }
+.pe-steps li > span { width: 24px; height: 24px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--ds-card); color: var(--accent-text); font-size: 0.8rem; font-weight: 800; }
+.pe-steps strong { display: block; font-size: 0.9rem; }
+.pe-steps p { margin: 2px 0 0; font-size: 0.82rem; color: var(--text3); }
+.pe-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-4); }
+.pe-chips span { padding: 2px 10px; border-radius: var(--radius-full); background: var(--ds-soft); font-size: 0.8rem; color: var(--text2); }
+.pe-drop { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: var(--space-8) var(--space-4); border: 1.5px dashed var(--border3); border-radius: var(--radius-xl); background: var(--bg); text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+.pe-drop:hover, .pe-drop.drag { border-color: var(--accent); background: var(--accent-dim); }
+.pe-drop.has { border-style: solid; border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.pe-drop-icon { width: 46px; height: 46px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: var(--space-2); border-radius: 14px; background: var(--accent-dim); color: var(--accent-text); }
+.pe-drop-title { font-size: 1rem; font-weight: 600; color: var(--text); word-break: break-word; }
+.pe-drop-title u { color: var(--accent-text); text-underline-offset: 3px; }
+.pe-drop-sub { font-size: 0.88rem; color: var(--text3); }
+.pe-drop-input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.pe-go { margin-top: var(--space-4); min-height: 48px; justify-content: center; }
+.pe-err { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--danger-wash); color: var(--danger-text); font-size: 0.92rem; line-height: 1.5; }
+
+.pe-wait { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-8) var(--space-5); text-align: center; }
+.pe-wait-label { font-size: 0.95rem; font-weight: 700; color: var(--text2); }
+.pe-wait-pct { font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; color: var(--accent-text); font-variant-numeric: tabular-nums; }
+.pe-wait-bar { display: block; width: 100%; max-width: 320px; height: 6px; border-radius: var(--radius-full); background: var(--ds-soft); overflow: hidden; }
+.pe-wait-bar > span { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width 0.8s cubic-bezier(.16,1,.3,1); }
+.pe-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.pe-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--ds-soft); border: 1px solid var(--border2); }
+.pe-dots span.on { background: var(--accent); border-color: var(--accent); }
+.pe-wait-step { font-size: 0.9rem; color: var(--text3); }
+
+.pe-title { margin: 0 0 var(--space-2); font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; }
+.pe-sub { margin: 0 0 var(--space-4); font-size: 0.95rem; line-height: 1.55; color: var(--text2); }
+.pe-transcript { margin-bottom: var(--space-4); }
+.pe-transcript summary { cursor: pointer; font-size: 0.9rem; font-weight: 700; color: var(--accent-text); }
+.pe-transcript textarea { width: 100%; box-sizing: border-box; min-height: 180px; margin-top: var(--space-2); padding: var(--space-3); border: 1px solid var(--border2); border-radius: var(--radius-lg); background: var(--bg); color: var(--text2); font: inherit; font-size: 0.88rem; line-height: 1.65; resize: vertical; }
+.pe-segs { display: flex; flex-direction: column; gap: var(--space-3); }
+.pe-seg { padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg); }
+.pe-seg-head { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-3); }
+.pe-seg-id { min-width: 40px; font-weight: 800; color: var(--accent-text); }
+.pe-seg-marks { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--radius-full); background: var(--ds-soft); border: 1px solid var(--border); }
+.pe-seg-marks button { padding: 4px 12px; border: none; border-radius: var(--radius-full); background: none; color: var(--text2); font: inherit; font-size: 0.86rem; font-weight: 700; cursor: pointer; }
+.pe-seg-marks button.on { background: var(--ds-card); color: var(--text); box-shadow: var(--elev-1); }
+.pe-link { margin-left: auto; padding: 0; border: none; background: none; font: inherit; font-size: 0.88rem; font-weight: 600; color: var(--accent-text); cursor: pointer; }
+.pe-x { width: 30px; height: 30px; border: none; border-radius: 50%; background: none; color: var(--text3); cursor: pointer; }
+.pe-x:hover { color: var(--danger-text); background: var(--danger-wash); }
+.pe-field { display: block; margin-top: var(--space-2); }
+.pe-field > span { display: block; margin-bottom: 4px; font-size: 0.84rem; font-weight: 700; color: var(--text2); }
+.pe-field input, .pe-field textarea { width: 100%; box-sizing: border-box; padding: var(--space-2) var(--space-3); border: 1.5px solid var(--border2); border-radius: var(--radius-md); background: var(--ds-card); color: var(--text); font: inherit; font-size: 0.94rem; line-height: 1.55; outline: none; resize: vertical; }
+.pe-field input:focus, .pe-field textarea:focus { border-color: color-mix(in srgb, var(--accent) 60%, transparent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.pe-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
+.pe-actions .pe-go { flex: 1; min-width: 220px; margin-top: 0; }
+
+.pe-summary { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-4) var(--space-6); }
+.pe-summary > div { display: flex; flex-direction: column; gap: 2px; }
+.pe-summary-label { font-size: 0.86rem; color: var(--text3); }
+.pe-summary-num { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.pe-summary-num small { font-size: 1.1rem; font-weight: 600; color: var(--text3); }
+.pe-summary-sub { font-size: 0.88rem; color: var(--text2); }
+.pe-summary-bar { flex: 1; min-width: 160px; max-width: none; }
+.pe-note { margin: var(--space-3) 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--ds-soft); font-size: 0.88rem; line-height: 1.55; color: var(--text2); }
+.pe-qs { display: flex; flex-direction: column; gap: var(--space-3); }
+.pe-q { border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--ds-card); overflow: hidden; }
+.pe-q-head { display: flex; align-items: center; gap: var(--space-3); width: 100%; padding: var(--space-4) var(--space-5); border: none; background: none; font: inherit; text-align: left; cursor: pointer; }
+.pe-q-id { flex-shrink: 0; min-width: 44px; font-weight: 800; color: var(--accent-text); }
+.pe-q-text { flex: 1; min-width: 0; font-size: 0.95rem; line-height: 1.5; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pe-q.open .pe-q-text { -webkit-line-clamp: unset; }
+.pe-q-score { flex-shrink: 0; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--text2); }
+.pe-q-score.err { color: var(--danger-text); font-weight: 700; font-size: 0.88rem; }
+.pe-q-chev { flex-shrink: 0; color: var(--text3); transition: transform 0.2s; }
+.pe-q.open .pe-q-chev { transform: rotate(180deg); }
+.pe-q-body { display: flex; flex-direction: column; gap: var(--space-4); padding: 0 var(--space-5) var(--space-5); }
+.pe-q-body .ev-block { background: var(--bg); }
+
+@media (max-width: 640px) {
+  .pe-card { padding: var(--space-4); }
+  /* The icon and the Premium tag share a row, so the text gets the full width. */
+  .pe-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: var(--space-3); }
+  .pe-head > div { grid-column: 1 / -1; grid-row: 2; }
+  .pe-head .pe-premium { grid-column: 3; grid-row: 1; align-self: center; }
+  .pe-icon { width: 40px; height: 40px; }
+  .pe-steps { grid-template-columns: minmax(0, 1fr); }
+  /* Number, marks and remove on one row; the answer link on its own. */
+  .pe-seg-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; }
+  .pe-seg-marks { justify-self: start; }
+  .pe-seg-head .pe-x { grid-column: 3; grid-row: 1; }
+  .pe-seg-head .pe-link { grid-column: 1 / -1; grid-row: 2; justify-self: start; margin-left: 0; }
+  .pe-actions { flex-direction: column-reverse; }
+  .pe-actions .ds-btn { width: 100%; justify-content: center; }
+  .pe-q-head { padding: var(--space-3) var(--space-4); }
+  .pe-q-body { padding: 0 var(--space-3) var(--space-4); }
+}
+`;
